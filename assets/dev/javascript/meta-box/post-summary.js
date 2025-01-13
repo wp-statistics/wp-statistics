@@ -1,29 +1,5 @@
-wps_js.post_summary_meta_box = {
-    params: function () {
-        return { 'ID': wps_js.global['page']['ID'] };
-    },
-
-    view: function (args = []) {
-        let chartElement = typeof (args['summary']) !== 'undefined' && typeof (args['summary'].postChartData) !== 'undefined' && args['summary'].postChartData !== null && Object.keys(args['summary'].postChartData).length ?
-            '<div class="c-wps-post-summary-panel-chart"><canvas id="' + wps_js.chart_id('post_summary') + '" height="100"></canvas></div>' :
-            '';
-
-        return args.hasOwnProperty('content') ?
-            '<div class="wps-center" style="padding: 15px;"> ' + args['content'] + '</div>' :
-            '<p class="wps-wrap wps-meta-box-header">' + args['output'] + chartElement;
-    },
-
-    meta_box_init: function (args = []) {
-        if (!args.hasOwnProperty('content')) {
-            if (typeof (args['summary']) !== 'undefined' && typeof (args['summary'].postChartData) !== 'undefined' && args['summary'].postChartData !== null && Object.keys(args['summary'].postChartData).length) {
-                this.post_summary_chart(wps_js.chart_id('post_summary'), args['summary']);
-            }
-        } else {
-            jQuery("#" + wps_js.getMetaBoxKey('post_summary') + " button[onclick]").remove();
-        }
-    },
-
-    post_summary_chart: function (elementId, args = []) {
+wps_js.render_wp_statistics_post_summary_widget = function(response, key){
+    const post_summary_chart =   (elementId, args = []) => {
         let postChartData = args.postChartData;
         let postChartSettings = [];
         let postChartTooltipLabel = 'Visitors';
@@ -125,9 +101,9 @@ wps_js.post_summary_meta_box = {
                     },
                     ticks: {
                         align: 'inner',
-                        maxTicksLimit: 4,
+                        maxTicksLimit: 3,
                         fontColor: '#898A8E',
-                        fontSize: 12,
+                        fontSize: 10,
                         padding: 5,
                     }
                 },
@@ -145,7 +121,7 @@ wps_js.post_summary_meta_box = {
                         align: 'inner',
                         maxTicksLimit: 5,
                         fontColor: '#898A8E',
-                        fontSize: 12,
+                        fontSize: 10,
                         padding: 8,
                         stepSize:1
                     }
@@ -173,7 +149,7 @@ wps_js.post_summary_meta_box = {
             gradient.addColorStop(1, wps_js.hex_to_rgba($postChartColor,0));
         }
 
-         const getBackgroundColor = ([date, value]) => {
+        const getBackgroundColor = ([date, value]) => {
             const backgroundColor = value.hits === 0 ? '#000000b3' : wps_js.hex_to_rgba($postChartColor, 0.5);
             return backgroundColor;
         };
@@ -206,4 +182,12 @@ wps_js.post_summary_meta_box = {
             options: chartOptions,
         });
     }
-};
+    if (response && response.response) {
+        wps_js.metaBoxInner(key).html(response.response.output);
+        if (response.response?.data) {
+            let params = response.response.data;
+            post_summary_chart('postSummaryChart',params )
+        }
+        wps_js.initDatePickerHandlers();
+    }
+}

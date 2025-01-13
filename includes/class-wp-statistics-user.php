@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Components\DateRange;
+
 class User
 {
     /**
@@ -11,7 +13,7 @@ class User
      */
     public static $default_manage_cap = 'manage_options';
 
-    public static $dateFilterMetaKey = 'wp_statistics_date_filter';
+    public static $dateFilterMetaKey = 'wp_statistics_metabox_date_filter';
 
     /**
      * Check User is Logged in WordPress
@@ -215,24 +217,41 @@ class User
      * Get Date Filter
      *
      * @param $metaKey
-     * @param $defaultValue
      * @return mixed
      */
-    public static function getDefaultDateFilter($metaKey, $defaultValue)
+    public static function getDefaultDateFilter($metaKey)
     {
-        // get user id
-        $userID = self::get_user_id();
+        $dateFilters = self::getMeta(self::$dateFilterMetaKey, true);
 
-        // check user id
-        if (empty($userID)) {
-            return $defaultValue;
+        // Return default date filter
+        if (empty($dateFilters) || empty($dateFilters[$metaKey])) {
+            $range = DateRange::get(DateRange::$defaultPeriod);
+
+            return [
+                'type'   => 'filter',
+                'filter' => DateRange::$defaultPeriod,
+                'from'   => $range['from'],
+                'to'     => $range['to']
+            ];
         }
 
-        // get meta
-        $meta = get_user_meta($userID, self::$dateFilterMetaKey, true);
+        $dateFilter = $dateFilters[$metaKey];
+        [$filterType, $dateFilter] = explode('|', $dateFilter);
 
-        // return
-        return !empty($meta[$metaKey]) ? $meta[$metaKey] : $defaultValue;
+        if ($filterType === 'custom') {
+            [$from, $to] = explode(':', $dateFilter);
+        } elseif ($filterType === 'filter') {
+            $range = DateRange::get($dateFilter);
+            $from  = $range['from'];
+            $to    = $range['to'];
+        }
+
+        return [
+            'type'      => $filterType,
+            'filter'    => $dateFilter,
+            'from'      => $from,
+            'to'        => $to
+        ];
     }
 
     /**
@@ -242,50 +261,34 @@ class User
      * @param $value
      * @return void
      */
-    public static function saveDefaultDateFilter($metaKey, $defaults)
+    public static function saveDefaultDateFilter($metaKey, $args)
     {
-        // get user id
-        $userID = self::get_user_id();
-
-        // check user id
-        if (empty($userID)) {
+        // Return early if necessary fields are not set
+        if (!isset($args['filter'], $args['from'], $args['to'])) {
             return;
         }
 
-        // check defaults
-        if (empty($defaults)) {
-            return;
+        // Get metaboxes date filters
+        $dateFilters = self::getMeta(self::$dateFilterMetaKey, true);
+
+        // Check if date filters is empty, use default array
+        if (empty($dateFilters)) {
+            $dateFilters = [];
         }
 
-        // check if type and filter exists
-        if (!isset($defaults['type']) or !isset($defaults['filter'])) {
-            return;
+        // Get period from range
+        $period = DateRange::get($args['filter']);
+
+        // Store date in the database depending on wether the period exists or not
+        if (!empty($period)) {
+            $value = "filter|{$args['filter']}";
+        } else {
+            $value = "custom|{$args['from']}:{$args['to']}";
         }
 
-        // check type
-        if ($defaults['type'] == 'ago') {
-            return;;
-        }
-
-        // get meta
-        $meta = get_user_meta($userID, self::$dateFilterMetaKey, true);
-
-        // check meta
-        if (empty($meta)) {
-            $meta = array();
-        }
-
-        // prepare value
-        $value = $defaults['type'] . '|' . $defaults['filter'];
-        if ($defaults['filter'] == 'custom') {
-            $value .= ':' . $defaults['from'] . ':' . $defaults['to'];
-        }
-
-        // update meta value
-        $meta[$metaKey] = sanitize_text_field($value);
-
-        // save meta
-        update_user_meta($userID, self::$dateFilterMetaKey, $meta);
+        // Update meta value
+        $dateFilters[$metaKey] = sanitize_text_field($value);
+        self::saveMeta(self::$dateFilterMetaKey, $dateFilters);
     }
 
     /**

@@ -10,7 +10,7 @@ use WP_Statistics\Components\View;
                 </h2>
             </div>
             <div class="inside">
-                <?php View::load("components/charts/traffic-trends"); ?>
+                <?php View::load("components/charts/traffic-trends", ['chart_id' => 'trafficTrendsChart']); ?>
             </div>
         </div>
     </div>

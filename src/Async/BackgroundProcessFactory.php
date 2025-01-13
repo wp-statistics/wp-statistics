@@ -65,8 +65,8 @@ class BackgroundProcessFactory
             $updateIncompleteVisitorsLocations->push_to_queue(['visitors' => $batch]);
         }
 
-        // Mark the process as completed
-        Option::saveOptionGroup('update_unknown_visitor_geoip_started', true, 'jobs');
+        // Initiate the process
+        Option::saveOptionGroup('update_geoip_process_initiated', true, 'jobs');
 
         // Save the queue and dispatch it
         $updateIncompleteVisitorsLocations->save()->dispatch();

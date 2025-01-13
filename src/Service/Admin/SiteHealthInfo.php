@@ -6,6 +6,7 @@ use WP_STATISTICS\GeoIP;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
 
 /**
  * Class SiteHealthInfo
@@ -33,9 +34,11 @@ class SiteHealthInfo
      */
     public function addStatisticsInfo($info)
     {
-        $userRoleExclusions    = $this->getUserRoleExclusions();
-        $geoIpProvider         = GeolocationFactory::getProviderInstance();
-        $geoIpProviderValidity = $geoIpProvider->validateDatabaseFile();
+        $userRoleExclusions      = $this->getUserRoleExclusions();
+        $geoIpProvider           = GeolocationFactory::getProviderInstance();
+        $geoIpProviderValidity   = $geoIpProvider->validateDatabaseFile();
+        $isMaxmindLocationMethod = 'maxmind' === Option::get('geoip_location_detection_method', 'maxmind');
+        $requiredHeaderExists    = CloudflareGeolocationProvider::isAvailable();
 
         $info[self::DEBUG_INFO_SLUG] = [
             'label'       => esc_html__('WP Statistics', 'wp-statistics'),
@@ -65,6 +68,16 @@ class SiteHealthInfo
                 /**
                  * Geolocation database settings.
                  */
+                'geoipLocationDetectionMethod'   => [
+                    'label' => esc_html__('Location Detection Method', 'wp-statistics'),
+                    'value' => $isMaxmindLocationMethod ? __('MaxMind GeoIP', 'wp-statistics') : __('Cloudflare IP Geolocation', 'wp-statistics'),
+                    'debug' => $isMaxmindLocationMethod ? 'MaxMind GeoIP' : 'Cloudflare IP Geolocation',
+                ],
+                'cloudflareRequiredHeaderExists' => [
+                    'label' => esc_html__('Cloudflare Required Headers Exists', 'wp-statistics'),
+                    'value' => $requiredHeaderExists ? __('Yes', 'wp-statistics') : __('No', 'wp-statistics'),
+                    'debug' => $requiredHeaderExists ? 'Yes' : 'No',
+                ],
                 'geoIpDatabaseExists'           => [
                     'label' => esc_html__('GeoIP Database Exists', 'wp-statistics'),
                     'value' => $geoIpProvider->isDatabaseExist() ? __('Yes', 'wp-statistics') : __('No', 'wp-statistics'),

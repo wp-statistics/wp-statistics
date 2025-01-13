@@ -218,7 +218,7 @@ class ShortCode
 
         $resourceType = $this->getCachedResult($cacheKey);
         if (!$resourceType) {
-            $this->setCachedResult($cacheKey, Pages::get_post_type($resourceID));
+            $this->setCachedResult($cacheKey, get_post_type($resourceID));
         }
 
         return $resourceType;

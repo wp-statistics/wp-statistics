@@ -11,12 +11,11 @@ class AuthorsPostViewsChartDataProvider extends AbstractChartDataProvider
 {
     use BaseChartResponseTrait;
 
-    public $args;
     protected $authorsModel;
 
     public function __construct($args)
     {
-        $this->args = $args;
+        parent::__construct($args);
 
         $this->authorsModel = new AuthorsModel();
     }

@@ -4,6 +4,7 @@ namespace WP_STATISTICS;
 
 use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Components\Event;
+use WP_Statistics\Service\Admin\Metabox\MetaboxHelper;
 
 class Install
 {
@@ -680,6 +681,9 @@ class Install
         if (function_exists('wp_clear_scheduled_hook')) {
             // Remove unused cron job for purging high hit count visitors daily
             wp_clear_scheduled_hook('wp_statistics_dbmaint_visitor_hook');
+
+            // Remove referral db update cron
+            wp_clear_scheduled_hook('wp_statistics_referrals_db_hook');
         }
 
         /**

@@ -4,6 +4,16 @@
 wps_js.exist_tag = function (tag) {
     return (jQuery(tag).length);
 };
+
+
+/**
+ * Loading button
+ */
+wps_js.loading_button = function (btn) {
+    btn.classList.add('wps-loading-button');
+ };
+
+
 /**
  * Jquery UI Picker
  */
@@ -145,6 +155,7 @@ if (wpsSelect2.length) {
         wpsFilterPage.on('click', () => wpsSelect2.select2('open'));
     }
 
+
     if (wpsFilterVisitor.length) {
         initializeSelect2(wpsFilterVisitor, 'wp_statistics_search_visitors');
         wpsFilterVisitor.on('click', () => wpsSelect2.select2('open'));
@@ -179,63 +190,6 @@ wps_js.tooltip();
  */
 wps_js.redirect = function (url) {
     window.location.replace(url);
-};
-
-/**
- * Create Line Chart JS
- */
-wps_js.line_chart = function (tag_id, title, label, data, newOptions) {
-
-    // Get Element By ID
-    let ctx = document.getElementById(tag_id).getContext('2d');
-
-    // Check is RTL Mode
-    if (wps_js.is_active('rtl')) {
-        Chart.defaults.global = {
-            defaultFontFamily: "Tahoma"
-        }
-    }
-
-    const defaultOptions = {
-        type: 'line',
-        data: {
-            labels: label,
-            datasets: data
-        },
-        options: {
-            responsive: true,
-            legend: {
-                position: 'bottom',
-            },
-            animation: {
-                duration: 1500,
-            },
-            title: {
-                display: true,
-                text: title
-            },
-            tooltips: {
-                mode: 'index',
-                intersect: false,
-            },
-            interaction: {
-                intersect: false,
-                mode: 'index',
-            },
-            scales: {
-                y: {
-                    ticks: {
-                        stepSize: 1,
-                    }
-                },
-            }
-        }
-    };
-
-    const options = Object.assign({}, defaultOptions, newOptions);
-
-    // Create Chart
-    new Chart(ctx, options);
 };
 
 
@@ -309,42 +263,6 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
  */
 wps_js.chart_id = function (meta_box) {
     return 'wp-statistics-' + meta_box + '-meta-box-chart';
-};
-
-/**
- * Generate Flat Random Color
- */
-wps_js.random_color = function (i = false) {
-    let colors = [
-        [243, 156, 18, "#f39c12"],
-        [52, 152, 219, "#3498db"],
-        [192, 57, 43, "#c0392b"],
-        [155, 89, 182, "#9b59b6"],
-        [39, 174, 96, "#27ae60"],
-        [230, 126, 34, "#e67e22"],
-        [142, 68, 173, "#8e44ad"],
-        [46, 204, 113, "#2ecc71"],
-        [41, 128, 185, "#2980b9"],
-        [22, 160, 133, "#16a085"],
-        [211, 84, 0, "#d35400"],
-        [44, 62, 80, "#2c3e50"],
-        [241, 196, 15, "#f1c40f"],
-        [231, 76, 60, "#e74c3c"],
-        [26, 188, 156, "#1abc9c"],
-        [46, 204, 113, "#2ecc71"],
-        [52, 152, 219, "#3498db"],
-        [155, 89, 182, "#9b59b6"],
-        [52, 73, 94, "#34495e"],
-        [22, 160, 133, "#16a085"],
-        [39, 174, 96, "#27ae60"],
-        [44, 62, 80, "#2c3e50"],
-        [241, 196, 15, "#f1c40f"],
-        [230, 126, 34, "#e67e22"],
-        [231, 76, 60, "#e74c3c"],
-        [236, 240, 241, "#9b9e9f"],
-        [149, 165, 166, "#a65d20"]
-    ];
-    return colors[(i === false ? Math.floor(Math.random() * colors.length) : i)];
 };
 
 /**
@@ -521,6 +439,36 @@ const getOrCreateTooltip = (chart) => {
     return tooltipEl;
 };
 
+ wps_js.setTooltipPosition =function(tooltipEl , chart , tooltip) {
+    const {offsetLeft: chartLeft, offsetTop: chartTop, clientWidth: chartWidth, clientHeight: chartHeight} = chart.canvas;
+    const {caretX, caretY} = tooltip;
+
+    const tooltipWidth = tooltipEl.offsetWidth;
+    const tooltipHeight = tooltipEl.offsetHeight;
+
+    const margin = 16;
+    let tooltipX = chartLeft + caretX + margin;
+    let tooltipY = chartTop + caretY - tooltipHeight / 2;
+
+    if (tooltipX + tooltipWidth + margin > chartLeft + chartWidth) {
+        tooltipX = chartLeft + caretX - tooltipWidth - margin;
+    }
+
+    if (tooltipX < chartLeft + margin) {
+        tooltipX = chartLeft + margin;
+    }
+
+    if (tooltipY < chartTop + margin) {
+        tooltipY = chartTop + margin;
+    }
+    if (tooltipY + tooltipHeight + margin > chartTop + chartHeight) {
+        tooltipY = chartTop + chartHeight - tooltipHeight - margin;
+    }
+    tooltipEl.style.opacity = 1;
+    tooltipEl.style.left = tooltipX + 'px';
+    tooltipEl.style.top = tooltipY + 'px';
+}
+
 const externalTooltipHandler = (context, dataset, colors, data, unitTime, dateLabels , prevDateLabels, monthTooltip ,prevMonthTooltip) => {
     const {chart, tooltip} = context;
     const tooltipEl = getOrCreateTooltip(chart);
@@ -536,7 +484,9 @@ const externalTooltipHandler = (context, dataset, colors, data, unitTime, dateLa
         titleLines.forEach(title => {
             const {date, day} = (data.data) ? data.data.labels[dataIndex] : data.labels[dataIndex];
             if (unitTime === 'day') {
-                innerHtml += `<div class="chart-title">${date} (${day})</div>`;
+                const phpDateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
+                let momentDateFormat = phpToMomentFormat(phpDateFormat);
+                innerHtml += `<div class="chart-title">${moment(date).format(momentDateFormat)} (${day})</div>`;
             } else if (unitTime === 'month') {
                 innerHtml += `<div class="chart-title">${monthTooltip[dataIndex]} </div>`;
             } else {
@@ -572,11 +522,18 @@ const externalTooltipHandler = (context, dataset, colors, data, unitTime, dateLa
             if (data?.previousData && metaPrevious && !chart.getDatasetMeta(chart.data.datasets.indexOf(metaPrevious)).hidden) {
 
                 const previousDataset = data.previousData.datasets.find(prev => prev.label === dataset.label.replace(' (Previous)', ''));
-                if (previousDataset !== undefined && previousDataset !== '' && previousDataset.data && !isPrevious) {
+
+                // Check if previous period is globally hidden
+                const previousPeriodElement = document.querySelector('.wps-postbox-chart--previousPeriod');
+                const isPreviousHidden = previousPeriodElement && previousPeriodElement.classList.contains('wps-line-through');
+
+                if (previousDataset !== undefined && previousDataset !== '' && previousDataset.data && !isPrevious && !isPreviousHidden) {
                     let previousValue = previousDataset.data[dataIndex];
                     let previousLabel = null;
                      if (unitTime === 'day') {
-                        previousLabel = data.previousData.labels[dataIndex].date
+                         const phpDateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
+                         let momentDateFormat = phpToMomentFormat(phpDateFormat);
+                        previousLabel = moment(data.previousData.labels[dataIndex].date).format(momentDateFormat)
                     } else if (unitTime === 'month') {
                          previousLabel=prevMonthTooltip[dataIndex];
                     } else {
@@ -598,41 +555,8 @@ const externalTooltipHandler = (context, dataset, colors, data, unitTime, dateLa
         });
 
         innerHtml += `</div>`;
-
         tooltipEl.innerHTML = innerHtml;
-        const {offsetLeft: chartLeft, offsetTop: chartTop, clientWidth: chartWidth, clientHeight: chartHeight} = chart.canvas;
-        const {caretX, caretY} = tooltip;
-
-        // Calculate tooltip position
-        const tooltipWidth = tooltipEl.offsetWidth;
-        const tooltipHeight = tooltipEl.offsetHeight;
-
-        const margin = 16;
-        // Default tooltip position to the right of the point
-        let tooltipX = chartLeft + caretX + margin;
-        let tooltipY = chartTop + caretY - tooltipHeight / 2;
-
-        // Check if tooltip exceeds right boundary
-        if (tooltipX + tooltipWidth + margin > chartLeft + chartWidth) {
-            // Not enough space on the right, position to the left
-            tooltipX = chartLeft + caretX - tooltipWidth - margin;
-        }
-
-        // Ensure tooltip does not overflow horizontally
-        if (tooltipX < chartLeft + margin) {
-            tooltipX = chartLeft + margin;
-        }
-
-        // Ensure tooltip does not overflow vertically
-        if (tooltipY < chartTop + margin) {
-            tooltipY = chartTop + margin;
-        }
-        if (tooltipY + tooltipHeight + margin > chartTop + chartHeight) {
-            tooltipY = chartTop + chartHeight - tooltipHeight - margin;
-        }
-        tooltipEl.style.opacity = 1;
-        tooltipEl.style.left = tooltipX + 'px';
-        tooltipEl.style.top = tooltipY + 'px';
+        wps_js.setTooltipPosition(tooltipEl , chart , tooltip);
     }
 };
 
@@ -909,6 +833,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
             },
             y: {
                 min: 0,
+                suggestedMax: 4,
                 ticks: {
                     maxTicksLimit: isInsideDashboardWidgets ? 4 : 7,
                     fontColor: '#898A8E',
@@ -1031,8 +956,8 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 if (b.label === 'Total (Previous)') return 1;
                 return 0;
             });
-            const previousPeriod = document.querySelectorAll('.wps-postbox-chart--previousPeriod');
-            if (previousPeriod.length > 0) {
+            const previousPeriod = chartElement.parentElement.parentElement.querySelector('.wps-postbox-chart--previousPeriod');
+            if (previousPeriod) {
                 let foundPrevious = false;
 
                 datasets.forEach((dataset) => {
@@ -1042,8 +967,29 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 });
 
                 if (foundPrevious) {
-                    previousPeriod.forEach((element) => {
-                        element.style.display = 'flex';
+                    previousPeriod.style.display = 'flex';
+                    previousPeriod.style.cursor = 'pointer';
+                    previousPeriod.addEventListener('click', function() {
+                        const isPreviousHidden = previousPeriod.classList.contains('wps-line-through');
+                        previousPeriod.classList.toggle('wps-line-through');
+                        
+                        datasets.forEach((dataset, datasetIndex) => {
+                            if (dataset.label.includes('(Previous)')) {
+                                const meta = lineChart.getDatasetMeta(datasetIndex);
+                                meta.hidden = !isPreviousHidden;
+                            }
+                        });
+                        
+                        const previousDataElements = legendContainer.querySelectorAll('.previous-data');
+                        previousDataElements.forEach(elem => {
+                            if (isPreviousHidden) {
+                                elem.classList.remove('wps-line-through');
+                             } else {
+                                elem.classList.add('wps-line-through');
+                             }
+                        });
+                        
+                        lineChart.update();
                     });
                 }
             }
@@ -1113,6 +1059,22 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                                 const metaPreviousVisibility = lineChart.getDatasetMeta(metaPreviousIndex);
                                 metaPreviousVisibility.hidden = !metaPreviousVisibility.hidden;
                                 previousDataDiv.classList.toggle('wps-line-through');
+                                
+                                // Check if all previous-data elements have wps-line-through class
+                                const allPreviousData = legendContainer.querySelectorAll('.previous-data');
+                                const allHaveLineThrough = Array.from(allPreviousData).every(el => 
+                                    el.classList.contains('wps-line-through')
+                                );
+                                
+                                // Update the Previous period button class accordingly
+                                if (previousPeriod) {
+                                    if (allHaveLineThrough) {
+                                        previousPeriod.classList.add('wps-line-through');
+                                    } else {
+                                        previousPeriod.classList.remove('wps-line-through');
+                                    }
+                                }
+                                
                                 lineChart.update();
                             }
                         });
@@ -1123,8 +1085,9 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
         }
     };
     updateLegend();
-    wps_js.new_line_chart.aggregateData = aggregateData
-};
+    wps_js.new_line_chart.aggregateData = aggregateData;
+    return lineChart;
+ };
 
 
 // Head filters drop down
@@ -1180,21 +1143,4 @@ jQuery(document).ready(function () {
         targetElement.parentNode.insertBefore(noticeElement, targetElement.nextSibling);
     }
 
-    jQuery(document).on('click', '.wps-privacy-list__item .wps-privacy-list__title', (e) => {
-        const title = jQuery(e.currentTarget);
-        const content = title.siblings('.wps-privacy-list__content');
-
-        // If the action button is clicked, don't expand the item
-        if (jQuery(e.target).is('.wps-privacy-list__button')) {
-            return;
-        }
-
-        title.toggleClass('open');
-
-        if (content.hasClass('show')) {
-            content.removeClass('show');
-        } else {
-            content.addClass('show');
-        }
-    });
 });

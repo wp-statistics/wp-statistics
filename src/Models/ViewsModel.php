@@ -9,18 +9,18 @@ use WP_Statistics\Components\DateRange;
 
 class ViewsModel extends BaseModel
 {
-
     public function countViews($args = [])
     {
         $args = $this->parseArgs($args, [
-            'post_type'     => Helper::get_list_post_type(),
-            'resource_type' => '',
-            'date'          => '',
-            'author_id'     => '',
-            'post_id'       => '',
-            'query_param'   => '',
-            'taxonomy'      => '',
-            'term'          => '',
+            'post_type'         => Helper::get_list_post_type(),
+            'resource_type'     => '',
+            'date'              => '',
+            'author_id'         => '',
+            'post_id'           => '',
+            'query_param'       => '',
+            'taxonomy'          => '',
+            'term'              => '',
+            'ignore_post_type'  => false
         ]);
 
         $viewsQuery = Query::select(['id', 'date', 'SUM(count) AS count'])
@@ -32,28 +32,35 @@ class ViewsModel extends BaseModel
             ->getQuery();
 
         $query = Query::select('SUM(pages.count) as total_views')
-            ->fromQuery($viewsQuery, 'pages')
-            ->join('posts', ['pages.id', 'posts.ID'])
-            ->where('post_type', 'IN', $args['post_type'])
-            ->where('post_author', '=', $args['author_id'])
-            ->where('posts.ID', '=', $args['post_id']);
+            ->fromQuery($viewsQuery, 'pages');
 
-        if (!empty($args['taxonomy']) || !empty($args['term'])) {
-            $taxQuery = Query::select(['DISTINCT object_id'])
-                ->from('term_relationships')
-                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                ->where('terms.term_id', '=', $args['term'])
-                ->getQuery();
-
+        if (!empty($args['author_id']) || !empty($args['post_id']) || !empty($args['taxonomy']) || !empty($args['term']) || (!empty($args['post_type']) && !$args['ignore_post_type'])) {
             $query
-                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+                ->join('posts', ['pages.id', 'posts.ID'])
+                ->where('post_type', 'IN', $args['post_type'])
+                ->where('post_author', '=', $args['author_id'])
+                ->where('posts.ID', '=', $args['post_id']);
+
+            if (!empty($args['taxonomy']) || !empty($args['term'])) {
+                $taxQuery = Query::select(['DISTINCT object_id'])
+                    ->from('term_relationships')
+                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                    ->where('terms.term_id', '=', $args['term'])
+                    ->getQuery();
+
+                $query
+                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+            }
         }
 
         $total = $query->getVar();
+        $total = $total ? intval($total) : 0;
 
-        return $total ? intval($total) : 0;
+        $total += $this->historicalModel->getViews($args);
+
+        return $total;
     }
 
     /**
@@ -86,8 +93,11 @@ class ViewsModel extends BaseModel
         }
 
         $total = $query->getVar();
+        $total = $total ? intval($total) : 0;
 
-        return $total ? intval($total) : 0;
+        $total += $this->historicalModel->getViews($args);
+
+        return $total;
     }
 
     public function countDailyViews($args = [])
@@ -142,73 +152,79 @@ class ViewsModel extends BaseModel
         return $result ?? [];
     }
 
+    public function getHourlyViews($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date' => ''
+        ]);
+
+        $result = Query::select([
+            'HOUR(date) as hour',
+            'COUNT(DISTINCT visitor_id) as visitors',
+            'COUNT(visitor_id) as views'
+            ])
+            ->from('visitor_relationships')
+            ->whereDate('visitor_relationships.date', $args['date'])
+            ->groupBy('hour')
+            ->getAll();
+
+        return $result;
+    }
+
     public function getViewsSummary($args = [])
     {
-        $result = $this->countDailyViews(array_merge($args, [
-            'date' => DateRange::get('this_year')
-        ]));
-
         $summary = [
-            'today'      => ['label' => esc_html__('Today', 'wp-statistics'), 'views' => 0],
-            'yesterday'  => ['label' => esc_html__('Yesterday', 'wp-statistics'), 'views' => 0],
-            'this_week'  => ['label' => esc_html__('This Week', 'wp-statistics'), 'views' => 0],
-            'last_week'  => ['label' => esc_html__('Last Week', 'wp-statistics'), 'views' => 0],
-            'this_month' => ['label' => esc_html__('This Month', 'wp-statistics'), 'views' => 0],
-            'last_month' => ['label' => esc_html__('Last Month', 'wp-statistics'), 'views' => 0],
-            '7days'      => ['label' => esc_html__('Last 7 days', 'wp-statistics'), 'views' => 0],
-            '30days'     => ['label' => esc_html__('Last 30 days', 'wp-statistics'), 'views' => 0],
-            '90days'     => ['label' => esc_html__('Last 90 days', 'wp-statistics'), 'views' => 0],
-            '6months'    => ['label' => esc_html__('Last 6 Months', 'wp-statistics'), 'views' => 0],
-            'this_year'  => ['label' => esc_html__('This year (Jan - Today)', 'wp-statistics'), 'views' => 0],
+            'today'      => [
+                'label'     => esc_html__('Today', 'wp-statistics'),
+                'views'     => $this->countViews(array_merge($args, ['date' => DateRange::get('today')]))
+            ],
+            'yesterday'  => [
+                'label'     => esc_html__('Yesterday', 'wp-statistics'),
+                'views'     => $this->countViews(array_merge($args, ['date' => DateRange::get('yesterday')]))
+            ],
+            'this_week'  => [
+                'label'     => esc_html__('This week', 'wp-statistics'),
+                'views'     => $this->countViews(array_merge($args, ['date' => DateRange::get('this_week')]))
+            ],
+            'last_week'  => [
+                'label'     => esc_html__('Last week', 'wp-statistics'),
+                'views'     => $this->countViews(array_merge($args, ['date' => DateRange::get('last_week')]))
+            ],
+            'this_month' => [
+                'label'     => esc_html__('This month', 'wp-statistics'),
+                'views'     => $this->countViews(array_merge($args, ['date' => DateRange::get('this_month')]))
+            ],
+            'last_month' => [
+                'label'     => esc_html__('Last month', 'wp-statistics'),
+                'views'     => $this->countViews(array_merge($args, ['date' => DateRange::get('last_month')]))
+            ],
+            '7days'      => [
+                'label'     => esc_html__('Last 7 days', 'wp-statistics'),
+                'views'     => $this->countViews(array_merge($args, ['date' => DateRange::get('7days')]))
+            ],
+            '30days'     => [
+                'label'     => esc_html__('Last 30 days', 'wp-statistics'),
+                'views'     => $this->countViews(array_merge($args, ['date' => DateRange::get('30days')]))
+            ],
+            '90days'     => [
+                'label'     => esc_html__('Last 90 days', 'wp-statistics'),
+                'views'     => $this->countViews(array_merge($args, ['date' => DateRange::get('90days')]))
+            ],
+            '6months'    => [
+                'label'     => esc_html__('Last 6 months', 'wp-statistics'),
+                'views'     => $this->countViews(array_merge($args, ['date' => DateRange::get('6months')]))
+            ],
+            'this_year'  => [
+                'label'     => esc_html__('This year (Jan-Today)', 'wp-statistics'),
+                'views'     => $this->countViews(array_merge($args, ['date' => DateRange::get('this_year')]))
+            ]
         ];
 
-        foreach ($result as $record) {
-            $date   = $record->date;
-            $views  = $record->views;
-
-            if (DateRange::compare($date, '=', 'today')) {
-                $summary['today']['views'] += $views;
-            }
-
-            if (DateRange::compare($date, '=', 'yesterday')) {
-                $summary['yesterday']['views'] += $views;
-            }
-
-            if (DateRange::compare($date, 'in', 'this_week')) {
-                $summary['this_week']['views'] += $views;
-            }
-
-            if (DateRange::compare($date, 'in', 'last_week')) {
-                $summary['last_week']['views'] += $views;
-            }
-
-            if (DateRange::compare($date, 'in', 'this_month')) {
-                $summary['this_month']['views'] += $views;
-            }
-
-            if (DateRange::compare($date, 'in', 'last_month')) {
-                $summary['last_month']['views'] += $views;
-            }
-
-            if (DateRange::compare($date, 'in', '7days')) {
-                $summary['7days']['views'] += $views;
-            }
-
-            if (DateRange::compare($date, 'in', '30days')) {
-                $summary['30days']['views'] += $views;
-            }
-
-            if (DateRange::compare($date, 'in', '90days')) {
-                $summary['90days']['views'] += $views;
-            }
-
-            if (DateRange::compare($date, 'in', '6months')) {
-                $summary['6months']['views'] += $views;
-            }
-
-            if (DateRange::compare($date, 'in', 'this_year')) {
-                $summary['this_year']['views'] += $views;
-            }
+        if (!empty($args['include_total'])) {
+            $summary['total'] = [
+                'label'     => esc_html__('Total', 'wp-statistics'),
+                'views'     => $this->countViews(array_merge($args, ['ignore_date' => true, 'historical' => true]))
+            ];
         }
 
         return $summary;
@@ -230,6 +246,53 @@ class ViewsModel extends BaseModel
             ->groupBy('uri')
             ->orderBy('total')
             ->getAll();
+
+        return $results;
+    }
+
+    public function getResourcesViews($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'fields'        => ['id', 'uri', 'type', 'SUM(count) as views'],
+            'resource_id'   => '',
+            'resource_type' => '',
+            'date'          => '',
+            'page'          => 1,
+            'per_page'      => 10
+        ]);
+
+        // If resource_id and resource_type are empty, get all views including 404, categories, home, etc...
+        if (empty($args['resource_id']) && empty($args['resource_type'])) {
+            $queries = [];
+
+            $queries[] = Query::select($args['fields'])
+                ->from('pages')
+                ->where('id', '!=', '0')
+                ->whereDate('date', $args['date'])
+                ->groupBy('id')
+                ->getQuery();
+
+            $queries[] = Query::select($args['fields'])
+                ->from('pages')
+                ->where('id', '=', '0')
+                ->whereDate('date', $args['date'])
+                ->groupBy(['uri', 'type'])
+                ->getQuery();
+
+            $results = Query::union($queries)
+                ->perPage($args['page'], $args['per_page'])
+                ->orderBy('views', 'DESC')
+                ->getAll();
+        } else {
+            $results = Query::select($args['fields'])
+                ->from('pages')
+                ->where('id', '=', $args['resource_id'])
+                ->where('type', 'IN', $args['resource_type'])
+                ->whereDate('date', $args['date'])
+                ->perPage($args['page'], $args['per_page'])
+                ->groupBy('id')
+                ->getAll();
+        }
 
         return $results;
     }

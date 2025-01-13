@@ -185,18 +185,13 @@ class PostsModel extends BaseModel
         $args = $this->parseArgs($args, [
             'date'          => '',
             'post_type'     => Helper::get_list_post_type(),
-            'resource_type' => array_merge(Helper::get_list_post_type(), ['home']),
+            'resource_type' => Helper::get_list_post_type(),
             'order_by'      => 'title',
             'order'         => 'DESC',
             'page'          => 1,
             'per_page'      => 5,
             'author_id'     => ''
         ]);
-
-        // added 'home' type, since type of homepage in pages table is 'home'
-        if ($args['resource_type'] === 'page') {
-            $args['resource_type'] = ['home', 'page'];
-        }
 
         $commentsQuery = Query::select(['comment_post_ID', 'COUNT(comment_ID) AS total_comments'])
             ->from('comments')
@@ -395,6 +390,45 @@ class PostsModel extends BaseModel
             ->from('posts')
             ->where('post_type', 'IN', $args['post_type'])
             ->allowCaching()
+            ->getVar();
+
+        return $result;
+    }
+
+    public function get404Data($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'          => '',
+            'order_by'      => 'views',
+            'order'         => 'DESC',
+            'page'          => 1,
+            'per_page'      => 10,
+        ]);
+
+        $result = Query::select(['uri', 'SUM(count) AS views'])
+            ->from('pages')
+            ->where('type', '=', '404')
+            ->whereDate('pages.date', $args['date'])
+            ->groupBy('uri')
+            ->orderBy($args['order_by'], $args['order'])
+            ->perPage($args['page'], $args['per_page'])
+            ->getAll();
+
+        return $result;
+    }
+
+    public function count404Data($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'          => '',
+            'page'          => 1,
+            'per_page'      => 10,
+        ]);
+
+        $result = Query::select(['COUNT(DISTINCT uri)'])
+            ->from('pages')
+            ->where('type', '=', '404')
+            ->whereDate('pages.date', $args['date'])
             ->getVar();
 
         return $result;

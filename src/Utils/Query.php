@@ -5,13 +5,14 @@ namespace WP_Statistics\Utils;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Traits\TransientCacheTrait;
 use WP_STATISTICS\DB;
-use WP_STATISTICS\TimeZone;
 use InvalidArgumentException;
+use WP_Statistics\Components\DateTime;
 
 class Query
 {
     use TransientCacheTrait;
 
+    private $queries = [];
     private $operation;
     private $table;
     private $fields = '*';
@@ -60,6 +61,14 @@ class Query
         return $instance;
     }
 
+    public static function union($queries)
+    {
+        $instance            = new self();
+        $instance->operation = 'union';
+        $instance->queries   = $queries;
+
+        return $instance;
+    }
 
     public function set($values)
     {
@@ -258,7 +267,10 @@ class Query
             case '<=':
             case 'LIKE':
             case 'NOT LIKE':
-                if (is_numeric($value) || !empty($value)) {
+                // For LIKE and NOT LIKE, remove the '%' from the value
+                $rawValue = str_replace('%', '', $value);
+
+                if (is_numeric($rawValue) || !empty($rawValue)) {
                     $condition = "$field $operator %s";
                     $values[]  = $value;
                 }
@@ -671,6 +683,29 @@ class Query
         return $query;
     }
 
+    protected function unionQuery()
+    {
+        $query = '';
+
+        foreach ($this->queries as $key => $value) {
+            $this->queries[$key] = "($value)";
+        }
+
+        $query = implode(' UNION ', $this->queries);
+
+        // Append ORDER clauses
+        if (!empty($this->orderClause)) {
+            $query .= ' ' . $this->orderClause;
+        }
+
+        // Append LIMIT clauses
+        if (!empty($this->limitClause)) {
+            $query .= ' ' . $this->limitClause;
+        }
+
+        return $query;
+    }
+
     /**
      * @return $this
      * @deprecated Use allowCaching() instead.
@@ -705,7 +740,7 @@ class Query
      */
     protected function canUseCacheForDateRange($to)
     {
-        $today = date('Y-m-d');
+        $today = DateTime::get();
 
         // Cache should be used if the date range does not include today
         if ($to < $today) {

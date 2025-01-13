@@ -4,9 +4,11 @@ namespace WP_Statistics\Service\Admin\NoticeHandler;
 
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\IP;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Schedule;
+use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
 use WP_STATISTICS\User;
 use WP_Statistics\Traits\TransientCacheTrait;
 
@@ -24,7 +26,8 @@ class GeneralNotices
         'performanceAndCleanUp',
         'memoryLimitCheck',
         'emailReportSchedule',
-        'notifyDeprecatedHoneypotOption'
+        'notifyDeprecatedHoneypotOption',
+        'checkCloudflareGeolocatin'
     ];
 
     /**
@@ -36,7 +39,7 @@ class GeneralNotices
     {
         $this->coreNotices = apply_filters('wp_statistics_admin_notices', $this->coreNotices);
 
-        if ( ! is_admin() ) {
+        if (! is_admin()) {
             return;
         }
 
@@ -179,12 +182,12 @@ class GeneralNotices
         if (!wp_next_scheduled('wp_statistics_report_hook')) {
             return;
         }
-        
+
         $timeReports       = Option::get('time_report');
         $schedulesInterval = Schedule::getSchedules();
 
         if (isset($schedulesInterval[$timeReports])) {
-           return;
+            return;
         }
 
         Notice::addNotice(
@@ -210,7 +213,8 @@ class GeneralNotices
      * 
      * @return void
      */
-    public function notifyDeprecatedHoneypotOption() {
+    public function notifyDeprecatedHoneypotOption()
+    {
         if (Notice::isNoticeDismissed('deprecated_honeypot')) {
             return;
         }
@@ -223,18 +227,18 @@ class GeneralNotices
             return;
         }
 
-        Notice::addNotice( 
+        Notice::addNotice(
             sprintf(
                 wp_kses(
                     /* translators: %1$s: opening strong tag, %2$s: closing strong tag, %3$s: opening link tag, %4$s: Learn more text, %5$s: closing link tag */
                     esc_html__('The WP Statistics %1$sHoney Pot Trap Page%2$s option will be removed in version 14.13. %3$s%4$s%5$s.', 'wp-statistics'),
-                   [
+                    [
                         'strong' => [],
                         'a' => [
                             'href' => [],
                             'target' => [],
                         ],
-                   ]
+                    ]
                 ),
                 '<strong>',
                 '</strong>',
@@ -244,6 +248,59 @@ class GeneralNotices
             ),
             'deprecated_honeypot',
             'warning'
+        );
+    }
+
+    /**
+     * Notifies users about clouldflare geolocation feature.
+     * 
+     * @return void
+     */
+    public function checkCloudflareGeolocatin()
+    {
+        if (Notice::isNoticeDismissed('cloudflare_geolocation')) {
+            return;
+        }
+
+        if (! Menus::in_plugin_page() || empty(IP::getCloudflareIp())) {
+            return;
+        }
+
+        if (CloudflareGeolocationProvider::isAvailable()) {
+            return;
+        }
+
+        Notice::addNotice(
+            wp_kses(
+                sprintf(
+                    /* translators: %1$s: opening strong tag, %2$s: closing strong tag, %3$s: suggestion text about Cloudflare, %4$s: opening link tag with href and title, %5$s: link text, %6$s: closing link tag */
+                    '%1$sSuggestion:%2$s %3$s %4$s%5$s%6$s',
+                    '<strong>',
+                    '</strong>',
+                    esc_html__(
+                        "You're using Cloudflare. For better performance, you can switch to using Cloudflare's Geolocation feature instead of MaxMind's GeoIP database. Enable this option in WP Statistics settings.",
+                        'wp-statistics'
+                    ),
+                    sprintf(
+                        /* translators: %1$s: URL to advanced settings page, %2$s: Title attribute for the link tooltip */
+                        '<a href="%1$s" title="%2$s">',
+                        esc_url(admin_url('admin.php?page=wps_settings_page&tab=advanced-settings')),
+                        esc_attr__('Go to WP Statistics Advanced Settings', 'wp-statistics')
+                    ),
+                    esc_html__('Enable this option', 'wp-statistics'),
+                    '</a>'
+                ),
+                [
+                    'strong' => [],
+                    'a' => [
+                        'href' => [],
+                        'target' => [],
+                        'title' => [],
+                    ],
+                ]
+            ),
+            'cloudflare_geolocation',
+            'info'
         );
     }
 }

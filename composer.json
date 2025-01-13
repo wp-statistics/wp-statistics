@@ -31,7 +31,7 @@
   },
   "scripts": {
     "test": [
-      "PATH=$(composer global config bin-dir --absolute --quiet):$PATH phpunit"
+      "PATH=$(composer global config bin-dir --absolute --quiet):$PATH phpunit --testdox"
     ],
     "post-install-cmd": [
       "PATH=$(composer global config bin-dir --absolute --quiet):$PATH mozart compose",

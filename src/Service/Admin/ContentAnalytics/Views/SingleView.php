@@ -32,7 +32,7 @@ class SingleView extends BaseView
 
         $this->dataProvider = new ContentAnalyticsDataProvider([
             'post_id'       => $this->postId,
-            'resource_type' => array_merge(Helper::get_list_post_type(), ['home']),
+            'resource_type' => Helper::getPostTypes(),
             'query_param'   => Helper::isAddOnActive('data-plus') ? Request::get('qp', '', 'number') : ''
         ]);
     }

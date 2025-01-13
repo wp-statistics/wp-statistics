@@ -17,12 +17,12 @@ class LicenseManagementManager
 
     public function __construct()
     {
-        $this->pluginHandler   = new PluginHandler();
+        $this->pluginHandler = new PluginHandler();
 
-        // Initialize the necessary components
+        // Initialize the necessary components.
         $this->initActionCallbacks();
-        $this->initPluginUpdaters();
-
+        
+        add_action('init', [$this, 'initPluginUpdaters']);
         add_action('admin_init', [$this, 'showPluginActivationNotice']);
         add_filter('wp_statistics_enable_upgrade_to_bundle', [$this, 'showUpgradeToBundle']);
         add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);
@@ -55,7 +55,7 @@ class LicenseManagementManager
     /**
      * Initialize the PluginUpdater for all stored licenses.
      */
-    private function initPluginUpdaters()
+    public function initPluginUpdaters()
     {
         $storedLicenses = LicenseHelper::getLicenses();
 

@@ -20,19 +20,23 @@ class Request
 
         $value = $_REQUEST[$param];
 
-        switch ($return) {
-            case 'number':
-                return intval($value);
-            case 'text':
-                return sanitize_textarea_field($value);
-            case 'array':
-                return array_map('sanitize_text_field', $value);
-            case 'string':
-                return sanitize_text_field($value);
-            case 'raw':
-            default:
-                return $value;
+        if ($return === 'string') {
+            return sanitize_text_field($value);
         }
+
+        if ($return === 'number') {
+            return intval($value);
+        }
+
+        if ($return === 'text') {
+            return sanitize_textarea_field($value);
+        }
+
+        if ($return === 'array' && is_array($value)) {
+            return array_map('sanitize_text_field', $value);
+        }
+
+        return $value;
     }
 
 

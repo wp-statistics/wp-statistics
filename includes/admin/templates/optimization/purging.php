@@ -1,258 +1,168 @@
 <script type="text/javascript">
-    jQuery(document).ready(function () {
-        jQuery("#purge-data-submit").click(function () {
+    jQuery(document).ready(function ($) {
+        const wpsConfig = {
+            messages: {
+                confirm: '<?php esc_html_e('Are you sure you want to permanently delete this data? This action cannot be undone.', 'wp-statistics'); ?>'
+            },
+            classes: {
+                loading: 'wps-loading-button'
+            },
+            nonce: '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
+        };
 
-            var action = jQuery('#purge-data').val();
+        function wpsHandlePurgeAction(wpsActionConfig) {
+            const {
+                buttonId,
+                selectId,
+                resultId,
+                action,
+                dataKey,
+                callback,
+                validateValue
+            } = wpsActionConfig;
 
-            if (action == 0)
+            const wpsButton = $(buttonId);
+            wpsButton.prop('onclick', null).off('click');
+
+            wpsButton.on('click', function (e) {
+                e.preventDefault();
+
+                const wpsResult = $(resultId);
+
+                // Get value if select exists
+                const wpsValue = selectId ? $(selectId).val() : null;
+                if (selectId && (!wpsValue || wpsValue == '0' || (validateValue && !validateValue(wpsValue)))) {
+                    return false;
+                }
+
+                if (!confirm(wpsActionConfig.messages.confirm)) {
+                    return false;
+                }
+
+                wpsButton.addClass(wpsActionConfig.classes.loading);
+
+                const wpsData = {
+                    'action': action,
+                    'wps_nonce': wpsActionConfig.nonce
+                };
+
+                if (dataKey && wpsValue) {
+                    wpsData[dataKey] = wpsValue;
+                }
+
+                $.ajax({
+                    url: ajaxurl,
+                    type: 'post',
+                    data: wpsData,
+                    datatype: 'json',
+                })
+                    .done(function (wpsResultData) {
+                        wpsResult.html(wpsResultData);
+                        if (callback) {
+                            callback(wpsValue, wpsData);
+                        }
+                    })
+                    .fail(function (jqXHR, wpsTextStatus, wpsErrorThrown) {
+                        wpsResult.html('<div class="error"><p>' + wpsTextStatus + ': ' + wpsErrorThrown + '</p></div>');
+                    })
+                    .always(function () {
+                        wpsButton.removeClass(wpsActionConfig.classes.loading);
+                    });
+
                 return false;
-
-            var agree = confirm('<?php esc_html_e('Are you sure you want to permanently delete this data? This action cannot be undone.', 'wp-statistics'); ?>');
-
-            if (!agree)
-                return false;
-
-            jQuery("#purge-data-submit").attr("disabled", "disabled");
-            jQuery("#purge-data-status").html("<img src='<?php echo esc_url(plugins_url('wp-statistics')); ?>/assets/images/loading.gif'/>");
-            jQuery.ajax({
-                url: ajaxurl,
-                type: 'post',
-                data: {
-                    'action': 'wp_statistics_purge_data',
-                    'purge-days': action,
-                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
-                },
-                datatype: 'json',
-            })
-                .always(function (result) {
-                    jQuery("#purge-data-status").html("");
-                    jQuery("#purge-data-result").html(result);
-                    jQuery("#purge-data-submit").removeAttr("disabled");
-                    jQuery("#wps_historical_purge").show();
-                });
-        });
-
-        jQuery("#purge-visitor-hits-submit").click(function () {
-
-            var action = jQuery('#purge-visitor-hits').val();
-
-            if (action == 0)
-                return false;
-
-            var agree = confirm('<?php esc_html_e('Are you sure you want to permanently delete this data? This action cannot be undone.', 'wp-statistics'); ?>');
-
-            if (!agree)
-                return false;
-
-            jQuery("#purge-visitor-hits-submit").attr("disabled", "disabled");
-            jQuery("#purge-visitor-hits-status").html("<img src='<?php echo esc_url(plugins_url('wp-statistics')); ?>/assets/images/loading.gif'/>");
-            jQuery.ajax({
-                url: ajaxurl,
-                type: 'post',
-                data: {
-                    'action': 'wp_statistics_purge_visitor_hits',
-                    'purge-hits': action,
-                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
-                },
-                datatype: 'json',
-            })
-                .always(function (result) {
-                    jQuery("#purge-visitor-hits-status").html("");
-                    jQuery("#purge-visitor-hits-result").html(result);
-                    jQuery("#purge-visitor-hits-submit").removeAttr("disabled");
-                });
-        });
-
-        jQuery("#delete-agents-submit").click(function () {
-
-            var action = jQuery('#delete-agent').val();
-
-            if (action == 0)
-                return false;
-
-            var agree = confirm('<?php esc_html_e('Are you sure you want to permanently delete this data? This action cannot be undone.', 'wp-statistics'); ?>');
-
-            if (!agree)
-                return false;
-
-            jQuery("#delete-agents-submit").attr("disabled", "disabled");
-            jQuery("#delete-agents-status").html("<img src='<?php echo esc_url(plugins_url('wp-statistics')); ?>/assets/images/loading.gif'/>");
-            jQuery.ajax({
-                url: ajaxurl,
-                type: 'post',
-                data: {
-                    'action': 'wp_statistics_delete_agents',
-                    'agent-name': action,
-                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
-                },
-                datatype: 'json',
-            })
-                .always(function (result) {
-                    jQuery("#delete-agents-status").html("");
-                    jQuery("#delete-agents-result").html(result);
-                    jQuery("#delete-agents-submit").removeAttr("disabled");
-                    aid = data['agent-name'].replace(/[^a-zA-Z]/g, "");
-                    jQuery("#agent-" + aid + "-id").remove();
-                });
-        });
-
-        jQuery("#delete-platforms-submit").click(function () {
-
-            var action = jQuery('#delete-platform').val();
-
-            if (action == 0)
-                return false;
-
-            var agree = confirm('<?php esc_html_e('Are you sure you want to permanently delete this data? This action cannot be undone.', 'wp-statistics'); ?>');
-
-            if (!agree)
-                return false;
-
-            jQuery("#delete-platforms-submit").attr("disabled", "disabled");
-            jQuery("#delete-platforms-status").html("<img src='<?php echo esc_url(plugins_url('wp-statistics')); ?>/assets/images/loading.gif'/>");
-            jQuery.ajax({
-                url: ajaxurl,
-                type: 'post',
-                data: {
-                    'action': 'wp_statistics_delete_platforms',
-                    'platform-name': action,
-                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
-                },
-                datatype: 'json',
-            })
-                .always(function (result) {
-                    jQuery("#delete-platforms-status").html("");
-                    jQuery("#delete-platforms-result").html(result);
-                    jQuery("#delete-platforms-submit").removeAttr("disabled");
-                    pid = data['platform-name'].replace(/[^a-zA-Z]/g, "");
-                    jQuery("#platform-" + pid + "-id").remove();
-                });
-        });
-
-
-        const forms = document.querySelectorAll('.wps-submit-agree');
-
-        if (forms.length > 0) {
-            forms.forEach(function(form) {
-                const submitButton = form.querySelector('button[type="button"]');
-                submitButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const agreeMessage = form.getAttribute('data-agree');
-                     const agree = confirm(agreeMessage);
-                    if (!agree) return;
-                    submitButton.classList.add('wps-loading-btn');
-                     form.submit();
-                });
             });
         }
 
+        // Configure each purge action
+        const wpsPurgeActions = [
+            {
+                buttonId: '#purge-data-submit',
+                selectId: '#purge-data',
+                resultId: '#purge-data-result',
+                action: 'wp_statistics_purge_data',
+                dataKey: 'purge-days',
+                validateValue: (wpsValue) => parseInt(wpsValue) >= 30,
+                callback: () => $('#wps_historical_purge').show()
+            },
+            {
+                buttonId: '#purge-visitor-hits-submit',
+                selectId: '#purge-visitor-hits',
+                resultId: '#purge-visitor-hits-result',
+                action: 'wp_statistics_purge_visitor_hits',
+                dataKey: 'purge-hits',
+                validateValue: (wpsValue) => parseInt(wpsValue) >= 10
+            },
+            {
+                buttonId: '#delete-agents-submit',
+                selectId: '#delete-agent',
+                resultId: '#delete-agents-result',
+                action: 'wp_statistics_delete_agents',
+                dataKey: 'agent-name',
+                callback: (wpsValue) => {
+                    const wpsAid = wpsValue.replace(/[^a-zA-Z]/g, "");
+                    $('#agent-' + wpsAid + '-id').remove();
+                }
+            },
+            {
+                buttonId: '#delete-platforms-submit',
+                selectId: '#delete-platform',
+                resultId: '#delete-platforms-result',
+                action: 'wp_statistics_delete_platforms',
+                dataKey: 'platform-name',
+                callback: (wpsValue) => {
+                    const wpsPid = wpsValue.replace(/[^a-zA-Z]/g, "");
+                    $('#platform-' + wpsPid + '-id').remove();
+                }
+            },
+            {
+                buttonId: '#delete-ip-submit',
+                selectId: '#delete-ip',
+                resultId: '#delete-ip-result',
+                action: 'wp_statistics_delete_ip',
+                dataKey: 'ip-address',
+                validateValue: (wpsValue) => /^(\d{1,3}\.){3}\d{1,3}$/.test(wpsValue),
+                callback: () => $('#delete-ip').val('')
+            },
+            {
+                buttonId: '#delete-user-ids-submit',
+                resultId: '#delete-user-ids-result',
+                action: 'wp_statistics_delete_user_ids'
+            },
+            {
+                buttonId: '#clear-user-agent-strings-submit',
+                resultId: '#clear-user-agent-strings-result',
+                action: 'wp_statistics_clear_user_agent_strings'
+            },
+            {
+                buttonId: '#query-params-cleanup-submit',
+                resultId: '#query-params-cleanup-result',
+                action: 'wp_statistics_query_params_cleanup'
+            }
+        ];
 
-        jQuery("#delete-ip-submit").click(function () {
+        // Initialize all purge actions
+        wpsPurgeActions.forEach(wpsActionConfig => wpsHandlePurgeAction({
+            ...wpsActionConfig,
+            messages: wpsConfig.messages,
+            classes: wpsConfig.classes,
+            nonce: wpsConfig.nonce
+        }));
 
-            var value = jQuery('#delete-ip').val();
+        // Handle form submissions with confirmation
+        const wpsForms = document.querySelectorAll('.wps-submit-agree');
+        if (wpsForms.length > 0) {
+            wpsForms.forEach(function (wpsForm) {
+                const wpsSubmitButton = wpsForm.querySelector('button[type="button"]');
+                wpsSubmitButton.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const wpsAgreeMessage = wpsForm.getAttribute('data-agree');
+                    if (!confirm(wpsAgreeMessage)) return;
 
-            if (value == 0)
-                return false;
-
-            var agree = confirm('<?php esc_html_e('Are you sure you want to permanently delete this data? This action cannot be undone.', 'wp-statistics'); ?>');
-
-            if (!agree)
-                return false;
-
-            jQuery("#delete-ip-submit").attr("disabled", "disabled");
-            jQuery("#delete-ip-status").html("<img src='<?php echo esc_url(plugins_url('wp-statistics')); ?>/assets/images/loading.gif'/>");
-            jQuery.ajax({
-                url: ajaxurl,
-                type: 'post',
-                data: {
-                    'action': 'wp_statistics_delete_ip',
-                    'ip-address': value,
-                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest');  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
-                },
-                datatype: 'json',
-            })
-                .always(function (result) {
-                    jQuery("#delete-ip-status").html("");
-                    jQuery("#delete-ip-result").html(result);
-                    jQuery("#delete-ip-submit").removeAttr("disabled");
-                    jQuery("#delete-ip").value('');
+                    wpsSubmitButton.classList.add(wpsConfig.classes.loading);
+                    wpsForm.submit();
                 });
-        });
-
-        jQuery("#delete-user-ids-submit").click(function () {
-
-            var agree = confirm('<?php esc_html_e('Are you sure you want to permanently delete this data? This action cannot be undone.', 'wp-statistics'); ?>');
-
-            if (!agree)
-                return false;
-
-            jQuery("#delete-user-ids-submit").attr("disabled", "disabled");
-            jQuery("#delete-user-ids-status").html("<img src='<?php echo esc_url(plugins_url('wp-statistics')); ?>/assets/images/loading.gif'/>");
-            jQuery.ajax({
-                url: ajaxurl,
-                type: 'post',
-                data: {
-                    'action': 'wp_statistics_delete_user_ids',
-                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
-                },
-                datatype: 'json',
-            })
-                .always(function (result) {
-                    jQuery("#delete-user-ids-status").html("");
-                    jQuery("#delete-user-ids-result").html(result);
-                    jQuery("#delete-user-ids-submit").removeAttr("disabled");
-                });
-        });
-
-        jQuery("#clear-user-agent-strings-submit").click(function () {
-
-            var agree = confirm('<?php esc_html_e('Are you sure you want to permanently delete this data? This action cannot be undone.', 'wp-statistics'); ?>');
-
-            if (!agree)
-                return false;
-
-            jQuery("#clear-user-agent-strings-submit").attr("disabled", "disabled");
-            jQuery("#clear-user-agent-strings-status").html("<img src='<?php echo esc_url(plugins_url('wp-statistics')); ?>/assets/images/loading.gif'/>");
-            jQuery.ajax({
-                url: ajaxurl,
-                type: 'post',
-                data: {
-                    'action': 'wp_statistics_clear_user_agent_strings',
-                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
-                },
-                datatype: 'json',
-            })
-                .always(function (result) {
-                    jQuery("#clear-user-agent-strings-status").html("");
-                    jQuery("#clear-user-agent-strings-result").html(result);
-                    jQuery("#clear-user-agent-strings-submit").removeAttr("disabled");
-                });
-        });
-
-        jQuery("#query-params-cleanup-submit").click(function () {
-
-            var agree = confirm('<?php esc_html_e('Are you sure you want to permanently delete this data? This action cannot be undone.', 'wp-statistics'); ?>');
-
-            if (!agree)
-                return false;
-
-            jQuery("#query-params-cleanup-submit").attr("disabled", "disabled");
-            jQuery("#query-params-cleanup-status").html("<img src='<?php echo esc_url(plugins_url('wp-statistics')); ?>/assets/images/loading.gif'/>");
-            jQuery.ajax({
-                url: ajaxurl,
-                type: 'post',
-                data: {
-                    'action': 'wp_statistics_query_params_cleanup',
-                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
-                },
-                datatype: 'json',
-            })
-                .always(function (result) {
-                    jQuery("#query-params-cleanup-status").html("");
-                    jQuery("#query-params-cleanup-result").html(result);
-                    jQuery("#query-params-cleanup-submit").removeAttr("disabled");
-                });
-        });
+            });
+        }
     });
 </script>
 <div class="wrap wps-wrap">
@@ -273,8 +183,7 @@
                     <label for="purge-data"><?php esc_html_e('Days', 'wp-statistics'); ?></label>
 
                     <p class="description"><?php echo esc_html__('Erase User Stats Older Than Specified Days.', 'wp-statistics') . ' ' . esc_html__('Minimum Age for Deletion: 30 Days.', 'wp-statistics'); ?></p>
-                    <input id="purge-data-submit" class="button button-primary" type="submit" value="<?php esc_html_e('Start Purging Now', 'wp-statistics'); ?>" name="purge-data-submit" Onclick="return false;"/>
-                    <span id="purge-data-status"></span>
+                    <button id="purge-data-submit" class="button button-primary" type="submit" name="purge-data-submit"><?php esc_html_e('Start Purging Now', 'wp-statistics'); ?></button>
                     <div id="purge-data-result"></div>
                 </td>
             </tr>
@@ -289,8 +198,7 @@
                     <label for="purge-visitor-hits"><?php esc_html_e('Views', 'wp-statistics'); ?></label>
 
                     <p class="description"><?php echo esc_html__('Erase User Stats for Visitors Exceeding Daily View Limit. Useful for cleaning bot-related data. Removes visitor and their site visits, but not individual page visits, as they are not recorded per user. Minimum View Threshold: 10 Views.', 'wp-statistics'); ?></p>
-                    <input id="purge-visitor-hits-submit" class="button button-primary" type="submit" value="<?php esc_html_e('Start Purging Now', 'wp-statistics'); ?>" name="purge-visitor-hits-submit" Onclick="return false;"/>
-                    <span id="purge-visitor-hits-status"></span>
+                    <button id="purge-visitor-hits-submit" class="button button-primary" type="submit" name="purge-visitor-hits-submit"><?php esc_html_e('Start Purging Now', 'wp-statistics'); ?></button>
                     <div id="purge-visitor-hits-result"></div>
                 </td>
             </tr>
@@ -300,13 +208,12 @@
                     <label for="delete-user-ids-submit"><?php esc_html_e('Remove User IDs', 'wp-statistics'); ?></label>
                 </th>
                 <td>
-                    <input id="delete-user-ids-submit" class="button button-primary" type="submit" value="<?php esc_html_e('Delete User IDs Now', 'wp-statistics'); ?>" name="delete_user_ids_submit">
+                    <button id="delete-user-ids-submit" class="button button-primary" type="submit" name="delete_user_ids_submit"><?php esc_html_e('Delete User IDs Now', 'wp-statistics'); ?></button>
                     <p class="description">
                         <?php esc_html_e('Permanently deletes all stored User IDs from the database to anonymize user visit records or to comply with privacy regulations.', 'wp-statistics'); ?><br>
                         <span class="wps-note"><?php esc_html_e('Caution', 'wp-statistics'); ?>:</span>
                         <?php esc_html_e('Permanent and cannot be reversed.', 'wp-statistics'); ?>
                     </p>
-                    <span id="delete-user-ids-status"></span>
                     <div id="delete-user-ids-result"></div>
                 </td>
             </tr>
@@ -316,13 +223,12 @@
                     <label for="clear-user-agent-strings-submit"><?php esc_html_e('Clear User Agent Strings', 'wp-statistics'); ?></label>
                 </th>
                 <td>
-                    <input id="clear-user-agent-strings-submit" class="button button-primary" type="submit" value="<?php esc_html_e('Clear User Agent Data Now', 'wp-statistics'); ?>" name="clear_user_agent_strings_submit">
+                    <button id="clear-user-agent-strings-submit" class="button button-primary" type="submit" name="clear_user_agent_strings_submit"><?php esc_html_e('Clear User Agent Data Now', 'wp-statistics'); ?></button>
                     <p class="description">
                         <?php esc_html_e('Permanently erases all User Agent Strings from the database, typically done after troubleshooting to remove unnecessary data.', 'wp-statistics'); ?><br>
                         <span class="wps-note"><?php esc_html_e('Caution', 'wp-statistics'); ?>:</span>
                         <?php esc_html_e('Permanent and cannot be undone.', 'wp-statistics'); ?>
                     </p>
-                    <span id="clear-user-agent-strings-status"></span>
                     <div id="clear-user-agent-strings-result"></div>
                 </td>
             </tr>
@@ -332,13 +238,12 @@
                     <label for="query-params-cleanup-submit"><?php esc_html_e('Clean Up Recorded Query Parameters', 'wp-statistics'); ?></label>
                 </th>
                 <td>
-                    <input id="query-params-cleanup-submit" class="button button-primary" type="submit" value="<?php esc_html_e('Run Cleanup', 'wp-statistics'); ?>" name="query_params_cleanup_submit">
+                    <button id="query-params-cleanup-submit" class="button button-primary" type="submit" name="query_params_cleanup_submit"><?php esc_html_e('Run Cleanup', 'wp-statistics'); ?></button>
                     <p class="description">
                         <?php esc_html_e('Removes previously stored query parameters from your historical data, ensuring consistency with your current privacy settings.', 'wp-statistics'); ?><br>
                         <span class="wps-note"><?php esc_html_e('Caution', 'wp-statistics'); ?>:</span>
                         <?php esc_html_e('It is recommended to back up your database before proceeding, as this cleanup is irreversible.', 'wp-statistics'); ?>
                     </p>
-                    <span id="query-params-cleanup-status"></span>
                     <div id="query-params-cleanup-result"></div>
                 </td>
             </tr>
@@ -370,8 +275,7 @@
                     </select>
 
                     <p class="description"><?php esc_html_e('Select and delete specific User Agents from the database. All associated data will be permanently removed.', 'wp-statistics'); ?></p>
-                    <input id="delete-agents-submit" class="button button-primary" type="submit" value="<?php esc_html_e('Delete Selected Items Now', 'wp-statistics'); ?>" name="delete-agents-submit" Onclick="return false;">
-                    <span id="delete-agents-status"></span>
+                    <button id="delete-agents-submit" class="button button-primary" type="submit" name="delete-agents-submit"><?php esc_html_e('Delete Selected Items Now', 'wp-statistics'); ?></button>
                     <div id="delete-agents-result"></div>
                 </td>
             </tr>
@@ -396,8 +300,7 @@
                     </select>
 
                     <p class="description"><?php esc_html_e('Select and delete specific platforms from the database. All associated data will be permanently removed.', 'wp-statistics'); ?></p>
-                    <input id="delete-platforms-submit" class="button button-primary" type="submit" value="<?php esc_html_e('Delete Selected Items Now', 'wp-statistics'); ?>" name="delete-platforms-submit" Onclick="return false;">
-                    <span id="delete-platforms-status"></span>
+                    <button id="delete-platforms-submit" class="button button-primary" type="submit" name="delete-platforms-submit"><?php esc_html_e('Delete Selected Items Now', 'wp-statistics'); ?></button>
                     <div id="delete-platforms-result"></div>
                 </td>
             </tr>
@@ -411,8 +314,7 @@
                     <input dir="ltr" id="delete-ip" type="text" name="delete-ip"/>
 
                     <p class="description"><?php esc_html_e('Input and delete all data associated with a particular IP address. All associated data will be permanently removed.', 'wp-statistics'); ?></p>
-                    <input id="delete-ip-submit" class="button button-primary" type="submit" value="<?php esc_html_e('Delete Selected Items Now', 'wp-statistics'); ?>" name="delete-ip-submit" Onclick="return false;">
-                    <span id="delete-ip-status"></span>
+                    <button id="delete-ip-submit" class="button button-primary" type="submit" name="delete-ip-submit"><?php esc_html_e('Delete Selected Items Now', 'wp-statistics'); ?></button>
                     <div id="delete-ip-result"></div>
                 </td>
             </tr>

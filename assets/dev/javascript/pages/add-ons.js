@@ -64,9 +64,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 };
 
                 if (button) {
-                    button.classList.add('loading');
-                    button.classList.add('disabled');
-                }
+                    wps_js.loading_button(button)
+                 }
 
                 sendAjaxRequest(action_params, button, () => processSlugs(slugs, action, index + 1, onSuccess, button));
             } else {
@@ -390,7 +389,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
         // Define the AJAX request function
         const sendAjaxRequest = (params, button, callback) => {
-            if (button) button.classList.add('loading');
+            if (button)  wps_js.loading_button(button)
             if (params.action === "wp_statistics_download_plugin") {
 
                 const current_plugin = document.querySelector(`[data-slug="${params.plugin_slug}"]`);
@@ -434,7 +433,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 data: params,
                 timeout: 30000,
                 success: function (data) {
-                    if (button) button.classList.remove('loading');
+                    if (button) button.classList.remove('wps-loading-button');
                     if (data.success) {
                         if (button) button.classList.add('disabled');
                         if (params.action === "wp_statistics_check_license") {
@@ -524,7 +523,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     if (callback) callback();
                 },
                 error: function (xhr, status, error) {
-                    if (button) button.classList.remove('loading');
+                    if (button) button.classList.remove('wps-loading-button');
                     if (callback) callback();
                     errorHandel(params, button, error);
                 }

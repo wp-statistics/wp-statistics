@@ -14,13 +14,12 @@ class PlatformChartDataProvider extends AbstractChartDataProvider
 {
     use BarChartResponseTrait;
 
-    public $args;
     protected $data;
     protected $visitorsModel;
 
     public function __construct($args)
     {
-        $this->args = $args;
+        parent::__construct($args);
 
         $this->visitorsModel = new VisitorsModel();
 

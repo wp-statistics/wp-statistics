@@ -23,9 +23,11 @@ class PrivacyAuditController
         check_ajax_referer('wp_rest', 'wps_nonce');
 
         // Get the compliance, audit and faq list status
-        $response['compliance_status'] = $this->dataProvider->getComplianceStatus();
-        $response['audit_list']        = $this->dataProvider->getAuditsStatus();
-        $response['faq_list']          = $this->dataProvider->getFaqsStatus();
+        $response['compliance_status']  = $this->dataProvider->getComplianceStatus();
+        $response['recommended_audits'] = $this->dataProvider->getAuditsByStatus('recommended');
+        $response['passed_audits']      = $this->dataProvider->getAuditsByStatus('success');
+        $response['unpassed_audits']    = $this->dataProvider->getAuditsByStatus('warning');
+        $response['faq_list']           = $this->dataProvider->getFaqsStatus();
 
         // Send the response
         wp_send_json_success($response);
@@ -73,7 +75,7 @@ class PrivacyAuditController
 
     /**
      * Privacy compliance test result for WordPress site health.
-     * 
+     *
      * @return array $result
      */
     public function privacyComplianceTest()

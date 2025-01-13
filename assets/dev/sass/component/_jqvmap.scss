@@ -1,21 +1,51 @@
 .jqvmap-label {
   background: #fff !important;
-  box-shadow: 0 0 12px 1px rgba(0, 0, 0, 0.07) !important;
-  border-radius: 4px !important;
-  color: #0C0C0D !important;
+  box-shadow: 1px 1px 2px 0px #00000005!important;
+  border-radius: 2px !important;
+  color: #56585A !important;
   padding: 12px !important;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: -30px;
+
 
   .map-country-header {
-    background: linear-gradient(360deg, #F8F8F8 0%, rgba(245, 245, 245, 0) 23.33%);
-    padding: 12px;
+    padding: 12px 12px 6px 12px;
     font-style: normal;
     font-weight: 400;
     font-size: 11px !important;
     display: flex;
     align-items: center;
+    gap: 6px;
 
-    & > img {
-      margin-right: 8px;
+    span{
+      color:#0C0C0D;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 15.23px;
+    }
+  }
+
+  .map-country-content{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 0 12px 12px 12px;
+
+    div:first-child{
+      font-size: 13px;
+      font-style: italic;
+      font-weight: 400;
+      line-height: 15.23px;
+    }
+    div:last-child{
+      font-size: 13px;
+      font-style: italic;
+      font-weight: 500;
+      line-height: 15.23px;
+      color: #0C0C0D;
     }
   }
 
@@ -23,11 +53,6 @@
     margin: -12px;
   }
 
-  hr {
-    background-color: #F8F8F8;
-    border-color: #F8F8F8;
-    margin: 0;
-  }
 
   p {
     display: flex;

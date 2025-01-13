@@ -54,13 +54,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     // submit and disable empty value
     var FORM_ID = '#wp_statistics_visitors_filter_form';
     jQuery(document).on('submit', FORM_ID, function () {
-        // Check IS IP
-        var Input_IP = jQuery(FORM_ID + " input[name=ip]").val();
-        if (Input_IP.length > 0 && (Input_IP.includes('#') === false && wps_js.isIP(Input_IP) === false)) {
-            alert(wps_js._('er_valid_ip'));
-            return false;
-        }
-
         // Remove Empty Parameter
         let forms = {
             'input': ['ip'],
@@ -137,6 +130,13 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     if (document.getElementById('trafficTrendsChart')) {
         const data = Wp_Statistics_Visitors_Object.traffic_chart_data;
         wps_js.new_line_chart(data, 'trafficTrendsChart', null);
+    }
+
+
+    // Add Traffic Trends chart
+    if (document.getElementById('LoggedInUsersChart')) {
+        const data = Wp_Statistics_Visitors_Object.logged_in_chart_data;
+        wps_js.new_line_chart(data, 'LoggedInUsersChart', null);
     }
 }
 

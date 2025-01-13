@@ -23,7 +23,7 @@ class OnlineModel extends BaseModel
     public function getOnlineVisitorsData($args = [])
     {
         $args = $this->parseArgs($args, [
-            'page'      => '',
+            'page'      => 1,
             'per_page'  => '',
             'order_by'  => '',
             'order'     => '',
@@ -43,6 +43,9 @@ class OnlineModel extends BaseModel
             'useronline.region',
             'useronline.city',
             'visitor.hits',
+            'visitor.referred',
+            'visitor.source_name',
+            'visitor.source_channel',
             'useronline.user_id',
             'page_id as last_page',
             'date as last_view',

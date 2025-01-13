@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace WP_Statistics\Service\Admin\PageInsights;
 
@@ -14,7 +14,7 @@ class PageInsightsDataProvider
     protected $postsModel;
     protected $taxonomyModel;
     protected $authorsModel;
-    
+
     public function __construct($args)
     {
         $this->args = $args;
@@ -63,6 +63,14 @@ class PageInsightsDataProvider
         return [
             'authors' => $authors,
             'total'   => $total
+        ];
+    }
+
+    public function get404Data()
+    {
+        return [
+            'data'  => $this->postsModel->get404Data($this->args),
+            'total' => $this->postsModel->count404Data($this->args)
         ];
     }
 }

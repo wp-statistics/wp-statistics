@@ -1,40 +1,6 @@
 body[class*="wps_visitors_page"], body[class*="wps_visitors-report_page"] {
 
-  .wps-head-filters #visitors-filter.wp-visitors-filter--active {
-    background: #404BF21A !important;
-    border: 1px solid #7981F6 !important;
 
-    .wps-head-filters & {
-      border: 1px solid rgba(121, 129, 246, 1)
-    }
-
-    .filter-text {
-      color: #404BF2 !important;
-    }
-
-    .wps-badge {
-      min-width: 14px;
-      height: 14px;
-      background: #404BF21A;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .dashicons-filter {
-      background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjEwIiBoZWlnaHQ9IjEzIiB2aWV3Qm94PSIwIDAgMTAgMTMiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik02LjI1IDcuMjVWMTFMMy43NSAxMi4yNVY3LjI1TDAgMS42MjVWMC4zNzVIMTBWMS42MjVMNi4yNSA3LjI1Wk0xLjUwMjMxIDEuNjI1TDUgNi44NzE1TDguNDk3NjkgMS42MjVIMS41MDIzMVoiIGZpbGw9IiM0MDRCRjIiLz4KPC9zdmc+Cg==") no-repeat center center;
-    }
-
-    &:after {
-      background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjEzIiBoZWlnaHQ9IjEyIiB2aWV3Qm94PSIwIDAgMTMgMTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik02LjQ5OTk3IDcuOTk4MTRDNi40MzQxNyA3Ljk5ODUyIDYuMzY4OTQgNy45ODU5MSA2LjMwODAyIDcuOTYxMDJDNi4yNDcxIDcuOTM2MTQgNi4xOTE2OSA3Ljg5OTQ4IDYuMTQ0OTcgNy44NTMxNEwzLjE0NDk3IDQuODUzMTRDMy4wNTA4MiA0Ljc1ODk5IDIuOTk3OTIgNC42MzEyOSAyLjk5NzkyIDQuNDk4MTRDMi45OTc5MiA0LjM2NDk5IDMuMDUwODIgNC4yMzcyOSAzLjE0NDk3IDQuMTQzMTRDMy4yMzkxMiA0LjA0ODk5IDMuMzY2ODIgMy45OTYwOSAzLjQ5OTk3IDMuOTk2MDlDMy42MzMxMiAzLjk5NjA5IDMuNzYwODIgNC4wNDg5OSAzLjg1NDk3IDQuMTQzMTRMNi40OTk5NyA2Ljc5MzE0TDkuMTQ0OTcgNC4xNDgxNEM5LjI0MDYyIDQuMDY2MjMgOS4zNjM2NiA0LjAyMzQyIDkuNDg5NSA0LjAyODI4QzkuNjE1MzMgNC4wMzMxNCA5LjczNDcgNC4wODUzMSA5LjgyMzc1IDQuMTc0MzZDOS45MTI4IDQuMjYzNDEgOS45NjQ5NiA0LjM4Mjc3IDkuOTY5ODIgNC41MDg2MUM5Ljk3NDY5IDQuNjM0NDUgOS45MzE4OCA0Ljc1NzQ5IDkuODQ5OTcgNC44NTMxNEw2Ljg0OTk3IDcuODUzMTRDNi43NTY4NCA3Ljk0NTUxIDYuNjMxMTQgNy45OTc1OSA2LjQ5OTk3IDcuOTk4MTRaIiBmaWxsPSIjNDA0QkYyIi8+Cjwvc3ZnPgo=") center center no-repeat;
-    }
-  }
-
-  .wps-visitor-filter__text {
-    display: flex;
-    gap: 3px;
-    align-items: center;
-  }
 
   // Disable focus TickBox
   #TB_closeWindowButton:focus .tb-close-icon {
@@ -44,8 +10,6 @@ body[class*="wps_visitors_page"], body[class*="wps_visitors-report_page"] {
 
   // Add Button
   #visitors-filter {
-    cursor: pointer;
-    color: #666;
     transition: 0.5s all;
     margin-top: 5px;
 
