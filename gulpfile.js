@@ -64,6 +64,7 @@ function tineMCE(done) {
 function frontScripts(done) {
     const jsFiles = [
         './assets/dev/javascript/user-tracker.js',
+        './assets/dev/javascript/event-tracker.js',
         './assets/dev/javascript/tracker.js',
     ];
 
@@ -145,6 +146,7 @@ function addEsnextSuffix(filePath) {
 function revertToES6(cb) {
     const jsFiles = [
         './assets/js/user-tracker.js',
+        './assets/js/event-tracker.js',
         './assets/js/tracker.js',
     ];
 

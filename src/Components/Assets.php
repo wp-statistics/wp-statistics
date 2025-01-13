@@ -59,6 +59,26 @@ class Assets
         }
     }
 
+
+    /**
+     * Localize a script.
+     *
+     * @param string $handle The script handle.
+     * @param string $name The name of the object to be passed to the script.
+     * @param array $data An array of data to be localized.
+     *
+     * @return  void
+     * @example Assets::localize('admin', 'foo', ['bar' => 'baz']);
+     */
+    public static function localize($handle, $name, $data)
+    {
+        $handle = self::getHandle($handle);
+        $object = self::getObject($name);
+        $data   = apply_filters("wp_statistics_localize_{$handle}", $data);
+
+        wp_localize_script($handle, $object, $data);
+    }
+
     /**
      * Register a script.
      *
