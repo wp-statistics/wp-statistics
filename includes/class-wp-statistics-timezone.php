@@ -335,6 +335,10 @@ class TimeZone
 
         $diffMinutes = round(($currentDate->getTimestamp() - $visitDate->getTimestamp()) / 60);
 
+        if ($diffMinutes < 1) {
+            return 'now';
+        }
+
         if ($diffMinutes >= 1440) {
             return $originalDate;
         }
