@@ -1,3 +1,11 @@
+= 14.12.1 - 2025-01-13 =
+- **New:** Added "Last Year" filter to metaboxes on the Overview page for yearly data.
+- **Enhancement:** Improved IP/Hash filter on the Visitor Insights page.
+- **Fix:** Resolved number formatting in the "Global Visitor Distribution" widget.
+- **Fix:** Fixed tracker detection issue for sites in subfolders.
+- **Fix:** Addressed compatibility issue with "Discount Rules for WooCommerce."
+- **Fix:** Corrected timezone mismatch in the "Traffic Summary" widget.
+
 14.12 - 2025-01-05
 - **New:** Introduced the "Source Categories" report under the "Referrals" section.
 - **New:** Introduced the "Social Media" report under the "Referrals" section.
