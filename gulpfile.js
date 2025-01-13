@@ -63,6 +63,7 @@ function tineMCE(done) {
 // Gulp Frontend Script
 function frontScripts(done) {
     const jsFiles = [
+        './assets/dev/javascript/user-tracker.js',
         './assets/dev/javascript/tracker.js',
     ];
 
@@ -72,6 +73,7 @@ function frontScripts(done) {
         .pipe(replace("\\t", ''))
         .pipe(replace("  ", ''))
         .pipe(uglify())
+        .pipe(concat('tracker.js'))
         .pipe(gulp.dest('./assets/js/'));
 
     done()
@@ -142,6 +144,7 @@ function addEsnextSuffix(filePath) {
 
 function revertToES6(cb) {
     const jsFiles = [
+        './assets/js/user-tracker.js',
         './assets/js/tracker.js',
     ];
 
