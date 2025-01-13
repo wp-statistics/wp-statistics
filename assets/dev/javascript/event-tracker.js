@@ -1,6 +1,8 @@
 const WpStatisticsEventTracker = {
     // Prevent init() from running more than once
     hasEventsInitializedOnce: false,
+    downloadTracker: false,
+    linkTracker: false,
 
     init: async function () {
         if (this.hasEventsInitializedOnce || WP_Statistics_Tracker_Object.isLegacyEventLoaded) {
@@ -8,13 +10,15 @@ const WpStatisticsEventTracker = {
         }
         this.hasEventsInitializedOnce = true;
 
-        // Check if WP_Statistics_Event_Object is available
-        if (typeof WP_Statistics_Event_Object === 'undefined' || !WP_Statistics_Event_Object.eventAjaxUrl) {
-            console.error('WP_Statistics_Event_Object is not available or missing ajaxUrl.');
-            return;
-        }
+        // Capture click and download events when DataPlus is active
+        if (typeof WP_Statistics_DataPlus_Event_Object !== 'undefined') {
+            this.downloadTracker = WP_Statistics_DataPlus_Event_Object.options.downloadTracker;
+            this.linkTracker = WP_Statistics_DataPlus_Event_Object.options.linkTracker;
 
-        this.captureEvent();
+            if (this.downloadTracker || this.linkTracker) {
+                this.captureEvent();
+            }
+        }
     },
 
     captureEvent: function () {
@@ -68,7 +72,7 @@ const WpStatisticsEventTracker = {
     extractLinkData(event, eventData) {
         const targetValue    = event.target.textContent;
         const targetUrl      = event.currentTarget.href;
-        const fileExtensions = WP_Statistics_Event_Object.fileExtensions;
+        const fileExtensions = WP_Statistics_DataPlus_Event_Object.fileExtensions;
         const fileExtRegex   = new RegExp('\\.(' + fileExtensions.join('|') + ')$', 'i');
 
         // Get target value from textContent
@@ -101,7 +105,7 @@ const WpStatisticsEventTracker = {
         // If it's a click event
         if (eventData.en === 'click') {
             // If link tracker is disabled, skip tracking
-            if (!WP_Statistics_Event_Object.linkTrackerEnabled) return false;
+            if (!this.linkTracker) return false;
 
             // If target link is internal, skip tracking
             if (targetUrl.toLowerCase().includes(window.location.host)) return false;
@@ -110,7 +114,7 @@ const WpStatisticsEventTracker = {
         // If it's a download event
         if (eventData.en === 'file_download') {
             // If download tracker is disabled, skip tracking
-            if (!WP_Statistics_Event_Object.downloadTrackerEnabled) return false;
+            if (!this.downloadTracker) return false;
         }
 
         return eventData;
@@ -123,7 +127,13 @@ const WpStatisticsEventTracker = {
         }
 
         try {
-            const response = await fetch(WP_Statistics_Event_Object.eventAjaxUrl, {
+            const ajaxUrl = WP_Statistics_DataPlus_Event_Object.eventAjaxUrl;
+
+            if (!ajaxUrl) {
+                throw new Error('DataPlus Event Ajax URL is not defined.');
+            }
+
+            const response = await fetch(ajaxUrl, {
                 method: 'POST',
                 body: formData
             });
