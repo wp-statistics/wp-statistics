@@ -29,6 +29,20 @@ class Assets
      */
     public static $plugin_dir = WP_STATISTICS_DIR;
 
+
+    /**
+     * Check if a script has been enqueued or not
+     *
+     * @param string $handle The script handle.
+     *
+     * @return bool
+     */
+    public static function isScriptEnqueued($handle)
+    {
+        $handle = self::getHandle($handle);
+        return wp_script_is($handle, 'enqueued');
+    }
+
     /**
      * Enqueue a script.
      *

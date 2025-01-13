@@ -3,7 +3,7 @@ const WpStatisticsEventTracker = {
     hasEventsInitializedOnce: false,
 
     init: async function () {
-        if (this.hasEventsInitializedOnce) {
+        if (this.hasEventsInitializedOnce || WP_Statistics_Tracker_Object.isLegacyEventLoaded) {
             return;
         }
         this.hasEventsInitializedOnce = true;

@@ -53,7 +53,7 @@ class Frontend
 
             /**
              * Handle the bypass ad blockers
-             * 
+             *
              * @todo This should be refactored in a service related to option. note that all the options with same functionality should be updated.
              */
             if (Option::get('bypass_ad_blockers', false)) {
@@ -85,7 +85,8 @@ class Frontend
                     'trackAnonymously'     => Helper::shouldTrackAnonymously(),
                     'isPreview'            => is_preview(),
                 ],
-                'jsCheckTime'  => apply_filters('wp_statistics_js_check_time_interval', 60000),
+                'jsCheckTime'           => apply_filters('wp_statistics_js_check_time_interval', 60000),
+                'isLegacyEventLoaded'   => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded
             );
 
             Assets::script('tracker', 'js/tracker.js', [], $jsArgs, true, Option::get('bypass_ad_blockers', false));
