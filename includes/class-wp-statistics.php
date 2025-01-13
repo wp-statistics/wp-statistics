@@ -1,9 +1,12 @@
 <?php
 
 use WP_Statistics\Async\CalculatePostWordsCount;
+use WP_Statistics\Async\DataMigrationProcess;
 use WP_Statistics\Async\GeolocationDatabaseDownloadProcess;
 use WP_Statistics\Async\IncompleteGeoIpUpdater;
+use WP_Statistics\Async\SchemaMigrationProcess;
 use WP_Statistics\Async\SourceChannelUpdater;
+use WP_Statistics\Async\TableOperationProcess;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsManager;
 use WP_Statistics\Service\Admin\ContentAnalytics\ContentAnalyticsManager;
 use WP_Statistics\Service\Admin\Geographic\GeographicManager;
