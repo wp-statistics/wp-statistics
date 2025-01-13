@@ -136,6 +136,9 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.12.2 =
+- **Fix:** Resolved Filters option incorrectly activating when changing the date filter in Referrals.
+
 = 14.12.1 - 2025-01-13 =
 - **New:** Added "Last Year" filter to metaboxes on the Overview page for yearly data.
 - **Enhancement:** Improved IP/Hash filter on the Visitor Insights page.
@@ -143,6 +146,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 - **Fix:** Fixed tracker detection issue for sites in subfolders.
 - **Fix:** Addressed compatibility issue with "Discount Rules for WooCommerce."
 - **Fix:** Corrected timezone mismatch in the "Traffic Summary" widget.
+
 
 = 14.12 - 2025-01-05 =
 - **New:** Introduced the "Source Categories" report under the "Referrals" section.
