@@ -496,7 +496,7 @@ class MigrationHandler
                 esc_html__('Thank you for keeping WP Statistics up-to-date!', 'wp-statistics')
             );
 
-            Notice::addFlashNotice($message, 'success');
+            Notice::addNotice($message, 'database_manual_migration_done', 'success');
             return;
         }
 
