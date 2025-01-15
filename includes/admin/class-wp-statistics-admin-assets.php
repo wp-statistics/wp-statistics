@@ -473,9 +473,11 @@ class Admin_Assets
             'apply'                        => __('Apply'),
             'reset'                        => __('Reset'),
             'loading'                      => __('Loading'),
-            'go_to_overview'                      => __('Go to Overview'),
+            'go_to_overview'               => __('Go to Overview'),
             'continue_to_next_step'        => __('Continue to Next Step', 'wp-statistics'),
             'action_required'              => __('Action Required', 'wp-statistics'),
+            'show_less'                    => __('Show less', 'wp-statistics'),
+            'show_more'                    => __('Show more', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 

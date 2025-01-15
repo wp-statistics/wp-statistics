@@ -31,6 +31,7 @@ function buildScripts(done) {
         './assets/dev/javascript/ajax.js',
         './assets/dev/javascript/placeholder.js',
         './assets/dev/javascript/helper.js',
+        './assets/dev/javascript/chart.js',
         './assets/dev/javascript/components/*.js',
         './assets/dev/javascript/meta-box.js',
         './assets/dev/javascript/meta-box/*.js',
