@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Decorators;
 
-class PageDecorator
+class ResourceDecorator
 {
     private $pageId;
 

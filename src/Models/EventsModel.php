@@ -39,7 +39,7 @@ class EventsModel extends BaseModel
         return $result;
     }
 
-    public function getRecentEvents($args = [])
+    public function getEvents($args = [])
     {
         $args = $this->parseArgs($args, [
             'page'          => 1,
@@ -49,7 +49,9 @@ class EventsModel extends BaseModel
             'post_type'     => '',
             'post_id'       => '',
             'date'          => '',
-            'decorator'     => ''
+            'decorator'     => '',
+            'order'         => 'date',
+            'order_by'      => 'DESC',
         ]);
 
         $query = Query::select('*')
@@ -57,7 +59,7 @@ class EventsModel extends BaseModel
             ->where('event_name', '=', $args['event_name'])
             ->where('events.page_id', '=', $args['post_id'])
             ->whereDate('events.date', $args['date'])
-            ->orderBy('date', 'DESC')
+            ->orderBy($args['order'], $args['order_by'])
             ->perPage($args['page'], $args['per_page'])
             ->decorate($args['decorator']);
 
