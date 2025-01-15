@@ -36,7 +36,8 @@ class DeviceUsageBreakdown extends BaseMetabox
         $args = $this->getFilters();
 
         $data = array_merge($this->dataProvider->getDeviceChartData($args), [
-            'tag_id' => 'wps-device-usage-breakdown'
+            'tag_id' => 'wps-device-usage-breakdown',
+            'url'    => WP_STATISTICS_URL . 'assets/images/no-data/vector-4.svg'
         ]);
 
         $output = View::load('metabox/horizontal-bar', ['data' => $data], true);

@@ -2694,13 +2694,12 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   margin: 20px 0 0;
 }
 @media (max-width: 1100px) {
-     .wps-tabs {
+     .tabbed_page .wps-tabs {
       width: 100%;
       white-space: nowrap;
       overflow-x: auto;
       flex-wrap: nowrap;
     }
-
 }
 
 @media (max-width: 669px) {

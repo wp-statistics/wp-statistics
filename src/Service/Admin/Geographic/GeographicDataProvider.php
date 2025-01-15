@@ -131,7 +131,7 @@ class GeographicDataProvider
             ]
         ));
 
-        $referrers = $this->visitorsModel->getReferrers(array_merge($this->args, ['not_null' => 'visitor.referred']));
+        $referrers = $this->visitorsModel->getReferrers($this->args);
 
         return [
             'stats'     => [

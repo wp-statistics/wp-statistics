@@ -97,6 +97,47 @@ class VisitorsModel extends BaseModel
         return $total;
     }
 
+    public function countHits($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'          => '',
+            'agent'         => '',
+            'platform'      => '',
+            'country'       => '',
+            'user_id'       => '',
+            'ip'            => '',
+            'logged_in'     => false,
+            'user_role'     => ''
+        ]);
+
+        $query = Query::select('SUM(visitor.hits) as total_visitors')
+            ->from('visitor')
+            ->where('agent', '=', $args['agent'])
+            ->where('location', '=', $args['country'])
+            ->where('platform', '=', $args['platform'])
+            ->where('user_id', '=', $args['user_id'])
+            ->where('ip', '=', $args['ip'])
+            ->whereDate('last_counter', $args['date']);
+
+        if ($args['logged_in'] === true) {
+            $query->where('visitor.user_id', '!=', 0);
+            $query->whereNotNull('visitor.user_id');
+
+            if (!empty($args['user_role'])) {
+                $query->join('usermeta', ['visitor.user_id', 'usermeta.user_id']);
+                $query->where('usermeta.meta_key', '=', "wp_capabilities");
+                $query->where('usermeta.meta_value', 'LIKE', "%{$args['user_role']}%");
+            }
+        }
+
+        $result = $query->getVar();
+        $total  = $result ? intval($result) : 0;
+
+        $total += $this->historicalModel->getViews($args);
+
+        return $total;
+    }
+
     public function countDailyVisitors($args = [])
     {
         $args = $this->parseArgs($args, [
@@ -356,6 +397,65 @@ class VisitorsModel extends BaseModel
         return $summary;
     }
 
+    public function getHitsSummary($args = [])
+    {
+        $summary = [
+            'today'      => [
+                'label' => esc_html__('Today', 'wp-statistics'),
+                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('today')]))
+            ],
+            'yesterday'  => [
+                'label' => esc_html__('Yesterday', 'wp-statistics'),
+                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('yesterday')]))
+            ],
+            'this_week'  => [
+                'label' => esc_html__('This week', 'wp-statistics'),
+                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('this_week')]))
+            ],
+            'last_week'  => [
+                'label' => esc_html__('Last week', 'wp-statistics'),
+                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('last_week')]))
+            ],
+            'this_month' => [
+                'label' => esc_html__('This month', 'wp-statistics'),
+                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('this_month')]))
+            ],
+            'last_month' => [
+                'label' => esc_html__('Last month', 'wp-statistics'),
+                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('last_month')]))
+            ],
+            '7days'      => [
+                'label' => esc_html__('Last 7 days', 'wp-statistics'),
+                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('7days')]))
+            ],
+            '30days'     => [
+                'label' => esc_html__('Last 30 days', 'wp-statistics'),
+                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('30days')]))
+            ],
+            '90days'     => [
+                'label' => esc_html__('Last 90 days', 'wp-statistics'),
+                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('90days')]))
+            ],
+            '6months'    => [
+                'label' => esc_html__('Last 6 months', 'wp-statistics'),
+                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('6months')]))
+            ],
+            'this_year'  => [
+                'label' => esc_html__('This year (Jan-Today)', 'wp-statistics'),
+                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('this_year')]))
+            ]
+        ];
+
+        if (!empty($args['include_total'])) {
+            $summary['total'] = [
+                'label' => esc_html__('Total', 'wp-statistics'),
+                'hits'  => $this->countHits(array_merge($args, ['ignore_date' => true, 'historical' => true]))
+            ];
+        }
+
+        return $summary;
+    }
+
     public function getVisitorsData($args = [])
     {
         $args = $this->parseArgs($args, [
@@ -593,6 +693,7 @@ class VisitorsModel extends BaseModel
             ->joinQuery($lastHitQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit', 'LEFT')
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
+            ->whereNotNull('visitor.referred')
             ->whereDate('visitor.last_counter', $args['date'])
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
@@ -601,17 +702,10 @@ class VisitorsModel extends BaseModel
         // When source_channel is `unassigned`, only get visitors without source_channel
         if ($args['source_channel'] === 'unassigned') {
             $query
-                ->whereNotNull('visitor.referred')
                 ->whereNull('visitor.source_channel');
         } else {
             $query
-                ->where('source_channel', '=', $args['source_channel'])
-                ->whereRaw("
-                    AND (
-                        (visitor.referred != '' AND visitor.referred IS NOT NULL)
-                        OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
-                    )
-                ");
+                ->where('source_channel', '=', $args['source_channel']);
         }
 
         $result = $query->getAll();
@@ -633,27 +727,15 @@ class VisitorsModel extends BaseModel
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
             ->whereDate('visitor.last_counter', $args['date'])
-            ->whereRaw("
-                AND (
-                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
-                    OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
-                )
-            ");
+            ->whereNotNull('visitor.referred');
 
         // When source_channel is `unassigned`, only get visitors without source_channel
         if ($args['source_channel'] === 'unassigned') {
             $query
-                ->whereNotNull('visitor.referred')
                 ->whereNull('visitor.source_channel');
         } else {
             $query
-                ->where('source_channel', '=', $args['source_channel'])
-                ->whereRaw("
-                    AND (
-                        (visitor.referred != '' AND visitor.referred IS NOT NULL)
-                        OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
-                    )
-                ");
+                ->where('source_channel', '=', $args['source_channel']);
         }
 
         return $query->getVar() ?? 0;
@@ -964,7 +1046,7 @@ class VisitorsModel extends BaseModel
             'taxonomy'      => '',
             'term'          => '',
             'referrer'      => '',
-            'not_null'      => '',
+            'not_null'      => 'visitor.referred',
             'group_by'      => 'visitor.referred',
             'page'          => 1,
             'per_page'      => 10,
@@ -984,15 +1066,19 @@ class VisitorsModel extends BaseModel
             ->where('visitor.location', '=', $args['country'])
             ->where('source_channel', 'IN', $args['source_channel'])
             ->whereNotNull($args['not_null'])
-            ->whereRaw("
+            ->groupBy($args['group_by'])
+            ->orderBy('visitors')
+            ->perPage($args['page'], $args['per_page']);
+
+        // If not null is not set, get all referrers including those coming with just UTM without any source
+        if (empty($args['not_null'])) {
+            $query->whereRaw("
                 AND (
                     (visitor.referred != '' AND visitor.referred IS NOT NULL)
                     OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '')
                 )
-            ")
-            ->groupBy($args['group_by'])
-            ->orderBy('visitors')
-            ->perPage($args['page'], $args['per_page']);
+            ");
+        }
 
         if (!empty($args['referrer'])) {
             $query->where('visitor.referred', 'LIKE', "%{$args['referrer']}%");
@@ -1047,7 +1133,7 @@ class VisitorsModel extends BaseModel
             'query_param'   => '',
             'taxonomy'      => '',
             'term'          => '',
-            'not_null'      => ''
+            'not_null'      => 'visitor.referred'
         ]);
 
         $filteredArgs = array_filter($args);
@@ -1057,13 +1143,17 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->where('source_channel', 'IN', $args['source_channel'])
-            ->whereNotNull($args['not_null'])
-            ->whereRaw("
+            ->whereNotNull($args['not_null']);
+
+        // If not null is not set, get all referrers including those coming with just UTM without any source
+        if (empty($args['not_null'])) {
+            $query->whereRaw("
                 AND (
                     (visitor.referred != '' AND visitor.referred IS NOT NULL)
                     OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '')
                 )
             ");
+        }
 
         // When date is passed, but all other parameters below are empty, compare the given date with `visitor.last_counter`
         if (!empty($args['date']) && !array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
@@ -1117,10 +1207,7 @@ class VisitorsModel extends BaseModel
     public function getDailyStats($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'          => [
-                'from' => date('Y-m-d', strtotime('-30 days')),
-                'to'   => date('Y-m-d'),
-            ],
+            'date'          => DateRange::get('30days'),
             'post_type'     => '',
             'post_id'       => '',
             'resource_type' => '',

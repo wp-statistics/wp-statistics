@@ -31,12 +31,12 @@ use WP_STATISTICS\Helper;
                     $key        = $data['keys'][$i];
                     $label      = $data['labels'][$i];
                     $visitors   = $data['visitors'][$i];
-                    $views      = $data['views'][$i];
+                    $hits       = $data['hits'][$i];
                 ?>
                     <tr>
                         <td><b><?php echo esc_html($label); ?></b></td>
                         <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get($key))); ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($visitors, 1)) ?></span></a></td>
-                        <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get($key))); ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($views, 1)) ?></span></a></td>
+                        <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get($key))); ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($hits, 1)) ?></span></a></td>
                     </tr>
                 <?php endfor; ?>
             </tbody>
@@ -45,7 +45,7 @@ use WP_STATISTICS\Helper;
 
     <?php
         if (!Option::get('time_report') && !in_array('enable_email_metabox_notice', get_option('wp_statistics_dismissed_notices', [])))  {
-            View::load("components/meta-box/enable-mail", ['url' => Menus::admin_url('settings')]);
+            View::load("components/meta-box/enable-mail");
         }
     ?>
 </div>

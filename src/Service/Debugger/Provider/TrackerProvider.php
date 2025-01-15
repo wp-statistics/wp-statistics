@@ -34,14 +34,6 @@ class TrackerProvider extends AbstractDebuggerProvider
     private $trackerStatus;
 
     /**
-     * RemoteRequest instance for checking tracker file
-     * Used to perform HEAD requests to verify file accessibility.
-     *
-     * @var RemoteRequest
-     */
-    private $remoteRequest;
-
-    /**
      * Arguments array for making remote requests.
      * Contains configuration options and parameters used when performing requests.
      *
@@ -58,8 +50,7 @@ class TrackerProvider extends AbstractDebuggerProvider
             'sslverify' => apply_filters('https_local_ssl_verify', false),
         ];
 
-        $this->trackerPath = Assets::getSrc('js/tracker.js', Option::get('bypass_ad_blockers'));
-        $this->remoteRequest = new RemoteRequest($this->trackerPath, 'HEAD', [], $this->args);
+        $this->trackerPath = Assets::getSrc('js/tracker.js', Option::get('bypass_ad_blockers'), WP_STATISTICS_URL);
         $this->initializeData();
     }
 
@@ -94,6 +85,13 @@ class TrackerProvider extends AbstractDebuggerProvider
 
         $remoteRequest->execute(false, false);
 
+        $response     = $remoteRequest->getResponse();
+        $responseCode = $remoteRequest->getResponseCode();
+
+        if ($this->isCloudflareChallenge($response) && 403 === $responseCode) {
+            return true;
+        }
+
         return $remoteRequest->isValidJsonResponse();
     }
 
@@ -114,7 +112,36 @@ class TrackerProvider extends AbstractDebuggerProvider
 
         $remoteRequest->execute(false, false);
 
+        $response     = $remoteRequest->getResponse();
+        $responseCode = $remoteRequest->getResponseCode();
+
+        if ($this->isCloudflareChallenge($response) && 403 === $responseCode) {
+            return true;
+        }
+
         return $remoteRequest->isValidJsonResponse();
+    }
+
+    /**
+     * Determines if a response indicates a Cloudflare challenge page.
+     * 
+     * @param mixed $response The response array containing headers
+     * @return bool True if response indicates a Cloudflare challenge, false otherwise
+     */
+    private function isCloudflareChallenge($response)
+    {
+        if (!isset($response['headers']) || !is_object($response['headers'])) {
+            return false;
+        }
+
+        $server = $response['headers']->offsetGet('server') ?? '';
+        if ($server !== 'cloudflare') {
+            return false;
+        }
+
+        $cfMitigated = $response['headers']->offsetGet('cf-mitigated') ?? '';
+
+        return $cfMitigated === 'challenge';
     }
 
     /**
@@ -139,7 +166,7 @@ class TrackerProvider extends AbstractDebuggerProvider
             'exists' => $fileExists,
             'path' => $this->trackerPath,
             'cacheStatus' => $this->getCacheStatus(),
-            'hitRecordingStatus' => $fileExists ? $this->checkHitRecording() : false
+            'hitRecordingStatus' => $this->checkHitRecording()
         ];
     }
 
@@ -151,9 +178,25 @@ class TrackerProvider extends AbstractDebuggerProvider
      */
     public function executeTrackerCheck()
     {
-        $this->remoteRequest->execute(false, false);
+        $parsedUrl = parse_url($this->trackerPath);
 
-        return $this->remoteRequest->isRequestSuccessful();
+        if (empty($parsedUrl['path'])) {
+            return false;
+        }
+
+        $urlPath        = $parsedUrl['path'];
+        $trimmedUrlPath = ltrim($urlPath, '/');
+
+        $wpContentPosition = strpos($trimmedUrlPath, 'wp-content/');
+
+        if ($wpContentPosition === false) {
+            return false;
+        }
+
+        $relativeFilePath = substr($trimmedUrlPath, $wpContentPosition + strlen('wp-content/'));
+        $absoluteFilePath = WP_CONTENT_DIR . '/' . $relativeFilePath;
+
+        return file_exists($absoluteFilePath) && is_readable($absoluteFilePath);
     }
 
     /**

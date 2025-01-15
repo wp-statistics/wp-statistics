@@ -6,7 +6,7 @@
     <div class="wps-map-info">
         <span>0</span>
         <span class="wps-map-info__color"></span>
-        <span><?php echo max($data['data']); ?></span>
+        <span><?php echo number_format(max($data['raw_data'])); ?></span>
     </div>
     <?php endif; ?>
 </div>

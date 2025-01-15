@@ -1,15 +1,11 @@
 <?php
+
 use WP_Statistics\Components\View;
+use WP_Statistics\Utils\Request;
 
-$activeFilters = 0;
+$activeFilters = Request::has('referrer');
 
-foreach ($_GET as $params_key => $params_item) {
-    if (in_array($params_key, ['referrer'])) {
-        $activeFilters++;
-    }
-}
-
-$classes[] = $activeFilters > 0 ? 'wp-referral-filter--active' : '';
+$classes[] = $activeFilters ? 'wp-referral-filter--active' : '';
 $classes[] = is_rtl() ? 'wps-pull-left' : 'wps-pull-right';
 ?>
 
@@ -19,7 +15,7 @@ $args = [
     'filter_type'   => 'referral',
     'classes'       => implode(' ', $classes),
     'activeFilters' => $activeFilters,
- ];
+];
 
 View::load("components/objects/header-filter-button", $args);
 ?>

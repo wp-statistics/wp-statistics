@@ -146,3 +146,25 @@
     margin-left:20%;
   }
 }
+
+.wps--no-data__container {
+  text-align: center;
+  padding: 14px 24px;
+  box-sizing: border-box;
+
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+
+  .wps--no-data__text {
+    margin-top: 16px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 16.41px;
+    color: #898A8E;
+  }
+
+}

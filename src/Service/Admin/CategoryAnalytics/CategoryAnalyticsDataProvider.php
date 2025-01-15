@@ -64,7 +64,7 @@ class CategoryAnalyticsDataProvider
         $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
 
         $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
-        $referrersData      = $this->visitorsModel->getReferrers(array_merge($this->args, ['not_null' => 'visitor.referred']));
+        $referrersData      = $this->visitorsModel->getReferrers($this->args);
 
         $performanceData    = [
             'posts'     => $this->postsModel->countPosts($this->args),
@@ -136,7 +136,7 @@ class CategoryAnalyticsDataProvider
         $topViewingAuthors    = $this->authorModel->getTopViewingAuthors($this->args);
 
         $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
-        $referrersData      = $this->visitorsModel->getReferrers(array_merge($this->args, ['not_null' => 'visitor.referred']));
+        $referrersData      = $this->visitorsModel->getReferrers($this->args);
 
         $performanceData = [
             'posts'     => $this->postsModel->countPosts($this->args),

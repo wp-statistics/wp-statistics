@@ -1,12 +1,21 @@
-<div class="o-wrap">
-     <?php if (!empty($data) && !empty($data['data'])) : ?>
+<?php
+
+use WP_Statistics\Components\View;
+
+?>
+<?php if (!empty($data) && !empty($data['data'])) : ?>
+    <div class="o-wrap">
         <div class="c-chart c-chart--limited-height">
             <canvas id="<?php echo esc_attr($data['tag_id']); ?>" height="0"></canvas>
         </div>
-    <?php else : ?>
-    <div class="o-wrap o-wrap--no-data wps-center">
-        <?php esc_html_e('No recent data available.', 'wp-statistics') ?>
     </div>
-    <?php endif; ?>
-</div>
+<?php else : ?>
+    <?php
+    View::load("components/objects/no-data", [
+        'url'   => $data['url'],
+        'title' => __('Data coming soon!', 'wp-statistics')
+    ]);
+    ?>
+<?php endif; ?>
+
 
