@@ -138,6 +138,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 == Changelog ==
 = 14.12.2 =
 - **Fix:** Resolved Filters option incorrectly activating when changing the date filter in Referrals.
+- **Fix:** Resolved issue where user data was lost upon logout for online users.
 - **Enhancement:** Updated the time display logic in Tracker Debugger to replace "0 minutes ago" with "Now".
 
 = 14.12.1 - 2025-01-13 =
