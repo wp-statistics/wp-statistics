@@ -441,6 +441,9 @@
       row-gap: 20px;
       margin-bottom: 24px;
       flex-wrap: wrap;
+      @media (max-width: 550px) {
+        column-gap: 40px;
+      }
     }
 
     .wps-postbox-chart--item {
