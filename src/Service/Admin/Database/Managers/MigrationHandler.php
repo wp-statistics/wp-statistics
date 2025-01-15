@@ -497,7 +497,6 @@ class MigrationHandler
             );
 
             Notice::addFlashNotice($message, 'success');
-            Option::update('migration_status_detail', null);
             return;
         }
 
