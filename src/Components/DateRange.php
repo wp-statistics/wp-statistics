@@ -502,7 +502,7 @@ class DateRange
         $startOfWeek    = DateTime::getStartOfWeek('number');
         $dateFormat     = DateTime::$defaultDateFormat;
 
-        $today = new \DateTime();
+        $today = new \DateTime('now', DateTime::getTimezone());
         $today->modify("-{$weeksAgo} weeks");
 
         // Calculate the start of the week

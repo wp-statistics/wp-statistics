@@ -41,7 +41,8 @@ class ReferralsDataProvider
     {
         $sourceCategories = $this->visitorsModel->getReferrers(array_merge($this->args, [
             'group_by' => ['visitor.source_channel'],
-            'decorate' => true
+            'decorate' => true,
+            'not_null' => false
         ]));
 
         $total = 0;

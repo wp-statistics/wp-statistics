@@ -298,7 +298,7 @@ class Admin_Assets
 
         // Add RangeDatePicker
         if (Menus::in_plugin_page() || Menus::in_page('pages') || in_array($screen_id, array('dashboard'))) {
-            wp_enqueue_script(self::$prefix . '-moment', self::url('datepicker/moment.min.js'), array(), "2.30.1", ['in_footer' => true]);
+            wp_enqueue_script(self::$prefix . '-moment', self::url('datepicker/moment.min.js'), array(), "2.30.2", ['in_footer' => true]);
             wp_enqueue_script(self::$prefix . '-daterangepicker', self::url('datepicker/daterangepicker.min.js'), array(), "1.13.2", ['in_footer' => true]);
         }
 
@@ -329,8 +329,10 @@ class Admin_Assets
             'gutenberg'      => (Helper::is_gutenberg() ? 1 : 0),
             'more_btn'       => (apply_filters('wp_statistics_meta_box_more_button', true) ? 1 : 0),
             'wp_date_format' => Helper::getDefaultDateFormat(),
-            'track_users'    => Option::get('visitors_log') ? 1 : 0
+            'track_users'    => Option::get('visitors_log') ? 1 : 0,
+            'wp_timezone'    => DateTime::getTimezone()->getName()
         );
+
 
         // WordPress Current Page
         $list['page'] = array(
@@ -417,6 +419,7 @@ class Admin_Assets
             'str_6months'                  => __('Last 6 months', 'wp-statistics'),
             'str_year'                     => __('This year', 'wp-statistics'),
             'str_this_year'                => __('This year', 'wp-statistics'),
+            'str_last_year'                => __('Last year', 'wp-statistics'),
             'str_back'                     => __('Go Back', 'wp-statistics'),
             'str_custom'                   => __('Select Custom Range...', 'wp-statistics'),
             'str_more'                     => __('Additional Date Ranges', 'wp-statistics'),

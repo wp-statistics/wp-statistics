@@ -178,20 +178,25 @@ class TrackerProvider extends AbstractDebuggerProvider
      */
     public function executeTrackerCheck()
     {
-        $url = $this->trackerPath;
+        $parsedUrl = parse_url($this->trackerPath);
 
-        $parsed_url = parse_url($url);
-        $relative_path = $parsed_url['path'];
-
-        $relative_path = str_replace('/wp-content/', '', $relative_path);
-
-        $file_path = WP_CONTENT_DIR . '/' . $relative_path;
-
-        if (file_exists($file_path) && is_readable($file_path)) {
-            return true;
+        if (empty($parsedUrl['path'])) {
+            return false;
         }
 
-        return false;
+        $urlPath        = $parsedUrl['path'];
+        $trimmedUrlPath = ltrim($urlPath, '/');
+
+        $wpContentPosition = strpos($trimmedUrlPath, 'wp-content/');
+
+        if ($wpContentPosition === false) {
+            return false;
+        }
+
+        $relativeFilePath = substr($trimmedUrlPath, $wpContentPosition + strlen('wp-content/'));
+        $absoluteFilePath = WP_CONTENT_DIR . '/' . $relativeFilePath;
+
+        return file_exists($absoluteFilePath) && is_readable($absoluteFilePath);
     }
 
     /**

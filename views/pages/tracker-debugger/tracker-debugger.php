@@ -11,7 +11,7 @@ $currentDate = TimeZone::getCurrentDate();
 $excludedIPs        = $options->getExcludedIPs();
 $userRoleExclusions = $options->getUserRoleExclusions();
 $excludedUrls       = $options->getExcludedUrls();
-$includCountries    = $options->getIncludedCountries();
+$includeCountries   = $options->getIncludedCountries();
 $excludeCountries   = $options->getExcludedCountries();
 $trackerStatus      = $tracker->getTrackerStatus();
 ?>
@@ -40,13 +40,13 @@ $trackerStatus      = $tracker->getTrackerStatus();
                 $trackerData = [
                     'svg'         => $trackerIcon,
                     'title'       => __('Tracker.js Not Found', 'wp-statistics'),
-                    'description' => __('The tracker.js file is missing or incorrectly placed.', 'wp-statistics'),
-                    'content'     => __('Oops! We couldn\'t find your tracker.js file. This means it might be missing or the path is incorrect.', 'wp-statistics'),
+                    'description' => esc_html__('The tracker.js file is missing or incorrectly placed.', 'wp-statistics'),
+                    'content'     => sprintf('<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s', esc_html__('The tracker.js file is missing or incorrectly placed.', 'wp-statistics'), esc_html__('Oops! We couldn\'t find your tracker.js file. This means it might be missing or the path is incorrect.', 'wp-statistics')),
                     'suggestion'  => sprintf(__('Please ensure that the tracker.js file exists in the correct directory. Refer to our <a href="%s" target="_blank" rel="noopener">documentation</a> for guidance.', 'wp-statistics'), esc_url(WP_STATISTICS_SITE_URL . '/resources/troubleshoot-the-tracker/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')),
                     'status'      => 'danger'
                 ];
 
-                if (! empty($trackerStatus['exists'])) {
+                if (!empty($trackerStatus['exists'])) {
                     $trackerData = [
                         'svg'         => $trackerIcon,
                         'title'       => __('Tracker.js Status: Loaded Successfully', 'wp-statistics'),
@@ -71,9 +71,9 @@ $trackerStatus      = $tracker->getTrackerStatus();
                         'svg'         => $trackerIcon,
                         'title'       => esc_html__('Hit Endpoint Status: Unexpected Response', 'wp-statistics'),
                         'description' => esc_html__('Hit recording is not responding as expected.', 'wp-statistics'),
-                        'content'     => '',
+                        'content'     => sprintf('<div class="wps-mb-16 wps-debugger-desc">%1$s</div>', esc_html__('Hit recording is not responding as expected.', 'wp-statistics')),
                         'suggestion'  => sprintf(
-                            /* %1$s: documentation URL */
+                        /* %1$s: documentation URL */
                             esc_html__('Please check your security plugins, firewall settings, or any third-party services that might be affecting the request. You may need to review your configuration or whitelist the endpoint. For more information, please visit our %1$s.', 'wp-statistics'),
                             '<a href="https://wp-statistics.com/resources/troubleshoot-the-tracker/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger" target="_blank">' . esc_html__('troubleshooting guide', 'wp-statistics') . '</a>'
                         ),
@@ -101,7 +101,7 @@ $trackerStatus      = $tracker->getTrackerStatus();
                     'svg'         => $dntIcon,
                     'title'       => __('Do Not Track (DNT) is Enabled', 'wp-statistics'),
                     'description' => esc_html__('Some visitors are excluded from tracking based on their browser settings.', 'wp-statistics'),
-                    'content'     => __('Your site respects visitors\' browser settings to not track their web activity. This may result in a lower number of tracked visitors.', 'wp-statistics'),
+                    'content'     => sprintf('<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s', esc_html__('Some visitors are excluded from tracking based on their browser settings.', 'wp-statistics'), esc_html__('Your site respects visitors\' browser settings to not track their web activity. This may result in a lower number of tracked visitors.', 'wp-statistics')),
                     'suggestion'  => sprintf(__('For more details, visit our DNT feature <a href="%s" target="_blank" rel="noopener">documentation</a>.', 'wp-statistics'), esc_url(WP_STATISTICS_SITE_URL . '/resources/do-not-track/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')),
                     'status'      => 'info'
                 ];
@@ -126,8 +126,8 @@ $trackerStatus      = $tracker->getTrackerStatus();
                     'svg'         => $atIcon,
                     'title'       => __('Consent Plugin Integration is Active', 'wp-statistics'),
                     'description' => esc_html__('Visitors must give consent before tracker.js runs.', 'wp-statistics'),
-                    'content'     => __('Tracker.js will not run until visitors provide consent. This may result in up to 50% of visitors not being tracked.', 'wp-statistics'),
-                    'suggestion' => sprintf(
+                    'content'     => sprintf('<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s', esc_html__('Visitors must give consent before tracker.js runs.', 'wp-statistics'), esc_html__('Tracker.js will not run until visitors provide consent. This may result in up to 50% of visitors not being tracked.', 'wp-statistics')),
+                    'suggestion'  => sprintf(
                         __('Consider enabling "Anonymous Tracking" to track all visitors anonymously. Learn more in our <a target="_blank" href="%s">Consent Integration guide</a>.', 'wp-statistics'),
                         esc_url(WP_STATISTICS_SITE_URL . '/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')
                     ),
@@ -146,7 +146,7 @@ $trackerStatus      = $tracker->getTrackerStatus();
                     ];
                 }
 
-                if (! empty($options->getOption('anonymous_tracking', false))) {
+                if (!empty($options->getOption('anonymous_tracking', false))) {
                     $atData = [
                         'svg'         => $atIcon,
                         'title'       => __('Anonymous Tracking is Enabled', 'wp-statistics'),
@@ -174,8 +174,8 @@ $trackerStatus      = $tracker->getTrackerStatus();
                 $adBlockerData = [
                     'svg'         => $adBlockerIcon,
                     'title'       => __('Ad-blocker Bypass is Disabled', 'wp-statistics'),
-                    'description' => __('Visitors using ad-blockers may prevent tracker.js from loading, affecting your analytics data.', 'wp-statistics'),
-                    'content'     => '',
+                    'description' => esc_html__('Visitors using ad-blockers may prevent tracker.js from loading, affecting your analytics data.', 'wp-statistics'),
+                    'content'     => sprintf('<div class="wps-mb-16 wps-debugger-desc">%1$s</div>', esc_html__('Visitors using ad-blockers may prevent tracker.js from loading, affecting your analytics data.', 'wp-statistics')),
                     'suggestion'  => esc_html__('Enable the "Bypass Ad-blocker" option to ensure tracker.js loads for all visitors. Refer to our Ad-blocker Bypass guide for instructions.', 'wp-statistics'),
                     'status'      => 'info'
                 ];
@@ -185,7 +185,7 @@ $trackerStatus      = $tracker->getTrackerStatus();
                         'svg'         => $adBlockerIcon,
                         'title'       => __('Ad-blocker Bypass is Enabled', 'wp-statistics'),
                         'description' => esc_html__('Tracker.js is working for all visitors, including those using ad-blockers.', 'wp-statistics'),
-                        'content'     => esc_html__('Tracker.js is configured to load even for visitors using ad-blockers.', 'wp-statistics'),
+                        'content'     => sprintf('<div class="wps-debugger-desc">%1$s</div>%2$s', esc_html__('Tracker.js is working for all visitors, including those using ad-blockers.', 'wp-statistics'), esc_html__('Tracker.js is configured to load even for visitors using ad-blockers.', 'wp-statistics')),
                         'status'      => 'success'
                     ];
                 }
@@ -204,8 +204,8 @@ $trackerStatus      = $tracker->getTrackerStatus();
                 $cacheData = [
                     'svg'         => $cacheIcon,
                     'title'       => __('No Known Caching Plugins Detected', 'wp-statistics'),
-                    'description' => __('No recognized caching plugins were detected.', 'wp-statistics'),
-                    'content'     => __('We didn\'t detect any known caching plugins. If you\'re using a caching solution that\'s not recognized, it might still affect tracker.js.', 'wp-statistics'),
+                    'description' => esc_html__('No recognized caching plugins were detected.', 'wp-statistics'),
+                    'content'     => sprintf('<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s', esc_html__('No recognized caching plugins were detected.', 'wp-statistics'), esc_html__('We didn\'t detect any known caching plugins. If you\'re using a caching solution that\'s not recognized, it might still affect tracker.js.', 'wp-statistics')),
                     'suggestion'  => __('Review your caching settings and consult our Caching guide for more information.', 'wp-statistics'),
                     'status'      => 'success'
                 ];
@@ -224,8 +224,13 @@ $trackerStatus      = $tracker->getTrackerStatus();
                     $cacheData = [
                         'svg'         => $cacheIcon,
                         'title'       => __('Caching Plugins Detected', 'wp-statistics'),
-                        'description' => __('We have detected the following caching plugin(s) active on your site:', 'wp-statistics'),
-                        'content'     => $filterListsHtml . __('Caching may interfere with tracker.js loading properly.', 'wp-statistics'),
+                        'description' => esc_html__('We have detected the following caching plugin(s) active on your site:', 'wp-statistics'),
+                        'content'     => sprintf(
+                            '<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s<div>%3$s</div>',
+                            esc_html__('We have detected the following caching plugin(s) active on your site:', 'wp-statistics'),
+                            $filterListsHtml,
+                            esc_html__('Caching may interfere with tracker.js loading properly.', 'wp-statistics')
+                        ),
                         'suggestion'  => esc_html__('Configure your caching plugin to exclude tracker.js from being cached. See our Caching Compatibility guide for detailed steps.', 'wp-statistics'),
                         'status'      => 'info'
                     ];
@@ -235,35 +240,35 @@ $trackerStatus      = $tracker->getTrackerStatus();
 
                 $itemFilters = [];
 
-                if (! empty($excludedIPs)) {
+                if (!empty($excludedIPs)) {
                     $itemFilters[] = [
                         'title'   => __('IP Addresses', 'wp-statistics'),
                         'content' => $options->formatValuesAsHtml($excludedIPs, 'p'),
                     ];
                 }
 
-                if (! empty($userRoleExclusions)) {
+                if (!empty($userRoleExclusions)) {
                     $itemFilters[] = [
                         'title'   => __('Roles', 'wp-statistics'),
                         'content' => $options->formatValuesAsHtml($userRoleExclusions, 'p'),
                     ];
                 }
 
-                if (! empty($includCountries)) {
+                if (!empty($includeCountries)) {
                     $itemFilters[] = [
                         'title'   => __('Include Countries', 'wp-statistics'),
-                        'content' => $options->formatValuesAsHtml($includCountries, 'p'),
+                        'content' => $options->formatValuesAsHtml($includeCountries, 'p'),
                     ];
                 }
 
-                if (! empty($excludeCountries)) {
+                if (!empty($excludeCountries)) {
                     $itemFilters[] = [
                         'title'   => __('Exclude Countries', 'wp-statistics'),
                         'content' => $options->formatValuesAsHtml($excludeCountries, 'p'),
                     ];
                 }
 
-                if (! empty($excludedUrls)) {
+                if (!empty($excludedUrls)) {
                     $itemFilters[] = [
                         'title'   => __('URLs', 'wp-statistics'),
                         'content' => $options->formatValuesAsHtml($excludedUrls, 'p'),
@@ -281,8 +286,11 @@ $trackerStatus      = $tracker->getTrackerStatus();
                 $filterData = [
                     'svg'         => $filtersIcon,
                     'title'       => __('No Filters or Exceptions are Applied', 'wp-statistics'),
-                    'description' => __('All visitors are being tracked without exclusions.', 'wp-statistics'),
-                    'content'     => '',
+                    'description' => esc_html__('All visitors are being tracked without exclusions.', 'wp-statistics'),
+                    'content'     => sprintf(
+                        '<div class="wps-mb-16 wps-debugger-desc">%s</div>',
+                        esc_html__('All visitors are being tracked without exclusions.', 'wp-statistics')
+                    ),
                     'suggestion'  => sprintf(
                         __('Review these filters in Settings > Filtering & Exceptions. Update if necessary. <a target="_blank" href="%s">Learn more</a>.', 'wp-statistics'),
                         esc_url(WP_STATISTICS_SITE_URL . '/resources/filtering-exceptions-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')
@@ -335,7 +343,7 @@ $trackerStatus      = $tracker->getTrackerStatus();
                         'svg'         => $errorIcon,
                         'title'       => __('PHP Errors Detected in tracker.js', 'wp-statistics'),
                         'description' => esc_html__('We found the following error:', 'wp-statistics'),
-                        'content'     => $filterListsHtml,
+                        'content'     => sprintf('<div class="wps-mb-16 wps-debugger-desc">%1$s</div>', esc_html__('We found the following error:', 'wp-statistics')),
                         'suggestion'  => esc_html__('Suggestion: Please refer to our Error Troubleshooting guide to resolve these issues.', 'wp-statistics'),
                         'status'      => 'warning'
                     ];
@@ -355,50 +363,50 @@ $trackerStatus      = $tracker->getTrackerStatus();
                 <div class="o-table-wrapper">
                     <table width="100%" class="o-table wps-new-table">
                         <thead>
-                            <tr>
-                                <th class="wps-pd-l">
-                                    <?php echo esc_html_e('Timestamp', 'wp-statistics'); ?>
-                                </th>
-                                <th class="wps-pd-l">
-                                    <?php echo esc_html_e('Visitor Information', 'wp-statistics'); ?>
-                                </th>
-                                <th class="wps-pd-l start">
-                                    <?php echo esc_html_e('Location', 'wp-statistics'); ?>
-                                </th>
-                            </tr>
+                        <tr>
+                            <th class="wps-pd-l">
+                                <?php echo esc_html_e('Timestamp', 'wp-statistics'); ?>
+                            </th>
+                            <th class="wps-pd-l">
+                                <?php echo esc_html_e('Visitor Information', 'wp-statistics'); ?>
+                            </th>
+                            <th class="wps-pd-l start">
+                                <?php echo esc_html_e('Location', 'wp-statistics'); ?>
+                            </th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($visitors->getLatestVisitors() as $visitor) : ?>
-                                <tr>
-                                    <td class="wps-pd-l">
-                                        <?php
-                                        $visitDate = new DateTime($visitor->getLastView(true));
-                                        echo esc_html(TimeZone::getElapsedTime($currentDate, $visitDate, $visitor->getLastView()));
-                                        ?>
-                                    </td>
-                                    <td class="wps-pd-l">
-                                        <?php View::load("components/visitor-information", ['visitor' => $visitor]); ?>
-                                    </td>
-                                    <td class="wps-pd-l">
-                                        <div class="wps-country-flag wps-ellipsis-parent">
-                                            <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getLocation()->getCountryCode()])) ?>" class="wps-tooltip tooltipstered">
-                                                <img src="<?php echo esc_url($visitor->getLocation()->getCountryFlag()) ?>" alt="Hesse, Frankfurt am Main" width="15" height="15">
-                                            </a>
-                                            <?php $location = Admin_Template::locationColumn($visitor->getLocation()->getCountryCode(), $visitor->getLocation()->getRegion(), $visitor->getLocation()->getCity()); ?>
-                                            <span class="wps-ellipsis-text" title="<?php echo esc_attr($location) ?>"><?php echo esc_html($location) ?></span>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                            <?php if (count($visitors->getVisitor()) < 1) : ?>
-                                <tr>
-                                    <td colspan="3">
-                                        <div class="o-wrap o-wrap--no-data wps-center">
-                                            <?php esc_html_e('No recent data available.', 'wp-statistics'); ?>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <?php endif; ?>
+                        <?php foreach ($visitors->getLatestVisitors() as $visitor) : ?>
+                            <tr>
+                                <td class="wps-pd-l">
+                                    <?php
+                                    $visitDate = new DateTime($visitor->getLastView(true));
+                                    echo esc_html(TimeZone::getElapsedTime($currentDate, $visitDate, $visitor->getLastView()));
+                                    ?>
+                                </td>
+                                <td class="wps-pd-l">
+                                    <?php View::load("components/visitor-information", ['visitor' => $visitor]); ?>
+                                </td>
+                                <td class="wps-pd-l">
+                                    <div class="wps-country-flag wps-ellipsis-parent">
+                                        <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getLocation()->getCountryCode()])) ?>" class="wps-tooltip tooltipstered">
+                                            <img src="<?php echo esc_url($visitor->getLocation()->getCountryFlag()) ?>" alt="Hesse, Frankfurt am Main" width="15" height="15">
+                                        </a>
+                                        <?php $location = Admin_Template::locationColumn($visitor->getLocation()->getCountryCode(), $visitor->getLocation()->getRegion(), $visitor->getLocation()->getCity()); ?>
+                                        <span class="wps-ellipsis-text" title="<?php echo esc_attr($location) ?>"><?php echo esc_html($location) ?></span>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        <?php if (count($visitors->getVisitor()) < 1) : ?>
+                            <tr>
+                                <td colspan="3">
+                                    <div class="o-wrap o-wrap--no-data wps-center">
+                                        <?php esc_html_e('No recent data available.', 'wp-statistics'); ?>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endif; ?>
                         </tbody>
                     </table>
 
