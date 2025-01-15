@@ -122,6 +122,10 @@ class MigrationHandler
     {
         $manualTasks = Option::getOptionGroup('db', 'manual_migration_tasks', []);
 
+        if (! empty($manualTasks)) {
+            Option::saveOptionGroup('migrated', true, 'db');
+        }
+
         foreach ($versions as $version) {
             $migrations       = $mappings[$version];
             $hasDataMigration = self::hasDataMigration($migrations);
