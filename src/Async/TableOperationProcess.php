@@ -51,7 +51,7 @@ class TableOperationProcess extends WP_Background_Process
      */
     protected function complete()
     {
-        parent::complete();        
-        Option::update('check_database', false );
+        parent::complete();
+        Option::saveOptionGroup('check', false, 'db');
     }
 }

@@ -49,8 +49,16 @@ class TableHandler
             }
         }
 
-        Option::update('check_database', false);
-        Option::update('db_migrated', false);
+        Option::saveOptionGroup('check', false, 'db');
+        Option::saveOptionGroup('migrated', false, 'db');
+
+        $dismissedNotices = Option::get('dismissed_notices', []);
+
+        if (in_array('database_manual_migration_done', $dismissedNotices, true)) {
+            $dismissedNotices = array_diff($dismissedNotices, ['database_manual_migration_done']);
+
+            Option::update('dismissed_notices', $dismissedNotices);
+        }
     }
 
     /**

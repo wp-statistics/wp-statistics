@@ -44,7 +44,8 @@ class SchemaMigrationProcess extends WP_Background_Process
         }
 
         $instance->setMethod($method, $version);
-        $instance->$method($version);
+        $instance->$method();
+        $instance->setVersion();
 
         return false;
     }
@@ -57,6 +58,6 @@ class SchemaMigrationProcess extends WP_Background_Process
         parent::complete();
 
         Option::deleteOptionGroup('schema_migration_process_started', 'jobs');
-        Option::update('db_migrated', true);
+        Option::saveOptionGroup('migrated', true, 'db');
     }
 }

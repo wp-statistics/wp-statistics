@@ -72,7 +72,7 @@ class MigrationHandler
      */
     private static function isMigrationComplete()
     {
-        return Option::get('db_migrated', false) || Option::get('check_database', false);
+        return Option::getOptionGroup('db', 'migrated', false) || Option::getOptionGroup('db', 'check', false);
     }
 
     /**
@@ -82,7 +82,7 @@ class MigrationHandler
      */
     private static function collectMigrationData()
     {
-        $currentVersion  = Option::get('db_version', '0.0.0');
+        $currentVersion  = Option::getOptionGroup('db', 'version', '0.0.0');
         $allVersions     = [];
         $versionMappings = [];
 
@@ -120,7 +120,7 @@ class MigrationHandler
      */
     private static function processMigrations($versions, $mappings, $process)
     {
-        $manualTasks = Option::get('manual_migration_tasks', []);
+        $manualTasks = Option::getOptionGroup('db', 'manual_migration_tasks', []);
 
         foreach ($versions as $version) {
             $migrations       = $mappings[$version];
@@ -137,7 +137,7 @@ class MigrationHandler
             }
         }
 
-        Option::update('manual_migration_tasks', $manualTasks);
+        Option::saveOptionGroup('manual_migration_tasks', $manualTasks, 'db');
     }
 
     /**
@@ -208,12 +208,12 @@ class MigrationHandler
      */
     public static function showManualMigrationNotice()
     {
-        $manualTasks = Option::get('manual_migration_tasks', []);
+        $manualTasks = Option::getOptionGroup('db', 'manual_migration_tasks', []);
         if (empty($manualTasks)) {
             return;
         }
 
-        $details = Option::get('migration_status_detail', null);
+        $details = Option::getOptionGroup('db', 'migration_status_detail', null);
 
         if (! empty($details['status']) && 'failed' === $details['status']) {
             return;
@@ -221,7 +221,7 @@ class MigrationHandler
 
         $message = self::buildNoticeMessage();
 
-        Notice::addNotice($message, 'database_manual_migration', 'warning');
+        Notice::addNotice($message, 'database_manual_migration', 'warning', false);
     }
 
     /**
@@ -280,7 +280,7 @@ class MigrationHandler
             return;
         }
 
-        $manualTasks = Option::get('manual_migration_tasks', []);
+        $manualTasks = Option::getOptionGroup('db', 'manual_migration_tasks', []);
         if (empty($manualTasks)) {
             return;
         }
@@ -426,7 +426,7 @@ class MigrationHandler
      */
     private static function finalizeManualTasks($manualTasks, $process)
     {
-        Option::update('manual_migration_tasks', $manualTasks);
+        Option::saveOptionGroup('manual_migration_tasks', $manualTasks, 'db');
         Option::saveOptionGroup('data_migration_process_started', true, 'jobs');
         $process->save()->dispatch();
     }
@@ -454,7 +454,7 @@ class MigrationHandler
      */
     private static function handleMigrationStatusNotices()
     {
-        $details = Option::get('migration_status_detail', null);
+        $details = Option::getOptionGroup('db', 'migration_status_detail', null);
 
         if (empty($details['status'])) {
             return;
@@ -476,7 +476,7 @@ class MigrationHandler
                 esc_html__('Please wait while the process completes. You can continue working in the admin area.', 'wp-statistics')
             );
 
-            Notice::addNotice($message, 'database_manual_migration_progress', 'info');
+            Notice::addNotice($message, 'database_manual_migration_progress', 'info', false);
             return;
         }
 
@@ -518,7 +518,7 @@ class MigrationHandler
                 esc_html__('Contact Support', 'wp-statistics')
             );
 
-            Notice::addNotice($message, 'database_manual_migration_failed', 'error');
+            Notice::addNotice($message, 'database_manual_migration_failed', 'error', false);
         }
     }
 }

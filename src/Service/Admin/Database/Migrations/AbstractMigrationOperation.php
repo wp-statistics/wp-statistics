@@ -53,7 +53,7 @@ abstract class AbstractMigrationOperation extends AbstractDatabaseOperation
      */
     public function __construct()
     {
-        $this->currentVersion = Option::get('db_version', '0.0.0');
+        $this->currentVersion = Option::getOptionGroup('db', 'version', '0.0.0');
     }
 
     /**
@@ -73,7 +73,7 @@ abstract class AbstractMigrationOperation extends AbstractDatabaseOperation
      */
     public function setVersion()
     {
-        Option::update('db_version', $this->targetVersion);
+        Option::saveOptionGroup('version', $this->targetVersion, 'db');
     }
 
     /**
@@ -122,9 +122,9 @@ abstract class AbstractMigrationOperation extends AbstractDatabaseOperation
      */
     protected function setErrorStatus($message)
     {
-        Option::update('migration_status_detail', [
+        Option::saveOptionGroup('migration_status_detail', [
             'status' => 'failed',
             'message' => $message
-        ]);
+        ], 'db');
     }
 }

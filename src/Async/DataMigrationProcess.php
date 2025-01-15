@@ -25,9 +25,9 @@ class DataMigrationProcess extends WP_Background_Process
     public function is_processing()
     {
         if (get_site_transient($this->identifier . '_process_lock')) {
-            Option::update('migration_status_detail', [
+            Option::saveOptionGroup('migration_status_detail', [
                 'status' => 'progress'
-            ]);
+            ], 'db');
             return true;
         }
 
@@ -69,6 +69,7 @@ class DataMigrationProcess extends WP_Background_Process
 
             $instance->setMethod($method, $version);
             $instance->$method($version);
+            $instance->setVersion();
             return false;
         }
 
@@ -82,6 +83,7 @@ class DataMigrationProcess extends WP_Background_Process
 
         $instance->setMethod($method, $version);
         $task->execute();
+        $instance->setVersion();
 
         return false;
     }
@@ -94,9 +96,9 @@ class DataMigrationProcess extends WP_Background_Process
         parent::complete();
 
         Option::deleteOptionGroup('data_migration_process_started', 'jobs');
-        Option::update('db_migrated', true);
-        Option::update('migration_status_detail', [
+        Option::saveOptionGroup('migrated', true, 'db');
+        Option::saveOptionGroup('migration_status_detail', [
             'status' => 'done'
-        ]);
+        ], 'db');
     }
 }
