@@ -67,7 +67,8 @@ use WP_STATISTICS\Menus;
                     <td class="wps-pd-l">
                         <?php $page = $visitor->getLastPage(); ?>
                         <?php if (!empty($page)) :
-                            View::load("components/objects/external-link", ['url' => $page['link'], 'title' => $page['title']]);
+                            View::load("components/objects/external-link", ['url' => $page['link'], 'title' => $page['title'] ,'tooltip' => '/?utm_source=newsletter&utm_medium=email&utm_campaign
+                                                =spring_sale&utm_term=wordpress&utm_content=cta_button']);
                         else : ?>
                             <?php echo Admin_Template::UnknownColumn() ?>
                         <?php endif; ?>

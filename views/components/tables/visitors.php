@@ -84,7 +84,8 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
                                     $page = $visitor->getLastPage();
 
                                     if (!empty($page)) :
-                                        View::load("components/objects/external-link", ['url' => $page['link'], 'title' => $page['title']]);
+                                        View::load("components/objects/external-link", ['url' => $page['link'], 'title' => $page['title'] , 'tooltip' => '/?utm_source=newsletter&utm_medium=email&utm_campaign
+                                                =spring_sale&utm_term=wordpress&utm_content=cta_button']);
                                     else :
                                         echo Admin_Template::UnknownColumn();
                                     endif;

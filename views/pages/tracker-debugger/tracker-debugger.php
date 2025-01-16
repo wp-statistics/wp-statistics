@@ -389,7 +389,7 @@ $trackerStatus      = $tracker->getTrackerStatus();
                                 </td>
                                 <td class="wps-pd-l">
                                     <div class="wps-country-flag wps-ellipsis-parent">
-                                        <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getLocation()->getCountryCode()])) ?>" class="wps-tooltip tooltipstered">
+                                        <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getLocation()->getCountryCode()])) ?>" class="wps-tooltip ftooltipstertooltipstered">
                                             <img src="<?php echo esc_url($visitor->getLocation()->getCountryFlag()) ?>" alt="Hesse, Frankfurt am Main" width="15" height="15">
                                         </a>
                                         <?php $location = Admin_Template::locationColumn($visitor->getLocation()->getCountryCode(), $visitor->getLocation()->getRegion(), $visitor->getLocation()->getCity()); ?>
