@@ -86,6 +86,7 @@ $isPremium = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
         <?php if (apply_filters('wp_statistics_enable_help_icon', true)) { ?>
             <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/support?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" title="<?php esc_html_e('Help Center', 'wp-statistics'); ?>" class="support"></a>
         <?php } ?>
+        <a title="<?php esc_html_e('Notifications', 'wp-statistics'); ?>" class="wps-notifications js-wps-open-notification"></a>
         <div class="wps-adminHeader__mobileMenu">
             <input type="checkbox" id="wps-menu-toggle" class="hamburger-menu">
             <label for="wps-menu-toggle" class="hamburger-menu-container">
@@ -109,6 +110,11 @@ $isPremium = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
                 echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_settings_page', 'link_text' => __('Settings', 'wp-statistics'), 'icon_class' => 'settings', 'badge_count' => null], true);
                 echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_optimization_page', 'link_text' => __('Optimization', 'wp-statistics'), 'icon_class' => 'optimization', 'badge_count' => null], true);
                 ?>
+                <div class="wps-admin-header__menu-item">
+                    <a class="wps-notifications js-wps-open-notification">
+                        <span class="icon"></span><span><?php esc_html_e('Notifications', 'wp-statistics'); ?></span>
+                    </a>
+                </div>
                 <?php if (apply_filters('wp_statistics_enable_help_icon', true)) { ?>
                     <div>
                         <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/support?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" title="<?php esc_html_e('Help Center', 'wp-statistics'); ?>" class="help">
@@ -117,7 +123,6 @@ $isPremium = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
                         </a>
                     </div>
                 <?php } ?>
-
                 <?php if (apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) : ?>
                     <div class="wps-bundle">
                         <?php if (!$isPremium && !LicenseHelper::isValidLicenseAvailable()) : ?>
@@ -135,4 +140,5 @@ $isPremium = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
         </div>
     </div>
 </div>
+<?php View::load("components/notification/side-bar"); ?>
 <?php Modal::render('introduce-premium'); ?>
