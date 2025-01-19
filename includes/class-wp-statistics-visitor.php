@@ -7,6 +7,7 @@ use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Analytics\Referrals\Referrals;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Utils\Url;
 
 class Visitor
 {
@@ -426,7 +427,7 @@ class Visitor
         global $wpdb;
 
         // Default Params
-        $params = array('link' => '', 'title' => '');
+        $params = array('link' => '', 'title' => '', 'query' => '');
 
         $pageTable = DB::table('pages');
 
@@ -436,8 +437,9 @@ class Visitor
             ARRAY_A);
 
         if ($item !== null) {
-            $params         = Pages::get_page_info($item['id'], $item['type'], $item['uri']);
-            $linkWithParams = !empty($item['uri']) ? home_url() . $item['uri'] : false;
+            $params             = Pages::get_page_info($item['id'], $item['type'], $item['uri']);
+            $linkWithParams     = !empty($item['uri']) ? home_url() . $item['uri'] : '';
+            $params['query']    = Url::getParams($linkWithParams);
 
             // If URL has params, add it to the title (except for allowed params like UTM params, etc...)
             if (trim($params['link'], '/') !== trim($linkWithParams, '/') && !Helper::checkUrlForParams($linkWithParams, Helper::get_query_params_allow_list())) {

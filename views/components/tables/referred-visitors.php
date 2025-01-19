@@ -74,8 +74,11 @@ use WP_STATISTICS\Menus;
                                 <?php $page = $visitor->getFirstPage(); ?>
 
                                 <?php if (!empty($page)) :
-                                    View::load("components/objects/external-link", ['url' => $page['link'], 'title' => $page['title'], 'tooltip' => '/?utm_source=newsletter&utm_medium=email&utm_campaign
-                                    =spring_sale&utm_term=wordpress&utm_content=cta_button']);
+                                    View::load("components/objects/external-link", [
+                                        'url'       => $page['link'],
+                                        'title'     => $page['title'],
+                                        'tooltip'   => $page['query'] ? "?{$page['query']}" : ''
+                                    ]);
                                 else : ?>
                                     <?php echo Admin_Template::UnknownColumn() ?>
                                 <?php endif; ?>
