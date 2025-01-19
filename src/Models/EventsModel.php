@@ -22,7 +22,7 @@ class EventsModel extends BaseModel
 
         $query = Query::select('COUNT(*)')
             ->from('events')
-            ->where('event_name', '=', $args['event_name'])
+            ->where('event_name', 'IN', $args['event_name'])
             ->where('events.page_id', '=', $args['post_id'])
             ->whereDate('events.date', $args['date'])
             ->groupBy($args['group_by']);
@@ -56,7 +56,7 @@ class EventsModel extends BaseModel
 
         $query = Query::select('*')
             ->from('events')
-            ->where('event_name', '=', $args['event_name'])
+            ->where('event_name', 'IN', $args['event_name'])
             ->where('events.page_id', '=', $args['post_id'])
             ->whereDate('events.date', $args['date'])
             ->orderBy($args['order'], $args['order_by'])
@@ -91,7 +91,7 @@ class EventsModel extends BaseModel
                 "COUNT(*) AS count"
             ])
             ->from('events')
-            ->where('event_name', '=', $args['event_name'])
+            ->where('event_name', 'IN', $args['event_name'])
             ->where('events.page_id', '=', $args['post_id'])
             ->whereDate('events.date', $args['date'])
             ->orderBy('count', 'DESC')
@@ -121,7 +121,7 @@ class EventsModel extends BaseModel
 
         $subQuery = Query::select("JSON_UNQUOTE(JSON_EXTRACT(`event_data`, '$.target_url')) AS url")
             ->from('events')
-            ->where('event_name', '=', $args['event_name'])
+            ->where('event_name', 'IN', $args['event_name'])
             ->where('events.page_id', '=', $args['post_id'])
             ->whereDate('events.date', $args['date'])
             ->groupBy('url');
