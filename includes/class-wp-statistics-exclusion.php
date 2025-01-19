@@ -137,7 +137,7 @@ class Exclusion
     public static function exclusion_ajax()
     {
         // White list actions
-        if (Helper::isBypassAdBlockersRequest() || Request::compare('action', 'wp_statistics_data_plus_event')) {
+        if (Helper::isBypassAdBlockersRequest() || Request::compare('action', 'wp_statistics_event')) {
             return false;
         }
 
@@ -367,7 +367,7 @@ class Exclusion
             // Remove Query From Url
             $url = Helper::RemoveQueryStringUrl($_SERVER['SERVER_NAME'] . $requestUri);
 
-            if (!Helper::isBypassAdBlockersRequest() && !Request::compare('action', 'wp_statistics_data_plus_event') && stripos($url, 'wp-admin') !== false) {
+            if (!Helper::isBypassAdBlockersRequest() && !Request::compare('action', 'wp_statistics_event') && stripos($url, 'wp-admin') !== false) {
                 return true;
             }
         }
