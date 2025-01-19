@@ -98,7 +98,7 @@ class BackgroundProcessFactory
      */
     public static function batchUpdateSourceChannelForVisitors()
     {
-        @ini_set('memory_limit', '256M');
+        @ini_set('memory_limit', '-1');
 
         $updateIncompleteVisitorsSourceChannels = WP_Statistics()->getBackgroundProcess('update_visitors_source_channel');
 
