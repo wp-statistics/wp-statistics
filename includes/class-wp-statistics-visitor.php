@@ -440,11 +440,6 @@ class Visitor
             $params             = Pages::get_page_info($item['id'], $item['type'], $item['uri']);
             $linkWithParams     = !empty($item['uri']) ? home_url() . $item['uri'] : '';
             $params['query']    = Url::getParams($linkWithParams);
-
-            // If URL has params, add it to the title (except for allowed params like UTM params, etc...)
-            if (trim($params['link'], '/') !== trim($linkWithParams, '/') && !Helper::checkUrlForParams($linkWithParams, Helper::get_query_params_allow_list())) {
-                $params['title'] .= ' (' . trim($item['uri']) . ')';
-            }
         }
 
         return $params;
