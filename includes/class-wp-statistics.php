@@ -1,12 +1,9 @@
 <?php
 
 use WP_Statistics\Async\CalculatePostWordsCount;
-use WP_Statistics\Async\DataMigrationProcess;
 use WP_Statistics\Async\GeolocationDatabaseDownloadProcess;
 use WP_Statistics\Async\IncompleteGeoIpUpdater;
-use WP_Statistics\Async\SchemaMigrationProcess;
 use WP_Statistics\Async\SourceChannelUpdater;
-use WP_Statistics\Async\TableOperationProcess;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsManager;
 use WP_Statistics\Service\Admin\ContentAnalytics\ContentAnalyticsManager;
 use WP_Statistics\Service\Admin\Geographic\GeographicManager;
@@ -235,9 +232,9 @@ final class WP_Statistics
         $this->registerBackgroundProcess(IncompleteGeoIpUpdater::class, 'update_unknown_visitor_geoip');
         $this->registerBackgroundProcess(GeolocationDatabaseDownloadProcess::class, 'geolocation_database_download');
         $this->registerBackgroundProcess(SourceChannelUpdater::class, 'update_visitors_source_channel');
-        $this->registerBackgroundProcess(DataMigrationProcess::class, 'data_migration_process');
-        $this->registerBackgroundProcess(SchemaMigrationProcess::class, 'schema_migration_process');
-        $this->registerBackgroundProcess(TableOperationProcess::class, 'table_operations_process');
+        // $this->registerBackgroundProcess(DataMigrationProcess::class, 'data_migration_process');
+        // $this->registerBackgroundProcess(SchemaMigrationProcess::class, 'schema_migration_process');
+        // $this->registerBackgroundProcess(TableOperationProcess::class, 'table_operations_process');
     }
 
     /**
