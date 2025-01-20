@@ -10,7 +10,7 @@ foreach ($_GET as $params_key => $params_item) {
     }
 }
 $classes[] = 'wps-modal-filter';
-$classes[] = $activeFilters > 0 ? 'wp-visitors-filter--active' : '';
+$classes[] = $activeFilters > 0 ? 'wp-modal-filter--active' : '';
 $classes[] = is_rtl() ? 'wps-pull-left' : 'wps-pull-right';
 ?>
 <?php

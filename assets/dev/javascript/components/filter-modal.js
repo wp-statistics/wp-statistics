@@ -12,7 +12,7 @@ function FilterModal(options) {
         onReset: null,
     };
 
-    this.settings = { ...defaults, ...options };
+    this.settings = {...defaults, ...options};
     this.formSelector = this.settings.formSelector;
     this.filterContainerSelector = `${this.formSelector} ${this.settings.filterContainerSelector}`;
 
@@ -39,6 +39,8 @@ FilterModal.prototype.onFilterButtonClick = function (e) {
         this.settings.onOpen();
         setTimeout(() => this.setSelectedValues(), 300);
     }
+
+    this.toggleResetButton();
 };
 
 FilterModal.prototype.setSelectedValues = function () {
@@ -57,6 +59,8 @@ FilterModal.prototype.setSelectedValues = function () {
     });
 
     wps_js.select2();
+
+    this.toggleResetButton();
 
     // Call custom data load handler if provided
     if (typeof this.settings.onDataLoad === 'function') {
@@ -85,5 +89,24 @@ FilterModal.prototype.onResetFilterClick = function (e) {
         });
 
         window.location.href = url.toString();
+    }
+    this.toggleResetButton();
+};
+
+
+FilterModal.prototype.toggleResetButton = function () {
+    const resetButton = jQuery(this.settings.resetSelector);
+
+    if (!resetButton.length) {
+        return;
+    }
+    const urlParams = new URLSearchParams(window.location.search);
+    const ignoredParams = ['referrer', 'author_id', 'url'];
+    const result = ignoredParams.some(param => urlParams.has(param));
+
+    if (result) {
+        resetButton.removeAttr('disabled');
+    } else {
+        resetButton.attr('disabled', 'disabled');
     }
 };
