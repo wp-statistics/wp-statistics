@@ -141,6 +141,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 - **Fix:** Resolved issue where user data was lost upon logout for online users.
 - **Fix:** Resolved issue with updating source channel data on large dataset.
 - **Enhancement:** Updated the time display logic in Tracker Debugger to replace "0 minutes ago" with "Now".
+- **New:** Added a "URL" filter to Page Insight.
 
 = 14.12.1 - 2025-01-13 =
 - **New:** Added "Last Year" filter to metaboxes on the Overview page for yearly data.

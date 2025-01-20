@@ -73,6 +73,11 @@ class Ajax
             ],
             [
                 'class'  => $this,
+                'action' => 'page_insight_filters',
+                'public' => false
+            ],
+            [
+                'class'  => $this,
                 'action' => 'update_geoip_database',
                 'public' => false
             ],
@@ -464,6 +469,34 @@ class Ajax
             // Send Json
             wp_send_json($filter);
         }
+        exit;
+    }
+
+    /**
+     * Get Page Insight Filters.
+     */
+    public function page_insight_filters_action_callback()
+    {
+        if (Request::isFrom('ajax') and User::Access('read')) {
+
+            if ("pages" !== $_REQUEST['page']) {
+                exit;
+            }
+
+            check_ajax_referer('wp_rest', 'wps_nonce');
+
+            $filter = [];
+
+            $filter['users'] = [];
+            $users           = get_users(['has_published_posts' => true]);
+
+            foreach ($users as $key => $user) {
+                $filter['users'][esc_html($user->ID)] = esc_html($user->display_name) . ' #' . esc_html($user->ID);
+            }
+
+            wp_send_json($filter);
+        }
+
         exit;
     }
 
