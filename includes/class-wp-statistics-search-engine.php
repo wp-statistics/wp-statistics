@@ -44,6 +44,7 @@ class SearchEngine
             $engines[$searchEngine['identifier']] = [
                 'name'          => $searchEngine['name'],
                 'translated'    => $searchEngine['name'],
+                'logo_url'      => self::Asset() . $searchEngine['identifier'] . '.png',
                 'tag'           => $searchEngine['identifier']
             ];
         }
