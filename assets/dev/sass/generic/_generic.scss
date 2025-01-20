@@ -321,6 +321,11 @@
   line-height: 14.06px !important;
   margin-right: 8px;
   color: #393B3D !important;
+
+  .rtl &{
+    margin-right: 0;
+    margin-left: 8px;
+  }
 }
 
 // Customization - Add-on
