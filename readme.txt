@@ -136,10 +136,14 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.13 - 2025-**-** =
+- **Enhancement:** Removed the honeypot feature.
+
 = 14.12.2 - 2025-01-** =
 - **Fix:** Resolved Filters option incorrectly activating when changing the date filter in Referrals.
 - **Fix:** Resolved issue where user data was lost upon logout for online users.
 - **Fix:** Resolved issue with updating source channel data on large dataset.
+- **Fix:** Resolved referrals backward-compatibility issue with "REST API" add-on.
 - **Enhancement:** Updated the time display logic in Tracker Debugger to replace "0 minutes ago" with "Now".
 
 = 14.12.1 - 2025-01-13 =
