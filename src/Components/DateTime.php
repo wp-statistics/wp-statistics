@@ -20,7 +20,12 @@ class DateTime
      */
     public static function get($date = 'now', $format = 'Y-m-d')
     {
-        return DateTime::format($date, ['date_format' => $format]);
+        if (is_numeric($date)) {
+            $date = "@$date";
+        }
+
+        $dateTime = new \DateTime($date, self::getTimezone());
+        return $dateTime->format($format);
     }
 
     /**
