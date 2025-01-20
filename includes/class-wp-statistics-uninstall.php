@@ -11,17 +11,20 @@ class Uninstall
     {
         global $wpdb;
 
-        if (is_multisite()) {
+        // Remove plugin data if `delete_data_on_deactivation` option is enabled
+        if (Option::get('delete_data_on_deactivation')) {
+            if (is_multisite()) {
 
-            $blog_ids = $wpdb->get_col("SELECT `blog_id` FROM $wpdb->blogs");
-            foreach ($blog_ids as $blog_id) {
-                switch_to_blog($blog_id);
+                $blog_ids = $wpdb->get_col("SELECT `blog_id` FROM $wpdb->blogs");
+                foreach ($blog_ids as $blog_id) {
+                    switch_to_blog($blog_id);
+                    $this->wp_statistics_site_removal();
+                    restore_current_blog();
+                }
+
+            } else {
                 $this->wp_statistics_site_removal();
-                restore_current_blog();
             }
-
-        } else {
-            $this->wp_statistics_site_removal();
         }
     }
 
@@ -72,6 +75,7 @@ class Uninstall
 
         // Delete the user options.
         $wpdb->query("DELETE FROM {$wpdb->usermeta} WHERE `meta_key` LIKE 'wp_statistics%'");
+        $wpdb->query("DELETE FROM {$wpdb->postmeta} WHERE `meta_key` LIKE 'wp_statistics%'");
 
         // Drop the tables
         foreach (DB::table() as $tbl) {
