@@ -139,7 +139,6 @@ class Visitor
                 'user_id'       => $visitorProfile->getUserId(),
                 'UAString'      => ((Option::get('store_ua') == true && !Helper::shouldTrackAnonymously()) ? $visitorProfile->getHttpUserAgent() : ''),
                 'hits'          => 1,
-                'honeypot'      => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0),
             );
             $visitor = apply_filters('wp_statistics_visitor_information', $visitor);
 
@@ -152,7 +151,7 @@ class Visitor
             $visitor_id = $same_visitor->ID;
 
             // Update Same Visitor Hits
-            if ($args['exclusion_reason'] != 'Honeypot' and $args['exclusion_reason'] != 'Robot threshold') {
+            if ($args['exclusion_reason'] != 'Robot threshold') {
 
                 // Action Before Visitor Update
                 do_action('wp_statistics_update_visitor_hits', $visitor_id, $same_visitor);

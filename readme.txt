@@ -136,6 +136,9 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.13 - 2025-**-** =
+- **Enhancement:** Removed the honeypot feature.
+
 = 14.12.2 - 2025-01-** =
 - **Fix:** Resolved Filters option incorrectly activating when changing the date filter in Referrals.
 - **Fix:** Resolved issue where user data was lost upon logout for online users.
