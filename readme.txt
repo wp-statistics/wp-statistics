@@ -141,6 +141,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 - **Fix:** Resolved issue where user data was lost upon logout for online users.
 - **Fix:** Resolved issue with updating source channel data on large dataset.
 - **Fix:** Resolved referrals backward-compatibility issue with "REST API" add-on.
+- **Enhancement:** Show dates in reports in i18n format.
 - **Enhancement:** Updated the time display logic in Tracker Debugger to replace "0 minutes ago" with "Now".
 
 = 14.12.1 - 2025-01-13 =
