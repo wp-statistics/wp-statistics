@@ -1,5 +1,6 @@
-<?php 
-use WP_STATISTICS\Helper; 
+<?php
+
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Utils\Request;
@@ -10,12 +11,12 @@ use WP_Statistics\Components\View;
     <?php if (isset($backUrl, $backTitle)): ?>
         <a href="<?php echo esc_url($backUrl) ?>" title="<?php echo esc_html($backTitle) ?>" class="wps-previous-url"><?php echo esc_html($backTitle) ?></a>
     <?php endif ?>
-    
+
     <?php if (isset($title)): ?>
         <h2 class="wps_title <?php echo isset($install_addon_btn_txt) ? 'wps_plugins_page-title' : '' ?>">
             <?php if (isset($flagImage)): ?>
                 <img class="wps-flag" src="<?php echo esc_url($flagImage) ?>" alt="<?php echo esc_attr($title) ?>">
-             <?php endif ?>
+            <?php endif ?>
             <?php echo(isset($title) ? esc_attr($title) : (function_exists('get_admin_page_title') ? get_admin_page_title() : '')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?>
             <?php if (!empty($tooltip)) : ?>
                 <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
@@ -25,7 +26,7 @@ use WP_Statistics\Components\View;
                 <a href="<?php echo esc_attr($install_addon_btn_link); ?>" class="wps-install-addon-btn">
                     <span><?php echo esc_attr($install_addon_btn_txt); ?></span>
                 </a>
-             <?php endif; ?>
+            <?php endif; ?>
         </h2>
     <?php endif ?>
     <?php
@@ -78,7 +79,7 @@ use WP_Statistics\Components\View;
     <?php endif ?>
 
     <?php if (isset($hasDateRang) || isset($filters) || isset($searchBoxTitle) || isset($filter)): ?>
-        <div class="<?php echo (Menus::in_page('content-analytics') || Menus::in_page('category-analytics') || Menus::in_page('author-analytics') || Menus::in_page('download_tracker') || Menus::in_page('link_tracker')) && (Request::compare('type', 'single') || Request::compare('type', 'single-author') )? 'wps-head-filters wps-head-filters--custom' : 'wps-head-filters' ?>">
+        <div class="<?php echo (Menus::in_page('content-analytics') || Menus::in_page('category-analytics') || Menus::in_page('author-analytics') || Menus::in_page('download_tracker') || Menus::in_page('link_tracker')) && (Request::compare('type', 'single') || Request::compare('type', 'single-author')) ? 'wps-head-filters wps-head-filters--custom' : 'wps-head-filters' ?>">
             <?php
             if (!empty($hasDateRang)) {
                 include 'date.range.php';
