@@ -70,7 +70,7 @@ FilterModal.prototype.setSelectedValues = function () {
 
 FilterModal.prototype.onFormSubmit = function (e) {
     if (typeof this.settings.onSubmit === 'function') {
-        this.settings.onSubmit(targetForm);
+        this.settings.onSubmit(e);
     }
 
     return true;

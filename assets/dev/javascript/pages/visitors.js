@@ -2,6 +2,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     let inMemoryCache = null;
 
     new FilterModal({
+        formSelector: '#wp_statistics_visitors_filter_form',
         onOpen: handleVisitorsModalOpen,
         onSubmit: handleVisitorsModalSubmit,
     });
