@@ -42,6 +42,7 @@ class Uninstall
         delete_option('wp_statistics_referrals_detail');
         delete_option('wp_statistics_overview_page_ads');
         delete_option('wp_statistics_users_city');
+        delete_option('wp_statistics_activate_addons');
         delete_option('wp_statistics_disable_addons');
         delete_option('wp_statistics_disable_addons_notice');
         delete_option('wp_statistics_check_user_online');
@@ -50,6 +51,9 @@ class Uninstall
         delete_option('wp_statistics_dismissed_widgets');
         delete_option('wp_statistics_jobs');
         delete_option('wp_statistics_user_modals');
+        delete_option('wp_statistics_closed_widgets');
+        delete_option('wp_statistics_licenses');
+        delete_option('wp_statistics_tracker_js_errors');
 
         // Delete the transients.
         delete_transient('wps_top_referring');
