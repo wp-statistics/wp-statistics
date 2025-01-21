@@ -50,6 +50,7 @@ class EventsModel extends BaseModel
             'post_id'       => '',
             'date'          => '',
             'decorator'     => '',
+            'target'        => '',
             'order'         => 'date',
             'order_by'      => 'DESC',
         ]);
@@ -58,6 +59,7 @@ class EventsModel extends BaseModel
             ->from('events')
             ->where('event_name', 'IN', $args['event_name'])
             ->where('events.page_id', '=', $args['post_id'])
+            ->whereJson('event_data', 'target_url', '=', $args['target'])
             ->whereDate('events.date', $args['date'])
             ->orderBy($args['order'], $args['order_by'])
             ->perPage($args['page'], $args['per_page'])
