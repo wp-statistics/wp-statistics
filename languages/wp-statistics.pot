@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-01-20T11:36:45+00:00\n"
+"POT-Creation-Date: 2025-01-21T12:20:08+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-statistics\n"
@@ -4794,7 +4794,7 @@ msgstr ""
 msgid "Choose a Specific Search Engine Type"
 msgstr ""
 
-#: includes/class-wp-statistics.php:269
+#: includes/class-wp-statistics.php:272
 msgid "Unable to create the required upload directory at <code>%s</code>. Please check that the web server has write permissions for the parent directory. Alternatively, you can manually create the directory yourself. Please keep in mind that the GeoIP database may not work correctly if the directory structure is not properly set up."
 msgstr ""
 
@@ -4976,6 +4976,70 @@ msgstr ""
 
 #: src/Service/Admin/ContentAnalytics/Views/TabsView.php:57
 msgid "To view reports for all your custom post types, you need to have the Data Plus add-on."
+msgstr ""
+
+#: src/Service/Admin/Database/Managers/MigrationHandler.php:266
+msgid "Action Required: Upgrade Needed for WP Statistics"
+msgstr ""
+
+#: src/Service/Admin/Database/Managers/MigrationHandler.php:267
+msgid "The Database Upgrade process needs to be run to ensure WP Statistics works seamlessly with the latest updates."
+msgstr ""
+
+#: src/Service/Admin/Database/Managers/MigrationHandler.php:268
+msgid "Running this process will [specific benefits, e.g., “add new features” or “optimize data”]."
+msgstr ""
+
+#: src/Service/Admin/Database/Managers/MigrationHandler.php:270
+msgid "Run Process Now"
+msgstr ""
+
+#: src/Service/Admin/Database/Managers/MigrationHandler.php:272
+msgid "For more details, see our documentation."
+msgstr ""
+
+#: src/Service/Admin/Database/Managers/MigrationHandler.php:478
+msgid "WP Statistics: Process Running"
+msgstr ""
+
+#: src/Service/Admin/Database/Managers/MigrationHandler.php:479
+msgid "The Database Migration process is running in the background. This may take a few minutes depending on your site’s data size."
+msgstr ""
+
+#: src/Service/Admin/Database/Managers/MigrationHandler.php:480
+msgid "Please wait while the process completes. You can continue working in the admin area."
+msgstr ""
+
+#: src/Service/Admin/Database/Managers/MigrationHandler.php:497
+msgid "WP Statistics: Process Complete"
+msgstr ""
+
+#: src/Service/Admin/Database/Managers/MigrationHandler.php:498
+msgid "The Database Migration process has been completed successfully."
+msgstr ""
+
+#: src/Service/Admin/Database/Managers/MigrationHandler.php:499
+msgid "Your WP Statistics plugin is now fully updated and optimized. 🎉"
+msgstr ""
+
+#: src/Service/Admin/Database/Managers/MigrationHandler.php:500
+msgid "Thank you for keeping WP Statistics up-to-date!"
+msgstr ""
+
+#: src/Service/Admin/Database/Managers/MigrationHandler.php:517
+msgid "WP Statistics: Process Failed"
+msgstr ""
+
+#: src/Service/Admin/Database/Managers/MigrationHandler.php:518
+msgid "The Database Migration process encountered an error and could not be completed."
+msgstr ""
+
+#: src/Service/Admin/Database/Managers/MigrationHandler.php:519
+msgid "Error:"
+msgstr ""
+
+#: src/Service/Admin/Database/Managers/MigrationHandler.php:522
+msgid "Contact Support"
 msgstr ""
 
 #: src/Service/Admin/Devices/Views/SingleBrowserView.php:21
