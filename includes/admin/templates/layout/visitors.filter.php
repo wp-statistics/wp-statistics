@@ -75,10 +75,11 @@
                 </tr>
 
                 <!-- Submit Button -->
-                <tr class="wps-tb-window-footer">
-                    <td></td>
+                <tr>
                     <td>
-                        <button type="submit" class="button-primary"><?php esc_html_e('Filter', 'wp-statistics'); ?></button>
+                        <div class="wps-tb-window-footer">
+                            <button type="submit" class="button-primary"><?php esc_html_e('Filter', 'wp-statistics'); ?></button>
+                        </div>
                     </td>
                 </tr>
             </table>

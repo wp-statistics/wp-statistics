@@ -13,9 +13,13 @@
                         </select>
                     </td>
                 </tr>
-                <tr class="wps-tb-window-footer">
-                    <td><button type="button" class="wps-reset-filter wps-modal-reset-filter"><?php esc_html_e('Reset', 'wp-statistics'); ?></button></td>
-                    <td><button type="submit" class="button-primary"><?php esc_html_e('Apply Filter', 'wp-statistics'); ?></button></td>
+                <tr>
+                    <td>
+                        <div class="wps-tb-window-footer">
+                            <button type="button" class="wps-reset-filter wps-modal-reset-filter"><?php esc_html_e('Reset', 'wp-statistics'); ?></button>
+                            <button type="submit" class="button-primary"><?php esc_html_e('Apply Filter', 'wp-statistics'); ?></button>
+                        </div>
+                    </td>
                 </tr>
             </table>
         </div>

@@ -26,12 +26,12 @@
                     </td>
                 </tr>
 
-                <tr class="wps-tb-window-footer">
+                <tr>
                     <td>
-                        <button type="button" class="wps-reset-filter wps-modal-reset-filter"><?php esc_html_e('Reset', 'wp-statistics'); ?></button>
-                    </td>
-                    <td>
-                        <button type="submit" class="button-primary"><?php esc_html_e('Filter', 'wp-statistics'); ?></button>
+                        <div class="wps-tb-window-footer">
+                            <button type="button" class="wps-reset-filter wps-modal-reset-filter"><?php esc_html_e('Reset', 'wp-statistics'); ?></button>
+                            <button type="submit" class="button-primary"><?php esc_html_e('Apply filter', 'wp-statistics'); ?></button>
+                        </div>
                     </td>
                 </tr>
             </table>

@@ -100,13 +100,19 @@ FilterModal.prototype.toggleResetButton = function () {
     if (!resetButton.length) {
         return;
     }
+
     const urlParams = new URLSearchParams(window.location.search);
     const ignoredParams = ['referrer', 'author_id', 'url'];
-    const result = ignoredParams.some(param => urlParams.has(param));
 
-    if (result) {
+    // Check if any ignored parameter exists and has a non-empty value
+    const shouldEnableReset = ignoredParams.some(param => {
+        return urlParams.has(param) && urlParams.get(param).trim() !== '';
+    });
+
+    if (shouldEnableReset) {
         resetButton.removeAttr('disabled');
     } else {
         resetButton.attr('disabled', 'disabled');
     }
 };
+
