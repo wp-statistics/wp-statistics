@@ -50,6 +50,10 @@ body.toplevel_page_wps_overview_page {
   }
 }
 #wp-statistics-hourly-usage-widget{
+
+  .wps-postbox-chart--previousPeriod{
+    margin-bottom: 24px;
+  }
   .wps-postbox-chart--items{
     column-gap: 12px;
   }

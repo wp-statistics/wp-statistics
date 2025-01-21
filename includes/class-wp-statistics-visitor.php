@@ -159,7 +159,7 @@ class Visitor
 
                 $data = [
                     'hits'      => $same_visitor->hits + 1,
-                    'user_id'   => $visitorProfile->getUserId()
+                    'user_id'   => ! empty($same_visitor->user_id) ? $same_visitor->user_id : $visitorProfile->getUserId()
                 ];
 
                 $data = apply_filters('wp_statistics_visitor_data_before_update', $data, $visitorProfile);

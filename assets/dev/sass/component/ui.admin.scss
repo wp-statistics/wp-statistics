@@ -2215,9 +2215,20 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   flex-direction: row-reverse;
   gap: 9px;
   z-index: 1;
-  display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
+
+  &.wps-head-filters--custom {
+    top: 30px;
+    @media(max-width: 1162px) {
+      margin-top: 20px;
+      position: relative;
+      transform: none;
+      right: unset !important;
+      left: unset !important;
+      top: unset;
+    }
+  }
 
   @media(max-width: 1122px) {
     margin-top: 20px;
@@ -2444,8 +2455,8 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
             background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCAxMiAxMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTYuMDAwMTcgMC43MDcwMzFDMy4wNzMyOCAwLjcwNzAzMSAwLjcwNjA1NSAzLjA3NDI2IDAuNzA2MDU1IDYuMDAxMTVDMC43MDYwNTUgNy4wOTc3OSAxLjAzMTI2IDguMTAzNjcgMS41OTA5MyA4Ljk0MzE3QzIuNDA3NzQgMTAuMTUzMiAzLjcwMTAxIDExLjAwNzkgNS4yMDYwNSAxMS4yMjcyQzUuNDYzMiAxMS4yNzI2IDUuNzI3OSAxMS4yOTUzIDYuMDAwMTcgMTEuMjk1M0M2LjI3MjQ0IDExLjI5NTMgNi41MzcxNSAxMS4yNzI2IDYuNzk0MjkgMTEuMjI3MkM4LjI5OTMzIDExLjAwNzkgOS41OTI2MSAxMC4xNTMyIDEwLjQwOTQgOC45NDMxN0MxMC45NjkxIDguMTAzNjcgMTEuMjk0MyA3LjA5Nzc5IDExLjI5NDMgNi4wMDExNUMxMS4yOTQzIDMuMDc0MjYgOC45MjcwNiAwLjcwNzAzMSA2LjAwMDE3IDAuNzA3MDMxWk04LjMxNDQ2IDUuODM0NzZMNy42ODY3MyA2LjQ2MjQ5QzcuNTgwODQgNi41NjgzOCA3LjUyMDM0IDYuNzcyNTggNy41NTgxNiA2LjkyMzg0TDcuNzM5NjcgNy43MDI4M0M3Ljg4MzM3IDguMzE1NDMgNy41NTgxNiA4LjU1NzQ1IDcuMDEzNjIgOC4yMzIyNEw2LjI1NzMyIDcuNzg2MDJDNi4xMjExOCA3LjcwMjgzIDUuODk0MjkgNy43MDI4MyA1Ljc1ODE2IDcuNzg2MDJMNS4wMDE4NSA4LjIzMjI0QzQuNDU3MzIgOC41NDk4OSA0LjEzMjExIDguMzE1NDMgNC4yNzU4IDcuNzAyODNMNC40NTczMiA2LjkyMzg0QzQuNDg3NTcgNi43ODAxNCA0LjQzNDYzIDYuNTY4MzggNC4zMjg3NCA2LjQ2MjQ5TDMuNjg1ODkgNS44MzQ3NkMzLjMxNTMgNS40NjQxNyAzLjQzNjMxIDUuMDkzNTkgMy45NTA1OSA1LjAxMDM5TDQuNzU5ODQgNC44NzQyNkM0Ljg5NTk3IDQuODUxNTcgNS4wNTQ3OSA0LjczMDU2IDUuMTE1MyA0LjYwOTU1TDUuNTYxNTIgMy43MTcxMkM1LjgwMzUzIDMuMjMzMDggNi4xOTY4MSAzLjIzMzA4IDYuNDM4ODMgMy43MTcxMkw2Ljg4NTA1IDQuNjA5NTVDNi45NDU1NSA0LjczMDU2IDcuMTA0MzcgNC44NTE1NyA3LjI0ODA3IDQuODc0MjZMOC4wNTczMiA1LjAxMDM5QzguNTY0MDQgNS4wOTM1OSA4LjY4NTA1IDUuNDY0MTcgOC4zMTQ0NiA1LjgzNDc2WiIgZmlsbD0iI0JGQzJDOSIvPgo8L3N2Zz4K") center center/contain no-repeat;
           }
 
-          &:hover{
-            color:#ADB4C1!important;
+          &:hover {
+            color: #ADB4C1 !important;
             background: #F4F4FB !important;
 
             &:after {
@@ -2507,7 +2518,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     }
   }
 
-  #visitors-filter  , #referral-filter{
+  #visitors-filter, #referral-filter {
     border: 1px solid #DADCE0;
     padding: 4px 21px;
     margin-top: 0 !important;
@@ -2530,14 +2541,18 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       background-repeat: no-repeat;
       transform: rotate(0);
       background-position: center;
-      margin-bottom: -2px
+      margin-bottom: -2px;
+
+      .rtl &{
+        transform: rotate(180deg);
+      }
     }
 
     .wps-visitor-filter__text {
       display: flex;
       gap: 3px;
       align-items: center;
-     }
+    }
 
     .dashicons-filter {
       width: 15px;
@@ -2556,7 +2571,8 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       line-height: 14px;
     }
   }
-  #visitors-filter.wp-visitors-filter--active , #referral-filter.wp-referral-filter--active {
+
+  #visitors-filter.wp-visitors-filter--active, #referral-filter.wp-referral-filter--active {
     background: #404BF21A !important;
     border: 1px solid #7981F6 !important;
 
@@ -2694,13 +2710,12 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   margin: 20px 0 0;
 }
 @media (max-width: 1100px) {
-     .wps-tabs {
+     .tabbed_page .wps-tabs {
       width: 100%;
       white-space: nowrap;
       overflow-x: auto;
       flex-wrap: nowrap;
     }
-
 }
 
 @media (max-width: 669px) {
@@ -2911,6 +2926,9 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
        box-shadow: none!important;
       outline: none!important;
     }
+  }
+  .wps-unit-time-chart{
+    display: none!important;
   }
 }
 

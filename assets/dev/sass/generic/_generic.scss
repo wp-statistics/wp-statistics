@@ -321,6 +321,11 @@
   line-height: 14.06px !important;
   margin-right: 8px;
   color: #393B3D !important;
+
+  .rtl &{
+    margin-right: 0;
+    margin-left: 8px;
+  }
 }
 
 // Customization - Add-on
@@ -441,6 +446,9 @@
       row-gap: 20px;
       margin-bottom: 24px;
       flex-wrap: wrap;
+      @media (max-width: 550px) {
+        column-gap: 40px;
+      }
     }
 
     .wps-postbox-chart--item {
@@ -519,7 +527,6 @@
     gap: 6px;
     align-items: center;
     white-space: nowrap;
-    margin-bottom: 24px;
 
     &:before {
       content: "- -";
@@ -563,6 +570,14 @@
         }
       }
     }
+  }
+
+  &--info{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 24px;
   }
 }
 
