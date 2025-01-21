@@ -1,6 +1,7 @@
 <?php
 
 use WP_STATISTICS\Menus;
+use WP_Statistics\Utils\Request;
 
 if (Menus::in_page('download_tracker')) {
     $title   = __('Download Report', 'wp-statistics');
@@ -21,7 +22,7 @@ if (Menus::in_page('download_tracker')) {
             </h2>
         </div>
         <div class="wps-tracker-header__info">
-            <a href="" title="wp-statistics.com/2024/07/16/discover-the-new-mini-chart-design-in-wp-statistics-v14-9/" target="_blank">wp-statistics.com/2024/07/16/discover-the-new-mini-chart-design-in-wp-statistics-v14-9/</a>
+            <a href="<?php echo esc_url(Request::get('target')) ?>" title="<?php echo esc_html(Request::get('target')) ?>" target="_blank"><?php echo esc_html(Request::get('target')) ?></a>
         </div>
     </div>
 </div>
