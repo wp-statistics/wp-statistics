@@ -242,6 +242,27 @@ class Query
         return $this;
     }
 
+    public function whereJson($field, $key, $operator, $value)
+    {
+        if (is_array($value)) {
+            $value = array_filter(array_values($value));
+        }
+
+        // If the value is empty, we don't need to add it to the query (except for numbers)
+        if (!is_numeric($value) && empty($value)) return $this;
+
+        $field = "JSON_UNQUOTE(JSON_EXTRACT($field, '$.{$key}'))";
+
+        $condition = $this->generateCondition($field, $operator, $value);
+
+        if (!empty($condition)) {
+            $this->whereClauses[]  = $condition['condition'];
+            $this->valuesToPrepare = array_merge($this->valuesToPrepare, $condition['values']);
+        }
+
+        return $this;
+    }
+
     public function whereNotNull($fields)
     {
         if (empty($fields)) return $this;
