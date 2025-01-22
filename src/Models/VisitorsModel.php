@@ -922,7 +922,7 @@ class VisitorsModel extends BaseModel
     public function getVisitorsGeoData($args = [])
     {
         $args = $this->parseArgs($args, [
-            'fields'      => [
+            'fields'        => [
                 'visitor.city as city',
                 'visitor.location as country',
                 'visitor.region as region',
@@ -930,23 +930,25 @@ class VisitorsModel extends BaseModel
                 'COUNT(visitor.ID) as visitors',
                 'SUM(visitor.hits) as views', // All views are counted and results can't be filtered by author, post type, etc...
             ],
-            'date'        => '',
-            'country'     => '',
-            'city'        => '',
-            'region'      => '',
-            'continent'   => '',
-            'not_null'    => '',
-            'post_type'   => '',
-            'author_id'   => '',
-            'post_id'     => '',
-            'per_page'    => '',
-            'query_param' => '',
-            'taxonomy'    => '',
-            'term'        => '',
-            'page'        => 1,
-            'group_by'    => 'visitor.location',
-            'order_by'    => ['visitors', 'views'],
-            'order'       => 'DESC',
+            'date'          => '',
+            'country'       => '',
+            'city'          => '',
+            'region'        => '',
+            'continent'     => '',
+            'not_null'      => '',
+            'post_type'     => '',
+            'author_id'     => '',
+            'post_id'       => '',
+            'per_page'      => '',
+            'query_param'   => '',
+            'taxonomy'      => '',
+            'term'          => '',
+            'page'          => 1,
+            'group_by'      => 'visitor.location',
+            'event_name'    => '',
+            'event_target'  => '',
+            'order_by'      => ['visitors', 'views'],
+            'order'         => 'DESC',
         ]);
 
         $query = Query::select($args['fields'])
@@ -985,6 +987,13 @@ class VisitorsModel extends BaseModel
                 $query
                     ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
             }
+        }
+
+        if (!empty($args['event_target']) || !empty($args['event_name'])) {
+            $query
+                ->join('events', ['events.visitor_id', 'visitor.ID'])
+                ->where('event_name', 'IN', $args['event_name'])
+                ->whereJson('event_data', 'target_url', '=', $args['event_target']);
         }
 
         $result = $query->getAll();
