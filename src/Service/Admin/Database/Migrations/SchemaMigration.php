@@ -45,33 +45,11 @@ class SchemaMigration extends AbstractMigrationOperation
      */
     protected $migrationSteps = [
         '14.13' => [
-            'addResourceTypeToEvent',
             'renamePageIdToResourceIdInHistorical',
             'renameEventNameToEventTypeInEvents',
             'updatePagesTableStructure'
         ],
     ];
-
-    /**
-     * Adds a new 'resource_type' column to the 'events' table.
-     * 
-     * @return void
-     */
-    public function addResourceTypeToEvent()
-    {
-        try {
-            DatabaseFactory::table('update')
-                ->setName('events')
-                ->setArgs([
-                    'add' => [
-                        'resource_type' => 'varchar(100) NOT NULL',
-                    ],
-                ])
-                ->execute();
-        } catch (Exception $e) {
-            $this->setErrorStatus($e->getMessage());
-        }
-    }
 
     /**
      * Renames the 'page_id' column to 'resource_id' in the 'historical' table.
@@ -80,6 +58,8 @@ class SchemaMigration extends AbstractMigrationOperation
      */
     public function renamePageIdToResourceIdInHistorical()
     {
+        $this->ensureConnection();
+
         try {
             DatabaseFactory::table('update')
                 ->setName('historical')
@@ -88,6 +68,15 @@ class SchemaMigration extends AbstractMigrationOperation
                         'page_id' => [
                             'new_name' => 'resource_id',
                             'definition' => 'bigint(20) NOT NULL',
+                        ],
+                    ],
+                    'foreign' => [
+                        'fk_historical_resource_id' => [
+                            'column' => 'resource_id',
+                            'referenced_table' => $this->wpdb->prefix . 'statistics_resources',
+                            'referenced_column' => 'resource_id',
+                            'on_delete' => 'CASCADE',
+                            'on_update' => 'CASCADE',
                         ],
                     ],
                 ])
@@ -104,6 +93,8 @@ class SchemaMigration extends AbstractMigrationOperation
      */
     public function renameEventNameToEventTypeInEvents()
     {
+        $this->ensureConnection();
+
         try {
             DatabaseFactory::table('update')
                 ->setName('events')
@@ -112,6 +103,15 @@ class SchemaMigration extends AbstractMigrationOperation
                         'page_id' => [
                             'new_name' => 'resource_id',
                             'definition' => 'bigint(20) NULL',
+                        ],
+                    ],
+                    'foreign' => [
+                        'fk_events_resource_id' => [
+                            'column' => 'resource_id',
+                            'referenced_table' => $this->wpdb->prefix . 'statistics_resources',
+                            'referenced_column' => 'resource_id',
+                            'on_delete' => 'CASCADE',
+                            'on_update' => 'CASCADE',
                         ],
                     ],
                 ])
@@ -130,6 +130,8 @@ class SchemaMigration extends AbstractMigrationOperation
      */
     public function updatePagesTableStructure()
     {
+        $this->ensureConnection();
+
         try {
             DatabaseFactory::table('update')
                 ->setName('pages')
@@ -138,8 +140,17 @@ class SchemaMigration extends AbstractMigrationOperation
                         'resource_id' => 'bigint(20) NOT NULL',
                     ],
                     'drop' => [
-                        'page_id',
+                        'id',
                         'type',
+                    ],
+                    'foreign' => [
+                        'fk_pages_resource_id' => [
+                            'column' => 'resource_id',
+                            'referenced_table' => $this->wpdb->prefix . 'statistics_resources',
+                            'referenced_column' => 'resource_id',
+                            'on_delete' => 'CASCADE',
+                            'on_update' => 'CASCADE',
+                        ],
                     ],
                 ])
                 ->execute();

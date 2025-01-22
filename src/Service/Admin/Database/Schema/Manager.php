@@ -16,6 +16,24 @@ class Manager
      * @var array
      */
     private static $tablesSchema = [
+        'resources' => [
+            'columns' => [
+                'ID' => 'bigint(20) NOT NULL AUTO_INCREMENT',
+                'resource_id' => 'bigint(20) NOT NULL',
+                'resource_type' => 'varchar(100) NOT NULL',
+                'resource_url' => 'varchar(255) NOT NULL',
+                'resource_taxonomy' => 'varchar(100) DEFAULT NULL',
+                'resource_term_id' => 'bigint(20) DEFAULT NULL',
+                'resource_author_id' => 'bigint(20) DEFAULT NULL',
+                'resource_status' => 'varchar(50) NOT NULL',
+                'resource_publish_date' => 'datetime NOT NULL',
+                'resource_meta' => 'longtext DEFAULT NULL',
+            ],
+            'constraints' => [
+                'PRIMARY KEY (ID)',
+                'UNIQUE KEY resource_id (resource_id)',
+            ]
+        ],
         'useronline' => [
             'columns' => [
                 'ID' => 'bigint(20) NOT NULL AUTO_INCREMENT',
@@ -33,11 +51,43 @@ class Manager
                 'continent' => 'varchar(50)',
                 'visitor_id' => 'bigint(20) NOT NULL',
                 'user_id' => 'BIGINT(48) NOT NULL',
-                'resource_id' => 'BIGINT(48) NOT NULL',
+                'page_id' => 'BIGINT(48) NOT NULL',
                 'type' => 'VARCHAR(100) NOT NULL',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
+            ]
+        ],
+        'pages' => [
+            'columns' => [
+                'page_id' => 'BIGINT(20) NOT NULL AUTO_INCREMENT',
+                'resource_id' => 'bigint(20) NOT NULL',
+                'uri' => 'varchar(190) NOT NULL',
+                'date' => 'date NOT NULL',
+                'count' => 'int(11) NOT NULL',
+            ],
+            'constraints' => [
+                'PRIMARY KEY (page_id)',
+                'UNIQUE KEY date_2 (date, uri)',
+                'KEY url (uri)',
+                'KEY date (date)',
+                'KEY uri (uri, count)',
+                'FOREIGN KEY (resource_id) REFERENCES wp_statistics_resources(resource_id) ON DELETE CASCADE ON UPDATE CASCADE',
+            ]
+        ],
+        'historical' => [
+            'columns' => [
+                'ID' => 'bigint(20) NOT NULL AUTO_INCREMENT',
+                'category' => 'varchar(25) NOT NULL',
+                'resource_id' => 'bigint(20) NOT NULL',
+                'uri' => 'varchar(190) NOT NULL',
+                'value' => 'bigint(20) NOT NULL',
+            ],
+            'constraints' => [
+                'PRIMARY KEY (ID)',
+                'KEY category (category)',
+                'UNIQUE KEY uri (uri)',
+                'FOREIGN KEY (resource_id) REFERENCES wp_statistics_resources(resource_id) ON DELETE CASCADE ON UPDATE CASCADE',
             ]
         ],
         'visit' => [
@@ -98,35 +148,6 @@ class Manager
                 'KEY reason (reason)',
             ]
         ],
-        'pages' => [
-            'columns' => [
-                'resource_id' => 'BIGINT(20) NOT NULL AUTO_INCREMENT',
-                'uri' => 'varchar(190) NOT NULL',
-                'date' => 'date NOT NULL',
-                'count' => 'int(11) NOT NULL',
-            ],
-            'constraints' => [
-                'PRIMARY KEY (resource_id)',
-                'UNIQUE KEY date_2 (date, uri)',
-                'KEY url (uri)',
-                'KEY date (date)',
-                'KEY uri (uri, count)',
-            ]
-        ],
-        'historical' => [
-            'columns' => [
-                'ID' => 'bigint(20) NOT NULL AUTO_INCREMENT',
-                'category' => 'varchar(25) NOT NULL',
-                'resource_id' => 'bigint(20) NOT NULL',
-                'uri' => 'varchar(190) NOT NULL',
-                'value' => 'bigint(20) NOT NULL',
-            ],
-            'constraints' => [
-                'PRIMARY KEY (ID)',
-                'KEY category (category)',
-                'UNIQUE KEY uri (uri)',
-            ]
-        ],
         'events' => [
             'columns' => [
                 'ID' => 'bigint(20) NOT NULL AUTO_INCREMENT',
@@ -141,6 +162,7 @@ class Manager
                 'KEY visitor_id (visitor_id)',
                 'KEY resource_id (resource_id)',
                 'KEY event_name (event_name)',
+                'FOREIGN KEY (resource_id) REFERENCES wp_statistics_resources(resource_id) ON DELETE SET NULL ON UPDATE CASCADE',
             ]
         ],
         'visitor_relationships' => [
@@ -156,40 +178,42 @@ class Manager
                 'KEY page_id (page_id)',
             ]
         ],
-        'resources' => [
-            'columns' => [
-                'ID' => 'bigint(20) NOT NULL AUTO_INCREMENT',
-                'resource_id' => 'bigint(20) NOT NULL',
-                'resource_type' => 'varchar(100) NOT NULL',
-                'resource_url' => 'varchar(255) NOT NULL',
-                'resource_taxonomy' => 'varchar(100) DEFAULT NULL',
-                'resource_term_id' => 'bigint(20) DEFAULT NULL',
-                'resource_author_id' => 'bigint(20) DEFAULT NULL',
-                'resource_status' => 'varchar(50) NOT NULL',
-                'resource_publish_date' => 'datetime NOT NULL',
-                'resource_meta' => 'longtext DEFAULT NULL',
-            ],
-            'constraints' => [
-                'PRIMARY KEY (ID)',
-                'KEY resource_id (resource_id)',
-                'KEY resource_type (resource_type)',
-                'KEY resource_term_id (resource_term_id)',
-                'KEY resource_author_id (resource_author_id)',
-                'KEY resource_status (resource_status)',
-                'KEY resource_publish_date (resource_publish_date)',
-            ]
-        ],
     ];
 
     /**
-     * Retrieve the schema for a specific table.
+     * Dynamically apply the table prefix to the schema constraints.
+     *
+     * @param array $schema The schema definition for a table.
+     * @return array The schema with dynamic prefixes applied to constraints.
+     */
+    private static function applyDynamicPrefixToSchema(array $schema)
+    {
+        global $wpdb;
+
+        if (isset($schema['constraints']) && is_array($schema['constraints'])) {
+            $schema['constraints'] = array_map(function ($constraint) use ($wpdb) {
+                return str_replace('wp_statistics_', $wpdb->prefix . 'statistics_', $constraint);
+            }, $schema['constraints']);
+        }
+
+        return $schema;
+    }
+
+    /**
+     * Retrieve the schema for a specific table with dynamic prefix applied.
      *
      * @param string $tableName The name of the table.
      * @return array|null The schema for the table or null if not found.
      */
     public static function getSchemaForTable(string $tableName)
     {
-        return self::$tablesSchema[$tableName] ?? null;
+        $schema = self::$tablesSchema[$tableName] ?? null;
+
+        if ($schema) {
+            $schema = self::applyDynamicPrefixToSchema($schema);
+        }
+
+        return $schema;
     }
 
     /**
