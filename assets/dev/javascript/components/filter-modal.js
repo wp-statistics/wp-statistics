@@ -44,16 +44,17 @@ FilterModal.prototype.onFilterButtonClick = function (e) {
 };
 
 FilterModal.prototype.setSelectedValues = function () {
-    jQuery(this.filterContainerSelector).each(function () {
-        const element = jQuery(this);
-        const fieldName = element.attr('name');
+    jQuery(this.filterContainerSelector).each((index, element) => {
+        const $element = jQuery(element);
+        const fieldName = $element.attr('name');
         const currentValue = wps_js.getLinkParams(fieldName);
-
         if (currentValue !== null) {
-            if (element.is('select')) {
-                element.find(`option[value="${currentValue}"]`).prop('selected', true);
-            } else if (element.is('input')) {
-                element.val(decodeURIComponent(currentValue));
+            if ($element.is('select')) {
+                setTimeout(() => {
+                    this.selectOptionWhenAvailable.bind(this)($element, currentValue);
+                }, 100);
+            } else if ($element.is('input')) {
+                $element.val(decodeURIComponent(currentValue));
             }
         }
     });
@@ -67,6 +68,26 @@ FilterModal.prototype.setSelectedValues = function () {
         this.settings.onDataLoad();
     }
 };
+
+FilterModal.prototype.selectOptionWhenAvailable = function (element, currentValue, maxAttempts = 10) {
+    let attempts = 0;
+
+    const interval = setInterval(() => {
+        const option = element.find(`option[value="${CSS.escape(currentValue)}"]`);
+
+        if (option.length > 0) {
+            option.prop('selected', true).trigger('change');
+            clearInterval(interval);
+        }
+
+        attempts++;
+        if (attempts >= maxAttempts) {
+            clearInterval(interval);
+            console.warn('Option not found after maximum attempts:', currentValue);
+        }
+    }, 100);
+}
+
 
 FilterModal.prototype.onFormSubmit = function (e) {
     if (typeof this.settings.onSubmit === 'function') {

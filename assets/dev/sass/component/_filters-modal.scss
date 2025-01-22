@@ -276,6 +276,7 @@
     table {
       width: 100%;
       position: relative;
+      table-layout: fixed;
     }
 
     tr:nth-child(even) {
