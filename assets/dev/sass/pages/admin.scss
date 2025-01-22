@@ -341,7 +341,7 @@ td:has(div.wps-admin-column__unlock){
   }
 }
 
-.wps-category-analytics , #authors-performance , .wps-content-analytics {
+.wps-category-analytics , #authors-performance , .wps-content-analytics ,.wps-tracker-analytics{
   display: flex;
   gap: 8px;
   flex-direction: column;
