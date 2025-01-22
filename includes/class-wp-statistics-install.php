@@ -43,9 +43,9 @@ class Install
         require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/DatabaseFactory.php';
         require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/Schema/Manager.php';
         require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/Managers/TableHandler.php';
-        
+
         global $wpdb;
-        
+
         if (is_multisite() && $network_wide) {
             $blog_ids = $wpdb->get_col("SELECT `blog_id` FROM $wpdb->blogs");
             foreach ($blog_ids as $blog_id) {
@@ -53,7 +53,6 @@ class Install
                 switch_to_blog($blog_id);
                 TableHandler::createAllTables();
                 restore_current_blog();
-
             }
         } else {
             TableHandler::createAllTables();
