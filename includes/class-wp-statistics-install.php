@@ -4,7 +4,7 @@ namespace WP_STATISTICS;
 
 use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Components\Event;
-use WP_Statistics\Service\Admin\Metabox\MetaboxHelper;
+use WP_Statistics\Service\Admin\Database\Managers\TableHandler;
 
 class Install
 {
@@ -33,213 +33,37 @@ class Install
      */
     public function install($network_wide)
     {
+        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-option.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/DatabaseManager.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/Managers/TransactionHandler.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/AbstractDatabaseOperation.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/Operations/AbstractTableOperation.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/Operations/Create.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/Operations/Inspect.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/DatabaseFactory.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/Schema/Manager.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/Managers/TableHandler.php';
+        
+        global $wpdb;
+        
+        if (is_multisite() && $network_wide) {
+            $blog_ids = $wpdb->get_col("SELECT `blog_id` FROM $wpdb->blogs");
+            foreach ($blog_ids as $blog_id) {
 
-        // Create MySQL Table
-        self::create_table($network_wide);
+                switch_to_blog($blog_id);
+                TableHandler::createAllTables();
+                restore_current_blog();
+
+            }
+        } else {
+            TableHandler::createAllTables();
+        }
 
         // Create Default Option in Database
         self::create_options();
 
         // Set Version information
         update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
-    }
-
-    /**
-     * Adding new MYSQL Table in Activation Plugin
-     *
-     * @param $network_wide
-     */
-    public static function create_table($network_wide)
-    {
-        global $wpdb;
-
-        if (is_multisite() && $network_wide) {
-            $blog_ids = $wpdb->get_col("SELECT `blog_id` FROM $wpdb->blogs");
-            foreach ($blog_ids as $blog_id) {
-
-                switch_to_blog($blog_id);
-                self::table_sql();
-                restore_current_blog();
-
-            }
-        } else {
-            self::table_sql();
-        }
-    }
-
-    /**
-     * Create Database Table
-     */
-    public static function table_sql()
-    {
-        // Load dbDelta WordPress
-        self::load_dbDelta();
-
-        // Charset Collate
-        $collate = DB::charset_collate();
-
-        // Users Online Table
-        $create_user_online_table = ("
-					CREATE TABLE " . DB::table('useronline') . " (
-						ID bigint(20) NOT NULL AUTO_INCREMENT,
-	  					ip varchar(60) NOT NULL,
-						created int(11),
-						timestamp int(10) NOT NULL,
-						date datetime NOT NULL,
-						referred text CHARACTER SET utf8 NOT NULL,
-						agent varchar(255) NOT NULL,
-						platform varchar(255),
-						version varchar(255),
-						location varchar(10),
-                        city varchar(100),
-                        region varchar(100),
-                        continent varchar(50),
-                        visitor_id bigint(20) NOT NULL,
-						`user_id` BIGINT(48) NOT NULL,
-						`page_id` BIGINT(48) NOT NULL,
-						`type` VARCHAR(100) NOT NULL,
-						PRIMARY KEY  (ID)
-					) {$collate}");
-        dbDelta($create_user_online_table);
-
-        // Views Table
-        $create_visit_table = ("
-					CREATE TABLE " . DB::table('visit') . " (
-						ID bigint(20) NOT NULL AUTO_INCREMENT,
-						last_visit datetime NOT NULL,
-						last_counter date NOT NULL,
-						visit int(10) NOT NULL,
-						PRIMARY KEY  (ID),
-						UNIQUE KEY unique_date (last_counter)
-					) {$collate}");
-        dbDelta($create_visit_table);
-
-        // Visitor Table
-        $create_visitor_table = ("
-					CREATE TABLE " . DB::table('visitor') . " (
-						ID bigint(20) NOT NULL AUTO_INCREMENT,
-						last_counter date NOT NULL,
-						referred text NOT NULL,
-						agent varchar(180) NOT NULL,
-						platform varchar(180),
-						version varchar(180),
-						device varchar(180),
-						model varchar(180),
-						UAString varchar(190),
-						ip varchar(60) NOT NULL,
-						location varchar(10),
-						user_id BIGINT(40) NOT NULL,
-						hits int(11),
-						honeypot int(11),
-						city varchar(100),
-                        region varchar(100),
-                        continent varchar(50),
-                        source_channel varchar(50),
-                        source_name varchar(100),
-						PRIMARY KEY  (ID),
-						UNIQUE KEY date_ip_agent (last_counter,ip,agent(50),platform(50),version(50)),
-						KEY agent (agent),
-						KEY platform (platform),
-						KEY version (version),
-						KEY device (device),
-						KEY model (model),
-						KEY location (location)
-					) {$collate}");
-        dbDelta($create_visitor_table);
-
-        // Create Visitor and pages Relationship Table
-        self::create_visitor_relationship_table();
-
-        // Exclusion Table
-        $create_exclusion_table = ("
-					CREATE TABLE " . DB::table('exclusions') . " (
-						ID bigint(20) NOT NULL AUTO_INCREMENT,
-						date date NOT NULL,
-						reason varchar(180) DEFAULT NULL,
-						count bigint(20) NOT NULL,
-						PRIMARY KEY  (ID),
-						KEY date (date),
-						KEY reason (reason)
-					) {$collate}");
-        dbDelta($create_exclusion_table);
-
-        // Pages Table
-        $create_pages_table = ("
-					CREATE TABLE " . DB::table('pages') . " (
-					    page_id BIGINT(20) NOT NULL AUTO_INCREMENT,
-						uri varchar(190) NOT NULL,
-						type varchar(180) NOT NULL,
-						date date NOT NULL,
-						count int(11) NOT NULL,
-						id int(11) NOT NULL,
-						UNIQUE KEY date_2 (date,uri),
-						KEY url (uri),
-						KEY date (date),
-						KEY id (id),
-						KEY `uri` (`uri`,`count`,`id`),
-						PRIMARY KEY (`page_id`)
-					) {$collate}");
-        dbDelta($create_pages_table);
-
-        // Historical Table
-        $create_historical_table = ("
-					CREATE TABLE " . DB::table('historical') . " (
-						ID bigint(20) NOT NULL AUTO_INCREMENT,
-						category varchar(25) NOT NULL,
-						page_id bigint(20) NOT NULL,
-						uri varchar(190) NOT NULL,
-						value bigint(20) NOT NULL,
-						PRIMARY KEY  (ID),
-						KEY category (category),
-						UNIQUE KEY uri (uri)
-					) {$collate}");
-        dbDelta($create_historical_table);
-
-        // Create events table
-        self::create_events_table();
-    }
-
-    /**
-     * Setup Visitor RelationShip Table
-     */
-    public static function create_visitor_relationship_table()
-    {
-        $table_name                         = DB::table('visitor_relationships');
-        $collate                            = DB::charset_collate();
-        $create_visitor_relationships_table =
-            "CREATE TABLE IF NOT EXISTS $table_name (
-				`ID` bigint(20) NOT NULL AUTO_INCREMENT,
-				`visitor_id` bigint(20) NOT NULL,
-				`page_id` bigint(20) NOT NULL,
-				`date` datetime NOT NULL,
-				PRIMARY KEY  (ID),
-				KEY visitor_id (visitor_id),
-				KEY page_id (page_id)
-			) {$collate}";
-
-        dbDelta($create_visitor_relationships_table);
-
-    }
-
-    public static function create_events_table()
-    {
-        $table_name          = DB::table('events');
-        $collate             = DB::charset_collate();
-        $create_events_table =
-            "CREATE TABLE IF NOT EXISTS $table_name (
-				`ID` bigint(20) NOT NULL AUTO_INCREMENT,
-				`date` datetime NOT NULL,
-				`page_id` bigint(20) NULL,
-				`visitor_id` bigint(20) NULL,
-				`event_name` varchar(64) NOT NULL,
-				`event_data` text NOT NULL,
-				PRIMARY KEY  (ID),
-				KEY visitor_id (visitor_id),
-				KEY page_id (page_id),
-				KEY event_name (event_name)
-			) {$collate}";
-
-        dbDelta($create_events_table);
     }
 
     public static function delete_duplicate_data()
@@ -299,7 +123,7 @@ class Install
         if (is_plugin_active_for_network(plugin_basename(WP_STATISTICS_MAIN_FILE))) {
             $options = get_option(Option::$opt_name);
             switch_to_blog($blog_id);
-            self::table_sql();
+            TableHandler::createAllTables();
             update_option(Option::$opt_name, $options);
             restore_current_blog();
         }
@@ -505,24 +329,6 @@ class Install
 
         if (!DB::isColumnType('visit', 'ID', 'bigint(20)') && !DB::isColumnType('visit', 'ID', 'bigint')) {
             $wpdb->query("ALTER TABLE `" . DB::table('visit') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
-        }
-
-        /**
-         * Create Visitor and pages relationship table if is not exist.
-         *
-         * @version 13.0.0
-         */
-        if (DB::ExistTable($visitorRelationships) === false) {
-            self::create_visitor_relationship_table();
-        }
-
-        /**
-         * Create events table if is not exist.
-         *
-         * @version 14.4
-         */
-        if (DB::ExistTable($eventTable) === false) {
-            self::create_events_table();
         }
 
         /**

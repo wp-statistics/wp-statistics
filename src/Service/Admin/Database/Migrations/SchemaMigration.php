@@ -2,6 +2,9 @@
 
 namespace WP_Statistics\Service\Admin\Database\Migrations;
 
+use Exception;
+use WP_Statistics\Service\Admin\Database\DatabaseFactory;
+
 /**
  * Manages migrations related to database schema.
  */
@@ -40,5 +43,108 @@ class SchemaMigration extends AbstractMigrationOperation
      * 
      * @var array
      */
-    protected $migrationSteps = [];
+    protected $migrationSteps = [
+        '14.13' => [
+            'addResourceTypeToEvent',
+            'renamePageIdToResourceIdInHistorical',
+            'renameEventNameToEventTypeInEvents',
+            'updatePagesTableStructure'
+        ],
+    ];
+
+    /**
+     * Adds a new 'resource_type' column to the 'events' table.
+     * 
+     * @return void
+     */
+    public function addResourceTypeToEvent()
+    {
+        try {
+            DatabaseFactory::table('update')
+                ->setName('events')
+                ->setArgs([
+                    'add' => [
+                        'resource_type' => 'varchar(100) NOT NULL',
+                    ],
+                ])
+                ->execute();
+        } catch (Exception $e) {
+            $this->setErrorStatus($e->getMessage());
+        }
+    }
+
+    /**
+     * Renames the 'page_id' column to 'resource_id' in the 'historical' table.
+     * 
+     * @return void
+     */
+    public function renamePageIdToResourceIdInHistorical()
+    {
+        try {
+            DatabaseFactory::table('update')
+                ->setName('historical')
+                ->setArgs([
+                    'rename' => [
+                        'page_id' => [
+                            'new_name' => 'resource_id',
+                            'definition' => 'bigint(20) NOT NULL',
+                        ],
+                    ],
+                ])
+                ->execute();
+        } catch (Exception $e) {
+            $this->setErrorStatus($e->getMessage());
+        }
+    }
+
+    /**
+     * Renames the 'event_name' column to 'event_type' in the 'events' table.
+     * 
+     * @return void
+     */
+    public function renameEventNameToEventTypeInEvents()
+    {
+        try {
+            DatabaseFactory::table('update')
+                ->setName('events')
+                ->setArgs([
+                    'rename' => [
+                        'page_id' => [
+                            'new_name' => 'resource_id',
+                            'definition' => 'bigint(20) NULL',
+                        ],
+                    ],
+                ])
+                ->execute();
+        } catch (Exception $e) {
+            $this->setErrorStatus($e->getMessage());
+        }
+    }
+
+    /**
+     * Updates the structure of the 'pages' table by:
+     * - Adding a 'resource_id' column.
+     * - Removing 'page_id' and 'type' columns.
+     * 
+     * @return void
+     */
+    public function updatePagesTableStructure()
+    {
+        try {
+            DatabaseFactory::table('update')
+                ->setName('pages')
+                ->setArgs([
+                    'add' => [
+                        'resource_id' => 'bigint(20) NOT NULL',
+                    ],
+                    'drop' => [
+                        'page_id',
+                        'type',
+                    ],
+                ])
+                ->execute();
+        } catch (Exception $e) {
+            $this->setErrorStatus($e->getMessage());
+        }
+    }
 }

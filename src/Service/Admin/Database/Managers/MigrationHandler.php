@@ -102,6 +102,10 @@ class MigrationHandler
             }
         }
 
+        if (empty($allVersions)) {
+            Option::saveOptionGroup('migrated', true, 'db');
+        }
+
         usort($allVersions, 'version_compare');
 
         return [

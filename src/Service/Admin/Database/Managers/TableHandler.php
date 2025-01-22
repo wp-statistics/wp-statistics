@@ -49,7 +49,16 @@ class TableHandler
             }
         }
 
+        $pluginVersion = get_option('wp_statistics_plugin_version', null);
+
         Option::saveOptionGroup('check', false, 'db');
+
+        if (empty($pluginVersion) ) {
+            Option::saveOptionGroup('migrated', true, 'db');
+            Option::saveOptionGroup('version', WP_STATISTICS_VERSION, 'db');
+            return;
+        }
+
         Option::saveOptionGroup('migrated', false, 'db');
 
         $dismissedNotices = Option::get('dismissed_notices', []);
