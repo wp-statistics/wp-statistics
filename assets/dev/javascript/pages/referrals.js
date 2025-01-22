@@ -34,6 +34,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     }
 
     new FilterModal({
+        formSelector: '#wps-referrals-filter-form',
         height: 205,
         onOpen: handleReferralModalOpen,
         onSubmit: handleReferralModalSubmit,
@@ -100,10 +101,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
     /**
      * Handles the referral filter modal submit event.
-     * @param {Object} form - The form element.
+     * @param {Object} e - The submit event.
      */
-    function handleReferralModalSubmit(form) {
-        disableEmptyReferralFields(form);
+    function handleReferralModalSubmit(e) {
+        const targetForm = jQuery(e.target);
+        disableEmptyReferralFields(targetForm);
         showReferralSubmitLoading();
         return true;
     }
