@@ -482,6 +482,8 @@ class VisitorsModel extends BaseModel
             'date_field'    => 'visitor.last_counter',
             'logged_in'     => false,
             'user_role'     => '',
+            'event_target'  => '',
+            'event_name'    => '',
             'fields'        => []
         ]);
 
@@ -607,6 +609,13 @@ class VisitorsModel extends BaseModel
                 $query
                     ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
             }
+        }
+
+        if (!empty($args['event_target']) || !empty($args['event_name'])) {
+            $query
+                ->join('events', ['events.visitor_id', 'visitor.ID'])
+                ->where('event_name', 'IN', $args['event_name'])
+                ->whereJson('event_data', 'target_url', '=', $args['event_target']);
         }
 
         $result = $query->getAll();
