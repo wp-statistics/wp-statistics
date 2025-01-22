@@ -74,7 +74,6 @@ use WP_STATISTICS\Menus;
                                     View::load("components/objects/external-link", [
                                         'url'       => $page['link'],
                                         'title'     => $page['title'],
-                                        'tooltip'   => $page['query'] ? "?{$page['query']}" : ''
                                     ]);
                                  else : ?>
                                     <?php echo Admin_Template::UnknownColumn() ?>

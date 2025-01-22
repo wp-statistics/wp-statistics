@@ -57,11 +57,11 @@ use WP_STATISTICS\Menus;
 
                         <td class="wps-pd-l">
                             <?php
-                                View::load("components/objects/referrer-link", [
-                                    'label' => $visitor->getReferral()->getSourceChannel(),
-                                    'url'   => $visitor->getReferral()->getReferrer() ,
-                                    'title' => $visitor->getReferral()->getRawReferrer()
-                                ]);
+                            View::load("components/objects/referrer-link", [
+                                'label' => $visitor->getReferral()->getSourceChannel(),
+                                'url'   => $visitor->getReferral()->getReferrer(),
+                                'title' => $visitor->getReferral()->getRawReferrer()
+                            ]);
                             ?>
                         </td>
 
@@ -69,11 +69,10 @@ use WP_STATISTICS\Menus;
                             <?php $page = $visitor->getLastPage(); ?>
                             <?php if (!empty($page)) :
                                 View::load("components/objects/external-link", [
-                                    'url'       => $page['link'] ,
-                                    'title'     => $page['title'] ,
-                                    'tooltip'   => $page['query'] ? "?{$page['query']}" : ''
+                                    'url'   => $page['link'],
+                                    'title' => $page['title'],
                                 ]);
-                             else : ?>
+                            else : ?>
                                 <?php echo Admin_Template::UnknownColumn() ?>
                             <?php endif; ?>
                         </td>
