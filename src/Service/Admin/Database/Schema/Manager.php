@@ -102,18 +102,15 @@ class Manager
             'columns' => [
                 'resource_id' => 'BIGINT(20) NOT NULL AUTO_INCREMENT',
                 'uri' => 'varchar(190) NOT NULL',
-                'type' => 'varchar(180) NOT NULL',
                 'date' => 'date NOT NULL',
                 'count' => 'int(11) NOT NULL',
-                'id' => 'int(11) NOT NULL',
             ],
             'constraints' => [
                 'PRIMARY KEY (resource_id)',
                 'UNIQUE KEY date_2 (date, uri)',
                 'KEY url (uri)',
                 'KEY date (date)',
-                'KEY id (id)',
-                'KEY uri (uri, count, id)',
+                'KEY uri (uri, count)',
             ]
         ],
         'historical' => [
