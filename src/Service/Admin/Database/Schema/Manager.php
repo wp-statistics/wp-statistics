@@ -33,7 +33,7 @@ class Manager
                 'continent' => 'varchar(50)',
                 'visitor_id' => 'bigint(20) NOT NULL',
                 'user_id' => 'BIGINT(48) NOT NULL',
-                'page_id' => 'BIGINT(48) NOT NULL',
+                'resource_id' => 'BIGINT(48) NOT NULL',
                 'type' => 'VARCHAR(100) NOT NULL',
             ],
             'constraints' => [
@@ -100,7 +100,7 @@ class Manager
         ],
         'pages' => [
             'columns' => [
-                'page_id' => 'BIGINT(20) NOT NULL AUTO_INCREMENT',
+                'resource_id' => 'BIGINT(20) NOT NULL AUTO_INCREMENT',
                 'uri' => 'varchar(190) NOT NULL',
                 'type' => 'varchar(180) NOT NULL',
                 'date' => 'date NOT NULL',
@@ -108,7 +108,7 @@ class Manager
                 'id' => 'int(11) NOT NULL',
             ],
             'constraints' => [
-                'PRIMARY KEY (page_id)',
+                'PRIMARY KEY (resource_id)',
                 'UNIQUE KEY date_2 (date, uri)',
                 'KEY url (uri)',
                 'KEY date (date)',
@@ -120,7 +120,7 @@ class Manager
             'columns' => [
                 'ID' => 'bigint(20) NOT NULL AUTO_INCREMENT',
                 'category' => 'varchar(25) NOT NULL',
-                'page_id' => 'bigint(20) NOT NULL',
+                'resource_id' => 'bigint(20) NOT NULL',
                 'uri' => 'varchar(190) NOT NULL',
                 'value' => 'bigint(20) NOT NULL',
             ],
@@ -134,7 +134,7 @@ class Manager
             'columns' => [
                 'ID' => 'bigint(20) NOT NULL AUTO_INCREMENT',
                 'date' => 'datetime NOT NULL',
-                'page_id' => 'bigint(20) NULL',
+                'resource_id' => 'bigint(20) NULL',
                 'visitor_id' => 'bigint(20) NULL',
                 'event_name' => 'varchar(64) NOT NULL',
                 'event_data' => 'text NOT NULL',
@@ -142,7 +142,7 @@ class Manager
             'constraints' => [
                 'PRIMARY KEY (ID)',
                 'KEY visitor_id (visitor_id)',
-                'KEY page_id (page_id)',
+                'KEY resource_id (resource_id)',
                 'KEY event_name (event_name)',
             ]
         ],
