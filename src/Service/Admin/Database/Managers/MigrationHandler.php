@@ -72,7 +72,7 @@ class MigrationHandler
      */
     private static function isMigrationComplete()
     {
-        return Option::getOptionGroup('db', 'migrated', false) || Option::getOptionGroup('db', 'check', false);
+        return Option::getOptionGroup('db', 'migrated', false) || Option::getOptionGroup('db', 'check', true);
     }
 
     /**
