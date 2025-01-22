@@ -15,13 +15,12 @@ function FilterModal(options) {
     this.settings = {...defaults, ...options};
     this.formSelector = this.settings.formSelector;
     this.filterContainerSelector = `${this.formSelector} ${this.settings.filterContainerSelector}`;
-
     this.init();
 }
 
 FilterModal.prototype.init = function () {
     jQuery(document).on('click', this.settings.modalSelector, this.onFilterButtonClick.bind(this));
-    jQuery(document).on('submit', this.formSelector, this.onFormSubmit.bind(this));
+    jQuery(document).on('submit', this.settings.formSelector, this.onFormSubmit.bind(this));
     jQuery(document).on('click', this.settings.resetSelector, this.onResetFilterClick.bind(this));
 };
 
@@ -91,6 +90,9 @@ FilterModal.prototype.selectOptionWhenAvailable = function (element, currentValu
 
 FilterModal.prototype.onFormSubmit = function (e) {
     if (typeof this.settings.onSubmit === 'function') {
+        jQuery(".wps-tb-window-footer .button-primary")
+            .html(wps_js._('loading'))
+            .addClass('loading');
         this.settings.onSubmit(e);
     }
 

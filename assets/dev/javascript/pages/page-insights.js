@@ -5,7 +5,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
      * Initialize the filter modal.
      */
     new FilterModal({
-        height: 230,
+        formSelector: '#wp_statistics_visitors_filter_form',
         onOpen: handleModalOpen,
         onSubmit: handleModalSubmit,
     });
@@ -14,7 +14,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
      * Handles the modal open event.
      */
     function handleModalOpen() {
-        const containerSelector = "#wps-visitors-filter-form";
+        const containerSelector = ".wps-modal-filter-form";
         const spinner = new Spinner({ container: containerSelector });
         const currentReferrer = wps_js.getLinkParams('url');
         const dropdowns = jQuery(containerSelector).find('.filter-select');
@@ -48,7 +48,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             dataType: 'json',
             data: params,
             timeout: 30000,
-
             success: function (data) {
                 if (data) {
                     inMemoryCache = data;
@@ -146,7 +145,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         const targetForm = jQuery(e.target);
         disableEmptyFields(targetForm);
         appendSortingOrder(targetForm);
-        showSubmitLoading();
     }
 
     /**
@@ -161,7 +159,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         Object.keys(forms).forEach((type) => {
             forms[type].forEach((name) => {
                 const input = form.find(`${type}[name="${name}"]`);
-                if (input.val().trim() === '') {
+                if (input.val() && input.val().trim() === '') {
                     input.prop('disabled', true);
                 }
             });
@@ -179,12 +177,4 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
     }
 
-    /**
-     * Shows loading state on the submit button.
-     */
-    function showSubmitLoading() {
-        jQuery(".wps-tb-window-footer .button-primary")
-            .html(wps_js._('loading'))
-            .addClass('loading');
-    }
 }

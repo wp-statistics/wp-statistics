@@ -85,8 +85,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         const targetForm = jQuery(e.target);
         disableEmptyVisitorsFields(targetForm);
         appendVisitorsSortingOrder(targetForm);
-        showVisitorsSubmitLoading();
-        return true;
+         return true;
     }
 
     /**
@@ -120,12 +119,4 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
     }
 
-    /**
-     * Shows loading state on the visitors filter modal submit button.
-     */
-    function showVisitorsSubmitLoading() {
-        jQuery(".wps-tb-window-footer .button-primary")
-            .html(wps_js._('loading'))
-            .addClass('loading');
-    }
 }

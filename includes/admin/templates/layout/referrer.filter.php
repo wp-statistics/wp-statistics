@@ -4,10 +4,10 @@
         <div id="wps-referral-filter-div" class="wps-modal-filter-form">
             <table class="o-table wps-referrals-filter">
                 <tr>
-                    <td colspan="2" class="wps-referrals-filter-title"><?php esc_html_e('Referrer', 'wp-statistics'); ?></td>
+                    <td class="wps-referrals-filter-title"><?php esc_html_e('Referrer', 'wp-statistics'); ?></td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="wps-referrals-filter-content">
+                    <td class="wps-referrals-filter-content">
                         <select name="referrer" class="wps-select2  wps-width-100">
                             <!-- Options will be populated dynamically via JavaScript -->
                         </select>

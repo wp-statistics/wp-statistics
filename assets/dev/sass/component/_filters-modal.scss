@@ -210,7 +210,7 @@
         outline: none;
 
         &:disabled {
-          opacity: 70%;
+          opacity: 50%;
           cursor: default;
           pointer-events: none;
         }
