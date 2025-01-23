@@ -95,6 +95,27 @@ class Url
     }
 
     /**
+     * Get query parameters of a given URL.
+     *
+     * @param string $url The URL to check.
+     * @param string $format The format to return the value in. Could be 'string' or 'array'.
+     * @return mixed The value of the query parameter if found.
+     */
+    public static function getParams($url, $format = 'string')
+    {
+        // Parse URL
+        $parsedUrl = wp_parse_url($url);
+
+        // Get query params
+        $query = $parsedUrl['query'] ?? '';
+
+        // Parse query string
+        parse_str($query, $params);
+
+        return $format === 'string' ? $query : $params;
+    }
+
+    /**
      * Checks if a given URL is internal by comparing its domain to the current website domain.
      *
      * @param string $url The URL to check.

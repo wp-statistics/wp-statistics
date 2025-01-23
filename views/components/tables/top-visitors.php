@@ -57,19 +57,22 @@ use WP_STATISTICS\Menus;
 
                         <td class="wps-pd-l">
                             <?php
-                                View::load("components/objects/referrer-link", [
-                                    'label' => $visitor->getReferral()->getSourceChannel(),
-                                    'url'   => $visitor->getReferral()->getReferrer() ,
-                                    'title' => $visitor->getReferral()->getRawReferrer()
-                                ]);
+                            View::load("components/objects/referrer-link", [
+                                'label' => $visitor->getReferral()->getSourceChannel(),
+                                'url'   => $visitor->getReferral()->getReferrer(),
+                                'title' => $visitor->getReferral()->getRawReferrer()
+                            ]);
                             ?>
                         </td>
 
                         <td class="wps-pd-l">
                             <?php $page = $visitor->getLastPage(); ?>
                             <?php if (!empty($page)) :
-                                View::load("components/objects/external-link", ['url' => $page['link'] , 'title' => $page['title'] ]);
-                             else : ?>
+                                View::load("components/objects/external-link", [
+                                    'url'   => $page['link'],
+                                    'title' => $page['title'],
+                                ]);
+                            else : ?>
                                 <?php echo Admin_Template::UnknownColumn() ?>
                             <?php endif; ?>
                         </td>
