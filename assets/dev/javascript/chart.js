@@ -252,7 +252,11 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
     const groupedData = {};
 
     if (unit === 'week') {
-        // Get the overall date range for current period
+        moment.updateLocale('en', {
+            week: {
+                dow: parseInt(wps_js._('start_of_week'))
+            }
+        });
         const startDate = moment(labels[0].date);
         const endDate = moment(labels[labels.length - 1].date);
 
@@ -261,7 +265,8 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
         let currentWeekStart = startDate.clone();
 
         while (currentWeekStart.isSameOrBefore(endDate)) {
-            let weekEnd = currentWeekStart.clone().add(6, 'days');
+            let nextWeekStart = currentWeekStart.clone().startOf('week').add(1, 'week');
+            let weekEnd = nextWeekStart.clone().subtract(1, 'day');
 
             // For the last week, if it would go beyond endDate, adjust it
             if (weekEnd.isAfter(endDate)) {
@@ -276,7 +281,7 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
             });
 
             // Move to next week's start
-            currentWeekStart = currentWeekStart.clone().add(7, 'days');
+            currentWeekStart = nextWeekStart;
 
             // Break if we've processed all dates
             if (currentWeekStart.isAfter(endDate)) {
