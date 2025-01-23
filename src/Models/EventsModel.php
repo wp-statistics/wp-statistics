@@ -12,18 +12,24 @@ class EventsModel extends BaseModel
     public function countEvents($args = [])
     {
         $args = $this->parseArgs($args, [
-            'event_name'=> '',
-            'author_id' => '',
-            'post_type' => '',
-            'post_id'   => '',
-            'date'      => '',
-            'group_by'  => '',
+            'event_name'    => '',
+            'event_target'  => '',
+            'author_id'     => '',
+            'post_type'     => '',
+            'post_id'       => '',
+            'date'          => '',
+            'group_by'      => '',
+            'field'         => '',
+            'not_null'      => ''
         ]);
 
-        $query = Query::select('COUNT(*)')
+        $field = $args['field'] ?? '*';
+
+        $query = Query::select("COUNT($field)")
             ->from('events')
             ->where('event_name', 'IN', $args['event_name'])
             ->where('events.page_id', '=', $args['post_id'])
+            ->whereJson('event_data', 'target_url', '=', $args['event_target'])
             ->whereDate('events.date', $args['date'])
             ->groupBy($args['group_by']);
 
