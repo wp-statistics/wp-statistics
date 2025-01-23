@@ -80,7 +80,7 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
 
                             <td class="wps-pd-l">
                                 <?php
-                                $page = $visitor->getLastPage();
+                                $page = $visitor->getFirstPage();
 
                                 if (!empty($page)) :
                                     View::load("components/objects/external-link", [

@@ -507,8 +507,26 @@ class VisitorsModel extends BaseModel
             ];
         }
 
-        // If page info is true, get last page the visitor has visited
+        // If page info is true, get first and last page the visitor has visited
         if ($args['page_info'] === true) {
+
+            $firstHit = Query::select([
+                'MIN(ID) as ID',
+                'visitor_id'
+            ])
+                ->from('visitor_relationships')
+                ->groupBy('visitor_id')
+                ->getQuery();
+
+            $firstHitQuery = Query::select([
+                'visitor_relationships.visitor_id',
+                'page_id',
+                'date'
+            ])
+                ->from('visitor_relationships')
+                ->whereRaw("(ID, visitor_id) IN ($firstHit)")
+                ->groupBy('visitor_id')
+                ->getQuery();
 
             $lastHit = Query::select([
                 'visitor_id',
@@ -518,7 +536,7 @@ class VisitorsModel extends BaseModel
                 ->groupBy('visitor_id')
                 ->getQuery();
 
-            $subQuery = Query::select([
+            $lastHitQuery = Query::select([
                 'visitor_relationships.visitor_id',
                 'page_id',
                 'date'
@@ -530,6 +548,8 @@ class VisitorsModel extends BaseModel
 
             $args['fields'][] = 'last_hit.page_id as last_page';
             $args['fields'][] = 'last_hit.date as last_view';
+            $args['fields'][] = 'first_hit.page_id as first_page';
+            $args['fields'][] = 'first_hit.date as first_view';
         }
 
         if ($args['user_info'] === true) {
@@ -568,7 +588,8 @@ class VisitorsModel extends BaseModel
 
         // If last page is true, get last page the visitor has visited
         if ($args['page_info'] === true) {
-            $query->joinQuery($subQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit', 'LEFT');
+            $query->joinQuery($lastHitQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit', 'LEFT');
+            $query->joinQuery($firstHitQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit', 'LEFT');
         }
 
         if ($args['user_info']) {
