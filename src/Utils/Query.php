@@ -61,6 +61,15 @@ class Query
         return $instance;
     }
 
+    public static function insert($table)
+    {
+        $instance            = new self();
+        $instance->operation = 'insert';
+        $instance->table     = $instance->getTable($table);
+
+        return $instance;
+    }
+
     public static function union($queries)
     {
         $instance            = new self();
@@ -74,19 +83,43 @@ class Query
     {
         if (empty($values)) return $this;
 
-        foreach ($values as $field => $value) {
-            if (is_string($value)) {
-                $this->setClauses[]         = '%i = %s';
-                $this->valuesToPrepare[]    = $field;
-                $this->valuesToPrepare[]    = $value;
-            } else if (is_numeric($value)) {
-                $this->setClauses[]         = '%i = %d';
-                $this->valuesToPrepare[]    = $field;
-                $this->valuesToPrepare[]    = $value;
-            } else if (is_null($value)) {
-                $this->setClauses[]         = '%i = NULL';
-                $this->valuesToPrepare[]    = $field;
+        if ($this->operation === 'update') {
+            foreach ($values as $field => $value) {
+                if (is_string($value)) {
+                    $this->setClauses[]         = '%i = %s';
+                    $this->valuesToPrepare[]    = $field;
+                    $this->valuesToPrepare[]    = $value;
+                } else if (is_numeric($value)) {
+                    $this->setClauses[]         = '%i = %d';
+                    $this->valuesToPrepare[]    = $field;
+                    $this->valuesToPrepare[]    = $value;
+                } else if (is_null($value)) {
+                    $this->setClauses[]         = '%i = NULL';
+                    $this->valuesToPrepare[]    = $field;
+                }
             }
+        }
+
+        if ($this->operation === 'insert') {
+            $identifiers    = [];
+            $placeholders   = [];
+
+            foreach ($values as $field => $value) {
+                $identifiers[]  = '%i';
+
+                if (is_string($value)) {
+                    $placeholders[] = '%s';
+                } else if (is_numeric($value)) {
+                    $placeholders[] = '%d';
+                } else if (empty($value)) {
+                    $placeholders[] = 'NULL';
+                }
+            }
+
+            $this->valuesToPrepare = array_merge(array_keys($values), array_values($values));
+
+            $this->setClauses['identifiers'] = $identifiers;
+            $this->setClauses['values']      = $placeholders;
         }
 
         return $this;
@@ -198,6 +231,27 @@ class Query
 
         // If the value is empty, we don't need to add it to the query (except for numbers)
         if (!is_numeric($value) && empty($value)) return $this;
+
+        $condition = $this->generateCondition($field, $operator, $value);
+
+        if (!empty($condition)) {
+            $this->whereClauses[]  = $condition['condition'];
+            $this->valuesToPrepare = array_merge($this->valuesToPrepare, $condition['values']);
+        }
+
+        return $this;
+    }
+
+    public function whereJson($field, $key, $operator, $value)
+    {
+        if (is_array($value)) {
+            $value = array_filter(array_values($value));
+        }
+
+        // If the value is empty, we don't need to add it to the query (except for numbers)
+        if (!is_numeric($value) && empty($value)) return $this;
+
+        $field = "JSON_UNQUOTE(JSON_EXTRACT($field, '$.{$key}'))";
 
         $condition = $this->generateCondition($field, $operator, $value);
 
@@ -678,6 +732,18 @@ class Query
         if (!empty($this->rawWhereClause)) {
             $query .= empty($this->whereClauses) ? ' WHERE ' : ' ';
             $query .= implode(' ', $this->rawWhereClause);
+        }
+
+        return $query;
+    }
+
+    protected function insertQuery()
+    {
+        $query = "INSERT INTO $this->table";
+
+        if (!empty($this->setClauses)) {
+            $query .= ' (' . implode(', ', $this->setClauses['identifiers']) . ') ';
+            $query .= ' VALUES (' . implode( ', ', $this->setClauses['values'] ) . ') ';
         }
 
         return $query;

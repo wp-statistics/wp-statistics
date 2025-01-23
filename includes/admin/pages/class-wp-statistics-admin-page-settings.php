@@ -304,18 +304,6 @@ class settings_page extends Singleton
             $wp_statistics_options[self::input_name_to_option($role_post)] = (isset($_POST[$role_post]) ? $_POST[$role_post] : '');
         }
 
-        // Save HoneyPot
-        if (isset($_POST['wps_create_honeypot'])) {
-            $my_post                      = array(
-                'post_type'    => 'page',
-                'post_title'   => __('WP Statistics - Honey Pot Page for Tracking', 'wp-statistics') . ' [' . TimeZone::getCurrentDate() . ']',
-                'post_content' => __('Do Not Delete: Honey Pot Page for WP Statistics Tracking.', 'wp-statistics'),
-                'post_status'  => 'publish',
-                'post_author'  => 1,
-            );
-            $_POST['wps_honeypot_postid'] = wp_insert_post($my_post);
-        }
-
         // Save Exclusion
         $wps_option_list = array(
             'wps_record_exclusions',
@@ -327,8 +315,6 @@ class settings_page extends Singleton
             'wps_included_countries',
             'wps_excluded_hosts',
             'wps_robot_threshold',
-            'wps_use_honeypot',
-            'wps_honeypot_postid',
             'wps_exclude_feeds',
             'wps_excluded_urls',
             'wps_exclude_404s',
