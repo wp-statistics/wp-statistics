@@ -588,7 +588,7 @@ class VisitorsModel extends BaseModel
                 ->where('pages.uri', '=', $args['query_param']);
         }
 
-        if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
+        if (array_intersect(['post_type', 'post_id', 'author_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
                 ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
                 ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
