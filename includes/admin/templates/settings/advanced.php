@@ -410,13 +410,13 @@ add_thickbox();
 
         <tr valign="top">
             <th scope="row">
-                <label for="delete-data-on-deactivation"><?php esc_html_e('Delete All Data on Deactivation', 'wp-statistics'); ?></label>
+                <label for="delete-data-on-uninstall"><?php esc_html_e('Delete All Data on Deletion', 'wp-statistics'); ?></label>
             </th>
 
             <td>
-                <input id="delete-data-on-deactivation" type="checkbox" name="wps_delete_data_on_deactivation" <?php checked(WP_STATISTICS\Option::get('delete_data_on_deactivation')) ?>>
-                <label for="delete-data-on-deactivation"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Enable this option to automatically delete all WP Statistics data from your database when the plugin is deactivated.', 'wp-statistics'); ?></p>
+                <input id="delete-data-on-uninstall" type="checkbox" name="wps_delete_data_on_uninstall" <?php checked(WP_STATISTICS\Option::get('delete_data_on_uninstall')) ?>>
+                <label for="delete-data-on-uninstall"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                <p class="description"><?php esc_html_e('Enable this option to automatically delete all WP Statistics data from your database when the plugin is deleted.', 'wp-statistics'); ?></p>
                 <p class="description"><span class="wps-note"><?php esc_html_e('Warning', 'wp-statistics'); ?>:</span> <?php esc_html_e('This action is permanent and cannot be undone. Make sure to back up your data before enabling this option.', 'wp-statistics'); ?></p>
             </td>
         </tr>

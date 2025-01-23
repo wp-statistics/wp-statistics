@@ -11,8 +11,8 @@ class Uninstall
     {
         global $wpdb;
 
-        // Remove plugin data if `delete_data_on_deactivation` option is enabled
-        if (Option::get('delete_data_on_deactivation')) {
+        // Remove plugin data if `delete_data_on_uninstall` option is enabled
+        if (Option::get('delete_data_on_uninstall')) {
             if (is_multisite()) {
 
                 $blog_ids = $wpdb->get_col("SELECT `blog_id` FROM $wpdb->blogs");

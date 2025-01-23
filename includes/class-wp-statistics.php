@@ -76,7 +76,7 @@ final class WP_Statistics
         /**
          * Remove plugin data
          */
-        register_deactivation_hook(WP_STATISTICS_MAIN_FILE, ['WP_Statistics', 'uninstall']);
+        register_uninstall_hook(WP_STATISTICS_MAIN_FILE, ['WP_Statistics', 'uninstall']);
 
         /**
          * wp-statistics loaded

@@ -142,7 +142,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 - **Fix:** Resolved issue with updating source channel data on large dataset.
 - **Fix:** Resolved referrals backward-compatibility issue with "REST API" add-on.
 - **Enhancement:** Updated the time display logic in Tracker Debugger to replace "0 minutes ago" with "Now".
-- **New**: Added an option to delete all plugin date upon deactivation.
+- **New**: Added an option to delete all plugin data when plugin is uninstalled.
 
 = 14.12.1 - 2025-01-13 =
 - **New:** Added "Last Year" filter to metaboxes on the Overview page for yearly data.
