@@ -109,6 +109,44 @@ class EventsModel extends BaseModel
         return $query->getAll();
     }
 
+    public function countEventsByPage($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'event_name'    => '',
+            'event_target'  => '',
+            'author_id'     => '',
+            'post_type'     => '',
+            'post_id'       => '',
+            'date'          => '',
+            'decorator'     => '',
+            'per_page'      => '',
+            'page'          => 1,
+            'order'         => 'count',
+            'order_by'      => 'DESC',
+        ]);
+
+        $query = Query::select('COUNT(events.ID) as count, events.page_id, events.event_data')
+            ->from('events')
+            ->where('event_name', 'IN', $args['event_name'])
+            ->where('events.page_id', '=', $args['post_id'])
+            ->whereJson('event_data', 'target_url', '=', $args['event_target'])
+            ->whereDate('events.date', $args['date'])
+            ->orderBy($args['order'], $args['order_by'])
+            ->groupBy('events.page_id')
+            ->decorate($args['decorator'])
+            ->whereNotNull('events.page_id')
+            ->perPage($args['page'], $args['per_page']);
+
+        if (!empty($args['author_id']) || !empty($args['post_type']) || !empty($args['post_id'])) {
+            $query
+                ->join('posts', ['events.page_id', 'posts.ID'])
+                ->where('posts.post_type', '=', $args['post_type'])
+                ->where('posts.post_author', '=', $args['author_id']);
+        }
+
+        return $query->getAll();
+    }
+
     public function getTopEvents($args = [])
     {
         $args = $this->parseArgs($args, [
