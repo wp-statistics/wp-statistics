@@ -172,7 +172,7 @@ class IP
         $userAgent = UserAgent::getHttpUserAgent();
 
         $hash          = hash('sha256', $dailySalt['salt'] . $ip . $userAgent);
-        $truncatedHash = substr( self::$hash_ip_prefix . $hash, 0, 60); 
+        $truncatedHash = substr( self::$hash_ip_prefix . $hash, 0, 40); 
 
         // Hash the combination of daily salt, IP, and user agent to create a unique identifier.
         // This hash is then prefixed and filtered for potential modification before being returned.
