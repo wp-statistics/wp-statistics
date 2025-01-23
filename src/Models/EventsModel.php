@@ -23,7 +23,7 @@ class EventsModel extends BaseModel
             'not_null'      => ''
         ]);
 
-        $field = $args['field'] ?? '*';
+        $field = !empty($args['field']) ? $args['field'] : '*';
 
         $query = Query::select("COUNT($field)")
             ->from('events')
