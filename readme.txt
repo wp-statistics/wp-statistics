@@ -137,6 +137,9 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.12.x - 2025-**-** =
+- **Enhancement:** Updated the hash IP algorithm.
+
 = 14.12.2 - 2025-01-21 =
 - **New:** Added the ability to change the chart interval.
 - **Enhancement:** Displayed dates in reports using the i18n format for better localization.
