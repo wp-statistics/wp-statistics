@@ -410,7 +410,7 @@ add_thickbox();
 
         <tr valign="top">
             <th scope="row">
-                <label for="delete-data-on-uninstall"><?php esc_html_e('Delete All Data on Deletion', 'wp-statistics'); ?></label>
+                <label for="delete-data-on-uninstall"><?php esc_html_e('Delete All Data on Plugin Deletion', 'wp-statistics'); ?></label>
             </th>
 
             <td>

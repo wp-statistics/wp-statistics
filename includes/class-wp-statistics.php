@@ -351,7 +351,10 @@ final class WP_Statistics
     public static function uninstall()
     {
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
+        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-option.php';
+        require_once WP_STATISTICS_DIR . 'src/Components/AssetNameObfuscator.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-uninstall.php';
+
         new \WP_STATISTICS\Uninstall();
     }
 }
