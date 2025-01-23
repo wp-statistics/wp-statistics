@@ -145,7 +145,11 @@ if (wpsSelect2.length) {
         const selectedOption = jQuery(this).find('option:selected');
         const url = selectedOption.val();
         if (url) {
-            window.location.href = url;
+            if(dropdownParent=== wpsFilterPage){
+                window.location.href = `${window.location.href}&pid=${url}`;
+            }else{
+                window.location.href = url;
+            }
         }
     });
 
