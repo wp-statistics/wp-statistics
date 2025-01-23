@@ -132,7 +132,7 @@ jQuery(document).ready(function () {
                 activeRangeText = `${startMoment.format(momentDateFormat)} - ${endMoment.format(momentDateFormat)}`;
             }
             if (activeText !== 'Custom Range') {
-                if (activeText !== 'All Time') {
+                if (activeText !== 'All time') {
                     activeRangeText = `<span class="wps-date-range">${activeText}</span>${activeRangeText}`;
                     document.querySelector('.js-date-range-picker-btn').classList.add('custom-range')
                 } else {
@@ -158,7 +158,7 @@ jQuery(document).ready(function () {
             datePickerElement.data('daterangepicker').container.find('.ranges li.active').removeClass('active');
             datePickerElement.data('daterangepicker').container.find('.ranges li[data-range-key="' + defaultRange + '"]').addClass('active');
             if (defaultRange !== 'Custom Range') {
-                if (defaultRange !== 'All Time') {
+                if (defaultRange !== 'All time') {
                     defaultActiveRangeText = `<span class="wps-date-range">${defaultRange}</span>${defaultActiveRangeText}`;
                     document.querySelector('.js-date-range-picker-btn').classList.add('custom-range')
                 } else {
@@ -186,7 +186,7 @@ jQuery(document).ready(function () {
             inputTo.val(endDate);
             const selectedRange = datePickerElement.data('daterangepicker').chosenLabel;
             datePickerBtn.find('span').html(selectedRange);
-            if (selectedRange !== 'All Time') {
+            if (selectedRange !== 'All time') {
                 jQuery.ajax({
                     url: wps_js.global.ajax_url,
                     method: 'POST',

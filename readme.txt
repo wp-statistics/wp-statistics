@@ -43,6 +43,7 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
 * Monitor live online user traffic in real-time
 * Fully customized overview dashboard page
 * Shows your most popular posts and pages
+* Referrals Tracking: Track and analyze referrals with five reports: Referred Visitors, Referrers, Search Engines, Social Media, and Source Categories. The new Source Categories report includes support for Organic Search, Paid Search, Organic Social, Paid Social, and more.
 * Lists your top referral sources such as search engines
 * Author Analytics: Measures author performance.
 * Geographic Reports: Location-based analytics, including countries, cities, European countries, US states, and regions within your country.
@@ -64,7 +65,7 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
 **Get the most out of your website analytics by using WP Statistics Premium Add-ons**
 Upgrade your analytics toolkit with our range of premium add-ons, including [Data Plus](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wporg&utm_medium=link&utm_campaign=dp), [Advanced Reporting](https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wporg&utm_medium=link&utm_campaign=adv-report), [Real-Time Stats](https://wp-statistics.com/product/wp-statistics-realtime-stats/?utm_source=wporg&utm_medium=link&utm_campaign=realtime), [Mini Chart](https://wp-statistics.com/product/wp-statistics-mini-chart/?utm_source=wporg&utm_medium=link&utm_campaign=mini-chart), and [more](https://wp-statistics.com/add-ons/?utm_source=wporg&utm_medium=link&utm_campaign=add-ons). Making informed decisions is easier with these powerful tools.
 
-**Special Offer:** Purchase the [bundle pack](https://wp-statistics.com/product/add-ons-bundle/?utm_source=wporg&utm_medium=link&utm_campaign=premium) and Enjoy Savings of up to 60%!
+**Special Offer:** Save up to 60% on all premium features when you purchase [WP Statistics Premium](https://wp-statistics.com/pricing/?utm_source=wporg&utm_medium=link&utm_campaign=premium).
 
 = Report Bugs =
 Having trouble with a bug? Please [create an issue](https://github.com/wp-statistics/wp-statistics/issues/new) on GitHub. Kindly note that [GitHub](https://github.com/wp-statistics/wp-statistics) is exclusively for bug reports; other inquiries will be closed.
@@ -138,43 +139,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 == Changelog ==
 = 14.13 - 2025-**-** =
 - **Enhancement:** Removed the honeypot feature.
-
-= 14.12.2 - 2025-01-** =
-- **Fix:** Resolved Filters option incorrectly activating when changing the date filter in Referrals.
-- **Fix:** Resolved issue where user data was lost upon logout for online users.
-- **Fix:** Resolved issue with updating source channel data on large dataset.
-- **Fix:** Resolved referrals backward-compatibility issue with "REST API" add-on.
-- **Enhancement:** Updated the time display logic in Tracker Debugger to replace "0 minutes ago" with "Now".
-
-= 14.12.1 - 2025-01-13 =
-- **New:** Added "Last Year" filter to metaboxes on the Overview page for yearly data.
-- **Enhancement:** Improved IP/Hash filter on the Visitor Insights page.
-- **Fix:** Resolved number formatting in the "Global Visitor Distribution" widget.
-- **Fix:** Fixed tracker detection issue for sites in subfolders.
-- **Fix:** Addressed compatibility issue with "Discount Rules for WooCommerce."
-- **Fix:** Corrected timezone mismatch in the "Traffic Summary" widget.
-
-= 14.12 - 2025-01-05 =
-- **New:** Introduced the "Source Categories" report under the "Referrals" section.
-- **New:** Introduced the "Social Media" report under the "Referrals" section.
-- **New:** Introduced the "404 Reports" under the "Page Insights" section.
-- **New:** Introduced the "Logged-in Users" report under "Visitor Insights."
-- **New:** Added the Tracker Debugger for troubleshooting.
-- **New:** Redesigned the "Privacy Audit" page with a more user-friendly interface.
-- **New:** Added a Visitor Chart to the Single Country Report page.
-- **Enhancement:** Optimized metabox widgets for faster performance and improved cache handling.
-- **Enhancement:** Added a "Location Detection Method" option in geolocation, including Cloudflare Geolocation Autodetect.
-- **Enhancement:** Expanded traffic categorization for referral visitors, now supporting Organic and Paid Social traffic, among others.
-- **Enhancement:** Redesigned the Exclusions report with the updated design system.
-- **Enhancement:** Improved data models to include historical data for more accurate insights.
-- **Enhancement:** Prevented unrelated notices from appearing on the overview and analytics pages.
-- **Fix:** Fixed an issue with non-queryable post types appearing in Content Analytics.
-- **Fix:** Resolved an issue with early translation loading.
-- **Fix:** Fixed a bug with an undefined array key in the Robot Threshold setting.
-- **Fix:** Addressed the issue of zero views showing on the home page.
-- **Fix:** Fixed the zero-views issue in Content Analytics for custom post types.
-- **Fix:** Resolved Customization widget rendering issue.
-- **Fix:** Fixed recording inaccurate historical data while purging "visit" table.
+- **Enhancement:** Added a new table resource to enhance performance and ensure efficient data management.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=20019/) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 

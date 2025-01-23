@@ -1,3 +1,12 @@
+= 14.12.2 - 2025-01-21 =
+- **New:** Added the ability to change the chart interval.
+- **Enhancement:** Displayed dates in reports using the i18n format for better localization.
+- **Enhancement:** Updated the time display logic in the Tracker Debugger to replace "0 minutes ago" with "Now."
+- **Fix:** Resolved an issue where the Filters option was incorrectly activating when changing the date filter in Referrals.
+- **Fix:** Fixed a bug where user data was lost upon logout for online users.
+- **Fix:** Addressed an issue with updating source channel data on large datasets.
+- **Fix:** Resolved a backward compatibility issue with the "REST API" add-on for Referrals.
+
 = 14.12.1 - 2025-01-13 =
 - **New:** Added "Last Year" filter to metaboxes on the Overview page for yearly data.
 - **Enhancement:** Improved IP/Hash filter on the Visitor Insights page.
