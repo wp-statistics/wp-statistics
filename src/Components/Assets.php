@@ -100,9 +100,11 @@ class Assets
      * @return  void
      * @example Assets::style('admin', 'dist/admin.css', ['jquery'], 'all', false, WP_STATISTICS_URL);
      */
-    public static function style($handle, $src, $deps = [], $media = 'all', $obfuscate = false, $plugin_url = null)
+    public static function style($handle, $src, $deps = [], $media = 'all', $obfuscate = false, $plugin_url = null, $version = '')
     {
-        wp_enqueue_style(self::getHandle($handle), self::getSrc($src, $obfuscate, $plugin_url), $deps, WP_STATISTICS_VERSION, $media);
+        $version = empty($version) ? WP_STATISTICS_VERSION : trim($version);
+
+        wp_enqueue_style(self::getHandle($handle), self::getSrc($src, $obfuscate, $plugin_url), $deps, $version, $media);
     }
 
     /**
