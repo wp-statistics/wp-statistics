@@ -96,6 +96,7 @@ class Assets
      * @param string $media The context which style needs to be loaded: all, print, or screen
      * @param bool $obfuscate Ofuscate/Randomize asset's file name.
      * @param string $plugin_url The plugin URL.
+     * @param string $version The version of the plugin.
      *
      * @return  void
      * @example Assets::style('admin', 'dist/admin.css', ['jquery'], 'all', false, WP_STATISTICS_URL);
