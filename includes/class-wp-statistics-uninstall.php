@@ -12,17 +12,20 @@ class Uninstall
         global $wpdb;
 
         // Remove plugin data if `delete_data_on_uninstall` option is enabled
-        if (Option::get('delete_data_on_uninstall')) {
-            if (is_multisite()) {
+        if (is_multisite()) {
+            $blog_ids = $wpdb->get_col("SELECT `blog_id` FROM $wpdb->blogs");
 
-                $blog_ids = $wpdb->get_col("SELECT `blog_id` FROM $wpdb->blogs");
-                foreach ($blog_ids as $blog_id) {
-                    switch_to_blog($blog_id);
+            foreach ($blog_ids as $blog_id) {
+                switch_to_blog($blog_id);
+
+                if (Option::get('delete_data_on_uninstall')) {
                     $this->wp_statistics_site_removal();
-                    restore_current_blog();
                 }
 
-            } else {
+                restore_current_blog();
+            }
+        } else {
+            if (Option::get('delete_data_on_uninstall')) {
                 $this->wp_statistics_site_removal();
             }
         }
