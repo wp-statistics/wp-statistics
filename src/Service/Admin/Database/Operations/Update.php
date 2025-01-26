@@ -113,12 +113,14 @@ class Update extends AbstractTableOperation
                         }
                     }
                     break;
-                
+
                 case 'foreign':
                     foreach ($details as $foreignKeyName => $foreignDetails) {
+                        $uniqueForeignKeyName = $foreignKeyName . '_' . uniqid();
+
                         $alters[] = sprintf(
                             "ADD CONSTRAINT `%s` FOREIGN KEY (`%s`) REFERENCES `%s` (`%s`) ON DELETE %s ON UPDATE %s",
-                            $foreignKeyName,
+                            $uniqueForeignKeyName,
                             $foreignDetails['column'],
                             $foreignDetails['referenced_table'],
                             $foreignDetails['referenced_column'],
