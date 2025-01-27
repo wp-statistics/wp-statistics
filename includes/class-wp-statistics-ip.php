@@ -145,7 +145,7 @@ class IP
         if (isset($dailySalt['date']) && $dailySalt['date'] != $date) {
             $dailySalt = [
                 'date' => $date, // Update the salt's date to today.
-                'salt' => sha1(wp_generate_password()) // Generate a new salt based on a new password and today's date.
+                'salt' =>  hash('sha256', wp_generate_password()) // Generate a new salt based on a new password and today's date.
             ];
 
             // Save the new daily salt in the WordPress options for future use.
@@ -156,7 +156,7 @@ class IP
         if (!$dailySalt || !is_array($dailySalt)) {
             $dailySalt = [
                 'date' => $date, // Set the salt's date to today.
-                'salt' => sha1(wp_generate_password()) // Generate a new salt.
+                'salt' =>  hash('sha256', wp_generate_password()) // Generate a new salt.
             ];
 
             // Save the new daily salt in the WordPress options.
@@ -171,9 +171,12 @@ class IP
         // Retrieve the current user agent, defaulting to '' if unavailable or empty.
         $userAgent = UserAgent::getHttpUserAgent();
 
+        $hash          = hash('sha256', $dailySalt['salt'] . $ip . $userAgent);
+        $truncatedHash = substr( self::$hash_ip_prefix . $hash, 0, 46); 
+
         // Hash the combination of daily salt, IP, and user agent to create a unique identifier.
         // This hash is then prefixed and filtered for potential modification before being returned.
-        return apply_filters('wp_statistics_hash_ip', self::$hash_ip_prefix . sha1($dailySalt['salt'] . $ip . $userAgent));
+        return apply_filters('wp_statistics_hash_ip', $truncatedHash);
     }
 
     /**
