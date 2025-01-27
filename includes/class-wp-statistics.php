@@ -74,6 +74,11 @@ final class WP_Statistics
         register_activation_hook(WP_STATISTICS_MAIN_FILE, array('WP_Statistics', 'install'));
 
         /**
+         * Remove plugin data
+         */
+        register_uninstall_hook(WP_STATISTICS_MAIN_FILE, ['WP_Statistics', 'uninstall']);
+
+        /**
          * wp-statistics loaded
          */
         do_action('wp_statistics_loaded');
@@ -349,7 +354,10 @@ final class WP_Statistics
     public static function uninstall()
     {
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
+        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-option.php';
+        require_once WP_STATISTICS_DIR . 'src/Components/AssetNameObfuscator.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-uninstall.php';
+
         new \WP_STATISTICS\Uninstall();
     }
 }
