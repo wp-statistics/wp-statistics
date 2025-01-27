@@ -199,18 +199,18 @@ const phpToMomentFormat = (phpFormat) => {
 
 const formatDateRange = (startDate, endDate, unit, momentDateFormat, isInsideDashboardWidgets) => {
     const startDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
-     if (unit === 'month') {
-         const monthFormat = momentDateFormat
-             .replace(/D+/g, '')
-             .replace(/\/\//g, '/')
-             .replace(/^\//, '')
-             .replace(/\/$/, '')
-             .replace(/\s*,/, '')
-             .replace(/-$/, '')
-             .trim();
-         return moment(startDate).format(monthFormat);
+    if (unit === 'month') {
+        const monthFormat = momentDateFormat
+            .replace(/D+/g, '')
+            .replace(/\/\//g, '/')
+            .replace(/^\//, '')
+            .replace(/\/$/, '')
+            .replace(/\s*,/, '')
+            .replace(/-$/, '')
+            .trim();
+        return moment(startDate).format(monthFormat);
 
-     } else {
+    } else {
         if (moment(startDate).year() === moment(endDate).year()) {
             return `${moment(startDate).format(startDateFormat)} to ${moment(endDate).format(momentDateFormat)}`;
         } else {
@@ -237,12 +237,18 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
             monthTooltipTitle: [],
         };
     }
-
+    const isIncompletePeriod = [];
+    const now = moment();
     if (unit === 'day') {
+        labels.forEach(label => {
+            const date = moment(label.date);
+            isIncompletePeriod.push(date.isSameOrAfter(now, 'day'));
+        });
         return {
             aggregatedLabels: labels.map(label => label.formatted_date),
             aggregatedData: datasets.map(dataset => dataset.data),
             monthTooltipTitle: [],
+            isIncompletePeriod
         };
     }
 
@@ -252,7 +258,11 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
     const groupedData = {};
 
     if (unit === 'week') {
-        // Get the overall date range for current period
+        moment.updateLocale('en', {
+            week: {
+                dow: parseInt(wps_js._('start_of_week'))
+            }
+        });
         const startDate = moment(labels[0].date);
         const endDate = moment(labels[labels.length - 1].date);
 
@@ -261,7 +271,8 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
         let currentWeekStart = startDate.clone();
 
         while (currentWeekStart.isSameOrBefore(endDate)) {
-            let weekEnd = currentWeekStart.clone().add(6, 'days');
+            let nextWeekStart = currentWeekStart.clone().startOf('week').add(1, 'week');
+            let weekEnd = nextWeekStart.clone().subtract(1, 'day');
 
             // For the last week, if it would go beyond endDate, adjust it
             if (weekEnd.isAfter(endDate)) {
@@ -276,7 +287,7 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
             });
 
             // Move to next week's start
-            currentWeekStart = currentWeekStart.clone().add(7, 'days');
+            currentWeekStart = nextWeekStart;
 
             // Break if we've processed all dates
             if (currentWeekStart.isAfter(endDate)) {
@@ -311,6 +322,12 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
                 aggregatedData[datasetIndex].push(total);
             });
         });
+
+        weeks.forEach(week => {
+            const weekEnd = moment().endOf('week');
+            const isIncomplete = week.end.isSameOrAfter(moment(), 'day');
+            isIncompletePeriod.push(isIncomplete);
+        });
     } else if (unit === 'month') {
         const startDate = moment(labels[0].date);
         const endDate = moment(labels[labels.length - 1].date);
@@ -336,7 +353,7 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
 
         // Aggregate data for each month
         Object.keys(groupedData).forEach(monthKey => {
-            const { startDate, endDate, indices } = groupedData[monthKey];
+            const {startDate, endDate, indices} = groupedData[monthKey];
             const actualStartDate = moment.max(startDate, moment(labels[0].date));
             const actualEndDate = moment.min(endDate, moment(labels[labels.length - 1].date));
             if (indices.length > 0) {
@@ -346,12 +363,18 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
                     const total = indices.reduce((sum, i) => sum + (dataset.data[i] || 0), 0);
                     aggregatedData[idx].push(total);
                 });
-                 monthTooltipTitle.push(setMonthDateRange(actualStartDate, actualEndDate, momentDateFormat));
+                monthTooltipTitle.push(setMonthDateRange(actualStartDate, actualEndDate, momentDateFormat));
             }
+        });
+
+        Object.keys(groupedData).forEach(monthKey => {
+            const monthEnd = moment().endOf('month');
+            const isIncomplete = groupedData[monthKey].endDate.isSameOrAfter(moment(), 'day');
+            isIncompletePeriod.push(isIncomplete);
         });
     }
 
-    return {aggregatedLabels, aggregatedData, monthTooltipTitle};
+    return {aggregatedLabels, aggregatedData, monthTooltipTitle, isIncompletePeriod};
 }
 
 const updateLegend = (lineChart, datasets, tag_id, data) => {
@@ -577,13 +600,29 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
         }
     } else {
         prevDateLabels = Array(dateLabels.length).fill("N/A");
-        if (datasets  && datasets.length > 0 && Array.isArray(datasets)) {
+        if (datasets && datasets.length > 0 && Array.isArray(datasets)) {
             prevAggregatedData = datasets.map(() => Array(dateLabels.length).fill(0));
         }
     }
 
     function updateChart(unitTime) {
         const displayText = getDisplayTextForUnitTime(unitTime, tag_id);
+        const chartElement = document.getElementById(tag_id);
+        const chartContainer = chartElement.parentElement.parentElement.querySelector('.wps-postbox-chart--data');
+        const previousPeriodElement = chartContainer?.querySelector('.wps-postbox-chart--previousPeriod');
+        const previousDatas = chartContainer?.querySelectorAll('.previous-data');
+        if (previousPeriodElement) {
+            previousPeriodElement.classList.remove('wps-line-through');
+        }
+        previousDatas?.forEach(element => {
+            element.classList.remove('wps-line-through');
+        });
+
+        const currentDatas = chartContainer?.querySelectorAll('.current-data');
+        currentDatas?.forEach(element => {
+            element.classList.remove('wps-line-through');
+        });
+
         const select = document.querySelector(`#${tag_id}`).closest('.o-wrap').querySelector('.js-unitTimeSelect');
         if (select) {
             const selectedItem = select.querySelector('.wps-unit-time-chart__selected-item');
@@ -642,7 +681,23 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 hoverPointBackgroundColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx + 1}`],
                 hoverPointBorderWidth: datasetType === 'line' ? 4 : undefined, // Only for line
                 tension: datasetType === 'line' ? chartTensionValues[idx % chartTensionValues.length] : undefined, // Only for line
-                hitRadius: 10
+                hitRadius: 10,
+                meta: {
+                    incompletePeriods: aggregatedData.isIncompletePeriod || []
+                },
+                segment: datasetType === 'line' ? {
+                    borderDash: (ctx) => {
+                        const incompletePeriods = ctx.chart.data.datasets[ctx.datasetIndex]?.meta?.incompletePeriods || [];
+                        const currentIncomplete = incompletePeriods[ctx.p1DataIndex];
+                        const previousIncomplete = incompletePeriods[ctx.p0DataIndex];
+
+                        // Dash if either end of segment is in incomplete period
+                        if (currentIncomplete || previousIncomplete) {
+                            return [5, 5];
+                        }
+                        return undefined;
+                    }
+                } : undefined
             };
         });
 
