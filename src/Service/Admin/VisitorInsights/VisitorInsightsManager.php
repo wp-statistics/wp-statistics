@@ -67,7 +67,7 @@ class VisitorInsightsManager
             $search  = Request::get('search', '');
             $search  = Url::cleanUrl($search);
 
-            $pages = Query::select(['uri'])
+            $pages = Query::select(['DISTINCT uri'])
                 ->from('pages')
                 ->where('uri', 'LIKE', "%{$search}%")
                 ->getAll();
