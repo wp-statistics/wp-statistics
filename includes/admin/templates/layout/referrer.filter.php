@@ -1,5 +1,6 @@
 <div id="wps-modal-filter-popup" dir="<?php echo (is_rtl() ? 'rtl' : 'ltr') ?>" style="display:none;">
     <form action="<?php echo esc_url(admin_url('admin.php')); ?>" method="get" id="wps-referrals-filter-form">
+        <p class="wps-modal-filter-description"><?php esc_html_e('Referrals attributes filters:', 'wp-statistics'); ?></p>
         <input type="hidden" name="page" value="<?php echo esc_attr($pageName); ?>">
         <div id="wps-referral-filter-div" class="wps-modal-filter-form">
             <table class="o-table wps-referrals-filter">

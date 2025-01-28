@@ -1,6 +1,7 @@
 <div id="wps-modal-filter-popup" dir="<?php echo is_rtl() ? 'rtl' : 'ltr'; ?>" style="display:none;">
-    <form action="<?php echo esc_url(admin_url('admin.php')); ?>" method="get" id="wp_statistics_visitors_filter_form">
-        <input type="hidden" name="page" value="<?php echo esc_attr($pageName); ?>">
+     <form action="<?php echo esc_url(admin_url('admin.php')); ?>" method="get" id="wp_statistics_visitors_filter_form">
+         <p class="wps-modal-filter-description"><?php esc_html_e('Visitors attributes filters:', 'wp-statistics'); ?></p>
+         <input type="hidden" name="page" value="<?php echo esc_attr($pageName); ?>">
         <div id="wps-visitors-filter-form" class="wps-modal-filter-form">
             <table class="o-table">
                 <!-- Dropdown Filters -->
@@ -78,6 +79,7 @@
                 <tr>
                     <td>
                         <div class="wps-tb-window-footer">
+                            <button type="button" class="wps-reset-filter wps-modal-reset-filter"><?php esc_html_e('Reset', 'wp-statistics'); ?></button>
                             <button type="submit" class="button-primary"><?php esc_html_e('Filter', 'wp-statistics'); ?></button>
                         </div>
                     </td>

@@ -13,20 +13,20 @@ class DeviceHelper
     public static function getBrowserList($all = true)
     {
         $list = [
-            'aloha_browser'                 => __('Aloha Browser', 'wp-statistics'),
-            'brave'                         => __('Brave', 'wp-statistics'),
-            'chrome'                        => __('Chrome', 'wp-statistics'),
-            'duckduckgo_privacy_browser'    => __('DuckDuckGo', 'wp-statistics'),
-            'microsoft_edge'                => __('Edge', 'wp-statistics'),
-            'firefox'                       => __('Firefox', 'wp-statistics'),
-            'internet_explorer'             => __('Internet Explorer', 'wp-statistics'),
-            'opera'                         => __('Opera', 'wp-statistics'),
-            'safari'                        => __('Safari', 'wp-statistics'),
-            'samsung_browser'               => __('Samsung Browser', 'wp-statistics'),
-            'uc_browser'                    => __('UC Browser', 'wp-statistics'),
-            'waterfox'                      => __('Waterfox', 'wp-statistics'),
-            'yandex_browser'                => __('Yandex Browser', 'wp-statistics'),
-            'whale_browser'                 => __('Whale Browser', 'wp-statistics')
+            'aloha_browser'     => __('Aloha Browser', 'wp-statistics'),
+            'brave'             => __('Brave', 'wp-statistics'),
+            'chrome'            => __('Chrome', 'wp-statistics'),
+            'duckduckgo'        => __('DuckDuckGo', 'wp-statistics'),
+            'microsoft_edge'    => __('Edge', 'wp-statistics'),
+            'firefox'           => __('Firefox', 'wp-statistics'),
+            'internet_explorer' => __('Internet Explorer', 'wp-statistics'),
+            'opera'             => __('Opera', 'wp-statistics'),
+            'safari'            => __('Safari', 'wp-statistics'),
+            'samsung_browser'   => __('Samsung Browser', 'wp-statistics'),
+            'uc_browser'        => __('UC Browser', 'wp-statistics'),
+            'waterfox'          => __('Waterfox', 'wp-statistics'),
+            'yandex_browser'    => __('Yandex Browser', 'wp-statistics'),
+            'whale_browser'     => __('Whale Browser', 'wp-statistics')
         ];
 
         if ($all === true) {

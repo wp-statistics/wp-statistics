@@ -71,7 +71,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             if (options) {
                 dropdown.empty().append('<option value="">' + wps_js._('all') + '</option>');
                 Object.keys(options).forEach(key => {
-                    dropdown.append(`<option value="${key}">${options[key]}</option>`);
+                    const formattedKey = key.toLowerCase().replace(/ /g, '_');
+                    dropdown.append(`<option value="${formattedKey}">${options[key]}</option>`);
                 });
             }
         });
