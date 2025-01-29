@@ -59,18 +59,6 @@
       width: 100% !important;
       z-index: 4 !important;
 
-      .wps-modal-filter-icon {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        height: 24px;
-
-        img {
-          max-height: 15px;
-          object-fit: contain;
-        }
-      }
-
       * {
         height: 36px;
         line-height: 24px !important;
@@ -463,4 +451,16 @@ ul, span {
       }
     }
   } 
+}
+
+.wps-modal-filter-icon {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px!important;
+
+  img {
+    max-height: 14px;
+    object-fit: contain;
+  }
 }
