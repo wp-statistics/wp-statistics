@@ -56,7 +56,7 @@ FilterModal.prototype.selectOptionWhenAvailable = function (element, currentValu
         attempts++;
         if (attempts >= maxAttempts) {
             clearInterval(interval);
-         }
+        }
     }, intervalDelay);
 };
 
@@ -100,7 +100,7 @@ FilterModal.prototype.setSelectedValues = function () {
                             return idioma.text; // Return plain text for the "All" option
                         }
 
-                        const imageName = idioma.text.toLowerCase().replace(/ /g, '_');
+                        const imageName = idioma.id.toLowerCase().replace(/ /g, '_');
                         let imagePath = `${wps_js.global.assets_url}/images/${folder}/${imageName}.svg`;
 
                         // Fallback for missing images
@@ -109,11 +109,30 @@ FilterModal.prototype.setSelectedValues = function () {
                         }
 
                         return jQuery(`
-                        <span class="wps-modal-filter-icon">
-                            <img src="${imagePath}" onerror="this.src='${wps_js.global.assets_url}/images/flags/000.svg'; this.onerror=null;" alt="${idioma.text}" />
-                            ${idioma.text}
-                        </span>
-                    `);
+                            <span class="wps-modal-filter-icon">
+                                <img src="${imagePath}" onerror="this.src='${wps_js.global.assets_url}/images/flags/000.svg'; this.onerror=null;" alt="${idioma.text}" />
+                                ${idioma.text}
+                            </span>
+                        `);
+                    },
+                    templateResult: function (state) {
+                        if (!state.id) {
+                            return state.text;
+                        }
+                        const imageName = state.id.toLowerCase().replace(/ /g, '_');
+                        let imagePath = `${wps_js.global.assets_url}/images/${folder}/${imageName}.svg`;
+
+                        // Fallback for missing images
+                        if (imageName === 'all') {
+                            imagePath = `${wps_js.global.assets_url}/images/flags/000.svg`;
+                        }
+
+                        return jQuery(`
+                            <span class="wps-modal-filter-icon">
+                                <img src="${imagePath}" onerror="this.src='${wps_js.global.assets_url}/images/flags/000.svg'; this.onerror=null;" alt="${state.text}"/>
+                                ${state.text}
+                            </span>
+                        `);
                     }
                 });
 

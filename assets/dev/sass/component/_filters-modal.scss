@@ -66,8 +66,7 @@
         height: 24px;
 
         img {
-          width: 12px;
-          max-height: 12px;
+          max-height: 15px;
           object-fit: contain;
         }
       }
@@ -418,6 +417,18 @@
       font-weight: 400;
       line-height: 24px;
       margin-bottom: 0;
+
+      .wps-modal-filter-icon {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        height: 24px;
+
+        img {
+          max-height: 15px;
+          object-fit: contain;
+        }
+      }
     }
 
     .select2-dropdown {
@@ -442,4 +453,14 @@
     }
 
   }
+}
+
+ul, span {
+  &[id^="select2-location-"] {
+    .wps-modal-filter-icon {
+      img {
+        border-radius: 2px;
+      }
+    }
+  } 
 }
