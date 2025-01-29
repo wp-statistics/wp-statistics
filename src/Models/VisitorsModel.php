@@ -948,7 +948,7 @@ class VisitorsModel extends BaseModel
                 'visitor.location as country',
                 'visitor.region as region',
                 'visitor.continent as continent',
-                'COUNT(visitor.ID) as visitors',
+                'COUNT(DISTINCT visitor.ID) as visitors',
                 'SUM(visitor.hits) as views', // All views are counted and results can't be filtered by author, post type, etc...
             ],
             'date'          => '',
