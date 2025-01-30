@@ -113,11 +113,34 @@ jQuery(document).ready(function () {
             });
         }
 
-
         if (wps_js.isset(wps_js.global, 'request_params', 'from') && wps_js.isset(wps_js.global, 'request_params', 'to')) {
             let requestFromDate = wps_js.global.request_params.from;
-            if (hasTypeParameter() && wps_js.global.post_creation_date) {
-                requestFromDate = wps_js.global.post_creation_date;
+            if (hasTypeParameter() && requestFromDate && wps_js.global.post_creation_date) {
+                const postCreationDate = new Date(wps_js.global.post_creation_date);
+                const fromDate = new Date(requestFromDate);
+
+                const fromDateWithoutTime = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
+                if (fromDateWithoutTime < postCreationDate) {
+                    // Check if requestFromDate is not within any of the predefined ranges
+                    let isInRange = false;
+                    for (const rangeKey in ranges) {
+                        const range = ranges[rangeKey];
+                        const rangeStart = new Date(range[0]);
+                        const rangeEnd = new Date(range[1]);
+
+                        const rangeStartWithoutTime = new Date(rangeStart.getFullYear(), rangeStart.getMonth(), rangeStart.getDate());
+                        const rangeEndWithoutTime = new Date(rangeEnd.getFullYear(), rangeEnd.getMonth(), rangeEnd.getDate());
+
+                        if (fromDateWithoutTime >= rangeStartWithoutTime && fromDateWithoutTime <= rangeEndWithoutTime) {
+                            isInRange = true;
+                            break;
+                        }
+                    }
+                    // If requestFromDate is not in any range, update it to post_creation_date
+                    if (!isInRange) {
+                        requestFromDate = wps_js.global.post_creation_date;
+                    }
+                }
             }
             const requestToDate = wps_js.global.request_params.to;
             datePickerElement.data('daterangepicker').setStartDate(moment(requestFromDate).format('MM/DD/YYYY'));
