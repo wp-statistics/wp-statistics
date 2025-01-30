@@ -168,6 +168,7 @@ class EventsModel extends BaseModel
 
         $query = Query::select([
                 "JSON_UNQUOTE(JSON_EXTRACT(`event_data`, '$.target_url')) AS url",
+                "event_data",
                 "COUNT(*) AS count"
             ])
             ->from('events')
