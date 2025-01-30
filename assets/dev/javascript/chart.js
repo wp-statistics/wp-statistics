@@ -258,11 +258,14 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
     const groupedData = {};
 
     if (unit === 'week') {
-        moment.updateLocale('en', {
-            week: {
-                dow: parseInt(wps_js._('start_of_week'))
-            }
-        });
+        if (wps_js._('start_of_week')) {
+            moment.updateLocale('en', {
+                week: {
+                    dow: parseInt(wps_js._('start_of_week'))
+                }
+            });
+        }
+
         const startDate = moment(labels[0].date);
         const endDate = moment(labels[labels.length - 1].date);
 
@@ -283,30 +286,24 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
                 start: currentWeekStart.clone(),
                 end: weekEnd,
                 key: currentWeekStart.format('YYYY-[W]WW'),
-                data: datasets.map(() => 0)
+                data: new Array(datasets.length).fill(0)
             });
 
             // Move to next week's start
             currentWeekStart = nextWeekStart;
-
-            // Break if we've processed all dates
-            if (currentWeekStart.isAfter(endDate)) {
-                break;
-            }
         }
 
-        // Map data points to their respective weeks
         labels.forEach((label, i) => {
-            const date = moment(label.date);
-            const week = weeks.find(w =>
-                date.isSameOrAfter(w.start, 'day') &&
-                date.isSameOrBefore(w.end, 'day')
-            );
-
-            if (week) {
-                datasets.forEach((dataset, datasetIndex) => {
-                    week.data[datasetIndex] += dataset.data[i] || 0;
-                });
+            if (label.date) { // Check if label.date is valid
+                const date = moment(label.date);
+                for (let week of weeks) {
+                    if (date.isBetween(week.start, week.end, 'day', '[]')) {
+                        datasets.forEach((dataset, datasetIndex) => {
+                            week.data[datasetIndex] += dataset.data[i] || 0;
+                        });
+                        break;
+                    }
+                }
             }
         });
 
@@ -324,7 +321,6 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
         });
 
         weeks.forEach(week => {
-            const weekEnd = moment().endOf('week');
             const isIncomplete = week.end.isSameOrAfter(moment(), 'day');
             isIncompletePeriod.push(isIncomplete);
         });
@@ -344,10 +340,12 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
             currentDate.add(1, 'month');
         }
         labels.forEach((label, i) => {
-            const date = moment(label.date);
-            const monthKey = date.format('YYYY-MM');
-            if (groupedData[monthKey]) {
-                groupedData[monthKey].indices.push(i);
+            if (label.date) {
+                const date = moment(label.date);
+                const monthKey = date.format('YYYY-MM');
+                if (groupedData[monthKey]) {
+                    groupedData[monthKey].indices.push(i);
+                }
             }
         });
 
@@ -356,6 +354,10 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
             const {startDate, endDate, indices} = groupedData[monthKey];
             const actualStartDate = moment.max(startDate, moment(labels[0].date));
             const actualEndDate = moment.min(endDate, moment(labels[labels.length - 1].date));
+            if (!actualStartDate.isValid() || !actualEndDate.isValid()) {
+                console.error(`Invalid date range for monthKey ${monthKey}`);
+                return;
+            }
             if (indices.length > 0) {
                 const label = formatDateRange(actualStartDate, actualEndDate, unit, momentDateFormat, isInsideDashboardWidgets);
                 aggregatedLabels.push(label);
@@ -368,7 +370,6 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
         });
 
         Object.keys(groupedData).forEach(monthKey => {
-            const monthEnd = moment().endOf('month');
             const isIncomplete = groupedData[monthKey].endDate.isSameOrAfter(moment(), 'day');
             isIncompletePeriod.push(isIncomplete);
         });
@@ -524,16 +525,18 @@ const getDisplayTextForUnitTime = (unitTime, tag_id) => {
 }
 
 wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line') {
+
     const realdata = deepCopy(data);
     const phpDateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
     let momentDateFormat = phpToMomentFormat(phpDateFormat);
     const isInsideDashboardWidgets = document.getElementById(tag_id).closest('#dashboard-widgets') !== null;
-
     // Determine the initial unitTime
     const length = data.data.labels.map(dateObj => dateObj.formatted_date).length;
+
     const threshold = type === 'performance' ? 30 : 60;
     let unitTime = length <= threshold ? 'day' : length <= 180 ? 'week' : 'month';
 
+    const datasets = [];
 
     // Check if there is only one data point
     const isSingleDataPoint = data.data.labels.length === 1;
@@ -559,7 +562,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
     const week = aggregateData(realdata.data.labels, realdata.data.datasets, 'week', momentDateFormat, isInsideDashboardWidgets);
     const month = aggregateData(realdata.data.labels, realdata.data.datasets, 'month', momentDateFormat, isInsideDashboardWidgets);
 
-    const prevDay = realdata.previousData
+    const prevDay = realdata?.previousData
         ? aggregateData(realdata.previousData.labels, realdata.previousData.datasets, 'day', momentDateFormat, isInsideDashboardWidgets)
         : null;
     const prevWeek = realdata.previousData
@@ -569,7 +572,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
         ? aggregateData(realdata.previousData.labels, realdata.previousData.datasets, 'month', momentDateFormat, isInsideDashboardWidgets)
         : null;
 
-// Initialize dateLabels based on the selected unitTime
+    // Initialize dateLabels based on the selected unitTime
     let dateLabels = unitTime === 'day'
         ? day.aggregatedLabels
         : unitTime === 'week'
@@ -748,7 +751,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
 
 
     let ctx_line = document.getElementById(tag_id).getContext('2d');
-    const datasets = [];
+
 
     Object.keys(data.data.datasets).forEach((key, index) => {
         let color = chartColors[data.data.datasets[key].label] || chartColors[`Other${index + 1}`];
@@ -815,7 +818,6 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
             });
         });
     }
-
     const defaultOptions = {
         maintainAspectRatio: false,
         resizeDelay: 200,
