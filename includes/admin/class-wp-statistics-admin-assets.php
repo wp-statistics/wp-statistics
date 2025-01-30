@@ -503,8 +503,17 @@ class Admin_Assets
         $list['rest_api_nonce']      = wp_create_nonce('wp_rest');
         $list['meta_box_api']        = admin_url('admin-ajax.php?action=wp_statistics_admin_meta_box');
 
-        // Meta Box List
-        $list['meta_boxes'] = array_keys(MetaboxHelper::getScreenMetaboxes());
+        $metaboxes = MetaboxHelper::getScreenMetaboxes();
+
+        foreach ($metaboxes as $metabox) {
+            if ($metabox->getContext() == 'side') {
+                $list['meta_boxes']['side'][] = $metabox->getKey();
+            }
+
+            if ($metabox->getContext() == 'normal') {
+                $list['meta_boxes']['normal'][] = $metabox->getKey();
+            }
+        }
 
         /**
          * Filter: wp_statistics_admin_assets
