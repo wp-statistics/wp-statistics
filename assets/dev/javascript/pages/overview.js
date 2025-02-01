@@ -1,5 +1,9 @@
 if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page') || wps_js.global.page.file === "post-new.php" || (wps_js.global.page.file === "post.php" && wps_js.isset(wps_js.global, 'page', 'ID'))) {
 
+    // Split meta boxes into left and right
+    const meta_list_side = wps_js.global.meta_boxes.side;
+    const meta_list_normal = wps_js.global.meta_boxes.normal;
+
     class DateManager {
         static getDateRange(filter) {
             const today = moment().format('YYYY-MM-DD');
@@ -248,10 +252,7 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
         wps_js.datePickerHandler.initializeEventListeners();
     };
 
-    // Rest of your existing code...
-    const meta_list = wps_js.global.meta_boxes;
-
-    function loadMetaBoxData(metaBoxKey, startDate = null, endDate = null, date_filter = null) {
+     function loadMetaBoxData(metaBoxKey, startDate = null, endDate = null, date_filter = null) {
         return new Promise((resolve, reject) => {
             const keyName = metaBoxKey.replace(/-/g, '_').replace('widget', 'metabox');
             let data = {
@@ -314,13 +315,12 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
                 }
             });
         } else {
-            activeOptions = meta_list;
+            activeOptions = [...meta_list_side, ...meta_list_normal];
         }
         return activeOptions;
     }
 
     function refreshMetaBox(metaBoxKey) {
-        // Refresh the data for the specific meta box
         loadMetaBoxData(metaBoxKey).then(response => {
             wps_js.handleMetaBoxRender(response, metaBoxKey);
         });
@@ -328,12 +328,26 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
 
     // Initialize meta boxes on page load
     let activeOptions = handleScreenOptionsChange();
-    meta_list.forEach((metaBoxKey) => {
-        if (activeOptions.includes(metaBoxKey)) {
-            // Load the data only for active meta boxes
-            refreshMetaBox(metaBoxKey);
+
+
+
+
+    let normalIndex = 0, sideIndex = 0;
+    let normalLength = meta_list_normal.length;
+    let sideLength = meta_list_side.length;
+
+    // Loop while either list has elements to process
+    while (normalIndex < normalLength || sideIndex < sideLength) {
+
+        if (sideIndex < sideLength && activeOptions.includes(meta_list_side[sideIndex])) {
+            refreshMetaBox(meta_list_side[sideIndex]);
+            sideIndex++;
         }
-    });
+        if (normalIndex < normalLength && activeOptions.includes(meta_list_normal[normalIndex])) {
+            refreshMetaBox(meta_list_normal[normalIndex]);
+            normalIndex++;
+        }
+    }
 
     jQuery(document).on('change', '#adv-settings input[type="checkbox"]', function () {
         let metaBoxKey = $(this).attr('id').replace('-hide', '');
@@ -344,12 +358,18 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
     });
 
     // Bind refresh button event for manual refresh
-    meta_list.forEach((metaBoxKey) => {
-        jQuery(document).on('click', `#${metaBoxKey} .wps-refresh`, function () {
-            wps_js.showLoadingSkeleton(metaBoxKey);
-            refreshMetaBox(metaBoxKey);
+    function bindRefreshEvents(metaList) {
+        metaList.forEach((metaBoxKey) => {
+            jQuery(document).on('click', `#${metaBoxKey} .wps-refresh`, function () {
+                wps_js.showLoadingSkeleton(metaBoxKey);
+                refreshMetaBox(metaBoxKey);
+            });
         });
-    });
+    }
+
+    // Bind refresh button events for both lists
+    bindRefreshEvents(meta_list_side);
+    bindRefreshEvents(meta_list_normal);
 
     // Export utility functions
     wps_js.metaBoxInner = key => jQuery('#' + key + ' .inside');
