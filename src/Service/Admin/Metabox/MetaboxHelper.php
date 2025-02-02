@@ -115,12 +115,14 @@ class MetaboxHelper
                 $contextMetaboxes = explode(',', $userMetaboxes[$context]);
 
                 // Remove any non wp-statistics metaboxes
-                $userMetaboxes[$context] = array_filter($contextMetaboxes, function($metabox) use ($staticMetaboxes) {
+                $contextMetaboxes = array_filter($contextMetaboxes, function($metabox) use ($staticMetaboxes) {
                     return strpos($metabox, 'wp-statistics') !== false && isset($staticMetaboxes[$metabox]);
                 });
-            }
 
-            $metaboxes = $userMetaboxes;
+                if (!empty($contextMetaboxes)) {
+                    $metaboxes[$context] = array_values($contextMetaboxes);
+                }
+            }
         } else {
             // Group the metaboxes by context
             foreach ($staticMetaboxes as $metabox) {
