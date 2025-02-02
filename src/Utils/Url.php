@@ -147,7 +147,7 @@ class Url
     /**
      * Get relative path of urls
      *
-     * @param string $url Post type or taxonomy name
+     * @param string $url
      * @return string Relative path or empty string
      */
     public static function getPath($url)
