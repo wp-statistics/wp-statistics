@@ -1,6 +1,7 @@
 <?php
 
 use WP_STATISTICS\Menus;
+use WP_Statistics\Utils\Url;
 use WP_Statistics\Utils\Request;
 
 if (Menus::in_page('download_tracker')) {
@@ -19,7 +20,12 @@ if (Menus::in_page('download_tracker')) {
             </h2>
         </div>
         <div class="wps-tracker-header__info">
-            <a href="<?php echo esc_url(Request::get('target')) ?>" title="<?php echo esc_html(Request::get('target')) ?>" target="_blank"><?php echo esc_html(Request::get('target')) ?></a>
+            <?php
+                $target     = Request::get('target');
+                $filename   = basename(Url::getPath($target));
+                $url        = str_replace($filename, '', $target);
+            ?>
+            <a href="<?php echo esc_url($target) ?>" title="<?php echo esc_html($target) ?>" target="_blank"><?php echo esc_html($target) ?></a>
         </div>
     </div>
 </div>
