@@ -25,7 +25,9 @@ if (Menus::in_page('download_tracker')) {
                 $filename   = basename(Url::getPath($target));
                 $url        = str_replace($filename, '', $target);
             ?>
-            <a href="<?php echo esc_url($target) ?>" title="<?php echo esc_html($target) ?>" target="_blank"><?php echo esc_html($target) ?></a>
+            <a href="<?php echo esc_url($target) ?>" title="<?php echo esc_html($target) ?>" target="_blank">
+                <span><?php echo esc_html($url) ?></span><span><?php echo esc_html($filename) ?></span>
+            </a>
         </div>
     </div>
 </div>
