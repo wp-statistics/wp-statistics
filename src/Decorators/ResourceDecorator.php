@@ -11,6 +11,11 @@ class ResourceDecorator
         $this->pageId = $pageId;
     }
 
+    public function getId()
+    {
+        return $this->pageId;
+    }
+
     public function getTitle()
     {
         return get_the_title($this->pageId);
