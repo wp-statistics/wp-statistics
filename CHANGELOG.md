@@ -1,3 +1,11 @@
+= 14.12.3 - 2025-02-** =
+- **New:** Added an option to delete all data when the plugin is uninstalled.
+- **Enhancement:** Updated the IP hashing algorithm for better privacy protection.
+- **Enhancement:** Improved chart indicators for incomplete periods.
+- **Fix:** Resolved an issue with the weekly chart display.
+- **Fix:** Fixed date range filter and toggle meta inconsistencies.
+- **Fix:** Fixed an error in 'Tracker Debugger'.
+
 = 14.12.2 - 2025-01-21 =
 - **New:** Added the ability to change the chart interval.
 - **Enhancement:** Displayed dates in reports using the i18n format for better localization.
