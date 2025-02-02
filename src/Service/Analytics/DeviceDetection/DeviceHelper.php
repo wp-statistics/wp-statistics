@@ -84,14 +84,14 @@ class DeviceHelper
     public static function getPlatformsList()
     {
         return [
-            'Windows',
-            'Mac',
-            'Android',
-            'iOS',
-            'Linux',
-            'Ubuntu',
-            'Chrome OS',
-            'Harmony OS'
+            'windows' => esc_html__('Windows', 'wp-statistics'),
+            'mac' => esc_html__('Mac', 'wp-statistics'),
+            'android' => esc_html__('Android', 'wp-statistics'),
+            'ios' => esc_html__('IOS', 'wp-statistics'),
+            'linux' =>  esc_html__('Linux', 'wp-statistics'),
+            'ubuntu' => esc_html__('Ubuntu', 'wp-statistics'),
+            'chrome_os' => esc_html__('Chrome OS', 'wp-statistics'),
+            'harmony_os' => esc_html__('Harmony OS', 'wp-statistics')
         ];
     }
 }

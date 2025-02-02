@@ -428,7 +428,7 @@ class Ajax
             $filter['browsers'] = array();
             $browsers           = DeviceHelper::getBrowserList();
             foreach ($browsers as $key => $se) {
-                $filter['browsers'][$se] = $se;
+                $filter['browsers'][$key] = $se;
             }
 
             // Location
@@ -448,8 +448,8 @@ class Ajax
             $filter['platform'] = array();
             $platforms_list     = DeviceHelper::getPlatformsList();
 
-            foreach ($platforms_list as $platform) {
-                $filter['platform'][$platform] = $platform;
+            foreach ($platforms_list as $key => $platform) {
+                $filter['platform'][$key] = $platform;
             }
 
             // Referrer
