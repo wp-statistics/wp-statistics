@@ -40,22 +40,5 @@ $visitor = $data['visitor'];
                 ?>
             </div>
         </div>
-        <div class="wps-card wps-card--table">
-            <div class="wps-card__title">
-                <h2>
-                    <?php esc_html_e('Recent Events', 'wp-statistics'); ?>
-                    <span class="wps-tooltip" title="<?php esc_html_e('Recent Events tooltip', 'wp-statistics'); ?>"><i class="wps-tooltip-icon info"></i></span>
-                </h2>
-            </div>
-            <div class="wps-card--table__body">
-                <?php
-                $events_args = [
-                    'data'       => ['test', 'test'],
-                    'pagination' => isset($pagination) ? $pagination : null
-                ];
-                View::load("components/tables/recent-events", $events_args);
-                ?>
-            </div>
-        </div>
     </div>
 </div>
