@@ -40,18 +40,31 @@ class Assets
      * @param bool $obfuscate Ofuscate/Randomize asset's file name.
      * @param string $pluginUrl The plugin URL.
      * @param string $version Script version number.
+     * @param string $strategy Loading strategy.
      *
      * @return  void
      * @example Assets::script('admin', 'dist/admin.js', ['jquery'], ['foo' => 'bar'], true, false, WP_STATISTICS_URL, '1.0.0');
      */
-    public static function script($handle, $src, $deps = [], $localize = [], $inFooter = false, $obfuscate = false, $pluginUrl = null, $version = '')
+    public static function script($handle, $src, $deps = [], $localize = [], $inFooter = false, $obfuscate = false, $pluginUrl = null, $version = '', $strategy = '')
     {
-        $object  = self::getObject($handle);
-        $handle  = self::getHandle($handle);
-        $version = empty($version) ? WP_STATISTICS_VERSION : trim($version);
+        $strategy = apply_filters("wp_statistics_{$handle}_loading_strategy", $strategy);
+        $object   = self::getObject($handle);
+        $handle   = self::getHandle($handle);
+        $version  = empty($version) ? WP_STATISTICS_VERSION : trim($version);
+        $args     = $inFooter;
+        
+        global $wp_version;
+        $supportStrategy = version_compare($wp_version, '6.3', '>=');
 
-        wp_enqueue_script($handle, self::getSrc($src, $obfuscate, $pluginUrl), $deps, $version, $inFooter);
+        if ($supportStrategy && ! empty($strategy)) {
+            $args = [
+                'in_footer' => $inFooter,
+                'strategy'  => $strategy,
+            ];
+        }
 
+        wp_enqueue_script($handle, self::getSrc($src, $obfuscate, $pluginUrl), $deps, $version, $args);
+        
         if ($localize) {
             $localize = apply_filters("wp_statistics_localize_{$handle}", $localize);
 
