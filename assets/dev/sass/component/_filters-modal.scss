@@ -37,7 +37,6 @@
   max-width: 98%;
   box-shadow: 4px 4px 25px 0px #0000001A;
   border-radius: 4px;
-  overflow: hidden;
   border: none;
   margin: 0 !important;
   transform: translateY(-50%) translateX(-50%);
@@ -46,12 +45,14 @@
   flex-direction: column;
   gap: 8px;
   box-sizing: border-box;
+  overflow: auto;
 
   #TB_ajaxContent {
     width: auto !important;
     max-width: 100% !important;
     padding: 0;
     height: auto !important;
+    overflow: visible;
 
     .select2-container {
       line-height: 36px;
@@ -335,14 +336,6 @@
     }
 
 
-  }
-}
-
-.statistics_page_wps_visitors_page.wps_page #TB_window {
-  overflow-y: auto;
-
-  #TB_ajaxContent {
-    overflow: visible;
   }
 }
 
