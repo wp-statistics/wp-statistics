@@ -135,6 +135,7 @@ const WpStatisticsEventTracker = {
 
             const response = await fetch(ajaxUrl, {
                 method: 'POST',
+                keepalive: true,
                 body: formData
             });
 
