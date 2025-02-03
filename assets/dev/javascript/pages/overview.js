@@ -339,12 +339,17 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
     // Loop while either list has elements to process
     while (normalIndex < normalLength || sideIndex < sideLength) {
 
-        if (sideIndex < sideLength && activeOptions.includes(meta_list_side[sideIndex])) {
-            refreshMetaBox(meta_list_side[sideIndex]);
+        if (sideIndex < sideLength) {
+            if (activeOptions.includes(meta_list_side[sideIndex])) {
+                refreshMetaBox(meta_list_side[sideIndex]);
+            }
             sideIndex++;
         }
-        if (normalIndex < normalLength && activeOptions.includes(meta_list_normal[normalIndex])) {
-            refreshMetaBox(meta_list_normal[normalIndex]);
+
+        if (normalIndex < normalLength) {
+            if (activeOptions.includes(meta_list_normal[normalIndex])) {
+                refreshMetaBox(meta_list_normal[normalIndex]);
+            }
             normalIndex++;
         }
     }
