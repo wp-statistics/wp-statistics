@@ -368,12 +368,12 @@
 
     .select2-results__option--selected ,
     .select2-results__option.select2-results__option--selected {
-      background: #EEEFF1;
-      color: #404BF2;
+      background: #E3E4E5!important;
+      color: #404BF2!important;
     }
 
     .select2-results__option.select2-results__option--selected:hover{
-      background: #EEEFF1;
+      background: #DDDEE0!important;
       color: #404BF2;
     }
 
@@ -395,8 +395,9 @@
     }
 
     .select2-results__option:hover ,.select2-results__option--highlighted[aria-selected]{
-      background: #FAFAFB;
+      background: #EEEFF1;
       color: #0C0C0D;
+      font-weight: 400;
     }
 
     .select2-search--dropdown .select2-search__field {
