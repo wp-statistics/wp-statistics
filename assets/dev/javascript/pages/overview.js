@@ -4,6 +4,7 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
     const meta_list_side = wps_js.global.meta_boxes.side;
     const meta_list_normal = wps_js.global.meta_boxes.normal;
 
+
     class DateManager {
         static getDateRange(filter) {
             const today = moment().format('YYYY-MM-DD');
@@ -333,24 +334,44 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
     let normalIndex = 0, sideIndex = 0;
     let normalLength = meta_list_normal.length;
     let sideLength = meta_list_side.length;
+    const isInsideDashboard = document.getElementById('#dashboard-widgets');
+    let isMobile = isInsideDashboard ? window.innerWidth < 800 : window.innerWidth < 759;
 
     // Loop while either list has elements to process
     while (normalIndex < normalLength || sideIndex < sideLength) {
-
-        if (sideIndex < sideLength) {
-            if (activeOptions.includes(meta_list_side[sideIndex])) {
-                refreshMetaBox(meta_list_side[sideIndex]);
+        if (isMobile) {
+            while (sideIndex < sideLength) {
+                if (activeOptions.includes(meta_list_side[sideIndex])) {
+                    refreshMetaBox(meta_list_side[sideIndex]);
+                }
+                sideIndex++;
             }
-            sideIndex++;
-        }
 
-        if (normalIndex < normalLength) {
-            if (activeOptions.includes(meta_list_normal[normalIndex])) {
-                refreshMetaBox(meta_list_normal[normalIndex]);
+            while (normalIndex < normalLength) {
+                if (activeOptions.includes(meta_list_normal[normalIndex])) {
+                    refreshMetaBox(meta_list_normal[normalIndex]);
+                }
+                normalIndex++;
             }
-            normalIndex++;
+        } else {
+            while (normalIndex < normalLength || sideIndex < sideLength) {
+                if (normalIndex < normalLength) {
+                    if (activeOptions.includes(meta_list_normal[normalIndex])) {
+                        refreshMetaBox(meta_list_normal[normalIndex]);
+                    }
+                    normalIndex++;
+                }
+
+                if (sideIndex < sideLength) {
+                    if (activeOptions.includes(meta_list_side[sideIndex])) {
+                        refreshMetaBox(meta_list_side[sideIndex]);
+                    }
+                    sideIndex++;
+                }
+            }
         }
     }
+
 
     jQuery(document).on('change', '#adv-settings input[type="checkbox"]', function () {
         let metaBoxKey = $(this).attr('id').replace('-hide', '');
