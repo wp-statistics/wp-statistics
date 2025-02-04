@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.7
-Stable tag: 14.12.2
+Stable tag: 14.12.3
 Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -137,9 +137,14 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.12.x - 2025-**-** =
+= 14.12.3 - 2025-02-** =
+- **New:** Added an option to delete all data when the plugin is uninstalled.
+- **Enhancement:** Updated the IP hashing algorithm for better privacy protection.
+- **Enhancement:** Improved chart indicators for incomplete periods.
 - **Enhancement:** Updated enqueue script functionality to support loading strategy.
-- **Enhancement:** Updated the hash IP algorithm.
+- **Fix:** Resolved an issue with the weekly chart display.
+- **Fix:** Fixed date range filter and toggle meta inconsistencies.
+- **Fix:** Fixed an error in 'Tracker Debugger'.
 
 = 14.12.2 - 2025-01-21 =
 - **New:** Added the ability to change the chart interval.
