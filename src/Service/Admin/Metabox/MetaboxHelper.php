@@ -80,18 +80,56 @@ class MetaboxHelper
     }
 
     /**
-     * Returns a list of dynamic metaboxes which are specific to the current screen.
+     * Returns a list of metaboxes which are specific to the current screen grouped by context.
      *
-     * @return BaseMetabox[]
+     * @return array
      */
     public static function getScreenMetaboxes()
     {
-        $screenMetaboxes = array_filter(self::getActiveMetaboxes(), function($metabox) {
-            return function_exists('get_current_screen')
-                && in_array(get_current_screen()->id, $metabox->getScreen())
-                && !$metabox->isStatic();
-        });
+        $metaboxes = [];
 
-        return $screenMetaboxes;
+        // Return early if there is no current screen
+        if (!function_exists('get_current_screen')) {
+            return $metaboxes;
+        }
+
+        $currentScreen = get_current_screen()->id;
+
+        // Get static metaboxes that belong to the current screen
+        $staticMetaboxes = [];
+        foreach (self::getActiveMetaboxes() as $metabox) {
+            if (in_array($currentScreen, $metabox->getScreen()) && !$metabox->isStatic()) {
+                $staticMetaboxes[$metabox->getKey()] = $metabox;
+            }
+        }
+
+        // Get the stored metaboxes for current user
+        $userMetaboxes = get_user_meta(get_current_user_id(), "meta-box-order_$currentScreen", true);
+
+        // If there are stored metaboxes, use them
+        if (!empty($userMetaboxes)) {
+            $contexts = array_keys($userMetaboxes);
+
+            foreach ($contexts as $context) {
+                // Get the metaboxes for the current context
+                $contextMetaboxes = explode(',', $userMetaboxes[$context]);
+
+                // Remove any non wp-statistics metaboxes
+                $contextMetaboxes = array_filter($contextMetaboxes, function($metabox) use ($staticMetaboxes) {
+                    return strpos($metabox, 'wp-statistics') !== false && isset($staticMetaboxes[$metabox]);
+                });
+
+                if (!empty($contextMetaboxes)) {
+                    $metaboxes[$context] = array_values($contextMetaboxes);
+                }
+            }
+        } else {
+            // Group the metaboxes by context
+            foreach ($staticMetaboxes as $metabox) {
+                $metaboxes[$metabox->getContext()][] = $metabox->getKey();
+            }
+        }
+
+        return $metaboxes;
     }
 }
