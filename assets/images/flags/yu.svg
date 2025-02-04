@@ -1,0 +1,8 @@
+<svg viewBox="0 0 640 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_175_550)">
+<path d="M0 0H640V480H0V0Z" fill="#003893"/>
+<path d="M0 160H640V480H0V160Z" fill="white"/>
+<path d="M0 320H640V480H0V320Z" fill="#DE0000"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M320 142.538L341.883 209.88L412.692 209.883L355.408 251.506L377.286 318.85L320 277.231L262.713 318.849L284.591 251.505L227.307 209.883L298.116 209.88L320 142.538Z" fill="#DE0000" stroke="#FCD115" stroke-width="8.89"/>
+</g>
+</svg>
