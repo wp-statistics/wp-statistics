@@ -253,4 +253,21 @@ abstract class BaseMetabox
 
         add_meta_box($this->getKey(), $this->getName(), [$this, 'render'], $this->getScreen(), $this->getContext(), $this->getPriority(), $this->getCallbackArgs());
     }
+
+    /**
+     * Checks if the dashboard widget is enabled.
+     *
+     * @return bool
+     */
+    protected function isDashboardWidgetEnabled() {
+        if (Menus::in_page('overview')) {
+            return true;
+        }
+
+        if (!Option::get('disable_dashboard')) {
+            return true;
+        }
+
+        return false;
+    }
 }

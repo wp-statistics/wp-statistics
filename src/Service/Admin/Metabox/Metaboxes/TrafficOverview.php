@@ -4,7 +4,6 @@ namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
 use WP_Statistics\Components\DateRange;
-use WP_STATISTICS\Menus;
 
 class TrafficOverview extends BaseMetabox
 {
@@ -14,6 +13,10 @@ class TrafficOverview extends BaseMetabox
     public function getName()
     {
         return esc_html__('Traffic Overview', 'wp-statistics');
+    }
+
+    public function isActive() {
+        return $this->isDashboardWidgetEnabled();
     }
 
     public function getDescription()

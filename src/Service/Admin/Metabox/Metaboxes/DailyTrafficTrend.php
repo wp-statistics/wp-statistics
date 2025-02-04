@@ -15,6 +15,10 @@ class DailyTrafficTrend extends BaseMetabox
         return esc_html__('Daily Traffic Trend', 'wp-statistics');
     }
 
+    public function isActive() {
+        return $this->isDashboardWidgetEnabled();
+    }
+    
     public function getDescription()
     {
         return esc_html__('Day-by-day breakdown of views and page views over the selected period.', 'wp-statistics');

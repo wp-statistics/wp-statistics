@@ -15,6 +15,10 @@ class TopReferring extends BaseMetabox
         return esc_html__('Top Referring', 'wp-statistics');
     }
 
+    public function isActive() {
+        return $this->isDashboardWidgetEnabled();
+    }
+
     public function getDescription()
     {
         return esc_html__('', 'wp-statistics');

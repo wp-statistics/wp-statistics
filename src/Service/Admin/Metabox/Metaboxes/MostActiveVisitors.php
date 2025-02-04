@@ -15,6 +15,10 @@ class MostActiveVisitors extends BaseMetabox
         return esc_html__('Most Active Visitors', 'wp-statistics');
     }
 
+    public function isActive() {
+        return $this->isDashboardWidgetEnabled();
+    }
+
     public function getDescription()
     {
         return esc_html__('Visitors with the highest number of views, including their country, city, IP address, and browser.', 'wp-statistics');

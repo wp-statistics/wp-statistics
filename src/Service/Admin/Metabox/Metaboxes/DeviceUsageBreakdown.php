@@ -15,6 +15,10 @@ class DeviceUsageBreakdown extends BaseMetabox
         return esc_html__('Device Usage Breakdown', 'wp-statistics');
     }
 
+    public function isActive() {
+        return $this->isDashboardWidgetEnabled();
+    }
+
     public function getDescription()
     {
         return esc_html__('Distribution of visitors based on the devices they use to access your site.', 'wp-statistics');

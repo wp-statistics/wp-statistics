@@ -15,6 +15,10 @@ class LatestVisitor extends BaseMetabox
         return esc_html__('Latest Visitor Breakdown', 'wp-statistics');
     }
 
+    public function isActive() {
+        return $this->isDashboardWidgetEnabled();
+    }
+
     public function getDescription()
     {
         return esc_html__('Details of the most recent visitors to your site.', 'wp-statistics');
