@@ -137,15 +137,16 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.12.3 - 2025-02-** =
-- **New:** Added an option to delete all data when the plugin is uninstalled.
-- **New:** Added a "URL" filter to Page Insight.
-- **Enhancement:** Updated the IP hashing algorithm for better privacy protection.
-- **Enhancement:** Improved chart indicators for incomplete periods.
-- **Enhancement:** Updated enqueue script functionality to support loading strategy.
-- **Fix:** Resolved an issue with the weekly chart display.
-- **Fix:** Fixed date range filter and toggle meta inconsistencies.
-- **Fix:** Fixed an error in 'Tracker Debugger'.
+= 14.12.3 - 2025-02-05 =
+- **New:** Added an option to permanently delete all plugin data when uninstalling.
+- **New:** Introduced a "URL" filter in Page Insights to refine report results.
+- **Enhancement:** Strengthened privacy protection by upgrading the IP hashing algorithm from SHA-1 to SHA-256.
+- **Enhancement:** Improved chart indicators to better highlight incomplete periods.
+- **Enhancement:** Optimized how scripts are loaded for better performance.
+- **Fix:** Fixed an issue causing the weekly chart to display incorrectly.
+- **Fix:** Resolved inconsistencies in the date range filter and toggle meta settings.
+- **Fix:** Fixed an error in the "Tracker Debugger".
+- **Fix:** Corrected the loading order of metaboxes for a smoother experience.
 
 = 14.12.2 - 2025-01-21 =
 - **New:** Added the ability to change the chart interval.
