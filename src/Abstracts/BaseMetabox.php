@@ -246,10 +246,12 @@ abstract class BaseMetabox
         $userCapability = Option::get('read_capability');
         $screens        = $this->getScreen();
 
+        // If the dashboard widgets are disabled, remove them from the screens
         if (Option::get('disable_dashboard') && in_array('dashboard', $screens)) {
             $screens = array_diff($screens, ['dashboard']);
         }
 
+        // Return early if the user doesn't have the capability to view the stats
         if ($userCapability && !current_user_can($userCapability)) {
             return;
         }
