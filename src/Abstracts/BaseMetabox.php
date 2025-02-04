@@ -243,13 +243,14 @@ abstract class BaseMetabox
      */
     public function register()
     {
-        $screens = $this->getScreen();
+        $userCapability = Option::get('read_capability');
+        $screens        = $this->getScreen();
 
         if (Option::get('disable_dashboard') && in_array('dashboard', $screens)) {
             $screens = array_diff($screens, ['dashboard']);
         }
 
-        if (Option::get('read_capability') && !current_user_can(Option::get('read_capability'))) {
+        if ($userCapability && !current_user_can($userCapability)) {
             return;
         }
 
