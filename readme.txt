@@ -138,7 +138,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 
 == Changelog ==
 = 14.12.x - 2025-**-** =
-- **new:** Added support for the `defer` loading strategy for the Tracker script.
+- **Enhancement:** Updated enqueue script functionality to support loading strategy.
 - **Enhancement:** Updated the hash IP algorithm.
 
 = 14.12.2 - 2025-01-21 =
