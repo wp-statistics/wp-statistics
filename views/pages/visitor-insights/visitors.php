@@ -1,5 +1,6 @@
 <?php
 use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\ModalHandler\Modal;
 ?>
 
 <div class="postbox-container wps-postbox-full">
@@ -17,3 +18,5 @@ use WP_Statistics\Components\View;
         </div>
     </div>
 </div>
+<?php Modal::render('delete-visitor-record'); ?>
+<?php Modal::render('add-to-exclusions-list'); ?>

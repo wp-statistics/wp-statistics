@@ -38,13 +38,15 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
                         <th class="wps-pd-l">
                             <?php esc_html_e('Total Views', 'wp-statistics'); ?>
                         </th>
-
+                        <th class="wps-pd-l"></th>
                     </tr>
                 </thead>
 
                 <tbody>
                     <?php foreach ($data as $visitor) : ?>
                         <?php /** @var VisitorDecorator $visitor */ ?>
+
+                        <!-- TODO : Add 'wps-suspicious-visitors' class for warning-->
                         <tr>
                             <td class="wps-pd-l">
                                 <?php if (!empty($single_post)) : ?>
@@ -116,6 +118,25 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
 
 
                             <?php endif; ?>
+
+                            <td class="wps-pd-l">
+                                <div class="wps-visitor--actions">
+                                    <span class="wps-tooltip" title="<?php echo esc_html__('This visitor is flagged as Suspicious. You can delete them via the menu, and optionally add them to the Exceptions list.', 'wp-statistics'); ?> ">
+                                        <i class="wps-tooltip-icon warning"></i>
+                                    </span>
+
+                                    <span class="wps-visitor--actions--show-more js-visitor-show-more"></span>
+                                    <ul class="wps-visitor--submenus">
+                                        <li class="wps-visitor--submenu wps-visitor--submenu__delete">
+                                            <a class="js-openModal-delete-visitor-record-confirmation" data-record-id="<?php echo $visitor->getId()?>"><?php echo esc_html__('Delete Visitor Record', 'wp-statistics'); ?></a>
+                                        </li>
+                                        <li class="wps-visitor--submenu wps-visitor--submenu__detail ">
+                                            <a href="" target="_blank"><?php echo esc_html__('Add-on details', 'wp-statistics'); ?></a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

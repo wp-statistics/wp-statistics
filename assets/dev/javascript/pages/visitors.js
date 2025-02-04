@@ -138,6 +138,30 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         const data = Wp_Statistics_Visitors_Object.logged_in_chart_data;
         wps_js.new_line_chart(data, 'LoggedInUsersChart', null);
     }
+
+    const action_buttons = document.querySelectorAll('.js-visitor-show-more');
+    if (action_buttons.length > 0) {
+        action_buttons.forEach(function (button) {
+            button.addEventListener('click', function (event) {
+                event.stopPropagation();
+
+                const isActive = this.parentElement.classList.contains('active');
+
+                action_buttons.forEach(function (otherButton) {
+                    otherButton.parentElement.classList.remove('active');
+                });
+
+                if (!isActive) {
+                    this.parentElement.classList.add('active');
+                }
+            });
+        });
+        document.body.addEventListener('click', function () {
+            action_buttons.forEach(function (button) {
+                button.parentElement.classList.remove('active');
+            });
+        });
+    }
 }
 
 // When close TickBox
