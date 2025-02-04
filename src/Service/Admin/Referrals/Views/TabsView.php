@@ -18,7 +18,9 @@ class TabsView extends BaseTabView
     protected $tabs = [
         'referred-visitors',
         'referrers',
-        'search-engines'
+        'search-engines',
+        'campaigns',
+        'utm-performance'
     ];
 
     public function __construct()
@@ -113,7 +115,21 @@ class TabsView extends BaseTabView
                         'link'  => Menus::admin_url('referrals', ['tab' => 'source-categories']),
                         'title' => esc_html__('Source Categories', 'wp-statistics'),
                         'class' => $this->isTab('source-categories') ? 'current' : '',
-                    ]
+                    ],
+                    [
+                        'link'      => Menus::admin_url('referrals', ['tab' => 'campaigns']),
+                        'title'     => esc_html__('Campaigns', 'wp-statistics'),
+                        'tooltip'   => esc_html__('To view this report, you need to have the Marketing add-on.', 'wp-statistics'),
+                        'class'     => $this->isTab('campaigns') ? 'current' : '',
+                        'locked'    => true
+                    ],
+                    [
+                        'link'      => Menus::admin_url('referrals', ['tab' => 'utm-performance']),
+                        'title'     => esc_html__('UTM Performance', 'wp-statistics'),
+                        'tooltip'   => esc_html__('To view this reports, you need to have the Marketing add-on.', 'wp-statistics'),
+                        'class'     => $this->isTab('utm-performance') ? 'current' : '',
+                        'locked'    => true
+                    ],
                 ]
             ];
 
@@ -139,6 +155,7 @@ class TabsView extends BaseTabView
 
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
             View::load("pages/referrals/$template", $args);
+            do_action("wp_statistics_{$this->getCurrentPage()}_{$this->getCurrentTab()}_template", $args);
             Admin_Template::get_template(['layout/postbox.hide', 'layout/referrer.filter', 'layout/footer'], $args);
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
