@@ -3,7 +3,8 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
     // Split meta boxes into left and right
     const meta_list_side = wps_js.global.meta_boxes.side;
     const meta_list_normal = wps_js.global.meta_boxes.normal;
-
+    const meta_list_column3 = wps_js.global.meta_boxes?.column3;
+    const isInsideDashboard = document.getElementById('dashboard-widgets') !== null;
 
     class DateManager {
         static getDateRange(filter) {
@@ -317,6 +318,9 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
             });
         } else {
             activeOptions = [...meta_list_side, ...meta_list_normal];
+            if (isInsideDashboard) {
+                activeOptions = [...activeOptions, ...meta_list_column3];
+            }
         }
         return activeOptions;
     }
@@ -330,48 +334,53 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
     // Initialize meta boxes on page load
     let activeOptions = handleScreenOptionsChange();
 
-
-    let normalIndex = 0, sideIndex = 0;
+    let normalIndex = 0, sideIndex = 0, column3Index = 0;
     let normalLength = meta_list_normal.length;
     let sideLength = meta_list_side.length;
-    const isInsideDashboard = document.getElementById('#dashboard-widgets');
+    let column3Length = isInsideDashboard ? meta_list_column3.length : 0;
     let isMobile = isInsideDashboard ? window.innerWidth < 800 : window.innerWidth < 759;
 
-    // Loop while either list has elements to process
-    while (normalIndex < normalLength || sideIndex < sideLength) {
-        if (isMobile) {
-            while (sideIndex < sideLength) {
-                if (activeOptions.includes(meta_list_side[sideIndex])) {
-                    refreshMetaBox(meta_list_side[sideIndex]);
-                }
-                sideIndex++;
-            }
 
-            while (normalIndex < normalLength) {
-                if (activeOptions.includes(meta_list_normal[normalIndex])) {
-                    refreshMetaBox(meta_list_normal[normalIndex]);
-                }
-                normalIndex++;
+    // Loop while either list has elements to process
+    function processMetaBoxes(metaList, index, length) {
+        while (index < length) {
+            if (activeOptions.includes(metaList[index])) {
+                refreshMetaBox(metaList[index]);
+            }
+            index++;
+        }
+        return index;
+    }
+
+    while (normalIndex < normalLength || sideIndex < sideLength || (isInsideDashboard && column3Index < column3Length)) {
+        if (isMobile) {
+            sideIndex = processMetaBoxes(meta_list_side, sideIndex, sideLength);
+            normalIndex = processMetaBoxes(meta_list_normal, normalIndex, normalLength);
+            if (isInsideDashboard) {
+                column3Index = processMetaBoxes(meta_list_column3, column3Index, column3Length);
             }
         } else {
-            while (normalIndex < normalLength || sideIndex < sideLength) {
-                if (normalIndex < normalLength) {
-                    if (activeOptions.includes(meta_list_normal[normalIndex])) {
-                        refreshMetaBox(meta_list_normal[normalIndex]);
-                    }
-                    normalIndex++;
+            function processNextMetaBox(metaList, index, length) {
+                while (index < length && !activeOptions.includes(metaList[index])) {
+                    index++;
                 }
+                if (index < length) {
+                    refreshMetaBox(metaList[index]);
+                    index++;
+                }
+                return index;
+            }
 
-                if (sideIndex < sideLength) {
-                    if (activeOptions.includes(meta_list_side[sideIndex])) {
-                        refreshMetaBox(meta_list_side[sideIndex]);
-                    }
-                    sideIndex++;
-                }
+            if (isInsideDashboard) {
+                normalIndex = processNextMetaBox(meta_list_normal, normalIndex, normalLength);
+                sideIndex = processNextMetaBox(meta_list_side, sideIndex, sideLength);
+                column3Index = processNextMetaBox(meta_list_column3, column3Index, column3Length);
+            } else {
+                sideIndex = processNextMetaBox(meta_list_side, sideIndex, sideLength);
+                normalIndex = processNextMetaBox(meta_list_normal, normalIndex, normalLength);
             }
         }
     }
-
 
     jQuery(document).on('change', '#adv-settings input[type="checkbox"]', function () {
         let metaBoxKey = $(this).attr('id').replace('-hide', '');
@@ -394,6 +403,7 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
     // Bind refresh button events for both lists
     bindRefreshEvents(meta_list_side);
     bindRefreshEvents(meta_list_normal);
+    if (isInsideDashboard) bindRefreshEvents(meta_list_column3);
 
     // Export utility functions
     wps_js.metaBoxInner = key => jQuery('#' + key + ' .inside');
