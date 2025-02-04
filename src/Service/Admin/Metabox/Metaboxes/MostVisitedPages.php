@@ -15,10 +15,6 @@ class MostVisitedPages extends BaseMetabox
         return esc_html__('Most Visited Pages', 'wp-statistics');
     }
 
-    public function isActive() {
-        return $this->isDashboardWidgetEnabled();
-    }
-
     public function getDescription()
     {
         return esc_html__('Pages on your website with the highest number of views in the selected time frame.', 'wp-statistics');

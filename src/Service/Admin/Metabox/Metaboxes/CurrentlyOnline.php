@@ -15,10 +15,6 @@ class CurrentlyOnline extends BaseMetabox
         return esc_html__('Currently Online', 'wp-statistics');
     }
 
-    public function isActive() {
-        return $this->isDashboardWidgetEnabled();
-    }
-
     public function getDescription()
     {
         return '';

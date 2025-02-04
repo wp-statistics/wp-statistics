@@ -16,10 +16,6 @@ class BrowserUsage extends BaseMetabox
         return esc_html__('Browser Usage', 'wp-statistics');
     }
 
-    public function isActive() {
-        return $this->isDashboardWidgetEnabled();
-    }
-
     public function getDescription()
     {
         return esc_html__('Distribution of visitors based on the browsers they use.', 'wp-statistics');

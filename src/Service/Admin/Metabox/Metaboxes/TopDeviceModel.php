@@ -15,10 +15,6 @@ class TopDeviceModel extends BaseMetabox
         return esc_html__('Top Device Model', 'wp-statistics');
     }
 
-    public function isActive() {
-        return $this->isDashboardWidgetEnabled();
-    }
-
     public function getDescription()
     {
         return esc_html__('', 'wp-statistics');

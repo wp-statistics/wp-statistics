@@ -15,10 +15,6 @@ class OperatingSystems extends BaseMetabox
         return esc_html__('Most Used Operating Systems', 'wp-statistics');
     }
 
-    public function isActive() {
-        return $this->isDashboardWidgetEnabled();
-    }
-
     public function getDescription()
     {
         return esc_html__('Identify the operating systems most commonly used by your website visitors.', 'wp-statistics');

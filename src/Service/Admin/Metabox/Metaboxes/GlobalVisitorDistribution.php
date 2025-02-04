@@ -15,10 +15,6 @@ class GlobalVisitorDistribution extends BaseMetabox
         return esc_html__('Global Visitor Distribution', 'wp-statistics');
     }
 
-    public function isActive() {
-        return $this->isDashboardWidgetEnabled();
-    }
-
     public function getDescription()
     {
         return esc_html__('Geographical representation of where your site\'s visitors come from.', 'wp-statistics');

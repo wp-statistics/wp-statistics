@@ -243,6 +243,16 @@ abstract class BaseMetabox
      */
     public function register()
     {
+        $screens = $this->getScreen();
+
+        if (Option::get('disable_dashboard') && in_array('dashboard', $screens)) {
+            $screens = array_diff($screens, ['dashboard']);
+        }
+
+        if (Option::get('read_capability') && !current_user_can(Option::get('read_capability'))) {
+            return;
+        }
+
         $this->enqueueAssets();
 
         // If widget is not static, register ajax callback to get dynamic data
@@ -251,23 +261,6 @@ abstract class BaseMetabox
             Ajax::register("{$key}_metabox_get_data", [$this, 'getResponse'], false);
         }
 
-        add_meta_box($this->getKey(), $this->getName(), [$this, 'render'], $this->getScreen(), $this->getContext(), $this->getPriority(), $this->getCallbackArgs());
-    }
-
-    /**
-     * Checks if the dashboard widget is enabled.
-     *
-     * @return bool
-     */
-    protected function isDashboardWidgetEnabled() {
-        if (Menus::in_page('overview')) {
-            return true;
-        }
-
-        if (!Option::get('disable_dashboard')) {
-            return true;
-        }
-
-        return false;
+        add_meta_box($this->getKey(), $this->getName(), [$this, 'render'], $screens, $this->getContext(), $this->getPriority(), $this->getCallbackArgs());
     }
 }
