@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\VisitorInsights;
 
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\User;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Utils\Request;
@@ -67,9 +68,13 @@ class VisitorInsightsManager
             $search  = Request::get('search', '');
             $search  = Url::cleanUrl($search);
 
+            $postTypes = Helper::get_updated_list_post_type();
+            $postTypes[] = 'home';
+
             $pages = Query::select(['DISTINCT uri'])
                 ->from('pages')
                 ->where('uri', 'LIKE', "%{$search}%")
+                ->where('type', 'IN', $postTypes)
                 ->getAll();
 
             foreach ($pages as $key => $page) {
