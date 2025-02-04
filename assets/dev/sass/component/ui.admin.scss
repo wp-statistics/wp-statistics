@@ -2542,7 +2542,11 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       background-repeat: no-repeat;
       transform: rotate(0);
       background-position: center;
-      margin-bottom: -2px
+      margin-bottom: -2px;
+
+      .rtl &{
+        transform: rotate(180deg);
+      }
     }
 
     .wps-visitor-filter__text {

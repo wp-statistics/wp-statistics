@@ -28,8 +28,9 @@ if (strpos($page, 'overview') !== false) {
             <tbody>
             <?php foreach ($data as $item) : ?>
                 <?php
-                $page      = Pages::get_page_info($item->id, $item->type, $item->uri);
-                $reportUrl = '';
+                $page       = Pages::get_page_info($item->id, $item->type, $item->uri);
+                $isDisabled = false;
+                $reportUrl  = '';
 
                 if (isset($page['meta']['term_taxonomy_id'])) {
                     $reportUrl = Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $page['meta']['term_taxonomy_id'], 'from' => $args['date']['from'], 'to' => $args['date']['to']]);
@@ -37,6 +38,7 @@ if (strpos($page, 'overview') !== false) {
                     $reportUrl = Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $page['meta']['author_id'], 'from' => $args['date']['from'], 'to' => $args['date']['to']]);
                 } else if (isset($page['meta']['post_type'])) {
                     $reportUrl = Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $item->id, 'from' => $args['date']['from'], 'to' => $args['date']['to']]);
+                    $isDisabled = $item->id == 0;
                 } else if ($item->type == '404') {
                     $reportUrl = Menus::admin_url('pages', ['tab' => '404', 'from' => $args['date']['from'], 'to' => $args['date']['to']]);
                 }
@@ -47,7 +49,7 @@ if (strpos($page, 'overview') !== false) {
                     </td>
 
                     <td class="wps-pd-l">
-                        <a href="<?php echo esc_url($reportUrl) ?>" target="_blank"><?php echo esc_html(number_format_i18n($item->views)) ?></a>
+                        <a class="<?php echo !empty($isDisabled) ? 'disabled' : ''; ?>" href="<?php echo esc_url($reportUrl) ?>" target="_blank"><?php echo esc_html(number_format_i18n($item->views)) ?></a>
                     </td>
 
                     <td class="wps-pd-l wps-middle-vertical">

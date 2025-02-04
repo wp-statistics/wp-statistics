@@ -73,7 +73,8 @@ class Option
             'schedule_dbmaint_days'           => '180',
             'charts_previous_period'          => true,
             'attribution_model'               => 'first-touch',
-            'geoip_location_detection_method' => 'maxmind'
+            'geoip_location_detection_method' => 'maxmind',
+            'delete_data_on_uninstall'        => false
         );
 
         return $options;
