@@ -1,9 +1,14 @@
 <?php
 
 use WP_Statistics\Components\View;
-use WP_Statistics\Utils\Request;
 
-$activeFilters = Request::has('referrer');
+$activeFilters = 0;
+
+foreach ($_GET as $params_key => $params_item) {
+    if (! empty($params_item) && in_array($params_key, ['author_id', 'url'])) {
+        $activeFilters++;
+    }
+}
 
 $classes[] = 'wps-modal-filter';
 $classes[] = $activeFilters ? 'wp-modal-filter--active' : '';

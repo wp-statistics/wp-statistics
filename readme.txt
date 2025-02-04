@@ -139,8 +139,10 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 == Changelog ==
 = 14.12.3 - 2025-02-** =
 - **New:** Added an option to delete all data when the plugin is uninstalled.
+- **New:** Added a "URL" filter to Page Insight.
 - **Enhancement:** Updated the IP hashing algorithm for better privacy protection.
 - **Enhancement:** Improved chart indicators for incomplete periods.
+- **Enhancement:** Updated enqueue script functionality to support loading strategy.
 - **Fix:** Resolved an issue with the weekly chart display.
 - **Fix:** Fixed date range filter and toggle meta inconsistencies.
 - **Fix:** Fixed an error in 'Tracker Debugger'.

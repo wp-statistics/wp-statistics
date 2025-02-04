@@ -2518,7 +2518,8 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     }
   }
 
-  #visitors-filter, #referral-filter {
+  #visitors-filter, #referral-filter,
+  #wps-modal-filter {
     border: 1px solid #DADCE0;
     padding: 4px 21px;
     margin-top: 0 !important;
@@ -2572,7 +2573,8 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     }
   }
 
-  #visitors-filter.wp-visitors-filter--active, #referral-filter.wp-referral-filter--active {
+  #visitors-filter.wp-visitors-filter--active, #referral-filter.wp-referral-filter--active,
+  #wps-modal-filter.wp-modal-filter--active {
     background: #404BF21A !important;
     border: 1px solid #7981F6 !important;
 

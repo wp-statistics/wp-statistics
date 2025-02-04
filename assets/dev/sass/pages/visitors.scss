@@ -9,7 +9,8 @@ body[class*="wps_visitors_page"], body[class*="wps_visitors-report_page"] {
   }
 
   // Add Button
-  #visitors-filter {
+  #visitors-filter,
+  #wps-modal-filter {
     transition: 0.5s all;
     margin-top: 5px;
 
