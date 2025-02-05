@@ -72,6 +72,18 @@ class IntegrationHelper
     }
 
     /**
+     * Checks if certain integration is active
+     *
+     * @param string $integration
+     * @return bool
+     */
+    public static function isIntegrationActive($integration)
+    {
+        $activeIntegration = Option::get('consent_integration');
+        return $activeIntegration === $integration;
+    }
+
+    /**
      * Returns the currently selected integration status.
      *
      * @return array
