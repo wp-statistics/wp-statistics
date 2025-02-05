@@ -57,11 +57,11 @@ class IntegrationHelper
     }
 
     /**
-     * Returns the currently selected integration class.
+     * Returns the currently active integration class.
      *
      * @return AbstractIntegration|false False if no integration is selected.
      */
-    public static function getCurrentIntegration()
+    public static function getActiveIntegration()
     {
         $selectedIntegration = Option::get('consent_integration');
         $selectedIntegration = self::getIntegration($selectedIntegration);
@@ -95,7 +95,7 @@ class IntegrationHelper
             'status'    => []
         ];
 
-        $integration = self::getCurrentIntegration();
+        $integration = self::getActiveIntegration();
 
         if (!empty($integration)) {
             $status['name']     = $integration->getKey();
@@ -103,5 +103,34 @@ class IntegrationHelper
         }
 
         return $status;
+    }
+
+    /**
+     * Checks if consent is given for the currently active integration.
+     *
+     * If there's no active integration, it assumes consent is given.
+     *
+     * @return bool
+     */
+    public static function isConsentGiven()
+    {
+        $integration = self::getActiveIntegration();
+
+        return empty($integration) || $integration->hasConsent();
+    }
+
+    /**
+     * Checks if the currently active integration requires anonymous tracking.
+     *
+     * If there's no active integration, it assumes it doesn't require anonymous tracking.
+     *
+     * @return bool
+     */
+    public static function shouldTrackAnonymously()
+    {
+        $integration    = self::getActiveIntegration();
+        $isConsentGiven = self::isConsentGiven();
+
+        return !empty($integration) && $integration->trackAnonymously() && !$isConsentGiven;
     }
 }
