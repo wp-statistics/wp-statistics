@@ -8,6 +8,7 @@ use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Admin\CategoryAnalytics\Views\CategoryReportView;
 use WP_Statistics\Service\Admin\CategoryAnalytics\Views\TabsView;
 use WP_Statistics\Service\Admin\CategoryAnalytics\Views\SingleView;
+use WP_Statistics\Service\Admin\FilterHandler\FilterGenerator;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 class CategoryAnalyticsPage extends MultiViewPage
@@ -24,6 +25,39 @@ class CategoryAnalyticsPage extends MultiViewPage
     public function __construct()
     {
         parent::__construct();
+
+        $this->setFilters();
+    }
+
+    protected function setFilters() {
+        $this->filters = FilterGenerator::create()
+            ->dropdown('pt', [
+                'label' => esc_html__('Post Type', 'wp-statistics'),
+                'panel' => true,
+                'attributes'  => [
+                    'data-type' => 'post-types',
+                    'data-source' => 'getPostTypes',
+                ],
+            ])
+            ->dropdown('author_id', [
+                'label' => esc_html__('Author', 'wp-statistics'),
+                'panel' => true,
+                'attributes'  => [
+                    'data-type' => 'author',
+                    'data-source' => 'getAuthor',
+                ],
+            ])
+            ->dropdown('tx', [
+                'label' => esc_html__('Taxonomy', 'wp-statistics'),
+                'panel' => true,
+                'attributes'  => [
+                    'data-type' => 'taxonomy',
+                    'data-source' => 'getTaxonomies',
+                ],
+            ])
+            ->get();
+        
+        return $this->filters;
     }
 
     protected function init()

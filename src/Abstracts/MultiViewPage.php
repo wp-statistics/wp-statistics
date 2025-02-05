@@ -6,15 +6,21 @@ use WP_Statistics\Exception\SystemErrorException;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Utils\Request;
 use Exception;
+use WP_STATISTICS\Admin_Assets;
 
 abstract class MultiViewPage extends BasePage
 {
     protected $defaultView;
     protected $views;
+    protected $filters;
 
     protected function getViews()
     {
         return apply_filters('wp_statistics_' . str_replace('-', '_', $this->pageSlug) . '_views', $this->views);
+    }
+
+    protected function getFilters() {
+        return apply_filters('wp_statistics_' . str_replace('-', '_', $this->pageSlug) . '_filters', $this->filters);
     }
 
     protected function getCurrentView()
@@ -51,6 +57,12 @@ abstract class MultiViewPage extends BasePage
                 throw new SystemErrorException(
                     sprintf(esc_html__('render method is not defined within %s class.', 'wp-statistics'), $currentView)
                 );
+            }
+
+            $filters = $this->getFilters();
+
+            if (! empty($filters)) {
+                wp_localize_script(Admin_Assets::$prefix, 'wpStatisticsFilters', $filters);
             }
 
             // Instantiate the view class and render content
