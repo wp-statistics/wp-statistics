@@ -67,7 +67,7 @@ class Frontend
                     'dntEnabled'           => Option::get('do_not_track'),
                     'bypassAdBlockers'     => Option::get('bypass_ad_blockers', false),
                     'consentIntegration'   => IntegrationHelper::getIntegrationStatus(),
-                    'trackAnonymously'     => Helper::shouldTrackAnonymously(),
+                    'trackAnonymously'     => IntegrationHelper::shouldTrackAnonymously(), // for backward compatibility
                     'isPreview'            => is_preview(),
                 ],
                 'jsCheckTime'           => apply_filters('wp_statistics_js_check_time_interval', 60000),

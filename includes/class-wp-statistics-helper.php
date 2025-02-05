@@ -1847,13 +1847,14 @@ class Helper
      *
      * In this case, we have to track user's information anonymously.
      *
+     * @deprecated use `IntegrationHelper::shouldTrackAnonymously()` method
+     *
      * @return  bool
      */
     public static function shouldTrackAnonymously()
     {
-        $integration        = IntegrationHelper::getCurrentIntegration();
-        $isConsentGiven     = empty($integration) || $integration->hasConsent();
-        $anonymousTracking  = Option::get('anonymous_tracking', false);
+        $isConsentGiven    = IntegrationHelper::isConsentGiven();
+        $anonymousTracking = IntegrationHelper::shouldTrackAnonymously();
 
         return !$isConsentGiven && $anonymousTracking;
     }

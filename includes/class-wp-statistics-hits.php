@@ -271,10 +271,10 @@ class Hits extends Singleton
                 return;
             }
 
-            $integration    = IntegrationHelper::getCurrentIntegration();
-            $isConsentGiven = empty($integration) || $integration->hasConsent();
+            $isConsentGiven     = IntegrationHelper::isConsentGiven();
+            $trackAnonymously   = IntegrationHelper::shouldTrackAnonymously();
 
-            if (Helper::shouldTrackAnonymously() || $isConsentGiven) {
+            if ($isConsentGiven || $trackAnonymously) {
                 self::record();
             }
 
