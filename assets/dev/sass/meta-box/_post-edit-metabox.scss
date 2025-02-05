@@ -1,18 +1,78 @@
 
-#wp-statistics-post-widget{
+#wp-statistics-post-visitors-widget{
   .inside{
+    .inside{
+      padding: 0;
+      margin: 0;
+    }
+    .c-footer{
+      display: none;
+    }
     .o-wrap--no-data{
       padding: 15px !important;
       text-align: center;
     }
+    .o-table.wps-new-table{
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .o-table-wrapper{
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: rgb(218, 220, 224) rgb(250, 250, 251);
+    }
+  }
+
+  thead{
+    th{
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 16px;
+      border-bottom: 1px solid #eeeff1;
+      text-align: left;
+      padding-bottom: 12px;
+
+      .rtl &{
+        text-align: right;
+      }
+    }
+  }
+  tbody{
+
+    tr:nth-child(even) td{
+      background-color: #fafafb;
+    }
+
+    td{
+      padding-top: 12px;
+      padding-bottom: 12px;
+      a{
+        text-decoration: none!important;
+      }
+    }
   }
 }
 
-#wp-statistics-post-widget {
+
+#wp-statistics-post-visitors-locked-widget{
+  .wps-admin-pages-component__preview{
+    img{
+      max-width: 100%;
+    }
+  }
   .wps-admin-pages-component__promotion {
     padding: 32px !important;
     max-width: 90%;
     width: 669px;
+    background-color: #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    box-shadow: 0px 0px 12px 1px rgba(0, 0, 0, 0.07);
+
 
     h3 {
       font-size: 20px;
@@ -21,9 +81,16 @@
       text-align: center;
       margin-top: 0;
       margin-bottom: 24px;
+      color:#0C0C0D;
 
       a {
         padding: 0 !important;
+        text-decoration: none;
+        color:#404BF2;
+
+        &:hover{
+          color:#0C0C0D
+        }
       }
     }
 
@@ -44,6 +111,13 @@
       text-align: left;
       display: inline-flex;
       gap: 10px;
+      background: #404BF2 !important;
+      padding: 8px 16px 8px 16px;
+      align-items: center;
+
+        &:hover{
+          background: #1e27bf!important;
+        }
 
       &:before{
         content: '';
@@ -55,39 +129,11 @@
     }
   }
 }
-
 .edit-post-meta-boxes-area {
-  .ui-sortable #wp-statistics-post-widget {
+  .ui-sortable #wp-statistics-post-visitors-widget {
     background: $white-color !important;
 
-    .wps-admin-pages-component__promotion {
-      padding: 32px!important;
-      max-width: 90%;
-      width: 669px;
-      h3{
-        font-size: 20px;
-        font-weight: 700;
-        line-height: 24px;
-        text-align: center;
-        margin-top: 0;
-        margin-bottom: 24px;
-        a{
-          padding: 0 !important;
-        }
-      }
-      p{
-        font-size: 16px;
-        font-weight: 500;
-        line-height: 24px;
-        color: #0C0C0D;
-        margin: 0 !important;
-      }
-      .button-primary{
-        margin-top: 16px!important;
-        margin-bottom: 0!important;
-      }
-    }
-    .postbox-header {
+     .postbox-header {
       .wps-refresh {
         &:focus {
           outline: none;
@@ -172,6 +218,60 @@
         margin-left: 0;
         margin-right: 8px;
       }
+    }
+  }
+}
+
+.c-wps-post-summary-panel-chart{
+  position: relative;
+}
+
+.wps-mini-chart-post-summary-tooltip {
+  box-shadow: 1px 1px 2px 0 #00000005;
+  border: 0.5px solid #DADCE0;
+  border-radius: 2px;
+  background: #fff;
+  padding: 12px;
+  opacity: 1;
+  pointer-events:none;
+  min-width: 105px;
+  margin: 0;
+  position: absolute;
+  transition: all .1s ease;
+  z-index: 99999;
+
+  .chart-title {
+    color: #0C0C0D;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 14.06px;
+    padding-bottom: 8px;
+    text-align: left;
+
+    .rtl & {
+      text-align: right;
+    }
+  }
+
+  .content-item {
+    display: flex;
+    justify-content: space-between;
+
+    span:first-child {
+      font-size: 13px;
+      font-style: italic;
+      font-weight: 400;
+      line-height: 15.23px;
+      color: #56585A;
+      display: block !important;
+    }
+    span:last-child {
+      color: #0C0C0D;
+      font-size: 13px;
+      font-style: italic;
+      font-weight: 500;
+      line-height: 15.23px;
+      display: block !important;
     }
   }
 }

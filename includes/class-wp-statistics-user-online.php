@@ -198,7 +198,12 @@ class UserOnline
 
         $current_page = $visitorProfile->getCurrentPageType();
         $user_id      = $visitorProfile->getUserId();
+        $sameVisitor  = $visitorProfile->isIpActiveToday();
 
+        if(! empty($sameVisitor)) {
+            $user_id = $sameVisitor->user_id;
+        }
+        
         $pageId = Pages::getPageId($current_page['type'], $current_page['id']);
 
         //Prepare User online Update data

@@ -35,13 +35,23 @@ class ReferralDecorator
     }
 
     /**
-     * Get the source channel (e.g., direct, search, etc.).
+     * Get the source channel name (e.g., Direct, Organic Search, etc.).
      *
      * @return string|null
      */
     public function getSourceChannel()
     {
-        return SourceChannels::getName($this->item->source_channel) ?? null;
+        return SourceChannels::getName($this->getRawSourceChannel());
+    }
+
+    /**
+     * Get the raw source channel value (e.g., direct, search, etc.).
+     *
+     * @return string|null
+     */
+    public function getRawSourceChannel()
+    {
+        return $this->item->source_channel ?? 'unassigned';
     }
 
     /**
@@ -55,12 +65,25 @@ class ReferralDecorator
     }
 
     /**
+     * Get the date of the referral.
+     *
+     * @return string
+     */
+    public function getDate()
+    {
+        return $this->item->last_counter ?? null;
+    }
+
+    /**
      * Get the total number of referrals.
      *
-     * @return int
+     * @param bool $raw Whether return raw value or formatted.
+     * @return int|string
      */
-    public function getTotalReferrals()
+    public function getTotalReferrals($raw = false)
     {
-        return $this->item->visitors ? number_format_i18n($this->item->visitors) : 0;
+        if (empty($this->item->visitors)) return 0;
+
+        return $raw ? intval($this->item->visitors) : number_format_i18n($this->item->visitors);
     }
 }

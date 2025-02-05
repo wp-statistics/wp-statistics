@@ -23,28 +23,12 @@ const closeModal=()=> {
 }
 
 const setMaxHeightForAllSteps = () => {
-    let maxImageHeight = 0; // To store the maximum image height
-    if (premiumSteps.length === 0) {
+     if (premiumSteps.length === 0) {
         return;
     }
-     premiumSteps.forEach((step) => {
-         const imageElement = step.querySelector('.wps-premium-step__image');
-         if (imageElement) {
-             if (imageElement.complete) {
-                const imageHeight = imageElement.offsetHeight;
-                maxImageHeight = Math.max(maxImageHeight, imageHeight); // Update maxImageHeight
-            }
-        }
-    });
-     premiumSteps.forEach(step => {
-        const imageElement = step.querySelector('.wps-premium-step__image');
-        if (imageElement) {
-             imageElement.style.height = `${maxImageHeight}px`;
-        }
-    });
     let maxStepHeight = 0;
     premiumSteps.forEach(step => {
-         const originalDisplay = step.style.display;
+        const originalDisplay = step.style.display;
         step.style.display = 'block';
          step.style.minHeight = 'auto';
          let stepHeight = step.getBoundingClientRect().height;
@@ -59,14 +43,10 @@ const setMaxHeightForAllSteps = () => {
 
 // Optionally, re-run the function when the window is resized
 window.addEventListener('resize', setMaxHeightForAllSteps);
-
 const openModal = (target, href) => {
      if (modal){
           modal.style.display = 'block';
          document.body.style.overflow = 'hidden';
-         setTimeout(() => {
-             setMaxHeightForAllSteps();
-         }, 100);
      }
      const targetIndex = Array.from(premiumFeatures).findIndex(step => step.getAttribute('data-modal') === target);
       if (targetIndex !== -1) {
@@ -74,6 +54,7 @@ const openModal = (target, href) => {
          if(welcomeContent){
              welcomeContent.style.display = 'none';
           }
+          loadModalImages();
           showStep(currentStepIndex+1);
           premiumStepsContent.style.display = 'block';
           stopAutoSlide();
@@ -105,31 +86,50 @@ premiumSteps.forEach(step => {
 if (exploreButton) {
     exploreButton.addEventListener('click', function () {
         currentStepIndex = 0;
+        loadModalImages();
         welcomeContent.style.display = 'none';
         premiumStepsContent.style.display = 'block';
-         // Start auto-slide through steps
         showStep(currentStepIndex);
         startAutoSlide();
     });
 }
 
-// Function to show a specific step and sync the sidebar
-const showStep = (index) => {
-
+const loadModalImages=()=>{
     document.querySelectorAll('.wps-premium-step__image').forEach((img) => {
         img.src = img.dataset.src;
     });
+}
+
+// Function to show a specific step and sync the sidebar
+const showStep = (index) => {
+     setTimeout(() => {
+        setMaxHeightForAllSteps();
+    }, 100);
 
     if (index < 0 || index >= premiumSteps.length) return;
     premiumSteps.forEach(step => step.classList.remove('wps-modal__premium-step--active'));
-    upgradeButtonBox.forEach(btn => btn.classList.remove('active'));
-    premiumStepsTitle.forEach(p => p.classList.remove('active'));
+    if (upgradeButtonBox && upgradeButtonBox.length > 0) {
+        upgradeButtonBox.forEach(btn => {
+            if (btn) {
+                btn.classList.remove('active');
+            }
+        });
+        if (upgradeButtonBox[index-1]) {
+            upgradeButtonBox[index-1].classList.add('active');
+        }
+    }
+    if (premiumStepsTitle && premiumStepsTitle.length > 0) {
+        premiumStepsTitle.forEach(p => {
+            if (p) {
+                p.classList.remove('active')
+            }
+        });
+        if (premiumStepsTitle[index-1]) {
+            premiumStepsTitle[index-1].classList.add('active');
+        }
+    }
     premiumFeatures.forEach(feature => feature.classList.remove('active'));
-
     premiumSteps[index].classList.add('wps-modal__premium-step--active');
-    upgradeButtonBox[index-1].classList.add('active');
-    premiumStepsTitle[index-1].classList.add('active');
-
     const toggleDisplay = (elements, displayStyle) => {
         elements.forEach(element => {
             element.style.display = displayStyle;
@@ -169,3 +169,95 @@ if (premiumFeatures.length>0) {
          });
     });
 }
+
+
+
+class ModalHandler {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+         document.addEventListener('click', (event) => {
+            const button = event.target.closest('[class*="js-openModal-"]');
+            if (button) {
+                const modalId = this.extractModalIdFromClass(button.classList);
+                if (modalId) {
+                    this.openModal(modalId);
+                }
+            }
+            const actionButton = event.target.closest('button[data-action]');
+            if(actionButton){
+                const action = actionButton.getAttribute('data-action');
+                if(action){
+                    const modal = actionButton.closest('.wps-modal');
+                    this.handleModalAction(modal, action);
+                }
+            }
+        });
+        this.attachOpenEvent();
+        this.attachCloseEvent();
+    }
+
+    // Event delegation for opening modals
+    attachOpenEvent() {
+        document.addEventListener('click', (event) => {
+            // Check if the clicked element or its parent matches the selector
+            const button = event.target.closest('[class*="js-openModal-"]');
+            if (button) {
+                const modalId = this.extractModalIdFromClass(button.classList);
+                if (modalId) {
+                    this.openModal(modalId);
+                }
+            }
+        });
+    }
+
+    extractModalIdFromClass(classList) {
+        for (let className of classList) {
+            if (className.startsWith('js-openModal-')) {
+                return className.replace('js-openModal-', '').toLowerCase();
+            }
+        }
+        return null;
+    }
+
+    openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.classList.add('wps-modal--open');
+        } else {
+            console.error(`Modal with ID "${modalId}" not found.`);
+        }
+    }
+
+    // Event delegation for closing modals
+    attachCloseEvent() {
+        document.addEventListener('click', (event) => {
+            const button = event.target.closest('.wps-modal__close');
+            if (button) {
+                const modal = button.closest('.wps-modal');
+                if (modal) {
+                     modal.classList.remove('wps-modal--open');
+                }
+            }
+        });
+    }
+
+     handleModalAction(modal, action) {
+        switch (action) {
+            case 'resolve':
+                break;
+            case 'closeModal':
+                this.closeModal(modal);
+                break;
+            default:
+                console.warn('Unknown action:', action);
+        }
+    }
+    closeModal(modal) {
+        modal.classList.remove('wps-modal--open');
+    }
+}
+
+new ModalHandler();

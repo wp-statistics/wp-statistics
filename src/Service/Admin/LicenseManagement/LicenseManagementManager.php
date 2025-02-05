@@ -4,9 +4,11 @@ namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 use Exception;
 use WP_Statistics;
+use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginActions;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginUpdater;
+use WP_STATISTICS\User;
 
 class LicenseManagementManager
 {
@@ -15,12 +17,12 @@ class LicenseManagementManager
 
     public function __construct()
     {
-        $this->pluginHandler   = new PluginHandler();
+        $this->pluginHandler = new PluginHandler();
 
-        // Initialize the necessary components
+        // Initialize the necessary components.
         $this->initActionCallbacks();
-        $this->initPluginUpdaters();
-
+        
+        add_action('init', [$this, 'initPluginUpdaters']);
         add_action('admin_init', [$this, 'showPluginActivationNotice']);
         add_filter('wp_statistics_enable_upgrade_to_bundle', [$this, 'showUpgradeToBundle']);
         add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);
@@ -35,6 +37,7 @@ class LicenseManagementManager
             'name'     => '<span class="wps-text-warning">' . __('Add-Ons', 'wp-statistics') . '</span>',
             'page_url' => 'plugins',
             'callback' => LicenseManagerPage::class,
+            'cap' => User::ExistCapability(Option::get('manage_capability', 'manage_options')),
             'priority' => 90,
             'break'    => true,
         ];
@@ -52,7 +55,7 @@ class LicenseManagementManager
     /**
      * Initialize the PluginUpdater for all stored licenses.
      */
-    private function initPluginUpdaters()
+    public function initPluginUpdaters()
     {
         $storedLicenses = LicenseHelper::getLicenses();
 

@@ -96,7 +96,7 @@
   float: right;
 }
 
-.rtl .wp-statistics-plugins .widefat  .button{
+.rtl .wp-statistics-plugins .widefat .button {
   font-weight: 500 !important;
   font-size: 13px;
   line-height: 170%;
@@ -104,8 +104,8 @@
   border-radius: 4px;
 }
 
-.rtl .wp-statistics-plugins .widefat .plugin-card .desc>p {
-    margin-left: 0;
+.rtl .wp-statistics-plugins .widefat .plugin-card .desc > p {
+  margin-left: 0;
 }
 
 .rtl .wp-statistics-plugins .widefat .plugin-card .desc,
@@ -134,39 +134,46 @@
 }
 
 .rtl.wps_page {
-  .wps-mobileMenuContent{
-    left:0;
+  .wps-mobileMenuContent {
+    left: 0;
     right: unset;
   }
-  #feedback-bird-app{
+
+  #feedback-bird-app {
     float: none;
     margin: 0;
   }
-  #wps-menu-toggle:checked~.wps-mobileMenuContent .c-fbb-btn--default>span:before{
+
+  #wps-menu-toggle:checked ~ .wps-mobileMenuContent .c-fbb-btn--default > span:before {
     margin-right: unset;
     margin-left: 10px;
   }
-  #wps-menu-toggle:checked~.wps-mobileMenuContent a .icon{
-    margin-right:unset;
+
+  #wps-menu-toggle:checked ~ .wps-mobileMenuContent a .icon {
+    margin-right: unset;
     margin-left: 10px;
   }
-  .daterangepicker select.yearselect,.daterangepicker select.monthselect{
+
+  .daterangepicker select.yearselect, .daterangepicker select.monthselect {
     text-align: right;
   }
 
-  .wps-today-datepicker{
+  .wps-today-datepicker {
     right: unset;
     left: 23px;
-    div:before{
+
+    div:before {
       right: 16px;
       left: unset;
     }
-    div:after{
+
+    div:after {
       left: 21px;
       right: unset;
     }
   }
-  .wps-head-filters .js-date-range-picker-btn:after{
+
+  .wps-head-filters .js-date-range-picker-btn:after {
     margin-left: unset;
     margin-right: 3px;
     margin-top: 2px;
@@ -180,13 +187,9 @@
   .wps-adminHeader .wps-adminHeader__menu a span.badge {
     margin-right: 4px;
     margin-left: unset;
-    &:before{
-      margin-left: unset;
-      margin-right: -15%;
-    }
   }
 
-  .wps-adminHeader a.wps-license-status:before  {
+  .wps-adminHeader a.wps-license-status:before {
     margin-right: unset;
     margin-left: 3px;
   }

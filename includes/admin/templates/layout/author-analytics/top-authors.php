@@ -3,10 +3,11 @@
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 
-$isLicenseValid       = LicenseHelper::isPluginLicenseValid('wp-statistics-data-plus');
+$pluginHandler        = new PluginHandler();
+$showPreview          = !$pluginHandler->isPluginActive('wp-statistics-data-plus');
 $postType             = Request::get('pt', 'post');
 $postTypeNameSingular = Helper::getPostTypeName($postType, true);
 $postTypeNamePlural   = Helper::getPostTypeName($postType);
@@ -24,10 +25,10 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
 
     <div class="wps-flex-container">
         <div class="wps-flex-half">
-            <div class="wps-author-tabs">
+            <div class="wps-tabs">
                 <input type="radio" name="tabs" id="author-views" checked="checked">
                 <label for="author-views"><?php esc_html_e('Views', 'wp-statistics') ?></label>
-                <div class="wps-author-tabs__content">
+                <div class="wps-tabs__content">
                     <?php
                     /** @var stdClass[] */
                     $viewingAuthors = $data['authors']['top_viewing'];
@@ -36,12 +37,12 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                     if ($viewingAuthors) {
                         foreach ($viewingAuthors as $author) :
                             View::load("components/author-box", [
-                                'is_license_valid' => $isLicenseValid,
-                                'author_id'        => $author->id,
-                                'author_name'      => $author->name,
-                                'count'            => $author->total_views,
-                                'counter'          => $counter,
-                                'count_label'      => sprintf(esc_html__('%s views', 'wp-statistics'), strtolower($postTypeNameSingular)),
+                                'show_preview'  => $showPreview,
+                                'author_id'     => $author->id,
+                                'author_name'   => $author->name,
+                                'count'         => $author->total_views,
+                                'counter'       => $counter,
+                                'count_label'   => sprintf(esc_html__('%s views', 'wp-statistics'), strtolower($postTypeNameSingular)),
                             ]);
                             $counter++;
                         endforeach;
@@ -56,7 +57,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                 </div>
                 <input type="radio" name="tabs" id="author-publishing">
                 <label for="author-publishing"><?php esc_html_e('Publishing', 'wp-statistics') ?></label>
-                <div class="wps-author-tabs__content">
+                <div class="wps-tabs__content">
                     <?php
 
                     /** @var stdClass[] */
@@ -66,12 +67,12 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                     if ($publishingAuthors) {
                         foreach ($publishingAuthors as $author) :
                             View::load("components/author-box", [
-                                'is_license_valid' => $isLicenseValid,
-                                'author_id'        => $author->id,
-                                'author_name'      => $author->name,
-                                'count'            => $author->post_count,
-                                'counter'          => $counter,
-                                'count_label'      => sprintf(esc_html__('%s published', 'wp-statistics'), strtolower($postTypeNamePlural)),
+                                'show_preview'  => $showPreview,
+                                'author_id'     => $author->id,
+                                'author_name'   => $author->name,
+                                'count'         => $author->post_count,
+                                'counter'       => $counter,
+                                'count_label'   => sprintf(esc_html__('%s published', 'wp-statistics'), strtolower($postTypeNamePlural)),
                             ]);
                             $counter++;
                         endforeach;
@@ -87,10 +88,10 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
             </div>
         </div>
         <div class="wps-flex-half">
-            <div class="wps-author-tabs">
+            <div class="wps-tabs">
                 <input type="radio" name="side-tabs" id="views-post" checked>
                 <label for="views-post"><?php echo sprintf(esc_html__('Views/%s', 'wp-statistics'), $postTypeNameSingular) ?></label>
-                <div class="wps-author-tabs__content">
+                <div class="wps-tabs__content">
                     <?php
                     /** @var stdClass[] */
                     $topByViewsPerPost = $data['authors']['top_by_views'];
@@ -99,12 +100,12 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                     if ($topByViewsPerPost) {
                         foreach ($topByViewsPerPost as $author) :
                             View::load("components/author-box", [
-                                'is_license_valid' => $isLicenseValid,
-                                'author_id'        => $author->id,
-                                'author_name'      => $author->name,
-                                'count'            => $author->average_views,
-                                'counter'          => $counter,
-                                'count_label'      => sprintf(esc_html__('views/%s', 'wp-statistics'), strtolower($postTypeNameSingular)),
+                                'show_preview'  => $showPreview,
+                                'author_id'     => $author->id,
+                                'author_name'   => $author->name,
+                                'count'         => $author->average_views,
+                                'counter'       => $counter,
+                                'count_label'   => sprintf(esc_html__('views/%s', 'wp-statistics'), strtolower($postTypeNameSingular)),
                             ]);
                             $counter++;
                         endforeach;
@@ -121,7 +122,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                 <?php if (post_type_supports($postType, 'comments')) : ?>
                     <input type="radio" name="side-tabs" id="comments-post">
                     <label for="comments-post"><?php echo sprintf(esc_html__('Comments/%s', 'wp-statistics'), $postTypeNameSingular) ?></label>
-                    <div class="wps-author-tabs__content">
+                    <div class="wps-tabs__content">
                         <?php
                         /** @var stdClass[] */
                         $topByCommentsPerPost = $data['authors']['top_by_comments'];
@@ -130,12 +131,12 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                         if ($topByCommentsPerPost) {
                             foreach ($topByCommentsPerPost as $author) :
                                 View::load("components/author-box", [
-                                    'is_license_valid' => $isLicenseValid,
-                                    'author_id'        => $author->id,
-                                    'author_name'      => $author->name,
-                                    'count'            => $author->average_comments,
-                                    'counter'          => $counter,
-                                    'count_label'      => sprintf(esc_html__('comments/%s', 'wp-statistics'), strtolower($postTypeNameSingular)),
+                                    'show_preview'  => $showPreview,
+                                    'author_id'     => $author->id,
+                                    'author_name'   => $author->name,
+                                    'count'         => $author->average_comments,
+                                    'counter'       => $counter,
+                                    'count_label'   => sprintf(esc_html__('comments/%s', 'wp-statistics'), strtolower($postTypeNameSingular)),
                                 ]);
                                 $counter++;
                             endforeach;
@@ -152,7 +153,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
 
                 <input type="radio" name="side-tabs" id="words-post">
                 <label for="words-post"><?php echo sprintf(esc_html__('Words/%s', 'wp-statistics'), $postTypeNameSingular) ?></label>
-                <div class="wps-author-tabs__content">
+                <div class="wps-tabs__content">
                     <?php
                     /** @var stdClass[] */
                     $topByWordsPerPost = $data['authors']['top_by_words'];
@@ -161,12 +162,12 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                     if ($topByWordsPerPost) {
                         foreach ($topByWordsPerPost as $author) :
                             View::load("components/author-box", [
-                                'is_license_valid' => $isLicenseValid,
-                                'author_id'        => $author->id,
-                                'author_name'      => $author->name,
-                                'count'            => $author->average_words,
-                                'counter'          => $counter,
-                                'count_label'      => sprintf(esc_html__('words/%s', 'wp-statistics'), strtolower($postTypeNameSingular)),
+                                'show_preview'  => $showPreview,
+                                'author_id'     => $author->id,
+                                'author_name'   => $author->name,
+                                'count'         => $author->average_words,
+                                'counter'       => $counter,
+                                'count_label'   => sprintf(esc_html__('words/%s', 'wp-statistics'), strtolower($postTypeNameSingular)),
                             ]);
                             $counter++;
                         endforeach;
@@ -182,9 +183,10 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
             </div>
         </div>
     </div>
-    <div class="c-footer">
-        <div class="c-footer__more">
-            <a href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'authors', 'pt' => $postType])); ?>" class="c-footer__more__link" title="<?php esc_html_e('See all authors', 'wp-statistics') ?>"><?php esc_html_e('See all authors', 'wp-statistics') ?></a>
-        </div>
-    </div>
+    <?php
+    View::load("components/objects/view-more", [
+        'href'  => Menus::admin_url('author-analytics', ['type' => 'authors', 'pt' => $postType]),
+        'title' => __('See all authors', 'wp-statistics'),
+    ]);
+    ?>
 </div>

@@ -5,13 +5,14 @@ namespace WP_Statistics\Utils;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Traits\TransientCacheTrait;
 use WP_STATISTICS\DB;
-use WP_STATISTICS\TimeZone;
 use InvalidArgumentException;
+use WP_Statistics\Components\DateTime;
 
 class Query
 {
     use TransientCacheTrait;
 
+    private $queries = [];
     private $operation;
     private $table;
     private $fields = '*';
@@ -60,24 +61,65 @@ class Query
         return $instance;
     }
 
+    public static function insert($table)
+    {
+        $instance            = new self();
+        $instance->operation = 'insert';
+        $instance->table     = $instance->getTable($table);
+
+        return $instance;
+    }
+
+    public static function union($queries)
+    {
+        $instance            = new self();
+        $instance->operation = 'union';
+        $instance->queries   = $queries;
+
+        return $instance;
+    }
 
     public function set($values)
     {
         if (empty($values)) return $this;
 
-        foreach ($values as $field => $value) {
-            if (is_string($value)) {
-                $this->setClauses[]         = '%i = %s';
-                $this->valuesToPrepare[]    = $field;
-                $this->valuesToPrepare[]    = $value;
-            } else if (is_numeric($value)) {
-                $this->setClauses[]         = '%i = %d';
-                $this->valuesToPrepare[]    = $field;
-                $this->valuesToPrepare[]    = $value;
-            } else if (is_null($value)) {
-                $this->setClauses[]         = '%i = NULL';
-                $this->valuesToPrepare[]    = $field;
+        if ($this->operation === 'update') {
+            foreach ($values as $field => $value) {
+                if (is_string($value)) {
+                    $this->setClauses[]         = '%i = %s';
+                    $this->valuesToPrepare[]    = $field;
+                    $this->valuesToPrepare[]    = $value;
+                } else if (is_numeric($value)) {
+                    $this->setClauses[]         = '%i = %d';
+                    $this->valuesToPrepare[]    = $field;
+                    $this->valuesToPrepare[]    = $value;
+                } else if (is_null($value)) {
+                    $this->setClauses[]         = '%i = NULL';
+                    $this->valuesToPrepare[]    = $field;
+                }
             }
+        }
+
+        if ($this->operation === 'insert') {
+            $identifiers    = [];
+            $placeholders   = [];
+
+            foreach ($values as $field => $value) {
+                $identifiers[]  = '%i';
+
+                if (is_string($value)) {
+                    $placeholders[] = '%s';
+                } else if (is_numeric($value)) {
+                    $placeholders[] = '%d';
+                } else if (empty($value)) {
+                    $placeholders[] = 'NULL';
+                }
+            }
+
+            $this->valuesToPrepare = array_merge(array_keys($values), array_values($values));
+
+            $this->setClauses['identifiers'] = $identifiers;
+            $this->setClauses['values']      = $placeholders;
         }
 
         return $this;
@@ -200,6 +242,27 @@ class Query
         return $this;
     }
 
+    public function whereJson($field, $key, $operator, $value)
+    {
+        if (is_array($value)) {
+            $value = array_filter(array_values($value));
+        }
+
+        // If the value is empty, we don't need to add it to the query (except for numbers)
+        if (!is_numeric($value) && empty($value)) return $this;
+
+        $field = "JSON_UNQUOTE(JSON_EXTRACT($field, '$.{$key}'))";
+
+        $condition = $this->generateCondition($field, $operator, $value);
+
+        if (!empty($condition)) {
+            $this->whereClauses[]  = $condition['condition'];
+            $this->valuesToPrepare = array_merge($this->valuesToPrepare, $condition['values']);
+        }
+
+        return $this;
+    }
+
     public function whereNotNull($fields)
     {
         if (empty($fields)) return $this;
@@ -258,7 +321,10 @@ class Query
             case '<=':
             case 'LIKE':
             case 'NOT LIKE':
-                if (is_numeric($value) || !empty($value)) {
+                // For LIKE and NOT LIKE, remove the '%' from the value
+                $rawValue = str_replace('%', '', $value);
+
+                if (is_numeric($rawValue) || !empty($rawValue)) {
                     $condition = "$field $operator %s";
                     $values[]  = $value;
                 }
@@ -268,6 +334,11 @@ class Query
             case 'NOT IN':
                 if (is_string($value)) {
                     $value = explode(',', $value);
+                }
+
+                if (!empty($value) && is_array($value) && count($value) == 1) {
+                    $operator = ($operator == 'IN') ? '=' : '!=';
+                    return $this->generateCondition($field, $operator, reset($value));
                 }
 
                 if (!empty($value) && is_array($value)) {
@@ -311,7 +382,7 @@ class Query
         $result = $this->db->get_var($query);
 
         if ($this->allowCaching) {
-            $this->setCachedResult($query, $result);
+            $this->setCachedResult($query, $result, WEEK_IN_SECONDS);
         }
 
         return $result;
@@ -338,7 +409,7 @@ class Query
         $result = $this->db->get_results($query);
 
         if ($this->allowCaching) {
-            $this->setCachedResult($query, $result);
+            $this->setCachedResult($query, $result, WEEK_IN_SECONDS);
         }
 
         return $this->maybeDecorate($result);
@@ -397,7 +468,7 @@ class Query
         $result = $this->db->get_col($query);
 
         if ($this->allowCaching) {
-            $this->setCachedResult($query, $result);
+            $this->setCachedResult($query, $result, WEEK_IN_SECONDS);
         }
 
         return $result;
@@ -418,7 +489,7 @@ class Query
         $result = $this->db->get_row($query);
 
         if ($this->allowCaching) {
-            $this->setCachedResult($query, $result);
+            $this->setCachedResult($query, $result, WEEK_IN_SECONDS);
         }
 
         return $this->maybeDecorate($result);
@@ -666,6 +737,41 @@ class Query
         return $query;
     }
 
+    protected function insertQuery()
+    {
+        $query = "INSERT INTO $this->table";
+
+        if (!empty($this->setClauses)) {
+            $query .= ' (' . implode(', ', $this->setClauses['identifiers']) . ') ';
+            $query .= ' VALUES (' . implode( ', ', $this->setClauses['values'] ) . ') ';
+        }
+
+        return $query;
+    }
+
+    protected function unionQuery()
+    {
+        $query = '';
+
+        foreach ($this->queries as $key => $value) {
+            $this->queries[$key] = "($value)";
+        }
+
+        $query = implode(' UNION ', $this->queries);
+
+        // Append ORDER clauses
+        if (!empty($this->orderClause)) {
+            $query .= ' ' . $this->orderClause;
+        }
+
+        // Append LIMIT clauses
+        if (!empty($this->limitClause)) {
+            $query .= ' ' . $this->limitClause;
+        }
+
+        return $query;
+    }
+
     /**
      * @return $this
      * @deprecated Use allowCaching() instead.
@@ -700,7 +806,7 @@ class Query
      */
     protected function canUseCacheForDateRange($to)
     {
-        $today = date('Y-m-d');
+        $today = DateTime::get();
 
         // Cache should be used if the date range does not include today
         if ($to < $today) {

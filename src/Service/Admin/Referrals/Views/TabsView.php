@@ -46,9 +46,23 @@ class TabsView extends BaseTabView
 
     public function getSearchEnginesData()
     {
-        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Referrals_Object', $this->dataProvider->getChartsData());
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Referrals_Object', $this->dataProvider->getSearchEnginesChartsData());
 
         return $this->dataProvider->getSearchEngineReferrals();
+    }
+
+    public function getSourceCategoriesData()
+    {
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Referrals_Object', $this->dataProvider->getSourceCategoryChartsData());
+
+        return $this->dataProvider->getSourceCategories();
+    }
+
+    public function getSocialMediaData()
+    {
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Referrals_Object', $this->dataProvider->getSocialMediaChartsData());
+
+        return $this->dataProvider->getSocialMediaReferrals();
     }
 
     public function render()
@@ -89,6 +103,16 @@ class TabsView extends BaseTabView
                         'link'  => Menus::admin_url('referrals', ['tab' => 'search-engines']),
                         'title' => esc_html__('Search Engines', 'wp-statistics'),
                         'class' => $this->isTab('search-engines') ? 'current' : '',
+                    ],
+                    [
+                        'link'  => Menus::admin_url('referrals', ['tab' => 'social-media']),
+                        'title' => esc_html__('Social Media', 'wp-statistics'),
+                        'class' => $this->isTab('social-media') ? 'current' : '',
+                    ],
+                    [
+                        'link'  => Menus::admin_url('referrals', ['tab' => 'source-categories']),
+                        'title' => esc_html__('Source Categories', 'wp-statistics'),
+                        'class' => $this->isTab('source-categories') ? 'current' : '',
                     ]
                 ]
             ];
@@ -96,6 +120,21 @@ class TabsView extends BaseTabView
             // Add referrer filter if tab is referred visitors
             if ($this->isTab('referred-visitors')) {
                 array_unshift($args['filters'], 'referrer');
+            }
+
+            // Remove source channels filter if tab is source categories
+            if ($this->isTab('source-categories')) {
+                $args['filters'] = array_values(array_diff($args['filters'], ['source-channels']));
+            }
+
+            // Add search channels filter if tab is search engines
+            if ($this->isTab('search-engines')) {
+                $args['filters'] = ['search-channels'];
+            }
+
+            // Add social channels filter if tab is it's social media tab
+            if ($this->isTab('social-media')) {
+                $args['filters'] = ['social-channels'];
             }
 
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);

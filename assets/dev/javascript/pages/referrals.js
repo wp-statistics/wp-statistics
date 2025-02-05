@@ -1,37 +1,52 @@
 if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "referrals") {
     // Add Income Visitor Chart
 
-    if (document.getElementById('incomeVisitorChart')) {
-        const parentElement = jQuery('#incomeVisitorChart').parent();
-        const placeholder = wps_js.rectangle_placeholder();
-        parentElement.append(placeholder);
+    // Helper function to render a chart or display no results
+    function renderChart(chartId, searchData) {
+        const chartElement = document.getElementById(chartId);
 
-        const searchData = Wp_Statistics_Referrals_Object.search_engine_chart_data;
+        if (chartElement) {
+            const parentElement = jQuery(`#${chartId}`).parent();
+            const placeholder = wps_js.rectangle_placeholder();
+            parentElement.append(placeholder);
 
-        if (!searchData?.data?.datasets || searchData.data.datasets.length === 0) {
-            parentElement.html(wps_js.no_results());
-            jQuery('.wps-ph-item').remove();
-
-        } else {
-            jQuery('.wps-ph-item').remove();
-            jQuery('.wps-postbox-chart--data').removeClass('c-chart__wps-skeleton--legend');
-            parentElement.removeClass('c-chart__wps-skeleton');
-            wps_js.new_line_chart(searchData, 'incomeVisitorChart', null)
+            if (!searchData?.data?.datasets || searchData.data.datasets.length === 0) {
+                parentElement.html(wps_js.no_results());
+                jQuery('.wps-ph-item').remove();
+            } else {
+                jQuery('.wps-ph-item').remove();
+                jQuery('.wps-postbox-chart--data').removeClass('c-chart__wps-skeleton--legend');
+                parentElement.removeClass('c-chart__wps-skeleton');
+                wps_js.new_line_chart(searchData, chartId, null);
+            }
         }
     }
+
+    if (typeof Wp_Statistics_Referrals_Object !== 'undefined') {
+        const sourceCategoriesData = Wp_Statistics_Referrals_Object.source_category_chart_data;
+        renderChart('sourceCategoriesChart', sourceCategoriesData);
+
+        const socialMedia = Wp_Statistics_Referrals_Object.social_media_chart_data;
+        renderChart('socialMediaChart', socialMedia);
+
+        const incomeVisitorData = Wp_Statistics_Referrals_Object.search_engine_chart_data;
+        renderChart('incomeVisitorChart', incomeVisitorData);
+    }
+
+
 
     // TickBox
     jQuery(document).on('click', "div#referral-filter", function (e) {
         e.preventDefault();
 
         // Show
-        tb_show('', '#TB_inline?&width=430&height=193&inlineId=referral-filter-popup');
+        tb_show( wps_js._('filters'), '#TB_inline?&width=430&height=205&inlineId=referral-filter-popup');
 
         // Add Content
         setTimeout(function () {
 
             var tickBox_DIV = "#wps-referral-filter-div";
-            if (!wps_js.exist_tag(tickBox_DIV + " input[type=submit]")) {
+            if (!wps_js.exist_tag(tickBox_DIV + " button[type=submit]")) {
 
                 // Set PlaceHolder
                 jQuery(tickBox_DIV).html('<div style="height: 50px;"></div>' + wps_js.line_placeholder(1));
@@ -58,21 +73,25 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         });
 
+
         // Show Loading
-        jQuery("span.filter-loading").html(wps_js._('please_wait'));
+        jQuery(".wps-tb-window-footer .button-primary")
+            .html(wps_js._('loading'))
+            .addClass('loading');
         // return true;
     });
 
     // Show Filter form
     function wps_show_referrals_filter(tickBox_DIV) {
+        const currentReferrer = wps_js.getLinkParams('referrer');
+        const isDisabled = currentReferrer === null ? 'disabled' : '';
 
         // Create Table
         let html = '<table class="o-table wps-referrals-filter">';
 
         // Show List Select
-
-        html += `<tr><td class="wps-referrals-filter-title">${wps_js._('search_by_referrer')}</td></tr>`;
-        html += `<tr><td><select name="referrer" class="wps-select2   wps-width-100">`;
+        html += `<tr><td colspan="2" class="wps-referrals-filter-title">${wps_js._('referrer')}</td></tr>`;
+        html += `<tr><td colspan="2" class="wps-referrals-filter-content"><select name="referrer" class="wps-select2   wps-width-100">`;
         html += `<option value=''>${wps_js._('all')}</option>`;
         html += `<option value='test'>test</option>`;
         let current_value = wps_js.getLinkParams('referrer');
@@ -81,9 +100,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
 
         html += `</select></td></tr>`;
-        // Submit Button
-        html += `<tr><td></td></tr>`;
-        html += `<tr><td><input type="submit" value="${wps_js._('filter')}" class="button-primary"> &nbsp; <span class="filter-loading"></span></td></tr>`;
+        html += `<tr class="wps-tb-window-footer"><td><button class="js-reset-filter wps-reset-filter" type="button" ${isDisabled}>${wps_js._('reset')}</button></td><td><button type="submit" class="button-primary">${wps_js._('apply')}</button></td></tr>`;
         html += `</table>`;
         jQuery(tickBox_DIV).html(html);
         jQuery('.wps-select2').select2({
@@ -111,4 +128,10 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             }
         });
     }
+
+    jQuery(document).on('click', '.js-reset-filter', function () {
+        const url = new URL(window.location.href);
+        url.searchParams.delete('referrer');
+        window.location.href = url.toString();
+    });
 }

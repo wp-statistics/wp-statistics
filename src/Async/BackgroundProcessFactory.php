@@ -17,6 +17,11 @@ class BackgroundProcessFactory
     public static function processWordCountForPosts()
     {
         $calculatePostWordsCount = WP_Statistics()->getBackgroundProcess('calculate_post_words_count');
+
+        if ($calculatePostWordsCount->is_active()) {
+            return;
+        }
+
         $wordCount               = new WordCountService();
         $postsWithoutWordCount   = $wordCount->getPostsWithoutWordCountMeta();
 
@@ -40,9 +45,14 @@ class BackgroundProcessFactory
      */
     public static function batchUpdateIncompleteGeoIpForVisitors()
     {
+        $updateIncompleteVisitorsLocations = WP_Statistics()->getBackgroundProcess('update_unknown_visitor_geoip');
+
+        if ($updateIncompleteVisitorsLocations->is_active()) {
+            return;
+        }
+
         $visitorModel                      = new VisitorsModel();
         $visitorsWithIncompleteLocation    = $visitorModel->getVisitorsWithIncompleteLocation();
-        $updateIncompleteVisitorsLocations = WP_Statistics()->getBackgroundProcess('update_unknown_visitor_geoip');
 
         $visitorsWithIncompleteLocation    = wp_list_pluck($visitorsWithIncompleteLocation, 'ID');
 
@@ -55,8 +65,8 @@ class BackgroundProcessFactory
             $updateIncompleteVisitorsLocations->push_to_queue(['visitors' => $batch]);
         }
 
-        // Mark the process as completed
-        Option::saveOptionGroup('update_unknown_visitor_geoip_started', true, 'jobs');
+        // Initiate the process
+        Option::saveOptionGroup('update_geoip_process_initiated', true, 'jobs');
 
         // Save the queue and dispatch it
         $updateIncompleteVisitorsLocations->save()->dispatch();
@@ -72,6 +82,10 @@ class BackgroundProcessFactory
         $provider        = GeolocationFactory::getProviderInstance();
         $downloadProcess = WP_Statistics()->getBackgroundProcess('geolocation_database_download');
 
+        if ($downloadProcess->is_active()) {
+            return;
+        }
+
         // Queue download process
         $downloadProcess->push_to_queue(['provider' => $provider]);
         $downloadProcess->save()->dispatch();
@@ -84,11 +98,16 @@ class BackgroundProcessFactory
      */
     public static function batchUpdateSourceChannelForVisitors()
     {
-        @ini_set('memory_limit', '256M');
+        @ini_set('memory_limit', '-1');
+
+        $updateIncompleteVisitorsSourceChannels = WP_Statistics()->getBackgroundProcess('update_visitors_source_channel');
+
+        if ($updateIncompleteVisitorsSourceChannels->is_active()) {
+            return;
+        }
 
         $visitorModel                           = new VisitorsModel();
         $visitorsWithIncompleteSourceChannel    = $visitorModel->getVisitorsWithIncompleteSourceChannel();
-        $updateIncompleteVisitorsSourceChannels = WP_Statistics()->getBackgroundProcess('update_visitors_source_channel');
 
         $visitorsWithIncompleteSourceChannel    = wp_list_pluck($visitorsWithIncompleteSourceChannel, 'ID');
 

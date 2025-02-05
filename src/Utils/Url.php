@@ -73,6 +73,49 @@ class Url
     }
 
     /**
+     * Checks if a specified query parameter exists in a given URL and returns its value.
+     *
+     * @param string $url The URL to check.
+     * @param string $param The query parameter to search for.
+     * @return mixed The value of the query parameter if found, or null if not.
+     */
+    public static function getParam($url, $param)
+    {
+        // Parse URL
+        $parsedUrl = wp_parse_url($url);
+
+        // If query param is empty, return early
+        if (empty($parsedUrl['query'])) return null;
+
+        // Parse query string
+        parse_str($parsedUrl['query'], $params);
+
+        // Return the query parameter value
+        return $params[$param] ?? null;
+    }
+
+    /**
+     * Get query parameters of a given URL.
+     *
+     * @param string $url The URL to check.
+     * @param string $format The format to return the value in. Could be 'string' or 'array'.
+     * @return mixed The value of the query parameter if found.
+     */
+    public static function getParams($url, $format = 'string')
+    {
+        // Parse URL
+        $parsedUrl = wp_parse_url($url);
+
+        // Get query params
+        $query = $parsedUrl['query'] ?? '';
+
+        // Parse query string
+        parse_str($query, $params);
+
+        return $format === 'string' ? $query : $params;
+    }
+
+    /**
      * Checks if a given URL is internal by comparing its domain to the current website domain.
      *
      * @param string $url The URL to check.
@@ -99,5 +142,16 @@ class Url
         $url = preg_replace('/^(https?:\/\/)?(www\.)?/i', '', $url); // remove protocol and www
 
         return $url;
+    }
+
+    /**
+     * Get relative path of urls
+     *
+     * @param string $url
+     * @return string Relative path or empty string
+     */
+    public static function getPath($url)
+    {
+        return wp_parse_url($url, PHP_URL_PATH) ?? '';
     }
 }

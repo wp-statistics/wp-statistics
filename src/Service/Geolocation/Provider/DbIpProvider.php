@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Geolocation\Provider;
 
 use Exception;
 use WP_STATISTICS\Option;
+use WP_Statistics\Service\Geolocation\AbstractGeoIPProvider;
 
 class DbIpProvider extends AbstractGeoIPProvider
 {
@@ -80,5 +81,10 @@ class DbIpProvider extends AbstractGeoIPProvider
     {
         // TODO: Implement getDatabaseType() method.
         return '';
+    }
+
+    public function validateDatabaseFile()
+    {
+        // TODO: Implement checkDatabaseIntegrity() method.
     }
 }

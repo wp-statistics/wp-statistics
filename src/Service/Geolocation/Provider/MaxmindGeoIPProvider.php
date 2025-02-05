@@ -109,9 +109,11 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
             ? Option::get('geoip_license_key')
             : null;
 
-        return $licenseKey
+        $defaultUrl = $licenseKey
             ? "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key={$licenseKey}&suffix=tar.gz"
             : 'https://cdn.jsdelivr.net/npm/geolite2-city/GeoLite2-City.mmdb.gz';
+
+        return $this->getFilteredDownloadUrl($defaultUrl);
     }
 
     /**
@@ -149,7 +151,13 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
             // Update options and send notifications
             $this->updateLastDownloadTimestamp();
             $this->batchUpdateIncompleteGeoIp();
-            $this->sendGeoIpUpdateEmail(__('GeoIP Database successfully updated.', 'wp-statistics'));
+
+            /*
+             * @since 14.11.3
+             * Email notification is currently disabled because the associated option was removed.
+             * However, the sendGeoIpUpdateEmail method is retained here in case future requirements necessitate enabling email notifications via a hook.
+             */
+            //$this->sendGeoIpUpdateEmail(__('GeoIP Database successfully updated.', 'wp-statistics'));
 
         } catch (Exception $e) {
             $this->deleteFile($gzFilePath); // Ensure temporary file is deleted in case of an error
@@ -183,9 +191,9 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
                     throw new Exception(__('PharData class not found.', 'wp-statistics'));
                 }
 
-                $tarGz          = new PharData($gzFilePath);
-                $fileInArchive  = trailingslashit($tarGz->current()->getFileName()) . $this->databaseFileName;
-                $uploadPath     = dirname($destinationPath);
+                $tarGz         = new PharData($gzFilePath);
+                $fileInArchive = trailingslashit($tarGz->current()->getFileName()) . $this->databaseFileName;
+                $uploadPath    = dirname($destinationPath);
 
                 // Extract database in the destination path.
                 $tarGz->extractTo($uploadPath, $fileInArchive, true);
@@ -246,5 +254,37 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
         }
 
         return $reader->metadata()->databaseType;
+    }
+
+    /**
+     * Check the integrity and functionality of the GeoIP database.
+     *
+     * @return bool|WP_Error True if the database is valid, or WP_Error on failure.
+     */
+    public function validateDatabaseFile()
+    {
+        try {
+            // Ensure the database file exists
+            if (!$this->isDatabaseExist()) {
+                throw new Exception(__('GeoIP database does not exist.', 'wp-statistics'));
+            }
+
+            if (empty($this->reader) || !method_exists($this->reader, 'metadata')) {
+                throw new Exception(
+                    sprintf(__('Failed to initialize GeoIP reader or invalid database file. Please remove the existing database file at %s and let the plugin redownload it.', 'wp-statistics'), $this->getDatabasePath())
+                );
+            }
+
+            // Verify the database type and metadata
+            $databaseType = $this->reader->metadata()->databaseType;
+            if ($databaseType !== 'GeoLite2-City') {
+                throw new Exception(sprintf(__('Unexpected database type %s', 'wp-statistics'), $databaseType));
+            }
+
+            return true;
+
+        } catch (Exception $e) {
+            return new WP_Error('error', $e->getMessage());
+        }
     }
 }

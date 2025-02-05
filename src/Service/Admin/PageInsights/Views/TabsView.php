@@ -65,30 +65,38 @@ class TabsView extends BaseTabView
         return $this->dataProvider->getAuthorsData();
     }
 
+    public function get404Data()
+    {
+        return $this->dataProvider->get404Data();
+    }
+
     public function render()
     {
         try {
-            $template = $this->getCurrentTab();
-            $data     = $this->getTabData();
+            $template    = $this->getCurrentTab();
+            $data        = $this->getTabData();
+            $queryParams = [
+                'tab'       => $this->getCurrentTab(),
+                'order_by'  => Request::get('order_by'),
+                'order'     => Request::get('order')
+            ];
 
             $filters = [];
             if ($this->isTab('contents')) {
                 $filters = ['post-types', 'author'];
+
+                $queryParams['pt']          = Request::get('pt', '');
+                $queryParams['author_id']   = Request::get('author_id', '', 'number');
             } elseif ($this->isTab('category')) {
                 $filters = ['taxonomy'];
+
+                $queryParams['tx'] = Request::get('tx', 'category');
             }
 
             $args = [
                 'title'         => esc_html__('Page Insights', 'wp-statistics'),
                 'pageName'      => Menus::get_page_slug('pages'),
-                'custom_get'    => [
-                    'tab'       => $this->getCurrentTab(),
-                    'pt'        => Request::get('pt', ''),
-                    'tx'        => Request::get('tx', 'category'),
-                    'author_id' => Request::get('author_id', '', 'number'),
-                    'order_by'  => Request::get('order_by'),
-                    'order'     => Request::get('order'),
-                ],
+                'custom_get'    => $queryParams,
                 'DateRang'      => Admin_Template::DateRange(),
                 'hasDateRang'   => true,
                 'showLockedPage'=> $this->isLocked(),
@@ -119,10 +127,10 @@ class TabsView extends BaseTabView
                         'class'   => $this->isTab('author') ? 'current' : '',
                     ],
                     [
-                        'link'        => Menus::admin_url('pages', ['tab' => '404']),
-                        'title'       => esc_html__('404 Pages', 'wp-statistics'),
-                        'class'       => $this->isTab('404') ? 'current' : '',
-                        'coming_soon' => true
+                        'link'      => Menus::admin_url('pages', ['tab' => '404']),
+                        'title'     => esc_html__('404 Pages', 'wp-statistics'),
+                        'class'     => $this->isTab('404') ? 'current' : '',
+                        'tooltip'   => esc_html__('View URLs that led visitors to 404 errors.', 'wp-statistics'),
                     ]
                 ]
             ];

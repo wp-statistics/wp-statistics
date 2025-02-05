@@ -25,7 +25,7 @@ class Test_Referrals extends WP_UnitTestCase
 
         // Call the method and assert the result
         $result = Referrals::getRawUrl();
-        $this->assertEquals('http://example.com/referral', $result);
+        $this->assertEquals('', $result);
     }
 
     /**

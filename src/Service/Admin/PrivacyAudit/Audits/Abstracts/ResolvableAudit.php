@@ -1,8 +1,7 @@
-<?php 
+<?php
 namespace WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts;
 
 use WP_STATISTICS\Option;
-use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyStatusOption;
 
 abstract class ResolvableAudit extends BaseAudit
 {
@@ -10,30 +9,30 @@ abstract class ResolvableAudit extends BaseAudit
 
     /**
      * Returns the content of audit in passed state.
-     * 
+     *
      * @return array
      */
     abstract static public function getPassedStateInfo();
 
     /**
      * Returns the content of audit in when it is not in passed state.
-     * 
+     *
      * @return array
      */
     abstract static public function getUnpassedStateInfo();
-        
+
     /**
      * Get the privacy status of the audit item stored in `wp_statistics_privacy_status` option.
      * If audit related option is passed, return 'passed' regardless of the independent status of the audit item.
-     * 
+     *
      * @return string
      */
     public static function getStatus()
     {
         // Get the independent status of the audit item
         $status = Option::getOptionGroup('privacy_status', static::$optionKey, 'action_required');
-        
-        // If audit related option is passed based on user settings, set status to 'passed' 
+
+        // If audit related option is passed based on user settings, set status to 'passed'
         if (static::isOptionPassed()) {
             $status = 'passed';
         }
@@ -44,7 +43,7 @@ abstract class ResolvableAudit extends BaseAudit
 
     /**
      * If the option related to the audit item is enabled in the settings return true, otherwise false.
-     * 
+     *
      * @return bool
      */
     public static function isOptionEnabled()
@@ -54,10 +53,10 @@ abstract class ResolvableAudit extends BaseAudit
 
     /**
      * Returns true when audit option value is considered passed, false otherwise. By default if option is true, is it considered passed.
-     * 
+     *
      * @return bool
      */
-    static public function isOptionPassed() 
+    static public function isOptionPassed()
     {
         return self::isOptionEnabled();
     }
@@ -80,7 +79,7 @@ abstract class ResolvableAudit extends BaseAudit
 
     /**
      * Returns an array of all states an audit item could have with details.
-     * 
+     *
      * @return array
      */
     static public function getStates()
@@ -89,37 +88,37 @@ abstract class ResolvableAudit extends BaseAudit
         $unpassedInfo   = static::getUnpassedStateInfo();
 
         return [
-            'passed' => [
-                'status'     => 'success',
-                'title'      => $passedInfo['title'],
-                'notes'      => $passedInfo['notes'],
-                'compliance' => [
+            'passed'            => [
+                'status'           => 'success',
+                'title'            => $passedInfo['title'],
+                'notes'            => $passedInfo['notes'],
+                'compliance'       => [
                     'key'   => 'passed',
                     'value' => esc_html__('Passed', 'wp-statistics'),
                 ],
             ],
-            'resolved' => [
-                'status'        => 'success',
-                'title'         => $unpassedInfo['title'],
-                'notes'         => $unpassedInfo['notes'],
-                'compliance'    => [
-                    'key'   =>'resolved',
+            'resolved'          => [
+                'status'            => 'success',
+                'title'             => $unpassedInfo['title'],
+                'notes'             => $unpassedInfo['notes'],
+                'compliance'        => [
+                    'key'   => 'resolved',
                     'value' => esc_html__('Resolved', 'wp-statistics'),
                 ],
-                'action'    => [
-                    'key' => 'undo', 
+                'action'            => [
+                    'key'   => 'undo',
                     'value' => esc_html__('Undo', 'wp-statistics')
                 ]
             ],
-            'action_required' => [
-                'status'        => 'warning',
-                'title'         => $unpassedInfo['title'],
-                'notes'         => $unpassedInfo['notes'],
-                'compliance'    => [
+            'action_required'   => [
+                'status'            => 'warning',
+                'title'             => $unpassedInfo['title'],
+                'notes'             => $unpassedInfo['notes'],
+                'compliance'        => [
                     'key'   => 'action_required',
                     'value' => esc_html__('Action Required', 'wp-statistics'),
                 ],
-                'action'        => [
+                'action'            => [
                     'key'   => 'resolve',
                     'value' => esc_html__('Resolve', 'wp-statistics'),
                 ]

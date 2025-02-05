@@ -76,7 +76,6 @@ class SingleView extends BaseView
             'backUrl'       => Menus::admin_url('category-analytics'),
             'pageName'      => Menus::get_page_slug('category-analytics'),
             'custom_get'    => ['type' => 'single', 'term_id' => Request::get('term_id', '', 'number')],
-            'title'         => sprintf(esc_html__('%s: "%s"', 'wp-statistics'), Helper::getTaxonomyName($this->term->taxonomy, true), $this->term->name),
             'backTitle'     => esc_html__('Category Analytics', 'wp-statistics'),
             'DateRang'      => Admin_Template::DateRange(),
             'hasDateRang'   => true,

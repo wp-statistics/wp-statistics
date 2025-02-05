@@ -3,6 +3,36 @@ jQuery(document).ready(function () {
     const datePickerElement = jQuery('.js-date-range-picker-input');
     const datePickerForm = jQuery('.js-date-range-picker-form');
     const datePickerField = jQuery('.wps-js-calendar-field');
+    const wpTimezone = wps_js.isset(wps_js.global, 'options', 'wp_timezone') ? wps_js.global['options']['wp_timezone'] : null;
+
+    let validTimezone = wpTimezone;
+    if (wpTimezone && (wpTimezone.startsWith('+') || wpTimezone.startsWith('-'))) {
+        validTimezone = `UTC${wpTimezone}`; // Convert "-10:30" to "UTC-10:30"
+    }
+
+    function getLocalTime() {
+        if (validTimezone) {
+            if (validTimezone.startsWith('UTC') || validTimezone.startsWith('+') || validTimezone.startsWith('-')) {
+                const offset = validTimezone.replace('UTC', ''); // Remove "UTC" prefix if present
+                const [hours, minutes] = offset.split(':').map(Number);
+
+                // Handle negative offsets correctly
+                const totalOffsetMinutes = (hours * 60) + (hours < 0 ? -Math.abs(minutes) : minutes);
+                return moment().utcOffset(totalOffsetMinutes);
+            } else {
+                // Handle named timezones (e.g., "Pacific/Honolulu")
+                if (moment.tz.zone(validTimezone)) {
+                    return moment().tz(validTimezone);
+                } else {
+                    // Fallback to UTC if the named timezone is invalid
+                    return moment().utc();
+                }
+            }
+        } else {
+            // Fallback to UTC if no timezone is set
+            return moment().utc();
+        }
+    }
 
     // Update the week start day based on WordPress setting
     if (datePickerBtn.length) {
@@ -13,6 +43,7 @@ jQuery(document).ready(function () {
         });
     }
 
+    const localTime = getLocalTime();
 
     function phpToMomentFormat(phpFormat) {
         const formatMap = {
@@ -35,44 +66,62 @@ jQuery(document).ready(function () {
             datePickerElement.trigger('click');
         });
 
+        // Define ranges with translated labels as keys
         let ranges = {
-            'Today': [moment(), moment()],
-            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'This Week': [moment().startOf('week'), moment().endOf('week')],
-            'Last Week': [moment().subtract(1, 'week').startOf('week'), moment().subtract(1, 'week').endOf('week')],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'Last 90 Days': [moment().subtract(89, 'days'), moment()],
-            'Last 6 Months': [moment().subtract(6, 'month'), moment()],
-            'This Year': [moment().startOf('year'), moment().endOf('year')]
+            [wps_js._('str_today')]: [localTime.clone().startOf('day'), localTime.clone().startOf('day')],
+            [wps_js._('str_yesterday')]: [localTime.clone().subtract(1, 'days').startOf('day'), localTime.clone().subtract(1, 'days').startOf('day')],
+            [wps_js._('str_this_week')]: [localTime.clone().startOf('week'), localTime.clone().endOf('week')],
+            [wps_js._('str_last_week')]: [localTime.clone().subtract(1, 'week').startOf('week'), localTime.clone().subtract(1, 'week').endOf('week')],
+            [wps_js._('str_this_month')]: [localTime.clone().startOf('month'), localTime.clone().endOf('month')],
+            [wps_js._('str_last_month')]: [localTime.clone().subtract(1, 'month').startOf('month'), localTime.clone().subtract(1, 'month').endOf('month')],
+            [wps_js._('str_7days')]: [localTime.clone().subtract(6, 'days'), localTime.clone()],
+            [wps_js._('str_30days')]: [localTime.clone().subtract(29, 'days'), localTime.clone()],
+            [wps_js._('str_90days')]: [localTime.clone().subtract(89, 'days'), localTime.clone()],
+            [wps_js._('str_6months')]: [localTime.clone().subtract(6, 'months'), localTime.clone()],
+            [wps_js._('str_year')]: [localTime.clone().startOf('year'), localTime.clone().endOf('year')],
         };
 
-        if (datePickerBtn.hasClass('js-date-range-picker-all-time')) {
-            ranges['All Time'] = [moment(0), moment()];
+        function hasTypeParameter() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('post_id');
         }
+
+        if (datePickerBtn.hasClass('js-date-range-picker-all-time')) {
+            let post_date = moment(0);
+            if (hasTypeParameter()) {
+                post_date = wps_js.global.post_creation_date ? moment(wps_js.global.post_creation_date) : moment(0);
+            } else {
+                post_date = wps_js.global.initial_post_date ? moment(wps_js.global.initial_post_date) : moment(0);
+            }
+            ranges[wps_js._('all_time')] = [post_date, moment()];
+        }
+
 
         const phpDateFormat = datePickerBtn.attr('data-date-format') ? datePickerBtn.attr('data-date-format') : 'MM/DD/YYYY';
         let momentDateFormat = phpToMomentFormat(phpDateFormat);
         // Default dates for the date picker
-        let defaultStartDate = wps_js.global.user_date_range.from;
-        let defaultEndDate = wps_js.global.user_date_range.to;
-
+        let defaultStartDate = moment(wps_js.global.user_date_range.from).format('YYYY-MM-DD');
+        let defaultEndDate = moment(wps_js.global.user_date_range.to).format('YYYY-MM-DD');
         datePickerElement.daterangepicker({
             "autoApply": true,
             "ranges": ranges,
+            "locale": {
+                "customRangeLabel": wps_js._('custom_range')
+            },
             startDate: defaultStartDate,
             endDate: defaultEndDate
         });
 
         if (wps_js.isset(wps_js.global, 'request_params', 'from') && wps_js.isset(wps_js.global, 'request_params', 'to')) {
-            const requestFromDate = wps_js.global.request_params.from;
+            let requestFromDate = wps_js.global.request_params.from;
+            if (hasTypeParameter() && wps_js.global.post_creation_date) {
+                requestFromDate = wps_js.global.post_creation_date;
+            }
             const requestToDate = wps_js.global.request_params.to;
             datePickerElement.data('daterangepicker').setStartDate(moment(requestFromDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').setEndDate(moment(requestToDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').updateCalendars();
-            const activeText = datePickerElement.data('daterangepicker').container.find('.ranges li.active').text();
+            const activeText = datePickerElement.data('daterangepicker').chosenLabel;
             const startMoment = moment(requestFromDate);
             const endMoment = moment(requestToDate);
             let activeRangeText;
@@ -130,11 +179,14 @@ jQuery(document).ready(function () {
         datePickerElement.on('apply.daterangepicker', function (ev, picker) {
             const inputFrom = datePickerForm.find('.js-date-range-picker-input-from').first();
             const inputTo = datePickerForm.find('.js-date-range-picker-input-to').first();
-            inputFrom.val(picker.startDate.format('YYYY-MM-DD'));
-            inputTo.val(picker.endDate.format('YYYY-MM-DD'));
+            const startDate = picker.startDate.utcOffset(validTimezone).format('YYYY-MM-DD');
+            const endDate = picker.endDate.utcOffset(validTimezone).format('YYYY-MM-DD');
+
+            inputFrom.val(startDate);
+            inputTo.val(endDate);
             const selectedRange = datePickerElement.data('daterangepicker').chosenLabel;
             datePickerBtn.find('span').html(selectedRange);
-            if( selectedRange  !== 'All Time') {
+            if (selectedRange !== 'All Time') {
                 jQuery.ajax({
                     url: wps_js.global.ajax_url,
                     method: 'POST',
@@ -153,7 +205,7 @@ jQuery(document).ready(function () {
                         datePickerForm.submit();
                     }
                 });
-            }else{
+            } else {
                 datePickerForm.submit();
             }
 

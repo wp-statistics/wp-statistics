@@ -372,11 +372,6 @@ jQuery(document).on("click", 'button[data-filter]:not(.c-footer__filters__list-i
     wps_js.run_meta_box(jQuery(this).attr('data-metabox-key'), {'ago': jQuery(this).attr('data-filter')});
 });
 
-jQuery(document).on("click", 'button[data-filter="custom"]', function () {
-    const metaBoxKey = jQuery(this).attr('data-metabox-key');
-    const datePickerElement = jQuery(wps_js.meta_box_inner(metaBoxKey)).find('.js-datepicker-input').first();
-    datePickerElement.data('daterangepicker').show();
-});
 
 /**
  * Disable Close WordPress Post ox for Meta Box Button
@@ -391,38 +386,7 @@ jQuery(document).on('mouseenter mouseleave', '.wps-refresh, .wps-more', function
     }
 });
 
-/**
- * Meta Box Refresh Click Handler
- */
-jQuery(document).on("click", '.wps-refresh', function (e) {
-    e.preventDefault();
 
-    // Get Meta Box name By Parent ID
-    let parentID = jQuery(this).closest(".postbox").attr("id");
-    let meta_box_name = wps_js.meta_box_name_by_id(parentID);
-    let args = wps_js.global.meta_boxes[meta_box_name];
-
-    if(args.footer_options?.default_date_filter){
-        let current_filter = jQuery('#' + parentID).find('.c-footer__filters__list .is-selected')?.attr('data-filter');
-        if(current_filter !== 'custom'){
-            args.footer_options.default_date_filter= `filter|${current_filter}`;
-        }else{
-            const datePickerElement =  jQuery('#' + parentID).find('.js-datepicker-input').data('daterangepicker');
-            const startDate =datePickerElement.startDate.format('YYYY-MM-DD');
-            const endDate =datePickerElement.endDate.format('YYYY-MM-DD');
-            args.footer_options.default_date_filter=  `between|custom:${startDate}:${endDate}`;
-
-        }
-    }
-    // Check Date Filter
-    let data = wps_js.prepare_date_filter_data(args);
-
-    // Run Meta Box
-    wps_js.run_meta_box(meta_box_name, data, false);
-    setTimeout(function () {
-        jQuery('#' + parentID).find('.wps-refresh').trigger('blur');
-    }, 1000);
-});
 
 /**
  * Watch Show/Hide Meta Box in WordPress Dashboard

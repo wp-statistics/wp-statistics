@@ -1,11 +1,6 @@
 @use 'sass:math';
 
 .wps-ph-item {
-  &, *,
-  ::after, ::before {
-    box-sizing: border-box;
-  }
-
   position: relative;
   display: flex;
   flex-wrap: wrap;
@@ -13,9 +8,16 @@
   overflow: hidden;
   //margin-bottom: $ph-gutter;
   background-color: $ph-bg;
- // border: 1px solid darken($ph-bg, 10%);
+  // border: 1px solid darken($ph-bg, 10%);
   //border-radius: $ph-border-radius;
   direction: ltr;
+
+  &, *,
+  ::after, ::before {
+    box-sizing: border-box;
+  }
+
+
 
   &::before {
     content: " ";
@@ -143,4 +145,26 @@
   .wps-ph-col-8 {
     margin-left:20%;
   }
+}
+
+.wps--no-data__container {
+  text-align: center;
+  padding: 14px 24px;
+  box-sizing: border-box;
+
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+
+  .wps--no-data__text {
+    margin-top: 16px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 16.41px;
+    color: #898A8E;
+  }
+
 }

@@ -4,13 +4,13 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         e.preventDefault();
 
         // Show
-        tb_show('', '#TB_inline?&width=430&height=520&inlineId=visitors-filter-popup');
+        tb_show(wps_js._('filters'), '#TB_inline?&width=430&height=510&inlineId=visitors-filter-popup');
 
         // Add Content
         setTimeout(function () {
 
             var tickBox_DIV = "#wps-visitors-filter-form";
-            if (!wps_js.exist_tag(tickBox_DIV + " input[type=submit]")) {
+            if (!wps_js.exist_tag(tickBox_DIV + " button[type=submit]")) {
 
                 // Set PlaceHolder
                 jQuery(tickBox_DIV).html('<div style="height: 50px;"></div>' + wps_js.line_placeholder(5));
@@ -54,13 +54,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     // submit and disable empty value
     var FORM_ID = '#wp_statistics_visitors_filter_form';
     jQuery(document).on('submit', FORM_ID, function () {
-        // Check IS IP
-        var Input_IP = jQuery(FORM_ID + " input[name=ip]").val();
-        if (Input_IP.length > 0 && (Input_IP.includes('#hash#') === false && wps_js.isIP(Input_IP) === false)) {
-            alert(wps_js._('er_valid_ip'));
-            return false;
-        }
-
         // Remove Empty Parameter
         let forms = {
             'input': ['ip'],
@@ -82,7 +75,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
 
         // Show Loading
-        jQuery("span.filter-loading").html(wps_js._('please_wait'));
+        jQuery(".wps-tb-window-footer .button-primary")
+            .html(wps_js._('loading'))
+            .addClass('loading');
 
         return true;
     });
@@ -118,14 +113,14 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         });
 
         // Add IP
-        html += `<tr><td>${wps_js._('ip')}</td></tr>`;
-        html += `<tr><td><input name="ip" value="${(wps_js.getLinkParams('ip') != null ? decodeURIComponent(wps_js.getLinkParams('ip')) : ``)}" class="wps-width-100" placeholder='xxx.xxx.xxx.xxx' autocomplete="off"></td></tr>`;
+        html += `<tr><td>${wps_js._('ip_hash')}</td></tr>`;
+        html += `<tr><td><input placeholder="${wps_js._('ip_hash_placeholder')}" name="ip" value="${(wps_js.getLinkParams('ip') != null ? decodeURIComponent(wps_js.getLinkParams('ip')) : ``)}" class="wps-width-100" placeholder='' autocomplete="off"></td></tr>`;
 
 
 
         // Submit Button
         html += `<tr><td></td></tr>`;
-        html += `<tr><td><input type="submit" value="${wps_js._('filter')}" class="button-primary"> &nbsp; <span class="filter-loading"></span></td></tr>`;
+        html += `<tr class="wps-tb-window-footer"><td></td><td><button type="submit" class="button-primary">${wps_js._('filter')}</button></td></tr>`;
         html += `</table>`;
         jQuery(tickBox_DIV).html(html);
         wps_js.select2();
@@ -135,6 +130,13 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     if (document.getElementById('trafficTrendsChart')) {
         const data = Wp_Statistics_Visitors_Object.traffic_chart_data;
         wps_js.new_line_chart(data, 'trafficTrendsChart', null);
+    }
+
+
+    // Add Traffic Trends chart
+    if (document.getElementById('LoggedInUsersChart')) {
+        const data = Wp_Statistics_Visitors_Object.logged_in_chart_data;
+        wps_js.new_line_chart(data, 'LoggedInUsersChart', null);
     }
 }
 

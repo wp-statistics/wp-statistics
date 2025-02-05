@@ -254,7 +254,16 @@ class IP
                 // Separate the IP from the CIDR mask
                 [$range, $netmask] = explode('/', $range, 2);
 
-                // convert IP and Range to binary values
+                // Skip if the IPv4 netmask is not valid
+                if (self::isIPv4($range) && ($netmask < 0 || $netmask > 32)) continue;
+
+                // Skip if the IPv6 netmask is not valid
+                if (self::isIPv6($range) && ($netmask < 0 || $netmask > 128)) continue;
+
+                // Skip IPv6 range if IP is IPv4, or vise versa
+                if ((self::isIPv4($ip) && self::isIPv6($range)) || (self::isIPv6($ip) && self::isIPv4($range))) continue;
+
+                // Convert IP and Range to binary values
                 $binIp      = inet_pton($ip);
                 $binRange   = inet_pton($range);
 
@@ -262,11 +271,28 @@ class IP
                     throw new ErrorException(esc_html__('Invalid IP address or Range.'));
                 }
 
-                $IpLength   = strlen($binIp) * 8;
-                $binNetmask = str_repeat('1', $netmask) . str_repeat('0', $IpLength - $netmask);
-                $binNetmask = pack('H*', base_convert($binNetmask, 2, 16));
+                // Calculate the number of bytes in the IP address
+                $bytes = strlen($binIp);
 
-                if (($binIp & $binNetmask) === ($binRange & $binNetmask)) {
+                // Calculate the number of bits in the netmask
+                $bits = absint($netmask);
+
+                // Calculate the number of bytes in the netmask
+                $netmaskBytes = ceil($bits / 8);
+
+                // Calculate the netmask
+                $netmask = str_repeat("\xff", $netmaskBytes);
+
+                // If the number of bits is not a multiple of 8, calculate the remaining bits
+                if ($bits % 8 != 0) {
+                    $remainingBits = 8 - ($bits % 8);
+                    $netmask = substr($netmask, 0, -1) . chr(256 - pow(2, $remainingBits));
+                }
+
+                // Pad the netmask with zeros if necessary
+                $netmask = str_pad($netmask, $bytes, "\x00");
+
+                if (($binIp & $netmask) === ($binRange & $netmask)) {
                     $isWithinRange = true;
                     break;
                 }
@@ -289,6 +315,28 @@ class IP
     public static function isIP($ip)
     {
         return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
+    }
+
+    /**
+     * Validate an IP address is an IPv6 address
+     *
+     * @param string $ip The IP address to validate
+     * @return bool True if the IP address is an IPv6 address, false otherwise
+     */
+    public static function isIPv6($ip)
+    {
+        return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
+    }
+
+    /**
+     * Validate an IP address is an IPv4 address
+     *
+     * @param string $ip The IP address to validate
+     * @return bool True if the IP address is an IPv4 address, false otherwise
+     */
+    public static function isIPv4($ip)
+    {
+        return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
     }
 
     /**
@@ -359,4 +407,16 @@ class IP
         return count($resultUpdate);
     }
 
+    /**
+     * Gets visitor's IP address from Cloudflare header.
+     * 
+     * @return string Sanitized IP address or empty string
+     */
+    public static function getCloudflareIp() {
+        if (empty($_SERVER['HTTP_CF_CONNECTING_IP'])) {
+            return '';
+        }
+
+        return IP::check_sanitize_ip($_SERVER['HTTP_CF_CONNECTING_IP']);
+    }
 }
