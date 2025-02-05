@@ -4,7 +4,6 @@ namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
-use WP_STATISTICS\Menus;
 
 class GlobalVisitorDistribution extends BaseMetabox
 {
