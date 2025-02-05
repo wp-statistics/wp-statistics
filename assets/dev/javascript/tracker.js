@@ -39,7 +39,7 @@ function handleWpConsentApiIntegration() {
                     // So, in this specific case, we can call checkHitRequestConditions() manually
                     // This will insert a new record for the user (who just gave consent to us) and prevent other scripts (e.g. event.js) from malfunctioning
                     if (WP_Statistics_Tracker_Object.option.trackAnonymously) {
-                        wpStatisticsUserSession.checkHitRequestConditions();
+                        WpStatisticsUserTracker.checkHitRequestConditions();
                     }
                 }
             }
@@ -53,12 +53,11 @@ function handleRealCookieBannerIntegration() {
             return (window.consentApi?.consent("wp-statistics-with-data-processing") || Promise.resolve());
         })
         .then(() => {
-            wpStatisticsUserSession.init();
+            WpStatisticsUserTracker.init();
+            WpStatisticsEventTracker.init();
         })
         .catch(() => {
-            // If consent is not given, track anonymously if enabled
-            if (WP_Statistics_Tracker_Object.option.trackAnonymously) {
-                wpStatisticsUserSession.init();
-            }
+            WpStatisticsUserTracker.init();
+            WpStatisticsEventTracker.init();
         });
 }
