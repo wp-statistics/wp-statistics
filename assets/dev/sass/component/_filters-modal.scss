@@ -194,7 +194,9 @@
   form {
     margin: 0;
 
-    .wps-tb-window-footer {
+    .wps-tb-window-footer,
+    .wps-filter-reset,
+    .wps-filter-filter {
       width: 100%;
       display: flex;
       gap: 16px;
