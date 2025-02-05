@@ -54,22 +54,19 @@ FilterGenerator.prototype.createLabel = function (label) {
  * @param {string} panel - Additional panel condition for the select.
  * @returns {HTMLElement} - The created `<select>` element.
  */
-FilterGenerator.prototype.createSelect = function ({ name, label, classes = '', attributes = {} }, panel = null) {
+FilterGenerator.prototype.createSelect = function ({ name, label, classes = '', attributes = {}, placeholder = '' }, panel = null) {
     if (this.elementExists(name)) {
         return null;
     }
 
-    let wrapperName = name,
-        reset = false;
+    let panelId = null;
 
     if (panel) {
-        const panelId = attributes['data-type'];
+        panelId = attributes['data-type'];
         this.container = document.querySelector(`#wps-filter-${panelId} .wps-dropdown`);
-        wrapperName = panel;
-        reset = true;
     }
 
-    const wrapper = this.createWrapper(wrapperName, reset);
+    const wrapper = this.createWrapper(name);
     const labelSpan = this.createLabel(label);
     const select = document.createElement('select');
     select.name = name;
@@ -81,8 +78,19 @@ FilterGenerator.prototype.createSelect = function ({ name, label, classes = '', 
 
     wrapper.appendChild(labelSpan);
     wrapper.appendChild(select);
+
+    if (panel) {
+        this.createOptions(select, {}, placeholder);
+    }
+
     this.container.appendChild(wrapper);
-    this.enableSearchableSelect(select, name, attributes, panel);
+    this.enableSearchableSelect(select, name, attributes, panel, panelId);
+
+    if (typeof jQuery !== 'undefined' && jQuery.fn.select2 && !panel) {
+        jQuery(select).select2({
+            width: '100%',
+        });
+    }
 
     // Return the select element for further manipulation
     return select;
@@ -96,15 +104,27 @@ FilterGenerator.prototype.createSelect = function ({ name, label, classes = '', 
  * @param {string} name - The name attribute of the select element.
  * @param {Object} attributes - Additional attributes, including `data-searchable`.
  */
-FilterGenerator.prototype.enableSearchableSelect = function (select, name, attributes) {
+FilterGenerator.prototype.enableSearchableSelect = function (select, name, attributes, panel, panelId) {
     if (!attributes['data-searchable'] || typeof jQuery === 'undefined' || !jQuery.fn.select2) {
         return;
     }
-    
+
     let source = name;
 
-    if (attributes['data-type']) {
-        source = attributes['data-type'];
+    source = attributes['data-type'] || '';
+
+    if (attributes['data-source']) {
+        source = attributes['data-source'];
+    }
+
+    let panelParams = {};
+
+    if (panel) {
+        panelParams = {
+            dropdownParent: jQuery(`#wps-filter-${panelId}`),
+            dropdownAutoWidth: true,
+            dropdownCssClass: 'wps-select2-filter-dropdown'
+        }
     }
 
     const initialize = jQuery(select).select2({
@@ -118,7 +138,7 @@ FilterGenerator.prototype.enableSearchableSelect = function (select, name, attri
                     search: params.term,
                     source: source,
                     action: 'wp_statistics_search_filter',
-                    paged: params.page || 1
+                    paged: params.page || 1,
                 };
 
                 if (wps_js.isset(wps_js.global, 'request_params')) {
@@ -143,11 +163,23 @@ FilterGenerator.prototype.enableSearchableSelect = function (select, name, attri
             },
         },
         minimumInputLength: 1,
-        allowClear: true,
-        dropdownParent: jQuery(`#wps-filter-page .wps-dropdown`),
-        dropdownAutoWidth: true,
-        dropdownCssClass: 'wps-select2-filter-dropdown'
-    }).off('change');
+        ...panelParams
+    });
+
+    if (panel) {
+        // Event listeners
+        initialize.on('select2:open', () => jQuery(`#wps-filter-${panelId} .wps-dropdown`).addClass('active'));
+        initialize.on('select2:close', () => jQuery(`#wps-filter-${panelId} .wps-dropdown`).removeClass('active'));
+        jQuery(`#wps-filter-${panelId}`).on('click', () => initialize.select2('open'));
+
+        initialize.on('change', function () {
+            const selectedOption = jQuery(`#wps-filter-${panelId}`).find('option:selected');
+            const url = selectedOption.val();
+            if (url) {
+                window.location.href = url;
+            }
+        });
+    }
 
     const currentReferrer = wps_js.getLinkParams('url');
     if (currentReferrer) {
@@ -175,25 +207,25 @@ FilterGenerator.prototype.createOptions = function (select, options = [], placeh
         select.appendChild(defaultOption);
     }
 
-    options.forEach(option => {
-        const opt = document.createElement('option');
-        opt.value = option.value || '';
-        opt.textContent = option.label || '';
+    if (options.length > 0) {
+        options.forEach(option => {
+            const opt = document.createElement('option');
+            opt.value = option.value || '';
+            opt.textContent = option.label || '';
 
-        if (placeholder !== null && option.value === placeholder) {
-            opt.selected = true;
-        }
+            if (placeholder !== null && option.value === placeholder) {
+                opt.selected = true;
+            }
 
-        select.appendChild(opt);
-    });
+            select.appendChild(opt);
+        });
+    }
 
     // Initialize Select2 for the updated select (if applicable)
-    if (typeof jQuery !== 'undefined' && jQuery.fn.select2) {
+    if (typeof jQuery !== 'undefined' && jQuery.fn.select2 && options.length > 0) {
         jQuery(select).select2({
             width: '100%',
         });
-    } else {
-        console.warn('Select2 is not available. Ensure you have included the library.');
     }
 };
 

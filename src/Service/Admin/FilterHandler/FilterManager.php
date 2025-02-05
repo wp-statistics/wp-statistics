@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\FilterHandler;
 
 use WP_STATISTICS\Country;
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\Menus;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Referred;
@@ -102,12 +103,14 @@ class FilterManager
 
             $source  = Request::get('source', '');
             $search  = Request::get('search', '');
+            $paged   = Request::get('paged', 1, 'number');
+            $page    = Request::get('page');
             $search  = Url::cleanUrl($search);
 
             $output = [];
 
             if (method_exists($this,  $source)) {
-                $output = call_user_func([$this, $source], $search);
+                $output = call_user_func([$this, $source], $search, $paged, $page);
             }
 
             wp_send_json($output);
@@ -225,6 +228,7 @@ class FilterManager
     /**
      * Retrieves a list of the urls based on search criteria.
      *
+     * @param string $search The search string for URL filtering.
      * @return array
      */
     public function url($search)
@@ -255,6 +259,7 @@ class FilterManager
     /**
      * Retrieves a list of the referrers based on search criteria.
      *
+     * @param string $search The search string for referrers.
      * @return array
      */
     public function referrers($search)
@@ -494,5 +499,46 @@ class FilterManager
             'baseUrl' => $baseUrl,
             'selectedOptions' => Request::get($queryKey)
         ];
+    }
+
+    /**
+     * Retrieves pages based on search criteria for pagination.
+     *
+     * @param string $search Search keyword.
+     * @param int    $paged  Current page number.
+     * @param mixed  $page   Page identifier.
+     * @return array List of pages matching the search criteria.
+     */
+    public function getPage($search, $paged, $page)
+    {
+        if (empty($page)) {
+            return [];
+        }
+        $queryKey = 'pid';
+        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey], wp_get_referer())));
+
+        $query = new \WP_Query([
+            'post_status'    => 'publish',
+            'posts_per_page' => 10,
+            'paged'          => $paged,
+            's'              => $search
+        ]);
+
+        $args = [];
+
+        if ($query->have_posts()) {
+            while ($query->have_posts()) {
+                $query->the_post();
+
+                $option = [
+                    'id'   => add_query_arg(['pid' => get_the_ID()], $baseUrl),
+                    'text' => get_the_title()
+                ];
+
+                $args[] = $option;
+            }
+        }
+
+        return $args;
     }
 }

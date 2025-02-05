@@ -20,15 +20,15 @@ function FilterModal(options) {
 
     this.settings = { ...defaults, ...options };
     this.formSelector = this.settings.formSelector;
-    this.memoryCache = null; 
+    this.memoryCache = null;
     this.filterWrapperSelector = this.settings.filterWrapperSelector;
     this.filterContainerSelector = this.settings.filterContainerSelector;
 
     this.fieldTypes = Object.fromEntries(
         Object.entries(this.settings.fields)
-            .map(([key, field]) => 
-                field.name && field.name !== 'page' 
-                    ? [field.name, { type: field.type, key }] 
+            .map(([key, field]) =>
+                field.name && field.name !== 'page'
+                    ? [field.name, { type: field.type, key }]
                     : null
             )
             .filter(Boolean)
@@ -80,7 +80,7 @@ FilterModal.prototype.bindOnLoadFilter = function () {
             return;
         }
 
-       this.generateFields();
+        this.generateFields();
     });
 };
 
@@ -114,7 +114,7 @@ FilterModal.prototype.onFilterButtonClick = function (e) {
         // Ensure the form exists before proceeding
         setTimeout(() => {
             this.setSelectedValues();
-        } , 300);
+        }, 300);
         return;
     }
 
@@ -129,7 +129,7 @@ FilterModal.prototype.onFilterButtonClick = function (e) {
 
     setTimeout(() => {
         this.setSelectedValues();
-    } , 300);
+    }, 300);
 };
 
 
@@ -256,7 +256,7 @@ FilterModal.prototype.selectOptionWhenAvailable = function (element, currentValu
  * @param {Object} data - The filter data.
  * @param {Object} dropdowns - The dropdown elements.
  */
-FilterModal.prototype.populateVisitorsFilters = function(data, dropdowns) {
+FilterModal.prototype.populateVisitorsFilters = function (data, dropdowns) {
     const generator = new FilterGenerator(this.filterWrapperSelector);
 
     const self = this;
@@ -288,7 +288,7 @@ FilterModal.prototype.populateVisitorsFilters = function(data, dropdowns) {
  * @param {Object} spinner - The spinner instance.
  * @param {Object} dropdowns - The dropdown elements.
  */
-FilterModal.prototype.fetchVisitorsFilters = function(spinner, dropdowns) {
+FilterModal.prototype.fetchVisitorsFilters = function (spinner, dropdowns) {
     spinner.show();
 
     const self = this;
@@ -297,12 +297,12 @@ FilterModal.prototype.fetchVisitorsFilters = function(spinner, dropdowns) {
         wps_nonce: wps_js.global.rest_api_nonce,
         action: 'wp_statistics_get_filters',
         filters: Object.keys(self.settings.fields)
-            .filter(field => 
-                field !== 'pageName' && 
-                !(self.settings.fields[field]?.attributes?.['data-searchable']) 
+            .filter(field =>
+                field !== 'pageName' &&
+                !(self.settings.fields[field]?.attributes?.['data-searchable'])
             )
     };
-    
+
     params = Object.assign(params, wps_js.global.request_params);
 
     jQuery.ajax({
@@ -429,7 +429,7 @@ FilterModal.prototype.toggleResetButton = function () {
     const shouldEnableReset = this.fieldTypes.some(param => {
         return urlParams.has(param) && urlParams.get(param).trim() !== '';
     });
-    
+
     if (shouldEnableReset) {
         resetButton.removeAttr('disabled');
     } else {
@@ -437,7 +437,7 @@ FilterModal.prototype.toggleResetButton = function () {
     }
 };
 
-FilterModal.prototype.setLoading = function(type = 'submit') {
+FilterModal.prototype.setLoading = function (type = 'submit') {
     if (type === 'reset') {
         jQuery(`${this.formSelector} .wps-modal-reset-filter`)
             .html(wps_js._('loading'))

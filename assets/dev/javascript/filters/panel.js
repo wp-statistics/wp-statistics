@@ -10,7 +10,7 @@ function FilterPanel(options) {
 
     this.settings = { ...defaults, ...options };
     this.sourceCache = {};
-    this.memoryCache = null; 
+    this.memoryCache = null;
     this.init();
 }
 
@@ -36,7 +36,8 @@ FilterPanel.prototype.createContainers = function () {
     Object.entries(this.settings.fields).forEach(([key, filter]) => {
         const attributes = filter?.attributes || {},
             type = attributes['data-type'],
-            source = attributes['data-source'];
+            source = attributes['data-source'],
+            isSearchable = attributes['data-searchable'];
 
         if (!type) {
             console.warn(`Skipping filter ${key} - Missing data-type.`);
@@ -54,7 +55,7 @@ FilterPanel.prototype.createContainers = function () {
 
         filter.containerSelector = `#${containerId}`;
 
-        if (source && !this.sourceCache[source]) {
+        if (source && !this.sourceCache[source]&& !isSearchable) {
             this.sourceCache[source] = true;
         }
     });
@@ -124,7 +125,6 @@ FilterPanel.prototype.renderFilters = function (data) {
         }
 
         const filterData = data[source] || {};
-    
         const generator = new FilterGenerator(containerSelector);
 
         switch (filter.type) {

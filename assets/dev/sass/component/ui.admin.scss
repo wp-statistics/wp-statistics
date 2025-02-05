@@ -3314,7 +3314,13 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 }
 
-.wps-filter-page, .wps-filter-visitor {
+#wps-filter-page {
+  .dropbtn {
+    display: none !important;
+  }
+}
+
+.wps-filter-page, .wps-filter-visitor, #wps-filter-page {
 
   .wps-dropdown.active {
     background: #eeeff1;
