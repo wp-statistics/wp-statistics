@@ -1,3 +1,15 @@
+= 14.12.3 - 2025-02-05 =
+- **New:** Added an option to permanently delete all plugin data when uninstalling.
+- **New:** Introduced a "URL" filter in Page Insights to refine report results.
+- **Enhancement:** Strengthened privacy protection by upgrading the IP hashing algorithm from SHA-1 to SHA-256.
+- **Enhancement:** Improved chart indicators to better highlight incomplete periods.
+- **Enhancement:** Optimized how scripts are loaded for better performance.
+- **Fix:** Fixed an issue causing the weekly chart to display incorrectly.
+- **Fix:** Resolved inconsistencies in the date range filter and toggle meta settings.
+- **Fix:** Fixed an error in the "Tracker Debugger".
+- **Fix:** Resolved an issue with the option of the dashboard widgets view.
+- **Fix:** Corrected the loading order of metaboxes for a smoother experience.
+
 = 14.12.2 - 2025-01-21 =
 - **New:** Added the ability to change the chart interval.
 - **Enhancement:** Displayed dates in reports using the i18n format for better localization.

@@ -78,7 +78,8 @@ class settings_page extends Singleton
                 'external',
                 'maintenance',
                 'notification',
-                'privacy'
+                'privacy',
+                'advanced'
             );
             foreach ($method_list as $method) {
                 $wp_statistics_options = self::{'save_' . $method . '_option'}($wp_statistics_options);
@@ -522,6 +523,19 @@ class settings_page extends Singleton
 
         // Update Option
         update_option(Option::$opt_name, $default_options);
+    }
+
+    public static function save_advanced_option($wp_statistics_options)
+    {
+        $wps_option_list = [
+            'wps_delete_data_on_uninstall'
+        ];
+
+        foreach ($wps_option_list as $option) {
+            $wp_statistics_options[self::input_name_to_option($option)] = isset($_POST[$option]) ? true : false;
+        }
+
+        return $wp_statistics_options;
     }
 }
 

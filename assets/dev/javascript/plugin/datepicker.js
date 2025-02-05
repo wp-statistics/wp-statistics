@@ -4,35 +4,7 @@ jQuery(document).ready(function () {
     const datePickerForm = jQuery('.js-date-range-picker-form');
     const datePickerField = jQuery('.wps-js-calendar-field');
     const wpTimezone = wps_js.isset(wps_js.global, 'options', 'wp_timezone') ? wps_js.global['options']['wp_timezone'] : null;
-
     let validTimezone = wpTimezone;
-    if (wpTimezone && (wpTimezone.startsWith('+') || wpTimezone.startsWith('-'))) {
-        validTimezone = `UTC${wpTimezone}`; // Convert "-10:30" to "UTC-10:30"
-    }
-
-    function getLocalTime() {
-        if (validTimezone) {
-            if (validTimezone.startsWith('UTC') || validTimezone.startsWith('+') || validTimezone.startsWith('-')) {
-                const offset = validTimezone.replace('UTC', ''); // Remove "UTC" prefix if present
-                const [hours, minutes] = offset.split(':').map(Number);
-
-                // Handle negative offsets correctly
-                const totalOffsetMinutes = (hours * 60) + (hours < 0 ? -Math.abs(minutes) : minutes);
-                return moment().utcOffset(totalOffsetMinutes);
-            } else {
-                // Handle named timezones (e.g., "Pacific/Honolulu")
-                if (moment.tz.zone(validTimezone)) {
-                    return moment().tz(validTimezone);
-                } else {
-                    // Fallback to UTC if the named timezone is invalid
-                    return moment().utc();
-                }
-            }
-        } else {
-            // Fallback to UTC if no timezone is set
-            return moment().utc();
-        }
-    }
 
     // Update the week start day based on WordPress setting
     if (datePickerBtn.length) {
@@ -43,7 +15,6 @@ jQuery(document).ready(function () {
         });
     }
 
-    const localTime = getLocalTime();
 
     function phpToMomentFormat(phpFormat) {
         const formatMap = {
@@ -65,7 +36,35 @@ jQuery(document).ready(function () {
         datePickerBtn.on('click', function () {
             datePickerElement.trigger('click');
         });
+        if (wpTimezone && (wpTimezone.startsWith('+') || wpTimezone.startsWith('-'))) {
+            validTimezone = `UTC${wpTimezone}`;
+        } else if (!moment.tz.zone(validTimezone)) {
+            validTimezone = 'UTC'; // Fallback to UTC if the timezone is invalid
+        }
+        function getLocalTime() {
+            if (validTimezone) {
+                if (validTimezone.startsWith('UTC') || validTimezone.startsWith('+') || validTimezone.startsWith('-')) {
+                    const offset = validTimezone.replace('UTC', ''); // Remove "UTC" prefix if present
+                    const [hours, minutes] = offset.split(':').map(Number);
 
+                    // Handle negative offsets correctly
+                    const totalOffsetMinutes = (hours * 60) + (hours < 0 ? -Math.abs(minutes) : minutes);
+                    return moment().utcOffset(totalOffsetMinutes);
+                } else {
+                    // Handle named timezones (e.g., "Pacific/Honolulu")
+                    if (moment.tz.zone(validTimezone)) {
+                        return moment().tz(validTimezone);
+                    } else {
+                        // Fallback to UTC if the named timezone is invalid
+                        return moment().utc();
+                    }
+                }
+            } else {
+                // Fallback to UTC if no timezone is set
+                return moment().utc();
+            }
+        }
+        const localTime = getLocalTime();
         // Define ranges with translated labels as keys
         let ranges = {
             [wps_js._('str_today')]: [localTime.clone().startOf('day'), localTime.clone().startOf('day')],
@@ -102,20 +101,46 @@ jQuery(document).ready(function () {
         // Default dates for the date picker
         let defaultStartDate = moment(wps_js.global.user_date_range.from).format('YYYY-MM-DD');
         let defaultEndDate = moment(wps_js.global.user_date_range.to).format('YYYY-MM-DD');
-        datePickerElement.daterangepicker({
-            "autoApply": true,
-            "ranges": ranges,
-            "locale": {
-                "customRangeLabel": wps_js._('custom_range')
-            },
-            startDate: defaultStartDate,
-            endDate: defaultEndDate
-        });
+        if (datePickerBtn.length && datePickerElement.length && datePickerForm.length && !datePickerElement.data('daterangepicker')) {
+            datePickerElement.daterangepicker({
+                "autoApply": true,
+                "ranges": ranges,
+                "locale": {
+                    "customRangeLabel": wps_js._('custom_range')
+                },
+                startDate: defaultStartDate,
+                endDate: defaultEndDate
+            });
+        }
 
         if (wps_js.isset(wps_js.global, 'request_params', 'from') && wps_js.isset(wps_js.global, 'request_params', 'to')) {
             let requestFromDate = wps_js.global.request_params.from;
-            if (hasTypeParameter() && wps_js.global.post_creation_date) {
-                requestFromDate = wps_js.global.post_creation_date;
+            if (hasTypeParameter() && requestFromDate && wps_js.global.post_creation_date) {
+                const postCreationDate = new Date(wps_js.global.post_creation_date);
+                const fromDate = new Date(requestFromDate);
+
+                const fromDateWithoutTime = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
+                if (fromDateWithoutTime < postCreationDate) {
+                    // Check if requestFromDate is not within any of the predefined ranges
+                    let isInRange = false;
+                    for (const rangeKey in ranges) {
+                        const range = ranges[rangeKey];
+                        const rangeStart = new Date(range[0]);
+                        const rangeEnd = new Date(range[1]);
+
+                        const rangeStartWithoutTime = new Date(rangeStart.getFullYear(), rangeStart.getMonth(), rangeStart.getDate());
+                        const rangeEndWithoutTime = new Date(rangeEnd.getFullYear(), rangeEnd.getMonth(), rangeEnd.getDate());
+
+                        if (fromDateWithoutTime >= rangeStartWithoutTime && fromDateWithoutTime <= rangeEndWithoutTime) {
+                            isInRange = true;
+                            break;
+                        }
+                    }
+                    // If requestFromDate is not in any range, update it to post_creation_date
+                    if (!isInRange) {
+                        requestFromDate = wps_js.global.post_creation_date;
+                    }
+                }
             }
             const requestToDate = wps_js.global.request_params.to;
             datePickerElement.data('daterangepicker').setStartDate(moment(requestFromDate).format('MM/DD/YYYY'));

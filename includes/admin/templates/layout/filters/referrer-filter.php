@@ -5,14 +5,15 @@ use WP_Statistics\Utils\Request;
 
 $activeFilters = Request::has('referrer');
 
-$classes[] = $activeFilters ? 'wp-referral-filter--active' : '';
+$classes[] = 'wps-modal-filter';
+$classes[] = $activeFilters ? 'wp-modal-filter--active' : '';
 $classes[] = is_rtl() ? 'wps-pull-left' : 'wps-pull-right';
 ?>
 
 <?php
 
 $args = [
-    'filter_type'   => 'referral',
+    'filter_type'   => 'wps-modal',
     'classes'       => implode(' ', $classes),
     'activeFilters' => $activeFilters,
 ];

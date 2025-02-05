@@ -1,5 +1,12 @@
 if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page') || wps_js.global.page.file === "post-new.php" || (wps_js.global.page.file === "post.php" && wps_js.isset(wps_js.global, 'page', 'ID'))) {
 
+    // Split meta boxes into left and right
+    const meta_list_side = wps_js.global.meta_boxes.side;
+    const meta_list_normal = wps_js.global.meta_boxes.normal;
+    const meta_list_column3 = wps_js.global.meta_boxes?.column3;
+    const meta_list_column4 = wps_js.global.meta_boxes?.column4;
+    const isInsideDashboard = document.getElementById('dashboard-widgets') !== null;
+
     class DateManager {
         static getDateRange(filter) {
             const today = moment().format('YYYY-MM-DD');
@@ -248,9 +255,6 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
         wps_js.datePickerHandler.initializeEventListeners();
     };
 
-    // Rest of your existing code...
-    const meta_list = wps_js.global.meta_boxes;
-
     function loadMetaBoxData(metaBoxKey, startDate = null, endDate = null, date_filter = null) {
         return new Promise((resolve, reject) => {
             const keyName = metaBoxKey.replace(/-/g, '_').replace('widget', 'metabox');
@@ -314,13 +318,16 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
                 }
             });
         } else {
-            activeOptions = meta_list;
+            activeOptions = [...meta_list_side, ...meta_list_normal];
+            if (isInsideDashboard) {
+                if(meta_list_column3 ) activeOptions = [...activeOptions, ...meta_list_column3];
+                if(meta_list_column4 ) activeOptions = [...activeOptions, ...meta_list_column4];
+            }
         }
         return activeOptions;
     }
 
     function refreshMetaBox(metaBoxKey) {
-        // Refresh the data for the specific meta box
         loadMetaBoxData(metaBoxKey).then(response => {
             wps_js.handleMetaBoxRender(response, metaBoxKey);
         });
@@ -328,12 +335,62 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
 
     // Initialize meta boxes on page load
     let activeOptions = handleScreenOptionsChange();
-    meta_list.forEach((metaBoxKey) => {
-        if (activeOptions.includes(metaBoxKey)) {
-            // Load the data only for active meta boxes
-            refreshMetaBox(metaBoxKey);
+
+    let normalIndex = 0, sideIndex = 0, column3Index = 0 , column4Index = 0;
+    let normalLength = meta_list_normal.length;
+    let sideLength = meta_list_side.length;
+    let column3Length = isInsideDashboard ? meta_list_column3 ? meta_list_column3.length :0 : 0;
+    let column4Length = isInsideDashboard ? meta_list_column4 ? meta_list_column4.length : 0 : 0;
+    let isMobile = isInsideDashboard ? window.innerWidth < 800 : window.innerWidth < 759;
+
+
+    // Loop while either list has elements to process
+    function processMetaBoxes(metaList, index, length) {
+        while (index < length) {
+            if (activeOptions.includes(metaList[index])) {
+                refreshMetaBox(metaList[index]);
+            }
+            index++;
         }
-    });
+        return index;
+    }
+
+    while (normalIndex < normalLength || sideIndex < sideLength || (isInsideDashboard && column3Index < column3Length)) {
+        if (isMobile) {
+            if (isInsideDashboard) {
+                normalIndex = processMetaBoxes(meta_list_normal, normalIndex, normalLength);
+                sideIndex = processMetaBoxes(meta_list_side, sideIndex, sideLength);
+                if(meta_list_column3) column3Index = processMetaBoxes(meta_list_column3, column3Index, column3Length);
+                if(meta_list_column4) column4Index = processMetaBoxes(meta_list_column4, column4Index, column4Length);
+
+            }else{
+                sideIndex = processMetaBoxes(meta_list_side, sideIndex, sideLength);
+                normalIndex = processMetaBoxes(meta_list_normal, normalIndex, normalLength);
+            }
+
+        } else {
+            function processNextMetaBox(metaList, index, length) {
+                while (index < length && !activeOptions.includes(metaList[index])) {
+                    index++;
+                }
+                if (index < length) {
+                    refreshMetaBox(metaList[index]);
+                    index++;
+                }
+                return index;
+            }
+
+            if (isInsideDashboard) {
+                normalIndex = processNextMetaBox(meta_list_normal, normalIndex, normalLength);
+                sideIndex = processNextMetaBox(meta_list_side, sideIndex, sideLength);
+                column3Index = processNextMetaBox(meta_list_column3, column3Index, column3Length);
+                column4Index = processNextMetaBox(meta_list_column4, column4Index, column4Length);
+            } else {
+                sideIndex = processNextMetaBox(meta_list_side, sideIndex, sideLength);
+                normalIndex = processNextMetaBox(meta_list_normal, normalIndex, normalLength);
+            }
+        }
+    }
 
     jQuery(document).on('change', '#adv-settings input[type="checkbox"]', function () {
         let metaBoxKey = $(this).attr('id').replace('-hide', '');
@@ -344,12 +401,22 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
     });
 
     // Bind refresh button event for manual refresh
-    meta_list.forEach((metaBoxKey) => {
-        jQuery(document).on('click', `#${metaBoxKey} .wps-refresh`, function () {
-            wps_js.showLoadingSkeleton(metaBoxKey);
-            refreshMetaBox(metaBoxKey);
+    function bindRefreshEvents(metaList) {
+        metaList.forEach((metaBoxKey) => {
+            jQuery(document).on('click', `#${metaBoxKey} .wps-refresh`, function () {
+                wps_js.showLoadingSkeleton(metaBoxKey);
+                refreshMetaBox(metaBoxKey);
+            });
         });
-    });
+    }
+
+    // Bind refresh button events for both lists
+    bindRefreshEvents(meta_list_side);
+    bindRefreshEvents(meta_list_normal);
+    if (isInsideDashboard){
+        if(meta_list_column3) bindRefreshEvents(meta_list_column3);
+        if(meta_list_column4) bindRefreshEvents(meta_list_column4);
+    }
 
     // Export utility functions
     wps_js.metaBoxInner = key => jQuery('#' + key + ' .inside');
@@ -471,7 +538,6 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
 
         wps_js.metaBoxInner(key).append(html);
     }
-
 
     document.addEventListener('click', function (event) {
         if (event.target && event.target.id === 'js-close-notice') {

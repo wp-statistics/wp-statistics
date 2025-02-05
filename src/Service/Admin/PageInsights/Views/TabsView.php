@@ -27,6 +27,7 @@ class TabsView extends BaseTabView
         $args = [
             'order'     => Request::get('order', 'DESC'),
             'author_id' => Request::get('author_id', '', 'number'),
+            'url'       => Request::get('url', ''),
             'taxonomy'  => Request::get('tx', 'category'),
             'per_page'  => Admin_Template::$item_per_page,
             'page'      => Admin_Template::getCurrentPaged(),
@@ -83,10 +84,11 @@ class TabsView extends BaseTabView
 
             $filters = [];
             if ($this->isTab('contents')) {
-                $filters = ['post-types', 'author'];
+                $filters = ['post-types', 'page-insight'];
 
-                $queryParams['pt']          = Request::get('pt', '');
-                $queryParams['author_id']   = Request::get('author_id', '', 'number');
+                $queryParams['pt']        = Request::get('pt', '');
+                $queryParams['author_id'] = Request::get('author_id', '', 'number');
+                $queryParams['url']       = Request::get('url', '');
             } elseif ($this->isTab('category')) {
                 $filters = ['taxonomy'];
 
@@ -99,7 +101,7 @@ class TabsView extends BaseTabView
                 'custom_get'    => $queryParams,
                 'DateRang'      => Admin_Template::DateRange(),
                 'hasDateRang'   => true,
-                'showLockedPage'=> $this->isLocked(),
+                'showLockedPage' => $this->isLocked(),
                 'data'          => $data,
                 'allTimeOption' => true,
                 'filters'       => $filters,
@@ -137,7 +139,7 @@ class TabsView extends BaseTabView
 
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
             View::load("pages/page-insights/$template", $args);
-            Admin_Template::get_template(['layout/postbox.hide', 'layout/footer'], $args);
+            Admin_Template::get_template(['layout/postbox.hide', 'layout/pages.filter', 'layout/footer'], $args);
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }

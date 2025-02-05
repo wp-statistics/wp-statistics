@@ -33,77 +33,30 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         renderChart('incomeVisitorChart', incomeVisitorData);
     }
 
-
-
-    // TickBox
-    jQuery(document).on('click', "div#referral-filter", function (e) {
-        e.preventDefault();
-
-        // Show
-        tb_show( wps_js._('filters'), '#TB_inline?&width=430&height=205&inlineId=referral-filter-popup');
-
-        // Add Content
-        setTimeout(function () {
-
-            var tickBox_DIV = "#wps-referral-filter-div";
-            if (!wps_js.exist_tag(tickBox_DIV + " button[type=submit]")) {
-
-                // Set PlaceHolder
-                jQuery(tickBox_DIV).html('<div style="height: 50px;"></div>' + wps_js.line_placeholder(1));
-                wps_show_referrals_filter(tickBox_DIV);
-
-            }
-        }, 500);
-
+    new FilterModal({
+        formSelector: '#wps-referrals-filter-form',
+        height: 205,
+        onOpen: handleReferralModalOpen,
+        onSubmit: handleReferralModalSubmit,
     });
 
-    // submit and disable empty value
-    var FORM_ID = '#wps-referrals-filter-form';
-    jQuery(document).on('submit', FORM_ID, function () {
-        // Remove Empty Parameter
-        let forms = {
-            'select': ['referrer']
-        };
-        Object.keys(forms).forEach(function (type) {
-            forms[type].forEach((name) => {
-                let input = jQuery(FORM_ID + " " + type + "[name=" + name + "]");
-                if (input.val().length < 1) {
-                    input.prop('disabled', true);
-                }
-            });
-        });
-
-
-        // Show Loading
-        jQuery(".wps-tb-window-footer .button-primary")
-            .html(wps_js._('loading'))
-            .addClass('loading');
-        // return true;
-    });
-
-    // Show Filter form
-    function wps_show_referrals_filter(tickBox_DIV) {
+    /**
+     * Handles the referral filter modal open event.
+     */
+    function handleReferralModalOpen() {
+        const containerSelector = "#wps-referral-filter-div";
         const currentReferrer = wps_js.getLinkParams('referrer');
-        const isDisabled = currentReferrer === null ? 'disabled' : '';
 
-        // Create Table
-        let html = '<table class="o-table wps-referrals-filter">';
+        initializeReferralSelect2(containerSelector, currentReferrer);
+    }
 
-        // Show List Select
-        html += `<tr><td colspan="2" class="wps-referrals-filter-title">${wps_js._('referrer')}</td></tr>`;
-        html += `<tr><td colspan="2" class="wps-referrals-filter-content"><select name="referrer" class="wps-select2   wps-width-100">`;
-        html += `<option value=''>${wps_js._('all')}</option>`;
-        html += `<option value='test'>test</option>`;
-        let current_value = wps_js.getLinkParams('referrer');
-        if (current_value != null) {
-            html += `<option value='${current_value}'  selected>${current_value}</option>`;
-        }
-
-        html += `</select></td></tr>`;
-        html += `<tr class="wps-tb-window-footer"><td><button class="js-reset-filter wps-reset-filter" type="button" ${isDisabled}>${wps_js._('reset')}</button></td><td><button type="submit" class="button-primary">${wps_js._('apply')}</button></td></tr>`;
-        html += `</table>`;
-        jQuery(tickBox_DIV).html(html);
-        jQuery('.wps-select2').select2({
+    /**
+     * Initializes the Select2 dropdown for referral filters.
+     * @param {string} containerSelector - The selector for the container.
+     * @param {string} currentReferrer - The current referrer value.
+     */
+    function initializeReferralSelect2(containerSelector, currentReferrer) {
+        jQuery(`${containerSelector} .wps-select2`).select2({
             ajax: {
                 delay: 500,
                 url: wps_js.global.ajax_url,
@@ -122,16 +75,66 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     }
                     return query;
                 },
+                processResults: function (data) {
+                    return {
+                        results: data.results.map(item => ({
+                            id: item.id,
+                            text: item.text,
+                        })),
+                    };
+                },
                 error: function (xhr, status, error) {
                     console.error('AJAX request error:', status, error);
+                },
+            },
+            placeholder: wps_js._('Select a referrer'),
+            allowClear: true,
+        }).off('change');
+
+        // Pre-select the current referrer if available
+        if (currentReferrer) {
+            const select = jQuery(`${containerSelector} .wps-select2`);
+            const option = new Option(currentReferrer, currentReferrer, true, true);
+            select.append(option).trigger('change');
+        }
+    }
+
+    /**
+     * Handles the referral filter modal submit event.
+     * @param {Object} e - The submit event.
+     */
+    function handleReferralModalSubmit(e) {
+        const targetForm = jQuery(e.target);
+        disableEmptyReferralFields(targetForm);
+        showReferralSubmitLoading();
+        return true;
+    }
+
+    /**
+     * Disables empty fields in the referral filter form.
+     * @param {Object} form - The form element.
+     */
+    function disableEmptyReferralFields(form) {
+        const forms = {
+            select: ['referrer'],
+        };
+
+        Object.keys(forms).forEach((type) => {
+            forms[type].forEach((name) => {
+                const input = form.find(`${type}[name="${name}"]`);
+                if (input.val().trim() === '') {
+                    input.prop('disabled', true);
                 }
-            }
+            });
         });
     }
 
-    jQuery(document).on('click', '.js-reset-filter', function () {
-        const url = new URL(window.location.href);
-        url.searchParams.delete('referrer');
-        window.location.href = url.toString();
-    });
+    /**
+     * Shows loading state on the referral filter modal submit button.
+     */
+    function showReferralSubmitLoading() {
+        jQuery(".wps-tb-window-footer .button-primary")
+            .html(wps_js._('loading'))
+            .addClass('loading');
+    }
 }
