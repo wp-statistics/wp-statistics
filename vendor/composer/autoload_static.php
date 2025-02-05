@@ -91,9 +91,8 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Decorators\\DeviceDecorator' => __DIR__ . '/../..' . '/src/Decorators/DeviceDecorator.php',
         'WP_Statistics\\Decorators\\LocationDecorator' => __DIR__ . '/../..' . '/src/Decorators/LocationDecorator.php',
         'WP_Statistics\\Decorators\\OsDecorator' => __DIR__ . '/../..' . '/src/Decorators/OsDecorator.php',
-        'WP_Statistics\\Decorators\\PageDecorator' => __DIR__ . '/../..' . '/src/Decorators/PageDecorator.php',
         'WP_Statistics\\Decorators\\ReferralDecorator' => __DIR__ . '/../..' . '/src/Decorators/ReferralDecorator.php',
-        'WP_Statistics\\Decorators\\UrlDecorator' => __DIR__ . '/../..' . '/src/Decorators/UrlDecorator.php',
+        'WP_Statistics\\Decorators\\ResourceDecorator' => __DIR__ . '/../..' . '/src/Decorators/ResourceDecorator.php',
         'WP_Statistics\\Decorators\\UserDecorator' => __DIR__ . '/../..' . '/src/Decorators/UserDecorator.php',
         'WP_Statistics\\Decorators\\VisitorDecorator' => __DIR__ . '/../..' . '/src/Decorators/VisitorDecorator.php',
         'WP_Statistics\\Dependencies\\Composer\\CaBundle\\CaBundle' => __DIR__ . '/../..' . '/src/Dependencies/Composer/CaBundle/CaBundle.php',
@@ -353,12 +352,9 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\HooksManager' => __DIR__ . '/../..' . '/src/Service/HooksManager.php',
         'WP_Statistics\\Service\\Integrations\\IntegrationHelper' => __DIR__ . '/../..' . '/src/Service/Integrations/IntegrationHelper.php',
         'WP_Statistics\\Service\\Integrations\\IntegrationsManager' => __DIR__ . '/../..' . '/src/Service/Integrations/IntegrationsManager.php',
-<<<<<<< HEAD
         'WP_Statistics\\Service\\Integrations\\Plugins\\AbstractIntegration' => __DIR__ . '/../..' . '/src/Service/Integrations/Plugins/AbstractIntegration.php',
         'WP_Statistics\\Service\\Integrations\\Plugins\\RealCookieBanner' => __DIR__ . '/../..' . '/src/Service/Integrations/Plugins/RealCookieBanner.php',
         'WP_Statistics\\Service\\Integrations\\Plugins\\WpConsentApi' => __DIR__ . '/../..' . '/src/Service/Integrations/Plugins/WpConsentApi.php',
-=======
-        'WP_Statistics\\Service\\Integrations\\WpConsentApi' => __DIR__ . '/../..' . '/src/Service/Integrations/WpConsentApi.php',
         'WP_Statistics\\Service\\Logger\\AbstractLoggerProvider' => __DIR__ . '/../..' . '/src/Service/Logger/AbstractLoggerProvider.php',
         'WP_Statistics\\Service\\Logger\\LoggerFactory' => __DIR__ . '/../..' . '/src/Service/Logger/LoggerFactory.php',
         'WP_Statistics\\Service\\Logger\\LoggerService' => __DIR__ . '/../..' . '/src/Service/Logger/LoggerService.php',
@@ -366,7 +362,6 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Logger\\Provider\\FileProvider' => __DIR__ . '/../..' . '/src/Service/Logger/Provider/FileProvider.php',
         'WP_Statistics\\Service\\Logger\\Provider\\TrackerProvider' => __DIR__ . '/../..' . '/src/Service/Logger/Provider/TrackerProvider.php',
         'WP_Statistics\\Traits\\ErrorLoggerTrait' => __DIR__ . '/../..' . '/src/Traits/ErrorLoggerTrait.php',
->>>>>>> release-14.13
         'WP_Statistics\\Traits\\ObjectCacheTrait' => __DIR__ . '/../..' . '/src/Traits/ObjectCacheTrait.php',
         'WP_Statistics\\Traits\\TransientCacheTrait' => __DIR__ . '/../..' . '/src/Traits/TransientCacheTrait.php',
         'WP_Statistics\\Utils\\Query' => __DIR__ . '/../..' . '/src/Utils/Query.php',

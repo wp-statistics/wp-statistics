@@ -30,9 +30,8 @@ return array(
     'WP_Statistics\\Decorators\\DeviceDecorator' => $baseDir . '/src/Decorators/DeviceDecorator.php',
     'WP_Statistics\\Decorators\\LocationDecorator' => $baseDir . '/src/Decorators/LocationDecorator.php',
     'WP_Statistics\\Decorators\\OsDecorator' => $baseDir . '/src/Decorators/OsDecorator.php',
-    'WP_Statistics\\Decorators\\PageDecorator' => $baseDir . '/src/Decorators/PageDecorator.php',
     'WP_Statistics\\Decorators\\ReferralDecorator' => $baseDir . '/src/Decorators/ReferralDecorator.php',
-    'WP_Statistics\\Decorators\\UrlDecorator' => $baseDir . '/src/Decorators/UrlDecorator.php',
+    'WP_Statistics\\Decorators\\ResourceDecorator' => $baseDir . '/src/Decorators/ResourceDecorator.php',
     'WP_Statistics\\Decorators\\UserDecorator' => $baseDir . '/src/Decorators/UserDecorator.php',
     'WP_Statistics\\Decorators\\VisitorDecorator' => $baseDir . '/src/Decorators/VisitorDecorator.php',
     'WP_Statistics\\Dependencies\\Composer\\CaBundle\\CaBundle' => $baseDir . '/src/Dependencies/Composer/CaBundle/CaBundle.php',
@@ -292,12 +291,9 @@ return array(
     'WP_Statistics\\Service\\HooksManager' => $baseDir . '/src/Service/HooksManager.php',
     'WP_Statistics\\Service\\Integrations\\IntegrationHelper' => $baseDir . '/src/Service/Integrations/IntegrationHelper.php',
     'WP_Statistics\\Service\\Integrations\\IntegrationsManager' => $baseDir . '/src/Service/Integrations/IntegrationsManager.php',
-<<<<<<< HEAD
     'WP_Statistics\\Service\\Integrations\\Plugins\\AbstractIntegration' => $baseDir . '/src/Service/Integrations/Plugins/AbstractIntegration.php',
     'WP_Statistics\\Service\\Integrations\\Plugins\\RealCookieBanner' => $baseDir . '/src/Service/Integrations/Plugins/RealCookieBanner.php',
     'WP_Statistics\\Service\\Integrations\\Plugins\\WpConsentApi' => $baseDir . '/src/Service/Integrations/Plugins/WpConsentApi.php',
-=======
-    'WP_Statistics\\Service\\Integrations\\WpConsentApi' => $baseDir . '/src/Service/Integrations/WpConsentApi.php',
     'WP_Statistics\\Service\\Logger\\AbstractLoggerProvider' => $baseDir . '/src/Service/Logger/AbstractLoggerProvider.php',
     'WP_Statistics\\Service\\Logger\\LoggerFactory' => $baseDir . '/src/Service/Logger/LoggerFactory.php',
     'WP_Statistics\\Service\\Logger\\LoggerService' => $baseDir . '/src/Service/Logger/LoggerService.php',
@@ -305,7 +301,6 @@ return array(
     'WP_Statistics\\Service\\Logger\\Provider\\FileProvider' => $baseDir . '/src/Service/Logger/Provider/FileProvider.php',
     'WP_Statistics\\Service\\Logger\\Provider\\TrackerProvider' => $baseDir . '/src/Service/Logger/Provider/TrackerProvider.php',
     'WP_Statistics\\Traits\\ErrorLoggerTrait' => $baseDir . '/src/Traits/ErrorLoggerTrait.php',
->>>>>>> release-14.13
     'WP_Statistics\\Traits\\ObjectCacheTrait' => $baseDir . '/src/Traits/ObjectCacheTrait.php',
     'WP_Statistics\\Traits\\TransientCacheTrait' => $baseDir . '/src/Traits/TransientCacheTrait.php',
     'WP_Statistics\\Utils\\Query' => $baseDir . '/src/Utils/Query.php',
