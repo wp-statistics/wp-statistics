@@ -29,6 +29,12 @@ abstract class AbstractIntegration
     abstract public function isActive();
 
     /**
+     * If returns true, the user data will be collected anonymously
+     * @return bool
+     */
+    abstract public function trackAnonymously();
+
+    /**
      * Checks if the user has given consent.
      * @return bool
      */

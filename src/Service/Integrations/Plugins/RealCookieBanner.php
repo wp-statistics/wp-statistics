@@ -23,6 +23,11 @@ class RealCookieBanner extends AbstractIntegration
         return class_exists(\DevOwl\RealCookieBanner\Core::class);
     }
 
+    public function trackAnonymously()
+    {
+        return !$this->hasConsent();
+    }
+
     public function register()
     {
         add_action('wp_statistics_save_settings', [$this, 'clearTemplateCache']);
@@ -70,8 +75,9 @@ class RealCookieBanner extends AbstractIntegration
     public function getStatus()
     {
         return [
-            'is_active'   => $this->isActive(),
-            'has_consent' => $this->hasConsent()
+            'is_active'         => $this->isActive(),
+            'has_consent'       => $this->hasConsent(),
+            'track_anonymously' => $this->trackAnonymously()
         ];
     }
 }
