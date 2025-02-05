@@ -7,6 +7,7 @@
 - **Fix:** Fixed an issue causing the weekly chart to display incorrectly.
 - **Fix:** Resolved inconsistencies in the date range filter and toggle meta settings.
 - **Fix:** Fixed an error in the "Tracker Debugger".
+- **Fix:** Resolved an issue with the option of the dashboard widgets view.
 - **Fix:** Corrected the loading order of metaboxes for a smoother experience.
 
 = 14.12.2 - 2025-01-21 =
