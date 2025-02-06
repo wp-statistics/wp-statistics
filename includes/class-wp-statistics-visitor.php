@@ -111,6 +111,7 @@ class Visitor
             'location'         => '',
             'exclusion_match'  => false,
             'exclusion_reason' => '',
+            'page_id'          => 0
         );
 
         $args         = wp_parse_args($arg, $defaults);
@@ -140,6 +141,10 @@ class Visitor
                 'UAString'      => ((Option::get('store_ua') == true && !Helper::shouldTrackAnonymously()) ? $visitorProfile->getHttpUserAgent() : ''),
                 'hits'          => 1,
                 'honeypot'      => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0),
+                'first_page'    => $args['page_id'],
+                'first_view'    => TimeZone::getCurrentDate(),
+                'last_page'     => $args['page_id'],
+                'last_view'     => TimeZone::getCurrentDate()
             );
             $visitor = apply_filters('wp_statistics_visitor_information', $visitor);
 
@@ -159,7 +164,9 @@ class Visitor
 
                 $data = [
                     'hits'      => $same_visitor->hits + 1,
-                    'user_id'   => ! empty($same_visitor->user_id) ? $same_visitor->user_id : $visitorProfile->getUserId()
+                    'user_id'   => ! empty($same_visitor->user_id) ? $same_visitor->user_id : $visitorProfile->getUserId(),
+                    'last_page' => $args['page_id'],
+                    'last_view' => TimeZone::getCurrentDate('Y-m-d H:i:s'),
                 ];
 
                 $data = apply_filters('wp_statistics_visitor_data_before_update', $data, $visitorProfile);
