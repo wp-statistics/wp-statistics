@@ -138,7 +138,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 
 == Changelog ==
 = 14.12.4 - 2025-02-06 =
-- **Fix:** Resolved an issue where charts on the Dashboard failed to load due to an empty metalist.
+- **Fix:** Fixed issues with Dashboard charts not loading due to an empty metalist and metaboxes not loading in specific cases.
 
 = 14.12.3 - 2025-02-05 =
 - **New:** Added an option to permanently delete all plugin data when uninstalling.
