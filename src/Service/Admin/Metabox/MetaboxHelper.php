@@ -123,10 +123,15 @@ class MetaboxHelper
                     $metaboxes[$context] = array_values($contextMetaboxes);
                 }
             }
-        } else {
-            // Group the metaboxes by context
-            foreach ($staticMetaboxes as $metabox) {
-                $metaboxes[$metabox->getContext()][] = $metabox->getKey();
+        }
+
+        // If there are no stored metaboxes, use the default
+        foreach ($staticMetaboxes as $metabox) {
+            $key     = $metabox->getKey();
+            $context = $metabox->getContext();
+
+            if (!isset($metaboxes[$context]) || !in_array($key, $metaboxes[$context])) {
+                $metaboxes[$context][] = $metabox->getKey();
             }
         }
 
