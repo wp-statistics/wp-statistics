@@ -477,7 +477,6 @@ class VisitorsModel extends BaseModel
             'order'         => 'DESC',
             'page'          => '',
             'per_page'      => '',
-            'page_info'     => false,
             'user_info'     => false,
             'date_field'    => 'visitor.last_counter',
             'logged_in'     => false,
@@ -504,32 +503,11 @@ class VisitorsModel extends BaseModel
                 'visitor.last_counter',
                 'visitor.source_channel',
                 'visitor.source_name',
+                'visitor.first_page',
+                'visitor.first_view',
+                'visitor.last_page',
+                'visitor.last_view',
             ];
-        }
-
-        // If page info is true, get last page the visitor has visited
-        if ($args['page_info'] === true) {
-
-            $lastHit = Query::select([
-                'visitor_id',
-                'MAX(date) as date'
-            ])
-                ->from('visitor_relationships')
-                ->groupBy('visitor_id')
-                ->getQuery();
-
-            $subQuery = Query::select([
-                'visitor_relationships.visitor_id',
-                'page_id',
-                'date'
-            ])
-                ->from('visitor_relationships')
-                ->whereRaw("(visitor_id, date) IN ($lastHit)")
-                ->groupBy('visitor_id')
-                ->getQuery();
-
-            $args['fields'][] = 'last_hit.page_id as last_page';
-            $args['fields'][] = 'last_hit.date as last_view';
         }
 
         if ($args['user_info'] === true) {
@@ -564,11 +542,6 @@ class VisitorsModel extends BaseModel
                 $query->where('usermeta.meta_key', '=', "wp_capabilities");
                 $query->where('usermeta.meta_value', 'LIKE', "%{$args['user_role']}%");
             }
-        }
-
-        // If last page is true, get last page the visitor has visited
-        if ($args['page_info'] === true) {
-            $query->joinQuery($subQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit', 'LEFT');
         }
 
         if ($args['user_info']) {
@@ -804,7 +777,11 @@ class VisitorsModel extends BaseModel
             'visitor.referred',
             'visitor.source_channel',
             'visitor.source_name',
-            'visitor.ip'
+            'visitor.ip',
+            'visitor.first_page',
+            'visitor.first_view',
+            'visitor.last_page',
+            'visitor.last_view'
         ];
 
         // If visitor_id is empty, get visitor_id by IP
@@ -818,18 +795,6 @@ class VisitorsModel extends BaseModel
         }
 
         if ($args['page_info'])  {
-            $firstPage = Query::select(['MIN(ID)', 'page_id', 'visitor_id'])
-                ->from('visitor_relationships')
-                ->where('visitor_id', '=', $args['visitor_id'])
-                ->getQuery();
-
-            $firstView = Query::select(['MIN(date) as date', 'visitor_id'])
-                ->from('visitor_relationships')
-                ->where('visitor_id', '=', $args['visitor_id'])
-                ->getQuery();
-
-            $fields[] = 'first_view.date as first_view';
-            $fields[] = 'first_page.page_id as first_page';
             $fields[] = 'pages.uri as first_uri';
         }
 
@@ -846,8 +811,6 @@ class VisitorsModel extends BaseModel
 
         if ($args['page_info']) {
             $query
-                ->joinQuery($firstPage, ['visitor.ID', 'first_page.visitor_id'], 'first_page', 'LEFT')
-                ->joinQuery($firstView, ['visitor.ID', 'first_view.visitor_id'], 'first_view', 'LEFT')
                 ->join('pages', ['first_page.page_id', 'pages.page_id'], [], 'LEFT');
         }
 
