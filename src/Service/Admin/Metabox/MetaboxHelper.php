@@ -95,11 +95,11 @@ class MetaboxHelper
 
         $currentScreen = get_current_screen()->id;
 
-        // Get static metaboxes that belong to the current screen
-        $staticMetaboxes = [];
+        // Get screen metaboxes that belong to the current screen
+        $screenMetaboxes = [];
         foreach (self::getActiveMetaboxes() as $metabox) {
             if (in_array($currentScreen, $metabox->getScreen()) && !$metabox->isStatic()) {
-                $staticMetaboxes[$metabox->getKey()] = $metabox;
+                $screenMetaboxes[$metabox->getKey()] = $metabox;
             }
         }
 
@@ -115,8 +115,8 @@ class MetaboxHelper
                 $contextMetaboxes = explode(',', $userMetaboxes[$context]);
 
                 // Remove any non wp-statistics metaboxes
-                $contextMetaboxes = array_filter($contextMetaboxes, function($metabox) use ($staticMetaboxes) {
-                    return strpos($metabox, 'wp-statistics') !== false && isset($staticMetaboxes[$metabox]);
+                $contextMetaboxes = array_filter($contextMetaboxes, function($metabox) use ($screenMetaboxes) {
+                    return strpos($metabox, 'wp-statistics') !== false && isset($screenMetaboxes[$metabox]);
                 });
 
                 if (!empty($contextMetaboxes)) {
@@ -126,7 +126,7 @@ class MetaboxHelper
         }
 
         // If there are no stored metaboxes, use the default
-        foreach ($staticMetaboxes as $metabox) {
+        foreach ($screenMetaboxes as $metabox) {
             $key     = $metabox->getKey();
             $context = $metabox->getContext();
 
