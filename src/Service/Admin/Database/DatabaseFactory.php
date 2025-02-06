@@ -38,8 +38,8 @@ class DatabaseFactory
      * @var array
      */
     private static $migrationTypes = [
-        'data' => DataMigration::class,
         'schema' => SchemaMigration::class,
+        'data' => DataMigration::class,
     ];
 
     /**
