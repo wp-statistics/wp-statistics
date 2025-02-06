@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.7
-Stable tag: 14.12.3
+Stable tag: 14.12.4
 Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -137,6 +137,9 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.12.4 - 2025-02-06 =
+- **Fix:** Fixed issues with Dashboard charts not loading due to an empty metalist and metaboxes not loading in specific cases.
+
 = 14.12.3 - 2025-02-05 =
 - **New:** Added an option to permanently delete all plugin data when uninstalling.
 - **New:** Introduced a "URL" filter in Page Insights to refine report results.
