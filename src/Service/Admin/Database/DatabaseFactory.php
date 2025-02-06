@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\Database;
 
+use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\Database\Migrations\DataMigration;
 use WP_Statistics\Service\Admin\Database\Migrations\SchemaMigration;
 use WP_Statistics\Service\Admin\Database\Operations\Create;
@@ -37,8 +38,8 @@ class DatabaseFactory
      * @var array
      */
     private static $migrationTypes = [
-        'schema' => SchemaMigration::class,
         'data' => DataMigration::class,
+        'schema' => SchemaMigration::class,
     ];
 
     /**
@@ -83,5 +84,29 @@ class DatabaseFactory
         }
 
         return $migrationInstances;
+    }
+
+    /**
+     * Compare the current database version with a required version.
+     *
+     * This method retrieves the current version of the database from the 'db' option group
+     * and compares it to a specified required version using a provided comparison operation.
+     * 
+     * @param string $requiredVersion The version to compare against (e.g., "1.2.3").
+     * @param string $operation       The comparison operator for version comparison.
+     *                                Allowed values: '<', '<=', '>', '>=', '==', '!='.
+     * 
+     * @return bool Returns true if the comparison condition is met, false otherwise.
+     *              Returns false if the current database version is not available.
+     */
+    public static function compareCurrentVersion($requiredVersion, $operation)
+    {
+        $version = Option::getOptionGroup('db', 'version', null);
+
+        if (empty($version)) {
+            return false;
+        }
+
+        return version_compare($version, $requiredVersion, $operation);
     }
 }

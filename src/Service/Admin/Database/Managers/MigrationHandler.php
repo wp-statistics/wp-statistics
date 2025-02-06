@@ -72,7 +72,7 @@ class MigrationHandler
      */
     private static function isMigrationComplete()
     {
-        return Option::getOptionGroup('db', 'migrated', false) || Option::getOptionGroup('db', 'check', false);
+        return Option::getOptionGroup('db', 'migrated', false) || Option::getOptionGroup('db', 'check', true);
     }
 
     /**
@@ -100,6 +100,10 @@ class MigrationHandler
                     'type' => $instance->getName()
                 ];
             }
+        }
+
+        if (empty($allVersions)) {
+            Option::saveOptionGroup('migrated', true, 'db');
         }
 
         usort($allVersions, 'version_compare');
@@ -177,6 +181,8 @@ class MigrationHandler
         &$manualTasks,
         $process
     ) {
+        $autoMigrationTasks = Option::getOptionGroup('db', 'auto_migration_tasks', []);
+
         foreach ($migration['methods'] as $method) {
             if ($hasDataMigration || !empty($manualTasks)) {
                 $manualTasks[$version][$method] = [
@@ -184,6 +190,14 @@ class MigrationHandler
                     'type' => $migration['type']
                 ];
             } else {
+                $taskKey = $method . '_' . $version;
+
+                if (! empty($autoMigrationTasks[$taskKey])) {
+                    continue;
+                }
+
+                $autoMigrationTasks[$taskKey] = true;
+
                 $process->push_to_queue([
                     'class' => $migration['class'],
                     'method' => $method,
@@ -191,6 +205,8 @@ class MigrationHandler
                 ]);
             }
         }
+
+        Option::saveOptionGroup('auto_migration_tasks', $autoMigrationTasks, 'db');
     }
 
     /**
