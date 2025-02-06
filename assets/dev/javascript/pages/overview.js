@@ -320,8 +320,8 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
         } else {
             activeOptions = [...meta_list_side, ...meta_list_normal];
             if (isInsideDashboard) {
-                if(meta_list_column3 ) activeOptions = [...activeOptions, ...meta_list_column3];
-                if(meta_list_column4 ) activeOptions = [...activeOptions, ...meta_list_column4];
+                if (meta_list_column3) activeOptions = [...activeOptions, ...meta_list_column3];
+                if (meta_list_column4) activeOptions = [...activeOptions, ...meta_list_column4];
             }
         }
         return activeOptions;
@@ -336,16 +336,18 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
     // Initialize meta boxes on page load
     let activeOptions = handleScreenOptionsChange();
 
-    let normalIndex = 0, sideIndex = 0, column3Index = 0 , column4Index = 0;
-    let normalLength = meta_list_normal.length;
-    let sideLength = meta_list_side.length;
-    let column3Length = isInsideDashboard ? meta_list_column3 ? meta_list_column3.length :0 : 0;
+    let normalIndex = 0, sideIndex = 0, column3Index = 0, column4Index = 0;
+    let normalLength = meta_list_normal ? meta_list_normal.length : 0;
+    let sideLength = meta_list_side ? meta_list_side.length : 0;
+    let column3Length = isInsideDashboard ? meta_list_column3 ? meta_list_column3.length : 0 : 0;
     let column4Length = isInsideDashboard ? meta_list_column4 ? meta_list_column4.length : 0 : 0;
     let isMobile = isInsideDashboard ? window.innerWidth < 800 : window.innerWidth < 759;
 
 
     // Loop while either list has elements to process
     function processMetaBoxes(metaList, index, length) {
+        if (!metaList || length === 0) return index; // Skip if metaList is null or empty
+
         while (index < length) {
             if (activeOptions.includes(metaList[index])) {
                 refreshMetaBox(metaList[index]);
@@ -355,21 +357,22 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
         return index;
     }
 
-    while (normalIndex < normalLength || sideIndex < sideLength || (isInsideDashboard && column3Index < column3Length)) {
+    while (normalIndex < normalLength || sideIndex < sideLength || (isInsideDashboard && (column3Index < column3Length || column4Index < column4Length))) {
         if (isMobile) {
             if (isInsideDashboard) {
                 normalIndex = processMetaBoxes(meta_list_normal, normalIndex, normalLength);
                 sideIndex = processMetaBoxes(meta_list_side, sideIndex, sideLength);
-                if(meta_list_column3) column3Index = processMetaBoxes(meta_list_column3, column3Index, column3Length);
-                if(meta_list_column4) column4Index = processMetaBoxes(meta_list_column4, column4Index, column4Length);
+                if (meta_list_column3) column3Index = processMetaBoxes(meta_list_column3, column3Index, column3Length);
+                if (meta_list_column4) column4Index = processMetaBoxes(meta_list_column4, column4Index, column4Length);
 
-            }else{
+            } else {
                 sideIndex = processMetaBoxes(meta_list_side, sideIndex, sideLength);
                 normalIndex = processMetaBoxes(meta_list_normal, normalIndex, normalLength);
             }
 
         } else {
             function processNextMetaBox(metaList, index, length) {
+                if (!metaList || length === 0) return index;
                 while (index < length && !activeOptions.includes(metaList[index])) {
                     index++;
                 }
@@ -411,11 +414,11 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
     }
 
     // Bind refresh button events for both lists
-    bindRefreshEvents(meta_list_side);
-    bindRefreshEvents(meta_list_normal);
-    if (isInsideDashboard){
-        if(meta_list_column3) bindRefreshEvents(meta_list_column3);
-        if(meta_list_column4) bindRefreshEvents(meta_list_column4);
+    if (meta_list_side) bindRefreshEvents(meta_list_side);
+    if (meta_list_normal) bindRefreshEvents(meta_list_normal);
+    if (isInsideDashboard) {
+        if (meta_list_column3) bindRefreshEvents(meta_list_column3);
+        if (meta_list_column4) bindRefreshEvents(meta_list_column4);
     }
 
     // Export utility functions

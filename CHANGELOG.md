@@ -1,3 +1,6 @@
+= 14.12.4 - 2025-02-06 =
+- **Fix:** Resolved an issue where charts on the Dashboard failed to load due to an empty metalist.
+
 = 14.12.3 - 2025-02-05 =
 - **New:** Added an option to permanently delete all plugin data when uninstalling.
 - **New:** Introduced a "URL" filter in Page Insights to refine report results.
