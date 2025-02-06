@@ -60,7 +60,7 @@ class SchemaMigration extends AbstractMigrationOperation
 
         try {
             DatabaseFactory::table('update')
-                ->setName('visitors')
+                ->setName('visitor')
                 ->setArgs([
                     'add' => [
                         'first_page'     => 'bigint(20) DEFAULT NULL',
