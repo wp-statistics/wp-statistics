@@ -86,7 +86,7 @@ FilterGenerator.prototype.createSelect = function ({ name, label, classes = '', 
     this.container.appendChild(wrapper);
     this.enableSearchableSelect(select, name, attributes, panel, panelId);
 
-    if (typeof jQuery !== 'undefined' && jQuery.fn.select2 && !panel) {
+    if (typeof jQuery !== 'undefined' && jQuery.fn.select2 && !panel && !attributes['data-searchable']) {
         jQuery(select).select2({
             width: '100%',
         });
@@ -103,6 +103,8 @@ FilterGenerator.prototype.createSelect = function ({ name, label, classes = '', 
  * @param {HTMLElement} select - The select element to enhance with Select2.
  * @param {string} name - The name attribute of the select element.
  * @param {Object} attributes - Additional attributes, including `data-searchable`.
+ * @param {boolean} panel - (Optional) Flag indicating if the select element is part of a filter panel.
+ * @param {string} panelId - (Optional) The ID of the filter panel container used to scope the dropdown UI.
  */
 FilterGenerator.prototype.enableSearchableSelect = function (select, name, attributes, panel, panelId) {
     if (!attributes['data-searchable'] || typeof jQuery === 'undefined' || !jQuery.fn.select2) {
@@ -143,8 +145,21 @@ FilterGenerator.prototype.enableSearchableSelect = function (select, name, attri
 
                 if (wps_js.isset(wps_js.global, 'request_params')) {
                     const requestParams = wps_js.global.request_params;
+
                     if (requestParams.page) {
                         query.page = requestParams.page;
+                    }
+
+                    if (requestParams.author_id) {
+                        query.author_id = requestParams.author_id;
+                    }
+
+                    if (requestParams.pt) {
+                        query.post_type = requestParams.pt;
+                    }
+
+                    if (requestParams.pt) {
+                        query.post_id = requestParams.pid;
                     }
                 }
 
@@ -193,6 +208,7 @@ FilterGenerator.prototype.enableSearchableSelect = function (select, name, attri
  * Appends `<option>` elements to a given `<select>` element.
  * @param {HTMLElement} select - The `<select>` element.
  * @param {Array} options - Array of option objects `{ value, label, selected }`.
+ * @param {string|null} [placeholder=null] - Optional placeholder text to be used as the default option.
  */
 FilterGenerator.prototype.createOptions = function (select, options = [], placeholder = null) {
     if (!(select instanceof HTMLSelectElement)) {

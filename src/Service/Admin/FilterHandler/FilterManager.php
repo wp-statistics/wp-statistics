@@ -101,16 +101,19 @@ class FilterManager
         if (Request::isFrom('ajax') && User::Access('read')) {
             check_ajax_referer('wp_rest', 'wps_nonce');
 
-            $source  = Request::get('source', '');
-            $search  = Request::get('search', '');
-            $paged   = Request::get('paged', 1, 'number');
-            $page    = Request::get('page');
-            $search  = Url::cleanUrl($search);
+            $source   = Request::get('source', '');
+            $paged    = Request::get('paged', 1, 'number');
+            $postType = Request::get('post_type', array_values(Helper::get_list_post_type()));
+            $authorId = Request::get('author_id', '', 'number');
+            $page     = Request::get('page');
+
+            $search = Request::get('search', '');
+            $search = Url::cleanUrl($search);
 
             $output = [];
 
             if (method_exists($this,  $source)) {
-                $output = call_user_func([$this, $source], $search, $paged, $page);
+                $output = call_user_func([$this, $source], $search, $paged, $page, $postType, $authorId);
             }
 
             wp_send_json($output);
@@ -502,18 +505,21 @@ class FilterManager
     }
 
     /**
-     * Retrieves pages based on search criteria for pagination.
+     * Fetches a list of posts matching the provided search term, post type, and author filter.
      *
-     * @param string $search Search keyword.
-     * @param int    $paged  Current page number.
-     * @param mixed  $page   Page identifier.
-     * @return array List of pages matching the search criteria.
+     * @param string $search   The search keyword to filter posts.
+     * @param int    $paged    The current page number for pagination.
+     * @param mixed  $page     A flag or identifier indicating if a query should be executed.
+     * @param string $postType The type of post to query.
+     * @param int    $authorId The ID of the author to filter posts.
+     * @return array
      */
-    public function getPage($search, $paged, $page)
+    public function getPage($search, $paged, $page, $postType, $authorId)
     {
         if (empty($page)) {
             return [];
         }
+        
         $queryKey = 'pid';
         $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey], wp_get_referer())));
 
@@ -521,6 +527,8 @@ class FilterManager
             'post_status'    => 'publish',
             'posts_per_page' => 10,
             'paged'          => $paged,
+            'post_type'      => $postType,
+            'author'         => $authorId,
             's'              => $search
         ]);
 
