@@ -20,14 +20,23 @@ FilterGenerator.prototype.elementExists = function (name) {
  * @param {string} name - Field name for unique class.
  * @returns {HTMLElement} - The wrapper `<div>`.
  */
+
+FilterGenerator.prototype.ensureFooterExists = function () {
+    let footer = this.container.querySelector('.wps-filter-footer');
+    if (!footer) {
+        footer = document.createElement('div');
+        footer.classList.add('wps-filter-footer');
+        this.container.appendChild(footer);
+    }
+    return footer;
+};
+
 FilterGenerator.prototype.createWrapper = function (name, reset = false) {
     const wrapper = document.createElement('div');
-
     if (reset) {
         wrapper.classList.add(name);
         return wrapper;
     }
-
     wrapper.classList.add('wps-filter-item', `wps-filter-${name}`);
     return wrapper;
 };
@@ -54,7 +63,7 @@ FilterGenerator.prototype.createLabel = function (label) {
  * @param {string} panel - Additional panel condition for the select.
  * @returns {HTMLElement} - The created `<select>` element.
  */
-FilterGenerator.prototype.createSelect = function ({ name, label, classes = '', attributes = {}, placeholder = '' }, panel = null) {
+FilterGenerator.prototype.createSelect = function ({name, label, classes = '', attributes = {}, placeholder = ''}, panel = null) {
     if (this.elementExists(name)) {
         return null;
     }
@@ -99,7 +108,7 @@ FilterGenerator.prototype.createSelect = function ({ name, label, classes = '', 
 /**
  * Initializes Select2 on a given select element if applicable.
  * Ensures that AJAX-based filtering is enabled and handles errors gracefully.
- * 
+ *
  * @param {HTMLElement} select - The select element to enhance with Select2.
  * @param {string} name - The name attribute of the select element.
  * @param {Object} attributes - Additional attributes, including `data-searchable`.
@@ -255,7 +264,7 @@ FilterGenerator.prototype.createOptions = function (select, options = [], placeh
  * @param {string} config.placeholder - Placeholder text for the input.
  * @param {Object} config.attributes - Additional attributes for the input.
  */
-FilterGenerator.prototype.createInput = function ({ name, label, type = 'text', classes = '', placeholder = '', attributes = {} }) {
+FilterGenerator.prototype.createInput = function ({name, label, type = 'text', classes = '', placeholder = '', attributes = {}}) {
     if (this.elementExists(name)) {
         return null;
     }
@@ -285,14 +294,13 @@ FilterGenerator.prototype.createInput = function ({ name, label, type = 'text', 
  * @param {Function} config.onClick - Click event handler for the button.
  * @param {Object} config.attributes - Additional attributes for the button.
  */
-FilterGenerator.prototype.createButton = function ({ label, classes = '', onClick, attributes = {} }) {
-    const buttonId = `button-${label.replace(/\s+/g, '-').toLowerCase()}`;
-
+FilterGenerator.prototype.createButton = function ({name, label, classes = '', onClick, attributes = {}}) {
+    const buttonId = `button-${name.replace(/\s+/g, '-').toLowerCase()}`;
     if (this.container.querySelector(`#${buttonId}`)) {
         return;
     }
 
-    const wrapper = this.createWrapper(label.replace(/\s+/g, '-').toLowerCase());
+    const wrapper = this.createWrapper(name);
     const button = document.createElement('button');
     button.textContent = label;
     button.className = classes;
@@ -307,7 +315,8 @@ FilterGenerator.prototype.createButton = function ({ label, classes = '', onClic
     }
 
     wrapper.appendChild(button);
-    this.container.appendChild(wrapper);
+    const footer = this.ensureFooterExists();
+    footer.appendChild(wrapper);
 };
 
 /**
@@ -327,7 +336,7 @@ FilterGenerator.prototype.createDropdown = function (filterConfig, filterData) {
         return;
     }
 
-    const { baseUrl, selectedOptions, lockCustomPostTypes, args } = filterData;
+    const {baseUrl, selectedOptions, lockCustomPostTypes, args} = filterData;
 
     let dropdownHTML = `
         <div class="wps-dropdown">
@@ -379,7 +388,7 @@ FilterGenerator.prototype.createDropdown = function (filterConfig, filterData) {
  * @returns {string} - The name of the selected post type.
  */
 FilterGenerator.prototype.getFilterName = function (filterData) {
-    const { selectedOptions, args } = filterData;
+    const {selectedOptions, args} = filterData;
 
     const selectedItem = args.find(item => item.slug === selectedOptions);
     return selectedItem ? selectedItem.name : "All";

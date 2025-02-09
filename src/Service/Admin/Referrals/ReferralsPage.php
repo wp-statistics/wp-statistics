@@ -80,11 +80,13 @@ class ReferralsPage extends MultiViewPage
                 ],
             ])
             ->button('resetButton', [
+                'name' => 'reset',
                 'type' => 'button',
                 'classes' => 'wps-reset-filter wps-modal-reset-filter',
                 'label' => esc_html__('Reset', 'wp-statistics'),
             ])
             ->button('submitButton', [
+                'name' => 'filter',
                 'type' => 'button',
                 'classes' => 'button-primary',
                 'label' => esc_html__('Filter', 'wp-statistics'),
