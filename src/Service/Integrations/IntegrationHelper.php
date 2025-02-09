@@ -47,10 +47,10 @@ class IntegrationHelper
     {
         $integrations = [];
 
-        foreach (self::$integrations as $name => $class) {
+        foreach (self::$integrations as $class) {
             $integration = new $class();
 
-            $integrations[$name] = $integration;
+            $integrations[] = $integration;
         }
 
         return $integrations;
@@ -63,11 +63,11 @@ class IntegrationHelper
      */
     public static function getActiveIntegration()
     {
-        $selectedIntegration = Option::get('consent_integration');
-        $selectedIntegration = self::getIntegration($selectedIntegration);
+        $integration = Option::get('consent_integration');
+        $integration = self::getIntegration($integration);
 
-        return !empty($selectedIntegration) && $selectedIntegration->isActive()
-            ? $selectedIntegration
+        return !empty($integration) && $integration->isActive()
+            ? $integration
             : false;
     }
 
@@ -128,9 +128,8 @@ class IntegrationHelper
      */
     public static function shouldTrackAnonymously()
     {
-        $integration    = self::getActiveIntegration();
-        $isConsentGiven = self::isConsentGiven();
+        $integration = self::getActiveIntegration();
 
-        return !empty($integration) && $integration->trackAnonymously() && !$isConsentGiven;
+        return !empty($integration) && $integration->trackAnonymously() && !$integration->hasConsent();
     }
 }
