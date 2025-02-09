@@ -61,6 +61,15 @@ class Query
         return $instance;
     }
 
+    public static function delete($table)
+    {
+        $instance            = new self();
+        $instance->operation = 'delete';
+        $instance->table     = $instance->getTable($table);
+
+        return $instance;
+    }
+
     public static function insert($table)
     {
         $instance            = new self();
@@ -722,6 +731,24 @@ class Query
         if (!empty($this->setClauses)) {
             $query .= ' SET ' . implode(', ', $this->setClauses);
         }
+
+        // Append WHERE clauses
+        $whereClauses = array_filter($this->whereClauses);
+        if (!empty($whereClauses)) {
+            $query .= ' WHERE ' . implode(" $this->whereRelation ", $whereClauses);
+        }
+
+        if (!empty($this->rawWhereClause)) {
+            $query .= empty($this->whereClauses) ? ' WHERE ' : ' ';
+            $query .= implode(' ', $this->rawWhereClause);
+        }
+
+        return $query;
+    }
+
+    protected function deleteQuery()
+    {
+        $query = "DELETE FROM $this->table";
 
         // Append WHERE clauses
         $whereClauses = array_filter($this->whereClauses);
