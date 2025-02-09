@@ -79,8 +79,8 @@ class IntegrationHelper
      */
     public static function isIntegrationActive($integration)
     {
-        $activeIntegration = Option::get('consent_integration');
-        return $activeIntegration === $integration;
+        $activeIntegration = self::getActiveIntegration();
+        return !empty($activeIntegration) && ($activeIntegration->getKey() === $integration);
     }
 
     /**
