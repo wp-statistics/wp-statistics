@@ -675,7 +675,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 fill: false,
                 yAxisID: datasetType === 'bar' ? 'y1' : 'y', // Use y1 for bar, y for line
                 borderWidth: datasetType === 'line' ? 2 : undefined, // Only for line
-                pointRadius: datasetType === 'line' ? 0 : undefined, // Only for line
+                pointRadius: datasetType === 'line' ? isSingleDataPoint ? 5 : 0 : undefined, // Only for line
                 pointBorderColor: datasetType === 'line' ? 'transparent' : undefined, // Only for line
                 pointBackgroundColor: datasetType === 'line' ? chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx + 1}`] : undefined, // Only for line
                 pointBorderWidth: datasetType === 'line' ? 2 : undefined, // Only for line
