@@ -69,7 +69,7 @@ class Frontend
                     'consentIntegration'   => IntegrationHelper::getIntegrationStatus(),
                     'isPreview'            => is_preview(),
 
-                    // legacy params for backward compatibility
+                    // legacy params for backward compatibility (with older versions of DataPlus)
                     'trackAnonymously'     => IntegrationHelper::shouldTrackAnonymously(),
                     'isWpConsentApiActive' => IntegrationHelper::isIntegrationActive('wp_consent_api'),
                     'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
