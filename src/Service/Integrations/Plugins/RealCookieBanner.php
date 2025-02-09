@@ -50,7 +50,7 @@ class RealCookieBanner extends AbstractIntegration
         $baseConsent            = wp_rcb_consent_given('wp-statistics');
         $dataProcessingConsent  = wp_rcb_consent_given('wp-statistics-with-data-processing');
 
-        return !empty($baseConsent['consentGiven']) && !empty($dataProcessingConsent['consentGiven']);
+        return !empty($baseConsent['cookieOptIn']) && !empty($dataProcessingConsent['cookieOptIn']);
     }
 
     public function handleIntegration($integration)
