@@ -718,7 +718,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                     yAxisID: 'y',
                     borderWidth: 1,
                     borderDash: [5, 5],
-                    pointRadius: 0,
+                    pointRadius: prevDateLabels.length === 1 ? 5 : 0,
                     pointBorderColor: 'transparent',
                     pointBackgroundColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx + 1}`],
                     pointBorderWidth: 2,
