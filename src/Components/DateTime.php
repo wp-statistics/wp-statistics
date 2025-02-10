@@ -136,10 +136,11 @@ class DateTime
 
         // If the date is numeric, treat it as a Unix timestamp
         if (is_numeric($date)) {
-            $date = "@$date";
+            $dateTime = new \DateTime('@' . $date, new \DateTimeZone('UTC'));
+            $dateTime->setTimezone(self::getTimezone());
+        } else {
+            $dateTime = new \DateTime($date, self::getTimezone());
         }
-
-        $dateTime = new \DateTime($date, self::getTimezone());
 
         $format = $args['date_format'];
         if ($args['include_time'] === true) {
