@@ -9,6 +9,8 @@ use WP_Statistics\Service\Admin\Database\Operations\Create;
 use WP_Statistics\Service\Admin\Database\Operations\Drop;
 use WP_Statistics\Service\Admin\Database\Operations\Insert;
 use WP_Statistics\Service\Admin\Database\Operations\Inspect;
+use WP_Statistics\Service\Admin\Database\Operations\MultiStepOps\VisitorSearchInsert;
+use WP_Statistics\Service\Admin\Database\Operations\Select;
 use WP_Statistics\Service\Admin\Database\Operations\Update;
 
 /**
@@ -25,11 +27,13 @@ class DatabaseFactory
      * @var array
      */
     private static $operations = [
-        'create'  => Create::class,
-        'update'  => Update::class,
-        'drop'    => Drop::class,
-        'inspect' => Inspect::class,
-        'insert'  => Insert::class,
+        'create'                => Create::class,
+        'update'                => Update::class,
+        'drop'                  => Drop::class,
+        'inspect'               => Inspect::class,
+        'insert'                => Insert::class,
+        'select'                => Select::class,
+        'visitor_search_insert' => VisitorSearchInsert::class
     ];
 
     /**

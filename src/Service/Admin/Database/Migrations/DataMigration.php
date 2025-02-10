@@ -2,6 +2,9 @@
 
 namespace WP_Statistics\Service\Admin\Database\Migrations;
 
+use Exception;
+use WP_Statistics\Service\Admin\Database\DatabaseFactory;
+
 /**
  * Manages migrations related to database data.
  */
@@ -41,5 +44,61 @@ class DataMigration extends AbstractMigrationOperation
      * 
      * @var array
      */
-    protected $migrationSteps = [];
+    protected $migrationSteps = [
+        '14.12.5' => [
+            'addFirstAndLastPageData',
+        ],
+    ];
+
+    /**
+     * Adds first and last page visit data for each visitor.
+     *
+     * @return array
+     */
+    public function addFirstAndLastPageData() {
+        try {
+            $this->ensureConnection();
+
+            $tasks     = [];
+            $batchSize = 50;
+
+            $inspect = DatabaseFactory::table('inspect')
+                ->setName('visitor')
+                ->execute();
+
+            if (!$inspect->getResult()) {
+                return $tasks;
+            }
+
+            $allVisitors = DatabaseFactory::table('select')
+                ->setName('visitor_relationships')
+                ->setArgs([
+                    'columns'  => ['DISTINCT visitor_id'],
+                    'order_by' => 'visitor_id ASC',
+                ])
+                ->execute()
+                ->getResult();
+            
+            if (!$allVisitors) {
+                return $tasks;
+            }
+            
+            $visitorIds = array_column($allVisitors, 'visitor_id');
+        
+            $totalVisitors = count($visitorIds);
+            $batches = ceil($totalVisitors / $batchSize);
+
+            for ($batch = 0; $batch < $batches; $batch++) {
+                $offset = $batch * $batchSize;
+                $currentBatch = array_slice($visitorIds, $offset, $batchSize);
+        
+                $tasks[] = DatabaseFactory::table('visitor_search_insert')
+                    ->setVisitorIds($currentBatch);
+            }
+
+            return $tasks;
+        } catch(Exception $e) {
+            $this->setErrorStatus($e->getMessage());
+        }
+    }
 }

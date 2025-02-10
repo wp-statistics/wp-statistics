@@ -63,10 +63,10 @@ class SchemaMigration extends AbstractMigrationOperation
                 ->setName('visitor')
                 ->setArgs([
                     'add' => [
-                        'first_page'     => 'bigint(20) DEFAULT NULL',
-                        'first_view'     => 'datetime DEFAULT NULL',
-                        'last_page'      => 'bigint(20) DEFAULT NULL',
-                        'last_view'      => 'datetime DEFAULT NULL'
+                        'first_page' => 'bigint(20) DEFAULT NULL',
+                        'first_view' => 'datetime DEFAULT NULL',
+                        'last_page'  => 'bigint(20) DEFAULT NULL',
+                        'last_view'  => 'datetime DEFAULT NULL'
                     ]
                 ])
                 ->execute();
