@@ -674,16 +674,16 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 backgroundColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx + 1}`],
                 fill: false,
                 yAxisID: datasetType === 'bar' ? 'y1' : 'y', // Use y1 for bar, y for line
-                borderWidth: datasetType === 'line' ? 2 : undefined, // Only for line
-                pointRadius: datasetType === 'line' ? isSingleDataPoint ? 5 : 0 : undefined, // Only for line
-                pointBorderColor: datasetType === 'line' ? 'transparent' : undefined, // Only for line
-                pointBackgroundColor: datasetType === 'line' ? chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx + 1}`] : undefined, // Only for line
-                pointBorderWidth: datasetType === 'line' ? 2 : undefined, // Only for line
-                hoverPointRadius: datasetType === 'line' ? 6 : undefined, // Only for line
-                hoverPointBorderColor: datasetType === 'line' ? '#fff' : undefined, // Only for line
+                borderWidth: datasetType === 'line' ? 2 : undefined,
+                pointRadius: datasetType === 'line' ? dateLabels.length === 1 ? 5 : 0 : undefined,
+                pointBorderColor: datasetType === 'line' ? 'transparent' : undefined,
+                pointBackgroundColor: datasetType === 'line' ? chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx + 1}`] : undefined,
+                pointBorderWidth: datasetType === 'line' ? 2 : undefined,
+                hoverPointRadius: datasetType === 'line' ? 6 : undefined,
+                hoverPointBorderColor: datasetType === 'line' ? '#fff' : undefined,
                 hoverPointBackgroundColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx + 1}`],
-                hoverPointBorderWidth: datasetType === 'line' ? 4 : undefined, // Only for line
-                tension: datasetType === 'line' ? chartTensionValues[idx % chartTensionValues.length] : undefined, // Only for line
+                hoverPointBorderWidth: datasetType === 'line' ? 4 : undefined,
+                tension: datasetType === 'line' ? chartTensionValues[idx % chartTensionValues.length] : undefined,
                 hitRadius: 10,
                 meta: {
                     incompletePeriods: aggregatedData.isIncompletePeriod || []
@@ -718,7 +718,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                     yAxisID: 'y',
                     borderWidth: 1,
                     borderDash: [5, 5],
-                    pointRadius: prevDateLabels.length === 1 ? 5 : 0,
+                    pointRadius: aggregatedData.aggregatedLabels.length === 1 ? 5 : 0,
                     pointBorderColor: 'transparent',
                     pointBackgroundColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx + 1}`],
                     pointBorderWidth: 2,
@@ -1030,4 +1030,3 @@ document.body.addEventListener('click', function (event) {
         });
     }
 });
-
