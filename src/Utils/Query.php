@@ -125,7 +125,10 @@ class Query
                 }
             }
 
-            $this->valuesToPrepare = array_merge(array_keys($values), array_values($values));
+            $this->valuesToPrepare = array_merge(
+                array_keys($values), // Identifiers
+                array_values(array_filter($values)) // Values (excluding empty values)
+            );
 
             $this->setClauses['identifiers'] = $identifiers;
             $this->setClauses['values']      = $placeholders;
