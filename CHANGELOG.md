@@ -1,3 +1,6 @@
+= 14.12.x =
+- **Fix:** Fixed empty chart issue when selecting a 1-day range.
+
 = 14.12.4 - 2025-02-06 =
 - **Fix:** Fixed issues with Dashboard charts not loading due to an empty metalist and metaboxes not loading in specific cases.
 
