@@ -130,6 +130,6 @@ class IntegrationHelper
     {
         $integration = self::getActiveIntegration();
 
-        return !empty($integration) && $integration->trackAnonymously() && !$integration->hasConsent();
+        return !empty($integration) && $integration->trackAnonymously();
     }
 }

@@ -23,11 +23,6 @@ class RealCookieBanner extends AbstractIntegration
         return class_exists(\DevOwl\RealCookieBanner\Core::class);
     }
 
-    public function trackAnonymously()
-    {
-        return !$this->hasConsent();
-    }
-
     public function register()
     {
         add_action('wp_statistics_save_settings', [$this, 'clearTemplateCache']);
@@ -41,6 +36,21 @@ class RealCookieBanner extends AbstractIntegration
         }
     }
 
+    public function trackAnonymously()
+    {
+        if (!function_exists('wp_rcb_consent_given')) {
+            return true;
+        }
+
+        $baseConsent            = wp_rcb_consent_given('wp-statistics');
+        $dataProcessingConsent  = wp_rcb_consent_given('wp-statistics-with-data-processing');
+
+        $baseConsent            = $baseConsent['cookieOptIn'];
+        $dataProcessingConsent  = $dataProcessingConsent['cookieOptIn'];
+
+        return $baseConsent && !$dataProcessingConsent;
+    }
+
     public function hasConsent()
     {
         if (!function_exists('wp_rcb_consent_given')) {
@@ -50,7 +60,10 @@ class RealCookieBanner extends AbstractIntegration
         $baseConsent            = wp_rcb_consent_given('wp-statistics');
         $dataProcessingConsent  = wp_rcb_consent_given('wp-statistics-with-data-processing');
 
-        return !empty($baseConsent['cookieOptIn']) && !empty($dataProcessingConsent['cookieOptIn']);
+        $baseConsent            = $baseConsent['cookieOptIn'];
+        $dataProcessingConsent  = $dataProcessingConsent['cookieOptIn'];
+
+        return $baseConsent || $dataProcessingConsent;
     }
 
     public function handleIntegration($integration)
