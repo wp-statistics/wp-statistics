@@ -1,4 +1,5 @@
-= 14.12.x
+= 14.12.x =
+- **Fix:** Fixed empty chart issue when selecting a 1-day range.
 - **Enhancement:** Online Visitors-related elements are now hidden when "Monitor Online Visitors" is disabled.
 
 = 14.12.4 - 2025-02-06 =
