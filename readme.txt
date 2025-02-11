@@ -1,5 +1,5 @@
 === WP Statistics - The Most Popular Privacy-Friendly Analytics Plugin ===
-Contributors: mostafa.s1990, kashani, veronalabs, GregRoss
+Contributors: veronalabs, mostafa.s1990, kashani, GregRoss
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
