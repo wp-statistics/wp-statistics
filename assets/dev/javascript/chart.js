@@ -22,7 +22,7 @@ wps_js.rgba_to_hex = function (r, g, b, a) {
 }
 
 const chartColors = {
-    'Total': '#27A765', 'Views': '#7362BF', 'Visitors': '#3288D7',
+    'Total': '#27A765', 'Views': '#7362BF', 'Visitors': '#3288D7', 'User Visitors':'#3288D7', 'Anonymous Visitors' :'#7362BF', 'Published Posts' : '#8AC3D0',
     'Posts': '#8AC3D0', 'Other1': '#3288D7', 'Other2': '#7362BF', 'Other3': '#8AC3D0'
 };
 
@@ -377,21 +377,22 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
 
     return {aggregatedLabels, aggregatedData, monthTooltipTitle, isIncompletePeriod};
 }
-
+const sortTotal = (datasets) =>{
+    datasets.sort((a, b) => {
+        if (a.label === 'Total') return -1;
+        if (b.label === 'Total') return 1;
+        if (a.label === 'Total (Previous)') return -1;
+        if (b.label === 'Total (Previous)') return 1;
+        return 0;
+    });
+}
 const updateLegend = (lineChart, datasets, tag_id, data) => {
     const chartElement = document.getElementById(tag_id);
     const legendContainer = chartElement.parentElement.parentElement.querySelector('.wps-postbox-chart--items');
 
     if (legendContainer) {
         legendContainer.innerHTML = '';
-        datasets.sort((a, b) => {
-            if (a.label === 'Total') return -1;
-            if (b.label === 'Total') return 1;
-            if (a.label === 'Total (Previous)') return -1;
-            if (b.label === 'Total (Previous)') return 1;
-            return 0;
-        });
-
+       sortTotal(datasets);
         const previousPeriod = chartElement.parentElement.parentElement.querySelector('.wps-postbox-chart--previousPeriod');
         if (previousPeriod) {
             let foundPrevious = datasets.some(dataset => dataset.label.includes('(Previous)'));
@@ -659,6 +660,8 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
             prevDateLabels = Array(dateLabels.length).fill("N/A");
         }
 
+        sortTotal(data.data.datasets);
+
         const datasets = data.data.datasets.map((dataset, idx) => {
             const datasetType = dataset.type || (type === 'performance' && idx === 2 ? 'bar' : 'line');
 
@@ -666,18 +669,18 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 ...dataset,
                 type: datasetType, // Set the type explicitly
                 data: aggregatedData.aggregatedData[idx],
-                borderColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx + 1}`],
-                backgroundColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx + 1}`],
+                borderColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx}`],
+                backgroundColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx}`],
                 fill: false,
                 yAxisID: datasetType === 'bar' ? 'y1' : 'y', // Use y1 for bar, y for line
                 borderWidth: datasetType === 'line' ? 2 : undefined,
                 pointRadius: datasetType === 'line' ? dateLabels.length === 1 ? 5 : 0 : undefined,
                 pointBorderColor: datasetType === 'line' ? 'transparent' : undefined,
-                pointBackgroundColor: datasetType === 'line' ? chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx + 1}`] : undefined,
+                pointBackgroundColor: datasetType === 'line' ? chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx}`] : undefined,
                 pointBorderWidth: datasetType === 'line' ? 2 : undefined,
                 hoverPointRadius: datasetType === 'line' ? 6 : undefined,
                 hoverPointBorderColor: datasetType === 'line' ? '#fff' : undefined,
-                hoverPointBackgroundColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx + 1}`],
+                hoverPointBackgroundColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx}`],
                 hoverPointBorderWidth: datasetType === 'line' ? 4 : undefined,
                 tension: datasetType === 'line' ? chartTensionValues[idx % chartTensionValues.length] : undefined,
                 hitRadius: 10,
@@ -708,19 +711,19 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                     label: `${dataset.label} (Previous)`,
                     data: prevAggregatedData.aggregatedData[idx],
                     borderColor: wps_js.hex_to_rgba(chartColors[dataset.label] || chartColors[`Other${idx}`], 0.7),
-                    hoverBorderColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx + 1}`],
-                    backgroundColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx + 1}`],
+                    hoverBorderColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx}`],
+                    backgroundColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx}`],
                     fill: false,
                     yAxisID: 'y',
                     borderWidth: 1,
                     borderDash: [5, 5],
                     pointRadius: aggregatedData.aggregatedLabels.length === 1 ? 5 : 0,
                     pointBorderColor: 'transparent',
-                    pointBackgroundColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx + 1}`],
+                    pointBackgroundColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx}`],
                     pointBorderWidth: 2,
                     hoverPointRadius: 6,
                     hoverPointBorderColor: '#fff',
-                    hoverPointBackgroundColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx + 1}`],
+                    hoverPointBackgroundColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx}`],
                     hoverPointBorderWidth: 4,
                     tension: chartTensionValues[idx % chartTensionValues.length],
                     hitRadius: 10
