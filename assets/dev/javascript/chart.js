@@ -399,7 +399,11 @@ const updateLegend = (lineChart, datasets, tag_id, data) => {
             if (foundPrevious) {
                 previousPeriod.style.display = 'flex';
                 previousPeriod.style.cursor = 'pointer';
-                previousPeriod.addEventListener('click', function () {
+                if (previousPeriod._clickHandler) {
+                    previousPeriod.removeEventListener('click', previousPeriod._clickHandler);
+                }
+                previousPeriod._clickHandler = function (e) {
+                    e.stopPropagation()
                     const isPreviousHidden = previousPeriod.classList.contains('wps-line-through');
                     previousPeriod.classList.toggle('wps-line-through');
 
@@ -420,10 +424,10 @@ const updateLegend = (lineChart, datasets, tag_id, data) => {
                     });
 
                     lineChart.update();
-                });
+                };
+                previousPeriod.addEventListener('click', previousPeriod._clickHandler);
             }
         }
-
         datasets.forEach((dataset, index) => {
             const isPrevious = dataset.label.includes('(Previous)');
             if (!isPrevious) {
@@ -613,18 +617,10 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
         const chartElement = document.getElementById(tag_id);
         const chartContainer = chartElement.parentElement.parentElement.querySelector('.wps-postbox-chart--data');
         const previousPeriodElement = chartContainer?.querySelector('.wps-postbox-chart--previousPeriod');
-        const previousDatas = chartContainer?.querySelectorAll('.previous-data');
         if (previousPeriodElement) {
             previousPeriodElement.classList.remove('wps-line-through');
         }
-        previousDatas?.forEach(element => {
-            element.classList.remove('wps-line-through');
-        });
 
-        const currentDatas = chartContainer?.querySelectorAll('.current-data');
-        currentDatas?.forEach(element => {
-            element.classList.remove('wps-line-through');
-        });
 
         const select = document.querySelector(`#${tag_id}`).closest('.o-wrap').querySelector('.js-unitTimeSelect');
         if (select) {
@@ -746,6 +742,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
         lineChart.options.plugins.tooltip.unitTime = unitTime;
         lineChart.options.plugins.tooltip.external = (context) =>
             externalTooltipHandler(context, realdata, dateLabels, prevDateLabels, monthTooltip, prevMonthTooltip);
+        updateLegend(lineChart, datasets, tag_id, data);
         lineChart.update();
     }
 
@@ -972,8 +969,6 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
         plugins: [drawVerticalLinePlugin],
         options: Object.assign({}, defaultOptions, newOptions)
     });
-
-    updateLegend(lineChart, datasets, tag_id, data);
 
     // Example usage:
     updateChart(unitTime);
