@@ -39,7 +39,7 @@ class RealCookieBanner extends AbstractIntegration
     public function trackAnonymously()
     {
         if (!function_exists('wp_rcb_consent_given')) {
-            return true;
+            return false;
         }
 
         $baseConsent            = wp_rcb_consent_given('wp-statistics');
