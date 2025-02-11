@@ -392,8 +392,7 @@ const updateLegend = (lineChart, datasets, tag_id, data) => {
 
     if (legendContainer) {
         legendContainer.innerHTML = '';
-       sortTotal(datasets);
-        const previousPeriod = chartElement.parentElement.parentElement.querySelector('.wps-postbox-chart--previousPeriod');
+         const previousPeriod = chartElement.parentElement.parentElement.querySelector('.wps-postbox-chart--previousPeriod');
         if (previousPeriod) {
             let foundPrevious = datasets.some(dataset => dataset.label.includes('(Previous)'));
 
@@ -530,6 +529,7 @@ const getDisplayTextForUnitTime = (unitTime, tag_id) => {
 }
 
 wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line') {
+    sortTotal(data.data.datasets);
 
     const realdata = deepCopy(data);
     const phpDateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
@@ -614,7 +614,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
     }
 
     function updateChart(unitTime) {
-        const displayText = getDisplayTextForUnitTime(unitTime, tag_id);
+         const displayText = getDisplayTextForUnitTime(unitTime, tag_id);
         const chartElement = document.getElementById(tag_id);
         const chartContainer = chartElement.parentElement.parentElement.querySelector('.wps-postbox-chart--data');
         const previousPeriodElement = chartContainer?.querySelector('.wps-postbox-chart--previousPeriod');
@@ -660,7 +660,6 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
             prevDateLabels = Array(dateLabels.length).fill("N/A");
         }
 
-        sortTotal(data.data.datasets);
 
         const datasets = data.data.datasets.map((dataset, idx) => {
             const datasetType = dataset.type || (type === 'performance' && idx === 2 ? 'bar' : 'line');
