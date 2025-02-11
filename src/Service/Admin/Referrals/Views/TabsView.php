@@ -140,7 +140,7 @@ class TabsView extends BaseTabView
 
             // Remove source channels filter if tab is source categories or utm-performance or campaigns
             if ($this->isTab(['source-categories', 'utm-performance', 'campaigns'])) {
-                $args['filters'] = array_values(array_diff($args['filters'], ['source-channels']));
+                $args['filters'] = array_diff($args['filters'], ['source-channels']);
             }
 
             // Add search channels filter if tab is search engines
