@@ -1,26 +1,39 @@
-<div class="wps-notification-sidebar__card">
-    <div class="wps-notification-sidebar__card-icon">
-        <img src="<?php echo esc_url($icon) ?>">
-    </div>
+<div class="wps-notification-sidebar__card wps-notification-<?php echo esc_attr($notification->getID()) ?>">
+    <?php if ($notification->getIcon()): ?>
+        <div class="wps-notification-sidebar__card-icon">
+            <?php echo esc_html($notification->getIcon()); ?>
+        </div>
+    <?php endif; ?>
     <div class="wps-notification-sidebar__card-body">
         <div class="wps-notification-sidebar__card-title">
-            <div><?php echo esc_html($title) ?></div>
-            <div class="wps-notification-sidebar__card-date"><?php echo esc_html($date) ?></div>
-        </div>
-        <div class="wps-notification-sidebar__card-content">
-            <?php echo $content ?>
-        </div>
-        <div class="wps-notification-sidebar__card-actions">
-            <?php if (!empty($actions)) : ?>
-                <?php foreach ($actions as $action) : ?>
-                    <a href="<?php echo esc_url($action['href']); ?>" class="<?php echo esc_attr($action['class']); ?>">
-                        <?php echo esc_html($action['title']); ?>
-                    </a>
-                <?php endforeach; ?>
+            <?php if ($notification->getTitle()): ?>
+                <div><?php echo esc_html($notification->getTitle()) ?></div>
             <?php endif; ?>
-            <a href="" class="wps-notification-sidebar__dismiss">
-                <?php echo esc_html_e('Dismiss', 'wp-statistics'); ?>
-            </a>
+            <?php if ($notification->activatedAt()): ?>
+                <div class="wps-notification-sidebar__card-date"><?php echo esc_html($notification->activatedAt()) ?></div>
+            <?php endif; ?>
+        </div>
+        <?php if ($notification->getDescription()): ?>
+            <div class="wps-notification-sidebar__card-content">
+                <?php echo $notification->getDescription() ?>
+            </div>
+        <?php endif; ?>
+        <div class="wps-notification-sidebar__card-actions">
+            <?php if ($notification->primaryButtonTitle() && $notification->primaryButtonUrl()): ?>
+                <a href="<?php echo esc_url($notification->primaryButtonUrl()); ?>" class="wps-notification-sidebar__button">
+                    <?php echo esc_html($notification->primaryButtonTitle()); ?>
+                </a>
+            <?php endif; ?>
+            <?php if ($notification->secondaryButtonTitle() && $notification->secondaryButtonUrl()): ?>
+                <a href="<?php echo esc_url($notification->secondaryButtonUrl()); ?>" class="wps-notification-sidebar__button">
+                    <?php echo esc_html($notification->secondaryButtonTitle()); ?>
+                </a>
+            <?php endif; ?>
+            <?php if (!$notification->getDismiss()): ?>
+                <a href="#" class="wps-notification-sidebar__dismiss" data-notification-id="<?php echo esc_attr($notification->getID()); ?>">
+                    <?php echo esc_html__('Dismiss', 'wp-statistics'); ?>
+                </a>
+            <?php endif; ?>
         </div>
     </div>
 </div>
