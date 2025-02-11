@@ -76,9 +76,9 @@ $pageKey = $pageKey['page_url'];
         <ul class="wps-tabs">
             <?php foreach ($tabs as $tab) { ?>
                 <?php
-                    $tabKey   = Url::getParam($tab['link'], 'tab');
-                    $isLocked = !empty($tab['locked']);
-                    $isLocked = apply_filters("wp_statistics_{$pageKey}_{$tabKey}_locked", $isLocked);
+                    $tabKey         = Url::getParam($tab['link'], 'tab');
+                    $tab['locked']  = apply_filters("wp_statistics_{$pageKey}_{$tabKey}_locked", $tab['locked'] ?? false);
+                    $tab['tooltip'] = apply_filters("wp_statistics_{$pageKey}_{$tabKey}_tooltip", $tab['tooltip'] ?? '');
                 ?>
 
                 <?php if (!empty($tab['hidden'])) continue; ?>
@@ -86,7 +86,7 @@ $pageKey = $pageKey['page_url'];
                 <li class="wps-tab-link <?php echo esc_attr($tab['class']); ?>">
                     <?php if (isset($tab['coming_soon'])): ?>
                         <span class="wps-tooltip wps-tooltip--coming_soon" title="<?php echo esc_html__('Coming soon', 'wp-statistics') ?>"><?php echo esc_html($tab['title']); ?> <i class="wps-tooltip-icon coming-soon"></i></span>
-                    <?php elseif ($isLocked) : ?>
+                    <?php elseif ($tab['locked']) : ?>
                         <a  data-target="wp-statistics-data-plus"  class="js-wps-openPremiumModal wps-locked">
                             <?php echo esc_html($tab['title']); ?>
                             <?php if (!empty($tab['tooltip'])) : ?>
