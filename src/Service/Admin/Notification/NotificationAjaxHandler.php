@@ -15,7 +15,7 @@ class NotificationAjaxHandler
      *
      * @return void Outputs JSON response and exits execution.
      */
-    public function dismissNotification_action_callback()
+    public function dismissNotificationActionCallback()
     {
         check_ajax_referer('wp_rest', 'wps_nonce');
 

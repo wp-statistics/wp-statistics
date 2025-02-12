@@ -14,9 +14,9 @@ function moveFeedbackBird() {
             license.parentNode.insertBefore(cutDiv, license);
         } else {
             const cutDiv = feedbackBird.parentNode.removeChild(feedbackBird);
-            if(notification){
+            if (notification) {
                 notification.parentNode.insertBefore(cutDiv, notification);
-            }else{
+            } else {
                 support.appendChild(cutDiv);
             }
         }
@@ -100,7 +100,7 @@ if (wpsNotificationButtons.length > 0 && wpsSidebar && wpsOverlay) {
         wpsOverlay.classList.remove('is-active');
         body.classList.remove('wps-no-scroll');
     });
-    if(wpsCloseNotificationMenu){
+    if (wpsCloseNotificationMenu) {
         wpsCloseNotificationMenu.addEventListener('click', function () {
             wpsSidebar.classList.remove('is-active');
             wpsOverlay.classList.remove('is-active');

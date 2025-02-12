@@ -13,9 +13,19 @@ jQuery(document).ready(function () {
             notificationId = 'all';
         }
 
+        if (notificationId === 'all') {
+            jQuery('.wps-notification-sidebar__card').fadeOut(300, function () {
+                jQuery(this).remove();
+            });
+        } else {
+            $this.closest('.wps-notification-sidebar__card').fadeOut(300, function () {
+                jQuery(this).remove();
+            });
+        }
+
         let params = {
             'wps_nonce': wps_js.global.rest_api_nonce,
-            'action': 'wp_statistics_dismissNotification',
+            'action': 'wp_statistics_dismiss_notification',
             'notification_id': notificationId
         }
 
@@ -26,18 +36,7 @@ jQuery(document).ready(function () {
             data: params,
             timeout: 30000,
             success: function ({data, success}) {
-
-                if (success) {
-                    if (notificationId === 'all') {
-                        jQuery('.wps-notification-sidebar__card').fadeOut(300, function () {
-                            jQuery(this).remove();
-                        });
-                    } else {
-                        $this.closest('.wps-notification-sidebar__card').fadeOut(300, function () {
-                            jQuery(this).remove();
-                        });
-                    }
-                } else {
+                if (!success) {
                     console.log(data);
                 }
             },
