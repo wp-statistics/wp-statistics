@@ -184,6 +184,8 @@ class Install
             return;
         }
 
+        TableHandler::createAllTables();
+        
         $userOnlineTable      = DB::table('useronline');
         $pagesTable           = DB::table('pages');
         $visitorTable         = DB::table('visitor');
