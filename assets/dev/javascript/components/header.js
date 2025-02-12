@@ -108,6 +108,4 @@ if (wpsNotificationButtons.length > 0 && wpsSidebar && wpsOverlay) {
         });
     }
 
-} else {
-    console.error('One or more elements are missing in the DOM.');
 }

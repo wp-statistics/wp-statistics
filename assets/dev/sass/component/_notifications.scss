@@ -186,15 +186,18 @@ body.admin-bar .wps-notification-sidebar {
     border-bottom: 1px solid #EEEFF1;
     display: flex;
     gap: 16px;
+    box-sizing: border-box;
 
     &:last-child {
       border-bottom: 0;
     }
+
   }
 
   &__card-icon {
     min-width: 35px;
     display: inline-block;
+    font-size: 18px;
 
     svg, img {
       width: 35px;
@@ -206,7 +209,7 @@ body.admin-bar .wps-notification-sidebar {
   }
 
   &__card-body {
-    // Styles for the card body
+    width: 100%;
   }
 
   &__card-title {
