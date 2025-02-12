@@ -600,42 +600,6 @@ class VisitorsModel extends BaseModel
             'per_page'          => '',
         ]);
 
-        $firstHit = Query::select([
-            'MIN(ID) as ID',
-            'visitor_id'
-        ])
-            ->from('visitor_relationships')
-            ->groupBy('visitor_id')
-            ->getQuery();
-
-        $firstHitQuery = Query::select([
-            'visitor_relationships.visitor_id',
-            'page_id',
-            'date'
-        ])
-            ->from('visitor_relationships')
-            ->whereRaw("(ID, visitor_id) IN ($firstHit)")
-            ->groupBy('visitor_id')
-            ->getQuery();
-
-        $lastHit = Query::select([
-            'visitor_id',
-            'MAX(date) as date'
-        ])
-            ->from('visitor_relationships')
-            ->groupBy('visitor_id')
-            ->getQuery();
-
-        $lastHitQuery = Query::select([
-            'visitor_relationships.visitor_id',
-            'page_id',
-            'date'
-        ])
-            ->from('visitor_relationships')
-            ->whereRaw("(visitor_id, date) IN ($lastHit)")
-            ->groupBy('visitor_id')
-            ->getQuery();
-
         $query = Query::select([
             'visitor.ID',
             'visitor.ip',
@@ -655,15 +619,13 @@ class VisitorsModel extends BaseModel
             'visitor.source_name',
             'users.display_name',
             'users.user_email',
-            'first_hit.page_id as first_page',
-            'first_hit.date as first_view',
-            'last_hit.page_id as last_page',
-            'last_hit.date as last_view'
+            'visitor.first_page',
+            'visitor.first_view',
+            'visitor.last_page',
+            'visitor.last_view'
         ])
             ->from('visitor')
             ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
-            ->joinQuery($firstHitQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit', 'LEFT')
-            ->joinQuery($lastHitQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit', 'LEFT')
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
             ->whereNotNull('visitor.referred')
