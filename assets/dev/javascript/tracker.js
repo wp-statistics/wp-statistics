@@ -56,14 +56,15 @@ function handleRealCookieBannerIntegration() {
             WpStatisticsEventTracker.init();
         })
         .catch(() => {
-            // In case the user has not given base consent, but given data-processing consent
-            (window.consentApi?.consent("wp-statistics-with-data-processing"))
-                .then(() => {
-                    WpStatisticsUserTracker.init();
-                    WpStatisticsEventTracker.init();
-                })
-                .catch(() => {
-                    console.log("WP Statistics: Real Cookie Banner consent is not given to track visitor information.");
-                });
+            // In case the user has not given base consent,
+            // check if they have given consent for data processing service
+            const dataProcessing = window.consentApi?.consentSync("wp-statistics-with-data-processing");
+
+            if (dataProcessing.cookie != null && dataProcessing.cookieOptIn) {
+                WpStatisticsUserTracker.init();
+                WpStatisticsEventTracker.init();
+            } else {
+                console.log("WP Statistics: Real Cookie Banner consent is not given to track visitor information.");
+            }
         });
 }
