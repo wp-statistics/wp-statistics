@@ -61,10 +61,8 @@ class NotificationFetcher
 
             return true;
         } catch (Exception $e) {
-            throw new Exception(
-            // translators: %s: Error message.
-                sprintf(__('Unable to retrieve notification list from the remote server, %s. Please check the remote server connection or your remote work configuration.', 'wp-statistics'), $e->getMessage())
-            );
+            WP_Statistics()->log($e->getMessage(), 'error');
+            return false;
         }
     }
 }
