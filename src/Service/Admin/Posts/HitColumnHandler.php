@@ -299,6 +299,8 @@ class HitColumnHandler
         // Change `resource_type` parameter if it's a term
         if (!empty($term)) {
             $hitArgs['resource_type'] = $this->getCache('postType');
+        } else {
+            $hitArgs['date']['from'] = get_post_time('Y-m-d', false, $objectId);
         }
 
         if ($this->miniChartHelper->getCountDisplay() === 'date_range') {
@@ -368,7 +370,7 @@ class HitColumnHandler
             $analyticsUrl = Menus::admin_url('content-analytics', [
                 'post_id' => $objectId,
                 'type'    => 'single',
-                'from'    => get_post_time('Y-m-d', false, $objectId),
+                'from'    => Request::get('from', $this->getCache('hitArgs')['date']['from']),
                 'to'      => Request::get('to', $this->getCache('hitArgs')['date']['to']),
             ]);
             if ($isTerm) {
