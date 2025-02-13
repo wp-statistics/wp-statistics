@@ -18,7 +18,8 @@ class PostsModel extends BaseModel
             'author_id'             => '',
             'taxonomy'              => '',
             'term'                  => '',
-            'filter_by_view_date'   => false
+            'filter_by_view_date'   => false,
+            'url'                   => ''
         ]);
 
         $query = Query::select('COUNT(posts.ID)')
@@ -31,6 +32,7 @@ class PostsModel extends BaseModel
         if ($args['filter_by_view_date'] == true) {
             $viewsQuery = Query::select(['pages.id', 'SUM(pages.count) AS views'])
                 ->from('pages')
+                ->where('uri', 'LIKE', "%{$args['url']}%")
                 ->whereDate('pages.date', $args['date'])
                 ->groupBy('pages.id')
                 ->getQuery();
@@ -190,7 +192,8 @@ class PostsModel extends BaseModel
             'order'         => 'DESC',
             'page'          => 1,
             'per_page'      => 5,
-            'author_id'     => ''
+            'author_id'     => '',
+            'url'           => ''
         ]);
 
         $commentsQuery = Query::select(['comment_post_ID', 'COUNT(comment_ID) AS total_comments'])
@@ -211,20 +214,21 @@ class PostsModel extends BaseModel
         $viewsQuery = Query::select(['pages.id', 'SUM(pages.count) AS views'])
             ->from('pages')
             ->where('type', 'IN', $args['resource_type'])
+            ->where('uri', 'LIKE', "%{$args['url']}%")
             ->whereDate('pages.date', $args['date'])
             ->groupBy('pages.id')
             ->getQuery();
 
         $result = Query::select([
-                'posts.ID AS post_id',
-                'posts.post_author AS author_id',
-                'posts.post_title AS title',
-                'posts.post_date AS date',
-                'COALESCE(pages.views, 0) AS views',
-                'COALESCE(visitors.visitors, 0) AS visitors',
-                'COALESCE(comments.total_comments, 0) AS comments',
-                "CAST(MAX(CASE WHEN postmeta.meta_key = 'wp_statistics_words_count' THEN postmeta.meta_value ELSE 0 END) AS UNSIGNED) AS words"
-            ])
+            'posts.ID AS post_id',
+            'posts.post_author AS author_id',
+            'posts.post_title AS title',
+            'posts.post_date AS date',
+            'COALESCE(pages.views, 0) AS views',
+            'COALESCE(visitors.visitors, 0) AS visitors',
+            'COALESCE(comments.total_comments, 0) AS comments',
+            "CAST(MAX(CASE WHEN postmeta.meta_key = 'wp_statistics_words_count' THEN postmeta.meta_value ELSE 0 END) AS UNSIGNED) AS words"
+        ])
             ->from('posts')
             ->joinQuery($commentsQuery, ['posts.ID', 'comments.comment_post_ID'], 'comments', 'LEFT')
             ->joinQuery($viewsQuery, ['posts.ID', 'pages.id'], 'pages')
@@ -266,12 +270,12 @@ class PostsModel extends BaseModel
             ->getQuery();
 
         $query = Query::select([
-                'posts.ID',
-                'posts.post_author',
-                'posts.post_title',
-                'posts.post_date',
-                'COALESCE(pages.views, 0) AS views',
-            ])
+            'posts.ID',
+            'posts.post_author',
+            'posts.post_title',
+            'posts.post_date',
+            'COALESCE(pages.views, 0) AS views',
+        ])
             ->from('posts')
             ->joinQuery($viewsQuery, ['posts.ID', 'pages.id'], 'pages', $joinType)
             ->where('post_type', 'IN', $args['post_type'])
@@ -314,11 +318,11 @@ class PostsModel extends BaseModel
         ]);
 
         $query = Query::select([
-                'posts.ID',
-                'posts.post_author',
-                'posts.post_title',
-                'COALESCE(COUNT(comment_ID), 0) AS comments',
-            ])
+            'posts.ID',
+            'posts.post_author',
+            'posts.post_title',
+            'COALESCE(COUNT(comment_ID), 0) AS comments',
+        ])
             ->from('posts')
             ->join('comments', ['posts.ID', 'comments.comment_post_ID'])
             ->where('post_type', 'IN', $args['post_type'])
@@ -361,11 +365,11 @@ class PostsModel extends BaseModel
         ]);
 
         $result = Query::select([
-                'posts.ID',
-                'posts.post_author',
-                'posts.post_title',
-                "MAX(CASE WHEN postmeta.meta_key = 'wp_statistics_words_count' THEN postmeta.meta_value ELSE 0 END) AS words",
-            ])
+            'posts.ID',
+            'posts.post_author',
+            'posts.post_title',
+            "MAX(CASE WHEN postmeta.meta_key = 'wp_statistics_words_count' THEN postmeta.meta_value ELSE 0 END) AS words",
+        ])
             ->from('posts')
             ->join('postmeta', ['posts.ID', 'postmeta.post_id'], [], 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])

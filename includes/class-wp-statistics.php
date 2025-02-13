@@ -19,6 +19,7 @@ use WP_Statistics\Service\Integrations\IntegrationsManager;
 use WP_Statistics\Service\Admin\Devices\DevicesManager;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagementManager;
 use WP_Statistics\Service\Admin\Exclusions\ExclusionsManager;
+use WP_Statistics\Service\Admin\FilterHandler\FilterManager;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsManager;
 use WP_Statistics\Service\Admin\PageInsights\PageInsightsManager;
 use WP_Statistics\Service\Admin\Referrals\ReferralsManager;
@@ -72,6 +73,11 @@ final class WP_Statistics
          * Install And Upgrade plugin
          */
         register_activation_hook(WP_STATISTICS_MAIN_FILE, array('WP_Statistics', 'install'));
+
+        /**
+         * Remove plugin data
+         */
+        register_uninstall_hook(WP_STATISTICS_MAIN_FILE, ['WP_Statistics', 'uninstall']);
 
         /**
          * wp-statistics loaded
@@ -193,6 +199,7 @@ final class WP_Statistics
             $overviewManager     = new OverviewManager();
             $metaboxManager      = new MetaboxManager();
             $exclusionsManager   = new ExclusionsManager();
+            new FilterManager();
         }
 
         $hooksManager = new HooksManager();
@@ -232,6 +239,9 @@ final class WP_Statistics
         $this->registerBackgroundProcess(IncompleteGeoIpUpdater::class, 'update_unknown_visitor_geoip');
         $this->registerBackgroundProcess(GeolocationDatabaseDownloadProcess::class, 'geolocation_database_download');
         $this->registerBackgroundProcess(SourceChannelUpdater::class, 'update_visitors_source_channel');
+        // $this->registerBackgroundProcess(DataMigrationProcess::class, 'data_migration_process');
+        // $this->registerBackgroundProcess(SchemaMigrationProcess::class, 'schema_migration_process');
+        // $this->registerBackgroundProcess(TableOperationProcess::class, 'table_operations_process');
     }
 
     /**
@@ -346,7 +356,10 @@ final class WP_Statistics
     public static function uninstall()
     {
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
+        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-option.php';
+        require_once WP_STATISTICS_DIR . 'src/Components/AssetNameObfuscator.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-uninstall.php';
+
         new \WP_STATISTICS\Uninstall();
     }
 }

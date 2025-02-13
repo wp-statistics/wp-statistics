@@ -140,7 +140,7 @@ class TabsView extends BaseTabView
 
             // Remove source channels filter if tab is source categories or utm-performance or campaigns
             if ($this->isTab(['source-categories', 'utm-performance', 'campaigns'])) {
-                $args['filters'] = array_diff($args['filters'], ['source-channels']);
+                $args['filters'] = array_values(array_diff($args['filters'], ['source-channels']));
             }
 
             // Add search channels filter if tab is search engines
@@ -156,7 +156,7 @@ class TabsView extends BaseTabView
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
             View::load("pages/referrals/$template", $args);
             do_action("wp_statistics_{$this->getCurrentPage()}_{$this->getCurrentTab()}_template", $args);
-            Admin_Template::get_template(['layout/postbox.hide', 'layout/referrer.filter', 'layout/footer'], $args);
+            Admin_Template::get_template(['layout/postbox.hide', 'layout/footer'], $args);
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }

@@ -1,3 +1,24 @@
+= 14.12.3 - 2025-02-05 =
+- **New:** Added an option to permanently delete all plugin data when uninstalling.
+- **New:** Introduced a "URL" filter in Page Insights to refine report results.
+- **Enhancement:** Strengthened privacy protection by upgrading the IP hashing algorithm from SHA-1 to SHA-256.
+- **Enhancement:** Improved chart indicators to better highlight incomplete periods.
+- **Enhancement:** Optimized how scripts are loaded for better performance.
+- **Fix:** Fixed an issue causing the weekly chart to display incorrectly.
+- **Fix:** Resolved inconsistencies in the date range filter and toggle meta settings.
+- **Fix:** Fixed an error in the "Tracker Debugger".
+- **Fix:** Resolved an issue with the option of the dashboard widgets view.
+- **Fix:** Corrected the loading order of metaboxes for a smoother experience.
+
+= 14.12.2 - 2025-01-21 =
+- **New:** Added the ability to change the chart interval.
+- **Enhancement:** Displayed dates in reports using the i18n format for better localization.
+- **Enhancement:** Updated the time display logic in the Tracker Debugger to replace "0 minutes ago" with "Now."
+- **Fix:** Resolved an issue where the Filters option was incorrectly activating when changing the date filter in Referrals.
+- **Fix:** Fixed a bug where user data was lost upon logout for online users.
+- **Fix:** Addressed an issue with updating source channel data on large datasets.
+- **Fix:** Resolved a backward compatibility issue with the "REST API" add-on for Referrals.
+
 = 14.12.1 - 2025-01-13 =
 - **New:** Added "Last Year" filter to metaboxes on the Overview page for yearly data.
 - **Enhancement:** Improved IP/Hash filter on the Visitor Insights page.
