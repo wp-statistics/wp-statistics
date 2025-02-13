@@ -2,7 +2,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     // Add Income Visitor Chart
 
     // Helper function to render a chart or display no results
-    function renderChart(chartId, searchData) {
+    window.renderWPSChart = function (chartId, searchData) {
         const chartElement = document.getElementById(chartId);
 
         if (chartElement) {
@@ -24,157 +24,21 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
     if (typeof Wp_Statistics_Referrals_Object !== 'undefined') {
         const sourceCategoriesData = Wp_Statistics_Referrals_Object.source_category_chart_data;
-        renderChart('sourceCategoriesChart', sourceCategoriesData);
+        renderWPSChart('sourceCategoriesChart', sourceCategoriesData);
 
         const socialMedia = Wp_Statistics_Referrals_Object.social_media_chart_data;
-        renderChart('socialMediaChart', socialMedia);
+        renderWPSChart('socialMediaChart', socialMedia);
 
         const incomeVisitorData = Wp_Statistics_Referrals_Object.search_engine_chart_data;
-        renderChart('incomeVisitorChart', incomeVisitorData);
+        renderWPSChart('incomeVisitorChart', incomeVisitorData);
     }
-
-
-    const campaignsDailyTraffic =  {
-        "data": {
-            "labels": [
-                {
-                    "formatted_date": "Feb 3",
-                    "date": "2025-02-03",
-                    "day": "Monday"
-                },
-                {
-                    "formatted_date": "Feb 4",
-                    "date": "2025-02-04",
-                    "day": "Tuesday"
-                },
-                {
-                    "formatted_date": "Feb 5",
-                    "date": "2025-02-05",
-                    "day": "Wednesday"
-                },
-                {
-                    "formatted_date": "Feb 6",
-                    "date": "2025-02-06",
-                    "day": "Thursday"
-                },
-                {
-                    "formatted_date": "Feb 7",
-                    "date": "2025-02-07",
-                    "day": "Friday"
-                },
-                {
-                    "formatted_date": "Feb 8",
-                    "date": "2025-02-08",
-                    "day": "Saturday"
-                },
-                {
-                    "formatted_date": "Feb 9",
-                    "date": "2025-02-09",
-                    "day": "Sunday"
-                }
-            ],
-            "datasets": [
-                {
-                    "label": "Visitors",
-                    "data": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "label": "Views",
-                    "data": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ]
-        },
-        "previousData": {
-            "labels": [
-                {
-                    "formatted_date": "Jan 27",
-                    "date": "2025-01-27",
-                    "day": "Monday"
-                },
-                {
-                    "formatted_date": "Jan 28",
-                    "date": "2025-01-28",
-                    "day": "Tuesday"
-                },
-                {
-                    "formatted_date": "Jan 29",
-                    "date": "2025-01-29",
-                    "day": "Wednesday"
-                },
-                {
-                    "formatted_date": "Jan 30",
-                    "date": "2025-01-30",
-                    "day": "Thursday"
-                },
-                {
-                    "formatted_date": "Jan 31",
-                    "date": "2025-01-31",
-                    "day": "Friday"
-                },
-                {
-                    "formatted_date": "Feb 1",
-                    "date": "2025-02-01",
-                    "day": "Saturday"
-                },
-                {
-                    "formatted_date": "Feb 2",
-                    "date": "2025-02-02",
-                    "day": "Sunday"
-                }
-            ],
-            "datasets": [
-                {
-                    "label": "Visitors",
-                    "data": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "label": "Views",
-                    "data": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ]
-        }
-    };
-    renderChart('campaignsDailyTrafficChart', campaignsDailyTraffic);
-
 
     // TickBox
     jQuery(document).on('click', "div#referral-filter", function (e) {
         e.preventDefault();
 
         // Show
-        tb_show( wps_js._('filters'), '#TB_inline?&width=430&height=205&inlineId=referral-filter-popup');
+        tb_show(wps_js._('filters'), '#TB_inline?&width=430&height=205&inlineId=referral-filter-popup');
 
         // Add Content
         setTimeout(function () {
