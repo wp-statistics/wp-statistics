@@ -161,6 +161,8 @@ return array(
     'WP_Statistics\\Service\\Admin\\Database\\Operations\\Drop' => $baseDir . '/src/Service/Admin/Database/Operations/Drop.php',
     'WP_Statistics\\Service\\Admin\\Database\\Operations\\Insert' => $baseDir . '/src/Service/Admin/Database/Operations/Insert.php',
     'WP_Statistics\\Service\\Admin\\Database\\Operations\\Inspect' => $baseDir . '/src/Service/Admin/Database/Operations/Inspect.php',
+    'WP_Statistics\\Service\\Admin\\Database\\Operations\\MultiStepOps\\VisitorSearchInsert' => $baseDir . '/src/Service/Admin/Database/Operations/MultiStepOps/VisitorSearchInsert.php',
+    'WP_Statistics\\Service\\Admin\\Database\\Operations\\Select' => $baseDir . '/src/Service/Admin/Database/Operations/Select.php',
     'WP_Statistics\\Service\\Admin\\Database\\Operations\\Update' => $baseDir . '/src/Service/Admin/Database/Operations/Update.php',
     'WP_Statistics\\Service\\Admin\\Database\\Schema\\Manager' => $baseDir . '/src/Service/Admin/Database/Schema/Manager.php',
     'WP_Statistics\\Service\\Admin\\Devices\\DevicesDataProvider' => $baseDir . '/src/Service/Admin/Devices/DevicesDataProvider.php',

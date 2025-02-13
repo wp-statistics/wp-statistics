@@ -5,11 +5,18 @@ namespace WP_Statistics\Service\Admin\Database\Operations;
 /**
  * Handles updating database table structures.
  *
- * This class provides functionality to modify or add columns in a table
+ * This class provides functionality to modify, add, rename, or drop columns in a table
  * using ALTER statements, ensuring transactional integrity.
  */
 class Update extends AbstractTableOperation
 {
+    /**
+     * Cached columns for the table.
+     *
+     * @var array
+     */
+    private $cachedColumns = [];
+
     /**
      * Execute the table update operation.
      *
@@ -19,6 +26,7 @@ class Update extends AbstractTableOperation
     public function execute()
     {
         try {
+            $this->ensureConnection();
             $this->validateTableName();
             $this->validateArgs();
             $this->setFullTableName();
@@ -59,27 +67,101 @@ class Update extends AbstractTableOperation
     /**
      * Build the ALTER statements for each column.
      *
+     * Supports adding, modifying, renaming, and dropping columns.
+     *
      * @return array
      */
     private function buildAlterStatements()
     {
         $alters = [];
 
-        foreach ($this->args as $column => $definition) {
-            $columnExists = $this->wpdb->get_results(
-                $this->wpdb->prepare(
-                    "SHOW COLUMNS FROM `{$this->fullName}` LIKE %s",
-                    $column
-                )
-            );
+        foreach ($this->args as $operation => $details) {
+            switch ($operation) {
+                case 'add':
+                    foreach ($details as $column => $definition) {
+                        if (!$this->columnExists($column)) {
+                            $alters[] = sprintf("ADD COLUMN `%s` %s", $column, $definition);
+                        }
+                    }
+                    break;
 
-            if ($columnExists) {
-                $alters[] = sprintf("MODIFY COLUMN `%s` %s", $column, $definition);
-            } else {
-                $alters[] = sprintf("ADD COLUMN `%s` %s", $column, $definition);
+                case 'modify':
+                    foreach ($details as $column => $definition) {
+                        if ($this->columnExists($column)) {
+                            $alters[] = sprintf("MODIFY COLUMN `%s` %s", $column, $definition);
+                        }
+                    }
+                    break;
+
+                case 'rename':
+                    foreach ($details as $oldColumn => $renameDetails) {
+                        if ($this->columnExists($oldColumn)) {
+                            $alters[] = sprintf(
+                                "CHANGE `%s` `%s` %s",
+                                $oldColumn,
+                                $renameDetails['new_name'],
+                                $renameDetails['definition']
+                            );
+                        }
+                    }
+                    break;
+
+                case 'drop':
+                    foreach ($details as $column) {
+                        if ($this->columnExists($column)) {
+                            $alters[] = sprintf("DROP COLUMN `%s`", $column);
+                        }
+                    }
+                    break;
+
+                case 'foreign':
+                    foreach ($details as $foreignKeyName => $foreignDetails) {
+                        $uniqueForeignKeyName = $foreignKeyName . '_' . uniqid();
+
+                        $alters[] = sprintf(
+                            "ADD CONSTRAINT `%s` FOREIGN KEY (`%s`) REFERENCES `%s` (`%s`) ON DELETE %s ON UPDATE %s",
+                            $uniqueForeignKeyName,
+                            $foreignDetails['column'],
+                            $foreignDetails['referenced_table'],
+                            $foreignDetails['referenced_column'],
+                            $foreignDetails['on_delete'],
+                            $foreignDetails['on_update']
+                        );
+                    }
+                    break;
             }
         }
 
         return $alters;
+    }
+
+    /**
+     * Check if a column exists in the table.
+     *
+     * @param string $column
+     * @return bool
+     */
+    private function columnExists(string $column): bool
+    {
+        if (empty($this->cachedColumns)) {
+            $this->cacheTableColumns();
+        }
+
+        return in_array($column, $this->cachedColumns, true);
+    }
+
+    /**
+     * Cache the columns of the table for faster lookups.
+     *
+     * @return void
+     */
+    private function cacheTableColumns(): void
+    {
+        $results = $this->wpdb->get_results(
+            sprintf("SHOW COLUMNS FROM `%s`", $this->fullName),
+            ARRAY_A
+        );
+
+        $this->cachedColumns = array_column($results, 'Field');
     }
 }

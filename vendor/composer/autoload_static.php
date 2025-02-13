@@ -180,6 +180,8 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Admin\\Database\\Operations\\Drop' => __DIR__ . '/../..' . '/src/Service/Admin/Database/Operations/Drop.php',
         'WP_Statistics\\Service\\Admin\\Database\\Operations\\Insert' => __DIR__ . '/../..' . '/src/Service/Admin/Database/Operations/Insert.php',
         'WP_Statistics\\Service\\Admin\\Database\\Operations\\Inspect' => __DIR__ . '/../..' . '/src/Service/Admin/Database/Operations/Inspect.php',
+        'WP_Statistics\\Service\\Admin\\Database\\Operations\\MultiStepOps\\VisitorSearchInsert' => __DIR__ . '/../..' . '/src/Service/Admin/Database/Operations/MultiStepOps/VisitorSearchInsert.php',
+        'WP_Statistics\\Service\\Admin\\Database\\Operations\\Select' => __DIR__ . '/../..' . '/src/Service/Admin/Database/Operations/Select.php',
         'WP_Statistics\\Service\\Admin\\Database\\Operations\\Update' => __DIR__ . '/../..' . '/src/Service/Admin/Database/Operations/Update.php',
         'WP_Statistics\\Service\\Admin\\Database\\Schema\\Manager' => __DIR__ . '/../..' . '/src/Service/Admin/Database/Schema/Manager.php',
         'WP_Statistics\\Service\\Admin\\Devices\\DevicesDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/Devices/DevicesDataProvider.php',
