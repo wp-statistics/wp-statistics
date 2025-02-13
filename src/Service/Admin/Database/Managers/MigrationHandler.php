@@ -324,7 +324,13 @@ class MigrationHandler
         if (!Request::compare('action', self::MIGRATION_ACTION)) {
             return false;
         }
+        
         check_admin_referer(self::MIGRATION_NONCE, 'nonce');
+
+        Option::saveOptionGroup('migration_status_detail', [
+            'status' => 'progress'
+        ], 'db');
+
         return true;
     }
 
