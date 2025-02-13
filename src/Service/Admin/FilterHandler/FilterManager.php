@@ -288,6 +288,21 @@ class FilterManager
     }
 
     /**
+     * Retrieves  campaign.
+     *
+     * @return array
+     */
+
+    public function campaign()
+    {
+        $args = [];
+
+
+
+        return $args;
+    }
+
+    /**
      * Retrieves post types with their details and generates corresponding data.
      * 
      * @return array
