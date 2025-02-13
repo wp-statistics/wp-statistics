@@ -20,12 +20,12 @@
         <?php endif; ?>
         <div class="wps-notification-sidebar__card-actions">
             <?php if ($notification->primaryButtonTitle() && $notification->primaryButtonUrl()): ?>
-                <a href="<?php echo esc_url($notification->primaryButtonUrl()); ?>" class="wps-notification-sidebar__button">
+                <a href="<?php echo esc_url($notification->primaryButtonUrl()); ?>" class="wps-notification-sidebar__button" target="_blank">
                     <?php echo esc_html($notification->primaryButtonTitle()); ?>
                 </a>
             <?php endif; ?>
             <?php if ($notification->secondaryButtonTitle() && $notification->secondaryButtonUrl()): ?>
-                <a href="<?php echo esc_url($notification->secondaryButtonUrl()); ?>" class="wps-notification-sidebar__button">
+                <a href="<?php echo esc_url($notification->secondaryButtonUrl()); ?>" class="wps-notification-sidebar__button" target="_blank">
                     <?php echo esc_html($notification->secondaryButtonTitle()); ?>
                 </a>
             <?php endif; ?>
