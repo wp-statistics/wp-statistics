@@ -368,7 +368,7 @@ class HitColumnHandler
             $analyticsUrl = Menus::admin_url('content-analytics', [
                 'post_id' => $objectId,
                 'type'    => 'single',
-                'from'    => Request::get('from', $this->getCache('hitArgs')['date']['from']),
+                'from'    => get_post_time('Y-m-d', false, $objectId),
                 'to'      => Request::get('to', $this->getCache('hitArgs')['date']['to']),
             ]);
             if ($isTerm) {
