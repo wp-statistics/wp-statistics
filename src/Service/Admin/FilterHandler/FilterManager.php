@@ -335,9 +335,10 @@ class FilterManager
      */
     public function getUtmParams($page)
     {
-        $currentPage = admin_url("admin.php{$page}");
-        $queryKey   = 'utm_param';
-        $baseUrl    = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey], $currentPage)));
+        $currentPage    = admin_url("admin.php{$page}");
+        $queryKey       = 'utm_param';
+        $baseUrl        = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey], $currentPage)));
+
         $args = [
             [
                 'slug'  => 'utm_source',
@@ -355,6 +356,7 @@ class FilterManager
                 'url'   => add_query_arg([$queryKey => 'utm_campaign'], $baseUrl),
             ]
         ];
+
         return [
             'args'              => $args,
             'baseUrl'           => $baseUrl,
