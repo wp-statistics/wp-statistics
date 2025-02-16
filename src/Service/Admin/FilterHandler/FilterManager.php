@@ -201,27 +201,27 @@ class FilterManager
         $args = [];
 
         // Base query
-        $query = "SELECT visitors.user_id, users.user_login, users.user_email 
-                  FROM `" . DB::table('visitor') . "` AS visitors 
-                  JOIN `" . $wpdb->users . "` AS users 
-                  ON visitors.user_id = users.ID 
+        $query = "SELECT visitors.user_id, users.user_login, users.user_email
+                  FROM `" . DB::table('visitor') . "` AS visitors
+                  JOIN `" . $wpdb->users . "` AS users
+                  ON visitors.user_id = users.ID
                   WHERE visitors.user_id > 0";
-    
+
         // If search term is provided, filter by email or username
         if (!empty($search)) {
             $search = '%' . $wpdb->esc_like($search) . '%';
             $query .= " AND (users.user_login LIKE %s OR users.user_email LIKE %s)";
         }
-    
+
         $query .= " GROUP BY visitors.user_id ORDER BY visitors.user_id DESC;";
-    
+
         // Prepare and execute the query
         if (!empty($search)) {
             $query = $wpdb->prepare($query, $search, $search);
         }
-    
+
         $results = $wpdb->get_results($query, ARRAY_A);
-      
+
         foreach ($results as $user) {
             $option = [
                 'id'   => $user['user_id'],
@@ -333,11 +333,11 @@ class FilterManager
      *
      * @return array
      */
-    public function getUtmParams()
+    public function getUtmParams($page)
     {
+        $currentPage = admin_url("admin.php{$page}");
         $queryKey   = 'utm_param';
-        $baseUrl    = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey], wp_get_referer())));
-
+        $baseUrl    = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey], $currentPage)));
         $args = [
             [
                 'slug'  => 'utm_source',
@@ -355,11 +355,10 @@ class FilterManager
                 'url'   => add_query_arg([$queryKey => 'utm_campaign'], $baseUrl),
             ]
         ];
-
         return [
             'args'              => $args,
             'baseUrl'           => $baseUrl,
-            'selectedOptions'   => Request::get($queryKey, 'utm_source'),
+            'selectedOption'   => Request::get($queryKey, 'utm_source'),
         ];
     }
 
@@ -371,7 +370,7 @@ class FilterManager
     public function getPostTypes($page)
     {
         $currentPage = admin_url("admin.php{$page}");
-        
+
         $queryKey  = 'pt';
         $baseUrl   = htmlspecialchars_decode(esc_url(remove_query_arg(['pt', 'pid'], $currentPage)));
         $postTypes = Helper::get_list_post_type();
@@ -640,6 +639,32 @@ class FilterManager
                 $option = [
                     'id'   => add_query_arg(['pid' => get_the_ID()], $baseUrl),
                     'text' => get_the_title()
+                ];
+
+                $args[] = $option;
+            }
+        }
+
+        return $args;
+    }
+
+    public function getPageId($search)
+    {
+        $query = new \WP_Query([
+            'post_status'    => 'publish',
+            'posts_per_page' => 10,
+            's'              => $search
+        ]);
+
+        $args = [];
+
+        if ($query->have_posts()) {
+            while ($query->have_posts()) {
+                $query->the_post();
+
+                $option = [
+                    'id'    => get_the_ID(),
+                    'text'  => get_the_title()
                 ];
 
                 $args[] = $option;

@@ -68,13 +68,11 @@ class ReferralsPage extends MultiViewPage
             ])
             ->select('pid', [
                 'label'         => esc_html__('Page', 'wp-statistics'),
-                'classes'       => 'filter-select wps-width-100',
+                'classes'       => 'wps-width-100 wps-select2',
                 'placeholder'   => Request::has('pid') ? get_the_title(Request::get('pid')) : esc_html__('All', 'wp-statistics'),
                 'attributes'    => [
-                    'data-type'         => 'page',
-                    'data-source'       => 'getPage',
-                    'data-type-show'    => 'select2',
-                    'data-searchable'   => true,
+                    'data-source'       => 'getPageId',
+                    'data-searchable'   => true
                 ],
             ])
             ->button('submitButton', [
@@ -145,7 +143,7 @@ class ReferralsPage extends MultiViewPage
                 'attributes'    => [
                     'data-type'     => 'utm_params',
                     'data-source'   => 'getUtmParams',
-                    'data-default'  => esc_html__('UTM Source', 'wp-statistics'),
+                    'data-default'  => '',
                 ],
             ])
             ->button('resetButton', [
