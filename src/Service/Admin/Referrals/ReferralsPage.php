@@ -145,6 +145,7 @@ class ReferralsPage extends MultiViewPage
                 'attributes'    => [
                     'data-type'     => 'utm_params',
                     'data-source'   => 'getUtmParams',
+                    'data-default'  => esc_html__('UTM Source', 'wp-statistics'),
                 ],
             ])
             ->button('resetButton', [
