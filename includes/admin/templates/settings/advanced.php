@@ -401,4 +401,27 @@ add_thickbox();
     </table>
 </div>
 
+<div class="postbox">
+    <table class="form-table">
+        <tbody>
+        <tr valign="top">
+            <th scope="row" colspan="2"><h3><?php esc_html_e('Usage Tracking', 'wp-statistics'); ?></h3></th>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row">
+                <label for="wps_enable_usage_tracking"><?php esc_html_e('Enable Usage Tracking', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <input id="wps_enable_usage_tracking" type="checkbox" name="wps_enable_usage_tracking" <?php echo WP_STATISTICS\Option::get('schedule_dbmaint') == true ? "checked='checked'" : ''; ?> onchange='DBMaintWarning();'>
+                <label for="wps_enable_usage_tracking"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                <p class="description"><?php esc_html_e('Allow WP Statistics to collect anonymous usage data to improve features, performance, and user experience. No personal or sensitive data will be collected. Learn more.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+
 <?php submit_button(esc_html__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='advanced-settings'")); ?>
