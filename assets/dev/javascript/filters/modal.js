@@ -297,6 +297,8 @@ FilterModal.prototype.fetchVisitorsFilters = function (spinner, dropdowns) {
 
     const self = this;
 
+    const queryString = window.location.search;
+
     let params = {
         wps_nonce: wps_js.global.rest_api_nonce,
         action: 'wp_statistics_get_filters',
@@ -304,7 +306,8 @@ FilterModal.prototype.fetchVisitorsFilters = function (spinner, dropdowns) {
             .filter(field =>
                 field !== 'pageName' &&
                 !(self.settings.fields[field]?.attributes?.['data-searchable'])
-            )
+            ),
+        queryString: queryString,
     };
 
     params = Object.assign(params, wps_js.global.request_params);

@@ -140,6 +140,8 @@ FilterGenerator.prototype.enableSearchableSelect = function (select, name, attri
         }
     }
 
+    const queryString = window.location.search
+
     const initialize = jQuery(select).select2({
         ajax: {
             delay: 500,
@@ -152,6 +154,7 @@ FilterGenerator.prototype.enableSearchableSelect = function (select, name, attri
                     source: source,
                     action: 'wp_statistics_search_filter',
                     paged: params.page || 1,
+                    queryString: queryString,
                 };
 
                 if (wps_js.isset(wps_js.global, 'request_params')) {
@@ -213,6 +216,7 @@ FilterGenerator.prototype.enableSearchableSelect = function (select, name, attri
  * @param {HTMLElement} select - The `<select>` element.
  * @param {Array} options - Array of option objects `{ value, label, selected }`.
  * @param {string|null} [placeholder=null] - Optional placeholder text to be used as the default option.
+ * @param {string|null} [defaultValue=null] - A default value that, if provided, will be preselected.
  */
 FilterGenerator.prototype.createOptions = function (select, options = [], placeholder = null, defatulValue = null) {
     if (!(select instanceof HTMLSelectElement)) {
@@ -333,11 +337,17 @@ FilterGenerator.prototype.createDropdown = function (filterConfig, filterData) {
 
     const {baseUrl, selectedOption, lockCustomPostTypes, args} = filterData;
 
+    let defaultValue =  wps_js._('all');
+
+    if (filterConfig.attributes.hasOwnProperty('data-default')) {
+        defaultValue = filterConfig.attributes['data-default'];
+    }
+
     let dropdownHTML = `
         <div class="wps-dropdown">
             <label class="selectedItemLabel">${filterConfig.label || "Post Type"}: </label>
             <button type="button" class="dropbtn">
-                <span>${selectedOption ? this.getFilterName(filterData) : "All"}</span>
+                <span>${selectedOption ? this.getFilterName(filterData, defaultValue) : defaultValue}</span>
             </button>
             <div class="dropdown-content">
     `;
@@ -346,8 +356,8 @@ FilterGenerator.prototype.createDropdown = function (filterConfig, filterData) {
         dropdownHTML += `<input type="text" class="wps-search-dropdown">`;
     }
 
-    if (!filterConfig.selected) {
-        dropdownHTML += `<a href="${baseUrl}" data-index="0" class="${!selectedOption ? 'selected' : ''}">All</a>`;
+    if (!filterConfig.selected && defaultValue) {
+        dropdownHTML += `<a href="${baseUrl}" data-index="0" class="${!selectedOption ? 'selected' : ''}">${defaultValue}</a>`;
     }
 
     args.forEach((item, key) => {
@@ -380,13 +390,14 @@ FilterGenerator.prototype.createDropdown = function (filterConfig, filterData) {
 /**
  * Utility function to get the selected filter name from filterData.
  * @param {Array} filterData - The structured response from PHP.
+ * @param {string} defaultValue - The fallback value if no selected option is found.
  * @returns {string} - The name of the selected post type.
  */
-FilterGenerator.prototype.getFilterName = function (filterData) {
+FilterGenerator.prototype.getFilterName = function (filterData, defaultValue) {
     const {selectedOption, args} = filterData;
 
     const selectedItem = args.find(item => item.slug === selectedOption);
-    return selectedItem ? selectedItem.name : "All";
+    return selectedItem ? selectedItem.name : defaultValue;
 };
 
 /**
