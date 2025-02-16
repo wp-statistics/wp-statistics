@@ -79,6 +79,14 @@ class ReferralsPage extends MultiViewPage
                     'data-source' => 'getSourceChannels',
                 ],
             ])
+            ->dropdown('utm_params', [
+                'label'         => esc_html__('Campaigns', 'wp-statistics'),
+                'panel'         => true,
+                'attributes'    => [
+                    'data-type'     => 'utm_params',
+                    'data-source'   => 'getUtmParams',
+                ],
+            ])
             ->button('resetButton', [
                 'name' => 'reset',
                 'type' => 'button',
@@ -95,7 +103,7 @@ class ReferralsPage extends MultiViewPage
                 ],
             ])
             ->get();
-        
+
         return $this->filters;
     }
 

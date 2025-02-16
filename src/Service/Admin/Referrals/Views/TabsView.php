@@ -138,9 +138,9 @@ class TabsView extends BaseTabView
                 array_unshift($args['filters'], 'referrer');
             }
 
-            // Add referrer filter if tab is referred visitors
-            if ($this->isTab(['utm-performance', 'campaigns'])) {
-                array_unshift($args['filters'], 'campaign');
+            // Add UTM filter if tab is UTM performance
+            if ($this->isTab(['utm-performance'])) {
+                array_unshift($args['filters'], 'utm');
             }
 
             // Remove source channels filter if tab is source categories or utm-performance or campaigns

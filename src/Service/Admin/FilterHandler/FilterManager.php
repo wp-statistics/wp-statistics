@@ -288,28 +288,49 @@ class FilterManager
     }
 
     /**
-     * Retrieves  campaign.
+     * Retrieves UTM params.
      *
      * @return array
      */
 
-    public function campaign()
+    public function getUtmParams()
     {
-        $args = [];
+        $queryKey   = 'utm_param';
+        $baseUrl    = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey], wp_get_referer())));
 
+        $args = [
+            [
+                'slug'  => 'utm_source',
+                'name'  => esc_html__('UTM Source', 'wp-statistics'),
+                'url'   => add_query_arg([$queryKey => 'utm_source'], $baseUrl),
+            ],
+            [
+                'slug'  => 'utm_medium',
+                'name'  => esc_html__('UTM Medium', 'wp-statistics'),
+                'url'   => add_query_arg([$queryKey => 'utm_medium'], $baseUrl),
+            ],
+            [
+                'slug'  => 'utm_campaign',
+                'name'  => esc_html__('UTM Campaign', 'wp-statistics'),
+                'url'   => add_query_arg([$queryKey => 'utm_campaign'], $baseUrl),
+            ]
+        ];
 
-
-        return $args;
+        return [
+            'args'              => $args,
+            'baseUrl'           => $baseUrl,
+            'selectedOptions'   => Request::get($queryKey, 'utm_source'),
+        ];
     }
 
     /**
      * Retrieves post types with their details and generates corresponding data.
-     * 
+     *
      * @return array
      */
     public function getPostTypes()
     {
-        $queryKey            = 'pt';
+        $queryKey = 'pt';
         $baseUrl = htmlspecialchars_decode(esc_url(remove_query_arg(['pt', 'pid'], wp_get_referer())));
         $postTypes = Helper::get_list_post_type();
 
@@ -334,7 +355,7 @@ class FilterManager
 
     /**
      * Retrieves a list of authors and generates corresponding data.
-     * 
+     *
      * @return array
      */
     public function getAuthor()
@@ -360,7 +381,7 @@ class FilterManager
 
     /**
      * Retrieves a list of taxonomies and generates corresponding data.
-     * 
+     *
      * @return array
      */
     public function getTaxonomies()
@@ -386,7 +407,7 @@ class FilterManager
 
     /**
      * Retrieves filtered search channels and generates corresponding data.
-     * 
+     *
      * @return array
      */
     public function getSearchChannels()
@@ -411,7 +432,7 @@ class FilterManager
 
     /**
      * Retrieves filtered social channels and generates corresponding data.
-     * 
+     *
      * @return array
      */
     public function getSocialChannels()
@@ -436,7 +457,7 @@ class FilterManager
 
     /**
      * Retrieves filtered source channels and generates corresponding data.
-     * 
+     *
      * @return array
      */
     public function getSourceChannels()
@@ -463,7 +484,7 @@ class FilterManager
 
     /**
      * Retrieves a list of user roles and generates corresponding data.
-     * 
+     *
      * @return array
      */
     public function getUserRoles()
@@ -489,7 +510,7 @@ class FilterManager
 
     /**
      * Retrieves query parameters for a specific post and generates corresponding data.
-     * 
+     *
      * @return array
      */
     public function getQueryParameters()
@@ -534,7 +555,7 @@ class FilterManager
         if (empty($page)) {
             return [];
         }
-        
+
         $queryKey = 'pid';
         $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey], wp_get_referer())));
 
