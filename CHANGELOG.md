@@ -1,4 +1,5 @@
 = 14.12.x =
+- **Fix:** Correct mini chart start date to use post creation date instead of default.
 - **Fix:** Fixed empty chart issue when selecting a 1-day range.
 - **Enhancement:** Online Visitors-related elements are now hidden when "Monitor Online Visitors" is disabled.
 
