@@ -7,6 +7,7 @@ use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\FilterHandler\FilterGenerator;
 use WP_Statistics\Service\Admin\VisitorInsights\Views\TabsView;
 use WP_Statistics\Service\Admin\VisitorInsights\Views\SingleVisitorView;
+use WP_Statistics\Utils\Request;
 
 class VisitorInsightsPage extends MultiViewPage
 {
@@ -30,6 +31,13 @@ class VisitorInsightsPage extends MultiViewPage
     }
 
     protected function setFilters() {
+        $userId          = Request::get('user_id', '');
+        $authorInfo      = get_userdata($userId);
+        $userPlaceholder = ! empty($authorInfo) ? $authorInfo->display_name . ' #' . $authorInfo->ID : esc_attr__('All', 'wp-statistics');
+
+        $referrer            = Request::get('referrer', '');
+        $referrerPlaceholder = ! empty($referrer) ? $referrer : esc_attr__('All', 'wp-statistics');
+
         $this->filters = FilterGenerator::create()
             ->hidden('pageName', [
                 'name'  => 'page',
@@ -44,10 +52,27 @@ class VisitorInsightsPage extends MultiViewPage
                 'label' => esc_html__('Country', 'wp-statistics'),
             ])
             ->select('platform')
-            ->select('referrer')
+            ->select('referrer', [
+                'name' => 'referrer',
+                'placeholder' => $referrerPlaceholder,
+                'label' => esc_html__('Referrer', 'wp-statistics'),
+                'attributes'  => [
+                    'data-type'       => 'referrer',
+                    'data-source'     => 'getReferrer',
+                    'data-searchable' => true,
+                    'data-default'    => $referrer,
+                ],
+            ])
             ->select('users', [
                 'name' => 'user_id',
+                'placeholder' => $userPlaceholder,
                 'label' => esc_html__('User', 'wp-statistics'),
+                'attributes'  => [
+                    'data-type'       => 'users',
+                    'data-source'     => 'getUser',
+                    'data-searchable' => true,
+                    'data-default'    => $userId,
+                ],
             ])
             ->input('text', 'ip', [
                 'label' => esc_html__('IP Address', 'wp-statistics'),

@@ -484,7 +484,8 @@ class VisitorsModel extends BaseModel
             'user_role'     => '',
             'event_target'  => '',
             'event_name'    => '',
-            'fields'        => []
+            'fields'        => [],
+            'referrer'      => ''
         ]);
 
         // Set default fields
@@ -570,6 +571,7 @@ class VisitorsModel extends BaseModel
             ->where('platform', '=', $args['platform'])
             ->where('user_id', '=', $args['user_id'])
             ->where('ip', 'LIKE', "%{$args['ip']}%")
+            ->where('referred', '=', $args['referrer'])
             ->where('visitor.location', '=', $args['country'])
             ->whereDate($args['date_field'], $args['date'])
             ->perPage($args['page'], $args['per_page'])

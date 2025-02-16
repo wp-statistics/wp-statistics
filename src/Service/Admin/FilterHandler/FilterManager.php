@@ -3,8 +3,8 @@
 namespace WP_Statistics\Service\Admin\FilterHandler;
 
 use WP_STATISTICS\Country;
+use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
-use WP_STATISTICS\Menus;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Referred;
@@ -14,7 +14,6 @@ use WP_STATISTICS\User;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Url;
-use WP_STATISTICS\Visitor;
 
 /**
  * Class FilterManager
@@ -69,8 +68,8 @@ class FilterManager
             // Check Refer Ajax
             check_ajax_referer('wp_rest', 'wps_nonce');
 
-
-            $filters = Request::getParams(['filters']);
+            $queryString = Request::get('queryString', '');
+            $filters     = Request::getParams(['filters']);
 
             if (empty($filters)) {
                 wp_send_json([]);
@@ -82,7 +81,7 @@ class FilterManager
 
             foreach ($filters as $filter) {
                 if (method_exists($this,  $filter)) {
-                    $output[$filter] = $this->$filter();
+                    $output[$filter] = $this->$filter($queryString);
                 }
             }
 
@@ -101,11 +100,12 @@ class FilterManager
         if (Request::isFrom('ajax') && User::Access('read')) {
             check_ajax_referer('wp_rest', 'wps_nonce');
 
-            $source   = Request::get('source', '');
-            $paged    = Request::get('paged', 1, 'number');
-            $postType = Request::get('post_type', array_values(Helper::get_list_post_type()));
-            $authorId = Request::get('author_id', '', 'number');
-            $page     = Request::get('page');
+            $source      = Request::get('source', '');
+            $paged       = Request::get('paged', 1, 'number');
+            $postType    = Request::get('post_type', array_values(Helper::get_list_post_type()));
+            $authorId    = Request::get('author_id', '', 'number');
+            $page        = Request::get('page');
+            $queryString = Request::get('queryString', '');
 
             $search = Request::get('search', '');
             $search = Url::cleanUrl($search);
@@ -113,7 +113,7 @@ class FilterManager
             $output = [];
 
             if (method_exists($this,  $source)) {
-                $output = call_user_func([$this, $source], $search, $paged, $page, $postType, $authorId);
+                $output = call_user_func([$this, $source], $search, $paged, $page, $postType, $authorId, $queryString);
             }
 
             wp_send_json($output);
@@ -195,17 +195,40 @@ class FilterManager
         return $args;
     }
 
-    /**
-     * Retrieves a list of users who have visited the site.
-     *
-     * @return array
-     */
-    public function users()
-    {
+    public function getUser($search) {
+        global $wpdb;
+
         $args = [];
-        $user_list       = Visitor::get_users_visitor();
-        foreach ($user_list as $user_id => $user_inf) {
-            $args[$user_id] = $user_inf['user_login'] . " #" . $user_id . "";
+
+        // Base query
+        $query = "SELECT visitors.user_id, users.user_login, users.user_email 
+                  FROM `" . DB::table('visitor') . "` AS visitors 
+                  JOIN `" . $wpdb->users . "` AS users 
+                  ON visitors.user_id = users.ID 
+                  WHERE visitors.user_id > 0";
+    
+        // If search term is provided, filter by email or username
+        if (!empty($search)) {
+            $search = '%' . $wpdb->esc_like($search) . '%';
+            $query .= " AND (users.user_login LIKE %s OR users.user_email LIKE %s)";
+        }
+    
+        $query .= " GROUP BY visitors.user_id ORDER BY visitors.user_id DESC;";
+    
+        // Prepare and execute the query
+        if (!empty($search)) {
+            $query = $wpdb->prepare($query, $search, $search);
+        }
+    
+        $results = $wpdb->get_results($query, ARRAY_A);
+      
+        foreach ($results as $user) {
+            $option = [
+                'id'   => $user['user_id'],
+                'text' => $user['user_login'] . " #" . $user['user_id'] . ""
+            ];
+
+            $args[] = $option;
         }
 
         return $args;
@@ -216,13 +239,31 @@ class FilterManager
      *
      * @return array
      */
-    public function usersWithPosts()
+    public function getUserWithPosts($search)
     {
-        $args  = [];
-        $users = get_users(['has_published_posts' => true]);
+        $args = [];
+
+        // Query arguments
+        $query_args = [
+            'has_published_posts' => true,
+            'number'              => 10,
+        ];
+
+        // If a search term is provided, add it to the query
+        if (!empty($search)) {
+            $query_args['search'] = '*' . esc_attr($search) . '*';
+            $query_args['search_columns'] = ['display_name', 'user_login', 'user_email'];
+        }
+
+        $users = get_users($query_args);
 
         foreach ($users as $key => $user) {
-            $args[esc_html($user->ID)] = esc_html($user->display_name) . ' #' . esc_html($user->ID);
+            $option = [
+                'id'   => esc_html($user->ID),
+                'text' => esc_html($user->display_name) . " #" . esc_html($user->ID) . ""
+            ];
+
+            $args[] = $option;
         }
 
         return $args;
@@ -265,7 +306,7 @@ class FilterManager
      * @param string $search The search string for referrers.
      * @return array
      */
-    public function referrers($search)
+    public function getReferrer($search)
     {
         $args = [];
 
@@ -327,10 +368,12 @@ class FilterManager
      *
      * @return array
      */
-    public function getPostTypes()
+    public function getPostTypes($page)
     {
-        $queryKey = 'pt';
-        $baseUrl = htmlspecialchars_decode(esc_url(remove_query_arg(['pt', 'pid'], wp_get_referer())));
+        $currentPage = admin_url("admin.php{$page}");
+        
+        $queryKey  = 'pt';
+        $baseUrl   = htmlspecialchars_decode(esc_url(remove_query_arg(['pt', 'pid'], $currentPage)));
         $postTypes = Helper::get_list_post_type();
 
         $args = [];
@@ -347,7 +390,7 @@ class FilterManager
         return [
             'args' => $args,
             'baseUrl' => $baseUrl,
-            'selectedOptions' => Request::get($queryKey),
+            'selectedOption' => Request::get($queryKey),
             'lockCustomPostTypes' => !Helper::isAddOnActive('data-plus'),
         ];
     }
@@ -357,10 +400,12 @@ class FilterManager
      *
      * @return array
      */
-    public function getAuthor()
+    public function getAuthor($page)
     {
+        $currentPage = admin_url("admin.php{$page}");
+
         $queryKey = 'author_id';
-        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey, 'pid'], wp_get_referer())));
+        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey, 'pid'], $currentPage)));
         $authors  = get_users(['has_published_posts' => true]);
 
         foreach ($authors as $author) {
@@ -374,7 +419,7 @@ class FilterManager
         return [
             'args' => $args,
             'baseUrl' => $baseUrl,
-            'selectedOptions' => Request::get($queryKey),
+            'selectedOption' => Request::get($queryKey),
         ];
     }
 
@@ -383,11 +428,13 @@ class FilterManager
      *
      * @return array
      */
-    public function getTaxonomies()
+    public function getTaxonomies($page)
     {
+        $currentPage = admin_url("admin.php{$page}");
+
         $queryKey   = 'tx';
         $taxonomies = Helper::get_list_taxonomy(true);
-        $baseUrl    = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey, 'pid'], wp_get_referer())));
+        $baseUrl    = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey, 'pid'], $currentPage)));
 
         foreach ($taxonomies as $key => $name) {
             $args[] = [
@@ -400,7 +447,7 @@ class FilterManager
         return [
             'args' => $args,
             'baseUrl' => $baseUrl,
-            'selectedOptions' => Request::get($queryKey, 'category'),
+            'selectedOption' => Request::get($queryKey, 'category'),
         ];
     }
 
@@ -409,10 +456,12 @@ class FilterManager
      *
      * @return array
      */
-    public function getSearchChannels()
+    public function getSearchChannels($page)
     {
+        $currentPage = admin_url("admin.php{$page}");
+
         $channels = Helper::filterArrayByKeys(SourceChannels::getList(), ['search', 'paid_search']);
-        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'], wp_get_referer())));
+        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'], $currentPage)));
 
         foreach ($channels as $key => $channel) {
             $args[] = [
@@ -425,7 +474,7 @@ class FilterManager
         return [
             'args' => $args,
             'baseUrl' => $baseUrl,
-            'selectedOptions' => Request::get('source_channel'),
+            'selectedOption' => Request::get('source_channel'),
         ];
     }
 
@@ -434,10 +483,12 @@ class FilterManager
      *
      * @return array
      */
-    public function getSocialChannels()
+    public function getSocialChannels($page)
     {
+        $currentPage = admin_url("admin.php{$page}");
+
         $channels = Helper::filterArrayByKeys(SourceChannels::getList(), ['social', 'paid_social']);
-        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'], wp_get_referer())));
+        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'], $currentPage)));
 
         foreach ($channels as $key => $channel) {
             $args[] = [
@@ -450,7 +501,7 @@ class FilterManager
         return [
             'args' => $args,
             'baseUrl' => $baseUrl,
-            'selectedOptions' => Request::get('source_channel'),
+            'selectedOption' => Request::get('source_channel'),
         ];
     }
 
@@ -459,12 +510,14 @@ class FilterManager
      *
      * @return array
      */
-    public function getSourceChannels()
+    public function getSourceChannels($page)
     {
+        $currentPage = admin_url("admin.php{$page}");
+
         $channels = SourceChannels::getList();
         unset($channels['direct']);
 
-        $baseUrl = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'], wp_get_referer())));
+        $baseUrl = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'], $currentPage)));
 
         foreach ($channels as $key => $channel) {
             $args[] = [
@@ -477,7 +530,7 @@ class FilterManager
         return [
             'args' => $args,
             'baseUrl' => $baseUrl,
-            'selectedOptions' => Request::get('source_channel')
+            'selectedOption' => Request::get('source_channel')
         ];
     }
 
@@ -486,11 +539,17 @@ class FilterManager
      *
      * @return array
      */
-    public function getUserRoles()
+    public function getUserRoles($page)
     {
+        $currentPage = admin_url("admin.php{$page}");
+
         $queryKey = 'role';
         $roles    = wp_roles()->role_names;
-        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey], wp_get_referer())));
+        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey],$currentPage)));
+
+        if (empty($referer)) {
+            $baseUrl = admin_url("admin.php?page={$page}");
+        }
 
         foreach ($roles as $key => $role) {
             $args[] = [
@@ -503,7 +562,7 @@ class FilterManager
         return [
             'args' => $args,
             'baseUrl' => $baseUrl,
-            'selectedOptions' => Request::get($queryKey, '')
+            'selectedOption' => Request::get($queryKey, '')
         ];
     }
 
@@ -512,10 +571,12 @@ class FilterManager
      *
      * @return array
      */
-    public function getQueryParameters()
+    public function getQueryParameters($page)
     {
+        $currentPage = admin_url("admin.php{$page}");
+
         $queryKey = 'qp';
-        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey], wp_get_referer())));
+        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey], $currentPage)));
         $postId   = Request::get('post_id', '', 'number');
 
         $viewsModel = new ViewsModel();
@@ -535,28 +596,31 @@ class FilterManager
         return [
             'args' => $args,
             'baseUrl' => $baseUrl,
-            'selectedOptions' => Request::get($queryKey)
+            'selectedOption' => Request::get($queryKey)
         ];
     }
 
     /**
      * Fetches a list of posts matching the provided search term, post type, and author filter.
      *
-     * @param string $search   The search keyword to filter posts.
-     * @param int    $paged    The current page number for pagination.
-     * @param mixed  $page     A flag or identifier indicating if a query should be executed.
-     * @param string $postType The type of post to query.
-     * @param int    $authorId The ID of the author to filter posts.
+     * @param string $search      The search keyword to filter posts.
+     * @param int    $paged       The current page number for pagination.
+     * @param mixed  $page        A flag or identifier indicating if a query should be executed.
+     * @param string $postType    The type of post to query.
+     * @param int    $authorId    The ID of the author to filter posts.
+     * @param string $queryString Current page query string.
      * @return array
      */
-    public function getPage($search, $paged, $page, $postType, $authorId)
+    public function getPage($search, $paged, $page, $postType, $authorId, $queryString)
     {
         if (empty($page)) {
             return [];
         }
 
+        $currentPage = admin_url("admin.php{$queryString}");
+
         $queryKey = 'pid';
-        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey], wp_get_referer())));
+        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey], $currentPage)));
 
         $query = new \WP_Query([
             'post_status'    => 'publish',
