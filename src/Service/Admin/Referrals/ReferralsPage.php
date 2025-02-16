@@ -38,13 +38,13 @@ class ReferralsPage extends MultiViewPage
     {
         $this->filters = FilterGenerator::create()
             ->hidden('pageName', [
-                'name' => 'page',
+                'name'       => 'page',
                 'attributes' => [
                     'value' => Menus::get_page_slug('referrals')
                 ]
             ])
             ->hidden('tab', [
-                'name' => 'tab',
+                'name'       => 'tab',
                 'attributes' => [
                     'value' => 'campaigns'
                 ]
@@ -59,18 +59,18 @@ class ReferralsPage extends MultiViewPage
                 'label' => esc_html__('UTM Campaign', 'wp-statistics'),
             ])
             ->select('referrer', [
-                'name' => 'referrer',
-                'classes' => 'wps-width-100 wps-select2',
-                'attributes'  => [
+                'name'          => 'referrer',
+                'classes'       => 'wps-width-100 wps-select2',
+                'attributes'    => [
                     'data-type'       => 'getReferrer',
                     'data-searchable' => true,
                 ],
             ])
             ->select('pid', [
-                'label' => esc_html__('Page', 'wp-statistics'),
-                'classes' => 'filter-select wps-width-100',
-                'placeholder' => Request::has('pid') ? get_the_title(Request::get('pid')) : esc_html__('All', 'wp-statistics'),
-                'attributes'  => [
+                'label'         => esc_html__('Page', 'wp-statistics'),
+                'classes'       => 'filter-select wps-width-100',
+                'placeholder'   => Request::has('pid') ? get_the_title(Request::get('pid')) : esc_html__('All', 'wp-statistics'),
+                'attributes'    => [
                     'data-type'         => 'page',
                     'data-source'       => 'getPage',
                     'data-type-show'    => 'select2',
@@ -78,10 +78,10 @@ class ReferralsPage extends MultiViewPage
                 ],
             ])
             ->button('submitButton', [
-                'name' => 'filter',
-                'type' => 'button',
-                'classes' => 'button-primary',
-                'label' => esc_html__('Filter', 'wp-statistics'),
+                'name'      => 'filter',
+                'type'      => 'button',
+                'classes'   => 'button-primary',
+                'label'     => esc_html__('Filter', 'wp-statistics'),
                 'attributes'  => [
                     'type' => 'submit',
                 ],
