@@ -143,6 +143,11 @@ class TabsView extends BaseTabView
                 array_unshift($args['filters'], 'utm');
             }
 
+            // Add UTM filter if tab is campaigns
+            if ($this->isTab(['campaigns'])) {
+                array_unshift($args['filters'], 'campaigns');
+            }
+
             // Remove source channels filter if tab is source categories or utm-performance or campaigns
             if ($this->isTab(['source-categories', 'utm-performance', 'campaigns'])) {
                 $args['filters'] = array_values(array_diff($args['filters'], ['source-channels']));

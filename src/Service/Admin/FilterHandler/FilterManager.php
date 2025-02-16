@@ -292,7 +292,6 @@ class FilterManager
      *
      * @return array
      */
-
     public function getUtmParams()
     {
         $queryKey   = 'utm_param';
