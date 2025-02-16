@@ -163,6 +163,7 @@ FilterModal.prototype.setSelectedValues = function () {
             const folder = target_folder();
 
             if (folder) {
+                setTimeout(() => {
                 // Initialize select2 for the current dropdown
                 $element.select2({
                     escapeMarkup: function (markup) {
@@ -170,6 +171,7 @@ FilterModal.prototype.setSelectedValues = function () {
                     },
 
                     templateSelection: function (idioma) {
+
                         if (!idioma.id) {
                             return idioma.text; // Return plain text for the "All" option
                         }
@@ -209,9 +211,11 @@ FilterModal.prototype.setSelectedValues = function () {
                         `);
                     }
                 });
-
+                }, 200);
             } else {
-                $element.select2();
+                if (! $element.hasClass('select2-hidden-accessible')) {
+                    $element.select2();
+                }
             }
         }
 
@@ -293,6 +297,8 @@ FilterModal.prototype.fetchVisitorsFilters = function (spinner, dropdowns) {
 
     const self = this;
 
+    const queryString = window.location.search;
+
     let params = {
         wps_nonce: wps_js.global.rest_api_nonce,
         action: 'wp_statistics_get_filters',
@@ -300,7 +306,8 @@ FilterModal.prototype.fetchVisitorsFilters = function (spinner, dropdowns) {
             .filter(field =>
                 field !== 'pageName' &&
                 !(self.settings.fields[field]?.attributes?.['data-searchable'])
-            )
+            ),
+        queryString: queryString,
     };
 
     params = Object.assign(params, wps_js.global.request_params);

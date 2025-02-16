@@ -6,6 +6,7 @@ use WP_Statistics\Abstracts\MultiViewPage;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\FilterHandler\FilterGenerator;
 use WP_Statistics\Service\Admin\PageInsights\Views\TabsView;
+use WP_Statistics\Utils\Request;
 
 class PageInsightsPage extends MultiViewPage
 {
@@ -23,6 +24,13 @@ class PageInsightsPage extends MultiViewPage
     }
 
     protected function setFilters() {
+        $authorId          = Request::get('author_id', '');
+        $authorInfo        = get_userdata($authorId);
+        $authorPlaceholder = ! empty($authorInfo) ? $authorInfo->display_name . ' #' . $authorInfo->ID : esc_attr__('All', 'wp-statistics');
+
+        $url            = Request::get('url', '');
+        $urlPlaceholder = ! empty($url) ? $url : esc_attr__('All', 'wp-statistics');
+
         $this->filters = FilterGenerator::create()
             ->hidden('pageName', [
                 'name' => 'page',
@@ -39,15 +47,23 @@ class PageInsightsPage extends MultiViewPage
                     'data-source' => 'getTaxonomies',
                 ],
             ])
-            ->select('usersWithPosts', [
+            ->select('userWithposts', [
                 'name' => 'author_id',
-                'label' => esc_html__('Author', 'wp-statistics')
+                'placeholder' => $authorPlaceholder,
+                'label' => esc_html__('Author', 'wp-statistics'),
+                'attributes'  => [
+                    'data-type'       => 'userWithposts',
+                    'data-source'     => 'getUserWithPosts',
+                    'data-searchable' => true,
+                    'data-default'    => $authorId,
+                ],
             ])
             ->select('url', [
-                'classes' => 'wps-width-100 wps-select2',
+                'placeholder' => $urlPlaceholder,
                 'attributes'  => [
                     'data-type'       => 'url',
                     'data-searchable' => true,
+                    'data-default'    => $url,
                 ],
             ])
             ->button('resetButton', [
