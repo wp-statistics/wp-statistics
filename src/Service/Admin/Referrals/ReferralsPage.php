@@ -34,7 +34,64 @@ class ReferralsPage extends MultiViewPage
         $this->processSourceChannelBackgroundAction();
     }
 
+    protected function setCampaignsFilter()
+    {
+        $this->filters = FilterGenerator::create()
+            ->hidden('pageName', [
+                'name' => 'page',
+                'attributes' => [
+                    'value' => Menus::get_page_slug('referrals')
+                ]
+            ])
+            ->hidden('tab', [
+                'name' => 'tab',
+                'attributes' => [
+                    'value' => 'campaigns'
+                ]
+            ])
+            ->input('text', 'utm_source', [
+                'label' => esc_html__('UTM Source', 'wp-statistics'),
+            ])
+            ->input('text', 'utm_medium', [
+                'label' => esc_html__('UTM Medium', 'wp-statistics'),
+            ])
+            ->input('text', 'utm_campaign', [
+                'label' => esc_html__('UTM Campaign', 'wp-statistics'),
+            ])
+            ->select('referrers', [
+                'name' => 'referrer',
+                'classes' => 'wps-width-100 wps-select2',
+                'attributes'  => [
+                    'data-type'       => 'referrers',
+                    'data-searchable' => true,
+                ],
+            ])
+            ->select('pages', [
+                'name' => 'pages',
+                'classes' => 'wps-width-100 wps-select2',
+                'attributes'  => [
+                    'data-type'       => 'getPage',
+                    'data-searchable' => true,
+                ],
+            ])
+            ->button('submitButton', [
+                'name' => 'filter',
+                'type' => 'button',
+                'classes' => 'button-primary',
+                'label' => esc_html__('Filter', 'wp-statistics'),
+                'attributes'  => [
+                    'type' => 'submit',
+                ],
+            ])
+            ->get();
+    }
+
     protected function setFilters() {
+        // Campaigns tab filter
+        if (Request::compare('tab', 'campaigns')) {
+            return $this->setCampaignsFilter();
+        }
+
         $this->filters = FilterGenerator::create()
             ->hidden('pageName', [
                 'name' => 'page',

@@ -5,7 +5,7 @@ use WP_Statistics\Components\View;
 $activeFilters = 0;
 
 foreach ($_GET as $params_key => $params_item) {
-    if (! empty($params_item) && in_array($params_key, ['utm_source', 'utm_medium', 'utm_campaign', 'referrer', 'page'])) {
+    if (! empty($params_item) && in_array($params_key, ['utm_source', 'utm_medium', 'utm_campaign', 'referrer', 'pid'])) {
         $activeFilters++;
     }
 }
