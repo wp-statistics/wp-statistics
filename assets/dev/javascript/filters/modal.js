@@ -163,6 +163,7 @@ FilterModal.prototype.setSelectedValues = function () {
             const folder = target_folder();
 
             if (folder) {
+                setTimeout(() => {
                 // Initialize select2 for the current dropdown
                 $element.select2({
                     escapeMarkup: function (markup) {
@@ -170,6 +171,7 @@ FilterModal.prototype.setSelectedValues = function () {
                     },
 
                     templateSelection: function (idioma) {
+
                         if (!idioma.id) {
                             return idioma.text; // Return plain text for the "All" option
                         }
@@ -209,7 +211,7 @@ FilterModal.prototype.setSelectedValues = function () {
                         `);
                     }
                 });
-
+                }, 200);
             } else {
                 if (! $element.hasClass('select2-hidden-accessible')) {
                     $element.select2();
