@@ -88,8 +88,10 @@ FilterGenerator.prototype.createSelect = function ({name, label, classes = '', a
     wrapper.appendChild(labelSpan);
     wrapper.appendChild(select);
 
-    if (panel) {
-        this.createOptions(select, {}, placeholder);
+    if (panel || attributes['data-searchable']) {
+        const defaultValue = select.getAttribute('data-default');
+
+        this.createOptions(select, {}, placeholder, defaultValue);
     }
 
     this.container.appendChild(wrapper);
@@ -204,13 +206,6 @@ FilterGenerator.prototype.enableSearchableSelect = function (select, name, attri
             }
         });
     }
-
-    const currentReferrer = wps_js.getLinkParams('url');
-    if (currentReferrer) {
-        const decodedValue = decodeURIComponent(currentReferrer);
-        const option = new Option(decodedValue, decodedValue, true, true);
-        jQuery(select).append(option).trigger('change');
-    }
 };
 
 /**
@@ -219,14 +214,14 @@ FilterGenerator.prototype.enableSearchableSelect = function (select, name, attri
  * @param {Array} options - Array of option objects `{ value, label, selected }`.
  * @param {string|null} [placeholder=null] - Optional placeholder text to be used as the default option.
  */
-FilterGenerator.prototype.createOptions = function (select, options = [], placeholder = null) {
+FilterGenerator.prototype.createOptions = function (select, options = [], placeholder = null, defatulValue = null) {
     if (!(select instanceof HTMLSelectElement)) {
         throw new Error('Invalid <select> element provided.');
     }
 
     if (placeholder) {
         const defaultOption = document.createElement('option');
-        defaultOption.value = '';
+        defaultOption.value = defatulValue || '';
         defaultOption.textContent = placeholder;
         defaultOption.selected = true;
         select.appendChild(defaultOption);
@@ -336,13 +331,13 @@ FilterGenerator.prototype.createDropdown = function (filterConfig, filterData) {
         return;
     }
 
-    const {baseUrl, selectedOptions, lockCustomPostTypes, args} = filterData;
+    const {baseUrl, selectedOption, lockCustomPostTypes, args} = filterData;
 
     let dropdownHTML = `
         <div class="wps-dropdown">
             <label class="selectedItemLabel">${filterConfig.label || "Post Type"}: </label>
             <button type="button" class="dropbtn">
-                <span>${selectedOptions ? this.getFilterName(filterData) : "All"}</span>
+                <span>${selectedOption ? this.getFilterName(filterData) : "All"}</span>
             </button>
             <div class="dropdown-content">
     `;
@@ -352,12 +347,12 @@ FilterGenerator.prototype.createDropdown = function (filterConfig, filterData) {
     }
 
     if (!filterConfig.selected) {
-        dropdownHTML += `<a href="${baseUrl}" data-index="0" class="${!selectedOptions ? 'selected' : ''}">All</a>`;
+        dropdownHTML += `<a href="${baseUrl}" data-index="0" class="${!selectedOption ? 'selected' : ''}">All</a>`;
     }
 
     args.forEach((item, key) => {
         let classList = [];
-        if (selectedOptions === item.slug) classList.push("selected");
+        if (selectedOption === item.slug) classList.push("selected");
         if (lockCustomPostTypes && item.slug !== "post" && item.slug !== "page") classList.push("disabled");
 
         if (item.premium) {
@@ -388,9 +383,9 @@ FilterGenerator.prototype.createDropdown = function (filterConfig, filterData) {
  * @returns {string} - The name of the selected post type.
  */
 FilterGenerator.prototype.getFilterName = function (filterData) {
-    const {selectedOptions, args} = filterData;
+    const {selectedOption, args} = filterData;
 
-    const selectedItem = args.find(item => item.slug === selectedOptions);
+    const selectedItem = args.find(item => item.slug === selectedOption);
     return selectedItem ? selectedItem.name : "All";
 };
 

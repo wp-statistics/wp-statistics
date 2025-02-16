@@ -3,8 +3,8 @@
 namespace WP_Statistics\Service\Admin\FilterHandler;
 
 use WP_STATISTICS\Country;
+use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
-use WP_STATISTICS\Menus;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Referred;
@@ -14,7 +14,6 @@ use WP_STATISTICS\User;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Url;
-use WP_STATISTICS\Visitor;
 
 /**
  * Class FilterManager
@@ -195,17 +194,40 @@ class FilterManager
         return $args;
     }
 
-    /**
-     * Retrieves a list of users who have visited the site.
-     *
-     * @return array
-     */
-    public function users()
-    {
+    public function getUser($search) {
+        global $wpdb;
+
         $args = [];
-        $user_list       = Visitor::get_users_visitor();
-        foreach ($user_list as $user_id => $user_inf) {
-            $args[$user_id] = $user_inf['user_login'] . " #" . $user_id . "";
+
+        // Base query
+        $query = "SELECT visitors.user_id, users.user_login, users.user_email 
+                  FROM `" . DB::table('visitor') . "` AS visitors 
+                  JOIN `" . $wpdb->users . "` AS users 
+                  ON visitors.user_id = users.ID 
+                  WHERE visitors.user_id > 0";
+    
+        // If search term is provided, filter by email or username
+        if (!empty($search)) {
+            $search = '%' . $wpdb->esc_like($search) . '%';
+            $query .= " AND (users.user_login LIKE %s OR users.user_email LIKE %s)";
+        }
+    
+        $query .= " GROUP BY visitors.user_id ORDER BY visitors.user_id DESC;";
+    
+        // Prepare and execute the query
+        if (!empty($search)) {
+            $query = $wpdb->prepare($query, $search, $search);
+        }
+    
+        $results = $wpdb->get_results($query, ARRAY_A);
+      
+        foreach ($results as $user) {
+            $option = [
+                'id'   => $user['user_id'],
+                'text' => $user['user_login'] . " #" . $user['user_id'] . ""
+            ];
+
+            $args[] = $option;
         }
 
         return $args;
@@ -216,13 +238,31 @@ class FilterManager
      *
      * @return array
      */
-    public function usersWithPosts()
+    public function getUserWithPosts($search)
     {
-        $args  = [];
-        $users = get_users(['has_published_posts' => true]);
+        $args = [];
+
+        // Query arguments
+        $query_args = [
+            'has_published_posts' => true,
+            'number'              => 10,
+        ];
+
+        // If a search term is provided, add it to the query
+        if (!empty($search)) {
+            $query_args['search'] = '*' . esc_attr($search) . '*';
+            $query_args['search_columns'] = ['display_name', 'user_login', 'user_email'];
+        }
+
+        $users = get_users($query_args);
 
         foreach ($users as $key => $user) {
-            $args[esc_html($user->ID)] = esc_html($user->display_name) . ' #' . esc_html($user->ID);
+            $option = [
+                'id'   => esc_html($user->ID),
+                'text' => esc_html($user->display_name) . " #" . esc_html($user->ID) . ""
+            ];
+
+            $args[] = $option;
         }
 
         return $args;
@@ -265,7 +305,7 @@ class FilterManager
      * @param string $search The search string for referrers.
      * @return array
      */
-    public function referrers($search)
+    public function getReferrer($search)
     {
         $args = [];
 
@@ -312,7 +352,7 @@ class FilterManager
         return [
             'args' => $args,
             'baseUrl' => $baseUrl,
-            'selectedOptions' => Request::get($queryKey),
+            'selectedOption' => Request::get($queryKey),
             'lockCustomPostTypes' => !Helper::isAddOnActive('data-plus'),
         ];
     }
@@ -339,7 +379,7 @@ class FilterManager
         return [
             'args' => $args,
             'baseUrl' => $baseUrl,
-            'selectedOptions' => Request::get($queryKey),
+            'selectedOption' => Request::get($queryKey),
         ];
     }
 
@@ -365,7 +405,7 @@ class FilterManager
         return [
             'args' => $args,
             'baseUrl' => $baseUrl,
-            'selectedOptions' => Request::get($queryKey, 'category'),
+            'selectedOption' => Request::get($queryKey, 'category'),
         ];
     }
 
@@ -390,7 +430,7 @@ class FilterManager
         return [
             'args' => $args,
             'baseUrl' => $baseUrl,
-            'selectedOptions' => Request::get('source_channel'),
+            'selectedOption' => Request::get('source_channel'),
         ];
     }
 
@@ -415,7 +455,7 @@ class FilterManager
         return [
             'args' => $args,
             'baseUrl' => $baseUrl,
-            'selectedOptions' => Request::get('source_channel'),
+            'selectedOption' => Request::get('source_channel'),
         ];
     }
 
@@ -442,7 +482,7 @@ class FilterManager
         return [
             'args' => $args,
             'baseUrl' => $baseUrl,
-            'selectedOptions' => Request::get('source_channel')
+            'selectedOption' => Request::get('source_channel')
         ];
     }
 
@@ -468,7 +508,7 @@ class FilterManager
         return [
             'args' => $args,
             'baseUrl' => $baseUrl,
-            'selectedOptions' => Request::get($queryKey, '')
+            'selectedOption' => Request::get($queryKey, '')
         ];
     }
 
@@ -500,7 +540,7 @@ class FilterManager
         return [
             'args' => $args,
             'baseUrl' => $baseUrl,
-            'selectedOptions' => Request::get($queryKey)
+            'selectedOption' => Request::get($queryKey)
         ];
     }
 

@@ -211,7 +211,9 @@ FilterModal.prototype.setSelectedValues = function () {
                 });
 
             } else {
-                $element.select2();
+                if (! $element.hasClass('select2-hidden-accessible')) {
+                    $element.select2();
+                }
             }
         }
 

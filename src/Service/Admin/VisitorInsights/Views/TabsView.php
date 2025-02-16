@@ -37,7 +37,8 @@ class TabsView extends BaseTabView
             'agent'    => Request::get('agent', ''),
             'platform' => Request::get('platform', ''),
             'user_id'  => Request::get('user_id', ''),
-            'ip'       => Request::get('ip', '')
+            'ip'       => Request::get('ip', ''),
+            'referrer' => Request::get('referrer', ''),
         ]);
 
         parent::__construct();
