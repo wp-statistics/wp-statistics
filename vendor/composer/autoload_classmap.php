@@ -21,6 +21,7 @@ return array(
     'WP_Statistics\\Async\\SchemaMigrationProcess' => $baseDir . '/src/Async/SchemaMigrationProcess.php',
     'WP_Statistics\\Async\\SourceChannelUpdater' => $baseDir . '/src/Async/SourceChannelUpdater.php',
     'WP_Statistics\\Async\\TableOperationProcess' => $baseDir . '/src/Async/TableOperationProcess.php',
+    'WP_Statistics\\Components\\Ajax' => $baseDir . '/src/Components/Ajax.php',
     'WP_Statistics\\Components\\AssetNameObfuscator' => $baseDir . '/src/Components/AssetNameObfuscator.php',
     'WP_Statistics\\Components\\Assets' => $baseDir . '/src/Components/Assets.php',
     'WP_Statistics\\Components\\DateRange' => $baseDir . '/src/Components/DateRange.php',
@@ -321,5 +322,4 @@ return array(
     'WP_Statistics\\Utils\\Request' => $baseDir . '/src/Utils/Request.php',
     'WP_Statistics\\Utils\\Signature' => $baseDir . '/src/Utils/Signature.php',
     'WP_Statistics\\Utils\\Url' => $baseDir . '/src/Utils/Url.php',
-    'Wp_Statistics\\Components\\Ajax' => $baseDir . '/src/Components/Ajax.php',
 );

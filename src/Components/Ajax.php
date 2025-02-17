@@ -1,6 +1,6 @@
 <?php
 
-namespace Wp_Statistics\Components;
+namespace WP_Statistics\Components;
 
 class Ajax
 {
