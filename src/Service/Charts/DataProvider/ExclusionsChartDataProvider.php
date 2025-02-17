@@ -48,9 +48,10 @@ class ExclusionsChartDataProvider extends AbstractChartDataProvider
         $this->setChartLabels(array_map(
             function ($date) {
                 return [
-                    'formatted_date'    =>DateTime::format($date, ['exclude_year' => true, 'short_month' => true]),
-                    'date'              =>DateTime::format($date, ['date_format' => 'Y-m-d']),
-                    'day'               =>DateTime::format($date, ['date_format' => 'l'])
+                    'formatted_date'    => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
+                    'date'              => date('Y-m-d', strtotime($date)),
+                    'date_i18n'         => date_i18n('Y-m-d', strtotime($date)),
+                    'day'               => date_i18n('l', strtotime($date))
                 ];
             },
             $periodDates

@@ -130,7 +130,8 @@ class SocialMediaChartDataProvider extends AbstractChartDataProvider
             function ($date) {
                 return [
                     'formatted_date'    => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
-                    'date'              => date_i18n('Y-m-d', strtotime($date)),
+                    'date'              => date('Y-m-d', strtotime($date)),
+                    'date_i18n'         => date_i18n('Y-m-d', strtotime($date)),
                     'day'               => date_i18n('l', strtotime($date))
                 ];
             },
