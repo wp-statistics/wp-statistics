@@ -56,13 +56,14 @@ $pluginHandler = new PluginHandler();
 
     <?php
     $addons = [
-        ['tab' => 'data-plus-settings', 'title' => 'Data Plus', 'key' => 'data-plus'],
-        ['tab' => 'realtime-stats-settings', 'title' => 'Real-time Stats', 'key' => 'realtime-stats'],
-        ['tab' => 'customization-settings', 'title' => 'Customization', 'key' => 'customization'],
-        ['tab' => 'advanced-reporting-settings', 'title' => 'Advanced Reporting', 'key' => 'advanced-reporting'],
-        ['tab' => 'mini-chart-settings', 'title' => 'Mini Chart', 'key' => 'mini-chart'],
-        ['tab' => 'rest-api-settings', 'title' => 'REST API', 'key' => 'rest-api'],
-        ['tab' => 'widgets-settings', 'title' => 'Advanced Widgets', 'key' => 'widgets'],
+        ['tab' => 'marketing-settings', 'title' => esc_html__('Marketing', 'wp-statistics'), 'key' => 'data-plus'],
+        ['tab' => 'data-plus-settings', 'title' => esc_html__('Data Plus', 'wp-statistics'), 'key' => 'data-plus'],
+        ['tab' => 'realtime-stats-settings', 'title' => esc_html__('Real-time Stats', 'wp-statistics'), 'key' => 'realtime-stats'],
+        ['tab' => 'customization-settings', 'title' => esc_html__('Customization', 'wp-statistics'), 'key' => 'customization'],
+        ['tab' => 'advanced-reporting-settings', 'title' => esc_html__('Advanced Reporting', 'wp-statistics'), 'key' => 'advanced-reporting'],
+        ['tab' => 'mini-chart-settings', 'title' => esc_html__('Mini Chart', 'wp-statistics'), 'key' => 'mini-chart'],
+        ['tab' => 'rest-api-settings', 'title' => esc_html__('REST API', 'wp-statistics'), 'key' => 'rest-api'],
+        ['tab' => 'widgets-settings', 'title' => esc_html__('Advanced Widgets', 'wp-statistics'), 'key' => 'widgets'],
     ];
 
     foreach ($addons as $addon) :
@@ -70,7 +71,7 @@ $pluginHandler = new PluginHandler();
         ?>
          <a data-tab="<?php echo esc_attr($addon['tab']); ?>"
            class="wps-optionsMenuItem wps-optionsMenuItem--extension premium <?php echo $pluginHandler->isPluginActive('wp-statistics-'.$addon['key']) ? 'wps-license-activated' : '' ?> <?php echo $isActive ? 'active' : ''; ?>">
-            <span class="wps-optionsMenuItem__title--extension"><?php esc_html_e($addon['title'], 'wp-statistics'); ?></span>
+            <span class="wps-optionsMenuItem__title--extension"><?php echo esc_html($addon['title']); ?></span>
         </a>
     <?php endforeach; ?>
 </div>
