@@ -6,8 +6,7 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
-// TODO: When the plugin is up, we should check the license status using the isPluginLicenseValid method.
-$isLicenseValid     = true; //LicenseHelper::isPluginLicenseValid('marketing');
+$isLicenseValid     = LicenseHelper::isPluginLicenseValid('marketing');
 $isMarketingActive  = Helper::isAddOnActive('marketing');
 
 if (!$isMarketingActive) {
