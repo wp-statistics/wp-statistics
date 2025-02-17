@@ -27,4 +27,113 @@
     }
   }
 }
+.wps-wrap__main , .wps-wrap__main table tbody tr td ,.wps-wrap.wp-statistics-settings  {
+  .wps-button , a.wps-button {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 15.23px;
+    border-radius: 4px;
+    border-width: 1px;
+    padding: 12px 16px;
+    gap: 8px;
+
+    &--outline-danger {
+      color: #D5201C;
+      border: 1px solid #D5201C;
+      background: transparent;
+
+      &:hover {
+        background: #D5201C1A;
+        color: #D5201C;
+      }
+
+      &:focus, &:active {
+        background: #BD17134D;
+        color: #D5201C;
+      }
+
+      &:disabled, &:focus:disabled, &:active:disabled, &:hover:disabled {
+        background: #D5201C1A;
+        border: 1px solid #D5201C1A;
+        color: #D5201D80;
+      }
+    }
+
+    &--default {
+      color: #0C0C0D;
+      border: 1px solid #C3C9D5;
+      background: #F6F6FF;
+
+      &:hover {
+        background: #FFFFFF;
+        border: 1px solid #BCC2CD;
+        color: #0C0C0D;
+      }
+
+      &:focus, &:active {
+        background: #E9E9FF;
+        border: 1px solid #BCC2CD;
+        color: #0C0C0D;
+      }
+
+      &:disabled, &:focus:disabled, &:active:disabled, &:hover:disabled {
+        background: #F1F1F9;
+        border: 1px solid #F1F1F9;
+        color: #B2B2CF;
+      }
+    }
+
+    &--primary {
+      color: #fff;
+      border: 1px solid #404BF2;
+      background: #404BF2;
+
+
+      &:hover {
+        background: #7981F6;
+        color: #fff;
+        border: 1px solid #7981F6
+      }
+
+      &:focus, &:active {
+        background: #5100FD;
+        color: #fff;
+        border: 1px solid #5100FD;
+      }
+
+      &:disabled, &:focus:disabled, &:active:disabled, &:hover:disabled {
+        background: #C6C9FB;
+        color: #fff;
+        border: 1px solid #C6C9FB;
+      }
+    }
+
+    &-danger {
+      color: #fff;
+      border: 1px solid #D5201C;
+      background: #D5201C;
+
+
+      &:hover {
+        background: #D5201CE5;
+        color: #fff;
+        border: 1px solid #D5201CE5
+      }
+
+      &:focus, &:active {
+        background: #BD1713;
+        color: #fff;
+        border: 1px solid #BD1713;
+      }
+
+      &:disabled, &:focus:disabled, &:active:disabled, &:hover:disabled {
+        background: #F1F1F9;
+        color: #B2B2CF;
+        border: 1px solid #F1F1F9;
+      }
+    }
+
+  }
+}
+
 
