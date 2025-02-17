@@ -2,14 +2,27 @@
 
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
-$notice = sprintf('<h2 class="notice-title">%1$s</h2><p>%2$s <a href="" target="_blank">%3$s</a>.</p><div class="notice-footer"> <a href="" target="_blank" class="notice--enable-usage">%4$s</a><a href="" class="notice--dismiss">%5$s</a></div>',
-    esc_html__('Help Us Improve WP Statistics!', 'wp-statistics'),
-    esc_html__('We’ve added a new Usage Tracking option to help us understand how WP Statistics is used and identify areas for improvement.
-By enabling this feature, you’ll help us make the plugin better for everyone. No personal or sensitive data is collected.', 'wp-statistics'),
-    esc_html__('Learn More', 'wp-statistics'),
-    esc_html__('Enable Usage Tracking', 'wp-statistics'),
-    esc_html__('Dismiss', 'wp-statistics'));
-Notice::renderNotice($notice, 'enable_usage_tracking', 'setting');
+$notice = [
+    'title'   => __('Help Us Improve WP Statistics!', 'wp-statistics'),
+    'content' => __('We’ve added a new Usage Tracking option to help us understand how WP Statistics is used and identify areas for improvement. By enabling this feature, you’ll help us make the plugin better for everyone. No personal or sensitive data is collected.', 'wp-statistics'),
+    'links'   => [
+        'learn_more'      => [
+            'text' => __('Learn More', 'wp-statistics'),
+            'url'  => '#',
+        ],
+        'enable_tracking' => [
+            'text'  => __('Enable Usage Tracking', 'wp-statistics'),
+            'url'   => '#',
+            'class' => 'notice--enable-usage',
+        ],
+        'dismiss'         => [
+            'text'  => __('Dismiss', 'wp-statistics'),
+            'url'   => '#',
+            'class' => 'notice--dismiss',
+        ],
+    ]
+];
+Notice::renderNotice($notice, 'enable_usage_tracking', 'setting', 'action');
 
 ?>
 <div id="poststuff"  >

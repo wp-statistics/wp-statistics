@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\NoticeHandler;
 
-use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Components\View;
 use WP_Statistics\Utils\Request;
 
 class Notice
@@ -94,36 +94,37 @@ class Notice
         return '';
     }
 
-    public static function renderNotice($message, $id, $class = 'info')
+    public static function renderNotice($message, $id, $class = 'info', $type='simple')
     {
         $notice = array(
             'message'        => $message,
             'id'             => $id,
             'class'          => $class,
             'is_dismissible' => false,
+            'type'           => $type,
         );
 
         $dismissible = $notice['is_dismissible'] ? ' is-dismissible' : '';
         $dismissUrl  = self::getDismissUrl($notice['id'], $notice);
 
-        self::renderNoticeInternal($notice, $dismissible, $dismissUrl);
+        self::renderNoticeInternal($notice, $dismissible, $dismissUrl, $type);
     }
 
     /**
      *
-     * @todo Should use component View::load() instead of Admin_Template
      * @param $notice
      * @param $dismissible
      * @param $dismissUrl
      * @return void
      */
-    private static function renderNoticeInternal($notice, $dismissible, $dismissUrl)
+    private static function renderNoticeInternal($notice, $dismissible, $dismissUrl, $type)
     {
-        Admin_Template::get_template('notice', [
+        $args = [
             'notice'      => $notice,
             'dismissible' => $dismissible,
-            'dismissUrl'  => $dismissUrl
-        ]);
+            'dismissUrl'  => $dismissUrl,
+        ];
+        View::load("components/notices/{$type}-notice", $args);
     }
 
     public static function handleDismissNotice()
