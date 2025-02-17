@@ -1,13 +1,17 @@
-<div class="wps-alert wps-alert--danger wps-alert--setting">
-    <h2 class="wps-alert-title"><?php echo esc_html_e('Help Us Improve WP Statistics!', 'wp-statistics') ?></h2>
-    <p class="wps-alert-content"><?php echo esc_html_e('We’ve added a new Usage Tracking option to help us understand how WP Statistics is used and identify areas for improvement.
-By enabling this feature, you’ll help us make the plugin better for everyone. No personal or sensitive data is collected.', 'wp-statistics') ?><a href="" target="_blank"> <?php echo esc_html_e('Learn More', 'wp-statistics') ?></a>.</p>
-    <div class="wps-alert-footer">
-        <a href="" target="_blank" class="wps-alert--enable-usage"><?php echo esc_html_e('Enable Usage Tracking', 'wp-statistics') ?></a>
-        <a href="" class="wps-alert--dismiss"><?php echo esc_html_e('Dismiss', 'wp-statistics') ?></a>
-    </div>
-</div>
+<?php
 
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+
+$notice = sprintf('<h2 class="notice-title">%1$s</h2><p>%2$s <a href="" target="_blank">%3$s</a>.</p><div class="notice-footer"> <a href="" target="_blank" class="notice--enable-usage">%4$s</a><a href="" class="notice--dismiss">%5$s</a></div>',
+    esc_html__('Help Us Improve WP Statistics!', 'wp-statistics'),
+    esc_html__('We’ve added a new Usage Tracking option to help us understand how WP Statistics is used and identify areas for improvement.
+By enabling this feature, you’ll help us make the plugin better for everyone. No personal or sensitive data is collected.', 'wp-statistics'),
+    esc_html__('Learn More', 'wp-statistics'),
+    esc_html__('Enable Usage Tracking', 'wp-statistics'),
+    esc_html__('Dismiss', 'wp-statistics'));
+Notice::renderNotice($notice, 'enable_usage_tracking', 'setting');
+
+?>
 <div id="poststuff"  >
     <div id="post-body" class="metabox-holder wps-settingsPageFlex">
         <?php include WP_STATISTICS_DIR . 'includes/admin/templates/layout/menu-settings.php'; ?>
