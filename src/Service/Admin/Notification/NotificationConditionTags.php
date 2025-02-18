@@ -5,6 +5,8 @@ namespace WP_Statistics\Service\Admin\Notification;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\User;
+use DateTimeZone;
+use Exception;
 
 class NotificationConditionTags
 {
@@ -78,13 +80,71 @@ class NotificationConditionTags
     }
 
     /**
+     * Checks if the current WordPress site language matches the given language.
+     *
+     * @param string $siteLanguage The language code to check (e.g., 'en_US', 'fr_FR').
+     *
+     * @return bool Returns true if the site language matches, otherwise false.
+     */
+    public static function isSiteLanguage($siteLanguage)
+    {
+        $locale = get_locale();
+
+        if ($locale === $siteLanguage) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if the provided country code matches the timezone string set in WordPress.
+     *
+     * @param string $country The ISO 3166-1 alpha-2 country code to check against the WordPress timezone.
+     *
+     * @return bool True if a matching country and timezone are found, false otherwise.
+     */
+    public static function isCountry($country)
+    {
+        $timezoneIdentifiers = timezone_identifiers_list();
+        $countryTimezones    = [];
+
+        $wpTimezone = get_option('timezone_string');
+
+        if (empty($wpTimezone)) {
+            return false;
+        }
+
+        foreach ($timezoneIdentifiers as $tz) {
+            try {
+                $dateTimeZone = new DateTimeZone($tz);
+                $location     = $dateTimeZone->getLocation();
+
+                if ($location && isset($location['country_code'])) {
+                    $countryCode           = $location['country_code'];
+                    $countryTimezones[$tz] = $countryCode;
+
+                    if ($countryCode === $country && strpos($tz, $wpTimezone) !== false) {
+                        return true;
+                    }
+                }
+            } catch (Exception $e) {
+                WP_Statistics()->log($e->getMessage(), 'error');
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Evaluate a given condition tag and return whether it is met.
      *
      * @param string $tag The condition tag to check.
      * @param string|null $version Optional version number for version-related checks.
      * @return bool True if the condition is met, false otherwise.
      */
-    public static function checkConditions($tag, $version = null)
+    public
+    static function checkConditions($tag, $version = null)
     {
         if (strpos($tag, 'is-version-') === 0) {
             $versionNumber = substr($tag, strlen('is-version-'));
@@ -97,6 +157,20 @@ class NotificationConditionTags
             $addon = substr($tag, strlen('has-addon-'));
             if ($addon) {
                 return self::isAddon($addon);
+            }
+        }
+
+        if (strpos($tag, 'is-locale-') === 0) {
+            $locale = substr($tag, strlen('is-locale-'));
+            if ($locale) {
+                return self::isSiteLanguage($locale);
+            }
+        }
+
+        if (strpos($tag, 'is-country-') === 0) {
+            $country = substr($tag, strlen('is-country-'));
+            if ($country) {
+                return self::isCountry($country);
             }
         }
 
