@@ -4,6 +4,7 @@
 - **Fix:** Fixed empty chart issue when selecting a 1-day range.
 - **Fix:** Resolved missing referring sites.
 - **Enhancement:** Online Visitors-related elements are now hidden when "Monitor Online Visitors" is disabled.
+- **Enhancement:** Improved number display so that numbers below 1,000 appear in full while numbers 1,000 and above are neatly abbreviated.
 
 = 14.12.4 - 2025-02-06 =
 - **Fix:** Fixed issues with Dashboard charts not loading due to an empty metalist and metaboxes not loading in specific cases.
