@@ -141,7 +141,8 @@ FilterModal.prototype.setSelectedValues = function () {
         if (currentValue !== null) {
             if ($element.is('select')) {
                 setTimeout(() => {
-                    this.selectOptionWhenAvailable.bind(this)($element, currentValue);
+                    const updateValue = currentValue.replace(/[\+ ]/g, ' ');
+                    this.selectOptionWhenAvailable.bind(this)($element, updateValue);
                 }, 100);
             } else if ($element.is('input')) {
                 $element.val(decodeURIComponent(currentValue));

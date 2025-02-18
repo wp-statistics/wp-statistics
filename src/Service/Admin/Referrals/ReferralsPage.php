@@ -47,6 +47,7 @@ class ReferralsPage extends MultiViewPage
                 'classes' => 'wps-width-100 wps-select2',
                 'attributes'  => [
                     'data-type'       => 'referrers',
+                    'data-source' => 'getReferrer',
                     'data-searchable' => true,
                 ],
             ])

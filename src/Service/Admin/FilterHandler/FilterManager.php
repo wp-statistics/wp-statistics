@@ -130,10 +130,23 @@ class FilterManager
     public function browsers()
     {
         $args     = [];
-        $browsers = DeviceHelper::getBrowserList();
 
-        foreach ($browsers as $key => $se) {
-            $args[$key] = $se;
+        $result = Query::select([
+            'agent',
+        ])
+            ->from('visitor')
+            ->whereNotNull('agent')
+            ->groupBy(['agent'])
+            ->getAll();
+
+        $result ? $result : [];
+
+        foreach ($result as $key => $browser) {
+            $name = $browser->agent;
+            $key  = strtolower($name);
+            $key  = str_replace(' ', '_', $key);
+
+            $args[$name] = $name;
         }
 
         return $args;
@@ -146,8 +159,8 @@ class FilterManager
      */
     public function location()
     {
-        $args               = [];
-        $country_list       = Country::getList();
+        $args         = [];
+        $country_list = Country::getList();
 
         foreach ($country_list as $key => $name) {
             $args[$key] = $name;
@@ -169,10 +182,22 @@ class FilterManager
     public function platform()
     {
         $args = [];
-        $platforms_list = DeviceHelper::getPlatformsList();
 
-        foreach ($platforms_list as $key => $platform) {
-            $args[$key] = $platform;
+        $result = Query::select([
+            'platform',
+        ])
+            ->from('visitor')
+            ->whereNotNull('platform')
+            ->groupBy(['platform'])
+            ->getAll();
+
+        $result ? $result : [];
+
+        foreach ($result as $key => $platform) {
+            $name = $platform->platform;
+            $key  = strtolower($name);
+
+            $args[$key] = $name;
         }
 
         return $args;
