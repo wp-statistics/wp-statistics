@@ -11,33 +11,41 @@ class Request
      *
      * @param string $param The parameter to retrieve from the $_REQUEST array.
      * @param mixed $default The default value to return if the parameter is not found in $_REQUEST.
-     * @param string $return The type of value to return. Valid options are 'number', 'text', and 'string'.
+     * @param string $type The type of value to return. Valid options are 'number', 'text', 'json', and 'string'.
      * @return mixed The retrieved value from the $_REQUEST array, or the default value if the parameter is not found.
      */
-    public static function get($param, $default = false, $return = 'string')
+    public static function get($param, $default = false, $type = 'string')
     {
         if (empty($_REQUEST[$param])) return $default;
 
         $value = $_REQUEST[$param];
 
-        if ($return === 'string') {
+        if ($type === 'string') {
             return sanitize_text_field($value);
         }
 
-        if ($return === 'url') {
+        if ($type === 'url') {
             return sanitize_url($value);
         }
 
-        if ($return === 'number') {
+        if ($type === 'number') {
             return intval($value);
         }
 
-        if ($return === 'text') {
+        if ($type === 'text') {
             return sanitize_textarea_field($value);
         }
 
-        if ($return === 'array' && is_array($value)) {
+        if ($type === 'array' && is_array($value)) {
             return array_map('sanitize_text_field', $value);
+        }
+
+        if ($type === 'json') {
+            $value = json_decode(stripslashes($value), true);
+
+            if (json_last_error() === JSON_ERROR_NONE) {
+                return array_map('sanitize_text_field', $value);
+            }
         }
 
         return $value;
