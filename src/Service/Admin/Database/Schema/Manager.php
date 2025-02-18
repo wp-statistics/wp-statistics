@@ -106,9 +106,9 @@ class Manager
                 'continent'      => 'varchar(50)',
                 'source_channel' => 'varchar(50)',
                 'source_name'    => 'varchar(100)',
-                'first_page'     => 'bigint(20) DEFAULT NULL',
+                'first_page'     => 'bigint(20) UNSIGNED DEFAULT NULL',
                 'first_view'     => 'datetime DEFAULT NULL',
-                'last_page'      => 'bigint(20) DEFAULT NULL',
+                'last_page'      => 'bigint(20) UNSIGNED DEFAULT NULL',
                 'last_view'      => 'datetime DEFAULT NULL'
             ],
             'constraints' => [
