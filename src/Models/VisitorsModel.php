@@ -773,7 +773,7 @@ class VisitorsModel extends BaseModel
 
         if ($args['page_info']) {
             $query
-                ->join('pages', ['first_page.page_id', 'pages.page_id'], [], 'LEFT');
+                ->join('pages', ['first_page', 'pages.page_id'], [], 'LEFT');
         }
 
         if ($args['user_info']) {
