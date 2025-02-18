@@ -37,7 +37,8 @@ const WpStatisticsEventTracker = {
 
         const eventData = this.prepareEventData(event);
         if (eventData) {
-            await this.sendEventData(eventData);
+            const ajaxUrl = WP_Statistics_DataPlus_Event_Object.eventAjaxUrl;
+            await this.sendEventData(eventData, ajaxUrl);
         }
     },
 
@@ -120,19 +121,17 @@ const WpStatisticsEventTracker = {
         return eventData;
     },
 
-    sendEventData: async function (eventData) {
+    sendEventData: async function (eventData, ajaxUrl) {
         const formData = new URLSearchParams();
         for (const key in eventData) {
             formData.append(key, eventData[key]);
         }
 
+        if (!ajaxUrl) {
+            throw new Error('AJAX URL is not defined.');
+        }
+
         try {
-            const ajaxUrl = WP_Statistics_DataPlus_Event_Object.eventAjaxUrl;
-
-            if (!ajaxUrl) {
-                throw new Error('DataPlus Event Ajax URL is not defined.');
-            }
-
             const response = await fetch(ajaxUrl, {
                 method: 'POST',
                 keepalive: true,
