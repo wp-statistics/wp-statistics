@@ -2,6 +2,14 @@
 
 use WP_STATISTICS\Helper;
 
+/**
+ * Class Test_NumberFormatter
+ *
+ * Unit tests for the WP_STATISTICS\Helper::formatNumberWithUnit method. 
+ * These tests verify that non-numeric inputs return 0; numbers below 1,000 are displayed in full (with optional rounding); 
+ * numbers between 1,000 and 9,999 are abbreviated with two decimal places; numbers 10,000 and above are abbreviated with one decimal place; 
+ * negative numbers and custom precision handling are also tested.
+ */
 class Test_NumberFormatter extends WP_UnitTestCase
 {
 
