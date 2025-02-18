@@ -19,8 +19,35 @@ const WpStatisticsEventTracker = {
                 this.captureEvent();
             }
         }
+
+        // Capture custom events when Marketing is active
+        if (typeof WP_Statistics_Marketing_Event_Object !== 'undefined') {
+            // Attach captureCustomEvent to window object
+            window.wp_statistics_event = this.captureCustomEvent.bind(this);
+        }
     },
 
+    // Marketing custom events
+    captureCustomEvent: function (eventName, eventData = {}) {
+        const ajaxUrl = WP_Statistics_Marketing_Event_Object.customEventAjaxUrl;
+
+        // Add timestamp
+        eventData.timestamp = Date.now();
+
+        // If resource_id is not set, set it to the source_id by default
+        if (!eventData.resource_id) {
+            eventData.resource_id = WP_Statistics_Tracker_Object.hitParams.source_id;
+        }
+
+        const data = {
+            event_name: eventName,
+            event_data: JSON.stringify(eventData)
+        };
+
+        this.sendEventData(data, ajaxUrl);
+    },
+
+    // DataPlus click and download events
     captureEvent: function () {
         const elementsToObserve = document.querySelectorAll('a');
         elementsToObserve.forEach(element => {
