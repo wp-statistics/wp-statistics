@@ -1,5 +1,5 @@
 = 14.12.x - 2025-**-** =
-- **Enhancement:** Improved the referrals background process so that it does not run on a fresh install.
+- **Enhancement:** Improved the referrals background process so that it does not show a notice on a fresh install.
 
 = 14.12.5 - 2025-02-** =
 - **Fix:** Fixed issues with Dashboard charts not loading due to an empty metalist and metaboxes not loading in specific cases.
