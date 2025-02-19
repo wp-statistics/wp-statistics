@@ -205,7 +205,6 @@ return array(
     'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\MostVisitedPages' => $baseDir . '/src/Service/Admin/Metabox/Metaboxes/MostVisitedPages.php',
     'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\OperatingSystems' => $baseDir . '/src/Service/Admin/Metabox/Metaboxes/OperatingSystems.php',
     'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\PostSummary' => $baseDir . '/src/Service/Admin/Metabox/Metaboxes/PostSummary.php',
-    'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\PostVisitorsLocked' => $baseDir . '/src/Service/Admin/Metabox/Metaboxes/PostVisitorsLocked.php',
     'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\SearchEngines' => $baseDir . '/src/Service/Admin/Metabox/Metaboxes/SearchEngines.php',
     'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\TopCountries' => $baseDir . '/src/Service/Admin/Metabox/Metaboxes/TopCountries.php',
     'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\TopDeviceModel' => $baseDir . '/src/Service/Admin/Metabox/Metaboxes/TopDeviceModel.php',
