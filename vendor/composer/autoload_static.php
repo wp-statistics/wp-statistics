@@ -224,7 +224,6 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\MostVisitedPages' => __DIR__ . '/../..' . '/src/Service/Admin/Metabox/Metaboxes/MostVisitedPages.php',
         'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\OperatingSystems' => __DIR__ . '/../..' . '/src/Service/Admin/Metabox/Metaboxes/OperatingSystems.php',
         'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\PostSummary' => __DIR__ . '/../..' . '/src/Service/Admin/Metabox/Metaboxes/PostSummary.php',
-        'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\PostVisitorsLocked' => __DIR__ . '/../..' . '/src/Service/Admin/Metabox/Metaboxes/PostVisitorsLocked.php',
         'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\SearchEngines' => __DIR__ . '/../..' . '/src/Service/Admin/Metabox/Metaboxes/SearchEngines.php',
         'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\TopCountries' => __DIR__ . '/../..' . '/src/Service/Admin/Metabox/Metaboxes/TopCountries.php',
         'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\TopDeviceModel' => __DIR__ . '/../..' . '/src/Service/Admin/Metabox/Metaboxes/TopDeviceModel.php',
