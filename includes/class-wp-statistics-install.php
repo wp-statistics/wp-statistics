@@ -40,8 +40,41 @@ class Install
         // Create Default Option in Database
         self::create_options();
 
+        self::checkIsFresh();
+
         // Set Version information
         update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
+    }
+
+    /**
+     * Checks whether the plugin is a fresh installation.
+     *
+     * @return void
+     */
+    private function checkIsFresh() {
+        $version = get_option('wp_statistics_plugin_version');
+
+        if (empty($version)) {
+            update_option('wp_statistics_is_fresh', true);
+            return;
+        }
+
+        update_option('wp_statistics_is_fresh', false);
+    }
+
+    /**
+     * Determines if the plugin is marked as freshly installed.
+     *
+     * @return bool.
+     */
+    public static function isFresh() {
+        $isFresh = get_option('wp_statistics_is_fresh', false);
+
+        if ($isFresh) {
+           return true;
+        }
+
+        return false;
     }
 
     /**
@@ -359,6 +392,8 @@ class Install
         if ($installed_version == $latest_version) {
             return;
         }
+
+        self::checkIsFresh();
 
         $userOnlineTable      = DB::table('useronline');
         $pagesTable           = DB::table('pages');

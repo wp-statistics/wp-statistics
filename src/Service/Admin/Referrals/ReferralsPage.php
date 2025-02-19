@@ -8,6 +8,7 @@ use WP_Statistics\Utils\Request;
 use WP_Statistics\Abstracts\MultiViewPage;
 use WP_Statistics\Async\BackgroundProcessFactory;
 use WP_Statistics\Async\SourceChannelUpdater;
+use WP_STATISTICS\Install;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Referrals\Views\TabsView;
 
@@ -40,6 +41,11 @@ class ReferralsPage extends MultiViewPage
     {
         /** @var SourceChannelUpdater $backgroundProcess */
         $backgroundProcess = WP_Statistics()->getBackgroundProcess('update_visitors_source_channel');
+        
+        if (Install::isFresh() && !$backgroundProcess->is_initiated()) {
+            Option::saveOptionGroup('update_source_channel_process_initiated', true, 'jobs');
+            return;
+        }
 
         // Show migration notice if the process is not already initiated
         if (!$backgroundProcess->is_initiated()) {
