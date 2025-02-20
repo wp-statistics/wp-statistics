@@ -47,6 +47,9 @@ class Install
 
         global $wpdb;
 
+        $this->checkIsFresh();
+        $this->checkBackgroundProcesses();
+
         if (is_multisite() && $network_wide) {
             $blog_ids = $wpdb->get_col("SELECT `blog_id` FROM $wpdb->blogs");
             foreach ($blog_ids as $blog_id) {
@@ -64,6 +67,75 @@ class Install
 
         // Set Version information
         update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
+    }
+
+    /**
+     * Checks whether the plugin is a fresh installation.
+     *
+     * @return void
+     */
+    private function checkIsFresh() {
+        $version = get_option('wp_statistics_plugin_version');
+
+        if (empty($version)) {
+            update_option('wp_statistics_is_fresh', true);
+            return;
+        }
+
+        update_option('wp_statistics_is_fresh', false);
+    }
+
+    /**
+     * Determines if the plugin is marked as freshly installed.
+     *
+     * @return bool.
+     */
+    public static function isFresh() {
+        $isFresh = get_option('wp_statistics_is_fresh', false);
+
+        if ($isFresh) {
+           return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks background processes during a fresh installation.
+     *
+     * @return void
+     */
+    private function checkBackgroundProcesses() {
+        require_once WP_STATISTICS_DIR . 'includes/libraries/wp-background-processing/wp-async-request.php';
+        require_once WP_STATISTICS_DIR . 'includes/libraries/wp-background-processing/wp-background-process.php';
+        require_once WP_STATISTICS_DIR . 'src/Async/SourceChannelUpdater.php';
+        require_once WP_STATISTICS_DIR . 'src/Async/CalculatePostWordsCount.php';
+        require_once WP_STATISTICS_DIR . 'src/Async/DataMigrationProcess.php';
+        require_once WP_STATISTICS_DIR . 'src/Async/GeolocationDatabaseDownloadProcess.php';
+        require_once WP_STATISTICS_DIR . 'src/Async/IncompleteGeoIpUpdater.php';
+        require_once WP_STATISTICS_DIR . 'src/Async/SchemaMigrationProcess.php';
+        require_once WP_STATISTICS_DIR . 'src/Async/TableOperationProcess.php';
+
+        $isFresh = self::isFresh();
+
+        $backgroundProcesses = WP_Statistics()::getBackgroundProcesses();
+
+        foreach($backgroundProcesses as $class => $method) {
+            $reflection = new \ReflectionClass($class);
+
+            if (! $reflection->hasProperty('initiationKey')) {
+                continue;
+            }
+
+            if (! $isFresh) {
+                continue;
+            }
+
+            $property = $reflection->getProperty('initiationKey');
+
+            Option::saveOptionGroup($property->getValue(), true, 'jobs');
+        }
+
     }
 
     public static function delete_duplicate_data()
@@ -183,6 +255,8 @@ class Install
         if ($installed_version == $latest_version) {
             return;
         }
+
+        $this->checkIsFresh();
 
         TableHandler::createAllTables();
         

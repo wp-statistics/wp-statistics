@@ -23,6 +23,13 @@ class IncompleteGeoIpUpdater extends WP_Background_Process
     protected $action = 'update_unknown_visitor_geoip';
 
     /**
+     * Unique initiation key for the initiated process.
+     *
+     * @var string
+     */
+    public static $initiationKey = 'update_geoip_process_initiated';
+
+    /**
      * Perform task with queued item.
      *
      * Override this method to perform any actions required on each
@@ -63,7 +70,7 @@ class IncompleteGeoIpUpdater extends WP_Background_Process
 
     public function is_initiated()
     {
-        return Option::getOptionGroup('jobs', 'update_geoip_process_initiated');
+        return Option::getOptionGroup('jobs', self::$initiationKey);
     }
 
     /**

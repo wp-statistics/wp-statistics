@@ -19,6 +19,14 @@ class TableOperationProcess extends WP_Background_Process
     protected $action = 'table_operations_process';
 
     /**
+     * Unique initiation key for the initiated process.
+     *
+     * @var string
+     */
+    public static $initiationKey = 'table_operations_process_initiated';
+
+
+    /**
      * Process each table creation task.
      * @param array $data
      * @return bool|string
@@ -43,7 +51,7 @@ class TableOperationProcess extends WP_Background_Process
 
     public function is_initiated()
     {
-        return Option::getOptionGroup('jobs', 'table_operations_process_initiated', false);
+        return Option::getOptionGroup('jobs', self::$initiationKey, false);
     }
 
     /**

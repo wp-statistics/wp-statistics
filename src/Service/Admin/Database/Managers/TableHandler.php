@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\Database\Managers;
 
+use WP_STATISTICS\Install;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\Database\DatabaseFactory;
 use WP_Statistics\Service\Admin\Database\Schema\Manager;
@@ -49,11 +50,9 @@ class TableHandler
             }
         }
 
-        $pluginVersion = get_option('wp_statistics_plugin_version', null);
-
         Option::saveOptionGroup('check', false, 'db');
 
-        if (empty($pluginVersion)) {
+        if (Install::isFresh()) {
             Option::saveOptionGroup('migrated', true, 'db');
             Option::saveOptionGroup('version', WP_STATISTICS_VERSION, 'db');
             return;
