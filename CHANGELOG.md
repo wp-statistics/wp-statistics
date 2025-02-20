@@ -1,4 +1,5 @@
 = 14.12.5 - 2025-02-** =
+- **Fix:** Fix js error on the Statistics - Summary meta box when the Data Plus addon is not activated.
 - **Fix:** Fixed issues with Dashboard charts not loading due to an empty metalist and metaboxes not loading in specific cases.
 - **Fix:** Correct mini chart start date to use post creation date instead of default.
 - **Fix:** Fixed empty chart issue when selecting a 1-day range.
