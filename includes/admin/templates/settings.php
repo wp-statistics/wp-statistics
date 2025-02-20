@@ -14,12 +14,7 @@ $notice = [
             'text'  => __('Enable Usage Tracking', 'wp-statistics'),
             'url'   => '#',
             'class' => 'notice--enable-usage',
-        ],
-        'dismiss'         => [
-            'text'  => __('Dismiss', 'wp-statistics'),
-            'url'   => '#',
-            'class' => 'notice--dismiss',
-        ],
+        ]
     ]
 ];
 Notice::renderNotice($notice, 'enable_usage_tracking', 'setting', 'action');

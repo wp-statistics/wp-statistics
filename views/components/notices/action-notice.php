@@ -9,8 +9,12 @@
         <a href="<?php echo esc_url($notice['message']['links']['enable_tracking']['url']); ?>" target="_blank" class="<?php echo esc_attr($notice['message']['links']['enable_tracking']['class']); ?>">
             <?php echo esc_html($notice['message']['links']['enable_tracking']['text']); ?>
         </a>
-        <a href="<?php echo esc_url($notice['message']['links']['dismiss']['url']); ?>" class="<?php echo esc_attr($notice['message']['links']['dismiss']['class']); ?>">
-            <?php echo esc_html($notice['message']['links']['dismiss']['text']); ?>
-        </a>
+        <?php if ($notice['is_dismissible']) : ?>
+            <?php if ($dismissUrl) : ?>
+                <a href="<?php echo esc_url($dismissUrl); ?>" class="notice--dismiss">
+                    <?php echo  esc_html_e('Dismiss', 'wp-statistics'); ?>
+                </a>
+            <?php endif; ?>
+        <?php endif; ?>
     </div>
 </div>
