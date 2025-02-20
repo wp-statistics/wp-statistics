@@ -23,7 +23,7 @@ use WP_Statistics\Components\View;
         </div>
         <div class="wps-notification-sidebar__content">
             <div class="wps-notification-sidebar__tab-pane wps-notification-sidebar__tab-pane--active" id="tab-1">
-                <div class="wps-notification-sidebar__cards">
+                <div class="wps-notification-sidebar__cards wps-notification-sidebar__cards--active">
                     <?php
                     if (!empty($notifications)) :
                         foreach ($notifications as $notification) :
@@ -41,7 +41,7 @@ use WP_Statistics\Components\View;
                 </div>
             </div>
             <div class="wps-notification-sidebar__tab-pane" id="tab-2">
-                <div class="wps-notification-sidebar__cards">
+                <div class="wps-notification-sidebar__cards wps-notification-sidebar__cards--dismissed">
                     <?php
                     if (!empty($notifications)) :
                         foreach ($notifications as $notification) :

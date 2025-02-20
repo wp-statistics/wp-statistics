@@ -26,7 +26,7 @@ class NotificationFetcher
             $pluginSlug = basename(dirname(WP_STATISTICS_MAIN_FILE));
             $url        = $this->apiUrl . '/api/v1/notifications';
             $method     = 'GET';
-            $params     = ['plugin_slug' => $pluginSlug];
+            $params     = ['plugin_slug' => $pluginSlug, 'per_page' => 20];
             $args       = [
                 'timeout'     => 45,
                 'redirection' => 5,
@@ -56,6 +56,9 @@ class NotificationFetcher
                     sprintf(__('No notifications were found. The API returned an empty response from the following URL: %s', 'wp-statistics'), "{$this->apiUrl}/api/v1/notifications?plugin_slug={$pluginSlug}")
                 );
             }
+
+            $notifications = NotificationProcessor::syncNotifications($notifications);
+            $notifications = NotificationProcessor::checkUpdatedNotifications($notifications);
 
             update_option('wp_statistics_notifications', $notifications);
 

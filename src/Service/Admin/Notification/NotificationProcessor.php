@@ -98,4 +98,95 @@ class NotificationProcessor
 
         return true;
     }
+
+    /**
+     * Sync new notifications with old notifications.
+     *
+     * @param array $newNotifications
+     *
+     * @return array
+     */
+    public static function syncNotifications($newNotifications)
+    {
+        $oldNotifications = NotificationFactory::getRawNotificationsData();
+
+        $dismissedNotifications = [];
+
+        if (!empty($oldNotifications['data']) && is_array($oldNotifications['data'])) {
+            foreach ($oldNotifications['data'] as $oldNotification) {
+                if (!empty($oldNotification['dismiss']) && !empty($oldNotification['id'])) {
+                    $dismissedNotifications[$oldNotification['id']] = true;
+                }
+            }
+        }
+
+        if (!empty($newNotifications['data']) && is_array($newNotifications['data'])) {
+            foreach ($newNotifications['data'] as &$newNotification) {
+                if (isset($dismissedNotifications[$newNotification['id']])) {
+                    $newNotification['dismiss'] = true;
+                }
+            }
+        }
+
+        return $newNotifications;
+    }
+
+    /**
+     * Checks for updated notifications by comparing new notifications with previously stored ones.
+     *
+     * @param array $newNotifications
+     *
+     * @return array
+     */
+    public static function checkUpdatedNotifications($newNotifications)
+    {
+        $oldNotifications = NotificationFactory::getRawNotificationsData();
+
+        $oldNotificationIds = [];
+
+        if (!empty($oldNotifications['data']) && is_array($oldNotifications['data'])) {
+            foreach ($oldNotifications['data'] as $oldNotification) {
+                if (!empty($oldNotification['id'])) {
+                    $oldNotificationIds[$oldNotification['id']] = true;
+                }
+            }
+        }
+
+        if (!empty($newNotifications['data']) && is_array($newNotifications['data'])) {
+            foreach ($newNotifications['data'] as &$newNotification) {
+                if (!empty($newNotification['id']) && !isset($oldNotificationIds[$newNotification['id']])) {
+                    $newNotifications['updated'] = true;
+                    break;
+                } else {
+                    $newNotifications['updated'] = false;
+                }
+            }
+        }
+
+        return $newNotifications;
+    }
+
+    /**
+     * Updates the status of notifications.
+     *
+     * @return bool
+     */
+    public static function updateNotificationsStatus()
+    {
+        $notifications = NotificationFactory::getRawNotificationsData();
+
+        if (!$notifications) {
+            return false;
+        }
+
+        if (isset($notifications['updated']) && !empty($notifications['updated'])) {
+            $notifications['updated'] = false;
+
+            update_option('wp_statistics_notifications', $notifications);
+
+            return true;
+        }
+
+        return false;
+    }
 }

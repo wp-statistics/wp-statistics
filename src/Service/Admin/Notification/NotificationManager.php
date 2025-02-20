@@ -3,7 +3,6 @@
 namespace WP_Statistics\Service\Admin\Notification;
 
 use WP_Statistics\Components\Event;
-use Wp_Statistics\Components\Ajax;
 
 class NotificationManager
 {
@@ -15,7 +14,7 @@ class NotificationManager
      */
     public function __construct()
     {
-        Ajax::register('dismiss_notification', [$this, 'dismissNotification']);
+        add_action('admin_init', [$this, 'registerActions']);
         add_filter('cron_schedules', [$this, 'notificationCronIntervalsHook']);
         Event::schedule('wp_statistics_notification_hook', time(), 'every_three_days', [$this, 'fetchNotification']);
     }
@@ -48,17 +47,14 @@ class NotificationManager
     }
 
     /**
-     * Dismisses a notification.
-     *
-     * This method creates an instance of `NotificationAjaxHandler` and calls
-     * the `dismissNotificationActionCallback` method to handle the dismissal.
+     * Registers notification actions.
      *
      * @return void
      */
-    public function dismissNotification()
+    public function registerActions()
     {
-        $notificationAjaxHandler = new NotificationAjaxHandler();
+        $notificationActions = new NotificationActions();
 
-        $notificationAjaxHandler->dismissNotificationActionCallback();
+        $notificationActions->register();
     }
 }

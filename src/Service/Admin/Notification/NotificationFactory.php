@@ -26,4 +26,20 @@ class NotificationFactory
     {
         return get_option('wp_statistics_notifications', []);
     }
+
+    /**
+     * Checks if there are updated notifications.
+     *
+     * @return bool
+     */
+    public static function hasUpdatedNotifications()
+    {
+        $rawNotifications = get_option('wp_statistics_notifications', []);
+
+        if (!is_array($rawNotifications)) {
+            return false;
+        }
+
+        return !empty($rawNotifications['updated']) ? (bool)$rawNotifications['updated'] : false;
+    }
 }

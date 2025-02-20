@@ -76,7 +76,12 @@ class NotificationDecorator
      */
     public function primaryButtonUrl()
     {
-        return $this->notification->primary_button['url'] ?? null;
+        $homeUrl = home_url();
+        $url     = isset($this->notification->primary_button['url'])
+            ? str_replace('{baseUrl}', $homeUrl, $this->notification->primary_button['url'])
+            : null;
+
+        return $url;
     }
 
     /**
@@ -96,7 +101,11 @@ class NotificationDecorator
      */
     public function secondaryButtonUrl()
     {
-        return $this->notification->secondary_button['url'] ?? null;
+        $homeUrl = home_url();
+        $url     = isset($this->notification->secondary_button['url'])
+            ? str_replace('{baseUrl}', $homeUrl, $this->notification->secondary_button['url'])
+            : null;
+        return $url;
     }
 
     /**
@@ -117,8 +126,13 @@ class NotificationDecorator
     public function activatedAt()
     {
         if ($this->notification->activated_at) {
+            $timezoneOffset = get_option('gmt_offset') * 3600;
+
             $timestamp = strtotime($this->notification->activated_at);
-            $timeDiff  = human_time_diff($timestamp, current_time('timestamp'));
+
+            $timestamp += $timezoneOffset;
+
+            $timeDiff = human_time_diff($timestamp, current_time('timestamp'));
 
             return $timeDiff . ' ' . __('ago', 'wp-statistics');
         }
