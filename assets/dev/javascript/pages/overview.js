@@ -318,7 +318,11 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
                 }
             });
         } else {
-            activeOptions = [...meta_list_side, ...meta_list_normal];
+             activeOptions = [
+                ...(Array.isArray(meta_list_side) ? meta_list_side : []),
+                ...(Array.isArray(meta_list_normal) ? meta_list_normal : [])
+            ];
+
             if (isInsideDashboard) {
                 if (meta_list_column3) activeOptions = [...activeOptions, ...meta_list_column3];
                 if (meta_list_column4) activeOptions = [...activeOptions, ...meta_list_column4];
