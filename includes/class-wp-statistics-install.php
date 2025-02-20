@@ -106,15 +106,9 @@ class Install
      * @return void
      */
     private function checkBackgroundProcesses() {
+        require_once WP_STATISTICS_DIR . 'vendor/autoload.php';
         require_once WP_STATISTICS_DIR . 'includes/libraries/wp-background-processing/wp-async-request.php';
         require_once WP_STATISTICS_DIR . 'includes/libraries/wp-background-processing/wp-background-process.php';
-        require_once WP_STATISTICS_DIR . 'src/Async/SourceChannelUpdater.php';
-        require_once WP_STATISTICS_DIR . 'src/Async/CalculatePostWordsCount.php';
-        require_once WP_STATISTICS_DIR . 'src/Async/DataMigrationProcess.php';
-        require_once WP_STATISTICS_DIR . 'src/Async/GeolocationDatabaseDownloadProcess.php';
-        require_once WP_STATISTICS_DIR . 'src/Async/IncompleteGeoIpUpdater.php';
-        require_once WP_STATISTICS_DIR . 'src/Async/SchemaMigrationProcess.php';
-        require_once WP_STATISTICS_DIR . 'src/Async/TableOperationProcess.php';
 
         $isFresh = self::isFresh();
 
