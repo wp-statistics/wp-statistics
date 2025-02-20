@@ -23,6 +23,7 @@ use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsManager;
 use WP_Statistics\Service\Admin\PageInsights\PageInsightsManager;
 use WP_Statistics\Service\Admin\Referrals\ReferralsManager;
 use WP_Statistics\Service\HooksManager;
+use WP_Statistics\Service\Admin\TrackerUsageData\TrackerUsageDataManager;
 
 defined('ABSPATH') || exit;
 
@@ -155,9 +156,10 @@ final class WP_Statistics
         // Ajax area
         require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-template.php';
 
-        $referrals      = new ReferralsManager();
-        $postsManager   = new PostsManager();
-        $userOnline     = new \WP_STATISTICS\UserOnline();
+        $referrals               = new ReferralsManager();
+        $postsManager            = new PostsManager();
+        $userOnline              = new \WP_STATISTICS\UserOnline();
+        $trackerUsageDataManager = new TrackerUsageDataManager();
 
         // Admin classes
         if (is_admin()) {

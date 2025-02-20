@@ -46,15 +46,16 @@ if (jQuery('.wp-statistics-settings').length) {
     const triggerInput = document.querySelector('input[name="user_custom_header_ip_method"]');
     const customHeaderRadio = document.getElementById('custom-header');
     if (triggerInput && customHeaderRadio) {
-        customHeaderRadio.addEventListener('change', function() {
+        customHeaderRadio.addEventListener('change', function () {
             if (customHeaderRadio.checked) {
                 triggerInput.focus();
             }
         });
 
         function checkCustomHeader() {
-          customHeaderRadio.checked = true;
+            customHeaderRadio.checked = true;
         }
+
         triggerInput.addEventListener('click', checkCustomHeader);
         triggerInput.addEventListener('paste', checkCustomHeader);
         triggerInput.addEventListener('input', checkCustomHeader);
@@ -76,6 +77,42 @@ function wp_statistics_check_condition_view_option(selector, field) {
         }
     });
 }
+
+jQuery(document).ready(function () {
+    jQuery(document).on('click', "a.notice--enable-usage", function (e) {
+        e.preventDefault();
+
+        let $this = jQuery(this);
+        let $notice = $this.closest('.notice');
+
+        $notice.fadeOut(300, function () {
+            jQuery(this).remove();
+        });
+
+        let params = {
+            'wps_nonce': wps_js.global.rest_api_nonce,
+            'action': 'wp_statistics_enable_usage_tracking',
+        }
+
+        jQuery.ajax({
+            url: wps_js.global.admin_url + 'admin-ajax.php',
+            type: 'GET',
+            dataType: 'json',
+            data: params,
+            timeout: 30000,
+            success: function ({data, success}) {
+                if (!success) {
+                    console.log(data);
+                } else {
+                    location.reload();
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
+    });
+});
 
 // Check the Spam List
 wp_statistics_check_condition_view_option("input[name=wps_referrerspam]", "tr.referrerspam_field");

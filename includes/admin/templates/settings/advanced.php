@@ -168,12 +168,12 @@ add_thickbox();
                 </select>
 
                 <p class="description">
-                    <?php 
-                        echo sprintf(
-                            /* translators: %s: Link to learn about Cloudflare Geolocation */
-                            esc_html__('Select the method to detect location data for visitors. For better performance, we recommend using the Cloudflare IP Geolocation method, which requires your domain to be on Cloudflare with \'Visitor Location Headers\' enabled. %s', 'wp-statistics'),
-                            '<a href="https://wp-statistics.com/resources/how-to-enable-cloudflare-ip-geolocation/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" class="wps-text-decoration-underline" target="_blank">' . esc_html__('Learn more about setting up Cloudflare Geolocation', 'wp-statistics') . '</a>'
-                        );                      
+                    <?php
+                    echo sprintf(
+                    /* translators: %s: Link to learn about Cloudflare Geolocation */
+                        esc_html__('Select the method to detect location data for visitors. For better performance, we recommend using the Cloudflare IP Geolocation method, which requires your domain to be on Cloudflare with \'Visitor Location Headers\' enabled. %s', 'wp-statistics'),
+                        '<a href="https://wp-statistics.com/resources/how-to-enable-cloudflare-ip-geolocation/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" class="wps-text-decoration-underline" target="_blank">' . esc_html__('Learn more about setting up Cloudflare Geolocation', 'wp-statistics') . '</a>'
+                    );
                     ?>
                 </p>
             </td>
@@ -280,18 +280,18 @@ add_thickbox();
                 function handle_maxmind_fields() {
                     var isMaxmind = jQuery("#geoip_location_detection_method").val() === "maxmind";
                     var isUserLicense = jQuery("#geoip_license_type").val() === "user-license";
-                    
+
                     var elements = [
-                        "#geoip_license_type_option", 
-                        "#geoip_license_key_option", 
-                        "#enable_geoip_option", 
-                        "#schedule_geoip_option", 
+                        "#geoip_license_type_option",
+                        "#geoip_license_key_option",
+                        "#enable_geoip_option",
+                        "#schedule_geoip_option",
                         "#geoip_auto_pop_option"
                     ];
 
-                    jQuery.each(elements, function(index, element) {
+                    jQuery.each(elements, function (index, element) {
                         if (element === "#geoip_license_key_option" && !isUserLicense) {
-                            return; 
+                            return;
                         }
 
                         isMaxmind ? jQuery(element).show() : jQuery(element).hide();
@@ -414,7 +414,7 @@ add_thickbox();
             </th>
 
             <td>
-                <input id="wps_enable_usage_tracking" type="checkbox" name="wps_enable_usage_tracking" <?php echo WP_STATISTICS\Option::get('schedule_dbmaint') == true ? "checked='checked'" : ''; ?> onchange='DBMaintWarning();'>
+                <input id="wps_enable_usage_tracking" type="checkbox" name="wps_enable_usage_tracking" <?php echo WP_STATISTICS\Option::get('enable_usage_tracking') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'>
                 <label for="wps_enable_usage_tracking"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('Allow WP Statistics to collect anonymous usage data to improve features, performance, and user experience. No personal or sensitive data will be collected. Learn more.', 'wp-statistics'); ?></p>
             </td>

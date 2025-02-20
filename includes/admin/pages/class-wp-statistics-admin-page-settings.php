@@ -33,7 +33,7 @@ class settings_page extends Singleton
 
         // Add Class inf
         $args['class'] = 'wp-statistics-settings';
-        $args['title'] =  __('Settings', 'wp-statistics');
+        $args['title'] = __('Settings', 'wp-statistics');
 
         // Check User Access To Save Setting
         $args['wps_admin'] = false;
@@ -78,7 +78,8 @@ class settings_page extends Singleton
                 'external',
                 'maintenance',
                 'notification',
-                'privacy'
+                'privacy',
+                'usage_tracking',
             );
             foreach ($method_list as $method) {
                 $wp_statistics_options = self::{'save_' . $method . '_option'}($wp_statistics_options);
@@ -337,7 +338,7 @@ class settings_page extends Singleton
     {
         $wps_option_list = array('wps_read_capability', 'wps_manage_capability');
         foreach ($wps_option_list as $option) {
-            $capability = ! empty($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '';
+            $capability = !empty($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '';
 
             if (!User::checkUserCapability($capability)) {
                 continue;
@@ -508,6 +509,23 @@ class settings_page extends Singleton
 
         // Update Option
         update_option(Option::$opt_name, $default_options);
+    }
+
+    /**
+     *
+     */
+    public static function save_usage_tracking_option()
+    {
+        $wps_option_list = array(
+            'wps_enable_usage_tracking',
+        );
+
+        foreach ($wps_option_list as $option) {
+            $optionValue                                                = isset($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '';
+            $wp_statistics_options[self::input_name_to_option($option)] = $optionValue;
+        }
+
+        return $wp_statistics_options;
     }
 }
 

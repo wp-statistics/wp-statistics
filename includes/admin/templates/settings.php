@@ -2,25 +2,26 @@
 
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
-$notice = [
-    'title'   => __('Help Us Improve WP Statistics!', 'wp-statistics'),
-    'content' => __('We’ve added a new Usage Tracking option to help us understand how WP Statistics is used and identify areas for improvement. By enabling this feature, you’ll help us make the plugin better for everyone. No personal or sensitive data is collected.', 'wp-statistics'),
-    'links'   => [
-        'learn_more'      => [
-            'text' => __('Learn More', 'wp-statistics'),
-            'url'  => '#',
-        ],
-        'enable_tracking' => [
-            'text'  => __('Enable Usage Tracking', 'wp-statistics'),
-            'url'   => '#',
-            'class' => 'notice--enable-usage',
+if (!WP_STATISTICS\Option::get('enable_usage_tracking')) {
+    $notice = [
+        'title'   => __('Help Us Improve WP Statistics!', 'wp-statistics'),
+        'content' => __('We’ve added a new Usage Tracking option to help us understand how WP Statistics is used and identify areas for improvement. By enabling this feature, you’ll help us make the plugin better for everyone. No personal or sensitive data is collected.', 'wp-statistics'),
+        'links'   => [
+            'learn_more'      => [
+                'text' => __('Learn More', 'wp-statistics'),
+                'url'  => '#',
+            ],
+            'enable_tracking' => [
+                'text'  => __('Enable Usage Tracking', 'wp-statistics'),
+                'url'   => '#',
+                'class' => 'notice--enable-usage',
+            ]
         ]
-    ]
-];
-Notice::renderNotice($notice, 'enable_usage_tracking', 'setting', 'action');
-
+    ];
+    Notice::renderNotice($notice, 'enable_usage_tracking', 'setting', 'action');
+}
 ?>
-<div id="poststuff"  >
+<div id="poststuff">
     <div id="post-body" class="metabox-holder wps-settingsPageFlex">
         <?php include WP_STATISTICS_DIR . 'includes/admin/templates/layout/menu-settings.php'; ?>
 
