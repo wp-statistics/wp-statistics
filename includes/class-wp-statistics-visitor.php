@@ -3,10 +3,11 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Models\VisitorsModel;
-use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
-use WP_Statistics\Service\Analytics\Referrals\Referrals;
 use WP_Statistics\Service\Analytics\VisitorProfile;
+use WP_Statistics\Service\Analytics\Referrals\Referrals;
+use WP_Statistics\Service\Admin\Database\DatabaseFactory;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 
 class Visitor
 {
@@ -140,12 +141,19 @@ class Visitor
                 'user_id'       => $visitorProfile->getUserId(),
                 'UAString'      => ((Option::get('store_ua') == true && !Helper::shouldTrackAnonymously()) ? $visitorProfile->getHttpUserAgent() : ''),
                 'hits'          => 1,
-                'honeypot'      => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0),
-                'first_page'    => $args['page_id'],
-                'first_view'    => TimeZone::getCurrentDate(),
-                'last_page'     => $args['page_id'],
-                'last_view'     => TimeZone::getCurrentDate()
+                'honeypot'      => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0)
             );
+
+            // Store First and Last Page for versions above 14.12.5
+            if (DatabaseFactory::compareCurrentVersion('14.12.5', '>=')) {
+                $visitor = array_merge($visitor, [
+                    'first_page'    => $args['page_id'],
+                    'first_view'    => TimeZone::getCurrentDate(),
+                    'last_page'     => $args['page_id'],
+                    'last_view'     => TimeZone::getCurrentDate()
+                ]);
+            }
+
             $visitor = apply_filters('wp_statistics_visitor_information', $visitor);
 
             //Save Visitor TO DB
