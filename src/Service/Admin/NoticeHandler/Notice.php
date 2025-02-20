@@ -117,7 +117,7 @@ class Notice
      * @param $dismissUrl
      * @return void
      */
-    private static function renderNoticeInternal($notice, $dismissible, $dismissUrl, $type)
+    private static function renderNoticeInternal($notice, $dismissible, $dismissUrl, $type='simple')
     {
         $args = [
             'notice'      => $notice,
