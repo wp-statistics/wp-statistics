@@ -7,6 +7,7 @@ use WP_Statistics\Components\DateRange;
 use WP_Statistics\Decorators\ReferralDecorator;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Helper;
+use WP_Statistics\Service\Admin\Database\DatabaseFactory;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Utils\Query;
 
@@ -458,6 +459,10 @@ class VisitorsModel extends BaseModel
 
     public function getVisitorsData($args = [])
     {
+        if (DatabaseFactory::compareCurrentVersion('14.12.5', '<')) {
+            return LegacyModel::get('visitorsData', $args, '14.12.4');
+        }
+
         $args = $this->parseArgs($args, [
             'date'          => '',
             'resource_type' => '',
@@ -589,6 +594,10 @@ class VisitorsModel extends BaseModel
 
     public function getReferredVisitors($args = [])
     {
+        if (DatabaseFactory::compareCurrentVersion('14.12.5', '<')) {
+            return LegacyModel::get('referredVisitors', $args, '14.12.4');
+        }
+
         $args = $this->parseArgs($args, [
             'date'              => '',
             'source_channel'    => '',
@@ -714,6 +723,10 @@ class VisitorsModel extends BaseModel
 
     public function getVisitorData($args = [])
     {
+        if (DatabaseFactory::compareCurrentVersion('14.12.5', '<')) {
+            return LegacyModel::get('visitorData', $args, '14.12.4');
+        }
+
         $args = $this->parseArgs($args, [
             'fields'     => [],
             'visitor_id' => '',

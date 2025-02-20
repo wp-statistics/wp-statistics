@@ -124,6 +124,7 @@ return array(
     'WP_Statistics\\Models\\AuthorsModel' => $baseDir . '/src/Models/AuthorsModel.php',
     'WP_Statistics\\Models\\ExclusionsModel' => $baseDir . '/src/Models/ExclusionsModel.php',
     'WP_Statistics\\Models\\HistoricalModel' => $baseDir . '/src/Models/HistoricalModel.php',
+    'WP_Statistics\\Models\\LegacyModel' => $baseDir . '/src/Models/LegacyModel.php',
     'WP_Statistics\\Models\\OnlineModel' => $baseDir . '/src/Models/OnlineModel.php',
     'WP_Statistics\\Models\\PostsModel' => $baseDir . '/src/Models/PostsModel.php',
     'WP_Statistics\\Models\\TaxonomyModel' => $baseDir . '/src/Models/TaxonomyModel.php',
