@@ -8,11 +8,6 @@ use WP_Statistics\Utils\Query;
 
 class LegacyModel extends BaseModel
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public static function get($method, $args, $version)
     {
         $instance = new self();
