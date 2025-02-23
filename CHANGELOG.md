@@ -1,9 +1,14 @@
 = 14.12.5 - 2025-02-** =
+- **Fix:** Fix js error on the Statistics - Summary meta box when the Data Plus addon is not activated.
 - **Fix:** Fixed issues with Dashboard charts not loading due to an empty metalist and metaboxes not loading in specific cases.
 - **Fix:** Correct mini chart start date to use post creation date instead of default.
 - **Fix:** Fixed empty chart issue when selecting a 1-day range.
 - **Fix:** Resolved missing referring sites.
+- **Fix:** Resolved missing online visitor data on the Online Visitors list.
+- **Fix:** Fixed database errors across the plugin caused by using `%i` for identifiers in WordPress queries.
 - **Enhancement:** Online Visitors-related elements are now hidden when "Monitor Online Visitors" is disabled.
+- **Enhancement:** Improved number display so that numbers below 1,000 appear in full while numbers 1,000 and above are neatly abbreviated.
+- **Enhancement:** Removed the Latest Visitors Preview metabox.
 
 = 14.12.4 - 2025-02-06 =
 - **Fix:** Fixed issues with Dashboard charts not loading due to an empty metalist and metaboxes not loading in specific cases.

@@ -20,7 +20,6 @@ use WP_Statistics\Service\Admin\Metabox\Metaboxes\DailyTrafficTrend;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\MostActiveVisitors;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\DeviceUsageBreakdown;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\GlobalVisitorDistribution;
-use WP_Statistics\Service\Admin\Metabox\Metaboxes\PostVisitorsLocked;
 
 class MetaboxHelper
 {
@@ -43,7 +42,6 @@ class MetaboxHelper
         GoPremium::class,
         GlobalVisitorDistribution::class,
         PostSummary::class,
-        PostVisitorsLocked::class
     ];
 
     /**
