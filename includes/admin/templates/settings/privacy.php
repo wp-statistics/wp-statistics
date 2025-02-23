@@ -92,7 +92,16 @@
                         if (empty($compatiblePlugins)) {
                             ?><p class="description"><?php _e('<b>No Plugin Found:</b> No recognized consent management plugin detected. Please install or activate a compatible plugin to ensure compliance with user consent.', 'wp-statistics'); ?></p><?php
                         } else {
-                            ?><p class="description"><?php echo sprintf(_e('<b>Plugin Found:</b> A recognized consent management plugin is active: %s. WP Statistics will comply with the user’s consent settings provided by this plugin.', 'wp-statistics'), implode(', ', $compatiblePlugins)); ?></p><?php
+                            ?>
+                            <p class="description">
+                                <?php
+                                echo sprintf(
+                                    __('<b>Plugin Found:</b> A recognized consent management plugin is active: %s. WP Statistics will comply with the user’s consent settings provided by this plugin.', 'wp-statistics'),
+                                    implode(', ', $compatiblePlugins)
+                                );
+                                ?>
+                            </p>
+                            <?php
                         }
                     ?>
 
