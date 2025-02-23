@@ -1,14 +1,14 @@
 = 14.12.5 - 2025-02-23 =
-- **Enhancement:** Online Visitors-related elements are now hidden automatically when the "Monitor Online Visitors" feature is disabled, providing a cleaner interface.  
-- **Enhancement:** Improved number formatting for better readability: numbers below 1,000 are shown in full, while numbers 1,000 and above are shortened (e.g., 1.2K).  
-- **Enhancement:** Removed the "Latest Visitors Preview" metabox when the Data Plus add-on isn't available to avoid showing incomplete data.  
-- **Fix:** Resolved a JavaScript error on the "Statistics - Summary" meta box that occurred when the Data Plus add-on was not activated.  
-- **Fix:** Fixed issues causing Dashboard charts to fail when the metalist was empty, and resolved cases where metaboxes didn't load under specific conditions.  
-- **Fix:** Corrected the Mini Chart's start date logic to begin from the post's creation date instead of the default setting.  
-- **Fix:** Fixed an issue where charts appeared empty when selecting a 1-day range for analysis.  
-- **Fix:** Resolved an issue where referring sites were not displaying correctly in referral reports.  
-- **Fix:** Fixed missing online visitor data in the Online Visitors list, ensuring all active visitors are shown.  
-- **Fix:** Addressed database errors across the plugin caused by incorrectly using `%i` for identifiers in WordPress queries.
+- **Enhancement:** Hide Online Visitors elements when "Monitor Online Visitors" is off.
+- **Enhancement:** Improved number formatting: full display below 1,000, abbreviated above.
+- **Enhancement:** Removed "Latest Visitors Preview" when Data Plus isn't active.
+- **Fix:** Fixed JS error on "Statistics - Summary" when Data Plus isn't active.
+- **Fix:** Fixed Dashboard charts and metabox loading issues.
+- **Fix:** Mini Chart now starts from the post creation date.
+- **Fix:** Fixed empty chart issue for 1-day range.
+- **Fix:** Restored missing referring sites.
+- **Fix:** Fixed missing online visitor data in the list.
+- **Fix:** Resolved database errors from `%i` misuse in queries.
 
 = 14.12.4 - 2025-02-06 =
 - **Fix:** Fixed issues with Dashboard charts not loading due to an empty metalist and metaboxes not loading in specific cases.
