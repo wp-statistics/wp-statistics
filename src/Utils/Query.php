@@ -113,6 +113,8 @@ class Query
             $identifiers    = [];
             $placeholders   = [];
 
+            $values = array_filter($values);
+
             foreach ($values as $field => $value) {
                 $identifiers[]  = '%i';
 
@@ -120,15 +122,10 @@ class Query
                     $placeholders[] = '%s';
                 } else if (is_numeric($value)) {
                     $placeholders[] = '%d';
-                } else if (empty($value)) {
-                    $placeholders[] = 'NULL';
                 }
             }
 
-            $this->valuesToPrepare = array_merge(
-                array_keys($values), // Identifiers
-                array_values(array_filter($values)) // Values (excluding empty values)
-            );
+            $this->valuesToPrepare = array_merge(array_keys($values), array_values($values));
 
             $this->setClauses['identifiers'] = $identifiers;
             $this->setClauses['values']      = $placeholders;
