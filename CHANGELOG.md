@@ -1,3 +1,6 @@
+= 14.12.x - 2025-**-** =
+- **Fix:** Fixed database errors across the plugin caused by using `%i` for identifiers in WordPress queries.
+
 = 14.12.5 - 2025-02-** =
 - **Fix:** Fix js error on the Statistics - Summary meta box when the Data Plus addon is not activated.
 - **Fix:** Fixed issues with Dashboard charts not loading due to an empty metalist and metaboxes not loading in specific cases.
