@@ -198,6 +198,47 @@ body.admin-bar .wps-notification-sidebar {
       border-bottom: 0;
     }
 
+    &.wps-notification-sidebar__success {
+      background: #DFF7DF;
+      border-color: #DFF7DF;
+
+      .wps-notification-sidebar__card-icon {
+        svg, img {
+          background-color: #C6E7C6!important;
+        }
+      }
+    }
+
+    &.wps-notification-sidebar__danger {
+      background: #FFEDED;
+      border-color: #FFEDED;
+      .wps-notification-sidebar__card-icon {
+        svg, img {
+          background-color: #F9DBDB!important;
+        }
+      }
+    }
+
+    &.wps-notification-sidebar__info {
+      background: #E2F5FF;
+      border-color: #E2F5FF;
+      .wps-notification-sidebar__card-icon {
+        svg, img {
+          background-color: #C8E7F7!important;
+        }
+      }
+    }
+
+    &.wps-notification-sidebar__warning {
+      background: #FFFFD9;
+      border-color: #FFFFD9;
+      .wps-notification-sidebar__card-icon {
+        svg, img {
+          background-color: #F5F5B6!important;
+        }
+      }
+    }
+
   }
 
   &__card-icon {
@@ -212,6 +253,9 @@ body.admin-bar .wps-notification-sidebar {
       display: inline-block;
       border-radius: 50%;
       object-fit: fill;
+      padding: 8px !important;
+      box-sizing: border-box;
+      background-color: #B1B6FF33!important;
     }
   }
 
