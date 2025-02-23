@@ -17,13 +17,9 @@ if (!$isMarketingActive) {
             'addon_title'        => __('Marketing Add-On', 'wp-statistics'),
             'addon_modal_target' => 'wp-statistics-marketing',
             'addon_description'  => __('The settings on this page are part of the Marketing add-on, which enhances WP Statistics by expanding tracking capabilities and providing detailed visitor insights.', 'wp-statistics'),
-            // 'addon_features'     => [
-            //     __('Track custom post types and taxonomies.', 'wp-statistics'),
-            //     __('Use advanced filtering for specific query parameters and UTM tags.', 'wp-statistics'),
-            //     __('Monitor outbound link clicks and downloads.', 'wp-statistics'),
-            //     __('Compare weekly traffic and view hourly visitor patterns.', 'wp-statistics'),
-            //     __('Analyze individual content pieces with detailed widgets.', 'wp-statistics'),
-            // ],
+            'addon_features'     => [
+                // ...
+            ],
             'addon_info'        => __('Unlock deeper insights into your website\'s performance with Marketing.', 'wp-statistics'),
         ],
         true
