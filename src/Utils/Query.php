@@ -75,17 +75,16 @@ class Query
         if (empty($values)) return $this;
 
         foreach ($values as $field => $value) {
+            $column = '`' . str_replace('`', '``', $field) . '`';
+
             if (is_string($value)) {
-                $this->setClauses[]         = '%i = %s';
-                $this->valuesToPrepare[]    = $field;
-                $this->valuesToPrepare[]    = $value;
+                $this->setClauses[]      = "$column = %s";
+                $this->valuesToPrepare[] = $value;
             } else if (is_numeric($value)) {
-                $this->setClauses[]         = '%i = %d';
-                $this->valuesToPrepare[]    = $field;
-                $this->valuesToPrepare[]    = $value;
+                $this->setClauses[]      = "$column = %d";
+                $this->valuesToPrepare[] = $value;
             } else if (is_null($value)) {
-                $this->setClauses[]         = '%i = NULL';
-                $this->valuesToPrepare[]    = $field;
+                $this->setClauses[] = $column = NULL;
             }
         }
 
@@ -528,27 +527,26 @@ class Query
             }
 
             if (is_array($fields)) {
-                $placeholders = [];
-                $values       = [];
+                $orderParts = [];
 
-                // For identifiers with a dot (e.g. table.field) we need to split the identifier into two parts
                 foreach ($fields as $field) {
-                    if (strpos($field, '.') !== false) {
-                        $identifier  = explode('.', $field);
-                        $values      = array_merge($values, $identifier);
-                        $placeholder = '%i.%i';
+                    if (preg_match('/^[A-Za-z0-9_]+(\.[A-Za-z0-9_]+)?$/', $field)) {
+                        if (strpos($field, '.') !== false) {
+                            list($table, $column) = explode('.', $field);
+
+                            $orderParts[] = "`" . esc_sql($table) . "`.`" . esc_sql($column) . "` $order";
+                        } else {
+                            $orderParts[] = "`" . esc_sql($field) . "` $order";
+                        }
                     } else {
-                        $values[]    = $field;
-                        $placeholder = '%i';
+                        continue;
                     }
-
-                    $placeholders[] = "$placeholder $order";
                 }
-
-                $placeholders = implode(', ', $placeholders);
             }
 
-            $this->orderClause = $this->prepareQuery("ORDER BY {$placeholders}", $values);
+            if (!empty($orderParts)) {
+                $this->orderClause = 'ORDER BY ' . implode(', ', $orderParts);
+            }
         }
 
         return $this;

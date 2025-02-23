@@ -1,10 +1,10 @@
 === WP Statistics - The Most Popular Privacy-Friendly Analytics Plugin ===
-Contributors: mostafa.s1990, kashani, veronalabs, GregRoss
+Contributors: veronalabs, mostafa.s1990, kashani, GregRoss
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.7
-Stable tag: 14.12.4
+Stable tag: 14.12.5
 Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -137,6 +137,18 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.12.5 - 2025-02-23 =
+- **Enhancement:** Hide Online Visitors elements when "Monitor Online Visitors" is off.
+- **Enhancement:** Improved number formatting: full display below 1,000, abbreviated above.
+- **Enhancement:** Removed "Latest Visitors Preview" when Data Plus isn't active.
+- **Fix:** Fixed JS error on "Statistics - Summary" when Data Plus isn't active.
+- **Fix:** Fixed Dashboard charts and metabox loading issues.
+- **Fix:** Mini Chart now starts from the post creation date.
+- **Fix:** Fixed empty chart issue for 1-day range.
+- **Fix:** Restored missing referring sites.
+- **Fix:** Fixed missing online visitor data in the list.
+- **Fix:** Resolved database errors from `%i` misuse in queries.
+
 = 14.12.4 - 2025-02-06 =
 - **Fix:** Fixed issues with Dashboard charts not loading due to an empty metalist and metaboxes not loading in specific cases.
 

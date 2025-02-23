@@ -21,6 +21,7 @@ return array(
     'WP_Statistics\\Async\\SchemaMigrationProcess' => $baseDir . '/src/Async/SchemaMigrationProcess.php',
     'WP_Statistics\\Async\\SourceChannelUpdater' => $baseDir . '/src/Async/SourceChannelUpdater.php',
     'WP_Statistics\\Async\\TableOperationProcess' => $baseDir . '/src/Async/TableOperationProcess.php',
+    'WP_Statistics\\Components\\Ajax' => $baseDir . '/src/Components/Ajax.php',
     'WP_Statistics\\Components\\AssetNameObfuscator' => $baseDir . '/src/Components/AssetNameObfuscator.php',
     'WP_Statistics\\Components\\Assets' => $baseDir . '/src/Components/Assets.php',
     'WP_Statistics\\Components\\DateRange' => $baseDir . '/src/Components/DateRange.php',
@@ -205,7 +206,6 @@ return array(
     'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\MostVisitedPages' => $baseDir . '/src/Service/Admin/Metabox/Metaboxes/MostVisitedPages.php',
     'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\OperatingSystems' => $baseDir . '/src/Service/Admin/Metabox/Metaboxes/OperatingSystems.php',
     'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\PostSummary' => $baseDir . '/src/Service/Admin/Metabox/Metaboxes/PostSummary.php',
-    'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\PostVisitorsLocked' => $baseDir . '/src/Service/Admin/Metabox/Metaboxes/PostVisitorsLocked.php',
     'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\SearchEngines' => $baseDir . '/src/Service/Admin/Metabox/Metaboxes/SearchEngines.php',
     'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\TopCountries' => $baseDir . '/src/Service/Admin/Metabox/Metaboxes/TopCountries.php',
     'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\TopDeviceModel' => $baseDir . '/src/Service/Admin/Metabox/Metaboxes/TopDeviceModel.php',
@@ -321,5 +321,4 @@ return array(
     'WP_Statistics\\Utils\\Request' => $baseDir . '/src/Utils/Request.php',
     'WP_Statistics\\Utils\\Signature' => $baseDir . '/src/Utils/Signature.php',
     'WP_Statistics\\Utils\\Url' => $baseDir . '/src/Utils/Url.php',
-    'Wp_Statistics\\Components\\Ajax' => $baseDir . '/src/Components/Ajax.php',
 );

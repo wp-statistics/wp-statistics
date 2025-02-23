@@ -84,7 +84,42 @@
                 </select>
                 <p class="description"><?php esc_html_e("Enable WP Consent Level API integration to ensure WP Statistics complies with user-selected privacy preferences. When enabled, WP Statistics will only trigger tracking based on the user's chosen consent category.", 'wp-statistics'); ?></p>
                 <?php if ($isWpConsentApiActive) : ?>
-                    <p class="description"><?php _e('<b>Note</b>: This integration requires a compatible consent management provider.', 'wp-statistics'); ?></p>
+                    <p class="description">
+                        <?php
+                        printf(
+                            __('%1$s: This integration requires a compatible consent management provider. If no compatible plugin is installed or active, all categories default to %2$s (as though every visitor has opted in).', 'wp-statistics'),
+                            '<b>' . __('Note', 'wp-statistics') . '</b>',
+                            '<b>' . __('allowed', 'wp-statistics') . '</b>'
+                        );
+                        ?>
+                    </p>
+
+                    <?php
+                        $compatiblePlugins = \WP_Statistics\Service\Integrations\WpConsentApi::getCompatiblePlugins();
+
+                        if (empty($compatiblePlugins)) {
+                            ?><p class="description">
+                            <?php
+                            printf(
+                                __('%1$s: No recognized consent management plugin detected. Please install or activate a compatible plugin to ensure compliance with user consent.', 'wp-statistics'),
+                                '<b>' . __('No Plugin Found', 'wp-statistics') . '</b>'
+                            );
+                            ?>
+                            </p><?php
+                        } else {
+                            ?>
+                            <p class="description">
+                                <?php
+                                echo sprintf(
+                                    __('<b>Plugin Found:</b> A recognized consent management plugin is active: %s. WP Statistics will comply with the user’s consent settings provided by this plugin.', 'wp-statistics'),
+                                    implode(', ', $compatiblePlugins)
+                                );
+                                ?>
+                            </p>
+                            <?php
+                        }
+                    ?>
+
                     <?php if (\WP_STATISTICS\Option::get('privacy_audit', false)) : ?>
                         <p class="description">
                             <?php echo sprintf(

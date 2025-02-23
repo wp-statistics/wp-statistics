@@ -43,7 +43,6 @@ class OnlineModel extends BaseModel
             'useronline.region',
             'useronline.city',
             'visitor.hits',
-            'visitor.referred',
             'visitor.source_name',
             'visitor.source_channel',
             'useronline.user_id',
@@ -54,7 +53,7 @@ class OnlineModel extends BaseModel
         ])
             ->from('useronline')
             ->join('users', ['useronline.user_id', 'users.ID'], [], 'LEFT')
-            ->join('visitor', ['useronline.visitor_id', 'visitor.ID'])
+            ->join('visitor', ['useronline.visitor_id', 'visitor.ID'], [], 'LEFT')
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
             ->decorate(VisitorDecorator::class)
