@@ -94,7 +94,7 @@ class Notice
         return '';
     }
 
-    public static function renderNotice($message, $id, $class = 'info', $type='simple')
+    public static function renderNotice($message, $id, $class = 'info', $type = 'simple')
     {
         $notice = array(
             'message'        => $message,
@@ -117,7 +117,7 @@ class Notice
      * @param $dismissUrl
      * @return void
      */
-    private static function renderNoticeInternal($notice, $dismissible, $dismissUrl, $type='simple')
+    private static function renderNoticeInternal($notice, $dismissible, $dismissUrl, $type = 'simple')
     {
         $args = [
             'notice'      => $notice,
@@ -155,19 +155,21 @@ class Notice
         $generalNotices->init();
     }
 
-    public static function getDismissedNotices() {
+    public static function getDismissedNotices()
+    {
         if (empty(self::$dismissedNotices)) {
             self::$dismissedNotices = get_option('wp_statistics_dismissed_notices', []);
         }
-        
+
         return self::$dismissedNotices;
     }
 
-    public static function isNoticeDismissed($noticeId) {
+    public static function isNoticeDismissed($noticeId)
+    {
         if (empty($noticeId) || empty(self::$dismissedNotices)) {
             return;
         }
-    
+
         $dismissedNotices = self::getDismissedNotices();
 
         return in_array($noticeId, $dismissedNotices, true);
