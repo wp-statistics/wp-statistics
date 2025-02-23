@@ -1,14 +1,14 @@
-= 14.12.5 - 2025-02-** =
-- **Fix:** Fix js error on the Statistics - Summary meta box when the Data Plus addon is not activated.
-- **Fix:** Fixed issues with Dashboard charts not loading due to an empty metalist and metaboxes not loading in specific cases.
-- **Fix:** Correct mini chart start date to use post creation date instead of default.
-- **Fix:** Fixed empty chart issue when selecting a 1-day range.
-- **Fix:** Resolved missing referring sites.
-- **Fix:** Resolved missing online visitor data on the Online Visitors list.
-- **Fix:** Fixed database errors across the plugin caused by using `%i` for identifiers in WordPress queries.
-- **Enhancement:** Online Visitors-related elements are now hidden when "Monitor Online Visitors" is disabled.
-- **Enhancement:** Improved number display so that numbers below 1,000 appear in full while numbers 1,000 and above are neatly abbreviated.
-- **Enhancement:** Removed the Latest Visitors Preview metabox.
+= 14.12.5 - 2025-02-23 =
+- **Enhancement:** Online Visitors-related elements are now hidden automatically when the "Monitor Online Visitors" feature is disabled, providing a cleaner interface.  
+- **Enhancement:** Improved number formatting for better readability: numbers below 1,000 are shown in full, while numbers 1,000 and above are shortened (e.g., 1.2K).  
+- **Enhancement:** Removed the "Latest Visitors Preview" metabox when the Data Plus add-on isn't available to avoid showing incomplete data.  
+- **Fix:** Resolved a JavaScript error on the "Statistics - Summary" meta box that occurred when the Data Plus add-on was not activated.  
+- **Fix:** Fixed issues causing Dashboard charts to fail when the metalist was empty, and resolved cases where metaboxes didn't load under specific conditions.  
+- **Fix:** Corrected the Mini Chart's start date logic to begin from the post's creation date instead of the default setting.  
+- **Fix:** Fixed an issue where charts appeared empty when selecting a 1-day range for analysis.  
+- **Fix:** Resolved an issue where referring sites were not displaying correctly in referral reports.  
+- **Fix:** Fixed missing online visitor data in the Online Visitors list, ensuring all active visitors are shown.  
+- **Fix:** Addressed database errors across the plugin caused by incorrectly using `%i` for identifiers in WordPress queries.
 
 = 14.12.4 - 2025-02-06 =
 - **Fix:** Fixed issues with Dashboard charts not loading due to an empty metalist and metaboxes not loading in specific cases.
