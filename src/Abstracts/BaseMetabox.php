@@ -1,7 +1,7 @@
 <?php
 namespace WP_Statistics\Abstracts;
 
-use Wp_Statistics\Components\Ajax;
+use WP_Statistics\Components\Ajax;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\Metabox\MetaboxDataProvider;
