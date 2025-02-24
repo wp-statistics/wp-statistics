@@ -1,13 +1,13 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\NoticeHandler;
+namespace WP_Statistics\Service\Admin;
 
 use WP_Statistics\Components\Ajax;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Option;
 use Exception;
 
-class AjaxNotices
+class OptionUpdater
 {
     /**
      * Initializes registering the AJAX handler for the admin area.
@@ -20,7 +20,7 @@ class AjaxNotices
             return;
         }
 
-        Ajax::register('notice_ajax_handler', [$this, 'noticeAjaxHandler']);
+        Ajax::register('option_updater', [$this, 'optionUpdater']);
     }
 
     /**
@@ -30,7 +30,7 @@ class AjaxNotices
      * @throws Exception If the nonce is invalid, the option is missing, or any other error occurs.
      *
      */
-    public function noticeAjaxHandler()
+    public function optionUpdater()
     {
         try {
             check_ajax_referer('wp_rest', 'wps_nonce');
@@ -44,7 +44,9 @@ class AjaxNotices
                 $value = false;
             }
 
-            if (empty($option)) {
+            $currentOption = Option::get($option, 'fail');
+
+            if (empty($option) || $currentOption === 'fail') {
                 throw new Exception(__('Invalid option provided.', 'wp-statistics'));
             }
 

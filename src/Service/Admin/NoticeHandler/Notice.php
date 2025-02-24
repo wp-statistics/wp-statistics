@@ -174,15 +174,4 @@ class Notice
 
         return in_array($noticeId, $dismissedNotices, true);
     }
-
-    /**
-     * Initializes the handling of AJAX notices.
-     *
-     * @return void
-     */
-    public static function handleAjaxNotices()
-    {
-        $ajaxNotices = new AjaxNotices();
-        $ajaxNotices->init();
-    }
 }

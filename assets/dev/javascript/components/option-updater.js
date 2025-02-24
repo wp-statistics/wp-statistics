@@ -1,20 +1,18 @@
 jQuery(document).ready(function () {
-    jQuery(document).on('click', "a.wps-notice-action__ajax-handler", function (e) {
+    jQuery(document).on('click', "a.wps-option__updater", function (e) {
         e.preventDefault();
 
         let $this = jQuery(this);
-        let $notice = $this.closest('.notice');
-        let noticeDataElement = $this.closest('.notice').find('.js-wps-notice-data');
-        let option = noticeDataElement.data('option');
-        let value = noticeDataElement.data('value');
+        let optionDataElement = $this.parents().filter((_, el) => $(el).find('.wps-option-data').length > 0).first().find('.wps-option-data');
+        let option = optionDataElement.data('option');
+        let value = optionDataElement.data('value');
         let params = {
             'wps_nonce': wps_js.global.rest_api_nonce,
-            'action': 'wp_statistics_notice_ajax_handler',
+            'action': 'wp_statistics_option_updater',
             'option': option,
             'value': value
         }
 
-        $notice.css('cursor', 'progress');
         $this.css('cursor', 'progress');
 
         jQuery.ajax({
@@ -26,7 +24,6 @@ jQuery(document).ready(function () {
             success: function ({data, success}) {
                 if (!success) {
                     console.log(data);
-                    $notice.css('cursor', 'default');
                     $this.css('cursor', 'default');
                 } else {
                     location.reload();
@@ -34,7 +31,6 @@ jQuery(document).ready(function () {
             },
             error: function (xhr, status, error) {
                 console.log(error);
-                $notice.css('cursor', 'default');
                 $this.css('cursor', 'default');
             }
         });
