@@ -95,7 +95,7 @@ class DataMigrationProcess extends WP_Background_Process
     {
         parent::complete();
 
-        Option::deleteOptionGroup('update_source_channel_process_initiated', 'jobs');
+        Option::deleteOptionGroup('data_migration_process_started', 'jobs');
         Option::saveOptionGroup('migrated', true, 'db');
         Option::saveOptionGroup('migration_status_detail', [
             'status' => 'done'
