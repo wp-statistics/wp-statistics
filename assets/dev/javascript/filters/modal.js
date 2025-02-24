@@ -205,34 +205,37 @@ FilterModal.prototype.initializeSelect2Elements = function ($selects) {
             $element.trigger('change');
         };
 
-        // Always initialize on modal open if options exist
-        if ($element.find('option').length > 0) {
-            initializeSelect2();
-            $element.data('select2Initialized', true);
+        if (folder) {
 
-            // Store cleanup function
-            $element.data('select2Cleanup', () => {
-                if ($element.hasClass('select2-hidden-accessible')) {
-                    $element.select2('destroy');
-                }
-                $element.removeData('select2Initialized');
-            });
-        } else {
-            // Handle dynamic option loading if no options yet
-            const observer = new MutationObserver((mutations) => {
-                if ($element.find('option').length > 0) {
-                    initializeSelect2();
-                    $element.data('select2Initialized', true);
-                    observer.disconnect();
-                }
-            });
+            // Always initialize on modal open if options exist
+            if ($element.find('option').length > 0) {
+                initializeSelect2();
+                $element.data('select2Initialized', true);
 
-            observer.observe($element[0], {
-                childList: true,
-                subtree: true
-            });
+                // Store cleanup function
+                $element.data('select2Cleanup', () => {
+                    if ($element.hasClass('select2-hidden-accessible')) {
+                        $element.select2('destroy');
+                    }
+                    $element.removeData('select2Initialized');
+                });
+            } else {
+                // Handle dynamic option loading if no options yet
+                const observer = new MutationObserver((mutations) => {
+                    if ($element.find('option').length > 0) {
+                        initializeSelect2();
+                        $element.data('select2Initialized', true);
+                        observer.disconnect();
+                    }
+                });
 
-            $element.data('observer', observer);
+                observer.observe($element[0], {
+                    childList: true,
+                    subtree: true
+                });
+
+                $element.data('observer', observer);
+            }
         }
     });
 };
