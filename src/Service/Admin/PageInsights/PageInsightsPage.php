@@ -58,7 +58,7 @@ class PageInsightsPage extends MultiViewPage
                     'data-default'    => $authorId,
                 ],
             ])
-            ->select('url', [
+            ->select('URL', [
                 'placeholder' => $urlPlaceholder,
                 'attributes'  => [
                     'data-type'       => 'url',
