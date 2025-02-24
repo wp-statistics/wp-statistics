@@ -202,40 +202,35 @@ body.admin-bar .wps-notification-sidebar {
       background: #DFF7DF;
       border-color: #DFF7DF;
 
-      .wps-notification-sidebar__card-icon {
-        svg, img {
-          background-color: #C6E7C6!important;
-        }
+      .wps-notification-sidebar__card-icon span {
+        background-color: #C6E7C6 !important;
       }
     }
 
     &.wps-notification-sidebar__danger {
       background: #FFEDED;
       border-color: #FFEDED;
-      .wps-notification-sidebar__card-icon {
-        svg, img {
-          background-color: #F9DBDB!important;
-        }
+
+      .wps-notification-sidebar__card-icon span {
+        background-color: #F9DBDB !important;
       }
     }
 
     &.wps-notification-sidebar__info {
       background: #E2F5FF;
       border-color: #E2F5FF;
-      .wps-notification-sidebar__card-icon {
-        svg, img {
-          background-color: #C8E7F7!important;
-        }
+
+      .wps-notification-sidebar__card-icon span {
+        background-color: #C8E7F7 !important;
       }
     }
 
     &.wps-notification-sidebar__warning {
       background: #FFFFD9;
       border-color: #FFFFD9;
-      .wps-notification-sidebar__card-icon {
-        svg, img {
-          background-color: #F5F5B6!important;
-        }
+
+      .wps-notification-sidebar__card-icon span {
+        background-color: #F5F5B6 !important;
       }
     }
 
@@ -246,16 +241,22 @@ body.admin-bar .wps-notification-sidebar {
     display: inline-block;
     font-size: 18px;
 
-    svg, img {
-      width: 35px;
+    span{
       min-width: 35px;
-      height: 35px!important;
-      display: inline-block;
+      min-height: 35px;
+      display: inline-flex;
       border-radius: 50%;
-      object-fit: contain;
-      padding: 8px !important;
+      align-items: center;
+      justify-content: center;
       box-sizing: border-box;
       background-color: #B1B6FF33!important;
+    }
+
+    svg, img {
+      width: 16px!important;
+      min-width: 16px;
+      height: 16px!important;
+      object-fit: fill;
     }
   }
 
