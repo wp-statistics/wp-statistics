@@ -115,7 +115,15 @@ class NotificationDecorator
      */
     public function backgroundColor()
     {
-        return $this->notification->background_color ?? null;
+        $backgroundColors = [
+            'inherit' => '',
+            'danger'  => 'wps-notification-sidebar__danger',
+            'info'    => 'wps-notification-sidebar__info',
+            'warning' => 'wps-notification-sidebar__warning',
+            'success' => 'wps-notification-sidebar__success'
+        ];
+        
+        return $backgroundColors[$this->notification->background_color] ?? null;
     }
 
     /**
