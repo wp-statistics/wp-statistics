@@ -48,7 +48,7 @@ class Install
         global $wpdb;
 
         $this->checkIsFresh();
-        $this->checkBackgroundProcesses();
+        $this->markBackgroundProcessAsInitiated();
 
         if (is_multisite() && $network_wide) {
             $blog_ids = $wpdb->get_col("SELECT `blog_id` FROM $wpdb->blogs");
@@ -105,7 +105,7 @@ class Install
      *
      * @return void
      */
-    private function checkBackgroundProcesses() {
+    private function markBackgroundProcessAsInitiated() {
         if (! self::isFresh()) {
             return;
         }
