@@ -121,13 +121,14 @@ class DbIpProvider extends AbstractGeoIPProvider
     public function downloadDatabase()
     {
         $gzFilePath = $this->getFilePath('dbip-city-lite.mmdb.gz');
-        
+        set_time_limit(0);
+
         try {
             $downloadUrl = $this->getDownloadUrl();
             $response    = wp_remote_get($downloadUrl, [
                 'stream'   => true,
                 'filename' => $gzFilePath,
-                'timeout'  => 1800,
+                'timeout'  => 120,
             ]);
 
             // Check the HTTP status code
