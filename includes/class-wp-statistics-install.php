@@ -35,7 +35,16 @@ class Install
     public function install($network_wide)
     {
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-option.php';
-
+        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/DatabaseManager.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/Managers/TransactionHandler.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/AbstractDatabaseOperation.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/Operations/AbstractTableOperation.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/Operations/Create.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/Operations/Inspect.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/DatabaseFactory.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/Schema/Manager.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/Managers/TableHandler.php';
+        
         global $wpdb;
 
         $this->checkIsFresh();
@@ -100,26 +109,15 @@ class Install
         require_once WP_STATISTICS_DIR . 'includes/libraries/wp-background-processing/wp-async-request.php';
         require_once WP_STATISTICS_DIR . 'includes/libraries/wp-background-processing/wp-background-process.php';
 
-        $isFresh = self::isFresh();
-
-        $backgroundProcesses = WP_Statistics()::getBackgroundProcesses();
-
-        foreach($backgroundProcesses as $class => $method) {
-            $reflection = new \ReflectionClass($class);
-
-            if (! $reflection->hasProperty('initiationKey')) {
-                continue;
-            }
-
-            if (! $isFresh) {
-                continue;
-            }
-
-            $property = $reflection->getProperty('initiationKey');
-
-            Option::saveOptionGroup($property->getValue(), true, 'jobs');
+        if (! self::isFresh()) {
+            return;
         }
 
+        Option::saveOptionGroup('update_source_channel_process_initiated', true, 'jobs');
+        Option::saveOptionGroup('update_geoip_process_initiated', true, 'jobs');
+        Option::saveOptionGroup('schema_migration_process_started', true, 'jobs');
+        Option::saveOptionGroup('update_source_channel_process_initiated', true, 'jobs');
+        Option::saveOptionGroup('table_operations_process_initiated', true, 'jobs');
     }
 
     public static function delete_duplicate_data()

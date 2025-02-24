@@ -67,8 +67,6 @@ final class WP_Statistics
      */
     public function __construct()
     {
-        require_once WP_STATISTICS_DIR . 'vendor/autoload.php';
-
         /**
          * Plugin Loaded Action
          */
@@ -126,6 +124,7 @@ final class WP_Statistics
     public function includes()
     {
         // third-party Libraries
+        require_once WP_STATISTICS_DIR . 'vendor/autoload.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-helper.php';
 
         // Create the plugin upload directory in advance.
@@ -234,33 +233,18 @@ final class WP_Statistics
         include WP_STATISTICS_DIR . 'includes/template-functions.php';
     }
 
-    /**
-     * Retrieve the background processes and their corresponding processing methods.
-     *
-     * @return array
-     */
-    public static function getBackgroundProcesses() {
-       return [
-            CalculatePostWordsCount::class => 'calculate_post_words_count',
-            IncompleteGeoIpUpdater::class => 'update_unknown_visitor_geoip',
-            GeolocationDatabaseDownloadProcess::class => 'geolocation_database_download',
-            SourceChannelUpdater::class => 'update_visitors_source_channel',
-            DataMigrationProcess::class => 'data_migration_process',
-            SchemaMigrationProcess::class => 'schema_migration_process',
-            TableOperationProcess::class => 'table_operations_process',
-        ];
-    }
-
-    /**
+      /**
      * Set up background processes.
      */
     private function initializeBackgroundProcess()
     {
-        $backgroundProcesses = self::getBackgroundProcesses();
-
-        foreach( $backgroundProcesses as $class => $method ) {
-            $this->registerBackgroundProcess($class, $method);
-        }
+        $this->registerBackgroundProcess(CalculatePostWordsCount::class, 'calculate_post_words_count');
+        $this->registerBackgroundProcess(IncompleteGeoIpUpdater::class, 'update_unknown_visitor_geoip');
+        $this->registerBackgroundProcess(GeolocationDatabaseDownloadProcess::class, 'geolocation_database_download');
+        $this->registerBackgroundProcess(SourceChannelUpdater::class, 'update_visitors_source_channel');
+        $this->registerBackgroundProcess(DataMigrationProcess::class, 'data_migration_process');
+        $this->registerBackgroundProcess(SchemaMigrationProcess::class, 'schema_migration_process');
+        $this->registerBackgroundProcess(TableOperationProcess::class, 'table_operations_process');
     }
 
     /**
