@@ -233,7 +233,7 @@ final class WP_Statistics
         include WP_STATISTICS_DIR . 'includes/template-functions.php';
     }
 
-      /**
+    /**
      * Set up background processes.
      */
     private function initializeBackgroundProcess()

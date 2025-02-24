@@ -18,13 +18,6 @@ class DataMigrationProcess extends WP_Background_Process
     protected $action = 'data_migration_process';
 
     /**
-     * Unique initiation key for the initiated process.
-     *
-     * @var string
-     */
-    public static $initiationKey = 'update_source_channel_process_initiated';
-
-    /**
      * Is the background process currently running?
      *
      * @return bool
@@ -102,7 +95,7 @@ class DataMigrationProcess extends WP_Background_Process
     {
         parent::complete();
 
-        Option::deleteOptionGroup(self::$initiationKey, 'jobs');
+        Option::deleteOptionGroup('update_source_channel_process_initiated', 'jobs');
         Option::saveOptionGroup('migrated', true, 'db');
         Option::saveOptionGroup('migration_status_detail', [
             'status' => 'done'

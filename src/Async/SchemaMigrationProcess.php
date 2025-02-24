@@ -18,13 +18,6 @@ class SchemaMigrationProcess extends WP_Background_Process
     protected $action = 'schema_migration_process';
 
     /**
-     * Unique initiation key for the initiated process.
-     *
-     * @var string
-     */
-    public static $initiationKey = 'schema_migration_process_started';
-
-    /**
      * Process a single schema migration task.
      * 
      * @param array $data
@@ -64,7 +57,7 @@ class SchemaMigrationProcess extends WP_Background_Process
     {
         parent::complete();
 
-        Option::deleteOptionGroup(self::$initiationKey, 'jobs');
+        Option::deleteOptionGroup('schema_migration_process_started', 'jobs');
         Option::saveOptionGroup('migrated', true, 'db');
         Option::saveOptionGroup('auto_migration_tasks', [], 'db');
     }

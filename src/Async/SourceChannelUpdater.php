@@ -25,13 +25,6 @@ class SourceChannelUpdater extends WP_Background_Process
     protected $action = 'update_visitors_source_channel';
 
     /**
-     * Unique initiation key for the initiated process.
-     *
-     * @var string
-     */
-    public static $initiationKey = 'update_source_channel_process_initiated';
-
-    /**
      * Perform task with queued item.
      *
      * @param mixed $item Queue item to iterate over.
@@ -68,7 +61,7 @@ class SourceChannelUpdater extends WP_Background_Process
 
     public function is_initiated()
     {
-        return Option::getOptionGroup('jobs', self::$initiationKey, false);
+        return Option::getOptionGroup('jobs', 'update_source_channel_process_initiated', false);
     }
 
     /**

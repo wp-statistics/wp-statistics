@@ -44,7 +44,7 @@ class Install
         require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/DatabaseFactory.php';
         require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/Schema/Manager.php';
         require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/Managers/TableHandler.php';
-        
+
         global $wpdb;
 
         $this->checkIsFresh();
@@ -106,9 +106,6 @@ class Install
      * @return void
      */
     private function checkBackgroundProcesses() {
-        require_once WP_STATISTICS_DIR . 'includes/libraries/wp-background-processing/wp-async-request.php';
-        require_once WP_STATISTICS_DIR . 'includes/libraries/wp-background-processing/wp-background-process.php';
-
         if (! self::isFresh()) {
             return;
         }
