@@ -79,7 +79,6 @@ class settings_page extends Singleton
                 'maintenance',
                 'notification',
                 'privacy',
-                'usage_tracking',
             );
             foreach ($method_list as $method) {
                 $wp_statistics_options = self::{'save_' . $method . '_option'}($wp_statistics_options);
@@ -261,7 +260,8 @@ class settings_page extends Singleton
             'wps_auto_pop',
             'wps_private_country_code',
             'wps_referrerspam',
-            'wps_schedule_referrerspam'
+            'wps_schedule_referrerspam',
+            'wps_enable_usage_tracking',
         );
 
         // For country codes we always use upper case, otherwise default to 000 which is 'unknown'.
@@ -509,23 +509,6 @@ class settings_page extends Singleton
 
         // Update Option
         update_option(Option::$opt_name, $default_options);
-    }
-
-    /**
-     *
-     */
-    public static function save_usage_tracking_option()
-    {
-        $wps_option_list = array(
-            'wps_enable_usage_tracking',
-        );
-
-        foreach ($wps_option_list as $option) {
-            $optionValue                                                = isset($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '';
-            $wp_statistics_options[self::input_name_to_option($option)] = $optionValue;
-        }
-
-        return $wp_statistics_options;
     }
 }
 

@@ -13,7 +13,7 @@ class TrackerUsageDataProvider
     {
         return home_url();
     }
-    
+
     /**
      * Get the WordPress version.
      *
@@ -57,7 +57,7 @@ class TrackerUsageDataProvider
     {
         global $wpdb;
 
-        if (empty($wpdb->dbh) || !($wpdb->dbh instanceof mysqli)) {
+        if (empty($wpdb->is_mysql) || empty($wpdb->use_mysqli)) {
             return null;
         }
 

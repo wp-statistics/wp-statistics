@@ -15,11 +15,11 @@ class TrackerUsageDataManager
      */
     public function __construct()
     {
-        add_action('admin_init', [$this, 'registerActions']);
-
         if (Option::get('enable_usage_tracking')) {
             add_filter('cron_schedules', [$this, 'trackerUsageDataCronIntervalsHook']);
             Event::schedule('wp_statistics_tracker_usage_data_hook', time(), 'every_two_months', [$this, 'sendTrackerUsageData']);
+        } else {
+            Event::unschedule('wp_statistics_tracker_usage_data_hook');
         }
     }
 
@@ -64,17 +64,5 @@ class TrackerUsageDataManager
             'database_version'  => TrackerUsageDataProvider::getDatabaseVersion() ?? 'not available',
             'plugin_slug'       => TrackerUsageDataProvider::getPluginSlug(),
         ];
-    }
-
-    /**
-     * Registers tracker usage data actions.
-     *
-     * @return void
-     */
-    public function registerActions()
-    {
-        $notificationActions = new TrackerUsageDataActions();
-
-        $notificationActions->register();
     }
 }
