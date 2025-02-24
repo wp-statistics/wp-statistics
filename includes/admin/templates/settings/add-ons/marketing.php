@@ -3,7 +3,6 @@
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
-use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
 $isLicenseValid     = LicenseHelper::isPluginLicenseValid('marketing');
@@ -41,7 +40,7 @@ if ($isMarketingActive && !$isLicenseValid) {
         <tr>
             <td  scope="row" colspan="2">
                 <div class="wps-alert wps-alert--setting wps-alert--success">
-                    <a href="" class="button button-primary"><?php esc_html_e('Connect to Google Search Console', 'wp-statistics'); ?></a>
+                    <a href="<?php echo apply_filters('wp_statistics_google_auth_url', '') ?>" class="button button-primary"><?php esc_html_e('Connect to Google Search Console', 'wp-statistics'); ?></a>
                     <div class="wps-alert--setting--title">
                         <h1>
                             <?php esc_html_e('Benefits of Connecting', 'wp-statistics'); ?>
