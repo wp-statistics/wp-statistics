@@ -7,7 +7,7 @@ use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Option;
 use Exception;
 
-class OptionUpdater
+class AjaxOptionUpdater
 {
     /**
      * Initializes registering the AJAX handler for the admin area.
