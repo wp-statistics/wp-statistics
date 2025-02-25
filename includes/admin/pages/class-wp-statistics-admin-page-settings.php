@@ -33,7 +33,7 @@ class settings_page extends Singleton
 
         // Add Class inf
         $args['class'] = 'wp-statistics-settings';
-        $args['title'] =  __('Settings', 'wp-statistics');
+        $args['title'] = __('Settings', 'wp-statistics');
 
         // Check User Access To Save Setting
         $args['wps_admin'] = false;
@@ -78,7 +78,7 @@ class settings_page extends Singleton
                 'external',
                 'maintenance',
                 'notification',
-                'privacy'
+                'privacy',
             );
             foreach ($method_list as $method) {
                 $wp_statistics_options = self::{'save_' . $method . '_option'}($wp_statistics_options);
@@ -260,7 +260,8 @@ class settings_page extends Singleton
             'wps_auto_pop',
             'wps_private_country_code',
             'wps_referrerspam',
-            'wps_schedule_referrerspam'
+            'wps_schedule_referrerspam',
+            'wps_enable_usage_tracking',
         );
 
         // For country codes we always use upper case, otherwise default to 000 which is 'unknown'.
@@ -337,7 +338,7 @@ class settings_page extends Singleton
     {
         $wps_option_list = array('wps_read_capability', 'wps_manage_capability');
         foreach ($wps_option_list as $option) {
-            $capability = ! empty($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '';
+            $capability = !empty($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '';
 
             if (!User::checkUserCapability($capability)) {
                 continue;
