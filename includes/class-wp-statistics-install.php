@@ -47,6 +47,9 @@ class Install
 
         global $wpdb;
 
+        $this->checkIsFresh();
+        $this->markBackgroundProcessAsInitiated();
+
         if (is_multisite() && $network_wide) {
             $blog_ids = $wpdb->get_col("SELECT `blog_id` FROM $wpdb->blogs");
             foreach ($blog_ids as $blog_id) {
@@ -64,6 +67,54 @@ class Install
 
         // Set Version information
         update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
+    }
+
+    /**
+     * Checks whether the plugin is a fresh installation.
+     *
+     * @return void
+     */
+    private function checkIsFresh() {
+        $version = get_option('wp_statistics_plugin_version');
+
+        if (empty($version)) {
+            update_option('wp_statistics_is_fresh', true);
+            return;
+        }
+
+        update_option('wp_statistics_is_fresh', false);
+    }
+
+    /**
+     * Determines if the plugin is marked as freshly installed.
+     *
+     * @return bool.
+     */
+    public static function isFresh() {
+        $isFresh = get_option('wp_statistics_is_fresh', false);
+
+        if ($isFresh) {
+           return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks background processes during a fresh installation.
+     *
+     * @return void
+     */
+    private function markBackgroundProcessAsInitiated() {
+        if (! self::isFresh()) {
+            return;
+        }
+
+        Option::saveOptionGroup('update_source_channel_process_initiated', true, 'jobs');
+        Option::saveOptionGroup('update_geoip_process_initiated', true, 'jobs');
+        Option::saveOptionGroup('schema_migration_process_started', true, 'jobs');
+        Option::saveOptionGroup('update_source_channel_process_initiated', true, 'jobs');
+        Option::saveOptionGroup('table_operations_process_initiated', true, 'jobs');
     }
 
     public static function delete_duplicate_data()
@@ -183,6 +234,8 @@ class Install
         if ($installed_version == $latest_version) {
             return;
         }
+
+        $this->checkIsFresh();
 
         TableHandler::createAllTables();
         
