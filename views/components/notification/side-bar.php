@@ -25,14 +25,17 @@ use WP_Statistics\Components\View;
             <div class="wps-notification-sidebar__tab-pane wps-notification-sidebar__tab-pane--active" id="tab-1">
                 <div class="wps-notification-sidebar__cards wps-notification-sidebar__cards--active">
                     <?php
+                    $hasNotifications = false;
                     if (!empty($notifications)) :
                         foreach ($notifications as $notification) :
                             if ($notification->getDismiss()) continue;
+                            $hasNotifications = true;
                             View::load("components/notification/card", ['notification' => $notification]);
                         endforeach;
-                    else :
+                    endif;
+                    if (!$hasNotifications):
                         ?>
-                        <div class="wps-notification-sidebar__card">
+                        <div class="wps-notification-sidebar__card wps-notification-sidebar__no-card">
                             <div class="wps-notification-sidebar__card-body">
                                 <div class="wps-notification-sidebar__card-content"><?php esc_html_e('No notifications.', 'wp-statistics'); ?></div>
                             </div>
@@ -43,14 +46,17 @@ use WP_Statistics\Components\View;
             <div class="wps-notification-sidebar__tab-pane" id="tab-2">
                 <div class="wps-notification-sidebar__cards wps-notification-sidebar__cards--dismissed">
                     <?php
+                    $hasDismissed = false;
                     if (!empty($notifications)) :
                         foreach ($notifications as $notification) :
                             if (!$notification->getDismiss()) continue;
+                            $hasDismissed = true;
                             View::load("components/notification/card", ['notification' => $notification]);
                         endforeach;
-                    else :
+                    endif;
+                    if (!$hasDismissed):
                         ?>
-                        <div class="wps-notification-sidebar__card">
+                        <div class="wps-notification-sidebar__card wps-notification-sidebar__no-card">
                             <div class="wps-notification-sidebar__card-body">
                                 <div class="wps-notification-sidebar__card-content"><?php esc_html_e('No dismissed notifications.', 'wp-statistics'); ?></div>
                             </div>

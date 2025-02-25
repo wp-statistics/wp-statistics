@@ -33,6 +33,8 @@ jQuery(document).ready(function () {
             });
         }
 
+        jQuery('.wps-notification-sidebar__cards--dismissed .wps-notification-sidebar__no-card').remove();
+
         let params = {
             'wps_nonce': wps_js.global.rest_api_nonce,
             'action': 'wp_statistics_dismiss_notification',
