@@ -1,7 +1,95 @@
 jQuery(document).ready(function () {
+    const wpsNotificationButtons = document.querySelectorAll('.js-wps-open-notification');
+    const wpsSidebar = document.querySelector('.wps-notification-sidebar');
+    const wpsOverlay = document.querySelector('.wps-notification-sidebar__overlay');
+    const body = document.body;
+    const tabs = document.querySelectorAll('.wps-notification-sidebar__tab');
+    const wpsCloseNotificationMenu = document.querySelector('.wps-notification-sidebar__close');
+    const tabPanes = document.querySelectorAll('.wps-notification-sidebar__tab-pane');
+    const dismissAllBtn = document.querySelector(".wps-notification-sidebar__dismiss-all");
+
+    // Toggle notification menu
+    if (tabs.length > 0 && tabPanes.length > 0) {
+        tabs.forEach(function (tab) {
+            tab.addEventListener('click', function () {
+                tabs.forEach(function (t) {
+                    t.classList.remove('wps-notification-sidebar__tab--active');
+                });
+                tabPanes.forEach(function (pane) {
+                    pane.classList.remove('wps-notification-sidebar__tab-pane--active');
+                });
+
+                const targetTab = tab.getAttribute('data-tab');
+                tab.classList.add('wps-notification-sidebar__tab--active');
+                document.getElementById(targetTab).classList.add('wps-notification-sidebar__tab-pane--active');
+            });
+        });
+    }
+
+    if (wpsNotificationButtons.length > 0 && wpsSidebar && wpsOverlay) {
+        wpsNotificationButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                wpsSidebar.classList.toggle('is-active');
+                wpsOverlay.classList.toggle('is-active');
+                body.classList.toggle('wps-no-scroll');
+            });
+        });
+
+        wpsOverlay.addEventListener('click', function () {
+            wpsSidebar.classList.remove('is-active');
+            wpsOverlay.classList.remove('is-active');
+            body.classList.remove('wps-no-scroll');
+        });
+        if (wpsCloseNotificationMenu) {
+            wpsCloseNotificationMenu.addEventListener('click', function () {
+                wpsSidebar.classList.remove('is-active');
+                wpsOverlay.classList.remove('is-active');
+                body.classList.remove('wps-no-scroll');
+            });
+        }
+
+    }
+
+    const updateDismissAllVisibility = () => {
+        const activeTab = document.querySelector(".wps-notification-sidebar__tab--active");
+        if (!activeTab) {
+            return;
+        }
+
+        if (activeTab.dataset.tab === "tab-2") {
+            dismissAllBtn.style.display = "none";
+        } else {
+            const activeCards = document.querySelectorAll(
+                ".wps-notification-sidebar__cards--active .wps-notification-sidebar__card:not(.wps-notification-sidebar__no-card)"
+            );
+            const hasNotifications = activeCards.length > 0;
+            dismissAllBtn.style.display = hasNotifications ? "inline-flex" : "none";
+        }
+    };
+
+    tabs.forEach(tab => {
+        tab.addEventListener("click", function () {
+            tabs.forEach(t => t.classList.remove("wps-notification-sidebar__tab--active"));
+            this.classList.add("wps-notification-sidebar__tab--active");
+            updateDismissAllVisibility();
+        });
+    });
+
+    updateDismissAllVisibility();
+
+    const checkEmptyNotifications = () => {
+        let activeCards = jQuery('.wps-notification-sidebar__cards--active .wps-notification-sidebar__card:not(.wps-notification-sidebar__no-card)');
+        let noCardMessage = jQuery('.wps-notification-sidebar__cards--active .wps-notification-sidebar__no-card');
+
+        if (activeCards.length === 0) {
+            noCardMessage.css('display', 'flex');
+        } else {
+            noCardMessage.hide();
+        }
+    }
+
     jQuery(document).on('click', "a.wps-notification-sidebar__dismiss, a.wps-notification-sidebar__dismiss-all", function (e) {
         e.preventDefault();
-
         let $this = jQuery(this);
         let notificationId = '';
 
@@ -13,14 +101,16 @@ jQuery(document).ready(function () {
             notificationId = 'all';
         }
 
+
         if (notificationId === 'all') {
-            jQuery('.wps-notification-sidebar__cards--active .wps-notification-sidebar__card').each(function () {
+            jQuery('.wps-notification-sidebar__cards--active .wps-notification-sidebar__card:not(.wps-notification-sidebar__no-card)').each(function () {
                 let $card = jQuery(this);
 
                 jQuery('.wps-notification-sidebar__cards--dismissed').prepend($card.clone().hide().fadeIn(300));
 
                 $card.fadeOut(300, function () {
                     jQuery(this).remove();
+                    checkEmptyNotifications();
                 });
             });
         } else {
@@ -30,8 +120,11 @@ jQuery(document).ready(function () {
 
             $card.fadeOut(300, function () {
                 jQuery(this).remove();
+                checkEmptyNotifications();
             });
+
         }
+        updateDismissAllVisibility();
 
         jQuery('.wps-notification-sidebar__cards--dismissed .wps-notification-sidebar__no-card').remove();
 

@@ -1,33 +1,28 @@
 body.admin-bar .wps-notification-sidebar {
   top: 32px;
-
+  height: calc(100% - 32px);
   @media(max-width: 1029px) {
     top: 0;
+    height: 100%;
   }
 }
 
 .wps-notification-sidebar {
   position: fixed;
   top: 0;
-  right: -100%;
-   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease-in-out;
+  right: 0;
   z-index: 999999;
   height: 100%;
   max-width: 100%;
-  opacity: 0;
-
-  .rtl & {
-    right: unset;
-     left: -100%;
-  }
+  pointer-events: none;
 
   &.is-active {
-    right: 0;
-    opacity: 1;
+    pointer-events: auto;
 
-    .rtl & {
-      right: unset;
-      left: 0;
+    .wps-notification-sidebar__menu {
+      visibility: visible;
+      transform: translateX(0);
+      opacity: 1;
     }
   }
 
@@ -41,7 +36,7 @@ body.admin-bar .wps-notification-sidebar {
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s;
+    transition: opacity 0.25s ease-in-out;
 
     &.is-active {
       opacity: 1;
@@ -50,15 +45,22 @@ body.admin-bar .wps-notification-sidebar {
   }
 
   &__menu {
-    width: 604px;
+    position: fixed;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    width: 453px;
     height: 100%;
     background-color: #fff;
     border: 1px solid #DADCE0;
-    position: relative;
     z-index: 9999999;
     overflow-y: auto;
     max-width: 100%;
-    transition: transform 0.4s ease-in-out;
+    opacity: 0;
+    transform: translateX(100%);
+    visibility: hidden;
+    transition: all .25s ease .3s, visibility .25s linear .25s;
+    transition-delay: .3s;
 
     &::-webkit-scrollbar {
       width: 8px;
@@ -76,6 +78,31 @@ body.admin-bar .wps-notification-sidebar {
 
     &::-webkit-scrollbar-thumb:hover {
       background: #6c757d
+    }
+  }
+
+  &__no-card {
+    .wps-notification-sidebar__card-body {
+      padding-top: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      flex-direction: column;
+
+      h2 {
+        margin: 0;
+        font-size: 15px;
+        line-height: 20px;
+      }
+
+      p {
+        color: #56585A;
+        margin-top: -14px;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+      }
     }
   }
 
@@ -184,7 +211,11 @@ body.admin-bar .wps-notification-sidebar {
   }
 
   &__cards {
-
+    &--dismissed {
+      .wps-notification-sidebar__dismiss {
+        display: none;
+      }
+    }
   }
 
   &__card {
@@ -241,7 +272,7 @@ body.admin-bar .wps-notification-sidebar {
     display: inline-block;
     font-size: 18px;
 
-    span{
+    span {
       min-width: 35px;
       min-height: 35px;
       display: inline-flex;
@@ -249,13 +280,13 @@ body.admin-bar .wps-notification-sidebar {
       align-items: center;
       justify-content: center;
       box-sizing: border-box;
-      background-color: #B1B6FF33!important;
+      background-color: #B1B6FF33 !important;
     }
 
     svg, img {
-      width: 16px!important;
+      width: 16px !important;
       min-width: 16px;
-      height: 16px!important;
+      height: 16px !important;
       object-fit: fill;
     }
   }

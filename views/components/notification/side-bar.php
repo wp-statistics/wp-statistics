@@ -17,8 +17,22 @@ use WP_Statistics\Components\View;
                     <li class="wps-notification-sidebar__tab"
                         data-tab="tab-2"><?php esc_html_e('Dismissed', 'wp-statistics'); ?></li>
                 </ul>
-                <a href="#"
-                   class="wps-notification-sidebar__dismiss-all"><?php esc_html_e('Dismiss all', 'wp-statistics'); ?></a>
+
+                <?php if (!empty($notifications)) : ?>
+                    <?php
+                    $hasNotifications = false;
+                    foreach ($notifications as $notification) {
+                        if (!$notification->getDismiss()) {
+                            $hasNotifications = true;
+                            break;
+                        }
+                    }
+                    ?>
+                    <?php if ($hasNotifications) : ?>
+                        <a href="#"
+                           class="wps-notification-sidebar__dismiss-all"><?php esc_html_e('Dismiss all', 'wp-statistics'); ?></a>
+                    <?php endif; ?>
+                <?php endif; ?>
             </div>
         </div>
         <div class="wps-notification-sidebar__content">
@@ -32,15 +46,12 @@ use WP_Statistics\Components\View;
                             $hasNotifications = true;
                             View::load("components/notification/card", ['notification' => $notification]);
                         endforeach;
+                        View::load("components/notification/no-data", ['tab' => __('Inbox', 'wp-statistics')]);
                     endif;
-                    if (!$hasNotifications):
-                        ?>
-                        <div class="wps-notification-sidebar__card wps-notification-sidebar__no-card">
-                            <div class="wps-notification-sidebar__card-body">
-                                <div class="wps-notification-sidebar__card-content"><?php esc_html_e('No notifications.', 'wp-statistics'); ?></div>
-                            </div>
-                        </div>
-                    <?php endif; ?>
+                    if (!$hasNotifications) {
+                        View::load("components/notification/no-data", ['tab' => __('Inbox', 'wp-statistics')]);
+                    }
+                    ?>
                 </div>
             </div>
             <div class="wps-notification-sidebar__tab-pane" id="tab-2">
@@ -53,15 +64,12 @@ use WP_Statistics\Components\View;
                             $hasDismissed = true;
                             View::load("components/notification/card", ['notification' => $notification]);
                         endforeach;
+                        View::load("components/notification/no-data", ['tab' => __('Dismissed list', 'wp-statistics')]);
                     endif;
-                    if (!$hasDismissed):
-                        ?>
-                        <div class="wps-notification-sidebar__card wps-notification-sidebar__no-card">
-                            <div class="wps-notification-sidebar__card-body">
-                                <div class="wps-notification-sidebar__card-content"><?php esc_html_e('No dismissed notifications.', 'wp-statistics'); ?></div>
-                            </div>
-                        </div>
-                    <?php endif; ?>
+                    if (!$hasDismissed) {
+                        View::load("components/notification/no-data", ['tab' => __('Dismissed list', 'wp-statistics')]);
+                    }
+                    ?>
                 </div>
             </div>
         </div>
