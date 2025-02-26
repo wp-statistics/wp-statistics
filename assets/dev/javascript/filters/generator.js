@@ -140,7 +140,7 @@ FilterGenerator.prototype.enableSearchableSelect = function (select, name, attri
         }
     }
 
-    const queryString = window.location.search
+    const queryString = window.location.search;
 
     const initialize = jQuery(select).select2({
         ajax: {
@@ -192,6 +192,8 @@ FilterGenerator.prototype.enableSearchableSelect = function (select, name, attri
             },
         },
         minimumInputLength: 1,
+        allowClear: true,             
+        placeholder: wps_js._('all'),
         ...panelParams
     });
 

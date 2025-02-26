@@ -33,10 +33,10 @@ class VisitorInsightsPage extends MultiViewPage
     protected function setFilters() {
         $userId          = Request::get('user_id', '');
         $authorInfo      = get_userdata($userId);
-        $userPlaceholder = ! empty($authorInfo) ? $authorInfo->display_name . ' #' . $authorInfo->ID : esc_attr__('All', 'wp-statistics');
+        $userPlaceholder = ! empty($authorInfo) ? $authorInfo->display_name . ' #' . $authorInfo->ID : esc_html__('All', 'wp-statistics');
 
         $referrer            = Request::get('referrer', '');
-        $referrerPlaceholder = ! empty($referrer) ? $referrer : esc_attr__('All', 'wp-statistics');
+        $referrerPlaceholder = ! empty($referrer) ? $referrer : esc_html__('All', 'wp-statistics');
 
         $this->filters = FilterGenerator::create()
             ->hidden('pageName', [
