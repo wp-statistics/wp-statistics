@@ -1,3 +1,6 @@
+= 14.12.x - 2025-**-** =
+- **New:** Added DB-IP location detection method.
+
 = 14.12.5 - 2025-02-23 =
 - **Enhancement:** Hide Online Visitors elements when "Monitor Online Visitors" is off.
 - **Enhancement:** Improved number formatting: full display below 1,000, abbreviated above.
