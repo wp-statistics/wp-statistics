@@ -58,7 +58,8 @@ class PageInsightsPage extends MultiViewPage
                     'data-default'    => $authorId,
                 ],
             ])
-            ->select('URL', [
+            ->select('url', [
+                'label' => esc_html__('URL', 'wp-statistics'),
                 'placeholder' => $urlPlaceholder,
                 'attributes'  => [
                     'data-type'       => 'url',

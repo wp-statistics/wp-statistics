@@ -8,7 +8,6 @@ use WP_STATISTICS\Helper;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Referred;
-use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
 use WP_STATISTICS\User;
 use WP_Statistics\Utils\Query;
@@ -536,10 +535,6 @@ class FilterManager
         $queryKey = 'role';
         $roles    = wp_roles()->role_names;
         $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey],$currentPage)));
-
-        if (empty($referer)) {
-            $baseUrl = admin_url("admin.php?page={$page}");
-        }
 
         foreach ($roles as $key => $role) {
             $args[] = [
