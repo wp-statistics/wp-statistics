@@ -43,7 +43,6 @@ class VisitorInsightsDataProvider
     {
         return [
             'data'  => $this->visitorsModel->getVisitorsData(array_merge($this->args, [
-                'page_info' => true,
                 'user_info' => true,
                 'order_by'  => 'visitor.ID',
                 'order'     => 'DESC',
@@ -71,7 +70,6 @@ class VisitorInsightsDataProvider
     {
         return [
             'data'  => $this->visitorsModel->getVisitorsData(array_merge($this->args, [
-                'page_info' => true,
                 'user_info' => true,
                 'order_by'  => 'hits',
                 'order'     => 'DESC',
@@ -98,7 +96,6 @@ class VisitorInsightsDataProvider
         return [
             'data'  => $this->visitorsModel->getVisitorsData(array_merge($this->args, [
                 'user_role' => Request::get('role', ''),
-                'page_info' => true,
                 'user_info' => true,
                 'logged_in' => true,
                 'order_by'  => 'visitor.ID',

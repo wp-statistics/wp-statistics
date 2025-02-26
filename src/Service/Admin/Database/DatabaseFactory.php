@@ -2,12 +2,15 @@
 
 namespace WP_Statistics\Service\Admin\Database;
 
+use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\Database\Migrations\DataMigration;
 use WP_Statistics\Service\Admin\Database\Migrations\SchemaMigration;
 use WP_Statistics\Service\Admin\Database\Operations\Create;
 use WP_Statistics\Service\Admin\Database\Operations\Drop;
 use WP_Statistics\Service\Admin\Database\Operations\Insert;
 use WP_Statistics\Service\Admin\Database\Operations\Inspect;
+use WP_Statistics\Service\Admin\Database\Operations\MultiStepOps\VisitorSearchInsert;
+use WP_Statistics\Service\Admin\Database\Operations\Select;
 use WP_Statistics\Service\Admin\Database\Operations\Update;
 
 /**
@@ -24,11 +27,13 @@ class DatabaseFactory
      * @var array
      */
     private static $operations = [
-        'create'  => Create::class,
-        'update'  => Update::class,
-        'drop'    => Drop::class,
-        'inspect' => Inspect::class,
-        'insert'  => Insert::class,
+        'create'                => Create::class,
+        'update'                => Update::class,
+        'drop'                  => Drop::class,
+        'inspect'               => Inspect::class,
+        'insert'                => Insert::class,
+        'select'                => Select::class,
+        'visitor_search_insert' => VisitorSearchInsert::class
     ];
 
     /**
@@ -83,5 +88,29 @@ class DatabaseFactory
         }
 
         return $migrationInstances;
+    }
+
+    /**
+     * Compare the current database version with a required version.
+     *
+     * This method retrieves the current version of the database from the 'db' option group
+     * and compares it to a specified required version using a provided comparison operation.
+     * 
+     * @param string $requiredVersion The version to compare against (e.g., "1.2.3").
+     * @param string $operation       The comparison operator for version comparison.
+     *                                Allowed values: '<', '<=', '>', '>=', '==', '!='.
+     * 
+     * @return bool Returns true if the comparison condition is met, false otherwise.
+     *              Returns false if the current database version is not available.
+     */
+    public static function compareCurrentVersion($requiredVersion, $operation)
+    {
+        $version = Option::getOptionGroup('db', 'version', null);
+
+        if (empty($version)) {
+            return false;
+        }
+
+        return version_compare($version, $requiredVersion, $operation);
     }
 }

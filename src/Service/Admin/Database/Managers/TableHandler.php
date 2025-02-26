@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\Database\Managers;
 
+use WP_STATISTICS\Install;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\Database\DatabaseFactory;
 use WP_Statistics\Service\Admin\Database\Schema\Manager;
@@ -50,6 +51,13 @@ class TableHandler
         }
 
         Option::saveOptionGroup('check', false, 'db');
+
+        if (Install::isFresh()) {
+            Option::saveOptionGroup('migrated', true, 'db');
+            Option::saveOptionGroup('version', WP_STATISTICS_VERSION, 'db');
+            return;
+        }
+
         Option::saveOptionGroup('migrated', false, 'db');
 
         $dismissedNotices = Option::get('dismissed_notices', []);

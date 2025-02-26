@@ -59,5 +59,6 @@ class SchemaMigrationProcess extends WP_Background_Process
 
         Option::deleteOptionGroup('schema_migration_process_started', 'jobs');
         Option::saveOptionGroup('migrated', true, 'db');
+        Option::saveOptionGroup('auto_migration_tasks', [], 'db');
     }
 }

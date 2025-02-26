@@ -15,12 +15,54 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         array (
             'WP_Statistics\\' => 14,
         ),
+        'M' => 
+        array (
+            'MaxMind\\WebService\\' => 19,
+            'MaxMind\\Exception\\' => 18,
+            'MaxMind\\Db\\' => 11,
+        ),
+        'G' => 
+        array (
+            'GeoIp2\\' => 7,
+        ),
+        'D' => 
+        array (
+            'DeviceDetector\\' => 15,
+        ),
+        'C' => 
+        array (
+            'Composer\\CaBundle\\' => 18,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'WP_Statistics\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'MaxMind\\WebService\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/WebService',
+        ),
+        'MaxMind\\Exception\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/Exception',
+        ),
+        'MaxMind\\Db\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind-db/reader/src/MaxMind/Db',
+        ),
+        'GeoIp2\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/geoip2/geoip2/src',
+        ),
+        'DeviceDetector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/matomo/device-detector',
+        ),
+        'Composer\\CaBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
         ),
     );
 
@@ -144,6 +186,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Models\\AuthorsModel' => __DIR__ . '/../..' . '/src/Models/AuthorsModel.php',
         'WP_Statistics\\Models\\ExclusionsModel' => __DIR__ . '/../..' . '/src/Models/ExclusionsModel.php',
         'WP_Statistics\\Models\\HistoricalModel' => __DIR__ . '/../..' . '/src/Models/HistoricalModel.php',
+        'WP_Statistics\\Models\\LegacyModel' => __DIR__ . '/../..' . '/src/Models/LegacyModel.php',
         'WP_Statistics\\Models\\OnlineModel' => __DIR__ . '/../..' . '/src/Models/OnlineModel.php',
         'WP_Statistics\\Models\\PostsModel' => __DIR__ . '/../..' . '/src/Models/PostsModel.php',
         'WP_Statistics\\Models\\TaxonomyModel' => __DIR__ . '/../..' . '/src/Models/TaxonomyModel.php',
@@ -181,6 +224,8 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Admin\\Database\\Operations\\Drop' => __DIR__ . '/../..' . '/src/Service/Admin/Database/Operations/Drop.php',
         'WP_Statistics\\Service\\Admin\\Database\\Operations\\Insert' => __DIR__ . '/../..' . '/src/Service/Admin/Database/Operations/Insert.php',
         'WP_Statistics\\Service\\Admin\\Database\\Operations\\Inspect' => __DIR__ . '/../..' . '/src/Service/Admin/Database/Operations/Inspect.php',
+        'WP_Statistics\\Service\\Admin\\Database\\Operations\\MultiStepOps\\VisitorSearchInsert' => __DIR__ . '/../..' . '/src/Service/Admin/Database/Operations/MultiStepOps/VisitorSearchInsert.php',
+        'WP_Statistics\\Service\\Admin\\Database\\Operations\\Select' => __DIR__ . '/../..' . '/src/Service/Admin/Database/Operations/Select.php',
         'WP_Statistics\\Service\\Admin\\Database\\Operations\\Update' => __DIR__ . '/../..' . '/src/Service/Admin/Database/Operations/Update.php',
         'WP_Statistics\\Service\\Admin\\Database\\Schema\\Manager' => __DIR__ . '/../..' . '/src/Service/Admin/Database/Schema/Manager.php',
         'WP_Statistics\\Service\\Admin\\Devices\\DevicesDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/Devices/DevicesDataProvider.php',

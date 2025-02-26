@@ -7,6 +7,7 @@ use WP_Statistics\Components\DateRange;
 use WP_Statistics\Decorators\ReferralDecorator;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Helper;
+use WP_Statistics\Service\Admin\Database\DatabaseFactory;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Utils\Query;
 
@@ -458,6 +459,10 @@ class VisitorsModel extends BaseModel
 
     public function getVisitorsData($args = [])
     {
+        if (DatabaseFactory::compareCurrentVersion('14.12.5', '<')) {
+            return LegacyModel::get('visitorsData', $args, '14.12.4');
+        }
+
         $args = $this->parseArgs($args, [
             'date'          => '',
             'resource_type' => '',
@@ -477,7 +482,6 @@ class VisitorsModel extends BaseModel
             'order'         => 'DESC',
             'page'          => '',
             'per_page'      => '',
-            'page_info'     => false,
             'user_info'     => false,
             'date_field'    => 'visitor.last_counter',
             'logged_in'     => false,
@@ -504,32 +508,11 @@ class VisitorsModel extends BaseModel
                 'visitor.last_counter',
                 'visitor.source_channel',
                 'visitor.source_name',
+                'visitor.first_page',
+                'visitor.first_view',
+                'visitor.last_page',
+                'visitor.last_view',
             ];
-        }
-
-        // If page info is true, get last page the visitor has visited
-        if ($args['page_info'] === true) {
-
-            $lastHit = Query::select([
-                'visitor_id',
-                'MAX(date) as date'
-            ])
-                ->from('visitor_relationships')
-                ->groupBy('visitor_id')
-                ->getQuery();
-
-            $subQuery = Query::select([
-                'visitor_relationships.visitor_id',
-                'page_id',
-                'date'
-            ])
-                ->from('visitor_relationships')
-                ->whereRaw("(visitor_id, date) IN ($lastHit)")
-                ->groupBy('visitor_id')
-                ->getQuery();
-
-            $args['fields'][] = 'last_hit.page_id as last_page';
-            $args['fields'][] = 'last_hit.date as last_view';
         }
 
         if ($args['user_info'] === true) {
@@ -564,11 +547,6 @@ class VisitorsModel extends BaseModel
                 $query->where('usermeta.meta_key', '=', "wp_capabilities");
                 $query->where('usermeta.meta_value', 'LIKE', "%{$args['user_role']}%");
             }
-        }
-
-        // If last page is true, get last page the visitor has visited
-        if ($args['page_info'] === true) {
-            $query->joinQuery($subQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit', 'LEFT');
         }
 
         if ($args['user_info']) {
@@ -616,6 +594,10 @@ class VisitorsModel extends BaseModel
 
     public function getReferredVisitors($args = [])
     {
+        if (DatabaseFactory::compareCurrentVersion('14.12.5', '<')) {
+            return LegacyModel::get('referredVisitors', $args, '14.12.4');
+        }
+
         $args = $this->parseArgs($args, [
             'date'              => '',
             'source_channel'    => '',
@@ -626,42 +608,6 @@ class VisitorsModel extends BaseModel
             'page'              => '',
             'per_page'          => '',
         ]);
-
-        $firstHit = Query::select([
-            'MIN(ID) as ID',
-            'visitor_id'
-        ])
-            ->from('visitor_relationships')
-            ->groupBy('visitor_id')
-            ->getQuery();
-
-        $firstHitQuery = Query::select([
-            'visitor_relationships.visitor_id',
-            'page_id',
-            'date'
-        ])
-            ->from('visitor_relationships')
-            ->whereRaw("(ID, visitor_id) IN ($firstHit)")
-            ->groupBy('visitor_id')
-            ->getQuery();
-
-        $lastHit = Query::select([
-            'visitor_id',
-            'MAX(date) as date'
-        ])
-            ->from('visitor_relationships')
-            ->groupBy('visitor_id')
-            ->getQuery();
-
-        $lastHitQuery = Query::select([
-            'visitor_relationships.visitor_id',
-            'page_id',
-            'date'
-        ])
-            ->from('visitor_relationships')
-            ->whereRaw("(visitor_id, date) IN ($lastHit)")
-            ->groupBy('visitor_id')
-            ->getQuery();
 
         $query = Query::select([
             'visitor.ID',
@@ -682,15 +628,13 @@ class VisitorsModel extends BaseModel
             'visitor.source_name',
             'users.display_name',
             'users.user_email',
-            'first_hit.page_id as first_page',
-            'first_hit.date as first_view',
-            'last_hit.page_id as last_page',
-            'last_hit.date as last_view'
+            'visitor.first_page',
+            'visitor.first_view',
+            'visitor.last_page',
+            'visitor.last_view'
         ])
             ->from('visitor')
             ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
-            ->joinQuery($firstHitQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit', 'LEFT')
-            ->joinQuery($lastHitQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit', 'LEFT')
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
             ->whereNotNull('visitor.referred')
@@ -779,6 +723,10 @@ class VisitorsModel extends BaseModel
 
     public function getVisitorData($args = [])
     {
+        if (DatabaseFactory::compareCurrentVersion('14.12.5', '<')) {
+            return LegacyModel::get('visitorData', $args, '14.12.4');
+        }
+
         $args = $this->parseArgs($args, [
             'fields'     => [],
             'visitor_id' => '',
@@ -804,7 +752,11 @@ class VisitorsModel extends BaseModel
             'visitor.referred',
             'visitor.source_channel',
             'visitor.source_name',
-            'visitor.ip'
+            'visitor.ip',
+            'visitor.first_page',
+            'visitor.first_view',
+            'visitor.last_page',
+            'visitor.last_view'
         ];
 
         // If visitor_id is empty, get visitor_id by IP
@@ -818,18 +770,6 @@ class VisitorsModel extends BaseModel
         }
 
         if ($args['page_info'])  {
-            $firstPage = Query::select(['MIN(ID)', 'page_id', 'visitor_id'])
-                ->from('visitor_relationships')
-                ->where('visitor_id', '=', $args['visitor_id'])
-                ->getQuery();
-
-            $firstView = Query::select(['MIN(date) as date', 'visitor_id'])
-                ->from('visitor_relationships')
-                ->where('visitor_id', '=', $args['visitor_id'])
-                ->getQuery();
-
-            $fields[] = 'first_view.date as first_view';
-            $fields[] = 'first_page.page_id as first_page';
             $fields[] = 'pages.uri as first_uri';
         }
 
@@ -846,9 +786,7 @@ class VisitorsModel extends BaseModel
 
         if ($args['page_info']) {
             $query
-                ->joinQuery($firstPage, ['visitor.ID', 'first_page.visitor_id'], 'first_page', 'LEFT')
-                ->joinQuery($firstView, ['visitor.ID', 'first_view.visitor_id'], 'first_view', 'LEFT')
-                ->join('pages', ['first_page.page_id', 'pages.page_id'], [], 'LEFT');
+                ->join('pages', ['first_page', 'pages.page_id'], [], 'LEFT');
         }
 
         if ($args['user_info']) {
