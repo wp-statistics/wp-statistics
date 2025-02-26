@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.7
-Stable tag: 14.12.1
+Stable tag: 14.12.2
 Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -136,8 +136,16 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.12.2 =
+= 14.13 - 2025-**-** =
+- **Enhancement:** Removed the honeypot feature.
+
+= 14.12.2 - 2025-01-** =
 - **Fix:** Resolved Filters option incorrectly activating when changing the date filter in Referrals.
+- **Fix:** Resolved issue where user data was lost upon logout for online users.
+- **Fix:** Resolved issue with updating source channel data on large dataset.
+- **Fix:** Resolved referrals backward-compatibility issue with "REST API" add-on.
+- **Enhancement:** Updated the time display logic in Tracker Debugger to replace "0 minutes ago" with "Now".
+- **Enhancement:** Improve the way the query parameters are displayed in report pages.
 
 = 14.12.1 - 2025-01-13 =
 - **New:** Added "Last Year" filter to metaboxes on the Overview page for yearly data.
@@ -146,7 +154,6 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 - **Fix:** Fixed tracker detection issue for sites in subfolders.
 - **Fix:** Addressed compatibility issue with "Discount Rules for WooCommerce."
 - **Fix:** Corrected timezone mismatch in the "Traffic Summary" widget.
-
 
 = 14.12 - 2025-01-05 =
 - **New:** Introduced the "Source Categories" report under the "Referrals" section.

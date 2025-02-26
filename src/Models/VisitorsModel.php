@@ -482,6 +482,8 @@ class VisitorsModel extends BaseModel
             'date_field'    => 'visitor.last_counter',
             'logged_in'     => false,
             'user_role'     => '',
+            'event_target'  => '',
+            'event_name'    => '',
             'fields'        => []
         ]);
 
@@ -507,8 +509,26 @@ class VisitorsModel extends BaseModel
             ];
         }
 
-        // If page info is true, get last page the visitor has visited
+        // If page info is true, get first and last page the visitor has visited
         if ($args['page_info'] === true) {
+
+            $firstHit = Query::select([
+                'MIN(ID) as ID',
+                'visitor_id'
+            ])
+                ->from('visitor_relationships')
+                ->groupBy('visitor_id')
+                ->getQuery();
+
+            $firstHitQuery = Query::select([
+                'visitor_relationships.visitor_id',
+                'page_id',
+                'date'
+            ])
+                ->from('visitor_relationships')
+                ->whereRaw("(ID, visitor_id) IN ($firstHit)")
+                ->groupBy('visitor_id')
+                ->getQuery();
 
             $lastHit = Query::select([
                 'visitor_id',
@@ -518,7 +538,7 @@ class VisitorsModel extends BaseModel
                 ->groupBy('visitor_id')
                 ->getQuery();
 
-            $subQuery = Query::select([
+            $lastHitQuery = Query::select([
                 'visitor_relationships.visitor_id',
                 'page_id',
                 'date'
@@ -530,6 +550,8 @@ class VisitorsModel extends BaseModel
 
             $args['fields'][] = 'last_hit.page_id as last_page';
             $args['fields'][] = 'last_hit.date as last_view';
+            $args['fields'][] = 'first_hit.page_id as first_page';
+            $args['fields'][] = 'first_hit.date as first_view';
         }
 
         if ($args['user_info'] === true) {
@@ -568,7 +590,8 @@ class VisitorsModel extends BaseModel
 
         // If last page is true, get last page the visitor has visited
         if ($args['page_info'] === true) {
-            $query->joinQuery($subQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit', 'LEFT');
+            $query->joinQuery($lastHitQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit', 'LEFT');
+            $query->joinQuery($firstHitQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit', 'LEFT');
         }
 
         if ($args['user_info']) {
@@ -586,7 +609,7 @@ class VisitorsModel extends BaseModel
                 ->where('pages.uri', '=', $args['query_param']);
         }
 
-        if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
+        if (array_intersect(['post_type', 'post_id', 'author_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
                 ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
                 ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
@@ -607,6 +630,13 @@ class VisitorsModel extends BaseModel
                 $query
                     ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
             }
+        }
+
+        if (!empty($args['event_target']) || !empty($args['event_name'])) {
+            $query
+                ->join('events', ['events.visitor_id', 'visitor.ID'])
+                ->where('event_name', 'IN', $args['event_name'])
+                ->whereJson('event_data', 'target_url', '=', $args['event_target']);
         }
 
         $result = $query->getAll();
@@ -913,31 +943,33 @@ class VisitorsModel extends BaseModel
     public function getVisitorsGeoData($args = [])
     {
         $args = $this->parseArgs($args, [
-            'fields'      => [
+            'fields'        => [
                 'visitor.city as city',
                 'visitor.location as country',
                 'visitor.region as region',
                 'visitor.continent as continent',
-                'COUNT(visitor.ID) as visitors',
+                'COUNT(DISTINCT visitor.ID) as visitors',
                 'SUM(visitor.hits) as views', // All views are counted and results can't be filtered by author, post type, etc...
             ],
-            'date'        => '',
-            'country'     => '',
-            'city'        => '',
-            'region'      => '',
-            'continent'   => '',
-            'not_null'    => '',
-            'post_type'   => '',
-            'author_id'   => '',
-            'post_id'     => '',
-            'per_page'    => '',
-            'query_param' => '',
-            'taxonomy'    => '',
-            'term'        => '',
-            'page'        => 1,
-            'group_by'    => 'visitor.location',
-            'order_by'    => ['visitors', 'views'],
-            'order'       => 'DESC',
+            'date'          => '',
+            'country'       => '',
+            'city'          => '',
+            'region'        => '',
+            'continent'     => '',
+            'not_null'      => '',
+            'post_type'     => '',
+            'author_id'     => '',
+            'post_id'       => '',
+            'per_page'      => '',
+            'query_param'   => '',
+            'taxonomy'      => '',
+            'term'          => '',
+            'page'          => 1,
+            'group_by'      => 'visitor.location',
+            'event_name'    => '',
+            'event_target'  => '',
+            'order_by'      => ['visitors', 'views'],
+            'order'         => 'DESC',
         ]);
 
         $query = Query::select($args['fields'])
@@ -976,6 +1008,13 @@ class VisitorsModel extends BaseModel
                 $query
                     ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
             }
+        }
+
+        if (!empty($args['event_target']) || !empty($args['event_name'])) {
+            $query
+                ->join('events', ['events.visitor_id', 'visitor.ID'])
+                ->where('event_name', 'IN', $args['event_name'])
+                ->whereJson('event_data', 'target_url', '=', $args['event_target']);
         }
 
         $result = $query->getAll();

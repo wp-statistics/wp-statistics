@@ -29,6 +29,20 @@ class Assets
      */
     public static $plugin_dir = WP_STATISTICS_DIR;
 
+
+    /**
+     * Check if a script has been enqueued or not
+     *
+     * @param string $handle The script handle.
+     *
+     * @return bool
+     */
+    public static function isScriptEnqueued($handle)
+    {
+        $handle = self::getHandle($handle);
+        return wp_script_is($handle, 'enqueued');
+    }
+
     /**
      * Enqueue a script.
      *
@@ -57,6 +71,26 @@ class Assets
 
             wp_localize_script($handle, $object, $localize);
         }
+    }
+
+
+    /**
+     * Localize a script.
+     *
+     * @param string $handle The script handle.
+     * @param string $name The name of the object to be passed to the script.
+     * @param array $data An array of data to be localized.
+     *
+     * @return  void
+     * @example Assets::localize('admin', 'foo', ['bar' => 'baz']);
+     */
+    public static function localize($handle, $name, $data)
+    {
+        $handle = self::getHandle($handle);
+        $object = self::getObject($name);
+        $data   = apply_filters("wp_statistics_localize_{$handle}", $data);
+
+        wp_localize_script($handle, $object, $data);
     }
 
     /**

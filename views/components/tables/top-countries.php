@@ -20,7 +20,9 @@ use WP_STATISTICS\Country;
                             <?php esc_html_e('Country', 'wp-statistics') ?>
                         </th>
                         <th class="wps-pd-l">
-                            <?php esc_html_e('Visitors', 'wp-statistics') ?>
+                            <span class="wps-order">
+                                <?php esc_html_e('Visitors', 'wp-statistics') ?>
+                            </span>
                         </th>
                     </tr>
                     </thead>

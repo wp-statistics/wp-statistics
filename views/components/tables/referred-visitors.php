@@ -73,11 +73,13 @@ use WP_STATISTICS\Menus;
                             <td class="wps-pd-l">
                                 <?php $page = $visitor->getFirstPage(); ?>
 
-                                <?php if (!empty($page)) : ?>
-                                    <a target="_blank" href="<?php echo esc_url($page['link']) ?>" title="<?php echo esc_attr($page['title']) ?>" class="wps-link-arrow">
-                                        <span><?php echo esc_html($page['title']) ?></span>
-                                    </a>
-                                <?php else : ?>
+                                <?php if (!empty($page)) :
+                                    View::load("components/objects/external-link", [
+                                        'url'       => $page['link'],
+                                        'title'     => $page['title'],
+                                        'tooltip'   => $page['query'] ? "?{$page['query']}" : ''
+                                    ]);
+                                else : ?>
                                     <?php echo Admin_Template::UnknownColumn() ?>
                                 <?php endif; ?>
                             </td>

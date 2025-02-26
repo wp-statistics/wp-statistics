@@ -32,17 +32,19 @@ class SearchEngine
      */
     public static function getList($all = false)
     {
-        _deprecated_function('getList', '14.11', 'ReferralsDatabase::getList()');
-
         $referralsDatabase  = new ReferralsDatabase();
         $referralsDatabase  = $referralsDatabase->getList();
-        $searchEngines      = $referralsDatabase['source_channels']['search']['channels'];
+        $searchEngines      = array_filter($referralsDatabase, function ($sourceChannel) {
+            return $sourceChannel['type'] === 'search' && count($sourceChannel['channels']) > 1;
+        });
+        $searchEngines      = reset($searchEngines);
 
         $engines = [];
-        foreach ($searchEngines as $searchEngine) {
+        foreach ($searchEngines['channels'] as $searchEngine) {
             $engines[$searchEngine['identifier']] = [
                 'name'          => $searchEngine['name'],
                 'translated'    => $searchEngine['name'],
+                'logo_url'      => self::Asset() . $searchEngine['identifier'] . '.png',
                 'tag'           => $searchEngine['identifier']
             ];
         }

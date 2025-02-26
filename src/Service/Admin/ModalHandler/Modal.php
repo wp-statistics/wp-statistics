@@ -52,12 +52,13 @@ class Modal {
      *
      * @param string $modalId The ID of the modal to render.
      * @param array $args
+     * @param array $args
      *
      * @return void
      */
-    public static function render($modalId, $args = [])
+    public static function render($modalId, $args = [], $baseDir = null)
     {
-        View::load(self::getModalsDir() . "/{$modalId}/{$modalId}-modal", $args);
+        View::load(self::getModalsDir() . "/{$modalId}/{$modalId}-modal", $args, false, $baseDir);
     }
 
     /**
