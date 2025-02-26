@@ -56,7 +56,7 @@ let wpStatisticsUserOnline = {
             if (WP_Statistics_Dnd_Active !== 1) {
                 this.sendHitRequest();
             } else {
-                if (wps_js.global.wp_debug) {
+                if (WP_Statistics_Tracker_Object.wpDebug) {
                     console.log('WP Statistics: Do Not Track (DNT) is enabled. Hit request not sent.');
                 }
             }
