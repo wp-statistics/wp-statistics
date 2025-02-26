@@ -57,36 +57,41 @@ jQuery(document).ready(function () {
         }
 
         if (activeTab.dataset.tab === "tab-2") {
-            dismissAllBtn.style.display = "none";
+            if(dismissAllBtn) dismissAllBtn.style.display = "none";
         } else {
             const activeCards = document.querySelectorAll(
                 ".wps-notification-sidebar__cards--active .wps-notification-sidebar__card:not(.wps-notification-sidebar__no-card)"
             );
             const hasNotifications = activeCards.length > 0;
-            dismissAllBtn.style.display = hasNotifications ? "inline-flex" : "none";
+            if(dismissAllBtn) dismissAllBtn.style.display = hasNotifications ? "inline-flex" : "none";
         }
     };
+
+    const checkEmptyNotifications = () => {
+        let activeCards = jQuery('.wps-notification-sidebar__tab-pane--active .wps-notification-sidebar__card:not(.wps-notification-sidebar__no-card)');
+        let noCardMessages = jQuery('.wps-notification-sidebar__tab-pane--active .wps-notification-sidebar__no-card');
+        let noCardMessage = noCardMessages.first();
+        if (activeCards.length === 0) {
+            noCardMessage.css('display', 'flex');
+        } else {
+            noCardMessage.hide();
+        }
+        if (noCardMessages.length > 1) {
+            noCardMessages.last().hide();
+        }
+    }
 
     tabs.forEach(tab => {
         tab.addEventListener("click", function () {
             tabs.forEach(t => t.classList.remove("wps-notification-sidebar__tab--active"));
             this.classList.add("wps-notification-sidebar__tab--active");
             updateDismissAllVisibility();
+            checkEmptyNotifications();
         });
     });
 
     updateDismissAllVisibility();
-
-    const checkEmptyNotifications = () => {
-        let activeCards = jQuery('.wps-notification-sidebar__cards--active .wps-notification-sidebar__card:not(.wps-notification-sidebar__no-card)');
-        let noCardMessage = jQuery('.wps-notification-sidebar__cards--active .wps-notification-sidebar__no-card');
-
-        if (activeCards.length === 0) {
-            noCardMessage.css('display', 'flex');
-        } else {
-            noCardMessage.hide();
-        }
-    }
+    checkEmptyNotifications();
 
     jQuery(document).on('click', "a.wps-notification-sidebar__dismiss, a.wps-notification-sidebar__dismiss-all", function (e) {
         e.preventDefault();
