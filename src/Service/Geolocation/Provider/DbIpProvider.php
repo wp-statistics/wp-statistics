@@ -3,7 +3,6 @@
 namespace WP_Statistics\Service\Geolocation\Provider;
 
 use Exception;
-use PharData;
 use WP_Statistics;
 use WP_Error;
 use WP_STATISTICS\Option;
@@ -105,14 +104,26 @@ class DbIpProvider extends AbstractGeoIPProvider
             ? Option::get('geoip_dbip_license_key_option')
             : null;
         
+        $downloadUrl = '';
+
         if ($licenseKey) {
             $downloadUrlPro = "https://db-ip.com/account/{$licenseKey}/db/ip-to-location/mmdb/url";
             $response       = wp_remote_get($downloadUrlPro);
-            $fileData       = wp_remote_retrieve_body($response);
+    
+            // Check if the request was successful
+            if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200) {
+                throw new Exception(sprintf(__('Failed to retrieve download URL from %s', 'wp-statistics'), $downloadUrlPro));
+            }
+    
+            $downloadUrl = trim(wp_remote_retrieve_body($response));
+
+            if (empty($downloadUrl)) {
+                throw new Exception(__('Received an empty download URL from the DB-IP service.', 'wp-statistics'));
+            }
         }
 
         $defaultUrl = $licenseKey
-            ? $fileData
+            ? $downloadUrl
             : 'https://github.com/wp-statistics/DbIP-City-lite/raw/master/dbip-city-lite.mmdb.gz';
 
         return $this->getFilteredDownloadUrl($defaultUrl);
@@ -128,10 +139,9 @@ class DbIpProvider extends AbstractGeoIPProvider
             $response    = wp_remote_get($downloadUrl, [
                 'stream'   => true,
                 'filename' => $gzFilePath,
-                'timeout'  => 120,
+                'timeout'  => 300,
             ]);
 
-            // Check the HTTP status code
             $statusCode = wp_remote_retrieve_response_code($response);
             if ($statusCode !== 200) {
                 throw new Exception(sprintf(__('Unexpected HTTP status code %1$d while downloading GeoIP database from: %2$s', 'wp-statistics'), $statusCode, $downloadUrl));
@@ -171,33 +181,6 @@ class DbIpProvider extends AbstractGeoIPProvider
     protected function extractGzFile(string $gzFilePath, string $destinationPath)
     {
         try {
-            if (Option::get('geoip_license_type') === "user-license" && Option::get('geoip_dbip_license_key_option')) {
-                if (!class_exists('PharData')) {
-                    throw new Exception(__('PharData class not found.', 'wp-statistics'));
-                }
-
-                $tarGz         = new PharData($gzFilePath);
-                $fileInArchive = trailingslashit($tarGz->current()->getFileName()) . $this->databaseFileName;
-                $uploadPath    = dirname($destinationPath);
-
-                // Extract database in the destination path.
-                $tarGz->extractTo($uploadPath, $fileInArchive, true);
-                $fileExtractedPath = $uploadPath . '/' . $fileInArchive;
-                if (!file_exists($fileExtractedPath)) {
-                    throw new Exception(esc_html__('Extraction failed: File not found.', 'wp-statistics'));
-                }
-
-                if (!copy($fileExtractedPath, $destinationPath)) {
-                    throw new Exception(esc_html__('Failed to move extracted file.', 'wp-statistics'));
-                }
-
-                // Remove the extracted file and its parent directory
-                unlink($fileExtractedPath);
-                rmdir(dirname($fileExtractedPath));
-
-                return;
-            }
-
             $gzHandle = gzopen($gzFilePath, 'rb');
             if (!$gzHandle) {
                 throw new Exception(__('Failed to open GZ archive.', 'wp-statistics'));

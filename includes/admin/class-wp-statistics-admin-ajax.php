@@ -523,10 +523,9 @@ class Ajax
 
             if (is_wp_error($result)) {
                 esc_html_e($result->get_error_message());
+            } else {
+                esc_html_e('GeoIP Database successfully updated.', 'wp-statistics');
             }
-
-            esc_html_e('GeoIP Database successfully updated.', 'wp-statistics');
-
         } else {
             esc_html_e('Unauthorized access!', 'wp-statistics');
         }
