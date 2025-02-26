@@ -503,6 +503,9 @@ class Admin_Assets
         $list['rest_api_nonce']      = wp_create_nonce('wp_rest');
         $list['meta_box_api']        = admin_url('admin-ajax.php?action=wp_statistics_admin_meta_box');
 
+        // For developers: WordPress debugging mode.
+        $list['wp_debug'] = defined('WP_DEBUG') && WP_DEBUG ? true : false;
+
         $list['meta_boxes'] = MetaboxHelper::getScreenMetaboxes();
 
         /**

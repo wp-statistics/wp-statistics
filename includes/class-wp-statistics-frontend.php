@@ -53,7 +53,7 @@ class Frontend
 
             /**
              * Handle the bypass ad blockers
-             * 
+             *
              * @todo This should be refactored in a service related to option. note that all the options with same functionality should be updated.
              */
             if (Option::get('bypass_ad_blockers', false)) {
@@ -76,6 +76,7 @@ class Frontend
                 'ajaxUrl'      => admin_url('admin-ajax.php'),
                 'hitParams'    => $hitParams,
                 'onlineParams' => $onlineParams,
+                'wpDebug'      => defined('WP_DEBUG') && WP_DEBUG ? true : false,
                 'option'       => [
                     'userOnline'           => Option::get('useronline'),
                     'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
