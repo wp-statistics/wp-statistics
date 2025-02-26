@@ -37,9 +37,23 @@ class SiteHealthInfo
         $userRoleExclusions      = $this->getUserRoleExclusions();
         $geoIpProvider           = GeolocationFactory::getProviderInstance();
         $geoIpProviderValidity   = $geoIpProvider->validateDatabaseFile();
-        $isMaxmindLocationMethod = 'maxmind' === Option::get('geoip_location_detection_method', 'maxmind');
+        $locationDetectionMethod = Option::get('geoip_location_detection_method', 'maxmind');
+        $isMaxmindLocationMethod = 'maxmind' === $locationDetectionMethod;
         $requiredHeaderExists    = CloudflareGeolocationProvider::isAvailable();
 
+        $currentMethod = [
+            'title' => __('Cloudflare IP Geolocation', 'wp-statistics'),
+            'debug' => 'Cloudflare IP Geolocation',
+        ];
+
+        if ($locationDetectionMethod) {
+            $currentMethod = [
+                'title' => __('DB-IP Geolocation', 'wp-statistics'),
+                'debug' => 'DB-IP Geolocation',
+            ];
+        }
+
+        
         $info[self::DEBUG_INFO_SLUG] = [
             'label'       => esc_html__('WP Statistics', 'wp-statistics'),
             'description' => esc_html__('This section contains debug information about your WP Statistics settings to help you troubleshoot issues.', 'wp-statistics'),
@@ -70,8 +84,8 @@ class SiteHealthInfo
                  */
                 'geoipLocationDetectionMethod'   => [
                     'label' => esc_html__('Location Detection Method', 'wp-statistics'),
-                    'value' => $isMaxmindLocationMethod ? __('MaxMind GeoIP', 'wp-statistics') : __('Cloudflare IP Geolocation', 'wp-statistics'),
-                    'debug' => $isMaxmindLocationMethod ? 'MaxMind GeoIP' : 'Cloudflare IP Geolocation',
+                    'value' => $isMaxmindLocationMethod ? __('MaxMind GeoIP', 'wp-statistics') : $currentMethod['title'],
+                    'debug' => $isMaxmindLocationMethod ? 'MaxMind GeoIP' : $currentMethod['debug'],
                 ],
                 'cloudflareRequiredHeaderExists' => [
                     'label' => esc_html__('Cloudflare Required Headers Exists', 'wp-statistics'),

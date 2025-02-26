@@ -256,6 +256,7 @@ class settings_page extends Singleton
             'wps_geoip_license_type',
             'wps_geoip_location_detection_method',
             'wps_geoip_license_key',
+            'wps_geoip_dbip_license_key_option',
             'wps_update_geoip',
             'wps_schedule_geoip',
             'wps_auto_pop',

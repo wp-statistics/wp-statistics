@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Geolocation;
 use WP_Error;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
+use WP_Statistics\Service\Geolocation\Provider\DbIpProvider;
 use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;
 
 class GeolocationFactory
@@ -54,14 +55,16 @@ class GeolocationFactory
      */
     public static function getProviderInstance()
     {
+        $locationDetection = Option::get('geoip_location_detection_method', 'maxmind');
+
         if (
-            'cf' === Option::get('geoip_location_detection_method') &&
+            'cf' === $locationDetection &&
             method_exists(CloudflareGeolocationProvider::class, 'isAvailable') &&
             CloudflareGeolocationProvider::isAvailable()
         ) {
             $geoIpProvider = CloudflareGeolocationProvider::class;
-        } else {
-            $geoIpProvider = MaxmindGeoIPProvider::class;
+        }  {
+            $geoIpProvider = 'dbip' === $locationDetection ? DbIpProvider::class : MaxmindGeoIPProvider::class;
         }
 
         if (! is_null(self::$forcedProvider)) {

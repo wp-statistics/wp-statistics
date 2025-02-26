@@ -6,6 +6,7 @@ use WP_Statistics\Async\BackgroundProcessFactory;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Service\Geolocation\Provider\DbIpProvider;
 use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;
 
 class optimization_page extends Singleton
@@ -50,8 +51,15 @@ class optimization_page extends Singleton
 
         // Update All GEO IP Country
         if (isset($_POST['update_location_action']) && intval($_POST['update_location_action']) == 1) {
+            $method   = Option::get('geoip_location_detection_method', 'maxmind');
+            $provider = MaxmindGeoIPProvider::class;
+
+            if ('dbip' === $method) {
+                $provider = DbIpProvider::class;
+            }
+
             // First download/update the GeoIP database
-            GeolocationFactory::downloadDatabase(MaxmindGeoIPProvider::class);
+            GeolocationFactory::downloadDatabase($provider);
 
             // Update GeoIP data for visitors with incomplete information
             BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
