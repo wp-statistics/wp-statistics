@@ -235,7 +235,8 @@ class DbIpProvider extends AbstractGeoIPProvider
 
             // Verify the database type and metadata
             $databaseType = $this->reader->metadata()->databaseType;
-            if ($databaseType !== 'dbip-city-lite') {
+            
+            if (! in_array($databaseType, ['DBIP-Location (compat=City)', 'DBIP-City-Lite'], true)) {
                 throw new Exception(sprintf(__('Unexpected database type %s', 'wp-statistics'), $databaseType));
             }
 
