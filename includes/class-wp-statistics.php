@@ -14,6 +14,7 @@ use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditManager;
 use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsManager;
 use WP_Statistics\Service\Admin\TrackerDebugger\TrackerDebuggerManager;
+use WP_Statistics\Service\Admin\Notification\NotificationManager;
 use WP_Statistics\Service\Analytics\AnalyticsManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
 use WP_Statistics\Service\Admin\Devices\DevicesManager;
@@ -155,9 +156,10 @@ final class WP_Statistics
         // Ajax area
         require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-template.php';
 
-        $referrals      = new ReferralsManager();
-        $postsManager   = new PostsManager();
-        $userOnline     = new \WP_STATISTICS\UserOnline();
+        $referrals           = new ReferralsManager();
+        $postsManager        = new PostsManager();
+        $userOnline          = new \WP_STATISTICS\UserOnline();
+        $notificationManager = new NotificationManager();
 
         // Admin classes
         if (is_admin()) {
