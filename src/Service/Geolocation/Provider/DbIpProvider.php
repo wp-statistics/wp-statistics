@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Geolocation\Provider;
 use Exception;
 use WP_Statistics;
 use WP_Error;
+use WP_Statistics\Components\RemoteRequest;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Geolocation\AbstractGeoIPProvider;
 use WP_Statistics\Dependencies\GeoIp2\Database\Reader;
@@ -107,19 +108,8 @@ class DbIpProvider extends AbstractGeoIPProvider
         $downloadUrl = '';
 
         if ($licenseKey) {
-            $downloadUrlPro = "https://db-ip.com/account/{$licenseKey}/db/ip-to-location/mmdb/url";
-            $response       = wp_remote_get($downloadUrlPro);
-    
-            // Check if the request was successful
-            if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200) {
-                throw new Exception(sprintf(__('Failed to retrieve download URL from %s', 'wp-statistics'), $downloadUrlPro));
-            }
-    
-            $downloadUrl = trim(wp_remote_retrieve_body($response));
-
-            if (empty($downloadUrl)) {
-                throw new Exception(__('Received an empty download URL from the DB-IP service.', 'wp-statistics'));
-            }
+            $remoteRequest = new RemoteRequest("https://db-ip.com/account/{$licenseKey}/db/ip-to-location/mmdb/url", 'GET');
+            $downloadUrl   = $remoteRequest->execute();
         }
 
         $defaultUrl = $licenseKey

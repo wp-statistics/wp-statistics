@@ -288,10 +288,14 @@ add_thickbox();
                         // For MaxMind, show its license key field only if "user-license" is selected.
                         jQuery("#geoip_license_key_option").toggle(isUserLicense);
                         jQuery("#geoip_dbip_license_key_option").hide();
+                        jQuery("#geoip_license_type option[value='user-license']")
+                            .text("<?php esc_html_e('Use the MaxMind server with your own license key', 'wp-statistics'); ?>");
                     } else if (isDBIP) {
                         // For DB-IP, show its license key field only if "user-license" is selected.
                         jQuery("#geoip_dbip_license_key_option").toggle(isUserLicense);
                         jQuery("#geoip_license_key_option").hide();
+                        jQuery("#geoip_license_type option[value='user-license']")
+                            .text("<?php esc_html_e('Use the DB-IP server with your own license key', 'wp-statistics'); ?>");
                     } else {
                         // Hide both license key fields if neither MaxMind nor DB-IP is selected.
                         jQuery("#geoip_license_key_option, #geoip_dbip_license_key_option").hide();
