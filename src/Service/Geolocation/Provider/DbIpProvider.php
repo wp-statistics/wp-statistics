@@ -126,15 +126,24 @@ class DbIpProvider extends AbstractGeoIPProvider
 
         try {
             $downloadUrl = $this->getDownloadUrl();
-            $response    = wp_remote_get($downloadUrl, [
-                'stream'   => true,
-                'filename' => $gzFilePath,
-                'timeout'  => 300,
-            ]);
+            $remoteRequest = new RemoteRequest(
+                $downloadUrl,
+                'GET',
+                [],
+                [
+                    'stream'   => true,
+                    'filename' => $gzFilePath,
+                    'timeout'  => 300,
+                ]
+            );
 
-            $statusCode = wp_remote_retrieve_response_code($response);
-            if ($statusCode !== 200) {
-                throw new Exception(sprintf(__('Unexpected HTTP status code %1$d while downloading GeoIP database from: %2$s', 'wp-statistics'), $statusCode, $downloadUrl));
+            $remoteRequest->execute(false, false);
+
+            $response     = $remoteRequest->getResponse();
+            $responseCode = $remoteRequest->getResponseCode();
+
+            if ($responseCode !== 200) {
+                throw new Exception(sprintf(__('Unexpected HTTP status code %1$d while downloading GeoIP database from: %2$s', 'wp-statistics'), $responseCode, $downloadUrl));
             }
 
             if (is_wp_error($response)) {
