@@ -377,6 +377,17 @@ abstract class WP_Background_Process extends WP_Async_Request {
 		return false;
 	}
 
+    /**
+     * Stops the background process.
+     * 
+     * @return void
+     */
+    public function stopProcess() {
+        $this->clear_scheduled_event();
+        $this->delete_all();
+        $this->unlock_process();
+    }
+
 	/**
 	 * Lock process.
 	 *

@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\Database\Migrations;
 
+use Exception;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\Database\AbstractDatabaseOperation;
 
@@ -73,6 +74,10 @@ abstract class AbstractMigrationOperation extends AbstractDatabaseOperation
      */
     public function setVersion()
     {
+        if (! $this->isPassed()) {
+            return;
+        }
+        
         Option::saveOptionGroup('version', $this->targetVersion, 'db');
     }
 
@@ -126,5 +131,24 @@ abstract class AbstractMigrationOperation extends AbstractDatabaseOperation
             'status' => 'failed',
             'message' => $message
         ], 'db');
+    }
+
+    /**
+     * Checks whether the migration process is considered to have passed.
+     * 
+     * @return bool|null
+     */
+    public function isPassed() {
+        $details = Option::getOptionGroup('db', 'migration_status_detail', null);
+
+        if (empty($details['status'])) {
+            return true;
+        }
+
+        if ($details['status'] === 'failed') {
+            return;
+        }
+
+        return true;
     }
 }

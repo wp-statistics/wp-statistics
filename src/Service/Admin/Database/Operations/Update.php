@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\Database\Operations;
 
+use WP_Statistics\Service\Admin\Database\DatabaseFactory;
+
 /**
  * Handles updating database table structures.
  *
@@ -157,6 +159,16 @@ class Update extends AbstractTableOperation
      */
     private function cacheTableColumns(): void
     {
+        $inspect = DatabaseFactory::table('inspect')
+            ->setName($this->tableName)
+            ->execute();
+
+        if (!$inspect->getResult()) {
+            throw new \RuntimeException(
+                sprintf('Table does not exist')
+            );
+        }
+        
         $results = $this->wpdb->get_results(
             sprintf("SHOW COLUMNS FROM `%s`", $this->fullName),
             ARRAY_A

@@ -3,6 +3,7 @@
 namespace WP_Statistics\Async;
 
 use WP_STATISTICS\Option;
+use WP_Statistics\Service\Admin\Database\Migrations\DataMigration;
 use WP_STATISTICS\WP_Background_Process;
 
 class DataMigrationProcess extends WP_Background_Process
@@ -69,7 +70,13 @@ class DataMigrationProcess extends WP_Background_Process
 
             $instance->setMethod($method, $version);
             $instance->$method($version);
-            $instance->setVersion();
+
+            $dataSteps = (new DataMigration)->getMigrationSteps();
+
+            if (! isset($dataSteps[$version])) {
+                $instance->setVersion();
+            }
+
             return false;
         }
 
@@ -95,10 +102,21 @@ class DataMigrationProcess extends WP_Background_Process
     {
         parent::complete();
 
+        $details = Option::getOptionGroup('db', 'migration_status_detail', null);
+
+        $operationStatus = [
+            'status' => 'done',
+        ];
+
+        if (! empty($details['status']) && 'failed' === $details['status']) {
+            $operationStatus = [
+                'status' => 'failed',
+                'message' => $details['message'],
+            ];
+        }
+
         Option::deleteOptionGroup('data_migration_process_started', 'jobs');
         Option::saveOptionGroup('migrated', true, 'db');
-        Option::saveOptionGroup('migration_status_detail', [
-            'status' => 'done'
-        ], 'db');
+        Option::saveOptionGroup('migration_status_detail', $operationStatus, 'db');
     }
 }

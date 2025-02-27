@@ -37,6 +37,8 @@ class VisitorSearchInsert extends AbstractTableOperation
         try {
             $this->ensureConnection();
 
+            $this->setRunTimeError();
+
             if (empty($this->args['visitor_ids'])) {
                 throw new RuntimeException("Batch insert process requires visitor IDs.");
             }
@@ -63,7 +65,7 @@ class VisitorSearchInsert extends AbstractTableOperation
                     $visitorId = $visitor['visitor_id'];
                     $minId     = $visitor['min_id'];
                     $maxId     = $visitor['max_id'];
-    
+
                     // Step 2: Fetch first page visit
                     $firstPage = DatabaseFactory::table('select')
                         ->setName('visitor_relationships')
@@ -73,7 +75,7 @@ class VisitorSearchInsert extends AbstractTableOperation
                         ])
                         ->execute()
                         ->getResult();
-    
+
                     // Step 3: Fetch last page visit
                     $lastPage = DatabaseFactory::table('select')
                         ->setName('visitor_relationships')
@@ -83,7 +85,7 @@ class VisitorSearchInsert extends AbstractTableOperation
                         ])
                         ->execute()
                         ->getResult();
-    
+
                     // Step 4: Validate and insert data
                     if (!empty($firstPage) && !empty($lastPage)) {
                         DatabaseFactory::table('insert')
@@ -101,13 +103,12 @@ class VisitorSearchInsert extends AbstractTableOperation
                             ])
                             ->execute();
                     }
-                } catch(Exception $e) {
+                } catch (Exception $e) {
                     throw new RuntimeException("Batch aborted due to visitor processing failure.");
                 }
             }
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new RuntimeException("Visitor first and last log Insert failed: " . $e->getMessage());
         }
-        
     }
 }
