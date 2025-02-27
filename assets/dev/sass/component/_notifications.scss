@@ -60,7 +60,7 @@ body.admin-bar .wps-notification-sidebar {
     transform: translateX(100%);
     visibility: hidden;
     transition: all .25s ease .3s, visibility .25s linear .25s;
-    transition-delay: .3s;
+    transition-delay: .25s;
 
     &::-webkit-scrollbar {
       width: 8px;
@@ -79,9 +79,17 @@ body.admin-bar .wps-notification-sidebar {
     &::-webkit-scrollbar-thumb:hover {
       background: #6c757d
     }
+
+    .rtl &{
+      transform: translateX(-100%);
+      right: auto;
+      left: 0;
+    }
   }
 
   &__no-card {
+    border-bottom: none!important;
+
     .wps-notification-sidebar__card-body {
       padding-top: 68px;
       display: flex;
@@ -220,7 +228,7 @@ body.admin-bar .wps-notification-sidebar {
 
   &__card {
     padding: 20px 16px;
-    border-bottom: 1px solid #EEEFF1;
+    border-bottom: 1px solid #DADCE0;
     display: flex;
     gap: 16px;
     box-sizing: border-box;
@@ -231,7 +239,6 @@ body.admin-bar .wps-notification-sidebar {
 
     &.wps-notification-sidebar__success {
       background: #DFF7DF;
-      border-color: #DFF7DF;
 
       .wps-notification-sidebar__card-icon span {
         background-color: #C6E7C6 !important;
@@ -240,7 +247,6 @@ body.admin-bar .wps-notification-sidebar {
 
     &.wps-notification-sidebar__danger {
       background: #FFEDED;
-      border-color: #FFEDED;
 
       .wps-notification-sidebar__card-icon span {
         background-color: #F9DBDB !important;
@@ -249,7 +255,6 @@ body.admin-bar .wps-notification-sidebar {
 
     &.wps-notification-sidebar__info {
       background: #E2F5FF;
-      border-color: #E2F5FF;
 
       .wps-notification-sidebar__card-icon span {
         background-color: #C8E7F7 !important;
@@ -258,7 +263,6 @@ body.admin-bar .wps-notification-sidebar {
 
     &.wps-notification-sidebar__warning {
       background: #FFFFD9;
-      border-color: #FFFFD9;
 
       .wps-notification-sidebar__card-icon span {
         background-color: #F5F5B6 !important;
@@ -304,6 +308,7 @@ body.admin-bar .wps-notification-sidebar {
     font-weight: 600;
     line-height: 17.58px;
     word-break: break-word;
+    gap: 10px;
   }
 
   &__card-date {

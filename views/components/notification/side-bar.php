@@ -46,10 +46,10 @@ use WP_Statistics\Components\View;
                             $hasNotifications = true;
                             View::load("components/notification/card", ['notification' => $notification]);
                         endforeach;
-                        View::load("components/notification/no-data", ['tab' => __('Inbox', 'wp-statistics')]);
+                        View::load("components/notification/no-data", ['tab' => __('inbox', 'wp-statistics')]);
                     endif;
                     if (!$hasNotifications) {
-                        View::load("components/notification/no-data", ['tab' => __('Inbox', 'wp-statistics')]);
+                        View::load("components/notification/no-data", ['tab' => __('inbox', 'wp-statistics')]);
                     }
                     ?>
                 </div>
@@ -64,10 +64,10 @@ use WP_Statistics\Components\View;
                             $hasDismissed = true;
                             View::load("components/notification/card", ['notification' => $notification]);
                         endforeach;
-                        View::load("components/notification/no-data", ['tab' => __('Dismissed list', 'wp-statistics')]);
+                        View::load("components/notification/no-data", ['tab' => __('dismissed list', 'wp-statistics')]);
                     endif;
                     if (!$hasDismissed) {
-                        View::load("components/notification/no-data", ['tab' => __('Dismissed list', 'wp-statistics')]);
+                        View::load("components/notification/no-data", ['tab' => __('dismissed list', 'wp-statistics')]);
                     }
                     ?>
                 </div>

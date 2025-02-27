@@ -3691,6 +3691,12 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 
 .wps-no-scroll {
   overflow: hidden;
+  padding-right: var(--scrollbar-width);
+
+  .rtl &{
+    padding-right:unset;
+    padding-left: var(--scrollbar-width);
+  }
 }
 
 @keyframes skeleton-animate-wave {

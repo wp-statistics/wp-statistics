@@ -27,24 +27,33 @@ jQuery(document).ready(function () {
     }
 
     if (wpsNotificationButtons.length > 0 && wpsSidebar && wpsOverlay) {
+        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+        document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
+
         wpsNotificationButtons.forEach(function (button) {
             button.addEventListener('click', function () {
                 wpsSidebar.classList.toggle('is-active');
                 wpsOverlay.classList.toggle('is-active');
-                body.classList.toggle('wps-no-scroll');
-            });
+                setTimeout(() => {
+                    body.classList.toggle('wps-no-scroll');
+                }, 250);
+             });
         });
 
         wpsOverlay.addEventListener('click', function () {
             wpsSidebar.classList.remove('is-active');
             wpsOverlay.classList.remove('is-active');
-            body.classList.remove('wps-no-scroll');
+            setTimeout(() => {
+                body.classList.remove('wps-no-scroll');
+            }, 250);
         });
         if (wpsCloseNotificationMenu) {
             wpsCloseNotificationMenu.addEventListener('click', function () {
                 wpsSidebar.classList.remove('is-active');
                 wpsOverlay.classList.remove('is-active');
-                body.classList.remove('wps-no-scroll');
+                setTimeout(() => {
+                    body.classList.remove('wps-no-scroll');
+                }, 250);
             });
         }
 
