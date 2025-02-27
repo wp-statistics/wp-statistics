@@ -32,6 +32,7 @@ function buildScripts(done) {
         './assets/dev/javascript/placeholder.js',
         './assets/dev/javascript/helper.js',
         './assets/dev/javascript/chart.js',
+        './assets/dev/javascript/filters/*.js',
         './assets/dev/javascript/components/*.js',
         './assets/dev/javascript/meta-box.js',
         './assets/dev/javascript/meta-box/*.js',
@@ -64,6 +65,8 @@ function tineMCE(done) {
 // Gulp Frontend Script
 function frontScripts(done) {
     const jsFiles = [
+        './assets/dev/javascript/user-tracker.js',
+        './assets/dev/javascript/event-tracker.js',
         './assets/dev/javascript/tracker.js',
     ];
 
@@ -73,6 +76,7 @@ function frontScripts(done) {
         .pipe(replace("\\t", ''))
         .pipe(replace("  ", ''))
         .pipe(uglify())
+        .pipe(concat('tracker.js'))
         .pipe(gulp.dest('./assets/js/'));
 
     done()
@@ -143,6 +147,8 @@ function addEsnextSuffix(filePath) {
 
 function revertToES6(cb) {
     const jsFiles = [
+        './assets/js/user-tracker.js',
+        './assets/js/event-tracker.js',
         './assets/js/tracker.js',
     ];
 

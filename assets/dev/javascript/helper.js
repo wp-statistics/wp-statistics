@@ -145,7 +145,11 @@ if (wpsSelect2.length) {
         const selectedOption = jQuery(this).find('option:selected');
         const url = selectedOption.val();
         if (url) {
-            window.location.href = url;
+            if(dropdownParent=== wpsFilterPage){
+                window.location.href = `${window.location.href}&pid=${url}`;
+            }else{
+                window.location.href = url;
+            }
         }
     });
 
@@ -167,13 +171,13 @@ if (wpsSelect2.length) {
  */
 wps_js.tooltip = function () {
     jQuery('.wps-tooltip').tooltipster({
-        theme: 'tooltipster-flat',
+        theme: 'tooltipster-shadow',
         contentCloning: true
     });
 
     jQuery('body').on('mouseenter touchstart', '.wps-tooltip:not(.tooltipstered)', function () {
         $(this).tooltipster({
-            theme: 'tooltipster-flat'
+            theme: 'tooltipster-shadow'
         }).tooltipster('open');
     });
 };

@@ -29,7 +29,6 @@ use WP_Statistics\Components\View;
             <?php endif; ?>
         </h2>
     <?php endif ?>
-
     <?php
     if (Menus::in_page('content-analytics') && Request::compare('type', 'single')) {
         View::load("components/headers/post-type");
@@ -39,6 +38,9 @@ use WP_Statistics\Components\View;
     }
     if (Menus::in_page('author-analytics') && Request::compare('type', 'single-author')) {
         View::load("components/headers/author-analytics");
+    }
+    if ((Menus::in_page('download_tracker') || Menus::in_page('link_tracker')) && Request::compare('type', 'single')) {
+        View::load("components/headers/tracker");
     }
     ?>
 
@@ -77,7 +79,7 @@ use WP_Statistics\Components\View;
     <?php endif ?>
 
     <?php if (isset($hasDateRang) || isset($filters) || isset($searchBoxTitle) || isset($filter)): ?>
-         <div class="<?php echo (Menus::in_page('content-analytics') || Menus::in_page('category-analytics') || Menus::in_page('author-analytics')) && (Request::compare('type', 'single') || Request::compare('type', 'single-author') )? 'wps-head-filters wps-head-filters--custom' : 'wps-head-filters' ?>">
+        <div class="<?php echo (Menus::in_page('content-analytics') || Menus::in_page('category-analytics') || Menus::in_page('author-analytics') || Menus::in_page('download_tracker') || Menus::in_page('link_tracker')) && (Request::compare('type', 'single') || Request::compare('type', 'single-author')) ? 'wps-head-filters wps-head-filters--custom' : 'wps-head-filters' ?>">
             <?php
             if (!empty($hasDateRang)) {
                 include 'date.range.php';

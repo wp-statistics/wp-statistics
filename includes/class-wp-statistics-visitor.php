@@ -7,6 +7,7 @@ use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Analytics\Referrals\Referrals;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Utils\Url;
 
 class Visitor
 {
@@ -139,7 +140,6 @@ class Visitor
                 'user_id'       => $visitorProfile->getUserId(),
                 'UAString'      => ((Option::get('store_ua') == true && !Helper::shouldTrackAnonymously()) ? $visitorProfile->getHttpUserAgent() : ''),
                 'hits'          => 1,
-                'honeypot'      => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0),
             );
             $visitor = apply_filters('wp_statistics_visitor_information', $visitor);
 
@@ -152,7 +152,7 @@ class Visitor
             $visitor_id = $same_visitor->ID;
 
             // Update Same Visitor Hits
-            if ($args['exclusion_reason'] != 'Honeypot' and $args['exclusion_reason'] != 'Robot threshold') {
+            if ($args['exclusion_reason'] != 'Robot threshold') {
 
                 // Action Before Visitor Update
                 do_action('wp_statistics_update_visitor_hits', $visitor_id, $same_visitor);
@@ -426,7 +426,7 @@ class Visitor
         global $wpdb;
 
         // Default Params
-        $params = array('link' => '', 'title' => '');
+        $params = array('link' => '', 'title' => '', 'query' => '');
 
         $pageTable = DB::table('pages');
 
@@ -436,13 +436,9 @@ class Visitor
             ARRAY_A);
 
         if ($item !== null) {
-            $params         = Pages::get_page_info($item['id'], $item['type'], $item['uri']);
-            $linkWithParams = !empty($item['uri']) ? home_url() . $item['uri'] : false;
-
-            // If URL has params, add it to the title (except for allowed params like UTM params, etc...)
-            if (trim($params['link'], '/') !== trim($linkWithParams, '/') && !Helper::checkUrlForParams($linkWithParams, Helper::get_query_params_allow_list())) {
-                $params['title'] .= ' (' . trim($item['uri']) . ')';
-            }
+            $params             = Pages::get_page_info($item['id'], $item['type'], $item['uri']);
+            $linkWithParams     = !empty($item['uri']) ? home_url() . $item['uri'] : '';
+            $params['query']    = Url::getParams($linkWithParams);
         }
 
         return $params;
