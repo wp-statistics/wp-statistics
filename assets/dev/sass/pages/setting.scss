@@ -4,6 +4,33 @@
 
 .wps-wrap.wp-statistics-settings {
 
+  .wp-statistics-notice {
+    display: flex;
+    align-items: center !important;
+    gap: 8px;
+
+    .rtl & {
+      padding-right: 14px !important;
+      padding-left: 41px !important;
+    }
+
+    &.is-dismissible {
+      min-height: 40px;
+
+      .notice-dismiss {
+        padding: 9px !important;
+      }
+    }
+
+    &.notice-error::before, &.notice-success::before {
+      margin: 0;
+    }
+
+    &.notice-setting {
+      align-items: flex-start !important;
+    }
+  }
+
   table tbody tr td a{
     color: #404bf2;
   }
@@ -796,6 +823,22 @@
     line-height: 22px;
     color: #0C0C0D;
     margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    .notice--dismiss{
+      text-decoration: none;
+      width: 19px;
+      height: 19px;
+      background:url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTkiIHZpZXdCb3g9IjAgMCAyMCAxOSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTkuMjcwNDEgOS41MDAwMUw1LjI1IDUuNDc5Nkw1Ljk3OTYgNC43NUwxMCA4Ljc3MDM3TDE0LjAyMDQgNC43NUwxNC43NSA1LjQ3OTZMMTAuNzI5NiA5LjUwMDAxTDE0Ljc1IDEzLjUyMDRMMTQuMDIwNCAxNC4yNUwxMCAxMC4yMjk2TDUuOTc5NiAxNC4yNUw1LjI1IDEzLjUyMDRMOS4yNzA0MSA5LjUwMDAxWiIgZmlsbD0iIzU2NTg1QSIvPgo8L3N2Zz4K") center center no-repeat;
+      display: inline-flex;
+
+      &:hover{
+        filter: brightness(0);
+      }
+    }
   }
 
   p {
@@ -853,6 +896,7 @@
       font-size: 13px;
       line-height: 15.23px;
       color: #A9AAAE;
+      text-decoration: underline;
 
       &:hover {
         color: #3c4043;
