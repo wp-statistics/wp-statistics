@@ -76,7 +76,6 @@ class Frontend
                 'ajaxUrl'      => admin_url('admin-ajax.php'),
                 'hitParams'    => $hitParams,
                 'onlineParams' => $onlineParams,
-                'wpDebug'      => defined('WP_DEBUG') && WP_DEBUG ? true : false,
                 'option'       => [
                     'userOnline'           => Option::get('useronline'),
                     'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
@@ -88,6 +87,10 @@ class Frontend
                 ],
                 'jsCheckTime'  => apply_filters('wp_statistics_js_check_time_interval', 60000),
             );
+
+            if (defined('WP_DEBUG') && WP_DEBUG) {
+                $jsArgs['isConsoleVerbose'] = true;
+            }
 
             Assets::script('tracker', 'js/tracker.js', [], $jsArgs, true, Option::get('bypass_ad_blockers', false));
         }
