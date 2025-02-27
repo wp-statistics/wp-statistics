@@ -99,6 +99,8 @@ $postType = get_post_type(Request::get('post_id'));
         ];
         View::load("components/tables/top-countries", $topCountries);
 
+        do_action('wp_statistics_single_content_search_console_widgets');
+
         $engines = [
             'title'     => esc_html__('Search Engines', 'wp-statistics'),
             'tooltip'   => esc_html__('Search engine traffic over the selected period.', 'wp-statistics'),
