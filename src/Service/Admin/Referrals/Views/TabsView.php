@@ -130,6 +130,13 @@ class TabsView extends BaseTabView
                         'class'     => $this->isTab('utm-performance') ? 'current' : '',
                         'locked'    => true
                     ],
+                    [
+                        'link'      => Menus::admin_url('referrals', ['tab' => 'google-search']),
+                        'title'     => esc_html__('Google Search', 'wp-statistics'),
+                        'tooltip'   => esc_html__('To view this reports, you need to have the Marketing add-on.', 'wp-statistics'),
+                        'class'     => $this->isTab('google-search') ? 'current' : '',
+                        'locked'    => true
+                    ]
                 ]
             ];
 
