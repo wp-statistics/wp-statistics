@@ -53,7 +53,7 @@ class Frontend
 
             /**
              * Handle the bypass ad blockers
-             * 
+             *
              * @todo This should be refactored in a service related to option. note that all the options with same functionality should be updated.
              */
             if (Option::get('bypass_ad_blockers', false)) {
@@ -87,6 +87,10 @@ class Frontend
                 ],
                 'jsCheckTime'  => apply_filters('wp_statistics_js_check_time_interval', 60000),
             );
+
+            if (defined('WP_DEBUG') && WP_DEBUG) {
+                $jsArgs['isConsoleVerbose'] = true;
+            }
 
             Assets::script('tracker', 'js/tracker.js', [], $jsArgs, true, Option::get('bypass_ad_blockers', false));
         }
