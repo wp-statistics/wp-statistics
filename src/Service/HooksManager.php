@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service;
 
 use WP_STATISTICS\Menus;
-use WP_STATISTICS\Option;
+use WP_Statistics\Components\AssetNameObfuscator;
 
 class HooksManager
 {
@@ -56,42 +56,9 @@ class HooksManager
     public function proxyFile()
     {
         if (isset($_GET['assets'])) {
-            $asset             = sanitize_text_field($_GET['assets']);
-            $hashedAssetsArray = Option::getOptionGroup('hashed_assets', null, []);
-            $originalFilePath  = $this->getOriginalFilePath($asset, $hashedAssetsArray);
-
-            if ($originalFilePath && file_exists($originalFilePath)) {
-                header('Content-Type: application/javascript');
-                header('Cache-Control: public, max-age=86400');
-
-                readfile($originalFilePath);
-
-                exit();
-            } else {
-                wp_die(__('File not found.', 'wp-statistics'), __('404 Not Found', 'wp-statistics'), array('response' => 404));
-            }
+            $asset               = sanitize_text_field($_GET['assets']);
+            $assetNameObfuscator = new AssetNameObfuscator();
+            $assetNameObfuscator->serveAssetByHash($asset);
         }
-    }
-
-    /**
-     * Retrieves the original file path based on a hashed file name.
-     *
-     * @param string $hashedFileName
-     *
-     * @param array $hashedAssetsArray
-     *
-     * @return string|null
-     */
-    private function getOriginalFilePath($hashedFileName, $hashedAssetsArray)
-    {
-        if (!empty($hashedAssetsArray)) {
-            foreach ($hashedAssetsArray as $originalPath => $info) {
-                if (isset($info['dir']) && basename($info['dir']) === $hashedFileName) {
-                    return WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $originalPath;
-                }
-            }
-        }
-
-        return null;
     }
 }

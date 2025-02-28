@@ -52,11 +52,11 @@ class Assets
         $handle   = self::getHandle($handle);
         $version  = empty($version) ? WP_STATISTICS_VERSION : trim($version);
         $args     = $inFooter;
-        
+
         global $wp_version;
         $supportStrategy = version_compare($wp_version, '6.3', '>=');
 
-        if ($supportStrategy && ! empty($strategy)) {
+        if ($supportStrategy && !empty($strategy)) {
             $args = [
                 'in_footer' => $inFooter,
                 'strategy'  => $strategy,
@@ -64,7 +64,7 @@ class Assets
         }
 
         wp_enqueue_script($handle, self::getSrc($src, $obfuscate, $pluginUrl), $deps, $version, $args);
-        
+
         if ($localize) {
             $localize = apply_filters("wp_statistics_localize_{$handle}", $localize);
 
@@ -147,7 +147,7 @@ class Assets
         if ($obfuscate) {
             $file = $plugin_url ? Helper::urlToDir($plugin_url) : self::$plugin_dir;
             $file = new AssetNameObfuscator(path_join($file, self::$asset_dir . '/' . $src));
-            return $file->getHashedFileUrl();
+            return $file->getUrlThroughProxy();
         }
 
         $url = $plugin_url ? untrailingslashit($plugin_url) . '/' : self::$plugin_url;
