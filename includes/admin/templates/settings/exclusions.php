@@ -188,19 +188,17 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="referrerspam-enable"><?php esc_html_e('Referrer Spam Blacklist', 'wp-statistics'); ?></label>
+                <label for=wps_settings[referrer_spam]"><?php esc_html_e('Referrer Spam Blacklist', 'wp-statistics'); ?></label>
             </th>
 
             <td>
-                <input id="referrerspam-enable" type="checkbox" name="wps_referrerspam" <?php echo WP_STATISTICS\Option::get('referrerspam') == true ? "checked='checked'" : ''; ?>>
-                <label for="referrerspam-enable"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                <input id="wps_settings[referrer_spam]" type="checkbox" name="wps_referrerspam" <?php echo WP_STATISTICS\Option::get('referrerspam') == true ? "checked='checked'" : ''; ?>>
+                <label for="wps_settings[referrer_spam]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php _e('Integrates with Matomo’s Referrer Spam Blacklist to exclude known spam referrers from site statistics. For more details on the blacklist source, visit <a href="https://github.com/matomo-org/referrer-spam-blacklist" target="_blank">Matomo\'s Referrer Spam Blacklist</a>.', 'wp-statistics'); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction		 ?></p>
             </td>
         </tr>
 
-        <tr valign="top" class="referrerspam_field" <?php if (!WP_STATISTICS\Option::get('referrerspam')) {
-            echo ' style="display:none;"';
-        } ?>>
+        <tr valign="top" class="js-wps-show_if_referrer_spam_enabled">
             <th scope="row">
                 <label for="geoip-update"><?php esc_html_e('Refresh Blacklist Data', 'wp-statistics'); ?></label>
             </th>
@@ -214,9 +212,7 @@
             </td>
         </tr>
 
-        <tr valign="top" class="referrerspam_field" <?php if (!WP_STATISTICS\Option::get('referrerspam')) {
-            echo ' style="display:none;"';
-        } ?>>
+        <tr valign="top" class="js-wps-show_if_referrer_spam_enabled">
             <th scope="row">
                 <label for="referrerspam-schedule"><?php esc_html_e('Automate Blacklist Updates', 'wp-statistics'); ?></label>
             </th>

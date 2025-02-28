@@ -162,7 +162,7 @@ add_thickbox();
         <tr valign="top">
             <th scope="row"><label for="wps_geoip_location_detection_method"><?php esc_html_e('Location Detection Method', 'wp-statistics'); ?></label></th>
             <td>
-                <select name="wps_geoip_location_detection_method" id="geoip_location_detection_method">
+                <select name="wps_geoip_location_detection_method" id="wps_settings[geoip_location_detection_method]">
                     <option value="cf" <?php selected(WP_STATISTICS\Option::get('geoip_location_detection_method', 'maxmind'), 'cf'); ?><?php echo CloudflareGeolocationProvider::isAvailable() ? '' : 'disabled'; ?>><?php esc_html_e('Cloudflare IP Geolocation', 'wp-statistics'); ?></option>
                     <option value="maxmind" <?php selected(WP_STATISTICS\Option::get('geoip_location_detection_method', 'maxmind'), 'maxmind'); ?>><?php esc_html_e('MaxMind GeoIP', 'wp-statistics'); ?></option>
                 </select>
@@ -179,10 +179,10 @@ add_thickbox();
             </td>
         </tr>
 
-        <tr valign="top" id="geoip_license_type_option">
+        <tr valign="top" id="geoip_license_type_option" class="js-wps-show_if_geoip_location_detection_method_equal_maxmind">
             <th scope="row"><label for="wps_geoip_license_type"><?php esc_html_e('GeoIP Database Update Source', 'wp-statistics'); ?></label></th>
             <td>
-                <select name="wps_geoip_license_type" id="geoip_license_type">
+                <select name="wps_geoip_license_type" id="wps_settings[geoip_license_type]">
                     <option value="js-deliver" <?php selected(WP_STATISTICS\Option::get('geoip_license_type'), 'js-deliver'); ?>><?php esc_html_e('Use the JsDelivr', 'wp-statistics'); ?></option>
                     <option value="user-license" <?php selected(WP_STATISTICS\Option::get('geoip_license_type'), 'user-license'); ?>><?php esc_html_e('Use the MaxMind server with your own license key', 'wp-statistics'); ?></option>
                 </select>
@@ -191,7 +191,7 @@ add_thickbox();
             </td>
         </tr>
 
-        <tr valign="top" id="geoip_license_key_option">
+        <tr valign="top" id="geoip_license_key_option" class="js-wps-show_if_geoip_location_detection_method_equal_maxmind js-wps-show_if_geoip_license_type_equal_user-license">
             <th scope="row">
                 <label for="geoip_license_key"><?php esc_html_e('GeoIP License Key', 'wp-statistics'); ?></label>
             </th>
@@ -201,7 +201,7 @@ add_thickbox();
             </td>
         </tr>
 
-        <tr valign="top" id="enable_geoip_option">
+        <tr valign="top" id="enable_geoip_option" class="js-wps-show_if_geoip_location_detection_method_equal_maxmind js-wps-show_if_geoip_license_type_equal_js-deliver">
             <th scope="row">
                 <label for="geoip-enable"><?php esc_html_e('Manual Update of GeoIP Database', 'wp-statistics'); ?></label>
             </th>
@@ -215,7 +215,7 @@ add_thickbox();
             </td>
         </tr>
 
-        <tr valign="top" id="schedule_geoip_option">
+        <tr valign="top" id="schedule_geoip_option"  class="js-wps-show_if_geoip_location_detection_method_equal_maxmind">
             <th scope="row">
                 <label for="geoip-schedule"><?php esc_html_e('Schedule Monthly Update of GeoIP Database', 'wp-statistics'); ?></label>
             </th>
@@ -239,9 +239,9 @@ add_thickbox();
             </td>
         </tr>
 
-        <tr valign="top" id="geoip_auto_pop_option">
+        <tr valign="top" id="geoip_auto_pop_option"  class="js-wps-show_if_geoip_location_detection_method_equal_maxmind">
             <th scope="row">
-                <label for="geoip-schedule"><?php esc_html_e('Update Missing GeoIP Data', 'wp-statistics'); ?></label>
+                <label for="geoip-auto-pop"><?php esc_html_e('Update Missing GeoIP Data', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -253,7 +253,7 @@ add_thickbox();
 
         <tr valign="top">
             <th scope="row">
-                <label for="geoip-schedule"><?php esc_html_e('Country Code for Private IPs', 'wp-statistics'); ?></label>
+                <label for="geoip-private-country-code"><?php esc_html_e('Country Code for Private IPs', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -264,43 +264,6 @@ add_thickbox();
 
         <script type="text/javascript">
             jQuery(document).ready(function () {
-
-                // Show and hide user license input base on license type option
-                function handle_geoip_license_key_field() {
-                    if (jQuery("#geoip_license_type").val() == "user-license") {
-                        jQuery("#geoip_license_key_option").show();
-                    } else {
-                        jQuery("#geoip_license_key_option").hide();
-                    }
-                }
-
-                handle_geoip_license_key_field();
-                jQuery("#geoip_license_type").on('change', handle_geoip_license_key_field);
-
-                function handle_maxmind_fields() {
-                    var isMaxmind = jQuery("#geoip_location_detection_method").val() === "maxmind";
-                    var isUserLicense = jQuery("#geoip_license_type").val() === "user-license";
-                    
-                    var elements = [
-                        "#geoip_license_type_option", 
-                        "#geoip_license_key_option", 
-                        "#enable_geoip_option", 
-                        "#schedule_geoip_option", 
-                        "#geoip_auto_pop_option"
-                    ];
-
-                    jQuery.each(elements, function(index, element) {
-                        if (element === "#geoip_license_key_option" && !isUserLicense) {
-                            return; 
-                        }
-
-                        isMaxmind ? jQuery(element).show() : jQuery(element).hide();
-                    });
-                }
-
-                handle_maxmind_fields();
-                jQuery("#geoip_location_detection_method").on('change', handle_maxmind_fields);
-
                 // Ajax function for updating database
                 jQuery("input[name = 'update_geoip']").click(function (event) {
                     event.preventDefault();
