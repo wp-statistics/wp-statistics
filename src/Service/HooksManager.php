@@ -11,7 +11,7 @@ class HooksManager
     {
         add_filter('kses_allowed_protocols', [$this, 'updateAllowedProtocols']);
         add_filter('plugin_action_links_' . plugin_basename(WP_STATISTICS_MAIN_FILE), [$this, 'addActionLinks']);
-        add_filter('template_redirect', [$this, 'proxyFile']);
+        add_filter('template_redirect', [$this, 'serveObfuscatedAsset']);
     }
 
     /**
@@ -53,7 +53,7 @@ class HooksManager
      *
      * @return void
      */
-    public function proxyFile()
+    public function serveObfuscatedAsset()
     {
         if (isset($_GET['assets'])) {
             $asset               = sanitize_text_field($_GET['assets']);
