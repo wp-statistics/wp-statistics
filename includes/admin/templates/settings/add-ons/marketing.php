@@ -33,6 +33,10 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
 ?>
 
 <?php if (!$isAuthenticated) : ?>
+    <h2 class="wps_title">
+        <?php esc_html_e('Marketing', 'wp-statistics'); ?>
+        <span class="wps-tooltip" title="<?php esc_html_e('Marketing tooltip', 'wp-statistics'); ?>"><i class="wps-tooltip-icon info"></i></span>
+    </h2>
     <div class="postbox wps-addon-settings--marketing">
         <table class="form-table <?php echo !$isMarketingActive ? esc_attr('form-table--preview') : '' ?>">
             <tbody>
@@ -95,7 +99,17 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
             <tbody>
             <tr valign="top">
                 <th scope="row" colspan="2">
-                    <h3><?php esc_html_e('Search Console', 'wp-statistics'); ?></h3>
+                    <div class="wps-addon-settings--marketing__title">
+                        <div>
+                            <h3><?php esc_html_e('Search Console', 'wp-statistics'); ?></h3>
+                            <span class="wps-addon-settings--marketing__fetch"><?php esc_html_e('Next data fetch on', 'wp-statistics'); ?>30 Jan, 2025 05:01:28</span>
+                        </div>
+                        <div>
+                            <a href="" class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Reconnect', 'wp-statistics'); ?></a>
+                            <a href="" class="wps-addon-settings--marketing__disconnect"><?php esc_html_e('Disconnect', 'wp-statistics'); ?></a>
+                        </div>
+                    </div>
+
                 </th>
             </tr>
             <tr valign="top">
@@ -108,20 +122,6 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     <p class="description">
                         <?php esc_html_e('Set a threshold for daily robot visits. Robots exceeding this number daily will be identified as bots.', 'wp-statistics'); ?>
                     </p>
-                </td>
-            </tr>
-            <tr valign="top">
-                <th scope="row">
-                    <label for="wps_addon_settings[marketing][status]"><?php esc_html_e('Enable the Index status tab', 'wp-statistics'); ?></label>
-                </th>
-
-                <td>
-                    <input id="wps_addon_settings[marketing][status]" name="wps_addon_settings[marketing][status]" type="checkbox">
-                    <label for="wps_addon_settings[marketing][status]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description">
-                        <?php esc_html_e('Enable this option to show the index status tab in the Analytics module.', 'wp-statistics'); ?>
-                    </p>
-                    <?php View::load("components/objects/google-data-policy-alert"); ?>
                 </td>
             </tr>
             <tr valign="top">

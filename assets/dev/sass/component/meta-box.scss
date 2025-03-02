@@ -364,4 +364,7 @@ a.wps-tooltip:hover{
     }
   }
 }
-
+body #wp-statistics-search-queries-widget
+.o-table-wrapper table.wps-new-table tbody tr td .wps-ellipsis-parent{
+  max-width: 300px;
+}
