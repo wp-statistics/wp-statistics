@@ -171,9 +171,9 @@ add_thickbox();
                 <p class="description">
                     <?php
                         echo sprintf(
-                            /* translators: %s: Link to learn about Cloudflare Geolocation */
-                            esc_html__('Select the method to detect location data for visitors. For better performance, we recommend using the Cloudflare IP Geolocation method, which requires your domain to be on Cloudflare with \'Visitor Location Headers\' enabled. %s', 'wp-statistics'),
-                            '<a href="https://wp-statistics.com/resources/how-to-enable-cloudflare-ip-geolocation/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" class="wps-text-decoration-underline" target="_blank">' . esc_html__('Learn more about setting up Cloudflare Geolocation', 'wp-statistics') . '</a>'
+                            /* translators: %s: Link to learn about detection method */
+                            esc_html__('Select the method to detect location data for visitors. You can choose between MaxMind GeoIP, Cloudflare Geolocation, and DB-IP. MaxMind and DB-IP provide database-based geolocation, while Cloudflare Geolocation relies on IP headers from Cloudflare. For optimal performance, we recommend using Cloudflare Geolocation if your site is on Cloudflare. %s', 'wp-statistics'),
+                            '<a href="https://wp-statistics.com/resources/location-detection-methods-in-wp-statistics/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" class="wps-text-decoration-underline" target="_blank">' . esc_html__('Learn more about location detection methods.', 'wp-statistics') . '</a>'
                         );
                     ?>
                 </p>
@@ -188,7 +188,7 @@ add_thickbox();
                     <option value="user-license" <?php selected(WP_STATISTICS\Option::get('geoip_license_type'), 'user-license'); ?>><?php esc_html_e('Use the MaxMind server with your own license key', 'wp-statistics'); ?></option>
                 </select>
 
-                <p class="description"><?php esc_html_e('Select a service that updates the GeoIP database, ensuring the geographic information displayed is accurate and up-to-date. It\'s only used for database updates, not for real-time location lookups.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Select the source for updating the GeoIP database. If using a premium database, updates will be downloaded automatically using the provided license key.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
@@ -198,7 +198,15 @@ add_thickbox();
             </th>
             <td>
                 <input id="geoip_license_key" type="text" size="30" name="wps_geoip_license_key" value="<?php echo esc_attr(WP_STATISTICS\Option::get('geoip_license_key')); ?>">
-                <p class="description"><?php echo esc_html__('Put your license key here and save settings to apply it.', 'wp-statistics'); ?></p>
+                <p class="description">
+                    <?php
+                        echo sprintf(
+                            /* translators: %s: Link to maxmind */
+                            esc_html__('Enter your MaxMind license key to enable the premium MaxMind GeoIP database, which provides more precise location data. The plugin uses the free database by default. %s', 'wp-statistics'),
+                            '<a href="https://www.maxmind.com/en/geoip-databases" class="wps-text-decoration-underline" target="_blank">' . esc_html__('Get MaxMind Premium.', 'wp-statistics') . '</a>'
+                        );
+                    ?>
+                </p>
             </td>
         </tr>
 
@@ -208,7 +216,15 @@ add_thickbox();
             </th>
             <td>
                 <input id="geoip_dbip_license_key_option" type="text" size="30" name="wps_geoip_dbip_license_key_option" value="<?php echo esc_attr(WP_STATISTICS\Option::get('geoip_dbip_license_key_option', '')); ?>">
-                <p class="description"><?php echo esc_html__('Put your license key here and save settings to apply it.', 'wp-statistics'); ?></p>
+                <p class="description">
+                    <?php
+                        echo sprintf(
+                            /* translators: %s: Link to dbip */
+                            esc_html__('Enter your DB-IP license key to enable the premium DB-IP database, replacing the free version with a more detailed dataset. The premium DB-IP database is 1.1GB in size. Make sure your server has enough storage space before enabling it, as the plugin downloads and stores this database. %s', 'wp-statistics'),
+                            '<a href="https://db-ip.com/db/?refid=vrn" class="wps-text-decoration-underline" target="_blank">' . esc_html__('DB-IP Premium.', 'wp-statistics') . '</a>'
+                        );
+                    ?>
+                </p>
             </td>
         </tr>
 
