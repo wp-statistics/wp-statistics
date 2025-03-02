@@ -189,4 +189,22 @@ class NotificationProcessor
 
         return false;
     }
+
+    /**
+     * Sorts the notifications array by the 'activated_at' field in descending order.
+     *
+     * @param array $notifications
+     *
+     * @return array
+     */
+    public static function sortNotificationsByActivatedAt($notifications)
+    {
+        if (!empty($notifications['data']) && is_array($notifications['data'])) {
+            usort($notifications['data'], function ($a, $b) {
+                return strtotime($b['activated_at']) - strtotime($a['activated_at']);
+            });
+        }
+
+        return $notifications;
+    }
 }

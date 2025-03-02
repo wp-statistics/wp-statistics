@@ -1,3 +1,5 @@
+- **New:** Added a feature that displays notifications to the client, sent from the server.
+
 = 14.12.1 - 2025-01-13 =
 - **New:** Added "Last Year" filter to metaboxes on the Overview page for yearly data.
 - **Enhancement:** Improved IP/Hash filter on the Visitor Insights page.

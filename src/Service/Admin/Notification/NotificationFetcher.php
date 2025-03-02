@@ -26,7 +26,7 @@ class NotificationFetcher
             $pluginSlug = basename(dirname(WP_STATISTICS_MAIN_FILE));
             $url        = $this->apiUrl . '/api/v1/notifications';
             $method     = 'GET';
-            $params     = ['plugin_slug' => $pluginSlug, 'per_page' => 20];
+            $params     = ['plugin_slug' => $pluginSlug, 'per_page' => 20, 'sortby' => 'activated_at-desc'];
             $args       = [
                 'timeout'     => 45,
                 'redirection' => 5,
@@ -59,6 +59,7 @@ class NotificationFetcher
 
             $notifications = NotificationProcessor::syncNotifications($notifications);
             $notifications = NotificationProcessor::checkUpdatedNotifications($notifications);
+            $notifications = NotificationProcessor::sortNotificationsByActivatedAt($notifications);
 
             update_option('wp_statistics_notifications', $notifications);
 
