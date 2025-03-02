@@ -1,5 +1,6 @@
 = 14.12.x - 2025-0x-xx =
 - **Fix:** Fixed tables prefix conflict issue which caused query issues.
+- **Fix:** Fixed mini chart slow query issue.
 
 = 14.12.5 - 2025-02-23 =
 - **Enhancement:** Hide Online Visitors elements when "Monitor Online Visitors" is off.
