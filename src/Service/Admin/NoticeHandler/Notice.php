@@ -94,13 +94,13 @@ class Notice
         return '';
     }
 
-    public static function renderNotice($message, $id, $class = 'info', $is_dismissible = false, $type = 'simple')
+    public static function renderNotice($message, $id, $class = 'info', $isDismissible = false, $type = 'simple')
     {
         $notice = array(
             'message'        => $message,
             'id'             => $id,
             'class'          => $class,
-            'is_dismissible' => $is_dismissible,
+            'is_dismissible' => $isDismissible,
             'type'           => $type,
         );
 
