@@ -46,12 +46,15 @@ class VisitorInsightsPage extends MultiViewPage
                 ]
             ])
             ->select('browsers', [
+                'label' => esc_html__('Browsers', 'wp-statistics'),
                 'name' => 'agent',
             ])
             ->select('location', [
                 'label' => esc_html__('Country', 'wp-statistics'),
             ])
-            ->select('platform')
+            ->select('platform', [
+                'label' => esc_html__('Platform', 'wp-statistics'),
+            ])
             ->select('referrer', [
                 'name' => 'referrer',
                 'placeholder' => $referrerPlaceholder,
