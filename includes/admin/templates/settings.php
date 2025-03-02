@@ -2,10 +2,10 @@
 
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
-if (!WP_STATISTICS\Option::get('enable_usage_tracking')) {
+if (!WP_STATISTICS\Option::get('usage_data_tracking') && !in_array('usage_data_tracking', get_option('wp_statistics_dismissed_notices', []))) {
     $notice = [
         'title'   => __('Help Us Improve WP Statistics!', 'wp-statistics'),
-        'content' => __('We’ve added a new Usage Tracking option to help us understand how WP Statistics is used and identify areas for improvement. By <a href="#" class="wps-option-data" data-option="enable_usage_tracking" data-value="true">enabling</a> this feature, you’ll help us make the plugin better for everyone. No personal or sensitive data is collected.', 'wp-statistics'),
+        'content' => __('We’ve added a new Usage Tracking option to help us understand how WP Statistics is used and identify areas for improvement. By <a href="#" class="wps-option-data" data-option="usage_data_tracking" data-value="true">enabling</a> this feature, you’ll help us make the plugin better for everyone. No personal or sensitive data is collected.', 'wp-statistics'),
         'links'   => [
             'learn_more'      => [
                 'text' => __('Learn More', 'wp-statistics'),
@@ -18,7 +18,7 @@ if (!WP_STATISTICS\Option::get('enable_usage_tracking')) {
             ]
         ]
     ];
-    Notice::renderNotice($notice, 'enable_usage_tracking', 'setting', 'action');
+    Notice::renderNotice($notice, 'usage_data_tracking', 'setting', true, 'action');
 }
 ?>
 <div id="poststuff">

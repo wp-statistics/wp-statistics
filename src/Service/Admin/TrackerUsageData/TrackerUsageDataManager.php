@@ -15,7 +15,7 @@ class TrackerUsageDataManager
      */
     public function __construct()
     {
-        if (Option::get('enable_usage_tracking')) {
+        if (Option::get('usage_data_tracking')) {
             add_filter('cron_schedules', [$this, 'trackerUsageDataCronIntervalsHook']);
             Event::schedule('wp_statistics_tracker_usage_data_hook', time(), 'every_two_months', [$this, 'sendTrackerUsageData']);
         } else {
@@ -63,6 +63,7 @@ class TrackerUsageDataManager
             'plugin_version'    => TrackerUsageDataProvider::getPluginVersion(),
             'database_version'  => TrackerUsageDataProvider::getDatabaseVersion() ?? 'not available',
             'plugin_slug'       => TrackerUsageDataProvider::getPluginSlug(),
+            'server_info'       => TrackerUsageDataProvider::getServerInfo(),
         ];
     }
 }

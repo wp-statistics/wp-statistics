@@ -410,12 +410,12 @@ add_thickbox();
 
         <tr valign="top">
             <th scope="row">
-                <label for="wps_enable_usage_tracking"><?php esc_html_e('Enable Usage Tracking', 'wp-statistics'); ?></label>
+                <label for="wps_usage_data_tracking"><?php esc_html_e('Enable Usage Tracking', 'wp-statistics'); ?></label>
             </th>
 
             <td>
-                <input id="wps_enable_usage_tracking" type="checkbox" name="wps_enable_usage_tracking" <?php echo WP_STATISTICS\Option::get('enable_usage_tracking') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'>
-                <label for="wps_enable_usage_tracking"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                <input id="wps_usage_data_tracking" type="checkbox" name="wps_usage_data_tracking" <?php echo WP_STATISTICS\Option::get('usage_data_tracking') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'>
+                <label for="wps_usage_data_tracking"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('Allow WP Statistics to collect anonymous usage data to improve features, performance, and user experience. No personal or sensitive data will be collected. Learn more.', 'wp-statistics'); ?></p>
             </td>
         </tr>
