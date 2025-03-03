@@ -1,5 +1,6 @@
 = 14.12.x - 2025-**-** =
 - **New:** Added DB-IP location detection method.
+- **Fix:** Fixed tables prefix conflict issue which caused query issues.
 
 = 14.12.5 - 2025-02-23 =
 - **Enhancement:** Hide Online Visitors elements when "Monitor Online Visitors" is off.
@@ -86,9 +87,9 @@
 - **Fix:** Fixed a bug in Roles & Permissions to prevent users from assigning higher permissions than they have.
 - **Fix:** Made the `views` column sortable again.
 - **Fix:** Resolved a PHP deprecation warning for better compatibility.
-- **Dev:** Added new filters for developers:  
-  - `wp_statistics_geolocation_download_url`  
-  - `wp_statistics_injection_patterns`  
+- **Dev:** Added new filters for developers:
+  - `wp_statistics_geolocation_download_url`
+  - `wp_statistics_injection_patterns`
   - `wp_statistics_location_column_value`
 
 14.11.3 - 2024-11-17

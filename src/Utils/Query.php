@@ -725,9 +725,12 @@ class Query
         return $this;
     }
 
-    public function removeTablePrefix($query)
+    public function removeTablePrefix($table)
     {
-        return str_replace([$this->db->prefix, 'statistics_'], '', $query);
+        $prefixLength   = strlen($this->db->prefix);
+        $table          = substr($table, $prefixLength);
+
+        return str_replace('statistics_', '', $table);
     }
 
     /**
