@@ -1,5 +1,6 @@
 = 14.12.x - 2025-0x-xx =
 - **Fix:** Fixed tables prefix conflict issue which caused query issues.
+- **Enhancement:** Improved device model to save and show device model and brand.
 
 = 14.12.5 - 2025-02-23 =
 - **Enhancement:** Hide Online Visitors elements when "Monitor Online Visitors" is off.

@@ -40,12 +40,13 @@ class ModelChartDataProvider extends AbstractChartDataProvider
     protected function parseData($data)
     {
         $parsedData = [];
+        $unknownData = 0;
 
         if (!empty($data)) {
             foreach ($data as $item) {
                 $model = $item->getDevice()->getModel();
 
-                if (!empty($model) && $model !== '(not set)') {
+                if (!empty($model) && $model !== 'Unknown') {
                     $models = array_column($parsedData, 'label');
 
                     if (!in_array($model, $models)) {
@@ -57,6 +58,10 @@ class ModelChartDataProvider extends AbstractChartDataProvider
                         $index = array_search($model, $models);
                         $parsedData[$index]['visitors']++;
                     }
+                }
+
+                if ($model === 'Unknown') {
+                    ++$unknownData;
                 }
             }
 
@@ -73,7 +78,7 @@ class ModelChartDataProvider extends AbstractChartDataProvider
                 // Show the rest of the results as others, and sum up the visitors
                 $otherItem    = [
                     'label'    => esc_html__('Other', 'wp-statistics'),
-                    'visitors' => array_sum(array_column($otherData, 'visitors')),
+                    'visitors' => array_sum(array_column($otherData, 'visitors')) + $unknownData,
                 ];
 
                 $parsedData = array_merge($topData, [$otherItem]);
