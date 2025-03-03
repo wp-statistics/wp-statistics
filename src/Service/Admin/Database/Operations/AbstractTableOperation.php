@@ -3,6 +3,8 @@
 namespace WP_Statistics\Service\Admin\Database\Operations;
 
 use WP_Statistics\Service\Admin\Database\AbstractDatabaseOperation;
+use WP_STATISTICS\Option;
+use RuntimeException;
 
 /**
  * Defines a foundation for operations on database tables.
@@ -22,5 +24,25 @@ abstract class AbstractTableOperation extends AbstractDatabaseOperation
     {
         $this->tableName = $name;
         return $this;
+    }
+
+    /**
+     * Sets a runtime error based on the migration status details.
+     * 
+     * @throws RuntimeException If the migration status is 'failed'.
+     * @return void
+     */
+    public function setRunTimeError() {
+        $details = Option::getOptionGroup('db', 'migration_status_detail', null);
+
+        if (empty($details['status'])) {
+            return;
+        }
+
+        if ($details['status'] === 'failed') {
+            throw new RuntimeException($details['message']);
+        }
+
+        return;
     }
 }
