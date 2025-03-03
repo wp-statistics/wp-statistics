@@ -348,6 +348,10 @@ class User
             return;
         }
 
+        if (!empty($postId) && current_user_can($capability, $postId)) {
+            return true;
+        }
+
         if (current_user_can($capability)) {
             return true;
         }
