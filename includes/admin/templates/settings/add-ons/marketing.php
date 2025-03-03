@@ -3,6 +3,7 @@
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
 $isLicenseValid     = LicenseHelper::isPluginLicenseValid('marketing');
@@ -104,7 +105,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                         <option disabled selected value=""><?php esc_html_e('Select site', 'wp-statistics'); ?></option>
 
                         <?php foreach ($sites as $key => $label) : ?>
-                            <option value="<?php echo esc_attr($key); ?>"><?php echo esc_html($label); ?></option>
+                            <option <?php selected($key, Option::getByAddon('site', 'marketing')) ?> value="<?php echo esc_attr($key); ?>"><?php echo esc_html($label); ?></option>
                         <?php endforeach; ?>
                     </select>
 
