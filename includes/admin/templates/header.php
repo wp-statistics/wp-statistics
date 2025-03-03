@@ -12,6 +12,7 @@ use WP_Statistics\Service\Admin\Notification\NotificationFactory;
 
 $isPremium               = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
 $hasUpdatedNotifications = NotificationFactory::hasUpdatedNotifications();
+$displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? true : false;
 ?>
 
     <div class="wps-adminHeader <?php echo $isPremium ? 'wps-adminHeader__premium' : '' ?>">
@@ -88,7 +89,9 @@ $hasUpdatedNotifications = NotificationFactory::hasUpdatedNotifications();
             <?php if (apply_filters('wp_statistics_enable_help_icon', true)) { ?>
                 <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/support?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" title="<?php esc_html_e('Help Center', 'wp-statistics'); ?>" class="support"></a>
             <?php } ?>
-            <a title="<?php esc_html_e('Notifications', 'wp-statistics'); ?>" class="wps-notifications js-wps-open-notification <?php echo $hasUpdatedNotifications ? esc_attr('wps-notifications--has-items') : ''; ?>"></a>
+            <?php if ($displayNotifications): ?>
+                <a title="<?php esc_html_e('Notifications', 'wp-statistics'); ?>" class="wps-notifications js-wps-open-notification <?php echo $hasUpdatedNotifications ? esc_attr('wps-notifications--has-items') : ''; ?>"></a>
+            <?php endif; ?>
             <div class="wps-adminHeader__mobileMenu">
                 <input type="checkbox" id="wps-menu-toggle" class="hamburger-menu">
                 <label for="wps-menu-toggle" class="hamburger-menu-container">
@@ -142,5 +145,9 @@ $hasUpdatedNotifications = NotificationFactory::hasUpdatedNotifications();
             </div>
         </div>
     </div>
-<?php View::load("components/notification/side-bar", ['notifications' => NotificationFactory::getAllNotifications()]); ?>
+<?php
+if ($displayNotifications) {
+    View::load("components/notification/side-bar", ['notifications' => NotificationFactory::getAllNotifications()]);
+}
+?>
 <?php Modal::render('introduce-premium'); ?>

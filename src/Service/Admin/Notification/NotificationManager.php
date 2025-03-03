@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\Notification;
 
 use WP_Statistics\Components\Event;
+use WP_STATISTICS\Option;
 
 class NotificationManager
 {
@@ -14,9 +15,13 @@ class NotificationManager
      */
     public function __construct()
     {
-        add_action('admin_init', [$this, 'registerActions']);
-        add_filter('cron_schedules', [$this, 'notificationCronIntervalsHook']);
-        Event::schedule('wp_statistics_notification_hook', time(), 'every_three_days', [$this, 'fetchNotification']);
+        if (Option::get('display_notifications')) {
+            add_action('admin_init', [$this, 'registerActions']);
+            add_filter('cron_schedules', [$this, 'notificationCronIntervalsHook']);
+            Event::schedule('wp_statistics_notification_hook', time(), 'every_three_days', [$this, 'fetchNotification']);
+        } else {
+            Event::unschedule('wp_statistics_notification_hook');
+        }
     }
 
     /**
