@@ -7,7 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
-    'WP_Statistics\\Abstracts\\BaseMetabox' => $baseDir . '/src/Abstracts/BaseMetabox.php',
     'WP_Statistics\\Abstracts\\BaseModel' => $baseDir . '/src/Abstracts/BaseModel.php',
     'WP_Statistics\\Abstracts\\BasePage' => $baseDir . '/src/Abstracts/BasePage.php',
     'WP_Statistics\\Abstracts\\BaseTabView' => $baseDir . '/src/Abstracts/BaseTabView.php',
@@ -172,6 +171,8 @@ return array(
     'WP_Statistics\\Service\\Admin\\Exclusions\\ExclusionsDataProvider' => $baseDir . '/src/Service/Admin/Exclusions/ExclusionsDataProvider.php',
     'WP_Statistics\\Service\\Admin\\Exclusions\\ExclusionsManager' => $baseDir . '/src/Service/Admin/Exclusions/ExclusionsManager.php',
     'WP_Statistics\\Service\\Admin\\Exclusions\\ExclusionsPage' => $baseDir . '/src/Service/Admin/Exclusions/ExclusionsPage.php',
+    'WP_Statistics\\Service\\Admin\\FilterHandler\\FilterGenerator' => $baseDir . '/src/Service/Admin/FilterHandler/FilterGenerator.php',
+    'WP_Statistics\\Service\\Admin\\FilterHandler\\FilterManager' => $baseDir . '/src/Service/Admin/FilterHandler/FilterManager.php',
     'WP_Statistics\\Service\\Admin\\Geographic\\GeographicDataProvider' => $baseDir . '/src/Service/Admin/Geographic/GeographicDataProvider.php',
     'WP_Statistics\\Service\\Admin\\Geographic\\GeographicManager' => $baseDir . '/src/Service/Admin/Geographic/GeographicManager.php',
     'WP_Statistics\\Service\\Admin\\Geographic\\GeographicPage' => $baseDir . '/src/Service/Admin/Geographic/GeographicPage.php',

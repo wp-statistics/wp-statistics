@@ -8,6 +8,7 @@ use WP_Statistics\Utils\Request;
 use WP_Statistics\Abstracts\MultiViewPage;
 use WP_Statistics\Async\BackgroundProcessFactory;
 use WP_Statistics\Async\SourceChannelUpdater;
+use WP_Statistics\Service\Admin\FilterHandler\FilterGenerator;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Referrals\Views\TabsView;
 
@@ -22,6 +23,8 @@ class ReferralsPage extends MultiViewPage
     public function __construct()
     {
         parent::__construct();
+
+        $this->setFilters();
     }
 
     protected function init()
@@ -29,6 +32,72 @@ class ReferralsPage extends MultiViewPage
         $this->disableScreenOption();
         $this->incompleteSourceChannelsNotice();
         $this->processSourceChannelBackgroundAction();
+    }
+
+    protected function setFilters() {
+        $this->filters = FilterGenerator::create()
+            ->hidden('pageName', [
+                'name' => 'page',
+                'attributes' => [
+                    'value' => Menus::get_page_slug('referrals')
+                ]
+            ])
+            ->select('referrers', [
+                'name' => 'referrer',
+                'classes' => 'wps-width-100 wps-select2',
+                'attributes'  => [
+                    'data-type'       => 'referrers',
+                    'data-source' => 'getReferrer',
+                    'data-searchable' => true,
+                ],
+            ])
+            ->dropdown('search_channel', [
+                'name' => 'source_channel',
+                'label' => esc_html__('Source Category', 'wp-statistics'),
+                'panel' => true,
+                'searchable' => true,
+                'attributes'  => [
+                    'data-type' => 'search-channels',
+                    'data-source' => 'getSearchChannels',
+                ],
+            ])
+            ->dropdown('social_channel', [
+                'name' => 'source_channel',
+                'label' => esc_html__('Source Category', 'wp-statistics'),
+                'panel' => true,
+                'searchable' => true,
+                'attributes'  => [
+                    'data-type' => 'social-channels',
+                    'data-source' => 'getSocialChannels',
+                ],
+            ])
+            ->dropdown('source_channel', [
+                'label' => esc_html__('Source Category', 'wp-statistics'),
+                'panel' => true,
+                'searchable' => true,
+                'attributes'  => [
+                    'data-type' => 'source-channels',
+                    'data-source' => 'getSourceChannels',
+                ],
+            ])
+            ->button('resetButton', [
+                'name' => 'reset',
+                'type' => 'button',
+                'classes' => 'wps-reset-filter wps-modal-reset-filter',
+                'label' => esc_html__('Reset', 'wp-statistics'),
+            ])
+            ->button('submitButton', [
+                'name' => 'filter',
+                'type' => 'button',
+                'classes' => 'button-primary',
+                'label' => esc_html__('Filter', 'wp-statistics'),
+                'attributes'  => [
+                    'type' => 'submit',
+                ],
+            ])
+            ->get();
+        
+        return $this->filters;
     }
 
     /**
