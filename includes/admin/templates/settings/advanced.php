@@ -200,9 +200,19 @@ add_thickbox();
                 <input id="geoip_license_key" type="text" size="30" name="wps_geoip_license_key" value="<?php echo esc_attr(WP_STATISTICS\Option::get('geoip_license_key')); ?>">
                 <p class="description">
                     <?php
+                        /* translators: %s: Link to maxmind */
                         echo sprintf(
-                            /* translators: %s: Link to maxmind */
-                            esc_html__('Enter your MaxMind license key to enable the premium MaxMind GeoIP database, which provides more precise location data. The plugin uses the free database by default. %s', 'wp-statistics'),
+                            wp_kses(
+                                __('Enter your <strong>MaxMind license key</strong> to enable the <strong>premium MaxMind GeoIP database</strong>, which provides more precise location data. The plugin uses the free database by default. %s', 'wp-statistics'),
+                               [
+                                'strong' => [],
+                                'a'      => [
+                                    'href'   => [],
+                                    'class'  => [],
+                                    'target' => [],
+                                ]
+                               ]
+                            ),
                             '<a href="https://www.maxmind.com/en/geoip-databases" class="wps-text-decoration-underline" target="_blank">' . esc_html__('Get MaxMind Premium.', 'wp-statistics') . '</a>'
                         );
                     ?>
@@ -218,10 +228,20 @@ add_thickbox();
                 <input id="geoip_dbip_license_key_option" type="text" size="30" name="wps_geoip_dbip_license_key_option" value="<?php echo esc_attr(WP_STATISTICS\Option::get('geoip_dbip_license_key_option', '')); ?>">
                 <p class="description">
                     <?php
+                        /* translators: %s: Link to dbip */
                         echo sprintf(
-                            /* translators: %s: Link to dbip */
-                            esc_html__('Enter your DB-IP license key to enable the premium DB-IP database, replacing the free version with a more detailed dataset. The premium DB-IP database is 1.1GB in size. Make sure your server has enough storage space before enabling it, as the plugin downloads and stores this database. %s', 'wp-statistics'),
-                            '<a href="https://db-ip.com/db/?refid=vrn" class="wps-text-decoration-underline" target="_blank">' . esc_html__('DB-IP Premium.', 'wp-statistics') . '</a>'
+                            wp_kses(
+                                __('Enter your DB-IP license key to enable the premium DB-IP database, replacing the free version with a more detailed dataset. The premium DB-IP database is <strong>1.1GB</strong> in size. Make sure your server has enough storage space before enabling it, as the plugin downloads and stores this database. %s', 'wp-statistics'),
+                                [
+                                    'strong' => [],
+                                    'a'      => [
+                                        'href'   => [],
+                                        'class'  => [],
+                                        'target' => [],
+                                    ]
+                                ]
+                            ),
+                            '<a href="https://db-ip.com/db/?refid=vrn" class="wps-text-decoration-underline" target="_blank">' . esc_html__('Get DB-IP Premium.', 'wp-statistics') . '</a>'
                         );
                     ?>
                 </p>
