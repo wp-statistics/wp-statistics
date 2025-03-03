@@ -4,8 +4,6 @@ namespace WP_STATISTICS;
 
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Models\VisitorsModel;
-use WP_Statistics\Service\Admin\NoticeHandler\Notice;
-use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Geolocation\Provider\DbIpProvider;
 use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;
@@ -65,16 +63,6 @@ class Ajax
             [
                 'class'  => $this,
                 'action' => 'purge_visitor_hits',
-                'public' => false
-            ],
-            [
-                'class'  => $this,
-                'action' => 'visitors_page_filters',
-                'public' => false
-            ],
-            [
-                'class'  => $this,
-                'action' => 'page_insight_filters',
                 'public' => false
             ],
             [
@@ -405,102 +393,7 @@ class Ajax
 
         exit;
     }
-
-    /**
-     * Show Page Visitors Filter
-     */
-    public function visitors_page_filters_action_callback()
-    {
-
-        if (Helper::is_request('ajax') and isset($_REQUEST['page'])) {
-
-            // Run only Visitors Page
-            if ($_REQUEST['page'] != "visitors") {
-                exit;
-            }
-
-            // Check Refer Ajax
-            check_ajax_referer('wp_rest', 'wps_nonce');
-
-            // Create Output object
-            $filter = array();
-
-            // Browsers
-            $filter['browsers'] = array();
-            $browsers           = DeviceHelper::getBrowserList();
-            foreach ($browsers as $key => $se) {
-                $filter['browsers'][$key] = $se;
-            }
-
-            // Location
-            $filter['location'] = array();
-            $country_list       = Country::getList();
-            foreach ($country_list as $key => $name) {
-                $filter['location'][$key] = $name;
-            }
-
-            // Push First "000" Unknown to End of List
-            $first_key = key($filter['location']);
-            $first_val = $filter['location'][$first_key];
-            unset($filter['location'][$first_key]);
-            $filter['location'][$first_key] = $first_val;
-
-            // Platforms
-            $filter['platform'] = array();
-            $platforms_list     = DeviceHelper::getPlatformsList();
-
-            foreach ($platforms_list as $key => $platform) {
-                $filter['platform'][$key] = $platform;
-            }
-
-            // Referrer
-            $filter['referrer'] = array();
-            $referrer_list      = Referred::getList(array('min' => 50, 'limit' => 300));
-            foreach ($referrer_list as $site) {
-                $filter['referrer'][$site->domain] = $site->domain;
-            }
-
-            // User
-            $filter['users'] = array();
-            $user_list       = Visitor::get_users_visitor();
-            foreach ($user_list as $user_id => $user_inf) {
-                $filter['users'][$user_id] = $user_inf['user_login'] . " #" . $user_id . "";
-            }
-
-            // Send Json
-            wp_send_json($filter);
-        }
-        exit;
-    }
-
-    /**
-     * Get Page Insight Filters.
-     */
-    public function page_insight_filters_action_callback()
-    {
-        if (Request::isFrom('ajax') and User::Access('read')) {
-
-            if ("pages" !== $_REQUEST['page']) {
-                exit;
-            }
-
-            check_ajax_referer('wp_rest', 'wps_nonce');
-
-            $filter = [];
-
-            $filter['users'] = [];
-            $users           = get_users(['has_published_posts' => true]);
-
-            foreach ($users as $key => $user) {
-                $filter['users'][esc_html($user->ID)] = esc_html($user->display_name) . ' #' . esc_html($user->ID);
-            }
-
-            wp_send_json($filter);
-        }
-
-        exit;
-    }
-
+ 
     /**
      * Setup an AJAX action to update geoIP database.
      */

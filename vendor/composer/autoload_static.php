@@ -191,6 +191,8 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Admin\\Exclusions\\ExclusionsDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/Exclusions/ExclusionsDataProvider.php',
         'WP_Statistics\\Service\\Admin\\Exclusions\\ExclusionsManager' => __DIR__ . '/../..' . '/src/Service/Admin/Exclusions/ExclusionsManager.php',
         'WP_Statistics\\Service\\Admin\\Exclusions\\ExclusionsPage' => __DIR__ . '/../..' . '/src/Service/Admin/Exclusions/ExclusionsPage.php',
+        'WP_Statistics\\Service\\Admin\\FilterHandler\\FilterGenerator' => __DIR__ . '/../..' . '/src/Service/Admin/FilterHandler/FilterGenerator.php',
+        'WP_Statistics\\Service\\Admin\\FilterHandler\\FilterManager' => __DIR__ . '/../..' . '/src/Service/Admin/FilterHandler/FilterManager.php',
         'WP_Statistics\\Service\\Admin\\Geographic\\GeographicDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/Geographic/GeographicDataProvider.php',
         'WP_Statistics\\Service\\Admin\\Geographic\\GeographicManager' => __DIR__ . '/../..' . '/src/Service/Admin/Geographic/GeographicManager.php',
         'WP_Statistics\\Service\\Admin\\Geographic\\GeographicPage' => __DIR__ . '/../..' . '/src/Service/Admin/Geographic/GeographicPage.php',
