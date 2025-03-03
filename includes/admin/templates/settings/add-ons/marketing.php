@@ -73,23 +73,6 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                 </td>
 
             </tr>
-            <tr valign="top">
-                <th scope="row">
-                    <label for="wps_addon_settings[marketing][database]"><?php esc_html_e('Analytics Database', 'wp-statistics'); ?></label>
-                </th>
-
-                <td>
-                    <input dir="ltr" type="text" id="wps_addon_settings[marketing][database]" name="wps_addon_settings[marketing][database]" size="30" >
-                    <div class="wps-addon-settings--action">
-                        <a href="" class="wps-button wps-button--outline-danger"><?php esc_html_e('Delete data', 'wp-statistics'); ?></a>
-                        <a href="" class="wps-button wps-button--default"><?php esc_html_e('Update data manually', 'wp-statistics'); ?></a>
-                    </div>
-                    <p class="description">
-                        <?php esc_html_e('Enter the number of days to keep Analytics data in your database. The maximum allowed days are 180. Though, 2x data will be stored in the DB for calculating the difference properly.', 'wp-statistics'); ?>
-                    </p>
-                    <?php View::load("components/objects/google-data-policy-alert"); ?>
-                </td>
-            </tr>
             </tbody>
         </table>
     </div>
@@ -102,14 +85,12 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     <div class="wps-addon-settings--marketing__title">
                         <div>
                             <h3><?php esc_html_e('Search Console', 'wp-statistics'); ?></h3>
-                            <span class="wps-addon-settings--marketing__fetch"><?php esc_html_e('Next data fetch on', 'wp-statistics'); ?>30 Jan, 2025 05:01:28</span>
                         </div>
                         <div>
-                            <a href="" class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Reconnect', 'wp-statistics'); ?></a>
-                            <a href="" class="wps-addon-settings--marketing__disconnect"><?php esc_html_e('Disconnect', 'wp-statistics'); ?></a>
+                            <a href="<?php echo apply_filters('wp_statistics_google_auth_url', '') ?>" class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Reconnect', 'wp-statistics'); ?></a>
+                            <a href="<?php echo apply_filters('wp_statistics_google_auth_disconnect_url', '') ?>" class="wps-addon-settings--marketing__disconnect"><?php esc_html_e('Disconnect', 'wp-statistics'); ?></a>
                         </div>
                     </div>
-
                 </th>
             </tr>
             <tr valign="top">
@@ -118,40 +99,18 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                 </th>
 
                 <td>
-                    <input dir="ltr" type="text" id="wps_addon_settings[marketing][site]" name="wps_addon_settings[marketing][site]" size="30" >
-                    <p class="description">
-                        <?php esc_html_e('Set a threshold for daily robot visits. Robots exceeding this number daily will be identified as bots.', 'wp-statistics'); ?>
-                    </p>
-                </td>
-            </tr>
-            <tr valign="top">
-                <th scope="row">
-                    <label for="wps_addon_settings[marketing][database]"><?php esc_html_e('Analytics Database', 'wp-statistics'); ?></label>
-                </th>
+                    <?php $sites = apply_filters('wp_statistics_google_search_console_sites', []); ?>
+                    <select dir="ltr" id="wps_addon_settings[marketing][site]" name="wps_addon_settings[marketing][site]">
+                        <option disabled selected value=""><?php esc_html_e('Select site', 'wp-statistics'); ?></option>
 
-                <td>
-                    <input dir="ltr" type="text" id="wps_addon_settings[marketing][database]" name="wps_addon_settings[marketing][database]" size="30" >
+                        <?php foreach ($sites as $key => $label) : ?>
+                            <option value="<?php echo esc_attr($key); ?>"><?php echo esc_html($label); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+
                     <p class="description">
-                        <?php esc_html_e('Enter the number of days to keep Analytics data in your database. The maximum allowed days are 180. Though, 2x data will be stored in the DB for calculating the difference properly.', 'wp-statistics'); ?>
+                        <?php esc_html_e('description', 'wp-statistics'); ?>
                     </p>
-                    <div class="wps-addon-settings-marketing-analytics">
-                        <div class="wps-addon-settings-marketing-analytics--options">
-                            <div class="wps-addon-settings-marketing-analytics--option">
-                                <?php esc_html_e('Storage Days:', 'wp-statistics'); ?> <span>177</span>
-                            </div>
-                            <div class="wps-addon-settings-marketing-analytics--option">
-                                <?php esc_html_e('Data rows:', 'wp-statistics'); ?> <span>192.9K</span>
-                            </div>
-                            <div class="wps-addon-settings-marketing-analytics--option">
-                                <?php esc_html_e('Size:', 'wp-statistics'); ?> <span>59 MB</span>
-                            </div>
-                        </div>
-                        <div class="wps-addon-settings--action">
-                            <a href="" class="wps-button wps-button--outline-danger"><?php esc_html_e('Delete data', 'wp-statistics'); ?></a>
-                            <a href="" class="wps-button wps-button--default"><?php esc_html_e('Update data manually', 'wp-statistics'); ?></a>
-                        </div>
-                    </div>
-                    <?php View::load("components/objects/google-data-policy-alert"); ?>
                 </td>
             </tr>
             </tbody>
