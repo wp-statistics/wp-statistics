@@ -139,7 +139,7 @@ class TabsView extends BaseTabView
 
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
             View::load("pages/referrals/$template", $args);
-            Admin_Template::get_template(['layout/postbox.hide', 'layout/referrer.filter', 'layout/footer'], $args);
+            Admin_Template::get_template(['layout/postbox.hide', 'layout/footer'], $args);
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }

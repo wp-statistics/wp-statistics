@@ -350,7 +350,7 @@ class Reader
 
         throw new InvalidDatabaseException(
             "Error opening database file ($filename). " .
-            'Is this a valid MaxMind DB file?'
+            'Is this a valid DB file?'
         );
     }
 
