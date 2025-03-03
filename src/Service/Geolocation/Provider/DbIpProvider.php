@@ -114,7 +114,7 @@ class DbIpProvider extends AbstractGeoIPProvider
 
         $defaultUrl = $licenseKey
             ? $downloadUrl
-            : 'https://github.com/wp-statistics/DbIP-City-lite/raw/master/dbip-city-lite.mmdb.gz';
+            : 'https://cdn.jsdelivr.net/npm/dbip-city-lite/dbip-city-lite.mmdb.gz';
 
         return $this->getFilteredDownloadUrl($defaultUrl);
     }

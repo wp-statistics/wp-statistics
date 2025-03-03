@@ -231,8 +231,9 @@ add_thickbox();
                         /* translators: %s: Link to dbip */
                         echo sprintf(
                             wp_kses(
-                                __('Enter your DB-IP license key to enable the premium DB-IP database, replacing the free version with a more detailed dataset. The premium DB-IP database is <strong>1.1GB</strong> in size. Make sure your server has enough storage space before enabling it, as the plugin downloads and stores this database. %s', 'wp-statistics'),
+                                __('Enter your DB-IP license key to enable the premium DB-IP database, replacing the free version with a more detailed dataset.<br /> The premium DB-IP database is <strong>1.1GB</strong> in size. Make sure your server has enough storage space before enabling it, as the plugin downloads and stores this database. %s', 'wp-statistics'),
                                 [
+                                    'br'     => [],
                                     'strong' => [],
                                     'a'      => [
                                         'href'   => [],
