@@ -5,6 +5,7 @@ namespace WP_STATISTICS;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Service\Geolocation\Provider\DbIpProvider;
 use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;
 use WP_Statistics\Utils\Request;
 
@@ -403,14 +404,21 @@ class Ajax
             // Check Refer Ajax
             check_ajax_referer('wp_rest', 'wps_nonce');
 
-            $result = GeolocationFactory::downloadDatabase(MaxmindGeoIPProvider::class);
+
+            $method   = Request::get('geoip_location_detection_method', 'maxmind');
+            $provider = MaxmindGeoIPProvider::class;
+            
+            if ('dbip' === $method) {
+                $provider = DbIpProvider::class;
+            }
+
+            $result = GeolocationFactory::downloadDatabase($provider);
 
             if (is_wp_error($result)) {
                 esc_html_e($result->get_error_message());
+            } else {
+                esc_html_e('GeoIP Database successfully updated.', 'wp-statistics');
             }
-
-            esc_html_e('GeoIP Database successfully updated.', 'wp-statistics');
-
         } else {
             esc_html_e('Unauthorized access!', 'wp-statistics');
         }

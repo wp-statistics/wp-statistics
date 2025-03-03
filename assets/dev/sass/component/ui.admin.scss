@@ -2124,6 +2124,10 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 .wps-wrap td .description {
   margin-top: 12px !important;
   color: #5b5b5b;
+
+  b, strong {
+    font-weight: bold;
+  }
 }
 
 .wps-wrap select + input[type="submit"],

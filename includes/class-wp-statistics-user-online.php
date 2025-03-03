@@ -42,7 +42,7 @@ class UserOnline
          *
          * @example add_filter('wp_statistics_active_user_online', function(){ if( is_page() ) { return false; } });
          */
-        return (has_filter('wp_statistics_active_user_online')) ? apply_filters('wp_statistics_active_user_online', true) : Option::get('useronline');
+        return (has_filter('wp_statistics_active_user_online')) ? apply_filters('wp_statistics_active_user_online', true) : Option::get('useronline', true);
     }
 
     /**
@@ -203,7 +203,7 @@ class UserOnline
         if(! empty($sameVisitor)) {
             $user_id = $sameVisitor->user_id;
         }
-        
+
         $pageId = Pages::getPageId($current_page['type'], $current_page['id']);
 
         //Prepare User online Update data
