@@ -1,4 +1,5 @@
-= 14.12.x - 2025-0x-xx =
+= 14.12.x - 2025-**-** =
+- **New:** Added DB-IP location detection method.
 - **Fix:** Fixed tables prefix conflict issue which caused query issues.
 
 = 14.12.5 - 2025-02-23 =
