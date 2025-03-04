@@ -37,7 +37,8 @@ class TabsView extends BaseTabView
             'agent'    => Request::get('agent', ''),
             'platform' => Request::get('platform', ''),
             'user_id'  => Request::get('user_id', ''),
-            'ip'       => Request::get('ip', '')
+            'ip'       => Request::get('ip', ''),
+            'referrer' => Request::get('referrer', ''),
         ]);
 
         parent::__construct();
@@ -141,7 +142,7 @@ class TabsView extends BaseTabView
 
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
             View::load("pages/visitor-insights/$currentTab", $args);
-            Admin_Template::get_template(['layout/postbox.hide', 'layout/visitors.filter', 'layout/footer'], $args);
+            Admin_Template::get_template(['layout/postbox.hide', 'layout/footer'], $args);
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }

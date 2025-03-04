@@ -19,6 +19,7 @@ use WP_Statistics\Service\Integrations\IntegrationsManager;
 use WP_Statistics\Service\Admin\Devices\DevicesManager;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagementManager;
 use WP_Statistics\Service\Admin\Exclusions\ExclusionsManager;
+use WP_Statistics\Service\Admin\FilterHandler\FilterManager;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsManager;
 use WP_Statistics\Service\Admin\PageInsights\PageInsightsManager;
 use WP_Statistics\Service\Admin\Referrals\ReferralsManager;
@@ -198,6 +199,7 @@ final class WP_Statistics
             $overviewManager     = new OverviewManager();
             $metaboxManager      = new MetaboxManager();
             $exclusionsManager   = new ExclusionsManager();
+            new FilterManager();
         }
 
         $hooksManager = new HooksManager();

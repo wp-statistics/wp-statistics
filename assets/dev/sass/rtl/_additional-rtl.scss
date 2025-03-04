@@ -37,8 +37,8 @@ a.wps-optionsMenuItem {
       }
     }
   }
-
-  form .wps-tb-window-footer td:last-child{
-    text-align: left;
-  }
  }
+
+&.wps_page #TB_window .wps-modal-filter-form .wps-filter-item {
+  text-align: right;
+}

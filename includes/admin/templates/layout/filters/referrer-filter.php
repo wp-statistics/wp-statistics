@@ -8,9 +8,6 @@ $activeFilters = Request::has('referrer');
 $classes[] = 'wps-modal-filter';
 $classes[] = $activeFilters ? 'wp-modal-filter--active' : '';
 $classes[] = is_rtl() ? 'wps-pull-left' : 'wps-pull-right';
-?>
-
-<?php
 
 $args = [
     'filter_type'   => 'wps-modal',
