@@ -34,15 +34,15 @@ class Install
     public function install($network_wide)
     {
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-option.php';
-        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/DatabaseManager.php';
-        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/Managers/TransactionHandler.php';
-        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/AbstractDatabaseOperation.php';
-        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/Operations/AbstractTableOperation.php';
-        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/Operations/Create.php';
-        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/Operations/Inspect.php';
-        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/DatabaseFactory.php';
-        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/Schema/Manager.php';
-        require_once WP_STATISTICS_DIR . 'src/Service/Admin/Database/Managers/TableHandler.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Database/DatabaseManager.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Database/Managers/TransactionHandler.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Database/AbstractDatabaseOperation.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Database/Operations/AbstractTableOperation.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Database/Operations/Create.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Database/Operations/Inspect.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Database/DatabaseFactory.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Database/Schema/Manager.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Database/Managers/TableHandler.php';
 
         global $wpdb;
 
