@@ -1,11 +1,11 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Database\Managers;
+namespace WP_Statistics\Service\Database\Managers;
 
 use WP_STATISTICS\Install;
 use WP_STATISTICS\Option;
-use WP_Statistics\Service\Admin\Database\DatabaseFactory;
-use WP_Statistics\Service\Admin\Database\Schema\Manager;
+use WP_Statistics\Service\Database\DatabaseFactory;
+use WP_Statistics\Service\Database\Schema\Manager;
 
 
 /**

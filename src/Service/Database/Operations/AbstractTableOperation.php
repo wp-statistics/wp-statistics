@@ -1,15 +1,15 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Database\Operations;
+namespace WP_Statistics\Service\Database\Operations;
 
-use WP_Statistics\Service\Admin\Database\AbstractDatabaseOperation;
-use WP_STATISTICS\Option;
 use RuntimeException;
+use WP_STATISTICS\Option;
+use WP_Statistics\Service\Database\AbstractDatabaseOperation;
 
 /**
  * Defines a foundation for operations on database tables.
  *
- * This abstract class provides core methods for configuring and interacting 
+ * This abstract class provides core methods for configuring and interacting
  * with specific database tables, such as setting the table name.
  */
 abstract class AbstractTableOperation extends AbstractDatabaseOperation
@@ -28,7 +28,7 @@ abstract class AbstractTableOperation extends AbstractDatabaseOperation
 
     /**
      * Sets a runtime error based on the migration status details.
-     * 
+     *
      * @throws RuntimeException If the migration status is 'failed'.
      * @return void
      */

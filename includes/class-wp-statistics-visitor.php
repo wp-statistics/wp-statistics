@@ -3,11 +3,10 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Models\VisitorsModel;
-use WP_Statistics\Service\Analytics\VisitorProfile;
-use WP_Statistics\Service\Analytics\Referrals\Referrals;
-use WP_Statistics\Service\Admin\Database\DatabaseFactory;
-use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
+use WP_Statistics\Service\Analytics\VisitorProfile;
+use WP_Statistics\Service\Database\DatabaseFactory;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
 
 class Visitor
 {

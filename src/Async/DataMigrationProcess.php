@@ -3,7 +3,7 @@
 namespace WP_Statistics\Async;
 
 use WP_STATISTICS\Option;
-use WP_Statistics\Service\Admin\Database\Migrations\DataMigration;
+use WP_Statistics\Service\Database\Migrations\DataMigration;
 use WP_STATISTICS\WP_Background_Process;
 
 class DataMigrationProcess extends WP_Background_Process
@@ -37,7 +37,7 @@ class DataMigrationProcess extends WP_Background_Process
 
     /**
      * Process a single data migration task.
-     * 
+     *
      * @param array $data
      * @return bool|string
      */

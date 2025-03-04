@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Database;
+namespace WP_Statistics\Service\Database;
 
 /**
  * Interface for database operations.

@@ -1,8 +1,8 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Database;
+namespace WP_Statistics\Service\Database;
 
-use WP_Statistics\Service\Admin\Database\Managers\TransactionHandler;
+use WP_Statistics\Service\Database\Managers\TransactionHandler;
 
 /**
  * Base class for database operations.
@@ -14,28 +14,28 @@ abstract class AbstractDatabaseOperation implements DatabaseManager
 {
     /**
      * WordPress database connection.
-     * 
+     *
      * @var \wpdb
      */
     protected $wpdb;
 
     /**
      * Table name.
-     * 
+     *
      * @var string
      */
     protected $tableName = '';
 
     /**
      * Full table name including prefix.
-     * 
+     *
      * @var string
      */
     protected $fullName = '';
 
     /**
      * Arguments for the operation.
-     * 
+     *
      * @var array
      */
     protected $args = [];

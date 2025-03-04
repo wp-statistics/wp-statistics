@@ -1,8 +1,9 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Database\Operations;
+namespace WP_Statistics\Service\Database\Operations;
 
-use WP_Statistics\Service\Admin\Database\DatabaseFactory;
+use WP_Statistics\Service\Database\DatabaseFactory;
+use const WP_Statistics\Service\Admin\Database\Operations\ARRAY_A;
 
 /**
  * Handles updating database table structures.
@@ -168,7 +169,7 @@ class Update extends AbstractTableOperation
                 sprintf('Table does not exist')
             );
         }
-        
+
         $results = $this->wpdb->get_results(
             sprintf("SHOW COLUMNS FROM `%s`", $this->fullName),
             ARRAY_A

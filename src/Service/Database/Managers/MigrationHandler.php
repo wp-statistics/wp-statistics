@@ -1,10 +1,10 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Database\Managers;
+namespace WP_Statistics\Service\Database\Managers;
 
 use WP_STATISTICS\Option;
-use WP_Statistics\Service\Admin\Database\DatabaseFactory;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Database\DatabaseFactory;
 use WP_Statistics\Utils\Request;
 
 /**
@@ -16,27 +16,27 @@ use WP_Statistics\Utils\Request;
  */
 class MigrationHandler
 {
-    /** 
-     * Action for triggering manual migration. 
-     * @var string 
+    /**
+     * Action for triggering manual migration.
+     * @var string
      */
     private const MIGRATION_ACTION = 'run_manual_migration';
 
-    /** 
-     * Action for triggering retry manual migration. 
-     * @var string 
+    /**
+     * Action for triggering retry manual migration.
+     * @var string
      */
     private const MIGRATION_RETRY_ACTION = 'retry_manual_migration';
 
-    /** 
-     * Nonce name for manual migration action. 
-     * @var string 
+    /**
+     * Nonce name for manual migration action.
+     * @var string
      */
     private const MIGRATION_NONCE = 'run_manual_migration_nonce';
 
     /**
      * Initialize migration processes and register WordPress hooks.
-     * 
+     *
      * @return void
      */
     public static function init()
@@ -323,7 +323,7 @@ class MigrationHandler
 
     /**
      * Retries the manual migration process.
-     * 
+     *
      * @return void
      */
     public static function retryManualMigration()

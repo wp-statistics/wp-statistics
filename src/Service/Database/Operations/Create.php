@@ -1,11 +1,13 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Database\Operations;
+namespace WP_Statistics\Service\Database\Operations;
+
+use const WP_Statistics\Service\Admin\Database\Operations\ABSPATH;
 
 /**
  * Handles the creation of database tables.
  *
- * This class defines methods to execute table creation operations, 
+ * This class defines methods to execute table creation operations,
  * including generating SQL queries and ensuring transactional integrity.
  */
 class Create extends AbstractTableOperation

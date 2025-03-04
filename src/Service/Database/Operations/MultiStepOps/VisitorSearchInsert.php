@@ -1,11 +1,11 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Database\Operations\MultiStepOps;
+namespace WP_Statistics\Service\Database\Operations\MultiStepOps;
 
 use Exception;
 use RuntimeException;
-use WP_Statistics\Service\Admin\Database\DatabaseFactory;
-use WP_Statistics\Service\Admin\Database\Operations\AbstractTableOperation;
+use WP_Statistics\Service\Database\DatabaseFactory;
+use WP_Statistics\Service\Database\Operations\AbstractTableOperation;
 
 /**
  * Handles inserting first and last page data for visitors.

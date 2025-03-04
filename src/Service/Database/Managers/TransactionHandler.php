@@ -1,12 +1,12 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Database\Managers;
+namespace WP_Statistics\Service\Database\Managers;
 
 class TransactionHandler
 {
     /**
      * WordPress database connection instance.
-     * 
+     *
      * @var \wpdb
      */
     private $wpdb;

@@ -1,9 +1,9 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Database\Migrations;
+namespace WP_Statistics\Service\Database\Migrations;
 
 use Exception;
-use WP_Statistics\Service\Admin\Database\DatabaseFactory;
+use WP_Statistics\Service\Database\DatabaseFactory;
 
 /**
  * Manages migrations related to database schema.

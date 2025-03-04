@@ -7,7 +7,7 @@ use WP_Statistics\Components\DateRange;
 use WP_Statistics\Decorators\ReferralDecorator;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Service\Admin\Database\DatabaseFactory;
+use WP_Statistics\Service\Database\DatabaseFactory;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Utils\Query;
 

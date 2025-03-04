@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Database\Schema;
+namespace WP_Statistics\Service\Database\Schema;
 
 /**
  * Manages database table schemas.

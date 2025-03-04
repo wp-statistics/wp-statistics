@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Database\Operations;
+namespace WP_Statistics\Service\Database\Operations;
 
 /**
  * Handles the dropping of database tables.
