@@ -100,13 +100,8 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                 </th>
 
                 <td>
-                    <?php $sites = apply_filters('wp_statistics_google_search_console_sites', []); ?>
                     <select dir="ltr" id="wps_addon_settings[marketing][site]" name="wps_addon_settings[marketing][site]">
                         <option disabled selected value=""><?php esc_html_e('Select site', 'wp-statistics'); ?></option>
-
-                        <?php foreach ($sites as $key => $label) : ?>
-                            <option <?php selected($key, Option::getByAddon('site', 'marketing')) ?> value="<?php echo esc_attr($key); ?>"><?php echo esc_html($label); ?></option>
-                        <?php endforeach; ?>
                     </select>
 
                     <p class="description">
