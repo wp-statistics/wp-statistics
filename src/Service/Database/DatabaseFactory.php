@@ -108,7 +108,7 @@ class DatabaseFactory
         $version = Option::getOptionGroup('db', 'version', null);
 
         if (empty($version)) {
-            return true;
+            return false;
         }
 
         return version_compare($version, $requiredVersion, $operation);

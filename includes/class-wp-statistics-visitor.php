@@ -172,9 +172,13 @@ class Visitor
                 $data = [
                     'hits'      => $same_visitor->hits + 1,
                     'user_id'   => ! empty($same_visitor->user_id) ? $same_visitor->user_id : $visitorProfile->getUserId(),
-                    'last_page' => $args['page_id'],
-                    'last_view' => TimeZone::getCurrentDate('Y-m-d H:i:s'),
+                    
                 ];
+
+                if (DatabaseFactory::compareCurrentVersion('14.12.6', '>=')) {
+                    $data['last_page'] = $args['page_id'];
+                    $data['last_view'] = TimeZone::getCurrentDate('Y-m-d H:i:s');
+                }
 
                 $data = apply_filters('wp_statistics_visitor_data_before_update', $data, $visitorProfile);
 
