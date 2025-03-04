@@ -44,8 +44,18 @@ class MigrationHandler
         add_action('admin_post_' . self::MIGRATION_ACTION, [self::class, 'processManualMigrations']);
         add_action('admin_post_' . self::MIGRATION_RETRY_ACTION, [self::class, 'retryManualMigration']);
 
-        self::handleMigrationStatusNotices();
+        add_action( 'init', [self::class, 'handleNotice']);
         self::runMigrations();
+    }
+
+    /**
+     * handle notices.
+     *
+     * @return void
+     */
+    public static function handleNotice() {
+        self::handleMigrationStatusNotices();
+        self::showManualMigrationNotice();
     }
 
     /**
@@ -55,8 +65,6 @@ class MigrationHandler
      */
     public static function runMigrations()
     {
-        self::showManualMigrationNotice();
-
         if (self::isMigrationComplete()) {
             return;
         }
@@ -292,7 +300,7 @@ class MigrationHandler
             esc_html__('Action Required: Upgrade Needed for WP Statistics', 'wp-statistics'),
             esc_html__('A database upgrade is needed for your site. Running this upgrade will keep everything working correctly. Please run the process as soon as possible.', 'wp-statistics'),
             esc_url($actionUrl),
-            esc_html__('Run Process Now', 'wp-statistics'),
+            esc_html__('Run Process Now', 'wp-statistics')
         );
     }
 
@@ -533,7 +541,7 @@ class MigrationHandler
      *
      * @return void
      */
-    private static function handleMigrationStatusNotices()
+    public static function handleMigrationStatusNotices()
     {
         $details = Option::getOptionGroup('db', 'migration_status_detail', null);
 
