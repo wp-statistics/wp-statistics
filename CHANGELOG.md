@@ -1,6 +1,7 @@
 = 14.12.x - 2025-**-** =
 - **New:** Added DB-IP location detection method.
 - **Fix:** Fixed tables prefix conflict issue which caused query issues.
+- **Fix:** Fixed mini chart slow query issue.
 - **Fix:** Resolved the problem of map_meta_cap being incorrectly called on the settings page.
 - **Enhancement:** Refactored the internal filters structure for improved performance and readability.
 
