@@ -2,6 +2,7 @@
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Url;
+use WP_Statistics\Components\View;
 
 $pageKey = Menus::getCurrentPage();
 $pageKey = $pageKey['page_url'];
@@ -56,8 +57,7 @@ $pageKey = $pageKey['page_url'];
             </div>
         </form>
     <?php endif ?>
-
-    <?php if (isset($hasDateRang) || isset($filters)) : ?>
+    <?php if (isset($hasDateRang) || isset($filters) || isset($lastUpdated)) : ?>
         <div class="wps-head-filters">
             <?php
             if (!empty($hasDateRang)) {
@@ -69,6 +69,25 @@ $pageKey = $pageKey['page_url'];
                     require_once "filters/$filter-filter.php";
                 }
             }
+
+            if (!empty($tabs) && is_array($tabs)) {
+                foreach ($tabs as $tab) {
+                    if ($tab['class'] === 'current' || Url::getParam($tab['link'], 'tab') === $active_tab) {
+                        if (!empty($tab['lastUpdated']) && !empty($tab['lastUpdatedTooltip'])) {
+                            ?>
+                            <div class="wps-last-updated wps-tooltip" title="<?php echo esc_attr($tab['lastUpdatedTooltip']); ?>">
+                                <span>
+                                     <?php esc_html_e('Last Updated:', 'wp-statistics'); ?>
+                                </span>
+                                <span class="wps-loading"></span>
+                            </div>
+                            <?php
+                        }
+                        break;
+                    }
+                }
+            }
+
             ?>
         </div>
     <?php endif; ?>

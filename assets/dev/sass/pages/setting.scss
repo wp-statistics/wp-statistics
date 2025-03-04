@@ -870,9 +870,12 @@
 
   &--marketing {
 
-    table{
-      table-layout: fixed;
+    table {
+      @media (max-width: 784px) {
+        table-layout: fixed;
+      }
     }
+
     tr td p.description {
       font-weight: 400;
       font-size: 12px;
@@ -1063,5 +1066,23 @@
     margin-bottom: 24px;
     display: block;
     padding: 0;
+  }
+}
+
+.wps-wrap select.wps-loading{
+  background-color: #e0e0e0;
+  background-image: linear-gradient(90deg, rgba(224, 224, 224, 0.6) 0%, rgba(245, 245, 245, 0.8) 50%, rgba(224, 224, 224, 0.6) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+  display: inline-block;
+  box-shadow: none!important;
+  border: none !important;
+  color: transparent !important;
+}
+
+.wps-alert--danger{
+  &.wps-error{
+    margin-top: 15px;
   }
 }

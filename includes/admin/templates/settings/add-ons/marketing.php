@@ -100,12 +100,12 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                 </th>
 
                 <td>
-                    <select dir="ltr" id="wps_addon_settings[marketing][site]" name="wps_addon_settings[marketing][site]">
+                    <select dir="ltr" id="wps_addon_settings[marketing][site]" name="wps_addon_settings[marketing][site]" class="wps-loading">
                         <option disabled selected value=""><?php esc_html_e('Select site', 'wp-statistics'); ?></option>
                     </select>
 
                     <p class="description">
-                        <?php esc_html_e('description', 'wp-statistics'); ?>
+                        <?php esc_html_e('Set a threshold for daily robot visits. Robots exceeding this number daily will be identified as bots.', 'wp-statistics'); ?>
                     </p>
                 </td>
             </tr>

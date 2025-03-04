@@ -3670,6 +3670,44 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 }
 
+.wps-last-updated {
+  background: #FAFAFB;
+  padding: 4px 21px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+
+  span {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 15px;
+    height: 15px;
+    display: inline-flex;
+    color: #8F9093;
+
+    &:last-child {
+      color: #56585A;
+
+      &.wps-loading{
+        width: 100px;
+        margin-right: 5px;
+        margin-left: 5px;
+      }
+    }
+  }
+}
+
+.wps-wrap .wps-loading{
+  background-color: #e0e0e0;
+  background-image: linear-gradient(90deg, rgba(224, 224, 224, 0.6) 0%, rgba(245, 245, 245, 0.8) 50%, rgba(224, 224, 224, 0.6) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+  display: inline-block;
+  box-shadow: none!important;
+  border: none !important;
+  color: transparent !important;
+}
 
 @keyframes skeleton-animate-wave {
   0% {

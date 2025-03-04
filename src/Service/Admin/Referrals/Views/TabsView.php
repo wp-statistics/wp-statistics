@@ -26,11 +26,11 @@ class TabsView extends BaseTabView
     public function __construct()
     {
         $args = [
-            'referrer'          => Request::get('referrer'),
-            'source_channel'    => Request::get('source_channel'),
-            'order'             => Request::get('order', 'DESC'),
-            'per_page'          => Admin_Template::$item_per_page,
-            'page'              => Admin_Template::getCurrentPaged()
+            'referrer'       => Request::get('referrer'),
+            'source_channel' => Request::get('source_channel'),
+            'order'          => Request::get('order', 'DESC'),
+            'per_page'       => Admin_Template::$item_per_page,
+            'page'           => Admin_Template::getCurrentPaged()
         ];
 
         $this->dataProvider = new ReferralsDataProvider($args);
@@ -70,17 +70,17 @@ class TabsView extends BaseTabView
     public function render()
     {
         try {
-            $data       = $this->getTabData();
-            $template   = $this->getCurrentTab();
+            $data     = $this->getTabData();
+            $template = $this->getCurrentTab();
 
             $args = [
                 'title'       => esc_html__('Referrals', 'wp-statistics'),
                 'pageName'    => Menus::get_page_slug('referrals'),
                 'custom_get'  => [
-                    'tab'       => $this->getCurrentTab(),
-                    'order_by'  => Request::get('order_by'),
-                    'order'     => Request::get('order'),
-                    'referrer'  => Request::get('referrer')
+                    'tab'      => $this->getCurrentTab(),
+                    'order_by' => Request::get('order_by'),
+                    'order'    => Request::get('order'),
+                    'referrer' => Request::get('referrer')
                 ],
                 'filters'     => ['source-channels'],
                 'DateRang'    => Admin_Template::DateRange(),
@@ -117,25 +117,27 @@ class TabsView extends BaseTabView
                         'class' => $this->isTab('source-categories') ? 'current' : '',
                     ],
                     [
-                        'link'      => Menus::admin_url('referrals', ['tab' => 'campaigns']),
-                        'title'     => esc_html__('Campaigns', 'wp-statistics'),
-                        'tooltip'   => esc_html__('To view this report, you need to have the Marketing add-on.', 'wp-statistics'),
-                        'class'     => $this->isTab('campaigns') ? 'current' : '',
-                        'locked'    => true
+                        'link'    => Menus::admin_url('referrals', ['tab' => 'campaigns']),
+                        'title'   => esc_html__('Campaigns', 'wp-statistics'),
+                        'tooltip' => esc_html__('To view this report, you need to have the Marketing add-on.', 'wp-statistics'),
+                        'class'   => $this->isTab('campaigns') ? 'current' : '',
+                        'locked'  => true
                     ],
                     [
-                        'link'      => Menus::admin_url('referrals', ['tab' => 'utm-performance']),
-                        'title'     => esc_html__('UTM Performance', 'wp-statistics'),
-                        'tooltip'   => esc_html__('To view this reports, you need to have the Marketing add-on.', 'wp-statistics'),
-                        'class'     => $this->isTab('utm-performance') ? 'current' : '',
-                        'locked'    => true
+                        'link'    => Menus::admin_url('referrals', ['tab' => 'utm-performance']),
+                        'title'   => esc_html__('UTM Performance', 'wp-statistics'),
+                        'tooltip' => esc_html__('To view this reports, you need to have the Marketing add-on.', 'wp-statistics'),
+                        'class'   => $this->isTab('utm-performance') ? 'current' : '',
+                        'locked'  => true
                     ],
                     [
-                        'link'      => Menus::admin_url('referrals', ['tab' => 'google-search']),
-                        'title'     => esc_html__('Google Search', 'wp-statistics'),
-                        'tooltip'   => esc_html__('To view this reports, you need to have the Marketing add-on.', 'wp-statistics'),
-                        'class'     => $this->isTab('google-search') ? 'current' : '',
-                        'locked'    => true
+                        'link'               => Menus::admin_url('referrals', ['tab' => 'google-search']),
+                        'title'              => esc_html__('Google Search', 'wp-statistics'),
+                        'tooltip'            => esc_html__('To view this reports, you need to have the Marketing add-on.', 'wp-statistics'),
+                        'class'              => $this->isTab('google-search') ? 'current' : '',
+                        'lastUpdated'        => true,
+                        'lastUpdatedTooltip' => esc_html__('We fetch data from Google Search Console once daily to keep things running smoothly without extra load. The numbers you see are based on the latest update at the time shown.', 'wp-statistics'),
+                        'locked'             => true
                     ]
                 ]
             ];
@@ -156,7 +158,7 @@ class TabsView extends BaseTabView
             }
 
             // Remove source channels filter if tab is source categories or utm-performance or campaigns
-            if ($this->isTab(['source-categories', 'utm-performance', 'campaigns'])) {
+            if ($this->isTab(['source-categories', 'utm-performance', 'campaigns', 'google-search'])) {
                 $args['filters'] = array_values(array_diff($args['filters'], ['source-channels']));
             }
 
