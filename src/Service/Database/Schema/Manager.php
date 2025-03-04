@@ -165,20 +165,6 @@ class Manager
                 'KEY page_id (page_id)',
             ],
         ],
-        // new ones
-        'parameters' => [
-            'columns' => [
-                'ID'          => 'bigint(20) NOT NULL AUTO_INCREMENT',
-                'session_id'  => 'bigint(20) NOT NULL',
-                'resource_id' => 'bigint(20) NOT NULL',
-                'view_id'     => 'bigint(20) NOT NULL',
-                'parameter'   => 'varchar(180)',
-                'value'       => 'varchar(180)',
-            ],
-            'constraints' => [
-                'PRIMARY KEY (ID)',
-            ],
-        ]
     ];
 
     /**
