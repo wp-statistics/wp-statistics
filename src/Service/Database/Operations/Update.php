@@ -3,7 +3,6 @@
 namespace WP_Statistics\Service\Database\Operations;
 
 use WP_Statistics\Service\Database\DatabaseFactory;
-use const WP_Statistics\Service\Admin\Database\Operations\ARRAY_A;
 
 /**
  * Handles updating database table structures.

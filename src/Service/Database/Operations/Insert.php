@@ -4,7 +4,6 @@ namespace WP_Statistics\Service\Database\Operations;
 
 use RuntimeException;
 use WP_STATISTICS\Option;
-use const WP_Statistics\Service\Admin\Database\Operations\ARRAY_A;
 
 /**
  * Handles data insertion and migration between database tables.

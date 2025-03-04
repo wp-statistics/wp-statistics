@@ -2,8 +2,6 @@
 
 namespace WP_Statistics\Service\Database\Operations;
 
-use const WP_Statistics\Service\Admin\Database\Operations\ABSPATH;
-
 /**
  * Handles the creation of database tables.
  *
