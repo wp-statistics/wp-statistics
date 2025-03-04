@@ -45,7 +45,7 @@ class DataMigration extends AbstractMigrationOperation
      * @var array
      */
     protected $migrationSteps = [
-        '14.12.5' => [
+        '14.12.6' => [
             'addFirstAndLastPageData',
         ],
     ];

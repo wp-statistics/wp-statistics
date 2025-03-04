@@ -282,23 +282,17 @@ class MigrationHandler
     private static function buildNoticeMessage()
     {
         $actionUrl = self::buildActionUrl();
-        $documentationUrl = 'https://veronalabs.com/';
 
         return sprintf(
             '<p>
                 <strong>%1$s</strong>
                 </br>%2$s
-                </br>%3$s
-                </br><a href="%4$s" class="button button-primary" style="margin-top: 10px;">%5$s</a>
-                <a href="%6$s" target="_blank" style="margin-left: 10px">%7$s</a>
+                </br><a href="%3$s" class="button button-primary" style="margin-top: 10px;">%4$s</a>
             </p>',
             esc_html__('Action Required: Upgrade Needed for WP Statistics', 'wp-statistics'),
-            esc_html__('The Database Upgrade process needs to be run to ensure WP Statistics works seamlessly with the latest updates.', 'wp-statistics'),
-            esc_html__('Running this process will [specific benefits, e.g., “add new features” or “optimize data”].', 'wp-statistics'),
+            esc_html__('A database upgrade is needed for your site. Running this upgrade will keep everything working correctly. Please run the process as soon as possible.', 'wp-statistics'),
             esc_url($actionUrl),
             esc_html__('Run Process Now', 'wp-statistics'),
-            esc_url($documentationUrl),
-            esc_html__('For more details, see our documentation.', 'wp-statistics')
         );
     }
 

@@ -144,8 +144,8 @@ class Visitor
                 'honeypot'      => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0)
             );
 
-            // Store First and Last Page for versions above 14.12.5
-            if (DatabaseFactory::compareCurrentVersion('14.12.5', '>=')) {
+            // Store First and Last Page for versions above 14.12.6
+            if (DatabaseFactory::compareCurrentVersion('14.12.6', '>=')) {
                 $visitor = array_merge($visitor, [
                     'first_page'    => $args['page_id'],
                     'first_view'    => TimeZone::getCurrentDate(),
