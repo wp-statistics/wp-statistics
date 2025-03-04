@@ -67,8 +67,31 @@ class DevicesDataProvider
             'group_by' => ['model']
         ]);
 
+        $visitors = $this->visitorsModel->getVisitorsDevices($args);
+
+        if (! empty($visitors)) {
+            $visitors = array_reduce($visitors, function ($carry, $item) {
+                // Trim whitespace and default empty models to 'Unknown'
+                $model = trim($item->model ?? '');
+        
+                if ($model === '') {
+                    $model = 'Unknown';
+                }
+        
+                if (isset($carry[$model])) {
+                    $carry[$model]->visitors += $item->visitors;
+                } else {
+                    $carry[$model] = (object)[
+                        'model'    => $model,
+                        'visitors' => $item->visitors
+                    ];
+                }
+                return $carry;
+            }, []);
+        }
+
         return [
-            'visitors' => $this->visitorsModel->getVisitorsDevices($args),
+            'visitors' => $visitors,
             'total'    => $this->visitorsModel->countColumnDistinct($args),
             'visits'   => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
         ];
