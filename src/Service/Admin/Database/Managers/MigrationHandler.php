@@ -93,7 +93,7 @@ class MigrationHandler
         $allVersions     = [];
         $versionMappings = [];
 
-        foreach (DatabaseFactory::Migration() as $instance) {
+        foreach (DatabaseFactory::migration() as $instance) {
             foreach ($instance->getMigrationSteps() as $version => $methods) {
                 if (version_compare($currentVersion, $version, '>=')) {
                     continue;

@@ -75,7 +75,7 @@ class DatabaseFactory
      *
      * @return array An array of migration instances.
      */
-    public static function Migration()
+    public static function migration()
     {
         $migrationInstances = [];
 
