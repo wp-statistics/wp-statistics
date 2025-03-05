@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', wpStatisticsInitialize);
 window.addEventListener("popstate", wpStatisticsTrackUrlChange);
 
 // Listen for pushState/replaceState (URL changes in SPA)
-history.pushState = function(state, title, url) {
+history.pushState = function (state, title, url) {
     WpStatisticsUserTracker.originalPushState.apply(history, arguments);
     wpStatisticsTrackUrlChange();
 };
@@ -25,7 +25,7 @@ function wpStatisticsTrackUrlChange() {
         return;
     }
 
-    if(window.location.href !== WpStatisticsUserTracker.lastUrl ) {
+    if (window.location.href !== WpStatisticsUserTracker.lastUrl) {
         // Update the WP_Statistics_Tracker_Object
         wpStatisticsUpdateTrackerObject();
 
@@ -83,10 +83,7 @@ function wpStatisticsUpdateTrackerObject() {
 
             // Update the global WP_Statistics_Tracker_Object with the new data
             WP_Statistics_Tracker_Object = newTrackerObject;
-
-            console.log('Updated WP_Statistics_Tracker_Object:', WP_Statistics_Tracker_Object);
         } catch (error) {
-            console.error('Error updating WP_Statistics_Tracker_Object:', error);
         }
     }
 }
