@@ -870,6 +870,22 @@
 
   &--marketing {
 
+    .select2-selection--single{
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 20px;
+      border: 1px solid #5b5b5b !important;
+      box-sizing: border-box;
+      border-radius: 2px;
+      padding: 12px 24px 12px 8px !important;
+      height: auto;
+      min-width: 300px;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow{
+      top:15px
+    }
+
     table {
       @media (max-width: 784px) {
         table-layout: fixed;

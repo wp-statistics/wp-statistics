@@ -46,41 +46,68 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             'action': 'wp_statistics_get_gsc_sites',
         };
 
-        jQuery.ajax({
-            url: wps_js.global.admin_url + 'admin-ajax.php',
-            type: 'POST',
-            dataType: 'json',
-            data: params,
-            timeout: 30000,
-            beforeSend: function() {
-                searchConsoleSite.classList.add('wps-loading');
-            },
-            success: function ({data, success}) {
-                if (success && data) {
-                    searchConsoleSite.innerHTML = '';
 
-                    data.forEach(item => {
-                        const option = document.createElement('option');
-                        option.value = Object.keys(item)[0];
-                        option.textContent = item[Object.keys(item)[0]];
-                        searchConsoleSite.appendChild(option);
-                    });
-                } else {
-                    notice.innerHTML = `<p>${data}</p>`;
-                    document.querySelector("#marketing-settings").prepend(notice);
-                    const topOffset = document.querySelector('#marketing-settings').getBoundingClientRect().top + window.scrollY;
-                    window.scrollTo({
-                        top: topOffset,
-                        behavior: "smooth"
-                    });
-                 }
-             },
-            error: function (xhr, status, error) {
-                console.log(error);
-            },complete : function (){
-                searchConsoleSite.classList.remove('wps-loading')
-            }
-        });
+        // Initialize Select2
+        if (searchConsoleSite) {
+            jQuery(searchConsoleSite).select2({
+                placeholder: 'Click to load sites',
+                allowClear: true,
+                ajax: {
+                    url: wps_js.global.admin_url + 'admin-ajax.php',
+                    type: 'POST',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            wps_nonce: wps_js.global.rest_api_nonce,
+                            action: 'wp_statistics_get_gsc_sites',
+                            term: params.term
+                        };
+                    },
+                    processResults: function (response) {
+                        if (response && response.success && response.data) {
+                            const results = Object.entries(response.data).map(([id, text]) => {
+                                return {
+                                    id: id,
+                                    text: text
+                                };
+                            });
+                            return {results: results};
+                        } else {
+                            let notice = document.querySelector('.wp-statistics-notice');
+                            if (!notice) {
+                                notice = document.createElement("div");
+                                notice.className = "notice notice-error wp-statistics-notice";
+                            }
+                            notice.innerHTML = `<p>${response.data || 'Error loading sites'}</p>`;
+                            document.querySelector("#marketing-settings").prepend(notice);
+                            const topOffset = document.querySelector('#marketing-settings').getBoundingClientRect().top + window.scrollY;
+                            window.scrollTo({
+                                top: topOffset,
+                                behavior: "smooth"
+                            });
+                            return {results: []};
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('AJAX error:', status, error);
+                        return {results: []};
+                    },
+                    cache: true
+                },
+                minimumResultsForSearch: Infinity,
+            });
+
+            // Loading states
+            jQuery(searchConsoleSite).on('select2:opening', function (e) {
+                jQuery(this).data('select2').$dropdown.addClass('wps-loading');
+            });
+
+            jQuery(searchConsoleSite).on('select2:open', function (e) {
+                jQuery(this).data('select2').$dropdown.removeClass('wps-loading');
+            });
+
+
+        }
     }
-
 }
