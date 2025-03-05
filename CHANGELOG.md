@@ -1,3 +1,5 @@
+- **Fix:** tracker.js compatibility with wordpress interactivity api.
+
 = 14.12.1 - 2025-01-13 =
 - **New:** Added "Last Year" filter to metaboxes on the Overview page for yearly data.
 - **Enhancement:** Improved IP/Hash filter on the Visitor Insights page.
