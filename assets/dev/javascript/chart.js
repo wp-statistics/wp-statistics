@@ -22,7 +22,7 @@ wps_js.rgba_to_hex = function (r, g, b, a) {
 }
 
 const chartColors = {
-    'Total': '#27A765', 'Views': '#7362BF', 'Visitors': '#3288D7', 'User Visitors':'#3288D7', 'Anonymous Visitors' :'#7362BF', 'Published Posts' : '#8AC3D0',
+    'Total': '#27A765', 'Views': '#7362BF', 'Visitors': '#3288D7' ,'Clicks': '#3288D7', 'Impressions': '#7362BF' , 'User Visitors':'#3288D7', 'Anonymous Visitors' :'#7362BF', 'Published Posts' : '#8AC3D0',
     'Posts': '#8AC3D0', 'Other1': '#3288D7', 'Other2': '#7362BF', 'Other3': '#8AC3D0'
 };
 

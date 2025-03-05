@@ -104,3 +104,4 @@ wps_js.render_wp_statistics_search_widget = wps_js.render_line_chart;
 wps_js.render_wp_statistics_hits_widget = wps_js.render_line_chart;
 wps_js.render_wp_statistics_traffic_summary_widget = wps_js.render_line_chart;
 wps_js.render_wp_statistics_quickstats_widget = wps_js.render_line_chart;
+wps_js.render_wp_statistics_search_traffic_widget = wps_js.render_line_chart;

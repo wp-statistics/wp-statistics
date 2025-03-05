@@ -11,6 +11,7 @@ use WP_Statistics\Service\Admin\Metabox\Metaboxes\TopReferring;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\LatestVisitor;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\SearchEngines;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TopSearchQueries;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\SearchTraffic;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TopDeviceModel;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TrafficSummary;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TrafficOverview;
@@ -33,6 +34,7 @@ class MetaboxHelper
         TopDeviceModel::class,
         DailyTrafficTrend::class,
         SearchEngines::class,
+        SearchTraffic::class,
         TopSearchQueries::class,
         MostVisitedPages::class,
         MostActiveVisitors::class,
