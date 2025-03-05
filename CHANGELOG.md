@@ -1,5 +1,6 @@
 = 14.12.x - 2025-**-** =
 - **New:** Added DB-IP location detection method.
+- **New:** Added the `first_page`, `first_view`, `last_page`, and `last_view` columns to the visitor table to improve performance.
 - **Fix:** Fixed tables prefix conflict issue which caused query issues.
 - **Fix:** Fixed mini chart slow query issue.
 - **Fix:** Resolved the problem of map_meta_cap being incorrectly called on the settings page.
