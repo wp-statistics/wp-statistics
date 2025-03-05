@@ -599,7 +599,7 @@ class MigrationHandler
                         </br>%2$s
                         </br><strong>%3$s</strong> %4$s
                         </br><a href="%5$s" class="button button-primary" style="margin-top: 10px;">%6$s</a>
-                        <a href="%7$s" style="margin: 10px">%8$s</a>
+                        <a href="%7$s" style="margin: 10px" target="_blank">%8$s</a>
                     </p>
                 ',
                 esc_html__('WP Statistics: Process Failed', 'wp-statistics'),
