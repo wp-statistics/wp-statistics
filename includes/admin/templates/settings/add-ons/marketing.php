@@ -100,7 +100,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                 </th>
 
                 <td>
-                    <select dir="ltr" id="wps_addon_settings[marketing][site]" name="wps_addon_settings[marketing][site]" class="wps-loading">
+                    <select dir="ltr" data-type-show="select2" id="wps_addon_settings[marketing][site]" name="wps_addon_settings[marketing][site]">
                         <option disabled selected value=""><?php esc_html_e('Select site', 'wp-statistics'); ?></option>
                     </select>
 
