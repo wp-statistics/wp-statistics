@@ -319,6 +319,11 @@ class Option
         $settingName = "wp_statistics_{$group}";
         $options     = get_option($settingName, []);
 
+        // Backward compatibility.
+        if (!is_array($options)) {
+            $options = array();
+        }
+
         // Store the value in the array.
         $options[$key] = $value;
 
@@ -330,6 +335,11 @@ class Option
     {
         $settingName = "wp_statistics_{$group}";
         $options     = get_option($settingName, []);
+
+        // Backward compatibility.
+        if (!is_array($options)) {
+            $options = array();
+        }
 
         // Store the value in the array.
         $options[$key] = $value;
