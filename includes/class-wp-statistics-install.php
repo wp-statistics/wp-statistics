@@ -46,20 +46,22 @@ class Install
 
         global $wpdb;
 
-        $this->checkIsFresh();
-        $this->markBackgroundProcessAsInitiated();
 
         if (is_multisite() && $network_wide) {
             $blog_ids = $wpdb->get_col("SELECT `blog_id` FROM $wpdb->blogs");
             foreach ($blog_ids as $blog_id) {
 
                 switch_to_blog($blog_id);
+                $this->checkIsFresh();
                 TableHandler::createAllTables();
                 restore_current_blog();
             }
         } else {
+            $this->checkIsFresh();
             TableHandler::createAllTables();
         }
+
+        $this->markBackgroundProcessAsInitiated();
 
         // Create Default Option in Database
         self::create_options();
