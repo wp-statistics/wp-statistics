@@ -1,4 +1,11 @@
 const WpStatisticsUserTracker = {
+    // Track URL changes for AJAX in Gutenberg SPA mode using History API
+    lastUrl: window.location.href,
+
+    // Save original history methods
+    originalPushState: history.pushState,
+    originalReplaceState: history.replaceState,
+
     // Check user activity every x seconds
     checkTime: WP_Statistics_Tracker_Object.jsCheckTime,
 

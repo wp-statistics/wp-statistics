@@ -18,6 +18,19 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+// Listen for popstate event (browser back/forward navigation)
+window.addEventListener("popstate", wpStatisticsTrackUrlChange);
+
+// Listen for pushState/replaceState (URL changes in SPA)
+history.pushState = function(state, title, url) {
+    WpStatisticsUserTracker.originalPushState.apply(history, arguments);
+    wpStatisticsTrackUrlChange();
+};
+
+history.replaceState = function (state, title, url) {
+    WpStatisticsUserTracker.originalReplaceState.apply(history, arguments);
+    wpStatisticsTrackUrlChange();
+};
 
 function handleWpConsentApiIntegration() {
     const consentLevel      = WP_Statistics_Tracker_Object.option.consentIntegration.status['consent_level'];
@@ -67,4 +80,23 @@ function handleRealCookieBannerIntegration() {
                 console.log("WP Statistics: Real Cookie Banner consent is not given to track visitor information.");
             }
         });
+}
+
+// Detect URL changes caused by History API (pushState, replaceState) or browser navigation
+function wpStatisticsTrackUrlChange() {
+    if (typeof WP_Statistics_Tracker_Object == "undefined") {
+        console.error('WP Statistics: Variable WP_Statistics_Tracker_Object not found. Ensure /wp-content/plugins/wp-statistics/assets/js/tracker.js is either excluded from cache settings or not dequeued by any plugin. Clear your cache if necessary.');
+    }
+
+    if (WP_Statistics_Tracker_Object.option.isPreview) {
+        return;
+    }
+
+    if(window.location.href !== WpStatisticsUserTracker.lastUrl ) {
+        // Update the last visited URL
+        WpStatisticsUserTracker.lastUrl = window.location.href;
+
+        // Execute the sendHitRequest() on URL change
+        WpStatisticsUserTracker.checkHitRequestConditions();
+    }
 }
