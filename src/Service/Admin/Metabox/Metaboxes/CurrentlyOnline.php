@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\UserOnline;
 
 class CurrentlyOnline extends BaseMetabox
 {
@@ -18,6 +19,11 @@ class CurrentlyOnline extends BaseMetabox
     public function getDescription()
     {
         return '';
+    }
+
+    public function isActive()
+    {
+        return UserOnline::active();
     }
 
     public function getOptions()

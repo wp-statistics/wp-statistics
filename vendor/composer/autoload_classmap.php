@@ -7,7 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
-    'WP_Statistics\\Abstracts\\BaseMetabox' => $baseDir . '/src/Abstracts/BaseMetabox.php',
     'WP_Statistics\\Abstracts\\BaseModel' => $baseDir . '/src/Abstracts/BaseModel.php',
     'WP_Statistics\\Abstracts\\BasePage' => $baseDir . '/src/Abstracts/BasePage.php',
     'WP_Statistics\\Abstracts\\BaseTabView' => $baseDir . '/src/Abstracts/BaseTabView.php',
@@ -21,6 +20,7 @@ return array(
     'WP_Statistics\\Async\\SchemaMigrationProcess' => $baseDir . '/src/Async/SchemaMigrationProcess.php',
     'WP_Statistics\\Async\\SourceChannelUpdater' => $baseDir . '/src/Async/SourceChannelUpdater.php',
     'WP_Statistics\\Async\\TableOperationProcess' => $baseDir . '/src/Async/TableOperationProcess.php',
+    'WP_Statistics\\Components\\Ajax' => $baseDir . '/src/Components/Ajax.php',
     'WP_Statistics\\Components\\AssetNameObfuscator' => $baseDir . '/src/Components/AssetNameObfuscator.php',
     'WP_Statistics\\Components\\Assets' => $baseDir . '/src/Components/Assets.php',
     'WP_Statistics\\Components\\DateRange' => $baseDir . '/src/Components/DateRange.php',
@@ -156,6 +156,8 @@ return array(
     'WP_Statistics\\Service\\Admin\\Exclusions\\ExclusionsDataProvider' => $baseDir . '/src/Service/Admin/Exclusions/ExclusionsDataProvider.php',
     'WP_Statistics\\Service\\Admin\\Exclusions\\ExclusionsManager' => $baseDir . '/src/Service/Admin/Exclusions/ExclusionsManager.php',
     'WP_Statistics\\Service\\Admin\\Exclusions\\ExclusionsPage' => $baseDir . '/src/Service/Admin/Exclusions/ExclusionsPage.php',
+    'WP_Statistics\\Service\\Admin\\FilterHandler\\FilterGenerator' => $baseDir . '/src/Service/Admin/FilterHandler/FilterGenerator.php',
+    'WP_Statistics\\Service\\Admin\\FilterHandler\\FilterManager' => $baseDir . '/src/Service/Admin/FilterHandler/FilterManager.php',
     'WP_Statistics\\Service\\Admin\\Geographic\\GeographicDataProvider' => $baseDir . '/src/Service/Admin/Geographic/GeographicDataProvider.php',
     'WP_Statistics\\Service\\Admin\\Geographic\\GeographicManager' => $baseDir . '/src/Service/Admin/Geographic/GeographicManager.php',
     'WP_Statistics\\Service\\Admin\\Geographic\\GeographicPage' => $baseDir . '/src/Service/Admin/Geographic/GeographicPage.php',
@@ -190,7 +192,6 @@ return array(
     'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\MostVisitedPages' => $baseDir . '/src/Service/Admin/Metabox/Metaboxes/MostVisitedPages.php',
     'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\OperatingSystems' => $baseDir . '/src/Service/Admin/Metabox/Metaboxes/OperatingSystems.php',
     'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\PostSummary' => $baseDir . '/src/Service/Admin/Metabox/Metaboxes/PostSummary.php',
-    'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\PostVisitorsLocked' => $baseDir . '/src/Service/Admin/Metabox/Metaboxes/PostVisitorsLocked.php',
     'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\SearchEngines' => $baseDir . '/src/Service/Admin/Metabox/Metaboxes/SearchEngines.php',
     'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\TopCountries' => $baseDir . '/src/Service/Admin/Metabox/Metaboxes/TopCountries.php',
     'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\TopDeviceModel' => $baseDir . '/src/Service/Admin/Metabox/Metaboxes/TopDeviceModel.php',
@@ -324,5 +325,4 @@ return array(
     'WP_Statistics\\Utils\\Request' => $baseDir . '/src/Utils/Request.php',
     'WP_Statistics\\Utils\\Signature' => $baseDir . '/src/Utils/Signature.php',
     'WP_Statistics\\Utils\\Url' => $baseDir . '/src/Utils/Url.php',
-    'Wp_Statistics\\Components\\Ajax' => $baseDir . '/src/Components/Ajax.php',
 );

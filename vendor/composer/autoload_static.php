@@ -82,6 +82,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Async\\SchemaMigrationProcess' => __DIR__ . '/../..' . '/src/Async/SchemaMigrationProcess.php',
         'WP_Statistics\\Async\\SourceChannelUpdater' => __DIR__ . '/../..' . '/src/Async/SourceChannelUpdater.php',
         'WP_Statistics\\Async\\TableOperationProcess' => __DIR__ . '/../..' . '/src/Async/TableOperationProcess.php',
+        'WP_Statistics\\Components\\Ajax' => __DIR__ . '/../..' . '/src/Components/Ajax.php',
         'WP_Statistics\\Components\\AssetNameObfuscator' => __DIR__ . '/../..' . '/src/Components/AssetNameObfuscator.php',
         'WP_Statistics\\Components\\Assets' => __DIR__ . '/../..' . '/src/Components/Assets.php',
         'WP_Statistics\\Components\\DateRange' => __DIR__ . '/../..' . '/src/Components/DateRange.php',
@@ -217,6 +218,8 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Admin\\Exclusions\\ExclusionsDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/Exclusions/ExclusionsDataProvider.php',
         'WP_Statistics\\Service\\Admin\\Exclusions\\ExclusionsManager' => __DIR__ . '/../..' . '/src/Service/Admin/Exclusions/ExclusionsManager.php',
         'WP_Statistics\\Service\\Admin\\Exclusions\\ExclusionsPage' => __DIR__ . '/../..' . '/src/Service/Admin/Exclusions/ExclusionsPage.php',
+        'WP_Statistics\\Service\\Admin\\FilterHandler\\FilterGenerator' => __DIR__ . '/../..' . '/src/Service/Admin/FilterHandler/FilterGenerator.php',
+        'WP_Statistics\\Service\\Admin\\FilterHandler\\FilterManager' => __DIR__ . '/../..' . '/src/Service/Admin/FilterHandler/FilterManager.php',
         'WP_Statistics\\Service\\Admin\\Geographic\\GeographicDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/Geographic/GeographicDataProvider.php',
         'WP_Statistics\\Service\\Admin\\Geographic\\GeographicManager' => __DIR__ . '/../..' . '/src/Service/Admin/Geographic/GeographicManager.php',
         'WP_Statistics\\Service\\Admin\\Geographic\\GeographicPage' => __DIR__ . '/../..' . '/src/Service/Admin/Geographic/GeographicPage.php',
@@ -251,7 +254,6 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\MostVisitedPages' => __DIR__ . '/../..' . '/src/Service/Admin/Metabox/Metaboxes/MostVisitedPages.php',
         'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\OperatingSystems' => __DIR__ . '/../..' . '/src/Service/Admin/Metabox/Metaboxes/OperatingSystems.php',
         'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\PostSummary' => __DIR__ . '/../..' . '/src/Service/Admin/Metabox/Metaboxes/PostSummary.php',
-        'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\PostVisitorsLocked' => __DIR__ . '/../..' . '/src/Service/Admin/Metabox/Metaboxes/PostVisitorsLocked.php',
         'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\SearchEngines' => __DIR__ . '/../..' . '/src/Service/Admin/Metabox/Metaboxes/SearchEngines.php',
         'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\TopCountries' => __DIR__ . '/../..' . '/src/Service/Admin/Metabox/Metaboxes/TopCountries.php',
         'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\TopDeviceModel' => __DIR__ . '/../..' . '/src/Service/Admin/Metabox/Metaboxes/TopDeviceModel.php',
@@ -385,7 +387,6 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Utils\\Request' => __DIR__ . '/../..' . '/src/Utils/Request.php',
         'WP_Statistics\\Utils\\Signature' => __DIR__ . '/../..' . '/src/Utils/Signature.php',
         'WP_Statistics\\Utils\\Url' => __DIR__ . '/../..' . '/src/Utils/Url.php',
-        'Wp_Statistics\\Components\\Ajax' => __DIR__ . '/../..' . '/src/Components/Ajax.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

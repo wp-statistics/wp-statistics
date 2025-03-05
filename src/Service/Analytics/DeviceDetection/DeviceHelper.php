@@ -75,23 +75,4 @@ class DeviceHelper
 
         return esc_url(WP_STATISTICS_URL . 'assets/images/operating-system/unknown.svg');
     }
-
-    /**
-     * Get list of platforms.
-     *
-     * @return array
-     */
-    public static function getPlatformsList()
-    {
-        return [
-            'windows' => esc_html__('Windows', 'wp-statistics'),
-            'mac' => esc_html__('Mac', 'wp-statistics'),
-            'android' => esc_html__('Android', 'wp-statistics'),
-            'ios' => esc_html__('IOS', 'wp-statistics'),
-            'linux' =>  esc_html__('Linux', 'wp-statistics'),
-            'ubuntu' => esc_html__('Ubuntu', 'wp-statistics'),
-            'chrome_os' => esc_html__('Chrome OS', 'wp-statistics'),
-            'harmony_os' => esc_html__('Harmony OS', 'wp-statistics')
-        ];
-    }
 }

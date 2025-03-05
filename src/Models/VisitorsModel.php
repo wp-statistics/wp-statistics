@@ -32,7 +32,8 @@ class VisitorsModel extends BaseModel
             'user_id'       => '',
             'ip'            => '',
             'logged_in'     => false,
-            'user_role'     => ''
+            'user_role'     => '',
+            'referrer'      => ''
         ]);
 
         $query = Query::select('COUNT(visitor.id) as total_visitors')
@@ -41,6 +42,7 @@ class VisitorsModel extends BaseModel
             ->where('location', '=', $args['country'])
             ->where('platform', '=', $args['platform'])
             ->where('user_id', '=', $args['user_id'])
+            ->where('referred', '=', $args['referrer'])
             ->where('ip', '=', $args['ip'])
             ->whereDate('last_counter', $args['date']);
 
@@ -486,7 +488,8 @@ class VisitorsModel extends BaseModel
             'date_field'    => 'visitor.last_counter',
             'logged_in'     => false,
             'user_role'     => '',
-            'fields'        => []
+            'fields'        => [],
+            'referrer'      => ''
         ]);
 
         // Set default fields
@@ -531,6 +534,7 @@ class VisitorsModel extends BaseModel
             ->where('platform', '=', $args['platform'])
             ->where('user_id', '=', $args['user_id'])
             ->where('ip', 'LIKE', "%{$args['ip']}%")
+            ->where('referred', '=', $args['referrer'])
             ->where('visitor.location', '=', $args['country'])
             ->whereDate($args['date_field'], $args['date'])
             ->perPage($args['page'], $args['per_page'])
@@ -1154,11 +1158,16 @@ class VisitorsModel extends BaseModel
             'term_id'       => '',
         ]);
 
+        $range = DateRange::get('30days');
+
+        $startDate = $range['from'] . ' 00:00:00';
+        $endDate   = date('Y-m-d', strtotime($range['to'] . ' +1 day')) . ' 00:00:00';
+
         $fields = [
             '`visitor`.`last_counter` AS `date`',
             'COUNT(DISTINCT `visitor`.`ID`) AS `visitors`',
             '`visit`.`visit` AS `visits`',
-            'COUNT(DISTINCT CASE WHEN(`visitor`.`referred` NOT LIKE "%%' . Helper::get_domain_name(home_url()) . '%%" AND `visitor`.`referred` <> "") THEN `visitor`.`ID` END) AS `referrers`',
+            'COUNT(DISTINCT CASE WHEN(`visitor`.`referred` <> "") THEN `visitor`.`ID` END) AS `referrers`',
         ];
         if (is_numeric($args['post_id']) || !empty($args['author_id']) || !empty($args['term_id'])) {
             // For single pages/posts/authors/terms
@@ -1170,9 +1179,9 @@ class VisitorsModel extends BaseModel
             // For single pages/posts/authors/terms
             $query->join('visit', ['`visitor`.`last_counter`', '`visit`.`last_counter`']);
         }
-        $query
-            ->whereDate('`visitor`.`last_counter`', $args['date'])
-            ->groupBy('`visitor`.`last_counter`');
+        $query->where('visitor.last_counter', '>=', $startDate)
+            ->where('visitor.last_counter', '<', $endDate)
+            ->groupBy('visitor.last_counter');
 
         $filteredArgs = array_filter($args);
         if (array_intersect(['post_type', 'post_id', 'resource_type', 'author_id', 'taxonomy', 'term_id'], array_keys($filteredArgs))) {

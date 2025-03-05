@@ -1,3 +1,25 @@
+= 14.12.x - 2025-**-** =
+- **New:** Added DB-IP location detection method.
+- **Fix:** Fixed tables prefix conflict issue which caused query issues.
+- **Fix:** Fixed mini chart slow query issue.
+- **Fix:** Resolved the problem of map_meta_cap being incorrectly called on the settings page.
+- **Enhancement:** Refactored the internal filters structure for improved performance and readability.
+
+= 14.12.5 - 2025-02-23 =
+- **Enhancement:** Hide Online Visitors elements when "Monitor Online Visitors" is off.
+- **Enhancement:** Improved number formatting: full display below 1,000, abbreviated above.
+- **Enhancement:** Removed "Latest Visitors Preview" when Data Plus isn't active.
+- **Fix:** Fixed JS error on "Statistics - Summary" when Data Plus isn't active.
+- **Fix:** Fixed Dashboard charts and metabox loading issues.
+- **Fix:** Mini Chart now starts from the post creation date.
+- **Fix:** Fixed empty chart issue for 1-day range.
+- **Fix:** Restored missing referring sites.
+- **Fix:** Fixed missing online visitor data in the list.
+- **Fix:** Resolved database errors from `%i` misuse in queries.
+
+= 14.12.4 - 2025-02-06 =
+- **Fix:** Fixed issues with Dashboard charts not loading due to an empty metalist and metaboxes not loading in specific cases.
+
 = 14.12.3 - 2025-02-05 =
 - **New:** Added an option to permanently delete all plugin data when uninstalling.
 - **New:** Introduced a "URL" filter in Page Insights to refine report results.
@@ -68,9 +90,9 @@
 - **Fix:** Fixed a bug in Roles & Permissions to prevent users from assigning higher permissions than they have.
 - **Fix:** Made the `views` column sortable again.
 - **Fix:** Resolved a PHP deprecation warning for better compatibility.
-- **Dev:** Added new filters for developers:  
-  - `wp_statistics_geolocation_download_url`  
-  - `wp_statistics_injection_patterns`  
+- **Dev:** Added new filters for developers:
+  - `wp_statistics_geolocation_download_url`
+  - `wp_statistics_injection_patterns`
   - `wp_statistics_location_column_value`
 
 14.11.3 - 2024-11-17
