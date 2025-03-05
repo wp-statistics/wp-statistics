@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Statistics 14.12.5\n"
+"Project-Id-Version: WP Statistics 14.12.6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-statistics\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-03-03T11:04:58+00:00\n"
+"POT-Creation-Date: 2025-03-05T14:30:27+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-statistics\n"
@@ -171,8 +171,8 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:410
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:55
 #: src/Models/ViewsModel.php:178
-#: src/Models/VisitorsModel.php:347
-#: src/Models/VisitorsModel.php:406
+#: src/Models/VisitorsModel.php:348
+#: src/Models/VisitorsModel.php:407
 #: views/metabox/traffic-overview.php:88
 msgid "Today"
 msgstr ""
@@ -286,8 +286,8 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:411
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:56
 #: src/Models/ViewsModel.php:182
-#: src/Models/VisitorsModel.php:351
-#: src/Models/VisitorsModel.php:410
+#: src/Models/VisitorsModel.php:352
+#: src/Models/VisitorsModel.php:411
 #: views/metabox/traffic-overview.php:93
 msgid "Yesterday"
 msgstr ""
@@ -296,8 +296,8 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:377
 #: includes/admin/class-wp-statistics-admin-assets.php:416
 #: src/Models/ViewsModel.php:202
-#: src/Models/VisitorsModel.php:371
-#: src/Models/VisitorsModel.php:430
+#: src/Models/VisitorsModel.php:372
+#: src/Models/VisitorsModel.php:431
 #: views/metabox/traffic-overview.php:98
 msgid "Last 7 days"
 msgstr ""
@@ -305,16 +305,16 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:372
 #: includes/admin/class-wp-statistics-admin-assets.php:412
 #: src/Models/ViewsModel.php:186
-#: src/Models/VisitorsModel.php:355
-#: src/Models/VisitorsModel.php:414
+#: src/Models/VisitorsModel.php:356
+#: src/Models/VisitorsModel.php:415
 msgid "This week"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:373
 #: includes/admin/class-wp-statistics-admin-assets.php:413
 #: src/Models/ViewsModel.php:190
-#: src/Models/VisitorsModel.php:359
-#: src/Models/VisitorsModel.php:418
+#: src/Models/VisitorsModel.php:360
+#: src/Models/VisitorsModel.php:419
 msgid "Last week"
 msgstr ""
 
@@ -322,8 +322,8 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:378
 #: includes/admin/class-wp-statistics-admin-assets.php:417
 #: src/Models/ViewsModel.php:206
-#: src/Models/VisitorsModel.php:375
-#: src/Models/VisitorsModel.php:434
+#: src/Models/VisitorsModel.php:376
+#: src/Models/VisitorsModel.php:435
 #: views/metabox/traffic-overview.php:103
 msgid "Last 30 days"
 msgstr ""
@@ -331,16 +331,16 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:375
 #: includes/admin/class-wp-statistics-admin-assets.php:414
 #: src/Models/ViewsModel.php:194
-#: src/Models/VisitorsModel.php:363
-#: src/Models/VisitorsModel.php:422
+#: src/Models/VisitorsModel.php:364
+#: src/Models/VisitorsModel.php:423
 msgid "This month"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:376
 #: includes/admin/class-wp-statistics-admin-assets.php:415
 #: src/Models/ViewsModel.php:198
-#: src/Models/VisitorsModel.php:367
-#: src/Models/VisitorsModel.php:426
+#: src/Models/VisitorsModel.php:368
+#: src/Models/VisitorsModel.php:427
 msgid "Last month"
 msgstr ""
 
@@ -351,16 +351,16 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:380
 #: includes/admin/class-wp-statistics-admin-assets.php:418
 #: src/Models/ViewsModel.php:210
-#: src/Models/VisitorsModel.php:379
-#: src/Models/VisitorsModel.php:438
+#: src/Models/VisitorsModel.php:380
+#: src/Models/VisitorsModel.php:439
 msgid "Last 90 days"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:381
 #: includes/admin/class-wp-statistics-admin-assets.php:419
 #: src/Models/ViewsModel.php:214
-#: src/Models/VisitorsModel.php:383
-#: src/Models/VisitorsModel.php:442
+#: src/Models/VisitorsModel.php:384
+#: src/Models/VisitorsModel.php:443
 msgid "Last 6 months"
 msgstr ""
 
@@ -370,8 +370,8 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:383
 #: src/Models/ViewsModel.php:218
-#: src/Models/VisitorsModel.php:387
-#: src/Models/VisitorsModel.php:446
+#: src/Models/VisitorsModel.php:388
+#: src/Models/VisitorsModel.php:447
 #: views/metabox/traffic-overview.php:108
 msgid "This year (Jan-Today)"
 msgstr ""
@@ -395,8 +395,8 @@ msgstr ""
 #: includes/admin/templates/pages/content-analytics/single.php:28
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:60
 #: src/Models/ViewsModel.php:225
-#: src/Models/VisitorsModel.php:394
-#: src/Models/VisitorsModel.php:453
+#: src/Models/VisitorsModel.php:395
+#: src/Models/VisitorsModel.php:454
 #: src/Service/Charts/DataProvider/ExclusionsChartDataProvider.php:91
 #: src/Service/Charts/DataProvider/SearchEngineChartDataProvider.php:95
 #: src/Service/Charts/DataProvider/SearchEngineChartDataProvider.php:121
@@ -1092,7 +1092,7 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-template.php:273
 #: includes/admin/class-wp-statistics-admin-template.php:278
 #: includes/admin/templates/pages/geographic/cities.php:46
-#: includes/class-wp-statistics-visitor.php:399
+#: includes/class-wp-statistics-visitor.php:417
 #: src/Service/Admin/LicenseManagement/Plugin/PluginDecorator.php:224
 #: src/Service/Analytics/DeviceDetection/DeviceHelper.php:40
 #: src/Service/Charts/DataProvider/DeviceChartDataProvider.php:49
@@ -4397,7 +4397,7 @@ msgstr ""
 msgid "Pre-flight Request"
 msgstr ""
 
-#: includes/class-wp-statistics-frontend.php:141
+#: includes/class-wp-statistics-frontend.php:145
 msgid "Views: %s"
 msgstr ""
 
@@ -4534,39 +4534,39 @@ msgstr ""
 msgid "Invalid hit request params."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:332
+#: includes/class-wp-statistics-install.php:208
 msgid "Click here to visit the plugin on WordPress.org"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:332
+#: includes/class-wp-statistics-install.php:208
 msgid "Visit WordPress.org page"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:334
+#: includes/class-wp-statistics-install.php:210
 msgid "Click here to rate and review this plugin on WordPress.org"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:334
+#: includes/class-wp-statistics-install.php:210
 msgid "Rate this plugin"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:727
+#: includes/class-wp-statistics-install.php:589
 msgid "WP Statistics database requires upgrade."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:730
+#: includes/class-wp-statistics-install.php:592
 msgid "Upgrade Database"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:754
+#: includes/class-wp-statistics-install.php:616
 msgid "Database Upgrade Completed Successfully!"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:792
+#: includes/class-wp-statistics-install.php:654
 msgid "Error During Operation. Please Refresh the Page."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:805
+#: includes/class-wp-statistics-install.php:667
 msgid "Item processed"
 msgstr ""
 
@@ -4869,7 +4869,7 @@ msgstr ""
 msgid "Choose a Specific Search Engine Type"
 msgstr ""
 
-#: includes/class-wp-statistics.php:279
+#: includes/class-wp-statistics.php:284
 msgid "Unable to create the required upload directory at <code>%s</code>. Please check that the web server has write permissions for the parent directory. Alternatively, you can manually create the directory yourself. Please keep in mind that the GeoIP database may not work correctly if the directory structure is not properly set up."
 msgstr ""
 
@@ -5051,70 +5051,6 @@ msgstr ""
 
 #: src/Service/Admin/ContentAnalytics/Views/TabsView.php:57
 msgid "To view reports for all your custom post types, you need to have the Data Plus add-on."
-msgstr ""
-
-#: src/Service/Admin/Database/Managers/MigrationHandler.php:266
-msgid "Action Required: Upgrade Needed for WP Statistics"
-msgstr ""
-
-#: src/Service/Admin/Database/Managers/MigrationHandler.php:267
-msgid "The Database Upgrade process needs to be run to ensure WP Statistics works seamlessly with the latest updates."
-msgstr ""
-
-#: src/Service/Admin/Database/Managers/MigrationHandler.php:268
-msgid "Running this process will [specific benefits, e.g., “add new features” or “optimize data”]."
-msgstr ""
-
-#: src/Service/Admin/Database/Managers/MigrationHandler.php:270
-msgid "Run Process Now"
-msgstr ""
-
-#: src/Service/Admin/Database/Managers/MigrationHandler.php:272
-msgid "For more details, see our documentation."
-msgstr ""
-
-#: src/Service/Admin/Database/Managers/MigrationHandler.php:478
-msgid "WP Statistics: Process Running"
-msgstr ""
-
-#: src/Service/Admin/Database/Managers/MigrationHandler.php:479
-msgid "The Database Migration process is running in the background. This may take a few minutes depending on your site’s data size."
-msgstr ""
-
-#: src/Service/Admin/Database/Managers/MigrationHandler.php:480
-msgid "Please wait while the process completes. You can continue working in the admin area."
-msgstr ""
-
-#: src/Service/Admin/Database/Managers/MigrationHandler.php:497
-msgid "WP Statistics: Process Complete"
-msgstr ""
-
-#: src/Service/Admin/Database/Managers/MigrationHandler.php:498
-msgid "The Database Migration process has been completed successfully."
-msgstr ""
-
-#: src/Service/Admin/Database/Managers/MigrationHandler.php:499
-msgid "Your WP Statistics plugin is now fully updated and optimized. 🎉"
-msgstr ""
-
-#: src/Service/Admin/Database/Managers/MigrationHandler.php:500
-msgid "Thank you for keeping WP Statistics up-to-date!"
-msgstr ""
-
-#: src/Service/Admin/Database/Managers/MigrationHandler.php:517
-msgid "WP Statistics: Process Failed"
-msgstr ""
-
-#: src/Service/Admin/Database/Managers/MigrationHandler.php:518
-msgid "The Database Migration process encountered an error and could not be completed."
-msgstr ""
-
-#: src/Service/Admin/Database/Managers/MigrationHandler.php:519
-msgid "Error:"
-msgstr ""
-
-#: src/Service/Admin/Database/Managers/MigrationHandler.php:522
-msgid "Contact Support"
 msgstr ""
 
 #: src/Service/Admin/Devices/Views/SingleBrowserView.php:21
@@ -6148,6 +6084,66 @@ msgstr ""
 #: src/Service/Charts/DataProvider/UsersTrafficChartDataProvider.php:57
 #: src/Service/Charts/DataProvider/UsersTrafficChartDataProvider.php:73
 msgid "Anonymous Visitors"
+msgstr ""
+
+#: src/Service/Database/Managers/MigrationHandler.php:300
+msgid "Action Required: Upgrade Needed for WP Statistics"
+msgstr ""
+
+#: src/Service/Database/Managers/MigrationHandler.php:301
+msgid "A database upgrade is needed for your site. Running this upgrade will keep everything working correctly. Please run the process as soon as possible."
+msgstr ""
+
+#: src/Service/Database/Managers/MigrationHandler.php:303
+msgid "Run Process Now"
+msgstr ""
+
+#: src/Service/Database/Managers/MigrationHandler.php:563
+msgid "WP Statistics: Process Running"
+msgstr ""
+
+#: src/Service/Database/Managers/MigrationHandler.php:564
+msgid "The Database Migration process is running in the background. This may take a few minutes depending on your site’s data size."
+msgstr ""
+
+#: src/Service/Database/Managers/MigrationHandler.php:565
+msgid "Please wait while the process completes. You can continue working in the admin area."
+msgstr ""
+
+#: src/Service/Database/Managers/MigrationHandler.php:582
+msgid "WP Statistics: Process Complete"
+msgstr ""
+
+#: src/Service/Database/Managers/MigrationHandler.php:583
+msgid "The Database Migration process has been completed successfully."
+msgstr ""
+
+#: src/Service/Database/Managers/MigrationHandler.php:584
+msgid "Your WP Statistics plugin is now fully updated and optimized. 🎉"
+msgstr ""
+
+#: src/Service/Database/Managers/MigrationHandler.php:585
+msgid "Thank you for keeping WP Statistics up-to-date!"
+msgstr ""
+
+#: src/Service/Database/Managers/MigrationHandler.php:605
+msgid "WP Statistics: Process Failed"
+msgstr ""
+
+#: src/Service/Database/Managers/MigrationHandler.php:606
+msgid "The Database Migration process encountered an error and could not be completed."
+msgstr ""
+
+#: src/Service/Database/Managers/MigrationHandler.php:607
+msgid "Error:"
+msgstr ""
+
+#: src/Service/Database/Managers/MigrationHandler.php:610
+msgid "Retry Process"
+msgstr ""
+
+#: src/Service/Database/Managers/MigrationHandler.php:612
+msgid "Contact Support"
 msgstr ""
 
 #: src/Service/Geolocation/AbstractGeoIPProvider.php:213
