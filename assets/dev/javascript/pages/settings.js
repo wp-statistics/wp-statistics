@@ -40,8 +40,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     if (searchConsoleSite) {
         let notice = document.createElement("div");
         notice.className = "notice notice-error wp-statistics-notice";
-         jQuery('.wps-addon-settings--marketing select').select2({
-            placeholder: 'Click to load sites',
+        jQuery('.wps-addon-settings--marketing select').select2({
             allowClear: true,
             ajax: {
                 url: wps_js.global.admin_url + 'admin-ajax.php',
@@ -86,6 +85,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 },
                 cache: true
             },
+            dropdownCssClass: 'wps-site-dropdown-class',
             minimumResultsForSearch: Infinity,
         });
     }

@@ -880,6 +880,7 @@
       padding: 12px 24px 12px 8px !important;
       height: auto;
       min-width: 300px;
+      position:relative
     }
 
     .select2-container--default .select2-selection--single .select2-selection__arrow{
@@ -1101,4 +1102,7 @@
   &.wps-error{
     margin-top: 15px;
   }
+}
+.wps-site-dropdown-class{
+  min-width: 300px;
 }
