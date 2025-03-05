@@ -24,15 +24,10 @@ use WP_Statistics\Service\Admin\Referrals\ReferralsManager;
 use WP_Statistics\Service\Admin\TrackerDebugger\TrackerDebuggerManager;
 use WP_Statistics\Service\Analytics\AnalyticsManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
-use WP_Statistics\Service\Admin\Devices\DevicesManager;
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagementManager;
-use WP_Statistics\Service\Admin\Exclusions\ExclusionsManager;
 use WP_Statistics\Service\Admin\FilterHandler\FilterManager;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsManager;
-use WP_Statistics\Service\Analytics\AnalyticsManager;
 use WP_Statistics\Service\Database\Managers\MigrationHandler;
 use WP_Statistics\Service\HooksManager;
-use WP_Statistics\Service\Integrations\IntegrationsManager;
 
 defined('ABSPATH') || exit;
 
