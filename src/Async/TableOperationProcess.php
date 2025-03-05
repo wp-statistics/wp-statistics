@@ -3,7 +3,7 @@
 namespace WP_Statistics\Async;
 
 use WP_STATISTICS\Option;
-use WP_Statistics\Service\Admin\Database\DatabaseFactory;
+use WP_Statistics\Service\Database\DatabaseFactory;
 use WP_STATISTICS\WP_Background_Process;
 
 class TableOperationProcess extends WP_Background_Process

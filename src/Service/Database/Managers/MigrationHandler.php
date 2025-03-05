@@ -1,10 +1,10 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Database\Managers;
+namespace WP_Statistics\Service\Database\Managers;
 
 use WP_STATISTICS\Option;
-use WP_Statistics\Service\Admin\Database\DatabaseFactory;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Database\DatabaseFactory;
 use WP_Statistics\Utils\Request;
 
 /**
@@ -16,29 +16,46 @@ use WP_Statistics\Utils\Request;
  */
 class MigrationHandler
 {
-    /** 
-     * Action for triggering manual migration. 
-     * @var string 
+    /**
+     * Action for triggering manual migration.
+     * @var string
      */
     private const MIGRATION_ACTION = 'run_manual_migration';
 
-    /** 
-     * Nonce name for manual migration action. 
-     * @var string 
+    /**
+     * Action for triggering retry manual migration.
+     * @var string
+     */
+    private const MIGRATION_RETRY_ACTION = 'retry_manual_migration';
+
+    /**
+     * Nonce name for manual migration action.
+     * @var string
      */
     private const MIGRATION_NONCE = 'run_manual_migration_nonce';
 
     /**
      * Initialize migration processes and register WordPress hooks.
-     * 
+     *
      * @return void
      */
     public static function init()
     {
         add_action('admin_post_' . self::MIGRATION_ACTION, [self::class, 'processManualMigrations']);
+        add_action('admin_post_' . self::MIGRATION_RETRY_ACTION, [self::class, 'retryManualMigration']);
 
-        self::handleMigrationStatusNotices();
+        add_action( 'init', [self::class, 'handleNotice']);
         self::runMigrations();
+    }
+
+    /**
+     * handle notices.
+     *
+     * @return void
+     */
+    public static function handleNotice() {
+        self::handleMigrationStatusNotices();
+        self::showManualMigrationNotice();
     }
 
     /**
@@ -48,8 +65,6 @@ class MigrationHandler
      */
     public static function runMigrations()
     {
-        self::showManualMigrationNotice();
-
         if (self::isMigrationComplete()) {
             return;
         }
@@ -72,7 +87,7 @@ class MigrationHandler
      */
     private static function isMigrationComplete()
     {
-        return Option::getOptionGroup('db', 'migrated', false) || Option::getOptionGroup('db', 'check', false);
+        return Option::getOptionGroup('db', 'migrated', false) || Option::getOptionGroup('db', 'check', true);
     }
 
     /**
@@ -86,7 +101,7 @@ class MigrationHandler
         $allVersions     = [];
         $versionMappings = [];
 
-        foreach (DatabaseFactory::Migration() as $instance) {
+        foreach (DatabaseFactory::migration() as $instance) {
             foreach ($instance->getMigrationSteps() as $version => $methods) {
                 if (version_compare($currentVersion, $version, '>=')) {
                     continue;
@@ -100,6 +115,10 @@ class MigrationHandler
                     'type' => $instance->getName()
                 ];
             }
+        }
+
+        if (empty($allVersions)) {
+            Option::saveOptionGroup('migrated', true, 'db');
         }
 
         usort($allVersions, 'version_compare');
@@ -118,7 +137,7 @@ class MigrationHandler
      * @param mixed $process Background process instance.
      * @return void
      */
-    private static function processMigrations($versions, $mappings, $process)
+    private static function processMigrations($versions, $mappings, $process, $force = false)
     {
         $manualTasks = Option::getOptionGroup('db', 'manual_migration_tasks', []);
 
@@ -128,7 +147,7 @@ class MigrationHandler
 
         foreach ($versions as $version) {
             $migrations       = $mappings[$version];
-            $hasDataMigration = self::hasDataMigration($migrations);
+            $hasDataMigration = self::hasDataMigration($migrations) || $force;
 
             foreach ($migrations as $migration) {
                 self::processMigrationMethods(
@@ -177,6 +196,8 @@ class MigrationHandler
         &$manualTasks,
         $process
     ) {
+        $autoMigrationTasks = Option::getOptionGroup('db', 'auto_migration_tasks', []);
+
         foreach ($migration['methods'] as $method) {
             if ($hasDataMigration || !empty($manualTasks)) {
                 $manualTasks[$version][$method] = [
@@ -184,6 +205,14 @@ class MigrationHandler
                     'type' => $migration['type']
                 ];
             } else {
+                $taskKey = $method . '_' . $version;
+
+                if (! empty($autoMigrationTasks[$taskKey])) {
+                    continue;
+                }
+
+                $autoMigrationTasks[$taskKey] = true;
+
                 $process->push_to_queue([
                     'class' => $migration['class'],
                     'method' => $method,
@@ -191,6 +220,8 @@ class MigrationHandler
                 ]);
             }
         }
+
+        Option::saveOptionGroup('auto_migration_tasks', $autoMigrationTasks, 'db');
     }
 
     /**
@@ -219,7 +250,7 @@ class MigrationHandler
 
         $details = Option::getOptionGroup('db', 'migration_status_detail', null);
 
-        if (! empty($details['status']) && 'failed' === $details['status']) {
+        if (! empty($details['status']) && ('failed' === $details['status'] || 'progress' === $details['status'])) {
             return;
         }
 
@@ -233,11 +264,17 @@ class MigrationHandler
      *
      * @return string URL for manual migrations.
      */
-    private static function buildActionUrl()
+    private static function buildActionUrl($type = '')
     {
+        $action = self::MIGRATION_ACTION;
+
+        if ($type === 'retry') {
+            $action = self::MIGRATION_RETRY_ACTION;
+        }
+
         return add_query_arg(
             [
-                'action' => self::MIGRATION_ACTION,
+                'action' => $action,
                 'nonce' => wp_create_nonce(self::MIGRATION_NONCE)
             ],
             admin_url('admin-post.php')
@@ -253,23 +290,17 @@ class MigrationHandler
     private static function buildNoticeMessage()
     {
         $actionUrl = self::buildActionUrl();
-        $documentationUrl = 'https://veronalabs.com/';
 
         return sprintf(
             '<p>
                 <strong>%1$s</strong>
                 </br>%2$s
-                </br>%3$s
-                </br><a href="%4$s" class="button button-primary">%5$s</a>
-                <a href="%6$s" target="_blank" style="margin-left: 10px">%7$s</a>
+                </br><a href="%3$s" class="button button-primary" style="margin-top: 10px;">%4$s</a>
             </p>',
             esc_html__('Action Required: Upgrade Needed for WP Statistics', 'wp-statistics'),
-            esc_html__('The Database Upgrade process needs to be run to ensure WP Statistics works seamlessly with the latest updates.', 'wp-statistics'),
-            esc_html__('Running this process will [specific benefits, e.g., “add new features” or “optimize data”].', 'wp-statistics'),
+            esc_html__('A database upgrade is needed for your site. Running this upgrade will keep everything working correctly. Please run the process as soon as possible.', 'wp-statistics'),
             esc_url($actionUrl),
-            esc_html__('Run Process Now', 'wp-statistics'),
-            esc_url($documentationUrl),
-            esc_html__('For more details, see our documentation.', 'wp-statistics')
+            esc_html__('Run Process Now', 'wp-statistics')
         );
     }
 
@@ -299,16 +330,70 @@ class MigrationHandler
     }
 
     /**
+     * Retries the manual migration process.
+     *
+     * @return void
+     */
+    public static function retryManualMigration()
+    {
+        if (!self::validateMigrationRequest('retry')) {
+            self::handleRedirect();
+            return;
+        }
+
+        $schemaProcess = WP_Statistics()->getBackgroundProcess('schema_migration_process');
+        $schemaProcess->stopProcess();
+
+        if ($schemaProcess->is_active()) {
+            self::handleRedirect();
+            return;
+        }
+
+        $migrationData = self::collectMigrationData();
+        self::processMigrations($migrationData['versions'], $migrationData['mappings'], $schemaProcess, true);
+
+        $manualTasks = Option::getOptionGroup('db', 'manual_migration_tasks', []);
+
+        if (empty($manualTasks)) {
+            self::handleRedirect();
+            return;
+        }
+
+        $dataProcess = WP_Statistics()->getBackgroundProcess('data_migration_process');
+        $dataProcess->stopProcess();
+
+        if ($dataProcess->is_active()) {
+            self::handleRedirect();
+            return;
+        }
+
+        self::processManualTasks($manualTasks, $dataProcess);
+        self::handleRedirect();
+    }
+
+    /**
      * Validate the incoming manual migration request.
      *
      * @return bool Returns true if the request is valid.
      */
-    private static function validateMigrationRequest()
+    private static function validateMigrationRequest($type = '')
     {
-        if (!Request::compare('action', self::MIGRATION_ACTION)) {
+        $action = self::MIGRATION_ACTION;
+
+        if ($type === 'retry') {
+            $action = self::MIGRATION_RETRY_ACTION;
+        }
+
+        if (!Request::compare('action', $action)) {
             return false;
         }
+
         check_admin_referer(self::MIGRATION_NONCE, 'nonce');
+
+        Option::saveOptionGroup('migration_status_detail', [
+            'status' => 'progress'
+        ], 'db');
+
         return true;
     }
 
@@ -456,7 +541,7 @@ class MigrationHandler
      *
      * @return void
      */
-    private static function handleMigrationStatusNotices()
+    public static function handleMigrationStatusNotices()
     {
         $details = Option::getOptionGroup('db', 'migration_status_detail', null);
 
@@ -505,19 +590,24 @@ class MigrationHandler
         }
 
         if ($status === 'failed') {
+            $actionUrl = self::buildActionUrl('retry');
+
             $message = sprintf(
                 '
                     <p>
                         <strong>%1$s</strong>
                         </br>%2$s
                         </br><strong>%3$s</strong> %4$s
-                        </br><a href="%5$s">%6$s</a>
+                        </br><a href="%5$s" class="button button-primary" style="margin-top: 10px;">%6$s</a>
+                        <a href="%7$s" style="margin: 10px" target="_blank">%8$s</a>
                     </p>
                 ',
                 esc_html__('WP Statistics: Process Failed', 'wp-statistics'),
                 esc_html__('The Database Migration process encountered an error and could not be completed.', 'wp-statistics'),
                 esc_html__('Error:', 'wp-statistics'),
                 esc_html($details['message'] ?? ''),
+                esc_url($actionUrl),
+                esc_html__('Retry Process', 'wp-statistics'),
                 esc_url('https://wp-statistics.com/support/?utm_source=wp-statistics&utm_medium=link&utm_campaign=db-error'),
                 esc_html__('Contact Support', 'wp-statistics')
             );

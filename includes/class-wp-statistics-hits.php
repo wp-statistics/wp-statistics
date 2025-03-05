@@ -167,19 +167,19 @@ class Hits extends Singleton
         }
 
         /**
-         * Record Visitor Detail
-         */
-        $visitorId = false;
-        if (Visitor::active()) {
-            $visitorId = Visitor::record($visitorProfile);
-        }
-
-        /**
          * Record Pages
          */
         $pageId = false;
         if (Pages::active()) {
             $pageId = Pages::record($visitorProfile);
+        }
+
+        /**
+         * Record Visitor Detail
+         */
+        $visitorId = false;
+        if (Visitor::active()) {
+            $visitorId = Visitor::record($visitorProfile, ['page_id' => $pageId]);
         }
 
         /**
@@ -195,7 +195,7 @@ class Hits extends Singleton
         self::recordOnline($visitorProfile, $exclusion, $pageId);
 
         self::errorListener();
-        
+
         return $exclusion;
     }
 
@@ -228,7 +228,7 @@ class Hits extends Singleton
             Exclusion::record($exclusion);
 
             self::errorListener();
-            
+
             throw new Exception($exclusion['exclusion_reason'], 200);
         }
 

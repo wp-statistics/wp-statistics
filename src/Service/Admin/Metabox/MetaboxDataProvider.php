@@ -73,7 +73,6 @@ class MetaboxDataProvider
     public function getTopVisitorsData($args = [])
     {
         $visitors = $this->visitorsModel->getVisitorsData(array_merge($args, [
-            'page_info' => true,
             'user_info' => true,
             'order_by'  => 'hits',
             'order'     => 'DESC',
@@ -87,7 +86,6 @@ class MetaboxDataProvider
     public function getLatestVisitorsData($args = [])
     {
         return $this->visitorsModel->getVisitorsData(array_merge($args, [
-            'page_info' => true,
             'user_info' => true,
             'order_by'  => 'visitor.ID',
             'order'     => 'DESC',

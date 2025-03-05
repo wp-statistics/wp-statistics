@@ -1,9 +1,9 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Database\Migrations;
+namespace WP_Statistics\Service\Database\Migrations;
 
 use WP_STATISTICS\Option;
-use WP_Statistics\Service\Admin\Database\AbstractDatabaseOperation;
+use WP_Statistics\Service\Database\AbstractDatabaseOperation;
 
 /**
  * Abstract base class for database migration operations.
@@ -15,35 +15,35 @@ abstract class AbstractMigrationOperation extends AbstractDatabaseOperation
 {
     /**
      * Target database version for this migration.
-     * 
+     *
      * @var string
      */
     protected $targetVersion;
 
     /**
      * Current database version.
-     * 
+     *
      * @var string
      */
     protected $currentVersion;
 
     /**
      * Current migration method being executed.
-     * 
+     *
      * @var string
      */
     protected $method;
 
     /**
      * List of migration steps and their corresponding versions.
-     * 
+     *
      * @var array
      */
     protected $migrationSteps = [];
 
     /**
      * Name of the migration operation.
-     * 
+     *
      * @var string
      */
     protected $name;
@@ -73,6 +73,10 @@ abstract class AbstractMigrationOperation extends AbstractDatabaseOperation
      */
     public function setVersion()
     {
+        if (! $this->isPassed()) {
+            return;
+        }
+
         Option::saveOptionGroup('version', $this->targetVersion, 'db');
     }
 
@@ -116,7 +120,7 @@ abstract class AbstractMigrationOperation extends AbstractDatabaseOperation
 
     /**
      * Sets the migration status to "failed" with an error message.
-     * 
+     *
      * @param string $message The error message describing why the migration failed.
      * @return void
      */
@@ -126,5 +130,24 @@ abstract class AbstractMigrationOperation extends AbstractDatabaseOperation
             'status' => 'failed',
             'message' => $message
         ], 'db');
+    }
+
+    /**
+     * Checks whether the migration process is considered to have passed.
+     *
+     * @return bool|null
+     */
+    public function isPassed() {
+        $details = Option::getOptionGroup('db', 'migration_status_detail', null);
+
+        if (empty($details['status'])) {
+            return true;
+        }
+
+        if ($details['status'] === 'failed') {
+            return;
+        }
+
+        return true;
     }
 }
