@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) exit;
 require_once __DIR__ . '/includes/defines.php';
 
 # Set another useful plugin define.
-define('WP_STATISTICS_VERSION', '14.12.5');
+define('WP_STATISTICS_VERSION', '14.12.6');
 
 # Load Plugin
 if (!class_exists('WP_Statistics')) {
