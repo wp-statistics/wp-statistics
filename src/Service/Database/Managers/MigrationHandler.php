@@ -575,14 +575,10 @@ class MigrationHandler
                     <p>
                         <strong>%1$s</strong>
                         </br>%2$s
-                        </br><strong>%3$s</strong>
-                        </br>%4$s
                     </p>
                 ',
                 esc_html__('WP Statistics: Process Complete', 'wp-statistics'),
-                esc_html__('The Database Migration process has been completed successfully.', 'wp-statistics'),
-                esc_html__('Your WP Statistics plugin is now fully updated and optimized. 🎉', 'wp-statistics'),
-                esc_html__('Thank you for keeping WP Statistics up-to-date!', 'wp-statistics')
+                esc_html__('The Database Migration process has been completed successfully. Thank you for keeping WP Statistics up-to-date!', 'wp-statistics')
             );
 
             Notice::addNotice($message, 'database_manual_migration_done', 'success');

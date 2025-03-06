@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-03-05T14:30:27+00:00\n"
+"POT-Creation-Date: 2025-03-06T14:52:12+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-statistics\n"
@@ -6110,39 +6110,31 @@ msgstr ""
 msgid "Please wait while the process completes. You can continue working in the admin area."
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:582
+#: src/Service/Database/Managers/MigrationHandler.php:580
 msgid "WP Statistics: Process Complete"
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:583
-msgid "The Database Migration process has been completed successfully."
+#: src/Service/Database/Managers/MigrationHandler.php:581
+msgid "The Database Migration process has been completed successfully. Thank you for keeping WP Statistics up-to-date!"
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:584
-msgid "Your WP Statistics plugin is now fully updated and optimized. 🎉"
-msgstr ""
-
-#: src/Service/Database/Managers/MigrationHandler.php:585
-msgid "Thank you for keeping WP Statistics up-to-date!"
-msgstr ""
-
-#: src/Service/Database/Managers/MigrationHandler.php:605
+#: src/Service/Database/Managers/MigrationHandler.php:601
 msgid "WP Statistics: Process Failed"
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:606
+#: src/Service/Database/Managers/MigrationHandler.php:602
 msgid "The Database Migration process encountered an error and could not be completed."
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:607
+#: src/Service/Database/Managers/MigrationHandler.php:603
 msgid "Error:"
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:610
+#: src/Service/Database/Managers/MigrationHandler.php:606
 msgid "Retry Process"
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:612
+#: src/Service/Database/Managers/MigrationHandler.php:608
 msgid "Contact Support"
 msgstr ""
 
