@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Database\Operations\MultiStepOps;
 
 use Exception;
 use RuntimeException;
+use WP_STATISTICS\Option;
 use WP_Statistics\Service\Database\DatabaseFactory;
 use WP_Statistics\Service\Database\Operations\AbstractTableOperation;
 
@@ -104,11 +105,21 @@ class VisitorSearchInsert extends AbstractTableOperation
                             ->execute();
                     }
                 } catch (Exception $e) {
-                    throw new RuntimeException("Batch aborted due to visitor processing failure.");
+                    Option::saveOptionGroup('migration_status_detail', [
+                        'status' => 'failed',
+                        'message' => "Batch aborted due to visitor processing failure."
+                    ], 'db');
+
+                    \WP_Statistics::log("Batch aborted due to visitor processing failure.");
                 }
             }
         } catch (Exception $e) {
-            throw new RuntimeException("Visitor first and last log Insert failed: " . $e->getMessage());
+            Option::saveOptionGroup('migration_status_detail', [
+                'status' => 'failed',
+                'message' => "Visitor first and last log Insert failed: " . $e->getMessage()
+            ], 'db');
+
+            \WP_Statistics::log("Visitor first and last log Insert failed: " . $e->getMessage());
         }
     }
 }
