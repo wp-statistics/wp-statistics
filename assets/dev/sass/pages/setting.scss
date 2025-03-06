@@ -1105,4 +1105,9 @@
 }
 .wps-site-dropdown-class{
   min-width: 300px;
+
+  .select2-search {
+    display:none
+  }
+
 }

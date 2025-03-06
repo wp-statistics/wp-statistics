@@ -40,8 +40,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     if (searchConsoleSite) {
         let notice = document.createElement("div");
         notice.className = "notice notice-error wp-statistics-notice";
-        jQuery('.wps-addon-settings--marketing select').select2({
-            allowClear: true,
+        const $select = jQuery('.wps-addon-settings--marketing select').select2({
             ajax: {
                 url: wps_js.global.admin_url + 'admin-ajax.php',
                 type: 'POST',
@@ -56,13 +55,17 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 },
                 processResults: function (response) {
                     if (response && response.success && response.data) {
-                        const results = Object.entries(response.data).map(([id, text]) => {
-                            return {
-                                id: id,
-                                text: text
-                            };
-                        });
-                        return {results: results};
+                        const results = response.data.map(item => ({
+                            id: item.key,
+                            text: item.label
+                        }));
+
+                        const selectedItem = results.find(item => response.data.find(d => d.selected && d.key === item.id));
+                        if (selectedItem) {
+                            $select.append(new Option(selectedItem.text, selectedItem.id, true, true)).trigger('change.select2');
+                        }
+
+                        return { results: results };
                     } else {
                         let notice = document.querySelector('.wp-statistics-notice');
                         if (!notice) {
@@ -76,17 +79,22 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             top: topOffset,
                             behavior: "smooth"
                         });
-                        return {results: []};
+                        return { results: [] };
                     }
                 },
                 error: function (xhr, status, error) {
                     console.error('AJAX error:', status, error);
-                    return {results: []};
+                    return { results: [] };
                 },
                 cache: true
             },
             dropdownCssClass: 'wps-site-dropdown-class',
             minimumResultsForSearch: Infinity,
+        });
+
+        $select.on('select2:select', function (e) {
+            const data = e.params.data;
+            $select.val(data.id).trigger('change');
         });
     }
 }
