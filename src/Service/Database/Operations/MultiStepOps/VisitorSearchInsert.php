@@ -107,10 +107,10 @@ class VisitorSearchInsert extends AbstractTableOperation
                 } catch (Exception $e) {
                     Option::saveOptionGroup('migration_status_detail', [
                         'status' => 'failed',
-                        'message' => "Batch aborted due to visitor processing failure."
+                        'message' => "Batch aborted due to visitor processing failure: " . $e->getMessage()
                     ], 'db');
 
-                    \WP_Statistics::log("Batch aborted due to visitor processing failure.");
+                    \WP_Statistics::log("Batch aborted due to visitor processing failure: " . $e->getMessage());
                 }
             }
         } catch (Exception $e) {
