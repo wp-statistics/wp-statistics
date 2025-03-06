@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Database;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Database\Migrations\DataMigration;
 use WP_Statistics\Service\Database\Migrations\SchemaMigration;
+use WP_Statistics\Service\Database\Operations\AbstractTableOperation;
 use WP_Statistics\Service\Database\Operations\Create;
 use WP_Statistics\Service\Database\Operations\Drop;
 use WP_Statistics\Service\Database\Operations\Insert;
@@ -50,7 +51,7 @@ class DatabaseFactory
      * Create an instance of a specific table operation.
      *
      * @param string $operation The name of the operation (e.g., 'create', 'drop').
-     * @return object An instance of the corresponding operation class.
+     * @return AbstractTableOperation An instance of the corresponding operation class.
      * @throws \InvalidArgumentException If the operation is invalid or the class does not exist.
      */
     public static function table($operation)
