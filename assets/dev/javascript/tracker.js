@@ -1,6 +1,9 @@
 // Initialize tracking on page load
 document.addEventListener('DOMContentLoaded', wpStatisticsInitialize);
 
+// Listen for consent changes
+document.addEventListener("wp_listen_for_consent_change", wpStatisticsHandleConsentChange);
+
 // Listen for popstate event (browser back/forward navigation)
 window.addEventListener("popstate", wpStatisticsTrackUrlChange);
 
@@ -37,9 +40,6 @@ function wpStatisticsTrackUrlChange() {
 
         // Initialize tracking on page load
         wpStatisticsInitialize();
-
-        // Listen for consent changes
-        document.addEventListener("wp_listen_for_consent_change", wpStatisticsHandleConsentChange);
     }
 }
 
