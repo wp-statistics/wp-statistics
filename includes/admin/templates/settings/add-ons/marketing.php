@@ -100,8 +100,14 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                 </th>
 
                 <td class="wps_addon_settings__site">
+                    <?php $selectedSite = Option::getByAddon('site', 'marketing'); ?>
+
                     <select dir="ltr" id="wps_addon_settings[marketing][site]" name="wps_addon_settings[marketing][site]">
-                        <option disabled selected value=""><?php esc_html_e('Select site', 'wp-statistics'); ?></option>
+                        <?php if (!empty($selectedSite)) : ?>
+                            <option selected value="<?php echo esc_attr($selectedSite) ?>"><?php echo esc_html(str_replace('sc-domain:', '', $selectedSite)); ?></option>
+                        <?php else : ?>
+                            <option disabled selected value=""><?php esc_html_e('Select site', 'wp-statistics'); ?></option>
+                        <?php endif; ?>
                     </select>
 
                     <p class="description">
