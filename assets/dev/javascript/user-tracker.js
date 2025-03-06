@@ -169,4 +169,74 @@ const WpStatisticsUserTracker = {
 
         return requestUrl;
     },
+
+    // Function to initialize WP Statistics tracking
+    wpStatisticsInitialize: function() {
+        if (WP_Statistics_Tracker_Object.option.consentLevel == 'disabled' || WP_Statistics_Tracker_Object.option.trackAnonymously || !WP_Statistics_Tracker_Object.option.isWpConsentApiActive || wp_has_consent(WP_Statistics_Tracker_Object.option.consentLevel)) {
+            this.init();
+            WpStatisticsEventTracker.init();
+        }
+    },
+
+    // Function to handle consent changes
+    wpStatisticsHandleConsentChange: function (e) {
+        const changedConsentCategory = e.detail;
+
+        for (let key in changedConsentCategory) {
+            if (changedConsentCategory.hasOwnProperty(key)) {
+                if (key === WP_Statistics_Tracker_Object.option.consentLevel && changedConsentCategory[key] === 'allow') {
+                    this.init();
+                    WpStatisticsEventTracker.init();
+
+                    // When trackAnonymously is enabled, the init() call above will get ignored (since it's already initialized before)
+                    // So, in this specific case, we can call checkHitRequestConditions() manually
+                    // This will insert a new record for the user (who just gave consent to us) and prevent other scripts (e.g. event.js) from malfunctioning
+                    if (WP_Statistics_Tracker_Object.option.trackAnonymously) {
+                        this.checkHitRequestConditions();
+                    }
+                }
+            }
+        }
+    },
+
+    // Function to update the WP_Statistics_Tracker_Object when URL changes
+    wpStatisticsUpdateTrackerObject: function() {
+        const scriptTag = document.getElementById("wp-statistics-tracker-js-extra");
+
+        if (scriptTag) {
+            try {
+                // Extract the new JSON object from the script tag
+                const newTrackerObject = JSON.parse(scriptTag.innerHTML.replace('var WP_Statistics_Tracker_Object = ', '').replace(';', ''));
+
+                // Update the global WP_Statistics_Tracker_Object with the new data
+                WP_Statistics_Tracker_Object = newTrackerObject;
+            } catch (error) {
+            }
+        }
+    },
+
+    // Detect URL changes caused by History API (pushState, replaceState) or browser navigation
+    wpStatisticsTrackUrlChange: function() {
+        if (typeof WP_Statistics_Tracker_Object == "undefined") {
+            console.error('WP Statistics: Variable WP_Statistics_Tracker_Object not found. Ensure /wp-content/plugins/wp-statistics/assets/js/tracker.js is either excluded from cache settings or not dequeued by any plugin. Clear your cache if necessary.');
+        }
+
+        if (WP_Statistics_Tracker_Object.option.isPreview) {
+            return;
+        }
+
+        if (window.location.href !== this.lastUrl) {
+            // Update the WP_Statistics_Tracker_Object
+            this.wpStatisticsUpdateTrackerObject();
+
+            // Update the last visited URL
+            this.lastUrl = window.location.href;
+
+            // Prevent init() from running more than once
+            this.hasTrackerInitializedOnce = false;
+
+            // Initialize tracking on page load
+            this.wpStatisticsInitialize();
+        }
+    }
 };
