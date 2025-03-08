@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-03-06T14:52:12+00:00\n"
+"POT-Creation-Date: 2025-03-08T05:17:19+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-statistics\n"
@@ -7050,11 +7050,11 @@ msgid "Buy Premium Now"
 msgstr ""
 
 #: views/pages/license-manager/add-license.php:23
-msgid "I brought Premium, where is my license key?"
+msgid "I bought Premium, where is my license key?"
 msgstr ""
 
 #: views/pages/license-manager/add-license.php:26
-msgid "Have a question or trouble with your license?"
+msgid "Have questions or trouble activating your license?"
 msgstr ""
 
 #: views/pages/license-manager/add-license.php:30
