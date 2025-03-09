@@ -5,6 +5,7 @@
 - **Fix:** Fixed database table prefix conflicts causing query errors.
 - **Fix:** Optimized slow queries in the Mini Chart.
 - **Fix:** Fixed a permissions check issue on the settings page.
+- **Fix:** Improved the IP sanitization & Cloudflare compatibility with IPv6.
 
 = 14.12.5 - 2025-02-23 =
 - **Enhancement:** Hide Online Visitors elements when "Monitor Online Visitors" is off.
