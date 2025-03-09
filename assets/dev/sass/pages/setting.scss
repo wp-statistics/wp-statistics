@@ -880,7 +880,17 @@
       padding: 12px 24px 12px 8px !important;
       height: auto;
       min-width: 300px;
-      position:relative
+      position:relative;
+      
+      @media (max-width: 354px) {
+        min-width: unset;
+      }
+    }
+
+    .select2-container{
+      @media (max-width: 354px) {
+        width: 100%!important;
+      }
     }
 
     .select2-container--default .select2-selection--single .select2-selection__arrow{
