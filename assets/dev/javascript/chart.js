@@ -873,7 +873,10 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                     fontWeight: 'lighter ',
                     padding: 8,
                     lineHeight: 15,
-                    stepSize: 1
+                    stepSize: 1,
+                    callback: function(value) {
+                         return value >= 1000 ? (value / 1000) + 'K' : value;
+                    },
                 },
                 border: {
                     color: 'transparent',
@@ -920,7 +923,10 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 fontWeight: 'lighter ',
                 padding: 8,
                 lineHeight: 15,
-                stepSize: 1
+                stepSize: 1,
+                callback: function(value) {
+                     return value >= 1000 ? (value / 1000) + 'K' : value;
+                }
             },
             title: {
                 display: true,
@@ -944,7 +950,10 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 fontWeight: 'lighter ',
                 padding: 8,
                 lineHeight: 15,
-                stepSize: 1
+                stepSize: 1,
+                callback: function(value) {
+                     return value >= 1000 ? (value / 1000) + 'K' : value;
+                }
             },
             position: 'right',
             grid: {
@@ -1027,3 +1036,22 @@ document.body.addEventListener('click', function (event) {
         });
     }
 });
+
+window.renderWPSLineChart = function (chartId, data ,newOptions) {
+    const chartItem = document.getElementById(chartId);
+    if (chartItem) {
+        const parentElement = jQuery(`#${chartId}`).parent();
+        const placeholder = wps_js.rectangle_placeholder();
+        parentElement.append(placeholder);
+
+        if (!data?.data?.datasets || data.data.datasets.length === 0) {
+            parentElement.html(wps_js.no_results());
+            jQuery('.wps-ph-item').remove();
+        } else {
+            wps_js.new_line_chart(data, chartId, newOptions);
+            jQuery('.wps-ph-item').remove();
+            jQuery('.wps-postbox-chart--data').removeClass('c-chart__wps-skeleton--legend');
+            parentElement.removeClass('c-chart__wps-skeleton');
+        }
+    }
+}

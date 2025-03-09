@@ -479,6 +479,8 @@ class Admin_Assets
             'action_required'              => __('Action Required', 'wp-statistics'),
             'show_less'                    => __('Show less', 'wp-statistics'),
             'show_more'                    => __('Show more', 'wp-statistics'),
+            'clicks'                       => __('Clicks', 'wp-statistics'),
+            'impressions'                  => __('Impressions', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 
