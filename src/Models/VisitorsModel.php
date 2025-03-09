@@ -30,6 +30,7 @@ class VisitorsModel extends BaseModel
             'country'       => '',
             'user_id'       => '',
             'ip'            => '',
+            'source_name'   => '',
             'logged_in'     => false,
             'user_role'     => ''
         ]);
@@ -41,6 +42,7 @@ class VisitorsModel extends BaseModel
             ->where('platform', '=', $args['platform'])
             ->where('user_id', '=', $args['user_id'])
             ->where('ip', '=', $args['ip'])
+            ->where('source_name', '=', $args['source_name'])
             ->whereDate('last_counter', $args['date']);
 
 
