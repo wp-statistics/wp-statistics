@@ -134,6 +134,32 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
                 </select>
                 <p class="description"><?php esc_html_e("When using WP Consent API, select the consent categories that WP Statistics should track. Only visitors who have consented to the selected categories will be tracked.", 'wp-statistics'); ?></p>
 
+                <?php
+                    $compatiblePlugins = IntegrationHelper::getIntegration('wp_consent_api')->getCompatiblePlugins();
+
+                    if (empty($compatiblePlugins)) {
+                        ?><p class="description">
+                        <?php
+                        printf(
+                            __('%1$s: No recognized consent management plugin detected. Please install or activate a compatible plugin to ensure compliance with user consent.', 'wp-statistics'),
+                            '<b>' . __('No Plugin Found', 'wp-statistics') . '</b>'
+                        );
+                        ?>
+                        </p><?php
+                    } else {
+                        ?>
+                        <p class="description">
+                            <?php
+                            echo sprintf(
+                                __('<b>Plugin Found:</b> A recognized consent management plugin is active: %s. WP Statistics will comply with the user’s consent settings provided by this plugin.', 'wp-statistics'),
+                                implode(', ', $compatiblePlugins)
+                            );
+                            ?>
+                        </p>
+                        <?php
+                    }
+                ?>
+
                 <?php if (\WP_STATISTICS\Option::get('privacy_audit', false)) : ?>
                     <p class="description">
                         <?php echo sprintf(
