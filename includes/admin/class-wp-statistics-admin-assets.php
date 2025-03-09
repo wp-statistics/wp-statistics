@@ -481,6 +481,8 @@ class Admin_Assets
             'show_more'                    => __('Show more', 'wp-statistics'),
             'clicks'                       => __('Clicks', 'wp-statistics'),
             'impressions'                  => __('Impressions', 'wp-statistics'),
+            'prev'                         => __('Prev', 'wp-statistics'),
+            'next'                         => __('Next', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 
