@@ -34,8 +34,6 @@ class MetaboxHelper
         TopDeviceModel::class,
         DailyTrafficTrend::class,
         SearchEngines::class,
-        SearchTraffic::class,
-        TopSearchQueries::class,
         MostVisitedPages::class,
         MostActiveVisitors::class,
         LatestVisitor::class,
