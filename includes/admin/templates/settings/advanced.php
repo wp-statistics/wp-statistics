@@ -163,7 +163,7 @@ add_thickbox();
             <th scope="row"><label for="wps_geoip_location_detection_method"><?php esc_html_e('Location Detection Method', 'wp-statistics'); ?></label></th>
             <td>
                 <select name="wps_geoip_location_detection_method" id="geoip_location_detection_method">
-                    <option value="cf" <?php selected(WP_STATISTICS\Option::get('geoip_location_detection_method', 'maxmind'), 'cf'); ?><?php echo CloudflareGeolocationProvider::isAvailable() ? '' : 'disabled'; ?>><?php esc_html_e('Cloudflare IP Geolocation', 'wp-statistics'); ?></option>
+                    <option value="cf" <?php selected(WP_STATISTICS\Option::get('geoip_location_detection_method', 'maxmind'), 'cf'); ?><?php echo CloudflareGeolocationProvider::isBehindCloudflare() ? '' : 'disabled'; ?>><?php esc_html_e('Cloudflare IP Geolocation', 'wp-statistics'); ?></option>
                     <option value="maxmind" <?php selected(WP_STATISTICS\Option::get('geoip_location_detection_method', 'maxmind'), 'maxmind'); ?>><?php esc_html_e('MaxMind GeoIP', 'wp-statistics'); ?></option>
                     <option value="dbip" <?php selected(WP_STATISTICS\Option::get('geoip_location_detection_method', 'maxmind'), 'dbip'); ?>><?php esc_html_e('DB-IP', 'wp-statistics'); ?></option>
                 </select>

@@ -381,8 +381,7 @@ class IP
      */
     public static function check_sanitize_ip($ip)
     {
-        $preg = preg_replace('/[^0-9- .:]/', '', $ip);
-        return $preg == $ip;
+        return filter_var($ip, FILTER_VALIDATE_IP) !== false;
     }
 
     /**
@@ -415,11 +414,11 @@ class IP
      * 
      * @return string Sanitized IP address or empty string
      */
-    public static function getCloudflareIp() {
-        if (empty($_SERVER['HTTP_CF_CONNECTING_IP'])) {
-            return '';
-        }
-
-        return IP::check_sanitize_ip($_SERVER['HTTP_CF_CONNECTING_IP']);
+    public static function getCloudflareIp(): string
+    {
+        $ip = $_SERVER['HTTP_CF_CONNECTING_IP'] ?? '';
+    
+        return IP::check_sanitize_ip($ip) ? $ip : '';
     }
+    
 }
