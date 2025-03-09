@@ -349,6 +349,24 @@ td:has(div.wps-admin-column__unlock){
     flex-direction: row;
   }
 
+  &.wps-google-search{
+    #wps-postbox-container-1 {
+       @media(min-width: 759px) {
+        width: 356px
+      }
+    }
+
+    #wps-postbox-container-2 {
+       @media(min-width: 759px) {
+        width: calc(100% - 360px);
+       }
+    }
+
+    .o-table-wrapper table.wps-new-table tbody tr td .wps-country-flag .wps-ellipsis-text{
+      max-width: 100px;
+    }
+  }
+
   #wps-postbox-container-1 {
     display: inline-flex;
     flex-direction: column;
