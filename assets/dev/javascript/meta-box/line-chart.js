@@ -50,7 +50,10 @@ wps_js.render_line_chart = function (response, key) {
                                 fontWeight: 'lighter ',
                                 padding: 8,
                                 lineHeight: 14.06,
-                                stepSize: 1
+                                stepSize: 1,
+                                callback: function(value) {
+                                    return value >= 1000 ? (value / 1000) + 'K' : value;
+                                },
                             },
                             border: {
                                 color: 'transparent',

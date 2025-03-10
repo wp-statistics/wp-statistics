@@ -873,7 +873,10 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                     fontWeight: 'lighter ',
                     padding: 8,
                     lineHeight: 15,
-                    stepSize: 1
+                    stepSize: 1,
+                    callback: function(value) {
+                        return value >= 1000 ? (value / 1000) + 'K' : value;
+                    },
                 },
                 border: {
                     color: 'transparent',
@@ -920,7 +923,10 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 fontWeight: 'lighter ',
                 padding: 8,
                 lineHeight: 15,
-                stepSize: 1
+                stepSize: 1,
+                callback: function(value) {
+                    return value >= 1000 ? (value / 1000) + 'K' : value;
+                }
             },
             title: {
                 display: true,
@@ -944,7 +950,10 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 fontWeight: 'lighter ',
                 padding: 8,
                 lineHeight: 15,
-                stepSize: 1
+                stepSize: 1,
+                callback: function(value) {
+                    return value >= 1000 ? (value / 1000) + 'K' : value;
+                }
             },
             position: 'right',
             grid: {
