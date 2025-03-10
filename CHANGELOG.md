@@ -1,3 +1,5 @@
+- **Fix:** Resolve statistical discrepancies in widgets.
+
 = 14.12.6 - 2025-02-10 =
 - **New:** Added DB-IP as a new location detection option.
 - **New:** Added `first_page`, `first_view`, `last_page`, and `last_view` columns to the visitor table for faster data handling.
