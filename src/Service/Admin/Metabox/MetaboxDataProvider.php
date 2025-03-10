@@ -151,8 +151,8 @@ class MetaboxDataProvider
                 'prev_period'    => $this->visitorsModel->countVisitors(['date' => $prevPeriod])
             ],
             'visits'    => [
-                'current_period' => $this->viewsModel->countViewsFromPagesOnly(['date' => $currentPeriod]),
-                'prev_period'    => $this->viewsModel->countViewsFromPagesOnly(['date' => $prevPeriod])
+                'current_period' => $this->visitorsModel->countHits(['date' => $currentPeriod]),
+                'prev_period'    => $this->visitorsModel->countHits(['date' => $prevPeriod])
             ],
             'posts'     => [
                 'current_period' => $this->postsModel->countPosts(['date' => $currentPeriod]),
