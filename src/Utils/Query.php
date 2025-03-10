@@ -158,7 +158,7 @@ class Query
         }
 
         if (!empty($from) && !empty($to)) {
-            $condition                  = "DATE($field) BETWEEN %s AND %s";
+            $condition                  = "$field BETWEEN %s AND %s";
             $this->whereClauses[]       = $condition;
             $this->valuesToPrepare[]    = $from;
             $this->valuesToPrepare[]    = $to;

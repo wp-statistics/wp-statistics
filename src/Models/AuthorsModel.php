@@ -270,7 +270,7 @@ class AuthorsModel extends BaseModel
                 [
                     ['posts.post_status', '=', 'publish'], 
                     ['posts.post_type', 'IN', $args['post_type']], 
-                    ['DATE(posts.post_date)', 'BETWEEN', [$args['date']['from'], $args['date']['to']]]
+                    ['posts.post_date', 'BETWEEN', [$args['date']['from'], $args['date']['to']]]
                 ],
                 'LEFT'
             )
@@ -324,7 +324,7 @@ class AuthorsModel extends BaseModel
                 [
                     ['posts.post_status', '=', 'publish'], 
                     ['posts.post_type', 'IN', $args['post_type']], 
-                    ['DATE(posts.post_date)', 'BETWEEN', [$args['date']['from'], $args['date']['to']]]
+                    ['posts.post_date', 'BETWEEN', [$args['date']['from'], $args['date']['to']]]
                 ],
                 'LEFT'
             )
