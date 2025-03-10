@@ -88,7 +88,7 @@ class AuthorsModel extends BaseModel
             'term'      => ''
         ]);
 
-        $query = Query::select(['DISTINCT post_author as id', 'display_name as name', 'COUNT(posts.ID) as post_count'])
+        $query = Query::select(['DISTINCT post_author as id', 'display_name as name', 'COUNT(*) as post_count'])
             ->from('posts')
             ->join('users', ['posts.post_author', 'users.ID'])
             ->where('post_status', '=', 'publish')
@@ -128,7 +128,7 @@ class AuthorsModel extends BaseModel
         $result = Query::select([
                 'DISTINCT posts.post_author AS id', 
                 'display_name AS name', 
-                'COUNT(comments.comment_ID) / COUNT(DISTINCT posts.ID) AS average_comments'
+                'COUNT(*) / COUNT(DISTINCT posts.ID) AS average_comments'
             ])
             ->from('posts')
             ->join('users', ['posts.post_author', 'users.ID'])
@@ -216,7 +216,7 @@ class AuthorsModel extends BaseModel
             'per_page'  => 5
         ]);
 
-        $commentsQuery  = Query::select(['DISTINCT post_author', 'COUNT(comment_ID) AS total_comments'])
+        $commentsQuery  = Query::select(['DISTINCT post_author', 'COUNT(*) AS total_comments'])
             ->from('posts')
             ->join('comments', ['posts.ID', 'comments.comment_post_ID'])
             ->where('comments.comment_type', '=', 'comment')

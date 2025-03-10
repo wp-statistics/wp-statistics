@@ -36,7 +36,7 @@ class VisitorsModel extends BaseModel
             'referrer'      => ''
         ]);
 
-        $query = Query::select('COUNT(visitor.id) as total_visitors')
+        $query = Query::select('COUNT(*) as total_visitors')
             ->from('visitor')
             ->where('agent', '=', $args['agent'])
             ->where('location', '=', $args['country'])
@@ -164,7 +164,7 @@ class VisitorsModel extends BaseModel
 
         $query = Query::select(array_merge([
             'visitor.last_counter as date',
-            'COUNT(visitor.ID) as visitors'
+            'COUNT(*) as visitors'
         ], $additionalFields))
             ->from('visitor')
             ->where('location', '=', $args['country'])
@@ -231,7 +231,7 @@ class VisitorsModel extends BaseModel
             'referrer'          => ''
         ]);
 
-        $result = Query::select('COUNT(visitor.ID) as visitors, last_counter as date')
+        $result = Query::select('COUNT(*) as visitors, last_counter as date')
             ->from('visitor')
             ->where('source_channel', '=', $args['source_channel'])
             ->where('source_name', '=', $args['source_name'])
@@ -670,7 +670,7 @@ class VisitorsModel extends BaseModel
             'referrer'          => ''
         ]);
 
-        $query = Query::select('COUNT(visitor.ID)')
+        $query = Query::select('COUNT(*)')
             ->from('visitor')
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
@@ -860,7 +860,7 @@ class VisitorsModel extends BaseModel
                 'visitor.location as country',
                 'visitor.region as region',
                 'visitor.continent as continent',
-                'COUNT(visitor.ID) as visitors',
+                'COUNT(*) as visitors',
                 'SUM(visitor.hits) as views', // All views are counted and results can't be filtered by author, post type, etc...
             ],
             'date'        => '',
