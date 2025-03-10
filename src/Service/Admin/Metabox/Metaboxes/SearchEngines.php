@@ -24,8 +24,6 @@ class SearchEngines extends BaseMetabox
     {
         return [
             'datepicker'    => true,
-            'google_icon_url'=>'#',
-            'google_icon_tooltip'=>'date',
             'button'        => View::load('metabox/action-button',[
                 'link'  => Menus::admin_url('referrals', ['tab' => 'search-engines']),
                 'title' => esc_html__('View Referrals from Search Engines', 'wp-statistics')
