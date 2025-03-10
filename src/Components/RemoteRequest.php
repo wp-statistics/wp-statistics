@@ -96,6 +96,16 @@ class RemoteRequest
     }
 
     /**
+     * Checks if the request is cached.
+     *
+     * @return bool True if the request is cached, false otherwise.
+     */
+    public function isCached()
+    {
+        return $this->getCachedResult($this->generateCacheKey()) !== false;
+    }
+
+    /**
      * Executes the request with optional caching.
      *
      * @param bool $throwFailedHttpCodeResponse Whether or not to throw an exception if the request returns a failed HTTP code.
@@ -162,7 +172,7 @@ class RemoteRequest
 
     /**
      * Returns the response body from the executed request
-     * 
+     *
      * @return string|null The response body or null if no request has been executed
      */
     public function getResponseBody()
@@ -172,7 +182,7 @@ class RemoteRequest
 
     /**
      * Returns the HTTP response code from the last executed request
-     * 
+     *
      * @return int|null The HTTP response code or null if no request has been executed
      */
     public function getResponseCode()
