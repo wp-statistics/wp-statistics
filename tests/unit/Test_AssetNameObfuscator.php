@@ -100,7 +100,9 @@ class Test_AssetNameObfuscator extends WP_UnitTestCase
      */
     public function test_get_url_through_proxy()
     {
-        $proxyUrl = $this->obfuscator->getUrlThroughProxy();
-        $this->assertStringContainsString('?assets=', $proxyUrl);
+        $this->assertStringContainsString(
+            $this->obfuscator->getDynamicAssetKey(),
+            $this->obfuscator->getUrlThroughProxy()
+        );
     }
 }

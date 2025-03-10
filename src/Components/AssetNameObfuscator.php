@@ -119,10 +119,17 @@ class AssetNameObfuscator
         $this->hashedFileDir = apply_filters('wp_statistics_hashed_asset_dir', $this->hashedFileDir, $this->hashedFilesRootDir, $this->hashedFileName);
     }
 
-    private function generateShortHash($input)
+    /**
+     * Generates a truncated MD5 hash of the input string.
+     *
+     * @param string $input The input string to be hashed.
+     * @param int $length The length of the truncated hash.
+     * @return string The truncated MD5 hash.
+     */
+    private function generateShortHash($input, $length = 10)
     {
         $hash = wp_hash($input);
-        return substr($hash, 0, 10);
+        return substr($hash, 0, $length);
     }
 
     /**
@@ -202,13 +209,25 @@ class AssetNameObfuscator
     }
 
     /**
+     * Generates a dynamic query parameter based on the hashed domain URL.
+     * This helps to avoid conflicts with other plugins and prevents ad-blocking issues.
+     *
+     * @return string The dynamic query parameter.
+     */
+    public function getDynamicAssetKey()
+    {
+        $domainHash = $this->generateShortHash(home_url(), 6);
+        return '?' . $domainHash . '=';
+    }
+
+    /**
      * Generates a URL to serve the asset through a proxy.
      *
      * @return string
      */
     public function getUrlThroughProxy()
     {
-        return esc_url(home_url('?assets=' . $this->hashedFileName));
+        return esc_url(home_url($this->getDynamicAssetKey() . $this->hashedFileName));
     }
 
     /**
