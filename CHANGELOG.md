@@ -8,6 +8,7 @@
 - **Fix:** Optimized slow queries in the Mini Chart.
 - **Fix:** Fixed a permissions check issue on the settings page.
 - **Fix:** Improved the IP sanitization & Cloudflare compatibility with IPv6.
+- **Enhancement:** Improved query performance.
 
 = 14.12.5 - 2025-02-23 =
 - **Enhancement:** Hide Online Visitors elements when "Monitor Online Visitors" is off.

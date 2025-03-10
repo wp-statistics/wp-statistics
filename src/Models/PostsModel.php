@@ -22,7 +22,7 @@ class PostsModel extends BaseModel
             'url'                   => ''
         ]);
 
-        $query = Query::select('COUNT(posts.ID)')
+        $query = Query::select('COUNT(*)')
             ->from('posts')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
@@ -71,7 +71,7 @@ class PostsModel extends BaseModel
             'term'      => ''
         ]);
 
-        $query = Query::select('COUNT(ID) as posts, Date(post_date) as date')
+        $query = Query::select('COUNT(*) as posts, Date(post_date) as date')
             ->from('posts')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
