@@ -565,7 +565,7 @@ class MigrationHandler
                 esc_html__('Please wait while the process completes. You can continue working in the admin area.', 'wp-statistics')
             );
 
-            Notice::addNotice($message, 'database_manual_migration_progress', 'info', false);
+            Notice::addNotice($message, 'database_manual_migration_progress', 'info');
             return;
         }
 

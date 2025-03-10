@@ -61,13 +61,20 @@ class TableHandler
         }
 
         Option::saveOptionGroup('migrated', false, 'db');
+        Option::saveOptionGroup('migration_status_detail', null, 'db');
 
-        $dismissedNotices = Option::get('dismissed_notices', []);
+        $dismissedNotices = get_option('wp_statistics_dismissed_notices', []);
 
         if (in_array('database_manual_migration_done', $dismissedNotices, true)) {
             $dismissedNotices = array_diff($dismissedNotices, ['database_manual_migration_done']);
 
-            Option::update('dismissed_notices', $dismissedNotices);
+            update_option('wp_statistics_dismissed_notices', $dismissedNotices);
+        }
+
+        if (in_array('database_manual_migration_progress', $dismissedNotices, true)) {
+            $dismissedNotices = array_diff($dismissedNotices, ['database_manual_migration_progress']);
+
+            update_option('wp_statistics_dismissed_notices', $dismissedNotices);
         }
     }
 
