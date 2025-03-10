@@ -1,27 +1,32 @@
 <?php
 
 use WP_Statistics\Async\CalculatePostWordsCount;
+use WP_Statistics\Async\DataMigrationProcess;
 use WP_Statistics\Async\GeolocationDatabaseDownloadProcess;
 use WP_Statistics\Async\IncompleteGeoIpUpdater;
+use WP_Statistics\Async\SchemaMigrationProcess;
 use WP_Statistics\Async\SourceChannelUpdater;
+use WP_Statistics\Async\TableOperationProcess;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsManager;
+use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsManager;
 use WP_Statistics\Service\Admin\ContentAnalytics\ContentAnalyticsManager;
+use WP_Statistics\Service\Admin\Devices\DevicesManager;
+use WP_Statistics\Service\Admin\Exclusions\ExclusionsManager;
 use WP_Statistics\Service\Admin\Geographic\GeographicManager;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagementManager;
 use WP_Statistics\Service\Admin\Metabox\MetaboxManager;
-use WP_Statistics\Service\Admin\Overview\OverviewManager;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Admin\Overview\OverviewManager;
+use WP_Statistics\Service\Admin\PageInsights\PageInsightsManager;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditManager;
-use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsManager;
+use WP_Statistics\Service\Admin\Referrals\ReferralsManager;
 use WP_Statistics\Service\Admin\TrackerDebugger\TrackerDebuggerManager;
 use WP_Statistics\Service\Analytics\AnalyticsManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
-use WP_Statistics\Service\Admin\Devices\DevicesManager;
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagementManager;
-use WP_Statistics\Service\Admin\Exclusions\ExclusionsManager;
+use WP_Statistics\Service\Admin\FilterHandler\FilterManager;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsManager;
-use WP_Statistics\Service\Admin\PageInsights\PageInsightsManager;
-use WP_Statistics\Service\Admin\Referrals\ReferralsManager;
+use WP_Statistics\Service\Database\Managers\MigrationHandler;
 use WP_Statistics\Service\HooksManager;
 
 defined('ABSPATH') || exit;
@@ -107,6 +112,7 @@ final class WP_Statistics
              * Setup background process
              */
             $this->initializeBackgroundProcess();
+            MigrationHandler::init();
 
         } catch (Exception $e) {
             self::log($e->getMessage());
@@ -198,6 +204,7 @@ final class WP_Statistics
             $overviewManager     = new OverviewManager();
             $metaboxManager      = new MetaboxManager();
             $exclusionsManager   = new ExclusionsManager();
+            new FilterManager();
         }
 
         $hooksManager = new HooksManager();
@@ -237,9 +244,9 @@ final class WP_Statistics
         $this->registerBackgroundProcess(IncompleteGeoIpUpdater::class, 'update_unknown_visitor_geoip');
         $this->registerBackgroundProcess(GeolocationDatabaseDownloadProcess::class, 'geolocation_database_download');
         $this->registerBackgroundProcess(SourceChannelUpdater::class, 'update_visitors_source_channel');
-        // $this->registerBackgroundProcess(DataMigrationProcess::class, 'data_migration_process');
-        // $this->registerBackgroundProcess(SchemaMigrationProcess::class, 'schema_migration_process');
-        // $this->registerBackgroundProcess(TableOperationProcess::class, 'table_operations_process');
+        $this->registerBackgroundProcess(DataMigrationProcess::class, 'data_migration_process');
+        $this->registerBackgroundProcess(SchemaMigrationProcess::class, 'schema_migration_process');
+        $this->registerBackgroundProcess(TableOperationProcess::class, 'table_operations_process');
     }
 
     /**

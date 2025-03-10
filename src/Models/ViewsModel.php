@@ -161,7 +161,7 @@ class ViewsModel extends BaseModel
         $result = Query::select([
             'HOUR(date) as hour',
             'COUNT(DISTINCT visitor_id) as visitors',
-            'COUNT(visitor_id) as views'
+            'COUNT(*) as views'
             ])
             ->from('visitor_relationships')
             ->whereDate('visitor_relationships.date', $args['date'])
