@@ -10,8 +10,8 @@
     <div class="wps-audit-card__suggestion-text">
         <?php
         printf(
-            __('<p>%s with your preferred consent management plugin.</p>Explore the %s to find the right fit for your site.', 'wp-statistics'),
-            '<a target="_blank" href="' . esc_url(WP_STATISTICS_SITE_URL . '/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy') . '">' . __('Learn how to integrate WP Consent API', 'wp-statistics') . '</a>',
+            __('<p>Learn %s with your preferred consent management solution.</p> Explore the %s to find the right fit for your site.', 'wp-statistics'),
+            '<a target="_blank" href="' . esc_url(WP_STATISTICS_SITE_URL . '/resources/integrating-wp-statistics-with-consent-management-plugins/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy') . '">' . __('how to integrate a consent plugin', 'wp-statistics') . '</a>',
             '<a target="_blank" href="' . esc_url(WP_STATISTICS_SITE_URL . '/resources/compatible-consent-plugins-with-wp-statistics/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy') . '">' . __('list of compatible consent plugins', 'wp-statistics') . '</a>'
         );
         ?>
