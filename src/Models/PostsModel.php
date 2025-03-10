@@ -154,7 +154,7 @@ class PostsModel extends BaseModel
             'term'      => ''
         ]);
 
-        $query = Query::select('COUNT(*)')
+        $query = Query::select('COUNT(comment_ID)')
             ->from('posts')
             ->join('comments', ['posts.ID', 'comments.comment_post_ID'])
             ->where('post_status', '=', 'publish')
@@ -196,7 +196,7 @@ class PostsModel extends BaseModel
             'url'           => ''
         ]);
 
-        $commentsQuery = Query::select(['comment_post_ID', 'COUNT(*) AS total_comments'])
+        $commentsQuery = Query::select(['comment_post_ID', 'COUNT(comment_ID) AS total_comments'])
             ->from('comments')
             ->where('comment_type', '=', 'comment')
             ->whereDate('comment_date', $args['date'])
@@ -321,7 +321,7 @@ class PostsModel extends BaseModel
             'posts.ID',
             'posts.post_author',
             'posts.post_title',
-            'COALESCE(COUNT(*), 0) AS comments',
+            'COALESCE(COUNT(comment_ID), 0) AS comments',
         ])
             ->from('posts')
             ->join('comments', ['posts.ID', 'comments.comment_post_ID'])
