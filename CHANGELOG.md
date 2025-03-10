@@ -8,6 +8,7 @@
 - **Fix:** Fixed a permissions check issue on the settings page.
 - **Fix:** Improved the IP sanitization & Cloudflare compatibility with IPv6.
 - **Fix:** The proxy method has fixed the loading issue of obfuscated assets.
+- **Fix:** Resolve statistical discrepancies in widgets.
 
 = 14.12.5 - 2025-02-23 =
 - **Enhancement:** Hide Online Visitors elements when "Monitor Online Visitors" is off.
