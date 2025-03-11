@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Database\Operations\MultiStepOps;
 
 use Exception;
 use RuntimeException;
+use WP_Statistics\Async\BackgroundProcessMonitor;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Database\DatabaseFactory;
 use WP_Statistics\Service\Database\Operations\AbstractTableOperation;
@@ -60,6 +61,8 @@ class VisitorSearchInsert extends AbstractTableOperation
             if (!$visitorData) {
                 return; // No data found, nothing to process
             }
+            
+            BackgroundProcessMonitor::setCompletedRecords('data_migration_process', count($visitorData));
 
             foreach ($visitorData as $visitor) {
                 try {

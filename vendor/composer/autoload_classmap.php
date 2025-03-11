@@ -14,6 +14,7 @@ return array(
     'WP_Statistics\\Abstracts\\BaseView' => $baseDir . '/src/Abstracts/BaseView.php',
     'WP_Statistics\\Abstracts\\MultiViewPage' => $baseDir . '/src/Abstracts/MultiViewPage.php',
     'WP_Statistics\\Async\\BackgroundProcessFactory' => $baseDir . '/src/Async/BackgroundProcessFactory.php',
+    'WP_Statistics\\Async\\BackgroundProcessMonitor' => $baseDir . '/src/Async/BackgroundProcessMonitor.php',
     'WP_Statistics\\Async\\CalculatePostWordsCount' => $baseDir . '/src/Async/CalculatePostWordsCount.php',
     'WP_Statistics\\Async\\DataMigrationProcess' => $baseDir . '/src/Async/DataMigrationProcess.php',
     'WP_Statistics\\Async\\GeolocationDatabaseDownloadProcess' => $baseDir . '/src/Async/GeolocationDatabaseDownloadProcess.php',

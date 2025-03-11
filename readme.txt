@@ -70,6 +70,8 @@ Upgrade your analytics toolkit with our range of premium add-ons, including [Dat
 = Report Bugs =
 Having trouble with a bug? Please [create an issue](https://github.com/wp-statistics/wp-statistics/issues/new) on GitHub. Kindly note that [GitHub](https://github.com/wp-statistics/wp-statistics) is exclusively for bug reports; other inquiries will be closed.
 
+For security vulnerabilities, please report them through the [Patchstack Vulnerability Disclosure Program](https://patchstack.com/database/wordpress/plugin/wp-statistics/vdp). The Patchstack team will validate, triage, and handle any security issues.
+
 == Installation ==
 1. Upload `wp-statistics` to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
@@ -144,10 +146,12 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 - **New:** Added DB-IP as a new location detection option.
 - **New:** Added `first_page`, `first_view`, `last_page`, and `last_view` columns to the visitor table for faster data handling.
 - **Enhancement:** Refactored internal filters to improve performance and code clarity.
+- **Enhancement:** Improved query performance.
 - **Fix:** Fixed database table prefix conflicts causing query errors.
 - **Fix:** Optimized slow queries in the Mini Chart.
 - **Fix:** Fixed a permissions check issue on the settings page.
 - **Fix:** Improved the IP sanitization & Cloudflare compatibility with IPv6.
+- **Fix:** Resolve statistical discrepancies in widgets.
 
 = 14.12.5 - 2025-02-23 =
 - **Enhancement:** Hide Online Visitors elements when "Monitor Online Visitors" is off.

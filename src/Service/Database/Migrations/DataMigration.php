@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Database\Migrations;
 
 use Exception;
+use WP_Statistics\Async\BackgroundProcessMonitor;
 use WP_Statistics\Service\Database\DatabaseFactory;
 
 /**
@@ -86,6 +87,9 @@ class DataMigration extends AbstractMigrationOperation
             $visitorIds = array_column($allVisitors, 'visitor_id');
 
             $totalVisitors = count($visitorIds);
+
+            BackgroundProcessMonitor::setTotalRecords('data_migration_process', $totalVisitors);
+
             $batches = ceil($totalVisitors / $batchSize);
 
             for ($batch = 0; $batch < $batches; $batch++) {

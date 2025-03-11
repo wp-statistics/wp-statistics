@@ -1,14 +1,13 @@
-- **Fix:** Resolve statistical discrepancies in widgets.
-
 = 14.12.6 - 2025-02-10 =
 - **New:** Added DB-IP as a new location detection option.
 - **New:** Added `first_page`, `first_view`, `last_page`, and `last_view` columns to the visitor table for faster data handling.
 - **Enhancement:** Refactored internal filters to improve performance and code clarity.
+- **Enhancement:** Improved query performance.
 - **Fix:** Fixed database table prefix conflicts causing query errors.
 - **Fix:** Optimized slow queries in the Mini Chart.
 - **Fix:** Fixed a permissions check issue on the settings page.
 - **Fix:** Improved the IP sanitization & Cloudflare compatibility with IPv6.
-- **Enhancement:** Improved query performance.
+- **Fix:** Resolve statistical discrepancies in widgets.
 
 = 14.12.5 - 2025-02-23 =
 - **Enhancement:** Hide Online Visitors elements when "Monitor Online Visitors" is off.

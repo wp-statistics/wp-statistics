@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-03-08T05:17:19+00:00\n"
+"POT-Creation-Date: 2025-03-11T06:49:57+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-statistics\n"
@@ -6086,15 +6086,15 @@ msgstr ""
 msgid "Anonymous Visitors"
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:300
+#: src/Service/Database/Managers/MigrationHandler.php:301
 msgid "Action Required: Upgrade Needed for WP Statistics"
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:301
+#: src/Service/Database/Managers/MigrationHandler.php:302
 msgid "A database upgrade is needed for your site. Running this upgrade will keep everything working correctly. Please run the process as soon as possible."
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:303
+#: src/Service/Database/Managers/MigrationHandler.php:304
 msgid "Run Process Now"
 msgstr ""
 
@@ -6102,39 +6102,35 @@ msgstr ""
 msgid "WP Statistics: Process Running"
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:564
-msgid "The Database Migration process is running in the background. This may take a few minutes depending on your site’s data size."
-msgstr ""
-
 #: src/Service/Database/Managers/MigrationHandler.php:565
-msgid "Please wait while the process completes. You can continue working in the admin area."
+msgid "Database Migration is running in the background <strong>(%s records remaining)</strong>. You can continue working or dismiss this notice."
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:580
+#: src/Service/Database/Managers/MigrationHandler.php:582
 msgid "WP Statistics: Process Complete"
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:581
+#: src/Service/Database/Managers/MigrationHandler.php:583
 msgid "The Database Migration process has been completed successfully. Thank you for keeping WP Statistics up-to-date!"
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:601
+#: src/Service/Database/Managers/MigrationHandler.php:605
 msgid "WP Statistics: Process Failed"
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:602
+#: src/Service/Database/Managers/MigrationHandler.php:606
 msgid "The Database Migration process encountered an error and could not be completed."
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:603
+#: src/Service/Database/Managers/MigrationHandler.php:607
 msgid "Error:"
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:606
+#: src/Service/Database/Managers/MigrationHandler.php:610
 msgid "Retry Process"
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:608
+#: src/Service/Database/Managers/MigrationHandler.php:612
 msgid "Contact Support"
 msgstr ""
 
