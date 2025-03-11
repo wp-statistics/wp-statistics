@@ -458,3 +458,7 @@ jQuery(document).ready(function () {
     }
 
 });
+
+window.renderFormatNum = function (data) {
+    return wps_js.formatNumber(data)
+}

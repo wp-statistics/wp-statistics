@@ -21,6 +21,10 @@ wps_js.rgba_to_hex = function (r, g, b, a) {
     return `#${hex_r}${hex_g}${hex_b}${hex_a}`;
 }
 
+const formatNumChart =  (value) =>{
+    return wps_js.formatNumber(value);
+}
+
 const chartColors = {
     'Total': '#27A765', 'Views': '#7362BF', 'Visitors': '#3288D7' ,'Clicks': '#3288D7', 'Impressions': '#7362BF' , 'User Visitors':'#3288D7', 'Anonymous Visitors' :'#7362BF', 'Published Posts' : '#8AC3D0',
     'Posts': '#8AC3D0', 'Other1': '#3288D7', 'Other2': '#7362BF', 'Other3': '#8AC3D0'
@@ -817,6 +821,8 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
             });
         });
     }
+
+
     const defaultOptions = {
         maintainAspectRatio: false,
         resizeDelay: 200,
@@ -874,9 +880,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                     padding: 8,
                     lineHeight: 15,
                     stepSize: 1,
-                    callback: function(value) {
-                         return value >= 1000 ? (value / 1000) + 'K' : value;
-                    },
+                    callback: formatNumChart,
                 },
                 border: {
                     color: 'transparent',
@@ -924,9 +928,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 padding: 8,
                 lineHeight: 15,
                 stepSize: 1,
-                callback: function(value) {
-                     return value >= 1000 ? (value / 1000) + 'K' : value;
-                }
+                callback: formatNumChart
             },
             title: {
                 display: true,
@@ -951,9 +953,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 padding: 8,
                 lineHeight: 15,
                 stepSize: 1,
-                callback: function(value) {
-                     return value >= 1000 ? (value / 1000) + 'K' : value;
-                }
+                callback: formatNumChart
             },
             position: 'right',
             grid: {

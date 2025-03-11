@@ -36,9 +36,7 @@ wps_js.render_line_chart = function (response, key) {
                                 }
                             },
                             ticks: {
-                                callback: function (value) {
-                                    return value >= 1000 ? (value / 1000) + 'K' : value;
-                                }
+                                callback: formatNumChart
                             },
                         },
                         y1: {
@@ -61,9 +59,7 @@ wps_js.render_line_chart = function (response, key) {
                                 padding: 8,
                                 lineHeight: 15,
                                 stepSize: 1,
-                                callback: function (value) {
-                                    return value >= 1000 ? (value / 1000) + 'K' : value;
-                                }
+                                callback: formatNumChart
                             },
                             title: {
                                 display: true,
@@ -119,9 +115,7 @@ wps_js.render_line_chart = function (response, key) {
                                 padding: 8,
                                 lineHeight: 14.06,
                                 stepSize: 1,
-                                callback: function(value) {
-                                    return value >= 1000 ? (value / 1000) + 'K' : value;
-                                }
+                                callback: formatNumChart
                             },
                             border: {
                                 color: 'transparent',

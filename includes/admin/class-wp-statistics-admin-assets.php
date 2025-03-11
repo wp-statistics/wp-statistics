@@ -483,6 +483,8 @@ class Admin_Assets
             'impressions'                  => __('Impressions', 'wp-statistics'),
             'prev'                         => __('Prev', 'wp-statistics'),
             'next'                         => __('Next', 'wp-statistics'),
+            'loading_error'                => __('Oops, something went wrong while loading statistics.', 'wp-statistics'),
+            'last_updated'                 => __('Last updated:', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 

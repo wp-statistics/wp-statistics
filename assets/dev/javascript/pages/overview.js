@@ -301,7 +301,7 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
         const $container = jQuery(`#${key}`);
         const $actionButtons = $container.find('.handle-actions button:first');
         const $googleLink = $container.find('.wps-google-link');
-        if ($googleLink.length) return;
+        if ($googleLink.length) $googleLink.remove();
         const linkAttributes = {
             href: link,
             class: 'handlediv wps-google-link',
