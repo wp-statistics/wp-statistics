@@ -1,25 +1,10 @@
 <?php
-use WP_STATISTICS\Helper;
-use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
-if (!WP_STATISTICS\Option::get('usage_data_tracking') && !in_array('usage_data_tracking', get_option('wp_statistics_dismissed_notices', []))) {
-    $notice = [
-        'title'   => __('Help Us Improve WP Statistics!', 'wp-statistics'),
-        'content' => __('We’ve added a new Usage Tracking option to help us understand how WP Statistics is used and identify areas for improvement. By <a href="#" class="wps-option-data" data-option="usage_data_tracking" data-value="true">enabling</a> this feature, you’ll help us make the plugin better for everyone. No personal or sensitive data is collected.', 'wp-statistics'),
-        'links'   => [
-            'learn_more'      => [
-                'text' => __('Learn More', 'wp-statistics'),
-                'url'  => '#',
-            ],
-            'enable_tracking' => [
-                'text'  => __('Enable Usage Tracking', 'wp-statistics'),
-                'url'   => '#',
-                'class' => 'wps-option__updater notice--enable-usage',
-            ]
-        ]
-    ];
-    Notice::renderNotice($notice, 'usage_data_tracking', 'setting', true, 'action');
-}
+use WP_STATISTICS\Helper;
+use WP_Statistics\Components\View;
+
+View::load('components/objects/usage-tracker-notice');
+
 ?>
 <div class="wps-wrap__top tabbed_page">
     <h2 class="wps_title">
@@ -36,12 +21,12 @@ if (!WP_STATISTICS\Option::get('usage_data_tracking') && !in_array('usage_data_t
     <?php if (isset($real_time_button)): ?>
         <?php
         $is_realtime_active = Helper::isAddOnActive('realtime-stats');
-          if ($is_realtime_active): ?>
+        if ($is_realtime_active): ?>
             <a class="wps-realtime-btn" href="<?php echo esc_url(admin_url('admin.php?page=wp_statistics_realtime_stats')) ?>" title="<?php echo esc_html_e('Real-time stats are available! Click here to view', 'wp-statistics') ?>">
                 <?php esc_html_e('Realtime', 'wp-statistics'); ?>
             </a>
         <?php else: ?>
-            <button class="wps-realtime-btn disabled wps-tooltip-premium" >
+            <button class="wps-realtime-btn disabled wps-tooltip-premium">
                 <?php esc_html_e('Realtime', 'wp-statistics'); ?>
                 <span class="wps-tooltip_templates tooltip-premium tooltip-premium--bottom tooltip-premium--right">
                     <span id="tooltip_realtime">
@@ -54,7 +39,6 @@ if (!WP_STATISTICS\Option::get('usage_data_tracking') && !in_array('usage_data_t
             </button>
         <?php endif ?>
     <?php endif; ?>
-
 
 
     <div class="wp-clearfix"></div>
@@ -96,7 +80,7 @@ if (!WP_STATISTICS\Option::get('usage_data_tracking') && !in_array('usage_data_t
                     <?php if (isset($tab['coming_soon'])): ?>
                         <span class="wps-tooltip wps-tooltip--coming_soon" title="<?php echo esc_html__('Coming soon', 'wp-statistics') ?>"><?php echo esc_html($tab['title']); ?> <i class="wps-tooltip-icon coming-soon"></i></span>
                     <?php elseif (isset($tab['locked'])) : ?>
-                        <a  data-target="wp-statistics-data-plus"  class="js-wps-openPremiumModal wps-locked">
+                        <a data-target="wp-statistics-data-plus" class="js-wps-openPremiumModal wps-locked">
                             <?php echo esc_html($tab['title']); ?>
                             <?php if (!empty($tab['tooltip'])) : ?>
                                 <span class="wps-tooltip" title="<?php echo esc_attr($tab['tooltip']) ?>"><i class="wps-tooltip-icon info"></i></span>

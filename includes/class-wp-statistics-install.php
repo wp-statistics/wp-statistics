@@ -633,6 +633,10 @@ class Install
             Option::update('privacy_audit', true);
         }
 
+        if (Option::get('usage_data_tracking', 'fail') === 'fail' && version_compare($latest_version, '14.12', '>')) {
+            Option::update('usage_data_tracking', false);
+        }
+
         /**
          * Update GeoIP schedule from daily to monthly
          */

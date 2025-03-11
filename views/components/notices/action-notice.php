@@ -8,10 +8,10 @@
         <?php endif; ?>
     </h2>
     <p><?php echo wp_kses_post($notice['message']['content']); ?>
-        <a href="<?php echo esc_url($notice['message']['links']['learn_more']['url']); ?>" target="_blank"><?php echo esc_html($notice['message']['links']['learn_more']['text']);?></a>.
+        <a href="<?php echo esc_url($notice['message']['links']['learn_more']['url']); ?>" target="_blank"><?php echo esc_html($notice['message']['links']['learn_more']['text']); ?></a>.
     </p>
     <div class="notice-footer">
-        <a href="<?php echo esc_url($notice['message']['links']['enable_tracking']['url']); ?>" target="_blank"
+        <a href="<?php echo esc_url($notice['message']['links']['enable_tracking']['url']); ?>" data-option="<?php echo esc_attr($notice['message']['links']['enable_tracking']['attributes']['data-option']); ?>" data-value="<?php echo esc_attr($notice['message']['links']['enable_tracking']['attributes']['data-value']); ?>" target="_blank"
            class="<?php echo esc_attr($notice['message']['links']['enable_tracking']['class']); ?>">
             <?php echo esc_html($notice['message']['links']['enable_tracking']['text']); ?>
         </a>

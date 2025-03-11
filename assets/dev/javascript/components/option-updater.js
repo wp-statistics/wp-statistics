@@ -3,9 +3,8 @@ jQuery(document).ready(function () {
         e.preventDefault();
 
         let $this = jQuery(this);
-        let optionDataElement = $this.parents().filter((_, el) => $(el).find('.wps-option-data').length > 0).first().find('.wps-option-data');
-        let option = optionDataElement.data('option');
-        let value = optionDataElement.data('value');
+        let option = $this.data('option');
+        let value = $this.data('value');
         let params = {
             'wps_nonce': wps_js.global.rest_api_nonce,
             'action': 'wp_statistics_option_updater',
