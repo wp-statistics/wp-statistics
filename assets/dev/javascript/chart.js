@@ -874,9 +874,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                     padding: 8,
                     lineHeight: 15,
                     stepSize: 1,
-                    callback: function(value) {
-                        return value >= 1000 ? (value / 1000) + 'K' : value;
-                    },
+                    callback: renderFormatNum,
                 },
                 border: {
                     color: 'transparent',
@@ -924,9 +922,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 padding: 8,
                 lineHeight: 15,
                 stepSize: 1,
-                callback: function(value) {
-                    return value >= 1000 ? (value / 1000) + 'K' : value;
-                }
+                callback: renderFormatNum
             },
             title: {
                 display: true,
@@ -951,9 +947,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 padding: 8,
                 lineHeight: 15,
                 stepSize: 1,
-                callback: function(value) {
-                    return value >= 1000 ? (value / 1000) + 'K' : value;
-                }
+                callback: renderFormatNum
             },
             position: 'right',
             grid: {

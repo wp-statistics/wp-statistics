@@ -124,9 +124,7 @@ wps_js.render_wp_statistics_post_summary_widget = function(response, key){
                         fontSize: 10,
                         padding: 8,
                         stepSize:1,
-                        callback: function(value) {
-                            return value >= 1000 ? (value / 1000) + 'K' : value;
-                        },
+                        callback: renderFormatNum,
                     }
                 }
             },
