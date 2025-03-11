@@ -2760,6 +2760,15 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   position: relative;
   margin-bottom: 0;
 
+  .wps-tab-link--pin{
+    gap: 6px;
+    .wps-pin{
+      background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTEiIGhlaWdodD0iMTAiIHZpZXdCb3g9IjAgMCAxMSAxMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTcgNi41TDguODc1IDQuNjI1TDYuMjUgMy41TDQuMzc1IDAuNUwxIDMuODc1TDQgNS43NUw1LjEyNSA4LjM3NUw3IDYuNVpNNyA2LjVMMTAgOS41IiBzdHJva2U9IiM1NjU4NUEiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4K");
+      width: 9px;
+      height: 9px;
+    }
+  }
+
   &__online-visitors {
     a {
       position: relative;
@@ -3750,5 +3759,30 @@ span.wps_search-console_icon {
   }
   to {
     transform: translateX(100%)
+  }
+}
+
+.wps_title .wps-button{
+  &.wps-button--outline-primary{
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-weight: 500;
+    font-size: 14px;
+    color: #404bf2;
+    box-sizing: border-box;
+    line-height: 14px;
+    display: inline-block;
+    border: 1px solid #404BF2;
+
+    &:hover, &:focus , &:active{
+      background: #D9DBFC;
+      color: #404bf2;
+    }
+
+    &:disabled{
+      background: #F5F6FE!important;
+      border: 1px solid #404BF23D!important;
+      color: #B2B2CF!important;
+    }
   }
 }

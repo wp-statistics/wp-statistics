@@ -8,10 +8,13 @@ $pageKey = Menus::getCurrentPage();
 $pageKey = $pageKey['page_url'];
 ?>
 <div class="wps-wrap__top tabbed_page">
-    <h2 class="wps_title">
+    <h2 class="wps_title <?php if (!empty($create_goal_url)) echo 'wps_flex' ?>">
         <span><?php echo(isset($title) ? esc_html($title) : (function_exists('get_admin_page_title') ? esc_html(get_admin_page_title()) : '')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
         <?php if (!empty($tooltip)) : ?>
             <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
+        <?php endif; ?>
+        <?php if (!empty($create_goal_url)) : ?>
+            <a href="<?php echo esc_url($create_goal_url) ?>" class="wps-button wps-button--outline-primary"> <?php esc_html_e('Add New Goal', 'wp-statistics'); ?></a>
         <?php endif; ?>
     </h2>
 
@@ -111,6 +114,11 @@ $pageKey = $pageKey['page_url'];
                             <?php if (!empty($tab['tooltip'])) : ?>
                                 <span class="wps-tooltip" title="<?php echo esc_attr($tab['tooltip']) ?>"><i class="wps-tooltip-icon info"></i></span>
                             <?php endif; ?>
+                        </a>
+                    <?php elseif (isset($tab['pin'])) : ?>
+                        <a href="<?php echo esc_attr($tab['link']); ?>" class="wps-tab-link--pin">
+                            <?php echo esc_html($tab['title']); ?>
+                            <i class="wps-tooltip-icon wps-pin"></i>
                         </a>
                     <?php else: ?>
                         <a href="<?php echo esc_attr($tab['link']); ?>">
