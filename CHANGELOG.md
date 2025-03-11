@@ -1,4 +1,7 @@
-= 14.12.6 - 2025-02-10 =
+= 14.12.x
+- **Enhancement:** Improve Y-axis display number in charts.
+- 
+- = 14.12.6 - 2025-02-10 =
 - **New:** Added DB-IP as a new location detection option.
 - **New:** Added `first_page`, `first_view`, `last_page`, and `last_view` columns to the visitor table for faster data handling.
 - **Enhancement:** Refactored internal filters to improve performance and code clarity.
