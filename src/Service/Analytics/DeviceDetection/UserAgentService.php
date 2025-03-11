@@ -92,7 +92,11 @@ class UserAgentService
             $brand  = $this->deviceDetector->getBrandName();
             $device = $this->deviceDetector->getModel();
 
-            // Concatenate and then trim to remove extra space if one part is empty.
+            if (!empty($device)) {
+                $words = explode(' ', trim($device));
+                $device = $words[0] ?? null;
+            }
+
             $model = trim($brand . ' ' . $device);
         }      
 

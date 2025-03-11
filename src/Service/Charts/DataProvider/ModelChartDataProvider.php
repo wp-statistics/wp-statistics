@@ -65,6 +65,13 @@ class ModelChartDataProvider extends AbstractChartDataProvider
                 }
             }
 
+            if ($unknownData > 0) {
+                $parsedData[] = [
+                    'label'    => esc_html__('Unknown', 'wp-statistics'),
+                    'visitors' => $unknownData
+                ];
+            }
+
             // Sort data by visitors
             usort($parsedData, function ($a, $b) {
                 return $b['visitors'] - $a['visitors'];
@@ -78,7 +85,7 @@ class ModelChartDataProvider extends AbstractChartDataProvider
                 // Show the rest of the results as others, and sum up the visitors
                 $otherItem    = [
                     'label'    => esc_html__('Other', 'wp-statistics'),
-                    'visitors' => array_sum(array_column($otherData, 'visitors')) + $unknownData,
+                    'visitors' => array_sum(array_column($otherData, 'visitors')),
                 ];
 
                 $parsedData = array_merge($topData, [$otherItem]);
