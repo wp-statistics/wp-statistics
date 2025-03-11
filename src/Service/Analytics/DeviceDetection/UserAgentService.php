@@ -95,6 +95,10 @@ class UserAgentService
             if (!empty($device)) {
                 $words = explode(' ', trim($device));
                 $device = $words[0] ?? null;
+
+                if (! empty($device) && ctype_digit($device)) {
+                    $device = '';
+                }
             }
 
             $model = trim($brand . ' ' . $device);
