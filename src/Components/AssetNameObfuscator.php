@@ -216,8 +216,7 @@ class AssetNameObfuscator
      */
     public function getDynamicAssetKey()
     {
-        $domainHash = $this->generateShortHash(home_url(), 6);
-        return '?' . $domainHash . '=';
+        return $this->generateShortHash(home_url(), 6);
     }
 
     /**
@@ -227,7 +226,7 @@ class AssetNameObfuscator
      */
     public function getUrlThroughProxy()
     {
-        return esc_url(home_url($this->getDynamicAssetKey() . $this->hashedFileName));
+        return esc_url(home_url('?' . $this->getDynamicAssetKey() . '=' . $this->hashedFileName));
     }
 
     /**

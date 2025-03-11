@@ -55,9 +55,11 @@ class HooksManager
      */
     public function serveObfuscatedAsset()
     {
-        if (isset($_GET['assets'])) {
-            $asset               = sanitize_text_field($_GET['assets']);
-            $assetNameObfuscator = new AssetNameObfuscator();
+        $assetNameObfuscator = new AssetNameObfuscator();
+        $dynamicAssetKey     = $assetNameObfuscator->getDynamicAssetKey();
+
+        if (isset($_GET[$dynamicAssetKey])) {
+            $asset = sanitize_text_field($_GET[$dynamicAssetKey]);
             $assetNameObfuscator->serveAssetByHash($asset);
         }
     }
