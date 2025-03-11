@@ -70,6 +70,8 @@ Upgrade your analytics toolkit with our range of premium add-ons, including [Dat
 = Report Bugs =
 Having trouble with a bug? Please [create an issue](https://github.com/wp-statistics/wp-statistics/issues/new) on GitHub. Kindly note that [GitHub](https://github.com/wp-statistics/wp-statistics) is exclusively for bug reports; other inquiries will be closed.
 
+For security vulnerabilities, please report them through the [Patchstack Vulnerability Disclosure Program](https://patchstack.com/database/wordpress/plugin/wp-statistics/vdp). The Patchstack team will validate, triage, and handle any security issues.
+
 == Installation ==
 1. Upload `wp-statistics` to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
@@ -109,9 +111,6 @@ Data can be exported to XML, CSV, or TSV files for backup or reporting purposes.
 
 = Is there Multi-Site support? =
 WP Statistics supports WordPress Multi-Site/Network installations. In the network admin, you can view combined or separate analytics for each subsite.
-
-= How can I report security bugs? =
-You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/wordpress/plugin/wp-statistics/vdp)
 
 == Screenshots ==
 1. Overview
