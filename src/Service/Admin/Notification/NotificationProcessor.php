@@ -138,32 +138,29 @@ class NotificationProcessor
      *
      * @return array
      */
-    public static function checkUpdatedNotifications($newNotifications)
+    public static function checkUpdatedNotifications($rawNewNotifications)
     {
-        $oldNotifications = NotificationFactory::getRawNotificationsData();
+        $rawOldNotifications = NotificationFactory::getRawNotificationsData();
+        $oldNotifications    = self::filterNotificationsByTags($rawOldNotifications['data'] ?? []);
+        $oldNotificationIds  = [];
 
-        $oldNotificationIds = [];
-
-        if (!empty($oldNotifications['data']) && is_array($oldNotifications['data'])) {
-            foreach ($oldNotifications['data'] as $oldNotification) {
-                if (!empty($oldNotification['id'])) {
-                    $oldNotificationIds[$oldNotification['id']] = true;
-                }
+        foreach ($oldNotifications as $oldNotification) {
+            if (!empty($oldNotification['id'])) {
+                $oldNotificationIds[$oldNotification['id']] = true;
             }
         }
 
-        if (!empty($newNotifications['data']) && is_array($newNotifications['data'])) {
-            foreach ($newNotifications['data'] as &$newNotification) {
-                if (!empty($newNotification['id']) && !isset($oldNotificationIds[$newNotification['id']])) {
-                    $newNotifications['updated'] = true;
-                    break;
-                } else {
-                    $newNotifications['updated'] = false;
-                }
+        $newNotifications               = self::filterNotificationsByTags($rawNewNotifications['data'] ?? []);
+        $rawNewNotifications['updated'] = false;
+
+        foreach ($newNotifications as $newNotification) {
+            if (!empty($newNotification['id']) && !isset($oldNotificationIds[$newNotification['id']])) {
+                $rawNewNotifications['updated'] = true;
+                break;
             }
         }
 
-        return $newNotifications;
+        return $rawNewNotifications;
     }
 
     /**
