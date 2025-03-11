@@ -243,6 +243,19 @@ abstract class BaseMetabox
      */
     public function register()
     {
+        $userCapability = Option::get('read_capability');
+        $screens        = $this->getScreen();
+
+        // If the dashboard widgets are disabled, remove them from the screens
+        if (Option::get('disable_dashboard') && in_array('dashboard', $screens)) {
+            $screens = array_diff($screens, ['dashboard']);
+        }
+
+        // Return early if the user doesn't have the capability to view the stats
+        if ($userCapability && !current_user_can($userCapability)) {
+            return;
+        }
+
         $this->enqueueAssets();
 
         // If widget is not static, register ajax callback to get dynamic data
@@ -251,6 +264,6 @@ abstract class BaseMetabox
             Ajax::register("{$key}_metabox_get_data", [$this, 'getResponse'], false);
         }
 
-        add_meta_box($this->getKey(), $this->getName(), [$this, 'render'], $this->getScreen(), $this->getContext(), $this->getPriority(), $this->getCallbackArgs());
+        add_meta_box($this->getKey(), $this->getName(), [$this, 'render'], $screens, $this->getContext(), $this->getPriority(), $this->getCallbackArgs());
     }
 }

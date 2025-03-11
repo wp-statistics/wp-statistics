@@ -299,6 +299,8 @@ class HitColumnHandler
         // Change `resource_type` parameter if it's a term
         if (!empty($term)) {
             $hitArgs['resource_type'] = $this->getCache('postType');
+        } else {
+            $hitArgs['date']['from'] = get_post_time('Y-m-d', false, $objectId);
         }
 
         if ($this->miniChartHelper->getCountDisplay() === 'date_range') {

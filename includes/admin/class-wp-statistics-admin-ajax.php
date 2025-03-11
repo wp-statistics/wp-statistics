@@ -4,9 +4,8 @@ namespace WP_STATISTICS;
 
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Models\VisitorsModel;
-use WP_Statistics\Service\Admin\NoticeHandler\Notice;
-use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Service\Geolocation\Provider\DbIpProvider;
 use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;
 use WP_Statistics\Utils\Request;
 
@@ -64,11 +63,6 @@ class Ajax
             [
                 'class'  => $this,
                 'action' => 'purge_visitor_hits',
-                'public' => false
-            ],
-            [
-                'class'  => $this,
-                'action' => 'visitors_page_filters',
                 'public' => false
             ],
             [
@@ -399,74 +393,7 @@ class Ajax
 
         exit;
     }
-
-    /**
-     * Show Page Visitors Filter
-     */
-    public function visitors_page_filters_action_callback()
-    {
-
-        if (Helper::is_request('ajax') and isset($_REQUEST['page'])) {
-
-            // Run only Visitors Page
-            if ($_REQUEST['page'] != "visitors") {
-                exit;
-            }
-
-            // Check Refer Ajax
-            check_ajax_referer('wp_rest', 'wps_nonce');
-
-            // Create Output object
-            $filter = array();
-
-            // Browsers
-            $filter['browsers'] = array();
-            $browsers           = DeviceHelper::getBrowserList();
-            foreach ($browsers as $key => $se) {
-                $filter['browsers'][$se] = $se;
-            }
-
-            // Location
-            $filter['location'] = array();
-            $country_list       = Country::getList();
-            foreach ($country_list as $key => $name) {
-                $filter['location'][$key] = $name;
-            }
-
-            // Push First "000" Unknown to End of List
-            $first_key = key($filter['location']);
-            $first_val = $filter['location'][$first_key];
-            unset($filter['location'][$first_key]);
-            $filter['location'][$first_key] = $first_val;
-
-            // Platforms
-            $filter['platform'] = array();
-            $platforms_list     = DeviceHelper::getPlatformsList();
-
-            foreach ($platforms_list as $platform) {
-                $filter['platform'][$platform] = $platform;
-            }
-
-            // Referrer
-            $filter['referrer'] = array();
-            $referrer_list      = Referred::getList(array('min' => 50, 'limit' => 300));
-            foreach ($referrer_list as $site) {
-                $filter['referrer'][$site->domain] = $site->domain;
-            }
-
-            // User
-            $filter['users'] = array();
-            $user_list       = Visitor::get_users_visitor();
-            foreach ($user_list as $user_id => $user_inf) {
-                $filter['users'][$user_id] = $user_inf['user_login'] . " #" . $user_id . "";
-            }
-
-            // Send Json
-            wp_send_json($filter);
-        }
-        exit;
-    }
-
+ 
     /**
      * Setup an AJAX action to update geoIP database.
      */
@@ -477,14 +404,21 @@ class Ajax
             // Check Refer Ajax
             check_ajax_referer('wp_rest', 'wps_nonce');
 
-            $result = GeolocationFactory::downloadDatabase(MaxmindGeoIPProvider::class);
+
+            $method   = Request::get('geoip_location_detection_method', 'maxmind');
+            $provider = MaxmindGeoIPProvider::class;
+            
+            if ('dbip' === $method) {
+                $provider = DbIpProvider::class;
+            }
+
+            $result = GeolocationFactory::downloadDatabase($provider);
 
             if (is_wp_error($result)) {
                 esc_html_e($result->get_error_message());
+            } else {
+                esc_html_e('GeoIP Database successfully updated.', 'wp-statistics');
             }
-
-            esc_html_e('GeoIP Database successfully updated.', 'wp-statistics');
-
         } else {
             esc_html_e('Unauthorized access!', 'wp-statistics');
         }

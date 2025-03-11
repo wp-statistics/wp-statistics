@@ -5,18 +5,18 @@ use WP_Statistics\Components\View;
 $activeFilters = 0;
 
 foreach ($_GET as $params_key => $params_item) {
-    if (in_array($params_key, ['agent', 'location', 'platform', 'referrer' , 'user_id' ,'ip'])) {
+    if (! empty($params_item) && in_array($params_key, ['agent', 'location', 'platform', 'referrer', 'user_id', 'ip'])) {
         $activeFilters++;
     }
 }
-
-$classes[] = $activeFilters > 0 ? 'wp-visitors-filter--active' : '';
+$classes[] = 'wps-modal-filter';
+$classes[] = $activeFilters > 0 ? 'wp-modal-filter--active' : '';
 $classes[] = is_rtl() ? 'wps-pull-left' : 'wps-pull-right';
 ?>
 <?php
 
 $args = [
-    'filter_type'   => 'visitors',
+    'filter_type'   => 'wps-modal',
     'classes'       => implode(' ', $classes),
     'activeFilters' => $activeFilters,
 ];

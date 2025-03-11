@@ -10,6 +10,7 @@ $visitors       = $data['total']['visitors']['current'];
 $prevVisitors   = $data['total']['visitors']['prev'];
 $views          = $data['total']['views']['current'];
 $prevViews      = $data['total']['views']['prev'];
+$userOnline     = new \WP_STATISTICS\UserOnline();
 ?>
 
 <div class="wps-meta-traffic-summary">
@@ -55,6 +56,7 @@ $prevViews      = $data['total']['views']['prev'];
                         </div>
                     </div>
                 </div>
+                <?php if ($userOnline::active()) : ?>
                 <div class="wps-postbox-chart--item wps-postbox-chart--item__active">
                     <span><?php esc_html_e('Online Visitors', 'wp-statistics'); ?></span>
                     <div>
@@ -64,7 +66,7 @@ $prevViews      = $data['total']['views']['prev'];
                         </div>
                     </div>
                 </div>
-
+                <?php endif ?>
             </div>
         </div>
         <div class="wps-postbox-chart--container">
