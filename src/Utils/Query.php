@@ -61,6 +61,15 @@ class Query
         return $instance;
     }
 
+    public static function delete($table)
+    {
+        $instance            = new self();
+        $instance->operation = 'delete';
+        $instance->table     = $instance->getTable($table);
+
+        return $instance;
+    }
+
     public static function insert($table)
     {
         $instance            = new self();
@@ -103,6 +112,8 @@ class Query
             $identifiers    = [];
             $placeholders   = [];
 
+            $values = array_filter($values);
+
             foreach ($values as $field => $value) {
                 $identifiers[]  = '%i';
 
@@ -110,8 +121,6 @@ class Query
                     $placeholders[] = '%s';
                 } else if (is_numeric($value)) {
                     $placeholders[] = '%d';
-                } else if (empty($value)) {
-                    $placeholders[] = 'NULL';
                 }
             }
 
@@ -735,6 +744,24 @@ class Query
         return $query;
     }
 
+    protected function deleteQuery()
+    {
+        $query = "DELETE FROM $this->table";
+
+        // Append WHERE clauses
+        $whereClauses = array_filter($this->whereClauses);
+        if (!empty($whereClauses)) {
+            $query .= ' WHERE ' . implode(" $this->whereRelation ", $whereClauses);
+        }
+
+        if (!empty($this->rawWhereClause)) {
+            $query .= empty($this->whereClauses) ? ' WHERE ' : ' ';
+            $query .= implode(' ', $this->rawWhereClause);
+        }
+
+        return $query;
+    }
+
     protected function insertQuery()
     {
         $query = "INSERT INTO $this->table";
@@ -791,9 +818,12 @@ class Query
         return $this;
     }
 
-    public function removeTablePrefix($query)
+    public function removeTablePrefix($table)
     {
-        return str_replace([$this->db->prefix, 'statistics_'], '', $query);
+        $prefixLength   = strlen($this->db->prefix);
+        $table          = substr($table, $prefixLength);
+
+        return str_replace('statistics_', '', $table);
     }
 
     /**

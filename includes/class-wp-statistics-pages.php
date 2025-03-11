@@ -568,7 +568,7 @@ class Pages
         $where = !empty($where) ? "WHERE " . implode(" AND ", $where) : "";
 
         // Return
-        return $wpdb->get_var("SELECT COUNT(*) FROM (SELECT COUNT(page_id) FROM `" . DB::table('pages') . "` `pages` {$where} GROUP BY `{$group_by}`) AS totalCount"); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        return $wpdb->get_var("SELECT COUNT(*) FROM (SELECT COUNT(*) FROM `" . DB::table('pages') . "` `pages` {$where} GROUP BY `{$group_by}`) AS totalCount"); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
     }
 
     /**

@@ -123,7 +123,6 @@ FilterPanel.prototype.renderFilters = function (data) {
         const containerSelector = filter.containerSelector;
 
         if (!type || !containerSelector) {
-            console.warn("Skipping filter", key, "- Missing type or container.");
             return;
         }
 

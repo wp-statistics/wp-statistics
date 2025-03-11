@@ -8,6 +8,15 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 }
 
+.notice.wp-statistics-notice{
+  a.button-primary{
+    padding: 0 10px!important;
+    font-size: 13px;
+    line-height: 2.15384615;
+    min-height: 30px;
+  }
+}
+
 .wps-info-box {
   background: #FFFFFF;
   padding: 12px;

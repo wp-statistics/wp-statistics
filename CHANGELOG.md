@@ -1,14 +1,26 @@
-= 14.12.5 - 2025-02-** =
-- **Fix:** Fix js error on the Statistics - Summary meta box when the Data Plus addon is not activated.
-- **Fix:** Fixed issues with Dashboard charts not loading due to an empty metalist and metaboxes not loading in specific cases.
-- **Fix:** Correct mini chart start date to use post creation date instead of default.
-- **Fix:** Fixed empty chart issue when selecting a 1-day range.
-- **Fix:** Resolved missing referring sites.
-- **Fix:** Resolved missing online visitor data on the Online Visitors list.
-- **Fix:** Fixed database errors across the plugin caused by using `%i` for identifiers in WordPress queries.
-- **Enhancement:** Online Visitors-related elements are now hidden when "Monitor Online Visitors" is disabled.
-- **Enhancement:** Improved number display so that numbers below 1,000 appear in full while numbers 1,000 and above are neatly abbreviated.
-- **Enhancement:** Removed the Latest Visitors Preview metabox.
+- **Fix:** Resolve statistical discrepancies in widgets.
+
+= 14.12.6 - 2025-02-10 =
+- **New:** Added DB-IP as a new location detection option.
+- **New:** Added `first_page`, `first_view`, `last_page`, and `last_view` columns to the visitor table for faster data handling.
+- **Enhancement:** Refactored internal filters to improve performance and code clarity.
+- **Fix:** Fixed database table prefix conflicts causing query errors.
+- **Fix:** Optimized slow queries in the Mini Chart.
+- **Fix:** Fixed a permissions check issue on the settings page.
+- **Fix:** Improved the IP sanitization & Cloudflare compatibility with IPv6.
+- **Enhancement:** Improved query performance.
+
+= 14.12.5 - 2025-02-23 =
+- **Enhancement:** Hide Online Visitors elements when "Monitor Online Visitors" is off.
+- **Enhancement:** Improved number formatting: full display below 1,000, abbreviated above.
+- **Enhancement:** Removed "Latest Visitors Preview" when Data Plus isn't active.
+- **Fix:** Fixed JS error on "Statistics - Summary" when Data Plus isn't active.
+- **Fix:** Fixed Dashboard charts and metabox loading issues.
+- **Fix:** Mini Chart now starts from the post creation date.
+- **Fix:** Fixed empty chart issue for 1-day range.
+- **Fix:** Restored missing referring sites.
+- **Fix:** Fixed missing online visitor data in the list.
+- **Fix:** Resolved database errors from `%i` misuse in queries.
 
 = 14.12.4 - 2025-02-06 =
 - **Fix:** Fixed issues with Dashboard charts not loading due to an empty metalist and metaboxes not loading in specific cases.
@@ -83,9 +95,9 @@
 - **Fix:** Fixed a bug in Roles & Permissions to prevent users from assigning higher permissions than they have.
 - **Fix:** Made the `views` column sortable again.
 - **Fix:** Resolved a PHP deprecation warning for better compatibility.
-- **Dev:** Added new filters for developers:  
-  - `wp_statistics_geolocation_download_url`  
-  - `wp_statistics_injection_patterns`  
+- **Dev:** Added new filters for developers:
+  - `wp_statistics_geolocation_download_url`
+  - `wp_statistics_injection_patterns`
   - `wp_statistics_location_column_value`
 
 14.11.3 - 2024-11-17

@@ -18,7 +18,7 @@ function FilterModal(options) {
         fields: {},
     };
 
-    this.settings = { ...defaults, ...options };
+    this.settings = {...defaults, ...options};
     this.formSelector = this.settings.formSelector;
     this.memoryCache = null;
     this.filterWrapperSelector = this.settings.filterWrapperSelector;
@@ -28,7 +28,7 @@ function FilterModal(options) {
         Object.entries(this.settings.fields)
             .map(([key, field]) =>
                 field.name && field.name !== 'page'
-                    ? [field.name, { type: field.type, key }]
+                    ? [field.name, {type: field.type, key}]
                     : null
             )
             .filter(Boolean)
@@ -93,14 +93,181 @@ FilterModal.prototype.init = function () {
     jQuery(document).on('click', this.settings.resetSelector, this.onResetFilterClick.bind(this));
 
     this.bindOnLoadFilter();
+
+    // Listen for Thickbox close to cleanup
+    jQuery(document).on('tb_unload', () => {
+        this.cleanup();
+    });
+};
+
+/**
+ * Initializes Select2 on select elements with image support.
+ */
+FilterModal.prototype.initializeSelect2Elements = function ($selects) {
+    $selects.each((index, element) => {
+        const $element = jQuery(element);
+        const fieldName = $element.attr('name');
+
+        const target_folder = () => {
+            if (!fieldName) return null;
+            const lowerField = fieldName.toLowerCase();
+            if (lowerField === 'agent') return 'browser';
+            if (lowerField === 'platform') return 'operating-system';
+            if (lowerField === 'location') return 'flags';
+            return null;
+        };
+        const folder = target_folder();
+
+        const checkImageExists = (url) => {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => resolve(true);
+                img.onerror = () => resolve(false);
+                img.src = url;
+            });
+        };
+
+        const getValidImagePath = async (imageName) => {
+            if (!imageName || !folder) return `${wps_js.global.assets_url}/images/flags/000.svg`;
+            const basePath = `${wps_js.global.assets_url}/images/${folder}/${imageName}`;
+            const defaultPath = `${wps_js.global.assets_url}/images/flags/000.svg`;
+
+            if (imageName === 'all') {
+                return defaultPath;
+            }
+
+            const svgPath = `${basePath}.svg`;
+            if (await checkImageExists(svgPath)) {
+                return svgPath;
+            }
+
+            const pngPath = `${basePath}.png`;
+            if (await checkImageExists(pngPath)) {
+                return pngPath;
+            }
+
+            return defaultPath;
+        };
+
+        const initializeSelect2 = () => {
+            if ($element.hasClass('select2-hidden-accessible')) {
+                $element.select2('destroy');
+            }
+
+            const config = {
+                escapeMarkup: function (markup) {
+                    return markup;
+                },
+                templateResult: function (state) {
+                    if (!state.id || state.loading) return state.text;
+                    const imageName = state.id.toLowerCase().replace(/ /g, '_');
+
+                    const $result = jQuery(`
+                        <span class="wps-modal-filter-icon">
+                            <img src="${wps_js.global.assets_url}/images/flags/000.svg" alt="${state.text}"/>
+                            ${state.text}
+                        </span>
+                    `);
+
+                    getValidImagePath(imageName).then(imagePath => {
+                        $result.find('img').attr('src', imagePath);
+                    });
+
+                    return $result;
+                },
+                templateSelection: function (idioma) {
+                    if (!idioma.id) return idioma.text;
+                    const imageName = idioma.id.toLowerCase().replace(/ /g, '_');
+
+                    const $selection = jQuery(`
+                        <span class="wps-modal-filter-icon">
+                            <img src="${wps_js.global.assets_url}/images/flags/000.svg" alt="${idioma.text}"/>
+                            ${idioma.text}
+                        </span>
+                    `);
+
+                    getValidImagePath(imageName).then(imagePath => {
+                        $selection.find('img').attr('src', imagePath);
+                    });
+
+                    return $selection;
+                }
+            };
+
+            if (folder) {
+                $element.select2(config);
+            } else {
+                $element.select2();
+            }
+
+            const optionCount = $element.find('option').length;
+
+            $element.trigger('change');
+        };
+
+        if (folder) {
+
+            // Always initialize on modal open if options exist
+            if ($element.find('option').length > 0) {
+                initializeSelect2();
+                $element.data('select2Initialized', true);
+
+                // Store cleanup function
+                $element.data('select2Cleanup', () => {
+                    if ($element.hasClass('select2-hidden-accessible')) {
+                        $element.select2('destroy');
+                    }
+                    $element.removeData('select2Initialized');
+                });
+            } else {
+                // Handle dynamic option loading if no options yet
+                const observer = new MutationObserver((mutations) => {
+                    if ($element.find('option').length > 0) {
+                        initializeSelect2();
+                        $element.data('select2Initialized', true);
+                        observer.disconnect();
+                    }
+                });
+
+                observer.observe($element[0], {
+                    childList: true,
+                    subtree: true
+                });
+
+                $element.data('observer', observer);
+            }
+        }
+    });
+};
+
+/**
+ * Cleans up Select2 instances and observers.
+ */
+FilterModal.prototype.cleanup = function () {
+    jQuery(this.filterContainerSelector).filter('select').each((index, element) => {
+        const $element = jQuery(element);
+        const cleanup = $element.data('select2Cleanup');
+        const observer = $element.data('observer');
+
+        if (cleanup) {
+            cleanup();
+            $element.removeData('select2Cleanup');
+        }
+        if (observer) {
+            observer.disconnect();
+            $element.removeData('observer');
+        }
+    });
 };
 
 /**
  * Handles the click event to open the filter modal.
- * @param {Event} e - The event object.
  */
 FilterModal.prototype.onFilterButtonClick = function (e) {
     e.preventDefault();
+
+    // Cleanup before opening to ensure fresh state
+    this.cleanup();
 
     tb_show(
         wps_js._('filters'),
@@ -119,7 +286,7 @@ FilterModal.prototype.onFilterButtonClick = function (e) {
     }
 
     const dropdowns = jQuery(this.filterWrapperSelector).find('.filter-select');
-    const spinner = new Spinner({ container: this.filterWrapperSelector });
+    const spinner = new Spinner({container: this.filterWrapperSelector});
 
     if (this.memoryCache) {
         this.populateVisitorsFilters(this.memoryCache, dropdowns);
@@ -129,101 +296,33 @@ FilterModal.prototype.onFilterButtonClick = function (e) {
 
     setTimeout(() => {
         this.setSelectedValues();
+        this.initializeSelect2Elements(dropdowns);
     }, 300);
 };
 
-
+/**
+ * Sets selected values in filter fields based on URL parameters.
+ */
 FilterModal.prototype.setSelectedValues = function () {
     jQuery(this.filterContainerSelector).each((index, element) => {
         const $element = jQuery(element);
         const fieldName = $element.attr('name');
         const currentValue = wps_js.getLinkParams(fieldName);
+
         if (currentValue !== null) {
             if ($element.is('select')) {
                 setTimeout(() => {
-                    this.selectOptionWhenAvailable.bind(this)($element, currentValue);
+                    const updateValue = currentValue.replace(/[\+ ]/g, ' ');
+                    this.selectOptionWhenAvailable.bind(this)($element, updateValue);
                 }, 100);
             } else if ($element.is('input')) {
                 $element.val(decodeURIComponent(currentValue));
             }
         }
-
-        if ($element.is('select')) {
-            const target_folder = () => {
-                if (fieldName.toLowerCase() === 'agent') {
-                    return 'browser';
-                } else if (fieldName.toLowerCase() === 'platform') {
-                    return 'operating-system';
-                } else if (fieldName.toLowerCase() === 'location') {
-                    return 'flags';
-                } else {
-                    return null;
-                }
-            };
-            const folder = target_folder();
-
-            if (folder) {
-                setTimeout(() => {
-                // Initialize select2 for the current dropdown
-                $element.select2({
-                    escapeMarkup: function (markup) {
-                        return markup; // Disable HTML escaping
-                    },
-
-                    templateSelection: function (idioma) {
-
-                        if (!idioma.id) {
-                            return idioma.text; // Return plain text for the "All" option
-                        }
-
-                        const imageName = idioma.id.toLowerCase().replace(/ /g, '_');
-                        let imagePath = `${wps_js.global.assets_url}/images/${folder}/${imageName}.svg`;
-
-                        // Fallback for missing images
-                        if (imageName === 'all') {
-                            imagePath = `${wps_js.global.assets_url}/images/flags/000.svg`;
-                        }
-
-                        return jQuery(`
-                            <span class="wps-modal-filter-icon">
-                                <img src="${imagePath}" onerror="this.src='${wps_js.global.assets_url}/images/flags/000.svg'; this.onerror=null;" alt="${idioma.text}" />
-                                ${idioma.text}
-                            </span>
-                        `);
-                    },
-                    templateResult: function (state) {
-                        if (!state.id) {
-                            return state.text;
-                        }
-                        const imageName = state.id.toLowerCase().replace(/ /g, '_');
-                        let imagePath = `${wps_js.global.assets_url}/images/${folder}/${imageName}.svg`;
-
-                        // Fallback for missing images
-                        if (imageName === 'all') {
-                            imagePath = `${wps_js.global.assets_url}/images/flags/000.svg`;
-                        }
-
-                        return jQuery(`
-                            <span class="wps-modal-filter-icon">
-                                <img src="${imagePath}" onerror="this.src='${wps_js.global.assets_url}/images/flags/000.svg'; this.onerror=null;" alt="${state.text}"/>
-                                ${state.text}
-                            </span>
-                        `);
-                    }
-                });
-                }, 200);
-            } else {
-                if (! $element.hasClass('select2-hidden-accessible')) {
-                    $element.select2();
-                }
-            }
-        }
-
     });
 
     this.toggleResetButton();
 
-    // Call custom data load handler if provided
     if (typeof this.settings.onDataLoad === 'function') {
         this.settings.onDataLoad();
     }
@@ -262,30 +361,27 @@ FilterModal.prototype.selectOptionWhenAvailable = function (element, currentValu
  */
 FilterModal.prototype.populateVisitorsFilters = function (data, dropdowns) {
     const generator = new FilterGenerator(this.filterWrapperSelector);
-
     const self = this;
 
     dropdowns.each(function () {
-        const dropdown = jQuery(this),
-            fieldName = dropdown.attr('data-type'),
-            options = data[fieldName];
+        const dropdown = jQuery(this);
+        const fieldName = dropdown.attr('data-type');
+        const options = data[fieldName];
 
         if (options) {
             dropdown.empty();
-
             const placeholder = self.settings.fields[fieldName].placeholder;
 
-            generator.createOptions(
-                dropdown[0],
-                Object.keys(options).map(key => ({
-                    value: key,
-                    label: options[key],
-                })),
-                placeholder
-            );
+            generator.createOptions(dropdown[0], Object.keys(options).map(key => ({
+                value: key,
+                label: options[key],
+            })), placeholder);
         }
     });
-}
+
+    // Initialize Select2 after populating options
+    this.initializeSelect2Elements(dropdowns);
+};
 
 /**
  * Fetches visitor filter data via AJAX.
@@ -296,17 +392,13 @@ FilterModal.prototype.fetchVisitorsFilters = function (spinner, dropdowns) {
     spinner.show();
 
     const self = this;
-
     const queryString = window.location.search;
 
     let params = {
         wps_nonce: wps_js.global.rest_api_nonce,
         action: 'wp_statistics_get_filters',
         filters: Object.keys(self.settings.fields)
-            .filter(field =>
-                field !== 'pageName' &&
-                !(self.settings.fields[field]?.attributes?.['data-searchable'])
-            ),
+            .filter(field => field !== 'pageName' && !(self.settings.fields[field]?.attributes?.['data-searchable'])),
         queryString: queryString,
     };
 
@@ -331,7 +423,7 @@ FilterModal.prototype.fetchVisitorsFilters = function (spinner, dropdowns) {
             spinner.hide();
         }
     });
-}
+};
 
 /**
  * Generates form fields dynamically based on the filter settings.
@@ -384,7 +476,7 @@ FilterModal.prototype.onFormSubmit = function (e) {
         if (input.val()?.trim() === '') {
             input.prop('disabled', true);
         }
-    })
+    });
 
     const order = wps_js.getLinkParams('order');
     if (order) {
@@ -432,7 +524,6 @@ FilterModal.prototype.toggleResetButton = function () {
 
     const urlParams = new URLSearchParams(window.location.search);
 
-    // Check if any ignored parameter exists and has a non-empty value
     const shouldEnableReset = this.fieldTypes.some(param => {
         return urlParams.has(param) && urlParams.get(param).trim() !== '';
     });
@@ -444,6 +535,9 @@ FilterModal.prototype.toggleResetButton = function () {
     }
 };
 
+/**
+ * Sets loading state for submit or reset buttons.
+ */
 FilterModal.prototype.setLoading = function (type = 'submit') {
     if (type === 'reset') {
         jQuery(`${this.formSelector} .wps-modal-reset-filter`)

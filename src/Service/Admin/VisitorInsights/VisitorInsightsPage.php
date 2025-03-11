@@ -33,10 +33,10 @@ class VisitorInsightsPage extends MultiViewPage
     protected function setFilters() {
         $userId          = Request::get('user_id', '');
         $authorInfo      = get_userdata($userId);
-        $userPlaceholder = ! empty($authorInfo) ? $authorInfo->display_name . ' #' . $authorInfo->ID : esc_attr__('All', 'wp-statistics');
+        $userPlaceholder = ! empty($authorInfo) ? $authorInfo->display_name . ' #' . $authorInfo->ID : esc_html__('All', 'wp-statistics');
 
         $referrer            = Request::get('referrer', '');
-        $referrerPlaceholder = ! empty($referrer) ? $referrer : esc_attr__('All', 'wp-statistics');
+        $referrerPlaceholder = ! empty($referrer) ? $referrer : esc_html__('All', 'wp-statistics');
 
         $this->filters = FilterGenerator::create()
             ->hidden('pageName', [
@@ -46,12 +46,15 @@ class VisitorInsightsPage extends MultiViewPage
                 ]
             ])
             ->select('browsers', [
+                'label' => esc_html__('Browsers', 'wp-statistics'),
                 'name' => 'agent',
             ])
             ->select('location', [
                 'label' => esc_html__('Country', 'wp-statistics'),
             ])
-            ->select('platform')
+            ->select('platform', [
+                'label' => esc_html__('Platform', 'wp-statistics'),
+            ])
             ->select('referrer', [
                 'name' => 'referrer',
                 'placeholder' => $referrerPlaceholder,

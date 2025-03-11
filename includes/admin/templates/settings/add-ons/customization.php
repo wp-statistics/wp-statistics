@@ -146,11 +146,11 @@ if ($isCustomizationActive && !$isLicenseValid) {
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="wps_addon_settings[customization][show_wps_about_widget_overview]"><?php esc_html_e('Enable Overview Widget', 'wp-statistics'); ?></label>
+                    <label for="wps_settings[customization_show_wps_about_widget_overview]"><?php esc_html_e('Enable Overview Widget', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
-                    <select name="wps_addon_settings[customization][show_wps_about_widget_overview]" id="wps_addon_settings[customization][show_wps_about_widget_overview]">
+                    <select name="wps_addon_settings[customization][show_wps_about_widget_overview]" id="wps_settings[customization_show_wps_about_widget_overview]">
                         <option value="yes" <?php selected(WP_STATISTICS\Option::getByAddon('show_wps_about_widget_overview', 'customization'), 'yes'); ?>><?php esc_html_e('Yes', 'wp-statistics'); ?></option>
                         <option value="no" <?php selected(WP_STATISTICS\Option::getByAddon('show_wps_about_widget_overview', 'customization'), 'no'); ?>><?php esc_html_e('No', 'wp-statistics'); ?></option>
                     </select>
@@ -158,7 +158,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" class="js-wps-show_if_customization_show_wps_about_widget_overview_equal_yes">
                 <th scope="row">
                     <label for="wps_addon_settings[customization][wps_about_widget_title]"><?php esc_html_e('Widget Title', 'wp-statistics'); ?></label>
                 </th>
@@ -169,7 +169,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" class="js-wps-show_if_customization_show_wps_about_widget_overview_equal_yes">
                 <th scope="row">
                     <label for="wps_addon_settings[customization][wps_about_widget_content]"><?php esc_html_e('Widget Content', 'wp-statistics'); ?></label>
                 </th>

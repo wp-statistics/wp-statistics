@@ -16,8 +16,11 @@ class View
      *
      * @throws Exception if the view file cannot be found.
      */
-    public static function load($view, $args = [], $return = false, $baseDir = WP_STATISTICS_DIR)
+    public static function load($view, $args = [], $return = false, $baseDir = null)
     {
+        // Default to WP_STATISTICS_DIR
+        $baseDir = empty($baseDir) ? WP_STATISTICS_DIR : $baseDir;
+
         try {
             $viewList = is_array($view) ? $view : [$view];
 
