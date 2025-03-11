@@ -110,6 +110,9 @@ Data can be exported to XML, CSV, or TSV files for backup or reporting purposes.
 = Is there Multi-Site support? =
 WP Statistics supports WordPress Multi-Site/Network installations. In the network admin, you can view combined or separate analytics for each subsite.
 
+= How can I report security bugs? =
+You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/wordpress/plugin/wp-statistics/vdp)
+
 == Screenshots ==
 1. Overview
 2. Visitors Insights
