@@ -34,8 +34,8 @@ const wpsBuildTicks = (scale) => {
 }
 
 const chartColors = {
-    'Total': '#27A765', 'Views': '#7362BF', 'Visitors': '#3288D7', 'User Visitors':'#3288D7', 'Anonymous Visitors' :'#7362BF', 'Published Contents' : '#8AC3D0',
-    'Posts': '#8AC3D0', 'Other1': '#3288D7', 'Other2': '#7362BF', 'Other3': '#8AC3D0'
+    'Total': '#27A765', 'Views': '#7362BF', 'Visitors': '#3288D7', 'User Visitors':'#3288D7', 'Anonymous Visitors' :'#7362BF', 'Published Contents' : '#8AC3D0', 'Published Products' : '#8AC3D0',
+    'Published Pages' : '#8AC3D0','Published Posts' : '#8AC3D0','Posts': '#8AC3D0', 'Other1': '#3288D7', 'Other2': '#7362BF', 'Other3': '#8AC3D0'
 };
 
 const chartTensionValues = [0.1, 0.3, 0.5, 0.7];
