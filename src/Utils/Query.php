@@ -158,6 +158,9 @@ class Query
         }
 
         if (!empty($from) && !empty($to)) {
+            if (strlen($from) === 10) $from .= ' 00:00:00';
+            if (strlen($to) === 10) $to .= ' 23:59:59';
+
             $condition                  = "$field BETWEEN %s AND %s";
             $this->whereClauses[]       = $condition;
             $this->valuesToPrepare[]    = $from;
