@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Database\Managers;
 
+use WP_Statistics\Async\BackgroundProcessMonitor;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Database\DatabaseFactory;
@@ -552,17 +553,18 @@ class MigrationHandler
         $status = $details['status'];
 
         if ($status === 'progress') {
+            $remaining = BackgroundProcessMonitor::getRemainingRecords('data_migration_process');
+
             $message = sprintf(
-                '
-                    <p>
-                        <strong>%1$s</strong>
-                        </br>%2$s
-                        </br>%3$s
-                    </p>
-                ',
+                '<p>
+                    <strong>%1$s</strong><br>
+                    %2$s
+                </p>',
                 esc_html__('WP Statistics: Process Running', 'wp-statistics'),
-                esc_html__('The Database Migration process is running in the background. This may take a few minutes depending on your site’s data size.', 'wp-statistics'),
-                esc_html__('Please wait while the process completes. You can continue working in the admin area.', 'wp-statistics')
+                sprintf(
+                    __('Database Migration is running in the background <strong>(%s records remaining)</strong>. You can continue working or dismiss this notice.', 'wp-statistics'),
+                    number_format_i18n($remaining)
+                )
             );
 
             Notice::addNotice($message, 'database_manual_migration_progress', 'info');
@@ -586,6 +588,8 @@ class MigrationHandler
         }
 
         if ($status === 'failed') {
+            BackgroundProcessMonitor::deleteOption('data_migration_process');
+            
             $actionUrl = self::buildActionUrl('retry');
 
             $message = sprintf(

@@ -118,5 +118,6 @@ class DataMigrationProcess extends WP_Background_Process
         Option::deleteOptionGroup('data_migration_process_started', 'jobs');
         Option::saveOptionGroup('migrated', true, 'db');
         Option::saveOptionGroup('migration_status_detail', $operationStatus, 'db');
+        BackgroundProcessMonitor::deleteOption($this->action);
     }
 }
