@@ -177,7 +177,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 },
                 cache: true
             },
-            dropdownCssClass: 'wps-site-dropdown-class',
+            dropdownCssClass: 'wps-site-dropdown-class wps-marketing-select2',
             minimumResultsForSearch: Infinity,
         });
 

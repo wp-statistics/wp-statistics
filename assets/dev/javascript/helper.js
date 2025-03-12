@@ -365,3 +365,9 @@ jQuery(document).ready(function () {
 window.renderFormatNum = function (data) {
     return wps_js.formatNumber(data)
 }
+
+window.renderWPSSelect2 = function (class_name) {
+    jQuery("select[data-type-show=select2]").select2({
+        dropdownCssClass: class_name,
+    });
+ }
