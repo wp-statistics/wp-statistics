@@ -36,7 +36,7 @@ class Test_UserAgentService extends WP_UnitTestCase
         $this->assertEquals('14.0', $userAgentService->getVersion(), 'Failed to detect correct Safari version');
         $this->assertEquals('iOS', $userAgentService->getPlatform(), 'Failed to detect iOS platform');
         $this->assertEquals('smartphone', $userAgentService->getDevice(), 'Failed to detect iPhone device');
-        $this->assertEquals('Apple', $userAgentService->getModel(), 'Failed to detect iPhone device');
+        $this->assertEquals('Apple iPhone', $userAgentService->getModel(), 'Failed to detect iPhone device');
     }
 
     /**

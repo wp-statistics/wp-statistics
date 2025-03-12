@@ -25,7 +25,7 @@
                                         <tr>
                                             <td class="wps-pd-l">
                                                 <span title="<?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->model); ?>" class="wps-model-name">
-                                                    <?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->model); ?>
+                                                    <?php echo self::isUnknown($item->model) ? esc_html__('Unknown', 'wp-statistics') : $item->model; ?>
                                                 </span>
                                             </td>
                                             <td class="wps-pd-l">

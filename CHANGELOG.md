@@ -1,3 +1,6 @@
+= 14.12.x - 2025-xx-xx =
+- **Enhancement:** Improved device model to save and show device model and brand.
+
 = 14.12.6 - 2025-02-12 =
 - **New:** Added DB-IP as a location detection option.
 - **New:** Added `first_page`, `first_view`, `last_page`, and `last_view` columns to the visitor table for better performance.
