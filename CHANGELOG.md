@@ -10,6 +10,7 @@
 - **Fix:** Improved and compatibility the date filter with timezone.
 - **Fix:** Fixed statistical discrepancies in widgets.
 - **Fix:** Fixed a permissions check issue on the settings page.
+- **Enhancement:** Reduced the displayed record count in the Top Countries widget to 5.
 
 = 14.12.5 - 2025-02-23 =
 - **Enhancement:** Hide Online Visitors elements when "Monitor Online Visitors" is off.
