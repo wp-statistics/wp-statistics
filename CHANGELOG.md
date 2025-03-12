@@ -1,6 +1,19 @@
-= 14.12.x - 2025-0x-xx =
-- **Fix:** Fixed tables prefix conflict issue which caused query issues.
+= 14.12.x - 2025-xx-xx =
 - **Enhancement:** Improved device model to save and show device model and brand.
+
+= 14.12.6 - 2025-02-12 =
+- **New:** Added DB-IP as a location detection option.
+- **New:** Added `first_page`, `first_view`, `last_page`, and `last_view` columns to the visitor table for better performance.
+- **Enhancement:** Refactored internal filters for improved efficiency.
+- **Enhancement:** Optimized query performance.
+- **Enhancement:** Improved Y-axis number formatting in charts.
+- **Enhancement:** Reduced the displayed record count in the Top Countries widget to 5.
+- **Fix:** Resolved database table prefix conflicts causing query errors.
+- **Fix:** Optimized Mini Chart queries for better speed.
+- **Fix:** Improved IP sanitization and IPv6 compatibility with Cloudflare.
+- **Fix:** Improved and compatibility the date filter with timezone.
+- **Fix:** Fixed statistical discrepancies in widgets.
+- **Fix:** Fixed a permissions check issue on the settings page.
 
 = 14.12.5 - 2025-02-23 =
 - **Enhancement:** Hide Online Visitors elements when "Monitor Online Visitors" is off.

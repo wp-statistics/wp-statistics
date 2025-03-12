@@ -71,7 +71,6 @@ class User
     }
 
 
-
     public static function getMeta($metaKey, $single = false, $userId = false)
     {
         $userId = !empty($userId) ? $userId : get_current_user_id();
@@ -247,10 +246,10 @@ class User
         }
 
         return [
-            'type'      => $filterType,
-            'filter'    => $dateFilter,
-            'from'      => $from,
-            'to'        => $to
+            'type'   => $filterType,
+            'filter' => $dateFilter,
+            'from'   => $from,
+            'to'     => $to
         ];
     }
 
@@ -299,8 +298,8 @@ class User
      */
     public static function getLastLogin($userId = false)
     {
-        $userId     = empty($userId) ? get_current_user_id() : $userId;
-        $lastLogin  = get_user_meta($userId, 'session_tokens', true);
+        $userId    = empty($userId) ? get_current_user_id() : $userId;
+        $lastLogin = get_user_meta($userId, 'session_tokens', true);
 
         if (!empty($lastLogin)) {
             $lastLogin = array_values($lastLogin);
@@ -315,7 +314,8 @@ class User
      *
      * @return bool Whether the current user is an administrator.
      */
-    public static function isAdmin() {
+    public static function isAdmin()
+    {
         if (!is_user_logged_in()) {
             return false;
         }
@@ -325,22 +325,31 @@ class User
 
     /**
      * Check if the current user has the specified capability.
-     * 
+     *
      * @param string $capability The user capability to check.
+     * @param int $postId The post ID
      * @return bool|null Whether the current user has the specified capability.
      */
-    public static function checkUserCapability($capability)
+    public static function checkUserCapability($capability, $postId = null)
     {
-        if (! self::is_login() || empty($capability)) {
+        if (!self::is_login() || empty($capability)) {
             return;
         }
-        
+
+        if (self::isCapabilityNeedingPostId($capability) && empty($postId)) {
+            return;
+        }
+
         if (is_multisite()) {
-            if (! empty(get_current_blog_id()) && current_user_can_for_site(get_current_blog_id(), $capability)) {
+            if (!empty(get_current_blog_id()) && current_user_can_for_site(get_current_blog_id(), $capability)) {
                 return true;
             }
 
             return;
+        }
+
+        if (!empty($postId) && current_user_can($capability, $postId)) {
+            return true;
         }
 
         if (current_user_can($capability)) {
@@ -348,5 +357,27 @@ class User
         }
 
         return;
+    }
+
+    /**
+     * Checks if a capability requires a post ID.
+     *
+     * @param string $capability
+     *
+     * @return bool
+     */
+    public static function isCapabilityNeedingPostId($capability)
+    {
+        if (strpos($capability, 'edit') !== false || strpos($capability, 'delete') !== false || strpos($capability, 'read') !== false) {
+            $postType = str_replace(['edit_', 'delete_', 'read_'], '', $capability);
+
+            if (substr($postType, -1) === 's') {
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }

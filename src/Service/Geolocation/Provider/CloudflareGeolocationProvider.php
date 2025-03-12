@@ -40,6 +40,15 @@ class CloudflareGeolocationProvider extends AbstractGeoIPProvider
     }
 
     /**
+     * Static method to check if the server is behind Cloudflare.
+     *
+     * @return bool
+     */
+    public static function isBehindCloudflare() {
+        return isset($_SERVER['HTTP_CF_CONNECTING_IP']) || isset($_SERVER['HTTP_CF_IPCOUNTRY']);
+    }
+
+    /**
      * Fetch geolocation data.
      *
      * @param string $ipAddress

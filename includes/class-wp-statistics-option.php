@@ -53,6 +53,7 @@ class Option
             'send_report'                     => 'mail',
             'geoip_license_type'              => 'js-deliver',
             'geoip_license_key'               => '',
+            'geoip_dbip_license_key_option'   => '',
             'content_report'                  => '',
             'email_free_content_header'       => '',
             'email_free_content_footer'       => '',
@@ -318,6 +319,11 @@ class Option
         $settingName = "wp_statistics_{$group}";
         $options     = get_option($settingName, []);
 
+        // Backward compatibility.
+        if (!is_array($options)) {
+            $options = array();
+        }
+
         // Store the value in the array.
         $options[$key] = $value;
 
@@ -329,6 +335,11 @@ class Option
     {
         $settingName = "wp_statistics_{$group}";
         $options     = get_option($settingName, []);
+
+        // Backward compatibility.
+        if (!is_array($options)) {
+            $options = array();
+        }
 
         // Store the value in the array.
         $options[$key] = $value;
