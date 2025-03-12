@@ -147,9 +147,10 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 - **Enhancement:** Improved Y-axis number formatting in charts.
 - **Fix:** Resolved database table prefix conflicts causing query errors.
 - **Fix:** Optimized Mini Chart queries for better speed.
-- **Fix:** Fixed a permissions check issue on the settings page.
 - **Fix:** Improved IP sanitization and IPv6 compatibility with Cloudflare.
+- **Fix:** Improved and compatibility the date filter with timezone.
 - **Fix:** Fixed statistical discrepancies in widgets.
+- **Fix:** Fixed a permissions check issue on the settings page.
 
 = 14.12.5 - 2025-02-23 =
 - **Enhancement:** Hide Online Visitors elements when "Monitor Online Visitors" is off.

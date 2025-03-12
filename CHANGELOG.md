@@ -1,7 +1,3 @@
-- = 14.12.x
-- **Fix:** Fix date filter issue in the header.
-
-
 - = 14.12.6 - 2025-02-12 =
 - **New:** Added DB-IP as a location detection option.
 - **New:** Added `first_page`, `first_view`, `last_page`, and `last_view` columns to the visitor table for better performance.
@@ -10,9 +6,10 @@
 - **Enhancement:** Improved Y-axis number formatting in charts.
 - **Fix:** Resolved database table prefix conflicts causing query errors.
 - **Fix:** Optimized Mini Chart queries for better speed.
-- **Fix:** Fixed a permissions check issue on the settings page.
 - **Fix:** Improved IP sanitization and IPv6 compatibility with Cloudflare.
+- **Fix:** Improved and compatibility the date filter with timezone.
 - **Fix:** Fixed statistical discrepancies in widgets.
+- **Fix:** Fixed a permissions check issue on the settings page.
 
 = 14.12.5 - 2025-02-23 =
 - **Enhancement:** Hide Online Visitors elements when "Monitor Online Visitors" is off.
