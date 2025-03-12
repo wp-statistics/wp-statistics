@@ -297,11 +297,14 @@ class MigrationHandler
                 <strong>%1$s</strong>
                 </br>%2$s
                 </br><a href="%3$s" class="button button-primary" style="margin-top: 10px;">%4$s</a>
+                <a href="%5$s" style="margin: 10px" target="_blank">%6$s</a>
             </p>',
             esc_html__('Action Required: Upgrade Needed for WP Statistics', 'wp-statistics'),
             esc_html__('A database upgrade is needed for your site. Running this upgrade will keep everything working correctly. Please run the process as soon as possible.', 'wp-statistics'),
             esc_url($actionUrl),
-            esc_html__('Run Process Now', 'wp-statistics')
+            esc_html__('Run Process Now', 'wp-statistics'),
+            'https://wp-statistics.com/resources/database-migration-process-guide/?utm_source=wp-statistics&utm_medium=link&utm_campaign=doc',
+            esc_html__('Read More', 'wp-statistics')
         );
     }
 
@@ -516,6 +519,7 @@ class MigrationHandler
      */
     private static function finalizeManualTasks($manualTasks, $process)
     {
+        @ini_set('memory_limit', '-1');
         Option::saveOptionGroup('manual_migration_tasks', $manualTasks, 'db');
         Option::saveOptionGroup('data_migration_process_started', true, 'jobs');
         $process->save()->dispatch();

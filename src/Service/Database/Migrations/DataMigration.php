@@ -56,7 +56,8 @@ class DataMigration extends AbstractMigrationOperation
      *
      * @return array
      */
-    public function addFirstAndLastPageData() {
+    public function addFirstAndLastPageData()
+    {
         try {
             $this->ensureConnection();
 
@@ -96,12 +97,15 @@ class DataMigration extends AbstractMigrationOperation
                 $offset = $batch * $batchSize;
                 $currentBatch = array_slice($visitorIds, $offset, $batchSize);
 
-                $tasks[] = DatabaseFactory::table('visitor_search_insert')
-                    ->setVisitorIds($currentBatch);
+                $tasks[] = [
+                    'data'    => $currentBatch,
+                    'setData' => 'setVisitorIds',
+                    'class'   => 'visitor_search_insert'
+                ];
             }
 
             return $tasks;
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $this->setErrorStatus($e->getMessage());
         }
     }
