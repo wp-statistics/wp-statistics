@@ -145,6 +145,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 - **Enhancement:** Refactored internal filters for improved efficiency.
 - **Enhancement:** Optimized query performance.
 - **Enhancement:** Improved Y-axis number formatting in charts.
+- **Enhancement:** Reduced the displayed record count in the Top Countries widget to 5.
 - **Fix:** Resolved database table prefix conflicts causing query errors.
 - **Fix:** Optimized Mini Chart queries for better speed.
 - **Fix:** Improved IP sanitization and IPv6 compatibility with Cloudflare.
