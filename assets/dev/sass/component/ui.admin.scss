@@ -221,6 +221,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
           display: inline-block;
           width: 16px;
           margin-right: 6px;
+          cursor: pointer;
 
           .rtl &{
             margin-right: 0;

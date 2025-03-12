@@ -304,7 +304,7 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
         if ($googleLink.length) $googleLink.remove();
         const linkAttributes = {
             href: link,
-            class: 'handlediv wps-google-link',
+            class: title ?'wps-tooltip handlediv wps-google-link' :'handlediv wps-google-link',
             target: '_blank',
             ...(title && { title })
         };
