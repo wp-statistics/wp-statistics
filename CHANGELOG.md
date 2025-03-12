@@ -1,3 +1,17 @@
+- = 14.12.6 - 2025-02-12 =
+- **New:** Added DB-IP as a location detection option.
+- **New:** Added `first_page`, `first_view`, `last_page`, and `last_view` columns to the visitor table for better performance.
+- **Enhancement:** Refactored internal filters for improved efficiency.
+- **Enhancement:** Optimized query performance.
+- **Enhancement:** Improved Y-axis number formatting in charts.
+- **Enhancement:** Reduced the displayed record count in the Top Countries widget to 5.
+- **Fix:** Resolved database table prefix conflicts causing query errors.
+- **Fix:** Optimized Mini Chart queries for better speed.
+- **Fix:** Improved IP sanitization and IPv6 compatibility with Cloudflare.
+- **Fix:** Improved and compatibility the date filter with timezone.
+- **Fix:** Fixed statistical discrepancies in widgets.
+- **Fix:** Fixed a permissions check issue on the settings page.
+
 = 14.12.5 - 2025-02-23 =
 - **Enhancement:** Hide Online Visitors elements when "Monitor Online Visitors" is off.
 - **Enhancement:** Improved number formatting: full display below 1,000, abbreviated above.
@@ -83,9 +97,9 @@
 - **Fix:** Fixed a bug in Roles & Permissions to prevent users from assigning higher permissions than they have.
 - **Fix:** Made the `views` column sortable again.
 - **Fix:** Resolved a PHP deprecation warning for better compatibility.
-- **Dev:** Added new filters for developers:  
-  - `wp_statistics_geolocation_download_url`  
-  - `wp_statistics_injection_patterns`  
+- **Dev:** Added new filters for developers:
+  - `wp_statistics_geolocation_download_url`
+  - `wp_statistics_injection_patterns`
   - `wp_statistics_location_column_value`
 
 14.11.3 - 2024-11-17

@@ -13,7 +13,7 @@ class OnlineModel extends BaseModel
     {
         $args = $this->parseArgs($args, []);
 
-        $result = Query::select('COUNT(ID)')
+        $result = Query::select('COUNT(*)')
             ->from('useronline')
             ->getVar();
 

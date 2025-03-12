@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.7
-Stable tag: 14.12.5
+Stable tag: 14.12.6
 Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -69,6 +69,8 @@ Upgrade your analytics toolkit with our range of premium add-ons, including [Dat
 
 = Report Bugs =
 Having trouble with a bug? Please [create an issue](https://github.com/wp-statistics/wp-statistics/issues/new) on GitHub. Kindly note that [GitHub](https://github.com/wp-statistics/wp-statistics) is exclusively for bug reports; other inquiries will be closed.
+
+For security vulnerabilities, please report them through the [Patchstack Vulnerability Disclosure Program](https://patchstack.com/database/wordpress/plugin/wp-statistics/vdp). The Patchstack team will validate, triage, and handle any security issues.
 
 == Installation ==
 1. Upload `wp-statistics` to the `/wp-content/plugins/` directory.
@@ -137,6 +139,20 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+- = 14.12.6 - 2025-02-12 =
+- **New:** Added DB-IP as a location detection option.
+- **New:** Added `first_page`, `first_view`, `last_page`, and `last_view` columns to the visitor table for better performance.
+- **Enhancement:** Refactored internal filters for improved efficiency.
+- **Enhancement:** Optimized query performance.
+- **Enhancement:** Improved Y-axis number formatting in charts.
+- **Enhancement:** Reduced the displayed record count in the Top Countries widget to 5.
+- **Fix:** Resolved database table prefix conflicts causing query errors.
+- **Fix:** Optimized Mini Chart queries for better speed.
+- **Fix:** Improved IP sanitization and IPv6 compatibility with Cloudflare.
+- **Fix:** Improved and compatibility the date filter with timezone.
+- **Fix:** Fixed statistical discrepancies in widgets.
+- **Fix:** Fixed a permissions check issue on the settings page.
+
 = 14.12.5 - 2025-02-23 =
 - **Enhancement:** Hide Online Visitors elements when "Monitor Online Visitors" is off.
 - **Enhancement:** Improved number formatting: full display below 1,000, abbreviated above.

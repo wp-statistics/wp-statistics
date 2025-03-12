@@ -3,6 +3,8 @@
 namespace WP_Statistics\Async;
 
 use WP_STATISTICS\Option;
+use WP_Statistics\Service\Database\DatabaseFactory;
+use WP_Statistics\Service\Database\Migrations\DataMigration;
 use WP_STATISTICS\WP_Background_Process;
 
 class DataMigrationProcess extends WP_Background_Process
@@ -36,7 +38,7 @@ class DataMigrationProcess extends WP_Background_Process
 
     /**
      * Process a single data migration task.
-     * 
+     *
      * @param array $data
      * @return bool|string
      */
@@ -69,7 +71,13 @@ class DataMigrationProcess extends WP_Background_Process
 
             $instance->setMethod($method, $version);
             $instance->$method($version);
-            $instance->setVersion();
+
+            $dataSteps = (new DataMigration)->getMigrationSteps();
+
+            if (! isset($dataSteps[$version])) {
+                $instance->setVersion();
+            }
+
             return false;
         }
 
@@ -77,12 +85,25 @@ class DataMigrationProcess extends WP_Background_Process
             return false;
         }
 
-        if (!method_exists($task, 'execute')) {
+        $batchClass = $class;
+
+        if (is_array($task) && ! empty($task['class'])) {
+            $data    = ! empty($task['data']) ? $task['data'] : [];
+            $setData = ! empty($task['setData']) ? $task['setData'] : '';
+
+            if (empty($setData)) {
+                return false;
+            }
+
+            $batchClass = DatabaseFactory::table($task['class'])->$setData($data);
+        }
+
+        if (!method_exists($batchClass, 'execute')) {
             return false;
         }
 
         $instance->setMethod($method, $version);
-        $task->execute();
+        $batchClass->execute();
         $instance->setVersion();
 
         return false;
@@ -95,10 +116,22 @@ class DataMigrationProcess extends WP_Background_Process
     {
         parent::complete();
 
+        $details = Option::getOptionGroup('db', 'migration_status_detail', null);
+
+        $operationStatus = [
+            'status' => 'done',
+        ];
+
+        if (! empty($details['status']) && 'failed' === $details['status']) {
+            $operationStatus = [
+                'status' => 'failed',
+                'message' => $details['message'],
+            ];
+        }
+
         Option::deleteOptionGroup('data_migration_process_started', 'jobs');
         Option::saveOptionGroup('migrated', true, 'db');
-        Option::saveOptionGroup('migration_status_detail', [
-            'status' => 'done'
-        ], 'db');
+        Option::saveOptionGroup('migration_status_detail', $operationStatus, 'db');
+        BackgroundProcessMonitor::deleteOption($this->action);
     }
 }

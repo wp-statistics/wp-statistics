@@ -21,9 +21,21 @@ wps_js.rgba_to_hex = function (r, g, b, a) {
     return `#${hex_r}${hex_g}${hex_b}${hex_a}`;
 }
 
+const wpsBuildTicks = (scale) => {
+    const ticks = scale.getTicks();
+    if (ticks.length > scale.options.ticks.maxTicksLimit) {
+        const range = scale.max - scale.min;
+        const desiredTicks = scale.options.ticks.maxTicksLimit || 1000;
+        let stepSize = Math.ceil(range / desiredTicks);
+        scale.options.ticks.stepSize = Math.max(1, stepSize);
+    } else if (!scale.options.ticks.stepSize || scale.options.ticks.stepSize < 1) {
+        scale.options.ticks.stepSize = 1;
+    }
+}
+
 const chartColors = {
-    'Total': '#27A765', 'Views': '#7362BF', 'Visitors': '#3288D7', 'User Visitors':'#3288D7', 'Anonymous Visitors' :'#7362BF', 'Published Posts' : '#8AC3D0',
-    'Posts': '#8AC3D0', 'Other1': '#3288D7', 'Other2': '#7362BF', 'Other3': '#8AC3D0'
+    'Total': '#27A765', 'Views': '#7362BF', 'Visitors': '#3288D7', 'User Visitors':'#3288D7', 'Anonymous Visitors' :'#7362BF', 'Published Contents' : '#8AC3D0', 'Published Products' : '#8AC3D0',
+    'Published Pages' : '#8AC3D0','Published Posts' : '#8AC3D0','Posts': '#8AC3D0', 'Other1': '#3288D7', 'Other2': '#7362BF', 'Other3': '#8AC3D0'
 };
 
 const chartTensionValues = [0.1, 0.3, 0.5, 0.7];
@@ -79,6 +91,7 @@ wps_js.setTooltipPosition = function (tooltipEl, chart, tooltip) {
     tooltipEl.style.left = tooltipX + 'px';
     tooltipEl.style.top = tooltipY + 'px';
 }
+
 const externalTooltipHandler = (context, data, dateLabels, prevDateLabels, monthTooltip, prevMonthTooltip) => {
     const {chart, tooltip} = context;
     const unitTime = chart.options.plugins.tooltip.unitTime;
@@ -181,7 +194,6 @@ const drawVerticalLinePlugin = {
     }
 };
 
-
 const phpToMomentFormat = (phpFormat) => {
     const formatMap = {
         'd': 'DD',
@@ -209,7 +221,6 @@ const formatDateRange = (startDate, endDate, unit, momentDateFormat, isInsideDas
             .replace(/-$/, '')
             .trim();
         return moment(startDate).format(monthFormat);
-
     } else {
         if (moment(startDate).year() === moment(endDate).year()) {
             return `${moment(startDate).format(startDateFormat)} to ${moment(endDate).format(momentDateFormat)}`;
@@ -349,7 +360,6 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
             }
         });
 
-        // Aggregate data for each month
         Object.keys(groupedData).forEach(monthKey => {
             const {startDate, endDate, indices} = groupedData[monthKey];
             const actualStartDate = moment.max(startDate, moment(labels[0].date));
@@ -377,7 +387,8 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
 
     return {aggregatedLabels, aggregatedData, monthTooltipTitle, isIncompletePeriod};
 }
-const sortTotal = (datasets) =>{
+
+const sortTotal = (datasets) => {
     datasets.sort((a, b) => {
         if (a.label === 'Total') return -1;
         if (b.label === 'Total') return 1;
@@ -386,13 +397,14 @@ const sortTotal = (datasets) =>{
         return 0;
     });
 }
+
 const updateLegend = (lineChart, datasets, tag_id, data) => {
     const chartElement = document.getElementById(tag_id);
     const legendContainer = chartElement.parentElement.parentElement.querySelector('.wps-postbox-chart--items');
 
     if (legendContainer) {
         legendContainer.innerHTML = '';
-         const previousPeriod = chartElement.parentElement.parentElement.querySelector('.wps-postbox-chart--previousPeriod');
+        const previousPeriod = chartElement.parentElement.parentElement.querySelector('.wps-postbox-chart--previousPeriod');
         if (previousPeriod) {
             let foundPrevious = datasets.some(dataset => dataset.label.includes('(Previous)'));
 
@@ -403,7 +415,7 @@ const updateLegend = (lineChart, datasets, tag_id, data) => {
                     previousPeriod.removeEventListener('click', previousPeriod._clickHandler);
                 }
                 previousPeriod._clickHandler = function (e) {
-                    e.stopPropagation()
+                    e.stopPropagation();
                     const isPreviousHidden = previousPeriod.classList.contains('wps-line-through');
                     previousPeriod.classList.toggle('wps-line-through');
 
@@ -459,9 +471,7 @@ const updateLegend = (lineChart, datasets, tag_id, data) => {
                 </div>` : '';
 
                 legendItem.innerHTML = `
-                <span>
-                    ${dataset.label}
-                </span>
+                <span>${dataset.label}</span>
                 <div>
                     <div class="current-data">
                         <span class="wps-postbox-chart--item--color" style="border-color: ${dataset.borderColor}"></span>
@@ -491,9 +501,7 @@ const updateLegend = (lineChart, datasets, tag_id, data) => {
                             previousDataDiv.classList.toggle('wps-line-through');
 
                             const allPreviousData = legendContainer.querySelectorAll('.previous-data');
-                            const allHaveLineThrough = Array.from(allPreviousData).every(el =>
-                                el.classList.contains('wps-line-through')
-                            );
+                            const allHaveLineThrough = Array.from(allPreviousData).every(el => el.classList.contains('wps-line-through'));
 
                             if (previousPeriod) {
                                 if (allHaveLineThrough) {
@@ -562,7 +570,6 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
         });
     }
 
-
     const day = aggregateData(realdata.data.labels, realdata.data.datasets, 'day', momentDateFormat, isInsideDashboardWidgets);
     const week = aggregateData(realdata.data.labels, realdata.data.datasets, 'week', momentDateFormat, isInsideDashboardWidgets);
     const month = aggregateData(realdata.data.labels, realdata.data.datasets, 'month', momentDateFormat, isInsideDashboardWidgets);
@@ -614,14 +621,13 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
     }
 
     function updateChart(unitTime) {
-         const displayText = getDisplayTextForUnitTime(unitTime, tag_id);
+        const displayText = getDisplayTextForUnitTime(unitTime, tag_id);
         const chartElement = document.getElementById(tag_id);
         const chartContainer = chartElement.parentElement.parentElement.querySelector('.wps-postbox-chart--data');
         const previousPeriodElement = chartContainer?.querySelector('.wps-postbox-chart--previousPeriod');
         if (previousPeriodElement) {
             previousPeriodElement.classList.remove('wps-line-through');
         }
-
 
         const select = document.querySelector(`#${tag_id}`).closest('.o-wrap').querySelector('.js-unitTimeSelect');
         if (select) {
@@ -660,10 +666,8 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
             prevDateLabels = Array(dateLabels.length).fill("N/A");
         }
 
-
         const datasets = data.data.datasets.map((dataset, idx) => {
             const datasetType = dataset.type || (type === 'performance' && idx === 2 ? 'bar' : 'line');
-
             return {
                 ...dataset,
                 type: datasetType, // Set the type explicitly
@@ -691,7 +695,6 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                         const incompletePeriods = ctx.chart.data.datasets[ctx.datasetIndex]?.meta?.incompletePeriods || [];
                         const currentIncomplete = incompletePeriods[ctx.p1DataIndex];
                         const previousIncomplete = incompletePeriods[ctx.p0DataIndex];
-
                         // Dash if either end of segment is in incomplete period
                         if (currentIncomplete || previousIncomplete) {
                             return [5, 5];
@@ -729,18 +732,37 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 });
             });
         }
+
+        // Calculate max values for y and y1 axes
+        const yAxisData = datasets
+            .filter(dataset => dataset.yAxisID === 'y')
+            .flatMap(dataset => dataset.data)
+            .filter(val => typeof val === 'number' && !isNaN(val));
+        const y1AxisData = datasets
+            .filter(dataset => dataset.yAxisID === 'y1')
+            .flatMap(dataset => dataset.data)
+            .filter(val => typeof val === 'number' && !isNaN(val));
+
+        const yMax = yAxisData.length > 0 ? Math.max(...yAxisData) : 0;
+        const y1Max = y1AxisData.length > 0 ? Math.max(...y1AxisData) : 0;
+
+        // Set dynamic stepSize based on max values
+        const maxTicksY = isInsideDashboardWidgets ? 4 : 7;
+        const stepSizeY = yMax > 0 ? Math.ceil(yMax / maxTicksY) : 1;
+        const maxTicksY1 = 7;
+        const stepSizeY1 = y1Max > 0 ? Math.ceil(y1Max / maxTicksY1) : 1;
+
+        lineChart.options.scales.y.ticks.stepSize = Math.max(1, stepSizeY);
+        if (lineChart.options.scales.y1) {
+            lineChart.options.scales.y1.ticks.stepSize = Math.max(1, stepSizeY1);
+        }
+
         lineChart.data.labels = dateLabels;
         lineChart.options.scales.x.offset = lineChart.data.labels.length === 1;
         lineChart.data.datasets = datasets;
         lineChart.options.scales.x.ticks.maxTicksLimit = isInsideDashboardWidgets
-            ? unitTime === 'week'
-                ? 2
-                : 4
-            : unitTime === 'week'
-                ? 3
-                : unitTime === 'month'
-                    ? 7
-                    : 9;
+            ? unitTime === 'week' ? 2 : 4
+            : unitTime === 'week' ? 3 : unitTime === 'month' ? 7 : 9;
         lineChart.options.plugins.tooltip.unitTime = unitTime;
         lineChart.options.plugins.tooltip.external = (context) =>
             externalTooltipHandler(context, realdata, dateLabels, prevDateLabels, monthTooltip, prevMonthTooltip);
@@ -748,9 +770,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
         lineChart.update();
     }
 
-
     let ctx_line = document.getElementById(tag_id).getContext('2d');
-
 
     Object.keys(data.data.datasets).forEach((key, index) => {
         let color = chartColors[data.data.datasets[key].label] || chartColors[`Other${index + 1}`];
@@ -785,7 +805,6 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
             dataset.hitRadius = 10;
         }
         datasets.push(dataset);
-
     });
 
     if (data?.previousData) {
@@ -817,17 +836,13 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
             });
         });
     }
+
     const defaultOptions = {
         maintainAspectRatio: false,
         resizeDelay: 200,
-        animation: {
-            duration: 0,
-        },
+        animation: {duration: 0},
         responsive: true,
-        interaction: {
-            intersect: false,
-            mode: 'index'
-        },
+        interaction: {intersect: false, mode: 'index'},
         plugins: {
             legend: false,
             tooltip: {
@@ -839,20 +854,12 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
         scales: {
             x: {
                 offset: isSingleDataPoint,
-                grid: {
-                    display: false,
-                    drawBorder: false,
-                    tickLength: 0,
-                    drawTicks: false
-                },
-                border: {
-                    color: 'transparent',
-                    width: 0
-                },
+                grid: {display: false, drawBorder: false, tickLength: 0, drawTicks: false},
+                border: {color: 'transparent', width: 0},
                 ticks: {
                     align: 'inner',
                     autoSkip: true,
-                    maxTicksLimit: isInsideDashboardWidgets ? unitTime === 'week' ? 2 : 4 : unitTime === 'week' ? 3 : unitTime === 'month' ? 7 : 9,
+                    maxTicksLimit: isInsideDashboardWidgets ? (unitTime === 'week' ? 2 : 4) : (unitTime === 'week' ? 3 : unitTime === 'month' ? 7 : 9),
                     font: {
                         color: '#898A8E',
                         style: 'italic',
@@ -866,34 +873,23 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 min: 0,
                 suggestedMax: 4,
                 ticks: {
+                    autoSkip: true,
                     maxTicksLimit: isInsideDashboardWidgets ? 4 : 7,
                     fontColor: '#898A8E',
                     fontSize: 13,
                     fontStyle: 'italic',
-                    fontWeight: 'lighter ',
+                    fontWeight: 'lighter',
                     padding: 8,
                     lineHeight: 15,
-                    stepSize: 1
+                    callback: renderFormatNum,
                 },
-                border: {
-                    color: 'transparent',
-                    width: 0
-                },
+                afterBuildTicks: wpsBuildTicks,
+                border: {color: 'transparent', width: 0},
                 type: 'linear',
                 position: 'right',
-                grid: {
-                    display: true,
-                    tickMarkLength: 0,
-                    drawBorder: false,
-                    tickColor: '#EEEFF1',
-                    color: '#EEEFF1'
-                },
-                gridLines: {
-                    drawTicks: false
-                },
-                title: {
-                    display: false,
-                }
+                grid: {display: true, tickMarkLength: 0, drawBorder: false, tickColor: '#EEEFF1', color: '#EEEFF1'},
+                gridLines: {drawTicks: false},
+                title: {display: false},
             }
         },
     };
@@ -902,87 +898,66 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
         defaultOptions.scales.y1 = {
             type: 'linear',
             position: 'left',
-            border: {
-                color: 'transparent',
-                width: 0
-            },
-            grid: {
-                display: false,
-                drawBorder: false,
-                tickLength: 0,
-            },
+            border: {color: 'transparent', width: 0},
+            grid: {display: false, drawBorder: false, tickLength: 0},
             ticks: {
+                autoSkip: true,
                 maxTicksLimit: 7,
                 fontColor: '#898A8E',
                 fontSize: 13,
                 fontStyle: 'italic',
                 fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
-                fontWeight: 'lighter ',
+                fontWeight: 'lighter',
                 padding: 8,
                 lineHeight: 15,
-                stepSize: 1
+                callback: renderFormatNum,
             },
+            afterBuildTicks: wpsBuildTicks,
             title: {
                 display: true,
                 text: `${wps_js._('published')} Posts`,
                 color: '#898A8E',
                 fontSize: 13
             }
-        }
+        };
 
         defaultOptions.scales.y = {
-            border: {
-                color: 'transparent',
-                width: 0
-            },
+            border: {color: 'transparent', width: 0},
             ticks: {
+                autoSkip: true,
                 maxTicksLimit: 9,
                 fontColor: '#898A8E',
                 fontSize: 13,
                 fontStyle: 'italic',
                 fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
-                fontWeight: 'lighter ',
+                fontWeight: 'lighter',
                 padding: 8,
                 lineHeight: 15,
-                stepSize: 1
+                callback: renderFormatNum,
             },
             position: 'right',
-            grid: {
-                display: true,
-                borderDash: [5, 5],
-                tickColor: '#EEEFF1',
-                color: '#EEEFF1'
-            },
+            grid: {display: true, borderDash: [5, 5], tickColor: '#EEEFF1', color: '#EEEFF1'},
             title: {
                 display: true,
                 text: wps_js._('visits'),
                 color: '#898A8E',
                 fontSize: 13,
             }
-        }
+        };
     }
 
     const lineChart = new Chart(ctx_line, {
         type: type === 'performance' && data.data.datasets.length > 2 ? 'bar' : 'line',
-        data: {
-            labels: [],
-            datasets: [],
-        },
+        data: {labels: [], datasets: []},
         plugins: [drawVerticalLinePlugin],
         options: Object.assign({}, defaultOptions, newOptions)
     });
 
-    // Example usage:
     updateChart(unitTime);
-    chartInstances[tag_id] = {
-        chart: lineChart,
-        updateChart: updateChart,
-    };
-
+    chartInstances[tag_id] = {chart: lineChart, updateChart: updateChart};
 
     return chartInstances[tag_id];
 };
-
 
 document.body.addEventListener('click', function (event) {
     const select = event.target.closest('.wps-unit-time-chart__selected-item');
@@ -1019,7 +994,6 @@ document.body.addEventListener('click', function (event) {
                 chartInstances[canvas_id].updateChart(selectedValue);
             }
         }
-
         event.stopImmediatePropagation();
     } else {
         document.querySelectorAll('.js-unitTimeSelect.open').forEach(openSelect => {

@@ -455,7 +455,7 @@ class Admin_Assets
             'downloading'                  => __('Downloading', 'wp-statistics'),
             'activated'                    => __('Activated', 'wp-statistics'),
             'active'                       => __('Active', 'wp-statistics'),
-            'activating'                   => __('Activating ', 'wp-statistics'),
+            'activating'                   => __('Activating', 'wp-statistics'),
             'already_installed'            => __('Already installed', 'wp-statistics'),
             'failed'                       => __('Failed', 'wp-statistics'),
             'retry'                        => __('Retry', 'wp-statistics'),
@@ -502,6 +502,9 @@ class Admin_Assets
         $list['assets_url']          = self::$plugin_url . self::$asset_dir;
         $list['rest_api_nonce']      = wp_create_nonce('wp_rest');
         $list['meta_box_api']        = admin_url('admin-ajax.php?action=wp_statistics_admin_meta_box');
+
+        // For developers: WordPress debugging mode.
+        $list['wp_debug'] = defined('WP_DEBUG') && WP_DEBUG ? true : false;
 
         $list['meta_boxes'] = MetaboxHelper::getScreenMetaboxes();
 

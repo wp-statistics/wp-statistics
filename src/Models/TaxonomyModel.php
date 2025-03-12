@@ -16,7 +16,7 @@ class TaxonomyModel extends BaseModel
         ]);
 
         $result = Query::select([
-                'COUNT(term_id)',
+                'COUNT(*)',
             ])
             ->from('term_taxonomy')
             ->where('taxonomy', 'IN', $args['taxonomy'])

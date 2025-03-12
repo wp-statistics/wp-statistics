@@ -76,8 +76,8 @@
         border-radius: 3px;
       }
 
-      .select2-selection--single .select2-selection__clear {
-        display: none;
+      .select2-selection__placeholder {
+        color: #0c0c0d;
       }
 
       .select2-selection__rendered {
@@ -194,7 +194,9 @@
   form {
     margin: 0;
 
-    .wps-tb-window-footer {
+    .wps-tb-window-footer,
+    .wps-filter-reset,
+    .wps-filter-filter {
       width: 100%;
       display: flex;
       gap: 16px;
@@ -284,9 +286,38 @@
     margin: 0;
   }
 
+  .wps-filter-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 12px;
+    gap: 16px;
+
+    .wps-filter-item {
+      width: auto;
+    }
+  }
+
   #wps-visitors-filter-form, .wps-modal-filter-form {
     padding: 0;
     margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .wps-filter-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      .rtl & {
+        text-align: right;
+      }
+
+      &.wps-filter-page {
+        display: none;
+      }
+    }
 
     table {
       width: 100%;
@@ -355,18 +386,18 @@
 #TB_window ~ .select2-container, #TB_window .select2-container {
   &.select2-container--default {
 
-    &.select2-container--open:not(.select2){
+    &.select2-container--open:not(.select2) {
       max-width: calc(100% - 48px);
     }
 
-    .select2-results__option--selected ,
+    .select2-results__option--selected,
     .select2-results__option.select2-results__option--selected {
-      background: #E3E4E5!important;
-      color: #404BF2!important;
+      background: #E3E4E5 !important;
+      color: #404BF2 !important;
     }
 
-    .select2-results__option.select2-results__option--selected:hover{
-      background: #DDDEE0!important;
+    .select2-results__option.select2-results__option--selected:hover {
+      background: #DDDEE0 !important;
       color: #404BF2;
     }
 
@@ -387,7 +418,7 @@
 
     }
 
-    .select2-results__option:hover ,.select2-results__option--highlighted[aria-selected]{
+    .select2-results__option:hover, .select2-results__option--highlighted[aria-selected] {
       background: #EEEFF1;
       color: #0C0C0D;
       font-weight: 400;
@@ -441,7 +472,7 @@
 
     .select2-search--dropdown {
       display: block;
-      padding: 7px 12px;
+      padding: 7px;
     }
 
   }
@@ -454,14 +485,14 @@ ul, span {
         border-radius: 2px;
       }
     }
-  } 
+  }
 }
 
 .wps-modal-filter-icon {
   display: flex;
   align-items: center;
   gap: 6px;
-  height: 24px!important;
+  height: 24px !important;
 
   img {
     max-height: 14px;

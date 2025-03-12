@@ -28,7 +28,7 @@ class MapChartDataProvider extends AbstractChartDataProvider
         $args = array_merge($this->args, [
             'fields'   => [
                 'visitor.location as country',
-                'COUNT(visitor.ID) as visitors'
+                'COUNT(*) as visitors'
             ],
             'order_by' => [],
         ]);

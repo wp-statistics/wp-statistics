@@ -9,6 +9,7 @@ use WP_Statistics\Abstracts\MultiViewPage;
 use WP_Statistics\Service\Admin\AuthorAnalytics\Views\AuthorsView;
 use WP_Statistics\Service\Admin\AuthorAnalytics\Views\SingleAuthorView;
 use WP_Statistics\Service\Admin\AuthorAnalytics\Views\PerformanceView;
+use WP_Statistics\Service\Admin\FilterHandler\FilterGenerator;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Utils\Request;
@@ -33,6 +34,23 @@ class AuthorAnalyticsPage extends MultiViewPage
     public function __construct()
     {
         parent::__construct();
+
+        $this->setFilters();
+    }
+
+    protected function setFilters() {
+        $this->filters = FilterGenerator::create()
+            ->dropdown('pt', [
+                'label' => esc_html__('Post Type', 'wp-statistics'),
+                'panel' => true,
+                'attributes'  => [
+                    'data-type' => 'post-type',
+                    'data-source' => 'getPostTypes',
+                ],
+            ])
+            ->get();
+        
+        return $this->filters;
     }
 
     protected function init()
