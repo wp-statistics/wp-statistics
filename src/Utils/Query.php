@@ -103,7 +103,7 @@ class Query
                     $this->setClauses[]      = "$column = %d";
                     $this->valuesToPrepare[] = $value;
                 } else if (is_null($value)) {
-                    $this->setClauses[] = $column = NULL;
+                    $this->setClauses[] = "$column = NULL";
                 }
             }
         }

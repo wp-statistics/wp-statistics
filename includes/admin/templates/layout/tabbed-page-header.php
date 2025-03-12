@@ -101,6 +101,7 @@ $pageKey = $pageKey['page_url'];
                     $tabKey         = Url::getParam($tab['link'], 'tab');
                     $tab['locked']  = apply_filters("wp_statistics_{$pageKey}_{$tabKey}_locked", $tab['locked'] ?? false);
                     $tab['tooltip'] = apply_filters("wp_statistics_{$pageKey}_{$tabKey}_tooltip", $tab['tooltip'] ?? '');
+                    $tab['hidden']  = apply_filters("wp_statistics_{$pageKey}_{$tabKey}_hidden", $tab['hidden'] ?? false);
                 ?>
 
                 <?php if (!empty($tab['hidden'])) continue; ?>
