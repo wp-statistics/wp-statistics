@@ -10,6 +10,7 @@ use WP_Statistics\Service\Admin\ModalHandler\Modal;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditDataProvider;
 use WP_Statistics\Service\Admin\Notification\NotificationFactory;
 
+$userOnline              = new \WP_STATISTICS\UserOnline();
 $isPremium               = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
 $hasUpdatedNotifications = NotificationFactory::hasUpdatedNotifications();
 $displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? true : false;
@@ -27,7 +28,9 @@ $displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? 
         <div class="wps-adminHeader__menu">
             <?php
             echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_overview_page', 'link_text' => __('Overview', 'wp-statistics'), 'icon_class' => 'overview', 'badge_count' => null], true);
-            echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_visitors_page&tab=online', 'link_text' => __('Online Visitors', 'wp-statistics'), 'icon_class' => 'online-users', 'badge_count' => wp_statistics_useronline()], true);
+            if ($userOnline::active()) {
+                echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_visitors_page&tab=online', 'link_text' => __('Online Visitors', 'wp-statistics'), 'icon_class' => 'online-users', 'badge_count' => wp_statistics_useronline()], true);
+            }
             if (!$isPremium && apply_filters('wp_statistics_enable_header_addons_menu', true)) {
                 echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => __('Add-Ons', 'wp-statistics'), 'icon_class' => 'addons', 'badge_count' => null], true);
             }
@@ -90,6 +93,7 @@ $displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? 
                 <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/support?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" title="<?php esc_html_e('Help Center', 'wp-statistics'); ?>" class="support"></a>
             <?php } ?>
             <?php if ($displayNotifications): ?>
+
                 <a title="<?php esc_html_e('Notifications', 'wp-statistics'); ?>" class="wps-notifications js-wps-open-notification <?php echo $hasUpdatedNotifications ? esc_attr('wps-notifications--has-items') : ''; ?>"></a>
             <?php endif; ?>
             <div class="wps-adminHeader__mobileMenu">
@@ -128,6 +132,7 @@ $displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? 
                             </a>
                         </div>
                     <?php } ?>
+
                     <?php if (apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) : ?>
                         <div class="wps-bundle">
                             <?php if (!$isPremium && !LicenseHelper::isValidLicenseAvailable()) : ?>

@@ -37,7 +37,8 @@ class TabsView extends BaseTabView
             'agent'    => Request::get('agent', ''),
             'platform' => Request::get('platform', ''),
             'user_id'  => Request::get('user_id', ''),
-            'ip'       => Request::get('ip', '')
+            'ip'       => Request::get('ip', ''),
+            'referrer' => Request::get('referrer', ''),
         ]);
 
         parent::__construct();
@@ -79,7 +80,7 @@ class TabsView extends BaseTabView
             $data       = $this->getTabData();
             $filters    = $this->getActiveFilters();
 
-            $args = [
+            $args       = [
                 'title'      => esc_html__('Visitor Insights', 'wp-statistics'),
                 'tooltip'      => esc_html__('Check your privacy settings here to make sure WP Statistics is set up safely. This page helps you see if any settings might be collecting personal information and guides you on how to adjust them for better privacy. It\'s an easy way to keep your site\'s data use clear and safe.', 'wp-statistics'),
                 'pageName'   => Menus::get_page_slug('visitors'),
@@ -100,27 +101,36 @@ class TabsView extends BaseTabView
                         'link'  => Menus::admin_url('visitors', ['tab' => 'views']),
                         'title' => esc_html__('Views', 'wp-statistics'),
                         'class' => $this->isTab('views') ? 'current' : '',
-                    ],
-                    [
-                        'link'  => Menus::admin_url('visitors', ['tab' => 'online']),
-                        'title' => esc_html__('Online Visitors', 'wp-statistics'),
-                        'class' => $this->isTab('online') ? 'current wps-tab-link__online-visitors' : 'wps-tab-link__online-visitors',
-                    ],
-                    [
-                        'link'  => Menus::admin_url('visitors', ['tab' => 'top-visitors']),
-                        'title' => esc_html__('Top Visitors', 'wp-statistics'),
-                        'class' => $this->isTab('top-visitors') ? 'current' : '',
-                    ],
-                    [
-                        'link'    => Menus::admin_url('visitors', ['tab' => 'logged-in-users']),
-                        'title'   => esc_html__('Logged-in Users', 'wp-statistics'),
-                        'tooltip' => esc_html__('Track engagement from logged-in users.', 'wp-statistics'),
-                        'class'   => $this->isTab('logged-in-users') ? 'current' : '',
-                        'hidden'  => !$this->isTrackLoggedInUsersEnabled
                     ]
                 ]
             ];
+            $userOnline = new \WP_STATISTICS\UserOnline();
+            if ($userOnline::active()) {
+                $args['tabs'][] = [
+                    'link'  => Menus::admin_url('visitors', ['tab' => 'online']),
+                    'title' => esc_html__('Online Visitors', 'wp-statistics'),
+                    'class' => $this->isTab('online') ? 'current wps-tab-link__online-visitors' : 'wps-tab-link__online-visitors',
+                ];
+                if (!$this->isTab('online')) {
+                    $args['hasDateRang'] = true;
+                }
 
+                if ($this->isTab('online')) {
+                    $args['real_time_button'] = true;
+                }
+            }
+            $args['tabs'][] = [
+                'link'  => Menus::admin_url('visitors', ['tab' => 'top-visitors']),
+                'title' => esc_html__('Top Visitors', 'wp-statistics'),
+                'class' => $this->isTab('top-visitors') ? 'current' : '',
+            ];
+            $args['tabs'][] = [
+                'link'    => Menus::admin_url('visitors', ['tab' => 'logged-in-users']),
+                'title'   => esc_html__('Logged-in Users', 'wp-statistics'),
+                'tooltip' => esc_html__('Track engagement from logged-in users.', 'wp-statistics'),
+                'class'   => $this->isTab('logged-in-users') ? 'current' : '',
+                'hidden'  => !$this->isTrackLoggedInUsersEnabled
+            ];
             if ($this->isTab('visitors')) {
                 $args['filters'] = ['visitors'];
             }
@@ -129,17 +139,11 @@ class TabsView extends BaseTabView
                 $args['filters'] = ['user-role'];
             }
 
-            if (!$this->isTab('online')) {
-                $args['hasDateRang'] = true;
-            }
 
-            if ($this->isTab('online')) {
-                $args['real_time_button'] = true;
-            }
 
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
             View::load("pages/visitor-insights/$currentTab", $args);
-            Admin_Template::get_template(['layout/postbox.hide', 'layout/visitors.filter', 'layout/footer'], $args);
+            Admin_Template::get_template(['layout/postbox.hide', 'layout/footer'], $args);
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }

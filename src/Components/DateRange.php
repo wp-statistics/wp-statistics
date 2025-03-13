@@ -397,7 +397,7 @@ class DateRange
                     'to'    => DateTime::get()
                 ],
                 'prev_period' => [
-                    'from'  => DateTime::get(0),
+                    'from'  => Helper::getInitialPostDate(),
                     'to'    => DateTime::get()
                 ]
             ],

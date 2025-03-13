@@ -343,7 +343,11 @@ $trackerStatus      = $tracker->getTrackerStatus();
                         'svg'         => $errorIcon,
                         'title'       => __('PHP Errors Detected in tracker.js', 'wp-statistics'),
                         'description' => esc_html__('We found the following error:', 'wp-statistics'),
-                        'content'     => sprintf('<div class="wps-mb-16 wps-debugger-desc">%1$s</div>', esc_html__('We found the following error:', 'wp-statistics')),
+                        'content'     => sprintf(
+                            '<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s',
+                            esc_html__('We found the following error:', 'wp-statistics'),
+                            $filterListsHtml
+                        ),
                         'suggestion'  => esc_html__('Suggestion: Please refer to our Error Troubleshooting guide to resolve these issues.', 'wp-statistics'),
                         'status'      => 'warning'
                     ];

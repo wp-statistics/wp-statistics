@@ -77,9 +77,9 @@ wps_js.render_line_chart = function (response, key) {
                 const trafficChart = wps_js.new_line_chart(data, `wp-statistics-quickstats-widget-chart`, trafficOptions);
 
                 function toggleDataset(datasetIndex) {
-                    const meta = trafficChart.getDatasetMeta(datasetIndex);
+                    const meta = trafficChart.chart.getDatasetMeta(datasetIndex);
                     meta.hidden = !meta.hidden;
-                    trafficChart.update();
+                    trafficChart.chart.update();
                 }
 
                 document.querySelectorAll('#wp-statistics-quickstats-widget .wps-postbox-chart--items:nth-child(2) .wps-postbox-chart--item')

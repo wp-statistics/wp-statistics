@@ -8,6 +8,15 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 }
 
+.notice.wp-statistics-notice{
+  a.button-primary{
+    padding: 0 10px!important;
+    font-size: 13px;
+    line-height: 2.15384615;
+    min-height: 30px;
+  }
+}
+
 .wps-info-box {
   background: #FFFFFF;
   padding: 12px;
@@ -2143,6 +2152,10 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 .wps-wrap td .description {
   margin-top: 12px !important;
   color: #5b5b5b;
+
+  b, strong {
+    font-weight: bold;
+  }
 }
 
 .wps-wrap select + input[type="submit"],
@@ -2537,7 +2550,8 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     }
   }
 
-  #visitors-filter, #referral-filter {
+  #visitors-filter, #referral-filter,
+  #wps-modal-filter {
     border: 1px solid #DADCE0;
     padding: 4px 21px;
     margin-top: 0 !important;
@@ -2591,7 +2605,8 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     }
   }
 
-  #visitors-filter.wp-visitors-filter--active, #referral-filter.wp-referral-filter--active {
+  #visitors-filter.wp-visitors-filter--active, #referral-filter.wp-referral-filter--active,
+  #wps-modal-filter.wp-modal-filter--active {
     background: #404BF21A !important;
     border: 1px solid #7981F6 !important;
 
@@ -3343,7 +3358,13 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 }
 
-.wps-filter-page, .wps-filter-visitor {
+#wps-filter-page {
+  .dropbtn {
+    display: none !important;
+  }
+}
+
+.wps-filter-page, .wps-filter-visitor, #wps-filter-page {
 
   .wps-dropdown.active {
     background: #eeeff1;

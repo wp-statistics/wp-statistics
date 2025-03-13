@@ -14,7 +14,15 @@
   }
 }
 
+.wps-head-filters #wps-modal-filter.wp-modal-filter--active:after,
+.wps-head-filters #wps-modal-filter:after {
+  transform: rotate(180deg);
+}
+
+
+#TB_ajaxContent {
 .daterangepicker .ranges li{
   direction: rtl;
   text-align: right;
+}
 }

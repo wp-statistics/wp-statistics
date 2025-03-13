@@ -88,7 +88,7 @@ class AuthorsModel extends BaseModel
             'term'      => ''
         ]);
 
-        $query = Query::select(['DISTINCT post_author as id', 'display_name as name', 'COUNT(posts.ID) as post_count'])
+        $query = Query::select(['DISTINCT post_author as id', 'display_name as name', 'COUNT(*) as post_count'])
             ->from('posts')
             ->join('users', ['posts.post_author', 'users.ID'])
             ->where('post_status', '=', 'publish')
