@@ -26,7 +26,6 @@
 
   table {
     width: 100%;
-    padding-bottom: 52px;
     position: relative;
   }
 
@@ -34,22 +33,6 @@
     border: 0 !important;
     box-shadow: none !important;
   }
-}
-
-#wps-referrals-filter-form {
-
-  .wps-referrals-filter-title{
-    padding: 25px 16px 0;
-    color: #56585A;
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 15.23px;
-  }
-
-  .wps-referrals-filter-content {
-    padding: 8px 16px  53px;
-  }
-
 }
 
 .wps-referrals-filter {

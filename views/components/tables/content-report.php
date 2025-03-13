@@ -1,5 +1,4 @@
 <?php
-
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
@@ -86,7 +85,7 @@ $order                = Request::get('order', 'desc');
                         </td>
 
                         <td class="wps-pd-l">
-                            <?php echo esc_html(date(Helper::getDefaultDateFormat(), strtotime($post->date))) . ' ' . esc_html__('at', 'wp-statistics') . ' ' . esc_html(date('H:i', strtotime($post->date))); ?>
+                            <?php echo esc_html(date_i18n(get_option('date_format', 'Y-m-d'), strtotime($post->date))) . ' ' . esc_html__('at', 'wp-statistics') . ' ' . esc_html(date_i18n(get_option('time_format', 'g:i a'), strtotime($post->date))); ?>
                         </td>
 
                         <td class="wps-pd-l view-more view-more__arrow">

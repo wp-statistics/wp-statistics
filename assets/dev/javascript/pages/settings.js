@@ -17,21 +17,112 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     }
 
 
-        const customizationWidgetSelect = document.getElementById('wps_addon_settings[customization][show_wps_about_widget_overview]');
-        const widget_title = document.querySelector('label[for="wps_addon_settings[customization][wps_about_widget_title]"]').parentElement.parentElement;
-        const widget_content = document.querySelector('label[for="wps_addon_settings[customization][wps_about_widget_content]"]').parentElement.parentElement;
-         function toggleCustomizationDivs() {
-            if (customizationWidgetSelect.value === 'yes') {
-                widget_title.style.display = 'table-row';
-                widget_content.style.display = 'table-row';
-            } else {
-                widget_title.style.display = 'none';
-                widget_content.style.display = 'none';
+    class ShowIfEnabled {
+        constructor() {
+            this.initialize();
+        }
+
+        initialize() {
+            const elements = document.querySelectorAll('[class^="js-wps-show_if_"]');
+            elements.forEach(element => {
+                const classListArray = [...element.className.split(' ')];
+
+                const toggleElement = () => {
+                    let conditions = 0;
+                    let satisfied = 0;
+
+                    classListArray.forEach(className => {
+                        if (className.includes('_enabled') || className.includes('_disabled')) {
+                            conditions++;
+                            const id = this.extractId(element);
+                            const checkbox = document.querySelector(`#${id}`) || document.querySelector(`#wps_settings\\[${id}\\]`);
+                            if (checkbox) {
+                                if (checkbox.type === 'checkbox') {
+                                    if (checkbox.checked && className.includes('_enabled')) {
+                                        satisfied++;
+                                    } else if (!checkbox.checked && className.includes('_disabled')) {
+                                        satisfied++;
+                                    }
+                                } else {
+                                }
+                            }
+                        } else if (className.includes('_equal_')) {
+                            conditions++;
+                            const {id, value} = this.extractIdAndValue(className);
+                            if (id && value) {
+                                const item = document.querySelector(`#wps_settings\\[${id}\\]`);
+                                if (item && item.type === 'select-one') {
+                                    if (item.value === value) {
+                                        satisfied++;
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    if (conditions > 0 && satisfied === conditions) {
+                        this.toggleDisplay(element);
+                    } else {
+                        element.style.display = 'none';
+                        const checkboxInside = element.querySelector('input[type="checkbox"]');
+                        if (checkboxInside) {
+                            checkboxInside.checked = false;
+                         }
+                    }
+                };
+
+                toggleElement();
+
+                classListArray.forEach(className => {
+                    if (className.includes('_enabled') || className.includes('_disabled')) {
+                        const id = this.extractId(element);
+                        const checkbox = document.querySelector(`#wps_settings\\[${id}\\]`);
+
+                        if (checkbox) {
+                            checkbox.addEventListener('change', toggleElement);
+                        }
+                    } else if (className.includes('_equal_')) {
+                        const {id} = this.extractIdAndValue(className);
+                        if (id) {
+                            const item = document.querySelector(`#wps_settings\\[${id}\\]`);
+                            if (item && item.type === 'select-one') {
+                                item.addEventListener('change', toggleElement);
+                            }
+                        }
+                    }
+                });
+            });
+        }
+
+        toggleDisplay(element) {
+            const displayType = element.tagName.toLowerCase() === 'tr' ? 'table-row' : 'table-cell';
+            element.style.display = displayType;
+        }
+
+        extractId(element) {
+            const classes = element.className.split(' ');
+            for (const className of classes) {
+                if (className.startsWith('js-wps-show_if_')) {
+                    return className.replace('js-wps-show_if_', '').replace('_enabled', '').replace('_disabled', '');
+                }
             }
+            return null;
         }
-        if(customizationWidgetSelect){
-            toggleCustomizationDivs();
-            customizationWidgetSelect.addEventListener('change', toggleCustomizationDivs);
+
+        extractIdAndValue(className) {
+            let id, value;
+            if (className.startsWith('js-wps-show_if_')) {
+                const parts = className.split('_');
+                const indexOfEqual = parts.indexOf('equal');
+                if (indexOfEqual !== -1 && indexOfEqual > 2 && indexOfEqual < parts.length - 1) {
+                    id = parts.slice(2, indexOfEqual).join('_');
+                    value = parts.slice(indexOfEqual + 1).join('_');
+                }
+            }
+            return {id, value};
         }
+    }
+
+    new ShowIfEnabled();
 
  }
