@@ -162,46 +162,94 @@ add_thickbox();
         <tr valign="top">
             <th scope="row"><label for="wps_geoip_location_detection_method"><?php esc_html_e('Location Detection Method', 'wp-statistics'); ?></label></th>
             <td>
-                <select name="wps_geoip_location_detection_method" id="wps_settings[geoip_location_detection_method]">
-                    <option value="cf" <?php selected(WP_STATISTICS\Option::get('geoip_location_detection_method', 'maxmind'), 'cf'); ?><?php echo CloudflareGeolocationProvider::isAvailable() ? '' : 'disabled'; ?>><?php esc_html_e('Cloudflare IP Geolocation', 'wp-statistics'); ?></option>
+                <select name="wps_geoip_location_detection_method" id="geoip_location_detection_method">
+                    <option value="cf" <?php selected(WP_STATISTICS\Option::get('geoip_location_detection_method', 'maxmind'), 'cf'); ?><?php echo CloudflareGeolocationProvider::isBehindCloudflare() ? '' : 'disabled'; ?>><?php esc_html_e('Cloudflare IP Geolocation', 'wp-statistics'); ?></option>
                     <option value="maxmind" <?php selected(WP_STATISTICS\Option::get('geoip_location_detection_method', 'maxmind'), 'maxmind'); ?>><?php esc_html_e('MaxMind GeoIP', 'wp-statistics'); ?></option>
+                    <option value="dbip" <?php selected(WP_STATISTICS\Option::get('geoip_location_detection_method', 'maxmind'), 'dbip'); ?>><?php esc_html_e('DB-IP', 'wp-statistics'); ?></option>
                 </select>
 
                 <p class="description">
-                    <?php 
+                    <?php
                         echo sprintf(
-                            /* translators: %s: Link to learn about Cloudflare Geolocation */
-                            esc_html__('Select the method to detect location data for visitors. For better performance, we recommend using the Cloudflare IP Geolocation method, which requires your domain to be on Cloudflare with \'Visitor Location Headers\' enabled. %s', 'wp-statistics'),
-                            '<a href="https://wp-statistics.com/resources/how-to-enable-cloudflare-ip-geolocation/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" class="wps-text-decoration-underline" target="_blank">' . esc_html__('Learn more about setting up Cloudflare Geolocation', 'wp-statistics') . '</a>'
-                        );                      
+                            /* translators: %s: Link to learn about detection method */
+                            esc_html__('Select the method to detect location data for visitors. You can choose between MaxMind GeoIP, Cloudflare Geolocation, and DB-IP. MaxMind and DB-IP provide database-based geolocation, while Cloudflare Geolocation relies on IP headers from Cloudflare. For optimal performance, we recommend using Cloudflare Geolocation if your site is on Cloudflare. %s', 'wp-statistics'),
+                            '<a href="https://wp-statistics.com/resources/location-detection-methods-in-wp-statistics/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" class="wps-text-decoration-underline" target="_blank">' . esc_html__('Learn more about location detection methods.', 'wp-statistics') . '</a>'
+                        );
                     ?>
                 </p>
             </td>
         </tr>
 
-        <tr valign="top" id="geoip_license_type_option" class="js-wps-show_if_geoip_location_detection_method_equal_maxmind">
+        <tr valign="top" id="geoip_license_type_option">
             <th scope="row"><label for="wps_geoip_license_type"><?php esc_html_e('GeoIP Database Update Source', 'wp-statistics'); ?></label></th>
             <td>
-                <select name="wps_geoip_license_type" id="wps_settings[geoip_license_type]">
+                <select name="wps_geoip_license_type" id="geoip_license_type">
                     <option value="js-deliver" <?php selected(WP_STATISTICS\Option::get('geoip_license_type'), 'js-deliver'); ?>><?php esc_html_e('Use the JsDelivr', 'wp-statistics'); ?></option>
                     <option value="user-license" <?php selected(WP_STATISTICS\Option::get('geoip_license_type'), 'user-license'); ?>><?php esc_html_e('Use the MaxMind server with your own license key', 'wp-statistics'); ?></option>
                 </select>
 
-                <p class="description"><?php esc_html_e('Select a service that updates the GeoIP database, ensuring the geographic information displayed is accurate and up-to-date. It\'s only used for database updates, not for real-time location lookups.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Select the source for updating the GeoIP database. If using a premium database, updates will be downloaded automatically using the provided license key.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
-        <tr valign="top" id="geoip_license_key_option" class="js-wps-show_if_geoip_location_detection_method_equal_maxmind js-wps-show_if_geoip_license_type_equal_user-license">
+        <tr valign="top" id="geoip_license_key_option">
             <th scope="row">
                 <label for="geoip_license_key"><?php esc_html_e('GeoIP License Key', 'wp-statistics'); ?></label>
             </th>
             <td>
                 <input id="geoip_license_key" type="text" size="30" name="wps_geoip_license_key" value="<?php echo esc_attr(WP_STATISTICS\Option::get('geoip_license_key')); ?>">
-                <p class="description"><?php echo esc_html__('Put your license key here and save settings to apply it.', 'wp-statistics'); ?></p>
+                <p class="description">
+                    <?php
+                        /* translators: %s: Link to maxmind */
+                        echo sprintf(
+                            wp_kses(
+                                __('Enter your <strong>MaxMind license key</strong> to enable the <strong>premium MaxMind GeoIP database</strong>, which provides more precise location data. The plugin uses the free database by default. %s', 'wp-statistics'),
+                               [
+                                'strong' => [],
+                                'a'      => [
+                                    'href'   => [],
+                                    'class'  => [],
+                                    'target' => [],
+                                ]
+                               ]
+                            ),
+                            '<a href="https://www.maxmind.com/en/geoip-databases" class="wps-text-decoration-underline" target="_blank">' . esc_html__('Get MaxMind Premium.', 'wp-statistics') . '</a>'
+                        );
+                    ?>
+                </p>
             </td>
         </tr>
 
-        <tr valign="top" id="enable_geoip_option" class="js-wps-show_if_geoip_location_detection_method_equal_maxmind js-wps-show_if_geoip_license_type_equal_js-deliver">
+        <tr valign="top" id="geoip_dbip_license_key_option">
+            <th scope="row">
+                <label for="geoip_dbip_license_key_option"><?php esc_html_e('GeoIP License Key', 'wp-statistics'); ?></label>
+            </th>
+            <td>
+                <input id="geoip_dbip_license_key_option" type="text" size="30" name="wps_geoip_dbip_license_key_option" value="<?php echo esc_attr(WP_STATISTICS\Option::get('geoip_dbip_license_key_option', '')); ?>">
+                <p class="description">
+                    <?php
+                        /* translators: %s: Link to dbip */
+                        echo sprintf(
+                            wp_kses(
+                                __('Enter your DB-IP license key to enable the premium DB-IP database, replacing the free version with a more detailed dataset.<br /> The premium DB-IP database is <strong>1.1GB</strong> in size. Make sure your server has enough storage space before enabling it, as the plugin downloads and stores this database. %s', 'wp-statistics'),
+                                [
+                                    'br'     => [],
+                                    'strong' => [],
+                                    'a'      => [
+                                        'href'   => [],
+                                        'class'  => [],
+                                        'target' => [],
+                                    ]
+                                ]
+                            ),
+                            '<a href="https://db-ip.com/db/?refid=vrn" class="wps-text-decoration-underline" target="_blank">' . esc_html__('Get DB-IP Premium.', 'wp-statistics') . '</a>'
+                        );
+                    ?>
+                </p>
+            </td>
+        </tr>
+
+        <tr valign="top" id="enable_geoip_option">
             <th scope="row">
                 <label for="geoip-enable"><?php esc_html_e('Manual Update of GeoIP Database', 'wp-statistics'); ?></label>
             </th>
@@ -215,7 +263,7 @@ add_thickbox();
             </td>
         </tr>
 
-        <tr valign="top" id="schedule_geoip_option"  class="js-wps-show_if_geoip_location_detection_method_equal_maxmind">
+        <tr valign="top" id="schedule_geoip_option">
             <th scope="row">
                 <label for="geoip-schedule"><?php esc_html_e('Schedule Monthly Update of GeoIP Database', 'wp-statistics'); ?></label>
             </th>
@@ -239,7 +287,7 @@ add_thickbox();
             </td>
         </tr>
 
-        <tr valign="top" id="geoip_auto_pop_option"  class="js-wps-show_if_geoip_location_detection_method_equal_maxmind">
+        <tr valign="top" id="geoip_auto_pop_option">
             <th scope="row">
                 <label for="geoip-auto-pop"><?php esc_html_e('Update Missing GeoIP Data', 'wp-statistics'); ?></label>
             </th>
@@ -264,6 +312,37 @@ add_thickbox();
 
         <script type="text/javascript">
             jQuery(document).ready(function () {
+                function handle_geoip_fields() {
+                    var method = jQuery("#geoip_location_detection_method").val();
+                    var isMaxmind = (method === "maxmind");
+                    var isDBIP    = (method === "dbip");
+                    var isUserLicense = (jQuery("#geoip_license_type").val() === "user-license");
+
+                    jQuery("#geoip_license_type_option, #enable_geoip_option, #schedule_geoip_option, #geoip_auto_pop_option")
+                        .toggle(isMaxmind || isDBIP);
+
+                    if (isMaxmind) {
+                        // For MaxMind, show its license key field only if "user-license" is selected.
+                        jQuery("#geoip_license_key_option").toggle(isUserLicense);
+                        jQuery("#geoip_dbip_license_key_option").hide();
+                        jQuery("#geoip_license_type option[value='user-license']")
+                            .text("<?php esc_html_e('Use the MaxMind server with your own license key', 'wp-statistics'); ?>");
+                    } else if (isDBIP) {
+                        // For DB-IP, show its license key field only if "user-license" is selected.
+                        jQuery("#geoip_dbip_license_key_option").toggle(isUserLicense);
+                        jQuery("#geoip_license_key_option").hide();
+                        jQuery("#geoip_license_type option[value='user-license']")
+                            .text("<?php esc_html_e('Use the DB-IP server with your own license key', 'wp-statistics'); ?>");
+                    } else {
+                        // Hide both license key fields if neither MaxMind nor DB-IP is selected.
+                        jQuery("#geoip_license_key_option, #geoip_dbip_license_key_option").hide();
+                    }
+                }
+
+                handle_geoip_fields();
+                jQuery("#geoip_location_detection_method").on('change', handle_geoip_fields);
+                jQuery("#geoip_license_type").on('change', handle_geoip_fields);
+
                 // Ajax function for updating database
                 jQuery("input[name = 'update_geoip']").click(function (event) {
                     event.preventDefault();
@@ -274,12 +353,19 @@ add_thickbox();
 
                     jQuery(this).after("<img class='geoip-update-loading' src='<?php echo esc_url(plugins_url('wp-statistics')); ?>/assets/images/loading.gif'/>");
 
+                    var selectedLocationMethod = jQuery("#geoip_location_detection_method").val();
+
+                    if (!selectedLocationMethod) {
+                        selectedLocationMethod = 'maxmind';
+                    }
+
                     jQuery.ajax({
                         url: ajaxurl,
                         type: 'post',
                         data: {
                             'action': 'wp_statistics_update_geoip_database',
-                            'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?>'
+                            'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?>',
+                            'geoip_location_detection_method': selectedLocationMethod,
                         },
                         datatype: 'json',
                     }).success(function (result) {
@@ -358,6 +444,29 @@ add_thickbox();
                 <p class="description"><?php esc_html_e('Revert all user-specific and global configurations to the WP Statistics default settings, preserving your existing data.', 'wp-statistics'); ?></p>
                 <p class="description"><span class="wps-note"><?php esc_html_e('Caution', 'wp-statistics'); ?>:</span> <?php esc_html_e('This change is irreversible.', 'wp-statistics'); ?></p>
                 <p class="description"><?php _e('<b>For multisite users</b>: Every site within the network will return to the default settings.', 'wp-statistics'); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	?></p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="postbox">
+    <table class="form-table">
+        <tbody>
+        <tr valign="top">
+            <th scope="row" colspan="2"><h3><?php esc_html_e('Danger Zone', 'wp-statistics'); ?></h3></th>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row">
+                <label for="delete-data-on-uninstall"><?php esc_html_e('Delete All Data on Plugin Deletion', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <input id="delete-data-on-uninstall" type="checkbox" name="wps_delete_data_on_uninstall" <?php checked(WP_STATISTICS\Option::get('delete_data_on_uninstall')) ?>>
+                <label for="delete-data-on-uninstall"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                <p class="description"><?php esc_html_e('Enable this option to automatically delete all WP Statistics data from your database when the plugin is deleted.', 'wp-statistics'); ?></p>
+                <p class="description"><span class="wps-note"><?php esc_html_e('Warning', 'wp-statistics'); ?>:</span> <?php esc_html_e('This action is permanent and cannot be undone. Make sure to back up your data before enabling this option.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>

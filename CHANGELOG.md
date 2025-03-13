@@ -1,4 +1,57 @@
-- **Fix:** tracker.js compatibility with wordpress interactivity api.
+= 14.12.x - 2025-xx-xx =
+- **Enhancement:** Improved device model to save and show device model and brand.
+- **Fix:** The proxy method has fixed the loading issue of obfuscated assets.
+- **Fix:** tracker.js compatibility with WordPress Interactivity API.
+
+= 14.12.6 - 2025-02-12 =
+- **New:** Added DB-IP as a location detection option.
+- **New:** Added `first_page`, `first_view`, `last_page`, and `last_view` columns to the visitor table for better performance.
+- **Enhancement:** Refactored internal filters for improved efficiency.
+- **Enhancement:** Optimized query performance.
+- **Enhancement:** Improved Y-axis number formatting in charts.
+- **Enhancement:** Reduced the displayed record count in the Top Countries widget to 5.
+- **Fix:** Resolved database table prefix conflicts causing query errors.
+- **Fix:** Optimized Mini Chart queries for better speed.
+- **Fix:** Improved IP sanitization and IPv6 compatibility with Cloudflare.
+- **Fix:** Improved and compatibility the date filter with timezone.
+- **Fix:** Fixed statistical discrepancies in widgets.
+- **Fix:** Fixed a permissions check issue on the settings page.
+
+= 14.12.5 - 2025-02-23 =
+- **Enhancement:** Hide Online Visitors elements when "Monitor Online Visitors" is off.
+- **Enhancement:** Improved number formatting: full display below 1,000, abbreviated above.
+- **Enhancement:** Removed "Latest Visitors Preview" when Data Plus isn't active.
+- **Fix:** Fixed JS error on "Statistics - Summary" when Data Plus isn't active.
+- **Fix:** Fixed Dashboard charts and metabox loading issues.
+- **Fix:** Mini Chart now starts from the post creation date.
+- **Fix:** Fixed empty chart issue for 1-day range.
+- **Fix:** Restored missing referring sites.
+- **Fix:** Fixed missing online visitor data in the list.
+- **Fix:** Resolved database errors from `%i` misuse in queries.
+
+= 14.12.4 - 2025-02-06 =
+- **Fix:** Fixed issues with Dashboard charts not loading due to an empty metalist and metaboxes not loading in specific cases.
+
+= 14.12.3 - 2025-02-05 =
+- **New:** Added an option to permanently delete all plugin data when uninstalling.
+- **New:** Introduced a "URL" filter in Page Insights to refine report results.
+- **Enhancement:** Strengthened privacy protection by upgrading the IP hashing algorithm from SHA-1 to SHA-256.
+- **Enhancement:** Improved chart indicators to better highlight incomplete periods.
+- **Enhancement:** Optimized how scripts are loaded for better performance.
+- **Fix:** Fixed an issue causing the weekly chart to display incorrectly.
+- **Fix:** Resolved inconsistencies in the date range filter and toggle meta settings.
+- **Fix:** Fixed an error in the "Tracker Debugger".
+- **Fix:** Resolved an issue with the option of the dashboard widgets view.
+- **Fix:** Corrected the loading order of metaboxes for a smoother experience.
+
+= 14.12.2 - 2025-01-21 =
+- **New:** Added the ability to change the chart interval.
+- **Enhancement:** Displayed dates in reports using the i18n format for better localization.
+- **Enhancement:** Updated the time display logic in the Tracker Debugger to replace "0 minutes ago" with "Now."
+- **Fix:** Resolved an issue where the Filters option was incorrectly activating when changing the date filter in Referrals.
+- **Fix:** Fixed a bug where user data was lost upon logout for online users.
+- **Fix:** Addressed an issue with updating source channel data on large datasets.
+- **Fix:** Resolved a backward compatibility issue with the "REST API" add-on for Referrals.
 
 = 14.12.1 - 2025-01-13 =
 - **New:** Added "Last Year" filter to metaboxes on the Overview page for yearly data.
@@ -49,9 +102,9 @@
 - **Fix:** Fixed a bug in Roles & Permissions to prevent users from assigning higher permissions than they have.
 - **Fix:** Made the `views` column sortable again.
 - **Fix:** Resolved a PHP deprecation warning for better compatibility.
-- **Dev:** Added new filters for developers:  
-  - `wp_statistics_geolocation_download_url`  
-  - `wp_statistics_injection_patterns`  
+- **Dev:** Added new filters for developers:
+  - `wp_statistics_geolocation_download_url`
+  - `wp_statistics_injection_patterns`
   - `wp_statistics_location_column_value`
 
 14.11.3 - 2024-11-17

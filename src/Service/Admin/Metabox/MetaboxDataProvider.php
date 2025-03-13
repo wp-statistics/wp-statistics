@@ -73,7 +73,6 @@ class MetaboxDataProvider
     public function getTopVisitorsData($args = [])
     {
         $visitors = $this->visitorsModel->getVisitorsData(array_merge($args, [
-            'page_info' => true,
             'user_info' => true,
             'order_by'  => 'hits',
             'order'     => 'DESC',
@@ -87,7 +86,6 @@ class MetaboxDataProvider
     public function getLatestVisitorsData($args = [])
     {
         return $this->visitorsModel->getVisitorsData(array_merge($args, [
-            'page_info' => true,
             'user_info' => true,
             'order_by'  => 'visitor.ID',
             'order'     => 'DESC',
@@ -153,8 +151,8 @@ class MetaboxDataProvider
                 'prev_period'    => $this->visitorsModel->countVisitors(['date' => $prevPeriod])
             ],
             'visits'    => [
-                'current_period' => $this->viewsModel->countViewsFromPagesOnly(['date' => $currentPeriod]),
-                'prev_period'    => $this->viewsModel->countViewsFromPagesOnly(['date' => $prevPeriod])
+                'current_period' => $this->visitorsModel->countHits(['date' => $currentPeriod]),
+                'prev_period'    => $this->visitorsModel->countHits(['date' => $prevPeriod])
             ],
             'posts'     => [
                 'current_period' => $this->postsModel->countPosts(['date' => $currentPeriod]),

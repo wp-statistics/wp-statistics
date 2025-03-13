@@ -1520,26 +1520,38 @@ class Helper
      *
      * @param int|float $number The number to be formatted.
      * @param int $precision The number of decimal places to round the result to for numbers without units. Default is 0.
-     * @return string The formatted number with appropriate units.
+     * @return int|float|string Returns the original (or rounded) number if less than 1000, or a formatted string with a unit for numbers 1000 or greater.
      */
     public static function formatNumberWithUnit($number, $precision = 0)
     {
-        if (!is_numeric($number)) return 0;
-
-        $units = ['', 'K', 'M', 'B', 'T'];
-        for ($i = 0; $number >= 1000 && $i < 4; $i++) {
-            $number /= 1000;
+        if (! is_numeric($number)) {
+            return 0;
         }
 
-        if (empty($units[$i])) {
-            $formattedNumber = round($number, $precision);
-        } else {
-            $formattedNumber = round($number, 1) . $units[$i];
+        if ($number < 1000) {
+            return ! empty($precision) ? round($number, $precision) : $number;
         }
+        
+        $originalNumber = $number;
+        $units          = ['', 'K', 'M', 'B', 'T'];
+
+        $exponent = (int) floor(log($number, 1000));
+        $exponent = min($exponent, count($units) - 1);
+        
+        // Adjust the number according to the exponent.
+        $number /= pow(1000, $exponent);
+        $unit = $units[$exponent];
+        
+        // Decide on the precision:
+        // - Between 1,000 and 9,999: use two decimals.
+        // - 10,000 and above: use one decimal.
+        $factor = ($originalNumber < 10000) ? 100 : 10;
+
+        // Round the scaled number with the desired decimals and append the unit.
+        $formattedNumber = floor($number * $factor) / $factor . $unit;
 
         return $formattedNumber;
     }
-
 
     /**
      * Filters an array by keeping only the keys specified in the second argument.

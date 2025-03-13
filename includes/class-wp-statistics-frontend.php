@@ -75,6 +75,10 @@ class Frontend
                 'isLegacyEventLoaded'   => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded
             );
 
+            if (defined('WP_DEBUG') && WP_DEBUG) {
+                $jsArgs['isConsoleVerbose'] = true;
+            }
+
             Assets::script('tracker', 'js/tracker.js', [], $jsArgs, true, Option::get('bypass_ad_blockers', false));
         }
 

@@ -1,10 +1,10 @@
 === WP Statistics - The Most Popular Privacy-Friendly Analytics Plugin ===
-Contributors: mostafa.s1990, kashani, veronalabs, GregRoss
+Contributors: veronalabs, mostafa.s1990, kashani, GregRoss
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.7
-Stable tag: 14.12.2
+Stable tag: 14.12.6
 Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -43,6 +43,7 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
 * Monitor live online user traffic in real-time
 * Fully customized overview dashboard page
 * Shows your most popular posts and pages
+* Referrals Tracking: Track and analyze referrals with five reports: Referred Visitors, Referrers, Search Engines, Social Media, and Source Categories. The new Source Categories report includes support for Organic Search, Paid Search, Organic Social, Paid Social, and more.
 * Lists your top referral sources such as search engines
 * Author Analytics: Measures author performance.
 * Geographic Reports: Location-based analytics, including countries, cities, European countries, US states, and regions within your country.
@@ -64,7 +65,7 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
 **Get the most out of your website analytics by using WP Statistics Premium Add-ons**
 Upgrade your analytics toolkit with our range of premium add-ons, including [Data Plus](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wporg&utm_medium=link&utm_campaign=dp), [Advanced Reporting](https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wporg&utm_medium=link&utm_campaign=adv-report), [Real-Time Stats](https://wp-statistics.com/product/wp-statistics-realtime-stats/?utm_source=wporg&utm_medium=link&utm_campaign=realtime), [Mini Chart](https://wp-statistics.com/product/wp-statistics-mini-chart/?utm_source=wporg&utm_medium=link&utm_campaign=mini-chart), and [more](https://wp-statistics.com/add-ons/?utm_source=wporg&utm_medium=link&utm_campaign=add-ons). Making informed decisions is easier with these powerful tools.
 
-**Special Offer:** Purchase the [bundle pack](https://wp-statistics.com/product/add-ons-bundle/?utm_source=wporg&utm_medium=link&utm_campaign=premium) and Enjoy Savings of up to 60%!
+**Special Offer:** Save up to 60% on all premium features when you purchase [WP Statistics Premium](https://wp-statistics.com/pricing/?utm_source=wporg&utm_medium=link&utm_campaign=premium).
 
 = Report Bugs =
 Having trouble with a bug? Please [create an issue](https://github.com/wp-statistics/wp-statistics/issues/new) on GitHub. Kindly note that [GitHub](https://github.com/wp-statistics/wp-statistics) is exclusively for bug reports; other inquiries will be closed.
@@ -139,13 +140,51 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 = 14.13 - 2025-**-** =
 - **Enhancement:** Removed the honeypot feature.
 
-= 14.12.2 - 2025-01-** =
-- **Fix:** Resolved Filters option incorrectly activating when changing the date filter in Referrals.
-- **Fix:** Resolved issue where user data was lost upon logout for online users.
-- **Fix:** Resolved issue with updating source channel data on large dataset.
-- **Fix:** Resolved referrals backward-compatibility issue with "REST API" add-on.
-- **Enhancement:** Updated the time display logic in Tracker Debugger to replace "0 minutes ago" with "Now".
-- **Enhancement:** Improve the way the query parameters are displayed in report pages.
+= 14.12.6 - 2025-02-10 =
+- **New:** Added DB-IP as a new location detection option.
+- **New:** Added `first_page`, `first_view`, `last_page`, and `last_view` columns to the visitor table for faster data handling.
+- **Enhancement:** Refactored internal filters to improve performance and code clarity.
+- **Fix:** Fixed database table prefix conflicts causing query errors.
+- **Fix:** Optimized slow queries in the Mini Chart.
+- **Fix:** Fixed a permissions check issue on the settings page.
+- **Fix:** Improved the IP sanitization & Cloudflare compatibility with IPv6.
+
+= 14.12.5 - 2025-02-23 =
+- **Enhancement:** Hide Online Visitors elements when "Monitor Online Visitors" is off.
+- **Enhancement:** Improved number formatting: full display below 1,000, abbreviated above.
+- **Enhancement:** Removed "Latest Visitors Preview" when Data Plus isn't active.
+- **Fix:** Fixed JS error on "Statistics - Summary" when Data Plus isn't active.
+- **Fix:** Fixed Dashboard charts and metabox loading issues.
+- **Fix:** Mini Chart now starts from the post creation date.
+- **Fix:** Fixed empty chart issue for 1-day range.
+- **Fix:** Restored missing referring sites.
+- **Fix:** Fixed missing online visitor data in the list.
+- **Fix:** Resolved database errors from `%i` misuse in queries.
+
+= 14.12.4 - 2025-02-06 =
+- **Fix:** Fixed issues with Dashboard charts not loading due to an empty metalist and metaboxes not loading in specific cases.
+
+= 14.12.3 - 2025-02-05 =
+- **New:** Added an option to permanently delete all plugin data when uninstalling.
+- **New:** Introduced a "URL" filter in Page Insights to refine report results.
+- **Enhancement:** Strengthened privacy protection by upgrading the IP hashing algorithm from SHA-1 to SHA-256.
+- **Enhancement:** Improved chart indicators to better highlight incomplete periods.
+- **Enhancement:** Optimized how scripts are loaded for better performance.
+- **Fix:** Fixed an issue causing the weekly chart to display incorrectly.
+- **Fix:** Resolved inconsistencies in the date range filter and toggle meta settings.
+- **Fix:** Fixed an error in the "Tracker Debugger".
+- **Fix:** Resolved an issue with the option of the dashboard widgets view.
+- **Fix:** Corrected the loading order of metaboxes for a smoother experience.
+
+= 14.12.2 - 2025-01-21 =
+- **New:** Added the ability to change the chart interval.
+- **Enhancement:** Displayed dates in reports using the i18n format for better localization.
+- **Enhancement:** Updated the time display logic in the Tracker Debugger to replace "0 minutes ago" with "Now."
+- **Fix:** Resolved an issue where the Filters option was incorrectly activating when changing the date filter in Referrals.
+- **Fix:** Fixed a bug where user data was lost upon logout for online users.
+- **Fix:** Addressed an issue with updating source channel data on large datasets.
+- **Fix:** Resolved a backward compatibility issue with the "REST API" add-on for Referrals.
+>>>>>>> development
 
 = 14.12.1 - 2025-01-13 =
 - **New:** Added "Last Year" filter to metaboxes on the Overview page for yearly data.

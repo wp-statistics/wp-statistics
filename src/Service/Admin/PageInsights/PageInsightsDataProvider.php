@@ -33,6 +33,11 @@ class PageInsightsDataProvider
 
         unset($args['taxonomy']);
 
+        if (! empty($args['url'])) {
+            $decodedUrl  = rawurldecode($args['url']);
+            $args['url'] = esc_sql($decodedUrl);;
+        }
+
         $posts  = $this->postsModel->getPostsReportData($args);
         $total  = $this->postsModel->countPosts($args);
 
