@@ -58,17 +58,21 @@ class TrackerUsageDataProvider
     {
         global $wpdb;
 
-        if (empty($wpdb->is_mysql) || empty($wpdb->use_mysqli)) {
+        if (empty($wpdb->is_mysql) || empty($wpdb->use_mysqli) || empty($wpdb->dbh)) {
             return null;
         }
 
-        $server_info = mysqli_get_server_info($wpdb->dbh);
-
-        if (!$server_info) {
+        $serverInfo = mysqli_get_server_info($wpdb->dbh);
+        if (!$serverInfo) {
             return null;
         }
 
-        return preg_replace('/^(\d+\.\d+).*/', '$1', $server_info);
+        $databaseType = str_contains($serverInfo, 'MariaDB') ? 'MariaDB' : (str_contains($serverInfo, 'MySQL') ? 'MySQL' : 'Unknown');
+
+        // Extract the major and minor version (e.g., 10.5 from 10.5.9-MariaDB)
+        $version = preg_match('/\d+\.\d+/', $serverInfo, $matches) ? $matches[0] : '';
+
+        return trim("$databaseType $version");
     }
 
     /**
@@ -84,21 +88,13 @@ class TrackerUsageDataProvider
             return null;
         }
 
-        $server_info = mysqli_get_server_info($wpdb->dbh);
+        $serverInfo = mysqli_get_server_info($wpdb->dbh);
 
-        if (!$server_info) {
+        if (!$serverInfo) {
             return null;
         }
 
-        if (strpos($server_info, 'MariaDB') !== false) {
-            return 'MariaDB';
-        }
-
-        if (strpos($server_info, 'MySQL') !== false) {
-            return 'MySQL';
-        }
-
-        return 'Unknown';
+        return str_contains($serverInfo, 'MariaDB') ? 'MariaDB' : (str_contains($serverInfo, 'MySQL') ? 'MySQL' : 'Unknown');
     }
 
     /**
@@ -134,7 +130,6 @@ class TrackerUsageDataProvider
     {
         return [
             'webserver' => self::getServerSoftware(),
-            'database'  => self::getDatabaseType(),
         ];
     }
 }
