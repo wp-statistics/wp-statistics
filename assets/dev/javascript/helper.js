@@ -163,6 +163,10 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
     }
 };
 
+window.renderHorizontalBar = (id, label, data, icons) => {
+    wps_js.horizontal_bar(id, label, data, icons);
+}
+
 /**
  * Create Chart ID by Meta Box name
  *
