@@ -50,7 +50,8 @@ wps_js.render_line_chart = function (response, key) {
                                 fontWeight: 'lighter ',
                                 padding: 8,
                                 lineHeight: 14.06,
-                                stepSize: 1
+                                stepSize: 1,
+                                callback: renderFormatNum,
                             },
                             border: {
                                 color: 'transparent',

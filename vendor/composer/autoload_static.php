@@ -33,6 +33,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Abstracts\\BaseView' => __DIR__ . '/../..' . '/src/Abstracts/BaseView.php',
         'WP_Statistics\\Abstracts\\MultiViewPage' => __DIR__ . '/../..' . '/src/Abstracts/MultiViewPage.php',
         'WP_Statistics\\Async\\BackgroundProcessFactory' => __DIR__ . '/../..' . '/src/Async/BackgroundProcessFactory.php',
+        'WP_Statistics\\Async\\BackgroundProcessMonitor' => __DIR__ . '/../..' . '/src/Async/BackgroundProcessMonitor.php',
         'WP_Statistics\\Async\\CalculatePostWordsCount' => __DIR__ . '/../..' . '/src/Async/CalculatePostWordsCount.php',
         'WP_Statistics\\Async\\DataMigrationProcess' => __DIR__ . '/../..' . '/src/Async/DataMigrationProcess.php',
         'WP_Statistics\\Async\\GeolocationDatabaseDownloadProcess' => __DIR__ . '/../..' . '/src/Async/GeolocationDatabaseDownloadProcess.php',
