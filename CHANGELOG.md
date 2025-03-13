@@ -1,5 +1,6 @@
 = 14.12.x - 2025-xx-xx =
 - **Enhancement:** Improved device model to save and show device model and brand.
+- **Fix:** The proxy method has fixed the loading issue of obfuscated assets.
 
 = 14.12.6 - 2025-02-12 =
 - **New:** Added DB-IP as a location detection option.
