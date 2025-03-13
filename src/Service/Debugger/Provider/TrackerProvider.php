@@ -192,7 +192,7 @@ class TrackerProvider extends AbstractDebuggerProvider
             $dynamicAssetKey     = $assetNameObfuscator->getDynamicAssetKey();
 
             if (isset($queryParams[$dynamicAssetKey])) {
-                $response = wp_remote_head($this->trackerPath);
+                $response = wp_safe_remote_head($this->trackerPath, ['sslverify' => false]);
 
                 if (!is_wp_error($response) && wp_remote_retrieve_response_code($response) == 200) {
                     return true;
