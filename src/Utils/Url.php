@@ -168,4 +168,43 @@ class Url
 
         return '';
     }
+
+    /**
+     * Returns the relative path of a given URL with respect to the site's base URL.
+     *
+     * @return string The relative path or the original URL if it doesn't match the site URL.
+     */
+    public static function getRelativePathToSiteUrl()
+    {
+        // Build the current URL from server variables.
+        if (!empty($_SERVER['HTTP_HOST']) && !empty($_SERVER['REQUEST_URI'])) {
+            $scheme = 'http';
+            if (
+                (!empty($_SERVER['REQUEST_SCHEME']) && $_SERVER['REQUEST_SCHEME'] === 'https') ||
+                (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ||
+                (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] === '443')
+            ) {
+                $scheme = 'https';
+            }
+            $url = esc_url_raw($scheme . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+        } else {
+            return null;
+        }
+
+        $site_url = site_url();
+
+        // If the URL exactly matches the site URL, return a single slash.
+        if ($url === $site_url) {
+            return '/';
+        }
+
+        // If the URL starts with the site URL, return the remaining part as the relative path.
+        $siteLength = strlen($site_url);
+        if (substr($url, 0, $siteLength) === $site_url) {
+            return substr($url, $siteLength);
+        }
+
+        // Otherwise, return the constructed URL.
+        return $url;
+    }
 }

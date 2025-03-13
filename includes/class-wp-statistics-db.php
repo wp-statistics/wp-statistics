@@ -20,6 +20,7 @@ class DB
         'pages',
         'historical',
         'visitor_relationships',
+        'resources',
 
         /**
          * Data Plus Table
