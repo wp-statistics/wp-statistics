@@ -1,4 +1,4 @@
-<div id="poststuff"  >
+<div id="poststuff">
     <div id="post-body" class="metabox-holder wps-settingsPageFlex">
         <?php include WP_STATISTICS_DIR . 'includes/admin/templates/layout/menu-settings.php'; ?>
 

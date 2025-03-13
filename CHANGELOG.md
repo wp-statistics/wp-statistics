@@ -1,5 +1,7 @@
 = 14.13 - 2025-xx-xx =
 - **Fix:** tracker.js compatibility with WordPress Interactivity API.
+- **Enhancement:** Added usage tracker to collect non-sensitive data for monitoring and improvements.
+
 
 = 14.12.x - 2025-xx-xx =
 - **Enhancement:** Improved device model to save and show device model and brand.
