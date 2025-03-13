@@ -50,8 +50,10 @@ class NotificationProcessor
         if (empty($notifications) || !is_array($notifications)) {
             return [];
         }
-
-        return array_map(fn($notification) => new NotificationDecorator((object)$notification), $notifications);
+        
+        return array_map(function ($notification) {
+            return new NotificationDecorator((object)$notification);
+        }, $notifications);
     }
 
     /**

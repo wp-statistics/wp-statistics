@@ -15,11 +15,11 @@ class NotificationConditionTags
      *
      * @var array
      */
-    private static $tags = array(
+    private static $tags = [
         'is-admin'   => 'isAdminUser',
         'is-premium' => 'isPremiumUser',
         'is-free'    => 'isFreeVersion',
-    );
+    ];
 
     /**
      * Check if the current user is an administrator.
@@ -106,31 +106,10 @@ class NotificationConditionTags
      */
     public static function isCountry($country)
     {
-        $timezoneIdentifiers = timezone_identifiers_list();
-        $countryTimezones    = [];
+        $countryCode = Helper::getTimezoneCountry();
 
-        $wpTimezone = get_option('timezone_string');
-
-        if (empty($wpTimezone)) {
-            return false;
-        }
-
-        foreach ($timezoneIdentifiers as $tz) {
-            try {
-                $dateTimeZone = new DateTimeZone($tz);
-                $location     = $dateTimeZone->getLocation();
-
-                if ($location && isset($location['country_code'])) {
-                    $countryCode           = $location['country_code'];
-                    $countryTimezones[$tz] = $countryCode;
-
-                    if ($countryCode === $country && strpos($tz, $wpTimezone) !== false) {
-                        return true;
-                    }
-                }
-            } catch (Exception $e) {
-                WP_Statistics()->log($e->getMessage(), 'error');
-            }
+        if ($countryCode === $country) {
+            return true;
         }
 
         return false;

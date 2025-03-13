@@ -84,7 +84,7 @@ use WP_STATISTICS\Option;
                 </th>
 
                 <td>
-                    <input id="display-notifications" type="checkbox" value="1" name="wps_display_notifications" <?php echo WP_STATISTICS\Option::get('display_notifications') == true ? "checked='checked'" : ''; ?>>
+                    <input id="display-notifications" type="checkbox" value="1" name="wps_display_notifications" <?php checked(Option::get('display_notifications')); ?>>
                     <label for="display-notifications"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                     <p class="description"><?php esc_html_e('Display important notifications inside the plugin, such as new version releases, feature updates, news, and special offers.', 'wp-statistics'); ?></p>
                 </td>
