@@ -32,7 +32,8 @@ class TrackerUsageDataProvider
     public static function getPhpVersion()
     {
         if (function_exists('phpversion')) {
-            return phpversion();
+            $versionParts = explode('.', phpversion());
+            return "$versionParts[0].$versionParts[1]";
         }
 
         return null;
