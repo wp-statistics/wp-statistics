@@ -1,4 +1,5 @@
 = 14.12.x - 2025-xx-xx =
+- **Enhancement:** Improved referred visitors source name detection.
 - **Enhancement:** Improved device model to save and show device model and brand.
 - **Fix:** The proxy method has fixed the loading issue of obfuscated assets.
 
