@@ -54,6 +54,11 @@ class ReferralsParser
                         if ($this->checkDomain($channelDomain, $value)) {
                             // Set the source channel if not already set
                             $channels[$key] = empty($channels[$key]) ? $currentChannel : $channels[$key];
+
+                            // Set the source name if the domain is wildcard
+                            if ($channelDomain == '*') {
+                                $channels[$key]['name'] = $value;
+                            }
                         }
                     }
 
