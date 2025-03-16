@@ -486,6 +486,7 @@ class Admin_Assets
             'next'                         => __('Next', 'wp-statistics'),
             'loading_error'                => __('Oops, something went wrong while loading statistics.', 'wp-statistics'),
             'last_updated'                 => __('Last updated:', 'wp-statistics'),
+            'unassigned'                   => __('Unassigned', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 
