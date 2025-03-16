@@ -723,6 +723,14 @@ body .o-table-wrapper table.wps-new-table {
           min-width: 22px;
         }
 
+        .badge{
+          color: #10188D;
+          border: 0.5px solid #10188D;
+          border-radius: 4px;
+          font-size: smaller;
+          padding: 0 4px;
+        }
+
         .wps-tooltip {
           display: inline-flex;
           min-width: 12px;
