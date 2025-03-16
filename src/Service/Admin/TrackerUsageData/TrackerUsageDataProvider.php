@@ -16,7 +16,9 @@ class TrackerUsageDataProvider
      */
     public static function getHomeUrl()
     {
-        return self::hashDomain(home_url());
+        $url = self::getCleanDomain(home_url());
+        
+        return self::hashDomain($url);
     }
 
     /**
@@ -132,6 +134,26 @@ class TrackerUsageDataProvider
             'webserver'     => self::getServerSoftware(),
             'database_type' => self::getDatabaseType(),
         ];
+    }
+
+    /**
+     * Get clean domain
+     *
+     * @param string $url
+     *
+     * @return string
+     */
+    public static function getCleanDomain(string $url): string
+    {
+        if (!preg_match('/^https?:\/\//', $url)) {
+            $url = 'https://' . $url; // Default to HTTPS if no scheme
+        }
+
+        $host = parse_url($url, PHP_URL_HOST);
+
+        $host = preg_replace('/^www\./', '', $host);
+
+        return $host;
     }
 
     /**
