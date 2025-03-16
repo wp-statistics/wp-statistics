@@ -64,6 +64,13 @@ class TrackerUsageDataManager
             'database_version'  => TrackerUsageDataProvider::getDatabaseVersion() ?? 'not available',
             'plugin_slug'       => TrackerUsageDataProvider::getPluginSlug(),
             'server_info'       => TrackerUsageDataProvider::getServerInfo(),
+            'theme_info'        => TrackerUsageDataProvider::getThemeInfo(),
+            'plugins'           => TrackerUsageDataProvider::getAllPlugins(),
+            'settings'          => TrackerUsageDataProvider::getPluginSettings(),
+            'timezone'          => TrackerUsageDataProvider::getTimezoneCountry(),
+            'language'          => TrackerUsageDataProvider::getLocale(),
+            'licenses_info'     => TrackerUsageDataProvider::getLicensesInfo(),
+            'tables_stats'      => TrackerUsageDataProvider::getTablesStats(),
         ];
     }
 }
