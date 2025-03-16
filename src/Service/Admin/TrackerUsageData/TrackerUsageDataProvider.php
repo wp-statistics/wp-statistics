@@ -192,7 +192,7 @@ class TrackerUsageDataProvider
         $activePluginsKeys = get_option('active_plugins', array());
 
         return array(
-            'actived_plugins' => $activePluginsKeys,
+            'activated_plugins' => $activePluginsKeys,
         );
     }
 
