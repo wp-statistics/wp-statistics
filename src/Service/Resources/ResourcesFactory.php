@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Resources;
 
 use WP_Statistics\Decorators\ResourceDecorator;
-use WP_Statistics\Utils\Query;
+use WP_Statistics\Models\ResourceModel;
 
 class ResourcesFactory
 {
@@ -20,12 +20,11 @@ class ResourcesFactory
      */
     public static function getByResourceId($resourceId, $resourceType)
     {
-        $rowId = Query::select('ID')
-            ->from('resources')
-            ->where('resource_id', '=', $resourceId)
-            ->where('resource_type', '=', $resourceType)
-            ->getVar();
-        
+        $rowId = (new ResourceModel)->getId([
+            'resource_id'   => $resourceId,
+            'resource_type' => $resourceType,
+        ]);
+
         return ! empty($rowId) ? new ResourceDecorator($rowId) : null;
     }
 
@@ -41,10 +40,9 @@ class ResourcesFactory
      */
     public static function getByUrl($resourceUrl)
     {
-        $rowId = Query::select('ID')
-            ->from('resources')
-            ->where('resource_url', '=', $resourceUrl)
-            ->getVar();
+        $rowId = (new ResourceModel)->getId([
+            'resource_url' => $resourceUrl,
+        ]);
 
         return ! empty($rowId) ? new ResourceDecorator($rowId) : null;
     }

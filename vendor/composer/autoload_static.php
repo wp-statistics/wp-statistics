@@ -149,6 +149,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Models\\LegacyModel' => __DIR__ . '/../..' . '/src/Models/LegacyModel.php',
         'WP_Statistics\\Models\\OnlineModel' => __DIR__ . '/../..' . '/src/Models/OnlineModel.php',
         'WP_Statistics\\Models\\PostsModel' => __DIR__ . '/../..' . '/src/Models/PostsModel.php',
+        'WP_Statistics\\Models\\ResourceModel' => __DIR__ . '/../..' . '/src/Models/ResourceModel.php',
         'WP_Statistics\\Models\\TaxonomyModel' => __DIR__ . '/../..' . '/src/Models/TaxonomyModel.php',
         'WP_Statistics\\Models\\ViewsModel' => __DIR__ . '/../..' . '/src/Models/ViewsModel.php',
         'WP_Statistics\\Models\\VisitorsModel' => __DIR__ . '/../..' . '/src/Models/VisitorsModel.php',

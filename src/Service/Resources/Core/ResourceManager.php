@@ -78,7 +78,7 @@ class ResourceManager
             return;
         }
 
-        $this->resource->removeResource();
+        $this->resource->getModel()->remove();
     }
 
     /**
@@ -115,11 +115,68 @@ class ResourceManager
             return;
         }
 
-        $this->resource->updateTitle($post->post_title);
-        $this->resource->updateAuthor($post->post_author);
-        $this->resource->updateUrl();
-        $this->resource->updateTerms();
-        $this->resource->updateDate();
+        $this->resource->getModel()->update([
+            'cached_title'       => $post->post_title,
+            'resource_url'       => get_the_permalink($postId),
+            'cached_author_id'   => $post->post_author,
+            'cached_author_name' => $this->getAuhtorName($post->post_author),
+            'cached_terms'       => $this->getTerms($postId),
+            'cached_date'        => get_post_field('post_date', $postId)
+        ]);
+    }
+
+    /**
+     * Retrieves and formats the taxonomy term IDs for the specified resource.
+     * 
+     * @param int $postId The ID of the post.
+     * @return string|null
+     */
+    private function getTerms($postId)
+    {
+        $postType = get_post_type($postId);
+
+        if (! $postType) {
+            return;
+        }
+
+        $taxonomies = get_object_taxonomies($postType, 'names');
+
+        if (empty($taxonomies)) {
+            return;
+        }
+
+        $formattedTerms = [];
+
+        foreach ($taxonomies as $taxonomy) {
+            $termList = get_the_terms($postId, $taxonomy);
+
+            if (empty($termList) || is_wp_error($termList)) {
+                continue;
+            }
+
+            foreach ($termList as $termObj) {
+                $formattedTerms[] = $termObj->term_id;
+            }
+        }
+
+        return ! empty($formattedTerms) ? implode(', ', $formattedTerms) : null;
+    }
+
+    /**
+     *  Retrieves the display name for a given author ID.
+     * 
+     * @param int $authorId The ID of the author to set.
+     * @return string|null
+     */
+    public function getAuhtorName($authorId)
+    {
+        if (empty($authorId)) {
+            return;
+        }
+
+        $authorInfo = get_userdata($authorId);
+
+        return ! empty($authorInfo) ? $authorInfo->display_name : '';
     }
 
     /**

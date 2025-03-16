@@ -130,6 +130,7 @@ return array(
     'WP_Statistics\\Models\\LegacyModel' => $baseDir . '/src/Models/LegacyModel.php',
     'WP_Statistics\\Models\\OnlineModel' => $baseDir . '/src/Models/OnlineModel.php',
     'WP_Statistics\\Models\\PostsModel' => $baseDir . '/src/Models/PostsModel.php',
+    'WP_Statistics\\Models\\ResourceModel' => $baseDir . '/src/Models/ResourceModel.php',
     'WP_Statistics\\Models\\TaxonomyModel' => $baseDir . '/src/Models/TaxonomyModel.php',
     'WP_Statistics\\Models\\ViewsModel' => $baseDir . '/src/Models/ViewsModel.php',
     'WP_Statistics\\Models\\VisitorsModel' => $baseDir . '/src/Models/VisitorsModel.php',

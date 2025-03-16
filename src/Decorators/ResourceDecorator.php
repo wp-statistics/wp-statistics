@@ -2,9 +2,11 @@
 
 namespace WP_Statistics\Decorators;
 
+use WP_Statistics\Models\ResourceModel;
 use WP_Statistics\Service\Resources\Core\ResourcesIdentifier;
 
-class ResourceDecorator {
+class ResourceDecorator
+{
     /**
      * The underlying ResourcesIdentifier instance.
      *
@@ -31,7 +33,8 @@ class ResourceDecorator {
      *
      * @return ResourcesIdentifier The underlying ResourcesIdentifier instance.
      */
-    public function getResource() {
+    public function getResource()
+    {
         return $this->resourcesIdentifier;
     }
 
@@ -40,7 +43,8 @@ class ResourceDecorator {
      *
      * @return int|null
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->resourcesIdentifier->resource->ID ?? null;
     }
 
@@ -84,7 +88,7 @@ class ResourceDecorator {
         return $this->resourcesIdentifier->resource->resource_url ?? null;
     }
 
-     /**
+    /**
      * Retrieves the cached terms associated with the resource.
      *
      * @return string|null
@@ -132,5 +136,15 @@ class ResourceDecorator {
     public function getResourceMeta()
     {
         return $this->resourcesIdentifier->resource->resource_meta ?? '';
+    }
+
+    /**
+     * Retrieves the resource model.
+     *
+     * @return ResourceModel The resource model instance.
+     */
+    public function getModel()
+    {
+        return $this->resourcesIdentifier->getModel();
     }
 }
