@@ -1012,7 +1012,10 @@ class VisitorsModel extends BaseModel
             'group_by'      => 'visitor.referred',
             'page'          => 1,
             'per_page'      => 10,
-            'decorate'      => false
+            'decorate'      => false,
+            'utm_source'    => '',
+            'utm_medium'    => '',
+            'utm_campaign'  => ''
         ]);
 
         $filteredArgs = array_filter($args);
@@ -1051,7 +1054,7 @@ class VisitorsModel extends BaseModel
             $query->whereDate('visitor.last_counter', $args['date']);
         }
 
-        if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
+        if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term', 'utm_source', 'utm_medium', 'utm_campaign'], array_keys($filteredArgs))) {
             $query
                 ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'], [], 'LEFT')
                 ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
@@ -1059,6 +1062,9 @@ class VisitorsModel extends BaseModel
                 ->where('post_type', 'IN', $args['post_type'])
                 ->where('posts.ID', '=', $args['post_id'])
                 ->where('pages.uri', '=', $args['query_param'])
+                ->where('pages.uri', 'LIKE', $args['utm_source'] ? "%utm_source={$args['utm_source']}%" : '')
+                ->where('pages.uri', 'LIKE', $args['utm_medium'] ? "%utm_medium={$args['utm_medium']}%" : '')
+                ->where('pages.uri', 'LIKE', $args['utm_campaign'] ? "%utm_campaign={$args['utm_campaign']}%" : '')
                 ->whereDate('pages.date', $args['date']);
 
             if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
