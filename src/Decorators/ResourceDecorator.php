@@ -17,15 +17,16 @@ class ResourceDecorator
     /**
      * Constructor.
      *
-     * Initializes the decorator with a given row ID. If a row ID is provided,
-     * it creates a ResourcesIdentifier object using that ID. Otherwise, it will
-     * attempt to determine the resource from the current context (e.g., current URL).
+     * Initializes the ResourceDecorator with an optional resource record.
+     * If a resource record (object) or record ID is provided, a ResourcesIdentifier is
+     * instantiated using that data. Otherwise, the ResourcesIdentifier will attempt to
+     * determine the resource context based on the current request (e.g., via the current URL).
      *
-     * @param int|null $rowId Optional. The database row identifier for the resource.
+     * @param mixed $record A resource record object or resource record ID.
      */
-    public function __construct($rowId = null)
+    public function __construct($record = null)
     {
-        $this->resourcesIdentifier = new ResourcesIdentifier($rowId);
+        $this->resourcesIdentifier = new ResourcesIdentifier($record);
     }
 
     /**

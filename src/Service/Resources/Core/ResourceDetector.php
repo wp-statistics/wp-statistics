@@ -72,15 +72,28 @@ class ResourceDetector
     /**
      * Constructor.
      *
-     * Calls getResourcePageData() to determine the current resource's type and ID,
-     * then retrieves detailed post-type data (title, terms, publish date, author) if allowed.
+     * If explicit resource ID and/or resource type values are provided, they override
+     * the auto-detected values based on the current page context.
+     * Then, if the resource type is not one of the excluded types, additional details
+     * (such as taxonomies, publish date, title, and author details) are gathered.
+     *
+     * @param int    $resourceId   Optional. Specific resource ID to use.
+     * @param string $resourceType Optional. Specific resource type (e.g., 'post', 'page') to use.
      */
-    public function __construct()
+    public function __construct($resourceId = 0, $resourceType = '')
     {
-        $resourceData = $this->getResourcePageData();
+        $resourceData = $this->getResourceData();
 
-        $this->resourceId   = ! empty($resourceData['id'])   ? (int) $resourceData['id'] : 0;
+        $this->resourceId   = ! empty($resourceData['id']) ? (int) $resourceData['id'] : 0;
         $this->resourceType = ! empty($resourceData['type']) ? (string) $resourceData['type'] : null;
+
+        if (! empty($resourceId)) {
+            $this->resourceId = $resourceId;
+        }
+
+        if (! empty($resourceType)) {
+            $this->resourceType = $resourceType;
+        }
 
         $excludedTypes = [
             'home',
@@ -109,9 +122,9 @@ class ResourceDetector
      *
      * @return array
      */
-    private function getResourcePageData()
+    private function getResourceData()
     {
-        $data = $this->buildResourcePageData();
+        $data = $this->buildResourceData();
         return apply_filters('wp_statistics_resource_data', $data);
     }
 
@@ -122,7 +135,7 @@ class ResourceDetector
      *
      * @return array
      */
-    private function buildResourcePageData()
+    private function buildResourceData()
     {
         $data = [
             'type'         => 'unknown',

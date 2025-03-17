@@ -22,8 +22,8 @@ class ResourceManager
      */
     public function __construct()
     {
-        add_action('wp_after_insert_post', [$this, 'updateResource'], 10, 3);
-        add_action('delete_post', [$this, 'removeResource'], 10, 2);
+        add_action('wp_after_insert_post', [$this, 'updateResource'], 10, 2);
+        add_action('delete_post', [$this, 'setResourceAsDeleted'], 10, 2);
 
         // @todo: Decide if resource author updates should be handled in the background.
         add_action('profile_update', [$this, 'updateResourceAuthor']);
@@ -58,7 +58,7 @@ class ResourceManager
      *
      * @return void
      */
-    public function removeResource($postId, $post)
+    public function setResourceAsDeleted($postId, $post)
     {
         if (! is_object($post)) {
             $post = get_post($postId);
@@ -78,7 +78,7 @@ class ResourceManager
             return;
         }
 
-        $this->resource->getModel()->remove();
+        $this->resource->getModel()->markAsDeleted();
     }
 
     /**
@@ -87,31 +87,31 @@ class ResourceManager
      * This method is hooked to the 'wp_after_insert_post' action and performs
      * several checks to ensure the post is valid before updating resource data.
      *
-     * @param int      $postId   The ID of the post.
-     * @param \WP_Post $post     The post object.
-     * @param bool     $isUpdate Whether the post is being updated.
+     * @param int      $postId The ID of the post.
+     * @param \WP_Post $post   The post object.
      *
      * @return void
      */
-    public function updateResource($postId, $post, $isUpdate)
+    public function updateResource($postId, $post)
     {
-        if (! $isUpdate) {
-            return;
-        }
+        $post = get_post($postId);
 
         if (! is_post_type_viewable($post->post_type)) {
             return;
         }
 
-        $post = get_post($postId);
-
         if (is_null($post) || $post->post_status === 'trash') {
+            return;
+        }
+
+        if ($post->post_status !== 'publish') {
             return;
         }
 
         $this->setResourcesIdentifier($postId, $post->post_type);
 
         if (empty($this->resource)) {
+            ResourcesFactory::setResource($post);
             return;
         }
 
@@ -119,7 +119,7 @@ class ResourceManager
             'cached_title'       => $post->post_title,
             'resource_url'       => get_the_permalink($postId),
             'cached_author_id'   => $post->post_author,
-            'cached_author_name' => $this->getAuhtorName($post->post_author),
+            'cached_author_name' => $this->getAuthorName($post->post_author),
             'cached_terms'       => $this->getTerms($postId),
             'cached_date'        => get_post_field('post_date', $postId)
         ]);
@@ -168,7 +168,7 @@ class ResourceManager
      * @param int $authorId The ID of the author to set.
      * @return string|null
      */
-    public function getAuhtorName($authorId)
+    public function getAuthorName($authorId)
     {
         if (empty($authorId)) {
             return;

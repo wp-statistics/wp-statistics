@@ -111,6 +111,8 @@ class ResourceModel
     {
         $args = $this->parseResourceArgs($args, [
             'ID'            => '',
+            'resource_id'   => '',
+            'resource_type' => '',
             'resource_url'  => '',
         ]);
 
@@ -118,6 +120,8 @@ class ResourceModel
             ->from('resources')
             ->where('ID', '=',  $args['ID'])
             ->where('resource_url', '=', $args['resource_url'])
+            ->where('resource_id', '=',  $args['resource_id'])
+            ->where('resource_type', '=', $args['resource_type'])
             ->getRow();
 
         return $row;
@@ -218,5 +222,24 @@ class ResourceModel
         }
 
         return $wpdb->insert_id;
+    }
+
+    /**
+     * Marks the resource record as deleted.
+     *
+     * @param array $args An associative array of fields to update. Expected key is 'is_deleted'.
+     *
+     * @return void
+     */
+    public function markAsDeleted($args = [])
+    {
+        $args = $this->parseResourceArgs($args, [
+            'is_deleted' => 1,
+        ]);
+
+        Query::update('resources')
+            ->set($args)
+            ->where('ID', '=', $this->resource->ID)
+            ->execute();
     }
 }

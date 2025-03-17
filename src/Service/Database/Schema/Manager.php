@@ -194,6 +194,7 @@ class Manager
                 'cached_author_name' => 'varchar(180)',  // size should be decide
                 'cached_date'        => 'datetime',  // size should be decide
                 'resource_meta'      => 'text',  // size should be decide
+                'is_deleted'         => 'tinyint(1) NOT NULL DEFAULT 0',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
