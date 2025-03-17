@@ -26,7 +26,7 @@ class TrackerUsageDataProvider
      *
      * @return string
      */
-    public static function getWordpressVersion()
+    public static function getWordPressVersion()
     {
         return get_bloginfo('version');
     }
@@ -308,7 +308,10 @@ class TrackerUsageDataProvider
     public static function getPayload()
     {
         return [
-            'plugin_database_version' => Option::getOptionGroup('db', 'version', '0.0.0'),
+            'plugin_database_version_legacy' => get_option('wp_statistics_plugin_version'),
+            'plugin_database_version'        => Option::getOptionGroup('db', 'version', '0.0.0'),
+            'jobs'                           => Option::getOptionGroup('jobs'),
+            'dismissed_notices'              => Option::getOptionGroup('dismissed_notices'),
         ];
     }
 }

@@ -58,7 +58,7 @@ class TrackerUsageDataManager
     {
         return [
             'domain'            => TrackerUsageDataProvider::getHomeUrl(),
-            'wordpress_version' => TrackerUsageDataProvider::getWordpressVersion(),
+            'wordpress_version' => TrackerUsageDataProvider::getWordPressVersion(),
             'php_version'       => TrackerUsageDataProvider::getPhpVersion() ?? 'not available',
             'plugin_version'    => TrackerUsageDataProvider::getPluginVersion(),
             'database_version'  => TrackerUsageDataProvider::getDatabaseVersion() ?? 'not available',
