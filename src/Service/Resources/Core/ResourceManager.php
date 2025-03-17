@@ -22,7 +22,7 @@ class ResourceManager
      */
     public function __construct()
     {
-        add_action('wp_after_insert_post', [$this, 'updateResource'], 10, 2);
+        add_action('wp_after_insert_post', [$this, 'addOrUpdateResource'], 10, 2);
         add_action('delete_post', [$this, 'setResourceAsDeleted'], 10, 2);
 
         // @todo: Decide if resource author updates should be handled in the background.
@@ -92,7 +92,7 @@ class ResourceManager
      *
      * @return void
      */
-    public function updateResource($postId, $post)
+    public function addOrUpdateResource($postId, $post)
     {
         $post = get_post($postId);
 
