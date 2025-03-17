@@ -25,7 +25,9 @@ class ResourceManager
         add_action('wp_after_insert_post', [$this, 'addOrUpdateResource'], 10, 2);
         add_action('delete_post', [$this, 'setResourceAsDeleted'], 10, 2);
 
-        // @todo: Decide if resource author updates should be handled in the background.
+        /**
+         * @todo: We have to remove them from here and move them to the admin page of the resouces.
+         */
         add_action('profile_update', [$this, 'updateResourceAuthor']);
         add_action('delete_term', [$this, 'removeResourceTerm'], 10, 3);
         add_action('delete_user', [$this, 'reassignResourceAuhtor'], 10, 3);
