@@ -1,27 +1,3 @@
-<script type="text/javascript">
-    function ToggleShowHitsOptions() {
-        jQuery('[id^="wps_show_hits_option"]').toggle();
-    }
-
-    function ToggleBypassAdBlockers() {
-        var trackingMethod = jQuery('#use_cache_plugin').val();
-        var bypassAdBlockersRow = jQuery('.bypass_ad_blockers_row');
-        var bypassAdBlockersCheckbox = jQuery('#bypass_ad_blockers');
-
-        if (trackingMethod === '0') {
-            bypassAdBlockersRow.hide();
-            bypassAdBlockersCheckbox.prop('checked', false);
-        } else {
-            bypassAdBlockersRow.show();
-        }
-    }
-
-    jQuery(document).ready(function() {
-        jQuery('#use_cache_plugin').on('change', ToggleBypassAdBlockers);
-        ToggleBypassAdBlockers(); // Initial check
-    });
-</script>
-
 <?php
 
 use WP_STATISTICS\Menus;
@@ -109,11 +85,11 @@ use WP_STATISTICS\Menus;
 
         <tr>
             <th scope="row">
-                <label for="use_cache_plugin"><?php esc_html_e('Tracking Method', 'wp-statistics'); ?></label>
+                <label for="wps_settings[use_cache_plugin]"><?php esc_html_e('Tracking Method', 'wp-statistics'); ?></label>
             </th>
 
             <td>
-                <select id="use_cache_plugin" name="wps_use_cache_plugin" onClick="ToggleBypassAdBlockers()">
+                <select id="wps_settings[use_cache_plugin]" name="wps_use_cache_plugin" >
                     <option value="1" <?php echo WP_STATISTICS\Option::get('use_cache_plugin') ? "selected='selected'" : ''; ?>>
                         <?php esc_html_e('Client Side Tracking (Recommended)', 'wp-statistics'); ?>
                     </option>
@@ -125,7 +101,7 @@ use WP_STATISTICS\Menus;
             </td>
         </tr>
 
-        <tr valign="top" class="bypass_ad_blockers_row">
+        <tr valign="top" class="js-wps-show_if_use_cache_plugin_equal_1">
             <th scope="row">
                 <label for="bypass_ad_blockers"><?php esc_html_e('Bypass Ad Blockers', 'wp-statistics'); ?></label>
             </th>
@@ -137,7 +113,7 @@ use WP_STATISTICS\Menus;
             </td>
         </tr>
 
-        <tr valign="top" class="bypass_ad_blockers_row">
+        <tr valign="top" class="js-wps-show_if_use_cache_plugin_equal_1">
             <th scope="row">
                 <label for="bypass_ad_blockers"><?php esc_html_e('Tracker Debugger', 'wp-statistics'); ?></label>
             </th>

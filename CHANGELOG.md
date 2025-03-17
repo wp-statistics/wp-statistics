@@ -1,3 +1,7 @@
+= 14.13 - 2025-xx-xx =
+- **Fix:** tracker.js compatibility with WordPress Interactivity API.
+- **New:** Added Notifications into the plugin.
+
 = 14.12.x - 2025-xx-xx =
 - **Enhancement:** Improved referred visitors source name detection.
 - **Enhancement:** Improved device model to save and show device model and brand.
@@ -52,6 +56,8 @@
 - **Fix:** Fixed a bug where user data was lost upon logout for online users.
 - **Fix:** Addressed an issue with updating source channel data on large datasets.
 - **Fix:** Resolved a backward compatibility issue with the "REST API" add-on for Referrals.
+
+- **New:** Added a feature that displays notifications to the client, sent from the server.
 
 = 14.12.1 - 2025-01-13 =
 - **New:** Added "Last Year" filter to metaboxes on the Overview page for yearly data.
