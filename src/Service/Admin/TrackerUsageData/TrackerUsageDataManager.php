@@ -62,7 +62,6 @@ class TrackerUsageDataManager
             'php_version'       => TrackerUsageDataProvider::getPhpVersion() ?? 'not available',
             'plugin_version'    => TrackerUsageDataProvider::getPluginVersion(),
             'database_version'  => TrackerUsageDataProvider::getDatabaseVersion() ?? 'not available',
-            'plugin_slug'       => TrackerUsageDataProvider::getPluginSlug(),
             'server_info'       => TrackerUsageDataProvider::getServerInfo(),
             'theme_info'        => TrackerUsageDataProvider::getThemeInfo(),
             'plugins'           => TrackerUsageDataProvider::getAllPlugins(),

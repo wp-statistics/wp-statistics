@@ -34,7 +34,7 @@ class TrackerUsageDataSender
                 'headers'     => array(
                     'Accept'       => 'application/json',
                     'Content-Type' => 'application/json; charset=utf-8',
-                    'user-agent'   => $data['plugin_slug'],
+                    'user-agent'   => $pluginSlug,
                 ),
                 'body'        => json_encode($data),
                 'cookies'     => array(),
