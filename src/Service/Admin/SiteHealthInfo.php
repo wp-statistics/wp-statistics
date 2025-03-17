@@ -321,6 +321,185 @@ class SiteHealthInfo
             ],
         ];
 
+        /**
+         * REST API
+         */
+        if (Helper::isAddOnActive('rest-api')) {
+            $info['addOns']['rest_api'] = [
+                'apiServiceStatus' => [
+                    'label' => esc_html__('API Service Status', 'wp-statistics'),
+                    'value' => Option::getByAddon('status', 'rest_api') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'debug' => Option::getByAddon('status', 'rest_api') ? 'Enabled' : 'Disabled',
+                ]
+            ];
+        }
+
+        /**
+         * Advanced Reporting
+         */
+        if (Helper::isAddOnActive('advanced-reporting')) {
+            $info['addOns']['report_time_frame_type'] = [
+                'chooseYourReportTiming'    => [
+                    'label' => esc_html__('Choose Your Report Timing', 'wp-statistics'),
+                    'value' => Option::getByAddon('report_time_frame_type', 'advanced_reporting'),
+                ],
+                'topMetrics'                => [
+                    'label' => esc_html__('Top Metrics', 'wp-statistics'),
+                    'value' => Option::getByAddon('report_time_frame_type', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'debug' => Option::getByAddon('report_time_frame_type', 'advanced_reporting') ? 'Enabled' : 'Disabled',
+                ],
+                'visitorsSummary'           => [
+                    'label' => esc_html__('Visitors Summary', 'wp-statistics'),
+                    'value' => Option::getByAddon('email_summary_stats', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'debug' => Option::getByAddon('email_summary_stats', 'advanced_reporting') ? 'Enabled' : 'Disabled',
+                ],
+                'viewsChart'                => [
+                    'label' => esc_html__('Views Chart', 'wp-statistics'),
+                    'value' => Option::getByAddon('email_top_hits_visits', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'debug' => Option::getByAddon('email_top_hits_visits', 'advanced_reporting') ? 'Enabled' : 'Disabled',
+                ],
+                'searchEngineReferrals'     => [
+                    'label' => esc_html__('Search Engine Referrals', 'wp-statistics'),
+                    'value' => Option::getByAddon('email_search_engine', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'debug' => Option::getByAddon('email_search_engine', 'advanced_reporting') ? 'Enabled' : 'Disabled',
+                ],
+                'searchEngineChart'         => [
+                    'label' => esc_html__('Search Engine Chart', 'wp-statistics'),
+                    'value' => Option::getByAddon('email_top_search_engines', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'debug' => Option::getByAddon('email_top_search_engines', 'advanced_reporting') ? 'Enabled' : 'Disabled',
+                ],
+                'topReferringDomains'       => [
+                    'label' => esc_html__('Top Referring Domains', 'wp-statistics'),
+                    'value' => Option::getByAddon('email_top_referring', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'debug' => Option::getByAddon('email_top_referring', 'advanced_reporting') ? 'Enabled' : 'Disabled',
+                ],
+                'topPages'                  => [
+                    'label' => esc_html__('Top Pages', 'wp-statistics'),
+                    'value' => Option::getByAddon('email_top_ten_pages', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'debug' => Option::getByAddon('email_top_ten_pages', 'advanced_reporting') ? 'Enabled' : 'Disabled',
+                ],
+                'topCountries'              => [
+                    'label' => esc_html__('Top Countries', 'wp-statistics'),
+                    'value' => Option::getByAddon('email_top_ten_countries', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'debug' => Option::getByAddon('email_top_ten_countries', 'advanced_reporting') ? 'Enabled' : 'Disabled',
+                ],
+                'topBrowsers'               => [
+                    'label' => esc_html__('Top Browsers', 'wp-statistics'),
+                    'value' => Option::getByAddon('email_chart_top_browsers', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'debug' => Option::getByAddon('email_chart_top_browsers', 'advanced_reporting') ? 'Enabled' : 'Disabled',
+                ],
+                'moreInformationButton'     => [
+                    'label' => esc_html__('More Information Button', 'wp-statistics'),
+                    'value' => Option::getByAddon('email_more_info_button', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'debug' => Option::getByAddon('email_more_info_button', 'advanced_reporting') ? 'Enabled' : 'Disabled',
+                ],
+                'auto-GeneratedNotice'      => [
+                    'label' => esc_html__('Auto-Generated Notice', 'wp-statistics'),
+                    'value' => Option::getByAddon('email_disable_copyright', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'debug' => Option::getByAddon('email_disable_copyright', 'advanced_reporting') ? 'Enabled' : 'Disabled',
+                ],
+                'emailPDFReportAttachments' => [
+                    'label' => esc_html__('Email PDF Report Attachments', 'wp-statistics'),
+                    'value' => Option::getByAddon('pdf_report_status', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'debug' => Option::getByAddon('pdf_report_status', 'advanced_reporting') ? 'Enabled' : 'Disabled',
+                ],
+                'recordEmailLogs'           => [
+                    'label' => esc_html__('Record Email Logs', 'wp-statistics'),
+                    'value' => Option::getByAddon('record_email_logs', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'debug' => Option::getByAddon('record_email_logs', 'advanced_reporting') ? 'Enabled' : 'Disabled',
+                ],
+            ];
+        }
+
+        /**
+         * Real-time Stats
+         */
+        if (Helper::isAddOnActive('realtime-stats')) {
+            $info['addOns']['realtime_stats'] = [
+                'chartMapRefreshRate' => [
+                    'label' => esc_html__('Chart & Map Refresh Rate (seconds)', 'wp-statistics'),
+                    'value' => Option::getByAddon('interval_time', 'realtime_stats'),
+                ],
+            ];
+        }
+
+        /**
+         * Advanced Widgets
+         */
+        if (Helper::isAddOnActive('widgets')) {
+            $info['addOns']['widgets'] = [
+                'refreshEvery'            => [
+                    'label' => esc_html__('Refresh Every', 'wp-statistics'),
+                    'value' => Option::getByAddon('cache_life', 'widgets'),
+                ],
+                'useDefaultWidgetStyling' => [
+                    'label' => esc_html__('Use Default Widget Styling', 'wp-statistics'),
+                    'value' => Option::getByAddon('disable_styles', 'widgets') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'debug' => Option::getByAddon('disable_styles', 'widgets') ? 'Enabled' : 'Disabled',
+                ],
+            ];
+        }
+
+        /**
+         * Customization
+         */
+        if (Helper::isAddOnActive('customization')) {
+            $info['addOns']['customization'] = [
+                'whiteLabel'           => [
+                    'label' => esc_html__('White Label', 'wp-statistics'),
+                    'value' => Option::getByAddon('wps_white_label', 'customization') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'debug' => Option::getByAddon('wps_white_label', 'customization') ? 'Enabled' : 'Disabled',
+                ],
+                'enableOverviewWidget' => [
+                    'label' => esc_html__('Enable Overview Widget', 'wp-statistics'),
+                    'value' => Option::getByAddon('show_wps_about_widget_overview', 'customization'),
+                ],
+            ];
+        }
+
+        /**
+         * Data Plus
+         */
+        if (Helper::isAddOnActive('data-plus')) {
+            $info['addOns']['data_plus'] = [
+                'linkTracker'            => [
+                    'label' => esc_html__('Link Tracker', 'wp-statistics'),
+                    'value' => Option::getByAddon('link_tracker', 'data_plus', '1') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'debug' => Option::getByAddon('link_tracker', 'data_plus', '1') ? 'Enabled' : 'Disabled',
+                ],
+                'downloadTracker'        => [
+                    'label' => esc_html__('Download Tracker', 'wp-statistics'),
+                    'value' => Option::getByAddon('download_tracker', 'data_plus', '1') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'debug' => Option::getByAddon('download_tracker', 'data_plus', '1') ? 'Enabled' : 'Disabled',
+                ],
+                'latestVisitorsInEditor' => [
+                    'label' => esc_html__('Latest Visitors In Editor', 'wp-statistics'),
+                    'value' => Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'debug' => Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') ? 'Enabled' : 'Disabled',
+                ],
+            ];
+        }
+
+        /**
+         * Mini Chart
+         */
+        if (Helper::isAddOnActive('mini-chart')) {
+            $info['addOns']['mini_chart'] = [
+                'chartMetric'    => [
+                    'label' => esc_html__('Chart Metric', 'wp-statistics'),
+                    'value' => Option::getByAddon('metric', 'mini_chart', 'views'),
+                ],
+                'chartDateRange' => [
+                    'label' => esc_html__('Chart Date Range', 'wp-statistics'),
+                    'value' => Option::getByAddon('date_range', 'mini_chart', '14'),
+                ],
+                'countDisplay'   => [
+                    'label' => esc_html__('Count Display', 'wp-statistics'),
+                    'value' => Option::getByAddon('count_display', 'mini_chart', 'total'),
+                ],
+            ];
+        }
+
         return $info;
     }
 

@@ -215,9 +215,21 @@ class TrackerUsageDataProvider
                 }
 
                 if (isset($f['debug'])) {
-                    $settings[$k] = $f['debug'];
+                    $settings['plugin'][$k] = $f['debug'];
                 } else {
-                    $settings[$k] = $f['value'];
+                    $settings['plugin'][$k] = $f['value'];
+                }
+            }
+        }
+
+        if (isset($rawSettings['addOns'])) {
+            foreach ($rawSettings['addOns'] as $k => $addon) {
+                foreach ($addon as $key => $f) {
+                    if (isset($f['debug'])) {
+                        $settings['addOns'][$k][$key] = $f['debug'];
+                    } else {
+                        $settings['addOns'][$k][$key] = $f['value'];
+                    }
                 }
             }
         }
