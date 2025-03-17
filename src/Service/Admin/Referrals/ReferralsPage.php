@@ -43,12 +43,6 @@ class ReferralsPage extends MultiViewPage
                     'value' => Menus::get_page_slug('referrals')
                 ]
             ])
-            ->hidden('tab', [
-                'name'       => 'tab',
-                'attributes' => [
-                    'value' => 'campaigns'
-                ]
-            ])
             ->input('text', 'utm_source', [
                 'label' => esc_html__('UTM Source', 'wp-statistics'),
             ])
@@ -83,13 +77,34 @@ class ReferralsPage extends MultiViewPage
                 'attributes'  => [
                     'type' => 'submit',
                 ],
-            ])
-            ->get();
+            ]);
+
+            if (Request::compare('tab', 'campaigns')) {
+                $this->filters
+                    ->hidden('tab', [
+                        'name'       => 'tab',
+                        'attributes' => [
+                            'value' => 'campaigns'
+                        ]
+                    ]);
+            }
+
+            if (Request::compare('type', 'single-campaign')) {
+                $this->filters
+                    ->hidden('type', [
+                        'name'       => 'type',
+                        'attributes' => [
+                            'value' => 'single-campaign'
+                        ]
+                    ]);
+            }
+
+            $this->filters = $this->filters->get();
     }
 
     protected function setFilters() {
         // Campaigns tab filter
-        if (Request::compare('tab', 'campaigns')) {
+        if (Request::compare('tab', 'campaigns') || Request::compare('type', 'single-campaign')) {
             return $this->setCampaignsFilter();
         }
 
