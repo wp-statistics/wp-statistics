@@ -493,7 +493,10 @@ class VisitorsModel extends BaseModel
             'event_target'  => '',
             'event_name'    => '',
             'fields'        => [],
-            'referrer'      => ''
+            'referrer'      => '',
+            'utm_source'    => '',
+            'utm_medium'    => '',
+            'utm_campaign'  => ''
         ]);
 
         // Set default fields
@@ -562,6 +565,14 @@ class VisitorsModel extends BaseModel
         }
 
         $filteredArgs = array_filter($args);
+
+        if (array_intersect(['utm_source', 'utm_medium', 'utm_campaign'], array_keys($filteredArgs))) {
+            $query
+                ->join('pages', ['visitor.first_page', 'pages.page_id'], [])
+                ->where('pages.uri', 'LIKE', $args['utm_source'] ? "%utm_source={$args['utm_source']}%" : '')
+                ->where('pages.uri', 'LIKE', $args['utm_medium'] ? "%utm_medium={$args['utm_medium']}%" : '')
+                ->where('pages.uri', 'LIKE', $args['utm_campaign'] ? "%utm_campaign={$args['utm_campaign']}%" : '');
+        }
 
         if (array_intersect(['resource_type', 'resource_id', 'query_param'], array_keys($filteredArgs))) {
             $query
