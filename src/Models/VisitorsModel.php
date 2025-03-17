@@ -904,6 +904,9 @@ class VisitorsModel extends BaseModel
             'event_target'  => '',
             'order_by'      => ['visitors', 'views'],
             'order'         => 'DESC',
+            'utm_source'    => '',
+            'utm_medium'    => '',
+            'utm_campaign'  => ''
         ]);
 
         $query = Query::select($args['fields'])
@@ -918,8 +921,16 @@ class VisitorsModel extends BaseModel
             ->groupBy($args['group_by'])
             ->orderBy($args['order_by'], $args['order']);
 
-
         $filteredArgs = array_filter($args);
+
+        if (array_intersect(['utm_source', 'utm_medium', 'utm_campaign'], array_keys($filteredArgs))) {
+            $query
+                ->join('pages', ['visitor.first_page', 'pages.page_id'], [])
+                ->where('pages.uri', 'LIKE', $args['utm_source'] ? "%utm_source={$args['utm_source']}%" : '')
+                ->where('pages.uri', 'LIKE', $args['utm_medium'] ? "%utm_medium={$args['utm_medium']}%" : '')
+                ->where('pages.uri', 'LIKE', $args['utm_campaign'] ? "%utm_campaign={$args['utm_campaign']}%" : '');
+        }
+
         if (array_intersect(['post_type', 'post_id', 'query_param', 'author_id', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
                 ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
