@@ -1,13 +1,12 @@
-= 14.13 - 2025-xx-xx =
-- **Fix:** tracker.js compatibility with WordPress Interactivity API.
+= 14.13 - 2025-03-18 =
 - **New:** Added Notifications into the plugin.
-
-= 14.12.x - 2025-xx-xx =
+- **Enhancement:** Removed the honeypot feature.
 - **Enhancement:** Improved referred visitors source name detection.
 - **Enhancement:** Improved device model to save and show device model and brand.
 - **Fix:** The proxy method has fixed the loading issue of obfuscated assets.
+- **Fix:** tracker.js compatibility with WordPress Interactivity API.
 
-= 14.12.6 - 2025-02-12 =
+= 14.12.6 - 2025-02-12
 - **New:** Added DB-IP as a location detection option.
 - **New:** Added `first_page`, `first_view`, `last_page`, and `last_view` columns to the visitor table for better performance.
 - **Enhancement:** Refactored internal filters for improved efficiency.
