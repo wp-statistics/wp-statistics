@@ -40,8 +40,32 @@ abstract class BaseModel
         $args = $this->parseQueryParamArg($args);
         $args = $this->parseResourceTypeArg($args);
         $args = $this->parseDateArg($args);
+        $args = $this->parseUtmParams($args);
 
         return apply_filters('wp_statistics_data_{child-method-name}_args', $args);
+    }
+
+    /**
+     * Escape any underscores in UTM params with a backslash
+     * This is necessary because WordPress's LIKE operator uses underscores as a wildcard
+     * @param array $args
+     * @return array
+     */
+    private function parseUtmParams($args)
+    {
+        if (!empty($args['utm_source'])) {
+            $args['utm_source'] = str_replace('_', '\_', $args['utm_source']);
+        }
+
+        if (!empty($args['utm_medium'])) {
+            $args['utm_medium'] = str_replace('_', '\_', $args['utm_medium']);
+        }
+
+        if (!empty($args['utm_campaign'])) {
+            $args['utm_campaign'] = str_replace('_', '\_', $args['utm_campaign']);
+        }
+
+        return $args;
     }
 
     /**
