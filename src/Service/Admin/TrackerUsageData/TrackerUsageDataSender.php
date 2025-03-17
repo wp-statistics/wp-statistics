@@ -24,9 +24,11 @@ class TrackerUsageDataSender
     public function sendTrackerUsageData($data)
     {
         try {
-            $url    = $this->apiUrl . '/api/v1/data';
-            $method = 'POST';
-            $args   = [
+            $pluginSlug = basename(dirname(WP_STATISTICS_MAIN_FILE));
+            $url        = $this->apiUrl . '/api/v1/data';
+            $method     = 'POST';
+            $params     = ['plugin_slug' => $pluginSlug];
+            $args       = [
                 'timeout'     => 45,
                 'redirection' => 5,
                 'headers'     => array(
@@ -38,7 +40,7 @@ class TrackerUsageDataSender
                 'cookies'     => array(),
             ];
 
-            $remoteRequest = new RemoteRequest($url, $method, [], $args);
+            $remoteRequest = new RemoteRequest($url, $method, $params, $args);
 
             $remoteRequest->execute(false, false);
 

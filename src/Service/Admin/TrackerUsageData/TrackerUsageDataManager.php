@@ -67,10 +67,11 @@ class TrackerUsageDataManager
             'theme_info'        => TrackerUsageDataProvider::getThemeInfo(),
             'plugins'           => TrackerUsageDataProvider::getAllPlugins(),
             'settings'          => TrackerUsageDataProvider::getPluginSettings(),
-            'timezone'          => TrackerUsageDataProvider::getTimezoneCountry(),
+            'timezone'          => TrackerUsageDataProvider::getTimezone(),
             'language'          => TrackerUsageDataProvider::getLocale(),
             'licenses_info'     => TrackerUsageDataProvider::getLicensesInfo(),
             'tables_stats'      => TrackerUsageDataProvider::getTablesStats(),
+            'payload'           => TrackerUsageDataProvider::getPayload(),
         ];
     }
 }

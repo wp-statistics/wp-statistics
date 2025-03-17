@@ -34,7 +34,7 @@ class SiteHealthInfo
      */
     public function addStatisticsInfo($info)
     {
-        $userRoleExclusions      = $this->getUserRoleExclusions();
+        $userRoleExclusions      = $this->getUserRoleExclusions(false);
         $geoIpProvider           = GeolocationFactory::getProviderInstance();
         $geoIpProviderValidity   = $geoIpProvider->validateDatabaseFile();
         $locationDetectionMethod = Option::get('geoip_location_detection_method', 'maxmind');
@@ -53,7 +53,7 @@ class SiteHealthInfo
             ];
         }
 
-        
+
         $info[self::DEBUG_INFO_SLUG] = [
             'label'       => esc_html__('WP Statistics', 'wp-statistics'),
             'description' => esc_html__('This section contains debug information about your WP Statistics settings to help you troubleshoot issues.', 'wp-statistics'),
@@ -61,20 +61,20 @@ class SiteHealthInfo
                 /**
                  * General settings.
                  */
-                'version'                       => [
+                'version'                        => [
                     'label' => esc_html__('Version', 'wp-statistics'),
                     'value' => WP_STATISTICS_VERSION,
                 ],
-                'detectActiveCachePlugin'       => [
+                'detectActiveCachePlugin'        => [
                     'label' => esc_html__('Detect Active Cache Plugin', 'wp-statistics'),
                     'value' => Helper::checkActiveCachePlugin()['status'] === true ? sprintf(__('Enabled (%s)', 'wp-statistics'), Helper::checkActiveCachePlugin()['plugin']) : __('Disabled', 'wp-statistics'),
                     'debug' => Helper::checkActiveCachePlugin()['status'] === true ? sprintf(__('Enabled (%s)', 'wp-statistics'), Helper::checkActiveCachePlugin()['plugin']) : 'Disabled',
                 ],
-                'activePostTypes'               => [
+                'activePostTypes'                => [
                     'label' => esc_html__('Active Post Types', 'wp-statistics'),
                     'value' => implode(', ', Helper::getPostTypes()),
                 ],
-                'dailySaltDate'                 => [
+                'dailySaltDate'                  => [
                     'label' => esc_html__('Daily Salt Date', 'wp-statistics'),
                     'value' => is_array(get_option('wp_statistics_daily_salt')) ? get_option('wp_statistics_daily_salt')['date'] : '',
                 ],
@@ -92,23 +92,24 @@ class SiteHealthInfo
                     'value' => $requiredHeaderExists ? __('Yes', 'wp-statistics') : __('No', 'wp-statistics'),
                     'debug' => $requiredHeaderExists ? 'Yes' : 'No',
                 ],
-                'geoIpDatabaseExists'           => [
+                'geoIpDatabaseExists'            => [
                     'label' => esc_html__('GeoIP Database Exists', 'wp-statistics'),
                     'value' => $geoIpProvider->isDatabaseExist() ? __('Yes', 'wp-statistics') : __('No', 'wp-statistics'),
+                    'debug' => $geoIpProvider->isDatabaseExist() ? 'Yes' : 'No',
                 ],
-                'geoIpDatabaseLastUpdated'      => [
+                'geoIpDatabaseLastUpdated'       => [
                     'label' => esc_html__('GeoIP Database Last Updated', 'wp-statistics'),
                     'value' => $geoIpProvider->getLastDatabaseFileUpdated(),
                 ],
-                'geoIpDatabaseSize'             => [
+                'geoIpDatabaseSize'              => [
                     'label' => esc_html__('GeoIP Database Size', 'wp-statistics'),
                     'value' => $geoIpProvider->getDatabaseSize(),
                 ],
-                'geoIpDatabaseType'             => [
+                'geoIpDatabaseType'              => [
                     'label' => esc_html__('GeoIP Database Type', 'wp-statistics'),
                     'value' => $geoIpProvider->getDatabaseType(),
                 ],
-                'geoIpDatabaseValidation'       => [
+                'geoIpDatabaseValidation'        => [
                     'label' => esc_html__('GeoIP Database Validation', 'wp-statistics'),
                     'value' => is_wp_error($geoIpProviderValidity) ? esc_html__('No', 'wp-statistics') : esc_html__('Yes', 'wp-statistics'),
                     'debug' => is_wp_error($geoIpProviderValidity) ? $geoIpProviderValidity->get_error_message() : 'Yes',
@@ -117,192 +118,192 @@ class SiteHealthInfo
                 /**
                  * Plugin configuration settings.
                  */
-                'monitorOnlineVisitors'         => [
+                'monitorOnlineVisitors'          => [
                     'label' => esc_html__('Monitor Online Visitors', 'wp-statistics'),
                     'value' => Option::get('useronline') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('useronline') ? 'Enabled' : 'Disabled',
                 ],
-                'trackLoggedInUserActivity'     => [
+                'trackLoggedInUserActivity'      => [
                     'label' => esc_html__('Track Logged-In User Activity', 'wp-statistics'),
                     'value' => Option::get('visitors_log') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('visitors_log') ? 'Enabled' : 'Disabled',
                 ],
-                'storeEntireUserAgentString'    => [
+                'storeEntireUserAgentString'     => [
                     'label' => esc_html__('Store Entire User Agent String', 'wp-statistics'),
                     'value' => Option::get('store_ua') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('store_ua') ? 'Enabled' : 'Disabled',
                 ],
-                'attributionModel'              => [
+                'attributionModel'               => [
                     'label' => esc_html__('Attribution Model', 'wp-statistics'),
                     'value' => Option::get('attribution_model', 'first-touch'),
                     'debug' => Option::get('attribution_model', 'first-touch'),
                 ],
-                'trackingMethod'                => [
+                'trackingMethod'                 => [
                     'label' => esc_html__('Tracking Method', 'wp-statistics'),
                     'value' => Option::get('use_cache_plugin') ? __('Client Side Tracking', 'wp-statistics') : __('Server Side Tracking', 'wp-statistics'),
                     'debug' => Option::get('use_cache_plugin') ? 'Client Side Tracking' : 'Server Side Tracking',
                 ],
-                'bypassAdBlockers'              => [
+                'bypassAdBlockers'               => [
                     'label' => esc_html__('Bypass Ad Blockers', 'wp-statistics'),
                     'value' => Option::get('bypass_ad_blockers') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('bypass_ad_blockers') ? 'Enabled' : 'Disabled',
                 ],
-                'anonymizeIpAddresses'          => [
+                'anonymizeIpAddresses'           => [
                     'label' => esc_html__('Anonymize IP Addresses', 'wp-statistics'),
                     'value' => Option::get('anonymize_ips') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('anonymize_ips') ? 'Enabled' : 'Disabled',
                 ],
-                'hashIpAddresses'               => [
+                'hashIpAddresses'                => [
                     'label' => esc_html__('Hash IP Addresses', 'wp-statistics'),
                     'value' => Option::get('hash_ips') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('hash_ips') ? 'Enabled' : 'Disabled',
                 ],
-                'wpConsentLevelIntegration'     => [
+                'wpConsentLevelIntegration'      => [
                     'label' => esc_html__('WP Consent Level Integration', 'wp-statistics'),
                     'value' => Option::get('consent_level_integration') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('consent_level_integration') ? 'Enabled' : 'Disabled',
                 ],
-                'anonymousTracking'             => [
+                'anonymousTracking'              => [
                     'label' => esc_html__('Anonymous Tracking', 'wp-statistics'),
                     'value' => Option::get('anonymous_tracking') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('anonymous_tracking') ? 'Enabled' : 'Disabled',
                 ],
-                'doNotTrack'                    => [
+                'doNotTrack'                     => [
                     'label' => esc_html__('Do Not Track (DNT)', 'wp-statistics'),
                     'value' => Option::get('do_not_track') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('do_not_track') ? 'Enabled' : 'Disabled',
                 ],
-                'viewStatsInEditor'             => [
+                'viewStatsInEditor'              => [
                     'label' => esc_html__('View Stats in Editor', 'wp-statistics'),
                     'value' => Option::get('disable_editor') ? __('Disabled', 'wp-statistics') : __('Enable', 'wp-statistics'),
                     'debug' => Option::get('disable_editor') ? 'Disabled' : 'Enable',
                 ],
-                'viewsColumnInContentList'      => [
+                'viewsColumnInContentList'       => [
                     'label' => esc_html__('Views Column in Content List', 'wp-statistics'),
                     'value' => Option::get('disable_column') ? __('Disable', 'wp-statistics') : __('Enable', 'wp-statistics'),
                     'debug' => Option::get('disable_column') ? 'Disabled' : 'Enable',
                 ],
-                'viewsColumnInUserList'         => [
+                'viewsColumnInUserList'          => [
                     'label' => esc_html__('Views Column in User List', 'wp-statistics'),
                     'value' => Option::get('enable_user_column') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('enable_user_column') ? 'Enabled' : 'Disabled',
                 ],
-                'showStatsInAdminMenuBar'       => [
+                'showStatsInAdminMenuBar'        => [
                     'label' => esc_html__('Show Stats in Admin Menu Bar', 'wp-statistics'),
                     'value' => Option::get('menu_bar') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('menu_bar') ? 'Enabled' : 'Disabled',
                 ],
-                'wpStatisticsChartsPrevPeriod'  => [
+                'wpStatisticsChartsPrevPeriod'   => [
                     'label' => esc_html__('Previous Period in Charts', 'wp-statistics'),
                     'value' => Option::get('charts_previous_period') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('charts_previous_period') ? 'Enabled' : 'Disabled',
                 ],
-                'wpStatisticsWidgets'           => [
+                'wpStatisticsWidgets'            => [
                     'label' => esc_html__('WP Statistics Widgets in the WordPress dashboard', 'wp-statistics'),
                     'value' => Option::get('disable_dashboard') ? __('Disable', 'wp-statistics') : __('Enable', 'wp-statistics'),
                     'debug' => Option::get('disable_dashboard') ? 'Disabled' : 'Enable',
                 ],
-                'disableInactiveFeatureNotices' => [
+                'disableInactiveFeatureNotices'  => [
                     'label' => esc_html__('Disable Inactive Essential Feature Notices', 'wp-statistics'),
                     'value' => Option::get('hide_notices') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('hide_notices') ? 'Enabled' : 'Disabled',
                 ],
-                'viewsInSingleContents'         => [
+                'viewsInSingleContents'          => [
                     'label' => esc_html__('Views in Single Contents', 'wp-statistics'),
                     'value' => Option::get('show_hits') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('show_hits') ? 'Enabled' : 'Disabled',
                 ],
-                'reportFrequency'               => [
+                'reportFrequency'                => [
                     'label' => esc_html__('Report Frequency', 'wp-statistics'),
                     'value' => Option::get('time_report') ? Option::get('time_report') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('time_report') ? Option::get('time_report') : 'Disabled',
                 ],
-                'userRoleExclusions'            => [
+                'userRoleExclusions'             => [
                     'label' => esc_html__('User Role Exclusions', 'wp-statistics'),
                     'value' => $userRoleExclusions ? implode(', ', $userRoleExclusions) : __('Not Set', 'wp-statistics'),
                     'debug' => $userRoleExclusions ? implode(', ', $userRoleExclusions) : 'Not Set',
                 ],
-                'ipExclusions'                  => [
+                'ipExclusions'                   => [
                     'label' => esc_html__('IP Exclusions', 'wp-statistics'),
                     'value' => Option::get('exclude_ip') ? __('Set', 'wp-statistics') : __('Not Set', 'wp-statistics'),
                     'debug' => Option::get('exclude_ip') ? 'Set' : 'Not Set',
                 ],
-                'excludedLoginPage'             => [
+                'excludedLoginPage'              => [
                     'label' => esc_html__('Excluded Login Page', 'wp-statistics'),
                     'value' => Option::get('exclude_loginpage') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('exclude_loginpage') ? 'Enabled' : 'Disabled',
                 ],
-                'excludedRssFeeds'              => [
+                'excludedRssFeeds'               => [
                     'label' => esc_html__('Excluded RSS Feeds', 'wp-statistics'),
                     'value' => Option::get('exclude_feeds') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('exclude_feeds') ? 'Enabled' : 'Disabled',
                 ],
-                'excluded404Page'               => [
+                'excluded404Page'                => [
                     'label' => esc_html__('Excluded 404 Pages', 'wp-statistics'),
                     'value' => Option::get('exclude_404s') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('exclude_404s') ? 'Enabled' : 'Disabled',
                 ],
-                'excludedURLs'                  => [
+                'excludedURLs'                   => [
                     'label' => esc_html__('Excluded URLs', 'wp-statistics'),
                     'value' => Option::get('excluded_urls') ? __('Set', 'wp-statistics') : __('Not Set', 'wp-statistics'),
                     'debug' => Option::get('excluded_urls') ? 'Set' : 'Not Set',
                 ],
-                'matomoReferrerSpamBlacklist'   => [
+                'matomoReferrerSpamBlacklist'    => [
                     'label' => esc_html__('Matomo Referrer Spam Blacklist', 'wp-statistics'),
                     'value' => Option::get('referrerspam') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('referrerspam') ? 'Enabled' : 'Disabled',
                 ],
-                'logRecordExclusions'           => [
+                'logRecordExclusions'            => [
                     'label' => esc_html__('Log Record Exclusions', 'wp-statistics'),
                     'value' => Option::get('record_exclusions') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('record_exclusions') ? 'Enabled' : 'Disabled',
                 ],
-                'minRoleToViewStats'            => [
+                'minRoleToViewStats'             => [
                     'label' => esc_html__('Minimum Role to View Statistics', 'wp-statistics'),
                     'value' => Option::get('read_capability') ? Option::get('read_capability') : __('Not Set', 'wp-statistics'),
                     'debug' => Option::get('read_capability') ? Option::get('read_capability') : 'Not Set',
                 ],
-                'minRoleToManageSettings'       => [
+                'minRoleToManageSettings'        => [
                     'label' => esc_html__('Minimum Role to Manage Settings', 'wp-statistics'),
                     'value' => Option::get('manage_capability') ? Option::get('manage_capability') : __('Not Set', 'wp-statistics'),
                     'debug' => Option::get('manage_capability') ? Option::get('manage_capability') : 'Not Set',
                 ],
-                'ipDetectionMethod'             => [
+                'ipDetectionMethod'              => [
                     'label' => esc_html__('IP Detection Method', 'wp-statistics'),
                     'value' => Option::get('ip_method') ? Option::get('ip_method') : __('Not Set', 'wp-statistics'),
                     'debug' => Option::get('ip_method') ? Option::get('ip_method') : 'Not Set',
                 ],
-                'geoIpDatabaseUpdateSource'     => [
+                'geoIpDatabaseUpdateSource'      => [
                     'label' => esc_html__('GeoIP Database Update Source', 'wp-statistics'),
                     'value' => Option::get('geoip_license_type') ? Option::get('geoip_license_type') : __('Not Set', 'wp-statistics'),
                     'debug' => Option::get('geoip_license_type') ? Option::get('geoip_license_type') : 'Not Set',
                 ],
-                'automaticCleanup'              => [
+                'automaticCleanup'               => [
                     'label' => esc_html__('Automatic Cleanup', 'wp-statistics'),
                     'value' => Option::get('schedule_dbmaint') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('schedule_dbmaint') ? 'Enabled' : 'Disabled',
                 ],
-                'purgeDataOlderThan'            => [
+                'purgeDataOlderThan'             => [
                     'label' => esc_html__('Purge Data Older Than', 'wp-statistics'),
                     'value' => Option::get('schedule_dbmaint_days') ? Option::get('schedule_dbmaint_days') : __('Not Set', 'wp-statistics'),
                     'debug' => Option::get('schedule_dbmaint_days') ? Option::get('schedule_dbmaint_days') : 'Not Set',
                 ],
-                'phpGmpExtension'               => [
+                'phpGmpExtension'                => [
                     'label' => esc_html__('PHP Extension (GMP)', 'wp-statistics'),
                     'value' => extension_loaded('gmp') ? __('Installed', 'wp-statistics') : __('Not Installed', 'wp-statistics'),
                     'debug' => extension_loaded('gmp') ? 'Installed' : 'Not Installed',
                 ],
-                'phpBcmathExtension'            => [
+                'phpBcmathExtension'             => [
                     'label' => esc_html__('PHP Extension (BCMath)', 'wp-statistics'),
                     'value' => extension_loaded('bcmath') ? __('Installed', 'wp-statistics') : __('Not Installed', 'wp-statistics'),
                     'debug' => extension_loaded('bcmath') ? 'Installed' : 'Not Installed',
                 ],
-                'phpGzopenFunction'             => [
+                'phpGzopenFunction'              => [
                     'label' => esc_html__('PHP Function (gzopen)', 'wp-statistics'),
                     'value' => function_exists('gzopen') ? __('Installed', 'wp-statistics') : __('Not Installed', 'wp-statistics'),
                     'debug' => function_exists('gzopen') ? 'Installed' : 'Not Installed',
                 ],
-                'phpPharDataClass'              => [
+                'phpPharDataClass'               => [
                     'label' => esc_html__('PHP Class (PharData)', 'wp-statistics'),
                     'value' => class_exists('PharData') ? __('Installed', 'wp-statistics') : __('Not Installed', 'wp-statistics'),
                     'debug' => class_exists('PharData') ? 'Installed' : 'Not Installed',
@@ -326,17 +327,22 @@ class SiteHealthInfo
     /**
      * Get the user role exclusions.
      *
+     * @param bool $translate
+     *
      * @return array
      */
-    public function getUserRoleExclusions()
+    public function getUserRoleExclusions($translate = true)
     {
         $excludeRoles = [];
         foreach (\WP_STATISTICS\User::get_role_list() as $role) {
             $optionName = 'exclude_' . str_replace(" ", "_", strtolower($role));
 
-            $translatedRoleName = ($role === 'Anonymous Users') ? __('Anonymous Users', 'wp-statistics') : translate_user_role($role);
-
             if (Option::get($optionName)) {
+                if ($translate) {
+                    $translatedRoleName = ($role === 'Anonymous Users') ? __('Anonymous Users', 'wp-statistics') : translate_user_role($role);
+                } else {
+                    $translatedRoleName = ($role === 'Anonymous Users') ? 'Anonymous Users' : $role;
+                }
                 $excludeRoles[] = $translatedRoleName;
             }
         }

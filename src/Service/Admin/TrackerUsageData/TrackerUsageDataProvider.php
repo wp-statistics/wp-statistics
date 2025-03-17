@@ -3,9 +3,9 @@
 namespace WP_Statistics\Service\Admin\TrackerUsageData;
 
 use WP_Statistics\Service\Admin\SiteHealthInfo;
-use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_STATISTICS\DB;
+use WP_STATISTICS\Option;
 
 class TrackerUsageDataProvider
 {
@@ -17,7 +17,7 @@ class TrackerUsageDataProvider
     public static function getHomeUrl()
     {
         $url = self::getCleanDomain(home_url());
-        
+
         return self::hashDomain($url);
     }
 
@@ -210,10 +210,15 @@ class TrackerUsageDataProvider
 
         if (isset($rawSettings[$debugSlug]['fields'])) {
             foreach ($rawSettings[$debugSlug]['fields'] as $k => $f) {
-                if ($k === 'version') {
+                if ($k === 'version' || $k === 'geoIpDatabaseSize') {
                     continue;
                 }
-                $settings[$k] = $f['value'];
+
+                if (isset($f['debug'])) {
+                    $settings[$k] = $f['debug'];
+                } else {
+                    $settings[$k] = $f['value'];
+                }
             }
         }
 
@@ -221,13 +226,20 @@ class TrackerUsageDataProvider
     }
 
     /**
-     * Retrieves the country code based on the timezone string.
+     * Retrieves the timezone string.
      *
      * @return string
      */
-    public static function getTimezoneCountry()
+    public static function getTimezone()
     {
-        return Helper::getTimezoneCountry();
+        $timezone = get_option('timezone_string');
+
+        if (!empty($timezone)) {
+            return $timezone;
+        }
+
+        $gmt_offset = get_option('gmt_offset');
+        return 'UTC' . ($gmt_offset >= 0 ? '+' : '') . $gmt_offset;
     }
 
     /**
@@ -286,5 +298,17 @@ class TrackerUsageDataProvider
         }
 
         return $tableRows;
+    }
+
+    /**
+     * Retrieves the payload data
+     *
+     * @return array
+     */
+    public static function getPayload()
+    {
+        return [
+            'plugin_database_version' => Option::getOptionGroup('db', 'version', '0.0.0'),
+        ];
     }
 }
