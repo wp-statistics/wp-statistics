@@ -96,15 +96,38 @@ class Query
             foreach ($values as $field => $value) {
                 $column = '`' . str_replace('`', '``', $field) . '`';
 
-            if (is_string($value)) {
-                $this->setClauses[]      = "$column = %s";
-                $this->valuesToPrepare[] = $value;
-            } else if (is_numeric($value)) {
-                $this->setClauses[]      = "$column = %d";
-                $this->valuesToPrepare[] = $value;
-            } else if (is_null($value)) {
-                $this->setClauses[] = "$column = NULL";
+                if (is_string($value)) {
+                    $this->setClauses[]      = "$column = %s";
+                    $this->valuesToPrepare[] = $value;
+                } else if (is_numeric($value)) {
+                    $this->setClauses[]      = "$column = %d";
+                    $this->valuesToPrepare[] = $value;
+                } else if (is_null($value)) {
+                    $this->setClauses[] = "$column = NULL";
+                }
             }
+        }
+
+        if ($this->operation === 'insert') {
+            $identifiers    = [];
+            $placeholders   = [];
+
+            $values = array_filter($values);
+
+            foreach ($values as $field => $value) {
+                $identifiers[]  = '%i';
+
+                if (is_string($value)) {
+                    $placeholders[] = '%s';
+                } else if (is_numeric($value)) {
+                    $placeholders[] = '%d';
+                }
+            }
+
+            $this->valuesToPrepare = array_merge(array_keys($values), array_values($values));
+
+            $this->setClauses['identifiers'] = $identifiers;
+            $this->setClauses['values']      = $placeholders;
         }
 
         return $this;
