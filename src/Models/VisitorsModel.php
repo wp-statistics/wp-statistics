@@ -906,7 +906,8 @@ class VisitorsModel extends BaseModel
             'order'         => 'DESC',
             'utm_source'    => '',
             'utm_medium'    => '',
-            'utm_campaign'  => ''
+            'utm_campaign'  => '',
+            'referrer'      => ''
         ]);
 
         $query = Query::select($args['fields'])
@@ -915,6 +916,7 @@ class VisitorsModel extends BaseModel
             ->where('visitor.city', 'IN', $args['city'])
             ->where('visitor.region', 'IN', $args['region'])
             ->where('visitor.continent', 'IN', $args['continent'])
+            ->where('visitor.referred', '=', $args['referrer'])
             ->whereDate('visitor.last_counter', $args['date'])
             ->whereNotNull($args['not_null'])
             ->perPage($args['page'], $args['per_page'])
