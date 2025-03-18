@@ -57,6 +57,7 @@ class Uninstall
         delete_option('wp_statistics_closed_widgets');
         delete_option('wp_statistics_licenses');
         delete_option('wp_statistics_tracker_js_errors');
+        delete_option('wp_statistics_db');
 
         // Delete the transients.
         delete_transient('wps_top_referring');

@@ -203,7 +203,8 @@ wps_js.render_wp_statistics_hourly_usage_widget = function (response, key) {
                         },
                         padding: window.innerWidth < 768 ? 2 : 8,
                         lineHeight: window.innerWidth < 768 ? 10 : 15,
-                        stepSize: 1
+                        stepSize: 1,
+                        callback: renderFormatNum,
                     },
                     border: {
                         color: 'transparent',

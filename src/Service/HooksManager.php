@@ -1,7 +1,9 @@
 <?php
+
 namespace WP_Statistics\Service;
 
 use WP_STATISTICS\Menus;
+use WP_Statistics\Components\AssetNameObfuscator;
 
 class HooksManager
 {
@@ -9,6 +11,7 @@ class HooksManager
     {
         add_filter('kses_allowed_protocols', [$this, 'updateAllowedProtocols']);
         add_filter('plugin_action_links_' . plugin_basename(WP_STATISTICS_MAIN_FILE), [$this, 'addActionLinks']);
+        add_filter('template_redirect', [$this, 'serveObfuscatedAsset']);
     }
 
     /**
@@ -43,5 +46,21 @@ class HooksManager
         $customProtocols = apply_filters('wp_statistics_allowed_protocols', $customProtocols);
 
         return array_merge($defaultProtocols, $customProtocols);
+    }
+
+    /**
+     * Proxies requested asset files through PHP to serve them securely.
+     *
+     * @return void
+     */
+    public function serveObfuscatedAsset()
+    {
+        $assetNameObfuscator = new AssetNameObfuscator();
+        $dynamicAssetKey     = $assetNameObfuscator->getDynamicAssetKey();
+
+        if (isset($_GET[$dynamicAssetKey])) {
+            $asset = sanitize_text_field($_GET[$dynamicAssetKey]);
+            $assetNameObfuscator->serveAssetByHash($asset);
+        }
     }
 }

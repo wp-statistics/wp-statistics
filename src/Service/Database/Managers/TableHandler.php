@@ -65,12 +65,6 @@ class TableHandler
 
         $dismissedNotices = get_option('wp_statistics_dismissed_notices', []);
 
-        if (in_array('database_manual_migration_done', $dismissedNotices, true)) {
-            $dismissedNotices = array_diff($dismissedNotices, ['database_manual_migration_done']);
-
-            update_option('wp_statistics_dismissed_notices', $dismissedNotices);
-        }
-
         if (in_array('database_manual_migration_progress', $dismissedNotices, true)) {
             $dismissedNotices = array_diff($dismissedNotices, ['database_manual_migration_progress']);
 

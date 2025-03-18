@@ -31,6 +31,16 @@ jQuery(document).ready(function () {
 
         return phpFormat.replace(/([a-zA-Z])/g, (match) => formatMap[match] || match);
     }
+    function normalizeDate(date, timezone) {
+         if (timezone && (timezone.startsWith('UTC') || timezone.startsWith('+') || timezone.startsWith('-'))) {
+            const offset = timezone.startsWith('UTC') ? timezone.replace('UTC', '') : timezone;
+            return moment(date).utcOffset(offset).startOf('day');
+        } else if (moment.tz.zone(timezone)) {
+             return moment(date).tz(timezone).startOf('day');
+        } else {
+             return moment(date).utc().startOf('day');
+        }
+    }
 
     if (datePickerBtn.length && datePickerElement.length && datePickerForm.length) {
         datePickerBtn.on('click', function () {
@@ -44,40 +54,62 @@ jQuery(document).ready(function () {
         function getLocalTime() {
             if (validTimezone) {
                 if (validTimezone.startsWith('UTC') || validTimezone.startsWith('+') || validTimezone.startsWith('-')) {
-                    const offset = validTimezone.replace('UTC', ''); // Remove "UTC" prefix if present
-                    const [hours, minutes] = offset.split(':').map(Number);
-
-                    // Handle negative offsets correctly
-                    const totalOffsetMinutes = (hours * 60) + (hours < 0 ? -Math.abs(minutes) : minutes);
-                    return moment().utcOffset(totalOffsetMinutes);
-                } else {
-                    // Handle named timezones (e.g., "Pacific/Honolulu")
-                    if (moment.tz.zone(validTimezone)) {
-                        return moment().tz(validTimezone);
-                    } else {
-                        // Fallback to UTC if the named timezone is invalid
-                        return moment().utc();
-                    }
+                    const offset = validTimezone.startsWith('UTC') ? validTimezone.replace('UTC', '') : validTimezone;
+                    return moment().utcOffset(offset);
+                } else if (moment.tz.zone(validTimezone)) {
+                    return moment().tz(validTimezone);
                 }
-            } else {
-                // Fallback to UTC if no timezone is set
-                return moment().utc();
             }
+            return moment().utc();
         }
+
         const localTime = getLocalTime();
         // Define ranges with translated labels as keys
         let ranges = {
-            [wps_js._('str_today')]: [localTime.clone().startOf('day'), localTime.clone().startOf('day')],
-            [wps_js._('str_yesterday')]: [localTime.clone().subtract(1, 'days').startOf('day'), localTime.clone().subtract(1, 'days').startOf('day')],
-            [wps_js._('str_this_week')]: [localTime.clone().startOf('week'), localTime.clone().endOf('week')],
-            [wps_js._('str_last_week')]: [localTime.clone().subtract(1, 'week').startOf('week'), localTime.clone().subtract(1, 'week').endOf('week')],
-            [wps_js._('str_this_month')]: [localTime.clone().startOf('month'), localTime.clone().endOf('month')],
-            [wps_js._('str_last_month')]: [localTime.clone().subtract(1, 'month').startOf('month'), localTime.clone().subtract(1, 'month').endOf('month')],
-            [wps_js._('str_7days')]: [localTime.clone().subtract(6, 'days'), localTime.clone()],
-            [wps_js._('str_30days')]: [localTime.clone().subtract(29, 'days'), localTime.clone()],
-            [wps_js._('str_90days')]: [localTime.clone().subtract(89, 'days'), localTime.clone()],
-            [wps_js._('str_6months')]: [localTime.clone().subtract(6, 'months'), localTime.clone()],
-            [wps_js._('str_year')]: [localTime.clone().startOf('year'), localTime.clone().endOf('year')],
+            [wps_js._('str_today')]: [
+                normalizeDate(localTime.clone(), validTimezone),
+                normalizeDate(localTime.clone(), validTimezone)
+            ],
+            [wps_js._('str_yesterday')]: [
+                normalizeDate(localTime.clone().subtract(1, 'days'), validTimezone),
+                normalizeDate(localTime.clone().subtract(1, 'days'), validTimezone)
+            ],
+            [wps_js._('str_this_week')]: [
+                normalizeDate(localTime.clone().startOf('week'), validTimezone),
+                normalizeDate(localTime.clone().endOf('week'), validTimezone)
+            ],
+            [wps_js._('str_last_week')]: [
+                normalizeDate(localTime.clone().subtract(1, 'week').startOf('week'), validTimezone),
+                normalizeDate(localTime.clone().subtract(1, 'week').endOf('week'), validTimezone)
+            ],
+            [wps_js._('str_this_month')]: [
+                normalizeDate(localTime.clone().startOf('month'), validTimezone),
+                normalizeDate(localTime.clone().endOf('month'), validTimezone)
+            ],
+            [wps_js._('str_last_month')]: [
+                normalizeDate(localTime.clone().subtract(1, 'month').startOf('month'), validTimezone),
+                normalizeDate(localTime.clone().subtract(1, 'month').endOf('month'), validTimezone)
+            ],
+            [wps_js._('str_7days')]: [
+                normalizeDate(localTime.clone().subtract(6, 'days'), validTimezone),
+                normalizeDate(localTime.clone(), validTimezone)
+            ],
+            [wps_js._('str_30days')]: [
+                normalizeDate(localTime.clone().subtract(29, 'days'), validTimezone),
+                normalizeDate(localTime.clone(), validTimezone)
+            ],
+            [wps_js._('str_90days')]: [
+                normalizeDate(localTime.clone().subtract(89, 'days'), validTimezone),
+                normalizeDate(localTime.clone(), validTimezone)
+            ],
+            [wps_js._('str_6months')]: [
+                normalizeDate(localTime.clone().subtract(6, 'months'), validTimezone),
+                normalizeDate(localTime.clone(), validTimezone)
+            ],
+            [wps_js._('str_year')]: [
+                normalizeDate(localTime.clone().startOf('year'), validTimezone),
+                normalizeDate(localTime.clone().endOf('year'), validTimezone)
+            ]
         };
 
         function hasTypeParameter() {
@@ -88,11 +120,18 @@ jQuery(document).ready(function () {
         if (datePickerBtn.hasClass('js-date-range-picker-all-time')) {
             let post_date = moment(0);
             if (hasTypeParameter()) {
-                post_date = wps_js.global.post_creation_date ? moment(wps_js.global.post_creation_date) : moment(0);
+                post_date = wps_js.global.post_creation_date ?
+                    normalizeDate(moment(wps_js.global.post_creation_date), validTimezone) :
+                    normalizeDate(moment(0), validTimezone);
             } else {
-                post_date = wps_js.global.initial_post_date ? moment(wps_js.global.initial_post_date) : moment(0);
+                post_date = wps_js.global.initial_post_date ?
+                    normalizeDate(moment(wps_js.global.initial_post_date), validTimezone) :
+                    normalizeDate(moment(0), validTimezone);
             }
-            ranges[wps_js._('all_time')] = [post_date, moment()];
+            ranges[wps_js._('all_time')] = [
+                post_date,
+                normalizeDate(moment(), validTimezone)
+            ];
         }
 
 
@@ -204,11 +243,12 @@ jQuery(document).ready(function () {
         datePickerElement.on('apply.daterangepicker', function (ev, picker) {
             const inputFrom = datePickerForm.find('.js-date-range-picker-input-from').first();
             const inputTo = datePickerForm.find('.js-date-range-picker-input-to').first();
-            const startDate = picker.startDate.utcOffset(validTimezone).format('YYYY-MM-DD');
-            const endDate = picker.endDate.utcOffset(validTimezone).format('YYYY-MM-DD');
+            const startDate = picker.startDate.startOf('day').utcOffset(validTimezone, true).format('YYYY-MM-DD');
+            const endDate = picker.endDate.startOf('day').utcOffset(validTimezone, true).format('YYYY-MM-DD');
 
             inputFrom.val(startDate);
             inputTo.val(endDate);
+
             const selectedRange = datePickerElement.data('daterangepicker').chosenLabel;
             datePickerBtn.find('span').html(selectedRange);
             if (selectedRange !== 'All time') {
@@ -219,8 +259,8 @@ jQuery(document).ready(function () {
                         wps_nonce: wps_js.global.rest_api_nonce,
                         action: 'wp_statistics_store_date_range',
                         date: {
-                            from: inputFrom.val(),
-                            to: inputTo.val()
+                            from: startDate,
+                            to: endDate
                         }
                     },
                     beforeSend: function () {
