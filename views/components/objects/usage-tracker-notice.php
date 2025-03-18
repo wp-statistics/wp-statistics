@@ -9,7 +9,7 @@ if (!WP_STATISTICS\Option::get('usage_data_tracking') && !in_array('usage_data_t
         'links'   => [
             'learn_more'      => [
                 'text' => __('Learn More', 'wp-statistics'),
-                'url'  => 'https://wp-statistics.com/resources/sharing-your-data-with-us/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings',
+                'url'  => 'https://wp-statistics.com/resources/sharing-your-data-with-us/?utm_source=wp-statistics&utm_medium=link&utm_campaign=doc',
             ],
             'enable_tracking' => [
                 'text'       => __('Enable Usage Tracking', 'wp-statistics'),
