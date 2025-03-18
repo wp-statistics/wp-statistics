@@ -205,10 +205,35 @@ class AnonymizedUsageDataProvider
     {
         $siteHealthInfo = new SiteHealthInfo();
 
+        $pluginSettings = self::processSettings($siteHealthInfo->getPluginSettings());
+        $addOnSettings  = self::processSettings($siteHealthInfo->getAddOnsSettings());
+
         return [
-            'plugin' => $siteHealthInfo->getPluginSettings(),
-            'addOns' => $siteHealthInfo->getAddOnsSettings(),
+            'main'   => $pluginSettings,
+            'addOns' => $addOnSettings,
         ];
+    }
+
+    /**
+     * Processes raw settings by extracting relevant values.
+     *
+     * @param array $rawSettings
+     *
+     * @return array
+     */
+    private static function processSettings(array $rawSettings): array
+    {
+        $processedSettings = [];
+
+        foreach ($rawSettings as $key => $setting) {
+            if ($key === 'version' || $key === 'geoIpDatabaseSize') {
+                continue;
+            }
+
+            $processedSettings[$key] = $setting['debug'] ?? $setting['value'] ?? null;
+        }
+
+        return $processedSettings;
     }
 
     /**
