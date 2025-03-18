@@ -1,27 +1,27 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\TrackerUsageData;
+namespace WP_Statistics\Service\Admin\AnonymizedUsageData;
 
 use Exception;
 use WP_Statistics\Components\RemoteRequest;
 
-class TrackerUsageDataSender
+class AnonymizedUsageDataSender
 {
     /**
-     * API base URL for send tracker usage data.
+     * API base URL for send anonymized usage data.
      *
      * @var string
      */
     private $apiUrl = 'https://connect.wp-statistics.com';
 
     /**
-     * Sends tracker usage data to the remote API.
+     * Sends anonymized usage data to the remote API.
      *
      * @param array $data
      *
      * @return bool
      */
-    public function sendTrackerUsageData($data)
+    public function sendAnonymizedUsageData($data)
     {
         try {
             $pluginSlug = basename(dirname(WP_STATISTICS_MAIN_FILE));

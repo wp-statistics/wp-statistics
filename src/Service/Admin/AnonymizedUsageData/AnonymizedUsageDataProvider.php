@@ -1,13 +1,13 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\TrackerUsageData;
+namespace WP_Statistics\Service\Admin\AnonymizedUsageData;
 
 use WP_Statistics\Service\Admin\SiteHealthInfo;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Option;
 
-class TrackerUsageDataProvider
+class AnonymizedUsageDataProvider
 {
     /**
      * Retrieves the URL for the current site where the front end is accessible.
