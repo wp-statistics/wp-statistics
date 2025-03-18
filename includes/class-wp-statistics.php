@@ -22,6 +22,7 @@ use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditManager;
 use WP_Statistics\Service\Admin\Referrals\ReferralsManager;
 use WP_Statistics\Service\Admin\TrackerDebugger\TrackerDebuggerManager;
+use WP_Statistics\Service\Admin\Notification\NotificationManager;
 use WP_Statistics\Service\Analytics\AnalyticsManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
 use WP_Statistics\Service\Admin\FilterHandler\FilterManager;
@@ -171,6 +172,7 @@ final class WP_Statistics
         $postsManager            = new PostsManager();
         $userOnline              = new \WP_STATISTICS\UserOnline();
         $trackerUsageDataManager = new TrackerUsageDataManager();
+        $notificationManager     = new NotificationManager();
 
         // Admin classes
         if (is_admin()) {

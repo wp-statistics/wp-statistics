@@ -499,6 +499,10 @@ class Install
             Option::update('usage_data_tracking', false);
         }
 
+        if (Option::get('display_notifications') === false && version_compare($latest_version, '14.12', '>')) {
+            Option::update('display_notifications', true);
+        }
+
         /**
          * Update GeoIP schedule from daily to monthly
          */
