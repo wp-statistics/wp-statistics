@@ -58,9 +58,9 @@ wps_js.render_line_chart = function (response, key) {
                                 fontSize: 13,
                                 padding: 8,
                                 lineHeight: 15,
-                                stepSize: 1,
-                                callback: formatNumChart
+                                callback: renderFormatNum
                             },
+                            afterBuildTicks: wpsBuildTicks,
                             title: {
                                 display: true,
                                 text: wps_js._('clicks'),
@@ -114,9 +114,9 @@ wps_js.render_line_chart = function (response, key) {
                                 fontWeight: 'lighter ',
                                 padding: 8,
                                 lineHeight: 14.06,
-                                stepSize: 1,
                                 callback: renderFormatNum,
                             },
+                            afterBuildTicks: wpsBuildTicks,
                             border: {
                                 color: 'transparent',
                                 width: 0
