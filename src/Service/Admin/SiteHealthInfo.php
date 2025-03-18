@@ -220,6 +220,11 @@ class SiteHealthInfo
                 'value' => Option::get('disable_dashboard') ? __('Disable', 'wp-statistics') : __('Enable', 'wp-statistics'),
                 'debug' => Option::get('disable_dashboard') ? 'Disabled' : 'Enable',
             ],
+            'wpStatisticsNotifications'      => [
+                'label' => esc_html__('WP Statistics Notifications', 'wp-statistics'),
+                'value' => Option::get('display_notifications') ? __('Enable', 'wp-statistics') : __('Disable', 'wp-statistics'),
+                'debug' => Option::get('display_notifications') ? 'Enable' : 'Disable',
+            ],
             'disableInactiveFeatureNotices'  => [
                 'label' => esc_html__('Disable Inactive Essential Feature Notices', 'wp-statistics'),
                 'value' => Option::get('hide_notices') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
@@ -304,6 +309,11 @@ class SiteHealthInfo
                 'label' => esc_html__('Purge Data Older Than', 'wp-statistics'),
                 'value' => Option::get('schedule_dbmaint_days') ? Option::get('schedule_dbmaint_days') : __('Not Set', 'wp-statistics'),
                 'debug' => Option::get('schedule_dbmaint_days') ? Option::get('schedule_dbmaint_days') : 'Not Set',
+            ],
+            'shareAnonymousData'             => [
+                'label' => esc_html__('Share Anonymous Data', 'wp-statistics'),
+                'value' => Option::get('usage_data_tracking') ? __('Enable', 'wp-statistics') : __('Disable', 'wp-statistics'),
+                'debug' => Option::get('usage_data_tracking') ? 'Enable' : 'Disable',
             ],
             'phpGmpExtension'                => [
                 'label' => esc_html__('PHP Extension (GMP)', 'wp-statistics'),
