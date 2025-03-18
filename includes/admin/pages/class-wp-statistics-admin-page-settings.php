@@ -33,7 +33,7 @@ class settings_page extends Singleton
 
         // Add Class inf
         $args['class'] = 'wp-statistics-settings';
-        $args['title'] =  __('Settings', 'wp-statistics');
+        $args['title'] = __('Settings', 'wp-statistics');
 
         // Check User Access To Save Setting
         $args['wps_admin'] = false;
@@ -339,7 +339,7 @@ class settings_page extends Singleton
     {
         $wps_option_list = array('wps_read_capability', 'wps_manage_capability');
         foreach ($wps_option_list as $option) {
-            $capability = ! empty($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '';
+            $capability = !empty($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '';
 
             if (!User::checkUserCapability($capability)) {
                 continue;
@@ -405,7 +405,8 @@ class settings_page extends Singleton
             'wps_menu_bar',
             'wps_coefficient',
             'wps_hide_notices',
-            'wps_charts_previous_period'
+            'wps_charts_previous_period',
+            'wps_display_notifications'
         );
 
         foreach ($wps_option_list as $option) {

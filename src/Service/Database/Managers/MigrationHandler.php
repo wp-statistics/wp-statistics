@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Database\Managers;
 
+use WP_Statistics\Async\BackgroundProcessMonitor;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Database\DatabaseFactory;
@@ -44,7 +45,7 @@ class MigrationHandler
         add_action('admin_post_' . self::MIGRATION_ACTION, [self::class, 'processManualMigrations']);
         add_action('admin_post_' . self::MIGRATION_RETRY_ACTION, [self::class, 'retryManualMigration']);
 
-        add_action( 'init', [self::class, 'handleNotice']);
+        add_action( 'admin_init', [self::class, 'handleNotice']);
         self::runMigrations();
     }
 
@@ -296,11 +297,14 @@ class MigrationHandler
                 <strong>%1$s</strong>
                 </br>%2$s
                 </br><a href="%3$s" class="button button-primary" style="margin-top: 10px;">%4$s</a>
+                <a href="%5$s" style="margin: 10px" target="_blank">%6$s</a>
             </p>',
             esc_html__('Action Required: Upgrade Needed for WP Statistics', 'wp-statistics'),
             esc_html__('A database upgrade is needed for your site. Running this upgrade will keep everything working correctly. Please run the process as soon as possible.', 'wp-statistics'),
             esc_url($actionUrl),
-            esc_html__('Run Process Now', 'wp-statistics')
+            esc_html__('Run Process Now', 'wp-statistics'),
+            'https://wp-statistics.com/resources/database-migration-process-guide/?utm_source=wp-statistics&utm_medium=link&utm_campaign=doc',
+            esc_html__('Read More', 'wp-statistics')
         );
     }
 
@@ -515,6 +519,7 @@ class MigrationHandler
      */
     private static function finalizeManualTasks($manualTasks, $process)
     {
+        @ini_set('memory_limit', '-1');
         Option::saveOptionGroup('manual_migration_tasks', $manualTasks, 'db');
         Option::saveOptionGroup('data_migration_process_started', true, 'jobs');
         $process->save()->dispatch();
@@ -552,17 +557,18 @@ class MigrationHandler
         $status = $details['status'];
 
         if ($status === 'progress') {
+            $remaining = BackgroundProcessMonitor::getRemainingRecords('data_migration_process');
+
             $message = sprintf(
-                '
-                    <p>
-                        <strong>%1$s</strong>
-                        </br>%2$s
-                        </br>%3$s
-                    </p>
-                ',
+                '<p>
+                    <strong>%1$s</strong><br>
+                    %2$s
+                </p>',
                 esc_html__('WP Statistics: Process Running', 'wp-statistics'),
-                esc_html__('The Database Migration process is running in the background. This may take a few minutes depending on your site’s data size.', 'wp-statistics'),
-                esc_html__('Please wait while the process completes. You can continue working in the admin area.', 'wp-statistics')
+                sprintf(
+                    __('Database Migration is running in the background <strong>(%s records remaining)</strong>. You can continue working or dismiss this notice.', 'wp-statistics'),
+                    number_format_i18n($remaining)
+                )
             );
 
             Notice::addNotice($message, 'database_manual_migration_progress', 'info');
@@ -581,11 +587,14 @@ class MigrationHandler
                 esc_html__('The Database Migration process has been completed successfully. Thank you for keeping WP Statistics up-to-date!', 'wp-statistics')
             );
 
-            Notice::addNotice($message, 'database_manual_migration_done', 'success');
+            Notice::addFlashNotice($message, 'success', false);
+            Option::saveOptionGroup('migration_status_detail', null, 'db');
             return;
         }
 
         if ($status === 'failed') {
+            BackgroundProcessMonitor::deleteOption('data_migration_process');
+            
             $actionUrl = self::buildActionUrl('retry');
 
             $message = sprintf(

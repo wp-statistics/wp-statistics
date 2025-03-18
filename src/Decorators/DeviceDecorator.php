@@ -28,6 +28,10 @@ class DeviceDecorator
      */
     public function getModel()
     {
-        return \WP_STATISTICS\Admin_Template::unknownToNotSet($this->visitor->model) ?? null;
+        if (! \WP_STATISTICS\Admin_Template::isUnknown($this->visitor->model)) {
+            return $this->visitor->model;
+        }
+        
+        return esc_html__( 'Unknown', 'wp-statistics');
     }
 }

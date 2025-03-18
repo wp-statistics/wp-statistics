@@ -351,7 +351,7 @@ FilterGenerator.prototype.createDropdown = function (filterConfig, filterData) {
             <button type="button" class="dropbtn">
                 <span>${selectedOption ? this.getFilterName(filterData, defaultValue) : defaultValue}</span>
             </button>
-            <div class="dropdown-content">
+            <div class="dropdown-content"><div class="dropdown-scroll">
     `;
 
     if (filterConfig.searchable) {
@@ -361,27 +361,29 @@ FilterGenerator.prototype.createDropdown = function (filterConfig, filterData) {
     if (!filterConfig.selected && defaultValue) {
         dropdownHTML += `<a href="${baseUrl}" data-index="0" class="${!selectedOption ? 'selected' : ''}">${defaultValue}</a>`;
     }
+    if (args){
+        args.forEach((item, key) => {
+            let classList = [];
+            if (selectedOption === item.slug) classList.push("selected");
+            if (lockCustomPostTypes && item.slug !== "post" && item.slug !== "page") classList.push("disabled");
 
-    args.forEach((item, key) => {
-        let classList = [];
-        if (selectedOption === item.slug) classList.push("selected");
-        if (lockCustomPostTypes && item.slug !== "post" && item.slug !== "page") classList.push("disabled");
-
-        if (item.premium) {
-            dropdownHTML += `
+            if (item.premium) {
+                dropdownHTML += `
                 <a data-target="wp-statistics-data-plus" title="${item.name}" 
                    class="js-wps-openPremiumModal ${classList.join(" ")}">
                     ${item.name}
                 </a>`;
-        } else {
-            dropdownHTML += `
+            } else {
+                dropdownHTML += `
                 <a href="${item.url}" data-index="${key}" title="${item.name}" class="${classList.join(" ")}">
                     ${item.name}
                 </a>`;
-        }
-    });
+            }
+        });
+    }
 
-    dropdownHTML += '</div></div>';
+
+    dropdownHTML += '</div></div></div>';
     container.innerHTML = dropdownHTML;
 
     if (filterConfig.searchable) {

@@ -1,4 +1,11 @@
 const WpStatisticsUserTracker = {
+    // Track URL changes for AJAX in Gutenberg SPA mode using History API
+    lastUrl: window.location.href,
+
+    // Save original history methods
+    originalPushState: history.pushState,
+    originalReplaceState: history.replaceState,
+
     // Check user activity every x seconds
     checkTime: WP_Statistics_Tracker_Object.jsCheckTime,
 
@@ -30,6 +37,8 @@ const WpStatisticsUserTracker = {
                 this.keepUserOnline();
             }
         }
+
+        this.trackUrlChange();
     },
 
     // Method to Base64 encode a string using modern approach
@@ -135,14 +144,19 @@ const WpStatisticsUserTracker = {
             }.bind(this), this.checkTime
         );
 
-        // After 30 mins of inactivity, stop keeping user online
-        ['click', 'keypress', 'scroll', 'DOMContentLoaded'].forEach(event => {
-            window.addEventListener(event, () => {
-                clearTimeout(userActivityTimeout);
+        const resetUserActivityTimeout = () => {
+            clearTimeout(userActivityTimeout);
+            userActivityTimeout = setTimeout(() => {
+                clearInterval(userOnlineInterval);
+            }, 30 * 60 * 1000);
+        };
 
-                userActivityTimeout = setTimeout(() => {
-                    clearInterval(userOnlineInterval);
-                }, 30 * 60 * 1000);
+        // After 30 mins of inactivity, stop keeping user online
+        const events = ['click', 'keypress', 'scroll', 'DOMContentLoaded'];
+        events.forEach(event => {
+            window.addEventListener(event, () => {
+                window.removeEventListener(event, resetUserActivityTimeout);
+                window.addEventListener(event, resetUserActivityTimeout);
             });
         });
     },
@@ -162,4 +176,47 @@ const WpStatisticsUserTracker = {
 
         return requestUrl;
     },
+
+    // Function to update the WP_Statistics_Tracker_Object when URL changes
+    updateTrackerObject: function() {
+        const scriptTag = document.getElementById("wp-statistics-tracker-js-extra");
+
+        if (scriptTag) {
+            try {
+                WP_Statistics_Tracker_Object = JSON.parse(scriptTag.innerHTML.replace('var WP_Statistics_Tracker_Object = ', '').replace(';', ''));
+            } catch (error) {
+            }
+        }
+    },
+
+    // Detect URL changes caused by History API (pushState, replaceState) or browser navigation
+    trackUrlChange: function() {
+        const self = this;
+
+        window.removeEventListener('popstate', self.handleUrlChange);
+
+        history.pushState = function() {
+            self.originalPushState.apply(history, arguments);
+            self.handleUrlChange();
+        };
+
+        history.replaceState = function() {
+            self.originalReplaceState.apply(history, arguments);
+            self.handleUrlChange();
+        };
+
+        window.addEventListener('popstate', function() {
+            self.handleUrlChange();
+        });
+    },
+
+    // Handles URL changes in an SPA environment.
+    handleUrlChange: function() {
+        if (window.location.href !== this.lastUrl) {
+            this.lastUrl = window.location.href;
+            this.updateTrackerObject();
+            this.hasTrackerInitializedOnce = false;
+            this.init();
+        }
+    }
 };

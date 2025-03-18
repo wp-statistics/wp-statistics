@@ -75,7 +75,8 @@ class Option
             'charts_previous_period'          => true,
             'attribution_model'               => 'first-touch',
             'geoip_location_detection_method' => 'maxmind',
-            'delete_data_on_uninstall'        => false
+            'delete_data_on_uninstall'        => false,
+            'display_notifications'           => true
         );
 
         return $options;

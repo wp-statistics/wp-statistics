@@ -115,7 +115,7 @@ wps_js.render_line_chart = function (response, key) {
                                 padding: 8,
                                 lineHeight: 14.06,
                                 stepSize: 1,
-                                callback: formatNumChart
+                                callback: renderFormatNum,
                             },
                             border: {
                                 color: 'transparent',

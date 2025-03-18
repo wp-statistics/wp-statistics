@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Debugger\Provider;
 
 use WP_Statistics\Components\Assets;
+use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Components\RemoteRequest;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
@@ -20,7 +21,7 @@ class TrackerProvider extends AbstractDebuggerProvider
     /**
      * Path to the tracker JavaScript file
      * Stores the complete URL to the tracker.js file
-     * 
+     *
      * @var string
      */
     private $trackerPath;
@@ -28,7 +29,7 @@ class TrackerProvider extends AbstractDebuggerProvider
     /**
      * Stores tracker status information
      * Contains file existence, path, and cache status
-     * 
+     *
      * @var array
      */
     private $trackerStatus;
@@ -73,7 +74,7 @@ class TrackerProvider extends AbstractDebuggerProvider
      */
     private function checkAjaxHit()
     {
-        $ajax_url = admin_url('admin-ajax.php');
+        $ajax_url      = admin_url('admin-ajax.php');
         $remoteRequest = new RemoteRequest(
             $ajax_url,
             'POST',
@@ -102,7 +103,7 @@ class TrackerProvider extends AbstractDebuggerProvider
      */
     private function checkRestHit()
     {
-        $rest_url = site_url('index.php?rest_route=/wp-statistics/v2/hit');
+        $rest_url      = site_url('index.php?rest_route=/wp-statistics/v2/hit');
         $remoteRequest = new RemoteRequest(
             $rest_url,
             'POST',
@@ -124,7 +125,7 @@ class TrackerProvider extends AbstractDebuggerProvider
 
     /**
      * Determines if a response indicates a Cloudflare challenge page.
-     * 
+     *
      * @param mixed $response The response array containing headers
      * @return bool True if response indicates a Cloudflare challenge, false otherwise
      */
@@ -163,9 +164,9 @@ class TrackerProvider extends AbstractDebuggerProvider
         $fileExists = $this->executeTrackerCheck();
 
         $this->trackerStatus = [
-            'exists' => $fileExists,
-            'path' => $this->trackerPath,
-            'cacheStatus' => $this->getCacheStatus(),
+            'exists'             => $fileExists,
+            'path'               => $this->trackerPath,
+            'cacheStatus'        => $this->getCacheStatus(),
             'hitRecordingStatus' => $this->checkHitRecording()
         ];
     }
@@ -182,6 +183,23 @@ class TrackerProvider extends AbstractDebuggerProvider
 
         if (empty($parsedUrl['path'])) {
             return false;
+        }
+
+        if (!empty($parsedUrl['query'])) {
+            parse_str($parsedUrl['query'], $queryParams);
+
+            $assetNameObfuscator = new AssetNameObfuscator();
+            $dynamicAssetKey     = $assetNameObfuscator->getDynamicAssetKey();
+
+            if (isset($queryParams[$dynamicAssetKey])) {
+                $response = wp_safe_remote_head($this->trackerPath, ['sslverify' => false]);
+
+                if (!is_wp_error($response) && wp_remote_retrieve_response_code($response) == 200) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         }
 
         $urlPath        = $parsedUrl['path'];
