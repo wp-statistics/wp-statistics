@@ -812,7 +812,11 @@ class VisitorsModel extends BaseModel
                 ->decorate(VisitorDecorator::class);
         }
 
-        return $query->getRow();
+        $result = $query
+            ->allowCaching()
+            ->getRow();
+
+        return $result;
     }
 
     public function getVisitorJourney($args)
