@@ -204,37 +204,11 @@ class AnonymizedUsageDataProvider
     public static function getPluginSettings()
     {
         $siteHealthInfo = new SiteHealthInfo();
-        $rawSettings    = $siteHealthInfo->addStatisticsInfo([]);
-        $settings       = [];
-        $debugSlug      = SiteHealthInfo::DEBUG_INFO_SLUG;
 
-        if (isset($rawSettings[$debugSlug]['fields'])) {
-            foreach ($rawSettings[$debugSlug]['fields'] as $k => $f) {
-                if ($k === 'version' || $k === 'geoIpDatabaseSize') {
-                    continue;
-                }
-
-                if (isset($f['debug'])) {
-                    $settings['plugin'][$k] = $f['debug'];
-                } else {
-                    $settings['plugin'][$k] = $f['value'];
-                }
-            }
-        }
-
-        if (isset($rawSettings['addOns'])) {
-            foreach ($rawSettings['addOns'] as $k => $addon) {
-                foreach ($addon as $key => $f) {
-                    if (isset($f['debug'])) {
-                        $settings['addOns'][$k][$key] = $f['debug'];
-                    } else {
-                        $settings['addOns'][$k][$key] = $f['value'];
-                    }
-                }
-            }
-        }
-
-        return $settings;
+        return [
+            'plugin' => $siteHealthInfo->getPluginSettings(),
+            'addOns' => $siteHealthInfo->getAddOnsSettings(),
+        ];
     }
 
     /**
