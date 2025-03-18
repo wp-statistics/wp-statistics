@@ -170,11 +170,11 @@ add_thickbox();
 
                 <p class="description">
                     <?php
-                        echo sprintf(
-                            /* translators: %s: Link to learn about detection method */
-                            esc_html__('Select the method to detect location data for visitors. You can choose between MaxMind GeoIP, Cloudflare Geolocation, and DB-IP. MaxMind and DB-IP provide database-based geolocation, while Cloudflare Geolocation relies on IP headers from Cloudflare. For optimal performance, we recommend using Cloudflare Geolocation if your site is on Cloudflare. %s', 'wp-statistics'),
-                            '<a href="https://wp-statistics.com/resources/location-detection-methods-in-wp-statistics/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" class="wps-text-decoration-underline" target="_blank">' . esc_html__('Learn more about location detection methods.', 'wp-statistics') . '</a>'
-                        );
+                    echo sprintf(
+                    /* translators: %s: Link to learn about detection method */
+                        esc_html__('Select the method to detect location data for visitors. You can choose between MaxMind GeoIP, Cloudflare Geolocation, and DB-IP. MaxMind and DB-IP provide database-based geolocation, while Cloudflare Geolocation relies on IP headers from Cloudflare. For optimal performance, we recommend using Cloudflare Geolocation if your site is on Cloudflare. %s', 'wp-statistics'),
+                        '<a href="https://wp-statistics.com/resources/location-detection-methods-in-wp-statistics/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" class="wps-text-decoration-underline" target="_blank">' . esc_html__('Learn more about location detection methods.', 'wp-statistics') . '</a>'
+                    );
                     ?>
                 </p>
             </td>
@@ -430,6 +430,26 @@ add_thickbox();
     <table class="form-table">
         <tbody>
         <tr valign="top">
+            <th scope="row" colspan="2"><h3><?php esc_html_e('Anonymous Usage Data', 'wp-statistics'); ?></h3></th>
+        </tr>
+        <tr valign="top">
+            <th scope="row">
+                <label for="wps_usage_data_tracking"><?php esc_html_e('Share Anonymous Data', 'wp-statistics'); ?></label>
+            </th>
+            <td>
+                <input id="wps_usage_data_tracking" type="checkbox" name="wps_usage_data_tracking" <?php echo WP_STATISTICS\Option::get('usage_data_tracking') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'>
+                <label for="wps_usage_data_tracking"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                <p class="description"><?php printf(esc_html__('Sends non-personal, anonymized data to help us improve WP Statistics. No personal or identifying information is collected or shared. %s', 'wp-statistics'), '<a href="https://wp-statistics.com/resources/sharing-your-data-with-us/" target="_blank">' . esc_html__('Learn more.', 'wp-statistics') . '</a>'); ?></p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="postbox">
+    <table class="form-table">
+        <tbody>
+        <tr valign="top">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Restore Default Settings', 'wp-statistics'); ?></h3></th>
         </tr>
 
@@ -444,26 +464,6 @@ add_thickbox();
                 <p class="description"><?php esc_html_e('Revert all user-specific and global configurations to the WP Statistics default settings, preserving your existing data.', 'wp-statistics'); ?></p>
                 <p class="description"><span class="wps-note"><?php esc_html_e('Caution', 'wp-statistics'); ?>:</span> <?php esc_html_e('This change is irreversible.', 'wp-statistics'); ?></p>
                 <p class="description"><?php _e('<b>For multisite users</b>: Every site within the network will return to the default settings.', 'wp-statistics'); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	?></p>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
-<div class="postbox">
-    <table class="form-table">
-        <tbody>
-        <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Usage Tracking', 'wp-statistics'); ?></h3></th>
-        </tr>
-        <tr valign="top">
-            <th scope="row">
-                <label for="wps_usage_data_tracking"><?php esc_html_e('Enable Usage Tracking', 'wp-statistics'); ?></label>
-            </th>
-            <td>
-                <input id="wps_usage_data_tracking" type="checkbox" name="wps_usage_data_tracking" <?php echo WP_STATISTICS\Option::get('usage_data_tracking') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'>
-                <label for="wps_usage_data_tracking"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Allow WP Statistics to collect anonymous usage data to improve features, performance, and user experience. No personal or sensitive data will be collected. Learn more.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>
