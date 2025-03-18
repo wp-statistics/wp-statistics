@@ -211,6 +211,11 @@
   #wpfooter {
     margin-right: 0;
   }
+
+  .daterangepicker .ranges ul li{
+    text-align: right;
+    direction: rtl;
+  }
 }
 
 .rtl {
