@@ -5,6 +5,7 @@
 - **Enhancement:** Improved device model to save and show device model and brand.
 - **Fix:** The proxy method has fixed the loading issue of obfuscated assets.
 - **Fix:** tracker.js compatibility with WordPress Interactivity API.
+- **Fix:** Hide 'Get More with Premium Analytics' widget for users with a premium license.
 
 = 14.12.6 - 2025-02-12
 - **New:** Added DB-IP as a location detection option.
