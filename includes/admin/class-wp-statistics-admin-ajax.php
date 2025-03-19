@@ -393,7 +393,7 @@ class Ajax
 
         exit;
     }
- 
+
     /**
      * Setup an AJAX action to update geoIP database.
      */
@@ -407,7 +407,7 @@ class Ajax
 
             $method   = Request::get('geoip_location_detection_method', 'maxmind');
             $provider = MaxmindGeoIPProvider::class;
-            
+
             if ('dbip' === $method) {
                 $provider = DbIpProvider::class;
             }
@@ -469,12 +469,13 @@ class Ajax
 
             check_ajax_referer('wp_rest', 'wps_nonce');
 
-            $paged        = Request::get('paged', 1, 'number');
-            $postType     = Request::get('post_type', array_values(Helper::get_list_post_type()));
-            $authorId     = Request::get('author_id', '', 'number');
-            $search       = Request::get('search', '');
-            $page         = Request::get('page');
-            $selectedPost = Request::get('post_id', false, 'number');
+            $paged          = Request::get('paged', 1, 'number');
+            $postType       = Request::get('post_type', array_values(Helper::get_list_post_type()));
+            $authorId       = Request::get('author_id', '', 'number');
+            $search         = Request::get('search', '');
+            $page           = Request::get('page');
+            $selectedPost   = Request::get('post_id', false, 'number');
+            $hideAllOption  = Request::get('hide_all_option', false);
 
             if (!$page) {
                 wp_send_json([
@@ -494,7 +495,7 @@ class Ajax
 
             $posts = [];
             if ($query->have_posts()) {
-                if ($paged == 1 && empty($search)) {
+                if (empty($hideAllOption) && $paged == 1 && empty($search)) {
                     $allOption = [
                         'id'   => Menus::admin_url($page),
                         'text' => esc_html__('All', 'wp-statistics')
