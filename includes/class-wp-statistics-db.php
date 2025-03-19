@@ -35,6 +35,7 @@ class DB
          * Marketing Tables
          */
         'campaigns',
+        'goals'
     );
 
     /**
