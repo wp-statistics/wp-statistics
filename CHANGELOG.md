@@ -5,6 +5,7 @@
 - **Enhancement:** Improved device model to save and show device model and brand.
 - **Fix:** The proxy method has fixed the loading issue of obfuscated assets.
 - **Fix:** tracker.js compatibility with WordPress Interactivity API.
+- **Fix:** Resolved discrepancy between shortcode view counts and traffic summary/visitor insights.
 
 = 14.12.6 - 2025-02-12
 - **New:** Added DB-IP as a location detection option.
