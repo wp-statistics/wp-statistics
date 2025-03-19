@@ -82,6 +82,10 @@ class SiteHealthInfo
                 'label' => esc_html__('Version', 'wp-statistics'),
                 'value' => WP_STATISTICS_VERSION,
             ],
+            'database_version'               => [
+                'label' => esc_html__('Database Version', 'wp-statistics'),
+                'value' => Option::getOptionGroup('db', 'version', '0.0.0'),
+            ],
             'detectActiveCachePlugin'        => [
                 'label' => esc_html__('Detect Active Cache Plugin', 'wp-statistics'),
                 'value' => Helper::checkActiveCachePlugin()['status'] === true ? sprintf(__('Enabled (%s)', 'wp-statistics'), Helper::checkActiveCachePlugin()['plugin']) : __('Disabled', 'wp-statistics'),
