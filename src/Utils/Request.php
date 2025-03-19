@@ -36,6 +36,10 @@ class Request
             return sanitize_textarea_field($value);
         }
 
+        if ($return === 'bool') {
+            return boolval($value);
+        }
+
         if ($return === 'array' && is_array($value)) {
             return array_map('sanitize_text_field', $value);
         }
