@@ -488,6 +488,7 @@ class Admin_Assets
             'last_updated'                 => __('Last updated:', 'wp-statistics'),
             'unassigned'                   => __('Unassigned', 'wp-statistics'),
             'select_page'                  => __('Select page', 'wp-statistics'),
+            'required_error'               => __('This field is required', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 
