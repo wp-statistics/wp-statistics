@@ -191,8 +191,12 @@ class AnonymizedUsageDataProvider
     {
         $activePluginsKeys = get_option('active_plugins', array());
 
+        $pluginFolders = array_map(function ($plugin) {
+            return explode('/', $plugin)[0];
+        }, $activePluginsKeys);
+
         return array(
-            'activated_plugins' => $activePluginsKeys,
+            'activated_plugins' => $pluginFolders,
         );
     }
 

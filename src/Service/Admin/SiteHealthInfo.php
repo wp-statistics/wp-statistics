@@ -104,6 +104,11 @@ class SiteHealthInfo
                 'value' => $isMaxmindLocationMethod ? __('MaxMind GeoIP', 'wp-statistics') : $currentMethod['title'],
                 'debug' => $isMaxmindLocationMethod ? 'MaxMind GeoIP' : $currentMethod['debug'],
             ],
+            'geoIpDatabaseUpdateSource'      => [
+                'label' => esc_html__('GeoIP Database Update Source', 'wp-statistics'),
+                'value' => Option::get('geoip_license_type') ? Option::get('geoip_license_type') : __('Not Set', 'wp-statistics'),
+                'debug' => Option::get('geoip_license_type') ? Option::get('geoip_license_type') : 'Not Set',
+            ],
             'cloudflareRequiredHeaderExists' => [
                 'label' => esc_html__('Cloudflare Required Headers Exists', 'wp-statistics'),
                 'value' => $requiredHeaderExists ? __('Yes', 'wp-statistics') : __('No', 'wp-statistics'),
@@ -192,13 +197,13 @@ class SiteHealthInfo
             ],
             'viewStatsInEditor'              => [
                 'label' => esc_html__('View Stats in Editor', 'wp-statistics'),
-                'value' => Option::get('disable_editor') ? __('Disabled', 'wp-statistics') : __('Enable', 'wp-statistics'),
-                'debug' => Option::get('disable_editor') ? 'Disabled' : 'Enable',
+                'value' => Option::get('disable_editor') ? __('Disabled', 'wp-statistics') : __('Enabled', 'wp-statistics'),
+                'debug' => Option::get('disable_editor') ? 'Disabled' : 'Enabled',
             ],
             'viewsColumnInContentList'       => [
                 'label' => esc_html__('Views Column in Content List', 'wp-statistics'),
-                'value' => Option::get('disable_column') ? __('Disable', 'wp-statistics') : __('Enable', 'wp-statistics'),
-                'debug' => Option::get('disable_column') ? 'Disabled' : 'Enable',
+                'value' => Option::get('disable_column') ? __('Disabled', 'wp-statistics') : __('Enabled', 'wp-statistics'),
+                'debug' => Option::get('disable_column') ? 'Disabled' : 'Enabled',
             ],
             'viewsColumnInUserList'          => [
                 'label' => esc_html__('Views Column in User List', 'wp-statistics'),
@@ -217,13 +222,13 @@ class SiteHealthInfo
             ],
             'wpStatisticsWidgets'            => [
                 'label' => esc_html__('WP Statistics Widgets in the WordPress dashboard', 'wp-statistics'),
-                'value' => Option::get('disable_dashboard') ? __('Disable', 'wp-statistics') : __('Enable', 'wp-statistics'),
-                'debug' => Option::get('disable_dashboard') ? 'Disabled' : 'Enable',
+                'value' => Option::get('disable_dashboard') ? __('Disabled', 'wp-statistics') : __('Enabled', 'wp-statistics'),
+                'debug' => Option::get('disable_dashboard') ? 'Disabled' : 'Enabled',
             ],
             'wpStatisticsNotifications'      => [
                 'label' => esc_html__('WP Statistics Notifications', 'wp-statistics'),
-                'value' => Option::get('display_notifications') ? __('Enable', 'wp-statistics') : __('Disable', 'wp-statistics'),
-                'debug' => Option::get('display_notifications') ? 'Enable' : 'Disable',
+                'value' => Option::get('display_notifications') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                'debug' => Option::get('display_notifications') ? 'Enabled' : 'Disabled',
             ],
             'disableInactiveFeatureNotices'  => [
                 'label' => esc_html__('Disable Inactive Essential Feature Notices', 'wp-statistics'),
@@ -295,11 +300,6 @@ class SiteHealthInfo
                 'value' => Option::get('ip_method') ? Option::get('ip_method') : __('Not Set', 'wp-statistics'),
                 'debug' => Option::get('ip_method') ? Option::get('ip_method') : 'Not Set',
             ],
-            'geoIpDatabaseUpdateSource'      => [
-                'label' => esc_html__('GeoIP Database Update Source', 'wp-statistics'),
-                'value' => Option::get('geoip_license_type') ? Option::get('geoip_license_type') : __('Not Set', 'wp-statistics'),
-                'debug' => Option::get('geoip_license_type') ? Option::get('geoip_license_type') : 'Not Set',
-            ],
             'automaticCleanup'               => [
                 'label' => esc_html__('Automatic Cleanup', 'wp-statistics'),
                 'value' => Option::get('schedule_dbmaint') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
@@ -312,8 +312,8 @@ class SiteHealthInfo
             ],
             'shareAnonymousData'             => [
                 'label' => esc_html__('Share Anonymous Data', 'wp-statistics'),
-                'value' => Option::get('usage_data_tracking') ? __('Enable', 'wp-statistics') : __('Disable', 'wp-statistics'),
-                'debug' => Option::get('usage_data_tracking') ? 'Enable' : 'Disable',
+                'value' => Option::get('usage_data_tracking') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                'debug' => Option::get('usage_data_tracking') ? 'Enabled' : 'Disabled',
             ],
             'phpGmpExtension'                => [
                 'label' => esc_html__('PHP Extension (GMP)', 'wp-statistics'),
@@ -370,8 +370,8 @@ class SiteHealthInfo
             ];
             $settings['topMetrics']                = [
                 'label' => esc_html__('Top Metrics', 'wp-statistics'),
-                'value' => Option::getByAddon('report_time_frame_type', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getByAddon('report_time_frame_type', 'advanced_reporting') ? 'Enabled' : 'Disabled',
+                'value' => Option::getByAddon('email_top_metrics', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                'debug' => Option::getByAddon('email_top_metrics', 'advanced_reporting') ? 'Enabled' : 'Disabled',
             ];
             $settings['visitorsSummary']           = [
                 'label' => esc_html__('Visitors Summary', 'wp-statistics'),
