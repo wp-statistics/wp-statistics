@@ -6,6 +6,7 @@
 - **Enhancement:** Enhanced device tracking to store and display device model and brand.  
 - **Fix:** Fixed loading issues of obfuscated assets when using the proxy method.
 - **Fix:** Ensured `tracker.js` compatibility with the WordPress Interactivity API.
+- **Fix:** Resolved an issue where the `first_page` key was undefined on the visitor in the Visitor Insights page.
 
 = 14.12.6 - 2025-02-12
 - **New:** Added DB-IP as a location detection option.

@@ -198,7 +198,7 @@ class VisitorDecorator
      */
     public function getFirstPage()
     {
-        return $this->visitor->first_page ? Visitor::get_page_by_id($this->visitor->first_page) : null;
+        return ! empty($this->visitor->first_page) ? Visitor::get_page_by_id($this->visitor->first_page) : null;
     }
 
     /**
