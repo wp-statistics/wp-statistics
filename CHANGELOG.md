@@ -1,10 +1,11 @@
 = 14.13 - 2025-03-18 =
-- **New:** Added Notifications into the plugin.
-- **Enhancement:** Removed the honeypot feature.
-- **Enhancement:** Improved referred visitors source name detection.
-- **Enhancement:** Improved device model to save and show device model and brand.
-- **Fix:** The proxy method has fixed the loading issue of obfuscated assets.
-- **Fix:** tracker.js compatibility with WordPress Interactivity API.
+- **New:** Introduced Notifications to receive important updates and promotions.
+- **New:** Optional "Share Anonymous Data" feature to help improve WP Statistics without collecting personal information.  
+- **Enhancement:** Removed the Honeypot feature.
+- **Enhancement:** Improved detection of source names for referred visitors.
+- **Enhancement:** Enhanced device tracking to store and display device model and brand.  
+- **Fix:** Fixed loading issues of obfuscated assets when using the proxy method.
+- **Fix:** Ensured `tracker.js` compatibility with the WordPress Interactivity API.
 - **Fix:** Resolved an issue where the `first_page` key was undefined on the visitor in the Visitor Insights page.
 
 = 14.12.6 - 2025-02-12

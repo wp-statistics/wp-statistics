@@ -29,6 +29,7 @@ use WP_Statistics\Service\Admin\FilterHandler\FilterManager;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsManager;
 use WP_Statistics\Service\Database\Managers\MigrationHandler;
 use WP_Statistics\Service\HooksManager;
+use WP_Statistics\Service\Admin\AnonymizedUsageData\AnonymizedUsageDataManager;
 
 defined('ABSPATH') || exit;
 
@@ -167,10 +168,11 @@ final class WP_Statistics
         // Ajax area
         require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-template.php';
 
-        $referrals           = new ReferralsManager();
-        $postsManager        = new PostsManager();
-        $userOnline          = new \WP_STATISTICS\UserOnline();
-        $notificationManager = new NotificationManager();
+        $referrals                  = new ReferralsManager();
+        $postsManager               = new PostsManager();
+        $userOnline                 = new \WP_STATISTICS\UserOnline();
+        $anonymizedUsageDataManager = new AnonymizedUsageDataManager();
+        $notificationManager        = new NotificationManager();
 
         // Admin classes
         if (is_admin()) {
