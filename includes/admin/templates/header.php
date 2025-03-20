@@ -119,11 +119,13 @@ $displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? 
                     echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_settings_page', 'link_text' => __('Settings', 'wp-statistics'), 'icon_class' => 'settings', 'badge_count' => null], true);
                     echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_optimization_page', 'link_text' => __('Optimization', 'wp-statistics'), 'icon_class' => 'optimization', 'badge_count' => null], true);
                     ?>
-                    <div class="wps-admin-header__menu-item">
-                        <a class="wps-notifications js-wps-open-notification <?php echo $hasUpdatedNotifications ? esc_attr('wps-notifications--has-items') : ''; ?>">
-                            <span class="icon"></span><span><?php esc_html_e('Notifications', 'wp-statistics'); ?></span>
-                        </a>
-                    </div>
+                    <?php if ($displayNotifications): ?>
+                        <div class="wps-admin-header__menu-item">
+                            <a class="wps-notifications js-wps-open-notification <?php echo $hasUpdatedNotifications ? esc_attr('wps-notifications--has-items') : ''; ?>">
+                                <span class="icon"></span><span><?php esc_html_e('Notifications', 'wp-statistics'); ?></span>
+                            </a>
+                        </div>
+                    <?php endif; ?>
                     <?php if (apply_filters('wp_statistics_enable_help_icon', true)) { ?>
                         <div>
                             <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/support?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" title="<?php esc_html_e('Help Center', 'wp-statistics'); ?>" class="help">
