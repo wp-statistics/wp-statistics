@@ -109,7 +109,7 @@ class SiteHealthInfo
                 'debug' => $isMaxmindLocationMethod ? 'MaxMind GeoIP' : $currentMethod['debug'],
             ],
             'geoIpDatabaseUpdateSource'      => [
-                'label' => esc_html__('GeoIP Database Update Source', 'wp-statistics'),
+                'label' => esc_html__('Geolocation Database Update Source', 'wp-statistics'),
                 'value' => Option::get('geoip_license_type') ? Option::get('geoip_license_type') : __('Not Set', 'wp-statistics'),
                 'debug' => Option::get('geoip_license_type') ? Option::get('geoip_license_type') : 'Not Set',
             ],
