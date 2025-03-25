@@ -7,6 +7,7 @@
 - **Fix:** Fixed loading issues of obfuscated assets when using the proxy method.
 - **Fix:** Ensured `tracker.js` compatibility with the WordPress Interactivity API.
 - **Fix:** Resolved an issue where the `first_page` key was undefined on the visitor in the Visitor Insights page.
+- **Fix:** Hide 'Get More with Premium Analytics' widget for users with a premium license.
 
 = 14.12.6 - 2025-02-12
 - **New:** Added DB-IP as a location detection option.
