@@ -12,7 +12,7 @@ if (!WP_STATISTICS\Option::get('usage_data_tracking') && !in_array('usage_data_t
                 'url'  => 'https://wp-statistics.com/resources/sharing-your-data-with-us/?utm_source=wp-statistics&utm_medium=link&utm_campaign=doc',
             ],
             'enable_tracking' => [
-                'text'       => __('Enable Usage Tracking', 'wp-statistics'),
+                'text'       => __('Enable Share Anonymous Data', 'wp-statistics'),
                 'url'        => '#',
                 'attributes' => [
                     'data-option' => 'usage_data_tracking',
