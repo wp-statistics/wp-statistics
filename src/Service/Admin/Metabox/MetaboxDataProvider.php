@@ -63,7 +63,7 @@ class MetaboxDataProvider
     {
         $args = array_merge($args, [
             'decorate'  => true,
-            'per_page'  => 10,
+            'per_page'  => 5,
             'page'      => 1
         ]);
 
