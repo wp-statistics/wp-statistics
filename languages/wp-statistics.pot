@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-03-22T10:46:00+00:00\n"
+"POT-Creation-Date: 2025-03-25T06:37:20+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-statistics\n"
@@ -6276,8 +6276,8 @@ msgstr ""
 msgid "Contact Support"
 msgstr ""
 
-#: src/Service/Geolocation/AbstractGeoIPProvider.php:213
-#: src/Service/Geolocation/AbstractGeoIPProvider.php:217
+#: src/Service/Geolocation/AbstractGeoIPProvider.php:214
+#: src/Service/Geolocation/AbstractGeoIPProvider.php:218
 msgid "GeoIP update on"
 msgstr ""
 
@@ -6723,7 +6723,7 @@ msgid "We’ve added a new Usage Tracking option to help us understand how WP St
 msgstr ""
 
 #: views/components/objects/usage-tracker-notice.php:15
-msgid "Enable Usage Tracking"
+msgid "Enable Share Anonymous Data"
 msgstr ""
 
 #: views/components/privacy-audit/anonymize-ips-unpassed.php:1
