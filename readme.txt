@@ -139,7 +139,7 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.13 - 2025-03-18 =
+= 14.13 - 2025-03-25 =
 - **New:** Introduced Notifications to receive important updates and promotions.
 - **New:** Optional "Share Anonymous Data" feature to help improve WP Statistics without collecting personal information.
 - **Enhancement:** Removed the Honeypot feature.
@@ -148,6 +148,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 - **Fix:** Fixed loading issues of obfuscated assets when using the proxy method.
 - **Fix:** Ensured `tracker.js` compatibility with the WordPress Interactivity API.
 - **Fix:** Resolved an issue where the `first_page` key was undefined on the visitor in the Visitor Insights page.
+- **Fix:** Hide 'Get More with Premium Analytics' widget for users with a premium license.
 
 = 14.12.6 - 2025-02-12
 - **New:** Added DB-IP as a location detection option.
