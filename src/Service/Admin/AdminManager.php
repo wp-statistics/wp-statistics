@@ -11,6 +11,7 @@ class AdminManager
         $this->initFooterModifier();
         $this->initNoticeHandler();
         $this->initSiteHealthInfo();
+        $this->initAjaxOptionUpdater();
     }
 
     private function initFooterModifier()
@@ -31,6 +32,15 @@ class AdminManager
         // Initialize Site Health Info and register its hooks
         $siteHealthInfo = new SiteHealthInfo();
         $siteHealthInfo->register();
+    }
+
+    /**
+     *
+     */
+    private function initAjaxOptionUpdater()
+    {
+        $optionUpdater = new AjaxOptionUpdater();
+        $optionUpdater->init();
     }
 
     /**
