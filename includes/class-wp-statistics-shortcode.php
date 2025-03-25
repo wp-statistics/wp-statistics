@@ -71,7 +71,9 @@ class ShortCode
                 break;
 
             case 'visits':
-                $result = wp_statistics_visit($atts['time']);
+                $visitorsModel = new VisitorsModel();
+                $args          = $this->parseArgs($atts['time'], $atts);
+                $result        = $visitorsModel->countHits($args);
                 break;
 
             case 'visitors':
