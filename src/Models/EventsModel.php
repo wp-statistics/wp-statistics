@@ -227,6 +227,7 @@ class EventsModel extends BaseModel
             'date'       => DateTime::get('now', 'Y-m-d H:i:s'),
             'page_id'    => $args['page_id'],
             'visitor_id' => $args['visitor_id'],
+            'user_id'    => $args['user_id'] ?? null,
             'event_name' => $args['event_name'],
             'event_data' => json_encode($args['event_data'])
         ];

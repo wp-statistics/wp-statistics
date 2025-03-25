@@ -19,8 +19,35 @@ const WpStatisticsEventTracker = {
                 this.captureEvent();
             }
         }
+
+        // Capture custom events when Marketing is active
+        if (typeof WP_Statistics_Marketing_Event_Object !== 'undefined') {
+            // Attach captureCustomEvent to window object
+            window.wp_statistics_event = this.captureCustomEvent.bind(this);
+        }
     },
 
+    // Marketing custom events
+    captureCustomEvent: function (eventName, eventData = {}) {
+        const ajaxUrl = WP_Statistics_Marketing_Event_Object.customEventAjaxUrl;
+
+        // Add timestamp
+        eventData.timestamp = Date.now();
+
+        // If resource_id is not set, set it to the source_id by default
+        if (!eventData.resource_id) {
+            eventData.resource_id = WP_Statistics_Tracker_Object.hitParams.source_id;
+        }
+
+        const data = {
+            event_name: eventName,
+            event_data: JSON.stringify(eventData)
+        };
+
+        this.sendEventData(data, ajaxUrl);
+    },
+
+    // DataPlus click and download events
     captureEvent: function () {
         const elementsToObserve = document.querySelectorAll('a');
         elementsToObserve.forEach(element => {
@@ -37,7 +64,8 @@ const WpStatisticsEventTracker = {
 
         const eventData = this.prepareEventData(event);
         if (eventData) {
-            await this.sendEventData(eventData);
+            const ajaxUrl = WP_Statistics_DataPlus_Event_Object.eventAjaxUrl;
+            await this.sendEventData(eventData, ajaxUrl);
         }
     },
 
@@ -120,19 +148,17 @@ const WpStatisticsEventTracker = {
         return eventData;
     },
 
-    sendEventData: async function (eventData) {
+    sendEventData: async function (eventData, ajaxUrl) {
         const formData = new URLSearchParams();
         for (const key in eventData) {
             formData.append(key, eventData[key]);
         }
 
+        if (!ajaxUrl) {
+            throw new Error('AJAX URL is not defined.');
+        }
+
         try {
-            const ajaxUrl = WP_Statistics_DataPlus_Event_Object.eventAjaxUrl;
-
-            if (!ajaxUrl) {
-                throw new Error('DataPlus Event Ajax URL is not defined.');
-            }
-
             const response = await fetch(ajaxUrl, {
                 method: 'POST',
                 keepalive: true,
