@@ -1,8 +1,8 @@
-const WPStatisticsBackgroundMigration = {
+const WPStatisticsAjaxBackgroundProcess = {
     migrationNotice: null,
 
     /**
-     * Initializes the migration process.
+     * Initializes the AJAX background migration process.
      */
     init: function () {
         this.migrationNotice = jQuery('#wp-statistics-background-process-notice');
@@ -14,7 +14,7 @@ const WPStatisticsBackgroundMigration = {
     },
 
     /**
-     * Binds event listeners.
+     * Binds event listeners to UI elements.
      */
     bindEvents: function () {
         if (this.migrationNotice.length) {
@@ -23,8 +23,8 @@ const WPStatisticsBackgroundMigration = {
     },
 
     /**
-     * Handles the start migration button click.
-     * Redirects the user to the migration process URL.
+     * Handles the click event of the start migration button.
+     * Redirects the user to the migration initiation URL.
      */
     handleStartMigration: function (e) {
         e.preventDefault();
@@ -32,7 +32,7 @@ const WPStatisticsBackgroundMigration = {
     },
 
     /**
-     * Triggers the AJAX-based migration process.
+     * Initiates the AJAX migration process.
      */
     startMigration: function () {
         jQuery.ajax({
@@ -45,10 +45,10 @@ const WPStatisticsBackgroundMigration = {
             success: function (response) {
                 if (response.success) {
                     if (response.data.completed) {
-                        WPStatisticsBackgroundMigration.markAsCompleted();
+                        WPStatisticsAjaxBackgroundProcess.markAsCompleted();
                     } else {
-                        WPStatisticsBackgroundMigration.updateProgress(response.data.remains);
-                        setTimeout(WPStatisticsBackgroundMigration.startMigration, 5000);
+                        WPStatisticsAjaxBackgroundProcess.updateProgress(response.data.remains);
+                        setTimeout(WPStatisticsAjaxBackgroundProcess.startMigration, 5000);
                     }
                 }
             },
@@ -59,8 +59,8 @@ const WPStatisticsBackgroundMigration = {
     },
 
     /**
-     * Updates the migration progress within the notice.
-     * @param {int} recordsLeft - Number of remaining records.
+     * Updates the migration progress display in the admin notice.
+     * @param {number} recordsLeft - The number of remaining records.
      */
     updateProgress: function (recordsLeft) {
         if (this.migrationNotice.length) {
@@ -69,19 +69,19 @@ const WPStatisticsBackgroundMigration = {
     },
 
     /**
-     * Updates the UI once the migration is completed.
+     * Marks the migration as completed and updates the UI.
      */
     markAsCompleted: function () {
         if (this.migrationNotice.length) {
             this.migrationNotice.html(`
-                <p><strong>WP Statistics: Process Complete</strong></p>
-                <p>All records have been successfully migrated. You may now continue using WP Statistics.</p>
+                <p><strong>WP Statistics: Migration Complete</strong></p>
+                <p>All records have been successfully migrated. WP Statistics is now up-to-date.</p>
             `);
         }
     }
 };
 
 // Initialize inside jQuery ready function
-jQuery(document).ready(function ($) {
-    WPStatisticsBackgroundMigration.init();
+jQuery(document).ready(function () {
+    WPStatisticsAjaxBackgroundProcess.init();
 });
