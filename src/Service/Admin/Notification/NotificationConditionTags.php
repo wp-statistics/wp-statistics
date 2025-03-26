@@ -3,6 +3,8 @@
 namespace WP_Statistics\Service\Admin\Notification;
 
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\User;
 
@@ -20,6 +22,27 @@ class NotificationConditionTags
         'has-addon'  => 'hasAddon',
         'no-premium' => 'noPremiumUser',
     ];
+
+    /**
+     * Plugin handler instance.
+     *
+     * @var PluginHandler
+     */
+    private static $pluginHandler;
+
+    /**
+     * Initialize the plugin handler.
+     *
+     * @return PluginHandler
+     */
+    private static function getPluginHandler()
+    {
+        if (!self::$pluginHandler) {
+            self::$pluginHandler = new PluginHandler();
+        }
+        return self::$pluginHandler;
+    }
+
 
     /**
      * Check if the current user is an administrator.
@@ -48,8 +71,9 @@ class NotificationConditionTags
      */
     public static function isFreeVersion()
     {
-        foreach (Helper::getAddOns() as $addon) {
-            if (Helper::isAddOnActive($addon['key'])) {
+        $pluginHandler = self::getPluginHandler();;
+        foreach (PluginHelper::$plugins as $plugin => $title) {
+            if ($pluginHandler->isPluginActive($plugin)) {
                 return false;
             }
         }
@@ -64,18 +88,9 @@ class NotificationConditionTags
      */
     public static function hasAddon()
     {
-        $addons = [
-            'data-plus',
-            'realtime-stats',
-            'customization',
-            'advanced-reporting',
-            'mini-chart',
-            'rest-api',
-            'widgets',
-        ];
-
-        foreach ($addons as $addon) {
-            if (Helper::isAddOnActive($addon)) {
+        $pluginHandler = self::getPluginHandler();
+        foreach (PluginHelper::$plugins as $plugin => $title) {
+            if ($pluginHandler->isPluginActive($plugin)) {
                 return true;
             }
         }
@@ -101,7 +116,8 @@ class NotificationConditionTags
      */
     public static function isAddon($addon)
     {
-        return Helper::isAddOnActive($addon);
+        $pluginHandler = self::getPluginHandler();
+        return $pluginHandler->isPluginActive($addon);
     }
 
     /**
@@ -111,7 +127,8 @@ class NotificationConditionTags
      */
     public static function noAddon($addon)
     {
-        return !Helper::isAddOnActive($addon);
+        $pluginHandler = self::getPluginHandler();
+        return !$pluginHandler->isPluginActive($addon);
     }
 
     /**
@@ -174,8 +191,7 @@ class NotificationConditionTags
      * @param string|null $version Optional version number for version-related checks.
      * @return bool True if the condition is met, false otherwise.
      */
-    public
-    static function checkConditions($tag, $version = null)
+    public static function checkConditions($tag, $version = null)
     {
         if (strpos($tag, 'is-version-') === 0) {
             $versionNumber = substr($tag, strlen('is-version-'));
