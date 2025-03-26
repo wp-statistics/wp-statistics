@@ -15,7 +15,7 @@ class AnonymizedUsageDataManager
      */
     public function __construct()
     {
-        if (Option::get('usage_data_tracking')) {
+        if (Option::get('share_anonymous_data')) {
             add_filter('cron_schedules', [$this, 'anonymizedUsageDataCronIntervalsHook']);
             Event::schedule('wp_statistics_anonymized_usage_data_hook', time(), 'every_two_months', [$this, 'sendAnonymizedUsageData']);
         } else {

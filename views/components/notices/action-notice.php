@@ -11,9 +11,9 @@
         <a href="<?php echo esc_url($notice['message']['links']['learn_more']['url']); ?>" target="_blank"><?php echo esc_html($notice['message']['links']['learn_more']['text']); ?></a>.
     </p>
     <div class="notice-footer">
-        <a href="<?php echo esc_url($notice['message']['links']['enable_tracking']['url']); ?>" data-option="<?php echo esc_attr($notice['message']['links']['enable_tracking']['attributes']['data-option']); ?>" data-value="<?php echo esc_attr($notice['message']['links']['enable_tracking']['attributes']['data-value']); ?>" target="_blank"
-           class="<?php echo esc_attr($notice['message']['links']['enable_tracking']['class']); ?>">
-            <?php echo esc_html($notice['message']['links']['enable_tracking']['text']); ?>
+        <a href="<?php echo esc_url($notice['message']['links']['primary_button']['url']); ?>" data-option="<?php echo esc_attr($notice['message']['links']['primary_button']['attributes']['data-option']); ?>" data-value="<?php echo esc_attr($notice['message']['links']['primary_button']['attributes']['data-value']); ?>" target="_blank"
+           class="<?php echo esc_attr($notice['message']['links']['primary_button']['class']); ?>">
+            <?php echo esc_html($notice['message']['links']['primary_button']['text']); ?>
         </a>
         <?php if ($notice['is_dismissible']) : ?>
             <?php if ($dismissUrl) : ?>

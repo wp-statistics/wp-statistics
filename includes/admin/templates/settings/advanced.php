@@ -434,11 +434,11 @@ add_thickbox();
         </tr>
         <tr valign="top">
             <th scope="row">
-                <label for="wps_usage_data_tracking"><?php esc_html_e('Share Anonymous Data', 'wp-statistics'); ?></label>
+                <label for="wps_share_anonymous_data"><?php esc_html_e('Share Anonymous Data', 'wp-statistics'); ?></label>
             </th>
             <td>
-                <input id="wps_usage_data_tracking" type="checkbox" name="wps_usage_data_tracking" <?php echo WP_STATISTICS\Option::get('usage_data_tracking') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'>
-                <label for="wps_usage_data_tracking"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                <input id="wps_share_anonymous_data" type="checkbox" name="wps_share_anonymous_data" <?php echo WP_STATISTICS\Option::get('share_anonymous_data') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'>
+                <label for="wps_share_anonymous_data"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php printf(esc_html__('Sends non-personal, anonymized data to help us improve WP Statistics. No personal or identifying information is collected or shared. %s', 'wp-statistics'), '<a href="https://wp-statistics.com/resources/sharing-your-data-with-us/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">' . esc_html__('Learn more.', 'wp-statistics') . '</a>'); ?></p>
             </td>
         </tr>
