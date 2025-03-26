@@ -73,23 +73,16 @@ const WpStatisticsEventTracker = {
 
             const elements = document.querySelectorAll(`${event.selector}`);
 
-            ['mouseup', 'click'].forEach(eventType => {
-                elements.forEach(element => {
-                    element.addEventListener(eventType, (e) => {
-                        // Only track middle click if the event was mouseup
-                        if (eventType == 'mouseup' && e.button != 1) {
-                            return;
-                        }
+            elements.forEach(element => {
+                element.addEventListener('click', (e) => {
+                    const eventData = {
+                        text: e.target.textContent,
+                        id: e.currentTarget.id,
+                        class: e.currentTarget.className,
+                        target: e.currentTarget.href
+                    };
 
-                        const eventData = {
-                            text: e.target.textContent,
-                            id: e.currentTarget.id,
-                            class: e.currentTarget.className,
-                            target: e.currentTarget.href
-                        };
-
-                        this.handleCustomEvent(event.name, eventData)
-                    });
+                    this.handleCustomEvent(event.name, eventData)
                 });
             });
         });
