@@ -1,4 +1,18 @@
-- = 14.12.6 - 2025-02-12 =
+= 14.13 - 2025-03-26 =
+- **New:** Introduced Notifications to receive important updates and promotions.
+- **New:** Added an optional "Share Anonymous Data" feature to help improve WP Statistics without collecting personal information.
+- **Enhancement:** Removed the Honeypot feature.
+- **Enhancement:** Improved detection of source names for referred visitors.
+- **Enhancement:** Enhanced device tracking to store and display device model and brand.
+- **Enhancement:** Reduced the displayed record count in the Top Referring widget to 5.
+- **Fix:** Fixed loading issues of obfuscated assets when using the proxy method.
+- **Fix:** Ensured `tracker.js` compatibility with the WordPress Interactivity API.
+- **Fix:** Resolved an issue where the `first_page` key was undefined in the Visitor Insights page.
+- **Fix:** The 'Get More with Premium Analytics' widget is now hidden for premium users.
+- **Fix:** Fixed discrepancies between shortcode view counts and traffic summary/visitor insights.
+- **Fix:** Corrected an issue where all Facebook traffic was categorized as Paid Social.
+
+= 14.12.6 - 2025-02-12
 - **New:** Added DB-IP as a location detection option.
 - **New:** Added `first_page`, `first_view`, `last_page`, and `last_view` columns to the visitor table for better performance.
 - **Enhancement:** Refactored internal filters for improved efficiency.
@@ -47,6 +61,8 @@
 - **Fix:** Fixed a bug where user data was lost upon logout for online users.
 - **Fix:** Addressed an issue with updating source channel data on large datasets.
 - **Fix:** Resolved a backward compatibility issue with the "REST API" add-on for Referrals.
+
+- **New:** Added a feature that displays notifications to the client, sent from the server.
 
 = 14.12.1 - 2025-01-13 =
 - **New:** Added "Last Year" filter to metaboxes on the Overview page for yearly data.

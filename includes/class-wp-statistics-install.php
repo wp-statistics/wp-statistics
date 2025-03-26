@@ -495,6 +495,14 @@ class Install
             Option::update('privacy_audit', true);
         }
 
+        if (Option::get('share_anonymous_data', 'fail') === 'fail' && version_compare($latest_version, '14.12', '>')) {
+            Option::update('share_anonymous_data', false);
+        }
+
+        if (Option::get('display_notifications') === false && version_compare($latest_version, '14.12', '>')) {
+            Option::update('display_notifications', true);
+        }
+
         /**
          * Update GeoIP schedule from daily to monthly
          */

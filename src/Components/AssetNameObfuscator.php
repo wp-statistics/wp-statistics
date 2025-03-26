@@ -74,7 +74,7 @@ class AssetNameObfuscator
     public function __construct($file = null)
     {
         // Handle slashes
-        $this->inputFileDir = ! empty($file) ? wp_normalize_path($file) : '';
+        $this->inputFileDir = !empty($file) ? wp_normalize_path($file) : '';
         $this->pluginsRoot  = wp_normalize_path(WP_PLUGIN_DIR . DIRECTORY_SEPARATOR);
 
         if (stripos($this->inputFileDir, $this->pluginsRoot) === false) {
@@ -119,10 +119,17 @@ class AssetNameObfuscator
         $this->hashedFileDir = apply_filters('wp_statistics_hashed_asset_dir', $this->hashedFileDir, $this->hashedFilesRootDir, $this->hashedFileName);
     }
 
-    private function generateShortHash($input)
+    /**
+     * Generates a truncated MD5 hash of the input string.
+     *
+     * @param string $input The input string to be hashed.
+     * @param int $length The length of the truncated hash.
+     * @return string The truncated MD5 hash.
+     */
+    private function generateShortHash($input, $length = 10)
     {
         $hash = wp_hash($input);
-        return substr($hash, 0, 10);
+        return substr($hash, 0, $length);
     }
 
     /**
@@ -202,6 +209,27 @@ class AssetNameObfuscator
     }
 
     /**
+     * Generates a dynamic query parameter based on the hashed domain URL.
+     * This helps to avoid conflicts with other plugins and prevents ad-blocking issues.
+     *
+     * @return string The dynamic query parameter.
+     */
+    public function getDynamicAssetKey()
+    {
+        return $this->generateShortHash(home_url(), 6);
+    }
+
+    /**
+     * Generates a URL to serve the asset through a proxy.
+     *
+     * @return string
+     */
+    public function getUrlThroughProxy()
+    {
+        return esc_url(home_url('?' . $this->getDynamicAssetKey() . '=' . $this->hashedFileName));
+    }
+
+    /**
      * Deletes a hashed file.
      *
      * @param array $assetsArray All hashed files.
@@ -239,5 +267,58 @@ class AssetNameObfuscator
     public function deleteDatabaseOption()
     {
         delete_option('wp_statistics_hashed_assets');
+    }
+
+    /**
+     * Proxies requested asset files through PHP to serve them securely.
+     *
+     * @param string $asset
+     *
+     * @return void
+     */
+    public function serveAssetByHash($asset)
+    {
+        $hashedAssetsArray = Option::getOptionGroup($this->optionName, null, []);
+        $originalFilePath  = $this->getHashedAssetPath($asset, $hashedAssetsArray);
+
+        if ($originalFilePath && file_exists($originalFilePath)) {
+            $extension   = pathinfo($originalFilePath, PATHINFO_EXTENSION);
+            $mimeTypes   = [
+                'js'  => 'application/javascript',
+                'css' => 'text/css',
+            ];
+            $contentType = isset($mimeTypes[$extension]) ? $mimeTypes[$extension] : 'application/octet-stream';
+
+            header("Content-Type: $contentType");
+            header('Cache-Control: public, max-age=86400');
+
+            readfile($originalFilePath);
+
+            exit();
+        } else {
+            wp_die(__('File not found.', 'wp-statistics'), __('404 Not Found', 'wp-statistics'), array('response' => 404));
+        }
+    }
+
+    /**
+     * Retrieves the original file path based on a hashed file name.
+     *
+     * @param string $hashedFileName
+     *
+     * @param array $hashedAssetsArray
+     *
+     * @return string|null
+     */
+    private function getHashedAssetPath($hashedFileName, $hashedAssetsArray)
+    {
+        if (!empty($hashedAssetsArray)) {
+            foreach ($hashedAssetsArray as $originalPath => $info) {
+                if (isset($info['dir']) && basename($info['dir']) === $hashedFileName) {
+                    return WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $originalPath;
+                }
+            }
+        }
+
+        return null;
     }
 }

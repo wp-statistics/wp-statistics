@@ -13,11 +13,8 @@ class Frontend
         # Enable ShortCode in Widget
         add_filter('widget_text', 'do_shortcode');
 
-        # Add the honey trap code in the footer.
-        add_action('wp_footer', array($this, 'add_honeypot'));
-
         # Enqueue scripts & styles
-        add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'), 11);
 
         # Print out the WP Statistics HTML comment
         add_action('wp_head', array($this, 'print_out_plugin_html'));
@@ -25,17 +22,6 @@ class Frontend
         # Check to show hits in posts/pages
         if (Option::get('show_hits')) {
             add_filter('the_content', array($this, 'show_hits'));
-        }
-    }
-
-    /**
-     * Footer Action
-     */
-    public function add_honeypot()
-    {
-        if (Option::get('use_honeypot') && Option::get('honeypot_postid') > 0) {
-            $post_url = get_permalink(Option::get('honeypot_postid'));
-            echo sprintf('<a href="%s" style="display: none;" rel="noindex">&nbsp;</a>', esc_html($post_url));
         }
     }
 
@@ -85,7 +71,8 @@ class Frontend
                     'trackAnonymously'     => Helper::shouldTrackAnonymously(),
                     'isPreview'            => is_preview(),
                 ],
-                'jsCheckTime'  => apply_filters('wp_statistics_js_check_time_interval', 60000),
+                'jsCheckTime'           => apply_filters('wp_statistics_js_check_time_interval', 60000),
+                'isLegacyEventLoaded'   => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded
             );
 
             if (defined('WP_DEBUG') && WP_DEBUG) {

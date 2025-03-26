@@ -33,7 +33,7 @@ class settings_page extends Singleton
 
         // Add Class inf
         $args['class'] = 'wp-statistics-settings';
-        $args['title'] =  __('Settings', 'wp-statistics');
+        $args['title'] = __('Settings', 'wp-statistics');
 
         // Check User Access To Save Setting
         $args['wps_admin'] = false;
@@ -262,7 +262,8 @@ class settings_page extends Singleton
             'wps_auto_pop',
             'wps_private_country_code',
             'wps_referrerspam',
-            'wps_schedule_referrerspam'
+            'wps_schedule_referrerspam',
+            'wps_share_anonymous_data',
         );
 
         // For country codes we always use upper case, otherwise default to 000 which is 'unknown'.
@@ -306,18 +307,6 @@ class settings_page extends Singleton
             $wp_statistics_options[self::input_name_to_option($role_post)] = (isset($_POST[$role_post]) ? $_POST[$role_post] : '');
         }
 
-        // Save HoneyPot
-        if (isset($_POST['wps_create_honeypot'])) {
-            $my_post                      = array(
-                'post_type'    => 'page',
-                'post_title'   => __('WP Statistics - Honey Pot Page for Tracking', 'wp-statistics') . ' [' . TimeZone::getCurrentDate() . ']',
-                'post_content' => __('Do Not Delete: Honey Pot Page for WP Statistics Tracking.', 'wp-statistics'),
-                'post_status'  => 'publish',
-                'post_author'  => 1,
-            );
-            $_POST['wps_honeypot_postid'] = wp_insert_post($my_post);
-        }
-
         // Save Exclusion
         $wps_option_list = array(
             'wps_record_exclusions',
@@ -329,8 +318,6 @@ class settings_page extends Singleton
             'wps_included_countries',
             'wps_excluded_hosts',
             'wps_robot_threshold',
-            'wps_use_honeypot',
-            'wps_honeypot_postid',
             'wps_exclude_feeds',
             'wps_excluded_urls',
             'wps_exclude_404s',
@@ -353,7 +340,7 @@ class settings_page extends Singleton
     {
         $wps_option_list = array('wps_read_capability', 'wps_manage_capability');
         foreach ($wps_option_list as $option) {
-            $capability = ! empty($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '';
+            $capability = !empty($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '';
 
             if (!User::checkUserCapability($capability)) {
                 continue;
@@ -419,7 +406,8 @@ class settings_page extends Singleton
             'wps_menu_bar',
             'wps_coefficient',
             'wps_hide_notices',
-            'wps_charts_previous_period'
+            'wps_charts_previous_period',
+            'wps_display_notifications'
         );
 
         foreach ($wps_option_list as $option) {

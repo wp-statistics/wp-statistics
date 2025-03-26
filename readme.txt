@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.7
-Stable tag: 14.12.6
+Stable tag: 14.13
 Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -139,86 +139,20 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-- = 14.12.6 - 2025-02-12 =
-- **New:** Added DB-IP as a location detection option.
-- **New:** Added `first_page`, `first_view`, `last_page`, and `last_view` columns to the visitor table for better performance.
-- **Enhancement:** Refactored internal filters for improved efficiency.
-- **Enhancement:** Optimized query performance.
-- **Enhancement:** Improved Y-axis number formatting in charts.
-- **Enhancement:** Reduced the displayed record count in the Top Countries widget to 5.
-- **Fix:** Resolved database table prefix conflicts causing query errors.
-- **Fix:** Optimized Mini Chart queries for better speed.
-- **Fix:** Improved IP sanitization and IPv6 compatibility with Cloudflare.
-- **Fix:** Improved and compatibility the date filter with timezone.
-- **Fix:** Fixed statistical discrepancies in widgets.
-- **Fix:** Fixed a permissions check issue on the settings page.
+= 14.13 - 2025-03-26 =
+- **New:** Introduced Notifications to receive important updates and promotions.
+- **New:** Added an optional "Share Anonymous Data" feature to help improve WP Statistics without collecting personal information.
+- **Enhancement:** Removed the Honeypot feature.
+- **Enhancement:** Improved detection of source names for referred visitors.
+- **Enhancement:** Enhanced device tracking to store and display device model and brand.
+- **Enhancement:** Reduced the displayed record count in the Top Referring widget to 5.
+- **Fix:** Fixed loading issues of obfuscated assets when using the proxy method.
+- **Fix:** Ensured `tracker.js` compatibility with the WordPress Interactivity API.
+- **Fix:** Resolved an issue where the `first_page` key was undefined in the Visitor Insights page.
+- **Fix:** The 'Get More with Premium Analytics' widget is now hidden for premium users.
+- **Fix:** Fixed discrepancies between shortcode view counts and traffic summary/visitor insights.
+- **Fix:** Corrected an issue where all Facebook traffic was categorized as Paid Social.
 
-= 14.12.5 - 2025-02-23 =
-- **Enhancement:** Hide Online Visitors elements when "Monitor Online Visitors" is off.
-- **Enhancement:** Improved number formatting: full display below 1,000, abbreviated above.
-- **Enhancement:** Removed "Latest Visitors Preview" when Data Plus isn't active.
-- **Fix:** Fixed JS error on "Statistics - Summary" when Data Plus isn't active.
-- **Fix:** Fixed Dashboard charts and metabox loading issues.
-- **Fix:** Mini Chart now starts from the post creation date.
-- **Fix:** Fixed empty chart issue for 1-day range.
-- **Fix:** Restored missing referring sites.
-- **Fix:** Fixed missing online visitor data in the list.
-- **Fix:** Resolved database errors from `%i` misuse in queries.
-
-= 14.12.4 - 2025-02-06 =
-- **Fix:** Fixed issues with Dashboard charts not loading due to an empty metalist and metaboxes not loading in specific cases.
-
-= 14.12.3 - 2025-02-05 =
-- **New:** Added an option to permanently delete all plugin data when uninstalling.
-- **New:** Introduced a "URL" filter in Page Insights to refine report results.
-- **Enhancement:** Strengthened privacy protection by upgrading the IP hashing algorithm from SHA-1 to SHA-256.
-- **Enhancement:** Improved chart indicators to better highlight incomplete periods.
-- **Enhancement:** Optimized how scripts are loaded for better performance.
-- **Fix:** Fixed an issue causing the weekly chart to display incorrectly.
-- **Fix:** Resolved inconsistencies in the date range filter and toggle meta settings.
-- **Fix:** Fixed an error in the "Tracker Debugger".
-- **Fix:** Resolved an issue with the option of the dashboard widgets view.
-- **Fix:** Corrected the loading order of metaboxes for a smoother experience.
-
-= 14.12.2 - 2025-01-21 =
-- **New:** Added the ability to change the chart interval.
-- **Enhancement:** Displayed dates in reports using the i18n format for better localization.
-- **Enhancement:** Updated the time display logic in the Tracker Debugger to replace "0 minutes ago" with "Now."
-- **Fix:** Resolved an issue where the Filters option was incorrectly activating when changing the date filter in Referrals.
-- **Fix:** Fixed a bug where user data was lost upon logout for online users.
-- **Fix:** Addressed an issue with updating source channel data on large datasets.
-- **Fix:** Resolved a backward compatibility issue with the "REST API" add-on for Referrals.
-
-= 14.12.1 - 2025-01-13 =
-- **New:** Added "Last Year" filter to metaboxes on the Overview page for yearly data.
-- **Enhancement:** Improved IP/Hash filter on the Visitor Insights page.
-- **Fix:** Resolved number formatting in the "Global Visitor Distribution" widget.
-- **Fix:** Fixed tracker detection issue for sites in subfolders.
-- **Fix:** Addressed compatibility issue with "Discount Rules for WooCommerce."
-- **Fix:** Corrected timezone mismatch in the "Traffic Summary" widget.
-
-= 14.12 - 2025-01-05 =
-- **New:** Introduced the "Source Categories" report under the "Referrals" section.
-- **New:** Introduced the "Social Media" report under the "Referrals" section.
-- **New:** Introduced the "404 Reports" under the "Page Insights" section.
-- **New:** Introduced the "Logged-in Users" report under "Visitor Insights."
-- **New:** Added the Tracker Debugger for troubleshooting.
-- **New:** Redesigned the "Privacy Audit" page with a more user-friendly interface.
-- **New:** Added a Visitor Chart to the Single Country Report page.
-- **Enhancement:** Optimized metabox widgets for faster performance and improved cache handling.
-- **Enhancement:** Added a "Location Detection Method" option in geolocation, including Cloudflare Geolocation Autodetect.
-- **Enhancement:** Expanded traffic categorization for referral visitors, now supporting Organic and Paid Social traffic, among others.
-- **Enhancement:** Redesigned the Exclusions report with the updated design system.
-- **Enhancement:** Improved data models to include historical data for more accurate insights.
-- **Enhancement:** Prevented unrelated notices from appearing on the overview and analytics pages.
-- **Fix:** Fixed an issue with non-queryable post types appearing in Content Analytics.
-- **Fix:** Resolved an issue with early translation loading.
-- **Fix:** Fixed a bug with an undefined array key in the Robot Threshold setting.
-- **Fix:** Addressed the issue of zero views showing on the home page.
-- **Fix:** Fixed the zero-views issue in Content Analytics for custom post types.
-- **Fix:** Resolved Customization widget rendering issue.
-- **Fix:** Fixed recording inaccurate historical data while purging "visit" table.
-
-For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=20019/) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
+For more information about the major update, please [visit our blog post](https://wp-statistics.com/2025/03/introducing-wp-statistics-14-13/) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).

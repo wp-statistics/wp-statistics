@@ -82,6 +82,7 @@ class TabsView extends BaseTabView
 
             $args       = [
                 'title'      => esc_html__('Visitor Insights', 'wp-statistics'),
+                'tooltip'      => esc_html__('Check your privacy settings here to make sure WP Statistics is set up safely. This page helps you see if any settings might be collecting personal information and guides you on how to adjust them for better privacy. It\'s an easy way to keep your site\'s data use clear and safe.', 'wp-statistics'),
                 'pageName'   => Menus::get_page_slug('visitors'),
                 'custom_get' => array_merge(['tab' => $currentTab], $filters),
                 'DateRang'   => Admin_Template::DateRange(),

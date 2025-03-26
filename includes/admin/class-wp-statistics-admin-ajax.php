@@ -511,7 +511,7 @@ class Ajax
                     $query->the_post();
 
                     $option = [
-                        'id'   => add_query_arg(['pid' => get_the_ID()], Menus::admin_url($page)),
+                        'id'   => get_the_ID(),
                         'text' => get_the_title()
                     ];
 

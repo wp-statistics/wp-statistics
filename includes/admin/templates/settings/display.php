@@ -80,6 +80,18 @@ use WP_STATISTICS\Option;
 
             <tr valign="top">
                 <th scope="row">
+                    <label for="display-notifications"><?php esc_html_e('WP Statistics Notifications', 'wp-statistics'); ?></label>
+                </th>
+
+                <td>
+                    <input id="display-notifications" type="checkbox" value="1" name="wps_display_notifications" <?php checked(Option::get('display_notifications')); ?>>
+                    <label for="display-notifications"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <p class="description"><?php esc_html_e('Display important notifications inside the plugin, such as new version releases, feature updates, news, and special offers.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
+
+            <tr valign="top">
+                <th scope="row">
                     <label for="hide_notices"><?php esc_html_e('Disable Inactive Essential Feature Notices', 'wp-statistics'); ?></label>
                 </th>
 
@@ -102,17 +114,17 @@ use WP_STATISTICS\Option;
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="show_hits"><?php esc_html_e('Views in Single Contents', 'wp-statistics'); ?></label>
+                    <label for="wps_settings[show_hits]"><?php esc_html_e('Views in Single Contents', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
-                    <input id="show_hits" type="checkbox" value="1" name="wps_show_hits" <?php echo WP_STATISTICS\Option::get('show_hits') ? "checked='checked'" : ''; ?> onClick='ToggleShowHitsOptions();'>
-                    <label for="show_hits"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <input id="wps_settings[show_hits]" type="checkbox" value="1" name="wps_show_hits" <?php echo WP_STATISTICS\Option::get('show_hits') ? "checked='checked'" : ''; ?> >
+                    <label for="wps_settings[show_hits]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                     <p class="description"><?php esc_html_e('Shows the view count on the content\'s page for visitor insight.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
-            <tr valign="top" <?php echo WP_STATISTICS\Option::get('show_hits') ? 'style="display: table-row"' : 'style="display: none"' ?> id='wps_show_hits_option'>
+            <tr valign="top" class="js-wps-show_if_show_hits_enabled" <?php echo WP_STATISTICS\Option::get('show_hits') ? 'style="display: table-row"' : 'style="display: none"' ?> id='wps_show_hits_option'>
                 <th scope="row" style="vertical-align: top;">
                     <label for="display_hits_position"><?php esc_html_e('Display position', 'wp-statistics'); ?></label>
                 </th>

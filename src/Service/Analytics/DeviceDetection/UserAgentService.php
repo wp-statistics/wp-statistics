@@ -86,7 +86,25 @@ class UserAgentService
      */
     public function getModel()
     {
-        return $this->deviceDetector ? $this->deviceDetector->getBrandName() : null;
+        $model = '';
+
+        if (! empty($this->deviceDetector)) {
+            $brand  = $this->deviceDetector->getBrandName();
+            $device = $this->deviceDetector->getModel();
+
+            if (!empty($device)) {
+                $words = explode(' ', trim($device));
+                $device = $words[0] ?? null;
+
+                if (! empty($device) && ctype_digit($device)) {
+                    $device = '';
+                }
+            }
+
+            $model = trim($brand . ' ' . $device);
+        }      
+
+        return $model ?? null;
     }
 
     /**

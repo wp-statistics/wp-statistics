@@ -45,7 +45,7 @@ class MigrationHandler
         add_action('admin_post_' . self::MIGRATION_ACTION, [self::class, 'processManualMigrations']);
         add_action('admin_post_' . self::MIGRATION_RETRY_ACTION, [self::class, 'retryManualMigration']);
 
-        add_action( 'init', [self::class, 'handleNotice']);
+        add_action( 'admin_init', [self::class, 'handleNotice']);
         self::runMigrations();
     }
 
@@ -587,7 +587,8 @@ class MigrationHandler
                 esc_html__('The Database Migration process has been completed successfully. Thank you for keeping WP Statistics up-to-date!', 'wp-statistics')
             );
 
-            Notice::addNotice($message, 'database_manual_migration_done', 'success');
+            Notice::addFlashNotice($message, 'success', false);
+            Option::saveOptionGroup('migration_status_detail', null, 'db');
             return;
         }
 

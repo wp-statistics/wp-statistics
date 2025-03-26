@@ -40,12 +40,13 @@ class ModelChartDataProvider extends AbstractChartDataProvider
     protected function parseData($data)
     {
         $parsedData = [];
+        $unknownData = 0;
 
         if (!empty($data)) {
             foreach ($data as $item) {
                 $model = $item->getDevice()->getModel();
 
-                if (!empty($model) && $model !== '(not set)') {
+                if (!empty($model) && $model !== 'Unknown') {
                     $models = array_column($parsedData, 'label');
 
                     if (!in_array($model, $models)) {
@@ -58,6 +59,17 @@ class ModelChartDataProvider extends AbstractChartDataProvider
                         $parsedData[$index]['visitors']++;
                     }
                 }
+
+                if ($model === 'Unknown' || empty($model)) {
+                    ++$unknownData;
+                }
+            }
+
+            if ($unknownData > 0) {
+                $parsedData[] = [
+                    'label'    => esc_html__('Unknown', 'wp-statistics'),
+                    'visitors' => $unknownData
+                ];
             }
 
             // Sort data by visitors
