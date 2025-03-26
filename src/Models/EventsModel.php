@@ -42,7 +42,7 @@ class EventsModel extends BaseModel
 
         $result = $query->getVar();
 
-        return $result;
+        return $result ?? 0;
     }
 
     public function getEvents($args = [])
