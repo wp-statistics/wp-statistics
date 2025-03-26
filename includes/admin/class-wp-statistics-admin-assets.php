@@ -489,6 +489,7 @@ class Admin_Assets
             'unassigned'                   => __('Unassigned', 'wp-statistics'),
             'select_page'                  => __('Select page', 'wp-statistics'),
             'required_error'               => __('This field is required', 'wp-statistics'),
+            'validate_error'               => __('Must not contain spaces, #, or .', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 
