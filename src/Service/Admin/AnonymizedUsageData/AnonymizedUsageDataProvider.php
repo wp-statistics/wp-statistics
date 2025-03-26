@@ -191,8 +191,12 @@ class AnonymizedUsageDataProvider
     {
         $activePluginsKeys = get_option('active_plugins', array());
 
+        $pluginFolders = array_map(function ($plugin) {
+            return explode('/', $plugin)[0];
+        }, $activePluginsKeys);
+
         return array(
-            'activated_plugins' => $activePluginsKeys,
+            'activated_plugins' => $pluginFolders,
         );
     }
 
@@ -204,37 +208,36 @@ class AnonymizedUsageDataProvider
     public static function getPluginSettings()
     {
         $siteHealthInfo = new SiteHealthInfo();
-        $rawSettings    = $siteHealthInfo->addStatisticsInfo([]);
-        $settings       = [];
-        $debugSlug      = SiteHealthInfo::DEBUG_INFO_SLUG;
 
-        if (isset($rawSettings[$debugSlug]['fields'])) {
-            foreach ($rawSettings[$debugSlug]['fields'] as $k => $f) {
-                if ($k === 'version' || $k === 'geoIpDatabaseSize') {
-                    continue;
-                }
+        $pluginSettings = self::processSettings($siteHealthInfo->getPluginSettings());
+        $addOnSettings  = self::processSettings($siteHealthInfo->getAddOnsSettings());
 
-                if (isset($f['debug'])) {
-                    $settings['plugin'][$k] = $f['debug'];
-                } else {
-                    $settings['plugin'][$k] = $f['value'];
-                }
+        return [
+            'main'   => $pluginSettings,
+            'addOns' => $addOnSettings,
+        ];
+    }
+
+    /**
+     * Processes raw settings by extracting relevant values.
+     *
+     * @param array $rawSettings
+     *
+     * @return array
+     */
+    private static function processSettings(array $rawSettings): array
+    {
+        $processedSettings = [];
+
+        foreach ($rawSettings as $key => $setting) {
+            if ($key === 'version' || $key === 'geoIpDatabaseSize') {
+                continue;
             }
+
+            $processedSettings[$key] = $setting['debug'] ?? $setting['value'] ?? null;
         }
 
-        if (isset($rawSettings['addOns'])) {
-            foreach ($rawSettings['addOns'] as $k => $addon) {
-                foreach ($addon as $key => $f) {
-                    if (isset($f['debug'])) {
-                        $settings['addOns'][$k][$key] = $f['debug'];
-                    } else {
-                        $settings['addOns'][$k][$key] = $f['value'];
-                    }
-                }
-            }
-        }
-
-        return $settings;
+        return $processedSettings;
     }
 
     /**

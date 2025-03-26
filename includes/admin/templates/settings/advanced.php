@@ -25,7 +25,7 @@ add_thickbox();
     <table style="direction: ltr;">
         <tr>
             <td width="330" style="border-bottom: 1px solid #ccc;padding-top:10px;padding-bottom:10px;">
-                <b><?php esc_html_e('$_SERVER', 'wp-statistics'); ?></b></td>
+                <b><?php esc_html_e('Key', 'wp-statistics'); ?></b></td>
             <td style="border-bottom: 1px solid #ccc;padding-top:10px;padding-bottom:10px;"><b><?php esc_html_e('Value', 'wp-statistics'); ?></b></td>
         </tr>
         <?php
@@ -138,7 +138,7 @@ add_thickbox();
 
                             <p class="description">
                                 <?php _e('If your server uses a custom key in <code>$_SERVER</code> for IP detection (e.g., <code>HTTP_CF_CONNECTING_IP</code> for CloudFlare), specify it here.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?>
-                                <a href="#TB_inline?&width=950&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e('View <code>$_SERVER</code> in your server.', 'wp-statistics');   // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></a>
+                                <a href="#TB_inline?&width=950&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e('View available headers on your server.', 'wp-statistics');   // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></a>
                             </p>
                             <p class="description"><?php _e('Refer to our <a href="https://wp-statistics.com/resources/how-to-configure-ip-detection-in-wp-statistics-for-accurate-visitor-tracking/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Documentation</a> for more info and how to configure IP Detection properly.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></p>
                         </td>
@@ -156,7 +156,7 @@ add_thickbox();
         <tbody>
         <tr valign="top">
             <th scope="row" colspan="2">
-                <h3><?php esc_html_e('GeoIP Settings', 'wp-statistics'); ?></h3>
+                <h3><?php esc_html_e('Geolocation Settings', 'wp-statistics'); ?></h3>
             </th>
         </tr>
         <tr valign="top">
@@ -181,14 +181,14 @@ add_thickbox();
         </tr>
 
         <tr valign="top" id="geoip_license_type_option">
-            <th scope="row"><label for="wps_geoip_license_type"><?php esc_html_e('GeoIP Database Update Source', 'wp-statistics'); ?></label></th>
+            <th scope="row"><label for="wps_geoip_license_type"><?php esc_html_e('Geolocation Database Update Source', 'wp-statistics'); ?></label></th>
             <td>
                 <select name="wps_geoip_license_type" id="geoip_license_type">
                     <option value="js-deliver" <?php selected(WP_STATISTICS\Option::get('geoip_license_type'), 'js-deliver'); ?>><?php esc_html_e('Use the JsDelivr', 'wp-statistics'); ?></option>
                     <option value="user-license" <?php selected(WP_STATISTICS\Option::get('geoip_license_type'), 'user-license'); ?>><?php esc_html_e('Use the MaxMind server with your own license key', 'wp-statistics'); ?></option>
                 </select>
 
-                <p class="description"><?php esc_html_e('Select the source for updating the GeoIP database. If using a premium database, updates will be downloaded automatically using the provided license key.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Select the source for updating the Geolocation database. If using a premium database, updates will be downloaded automatically using the provided license key.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
@@ -222,7 +222,7 @@ add_thickbox();
 
         <tr valign="top" id="geoip_dbip_license_key_option">
             <th scope="row">
-                <label for="geoip_dbip_license_key_option"><?php esc_html_e('GeoIP License Key', 'wp-statistics'); ?></label>
+                <label for="geoip_dbip_license_key_option"><?php esc_html_e('DB-IP License Key', 'wp-statistics'); ?></label>
             </th>
             <td>
                 <input id="geoip_dbip_license_key_option" type="text" size="30" name="wps_geoip_dbip_license_key_option" value="<?php echo esc_attr(WP_STATISTICS\Option::get('geoip_dbip_license_key_option', '')); ?>">
@@ -251,7 +251,7 @@ add_thickbox();
 
         <tr valign="top" id="enable_geoip_option">
             <th scope="row">
-                <label for="geoip-enable"><?php esc_html_e('Manual Update of GeoIP Database', 'wp-statistics'); ?></label>
+                <label for="geoip-enable"><?php esc_html_e('Manual Update of Geolocation Database', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -259,13 +259,13 @@ add_thickbox();
                     <?php submit_button(esc_html__('Update Now', 'wp-statistics'), "secondary", "update_geoip", false); ?>
                 </label>
 
-                <p class="description"><?php esc_html_e('Click here to update the GeoIP database immediately for the database.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Click here to update the Geolocation database immediately for the database.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
         <tr valign="top" id="schedule_geoip_option">
             <th scope="row">
-                <label for="geoip-schedule"><?php esc_html_e('Schedule Monthly Update of GeoIP Database', 'wp-statistics'); ?></label>
+                <label for="geoip-schedule"><?php esc_html_e('Schedule Monthly Update of Geolocation Database', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -283,19 +283,19 @@ add_thickbox();
                     echo '</code></p>';
                 }
                 ?>
-                <p class="description"><?php esc_html_e('Automates monthly GeoIP database updates for the latest geographical data.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Automates monthly Geolocation database updates for the latest geographical data.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
         <tr valign="top" id="geoip_auto_pop_option">
             <th scope="row">
-                <label for="geoip-auto-pop"><?php esc_html_e('Update Missing GeoIP Data', 'wp-statistics'); ?></label>
+                <label for="geoip-auto-pop"><?php esc_html_e('Update Missing Geolocation Data', 'wp-statistics'); ?></label>
             </th>
 
             <td>
                 <input id="geoip-auto-pop" type="checkbox" name="wps_auto_pop" <?php echo WP_STATISTICS\Option::get('auto_pop') == true ? "checked='checked'" : ''; ?>>
                 <label for="geoip-auto-pop"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Fills in any gaps in the GeoIP database following a new download.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Fills in any gaps in the Geolocation database following a new download.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
