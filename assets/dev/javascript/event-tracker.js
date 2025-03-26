@@ -76,6 +76,11 @@ const WpStatisticsEventTracker = {
             ['mouseup', 'click'].forEach(eventType => {
                 elements.forEach(element => {
                     element.addEventListener(eventType, (e) => {
+                        // Only track middle click if the event was mouseup
+                        if (eventType == 'mouseup' && e.button != 1) {
+                            return;
+                        }
+
                         const eventData = {
                             text: e.target.textContent,
                             id: e.currentTarget.id,
