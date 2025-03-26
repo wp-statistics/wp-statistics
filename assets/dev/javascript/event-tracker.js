@@ -22,13 +22,16 @@ const WpStatisticsEventTracker = {
 
         // Capture custom events when Marketing is active
         if (typeof WP_Statistics_Marketing_Event_Object !== 'undefined') {
-            // Attach captureCustomEvent to window object
-            window.wp_statistics_event = this.captureCustomEvent.bind(this);
+            // Attach handleCustomEvent to window object
+            window.wp_statistics_event = this.handleCustomEvent.bind(this);
+
+            this.captureCustomEvents();
         }
     },
 
-    // Marketing custom events
-    captureCustomEvent: function (eventName, eventData = {}) {
+    // Handles preparing and sending marketing custom events to the server
+    handleCustomEvent: function (eventName, eventData = {}) {
+        const events = WP_Statistics_Marketing_Event_Object.events.custom;
         const ajaxUrl = WP_Statistics_Marketing_Event_Object.customEventAjaxUrl;
 
         // Add timestamp
@@ -39,12 +42,52 @@ const WpStatisticsEventTracker = {
             eventData.resource_id = WP_Statistics_Tracker_Object.hitParams.source_id;
         }
 
+        // Only allow recognized custom events
+        if (!events.includes(eventName)) {
+            console.log(`WP Statistics: Unrecognized custom event: ${eventName}`);
+            return;
+        }
+
         const data = {
             event_name: eventName,
             event_data: JSON.stringify(eventData)
         };
 
         this.sendEventData(data, ajaxUrl);
+    },
+
+    // Captures custom click events from Marketing
+    captureCustomEvents: function () {
+        const events = WP_Statistics_Marketing_Event_Object.events.clicks;
+
+        events.forEach(event => {
+            // Skip if event has no selector
+            if (!event.selector) {
+                return;
+            }
+
+            // Check if the custom event scope is global or specific to a page
+            if (event.scope != null && event.scope != WP_Statistics_Tracker_Object.hitParams.source_id) {
+                return;
+            }
+
+            const elements = document.querySelectorAll(`${event.selector}`);
+
+            ['mouseup', 'click'].forEach(eventType => {
+                elements.forEach(element => {
+                    element.addEventListener(eventType, (e) => {
+                        const eventData = {
+                            text: e.target.textContent,
+                            id: e.currentTarget.id,
+                            class: e.currentTarget.className,
+                            target: e.currentTarget.href
+                        };
+
+                        this.handleCustomEvent(event.name, eventData)
+                    });
+                });
+            });
+        });
     },
 
     // DataPlus click and download events
