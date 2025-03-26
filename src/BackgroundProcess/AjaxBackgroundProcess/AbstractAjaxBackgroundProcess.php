@@ -67,8 +67,6 @@ abstract class AbstractAjaxBackgroundProcess
     {
         $completedMigrations = Option::getOptionGroup('ajax_background_process', 'jobs', []);
 
-        error_log(print_r(AjaxBackgroundProcessFactory::$migrations, true));
-        error_log(print_r($completedMigrations, true));
         $pendingMigrations = array_diff(array_keys(AjaxBackgroundProcessFactory::$migrations), $completedMigrations);
 
         if (empty($pendingMigrations)) {
