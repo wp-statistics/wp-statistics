@@ -34,10 +34,12 @@ class AjaxBackgroundProcessManager
 
     /**
      * Class constructor.
-     * Initializes migration process if required.
+     * Initializes migration handling and attaches necessary hooks.
      */
     public function __construct()
     {
+        add_action('admin_init', [$this, 'handleDoneNotice']);
+
         if (! AjaxBackgroundProcessFactory::needsMigration()) {
             return;
         }
@@ -66,28 +68,46 @@ class AjaxBackgroundProcessManager
     }
 
     /**
-     * Displays an admin notice to inform users about ongoing migration.
+     * Displays a success notice when the database migration process is completed.
+     *
+     * If the migration is marked as "done," it shows a completion message and clears the migration status.
+     *
+     * @return void
+     */
+    public function handleDoneNotice()
+    {
+        $status = Option::getOptionGroup('ajax_background_process', 'status', null);
+
+        if ($status !== 'done') {
+            return;
+        }
+
+        $message = sprintf(
+            '
+                <p>
+                    <strong>%1$s</strong>
+                    </br>%2$s
+                </p>
+            ',
+            esc_html__('WP Statistics: Process Complete', 'wp-statistics'),
+            esc_html__('The Database Migration process has been completed successfully. Thank you for keeping WP Statistics up-to-date!', 'wp-statistics')
+        );
+
+        Notice::addFlashNotice($message, 'success', false);
+        Option::saveOptionGroup('status', null, 'ajax_background_process');
+    }
+
+    /**
+     * Displays an admin notice based on the current migration status.
+     *
+     * - Shows a progress message if migration is running.
+     * - Displays a start button if migration has not started.
+     *
+     * @return void
      */
     public function handleNotice()
     {
         $status = Option::getOptionGroup('ajax_background_process', 'status', null);
-
-        if ($status === 'done') {
-            $message = sprintf(
-                '
-                    <p>
-                        <strong>%1$s</strong>
-                        </br>%2$s
-                    </p>
-                ',
-                esc_html__('WP Statistics: Process Complete', 'wp-statistics'),
-                esc_html__('The Database Migration process has been completed successfully. Thank you for keeping WP Statistics up-to-date!', 'wp-statistics')
-            );
-
-            Notice::addFlashNotice($message, 'success', false);
-            Option::saveOptionGroup('status', null, 'ajax_background_process');
-            return;
-        }
 
         if ($status === 'progress') {
             $message = sprintf(
@@ -129,7 +149,9 @@ class AjaxBackgroundProcessManager
     }
 
     /**
-     * Registers migration-related admin scripts.
+     * Registers JavaScript files required for migration execution.
+     *
+     * @return void
      */
     public function registerScript()
     {
