@@ -5,8 +5,6 @@ namespace WP_Statistics\Service\Admin\Notification;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\User;
-use DateTimeZone;
-use Exception;
 
 class NotificationConditionTags
 {
@@ -19,6 +17,7 @@ class NotificationConditionTags
         'is-admin'   => 'isAdminUser',
         'is-premium' => 'isPremiumUser',
         'is-free'    => 'isFreeVersion',
+        'has-addon'  => 'hasAddon',
     ];
 
     /**
@@ -42,6 +41,32 @@ class NotificationConditionTags
     }
 
     /**
+     * Check if the current version is a free version (no premium license).
+     *
+     * @return bool True if the version is free, false otherwise.
+     */
+    public static function isFreeVersion()
+    {
+        return !LicenseHelper::isPremiumLicenseAvailable() ? true : false;
+    }
+
+    /**
+     * Checks if any add-on is currently active.
+     *
+     * @return bool
+     */
+    public static function hasAddon()
+    {
+        foreach (Helper::getAddOns() as $addon) {
+            if (Helper::isAddOnActive($addon['key'])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Check if a specific addon is active.
      *
      * @param string $addon The addon name.
@@ -50,16 +75,6 @@ class NotificationConditionTags
     public static function isAddon($addon)
     {
         return Helper::isAddOnActive($addon);
-    }
-
-    /**
-     * Check if the current version is a free version (no premium license).
-     *
-     * @return bool True if the version is free, false otherwise.
-     */
-    public static function isFreeVersion()
-    {
-        return !LicenseHelper::isPremiumLicenseAvailable() ? true : false;
     }
 
     /**

@@ -15,6 +15,21 @@ use WP_Statistics_Mail;
 class Helper
 {
     /**
+     * List of add-ons.
+     *
+     * @var array
+     */
+    private static $addons = [
+        ['title' => 'Data Plus', 'key' => 'data-plus'],
+        ['title' => 'Real-time Stats', 'key' => 'realtime-stats'],
+        ['title' => 'Customization', 'key' => 'customization'],
+        ['title' => 'Advanced Reporting', 'key' => 'advanced-reporting'],
+        ['title' => 'Mini Chart', 'key' => 'mini-chart'],
+        ['title' => 'REST API', 'key' => 'rest-api'],
+        ['title' => 'Advanced Widgets', 'key' => 'widgets'],
+    ];
+
+    /**
      * Returns an array of site id's
      *
      * @return array
@@ -1463,6 +1478,16 @@ class Helper
         return is_plugin_active($pluginName);
     }
 
+    /**
+     * Get the list of add-ons.
+     *
+     * @return array
+     */
+    public static function getAddOns()
+    {
+        return self::$addons;
+    }
+
     public static function convertBytes($input)
     {
         $unit  = strtoupper(substr($input, -1));
@@ -1524,24 +1549,24 @@ class Helper
      */
     public static function formatNumberWithUnit($number, $precision = 0)
     {
-        if (! is_numeric($number)) {
+        if (!is_numeric($number)) {
             return 0;
         }
 
         if ($number < 1000) {
-            return ! empty($precision) ? round($number, $precision) : $number;
+            return !empty($precision) ? round($number, $precision) : $number;
         }
-        
+
         $originalNumber = $number;
         $units          = ['', 'K', 'M', 'B', 'T'];
 
-        $exponent = (int) floor(log($number, 1000));
+        $exponent = (int)floor(log($number, 1000));
         $exponent = min($exponent, count($units) - 1);
-        
+
         // Adjust the number according to the exponent.
         $number /= pow(1000, $exponent);
-        $unit = $units[$exponent];
-        
+        $unit   = $units[$exponent];
+
         // Decide on the precision:
         // - Between 1,000 and 9,999: use two decimals.
         // - 10,000 and above: use one decimal.
@@ -2104,7 +2129,7 @@ class Helper
      */
     public static function getInitialPostDate()
     {
-        $postModel   = new PostsModel();
+        $postModel = new PostsModel();
 
         $initialDate = $postModel->getInitialPostDate();
         $initialDate = !empty($initialDate) ? $initialDate : 0;
@@ -2148,7 +2173,7 @@ class Helper
     /**
      * Get relative path for any post type or taxonomy term
      *
-     * @param int    $id   The post ID or term ID
+     * @param int $id The post ID or term ID
      * @param string $type Post type or taxonomy name
      * @return string Relative path or empty string
      */
