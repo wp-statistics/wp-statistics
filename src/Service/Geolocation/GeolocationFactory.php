@@ -63,7 +63,7 @@ class GeolocationFactory
             CloudflareGeolocationProvider::isAvailable()
         ) {
             $geoIpProvider = CloudflareGeolocationProvider::class;
-        }  {
+        } else {
             $geoIpProvider = 'dbip' === $locationDetection ? DbIpProvider::class : MaxmindGeoIPProvider::class;
         }
 

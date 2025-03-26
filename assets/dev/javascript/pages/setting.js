@@ -46,15 +46,16 @@ if (jQuery('.wp-statistics-settings').length) {
     const triggerInput = document.querySelector('input[name="user_custom_header_ip_method"]');
     const customHeaderRadio = document.getElementById('custom-header');
     if (triggerInput && customHeaderRadio) {
-        customHeaderRadio.addEventListener('change', function() {
+        customHeaderRadio.addEventListener('change', function () {
             if (customHeaderRadio.checked) {
                 triggerInput.focus();
             }
         });
 
         function checkCustomHeader() {
-          customHeaderRadio.checked = true;
+            customHeaderRadio.checked = true;
         }
+
         triggerInput.addEventListener('click', checkCustomHeader);
         triggerInput.addEventListener('paste', checkCustomHeader);
         triggerInput.addEventListener('input', checkCustomHeader);

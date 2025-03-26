@@ -168,6 +168,7 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
      * This URL can be filtered via WordPress filters.
      *
      * @param string $defaultUrl The default URL for downloading the database.
+     * @doc https://wp-statistics.com/resources/how-to-host-the-geolocation-database-and-ensure-compatibility-with-a-private-network/
      * @return string The filtered URL.
      */
     protected function getFilteredDownloadUrl(string $defaultUrl)
