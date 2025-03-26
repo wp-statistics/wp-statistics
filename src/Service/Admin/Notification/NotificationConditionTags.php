@@ -71,7 +71,7 @@ class NotificationConditionTags
      */
     public static function isFreeVersion()
     {
-        $pluginHandler = self::getPluginHandler();;
+        $pluginHandler = self::getPluginHandler();
         foreach (PluginHelper::$plugins as $plugin => $title) {
             if ($pluginHandler->isPluginActive($plugin)) {
                 return false;
