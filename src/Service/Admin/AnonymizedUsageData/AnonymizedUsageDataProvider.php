@@ -149,11 +149,11 @@ class AnonymizedUsageDataProvider
             $url = 'https://' . $url; // Default to HTTPS if no scheme
         }
 
-        $host = parse_url($url, PHP_URL_HOST);
+        $parsedUrl = parse_url($url);
+        $host      = preg_replace('/^www\./', '', $parsedUrl['host'] ?? '');
+        $path      = $parsedUrl['path'] ?? '';
 
-        $host = preg_replace('/^www\./', '', $host);
-
-        return $host;
+        return $host . $path;
     }
 
     /**
@@ -163,7 +163,7 @@ class AnonymizedUsageDataProvider
      *
      * @return string
      */
-    private static function hashDomain($domain)
+    public static function hashDomain($domain)
     {
         return substr(hash('sha256', $domain), 0, 40);
     }

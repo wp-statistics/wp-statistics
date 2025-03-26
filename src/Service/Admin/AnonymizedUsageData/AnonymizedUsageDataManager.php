@@ -15,11 +15,11 @@ class AnonymizedUsageDataManager
      */
     public function __construct()
     {
-        if (Option::get('usage_data_tracking')) {
+        if (Option::get('share_anonymous_data')) {
             add_filter('cron_schedules', [$this, 'anonymizedUsageDataCronIntervalsHook']);
-            Event::schedule('wp_statistics_anonymized_usage_data_hook', time(), 'every_two_months', [$this, 'sendAnonymizedUsageData']);
+            Event::schedule('wp_statistics_anonymized_share_data_hook', time(), 'every_two_months', [$this, 'sendAnonymizedUsageData']);
         } else {
-            Event::unschedule('wp_statistics_anonymized_usage_data_hook');
+            Event::unschedule('wp_statistics_anonymized_share_data_hook');
         }
     }
 
