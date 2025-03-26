@@ -2,9 +2,9 @@
 
 namespace WP_Statistics\Service\Geolocation;
 
-use WP_STATISTICS\Option;
-use WP_Statistics\Async\BackgroundProcessFactory;
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory;
 use WP_Statistics\Helper;
+use WP_STATISTICS\Option;
 
 abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
 {

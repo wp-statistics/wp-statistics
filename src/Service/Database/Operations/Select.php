@@ -85,6 +85,14 @@ class Select extends AbstractTableOperation
                 }
             }
 
+            if (!empty($this->args['raw_where']) && is_array($this->args['raw_where'])) {
+                foreach ($this->args['raw_where'] as $condition) {
+                    if (!empty($condition) && is_string($condition)) {
+                        $whereClauses[] = "($condition)";
+                    }
+                }
+            }
+
             // Add WHERE conditions to SQL query
             if (!empty($whereClauses)) {
                 $sql .= " WHERE " . implode(' AND ', $whereClauses);
@@ -123,7 +131,7 @@ class Select extends AbstractTableOperation
             }
 
             return $this;
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new RuntimeException("SELECT operation failed: " . $e->getMessage());
         }
     }
