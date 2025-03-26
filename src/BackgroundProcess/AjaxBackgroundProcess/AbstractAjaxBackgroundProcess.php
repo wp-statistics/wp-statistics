@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess;
 
-use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\Jobs\VisitorColumnsMigrator;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\User;
 use WP_Statistics\Utils\Request;
@@ -55,15 +54,6 @@ abstract class AbstractAjaxBackgroundProcess
     protected static $currentMigration;
 
     /**
-     * List of available migrations.
-     *
-     * @var array
-     */
-    public static $migrations = [
-        'visitor_columns_migrate' => VisitorColumnsMigrator::class,
-    ];
-
-    /**
      * Perform the migration. Must be implemented by child classes.
      */
     abstract protected function migrate();
@@ -77,7 +67,9 @@ abstract class AbstractAjaxBackgroundProcess
     {
         $completedMigrations = Option::getOptionGroup('ajax_background_process', 'jobs', []);
 
-        $pendingMigrations = array_diff(array_keys(self::$migrations), $completedMigrations);
+        error_log(print_r(AjaxBackgroundProcessFactory::$migrations, true));
+        error_log(print_r($completedMigrations, true));
+        $pendingMigrations = array_diff(array_keys(AjaxBackgroundProcessFactory::$migrations), $completedMigrations);
 
         if (empty($pendingMigrations)) {
             return null;
@@ -85,7 +77,7 @@ abstract class AbstractAjaxBackgroundProcess
 
         $nextMigrationKey = reset($pendingMigrations);
 
-        self::$currentMigration = self::$migrations[$nextMigrationKey];
+        self::$currentMigration = AjaxBackgroundProcessFactory::$migrations[$nextMigrationKey];
 
         return new self::$currentMigration();
     }
@@ -99,10 +91,10 @@ abstract class AbstractAjaxBackgroundProcess
     public static function getMigrations($key = null)
     {
         if ($key === null) {
-            return self::$migrations;
+            return AjaxBackgroundProcessFactory::$migrations;
         }
 
-        return self::$migrations[$key] ?? null;
+        return AjaxBackgroundProcessFactory::$migrations[$key] ?? null;
     }
 
     /**
@@ -145,13 +137,15 @@ abstract class AbstractAjaxBackgroundProcess
     {
         $completedMigrations = Option::getOptionGroup('ajax_background_process', 'jobs', []);
 
-        $completedMigrationKey = array_search($migrationClassName, self::$migrations, true);
+        $completedMigrationKey = array_search($migrationClassName, AjaxBackgroundProcessFactory::$migrations, true);
 
         if ($completedMigrationKey !== false) {
             $completedMigrations[] = $completedMigrationKey;
         }
 
-        Option::saveOptionGroup('jobs', ['jobs' => array_unique($completedMigrations)], 'ajax_background_process');
+        $completedMigrations = array_unique($completedMigrations);
+
+        Option::saveOptionGroup('jobs', $completedMigrations, 'ajax_background_process');
     }
 
     /**

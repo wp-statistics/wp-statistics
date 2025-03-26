@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess;
 
+use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\Jobs\VisitorColumnsMigrator;
 use WP_STATISTICS\Install;
 use WP_STATISTICS\Option;
 
@@ -16,6 +17,15 @@ use WP_STATISTICS\Option;
  */
 class AjaxBackgroundProcessFactory
 {
+    /**
+     * List of available migrations.
+     *
+     * @var array
+     */
+    public static $migrations = [
+        'visitor_columns_migrate' => VisitorColumnsMigrator::class,
+    ];
+
     /**
      * Checks if a database migration is required.
      *
@@ -45,7 +55,7 @@ class AjaxBackgroundProcessFactory
 
         $completedMigrations = Option::getOptionGroup('ajax_background_process', 'jobs', []);
 
-        $registeredMigrations = array_keys(AbstractAjaxBackgroundProcess::$migrations);
+        $registeredMigrations = array_keys(self::$migrations);
 
         return !empty(array_diff($registeredMigrations, $completedMigrations));
     }
