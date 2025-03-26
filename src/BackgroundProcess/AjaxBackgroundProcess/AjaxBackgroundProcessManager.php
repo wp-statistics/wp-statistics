@@ -91,15 +91,19 @@ class AjaxBackgroundProcessManager
 
         if ($status === 'progress') {
             $message = sprintf(
-                '<div id="wp-statistics-background-process-notice"><p><strong>%1$s</strong><br>%2$s</p></div>',
-                esc_html__('WP Statistics: Process Running', 'wp-statistics'),
-                __('Database Migration is running in the background <strong class="remain-counter">(<span class="remain-number">0</span> records remaining)</strong>. You can continue working or dismiss this notice.', 'wp-statistics'),
+                '<div id="wp-statistics-background-process-notice">
+                    <p><strong>%1$s</strong></p>
+                    <p>%2$s</p>
+                    <p><strong>%3$s: <span class="remain-number">0</span></strong></p>
+                </div>',
+                esc_html__('WP Statistics: Migration in Progress', 'wp-statistics'),
+                __('Your database is currently being migrated. This process runs in the background while you are in the dashboard.', 'wp-statistics'),
+                esc_html__('Records Remaining', 'wp-statistics')
             );
 
             Notice::addNotice($message, 'progress_ajax_background_process', 'info', false);
             return;
         }
-
 
         $migrationUrl = add_query_arg(
             [
