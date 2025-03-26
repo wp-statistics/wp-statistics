@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-03-25T06:37:20+00:00\n"
+"POT-Creation-Date: 2025-03-26T07:18:22+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-statistics\n"
@@ -200,7 +200,7 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:365
 #: includes/admin/templates/header.php:32
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:36
-#: includes/class-wp-statistics-shortcode.php:284
+#: includes/class-wp-statistics-shortcode.php:286
 #: includes/class-wp-statistics-widget.php:41
 #: includes/class-wp-statistics-widget.php:264
 #: src/Service/Admin/VisitorInsights/Views/TabsView.php:111
@@ -229,7 +229,7 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/mini-chart.php:78
 #: includes/admin/templates/settings/add-ons/rest-api.php:22
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:38
-#: includes/class-wp-statistics-shortcode.php:286
+#: includes/class-wp-statistics-shortcode.php:288
 #: src/Service/Admin/MiniChart/MiniChartHelper.php:112
 #: src/Service/Admin/VisitorInsights/Views/TabsView.php:97
 #: src/Service/Charts/DataProvider/PerformanceChartDataProvider.php:84
@@ -263,7 +263,7 @@ msgstr ""
 #: includes/admin/templates/pages/content-analytics/single.php:15
 #: includes/admin/templates/settings/add-ons/mini-chart.php:79
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:37
-#: includes/class-wp-statistics-shortcode.php:285
+#: includes/class-wp-statistics-shortcode.php:287
 #: src/Service/Admin/MiniChart/MiniChartHelper.php:112
 #: src/Service/Admin/VisitorInsights/Views/TabsView.php:102
 #: src/Service/Charts/DataProvider/PerformanceChartDataProvider.php:89
@@ -847,7 +847,7 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:470
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:51
-#: includes/class-wp-statistics-shortcode.php:299
+#: includes/class-wp-statistics-shortcode.php:301
 #: src/Service/Admin/VisitorInsights/VisitorInsightsPage.php:61
 #: views/components/session-details.php:29
 #: views/components/tables/online.php:29
@@ -1497,7 +1497,7 @@ msgstr ""
 #: views/components/addon-download-card.php:19
 #: views/components/lock-sections/setting-unlock-premium.php:31
 #: views/components/lock-sections/tooltip-premium.php:3
-#: views/components/objects/usage-tracker-notice.php:11
+#: views/components/objects/share-anonymous-notice.php:11
 msgid "Learn More"
 msgstr ""
 
@@ -4182,7 +4182,7 @@ msgid "Number of Page Visitors"
 msgstr ""
 
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:41
-#: includes/class-wp-statistics-shortcode.php:289
+#: includes/class-wp-statistics-shortcode.php:291
 msgid "Searches"
 msgstr ""
 
@@ -4272,7 +4272,7 @@ msgid "Explore Details"
 msgstr ""
 
 #: includes/class-wp-statistics-admin-bar.php:51
-#: includes/class-wp-statistics-shortcode.php:287
+#: includes/class-wp-statistics-shortcode.php:289
 msgid "Page Views"
 msgstr ""
 
@@ -4736,107 +4736,107 @@ msgctxt "Search Engine"
 msgid "Unknown"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:278
+#: includes/class-wp-statistics-shortcode.php:280
 msgid "Statistic"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:281
+#: includes/class-wp-statistics-shortcode.php:283
 msgid "Select the statistic you wish to display."
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:288
+#: includes/class-wp-statistics-shortcode.php:290
 msgid "Page Visitors"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:290
+#: includes/class-wp-statistics-shortcode.php:292
 msgid "Post Count"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:291
+#: includes/class-wp-statistics-shortcode.php:293
 msgid "Page Count"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:292
+#: includes/class-wp-statistics-shortcode.php:294
 msgid "Comment Count"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:293
+#: includes/class-wp-statistics-shortcode.php:295
 msgid "Spam Count"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:294
+#: includes/class-wp-statistics-shortcode.php:296
 msgid "User Count"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:295
+#: includes/class-wp-statistics-shortcode.php:297
 #: includes/class-wp-statistics-widget.php:160
 #: includes/class-wp-statistics-widget.php:351
 msgid "Post Average"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:296
+#: includes/class-wp-statistics-shortcode.php:298
 #: includes/class-wp-statistics-widget.php:167
 #: includes/class-wp-statistics-widget.php:355
 msgid "Comment Average"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:297
+#: includes/class-wp-statistics-shortcode.php:299
 #: includes/class-wp-statistics-widget.php:174
 #: includes/class-wp-statistics-widget.php:359
 msgid "User Average"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:298
+#: includes/class-wp-statistics-shortcode.php:300
 #: includes/class-wp-statistics-widget.php:181
 #: includes/class-wp-statistics-widget.php:363
 msgid "Last Post Date"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:303
+#: includes/class-wp-statistics-shortcode.php:305
 msgid "Time Frame"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:306
+#: includes/class-wp-statistics-shortcode.php:308
 msgid "The time frame to get the statistic for, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it. Use \"total\" to get all recorded dates."
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:313
+#: includes/class-wp-statistics-shortcode.php:315
 msgid "Search Provider"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:316
+#: includes/class-wp-statistics-shortcode.php:318
 msgid "The search provider to get statistics on."
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:320
+#: includes/class-wp-statistics-shortcode.php:322
 msgid "Number Format"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:323
+#: includes/class-wp-statistics-shortcode.php:325
 msgid "The format to display numbers in: i18n, english, abbreviated, none."
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:329
+#: includes/class-wp-statistics-shortcode.php:331
 msgid "None"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:330
+#: includes/class-wp-statistics-shortcode.php:332
 msgid "English"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:331
+#: includes/class-wp-statistics-shortcode.php:333
 msgid "International"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:332
+#: includes/class-wp-statistics-shortcode.php:334
 msgid "Abbreviated"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:336
+#: includes/class-wp-statistics-shortcode.php:338
 msgid "Post/Page ID"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:339
+#: includes/class-wp-statistics-shortcode.php:341
 msgid "The post/page ID to get page statistics on."
 msgstr ""
 
@@ -6714,15 +6714,15 @@ msgstr ""
 msgid "dismissed list"
 msgstr ""
 
-#: views/components/objects/usage-tracker-notice.php:7
+#: views/components/objects/share-anonymous-notice.php:7
 msgid "Help Us Improve WP Statistics!"
 msgstr ""
 
-#: views/components/objects/usage-tracker-notice.php:8
+#: views/components/objects/share-anonymous-notice.php:8
 msgid "We’ve added a new Usage Tracking option to help us understand how WP Statistics is used and identify areas for improvement. By enabling this feature, you’ll help us make the plugin better for everyone. No personal or sensitive data is collected."
 msgstr ""
 
-#: views/components/objects/usage-tracker-notice.php:15
+#: views/components/objects/share-anonymous-notice.php:15
 msgid "Enable Share Anonymous Data"
 msgstr ""
 
