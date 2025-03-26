@@ -15,21 +15,6 @@ use WP_Statistics_Mail;
 class Helper
 {
     /**
-     * List of add-ons.
-     *
-     * @var array
-     */
-    private static $addons = [
-        ['title' => 'Data Plus', 'key' => 'data-plus'],
-        ['title' => 'Real-time Stats', 'key' => 'realtime-stats'],
-        ['title' => 'Customization', 'key' => 'customization'],
-        ['title' => 'Advanced Reporting', 'key' => 'advanced-reporting'],
-        ['title' => 'Mini Chart', 'key' => 'mini-chart'],
-        ['title' => 'REST API', 'key' => 'rest-api'],
-        ['title' => 'Advanced Widgets', 'key' => 'widgets'],
-    ];
-
-    /**
      * Returns an array of site id's
      *
      * @return array
@@ -1476,16 +1461,6 @@ class Helper
         $pluginName = sprintf('wp-statistics-%1$s/wp-statistics-%1$s.php', $slug);
 
         return is_plugin_active($pluginName);
-    }
-
-    /**
-     * Get the list of add-ons.
-     *
-     * @return array
-     */
-    public static function getAddOns()
-    {
-        return self::$addons;
     }
 
     public static function convertBytes($input)

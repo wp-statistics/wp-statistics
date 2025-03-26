@@ -18,6 +18,7 @@ class NotificationConditionTags
         'is-premium' => 'isPremiumUser',
         'is-free'    => 'isFreeVersion',
         'has-addon'  => 'hasAddon',
+        'no-premium' => 'noPremiumUser',
     ];
 
     /**
@@ -47,7 +48,13 @@ class NotificationConditionTags
      */
     public static function isFreeVersion()
     {
-        return !LicenseHelper::isPremiumLicenseAvailable() ? true : false;
+        foreach (Helper::getAddOns() as $addon) {
+            if (Helper::isAddOnActive($addon['key'])) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -57,13 +64,33 @@ class NotificationConditionTags
      */
     public static function hasAddon()
     {
-        foreach (Helper::getAddOns() as $addon) {
-            if (Helper::isAddOnActive($addon['key'])) {
+        $addons = [
+            'data-plus',
+            'realtime-stats',
+            'customization',
+            'advanced-reporting',
+            'mini-chart',
+            'rest-api',
+            'widgets',
+        ];
+
+        foreach ($addons as $addon) {
+            if (Helper::isAddOnActive($addon)) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    /**
+     * Checks if the user does not have a premium license.
+     *
+     * @return bool
+     */
+    public static function noPremiumUser()
+    {
+        return !LicenseHelper::isPremiumLicenseAvailable() ? true : false;
     }
 
     /**
@@ -75,6 +102,16 @@ class NotificationConditionTags
     public static function isAddon($addon)
     {
         return Helper::isAddOnActive($addon);
+    }
+
+    /**
+     * Check if a specific addon is inactive.
+     *
+     * @return bool
+     */
+    public static function noAddon($addon)
+    {
+        return !Helper::isAddOnActive($addon);
     }
 
     /**
@@ -151,6 +188,13 @@ class NotificationConditionTags
             $addon = substr($tag, strlen('has-addon-'));
             if ($addon) {
                 return self::isAddon($addon);
+            }
+        }
+
+        if (strpos($tag, 'no-addon-') === 0) {
+            $addon = substr($tag, strlen('no-addon-'));
+            if ($addon) {
+                return self::noAddon($addon);
             }
         }
 
