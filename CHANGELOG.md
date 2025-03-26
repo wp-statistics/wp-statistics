@@ -1,15 +1,16 @@
-= 14.13 - 2025-03-25 =
+= 14.13 - 2025-03-26 =
 - **New:** Introduced Notifications to receive important updates and promotions.
-- **New:** Optional "Share Anonymous Data" feature to help improve WP Statistics without collecting personal information.  
+- **New:** Added an optional "Share Anonymous Data" feature to help improve WP Statistics without collecting personal information.
 - **Enhancement:** Removed the Honeypot feature.
 - **Enhancement:** Improved detection of source names for referred visitors.
-- **Enhancement:** Enhanced device tracking to store and display device model and brand.  
+- **Enhancement:** Enhanced device tracking to store and display device model and brand.
+- **Enhancement:** Reduced the displayed record count in the Top Referring widget to 5.
 - **Fix:** Fixed loading issues of obfuscated assets when using the proxy method.
 - **Fix:** Ensured `tracker.js` compatibility with the WordPress Interactivity API.
-- **Fix:** Resolved an issue where the `first_page` key was undefined on the visitor in the Visitor Insights page.
-- **Fix:** Hide 'Get More with Premium Analytics' widget for users with a premium license.
-- **Fix:** Resolved discrepancy between shortcode view counts and traffic summary/visitor insights.
-- **Enhancement:** Reduced the displayed record count in the Top Referring widget to 5.
+- **Fix:** Resolved an issue where the `first_page` key was undefined in the Visitor Insights page.
+- **Fix:** The 'Get More with Premium Analytics' widget is now hidden for premium users.
+- **Fix:** Fixed discrepancies between shortcode view counts and traffic summary/visitor insights.
+- **Fix:** Corrected an issue where all Facebook traffic was categorized as Paid Social.
 
 = 14.12.6 - 2025-02-12
 - **New:** Added DB-IP as a location detection option.
