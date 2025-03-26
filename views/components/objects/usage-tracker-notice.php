@@ -9,7 +9,7 @@ if (!WP_STATISTICS\Option::get('share_anonymous_data') && !in_array('share_anony
         'links'   => [
             'learn_more'      => [
                 'text' => __('Learn More', 'wp-statistics'),
-                'url'  => '#',
+                'url'  => 'https://wp-statistics.com/resources/sharing-your-data-with-us/?utm_source=wp-statistics&utm_medium=link&utm_campaign=doc',
             ],
             'primary_button' => [
                 'text'       => __('Enable Share Anonymous Data', 'wp-statistics'),
