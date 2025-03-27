@@ -64,7 +64,7 @@ class ResourcesIdentifier
     {
         $this->setRecord($record);
 
-        if (! empty($this->rowId)) {
+        if (!empty($this->rowId)) {
             $this->getResource();
             return;
         }
@@ -96,12 +96,12 @@ class ResourcesIdentifier
             return;
         }
 
-        if (! is_object($record)) {
+        if (!is_object($record)) {
             $this->rowId = $record;
             return;
         }
 
-        if (! empty($record->resource_type) && isset($record->resource_id)) {
+        if (!empty($record->resource_type) && isset($record->resource_id)) {
             $this->resource = $record;
             $this->rowId    = isset($record->ID) ? $record->ID : null;
             return;
@@ -123,7 +123,7 @@ class ResourcesIdentifier
      */
     private function getResource()
     {
-        if (! empty($this->resource)) {
+        if (!empty($this->resource)) {
             return;
         }
 
@@ -150,10 +150,10 @@ class ResourcesIdentifier
      */
     private function setResource()
     {
-        $this->resourceUrl = ! empty($this->resourceUrl) ? $this->resourceUrl : home_url(add_query_arg(null, null));
+        $this->resourceUrl = !empty($this->resourceUrl) ? $this->resourceUrl : home_url(add_query_arg(null, null));
         $this->resource    = $this->getModel()->get(['resource_url' => $this->resourceUrl]);
 
-        if (! empty($this->resource)) {
+        if (!empty($this->resource)) {
             return;
         }
 

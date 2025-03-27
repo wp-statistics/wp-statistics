@@ -13,7 +13,7 @@ class ResourcesFactory
      * This method queries the 'resources' table using the specified resource ID and type,
      * and then wraps the resulting resource record (if found) in a ResourceDecorator.
      *
-     * @param int    $resourceId   The unique identifier for the resource.
+     * @param int $resourceId The unique identifier for the resource.
      * @param string $resourceType The type of the resource (e.g., 'post', 'page').
      *
      * @return ResourceDecorator|null A decorator for the resource record, or null if not found.
@@ -25,7 +25,7 @@ class ResourcesFactory
             'resource_type' => $resourceType,
         ]);
 
-        return ! empty($record) ? new ResourceDecorator($record) : null;
+        return !empty($record) ? new ResourceDecorator($record) : null;
     }
 
     /**
@@ -44,7 +44,7 @@ class ResourcesFactory
             'resource_url' => $resourceUrl,
         ]);
 
-        return ! empty($record) ? new ResourceDecorator($record) : null;
+        return !empty($record) ? new ResourceDecorator($record) : null;
     }
 
     /**
@@ -58,7 +58,7 @@ class ResourcesFactory
      */
     public static function getById($rowId)
     {
-        return ! empty($rowId) ? new ResourceDecorator($rowId) : null;
+        return !empty($rowId) ? new ResourceDecorator($rowId) : null;
     }
 
     /**

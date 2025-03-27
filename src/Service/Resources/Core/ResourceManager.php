@@ -37,7 +37,7 @@ class ResourceManager
     /**
      * Initializes the ResourcesIdentifier object if it hasn't been set yet.
      *
-     * @param int    $resourceId   The ID of the post (resource).
+     * @param int $resourceId The ID of the post (resource).
      * @param string $resourceType The post type of the resource.
      * @return void
      */
@@ -55,14 +55,14 @@ class ResourceManager
     /**
      * Removes the resource associated with a deleted post.
      *
-     * @param int      $postId The ID of the post being deleted.
-     * @param \WP_Post $post   The post object being deleted.
+     * @param int $postId The ID of the post being deleted.
+     * @param \WP_Post $post The post object being deleted.
      *
      * @return void
      */
     public function setResourceAsDeleted($postId, $post)
     {
-        if (! is_object($post)) {
+        if (!is_object($post)) {
             $post = get_post($postId);
         }
 
@@ -89,8 +89,8 @@ class ResourceManager
      * This method is hooked to the 'wp_after_insert_post' action and performs
      * several checks to ensure the post is valid before updating resource data.
      *
-     * @param int      $postId The ID of the post.
-     * @param \WP_Post $post   The post object.
+     * @param int $postId The ID of the post.
+     * @param \WP_Post $post The post object.
      *
      * @return void
      */
@@ -98,7 +98,7 @@ class ResourceManager
     {
         $post = get_post($postId);
 
-        if (! is_post_type_viewable($post->post_type)) {
+        if (!is_post_type_viewable($post->post_type)) {
             return;
         }
 
@@ -129,7 +129,7 @@ class ResourceManager
 
     /**
      * Retrieves and formats the taxonomy term IDs for the specified resource.
-     * 
+     *
      * @param int $postId The ID of the post.
      * @return string|null
      */
@@ -137,7 +137,7 @@ class ResourceManager
     {
         $postType = get_post_type($postId);
 
-        if (! $postType) {
+        if (!$postType) {
             return;
         }
 
@@ -161,12 +161,12 @@ class ResourceManager
             }
         }
 
-        return ! empty($formattedTerms) ? implode(', ', $formattedTerms) : null;
+        return !empty($formattedTerms) ? implode(', ', $formattedTerms) : null;
     }
 
     /**
      *  Retrieves the display name for a given author ID.
-     * 
+     *
      * @param int $authorId The ID of the author to set.
      * @return string|null
      */
@@ -178,39 +178,45 @@ class ResourceManager
 
         $authorInfo = get_userdata($authorId);
 
-        return ! empty($authorInfo) ? $authorInfo->display_name : '';
+        return !empty($authorInfo) ? $authorInfo->display_name : '';
     }
 
     /**
      * Updates the resource author information.
-     * 
+     *
      * @param int $userId The ID of the user whose profile is updated.
      * @todo It should be decided whether this should be handled as a background process,
      *       or directly query and update the table.
      */
-    public function updateResourceAuthor($userId) {}
+    public function updateResourceAuthor($userId)
+    {
+    }
 
     /**
      * Updates the resource term information.
-     * 
-     * @param int    $termId         The ID of the term that was removed.
-     * @param int    $termTaxonomyId The term taxonomy ID.
-     * @param string $taxonomy       The taxonomy slug.
+     *
+     * @param int $termId The ID of the term that was removed.
+     * @param int $termTaxonomyId The term taxonomy ID.
+     * @param string $taxonomy The taxonomy slug.
      * @todo It should be decided whether this should be handled as a background process,
      *       or directly query and update the table.
      */
-    public function removeResourceTerm($termId, $termTaxonomyId, $taxonomy) {}
+    public function removeResourceTerm($termId, $termTaxonomyId, $taxonomy)
+    {
+    }
 
     /**
      * Reassign the resource author information.
      *
-     * @param int    $userId     The ID of the user being deleted.
-     * @param int    $reassignId The new user ID to reassign the posts to.
-     * @param object $user       The deleted user object.
+     * @param int $userId The ID of the user being deleted.
+     * @param int $reassignId The new user ID to reassign the posts to.
+     * @param object $user The deleted user object.
      * @todo It should be decided whether this should be handled as a background process,
      *       or directly query and update the table.
      */
-    public function reassignResourceAuhtor($userId, $reassignId, $user) {}
+    public function reassignResourceAuhtor($userId, $reassignId, $user)
+    {
+    }
 
     /**
      * Updates the resource url.
@@ -218,5 +224,7 @@ class ResourceManager
      * @todo It should be decided whether this should be handled as a background process,
      *       or directly query and update the table.
      */
-    public function updateResourceUrl() {}
+    public function updateResourceUrl()
+    {
+    }
 }

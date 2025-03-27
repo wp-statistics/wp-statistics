@@ -77,21 +77,21 @@ class ResourceDetector
      * Then, if the resource type is not one of the excluded types, additional details
      * (such as taxonomies, publish date, title, and author details) are gathered.
      *
-     * @param int    $resourceId   Optional. Specific resource ID to use.
+     * @param int $resourceId Optional. Specific resource ID to use.
      * @param string $resourceType Optional. Specific resource type (e.g., 'post', 'page') to use.
      */
     public function __construct($resourceId = 0, $resourceType = '')
     {
         $resourceData = $this->getResourceData();
 
-        $this->resourceId   = ! empty($resourceData['id']) ? (int) $resourceData['id'] : 0;
-        $this->resourceType = ! empty($resourceData['type']) ? (string) $resourceData['type'] : null;
+        $this->resourceId   = !empty($resourceData['id']) ? (int)$resourceData['id'] : 0;
+        $this->resourceType = !empty($resourceData['type']) ? (string)$resourceData['type'] : null;
 
-        if (! empty($resourceId)) {
+        if (!empty($resourceId)) {
             $this->resourceId = $resourceId;
         }
 
-        if (! empty($resourceType)) {
+        if (!empty($resourceType)) {
             $this->resourceType = $resourceType;
         }
 
@@ -108,7 +108,7 @@ class ResourceDetector
         $publicTaxonomies = array_keys(get_taxonomies(['public' => true]));
         $excludedTypes    = array_merge($excludedTypes, $publicTaxonomies);
 
-        if (! in_array($this->resourceType, $excludedTypes, true)) {
+        if (!in_array($this->resourceType, $excludedTypes, true)) {
             $this->setPostTerms();
             $this->setPublishDate();
             $this->setResourceMetaData();
@@ -194,9 +194,9 @@ class ResourceDetector
         }
 
         if (is_category() || is_tag() || is_tax()) {
-            $term = get_queried_object();
+            $term         = get_queried_object();
             $data['type'] = isset($term->taxonomy) ? $term->taxonomy : 'term_archive';
-            $data['id']   = isset($term->term_id) ? (int) $term->term_id : 0;
+            $data['id']   = isset($term->term_id) ? (int)$term->term_id : 0;
             return $data;
         }
 
@@ -273,13 +273,13 @@ class ResourceDetector
      */
     private function setAuthorDetails()
     {
-        if (! $this->resourceId) {
+        if (!$this->resourceId) {
             return;
         }
 
         $authorId = get_post_field('post_author', $this->resourceId);
 
-        if (! $authorId) {
+        if (!$authorId) {
             return;
         }
 
@@ -289,7 +289,7 @@ class ResourceDetector
             $authorName = null;
         }
 
-        $this->cachedAuthorId   = (int) $authorId;
+        $this->cachedAuthorId   = (int)$authorId;
         $this->cachedAuthorName = $authorName;
     }
 
@@ -300,12 +300,12 @@ class ResourceDetector
      */
     private function setPublishDate()
     {
-        if (! $this->resourceId) {
+        if (!$this->resourceId) {
             return;
         }
-        $publishDate   = get_post_field('post_date', $this->resourceId);
+        $publishDate = get_post_field('post_date', $this->resourceId);
 
-        $this->cachedDate = ! empty($publishDate) ? $publishDate : null;
+        $this->cachedDate = !empty($publishDate) ? $publishDate : null;
     }
 
     /**
@@ -315,7 +315,7 @@ class ResourceDetector
      */
     private function setResourceMetaData()
     {
-        if (! $this->resourceId) {
+        if (!$this->resourceId) {
             return;
         }
 
@@ -329,7 +329,7 @@ class ResourceDetector
      */
     private function setTitle()
     {
-        if (! $this->resourceId) {
+        if (!$this->resourceId) {
             return;
         }
 
@@ -345,12 +345,12 @@ class ResourceDetector
      */
     private function setPostTerms()
     {
-        if (! $this->resourceId) {
+        if (!$this->resourceId) {
             return;
         }
         $postType = get_post_type($this->resourceId);
 
-        if (! $postType) {
+        if (!$postType) {
             return;
         }
 
@@ -373,7 +373,7 @@ class ResourceDetector
             }
         }
 
-        $this->cachedTerms = ! empty($formattedTerms) ? implode(', ', $formattedTerms) : null;
+        $this->cachedTerms = !empty($formattedTerms) ? implode(', ', $formattedTerms) : null;
     }
 
     /**
