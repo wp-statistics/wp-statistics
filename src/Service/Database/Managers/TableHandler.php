@@ -83,13 +83,47 @@ class TableHandler
     public static function createTable(string $tableName, array $schema)
     {
         try {
-            $createOperation = DatabaseFactory::table('create');
-            $createOperation
+            $inspect = DatabaseFactory::table('inspect')
                 ->setName($tableName)
-                ->setArgs($schema)
                 ->execute();
+
+            if (!$inspect->getResult()) {
+                DatabaseFactory::table('create')
+                    ->setName($tableName)
+                    ->setArgs($schema)
+                    ->execute();
+            }
         } catch (\Exception $e) {
             throw new \RuntimeException("Failed to create table `$tableName`: " . $e->getMessage(), 0, $e);
+        }
+    }
+
+    /**
+     * Alter a database table structure based on the provided operation and arguments.
+     *
+     * @param string $tableName The name of the table to alter.
+     * @param string $operation The type of alteration to perform (e.g., 'add', 'modify').
+     * @param array $args The arguments required for the alteration operation.
+     * @return void
+     * @throws \RuntimeException If the operation fails during inspection or alteration.
+     */
+    public static function alterTable($tableName, $operation, $args)
+    {
+        try {
+            $inspect = DatabaseFactory::table('inspect')
+                ->setName($tableName)
+                ->execute();
+
+            if ($inspect->getResult()) {
+                DatabaseFactory::table('update')
+                    ->setName($tableName)
+                    ->setArgs([
+                        $operation => $args,
+                    ])
+                    ->execute();
+            }
+        } catch (\Exception $e) {
+            throw new \RuntimeException("Failed to alter table `$tableName`: " . $e->getMessage(), 0, $e);
         }
     }
 
