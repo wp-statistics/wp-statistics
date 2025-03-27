@@ -30,7 +30,7 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
      *
      * If the total is already set, the method exits early.
      */
-    private function getTotal()
+    protected function getTotal()
     {
         if ($this->total > 0) {
             return;
@@ -62,7 +62,7 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
      *
      * Retrieves the number of visitors where the first and last visit data is already set.
      */
-    private function calculateOffset()
+    protected function calculateOffset()
     {
         $visitors = DatabaseFactory::table('select')
             ->setName('visitor')

@@ -54,6 +54,20 @@ abstract class AbstractAjaxBackgroundProcess
     protected static $currentMigration;
 
     /**
+     * Calculates the total number of records to migrate.
+     *
+     * @return void
+     */
+    abstract protected function getTotal();
+
+    /**
+     * Calculates how many records have already been processed and sets the offset.
+     *
+     * @return void
+     */
+    abstract protected function calculateOffset();
+    
+    /**
      * Perform the migration. Must be implemented by child classes.
      */
     abstract protected function migrate();
