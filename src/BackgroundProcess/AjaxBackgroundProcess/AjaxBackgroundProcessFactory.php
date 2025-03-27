@@ -41,7 +41,7 @@ class AjaxBackgroundProcessFactory
             return;
         }
 
-        $isMigrated = Option::getOptionGroup('db', 'migrated', false) || Option::getOptionGroup('db', 'check', true);
+        $isMigrated = Option::getOptionGroup('db', 'migrated', false) && ! Option::getOptionGroup('db', 'check', true);
 
         if (! $isMigrated) {
             return;
