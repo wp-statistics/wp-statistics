@@ -48,7 +48,7 @@ const WPStatisticsAjaxBackgroundProcess = {
                         WPStatisticsAjaxBackgroundProcess.markAsCompleted();
                     } else {
                         WPStatisticsAjaxBackgroundProcess.updateProgress(response.data.remains);
-                        setTimeout(WPStatisticsAjaxBackgroundProcess.startMigration, 5000);
+                        WPStatisticsAjaxBackgroundProcess.startMigration();
                     }
                 }
             },
