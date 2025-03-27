@@ -3,10 +3,10 @@
 namespace WP_Statistics\Service\Admin\Notification;
 
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\User;
-use DateTimeZone;
-use Exception;
 
 class NotificationConditionTags
 {
@@ -19,7 +19,30 @@ class NotificationConditionTags
         'is-admin'   => 'isAdminUser',
         'is-premium' => 'isPremiumUser',
         'is-free'    => 'isFreeVersion',
+        'has-addon'  => 'hasAddon',
+        'no-premium' => 'noPremiumUser',
     ];
+
+    /**
+     * Plugin handler instance.
+     *
+     * @var PluginHandler
+     */
+    private static $pluginHandler;
+
+    /**
+     * Initialize the plugin handler.
+     *
+     * @return PluginHandler
+     */
+    private static function getPluginHandler()
+    {
+        if (!self::$pluginHandler) {
+            self::$pluginHandler = new PluginHandler();
+        }
+        return self::$pluginHandler;
+    }
+
 
     /**
      * Check if the current user is an administrator.
@@ -42,6 +65,50 @@ class NotificationConditionTags
     }
 
     /**
+     * Check if the current version is a free version (no premium license).
+     *
+     * @return bool True if the version is free, false otherwise.
+     */
+    public static function isFreeVersion()
+    {
+        $pluginHandler = self::getPluginHandler();
+        foreach (PluginHelper::$plugins as $plugin => $title) {
+            if ($pluginHandler->isPluginActive($plugin)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Checks if any add-on is currently active.
+     *
+     * @return bool
+     */
+    public static function hasAddon()
+    {
+        $pluginHandler = self::getPluginHandler();
+        foreach (PluginHelper::$plugins as $plugin => $title) {
+            if ($pluginHandler->isPluginActive($plugin)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if the user does not have a premium license.
+     *
+     * @return bool
+     */
+    public static function noPremiumUser()
+    {
+        return !LicenseHelper::isPremiumLicenseAvailable() ? true : false;
+    }
+
+    /**
      * Check if a specific addon is active.
      *
      * @param string $addon The addon name.
@@ -49,17 +116,19 @@ class NotificationConditionTags
      */
     public static function isAddon($addon)
     {
-        return Helper::isAddOnActive($addon);
+        $pluginHandler = self::getPluginHandler();
+        return $pluginHandler->isPluginActive($addon);
     }
 
     /**
-     * Check if the current version is a free version (no premium license).
+     * Check if a specific addon is inactive.
      *
-     * @return bool True if the version is free, false otherwise.
+     * @return bool
      */
-    public static function isFreeVersion()
+    public static function noAddon($addon)
     {
-        return !LicenseHelper::isPremiumLicenseAvailable() ? true : false;
+        $pluginHandler = self::getPluginHandler();
+        return !$pluginHandler->isPluginActive($addon);
     }
 
     /**
@@ -122,8 +191,7 @@ class NotificationConditionTags
      * @param string|null $version Optional version number for version-related checks.
      * @return bool True if the condition is met, false otherwise.
      */
-    public
-    static function checkConditions($tag, $version = null)
+    public static function checkConditions($tag, $version = null)
     {
         if (strpos($tag, 'is-version-') === 0) {
             $versionNumber = substr($tag, strlen('is-version-'));
@@ -136,6 +204,13 @@ class NotificationConditionTags
             $addon = substr($tag, strlen('has-addon-'));
             if ($addon) {
                 return self::isAddon($addon);
+            }
+        }
+
+        if (strpos($tag, 'no-addon-') === 0) {
+            $addon = substr($tag, strlen('no-addon-'));
+            if ($addon) {
+                return self::noAddon($addon);
             }
         }
 
