@@ -23,7 +23,7 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
      *
      * @var int
      */
-    protected $offset  = 0;
+    protected $offset = 0;
 
     /**
      * Retrieves the total count of visitors to be migrated.
@@ -40,7 +40,7 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
             ->setName('visitor')
             ->execute();
 
-        if (! $inspect->getResult()) {
+        if (!$inspect->getResult()) {
             return;
         }
 
@@ -67,7 +67,7 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
         $visitors = DatabaseFactory::table('select')
             ->setName('visitor')
             ->setArgs([
-                'columns' => ['first_page', 'first_view', 'last_page', 'last_view'],
+                'columns'   => ['first_page', 'first_view', 'last_page', 'last_view'],
                 'raw_where' => [
                     "first_page IS NOT NULL AND first_page != ''",
                     "first_view IS NOT NULL AND first_view > '0000-00-00 00:00:00'",
@@ -100,9 +100,9 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
         $visitorBatch = DatabaseFactory::table('select')
             ->setName('visitor_relationships')
             ->setArgs([
-                'columns' => ['visitor_id', 'MIN(ID) as min_id', 'MAX(ID) as max_id'],
+                'columns'  => ['visitor_id', 'MIN(ID) as min_id', 'MAX(ID) as max_id'],
                 'group_by' => 'visitor_id',
-                'limit' => [
+                'limit'    => [
                     $this->batchSize,
                     $this->offset,
                 ]
@@ -123,7 +123,7 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
                 ->setName('visitor_relationships')
                 ->setArgs([
                     'columns' => ['page_id', 'date'],
-                    'where' => ['ID' => $minId],
+                    'where'   => ['ID' => $minId],
                 ])
                 ->execute()
                 ->getResult();
@@ -132,7 +132,7 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
                 ->setName('visitor_relationships')
                 ->setArgs([
                     'columns' => ['page_id', 'date'],
-                    'where' => ['ID' => $maxId],
+                    'where'   => ['ID' => $maxId],
                 ])
                 ->execute()
                 ->getResult();
@@ -142,9 +142,9 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
                     ->setName('visitor')
                     ->setArgs([
                         'conditions' => [
-                            'ID'  => $visitorId,
+                            'ID' => $visitorId,
                         ],
-                        'mapping' => [
+                        'mapping'    => [
                             'first_page' => $firstPage[0]['page_id'],
                             'first_view' => $firstPage[0]['date'],
                             'last_page'  => $lastPage[0]['page_id'],

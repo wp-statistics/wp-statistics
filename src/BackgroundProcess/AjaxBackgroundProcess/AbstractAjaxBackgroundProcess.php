@@ -9,11 +9,11 @@ use WP_Statistics\Utils\Request;
 /**
  * Base class for handling background database migrations in an asynchronous manner.
  *
- * This class provides the core structure for running database migrations in the background 
- * via AJAX requests. It ensures that migrations are executed in a controlled manner, preventing 
+ * This class provides the core structure for running database migrations in the background
+ * via AJAX requests. It ensures that migrations are executed in a controlled manner, preventing
  * duplication, tracking progress, and marking migrations as completed when finished.
  *
- * It maintains a list of registered migrations, handles the retrieval of pending tasks, 
+ * It maintains a list of registered migrations, handles the retrieval of pending tasks,
  * and ensures proper state tracking to resume operations in case of interruptions.
  */
 abstract class AbstractAjaxBackgroundProcess
@@ -76,6 +76,10 @@ abstract class AbstractAjaxBackgroundProcess
         $nextMigrationKey = reset($pendingMigrations);
 
         self::$currentMigration = AjaxBackgroundProcessFactory::$migrations[$nextMigrationKey];
+
+        if (!class_exists(self::$currentMigration)) {
+            return null;
+        }
 
         return new self::$currentMigration();
     }
@@ -166,7 +170,7 @@ abstract class AbstractAjaxBackgroundProcess
     {
         check_ajax_referer('wp_rest', 'wps_nonce');
 
-        if (! Request::isFrom('ajax') || ! User::Access('manage')) {
+        if (!Request::isFrom('ajax') || !User::Access('manage')) {
             wp_send_json_error([
                 'message' => esc_html__('Unauthorized request or insufficient permissions.', 'wp-statistics')
             ]);
@@ -202,7 +206,7 @@ abstract class AbstractAjaxBackgroundProcess
 
         wp_send_json_success([
             'completed' => false,
-            'remains' => $migrationInstance->getRemains()
+            'remains'   => $migrationInstance->getRemains()
         ]);
     }
 }

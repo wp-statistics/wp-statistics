@@ -40,7 +40,7 @@ class AjaxBackgroundProcessManager
     {
         add_action('admin_init', [$this, 'handleDoneNotice']);
 
-        if (! AjaxBackgroundProcessFactory::needsMigration()) {
+        if (!AjaxBackgroundProcessFactory::needsMigration()) {
             return;
         }
 
@@ -176,11 +176,11 @@ class AjaxBackgroundProcessManager
 
     /**
      * Handles the AJAX request to start the migration process.
-     * 
+     *
      * - Validates the request action.
      * - Verifies the security nonce.
      * - Updates the migration status in the database.
-     * 
+     *
      * @return void
      */
     public function handleAjaxMigration()

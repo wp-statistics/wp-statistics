@@ -12,7 +12,7 @@ use WP_STATISTICS\Option;
  * This class determines whether a migration is required based on the system state, tracks
  * completed migrations, and provides access to the next migration process that needs execution.
  *
- * It ensures that only necessary migrations are executed while skipping completed tasks. 
+ * It ensures that only necessary migrations are executed while skipping completed tasks.
  * The factory serves as a bridge between migration processes and the background process manager.
  */
 class AjaxBackgroundProcessFactory
@@ -33,7 +33,7 @@ class AjaxBackgroundProcessFactory
      */
     public static function needsMigration()
     {
-        if (! class_exists(AbstractAjaxBackgroundProcess::class)) {
+        if (!class_exists(AbstractAjaxBackgroundProcess::class)) {
             return;
         }
 
@@ -41,9 +41,9 @@ class AjaxBackgroundProcessFactory
             return;
         }
 
-        $isMigrated = Option::getOptionGroup('db', 'migrated', false) && ! Option::getOptionGroup('db', 'check', true);
+        $isMigrated = Option::getOptionGroup('db', 'migrated', false) && !Option::getOptionGroup('db', 'check', true);
 
-        if (! $isMigrated) {
+        if (!$isMigrated) {
             return;
         }
 
