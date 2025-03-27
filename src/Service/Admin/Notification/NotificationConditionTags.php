@@ -203,14 +203,14 @@ class NotificationConditionTags
         if (strpos($tag, 'has-addon-') === 0) {
             $addon = substr($tag, strlen('has-addon-'));
             if ($addon) {
-                return self::isAddon($addon);
+                return self::isAddon('wp-statistics-' . $addon);
             }
         }
 
         if (strpos($tag, 'no-addon-') === 0) {
             $addon = substr($tag, strlen('no-addon-'));
             if ($addon) {
-                return self::noAddon($addon);
+                return self::noAddon('wp-statistics-' . $addon);
             }
         }
 
