@@ -28,6 +28,7 @@ use WP_Statistics\Service\Admin\FilterHandler\FilterManager;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsManager;
 use WP_Statistics\Service\Database\Managers\MigrationHandler;
 use WP_Statistics\Service\HooksManager;
+use WP_Statistics\Service\Resources\Core\ResourceManager;
 
 defined('ABSPATH') || exit;
 
@@ -205,6 +206,7 @@ final class WP_Statistics
             $metaboxManager      = new MetaboxManager();
             $exclusionsManager   = new ExclusionsManager();
             new FilterManager();
+            new ResourceManager();
         }
 
         $hooksManager = new HooksManager();

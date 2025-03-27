@@ -5,6 +5,7 @@ namespace WP_STATISTICS;
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Service\Integrations\WpConsentApi;
+use WP_Statistics\Service\Resources\ResourcesFactory;
 
 class Frontend
 {
@@ -85,6 +86,7 @@ class Frontend
                     'trackAnonymously'     => Helper::shouldTrackAnonymously(),
                     'isPreview'            => is_preview(),
                 ],
+                'resourceId'   => ResourcesFactory::getCurrentResource(),
                 'jsCheckTime'  => apply_filters('wp_statistics_js_check_time_interval', 60000),
             );
 
