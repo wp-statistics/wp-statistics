@@ -2,15 +2,15 @@
 
 namespace WP_Statistics\Service\Admin\Referrals;
 
+use WP_Statistics\Abstracts\MultiViewPage;
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory;
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\SourceChannelUpdater;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
-use WP_Statistics\Utils\Request;
-use WP_Statistics\Abstracts\MultiViewPage;
-use WP_Statistics\Async\BackgroundProcessFactory;
-use WP_Statistics\Async\SourceChannelUpdater;
 use WP_Statistics\Service\Admin\FilterHandler\FilterGenerator;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Referrals\Views\TabsView;
+use WP_Statistics\Utils\Request;
 
 class ReferralsPage extends MultiViewPage
 {
@@ -96,7 +96,7 @@ class ReferralsPage extends MultiViewPage
                 ],
             ])
             ->get();
-        
+
         return $this->filters;
     }
 
