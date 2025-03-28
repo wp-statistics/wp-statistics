@@ -44,12 +44,6 @@ class AjaxOptionUpdater
                 $value = false;
             }
 
-            $currentOption = Option::get($option, 'fail');
-
-            if (empty($option) || $currentOption === 'fail') {
-                throw new Exception(__('Invalid option provided.', 'wp-statistics'));
-            }
-
             Option::update($option, $value);
 
             wp_send_json_success(['message' => __('Update option success.', 'wp-statistics')]);

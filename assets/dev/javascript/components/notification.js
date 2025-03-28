@@ -51,9 +51,7 @@ jQuery(document).ready(function () {
             wpsCloseNotificationMenu.addEventListener('click', function () {
                 wpsSidebar.classList.remove('is-active');
                 wpsOverlay.classList.remove('is-active');
-                setTimeout(() => {
-                    body.classList.remove('wps-no-scroll');
-                }, 250);
+                body.classList.remove('wps-no-scroll');
             });
         }
 

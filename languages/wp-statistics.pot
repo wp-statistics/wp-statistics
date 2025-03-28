@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-03-26T07:18:22+00:00\n"
+"POT-Creation-Date: 2025-03-27T12:08:48+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-statistics\n"
@@ -4592,39 +4592,39 @@ msgstr ""
 msgid "Invalid hit request params."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:208
+#: includes/class-wp-statistics-install.php:211
 msgid "Click here to visit the plugin on WordPress.org"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:208
+#: includes/class-wp-statistics-install.php:211
 msgid "Visit WordPress.org page"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:210
+#: includes/class-wp-statistics-install.php:213
 msgid "Click here to rate and review this plugin on WordPress.org"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:210
+#: includes/class-wp-statistics-install.php:213
 msgid "Rate this plugin"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:597
+#: includes/class-wp-statistics-install.php:600
 msgid "WP Statistics database requires upgrade."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:600
+#: includes/class-wp-statistics-install.php:603
 msgid "Upgrade Database"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:624
+#: includes/class-wp-statistics-install.php:627
 msgid "Database Upgrade Completed Successfully!"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:662
+#: includes/class-wp-statistics-install.php:665
 msgid "Error During Operation. Please Refresh the Page."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:675
+#: includes/class-wp-statistics-install.php:678
 msgid "Item processed"
 msgstr ""
 
@@ -4996,11 +4996,7 @@ msgstr ""
 msgid "WordPress"
 msgstr ""
 
-#: src/Service/Admin/AjaxOptionUpdater.php:50
-msgid "Invalid option provided."
-msgstr ""
-
-#: src/Service/Admin/AjaxOptionUpdater.php:55
+#: src/Service/Admin/AjaxOptionUpdater.php:49
 msgid "Update option success."
 msgstr ""
 
