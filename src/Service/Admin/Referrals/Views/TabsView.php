@@ -121,14 +121,16 @@ class TabsView extends BaseTabView
                         'title'   => esc_html__('Campaigns', 'wp-statistics'),
                         'tooltip' => esc_html__('To view this report, you need to have the Marketing add-on.', 'wp-statistics'),
                         'class'   => $this->isTab('campaigns') ? 'current' : '',
-                        'locked'  => true
+                        'locked'  => true,
+                        'lockedTarget'  => 'wp-statistics-marketing'
                     ],
                     [
                         'link'    => Menus::admin_url('referrals', ['tab' => 'utm-performance']),
                         'title'   => esc_html__('UTM Performance', 'wp-statistics'),
                         'tooltip' => esc_html__('To view this reports, you need to have the Marketing add-on.', 'wp-statistics'),
                         'class'   => $this->isTab('utm-performance') ? 'current' : '',
-                        'locked'  => true
+                        'locked'  => true,
+                        'lockedTarget'  => 'wp-statistics-marketing'
                     ],
                     [
                         'link'               => Menus::admin_url('referrals', ['tab' => 'google-search']),
@@ -137,7 +139,8 @@ class TabsView extends BaseTabView
                         'class'              => $this->isTab('google-search') ? 'current' : '',
                         'lastUpdated'        => true,
                         'lastUpdatedTooltip' => esc_html__('We fetch data from Google Search Console once daily to keep things running smoothly without extra load. The numbers you see are based on the latest update at the time shown.', 'wp-statistics'),
-                        'locked'             => true
+                        'locked'             => true,
+                        'lockedTarget'  => 'wp-statistics-marketing'
                     ]
                 ]
             ];
