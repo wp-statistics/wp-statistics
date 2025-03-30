@@ -32,10 +32,6 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
      */
     protected function getTotal()
     {
-        if ($this->total > 0) {
-            return;
-        }
-
         $inspect = DatabaseFactory::table('inspect')
             ->setName('visitor')
             ->execute();
