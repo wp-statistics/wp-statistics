@@ -46,15 +46,16 @@ if (jQuery('.wp-statistics-settings').length) {
     const triggerInput = document.querySelector('input[name="user_custom_header_ip_method"]');
     const customHeaderRadio = document.getElementById('custom-header');
     if (triggerInput && customHeaderRadio) {
-        customHeaderRadio.addEventListener('change', function() {
+        customHeaderRadio.addEventListener('change', function () {
             if (customHeaderRadio.checked) {
                 triggerInput.focus();
             }
         });
 
         function checkCustomHeader() {
-          customHeaderRadio.checked = true;
+            customHeaderRadio.checked = true;
         }
+
         triggerInput.addEventListener('click', checkCustomHeader);
         triggerInput.addEventListener('paste', checkCustomHeader);
         triggerInput.addEventListener('input', checkCustomHeader);
@@ -63,19 +64,3 @@ if (jQuery('.wp-statistics-settings').length) {
     }
 }
 
-// Check the Condition Require Setting Api
-function wp_statistics_check_condition_view_option(selector, field) {
-    jQuery(document).on("change", selector, function (e) {
-        e.preventDefault();
-        let option_field = jQuery(field);
-        if (this.checked) {
-            option_field.show("slow");
-        } else {
-            option_field.hide("slow");
-            option_field.find("input[type=checkbox]").prop('checked', false);
-        }
-    });
-}
-
-// Check the Spam List
-wp_statistics_check_condition_view_option("input[name=wps_referrerspam]", "tr.referrerspam_field");

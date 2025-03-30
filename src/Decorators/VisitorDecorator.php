@@ -124,17 +124,6 @@ class VisitorDecorator
     }
 
     /**
-     * Get the honeypot status (whether the visitor triggered honeypot protection).
-     *
-     * @return bool|null
-     * @deprecated This will probably depreciate in v15
-     */
-    public function isHoneypotTriggered()
-    {
-        return $this->visitor->honeypot ?? null;
-    }
-
-    /**
      * Get the last counter value recorded for the visitor.
      *
      * @return int|null
@@ -209,7 +198,7 @@ class VisitorDecorator
      */
     public function getFirstPage()
     {
-        return $this->visitor->first_page ? Visitor::get_page_by_id($this->visitor->first_page) : null;
+        return ! empty($this->visitor->first_page) ? Visitor::get_page_by_id($this->visitor->first_page) : null;
     }
 
     /**

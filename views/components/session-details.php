@@ -93,14 +93,28 @@ use WP_Statistics\Components\View;
     </div>
 
     <div class="wps-visitor__visitors-detail--row">
-        <span><?php esc_html_e('First view', 'wp-statistics'); ?>&nbsp;</span>
+        <span><?php esc_html_e('First View', 'wp-statistics'); ?>&nbsp;</span>
         <div class="wps-ellipsis-parent">
             <span><?php echo esc_html($visitor->getFirstView() ?? $visitor->getLastCounter()) ?></span>
         </div>
     </div>
 
     <div class="wps-visitor__visitors-detail--row">
-        <span><?php esc_html_e('Number of views', 'wp-statistics'); ?></span>
-        <div><?php echo esc_html($visitor->getHits()) ?></div>
+        <span><?php esc_html_e('Entry Page', 'wp-statistics'); ?></span>
+        <div>
+            <?php
+            $page = $visitor->getFirstPage();
+
+            if (!empty($page)) :
+                View::load("components/objects/external-link", [
+                    'url'     => $page['link'],
+                    'title'   => $page['title'],
+                    'tooltip' => $page['query'] ? "?{$page['query']}" : ''
+                ]);
+            else :
+                echo Admin_Template::UnknownColumn();
+            endif;
+            ?>
+        </div>
     </div>
 </div>

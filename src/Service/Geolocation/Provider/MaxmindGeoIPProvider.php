@@ -6,9 +6,8 @@ use Exception;
 use PharData;
 use WP_Error;
 use WP_Statistics;
-use WP_Statistics\Async\BackgroundProcessFactory;
-use WP_STATISTICS\Option;
 use WP_Statistics\Dependencies\GeoIp2\Database\Reader;
+use WP_STATISTICS\Option;
 use WP_Statistics\Service\Geolocation\AbstractGeoIPProvider;
 
 class MaxmindGeoIPProvider extends AbstractGeoIPProvider

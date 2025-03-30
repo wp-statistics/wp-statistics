@@ -30,7 +30,7 @@ use WP_Statistics\Components\View;
                 'data'              => $data['data'],
                 'pagination'        => isset($pagination) ? $pagination : null
             ];
-            View::load("components/tables/visitors", $args);
+            View::load("components/tables/views", $args);
             ?>
         </div>
     </div>

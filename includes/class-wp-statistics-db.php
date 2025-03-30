@@ -30,7 +30,12 @@ class DB
         /**
          * Advanced Reporting Table
          */
-        'ar_outbox'
+        'ar_outbox',
+
+        /**
+         * Marketing Tables
+         */
+        'campaigns',
     );
 
     /**
