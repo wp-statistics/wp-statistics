@@ -2,6 +2,7 @@
 
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
@@ -78,7 +79,19 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
         </table>
     </div>
 <?php else : ?>
+
+
     <div class="postbox wps-addon-settings--marketing">
+        <?php
+        $notice = __('<span>Reconnect or Disconnect message</span>', 'wp-statistics');
+        Notice::renderNotice($notice, 'marketing-search-console', 'error');
+
+        $notice = __('<span>Reconnect or Disconnect message</span>', 'wp-statistics');
+        Notice::renderNotice($notice, 'marketing-search-console', 'success');
+
+        $notice = __('<span>Reconnect or Disconnect message.</span>', 'wp-statistics');
+        Notice::renderNotice($notice, 'marketing-search-console', 'info');
+        ?>
         <table class="form-table <?php echo !$isMarketingActive ? esc_attr('form-table--preview') : '' ?>">
             <tbody>
             <tr valign="top">
