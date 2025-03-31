@@ -16,6 +16,7 @@ return array(
     'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\AbstractAjaxBackgroundProcess' => $baseDir . '/src/BackgroundProcess/AjaxBackgroundProcess/AbstractAjaxBackgroundProcess.php',
     'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\AjaxBackgroundProcessFactory' => $baseDir . '/src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessFactory.php',
     'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\AjaxBackgroundProcessManager' => $baseDir . '/src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php',
+    'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\Jobs\\ResourceMigrator' => $baseDir . '/src/BackgroundProcess/AjaxBackgroundProcess/Jobs/ResourceMigrator.php',
     'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\Jobs\\VisitorColumnsMigrator' => $baseDir . '/src/BackgroundProcess/AjaxBackgroundProcess/Jobs/VisitorColumnsMigrator.php',
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\BackgroundProcessFactory' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/BackgroundProcessFactory.php',
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\BackgroundProcessMonitor' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/BackgroundProcessMonitor.php',

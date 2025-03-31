@@ -35,6 +35,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\AbstractAjaxBackgroundProcess' => __DIR__ . '/../..' . '/src/BackgroundProcess/AjaxBackgroundProcess/AbstractAjaxBackgroundProcess.php',
         'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\AjaxBackgroundProcessFactory' => __DIR__ . '/../..' . '/src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessFactory.php',
         'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\AjaxBackgroundProcessManager' => __DIR__ . '/../..' . '/src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php',
+        'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\Jobs\\ResourceMigrator' => __DIR__ . '/../..' . '/src/BackgroundProcess/AjaxBackgroundProcess/Jobs/ResourceMigrator.php',
         'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\Jobs\\VisitorColumnsMigrator' => __DIR__ . '/../..' . '/src/BackgroundProcess/AjaxBackgroundProcess/Jobs/VisitorColumnsMigrator.php',
         'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\BackgroundProcessFactory' => __DIR__ . '/../..' . '/src/BackgroundProcess/AsyncBackgroundProcess/BackgroundProcessFactory.php',
         'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\BackgroundProcessMonitor' => __DIR__ . '/../..' . '/src/BackgroundProcess/AsyncBackgroundProcess/BackgroundProcessMonitor.php',
