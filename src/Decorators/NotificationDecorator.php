@@ -46,7 +46,7 @@ class NotificationDecorator
      */
     public function getIcon()
     {
-        return $this->notification->icon ?? null;
+        return json_decode($this->notification->icon) ?? null;
     }
 
     /**
@@ -56,7 +56,7 @@ class NotificationDecorator
      */
     public function getDescription()
     {
-        return $this->notification->description ?? null;
+        return json_decode($this->notification->description) ?? null;
     }
 
     /**
@@ -122,7 +122,7 @@ class NotificationDecorator
             'warning' => 'wps-notification-sidebar__warning',
             'success' => 'wps-notification-sidebar__success'
         ];
-        
+
         return $backgroundColors[$this->notification->background_color] ?? null;
     }
 
