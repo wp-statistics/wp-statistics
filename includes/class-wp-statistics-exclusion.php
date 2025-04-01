@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Service\Analytics\Referrals\Referrals;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Utils\Request;
 
@@ -24,25 +25,25 @@ class Exclusion
     public static function exclusion_list()
     {
         return array(
-            'ajax'            => __('Ajax', 'wp-statistics'),
-            'cronjob'         => __('Cron job', 'wp-statistics'),
-            'robot'           => __('Robot', 'wp-statistics'),
-            'BrokenFile'      => __('Broken Link', 'wp-statistics'),
-            'ip match'        => __('IP Match', 'wp-statistics'),
-            'self referral'   => __('Self Referral', 'wp-statistics'),
-            'login page'      => __('Login Page', 'wp-statistics'),
-            'admin page'      => __('Admin Page', 'wp-statistics'),
-            'referrer_spam'   => __('Referrer Spam', 'wp-statistics'),
-            'feed'            => __('Feed', 'wp-statistics'),
-            '404'             => __('404', 'wp-statistics'),
-            'excluded url'    => __('Excluded URL', 'wp-statistics'),
-            'user role'       => __('User Role', 'wp-statistics'),
-            'hostname'        => __('Host name', 'wp-statistics'),
-            'geoip'           => __('Geolocation', 'wp-statistics'),
-            'robot_threshold' => __('Robot threshold', 'wp-statistics'),
-            'xmlrpc'          => __('XML-RPC', 'wp-statistics'),
-            'cross site'      => __('Cross site Request', 'wp-statistics'),
-            'pre flight'      => __('Pre-flight Request', 'wp-statistics'),
+            'ajax'               => __('Ajax', 'wp-statistics'),
+            'cronjob'            => __('Cron job', 'wp-statistics'),
+            'robot'              => __('Robot', 'wp-statistics'),
+            'BrokenFile'         => __('Broken Link', 'wp-statistics'),
+            'ip match'           => __('IP Match', 'wp-statistics'),
+            'self referral'      => __('Self Referral', 'wp-statistics'),
+            'login page'         => __('Login Page', 'wp-statistics'),
+            'admin page'         => __('Admin Page', 'wp-statistics'),
+            'referrer_spam'      => __('Referrer Spam', 'wp-statistics'),
+            'feed'               => __('Feed', 'wp-statistics'),
+            '404'                => __('404', 'wp-statistics'),
+            'excluded url'       => __('Excluded URL', 'wp-statistics'),
+            'user role'          => __('User Role', 'wp-statistics'),
+            'referred_ip_domain' => __('Exclude Traffic by referred IP/Domain', 'wp-statistics'),
+            'geoip'              => __('Geolocation', 'wp-statistics'),
+            'robot_threshold'    => __('Robot threshold', 'wp-statistics'),
+            'xmlrpc'             => __('XML-RPC', 'wp-statistics'),
+            'cross site'         => __('Cross site Request', 'wp-statistics'),
+            'pre flight'         => __('Pre-flight Request', 'wp-statistics'),
         );
     }
 
@@ -484,7 +485,7 @@ class Exclusion
             }
         }
 
-        if ( empty($excludedCountries) && empty($includedCountries) ) {
+        if (empty($excludedCountries) && empty($includedCountries)) {
             return false;
         }
 
@@ -504,40 +505,59 @@ class Exclusion
     }
 
     /**
-     * Detect if Exclude Host name.
-     * @param $visitorProfile VisitorProfile
+     * Check if the visitor should be excluded based on referrer domain or IP address.
+     *
+     * @param VisitorProfile $visitorProfile
+     * @return bool
      */
-    public static function exclusion_hostname($visitorProfile)
+    public static function exclusion_referred_ip_domain($visitorProfile)
     {
-        // Get Host name List
-        $excluded_host = explode("\n", self::$options['excluded_hosts'] ?? '');
+        $exclusions = array_filter(array_map('trim', explode("\n", self::$options['excluded_referred_ip_domain'] ?? '')));
 
-        // If there's nothing in the excluded host list, don't do anything.
-        if (count($excluded_host) > 0) {
-            $transient_name = 'wps_excluded_hostname_to_ip_cache';
+        if (empty($exclusions) || !$visitorProfile->isReferred()) {
+            return false;
+        }
 
-            // Get the transient with the hostname cache.
-            $hostname_cache = get_transient($transient_name);
+        $referrer = $visitorProfile->getReferrer();
 
-            // If the transient has expired (or has never been set), create one now.
-            if ($hostname_cache === false) {
-                // Flush the failed cache variable.
-                $hostname_cache = array();
+        if (empty($referrer)) {
+            return false;
+        }
 
-                // Loop through the list of hosts and look them up.
-                foreach ($excluded_host as $host) {
-                    if (strpos($host, '.') > 0) {
-                        $hostname_cache[$host] = gethostbyname($host . '.');
-                    }
-                }
+        $referrerRawUrl = Referrals::getRawUrl();
+        $referrerHost   = '';
 
-                // Set the transient and store it for 1 hour.
-                set_transient($transient_name, $hostname_cache, 360);
+        if (!empty($referrerRawUrl)) {
+            $parsedReferrer = parse_url(Referrals::getRawUrl());
+            $referrerHost   = isset($parsedReferrer['host']) ? strtolower($parsedReferrer['host']) : '';
+        }
+
+        foreach ($exclusions as $exclusion) {
+            $exclusion = trim($exclusion);
+
+            if ($exclusion === $referrer) {
+                return true;
             }
 
-            // Check if the current IP address matches one of the ones in the excluded hosts list.
-            if (in_array($visitorProfile->getIp(), $hostname_cache)) {
+            if (!empty($referrerHost) && $referrerHost === $exclusion) {
                 return true;
+            }
+
+            if (substr($exclusion, 0, 2) === '*.' && !empty($referrerHost)) {
+                $wildcardRoot = substr($exclusion, 2);
+
+                if (
+                    $referrerHost === $wildcardRoot || // match base domain
+                    substr($referrerHost, -strlen('.' . $wildcardRoot)) === '.' . $wildcardRoot // match subdomains
+                ) {
+                    return true;
+                }
+            }
+
+            if (filter_var($referrer, FILTER_VALIDATE_IP)) {
+                if (IP::checkIPRange([$exclusion], $referrer)) {
+                    return true;
+                }
             }
         }
 
