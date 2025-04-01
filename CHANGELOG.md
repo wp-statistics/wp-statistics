@@ -1,3 +1,7 @@
+= 14.13.x - 2025-**-** =
+- **Enhancement:** Removed the `Host Exclusions` setting.
+- **New:** AAdded a `Referrer Exclusions by IP and Domain` setting.
+
 = 14.13 - 2025-04-01 =
 - **New:** Introduced Notifications to receive important updates and promotions.
 - **New:** Added an optional "Share Anonymous Data" feature to help improve WP Statistics without collecting personal information.

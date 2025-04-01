@@ -181,6 +181,24 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
+            <th scope="row" colspan="2"><h3><?php esc_html_e('Referrer Exclusions', 'wp-statistics'); ?></h3></th>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row"><label for="excluded_referred_ip_domain"><?php esc_html_e('Exclude Traffic by IP/Domain', 'wp-statistics'); ?></label></th>
+            <td>
+                <textarea id="excluded_referred_ip_domain" name="excluded_referred_ip_domain" rows="5" cols="80" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_referred_ip_domain')); ?></textarea>
+                <p class="description"><?php echo esc_html__('Add IP addresses or domain names (one per line) to ignore traffic referred from these sources. This will exclude visits from these IPs or domains in your reports.', 'wp-statistics'); ?></p><br>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="postbox">
+    <table class="form-table">
+        <tbody>
+        <tr valign="top">
             <th scope="row" colspan="2">
                 <h3><?php esc_html_e('Matomo Referrer Spam Blacklist', 'wp-statistics'); ?></h3>
             </th>
@@ -236,24 +254,6 @@
                 }
                 ?>
                 <p class="description"><?php esc_html_e('Check this to automatically download updates to the Matomo Referrer Spam Blacklist every week, ensuring continuous protection.'); ?></p>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
-<div class="postbox">
-    <table class="form-table">
-        <tbody>
-        <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Host Exclusions', 'wp-statistics'); ?></h3></th>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row"><label for="wps_excluded_hosts"><?php esc_html_e('Excluded Hosts', 'wp-statistics'); ?></label></th>
-            <td>
-                <textarea id="wps_excluded_hosts" name="wps_excluded_hosts" rows="5" cols="80" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_hosts')); ?></textarea>
-                <p class="description"><?php echo esc_html__('Provide host names to exclude. Relies on cached IP, not live DNS lookup.', 'wp-statistics'); ?></p><br>
             </td>
         </tr>
         </tbody>
