@@ -7,7 +7,7 @@ if ($isLocked) {
     $args = [
         'page_title'        => esc_html__('Marketing Add-on: Maximize Campaign Impact and Conversions', 'wp-statistics'),
         'page_second_title' => esc_html__('WP Statistics Premium: Unlock More Than Just Marketing Insights', 'wp-statistics'),
-        'addon_name'        => esc_html__('Data Plus', 'wp-statistics'),
+        'addon_name'        => esc_html__('Marketing', 'wp-statistics'),
         'addon_slug'        => 'wp-statistics-marketing',
         'campaign'          => 'marketing',
         'more_title'        => esc_html__('Learn More About the Marketing Add-on', 'wp-statistics'),
