@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-03-26T07:18:22+00:00\n"
+"POT-Creation-Date: 2025-04-01T06:04:41+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-statistics\n"
@@ -1373,7 +1373,7 @@ msgstr ""
 
 #: includes/admin/templates/layout/author-analytics/top-authors.php:93
 #: includes/admin/templates/pages/author-analytics/authors-report.php:51
-msgid "Views/%s"
+msgid "Views/Per %s"
 msgstr ""
 
 #: includes/admin/templates/layout/author-analytics/top-authors.php:108
@@ -1382,7 +1382,7 @@ msgstr ""
 
 #: includes/admin/templates/layout/author-analytics/top-authors.php:124
 #: includes/admin/templates/pages/author-analytics/authors-report.php:46
-msgid "Comments/%s"
+msgid "Comments/Per %s"
 msgstr ""
 
 #: includes/admin/templates/layout/author-analytics/top-authors.php:139
@@ -1390,8 +1390,7 @@ msgid "comments/%s"
 msgstr ""
 
 #: includes/admin/templates/layout/author-analytics/top-authors.php:155
-#: includes/admin/templates/pages/author-analytics/authors-report.php:56
-msgid "Words/%s"
+msgid "Words/Per %s"
 msgstr ""
 
 #: includes/admin/templates/layout/author-analytics/top-authors.php:170
@@ -2122,6 +2121,10 @@ msgstr ""
 #: includes/admin/templates/pages/author-analytics/authors-report.php:26
 #: src/Service/Charts/DataProvider/AuthorsPostViewsChartDataProvider.php:59
 msgid "%s Views"
+msgstr ""
+
+#: includes/admin/templates/pages/author-analytics/authors-report.php:56
+msgid "Words/%s"
 msgstr ""
 
 #: includes/admin/templates/pages/category-analytics/category-performance.php:14
@@ -4592,39 +4595,39 @@ msgstr ""
 msgid "Invalid hit request params."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:208
+#: includes/class-wp-statistics-install.php:211
 msgid "Click here to visit the plugin on WordPress.org"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:208
+#: includes/class-wp-statistics-install.php:211
 msgid "Visit WordPress.org page"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:210
+#: includes/class-wp-statistics-install.php:213
 msgid "Click here to rate and review this plugin on WordPress.org"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:210
+#: includes/class-wp-statistics-install.php:213
 msgid "Rate this plugin"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:597
+#: includes/class-wp-statistics-install.php:600
 msgid "WP Statistics database requires upgrade."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:600
+#: includes/class-wp-statistics-install.php:603
 msgid "Upgrade Database"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:624
+#: includes/class-wp-statistics-install.php:627
 msgid "Database Upgrade Completed Successfully!"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:662
+#: includes/class-wp-statistics-install.php:665
 msgid "Error During Operation. Please Refresh the Page."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:675
+#: includes/class-wp-statistics-install.php:678
 msgid "Item processed"
 msgstr ""
 
@@ -4996,11 +4999,7 @@ msgstr ""
 msgid "WordPress"
 msgstr ""
 
-#: src/Service/Admin/AjaxOptionUpdater.php:50
-msgid "Invalid option provided."
-msgstr ""
-
-#: src/Service/Admin/AjaxOptionUpdater.php:55
+#: src/Service/Admin/AjaxOptionUpdater.php:49
 msgid "Update option success."
 msgstr ""
 
@@ -5636,10 +5635,6 @@ msgstr ""
 
 #: src/Service/Admin/Notification/NotificationFetcher.php:56
 msgid "No notifications were found. The API returned an empty response from the following URL: %s"
-msgstr ""
-
-#: src/Service/Admin/Notification/NotificationManager.php:37
-msgid "Every 3 Days"
 msgstr ""
 
 #: src/Service/Admin/Overview/OverviewPage.php:27

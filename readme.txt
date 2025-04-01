@@ -139,7 +139,7 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.13 - 2025-03-26 =
+= 14.13 - 2025-04-01 =
 - **New:** Introduced Notifications to receive important updates and promotions.
 - **New:** Added an optional "Share Anonymous Data" feature to help improve WP Statistics without collecting personal information.
 - **Enhancement:** Removed the Honeypot feature.
