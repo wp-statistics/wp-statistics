@@ -541,7 +541,8 @@ class VisitorsModel extends BaseModel
             ->whereDate($args['date_field'], $args['date'])
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
-            ->decorate(VisitorDecorator::class);
+            ->decorate(VisitorDecorator::class)
+            ->groupBy('visitor.ID');
 
         if ($args['logged_in'] === true) {
             $query->where('visitor.user_id', '!=', 0);
