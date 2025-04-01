@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Charts;
 
+use WP_Statistics\Service\Charts\DataProvider\EventActivityChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\OsChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\MapChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\ModelChartDataProvider;
@@ -183,5 +184,16 @@ class ChartDataProviderFactory
     public static function sourceCategoryChart($args)
     {
         return new SourceCategoryChartDataProvider($args);
+    }
+
+    /**
+     * Returns a new instance of EventActivityChartDataProvider.
+     *
+     * @param array $args
+     * @return EventActivityChartDataProvider
+     */
+    public static function eventActivityChart($args)
+    {
+        return new EventActivityChartDataProvider($args);
     }
 }
