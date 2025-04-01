@@ -33,10 +33,10 @@ class EventsModel extends BaseModel
             ->whereDate('events.date', $args['date'])
             ->groupBy($args['group_by']);
 
-        if (!empty($args['author_id']) || !empty($args['post_type']) || !empty($args['post_id'])) {
+        if (!empty($args['author_id']) || !empty($args['post_type'])) {
             $query
                 ->join('posts', ['events.page_id', 'posts.ID'])
-                ->where('posts.post_type', '=', $args['post_type'])
+                ->where('posts.post_type', 'IN', $args['post_type'])
                 ->where('posts.post_author', '=', $args['author_id']);
         }
 
@@ -105,10 +105,10 @@ class EventsModel extends BaseModel
             ->groupBy('Date(events.date)')
             ->decorate($args['decorator']);
 
-        if (!empty($args['author_id']) || !empty($args['post_type']) || !empty($args['post_id'])) {
+        if (!empty($args['author_id']) || !empty($args['post_type'])) {
             $query
                 ->join('posts', ['events.page_id', 'posts.ID'])
-                ->where('posts.post_type', '=', $args['post_type'])
+                ->where('posts.post_type', 'IN', $args['post_type'])
                 ->where('posts.post_author', '=', $args['author_id']);
         }
 

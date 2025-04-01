@@ -73,7 +73,7 @@ class EventActivityChartDataProvider extends AbstractChartDataProvider
 
         $parsedData = [];
         foreach ($dates as $date) {
-            $parsedData['labels'][]     = [
+            $parsedData['labels'][] = [
                 'formatted_date'    => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
                 'date'              => date_i18n('Y-m-d', strtotime($date)),
                 'day'               => date_i18n('l', strtotime($date))
@@ -93,6 +93,10 @@ class EventActivityChartDataProvider extends AbstractChartDataProvider
             return esc_html__('Clicks', 'wp-statistics');
         } else if (in_array('file_download', $eventName)) {
             return esc_html__('Downloads', 'wp-statistics');
+        }
+
+        if (!empty($this->args['event_label'])) {
+            return $this->args['event_label'];
         }
     }
 }
