@@ -27,6 +27,12 @@
     <?php echo esc_html_e('To unlock every premium feature in WP Statistics, upgrade to Premium.', 'wp-statistics'); ?>
 </div>
 <div class="wps-premium-feature__buttons">
-    <a class="button button-primary" target="_blank" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'); ?>"><?php esc_html_e('Unlock Everything with Premium', 'wp-statistics') ?></a>
+    <a class="button button-primary" target="_blank" href="<?php
+    if (isset($addon_utm_campaign)) {
+        echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=' . esc_html($addon_utm_campaign));
+    } else {
+        echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings');
+    }
+    ?>"><?php esc_html_e('Unlock Everything with Premium', 'wp-statistics') ?></a>
     <a class="wps-show-premium-modal button  js-wps-openPremiumModal" data-target="<?php echo esc_html($addon_modal_target) ?>" data-name="<?php echo esc_html($addon_title) ?>" href="<?php echo esc_url($addon_slug) ?>"><?php esc_html_e('Learn More', 'wp-statistics') ?></a>
 </div>

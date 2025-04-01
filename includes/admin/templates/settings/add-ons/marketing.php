@@ -17,11 +17,12 @@ if (!$isMarketingActive) {
             'addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-marketing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
             'addon_title'        => __('Marketing Add-On', 'wp-statistics'),
             'addon_modal_target' => 'wp-statistics-marketing',
+            'addon_campaign'     => 'dp-marketing',
             'addon_description'  => __('The settings on this page are part of the Marketing add-on, which enhances WP Statistics by expanding tracking capabilities and providing detailed visitor insights.', 'wp-statistics'),
             'addon_features'     => [
                 // ...
             ],
-            'addon_info'        => __('Unlock deeper insights into your website\'s performance with Marketing.', 'wp-statistics'),
+            'addon_info'         => __('Unlock deeper insights into your website\'s performance with Marketing.', 'wp-statistics'),
         ],
         true
     );
