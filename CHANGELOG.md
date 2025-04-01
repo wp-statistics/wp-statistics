@@ -1,4 +1,4 @@
-= 14.13 - 2025-03-30 =
+= 14.13 - 2025-04-01 =
 - **New:** Introduced Notifications to receive important updates and promotions.
 - **New:** Added an optional "Share Anonymous Data" feature to help improve WP Statistics without collecting personal information.
 - **Enhancement:** Removed the Honeypot feature.
