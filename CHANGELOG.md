@@ -11,6 +11,7 @@
 - **Fix:** The 'Get More with Premium Analytics' widget is now hidden for premium users.
 - **Fix:** Fixed discrepancies between shortcode view counts and traffic summary/visitor insights.
 - **Fix:** Corrected an issue where all Facebook traffic was categorized as Paid Social.
+- **Enhancement:** Optimized query performance.
 
 = 14.12.6 - 2025-02-12
 - **New:** Added DB-IP as a location detection option.
