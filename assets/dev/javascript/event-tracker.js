@@ -31,7 +31,6 @@ const WpStatisticsEventTracker = {
 
     // Handles preparing and sending marketing custom events to the server
     handleCustomEvent: function (eventName, eventData = {}) {
-        const events = WP_Statistics_Marketing_Event_Object.events.custom;
         const ajaxUrl = WP_Statistics_Marketing_Event_Object.customEventAjaxUrl;
 
         // Add timestamp
@@ -40,12 +39,6 @@ const WpStatisticsEventTracker = {
         // If resource_id is not set, set it to the source_id by default
         if (!eventData.resource_id) {
             eventData.resource_id = WP_Statistics_Tracker_Object.hitParams.source_id;
-        }
-
-        // Only allow recognized custom events
-        if (!events.includes(eventName)) {
-            console.log(`WP Statistics: Unrecognized custom event: ${eventName}`);
-            return;
         }
 
         const data = {
