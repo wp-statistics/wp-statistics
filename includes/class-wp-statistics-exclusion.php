@@ -38,7 +38,7 @@ class Exclusion
             'excluded url'    => __('Excluded URL', 'wp-statistics'),
             'user role'       => __('User Role', 'wp-statistics'),
             'hostname'        => __('Host name', 'wp-statistics'),
-            'geoip'           => __('GeoIP', 'wp-statistics'),
+            'geoip'           => __('Geolocation', 'wp-statistics'),
             'robot_threshold' => __('Robot threshold', 'wp-statistics'),
             'xmlrpc'          => __('XML-RPC', 'wp-statistics'),
             'cross site'      => __('Cross site Request', 'wp-statistics'),

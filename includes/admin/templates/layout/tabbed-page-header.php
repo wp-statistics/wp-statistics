@@ -1,11 +1,14 @@
 <?php
 use WP_STATISTICS\Helper;
+use WP_Statistics\Components\View;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Url;
-use WP_Statistics\Components\View;
 
 $pageKey = Menus::getCurrentPage();
 $pageKey = $pageKey['page_url'];
+
+View::load('components/objects/share-anonymous-notice');
+
 ?>
 <div class="wps-wrap__top tabbed_page">
     <h2 class="wps_title <?php if (!empty($create_goal_url)) echo 'wps_flex' ?>">
@@ -25,12 +28,12 @@ $pageKey = $pageKey['page_url'];
     <?php if (isset($real_time_button)): ?>
         <?php
         $is_realtime_active = Helper::isAddOnActive('realtime-stats');
-          if ($is_realtime_active): ?>
+        if ($is_realtime_active): ?>
             <a class="wps-realtime-btn" href="<?php echo esc_url(admin_url('admin.php?page=wp_statistics_realtime_stats')) ?>" title="<?php echo esc_html_e('Real-time stats are available! Click here to view', 'wp-statistics') ?>">
                 <?php esc_html_e('Realtime', 'wp-statistics'); ?>
             </a>
         <?php else: ?>
-            <button class="wps-realtime-btn disabled wps-tooltip-premium" >
+            <button class="wps-realtime-btn disabled wps-tooltip-premium">
                 <?php esc_html_e('Realtime', 'wp-statistics'); ?>
                 <span class="wps-tooltip_templates tooltip-premium tooltip-premium--bottom tooltip-premium--right">
                     <span id="tooltip_realtime">
@@ -43,7 +46,6 @@ $pageKey = $pageKey['page_url'];
             </button>
         <?php endif ?>
     <?php endif; ?>
-
 
 
     <div class="wp-clearfix"></div>
@@ -109,8 +111,8 @@ $pageKey = $pageKey['page_url'];
                 <li class="wps-tab-link <?php echo esc_attr($tab['class']); ?>">
                     <?php if (isset($tab['coming_soon'])): ?>
                         <span class="wps-tooltip wps-tooltip--coming_soon" title="<?php echo esc_html__('Coming soon', 'wp-statistics') ?>"><?php echo esc_html($tab['title']); ?> <i class="wps-tooltip-icon coming-soon"></i></span>
-                    <?php elseif ($tab['locked']) : ?>
-                        <a  data-target="<?php echo isset($tab['lockedTarget']) ?  esc_attr($tab['lockedTarget'])  : "wp-statistics-data-plus"?>"  class="js-wps-openPremiumModal wps-locked">
+                    <?php elseif (isset($tab['locked'])) : ?>
+                        <a data-target="<?php echo isset($tab['lockedTarget']) ?  esc_attr($tab['lockedTarget'])  : "wp-statistics-data-plus"?>"  class="js-wps-openPremiumModal wps-locked">
                             <?php echo esc_html($tab['title']); ?>
                             <?php if (!empty($tab['tooltip'])) : ?>
                                 <span class="wps-tooltip" title="<?php echo esc_attr($tab['tooltip']) ?>"><i class="wps-tooltip-icon info"></i></span>

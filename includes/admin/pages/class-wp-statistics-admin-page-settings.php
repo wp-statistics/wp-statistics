@@ -262,7 +262,8 @@ class settings_page extends Singleton
             'wps_auto_pop',
             'wps_private_country_code',
             'wps_referrerspam',
-            'wps_schedule_referrerspam'
+            'wps_schedule_referrerspam',
+            'wps_share_anonymous_data',
         );
 
         // For country codes we always use upper case, otherwise default to 000 which is 'unknown'.
