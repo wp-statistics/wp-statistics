@@ -57,10 +57,6 @@ class NotificationFetcher
                 );
             }
 
-            $notifications = NotificationProcessor::syncNotifications($notifications);
-            $notifications = NotificationProcessor::checkUpdatedNotifications($notifications);
-            $notifications = NotificationProcessor::sortNotificationsByActivatedAt($notifications);
-
             $result = update_option('wp_statistics_notifications', $notifications);
 
             if (!$result) {
