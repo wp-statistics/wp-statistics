@@ -50,7 +50,7 @@ class NotificationProcessor
         if (empty($notifications) || !is_array($notifications)) {
             return [];
         }
-        
+
         return array_map(function ($notification) {
             return new NotificationDecorator((object)$notification);
         }, $notifications);
@@ -64,18 +64,24 @@ class NotificationProcessor
      */
     public static function dismissNotification($notificationId)
     {
-        $notifications  = NotificationFactory::getRawNotificationsData();
+        $notifications = NotificationFactory::getRawNotificationsData();
+        $userId        = get_current_user_id();
+        $dismissed     = get_user_meta($userId, 'wp_statistics_dismissed_notifications', true);
+
+        if (!is_array($dismissed)) {
+            $dismissed = [];
+        }
+
         $notificationId = intval($notificationId);
 
         if (!empty($notifications['data']) && is_array($notifications['data'])) {
-            foreach ($notifications['data'] as &$notification) {
-                if ($notificationId === $notification['id']) {
-                    $notification['dismiss'] = true;
-                    break;
-                }
-            }
+            $notificationIds = array_column($notifications['data'], 'id');
 
-            update_option('wp_statistics_notifications', $notifications);
+            // Check if notification exists and is not already dismissed
+            if (in_array($notificationId, $notificationIds, true) && !in_array($notificationId, $dismissed, true)) {
+                $dismissed[] = $notificationId;
+                update_user_meta($userId, 'wp_statistics_dismissed_notifications', $dismissed);
+            }
         }
 
         return true;
@@ -89,13 +95,20 @@ class NotificationProcessor
     public static function dismissAllNotifications()
     {
         $notifications = NotificationFactory::getRawNotificationsData();
+        $userId        = get_current_user_id();
+        $dismissed     = get_user_meta($userId, 'wp_statistics_dismissed_notifications', true);
+
+        if (!is_array($dismissed)) {
+            $dismissed = [];
+        }
 
         if (!empty($notifications['data']) && is_array($notifications['data'])) {
-            foreach ($notifications['data'] as &$notification) {
-                $notification['dismiss'] = true;
-            }
+            $newDismissed     = array_column($notifications['data'], 'id');
+            $updatedDismissed = array_unique(array_merge($dismissed, $newDismissed));
 
-            update_option('wp_statistics_notifications', $notifications);
+            if ($updatedDismissed !== $dismissed) {
+                update_user_meta($userId, 'wp_statistics_dismissed_notifications', $updatedDismissed);
+            }
         }
 
         return true;
@@ -104,65 +117,46 @@ class NotificationProcessor
     /**
      * Sync new notifications with old notifications.
      *
-     * @param array $newNotifications
+     * @param array $notifications
      *
      * @return array
      */
-    public static function syncNotifications($newNotifications)
+    public static function syncNotifications($notifications)
     {
-        $oldNotifications = NotificationFactory::getRawNotificationsData();
+        $userId    = get_current_user_id();
+        $dismissed = get_user_meta($userId, 'wp_statistics_dismissed_notifications', true);
 
-        $dismissedNotifications = [];
+        // Ensure $dismissed is an array
+        $originalDismissed = is_array($dismissed) ? $dismissed : [];
+        $dismissed         = is_array($dismissed) ? array_flip($dismissed) : [];
 
-        if (!empty($oldNotifications['data']) && is_array($oldNotifications['data'])) {
-            foreach ($oldNotifications['data'] as $oldNotification) {
-                if (!empty($oldNotification['dismiss']) && !empty($oldNotification['id'])) {
-                    $dismissedNotifications[$oldNotification['id']] = true;
+        // Get all valid notification IDs
+        $validNotificationIds = [];
+
+        if (!empty($notifications) && is_array($notifications)) {
+            foreach ($notifications as &$notification) {
+                if (!empty($notification['id'])) {
+                    $validNotificationIds[$notification['id']] = true;
+
+                    // Restore dismissed state
+                    if (isset($dismissed[$notification['id']])) {
+                        $notification['dismiss'] = true;
+                    }
                 }
             }
         }
 
-        if (!empty($newNotifications['data']) && is_array($newNotifications['data'])) {
-            foreach ($newNotifications['data'] as &$newNotification) {
-                if (isset($dismissedNotifications[$newNotification['id']])) {
-                    $newNotification['dismiss'] = true;
-                }
-            }
+        // Remove old dismissed IDs that no longer exist
+        $updatedDismissed = array_values(array_filter(array_keys($dismissed), function ($id) use ($validNotificationIds) {
+            return isset($validNotificationIds[$id]);
+        }));
+
+        // Only update if the dismissed list has changed
+        if ($originalDismissed !== $updatedDismissed) {
+            update_user_meta($userId, 'wp_statistics_dismissed_notifications', $updatedDismissed);
         }
 
-        return $newNotifications;
-    }
-
-    /**
-     * Checks for updated notifications by comparing new notifications with previously stored ones.
-     *
-     * @param array $newNotifications
-     *
-     * @return array
-     */
-    public static function checkUpdatedNotifications($rawNewNotifications)
-    {
-        $rawOldNotifications = NotificationFactory::getRawNotificationsData();
-        $oldNotifications    = self::filterNotificationsByTags($rawOldNotifications['data'] ?? []);
-        $oldNotificationIds  = [];
-
-        foreach ($oldNotifications as $oldNotification) {
-            if (!empty($oldNotification['id'])) {
-                $oldNotificationIds[$oldNotification['id']] = true;
-            }
-        }
-
-        $newNotifications               = self::filterNotificationsByTags($rawNewNotifications['data'] ?? []);
-        $rawNewNotifications['updated'] = false;
-
-        foreach ($newNotifications as $newNotification) {
-            if (!empty($newNotification['id']) && !isset($oldNotificationIds[$newNotification['id']])) {
-                $rawNewNotifications['updated'] = true;
-                break;
-            }
-        }
-
-        return $rawNewNotifications;
+        return $notifications;
     }
 
     /**
@@ -170,23 +164,13 @@ class NotificationProcessor
      *
      * @return bool
      */
-    public static function updateNotificationsStatus()
+    public static function updateNotificationsStatus(): bool
     {
-        $notifications = NotificationFactory::getRawNotificationsData();
-
-        if (!$notifications) {
+        if (!is_user_logged_in()) {
             return false;
         }
 
-        if (isset($notifications['updated']) && !empty($notifications['updated'])) {
-            $notifications['updated'] = false;
-
-            update_option('wp_statistics_notifications', $notifications);
-
-            return true;
-        }
-
-        return false;
+        return update_user_meta(get_current_user_id(), 'wp_statistics_last_seen_notification', current_time('mysql'));
     }
 
     /**
@@ -198,9 +182,11 @@ class NotificationProcessor
      */
     public static function sortNotificationsByActivatedAt($notifications)
     {
-        if (!empty($notifications['data']) && is_array($notifications['data'])) {
-            usort($notifications['data'], function ($a, $b) {
-                return strtotime($b['activated_at']) - strtotime($a['activated_at']);
+        if (!empty($notifications) && is_array($notifications)) {
+            usort($notifications, function ($a, $b) {
+                $timeA = strtotime($a['activated_at'] ?? '1970-01-01');
+                $timeB = strtotime($b['activated_at'] ?? '1970-01-01');
+                return $timeB <=> $timeA;
             });
         }
 

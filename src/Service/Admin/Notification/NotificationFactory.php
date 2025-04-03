@@ -13,6 +13,8 @@ class NotificationFactory
     {
         $rawNotifications = get_option('wp_statistics_notifications', []);
         $notifications    = NotificationProcessor::filterNotificationsByTags($rawNotifications['data'] ?? []);
+        $notifications    = NotificationProcessor::syncNotifications($notifications);
+        $notifications    = NotificationProcessor::sortNotificationsByActivatedAt($notifications);
 
         return NotificationProcessor::decorateNotifications($notifications);
     }
@@ -32,14 +34,26 @@ class NotificationFactory
      *
      * @return bool
      */
-    public static function hasUpdatedNotifications()
+    public static function hasUpdatedNotifications($userId)
     {
-        $rawNotifications = get_option('wp_statistics_notifications', []);
+        $lastSeen = strtotime(get_user_meta($userId, 'wp_statistics_last_seen_notification', true));
 
-        if (!is_array($rawNotifications)) {
+        if (!$lastSeen) {
+            return true;
+        }
+
+        $rawNotifications = self::getRawNotificationsData();
+        $notifications    = NotificationProcessor::filterNotificationsByTags($rawNotifications['data'] ?? []);
+
+        if (empty($notifications)) {
             return false;
         }
 
-        return !empty($rawNotifications['updated']) ? (bool)$rawNotifications['updated'] : false;
+        $timezoneOffset = get_option('gmt_offset') * 3600;
+
+        $latestNotification = strtotime(max(array_column($notifications, 'activated_at')));
+        $latestNotification += $timezoneOffset;
+
+        return ($latestNotification > $lastSeen);
     }
 }
