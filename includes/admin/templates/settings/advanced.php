@@ -25,7 +25,7 @@ add_thickbox();
     <table style="direction: ltr;">
         <tr>
             <td width="330" style="border-bottom: 1px solid #ccc;padding-top:10px;padding-bottom:10px;">
-                <b><?php esc_html_e('$_SERVER', 'wp-statistics'); ?></b></td>
+                <b><?php esc_html_e('Key', 'wp-statistics'); ?></b></td>
             <td style="border-bottom: 1px solid #ccc;padding-top:10px;padding-bottom:10px;"><b><?php esc_html_e('Value', 'wp-statistics'); ?></b></td>
         </tr>
         <?php
@@ -138,7 +138,7 @@ add_thickbox();
 
                             <p class="description">
                                 <?php _e('If your server uses a custom key in <code>$_SERVER</code> for IP detection (e.g., <code>HTTP_CF_CONNECTING_IP</code> for CloudFlare), specify it here.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?>
-                                <a href="#TB_inline?&width=950&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e('View <code>$_SERVER</code> in your server.', 'wp-statistics');   // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></a>
+                                <a href="#TB_inline?&width=950&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e('View available headers on your server.', 'wp-statistics');   // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></a>
                             </p>
                             <p class="description"><?php _e('Refer to our <a href="https://wp-statistics.com/resources/how-to-configure-ip-detection-in-wp-statistics-for-accurate-visitor-tracking/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Documentation</a> for more info and how to configure IP Detection properly.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></p>
                         </td>
@@ -156,7 +156,7 @@ add_thickbox();
         <tbody>
         <tr valign="top">
             <th scope="row" colspan="2">
-                <h3><?php esc_html_e('GeoIP Settings', 'wp-statistics'); ?></h3>
+                <h3><?php esc_html_e('Geolocation Settings', 'wp-statistics'); ?></h3>
             </th>
         </tr>
         <tr valign="top">
@@ -170,25 +170,25 @@ add_thickbox();
 
                 <p class="description">
                     <?php
-                        echo sprintf(
-                            /* translators: %s: Link to learn about detection method */
-                            esc_html__('Select the method to detect location data for visitors. You can choose between MaxMind GeoIP, Cloudflare Geolocation, and DB-IP. MaxMind and DB-IP provide database-based geolocation, while Cloudflare Geolocation relies on IP headers from Cloudflare. For optimal performance, we recommend using Cloudflare Geolocation if your site is on Cloudflare. %s', 'wp-statistics'),
-                            '<a href="https://wp-statistics.com/resources/location-detection-methods-in-wp-statistics/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" class="wps-text-decoration-underline" target="_blank">' . esc_html__('Learn more about location detection methods.', 'wp-statistics') . '</a>'
-                        );
+                    echo sprintf(
+                    /* translators: %s: Link to learn about detection method */
+                        esc_html__('Select the method to detect location data for visitors. You can choose between MaxMind GeoIP, Cloudflare Geolocation, and DB-IP. MaxMind and DB-IP provide database-based geolocation, while Cloudflare Geolocation relies on IP headers from Cloudflare. For optimal performance, we recommend using Cloudflare Geolocation if your site is on Cloudflare. %s', 'wp-statistics'),
+                        '<a href="https://wp-statistics.com/resources/location-detection-methods-in-wp-statistics/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" class="wps-text-decoration-underline" target="_blank">' . esc_html__('Learn more about location detection methods.', 'wp-statistics') . '</a>'
+                    );
                     ?>
                 </p>
             </td>
         </tr>
 
         <tr valign="top" id="geoip_license_type_option">
-            <th scope="row"><label for="wps_geoip_license_type"><?php esc_html_e('GeoIP Database Update Source', 'wp-statistics'); ?></label></th>
+            <th scope="row"><label for="wps_geoip_license_type"><?php esc_html_e('Geolocation Database Update Source', 'wp-statistics'); ?></label></th>
             <td>
                 <select name="wps_geoip_license_type" id="geoip_license_type">
                     <option value="js-deliver" <?php selected(WP_STATISTICS\Option::get('geoip_license_type'), 'js-deliver'); ?>><?php esc_html_e('Use the JsDelivr', 'wp-statistics'); ?></option>
                     <option value="user-license" <?php selected(WP_STATISTICS\Option::get('geoip_license_type'), 'user-license'); ?>><?php esc_html_e('Use the MaxMind server with your own license key', 'wp-statistics'); ?></option>
                 </select>
 
-                <p class="description"><?php esc_html_e('Select the source for updating the GeoIP database. If using a premium database, updates will be downloaded automatically using the provided license key.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Select the source for updating the Geolocation database. If using a premium database, updates will be downloaded automatically using the provided license key.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
@@ -200,21 +200,21 @@ add_thickbox();
                 <input id="geoip_license_key" type="text" size="30" name="wps_geoip_license_key" value="<?php echo esc_attr(WP_STATISTICS\Option::get('geoip_license_key')); ?>">
                 <p class="description">
                     <?php
-                        /* translators: %s: Link to maxmind */
-                        echo sprintf(
-                            wp_kses(
-                                __('Enter your <strong>MaxMind license key</strong> to enable the <strong>premium MaxMind GeoIP database</strong>, which provides more precise location data. The plugin uses the free database by default. %s', 'wp-statistics'),
-                               [
+                    /* translators: %s: Link to maxmind */
+                    echo sprintf(
+                        wp_kses(
+                            __('Enter your <strong>MaxMind license key</strong> to enable the <strong>premium MaxMind GeoIP database</strong>, which provides more precise location data. The plugin uses the free database by default. %s', 'wp-statistics'),
+                            [
                                 'strong' => [],
                                 'a'      => [
                                     'href'   => [],
                                     'class'  => [],
                                     'target' => [],
                                 ]
-                               ]
-                            ),
-                            '<a href="https://www.maxmind.com/en/geoip-databases" class="wps-text-decoration-underline" target="_blank">' . esc_html__('Get MaxMind Premium.', 'wp-statistics') . '</a>'
-                        );
+                            ]
+                        ),
+                        '<a href="https://www.maxmind.com/en/geoip-databases" class="wps-text-decoration-underline" target="_blank">' . esc_html__('Get MaxMind Premium.', 'wp-statistics') . '</a>'
+                    );
                     ?>
                 </p>
             </td>
@@ -222,28 +222,28 @@ add_thickbox();
 
         <tr valign="top" id="geoip_dbip_license_key_option">
             <th scope="row">
-                <label for="geoip_dbip_license_key_option"><?php esc_html_e('GeoIP License Key', 'wp-statistics'); ?></label>
+                <label for="geoip_dbip_license_key_option"><?php esc_html_e('DB-IP License Key', 'wp-statistics'); ?></label>
             </th>
             <td>
                 <input id="geoip_dbip_license_key_option" type="text" size="30" name="wps_geoip_dbip_license_key_option" value="<?php echo esc_attr(WP_STATISTICS\Option::get('geoip_dbip_license_key_option', '')); ?>">
                 <p class="description">
                     <?php
-                        /* translators: %s: Link to dbip */
-                        echo sprintf(
-                            wp_kses(
-                                __('Enter your DB-IP license key to enable the premium DB-IP database, replacing the free version with a more detailed dataset.<br /> The premium DB-IP database is <strong>1.1GB</strong> in size. Make sure your server has enough storage space before enabling it, as the plugin downloads and stores this database. %s', 'wp-statistics'),
-                                [
-                                    'br'     => [],
-                                    'strong' => [],
-                                    'a'      => [
-                                        'href'   => [],
-                                        'class'  => [],
-                                        'target' => [],
-                                    ]
+                    /* translators: %s: Link to dbip */
+                    echo sprintf(
+                        wp_kses(
+                            __('Enter your DB-IP license key to enable the premium DB-IP database, replacing the free version with a more detailed dataset.<br /> The premium DB-IP database is <strong>1.1GB</strong> in size. Make sure your server has enough storage space before enabling it, as the plugin downloads and stores this database. %s', 'wp-statistics'),
+                            [
+                                'br'     => [],
+                                'strong' => [],
+                                'a'      => [
+                                    'href'   => [],
+                                    'class'  => [],
+                                    'target' => [],
                                 ]
-                            ),
-                            '<a href="https://db-ip.com/db/?refid=vrn" class="wps-text-decoration-underline" target="_blank">' . esc_html__('Get DB-IP Premium.', 'wp-statistics') . '</a>'
-                        );
+                            ]
+                        ),
+                        '<a href="https://db-ip.com/db/?refid=vrn" class="wps-text-decoration-underline" target="_blank">' . esc_html__('Get DB-IP Premium.', 'wp-statistics') . '</a>'
+                    );
                     ?>
                 </p>
             </td>
@@ -251,7 +251,7 @@ add_thickbox();
 
         <tr valign="top" id="enable_geoip_option">
             <th scope="row">
-                <label for="geoip-enable"><?php esc_html_e('Manual Update of GeoIP Database', 'wp-statistics'); ?></label>
+                <label for="geoip-enable"><?php esc_html_e('Manual Update of Geolocation Database', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -259,13 +259,13 @@ add_thickbox();
                     <?php submit_button(esc_html__('Update Now', 'wp-statistics'), "secondary", "update_geoip", false); ?>
                 </label>
 
-                <p class="description"><?php esc_html_e('Click here to update the GeoIP database immediately for the database.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Click here to update the Geolocation database immediately for the database.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
         <tr valign="top" id="schedule_geoip_option">
             <th scope="row">
-                <label for="geoip-schedule"><?php esc_html_e('Schedule Monthly Update of GeoIP Database', 'wp-statistics'); ?></label>
+                <label for="geoip-schedule"><?php esc_html_e('Schedule Monthly Update of Geolocation Database', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -283,19 +283,19 @@ add_thickbox();
                     echo '</code></p>';
                 }
                 ?>
-                <p class="description"><?php esc_html_e('Automates monthly GeoIP database updates for the latest geographical data.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Automates monthly Geolocation database updates for the latest geographical data.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
         <tr valign="top" id="geoip_auto_pop_option">
             <th scope="row">
-                <label for="geoip-auto-pop"><?php esc_html_e('Update Missing GeoIP Data', 'wp-statistics'); ?></label>
+                <label for="geoip-auto-pop"><?php esc_html_e('Update Missing Geolocation Data', 'wp-statistics'); ?></label>
             </th>
 
             <td>
                 <input id="geoip-auto-pop" type="checkbox" name="wps_auto_pop" <?php echo WP_STATISTICS\Option::get('auto_pop') == true ? "checked='checked'" : ''; ?>>
                 <label for="geoip-auto-pop"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Fills in any gaps in the GeoIP database following a new download.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Fills in any gaps in the Geolocation database following a new download.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
@@ -315,7 +315,7 @@ add_thickbox();
                 function handle_geoip_fields() {
                     var method = jQuery("#geoip_location_detection_method").val();
                     var isMaxmind = (method === "maxmind");
-                    var isDBIP    = (method === "dbip");
+                    var isDBIP = (method === "dbip");
                     var isUserLicense = (jQuery("#geoip_license_type").val() === "user-license");
 
                     jQuery("#geoip_license_type_option, #enable_geoip_option, #schedule_geoip_option, #geoip_auto_pop_option")
@@ -420,6 +420,26 @@ add_thickbox();
                 <input type="text" class="small-text code" id="wps_schedule_dbmaint_days" name="wps_schedule_dbmaint_days" value="<?php echo esc_attr(WP_STATISTICS\Option::get('schedule_dbmaint_days', "365")); ?>"/>
                 <?php esc_html_e('Days', 'wp-statistics'); ?>
                 <p class="description"><?php echo esc_html__('Sets the age threshold for deleting data entries. Data exceeding the specified age in days will be removed. The minimum setting is 30 days.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="postbox">
+    <table class="form-table">
+        <tbody>
+        <tr valign="top">
+            <th scope="row" colspan="2"><h3><?php esc_html_e('Anonymous Usage Data', 'wp-statistics'); ?></h3></th>
+        </tr>
+        <tr valign="top">
+            <th scope="row">
+                <label for="wps_share_anonymous_data"><?php esc_html_e('Share Anonymous Data', 'wp-statistics'); ?></label>
+            </th>
+            <td>
+                <input id="wps_share_anonymous_data" type="checkbox" name="wps_share_anonymous_data" <?php echo WP_STATISTICS\Option::get('share_anonymous_data') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'>
+                <label for="wps_share_anonymous_data"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                <p class="description"><?php printf(esc_html__('Sends non-personal, anonymized data to help us improve WP Statistics. No personal or identifying information is collected or shared. %s', 'wp-statistics'), '<a href="https://wp-statistics.com/resources/sharing-your-data-with-us/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">' . esc_html__('Learn more.', 'wp-statistics') . '</a>'); ?></p>
             </td>
         </tr>
         </tbody>

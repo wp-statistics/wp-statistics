@@ -114,12 +114,12 @@ use WP_STATISTICS\Option;
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="show_hits"><?php esc_html_e('Views in Single Contents', 'wp-statistics'); ?></label>
+                    <label for="wps_settings[show_hits]"><?php esc_html_e('Views in Single Contents', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
-                    <input id="show_hits" type="checkbox" value="1" name="wps_show_hits" <?php echo WP_STATISTICS\Option::get('show_hits') ? "checked='checked'" : ''; ?> onClick='ToggleShowHitsOptions();'>
-                    <label for="show_hits"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <input id="wps_settings[show_hits]" type="checkbox" value="1" name="wps_show_hits" <?php echo WP_STATISTICS\Option::get('show_hits') ? "checked='checked'" : ''; ?> >
+                    <label for="wps_settings[show_hits]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                     <p class="description"><?php esc_html_e('Shows the view count on the content\'s page for visitor insight.', 'wp-statistics'); ?></p>
                 </td>
             </tr>

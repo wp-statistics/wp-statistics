@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-03-17T12:37:00+00:00\n"
+"POT-Creation-Date: 2025-04-01T06:04:41+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-statistics\n"
@@ -17,9 +17,9 @@ msgstr ""
 #. Plugin Name of the plugin
 #: wp-statistics.php
 #: includes/admin/class-wp-statistics-admin-privacy.php:25
-#: src/Service/Admin/AdminManager.php:46
+#: src/Service/Admin/AdminManager.php:56
 #: src/Service/Admin/Metabox/Metaboxes/AboutWPS.php:51
-#: src/Service/Admin/SiteHealthInfo.php:58
+#: src/Service/Admin/SiteHealthInfo.php:43
 msgid "WP Statistics"
 msgstr ""
 
@@ -200,7 +200,7 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:365
 #: includes/admin/templates/header.php:32
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:36
-#: includes/class-wp-statistics-shortcode.php:284
+#: includes/class-wp-statistics-shortcode.php:286
 #: includes/class-wp-statistics-widget.php:41
 #: includes/class-wp-statistics-widget.php:264
 #: src/Service/Admin/VisitorInsights/Views/TabsView.php:111
@@ -210,10 +210,10 @@ msgid "Online Visitors"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:366
-#: includes/admin/templates/layout/tabbed-page-header.php:21
-#: includes/admin/templates/layout/tabbed-page-header.php:25
-#: includes/admin/templates/layout/title.php:56
-#: includes/admin/templates/layout/title.php:60
+#: includes/admin/templates/layout/tabbed-page-header.php:26
+#: includes/admin/templates/layout/tabbed-page-header.php:30
+#: includes/admin/templates/layout/title.php:57
+#: includes/admin/templates/layout/title.php:61
 msgid "Realtime"
 msgstr ""
 
@@ -229,7 +229,7 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/mini-chart.php:78
 #: includes/admin/templates/settings/add-ons/rest-api.php:22
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:38
-#: includes/class-wp-statistics-shortcode.php:286
+#: includes/class-wp-statistics-shortcode.php:288
 #: src/Service/Admin/MiniChart/MiniChartHelper.php:112
 #: src/Service/Admin/VisitorInsights/Views/TabsView.php:97
 #: src/Service/Charts/DataProvider/PerformanceChartDataProvider.php:84
@@ -263,7 +263,7 @@ msgstr ""
 #: includes/admin/templates/pages/content-analytics/single.php:15
 #: includes/admin/templates/settings/add-ons/mini-chart.php:79
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:37
-#: includes/class-wp-statistics-shortcode.php:285
+#: includes/class-wp-statistics-shortcode.php:287
 #: src/Service/Admin/MiniChart/MiniChartHelper.php:112
 #: src/Service/Admin/VisitorInsights/Views/TabsView.php:102
 #: src/Service/Charts/DataProvider/PerformanceChartDataProvider.php:89
@@ -598,7 +598,7 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:435
 #: src/Service/Admin/Devices/Views/SingleBrowserView.php:42
-#: src/Service/Admin/SiteHealthInfo.php:65
+#: src/Service/Admin/SiteHealthInfo.php:82
 #: views/metabox/about.php:7
 msgid "Version"
 msgstr ""
@@ -847,7 +847,7 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:470
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:51
-#: includes/class-wp-statistics-shortcode.php:299
+#: includes/class-wp-statistics-shortcode.php:301
 #: src/Service/Admin/VisitorInsights/VisitorInsightsPage.php:61
 #: views/components/session-details.php:29
 #: views/components/tables/online.php:29
@@ -1159,7 +1159,7 @@ msgstr ""
 msgid "All Settings Have Been Reset to Default."
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:372
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:373
 msgid "Custom header IP detection failed or the specified custom header is empty. Will switch to default detection method (Sequential IP Detection)."
 msgstr ""
 
@@ -1290,6 +1290,7 @@ msgstr ""
 #: includes/admin/templates/header.php:46
 #: includes/admin/templates/header.php:115
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:168
+#: src/Service/Admin/SiteHealthInfo.php:406
 msgid "Top Pages"
 msgstr ""
 
@@ -1303,12 +1304,12 @@ msgid "Content Analytics"
 msgstr ""
 
 #: includes/admin/templates/header.php:69
-#: includes/admin/templates/header.php:140
+#: includes/admin/templates/header.php:142
 msgid "Upgrade To Premium"
 msgstr ""
 
 #: includes/admin/templates/header.php:73
-#: includes/admin/templates/header.php:144
+#: includes/admin/templates/header.php:146
 msgid "Upgrade"
 msgstr ""
 
@@ -1321,14 +1322,14 @@ msgid "Privacy Audit"
 msgstr ""
 
 #: includes/admin/templates/header.php:93
-#: includes/admin/templates/header.php:129
 #: includes/admin/templates/header.php:131
+#: includes/admin/templates/header.php:133
 #: views/metabox/about.php:14
 msgid "Help Center"
 msgstr ""
 
 #: includes/admin/templates/header.php:97
-#: includes/admin/templates/header.php:124
+#: includes/admin/templates/header.php:125
 #: views/components/notification/side-bar.php:10
 msgid "Notifications"
 msgstr ""
@@ -1372,7 +1373,7 @@ msgstr ""
 
 #: includes/admin/templates/layout/author-analytics/top-authors.php:93
 #: includes/admin/templates/pages/author-analytics/authors-report.php:51
-msgid "Views/%s"
+msgid "Views/Per %s"
 msgstr ""
 
 #: includes/admin/templates/layout/author-analytics/top-authors.php:108
@@ -1381,7 +1382,7 @@ msgstr ""
 
 #: includes/admin/templates/layout/author-analytics/top-authors.php:124
 #: includes/admin/templates/pages/author-analytics/authors-report.php:46
-msgid "Comments/%s"
+msgid "Comments/Per %s"
 msgstr ""
 
 #: includes/admin/templates/layout/author-analytics/top-authors.php:139
@@ -1389,8 +1390,7 @@ msgid "comments/%s"
 msgstr ""
 
 #: includes/admin/templates/layout/author-analytics/top-authors.php:155
-#: includes/admin/templates/pages/author-analytics/authors-report.php:56
-msgid "Words/%s"
+msgid "Words/Per %s"
 msgstr ""
 
 #: includes/admin/templates/layout/author-analytics/top-authors.php:170
@@ -1483,8 +1483,8 @@ msgid "Query Parameter : All"
 msgstr ""
 
 #: includes/admin/templates/layout/filters/query-params-filter.php:15
-#: includes/admin/templates/layout/tabbed-page-header.php:28
-#: includes/admin/templates/layout/title.php:63
+#: includes/admin/templates/layout/tabbed-page-header.php:33
+#: includes/admin/templates/layout/title.php:64
 #: includes/admin/templates/pages/geographic/countries.php:61
 #: includes/admin/templates/pages/geographic/europe.php:60
 #: includes/class-wp-statistics-admin-bar.php:153
@@ -1496,12 +1496,13 @@ msgstr ""
 #: views/components/addon-download-card.php:19
 #: views/components/lock-sections/setting-unlock-premium.php:31
 #: views/components/lock-sections/tooltip-premium.php:3
+#: views/components/objects/share-anonymous-notice.php:11
 msgid "Learn More"
 msgstr ""
 
 #: includes/admin/templates/layout/filters/query-params-filter.php:17
-#: includes/admin/templates/layout/tabbed-page-header.php:30
-#: includes/admin/templates/layout/title.php:65
+#: includes/admin/templates/layout/tabbed-page-header.php:35
+#: includes/admin/templates/layout/title.php:66
 #: includes/admin/templates/pages/geographic/countries.php:63
 #: includes/admin/templates/pages/geographic/europe.php:62
 #: views/components/lock-sections/tooltip-premium.php:4
@@ -1703,12 +1704,12 @@ msgstr ""
 msgid "Rules Passed"
 msgstr ""
 
-#: includes/admin/templates/layout/tabbed-page-header.php:20
-#: includes/admin/templates/layout/title.php:55
+#: includes/admin/templates/layout/tabbed-page-header.php:25
+#: includes/admin/templates/layout/title.php:56
 msgid "Real-time stats are available! Click here to view"
 msgstr ""
 
-#: includes/admin/templates/layout/tabbed-page-header.php:77
+#: includes/admin/templates/layout/tabbed-page-header.php:81
 msgid "Coming soon"
 msgstr ""
 
@@ -1840,7 +1841,7 @@ msgstr ""
 #: includes/admin/templates/optimization/purging.php:214
 #: includes/admin/templates/optimization/purging.php:229
 #: includes/admin/templates/optimization/purging.php:244
-#: includes/admin/templates/settings/advanced.php:445
+#: includes/admin/templates/settings/advanced.php:465
 msgid "Caution"
 msgstr ""
 
@@ -2120,6 +2121,10 @@ msgstr ""
 #: includes/admin/templates/pages/author-analytics/authors-report.php:26
 #: src/Service/Charts/DataProvider/AuthorsPostViewsChartDataProvider.php:59
 msgid "%s Views"
+msgstr ""
+
+#: includes/admin/templates/pages/author-analytics/authors-report.php:56
+msgid "Words/%s"
 msgstr ""
 
 #: includes/admin/templates/pages/category-analytics/category-performance.php:14
@@ -2458,7 +2463,7 @@ msgid "<b>Disclaimer</b><span>This audit only checks WP Statistics plugin settin
 msgstr ""
 
 #: includes/admin/templates/settings/access-level.php:57
-#: src/Service/Admin/SiteHealthInfo.php:261
+#: src/Service/Admin/SiteHealthInfo.php:293
 msgid "Minimum Role to View Statistics"
 msgstr ""
 
@@ -2467,7 +2472,7 @@ msgid "Select the least privileged user role allowed to view WP Statistics. Note
 msgstr ""
 
 #: includes/admin/templates/settings/access-level.php:92
-#: src/Service/Admin/SiteHealthInfo.php:266
+#: src/Service/Admin/SiteHealthInfo.php:298
 msgid "Minimum Role to Manage Settings"
 msgstr ""
 
@@ -2499,7 +2504,7 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:52
 #: includes/admin/templates/settings/add-ons/rest-api.php:73
 #: includes/admin/templates/settings/add-ons/widgets.php:82
-#: includes/admin/templates/settings/advanced.php:476
+#: includes/admin/templates/settings/advanced.php:496
 #: includes/admin/templates/settings/display.php:146
 #: includes/admin/templates/settings/exclusions.php:281
 #: includes/admin/templates/settings/general.php:130
@@ -2537,6 +2542,7 @@ msgid "Report Scheduling"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:43
+#: src/Service/Admin/SiteHealthInfo.php:372
 msgid "Choose Your Report Timing"
 msgstr ""
 
@@ -2567,8 +2573,6 @@ msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:73
 #: includes/admin/templates/settings/notifications.php:52
-#: src/Service/Admin/SiteHealthInfo.php:182
-#: src/Service/Admin/SiteHealthInfo.php:202
 msgid "Disable"
 msgstr ""
 
@@ -2577,6 +2581,7 @@ msgid "Report Components"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:96
+#: src/Service/Admin/SiteHealthInfo.php:376
 msgid "Top Metrics"
 msgstr ""
 
@@ -2602,7 +2607,8 @@ msgstr ""
 #: includes/admin/templates/settings/advanced.php:273
 #: includes/admin/templates/settings/advanced.php:297
 #: includes/admin/templates/settings/advanced.php:409
-#: includes/admin/templates/settings/advanced.php:467
+#: includes/admin/templates/settings/advanced.php:441
+#: includes/admin/templates/settings/advanced.php:487
 #: includes/admin/templates/settings/display.php:18
 #: includes/admin/templates/settings/display.php:29
 #: includes/admin/templates/settings/display.php:40
@@ -2623,9 +2629,6 @@ msgstr ""
 #: includes/admin/templates/settings/privacy.php:54
 #: includes/admin/templates/settings/privacy.php:167
 #: includes/admin/templates/settings/privacy.php:181
-#: src/Service/Admin/SiteHealthInfo.php:177
-#: src/Service/Admin/SiteHealthInfo.php:182
-#: src/Service/Admin/SiteHealthInfo.php:202
 msgid "Enable"
 msgstr ""
 
@@ -2634,6 +2637,7 @@ msgid "Receive a detailed breakdown of your website’s top metrics, including v
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:108
+#: src/Service/Admin/SiteHealthInfo.php:381
 msgid "Visitors Summary"
 msgstr ""
 
@@ -2642,6 +2646,7 @@ msgid "Activate to receive a neatly summarized report of your website's key perf
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:120
+#: src/Service/Admin/SiteHealthInfo.php:386
 msgid "Views Chart"
 msgstr ""
 
@@ -2650,6 +2655,7 @@ msgid "Choose to receive detailed charts on views counts and behavior patterns."
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:132
+#: src/Service/Admin/SiteHealthInfo.php:391
 msgid "Search Engine Referrals"
 msgstr ""
 
@@ -2658,6 +2664,7 @@ msgid "Toggle on to get insights on which search engines are driving traffic to 
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:144
+#: src/Service/Admin/SiteHealthInfo.php:396
 msgid "Search Engine Chart"
 msgstr ""
 
@@ -2666,6 +2673,7 @@ msgid "Get visual analytics on search engine referrals for a comprehensive view 
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:156
+#: src/Service/Admin/SiteHealthInfo.php:401
 msgid "Top Referring Domains"
 msgstr ""
 
@@ -2679,6 +2687,7 @@ msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:180
 #: src/Service/Admin/Metabox/Metaboxes/TopCountries.php:15
+#: src/Service/Admin/SiteHealthInfo.php:411
 #: views/components/tables/top-countries.php:8
 msgid "Top Countries"
 msgstr ""
@@ -2688,6 +2697,7 @@ msgid "Discover the geographical distribution of your audience."
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:192
+#: src/Service/Admin/SiteHealthInfo.php:416
 msgid "Top Browsers"
 msgstr ""
 
@@ -2736,6 +2746,7 @@ msgid "Insert a custom footer in your email reports for additional notes, discla
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:283
+#: src/Service/Admin/SiteHealthInfo.php:421
 msgid "More Information Button"
 msgstr ""
 
@@ -2752,6 +2763,7 @@ msgid "Personalize the destination of the ‘More Information’ button to direc
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:306
+#: src/Service/Admin/SiteHealthInfo.php:426
 msgid "Auto-Generated Notice"
 msgstr ""
 
@@ -2764,6 +2776,7 @@ msgid "Additional Features"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:328
+#: src/Service/Admin/SiteHealthInfo.php:431
 msgid "Email PDF Report Attachments"
 msgstr ""
 
@@ -2820,11 +2833,13 @@ msgstr ""
 
 #: includes/admin/templates/settings/add-ons/customization.php:22
 #: includes/admin/templates/settings/add-ons/data-plus.php:46
+#: src/Service/Admin/SiteHealthInfo.php:487
 msgid "Link Tracker"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/customization.php:23
 #: includes/admin/templates/settings/add-ons/data-plus.php:59
+#: src/Service/Admin/SiteHealthInfo.php:492
 msgid "Download Tracker"
 msgstr ""
 
@@ -2885,20 +2900,21 @@ msgid "Overview Widget Customization"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/customization.php:149
+#: src/Service/Admin/SiteHealthInfo.php:477
 msgid "Enable Overview Widget"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/customization.php:154
-#: src/Service/Admin/SiteHealthInfo.php:92
-#: src/Service/Admin/SiteHealthInfo.php:97
-#: src/Service/Admin/SiteHealthInfo.php:113
+#: src/Service/Admin/SiteHealthInfo.php:118
+#: src/Service/Admin/SiteHealthInfo.php:123
+#: src/Service/Admin/SiteHealthInfo.php:140
 msgid "Yes"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/customization.php:155
-#: src/Service/Admin/SiteHealthInfo.php:92
-#: src/Service/Admin/SiteHealthInfo.php:97
-#: src/Service/Admin/SiteHealthInfo.php:113
+#: src/Service/Admin/SiteHealthInfo.php:118
+#: src/Service/Admin/SiteHealthInfo.php:123
+#: src/Service/Admin/SiteHealthInfo.php:140
 msgid "No"
 msgstr ""
 
@@ -2983,6 +2999,7 @@ msgid "Select which post types to show mini charts for."
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/mini-chart.php:73
+#: src/Service/Admin/SiteHealthInfo.php:508
 msgid "Chart Metric"
 msgstr ""
 
@@ -2991,6 +3008,7 @@ msgid "Choose the metric to display on the chart."
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/mini-chart.php:89
+#: src/Service/Admin/SiteHealthInfo.php:512
 msgid "Chart Date Range"
 msgstr ""
 
@@ -3019,6 +3037,7 @@ msgid "Select the date range for displaying the chart data."
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/mini-chart.php:108
+#: src/Service/Admin/SiteHealthInfo.php:516
 msgid "Count Display"
 msgstr ""
 
@@ -3075,6 +3094,7 @@ msgid "Update Interval"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:37
+#: src/Service/Admin/SiteHealthInfo.php:447
 msgid "Chart & Map Refresh Rate (seconds)"
 msgstr ""
 
@@ -3111,6 +3131,7 @@ msgid "WordPress REST API Integration"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/rest-api.php:46
+#: src/Service/Admin/SiteHealthInfo.php:361
 msgid "API Service Status"
 msgstr ""
 
@@ -3151,6 +3172,7 @@ msgid "Widget Cache Duration"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/widgets.php:39
+#: src/Service/Admin/SiteHealthInfo.php:457
 msgid "Refresh Every"
 msgstr ""
 
@@ -3167,6 +3189,7 @@ msgid "Widget Design Customization"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/widgets.php:66
+#: src/Service/Admin/SiteHealthInfo.php:461
 msgid "Use Default Widget Styling"
 msgstr ""
 
@@ -3175,7 +3198,7 @@ msgid "Uncheck to allow theme or custom styles to determine widget appearance."
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:28
-msgid "$_SERVER"
+msgid "Key"
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:29
@@ -3227,7 +3250,7 @@ msgid "If your server uses a custom key in <code>$_SERVER</code> for IP detectio
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:141
-msgid "View <code>$_SERVER</code> in your server."
+msgid "View available headers on your server."
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:143
@@ -3235,21 +3258,21 @@ msgid "Refer to our <a href=\"https://wp-statistics.com/resources/how-to-configu
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:159
-msgid "GeoIP Settings"
+msgid "Geolocation Settings"
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:163
-#: src/Service/Admin/SiteHealthInfo.php:86
+#: src/Service/Admin/SiteHealthInfo.php:107
 msgid "Location Detection Method"
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:166
-#: src/Service/Admin/SiteHealthInfo.php:45
+#: src/Service/Admin/SiteHealthInfo.php:66
 msgid "Cloudflare IP Geolocation"
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:167
-#: src/Service/Admin/SiteHealthInfo.php:87
+#: src/Service/Admin/SiteHealthInfo.php:108
 msgid "MaxMind GeoIP"
 msgstr ""
 
@@ -3267,8 +3290,8 @@ msgid "Learn more about location detection methods."
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:184
-#: src/Service/Admin/SiteHealthInfo.php:276
-msgid "GeoIP Database Update Source"
+#: src/Service/Admin/SiteHealthInfo.php:112
+msgid "Geolocation Database Update Source"
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:187
@@ -3281,11 +3304,10 @@ msgid "Use the MaxMind server with your own license key"
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:191
-msgid "Select the source for updating the GeoIP database. If using a premium database, updates will be downloaded automatically using the provided license key."
+msgid "Select the source for updating the Geolocation database. If using a premium database, updates will be downloaded automatically using the provided license key."
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:197
-#: includes/admin/templates/settings/advanced.php:225
 msgid "GeoIP License Key"
 msgstr ""
 
@@ -3297,6 +3319,10 @@ msgstr ""
 msgid "Get MaxMind Premium."
 msgstr ""
 
+#: includes/admin/templates/settings/advanced.php:225
+msgid "DB-IP License Key"
+msgstr ""
+
 #: includes/admin/templates/settings/advanced.php:234
 msgid "Enter your DB-IP license key to enable the premium DB-IP database, replacing the free version with a more detailed dataset.<br /> The premium DB-IP database is <strong>1.1GB</strong> in size. Make sure your server has enough storage space before enabling it, as the plugin downloads and stores this database. %s"
 msgstr ""
@@ -3306,7 +3332,7 @@ msgid "Get DB-IP Premium."
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:254
-msgid "Manual Update of GeoIP Database"
+msgid "Manual Update of Geolocation Database"
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:259
@@ -3314,11 +3340,11 @@ msgid "Update Now"
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:262
-msgid "Click here to update the GeoIP database immediately for the database."
+msgid "Click here to update the Geolocation database immediately for the database."
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:268
-msgid "Schedule Monthly Update of GeoIP Database"
+msgid "Schedule Monthly Update of Geolocation Database"
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:276
@@ -3334,15 +3360,15 @@ msgid "at"
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:286
-msgid "Automates monthly GeoIP database updates for the latest geographical data."
+msgid "Automates monthly Geolocation database updates for the latest geographical data."
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:292
-msgid "Update Missing GeoIP Data"
+msgid "Update Missing Geolocation Data"
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:298
-msgid "Fills in any gaps in the GeoIP database following a new download."
+msgid "Fills in any gaps in the Geolocation database following a new download."
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:304
@@ -3370,7 +3396,7 @@ msgid "Purge Old Data Daily"
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:404
-#: src/Service/Admin/SiteHealthInfo.php:281
+#: src/Service/Admin/SiteHealthInfo.php:308
 msgid "Automatic Cleanup"
 msgstr ""
 
@@ -3379,7 +3405,7 @@ msgid "Automatic deletion of data entries that are more than a specified number 
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:416
-#: src/Service/Admin/SiteHealthInfo.php:286
+#: src/Service/Admin/SiteHealthInfo.php:313
 msgid "Purge Data Older Than"
 msgstr ""
 
@@ -3388,50 +3414,67 @@ msgid "Sets the age threshold for deleting data entries. Data exceeding the spec
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:433
+msgid "Anonymous Usage Data"
+msgstr ""
+
+#: includes/admin/templates/settings/advanced.php:437
+#: src/Service/Admin/SiteHealthInfo.php:318
+msgid "Share Anonymous Data"
+msgstr ""
+
+#: includes/admin/templates/settings/advanced.php:442
+msgid "Sends non-personal, anonymized data to help us improve WP Statistics. No personal or identifying information is collected or shared. %s"
+msgstr ""
+
+#: includes/admin/templates/settings/advanced.php:442
+msgid "Learn more."
+msgstr ""
+
+#: includes/admin/templates/settings/advanced.php:453
 msgid "Restore Default Settings"
 msgstr ""
 
-#: includes/admin/templates/settings/advanced.php:438
+#: includes/admin/templates/settings/advanced.php:458
 msgid "Reset Options"
 msgstr ""
 
-#: includes/admin/templates/settings/advanced.php:443
+#: includes/admin/templates/settings/advanced.php:463
 #: src/Service/Admin/PageInsights/PageInsightsPage.php:74
 #: src/Service/Admin/Referrals/ReferralsPage.php:87
 #: src/Service/Admin/VisitorInsights/VisitorInsightsPage.php:88
 msgid "Reset"
 msgstr ""
 
-#: includes/admin/templates/settings/advanced.php:444
+#: includes/admin/templates/settings/advanced.php:464
 msgid "Revert all user-specific and global configurations to the WP Statistics default settings, preserving your existing data."
 msgstr ""
 
-#: includes/admin/templates/settings/advanced.php:445
+#: includes/admin/templates/settings/advanced.php:465
 msgid "This change is irreversible."
 msgstr ""
 
-#: includes/admin/templates/settings/advanced.php:446
+#: includes/admin/templates/settings/advanced.php:466
 msgid "<b>For multisite users</b>: Every site within the network will return to the default settings."
 msgstr ""
 
-#: includes/admin/templates/settings/advanced.php:457
+#: includes/admin/templates/settings/advanced.php:477
 msgid "Danger Zone"
 msgstr ""
 
-#: includes/admin/templates/settings/advanced.php:462
+#: includes/admin/templates/settings/advanced.php:482
 msgid "Delete All Data on Plugin Deletion"
 msgstr ""
 
-#: includes/admin/templates/settings/advanced.php:468
+#: includes/admin/templates/settings/advanced.php:488
 msgid "Enable this option to automatically delete all WP Statistics data from your database when the plugin is deleted."
 msgstr ""
 
-#: includes/admin/templates/settings/advanced.php:469
+#: includes/admin/templates/settings/advanced.php:489
 #: views/components/audit-card.php:17
 msgid "Warning"
 msgstr ""
 
-#: includes/admin/templates/settings/advanced.php:469
+#: includes/admin/templates/settings/advanced.php:489
 msgid "This action is permanent and cannot be undone. Make sure to back up your data before enabling this option."
 msgstr ""
 
@@ -3440,7 +3483,7 @@ msgid "Admin Interface"
 msgstr ""
 
 #: includes/admin/templates/settings/display.php:13
-#: src/Service/Admin/SiteHealthInfo.php:176
+#: src/Service/Admin/SiteHealthInfo.php:203
 msgid "View Stats in Editor"
 msgstr ""
 
@@ -3449,7 +3492,7 @@ msgid "Show a summary of content view statistics in the post editor."
 msgstr ""
 
 #: includes/admin/templates/settings/display.php:25
-#: src/Service/Admin/SiteHealthInfo.php:181
+#: src/Service/Admin/SiteHealthInfo.php:208
 msgid "Views Column in Content List"
 msgstr ""
 
@@ -3458,7 +3501,7 @@ msgid "Display the \"Views\" column in the content list menus, showing the page 
 msgstr ""
 
 #: includes/admin/templates/settings/display.php:36
-#: src/Service/Admin/SiteHealthInfo.php:186
+#: src/Service/Admin/SiteHealthInfo.php:213
 msgid "Views Column in User List"
 msgstr ""
 
@@ -3467,7 +3510,7 @@ msgid "Display the \"Views\" column in the admin user list, showing the view cou
 msgstr ""
 
 #: includes/admin/templates/settings/display.php:47
-#: src/Service/Admin/SiteHealthInfo.php:191
+#: src/Service/Admin/SiteHealthInfo.php:218
 msgid "Show Stats in Admin Menu Bar"
 msgstr ""
 
@@ -3476,7 +3519,7 @@ msgid "View your site's statistics directly from the WordPress admin menu bar."
 msgstr ""
 
 #: includes/admin/templates/settings/display.php:59
-#: src/Service/Admin/SiteHealthInfo.php:196
+#: src/Service/Admin/SiteHealthInfo.php:223
 msgid "Previous Period in Charts"
 msgstr ""
 
@@ -3485,7 +3528,7 @@ msgid "Show data from the previous period in charts for comparison."
 msgstr ""
 
 #: includes/admin/templates/settings/display.php:71
-#: src/Service/Admin/SiteHealthInfo.php:201
+#: src/Service/Admin/SiteHealthInfo.php:228
 msgid "WP Statistics Widgets in the WordPress dashboard"
 msgstr ""
 
@@ -3494,6 +3537,7 @@ msgid "View WP Statistics widgets in the WordPress dashboard."
 msgstr ""
 
 #: includes/admin/templates/settings/display.php:83
+#: src/Service/Admin/SiteHealthInfo.php:233
 msgid "WP Statistics Notifications"
 msgstr ""
 
@@ -3502,7 +3546,7 @@ msgid "Display important notifications inside the plugin, such as new version re
 msgstr ""
 
 #: includes/admin/templates/settings/display.php:95
-#: src/Service/Admin/SiteHealthInfo.php:206
+#: src/Service/Admin/SiteHealthInfo.php:238
 msgid "Disable Inactive Essential Feature Notices"
 msgstr ""
 
@@ -3515,7 +3559,7 @@ msgid "Frontend Display"
 msgstr ""
 
 #: includes/admin/templates/settings/display.php:117
-#: src/Service/Admin/SiteHealthInfo.php:211
+#: src/Service/Admin/SiteHealthInfo.php:243
 msgid "Views in Single Contents"
 msgstr ""
 
@@ -3540,12 +3584,12 @@ msgid "Choose the position to show views."
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:5
-#: src/Service/Admin/SiteHealthInfo.php:221
+#: src/Service/Admin/SiteHealthInfo.php:253
 msgid "User Role Exclusions"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:15
-#: src/Service/Admin/SiteHealthInfo.php:337
+#: src/Service/Admin/SiteHealthInfo.php:539
 #: src/Service/Debugger/Provider/OptionsProvider.php:156
 msgid "Anonymous Users"
 msgstr ""
@@ -3567,7 +3611,7 @@ msgid "Exclude data collection for users with the %s role."
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:40
-#: src/Service/Admin/SiteHealthInfo.php:226
+#: src/Service/Admin/SiteHealthInfo.php:258
 msgid "IP Exclusions"
 msgstr ""
 
@@ -3605,7 +3649,7 @@ msgid "Set a threshold for daily robot visits. Robots exceeding this number dail
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:95
-msgid "GeoIP Exclusions"
+msgid "Geolocation Exclusions"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:99
@@ -3631,7 +3675,7 @@ msgid "URL Exclusions"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:125
-#: src/Service/Admin/SiteHealthInfo.php:231
+#: src/Service/Admin/SiteHealthInfo.php:263
 msgid "Excluded Login Page"
 msgstr ""
 
@@ -3640,7 +3684,7 @@ msgid "Login and Register page visits will not be included in site visit counts.
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:132
-#: src/Service/Admin/SiteHealthInfo.php:236
+#: src/Service/Admin/SiteHealthInfo.php:268
 msgid "Excluded RSS Feeds"
 msgstr ""
 
@@ -3649,7 +3693,7 @@ msgid "RSS feeds visits will not be included in site visit counts."
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:139
-#: src/Service/Admin/SiteHealthInfo.php:241
+#: src/Service/Admin/SiteHealthInfo.php:273
 msgid "Excluded 404 Pages"
 msgstr ""
 
@@ -3658,7 +3702,7 @@ msgid "404 Page visits will not be included in site visit counts."
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:146
-#: src/Service/Admin/SiteHealthInfo.php:246
+#: src/Service/Admin/SiteHealthInfo.php:278
 msgid "Excluded URLs"
 msgstr ""
 
@@ -3684,7 +3728,7 @@ msgid "Control which URL query parameters are retained in your statistics. The d
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:185
-#: src/Service/Admin/SiteHealthInfo.php:251
+#: src/Service/Admin/SiteHealthInfo.php:283
 msgid "Matomo Referrer Spam Blacklist"
 msgstr ""
 
@@ -3729,7 +3773,7 @@ msgid "General Exclusions"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:271
-#: src/Service/Admin/SiteHealthInfo.php:256
+#: src/Service/Admin/SiteHealthInfo.php:288
 msgid "Log Record Exclusions"
 msgstr ""
 
@@ -3742,7 +3786,7 @@ msgid "Tracking Options"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:17
-#: src/Service/Admin/SiteHealthInfo.php:121
+#: src/Service/Admin/SiteHealthInfo.php:148
 msgid "Monitor Online Visitors"
 msgstr ""
 
@@ -3751,7 +3795,7 @@ msgid "Tracks and displays visitors currently online, including their activity d
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:30
-#: src/Service/Admin/SiteHealthInfo.php:126
+#: src/Service/Admin/SiteHealthInfo.php:153
 msgid "Track Logged-In User Activity"
 msgstr ""
 
@@ -3771,7 +3815,7 @@ msgid "Note: Compliance with GDPR and other privacy regulations is essential. In
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:46
-#: src/Service/Admin/SiteHealthInfo.php:131
+#: src/Service/Admin/SiteHealthInfo.php:158
 msgid "Store Entire User Agent String"
 msgstr ""
 
@@ -3780,7 +3824,7 @@ msgid "Records full details of visitors for diagnostic purposes. When 'Hash IP A
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:61
-#: src/Service/Admin/SiteHealthInfo.php:136
+#: src/Service/Admin/SiteHealthInfo.php:163
 msgid "Attribution Model"
 msgstr ""
 
@@ -3801,7 +3845,7 @@ msgid "Tracker Configuration"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:88
-#: src/Service/Admin/SiteHealthInfo.php:141
+#: src/Service/Admin/SiteHealthInfo.php:168
 msgid "Tracking Method"
 msgstr ""
 
@@ -3818,7 +3862,7 @@ msgid "Client Side Tracking uses the visitor’s browser for better accuracy and
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:106
-#: src/Service/Admin/SiteHealthInfo.php:146
+#: src/Service/Admin/SiteHealthInfo.php:173
 msgid "Bypass Ad Blockers"
 msgstr ""
 
@@ -3861,7 +3905,7 @@ msgid "Your next report is scheduled to be sent on <b>%s at %s</b>."
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:48
-#: src/Service/Admin/SiteHealthInfo.php:216
+#: src/Service/Admin/SiteHealthInfo.php:248
 msgid "Report Frequency"
 msgstr ""
 
@@ -3954,7 +3998,7 @@ msgid "Data Protection"
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:11
-#: src/Service/Admin/SiteHealthInfo.php:151
+#: src/Service/Admin/SiteHealthInfo.php:178
 msgid "Anonymize IP Addresses"
 msgstr ""
 
@@ -3963,7 +4007,7 @@ msgid "Masks the last segment of a user's IP address for privacy, complying with
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:26
-#: src/Service/Admin/SiteHealthInfo.php:156
+#: src/Service/Admin/SiteHealthInfo.php:183
 msgid "Hash IP Addresses"
 msgstr ""
 
@@ -3984,34 +4028,57 @@ msgid "User Preferences"
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:71
-#: src/Service/Admin/SiteHealthInfo.php:161
+#: src/Service/Admin/SiteHealthInfo.php:188
 msgid "WP Consent Level Integration"
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:77
-#: src/Service/Admin/SiteHealthInfo.php:70
-#: src/Service/Admin/SiteHealthInfo.php:122
-#: src/Service/Admin/SiteHealthInfo.php:127
-#: src/Service/Admin/SiteHealthInfo.php:132
-#: src/Service/Admin/SiteHealthInfo.php:147
-#: src/Service/Admin/SiteHealthInfo.php:152
-#: src/Service/Admin/SiteHealthInfo.php:157
-#: src/Service/Admin/SiteHealthInfo.php:162
-#: src/Service/Admin/SiteHealthInfo.php:167
-#: src/Service/Admin/SiteHealthInfo.php:172
-#: src/Service/Admin/SiteHealthInfo.php:177
-#: src/Service/Admin/SiteHealthInfo.php:187
-#: src/Service/Admin/SiteHealthInfo.php:192
-#: src/Service/Admin/SiteHealthInfo.php:197
-#: src/Service/Admin/SiteHealthInfo.php:207
-#: src/Service/Admin/SiteHealthInfo.php:212
-#: src/Service/Admin/SiteHealthInfo.php:217
-#: src/Service/Admin/SiteHealthInfo.php:232
-#: src/Service/Admin/SiteHealthInfo.php:237
-#: src/Service/Admin/SiteHealthInfo.php:242
-#: src/Service/Admin/SiteHealthInfo.php:252
-#: src/Service/Admin/SiteHealthInfo.php:257
-#: src/Service/Admin/SiteHealthInfo.php:282
+#: src/Service/Admin/SiteHealthInfo.php:91
+#: src/Service/Admin/SiteHealthInfo.php:149
+#: src/Service/Admin/SiteHealthInfo.php:154
+#: src/Service/Admin/SiteHealthInfo.php:159
+#: src/Service/Admin/SiteHealthInfo.php:174
+#: src/Service/Admin/SiteHealthInfo.php:179
+#: src/Service/Admin/SiteHealthInfo.php:184
+#: src/Service/Admin/SiteHealthInfo.php:189
+#: src/Service/Admin/SiteHealthInfo.php:194
+#: src/Service/Admin/SiteHealthInfo.php:199
+#: src/Service/Admin/SiteHealthInfo.php:204
+#: src/Service/Admin/SiteHealthInfo.php:209
+#: src/Service/Admin/SiteHealthInfo.php:214
+#: src/Service/Admin/SiteHealthInfo.php:219
+#: src/Service/Admin/SiteHealthInfo.php:224
+#: src/Service/Admin/SiteHealthInfo.php:229
+#: src/Service/Admin/SiteHealthInfo.php:234
+#: src/Service/Admin/SiteHealthInfo.php:239
+#: src/Service/Admin/SiteHealthInfo.php:244
+#: src/Service/Admin/SiteHealthInfo.php:249
+#: src/Service/Admin/SiteHealthInfo.php:264
+#: src/Service/Admin/SiteHealthInfo.php:269
+#: src/Service/Admin/SiteHealthInfo.php:274
+#: src/Service/Admin/SiteHealthInfo.php:284
+#: src/Service/Admin/SiteHealthInfo.php:289
+#: src/Service/Admin/SiteHealthInfo.php:309
+#: src/Service/Admin/SiteHealthInfo.php:319
+#: src/Service/Admin/SiteHealthInfo.php:362
+#: src/Service/Admin/SiteHealthInfo.php:377
+#: src/Service/Admin/SiteHealthInfo.php:382
+#: src/Service/Admin/SiteHealthInfo.php:387
+#: src/Service/Admin/SiteHealthInfo.php:392
+#: src/Service/Admin/SiteHealthInfo.php:397
+#: src/Service/Admin/SiteHealthInfo.php:402
+#: src/Service/Admin/SiteHealthInfo.php:407
+#: src/Service/Admin/SiteHealthInfo.php:412
+#: src/Service/Admin/SiteHealthInfo.php:417
+#: src/Service/Admin/SiteHealthInfo.php:422
+#: src/Service/Admin/SiteHealthInfo.php:427
+#: src/Service/Admin/SiteHealthInfo.php:432
+#: src/Service/Admin/SiteHealthInfo.php:437
+#: src/Service/Admin/SiteHealthInfo.php:462
+#: src/Service/Admin/SiteHealthInfo.php:473
+#: src/Service/Admin/SiteHealthInfo.php:488
+#: src/Service/Admin/SiteHealthInfo.php:493
+#: src/Service/Admin/SiteHealthInfo.php:498
 msgid "Disabled"
 msgstr ""
 
@@ -4084,7 +4151,7 @@ msgid "For more details, please refer to our <a href=\"%s\" target=\"_blank\">do
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:162
-#: src/Service/Admin/SiteHealthInfo.php:166
+#: src/Service/Admin/SiteHealthInfo.php:193
 msgid "Anonymous Tracking"
 msgstr ""
 
@@ -4097,7 +4164,7 @@ msgid "<b>Note</b>: This feature is currently in beta and enables user tracking 
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:176
-#: src/Service/Admin/SiteHealthInfo.php:171
+#: src/Service/Admin/SiteHealthInfo.php:198
 msgid "Do Not Track (DNT)"
 msgstr ""
 
@@ -4118,7 +4185,7 @@ msgid "Number of Page Visitors"
 msgstr ""
 
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:41
-#: includes/class-wp-statistics-shortcode.php:289
+#: includes/class-wp-statistics-shortcode.php:291
 msgid "Searches"
 msgstr ""
 
@@ -4208,7 +4275,7 @@ msgid "Explore Details"
 msgstr ""
 
 #: includes/class-wp-statistics-admin-bar.php:51
-#: includes/class-wp-statistics-shortcode.php:287
+#: includes/class-wp-statistics-shortcode.php:289
 msgid "Page Views"
 msgstr ""
 
@@ -4372,7 +4439,7 @@ msgid "Host name"
 msgstr ""
 
 #: includes/class-wp-statistics-exclusion.php:41
-msgid "GeoIP"
+msgid "Geolocation"
 msgstr ""
 
 #: includes/class-wp-statistics-exclusion.php:42
@@ -4528,39 +4595,39 @@ msgstr ""
 msgid "Invalid hit request params."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:208
+#: includes/class-wp-statistics-install.php:211
 msgid "Click here to visit the plugin on WordPress.org"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:208
+#: includes/class-wp-statistics-install.php:211
 msgid "Visit WordPress.org page"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:210
+#: includes/class-wp-statistics-install.php:213
 msgid "Click here to rate and review this plugin on WordPress.org"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:210
+#: includes/class-wp-statistics-install.php:213
 msgid "Rate this plugin"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:593
+#: includes/class-wp-statistics-install.php:600
 msgid "WP Statistics database requires upgrade."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:596
+#: includes/class-wp-statistics-install.php:603
 msgid "Upgrade Database"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:620
+#: includes/class-wp-statistics-install.php:627
 msgid "Database Upgrade Completed Successfully!"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:658
+#: includes/class-wp-statistics-install.php:665
 msgid "Error During Operation. Please Refresh the Page."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:671
+#: includes/class-wp-statistics-install.php:678
 msgid "Item processed"
 msgstr ""
 
@@ -4672,107 +4739,107 @@ msgctxt "Search Engine"
 msgid "Unknown"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:278
+#: includes/class-wp-statistics-shortcode.php:280
 msgid "Statistic"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:281
+#: includes/class-wp-statistics-shortcode.php:283
 msgid "Select the statistic you wish to display."
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:288
+#: includes/class-wp-statistics-shortcode.php:290
 msgid "Page Visitors"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:290
+#: includes/class-wp-statistics-shortcode.php:292
 msgid "Post Count"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:291
+#: includes/class-wp-statistics-shortcode.php:293
 msgid "Page Count"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:292
+#: includes/class-wp-statistics-shortcode.php:294
 msgid "Comment Count"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:293
+#: includes/class-wp-statistics-shortcode.php:295
 msgid "Spam Count"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:294
+#: includes/class-wp-statistics-shortcode.php:296
 msgid "User Count"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:295
+#: includes/class-wp-statistics-shortcode.php:297
 #: includes/class-wp-statistics-widget.php:160
 #: includes/class-wp-statistics-widget.php:351
 msgid "Post Average"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:296
+#: includes/class-wp-statistics-shortcode.php:298
 #: includes/class-wp-statistics-widget.php:167
 #: includes/class-wp-statistics-widget.php:355
 msgid "Comment Average"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:297
+#: includes/class-wp-statistics-shortcode.php:299
 #: includes/class-wp-statistics-widget.php:174
 #: includes/class-wp-statistics-widget.php:359
 msgid "User Average"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:298
+#: includes/class-wp-statistics-shortcode.php:300
 #: includes/class-wp-statistics-widget.php:181
 #: includes/class-wp-statistics-widget.php:363
 msgid "Last Post Date"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:303
+#: includes/class-wp-statistics-shortcode.php:305
 msgid "Time Frame"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:306
+#: includes/class-wp-statistics-shortcode.php:308
 msgid "The time frame to get the statistic for, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it. Use \"total\" to get all recorded dates."
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:313
+#: includes/class-wp-statistics-shortcode.php:315
 msgid "Search Provider"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:316
+#: includes/class-wp-statistics-shortcode.php:318
 msgid "The search provider to get statistics on."
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:320
+#: includes/class-wp-statistics-shortcode.php:322
 msgid "Number Format"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:323
+#: includes/class-wp-statistics-shortcode.php:325
 msgid "The format to display numbers in: i18n, english, abbreviated, none."
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:329
+#: includes/class-wp-statistics-shortcode.php:331
 msgid "None"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:330
+#: includes/class-wp-statistics-shortcode.php:332
 msgid "English"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:331
+#: includes/class-wp-statistics-shortcode.php:333
 msgid "International"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:332
+#: includes/class-wp-statistics-shortcode.php:334
 msgid "Abbreviated"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:336
+#: includes/class-wp-statistics-shortcode.php:338
 msgid "Post/Page ID"
 msgstr ""
 
-#: includes/class-wp-statistics-shortcode.php:339
+#: includes/class-wp-statistics-shortcode.php:341
 msgid "The post/page ID to get page statistics on."
 msgstr ""
 
@@ -4863,7 +4930,7 @@ msgstr ""
 msgid "Choose a Specific Search Engine Type"
 msgstr ""
 
-#: includes/class-wp-statistics.php:286
+#: includes/class-wp-statistics.php:288
 msgid "Unable to create the required upload directory at <code>%s</code>. Please check that the web server has write permissions for the parent directory. Alternatively, you can manually create the directory yourself. Please keep in mind that the GeoIP database may not work correctly if the directory structure is not properly set up."
 msgstr ""
 
@@ -4920,16 +4987,24 @@ msgstr ""
 msgid "System error: %s"
 msgstr ""
 
-#: src/Service/Admin/AdminManager.php:45
+#: src/Service/Admin/AdminManager.php:55
 msgid "Please rate <strong>WP Statistics</strong> <a href=\"%2$s\" title=\"%3$s\" target=\"_blank\">★★★★★</a> on <a href=\"%2$s\" target=\"_blank\">WordPress.org</a> to help us spread the word. Thank you!"
 msgstr ""
 
-#: src/Service/Admin/AdminManager.php:48
+#: src/Service/Admin/AdminManager.php:58
 msgid "Rate WP Statistics"
 msgstr ""
 
-#: src/Service/Admin/AdminManager.php:62
+#: src/Service/Admin/AdminManager.php:72
 msgid "WordPress"
+msgstr ""
+
+#: src/Service/Admin/AjaxOptionUpdater.php:49
+msgid "Update option success."
+msgstr ""
+
+#: src/Service/Admin/AnonymizedUsageData/AnonymizedUsageDataManager.php:37
+msgid "Every 2 Months"
 msgstr ""
 
 #: src/Service/Admin/AuthorAnalytics/AuthorAnalyticsPage.php:72
@@ -5246,10 +5321,10 @@ msgid "Plugin activated successfully."
 msgstr ""
 
 #: src/Service/Admin/LicenseManagement/Plugin/PluginDecorator.php:214
-#: src/Service/Admin/SiteHealthInfo.php:292
-#: src/Service/Admin/SiteHealthInfo.php:297
-#: src/Service/Admin/SiteHealthInfo.php:302
-#: src/Service/Admin/SiteHealthInfo.php:307
+#: src/Service/Admin/SiteHealthInfo.php:324
+#: src/Service/Admin/SiteHealthInfo.php:329
+#: src/Service/Admin/SiteHealthInfo.php:334
+#: src/Service/Admin/SiteHealthInfo.php:339
 #: views/components/modals/introduce-premium/step-details.php:165
 msgid "Not Installed"
 msgstr ""
@@ -5562,10 +5637,6 @@ msgstr ""
 msgid "No notifications were found. The API returned an empty response from the following URL: %s"
 msgstr ""
 
-#: src/Service/Admin/Notification/NotificationManager.php:37
-msgid "Every 3 Days"
-msgstr ""
-
 #: src/Service/Admin/Overview/OverviewPage.php:27
 msgid "Quickly view your website’s traffic and visitor analytics."
 msgstr ""
@@ -5797,127 +5868,167 @@ msgstr ""
 msgid "Source Categories"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:51
-msgid "DB-IP Geolocation"
-msgstr ""
-
-#: src/Service/Admin/SiteHealthInfo.php:59
+#: src/Service/Admin/SiteHealthInfo.php:44
 msgid "This section contains debug information about your WP Statistics settings to help you troubleshoot issues."
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:69
+#: src/Service/Admin/SiteHealthInfo.php:72
+msgid "DB-IP Geolocation"
+msgstr ""
+
+#: src/Service/Admin/SiteHealthInfo.php:86
+msgid "Database Version"
+msgstr ""
+
+#: src/Service/Admin/SiteHealthInfo.php:90
 msgid "Detect Active Cache Plugin"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:70
-#: src/Service/Admin/SiteHealthInfo.php:71
+#: src/Service/Admin/SiteHealthInfo.php:91
+#: src/Service/Admin/SiteHealthInfo.php:92
 msgid "Enabled (%s)"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:74
+#: src/Service/Admin/SiteHealthInfo.php:95
 msgid "Active Post Types"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:78
+#: src/Service/Admin/SiteHealthInfo.php:99
 msgid "Daily Salt Date"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:91
-msgid "Cloudflare Required Headers Exists"
-msgstr ""
-
-#: src/Service/Admin/SiteHealthInfo.php:96
-msgid "GeoIP Database Exists"
-msgstr ""
-
-#: src/Service/Admin/SiteHealthInfo.php:100
-msgid "GeoIP Database Last Updated"
-msgstr ""
-
-#: src/Service/Admin/SiteHealthInfo.php:104
-msgid "GeoIP Database Size"
-msgstr ""
-
-#: src/Service/Admin/SiteHealthInfo.php:108
-msgid "GeoIP Database Type"
-msgstr ""
-
-#: src/Service/Admin/SiteHealthInfo.php:112
-msgid "GeoIP Database Validation"
-msgstr ""
-
-#: src/Service/Admin/SiteHealthInfo.php:122
-#: src/Service/Admin/SiteHealthInfo.php:127
-#: src/Service/Admin/SiteHealthInfo.php:132
-#: src/Service/Admin/SiteHealthInfo.php:147
-#: src/Service/Admin/SiteHealthInfo.php:152
-#: src/Service/Admin/SiteHealthInfo.php:157
-#: src/Service/Admin/SiteHealthInfo.php:162
-#: src/Service/Admin/SiteHealthInfo.php:167
-#: src/Service/Admin/SiteHealthInfo.php:172
-#: src/Service/Admin/SiteHealthInfo.php:187
-#: src/Service/Admin/SiteHealthInfo.php:192
-#: src/Service/Admin/SiteHealthInfo.php:197
-#: src/Service/Admin/SiteHealthInfo.php:207
-#: src/Service/Admin/SiteHealthInfo.php:212
-#: src/Service/Admin/SiteHealthInfo.php:232
-#: src/Service/Admin/SiteHealthInfo.php:237
-#: src/Service/Admin/SiteHealthInfo.php:242
-#: src/Service/Admin/SiteHealthInfo.php:252
-#: src/Service/Admin/SiteHealthInfo.php:257
-#: src/Service/Admin/SiteHealthInfo.php:282
-msgid "Enabled"
-msgstr ""
-
-#: src/Service/Admin/SiteHealthInfo.php:142
-msgid "Client Side Tracking"
-msgstr ""
-
-#: src/Service/Admin/SiteHealthInfo.php:142
-msgid "Server Side Tracking"
-msgstr ""
-
-#: src/Service/Admin/SiteHealthInfo.php:222
-#: src/Service/Admin/SiteHealthInfo.php:227
-#: src/Service/Admin/SiteHealthInfo.php:247
-#: src/Service/Admin/SiteHealthInfo.php:262
-#: src/Service/Admin/SiteHealthInfo.php:267
-#: src/Service/Admin/SiteHealthInfo.php:272
-#: src/Service/Admin/SiteHealthInfo.php:277
-#: src/Service/Admin/SiteHealthInfo.php:287
+#: src/Service/Admin/SiteHealthInfo.php:113
+#: src/Service/Admin/SiteHealthInfo.php:254
+#: src/Service/Admin/SiteHealthInfo.php:259
+#: src/Service/Admin/SiteHealthInfo.php:279
+#: src/Service/Admin/SiteHealthInfo.php:294
+#: src/Service/Admin/SiteHealthInfo.php:299
+#: src/Service/Admin/SiteHealthInfo.php:304
+#: src/Service/Admin/SiteHealthInfo.php:314
 msgid "Not Set"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:227
-#: src/Service/Admin/SiteHealthInfo.php:247
+#: src/Service/Admin/SiteHealthInfo.php:117
+msgid "Cloudflare Required Headers Exists"
+msgstr ""
+
+#: src/Service/Admin/SiteHealthInfo.php:122
+msgid "GeoIP Database Exists"
+msgstr ""
+
+#: src/Service/Admin/SiteHealthInfo.php:127
+msgid "GeoIP Database Last Updated"
+msgstr ""
+
+#: src/Service/Admin/SiteHealthInfo.php:131
+msgid "GeoIP Database Size"
+msgstr ""
+
+#: src/Service/Admin/SiteHealthInfo.php:135
+msgid "GeoIP Database Type"
+msgstr ""
+
+#: src/Service/Admin/SiteHealthInfo.php:139
+msgid "GeoIP Database Validation"
+msgstr ""
+
+#: src/Service/Admin/SiteHealthInfo.php:149
+#: src/Service/Admin/SiteHealthInfo.php:154
+#: src/Service/Admin/SiteHealthInfo.php:159
+#: src/Service/Admin/SiteHealthInfo.php:174
+#: src/Service/Admin/SiteHealthInfo.php:179
+#: src/Service/Admin/SiteHealthInfo.php:184
+#: src/Service/Admin/SiteHealthInfo.php:189
+#: src/Service/Admin/SiteHealthInfo.php:194
+#: src/Service/Admin/SiteHealthInfo.php:199
+#: src/Service/Admin/SiteHealthInfo.php:204
+#: src/Service/Admin/SiteHealthInfo.php:209
+#: src/Service/Admin/SiteHealthInfo.php:214
+#: src/Service/Admin/SiteHealthInfo.php:219
+#: src/Service/Admin/SiteHealthInfo.php:224
+#: src/Service/Admin/SiteHealthInfo.php:229
+#: src/Service/Admin/SiteHealthInfo.php:234
+#: src/Service/Admin/SiteHealthInfo.php:239
+#: src/Service/Admin/SiteHealthInfo.php:244
+#: src/Service/Admin/SiteHealthInfo.php:264
+#: src/Service/Admin/SiteHealthInfo.php:269
+#: src/Service/Admin/SiteHealthInfo.php:274
+#: src/Service/Admin/SiteHealthInfo.php:284
+#: src/Service/Admin/SiteHealthInfo.php:289
+#: src/Service/Admin/SiteHealthInfo.php:309
+#: src/Service/Admin/SiteHealthInfo.php:319
+#: src/Service/Admin/SiteHealthInfo.php:362
+#: src/Service/Admin/SiteHealthInfo.php:377
+#: src/Service/Admin/SiteHealthInfo.php:382
+#: src/Service/Admin/SiteHealthInfo.php:387
+#: src/Service/Admin/SiteHealthInfo.php:392
+#: src/Service/Admin/SiteHealthInfo.php:397
+#: src/Service/Admin/SiteHealthInfo.php:402
+#: src/Service/Admin/SiteHealthInfo.php:407
+#: src/Service/Admin/SiteHealthInfo.php:412
+#: src/Service/Admin/SiteHealthInfo.php:417
+#: src/Service/Admin/SiteHealthInfo.php:422
+#: src/Service/Admin/SiteHealthInfo.php:427
+#: src/Service/Admin/SiteHealthInfo.php:432
+#: src/Service/Admin/SiteHealthInfo.php:437
+#: src/Service/Admin/SiteHealthInfo.php:462
+#: src/Service/Admin/SiteHealthInfo.php:473
+#: src/Service/Admin/SiteHealthInfo.php:488
+#: src/Service/Admin/SiteHealthInfo.php:493
+#: src/Service/Admin/SiteHealthInfo.php:498
+msgid "Enabled"
+msgstr ""
+
+#: src/Service/Admin/SiteHealthInfo.php:169
+msgid "Client Side Tracking"
+msgstr ""
+
+#: src/Service/Admin/SiteHealthInfo.php:169
+msgid "Server Side Tracking"
+msgstr ""
+
+#: src/Service/Admin/SiteHealthInfo.php:259
+#: src/Service/Admin/SiteHealthInfo.php:279
 msgid "Set"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:271
+#: src/Service/Admin/SiteHealthInfo.php:303
 msgid "IP Detection Method"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:291
+#: src/Service/Admin/SiteHealthInfo.php:323
 msgid "PHP Extension (GMP)"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:292
-#: src/Service/Admin/SiteHealthInfo.php:297
-#: src/Service/Admin/SiteHealthInfo.php:302
-#: src/Service/Admin/SiteHealthInfo.php:307
+#: src/Service/Admin/SiteHealthInfo.php:324
+#: src/Service/Admin/SiteHealthInfo.php:329
+#: src/Service/Admin/SiteHealthInfo.php:334
+#: src/Service/Admin/SiteHealthInfo.php:339
 msgid "Installed"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:296
+#: src/Service/Admin/SiteHealthInfo.php:328
 msgid "PHP Extension (BCMath)"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:301
+#: src/Service/Admin/SiteHealthInfo.php:333
 msgid "PHP Function (gzopen)"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:306
+#: src/Service/Admin/SiteHealthInfo.php:338
 msgid "PHP Class (PharData)"
+msgstr ""
+
+#: src/Service/Admin/SiteHealthInfo.php:436
+msgid "Record Email Logs"
+msgstr ""
+
+#: src/Service/Admin/SiteHealthInfo.php:472
+msgid "White Label"
+msgstr ""
+
+#: src/Service/Admin/SiteHealthInfo.php:497
+msgid "Latest Visitors In Editor"
 msgstr ""
 
 #: src/Service/Admin/VisitorInsights/Views/SingleVisitorView.php:23
@@ -6160,8 +6271,8 @@ msgstr ""
 msgid "Contact Support"
 msgstr ""
 
-#: src/Service/Geolocation/AbstractGeoIPProvider.php:213
-#: src/Service/Geolocation/AbstractGeoIPProvider.php:217
+#: src/Service/Geolocation/AbstractGeoIPProvider.php:214
+#: src/Service/Geolocation/AbstractGeoIPProvider.php:218
 msgid "GeoIP update on"
 msgstr ""
 
@@ -6563,6 +6674,7 @@ msgstr ""
 msgid "Skip"
 msgstr ""
 
+#: views/components/notices/action-notice.php:21
 #: views/components/notification/card.php:34
 msgid "Dismiss"
 msgstr ""
@@ -6595,6 +6707,18 @@ msgstr ""
 #: views/components/notification/side-bar.php:67
 #: views/components/notification/side-bar.php:70
 msgid "dismissed list"
+msgstr ""
+
+#: views/components/objects/share-anonymous-notice.php:7
+msgid "Help Us Improve WP Statistics!"
+msgstr ""
+
+#: views/components/objects/share-anonymous-notice.php:8
+msgid "We’ve added a new Usage Tracking option to help us understand how WP Statistics is used and identify areas for improvement. By enabling this feature, you’ll help us make the plugin better for everyone. No personal or sensitive data is collected."
+msgstr ""
+
+#: views/components/objects/share-anonymous-notice.php:15
+msgid "Enable Share Anonymous Data"
 msgstr ""
 
 #: views/components/privacy-audit/anonymize-ips-unpassed.php:1
