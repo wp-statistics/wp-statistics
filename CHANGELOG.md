@@ -1,4 +1,5 @@
 = 14.13 - 2025-04-01 =
+
 - **New:** Introduced Notifications to receive important updates and promotions.
 - **New:** Added an optional "Share Anonymous Data" feature to help improve WP Statistics without collecting personal information.
 - **Enhancement:** Removed the Honeypot feature.
@@ -11,8 +12,10 @@
 - **Fix:** The 'Get More with Premium Analytics' widget is now hidden for premium users.
 - **Fix:** Fixed discrepancies between shortcode view counts and traffic summary/visitor insights.
 - **Fix:** Corrected an issue where all Facebook traffic was categorized as Paid Social.
+- **Fix:** Removed table prefix from shared data.
 
 = 14.12.6 - 2025-02-12
+
 - **New:** Added DB-IP as a location detection option.
 - **New:** Added `first_page`, `first_view`, `last_page`, and `last_view` columns to the visitor table for better performance.
 - **Enhancement:** Refactored internal filters for improved efficiency.
@@ -27,6 +30,7 @@
 - **Fix:** Fixed a permissions check issue on the settings page.
 
 = 14.12.5 - 2025-02-23 =
+
 - **Enhancement:** Hide Online Visitors elements when "Monitor Online Visitors" is off.
 - **Enhancement:** Improved number formatting: full display below 1,000, abbreviated above.
 - **Enhancement:** Removed "Latest Visitors Preview" when Data Plus isn't active.
@@ -39,9 +43,11 @@
 - **Fix:** Resolved database errors from `%i` misuse in queries.
 
 = 14.12.4 - 2025-02-06 =
+
 - **Fix:** Fixed issues with Dashboard charts not loading due to an empty metalist and metaboxes not loading in specific cases.
 
 = 14.12.3 - 2025-02-05 =
+
 - **New:** Added an option to permanently delete all plugin data when uninstalling.
 - **New:** Introduced a "URL" filter in Page Insights to refine report results.
 - **Enhancement:** Strengthened privacy protection by upgrading the IP hashing algorithm from SHA-1 to SHA-256.
@@ -54,6 +60,7 @@
 - **Fix:** Corrected the loading order of metaboxes for a smoother experience.
 
 = 14.12.2 - 2025-01-21 =
+
 - **New:** Added the ability to change the chart interval.
 - **Enhancement:** Displayed dates in reports using the i18n format for better localization.
 - **Enhancement:** Updated the time display logic in the Tracker Debugger to replace "0 minutes ago" with "Now."
@@ -65,6 +72,7 @@
 - **New:** Added a feature that displays notifications to the client, sent from the server.
 
 = 14.12.1 - 2025-01-13 =
+
 - **New:** Added "Last Year" filter to metaboxes on the Overview page for yearly data.
 - **Enhancement:** Improved IP/Hash filter on the Visitor Insights page.
 - **Fix:** Resolved number formatting in the "Global Visitor Distribution" widget.
@@ -73,6 +81,7 @@
 - **Fix:** Corrected timezone mismatch in the "Traffic Summary" widget.
 
 14.12 - 2025-01-05
+
 - **New:** Introduced the "Source Categories" report under the "Referrals" section.
 - **New:** Introduced the "Social Media" report under the "Referrals" section.
 - **New:** Introduced the "404 Reports" under the "Page Insights" section.
@@ -95,6 +104,7 @@
 - **Fix:** Fixed recording inaccurate historical data while purging "visit" table.
 
 14.11.4 - 2024-12-09
+
 - **Enhancement:** Made the Global Visitor Distribution widget load faster on the Overview page.
 - **Enhancement:** Added geolocation validation to improve debugging accuracy.
 - **Enhancement:** Reduced unnecessary database requests and improved performance in exclusion settings.
@@ -114,11 +124,12 @@
 - **Fix:** Made the `views` column sortable again.
 - **Fix:** Resolved a PHP deprecation warning for better compatibility.
 - **Dev:** Added new filters for developers:
-  - `wp_statistics_geolocation_download_url`
-  - `wp_statistics_injection_patterns`
-  - `wp_statistics_location_column_value`
+    - `wp_statistics_geolocation_download_url`
+    - `wp_statistics_injection_patterns`
+    - `wp_statistics_location_column_value`
 
 14.11.3 - 2024-11-17
+
 - **New:** Added support for tracking unique visitors in shortcodes.
 - **Enhancement:** Updated the minimum required WordPress version to 5.3.
 - **Enhancement:** Added date tooltips to charts for easier monthly navigation.
@@ -133,15 +144,18 @@
 - **Fix:** Improved background process handling to prevent duplicate initialization.
 
 14.11.2 - 2024-11-05
+
 - **Fix:** Resolved memory usage issue in Firefox within the Overview page.
 - **Fix:** Fixed logged-in user views issue in the users list.
 
 14.11.1 - 2024-11-04
+
 - **Enhancement:** Ensured GeoIP location data is processed correctly.
 - **Enhancement:** Improved display of Add-Ons, with better support for right-to-left languages.
 - **Fix:** Corrected number formatting in Traffic Summary.
 
 14.11 - 2024-11-04
+
 - **New:** Launched WP Statistics Premium with a pop-up to introduce its features.
 - **New:** Added a dedicated header for Premium users, with minor updates to the free version’s header.
 - **New:** Completely revamped Referral reports.
@@ -160,6 +174,7 @@
 - **Fix:** Fixed user role exclusions in server side tracking.
 
 14.10.3 - 21.10.2024
+
 - **Enhancement**: Updated `moment.js` to version 2.30.1.
 - **Enhancement**: Set “views” as the default metric for mini charts in post list columns.
 - **Enhancement**: Ensured full compatibility with WordPress version 6.7.
@@ -170,6 +185,7 @@
 - **Fix**: Resolved missing PostsManager issue by optimizing autoloading, fixing access problems.
 
 14.10.2 - 02.10.2024
+
 - **Enhancement**: Encoded referral data in requests using Base64 to improve security.
 - **Enhancement**: Enhanced the “Performance at a Glance” section in email reports for better user experience.
 - **Enhancement**: Updated the layout and functionality of the visitor information section for easier use.
@@ -181,6 +197,7 @@
 - **Dev**: Added a new filter `wp_statistics_assets_handle` to manage assets more effectively.
 
 14.10.1 - 11.09.2024
+
 * **Enhancement:** UX improvement for visitor information when users are logged in.
 * **Enhancement:** Corrected sorting issues in bar charts.
 * **Enhancement:** Fixed font override conflicts.
@@ -200,6 +217,7 @@
 * **Dev:** Removed `Admin_Post` and `Admin_Taxonomy` classes and replaced them with `HitColumnHandler`.
 
 14.10 - 28.08.2024
+
 * New: Introduced the Visitor Insights menu by merging the Visitors, Views, Online Visitors, and Top Visitors reports into one centralized Visitors page.
 * New: Created the Page Insights menu by combining the Contents, Category Pages, and Author Pages reports into one unified Pages page for better organization.
 * New: Redesigned Single Visitor page with more detailed and better-organized visitor information.
@@ -211,6 +229,7 @@
 * Enhancement: Performance enhancements and bug fixes for overall smoother operation.
 
 14.9.3 - 28.07.2024
+
 * Enhancement: Enhanced IP Method Detection mechanism and updated the settings page for better user experience and simplicity.
 * Enhancement: Improved `tracker.js` by switching to xhr/POST requests and adding helpful console logs.
 * Enhancement: Enhanced the Add-Ons page and license activation status display.
@@ -222,6 +241,7 @@
 * Fix: Prevented Chart.js from loading in the admin bar when the mini-chart add-on is disabled.
 
 14.9.2 - 22.07.2024
+
 * Enhancement: Remove visitors from the user online section if inactive for more than 30 minutes, improving performance.
 * Enhancement: Avoid user online check requests when this feature is disabled.
 * Enhancement: Improve response codes for failed views and exclusions.
@@ -230,6 +250,7 @@
 * Fix: Corrected the issue where reporting emails were sent; the current status is now disabled by default.
 
 14.9.1 - 18.07.2024
+
 * Enhancement: Rename cache compatibility option to Tracking Method.
 * Enhancement: Show all post types on the posts report page.
 * Enhancement: Add visitor information to the posts report page.
@@ -243,6 +264,7 @@
 * Development: Add filter `wp_statistics_reset_user_online_time` and `wp_statistics_js_check_time_interval`.
 
 14.9 - 16.07.2024
+
 * New: Content Analytics: Replaces Post Type report with content insights.
 * New: Category Analytics: Replaces Taxonomies report with category insights.
 * New: Device Categories report: Added under Devices menu.
@@ -263,6 +285,7 @@
 * Fix: Top viewing authors: Inaccuracies fixed.
 
 14.8.1 - 26.06.2024
+
 * Fix: Compatibility issue with tracking page and default permalink structure.
 * Fix: Charts not displaying due to conflicts with old ChartJs versions from other plugins.
 * Fix: Metabox refresh issue in WordPress dashboard when enabling/disabling widgets via Screen Options.
@@ -280,6 +303,7 @@
 * Development: Added WP CLI command `wp statistics record`.
 
 14.8 - 17.06.2024
+
 * New: Author Analytics: Replaces the old Author report. Measures author performance and individual author statistics.
 * New: Geographic Reports: Location-based analytics, including countries, cities, European countries, US states, regions of your country.
 * New: [Bypass Ad Blockers](https://wp-statistics.com/resources/bypass-ad-blockers/): New option to dynamically load the tracking script with a unique name and address.
@@ -298,11 +322,13 @@
 * Dev: Added filters `wp_statistics_ip_detection_preview` and `wp_statistics_enable_feedbackbird`.
 
 14.7.2 - 02.06.2024
+
 * Fixes: The Author menu display issue has been resolved.
 * Fixes: The query issue related to visitor and visit relationships has been corrected.
 * New: Added command `wp statistics reinitialize` to WP-CLI functionality for re-initialize the tables.
 
 14.7.1 - 29.05.2024
+
 * Fixes: Fixed date filter on post type and taxonomies page.
 * Fixes: Fixed modify email subject with filter.
 * Fixes: Fixed user online current page bug.
@@ -316,6 +342,7 @@
 * Improvement: Made minor enhancements.
 
 14.7 - 20.05.2024
+
 * Addition: Introduced Privacy Audit Tool to ensure compliance with privacy laws. [More info click here](https://wp-statistics.com/2024/05/12/introducing-privacy-audit-in-wp-statistics-14-7/)
 * Addition: Added two new database columns, region and continent, to the visitor table to enhance geographical data.
 * Fixes: Resolved issues with the Date Picker filter and Visitor Map.
@@ -330,6 +357,7 @@
 * Improvement: Various minor enhancements to boost plugin stability and performance.
 
 14.6.4 - 03.05.2024
+
 * Fixes: Improved data comparison logic.
 * Fixes: Fixed some fields visibility on settings page.
 * Fixes: Fixed filter loading on Visitors page.
@@ -340,6 +368,7 @@
 * Improvement: Minor enhancements made.
 
 14.6.3 - 18.04.2024
+
 * Fixes: Resolved SQL query issues while purging the table from optimization & getting the browsers count.
 * Fixes: Addressed the builder scripts problem to minify the `tracker.js`.
 * Fixes: Corrected deprecated jQuery event and resolved errors on the overview page.
@@ -349,6 +378,7 @@
 * Improvement: Enhanced performance by optimizing VisitorProfile handling in class `Pages`
 
 14.6.2 - 16.04.2024
+
 * Addition: Integrated Chart Zoom Library
 * Fixes: Removed self-referred URLs from statistics
 * Fixes: Corrected search chart step size issue
@@ -360,11 +390,13 @@
 * Improvement: General performance enhancements and code clean-up
 
 14.6.1 - 13.04.2024
+
 * Feature: Introduced a sequential IP detection method in Settings → Basic Tracking
 * Fixes: Updated the Compatibility Visits meta-box and Widget to support PHP version 7.0.
 * Fixes: Refined and optimized SQL query processes for accurate page count calculations.
 
 14.6.0 - 11.04.2024
+
 * Updated: A new admin header is needed for easier use and quick access to important links.
 * Performance: Moved a `tracker.js` script to footer load last for faster page display.
 * Performance: Made scripts smaller to speed up loading.
@@ -385,18 +417,21 @@
 * Improvement: Made setting default options easier in multisite setups.
 
 14.5.2 - 12.03.2024
+
 * Feature: Added section 'Event Tracking' in the settings page. [More info](https://wp-statistics.com/2024/03/11/big-news-for-data-plus-introducing-link-and-download-tracking)
 * Fixes: The last year stats issue.
 * Improvement: Tooltip and improvement the admin styles.
 * Improvement: Minor Improvements.
 
 14.5.1 - 08.03.2024
+
 * Development: Action `wp_statistics_record_visitor` added.
 * Improvement: Escaped `str_url` in output of page metabox.
 * Improvement: Changed `check_online` input type to number & add failsafe for non-numeric values.
 * Improvement: Minor Improvements.
 
 14.5 - 24.02.2024
+
 * Feature: Added 'Allowed Query Parameters' option for specifying permissible URL query parameters. [Read more](https://wp-statistics.com/resources/managing-url-query-parameters/?utm_source=plugin&utm_medium=changelog&utm_campaign=settings).
 * Fixes: Resolved issue with displaying the home page in Top Pages.
 * Improvement: Updated name and description settings for better clarity and coherence.
@@ -404,9 +439,11 @@
 * Deprecate: Removed 'Strip URI Parameter' option from the plugin.
 
 14.4.4 - 15.02.2024
+
 * Fixes: Resolved issue with latest visitor when option 'Record User Page Visits' is disabled.
 
 14.4.3 - 14.02.2024
+
 * Improvement: Introduced a close button for easily dismissing the admin notice regarding database cleanup.
 
 14.4 - 13.02.2024
@@ -436,6 +473,7 @@ We’re delighted to roll out WP Statistics 14.4, bringing advanced privacy feat
 * Development: Added new filters `wp_statistics_notice_db_row_threshold`, `wp_statistics_schedule_db_maint_days`, and `wp_statistics_ajax_list` for advanced customization.
 
 v14.3.5 - 17.01.2024
+
 * Improvement: Set Requires at least to v5.0
 * Improvement: Remove storing the filter data in browser local storage
 * Improvement: Change date format to international date system
@@ -444,10 +482,12 @@ v14.3.5 - 17.01.2024
 * Fixes: Compatibility WhichBrowser with PHP v8.3
 
 v14.3.4 - 30.12.2023
+
 * Fixes: Improved layout of the settings page tabs in tablet-view.
 * Improvement: Implemented asynchronous requests for performance enhancement.
 
 v14.3.3 - 28.12.2023
+
 * Fixes: Display issue with screen option on overview page now corrected.
 * Fixes: Warning issues in author features resolved.
 * Fixes: Type Error in User Online Subtraction Operation addressed.
@@ -458,6 +498,7 @@ v14.3.3 - 28.12.2023
 * Improvement: Hit request now initiates after page loads for optimized performance.
 
 v14.3.2 - 22.12.2023
+
 * Feature: New pagination on countries page for easier navigation.
 * Feature: Added informative tooltips to overview components for better understanding.
 * Fixes: Resolved issue where the table was being altered with every update.
@@ -470,6 +511,7 @@ v14.3.2 - 22.12.2023
 * Development: Added `wp_statistics_after_user_column` action for extended functionality.
 
 v14.2 - 09.10.2023
+
 * Feature: Save default date range filter for overview components
 * Feature: Add filter `wp_statistics_search_engine_list` to modify the search engines.
 * Feature: Add User column to the Online Users component
@@ -484,17 +526,21 @@ v14.2 - 09.10.2023
 * Improvement: Add XML-RPC, Cross-Site, and Pre Flight request exclusions
 
 v14.1.6.2 - 18.09.2023
+
 * Enhancement: Utilized admin-ajax.php for improved Ad-Blocker compatibility when displaying admin meta boxes with statistics.
 
 v14.1.6.1 - 11.09.2023
+
 * Bugfix: Resolved font loading issues in widgets
 * Enhancement: Improved error messages when the plugin endpoints are blocked by Ad-Blockers
 
 v14.1.6 - 30.08.2023
+
 * Bugfix: The missing record logged users in visitor.
 * Update: ChartJs to v4.4.0
 
 v14.1.5 - 15.08.2023
+
 * Update: Compatibility with WordPress v6.3
 * Bugfix: Resolved compatibility issue between custom post types and WP Statistics MiniChart plugin.
 * Bugfix: Included sub-page ID parameter within the pages-chart component for enhanced functionality.
@@ -502,6 +548,7 @@ v14.1.5 - 15.08.2023
 * Development: Implemented an exclusion to the hit response for improved debugging capabilities.
 
 v14.1.4 - 26.07.2023
+
 * Bugfix: Fixed an issue with deprecated WhichBrowser Useragent in PHP v8.2.
 * Bugfix: Resolved a bug preventing storage of long URIs in the Pages Table.
 * Bugfix: Addressed the home page counting stats issue.
@@ -509,9 +556,11 @@ v14.1.4 - 26.07.2023
 * Improvement: Refined Plugin Header for better clarity and consistency.
 
 v14.1.3.1 - 08.07.2023
+
 * Improvement: Backward compatibility
 
 v14.1.3 - 04.07.2023
+
 * Feature: Add possibility to load geoip from other sources
 * Feature: Integrated a Feedback button powered by [FeedbackBird!](https://feedbackbird.io/) in the admin area to gather user feedback.
 * Bugfix: Showing private default post types
@@ -521,18 +570,21 @@ v14.1.3 - 04.07.2023
 * Improvement: Mirror and backward compatibility
 
 v14.1.2 - 23.05.2023
+
 * Improvement: Fix showing actual page name in post types hit meta boxes
 * Improvement: Fix a bug when date filter doesn't affect referring widget data
 * Improvement: Fix showing actual page name in post types hit meta boxes header
 * Improvement: Add filter `wp_statistics_geo_ip_download_url`
 
 v14.1.1 - 20.05.2023
+
 * Feature: Add `/wp-json/wp-statistics/v2/online` endpoint to maintain real-time user presence on the page.
 * Improvement: Enhance `tracker.js` and implement minor optimizations.
 * Improvement: Upgrade email template and enhance email functionalities.
 * Improvement: Ensure compatibility with PHP v5.6, although we highly recommend upgrading your PHP version for better performance and security.
 
 v14.1 - 02.05.2023
+
 * Improvement: Compatibility with WordPress v6.2
 * Improvement: Update ChartJs to the latest version, v4.2.1
 * Improvement: Avoid to return cache status before filter statement
@@ -541,6 +593,7 @@ v14.1 - 02.05.2023
 * Bugfix: Fix a bug related to displaying rest API error messages in the meta box AJAX.
 
 v14.0.2 - 09.03.2023
+
 * Bugfix: Compatibility with PHP v7.0
 * Bugfix: Fix some Javascript errors that caused to not showing-up the charts.
 * Bugfix: Fix search chart height issue
@@ -573,37 +626,46 @@ v14.0 - 26.02.20
 For more information about this update, please [visit our blog post](https://wp-statistics.com/2023/02/26/wp-statistics-gets-a-major-update-version-14-0-breakdown/).
 
 v13.2.16 - 03.02.2023
+
 * Bugfix: The exclusion cache issue
 * Improvement: Populate post type title for archive pages
 
 v13.2.15 - 13.01.2023
+
 * Bugfix: The exclusion issue when user is logged-in
 * Bugfix: The issue the API request to hit endpoint when permalink is default
 
 v13.2.14 - 10.01.2023
+
 * Improvement: Compatibility with WordPress < 5.0
 
 v13.2.13 - 09.01.2023
+
 * Bugfix: Fix recent, Top Visitor and Visitor page timeout & querying issue
 
 v13.2.12 - 08.01.2023
+
 * Bugfix: Get top 10 visitor issue has been fixed
 * Bugfix: Changing the current language in admin has been fixed
 
 v13.2.11 - 01.01.2023
+
 * Feature: A privacy setting has been added that allows customers to enable Do Not Track mode.
 * Improvement: Hardened plugin security and improvement
 
 v13.2.10 - 24.12.2022
+
 * Bugfix: Logs the pages with query strings and UTM parameters
 
 v13.2.9 - 17.12.2022
+
 * Bugfix: The include issue in CLI mode
 * Improvement: Error handler for referred that doesn't have any URL
 * Improvement: Hardened plugin security and improvement
 * Enhancement: Minor Improvements
 
 v13.2.8 - 03.12.2022
+
 * Feature: Respect and compatibility with [Do Not Track](https://en.wikipedia.org/wiki/Do_Not_Track) browsers setting.
 * Feature: Add filter `wp_statistics_top_pages_arguments` to change the arguments of top pages.
 * Bugfix: Fix the Add-On notice constraint issue.
@@ -614,6 +676,7 @@ v13.2.8 - 03.12.2022
 * Improvement: Support method `Helper::get_pages_by_visitor_id()` to get pages by visitor id.
 
 v13.2.7 - 23.10.2022
+
 * Bugfix: The error message while purging all databases
 * Update: The ChartJs library updated to v3.9.1
 * Improvement: Compatibility with PHP v8.0
@@ -622,12 +685,14 @@ v13.2.7 - 23.10.2022
 * Improvement: Enable Hash & Anonymous IP by default and make anonymize it before hashing
 
 v13.2.6 - 07.09.2022
+
 * Improvement: Compatibility with Apache `security_mode`
 * Improvement: Remove coefficient per visitor field from general/visitors settings
 * Improvement: Hardened plugin security and improvement
 * Improvement: Avoid printing visitor data to the page while caching compatibility
 
 v13.2.5 - 27.07.2022
+
 * Feature: Support plugin in the Privacy Policy content
 * Feature: Support plugin in Data Privacy Exporter and Data Eraser
 * Bugfix: The Top 5 Trending Pages Error has been fixed
@@ -638,9 +703,11 @@ v13.2.5 - 27.07.2022
 * Improvement: Prevent showing Unknown entities
 
 v13.2.4.1 - 25.06.2022
+
 * Bugfix: An issue to modify the visitors' table to add type and device model has been fixed
 
 v13.2.4 - 11.06.2022
+
 * Feature: The new device type & device model meta boxes has been added in Overview!
 * Bugfix: Enhancements and CSRF protection added to the settings and optimization pages
 * Improvement: REST API status checking
@@ -648,24 +715,29 @@ v13.2.4 - 11.06.2022
 * Improvement: Moved out "Top Referring" & "Online Users" from Overview side to right column
 
 v13.2.3 - 12.05.2022
+
 * Bugfix: Rendering the email reporting with HTML tags has been fixed
 * Bugfix: The browser version issue has been fixed
 * Update: WhichBrowser library has been updated to v2.1.7
 * Update: Requires WordPress version is set to at least v4.4
 
 v13.2.2.1 - 08.05.2022
+
 * Bugfix: Compatibility & fixed the UTF-8 permalinks issue
 * Bugfix: Showing the right hits of Total Page Views in the widget
 
 v13.2.2 - 08.05.2022
+
 * Improvement: Downloading 3rd party services, the GeoIP & Referrer Spammer databases now is on [jsDelivr](https://www.jsdelivr.com/)
 * Bugfix: Storing & sending HTML tags allowed for notification message body
 * Bugfix: Hardened plugin security and improvement
 
 v13.2.1 - 25.04.2022
+
 * Bugfix: Compatibility with PHP version lower than v7.4
 
 v13.2.0 - 25.04.2022
+
 * Enhancement: The admin bar statistical is smarter and shows the Hits based on the current page, category, tag, author, etc.
 * Enhancement: The number of page hits in the render hit column has been improvement
 * Enhancement: The ChartJs is more user-friendly
@@ -679,32 +751,38 @@ v13.2.0 - 25.04.2022
 * Bugfix: Showing the widget form bug has been fixed
 
 v13.1.7 - 18.03.2022
+
 * Update: Chart.js library updated to v3.7.1
 * Update: New filter `wp_statistics_cache_status` has been added
 * Enhancement: Backward compatibility of the widget data to prevent a notice error
 * Enhancement: Minor and small issues
 
 v13.1.6 - 16.02.2022
+
 * Bugfix: Hardened plugin security. (Special thanks to Muhammad Zeeshan (Xib3rR4dAr) & WPScan for reporting the issues)
 
 v13.1.5 - 02.02.2022
+
 * Enhancement: Tested up to v5.9
 * Enhancement: Disable showing the notices with hidden class in the admin settings page
 * Bugfix: A security issue to accepting the correct `exclusion_reason` through request
 * Bugfix: The 403 Forbidden Error issue in REST request
 
 v13.1.4 - 14.01.2022
+
 * Enhancement: Datepicker direction issue has been fixed
 * Enhancement: UTF-8 referrers URLs has been supported
 * Bugfix: The Apache 403 error has been fixed when passing the actual URL as the GET parameter
 * Bugfix: Date filter in Top Referring Sites has been fixed
 
 v13.1.3 - 23.12.2021
+
 * Bugfix: The issue for showing the pagination in date range template has been fixed
 * Enhancement: Skip undefined `HTTP_HOST` notice error
 * Enhancement: Minor Improvements
 
 v13.1.2 - 09.11.2021
+
 * Enhancement: Avoiding altering some tables after every upgrade
 * Enhancement: Pages widget table clutter issue fixed when URLs are long
 * Bugfix: The variable types bug in Matomo Referrer schedule weekly update fixed
@@ -712,6 +790,7 @@ v13.1.2 - 09.11.2021
 * Update: User roles added in online page
 
 13.1.1
+
 - Fixed exclusions setting page and storing properly data in option page and keep lines in the input data
 - Fixed some tweak issues and improved setting pages
 - Fixed showing chart in RTL language
@@ -719,6 +798,7 @@ v13.1.2 - 09.11.2021
 - Updated Chart.js to v3.5.1
 
 13.1
+
 - New admin design!
 - Improvement input data in setting and optimization page as well
 - Escaping all input data in admin pages, (Special thanks to Vlad Visse)
@@ -728,6 +808,7 @@ v13.1.2 - 09.11.2021
 - Updated the mapping tool link to a site that doesn't have errors
 
 13.0.9
+
 - Compatibility with PHP v8 and WordPress v5.8
 - Fixed log file path and moved out to wp-content/uploads/wp-statistics/debug.log and protected for the public access as well
 - Fixed updating widget and compatibility with block-based
@@ -735,17 +816,20 @@ v13.1.2 - 09.11.2021
 - Updated Chart.js to v3.4.1
 
 13.0.8
+
 - Improvement getting page id & type queries for the admin page
 - Added no-cache in the hit endpoint response to compatibility with Cloudflare HTML caching
 - Improvement exceptions to make sure working properly
 
 13.0.7
+
 - Compatibility with WordPress v5.7
 - Fixes linking hits page from post meta box
 - Support new hooks for email reporting and fix email logging
 - Compatibility with Advanced Reporting and fixes tweak issues
 
 13.0.6
+
 - Improvement the time-out functionality while downloading the GeoIP city database.
 - Fixed conflict with custom post-type column.
 - Fixed error to passing the wrong argument for implode in WhichBrowser.
@@ -755,6 +839,7 @@ v13.1.2 - 09.11.2021
 - Minor Improvements.
 
 13.0.5
+
 - Compatibility the ChartJs with some kind of plugins.
 - Compatibility with WordPress v5.6
 - Improvement error handling with REST API
@@ -764,6 +849,7 @@ v13.1.2 - 09.11.2021
 - Minor Improvements in SQL queries.
 
 13.0.4
+
 - Compatibility with PHP v7.2 and adjustment requires PHP version in the Composer to 5.6
 - Fixed the issue to get the `Referred::get()` method during the initial plugin.
 - Fixed issue to create tables queries in MariaDB v10.3
@@ -814,6 +900,7 @@ v13.1.2 - 09.11.2021
 - Improved loading of JS files based on plugin-specific pages
 
 12.6.1
+
 - Added Whip Package for getting visitor's IP address.
 - Fixed get the country code when the Hash or Anonymize IP Addresses is enabled.
 - Added database upgrade class for update page type.
@@ -824,7 +911,9 @@ v13.1.2 - 09.11.2021
 - Improvement visitor's hit when there was a broken file in that request.
 
 12.6
+
 # Added
+
 - Post/Page Select in statistics page reporting according to post Type.
 - Online Users widget, A cool widget to show current online users!
 - A new table `visitor_relationship` for saving visitors logs.
@@ -832,6 +921,7 @@ v13.1.2 - 09.11.2021
 - Visitor count column in Top Country widget.
 
 # Improvement
+
 - Improvement MySQL time query in all functions.
 - Improvement online users page UI.
 - Improvement Top referrals UI.
@@ -850,10 +940,12 @@ v13.1.2 - 09.11.2021
 - Fix update option for Piwik blacklist.
 
 # Deprecated
+
 - Remove `WP_Statistics_Pagination` class.
 - Deprecate Top Search Words (30 Days) widget.
 
 12.5.7
+
 * Added: The Edge To Browser List.
 * Added: `date_i18n` function in dates for retrieving localized date.
 * Improved: The Browsers charts.
@@ -861,18 +953,22 @@ v13.1.2 - 09.11.2021
 * Optimized: All png files. (60% Save).
 
 12.5.6
+
 * Fixed: Counting stats issue in Cache mode.
 
 12.5.5
+
 * Improved: The WP-Statistics Metaboxes for Gutenberg!
 * Improved: The `params()` method.
 * Improved: Referrers URL to be valid.
 
 12.5.4
+
 * Disabled: Notice cache in all admin pages just enabled in the summary and setting of WP-Statistics pages.
 * Improved: Some methods. `params()` and `get_hash_string()`.
 
 12.5.3
+
 * Added: Option for enabling/disabling the hits meta box chart in the edit of all post types page and that option is disabled by default.
 * Improved: The responsive problem of Recent Visitors and Latest Search Words widgets in WP Dashboard.
 * Improved: Avoid using jQuery in the inline script to for send request when the cache is enabled.
@@ -882,9 +978,11 @@ v13.1.2 - 09.11.2021
 * Improved: The query in the Author Statistics page.
 
 12.5.2
+
 * Improved: Some issues in php v5.4
 
 12.5.1
+
 * Added: Cache option for support when the cache enabled in the WordPress.
 * Added: Visitor's city name with GeoIP, you can enable the city name in Settings > Externals > GeoIP City
 * Added: WP-Statistics shortcode in the TinyMCE editor. you can use the shortcode easily in the posts and pages.
@@ -903,36 +1001,44 @@ v13.1.2 - 09.11.2021
 * Disabled: Baidu search engine by default after installing.
 
 12.4.3
+
 * Disabled: The welcome page and Travod widget.
 
 12.4.1
+
 * Implemented: The `do_welcome()` function.
 * Updated: Libraries to latest version.
 * Added: `delete_transient()` for deleting transients when uninstalling the plugin.
 
 12.4.0
+
 * Removed: The Opt-Out removed.
 * Added: Anonymize IP addresses option in the Setting > Privacy.
 
 12.3.6.4
+
 * Updated: Libraries to latest version.
 * Enabled: The suggestion notice in the log pages.
 * Improvement: Counting non-changing collections with `count()`. Thanks [Daniel Ruf](https://github.com/DanielRuf)
 
 12.3.6.3
+
 * Disabled: The suggestion notice.
 
 12.3.6.2
+
 * Tested: With PHP v7.2.4
 * Added: Suggestion notice in the log pages.
 * Added: New option for enable/disable notices.
 
 12.3.6.1
+
 * Improvement: I18n strings.
 * Improvement: GDPR, Supported for DNT-Header.
 * Improvement: GDPR, Added new option for delete visitor data with IP addresses.
 
 12.3.6
+
 * Note: GDPR, We Updated Our [Privacy Policy](https://wp-statistics.com/privacy-and-policy/).
 * Added Privacy tab in the setting page and moved Hash IP Addresses and Store entire user agent in this tab.
 * Added Opt-out option in the Setting page -> Privacy for GDPR compliance.
@@ -940,16 +1046,19 @@ v13.1.2 - 09.11.2021
 * Fixed: Issue to build search engine queries.
 
 12.3.5
+
 * Improvement: Isolation Browscap cache processes to reduce memory usage.
 * Improvement: Include `file.php` and `pluggable.php` in GeoIP downloader when is not exists.
 * Fixed: GeoIP database update problem. Added an alternative server for download database when impossible access to maxmind.com
 
 12.3.4
+
 * Updated: Browscap to v3.1.0 and fixed some issues.
 * Improvement: Memory usage in the plugin when the Browscap is enabled.
 * Improvement: Cache system and update Browscap database.
 
 12.3.2
+
 * Added: New feature! Show Hits on the single posts/pages.
 * Added: Pages Dropdown in the page stats.
 * Fixed: Menu bar for both frontend & backend.
@@ -958,6 +1067,7 @@ v13.1.2 - 09.11.2021
 * Fixed: Issue to show date range in the charts.
 
 12.3.1
+
 * We're sorry about last issues. Now you can update to new version to resolve the problems.
 * Updated: Composer libraries.
 * Fixed: A minor bug in `get_referrer_link`.
@@ -968,6 +1078,7 @@ v13.1.2 - 09.11.2021
 * If you have any problem, don't forget to send the report to our web site's [contact form](https://wp-statistics.com/contact/).
 
 12.3
+
 * The new version proves itself more than twice as faster because we had a lot of changes in the plugin.
 * Improvement: Management processes and front-end have been separated for more speed.
 * Improvement: MySQL Queries and used multi-index for `wp_statistics_pages`.
@@ -980,9 +1091,11 @@ v13.1.2 - 09.11.2021
 * Updated: Chart.js library to v2.7.1
 
 12.2.1
+
 * Fixed: Issue to `add_column` callback.
 
 12.2
+
 * The new version proves itself more than twice as faster because we had a lot of changes in the plugin.
 * Improvement: Many functions converted to classes.
 * Improvement: Export data on the optimization page.
@@ -995,6 +1108,7 @@ v13.1.2 - 09.11.2021
 * Thanks [Farhad Sakhaei](https://dedidata.com/) To help us with these changes.
 
 12.1.3
+
 * We're sorry about last issues. Now you can update to new version to resolve conflict issues.
 * Fixed: Chart conflict issues with other libraries.
 * Fixed: Chart height issue in css.
@@ -1004,6 +1118,7 @@ v13.1.2 - 09.11.2021
 * Fixed: Network menu icon.
 
 12.1.0
+
 * Added: Awesome charts! The Chartjs library used in the plugin for show charts.
 * Updated: Missed flags icons. (Curaçao, Saint Lucia, Turkmenistan, Kosovo, Saint Martin, Saint Barthélemy and Mayotte)
 * Updated: Countries code.
@@ -1014,15 +1129,18 @@ v13.1.2 - 09.11.2021
 * Removed: Additional assets and the assets cleaned up.
 
 12.0.12.1
+
 * Fixed: PHP syntax error for array brackets when the PHP < 5.4
 
 12.0.12
+
 * Added: Add-ons page! The Add-ons add functionality to your WP-Statistics. [Click here](https://wp-statistics.com/add-ons/) to see current Add-ons.
 * Fixed: Translations issue.
 * Updated: GeoIP library to v2.6.0
 * Updated: admin.min.css
 
 12.0.11
+
 * Release Date: August 17, 2017
 * Fixed: links issue in the last visitors page.
 * Fixed: i18n issues (hardcoded strings, missing or incorrect textdomains).
@@ -1031,28 +1149,33 @@ v13.1.2 - 09.11.2021
 * Updated: More, Reload and Toggle arrow buttons in metaboxes are consistent with WP core widget metaboxes, with screen-reader-text and key navigation. by [Pedro Mendonça](https://profiles.wordpress.org/pedromendonca/).
 
 12.0.10
+
 * Release Date: July 24, 2017
 * Added: UptimeRobot to the default robots list.
 * Fixed: Uses `esc_attr()` for cleaning `$_GET` in referrers page.
 * Removed: `screen_icon()` function from the plugin. (This function has been deprecated).
 
 12.0.9
+
 * Release Date: July 3, 2017
 * Fixed: XSS issue with agent and ip in visitors page, Thanks Ryan Dewhurst from Dewhurst Security Team.
 * Updated: GeoIP library to v2.5.0
 * Updated: Maxmind-db reader library to v1.1.3
 
 12.0.8.1
+
 * Release Date: July 2, 2017
 * Fixed: load languages file. please visit [translations page](https://wp-statistics.com/translations/) to help translation.
 
 12.0.8
+
 * Release Date: June 29, 2017
 * Fixed: SQL Injection vulnerability, thanks John Castro for reporting issue from sucuri.net Team.
 * Added: new hook (`wp_statistics_final_text_report_email`) in email reporting.
 * Removed: all language files from the language folder. Translations have moved to [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/wp-statistics).
 
 12.0.7
+
 * Release Date: June 8, 2017
 * WordPress 4.8 compatibility
 * Updated: WP-Statistics logo! Thanks [Arin Hacopian](http://aringrafix.com/) for design the logo.
@@ -1061,26 +1184,31 @@ v13.1.2 - 09.11.2021
 * Fixed: recent visitor link in dashboard widget.
 
 12.0.6
+
 * Release Date: April 27, 2017
 * Fixed: Additional XSS fixes, thanks Plugin Vulnerabilities Team.
 
 12.0.5
+
 * Release Date: April 6, 2017
 * Fixed: Referrers, that are not search engines, are missing from the referrers widget/page.
 * Fixed: Additional XSS fixes, thanks Gen Sato who submitted to JPCERT/CC Vulnerability Handling Team.
 * Fixed: Updated CSS definition for widgets to avoid overflow only for WP-Statistics widgets instead of all active widgets to avoid conflicts with other plugins.
 
 12.0.4
+
 * Release Date: April 1, 2017
 * Fixed: Additional XSS issue with referrers, thanks Gen Sato who submitted to JPCERT/CC Vulnerability Handling Team.
 * Updated: Optimizations for referrers encoding.
 * Updated: Logic for detecting invalid referrer types to capture more types.
 
 12.0.3
+
 * Release Date: March 31, 2017
 * Fixed: Additional XSS issue with referrers, thanks Gen Sato who submitted to JPCERT/CC Vulnerability Handling Team.
 
 12.0.2
+
 * Release Date: March 30, 2017
 * Fixed: Top referrer widget was not using the new search table.
 * Fixed: On the referrers page, selecting a host would reset the date range.
@@ -1088,6 +1216,7 @@ v13.1.2 - 09.11.2021
 * Fixed: XSS issue with referrers, thanks Gen Sato who submitted to JPCERT/CC Vulnerability Handling Team.
 
 12.0.1
+
 * Release Date: March 24, 2017
 * Added: Check for BCMath or GMP Math extensions to support newer GeoIP database files.
 * Fixed: Robots list not being updated on upgrades properly in some cases.
@@ -1096,6 +1225,7 @@ v13.1.2 - 09.11.2021
 * Fixed: Display of individual referring site stats.
 
 12.0.0
+
 * Release Date: February 18, 2017
 * Added: Categories, tags and authors stats pages.
 * Added: Option to exclude AJAX calls from the statistics collection.
@@ -1107,6 +1237,7 @@ v13.1.2 - 09.11.2021
 * Updated: Split change log, form this point forward only the changes for the last two major versions will be included, older entries can be found in the changes.txt file in the plugin root.
 
 11.0.3
+
 * Release Date: January 13, 2017
 * Added: Option to reset plugin options without deleting the data.
 * Fixed: If IP hashing as enabled a PHP would be generated during the hashing.
@@ -1115,6 +1246,7 @@ v13.1.2 - 09.11.2021
 * Updated: RTL CSS styles for left/right div's in the admin dashboard, thanks sszdh.
 
 11.0.2
+
 * Release Date: December 1, 2016
 * Fixed: Top visitors page css for date picker.
 * Fixed: Incorrect url for link on recent visitors widget.
@@ -1123,6 +1255,7 @@ v13.1.2 - 09.11.2021
 * Fixed: Duplicate display of hit statistics on hits page in some corner cases.
 
 11.0.1
+
 * Release Date: November 7, 2016
 * Fixed: Don't refresh a widget if it's not visible, fixes the widget being replaced by a spinner that never goes away.
 * Updated: Minimum PHP version is now 5.4.
@@ -1130,6 +1263,7 @@ v13.1.2 - 09.11.2021
 * Updated: jqPlot library to version development version and added DST fix.
 
 11.0
+
 * Release Date: October 28, 2016
 * Added: IPv6 Support.
 * Added: Time attribute to searches shortcode.
@@ -1147,6 +1281,7 @@ v13.1.2 - 09.11.2021
 * Removed: Last bits of google maps code.
 
 10.3
+
 * Release Date: August 19, 2016
 * Added: Support for minified css/js files and the SCRIPT_DEBUG WordPress define.
 * Added: <label> spans around the text for widget fields for easier styling.
@@ -1158,6 +1293,7 @@ v13.1.2 - 09.11.2021
 * Updated: GeoIP library to version 2.4.1.
 
 10.2
+
 * Release Date: August 2, 2016
 * Added: Support for use page id in Get_Historical_Data function.
 * Updated: jQuery CSS references.
@@ -1167,6 +1303,7 @@ v13.1.2 - 09.11.2021
 * Removed: Google Maps support as Google no longer supports keyless access to the API (http://googlegeodevelopers.blogspot.com.es/2016/06/building-for-scale-updates-to-google.html).
 
 10.1
+
 * Release Date: April 3, 2016
 * Updated: Top pages page to list the stats for the selected date range in the page list.
 * Updated: Added check for gzopen() function to the Optimization page as some builds of PHP are broken and do not include it which causes the GeoIP download to fail causing a white screen of death in some cases.
@@ -1181,11 +1318,13 @@ v13.1.2 - 09.11.2021
 * Fixed: Ensure we have a valid page id before record the stat to the database to avoid an error being recorded in the PHP error log.
 
 10.0.5
+
 * Release Date: February 5, 2016
 * Fixed: Date range selector display after entering a custom date range.
 * Fixed: Date ranges that ended in the past displaying the wrong visit/visitors data.
 
 10.0.4
+
 * Release Date: January 21, 2016
 * Fixed: Recent Visitors widget in the dashboard did not work.
 * Fixed: Top Visitors in Overview page would not reload.
@@ -1193,21 +1332,25 @@ v13.1.2 - 09.11.2021
 * Fixed: Typo in purge code that caused a fatal error.
 
 10.0.3
+
 * Release Date: January 19, 2016
 * Updated: Google map API now always uses https.
 * Fixed: Google map error that broken the overview page display of charts and the map.
 
 10.0.2
+
 * Release Date: January 19, 2016
 * Added: Additional error checking on widget load so they will retry if there is a failure.
 * Fixed: Added code to flush out invalid widget order user meta.
 * Fixed: Include Fatal Error if corrupt data was passed to the ajax widget code.
 
 10.0.1
+
 * Release Date: January 18, 2016
 * Fixed: If you re-ordered the widgets on the overview screen and then reloaded the page, all the widgets would disappear.
 
 10.0
+
 * Release Date: January 15, 2016
 * Added: Widgets now support reloading on overview and dashboard screen.
 * Updated: Overview screen now loads widgets dynamically to reduce memory usage.
@@ -1216,12 +1359,13 @@ v13.1.2 - 09.11.2021
 * Updated: Replaced the old eye icon and "more..." link on the right of the title on the overview widgets with a new icon on the right beside the open/close icon.
 * Fixed: Removed extraneous single quote in SQL statement on referrers page, thanks jhertel.
 * Fixed: Order of parameters in referrers page when viewing individual referrers was incorrect and resulted in a blank list.
-* Fixed: UpdatedSQL for last post date detection to order by post_date instead of ID as someone could enter a date in the past for their publish date.  Thanks PC1271 for the fix.
+* Fixed: UpdatedSQL for last post date detection to order by post_date instead of ID as someone could enter a date in the past for their publish date. Thanks PC1271 for the fix.
 * Fixed: The referrers widget would only select the first 100k records due to a limit in PHP/MySQL, it will now select all records.
 * Removed: Widget selection and ordering from the settings page, the "Screen Options" tab can now be used on the enabled/disable widgets and drag and drop will remember their location.
 * Removed: Overview page memory usage in the optimization page as it is no longer relevant.
 
 9.7
+
 * Release Date: December 30, 2015
 * Added: A date range to the referrers page.
 * Added: A Date range selector to browsers page.
@@ -1231,12 +1375,14 @@ v13.1.2 - 09.11.2021
 * Updated: phpUserAgent library to 0.5
 
 9.6.6
+
 * Release Date: November 1, 2015
 * Updated: Use timezone corrected dates for date pickers.
 * Updated the get_ip code to return 127.0.0.1 if no IP address is found (can happen when a user runs WordPress from a command line function, like when setting up a scheduled cron job).
 * Fixed: Several security related updates, thanks CodeV.
 
 9.6.5
+
 * Release Date: September 18, 2015
 * Updated: Updated support libraries, including browscap (2.0.5) and GeoIP (webservices).
 * Updated: The hits column in the post/pages list no longer requires manage permissions but instead view permission.
@@ -1245,10 +1391,12 @@ v13.1.2 - 09.11.2021
 * Fixed: When purging data an incorrect column name was used when updating the historical table.
 
 9.6.4
+
 * Release Date: September 15, 2015
 * Updated: Support new browscap.ini file format.
 
 9.6.3
+
 * Release Date: September 11, 2015
 * Updated: The database update nag link to the optimization page instead of the settings page.
 * Updated: Handle the case where the downloads haven't happened yet.
@@ -1257,6 +1405,7 @@ v13.1.2 - 09.11.2021
 * Fixed: If no page id was passed in on the pagestats shortcode the wrong default for page id would be used and no stats would be displayed.
 
 9.6.2
+
 * Release Date: September 5, 2015
 * Added: Search table to the empty table list.
 * Added: Search table size to the optimization page.
@@ -1266,11 +1415,13 @@ v13.1.2 - 09.11.2021
 * Updated: Layout of the maintenance tab.
 
 9.6.1
+
 * Release Date: September 4, 2015
 * Fixed: Error with undeclared global $WP_Statistics when updating the database.
 * Added: Re-validation of the current database updates required when loading the optimization page.
 
 9.6
+
 * Release Date: September 3, 2015
 * Added: New admin notices for if the database requires updates.
 * Added: Page/post id field to pagestats shortcode.
@@ -1286,6 +1437,7 @@ v13.1.2 - 09.11.2021
 * Updated: Persian translation. Thanks Ali Zeinali.
 
 9.5.3
+
 * Release Date: August 19, 2015
 * Added: More robust error reporting if a plugin table is missing.
 * Added: Support to export the search table.
@@ -1295,17 +1447,20 @@ v13.1.2 - 09.11.2021
 * Fixed: Sidebar widget works again in WordPress 4.3.
 
 9.5.2
+
 * Release Date: August 8, 2015
 * Fixed: XSS issue with top-referrers page, thanks Swift Security (http://swiftsecurity.swte.ch/).
 * Updated: If the GeoIP code is disabled, the warning message was pointing to the old GeoIP tab instead of the new Externals tab.
 * Updated: French translation.
 
 9.5.1
+
 * Release Date: August 4, 2015
 * Fixed: Issue with verifying the WP-Statistics tables exist on databases with hyphens in their names.
 * Updated: Arabic translation.
 
 9.5
+
 * Release Date: August 3, 2015
 * Added: Referrer Spam exclusions using the Piwik Referrer Spam Blacklist (see Statistics->Settings->Externals to enable).
 * Added: Code to remove 'AString' column if it exists in the visitors table during upgrades (bug in a older previous version of WP-Statistics erroneously created it).
@@ -1316,6 +1471,7 @@ v13.1.2 - 09.11.2021
 * Updated: GeoIP library to V 2.3.1.
 
 9.4.1
+
 * Release Date: July 9, 2015
 * Fixed: SQL injection security issue for users with access to the admin pages.
 * Fixed: Bug in code to save new "Treat corrupt browser info as a bot" setting.
@@ -1323,6 +1479,7 @@ v13.1.2 - 09.11.2021
 * Updated: Admin manual.
 
 9.4
+
 * Release Date: July 3, 2015
 * Added: Date selector to top visitors page.
 * Added: Option to exclude WordPress's "Not Found" page from the statistics.
@@ -1332,10 +1489,12 @@ v13.1.2 - 09.11.2021
 * Updated: Split the access and exclusions tabs in settings.
 
 9.3.1
+
 * Release Date: May 15, 2015
 * Fixed: Typo in options name that caused the visitors map to never be displayed.
 
 9.3
+
 * Release Date: May 15, 2015
 * Added: Shortcode UI (aka ShortCake) support.
 * Added: Donation menu and dismissble banner on the overview page.
@@ -1354,6 +1513,7 @@ v13.1.2 - 09.11.2021
 * Fixed: Widget's didn't translate correctly.
 
 9.2
+
 * Release Date: April 26, 2015
 * Added: Date range selector for charts now supports arbitrary date ranges with JavaScript date selector.
 * Added: If the site is using the blogroll for the homepage, use the blog title as the page name instead of leaving it blank.
@@ -1362,6 +1522,7 @@ v13.1.2 - 09.11.2021
 * Fixed: WP_DEBUG warning if formatting was not specified in the short code.
 
 9.1.3
+
 * Release Date: April 14, 2015
 * Added: Quick link to summary stats.
 * Added: Escaped text fields in the settings page with htmlentities() to protect against rouge administrators hijacking other admin sessions, thanks Kaustubh.
@@ -1369,17 +1530,20 @@ v13.1.2 - 09.11.2021
 * Fixed: Display of last_counter that is already set to the correct date and doesn't need to be adjusted for timezone.
 
 9.1.2
+
 * Release Date: March 20, 2015
 * Fixed: Removed spurious comma in SQL creation script for Visits table, thanks kitchin.
 
 9.1.1
+
 * Release Date: March 19, 2015
 * Fixed: Verify the $display settings return an array before using it as an array to avoid warning on overview page.
 
 9.1
+
 * Release Date: March 18, 2015
 * Added: Unique index requirement on visits table to avoid race condition creating duplicate entires.
-* Added: Option to the optimization page to remove duplicates and add new  unique index to visits table on existing installs.
+* Added: Option to the optimization page to remove duplicates and add new unique index to visits table on existing installs.
 * Updated: Translations, thanks to all of our translators!
 * Updated: Cleanup of some WP Debug warnings.
 * Fixed: JavaScript postboxes call was currupted on some pages causing a javascript error.
@@ -1388,6 +1552,7 @@ v13.1.2 - 09.11.2021
 * Removed: Redudnent e modifier in preg_replace_callback to avoid php warning message.
 
 9.0
+
 * Release Date: March 12, 2015
 * Added: URL exclusions option.
 * Added: Swedish translation, thanks ronneborn.
@@ -1403,7 +1568,7 @@ v13.1.2 - 09.11.2021
 * Updated: Removed requirement for date_default_timezone_set() which conflicted with some other plugins.
 * Updated: Make sure to html encode data to be used in javascript to avoid single quotes as part of the translation breaking the javascript array.
 * Updated: Change summary widget to be clearer about time frames.
-* Updated: Replace deprecated preg_replace (with /e) with preg_replace_callback.  Thanks gbonvehi.
+* Updated: Replace deprecated preg_replace (with /e) with preg_replace_callback. Thanks gbonvehi.
 * Updated: Use full path to ensure the require_once finds the purge file in the scheduled db maintenance script.
 * Updated: Persian translation.
 * Updated: Renamed pagination class to avoid name collisions with other plugins.
@@ -1412,13 +1577,15 @@ v13.1.2 - 09.11.2021
 * Fixed: Export code to handle large tables.
 * Fixed: Exclusion display for some 'reasons' always being 0.
 * Removed: Replaced use of global $table_prefix with $wpdb->prefix.
-* Removed: Use of deprecated $blog_id.  Thanks gbonvehi.
+* Removed: Use of deprecated $blog_id. Thanks gbonvehi.
 
 8.8.1
+
 * Release Date: March 9, 2015
 * Updated license to GPL3.
 
 8.8
+
 * Release Date: January 31, 2015
 * Added: Installation/upgrades/removals on WordPress multi-sites now upgrade all sites in the network if the installing user has the appropriate rights.
 * Added: RSS feed URL's can now be excluded.
@@ -1434,6 +1601,7 @@ v13.1.2 - 09.11.2021
 * Updated: IP address exclusions without a subnet mask now assume a single IP address instead of all IP addresses.
 
 8.7.2
+
 * Release Date: January 6, 2015
 * Added: shareaholic-bot to robots list.
 * Fixed: Robot threshold setting was not being saved.
@@ -1442,10 +1610,12 @@ v13.1.2 - 09.11.2021
 * Updated: Honey pot page title now includes "Pot" in it.
 
 8.7.1
+
 * Release Date: December 28, 2014
-* Fixed: Variable scope for the exclusion match/reason updated to protected from private to allow the GeoIP code to set them.  This could cause various issues including failed uploades depending on the error reporting level set for PHP.
+* Fixed: Variable scope for the exclusion match/reason updated to protected from private to allow the GeoIP code to set them. This could cause various issues including failed uploades depending on the error reporting level set for PHP.
 
 8.7
+
 * Release Date: December 27, 2014
 * Added: Charts with multiple lines now include the data set name in the tooltip.
 * Added: Honey pot option to detect crawlers.
@@ -1460,20 +1630,24 @@ v13.1.2 - 09.11.2021
 * Updated: GeoIP library to v2.1.1.
 
 8.6.3
+
 * Release Date: December 11, 2014
 * Fixed: Really fix included countries code this time.
 * Fixed: Typo in excluded hosts code.
 
 8.6.2
+
 * Release Date: December 11, 2014
 * Fixed: New included countries code incorrectly identified all countries as excluded.
 
 8.6.1
+
 * Release Date: December 11, 2014
 * Added: Code to perform additional clean up of uncommon user agents.
 * Fixed: Spurious break statement in GeoIP exclusion code which caused a fatal error in certian cases.
 
 8.6
+
 * Release Date: December 11, 2014
 * Added: Option to remove URI parameters from page tracking.
 * Added: GeoIP exclusion options.
@@ -1483,10 +1657,12 @@ v13.1.2 - 09.11.2021
 * Updated: French language.
 
 8.5.1
+
 * Release Date: December 2, 2014
 * Fixed: Typo in last search page causing fatal error in PHP.
 
 8.5
+
 * Release Date: December 2, 2014
 * Added: try/catch condition around browscap call to avoid fatal errors stopping the script.
 * Added: Page trend widget to post/page editor.
@@ -1504,6 +1680,7 @@ v13.1.2 - 09.11.2021
 * Updated: Use built in WordPress function to translate user roles instead of custom strings in our PO file, thanks bios4.
 
 8.4
+
 * Release Date: November 26, 2014
 * Added: Dashboard widgets for all of the widgets on the overview page.
 * Added: Option to disable all dashboard widgets.
@@ -1518,12 +1695,14 @@ v13.1.2 - 09.11.2021
 * Updated: Default map type now set to JQVMap.
 
 8.3.1
+
 * Release Date: November 19, 2014
 * Updated: Various SQL code clean ups.
 * Updated: Varioud data validation clean ups.
 * Updated: Various data output encoding updates, thanks Marc.
 
 8.3
+
 * Release Date: November 14, 2014
 * Added: Sanity checks for file size and results to browscap.ini updates, if the new cache file size is wrong or it mis-identifies a common real browser as a crawler the update will be rolled back.
 * Added: Option to e-mail a report on browscap.ini, database pruning, upgrades and GeoIP database updates.
@@ -1536,6 +1715,7 @@ v13.1.2 - 09.11.2021
 * Removed: Reference to old settings file for the widget.
 
 8.2
+
 * Release Date: November 6, 2014
 * Added: Support for historical data.
 * Added: Removal option.
@@ -1544,6 +1724,7 @@ v13.1.2 - 09.11.2021
 * Fixed: Duplicate date display on charts due to DST time change.
 
 8.1.1
+
 * Release Date: October 26, 2014
 * Fixed: Bug in browscap.ini update code that could mis-identify all hits as robots.
 * Fixed: Bug in the scheduled reports code that failed to process the report content correctly.
@@ -1551,6 +1732,7 @@ v13.1.2 - 09.11.2021
 * Removed: Depricated variables from the report content description.
 
 8.1
+
 * Release Date: October 18, 2014
 * Added: Detected browser information to the optimization page.
 * Updated: Re-organized new browscap code to avoid PHP 5.2 or below throwing a parse error.
@@ -1558,6 +1740,7 @@ v13.1.2 - 09.11.2021
 * Removed: Unused code in various log displays.
 
 8.0
+
 * Release Date: October 16, 2014
 * Added: browscap.ini support for robot detection.
 * Added: Statistics->Optimization->Database tab now how an option to re-run the install routine in case you have had to delete tables from the database.
@@ -1576,6 +1759,7 @@ v13.1.2 - 09.11.2021
 * Removed: Support for old format substitution codes in the statistics reports, upgrade now converts them to short codes.
 
 7.4
+
 * Release Date: September 19, 2014
 * Added: Link URL for referred.
 * Updated: Widget code now adhears to WordPress standards.
@@ -1587,6 +1771,7 @@ v13.1.2 - 09.11.2021
 * Removed: Screenshots are no longer included in the distribution.
 
 7.3
+
 * Release Date: September 8, 2014
 * Added: Option to delete the admin manual.
 * Added: Option to force the robots list to be updated during an upgrade.
@@ -1599,6 +1784,7 @@ v13.1.2 - 09.11.2021
 * Updated: Tested with WordPress 4.0.
 
 7.2
+
 * Release Date: August 22, 2014
 * Added: Total visitors by country to the push pins on the overview map.
 * Added: Statistical reports can now be sent to a custom list of e-mail addresses instead of just the administrator.
@@ -1612,6 +1798,7 @@ v13.1.2 - 09.11.2021
 * Updated: Persian (fa_IR) language.
 
 7.1
+
 * Release Date: August 13, 2014
 * Added: clearch.org search provider, disabled by default.
 * Added: Database tab to optimization page to manually add unique index on the visitors table removed in 7.0.3.
@@ -1620,10 +1807,12 @@ v13.1.2 - 09.11.2021
 * Updated: Charts now properly resize when the browser window does.
 
 7.0.4
+
 * Release Date: August 9, 2014
 * Fixed: Typo in table definition of visitor table's UAString field.
 
 7.0.3
+
 * Release Date: August 8, 2014
 * Added: Extra check that the co-efficient setting is valid.
 * Updated: Format of the dbDetla scripts to match the guidelines from WordPress, thanks kitchin.
@@ -1633,23 +1822,26 @@ v13.1.2 - 09.11.2021
 * Updated: Polish (pl_PL) language.
 * Fixed: Typo in variable name which causes the robots list to be overwritten with the defaults incorrectly.
 * Fixed: Access role exclusions and search engine exclusions options not displaying correctly in the settings page.
-* Removed: Database upgrade code to add the unique index on the visitors table due to issues with multiple users.  Will add back in a future release as a user selectable option.
+* Removed: Database upgrade code to add the unique index on the visitors table due to issues with multiple users. Will add back in a future release as a user selectable option.
 
 7.0.2
+
 * Release Date: August 7, 2014
 * Fixed: Database prefix not being used when creating/updating tables correctly.
 * Fixed: New installs caused an error in the new upgrade code as the visitor table did not exist yet.
 * Fixed: Replaced use of deprecated $table_prefix global during install/update.
 
 7.0.1
+
 * Release Date: August 5, 2014
 * Fixed: Error during new installations due to $wpdb object not being available.
 
 7.0
+
 * Release Date: August 5, 2014
 * Added: New robots to the robots list: aiHitBot, AntivirusPro, BeetleBot, Blekkobot, cbot, clumboot, coccoc, crowsnest.tv, dbot, dotbot, downloadbot, EasouSpider, Exabot, facebook.com, FriendFeedBot, gimme60bot, GroupHigh, IstellaBot, Kraken, LinkpadBot, MojeekBot, NetcraftSurveyAgent, p4Bot, PaperLiBot, Pimonster, scrapy.org, SearchmetricsBot, SemanticBot, SemrushBot, SiteExplorer, Socialradarbot, SpiderLing, uMBot-LN, Vagabondo, vBSEO, WASALive-Bot, WebMasterAid, WeSEE, XoviBot, YoudaoBot,
 * Added: Overview page can now be customized for what is displayed on a per user basis.
-* Added: Overview tab to the settings page to control what is displayed.  This page is available to any user that has read access to WP-Statistics.
+* Added: Overview tab to the settings page to control what is displayed. This page is available to any user that has read access to WP-Statistics.
 * Added: Dutch (nl_NL) translation, thanks Friso van Wieringen.
 * Added: New index on visitor table for existing installs to avoid duplicate entries being created.
 * Added: jqPlot javascript library.
@@ -1678,20 +1870,22 @@ v13.1.2 - 09.11.2021
 * Removed: Unused function objectToArray().
 
 6.1
+
 * Release Date: June 29, 2014
 * Added: Display of the current memory_limit setting from php.ini in the optimization page.
-* Added: New index on visitor table for new installs to avoid duplicate entries being created.  A future update will add this index to existing installs but will need additional testing before it is implemented.
+* Added: New index on visitor table for new installs to avoid duplicate entries being created. A future update will add this index to existing installs but will need additional testing before it is implemented.
 * Added: Seychelles flag.
 * Updated: Support international number formats in statistics display.
 * Updated: Description of WordPress.org plugin link in plugin list.
 * Updated: Widget and shortcode now use the countonly option in wp_statistics_vistor() for better performance.
 * Updated: Renamed plugin from "WordPress Statistics" to "WP-Statistics".
-* Fixed: bug in new IP validation code and support for stripping off port numbers if they are passed through the headers.  Thanks Stephanos Io.
+* Fixed: bug in new IP validation code and support for stripping off port numbers if they are passed through the headers. Thanks Stephanos Io.
 * Updated: Persian (fa_IR) language.
 
 6.0
+
 * Release Date: June 11, 2014
-* Added: Page tracking support.  Includes new overview widget and detail page.  Also supports page hit count in the pages/post list and in the page/post editor.
+* Added: Page tracking support. Includes new overview widget and detail page. Also supports page hit count in the pages/post list and in the page/post editor.
 * Added: Admin manual, online viewing as well as downloadable version.
 * Added: Links for “Settings”, “WordPress Plugin Page” and “Rate” pages to the plugin list for WP-Statistics.
 * Updated: General settings tab re-organization.
@@ -1704,6 +1898,7 @@ v13.1.2 - 09.11.2021
 * Removed: shortcode and functions reference from readme.txt, now in admin manual.
 
 5.4
+
 * Release Date: May 31, 2014
 * Fixed: GeoIP dependency code to ignore safe mode check in PHP 5.4 or newer.
 * Fixed: GeoIP dependency code to properly detect safe mode with PHP 5.3 or older.
@@ -1714,6 +1909,7 @@ v13.1.2 - 09.11.2021
 * Updated: Chinese (zh_CN) language.
 
 5.3
+
 * Release Date: April 17, 2014
 * Added: New robot's to the robots list: BOT for JCE, Leikibot, LoadTimeBot, NerdyBot, niki-bot, PagesInventory, sees.co, SurveyBot, trendictionbot, Twitterbot, Wotbox, ZemlyaCrawl
 * Added: Check for PHP's Safe Mode as the GeoIP code does not function with it enabled.
@@ -1724,20 +1920,23 @@ v13.1.2 - 09.11.2021
 * Fixed: Download of the GeoIP database could cause a fatal error message at the end of a page if it was triggered outside the admin area.
 
 5.2
+
 * Release Date: March 10, 2014
 * Added: Additional checks for BC Math and cURL which are required for the GeoIP code.
 * Updated: GeoIP database handling if it is missing or invalid.
 * Updated: GeoIP database is now stored in uploads/wp-statistics directory so it does not get overwritten during upgrades.
-* Fixed: Typo's in the shortcode codes (thanks 	g33kg0dd3ss).
+* Fixed: Typo's in the shortcode codes (thanks g33kg0dd3ss).
 * Updated: Polish (pl_PL) language.
 
 5.1
+
 * Release Date: March 3, 2014
 * Fixes: Small bug in referral url.
 * Fixes: Problem export table.
 * Updated: Arabic (ar) language.
 
 5.0
+
 * Release Date: March 2, 2014
 * Added: Show last visitor in Google Map.
 * Added: Search visitor by IP in log pages.
@@ -1752,12 +1951,14 @@ v13.1.2 - 09.11.2021
 * Removed: Parameter from `wp_statistics_lastpostdate()` function and return date type became dynamic.
 
 4.8.1
+
 * Release Date: February 4, 2014
 * Fixes: Small bug in the `Current_Date`.
 * Fixes: Small bug in the `exclusions.php` file.
 * Updated: Polish (pl_PL) language.
 
 4.8
+
 * Release Date: February 4, 2014
 * Added: Converting Gregorian date to Persian When enabled [wp-parsidate](http://wordpress.org/plugins/wp-parsidate/) plugin.
 * Added: New feature, option to record the number and type of excluded hits to your site.
@@ -1767,6 +1968,7 @@ v13.1.2 - 09.11.2021
 * Updated: Polish (pl_PL) language.
 
 4.7
+
 * Release Date: February 2, 2014
 * Added: Responsive Stats page for smaller-screen devices.
 * Added: Dashicons icon for plugin page.
@@ -1780,10 +1982,12 @@ v13.1.2 - 09.11.2021
 * Updated: Brazil (pt_BR) language.
 
 4.6.1
+
 * Release Date: January 24, 2014
 * Fixes: a Small bug in to get rid of one of the reported warnings from debug mode.
 
 4.6
+
 * Release Date: January 20, 2014
 * Added: In the optimization page you can now empty all tables at once.
 * Added: In the optimization page you can now purge statistics over a given number of days old.
@@ -1796,6 +2000,7 @@ v13.1.2 - 09.11.2021
 * Fixes: Bug in hits code when GeoIP was disabled, IP address would not be recorded.
 
 4.5
+
 * Release Date: January 18, 2014
 * Added: Support for more search engines: DuckDuckGo, Baidu and Yandex.
 * Added: Support for Google local sites like google.ca, google.fr, etc.
@@ -1807,6 +2012,7 @@ v13.1.2 - 09.11.2021
 * Fixes: Bug in widget code that didn't allow you to edit the settings after adding the widget to your site.
 
 4.4
+
 * Release Date: January 16, 2014
 * Added: option to set the required capability level to view statistics in the admin interface.
 * Added: option to set the required capability level to manage statistics in the admin interface.
@@ -1816,12 +2022,14 @@ v13.1.2 - 09.11.2021
 * Fixes: Unschedule of report event if reporting is disabled.
 
 4.3.1
+
 * Release Date: January 13, 2014
 * Fixes: Critical bug that caused only a single visitor to be recorded.
 * Added: Version information to the optimization page.
-[Thanks Greg Ross](http://profiles.wordpress.org/gregross)
+  [Thanks Greg Ross](http://profiles.wordpress.org/gregross)
 
 4.3
+
 * Release Date: January 12, 2014
 * Added: Definable robots list to exclude based upon the user agent string from the client.
 * Added: IP address and subnet exclusion support.
@@ -1830,6 +2038,7 @@ v13.1.2 - 09.11.2021
 * Fixes: A bug when the GeoIP code was disabled with optimization page.
 
 4.2
+
 * Release Date: December 31, 2013
 * Added: Statistical menus.
 * Fixes: Small bug in the geoip version.
@@ -1838,12 +2047,14 @@ v13.1.2 - 09.11.2021
 * Language: French (fr_FR) was updated.
 
 4.1
+
 * Release Date: December 23, 2013
 * Language: Arabic (ar) was updated
 * Fixes: small bug in moved the GeoIP database.
 * Updated: update to the spiders list.
 
 4.0
+
 * Release Date: December 21, 2013
 * Added: GeoIP location support for visitors country.
 * Added: Download option in settings for GeoIP database.
@@ -1860,12 +2071,13 @@ v13.1.2 - 09.11.2021
 * Updated: Summary Statistcs now uses the WordPress set format for the time and date.
 * Fixes: Webcrawler detection now works and is case insensitive.
 * Fixes: Install code now correctly sets defaults.
-* Fixes: Upgrade code now works correctly.  If you are running V3.2, your old data will be preserved, older versions will delete the tables and recreate them.
+* Fixes: Upgrade code now works correctly. If you are running V3.2, your old data will be preserved, older versions will delete the tables and recreate them.
 * Fixes: Ajax submissions on the optmiziation page (like the empty table function) should work in IE and other browsers that are sensitive to cross site attacks.
 * Fixes: Replaced call to the dashboard code (to support the postbox widgets on the log screen) with the proper call to the postbox code as WordPress 3.8 beta 1 did not work with the old code.
 * Updated: Highcharts JS 3.0.1 to JS 3.0.7 version.
 
 3.2
+
 * Release Date: August 7, 2013
 * Added: Optimization plugin page.
 * Added: Export data to excel, xml, csv and tsv files.
@@ -1875,6 +2087,7 @@ v13.1.2 - 09.11.2021
 * Language: updated.
 
 3.1.4
+
 * Release Date: July 18, 2013
 * Added: Chart Type in the settings plugin.
 * Added: Search Engine referrer chart in the view stats page.
@@ -1885,11 +2098,13 @@ v13.1.2 - 09.11.2021
 * Language: updated.
 
 3.1.3
+
 * Release Date: June 9, 2013
 * Optimized: View statistics.
 * Added: Chinese (Taiwan) language.
 
 3.1.2
+
 * Release Date: June 4, 2013
 * Added: Top referring sites with full details.
 * Resolved: Loads the plugin's translated strings problem.
@@ -1902,12 +2117,14 @@ v13.1.2 - 09.11.2021
 * Language: updated.
 
 3.1.1
+
 * Release Date: April 11, 2013
 * Bug Fix: Security problem. (Thanks Mohammad Teimori) for report bug.
 * Optimized: Statistics screen in resolution 1024x768.
 * Language: Persian was updated.
 
 3.1.0
+
 * Release Date: April 3, 2013
 * Bug Fix: Statistics Menu bar.
 * Bug Fix: Referral link of the last visitors.
@@ -1919,6 +2136,7 @@ v13.1.2 - 09.11.2021
 * Remove: IP Information in setting page.
 
 3.0.2
+
 * Release Date: February 5, 2013
 * Added: Hungarian language.
 * Added: Insert value in useronline table by Primary_Values function.
@@ -1928,10 +2146,12 @@ v13.1.2 - 09.11.2021
 * Changed: Statistics class to WP_Statistics because Resemblance name.
 
 3.0.1
+
 * Release Date: February 3, 2013
 * Bug Fix: Table plugin problem.
 
 3.0
+
 * Release Date: February 3, 2013
 * Bug Fix: problem in calculating Statistics.
 * Optimized: and speed up the process.
@@ -1946,31 +2166,37 @@ v13.1.2 - 09.11.2021
 * Added: Send stats to Email/[SMS](http://wordpress.org/extend/plugins/wp-sms/)
 
 2.3.3
+
 * Release Date: December 18, 2012
 * Serbian language was solved.
 * Server variables were optimized by m.emami.
 * Turkish translation was complete.
 
 2.3.2
+
 * Release Date: October 24, 2012
 * Added Indonesia language.
 * Turkish language file corrected by MBOZ.
 
 2.3.1
+
 * Release Date: October 12, 2012
 * Added Polish language.
 * Added Support forum link in menu.
 * Fix problem error in delete plugin.
 
 2.3.0
+
 * Release Date: Not released
 * Added Serbian language.
 
 2.2.9
+
 * Release Date: September 20, 2012
 * Added Bengali language.
 
 2.2.8
+
 * Release Date: July 27, 2012
 * Added Russian language.
 * Fix problem in count views.
@@ -1978,6 +2204,7 @@ v13.1.2 - 09.11.2021
 * Optimize plugin.
 
 2.2.7
+
 * Release Date: May 20, 2012
 * Fix problem in widget class.
 * Redundancy in Arabic translation.
@@ -1985,10 +2212,12 @@ v13.1.2 - 09.11.2021
 * Optimized Style Reports.
 
 2.2.6
+
 * Release Date: April 19, 2012
 * Fix a small problem.
 
 2.2.5
+
 * Release Date: April 18, 2012
 * The security problem was solved. Please be sure to update!
 * Redundancy in French translation.
@@ -1997,6 +2226,7 @@ v13.1.2 - 09.11.2021
 * Using wordpress jQuery in setting page.
 
 2.2.4
+
 * Release Date: March 12, 2012
 * Added Turkish language.
 * Added Italian language.
@@ -2014,6 +2244,7 @@ v13.1.2 - 09.11.2021
 * Added Coefficient statistics for each user.
 
 2.2.3
+
 * Release Date: February 3, 2012
 * Optimized Counting.
 * Added Arabic language.
@@ -2021,16 +2252,19 @@ v13.1.2 - 09.11.2021
 * css problem was solved in sidebar
 
 2.2.2
+
 * Release Date: January 11, 2012
 * Solving show functions in setting page.
 * Solving month visit in widget.
 * Added Spanish language.
 
 2.2.1
+
 * Release Date: December 27, 2011
 * Solving drap uploader problem in media-new.php.
 
 2.2.0
+
 * Release Date: December 26, 2011
 * Added statistics to admin bar wordpress 3.3.
 * Added Uninstall for remove data and table from database.
@@ -2041,36 +2275,44 @@ v13.1.2 - 09.11.2021
 * Solving scroll problem in statistics page.
 
 2.1.6
+
 * Release Date: October 21, 2011
 * Added Russian language.
 
 2.1.5
+
 * Release Date: October 29, 2011
 * Added French language.
 * Rounds a float Averages.
 
 2.1.4
+
 * Release Date: October 21, 2011
 * Added Romanian language.
 
 2.1.3
+
 * Release Date: October 14, 2011
 * Active plugin in setting page was solved.
 
 2.1.2
+
 * Release Date: October 12, 2011
 * Added default language file.
 * Added Portuguese language.
 
 2.1.1
+
 * Release Date: September 27, 2011
 * Complete files
 
 2.1
+
 * Release Date: September 25, 2011
 * Edit string
 
 2.0
+
 * Release Date: September 20, 2011
 * Support from Database
 * Added Setting Page
@@ -2092,5 +2334,6 @@ v13.1.2 - 09.11.2021
 * Added wordpress shortcode
 
 1.0
+
 * Release Date: March 20, 2011
 * Start plugin
