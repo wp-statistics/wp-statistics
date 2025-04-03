@@ -153,6 +153,36 @@ class EventsModel extends BaseModel
         return $query->getAll();
     }
 
+    public function countEventVisitorsByPage($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'event_name'    => '',
+            'author_id'     => '',
+            'post_type'     => '',
+            'post_id'       => '',
+            'date'          => '',
+            'per_page'      => 10,
+            'page'          => 1,
+            'order'         => 'visitors',
+            'order_by'      => 'DESC',
+        ]);
+
+        $query = Query::select('COUNT(DISTINCT events.visitor_id) as visitors, events.page_id as post_id, posts.post_title as title')
+            ->from('events')
+            ->join('posts', ['events.page_id', 'posts.ID'])
+            ->where('events.page_id', '=', $args['post_id'])
+            ->where('posts.post_type', '=', $args['post_type'])
+            ->where('posts.post_author', '=', $args['author_id'])
+            ->where('event_name', 'IN', $args['event_name'])
+            ->whereDate('events.date', $args['date'])
+            ->orderBy($args['order'], $args['order_by'])
+            ->groupBy('events.page_id')
+            ->whereNotNull('events.page_id')
+            ->perPage($args['page'], $args['per_page']);
+
+        return $query->getAll();
+    }
+
     public function getTopEvents($args = [])
     {
         $args = $this->parseArgs($args, [
