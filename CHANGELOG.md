@@ -11,6 +11,7 @@
 - **Fix:** The 'Get More with Premium Analytics' widget is now hidden for premium users.
 - **Fix:** Fixed discrepancies between shortcode view counts and traffic summary/visitor insights.
 - **Fix:** Corrected an issue where all Facebook traffic was categorized as Paid Social.
+- **Fix:** Removed table prefix from shared data.
 
 = 14.12.6 - 2025-02-12
 - **New:** Added DB-IP as a location detection option.
@@ -114,9 +115,9 @@
 - **Fix:** Made the `views` column sortable again.
 - **Fix:** Resolved a PHP deprecation warning for better compatibility.
 - **Dev:** Added new filters for developers:
-  - `wp_statistics_geolocation_download_url`
-  - `wp_statistics_injection_patterns`
-  - `wp_statistics_location_column_value`
+    - `wp_statistics_geolocation_download_url`
+    - `wp_statistics_injection_patterns`
+    - `wp_statistics_location_column_value`
 
 14.11.3 - 2024-11-17
 - **New:** Added support for tracking unique visitors in shortcodes.
@@ -1819,7 +1820,7 @@ v13.1.2 - 09.11.2021
 * Release Date: January 13, 2014
 * Fixes: Critical bug that caused only a single visitor to be recorded.
 * Added: Version information to the optimization page.
-[Thanks Greg Ross](http://profiles.wordpress.org/gregross)
+  [Thanks Greg Ross](http://profiles.wordpress.org/gregross)
 
 4.3
 * Release Date: January 12, 2014
