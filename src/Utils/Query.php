@@ -99,7 +99,7 @@ class Query
                 if (is_string($value)) {
                     $this->setClauses[]      = "$column = %s";
                     $this->valuesToPrepare[] = $value;
-                } else if (is_numeric($value)) {
+                } else if (is_numeric($value) || is_bool($value)) {
                     $this->setClauses[]      = "$column = %d";
                     $this->valuesToPrepare[] = $value;
                 } else if (is_null($value)) {
