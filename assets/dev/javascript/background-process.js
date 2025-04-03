@@ -47,7 +47,7 @@ const WPStatisticsAjaxBackgroundProcess = {
                     if (response.data.completed) {
                         WPStatisticsAjaxBackgroundProcess.markAsCompleted();
                     } else {
-                        WPStatisticsAjaxBackgroundProcess.updateProgress(response.data.remains);
+                        WPStatisticsAjaxBackgroundProcess.updateProgress(response.data.percentage);
                         WPStatisticsAjaxBackgroundProcess.startMigration();
                     }
                 }
@@ -64,7 +64,7 @@ const WPStatisticsAjaxBackgroundProcess = {
      */
     updateProgress: function (recordsLeft) {
         if (this.migrationNotice.length) {
-            this.migrationNotice.find('.remain-number').text(recordsLeft);
+            this.migrationNotice.find('.remain-percentage').text(recordsLeft);
         }
     },
 
@@ -73,6 +73,8 @@ const WPStatisticsAjaxBackgroundProcess = {
      */
     markAsCompleted: function () {
         if (this.migrationNotice.length) {
+            this.migrationNotice.closest('.notice').removeClass('notice-info').addClass('notice-success');
+
             this.migrationNotice.html(`
                 <p><strong>WP Statistics: Migration Complete</strong></p>
                 <p>All records have been successfully migrated. WP Statistics is now up-to-date.</p>
