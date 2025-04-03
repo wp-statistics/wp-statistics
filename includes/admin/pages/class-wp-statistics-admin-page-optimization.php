@@ -2,7 +2,7 @@
 
 namespace WP_STATISTICS;
 
-use WP_Statistics\Async\BackgroundProcessFactory;
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;

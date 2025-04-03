@@ -2,13 +2,13 @@
 
 namespace WP_Statistics\Service\Admin\AuthorAnalytics;
 
-use WP_Statistics\Async\BackgroundProcessFactory;
+use WP_Statistics\Abstracts\MultiViewPage;
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
-use WP_Statistics\Abstracts\MultiViewPage;
 use WP_Statistics\Service\Admin\AuthorAnalytics\Views\AuthorsView;
-use WP_Statistics\Service\Admin\AuthorAnalytics\Views\SingleAuthorView;
 use WP_Statistics\Service\Admin\AuthorAnalytics\Views\PerformanceView;
+use WP_Statistics\Service\Admin\AuthorAnalytics\Views\SingleAuthorView;
 use WP_Statistics\Service\Admin\FilterHandler\FilterGenerator;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
@@ -49,7 +49,7 @@ class AuthorAnalyticsPage extends MultiViewPage
                 ],
             ])
             ->get();
-        
+
         return $this->filters;
     }
 

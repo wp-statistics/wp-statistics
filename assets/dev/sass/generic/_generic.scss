@@ -616,6 +616,7 @@
       background: #3288D726;
       height: 100%;
       top: 0;
+      border-radius: 4px;
 
       .rtl & {
         left: unset;
@@ -627,6 +628,8 @@
   .wps-horizontal-bar__data {
     position: relative;
     z-index: 2;
+    display: flex;
+    flex-wrap: nowrap;
 
     span {
       min-width: 49px;

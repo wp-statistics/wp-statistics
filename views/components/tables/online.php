@@ -71,7 +71,10 @@ use WP_STATISTICS\Menus;
                             <td class="wps-pd-l">
                                 <?php $page = $visitor->getLastPage(); ?>
                                 <?php if (!empty($page)) :
-                                    View::load("components/objects/external-link", ['url' => $page['link'] , 'title' => $page['title'] ]);
+                                    View::load("components/objects/external-link", [
+                                        'url'       => $page['link'],
+                                        'title'     => $page['title'],
+                                    ]);
                                  else : ?>
                                     <?php echo Admin_Template::UnknownColumn() ?>
                                 <?php endif; ?>

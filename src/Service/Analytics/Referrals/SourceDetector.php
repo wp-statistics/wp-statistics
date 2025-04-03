@@ -41,4 +41,16 @@ class SourceDetector
     {
         return $this->referral['channel'] ?? null;
     }
+
+    /**
+     * Returns the human-readable channel name of the referral source.
+     *
+     * @return string The channel of the referral source.
+     */
+    public function getChannelName()
+    {
+        $sourceChannel = $this->referral['channel'] ?? 'unassigned';
+
+        return SourceChannels::getName($sourceChannel);
+    }
 }

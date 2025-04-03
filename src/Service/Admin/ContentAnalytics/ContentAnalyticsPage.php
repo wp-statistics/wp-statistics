@@ -2,16 +2,16 @@
 
 namespace WP_Statistics\Service\Admin\ContentAnalytics;
 
-use WP_Statistics\Async\BackgroundProcessFactory;
+use WP_Statistics\Abstracts\MultiViewPage;
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
-use WP_Statistics\Utils\Request;
-use WP_Statistics\Abstracts\MultiViewPage;
-use WP_Statistics\Service\Admin\Posts\WordCountService;
-use WP_Statistics\Service\Admin\NoticeHandler\Notice;
-use WP_Statistics\Service\Admin\ContentAnalytics\Views\TabsView;
 use WP_Statistics\Service\Admin\ContentAnalytics\Views\SingleView;
+use WP_Statistics\Service\Admin\ContentAnalytics\Views\TabsView;
 use WP_Statistics\Service\Admin\FilterHandler\FilterGenerator;
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Admin\Posts\WordCountService;
+use WP_Statistics\Utils\Request;
 
 class ContentAnalyticsPage extends MultiViewPage
 {
@@ -27,7 +27,7 @@ class ContentAnalyticsPage extends MultiViewPage
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->setFilters();
     }
 

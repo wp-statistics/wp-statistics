@@ -1,15 +1,12 @@
 <?php
 
-namespace WP_Statistics\Async;
+namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs;
 
-use WP_Statistics\Decorators\VisitorDecorator;
-use WP_STATISTICS\GeoIP;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Analytics\Referrals\Referrals;
 use WP_Statistics\Service\Analytics\Referrals\SourceDetector;
-use WP_Statistics\Utils\Url;
 use WP_STATISTICS\WP_Background_Process;
 
 class SourceChannelUpdater extends WP_Background_Process

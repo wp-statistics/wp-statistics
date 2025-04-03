@@ -1,4 +1,5 @@
 <?php
+
 namespace WP_Statistics\Service\Admin\Metabox;
 
 use WP_Statistics\Abstracts\BaseMetabox;
@@ -20,6 +21,7 @@ use WP_Statistics\Service\Admin\Metabox\Metaboxes\DailyTrafficTrend;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\MostActiveVisitors;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\DeviceUsageBreakdown;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\GlobalVisitorDistribution;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
 class MetaboxHelper
 {
@@ -62,7 +64,15 @@ class MetaboxHelper
     public static function getActiveMetaboxes()
     {
         $activeMetaboxes = [];
-        $metaboxes       = self::getMetaboxes();
+        $skipClasses     = [];
+
+        if (LicenseHelper::isPremiumLicenseAvailable()) {
+            $skipClasses[] = GoPremium::class;
+        }
+
+        $metaboxes = array_filter(self::getMetaboxes(), function ($metabox) use ($skipClasses) {
+            return !in_array($metabox, $skipClasses, true);
+        });
 
         foreach ($metaboxes as $metabox) {
             if (!class_exists($metabox)) continue;
@@ -113,7 +123,7 @@ class MetaboxHelper
                 $contextMetaboxes = explode(',', $userMetaboxes[$context]);
 
                 // Remove any non wp-statistics metaboxes
-                $contextMetaboxes = array_filter($contextMetaboxes, function($metabox) use ($screenMetaboxes) {
+                $contextMetaboxes = array_filter($contextMetaboxes, function ($metabox) use ($screenMetaboxes) {
                     return strpos($metabox, 'wp-statistics') !== false && isset($screenMetaboxes[$metabox]);
                 });
 

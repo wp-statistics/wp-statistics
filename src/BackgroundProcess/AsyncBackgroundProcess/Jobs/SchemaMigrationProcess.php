@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Async;
+namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs;
 
 use WP_STATISTICS\Option;
 use WP_STATISTICS\WP_Background_Process;
@@ -19,7 +19,7 @@ class SchemaMigrationProcess extends WP_Background_Process
 
     /**
      * Process a single schema migration task.
-     * 
+     *
      * @param array $data
      * @return bool|string
      */
