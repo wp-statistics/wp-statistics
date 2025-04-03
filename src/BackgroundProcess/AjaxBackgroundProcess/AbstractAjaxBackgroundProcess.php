@@ -47,6 +47,13 @@ abstract class AbstractAjaxBackgroundProcess
     protected $remains = 0;
 
     /**
+     * Percentage of records processed (0-100).
+     *
+     * @var int
+     */
+    protected $percentage = 0;
+
+    /**
      * Holds the current migration class name.
      *
      * @var string|null
@@ -66,7 +73,7 @@ abstract class AbstractAjaxBackgroundProcess
      * @return void
      */
     abstract protected function calculateOffset();
-    
+
     /**
      * Perform the migration. Must be implemented by child classes.
      */
@@ -134,6 +141,24 @@ abstract class AbstractAjaxBackgroundProcess
     }
 
     /**
+     * Calculates and updates the remaining records to be migrated as well as the percentage complete.
+     *
+     * This method calculates the percentage of records processed based on the total and done counts,
+     * and also updates the remains count.
+     *
+     * @return void
+     */
+    protected function setCalculatedPercentage()
+    {
+        if ($this->total > 0) {
+            $this->percentage = round(($this->done / $this->total) * 100);
+            return;
+        }
+
+        $this->percentage = 0;
+    }
+
+    /**
      * Retrieves the number of remaining records in the migration process.
      *
      * @return int
@@ -141,6 +166,16 @@ abstract class AbstractAjaxBackgroundProcess
     protected function getRemains()
     {
         return $this->remains;
+    }
+
+    /**
+     * Retrieves the calculated percentage of records processed in the migration process.
+     *
+     * @return int The percentage of records processed.
+     */
+    protected function getCalculatedPercentage()
+    {
+        return $this->percentage;
     }
 
     /**
@@ -199,7 +234,7 @@ abstract class AbstractAjaxBackgroundProcess
         }
 
         $migrationInstance->migrate();
-        $migrationInstance->setRemains();
+        $migrationInstance->setCalculatedPercentage();
 
         if ($migrationInstance->isCompleted()) {
             $this->markAsCompleted(get_class($migrationInstance));
@@ -219,8 +254,8 @@ abstract class AbstractAjaxBackgroundProcess
         }
 
         wp_send_json_success([
-            'completed' => false,
-            'remains'   => $migrationInstance->getRemains()
+            'completed'  => false,
+            'percentage' => $migrationInstance->getCalculatedPercentage()
         ]);
     }
 }

@@ -113,12 +113,13 @@ class AjaxBackgroundProcessManager
             $message = sprintf(
                 '<div id="wp-statistics-background-process-notice">
                     <p><strong>%1$s</strong></p>
-                    <p>%2$s</p>
-                    <p><strong>%3$s: <span class="remain-number">0</span></strong></p>
+                    <p>%2$s (<strong><span class="remain-percentage">0</span>%% %3$s</strong>).</p>
+                    <p>%4$s</p>
                 </div>',
-                esc_html__('WP Statistics: Migration in Progress', 'wp-statistics'),
-                __('Your database is currently being migrated. This process runs in the background while you are in the dashboard.', 'wp-statistics'),
-                esc_html__('Records Remaining', 'wp-statistics')
+                esc_html__('WP Statistics: Migration In Progress', 'wp-statistics'),
+                esc_html__('Your data is currently migrating in the background', 'wp-statistics'),
+                esc_html__('completed', 'wp-statistics'),
+                esc_html__('Please keep this page open if possible. If you close, the migration will pause. Don’t worry—simply come back to this page to pick up where it left off.', 'wp-statistics')
             );
 
             Notice::addNotice($message, 'progress_ajax_background_process', 'info', false);
@@ -137,10 +138,12 @@ class AjaxBackgroundProcessManager
         $message = sprintf(
             '<div id="wp-statistics-background-process-notice">
                 <p><strong>%1$s</strong><br>%2$s</p>
-                <p><a href="%3$s" id="start-migration-btn" class="button-primary">%4$s</a></p>
+                <p>%3$s</p>
+                <p><a href="%4$s" id="start-migration-btn" class="button-primary">%5$s</a></p>
             </div>',
-            esc_html__('WP Statistics: Process Required', 'wp-statistics'),
-            __('Database Migration has not started yet. Click the button below to begin.', 'wp-statistics'),
+            esc_html__('WP Statistics: Migration Required', 'wp-statistics'),
+            __('A data migration is needed for WP Statistics. <strong>Click Start</strong> Migration below to begin.', 'wp-statistics'),
+            __('<strong>Note:</strong> If you leave this page before the migration finishes, the process will pause. You can always return later to resume.', 'wp-statistics'),
             esc_url($migrationUrl),
             esc_html__('Start Migration', 'wp-statistics')
         );
