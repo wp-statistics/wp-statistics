@@ -27,6 +27,13 @@ class AjaxBackgroundProcessFactory
     ];
 
     /**
+     * Cached list of completed migration job keys.
+     *
+     * @var array
+     */
+    private static $doneJobs = [];
+
+    /**
      * Checks if a database migration is required.
      *
      * @return bool
@@ -79,5 +86,22 @@ class AjaxBackgroundProcessFactory
     public static function getCurrentMigrate()
     {
         return AbstractAjaxBackgroundProcess::getMigration();
+    }
+
+    /**
+     * Checks whether a specific migration job has been marked as completed.
+     *
+     * @param string $key The migration job key to check.
+     * @return bool True if the migration job is completed, false otherwise.
+     */
+    public static function isDataMigrated($key)
+    {
+        self::$doneJobs = ! empty(self::$doneJobs) ? self::$doneJobs : Option::getOptionGroup('ajax_background_process', 'jobs', []);
+
+        if (empty(self::$doneJobs)) {
+            return false;
+        }
+
+        return in_array($key, self::$doneJobs, true);
     }
 }
