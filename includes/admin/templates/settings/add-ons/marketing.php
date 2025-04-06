@@ -83,16 +83,6 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
 
 
     <div class="postbox wps-addon-settings--marketing">
-        <?php
-        $notice = __('<span>Reconnect or Disconnect message</span>', 'wp-statistics');
-        Notice::renderNotice($notice, 'marketing-search-console', 'error');
-
-        $notice = __('<span>Reconnect or Disconnect message</span>', 'wp-statistics');
-        Notice::renderNotice($notice, 'marketing-search-console', 'success');
-
-        $notice = __('<span>Reconnect or Disconnect message.</span>', 'wp-statistics');
-        Notice::renderNotice($notice, 'marketing-search-console', 'info');
-        ?>
         <table class="form-table <?php echo !$isMarketingActive ? esc_attr('form-table--preview') : '' ?>">
             <tbody>
             <tr valign="top">
