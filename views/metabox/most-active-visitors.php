@@ -4,6 +4,7 @@ use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Menus;
+
 ?>
 <?php if (!empty($data)) : ?>
     <div class="o-table-wrapper">
@@ -68,9 +69,9 @@ use WP_STATISTICS\Menus;
                         <?php $page = $visitor->getLastPage(); ?>
                         <?php if (!empty($page)) :
                             View::load("components/objects/external-link", [
-                                'url'       => $page['link'],
-                                'title'     => $page['title'],
-                                'tooltip'   => $page['query'] ? "?{$page['query']}" : ''
+                                'url'     => $page['link'],
+                                'title'   => $page['title'],
+                                'tooltip' => $page['query'] ? "?{$page['query']}" : ''
                             ]);
                         else : ?>
                             <?php echo Admin_Template::UnknownColumn() ?>
@@ -87,9 +88,13 @@ use WP_STATISTICS\Menus;
     </div>
 <?php else : ?>
     <?php
+    $title = __('No data found for this date range.', 'wp-statistics');
+    if ($isTodayOrFutureDate) {
+        $title = __('Data coming soon!', 'wp-statistics');
+    }
     View::load("components/objects/no-data", [
         'url'   => WP_STATISTICS_URL . 'assets/images/no-data/vector-1.svg',
-        'title' => __('Data coming soon!', 'wp-statistics')
+        'title' => $title
     ]);
     ?>
 <?php endif; ?>

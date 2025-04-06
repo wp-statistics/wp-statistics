@@ -37,7 +37,7 @@ if (strpos($page, 'overview') !== false) {
                 } else if (isset($page['meta']['author_id'])) {
                     $reportUrl = Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $page['meta']['author_id'], 'from' => $args['date']['from'], 'to' => $args['date']['to']]);
                 } else if (isset($page['meta']['post_type'])) {
-                    $reportUrl = Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $item->id, 'from' => $args['date']['from'], 'to' => $args['date']['to']]);
+                    $reportUrl  = Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $item->id, 'from' => $args['date']['from'], 'to' => $args['date']['to']]);
                     $isDisabled = $item->id == 0;
                 } else if ($item->type == '404') {
                     $reportUrl = Menus::admin_url('pages', ['tab' => '404', 'from' => $args['date']['from'], 'to' => $args['date']['to']]);
@@ -62,9 +62,13 @@ if (strpos($page, 'overview') !== false) {
     </div>
 <?php else : ?>
     <?php
+    $title = __('No data found for this date range.', 'wp-statistics');
+    if ($isTodayOrFutureDate) {
+        $title = __('Data coming soon!', 'wp-statistics');
+    }
     View::load("components/objects/no-data", [
         'url'   => WP_STATISTICS_URL . 'assets/images/no-data/vector-3.svg',
-        'title' => __('Data coming soon!', 'wp-statistics')
+        'title' => $title
     ]);
     ?>
 <?php endif; ?>

@@ -1,9 +1,11 @@
 <?php
+
 namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Components\DateTime;
 
 class MostActiveVisitors extends BaseMetabox
 {
@@ -23,11 +25,11 @@ class MostActiveVisitors extends BaseMetabox
     public function getOptions()
     {
         return [
-            'datepicker'    => true,
-            'button'        => View::load('metabox/action-button',[
-                'link'  => Menus::admin_url('visitors', ['tab' => 'top-visitors']) ,
+            'datepicker' => true,
+            'button'     => View::load('metabox/action-button', [
+                'link'  => Menus::admin_url('visitors', ['tab' => 'top-visitors']),
                 'title' => esc_html__('View Most Active Visitors', 'wp-statistics')
-            ],true)
+            ], true)
         ];
     }
 
@@ -35,8 +37,11 @@ class MostActiveVisitors extends BaseMetabox
     {
         $args = $this->getFilters();
 
+        $isTodayOrFutureDate = DateTime::isTodayOrFutureDate($args['date']['from'] ?? null);
+
+
         $data   = $this->dataProvider->getTopVisitorsData($args);
-        $output = View::load('metabox/most-active-visitors', ['data' => $data], true);
+        $output = View::load('metabox/most-active-visitors', ['data' => $data, 'filters' => $args, 'isTodayOrFutureDate' => $isTodayOrFutureDate], true);
 
         return $output;
     }
