@@ -37,7 +37,7 @@ class VisitorsModel extends BaseModel
             'referrer'      => ''
         ]);
 
-        $query = Query::select('COUNT(*) as total_visitors')
+        $query = Query::select('COUNT(DISTINCT visitor.ID) as total_visitors')
             ->from('visitor')
             ->where('agent', '=', $args['agent'])
             ->where('location', '=', $args['country'])
@@ -47,7 +47,6 @@ class VisitorsModel extends BaseModel
             ->where('ip', '=', $args['ip'])
             ->where('source_name', '=', $args['source_name'])
             ->whereDate('last_counter', $args['date']);
-
 
         if ($args['logged_in'] === true) {
             $query->where('visitor.user_id', '!=', 0);
