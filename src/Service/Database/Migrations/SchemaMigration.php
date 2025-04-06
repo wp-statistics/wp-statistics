@@ -47,6 +47,9 @@ class SchemaMigration extends AbstractMigrationOperation
         '14.12.6' => [
             'addFirstAndLastPageToVisitors',
         ],
+        '14.13' => [
+            'addUserIdToEvents',
+        ]
     ];
 
     /**
@@ -67,6 +70,29 @@ class SchemaMigration extends AbstractMigrationOperation
                         'first_view' => 'datetime DEFAULT NULL',
                         'last_page'  => 'bigint(20) UNSIGNED DEFAULT NULL',
                         'last_view'  => 'datetime DEFAULT NULL'
+                    ]
+                ])
+                ->execute();
+        } catch (Exception $e) {
+            $this->setErrorStatus($e->getMessage());
+        }
+    }
+
+    /**
+     * Adds `user_id` column to the 'events' table.
+     *
+     * @return void
+     */
+    public function addUserIdToEvents()
+    {
+        $this->ensureConnection();
+
+        try {
+            DatabaseFactory::table('update')
+                ->setName('events')
+                ->setArgs([
+                    'add' => [
+                        'user_id' => 'bigint(20) UNSIGNED DEFAULT NULL',
                     ]
                 ])
                 ->execute();

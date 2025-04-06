@@ -142,6 +142,7 @@ class Manager
                 'date'       => 'datetime NOT NULL',
                 'page_id'    => 'bigint(20) NULL',
                 'visitor_id' => 'bigint(20) NULL',
+                'user_id'    => 'bigint(20) UNSIGNED DEFAULT NULL',
                 'event_name' => 'varchar(64) NOT NULL',
                 'event_data' => 'text NOT NULL',
             ],
