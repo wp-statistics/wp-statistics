@@ -8,9 +8,11 @@ use WP_Statistics\Utils\Request;
 use WP_Statistics\Abstracts\MultiViewPage;
 use WP_Statistics\Async\BackgroundProcessFactory;
 use WP_Statistics\Async\SourceChannelUpdater;
+use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Admin\FilterHandler\FilterGenerator;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Referrals\Views\TabsView;
+use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
 
 class ReferralsPage extends MultiViewPage
 {
@@ -35,6 +37,13 @@ class ReferralsPage extends MultiViewPage
     }
 
     protected function setFilters() {
+        $searchChannelsData = $this->getSearchChannels();
+        $socialChannelsData = $this->getSocialChannels();
+        $sourceChannelsData = $this->getSourceChannels();
+
+        $referrer            = Request::get('referrer', '');
+        $referrerPlaceholder = ! empty($referrer) ? $referrer : esc_html__('All', 'wp-statistics');
+
         $this->filters = FilterGenerator::create()
             ->hidden('pageName', [
                 'name' => 'page',
@@ -44,11 +53,13 @@ class ReferralsPage extends MultiViewPage
             ])
             ->select('referrers', [
                 'name' => 'referrer',
+                'placeholder' => $referrerPlaceholder,
                 'classes' => 'wps-width-100 wps-select2',
                 'attributes'  => [
                     'data-type'       => 'referrers',
-                    'data-source' => 'getReferrer',
+                    'data-source'     => 'getReferrer',
                     'data-searchable' => true,
+                    'data-default'    => $referrer,
                 ],
             ])
             ->dropdown('search_channel', [
@@ -58,8 +69,8 @@ class ReferralsPage extends MultiViewPage
                 'searchable' => true,
                 'attributes'  => [
                     'data-type' => 'search-channels',
-                    'data-source' => 'getSearchChannels',
                 ],
+                'predefined' => $searchChannelsData
             ])
             ->dropdown('social_channel', [
                 'name' => 'source_channel',
@@ -68,8 +79,8 @@ class ReferralsPage extends MultiViewPage
                 'searchable' => true,
                 'attributes'  => [
                     'data-type' => 'social-channels',
-                    'data-source' => 'getSocialChannels',
                 ],
+                'predefined' => $socialChannelsData
             ])
             ->dropdown('source_channel', [
                 'label' => esc_html__('Source Category', 'wp-statistics'),
@@ -77,8 +88,8 @@ class ReferralsPage extends MultiViewPage
                 'searchable' => true,
                 'attributes'  => [
                     'data-type' => 'source-channels',
-                    'data-source' => 'getSourceChannels',
                 ],
+                'predefined' => $sourceChannelsData
             ])
             ->button('resetButton', [
                 'name' => 'reset',
@@ -98,6 +109,89 @@ class ReferralsPage extends MultiViewPage
             ->get();
         
         return $this->filters;
+    }
+
+    /**
+     * Retrieves filtered search channels and generates corresponding data.
+     * 
+     * @return array
+     */
+    private function getSearchChannels() 
+    {
+        $currentPage = esc_url_raw(home_url($_SERVER['REQUEST_URI']));
+
+        $channels = Helper::filterArrayByKeys(SourceChannels::getList(), ['search', 'paid_search']);
+        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'], $currentPage)));
+        
+        foreach ($channels as $key => $channel) {
+            $args[] = [
+                'slug' => esc_attr($key),
+                'name' => esc_html($channel),
+                'url' => add_query_arg(['source_channel' => $key], $baseUrl),
+            ];
+        }
+
+        return [
+            'args' => $args,
+            'baseUrl' => $baseUrl,
+            'selectedOption' => Request::get('source_channel'),
+        ];
+    }
+
+    /**
+     * Retrieves filtered social channels and generates corresponding data.
+     * 
+     * @return array
+     */
+    private function getSocialChannels()
+    {
+        $currentPage = esc_url_raw(home_url($_SERVER['REQUEST_URI']));
+
+        $channels = Helper::filterArrayByKeys(SourceChannels::getList(), ['social', 'paid_social']);
+        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'], $currentPage)));
+
+        foreach ($channels as $key => $channel) {
+            $args[] = [
+                'slug' => esc_attr($key),
+                'name' => esc_html($channel),
+                'url' => add_query_arg(['source_channel' => $key], $baseUrl),
+            ];
+        }
+
+        return [
+            'args' => $args,
+            'baseUrl' => $baseUrl,
+            'selectedOption' => Request::get('source_channel'),
+        ];
+    }
+
+     /**
+     * Retrieves filtered source channels and generates corresponding data.
+     * 
+     * @return array
+     */
+    private function getSourceChannels()
+    {
+        $currentPage = esc_url_raw(home_url($_SERVER['REQUEST_URI']));
+
+        $channels = SourceChannels::getList();
+        unset($channels['direct']);
+
+        $baseUrl = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'], $currentPage)));
+
+        foreach ($channels as $key => $channel) {
+            $args[] = [
+                'slug' => esc_attr($key),
+                'name' => esc_html($channel),
+                'url' => add_query_arg(['source_channel' => $key], $baseUrl),
+            ];
+        }
+
+        return [
+            'args' => $args,
+            'baseUrl' => $baseUrl,
+            'selectedOption' => Request::get('source_channel')
+        ];
     }
 
     /**
