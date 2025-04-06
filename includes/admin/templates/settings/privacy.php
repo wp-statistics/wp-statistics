@@ -9,9 +9,13 @@
             <th scope="row">
                 <label for="anonymize_ips">
                     <?php esc_html_e('Anonymize IP Addresses', 'wp-statistics'); ?>
+
                     <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
-                        <a class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
+                        <span>
+                            <a class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
+                        </span>
                     <?php endif ?>
+
                 </label>
             </th>
             <td>
@@ -23,10 +27,13 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="hash_ips"><?php esc_html_e('Hash IP Addresses', 'wp-statistics'); ?></label>
-                <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
-                    <a class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
-                <?php endif ?>
+                <label for="hash_ips"><?php esc_html_e('Hash IP Addresses', 'wp-statistics'); ?>
+                    <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
+                        <span>
+                             <a class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
+                        </span>
+                    <?php endif ?>
+                </label>
             </th>
             <td>
                 <input id="hash_ips" type="checkbox" value="1" name="wps_hash_ips" <?php echo WP_STATISTICS\Option::get('hash_ips') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
@@ -95,29 +102,29 @@
                     </p>
 
                     <?php
-                        $compatiblePlugins = \WP_Statistics\Service\Integrations\WpConsentApi::getCompatiblePlugins();
+                    $compatiblePlugins = \WP_Statistics\Service\Integrations\WpConsentApi::getCompatiblePlugins();
 
-                        if (empty($compatiblePlugins)) {
-                            ?><p class="description">
+                    if (empty($compatiblePlugins)) {
+                        ?><p class="description">
+                        <?php
+                        printf(
+                            __('%1$s: No recognized consent management plugin detected. Please install or activate a compatible plugin to ensure compliance with user consent.', 'wp-statistics'),
+                            '<b>' . __('No Plugin Found', 'wp-statistics') . '</b>'
+                        );
+                        ?>
+                        </p><?php
+                    } else {
+                        ?>
+                        <p class="description">
                             <?php
-                            printf(
-                                __('%1$s: No recognized consent management plugin detected. Please install or activate a compatible plugin to ensure compliance with user consent.', 'wp-statistics'),
-                                '<b>' . __('No Plugin Found', 'wp-statistics') . '</b>'
+                            echo sprintf(
+                                __('<b>Plugin Found:</b> A recognized consent management plugin is active: %s. WP Statistics will comply with the user’s consent settings provided by this plugin.', 'wp-statistics'),
+                                implode(', ', $compatiblePlugins)
                             );
                             ?>
-                            </p><?php
-                        } else {
-                            ?>
-                            <p class="description">
-                                <?php
-                                echo sprintf(
-                                    __('<b>Plugin Found:</b> A recognized consent management plugin is active: %s. WP Statistics will comply with the user’s consent settings provided by this plugin.', 'wp-statistics'),
-                                    implode(', ', $compatiblePlugins)
-                                );
-                                ?>
-                            </p>
-                            <?php
-                        }
+                        </p>
+                        <?php
+                    }
                     ?>
 
                     <?php if (\WP_STATISTICS\Option::get('privacy_audit', false)) : ?>

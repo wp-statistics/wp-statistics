@@ -8,7 +8,7 @@ global $wp_roles;
     <div class="postbox">
         <table class="form-table">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" >
                 <th scope="row" colspan="2">
                     <h3><?php esc_html_e('Roles & Permissions', 'wp-statistics'); ?></h3>
                 </th>

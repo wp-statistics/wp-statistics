@@ -154,7 +154,7 @@ add_thickbox();
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top">
+        <tr valign="top" >
             <th scope="row" colspan="2">
                 <h3><?php esc_html_e('Geolocation Settings', 'wp-statistics'); ?></h3>
             </th>

@@ -51,7 +51,7 @@ class settings_page extends Singleton
         $args['wp_statistics_options'] = Option::getOptions();
 
         // Load Template
-        Admin_Template::get_template(array('layout/header', 'layout/title', 'settings', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'settings', 'layout/footer'), $args);
     }
 
     /**
