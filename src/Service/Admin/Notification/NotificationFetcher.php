@@ -61,9 +61,14 @@ class NotificationFetcher
             $notifications = NotificationProcessor::checkUpdatedNotifications($notifications);
             $notifications = NotificationProcessor::sortNotificationsByActivatedAt($notifications);
 
-            update_option('wp_statistics_notifications', $notifications);
+            $result = update_option('wp_statistics_notifications', $notifications);
+
+            if (!$result) {
+                WP_Statistics()->log('Failed to update wp_statistics_notifications option.', 'error');
+            }
 
             return true;
+
         } catch (Exception $e) {
             WP_Statistics()->log($e->getMessage(), 'error');
             return false;

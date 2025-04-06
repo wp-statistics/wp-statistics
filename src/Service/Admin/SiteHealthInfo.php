@@ -316,8 +316,8 @@ class SiteHealthInfo
             ],
             'shareAnonymousData'             => [
                 'label' => esc_html__('Share Anonymous Data', 'wp-statistics'),
-                'value' => Option::get('usage_data_tracking') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::get('usage_data_tracking') ? 'Enabled' : 'Disabled',
+                'value' => Option::get('share_anonymous_data') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                'debug' => Option::get('share_anonymous_data') ? 'Enabled' : 'Disabled',
             ],
             'phpGmpExtension'                => [
                 'label' => esc_html__('PHP Extension (GMP)', 'wp-statistics'),

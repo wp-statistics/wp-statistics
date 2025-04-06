@@ -802,7 +802,7 @@
 
 .wps-wrap__main .notice:not(.hidden) {
   &.notice-setting {
-    padding: 16px;
+    padding: 16px!important;
     flex-direction: column;
     border: 1px solid #F6585E4D;
     gap: 4px;

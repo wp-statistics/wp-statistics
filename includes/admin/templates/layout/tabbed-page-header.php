@@ -3,7 +3,7 @@
 use WP_STATISTICS\Helper;
 use WP_Statistics\Components\View;
 
-View::load('components/objects/usage-tracker-notice');
+View::load('components/objects/share-anonymous-notice');
 
 ?>
 <div class="wps-wrap__top tabbed_page">
