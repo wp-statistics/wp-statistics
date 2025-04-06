@@ -111,7 +111,7 @@ View::load('components/objects/share-anonymous-notice');
                 <li class="wps-tab-link <?php echo esc_attr($tab['class']); ?>">
                     <?php if (isset($tab['coming_soon'])): ?>
                         <span class="wps-tooltip wps-tooltip--coming_soon" title="<?php echo esc_html__('Coming soon', 'wp-statistics') ?>"><?php echo esc_html($tab['title']); ?> <i class="wps-tooltip-icon coming-soon"></i></span>
-                    <?php elseif (isset($tab['locked'])) : ?>
+                    <?php elseif (!empty($tab['locked'])) : ?>
                         <a data-target="<?php echo isset($tab['lockedTarget']) ?  esc_attr($tab['lockedTarget'])  : "wp-statistics-data-plus"?>"  class="js-wps-openPremiumModal wps-locked">
                             <?php echo esc_html($tab['title']); ?>
                             <?php if (!empty($tab['tooltip'])) : ?>
