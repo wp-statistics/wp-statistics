@@ -268,4 +268,17 @@ class EventsModel extends BaseModel
 
         return $result;
     }
+
+    public function deleteEvents($args)
+    {
+        $args = $this->parseArgs($args, [
+            'event_name' => ''
+        ]);
+
+        $result = Query::delete('events')
+            ->where('event_name', '=', $args['event_name'])
+            ->execute();
+
+        return $result;
+    }
 }
