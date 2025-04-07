@@ -54,8 +54,8 @@ class SocialMediaChartDataProvider extends AbstractChartDataProvider
         $thisPeriodDates = array_keys(TimeZone::getListDays($thisPeriod));
 
         // This period data
-        $thisParsedData     = [];
-        $thisPeriodTotal    = array_fill_keys($thisPeriodDates, 0);
+        $thisParsedData  = [];
+        $thisPeriodTotal = array_fill_keys($thisPeriodDates, 0);
 
         // Set chart labels
         $this->setChartLabels($this->generateChartLabels($thisPeriodDates));
@@ -63,13 +63,13 @@ class SocialMediaChartDataProvider extends AbstractChartDataProvider
         $data = $this->visitorsModel->getReferrers($this->args);
 
         foreach ($data as $item) {
-            $visitors = intval($item->visitors);
+            $visitors                                                = intval($item->visitors);
             $thisParsedData[$item->source_name][$item->last_counter] = $visitors;
             $thisPeriodTotal[$item->last_counter]                    += $visitors;
         }
 
         // Sort data by referrals number
-        uasort($thisParsedData, function($a, $b) {
+        uasort($thisParsedData, function ($a, $b) {
             return array_sum($b) - array_sum($a);
         });
 
@@ -93,7 +93,8 @@ class SocialMediaChartDataProvider extends AbstractChartDataProvider
         if (!empty($thisPeriodTotal)) {
             $this->addChartDataset(
                 esc_html__('Total', 'wp-statistics'),
-                array_values($thisPeriodTotal)
+                array_values($thisPeriodTotal),
+                'total'
             );
         }
     }
@@ -129,9 +130,9 @@ class SocialMediaChartDataProvider extends AbstractChartDataProvider
         $labels = array_map(
             function ($date) {
                 return [
-                    'formatted_date'    => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
-                    'date'              => date_i18n('Y-m-d', strtotime($date)),
-                    'day'               => date_i18n('l', strtotime($date))
+                    'formatted_date' => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
+                    'date'           => date_i18n('Y-m-d', strtotime($date)),
+                    'day'            => date_i18n('l', strtotime($date))
                 ];
             },
             $dateRange

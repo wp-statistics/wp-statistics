@@ -1,5 +1,6 @@
 = 14.13.1 - 2025-04-** =
 - **Fix:** Removed table prefix from shared data.
+- **Fix:** Resolved chart color bug in RTL layout.
 
 = 14.13 - 2025-04-01 =
 - **New:** Introduced Notifications to receive important updates and promotions.
