@@ -232,6 +232,21 @@ class Hits extends Singleton
             throw new Exception($exclusion['exclusion_reason'], 200);
         }
 
+        /**
+         * Record Visitor Detail
+         */
+        $visitorId = false;
+        if (Visitor::active()) {
+            $visitorId = Visitor::record($visitorProfile, ['page_id' => $pageId]);
+        }
+
+        /**
+         * Record Visitor Relationship
+         */
+        if (!empty($visitorId) && !empty($pageId)) {
+            Visitor::save_visitors_relationships($pageId, $visitorId);
+        }
+
         $args = null;
         if ($pageId) {
             $args['page_id'] = $pageId;
