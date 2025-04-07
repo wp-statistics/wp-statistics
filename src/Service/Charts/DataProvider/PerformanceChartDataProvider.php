@@ -23,25 +23,25 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
     {
         parent::__construct($args);
 
-        $this->visitorsModel    = new VisitorsModel();
-        $this->viewsModel       = new ViewsModel();
-        $this->postsModel       = new PostsModel();
+        $this->visitorsModel = new VisitorsModel();
+        $this->viewsModel    = new ViewsModel();
+        $this->postsModel    = new PostsModel();
     }
 
     public function getData()
     {
         // Get data from database
-        $visitors   = $this->visitorsModel->countDailyVisitors($this->args);
-        $views      = $this->viewsModel->countDailyViews($this->args);
+        $visitors = $this->visitorsModel->countDailyVisitors($this->args);
+        $views    = $this->viewsModel->countDailyViews($this->args);
 
         // On single post view, no need to count posts
         $posts = empty($this->args['post_id']) ? $this->postsModel->countDailyPosts($this->args) : [];
 
         // Parse data
         $parsedData = $this->parseData([
-            'visitors'  => $visitors,
-            'views'     => $views,
-            'posts'     => $posts
+            'visitors' => $visitors,
+            'views'    => $views,
+            'posts'    => $posts
         ]);
 
         // Prepare data
@@ -55,20 +55,20 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
         $datePeriod = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
         $dates      = array_keys(TimeZone::getListDays($datePeriod));
 
-        $visitors   = wp_list_pluck($data['visitors'], 'visitors', 'date');
-        $views      = wp_list_pluck($data['views'], 'views', 'date');
-        $posts      = wp_list_pluck($data['posts'], 'posts', 'date');
+        $visitors = wp_list_pluck($data['visitors'], 'visitors', 'date');
+        $views    = wp_list_pluck($data['views'], 'views', 'date');
+        $posts    = wp_list_pluck($data['posts'], 'posts', 'date');
 
         $parsedData = [];
         foreach ($dates as $date) {
-            $parsedData['labels'][]     = [
-                'formatted_date'    => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
-                'date'              => date_i18n('Y-m-d', strtotime($date)),
-                'day'               => date_i18n('l', strtotime($date))
+            $parsedData['labels'][]   = [
+                'formatted_date' => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
+                'date'           => date_i18n('Y-m-d', strtotime($date)),
+                'day'            => date_i18n('l', strtotime($date))
             ];
-            $parsedData['visitors'][]   = isset($visitors[$date]) ? intval($visitors[$date]) : 0;
-            $parsedData['views'][]      = isset($views[$date]) ? intval($views[$date]) : 0;
-            $parsedData['posts'][]      = isset($posts[$date]) ? intval($posts[$date]) : 0;
+            $parsedData['visitors'][] = isset($visitors[$date]) ? intval($visitors[$date]) : 0;
+            $parsedData['views'][]    = isset($views[$date]) ? intval($views[$date]) : 0;
+            $parsedData['posts'][]    = isset($posts[$date]) ? intval($posts[$date]) : 0;
         }
 
         return $parsedData;
@@ -82,12 +82,14 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
 
         $this->addChartDataset(
             esc_html__('Visitors', 'wp-statistics'),
-            $data['visitors']
+            $data['visitors'],
+            'visitors'
         );
 
         $this->addChartDataset(
             esc_html__('Views', 'wp-statistics'),
-            $data['views']
+            $data['views'],
+            'views'
         );
 
         // On single post view, no need to count posts
