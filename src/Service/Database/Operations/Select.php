@@ -39,6 +39,22 @@ class Select extends AbstractTableOperation
     }
 
     /**
+     * Generate the full table name with prefix for JOIN operations.
+     *
+     * @param string $tableName The raw table name without prefix.
+     * @return string The full prefixed table name.
+     * @throws \InvalidArgumentException If the table name is empty.
+     */
+    protected function getFullJoinTableName($tableName)
+    {
+        if (empty($tableName)) {
+            throw new \InvalidArgumentException('Join table name must be set before proceeding.');
+        }
+
+        return $this->wpdb->prefix . 'statistics_' . $tableName;
+    }
+
+    /**
      * Executes the SELECT query based on arguments.
      *
      * @return $this
@@ -59,6 +75,19 @@ class Select extends AbstractTableOperation
             $columns = implode(', ', $this->args['columns']);
             $sql = "SELECT {$columns} FROM {$this->fullName}";
 
+            if (!empty($this->args['joins']) && is_array($this->args['joins'])) {
+                foreach ($this->args['joins'] as $join) {
+                    if (!isset($join['table'], $join['on'], $join['type'])) {
+                        throw new RuntimeException("Invalid JOIN configuration.");
+                    }
+            
+                    $joinTable = $this->getFullJoinTableName($join['table']);
+                    $joinAlias = isset($join['alias']) ? $join['alias'] : $join['table'];
+            
+                    $sql .= " {$join['type']} JOIN {$joinTable} AS {$joinAlias} ON {$join['on']}";
+                }
+            }            
+            
             // Add WHERE clause if provided
             $params       = [];
             $whereClauses = [];

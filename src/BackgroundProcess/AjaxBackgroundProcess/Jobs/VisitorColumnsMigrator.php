@@ -3,7 +3,6 @@
 namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\Jobs;
 
 use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\AbstractAjaxBackgroundProcess;
-use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\AjaxBackgroundProcessFactory;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Database\DatabaseFactory;
 
@@ -43,10 +42,18 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
         }
 
         $allVisitors = DatabaseFactory::table('select')
-            ->setName('visitor_relationships')
+            ->setName('visitor_relationships AS vr')
             ->setArgs([
-                'columns'  => ['DISTINCT visitor_id'],
-                'order_by' => 'visitor_id ASC',
+                'columns' => ['DISTINCT vr.visitor_id'],
+                'joins'   => [
+                    [
+                        'table' => 'visitor',
+                        'alias' => 'v',
+                        'on'    => 'vr.visitor_id = v.ID',
+                        'type'  => 'INNER'
+                    ]
+                ],
+                'order_by' => 'vr.visitor_id ASC',
             ])
             ->execute()
             ->getResult();
@@ -108,7 +115,9 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
             ->execute()
             ->getResult();
 
-        if (count($visitors) > 0) {
+        $this->getTotal();
+
+        if (count($visitors) >= $this->total) {
             $this->markAsCompleted(get_class($this));
 
             return true;
@@ -131,11 +140,27 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
             return;
         }
 
-        $visitorBatch = DatabaseFactory::table('select')
+        $inspect = DatabaseFactory::table('inspect')
             ->setName('visitor_relationships')
+            ->execute();
+
+        if (!$inspect->getResult()) {
+            return;
+        }
+
+        $visitorBatch = DatabaseFactory::table('select')
+            ->setName('visitor_relationships AS vr')
             ->setArgs([
-                'columns'  => ['visitor_id', 'MIN(ID) as min_id', 'MAX(ID) as max_id'],
-                'group_by' => 'visitor_id',
+                'columns'  => ['vr.visitor_id', 'MIN(vr.ID) as min_id', 'MAX(vr.ID) as max_id'],
+                'group_by' => 'vr.visitor_id',
+                'joins'   => [
+                    [
+                        'table' => 'visitor',
+                        'alias' => 'v',
+                        'on'    => 'vr.visitor_id = v.ID',
+                        'type'  => 'INNER'
+                    ]
+                ],
                 'limit'    => [
                     $this->batchSize,
                     $this->offset,

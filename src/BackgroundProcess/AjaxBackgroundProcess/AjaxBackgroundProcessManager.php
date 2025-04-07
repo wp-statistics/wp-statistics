@@ -142,7 +142,7 @@ class AjaxBackgroundProcessManager
                 <p><a href="%4$s" id="start-migration-btn" class="button-primary">%5$s</a></p>
             </div>',
             esc_html__('WP Statistics: Migration Required', 'wp-statistics'),
-            __('A data migration is needed for WP Statistics. <strong>Click Start</strong> Migration below to begin.', 'wp-statistics'),
+            __('A data migration is needed for WP Statistics. Click <strong>Start Migration</strong> below to begin.', 'wp-statistics'),
             __('<strong>Note:</strong> If you leave this page before the migration finishes, the process will pause. You can always return later to resume.', 'wp-statistics'),
             esc_url($migrationUrl),
             esc_html__('Start Migration', 'wp-statistics')
