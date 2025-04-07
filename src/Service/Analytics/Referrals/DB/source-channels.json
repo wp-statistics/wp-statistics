@@ -7300,7 +7300,7 @@
     "rules": [
       {
         "operator": "MATCH",
-        "pattern": "/utm_medium=.*push$|utm_medium=.*(mobile|notification)|(?:utm_source|source|ref)=firebase(?:&|$)/i"
+        "pattern": "/utm_medium=([^&]*)push(?:&|$)|utm_medium=([^&]*)(mobile|notification)([^&]*)|(?:utm_source|source|ref)=firebase(?:&|$)/i"
       }
     ]
   }
