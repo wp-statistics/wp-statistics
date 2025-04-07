@@ -6242,6 +6242,26 @@
   },
 
   {
+    "type": "video",
+    "description": "Organic Video",
+    "channels": [
+      {
+        "name": "Organic Video",
+        "identifier": "organic_video",
+        "domains": [
+          "*"
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "operator": "MATCH",
+        "pattern": "/utm_medium=([^&]*)video([^&]*)/i"
+      }
+    ]
+  },
+
+  {
     "type": "search",
     "description": "Organic traffic from search engines",
     "channels": [
