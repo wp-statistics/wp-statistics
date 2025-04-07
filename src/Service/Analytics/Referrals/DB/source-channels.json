@@ -7260,7 +7260,7 @@
     "rules": [
       {
         "operator": "MATCH",
-        "pattern": "/utm_medium=.*(audio)$/i"
+        "pattern": "/utm_medium=(audio)/i"
       }
     ]
   },
