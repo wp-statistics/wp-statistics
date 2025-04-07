@@ -1,4 +1,5 @@
 = 14.13.1 - 2025-04-** =
+- **Enhancement:** Removed FeedbackBird button from header and its associated functionality.
 - **Fix:** Removed table prefix from shared data.
 
 = 14.13 - 2025-04-01 =
