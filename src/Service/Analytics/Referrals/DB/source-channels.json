@@ -7240,7 +7240,7 @@
     "rules": [
       {
         "operator": "MATCH",
-        "pattern": "/utm_medium=.*(affiliate)$/i"
+        "pattern": "/utm_medium=(affiliate)/i"
       }
     ]
   },
