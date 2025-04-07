@@ -48,6 +48,7 @@ class EventsModel extends BaseModel
     public function getEvents($args = [])
     {
         $args = $this->parseArgs($args, [
+            'fields'        => '*',
             'page'          => 1,
             'per_page'      => Admin_Template::$item_per_page,
             'event_name'    => '',
@@ -61,7 +62,7 @@ class EventsModel extends BaseModel
             'order_by'      => 'DESC',
         ]);
 
-        $query = Query::select('*')
+        $query = Query::select($args['fields'])
             ->from('events')
             ->where('event_name', 'IN', $args['event_name'])
             ->where('events.page_id', '=', $args['post_id'])

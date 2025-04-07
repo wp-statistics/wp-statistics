@@ -3,6 +3,7 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Components\DateRange;
+use WP_Statistics\Models\EventsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Geolocation\Provider\DbIpProvider;
@@ -33,6 +34,11 @@ class Ajax
             [
                 'class'  => $this,
                 'action' => 'query_params_cleanup',
+                'public' => false
+            ],
+            [
+                'class'  => $this,
+                'action' => 'event_data_cleanup',
                 'public' => false
             ],
             [
@@ -332,6 +338,38 @@ class Ajax
             } else {
                 esc_html_e('Couldn\'t find any user query string parameter data to delete from \'visitor\' table.', 'wp-statistics');
             }
+
+        } else {
+            esc_html_e('Unauthorized access!', 'wp-statistics');
+        }
+
+        exit;
+    }
+
+    /**
+     * Setup an AJAX action to clean up events data from event table.
+     */
+    public function event_data_cleanup_action_callback()
+    {
+        if (Request::isFrom('ajax') && User::Access('manage')) {
+
+            check_ajax_referer('wp_rest', 'wps_nonce');
+
+            $eventName = Request::get('event_name');
+
+            if ($eventName) {
+                $eventsModel = new EventsModel();
+                $result = $eventsModel->deleteEvents(['event_name' => $eventName]);
+
+                if ($result) {
+                    esc_html_e('Successfully removed event data from \'events\' table.', 'wp-statistics');
+                } else {
+                    esc_html_e('Cannot delete any data from \'events\' table.', 'wp-statistics');
+                }
+            } else {
+                esc_html_e('Event name is not valid.', 'wp-statistics');
+            }
+
 
         } else {
             esc_html_e('Unauthorized access!', 'wp-statistics');
