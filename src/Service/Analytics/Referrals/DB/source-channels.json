@@ -3362,7 +3362,7 @@
     "rules": [
       {
         "operator": "MATCH",
-        "pattern": "/utm_medium=.*(display|banner|expandable|interstitial|cpm)$/i"
+        "pattern": "/utm_medium=(display|banner|expandable|interstitial|cpm)/i"
       }
     ]
   },
