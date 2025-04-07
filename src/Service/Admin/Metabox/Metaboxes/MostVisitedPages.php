@@ -36,7 +36,7 @@ class MostVisitedPages extends BaseMetabox
     public function getData()
     {
         $args                = $this->getFilters();
-        $isTodayOrFutureDate = DateTime::isTodayOrFutureDate($args['date']['from'] ?? null);
+        $isTodayOrFutureDate = DateTime::isTodayOrFutureDate($args['date']['to'] ?? null);
         $data                = $this->dataProvider->getTopPages($args);
 
         $output = View::load('metabox/most-visited-pages', ['data' => $data, 'args' => $args, 'isTodayOrFutureDate' => $isTodayOrFutureDate], true);

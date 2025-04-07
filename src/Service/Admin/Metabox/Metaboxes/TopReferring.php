@@ -36,7 +36,7 @@ class TopReferring extends BaseMetabox
     public function getData()
     {
         $args                = $this->getFilters();
-        $isTodayOrFutureDate = DateTime::isTodayOrFutureDate($args['date']['from'] ?? null);
+        $isTodayOrFutureDate = DateTime::isTodayOrFutureDate($args['date']['to'] ?? null);
         $data                = $this->dataProvider->getReferrersData($args);
         $output              = View::load('metabox/top-referring', ['data' => $data, 'filters' => $args, 'isTodayOrFutureDate' => $isTodayOrFutureDate], true);
 

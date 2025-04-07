@@ -37,7 +37,7 @@ class MostActiveVisitors extends BaseMetabox
     {
         $args = $this->getFilters();
 
-        $isTodayOrFutureDate = DateTime::isTodayOrFutureDate($args['date']['from'] ?? null);
+        $isTodayOrFutureDate = DateTime::isTodayOrFutureDate($args['date']['to'] ?? null);
 
 
         $data   = $this->dataProvider->getTopVisitorsData($args);
