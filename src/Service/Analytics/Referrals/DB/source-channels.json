@@ -6884,7 +6884,7 @@
     "rules": [
       {
         "operator": "MATCH",
-        "pattern": "/utm_medium=.*(organic)/i"
+        "pattern": "/utm_medium=(organic)/i"
       }
     ]
   },
