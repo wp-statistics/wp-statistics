@@ -3,6 +3,8 @@
 namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\Jobs;
 
 use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\AbstractAjaxBackgroundProcess;
+use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\AjaxBackgroundProcessFactory;
+use WP_STATISTICS\Option;
 use WP_Statistics\Service\Database\DatabaseFactory;
 
 /**
@@ -77,6 +79,42 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
         $this->done   = count($visitors);
         $currentBatch = ceil($this->done / $this->batchSize);
         $this->offset = $currentBatch * $this->batchSize;
+    }
+
+    /**
+     * Checks whether the migration has already been completed based on existing data.
+     *
+     * @return bool|null Returns true if data is already migrated and job is marked as completed, null otherwise.
+     */
+    protected function isAlreadyDone()
+    {
+        $status = Option::getOptionGroup('ajax_background_process', 'status', null);
+
+        if ($status === 'progress' || $status === 'done') {
+            return;
+        }
+
+        $visitors = DatabaseFactory::table('select')
+            ->setName('visitor')
+            ->setArgs([
+                'columns'   => ['first_page', 'first_view', 'last_page', 'last_view'],
+                'raw_where' => [
+                    "first_page IS NOT NULL AND first_page != ''",
+                    "first_view IS NOT NULL AND first_view > '0000-00-00 00:00:00'",
+                    "last_page IS NOT NULL AND last_page != ''",
+                    "last_view IS NOT NULL AND last_view > '0000-00-00 00:00:00'"
+                ]
+            ])
+            ->execute()
+            ->getResult();
+
+        if (count($visitors) > 0) {
+            $this->markAsCompleted(get_class($this));
+
+            return true;
+        }
+
+        return;
     }
 
     /**

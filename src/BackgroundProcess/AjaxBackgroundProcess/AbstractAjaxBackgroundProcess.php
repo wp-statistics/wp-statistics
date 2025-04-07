@@ -102,6 +102,10 @@ abstract class AbstractAjaxBackgroundProcess
             return null;
         }
 
+        if (method_exists(self::$currentMigration, 'isAlreadyDone')) {
+            return (new self::$currentMigration())->isAlreadyDone() ? null : new self::$currentMigration();
+        }
+
         return new self::$currentMigration();
     }
 
