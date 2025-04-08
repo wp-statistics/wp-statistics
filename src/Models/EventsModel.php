@@ -198,7 +198,7 @@ class EventsModel extends BaseModel
         ]);
 
         $query = Query::select([
-                "JSON_UNQUOTE(JSON_EXTRACT(`event_data`, '$.target_url')) AS url",
+                "JSON_UNQUOTE(JSON_EXTRACT(`event_data`, '$.target_url')) AS target_url",
                 "event_data",
                 "COUNT(*) AS count"
             ])
@@ -208,7 +208,7 @@ class EventsModel extends BaseModel
             ->whereDate('events.date', $args['date'])
             ->orderBy('count', 'DESC')
             ->perPage($args['page'], $args['per_page'])
-            ->groupBy('url')
+            ->groupBy('target_url')
             ->decorate($args['decorator']);
 
         if (!empty($args['author_id']) || !empty($args['post_type']) || !empty($args['post_id'])) {

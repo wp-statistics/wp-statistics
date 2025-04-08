@@ -9,8 +9,8 @@ use WP_Statistics\Models\VisitorsModel;
 
 class EventDecorator
 {
-    private $event;
-    private $eventData;
+    protected $event;
+    protected $eventData;
 
     public function __construct($event)
     {
