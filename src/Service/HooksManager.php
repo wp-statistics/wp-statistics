@@ -11,7 +11,7 @@ class HooksManager
     {
         add_filter('kses_allowed_protocols', [$this, 'updateAllowedProtocols']);
         add_filter('plugin_action_links_' . plugin_basename(WP_STATISTICS_MAIN_FILE), [$this, 'addActionLinks']);
-        add_filter('template_redirect', [$this, 'serveObfuscatedAsset']);
+        add_filter('plugins_loaded', [$this, 'serveObfuscatedAsset'], PHP_INT_MAX);
     }
 
     /**
