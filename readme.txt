@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.7
-Stable tag: 14.13
+Stable tag: 14.13.1
 Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -139,6 +139,13 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.13.1 - 2025-04-08 =
+- **Enhancement:** Improved filter logic to avoid unnecessary requests.
+- **Enhancement:** Enhanced source channel detection for more accurate results.
+- **Enhancement:** Removed the FeedbackBird button from the header along with its related functionality.
+- **Fix:** Removed table prefix from shared anonymous data.
+- **Fix:** Fixed `serveObfuscatedAsset` compatibility with URL cleanup features when Bypass Ad-blocker is enabled.
+
 = 14.13 - 2025-04-01 =
 - **New:** Introduced Notifications to receive important updates and promotions.
 - **New:** Added an optional "Share Anonymous Data" feature to help improve WP Statistics without collecting personal information.
