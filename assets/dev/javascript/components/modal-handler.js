@@ -10,7 +10,6 @@ const premiumBtn = document.querySelectorAll('.js-wps-openPremiumModal');
 const upgradeButtonBox = document.querySelectorAll('.wps-premium-step__action-container');
 const premiumStepsTitle = document.querySelectorAll('.js-wps-premium-steps__title');
 const firstStepHeader = document.querySelectorAll('.js-wps-premium-first-step__head');
-const stepsHeader = document.querySelectorAll('.js-wps-premium-steps__head');
 
 let autoSlideInterval;
 let currentStepIndex = 1;
@@ -107,6 +106,14 @@ const showStep = (index) => {
     }, 100);
 
     if (index < 0 || index >= premiumSteps.length) return;
+
+    const dynamicTitle = document.querySelector('.js-wps-dynamic-title');
+    const activeStep = premiumSteps[index];
+    const stepTitle = activeStep.querySelector('.js-wps-premium-step__title');
+    if (dynamicTitle && stepTitle) {
+        dynamicTitle.textContent = stepTitle.textContent;
+    }
+
     premiumSteps.forEach(step => step.classList.remove('wps-modal__premium-step--active'));
     if (upgradeButtonBox && upgradeButtonBox.length > 0) {
         upgradeButtonBox.forEach(btn => {
@@ -138,11 +145,9 @@ const showStep = (index) => {
 
     if (index > 0) {
         toggleDisplay(firstStepHeader, 'none');
-        toggleDisplay(stepsHeader, 'block');
         premiumFeatures[index - 1].classList.add('active');
     } else {
         toggleDisplay(firstStepHeader, 'block');
-        toggleDisplay(stepsHeader, 'none');
     }
 
 }
@@ -150,9 +155,9 @@ const showStep = (index) => {
 // Function to start the auto-slide process
 const startAutoSlide = () => {
         autoSlideInterval = setInterval(() => {
-        currentStepIndex = (currentStepIndex + 1) % premiumWelcomeSteps.length; // Loop through steps
+        currentStepIndex = (currentStepIndex + 1) % premiumWelcomeSteps.length;
         showStep(currentStepIndex); // Show the current step and sync sidebar
-    }, 5000); // Adjust time interval to 5 seconds
+    }, 5000);
 }
 
 const stopAutoSlide = () => {
