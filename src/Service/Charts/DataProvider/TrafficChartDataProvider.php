@@ -21,8 +21,8 @@ class TrafficChartDataProvider extends AbstractChartDataProvider
     {
         parent::__construct($args);
 
-        $this->visitorsModel = new VisitorsModel();
-        $this->viewsModel    = new ViewsModel();
+        $this->visitorsModel    = new VisitorsModel();
+        $this->viewsModel       = new ViewsModel();
     }
 
     public function getData()
@@ -42,8 +42,8 @@ class TrafficChartDataProvider extends AbstractChartDataProvider
 
     protected function setThisPeriodData()
     {
-        $currentPeriod = $this->args['date'] ?? DateRange::get();
-        $currentDates  = array_keys(TimeZone::getListDays($currentPeriod));
+        $currentPeriod  = $this->args['date'] ?? DateRange::get();
+        $currentDates   = array_keys(TimeZone::getListDays($currentPeriod));
 
         $data = $this->visitorsModel->countDailyVisitors(array_merge($this->args, ['include_hits' => true]));
         $data = $this->parseData($currentDates, $data);
@@ -55,9 +55,9 @@ class TrafficChartDataProvider extends AbstractChartDataProvider
 
     protected function setPrevPeriodData()
     {
-        $currentPeriod = $this->args['date'] ?? DateRange::get();
-        $prevPeriod    = DateRange::getPrevPeriod($currentPeriod);
-        $prevDates     = array_keys(TimeZone::getListDays($prevPeriod));
+        $currentPeriod  = $this->args['date'] ?? DateRange::get();
+        $prevPeriod     = DateRange::getPrevPeriod($currentPeriod);
+        $prevDates      = array_keys(TimeZone::getListDays($prevPeriod));
 
         $data = $this->visitorsModel->countDailyVisitors(array_merge($this->args, ['include_hits' => true, 'date' => $prevPeriod]));
         $data = $this->parseData($prevDates, $data);
@@ -75,9 +75,9 @@ class TrafficChartDataProvider extends AbstractChartDataProvider
         $parsedData = [];
         foreach ($dates as $date) {
             $parsedData['labels'][]   = [
-                'formatted_date' => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
-                'date'           => date_i18n('Y-m-d', strtotime($date)),
-                'day'            => date_i18n('l', strtotime($date))
+                'formatted_date'    => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
+                'date'              => date_i18n('Y-m-d', strtotime($date)),
+                'day'               => date_i18n('l', strtotime($date))
             ];
             $parsedData['visitors'][] = isset($visitors[$date]) ? intval($visitors[$date]) : 0;
             $parsedData['views'][]    = isset($views[$date]) ? intval($views[$date]) : 0;

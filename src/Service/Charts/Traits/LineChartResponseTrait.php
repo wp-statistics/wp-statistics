@@ -16,15 +16,15 @@ trait LineChartResponseTrait
     {
         $this->chartData = [
             'data' => [
-                'labels'   => [],
-                'datasets' => [],
+                'labels'    => [],
+                'datasets'  => [],
             ]
         ];
 
         if ($prevData) {
             $this->chartData['previousData'] = [
-                'labels'   => [],
-                'datasets' => [],
+                'labels'    => [],
+                'datasets'  => [],
             ];
         }
     }

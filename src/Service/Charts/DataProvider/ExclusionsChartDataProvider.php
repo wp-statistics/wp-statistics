@@ -41,16 +41,16 @@ class ExclusionsChartDataProvider extends AbstractChartDataProvider
         $period      = $this->args['date'] ?? DateRange::get();
         $periodDates = array_keys(TimeZone::getListDays($period));
 
-        $parsedData = [];
-        $totalData  = array_fill_keys($periodDates, 0);
+        $parsedData   = [];
+        $totalData    = array_fill_keys($periodDates, 0);
 
         // Set chart labels
         $this->setChartLabels(array_map(
             function ($date) {
                 return [
-                    'formatted_date' => DateTime::format($date, ['exclude_year' => true, 'short_month' => true]),
-                    'date'           => DateTime::format($date, ['date_format' => 'Y-m-d']),
-                    'day'            => DateTime::format($date, ['date_format' => 'l'])
+                    'formatted_date'    =>DateTime::format($date, ['exclude_year' => true, 'short_month' => true]),
+                    'date'              =>DateTime::format($date, ['date_format' => 'Y-m-d']),
+                    'day'               =>DateTime::format($date, ['date_format' => 'l'])
                 ];
             },
             $periodDates
@@ -59,13 +59,13 @@ class ExclusionsChartDataProvider extends AbstractChartDataProvider
         $data = $this->exclusionsModel->getExclusions($this->args);
 
         foreach ($data as $item) {
-            $count                                  = intval($item->count);
+            $count = intval($item->count);
             $parsedData[$item->reason][$item->date] = $count;
             $totalData[$item->date]                 += $count;
         }
 
         // Sort data
-        uasort($parsedData, function ($a, $b) {
+        uasort($parsedData, function($a, $b) {
             return array_sum($b) - array_sum($a);
         });
 

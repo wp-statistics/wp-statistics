@@ -47,8 +47,8 @@ class SourceCategoryChartDataProvider extends AbstractChartDataProvider
         $thisPeriodDates = array_keys(TimeZone::getListDays($thisPeriod));
 
         // This period data
-        $thisParsedData  = [];
-        $thisPeriodTotal = array_fill_keys($thisPeriodDates, 0);
+        $thisParsedData     = [];
+        $thisPeriodTotal    = array_fill_keys($thisPeriodDates, 0);
 
         // Set chart labels
         $this->setChartLabels($this->generateChartLabels($thisPeriodDates));
@@ -56,16 +56,16 @@ class SourceCategoryChartDataProvider extends AbstractChartDataProvider
         $data = $this->visitorsModel->getReferrers($this->args);
 
         foreach ($data as $item) {
-            $visitors      = $item->getTotalReferrals(true);
-            $sourceChannel = $item->getSourceChannel();
-            $date          = $item->getDate();
+            $visitors       = $item->getTotalReferrals(true);
+            $sourceChannel  = $item->getSourceChannel();
+            $date           = $item->getDate();
 
             $thisParsedData[$sourceChannel][$date] = $visitors;
             $thisPeriodTotal[$date]                += $visitors;
         }
 
         // Sort data by search engine referrals number
-        uasort($thisParsedData, function ($a, $b) {
+        uasort($thisParsedData, function($a, $b) {
             return array_sum($b) - array_sum($a);
         });
 
@@ -126,9 +126,9 @@ class SourceCategoryChartDataProvider extends AbstractChartDataProvider
         $labels = array_map(
             function ($date) {
                 return [
-                    'formatted_date' => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
-                    'date'           => date_i18n('Y-m-d', strtotime($date)),
-                    'day'            => date_i18n('l', strtotime($date))
+                    'formatted_date'    => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
+                    'date'              => date_i18n('Y-m-d', strtotime($date)),
+                    'day'               => date_i18n('l', strtotime($date))
                 ];
             },
             $dateRange
