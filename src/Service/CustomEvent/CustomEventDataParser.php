@@ -51,8 +51,11 @@ class CustomEventDataParser
      */
     private function validateData()
     {
+        // Get excluded events that should not be allowed
+        $excludedEvents = apply_filters('wp_statistics_excluded_custom_events', []);
+
         // Check if the event name is not empty, or is not DataPlus events (click and file_download are handled differently)
-        if (empty($this->eventName) || in_array($this->eventName, ['click', 'file_download'])) {
+        if (empty($this->eventName) || in_array($this->eventName, $excludedEvents)) {
             throw new Exception(esc_html__('The event name you entered is not valid.', 'wp-statistics-marketing'));
         }
 
