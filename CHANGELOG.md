@@ -1,8 +1,9 @@
-= 14.13.1 - 2025-04-** =
-- **Enhancement:** Removed FeedbackBird button from header and its associated functionality.
-- **Fix:** Removed table prefix from shared data.
-- **Enhancement:** Improved filter logic to prevent redundant requests.
-- **Enhancement:** Improve source channel detector functionality.
+= 14.13.1 - 2025-04-08 =
+- **Enhancement:** Improved filter logic to avoid unnecessary requests.
+- **Enhancement:** Enhanced source channel detection for more accurate results.
+- **Enhancement:** Removed the FeedbackBird button from the header along with its related functionality.  
+- **Fix:** Removed table prefix from shared anonymous data.
+- **Fix:** Fixed `serveObfuscatedAsset` compatibility with URL cleanup features when Bypass Ad-blocker is enabled.
 
 = 14.13 - 2025-04-01 =
 - **New:** Introduced Notifications to receive important updates and promotions.
