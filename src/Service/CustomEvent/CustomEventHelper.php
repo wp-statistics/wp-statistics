@@ -37,6 +37,35 @@ class CustomEventHelper
     }
 
     /**
+     * Retrieves an array of active custom events.
+     *
+     * @return string[]
+     */
+    public static function getActiveCustomEvents()
+    {
+        $activeCustomEvents = [];
+
+        foreach (self::getCustomEvents() as $event) {
+            if (!empty($event['status'])) {
+                $activeCustomEvents[] = $event['machine_name'];
+            }
+        }
+
+        return apply_filters('wp_statistics_active_custom_events', $activeCustomEvents);
+    }
+
+    /**
+     * Checks if a custom event is active.
+     *
+     * @param string $name The name of the custom event to check.
+     * @return bool True if the custom event is active, false otherwise.
+     */
+    public static function isEventActive($name)
+    {
+        return in_array($name, self::getActiveCustomEvents());
+    }
+
+    /**
      * Checks if the given name is a reserved name for custom events.
      *
      * @param string $name The name to check.

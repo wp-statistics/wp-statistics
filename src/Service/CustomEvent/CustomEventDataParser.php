@@ -56,9 +56,9 @@ class CustomEventDataParser
             throw new Exception(esc_html__('The event name you entered is not valid.', 'wp-statistics-marketing'));
         }
 
-        // Check if the event is active
+        // Check if the event name is active and exists
         if (!CustomEventHelper::isEventActive($this->eventName)) {
-            throw new Exception(esc_html__('The event does not exist or is not active.', 'wp-statistics-marketing'));
+            throw new Exception(esc_html__('The event does not exist, or is not active.', 'wp-statistics-marketing'));
         }
 
         // Check if the event data is not empty
