@@ -110,6 +110,8 @@ class Install
      */
     private function markBackgroundProcessAsInitiated()
     {
+        Option::deleteOptionGroup('data_migration_process_started', 'jobs');
+
         if (!self::isFresh()) {
             return;
         }

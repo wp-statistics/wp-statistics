@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Async;
+namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs;
 
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_Statistics\Models\VisitorsModel;

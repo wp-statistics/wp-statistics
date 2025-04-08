@@ -54,6 +54,24 @@ function buildScripts(done) {
     done()
 }
 
+function buildBackgroundProcessScript(done) {
+    gulp.src([
+        './assets/dev/javascript/background-process.js',
+    ])
+        .pipe(uglify())
+        .pipe(concat('background-process.min.js'))
+        .pipe(insert.prepend('jQuery(document).ready(function ($) {'))
+        .pipe(insert.append('});'))
+        .pipe(gulp.dest('./assets/js/'))
+        .pipe(babel({presets: ['@babel/env']}))
+        .pipe(replace("\\n", ''))
+        .pipe(replace("\\t", ''))
+        .pipe(replace("  ", ''))
+        .pipe(uglify())
+        .pipe(gulp.dest('./assets/js/'));
+    done()
+}
+
 // Gulp TinyMce Script
 function tineMCE(done) {
     gulp.src(['./assets/dev/javascript/Tinymce/*.js'])
@@ -164,6 +182,7 @@ function revertToES6(cb) {
 // Gulp Watch
 function watch() {
     gulp.watch('assets/dev/javascript/**/*.js', gulp.series(buildScripts));
+    gulp.watch('assets/dev/javascript/background-process.js', gulp.series(buildBackgroundProcessScript));
     gulp.watch('assets/dev/javascript/mini-chart.js', gulp.series(miniChart));
     gulp.watch('assets/dev/sass/**/*.scss', gulp.series(buildStyles));
     console.log(" - Development is ready...")
@@ -172,6 +191,7 @@ function watch() {
 // global Task
 exports.compileSass = buildStyles;
 exports.script = buildScripts;
+exports.backgroundProcessScript = buildBackgroundProcessScript;
 exports.chartScript = chartScripts;
 exports.mce = tineMCE;
 exports.frontScript = frontScripts;

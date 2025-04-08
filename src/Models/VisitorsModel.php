@@ -3,6 +3,7 @@
 namespace WP_Statistics\Models;
 
 use WP_Statistics\Abstracts\BaseModel;
+use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\AjaxBackgroundProcessFactory;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Decorators\ReferralDecorator;
 use WP_Statistics\Decorators\VisitorDecorator;
@@ -461,7 +462,7 @@ class VisitorsModel extends BaseModel
 
     public function getVisitorsData($args = [])
     {
-        if (! DatabaseFactory::compareCurrentVersion('14.12.6', '>=')) {
+        if (! DatabaseFactory::compareCurrentVersion('14.12.6', '>=') || ! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
             return LegacyModel::get('visitorsData', $args, '14.12.4');
         }
 
@@ -607,7 +608,7 @@ class VisitorsModel extends BaseModel
 
     public function getReferredVisitors($args = [])
     {
-        if (! DatabaseFactory::compareCurrentVersion('14.12.6', '>=')) {
+        if (! DatabaseFactory::compareCurrentVersion('14.12.6', '>=') || ! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
             return LegacyModel::get('referredVisitors', $args, '14.12.4');
         }
 
@@ -736,7 +737,7 @@ class VisitorsModel extends BaseModel
 
     public function getVisitorData($args = [])
     {
-        if (! DatabaseFactory::compareCurrentVersion('14.12.6', '>=')) {
+        if (! DatabaseFactory::compareCurrentVersion('14.12.6', '>=') || ! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
             return LegacyModel::get('visitorData', $args, '14.12.4');
         }
 
