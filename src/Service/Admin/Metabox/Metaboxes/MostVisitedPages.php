@@ -1,5 +1,4 @@
 <?php
-
 namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 
 use WP_Statistics\Components\View;
@@ -25,19 +24,20 @@ class MostVisitedPages extends BaseMetabox
     public function getOptions()
     {
         return [
-            'datepicker' => true,
-            'button'     => View::load('metabox/action-button', [
+            'datepicker'    => true,
+            'button'        => View::load('metabox/action-button',[
                 'link'  => Menus::admin_url('pages'),
                 'title' => esc_html__('View Most Visited Pages', 'wp-statistics')
-            ], true)
+            ],true)
         ];
     }
 
     public function getData()
     {
-        $args                = $this->getFilters();
+        $args = $this->getFilters();
+        $data = $this->dataProvider->getTopPages($args);
+
         $isTodayOrFutureDate = DateTime::isTodayOrFutureDate($args['date']['to'] ?? null);
-        $data                = $this->dataProvider->getTopPages($args);
 
         $output = View::load('metabox/most-visited-pages', ['data' => $data, 'args' => $args, 'isTodayOrFutureDate' => $isTodayOrFutureDate], true);
 

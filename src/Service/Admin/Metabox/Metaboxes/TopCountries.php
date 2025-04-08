@@ -1,5 +1,4 @@
 <?php
-
 namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 
 use WP_Statistics\Components\View;
@@ -25,11 +24,11 @@ class TopCountries extends BaseMetabox
     public function getOptions()
     {
         return [
-            'datepicker' => true,
-            'button'     => View::load('metabox/action-button', [
+            'datepicker'    => true,
+            'button'        => View::load('metabox/action-button',[
                 'link'  => Menus::admin_url('geographic'),
                 'title' => esc_html__('View Top Countries', 'wp-statistics')
-            ], true)
+            ],true)
         ];
     }
 

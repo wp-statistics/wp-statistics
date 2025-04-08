@@ -1,5 +1,4 @@
 <?php
-
 namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 
 use WP_Statistics\Components\View;
@@ -25,11 +24,11 @@ class MostActiveVisitors extends BaseMetabox
     public function getOptions()
     {
         return [
-            'datepicker' => true,
-            'button'     => View::load('metabox/action-button', [
-                'link'  => Menus::admin_url('visitors', ['tab' => 'top-visitors']),
+            'datepicker'    => true,
+            'button'        => View::load('metabox/action-button',[
+                'link'  => Menus::admin_url('visitors', ['tab' => 'top-visitors']) ,
                 'title' => esc_html__('View Most Active Visitors', 'wp-statistics')
-            ], true)
+            ],true)
         ];
     }
 

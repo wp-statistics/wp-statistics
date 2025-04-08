@@ -111,12 +111,12 @@ class DateTime
      *
      * @param string|int $date The date string to format. If numeric, it is treated as a Unix timestamp.
      * @param array $args {
-     * @type bool $include_time Whether to include the time in the formatted string. Default false.
-     * @type bool $exclude_year Whether to exclude the year from the formatted string. Default false.
-     * @type bool $short_month Whether to use a short month name (e.g. 'Jan' instead of 'January'). Default false.
-     * @type string $separator The separator to use between date and time. Default ' '.
-     * @type string $date_format The format string to use for the date. Default is the WordPress option 'date_format'.
-     * @type string $time_format The format string to use for the time. Default is the WordPress option 'time_format'.
+     *     @type bool $include_time Whether to include the time in the formatted string. Default false.
+     *     @type bool $exclude_year Whether to exclude the year from the formatted string. Default false.
+     *     @type bool $short_month Whether to use a short month name (e.g. 'Jan' instead of 'January'). Default false.
+     *     @type string $separator The separator to use between date and time. Default ' '.
+     *     @type string $date_format The format string to use for the date. Default is the WordPress option 'date_format'.
+     *     @type string $time_format The format string to use for the time. Default is the WordPress option 'time_format'.
      * }
      *
      * @return string The formatted datetime string.
@@ -126,12 +126,12 @@ class DateTime
     public static function format($date, $args = [])
     {
         $args = wp_parse_args($args, [
-            'include_time' => false,
-            'exclude_year' => false,
-            'short_month'  => false,
-            'separator'    => ' ',
-            'date_format'  => self::getDateFormat(),
-            'time_format'  => self::getTimeFormat()
+            'include_time'  => false,
+            'exclude_year'  => false,
+            'short_month'   => false,
+            'separator'     => ' ',
+            'date_format'   => self::getDateFormat(),
+            'time_format'   => self::getTimeFormat()
         ]);
 
         // If the date is numeric, treat it as a Unix timestamp

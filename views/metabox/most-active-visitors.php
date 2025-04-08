@@ -4,7 +4,6 @@ use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Menus;
-
 ?>
 <?php if (!empty($data)) : ?>
     <div class="o-table-wrapper">
@@ -69,9 +68,9 @@ use WP_STATISTICS\Menus;
                         <?php $page = $visitor->getLastPage(); ?>
                         <?php if (!empty($page)) :
                             View::load("components/objects/external-link", [
-                                'url'     => $page['link'],
-                                'title'   => $page['title'],
-                                'tooltip' => $page['query'] ? "?{$page['query']}" : ''
+                                'url'       => $page['link'],
+                                'title'     => $page['title'],
+                                'tooltip'   => $page['query'] ? "?{$page['query']}" : ''
                             ]);
                         else : ?>
                             <?php echo Admin_Template::UnknownColumn() ?>

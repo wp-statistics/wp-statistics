@@ -1,5 +1,4 @@
 <?php
-
 namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 
 use WP_Statistics\Components\View;
@@ -25,20 +24,22 @@ class TopReferring extends BaseMetabox
     public function getOptions()
     {
         return [
-            'datepicker' => true,
-            'button'     => View::load('metabox/action-button', [
+            'datepicker'    => true,
+            'button'        => View::load('metabox/action-button',[
                 'link'  => Menus::admin_url('referrals', ['tab' => 'referrers']),
                 'title' => esc_html__('View Top Referring', 'wp-statistics')
-            ], true)
+            ],true)
         ];
     }
 
     public function getData()
     {
-        $args                = $this->getFilters();
+        $args = $this->getFilters();
+
         $isTodayOrFutureDate = DateTime::isTodayOrFutureDate($args['date']['to'] ?? null);
-        $data                = $this->dataProvider->getReferrersData($args);
-        $output              = View::load('metabox/top-referring', ['data' => $data, 'filters' => $args, 'isTodayOrFutureDate' => $isTodayOrFutureDate], true);
+
+        $data   = $this->dataProvider->getReferrersData($args);
+        $output = View::load('metabox/top-referring', ['data' => $data, 'filters' => $args, 'isTodayOrFutureDate' => $isTodayOrFutureDate], true);
 
         return $output;
     }
