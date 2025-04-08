@@ -10,11 +10,6 @@
   z-index: 100050;
   display: none;
 
-  .js-wps-premium-steps__head, js-wps-first-step__head{
-    display: none;
-  }
-
-
   .wps-modal__content {
     position: absolute;
     top: 50%;
@@ -125,10 +120,10 @@
   }
 
   .wps-premium-step {
-
+    position: relative;
     &__header {
       position: relative;
-      margin-bottom: 24px;
+      margin-bottom: 8px;
 
       span.wps-premium-step__skip {
         width: 30px;
@@ -167,6 +162,14 @@
       }
     }
 
+    .wps-premium-step__title{
+      font-weight: 500;
+      font-size: 21px;
+      color: #0c0c0d;
+      margin-bottom: 24px;
+      line-height: 100%;
+    }
+
     &__body {
       display: flex;
       gap: 25px;
@@ -175,6 +178,10 @@
       @media(max-width: 768px){
         flex-direction: column;
         gap: 24px;
+      }
+
+      .js-wps-premium-step__title{
+        display: none;
       }
 
       .wps-premium-step__content {
@@ -187,12 +194,8 @@
           font-weight: 400;
           color: #292D32;
           padding: 0;
-          margin: 16px 0 0;
+          margin: 0;
           min-height: 63px;
-
-          &:first-child {
-            margin: 0;
-          }
         }
 
         a {
@@ -212,6 +215,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      min-width: 202px;
 
       p {
         margin: 0 0 16px;
@@ -399,12 +403,6 @@
     }
   }
 
-  .js-wps-premium-steps__title{
-    display: none;
-    &.active{
-      display: block;
-    }
-  }
 
   @keyframes wpsFadeIn {
     from {
