@@ -307,6 +307,7 @@ class PostsModel extends BaseModel
     {
         $args = $this->parseArgs($args, [
             'date'          => '',
+            'resource_type' => Helper::get_list_post_type(),
             'post_type'     => Helper::get_list_post_type(),
             'order_by'      => 'visitors',
             'order'         => 'DESC',
@@ -320,7 +321,7 @@ class PostsModel extends BaseModel
         $visitorsQuery = Query::select(['pages.id as post_id', 'COUNT(DISTINCT visitor_relationships.visitor_id) AS visitors'])
             ->from('visitor_relationships')
             ->join('pages', ['pages.page_id', 'visitor_relationships.page_id'])
-            ->where('type', 'IN', $args['post_type'])
+            ->where('type', 'IN', $args['resource_type'])
             ->whereDate('visitor_relationships.date', $args['date'])
             ->groupBy('pages.id')
             ->getQuery();
