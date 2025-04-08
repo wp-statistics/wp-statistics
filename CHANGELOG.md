@@ -1,5 +1,6 @@
 = 14.13.1 - 2025-04-** =
 - **Fix:** Removed table prefix from shared data.
+- **Enhancement:** Improve source channel detector functionality.
 
 = 14.13 - 2025-04-01 =
 - **New:** Introduced Notifications to receive important updates and promotions.
