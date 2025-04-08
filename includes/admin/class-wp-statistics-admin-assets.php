@@ -54,54 +54,8 @@ class Admin_Assets
         add_action('admin_enqueue_scripts', array($this, 'admin_styles'), 999);
         add_action('admin_enqueue_scripts', array($this, 'admin_scripts'), 999);
         add_filter('wp_statistics_enqueue_chartjs', [$this, 'shouldEnqueueChartJs']);
-
-        $this->initFeedback();
     }
 
-    /**
-     * Init FeedbackBird widget a third-party service to get feedbacks from users
-     *
-     * @url https://feedbackbird.io
-     *
-     * @return void
-     */
-    private function initFeedback()
-    {
-        add_action('admin_enqueue_scripts', function () {
-            $screen = get_current_screen();
-
-            if (apply_filters('wp_statistics_enable_feedbackbird', true) && stripos($screen->id, 'wps_') !== false) {
-                wp_enqueue_script('feedbackbird-widget', 'https://cdn.jsdelivr.net/gh/feedbackbird/assets@master/wp/app.js?uid=01H34YMWXSA9XPS61M4S11RV6Z', [], self::version(), false);
-                wp_add_inline_script('feedbackbird-widget', sprintf('var feedbackBirdObject = %s;', wp_json_encode([
-                    'user_email' => function_exists('wp_get_current_user') ? wp_get_current_user()->user_email : '',
-                    'platform'   => 'wordpress-admin',
-                    'config'     => [
-                        'color'         => '#2831bc',
-                        'button'        => __('Feedback', 'wp-sms'),
-                        'subtitle'      => __('Feel free to share your thoughts!', 'wp-sms'),
-                        'opening_style' => 'modal',
-                    ],
-                    'meta'       => [
-                        'php_version'    => PHP_VERSION,
-                        'active_plugins' => array_map(function ($plugin, $pluginPath) {
-                            return [
-                                'name'    => $plugin['Name'],
-                                'version' => $plugin['Version'],
-                                'status'  => is_plugin_active($pluginPath) ? 'active' : 'deactivate',
-                            ];
-                        }, get_plugins(), array_keys(get_plugins())),
-                    ]
-                ])));
-
-                add_filter('script_loader_tag', function ($tag, $handle, $src) {
-                    if ('feedbackbird-widget' === $handle) {
-                        return preg_replace('/^<script /i', '<script type="module" crossorigin="crossorigin" ', $tag);
-                    }
-                    return $tag;
-                }, 10, 3);
-            }
-        });
-    }
 
     /**
      * Get Version of File

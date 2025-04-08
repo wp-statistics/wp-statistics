@@ -139,16 +139,6 @@
     right: unset;
   }
 
-  #feedback-bird-app {
-    float: none;
-    margin: 0;
-  }
-
-  #wps-menu-toggle:checked ~ .wps-mobileMenuContent .c-fbb-btn--default > span:before {
-    margin-right: unset;
-    margin-left: 10px;
-  }
-
   #wps-menu-toggle:checked ~ .wps-mobileMenuContent a .icon {
     margin-right: unset;
     margin-left: 10px;
