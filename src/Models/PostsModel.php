@@ -313,7 +313,8 @@ class PostsModel extends BaseModel
             'page'          => 1,
             'per_page'      => 10,
             'author_id'     => '',
-            'event_name'    => ''
+            'event_name'    => '',
+            'post_ids'      => []
         ]);
 
         $visitorsQuery = Query::select(['pages.id as post_id', 'COUNT(DISTINCT visitor_relationships.visitor_id) AS visitors'])
@@ -331,6 +332,7 @@ class PostsModel extends BaseModel
         ])
             ->from('posts')
             ->joinQuery($visitorsQuery, ['posts.ID', 'visitors.post_id'], 'visitors', 'LEFT')
+            ->where('posts.ID', 'IN', $args['post_ids'])
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_status', '=', 'publish')
             ->where('posts.post_author', '=', $args['author_id'])
