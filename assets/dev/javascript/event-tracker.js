@@ -20,18 +20,18 @@ const WpStatisticsEventTracker = {
             }
         }
 
+        // Attach handleCustomEvent to window object
+        window.wp_statistics_event = this.handleCustomEvent.bind(this);
+
         // Capture custom events when Marketing is active
         if (typeof WP_Statistics_Marketing_Event_Object !== 'undefined') {
-            // Attach handleCustomEvent to window object
-            window.wp_statistics_event = this.handleCustomEvent.bind(this);
-
             this.captureCustomEvents();
         }
     },
 
     // Handles preparing and sending marketing custom events to the server
     handleCustomEvent: function (eventName, eventData = {}) {
-        const ajaxUrl = WP_Statistics_Marketing_Event_Object.customEventAjaxUrl;
+        const ajaxUrl = WP_Statistics_Tracker_Object.customEventAjaxUrl;
 
         // Add timestamp
         eventData.timestamp = Date.now();

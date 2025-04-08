@@ -30,6 +30,7 @@ use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsManager;
 use WP_Statistics\Service\Database\Managers\MigrationHandler;
 use WP_Statistics\Service\HooksManager;
 use WP_Statistics\Service\Admin\AnonymizedUsageData\AnonymizedUsageDataManager;
+use WP_Statistics\Service\CustomEvent\CustomEventManager;
 
 defined('ABSPATH') || exit;
 
@@ -211,7 +212,8 @@ final class WP_Statistics
             new FilterManager();
         }
 
-        $hooksManager = new HooksManager();
+        $hooksManager       = new HooksManager();
+        $customEventManager = new CustomEventManager();
 
         // WordPress ShortCode and Widget
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-shortcode.php';

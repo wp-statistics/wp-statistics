@@ -8,6 +8,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
 {
     public static $files = array (
         '04c6c5c2f7095ccf6c481d3e53e1776f' => __DIR__ . '/..' . '/mustangostang/spyc/Spyc.php',
+        '41da55927f7e15e2e05566a733ef4ad4' => __DIR__ . '/../..' . '/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -95,6 +96,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Components\\View' => __DIR__ . '/../..' . '/src/Components/View.php',
         'WP_Statistics\\Decorators\\BrowserDecorator' => __DIR__ . '/../..' . '/src/Decorators/BrowserDecorator.php',
         'WP_Statistics\\Decorators\\DeviceDecorator' => __DIR__ . '/../..' . '/src/Decorators/DeviceDecorator.php',
+        'WP_Statistics\\Decorators\\EventDecorator' => __DIR__ . '/../..' . '/src/Decorators/EventDecorator.php',
         'WP_Statistics\\Decorators\\LocationDecorator' => __DIR__ . '/../..' . '/src/Decorators/LocationDecorator.php',
         'WP_Statistics\\Decorators\\NotificationDecorator' => __DIR__ . '/../..' . '/src/Decorators/NotificationDecorator.php',
         'WP_Statistics\\Decorators\\OsDecorator' => __DIR__ . '/../..' . '/src/Decorators/OsDecorator.php',
@@ -355,6 +357,9 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Charts\\Traits\\BaseChartResponseTrait' => __DIR__ . '/../..' . '/src/Service/Charts/Traits/BaseChartResponseTrait.php',
         'WP_Statistics\\Service\\Charts\\Traits\\LineChartResponseTrait' => __DIR__ . '/../..' . '/src/Service/Charts/Traits/LineChartResponseTrait.php',
         'WP_Statistics\\Service\\Charts\\Traits\\MapChartResponseTrait' => __DIR__ . '/../..' . '/src/Service/Charts/Traits/MapChartResponseTrait.php',
+        'WP_Statistics\\Service\\CustomEvent\\CustomEventDataParser' => __DIR__ . '/../..' . '/src/Service/CustomEvent/CustomEventDataParser.php',
+        'WP_Statistics\\Service\\CustomEvent\\CustomEventHelper' => __DIR__ . '/../..' . '/src/Service/CustomEvent/CustomEventHelper.php',
+        'WP_Statistics\\Service\\CustomEvent\\CustomEventManager' => __DIR__ . '/../..' . '/src/Service/CustomEvent/CustomEventManager.php',
         'WP_Statistics\\Service\\Database\\AbstractDatabaseOperation' => __DIR__ . '/../..' . '/src/Service/Database/AbstractDatabaseOperation.php',
         'WP_Statistics\\Service\\Database\\DatabaseFactory' => __DIR__ . '/../..' . '/src/Service/Database/DatabaseFactory.php',
         'WP_Statistics\\Service\\Database\\DatabaseManager' => __DIR__ . '/../..' . '/src/Service/Database/DatabaseManager.php',
