@@ -2001,6 +2001,13 @@ class Helper
             ],
         ]);
 
+        $timestamp = !empty($_SERVER['HTTP_X_WPS_TS']) ? (int) base64_decode($_SERVER['HTTP_X_WPS_TS']) : false;
+
+        // Check if the request was sent no more than 10 seconds ago
+        if (!$timestamp || time() - $timestamp > 10) {
+            $isValid = false;
+        }
+
         if (!$isValid) {
             /**
              * Trigger action after validating the hit request parameters.
@@ -2010,7 +2017,7 @@ class Helper
              */
             do_action('wp_statistics_invalid_hit_request', $isValid, IP::getIP());
 
-            throw new ErrorException(esc_html__('Invalid hit request params.', 'wp-statistics'));
+            throw new ErrorException(esc_html__('Invalid hit/online request.', 'wp-statistics'));
         }
 
         return true;
