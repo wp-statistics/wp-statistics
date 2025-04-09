@@ -462,7 +462,7 @@ class VisitorsModel extends BaseModel
 
     public function getVisitorsData($args = [])
     {
-        if (! DatabaseFactory::compareCurrentVersion('14.12.6', '>=') || ! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
+        if (! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
             return LegacyModel::get('visitorsData', $args, '14.12.4');
         }
 
@@ -608,7 +608,7 @@ class VisitorsModel extends BaseModel
 
     public function getReferredVisitors($args = [])
     {
-        if (! DatabaseFactory::compareCurrentVersion('14.12.6', '>=') || ! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
+        if (! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
             return LegacyModel::get('referredVisitors', $args, '14.12.4');
         }
 
@@ -737,7 +737,7 @@ class VisitorsModel extends BaseModel
 
     public function getVisitorData($args = [])
     {
-        if (! DatabaseFactory::compareCurrentVersion('14.12.6', '>=') || ! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
+        if (! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
             return LegacyModel::get('visitorData', $args, '14.12.4');
         }
 

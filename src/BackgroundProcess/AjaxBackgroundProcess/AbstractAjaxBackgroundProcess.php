@@ -54,18 +54,37 @@ abstract class AbstractAjaxBackgroundProcess
     protected $percentage = 0;
 
     /**
-     * Holds the current migration class name.
+     * Holds the current process class name.
      *
      * @var string|null
      */
-    protected static $currentMigration;
+    protected static $currentProcess;
+
+    /**
+     * Holds the key that uniquely identifies the current process.
+     *
+     * @var string|null
+     */
+    protected static $currentProcessKey;
+
+    /**
+     * Cached 'totals' section from the 'ajax_background_process' option group.
+     *
+     * This holds per-migration total counts to avoid repeated database reads during the background process.
+     *
+     * Example: ['visitor_columns_migrate' => 1234]
+     *
+     * @var array|null
+     */
+    protected $cachedProcessTotals = null;
 
     /**
      * Calculates the total number of records to migrate.
      *
+     * @param bool $needCaching Whether to load/save the total from cache. Defaults to true.
      * @return void
      */
-    abstract protected function getTotal();
+    abstract protected function getTotal($needCaching = true);
 
     /**
      * Calculates how many records have already been processed and sets the offset.
@@ -96,17 +115,18 @@ abstract class AbstractAjaxBackgroundProcess
 
         $nextMigrationKey = reset($pendingMigrations);
 
-        self::$currentMigration = AjaxBackgroundProcessFactory::$migrations[$nextMigrationKey];
+        self::$currentProcessKey = $nextMigrationKey;
+        self::$currentProcess    = AjaxBackgroundProcessFactory::$migrations[$nextMigrationKey];
 
-        if (!class_exists(self::$currentMigration)) {
+        if (!class_exists(self::$currentProcess)) {
             return null;
         }
 
-        if (method_exists(self::$currentMigration, 'isAlreadyDone')) {
-            return (new self::$currentMigration())->isAlreadyDone() ? null : new self::$currentMigration();
+        if (method_exists(self::$currentProcess, 'isAlreadyDone')) {
+            return (new self::$currentProcess())->isAlreadyDone() ? null : new self::$currentProcess();
         }
 
-        return new self::$currentMigration();
+        return new self::$currentProcess();
     }
 
     /**
@@ -145,6 +165,44 @@ abstract class AbstractAjaxBackgroundProcess
     }
 
     /**
+     * Sets the batch size for processing.
+     *
+     * @param int $size Number of records to process per batch.
+     * @return void
+     */
+    protected function setBatchSize($size)
+    {
+        if (is_int($size) && $size > 0) {
+            $this->batchSize = $size;
+        }
+    }
+
+    /**
+     * Updates the cached total for the current process from the request.
+     *
+     * Retrieves the 'total' parameter from the current request and, if a value is provided,
+     * stores it in the cachedProcessTotals array under the key defined in the current process.
+     *
+     * This helps ensure that the process's cached total is updated without having to
+     * re-read the option group, reducing extra database lookups.
+     *
+     * @return void
+     */
+    protected function setCachedTotal()
+    {
+        $total = Request::get('total', 0);
+
+        if (empty($total)) {
+            return;
+        }
+
+
+        if (empty($this->cachedProcessTotals[self::$currentProcessKey])) {
+            $this->cachedProcessTotals[self::$currentProcessKey] = $total;
+        }
+    }
+
+    /**
      * Calculates and updates the remaining records to be migrated as well as the percentage complete.
      *
      * This method calculates the percentage of records processed based on the total and done counts,
@@ -180,6 +238,50 @@ abstract class AbstractAjaxBackgroundProcess
     protected function getCalculatedPercentage()
     {
         return $this->percentage;
+    }
+
+    /**
+     * Retrieves a previously saved total value by its key from the 'ajax_background_process' option group.
+     *
+     * Returns the stored total if it exists, or false if not found.
+     *
+     * @param string $key The key associated with the total value.
+     * @return int The cached total value, or 0 if not found.
+     */
+    protected function getCachedTotal($key = '')
+    {
+        if (empty($key)) {
+            $key = self::$currentProcessKey;
+        }
+
+        if ($this->cachedProcessTotals === null) {
+            $this->cachedProcessTotals = Option::getOptionGroup('ajax_background_process', 'totals', []);
+        }
+
+        if (!empty($this->cachedProcessTotals[$key])) {
+            return (int)$this->cachedProcessTotals[$key];
+        }
+
+        return false;
+    }
+
+    /**
+     * Stores a total value under the 'totals' key in the 'ajax_background_process' option group.
+     *
+     * This allows background processes to persist total counts between executions
+     * without recalculating them each time.
+     *
+     * @param string $key The unique key to associate with the total value.
+     * @param int $total The total value to store.
+     * @return void
+     */
+    protected function saveTotal($key, $total)
+    {
+        $meta = Option::getOptionGroup('ajax_background_process', 'totals', []);
+
+        $meta[$key] = $total;
+
+        Option::saveOptionGroup('totals', $meta, 'ajax_background_process');
     }
 
     /**
@@ -237,6 +339,7 @@ abstract class AbstractAjaxBackgroundProcess
             ]);
         }
 
+        $migrationInstance->setCachedTotal();
         $migrationInstance->migrate();
         $migrationInstance->setCalculatedPercentage();
 
@@ -259,7 +362,8 @@ abstract class AbstractAjaxBackgroundProcess
 
         wp_send_json_success([
             'completed'  => false,
-            'percentage' => $migrationInstance->getCalculatedPercentage()
+            'percentage' => $migrationInstance->getCalculatedPercentage(),
+            'total'      => $migrationInstance->getCachedTotal()
         ]);
     }
 }

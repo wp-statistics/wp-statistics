@@ -3,6 +3,7 @@
 namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess;
 
 use WP_STATISTICS\Admin_Assets;
+use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Utils\Request;
@@ -38,7 +39,7 @@ class AjaxBackgroundProcessManager
      */
     public function __construct()
     {
-        add_action('admin_init', [$this, 'handleDoneNotice']);
+        add_action('current_screen', [$this, 'handleDoneNotice']);
 
         if (!AjaxBackgroundProcessFactory::needsMigration()) {
             return;
@@ -46,7 +47,7 @@ class AjaxBackgroundProcessManager
 
         add_action('admin_enqueue_scripts', [$this, 'registerScript']);
         add_filter('wp_statistics_ajax_list', [$this, 'addAjax']);
-        add_action('admin_init', [$this, 'handleNotice']);
+        add_action('current_screen', [$this, 'handleNotice']);
         add_action('admin_post_' . self::MIGRATION_ACTION, [$this, 'handleAjaxMigration']);
     }
 
@@ -76,6 +77,10 @@ class AjaxBackgroundProcessManager
      */
     public function handleDoneNotice()
     {
+        if (!$this->shouldShowNotice()) {
+            return;
+        }
+
         $status = Option::getOptionGroup('ajax_background_process', 'status', null);
 
         if ($status !== 'done') {
@@ -107,6 +112,10 @@ class AjaxBackgroundProcessManager
      */
     public function handleNotice()
     {
+        if (!$this->shouldShowNotice()) {
+            return;
+        }
+
         $status = Option::getOptionGroup('ajax_background_process', 'status', null);
 
         if ($status === 'progress') {
@@ -209,5 +218,27 @@ class AjaxBackgroundProcessManager
         $referer = wp_get_referer();
         wp_redirect($referer ?: admin_url());
         exit;
+    }
+
+    /**
+     * Determines whether the background process notice should be displayed.
+     *
+     * @return bool
+     */
+    private function shouldShowNotice()
+    {
+        if (!current_user_can('manage_options')) {
+            return false;
+        }
+
+        if (Menus::in_plugin_page()) {
+            return true;
+        }
+
+        if (in_array(\WP_STATISTICS\Helper::get_screen_id(), ['dashboard'], true)) {
+            return true;
+        }
+
+        return false;
     }
 }
