@@ -390,10 +390,10 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
 
 const sortTotal = (datasets) => {
     datasets.sort((a, b) => {
-        if (a.label === 'Total') return -1;
-        if (b.label === 'Total') return 1;
-        if (a.label === 'Total (Previous)') return -1;
-        if (b.label === 'Total (Previous)') return 1;
+        if (a.slug === 'total') return -1;
+        if (b.slug === 'total') return 1;
+        if (a.slug === 'total-previous') return -1;
+        if (b.slug === 'total-previous') return 1;
         return 0;
     });
 }
