@@ -11,6 +11,7 @@ function FilterPanel(options) {
     this.settings = { ...defaults, ...options };
     this.sourceCache = {};
     this.memoryCache = null;
+    this.predefinedCache = {};
     this.init();
 }
 
@@ -37,7 +38,8 @@ FilterPanel.prototype.createContainers = function () {
         const attributes = filter?.attributes || {},
             type = attributes['data-type'],
             source = attributes['data-source'],
-            isSearchable = attributes['data-searchable'];
+            isSearchable = attributes['data-searchable'],
+            isPredefined = filter?.predefined || false;
 
         if (!type) {
             console.warn(`Skipping filter ${key} - Missing data-type.`);
@@ -55,7 +57,12 @@ FilterPanel.prototype.createContainers = function () {
 
         filter.containerSelector = `#${containerId}`;
 
-        if (source && !this.sourceCache[source]&& !isSearchable) {
+        if (isPredefined &&  !this.predefinedCache[source]) {
+            const containerSelector =  filter.containerSelector;
+            this.predefinedCache[source] = { ...isPredefined, containerSelector};
+        }
+
+        if (source && !this.sourceCache[source]&& !isSearchable && !isPredefined) {
             this.sourceCache[source] = true;
         }
     });
@@ -70,7 +77,15 @@ FilterPanel.prototype.fetchFilterOptions = function () {
         return;
     }
 
-    const self = this;
+    const self = this,
+        hasPredefinedFilters = Object.keys(this.predefinedCache).length > 0;
+
+    if (hasPredefinedFilters) {
+        this.renderFilters(this.predefinedCache);
+        this.removeLoadingState(this.predefinedCache);
+        
+        return;
+    }
 
     const queryString = window.location.search;
 
@@ -99,14 +114,7 @@ FilterPanel.prototype.fetchFilterOptions = function () {
             console.error("Error fetching filter data.");
         },
         complete: function () {
-            Object.values(this.settings.fields).forEach(function (filter) {
-                if (filter.containerSelector) {
-                    var container = document.querySelector(filter.containerSelector);
-                    if (container) {
-                        container.classList.remove('loading');
-                    }
-                }
-            });
+            this.removeLoadingState();
         }.bind(this)
     });
 }
@@ -138,4 +146,20 @@ FilterPanel.prototype.renderFilters = function (data) {
                 break;
         }
     });
+
+    /**
+     * Removes the loading class from specified filters.
+     * If no filters are passed, all fields are used.
+     * @param {Object} [filters=this.settings.fields]
+     */
+    FilterPanel.prototype.removeLoadingState = function (filters = this.settings.fields) {
+        Object.values(filters).forEach(function (filter) {
+            if (filter.containerSelector) {
+                const container = document.querySelector(filter.containerSelector);
+                if (container) {
+                    container.classList.remove('loading');
+                }
+            }
+        });
+    };
 };
