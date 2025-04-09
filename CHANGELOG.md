@@ -2,7 +2,7 @@
 - **Fix:** Updated messages based on data availability.
 - **Fix:** Fixed inconsistencies in online visitor analytics.
 - **Fix:** Stop keeping inactive users online after 30m issue
-- **Fix:** Fixed hit/online endpoints security vulnerability issues.
+- **Fix:** Fixed hit/online endpoints issues.
 
 = 14.13.1 - 2025-04-08 =
 - **Enhancement:** Improved filter logic to avoid unnecessary requests.
