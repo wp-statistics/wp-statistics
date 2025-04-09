@@ -99,7 +99,8 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
                     esc_html__('Published %s', 'wp-statistics'),
                     isset($this->args['post_type']) ? Helper::getPostTypeName($this->args['post_type']) : esc_html__('Contents', 'wp-statistics')
                 ),
-                $data['posts']
+                $data['posts'],
+                'published'
             );
         }
 
