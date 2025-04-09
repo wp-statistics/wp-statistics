@@ -538,7 +538,6 @@ const getDisplayTextForUnitTime = (unitTime, tag_id) => {
 
 wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line') {
     sortTotal(data.data.datasets);
-
     const realdata = deepCopy(data);
     const phpDateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
     let momentDateFormat = phpToMomentFormat(phpDateFormat);
@@ -1001,3 +1000,22 @@ document.body.addEventListener('click', function (event) {
         });
     }
 });
+
+window.renderWPSLineChart = function (chartId, data ,newOptions) {
+    const chartItem = document.getElementById(chartId);
+    if (chartItem) {
+        const parentElement = jQuery(`#${chartId}`).parent();
+        const placeholder = wps_js.rectangle_placeholder();
+        parentElement.append(placeholder);
+
+        if (!data?.data?.datasets || data.data.datasets.length === 0) {
+            parentElement.html(wps_js.no_results());
+            jQuery('.wps-ph-item').remove();
+        } else {
+            wps_js.new_line_chart(data, chartId, newOptions);
+            jQuery('.wps-ph-item').remove();
+            jQuery('.wps-postbox-chart--data').removeClass('c-chart__wps-skeleton--legend');
+            parentElement.removeClass('c-chart__wps-skeleton');
+        }
+    }
+}
