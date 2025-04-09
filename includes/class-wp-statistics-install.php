@@ -119,6 +119,7 @@ class Install
         Option::saveOptionGroup('schema_migration_process_started', true, 'jobs');
         Option::saveOptionGroup('update_source_channel_process_initiated', true, 'jobs');
         Option::saveOptionGroup('table_operations_process_initiated', true, 'jobs');
+        Option::saveOptionGroup('word_count_process_initiated', true, 'jobs');
     }
 
     public static function delete_duplicate_data()

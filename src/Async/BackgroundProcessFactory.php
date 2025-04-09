@@ -33,7 +33,7 @@ class BackgroundProcessFactory
         }
 
         // Mark as processed
-        Option::saveOptionGroup('word_count_process_started', true, 'jobs');
+        Option::saveOptionGroup('word_count_process_initiated', true, 'jobs');
 
         $calculatePostWordsCount->save()->dispatch();
     }
