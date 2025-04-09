@@ -1,6 +1,7 @@
 = 14.13.2 - 2025-04-** =
 - **Fix:** Updated messages based on data availability.
 - **Fix:** Fixed inconsistencies in online visitor analytics.
+- **Fix:** Ensured the "Views" column is visible for users with the Editor role on the posts list page.
 
 = 14.13.1 - 2025-04-08 =
 - **Enhancement:** Improved filter logic to avoid unnecessary requests.
