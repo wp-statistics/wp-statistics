@@ -1,11 +1,12 @@
 = 14.13.2 - 2025-04-** =
 - **Fix:** Updated messages based on data availability.
 - **Fix:** Fixed inconsistencies in online visitor analytics.
+- **Fix:** Stop keeping inactive users online after 30m issue
 
 = 14.13.1 - 2025-04-08 =
 - **Enhancement:** Improved filter logic to avoid unnecessary requests.
 - **Enhancement:** Enhanced source channel detection for more accurate results.
-- **Enhancement:** Removed the FeedbackBird button from the header along with its related functionality.  
+- **Enhancement:** Removed the FeedbackBird button from the header along with its related functionality.
 - **Fix:** Removed table prefix from shared anonymous data.
 - **Fix:** Fixed `serveObfuscatedAsset` compatibility with URL cleanup features when Bypass Ad-blocker is enabled.
 

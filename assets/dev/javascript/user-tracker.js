@@ -144,19 +144,14 @@ const WpStatisticsUserTracker = {
             }.bind(this), this.checkTime
         );
 
-        const resetUserActivityTimeout = () => {
-            clearTimeout(userActivityTimeout);
-            userActivityTimeout = setTimeout(() => {
-                clearInterval(userOnlineInterval);
-            }, 30 * 60 * 1000);
-        };
-
         // After 30 mins of inactivity, stop keeping user online
-        const events = ['click', 'keypress', 'scroll', 'DOMContentLoaded'];
-        events.forEach(event => {
+        ['click', 'keypress', 'scroll', 'DOMContentLoaded'].forEach(event => {
             window.addEventListener(event, () => {
-                window.removeEventListener(event, resetUserActivityTimeout);
-                window.addEventListener(event, resetUserActivityTimeout);
+                clearTimeout(userActivityTimeout);
+
+                userActivityTimeout = setTimeout(() => {
+                    clearInterval(userOnlineInterval);
+                }, 30 * 60 * 1000);
             });
         });
     },
