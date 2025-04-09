@@ -32,9 +32,13 @@ use WP_Statistics\Components\View;
     </div>
 <?php else : ?>
     <?php
+    $title = __('No data found for this date range.', 'wp-statistics');
+    if ($isTodayOrFutureDate) {
+        $title = __('Data coming soon!', 'wp-statistics');
+    }
     View::load("components/objects/no-data", [
         'url'   => WP_STATISTICS_URL . 'assets/images/no-data/vector-2.svg',
-        'title' => __('Data coming soon!', 'wp-statistics')
+        'title' => $title
     ]);
     ?>
 <?php endif; ?>
