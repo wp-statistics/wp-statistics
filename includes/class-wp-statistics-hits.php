@@ -214,6 +214,10 @@ class Hits extends Singleton
             $visitorProfile = new VisitorProfile();
         }
 
+        if ($visitorProfile->getVisitorId() === 0) {
+            return;
+        }
+
         /**
          * Check the exclusion
          */
@@ -230,21 +234,6 @@ class Hits extends Singleton
             self::errorListener();
 
             throw new Exception($exclusion['exclusion_reason'], 200);
-        }
-
-        /**
-         * Record Visitor Detail
-         */
-        $visitorId = false;
-        if (Visitor::active()) {
-            $visitorId = Visitor::record($visitorProfile, ['page_id' => $pageId]);
-        }
-
-        /**
-         * Record Visitor Relationship
-         */
-        if (!empty($visitorId) && !empty($pageId)) {
-            Visitor::save_visitors_relationships($pageId, $visitorId);
         }
 
         $args = null;
