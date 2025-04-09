@@ -32,7 +32,7 @@ use WP_STATISTICS\Menus;
                                     </div>
                                     <div class="wps-content-tabs__item--content">
                                         <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($author->name); ?></span></h3>
-                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->total_views)); ?> <?php esc_html_e('content views', 'wp-statistics') ?></span>
+                                        <span><span class="wps-content-tabs__item--count"><?php echo esc_html(Helper::formatNumberWithUnit($author->total_views));?></span><?php esc_html_e('content views', 'wp-statistics') ?></span>
                                     </div>
                                 </a>
                                 <?php $counter++;
@@ -67,7 +67,7 @@ use WP_STATISTICS\Menus;
                                     </div>
                                     <div class="wps-content-tabs__item--content">
                                         <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($author->name); ?></span></h3>
-                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->post_count)); ?> <?php esc_html_e('content published', 'wp-statistics'); ?></span>
+                                        <span><span class="wps-content-tabs__item--count"><?php echo esc_html(Helper::formatNumberWithUnit($author->post_count)); ?></span><?php esc_html_e('content published', 'wp-statistics'); ?></span>
                                     </div>
                                 </a>
                                 <?php $counter++;
