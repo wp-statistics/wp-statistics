@@ -1,3 +1,6 @@
+= 14.13.2 - 2025-04-** =
+- **Fix:** Updated messages based on data availability.
+
 = 14.13.1 - 2025-04-08 =
 - **Enhancement:** Improved filter logic to avoid unnecessary requests.
 - **Enhancement:** Enhanced source channel detection for more accurate results.
