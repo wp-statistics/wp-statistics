@@ -1,6 +1,7 @@
 = 14.13.2 - 2025-04-** =
 - **Fix:** Updated messages based on data availability.
 - **Fix:** Fixed inconsistencies in online visitor analytics.
+- **Fix:**
 
 = 14.13.1 - 2025-04-08 =
 - **Enhancement:** Improved filter logic to avoid unnecessary requests.
