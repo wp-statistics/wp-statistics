@@ -25,7 +25,7 @@ const WpStatisticsEventTracker = {
 
         // Capture custom events when Marketing is active
         if (typeof WP_Statistics_Marketing_Event_Object !== 'undefined') {
-            this.captureCustomEvents();
+            this.captureCustomClickEvents();
         }
     },
 
@@ -50,7 +50,7 @@ const WpStatisticsEventTracker = {
     },
 
     // Captures custom click events from Marketing
-    captureCustomEvents: function () {
+    captureCustomClickEvents: function () {
         const events = WP_Statistics_Marketing_Event_Object.events.clicks;
 
         events.forEach(event => {
