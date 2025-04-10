@@ -51,7 +51,7 @@ class UserDecorator
      */
     public function getRole()
     {
-        return $this->user->role[0] ?? null;
+        return $this->user->roles[0] ?? null;
     }
 
     /**

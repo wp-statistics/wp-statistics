@@ -1,3 +1,6 @@
+= 14.13.2 - 2025-04-** =
+- **Fix:** Removed redundant left join on users table in visitor insights page to improve query performance.
+
 = 14.13 - 2025-03-30 =
 - **New:** Introduced Notifications to receive important updates and promotions.
 - **New:** Added an optional "Share Anonymous Data" feature to help improve WP Statistics without collecting personal information.
@@ -11,7 +14,6 @@
 - **Fix:** The 'Get More with Premium Analytics' widget is now hidden for premium users.
 - **Fix:** Fixed discrepancies between shortcode view counts and traffic summary/visitor insights.
 - **Fix:** Corrected an issue where all Facebook traffic was categorized as Paid Social.
-- **Fix:** Removed redundant left join on users table in visitor insights page to improve query performance.
 
 = 14.12.6 - 2025-02-12
 - **New:** Added DB-IP as a location detection option.
