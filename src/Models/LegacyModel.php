@@ -2,9 +2,10 @@
 
 namespace WP_Statistics\Models;
 
+use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Decorators\VisitorDecorator;
-use WP_Statistics\Utils\Query;
+use WP_Statistics\Decorators\ReferralDecorator;
 
 class LegacyModel extends BaseModel
 {
@@ -284,7 +285,7 @@ class LegacyModel extends BaseModel
                 ->from('visitor_relationships')
                 ->groupBy('visitor_id')
                 ->getQuery();
-        
+
             $firstHitQuery = Query::select([
                 'visitor_relationships.visitor_id',
                 'page_id',
@@ -376,6 +377,94 @@ class LegacyModel extends BaseModel
                 $query
                     ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
             }
+        }
+
+        $result = $query->getAll();
+
+        return $result ? $result : [];
+    }
+
+    protected function getReferrers_14_12_6($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'          => '',
+            'post_type'     => '',
+            'source_channel'=> '',
+            'post_id'       => '',
+            'country'       => '',
+            'query_param'   => '',
+            'taxonomy'      => '',
+            'term'          => '',
+            'referrer'      => '',
+            'not_null'      => 'visitor.referred',
+            'group_by'      => 'visitor.referred',
+            'page'          => 1,
+            'per_page'      => 10,
+            'decorate'      => false
+        ]);
+
+        $filteredArgs = array_filter($args);
+
+        $query = Query::select([
+            'COUNT(DISTINCT visitor.ID) AS visitors',
+            'visitor.referred',
+            'visitor.source_channel',
+            'visitor.source_name',
+            'visitor.last_counter'
+        ])
+            ->from('visitor')
+            ->where('visitor.location', '=', $args['country'])
+            ->where('source_channel', 'IN', $args['source_channel'])
+            ->whereNotNull($args['not_null'])
+            ->groupBy($args['group_by'])
+            ->orderBy('visitors')
+            ->perPage($args['page'], $args['per_page']);
+
+        // If not null is not set, get all referrers including those coming with just UTM without any source
+        if (empty($args['not_null'])) {
+            $query->whereRaw("
+                AND (
+                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '')
+                )
+            ");
+        }
+
+        if (!empty($args['referrer'])) {
+            $query->where('visitor.referred', 'LIKE', "%{$args['referrer']}%");
+        }
+
+        // When date is passed, but all other parameters below are empty, compare the given date with `visitor.last_counter`
+        if (!empty($args['date']) && !array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
+            $query->whereDate('visitor.last_counter', $args['date']);
+        }
+
+        if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
+            $query
+                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'], [], 'LEFT')
+                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+                ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
+                ->where('post_type', 'IN', $args['post_type'])
+                ->where('posts.ID', '=', $args['post_id'])
+                ->where('pages.uri', '=', $args['query_param'])
+                ->whereDate('pages.date', $args['date']);
+
+            if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
+                $taxQuery = Query::select(['DISTINCT object_id'])
+                    ->from('term_relationships')
+                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                    ->where('terms.term_id', '=', $args['term'])
+                    ->getQuery();
+
+                $query
+                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+            }
+        }
+
+        if ($args['decorate']) {
+            $query->decorate(ReferralDecorator::class);
         }
 
         $result = $query->getAll();
