@@ -1,8 +1,15 @@
-= 14.12.x - 2025-xx-xx =
-- **Enhancement:** Improved device model to save and show device model and brand.
-- **Fix:** The proxy method has fixed the loading issue of obfuscated assets.
+= 14.13 - 2025-03-25 =
+- **New:** Introduced Notifications to receive important updates and promotions.
+- **New:** Optional "Share Anonymous Data" feature to help improve WP Statistics without collecting personal information.  
+- **Enhancement:** Removed the Honeypot feature.
+- **Enhancement:** Improved detection of source names for referred visitors.
+- **Enhancement:** Enhanced device tracking to store and display device model and brand.  
+- **Fix:** Fixed loading issues of obfuscated assets when using the proxy method.
+- **Fix:** Ensured `tracker.js` compatibility with the WordPress Interactivity API.
+- **Fix:** Resolved an issue where the `first_page` key was undefined on the visitor in the Visitor Insights page.
+- **Fix:** Hide 'Get More with Premium Analytics' widget for users with a premium license.
 
-= 14.12.6 - 2025-02-12 =
+= 14.12.6 - 2025-02-12
 - **New:** Added DB-IP as a location detection option.
 - **New:** Added `first_page`, `first_view`, `last_page`, and `last_view` columns to the visitor table for better performance.
 - **Enhancement:** Refactored internal filters for improved efficiency.
@@ -51,6 +58,8 @@
 - **Fix:** Fixed a bug where user data was lost upon logout for online users.
 - **Fix:** Addressed an issue with updating source channel data on large datasets.
 - **Fix:** Resolved a backward compatibility issue with the "REST API" add-on for Referrals.
+
+- **New:** Added a feature that displays notifications to the client, sent from the server.
 
 = 14.12.1 - 2025-01-13 =
 - **New:** Added "Last Year" filter to metaboxes on the Overview page for yearly data.

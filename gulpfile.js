@@ -54,6 +54,24 @@ function buildScripts(done) {
     done()
 }
 
+function buildBackgroundProcessScript(done) {
+    gulp.src([
+        './assets/dev/javascript/background-process.js',
+    ])
+        .pipe(uglify())
+        .pipe(concat('background-process.min.js'))
+        .pipe(insert.prepend('jQuery(document).ready(function ($) {'))
+        .pipe(insert.append('});'))
+        .pipe(gulp.dest('./assets/js/'))
+        .pipe(babel({presets: ['@babel/env']}))
+        .pipe(replace("\\n", ''))
+        .pipe(replace("\\t", ''))
+        .pipe(replace("  ", ''))
+        .pipe(uglify())
+        .pipe(gulp.dest('./assets/js/'));
+    done()
+}
+
 // Gulp TinyMce Script
 function tineMCE(done) {
     gulp.src(['./assets/dev/javascript/Tinymce/*.js'])
@@ -65,6 +83,8 @@ function tineMCE(done) {
 // Gulp Frontend Script
 function frontScripts(done) {
     const jsFiles = [
+        './assets/dev/javascript/user-tracker.js',
+        './assets/dev/javascript/event-tracker.js',
         './assets/dev/javascript/tracker.js',
     ];
 
@@ -74,6 +94,7 @@ function frontScripts(done) {
         .pipe(replace("\\t", ''))
         .pipe(replace("  ", ''))
         .pipe(uglify())
+        .pipe(concat('tracker.js'))
         .pipe(gulp.dest('./assets/js/'));
 
     done()
@@ -144,6 +165,8 @@ function addEsnextSuffix(filePath) {
 
 function revertToES6(cb) {
     const jsFiles = [
+        './assets/js/user-tracker.js',
+        './assets/js/event-tracker.js',
         './assets/js/tracker.js',
     ];
 
@@ -159,6 +182,7 @@ function revertToES6(cb) {
 // Gulp Watch
 function watch() {
     gulp.watch('assets/dev/javascript/**/*.js', gulp.series(buildScripts));
+    gulp.watch('assets/dev/javascript/background-process.js', gulp.series(buildBackgroundProcessScript));
     gulp.watch('assets/dev/javascript/mini-chart.js', gulp.series(miniChart));
     gulp.watch('assets/dev/sass/**/*.scss', gulp.series(buildStyles));
     console.log(" - Development is ready...")
@@ -167,6 +191,7 @@ function watch() {
 // global Task
 exports.compileSass = buildStyles;
 exports.script = buildScripts;
+exports.backgroundProcessScript = buildBackgroundProcessScript;
 exports.chartScript = chartScripts;
 exports.mce = tineMCE;
 exports.frontScript = frontScripts;

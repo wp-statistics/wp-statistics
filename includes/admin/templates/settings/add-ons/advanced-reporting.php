@@ -40,11 +40,11 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="wps_addon_settings[advanced_reporting][report_time_frame_type]"><?php esc_html_e('Choose Your Report Timing', 'wp-statistics'); ?></label>
+                    <label for="wps_settings[advanced_reporting_report_time_frame_type]"><?php esc_html_e('Choose Your Report Timing', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
-                    <select name="wps_addon_settings[advanced_reporting][report_time_frame_type]" id="wps_addon_settings[advanced_reporting][report_time_frame_type]">
+                    <select name="wps_addon_settings[advanced_reporting][report_time_frame_type]" id="wps_settings[advanced_reporting_report_time_frame_type]">
                         <option value="specific_time" <?php selected(WP_STATISTICS\Option::getByAddon('report_time_frame_type', 'advanced_reporting'), 'specific_time'); ?>><?php esc_html_e('From a specific time', 'wp-statistics'); ?></option>
                         <option value="time_range" <?php selected(WP_STATISTICS\Option::getByAddon('report_time_frame_type', 'advanced_reporting'), 'time_range'); ?>><?php esc_html_e('Time-range', 'wp-statistics'); ?></option>
                     </select>
@@ -52,7 +52,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" class="js-wps-show_if_advanced_reporting_report_time_frame_type_equal_specific_time">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_start_date]"><?php esc_html_e('Specify Starting Date', 'wp-statistics'); ?></label>
                 </th>
@@ -63,7 +63,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" class="js-wps-show_if_advanced_reporting_report_time_frame_type_equal_time_range">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_stats_time_range]"><?php esc_html_e('Select Reporting Period', 'wp-statistics'); ?></label>
                 </th>
@@ -280,17 +280,17 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="wps_addon_settings[advanced_reporting][email_more_info_button]"><?php esc_html_e('More Information Button', 'wp-statistics'); ?></label>
+                    <label for="wps_settings[advanced_reporting_email_more_info_button]"><?php esc_html_e('More Information Button', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
-                    <input id="wps_addon_settings[advanced_reporting][email_more_info_button]" name="wps_addon_settings[advanced_reporting][email_more_info_button]" type="checkbox" value="1" <?php checked(WP_STATISTICS\Option::getByAddon('email_more_info_button', 'advanced_reporting')) ?>>
-                    <label for="wps_addon_settings[advanced_reporting][email_more_info_button]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <input id="wps_settings[advanced_reporting_email_more_info_button]" name="wps_addon_settings[advanced_reporting][email_more_info_button]" type="checkbox" value="1" <?php checked(WP_STATISTICS\Option::getByAddon('email_more_info_button', 'advanced_reporting')) ?>>
+                    <label for="wps_settings[advanced_reporting_email_more_info_button]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                     <p class="description"><?php esc_html_e('Add a convenient button to your report that links back to your full statistics dashboard.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" class="js-wps-show_if_advanced_reporting_email_more_info_button_enabled">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_more_info_button_href]"><?php esc_html_e('Custom URL', 'wp-statistics'); ?></label>
                 </th>

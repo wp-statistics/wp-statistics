@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.7
-Stable tag: 14.12.6
+Stable tag: 14.13
 Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -139,7 +139,18 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.12.6 - 2025-02-12 =
+= 14.13 - 2025-03-25 =
+- **New:** Introduced Notifications to receive important updates and promotions.
+- **New:** Optional "Share Anonymous Data" feature to help improve WP Statistics without collecting personal information.
+- **Enhancement:** Removed the Honeypot feature.
+- **Enhancement:** Improved detection of source names for referred visitors.
+- **Enhancement:** Enhanced device tracking to store and display device model and brand.
+- **Fix:** Fixed loading issues of obfuscated assets when using the proxy method.
+- **Fix:** Ensured `tracker.js` compatibility with the WordPress Interactivity API.
+- **Fix:** Resolved an issue where the `first_page` key was undefined on the visitor in the Visitor Insights page.
+- **Fix:** Hide 'Get More with Premium Analytics' widget for users with a premium license.
+
+= 14.12.6 - 2025-02-12
 - **New:** Added DB-IP as a location detection option.
 - **New:** Added `first_page`, `first_view`, `last_page`, and `last_view` columns to the visitor table for better performance.
 - **Enhancement:** Refactored internal filters for improved efficiency.
@@ -188,6 +199,8 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 - **Fix:** Fixed a bug where user data was lost upon logout for online users.
 - **Fix:** Addressed an issue with updating source channel data on large datasets.
 - **Fix:** Resolved a backward compatibility issue with the "REST API" add-on for Referrals.
+
+- **New:** Added a feature that displays notifications to the client, sent from the server.
 
 = 14.12.1 - 2025-01-13 =
 - **New:** Added "Last Year" filter to metaboxes on the Overview page for yearly data.

@@ -267,7 +267,7 @@ class LegacyModel extends BaseModel
                 ->groupBy('visitor_id')
                 ->getQuery();
 
-            $subQuery = Query::select([
+            $lastHitQuery = Query::select([
                 'visitor_relationships.visitor_id',
                 'page_id',
                 'date'
@@ -277,8 +277,27 @@ class LegacyModel extends BaseModel
                 ->groupBy('visitor_id')
                 ->getQuery();
 
+            $firstHit = Query::select([
+                'visitor_id',
+                'MIN(date) as date'
+            ])
+                ->from('visitor_relationships')
+                ->groupBy('visitor_id')
+                ->getQuery();
+        
+            $firstHitQuery = Query::select([
+                'visitor_relationships.visitor_id',
+                'page_id',
+                'date'
+            ])
+                ->from('visitor_relationships')
+                ->whereRaw("(visitor_id, date) IN ($firstHit)")
+                ->groupBy('visitor_id')
+                ->getQuery();
+
             $args['fields'][] = 'last_hit.page_id as last_page';
             $args['fields'][] = 'last_hit.date as last_view';
+            $args['fields'][] = 'first_hit.page_id as first_page';
         }
 
         if ($args['user_info'] === true) {
@@ -317,7 +336,8 @@ class LegacyModel extends BaseModel
 
         // If last page is true, get last page the visitor has visited
         if ($args['page_info'] === true) {
-            $query->joinQuery($subQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit', 'LEFT');
+            $query->joinQuery($lastHitQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit', 'LEFT');
+            $query->joinQuery($firstHitQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit', 'LEFT');
         }
 
         if ($args['user_info']) {

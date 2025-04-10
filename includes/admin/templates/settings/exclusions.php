@@ -84,23 +84,6 @@
                 <p class="description"><?php echo esc_html__('Set a threshold for daily robot visits. Robots exceeding this number daily will be identified as bots.', 'wp-statistics'); ?></p>
             </td>
         </tr>
-
-        <tr valign="top">
-            <th scope="row"><label for="use_honeypot"><?php esc_html_e('Activate Honey Pot Protection', 'wp-statistics'); ?></label></th>
-            <td>
-                <input id="use_honeypot" type="checkbox" value="1" name="wps_use_honeypot" <?php echo WP_STATISTICS\Option::get('use_honeypot') == true ? "checked='checked'" : ''; ?>><label for="wps_use_honeypot"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php echo esc_html__('Turn on Honey Pot to detect and filter out bots. This adds a hidden trap for malicious automated scripts.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row"><label for="honeypot_postid"><?php esc_html_e('Honey Pot Trap Page', 'wp-statistics'); ?></label></th>
-            <td>
-                <?php wp_dropdown_pages(array('show_option_none' => esc_html__('Please select', 'wp-statistics'), 'id' => 'honeypot_postid', 'name' => 'wps_honeypot_postid', 'selected' => WP_STATISTICS\Option::get('honeypot_postid'))); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?>
-                <p class="description"><?php echo esc_html__('Choose an existing Honey Pot trap page from the list or set up a new one to catch bots.', 'wp-statistics'); ?></p>
-                <p><input id="wps_create_honeypot" type="checkbox" value="1" name="wps_create_honeypot"> <label for="wps_create_honeypot"><?php esc_html_e('Create a new Honey Pot page', 'wp-statistics'); ?></label></p>
-            </td>
-        </tr>
         </tbody>
     </table>
 </div>
@@ -109,7 +92,7 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('GeoIP Exclusions', 'wp-statistics'); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php esc_html_e('Geolocation Exclusions', 'wp-statistics'); ?></h3></th>
         </tr>
 
         <tr valign="top">
@@ -205,19 +188,17 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="referrerspam-enable"><?php esc_html_e('Referrer Spam Blacklist', 'wp-statistics'); ?></label>
+                <label for=wps_settings[referrer_spam]"><?php esc_html_e('Referrer Spam Blacklist', 'wp-statistics'); ?></label>
             </th>
 
             <td>
-                <input id="referrerspam-enable" type="checkbox" name="wps_referrerspam" <?php echo WP_STATISTICS\Option::get('referrerspam') == true ? "checked='checked'" : ''; ?>>
-                <label for="referrerspam-enable"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                <input id="wps_settings[referrer_spam]" type="checkbox" name="wps_referrerspam" <?php echo WP_STATISTICS\Option::get('referrerspam') == true ? "checked='checked'" : ''; ?>>
+                <label for="wps_settings[referrer_spam]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php _e('Integrates with Matomo’s Referrer Spam Blacklist to exclude known spam referrers from site statistics. For more details on the blacklist source, visit <a href="https://github.com/matomo-org/referrer-spam-blacklist" target="_blank">Matomo\'s Referrer Spam Blacklist</a>.', 'wp-statistics'); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction		 ?></p>
             </td>
         </tr>
 
-        <tr valign="top" class="referrerspam_field" <?php if (!WP_STATISTICS\Option::get('referrerspam')) {
-            echo ' style="display:none;"';
-        } ?>>
+        <tr valign="top" class="js-wps-show_if_referrer_spam_enabled">
             <th scope="row">
                 <label for="geoip-update"><?php esc_html_e('Refresh Blacklist Data', 'wp-statistics'); ?></label>
             </th>
@@ -231,9 +212,7 @@
             </td>
         </tr>
 
-        <tr valign="top" class="referrerspam_field" <?php if (!WP_STATISTICS\Option::get('referrerspam')) {
-            echo ' style="display:none;"';
-        } ?>>
+        <tr valign="top" class="js-wps-show_if_referrer_spam_enabled">
             <th scope="row">
                 <label for="referrerspam-schedule"><?php esc_html_e('Automate Blacklist Updates', 'wp-statistics'); ?></label>
             </th>

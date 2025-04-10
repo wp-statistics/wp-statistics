@@ -38,8 +38,7 @@ class Exclusion
             'excluded url'    => __('Excluded URL', 'wp-statistics'),
             'user role'       => __('User Role', 'wp-statistics'),
             'hostname'        => __('Host name', 'wp-statistics'),
-            'geoip'           => __('GeoIP', 'wp-statistics'),
-            'honeypot'        => __('Honeypot', 'wp-statistics'),
+            'geoip'           => __('Geolocation', 'wp-statistics'),
             'robot_threshold' => __('Robot threshold', 'wp-statistics'),
             'xmlrpc'          => __('XML-RPC', 'wp-statistics'),
             'cross site'      => __('Cross site Request', 'wp-statistics'),
@@ -173,27 +172,6 @@ class Exclusion
 
             return is_404();
         }
-    }
-
-    /**
-     * Detect if honeypot.
-     * @param $visitorProfile VisitorProfile
-     */
-    public static function exclusion_honeypot($visitorProfile)
-    {
-        if (empty(self::$options['use_honeypot'])) {
-            return false;
-        }
-
-        $honeypotPostId = self::$options['honeypot_postid'] ?? 0;
-
-        if (empty($honeypotPostId)) {
-            return false;
-        }
-
-        $current_page = $visitorProfile->getCurrentPageType();
-
-        return ($honeypotPostId == $current_page['id'] && $current_page['id'] > 0);
     }
 
     /**

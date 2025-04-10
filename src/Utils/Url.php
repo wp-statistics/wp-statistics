@@ -95,6 +95,27 @@ class Url
     }
 
     /**
+     * Get query parameters of a given URL.
+     *
+     * @param string $url The URL to check.
+     * @param string $format The format to return the value in. Could be 'string' or 'array'.
+     * @return mixed The value of the query parameter if found.
+     */
+    public static function getParams($url, $format = 'string')
+    {
+        // Parse URL
+        $parsedUrl = wp_parse_url($url);
+
+        // Get query params
+        $query = $parsedUrl['query'] ?? '';
+
+        // Parse query string
+        parse_str($query, $params);
+
+        return $format === 'string' ? $query : $params;
+    }
+
+    /**
      * Checks if a given URL is internal by comparing its domain to the current website domain.
      *
      * @param string $url The URL to check.
@@ -124,48 +145,52 @@ class Url
     }
 
     /**
-     * Get relative path for any post type or taxonomy term
+     * Get relative path of urls
      *
-     * @param int    $id   The post ID or term ID
-     * @param string $type Post type or taxonomy name
+     * @param string $url
      * @return string Relative path or empty string
      */
-    public static function getPath($id, $type)
+    public static function getPath($url)
     {
-        if (!$type || !$id) {
-            return '';
-        }
+        return wp_parse_url($url, PHP_URL_PATH) ?? '';
+    }
 
-        if ($type === 'author') {
-            $author = get_user_by('id', $id);
-
-            if (!$author) {
-                return '';
+    /**
+     * Returns the relative path of a given URL with respect to the site's base URL.
+     *
+     * @return string The relative path or the original URL if it doesn't match the site URL.
+     */
+    public static function getRelativePathToSiteUrl()
+    {
+        // Build the current URL from server variables.
+        if (!empty($_SERVER['HTTP_HOST']) && !empty($_SERVER['REQUEST_URI'])) {
+            $scheme = 'http';
+            if (
+                (!empty($_SERVER['REQUEST_SCHEME']) && $_SERVER['REQUEST_SCHEME'] === 'https') ||
+                (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ||
+                (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] === '443')
+            ) {
+                $scheme = 'https';
             }
-
-            return wp_make_link_relative(get_author_posts_url($id));
+            $url = esc_url_raw($scheme . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+        } else {
+            return null;
         }
 
-        if (taxonomy_exists($type)) {
-            $term = get_term($id, $type);
+        $site_url = site_url();
 
-            if (is_wp_error($term) || !$term) {
-                return '';
-            }
-
-            return wp_make_link_relative(get_term_link($term));
+        // If the URL exactly matches the site URL, return a single slash.
+        if ($url === $site_url) {
+            return '/';
         }
 
-        if (post_type_exists($type)) {
-            $post = get_post($id);
-
-            if (is_wp_error($post) || !$post || $post->post_type !== $type) {
-                return '';
-            }
-
-            return wp_make_link_relative(get_permalink($post));
+        // If the URL starts with the site URL, return the remaining part as the relative path.
+        $siteLength = strlen($site_url);
+        if (substr($url, 0, $siteLength) === $site_url) {
+            return substr($url, $siteLength);
         }
 
-        return '';
+        // Otherwise, return the constructed URL.
+        return $url;
     }
 }

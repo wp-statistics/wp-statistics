@@ -24,6 +24,10 @@ class Request
             return sanitize_text_field($value);
         }
 
+        if ($return === 'url') {
+            return sanitize_url($value);
+        }
+
         if ($return === 'number') {
             return intval($value);
         }
