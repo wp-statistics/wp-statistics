@@ -12,7 +12,7 @@ use WP_Statistics\Service\Admin\Notification\NotificationFactory;
 
 $userOnline              = new \WP_STATISTICS\UserOnline();
 $isPremium               = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
-$hasUpdatedNotifications = NotificationFactory::hasUpdatedNotifications();
+$hasUpdatedNotifications = NotificationFactory::hasUpdatedNotifications(get_current_user_id());
 $displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? true : false;
 ?>
 

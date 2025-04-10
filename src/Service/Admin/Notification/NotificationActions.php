@@ -33,6 +33,11 @@ class NotificationActions
 
         $notificationId = Request::get('notification_id');
 
+        if (empty($notificationId)) {
+            wp_send_json_error(['message' => __('No notification ID provided.', 'wp-statistics')]);
+            exit();
+        }
+
         if ($notificationId === 'all') {
             NotificationProcessor::dismissAllNotifications();
             $message = __('All notifications have been dismissed.', 'wp-statistics');
@@ -46,7 +51,9 @@ class NotificationActions
     }
 
     /**
+     * Updates the status of notifications.
      *
+     * @return void Outputs JSON response and exits execution.
      */
     public function updateNotificationsStatus()
     {
