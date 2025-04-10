@@ -1000,6 +1000,10 @@ class VisitorsModel extends BaseModel
 
     public function getReferrers($args = [])
     {
+        if (! DatabaseFactory::compareCurrentVersion('14.12.6', '>=')) {
+            return LegacyModel::get('referrers', $args, '14.12.6');
+        }
+
         $args = $this->parseArgs($args, [
             'date'          => '',
             'post_type'     => '',
