@@ -294,7 +294,7 @@ class VisitorsModel extends BaseModel
 
         $result = Query::select([
             $args['field'],
-            'COUNT(DISTINCT `ID`) AS `visitors`',
+            'COUNT(*) AS `visitors`',
         ])
             ->from('visitor')
             ->whereDate('last_counter', $args['date'])
@@ -328,7 +328,7 @@ class VisitorsModel extends BaseModel
 
         $result = Query::select([
             'CAST(`version` AS SIGNED) AS `casted_version`',
-            'COUNT(DISTINCT `ID`) AS `visitors`',
+            'COUNT(*) AS `visitors`',
         ])
             ->from('visitor')
             ->where($args['where_col'], '=', $args['where_val'])
@@ -873,7 +873,7 @@ class VisitorsModel extends BaseModel
                 'visitor.location as country',
                 'visitor.region as region',
                 'visitor.continent as continent',
-                'COUNT(DISTINCT visitor.ID) as visitors',
+                'COUNT(*) as visitors',
                 'SUM(visitor.hits) as views', // All views are counted and results can't be filtered by author, post type, etc...
             ],
             'date'          => '',
@@ -1020,7 +1020,7 @@ class VisitorsModel extends BaseModel
         $filteredArgs = array_filter($args);
 
         $query = Query::select([
-            'COUNT(DISTINCT visitor.ID) AS visitors',
+            'COUNT(*) AS visitors',
             'visitor.referred',
             'visitor.source_channel',
             'visitor.source_name',
