@@ -8,6 +8,7 @@
 - **Enhancement:** Performance improvements
 - **Fix:** Only show the update date if it differs from the creation date on the Single Post Statistics page.
 - **Fix:** Fixed hit/online endpoints issues.
+- **Fix:** Fixed filters URL issue on Referrals page.
 - **Removal:** Removed the `Host Exclusions` setting.
 
 = 14.13.1 - 2025-04-08 =
