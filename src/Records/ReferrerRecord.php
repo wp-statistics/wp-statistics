@@ -13,15 +13,12 @@ use WP_Statistics\Utils\Query;
  */
 class ReferrerRecord extends BaseRecord
 {
-    /**
-     * Sets the raw table name for this record.
+   /**
+     * The current table name.
      *
-     * @return void
+     * @var string
      */
-    protected function setTableName()
-    {
-        $this->tableName = 'referrers';
-    }
+    protected $tableName = 'referrers';
 
     /**
      * Get all referrers by channel.

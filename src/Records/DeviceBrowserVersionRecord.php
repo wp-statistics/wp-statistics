@@ -12,12 +12,9 @@ use WP_Statistics\Abstracts\BaseRecord;
 class DeviceBrowserVersionRecord extends BaseRecord
 {
     /**
-     * Sets the raw table name for this record.
+     * The current table name.
      *
-     * @return void
+     * @var string
      */
-    protected function setTableName()
-    {
-        $this->tableName = 'device_browser_versions';
-    }
+    protected $tableName = 'device_browser_versions';
 }

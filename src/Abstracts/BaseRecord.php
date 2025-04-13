@@ -46,16 +46,8 @@ abstract class BaseRecord
     {
         $this->record = $record;
 
-        $this->setTableName();
         $this->setFullTableName();
     }
-
-    /**
-     * Must return the table name for the current model.
-     *
-     * @return string
-     */
-    abstract protected function setTableName();
 
     /**
      * Processes and caches the fully qualified table name.

@@ -12,14 +12,11 @@ use WP_Statistics\Abstracts\BaseRecord;
 class SessionRecord extends BaseRecord
 {
     /**
-     * Sets the raw table name for this record.
+     * The current table name.
      *
-     * @return void
+     * @var string
      */
-    protected function setTableName()
-    {
-        $this->tableName = 'sessions';
-    }
+    protected $tableName = 'sessions';
 
     /**
      * Get all sessions by visitor ID.

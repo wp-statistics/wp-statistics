@@ -14,14 +14,11 @@ use WP_Statistics\Abstracts\BaseRecord;
 class CountryRecord extends BaseRecord
 {
     /**
-     * Sets the raw table name for this record.
+     * The current table name.
      *
-     * @return void
+     * @var string
      */
-    protected function setTableName()
-    {
-        $this->tableName = 'countries';
-    }
+    protected $tableName = 'countries';
 
     /**
      * Get all countries by continent code (e.g., 'EU', 'AS').

@@ -13,14 +13,11 @@ use WP_Statistics\Abstracts\BaseRecord;
 class LanguageRecord extends BaseRecord
 {
     /**
-     * Sets the raw table name for this record.
+     * The current table name.
      *
-     * @return void
+     * @var string
      */
-    protected function setTableName()
-    {
-        $this->tableName = 'languages';
-    }
+    protected $tableName = 'languages';
 
     /**
      * Get all languages by region.

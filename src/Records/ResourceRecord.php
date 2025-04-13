@@ -8,14 +8,11 @@ use WP_Statistics\Utils\Query;
 class ResourceRecord extends BaseRecord
 {
     /**
-     * Returns the table name for resource records.
+     * The current table name.
      *
-     * @return string
+     * @var string
      */
-    protected function setTableName()
-    {
-        $this->tableName = 'resources';
-    }
+    protected $tableName = 'resources';
 
     /**
      * Marks the record as deleted (soft delete) by setting an is_deleted flag.
