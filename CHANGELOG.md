@@ -2,11 +2,17 @@
 - **Fix:** Updated messages based on data availability.
 - **Fix:** Fixed inconsistencies in online visitor analytics.
 - **Fix:** Ensured the "Views" column is visible for users with the Editor role on the posts list page.
+- **Fix:** Resolved redundant errors during notification updates.
+- **Fix:** Stop keeping inactive users online after 30m issue
+- **Enhancement:** Performance improvements
+- **Fix:** Only show the update date if it differs from the creation date on the Single Post Statistics page.
+- **Fix:** Fixed hit/online endpoints issues.
+- **Removal:** Removed the `Host Exclusions` setting.
 
 = 14.13.1 - 2025-04-08 =
 - **Enhancement:** Improved filter logic to avoid unnecessary requests.
 - **Enhancement:** Enhanced source channel detection for more accurate results.
-- **Enhancement:** Removed the FeedbackBird button from the header along with its related functionality.  
+- **Enhancement:** Removed the FeedbackBird button from the header along with its related functionality.
 - **Fix:** Removed table prefix from shared anonymous data.
 - **Fix:** Fixed `serveObfuscatedAsset` compatibility with URL cleanup features when Bypass Ad-blocker is enabled.
 
