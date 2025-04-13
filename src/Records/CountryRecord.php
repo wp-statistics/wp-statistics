@@ -13,7 +13,6 @@ use WP_Statistics\Abstracts\BaseRecord;
  */
 class CountryRecord extends BaseRecord
 {
-
     /**
      * Sets the raw table name for this record.
      *

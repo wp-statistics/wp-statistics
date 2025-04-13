@@ -7,7 +7,6 @@ use WP_Statistics\Utils\Query;
 
 class ResourceRecord extends BaseRecord
 {
-
     /**
      * Returns the table name for resource records.
      *

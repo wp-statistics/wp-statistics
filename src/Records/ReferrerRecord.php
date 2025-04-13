@@ -13,7 +13,6 @@ use WP_Statistics\Utils\Query;
  */
 class ReferrerRecord extends BaseRecord
 {
-
     /**
      * Sets the raw table name for this record.
      *

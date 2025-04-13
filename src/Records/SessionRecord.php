@@ -11,7 +11,6 @@ use WP_Statistics\Abstracts\BaseRecord;
  */
 class SessionRecord extends BaseRecord
 {
-
     /**
      * Sets the raw table name for this record.
      *

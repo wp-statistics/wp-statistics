@@ -12,7 +12,6 @@ use WP_Statistics\Abstracts\BaseRecord;
  */
 class LanguageRecord extends BaseRecord
 {
-
     /**
      * Sets the raw table name for this record.
      *
@@ -29,7 +28,6 @@ class LanguageRecord extends BaseRecord
      * @param string $region Region code to filter by.
      * @return array
      * @todo This method is a sample usage; may be updated or removed based on future needs.
-     *
      */
     public function getAllByRegion($region)
     {

@@ -12,7 +12,6 @@ use WP_Statistics\Abstracts\BaseRecord;
  */
 class CityRecord extends BaseRecord
 {
-
     /**
      * Sets the raw table name for this record.
      *
