@@ -330,6 +330,17 @@ class DateRange
                 ]
             ],
 
+            '28days'    => [
+                'period' => [
+                    'from'  => DateTime::get('-27 days'),
+                    'to'    => DateTime::get()
+                ],
+                'prev_period' => [
+                    'from'  => DateTime::get('-55 days'),
+                    'to'    => DateTime::get('-28 days')
+                ]
+            ],
+
             '30days'    => [
                 'period' => [
                     'from'  => DateTime::get('-29 days'),
