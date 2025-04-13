@@ -4,13 +4,16 @@
   "description": "The Most Popular Privacy-Friendly Analytics Plugin",
   "main": "",
   "scripts": {
-    "build": "wp-scripts build --webpack-copy-php --webpack-src-dir=assets/dev/blocks --output-path=assets/blocks",
-    "start": "wp-scripts start --webpack-copy-php --webpack-src-dir=assets/dev/blocks --output-path=assets/blocks"
+    "build": "webpack --config webpack.config.js",
+    "watch": "webpack --watch --config webpack.config.js"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.24.4",
     "@wordpress/scripts": "^27.9.0",
     "autoprefixer": "^10.4.20",
+    "babel-loader": "^10.0.0",
+    "expose-loader": "^5.0.1",
+    "glob": "^11.0.1",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-clean-css": "^4.3.0",
@@ -22,10 +25,14 @@
     "gulp-sass": "^5.1.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify": "^3.0.2",
+    "mini-css-extract-plugin": "^2.9.2",
     "postcss-loader": "^8.1.1",
     "readable-stream": "^4.5.2",
     "rtlcss": "^4.2.0",
-    "sass": "^1.70.0"
+    "sass": "^1.70.0",
+    "terser-webpack-plugin": "^5.3.14",
+    "webpack-remove-empty-scripts": "^1.0.4",
+    "wrapper-webpack-plugin": "^2.2.2"
   },
   "dependencies": {
     "@babel/core": "^7.24.7",

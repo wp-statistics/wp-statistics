@@ -1,84 +1,106 @@
-const defaultConfig = require('@wordpress/scripts/config/webpack.config.js');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const path = require('path');
-const fs = require('fs');
+const path = require("path");
+const TerserPlugin = require("terser-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const glob = require("glob");
+const WrapperPlugin = require("wrapper-webpack-plugin");
+const RemoveEmptyScriptsPlugin = require("webpack-remove-empty-scripts");
 
-class MoveRtlStylePlugin {
-    apply(compiler) {
-        compiler.hooks.emit.tapAsync('MoveRtlStylePlugin', (compilation, callback) => {
-            const assets = Object.keys(compilation.assets);
+// Admin file list
+const getOrderedAdminFiles = () => {
+    const order = ["./assets/dev/javascript/plugin/*.js", "./assets/dev/javascript/config.js", "./assets/dev/javascript/ajax.js", "./assets/dev/javascript/placeholder.js", "./assets/dev/javascript/helper.js", "./assets/dev/javascript/chart.js", "./assets/dev/javascript/filters/*.js", "./assets/dev/javascript/components/*.js", "./assets/dev/javascript/meta-box.js", "./assets/dev/javascript/meta-box/*.js", "./assets/dev/javascript/pages/*.js", "./assets/dev/javascript/run.js", "./assets/dev/javascript/image-upload.js"];
 
-            // Change output folder only for `post-summary` block CSS files
-            assets.forEach((asset) => {
-                if (asset.includes('post-summary')) {
-                    const targetPath = path.join('assets/blocks/post-summary', path.basename(asset));
-                    const content = compilation.assets[asset].source();
-
-                    fs.mkdirSync(path.dirname(path.resolve(__dirname, targetPath)), { recursive: true });
-                    fs.writeFileSync(path.resolve(__dirname, targetPath), content);
-
-                    // Remove the old asset
-                    delete compilation.assets[asset];
-                }
-            });
-
-            callback();
+    return order.flatMap((pattern) => {
+        return glob.sync(pattern).map((file) => {
+            return file.startsWith("./") ? file : `./${file}`;
         });
-    }
-}
+    });
+};
+
+// Tracker file list
+const trackerFiles = ["./assets/dev/javascript/user-tracker.js", "./assets/dev/javascript/event-tracker.js", "./assets/dev/javascript/tracker.js"];
 
 module.exports = {
-    ...defaultConfig,
+    mode: "production",
     entry: {
-        ...defaultConfig.entry(),
-        'post-summary': './assets/dev/blocks/post-summary/index.js',
+        "admin.min": getOrderedAdminFiles(),
+        "tracker.min": trackerFiles,
+        "app.min": "./assets/dev/sass/app.scss",
     },
     output: {
-        ...defaultConfig.output,
-        filename: (pathData) => {
-            // Apply custom output folder only to `post-summary`
-            if (pathData.chunk.name === 'post-summary') {
-                return 'post-summary/[name].js';
-            }
-            return '[name].js'; // Default output for all other blocks
-        },
+        filename: "[name].js",
+        path: path.resolve(__dirname, "public/build"),
+        clean: true,
     },
-    plugins: [
-        ...defaultConfig.plugins.filter(
-            (plugin) => !(plugin instanceof MiniCssExtractPlugin)
-        ),
-        new MiniCssExtractPlugin({
-            filename: ({ chunk }) => {
-                // Only apply custom folder for `post-summary` CSS files
-                if (chunk.name === 'post-summary') {
-                    return 'post-summary/[name].css';
-                }
-                return '[name].css'; // Default for other blocks
-            },
-        }),
-        new MoveRtlStylePlugin(), // Handles moving 'post-summary' RTL files
-    ],
     module: {
         rules: [
-            ...defaultConfig.module.rules,
             {
-                test: /\.css$/,
+                test: require.resolve("./assets/dev/javascript/config.js"),
+                loader: "expose-loader",
+                options: {
+                    exposes: ["wps_js"],
+                },
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ["@babel/env"],
+                    },
+                },
+            },
+            {
+                test: /\.s[ac]ss$/i,
                 use: [
                     MiniCssExtractPlugin.loader,
-                    'css-loader',
                     {
-                        loader: 'postcss-loader',
+                        loader: "css-loader",
                         options: {
-                            postcssOptions: {
-                                plugins: [
-                                    require('autoprefixer'),
-                                    require('rtlcss')(), // Generate RTL CSS
-                                ],
-                            },
+                            url: false, // This prevents css-loader from handling file URLs
                         },
                     },
+                    "sass-loader",
                 ],
             },
         ],
+    },
+    plugins: [
+        new WrapperPlugin({
+            test: /admin\.min\.js$/, // Wrap only admin.min.js
+            header: "jQuery(document).ready(function ($) {",
+            footer: "});",
+        }),
+        new MiniCssExtractPlugin({
+            filename: "[name].css", // ✅ Correct location
+        }),
+        new RemoveEmptyScriptsPlugin(),
+    ],
+    optimization: {
+        minimize: true,
+        minimizer: [
+            new TerserPlugin({
+                terserOptions: {
+                    compress: {
+                        drop_console: true,
+                    },
+                    format: {
+                        comments: false,
+                        beautify: false,
+                    },
+                },
+                extractComments: false,
+            }),
+        ],
+    },
+    resolve: {
+        modules: [
+            "node_modules",
+            path.resolve(__dirname), // or path.resolve(__dirname, 'src')
+        ],
+        extensions: [".js", ".scss"],
+    },
+    externals: {
+        jquery: "jQuery",
     },
 };
