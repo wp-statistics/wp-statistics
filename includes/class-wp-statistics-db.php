@@ -21,6 +21,22 @@ class DB
         'historical',
         'visitor_relationships',
         'resources',
+        'parameters',
+        'views',
+        'countries',
+        'cities',
+        'device_types',
+        'device_browser_versions',
+        'device_browsers',
+        'device_oss',
+        'resolutions',
+        'languages',
+        'timezones',
+        'referrers',
+        'visitors',
+        'sessions',
+        'reports',
+        'summary',
 
         /**
          * Data Plus Table

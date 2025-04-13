@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Resources\Core;
 
-use WP_Statistics\Models\ResourceModel;
+use WP_Statistics\Records\ResourceRecord;
 
 /**
  * Identifies and manages resource-related data.
@@ -131,13 +131,13 @@ class ResourcesIdentifier
     }
 
     /**
-     * Returns a ResourceModel instance based on the current resource data.
+     * Returns a ResourceRecord instance based on the current resource data.
      *
-     * @return ResourceModel
+     * @return ResourceRecord
      */
     public function getModel()
     {
-        return new ResourceModel($this->resource);
+        return new ResourceRecord($this->resource);
     }
 
     /**

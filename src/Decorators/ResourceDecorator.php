@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Decorators;
 
-use WP_Statistics\Models\ResourceModel;
+use WP_Statistics\Records\ResourceRecord;
 use WP_Statistics\Service\Resources\Core\ResourcesIdentifier;
 
 class ResourceDecorator
@@ -142,7 +142,7 @@ class ResourceDecorator
     /**
      * Retrieves the resource model.
      *
-     * @return ResourceModel The resource model instance.
+     * @return ResourceRecord The resource model instance.
      */
     public function getModel()
     {

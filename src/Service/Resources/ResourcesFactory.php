@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Resources;
 
 use WP_Statistics\Decorators\ResourceDecorator;
-use WP_Statistics\Models\ResourceModel;
+use WP_Statistics\Records\ResourceRecord;
 
 class ResourcesFactory
 {
@@ -20,7 +20,7 @@ class ResourcesFactory
      */
     public static function getByResourceId($resourceId, $resourceType)
     {
-        $record = (new ResourceModel)->get([
+        $record = (new ResourceRecord)->get([
             'resource_id'   => $resourceId,
             'resource_type' => $resourceType,
         ]);
@@ -40,7 +40,7 @@ class ResourcesFactory
      */
     public static function getByUrl($resourceUrl)
     {
-        $record = (new ResourceModel)->get([
+        $record = (new ResourceRecord)->get([
             'resource_url' => $resourceUrl,
         ]);
 
