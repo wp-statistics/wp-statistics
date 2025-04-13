@@ -6,7 +6,6 @@ const premiumSteps = document.querySelectorAll('.js-wps-premiumModalStep');
 const premiumWelcomeSteps = document.querySelectorAll('.js-wps-premiumModal-welcome .js-wps-premiumModalStep');
 const exploreButton = document.querySelector('.js-wps-premiumModalExploreBtn');
 const premiumFeatures = document.querySelectorAll('.js-wps-premiumStepFeature');
-const premiumBtn = document.querySelectorAll('.js-wps-openPremiumModal');
 const upgradeButtonBox = document.querySelectorAll('.wps-premium-step__action-container');
 const premiumStepsTitle = document.querySelectorAll('.js-wps-premium-steps__title');
 const firstStepHeader = document.querySelectorAll('.js-wps-premium-first-step__head');
@@ -61,16 +60,16 @@ const openModal = (target, href) => {
     }
  }
 
-if(premiumBtn.length>0){
-    premiumBtn.forEach(button => {
-        button.addEventListener('click', (event) => {
-            event.preventDefault();
-            const href = button.getAttribute('href');
-            const target = button.getAttribute('data-target');
-            openModal(target, href);
-        });
-    });
-}
+document.addEventListener('click', (event) => {
+    const button = event.target.closest('.js-wps-openPremiumModal');
+    if (button) {
+        event.preventDefault();
+        event.stopPropagation();
+        const href = button.getAttribute('href');
+        const target = button.getAttribute('data-target');
+        openModal(target, href);
+    }
+});
 
 if (skipButtons.length>0) {
     skipButtons.forEach(button => {
@@ -169,8 +168,6 @@ if (premiumFeatures.length>0) {
          });
     });
 }
-
-
 
 class ModalHandler {
     constructor() {
