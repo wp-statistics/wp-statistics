@@ -1,6 +1,7 @@
 = 14.13.2 - 2025-04-** =
 - **Fix:** Updated messages based on data availability.
 - **Fix:** Fixed inconsistencies in online visitor analytics.
+- **Fix:** Resolved redundant errors during notification updates.
 - **Fix:** Stop keeping inactive users online after 30m issue
 - **Enhancement:** Performance improvements
 - **Fix:** Only show the update date if it differs from the creation date on the Single Post Statistics page.
