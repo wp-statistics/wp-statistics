@@ -1529,7 +1529,7 @@ class Helper
         }
 
         if ($number < 1000) {
-            return !empty($precision) ? round($number, $precision) : $number;
+            return !empty($precision) ? round($number, $precision) : (int)$number;
         }
 
         $originalNumber = $number;

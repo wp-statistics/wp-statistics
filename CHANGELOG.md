@@ -9,6 +9,7 @@
 - **Fix:** Only show the update date if it differs from the creation date on the Single Post Statistics page.
 - **Fix:** Fixed hit/online endpoints issues.
 - **Removal:** Removed the `Host Exclusions` setting.
+- **Fix:** Fixed Decimal Formatting
 
 = 14.13.1 - 2025-04-08 =
 - **Enhancement:** Improved filter logic to avoid unnecessary requests.
