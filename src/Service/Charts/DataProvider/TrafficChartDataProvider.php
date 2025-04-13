@@ -49,8 +49,8 @@ class TrafficChartDataProvider extends AbstractChartDataProvider
         $data = $this->parseData($currentDates, $data);
 
         $this->setChartLabels($data['labels']);
-        $this->addChartDataset(esc_html__('Visitors', 'wp-statistics'), $data['visitors']);
-        $this->addChartDataset(esc_html__('Views', 'wp-statistics'), $data['views']);
+        $this->addChartDataset(esc_html__('Visitors', 'wp-statistics'), $data['visitors'], 'visitors');
+        $this->addChartDataset(esc_html__('Views', 'wp-statistics'), $data['views'], 'views');
     }
 
     protected function setPrevPeriodData()

@@ -11,9 +11,13 @@ use WP_Statistics\Components\View;
     </div>
 <?php else : ?>
     <?php
+    $title = __('No data found for this date range.', 'wp-statistics');
+    if ($isTodayOrFutureDate) {
+        $title = __('Data coming soon!', 'wp-statistics');
+    }
     View::load("components/objects/no-data", [
         'url'   => $data['url'],
-        'title' => __('Data coming soon!', 'wp-statistics')
+        'title' => $title
     ]);
     ?>
 <?php endif; ?>
