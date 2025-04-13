@@ -316,7 +316,6 @@ class settings_page extends Singleton
             'wps_exclude_loginpage',
             'wps_excluded_countries',
             'wps_included_countries',
-            'wps_excluded_hosts',
             'wps_robot_threshold',
             'wps_exclude_feeds',
             'wps_excluded_urls',

@@ -23,6 +23,7 @@ function FilterModal(options) {
     this.memoryCache = null;
     this.filterWrapperSelector = this.settings.filterWrapperSelector;
     this.filterContainerSelector = this.settings.filterContainerSelector;
+    this.onlySearchableFields = false;
 
     this.fieldTypes = Object.fromEntries(
         Object.entries(this.settings.fields)
@@ -291,7 +292,7 @@ FilterModal.prototype.onFilterButtonClick = function (e) {
     if (this.memoryCache) {
         this.populateVisitorsFilters(this.memoryCache, dropdowns);
     } else {
-        this.fetchVisitorsFilters(spinner, dropdowns);
+        this.fetchFilters(spinner, dropdowns);
     }
 
     setTimeout(() => {
@@ -384,11 +385,15 @@ FilterModal.prototype.populateVisitorsFilters = function (data, dropdowns) {
 };
 
 /**
- * Fetches visitor filter data via AJAX.
+ * Fetches filter data via AJAX.
  * @param {Object} spinner - The spinner instance.
  * @param {Object} dropdowns - The dropdown elements.
  */
-FilterModal.prototype.fetchVisitorsFilters = function (spinner, dropdowns) {
+FilterModal.prototype.fetchFilters = function (spinner, dropdowns) {
+    if (this.onlySearchableFields) {
+        return;
+    }
+
     spinner.show();
 
     const self = this;
@@ -430,6 +435,14 @@ FilterModal.prototype.fetchVisitorsFilters = function (spinner, dropdowns) {
  */
 FilterModal.prototype.generateFields = function () {
     const generator = new FilterGenerator(this.filterWrapperSelector);
+
+    const visibleFields = Object.values(this.settings.fields).filter(field => {
+        return field.type !== 'hidden' && field.type !== 'button';
+    });
+
+    this.onlySearchableFields = visibleFields.every(field => {
+        return field?.attributes?.['data-searchable'] === true;
+    });
 
     Object.entries(this.settings.fields).forEach(field => {
         switch (field[1].type) {

@@ -38,6 +38,10 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
                     start: moment().subtract(6, 'days').format('YYYY-MM-DD'),
                     end: today
                 },
+                '28days': {
+                    start: moment().subtract(27, 'days').format('YYYY-MM-DD'),
+                    end: today
+                },
                 '30days': {
                     start: moment().subtract(29, 'days').format('YYYY-MM-DD'),
                     end: today
@@ -480,6 +484,7 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
                         <button class="c-footer__filters__list-item c-footer__filters__list-item--more js-show-more-filters">` + wps_js._('str_more') + `</button>
                         <div class="c-footer__filters__more-filters js-more-filters">
                             <button data-metabox-key="${key}" data-filter="7days" class="c-footer__filters__list-item">` + wps_js._('str_7days') + `</button>
+                            <button data-metabox-key="${key}" data-filter="28days" class="c-footer__filters__list-item">` + wps_js._('str_28days') + `</button>
                             <button data-metabox-key="${key}" data-filter="30days" class="c-footer__filters__list-item">` + wps_js._('str_30days') + `</button>
                             <button data-metabox-key="${key}" data-filter="90days" class="c-footer__filters__list-item">` + wps_js._('str_90days') + `</button>
                             <button data-metabox-key="${key}" data-filter="6months" class="c-footer__filters__list-item">` + wps_js._('str_6months') + `</button>
