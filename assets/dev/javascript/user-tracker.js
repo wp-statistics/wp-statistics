@@ -179,8 +179,12 @@ if (!window.WpStatisticsUserTracker) {
 
             if (scriptTag) {
                 try {
-                    WP_Statistics_Tracker_Object = JSON.parse(scriptTag.innerHTML.replace('var WP_Statistics_Tracker_Object = ', '').replace(';', ''));
+                    const match = scriptTag.innerHTML.match(/var\s+WP_Statistics_Tracker_Object\s*=\s*(\{[\s\S]*?\});/);
+                    if (match && match[1]) {
+                        WP_Statistics_Tracker_Object = JSON.parse(match[1]);
+                    }
                 } catch (error) {
+                    console.error("WP Statistics: Error parsing WP_Statistics_Tracker_Object", error);
                 }
             }
         },
