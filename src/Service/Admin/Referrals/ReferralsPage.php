@@ -107,89 +107,83 @@ class ReferralsPage extends MultiViewPage
                 ],
             ])
             ->get();
-        
+
         return $this->filters;
     }
 
     /**
      * Retrieves filtered search channels and generates corresponding data.
-     * 
+     *
      * @return array
      */
-    private function getSearchChannels() 
+    private function getSearchChannels()
     {
-        $currentPage = esc_url_raw(home_url($_SERVER['REQUEST_URI']));
-
         $channels = Helper::filterArrayByKeys(SourceChannels::getList(), ['search', 'paid_search']);
-        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'], $currentPage)));
-        
+        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'])));
+
         foreach ($channels as $key => $channel) {
             $args[] = [
-                'slug' => esc_attr($key),
-                'name' => esc_html($channel),
-                'url' => add_query_arg(['source_channel' => $key], $baseUrl),
+                'slug'  => esc_attr($key),
+                'name'  => esc_html($channel),
+                'url'   => add_query_arg(['source_channel' => $key]),
             ];
         }
 
         return [
-            'args' => $args,
-            'baseUrl' => $baseUrl,
+            'args'           => $args,
+            'baseUrl'        => $baseUrl,
             'selectedOption' => Request::get('source_channel'),
         ];
     }
 
     /**
      * Retrieves filtered social channels and generates corresponding data.
-     * 
+     *
      * @return array
      */
     private function getSocialChannels()
     {
-        $currentPage = esc_url_raw(home_url($_SERVER['REQUEST_URI']));
-
         $channels = Helper::filterArrayByKeys(SourceChannels::getList(), ['social', 'paid_social']);
-        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'], $currentPage)));
+        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'])));
 
         foreach ($channels as $key => $channel) {
             $args[] = [
-                'slug' => esc_attr($key),
-                'name' => esc_html($channel),
-                'url' => add_query_arg(['source_channel' => $key], $baseUrl),
+                'slug'  => esc_attr($key),
+                'name'  => esc_html($channel),
+                'url'   => add_query_arg(['source_channel' => $key]),
             ];
         }
 
         return [
-            'args' => $args,
-            'baseUrl' => $baseUrl,
+            'args'           => $args,
+            'baseUrl'        => $baseUrl,
             'selectedOption' => Request::get('source_channel'),
         ];
     }
 
      /**
      * Retrieves filtered source channels and generates corresponding data.
-     * 
+     *
      * @return array
      */
     private function getSourceChannels()
     {
-        $currentPage = esc_url_raw(home_url($_SERVER['REQUEST_URI']));
-
         $channels = SourceChannels::getList();
         unset($channels['direct']);
 
-        $baseUrl = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'], $currentPage)));
+        $baseUrl = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'])));
 
         foreach ($channels as $key => $channel) {
             $args[] = [
-                'slug' => esc_attr($key),
-                'name' => esc_html($channel),
-                'url' => add_query_arg(['source_channel' => $key], $baseUrl),
+                'slug'  => esc_attr($key),
+                'name'  => esc_html($channel),
+                'url'   => add_query_arg(['source_channel' => $key]),
             ];
         }
 
         return [
-            'args' => $args,
-            'baseUrl' => $baseUrl,
+            'args'           => $args,
+            'baseUrl'        => $baseUrl,
             'selectedOption' => Request::get('source_channel')
         ];
     }
