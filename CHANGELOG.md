@@ -3,6 +3,7 @@
 - **Fix:** Fixed inconsistencies in online visitor analytics.
 - **Fix:** Stop keeping inactive users online after 30m issue
 - **Fix:** Fixed hit/online endpoints issues.
+- **Removal:** Removed the `Host Exclusions` setting.
 
 = 14.13.1 - 2025-04-08 =
 - **Enhancement:** Improved filter logic to avoid unnecessary requests.
