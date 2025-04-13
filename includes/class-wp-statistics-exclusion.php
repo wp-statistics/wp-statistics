@@ -37,7 +37,6 @@ class Exclusion
             '404'             => __('404', 'wp-statistics'),
             'excluded url'    => __('Excluded URL', 'wp-statistics'),
             'user role'       => __('User Role', 'wp-statistics'),
-            'hostname'        => __('Host name', 'wp-statistics'),
             'geoip'           => __('Geolocation', 'wp-statistics'),
             'robot_threshold' => __('Robot threshold', 'wp-statistics'),
             'xmlrpc'          => __('XML-RPC', 'wp-statistics'),
@@ -501,47 +500,6 @@ class Exclusion
         }
 
         return !empty($includedCountries) && !isset($includedCountries[$location]);
-    }
-
-    /**
-     * Detect if Exclude Host name.
-     * @param $visitorProfile VisitorProfile
-     */
-    public static function exclusion_hostname($visitorProfile)
-    {
-        // Get Host name List
-        $excluded_host = explode("\n", self::$options['excluded_hosts'] ?? '');
-
-        // If there's nothing in the excluded host list, don't do anything.
-        if (count($excluded_host) > 0) {
-            $transient_name = 'wps_excluded_hostname_to_ip_cache';
-
-            // Get the transient with the hostname cache.
-            $hostname_cache = get_transient($transient_name);
-
-            // If the transient has expired (or has never been set), create one now.
-            if ($hostname_cache === false) {
-                // Flush the failed cache variable.
-                $hostname_cache = array();
-
-                // Loop through the list of hosts and look them up.
-                foreach ($excluded_host as $host) {
-                    if (strpos($host, '.') > 0) {
-                        $hostname_cache[$host] = gethostbyname($host . '.');
-                    }
-                }
-
-                // Set the transient and store it for 1 hour.
-                set_transient($transient_name, $hostname_cache, 360);
-            }
-
-            // Check if the current IP address matches one of the ones in the excluded hosts list.
-            if (in_array($visitorProfile->getIp(), $hostname_cache)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
