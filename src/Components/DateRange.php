@@ -128,6 +128,11 @@ class DateRange
             }
         }
 
+        // If period is 'total', set the from date to the initial post date
+        if ($period === 'total') {
+            $range['from'] = Helper::getInitialPostDate();
+        }
+
         if (!empty($range) && $excludeToday) {
             // Only applicable for periods that their last day is today, like 7days, 30days, etc...
             if ($period !== 'today' && self::compare($range['to'], 'is', 'today')) {
@@ -325,6 +330,17 @@ class DateRange
                 ]
             ],
 
+            '28days'    => [
+                'period' => [
+                    'from'  => DateTime::get('-27 days'),
+                    'to'    => DateTime::get()
+                ],
+                'prev_period' => [
+                    'from'  => DateTime::get('-55 days'),
+                    'to'    => DateTime::get('-28 days')
+                ]
+            ],
+
             '30days'    => [
                 'period' => [
                     'from'  => DateTime::get('-29 days'),
@@ -393,11 +409,11 @@ class DateRange
 
             'total'     => [
                 'period' => [
-                    'from'  => Helper::getInitialPostDate(),
+                    'from'  => DateTime::get(0),
                     'to'    => DateTime::get()
                 ],
                 'prev_period' => [
-                    'from'  => Helper::getInitialPostDate(),
+                    'from'  => DateTime::get(0),
                     'to'    => DateTime::get()
                 ]
             ],
