@@ -11,6 +11,7 @@
 - **Fix:** Fixed filters URL issue on Referrals page.
 - **Removal:** Removed the `Host Exclusions` setting.
 - **Fix:** Resolved chart color bug in RTL layout.
+- **Fix:** Fixed word count background process notice issue.
 
 = 14.13.1 - 2025-04-08 =
 - **Enhancement:** Improved filter logic to avoid unnecessary requests.
