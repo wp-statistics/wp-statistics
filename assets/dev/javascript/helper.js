@@ -254,6 +254,10 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
     }
 };
 
+window.renderHorizontalBar = (id, label, data, icons) => {
+    wps_js.horizontal_bar(id, label, data, icons);
+}
+
 /**
  * Create Chart ID by Meta Box name
  *
@@ -407,7 +411,9 @@ jQuery(document).ready(function () {
         dropdown.addEventListener("click", function (event) {
             var dropdownContent = dropdown.querySelector(".dropdown-content");
             if (dropdownContent) {
-                dropdownContent.classList.toggle("show");
+                if(!event.target.classList.contains('disabled')){
+                    dropdownContent.classList.toggle("show");
+                }
             }
         });
     });

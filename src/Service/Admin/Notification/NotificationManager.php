@@ -17,26 +17,10 @@ class NotificationManager
     {
         if (Option::get('display_notifications')) {
             add_action('admin_init', [$this, 'registerActions']);
-            add_filter('cron_schedules', [$this, 'notificationCronIntervalsHook']);
-            Event::schedule('wp_statistics_notification_hook', time(), 'every_three_days', [$this, 'fetchNotification']);
+            Event::schedule('wp_statistics_notification_hook', time(), 'daily', [$this, 'fetchNotification']);
         } else {
             Event::unschedule('wp_statistics_notification_hook');
         }
-    }
-
-    /**
-     * Registers a custom cron schedule for notifications.
-     *
-     * @param array $schedules Existing cron schedules.
-     * @return array Modified cron schedules with an added "every_three_days" interval.
-     */
-    public function notificationCronIntervalsHook($schedules)
-    {
-        $schedules['every_three_days'] = array(
-            'interval' => 3 * 24 * 60 * 60,
-            'display'  => __('Every 3 Days', 'wp-statistics')
-        );
-        return $schedules;
     }
 
     /**

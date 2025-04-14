@@ -1,7 +1,27 @@
 = 14.13.2 - 2025-04-** =
+- **New:** Added a 28-day date range into the date picker.
+- **Fix:** Updated messages based on data availability.
+- **Fix:** Fixed inconsistencies in online visitor analytics.
+- **Fix:** Ensured the "Views" column is visible for users with the Editor role on the posts list page.
+- **Fix:** Resolved redundant errors during notification updates.
+- **Fix:** Stop keeping inactive users online after 30m issue
+- **Enhancement:** Performance improvements
+- **Fix:** Only show the update date if it differs from the creation date on the Single Post Statistics page.
+- **Fix:** Fixed hit/online endpoints issues.
+- **Fix:** Fixed filters URL issue on Referrals page.
+- **Removal:** Removed the `Host Exclusions` setting.
+- **Fix:** Resolved chart color bug in RTL layout.
+- **Fix:** Fixed word count background process notice issue.
 - **Fix:** Removed redundant left join on users table in visitor insights page to improve query performance.
 
-= 14.13 - 2025-03-30 =
+= 14.13.1 - 2025-04-08 =
+- **Enhancement:** Improved filter logic to avoid unnecessary requests.
+- **Enhancement:** Enhanced source channel detection for more accurate results.
+- **Enhancement:** Removed the FeedbackBird button from the header along with its related functionality.
+- **Fix:** Removed table prefix from shared anonymous data.
+- **Fix:** Fixed `serveObfuscatedAsset` compatibility with URL cleanup features when Bypass Ad-blocker is enabled.
+
+= 14.13 - 2025-04-01 =
 - **New:** Introduced Notifications to receive important updates and promotions.
 - **New:** Added an optional "Share Anonymous Data" feature to help improve WP Statistics without collecting personal information.
 - **Enhancement:** Removed the Honeypot feature.
@@ -117,9 +137,9 @@
 - **Fix:** Made the `views` column sortable again.
 - **Fix:** Resolved a PHP deprecation warning for better compatibility.
 - **Dev:** Added new filters for developers:
-  - `wp_statistics_geolocation_download_url`
-  - `wp_statistics_injection_patterns`
-  - `wp_statistics_location_column_value`
+    - `wp_statistics_geolocation_download_url`
+    - `wp_statistics_injection_patterns`
+    - `wp_statistics_location_column_value`
 
 14.11.3 - 2024-11-17
 - **New:** Added support for tracking unique visitors in shortcodes.
@@ -1822,7 +1842,7 @@ v13.1.2 - 09.11.2021
 * Release Date: January 13, 2014
 * Fixes: Critical bug that caused only a single visitor to be recorded.
 * Added: Version information to the optimization page.
-[Thanks Greg Ross](http://profiles.wordpress.org/gregross)
+  [Thanks Greg Ross](http://profiles.wordpress.org/gregross)
 
 4.3
 * Release Date: January 12, 2014

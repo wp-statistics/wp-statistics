@@ -19,6 +19,6 @@
     </div>
     <div class="wps-content-tabs__item--content">
         <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($post->post_title); ?></span></h3>
-        <span><?php echo esc_html($count);?> <?php echo esc_html($count_title); ?></span>
+        <span><span class="wps-content-tabs__item--count"><?php echo esc_html($count);?></span><?php echo esc_html($count_title); ?></span>
     </div>
 </a>

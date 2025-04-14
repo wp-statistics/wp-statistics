@@ -83,9 +83,6 @@ $displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? 
                 <a href="<?php echo esc_url(Menus::admin_url('privacy-audit')); ?>" title="<?php esc_html_e('Privacy Audit', 'wp-statistics'); ?>" class="privacy <?php echo $privacyAuditStatus['percentage_ready'] != 100 ? 'warning' : ''; ?> <?php echo Menus::in_page('privacy-audit') ? 'active' : ''; ?>"></a>
             <?php endif; ?>
 
-            <a href="<?php echo esc_url(admin_url('admin.php?page=wps_optimization_page')); ?>" title="<?php esc_html_e('Optimization', 'wp-statistics'); ?>" class="optimization <?php if (isset($_GET['page']) && $_GET['page'] === 'wps_optimization_page') {
-                echo 'active';
-            } ?>"></a>
             <a href="<?php echo esc_url(admin_url('admin.php?page=wps_settings_page')); ?>" title="<?php esc_html_e('Settings', 'wp-statistics'); ?>" class="settings <?php if (isset($_GET['page']) && $_GET['page'] === 'wps_settings_page') {
                 echo 'active';
             } ?>"></a>
@@ -117,7 +114,6 @@ $displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? 
                         echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_author-analytics_page', 'link_text' => __('Author Analytics', 'wp-statistics'), 'icon_class' => 'author-analytics', 'badge_count' => null], true);
                     }
                     echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_settings_page', 'link_text' => __('Settings', 'wp-statistics'), 'icon_class' => 'settings', 'badge_count' => null], true);
-                    echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_optimization_page', 'link_text' => __('Optimization', 'wp-statistics'), 'icon_class' => 'optimization', 'badge_count' => null], true);
                     ?>
                     <?php if ($displayNotifications): ?>
                         <div class="wps-admin-header__menu-item">

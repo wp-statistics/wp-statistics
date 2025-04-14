@@ -89,7 +89,8 @@ class SourceCategoryChartDataProvider extends AbstractChartDataProvider
         if (!empty($thisPeriodTotal)) {
             $this->addChartDataset(
                 esc_html__('Total', 'wp-statistics'),
-                array_values($thisPeriodTotal)
+                array_values($thisPeriodTotal),
+                'total'
             );
         }
     }

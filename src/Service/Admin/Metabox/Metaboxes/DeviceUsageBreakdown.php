@@ -1,6 +1,7 @@
 <?php
 namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
 use WP_STATISTICS\Menus;
@@ -35,12 +36,14 @@ class DeviceUsageBreakdown extends BaseMetabox
     {
         $args = $this->getFilters();
 
+        $isTodayOrFutureDate = DateTime::isTodayOrFutureDate($args['date']['to'] ?? null);
+
         $data = array_merge($this->dataProvider->getDeviceChartData($args), [
             'tag_id' => 'wps-device-usage-breakdown',
             'url'    => WP_STATISTICS_URL . 'assets/images/no-data/vector-4.svg'
         ]);
 
-        $output = View::load('metabox/horizontal-bar', ['data' => $data], true);
+        $output = View::load('metabox/horizontal-bar', ['data' => $data, 'filters' => $args, 'isTodayOrFutureDate' => $isTodayOrFutureDate], true);
 
         return [
             'output'    => $output,

@@ -688,7 +688,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     align-items: center;
     gap: 26px;
 
-    & > a, & > #feedback-bird-app {
+    & > a{
       @media(max-width: 1030px) {
         display: none !important;
       }
@@ -751,20 +751,6 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       }
     }
 
-    .optimization {
-      width: 19px;
-      height: 19px;
-      outline: none !important;
-      box-shadow: none !important;
-      transition: 0.3s all ease-out;
-      opacity: 70%;
-      background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjIwIiBoZWlnaHQ9IjE5IiB2aWV3Qm94PSIwIDAgMjAgMTkiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnPgo8cGF0aCBkPSJNNC40NTgyNSA5LjUwMDY1QzQuNDU4MjUgNi40NDAwOCA2LjkzOTM0IDMuOTU4OTggOS45OTk5MiAzLjk1ODk4TTEzLjU2MjMgNS45MzgxNUw5Ljk5OTg0IDkuNTAwNjVNMTcuOTE2NiA5LjUwMDY1QzE3LjkxNjYgMTMuODcyOSAxNC4zNzIxIDE3LjQxNzMgOS45OTk5MiAxNy40MTczQzUuNjI3NjYgMTcuNDE3MyAyLjA4MzI1IDEzLjg3MjkgMi4wODMyNSA5LjUwMDY1QzIuMDgzMjUgNS4xMjg0IDUuNjI3NjYgMS41ODM5OCA5Ljk5OTkyIDEuNTgzOThDMTQuMzcyMSAxLjU4Mzk4IDE3LjkxNjYgNS4xMjg0IDE3LjkxNjYgOS41MDA2NVpNMTAuNzkxNiA5LjUwMDY1QzEwLjc5MTYgOS45Mzc4OSAxMC40MzcyIDEwLjI5MjMgOS45OTk5MiAxMC4yOTIzQzkuNTYyNjggMTAuMjkyMyA5LjIwODI1IDkuOTM3ODkgOS4yMDgyNSA5LjUwMDY1QzkuMjA4MjUgOS4wNjM0MSA5LjU2MjY4IDguNzA4OTkgOS45OTk5MiA4LjcwODk5QzEwLjQzNzIgOC43MDg5OSAxMC43OTE2IDkuMDYzNDEgMTAuNzkxNiA5LjUwMDY1WiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L2c+Cjwvc3ZnPgo=") center center/100% no-repeat;
-
-      &:hover, &.active {
-        opacity: 1;
-      }
-    }
-
     .wps-notifications{
       width: 19px;
       height: 19px;
@@ -816,23 +802,6 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       }
     }
 
-    .c-fbb-btn--default {
-      transition: 0.3s all ease-out;
-      background-color: transparent !important;
-      width: 19px;
-      height: 19px;
-      padding: 0;
-      opacity: 70%;
-      background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjIwIiBoZWlnaHQ9IjE5IiB2aWV3Qm94PSIwIDAgMjAgMTkiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnPgo8cGF0aCBkPSJNNi44MzMzMSAxMS4wODRDNi44MzMzMSAxMS4wODQgOC4wMjA4MSAxMi42NjczIDkuOTk5OTggMTIuNjY3M0MxMS45NzkxIDEyLjY2NzMgMTMuMTY2NiAxMS4wODQgMTMuMTY2NiAxMS4wODRNMTIuMzc1IDcuMTI1NjVIMTIuMzgyOU03LjYyNDk4IDcuMTI1NjVINy42MzI5TTE3LjkxNjYgOS41MDA2NUMxNy45MTY2IDEzLjg3MjkgMTQuMzcyMiAxNy40MTczIDkuOTk5OTggMTcuNDE3M0M1LjYyNzcyIDE3LjQxNzMgMi4wODMzMSAxMy44NzI5IDIuMDgzMzEgOS41MDA2NUMyLjA4MzMxIDUuMTI4MzkgNS42Mjc3MiAxLjU4Mzk4IDkuOTk5OTggMS41ODM5OEMxNC4zNzIyIDEuNTgzOTggMTcuOTE2NiA1LjEyODM5IDE3LjkxNjYgOS41MDA2NVpNMTIuNzcwOCA3LjEyNTY1QzEyLjc3MDggNy4zNDQyNiAxMi41OTM2IDcuNTIxNDggMTIuMzc1IDcuNTIxNDhDMTIuMTU2NCA3LjUyMTQ4IDExLjk3OTEgNy4zNDQyNiAxMS45NzkxIDcuMTI1NjVDMTEuOTc5MSA2LjkwNzA0IDEyLjE1NjQgNi43Mjk4MiAxMi4zNzUgNi43Mjk4MkMxMi41OTM2IDYuNzI5ODIgMTIuNzcwOCA2LjkwNzA0IDEyLjc3MDggNy4xMjU2NVpNOC4wMjA4MSA3LjEyNTY1QzguMDIwODEgNy4zNDQyNiA3Ljg0MzU5IDcuNTIxNDggNy42MjQ5OCA3LjUyMTQ4QzcuNDA2MzcgNy41MjE0OCA3LjIyOTE1IDcuMzQ0MjYgNy4yMjkxNSA3LjEyNTY1QzcuMjI5MTUgNi45MDcwNCA3LjQwNjM3IDYuNzI5ODIgNy42MjQ5OCA2LjcyOTgyQzcuODQzNTkgNi43Mjk4MiA4LjAyMDgxIDYuOTA3MDQgOC4wMjA4MSA3LjEyNTY1WiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L2c+Cjwvc3ZnPgo=") center center/100% no-repeat;
-
-      &:hover {
-        opacity: 1;
-      }
-
-      svg, & > span {
-        display: none;
-      }
-    }
   }
 
 
@@ -1252,7 +1221,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   margin: 10px 0;
 }
 
-.wps-wrap textarea:not(#feedback-bird-app textarea) {
+.wps-wrap textarea{
   max-width: calc(100% - 45px);
 }
 
@@ -3221,34 +3190,6 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   &:checked {
     ~ .wps-mobileMenuContent {
       display: block;
-
-      #feedback-bird-app {
-        padding: 12px;
-      }
-
-      #feedback-bird-app .c-fbb-btn--default > span {
-        display: flex !important;
-        align-items: center;
-        font-size: 14px;
-        line-height: 17px;
-        font-weight: 400;
-      }
-
-      .c-fbb-btn--default > span:before {
-        content: '';
-        margin-right: 8px;
-        width: 18px;
-        height: 18px;
-        display: inline-flex;
-        background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE5IiBoZWlnaHQ9IjE5IiB2aWV3Qm94PSIwIDAgMTkgMTkiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMF8xNjg3NF8yNDU1MDEpIj4KPHBhdGggZD0iTTYuMzMzMjUgMTEuMDg0QzYuMzMzMjUgMTEuMDg0IDcuNTIwNzUgMTIuNjY3MyA5LjQ5OTkyIDEyLjY2NzNDMTEuNDc5MSAxMi42NjczIDEyLjY2NjYgMTEuMDg0IDEyLjY2NjYgMTEuMDg0TTExLjg3NDkgNy4xMjU2NUgxMS44ODI4TTcuMTI0OTIgNy4xMjU2NUg3LjEzMjg0TTE3LjQxNjYgOS41MDA2NUMxNy40MTY2IDEzLjg3MjkgMTMuODcyMSAxNy40MTczIDkuNDk5OTIgMTcuNDE3M0M1LjEyNzY2IDE3LjQxNzMgMS41ODMyNSAxMy44NzI5IDEuNTgzMjUgOS41MDA2NUMxLjU4MzI1IDUuMTI4MzkgNS4xMjc2NiAxLjU4Mzk4IDkuNDk5OTIgMS41ODM5OEMxMy44NzIxIDEuNTgzOTggMTcuNDE2NiA1LjEyODM5IDE3LjQxNjYgOS41MDA2NVpNMTIuMjcwOCA3LjEyNTY1QzEyLjI3MDggNy4zNDQyNiAxMi4wOTM1IDcuNTIxNDggMTEuODc0OSA3LjUyMTQ4QzExLjY1NjMgNy41MjE0OCAxMS40NzkxIDcuMzQ0MjYgMTEuNDc5MSA3LjEyNTY1QzExLjQ3OTEgNi45MDcwNCAxMS42NTYzIDYuNzI5ODIgMTEuODc0OSA2LjcyOTgyQzEyLjA5MzUgNi43Mjk4MiAxMi4yNzA4IDYuOTA3MDQgMTIuMjcwOCA3LjEyNTY1Wk03LjUyMDc1IDcuMTI1NjVDNy41MjA3NSA3LjM0NDI2IDcuMzQzNTMgNy41MjE0OCA3LjEyNDkyIDcuNTIxNDhDNi45MDYzMSA3LjUyMTQ4IDYuNzI5MDkgNy4zNDQyNiA2LjcyOTA5IDcuMTI1NjVDNi43MjkwOSA2LjkwNzA0IDYuOTA2MzEgNi43Mjk4MiA3LjEyNDkyIDYuNzI5ODJDNy4zNDM1MyA2LjcyOTgyIDcuNTIwNzUgNi45MDcwNCA3LjUyMDc1IDcuMTI1NjVaIiBzdHJva2U9IiMyOTJEMzIiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9nPgo8ZGVmcz4KPGNsaXBQYXRoIGlkPSJjbGlwMF8xNjg3NF8yNDU1MDEiPgo8cmVjdCB3aWR0aD0iMTkiIGhlaWdodD0iMTkiIGZpbGw9IndoaXRlIi8+CjwvY2xpcFBhdGg+CjwvZGVmcz4KPC9zdmc+Cg==") center center/contain no-repeat;
-      }
-
-      .c-fbb-btn--default {
-        background: none !important;
-        color: #4E5154 !important;
-        width: 100%;
-        opacity: 1 !important;
-      }
 
       a {
         opacity: 1;
