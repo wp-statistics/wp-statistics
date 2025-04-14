@@ -97,12 +97,24 @@ class AjaxBackgroundProcessFactory
     public static function isDataMigrated($key)
     {
         $isFresh = get_option('wp_statistics_is_fresh', false);
+        $jobs    = Option::getOptionGroup('ajax_background_process', 'jobs', []);
 
         if ($isFresh) {
+            if (empty($jobs)) {
+                $jobs = array_keys(self::$migrations);
+                Option::saveOptionGroup('jobs', $jobs, 'ajax_background_process');
+            }
+
             return true;
         }
 
-        self::$doneJobs = ! empty(self::$doneJobs) ? self::$doneJobs : Option::getOptionGroup('ajax_background_process', 'jobs', []);
+        $isDone = Option::getOptionGroup('ajax_background_process', 'is_done', false);
+
+        if ($isDone) {
+            return true;
+        }
+
+        self::$doneJobs = ! empty(self::$doneJobs) ? self::$doneJobs : $jobs;
 
         if (empty(self::$doneJobs)) {
             return false;
