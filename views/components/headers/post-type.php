@@ -8,6 +8,8 @@ $postId           = Request::get('post_id');
 $postAuthor       = get_post_field('post_author', $postId);
 $postType         = get_post_type($postId);
 $postTypeSingular = Helper::getPostTypeName($postType, true);
+$datePublished    = get_the_date(Helper::getDefaultDateFormat(true), $postId);
+$dateUpdated      = get_the_modified_date(Helper::getDefaultDateFormat(true), $postId);
 ?>
 
 <div class="wps-content-analytics-header">
@@ -43,8 +45,10 @@ $postTypeSingular = Helper::getPostTypeName($postType, true);
                 esc_html($postTypeSingular)
             )
             ?>
-            <span class="wps-content-analytics-header__date_published"><?php echo esc_html(get_the_date(Helper::getDefaultDateFormat(true), $postId)); ?></span>
-            <span class="wps-content-analytics-header__date_updated"><span><?php echo esc_html__('Updated on', 'wp-statistics'); ?></span> <?php echo esc_html(get_the_modified_date(Helper::getDefaultDateFormat(true), $postId)); ?></span>
+            <span class="wps-content-analytics-header__date_published"><?php echo esc_html($datePublished); ?></span>
+            <?php if($datePublished !== $dateUpdated): ?>
+                <span class="wps-content-analytics-header__date_updated"><span><?php echo esc_html__('Updated on', 'wp-statistics'); ?></span> <?php echo esc_html($dateUpdated); ?></span>
+            <?php endif; ?>
             <span class="wps-content-analytics-header__author">
                 <span><?php echo esc_html__('Author:', 'wp-statistics') ?></span> <a href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $postAuthor]) ?>"><?php echo esc_html(get_the_author_meta('display_name', $postAuthor)); ?></a>
             </span>

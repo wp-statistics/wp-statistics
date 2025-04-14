@@ -91,6 +91,7 @@ if (!window.WpStatisticsUserTracker) {
                 const xhr = new XMLHttpRequest();
                 xhr.open('POST', requestUrl, true);
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.setRequestHeader("X-WPS-TS", this.base64Encode(Math.floor(Date.now() / 1000)));
                 xhr.send(params);
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState === 4) {
@@ -126,6 +127,7 @@ if (!window.WpStatisticsUserTracker) {
                 const xhr = new XMLHttpRequest();
                 xhr.open('POST', requestUrl, true);
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.setRequestHeader("X-WPS-TS", this.base64Encode(Math.floor(Date.now() / 1000)));
                 xhr.send(params);
             } catch (error) {
                 console.error('WP Statistics: Error sending online user request:', error);

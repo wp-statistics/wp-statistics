@@ -368,6 +368,7 @@ class Admin_Assets
             'str_this_month'               => __('This month', 'wp-statistics'),
             'str_last_month'               => __('Last month', 'wp-statistics'),
             'str_7days'                    => __('Last 7 days', 'wp-statistics'),
+            'str_28days'                   => __('Last 28 days', 'wp-statistics'),
             'str_30days'                   => __('Last 30 days', 'wp-statistics'),
             'str_90days'                   => __('Last 90 days', 'wp-statistics'),
             'str_6months'                  => __('Last 6 months', 'wp-statistics'),

@@ -1,5 +1,6 @@
 <?php
 
+use WP_Statistics\Option;
 use WP_Statistics\Components\View;
 use WP_Statistics\Decorators\VisitorDecorator;
 
@@ -16,7 +17,7 @@ $visitor = $data['visitor'];
             <?php View::load("components/session-details", ['visitor' => $visitor]); ?>
         </div>
 
-        <?php if (!empty($visitor->isLoggedInUser())) : ?>
+        <?php if (!empty($visitor->isLoggedInUser()) && Option::get('visitors_log')) : ?>
             <div class="wps-card">
                 <div class="wps-card__title">
                     <h2><?php esc_html_e('Account Information', 'wp-statistics'); ?></h2>
