@@ -1,5 +1,8 @@
 if (!window.WpStatisticsUserTracker) {
     window.WpStatisticsUserTracker = {
+        // User online interval id
+        userOnlineIntervalId: null,
+
         // Track URL changes for AJAX in Gutenberg SPA mode using History API
         lastUrl: window.location.href,
 
@@ -137,7 +140,13 @@ if (!window.WpStatisticsUserTracker) {
                 return; // Stop if userOnline option is false
             }
 
-            const userOnlineInterval = setInterval(
+            // Clear any existing interval to avoid duplicates
+            if (this.userOnlineIntervalId !== null) {
+                clearInterval(this.userOnlineIntervalId);
+                this.userOnlineIntervalId = null;
+            }
+
+            this.userOnlineIntervalId = setInterval(
                 function () {
                     if ((!WP_Statistics_Tracker_Object.option.dntEnabled || (WP_Statistics_Tracker_Object.option.dntEnabled && this.isDndActive !== 1)) && this.hitRequestSuccessful) {
                         this.sendOnlineUserRequest();
@@ -151,7 +160,10 @@ if (!window.WpStatisticsUserTracker) {
                     clearTimeout(userActivityTimeout);
 
                     userActivityTimeout = setTimeout(() => {
-                        clearInterval(userOnlineInterval);
+                        if (this.userOnlineIntervalId !== null) {
+                            clearInterval(this.userOnlineIntervalId);
+                            this.userOnlineIntervalId = null;
+                        }
                     }, 30 * 60 * 1000);
                 });
             });
