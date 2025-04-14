@@ -7,11 +7,11 @@ use WP_STATISTICS\User;
 
 class UserDecorator
 {
-    private $visitor;
+    private $user;
 
-    public function __construct($visitor)
+    public function __construct($userId)
     {
-        $this->visitor = $visitor;
+        $this->user = get_user_by('id', $userId);
     }
 
     /**
@@ -21,7 +21,7 @@ class UserDecorator
      */
     public function getId()
     {
-        return $this->visitor->user_id ?? null;
+        return $this->user->ID ?? null;
     }
 
     /**
@@ -31,7 +31,7 @@ class UserDecorator
      */
     public function getDisplayName()
     {
-        return $this->visitor->display_name ?? null;
+        return $this->user->display_name ?? null;
     }
 
     /**
@@ -41,7 +41,7 @@ class UserDecorator
      */
     public function getEmail()
     {
-        return $this->visitor->user_email ?? null;
+        return $this->user->user_email ?? null;
     }
 
     /**
@@ -51,11 +51,7 @@ class UserDecorator
      */
     public function getRole()
     {
-        if (User::exists($this->visitor->user_id)) {
-            return User::get($this->visitor->user_id)['role'][0] ?? null;
-        }
-
-        return null;
+        return $this->user->roles[0] ?? null;
     }
 
     /**
@@ -65,7 +61,7 @@ class UserDecorator
      */
     public function getRegisteredDate()
     {
-        return $this->visitor->user_registered ? date_i18n(Helper::getDefaultDateFormat(true), strtotime($this->visitor->user_registered)) : null;
+        return $this->user->user_registered ? date_i18n(Helper::getDefaultDateFormat(true), strtotime($this->user->user_registered)) : null;
     }
 
     /**
@@ -75,7 +71,7 @@ class UserDecorator
      */
     public function getLastLogin()
     {
-        $lastLogin = User::getLastLogin($this->visitor->user_id);
+        $lastLogin = User::getLastLogin($this->getId());
         return $lastLogin ? date_i18n(Helper::getDefaultDateFormat(true), $lastLogin) : null;
     }
 }

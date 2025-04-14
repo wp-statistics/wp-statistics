@@ -12,6 +12,7 @@
 - **Removal:** Removed the `Host Exclusions` setting.
 - **Fix:** Resolved chart color bug in RTL layout.
 - **Fix:** Fixed word count background process notice issue.
+- **Fix:** Removed redundant left join on users table in visitor insights page to improve query performance.
 
 = 14.13.1 - 2025-04-08 =
 - **Enhancement:** Improved filter logic to avoid unnecessary requests.
