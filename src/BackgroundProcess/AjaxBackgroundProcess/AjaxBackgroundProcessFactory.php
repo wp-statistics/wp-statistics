@@ -96,7 +96,9 @@ class AjaxBackgroundProcessFactory
      */
     public static function isDataMigrated($key)
     {
-        if (Install::isFresh()) {
+        $isFresh = get_option('wp_statistics_is_fresh', false);
+
+        if ($isFresh) {
             return true;
         }
 
