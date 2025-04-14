@@ -13,6 +13,7 @@
 - **Fix:** Resolved chart color bug in RTL layout.
 - **Fix:** Fixed word count background process notice issue.
 - **Fix:** Removed redundant left join on users table in visitor insights page to improve query performance.
+- **Fix:** Resolved Interactivity API compatibility problems.
 - **Enhancement:** Added Source Category filter into the visitors report filters.
 
 = 14.13.1 - 2025-04-08 =
