@@ -96,6 +96,10 @@ class AjaxBackgroundProcessFactory
      */
     public static function isDataMigrated($key)
     {
+        if (Install::isFresh()) {
+            return true;
+        }
+
         self::$doneJobs = ! empty(self::$doneJobs) ? self::$doneJobs : Option::getOptionGroup('ajax_background_process', 'jobs', []);
 
         if (empty(self::$doneJobs)) {
