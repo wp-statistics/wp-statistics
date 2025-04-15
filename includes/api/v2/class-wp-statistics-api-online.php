@@ -5,6 +5,7 @@ namespace WP_STATISTICS\Api\v2;
 use Exception;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Hits;
+use WP_Statistics\Service\Tracking\TrackingFactory;
 
 class CheckUserOnline extends \WP_STATISTICS\RestAPI
 {
@@ -43,7 +44,7 @@ class CheckUserOnline extends \WP_STATISTICS\RestAPI
 
         try {
             Helper::validateHitRequest();
-            Hits::recordOnline();
+            TrackingFactory::hits()->recordOnline();
 
             $responseData['status'] = true;
 

@@ -26,6 +26,9 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'WP_STATISTICS\\Abstracts\\BaseTracking' => __DIR__ . '/../..' . '/src/Abstracts/BaseTracking.php',
+        'WP_STATISTICS\\Service\\Tracking\\Core\\Hits' => __DIR__ . '/../..' . '/src/Service/Tracking/Core/Hits.php',
+        'WP_STATISTICS\\Service\\Tracking\\Core\\UserOnline' => __DIR__ . '/../..' . '/src/Service/Tracking/Core/UserOnline.php',
         'WP_Statistics\\Abstracts\\BaseMetabox' => __DIR__ . '/../..' . '/src/Abstracts/BaseMetabox.php',
         'WP_Statistics\\Abstracts\\BaseModel' => __DIR__ . '/../..' . '/src/Abstracts/BaseModel.php',
         'WP_Statistics\\Abstracts\\BasePage' => __DIR__ . '/../..' . '/src/Abstracts/BasePage.php',
@@ -377,6 +380,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Resources\\Core\\ResourceManager' => __DIR__ . '/../..' . '/src/Service/Resources/Core/ResourceManager.php',
         'WP_Statistics\\Service\\Resources\\Core\\ResourcesIdentifier' => __DIR__ . '/../..' . '/src/Service/Resources/Core/ResourcesIdentifier.php',
         'WP_Statistics\\Service\\Resources\\ResourcesFactory' => __DIR__ . '/../..' . '/src/Service/Resources/ResourcesFactory.php',
+        'WP_Statistics\\Service\\Tracking\\TrackingFactory' => __DIR__ . '/../..' . '/src/Service/Tracking/TrackingFactory.php',
         'WP_Statistics\\Traits\\ErrorLoggerTrait' => __DIR__ . '/../..' . '/src/Traits/ErrorLoggerTrait.php',
         'WP_Statistics\\Traits\\ObjectCacheTrait' => __DIR__ . '/../..' . '/src/Traits/ObjectCacheTrait.php',
         'WP_Statistics\\Traits\\TransientCacheTrait' => __DIR__ . '/../..' . '/src/Traits/TransientCacheTrait.php',

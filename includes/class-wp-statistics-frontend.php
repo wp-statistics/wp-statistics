@@ -6,6 +6,7 @@ use WP_Statistics\Components\Assets;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_Statistics\Service\Resources\ResourcesFactory;
+use WP_Statistics\Service\Tracking\TrackingFactory;
 
 class Frontend
 {
@@ -36,7 +37,7 @@ class Frontend
             /**
              * Get default params
              */
-            $params = array_merge([Hits::$rest_hits_key => 1], Helper::getHitsDefaultParams());
+            $params = array_merge([TrackingFactory::hits()->getRestHitsKey() => 1], Helper::getHitsDefaultParams());
 
             /**
              * Handle the bypass ad blockers

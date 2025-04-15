@@ -7,6 +7,9 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'WP_STATISTICS\\Abstracts\\BaseTracking' => $baseDir . '/src/Abstracts/BaseTracking.php',
+    'WP_STATISTICS\\Service\\Tracking\\Core\\Hits' => $baseDir . '/src/Service/Tracking/Core/Hits.php',
+    'WP_STATISTICS\\Service\\Tracking\\Core\\UserOnline' => $baseDir . '/src/Service/Tracking/Core/UserOnline.php',
     'WP_Statistics\\Abstracts\\BaseMetabox' => $baseDir . '/src/Abstracts/BaseMetabox.php',
     'WP_Statistics\\Abstracts\\BaseModel' => $baseDir . '/src/Abstracts/BaseModel.php',
     'WP_Statistics\\Abstracts\\BasePage' => $baseDir . '/src/Abstracts/BasePage.php',
@@ -358,6 +361,7 @@ return array(
     'WP_Statistics\\Service\\Resources\\Core\\ResourceManager' => $baseDir . '/src/Service/Resources/Core/ResourceManager.php',
     'WP_Statistics\\Service\\Resources\\Core\\ResourcesIdentifier' => $baseDir . '/src/Service/Resources/Core/ResourcesIdentifier.php',
     'WP_Statistics\\Service\\Resources\\ResourcesFactory' => $baseDir . '/src/Service/Resources/ResourcesFactory.php',
+    'WP_Statistics\\Service\\Tracking\\TrackingFactory' => $baseDir . '/src/Service/Tracking/TrackingFactory.php',
     'WP_Statistics\\Traits\\ErrorLoggerTrait' => $baseDir . '/src/Traits/ErrorLoggerTrait.php',
     'WP_Statistics\\Traits\\ObjectCacheTrait' => $baseDir . '/src/Traits/ObjectCacheTrait.php',
     'WP_Statistics\\Traits\\TransientCacheTrait' => $baseDir . '/src/Traits/TransientCacheTrait.php',
