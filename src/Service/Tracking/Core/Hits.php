@@ -171,48 +171,10 @@ class Hits extends BaseTracking
             Visitor::save_visitors_relationships($pageId, $visitorId);
         }
 
-        $this->recordOnline($visitorProfile, $exclusion, $pageId);
+        TrackingFactory::userOnline()->recordIfAllowed($visitorProfile, $exclusion, $pageId);
         $this->errorListener();
 
         return $exclusion;
-    }
-
-    /**
-     * Record user as online for this request.
-     *
-     * @param VisitorProfile|null $visitorProfile Visitor profile to use.
-     * @param array|null $exclusion Optional exclusion check result.
-     * @param int|null $pageId Page ID associated with the visit.
-     * @return void
-     * @throws Exception If excluded from tracking.
-     */
-    protected function recordOnline($visitorProfile = null, $exclusion = null, $pageId = null)
-    {
-        $userOnline = TrackingFactory::userOnline();
-
-        if (!$userOnline::isActive()) {
-            return;
-        }
-
-        $visitorProfile = $this->resolveProfile($visitorProfile);
-
-        if (!$exclusion) {
-            $exclusion = Exclusion::check($visitorProfile);
-        }
-
-        if ($exclusion['exclusion_match']) {
-            Exclusion::record($exclusion);
-            $this->errorListener();
-            throw new Exception($exclusion['exclusion_reason'], 200);
-        }
-
-        $args = [];
-        if ($pageId) {
-            $args['page_id'] = $pageId;
-        }
-
-        $userOnline->record($visitorProfile, $args);
-        $this->errorListener();
     }
 
     /**

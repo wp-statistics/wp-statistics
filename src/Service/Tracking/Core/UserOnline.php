@@ -7,12 +7,14 @@ use WP_STATISTICS\Country;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Pages;
 use WP_STATISTICS\DB;
+use WP_STATISTICS\Exclusion;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\IP;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Referred;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Analytics\VisitorProfile;
+use WP_Statistics\Traits\ErrorLoggerTrait;
 use WP_STATISTICS\User;
 use WP_STATISTICS\Visitor;
 
@@ -24,6 +26,8 @@ use WP_STATISTICS\Visitor;
  */
 class UserOnline extends BaseTracking
 {
+    use ErrorLoggerTrait;
+
     /**
      * Option key used to store the last reset timestamp in the database.
      *
@@ -325,5 +329,41 @@ class UserOnline extends BaseTracking
         }
 
         return $list;
+    }
+
+    /**
+     * Check exclusion and record user as online if allowed.
+     *
+     * @param VisitorProfile|null $profile The visitor profile instance (optional).
+     * @param array|null $exclusion Optional pre-checked exclusion result.
+     * @param int|null $pageId Optional page ID to associate with the session.
+     * @return void
+     * @throws \Exception If user is excluded from tracking.
+     */
+    public function recordIfAllowed($profile = null, $exclusion = null, $pageId = null)
+    {
+        if (!self::isActive()) {
+            return;
+        }
+
+        $profile = $this->resolveProfile($profile);
+
+        if (!$exclusion) {
+            $exclusion = Exclusion::check($profile);
+        }
+
+        if (!empty($exclusion['exclusion_match'])) {
+            Exclusion::record($exclusion);
+            $this->errorListener();
+            throw new \Exception($exclusion['exclusion_reason'], 200);
+        }
+
+        $args = [];
+        if ($pageId) {
+            $args['page_id'] = $pageId;
+        }
+
+        $this->record($profile, $args);
+        $this->errorListener();
     }
 }
