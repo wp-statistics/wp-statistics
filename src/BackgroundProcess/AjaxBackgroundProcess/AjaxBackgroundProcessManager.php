@@ -148,13 +148,15 @@ class AjaxBackgroundProcessManager
             '<div id="wp-statistics-background-process-notice">
                 <p><strong>%1$s</strong><br>%2$s</p>
                 <p>%3$s</p>
-                <p><a href="%4$s" id="start-migration-btn" class="button-primary">%5$s</a></p>
+                <p><a href="%4$s" id="start-migration-btn" class="button-primary">%5$s</a><a href="%6$s" style="margin: 10px" target="_blank">%7$s</a></p>
             </div>',
             esc_html__('WP Statistics: Migration Required', 'wp-statistics'),
             __('A data migration is needed for WP Statistics. Click <strong>Start Migration</strong> below to begin.', 'wp-statistics'),
             __('<strong>Note:</strong> If you leave this page before the migration finishes, the process will pause. You can always return later to resume.', 'wp-statistics'),
             esc_url($migrationUrl),
-            esc_html__('Start Migration', 'wp-statistics')
+            esc_html__('Start Migration', 'wp-statistics'),
+            'https://wp-statistics.com/resources/database-migration-process-guide/?utm_source=wp-statistics&utm_medium=link&utm_campaign=doc',
+            esc_html__('Read More', 'wp-statistics')
         );
 
         Notice::addNotice($message, 'start_ajax_background_process', 'warning', false);
