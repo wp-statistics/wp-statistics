@@ -131,7 +131,7 @@ class Admin_Assets
     public function admin_styles()
     {
         // Load Admin Css
-        wp_enqueue_style(self::$prefix, self::url('app.min.css'), array(), self::version());
+        wp_enqueue_style(self::$prefix, self::url('../../assets/js/app.min.css'), array(), self::version());
     }
 
     /**
@@ -154,7 +154,7 @@ class Admin_Assets
         }
 
         // Load Admin Js
-        wp_enqueue_script(self::$prefix, self::url('admin.min.js'), array('jquery'), self::version(), ['in_footer' => true]);
+        wp_enqueue_script(self::$prefix, self::url('../../assets/js/admin.min.js'), array('jquery'), self::version(), ['in_footer' => true]);
         wp_localize_script(self::$prefix, 'wps_global', self::wps_global($hook));
 
         // Add Thick box
