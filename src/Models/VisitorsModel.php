@@ -641,7 +641,13 @@ class VisitorsModel extends BaseModel
             ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
-            ->whereNotNull('visitor.referred')
+            ->whereRaw("
+                AND (
+                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    OR
+                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                )
+            ")
             ->whereDate('visitor.last_counter', $args['date'])
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
@@ -675,7 +681,13 @@ class VisitorsModel extends BaseModel
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
             ->whereDate('visitor.last_counter', $args['date'])
-            ->whereNotNull('visitor.referred');
+            ->whereRaw("
+                AND (
+                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    OR
+                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                )
+            ");
 
         // When source_channel is `unassigned`, only get visitors without source_channel
         if ($args['source_channel'] === 'unassigned') {

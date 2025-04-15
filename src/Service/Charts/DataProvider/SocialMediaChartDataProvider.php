@@ -30,6 +30,8 @@ class SocialMediaChartDataProvider extends AbstractChartDataProvider
         // Rest per_page to get all results
         $this->args['per_page'] = false;
 
+        $this->args['not_null'] = false;
+
         $this->visitorsModel = new VisitorsModel();
     }
 
