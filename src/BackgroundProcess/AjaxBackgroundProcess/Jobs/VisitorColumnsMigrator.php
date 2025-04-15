@@ -109,9 +109,9 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
      */
     protected function isAlreadyDone()
     {
-        $status = Option::getOptionGroup('ajax_background_process', 'status', null);
+        $status = Option::getOptionGroup('ajax_background_process', 'status', false);
 
-        if ($status === 'progress' || $status === 'done') {
+        if ($status === false || in_array($status, ['progress', 'done'], true)) {
             return;
         }
 

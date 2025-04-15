@@ -136,14 +136,8 @@ class MigrationHandler
      * @param mixed $process Background process instance.
      * @return void
      */
-    private static function processMigrations($versions, $mappings, $process, $force = false)
+    private static function processMigrations($versions, $mappings, $process)
     {
-        $manualTasks = Option::getOptionGroup('db', 'manual_migration_tasks', []);
-
-        if (! empty($manualTasks)) {
-            Option::saveOptionGroup('migrated', true, 'db');
-        }
-
         foreach ($versions as $version) {
             $migrations = $mappings[$version];
 
@@ -155,8 +149,6 @@ class MigrationHandler
                 );
             }
         }
-
-        Option::saveOptionGroup('manual_migration_tasks', $manualTasks, 'db');
     }
 
     /**
@@ -246,7 +238,7 @@ class MigrationHandler
         }
 
         $migrationData = self::collectMigrationData();
-        self::processMigrations($migrationData['versions'], $migrationData['mappings'], $schemaProcess, true);
+        self::processMigrations($migrationData['versions'], $migrationData['mappings'], $schemaProcess);
 
         $manualTasks = Option::getOptionGroup('db', 'manual_migration_tasks', []);
 
