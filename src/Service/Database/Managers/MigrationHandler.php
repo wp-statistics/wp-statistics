@@ -145,15 +145,12 @@ class MigrationHandler
         }
 
         foreach ($versions as $version) {
-            $migrations       = $mappings[$version];
-            $hasDataMigration = self::hasDataMigration($migrations) || $force;
+            $migrations = $mappings[$version];
 
             foreach ($migrations as $migration) {
                 self::processMigrationMethods(
                     $version,
                     $migration,
-                    $hasDataMigration,
-                    $manualTasks,
                     $process
                 );
             }
@@ -163,62 +160,31 @@ class MigrationHandler
     }
 
     /**
-     * Check if any migrations include data migrations.
-     *
-     * @param array $migrations List of migrations.
-     * @return bool Returns true if any data migrations exist.
-     */
-    private static function hasDataMigration($migrations)
-    {
-        foreach ($migrations as $migration) {
-            if ($migration['type'] === 'data') {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Process migration methods for a specific version.
      *
      * @param string $version Current migration version.
      * @param array $migration Migration methods for the version.
-     * @param bool $hasDataMigration Indicates if data migrations are involved.
-     * @param array $manualTasks Existing manual tasks.
      * @param mixed $process Background process instance.
      * @return void
      */
-    private static function processMigrationMethods(
-        $version,
-        $migration,
-        $hasDataMigration,
-        &$manualTasks,
-        $process
-    ) {
+    private static function processMigrationMethods( $version, $migration, $process ) {
         $autoMigrationTasks = Option::getOptionGroup('db', 'auto_migration_tasks', []);
 
         foreach ($migration['methods'] as $method) {
-            if ($hasDataMigration || !empty($manualTasks)) {
-                $manualTasks[$version][$method] = [
-                    'class' => $migration['class'],
-                    'type' => $migration['type']
-                ];
-            } else {
-                $taskKey = $method . '_' . $version;
+            $taskKey = $method . '_' . $version;
 
-                if (! empty($autoMigrationTasks[$taskKey])) {
-                    continue;
-                }
-
-                $autoMigrationTasks[$taskKey] = true;
-
-                $process->push_to_queue([
-                    'class' => $migration['class'],
-                    'method' => $method,
-                    'version' => $version,
-                ]);
+            if (! empty($autoMigrationTasks[$taskKey])) {
+                continue;
             }
-        }
+
+            $autoMigrationTasks[$taskKey] = true;
+
+            $process->push_to_queue([
+                'class' => $migration['class'],
+                'method' => $method,
+                'version' => $version,
+            ]);
+    }
 
         Option::saveOptionGroup('auto_migration_tasks', $autoMigrationTasks, 'db');
     }
