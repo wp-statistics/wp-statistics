@@ -71,13 +71,13 @@ class UserOnline extends BaseTracking
     {
         global $wpdb;
 
-        if (! self::isActive()) {
+        if (!self::isActive()) {
             return;
         }
 
-        $now = $this->getCurrentTimestamp();
+        $now     = $this->getCurrentTimestamp();
         $timeout = apply_filters('wp_statistics_reset_user_online_time', $this->resetUserTime);
-        $cutoff = $now - $timeout;
+        $cutoff  = $now - $timeout;
 
         $lastRun = get_option($this->resetOptionKey);
         if (is_numeric($lastRun) && ($lastRun + $timeout) > $now) {
@@ -103,13 +103,13 @@ class UserOnline extends BaseTracking
         global $wpdb;
 
         $profile = $this->resolveProfile($profile);
-        $ip = $profile->getProcessedIPForStorage();
+        $ip      = $profile->getProcessedIPForStorage();
 
         $exists = $wpdb->get_var(
             $wpdb->prepare("SELECT COUNT(*) FROM `" . DB::table('useronline') . "` WHERE `ip` = %s", $ip)
         );
 
-        if (! $exists) {
+        if (!$exists) {
             $this->insert($profile, $args);
         } else {
             $this->update($profile, $args);
@@ -127,8 +127,8 @@ class UserOnline extends BaseTracking
     {
         global $wpdb;
 
-        $page = $profile->getCurrentPageType();
-        $agent = $profile->getUserAgent();
+        $page   = $profile->getCurrentPageType();
+        $agent  = $profile->getUserAgent();
         $pageId = Pages::getPageId($page['type'], $page['id']);
 
         $data = [
@@ -154,7 +154,7 @@ class UserOnline extends BaseTracking
 
         $inserted = $wpdb->insert(DB::table('useronline'), $data);
 
-        if (! $inserted && ! empty($wpdb->last_error)) {
+        if (!$inserted && !empty($wpdb->last_error)) {
             \WP_Statistics::log($wpdb->last_error, 'warning');
         }
 
@@ -172,11 +172,11 @@ class UserOnline extends BaseTracking
     {
         global $wpdb;
 
-        $page = $profile->getCurrentPageType();
+        $page   = $profile->getCurrentPageType();
         $userId = $profile->getUserId();
 
         $existing = $profile->isIpActiveToday();
-        if (! empty($existing)) {
+        if (!empty($existing)) {
             $userId = $existing->user_id;
         }
 
@@ -207,12 +207,12 @@ class UserOnline extends BaseTracking
      * @param array $args {
      *     Optional. Query arguments.
      *
-     *     @type string $sql Custom SQL query to use instead of default.
-     *     @type int    $per_page Number of results to retrieve.
-     *     @type int    $offset Offset for pagination.
-     *     @type string $fields Fields to retrieve: 'all', 'count', or custom fields.
-     *     @type string $order Order direction ('ASC' or 'DESC').
-     *     @type string $orderby Field to order by.
+     * @type string $sql Custom SQL query to use instead of default.
+     * @type int $per_page Number of results to retrieve.
+     * @type int $offset Offset for pagination.
+     * @type string $fields Fields to retrieve: 'all', 'count', or custom fields.
+     * @type string $order Order direction ('ASC' or 'DESC').
+     * @type string $orderby Field to order by.
      * }
      * @return array Array of online user records.
      */
@@ -251,12 +251,12 @@ class UserOnline extends BaseTracking
         }
 
         $args['sql'] = esc_sql($args['sql']) . $wpdb->prepare(' LIMIT %d, %d', $args['offset'], $args['per_page']);
-        $result = $wpdb->get_results($args['sql']);
+        $result      = $wpdb->get_results($args['sql']);
 
         $list = [];
         foreach ($result as $items) {
-            $ip = esc_html($items->ip);
-            $agent = esc_html($items->agent);
+            $ip       = esc_html($items->ip);
+            $agent    = esc_html($items->agent);
             $platform = esc_html($items->platform);
 
             $item = [
@@ -267,7 +267,7 @@ class UserOnline extends BaseTracking
             ];
 
             if ($items->user_id > 0 && User::exists($items->user_id)) {
-                $user_data = User::get($items->user_id);
+                $user_data    = User::get($items->user_id);
                 $item['user'] = [
                     'ID'         => $items->user_id,
                     'user_email' => $user_data['user_email'],
@@ -287,21 +287,21 @@ class UserOnline extends BaseTracking
             if (IP::IsHashIP($ip)) {
                 $item['ip'] = ['value' => substr($ip, 6, 10), 'link' => Menus::admin_url('visitors', ['ip' => urlencode($ip)])];
             } else {
-                $item['ip'] = ['value' => $ip, 'link' => Menus::admin_url('visitors', ['ip' => $ip])];
+                $item['ip']  = ['value' => $ip, 'link' => Menus::admin_url('visitors', ['ip' => $ip])];
                 $item['map'] = Helper::geoIPTools($ip);
             }
 
-            $item['country'] = [
+            $item['country']    = [
                 'location' => $items->location,
                 'flag'     => Country::flag($items->location),
                 'name'     => Country::getName($items->location)
             ];
-            $item['city'] = $items->city;
-            $item['region'] = $items->region;
+            $item['city']       = $items->city;
+            $item['region']     = $items->region;
             $item['single_url'] = Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $items->visitor_id]);
 
             $currentTime = current_time('timestamp');
-            $timeDiff = $items->timestamp - $items->created;
+            $timeDiff    = $items->timestamp - $items->created;
 
             if ($items->timestamp == $items->created) {
                 $timeDiff = $currentTime - $items->created;

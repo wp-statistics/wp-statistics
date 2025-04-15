@@ -79,7 +79,7 @@ abstract class BaseTracking
     {
         $exclusion = Exclusion::check($profile);
 
-        if (! empty($exclusion['exclusion_match'])) {
+        if (!empty($exclusion['exclusion_match'])) {
             Exclusion::record($exclusion);
             throw new Exception($exclusion['exclusion_reason'], 200);
         }

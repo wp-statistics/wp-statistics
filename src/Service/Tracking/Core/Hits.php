@@ -47,14 +47,14 @@ class Hits extends BaseTracking
     public function __construct()
     {
         if ($this->isRestHit()) {
-            $this->restHits = (object) $this->getRestParams();
+            $this->restHits = (object)$this->getRestParams();
 
             add_filter('wp_statistics_current_page', [$this, 'setCurrentPage']);
             add_filter('wp_statistics_page_uri', [$this, 'setPageUri']);
             add_filter('wp_statistics_user_id', [$this, 'setCurrentUser']);
         }
 
-        if (! Option::get('exclude_loginpage')) {
+        if (!Option::get('exclude_loginpage')) {
             add_action('init', [$this, 'trackLoginPageCallback']);
         }
 
@@ -81,7 +81,7 @@ class Hits extends BaseTracking
     {
         $data = [];
 
-        if (! $this->isRestHit()) {
+        if (!$this->isRestHit()) {
             return $data;
         }
 
@@ -134,7 +134,7 @@ class Hits extends BaseTracking
      */
     public function setCurrentUser($userId)
     {
-        if (! $userId && isset($GLOBALS['wp_statistics_user_id'])) {
+        if (!$userId && isset($GLOBALS['wp_statistics_user_id'])) {
             $userId = $GLOBALS['wp_statistics_user_id'];
         }
 
@@ -151,7 +151,7 @@ class Hits extends BaseTracking
     public function record($visitorProfile = null)
     {
         $visitorProfile = $this->resolveProfile($visitorProfile);
-        $exclusion = $this->checkAndThrowIfExcluded($visitorProfile);
+        $exclusion      = $this->checkAndThrowIfExcluded($visitorProfile);
 
         if (Visit::active()) {
             Visit::record();
@@ -190,13 +190,13 @@ class Hits extends BaseTracking
     {
         $userOnline = TrackingFactory::userOnline();
 
-        if (! $userOnline::isActive()) {
+        if (!$userOnline::isActive()) {
             return;
         }
 
         $visitorProfile = $this->resolveProfile($visitorProfile);
 
-        if (! $exclusion) {
+        if (!$exclusion) {
             $exclusion = Exclusion::check($visitorProfile);
         }
 
@@ -254,8 +254,8 @@ class Hits extends BaseTracking
             if (
                 $consentLevel === 'disabled' ||
                 Helper::shouldTrackAnonymously() ||
-                ! WpConsentApi::isWpConsentApiActive() ||
-                ! function_exists('wp_has_consent') ||
+                !WpConsentApi::isWpConsentApiActive() ||
+                !function_exists('wp_has_consent') ||
                 wp_has_consent($consentLevel)
             ) {
                 $this->record();
