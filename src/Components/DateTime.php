@@ -176,4 +176,24 @@ class DateTime
 
         return false;
     }
+
+    /**
+     * Checks if the given date is today or in the future.
+     *
+     * @param string $date
+     *
+     * @return bool
+     */
+    public static function isTodayOrFutureDate($date)
+    {
+        $today = date('Y-m-d');
+
+        if (!$date || strtotime($date) === false) {
+            return false;
+        }
+
+        $inputDate = date('Y-m-d', strtotime($date));
+
+        return ($inputDate >= $today);
+    }
 }

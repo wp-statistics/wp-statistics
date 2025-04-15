@@ -246,24 +246,6 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Host Exclusions', 'wp-statistics'); ?></h3></th>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row"><label for="wps_excluded_hosts"><?php esc_html_e('Excluded Hosts', 'wp-statistics'); ?></label></th>
-            <td>
-                <textarea id="wps_excluded_hosts" name="wps_excluded_hosts" rows="5" cols="80" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_hosts')); ?></textarea>
-                <p class="description"><?php echo esc_html__('Provide host names to exclude. Relies on cached IP, not live DNS lookup.', 'wp-statistics'); ?></p><br>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
-<div class="postbox">
-    <table class="form-table">
-        <tbody>
-        <tr valign="top">
             <th scope="row" colspan="2"><h3><?php esc_html_e('General Exclusions', 'wp-statistics'); ?></h3></th>
         </tr>
 

@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Components\DateTime;
 
 class BrowserUsage extends BaseMetabox
 {
@@ -36,6 +37,8 @@ class BrowserUsage extends BaseMetabox
     {
         $args = $this->getFilters();
 
+        $isTodayOrFutureDate = DateTime::isTodayOrFutureDate($args['date']['to'] ?? null);
+
         $data = $this->dataProvider->getBrowsersChartData($args);
 
         $data = array_merge($data, [
@@ -43,7 +46,7 @@ class BrowserUsage extends BaseMetabox
             'url'    => WP_STATISTICS_URL . 'assets/images/no-data/vector-3.svg'
         ]);
 
-        $output = View::load('metabox/horizontal-bar', ['data' => $data], true);
+        $output = View::load('metabox/horizontal-bar', ['data' => $data, 'filters' => $args, 'isTodayOrFutureDate' => $isTodayOrFutureDate], true);
 
         return [
             'output' => $output,

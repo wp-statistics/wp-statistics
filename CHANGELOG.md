@@ -1,5 +1,26 @@
-= 14.13.1 - 2025-04-** =
-- **Fix:** Removed table prefix from shared data.
+= 14.13.2 - 2025-04-** =
+- **New:** Added a 28-day date range into the date picker.
+- **Fix:** Updated messages based on data availability.
+- **Fix:** Fixed inconsistencies in online visitor analytics.
+- **Fix:** Ensured the "Views" column is visible for users with the Editor role on the posts list page.
+- **Fix:** Resolved redundant errors during notification updates.
+- **Fix:** Stop keeping inactive users online after 30m issue
+- **Enhancement:** Performance improvements
+- **Fix:** Only show the update date if it differs from the creation date on the Single Post Statistics page.
+- **Fix:** Fixed hit/online endpoints issues.
+- **Fix:** Fixed filters URL issue on Referrals page.
+- **Removal:** Removed the `Host Exclusions` setting.
+- **Fix:** Resolved chart color bug in RTL layout.
+- **Fix:** Fixed word count background process notice issue.
+- **Fix:** Removed redundant left join on users table in visitor insights page to improve query performance.
+- **Fix:** Resolved Interactivity API compatibility problems.
+
+= 14.13.1 - 2025-04-08 =
+- **Enhancement:** Improved filter logic to avoid unnecessary requests.
+- **Enhancement:** Enhanced source channel detection for more accurate results.
+- **Enhancement:** Removed the FeedbackBird button from the header along with its related functionality.
+- **Fix:** Removed table prefix from shared anonymous data.
+- **Fix:** Fixed `serveObfuscatedAsset` compatibility with URL cleanup features when Bypass Ad-blocker is enabled.
 
 = 14.13 - 2025-04-01 =
 - **New:** Introduced Notifications to receive important updates and promotions.
