@@ -219,6 +219,18 @@ class FilterManager
         return $args;
     }
 
+    /**
+     * Retrieves a list of source channel.
+     *
+     * @return array
+     */
+    public function sourceChannel() {
+        $channels   = SourceChannels::getList();
+        unset($channels['direct']);
+
+        return $channels;
+    }
+
     public function getUser($search) {
         global $wpdb;
 

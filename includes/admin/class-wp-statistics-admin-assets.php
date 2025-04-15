@@ -423,6 +423,7 @@ class Admin_Assets
             'role'                         => __('Role', 'wp-statistics'),
             'latest_page'                  => __('Latest Page', 'wp-statistics'),
             'referrer'                     => __('Referrer', 'wp-statistics'),
+            'source_channel'               => __('Source Category', 'wp-statistics'),
             'online_for'                   => __('Online For', 'wp-statistics'),
             'views'                        => __('Views', 'wp-statistics'),
             'view'                         => __('View', 'wp-statistics'),

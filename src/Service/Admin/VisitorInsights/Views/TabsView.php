@@ -33,12 +33,13 @@ class TabsView extends BaseTabView
         }
 
         $this->dataProvider = new VisitorInsightsDataProvider([
-            'country'  => Request::get('location', ''),
-            'agent'    => Request::get('agent', ''),
-            'platform' => Request::get('platform', ''),
-            'user_id'  => Request::get('user_id', ''),
-            'ip'       => Request::get('ip', ''),
-            'referrer' => Request::get('referrer', ''),
+            'country'           => Request::get('location', ''),
+            'agent'             => Request::get('agent', ''),
+            'platform'          => Request::get('platform', ''),
+            'user_id'           => Request::get('user_id', ''),
+            'ip'                => Request::get('ip', ''),
+            'referrer'          => Request::get('referrer', ''),
+            'source_channel'    => Request::get('source_channel', ''),
         ]);
 
         parent::__construct();
@@ -167,6 +168,10 @@ class TabsView extends BaseTabView
 
         if (Request::has('referrer')) {
             $filters['referrer'] = Request::get('referrer');
+        }
+
+        if (Request::has('source_channel')) {
+            $filters['source_channel'] = Request::get('source_channel');
         }
 
         if (Request::has('user_id')) {
