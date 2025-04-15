@@ -77,10 +77,15 @@ class TabsView extends BaseTabView
                 'title'       => esc_html__('Referrals', 'wp-statistics'),
                 'pageName'    => Menus::get_page_slug('referrals'),
                 'custom_get'  => [
-                    'tab'      => $this->getCurrentTab(),
-                    'order_by' => Request::get('order_by'),
-                    'order'    => Request::get('order'),
-                    'referrer' => Request::get('referrer')
+                    'tab'           => $this->getCurrentTab(),
+                    'order_by'      => Request::get('order_by'),
+                    'order'         => Request::get('order'),
+                    'referrer'      => Request::get('referrer'),
+                    'pid'           => Request::get('pid'),
+                    'utm_source'    => Request::get('utm_source'),
+                    'utm_medium'    => Request::get('utm_medium'),
+                    'utm_campaign'  => Request::get('utm_campaign'),
+                    'utm_param'     => Request::get('utm_param')
                 ],
                 'filters'     => ['source-channels'],
                 'DateRang'    => Admin_Template::DateRange(),
