@@ -60,7 +60,7 @@ class AjaxBackgroundProcessManager
     public function addAjax($list)
     {
         $list[] = [
-            'class'  => AjaxBackgroundProcessFactory::getCurrentMigrate(),
+            'class'  => !AjaxBackgroundProcessFactory::isDatabaseMigrated() ? null : AjaxBackgroundProcessFactory::getCurrentMigrate(),
             'action' => 'background_process',
             'public' => false
         ];
@@ -132,6 +132,12 @@ class AjaxBackgroundProcessManager
             );
 
             Notice::addNotice($message, 'progress_ajax_background_process', 'info', false);
+            return;
+        }
+
+        $isMigrated = AjaxBackgroundProcessFactory::isDatabaseMigrated();
+
+        if (!$isMigrated) {
             return;
         }
 

@@ -48,7 +48,7 @@ class AjaxBackgroundProcessFactory
             return;
         }
 
-        $isMigrated = Option::getOptionGroup('db', 'migrated', false) && !Option::getOptionGroup('db', 'check', true);
+        $isMigrated = self::isDatabaseMigrated();
 
         if (!$isMigrated) {
             return;
@@ -121,5 +121,20 @@ class AjaxBackgroundProcessFactory
         }
 
         return in_array($key, self::$doneJobs, true);
+    }
+
+    /**
+     * Determines whether the database migration has been completed.
+     *
+     * This method checks that the 'migrated' value in the 'db' option group is set to true
+     * and that the 'check' value is false.
+     *
+     * @return bool True if the database is considered migrated, false otherwise.
+     */
+    public static function isDatabaseMigrated()
+    {
+        $migrated = Option::getOptionGroup('db', 'migrated', false);
+        $check    = Option::getOptionGroup('db', 'check', true);
+        return $migrated && !$check;
     }
 }
