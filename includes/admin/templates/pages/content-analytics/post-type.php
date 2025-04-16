@@ -4,6 +4,7 @@ use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\Posts\WordCountService;
 
 $postType         = Request::get('tab', 'post');
 $postTypeSingular = Helper::getPostTypeName($postType, true);
@@ -43,18 +44,20 @@ $postTypePlural   = Helper::getPostTypeName($postType);
         ];
         Admin_Template::get_template(['layout/content-analytics/overview-card'], $args);
 
-        $args = [
-            'title'           => esc_html__('Words', 'wp-statistics'),
-            'tooltip'         => sprintf(esc_html__('Total words across all %1$s in the selected period. Avg per %2$s is the total words divided by the number of published %1$s in that period.', 'wp-statistics'), strtolower($postTypePlural), strtolower($postTypeSingular)),
-            'selected'        => Helper::formatNumberWithUnit($data['overview']['words']['recent']),
-            'selected_title'  => esc_html__('Selected Period', 'wp-statistics'),
-            'avg'             => Helper::formatNumberWithUnit($data['overview']['words']['avg']),
-            'avg_title'       => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeSingular),
-            'total'           => Helper::formatNumberWithUnit($data['overview']['words']['total']),
-            'total_avg'       => Helper::formatNumberWithUnit($data['overview']['words']['total_avg']),
-            'total_avg_title' => sprintf('Total Avg. per %s', $postTypeSingular),
-        ];
-        Admin_Template::get_template(['layout/content-analytics/overview-card'], $args);
+        if (WordCountService::isActive()) {
+            $args = [
+                'title'           => esc_html__('Words', 'wp-statistics'),
+                'tooltip'         => sprintf(esc_html__('Total words across all %1$s in the selected period. Avg per %2$s is the total words divided by the number of published %1$s in that period.', 'wp-statistics'), strtolower($postTypePlural), strtolower($postTypeSingular)),
+                'selected'        => Helper::formatNumberWithUnit($data['overview']['words']['recent']),
+                'selected_title'  => esc_html__('Selected Period', 'wp-statistics'),
+                'avg'             => Helper::formatNumberWithUnit($data['overview']['words']['avg']),
+                'avg_title'       => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeSingular),
+                'total'           => Helper::formatNumberWithUnit($data['overview']['words']['total']),
+                'total_avg'       => Helper::formatNumberWithUnit($data['overview']['words']['total_avg']),
+                'total_avg_title' => sprintf('Total Avg. per %s', $postTypeSingular),
+            ];
+            Admin_Template::get_template(['layout/content-analytics/overview-card'], $args);
+        }
 
         if (post_type_supports($postType, 'comments')) {
             $args = [

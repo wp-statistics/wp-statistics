@@ -134,6 +134,11 @@
                 action: 'wp_statistics_clear_user_agent_strings'
             },
             {
+                buttonId: '#delete-word-count-data-submit',
+                resultId: '#delete-word-count-data-result',
+                action: 'wp_statistics_delete_word_count_data'
+            },
+            {
                 buttonId: '#query-params-cleanup-submit',
                 resultId: '#query-params-cleanup-result',
                 action: 'wp_statistics_query_params_cleanup'
@@ -230,6 +235,21 @@
                         <?php esc_html_e('Permanent and cannot be undone.', 'wp-statistics'); ?>
                     </p>
                     <div id="clear-user-agent-strings-result"></div>
+                </td>
+            </tr>
+
+            <tr>
+                <th scope="row">
+                    <label for="delete-word-count-data-submit"><?php esc_html_e('Clear Word Count Data', 'wp-statistics'); ?></label>
+                </th>
+                <td>
+                    <button id="delete-word-count-data-submit" class="button button-primary" type="submit" name="delete_word_count_data_submit"><?php esc_html_e('Clear Word Count Data Now', 'wp-statistics'); ?></button>
+                    <p class="description">
+                        <?php esc_html_e('Permanently deletes all stored word count data from the database.', 'wp-statistics'); ?><br>
+                        <span class="wps-note"><?php esc_html_e('Caution', 'wp-statistics'); ?>:</span>
+                        <?php esc_html_e('This action is irreversible.', 'wp-statistics'); ?>
+                    </p>
+                    <div id="delete-word-count-data-result"></div>
                 </td>
             </tr>
 

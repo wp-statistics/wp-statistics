@@ -1,3 +1,6 @@
+= 14.14 - 2025-xx-xx
+- **New:** Added an option to to disable word count analytics in reports.
+
 = 14.13.2 - 2025-04-** =
 - **New:** Added a 28-day date range into the date picker.
 - **Fix:** Updated messages based on data availability.

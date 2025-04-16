@@ -76,8 +76,9 @@ class Option
             'attribution_model'               => 'first-touch',
             'geoip_location_detection_method' => 'maxmind',
             'delete_data_on_uninstall'        => false,
-            'share_anonymous_data'             => false,
+            'share_anonymous_data'            => false,
             'display_notifications'           => true,
+            'word_count_analytics'            => true
         );
 
         return $options;
