@@ -157,7 +157,7 @@ class Admin_Assets
         wp_enqueue_script('datepicker', self::url('../../assets/dev/javascript/plugin/datepicker.js'), array('jquery'), self::version(), true);
 
         // Load Admin Js
-        wp_enqueue_script(self::$prefix, self::url('../../assets/js/admin.min.js'), array('jquery', 'chartjs', 'datepicker'), self::version(), ['in_footer' => true]);
+        wp_enqueue_script(self::$prefix, self::url('admin.min.js'), array('jquery', 'chartjs', 'datepicker'), self::version(), ['in_footer' => true]);
         wp_localize_script(self::$prefix, 'wps_global', self::wps_global($hook));
 
         // Add Thick box
