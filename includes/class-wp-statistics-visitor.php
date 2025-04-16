@@ -444,7 +444,7 @@ class Visitor
         global $wpdb;
 
         // Default Params
-        $params = array('link' => '', 'title' => '', 'query' => '');
+        $params = array('id' => '', 'link' => '', 'title' => '', 'query' => '');
 
         $pageTable = DB::table('pages');
 
@@ -457,6 +457,7 @@ class Visitor
             $params             = Pages::get_page_info($item['id'], $item['type'], $item['uri']);
             $linkWithParams     = !empty($item['uri']) ? home_url() . $item['uri'] : '';
             $params['query']    = Url::getParams($linkWithParams);
+            $params['id']       = $item['id'];
         }
 
         return $params;
