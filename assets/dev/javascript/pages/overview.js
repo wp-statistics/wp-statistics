@@ -1,4 +1,4 @@
-if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page') || wps_js.global.page.file === "post-new.php" || (wps_js.global.page.file === "post.php" && wps_js.isset(wps_js.global, 'page', 'ID'))) {
+if (wps_js.global?.page?.file === "index.php" || wps_js.is_active('overview_page') || wps_js.global?.page?.file === "post-new.php" || (wps_js.global?.page?.file === "post.php" && wps_js.isset(wps_js.global, 'page', 'ID'))) {
 
     // Split meta boxes into left and right
     const meta_list_side = wps_js.global.meta_boxes.side;
