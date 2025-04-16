@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Async;
+namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess;
 
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Option;
@@ -33,7 +33,7 @@ class BackgroundProcessFactory
         }
 
         // Mark as processed
-        Option::saveOptionGroup('word_count_process_started', true, 'jobs');
+        Option::saveOptionGroup('word_count_process_initiated', true, 'jobs');
 
         $calculatePostWordsCount->save()->dispatch();
     }

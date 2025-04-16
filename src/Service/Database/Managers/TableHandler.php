@@ -57,11 +57,14 @@ class TableHandler
             Option::saveOptionGroup('manual_migration_tasks', [], 'db');
             Option::saveOptionGroup('auto_migration_tasks', [], 'db');
             Option::saveOptionGroup('version', WP_STATISTICS_VERSION, 'db');
+            Option::saveOptionGroup('is_done', true, 'ajax_background_process');
             return;
         }
 
         Option::saveOptionGroup('migrated', false, 'db');
         Option::saveOptionGroup('migration_status_detail', null, 'db');
+        Option::saveOptionGroup('is_done', null, 'ajax_background_process');
+        Option::saveOptionGroup('status', null, 'ajax_background_process');
 
         $dismissedNotices = get_option('wp_statistics_dismissed_notices', []);
 

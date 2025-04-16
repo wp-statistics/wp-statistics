@@ -1,7 +1,24 @@
+= 14.13.2 - 2025-04-16 =
+- **New:** Added a 28-day date range option to the date picker.
+- **Enhancement:** Improved overall performance.
+- **Enhancement:** On the Single Post Statistics page, the update date is now shown only if it's different from the creation date.
+- **Fix:** Fixed inconsistencies in online visitor analytics.
+- **Fix:** Ensured the "Views" column is visible for Editors on the posts list page.
+- **Fix:** Resolved errors that appeared during notification updates.
+- **Fix:** Stopped inactive users from appearing online after 30 minutes.
+- **Fix:** Fixed issues with hit and online tracking endpoints.
+- **Fix:** Corrected filters URL issue on the Referrals page.
+- **Fix:** Resolved chart color issues in RTL layout.
+- **Fix:** Fixed a notice related to the word count background process.
+- **Fix:** Removed unnecessary left join on the users table in Visitor Insights to improve query performance.
+- **Fix:** Fixed compatibility issues with the Interactivity API.
+- **Fix:** Resolved layout issue with the "Account Information" widget on the Single Visitor page.
+- **Removal:** Removed the `Host Exclusions` setting.
+
 = 14.13.1 - 2025-04-08 =
 - **Enhancement:** Improved filter logic to avoid unnecessary requests.
 - **Enhancement:** Enhanced source channel detection for more accurate results.
-- **Enhancement:** Removed the FeedbackBird button from the header along with its related functionality.  
+- **Enhancement:** Removed the FeedbackBird button from the header along with its related functionality.
 - **Fix:** Removed table prefix from shared anonymous data.
 - **Fix:** Fixed `serveObfuscatedAsset` compatibility with URL cleanup features when Bypass Ad-blocker is enabled.
 

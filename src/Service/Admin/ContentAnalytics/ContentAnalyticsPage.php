@@ -2,16 +2,16 @@
 
 namespace WP_Statistics\Service\Admin\ContentAnalytics;
 
-use WP_Statistics\Async\BackgroundProcessFactory;
-use WP_STATISTICS\Menus;
-use WP_STATISTICS\Option;
-use WP_Statistics\Utils\Request;
 use WP_Statistics\Abstracts\MultiViewPage;
-use WP_Statistics\Service\Admin\Posts\WordCountService;
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory;
+use WP_STATISTICS\Menus;
+use WP_Statistics\Utils\Request;
+use WP_Statistics\Async\SourceChannelUpdater;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Admin\Posts\WordCountService;
+use WP_Statistics\Service\Admin\FilterHandler\FilterGenerator;
 use WP_Statistics\Service\Admin\ContentAnalytics\Views\TabsView;
 use WP_Statistics\Service\Admin\ContentAnalytics\Views\SingleView;
-use WP_Statistics\Service\Admin\FilterHandler\FilterGenerator;
 
 class ContentAnalyticsPage extends MultiViewPage
 {
@@ -27,7 +27,7 @@ class ContentAnalyticsPage extends MultiViewPage
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->setFilters();
     }
 
@@ -58,7 +58,10 @@ class ContentAnalyticsPage extends MultiViewPage
 
     private function processWordCountMeta()
     {
-        if (count($this->wordsCount->getPostsWithoutWordCountMeta()) && !Option::getOptionGroup('jobs', 'word_count_process_started')) {
+        /** @var SourceChannelUpdater $backgroundProcess */
+        $backgroundProcess = WP_Statistics()->getBackgroundProcess('calculate_post_words_count');
+
+        if (!$backgroundProcess->is_initiated()) {
             $actionUrl = add_query_arg(
                 [
                     'action' => 'process_word_count',
@@ -85,8 +88,10 @@ class ContentAnalyticsPage extends MultiViewPage
 
         check_admin_referer('process_word_count_nonce', 'nonce');
 
-        // Check if already processed
-        if (Option::getOptionGroup('jobs', 'word_count_process_started')) {
+        /** @var SourceChannelUpdater $backgroundProcess */
+        $backgroundProcess = WP_Statistics()->getBackgroundProcess('calculate_post_words_count');
+
+        if ($backgroundProcess->is_active()) {
             Notice::addFlashNotice(__('Word count processing is already started.', 'wp-statistics'));
 
             wp_redirect(Menus::admin_url($this->pageSlug));

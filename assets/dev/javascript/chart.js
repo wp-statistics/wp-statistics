@@ -34,8 +34,8 @@ const wpsBuildTicks = (scale) => {
 }
 
 const chartColors = {
-    'Total': '#27A765', 'Views': '#7362BF', 'Visitors': '#3288D7', 'User Visitors':'#3288D7', 'Anonymous Visitors' :'#7362BF', 'Published Contents' : '#8AC3D0', 'Published Products' : '#8AC3D0',
-    'Published Pages' : '#8AC3D0','Published Posts' : '#8AC3D0','Posts': '#8AC3D0', 'Other1': '#3288D7', 'Other2': '#7362BF', 'Other3': '#8AC3D0'
+    'total': '#27A765', 'views': '#7362BF', 'visitors': '#3288D7', 'user-visitors': '#3288D7', 'anonymous-visitors': '#7362BF', 'published': '#8AC3D0','published-contents': '#8AC3D0', 'published-products': '#8AC3D0',
+    'published-pages': '#8AC3D0', 'published-posts': '#8AC3D0', 'posts': '#8AC3D0' , downloads: '#3288D7', 'clicks': '#3288D7', 'Other1': '#3288D7', 'Other2': '#7362BF', 'Other3': '#8AC3D0'
 };
 
 const chartTensionValues = [0.1, 0.3, 0.5, 0.7];
@@ -390,10 +390,10 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
 
 const sortTotal = (datasets) => {
     datasets.sort((a, b) => {
-        if (a.label === 'Total') return -1;
-        if (b.label === 'Total') return 1;
-        if (a.label === 'Total (Previous)') return -1;
-        if (b.label === 'Total (Previous)') return 1;
+        if (a.slug === 'total') return -1;
+        if (b.slug === 'total') return 1;
+        if (a.slug === 'total-previous') return -1;
+        if (b.slug === 'total-previous') return 1;
         return 0;
     });
 }
@@ -538,7 +538,6 @@ const getDisplayTextForUnitTime = (unitTime, tag_id) => {
 
 wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line') {
     sortTotal(data.data.datasets);
-
     const realdata = deepCopy(data);
     const phpDateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
     let momentDateFormat = phpToMomentFormat(phpDateFormat);
@@ -672,18 +671,18 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 ...dataset,
                 type: datasetType, // Set the type explicitly
                 data: aggregatedData.aggregatedData[idx],
-                borderColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx}`],
-                backgroundColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx}`],
+                borderColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
+                backgroundColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
                 fill: false,
                 yAxisID: datasetType === 'bar' ? 'y1' : 'y', // Use y1 for bar, y for line
                 borderWidth: datasetType === 'line' ? 2 : undefined,
                 pointRadius: datasetType === 'line' ? dateLabels.length === 1 ? 5 : 0 : undefined,
                 pointBorderColor: datasetType === 'line' ? 'transparent' : undefined,
-                pointBackgroundColor: datasetType === 'line' ? chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx}`] : undefined,
+                pointBackgroundColor: datasetType === 'line' ? chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`] : undefined,
                 pointBorderWidth: datasetType === 'line' ? 2 : undefined,
                 hoverPointRadius: datasetType === 'line' ? 6 : undefined,
                 hoverPointBorderColor: datasetType === 'line' ? '#fff' : undefined,
-                hoverPointBackgroundColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx}`],
+                hoverPointBackgroundColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
                 hoverPointBorderWidth: datasetType === 'line' ? 4 : undefined,
                 tension: datasetType === 'line' ? chartTensionValues[idx % chartTensionValues.length] : undefined,
                 hitRadius: 10,
@@ -712,20 +711,20 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                     type: 'line', // Previous datasets are always lines
                     label: `${dataset.label} (Previous)`,
                     data: prevAggregatedData.aggregatedData[idx],
-                    borderColor: wps_js.hex_to_rgba(chartColors[dataset.label] || chartColors[`Other${idx}`], 0.7),
-                    hoverBorderColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx}`],
-                    backgroundColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx}`],
+                    borderColor: wps_js.hex_to_rgba(chartColors[dataset.slug] || chartColors[`Other${idx}`], 0.7),
+                    hoverBorderColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
+                    backgroundColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
                     fill: false,
                     yAxisID: 'y',
                     borderWidth: 1,
                     borderDash: [5, 5],
                     pointRadius: aggregatedData.aggregatedLabels.length === 1 ? 5 : 0,
                     pointBorderColor: 'transparent',
-                    pointBackgroundColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx}`],
+                    pointBackgroundColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
                     pointBorderWidth: 2,
                     hoverPointRadius: 6,
                     hoverPointBorderColor: '#fff',
-                    hoverPointBackgroundColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx}`],
+                    hoverPointBackgroundColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
                     hoverPointBorderWidth: 4,
                     tension: chartTensionValues[idx % chartTensionValues.length],
                     hitRadius: 10
@@ -773,7 +772,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
     let ctx_line = document.getElementById(tag_id).getContext('2d');
 
     Object.keys(data.data.datasets).forEach((key, index) => {
-        let color = chartColors[data.data.datasets[key].label] || chartColors[`Other${index + 1}`];
+        let color = chartColors[data.data.datasets[key].slug] || chartColors[`Other${index + 1}`];
         let tension = chartTensionValues[index % chartTensionValues.length];
 
         let datasetType = 'line'; // Default to line
@@ -809,7 +808,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
 
     if (data?.previousData) {
         Object.keys(data.previousData.datasets).forEach((key, index) => {
-            let color = chartColors[data.previousData.datasets[key].label] || chartColors[`Other${index}`];
+            let color = chartColors[data.previousData.datasets[key].slug] || chartColors[`Other${index}`];
             let tension = chartTensionValues[index % chartTensionValues.length];
 
             datasets.push({
@@ -1001,3 +1000,22 @@ document.body.addEventListener('click', function (event) {
         });
     }
 });
+
+window.renderWPSLineChart = function (chartId, data ,newOptions) {
+    const chartItem = document.getElementById(chartId);
+    if (chartItem) {
+        const parentElement = jQuery(`#${chartId}`).parent();
+        const placeholder = wps_js.rectangle_placeholder();
+        parentElement.append(placeholder);
+
+        if (!data?.data?.datasets || data.data.datasets.length === 0) {
+            parentElement.html(wps_js.no_results());
+            jQuery('.wps-ph-item').remove();
+        } else {
+            wps_js.new_line_chart(data, chartId, newOptions);
+            jQuery('.wps-ph-item').remove();
+            jQuery('.wps-postbox-chart--data').removeClass('c-chart__wps-skeleton--legend');
+            parentElement.removeClass('c-chart__wps-skeleton');
+        }
+    }
+}

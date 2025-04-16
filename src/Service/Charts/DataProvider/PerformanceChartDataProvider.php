@@ -82,12 +82,14 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
 
         $this->addChartDataset(
             esc_html__('Visitors', 'wp-statistics'),
-            $data['visitors']
+            $data['visitors'],
+            'visitors'
         );
 
         $this->addChartDataset(
             esc_html__('Views', 'wp-statistics'),
-            $data['views']
+            $data['views'],
+            'views'
         );
 
         // On single post view, no need to count posts
@@ -97,7 +99,8 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
                     esc_html__('Published %s', 'wp-statistics'),
                     isset($this->args['post_type']) ? Helper::getPostTypeName($this->args['post_type']) : esc_html__('Contents', 'wp-statistics')
                 ),
-                $data['posts']
+                $data['posts'],
+                'published'
             );
         }
 

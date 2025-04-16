@@ -3,11 +3,10 @@
 namespace WP_Statistics\Models;
 
 use WP_Statistics\Abstracts\BaseModel;
+use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\AjaxBackgroundProcessFactory;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Decorators\ReferralDecorator;
 use WP_Statistics\Decorators\VisitorDecorator;
-use WP_STATISTICS\Helper;
-use WP_Statistics\Service\Database\DatabaseFactory;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Utils\Query;
 
@@ -103,14 +102,14 @@ class VisitorsModel extends BaseModel
     public function countHits($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'          => '',
-            'agent'         => '',
-            'platform'      => '',
-            'country'       => '',
-            'user_id'       => '',
-            'ip'            => '',
-            'logged_in'     => false,
-            'user_role'     => ''
+            'date'      => '',
+            'agent'     => '',
+            'platform'  => '',
+            'country'   => '',
+            'user_id'   => '',
+            'ip'        => '',
+            'logged_in' => false,
+            'user_role' => ''
         ]);
 
         $query = Query::select('SUM(visitor.hits) as total_visitors')
@@ -225,10 +224,10 @@ class VisitorsModel extends BaseModel
     public function countDailyReferrers($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'              => '',
-            'source_channel'    => '',
-            'source_name'       => '',
-            'referrer'          => ''
+            'date'           => '',
+            'source_channel' => '',
+            'source_name'    => '',
+            'referrer'       => ''
         ]);
 
         $result = Query::select('COUNT(*) as visitors, last_counter as date')
@@ -345,55 +344,55 @@ class VisitorsModel extends BaseModel
     {
         $summary = [
             'today'      => [
-                'label'     => esc_html__('Today', 'wp-statistics'),
-                'visitors'  => $this->countVisitors(array_merge($args, ['date' => DateRange::get('today')]))
+                'label'    => esc_html__('Today', 'wp-statistics'),
+                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('today')]))
             ],
             'yesterday'  => [
-                'label'     => esc_html__('Yesterday', 'wp-statistics'),
-                'visitors'  => $this->countVisitors(array_merge($args, ['date' => DateRange::get('yesterday')]))
+                'label'    => esc_html__('Yesterday', 'wp-statistics'),
+                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('yesterday')]))
             ],
             'this_week'  => [
-                'label'     => esc_html__('This week', 'wp-statistics'),
-                'visitors'  => $this->countVisitors(array_merge($args, ['date' => DateRange::get('this_week')]))
+                'label'    => esc_html__('This week', 'wp-statistics'),
+                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('this_week')]))
             ],
             'last_week'  => [
-                'label'     => esc_html__('Last week', 'wp-statistics'),
-                'visitors'  => $this->countVisitors(array_merge($args, ['date' => DateRange::get('last_week')]))
+                'label'    => esc_html__('Last week', 'wp-statistics'),
+                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('last_week')]))
             ],
             'this_month' => [
-                'label'     => esc_html__('This month', 'wp-statistics'),
-                'visitors'  => $this->countVisitors(array_merge($args, ['date' => DateRange::get('this_month')]))
+                'label'    => esc_html__('This month', 'wp-statistics'),
+                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('this_month')]))
             ],
             'last_month' => [
-                'label'     => esc_html__('Last month', 'wp-statistics'),
-                'visitors'  => $this->countVisitors(array_merge($args, ['date' => DateRange::get('last_month')]))
+                'label'    => esc_html__('Last month', 'wp-statistics'),
+                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('last_month')]))
             ],
             '7days'      => [
-                'label'     => esc_html__('Last 7 days', 'wp-statistics'),
-                'visitors'  => $this->countVisitors(array_merge($args, ['date' => DateRange::get('7days')]))
+                'label'    => esc_html__('Last 7 days', 'wp-statistics'),
+                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('7days')]))
             ],
             '30days'     => [
-                'label'     => esc_html__('Last 30 days', 'wp-statistics'),
-                'visitors'  => $this->countVisitors(array_merge($args, ['date' => DateRange::get('30days')]))
+                'label'    => esc_html__('Last 30 days', 'wp-statistics'),
+                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('30days')]))
             ],
             '90days'     => [
-                'label'     => esc_html__('Last 90 days', 'wp-statistics'),
-                'visitors'  => $this->countVisitors(array_merge($args, ['date' => DateRange::get('90days')]))
+                'label'    => esc_html__('Last 90 days', 'wp-statistics'),
+                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('90days')]))
             ],
             '6months'    => [
-                'label'     => esc_html__('Last 6 months', 'wp-statistics'),
-                'visitors'  => $this->countVisitors(array_merge($args, ['date' => DateRange::get('6months')]))
+                'label'    => esc_html__('Last 6 months', 'wp-statistics'),
+                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('6months')]))
             ],
             'this_year'  => [
-                'label'     => esc_html__('This year (Jan-Today)', 'wp-statistics'),
-                'visitors'  => $this->countVisitors(array_merge($args, ['date' => DateRange::get('this_year')]))
+                'label'    => esc_html__('This year (Jan-Today)', 'wp-statistics'),
+                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('this_year')]))
             ]
         ];
 
         if (!empty($args['include_total'])) {
             $summary['total'] = [
-                'label'     => esc_html__('Total', 'wp-statistics'),
-                'visitors'  => $this->countVisitors(array_merge($args, ['ignore_date' => true, 'historical' => true]))
+                'label'    => esc_html__('Total', 'wp-statistics'),
+                'visitors' => $this->countVisitors(array_merge($args, ['ignore_date' => true, 'historical' => true]))
             ];
         }
 
@@ -461,7 +460,7 @@ class VisitorsModel extends BaseModel
 
     public function getVisitorsData($args = [])
     {
-        if (! DatabaseFactory::compareCurrentVersion('14.12.6', '>=')) {
+        if (! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
             return LegacyModel::get('visitorsData', $args, '14.12.4');
         }
 
@@ -520,11 +519,6 @@ class VisitorsModel extends BaseModel
             ];
         }
 
-        if ($args['user_info'] === true) {
-            $args['fields'][] = 'users.display_name';
-            $args['fields'][] = 'users.user_email';
-        }
-
         // When retrieving data for a single resource, get the page view date
         if (!empty($args['resource_id']) && ($args['resource_type'])) {
             $args['fields'][] = 'visitor_relationships.date as page_view';
@@ -553,10 +547,6 @@ class VisitorsModel extends BaseModel
                 $query->where('usermeta.meta_key', '=', "wp_capabilities");
                 $query->where('usermeta.meta_value', 'LIKE', "%{$args['user_role']}%");
             }
-        }
-
-        if ($args['user_info']) {
-            $query->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT');
         }
 
         $filteredArgs = array_filter($args);
@@ -607,19 +597,19 @@ class VisitorsModel extends BaseModel
 
     public function getReferredVisitors($args = [])
     {
-        if (! DatabaseFactory::compareCurrentVersion('14.12.6', '>=')) {
+        if (! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
             return LegacyModel::get('referredVisitors', $args, '14.12.4');
         }
 
         $args = $this->parseArgs($args, [
-            'date'              => '',
-            'source_channel'    => '',
-            'source_name'       => '',
-            'referrer'          => '',
-            'order_by'          => 'visitor.ID',
-            'order'             => 'desc',
-            'page'              => '',
-            'per_page'          => '',
+            'date'           => '',
+            'source_channel' => '',
+            'source_name'    => '',
+            'referrer'       => '',
+            'order_by'       => 'visitor.ID',
+            'order'          => 'desc',
+            'page'           => '',
+            'per_page'       => '',
         ]);
 
         $query = Query::select([
@@ -673,10 +663,10 @@ class VisitorsModel extends BaseModel
     public function countReferredVisitors($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'              => '',
-            'source_channel'    => '',
-            'source_name'       => '',
-            'referrer'          => ''
+            'date'           => '',
+            'source_channel' => '',
+            'source_name'    => '',
+            'referrer'       => ''
         ]);
 
         $query = Query::select('COUNT(*)')
@@ -701,10 +691,10 @@ class VisitorsModel extends BaseModel
     public function searchVisitors($args = [])
     {
         $args = $this->parseArgs($args, [
-            'user_id'     => '',
-            'ip'          => '',
-            'username'    => '',
-            'email'       => '',
+            'user_id'  => '',
+            'ip'       => '',
+            'username' => '',
+            'email'    => '',
         ]);
 
         $result = Query::select([
@@ -736,7 +726,7 @@ class VisitorsModel extends BaseModel
 
     public function getVisitorData($args = [])
     {
-        if (! DatabaseFactory::compareCurrentVersion('14.12.6', '>=')) {
+        if (! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
             return LegacyModel::get('visitorData', $args, '14.12.4');
         }
 
@@ -782,7 +772,7 @@ class VisitorsModel extends BaseModel
             $args['visitor_id'] = $visitorId ?? '';
         }
 
-        if ($args['page_info'])  {
+        if ($args['page_info']) {
             $fields[] = 'pages.uri as first_uri';
         }
 
@@ -813,7 +803,6 @@ class VisitorsModel extends BaseModel
         }
 
         $result = $query
-            ->allowCaching()
             ->getRow();
 
         return $result;
@@ -822,8 +811,8 @@ class VisitorsModel extends BaseModel
     public function getVisitorJourney($args)
     {
         $args = $this->parseArgs($args, [
-            'visitor_id'    => '',
-            'ignore_date'   => true,
+            'visitor_id'  => '',
+            'ignore_date' => true,
         ]);
 
         $result = Query::select([
@@ -868,7 +857,7 @@ class VisitorsModel extends BaseModel
     public function getVisitorsGeoData($args = [])
     {
         $args = $this->parseArgs($args, [
-            'fields'        => [
+            'fields'       => [
                 'visitor.city as city',
                 'visitor.location as country',
                 'visitor.region as region',
@@ -876,25 +865,25 @@ class VisitorsModel extends BaseModel
                 'COUNT(DISTINCT visitor.ID) as visitors',
                 'SUM(visitor.hits) as views', // All views are counted and results can't be filtered by author, post type, etc...
             ],
-            'date'          => '',
-            'country'       => '',
-            'city'          => '',
-            'region'        => '',
-            'continent'     => '',
-            'not_null'      => '',
-            'post_type'     => '',
-            'author_id'     => '',
-            'post_id'       => '',
-            'per_page'      => '',
-            'query_param'   => '',
-            'taxonomy'      => '',
-            'term'          => '',
-            'page'          => 1,
-            'group_by'      => 'visitor.location',
-            'event_name'    => '',
-            'event_target'  => '',
-            'order_by'      => ['visitors', 'views'],
-            'order'         => 'DESC',
+            'date'         => '',
+            'country'      => '',
+            'city'         => '',
+            'region'       => '',
+            'continent'    => '',
+            'not_null'     => '',
+            'post_type'    => '',
+            'author_id'    => '',
+            'post_id'      => '',
+            'per_page'     => '',
+            'query_param'  => '',
+            'taxonomy'     => '',
+            'term'         => '',
+            'page'         => 1,
+            'group_by'     => 'visitor.location',
+            'event_name'   => '',
+            'event_target' => '',
+            'order_by'     => ['visitors', 'views'],
+            'order'        => 'DESC',
         ]);
 
         $query = Query::select($args['fields'])
@@ -1001,20 +990,20 @@ class VisitorsModel extends BaseModel
     public function getReferrers($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'          => '',
-            'post_type'     => '',
-            'source_channel'=> '',
-            'post_id'       => '',
-            'country'       => '',
-            'query_param'   => '',
-            'taxonomy'      => '',
-            'term'          => '',
-            'referrer'      => '',
-            'not_null'      => 'visitor.referred',
-            'group_by'      => 'visitor.referred',
-            'page'          => 1,
-            'per_page'      => 10,
-            'decorate'      => false
+            'date'           => '',
+            'post_type'      => '',
+            'source_channel' => '',
+            'post_id'        => '',
+            'country'        => '',
+            'query_param'    => '',
+            'taxonomy'       => '',
+            'term'           => '',
+            'referrer'       => '',
+            'not_null'       => 'visitor.referred',
+            'group_by'       => 'visitor.referred',
+            'page'           => 1,
+            'per_page'       => 10,
+            'decorate'       => false
         ]);
 
         $filteredArgs = array_filter($args);
@@ -1089,15 +1078,15 @@ class VisitorsModel extends BaseModel
     public function countReferrers($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'          => '',
-            'source_channel'=> '',
-            'post_type'     => '',
-            'post_id'       => '',
-            'country'       => '',
-            'query_param'   => '',
-            'taxonomy'      => '',
-            'term'          => '',
-            'not_null'      => 'visitor.referred'
+            'date'           => '',
+            'source_channel' => '',
+            'post_type'      => '',
+            'post_id'        => '',
+            'country'        => '',
+            'query_param'    => '',
+            'taxonomy'       => '',
+            'term'           => '',
+            'not_null'       => 'visitor.referred'
         ]);
 
         $filteredArgs = array_filter($args);
@@ -1256,8 +1245,8 @@ class VisitorsModel extends BaseModel
     public function getVisitorHits($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'      => '',
-            'user_id'   => '',
+            'date'    => '',
+            'user_id' => '',
         ]);
 
         $query = Query::select('SUM(visitor.hits) as hits')
