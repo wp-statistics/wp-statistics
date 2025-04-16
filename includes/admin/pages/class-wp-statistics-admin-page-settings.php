@@ -516,7 +516,8 @@ class settings_page extends Singleton
     public static function save_advanced_option($wp_statistics_options)
     {
         $wps_option_list = [
-            'wps_delete_data_on_uninstall'
+            'wps_delete_data_on_uninstall',
+            'wps_word_count_analytics'
         ];
 
         foreach ($wps_option_list as $option) {
