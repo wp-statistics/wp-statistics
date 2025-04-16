@@ -41,7 +41,6 @@ class AuthorAnalyticsDataProvider
         $topViewingAuthors    = $this->authorModel->getTopViewingAuthors($this->args);
         $topAuthorsByComment  = $this->authorModel->getAuthorsByCommentsPerPost($this->args);
         $topAuthorsByViews    = $this->authorModel->getAuthorsByViewsPerPost($this->args);
-        $topAuthorsByWords    = $this->authorModel->getAuthorsByWordsPerPost($this->args);
 
         // Views data
         $totalViews           = $this->viewsModel->countViews($this->args);
@@ -63,7 +62,6 @@ class AuthorAnalyticsDataProvider
                 'top_viewing'       => $topViewingAuthors,
                 'top_by_comments'   => $topAuthorsByComment,
                 'top_by_views'      => $topAuthorsByViews,
-                'top_by_words'      => $topAuthorsByWords
             ],
             'views'   => [
                 'total' => $totalViews,
@@ -80,8 +78,11 @@ class AuthorAnalyticsDataProvider
         ];
 
         if (WordCountService::isActive()) {
-            $recentWords    = $this->postsModel->countWords($this->args);
-            $totalWords     = $this->postsModel->countWords(array_merge($this->args, ['ignore_date' => true]));
+            $topAuthorsByWords  = $this->authorModel->getAuthorsByWordsPerPost($this->args);
+            $recentWords        = $this->postsModel->countWords($this->args);
+            $totalWords         = $this->postsModel->countWords(array_merge($this->args, ['ignore_date' => true]));
+
+            $result['authors']['top_by_words'] = $topAuthorsByWords;
 
             $result['posts']['words'] = [
                 'total'     => $totalWords,
