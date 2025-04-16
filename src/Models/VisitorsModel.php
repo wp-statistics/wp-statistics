@@ -803,7 +803,6 @@ class VisitorsModel extends BaseModel
         }
 
         $result = $query
-            ->allowCaching()
             ->getRow();
 
         return $result;
