@@ -4,7 +4,8 @@ use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
-$userOnline     = new \WP_STATISTICS\UserOnline();
+$userOnline  = new \WP_STATISTICS\UserOnline();
+
 ?>
 
 <div class="wps-meta-traffic-summary">
