@@ -61,20 +61,18 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                         </div>
                         <div>
                             <ul>
-                                <li><?php esc_html_e('Verify site ownership on Google Search Console in a single click', 'wp-statistics'); ?></li>
-                                <li><?php esc_html_e('Track page and keyword rankings with the Advanced Analytics module', 'wp-statistics'); ?></li>
-                                <li><?php esc_html_e('Easily set up Google Analytics without using another 3rd party plugin', 'wp-statistics'); ?></li>
-                                <li><?php esc_html_e('Automatically submit sitemaps to the Google Search Console', 'wp-statistics'); ?></li>
-                                <li><?php esc_html_e('Free keyword suggestions when entering a focus keyword', 'wp-statistics'); ?></li>
-                                <li><?php esc_html_e('Use our revolutionary SEO Analyzer to scan your website for SEO errors', 'wp-statistics'); ?></li>
+                                <li><?php esc_html_e('View your Search Console data in WordPress—no more switching tabs.', 'wp-statistics'); ?></li>
+                                <li><?php esc_html_e('Get key metrics in your overview page for quick insights.', 'wp-statistics'); ?></li>
+                                <li><?php esc_html_e('Track traffic and keywords for each page or post at a glance.', 'wp-statistics'); ?></li>
+                                <li><?php esc_html_e('Unlock detailed search data to make smarter content decisions.', 'wp-statistics'); ?></li>
                             </ul>
                             <a href="" class="wps-link-underline"
-                            target="_blank"><?php esc_html_e('Learn more about the benefits of connecting your account here.', 'wp-statistics'); ?>
+                            target="_blank"><?php esc_html_e('Learn more about these benefits', 'wp-statistics'); ?>
                             </a>
                         </div>
+                        <?php View::load("components/objects/google-data-policy-alert"); ?>
                     </div>
                 </td>
-
             </tr>
             </tbody>
         </table>
@@ -113,10 +111,11 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                             <option disabled selected value=""><?php esc_html_e('Select site', 'wp-statistics'); ?></option>
                         <?php endif; ?>
                     </select>
-
-                    <p class="description">
-                        <?php esc_html_e('Set a threshold for daily robot visits. Robots exceeding this number daily will be identified as bots.', 'wp-statistics'); ?>
-                    </p>
+                 </td>
+            </tr><tr valign="top">
+                <th scope="row"></th>
+                <td class="wps_addon_settings__site">
+                    <?php View::load("components/objects/google-data-policy-alert"); ?>
                 </td>
             </tr>
             </tbody>
