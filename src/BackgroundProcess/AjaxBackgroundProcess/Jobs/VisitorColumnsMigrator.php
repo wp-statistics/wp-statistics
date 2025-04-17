@@ -100,6 +100,12 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
         $this->done   = count($visitors);
         $currentBatch = ceil($this->done / $this->batchSize);
         $this->offset = $currentBatch * $this->batchSize;
+
+        $maxOffset = max(0, floor(($this->total - 1) / $this->batchSize) * $this->batchSize);
+
+        if ($this->offset > $maxOffset) {
+            $this->offset = $maxOffset;
+        }
     }
 
     /**
@@ -132,7 +138,6 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
         $this->getTotal(false);
 
         if (count($visitors) >= $this->total) {
-
             $this->markAsCompleted(get_class($this));
 
             return true;
@@ -187,6 +192,7 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
             ->getResult();
 
         if (empty($visitorBatch)) {
+            $this->done = $this->total;
             return;
         }
 
