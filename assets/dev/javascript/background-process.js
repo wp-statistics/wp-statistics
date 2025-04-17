@@ -34,13 +34,14 @@ const WPStatisticsAjaxBackgroundProcess = {
     /**
      * Initiates the AJAX migration process.
      */
-    startMigration: function () {
+    startMigration: function (total = 0) {
         jQuery.ajax({
             url: Wp_Statistics_Background_Process_Data.ajax_url,
             method: 'POST',
             data: {
                 action: 'wp_statistics_background_process',
                 wps_nonce: Wp_Statistics_Background_Process_Data.rest_api_nonce,
+                total,
             },
             success: function (response) {
                 if (response.success) {
@@ -48,7 +49,9 @@ const WPStatisticsAjaxBackgroundProcess = {
                         WPStatisticsAjaxBackgroundProcess.markAsCompleted();
                     } else {
                         WPStatisticsAjaxBackgroundProcess.updateProgress(response.data.percentage);
-                        WPStatisticsAjaxBackgroundProcess.startMigration();
+
+                        total = parseInt(response.data?.total, 10) || 0;
+                        WPStatisticsAjaxBackgroundProcess.startMigration(total);
                     }
                 }
             },

@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Components\DateTime;
 
 class TopCountries extends BaseMetabox
 {
@@ -35,9 +36,11 @@ class TopCountries extends BaseMetabox
     {
         $args = $this->getFilters();
 
+        $isTodayOrFutureDate = DateTime::isTodayOrFutureDate($args['date']['to'] ?? null);
+
         $data = $this->dataProvider->getTopCountiesData($args);
 
-        $output = View::load('metabox/top-countries', ['data' => $data, 'filters' => $args], true);
+        $output = View::load('metabox/top-countries', ['data' => $data, 'filters' => $args, 'isTodayOrFutureDate' => $isTodayOrFutureDate], true);
 
         return $output;
     }

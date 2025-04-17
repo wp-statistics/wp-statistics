@@ -75,7 +75,8 @@ class Install
      *
      * @return void
      */
-    private function checkIsFresh() {
+    private function checkIsFresh()
+    {
         $version = get_option('wp_statistics_plugin_version');
 
         if (empty($version)) {
@@ -91,11 +92,12 @@ class Install
      *
      * @return bool.
      */
-    public static function isFresh() {
+    public static function isFresh()
+    {
         $isFresh = get_option('wp_statistics_is_fresh', false);
 
         if ($isFresh) {
-           return true;
+            return true;
         }
 
         return false;
@@ -106,8 +108,11 @@ class Install
      *
      * @return void
      */
-    private function markBackgroundProcessAsInitiated() {
-        if (! self::isFresh()) {
+    private function markBackgroundProcessAsInitiated()
+    {
+        Option::deleteOptionGroup('data_migration_process_started', 'jobs');
+
+        if (!self::isFresh()) {
             return;
         }
 
@@ -116,6 +121,7 @@ class Install
         Option::saveOptionGroup('schema_migration_process_started', true, 'jobs');
         Option::saveOptionGroup('update_source_channel_process_initiated', true, 'jobs');
         Option::saveOptionGroup('table_operations_process_initiated', true, 'jobs');
+        Option::saveOptionGroup('word_count_process_initiated', true, 'jobs');
     }
 
     public static function delete_duplicate_data()
@@ -229,8 +235,8 @@ class Install
         }
 
         // Check installed plugin version
-        $installed_version  = get_option('wp_statistics_plugin_version');
-        $latest_version     = WP_STATISTICS_VERSION;
+        $installed_version = get_option('wp_statistics_plugin_version');
+        $latest_version    = WP_STATISTICS_VERSION;
 
         if ($installed_version == $latest_version) {
             return;
@@ -495,8 +501,8 @@ class Install
             Option::update('privacy_audit', true);
         }
 
-        if (Option::get('usage_data_tracking', 'fail') === 'fail' && version_compare($latest_version, '14.12', '>')) {
-            Option::update('usage_data_tracking', false);
+        if (Option::get('share_anonymous_data') === false && version_compare($latest_version, '14.12', '>')) {
+            Option::update('share_anonymous_data', false);
         }
 
         if (Option::get('display_notifications') === false && version_compare($latest_version, '14.12', '>')) {

@@ -678,6 +678,16 @@ td:has(div.wps-admin-column__unlock){
       font-weight: 400;
       line-height: 14.06px;
       color: #56585A;
+
+      .wps-content-tabs__item--count{
+        margin-right: 3px;
+        display: inline-block;
+
+        .rtl &{
+          margin-right: 0;
+          margin-left: 3px;
+        }
+      }
     }
 
     h3 {

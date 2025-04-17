@@ -3,6 +3,7 @@
 namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess;
 
 use WP_STATISTICS\Admin_Assets;
+use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Utils\Request;
@@ -38,7 +39,7 @@ class AjaxBackgroundProcessManager
      */
     public function __construct()
     {
-        add_action('admin_init', [$this, 'handleDoneNotice']);
+        add_action('current_screen', [$this, 'handleDoneNotice']);
 
         if (!AjaxBackgroundProcessFactory::needsMigration()) {
             return;
@@ -46,7 +47,7 @@ class AjaxBackgroundProcessManager
 
         add_action('admin_enqueue_scripts', [$this, 'registerScript']);
         add_filter('wp_statistics_ajax_list', [$this, 'addAjax']);
-        add_action('admin_init', [$this, 'handleNotice']);
+        add_action('current_screen', [$this, 'handleNotice']);
         add_action('admin_post_' . self::MIGRATION_ACTION, [$this, 'handleAjaxMigration']);
     }
 
@@ -59,7 +60,7 @@ class AjaxBackgroundProcessManager
     public function addAjax($list)
     {
         $list[] = [
-            'class'  => AjaxBackgroundProcessFactory::getCurrentMigrate(),
+            'class'  => !AjaxBackgroundProcessFactory::isDatabaseMigrated() ? null : AjaxBackgroundProcessFactory::getCurrentMigrate(),
             'action' => 'background_process',
             'public' => false
         ];
@@ -76,6 +77,10 @@ class AjaxBackgroundProcessManager
      */
     public function handleDoneNotice()
     {
+        if (!$this->shouldShowNotice()) {
+            return;
+        }
+
         $status = Option::getOptionGroup('ajax_background_process', 'status', null);
 
         if ($status !== 'done') {
@@ -107,6 +112,10 @@ class AjaxBackgroundProcessManager
      */
     public function handleNotice()
     {
+        if (!$this->shouldShowNotice()) {
+            return;
+        }
+
         $status = Option::getOptionGroup('ajax_background_process', 'status', null);
 
         if ($status === 'progress') {
@@ -126,6 +135,12 @@ class AjaxBackgroundProcessManager
             return;
         }
 
+        $isMigrated = AjaxBackgroundProcessFactory::isDatabaseMigrated();
+
+        if (!$isMigrated) {
+            return;
+        }
+
         $migrationUrl = add_query_arg(
             [
                 'action' => self::MIGRATION_ACTION,
@@ -139,13 +154,15 @@ class AjaxBackgroundProcessManager
             '<div id="wp-statistics-background-process-notice">
                 <p><strong>%1$s</strong><br>%2$s</p>
                 <p>%3$s</p>
-                <p><a href="%4$s" id="start-migration-btn" class="button-primary">%5$s</a></p>
+                <p><a href="%4$s" id="start-migration-btn" class="button-primary">%5$s</a><a href="%6$s" style="margin: 10px" target="_blank">%7$s</a></p>
             </div>',
             esc_html__('WP Statistics: Migration Required', 'wp-statistics'),
-            __('A data migration is needed for WP Statistics. <strong>Click Start</strong> Migration below to begin.', 'wp-statistics'),
+            __('A data migration is needed for WP Statistics. Click <strong>Start Migration</strong> below to begin.', 'wp-statistics'),
             __('<strong>Note:</strong> If you leave this page before the migration finishes, the process will pause. You can always return later to resume.', 'wp-statistics'),
             esc_url($migrationUrl),
-            esc_html__('Start Migration', 'wp-statistics')
+            esc_html__('Start Migration', 'wp-statistics'),
+            'https://wp-statistics.com/resources/database-migration-process-guide/?utm_source=wp-statistics&utm_medium=link&utm_campaign=doc',
+            esc_html__('Read More', 'wp-statistics')
         );
 
         Notice::addNotice($message, 'start_ajax_background_process', 'warning', false);
@@ -209,5 +226,27 @@ class AjaxBackgroundProcessManager
         $referer = wp_get_referer();
         wp_redirect($referer ?: admin_url());
         exit;
+    }
+
+    /**
+     * Determines whether the background process notice should be displayed.
+     *
+     * @return bool
+     */
+    private function shouldShowNotice()
+    {
+        if (!current_user_can('manage_options')) {
+            return false;
+        }
+
+        if (Menus::in_plugin_page()) {
+            return true;
+        }
+
+        if (in_array(\WP_STATISTICS\Helper::get_screen_id(), ['dashboard'], true)) {
+            return true;
+        }
+
+        return false;
     }
 }

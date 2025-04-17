@@ -1,13 +1,40 @@
-= 14.13 - 2025-03-25 =
+= 14.13.2 - 2025-04-16 =
+- **New:** Added a 28-day date range option to the date picker.
+- **Enhancement:** Improved overall performance.
+- **Enhancement:** On the Single Post Statistics page, the update date is now shown only if it's different from the creation date.
+- **Fix:** Fixed inconsistencies in online visitor analytics.
+- **Fix:** Ensured the "Views" column is visible for Editors on the posts list page.
+- **Fix:** Resolved errors that appeared during notification updates.
+- **Fix:** Stopped inactive users from appearing online after 30 minutes.
+- **Fix:** Fixed issues with hit and online tracking endpoints.
+- **Fix:** Corrected filters URL issue on the Referrals page.
+- **Fix:** Resolved chart color issues in RTL layout.
+- **Fix:** Fixed a notice related to the word count background process.
+- **Fix:** Removed unnecessary left join on the users table in Visitor Insights to improve query performance.
+- **Fix:** Fixed compatibility issues with the Interactivity API.
+- **Fix:** Resolved layout issue with the "Account Information" widget on the Single Visitor page.
+- **Removal:** Removed the `Host Exclusions` setting.
+
+= 14.13.1 - 2025-04-08 =
+- **Enhancement:** Improved filter logic to avoid unnecessary requests.
+- **Enhancement:** Enhanced source channel detection for more accurate results.
+- **Enhancement:** Removed the FeedbackBird button from the header along with its related functionality.
+- **Fix:** Removed table prefix from shared anonymous data.
+- **Fix:** Fixed `serveObfuscatedAsset` compatibility with URL cleanup features when Bypass Ad-blocker is enabled.
+
+= 14.13 - 2025-04-01 =
 - **New:** Introduced Notifications to receive important updates and promotions.
-- **New:** Optional "Share Anonymous Data" feature to help improve WP Statistics without collecting personal information.  
+- **New:** Added an optional "Share Anonymous Data" feature to help improve WP Statistics without collecting personal information.
 - **Enhancement:** Removed the Honeypot feature.
 - **Enhancement:** Improved detection of source names for referred visitors.
-- **Enhancement:** Enhanced device tracking to store and display device model and brand.  
+- **Enhancement:** Enhanced device tracking to store and display device model and brand.
+- **Enhancement:** Reduced the displayed record count in the Top Referring widget to 5.
 - **Fix:** Fixed loading issues of obfuscated assets when using the proxy method.
 - **Fix:** Ensured `tracker.js` compatibility with the WordPress Interactivity API.
-- **Fix:** Resolved an issue where the `first_page` key was undefined on the visitor in the Visitor Insights page.
-- **Fix:** Hide 'Get More with Premium Analytics' widget for users with a premium license.
+- **Fix:** Resolved an issue where the `first_page` key was undefined in the Visitor Insights page.
+- **Fix:** The 'Get More with Premium Analytics' widget is now hidden for premium users.
+- **Fix:** Fixed discrepancies between shortcode view counts and traffic summary/visitor insights.
+- **Fix:** Corrected an issue where all Facebook traffic was categorized as Paid Social.
 
 = 14.12.6 - 2025-02-12
 - **New:** Added DB-IP as a location detection option.
@@ -111,9 +138,9 @@
 - **Fix:** Made the `views` column sortable again.
 - **Fix:** Resolved a PHP deprecation warning for better compatibility.
 - **Dev:** Added new filters for developers:
-  - `wp_statistics_geolocation_download_url`
-  - `wp_statistics_injection_patterns`
-  - `wp_statistics_location_column_value`
+    - `wp_statistics_geolocation_download_url`
+    - `wp_statistics_injection_patterns`
+    - `wp_statistics_location_column_value`
 
 14.11.3 - 2024-11-17
 - **New:** Added support for tracking unique visitors in shortcodes.
@@ -1816,7 +1843,7 @@ v13.1.2 - 09.11.2021
 * Release Date: January 13, 2014
 * Fixes: Critical bug that caused only a single visitor to be recorded.
 * Added: Version information to the optimization page.
-[Thanks Greg Ross](http://profiles.wordpress.org/gregross)
+  [Thanks Greg Ross](http://profiles.wordpress.org/gregross)
 
 4.3
 * Release Date: January 12, 2014

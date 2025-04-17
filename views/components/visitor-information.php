@@ -1,12 +1,14 @@
 <?php
+
 namespace WP_STATISTICS;
 
 use WP_Statistics\Decorators\VisitorDecorator;
+
 ?>
 
-<?php /** @var VisitorDecorator $visitor */ ?>
+    <?php /** @var VisitorDecorator $visitor */ ?>
 
-<?php if (!empty($visitor)) : ?>
+    <?php if (!empty($visitor)) : ?>
     <ul class="wps-visitor__information--container">
         <li class="wps-visitor__information">
             <div class="wps-tooltip" title="<?php echo esc_attr($visitor->getOs()->getName()) ?>">
@@ -24,68 +26,28 @@ use WP_Statistics\Decorators\VisitorDecorator;
             </div>
         </li>
 
-        <?php if ($visitor->isLoggedInUser()) : ?>
+        <?php if ($visitor->isLoggedInUser() && Option::get('visitors_log')) : ?>
             <li class="wps-visitor__information">
                 <div>
-                    <?php if (Option::get('visitors_log')): ?>
-                        <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])); ?>">
-                            <span class="wps-visitor__information__user-img"></span>
-                        </a>
-                        <a class="wps-visitor__information__user-text wps-tooltip" title="<?php echo esc_html($visitor->getUser()->getEmail()) ?> (<?php echo esc_html($visitor->getUser()->getRole()) ?>)" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])); ?>">
-                            <span title="<?php echo esc_html($visitor->getUser()->getDisplayName()) ?>"><?php echo esc_html($visitor->getUser()->getDisplayName()) ?></span>
-                            <span>#<?php echo esc_html($visitor->getUser()->getId()) ?></span>
-                        </a>
-                    <?php else: ?>
-                        <div class="wps-tooltip" data-tooltip-content="#tooltip_user_id">
-                            <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])); ?>"><span class="wps-visitor__information__user-img"></span></a>
-                        </div>
-                        <div class="wps-tooltip_templates">
-                            <div id="tooltip_user_id">
-                                <div>
-                                    <?php esc_html_e('ID', 'wp-statistics'); ?>:
-                                    <?php echo esc_html($visitor->getUser()->getId()); ?>
-                                </div>
-
-                                <div>
-                                    <?php esc_html_e('Name', 'wp-statistics'); ?>:
-                                    <?php echo esc_html($visitor->getUser()->getDisplayName()); ?>
-                                </div>
-
-                                <div>
-                                    <?php esc_html_e('Email', 'wp-statistics'); ?>:
-                                    <?php echo esc_html($visitor->getUser()->getEmail()); ?>
-                                </div>
-
-                                <div>
-                                    <?php
-                                    echo sprintf(
-                                        $visitor->isHashedIP() ? esc_html__('Daily Visitor Hash: %s', 'wp-statistics') : esc_html__('IP: %s', 'wp-statistics'),
-                                        $visitor->getIP()
-                                    );
-                                    ?>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endif; ?>
+                    <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])); ?>">
+                        <span class="wps-visitor__information__user-img"></span>
+                    </a>
+                    <a class="wps-visitor__information__user-text wps-tooltip" title="<?php echo esc_html($visitor->getUser()->getEmail()) ?> (<?php echo esc_html($visitor->getUser()->getRole()) ?>)" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])); ?>">
+                        <span title="<?php echo esc_html($visitor->getUser()->getDisplayName()) ?>"><?php echo esc_html($visitor->getUser()->getDisplayName()) ?></span>
+                        <span>#<?php echo esc_html($visitor->getUser()->getId()) ?></span>
+                    </a>
                 </div>
             </li>
         <?php else : ?>
             <li class="wps-visitor__information">
                 <div>
-                    <?php if (Option::get('visitors_log')): ?>
-                        <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>">
-                            <span class="wps-visitor__information__incognito-img"></span>
-                        </a>
+                    <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>">
+                        <span class="wps-visitor__information__incognito-img"></span>
+                    </a>
 
-                        <a class="wps-visitor__information__incognito-text" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>">
-                            <?php echo esc_html($visitor->getIP()); ?>
-                        </a>
-
-                    <?php else: ?>
-                        <div class="wps-tooltip" title="<?php echo sprintf($visitor->isHashedIP() ? esc_html__('Daily Visitor Hash: %s', 'wp-statistics') : esc_html__('IP: %s', 'wp-statistics'), $visitor->getIP()) ?>">
-                            <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>"><span class="wps-visitor__information__incognito-img"></span></a>
-                        </div>
-                    <?php endif; ?>
+                    <a class="wps-visitor__information__incognito-text" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>">
+                        <?php echo esc_html($visitor->getIP()); ?>
+                    </a>
                 </div>
             </li>
         <?php endif; ?>

@@ -36,7 +36,7 @@ body.admin-bar .wps-notification-sidebar {
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.25s ease-in-out;
+    transition: all 0.25s ease-in-out ;
 
     &.is-active {
       opacity: 1;
@@ -59,8 +59,8 @@ body.admin-bar .wps-notification-sidebar {
     opacity: 0;
     transform: translateX(100%);
     visibility: hidden;
-    transition: all .25s ease .3s, visibility .25s linear .25s;
-    transition-delay: .25s;
+    transition: all .25s ease-in-out;
+
 
     &::-webkit-scrollbar {
       width: 8px;

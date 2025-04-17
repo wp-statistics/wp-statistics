@@ -3,6 +3,7 @@
 namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\Jobs;
 
 use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\AbstractAjaxBackgroundProcess;
+use WP_STATISTICS\Option;
 use WP_Statistics\Service\Database\DatabaseFactory;
 
 /**
@@ -28,10 +29,20 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
     /**
      * Retrieves the total count of visitors to be migrated.
      *
-     * If the total is already set, the method exits early.
+     * @param bool $needCaching Whether to load/save from cache. Defaults to true.
+     * @return void
      */
-    protected function getTotal()
+    protected function getTotal($needCaching = true)
     {
+        $total = $needCaching ? $this->getCachedTotal(self::$currentProcessKey) : false;
+
+        if (!empty($total)) {
+            $this->total   = $total;
+            $this->batches = ceil($this->total / $this->batchSize);
+
+            return;
+        }
+
         $inspect = DatabaseFactory::table('inspect')
             ->setName('visitor')
             ->execute();
@@ -41,16 +52,28 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
         }
 
         $allVisitors = DatabaseFactory::table('select')
-            ->setName('visitor_relationships')
+            ->setName('visitor_relationships AS vr')
             ->setArgs([
-                'columns'  => ['DISTINCT visitor_id'],
-                'order_by' => 'visitor_id ASC',
+                'columns'  => ['DISTINCT vr.visitor_id'],
+                'joins'    => [
+                    [
+                        'table' => 'visitor',
+                        'alias' => 'v',
+                        'on'    => 'vr.visitor_id = v.ID',
+                        'type'  => 'INNER'
+                    ]
+                ],
+                'order_by' => 'vr.visitor_id ASC',
             ])
             ->execute()
             ->getResult();
 
         $this->total   = count($allVisitors);
         $this->batches = ceil($this->total / $this->batchSize);
+
+        if ($needCaching) {
+            $this->saveTotal(self::$currentProcessKey, $this->total);
+        }
     }
 
     /**
@@ -77,6 +100,50 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
         $this->done   = count($visitors);
         $currentBatch = ceil($this->done / $this->batchSize);
         $this->offset = $currentBatch * $this->batchSize;
+
+        $maxOffset = max(0, floor(($this->total - 1) / $this->batchSize) * $this->batchSize);
+
+        if ($this->offset > $maxOffset) {
+            $this->offset = $maxOffset;
+        }
+    }
+
+    /**
+     * Checks whether the migration has already been completed based on existing data.
+     *
+     * @return bool|null Returns true if data is already migrated and job is marked as completed, null otherwise.
+     */
+    protected function isAlreadyDone()
+    {
+        $status = Option::getOptionGroup('ajax_background_process', 'status', false);
+
+        if ($status === false || in_array($status, ['progress', 'done'], true)) {
+            return;
+        }
+
+        $visitors = DatabaseFactory::table('select')
+            ->setName('visitor')
+            ->setArgs([
+                'columns'   => ['first_page', 'first_view', 'last_page', 'last_view'],
+                'raw_where' => [
+                    "first_page IS NOT NULL AND first_page != ''",
+                    "first_view IS NOT NULL AND first_view > '0000-00-00 00:00:00'",
+                    "last_page IS NOT NULL AND last_page != ''",
+                    "last_view IS NOT NULL AND last_view > '0000-00-00 00:00:00'"
+                ]
+            ])
+            ->execute()
+            ->getResult();
+
+        $this->getTotal(false);
+
+        if (count($visitors) >= $this->total) {
+            $this->markAsCompleted(get_class($this));
+
+            return true;
+        }
+
+        return;
     }
 
     /**
@@ -86,6 +153,7 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
      */
     protected function migrate()
     {
+        $this->setBatchSize(100);
         $this->getTotal();
         $this->calculateOffset();
 
@@ -93,11 +161,28 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
             return;
         }
 
-        $visitorBatch = DatabaseFactory::table('select')
+        $inspect = DatabaseFactory::table('inspect')
             ->setName('visitor_relationships')
+            ->execute();
+
+        if (!$inspect->getResult()) {
+            return;
+        }
+
+        $visitorBatch = DatabaseFactory::table('select')
+            ->setName('visitor_relationships AS vr')
             ->setArgs([
-                'columns'  => ['visitor_id', 'MIN(ID) as min_id', 'MAX(ID) as max_id'],
-                'group_by' => 'visitor_id',
+                'columns'  => ['vr.visitor_id', 'MIN(vr.ID) as min_id', 'MAX(vr.ID) as max_id'],
+                'group_by' => 'vr.visitor_id',
+                'joins'    => [
+                    [
+                        'table' => 'visitor',
+                        'alias' => 'v',
+                        'on'    => 'vr.visitor_id = v.ID',
+                        'type'  => 'INNER'
+                    ]
+                ],
+                'order_by' => 'vr.visitor_id ASC',
                 'limit'    => [
                     $this->batchSize,
                     $this->offset,
@@ -107,6 +192,7 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
             ->getResult();
 
         if (empty($visitorBatch)) {
+            $this->done = $this->total;
             return;
         }
 

@@ -43,12 +43,12 @@ $postTypeNameSingular  = Helper::getPostTypeName($postType, true);
                                         </th>
                                         <th class="wps-pd-l">
                                             <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('average_comments')) ?>" class="sort <?php echo Request::compare('order_by', 'average_comments') ? esc_attr($order) : ''; ?>">
-                                                <?php echo sprintf(esc_html__('Comments/%s', 'wp-statistics'), $postTypeNameSingular) ?>
+                                                <?php echo sprintf(esc_html__('Comments/Per %s', 'wp-statistics'), $postTypeNameSingular) ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
                                             <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('average_views')) ?>" class="sort <?php echo Request::compare('order_by', 'average_views') ? esc_attr($order) : ''; ?>">
-                                                <?php echo sprintf(esc_html__('Views/%s', 'wp-statistics'), $postTypeNameSingular) ?>
+                                                <?php echo sprintf(esc_html__('Views/Per %s', 'wp-statistics'), $postTypeNameSingular) ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">

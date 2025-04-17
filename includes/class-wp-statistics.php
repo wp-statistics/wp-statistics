@@ -115,6 +115,13 @@ final class WP_Statistics
             $this->includes();
 
             /**
+             * Initialize classes during WordPress initialization.
+             */
+            add_action('init', function () {
+                $postsManager = new PostsManager();
+            });
+
+            /**
              * Setup background process
              */
             $this->initializeBackgroundProcess();
@@ -173,7 +180,6 @@ final class WP_Statistics
         require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-template.php';
 
         $referrals                  = new ReferralsManager();
-        $postsManager               = new PostsManager();
         $userOnline                 = new \WP_STATISTICS\UserOnline();
         $anonymizedUsageDataManager = new AnonymizedUsageDataManager();
         $notificationManager        = new NotificationManager();

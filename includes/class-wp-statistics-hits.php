@@ -214,6 +214,10 @@ class Hits extends Singleton
             $visitorProfile = new VisitorProfile();
         }
 
+        if ($visitorProfile->getVisitorId() === 0) {
+            return;
+        }
+
         /**
          * Check the exclusion
          */
