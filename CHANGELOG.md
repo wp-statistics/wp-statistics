@@ -1,3 +1,6 @@
+= 14.13.x =
+- **Fix**: Fix Font Size issue on the Free Email Report.
+
 = 14.13.2 - 2025-04-16 =
 - **New:** Added a 28-day date range option to the date picker.
 - **Enhancement:** Improved overall performance.
