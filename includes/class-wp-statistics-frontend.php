@@ -5,6 +5,8 @@ namespace WP_STATISTICS;
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Service\Integrations\WpConsentApi;
+use WP_Statistics\Service\Resources\ResourcesFactory;
+use WP_Statistics\Service\Tracking\TrackingFactory;
 
 class Frontend
 {
@@ -35,7 +37,7 @@ class Frontend
             /**
              * Get default params
              */
-            $params = array_merge([Hits::$rest_hits_key => 1], Helper::getHitsDefaultParams());
+            $params = array_merge([TrackingFactory::hits()->getRestHitsKey() => 1], Helper::getHitsDefaultParams());
 
             /**
              * Handle the bypass ad blockers
@@ -50,8 +52,8 @@ class Frontend
             } else {
                 // REST params
                 $requestUrl   = get_rest_url(null, RestAPI::$namespace);
-                $hitParams    = array_merge($params, ['endpoint' => Api\v2\Hit::$endpoint]);
-                $onlineParams = array_merge($params, ['endpoint' => Api\v2\CheckUserOnline::$endpoint]);
+                $hitParams    = array_merge($params, ['endpoint' => TrackingFactory::hitApi()->getEndpoint()]);
+                $onlineParams = array_merge($params, ['endpoint' => TrackingFactory::userOnlineApi()->getEndpoint()]);
             }
 
             /**
@@ -71,6 +73,8 @@ class Frontend
                     'trackAnonymously'     => Helper::shouldTrackAnonymously(),
                     'isPreview'            => is_preview(),
                 ],
+                'resourceId'   => ResourcesFactory::getCurrentResource(),
+                'jsCheckTime'  => apply_filters('wp_statistics_js_check_time_interval', 60000),
                 'jsCheckTime'           => apply_filters('wp_statistics_js_check_time_interval', 60000),
                 'isLegacyEventLoaded'   => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded
             );

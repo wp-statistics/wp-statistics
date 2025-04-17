@@ -4,8 +4,7 @@ namespace WP_Statistics\Service\Analytics;
 
 use Exception;
 use WP_STATISTICS\Helper;
-use WP_STATISTICS\Hits;
-use WP_Statistics\Utils\Request;
+use WP_Statistics\Service\Tracking\TrackingFactory;
 use WP_Statistics\Utils\Signature;
 
 class AnalyticsController
@@ -25,7 +24,7 @@ class AnalyticsController
             $this->checkSignature();
             Helper::validateHitRequest();
 
-            Hits::record();
+            TrackingFactory::hits()->record();
             wp_send_json(['status' => true]);
 
         } catch (Exception $e) {
@@ -48,7 +47,7 @@ class AnalyticsController
             $this->checkSignature();
             Helper::validateHitRequest();
 
-            Hits::recordOnline();
+            TrackingFactory::userOnline()->recordIfAllowed();
             wp_send_json(['status' => true]);
 
         } catch (Exception $e) {
