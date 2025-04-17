@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\PrivacyAudit;
 
+use ErrorException;
 use WP_Statistics\Abstracts\BasePage;
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Menus;
@@ -28,7 +29,7 @@ class PrivacyAuditPage extends BasePage
     /**
      * Display HTML
      */
-    public function view()
+    public function render()
     {
         $args = [
             'title'         => esc_html__('Privacy Audit', 'wp-statistics'),
