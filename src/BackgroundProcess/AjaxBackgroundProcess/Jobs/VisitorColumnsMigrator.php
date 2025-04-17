@@ -154,10 +154,11 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
     protected function migrate()
     {
         $this->setBatchSize(100);
-        $this->getTotal();
+        $this->getTotal(false);
         $this->calculateOffset();
 
         if ($this->isCompleted()) {
+            $this->saveTotal(self::$currentProcessKey, $this->total);
             return;
         }
 
