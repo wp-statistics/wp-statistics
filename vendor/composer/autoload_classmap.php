@@ -7,7 +7,10 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'WP_STATISTICS\\Abstracts\\BaseRestAPI' => $baseDir . '/src/Abstracts/BaseRestAPI.php',
     'WP_STATISTICS\\Abstracts\\BaseTracking' => $baseDir . '/src/Abstracts/BaseTracking.php',
+    'WP_STATISTICS\\Service\\Tracking\\API\\Hit' => $baseDir . '/src/Service/Tracking/API/Hit.php',
+    'WP_STATISTICS\\Service\\Tracking\\API\\UserOnline' => $baseDir . '/src/Service/Tracking/API/UserOnline.php',
     'WP_STATISTICS\\Service\\Tracking\\Core\\Hits' => $baseDir . '/src/Service/Tracking/Core/Hits.php',
     'WP_STATISTICS\\Service\\Tracking\\Core\\UserOnline' => $baseDir . '/src/Service/Tracking/Core/UserOnline.php',
     'WP_Statistics\\Abstracts\\BaseMetabox' => $baseDir . '/src/Abstracts/BaseMetabox.php',

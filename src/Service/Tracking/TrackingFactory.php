@@ -4,6 +4,8 @@ namespace WP_Statistics\Service\Tracking;
 
 use WP_STATISTICS\Service\Tracking\Core\Hits;
 use WP_STATISTICS\Service\Tracking\Core\UserOnline;
+use WP_STATISTICS\Service\Tracking\API\Hit as HitAPI;
+use WP_STATISTICS\Service\Tracking\API\UserOnline as UserOnlineAPI;
 
 /**
  * Factory for creating instances of tracking-related services.
@@ -34,5 +36,25 @@ class TrackingFactory
     public static function userOnline()
     {
         return new UserOnline();
+    }
+
+    /**
+     * Get the REST API endpoint handler for recording hits.
+     *
+     * @return HitAPI Instance of the Hit API class.
+     */
+    public static function hitApi()
+    {
+        return new HitAPI();
+    }
+
+    /**
+     * Get the REST API endpoint handler for updating online status.
+     *
+     * @return UserOnlineAPI Instance of the UserOnline API class.
+     */
+    public static function userOnlineApi()
+    {
+        return new UserOnlineAPI();
     }
 }

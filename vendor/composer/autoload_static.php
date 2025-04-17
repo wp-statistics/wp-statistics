@@ -26,7 +26,10 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'WP_STATISTICS\\Abstracts\\BaseRestAPI' => __DIR__ . '/../..' . '/src/Abstracts/BaseRestAPI.php',
         'WP_STATISTICS\\Abstracts\\BaseTracking' => __DIR__ . '/../..' . '/src/Abstracts/BaseTracking.php',
+        'WP_STATISTICS\\Service\\Tracking\\API\\Hit' => __DIR__ . '/../..' . '/src/Service/Tracking/API/Hit.php',
+        'WP_STATISTICS\\Service\\Tracking\\API\\UserOnline' => __DIR__ . '/../..' . '/src/Service/Tracking/API/UserOnline.php',
         'WP_STATISTICS\\Service\\Tracking\\Core\\Hits' => __DIR__ . '/../..' . '/src/Service/Tracking/Core/Hits.php',
         'WP_STATISTICS\\Service\\Tracking\\Core\\UserOnline' => __DIR__ . '/../..' . '/src/Service/Tracking/Core/UserOnline.php',
         'WP_Statistics\\Abstracts\\BaseMetabox' => __DIR__ . '/../..' . '/src/Abstracts/BaseMetabox.php',
