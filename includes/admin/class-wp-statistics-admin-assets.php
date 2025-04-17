@@ -18,6 +18,15 @@ class Admin_Assets
     public static $prefix = 'wp-statistics-admin';
 
     /**
+     * Script/style handle prefix for the React-based admin dashboard.
+     *
+     * Used when registering or enqueueing scripts/styles related to the React dashboard app.
+     *
+     * @var string
+     */
+    public static $react_dashboard_prefix = 'wp-statistics-react-dashboard';
+
+    /**
      * Suffix Of Minify File in Assets
      *
      * @var string
@@ -30,6 +39,13 @@ class Admin_Assets
      * @var string
      */
     public static $asset_dir = 'assets';
+
+    /**
+     * React App Build Folder name in Plugin
+     *
+     * @var string
+     */
+    public static $react_app_dir = 'build';
 
     /**
      * Basic Of Plugin Url in WordPress
@@ -116,13 +132,16 @@ class Admin_Assets
      * @param $file_name
      * @return string
      */
-    public static function url($file_name)
+    public static function url($file_name, $isReact = false)
     {
-
         // Get file Extension Type
         $ext = pathinfo($file_name, PATHINFO_EXTENSION);
         if ($ext != "js" and $ext != "css") {
             $ext = 'images';
+        }
+
+        if ($isReact) {
+            return self::$plugin_url . self::$react_app_dir . '/' . $file_name;
         }
 
         // Prepare File Path
@@ -184,6 +203,13 @@ class Admin_Assets
 
         // Get Current Screen ID
         $screen_id = Helper::get_screen_id();
+
+        if ($screen_id === 'admin_page_wps_data-migration_page') {
+            wp_enqueue_script(self::$react_dashboard_prefix, self::url('index.js', true), [], self::version(), ['in_footer' => true]);
+            wp_localize_script(self::$react_dashboard_prefix, 'wps_global', self::wps_global($hook));
+
+            return;
+        }
 
         // Load Chart.js library
         if (apply_filters('wp_statistics_enqueue_chartjs', false)) {
