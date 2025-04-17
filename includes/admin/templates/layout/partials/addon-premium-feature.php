@@ -24,7 +24,7 @@ $isActive      = $pluginHandler->isPluginActive($addon_modal_target);
             'addon_documentation_slug'  => $addon_documentation_slug ?? '',
             'addon_modal_target'        => $addon_modal_target,
             'addon_slug'                => $addon_slug,
-            'addon_utm_campaign'        => $addon_campaign
+            'addon_utm_campaign'        => $addon_campaign ?? ''
         ]);
     endif;
     ?>
