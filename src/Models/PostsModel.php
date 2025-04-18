@@ -161,6 +161,7 @@ class PostsModel extends BaseModel
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
             ->where('comments.comment_type', '=', 'comment')
+            ->where('comments.comment_approved', '=', '1')
             ->where('posts.ID', '=', $args['post_id'])
             ->whereDate('post_date', $args['date']);
 
