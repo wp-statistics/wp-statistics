@@ -205,7 +205,7 @@ class Admin_Assets
         $screen_id = Helper::get_screen_id();
 
         if ($screen_id === 'admin_page_wps_data-migration_page') {
-            wp_enqueue_script(self::$react_dashboard_prefix, self::url('index.js', true), [], self::version(), ['in_footer' => true]);
+            wp_enqueue_script(self::$react_dashboard_prefix, self::url('react-bundle.js', true), [], self::version(), ['in_footer' => true]);
             wp_localize_script(self::$react_dashboard_prefix, 'wps_global', self::wps_global($hook));
 
             return;

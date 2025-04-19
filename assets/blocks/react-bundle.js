@@ -1,0 +1,1 @@
+(()=>{"use strict";const e=window.React,t=window.wp.element,n=()=>(0,e.createElement)("div",{className:"wrap"},"hello");document.addEventListener("DOMContentLoaded",(()=>{const a=document.getElementById("wps-data-migration-page");a&&(0,t.render)((0,e.createElement)(n,null),a)}))})();
