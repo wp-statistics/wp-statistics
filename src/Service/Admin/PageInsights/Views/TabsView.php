@@ -73,75 +73,71 @@ class TabsView extends BaseTabView
 
     public function render()
     {
-        try {
-            $template    = $this->getCurrentTab();
-            $data        = $this->getTabData();
-            $queryParams = [
-                'tab'       => $this->getCurrentTab(),
-                'order_by'  => Request::get('order_by'),
-                'order'     => Request::get('order')
-            ];
+        $template    = $this->getCurrentTab();
+        $data        = $this->getTabData();
+        $queryParams = [
+            'tab'       => $this->getCurrentTab(),
+            'order_by'  => Request::get('order_by'),
+            'order'     => Request::get('order')
+        ];
 
-            $filters = [];
-            if ($this->isTab('contents')) {
-                $filters = ['post-types', 'page-insight'];
+        $filters = [];
+        if ($this->isTab('contents')) {
+            $filters = ['post-types', 'page-insight'];
 
-                $queryParams['pt']        = Request::get('pt', '');
-                $queryParams['author_id'] = Request::get('author_id', '', 'number');
-                $queryParams['url']       = Request::get('url', '');
-            } elseif ($this->isTab('category')) {
-                $filters = ['taxonomy'];
+            $queryParams['pt']        = Request::get('pt', '');
+            $queryParams['author_id'] = Request::get('author_id', '', 'number');
+            $queryParams['url']       = Request::get('url', '');
+        } elseif ($this->isTab('category')) {
+            $filters = ['taxonomy'];
 
-                $queryParams['tx'] = Request::get('tx', 'category');
-            }
-
-            $args = [
-                'title'         => esc_html__('Page Insights', 'wp-statistics'),
-                'pageName'      => Menus::get_page_slug('pages'),
-                'custom_get'    => $queryParams,
-                'DateRang'      => Admin_Template::DateRange(),
-                'hasDateRang'   => true,
-                'showLockedPage' => $this->isLocked(),
-                'data'          => $data,
-                'allTimeOption' => true,
-                'filters'       => $filters,
-                'pagination'    => Admin_Template::paginate_links([
-                    'total' => isset($data['total']) ? $data['total'] : 0,
-                    'echo'  => false
-                ]),
-                'tabs'          => [
-                    [
-                        'link'    => Menus::admin_url('pages', ['tab' => 'contents']),
-                        'title'   => esc_html__('Contents', 'wp-statistics'),
-                        'tooltip' => esc_html__('Shows visitor stats, views and word count for each content.', 'wp-statistics'),
-                        'class'   => $this->isTab('contents') ? 'current' : '',
-                    ],
-                    [
-                        'link'    => Menus::admin_url('pages', ['tab' => 'category']),
-                        'title'   => esc_html__('Category Pages', 'wp-statistics'),
-                        'tooltip' => esc_html__('Shows the page views for category pages related to the selected taxonomy.', 'wp-statistics'),
-                        'class'   => $this->isTab('category') ? 'current' : '',
-                    ],
-                    [
-                        'link'    => Menus::admin_url('pages', ['tab' => 'author']),
-                        'title'   => esc_html__('Author Pages', 'wp-statistics'),
-                        'tooltip' => esc_html__('View performance metrics for individual authors\' pages.', 'wp-statistics'),
-                        'class'   => $this->isTab('author') ? 'current' : '',
-                    ],
-                    [
-                        'link'      => Menus::admin_url('pages', ['tab' => '404']),
-                        'title'     => esc_html__('404 Pages', 'wp-statistics'),
-                        'class'     => $this->isTab('404') ? 'current' : '',
-                        'tooltip'   => esc_html__('View URLs that led visitors to 404 errors.', 'wp-statistics'),
-                    ]
-                ]
-            ];
-
-            Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
-            View::load("pages/page-insights/$template", $args);
-            Admin_Template::get_template(['layout/postbox.hide', 'layout/footer'], $args);
-        } catch (Exception $e) {
-            Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
+            $queryParams['tx'] = Request::get('tx', 'category');
         }
+
+        $args = [
+            'title'         => esc_html__('Page Insights', 'wp-statistics'),
+            'pageName'      => Menus::get_page_slug('pages'),
+            'custom_get'    => $queryParams,
+            'DateRang'      => Admin_Template::DateRange(),
+            'hasDateRang'   => true,
+            'showLockedPage' => $this->isLocked(),
+            'data'          => $data,
+            'allTimeOption' => true,
+            'filters'       => $filters,
+            'pagination'    => Admin_Template::paginate_links([
+                'total' => isset($data['total']) ? $data['total'] : 0,
+                'echo'  => false
+            ]),
+            'tabs'          => [
+                [
+                    'link'    => Menus::admin_url('pages', ['tab' => 'contents']),
+                    'title'   => esc_html__('Contents', 'wp-statistics'),
+                    'tooltip' => esc_html__('Shows visitor stats, views and word count for each content.', 'wp-statistics'),
+                    'class'   => $this->isTab('contents') ? 'current' : '',
+                ],
+                [
+                    'link'    => Menus::admin_url('pages', ['tab' => 'category']),
+                    'title'   => esc_html__('Category Pages', 'wp-statistics'),
+                    'tooltip' => esc_html__('Shows the page views for category pages related to the selected taxonomy.', 'wp-statistics'),
+                    'class'   => $this->isTab('category') ? 'current' : '',
+                ],
+                [
+                    'link'    => Menus::admin_url('pages', ['tab' => 'author']),
+                    'title'   => esc_html__('Author Pages', 'wp-statistics'),
+                    'tooltip' => esc_html__('View performance metrics for individual authors\' pages.', 'wp-statistics'),
+                    'class'   => $this->isTab('author') ? 'current' : '',
+                ],
+                [
+                    'link'      => Menus::admin_url('pages', ['tab' => '404']),
+                    'title'     => esc_html__('404 Pages', 'wp-statistics'),
+                    'class'     => $this->isTab('404') ? 'current' : '',
+                    'tooltip'   => esc_html__('View URLs that led visitors to 404 errors.', 'wp-statistics'),
+                ]
+            ]
+        ];
+
+        Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
+        View::load("pages/page-insights/$template", $args);
+        Admin_Template::get_template(['layout/postbox.hide', 'layout/footer'], $args);
     }
 }

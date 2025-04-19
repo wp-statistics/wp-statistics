@@ -101,15 +101,10 @@ class TabsView extends BaseTabView
 
     public function render()
     {
-        try {
-            if ($this->isLockedTab($this->getCurrentTab())) {
-                $this->renderLocked();
-            } else {
-                $this->renderContent();
-            }
-
-        } catch (Exception $e) {
-            Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
+        if ($this->isLockedTab($this->getCurrentTab())) {
+            $this->renderLocked();
+        } else {
+            $this->renderContent();
         }
     }
 }

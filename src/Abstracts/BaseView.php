@@ -7,5 +7,5 @@ abstract class BaseView
 {
     protected $dataProvider;
 
-    abstract protected function render();    
+    abstract protected function render();
 }
