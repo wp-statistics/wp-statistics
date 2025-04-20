@@ -152,8 +152,8 @@ class AjaxBackgroundProcessManager
 
         $message = sprintf(
             '<div id="wp-statistics-background-process-notice">
-                <p><strong>%1$s</strong><br>%2$s</p>
-                <p>%3$s</p>
+                <p><strong>%1$s</strong></p>
+                <p>%2$s <br> %3$s</p>
                 <p><a href="%4$s" id="start-migration-btn" class="button-primary">%5$s</a><a href="%6$s" style="margin: 10px" target="_blank">%7$s</a></p>
             </div>',
             esc_html__('WP Statistics: Migration Required', 'wp-statistics'),

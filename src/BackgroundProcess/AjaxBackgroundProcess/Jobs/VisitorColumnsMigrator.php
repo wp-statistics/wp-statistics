@@ -92,7 +92,8 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
                     "first_view IS NOT NULL AND first_view > '0000-00-00 00:00:00'",
                     "last_page IS NOT NULL AND last_page != ''",
                     "last_view IS NOT NULL AND last_view > '0000-00-00 00:00:00'"
-                ]
+                ],
+                'raw_where_type' => 'OR',
             ])
             ->execute()
             ->getResult();
@@ -130,7 +131,8 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
                     "first_view IS NOT NULL AND first_view > '0000-00-00 00:00:00'",
                     "last_page IS NOT NULL AND last_page != ''",
                     "last_view IS NOT NULL AND last_view > '0000-00-00 00:00:00'"
-                ]
+                ],
+                'raw_where_type' => 'OR',
             ])
             ->execute()
             ->getResult();
