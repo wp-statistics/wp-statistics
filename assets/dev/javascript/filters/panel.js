@@ -82,33 +82,34 @@ FilterPanel.prototype.fetchFilterOptions = function () {
     };
 
     params = Object.assign(params, wps_js.global.request_params);
-
-    jQuery.ajax({
-        url: wps_js.global.admin_url + 'admin-ajax.php',
-        type: 'POST',
-        dataType: 'json',
-        data: params,
-        timeout: 30000,
-        success: function (data) {
-            if (data) {
-                self.memoryCache = data;
-                this.renderFilters(data);
-            }
-        }.bind(this),
-        error: function () {
-            console.error("Error fetching filter data.");
-        },
-        complete: function () {
-            Object.values(this.settings.fields).forEach(function (filter) {
-                if (filter.containerSelector) {
-                    var container = document.querySelector(filter.containerSelector);
-                    if (container) {
-                        container.classList.remove('loading');
-                    }
+    if(params.filters.length !==0){
+        jQuery.ajax({
+            url: wps_js.global.admin_url + 'admin-ajax.php',
+            type: 'POST',
+            dataType: 'json',
+            data: params,
+            timeout: 30000,
+            success: function (data) {
+                if (data) {
+                    self.memoryCache = data;
+                    this.renderFilters(data);
                 }
-            });
-        }.bind(this)
-    });
+            }.bind(this),
+            error: function () {
+                console.error("Error fetching filter data.");
+            },
+            complete: function () {
+                Object.values(this.settings.fields).forEach(function (filter) {
+                    if (filter.containerSelector) {
+                        var container = document.querySelector(filter.containerSelector);
+                        if (container) {
+                            container.classList.remove('loading');
+                        }
+                    }
+                });
+            }.bind(this)
+        });
+    }
 }
 
 /**
