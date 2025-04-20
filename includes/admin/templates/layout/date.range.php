@@ -24,9 +24,9 @@
     <?php
     if (isset($custom_get)) {
         foreach ($custom_get as $key => $val) {
-            ?>
-            <input name="<?php echo esc_attr($key); ?>" type="hidden" value="<?php echo esc_attr($val); ?>">
-            <?php
+            if (empty($val)) continue;
+
+            ?><input name="<?php echo esc_attr($key); ?>" type="hidden" value="<?php echo esc_attr($val); ?>"><?php
         }
     }
     ?>
@@ -69,9 +69,9 @@
         <?php
         if (isset($custom_get)) {
             foreach ($custom_get as $key => $val) {
-                ?>
-                <input name="<?php echo esc_attr($key); ?>" type="hidden" value="<?php echo esc_attr($val); ?>">
-                <?php
+                if (empty($val)) continue;
+
+                ?><input name="<?php echo esc_attr($key); ?>" type="hidden" value="<?php echo esc_attr($val); ?>"><?php
             }
         }
         ?>
