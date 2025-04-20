@@ -12,9 +12,9 @@ const Page = () => {
     };
     return (
         <div
-            className="wrap"
+            className="wps-wrap"
             style={{
-                maxWidth: 774,
+                maxWidth: window.innerWidth <= 768 ? "100%" : 774,
             }}
         >
             {step == "step1" && <Step1 handleStep={handleStep} />}

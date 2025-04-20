@@ -1,4 +1,3 @@
-import React from "react";
 import { Card, CardBody, CardFooter, Button } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import InfoIcon from "../../../../images/information.svg";
@@ -60,7 +59,7 @@ const Step3 = ({ handleStep }) => {
     return (
         <Card
             style={{
-                width: "774px",
+                width: window.innerWidth <= 768 ? "100%" : 774,
             }}
         >
             <CardBody>

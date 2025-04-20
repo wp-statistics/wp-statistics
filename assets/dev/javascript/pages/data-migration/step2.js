@@ -1,4 +1,3 @@
-import { useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Card, CardBody, CardFooter, Button } from "@wordpress/components";
 
