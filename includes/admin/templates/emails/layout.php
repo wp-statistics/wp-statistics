@@ -290,7 +290,7 @@ if (!empty($content)) {
     $email_body .= '<table>
                         <tbody>
                             <tr>
-                               <td style="padding: 32px;white-space: pre-wrap">' .wp_kses_post($content) . '</td>                   
+                               <td style="padding: 32px;white-space: pre-wrap;font-size: 16px">' .wp_kses_post($content) . '</td>                   
                             </tr>
                         </tbody>   
                     </table>';
