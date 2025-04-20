@@ -139,7 +139,7 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.13.2 - 2025-04-19 =
+= 14.13.2 - 2025-04-20 =
 - **New:** Added a 28-day date range option to the date picker.
 - **Enhancement:** Improved overall performance.
 - **Enhancement:** On the Single Post Statistics page, the update date is now shown only if it's different from the creation date.
