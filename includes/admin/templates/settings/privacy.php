@@ -1,3 +1,4 @@
+<h2 class="wps-settingsBox__title"><?php esc_html_e('Privacy & Data Protection', 'wp-statistics'); ?></h2>
 <div class="postbox">
     <table class="form-table">
         <tbody>

@@ -7,6 +7,7 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
 
 ?>
 <div class="wrap wps-wrap">
+    <h2 class="wps-settingsBox__title"><?php esc_html_e('Historical Data', 'wp-statistics'); ?></h2>
     <div class="postbox">
         <form action="<?php echo esc_url(admin_url('admin.php?page=wps_optimization_page&tab=historical')) ?>" id="wps_historical_form" method="post">
             <?php wp_nonce_field('wps_optimization_nonce'); ?>

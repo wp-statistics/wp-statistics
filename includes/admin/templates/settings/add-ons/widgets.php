@@ -7,6 +7,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 $isLicenseValid  = LicenseHelper::isPluginLicenseValid('wp-statistics-widgets');
 $isWidgetsActive = WP_STATISTICS\Helper::isAddOnActive('widgets');
 ?>
+    <h2 class="wps-settingsBox__title"><?php esc_html_e('Advanced Widgets', 'wp-statistics'); ?></h2>
 
 <?php
 if (!$isWidgetsActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',

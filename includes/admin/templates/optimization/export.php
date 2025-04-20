@@ -1,4 +1,5 @@
 <div class="wrap wps-wrap">
+    <h2 class="wps-settingsBox__title"><?php esc_html_e('Data Export', 'wp-statistics'); ?></h2>
     <div class="postbox">
         <form method="post">
             <input type="hidden" name="wps_export" value="true">

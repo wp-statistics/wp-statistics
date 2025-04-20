@@ -1,4 +1,5 @@
 <div class="wrap wps-wrap">
+    <h2 class="wps-settingsBox__title"><?php esc_html_e('Plugin Maintenance', 'wp-statistics'); ?></h2>
     <div class="postbox">
         <form class="wps-submit-agree" data-agree="<?php echo esc_html_e('Are you sure you want to refresh country data?', 'wp-statistics'); ?>"
               action="<?php echo esc_url(admin_url('admin.php?page=wps_optimization_page&tab=updates')) ?>" method="post">

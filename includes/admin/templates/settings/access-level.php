@@ -5,6 +5,8 @@ use WP_STATISTICS\User;
 
 global $wp_roles;
 ?>
+    <h2 class="wps-settingsBox__title"><?php esc_html_e('Roles & Permissions', 'wp-statistics'); ?></h2>
+
     <div class="postbox">
         <table class="form-table">
             <tbody>

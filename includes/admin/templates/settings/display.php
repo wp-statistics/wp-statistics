@@ -1,6 +1,7 @@
 <?php
 use WP_STATISTICS\Option;
 ?>
+<h2 class="wps-settingsBox__title"><?php esc_html_e('Display Options', 'wp-statistics'); ?></h2>
 
 <div class="postbox">
     <table class="form-table">

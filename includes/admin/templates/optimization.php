@@ -1,4 +1,14 @@
-<div id="poststuff">
+
+<?php
+
+use WP_Statistics\Components\View;
+
+View::load('components/objects/share-anonymous-notice');
+?>
+<div class="wps-wrap__main">
+    <div class="wp-header-end"></div>
+
+<div id="poststuff" class="wps-wrap__settings">
     <div id="post-body" class="metabox-holder wps-optimizationPageFlex">
         <?php include WP_STATISTICS_DIR . 'includes/admin/templates/layout/menu-optimization.php'; ?>
 

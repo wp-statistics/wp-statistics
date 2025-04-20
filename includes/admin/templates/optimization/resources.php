@@ -1,4 +1,5 @@
 <div class="wrap wps-wrap">
+    <h2 class="wps-settingsBox__title"><?php esc_html_e('Overview & Info', 'wp-statistics'); ?></h2>
     <div class="postbox">
         <table class="form-table">
             <tbody>

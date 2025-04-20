@@ -4,10 +4,10 @@ use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
-$isLicenseValid         = LicenseHelper::isPluginLicenseValid('wp-statistics-realtime-stats');
-$isRealTimeStatsActive  = WP_STATISTICS\Helper::isAddOnActive('realtime-stats');
+$isLicenseValid        = LicenseHelper::isPluginLicenseValid('wp-statistics-realtime-stats');
+$isRealTimeStatsActive = WP_STATISTICS\Helper::isAddOnActive('realtime-stats');
 ?>
-
+    <h2 class="wps-settingsBox__title"><?php esc_html_e('Real-time Stats', 'wp-statistics'); ?></h2>
 <?php
 if (!$isRealTimeStatsActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
     ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),

@@ -26,6 +26,9 @@ foreach ($miniChartPostTypes as $name => $label) {
 }
 ?>
 
+<h2 class="wps-settingsBox__title"><?php esc_html_e('Mini Chart', 'wp-statistics'); ?></h2>
+
+
 <?php
 if (!$isMiniChartActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
     ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),

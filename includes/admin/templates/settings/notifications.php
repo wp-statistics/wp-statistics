@@ -4,6 +4,7 @@ use WP_STATISTICS\Option;
 use WP_STATISTICS\Schedule;
 
 ?>
+<h2 class="wps-settingsBox__title"><?php esc_html_e('Email Reports', 'wp-statistics'); ?></h2>
 
 <div class="postbox">
     <table class="form-table">

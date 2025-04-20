@@ -44,6 +44,9 @@ if (empty(Option::get('record_exclusions'))) {
 
 $disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customization', []);
 ?>
+
+    <h2 class="wps-settingsBox__title"><?php esc_html_e('Customization', 'wp-statistics'); ?></h2>
+
 <?php
 if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
     ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),

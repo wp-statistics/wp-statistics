@@ -8,30 +8,34 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
 $isLicenseValid     = LicenseHelper::isPluginLicenseValid('wp-statistics-data-plus');
 $isDataPlusActive   = Helper::isAddOnActive('data-plus');
-
-if (!$isDataPlusActive) echo Admin_Template::get_template(
-    'layout/partials/addon-premium-feature',
-    [
-        'addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
-        'addon_title'        => __('DataPlus Add-On', 'wp-statistics'),
-        'addon_modal_target' => 'wp-statistics-data-plus',
-        'addon_description'  => __('The settings on this page are part of the DataPlus add-on, which enhances WP Statistics by expanding tracking capabilities and providing detailed visitor insights.', 'wp-statistics'),
-        'addon_features'     => [
-            __('Track custom post types and taxonomies.', 'wp-statistics'),
-            __('Use advanced filtering for specific query parameters and UTM tags.', 'wp-statistics'),
-            __('Monitor outbound link clicks and downloads.', 'wp-statistics'),
-            __('Compare weekly traffic and view hourly visitor patterns.', 'wp-statistics'),
-            __('Analyze individual content pieces with detailed widgets.', 'wp-statistics'),
-        ],
-        'addon_info'        => __('Unlock deeper insights into your website\'s performance with DataPlus.', 'wp-statistics'),
-    ],
-    true
-);
-
-if ($isDataPlusActive && !$isLicenseValid) {
-    View::load("components/lock-sections/notice-inactive-license-addon");
-}
 ?>
+    <h2 class="wps-settingsBox__title"><?php esc_html_e('Data Plus', 'wp-statistics'); ?></h2>
+    <?php
+
+    if (!$isDataPlusActive) echo Admin_Template::get_template(
+        'layout/partials/addon-premium-feature',
+        [
+            'addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
+            'addon_title'        => __('DataPlus Add-On', 'wp-statistics'),
+            'addon_modal_target' => 'wp-statistics-data-plus',
+            'addon_description'  => __('The settings on this page are part of the DataPlus add-on, which enhances WP Statistics by expanding tracking capabilities and providing detailed visitor insights.', 'wp-statistics'),
+            'addon_features'     => [
+                __('Track custom post types and taxonomies.', 'wp-statistics'),
+                __('Use advanced filtering for specific query parameters and UTM tags.', 'wp-statistics'),
+                __('Monitor outbound link clicks and downloads.', 'wp-statistics'),
+                __('Compare weekly traffic and view hourly visitor patterns.', 'wp-statistics'),
+                __('Analyze individual content pieces with detailed widgets.', 'wp-statistics'),
+            ],
+            'addon_info'        => __('Unlock deeper insights into your website\'s performance with DataPlus.', 'wp-statistics'),
+        ],
+        true
+    );
+
+
+    if ($isDataPlusActive && !$isLicenseValid) {
+        View::load("components/lock-sections/notice-inactive-license-addon");
+    }
+    ?>
     <div class="postbox">
         <table class="form-table <?php echo !$isDataPlusActive ? 'form-table--preview' : '' ?>">
             <tbody>

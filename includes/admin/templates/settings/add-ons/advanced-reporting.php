@@ -10,6 +10,9 @@ $isLicenseValid             = LicenseHelper::isPluginLicenseValid('wp-statistics
 $isAdvancedReportingActive  = WP_STATISTICS\Helper::isAddOnActive('advanced-reporting');
 global $wp_version;
 ?>
+
+    <h2 class="wps-settingsBox__title"><?php esc_html_e('Advanced Reporting', 'wp-statistics'); ?></h2>
+
 <?php
 if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
     ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),

@@ -1,8 +1,10 @@
+<h2 class="wps-settingsBox__title"><?php esc_html_e('Filtering & Exceptions', 'wp-statistics'); ?></h2>
+
 <div class="postbox">
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('User Role Exclusions', 'wp-statistics'); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php esc_html_e('Filtering & Exceptions', 'wp-statistics'); ?></h3></th>
         </tr>
 
         <?php

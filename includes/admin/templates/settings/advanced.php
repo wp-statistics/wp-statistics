@@ -46,6 +46,9 @@ add_thickbox();
         ?>
     </table>
 </div>
+
+<h2 class="wps-settingsBox__title"><?php esc_html_e('Advanced Options', 'wp-statistics'); ?></h2>
+
 <div class="postbox">
     <table class="form-table">
         <tbody>

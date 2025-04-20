@@ -165,6 +165,7 @@
         }
     });
 </script>
+<h2 class="wps-settingsBox__title"><?php esc_html_e('Data Cleanup', 'wp-statistics'); ?></h2>
 <div class="wrap wps-wrap">
     <div class="postbox">
         <table class="form-table">

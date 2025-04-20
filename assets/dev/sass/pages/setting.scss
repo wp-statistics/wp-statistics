@@ -349,44 +349,44 @@
               padding-bottom: 16px;
               padding-left: 32px;
 
-              .wps-badge{
+              .wps-badge {
                 font-weight: 500;
                 font-size: 12px;
                 padding: 2px 4px;
                 border-radius: 2px;
 
-                &--deprecated{
-                  color:#664115;
+                &--deprecated {
+                  color: #664115;
                   background: #FBEEDE;
                 }
 
-                &--beta{
-                  color:#4F2DBC;
+                &--beta {
+                  color: #4F2DBC;
                   background: #EBE9F0;
                 }
 
-                &--recommended{
-                  color:#165E2E;
+                &--recommended {
+                  color: #165E2E;
                   background: #E8EFEA;
                 }
 
-                &--new{
-                  color:#404BF2;
+                &--new {
+                  color: #404BF2;
                   background: #ECEDFE;
                 }
 
-                &--addon{
-                  color:#56585A;
+                &--addon {
+                  color: #56585A;
                   background: #EEEFF1;
                 }
               }
 
-              label{
+              label {
                 display: flex;
                 flex-direction: column;
                 gap: 8px;
 
-                &>span{
+                & > span {
                   display: flex;
                   gap: 8px;
                   align-items: center;
@@ -400,8 +400,7 @@
                 line-height: 27px;
                 border-bottom: 1px solid #eeeff1;
                 padding: 16px 32px;
-                margin: -16px -32px;
-                width: calc(100% + 64px);
+                margin: -16px -24px -16px -32px;
               }
             }
 
@@ -428,25 +427,64 @@
                   font-size: 13px;
                 }
               }
+              select{
+                -moz-appearance: none;
+                -webkit-appearance: none;
+                appearance: none;
+                background: none;
+              }
 
-              input[type=text],textarea , select{
+              input[type=text], input[type=number], textarea, select, .select2-selection {
                 border: 1px solid #dadce0 !important;
                 border-radius: 4px;
-                padding: 10px!important;
+                padding: 10px !important;
                 width: 300px;
-                color:#0C0C0D;
+                color: #0C0C0D;
                 font-weight: 400;
                 font-size: 13px;
                 line-height: 20px;
+                margin: 0;
 
-                &:focus{
-                  border: 1px solid #404BF2!important;
+                &:focus {
+                  border: 1px solid #404BF2 !important;
                   box-shadow: none;
                   outline: none;
                 }
 
-                &::placeholder{
-                  color:#A9AAAE
+                &::placeholder {
+                  color: #A9AAAE
+                }
+              }
+
+              .select2-container {
+                .select2-selection {
+                  height: 40px;
+                }
+
+                .select2-selection__rendered {
+                  color: #0c0c0d;
+                  font-weight: 400;
+                  font-size: 13px;
+                  line-height: 20px;
+                  margin: 0;
+                  padding: 0;
+                }
+
+                .select2-selection__arrow {
+                  height: 18px;
+                  position: absolute;
+                  top: 10px;
+                  right: 10px;
+                  width: 18px;
+
+                  b {
+                    width: 18px !important;
+                    height: 18px !important;
+                    background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuMjUgNy41TDkgMTEuMjVMMTIuNzUgNy41IiBzdHJva2U9IiM1NjU4NUEiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==) no-repeat center;
+                    margin: 0 !important;
+                    left: 0;
+                    top: 0;
+                  }
                 }
               }
 
@@ -487,6 +525,7 @@
     }
 
     .wps-settingsBox {
+
       .postbox {
         table tbody tr td.wps-alert-container {
           background-color: transparent !important;
