@@ -1,8 +1,10 @@
 <?php
-use WP_STATISTICS\Helper;
-use WP_Statistics\Components\View;
+use WP_STATISTICS\Option;
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Url;
+use WP_Statistics\Components\View;
+use WP_Statistics\Marketing\Services\Auth\AuthHelper;
 
 $pageKey = Menus::getCurrentPage();
 $pageKey = $pageKey['page_url'];
@@ -78,7 +80,7 @@ View::load('components/objects/share-anonymous-notice');
             if (!empty($tabs) && is_array($tabs)) {
                 foreach ($tabs as $tab) {
                     if ($tab['class'] === 'current' || Url::getParam($tab['link'], 'tab') === $active_tab) {
-                        if (!empty($tab['lastUpdated']) && !empty($tab['lastUpdatedTooltip'])) {
+                        if (!empty($tab['lastUpdated']) && !empty($tab['lastUpdatedTooltip']) && AuthHelper::isAuthenticated() && Option::getByAddon('site', 'marketing')) {
                             ?>
                             <div class="wps-last-updated wps-tooltip" title="<?php echo esc_attr($tab['lastUpdatedTooltip']); ?>">
                                 <span>
