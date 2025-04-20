@@ -137,7 +137,7 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
 
         $this->getTotal(false);
 
-        if (count($visitors) >= $this->total) {
+        if (count($visitors) >= $this->total || empty($this->total)) {
             $this->markAsCompleted(get_class($this));
 
             return true;
