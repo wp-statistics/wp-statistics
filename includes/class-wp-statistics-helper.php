@@ -1548,7 +1548,7 @@ class Helper
         $factor = ($originalNumber < 10000) ? 100 : 10;
 
         // Round the scaled number with the desired decimals and append the unit.
-        $formattedNumber = floor($number * $factor) / $factor . $unit;
+        $formattedNumber = round($number * $factor) / $factor . $unit;
 
         return $formattedNumber;
     }
