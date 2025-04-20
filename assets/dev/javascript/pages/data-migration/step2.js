@@ -3,7 +3,6 @@ import { __ } from "@wordpress/i18n";
 import { Card, CardBody, CardFooter, Button } from "@wordpress/components";
 
 const Step2 = ({ handleStep }) => {
-    const [option, setOption] = useState("a");
     return (
         <Card>
             <CardBody>
@@ -256,7 +255,7 @@ const Step2 = ({ handleStep }) => {
                             color: "white",
                             cursor: "pointer",
                         }}
-                        onClick={() => {}}
+                        onClick={() => handleStep("step3")}
                     >
                         Start Migration
                     </button>

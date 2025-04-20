@@ -329,7 +329,6 @@ __webpack_require__.r(__webpack_exports__);
 const Step2 = ({
   handleStep
 }) => {
-  const [option, setOption] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)("a");
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Card, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.CardBody, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
     style: {
       fontFamily: 500,
@@ -511,10 +510,451 @@ const Step2 = ({
       color: "white",
       cursor: "pointer"
     },
-    onClick: () => {}
+    onClick: () => handleStep("step3")
   }, "Start Migration"))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Step2);
+
+/***/ }),
+
+/***/ "./assets/dev/javascript/pages/data-migration/step3.js":
+/*!*************************************************************!*\
+  !*** ./assets/dev/javascript/pages/data-migration/step3.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _images_information_svg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../images/information.svg */ "./assets/images/information.svg");
+
+
+
+
+
+const Step3 = ({
+  handleStep
+}) => {
+  const isCompleted = true;
+  const tasks = [{
+    id: 1,
+    name: "Visitor Records",
+    status: "Completed",
+    records: "5,200 records migrated"
+  }, {
+    id: 2,
+    name: "Page Views Data",
+    status: "Completed",
+    records: "12,300 records migrated"
+  }, {
+    id: 3,
+    name: "Geo-Location Data",
+    status: "In Progress",
+    progressText: "(next)",
+    records: "4,100 of 10,000 completed",
+    isBold: true
+  }, {
+    id: 4,
+    name: "Referral Traffic",
+    status: "Pending",
+    records: "0 of 8,400 completed"
+  }, {
+    id: 5,
+    name: "Author Performance Data",
+    status: "Pending",
+    records: "0 of 2,000 completed"
+  }];
+
+  // --- Style Objects ---
+  // It's often cleaner to define style objects outside the component or memoize them
+  const tableStyle = {
+    width: "100%",
+    borderCollapse: "collapse",
+    fontFamily: "Arial, sans-serif",
+    overflow: "hidden",
+    borderRadius: "8px"
+  };
+  const thStyle = {
+    backgroundColor: "#f8f9fa",
+    color: "#6c757d",
+    textAlign: "left",
+    padding: "12px 15px",
+    fontWeight: 600,
+    // Use numbers or strings for fontWeight
+    borderBottom: "1px solid #e0e0e0"
+  };
+  const tdBaseStyle = {
+    // Base style for table data cells
+    padding: "12px 15px",
+    borderBottom: "1px solid #eef2f7",
+    verticalAlign: "middle",
+    background: "white"
+  };
+  const iconStyle = {
+    marginRight: "5px"
+  };
+
+  // Helper function to get status details (icon, color, text)
+  const getStatusDetails = (status, progressText = "") => {
+    switch (status) {
+      case "Completed":
+        return {
+          icon: "✅",
+          text: "Completed"
+        };
+      case "In Progress":
+        return {
+          icon: "🔄",
+          text: `In Progress ${progressText}`.trim()
+        };
+      case "Pending":
+        return {
+          icon: "⏳",
+          text: "Pending"
+        };
+      default:
+        return {
+          icon: "",
+          text: status
+        };
+      // Fallback
+    }
+  };
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Card, {
+    style: {
+      width: "774px"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.CardBody, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
+    style: {
+      fontFamily: 500,
+      fontSize: 18,
+      lineHeight: 1.3,
+      marginTop: "8px",
+      marginBottom: "16px"
+    }
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Overall Progress", "wp-gutenberg")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", {
+    style: {
+      fontFamily: 500,
+      fontSize: 16,
+      marginBottom: 10
+    }
+  }, isCompleted ? "100%" : "60%", " Completed"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      height: "5px",
+      borderRadius: "24px",
+      background: "#E7E7E8",
+      width: "100%"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      height: "5px",
+      borderRadius: "24px",
+      background: "#019939",
+      width: isCompleted ? "100%" : "60%"
+    }
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      border: "2px solid #eef2f7",
+      borderRadius: "8px",
+      margin: "24px 0px"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", {
+    style: tableStyle
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("thead", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", {
+    style: thStyle
+  }, "Task Name"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", {
+    style: thStyle
+  }, "Status"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", {
+    style: thStyle
+  }, "Records"))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, tasks.map((task, index) => {
+    const statusDetails = getStatusDetails(task.status, task.progressText);
+    const isLastRow = index === tasks.length - 1;
+
+    // Define cell styles, removing bottom border for the last row
+    const tdDynamicStyle = {
+      ...tdBaseStyle,
+      // Include base styles
+      borderBottom: isLastRow ? "none" : tdBaseStyle.borderBottom // Conditional border
+    };
+
+    // Define specific styles based on task properties (e.g., boldness)
+    const taskNameStyle = {
+      ...tdDynamicStyle,
+      color: "#333",
+      fontWeight: task.isBold ? 600 : "normal"
+    };
+    const statusStyle = {
+      ...tdDynamicStyle,
+      color: statusDetails.color,
+      fontWeight: task.isBold ? 600 : "normal"
+    };
+    const recordsStyle = {
+      ...tdDynamicStyle,
+      color: task.isBold ? "#333" : "#6c757d",
+      // Darker grey default, black if bold
+      fontWeight: task.isBold ? 600 : "normal"
+    };
+    return (
+      // Use a unique key for each row, essential for React lists
+      (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
+        key: task.id
+      }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", {
+        style: taskNameStyle
+      }, task.name), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", {
+        style: statusStyle
+      }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+        style: iconStyle
+      }, statusDetails.icon), statusDetails.text), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", {
+        style: recordsStyle
+      }, task.records))
+    );
+  })))), !isCompleted && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      color: "#333"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
+    style: {
+      fontSize: "16px",
+      marginBottom: "12px",
+      marginBottom: "8px"
+    }
+  }, "Status Icons Explanation:"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
+    style: {
+      listStyle: "disc",
+      paddingLeft: "5px"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    style: {
+      fontSize: "15px",
+      marginBottom: "14px",
+      display: "flex",
+      alignItems: "center"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    role: "img",
+    "aria-label": "Completed",
+    style: {
+      marginRight: "10px",
+      fontSize: "1.2em",
+      color: "green"
+    }
+  }, "\u2705"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, "Completed: The task is fully finished.")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    style: {
+      fontSize: "15px",
+      marginBottom: "14px",
+      display: "flex",
+      alignItems: "center"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    role: "img",
+    "aria-label": "In Progress",
+    style: {
+      marginRight: "10px",
+      fontSize: "1.2em"
+    }
+  }, "\uD83D\uDD04"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, "In Progress: Task is currently migrating.")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    style: {
+      fontSize: "15px",
+      display: "flex",
+      alignItems: "center"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    role: "img",
+    "aria-label": "Pending",
+    style: {
+      marginRight: "10px",
+      fontSize: "1.2em"
+    }
+  }, "\u23F3"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, "Pending: Task is queued and will start after the current one completes.")))), isCompleted && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      maxWidth: "600px",
+      marginTop: "40px",
+      marginBottom: "20px",
+      fontFamily: "sans-serif",
+      color: "#333"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
+    style: {
+      fontSize: "1.2em",
+      fontWeight: "bold",
+      marginBottom: "10px"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    style: {
+      marginRight: "5px"
+    }
+  }, "\uD83C\uDF89"), " Migration Completed Successfully!"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    style: {
+      fontSize: 15,
+      color: "#0C0C0D"
+    }
+  }, "All your historical data has been successfully migrated!"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    style: {
+      fontSize: 15,
+      color: "#56585A"
+    }
+  }, " ", "You can now take full advantage of WP Statistics' new structure."), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    style: {
+      fontWeight: "bold",
+      marginBottom: "2px",
+      marginTop: "8px",
+      fontSize: 15
+    }
+  }, "Next Steps:"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
+    style: {
+      listStyleType: "disc",
+      marginLeft: "20px",
+      paddingLeft: "20px",
+      color: "#555",
+      lineHeight: 1.6,
+      margin: 0
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    style: {
+      marginBottom: "5px",
+      color: "#56585A",
+      fontSize: 15
+    }
+  }, "Check out your updated stats in the", " ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: "#",
+    style: {
+      color: "#0073aa",
+      textDecoration: "underline"
+    }
+  }, "WP Statistics Dashboard"), "."), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    style: {
+      marginBottom: "5px",
+      color: "#56585A",
+      fontSize: 15
+    }
+  }, "If you have any questions, visit our", " ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: "#",
+    style: {
+      color: "#0073aa",
+      textDecoration: "underline"
+    }
+  }, "Migration FAQs"), " ", "or", " ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: "#",
+    style: {
+      color: "#0073aa",
+      textDecoration: "underline"
+    }
+  }, "contact support"), ".")))), !isCompleted && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.CardFooter, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      backgroundColor: "#FEF9F5" /* Light yellow/beige background */,
+      border: "1px solid #E68C3F80" /* Light orange border */,
+      borderRadius: "8px",
+      padding: "13px 16px",
+      color: "#333",
+      marginBottom: "24px",
+      marginTop: "12px"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      display: "flex",
+      alignItems: "start",
+      gap: "12px"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+    src: _images_information_svg__WEBPACK_IMPORTED_MODULE_3__["default"],
+    alt: "info"
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      marginBottom: "10px"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", {
+    style: {
+      margin: "0",
+      fontSize: "14px",
+      fontWeight: "bold",
+      color: "#E68C3F" /* Light orange for the title */
+    }
+  }, "Important Notes")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
+    style: {
+      listStyleType: "disc",
+      paddingLeft: "15px",
+      margin: "0"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    style: {
+      marginBottom: "8px",
+      fontSize: 14
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", null, "Migration time"), " varies based on your data size and server resources."), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    style: {
+      marginBottom: "8px",
+      fontSize: 14
+    }
+  }, "You can continue using your site in ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", {
+    style: {
+      fontWeight: "bold"
+    }
+  }, "another browser tab"), ", but ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", {
+    style: {
+      fontWeight: "bold"
+    }
+  }, "this migration page must remain open"), "."), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    style: {
+      marginBottom: "8px",
+      fontSize: 14
+    }
+  }, "If the migration is ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", {
+    style: {
+      fontWeight: "bold"
+    }
+  }, "paused"), " or ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", {
+    style: {
+      fontWeight: "bold"
+    }
+  }, "interrupted"), ", returning to this page resumes it from where you left off."), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    style: {
+      fontSize: 14
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", {
+    style: {
+      fontWeight: "bold"
+    }
+  }, "No data is deleted"), " until the migration is fully complete\u2014feel free to pause or cancel if you need to, without losing your old records."))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      width: "100%",
+      padding: "10px 0px"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    style: {
+      background: "#fff",
+      outline: "none",
+      border: "1px solid #EEEFF1",
+      padding: "12px 16px",
+      borderRadius: "4px",
+      cursor: "pointer",
+      color: "#56585A"
+    },
+    onClick: () => handleStep("step2")
+  }, "Cancel"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    style: {
+      background: "#EEEFF1",
+      outline: "none",
+      border: "none",
+      padding: "12px 16px",
+      borderRadius: "4px",
+      color: "#56585A",
+      cursor: "pointer"
+    }
+  }, "Pause")))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Step3);
 
 /***/ }),
 
@@ -547,6 +987,38 @@ var SvgInfoIcon = function SvgInfoIcon(props) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUiIGhlaWdodD0iMTUiIHZpZXdCb3g9IjAgMCAxNSAxNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTcuNTAxMDYgMTQuNTg0NkMzLjU4OTA0IDE0LjU4NDYgMC40MTc3MjUgMTEuNDEzMyAwLjQxNzcyNSA3LjUwMTNDMC40MTc3MjUgMy41ODkyOCAzLjU4OTA0IDAuNDE3OTY5IDcuNTAxMDYgMC40MTc5NjlDMTEuNDEzIDAuNDE3OTY5IDE0LjU4NDQgMy41ODkyOCAxNC41ODQ0IDcuNTAxM0MxNC41ODQ0IDExLjQxMzMgMTEuNDEzIDE0LjU4NDYgNy41MDEwNiAxNC41ODQ2Wk02Ljc5MjczIDYuNzkyOTdWMTEuMDQzSDguMjA5MzlWNi43OTI5N0g2Ljc5MjczWk02Ljc5MjczIDMuOTU5NjRWNS4zNzYzSDguMjA5MzlWMy45NTk2NEg2Ljc5MjczWiIgZmlsbD0iIzMwODhFQyIvPgo8L3N2Zz4K");
+
+/***/ }),
+
+/***/ "./assets/images/information.svg":
+/*!***************************************!*\
+  !*** ./assets/images/information.svg ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ReactComponent: () => (/* binding */ SvgInformation),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+var _path;
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+
+var SvgInformation = function SvgInformation(props) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", _extends({
+    xmlns: "http://www.w3.org/2000/svg",
+    width: 17,
+    height: 15,
+    fill: "none"
+  }, props), _path || (_path = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    fill: "#E68C3F",
+    d: "m9.052.397 7.57 13.111a.794.794 0 0 1-.688 1.192H.793a.795.795 0 0 1-.688-1.192L7.676.398a.795.795 0 0 1 1.376 0M7.57 10.727v1.59h1.59v-1.59zm0-5.562v3.973h1.59V5.165z"
+  })));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTciIGhlaWdodD0iMTUiIHZpZXdCb3g9IjAgMCAxNyAxNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTkuMDUyMTQgMC4zOTc0MjlMMTYuNjIxNiAxMy41MDgxQzE2Ljg0MTEgMTMuODg4MiAxNi43MTA4IDE0LjM3NDEgMTYuMzMwOCAxNC41OTM1QzE2LjIxIDE0LjY2MzMgMTYuMDcyOSAxNC43IDE1LjkzMzUgMTQuN0gwLjc5NDU4NkMwLjM1NTc1MiAxNC43IDAgMTQuMzQ0MyAwIDEzLjkwNTRDMCAxMy43NjU5IDAuMDM2NzE3OCAxMy42Mjg5IDAuMTA2NDU5IDEzLjUwODFMNy42NzU5MSAwLjM5NzQyOUM3Ljg5NTMgMC4wMTczNzgzIDguMzgxMjcgLTAuMTEyODMgOC43NjEzMiAwLjEwNjU4N0M4Ljg4MjEgMC4xNzYzMjcgOC45ODI0NSAwLjI3NjYzNiA5LjA1MjE0IDAuMzk3NDI5Wk03LjU2OTQ0IDEwLjcyNzFWMTIuMzE2Mkg5LjE1ODYxVjEwLjcyNzFINy41Njk0NFpNNy41Njk0NCA1LjE2NDk0VjkuMTM3OUg5LjE1ODYxVjUuMTY0OTRINy41Njk0NFoiIGZpbGw9IiNFNjhDM0YiLz4KPC9zdmc+Cg==");
 
 /***/ }),
 
@@ -672,12 +1144,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _step1__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./step1 */ "./assets/dev/javascript/pages/data-migration/step1.js");
-/* harmony import */ var _step2__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./step2 */ "./assets/dev/javascript/pages/data-migration/step2.js");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _step1__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./step1 */ "./assets/dev/javascript/pages/data-migration/step1.js");
+/* harmony import */ var _step2__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./step2 */ "./assets/dev/javascript/pages/data-migration/step2.js");
+/* harmony import */ var _step3__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./step3 */ "./assets/dev/javascript/pages/data-migration/step3.js");
 
 
 
@@ -695,9 +1166,11 @@ const Page = () => {
     style: {
       maxWidth: 774
     }
-  }, step == "step1" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_step1__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, step == "step1" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_step1__WEBPACK_IMPORTED_MODULE_3__["default"], {
     handleStep: handleStep
-  }), step == "step2" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_step2__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }), step == "step2" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_step2__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    handleStep: handleStep
+  }), step == "step3" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_step3__WEBPACK_IMPORTED_MODULE_5__["default"], {
     handleStep: handleStep
   }));
 };

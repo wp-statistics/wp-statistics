@@ -1,9 +1,9 @@
 import { useState } from "@wordpress/element";
-import { Card, CardBody, CardFooter, Button } from "@wordpress/components";
 import { render } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import Step1 from "./step1";
 import Step2 from "./step2";
+import Step3 from "./step3";
 
 const Page = () => {
     const [step, setStep] = useState("step1");
@@ -19,6 +19,7 @@ const Page = () => {
         >
             {step == "step1" && <Step1 handleStep={handleStep} />}
             {step == "step2" && <Step2 handleStep={handleStep} />}
+            {step == "step3" && <Step3 handleStep={handleStep} />}
         </div>
     );
 };
