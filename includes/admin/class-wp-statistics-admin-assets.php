@@ -154,12 +154,22 @@ class Admin_Assets
         }
 
         wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js', array(),  self::version(), true);
+
+        // Moment.js and Moment Timezone
         wp_enqueue_script('momentjs', 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js', array(), '2.29.1', true);
-        wp_enqueue_script('datepicker', self::url('../../assets/dev/javascript/plugin/datepicker.js'), array('jquery', 'momentjs'), self::version(), true);
+        wp_enqueue_script('moment-timezone', self::url('../../assets/js/datepicker/moment-timezone-with-data.min.js'), array('momentjs'), '0.5.48', true);
+
+        // Chart.js Moment Adapter
+        wp_enqueue_script('chartjs-adapter-moment', self::url('../../assets/js/chartjs/chartjs-adapter-moment.min.js'), array('chartjs', 'momentjs', 'moment-timezone'), '1.0.0', true);
+        wp_enqueue_script('chartjs-matrix', self::url('../../assets/js/chartjs/chart-matrix.min.js'), array('chartjs'), '1.2.0', true);
+
+        // Datepicker
+        wp_enqueue_script('datepicker', self::url('../../assets/dev/javascript/plugin/datepicker.js'), array('jquery', 'momentjs', 'moment-timezone', 'chartjs', 'chartjs-adapter-moment'), self::version(), true);
+
+        // Filter scripts (add dependencies if they interact with chart or datepicker)
         wp_enqueue_script('filter-modal', self::url('../../assets/dev/javascript/filters/modal.js'), array('jquery'), self::version(), true);
         wp_enqueue_script('filter-panel', self::url('../../assets/dev/javascript/filters/panel.js'), array('jquery'), self::version(), true);
         wp_enqueue_script('filter-generator', self::url('../../assets/dev/javascript/filters/generator.js'), array('jquery'), self::version(), true);
-
         // Load Admin Js
         wp_enqueue_script(self::$prefix, self::url('../../assets/js/admin.min.js'), array('jquery', 'chartjs', 'datepicker', 'momentjs', 'filter-modal', 'filter-panel','filter-generator'), self::version(), ['in_footer' => true]);
         wp_localize_script(self::$prefix, 'wps_global', self::wps_global($hook));
