@@ -14,9 +14,9 @@ use WP_Statistics\Service\Admin\PageInsights\PageInsightsDataProvider;
 
 class TabsView extends BaseTabView
 {
-    protected $defaultTab = 'contents';
+    protected $defaultTab = 'top';
     protected $tabs = [
-        'contents',
+        'top',
         'category',
         'author',
         '404',
@@ -51,9 +51,9 @@ class TabsView extends BaseTabView
         return $isLocked;
     }
 
-    public function getContentsData()
+    public function getTopData()
     {
-        return $this->dataProvider->getContentsData();
+        return $this->dataProvider->getTopData();
     }
 
     public function getCategoryData()
@@ -83,7 +83,7 @@ class TabsView extends BaseTabView
             ];
 
             $filters = [];
-            if ($this->isTab('contents')) {
+            if ($this->isTab('top')) {
                 $filters = ['post-types', 'page-insight'];
 
                 $queryParams['pt']        = Request::get('pt', '');
@@ -111,10 +111,10 @@ class TabsView extends BaseTabView
                 ]),
                 'tabs'          => [
                     [
-                        'link'    => Menus::admin_url('pages', ['tab' => 'contents']),
-                        'title'   => esc_html__('Contents', 'wp-statistics'),
+                        'link'    => Menus::admin_url('pages', ['tab' => 'top']),
+                        'title'   => esc_html__('Top Pages', 'wp-statistics'),
                         'tooltip' => esc_html__('Shows visitor stats, views and word count for each content.', 'wp-statistics'),
-                        'class'   => $this->isTab('contents') ? 'current' : '',
+                        'class'   => $this->isTab('top') ? 'current' : '',
                     ],
                     [
                         'link'    => Menus::admin_url('pages', ['tab' => 'category']),

@@ -117,4 +117,12 @@ use WP_Statistics\Components\View;
             ?>
         </div>
     </div>
+
+    <div class="wps-visitor__visitors-detail--row">
+        <span><?php esc_html_e('Exit Page', 'wp-statistics'); ?>&nbsp;</span>
+        <div class="wps-ellipsis-parent">
+            <span><?php echo esc_html($visitor->getFirstView() ?? $visitor->getLastCounter()) ?></span>
+        </div>
+    </div>
+
 </div>

@@ -39,7 +39,7 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
 
                         <?php if (empty($hide_latest_page_column)) : ?>
                             <th class="wps-pd-l">
-                                <?php echo isset($page_column_title) ? esc_html($page_column_title) : esc_html__('Latest Page', 'wp-statistics'); ?>
+                                <?php echo isset($page_column_title) ? esc_html($page_column_title) : esc_html__('Exit Page', 'wp-statistics'); ?>
                             </th>
                         <?php endif; ?>
                         <th class="wps-pd-l">

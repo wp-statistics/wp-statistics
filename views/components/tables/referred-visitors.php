@@ -26,10 +26,13 @@ use WP_STATISTICS\Menus;
                             <?php esc_html_e('Location', 'wp-statistics') ?>
                         </th>
                         <th class="wps-pd-l">
-                            <?php echo esc_html__('Landing Page', 'wp-statistics'); ?>
+                            <?php echo esc_html__('Entry Page', 'wp-statistics'); ?>
                         </th>
                         <th class="wps-pd-l">
-                            <?php echo esc_html__('Number of Views', 'wp-statistics'); ?>
+                            <?php echo esc_html__('Exit Page', 'wp-statistics'); ?>
+                        </th>
+                        <th class="wps-pd-l">
+                            <?php echo esc_html__('Total Views', 'wp-statistics'); ?>
                         </th>
                     </tr>
                 </thead>
@@ -83,7 +86,17 @@ use WP_STATISTICS\Menus;
                                     <?php echo Admin_Template::UnknownColumn() ?>
                                 <?php endif; ?>
                             </td>
-
+                            <td class="wps-pd-l">
+                                <?php $page = $visitor->getLastPage(); ?>
+                                <?php if (!empty($page)) :
+                                    View::load("components/objects/external-link", [
+                                        'url'   => $page['link'],
+                                        'title' => $page['title'],
+                                    ]);
+                                else : ?>
+                                    <?php echo Admin_Template::UnknownColumn() ?>
+                                <?php endif; ?>
+                            </td>
                             <td class="wps-pd-l">
                                 <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>">
                                     <?php echo esc_html($visitor->getHits()) ?>

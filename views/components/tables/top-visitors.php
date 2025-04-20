@@ -26,7 +26,10 @@ use WP_STATISTICS\Menus;
                         <?php esc_html_e('Referrer', 'wp-statistics'); ?>
                     </th>
                     <th class="wps-pd-l">
-                        <?php esc_html_e('Latest Page', 'wp-statistics'); ?>
+                        <?php esc_html_e('Entry Page', 'wp-statistics'); ?>
+                    </th>
+                    <th class="wps-pd-l">
+                        <?php esc_html_e('Exit Page', 'wp-statistics'); ?>
                     </th>
                 </tr>
                 </thead>
@@ -64,7 +67,21 @@ use WP_STATISTICS\Menus;
                             ]);
                             ?>
                         </td>
+                        <td class="wps-pd-l">
+                            <?php
+                            $page = $visitor->getFirstPage();
 
+                            if (!empty($page)) :
+                                View::load("components/objects/external-link", [
+                                    'url'       => $page['link'],
+                                    'title'     => $page['title'],
+                                    'tooltip'   => $page['query'] ? "?{$page['query']}" : ''
+                                ]);
+                            else :
+                                echo Admin_Template::UnknownColumn();
+                            endif;
+                            ?>
+                        </td>
                         <td class="wps-pd-l">
                             <?php $page = $visitor->getLastPage(); ?>
                             <?php if (!empty($page)) :

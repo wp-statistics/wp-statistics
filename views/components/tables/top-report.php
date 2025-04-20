@@ -15,7 +15,7 @@ $order                = Request::get('order', 'desc');
                     <tr>
                         <th class="wps-pd-l">
                             <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('title')); ?>" class="sort <?php echo Request::compare('order_by', 'title') ? esc_attr($order) : ''; ?>">
-                                <?php echo Request::has('pt') ? esc_html($postTypeNameSingular) : esc_html__('Content', 'wp-statistics'); ?>
+                                <?php echo Request::has('pt') ? esc_html($postTypeNameSingular) : esc_html__('Page', 'wp-statistics'); ?>
                             </a>
                         </th>
 
@@ -89,7 +89,7 @@ $order                = Request::get('order', 'desc');
                         </td>
 
                         <td class="wps-pd-l view-more view-more__arrow">
-                            <a target="_blank" href="<?php echo get_the_permalink($post->post_id) ?>"><?php esc_html_e('View Content', 'wp-statistics') ?></a>
+                            <a target="_blank" href="<?php echo get_the_permalink($post->post_id) ?>"><?php esc_html_e('View Page', 'wp-statistics') ?></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
