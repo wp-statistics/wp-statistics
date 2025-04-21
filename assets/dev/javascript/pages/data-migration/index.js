@@ -1,15 +1,33 @@
-import { useState } from "@wordpress/element";
+import { useState, useEffect } from "@wordpress/element";
 import { render } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
 import Step1 from "./step1";
 import Step2 from "./step2";
 import Step3 from "./step3";
 
+const getStepFromURL = () => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("step") || "step1";
+};
+
 const Page = () => {
-    const [step, setStep] = useState("step1");
+    const [step, setStep] = useState(getStepFromURL());
+
     const handleStep = (item) => {
+        const newURL = new URL(window.location.href);
+        newURL.searchParams.set("step", item);
+        window.history.pushState({}, "", newURL);
         setStep(item);
     };
+
+    useEffect(() => {
+        const handlePopState = () => {
+            setStep(getStepFromURL());
+        };
+
+        window.addEventListener("popstate", handlePopState);
+        return () => window.removeEventListener("popstate", handlePopState);
+    }, []);
+
     return (
         <div
             className="wps-wrap"
@@ -17,9 +35,9 @@ const Page = () => {
                 maxWidth: window.innerWidth <= 768 ? "100%" : 774,
             }}
         >
-            {step == "step1" && <Step1 handleStep={handleStep} />}
-            {step == "step2" && <Step2 handleStep={handleStep} />}
-            {step == "step3" && <Step3 handleStep={handleStep} />}
+            {step === "step1" && <Step1 handleStep={handleStep} />}
+            {step === "step2" && <Step2 handleStep={handleStep} />}
+            {step === "step3" && <Step3 handleStep={handleStep} />}
         </div>
     );
 };

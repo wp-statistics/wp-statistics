@@ -1140,33 +1140,44 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _step1__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./step1 */ "./assets/dev/javascript/pages/data-migration/step1.js");
-/* harmony import */ var _step2__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./step2 */ "./assets/dev/javascript/pages/data-migration/step2.js");
-/* harmony import */ var _step3__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./step3 */ "./assets/dev/javascript/pages/data-migration/step3.js");
+/* harmony import */ var _step1__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./step1 */ "./assets/dev/javascript/pages/data-migration/step1.js");
+/* harmony import */ var _step2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./step2 */ "./assets/dev/javascript/pages/data-migration/step2.js");
+/* harmony import */ var _step3__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./step3 */ "./assets/dev/javascript/pages/data-migration/step3.js");
 
 
 
 
 
 
-
+const getStepFromURL = () => {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("step") || "step1";
+};
 const Page = () => {
-  const [step, setStep] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)("step1");
+  const [step, setStep] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(getStepFromURL());
   const handleStep = item => {
+    const newURL = new URL(window.location.href);
+    newURL.searchParams.set("step", item);
+    window.history.pushState({}, "", newURL);
     setStep(item);
   };
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    const handlePopState = () => {
+      setStep(getStepFromURL());
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "wps-wrap",
     style: {
       maxWidth: window.innerWidth <= 768 ? "100%" : 774
     }
-  }, step == "step1" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_step1__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, step === "step1" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_step1__WEBPACK_IMPORTED_MODULE_2__["default"], {
     handleStep: handleStep
-  }), step == "step2" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_step2__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }), step === "step2" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_step2__WEBPACK_IMPORTED_MODULE_3__["default"], {
     handleStep: handleStep
-  }), step == "step3" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_step3__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }), step === "step3" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_step3__WEBPACK_IMPORTED_MODULE_4__["default"], {
     handleStep: handleStep
   }));
 };
