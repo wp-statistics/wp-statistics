@@ -73,8 +73,12 @@ View::load('components/objects/share-anonymous-notice');
     <?php endif; ?>
     <?php if (!empty($tabs) && is_array($tabs)) { ?>
         <ul class="wps-tabs">
-            <?php foreach ($tabs as $tab) { ?>
-                <?php if (!empty($tab['hidden'])) continue; ?>
+            <?php foreach ($tabs as $tab) {
+                if (!empty($tab['hidden'])) continue;
+
+                $tab['locked']  = apply_filters("wp_statistics_{$pageKey}_{$tabKey}_locked", $tab['locked'] ?? false);
+                $tab['tooltip'] = apply_filters("wp_statistics_{$pageKey}_{$tabKey}_tooltip", $tab['tooltip'] ?? '');
+                ?>
 
                 <li class="wps-tab-link <?php echo esc_attr($tab['class']); ?>">
                     <?php if (isset($tab['coming_soon'])): ?>
