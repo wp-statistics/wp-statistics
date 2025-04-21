@@ -1,7 +1,7 @@
 <?php
 use WP_Statistics\Components\View;
 
-$isLocked = apply_filters('wp_statistics_referrals_exit-pages_locked', true);
+$isLocked = apply_filters('wp_statistics_pages_exit-pages_locked', true);
 
 if ($isLocked) {
     $args = [
