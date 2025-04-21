@@ -667,6 +667,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
 
         const datasets = data.data.datasets.map((dataset, idx) => {
             const datasetType = dataset.type || (type === 'performance' && idx === 2 ? 'bar' : 'line');
+            const yAxisID = dataset.label === 'Clicks' || datasetType === 'bar' ? 'y1' : 'y';
             return {
                 ...dataset,
                 type: datasetType, // Set the type explicitly
@@ -674,7 +675,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 borderColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx}`],
                 backgroundColor: chartColors[data.data.datasets[idx].label] || chartColors[`Other${idx}`],
                 fill: false,
-                yAxisID: datasetType === 'bar' ? 'y1' : 'y', // Use y1 for bar, y for line
+                yAxisID: yAxisID,
                 borderWidth: datasetType === 'line' ? 2 : undefined,
                 pointRadius: datasetType === 'line' ? dateLabels.length === 1 ? 5 : 0 : undefined,
                 pointBorderColor: datasetType === 'line' ? 'transparent' : undefined,
@@ -748,12 +749,20 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
         // Set dynamic stepSize based on max values
         const maxTicksY = isInsideDashboardWidgets ? 4 : 7;
         const stepSizeY = yMax > 0 ? Math.ceil(yMax / maxTicksY) : 1;
+        const suggestedMaxY = yMax > 0 ? stepSizeY * (maxTicksY + 1) : 4;
+
         const maxTicksY1 = 7;
         const stepSizeY1 = y1Max > 0 ? Math.ceil(y1Max / maxTicksY1) : 1;
+        const suggestedMaxY1 = y1Max > 0 ? stepSizeY1 * (maxTicksY1 + 1) : 4;
 
-        lineChart.options.scales.y.ticks.stepSize = Math.max(1, stepSizeY);
+        lineChart.options.scales.y.min = 0;
+        lineChart.options.scales.y.ticks.stepSize = stepSizeY;
+        lineChart.options.scales.y.max = suggestedMaxY;
+
         if (lineChart.options.scales.y1) {
-            lineChart.options.scales.y1.ticks.stepSize = Math.max(1, stepSizeY1);
+            lineChart.options.scales.y1.min = 0;
+            lineChart.options.scales.y1.ticks.stepSize = stepSizeY1;
+            lineChart.options.scales.y1.max = suggestedMaxY1;
         }
 
         lineChart.data.labels = dateLabels;
@@ -787,7 +796,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
             backgroundColor: color,
             hoverBackgroundColor: color,
             hoverPointBackgroundColor: color,
-            yAxisID: datasetType === 'bar' ? 'y1' : 'y', // Use y1 for bar, y for line
+            yAxisID: datasetType === 'bar'  || data.data.datasets[key].label === 'Clicks' ? 'y1' : 'y', // Use y1 for bar, y for line
         };
         if (datasetType === 'line') {
             dataset.borderColor = color;
@@ -819,7 +828,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 hoverBorderColor: color,
                 backgroundColor: color,
                 fill: false,
-                yAxisID: 'y',
+                yAxisID: data.previousData.datasets[key].label === 'Clicks' ? 'y1' : 'y',
                 borderWidth: 1,
                 borderDash: [5, 5],
                 pointRadius: 0,
@@ -889,6 +898,26 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 grid: {display: true, tickMarkLength: 0, drawBorder: false, tickColor: '#EEEFF1', color: '#EEEFF1'},
                 gridLines: {drawTicks: false},
                 title: {display: false},
+            },
+            y1: { // Add default y1 configuration to ensure it exists
+                min: 0,
+                type: 'linear',
+                position: 'left',
+                border: { color: 'transparent', width: 0 },
+                grid: { display: true, borderDash: [5, 5], tickColor: '#EEEFF1', color: '#EEEFF1' },
+                ticks: {
+                    autoSkip: true,
+                    maxTicksLimit: 7,
+                    fontColor: '#898A8E',
+                    fontSize: 13,
+                    fontStyle: 'italic',
+                    fontWeight: 'lighter',
+                    padding: 8,
+                    lineHeight: 15,
+                    callback: renderFormatNum,
+                },
+                afterBuildTicks: wpsBuildTicks,
+                title: { display: false },
             }
         },
     };
