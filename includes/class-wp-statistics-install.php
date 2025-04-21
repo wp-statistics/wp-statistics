@@ -509,6 +509,10 @@ class Install
             Option::update('display_notifications', true);
         }
 
+        if (Option::get('privacy_audit_issues') === false && version_compare($latest_version, '14.12', '>')) {
+            Option::update('privacy_audit_issues', false);
+        }
+
         /**
          * Update GeoIP schedule from daily to monthly
          */
