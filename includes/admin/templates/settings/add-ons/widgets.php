@@ -7,7 +7,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 $isLicenseValid  = LicenseHelper::isPluginLicenseValid('wp-statistics-widgets');
 $isWidgetsActive = WP_STATISTICS\Helper::isAddOnActive('widgets');
 ?>
-    <h2 class="wps-settingsBox__title"><?php esc_html_e('Advanced Widgets', 'wp-statistics'); ?></h2>
+    <h2 class="wps-settings-box__title"><?php esc_html_e('Advanced Widgets', 'wp-statistics'); ?></h2>
 
 <?php
 if (!$isWidgetsActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
@@ -31,7 +31,7 @@ if ($isWidgetsActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isWidgetsActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Widget Cache Duration', 'wp-statistics'); ?></h3></th>
             </tr>
 
@@ -58,7 +58,7 @@ if ($isWidgetsActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isWidgetsActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Widget Design Customization', 'wp-statistics'); ?></h3></th>
             </tr>
 

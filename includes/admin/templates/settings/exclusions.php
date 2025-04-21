@@ -1,9 +1,9 @@
-<h2 class="wps-settingsBox__title"><?php esc_html_e('Filtering & Exceptions', 'wp-statistics'); ?></h2>
+<h2 class="wps-settings-box__title"><?php esc_html_e('Filtering & Exceptions', 'wp-statistics'); ?></h2>
 
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top">
+        <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Filtering & Exceptions', 'wp-statistics'); ?></h3></th>
         </tr>
 
@@ -38,7 +38,7 @@
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top">
+        <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('IP Exclusions', 'wp-statistics'); ?></h3></th>
         </tr>
 
@@ -56,7 +56,7 @@
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top">
+        <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Robot Exclusions', 'wp-statistics'); ?></h3></th>
         </tr>
 
@@ -93,7 +93,7 @@
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top">
+        <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Geolocation Exclusions', 'wp-statistics'); ?></h3></th>
         </tr>
 
@@ -119,7 +119,7 @@
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top">
+        <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('URL Exclusions', 'wp-statistics'); ?></h3></th>
         </tr>
 
@@ -163,7 +163,7 @@
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top">
+        <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('URL Query Parameters', 'wp-statistics'); ?></h3></th>
         </tr>
 
@@ -182,7 +182,7 @@
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top">
+        <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2">
                 <h3><?php esc_html_e('Matomo Referrer Spam Blacklist', 'wp-statistics'); ?></h3>
             </th>
@@ -247,7 +247,7 @@
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top">
+        <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Host Exclusions', 'wp-statistics'); ?></h3></th>
         </tr>
 
@@ -265,7 +265,7 @@
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top">
+        <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('General Exclusions', 'wp-statistics'); ?></h3></th>
         </tr>
 

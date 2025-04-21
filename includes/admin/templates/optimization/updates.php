@@ -1,12 +1,12 @@
 <div class="wrap wps-wrap">
-    <h2 class="wps-settingsBox__title"><?php esc_html_e('Plugin Maintenance', 'wp-statistics'); ?></h2>
+    <h2 class="wps-settings-box__title"><?php esc_html_e('Plugin Maintenance', 'wp-statistics'); ?></h2>
     <div class="postbox">
         <form class="wps-submit-agree" data-agree="<?php echo esc_html_e('Are you sure you want to refresh country data?', 'wp-statistics'); ?>"
               action="<?php echo esc_url(admin_url('admin.php?page=wps_optimization_page&tab=updates')) ?>" method="post">
             <?php wp_nonce_field('wps_optimization_nonce'); ?>
             <table class="form-table">
                 <tbody>
-                <tr valign="top">
+                <tr valign="top" class="wps-settings-box_head">
                     <th scope="row" colspan="2">
                         <h3><?php esc_html_e('GeoLocation Settings', 'wp-statistics'); ?></h3>
                     </th>
@@ -37,7 +37,7 @@
             <?php wp_nonce_field('wps_optimization_nonce'); ?>
             <table class="form-table">
                 <tbody>
-                <tr valign="top">
+                <tr valign="top" class="wps-settings-box_head">
                     <th scope="row" colspan="2">
                         <h3><?php esc_html_e('Referrals Settings', 'wp-statistics'); ?></h3>
                     </th>
@@ -67,7 +67,7 @@
             <?php wp_nonce_field('wps_optimization_nonce'); ?>
             <table class="form-table">
                 <tbody>
-                <tr valign="top">
+                <tr valign="top" class="wps-settings-box_head">
                     <th scope="row" colspan="2">
                         <h3><?php esc_html_e('IP Address Management', 'wp-statistics'); ?></h3>
                     </th>

@@ -47,12 +47,12 @@ add_thickbox();
     </table>
 </div>
 
-<h2 class="wps-settingsBox__title"><?php esc_html_e('Advanced Options', 'wp-statistics'); ?></h2>
+<h2 class="wps-settings-box__title"><?php esc_html_e('Advanced Options', 'wp-statistics'); ?></h2>
 
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top">
+        <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Your IP Information', 'wp-statistics'); ?></h3></th>
         </tr>
 
@@ -100,7 +100,7 @@ add_thickbox();
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top">
+        <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Main IP Detection Method', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php esc_html_e('Select the preferred method for determining the visitor\'s IP address. The method should correspond to the way your server and network infrastructure relay IP information. Choose the option that reflects the correct IP in your server environment.', 'wp-statistics'); ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
         </tr>
 
@@ -157,7 +157,7 @@ add_thickbox();
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top" >
+        <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2">
                 <h3><?php esc_html_e('Geolocation Settings', 'wp-statistics'); ?></h3>
             </th>
@@ -398,7 +398,7 @@ add_thickbox();
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top">
+        <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Purge Old Data Daily', 'wp-statistics'); ?></h3></th>
         </tr>
 
@@ -432,7 +432,7 @@ add_thickbox();
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top">
+        <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Anonymous Usage Data', 'wp-statistics'); ?></h3></th>
         </tr>
         <tr valign="top">
@@ -452,7 +452,7 @@ add_thickbox();
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top">
+        <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Restore Default Settings', 'wp-statistics'); ?></h3></th>
         </tr>
 
@@ -476,7 +476,7 @@ add_thickbox();
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top">
+        <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Danger Zone', 'wp-statistics'); ?></h3></th>
         </tr>
 

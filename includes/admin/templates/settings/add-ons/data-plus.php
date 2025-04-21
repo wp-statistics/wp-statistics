@@ -9,7 +9,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 $isLicenseValid     = LicenseHelper::isPluginLicenseValid('wp-statistics-data-plus');
 $isDataPlusActive   = Helper::isAddOnActive('data-plus');
 ?>
-    <h2 class="wps-settingsBox__title"><?php esc_html_e('Data Plus', 'wp-statistics'); ?></h2>
+    <h2 class="wps-settings-box__title"><?php esc_html_e('Data Plus', 'wp-statistics'); ?></h2>
     <?php
 
     if (!$isDataPlusActive) echo Admin_Template::get_template(
@@ -39,7 +39,7 @@ $isDataPlusActive   = Helper::isAddOnActive('data-plus');
     <div class="postbox">
         <table class="form-table <?php echo !$isDataPlusActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2">
                     <h3><?php esc_html_e('Event Tracking', 'wp-statistics'); ?></h3>
                 </th>
@@ -77,7 +77,7 @@ $isDataPlusActive   = Helper::isAddOnActive('data-plus');
     <div class="postbox">
         <table class="form-table <?php echo !$isDataPlusActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2">
                     <h3><?php esc_html_e('User Interface Preferences', 'wp-statistics'); ?></h3>
                 </th>

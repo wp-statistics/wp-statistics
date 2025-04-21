@@ -7,13 +7,13 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
 
 ?>
 <div class="wrap wps-wrap">
-    <h2 class="wps-settingsBox__title"><?php esc_html_e('Historical Data', 'wp-statistics'); ?></h2>
-    <div class="postbox">
-        <form action="<?php echo esc_url(admin_url('admin.php?page=wps_optimization_page&tab=historical')) ?>" id="wps_historical_form" method="post">
+    <h2 class="wps-settings-box__title"><?php esc_html_e('Historical Data', 'wp-statistics'); ?></h2>
+    <form class="wps-wrap__setting-form" action="<?php echo esc_url(admin_url('admin.php?page=wps_optimization_page&tab=historical')) ?>" id="wps_historical_form" method="post">
+        <div class="postbox">
             <?php wp_nonce_field('wps_optimization_nonce'); ?>
             <table class="form-table">
                 <tbody>
-                <tr valign="top">
+                <tr valign="top" class="wps-settings-box_head">
                     <th scope="row" colspan="2"><h3><?php esc_html_e('Historical Data Entry', 'wp-statistics'); ?></h3></th>
                 </tr>
 
@@ -46,11 +46,11 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
                 <tr valign="top">
                     <td colspan=2>
                         <input type="hidden" name="submit" value="1"/>
-                        <button id="historical-submit" class="button button-primary" type="submit" value="1" name="historical-submit"><?php esc_html_e('Save Changes', 'wp-statistics'); ?></button>
                     </td>
                 </tr>
                 </tbody>
             </table>
-        </form>
-    </div>
+        </div>
+        <button id="historical-submit" class="button button-primary wps-button wps-button--primary" type="submit" value="1" name="historical-submit"><?php esc_html_e('Save Changes', 'wp-statistics'); ?></button>
+    </form>
 </div>

@@ -26,7 +26,7 @@ foreach ($miniChartPostTypes as $name => $label) {
 }
 ?>
 
-<h2 class="wps-settingsBox__title"><?php esc_html_e('Mini Chart', 'wp-statistics'); ?></h2>
+<h2 class="wps-settings-box__title"><?php esc_html_e('Mini Chart', 'wp-statistics'); ?></h2>
 
 
 <?php
@@ -51,7 +51,7 @@ if ($isMiniChartActive && !$isLicenseValid) {
 <div class="postbox">
     <table class="form-table <?php echo !$isMiniChartActive ? 'form-table--preview' : '' ?>">
         <tbody>
-        <tr>
+        <tr class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Chart Preferences', 'wp-statistics'); ?></h3></th>
         </tr>
 
@@ -130,7 +130,7 @@ if ($isMiniChartActive && !$isLicenseValid) {
 <div class="postbox">
     <table class="form-table <?php echo !$isMiniChartActive ? 'form-table--preview' : '' ?>">
         <tbody>
-        <tr>
+        <tr class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Chart Appearance', 'wp-statistics'); ?></h3></th>
         </tr>
 

@@ -1,9 +1,9 @@
 <div class="wrap wps-wrap">
-    <h2 class="wps-settingsBox__title"><?php esc_html_e('Overview & Info', 'wp-statistics'); ?></h2>
+    <h2 class="wps-settings-box__title"><?php esc_html_e('Overview & Info', 'wp-statistics'); ?></h2>
     <div class="postbox">
         <table class="form-table">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php use WP_STATISTICS\GeoIP;
 
                         esc_html_e('Resources/Information', 'wp-statistics'); ?></h3></th>
@@ -11,7 +11,7 @@
 
             <tr valign="top">
                 <th scope="row">
-                    <?php esc_html_e('Current PHP Memory Consumption', 'wp-statistics'); ?>
+                    <label><?php esc_html_e('Current PHP Memory Consumption', 'wp-statistics'); ?></label>
                 </th>
                 <td>
                     <strong><?php echo esc_html(size_format(memory_get_usage(), 3)); ?></strong>
@@ -21,7 +21,7 @@
 
             <tr valign="top">
                 <th scope="row">
-                    <?php esc_html_e('Maximum Allowed PHP Memory', 'wp-statistics'); ?>
+                    <label><?php esc_html_e('Maximum Allowed PHP Memory', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
@@ -35,7 +35,7 @@
                 ?>
                 <tr valign="top">
                     <th scope="row">
-                        <?php echo sprintf(esc_html__('Number of rows in the %s table', 'wp-statistics'), '<code>' . esc_attr($table_name) . '</code>'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped   ?>
+                        <label><?php echo sprintf(esc_html__('Number of rows in the %s', 'wp-statistics'), '<span><span class="wps-badge wps-badge--addon">' . esc_attr($table_name) . '</span>' .esc_html__('table', 'wp-statistics').'</span>'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped   ?></label>
                     </th>
                     <td>
                         <strong><?php echo esc_html(number_format_i18n($data['rows'])); ?></strong> <?php echo esc_html(_n('Row', 'Rows', number_format_i18n($data['rows']), 'wp-statistics')); ?>

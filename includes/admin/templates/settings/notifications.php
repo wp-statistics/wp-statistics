@@ -4,12 +4,12 @@ use WP_STATISTICS\Option;
 use WP_STATISTICS\Schedule;
 
 ?>
-<h2 class="wps-settingsBox__title"><?php esc_html_e('Email Reports', 'wp-statistics'); ?></h2>
+<h2 class="wps-settings-box__title"><?php esc_html_e('Email Reports', 'wp-statistics'); ?></h2>
 
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top">
+        <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Email Configuration', 'wp-statistics'); ?></h3></th>
         </tr>
 
@@ -33,17 +33,18 @@ use WP_STATISTICS\Schedule;
 <div class="postbox" id='wps_stats_report_option'>
     <table class="form-table">
         <tbody>
-        <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Automated Report Delivery', 'wp-statistics'); ?></h3></th>
-        </tr>
-        <?php $next_scheduled_time = Schedule::getNextScheduledTime('wp_statistics_report_hook') ?>
-        <?php if ($next_scheduled_time) { ?>
-            <tr valign="top">
-                <td colspan="2" scope="row" class="wps-alert-container">
+        <tr valign="top" class="wps-settings-box_head">
+            <th scope="row">
+                <h3><?php esc_html_e('Automated Report Delivery', 'wp-statistics'); ?></h3>
+            </th>
+            <th scope="row">
+                <?php $next_scheduled_time = Schedule::getNextScheduledTime('wp_statistics_report_hook') ?>
+                <?php if ($next_scheduled_time) : ?>
                     <div class="alert alert-success"><span><?php echo sprintf(__('Your next report is scheduled to be sent on <b>%s at %s</b>.', 'wp-statistics'), wp_date(get_option('date_format'), $next_scheduled_time), wp_date(get_option('time_format'), $next_scheduled_time)) ?></span></div>
-                </td>
-            </tr>
-        <?php } ?>
+                <?php endif; ?>
+            </th>
+        </tr>
+
         <tr valign="top">
             <th scope="row" style="vertical-align: top;">
                 <label for="time-report"><?php esc_html_e('Report Frequency', 'wp-statistics'); ?></label>

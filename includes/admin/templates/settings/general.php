@@ -4,11 +4,11 @@ use WP_STATISTICS\Menus;
 
 ?>
 
-<h2 class="wps-settingsBox__title"><?php esc_html_e('General', 'wp-statistics'); ?></h2>
+<h2 class="wps-settings-box__title"><?php esc_html_e('General', 'wp-statistics'); ?></h2>
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top">
+        <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Tracking Options', 'wp-statistics'); ?></h3></th>
         </tr>
 
@@ -91,7 +91,7 @@ use WP_STATISTICS\Menus;
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top">
+        <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Tracker Configuration', 'wp-statistics'); ?></h3></th>
         </tr>
 

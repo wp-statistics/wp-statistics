@@ -1433,20 +1433,6 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 }
 
-.statistics_page_wps_optimization_page .wps-optimizationBox .form-table{
-   margin: 0;
-  th h3{
-    color: #0c0c0d;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 27px;
-    border-bottom: 1px solid #eeeff1;
-    padding: 16px 32px;
-    margin: -14px -24px;
-    box-sizing: border-box;
-    width: calc(100% + 48px);
-  }
-}
 .statistics_page_wps_download_tracker_page, .statistics_page_wps_link_tracker_page {
   .wps_title .wps-tooltip {
     margin-left: 0;
@@ -1561,13 +1547,19 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   margin-top: 0 !important;
 }
 
-.wps-wrap #poststuff  h2.wps-settingsBox__title{
-  color: #0C0C0D;
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 27px;
-  padding: 0;
-  margin-bottom: 24px;
+.wps-wrap #poststuff{
+  h2.wps-settings-box__title{
+    color: #0C0C0D;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 27px;
+    padding: 0;
+    margin-bottom: 24px;
+  }
+
+  .wps-settings-box__head{
+
+  }
 }
 /* Widget Add-on */
 

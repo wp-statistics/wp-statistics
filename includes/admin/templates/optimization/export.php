@@ -1,12 +1,12 @@
 <div class="wrap wps-wrap">
-    <h2 class="wps-settingsBox__title"><?php esc_html_e('Data Export', 'wp-statistics'); ?></h2>
-    <div class="postbox">
-        <form method="post">
+    <h2 class="wps-settings-box__title"><?php esc_html_e('Data Export', 'wp-statistics'); ?></h2>
+    <form method="post"  class="wps-wrap__setting-form">
+        <div class="postbox">
             <input type="hidden" name="wps_export" value="true">
             <?php wp_nonce_field('wp_statistics_export_nonce', 'wps_export_file'); ?>
             <table class="form-table">
                 <tbody>
-                <tr>
+                <tr class="wps-settings-box_head">
                     <th scope="row" colspan="2"><h3><?php esc_html_e('Export', 'wp-statistics'); ?></h3></th>
                 </tr>
 
@@ -54,23 +54,21 @@
                     <td>
                         <input id="export-headers" type="checkbox" value="1" name="export-headers">
                         <p class="description"><?php esc_html_e('Include column names at the top of the exported file.', 'wp-statistics'); ?></p>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td></td>
-                    <td>
-                        <div class="wp-statistics-notice">
-                            <strong><?php esc_html_e('Privacy Notice for Data Export', 'wp-statistics') ?></strong>
-                            <p><?php _e('Exported data may contain personal information. Review our <a href="https://wp-statistics.com/resources/handling-of-personal-data-during-export-procedures/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Handling of Personal Data During Export Procedures</a> before exporting to ensure compliance with privacy laws.', 'wp-statistics') // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	 ?></p>
+                        <div class="wps-alert wps-alert__info">
+                            <div>
+                                <strong><?php esc_html_e('Privacy Notice for Data Export', 'wp-statistics') ?></strong>
+                                <p><?php _e('Exported data may contain personal information. Review our <a href="https://wp-statistics.com/resources/handling-of-personal-data-during-export-procedures/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Handling of Personal Data During Export Procedures</a> before exporting to ensure compliance with privacy laws.', 'wp-statistics') // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	 ?></p>
+                            </div>
                         </div>
-
-                        <?php submit_button(esc_html__('Begin Export', 'wp-statistics'), 'primary', 'export-file-submit'); ?>
                     </td>
                 </tr>
-
                 </tbody>
             </table>
-        </form>
-    </div>
+        </div>
+        <?php
+        $button_text = esc_html__('Begin Export', 'wp-statistics');
+        $button_classes = 'wps-button wps-button--primary';
+        $button_name = 'export-file-submit';
+        ?>
+        <input type="submit" name="<?php echo esc_attr($button_name); ?>" id="<?php echo esc_attr($button_name); ?>" class="<?php echo esc_attr($button_classes); ?>" value="<?php echo esc_attr($button_text); ?>">    </form>
 </div>

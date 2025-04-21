@@ -11,7 +11,7 @@ $isAdvancedReportingActive  = WP_STATISTICS\Helper::isAddOnActive('advanced-repo
 global $wp_version;
 ?>
 
-    <h2 class="wps-settingsBox__title"><?php esc_html_e('Advanced Reporting', 'wp-statistics'); ?></h2>
+    <h2 class="wps-settings-box__title"><?php esc_html_e('Advanced Reporting', 'wp-statistics'); ?></h2>
 
 <?php
 if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
@@ -36,7 +36,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isAdvancedReportingActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Report Scheduling', 'wp-statistics'); ?></h3></th>
             </tr>
 
@@ -90,7 +90,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isAdvancedReportingActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Report Components', 'wp-statistics'); ?></h3></th>
             </tr>
 
@@ -209,7 +209,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isAdvancedReportingActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Branding Your Reports', 'wp-statistics'); ?></h3></th>
             </tr>
 
@@ -322,7 +322,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isAdvancedReportingActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Additional Features', 'wp-statistics'); ?></h3></th>
             </tr>
 
@@ -356,7 +356,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isAdvancedReportingActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Preview and Send', 'wp-statistics'); ?></h3></th>
             </tr>
 

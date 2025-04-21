@@ -1,8 +1,14 @@
-<h2 class="wps-settingsBox__title"><?php esc_html_e('Privacy & Data Protection', 'wp-statistics'); ?></h2>
+<h2 class="wps-settings-box__title">
+    <span>
+        <?php esc_html_e('Privacy & Data Protection', 'wp-statistics'); ?>
+        <span class="wps-tooltip" title="tooltip data"><i class="wps-tooltip-icon"></i></span>
+    </span>
+    <a href=""><?php esc_html_e('View Guide', 'wp-statistics'); ?></a>
+</h2>
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top">
+        <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Data Protection', 'wp-statistics'); ?></h3></th>
         </tr>
 
@@ -48,7 +54,7 @@
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top">
+        <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Privacy Compliance', 'wp-statistics'); ?></h3></th>
         </tr>
 
@@ -70,7 +76,7 @@
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top">
+        <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('User Preferences', 'wp-statistics'); ?></h3></th>
         </tr>
 

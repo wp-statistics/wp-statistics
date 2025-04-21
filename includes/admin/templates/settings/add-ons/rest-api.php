@@ -6,7 +6,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 $isLicenseValid  = LicenseHelper::isPluginLicenseValid('wp-statistics-rest-api');
 $isRestApiActive = WP_STATISTICS\Helper::isAddOnActive('rest-api');
 ?>
-    <h2 class="wps-settingsBox__title"><?php esc_html_e('REST API', 'wp-statistics'); ?></h2>
+    <h2 class="wps-settings-box__title"><?php esc_html_e('REST API', 'wp-statistics'); ?></h2>
 
 <?php
 if (!$isRestApiActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
@@ -38,7 +38,7 @@ if ($isRestApiActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isRestApiActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('WordPress REST API Integration', 'wp-statistics'); ?></h3></th>
             </tr>
 

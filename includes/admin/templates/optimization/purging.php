@@ -165,12 +165,12 @@
         }
     });
 </script>
-<h2 class="wps-settingsBox__title"><?php esc_html_e('Data Cleanup', 'wp-statistics'); ?></h2>
+<h2 class="wps-settings-box__title"><?php esc_html_e('Data Cleanup', 'wp-statistics'); ?></h2>
 <div class="wrap wps-wrap">
     <div class="postbox">
         <table class="form-table">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Data', 'wp-statistics'); ?></h3></th>
             </tr>
 
@@ -212,9 +212,11 @@
                     <button id="delete-user-ids-submit" class="button button-primary" type="submit" name="delete_user_ids_submit"><?php esc_html_e('Delete User IDs Now', 'wp-statistics'); ?></button>
                     <p class="description">
                         <?php esc_html_e('Permanently deletes all stored User IDs from the database to anonymize user visit records or to comply with privacy regulations.', 'wp-statistics'); ?><br>
-                        <span class="wps-note"><?php esc_html_e('Caution', 'wp-statistics'); ?>:</span>
-                        <?php esc_html_e('Permanent and cannot be reversed.', 'wp-statistics'); ?>
+
                     </p>
+                    <div class="wps-alert wps-alert__danger">
+                        <?php esc_html_e('Permanent and cannot be reversed.', 'wp-statistics'); ?>
+                    </div>
                     <div id="delete-user-ids-result"></div>
                 </td>
             </tr>
@@ -227,9 +229,10 @@
                     <button id="clear-user-agent-strings-submit" class="button button-primary" type="submit" name="clear_user_agent_strings_submit"><?php esc_html_e('Clear User Agent Data Now', 'wp-statistics'); ?></button>
                     <p class="description">
                         <?php esc_html_e('Permanently erases all User Agent Strings from the database, typically done after troubleshooting to remove unnecessary data.', 'wp-statistics'); ?><br>
-                        <span class="wps-note"><?php esc_html_e('Caution', 'wp-statistics'); ?>:</span>
-                        <?php esc_html_e('Permanent and cannot be undone.', 'wp-statistics'); ?>
                     </p>
+                    <div class="wps-alert wps-alert__danger">
+                        <?php esc_html_e('Permanent and cannot be undone.', 'wp-statistics'); ?>
+                    </div>
                     <div id="clear-user-agent-strings-result"></div>
                 </td>
             </tr>
@@ -242,9 +245,10 @@
                     <button id="query-params-cleanup-submit" class="button button-primary" type="submit" name="query_params_cleanup_submit"><?php esc_html_e('Run Cleanup', 'wp-statistics'); ?></button>
                     <p class="description">
                         <?php esc_html_e('Removes previously stored query parameters from your historical data, ensuring consistency with your current privacy settings.', 'wp-statistics'); ?><br>
-                        <span class="wps-note"><?php esc_html_e('Caution', 'wp-statistics'); ?>:</span>
-                        <?php esc_html_e('It is recommended to back up your database before proceeding, as this cleanup is irreversible.', 'wp-statistics'); ?>
                     </p>
+                    <div class="wps-alert wps-alert__danger">
+                        <?php esc_html_e('It is recommended to back up your database before proceeding, as this cleanup is irreversible.', 'wp-statistics'); ?>
+                    </div>
                     <div id="query-params-cleanup-result"></div>
                 </td>
             </tr>
@@ -254,7 +258,7 @@
     <div class="postbox">
         <table class="form-table">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Remove Certain User Agent Types', 'wp-statistics'); ?></h3></th>
             </tr>
 

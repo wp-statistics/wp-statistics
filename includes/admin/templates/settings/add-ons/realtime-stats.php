@@ -7,7 +7,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 $isLicenseValid        = LicenseHelper::isPluginLicenseValid('wp-statistics-realtime-stats');
 $isRealTimeStatsActive = WP_STATISTICS\Helper::isAddOnActive('realtime-stats');
 ?>
-    <h2 class="wps-settingsBox__title"><?php esc_html_e('Real-time Stats', 'wp-statistics'); ?></h2>
+    <h2 class="wps-settings-box__title"><?php esc_html_e('Real-time Stats', 'wp-statistics'); ?></h2>
 <?php
 if (!$isRealTimeStatsActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
     ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
@@ -29,7 +29,7 @@ if ($isRealTimeStatsActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isRealTimeStatsActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Update Interval', 'wp-statistics'); ?></h3></th>
             </tr>
             <tr valign="top">
