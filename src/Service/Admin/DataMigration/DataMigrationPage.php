@@ -65,6 +65,6 @@ class DataMigrationPage extends BasePage
 
         Admin_Template::get_template(['layout/header', 'layout/title'], $args);
         View::load(['pages/data-migration/data-migration'], $args);
-        Admin_Template::get_template(['layout/footer'], $args);
+        // Admin_Template::get_template(['layout/footer'], $args);
     }
 }

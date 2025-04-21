@@ -1,8 +1,8 @@
 import { useState, useEffect } from "@wordpress/element";
 import { render } from "@wordpress/element";
-import Step1 from "./step1";
-import Step2 from "./step2";
-import Step3 from "./step3";
+import Step1 from "./IntroStep";
+import Step2 from "./ConfirmationStep";
+import Step3 from "./ProgressStep";
 
 const getStepFromURL = () => {
     const params = new URLSearchParams(window.location.search);
