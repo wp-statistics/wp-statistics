@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "@wordpress/element";
 import { Card, CardBody, CardFooter, __experimentalHeading as Heading } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
-import InfoIcon from "../../../../images/info-icon.svg";
+import InfoIcon from "../../../../assets/images/info-icon.svg";
 
 const Step1 = ({ handleStep }) => {
     const [option, setOption] = useState("");
@@ -33,7 +33,7 @@ const Step1 = ({ handleStep }) => {
         <Card>
             <CardBody>
                 {/* {wps_js._("more_detail")} */}
-                <Heading style={{ fontFamily: 500, fontSize: 24, lineHeight: 1.3, margin: "8px 0px" }}>{__("We’ve updated WP Statistics to use a faster, more efficient database structure!", "wp-statistics")}</Heading>
+                <Heading style={{ fontFamily: 500, fontSize: 24, lineHeight: 1.3, marginTop: "8px" }}>{__("We’ve updated WP Statistics to use a faster, more efficient database structure!", "wp-statistics")}</Heading>
 
                 <p style={{ color: "#56585A", fontSize: 16 }}>
                     {__("By running this migration, you’ll safely move all your", "wp-statistics")} <span style={{ color: "#000" }}>{__("older stats", "wp-statistics")}</span> {__("into the new system. Any visits recorded", "wp-statistics")} <span style={{ color: "#000" }}>{__("after", "wp-statistics")}</span> {__("your update are already being stored in the new format, so you won’t lose any current data", "wp-statistics")}
@@ -55,14 +55,14 @@ const Step1 = ({ handleStep }) => {
                         <img src={InfoIcon} style={{ width: "20px", height: "20px", marginTop: 5 }} alt="info-icon" />
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                        <p style={{ fontSize: "14px" }}>
+                        <p style={{ fontSize: "14px", margin: "0px" }}>
                             {__("We recommend making a complete backup of your WordPress site. This is just in case you ever need to revert changes.", "wp-statistics")}{" "}
                             <a href="#" style={{ textDecoration: "underline" }}>
                                 {__("Learn how to back up your site", "wp-statistics")}
                             </a>
                         </p>
-                        <p style={{ fontSize: "14px" }}>{__("Keep in mind the migration could take time. (anywhere from minutes to a few hours, depending on your site’s size and server resources).", "wp-statistics")}</p>
-                        <p style={{ fontSize: "14px" }}>{__("You can pause, cancel, or restart the migration at any point. Your old data remains untouched until the process fully completes.", "wp-statistics")}</p>
+                        <p style={{ fontSize: "14px", margin: "0px" }}>{__("Keep in mind the migration could take time. (anywhere from minutes to a few hours, depending on your site’s size and server resources).", "wp-statistics")}</p>
+                        <p style={{ fontSize: "14px", margin: "0px" }}>{__("You can pause, cancel, or restart the migration at any point. Your old data remains untouched until the process fully completes.", "wp-statistics")}</p>
                     </div>
                 </div>
 
@@ -101,10 +101,10 @@ const Step1 = ({ handleStep }) => {
                                     width: "100%",
                                 }}
                             >
-                                <p style={{ fontSize: "14px", fontFamily: 500, color: "#1E1E20", fontWeight: "700" }}>{__("Full Detailed Migration", "wp-statistics")}</p>
+                                <p style={{ fontSize: "14px", fontFamily: 500, color: "#1E1E20", fontWeight: "700", margin: "0px" }}>{__("Full Detailed Migration", "wp-statistics")}</p>
                                 <input type="radio" id="full-detailed" name="full-detailed" value="full-detailed" checked={option === "full-detailed"} />
                             </div>
-                            <p style={{ padding: "8px 0px", color: "#56585A" }}>{__("Moves all your historical data—visitors, devices, referral sources, search engines, and more—into the new database structure.", "wp-statistics")}</p>
+                            <p style={{ color: "#56585A" }}>{__("Moves all your historical data—visitors, devices, referral sources, search engines, and more—into the new database structure.", "wp-statistics")}</p>
                             <ul style={{ listStyle: "disc", paddingLeft: "30px" }}>
                                 <li>
                                     <strong>{__("Estimated Time:", "wp-statistics")}</strong> {__("Depending on your site’s traffic history and server resources, this process can range from a few minutes to several hours.", "wp-statistics")}
@@ -146,10 +146,10 @@ const Step1 = ({ handleStep }) => {
                                     width: "100%",
                                 }}
                             >
-                                <p style={{ fontSize: "14px", fontFamily: 500, color: "#1E1E20", fontWeight: "700" }}>{__("Summary-Only Migration", "wp-statistics")}</p>
-                                <input type="radio" id="summary-only" name="summary-only" value="summary-only" checked={option === "summary-only"}/>
+                                <p style={{ margin: "0px", fontSize: "14px", fontFamily: 500, color: "#1E1E20", fontWeight: "700" }}>{__("Summary-Only Migration", "wp-statistics")}</p>
+                                <input type="radio" id="summary-only" name="summary-only" value="summary-only" checked={option === "summary-only"} />
                             </div>
-                            <p style={{ padding: "8px 0px", color: "#56585A" }}>{__("Quickly transfers only the visitor counts and page-view totals for older data. You’ll lose detailed information (like devices, referrers, and search engines) for past visitors.", "wp-statistics")}</p>
+                            <p style={{ color: "#56585A" }}>{__("Quickly transfers only the visitor counts and page-view totals for older data. You’ll lose detailed information (like devices, referrers, and search engines) for past visitors.", "wp-statistics")}</p>
                             <ul style={{ listStyle: "disc", paddingLeft: "30px" }}>
                                 <li>
                                     <strong>{__("Estimated Time:", "wp-statistics")}</strong> {__("Typically much faster than a full migration, often just a few minutes.", "wp-statistics")}
@@ -194,10 +194,10 @@ const Step1 = ({ handleStep }) => {
                                     width: "100%",
                                 }}
                             >
-                                <p style={{ fontSize: "14px", fontFamily: 500, color: "#1E1E20", fontWeight: "700" }}>{__("Hybrid Migration", "wp-statistics")}</p>
+                                <p style={{ margin: "0px", fontSize: "14px", fontFamily: 500, color: "#1E1E20", fontWeight: "700" }}>{__("Hybrid Migration", "wp-statistics")}</p>
                                 <input type="radio" id="hybrid" name="hybrid" value="hybrid" checked={option === "hybrid"} />
                             </div>
-                            <p style={{ padding: "8px 0px", color: "#56585A" }}>{__("Imports full, detailed stats for your most recent history—by default the last 90 days, while older data is brought in as summary-only.", "wp-statistics")}</p>
+                            <p style={{ color: "#56585A" }}>{__("Imports full, detailed stats for your most recent history—by default the last 90 days, while older data is brought in as summary-only.", "wp-statistics")}</p>
                             <ul style={{ listStyle: "disc", paddingLeft: "30px" }}>
                                 <li>
                                     <strong>{__("Estimated Time:", "wp-statistics")}</strong> {__("Longer than summary-only, but faster than a full detailed migration.", "wp-statistics")}

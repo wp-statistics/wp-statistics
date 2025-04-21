@@ -1,6 +1,6 @@
 import { Card, CardBody, CardFooter, __experimentalHeading as Heading } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
-import InfoIcon from "../../../../images/information.svg";
+import InfoIcon from "../../../../assets/images/information.svg";
 
 const Step3 = ({ handleStep }) => {
     const isCompleted = true;
@@ -105,8 +105,8 @@ const Step3 = ({ handleStep }) => {
                         <Heading style={{ fontSize: "1.2em", fontWeight: "bold", marginBottom: "10px" }}>
                             <span style={{ marginRight: "5px" }}>🎉</span> {__("Migration Completed Successfully!", "wp-statistics")}
                         </Heading>
-                        <p style={{ fontSize: '15px', color: "#0C0C0D" }}>{__("All your historical data has been successfully migrated!", "wp-statistics")}</p>
-                        <p style={{ fontSize: '15px', color: "#56585A" }}>{__("You can now take full advantage of WP Statistics' new structure.", "wp-statistics")}</p>
+                        <p style={{ fontSize: "15px", color: "#0C0C0D", margin: "0px" }}>{__("All your historical data has been successfully migrated!", "wp-statistics")}</p>
+                        <p style={{ fontSize: "15px", color: "#56585A", margin: "0px" }}>{__("You can now take full advantage of WP Statistics' new structure.", "wp-statistics")}</p>
                         <p style={{ fontWeight: "bold", marginBottom: "2px", marginTop: "8px", fontSize: "15px" }}>{__("Next Steps:", "wp-statistics")}</p>
                         <ul style={{ listStyleType: "disc", marginLeft: "20px", paddingLeft: "20px", color: "#555", lineHeight: 1.6, margin: 0 }}>
                             <li style={{ marginBottom: "5px", color: "#56585A", fontSize: "15px" }}>

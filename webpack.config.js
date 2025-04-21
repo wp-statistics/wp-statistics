@@ -2,12 +2,12 @@ const defaultConfig = require("@wordpress/scripts/config/webpack.config");
 const path = require("path");
 
 module.exports = {
-  ...defaultConfig,
-  entry: {
-    "react-bundle": path.resolve(process.cwd(), "./assets/dev/javascript/pages/data-migration/index.js"),
-  },
-  output: {
-    path: path.resolve(process.cwd(), "build"),
-    filename: "[name].js",
-  },
+    ...defaultConfig,
+    entry: {
+        "react-bundle": path.resolve(process.cwd(), "./src/React/pages/data-migration/index.js"),
+    },
+    output: {
+        path: path.resolve(process.cwd(), "build"),
+        filename: "[name].js",
+    },
 };

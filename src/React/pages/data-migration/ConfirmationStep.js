@@ -51,13 +51,14 @@ const Step2 = ({ handleStep }) => {
                                     fontFamily: 500,
                                     color: "#1E1E20",
                                     fontWeight: "700",
+                                    margin: "0px",
                                 }}
                             >
                                 {data?.title}
                             </p>
                             <input type="radio" disabled id={`1`} name="migration-option" value={"1"} checked={true} />
                         </div>
-                        <p style={{ padding: "8px 0px", color: "#56585A" }}>{data?.description}</p>
+                        <p style={{ color: "#56585A" }}>{data?.description}</p>
                         <ul style={{ listStyle: "disc", paddingLeft: "30px" }}>
                             <li>
                                 <strong>{__("Estimated Time:", "wp-statistics")}</strong> {data?.estimatedTime}
@@ -76,16 +77,16 @@ const Step2 = ({ handleStep }) => {
                         marginTop: "28px",
                     }}
                 >
-                    <p style={{ fontSize: "15px" }}>
+                    <p style={{ fontSize: "15px", margin: "0px" }}>
                         <strong>{__("What’s Next?", "wp-statistics")}</strong> {__("We’ll migrate all of your historical data—visitors, devices, search engines, referrers, and more—into the new database structure.", "wp-statistics")}
                     </p>
                     <p style={{ fontSize: "15px" }}>
                         <strong>{__("What’s Migrated?", "wp-statistics")}</strong> {__("Absolutely everything from your past analytics, so you retain complete visibility into your site’s historical data.", "wp-statistics")}
                     </p>
-                    <p style={{ fontSize: "15px" }}>
+                    <p style={{ fontSize: "15px", margin: "0px" }}>
                         <strong>{__("What’s Lost?", "wp-statistics")}</strong> {__("Nothing! All detailed stats will be preserved.", "wp-statistics")}
                     </p>
-                    <p style={{ fontSize: "15px" }}>
+                    <p style={{ fontSize: "15px", margin: "0px" }}>
                         <strong>{__("Estimated Time:", "wp-statistics")}</strong> {__("Depending on the size of your site and server performance, it can take anywhere from minutes to a few hours.", "wp-statistics")}
                     </p>
                     <div style={{ padding: "15px 0px" }}>
@@ -106,8 +107,8 @@ const Step2 = ({ handleStep }) => {
             </CardBody>
             <CardFooter style={{ flexDirection: "column" }}>
                 <div>
-                    <p style={{ fontWeight: "500", fontSize: "16px" }}>{__("Ready to proceed?", "wp-statistics")}</p>
-                    <p style={{ fontWeight: "400", fontSize: "14px", color: "#56585A", paddingTop: "4px" }}>
+                    <p style={{ fontWeight: "500", fontSize: "16px", marginBottom: "0px" }}>{__("Ready to proceed?", "wp-statistics")}</p>
+                    <p style={{ fontWeight: "400", fontSize: "14px", color: "#56585A", margin: "0px" }}>
                         {__("You can", "wp-statistics")} <span style={{ fontWeight: "500", color: "#000" }}>{__("go back", "wp-statistics")}</span> {__("to change the number of days or pick a different migration method. Or, click", "wp-statistics")} <span style={{ fontWeight: "500", color: "#000" }}>{__("Start Migration", "wp-statistics")}</span> {__("to begin.", "wp-statistics")}
                     </p>
                 </div>
