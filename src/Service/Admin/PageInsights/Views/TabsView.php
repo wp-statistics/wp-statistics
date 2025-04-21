@@ -83,7 +83,7 @@ class TabsView extends BaseTabView
             ];
 
             $filters = [];
-            if ($this->isTab('contents')) {
+            if ($this->isTab(['contents', 'entry-pages', 'exit-pages'])) {
                 $filters = ['post-types', 'page-insight'];
 
                 $queryParams['pt']        = Request::get('pt', '');
