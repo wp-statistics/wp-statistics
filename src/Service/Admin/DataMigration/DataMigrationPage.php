@@ -34,6 +34,8 @@ class DataMigrationPage extends BasePage
     public function __construct()
     {
         parent::__construct();
+
+        wp_localize_script(Admin_Assets::$react_dashboard_prefix, 'Wp_Statistics_Data_Migration_Object', $this->getData());
     }
 
     /**
@@ -60,8 +62,6 @@ class DataMigrationPage extends BasePage
             'title'    => esc_html__('Data Migration', 'wp-statistics'),
             'pageName' => Menus::get_page_slug('data_migration'),
         ];
-
-        wp_localize_script(Admin_Assets::$react_dashboard_prefix, 'Wp_Statistics_Data_Migration_Object', $this->getData());
 
         Admin_Template::get_template(['layout/header', 'layout/title'], $args);
         View::load(['pages/data-migration/data-migration'], $args);
