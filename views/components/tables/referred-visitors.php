@@ -33,6 +33,7 @@ use WP_STATISTICS\Menus;
                         </th>
                         <th class="wps-pd-l">
                             <?php echo esc_html__('Total Views', 'wp-statistics'); ?>
+                            <span class="wps-tooltip" title="<?php echo esc_html__('Total views for a single day. Privacy rules assign users a new ID daily, so visits on different days are counted separately.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></span>
                         </th>
                     </tr>
                 </thead>
