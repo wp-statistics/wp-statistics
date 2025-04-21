@@ -509,8 +509,8 @@ class Install
             Option::update('display_notifications', true);
         }
 
-        if (Option::get('privacy_audit_issues') === false && version_compare($latest_version, '14.12', '>')) {
-            Option::update('privacy_audit_issues', false);
+        if (Option::get('show_privacy_issues_in_report') === false && version_compare($latest_version, '14.12', '>')) {
+            Option::update('show_privacy_issues_in_report', false);
         }
 
         /**
