@@ -2,7 +2,6 @@
 
 use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\AjaxBackgroundProcessManager;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\CalculatePostWordsCount;
-use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\DataMigrationProcess;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\GeolocationDatabaseDownloadProcess;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\IncompleteGeoIpUpdater;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\SchemaMigrationProcess;
@@ -256,7 +255,6 @@ final class WP_Statistics
         $this->registerBackgroundProcess(IncompleteGeoIpUpdater::class, 'update_unknown_visitor_geoip');
         $this->registerBackgroundProcess(GeolocationDatabaseDownloadProcess::class, 'geolocation_database_download');
         $this->registerBackgroundProcess(SourceChannelUpdater::class, 'update_visitors_source_channel');
-        $this->registerBackgroundProcess(DataMigrationProcess::class, 'data_migration_process');
         $this->registerBackgroundProcess(SchemaMigrationProcess::class, 'schema_migration_process');
         $this->registerBackgroundProcess(TableOperationProcess::class, 'table_operations_process');
     }
