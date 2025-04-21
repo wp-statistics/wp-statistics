@@ -63,6 +63,7 @@
   thead th:last-child ,tbody td:last-child {
     &:not(.start){
       text-align: left !important;
+      padding-right: 0 !important;
     }
   }
   tbody tr td .wps-table-ellipsis--name svg, tbody tr td .wps-avatar , tbody tr td .wps-pages-image{

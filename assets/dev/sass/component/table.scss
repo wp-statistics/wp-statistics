@@ -290,6 +290,7 @@ td .wps-tooltip-icon.info {
 
         .rtl & {
           padding-right: 24px;
+          padding-left: 0 !important;
         }
       }
     }
@@ -317,6 +318,7 @@ td .wps-tooltip-icon.info {
 
           .rtl & {
             padding-right: 24px!important;
+            padding-left: 0!important;
           }
         }
 
