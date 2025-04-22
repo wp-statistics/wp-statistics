@@ -1,6 +1,7 @@
 = 14.13.3 - 2025-04-x =
 - **New:** Added an option to include the privacy audit report in the email report.
 - **Enhancement:** Improved privacy helper text.
+- **Fix:** Fixed PHP warnings on certain occasions.
 
 = 14.13.2 - 2025-04-20 =
 - **Fix**: Fix Font Size issue on the Free Email Report.
