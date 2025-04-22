@@ -116,13 +116,13 @@ final class WP_Statistics
              */
             add_action('init', function () {
                 $postsManager = new PostsManager();
-            });
 
-            /**
-             * Setup background process
-             */
-            $this->initializeBackgroundProcess();
-            MigrationHandler::init();
+                /**
+                 * Setup background process
+                 */
+                $this->initializeBackgroundProcess();
+                MigrationHandler::init();
+            });
 
         } catch (Exception $e) {
             self::log($e->getMessage());
