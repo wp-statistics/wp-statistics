@@ -20,6 +20,7 @@ return array(
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\BackgroundProcessFactory' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/BackgroundProcessFactory.php',
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\BackgroundProcessMonitor' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/BackgroundProcessMonitor.php',
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\CalculatePostWordsCount' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/CalculatePostWordsCount.php',
+    'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\DataMigrationProcess' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/DataMigrationProcess.php',
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\GeolocationDatabaseDownloadProcess' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/GeolocationDatabaseDownloadProcess.php',
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\IncompleteGeoIpUpdater' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/IncompleteGeoIpUpdater.php',
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\SchemaMigrationProcess' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/SchemaMigrationProcess.php',
