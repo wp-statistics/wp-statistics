@@ -109,8 +109,8 @@ use WP_Statistics\Components\View;
                 View::load("components/objects/external-link", [
                     'url'     => $page['link'],
                     'title'   => $page['title'],
-                    'tooltip' => $page['query'] ? "?{$page['query']}" : ''
-                ]);
+                    'tooltip' => $page['query'] ? "?{$page['query']}" : $page['link']
+                ]) ;
             else :
                 echo Admin_Template::UnknownColumn();
             endif;
@@ -120,19 +120,8 @@ use WP_Statistics\Components\View;
 
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('Exit Page', 'wp-statistics'); ?>&nbsp;</span>
-        <div>
-            <?php
-            $page = $visitor->getLastPage();
-
-            if (!empty($page)) :
-                View::load("components/objects/external-link", [
-                    'url'     => $page['link'],
-                    'title'   => $page['title']
-                ]);
-            else :
-                echo Admin_Template::UnknownColumn();
-            endif;
-            ?>
+        <div class="wps-ellipsis-parent">
+            <span><?php echo esc_html($visitor->getFirstView() ?? $visitor->getLastCounter()) ?></span>
         </div>
     </div>
 
