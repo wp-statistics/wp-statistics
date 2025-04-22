@@ -1321,4 +1321,65 @@ class VisitorsModel extends BaseModel
 
         return intval($result);
     }
+
+    public function getExitPages($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'          => '',
+            'resource_type' => Helper::getPostTypes(),
+            'page'          => 1,
+            'per_page'      => Admin_Template::$item_per_page,
+            'author_id'     => '',
+            'uri'           => '',
+            'order_by'      => 'visitors',
+            'order'         => 'DESC'
+        ]);
+
+        $result = Query::select([
+                'COUNT(visitor.ID) as visitors',
+                'pages.id as post_id, pages.page_id',
+                'posts.post_title',
+                'posts.post_date'
+            ])
+            ->from('visitor')
+            ->join('pages', ['visitor.last_page', 'pages.page_id'])
+            ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
+            ->where('pages.type', 'IN', $args['resource_type'])
+            ->where('pages.uri', '=', $args['uri'])
+            ->where('posts.post_author', '=', $args['author_id'])
+            ->whereDate('last_counter', $args['date'])
+            ->groupBy('pages.id')
+            ->orderBy($args['order_by'], $args['order'])
+            ->perPage($args['page'], $args['per_page'])
+            ->getAll();
+
+        return $result;
+    }
+
+    public function countExitPages($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'          => '',
+            'resource_type' => Helper::getPostTypes(),
+            'author_id'     => '',
+            'uri'           => ''
+        ]);
+
+        $query = Query::select('COUNT(DISTINCT pages.id)')
+            ->from('visitor')
+            ->join('pages', ['visitor.last_page', 'pages.page_id'])
+            ->where('pages.type', 'IN', $args['resource_type'])
+            ->where('pages.uri', '=', $args['uri'])
+            ->whereDate('last_counter', $args['date']);
+
+        if (!empty($args['author_id'])) {
+            $query
+                ->join('posts', ['posts.ID', 'pages.id'])
+                ->where('posts.post_author', '=', $args['author_id']);
+        }
+
+        $result = $query->getVar();
+
+        return intval($result);
+    }
 }
