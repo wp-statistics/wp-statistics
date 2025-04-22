@@ -129,6 +129,19 @@ use WP_STATISTICS\Schedule;
             </td>
         </tr>
 
+        <?php if (Option::get('privacy_audit')) : ?>
+            <tr valign="top">
+                <th scope="row">
+                    <label for="wps_show_privacy_issues_in_report"><?php esc_html_e('Privacy Audit issues', 'wp-statistics'); ?></label>
+                </th>
+                <td>
+                    <input id="wps_show_privacy_issues_in_report" type="checkbox" name="wps_show_privacy_issues_in_report" <?php echo WP_STATISTICS\Option::get('show_privacy_issues_in_report') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'>
+                    <label for="wps_show_privacy_issues_in_report"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <p class="description"><?php esc_html_e('Include open audit issues in each report email.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
+        <?php endif; ?>
+
         <tr valign="top">
             <th scope="row" style="vertical-align: top;">
                 <label for="content-report"><?php esc_html_e('Enhanced Visual Report', 'wp-statistics'); ?></label>
