@@ -207,8 +207,6 @@ class Admin_Assets
         if ($screen_id === 'admin_page_wps_data-migration_page') {
             wp_enqueue_script(self::$react_dashboard_prefix, self::url('react-bundle.js', true), ['wp-element', 'wp-components', 'wp-blocks', 'wp-editor'], self::version(), ['in_footer' => true]);
             wp_localize_script(self::$react_dashboard_prefix, 'wps_global', self::wps_global($hook));
-
-            //load translation multi language
             return;
         }
 
