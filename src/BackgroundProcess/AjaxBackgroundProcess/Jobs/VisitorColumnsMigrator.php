@@ -159,6 +159,13 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
         $this->getTotal(false);
         $this->calculateOffset();
 
+        $attempts = $this->trackAttempts();
+
+        if ($attempts - 1 > $this->batches) {
+            $this->done = $this->total;
+            return;
+        }
+
         if ($this->isCompleted()) {
             $this->saveTotal(self::$currentProcessKey, $this->total);
             return;
