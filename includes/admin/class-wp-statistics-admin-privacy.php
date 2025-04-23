@@ -69,7 +69,7 @@ class Privacy
         }
 
         if (!Option::get('anonymize_ips') || !Option::get('hash_ips')) {
-            $content .= '<p class="privacy-policy-tutorial">' .
+            $content .= '<p>' .
                 __('We store visitors’ <b>IP addresses</b> in a way that may allow them to be identifiable. Specifically:', 'wp-statistics') .
                 '</p>' .
                 '<ul>' .
@@ -81,7 +81,7 @@ class Privacy
         }
 
         if (Option::get('store_ua')) {
-            $content .= '<p class="privacy-policy-tutorial">' .
+            $content .= '<p>' .
                 __('We record <b>full User-Agent strings</b> for each visitor’s browser/device. This includes:', 'wp-statistics') .
                 '</p>' .
                 '<ul>' .
