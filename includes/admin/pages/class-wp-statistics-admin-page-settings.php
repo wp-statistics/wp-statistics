@@ -168,6 +168,7 @@ class settings_page extends Singleton
             'wps_consent_level_integration',
             'wps_anonymous_tracking',
             'wps_do_not_track',
+            'wps_show_privacy_issues_in_report',
         );
 
         // If the IP hash's are enabled, disable storing the complete user agent.

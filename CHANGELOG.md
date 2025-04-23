@@ -1,20 +1,27 @@
-= 14.13.2 - 2025-04-** =
-- **New:** Added a 28-day date range into the date picker.
-- **Fix:** Updated messages based on data availability.
-- **Fix:** Fixed inconsistencies in online visitor analytics.
-- **Fix:** Ensured the "Views" column is visible for users with the Editor role on the posts list page.
-- **Fix:** Resolved redundant errors during notification updates.
-- **Fix:** Stop keeping inactive users online after 30m issue
-- **Enhancement:** Performance improvements
-- **Fix:** Only show the update date if it differs from the creation date on the Single Post Statistics page.
-- **Fix:** Fixed hit/online endpoints issues.
-- **Fix:** Fixed filters URL issue on Referrals page.
-- **Removal:** Removed the `Host Exclusions` setting.
-- **Fix:** Resolved chart color bug in RTL layout.
-- **Fix:** Fixed word count background process notice issue.
-- **Fix:** Removed redundant left join on users table in visitor insights page to improve query performance.
-- **Fix:** Resolved Interactivity API compatibility problems.
+= 14.13.3 - 2025-04-23 =
+- **New:** Added an option to enable or disable the Privacy Audit section in email reports.
+- **Enhancement:** Improved the migrator to avoid sending redundant requests.
 - **Enhancement:** Added Source Category filter into the visitors report filters.
+- **Fix:** Fixed high memory usage during plugin activation.
+- **Fix:** Resolved occasional PHP warnings.
+
+= 14.13.2 - 2025-04-20 =
+- **Fix**: Fix Font Size issue on the Free Email Report.
+- **New:** Added a 28-day date range option to the date picker.
+- **Enhancement:** Improved overall performance.
+- **Enhancement:** On the Single Post Statistics page, the update date is now shown only if it's different from the creation date.
+- **Fix:** Fixed inconsistencies in online visitor analytics.
+- **Fix:** Ensured the "Views" column is visible for Editors on the posts list page.
+- **Fix:** Resolved errors that appeared during notification updates.
+- **Fix:** Stopped inactive users from appearing online after 30 minutes.
+- **Fix:** Fixed issues with hit and online tracking endpoints.
+- **Fix:** Corrected filters URL issue on the Referrals page.
+- **Fix:** Resolved chart color issues in RTL layout.
+- **Fix:** Fixed a notice related to the word count background process.
+- **Fix:** Removed unnecessary left join on the users table in Visitor Insights to improve query performance.
+- **Fix:** Fixed compatibility issues with the Interactivity API.
+- **Fix:** Resolved layout issue with the "Account Information" widget on the Single Visitor page.
+- **Removal:** Removed the `Host Exclusions` setting.
 
 = 14.13.1 - 2025-04-08 =
 - **Enhancement:** Improved filter logic to avoid unnecessary requests.
