@@ -6,6 +6,7 @@ use WP_STATISTICS\Option;
 use WP_STATISTICS\PrivacyErasers;
 use WP_STATISTICS\PrivacyExporter;
 use WP_STATISTICS\User;
+use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent;
 
 class Privacy
 {
@@ -43,9 +44,7 @@ class Privacy
                 '<p class="privacy-policy-tutorial">' . __('<b>We use the WP Statistics plugin to analyze traffic on our website.</b> WP Statistics stores its data on our own server and does not transmit it to any third parties. Below, we describe what information we collect through WP Statistics, why we collect it, and how it is handled. If you have questions or concerns about our analytics practices, please contact us or review the <a href="https://wp-statistics.com/resources/wp-statistics-data-privacy/" target="_blank">WP Statistics Data Privacy guide.</a>', 'wp-statistics') . '</p>';
         }
 
-        if ((Option::get('anonymize_ips') || Option::get('hash_ips')) &&
-            !Option::get('visitors_log') &&
-            !Option::get('store_ua')) {
+        if (RequireConsent::getStatus() == 'success') {
             $content .= '<p class="privacy-policy-tutorial">' .
                 __('We do <b>not</b> collect or store any information that can identify you personally. This means:', 'wp-statistics') .
                 '</p>' .
@@ -57,7 +56,7 @@ class Privacy
                 '</ul>';
         }
 
-        if (User::is_login() && Option::get('visitors_log')) {
+        if (Option::get('visitors_log')) {
             $content .= '<p class="privacy-policy-tutorial">' .
                 __('We track certain details about logged-in visitors on our site. Specifically:', 'wp-statistics') .
                 '</p>' .
