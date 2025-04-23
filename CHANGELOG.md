@@ -1,3 +1,6 @@
+= 14.13.x - 2025-xx-xx =
+- **Fix**: Fixed recent comment number issue on Content Analytics report.
+
 = 14.13.3 - 2025-04-23 =
 - **New:** Added an option to enable or disable the Privacy Audit section in email reports.
 - **Enhancement:** Improved the migrator to avoid sending redundant requests.
@@ -5,7 +8,6 @@
 - **Fix:** Fixed high memory usage during plugin activation.
 - **Fix:** Resolved occasional PHP warnings.
 - **Fix**: Fixed early translation loading warning.
-- **Fix**: Fixed recent comment number issue on Content Analytics report.
 
 = 14.13.2 - 2025-04-20 =
 - **Fix**: Fix Font Size issue on the Free Email Report.
