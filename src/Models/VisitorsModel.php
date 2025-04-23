@@ -495,7 +495,9 @@ class VisitorsModel extends BaseModel
             'referrer'      => '',
             'utm_source'    => '',
             'utm_medium'    => '',
-            'utm_campaign'  => ''
+            'utm_campaign'  => '',
+            'source_channel'=> '',
+            'source_name'   => ''
         ]);
 
         // Set default fields
@@ -542,6 +544,8 @@ class VisitorsModel extends BaseModel
             ->where('ip', 'LIKE', "%{$args['ip']}%")
             ->where('referred', '=', $args['referrer'])
             ->where('visitor.location', '=', $args['country'])
+            ->where('visitor.source_channel', '=', $args['source_channel'])
+            ->where('visitor.source_name', '=', $args['source_name'])
             ->whereDate($args['date_field'], $args['date'])
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
