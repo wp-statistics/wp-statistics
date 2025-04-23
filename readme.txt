@@ -139,6 +139,12 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.13.3 - 2025-04-23 =
+- **New:** Added an option to enable or disable the Privacy Audit section in email reports.
+- **Enhancement:** Improved the migrator to avoid sending redundant requests.
+- **Fix:** Fixed high memory usage during plugin activation.
+- **Fix:** Resolved occasional PHP warnings.
+
 = 14.13.2 - 2025-04-20 =
 - **New:** Added a 28-day date range option to the date picker.
 - **Enhancement:** Improved overall performance.
