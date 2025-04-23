@@ -28,6 +28,16 @@ class Schedule
         // Define New Cron Schedules Time in WordPress
         add_filter('cron_schedules', array($this, 'define_schedules_time'));
 
+        add_action('init', [$this, 'maybe_schedule_hooks']);
+    }
+
+    /**
+     * Schedule or unschedule all WP-Statistics cron hooks based on current options.
+     * 
+     * @return void
+     */
+    public function maybe_schedule_hooks() 
+    {
         if (!Request::isFrom('admin')) {
 
             // Add the referrerspam update schedule if it doesn't exist and it should be.
