@@ -1,5 +1,5 @@
 <div class="wrap wps-wrap">
-    <h2 class="wps-settings-box__title"><?php esc_html_e('Data Export', 'wp-statistics'); ?></h2>
+    <h2 class="wps-settings-box__title"><span><?php esc_html_e('Data Export', 'wp-statistics'); ?></span></h2>
     <form method="post"  class="wps-wrap__setting-form">
         <div class="postbox">
             <input type="hidden" name="wps_export" value="true">

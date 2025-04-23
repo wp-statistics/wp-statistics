@@ -1555,6 +1555,22 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     line-height: 27px;
     padding: 0;
     margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &>span {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+      }
+    a{
+      font-weight: 500;
+      font-size: 13px;
+      text-decoration: underline;
+      text-decoration-style: solid;
+      text-decoration-thickness: 0%;
+    }
   }
 
   .wps-settings-box__head{

@@ -7,7 +7,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 $isLicenseValid        = LicenseHelper::isPluginLicenseValid('wp-statistics-realtime-stats');
 $isRealTimeStatsActive = WP_STATISTICS\Helper::isAddOnActive('realtime-stats');
 ?>
-    <h2 class="wps-settings-box__title"><?php esc_html_e('Real-time Stats', 'wp-statistics'); ?></h2>
+    <h2 class="wps-settings-box__title"><span><?php esc_html_e('Real-time Stats', 'wp-statistics'); ?></span></h2>
 <?php
 if (!$isRealTimeStatsActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
     ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
@@ -49,6 +49,6 @@ if ($isRealTimeStatsActive && !$isLicenseValid) {
 
 <?php
 if ($isRealTimeStatsActive) {
-    submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='realtime-stats-settings'"));
+    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='realtime-stats-settings'"));
 }
 ?>

@@ -9,7 +9,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 $isLicenseValid     = LicenseHelper::isPluginLicenseValid('wp-statistics-data-plus');
 $isDataPlusActive   = Helper::isAddOnActive('data-plus');
 ?>
-    <h2 class="wps-settings-box__title"><?php esc_html_e('Data Plus', 'wp-statistics'); ?></h2>
+    <h2 class="wps-settings-box__title"><span><?php esc_html_e('Data Plus', 'wp-statistics'); ?></span></h2>
     <?php
 
     if (!$isDataPlusActive) echo Admin_Template::get_template(
@@ -101,6 +101,6 @@ $isDataPlusActive   = Helper::isAddOnActive('data-plus');
 
 <?php
 if ($isDataPlusActive) {
-    submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='data-plus-settings'"));
+    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='data-plus-settings'"));
 }
 ?>

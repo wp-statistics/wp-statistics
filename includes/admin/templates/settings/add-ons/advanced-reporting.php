@@ -11,7 +11,7 @@ $isAdvancedReportingActive  = WP_STATISTICS\Helper::isAddOnActive('advanced-repo
 global $wp_version;
 ?>
 
-    <h2 class="wps-settings-box__title"><?php esc_html_e('Advanced Reporting', 'wp-statistics'); ?></h2>
+    <h2 class="wps-settings-box__title"><span><?php esc_html_e('Advanced Reporting', 'wp-statistics'); ?></span></h2>
 
 <?php
 if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
@@ -376,6 +376,6 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
 
 <?php
 if ($isAdvancedReportingActive) {
-    submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='advanced-reporting-settings'"));
+    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='advanced-reporting-settings'"));
 }
 ?>

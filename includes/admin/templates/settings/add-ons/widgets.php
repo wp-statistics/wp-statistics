@@ -7,7 +7,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 $isLicenseValid  = LicenseHelper::isPluginLicenseValid('wp-statistics-widgets');
 $isWidgetsActive = WP_STATISTICS\Helper::isAddOnActive('widgets');
 ?>
-    <h2 class="wps-settings-box__title"><?php esc_html_e('Advanced Widgets', 'wp-statistics'); ?></h2>
+    <h2 class="wps-settings-box__title"><span><?php esc_html_e('Advanced Widgets', 'wp-statistics'); ?></span></h2>
 
 <?php
 if (!$isWidgetsActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
@@ -80,6 +80,6 @@ if ($isWidgetsActive && !$isLicenseValid) {
 
 <?php
 if ($isWidgetsActive) {
-    submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='widgets-settings'"));
+    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='widgets-settings'"));
 }
 ?>

@@ -5,7 +5,7 @@ use WP_STATISTICS\User;
 
 global $wp_roles;
 ?>
-    <h2 class="wps-settings-box__title"><?php esc_html_e('Roles & Permissions', 'wp-statistics'); ?></h2>
+    <h2 class="wps-settings-box__title"><span><?php esc_html_e('Roles & Permissions', 'wp-statistics'); ?></span></h2>
 
     <div class="postbox">
         <table class="form-table">
@@ -113,4 +113,4 @@ global $wp_roles;
         </table>
     </div>
 
-<?php submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='access-settings'")); ?>
+<?php submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='access-settings'")); ?>

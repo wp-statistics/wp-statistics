@@ -1,4 +1,4 @@
-<h2 class="wps-settings-box__title"><?php esc_html_e('Filtering & Exceptions', 'wp-statistics'); ?></h2>
+<h2 class="wps-settings-box__title"><span><?php esc_html_e('Filtering & Exceptions', 'wp-statistics'); ?></span></h2>
 
 <div class="postbox">
     <table class="form-table">
@@ -63,17 +63,21 @@
         <tr valign="top">
             <th scope="row"><label for="wps_robotlist"><?php esc_html_e('Robot List', 'wp-statistics'); ?></label></th>
             <td>
-                    <textarea name="wps_robotlist" class="code textarea-input-reset" dir="ltr" rows="10" cols="60" id="wps_robotlist"><?php
-                        $robotlist = WP_STATISTICS\Option::get('robotlist');
-                        if ($robotlist == '') {
-                            $robotlist = WP_STATISTICS\Helper::get_robots_list();
-                            update_option('wps_robotlist', $robotlist);
-                        }
-                        echo esc_textarea($robotlist);
-                        ?>
+                <div class="wps-settings-box_restore">
+                     <textarea name="wps_robotlist" class="code textarea-input-reset" dir="ltr" rows="10" cols="60" id="wps_robotlist"><?php
+                         $robotlist = WP_STATISTICS\Option::get('robotlist');
+                         if ($robotlist == '') {
+                             $robotlist = WP_STATISTICS\Helper::get_robots_list();
+                             update_option('wps_robotlist', $robotlist);
+                         }
+                         echo esc_textarea($robotlist);
+                         ?>
                     </textarea>
+                    <a onclick="var wps_robotlist = getElementById('wps_robotlist'); wps_robotlist.value = '<?php echo esc_attr(str_replace(array("\r\n", "\n", "\r"), '\n', esc_html(\WP_STATISTICS\Helper::get_robots_list()))); ?>';" class="wps-button wps-button--default"><?php esc_html_e('Reset to Default', 'wp-statistics'); ?></a>
+
+                </div>
+
                 <p class="description"><?php echo esc_html__('Enter robot agents to exclude. One agent name per line, minimum four characters.', 'wp-statistics'); ?></p>
-                <a onclick="var wps_robotlist = getElementById('wps_robotlist'); wps_robotlist.value = '<?php echo esc_attr(str_replace(array("\r\n", "\n", "\r"), '\n', esc_html(\WP_STATISTICS\Helper::get_robots_list()))); ?>';" class="button"><?php esc_html_e('Reset to Default', 'wp-statistics'); ?></a>
             </td>
         </tr>
 
@@ -170,9 +174,11 @@
         <tr valign="top">
             <th scope="row"><label for="wps_query_params_allow_list"><?php esc_html_e('Allowed Query Parameters', 'wp-statistics'); ?></label></th>
             <td>
-                <textarea name="wps_query_params_allow_list" class="code textarea-input-reset" dir="ltr" rows="10" cols="60" id="wps_query_params_allow_list"><?php echo esc_textarea(WP_STATISTICS\Helper::get_query_params_allow_list('string')); ?></textarea>
+                <div class="wps-settings-box_restore">
+                    <textarea name="wps_query_params_allow_list" class="code textarea-input-reset" dir="ltr" rows="10" cols="60" id="wps_query_params_allow_list"><?php echo esc_textarea(WP_STATISTICS\Helper::get_query_params_allow_list('string')); ?></textarea>
+                    <a onclick="var wps_query_params_allow_list = getElementById('wps_query_params_allow_list'); wps_query_params_allow_list.value = '<?php echo esc_attr(str_replace(array("\r\n", "\n", "\r"), '\n', esc_html(WP_STATISTICS\Helper::get_default_query_params_allow_list('string')))); ?>';" class="wps-button wps-button--default"><?php esc_html_e('Reset to Default', 'wp-statistics'); ?></a>
+                </div>
                 <p class="description"><?php echo __('Control which URL query parameters are retained in your statistics. The default parameters allowed are: <code>ref</code>, <code>source</code>, <code>utm_source</code>, <code>utm_medium</code>, <code>utm_campaign</code>, <code>utm_content</code>, <code>utm_term</code>, <code>utm_id</code>, <code>s</code>, <code>p</code>. You can add or remove parameters from this list to suit your tracking needs. Enter one parameter per line. For a detailed explanation of each default parameter and guidance on customizing this list, visit our documentation <a href="https://wp-statistics.com/resources/managing-url-query-parameters/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">here</a>.', 'wp-statistics'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	?></p>
-                <a onclick="var wps_query_params_allow_list = getElementById('wps_query_params_allow_list'); wps_query_params_allow_list.value = '<?php echo esc_attr(str_replace(array("\r\n", "\n", "\r"), '\n', esc_html(WP_STATISTICS\Helper::get_default_query_params_allow_list('string')))); ?>';" class="button"><?php esc_html_e('Reset to Default', 'wp-statistics'); ?></a>
             </td>
         </tr>
         </tbody>
@@ -280,4 +286,4 @@
     </table>
 </div>
 
-<?php submit_button(esc_html__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='exclusions-settings'")); ?>
+<?php submit_button(esc_html__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='exclusions-settings'")); ?>

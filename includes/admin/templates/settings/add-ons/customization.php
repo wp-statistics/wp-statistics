@@ -45,7 +45,7 @@ if (empty(Option::get('record_exclusions'))) {
 $disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customization', []);
 ?>
 
-    <h2 class="wps-settings-box__title"><?php esc_html_e('Customization', 'wp-statistics'); ?></h2>
+    <h2 class="wps-settings-box__title"><span><?php esc_html_e('Customization', 'wp-statistics'); ?></span></h2>
 
 <?php
 if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
@@ -193,6 +193,6 @@ if ($isCustomizationActive && !$isLicenseValid) {
 
 <?php
 if ($isCustomizationActive) {
-    submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='customization-settings'"));
+    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='customization-settings'"));
 }
 ?>

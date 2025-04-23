@@ -26,7 +26,7 @@ foreach ($miniChartPostTypes as $name => $label) {
 }
 ?>
 
-<h2 class="wps-settings-box__title"><?php esc_html_e('Mini Chart', 'wp-statistics'); ?></h2>
+<h2 class="wps-settings-box__title"><span><?php esc_html_e('Mini Chart', 'wp-statistics'); ?></span></h2>
 
 
 <?php
@@ -150,7 +150,7 @@ if ($isMiniChartActive && !$isLicenseValid) {
 
 <?php
 if ($isMiniChartActive) {
-    submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='mini-chart-settings'"));
+    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='mini-chart-settings'"));
 }
 ?>
 
@@ -158,7 +158,37 @@ if ($isMiniChartActive) {
     jQuery(document).ready(function ($) {
         // Ensure the color picker is available and initialize it
         if ($.fn.wpColorPicker) {
-            $('.js-color-picker').wpColorPicker();
+            $('.js-color-picker').each(function() {
+                $(this).wpColorPicker({
+                     defaultColor: '#000000',
+                     hide: true,
+                     change: function(event, ui) {
+                         var color = ui.color.toString();
+                         $(event.target).closest('.wp-picker-container').find('.wp-color-result-text').text(color);
+                         updateBeforeBackground($(event.target), color);
+                    },
+                     clear: function(event) {
+                         $(event.target).closest('.wp-picker-container').find('.wp-color-result-text').text('#000000');
+                         updateBeforeBackground($(event.target), '#000000');
+                    }
+                });
+
+                 var initialColor = $(this).val() || '#000000';
+                $(this).closest('.wp-picker-container').find('.wp-color-result-text').text(initialColor);
+                updateBeforeBackground($(this), initialColor);
+
+                function updateBeforeBackground($element, color) {
+                    var container = $element.closest('.wp-picker-container');
+                    var uniqueClass = 'wp-color-result-' + $element.attr('id');
+                    container.find('.wp-color-result').addClass(uniqueClass);
+                     $('#dynamic-style-' + $element.attr('id')).remove();
+                     $('head').append(
+                        `<style id="dynamic-style-${$element.attr('id')}">` +
+                        `.${uniqueClass}::before { background: ${color} !important; }` +
+                        `</style>`
+                    );
+                }
+            });
         } else {
             console.log('wpColorPicker function is not available.');
         }

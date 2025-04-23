@@ -47,7 +47,7 @@ add_thickbox();
     </table>
 </div>
 
-<h2 class="wps-settings-box__title"><?php esc_html_e('Advanced Options', 'wp-statistics'); ?></h2>
+<h2 class="wps-settings-box__title"><span><?php esc_html_e('Advanced Options', 'wp-statistics'); ?></span></h2>
 
 <div class="postbox">
     <table class="form-table">
@@ -104,50 +104,41 @@ add_thickbox();
             <th scope="row" colspan="2"><h3><?php esc_html_e('Main IP Detection Method', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php esc_html_e('Select the preferred method for determining the visitor\'s IP address. The method should correspond to the way your server and network infrastructure relay IP information. Choose the option that reflects the correct IP in your server environment.', 'wp-statistics'); ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
         </tr>
 
-        <!-- Sequential IP Detection -->
-        <tr valign="top">
-            <th scope="row" colspan="2" style="padding-top: 0px;padding-bottom: 0px;">
-                <table>
-                    <tr>
-                        <td style="width: 10px; padding: 0px;">
-                            <input id="sequential" type="radio" name="ip_method" style="vertical-align: -3px;" value="sequential" <?php checked($ip_method, 'sequential') ?>>
-                        </td>
-                        <td style="width: 250px;">
-                            <label for="sequential"><?php esc_html_e('Sequential IP Detection (Recommended)', 'wp-statistics'); ?></label>
-                        </td>
-                        <td style="padding-left: 0px;">
-                            <p class="description"><?php _e('Automatically detects the user\'s IP address by checking a sequence of server variables. The detection order is: <code>HTTP_X_FORWARDED_FOR</code>, <code>HTTP_X_FORWARDED</code>, <code>HTTP_FORWARDED_FOR</code>, <code>HTTP_FORWARDED</code>, <code>REMOTE_ADDR</code>, <code>HTTP_CLIENT_IP</code>, <code>HTTP_X_CLUSTER_CLIENT_IP</code>, <code>HTTP_X_REAL_IP</code>, <code>HTTP_INCAP_CLIENT_IP</code>. Stops at the first valid IP found.', 'wp-statistics') ?></p>
-                        </td>
-                    </tr>
-                </table>
+        <tr>
+            <th scope="row">
+                <label for="wps_settings[ip_method]"><?php esc_html_e('Detection Method', 'wp-statistics'); ?></label>
             </th>
+            <td>
+                <select id="wps_settings[ip_method]" name="ip_method">
+                    <option value="sequential" <?php echo WP_STATISTICS\Option::get('ip_method') ? "selected='selected'" : ''; ?>>
+                        <?php esc_html_e('Sequential IP Detection (Recommended)', 'wp-statistics'); ?>
+                    </option>
+                    <option value="CUSTOM_HEADER" <?php echo !WP_STATISTICS\Option::get('ip_method') ? "selected='selected'" : ''; ?>>
+                        <?php esc_html_e('Specify a Custom Header for IP Detection', 'wp-statistics'); ?>
+                    </option>
+                </select>
+            </td>
+        </tr>
+        <tr valign="top" class="js-wps-show_if_ip_method_equal_sequential">
+            <th scope="row"></th>
+            <td>
+                <p class="description"><?php _e('Automatically detects the user\'s IP address by checking a sequence of server variables. The detection order is: <code>HTTP_X_FORWARDED_FOR</code>, <code>HTTP_X_FORWARDED</code>, <code>HTTP_FORWARDED_FOR</code>, <code>HTTP_FORWARDED</code>, <code>REMOTE_ADDR</code>, <code>HTTP_CLIENT_IP</code>, <code>HTTP_X_CLUSTER_CLIENT_IP</code>, <code>HTTP_X_REAL_IP</code>, <code>HTTP_INCAP_CLIENT_IP</code>. Stops at the first valid IP found.', 'wp-statistics') ?></p>
+            </td>
         </tr>
 
-        <!-- Custom IP Detection -->
-        <tr valign="top">
-            <th scope="row" colspan="2" style="padding-top: 0px;padding-bottom: 0px;">
-                <table>
-                    <tr>
-                        <td style="width: 10px; padding: 0px;">
-                            <input id="custom-header" type="radio" name="ip_method" style="vertical-align: -3px;" value="CUSTOM_HEADER" <?php echo in_array($ip_method, $ip_options) ? checked(true) : '' ?>>
-                        </td>
-                        <td style="width: 250px;">
-                            <label for="custom-header"><?php esc_html_e('Specify a Custom Header for IP Detection', 'wp-statistics'); ?></label>
-                        </td>
-                        <td style="padding-left: 0px;">
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <input type="text" name="user_custom_header_ip_method" autocomplete="off" style="padding: 5px; width: 250px;height: 35px;" value="<?php echo in_array($ip_method, $ip_options) ? esc_attr($ip_method) : '' ?>">
-                            </div>
+        <tr valign="top" class="js-wps-show_if_ip_method_equal_CUSTOM_HEADER">
+            <th scope="row"></th>
+            <td>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <input type="text" name="user_custom_header_ip_method" autocomplete="off" style="padding: 5px; width: 250px;height: 35px;" value="<?php echo in_array($ip_method, $ip_options) ? esc_attr($ip_method) : '' ?>">
+                </div>
 
-                            <p class="description">
-                                <?php _e('If your server uses a custom key in <code>$_SERVER</code> for IP detection (e.g., <code>HTTP_CF_CONNECTING_IP</code> for CloudFlare), specify it here.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?>
-                                <a href="#TB_inline?&width=950&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e('View available headers on your server.', 'wp-statistics');   // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></a>
-                            </p>
-                            <p class="description"><?php _e('Refer to our <a href="https://wp-statistics.com/resources/how-to-configure-ip-detection-in-wp-statistics-for-accurate-visitor-tracking/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Documentation</a> for more info and how to configure IP Detection properly.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></p>
-                        </td>
-                    </tr>
-                </table>
-            </th>
+                <p class="description">
+                    <?php _e('If your server uses a custom key in <code>$_SERVER</code> for IP detection (e.g., <code>HTTP_CF_CONNECTING_IP</code> for CloudFlare), specify it here.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?>
+                    <a href="#TB_inline?&width=950&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e('View available headers on your server.', 'wp-statistics');   // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></a>
+                </p>
+                <p class="description"><?php _e('Refer to our <a href="https://wp-statistics.com/resources/how-to-configure-ip-detection-in-wp-statistics-for-accurate-visitor-tracking/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Documentation</a> for more info and how to configure IP Detection properly.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></p>
+            </td>
         </tr>
 
         </tbody>
@@ -259,7 +250,7 @@ add_thickbox();
 
             <td>
                 <label for="geoip-enable">
-                    <?php submit_button(esc_html__('Update Now', 'wp-statistics'), "secondary", "update_geoip", false); ?>
+                    <?php submit_button(esc_html__('Update Now', 'wp-statistics'), "wps-button wps-button--default", "update_geoip", false); ?>
                 </label>
 
                 <p class="description"><?php esc_html_e('Click here to update the Geolocation database immediately for the database.', 'wp-statistics'); ?></p>
@@ -465,8 +456,11 @@ add_thickbox();
                 <input id="reset-plugin" type="checkbox" name="wps_reset_plugin">
                 <label for="reset-plugin"><?php esc_html_e('Reset', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('Revert all user-specific and global configurations to the WP Statistics default settings, preserving your existing data.', 'wp-statistics'); ?></p>
-                <p class="description"><span class="wps-note"><?php esc_html_e('Caution', 'wp-statistics'); ?>:</span> <?php esc_html_e('This change is irreversible.', 'wp-statistics'); ?></p>
-                <p class="description"><?php _e('<b>For multisite users</b>: Every site within the network will return to the default settings.', 'wp-statistics'); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	?></p>
+                <div class="wps-alert wps-alert__danger">
+                    <?php echo sprintf(('<b>%s:</b>%s'), __('For multisite users', 'wp-statistics'), __('Every site within the network will return to the default settings.', 'wp-statistics')); ?>
+                </div>
+
+
             </td>
         </tr>
         </tbody>
@@ -489,11 +483,13 @@ add_thickbox();
                 <input id="delete-data-on-uninstall" type="checkbox" name="wps_delete_data_on_uninstall" <?php checked(WP_STATISTICS\Option::get('delete_data_on_uninstall')) ?>>
                 <label for="delete-data-on-uninstall"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('Enable this option to automatically delete all WP Statistics data from your database when the plugin is deleted.', 'wp-statistics'); ?></p>
-                <p class="description"><span class="wps-note"><?php esc_html_e('Warning', 'wp-statistics'); ?>:</span> <?php esc_html_e('This action is permanent and cannot be undone. Make sure to back up your data before enabling this option.', 'wp-statistics'); ?></p>
+                <div class="wps-alert wps-alert__danger">
+                    <?php esc_html_e('This action is permanent and cannot be undone. Make sure to back up your data before enabling this option.', 'wp-statistics'); ?>
+                </div>
             </td>
         </tr>
         </tbody>
     </table>
 </div>
 
-<?php submit_button(esc_html__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='advanced-settings'")); ?>
+<?php submit_button(esc_html__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='advanced-settings'")); ?>

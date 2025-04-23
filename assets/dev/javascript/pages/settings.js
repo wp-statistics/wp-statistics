@@ -85,8 +85,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         const {id} = this.extractIdAndValue(className);
                         if (id) {
                             const item = document.querySelector(`#wps_settings\\[${id}\\]`);
-                            if (item && item.type === 'select-one') {
-                                item.addEventListener('change', toggleElement);
+                            if (item) {
+                                if ($(item).hasClass('select2-hidden-accessible')) {
+                                     $(item).on('select2:select', toggleElement);
+                                } else if (item.type === 'select-one') {
+                                     item.addEventListener('change', toggleElement);
+                                }
                             }
                         }
                     }
@@ -122,7 +126,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             return {id, value};
         }
     }
-
-    new ShowIfEnabled();
-
- }
+    $(document).ready(function () {
+        new ShowIfEnabled();
+    });
+   }

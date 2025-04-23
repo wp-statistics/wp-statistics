@@ -4,12 +4,12 @@ use WP_STATISTICS\Menus;
 
 ?>
 
-<h2 class="wps-settings-box__title"><?php esc_html_e('General', 'wp-statistics'); ?></h2>
+<h2 class="wps-settings-box__title"><span><?php esc_html_e('General', 'wp-statistics'); ?> <span class="wps-tooltip" title="test tooltip"><i class="wps-tooltip-icon"></i></span></span></h2>
 <div class="postbox">
     <table class="form-table">
         <tbody>
         <tr valign="top" class="wps-settings-box_head">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Tracking Options', 'wp-statistics'); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php esc_html_e('Tracking Options', 'wp-statistics'); ?><span class="wps-badge wps-badge--deprecated">DEPRECATED</span></h3></th>
         </tr>
 
         <tr valign="top">
@@ -131,7 +131,7 @@ use WP_STATISTICS\Menus;
             </th>
 
             <td>
-                <a class="button button-primary" href="<?php echo esc_url(Menus::admin_url('wps_tracker-debugger_page')); ?>"><?php esc_html_e('Open Debugger', 'wp-statistics'); ?></a>
+                <a class=" wps-button wps-button--default" href="<?php echo esc_url(Menus::admin_url('wps_tracker-debugger_page')); ?>"><?php esc_html_e('Open Debugger', 'wp-statistics'); ?></a>
                 <p class="description"><?php esc_html_e('Use the Tracker Debugger to inspect and troubleshoot your tracking script, ensuring accurate data collection.', 'wp-statistics'); ?></p>
             </td>
         </tr>
@@ -139,4 +139,4 @@ use WP_STATISTICS\Menus;
     </table>
 </div>
 
-<?php submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='general-settings'")); ?>
+<?php submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='general-settings'")); ?>

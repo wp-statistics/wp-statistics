@@ -4,7 +4,7 @@ use WP_STATISTICS\Option;
 use WP_STATISTICS\Schedule;
 
 ?>
-<h2 class="wps-settings-box__title"><?php esc_html_e('Email Reports', 'wp-statistics'); ?></h2>
+<h2 class="wps-settings-box__title"><span><?php esc_html_e('Email Reports', 'wp-statistics'); ?></span></h2>
 
 <div class="postbox">
     <table class="form-table">
@@ -37,12 +37,16 @@ use WP_STATISTICS\Schedule;
             <th scope="row">
                 <h3><?php esc_html_e('Automated Report Delivery', 'wp-statistics'); ?></h3>
             </th>
-            <th scope="row">
-                <?php $next_scheduled_time = Schedule::getNextScheduledTime('wp_statistics_report_hook') ?>
-                <?php if ($next_scheduled_time) : ?>
-                    <div class="alert alert-success"><span><?php echo sprintf(__('Your next report is scheduled to be sent on <b>%s at %s</b>.', 'wp-statistics'), wp_date(get_option('date_format'), $next_scheduled_time), wp_date(get_option('time_format'), $next_scheduled_time)) ?></span></div>
-                <?php endif; ?>
-            </th>
+            <td>
+                <div>
+                    <?php $next_scheduled_time = Schedule::getNextScheduledTime('wp_statistics_report_hook') ?>
+                    <?php if ($next_scheduled_time) : ?>
+                        <div class="alert alert-success"><span><?php echo sprintf(__('Your next report is scheduled to be sent on <b>%s at %s</b>.', 'wp-statistics'), wp_date(get_option('date_format'), $next_scheduled_time), wp_date(get_option('time_format'), $next_scheduled_time)) ?></span></div>
+                    <?php endif; ?>
+                    <a href=""><?php esc_html_e('View Guide', 'wp-statistics'); ?></a>
+                </div>
+                <a href="" class="wps-button wps-button--default"><?php esc_html_e('Reset to Default', 'wp-statistics'); ?></a>
+            </td>
         </tr>
 
         <tr valign="top">
@@ -143,4 +147,4 @@ use WP_STATISTICS\Schedule;
     </table>
 </div>
 
-<?php submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='notifications-settings'")); ?>
+<?php submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='notifications-settings'")); ?>
