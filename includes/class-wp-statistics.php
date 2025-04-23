@@ -119,7 +119,7 @@ final class WP_Statistics
             });
 
             /**
-             * Setup background process
+             * Setup background process.
              */
             $this->initializeBackgroundProcess();
             MigrationHandler::init();
