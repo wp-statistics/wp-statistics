@@ -1,3 +1,6 @@
+= 14.13.x - 2025-xx-xx =
+- **Fix**: Fixed visitors number aggregation issue.
+
 = 14.13.3 - 2025-04-23 =
 - **New:** Added an option to enable or disable the Privacy Audit section in email reports.
 - **Enhancement:** Improved the migrator to avoid sending redundant requests.

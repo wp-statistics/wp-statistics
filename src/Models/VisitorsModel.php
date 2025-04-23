@@ -35,7 +35,15 @@ class VisitorsModel extends BaseModel
             'referrer'      => ''
         ]);
 
-        $query = Query::select('COUNT(*) as total_visitors')
+        $filteredArgs = array_filter($args);
+
+        $field = '*';
+
+        if (array_intersect(['resource_type', 'resource_id', 'query_param', 'post_type', 'author_id', 'post_id', 'taxonomy', 'term'], array_keys($filteredArgs))) {
+            $field = 'DISTINCT visitor.ID';
+        }
+
+        $query = Query::select("COUNT($field) as total_visitors")
             ->from('visitor')
             ->where('agent', '=', $args['agent'])
             ->where('location', '=', $args['country'])
@@ -56,8 +64,6 @@ class VisitorsModel extends BaseModel
                 $query->where('usermeta.meta_value', 'LIKE', "%{$args['user_role']}%");
             }
         }
-
-        $filteredArgs = array_filter($args);
 
         if (array_intersect(['resource_type', 'resource_id', 'query_param'], array_keys($filteredArgs))) {
             $query
