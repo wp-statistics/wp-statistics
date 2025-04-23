@@ -1,8 +1,8 @@
 = 14.13.3 - 2025-04-23 =
-- **Fix**: Resolved high memory usage issue during plugin activation.
-- **Enhancement:** Improved migrator functionality to prevent redundant requests.
-- **New:** Added an option to include the privacy audit report in the email report.
-- **Fix:** Fixed PHP warnings on certain occasions.
+- **New:** Added an option to enable or disable the Privacy Audit section in email reports.
+- **Enhancement:** Improved the migrator to avoid sending redundant requests.
+- **Fix:** Fixed high memory usage during plugin activation.
+- **Fix:** Resolved occasional PHP warnings.
 
 = 14.13.2 - 2025-04-20 =
 - **Fix**: Fix Font Size issue on the Free Email Report.
