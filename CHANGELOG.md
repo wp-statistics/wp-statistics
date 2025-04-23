@@ -1,4 +1,6 @@
-= 14.13.3 - 2025-04-x =
+= 14.13.x - 2025-**-** =
+- **Fix**: Resolved high memory usage issue during plugin activation.
+- **Enhancement:** Improved migrator functionality to prevent redundant requests.
 - **New:** Added an option to include the privacy audit report in the email report.
 - **Fix:** Fixed PHP warnings on certain occasions.
 
