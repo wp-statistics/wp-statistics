@@ -38,7 +38,7 @@ class Privacy
         $content = '<div class="wp-suggested-text">';
 
         if (User::isAdmin()) {
-            $content .= '<p>' .
+            $content .= '<p class="privacy-policy-tutorial">' .
                 __('The text that follows has been generated from your current <b>WP Statistics</b> configuration and details the visitor data your site collects, the reasons for that collection, how the information is stored, and who can access it. Copy the wording into your privacy policy and adjust the style as needed; if you later change any WP Statistics option or install another tool that affects data collection, regenerate this section so your policy remains accurate. For complete compliance, have a qualified lawyer review the final version.', 'wp-statistics') .
                 '</p>' .
                 '<p class="privacy-policy-tutorial">' . __('<b>We use the WP Statistics plugin to analyze traffic on our website.</b> WP Statistics stores its data on our own server and does not transmit it to any third parties. Below, we describe what information we collect through WP Statistics, why we collect it, and how it is handled. If you have questions or concerns about our analytics practices, please contact us or review the <a href="https://wp-statistics.com/resources/wp-statistics-data-privacy/" target="_blank">WP Statistics Data Privacy guide.</a>', 'wp-statistics') . '</p>';
