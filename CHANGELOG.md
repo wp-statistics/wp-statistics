@@ -5,6 +5,7 @@
 - **Fix:** Fixed high memory usage during plugin activation.
 - **Fix:** Resolved occasional PHP warnings.
 - **Fix**: Fixed early translation loading warning.
+- **Fix**: Fixed recent comment number issue on Content Analytics report.
 
 = 14.13.2 - 2025-04-20 =
 - **Fix**: Fix Font Size issue on the Free Email Report.
