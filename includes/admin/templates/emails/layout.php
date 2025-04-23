@@ -4,6 +4,7 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditDataProvider;
 use WP_Statistics\Service\Admin\WebsitePerformance\WebsitePerformanceDataProvider;
+use WP_STATISTICS\Option;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -33,7 +34,7 @@ $advanced_reporting_ad = is_plugin_active('wp-statistics-advanced-reporting/wp-s
 $privacyBox      = '';
 $privacyAuditData = new PrivacyAuditDataProvider();
 $complianceStatus = $privacyAuditData->getComplianceStatus();
-if (intval($complianceStatus['percentage_ready']) !== 100 && !empty($complianceStatus['summary']) && intval($complianceStatus['summary']['action_required'])) {
+if (intval($complianceStatus['percentage_ready']) !== 100 && !empty($complianceStatus['summary']) && intval($complianceStatus['summary']['action_required']) && Option::get('privacy_audit') && Option::get('show_privacy_issues_in_report')) {
     $privacyBox = '<table style="background-color: #B266200D;border-radius: 12px;margin-bottom: 24px;">
                 <tbody>
                    <tr>

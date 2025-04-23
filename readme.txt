@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.8
-Stable tag: 14.13.2
+Stable tag: 14.13.3
 Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -139,6 +139,13 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.13.3 - 2025-04-23 =
+- **New:** Added an option to enable or disable the Privacy Audit section in email reports.
+- **Enhancement:** Improved the migrator to avoid sending redundant requests.
+- **Enhancement:** Added Source Category filter into the visitors report filters.
+- **Fix:** Fixed high memory usage during plugin activation.
+- **Fix:** Resolved occasional PHP warnings.
+
 = 14.13.2 - 2025-04-20 =
 - **New:** Added a 28-day date range option to the date picker.
 - **Enhancement:** Improved overall performance.
