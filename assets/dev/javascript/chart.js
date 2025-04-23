@@ -35,73 +35,6 @@ const wpsBuildTicks = (scale) => {
     }
 };
 
-function persianToEnglishNumber(str) {
-    const persianDigits = "۰۱۲۳۴۵۶۷۸۹";
-    return str.replace(/[۰-۹]/g, (d) => persianDigits.indexOf(d));
-}
-
-function convertDates(input) {
-    const jalaliBaseYear = 1403;
-    const gregorianBaseYear = 2025;
-
-    const persianMonthToGregorianMonth = {
-        1: { month: 3, dayShift: 21 }, // Farvardin starts ~March 21
-        2: { month: 4, dayShift: 21 }, // Ordibehesht ~April 21
-        3: { month: 5, dayShift: 22 },
-        4: { month: 6, dayShift: 22 },
-        5: { month: 7, dayShift: 23 },
-        6: { month: 8, dayShift: 23 },
-        7: { month: 9, dayShift: 23 },
-        8: { month: 10, dayShift: 23 },
-        9: { month: 11, dayShift: 22 },
-        10: { month: 12, dayShift: 22 },
-        11: { month: 1, dayShift: 21 },
-        12: { month: 2, dayShift: 20 },
-    };
-
-    const options = { month: "short", day: "numeric" };
-    const weekdayOptions = { weekday: "long" };
-
-    return input.map((item) => {
-        const dateStr = persianToEnglishNumber(item.date);
-        const [jy, jm, jd] = dateStr.split("-").map(Number);
-
-        // Estimate the Gregorian month and day
-        let gYear = gregorianBaseYear;
-        let gMonth = persianMonthToGregorianMonth[jm].month;
-        let gDay = jd + persianMonthToGregorianMonth[jm].dayShift - 1;
-
-        // Handle day overflow
-        const monthDays = [31, gYear % 4 === 0 ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-        if (gDay > monthDays[gMonth - 1]) {
-            gDay -= monthDays[gMonth - 1];
-            gMonth += 1;
-            if (gMonth > 12) {
-                gMonth = 1;
-                gYear += 1;
-            }
-        }
-
-        const gregorianDate = new Date(gYear, gMonth - 1, gDay);
-
-        return {
-            formatted_date: new Intl.DateTimeFormat("en-US", options).format(gregorianDate),
-            date: gregorianDate.toISOString().split("T")[0],
-            day: new Intl.DateTimeFormat("en-US", weekdayOptions).format(gregorianDate),
-        };
-    });
-}
-
-function convertToPersian(dateStr) {
-    const date = new Date(dateStr);
-    const formatter = new Intl.DateTimeFormat("fa-IR-u-ca-persian", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    });
-    return formatter.format(date);
-}
-
 const chartColors = {
     total: "#27A765",
     views: "#7362BF",
@@ -314,6 +247,7 @@ const setMonthDateRange = (startDate, endDate, momentDateFormat) => {
         return `${moment(startDate).format(momentDateFormat)} to ${moment(endDate).format(momentDateFormat)}`;
     }
 };
+
 const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboardWidgets) => {
     if (!labels || !labels.length || !datasets || !datasets.length) {
         console.error("Invalid input: labels or datasets are empty.");
@@ -342,7 +276,6 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
     const aggregatedData = datasets.map(() => []);
     const monthTooltipTitle = [];
     const groupedData = {};
-    const xd = { aggregatedLabels, aggregatedData, monthTooltipTitle, groupedData };
 
     if (unit === "week") {
         if (wps_js._("start_of_week")) {
@@ -353,8 +286,8 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
             });
         }
 
-        const startDate = moment(convertDates(labels)[0].date);
-        const endDate = moment(convertDates(labels)[labels.length - 1].date);
+        const startDate = isPersianDate(labels[0].date) ? moment(convertDates(labels)[0].date) : moment(labels[0].date);
+        const endDate = isPersianDate(labels[0].date) ? moment(convertDates(labels)[labels.length - 1].date) : moment(labels[labels.length - 1].date);
 
         // Create an array of all weeks between start and end date
         const weeks = [];
@@ -379,21 +312,37 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
             // Move to next week's start
             currentWeekStart = nextWeekStart;
         }
-
-        convertDates(labels).forEach((label, i) => {
-            if (label.date) {
-                // Check if label.date is valid
-                const date = moment(label.date);
-                for (let week of weeks) {
-                    if (date.isBetween(week.start, week.end, "day", "[]")) {
-                        datasets.forEach((dataset, datasetIndex) => {
-                            week.data[datasetIndex] += dataset.data[i] || 0;
-                        });
-                        break;
+        if (isPersianDate(labels[0].date)) {
+            convertDates(labels).forEach((label, i) => {
+                if (label.date) {
+                    // Check if label.date is valid
+                    const date = moment(label.date);
+                    for (let week of weeks) {
+                        if (date.isBetween(week.start, week.end, "day", "[]")) {
+                            datasets.forEach((dataset, datasetIndex) => {
+                                week.data[datasetIndex] += dataset.data[i] || 0;
+                            });
+                            break;
+                        }
                     }
                 }
-            }
-        });
+            });
+        } else {
+            labels.forEach((label, i) => {
+                if (label.date) {
+                    // Check if label.date is valid
+                    const date = moment(label.date);
+                    for (let week of weeks) {
+                        if (date.isBetween(week.start, week.end, "day", "[]")) {
+                            datasets.forEach((dataset, datasetIndex) => {
+                                week.data[datasetIndex] += dataset.data[i] || 0;
+                            });
+                            break;
+                        }
+                    }
+                }
+            });
+        }
 
         // Build the output arrays
         weeks.forEach((week) => {
@@ -413,8 +362,8 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
             isIncompletePeriod.push(isIncomplete);
         });
     } else if (unit === "month") {
-        const startDate = moment(labels[0].date);
-        const endDate = moment(labels[labels.length - 1].date);
+        const startDate = isPersianDate(labels[0].date) ? moment(convertDates(labels)[0].date) : moment(labels[0].date);
+        const endDate = isPersianDate(labels[0].date) ? moment(convertDates(labels)[labels.length - 1].date) : moment(labels[labels.length - 1].date);
         let currentDate = startDate.clone();
 
         while (currentDate.isSameOrBefore(endDate, "month")) {
@@ -428,20 +377,32 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
             }
             currentDate.add(1, "month");
         }
-        labels.forEach((label, i) => {
-            if (label.date) {
-                const date = moment(label.date);
-                const monthKey = date.format("YYYY-MM");
-                if (groupedData[monthKey]) {
-                    groupedData[monthKey].indices.push(i);
+        if (isPersianDate(labels[0].date)) {
+            convertDates(labels).forEach((label, i) => {
+                if (label.date) {
+                    const date = moment(label.date);
+                    const monthKey = date.format("YYYY-MM");
+                    if (groupedData[monthKey]) {
+                        groupedData[monthKey].indices.push(i);
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            labels.forEach((label, i) => {
+                if (label.date) {
+                    const date = moment(label.date);
+                    const monthKey = date.format("YYYY-MM");
+                    if (groupedData[monthKey]) {
+                        groupedData[monthKey].indices.push(i);
+                    }
+                }
+            });
+        }
 
         Object.keys(groupedData).forEach((monthKey) => {
             const { startDate, endDate, indices } = groupedData[monthKey];
-            const actualStartDate = moment.max(startDate, moment(labels[0].date));
-            const actualEndDate = moment.min(endDate, moment(labels[labels.length - 1].date));
+            const actualStartDate = isPersianDate(labels[0].date) ? moment.max(startDate, moment(convertDates(labels)[0].date)) : moment.max(startDate, moment(labels[0].date));
+            const actualEndDate = isPersianDate(labels[0].date) ? moment.min(endDate, moment(convertDates(labels)[labels.length - 1].date)) : moment.min(endDate, moment(labels[labels.length - 1].date));
             if (!actualStartDate.isValid() || !actualEndDate.isValid()) {
                 console.error(`Invalid date range for monthKey ${monthKey}`);
                 return;
@@ -462,7 +423,8 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
             isIncompletePeriod.push(isIncomplete);
         });
     }
-
+    // const x = { aggregatedLabels, aggregatedData, monthTooltipTitle, isIncompletePeriod };
+    // console.log("ttt", x, unit);
     return { aggregatedLabels, aggregatedData, monthTooltipTitle, isIncompletePeriod };
 };
 
@@ -653,7 +615,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = "line"
     const day = aggregateData(realdata.data.labels, realdata.data.datasets, "day", momentDateFormat, isInsideDashboardWidgets);
     const week = aggregateData(realdata.data.labels, realdata.data.datasets, "week", momentDateFormat, isInsideDashboardWidgets);
     const month = aggregateData(realdata.data.labels, realdata.data.datasets, "month", momentDateFormat, isInsideDashboardWidgets);
-    console.log("ccc week", week);
+
     const prevDay = realdata?.previousData ? aggregateData(realdata.previousData.labels, realdata.previousData.datasets, "day", momentDateFormat, isInsideDashboardWidgets) : null;
     const prevWeek = realdata.previousData ? aggregateData(realdata.previousData.labels, realdata.previousData.datasets, "week", momentDateFormat, isInsideDashboardWidgets) : null;
     const prevMonth = realdata.previousData ? aggregateData(realdata.previousData.labels, realdata.previousData.datasets, "month", momentDateFormat, isInsideDashboardWidgets) : null;
@@ -1047,11 +1009,11 @@ document.body.addEventListener("click", function (event) {
             const options = select.querySelectorAll(".wps-unit-time-chart__option");
             options.forEach((opt) => opt.classList.remove("selected"));
             option.classList.add("selected");
+
             select.classList.remove("open");
             const chartContainer = select.closest(".o-wrap").querySelector(".wps-postbox-chart--container");
             const canvas = chartContainer.querySelector("canvas");
             const canvas_id = canvas.getAttribute("id");
-
             if (chartInstances[canvas_id]) {
                 chartInstances[canvas_id].updateChart(selectedValue);
             }
@@ -1082,3 +1044,63 @@ window.renderWPSLineChart = function (chartId, data, newOptions) {
         }
     }
 };
+
+function persianToEnglishNumber(str) {
+    const persianDigits = "۰۱۲۳۴۵۶۷۸۹";
+    return str.replace(/[۰-۹]/g, (d) => persianDigits.indexOf(d));
+}
+
+function convertDates(input) {
+    const gregorianBaseYear = 2025;
+
+    const persianMonthToGregorianMonth = {
+        1: { month: 3, dayShift: 21 },
+        2: { month: 4, dayShift: 21 },
+        3: { month: 5, dayShift: 22 },
+        4: { month: 6, dayShift: 22 },
+        5: { month: 7, dayShift: 23 },
+        6: { month: 8, dayShift: 23 },
+        7: { month: 9, dayShift: 23 },
+        8: { month: 10, dayShift: 23 },
+        9: { month: 11, dayShift: 22 },
+        10: { month: 12, dayShift: 22 },
+        11: { month: 1, dayShift: 21 },
+        12: { month: 2, dayShift: 20 },
+    };
+
+    const options = { month: "short", day: "numeric" };
+    const weekdayOptions = { weekday: "long" };
+
+    return input.map((item) => {
+        const dateStr = persianToEnglishNumber(item.date);
+        const [jy, jm, jd] = dateStr.split("-").map(Number);
+
+        let gYear = gregorianBaseYear;
+        let gMonth = persianMonthToGregorianMonth[jm].month;
+        let gDay = jd + persianMonthToGregorianMonth[jm].dayShift;
+
+        const monthDays = [31, gYear % 4 === 0 ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        if (gDay > monthDays[gMonth - 1]) {
+            gDay -= monthDays[gMonth - 1];
+            gMonth += 1;
+            if (gMonth > 12) {
+                gMonth = 1;
+                gYear += 1;
+            }
+        }
+
+        // ✅ Create UTC date to avoid timezone issues
+        const gregorianDate = new Date(Date.UTC(gYear, gMonth - 1, gDay));
+
+        return {
+            formatted_date: new Intl.DateTimeFormat("en-US", options).format(gregorianDate),
+            date: gregorianDate.toISOString().split("T")[0],
+            day: new Intl.DateTimeFormat("en-US", weekdayOptions).format(gregorianDate),
+        };
+    });
+}
+function isPersianDate(dateStr) {
+    // Match Persian digits and Jalali-style YYYY-MM-DD format
+    const persianDigitRegex = /^[۰-۹]{4}-[۰-۹]{1,2}-[۰-۹]{1,2}$/;
+    return persianDigitRegex.test(dateStr);
+}
