@@ -74,7 +74,7 @@ const Step1 = ({ handleStep }) => {
                     {/* Option 1 */}
                     <Card
                         style={{
-                            border: option === "full-detailed" ? "2px solid #1e87f0" : "1px solid #ccc",
+                            border: option === "full-detailed" ? "1px solid #1e87f0" : "1px solid #ccc",
                             borderRadius: 8,
                             padding: "24px",
                             cursor: "pointer",
@@ -119,7 +119,7 @@ const Step1 = ({ handleStep }) => {
                     {/* Option 2 */}
                     <Card
                         style={{
-                            border: option === "summary-only" ? "2px solid #1e87f0" : "1px solid #ccc",
+                            border: option === "summary-only" ? "1px solid #1e87f0" : "1px solid #ccc",
                             borderRadius: 8,
                             padding: "24px",
                             cursor: "pointer",
@@ -167,7 +167,7 @@ const Step1 = ({ handleStep }) => {
                     {/* Option 3 */}
                     <Card
                         style={{
-                            border: option === "hybrid" ? "2px solid #1e87f0" : "1px solid #ccc",
+                            border: option === "hybrid" ? "1px solid #1e87f0" : "1px solid #ccc",
                             borderRadius: 8,
                             padding: "24px",
                             cursor: "pointer",
@@ -217,6 +217,8 @@ const Step1 = ({ handleStep }) => {
                                         width: "46px",
                                         height: "32px",
                                         borderRadius: "3px",
+                                        padding: "0px 7px",
+                                        textAlign: "center",
                                     }}
                                     onChange={(e) => setHybridDays(e.target.value)}
                                 />

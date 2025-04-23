@@ -60,6 +60,7 @@ class DataMigrationPage extends BasePage
     {
         $args = [
             'title'    => esc_html__('Data Migration', 'wp-statistics'),
+            'tooltip'      => esc_html__(" "),
             'pageName' => Menus::get_page_slug('data_migration'),
         ];
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Card, CardBody, CardFooter, __experimentalHeading as Heading } from "@wordpress/components";
+import SelectedRadio from "../../../../assets/images/selected-radio.png";
 
 const Step2 = ({ handleStep }) => {
     const [data, setData] = useState({});
@@ -56,7 +57,15 @@ const Step2 = ({ handleStep }) => {
                             >
                                 {data?.title}
                             </p>
-                            <input type="radio" disabled id={`1`} name="migration-option" value={"1"} checked={true} />
+                            <img
+                                src={SelectedRadio}
+                                alt="radio-select"
+                                style={{
+                                    width: "17px",
+                                    height: "17px",
+                                }}
+                            />
+                            {/* <input className="radio-checked" type="radio" disabled id={`1`} name="migration-option" value={"1"} checked={true} /> */}
                         </div>
                         <p style={{ color: "#56585A" }}>{data?.description}</p>
                         <ul style={{ listStyle: "disc", paddingLeft: "30px" }}>
