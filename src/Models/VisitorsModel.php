@@ -465,32 +465,33 @@ class VisitorsModel extends BaseModel
         }
 
         $args = $this->parseArgs($args, [
-            'date'          => '',
-            'resource_type' => '',
-            'resource_id'   => '',
-            'post_type'     => '',
-            'author_id'     => '',
-            'post_id'       => '',
-            'country'       => '',
-            'agent'         => '',
-            'platform'      => '',
-            'user_id'       => '',
-            'ip'            => '',
-            'query_param'   => '',
-            'taxonomy'      => '',
-            'term'          => '',
-            'order_by'      => 'visitor.ID',
-            'order'         => 'DESC',
-            'page'          => '',
-            'per_page'      => '',
-            'user_info'     => false,
-            'date_field'    => 'visitor.last_counter',
-            'logged_in'     => false,
-            'user_role'     => '',
-            'event_target'  => '',
-            'event_name'    => '',
-            'fields'        => [],
-            'referrer'      => ''
+            'date'           => '',
+            'resource_type'  => '',
+            'resource_id'    => '',
+            'post_type'      => '',
+            'author_id'      => '',
+            'post_id'        => '',
+            'country'        => '',
+            'agent'          => '',
+            'platform'       => '',
+            'user_id'        => '',
+            'ip'             => '',
+            'query_param'    => '',
+            'taxonomy'       => '',
+            'term'           => '',
+            'order_by'       => 'visitor.ID',
+            'order'          => 'DESC',
+            'page'           => '',
+            'per_page'       => '',
+            'user_info'      => false,
+            'date_field'     => 'visitor.last_counter',
+            'logged_in'      => false,
+            'user_role'      => '',
+            'event_target'   => '',
+            'event_name'     => '',
+            'fields'         => [],
+            'referrer'       => '',
+            'source_channel' => '',
         ]);
 
         // Set default fields
@@ -537,6 +538,15 @@ class VisitorsModel extends BaseModel
             ->orderBy($args['order_by'], $args['order'])
             ->decorate(VisitorDecorator::class)
             ->groupBy('visitor.ID');
+
+        // When source_channel is `unassigned`, only get visitors without source_channel
+        if ($args['source_channel'] === 'unassigned') {
+            $query
+                ->whereNull('visitor.source_channel');
+        } else {
+            $query
+                ->where('source_channel', '=', $args['source_channel']);
+        }
 
         if ($args['logged_in'] === true) {
             $query->where('visitor.user_id', '!=', 0);
