@@ -5,7 +5,7 @@ use WP_Statistics\Service\Admin\ModalHandler\Modal;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 $isCompliant      = $data['compliance_status']['percentage_ready'] == 100;
-$privacyPolicyUrl = 'https://wp-statistics.com/resources/wp-statistics-data-privacy/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy-policy';
+$privacyPolicyUrl = admin_url( 'privacy-policy-guide.php' );
 
 Modal::render('privacy-audit-confirmation', [
     'title'                => __('Are you sure you want manually resolve this item?', 'wp-statistics'),
