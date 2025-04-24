@@ -166,7 +166,7 @@
     });
 </script>
 <h2 class="wps-settings-box__title"><span><?php esc_html_e('Data Cleanup', 'wp-statistics'); ?></span></h2>
-<div class="wrap wps-wrap">
+<div class="wrap wps-wrap wps-wrap__setting-form">
     <div class="postbox">
         <table class="form-table">
             <tbody>
@@ -174,42 +174,45 @@
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Data', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr>
+            <tr data-id="delete_records_older_than_tr">
                 <th scope="row">
                     <label for="purge-data"><?php esc_html_e('Delete Records Older Than', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
-                    <input type="text" class="small-text code" id="purge-data" name="wps_purge_data" value="365"/>
-                    <label for="purge-data"><?php esc_html_e('Days', 'wp-statistics'); ?></label>
-
+                    <div class="wps-input-group">
+                        <span class="wps-input-group__label"><?php esc_html_e('Days', 'wp-statistics'); ?></span>
+                        <input type="text" class="wps-input-group__field wps-input-group__field--small code" id="purge-data" name="wps_purge_data" value="365">
+                    </div>
                     <p class="description"><?php echo esc_html__('Erase User Stats Older Than Specified Days.', 'wp-statistics') . ' ' . esc_html__('Minimum Age for Deletion: 30 Days.', 'wp-statistics'); ?></p>
-                    <button id="purge-data-submit" class="button button-primary" type="submit" name="purge-data-submit"><?php esc_html_e('Start Purging Now', 'wp-statistics'); ?></button>
-                    <div id="purge-data-result"></div>
+                    <button id="purge-data-submit" class="wps-mt-12 wps-button wps-button--danger" type="submit" name="purge-data-submit"><?php esc_html_e('Start Purging Now', 'wp-statistics'); ?></button>
+                     <div id="purge-data-result"></div>
                 </td>
             </tr>
 
-            <tr>
+            <tr data-id="remove_visitors_exceeding_tr">
                 <th scope="row">
                     <label for="purge-visitor-hits"><?php esc_html_e('Remove Visitors Exceeding', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
-                    <input type="text" class="small-text code" id="purge-visitor-hits" name="wps_purge_visitor_hits" value="100"/>
-                    <label for="purge-visitor-hits"><?php esc_html_e('Views', 'wp-statistics'); ?></label>
+                    <div class="wps-input-group">
+                        <span class="wps-input-group__label"><?php esc_html_e('Views', 'wp-statistics'); ?></span>
+                        <input type="text" class="wps-input-group__field wps-input-group__field--small code" id="purge-visitor-hits" name="wps_purge_visitor_hits" value="100">
+                    </div>
 
                     <p class="description"><?php echo esc_html__('Erase User Stats for Visitors Exceeding Daily View Limit. Useful for cleaning bot-related data. Removes visitor and their site visits, but not individual page visits, as they are not recorded per user. Minimum View Threshold: 10 Views.', 'wp-statistics'); ?></p>
-                    <button id="purge-visitor-hits-submit" class="button button-primary" type="submit" name="purge-visitor-hits-submit"><?php esc_html_e('Start Purging Now', 'wp-statistics'); ?></button>
+                    <button id="purge-visitor-hits-submit" class="wps-button wps-button--danger wps-mt-12" type="submit" name="purge-visitor-hits-submit"><?php esc_html_e('Start Purging Now', 'wp-statistics'); ?></button>
                     <div id="purge-visitor-hits-result"></div>
                 </td>
             </tr>
 
-            <tr>
+            <tr data-id="remove_user_ids_tr">
                 <th scope="row">
                     <label for="delete-user-ids-submit"><?php esc_html_e('Remove User IDs', 'wp-statistics'); ?></label>
                 </th>
                 <td>
-                    <button id="delete-user-ids-submit" class="button button-primary" type="submit" name="delete_user_ids_submit"><?php esc_html_e('Delete User IDs Now', 'wp-statistics'); ?></button>
+                    <button id="delete-user-ids-submit" class="wps-button wps-button--danger" type="submit" name="delete_user_ids_submit"><?php esc_html_e('Delete User IDs Now', 'wp-statistics'); ?></button>
                     <p class="description">
                         <?php esc_html_e('Permanently deletes all stored User IDs from the database to anonymize user visit records or to comply with privacy regulations.', 'wp-statistics'); ?><br>
 
@@ -221,12 +224,12 @@
                 </td>
             </tr>
 
-            <tr>
+            <tr data-id="clear_user_agent_strings_tr">
                 <th scope="row">
                     <label for="clear-user-agent-strings-submit"><?php esc_html_e('Clear User Agent Strings', 'wp-statistics'); ?></label>
                 </th>
                 <td>
-                    <button id="clear-user-agent-strings-submit" class="button button-primary" type="submit" name="clear_user_agent_strings_submit"><?php esc_html_e('Clear User Agent Data Now', 'wp-statistics'); ?></button>
+                    <button id="clear-user-agent-strings-submit" class="wps-button wps-button--danger" type="submit" name="clear_user_agent_strings_submit"><?php esc_html_e('Clear User Agent Data Now', 'wp-statistics'); ?></button>
                     <p class="description">
                         <?php esc_html_e('Permanently erases all User Agent Strings from the database, typically done after troubleshooting to remove unnecessary data.', 'wp-statistics'); ?><br>
                     </p>
@@ -237,12 +240,12 @@
                 </td>
             </tr>
 
-            <tr>
+            <tr data-id="clean_up_recorded_query_parameters_tr">
                 <th scope="row">
                     <label for="query-params-cleanup-submit"><?php esc_html_e('Clean Up Recorded Query Parameters', 'wp-statistics'); ?></label>
                 </th>
                 <td>
-                    <button id="query-params-cleanup-submit" class="button button-primary" type="submit" name="query_params_cleanup_submit"><?php esc_html_e('Run Cleanup', 'wp-statistics'); ?></button>
+                    <button id="query-params-cleanup-submit" class="wps-button wps-button--danger" type="submit" name="query_params_cleanup_submit"><?php esc_html_e('Run Cleanup', 'wp-statistics'); ?></button>
                     <p class="description">
                         <?php esc_html_e('Removes previously stored query parameters from your historical data, ensuring consistency with your current privacy settings.', 'wp-statistics'); ?><br>
                     </p>
@@ -262,7 +265,7 @@
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Remove Certain User Agent Types', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="choose_agents_to_delete_tr">
                 <th scope="row">
                     <label for="delete-agent"><?php esc_html_e('Choose Agents to Delete', 'wp-statistics'); ?></label>
                 </th>
@@ -280,12 +283,12 @@
                     </select>
 
                     <p class="description"><?php esc_html_e('Select and delete specific User Agents from the database. All associated data will be permanently removed.', 'wp-statistics'); ?></p>
-                    <button id="delete-agents-submit" class="button button-primary" type="submit" name="delete-agents-submit"><?php esc_html_e('Delete Selected Items Now', 'wp-statistics'); ?></button>
+                    <button id="delete-agents-submit" class="wps-button wps-button--danger wps-mt-12" type="submit" name="delete-agents-submit"><?php esc_html_e('Delete Selected Items Now', 'wp-statistics'); ?></button>
                     <div id="delete-agents-result"></div>
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="choose_operating_systems_to_delete_tr">
                 <th scope="row">
                     <label for="delete-platform"><?php esc_html_e('Choose Operating Systems to Delete', 'wp-statistics'); ?></label>
                 </th>
@@ -305,12 +308,12 @@
                     </select>
 
                     <p class="description"><?php esc_html_e('Select and delete specific platforms from the database. All associated data will be permanently removed.', 'wp-statistics'); ?></p>
-                    <button id="delete-platforms-submit" class="button button-primary" type="submit" name="delete-platforms-submit"><?php esc_html_e('Delete Selected Items Now', 'wp-statistics'); ?></button>
+                    <button id="delete-platforms-submit" class="wps-button wps-button--danger wps-mt-12" type="submit" name="delete-platforms-submit"><?php esc_html_e('Delete Selected Items Now', 'wp-statistics'); ?></button>
                     <div id="delete-platforms-result"></div>
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="erase_data_for_specific_ip_tr">
                 <th scope="row">
                     <label for="delete-ip"><?php esc_html_e('Erase Data for Specific IP', 'wp-statistics'); ?></label>
                 </th>
@@ -319,7 +322,7 @@
                     <input dir="ltr" id="delete-ip" type="text" name="delete-ip"/>
 
                     <p class="description"><?php esc_html_e('Input and delete all data associated with a particular IP address. All associated data will be permanently removed.', 'wp-statistics'); ?></p>
-                    <button id="delete-ip-submit" class="button button-primary" type="submit" name="delete-ip-submit"><?php esc_html_e('Delete Selected Items Now', 'wp-statistics'); ?></button>
+                    <button id="delete-ip-submit" class="wps-button wps-button--danger wps-mt-12" type="submit" name="delete-ip-submit"><?php esc_html_e('Delete Selected Items Now', 'wp-statistics'); ?></button>
                     <div id="delete-ip-result"></div>
                 </td>
             </tr>

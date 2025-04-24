@@ -72,17 +72,6 @@ const wpsSelect2 = jQuery('.wps-select2');
 const wpsBody = jQuery('body');
 const wpsDropdown = jQuery('.wps-dropdown');
 
-const settingSelect2 = jQuery('.wps-wrap__settings select');
-
- if (settingSelect2.length) {
-     settingSelect2.select2({
-        dropdownCssClass: 'wps-setting-input__dropdown',
-        minimumResultsForSearch: Infinity,
-    });
-}
-
-
-
 if (wpsSelect2.length) {
     const wpsFilterPage = jQuery('.wps-filter-page');
     const wpsFilterVisitor = jQuery('.wps-filter-visitor');

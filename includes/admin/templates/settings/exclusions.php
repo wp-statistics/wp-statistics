@@ -17,7 +17,7 @@
             $translated_role_name = ($role === 'Anonymous Users') ? __('Anonymous Users', 'wp-statistics') : translate_user_role($role);
             ?>
 
-            <tr valign="top">
+            <tr valign="top" data-id="<?php echo esc_attr(strtolower($translated_role_name))?>_tr">
                 <th scope="row"><label for="<?php echo esc_attr($option_name); ?>"><?php echo esc_attr($translated_role_name); ?></label>
                 </th>
                 <td>
@@ -42,7 +42,7 @@
             <th scope="row" colspan="2"><h3><?php esc_html_e('IP Exclusions', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="excluded_ip_address_list_tr">
             <th scope="row"><label for="wps_exclude_ip"><?php esc_html_e('Excluded IP Address List', 'wp-statistics'); ?></label></th>
             <td>
                 <textarea id="wps_exclude_ip" name="wps_exclude_ip" rows="5" cols="60" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('exclude_ip')); ?></textarea>
@@ -60,7 +60,7 @@
             <th scope="row" colspan="2"><h3><?php esc_html_e('Robot Exclusions', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="robot_list_tr">
             <th scope="row"><label for="wps_robotlist"><?php esc_html_e('Robot List', 'wp-statistics'); ?></label></th>
             <td>
                 <div class="wps-settings-box_restore">
@@ -81,7 +81,7 @@
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="robot_view_threshold_tr">
             <th scope="row">
                 <label for="wps_robot_threshold"><?php esc_html_e('Robot View Threshold', 'wp-statistics'); ?></label>
             </th>
@@ -101,7 +101,7 @@
             <th scope="row" colspan="2"><h3><?php esc_html_e('Geolocation Exclusions', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="exclude_countries_tr">
             <th scope="row"><label for="wps_excluded_countries"><?php esc_html_e('Exclude Countries', 'wp-statistics'); ?></label></th>
             <td>
                 <textarea id="wps_excluded_countries" name="wps_excluded_countries" rows="5" cols="50" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_countries')); ?></textarea>
@@ -109,7 +109,7 @@
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="include_countries_tr">
             <th scope="row"><label for="wps_included_countries"><?php esc_html_e('Include Countries', 'wp-statistics'); ?></label></th>
             <td>
                 <textarea id="wps_included_countries" name="wps_included_countries" rows="5" cols="50" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('included_countries')); ?></textarea>
@@ -127,28 +127,28 @@
             <th scope="row" colspan="2"><h3><?php esc_html_e('URL Exclusions', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="excluded_login_page_tr">
             <th scope="row"><label for="wps-exclude-loginpage"><?php esc_html_e('Excluded Login Page', 'wp-statistics'); ?></label></th>
             <td>
                 <input id="wps-exclude-loginpage" type="checkbox" value="1" name="wps_exclude_loginpage" <?php echo WP_STATISTICS\Option::get('exclude_loginpage') == true ? "checked='checked'" : ''; ?>><label for="wps-exclude-loginpage"><?php esc_html_e('Exclude', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('Login and Register page visits will not be included in site visit counts.', 'wp-statistics'); ?></p>
             </td>
         </tr>
-        <tr valign="top">
+        <tr valign="top" data-id="excluded_rss_feeds_tr">
             <th scope="row"><label for="wps-exclude-feeds"><?php esc_html_e('Excluded RSS Feeds', 'wp-statistics'); ?></label></th>
             <td>
                 <input id="wps-exclude-feeds" type="checkbox" value="1" name="wps_exclude_feeds" <?php echo WP_STATISTICS\Option::get('exclude_feeds') == true ? "checked='checked'" : ''; ?>><label for="wps-exclude-feeds"><?php esc_html_e('Exclude', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('RSS feeds visits will not be included in site visit counts.', 'wp-statistics'); ?></p>
             </td>
         </tr>
-        <tr valign="top">
+        <tr valign="top" data-id="excluded_404_pages_tr">
             <th scope="row"><label for="wps-exclude-404s"><?php esc_html_e('Excluded 404 Pages', 'wp-statistics'); ?></label></th>
             <td>
                 <input id="wps-exclude-404s" type="checkbox" value="1" name="wps_exclude_404s" <?php echo WP_STATISTICS\Option::get('exclude_404s') == true ? "checked='checked'" : ''; ?>><label for="wps-exclude-404s"><?php esc_html_e('Exclude', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('404 Page visits will not be included in site visit counts.', 'wp-statistics'); ?></p>
             </td>
         </tr>
-        <tr valign="top">
+        <tr valign="top" data-id="excluded_urls_tr">
             <th scope="row"><label for="wps_excluded_urls"><?php esc_html_e('Excluded URLs', 'wp-statistics'); ?></label></th>
             <td>
                 <textarea id="wps_excluded_urls" name="wps_excluded_urls" rows="5" cols="80" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_urls')); ?></textarea>
@@ -171,7 +171,7 @@
             <th scope="row" colspan="2"><h3><?php esc_html_e('URL Query Parameters', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="allowed_query_parameters_tr">
             <th scope="row"><label for="wps_query_params_allow_list"><?php esc_html_e('Allowed Query Parameters', 'wp-statistics'); ?></label></th>
             <td>
                 <div class="wps-settings-box_restore">
@@ -194,7 +194,7 @@
             </th>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="referrer_spam_blacklist_tr">
             <th scope="row">
                 <label for=wps_settings[referrer_spam]"><?php esc_html_e('Referrer Spam Blacklist', 'wp-statistics'); ?></label>
             </th>
@@ -206,7 +206,7 @@
             </td>
         </tr>
 
-        <tr valign="top" class="js-wps-show_if_referrer_spam_enabled">
+        <tr valign="top" class="js-wps-show_if_referrer_spam_enabled" data-id="refresh_blacklist_data_tr">
             <th scope="row">
                 <label for="geoip-update"><?php esc_html_e('Refresh Blacklist Data', 'wp-statistics'); ?></label>
             </th>
@@ -220,7 +220,7 @@
             </td>
         </tr>
 
-        <tr valign="top" class="js-wps-show_if_referrer_spam_enabled">
+        <tr valign="top" class="js-wps-show_if_referrer_spam_enabled" data-id="automate_blacklist_updates_tr">
             <th scope="row">
                 <label for="referrerspam-schedule"><?php esc_html_e('Automate Blacklist Updates', 'wp-statistics'); ?></label>
             </th>
@@ -257,7 +257,7 @@
             <th scope="row" colspan="2"><h3><?php esc_html_e('Host Exclusions', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="excluded_hosts_tr">
             <th scope="row"><label for="wps_excluded_hosts"><?php esc_html_e('Excluded Hosts', 'wp-statistics'); ?></label></th>
             <td>
                 <textarea id="wps_excluded_hosts" name="wps_excluded_hosts" rows="5" cols="80" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_hosts')); ?></textarea>
@@ -275,7 +275,7 @@
             <th scope="row" colspan="2"><h3><?php esc_html_e('General Exclusions', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="log_record_exclusions_tr">
             <th scope="row"><label for="wps-exclusions"><?php esc_html_e('Log Record Exclusions', 'wp-statistics'); ?></label></th>
             <td>
                 <input id="wps-exclusions" type="checkbox" value="1" name="wps_record_exclusions" <?php echo WP_STATISTICS\Option::get('record_exclusions') == true ? "checked='checked'" : ''; ?>><label for="wps-exclusions"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>

@@ -54,7 +54,7 @@ global $wp_roles;
                 );
             }
             ?>
-            <tr valign="top">
+            <tr valign="top" data-id="minimum_role_to_view_statistics_tr">
                 <th scope="row">
                     <label for="wps_read_capability"><?php esc_html_e('Minimum Role to View Statistics', 'wp-statistics') ?></label>
                 </th>
@@ -89,7 +89,7 @@ global $wp_roles;
                 );
             }
             ?>
-            <tr valign="top">
+            <tr valign="top" data-id="minimum_role_to_manage_settings_tr">
                 <th scope="row">
                     <label for="wps_manage_capability"><?php esc_html_e('Minimum Role to Manage Settings', 'wp-statistics') ?></label>
                 </th>

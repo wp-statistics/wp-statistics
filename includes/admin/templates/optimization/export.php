@@ -10,7 +10,7 @@
                     <th scope="row" colspan="2"><h3><?php esc_html_e('Export', 'wp-statistics'); ?></h3></th>
                 </tr>
 
-                <tr>
+                <tr data-id="select_data_source_tr">
                     <th scope="row">
                         <label for="table-to-export"><?php esc_html_e('Select Data Source', 'wp-statistics'); ?></label>
                     </th>
@@ -29,7 +29,7 @@
                     </td>
                 </tr>
 
-                <tr>
+                <tr data-id="choose_export_format_tr">
                     <th scope="row">
                         <label for="export-file-type"><?php esc_html_e('Choose Export Format', 'wp-statistics'); ?></label>
                     </th>
@@ -46,7 +46,7 @@
                     </td>
                 </tr>
 
-                <tr>
+                <tr data-id="add_header_row_tr">
                     <th scope="row">
                         <label for="export-headers"><?php esc_html_e('Add Header Row', 'wp-statistics'); ?></label>
                     </th>

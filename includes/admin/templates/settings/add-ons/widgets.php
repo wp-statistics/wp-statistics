@@ -35,19 +35,23 @@ if ($isWidgetsActive && !$isLicenseValid) {
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Widget Cache Duration', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="refresh_every_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[widgets][cache_life]"><?php esc_html_e('Refresh Every', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
-                    <select name="wps_addon_settings[widgets][cache_life]" id="wps_addon_settings[widgets][cache_life]" style="padding: 12px 24px 12px 14px !important;">
-                        <?php foreach (array_combine(range(1, 24), range(1, 24)) as $key => $value) { ?>
-                            <option value="<?php esc_attr_e($value); ?>" <?php selected(WP_STATISTICS\Option::getByAddon('cache_life', 'widgets'), $value); ?>><?php esc_html_e($value); ?></option>
-                        <?php } ?>
-                    </select>
-                    <?php esc_html_e('hour(s)', 'wp-statistics'); ?>
-                    <p class="description"><?php esc_html_e('Set the time interval for refreshing the statistics displayed in widgets. After the chosen period, fresh data will be fetched and displayed.', 'wp-statistics'); ?></p>
+
+                    <div class="wps-input-group">
+                        <span class="wps-input-group__label"><?php esc_html_e('hour(s)', 'wp-statistics'); ?></span>
+                         <select name="wps_addon_settings[widgets][cache_life]" id="wps_addon_settings[widgets][cache_life]" style="padding: 12px 24px 12px 14px !important;" class="wps-input-group__field wps-input-group__field--small code">
+                            <?php foreach (array_combine(range(1, 24), range(1, 24)) as $key => $value) { ?>
+                                <option value="<?php esc_attr_e($value); ?>" <?php selected(WP_STATISTICS\Option::getByAddon('cache_life', 'widgets'), $value); ?>><?php esc_html_e($value); ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+
+                     <p class="description"><?php esc_html_e('Set the time interval for refreshing the statistics displayed in widgets. After the chosen period, fresh data will be fetched and displayed.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
@@ -62,7 +66,7 @@ if ($isWidgetsActive && !$isLicenseValid) {
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Widget Design Customization', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="use_default_widget_styling_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[widgets][disable_styles]"><?php esc_html_e('Use Default Widget Styling', 'wp-statistics'); ?></label>
                 </th>

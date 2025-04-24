@@ -13,7 +13,7 @@ use WP_STATISTICS\Schedule;
             <th scope="row" colspan="2"><h3><?php esc_html_e('Email Configuration', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="recipient_email_addresses_tr">
             <th scope="row">
                 <label for="email-report"><?php esc_html_e('Recipient Email Addresses', 'wp-statistics'); ?></label>
             </th>
@@ -49,7 +49,7 @@ use WP_STATISTICS\Schedule;
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="report_frequency_tr">
             <th scope="row" style="vertical-align: top;">
                 <label for="time-report"><?php esc_html_e('Report Frequency', 'wp-statistics'); ?></label>
             </th>
@@ -66,7 +66,7 @@ use WP_STATISTICS\Schedule;
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="delivery_method_tr">
             <th scope="row" style="vertical-align: top;">
                 <label for="send-report"><?php esc_html_e('Delivery Method', 'wp-statistics'); ?></label>
             </th>
@@ -84,7 +84,7 @@ use WP_STATISTICS\Schedule;
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="custom_report_tr">
             <th scope="row" style="vertical-align: top;">
                 <label for="content-report"><?php esc_html_e('Custom Report', 'wp-statistics'); ?></label>
             </th>
@@ -113,7 +113,7 @@ use WP_STATISTICS\Schedule;
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="email_header_customization_tr">
             <th scope="row">
                 <label for="email_free_content_header"><?php esc_html_e('Email Header Customization', 'wp-statistics'); ?></label>
             </th>
@@ -124,7 +124,7 @@ use WP_STATISTICS\Schedule;
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="email_footer_customization_tr">
             <th scope="row">
                 <label for="email_free_content_footer"><?php esc_html_e('Email Footer Customization', 'wp-statistics'); ?></label>
             </th>
@@ -135,7 +135,7 @@ use WP_STATISTICS\Schedule;
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="enhanced_visual_report_tr">
             <th scope="row" style="vertical-align: top;">
                 <label for="content-report"><?php esc_html_e('Enhanced Visual Report', 'wp-statistics'); ?></label>
             </th>

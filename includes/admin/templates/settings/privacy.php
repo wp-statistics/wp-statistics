@@ -12,7 +12,7 @@
             <th scope="row" colspan="2"><h3><?php esc_html_e('Data Protection', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="anonymize_ip_addresses_tr">
             <th scope="row">
                 <label for="anonymize_ips">
                     <?php esc_html_e('Anonymize IP Addresses', 'wp-statistics'); ?>
@@ -32,7 +32,7 @@
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="hash_ip_addresses_tr">
             <th scope="row">
                 <label for="hash_ips"><?php esc_html_e('Hash IP Addresses', 'wp-statistics'); ?>
                     <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
@@ -58,7 +58,7 @@
             <th scope="row" colspan="2"><h3><?php esc_html_e('Privacy Compliance', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="privacy_audit_tr">
             <th scope="row">
                 <label for="privacy_audit"><?php esc_html_e('Privacy Audit', 'wp-statistics'); ?></label>
             </th>
@@ -80,7 +80,7 @@
             <th scope="row" colspan="2"><h3><?php esc_html_e('User Preferences', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="consent_level_integration_tr">
             <th scope="row">
                 <label for="consent_level_integration"><?php esc_html_e('WP Consent Level Integration', 'wp-statistics'); ?></label>
             </th>
@@ -185,7 +185,7 @@
             </tr>
         <?php endif; ?>
 
-        <tr valign="top">
+        <tr valign="top" data-id="do_not_track_tr">
             <th scope="row">
                 <label for="do_not_track"><?php esc_html_e('Do Not Track (DNT)', 'wp-statistics'); ?></label>
             </th>

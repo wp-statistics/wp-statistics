@@ -42,7 +42,7 @@ if ($isRestApiActive && !$isLicenseValid) {
                 <th scope="row" colspan="2"><h3><?php esc_html_e('WordPress REST API Integration', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="api_service_status_tr">
                 <th scope="row">
                     <label for="realtime-stats-interval-time"><?php esc_html_e('API Service Status', 'wp-statistics'); ?></label>
                 </th>
@@ -54,13 +54,16 @@ if ($isRestApiActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="authentication_token_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[rest_api][token_auth]"><?php esc_html_e('Authentication Token', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
-                    <input type="text" name="wps_addon_settings[rest_api][token_auth]" id="wps_addon_settings[rest_api][token_auth]" class="regular-text" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('token_auth', 'rest_api')) ?>"/>
+                    <div class="wps-input-group wps-input-group__action">
+                        <input type="text" name="wps_addon_settings[rest_api][token_auth]" id="wps_addon_settings[rest_api][token_auth]" class="regular-text wps-input-group__field" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('token_auth', 'rest_api')) ?>"/>
+                        <button type="button" id="copy-text" class="button has-icon wps-input-group__label wps-input-group__copy"  style="margin: 0; "><?php esc_html_e('Copy', 'wp-statistics'); ?></button>
+                    </div>
                     <p class="description"><?php esc_html_e('Enter your unique token here to secure and authorize API requests.', 'wp-statistics'); ?></p>
                 </td>
             </tr>

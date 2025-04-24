@@ -23,7 +23,7 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
                     </th>
                 </tr>
 
-                <tr valign="top">
+                <tr valign="top" data-id="historical_total_visitors_tr">
                     <th scope="row">
                         <label for="wps_historical_visitors"><?php esc_html_e('Historical Total Visitors', 'wp-statistics'); ?></label>
                     </th>
@@ -33,7 +33,7 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
                     </td>
                 </tr>
 
-                <tr valign="top">
+                <tr valign="top" data-id="historical_total_site_views_tr">
                     <th scope="row">
                         <label for="wps_historical_visits"><?php esc_html_e('Historical Total Site Views', 'wp-statistics'); ?></label>
                     </th>
@@ -51,6 +51,6 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
                 </tbody>
             </table>
         </div>
-        <button id="historical-submit" class="button button-wps-button wps-button--primary" type="submit" value="1" name="historical-submit"><?php esc_html_e('Save Changes', 'wp-statistics'); ?></button>
+        <button id="historical-submit" class="wps-button wps-button--primary" type="submit" value="1" name="historical-submit"><?php esc_html_e('Save Changes', 'wp-statistics'); ?></button>
     </form>
 </div>

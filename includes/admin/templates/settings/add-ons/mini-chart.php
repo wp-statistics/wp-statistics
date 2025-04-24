@@ -55,7 +55,7 @@ if ($isMiniChartActive && !$isLicenseValid) {
             <th scope="row" colspan="2"><h3><?php esc_html_e('Chart Preferences', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr>
+        <tr data-id="chart_display_tr">
             <th scope="row">
                 <label for="mini-chart-interval-time"><?php esc_html_e('Chart Display', 'wp-statistics'); ?></label>
             </th>
@@ -71,7 +71,7 @@ if ($isMiniChartActive && !$isLicenseValid) {
             </td>
         </tr>
 
-        <tr>
+        <tr data-id="chart_metric_tr">
             <th scope="row">
                 <label for="mini-chart-metric"><?php esc_html_e('Chart Metric', 'wp-statistics'); ?></label>
             </th>
@@ -87,7 +87,7 @@ if ($isMiniChartActive && !$isLicenseValid) {
             </td>
         </tr>
 
-        <tr>
+        <tr data-id="chart_date_range_tr">
             <th scope="row">
                 <label for="mini-chart-date_range"><?php esc_html_e('Chart Date Range', 'wp-statistics'); ?></label>
             </th>
@@ -106,7 +106,7 @@ if ($isMiniChartActive && !$isLicenseValid) {
             </td>
         </tr>
 
-        <tr>
+        <tr data-id="count_display_tr">
             <th scope="row">
                 <label for="mini-chart-count_display"><?php esc_html_e('Count Display', 'wp-statistics'); ?></label>
             </th>
@@ -134,7 +134,7 @@ if ($isMiniChartActive && !$isLicenseValid) {
             <th scope="row" colspan="2"><h3><?php esc_html_e('Chart Appearance', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr>
+        <tr data-id="primary_color_tr">
             <th scope="row">
                 <label for="mini-chart-chart_color"><?php esc_html_e('Primary Color', 'wp-statistics'); ?></label>
             </th>

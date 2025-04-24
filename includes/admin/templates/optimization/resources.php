@@ -9,7 +9,7 @@
                         esc_html_e('Resources/Information', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="current_php_memory_consumption_tr">
                 <th scope="row">
                     <label><?php esc_html_e('Current PHP Memory Consumption', 'wp-statistics'); ?></label>
                 </th>
@@ -19,7 +19,7 @@
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="maximum_allowed_php_memory_tr">
                 <th scope="row">
                     <label><?php esc_html_e('Maximum Allowed PHP Memory', 'wp-statistics'); ?></label>
                 </th>
@@ -33,7 +33,7 @@
             <?php
             foreach ($result as $table_name => $data) {
                 ?>
-                <tr valign="top">
+                <tr valign="top" data-id="<?php echo 'number_of_rows_in_the_' . esc_attr($table_name).'_tr'; ?>">
                     <th scope="row">
                         <label><?php echo sprintf(esc_html__('Number of rows in the %s', 'wp-statistics'), '<span><span class="wps-badge wps-badge--addon">' . esc_attr($table_name) . '</span>' .esc_html__('table', 'wp-statistics').'</span>'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped   ?></label>
                     </th>

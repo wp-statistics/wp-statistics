@@ -41,7 +41,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
             </tr>
 
 
-            <tr valign="top">
+            <tr valign="top" data-id="choose_your_report_timing_tr">
                 <th scope="row">
                     <label for="wps_settings[advanced_reporting_report_time_frame_type]"><?php esc_html_e('Choose Your Report Timing', 'wp-statistics'); ?></label>
                 </th>
@@ -55,7 +55,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top" class="js-wps-show_if_advanced_reporting_report_time_frame_type_equal_specific_time">
+            <tr valign="top" class="js-wps-show_if_advanced_reporting_report_time_frame_type_equal_specific_time" data-id="specify_starting_date_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_start_date]"><?php esc_html_e('Specify Starting Date', 'wp-statistics'); ?></label>
                 </th>
@@ -66,7 +66,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top" class="js-wps-show_if_advanced_reporting_report_time_frame_type_equal_time_range">
+            <tr valign="top" class="js-wps-show_if_advanced_reporting_report_time_frame_type_equal_time_range" data-id="select_reporting_period_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_stats_time_range]"><?php esc_html_e('Select Reporting Period', 'wp-statistics'); ?></label>
                 </th>
@@ -94,7 +94,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Report Components', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="top_metrics_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_top_metrics]"><?php esc_html_e('Top Metrics', 'wp-statistics'); ?></label>
                 </th>
@@ -106,7 +106,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="visitors_summary_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_summary_stats]"><?php esc_html_e('Visitors Summary', 'wp-statistics'); ?></label>
                 </th>
@@ -118,7 +118,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="views_chart_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_top_hits_visits]"><?php esc_html_e('Views Chart', 'wp-statistics'); ?></label>
                 </th>
@@ -130,7 +130,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="search_engine_referrals_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_search_engine]"><?php esc_html_e('Search Engine Referrals', 'wp-statistics'); ?></label>
                 </th>
@@ -142,7 +142,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="search_engine_chart_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_top_search_engines]"><?php esc_html_e('Search Engine Chart', 'wp-statistics'); ?></label>
                 </th>
@@ -154,7 +154,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="top_referring_domains_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_top_referring]"><?php esc_html_e('Top Referring Domains', 'wp-statistics'); ?></label>
                 </th>
@@ -166,7 +166,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="top_pages_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_top_ten_pages]"><?php esc_html_e('Top Pages', 'wp-statistics'); ?></label>
                 </th>
@@ -178,7 +178,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="top_countries_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_top_ten_countries]"><?php esc_html_e('Top Countries', 'wp-statistics'); ?></label>
                 </th>
@@ -190,7 +190,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="top_browsers_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_chart_top_browsers]"><?php esc_html_e('Top Browsers', 'wp-statistics'); ?></label>
                 </th>
@@ -213,7 +213,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Branding Your Reports', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="report_logo_upload_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][custom_header_logo]"><?php esc_html_e('Report Logo Upload', 'wp-statistics'); ?></label>
                 </th>
@@ -232,15 +232,20 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                     }
                 </script>
                 <td>
-                    <div class='wps-img-preview-wrapper'><img style="max-width: 300px; max-height: 200px;" id='wps-upload-image-preview' src='<?php echo esc_attr($header_logo_url) ?>' alt="Header Logo"></div>
-                    <input id="wps_addon_settings[advanced_reporting][custom_header_logo]" name="wps_addon_settings[advanced_reporting][custom_header_logo]" type="text" class="regular-text" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('custom_header_logo', 'advanced_reporting')) ?>"/>
-                    <span>&nbsp;<input type="button" class="wps_img_settings_upload_button button" value="<?php esc_html_e('Upload File', 'wp-statistics-advanced-reporting') ?>" style="margin: 0; padding-top: 13px; padding-bottom: 13px;"/>&nbsp;<input type="button" class="wps_img_settings_clear_upload_button button" style="<?php echo esc_attr($display_clear); ?> margin: 0; padding-top: 13px; padding-bottom: 13px;" value="<?php esc_html_e('X', 'wp-statistics-advanced-reporting') ?>"/></span>
+                    <div class='wps-img-preview-wrapper'>
+                        <img style="max-width: 300px; max-height: 200px;" id='wps-upload-image-preview' src='<?php echo esc_attr($header_logo_url) ?>' alt="Header Logo">
+                        <input type="button" class="wps_img_settings_clear_upload_button button" style="<?php echo esc_attr($display_clear); ?>;margin:0 5px" value="<?php esc_html_e('X', 'wp-statistics-advanced-reporting') ?>"/>
+                    </div>
 
+                    <div class="wps-input-group wps-input-group__action">
+                        <input id="wps_addon_settings[advanced_reporting][custom_header_logo]" name="wps_addon_settings[advanced_reporting][custom_header_logo]" type="text" class="regular-text wps-input-group__field wps-input-group__field--small" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('custom_header_logo', 'advanced_reporting')) ?>"/>
+                        <input type="button" class="wps_img_settings_upload_button button wps-input-group__label" value="<?php esc_html_e('Upload File', 'wp-statistics-advanced-reporting') ?>" style="margin: 0;"/>
+                    </div>
                     <p class="description"><?php esc_html_e('Upload your own logo to replace the default in report headers, establishing your brand\'s presence in all reports.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="logo_link_url_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][custom_header_logo_url]"><?php esc_html_e('Logo Link URL', 'wp-statistics'); ?></label>
                 </th>
@@ -251,7 +256,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="email_header_customization_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_content_header]"><?php esc_html_e('Email Header Customization', 'wp-statistics'); ?></label>
                 </th>
@@ -266,7 +271,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="email_footer_customization_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_content_footer]"><?php esc_html_e('Email Footer Customization', 'wp-statistics'); ?></label>
                 </th>
@@ -281,7 +286,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="more_information_button_tr">
                 <th scope="row">
                     <label for="wps_settings[advanced_reporting_email_more_info_button]"><?php esc_html_e('More Information Button', 'wp-statistics'); ?></label>
                 </th>
@@ -293,7 +298,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top" class="js-wps-show_if_advanced_reporting_email_more_info_button_enabled">
+            <tr valign="top" class="js-wps-show_if_advanced_reporting_email_more_info_button_enabled" data-id="custom_url_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_more_info_button_href]"><?php esc_html_e('Custom URL', 'wp-statistics'); ?></label>
                 </th>
@@ -304,7 +309,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="auto_generated_notice_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_disable_copyright]"><?php esc_html_e('Auto-Generated Notice', 'wp-statistics'); ?></label>
                 </th>
@@ -326,7 +331,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Additional Features', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="email_pdf_report_attachments_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][pdf_report_status]"><?php esc_html_e('Email PDF Report Attachments', 'wp-statistics'); ?></label>
                 </th>
@@ -338,7 +343,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="record_email_logs_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][record_email_logs]"><?php esc_html_e('Record Email logs', 'wp-statistics'); ?></label>
                 </th>
@@ -360,14 +365,17 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Preview and Send', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="test_your_report_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_preview_content]"><?php esc_html_e('Test Your Report', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
-                    <input id="wps_addon_settings[advanced_reporting][email_preview_content]" name="wps_addon_settings[advanced_reporting][email_preview_content]" type="text" class="regular-text" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('email_preview_content', 'advanced_reporting')) ?>"/> &nbsp; <input type="submit" name="submit-preview" id="submit-preview" class="button" value="Send" style="margin: 0; padding-top: 13px; padding-bottom: 13px;" onclick="var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='advanced-reporting-settings'"/>
-                    <p class="description"><?php esc_html_e('Enter an email to send a preview.', 'wp-statistics'); ?></p>
+                    <div class="wps-input-group wps-input-group__action">
+                        <input id="wps_addon_settings[advanced_reporting][email_preview_content]" name="wps_addon_settings[advanced_reporting][email_preview_content]" type="text" class="regular-text wps-input-group__field wps-input-group__field--small" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('email_preview_content', 'advanced_reporting')) ?>"/>
+                        <input type="submit" name="submit-preview" id="submit-preview" value="Send" onclick="var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='advanced-reporting-settings'" class="button wps-input-group__label"  style="margin: 0; "/>
+                    </div>
+                     <p class="description"><?php esc_html_e('Enter an email to send a preview.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
             </tbody>

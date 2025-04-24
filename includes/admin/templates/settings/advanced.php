@@ -57,10 +57,19 @@ add_thickbox();
         </tr>
 
         <?php if (apply_filters('wp_statistics_ip_detection_preview', $ip_method)) : ?>
-            <tr valign="top">
-                <th scope="row" colspan="2" style="padding-bottom: 10px; font-weight: normal;line-height: 25px;">
-                    <?php printf(esc_html__('Your IP address as detected by the Ipify.org service: %s', 'wp-statistics'), '<b id="js-ipService" style="display: inline-block;"></b>'); ?>
+            <tr valign="top" data-id="ipify_org_ip_tr">
+                <th scope="row" >
+                    <label><?php esc_html_e('Ipify.org IP', 'wp-statistics'); ?></label>
                 </th>
+                <td>
+                    <div class="wps-input-group wps-input-group__action">
+                        <input type="text"  readonly id="js-ipService" class="regular-text wps-input-group__field" />
+                        <button type="button" id="copy-text" class="button has-icon wps-input-group__label wps-input-group__copy"  style="margin: 0; "><?php esc_html_e('Copy', 'wp-statistics'); ?></button>
+                    </div>
+                    <p class="description">
+                        <?php esc_html_e('Your IP address as detected by the Ipify.org service', 'wp-statistics'); ?>
+                    </p>
+                </td>
             </tr>
             <script type="application/javascript">
                 jQuery(document).ready(function () {
@@ -72,25 +81,34 @@ add_thickbox();
                         <?php endif; ?>
                         dataType: 'json',
                         beforeSend: function () {
-                            jQuery("#js-ipService").html('<?php _e('Loading...', 'wp-statistics'); ?>');
+                            jQuery("#js-ipService").val('<?php _e('Loading...', 'wp-statistics'); ?>');
                         },
                         error: function (jqXHR) {
                             if (jqXHR.status == 0) {
-                                jQuery("#js-ipService").html("<?php esc_html_e('Unable to retrieve some IP data. Ensure your internet connection is active and retry.', 'wp-statistics'); ?>");
+                                jQuery("#js-ipService").val("<?php esc_html_e('Unable to retrieve some IP data. Ensure your internet connection is active and retry.', 'wp-statistics'); ?>");
                             }
                         },
                         success: function (json) {
-                            jQuery("#js-ipService").html(json['ip']);
+                            jQuery("#js-ipService").val(json['ip']);
                         }
                     });
                 });
             </script>
         <?php endif; ?>
 
-        <tr valign="top">
-            <th scope="row" colspan="2" style="padding-bottom: 10px; font-weight: normal;line-height: 25px;">
-                <?php printf(esc_html__('Your IP address as detected by the current WP Statistics settings is: %s', 'wp-statistics'), '<b style="display: inline-block;">' . esc_html($ip_address) . '</b>'); ?>
+        <tr valign="top" data-id="wp_statistics_ip_tr">
+            <th scope="row">
+                <label><?php esc_html_e('WP Statistics', 'wp-statistics'); ?></label>
             </th>
+            <td>
+                <div class="wps-input-group wps-input-group__action">
+                    <input type="text"  readonly value="<?php echo $ip_address ?>" class="regular-text wps-input-group__field" />
+                    <button type="button" id="copy-text" class="button has-icon wps-input-group__label wps-input-group__copy"  style="margin: 0; "><?php esc_html_e('Copy', 'wp-statistics'); ?></button>
+                </div>
+                <p class="description">
+                    <?php esc_html_e('Your IP address as detected by the current WP Statistics settings', 'wp-statistics'); ?>
+                </p>
+            </td>
         </tr>
 
         </tbody>
@@ -104,7 +122,7 @@ add_thickbox();
             <th scope="row" colspan="2"><h3><?php esc_html_e('Main IP Detection Method', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php esc_html_e('Select the preferred method for determining the visitor\'s IP address. The method should correspond to the way your server and network infrastructure relay IP information. Choose the option that reflects the correct IP in your server environment.', 'wp-statistics'); ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
         </tr>
 
-        <tr>
+        <tr data-id="detection_method_tr">
             <th scope="row">
                 <label for="wps_settings[ip_method]"><?php esc_html_e('Detection Method', 'wp-statistics'); ?></label>
             </th>
@@ -153,7 +171,7 @@ add_thickbox();
                 <h3><?php esc_html_e('Geolocation Settings', 'wp-statistics'); ?></h3>
             </th>
         </tr>
-        <tr valign="top">
+        <tr valign="top" data-id="location_detection_method_tr">
             <th scope="row"><label for="wps_geoip_location_detection_method"><?php esc_html_e('Location Detection Method', 'wp-statistics'); ?></label></th>
             <td>
                 <select name="wps_geoip_location_detection_method" id="geoip_location_detection_method">
@@ -174,7 +192,7 @@ add_thickbox();
             </td>
         </tr>
 
-        <tr valign="top" id="geoip_license_type_option">
+        <tr valign="top" id="geoip_license_type_option" data-id="geolocation_database_update_source_tr">
             <th scope="row"><label for="wps_geoip_license_type"><?php esc_html_e('Geolocation Database Update Source', 'wp-statistics'); ?></label></th>
             <td>
                 <select name="wps_geoip_license_type" id="geoip_license_type">
@@ -186,12 +204,15 @@ add_thickbox();
             </td>
         </tr>
 
-        <tr valign="top" id="geoip_license_key_option">
+        <tr valign="top" id="geoip_license_key_option" data-id="geoip_license_key_tr">
             <th scope="row">
                 <label for="geoip_license_key"><?php esc_html_e('GeoIP License Key', 'wp-statistics'); ?></label>
             </th>
             <td>
-                <input id="geoip_license_key" type="text" size="30" name="wps_geoip_license_key" value="<?php echo esc_attr(WP_STATISTICS\Option::get('geoip_license_key')); ?>">
+                <div class="wps-input-group wps-input-group__action">
+                    <input id="geoip_license_key" class="wps-input-group__field" type="text" size="30" name="wps_geoip_license_key" value="<?php echo esc_attr(WP_STATISTICS\Option::get('geoip_license_key')); ?>">
+                    <button type="button" id="copy-text" class="button has-icon wps-input-group__label wps-input-group__copy"  style="margin: 0; "><?php esc_html_e('Copy', 'wp-statistics'); ?></button>
+                </div>
                 <p class="description">
                     <?php
                     /* translators: %s: Link to maxmind */
@@ -214,12 +235,16 @@ add_thickbox();
             </td>
         </tr>
 
-        <tr valign="top" id="geoip_dbip_license_key_option">
+        <tr valign="top" id="geoip_dbip_license_key_option" data-id="db_ip_license_key_tr">
             <th scope="row">
                 <label for="geoip_dbip_license_key_option"><?php esc_html_e('DB-IP License Key', 'wp-statistics'); ?></label>
             </th>
             <td>
-                <input id="geoip_dbip_license_key_option" type="text" size="30" name="wps_geoip_dbip_license_key_option" value="<?php echo esc_attr(WP_STATISTICS\Option::get('geoip_dbip_license_key_option', '')); ?>">
+
+                <div class="wps-input-group wps-input-group__action">
+                    <input id="geoip_dbip_license_key_option" type="text" size="30" name="wps_geoip_dbip_license_key_option" class="regular-text wps-input-group__field"  value="<?php echo esc_attr(WP_STATISTICS\Option::get('geoip_dbip_license_key_option', '')); ?>">
+                    <button type="button" id="copy-text" class="button has-icon wps-input-group__label wps-input-group__copy"  style="margin: 0; "><?php esc_html_e('Copy', 'wp-statistics'); ?></button>
+                </div>
                 <p class="description">
                     <?php
                     /* translators: %s: Link to dbip */
@@ -243,7 +268,7 @@ add_thickbox();
             </td>
         </tr>
 
-        <tr valign="top" id="enable_geoip_option">
+        <tr valign="top" id="enable_geoip_option" data-id="manual_update_of_geolocation_database_tr">
             <th scope="row">
                 <label for="geoip-enable"><?php esc_html_e('Manual Update of Geolocation Database', 'wp-statistics'); ?></label>
             </th>
@@ -257,7 +282,7 @@ add_thickbox();
             </td>
         </tr>
 
-        <tr valign="top" id="schedule_geoip_option">
+        <tr valign="top" id="schedule_geoip_option" data-id="schedule_monthly_update_of_geolocation_database_tr">
             <th scope="row">
                 <label for="geoip-schedule"><?php esc_html_e('Schedule Monthly Update of Geolocation Database', 'wp-statistics'); ?></label>
             </th>
@@ -281,7 +306,7 @@ add_thickbox();
             </td>
         </tr>
 
-        <tr valign="top" id="geoip_auto_pop_option">
+        <tr valign="top" id="geoip_auto_pop_option" data-id="update_missing_geolocation_data_tr">
             <th scope="row">
                 <label for="geoip-auto-pop"><?php esc_html_e('Update Missing Geolocation Data', 'wp-statistics'); ?></label>
             </th>
@@ -293,7 +318,7 @@ add_thickbox();
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="country_code_for_private_ips_tr">
             <th scope="row">
                 <label for="geoip-private-country-code"><?php esc_html_e('Country Code for Private IPs', 'wp-statistics'); ?></label>
             </th>
@@ -393,7 +418,7 @@ add_thickbox();
             <th scope="row" colspan="2"><h3><?php esc_html_e('Purge Old Data Daily', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="automatic_cleanup_tr">
             <th scope="row">
                 <label for="wps_schedule_dbmaint"><?php esc_html_e('Automatic Cleanup', 'wp-statistics'); ?></label>
             </th>
@@ -405,14 +430,17 @@ add_thickbox();
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="purge_data_older_than_tr">
             <th scope="row">
                 <label for="wps_schedule_dbmaint_days"><?php esc_html_e('Purge Data Older Than', 'wp-statistics'); ?></label>
             </th>
 
             <td>
-                <input type="text" class="small-text code" id="wps_schedule_dbmaint_days" name="wps_schedule_dbmaint_days" value="<?php echo esc_attr(WP_STATISTICS\Option::get('schedule_dbmaint_days', "365")); ?>"/>
-                <?php esc_html_e('Days', 'wp-statistics'); ?>
+
+                <div class="wps-input-group">
+                    <span class="wps-input-group__label"><?php esc_html_e('Days', 'wp-statistics'); ?></span>
+                    <input type="text" class="wps-input-group__field wps-input-group__field--small code" id="wps_schedule_dbmaint_days" name="wps_schedule_dbmaint_days" value="<?php echo esc_attr(WP_STATISTICS\Option::get('schedule_dbmaint_days', "365")); ?>">
+                </div>
                 <p class="description"><?php echo esc_html__('Sets the age threshold for deleting data entries. Data exceeding the specified age in days will be removed. The minimum setting is 30 days.', 'wp-statistics'); ?></p>
             </td>
         </tr>
@@ -426,7 +454,7 @@ add_thickbox();
         <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Anonymous Usage Data', 'wp-statistics'); ?></h3></th>
         </tr>
-        <tr valign="top">
+        <tr valign="top" data-id="share_anonymous_data_tr">
             <th scope="row">
                 <label for="wps_share_anonymous_data"><?php esc_html_e('Share Anonymous Data', 'wp-statistics'); ?></label>
             </th>
@@ -447,7 +475,7 @@ add_thickbox();
             <th scope="row" colspan="2"><h3><?php esc_html_e('Restore Default Settings', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="reset_options_tr">
             <th scope="row">
                 <label for="reset-plugin"><?php esc_html_e('Reset Options', 'wp-statistics'); ?></label>
             </th>
@@ -474,7 +502,7 @@ add_thickbox();
             <th scope="row" colspan="2"><h3><?php esc_html_e('Danger Zone', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="delete_all_data_on_plugin_deletion_tr">
             <th scope="row">
                 <label for="delete-data-on-uninstall"><?php esc_html_e('Delete All Data on Plugin Deletion', 'wp-statistics'); ?></label>
             </th>

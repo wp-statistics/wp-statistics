@@ -45,7 +45,7 @@ $isDataPlusActive   = Helper::isAddOnActive('data-plus');
                 </th>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="link_tracker_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[data_plus][link_tracker]"><?php esc_html_e('Link Tracker', 'wp-statistics'); ?></label>
                 </th>
@@ -58,7 +58,7 @@ $isDataPlusActive   = Helper::isAddOnActive('data-plus');
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="download_tracker_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[data_plus][download_tracker]"><?php esc_html_e('Download Tracker', 'wp-statistics'); ?></label>
                 </th>
@@ -83,7 +83,7 @@ $isDataPlusActive   = Helper::isAddOnActive('data-plus');
                 </th>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="latest_visitors_in_editor_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[data_plus][latest_visitors_metabox]"><?php esc_html_e('Latest Visitors in Editor', 'wp-statistics'); ?></label>
                 </th>
