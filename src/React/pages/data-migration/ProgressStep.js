@@ -2,7 +2,7 @@ import { Card, CardBody, CardFooter, __experimentalHeading as Heading } from "@w
 import { __ } from "@wordpress/i18n";
 import InfoIcon from "../../../../assets/images/information.svg";
 
-const Step3 = ({ handleStep }) => {
+const ProgressStep = ({ handleStep }) => {
     const isCompleted = true;
     const tasks = [
         { id: 1, name: __("Visitor Records", "wp-statistics"), status: "Completed", records: __("5,200 records migrated", "wp-statistics") },
@@ -206,4 +206,4 @@ const Step3 = ({ handleStep }) => {
     );
 };
 
-export default Step3;
+export default ProgressStep;

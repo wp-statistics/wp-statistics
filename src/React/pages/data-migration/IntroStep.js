@@ -3,7 +3,7 @@ import { Card, CardBody, CardFooter, __experimentalHeading as Heading } from "@w
 import { __ } from "@wordpress/i18n";
 import InfoIcon from "../../../../assets/images/info-icon.svg";
 
-const Step1 = ({ handleStep }) => {
+const IntroStep = ({ handleStep }) => {
     const [option, setOption] = useState("");
     const [data, setData] = useState({});
     const [hybridDays, setHybridDays] = useState("0");
@@ -248,4 +248,4 @@ const Step1 = ({ handleStep }) => {
     );
 };
 
-export default Step1;
+export default IntroStep;

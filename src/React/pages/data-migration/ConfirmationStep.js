@@ -3,7 +3,7 @@ import { __ } from "@wordpress/i18n";
 import { Card, CardBody, CardFooter, __experimentalHeading as Heading } from "@wordpress/components";
 import SelectedRadio from "../../../../assets/images/selected-radio.png";
 
-const Step2 = ({ handleStep }) => {
+const ConfirmationStep = ({ handleStep }) => {
     const [data, setData] = useState({});
     const storage = localStorage.getItem("wps_migration_option");
 
@@ -153,4 +153,4 @@ const Step2 = ({ handleStep }) => {
     );
 };
 
-export default Step2;
+export default ConfirmationStep;

@@ -100,7 +100,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const Step2 = ({
+const ConfirmationStep = ({
   handleStep
 }) => {
   const [data, setData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)({});
@@ -269,7 +269,7 @@ const Step2 = ({
     onClick: () => handleStep("step3")
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Start Migration", "wp-statistics")))));
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Step2);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ConfirmationStep);
 
 /***/ }),
 
@@ -297,7 +297,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const Step1 = ({
+const IntroStep = ({
   handleStep
 }) => {
   const [option, setOption] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)("");
@@ -606,7 +606,7 @@ const Step1 = ({
     onClick: handleNext
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Next Step", "wp-statistics"))));
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Step1);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (IntroStep);
 
 /***/ }),
 
@@ -631,7 +631,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const Step3 = ({
+const ProgressStep = ({
   handleStep
 }) => {
   const isCompleted = true;
@@ -998,7 +998,7 @@ const Step3 = ({
     }
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Pause", "wp-statistics"))))));
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Step3);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProgressStep);
 
 /***/ }),
 
