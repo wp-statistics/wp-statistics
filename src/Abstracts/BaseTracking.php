@@ -4,8 +4,8 @@ namespace WP_STATISTICS\Abstracts;
 
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_STATISTICS\TimeZone;
-use WP_STATISTICS\Exclusion;
 use Exception;
+use WP_STATISTICS\Service\Tracking\Core\Exclusion;
 
 /**
  * Abstract base class for tracking implementations such as Hits and UserOnline.
