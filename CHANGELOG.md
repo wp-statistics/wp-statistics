@@ -1,5 +1,5 @@
-= 14.13.x - 2025-xx-xx =
-- **Fix**: Fixed recent comment number issue on Content Analytics report.
+= 14.13.4 - 2025-**-** =
+- **Enhancement:** Improved privacy helper text.
 
 = 14.13.3 - 2025-04-23 =
 - **New:** Added an option to enable or disable the Privacy Audit section in email reports.
