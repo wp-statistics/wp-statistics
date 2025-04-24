@@ -1,6 +1,6 @@
 import { Card, CardBody, CardFooter, __experimentalHeading as Heading } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
-import InfoIcon from "../../../../assets/images/information.svg";
+import InfoIcon from "../../../../images/information.svg";
 
 const ProgressStep = ({ handleStep }) => {
     const isCompleted = true;

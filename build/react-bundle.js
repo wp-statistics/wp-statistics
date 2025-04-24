@@ -76,10 +76,10 @@ module.exports = __webpack_require__.p + "images/selected-radio.b39506a1.png";
 
 /***/ }),
 
-/***/ "./src/React/pages/data-migration/ConfirmationStep.js":
-/*!************************************************************!*\
-  !*** ./src/React/pages/data-migration/ConfirmationStep.js ***!
-  \************************************************************/
+/***/ "./assets/js/react/pages/data-migration/ConfirmationStep.js":
+/*!******************************************************************!*\
+  !*** ./assets/js/react/pages/data-migration/ConfirmationStep.js ***!
+  \******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -94,7 +94,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _assets_images_selected_radio_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../assets/images/selected-radio.png */ "./assets/images/selected-radio.png");
+/* harmony import */ var _images_selected_radio_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../images/selected-radio.png */ "./assets/images/selected-radio.png");
 
 
 
@@ -147,7 +147,7 @@ const ConfirmationStep = ({
       margin: "0px"
     }
   }, data?.title), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    src: _assets_images_selected_radio_png__WEBPACK_IMPORTED_MODULE_4__,
+    src: _images_selected_radio_png__WEBPACK_IMPORTED_MODULE_4__,
     alt: "radio-select",
     style: {
       width: "17px",
@@ -273,10 +273,10 @@ const ConfirmationStep = ({
 
 /***/ }),
 
-/***/ "./src/React/pages/data-migration/IntroStep.js":
-/*!*****************************************************!*\
-  !*** ./src/React/pages/data-migration/IntroStep.js ***!
-  \*****************************************************/
+/***/ "./assets/js/react/pages/data-migration/IntroStep.js":
+/*!***********************************************************!*\
+  !*** ./assets/js/react/pages/data-migration/IntroStep.js ***!
+  \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -291,7 +291,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _assets_images_info_icon_svg__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../assets/images/info-icon.svg */ "./assets/images/info-icon.svg");
+/* harmony import */ var _images_info_icon_svg__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../images/info-icon.svg */ "./assets/images/info-icon.svg");
 
 
 
@@ -357,7 +357,7 @@ const IntroStep = ({
       gap: 8
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    src: _assets_images_info_icon_svg__WEBPACK_IMPORTED_MODULE_4__["default"],
+    src: _images_info_icon_svg__WEBPACK_IMPORTED_MODULE_4__["default"],
     style: {
       width: "20px",
       height: "20px",
@@ -610,10 +610,10 @@ const IntroStep = ({
 
 /***/ }),
 
-/***/ "./src/React/pages/data-migration/ProgressStep.js":
-/*!********************************************************!*\
-  !*** ./src/React/pages/data-migration/ProgressStep.js ***!
-  \********************************************************/
+/***/ "./assets/js/react/pages/data-migration/ProgressStep.js":
+/*!**************************************************************!*\
+  !*** ./assets/js/react/pages/data-migration/ProgressStep.js ***!
+  \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -626,7 +626,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _assets_images_information_svg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../assets/images/information.svg */ "./assets/images/information.svg");
+/* harmony import */ var _images_information_svg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../images/information.svg */ "./assets/images/information.svg");
 
 
 
@@ -927,7 +927,7 @@ const ProgressStep = ({
       gap: "12px"
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    src: _assets_images_information_svg__WEBPACK_IMPORTED_MODULE_3__["default"],
+    src: _images_information_svg__WEBPACK_IMPORTED_MODULE_3__["default"],
     alt: "info"
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
@@ -1148,9 +1148,9 @@ module.exports = window["React"];
 var __webpack_exports__ = {};
 // This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
 (() => {
-/*!*************************************************!*\
-  !*** ./src/React/pages/data-migration/index.js ***!
-  \*************************************************/
+/*!*******************************************************!*\
+  !*** ./assets/js/react/pages/data-migration/index.js ***!
+  \*******************************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1159,9 +1159,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _IntroStep__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./IntroStep */ "./src/React/pages/data-migration/IntroStep.js");
-/* harmony import */ var _ConfirmationStep__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ConfirmationStep */ "./src/React/pages/data-migration/ConfirmationStep.js");
-/* harmony import */ var _ProgressStep__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ProgressStep */ "./src/React/pages/data-migration/ProgressStep.js");
+/* harmony import */ var _IntroStep__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./IntroStep */ "./assets/js/react/pages/data-migration/IntroStep.js");
+/* harmony import */ var _ConfirmationStep__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ConfirmationStep */ "./assets/js/react/pages/data-migration/ConfirmationStep.js");
+/* harmony import */ var _ProgressStep__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ProgressStep */ "./assets/js/react/pages/data-migration/ProgressStep.js");
 
 
 

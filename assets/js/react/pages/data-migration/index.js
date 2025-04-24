@@ -1,8 +1,8 @@
 import { useState, useEffect } from "@wordpress/element";
 import { render } from "@wordpress/element";
-import Step1 from "./IntroStep";
-import Step2 from "./ConfirmationStep";
-import Step3 from "./ProgressStep";
+import IntroStep from "./IntroStep";
+import ConfirmationStep from "./ConfirmationStep";
+import ProgressStep from "./ProgressStep";
 
 const getStepFromURL = () => {
     const params = new URLSearchParams(window.location.search);
@@ -35,9 +35,9 @@ const Page = () => {
                 maxWidth: window.innerWidth <= 768 ? "100%" : 774,
             }}
         >
-            {step === "step1" && <Step1 handleStep={handleStep} />}
-            {step === "step2" && <Step2 handleStep={handleStep} />}
-            {step === "step3" && <Step3 handleStep={handleStep} />}
+            {step === "step1" && <IntroStep handleStep={handleStep} />}
+            {step === "step2" && <ConfirmationStep handleStep={handleStep} />}
+            {step === "step3" && <ProgressStep handleStep={handleStep} />}
         </div>
     );
 };

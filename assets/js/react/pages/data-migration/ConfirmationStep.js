@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Card, CardBody, CardFooter, __experimentalHeading as Heading } from "@wordpress/components";
-import SelectedRadio from "../../../../assets/images/selected-radio.png";
+import SelectedRadio from "../../../../images/selected-radio.png";
 
 const ConfirmationStep = ({ handleStep }) => {
     const [data, setData] = useState({});

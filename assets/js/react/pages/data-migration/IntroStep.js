@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "@wordpress/element";
 import { Card, CardBody, CardFooter, __experimentalHeading as Heading } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
-import InfoIcon from "../../../../assets/images/info-icon.svg";
+import InfoIcon from "../../../../images/info-icon.svg";
 
 const IntroStep = ({ handleStep }) => {
     const [option, setOption] = useState("");
