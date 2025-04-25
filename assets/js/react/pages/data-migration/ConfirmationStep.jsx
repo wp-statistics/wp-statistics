@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Card, CardBody, CardFooter, __experimentalHeading as Heading } from "@wordpress/components";
 import SelectedRadio from "../../../../images/selected-radio.png";
+import ConfirmationInfo from "../../components/Confirmation-Info";
 
 const ConfirmationStep = ({ handleStep }) => {
     const [data, setData] = useState({});
@@ -86,18 +87,11 @@ const ConfirmationStep = ({ handleStep }) => {
                         marginTop: "28px",
                     }}
                 >
-                    <p style={{ fontSize: "15px", margin: "0px" }}>
-                        <strong>{__("What’s Next?", "wp-statistics")}</strong> {__("We’ll migrate all of your historical data—visitors, devices, search engines, referrers, and more—into the new database structure.", "wp-statistics")}
-                    </p>
-                    <p style={{ fontSize: "15px" }}>
-                        <strong>{__("What’s Migrated?", "wp-statistics")}</strong> {__("Absolutely everything from your past analytics, so you retain complete visibility into your site’s historical data.", "wp-statistics")}
-                    </p>
-                    <p style={{ fontSize: "15px", margin: "0px" }}>
-                        <strong>{__("What’s Lost?", "wp-statistics")}</strong> {__("Nothing! All detailed stats will be preserved.", "wp-statistics")}
-                    </p>
-                    <p style={{ fontSize: "15px", margin: "0px" }}>
-                        <strong>{__("Estimated Time:", "wp-statistics")}</strong> {__("Depending on the size of your site and server performance, it can take anywhere from minutes to a few hours.", "wp-statistics")}
-                    </p>
+                    <ConfirmationInfo label={"What’s Next?"} detail={"We’ll migrate all of your historical data—visitors, devices, search engines, referrers, and more—into the new database structure."} />
+                    <ConfirmationInfo label={"What’s Migrated?"} detail={"Absolutely everything from your past analytics, so you retain complete visibility into your site’s historical data."} />
+                    <ConfirmationInfo label={"What’s Lost?"} detail={"Nothing! All detailed stats will be preserved."} />
+                    <ConfirmationInfo label={"Estimated Time:"} detail={"Depending on the size of your site and server performance, it can take anywhere from minutes to a few hours."} />
+
                     <div style={{ padding: "15px 0px" }}>
                         <p style={{ fontSize: "15px" }}>
                             <strong>{__("Regardless of the choice,", "wp-statistics")}</strong> {__("you could also include these reminders at the bottom of the confirmation step:", "wp-statistics")}
@@ -105,10 +99,8 @@ const ConfirmationStep = ({ handleStep }) => {
                         <ul style={{ listStyle: "disc", paddingLeft: "22px", margin: "5px 0px" }}>
                             <li style={{ fontSize: "14px" }}>{__("You can pause, cancel, or restart the migration at any time.", "wp-statistics")}</li>
                             <li style={{ fontSize: "14px" }}>{__("Nothing is deleted from your old data source until the migration is fully complete.", "wp-statistics")}</li>
-                            <li>
-                                <p style={{ fontSize: "14px" }}>
-                                    {__("Need more details or help?", "wp-statistics")} <a href="">{__("Check our Migration FAQs or contact support.", "wp-statistics")}</a>
-                                </p>
+                            <li style={{ fontSize: "14px" }}>
+                                {__("Need more details or help?", "wp-statistics")} <a href="">{__("Check our Migration FAQs or contact support.", "wp-statistics")}</a>
                             </li>
                         </ul>
                     </div>

@@ -76,10 +76,84 @@ module.exports = __webpack_require__.p + "images/selected-radio.b39506a1.png";
 
 /***/ }),
 
-/***/ "./assets/js/react/pages/data-migration/ConfirmationStep.js":
-/*!******************************************************************!*\
-  !*** ./assets/js/react/pages/data-migration/ConfirmationStep.js ***!
-  \******************************************************************/
+/***/ "./assets/js/react/components/Confirmation-Info.jsx":
+/*!**********************************************************!*\
+  !*** ./assets/js/react/components/Confirmation-Info.jsx ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+const ConfirmationInfo = ({
+  label,
+  detail
+}) => {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    style: {
+      fontSize: "15px",
+      margin: "0px"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)(label, "wp-statistics")), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)(detail, "wp-statistics"));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ConfirmationInfo);
+
+/***/ }),
+
+/***/ "./assets/js/react/components/Migration-Card.jsx":
+/*!*******************************************************!*\
+  !*** ./assets/js/react/components/Migration-Card.jsx ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+const MigrationCard = ({
+  name,
+  option,
+  onClick,
+  children
+}) => {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Card, {
+    style: {
+      border: option === name ? "1px solid #1e87f0" : "1px solid #ccc",
+      borderRadius: 8,
+      padding: "24px",
+      cursor: "pointer",
+      boxShadow: "none"
+    },
+    onClick: onClick
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.CardBody, {
+    style: {
+      padding: "0px"
+    }
+  }, children));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MigrationCard);
+
+/***/ }),
+
+/***/ "./assets/js/react/pages/data-migration/ConfirmationStep.jsx":
+/*!*******************************************************************!*\
+  !*** ./assets/js/react/pages/data-migration/ConfirmationStep.jsx ***!
+  \*******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -95,6 +169,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _images_selected_radio_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../images/selected-radio.png */ "./assets/images/selected-radio.png");
+/* harmony import */ var _components_Confirmation_Info__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/Confirmation-Info */ "./assets/js/react/components/Confirmation-Info.jsx");
+
 
 
 
@@ -169,26 +245,19 @@ const ConfirmationStep = ({
       flexDirection: "column",
       marginTop: "28px"
     }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
-    style: {
-      fontSize: "15px",
-      margin: "0px"
-    }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("What’s Next?", "wp-statistics")), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("We’ll migrate all of your historical data—visitors, devices, search engines, referrers, and more—into the new database structure.", "wp-statistics")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
-    style: {
-      fontSize: "15px"
-    }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("What’s Migrated?", "wp-statistics")), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Absolutely everything from your past analytics, so you retain complete visibility into your site’s historical data.", "wp-statistics")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
-    style: {
-      fontSize: "15px",
-      margin: "0px"
-    }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("What’s Lost?", "wp-statistics")), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Nothing! All detailed stats will be preserved.", "wp-statistics")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
-    style: {
-      fontSize: "15px",
-      margin: "0px"
-    }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Estimated Time:", "wp-statistics")), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Depending on the size of your site and server performance, it can take anywhere from minutes to a few hours.", "wp-statistics")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Confirmation_Info__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    label: "What’s Next?",
+    detail: "We’ll migrate all of your historical data—visitors, devices, search engines, referrers, and more—into the new database structure."
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Confirmation_Info__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    label: "What’s Migrated?",
+    detail: "Absolutely everything from your past analytics, so you retain complete visibility into your site’s historical data."
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Confirmation_Info__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    label: "What’s Lost?",
+    detail: "Nothing! All detailed stats will be preserved."
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Confirmation_Info__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    label: "Estimated Time:",
+    detail: "Depending on the size of your site and server performance, it can take anywhere from minutes to a few hours."
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
       padding: "15px 0px"
     }
@@ -210,13 +279,13 @@ const ConfirmationStep = ({
     style: {
       fontSize: "14px"
     }
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Nothing is deleted from your old data source until the migration is fully complete.", "wp-statistics")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Nothing is deleted from your old data source until the migration is fully complete.", "wp-statistics")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
     style: {
       fontSize: "14px"
     }
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Need more details or help?", "wp-statistics"), " ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: ""
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Check our Migration FAQs or contact support.", "wp-statistics")))))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.CardFooter, {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Check our Migration FAQs or contact support.", "wp-statistics"))))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.CardFooter, {
     style: {
       flexDirection: "column"
     }
@@ -273,10 +342,10 @@ const ConfirmationStep = ({
 
 /***/ }),
 
-/***/ "./assets/js/react/pages/data-migration/IntroStep.js":
-/*!***********************************************************!*\
-  !*** ./assets/js/react/pages/data-migration/IntroStep.js ***!
-  \***********************************************************/
+/***/ "./assets/js/react/pages/data-migration/IntroStep.jsx":
+/*!************************************************************!*\
+  !*** ./assets/js/react/pages/data-migration/IntroStep.jsx ***!
+  \************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -292,6 +361,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _images_info_icon_svg__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../images/info-icon.svg */ "./assets/images/info-icon.svg");
+/* harmony import */ var _components_Migration_Card__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/Migration-Card */ "./assets/js/react/components/Migration-Card.jsx");
+
 
 
 
@@ -408,14 +479,9 @@ const IntroStep = ({
       flexDirection: "column",
       gap: "12px"
     }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Card, {
-    style: {
-      border: option === "full-detailed" ? "1px solid #1e87f0" : "1px solid #ccc",
-      borderRadius: 8,
-      padding: "24px",
-      cursor: "pointer",
-      boxShadow: "none"
-    },
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Migration_Card__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    name: "full-detailed",
+    option: option,
     onClick: () => {
       setOption("full-detailed");
       const option = {
@@ -426,10 +492,6 @@ const IntroStep = ({
         whoFor: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Users who want to preserve every bit of their analytics data without losing any detail.", "wp-statistics")
       };
       setData(option);
-    }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.CardBody, {
-    style: {
-      padding: "0px"
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
@@ -461,14 +523,9 @@ const IntroStep = ({
       listStyle: "disc",
       paddingLeft: "30px"
     }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Estimated Time:", "wp-statistics")), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Depending on your site’s traffic history and server resources, this process can range from a few minutes to several hours.", "wp-statistics")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Who It’s For:", "wp-statistics")), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Users who want to preserve every bit of their analytics data without losing any detail.", "wp-statistics"))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Card, {
-    style: {
-      border: option === "summary-only" ? "1px solid #1e87f0" : "1px solid #ccc",
-      borderRadius: 8,
-      padding: "24px",
-      cursor: "pointer",
-      boxShadow: "none"
-    },
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Estimated Time:", "wp-statistics")), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Depending on your site’s traffic history and server resources, this process can range from a few minutes to several hours.", "wp-statistics")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Who It’s For:", "wp-statistics")), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Users who want to preserve every bit of their analytics data without losing any detail.", "wp-statistics")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Migration_Card__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    option: option,
+    name: "summary-only",
     onClick: () => {
       setOption("summary-only");
       const option = {
@@ -479,10 +536,6 @@ const IntroStep = ({
         whoFor: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Users who just need high-level trends and want the process done ASAP.", "wp-statistics")
       };
       setData(option);
-    }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.CardBody, {
-    style: {
-      padding: "0px"
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
@@ -514,14 +567,9 @@ const IntroStep = ({
       listStyle: "disc",
       paddingLeft: "30px"
     }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Estimated Time:", "wp-statistics")), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Typically much faster than a full migration, often just a few minutes.", "wp-statistics")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Who It’s For:", "wp-statistics")), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Users who just need high-level trends and want the process done ASAP.", "wp-statistics")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Learn more about Summary-Only Migration", "wp-statistics")))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Card, {
-    style: {
-      border: option === "hybrid" ? "1px solid #1e87f0" : "1px solid #ccc",
-      borderRadius: 8,
-      padding: "24px",
-      cursor: "pointer",
-      boxShadow: "none"
-    },
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Estimated Time:", "wp-statistics")), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Typically much faster than a full migration, often just a few minutes.", "wp-statistics")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Who It’s For:", "wp-statistics")), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Users who just need high-level trends and want the process done ASAP.", "wp-statistics")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Learn more about Summary-Only Migration", "wp-statistics"))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Migration_Card__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    option: option,
+    name: "hybrid",
     onClick: () => {
       setOption("hybrid");
       const option = {
@@ -532,10 +580,6 @@ const IntroStep = ({
         whoFor: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Users who want to retain granular data for a recent timeframe while speeding up the migration for older records.", "wp-statistics")
       };
       setData(option);
-    }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.CardBody, {
-    style: {
-      padding: "0px"
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
@@ -586,7 +630,7 @@ const IntroStep = ({
       textAlign: "center"
     },
     onChange: e => setHybridDays(e.target.value)
-  })))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.CardFooter, {
+  }))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.CardFooter, {
     style: {
       display: "flex",
       justifyContent: "flex-end",
@@ -610,10 +654,10 @@ const IntroStep = ({
 
 /***/ }),
 
-/***/ "./assets/js/react/pages/data-migration/ProgressStep.js":
-/*!**************************************************************!*\
-  !*** ./assets/js/react/pages/data-migration/ProgressStep.js ***!
-  \**************************************************************/
+/***/ "./assets/js/react/pages/data-migration/ProgressStep.jsx":
+/*!***************************************************************!*\
+  !*** ./assets/js/react/pages/data-migration/ProgressStep.jsx ***!
+  \***************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1148,9 +1192,9 @@ module.exports = window["React"];
 var __webpack_exports__ = {};
 // This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
 (() => {
-/*!*******************************************************!*\
-  !*** ./assets/js/react/pages/data-migration/index.js ***!
-  \*******************************************************/
+/*!********************************************************!*\
+  !*** ./assets/js/react/pages/data-migration/index.jsx ***!
+  \********************************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1159,9 +1203,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _IntroStep__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./IntroStep */ "./assets/js/react/pages/data-migration/IntroStep.js");
-/* harmony import */ var _ConfirmationStep__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ConfirmationStep */ "./assets/js/react/pages/data-migration/ConfirmationStep.js");
-/* harmony import */ var _ProgressStep__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ProgressStep */ "./assets/js/react/pages/data-migration/ProgressStep.js");
+/* harmony import */ var _IntroStep__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./IntroStep */ "./assets/js/react/pages/data-migration/IntroStep.jsx");
+/* harmony import */ var _ConfirmationStep__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ConfirmationStep */ "./assets/js/react/pages/data-migration/ConfirmationStep.jsx");
+/* harmony import */ var _ProgressStep__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ProgressStep */ "./assets/js/react/pages/data-migration/ProgressStep.jsx");
 
 
 

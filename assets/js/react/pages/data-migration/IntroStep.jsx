@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "@wordpress/element";
 import { Card, CardBody, CardFooter, __experimentalHeading as Heading } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import InfoIcon from "../../../../images/info-icon.svg";
+import MigrationCard from "../../components/Migration-Card";
 
 const IntroStep = ({ handleStep }) => {
     const [option, setOption] = useState("");
@@ -72,14 +73,9 @@ const IntroStep = ({ handleStep }) => {
 
                 <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                     {/* Option 1 */}
-                    <Card
-                        style={{
-                            border: option === "full-detailed" ? "1px solid #1e87f0" : "1px solid #ccc",
-                            borderRadius: 8,
-                            padding: "24px",
-                            cursor: "pointer",
-                            boxShadow: "none",
-                        }}
+                    <MigrationCard
+                        name={"full-detailed"}
+                        option={option}
                         onClick={() => {
                             setOption("full-detailed");
                             const option = {
@@ -92,39 +88,32 @@ const IntroStep = ({ handleStep }) => {
                             setData(option);
                         }}
                     >
-                        <CardBody style={{ padding: "0px" }}>
-                            <div
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                    width: "100%",
-                                }}
-                            >
-                                <p style={{ fontSize: "14px", fontFamily: 500, color: "#1E1E20", fontWeight: "700", margin: "0px" }}>{__("Full Detailed Migration", "wp-statistics")}</p>
-                                <input type="radio" id="full-detailed" name="full-detailed" value="full-detailed" checked={option === "full-detailed"} />
-                            </div>
-                            <p style={{ color: "#56585A" }}>{__("Moves all your historical data—visitors, devices, referral sources, search engines, and more—into the new database structure.", "wp-statistics")}</p>
-                            <ul style={{ listStyle: "disc", paddingLeft: "30px" }}>
-                                <li>
-                                    <strong>{__("Estimated Time:", "wp-statistics")}</strong> {__("Depending on your site’s traffic history and server resources, this process can range from a few minutes to several hours.", "wp-statistics")}
-                                </li>
-                                <li>
-                                    <strong>{__("Who It’s For:", "wp-statistics")}</strong> {__("Users who want to preserve every bit of their analytics data without losing any detail.", "wp-statistics")}
-                                </li>
-                            </ul>
-                        </CardBody>
-                    </Card>
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                width: "100%",
+                            }}
+                        >
+                            <p style={{ fontSize: "14px", fontFamily: 500, color: "#1E1E20", fontWeight: "700", margin: "0px" }}>{__("Full Detailed Migration", "wp-statistics")}</p>
+                            <input type="radio" id="full-detailed" name="full-detailed" value="full-detailed" checked={option === "full-detailed"} />
+                        </div>
+                        <p style={{ color: "#56585A" }}>{__("Moves all your historical data—visitors, devices, referral sources, search engines, and more—into the new database structure.", "wp-statistics")}</p>
+                        <ul style={{ listStyle: "disc", paddingLeft: "30px" }}>
+                            <li>
+                                <strong>{__("Estimated Time:", "wp-statistics")}</strong> {__("Depending on your site’s traffic history and server resources, this process can range from a few minutes to several hours.", "wp-statistics")}
+                            </li>
+                            <li>
+                                <strong>{__("Who It’s For:", "wp-statistics")}</strong> {__("Users who want to preserve every bit of their analytics data without losing any detail.", "wp-statistics")}
+                            </li>
+                        </ul>
+                    </MigrationCard>
 
                     {/* Option 2 */}
-                    <Card
-                        style={{
-                            border: option === "summary-only" ? "1px solid #1e87f0" : "1px solid #ccc",
-                            borderRadius: 8,
-                            padding: "24px",
-                            cursor: "pointer",
-                            boxShadow: "none",
-                        }}
+                    <MigrationCard
+                        option={option}
+                        name={"summary-only"}
                         onClick={() => {
                             setOption("summary-only");
                             const option = {
@@ -137,42 +126,35 @@ const IntroStep = ({ handleStep }) => {
                             setData(option);
                         }}
                     >
-                        <CardBody style={{ padding: "0px" }}>
-                            <div
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                    width: "100%",
-                                }}
-                            >
-                                <p style={{ margin: "0px", fontSize: "14px", fontFamily: 500, color: "#1E1E20", fontWeight: "700" }}>{__("Summary-Only Migration", "wp-statistics")}</p>
-                                <input type="radio" id="summary-only" name="summary-only" value="summary-only" checked={option === "summary-only"} />
-                            </div>
-                            <p style={{ color: "#56585A" }}>{__("Quickly transfers only the visitor counts and page-view totals for older data. You’ll lose detailed information (like devices, referrers, and search engines) for past visitors.", "wp-statistics")}</p>
-                            <ul style={{ listStyle: "disc", paddingLeft: "30px" }}>
-                                <li>
-                                    <strong>{__("Estimated Time:", "wp-statistics")}</strong> {__("Typically much faster than a full migration, often just a few minutes.", "wp-statistics")}
-                                </li>
-                                <li>
-                                    <strong>{__("Who It’s For:", "wp-statistics")}</strong> {__("Users who just need high-level trends and want the process done ASAP.", "wp-statistics")}
-                                </li>
-                                <li>
-                                    <a>{__("Learn more about Summary-Only Migration", "wp-statistics")}</a>
-                                </li>
-                            </ul>
-                        </CardBody>
-                    </Card>
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                width: "100%",
+                            }}
+                        >
+                            <p style={{ margin: "0px", fontSize: "14px", fontFamily: 500, color: "#1E1E20", fontWeight: "700" }}>{__("Summary-Only Migration", "wp-statistics")}</p>
+                            <input type="radio" id="summary-only" name="summary-only" value="summary-only" checked={option === "summary-only"} />
+                        </div>
+                        <p style={{ color: "#56585A" }}>{__("Quickly transfers only the visitor counts and page-view totals for older data. You’ll lose detailed information (like devices, referrers, and search engines) for past visitors.", "wp-statistics")}</p>
+                        <ul style={{ listStyle: "disc", paddingLeft: "30px" }}>
+                            <li>
+                                <strong>{__("Estimated Time:", "wp-statistics")}</strong> {__("Typically much faster than a full migration, often just a few minutes.", "wp-statistics")}
+                            </li>
+                            <li>
+                                <strong>{__("Who It’s For:", "wp-statistics")}</strong> {__("Users who just need high-level trends and want the process done ASAP.", "wp-statistics")}
+                            </li>
+                            <li>
+                                <a>{__("Learn more about Summary-Only Migration", "wp-statistics")}</a>
+                            </li>
+                        </ul>
+                    </MigrationCard>
 
                     {/* Option 3 */}
-                    <Card
-                        style={{
-                            border: option === "hybrid" ? "1px solid #1e87f0" : "1px solid #ccc",
-                            borderRadius: 8,
-                            padding: "24px",
-                            cursor: "pointer",
-                            boxShadow: "none",
-                        }}
+                    <MigrationCard
+                        option={option}
+                        name={"hybrid"}
                         onClick={() => {
                             setOption("hybrid");
                             const option = {
@@ -185,46 +167,44 @@ const IntroStep = ({ handleStep }) => {
                             setData(option);
                         }}
                     >
-                        <CardBody style={{ padding: "0px" }}>
-                            <div
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                width: "100%",
+                            }}
+                        >
+                            <p style={{ margin: "0px", fontSize: "14px", fontFamily: 500, color: "#1E1E20", fontWeight: "700" }}>{__("Hybrid Migration", "wp-statistics")}</p>
+                            <input type="radio" id="hybrid" name="hybrid" value="hybrid" checked={option === "hybrid"} />
+                        </div>
+                        <p style={{ color: "#56585A" }}>{__("Imports full, detailed stats for your most recent history—by default the last 90 days, while older data is brought in as summary-only.", "wp-statistics")}</p>
+                        <ul style={{ listStyle: "disc", paddingLeft: "30px" }}>
+                            <li>
+                                <strong>{__("Estimated Time:", "wp-statistics")}</strong> {__("Longer than summary-only, but faster than a full detailed migration.", "wp-statistics")}
+                            </li>
+                            <li>
+                                <strong>{__("Who It’s For:", "wp-statistics")}</strong> {__("Users who want to retain granular data for a recent timeframe while speeding up the migration for older records.", "wp-statistics")}
+                            </li>
+                        </ul>
+                        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                            <p>{__("Enter the number of days to migrate with full detail:", "wp-statistics")}</p>
+                            <input
+                                name="hybrid-value"
+                                value={hybridDays}
                                 style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                    width: "100%",
+                                    outline: "none",
+                                    border: "1px solid #DADCE0",
+                                    width: "46px",
+                                    height: "32px",
+                                    borderRadius: "3px",
+                                    padding: "0px 7px",
+                                    textAlign: "center",
                                 }}
-                            >
-                                <p style={{ margin: "0px", fontSize: "14px", fontFamily: 500, color: "#1E1E20", fontWeight: "700" }}>{__("Hybrid Migration", "wp-statistics")}</p>
-                                <input type="radio" id="hybrid" name="hybrid" value="hybrid" checked={option === "hybrid"} />
-                            </div>
-                            <p style={{ color: "#56585A" }}>{__("Imports full, detailed stats for your most recent history—by default the last 90 days, while older data is brought in as summary-only.", "wp-statistics")}</p>
-                            <ul style={{ listStyle: "disc", paddingLeft: "30px" }}>
-                                <li>
-                                    <strong>{__("Estimated Time:", "wp-statistics")}</strong> {__("Longer than summary-only, but faster than a full detailed migration.", "wp-statistics")}
-                                </li>
-                                <li>
-                                    <strong>{__("Who It’s For:", "wp-statistics")}</strong> {__("Users who want to retain granular data for a recent timeframe while speeding up the migration for older records.", "wp-statistics")}
-                                </li>
-                            </ul>
-                            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                                <p>{__("Enter the number of days to migrate with full detail:", "wp-statistics")}</p>
-                                <input
-                                    name="hybrid-value"
-                                    value={hybridDays}
-                                    style={{
-                                        outline: "none",
-                                        border: "1px solid #DADCE0",
-                                        width: "46px",
-                                        height: "32px",
-                                        borderRadius: "3px",
-                                        padding: "0px 7px",
-                                        textAlign: "center",
-                                    }}
-                                    onChange={(e) => setHybridDays(e.target.value)}
-                                />
-                            </div>
-                        </CardBody>
-                    </Card>
+                                onChange={(e) => setHybridDays(e.target.value)}
+                            />
+                        </div>
+                    </MigrationCard>
                 </div>
             </CardBody>
 

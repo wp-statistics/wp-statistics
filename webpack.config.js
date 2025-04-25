@@ -4,7 +4,7 @@ const path = require("path");
 module.exports = {
     ...defaultConfig,
     entry: {
-        "react-bundle": path.resolve(process.cwd(), "./assets/js/react/pages/data-migration/index.js"),
+        "react-bundle": path.resolve(process.cwd(), "./assets/js/react/pages/data-migration/index.jsx"),
     },
     output: {
         path: path.resolve(process.cwd(), "build"),
