@@ -103,7 +103,7 @@ class TinyMCE
      */
     public function wp_statistic_add_tinymce_plugin($plugin_array)
     {
-        $plugin_array['wp_statistic_tc_button'] = Admin_Assets::url('tinymce.min.js');
+        $plugin_array['wp_statistic_tc_button'] = WP_STATISTICS_URL . 'assets/js/tinymce.min.js';
 
         return $plugin_array;
     }
@@ -146,7 +146,7 @@ class TinyMCE
         ';
         $lang = TinyMCE::lang();
         echo $lang['translate']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-        echo 'tinyMCEPreInit.load_ext("' . rtrim(WP_STATISTICS_URL, "/") . '", "' . esc_html($lang['locale']) . '"); </script>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped 
+        echo 'tinyMCEPreInit.load_ext("' . rtrim(WP_STATISTICS_URL, "/") . '", "' . esc_html($lang['locale']) . '"); </script>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     }
 }
 
