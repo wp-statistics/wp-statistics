@@ -22,7 +22,11 @@
     direction: rtl;
   }
 
-  .ui-widget, .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+  .ui-widget,
+  .ui-widget input,
+  .ui-widget select,
+  .ui-widget textarea,
+  .ui-widget button {
     font-family: tahoma, serif;
   }
 
@@ -34,7 +38,8 @@
     direction: ltr;
   }
 
-  .jqplot-table-legend, .jqplot-highlighter-tooltip {
+  .jqplot-table-legend,
+  .jqplot-highlighter-tooltip {
     direction: rtl;
     font-family: tahoma, serif;
   }
@@ -69,7 +74,8 @@
     float: left;
   }
 
-  .wps-wrap h2, .wps-wrap h3 {
+  .wps-wrap h2,
+  .wps-wrap h3 {
     direction: rtl;
   }
 
@@ -89,11 +95,9 @@
   }
 }
 
-
 .rtl .wp-statistics-settings .widefat {
   float: right;
 }
-
 
 .rtl .wp-statistics-plugins .widefat > * {
   float: right;
@@ -116,7 +120,6 @@
   margin-right: 148px;
   margin-left: 0;
 }
-
 
 .rtl .wp-statistics-plugins .plugin-card .cover-ribbon {
   right: -8px;
@@ -147,7 +150,8 @@
     margin-left: 10px;
   }
 
-  .daterangepicker select.yearselect, .daterangepicker select.monthselect {
+  .daterangepicker select.yearselect,
+  .daterangepicker select.monthselect {
     text-align: right;
   }
 

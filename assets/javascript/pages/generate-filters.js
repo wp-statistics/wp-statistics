@@ -1,3 +1,6 @@
+import { FilterModal } from "../filters/modal";
+import { FilterPanel } from "../filters/panel";
+
 (function () {
     if (!window.wpStatisticsFilters || Object.keys(window.wpStatisticsFilters).length === 0) {
         return;
@@ -15,9 +18,9 @@
     });
 
     new FilterModal({
-        modalSelector: '#wps-modal-filter',
-        formSelector: '#wp_statistics_visitors_filter_form',
-        filterWrapperSelector: '#wps-visitors-filter-form',
+        modalSelector: "#wps-modal-filter",
+        formSelector: "#wp_statistics_visitors_filter_form",
+        filterWrapperSelector: "#wps-visitors-filter-form",
         fields: modalFilters,
     });
 

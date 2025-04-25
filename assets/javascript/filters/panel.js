@@ -1,9 +1,10 @@
+import { FilterGenerator } from "./generator";
 /**
  * FilterPanel Constructor
  * Handles the UI and logic for standalone filters (not in modal).
  * @param {Object} options - Custom settings for the panel.
  */
-function FilterPanel(options) {
+export function FilterPanel(options) {
     const defaults = {
         fields: {}, // List of separated filters
     };
@@ -20,7 +21,7 @@ function FilterPanel(options) {
  */
 FilterPanel.prototype.init = function () {
     if (!this.settings.fields || Object.keys(this.settings.fields).length === 0) {
-        console.warn('No filters available for the panel.');
+        console.warn("No filters available for the panel.");
         return;
     }
 
@@ -36,9 +37,9 @@ FilterPanel.prototype.init = function () {
 FilterPanel.prototype.createContainers = function () {
     Object.entries(this.settings.fields).forEach(([key, filter]) => {
         const attributes = filter?.attributes || {},
-            type = attributes['data-type'],
-            source = attributes['data-source'],
-            isSearchable = attributes['data-searchable'],
+            type = attributes["data-type"],
+            source = attributes["data-source"],
+            isSearchable = attributes["data-searchable"],
             isPredefined = filter?.predefined || false;
 
         if (!type) {
@@ -53,16 +54,16 @@ FilterPanel.prototype.createContainers = function () {
             return;
         }
 
-        container.classList.add('loading');
+        container.classList.add("loading");
 
         filter.containerSelector = `#${containerId}`;
 
-        if (isPredefined &&  !this.predefinedCache[source]) {
-            const containerSelector =  filter.containerSelector;
-            this.predefinedCache[source] = { ...isPredefined, containerSelector};
+        if (isPredefined && !this.predefinedCache[source]) {
+            const containerSelector = filter.containerSelector;
+            this.predefinedCache[source] = { ...isPredefined, containerSelector };
         }
 
-        if (source && !this.sourceCache[source]&& !isSearchable && !isPredefined) {
+        if (source && !this.sourceCache[source] && !isSearchable && !isPredefined) {
             this.sourceCache[source] = true;
         }
     });
@@ -83,7 +84,7 @@ FilterPanel.prototype.fetchFilterOptions = function () {
     if (hasPredefinedFilters) {
         this.renderFilters(this.predefinedCache);
         this.removeLoadingState(this.predefinedCache);
-        
+
         return;
     }
 
@@ -91,7 +92,7 @@ FilterPanel.prototype.fetchFilterOptions = function () {
 
     let params = {
         wps_nonce: wps_js.global.rest_api_nonce,
-        action: 'wp_statistics_get_filters',
+        action: "wp_statistics_get_filters",
         filters: Object.keys(this.sourceCache),
         queryString: queryString,
     };
@@ -99,9 +100,9 @@ FilterPanel.prototype.fetchFilterOptions = function () {
     params = Object.assign(params, wps_js.global.request_params);
 
     jQuery.ajax({
-        url: wps_js.global.admin_url + 'admin-ajax.php',
-        type: 'POST',
-        dataType: 'json',
+        url: wps_js.global.admin_url + "admin-ajax.php",
+        type: "POST",
+        dataType: "json",
         data: params,
         timeout: 30000,
         success: function (data) {
@@ -115,9 +116,9 @@ FilterPanel.prototype.fetchFilterOptions = function () {
         },
         complete: function () {
             this.removeLoadingState();
-        }.bind(this)
+        }.bind(this),
     });
-}
+};
 
 /**
  * Renders the standalone filters dynamically based on AJAX response.
@@ -126,8 +127,8 @@ FilterPanel.prototype.fetchFilterOptions = function () {
 FilterPanel.prototype.renderFilters = function (data) {
     Object.entries(this.settings.fields).forEach(function ([key, filter]) {
         const attributes = filter?.attributes || {};
-        const type = attributes['data-type'];
-        const source = attributes['data-source'];
+        const type = attributes["data-type"];
+        const source = attributes["data-source"];
         const containerSelector = filter.containerSelector;
 
         if (!type || !containerSelector) {
@@ -138,10 +139,10 @@ FilterPanel.prototype.renderFilters = function (data) {
         const generator = new FilterGenerator(containerSelector);
 
         switch (filter.type) {
-            case 'select':
-                generator.createSelect(filter, 'dropdown-content');
+            case "select":
+                generator.createSelect(filter, "dropdown-content");
                 break;
-            case 'dropdown':
+            case "dropdown":
                 generator.createDropdown(filter, filterData);
                 break;
         }
@@ -157,7 +158,7 @@ FilterPanel.prototype.renderFilters = function (data) {
             if (filter.containerSelector) {
                 const container = document.querySelector(filter.containerSelector);
                 if (container) {
-                    container.classList.remove('loading');
+                    container.classList.remove("loading");
                 }
             }
         });

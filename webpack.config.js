@@ -4,11 +4,10 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const glob = require("glob");
 const WrapperPlugin = require("wrapper-webpack-plugin");
 const RemoveEmptyScriptsPlugin = require("webpack-remove-empty-scripts");
-const webpack = require('webpack');
+const webpack = require("webpack");
 // Admin file list
 const getOrderedAdminFiles = () => {
-    const order = ["./assets/js/datepicker/*.js", "./assets/js/jqvmap/jquery.vmap.min.js", "./assets/js/jqvmap/jquery.vmap.world.min.js", "./assets/js/select2/select2.full.min.js", "./assets/dev/javascript/plugin/*.js", "./assets/dev/javascript/config.js",  "./assets/dev/javascript/ajax.js",
-        "./assets/dev/javascript/placeholder.js", "./assets/dev/javascript/helper.js", "./assets/dev/javascript/chart.js", "./assets/dev/javascript/filters/*.js", "./assets/dev/javascript/components/*.js", "./assets/dev/javascript/meta-box.js","./assets/dev/javascript/run.js", "./assets/dev/javascript/meta-box/*.js", "./assets/dev/javascript/pages/*.js", "./assets/dev/javascript/image-upload.js"];
+    const order = ["./assets/js/datepicker/*.js", "./assets/js/jqvmap/jquery.vmap.min.js", "./assets/js/jqvmap/jquery.vmap.world.min.js", "./assets/js/select2/select2.full.min.js", "./assets/javascript/plugin/*.js", "./assets/javascript/config.js", "./assets/javascript/ajax.js", "./assets/javascript/placeholder.js", "./assets/javascript/helper.js", "./assets/javascript/chart.js", "./assets/javascript/filters/*.js", "./assets/javascript/components/*.js", "./assets/javascript/meta-box.js", "./assets/javascript/run.js", "./assets/javascript/meta-box/*.js", "./assets/javascript/pages/*.js", "./assets/javascript/image-upload.js"];
 
     return order.flatMap((pattern) => {
         return glob.sync(pattern).map((file) => {
@@ -18,14 +17,14 @@ const getOrderedAdminFiles = () => {
 };
 
 // Tracker file list
-const trackerFiles = ["./assets/dev/javascript/user-tracker.js", "./assets/dev/javascript/event-tracker.js", "./assets/dev/javascript/tracker.js"];
+const trackerFiles = ["./assets/javascript/user-tracker.js", "./assets/javascript/event-tracker.js", "./assets/javascript/tracker.js"];
 
 module.exports = {
     mode: "production",
     entry: {
         "admin.min": getOrderedAdminFiles(),
         "tracker.min": trackerFiles,
-        "app.min": "./assets/dev/sass/app.scss",
+        "app.min": "./assets/sass/app.scss",
     },
     output: {
         filename: "[name].js",
@@ -34,7 +33,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: require.resolve("./assets/dev/javascript/config.js"),
+                test: require.resolve("./assets/javascript/config.js"),
                 loader: "expose-loader",
                 options: {
                     exposes: ["wps_js"],
@@ -76,9 +75,9 @@ module.exports = {
         }),
         new RemoveEmptyScriptsPlugin(),
         new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: 'jquery',
-            'window.jQuery': 'jquery',
+            $: "jquery",
+            jQuery: "jquery",
+            "window.jQuery": "jquery",
         }),
     ],
     optimization: {
@@ -104,7 +103,7 @@ module.exports = {
             path.resolve(__dirname), // or path.resolve(__dirname, 'src')
         ],
         extensions: [".js", ".scss"],
-        alias: {'./locale': 'moment/locale'}
+        alias: { "./locale": "moment/locale" },
     },
     externals: {
         jquery: "jQuery",
