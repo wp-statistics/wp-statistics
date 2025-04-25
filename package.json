@@ -5,7 +5,9 @@
   "main": "",
   "scripts": {
     "build": "wp-scripts build --webpack-copy-php --webpack-src-dir=assets/dev/blocks --output-path=assets/blocks",
-    "start": "wp-scripts start --webpack-copy-php --webpack-src-dir=assets/dev/blocks --output-path=assets/blocks"
+    "start": "wp-scripts start --webpack-copy-php --webpack-src-dir=assets/dev/blocks --output-path=assets/blocks",
+    "build-react": "wp-scripts build",
+    "start-react": "wp-scripts start"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.24.4",
