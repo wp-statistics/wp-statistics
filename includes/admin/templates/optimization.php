@@ -2,13 +2,27 @@
 <?php
 
 use WP_Statistics\Components\View;
-
+use WP_Statistics\Service\Admin\ModalHandler\Modal;
 View::load('components/objects/share-anonymous-notice');
 ?>
 <div class="wps-wrap__main">
     <div class="wp-header-end"></div>
-
 <div id="poststuff" class="wps-wrap__settings">
+    <?php
+    Modal::render('setting-confirmation', [
+        'title'               => __('Are you sure you want to permanently delete this data?', 'wp-statistics'),
+        'primaryButtonText'   => __('Yes', 'wp-statistics'),
+        'primaryButtonStyle'  => 'danger',
+        'secondaryButtonText' => __('Cancel', 'wp-statistics'),
+        'secondaryButtonStyle' => 'cancel',
+        'showCloseButton'     => true,
+        'alert'               => __('This action cannot be undone.', 'wp-statistics'),
+        'actions'             => [
+            'primary'   => 'resolve',
+            'secondary' => 'closeModal',
+        ],
+    ]);
+    ?>
     <div id="post-body" class="metabox-holder wps-optimizationPageFlex">
         <?php include WP_STATISTICS_DIR . 'includes/admin/templates/layout/menu-optimization.php'; ?>
 

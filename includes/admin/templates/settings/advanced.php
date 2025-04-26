@@ -5,7 +5,7 @@ use WP_STATISTICS\IP;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
 use WP_STATISTICS\TimeZone;
-
+use WP_Statistics\Service\Admin\ModalHandler\Modal;
 // Get IP Method
 $ip_method  = IP::getIpMethod();
 $ip_address = IP::getIP();
@@ -148,7 +148,7 @@ add_thickbox();
             <th scope="row"></th>
             <td>
                 <div style="display: flex; align-items: center; gap: 10px;">
-                    <input type="text" name="user_custom_header_ip_method" autocomplete="off" style="padding: 5px; width: 250px;height: 35px;" value="<?php echo in_array($ip_method, $ip_options) ? esc_attr($ip_method) : '' ?>">
+                    <input type="text" name="user_custom_header_ip_method" autocomplete="off"  value="<?php echo in_array($ip_method, $ip_options) ? esc_attr($ip_method) : '' ?>">
                 </div>
 
                 <p class="description">
@@ -405,8 +405,20 @@ add_thickbox();
     function DBMaintWarning() {
         const checkbox = jQuery('#wps_schedule_dbmaint');
         if (checkbox.prop('checked')) {
-            if (!confirm('<?php esc_html_e('This will permanently delete data from the database each day, are you sure you want to enable this option?', 'wp-statistics'); ?>')) {
-                checkbox.prop('checked', false);
+            const modalId = 'setting-confirmation';
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('wps-modal--open');
+                const primaryButton = modal.querySelector('button[data-action="enable"]');
+                primaryButton.addEventListener('click', function () {
+                    modal.classList.remove('wps-modal--open');
+                });
+
+                const closeButton = modal.querySelector('button[data-action="closeModal"]');
+                closeButton.addEventListener('click', function () {
+                    checkbox.prop('checked', false);
+                    modal.classList.remove('wps-modal--open');
+                });
             }
         }
     }
@@ -447,6 +459,21 @@ add_thickbox();
         </tbody>
     </table>
 </div>
+
+<?php
+Modal::render('setting-confirmation', [
+    'title'               => __('This will permanently delete data from the database each day, are you sure you want to enable this option?', 'wp-statistics'),
+    'primaryButtonText'   => __('Yes , Enable', 'wp-statistics'),
+    'primaryButtonStyle'  => 'danger',
+    'secondaryButtonText' => __('Cancel', 'wp-statistics'),
+    'secondaryButtonStyle' => 'cancel',
+    'showCloseButton'     => true,
+    'actions'             => [
+        'primary'   => 'enable',
+        'secondary' => 'closeModal',
+    ],
+]);
+?>
 
 <div class="postbox">
     <table class="form-table">

@@ -327,6 +327,10 @@
           .form-table {
             margin-top: 0;
 
+            @media(max-width: 785px) {
+              table-layout: fixed
+            }
+
             h3 {
               margin: 5px 0;
               font-size: 18px;
@@ -940,34 +944,54 @@
   }
 }
 
+.wps-wrap .wps-optimizationBox {
+  @media (max-width: 785px) {
+    padding: 0 8px;
+    box-sizing: border-box;
+
+    .form-table {
+      table-layout: fixed;
+    }
+  }
+}
+
 .wps-wrap__settings, .wps-wrap .wps-optimizationBox {
 
   .wps-setting-select-wrapper {
     position: relative;
     width: 100%;
     margin-bottom: 48px;
+    margin-top: 16px;
     display: none;
-    .select2-selection{
+    padding: 0 8px;
+    box-sizing: border-box;
+
+    .select2-selection {
       padding: 16px 6px;
-      border:none;
-      border-radius: 8px!important;
+      border: none;
+      border-radius: 8px !important;
       height: 50px;
 
-      .select2-selection__arrow{
+      .select2-selection__arrow {
         top: 14px;
       }
     }
+
+    .select2-container {
+      width: 100% !important;
+    }
+
     .select2-container .select2-selection__rendered {
       display: flex;
       align-items: center;
       gap: 12px;
-      color:#0C0C0D;
+      color: #0C0C0D;
       font-weight: 600;
       font-size: 16px;
       line-height: 20px;
 
 
-      &:before{
+      &:before {
         content: '';
         width: 17px;
         height: 17px;
@@ -1002,6 +1026,13 @@
 
   .wps-wrap__setting-form, #wp-statistics-settings-form {
 
+    .tab-content {
+      @media(max-width: 785px) {
+        padding: 0 8px;
+        box-sizing: border-box;
+      }
+    }
+
     .form-table tbody td {
       .wps-input-group {
         display: flex;
@@ -1010,6 +1041,7 @@
         border-radius: 4px;
         overflow: hidden;
         width: 300px;
+        max-width: 100%;
 
         .select2-selection {
           border: none !important;
@@ -1030,6 +1062,11 @@
             box-shadow: none !important;
             outline: none !important;
 
+            .rtl & {
+              border-left: none;
+              border-right: 1px solid #DADCE0;
+            }
+
             &:hover {
               background: #EEEFF1;
             }
@@ -1038,6 +1075,11 @@
               border-right: none;
               border-left: 1px solid #DADCE0;
               box-shadow: none !important;
+
+              .rtl & {
+                border-left: none;
+                border-right: 1px solid #DADCE0;
+              }
             }
           }
         }
@@ -1051,9 +1093,22 @@
         color: #0C0C0D;
         font-weight: 400;
         line-height: 20px;
+
+        .rtl & {
+          border-right: none;
+          border-left: 1px solid #DADCE0;
+        }
+
+        .select2-container {
+          width: 100% !important;
+        }
       }
 
       .wps-input-group__copy {
+        .rtl & {
+          border-right: 1px solid #DADCE0;
+          border-left: none;
+        }
 
         &.has-icon:before {
           content: '';
@@ -1070,6 +1125,16 @@
         flex: 1;
         outline: none !important;
         box-shadow: none !important;
+        width: calc(100% - 75px);
+        color: #0C0C0D;
+        font-weight: 400;
+        line-height: 20px;
+        margin: 0;
+        height: 40px;
+
+        .rtl & {
+          border: none !important;
+        }
 
         &:focus {
           border: none !important;
@@ -1088,6 +1153,11 @@
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
+
+      @media(max-width: 785px) {
+        flex-direction: column;
+        gap: 12px;
+      }
     }
 
     .wps-mt-12 {
@@ -1159,6 +1229,7 @@
         background: #F6F6FF;
         color: #0C0C0D;
         border-color: #C3C9D5;
+        white-space: nowrap;
 
         &:hover {
           background: #FFFFFF;
@@ -1282,12 +1353,29 @@
             display: flex;
             gap: 16px;
             align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            @media(max-width: 1200px) {
+              flex-direction: column;
+              align-items: flex-start;
+            }
+
+            div {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              @media(max-width: 1200px) {
+                justify-content: space-between;
+                width: 100%;
+              }
+            }
 
             a {
               font-weight: 500;
               font-size: 13px;
               text-decoration: underline;
               text-decoration-style: solid;
+              white-space: nowrap;
 
               &:hover {
                 color: #3c4043;
@@ -1298,11 +1386,13 @@
           .wps-button {
             font-size: 12px !important;
             padding: 8px !important;
+            white-space: nowrap;
+            text-decoration: none;
           }
         }
 
         th {
-          padding: 16px 32px;
+          padding: 16px 32px !important;
 
           h3 {
             color: #0C0C0D;
@@ -1320,8 +1410,20 @@
       th {
         padding-top: 16px;
         padding-bottom: 16px;
-        padding-left: 32px;
-        @media (min-width: 783px) {
+        padding-left: 32px !important;
+
+        @media(max-width: 785px) {
+          padding-top: 12px;
+          padding-bottom: 12px;
+        }
+
+        .rtl & {
+          padding-top: 16px !important;
+          padding-bottom: 16px !important;
+          padding-right: 32px !important;
+        }
+
+        @media (min-width: 785px) {
           width: 238px;
         }
 
@@ -1371,8 +1473,19 @@
         }
       }
 
-      td {
-        padding: 16px 32px 16px 10px;
+      td, td:last-child {
+        padding: 16px 32px 16px 10px !important;
+
+        @media(max-width: 785px) {
+          padding: 12px 32px 12px 32px !important;
+        }
+
+        .rtl & {
+          padding: 16px 10px 16px 32px !important;
+          @media(max-width: 785px) {
+            padding: 12px 32px 12px 32px !important;
+          }
+        }
 
         input[type=checkbox] {
           margin-right: 6px;
@@ -1386,6 +1499,10 @@
             height: 7.27px !important;
             margin-top: 3.5px;
             margin-left: 2.5px;
+
+            .rtl & {
+              width: 1.5rem !important;
+            }
           }
 
           & ~ label {
@@ -1402,7 +1519,7 @@
           background: none;
         }
 
-        input[type=text], input[type=number], textarea, select, .select2-selection {
+        input[type=text]:not(.wps-input-group__field), input[type=number], textarea, select, .select2-selection {
           border: 1px solid #dadce0 !important;
           border-radius: 4px;
           padding: 10px !important;
@@ -1412,6 +1529,7 @@
           font-size: 13px;
           line-height: 20px;
           margin: 0;
+          max-width: 100%;
 
           &:focus {
             border: 1px solid #404BF2 !important;
@@ -1427,10 +1545,12 @@
         textarea {
           height: 121px;
           width: 510px;
-          max-width: 100%;
+          max-width: 100% !important;
         }
 
         .select2-container {
+          max-width: 100%;
+          width: 100%;
 
           &.select2-container--disabled {
             .select2-selection {
@@ -1450,6 +1570,11 @@
           .select2-selection {
             height: 40px;
             padding-right: 24px !important;
+
+            .rtl & {
+              padding-right: 10px !important;
+              padding-left: 24px !important;
+            }
 
             &--multiple {
               height: unset;
@@ -1484,6 +1609,11 @@
             right: 10px;
             width: 18px;
 
+            .rtl & {
+              right: unset;
+              left: 10px;
+            }
+
             b {
               width: 18px !important;
               height: 18px !important;
@@ -1516,12 +1646,26 @@
     line-height: 22px;
     margin-top: 12px;
 
+    &__setting-header {
+      margin-top: -8px;
+      margin-bottom: 16px;
+
+      a {
+        text-decoration: underline;
+        font-weight: 400;
+      }
+    }
+
     &:before {
       content: '';
       display: inline-flex;
       width: 17px;
       height: 22px;
       min-width: 17px;
+    }
+
+    p {
+      margin: 0;
     }
 
     &__info {
@@ -1584,6 +1728,10 @@
     margin: 0;
     padding: 0 0 0 13px;
     overflow: hidden;
+
+    .rtl & {
+      padding: 0 13px 0 0
+    }
   }
 
   .wp-color-result .wp-color-result-text {
@@ -1597,6 +1745,12 @@
     height: 40px;
     padding-right: 12px;
     line-height: 40px;
+
+    .rtl & {
+      padding-left: 12px;
+      margin-right: 13px !important;
+      margin-left: unset !important;
+    }
   }
 
   .wp-color-result::before {
@@ -1616,6 +1770,14 @@
   border-radius: 3px !important;
   overflow: hidden;
   box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.1);
+
+  .rtl & {
+    direction: rtl !important;
+  }
+
+  .select2-results__group {
+    text-transform: uppercase;
+  }
 
   &.select2-dropdown--below {
     margin-top: 10px;

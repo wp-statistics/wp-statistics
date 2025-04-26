@@ -481,7 +481,9 @@ class Admin_Assets
             'show_less'                    => __('Show less', 'wp-statistics'),
             'show_more'                    => __('Show more', 'wp-statistics'),
             'pending'                      => __('Pending', 'wp-statistics'),
-            'copied'                      => __('Copied!', 'wp-statistics'),
+            'copied'                       => __('Copied!', 'wp-statistics'),
+            'settings'                     => __('SETTINGS', 'wp-statistics'),
+            'premium_addons'               => __('PREMIUM ADD-ONS', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 

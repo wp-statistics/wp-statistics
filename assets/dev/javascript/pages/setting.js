@@ -51,9 +51,12 @@ function createMobileDropdown() {
     const settingsItems = menu.querySelectorAll('a[data-tab]:not(.premium)');
     const premiumItems = menu.querySelectorAll('a[data-tab].premium');
 
+    const titleElement = menu.querySelector('.wps-settings-side__title');
+    const groupLabel = titleElement ? titleElement.textContent : wps_js._('settings');
+
     // Create Settings optgroup
     const settingsGroup = document.createElement('optgroup');
-    settingsGroup.label = 'SETTINGS';
+    settingsGroup.label = groupLabel;
 
     settingsItems.forEach(item => {
         const option = document.createElement('option');
@@ -71,7 +74,7 @@ function createMobileDropdown() {
     // Create Premium Add-Ons optgroup
     if (premiumItems.length > 0) {
         const premiumGroup = document.createElement('optgroup');
-        premiumGroup.label = 'PREMIUM ADD-ONS';
+        premiumGroup.label =  wps_js._('premium_addons') ;
 
         premiumItems.forEach(item => {
             const option = document.createElement('option');
@@ -96,10 +99,11 @@ function createMobileDropdown() {
     wrapper.appendChild(select);
     // Insert the wrapper before the menu
     menu.parentNode.insertBefore(wrapper, menu);
-
+    const dirValue = jQuery('body').hasClass('rtl') ? 'rtl' : 'ltr';
     $(select).select2({
         dropdownCssClass: 'wps-setting-input__dropdown',
         minimumResultsForSearch: Infinity,
+        dir: dirValue
     });
 
     // Add event listener for navigation

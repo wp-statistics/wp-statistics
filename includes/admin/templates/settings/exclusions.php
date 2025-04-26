@@ -1,5 +1,18 @@
-<h2 class="wps-settings-box__title"><span><?php esc_html_e('Filtering & Exceptions', 'wp-statistics'); ?></span></h2>
+<h2 class="wps-settings-box__title"><span><?php use WP_STATISTICS\Menus;
 
+        esc_html_e('Filtering & Exceptions', 'wp-statistics'); ?></span></h2>
+
+<div class="wps-alert wps-alert__setting-header wps-alert__info">
+    <?php
+    echo sprintf(
+        '<p>%s <a href="%s">%s</a> %s.</p>',
+        esc_html__('To view detailed performance analytics of each category based on the content within them, please visit the', 'wp-statistics'),
+        Menus::admin_url('category-analytics'),
+        esc_html__('Category Analytics', 'wp-statistics'),
+        esc_html__('report', 'wp-statistics')
+    );
+    ?>
+</div>
 <div class="postbox">
     <table class="form-table">
         <tbody>
@@ -212,7 +225,7 @@
             </th>
 
             <td>
-                <button type="submit" name="update-referrer-spam" value="1" class="button"><?php esc_html_e('Update', 'wp-staitsitcs'); ?></button>
+                <button type="submit" name="update-referrer-spam" value="1" class="wps-button wps-button--default"><?php esc_html_e('Update', 'wp-staitsitcs'); ?></button>
                 <!--                <a href="--><?php //echo WP_STATISTICS\Menus::admin_url('settings', array('tab' => 'externals-settings', 'update-referrer-spam' => 'yes'))
                 ?><!--" class="button">--><?php //_e('Update', 'wp-staitsitcs');
                 ?><!--</a>-->
