@@ -190,6 +190,34 @@ class MetaboxDataProvider
         return $data;
     }
 
+    public function getSourceCategoriesData($args = [])
+    {
+        $args = array_merge($args, [
+            'group_by'  => 'visitor.source_channel',
+            'not_null'  => '',
+            'decorate'  => true,
+            'per_page'  => 5,
+            'page'      => 1
+        ]);
+
+        $topChannels = $this->visitorsModel->getReferrers($args);
+
+        $data = [];
+
+        foreach ($topChannels as $item) {
+            $topDomain = $this->visitorsModel->getReferrers(['decorate' => true, 'per_page' => 1, 'source_channel' => $item->getRawSourceChannel()]);
+
+            $data[] = [
+                'source_category' => $item->getSourceChannel(),
+                'top_domain'      => !empty($topDomain) ? $topDomain[0]->getReferrer() : '-',
+                'visitors'        => $item->getTotalReferrals(),
+                'percentage'      => '32%'
+            ];
+        }
+
+        return $data;
+    }
+
     public function getTrafficChartData($args = [])
     {
         return ChartDataProviderFactory::trafficChart($args)->getData();
