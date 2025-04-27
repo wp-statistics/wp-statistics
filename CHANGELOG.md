@@ -27,6 +27,7 @@
 - **Fix:** Fixed compatibility issues with the Interactivity API.
 - **Fix:** Resolved layout issue with the "Account Information" widget on the Single Visitor page.
 - **Removal:** Removed the `Host Exclusions` setting.
+- **Enhancement:** Now counting approved comments instead of all comments.
 
 = 14.13.1 - 2025-04-08 =
 - **Enhancement:** Improved filter logic to avoid unnecessary requests.
