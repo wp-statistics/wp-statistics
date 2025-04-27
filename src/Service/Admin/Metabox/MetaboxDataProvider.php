@@ -207,13 +207,13 @@ class MetaboxDataProvider
 
         foreach ($topChannels as $item) {
             $topDomain = $this->visitorsModel->getReferrers(['decorate' => true, 'per_page' => 1, 'source_channel' => $item->getRawSourceChannel()]);
-            $channelReferrers = $item->getTotalReferrals(true);
+            $referrers = $item->getTotalReferrals(true);
 
             $data[] = [
                 'source_category' => $item->getSourceChannel(),
                 'top_domain'      => !empty($topDomain) ? $topDomain[0]->getReferrer() : '-',
-                'visitors'        => $channelReferrers,
-                'percentage'      => Helper::divideNumbers($channelReferrers, $totalReferrers) * 100 . '%'
+                'visitors'        => number_format_i18n($referrers),
+                'percentage'      => Helper::divideNumbers($referrers, $totalReferrers) * 100 . '%'
             ];
         }
 
