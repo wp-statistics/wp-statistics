@@ -103,7 +103,7 @@ class AssetNameObfuscator
         }
 
         $this->hashedFileName     = $this->generateShortHash(WP_STATISTICS_VERSION . $this->hashedFileOptionKey);
-        $this->hashedFileName     .= '.' . pathinfo($this->inputFileDir, PATHINFO_EXTENSION) . 'dsadaw';
+        $this->hashedFileName     .= '.' . pathinfo($this->inputFileDir, PATHINFO_EXTENSION);
         $this->hashedFileName     = $this->cleanHashedFileName($this->hashedFileName);
         $this->hashedFileName     = apply_filters('wp_statistics_hashed_asset_name', $this->hashedFileName, $this->inputFileDir);
         $this->hashedFilesRootDir = apply_filters('wp_statistics_hashed_asset_root', Helper::get_uploads_dir());
