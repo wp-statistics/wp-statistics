@@ -40,9 +40,17 @@ class TopCountries extends BaseMetabox
 
         $data = $this->dataProvider->getTopCountiesData($args);
 
-        $output = View::load('metabox/top-countries', ['data' => $data, 'filters' => $args, 'isTodayOrFutureDate' => $isTodayOrFutureDate], true);
+        $data = array_merge($data, [
+            'tag_id' => 'wps-top-countries',
+            'url'    => WP_STATISTICS_URL . 'assets/images/no-data/vector-3.svg'
+        ]);
 
-        return $output;
+        $output = View::load('metabox/horizontal-bar', ['data' => $data, 'filters' => $args, 'isTodayOrFutureDate' => $isTodayOrFutureDate], true);
+
+        return [
+            'output' => $output,
+            'data'   => $data
+        ];
     }
 
     public function render()
