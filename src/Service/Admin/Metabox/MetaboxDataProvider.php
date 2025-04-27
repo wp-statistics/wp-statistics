@@ -196,24 +196,44 @@ class MetaboxDataProvider
             'group_by'  => 'visitor.source_channel',
             'not_null'  => 'source_channel',
             'decorate'  => true,
-            'per_page'  => 5,
+            'per_page'  => 10,
             'page'      => 1
         ]);
 
         $topChannels    = $this->visitorsModel->getReferrers($args);
         $totalReferrers = $this->visitorsModel->countVisitors($args);
 
-        $data = [];
+        $data   = [];
+        $direct = null;
 
         foreach ($topChannels as $item) {
             $topDomain = $this->visitorsModel->getReferrers(['decorate' => true, 'per_page' => 1, 'source_channel' => $item->getRawSourceChannel()]);
             $referrers = $item->getTotalReferrals(true);
+
+            // Store direct category in a temp variable and add it at the end separately
+            if ($item->getRawSourceChannel() === 'direct') {
+                $direct = $item;
+                continue;
+            }
+
+            // Limit to 4 categories
+            if (count($data) >= 4) break;
 
             $data[] = [
                 'source_category' => $item->getSourceChannel(),
                 'top_domain'      => !empty($topDomain) ? $topDomain[0]->getReferrer() : '-',
                 'visitors'        => number_format_i18n($referrers),
                 'percentage'      => Helper::divideNumbers($referrers, $totalReferrers) * 100 . '%'
+            ];
+        }
+
+        // Add direct category
+        if (!empty($data)) {
+            $data[] = [
+                'source_category' => esc_html__('Direct', 'wp-statistics'),
+                'top_domain'      => '-',
+                'visitors'        => $direct ? number_format_i18n($direct->getTotalReferrals(true)) : 0,
+                'percentage'      => $direct ? Helper::divideNumbers($direct->getTotalReferrals(true), $totalReferrers) * 100 . '%' : 0 . '%'
             ];
         }
 
