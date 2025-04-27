@@ -4,7 +4,6 @@ namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess;
 
 use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\Jobs\VisitorColumnsMigrator;
 use WP_STATISTICS\Install;
-use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 
 /**
