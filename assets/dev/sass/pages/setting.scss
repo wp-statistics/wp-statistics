@@ -1043,6 +1043,10 @@
         width: 300px;
         max-width: 100%;
 
+        .select2-container{
+          width: 100%!important;
+        }
+
         .select2-selection {
           border: none !important;
           width: 100% !important;
@@ -1364,10 +1368,12 @@
               display: flex;
               align-items: center;
               gap: 10px;
+              width: 100%;
+              justify-content: flex-end;
+
               @media(max-width: 1200px) {
                 justify-content: space-between;
-                width: 100%;
-              }
+               }
             }
 
             a {
@@ -1380,6 +1386,12 @@
               &:hover {
                 color: #3c4043;
               }
+            }
+
+          }
+          .alert span{
+            @media(min-width: 800px){
+              white-space: nowrap;
             }
           }
 

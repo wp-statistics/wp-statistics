@@ -43,10 +43,10 @@ use WP_STATISTICS\Schedule;
                     <?php if ($next_scheduled_time) : ?>
                         <div class="alert alert-success"><span><?php echo sprintf(__('Your next report is scheduled to be sent on <b>%s at %s</b>.', 'wp-statistics'), wp_date(get_option('date_format'), $next_scheduled_time), wp_date(get_option('time_format'), $next_scheduled_time)) ?></span></div>
                     <?php endif; ?>
+
                     <div>
                         <a href=""><?php esc_html_e('View Guide', 'wp-statistics'); ?></a>
-                        <a href="" class="wps-button wps-button--default"><?php esc_html_e('Reset to Default', 'wp-statistics'); ?></a>
-                    </div>
+                     </div>
                 </div>
             </td>
         </tr>
