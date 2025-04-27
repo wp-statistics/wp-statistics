@@ -141,11 +141,14 @@ class AjaxBackgroundProcessManager
             return;
         }
 
+        $current_page_url = home_url(add_query_arg(null, null));
+
         $migrationUrl = add_query_arg(
             [
                 'action' => self::MIGRATION_ACTION,
                 'nonce'  => wp_create_nonce(self::MIGRATION_NONCE),
-                'status' => Option::getOptionGroup('ajax_background_process', 'status', null)
+                'status' => Option::getOptionGroup('ajax_background_process', 'status', null),
+                'current_page' => rawurlencode($current_page_url)
             ],
             admin_url('admin-post.php')
         );
@@ -227,8 +230,13 @@ class AjaxBackgroundProcessManager
      */
     private function handleRedirect()
     {
-        $referer = wp_get_referer();
-        wp_redirect($referer ?: admin_url());
+        $redirect_url = $_POST['current_page'] ?? $_GET['current_page'] ?? '';
+
+        if (empty($redirect_url)) {
+            $redirect_url = home_url();
+        }
+
+        wp_redirect(esc_url_raw($redirect_url));
         exit;
     }
 

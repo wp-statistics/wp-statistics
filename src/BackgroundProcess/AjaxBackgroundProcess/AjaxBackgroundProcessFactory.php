@@ -41,11 +41,7 @@ class AjaxBackgroundProcessFactory
      */
     public static function needsMigration()
     {
-        if (!class_exists(AbstractAjaxBackgroundProcess::class) || !class_exists(Menus::class)) {
-            return;
-        }
-
-        if (! Menus::in_plugin_page()) {
+        if (!class_exists(AbstractAjaxBackgroundProcess::class)) {
             return;
         }
 
