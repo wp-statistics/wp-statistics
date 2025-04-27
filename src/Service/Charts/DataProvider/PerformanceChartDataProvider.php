@@ -7,6 +7,7 @@ use WP_STATISTICS\Helper;
 use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
+use WP_STATISTICS\Option;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\LineChartResponseTrait;
 use WP_STATISTICS\TimeZone;
@@ -28,8 +29,21 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
         $this->postsModel       = new PostsModel();
     }
 
+    protected function isPreviousDataEnabled()
+    {
+        return isset($this->args['prev_data'])
+            ? $this->args['prev_data'] && Option::get('charts_previous_period', 1)
+            : false;
+    }
+
     public function getData()
     {
+        $currentPeriod  = $this->args['date'] ?? DateRange::get();
+        $prevPeriod     = DateRange::getPrevPeriod($currentPeriod);
+
+        $data       = [];
+        $prevData   = [];
+
         // Get data from database
         $visitors   = $this->visitorsModel->countDailyVisitors($this->args);
         $views      = $this->viewsModel->countDailyViews($this->args);
@@ -38,22 +52,32 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
         $posts = empty($this->args['post_id']) && empty($this->args['hide_post']) ? $this->postsModel->countDailyPosts($this->args) : [];
 
         // Parse data
-        $parsedData = $this->parseData([
+        $data = $this->parseData([
             'visitors'  => $visitors,
             'views'     => $views,
             'posts'     => $posts
-        ]);
+        ], $currentPeriod);
+
+        if ($this->isPreviousDataEnabled()) {
+            $visitors   = $this->visitorsModel->countDailyVisitors(array_merge($this->args, ['date' => $prevPeriod]));
+            $views      = $this->viewsModel->countDailyViews(array_merge($this->args, ['date' => $prevPeriod]));
+
+            $prevData = $this->parseData([
+                'visitors'  => $visitors,
+                'views'     => $views,
+                'posts'     => $posts
+            ], $prevPeriod);
+        }
 
         // Prepare data
-        $result = $this->prepareResult($parsedData);
+        $result = $this->prepareResult($data, $prevData);
 
         return $result;
     }
 
-    protected function parseData($data)
+    protected function parseData($data, $date)
     {
-        $datePeriod = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
-        $dates      = array_keys(TimeZone::getListDays($datePeriod));
+        $dates      = array_keys(TimeZone::getListDays($date));
 
         $visitors   = wp_list_pluck($data['visitors'], 'visitors', 'date');
         $views      = wp_list_pluck($data['views'], 'views', 'date');
@@ -74,9 +98,9 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
         return $parsedData;
     }
 
-    protected function prepareResult($data)
+    protected function prepareResult($data, $prevData)
     {
-        $this->initChartData();
+        $this->initChartData($this->isPreviousDataEnabled());
 
         $this->setChartLabels($data['labels']);
 
@@ -99,6 +123,12 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
                 ),
                 $data['posts']
             );
+        }
+
+        if ($this->isPreviousDataEnabled()) {
+            $this->setChartPreviousLabels($prevData['labels']);
+            $this->addChartPreviousDataset(esc_html__('Visitors', 'wp-statistics'), $prevData['visitors']);
+            $this->addChartPreviousDataset(esc_html__('Views', 'wp-statistics'), $prevData['views']);
         }
 
         return $this->getChartData();
