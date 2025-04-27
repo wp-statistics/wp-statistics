@@ -279,6 +279,7 @@ class AssetNameObfuscator
      */
     public function serveAssetByHash($asset)
     {
+        $asset             = $this->cleanHashedFileName($asset);
         $hashedAssetsArray = Option::getOptionGroup($this->optionName, null, []);
         $originalFilePath  = $this->getHashedAssetPath($asset, $hashedAssetsArray);
 
