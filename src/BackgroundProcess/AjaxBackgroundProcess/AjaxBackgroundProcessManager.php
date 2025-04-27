@@ -77,7 +77,7 @@ class AjaxBackgroundProcessManager
      */
     public function handleDoneNotice()
     {
-        if (!$this->shouldShowNotice()) {
+        if (!$this->isValidMigrationContext()) {
             return;
         }
 
@@ -112,7 +112,7 @@ class AjaxBackgroundProcessManager
      */
     public function handleNotice()
     {
-        if (!$this->shouldShowNotice()) {
+        if (!$this->isValidMigrationContext()) {
             return;
         }
 
@@ -175,6 +175,10 @@ class AjaxBackgroundProcessManager
      */
     public function registerScript()
     {
+        if (!$this->isValidMigrationContext()) {
+            return;
+        }
+
         wp_enqueue_script(
             'wp-statistics-ajax-migrator',
             Admin_Assets::url('background-process.min.js'),
@@ -229,21 +233,20 @@ class AjaxBackgroundProcessManager
     }
 
     /**
-     * Determines whether the background process notice should be displayed.
+     * Validates whether the current admin page and user have access to handle migration-related functionality.
+     *
+     * Checks if the user has sufficient permissions and if the current page belongs to the plugin's pages.
+     * Used to control when migration notices and background processes should be active.
      *
      * @return bool
      */
-    private function shouldShowNotice()
+    private function isValidMigrationContext()
     {
         if (!current_user_can('manage_options')) {
             return false;
         }
 
         if (Menus::in_plugin_page()) {
-            return true;
-        }
-
-        if (in_array(\WP_STATISTICS\Helper::get_screen_id(), ['dashboard'], true)) {
             return true;
         }
 

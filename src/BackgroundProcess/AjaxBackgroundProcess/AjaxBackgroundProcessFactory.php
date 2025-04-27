@@ -4,6 +4,7 @@ namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess;
 
 use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\Jobs\VisitorColumnsMigrator;
 use WP_STATISTICS\Install;
+use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 
 /**
@@ -40,8 +41,12 @@ class AjaxBackgroundProcessFactory
      */
     public static function needsMigration()
     {
-        if (!class_exists(AbstractAjaxBackgroundProcess::class)) {
+        if (!class_exists(AbstractAjaxBackgroundProcess::class) || !class_exists(Menus::class)) {
             return;
+        }
+
+        if (Menus::in_plugin_page()) {
+            return true;
         }
 
         if (Install::isFresh()) {
