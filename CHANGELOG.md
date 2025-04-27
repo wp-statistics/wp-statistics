@@ -1,6 +1,7 @@
 = 14.13.4 - 2025-**-** =
 - **Enhancement:** Improved privacy helper text.
 - **Fix:** Fixed 404 when “Bypass Ad-Blocker” proxies assets with extra query parameters.
+- **Enhancement:** Restricted migration process functionality to only run within the plugin's admin pages.
 
 = 14.13.3 - 2025-04-23 =
 - **New:** Added an option to enable or disable the Privacy Audit section in email reports.
@@ -27,6 +28,7 @@
 - **Fix:** Fixed compatibility issues with the Interactivity API.
 - **Fix:** Resolved layout issue with the "Account Information" widget on the Single Visitor page.
 - **Removal:** Removed the `Host Exclusions` setting.
+- **Enhancement:** Now counting approved comments instead of all comments.
 
 = 14.13.1 - 2025-04-08 =
 - **Enhancement:** Improved filter logic to avoid unnecessary requests.
