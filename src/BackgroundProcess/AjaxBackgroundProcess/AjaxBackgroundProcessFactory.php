@@ -45,8 +45,8 @@ class AjaxBackgroundProcessFactory
             return;
         }
 
-        if (Menus::in_plugin_page()) {
-            return true;
+        if (! Menus::in_plugin_page()) {
+            return;
         }
 
         if (Install::isFresh()) {
