@@ -194,24 +194,26 @@ class MetaboxDataProvider
     {
         $args = array_merge($args, [
             'group_by'  => 'visitor.source_channel',
-            'not_null'  => '',
+            'not_null'  => 'source_channel',
             'decorate'  => true,
             'per_page'  => 5,
             'page'      => 1
         ]);
 
-        $topChannels = $this->visitorsModel->getReferrers($args);
+        $topChannels    = $this->visitorsModel->getReferrers($args);
+        $totalReferrers = $this->visitorsModel->countVisitors($args);
 
         $data = [];
 
         foreach ($topChannels as $item) {
             $topDomain = $this->visitorsModel->getReferrers(['decorate' => true, 'per_page' => 1, 'source_channel' => $item->getRawSourceChannel()]);
+            $channelReferrers = $item->getTotalReferrals(true);
 
             $data[] = [
                 'source_category' => $item->getSourceChannel(),
                 'top_domain'      => !empty($topDomain) ? $topDomain[0]->getReferrer() : '-',
-                'visitors'        => $item->getTotalReferrals(),
-                'percentage'      => '32%'
+                'visitors'        => $channelReferrers,
+                'percentage'      => Helper::divideNumbers($channelReferrers, $totalReferrers) * 100 . '%'
             ];
         }
 

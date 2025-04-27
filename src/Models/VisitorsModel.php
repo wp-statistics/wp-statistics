@@ -32,7 +32,8 @@ class VisitorsModel extends BaseModel
             'ip'            => '',
             'logged_in'     => false,
             'user_role'     => '',
-            'referrer'      => ''
+            'referrer'      => '',
+            'not_null'      => ''
         ]);
 
         $query = Query::select('COUNT(*) as total_visitors')
@@ -43,6 +44,7 @@ class VisitorsModel extends BaseModel
             ->where('user_id', '=', $args['user_id'])
             ->where('referred', '=', $args['referrer'])
             ->where('ip', '=', $args['ip'])
+            ->whereNotNull($args['not_null'])
             ->whereDate('last_counter', $args['date']);
 
 
