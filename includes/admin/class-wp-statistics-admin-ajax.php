@@ -106,7 +106,7 @@ class Ajax
             $isPublic = isset($item['public']) && $item['public'] == true ? true : false;
 
             // If callback exists in the class, register the action
-            if (method_exists($class, $callback)) {
+            if (! empty($class) && method_exists($class, $callback)) {
                 add_action('wp_ajax_wp_statistics_' . $action, [$class, $callback]);
 
                 // Register the AJAX callback publicly

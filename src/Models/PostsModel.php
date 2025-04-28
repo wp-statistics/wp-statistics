@@ -162,7 +162,7 @@ class PostsModel extends BaseModel
             ->where('post_author', '=', $args['author_id'])
             ->where('comments.comment_type', '=', 'comment')
             ->where('posts.ID', '=', $args['post_id'])
-            ->whereDate('post_date', $args['date']);
+            ->whereDate('comment_date', $args['date']);
 
         if (!empty($args['taxonomy']) || !empty($args['term'])) {
             $taxQuery = Query::select(['DISTINCT object_id'])

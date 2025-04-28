@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Async;
+namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs;
 
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
@@ -54,10 +54,12 @@ class CalculatePostWordsCount extends WP_Background_Process
     {
         parent::complete();
 
-        // Delete option
-        Option::deleteOptionGroup('word_count_process_started', 'jobs');
-
         // Show notice to user
         Notice::addFlashNotice(__('Word count processed successfully.', 'wp-statistics'));
+    }
+
+    public function is_initiated()
+    {
+        return Option::getOptionGroup('jobs', 'word_count_process_initiated', false);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Async;
+namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs;
 
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Database\DatabaseFactory;

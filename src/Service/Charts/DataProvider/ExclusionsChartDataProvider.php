@@ -89,7 +89,8 @@ class ExclusionsChartDataProvider extends AbstractChartDataProvider
         if (!empty($totalData)) {
             $this->addChartDataset(
                 esc_html__('Total', 'wp-statistics'),
-                array_values($totalData)
+                array_values($totalData),
+                'total'
             );
         }
     }
