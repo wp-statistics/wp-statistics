@@ -1,7 +1,7 @@
-= 14.13.4 - 2025-**-** =
-- **Enhancement:** Improved privacy helper text.
-- **Fix:** Fixed 404 when “Bypass Ad-Blocker” proxies assets with extra query parameters.
-- **Enhancement:** Restricted migration process functionality to only run within the plugin's admin pages.
+= 14.13.4 - 2025-04-28 =
+- **Enhancement:** Improved the helper text for the Privacy Policy section.
+- **Enhancement:** Limited the migration process to run only within the plugin's admin pages.
+- **Fix:** Fixed 404 errors when "Bypass Ad-Blocker" proxies assets with extra query parameters.
 
 = 14.13.3 - 2025-04-23 =
 - **New:** Added an option to enable or disable the Privacy Audit section in email reports.
