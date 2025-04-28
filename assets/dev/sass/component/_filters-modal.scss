@@ -46,6 +46,8 @@
   gap: 8px;
   box-sizing: border-box;
   overflow: auto;
+  top:50%!important;
+  height: auto !important;
 
   #TB_ajaxContent {
     width: auto !important;
