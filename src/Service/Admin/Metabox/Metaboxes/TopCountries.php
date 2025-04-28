@@ -5,6 +5,7 @@ use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Components\DateTime;
+use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
 class TopCountries extends BaseMetabox
 {
@@ -38,7 +39,7 @@ class TopCountries extends BaseMetabox
 
         $isTodayOrFutureDate = DateTime::isTodayOrFutureDate($args['date']['to'] ?? null);
 
-        $data = $this->dataProvider->getTopCountiesData($args);
+        $data = ChartDataProviderFactory::countryChart($args)->getData();
 
         $data = array_merge($data, [
             'tag_id' => 'wps-top-countries',
