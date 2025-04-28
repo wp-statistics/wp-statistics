@@ -7,7 +7,6 @@ wps_js.set_content = function(response, key) {
 
 wps_js.render_table_content = wps_js.set_content;
 
-wps_js.render_wp_statistics_countries_widget = wps_js.render_table_content;
 wps_js.render_wp_statistics_traffic_summary_widget = wps_js.render_table_content;
 wps_js.render_wp_statistics_referring_widget = wps_js.render_table_content;
 wps_js.render_wp_statistics_pages_widget = wps_js.render_table_content;

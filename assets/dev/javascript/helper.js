@@ -203,6 +203,7 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
         let parent = element.parentNode;
         let nextSibling = element.nextSibling;
         parent.removeChild(element);
+        data = data.map(Number);
         let total = data.reduce((sum, data) => sum + data, 0);
         let blockDiv = document.createElement('div');
         blockDiv.classList.add('wps-horizontal-bar');

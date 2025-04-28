@@ -37,3 +37,6 @@ wps_js.render_wp_statistics_devices_widget = function(response, key) {
 wps_js.render_wp_statistics_models_widget = function(response, key) {
     wps_js.render_horizontal_bar_data(response, key);
 };
+wps_js.render_wp_statistics_countries_widget = function(response, key) {
+    wps_js.render_horizontal_bar_data(response, key);
+};
