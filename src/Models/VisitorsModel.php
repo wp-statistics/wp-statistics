@@ -913,7 +913,9 @@ class VisitorsModel extends BaseModel
             'utm_source'    => '',
             'utm_medium'    => '',
             'utm_campaign'  => '',
-            'referrer'      => ''
+            'referrer'      => '',
+            'resource_id'   => '',
+            'resource_type' => ''
         ]);
 
         $query = Query::select($args['fields'])
@@ -930,6 +932,14 @@ class VisitorsModel extends BaseModel
             ->orderBy($args['order_by'], $args['order']);
 
         $filteredArgs = array_filter($args);
+
+        if (array_intersect(['resource_id', 'resource_type'], array_keys($filteredArgs))) {
+            $query
+                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
+                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+                ->where('pages.id', '=', $args['resource_id'])
+                ->where('pages.type', 'IN', $args['resource_type']);
+        }
 
         if (array_intersect(['utm_source', 'utm_medium', 'utm_campaign'], array_keys($filteredArgs))) {
             $query
