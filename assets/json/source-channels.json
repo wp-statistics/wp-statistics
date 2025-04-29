@@ -6078,6 +6078,26 @@
     "description": "Social",
     "channels": [
       {
+        "name": "Mastodon",
+        "identifier": "social",
+        "domains": [
+          "*"
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "operator": "MATCH",
+        "pattern": "/(?:ref|source|utm_source)=(mastodon)(?:&|$)/i"
+      }
+    ]
+  },
+
+  {
+    "type": "social",
+    "description": "Social",
+    "channels": [
+      {
         "name": "Social",
         "identifier": "social",
         "domains": [
