@@ -34,7 +34,8 @@ class VisitorsModel extends BaseModel
             'source_name'   => '',
             'logged_in'     => false,
             'user_role'     => '',
-            'referrer'      => ''
+            'referrer'      => '',
+            'not_null'      => ''
         ]);
 
         $query = Query::select('COUNT(DISTINCT visitor.ID) as total_visitors')
@@ -45,7 +46,8 @@ class VisitorsModel extends BaseModel
             ->where('user_id', '=', $args['user_id'])
             ->where('referred', '=', $args['referrer'])
             ->where('ip', '=', $args['ip'])
-            ->where('source_name', '=', $args['source_name'])
+            ->where('source_name', 'IN', $args['source_name'])
+            ->whereNotNull($args['not_null'])
             ->whereDate('last_counter', $args['date']);
 
         if ($args['logged_in'] === true) {
@@ -497,7 +499,8 @@ class VisitorsModel extends BaseModel
             'utm_medium'    => '',
             'utm_campaign'  => '',
             'source_channel'=> '',
-            'source_name'   => ''
+            'source_name'   => '',
+            'not_null'      => ''
         ]);
 
         // Set default fields
@@ -545,7 +548,8 @@ class VisitorsModel extends BaseModel
             ->where('referred', '=', $args['referrer'])
             ->where('visitor.location', '=', $args['country'])
             ->where('visitor.source_channel', '=', $args['source_channel'])
-            ->where('visitor.source_name', '=', $args['source_name'])
+            ->where('visitor.source_name', 'IN', $args['source_name'])
+            ->whereNotNull($args['not_null'])
             ->whereDate($args['date_field'], $args['date'])
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
