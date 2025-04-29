@@ -47,7 +47,10 @@ add_thickbox();
     </table>
 </div>
 
-<h2 class="wps-settings-box__title"><span><?php esc_html_e('Advanced Options', 'wp-statistics'); ?></span></h2>
+<h2 class="wps-settings-box__title">
+    <span><?php esc_html_e('Advanced Options', 'wp-statistics'); ?></span>
+    <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/resources/advanced-options-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings') ?>" target="_blank"><?php esc_html_e('View Guide', 'wp-statistics'); ?></a>
+</h2>
 
 <div class="postbox">
     <table class="form-table">
@@ -62,10 +65,8 @@ add_thickbox();
                     <label><?php esc_html_e('Ipify.org IP', 'wp-statistics'); ?></label>
                 </th>
                 <td>
-                    <div class="wps-input-group wps-input-group__action">
-                        <input type="text"  readonly id="js-ipService" class="regular-text wps-input-group__field" />
-                        <button type="button" id="copy-text" class="button has-icon wps-input-group__label wps-input-group__copy"  style="margin: 0; "><?php esc_html_e('Copy', 'wp-statistics'); ?></button>
-                    </div>
+                    <input type="text"  readonly id="js-ipService" class="regular-text" />
+
                     <p class="description">
                         <?php esc_html_e('Your IP address as detected by the Ipify.org service', 'wp-statistics'); ?>
                     </p>
@@ -101,10 +102,7 @@ add_thickbox();
                 <label><?php esc_html_e('WP Statistics', 'wp-statistics'); ?></label>
             </th>
             <td>
-                <div class="wps-input-group wps-input-group__action">
-                    <input type="text"  readonly value="<?php echo $ip_address ?>" class="regular-text wps-input-group__field" />
-                    <button type="button" id="copy-text" class="button has-icon wps-input-group__label wps-input-group__copy"  style="margin: 0; "><?php esc_html_e('Copy', 'wp-statistics'); ?></button>
-                </div>
+                <input type="text"  readonly value="<?php echo $ip_address ?>" class="regular-text" />
                 <p class="description">
                     <?php esc_html_e('Your IP address as detected by the current WP Statistics settings', 'wp-statistics'); ?>
                 </p>
@@ -135,30 +133,25 @@ add_thickbox();
                         <?php esc_html_e('Specify a Custom Header for IP Detection', 'wp-statistics'); ?>
                     </option>
                 </select>
-            </td>
-        </tr>
-        <tr valign="top" class="js-wps-show_if_ip_method_equal_sequential">
-            <th scope="row"></th>
-            <td>
-                <p class="description"><?php _e('Automatically detects the user\'s IP address by checking a sequence of server variables. The detection order is: <code>HTTP_X_FORWARDED_FOR</code>, <code>HTTP_X_FORWARDED</code>, <code>HTTP_FORWARDED_FOR</code>, <code>HTTP_FORWARDED</code>, <code>REMOTE_ADDR</code>, <code>HTTP_CLIENT_IP</code>, <code>HTTP_X_CLUSTER_CLIENT_IP</code>, <code>HTTP_X_REAL_IP</code>, <code>HTTP_INCAP_CLIENT_IP</code>. Stops at the first valid IP found.', 'wp-statistics') ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top" class="js-wps-show_if_ip_method_equal_CUSTOM_HEADER">
-            <th scope="row"></th>
-            <td>
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <input type="text" name="user_custom_header_ip_method" autocomplete="off"  value="<?php echo in_array($ip_method, $ip_options) ? esc_attr($ip_method) : '' ?>">
+                <div class="js-wps-show_if_ip_method_equal_sequential">
+                    <p class="description">
+                        <?php _e('Automatically detects the user\'s IP address by checking a sequence of server variables. The detection order is: <code>HTTP_X_FORWARDED_FOR</code>, <code>HTTP_X_FORWARDED</code>, <code>HTTP_FORWARDED_FOR</code>, <code>HTTP_FORWARDED</code>, <code>REMOTE_ADDR</code>, <code>HTTP_CLIENT_IP</code>, <code>HTTP_X_CLUSTER_CLIENT_IP</code>, <code>HTTP_X_REAL_IP</code>, <code>HTTP_INCAP_CLIENT_IP</code>. Stops at the first valid IP found.', 'wp-statistics') ?>
+                    </p>
                 </div>
 
-                <p class="description">
-                    <?php _e('If your server uses a custom key in <code>$_SERVER</code> for IP detection (e.g., <code>HTTP_CF_CONNECTING_IP</code> for CloudFlare), specify it here.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?>
-                    <a href="#TB_inline?&width=950&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e('View available headers on your server.', 'wp-statistics');   // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></a>
-                </p>
-                <p class="description"><?php _e('Refer to our <a href="https://wp-statistics.com/resources/how-to-configure-ip-detection-in-wp-statistics-for-accurate-visitor-tracking/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Documentation</a> for more info and how to configure IP Detection properly.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></p>
+                <div class="js-wps-show_if_ip_method_equal_CUSTOM_HEADER">
+                    <div style="display: flex; align-items: center; gap: 10px;" class="description">
+                        <input type="text" name="user_custom_header_ip_method" autocomplete="off"  value="<?php echo in_array($ip_method, $ip_options) ? esc_attr($ip_method) : '' ?>">
+                    </div>
+
+                    <p class="description">
+                        <?php _e('If your server uses a custom key in <code>$_SERVER</code> for IP detection (e.g., <code>HTTP_CF_CONNECTING_IP</code> for CloudFlare), specify it here.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?>
+                        <a href="#TB_inline?&width=950&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e('View available headers on your server.', 'wp-statistics');   // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></a>
+                    </p>
+                    <p class="description"><?php _e('Refer to our <a href="https://wp-statistics.com/resources/how-to-configure-ip-detection-in-wp-statistics-for-accurate-visitor-tracking/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Documentation</a> for more info and how to configure IP Detection properly.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></p>
+                </div>
             </td>
         </tr>
-
         </tbody>
     </table>
 </div>
@@ -401,28 +394,6 @@ add_thickbox();
     </table>
 </div>
 
-<script type="text/javascript">
-    function DBMaintWarning() {
-        const checkbox = jQuery('#wps_schedule_dbmaint');
-        if (checkbox.prop('checked')) {
-            const modalId = 'setting-confirmation';
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.classList.add('wps-modal--open');
-                const primaryButton = modal.querySelector('button[data-action="enable"]');
-                primaryButton.addEventListener('click', function () {
-                    modal.classList.remove('wps-modal--open');
-                });
-
-                const closeButton = modal.querySelector('button[data-action="closeModal"]');
-                closeButton.addEventListener('click', function () {
-                    checkbox.prop('checked', false);
-                    modal.classList.remove('wps-modal--open');
-                });
-            }
-        }
-    }
-</script>
 <div class="postbox">
     <table class="form-table">
         <tbody>
@@ -432,26 +403,26 @@ add_thickbox();
 
         <tr valign="top" data-id="automatic_cleanup_tr">
             <th scope="row">
-                <label for="wps_schedule_dbmaint"><?php esc_html_e('Automatic Cleanup', 'wp-statistics'); ?></label>
+                <label for="wps_settings[wps_schedule_dbmaint]"><?php esc_html_e('Automatic Cleanup', 'wp-statistics'); ?></label>
             </th>
 
             <td>
-                <input id="wps_schedule_dbmaint" type="checkbox" name="wps_schedule_dbmaint" <?php echo WP_STATISTICS\Option::get('schedule_dbmaint') == true ? "checked='checked'" : ''; ?> onchange='DBMaintWarning();'>
-                <label for="wps_schedule_dbmaint"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                <input id="wps_settings[wps_schedule_dbmaint]" type="checkbox" name="wps_schedule_dbmaint" <?php echo WP_STATISTICS\Option::get('schedule_dbmaint') == true ? "checked='checked'" : ''; ?> >
+                <label for="wps_settings[wps_schedule_dbmaint]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('Automatic deletion of data entries that are more than a specified number of days old to keep the database optimized. The process runs the following day.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
-        <tr valign="top" data-id="purge_data_older_than_tr">
+        <tr valign="top" data-id="purge_data_older_than_tr" class="js-wps-show_if_wps_schedule_dbmaint_enabled">
             <th scope="row">
                 <label for="wps_schedule_dbmaint_days"><?php esc_html_e('Purge Data Older Than', 'wp-statistics'); ?></label>
             </th>
 
             <td>
 
-                <div class="wps-input-group">
-                    <span class="wps-input-group__label"><?php esc_html_e('Days', 'wp-statistics'); ?></span>
+                <div class="wps-input-group wps-input-group__small">
                     <input type="text" class="wps-input-group__field wps-input-group__field--small code" id="wps_schedule_dbmaint_days" name="wps_schedule_dbmaint_days" value="<?php echo esc_attr(WP_STATISTICS\Option::get('schedule_dbmaint_days', "365")); ?>">
+                    <span class="wps-input-group__label wps-input-group__label-side"><?php esc_html_e('Days', 'wp-statistics'); ?></span>
                 </div>
                 <p class="description"><?php echo esc_html__('Sets the age threshold for deleting data entries. Data exceeding the specified age in days will be removed. The minimum setting is 30 days.', 'wp-statistics'); ?></p>
             </td>

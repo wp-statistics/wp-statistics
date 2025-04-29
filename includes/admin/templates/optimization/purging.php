@@ -217,7 +217,10 @@
 
     });
 </script>
-<h2 class="wps-settings-box__title"><span><?php esc_html_e('Data Cleanup', 'wp-statistics'); ?></span></h2>
+<h2 class="wps-settings-box__title">
+    <span><?php esc_html_e('Data Cleanup', 'wp-statistics'); ?></span>
+    <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/resources/optimization-data-cleanup/?utm_source=wp-statistics&utm_medium=link&utm_campaign=optimization') ?>" target="_blank"><?php esc_html_e('View Guide', 'wp-statistics'); ?></a>
+</h2>
 <div class="wrap wps-wrap wps-wrap__setting-form">
     <div class="postbox">
         <table class="form-table">

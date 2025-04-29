@@ -1,9 +1,8 @@
 <h2 class="wps-settings-box__title">
     <span>
         <?php esc_html_e('Privacy & Data Protection', 'wp-statistics'); ?>
-        <span class="wps-tooltip" title="tooltip data"><i class="wps-tooltip-icon"></i></span>
-    </span>
-    <a href=""><?php esc_html_e('View Guide', 'wp-statistics'); ?></a>
+     </span>
+    <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/resources/data-protection-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings') ?>" target="_blank"><?php esc_html_e('View Guide', 'wp-statistics'); ?></a>
 </h2>
 <div class="postbox">
     <table class="form-table">
@@ -15,14 +14,12 @@
         <tr valign="top" data-id="anonymize_ip_addresses_tr">
             <th scope="row">
                 <label for="anonymize_ips">
-                    <?php esc_html_e('Anonymize IP Addresses', 'wp-statistics'); ?>
-
-                    <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
-                        <span>
+                    <span>
+                        <?php esc_html_e('Anonymize IP Addresses', 'wp-statistics'); ?>
+                        <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
                             <a class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
-                        </span>
-                    <?php endif ?>
-
+                        <?php endif ?>
+                    </span>
                 </label>
             </th>
             <td>
@@ -34,12 +31,13 @@
 
         <tr valign="top" data-id="hash_ip_addresses_tr">
             <th scope="row">
-                <label for="hash_ips"><?php esc_html_e('Hash IP Addresses', 'wp-statistics'); ?>
-                    <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
-                        <span>
+                <label for="hash_ips">
+                    <span>
+                        <?php esc_html_e('Hash IP Addresses', 'wp-statistics'); ?>
+                        <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
                              <a class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
-                        </span>
-                    <?php endif ?>
+                        <?php endif ?>
+                    </span>
                 </label>
             </th>
             <td>

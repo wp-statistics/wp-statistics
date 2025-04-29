@@ -1,5 +1,8 @@
 <div class="wrap wps-wrap wps-wrap__setting-form js-updatesForm">
-    <h2 class="wps-settings-box__title"><span><?php esc_html_e('Plugin Maintenance', 'wp-statistics'); ?></span></h2>
+    <h2 class="wps-settings-box__title">
+        <span><?php esc_html_e('Plugin Maintenance', 'wp-statistics'); ?></span>
+        <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/resources/optimization-plugin-maintenance/?utm_source=wp-statistics&utm_medium=link&utm_campaign=optimization') ?>" target="_blank"><?php esc_html_e('View Guide', 'wp-statistics'); ?></a>
+    </h2>
     <div class="postbox">
         <form class="wps-submit-agree" data-agree="<?php echo esc_html_e('Are you sure you want to refresh country data?', 'wp-statistics'); ?>"
               action="<?php echo esc_url(admin_url('admin.php?page=wps_optimization_page&tab=updates')); ?>" method="post">

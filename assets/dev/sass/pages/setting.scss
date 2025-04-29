@@ -1043,6 +1043,10 @@
         width: 300px;
         max-width: 100%;
 
+        &__small{
+          width: 200px;
+        }
+
         .select2-container{
           width: 100%!important;
         }
@@ -1097,6 +1101,16 @@
         color: #0C0C0D;
         font-weight: 400;
         line-height: 20px;
+
+        &-side{
+          border-left: 1px solid #DADCE0;
+          border-right: unset;
+
+          .rtl & {
+            border-left: none!important;
+            border-right: 1px solid #DADCE0!important;
+          }
+        }
 
         .rtl & {
           border-right: none;

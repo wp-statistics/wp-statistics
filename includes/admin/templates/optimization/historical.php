@@ -7,7 +7,10 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
 
 ?>
 <div class="wrap wps-wrap">
-    <h2 class="wps-settings-box__title"><span><?php esc_html_e('Historical Data', 'wp-statistics'); ?></span></h2>
+    <h2 class="wps-settings-box__title">
+        <span><?php esc_html_e('Historical Data', 'wp-statistics'); ?></span>
+        <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/resources/optimization-historical-data/?utm_source=wp-statistics&utm_medium=link&utm_campaign=optimization') ?>" target="_blank"><?php esc_html_e('View Guide', 'wp-statistics'); ?></a>
+    </h2>
     <form class="wps-wrap__setting-form" action="<?php echo esc_url(admin_url('admin.php?page=wps_optimization_page&tab=historical')) ?>" id="wps_historical_form" method="post">
         <div class="postbox">
             <?php wp_nonce_field('wps_optimization_nonce'); ?>

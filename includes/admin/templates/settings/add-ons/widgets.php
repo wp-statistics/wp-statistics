@@ -42,13 +42,13 @@ if ($isWidgetsActive && !$isLicenseValid) {
 
                 <td>
 
-                    <div class="wps-input-group">
-                        <span class="wps-input-group__label"><?php esc_html_e('hour(s)', 'wp-statistics'); ?></span>
+                    <div class="wps-input-group wps-input-group__small">
                          <select name="wps_addon_settings[widgets][cache_life]" id="wps_addon_settings[widgets][cache_life]" style="padding: 12px 24px 12px 14px !important;" class="wps-input-group__field wps-input-group__field--small code">
                             <?php foreach (array_combine(range(1, 24), range(1, 24)) as $key => $value) { ?>
                                 <option value="<?php esc_attr_e($value); ?>" <?php selected(WP_STATISTICS\Option::getByAddon('cache_life', 'widgets'), $value); ?>><?php esc_html_e($value); ?></option>
                             <?php } ?>
-                        </select>
+                         </select>
+                         <span class="wps-input-group__label wps-input-group__label-side"><?php esc_html_e('hour(s)', 'wp-statistics'); ?></span>
                     </div>
 
                      <p class="description"><?php esc_html_e('Set the time interval for refreshing the statistics displayed in widgets. After the chosen period, fresh data will be fetched and displayed.', 'wp-statistics'); ?></p>

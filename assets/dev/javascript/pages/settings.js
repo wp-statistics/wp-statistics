@@ -127,6 +127,38 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
     }
     $(document).ready(function () {
+
+
+
+        const checkbox = $('#wps_settings\\[wps_schedule_dbmaint\\]');
+        checkbox.on('change', function () {
+            if (this.checked) {
+                const modalId = 'setting-confirmation';
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.classList.add('wps-modal--open');
+
+                    const primaryButton = modal.querySelector('button[data-action="enable"]');
+                    if (primaryButton) {
+                        primaryButton.addEventListener('click', function () {
+                            modal.classList.remove('wps-modal--open');
+                        }, { once: true });
+                    }
+
+                    const closeButton = modal.querySelector('button[data-action="closeModal"]');
+                    if (closeButton) {
+                        closeButton.addEventListener('click', function () {
+                            checkbox.prop('checked', false);
+                            modal.classList.remove('wps-modal--open');
+                        }, { once: true });
+                    }
+                } else {
+                    console.error('Modal with ID "setting-confirmation" not found.');
+                }
+            }
+        });
+
+
         new ShowIfEnabled();
     });
    }

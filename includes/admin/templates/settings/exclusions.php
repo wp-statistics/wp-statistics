@@ -1,6 +1,10 @@
-<h2 class="wps-settings-box__title"><span><?php use WP_STATISTICS\Menus;
-
-        esc_html_e('Filtering & Exceptions', 'wp-statistics'); ?></span></h2>
+<?php
+use WP_STATISTICS\Menus;
+?>
+<h2 class="wps-settings-box__title">
+    <span><?php esc_html_e('Filtering & Exceptions', 'wp-statistics'); ?></span>
+    <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/resources/filtering-exceptions-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings') ?>" target="_blank"><?php esc_html_e('View Guide', 'wp-statistics'); ?></a>
+</h2>
 
 <div class="wps-alert wps-alert__setting-header wps-alert__info">
     <?php

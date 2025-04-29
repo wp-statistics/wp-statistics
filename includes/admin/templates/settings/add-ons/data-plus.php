@@ -9,7 +9,10 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 $isLicenseValid     = LicenseHelper::isPluginLicenseValid('wp-statistics-data-plus');
 $isDataPlusActive   = Helper::isAddOnActive('data-plus');
 ?>
-    <h2 class="wps-settings-box__title"><span><?php esc_html_e('Data Plus', 'wp-statistics'); ?></span></h2>
+    <h2 class="wps-settings-box__title">
+        <span><?php esc_html_e('Data Plus', 'wp-statistics'); ?></span>
+        <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/resources-category/data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings') ?>" target="_blank"><?php esc_html_e('View Guide', 'wp-statistics'); ?></a>
+    </h2>
     <?php
 
     if (!$isDataPlusActive) echo Admin_Template::get_template(

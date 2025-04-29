@@ -4,7 +4,10 @@ use WP_STATISTICS\Option;
 use WP_STATISTICS\Schedule;
 
 ?>
-<h2 class="wps-settings-box__title"><span><?php esc_html_e('Email Reports', 'wp-statistics'); ?></span></h2>
+<h2 class="wps-settings-box__title">
+    <span><?php esc_html_e('Email Reports', 'wp-statistics'); ?></span>
+    <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/resources/admin-notifications-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings') ?>" target="_blank"><?php esc_html_e('View Guide', 'wp-statistics'); ?></a>
+</h2>
 
 <div class="postbox">
     <table class="form-table">
@@ -43,10 +46,6 @@ use WP_STATISTICS\Schedule;
                     <?php if ($next_scheduled_time) : ?>
                         <div class="alert alert-success"><span><?php echo sprintf(__('Your next report is scheduled to be sent on <b>%s at %s</b>.', 'wp-statistics'), wp_date(get_option('date_format'), $next_scheduled_time), wp_date(get_option('time_format'), $next_scheduled_time)) ?></span></div>
                     <?php endif; ?>
-
-                    <div>
-                        <a href=""><?php esc_html_e('View Guide', 'wp-statistics'); ?></a>
-                     </div>
                 </div>
             </td>
         </tr>

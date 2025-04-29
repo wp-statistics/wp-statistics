@@ -1,7 +1,10 @@
 <?php
 use WP_STATISTICS\Option;
 ?>
-<h2 class="wps-settings-box__title"><span><?php esc_html_e('Display Options', 'wp-statistics'); ?></span></h2>
+<h2 class="wps-settings-box__title">
+    <span><?php esc_html_e('Display Options', 'wp-statistics'); ?></span>
+    <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/resources/display-options-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings') ?>" target="_blank"><?php esc_html_e('View Guide', 'wp-statistics'); ?></a>
+</h2>
 
 <div class="postbox">
     <table class="form-table">

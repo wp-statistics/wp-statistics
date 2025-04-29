@@ -4,12 +4,15 @@ use WP_STATISTICS\Menus;
 
 ?>
 
-<h2 class="wps-settings-box__title"><span><?php esc_html_e('General', 'wp-statistics'); ?> <span class="wps-tooltip" title="test tooltip"><i class="wps-tooltip-icon"></i></span></span></h2>
+<h2 class="wps-settings-box__title">
+    <span><?php esc_html_e('General', 'wp-statistics'); ?></span>
+    <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/resources/general-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings') ?>" target="_blank"><?php esc_html_e('View Guide', 'wp-statistics'); ?></a>
+</h2>
 <div class="postbox">
     <table class="form-table">
         <tbody>
         <tr valign="top" class="wps-settings-box_head">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Tracking Options', 'wp-statistics'); ?><span class="wps-badge wps-badge--deprecated">DEPRECATED</span></h3></th>
+            <th scope="row" colspan="2"><h3><?php esc_html_e('Tracking Options', 'wp-statistics'); ?></h3></th>
         </tr>
 
         <tr valign="top" data-id="monitor_online_visitors_tr">
@@ -27,19 +30,12 @@ use WP_STATISTICS\Menus;
         <tr valign="top" data-id="track_logged_in_user_activity_tr" data-view="visitors_log_tr">
             <th scope="row">
                 <label for="visitors_log">
-                    <?php esc_html_e('Track Logged-In User Activity', 'wp-statistics'); ?>
-
-                    <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
-                        <span>
-                          <a class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
-                            <span class="wps-badge wps-badge--deprecated"><?php esc_html_e('DEPRECATED', 'wp-statistics'); ?></span>
-<!--                            <span class="wps-badge wps-badge--beta">--><?php //esc_html_e('BETA', 'wp-statistics'); ?><!--</span>-->
-<!--                            <span class="wps-badge wps-badge--recommended">--><?php //esc_html_e('RECOMMENDED', 'wp-statistics'); ?><!--</span>-->
-<!--                            <span class="wps-badge wps-badge--new">--><?php //esc_html_e('NEW', 'wp-statistics'); ?><!--</span>-->
-<!--                            <span class="wps-badge wps-badge--addon">--><?php //esc_html_e('Data plus', 'wp-statistics'); ?><!-- </span>-->
-
-                        </span>
-                    <?php endif ?>
+                    <span>
+                        <?php esc_html_e('Track Logged-In User Activity', 'wp-statistics'); ?>
+                        <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
+                            <a class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
+                        <?php endif ?>
+                    </span>
                 </label>
             </th>
             <td>
@@ -52,12 +48,13 @@ use WP_STATISTICS\Menus;
 
         <tr valign="top" data-id="store_ua_tr">
             <th scope="row">
-                <label for="store_ua"><?php esc_html_e('Store Entire User Agent String', 'wp-statistics'); ?>
-                    <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
+                <label for="store_ua">
                     <span>
-                       <a class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
+                        <?php esc_html_e('Store Entire User Agent String', 'wp-statistics'); ?>
+                        <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
+                            <a class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
+                        <?php endif ?>
                     </span>
-                    <?php endif ?>
                 </label>
             </th>
 
@@ -97,7 +94,12 @@ use WP_STATISTICS\Menus;
 
         <tr data-id="tracking_method_tr">
             <th scope="row">
-                <label for="wps_settings[use_cache_plugin]"><?php esc_html_e('Tracking Method', 'wp-statistics'); ?></label>
+                 <label for="wps_settings[use_cache_plugin]">
+                     <span>
+                         <?php esc_html_e('Tracking Method', 'wp-statistics'); ?>
+                         <span class="wps-tooltip wps-badge wps-badge--deprecated" title="<?php esc_attr_e('DEPRECATED', 'wp-statistics'); ?>"><?php esc_html_e('DEPRECATED', 'wp-statistics'); ?></span>
+                     </span>
+                 </label>
             </th>
 
             <td>
