@@ -999,6 +999,10 @@ class VisitorsModel extends BaseModel
 
     public function getReferrers($args = [])
     {
+        if (! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
+            return LegacyModel::get('referrers', $args, '14.12.6');
+        }
+
         $args = $this->parseArgs($args, [
             'date'           => '',
             'post_type'      => '',
@@ -1054,8 +1058,7 @@ class VisitorsModel extends BaseModel
 
         if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
-                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'], [], 'LEFT')
-                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+                ->join('pages', ['visitor.first_page', 'pages.page_id'], [], 'LEFT')
                 ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
                 ->where('post_type', 'IN', $args['post_type'])
                 ->where('posts.ID', '=', $args['post_id'])
