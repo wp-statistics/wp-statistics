@@ -3552,6 +3552,20 @@
     "description": "Organic Social",
     "channels": [
       {
+        "name": "Bluesky",
+        "identifier": "bluesky",
+        "domains": [
+          "go.bsky.app"
+        ]
+      },
+      {
+        "name": "Threads",
+        "identifier": "threads",
+        "domains": [
+          "l.threads.net"
+        ]
+      },
+      {
         "name": "43things",
         "identifier": "43things",
         "domains": [
