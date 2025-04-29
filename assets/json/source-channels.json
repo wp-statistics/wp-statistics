@@ -6079,7 +6079,7 @@
     "channels": [
       {
         "name": "Mastodon",
-        "identifier": "social",
+        "identifier": "mastodon",
         "domains": [
           "*"
         ]
