@@ -1,3 +1,6 @@
+= 14.13.5 - 2025-05-x =
+- **Fix:** Fixed issue where page views were zero when using a taxonomy filter other than 'category'.
+
 = 14.13.4 - 2025-04-29 =
 - **Enhancement:** Enforced capability check in optionUpdater.
 - **Enhancement:** Improved the helper text for the Privacy Policy section.
