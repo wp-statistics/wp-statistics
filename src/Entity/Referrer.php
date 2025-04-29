@@ -23,6 +23,10 @@ class Referrer extends BaseEntity
      */
     public function recordReferrer()
     {
+        if (! $this->isActive('referrers')) {
+            return $this;
+        }
+
         $refUrl = $this->profile->getReferrer();
         if (empty($refUrl)) {
             return $this;

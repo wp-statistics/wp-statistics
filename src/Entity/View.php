@@ -25,6 +25,10 @@ class View extends BaseEntity
      */
     public function record()
     {
+        if (! $this->isActive('views')) {
+            return $this;
+        }
+
         $sessionId  = $this->profile->getSessionId();
         $resourceId = $this->profile->getResourceId();
 

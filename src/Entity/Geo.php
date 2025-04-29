@@ -20,9 +20,13 @@ class Geo extends BaseEntity
      */
     public function recordCountry()
     {
-        // Get raw location data
+        if (! $this->isActive('countries')) {
+            return $this;
+        }
+
         $geo  = (array)$this->profile->getLocation();
         $code = isset($geo['country_code']) ? $geo['country_code'] : '';
+
         if (empty($code)) {
             return $this;
         }
@@ -58,6 +62,10 @@ class Geo extends BaseEntity
      */
     public function recordCity()
     {
+        if (! $this->isActive('cities')) {
+            return $this;
+        }
+
         $geo = (array)$this->profile->getLocation();
 
         $countryId  = $this->profile->getCountryId();

@@ -21,6 +21,10 @@ class Session extends BaseEntity
      */
     public function record()
     {
+        if (! $this->isActive('sessions')) {
+            return $this;
+        }
+
         $visitorId = $this->profile->getVisitorIdMeta();
 
         if (!$visitorId) {

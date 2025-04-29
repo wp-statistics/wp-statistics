@@ -8,6 +8,7 @@ use WP_Statistics\Records\DeviceOsRecord;
 use WP_Statistics\Records\DeviceBrowserRecord;
 use WP_Statistics\Records\DeviceBrowserVersionRecord;
 use WP_Statistics\Records\ResolutionRecord;
+use WP_Statistics\Utils\Request;
 
 /**
  * Entity for detecting and recording visitor device information.
@@ -24,6 +25,10 @@ class Device extends BaseEntity
      */
     public function recordType()
     {
+        if (! $this->isActive('device_types')) {
+            return $this;
+        }
+
         if (!$this->userAgent) {
             return $this;
         }
@@ -51,6 +56,10 @@ class Device extends BaseEntity
      */
     public function recordOs()
     {
+        if (! $this->isActive('device_oss')) {
+            return $this;
+        }
+
         if (!$this->userAgent) {
             return $this;
         }
@@ -78,6 +87,10 @@ class Device extends BaseEntity
      */
     public function recordBrowser()
     {
+        if (! $this->isActive('device_browsers')) {
+            return $this;
+        }
+
         if (!$this->userAgent) {
             return $this;
         }
@@ -105,6 +118,10 @@ class Device extends BaseEntity
      */
     public function recordBrowserVersion()
     {
+        if (! $this->isActive('device_browser_versions')) {
+            return $this;
+        }
+
         if (!$this->userAgent) {
             return $this;
         }
@@ -147,13 +164,16 @@ class Device extends BaseEntity
      * Record visitor screen resolution.
      *
      * @return $this
-     * @todo Currently hardcoded (100x200). Should be updated dynamically via JavaScript in future.
-     *
      */
     public function recordResolution()
     {
-        $width    = 100;
-        $height   = 200;
+        if (! $this->isActive('device_resolutions')) {
+            return $this;
+        }
+
+        $width  = (int) Request::get('screenWidth', 0);
+        $height = (int) Request::get('screenHeight', 0);
+
         $cacheKey = 'resolution_' . $width . 'x' . $height;
 
         $id = $this->getCachedData($cacheKey, function () use ($width, $height) {

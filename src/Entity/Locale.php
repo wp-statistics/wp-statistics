@@ -21,6 +21,10 @@ class Locale extends BaseEntity
      */
     public function recordLanguage()
     {
+        if (! $this->isActive('languages')) {
+            return $this;
+        }
+
         $language = Request::get('language', '');
         $fullName = Request::get('languageFullName', '');
 
@@ -61,6 +65,10 @@ class Locale extends BaseEntity
      */
     public function recordTimezone()
     {
+        if (! $this->isActive('timezones')) {
+            return $this;
+        }
+
         $tzName = Request::get('timezone', '');
 
         if (empty($tzName) || !is_string($tzName)) {

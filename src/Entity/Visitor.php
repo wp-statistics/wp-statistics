@@ -26,6 +26,10 @@ class Visitor extends BaseEntity
      */
     public function record()
     {
+        if (! $this->isActive('visitors')) {
+            return $this;
+        }
+
         $hash = $this->profile->getProcessedIPForStorage();
 
         if (empty($hash)) {

@@ -42,6 +42,22 @@ abstract class BaseEntity
     }
 
     /**
+     * Checks whether the specified tracking entity is enabled via a WordPress filter.
+     *
+     * Constructs a dynamic filter name based on the entity name and returns the filtered result.
+     * This allows plugins or themes to conditionally disable tracking for specific data types.
+     * 
+     * @param string $entityName The name of the tracking entity (e.g., 'device_types', 'device_resolutions').
+     * @return bool
+     */
+    protected function isActive($entityName) 
+    {
+        $filterName = 'wp_statistics_active_' . esc_html($entityName);
+
+        return (has_filter($filterName)) ? apply_filters($filterName, true) : true;
+    }
+
+    /**
      * Assigns the VisitorProfile and initializes the UserAgentService.
      *
      * When the profile provides a getUserAgent() method, its return
@@ -50,7 +66,7 @@ abstract class BaseEntity
      * @param VisitorProfile $profile VisitorProfile instance.
      * @return void
      */
-    public function setProfile(VisitorProfile $profile)
+    protected function setProfile(VisitorProfile $profile)
     {
         $this->profile = $profile;
 

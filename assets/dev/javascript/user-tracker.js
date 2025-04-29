@@ -85,7 +85,9 @@ if (!window.WpStatisticsUserTracker) {
 
                 const visitorLocaleInfo = {
                     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                    language: navigator.language || navigator.userLanguage
+                    language: navigator.language || navigator.userLanguage,
+                    screenWidth: window.screen.width,
+                    screenHeight: window.screen.height
                 };
 
                 const languageCode = navigator.language.split('-')[0],
@@ -101,6 +103,8 @@ if (!window.WpStatisticsUserTracker) {
                     timezone: visitorLocaleInfo.timezone,
                     language: visitorLocaleInfo.language,
                     languageFullName: visitorLocaleInfo.languageFullName,
+                    screenWidth: visitorLocaleInfo.screenWidth,
+                    screenHeight: visitorLocaleInfo.screenHeight
                 }).toString();
 
                 const xhr = new XMLHttpRequest();

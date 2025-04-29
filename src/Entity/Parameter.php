@@ -24,6 +24,10 @@ class Parameter extends BaseEntity
      */
     public function record()
     {
+        if (! $this->isActive('parameters')) {
+            return $this;
+        }
+
         $sessionId  = $this->profile->getSessionId();
         $resourceId = $this->profile->getResourceId();
         $viewId     = $this->profile->getViewId();
