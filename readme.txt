@@ -140,6 +140,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 
 == Changelog ==
 = 14.13.4 - 2025-04-29 =
+- **Enhancement:** Enforced capability check in optionUpdater.
 - **Enhancement:** Improved the helper text for the Privacy Policy section.
 - **Enhancement:** Limited the migration process to run only within the plugin's admin pages.
 - **Fix:** Fixed 404 errors when "Bypass Ad-Blocker" proxies assets with extra query parameters.
