@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.8
-Stable tag: 14.13.3
+Stable tag: 14.13.4
 Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -139,6 +139,11 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.13.4 - 2025-04-29 =
+- **Enhancement:** Improved the helper text for the Privacy Policy section.
+- **Enhancement:** Limited the migration process to run only within the plugin's admin pages.
+- **Fix:** Fixed 404 errors when "Bypass Ad-Blocker" proxies assets with extra query parameters.
+
 = 14.13.3 - 2025-04-23 =
 - **New:** Added an option to enable or disable the Privacy Audit section in email reports.
 - **Enhancement:** Improved the migrator to avoid sending redundant requests.

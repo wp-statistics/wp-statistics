@@ -2,21 +2,21 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Statistics 14.13.3\n"
+"Project-Id-Version: WP Statistics 14.13.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-statistics\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-04-23T07:57:03+00:00\n"
+"POT-Creation-Date: 2025-04-28T06:00:38+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-statistics\n"
 
 #. Plugin Name of the plugin
 #: wp-statistics.php
-#: includes/admin/class-wp-statistics-admin-privacy.php:25
+#: includes/admin/class-wp-statistics-admin-privacy.php:27
 #: src/Service/Admin/AdminManager.php:56
 #: src/Service/Admin/Metabox/Metaboxes/AboutWPS.php:51
 #: src/Service/Admin/SiteHealthInfo.php:43
@@ -1018,44 +1018,96 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-privacy.php:38
-msgid "The template provided outlines the essential personal data that may be collected and stored by your store. This may change based on your settings and the plugins you use. It is advisable to seek legal counsel to determine the precise information to include in your privacy policy."
-msgstr ""
-
-#: includes/admin/class-wp-statistics-admin-privacy.php:40
-msgid "We gather information about you during your website visit."
-msgstr ""
-
-#: includes/admin/class-wp-statistics-admin-privacy.php:41
-msgid "Information We Collect and Store"
-msgstr ""
-
 #: includes/admin/class-wp-statistics-admin-privacy.php:42
-msgid "During your visit, we monitor:"
+msgid "The text that follows has been generated from your current <b>WP Statistics</b> configuration and details the visitor data your site collects, the reasons for that collection, how the information is stored, and who can access it. Copy the wording into your privacy policy and adjust the style as needed; if you later change any WP Statistics option or install another tool that affects data collection, regenerate this section so your policy remains accurate. For complete compliance, have a qualified lawyer review the final version."
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-privacy.php:44
-msgid "Pages Viewed: This helps us analyze site usage statistics and understand user behavior."
+msgid "<b>We use the WP Statistics plugin to analyze traffic on our website.</b> WP Statistics stores its data on our own server and does not transmit it to any third parties. Below, we describe what information we collect through WP Statistics, why we collect it, and how it is handled. If you have questions or concerns about our analytics practices, please contact us or review the <a href=\"https://wp-statistics.com/resources/wp-statistics-data-privacy/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy-policy\" target=\"_blank\">WP Statistics Data Privacy guide.</a>"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-privacy.php:45
-msgid "Browser user agent: we’ll use this for purposes like creating charts of views, most used browsers, etc."
+#: includes/admin/class-wp-statistics-admin-privacy.php:49
+msgid "We do <b>not</b> collect or store any information that can identify you personally. This means:"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-privacy.php:48
-msgid "IP address"
+#: includes/admin/class-wp-statistics-admin-privacy.php:52
+msgid "<b>No Cookies</b>: We do not set tracking cookies or similar identifiers in your browser."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-privacy.php:51
-msgid "An anonymize string created from your ip address, For example, 888.888.888.888 > 888.888.888.000)."
+#: includes/admin/class-wp-statistics-admin-privacy.php:53
+msgid "<b>Anonymized IP</b>: Your IP address is anonymized and securely processed (e.g., hashed) so it can’t be reversed to identify you."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-privacy.php:54
+msgid "<b>Aggregated Statistics</b>: We only track general activity like page views or country of access."
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-privacy.php:55
-msgid "An hashed string created from your ip address."
+msgid "<b>Local Storage</b>: All data is stored locally on our server; we never share it with third parties."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-privacy.php:61
+msgid "We track certain details about logged-in visitors on our site. Specifically:"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-privacy.php:64
+msgid "<b>User ID & Page Views</b>: If you are logged in, we associate your account (username/ID) with your page visits."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-privacy.php:65
+msgid "<b>Purpose</b>: This helps us understand how registered members use our site and improve their experience."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-privacy.php:66
+msgid "<b>Local & Secure Storage</b>: These logs are kept securely on our server and are not shared externally."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-privacy.php:67
+msgid "<b>Your Choices</b>: You can choose to browse without logging in if you prefer not to link your visits with your user account. You may also contact us to request removal of any collected data where legally applicable."
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-privacy.php:73
+msgid "We store visitors’ <b>IP addresses</b> in a way that may allow them to be identifiable. Specifically:"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-privacy.php:76
+msgid "<b>Collecting IP Data</b>: Your IP address is recorded alongside your page visits, which can sometimes be used to estimate your location (country, city)."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-privacy.php:77
+msgid "<b>Why We Store IPs</b>: This helps us detect unique visits, identify possible misuse or security issues, and gather accurate traffic data."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-privacy.php:78
+msgid "<b>Data Protection</b>: We keep IP records on our own server, secured and accessible only to authorized staff. We do not share them unless required by law."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-privacy.php:79
+msgid "<b>Privacy Considerations</b>: Since IP addresses may be considered personal data, we take reasonable measures to protect them. You can contact us regarding removal or other data rights if you feel your IP address is personally identifying."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-privacy.php:85
+msgid "We record <b>full User-Agent strings</b> for each visitor’s browser/device. This includes:"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-privacy.php:88
+msgid "<b>Detailed Browser/OS Info</b>: The User-Agent string reveals your browser version, operating system type, and sometimes device model or other technical specifics."
+msgstr ""
+
 #: includes/admin/class-wp-statistics-admin-privacy.php:89
+msgid "<b>Purpose</b>: We use this information for diagnostic or compatibility analysis, to ensure our site functions well across different setups."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-privacy.php:90
+msgid "<b>Potential Identifiability</b>: Although this data generally does not include your name or email, detailed User-Agent strings can (in rare cases) be used to identify unique browsing configurations."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-privacy.php:91
+msgid "<b>Local Storage</b>: All User-Agent data is stored on our server and not shared with third parties unless required by law. We periodically review and may remove these logs."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-privacy.php:109
+#: includes/admin/class-wp-statistics-admin-privacy.php:125
 msgid "Visitor Data - WP Statistics"
 msgstr ""
 
@@ -2379,7 +2431,7 @@ msgid "Total number of words in this %s."
 msgstr ""
 
 #: includes/admin/templates/pages/content-analytics/single.php:44
-msgid "Total comments on this %s."
+msgid "Approved comments on this %s."
 msgstr ""
 
 #: includes/admin/templates/pages/devices/browsers.php:14
@@ -2444,23 +2496,23 @@ msgstr ""
 msgid "State"
 msgstr ""
 
-#: includes/admin/templates/pages/privacy-audit.php:9
+#: includes/admin/templates/pages/privacy-audit.php:11
 msgid "Are you sure you want manually resolve this item?"
 msgstr ""
 
-#: includes/admin/templates/pages/privacy-audit.php:10
-msgid "Yes, Resolve"
+#: includes/admin/templates/pages/privacy-audit.php:12
+msgid "Mark as Resolved"
 msgstr ""
 
-#: includes/admin/templates/pages/privacy-audit.php:12
+#: includes/admin/templates/pages/privacy-audit.php:14
 msgid "Cancel"
 msgstr ""
 
-#: includes/admin/templates/pages/privacy-audit.php:15
-msgid "By manually resolving this item, please ensure your website’s privacy policy is updated to accurately reflect this setting. This is essential for maintaining compliance and transparency with your users."
+#: includes/admin/templates/pages/privacy-audit.php:17
+msgid "When you resolve this item, be sure to update your website’s privacy policy accordingly. You can find a helper message that matches your setup in <b>WP Admin > Settings > Privacy > </b> <a href=\"%s\">Privacy Guide</a>. Keeping the policy accurate supports compliance and transparency for your users."
 msgstr ""
 
-#: includes/admin/templates/pages/privacy-audit.php:24
+#: includes/admin/templates/pages/privacy-audit.php:26
 msgid "<b>Disclaimer</b><span>This audit only checks WP Statistics plugin settings and helps improve privacy. It doesn't guarantee compliance with laws like GDPR and doesn't review other plugins or third-party tools. For full compliance, please consult a privacy expert. Remember, you're responsible for your site's privacy.</span>"
 msgstr ""
 
@@ -4698,34 +4750,34 @@ msgstr ""
 msgid "Invalid signature"
 msgstr ""
 
-#: includes/class-wp-statistics-schedule.php:166
+#: includes/class-wp-statistics-schedule.php:176
 #: views/components/objects/chart-time-range.php:5
 msgid "Daily"
 msgstr ""
 
-#: includes/class-wp-statistics-schedule.php:173
+#: includes/class-wp-statistics-schedule.php:183
 #: views/components/objects/chart-time-range.php:6
 msgid "Weekly"
 msgstr ""
 
-#: includes/class-wp-statistics-schedule.php:180
+#: includes/class-wp-statistics-schedule.php:190
 msgid "Bi-Weekly"
 msgstr ""
 
-#: includes/class-wp-statistics-schedule.php:187
+#: includes/class-wp-statistics-schedule.php:197
 #: views/components/objects/chart-time-range.php:7
 msgid "Monthly"
 msgstr ""
 
-#: includes/class-wp-statistics-schedule.php:282
+#: includes/class-wp-statistics-schedule.php:292
 msgid "Your WP Statistics Report"
 msgstr ""
 
-#: includes/class-wp-statistics-schedule.php:288
+#: includes/class-wp-statistics-schedule.php:298
 msgid "for %s"
 msgstr ""
 
-#: includes/class-wp-statistics-schedule.php:290
+#: includes/class-wp-statistics-schedule.php:300
 msgid "for %s to %s"
 msgstr ""
 
@@ -4974,23 +5026,23 @@ msgstr ""
 msgid "Please keep this page open if possible. If you close, the migration will pause. Don’t worry—simply come back to this page to pick up where it left off."
 msgstr ""
 
-#: src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php:159
+#: src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php:162
 msgid "WP Statistics: Migration Required"
 msgstr ""
 
-#: src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php:160
+#: src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php:163
 msgid "A data migration is needed for WP Statistics. Click <strong>Start Migration</strong> below to begin."
 msgstr ""
 
-#: src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php:161
+#: src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php:164
 msgid "<strong>Note:</strong> If you leave this page before the migration finishes, the process will pause. You can always return later to resume."
 msgstr ""
 
-#: src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php:163
+#: src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php:166
 msgid "Start Migration"
 msgstr ""
 
-#: src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php:165
+#: src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php:168
 msgid "Read More"
 msgstr ""
 
@@ -5006,11 +5058,11 @@ msgstr ""
 msgid "Source channel update for visitors processed successfully."
 msgstr ""
 
-#: src/Components/AssetNameObfuscator.php:299
+#: src/Components/AssetNameObfuscator.php:301
 msgid "File not found."
 msgstr ""
 
-#: src/Components/AssetNameObfuscator.php:299
+#: src/Components/AssetNameObfuscator.php:301
 msgid "404 Not Found"
 msgstr ""
 
@@ -5042,7 +5094,7 @@ msgstr ""
 msgid "WordPress"
 msgstr ""
 
-#: src/Service/Admin/AjaxOptionUpdater.php:49
+#: src/Service/Admin/AjaxOptionUpdater.php:51
 msgid "Update option success."
 msgstr ""
 
@@ -5837,20 +5889,20 @@ msgstr ""
 msgid "Do I need to mention WP Statistics in my privacy policy?"
 msgstr ""
 
-#: src/Service/Admin/PrivacyAudit/Faqs/RequireMention.php:23
+#: src/Service/Admin/PrivacyAudit/Faqs/RequireMention.php:24
 msgid "Mentioning Not Strictly Necessary"
 msgstr ""
 
-#: src/Service/Admin/PrivacyAudit/Faqs/RequireMention.php:24
+#: src/Service/Admin/PrivacyAudit/Faqs/RequireMention.php:25
 msgid "<p>According to your current setup, WP Statistics is not configured to record any personal data. This means that technically, you do not need to mention WP Statistics in your privacy policy. However, to foster an environment of utmost transparency with your users, we still encourage mentioning the use of WP Statistics. This helps inform users about the analytics tools employed by your site, reinforcing trust through transparency.</p>"
 msgstr ""
 
-#: src/Service/Admin/PrivacyAudit/Faqs/RequireMention.php:30
+#: src/Service/Admin/PrivacyAudit/Faqs/RequireMention.php:31
 msgid "Mentioning Required"
 msgstr ""
 
-#: src/Service/Admin/PrivacyAudit/Faqs/RequireMention.php:31
-msgid "<p>Your configuration indicates that WP Statistics collects personal data. In this scenario, it is crucial to mention WP Statistics in your privacy policy. This should include information on the type of data collected, its purpose, and how it is processed. Being transparent about the use of WP Statistics and its data handling practices is essential to comply with privacy regulations and to maintain trust with your website visitors</p><p>For more information on adjusting your settings to enhance privacy and for specifics on what to include in your  <b>privacy policy</b>, please see the Privacy Audit section of this page</p>"
+#: src/Service/Admin/PrivacyAudit/Faqs/RequireMention.php:32
+msgid "Your current WP Statistics setup records data that can be considered personal. You should add WP Statistics to your privacy policy and explain what data is collected, why it is collected, and how it is stored. A helper text that matches your configuration is available in <b>WP Admin > Settings > Privacy > </b> <a href=\"%s\">Privacy Guide</a> and can be copied into your policy. For tips on reducing data collection, see the <b>Privacy Audit</b> section of this page."
 msgstr ""
 
 #: src/Service/Admin/PrivacyAudit/Faqs/TransferData.php:18
@@ -6262,23 +6314,23 @@ msgstr ""
 msgid "Anonymous Visitors"
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:422
+#: src/Service/Database/Managers/MigrationHandler.php:424
 msgid "WP Statistics: Process Failed"
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:423
+#: src/Service/Database/Managers/MigrationHandler.php:425
 msgid "The Database Migration process encountered an error and could not be completed."
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:424
+#: src/Service/Database/Managers/MigrationHandler.php:426
 msgid "Error:"
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:427
+#: src/Service/Database/Managers/MigrationHandler.php:429
 msgid "Retry Process"
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:429
+#: src/Service/Database/Managers/MigrationHandler.php:431
 msgid "Contact Support"
 msgstr ""
 
