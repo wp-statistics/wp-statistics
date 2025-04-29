@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Resources\Core;
 
+use WP_STATISTICS\Helper;
 use WP_Statistics\Records\ResourceRecord;
 
 /**
@@ -151,7 +152,9 @@ class ResourcesIdentifier
     private function setResource()
     {
         $this->resourceUrl = !empty($this->resourceUrl) ? $this->resourceUrl : home_url(add_query_arg(null, null));
-        $this->resource    = $this->getModel()->get(['resource_url' => $this->resourceUrl]);
+        $this->resourceUrl = $this->cleanUrl($this->resourceUrl);
+
+        $this->resource = $this->getModel()->get(['resource_url' => $this->resourceUrl]);
 
         if (!empty($this->resource)) {
             return;
@@ -191,5 +194,39 @@ class ResourcesIdentifier
         }
 
         $this->resource = $this->getModel()->get(['ID' => $insertId]);
+    }
+
+    /**
+     * Cleans a URL by removing specific tracking parameters.
+     *
+     * @param string $url
+     * @return string
+     */
+    private function cleanUrl($url)
+    {
+        $trackingParams = Helper::get_query_params_allow_list();
+
+        $parts = wp_parse_url($url);
+
+        $query = [];
+        if (!empty($parts['query'])) {
+            parse_str($parts['query'], $query);
+
+            foreach ($trackingParams as $param) {
+                unset($query[$param]);
+            }
+        }
+
+        $scheme = isset($parts['scheme']) ? $parts['scheme'] . '://' : '';
+        $host   = isset($parts['host']) ? $parts['host'] : '';
+        $path   = isset($parts['path']) ? $parts['path'] : '/';
+
+        $newUrl = $scheme . $host . $path;
+
+        if (!empty($query)) {
+            $newUrl .= '?' . http_build_query($query);
+        }
+
+        return $newUrl;
     }
 }

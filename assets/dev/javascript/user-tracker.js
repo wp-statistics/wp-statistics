@@ -82,10 +82,25 @@ if (!window.WpStatisticsUserTracker) {
         sendHitRequest: async function () {
             try {
                 let requestUrl = this.getRequestUrl('hit');
+
+                const visitorLocaleInfo = {
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    language: navigator.language || navigator.userLanguage
+                };
+
+                const languageCode = navigator.language.split('-')[0],
+                    languageName = (new Intl.DisplayNames(['en'], { type: 'language' })).of(languageCode);
+
+                visitorLocaleInfo.languageFullName = languageName;
+    
                 const params = new URLSearchParams({
                     ...WP_Statistics_Tracker_Object.hitParams,
+                    resourceId: WP_Statistics_Tracker_Object?.resourceId,
                     referred: this.getReferred(), // Use the getReferred method
-                    page_uri: this.getPathAndQueryString() // Use the correct key for the path and query string (Base64 encoded)
+                    page_uri: this.getPathAndQueryString(), // Use the correct key for the path and query string (Base64 encoded)
+                    timezone: visitorLocaleInfo.timezone,
+                    language: visitorLocaleInfo.language,
+                    languageFullName: visitorLocaleInfo.languageFullName,
                 }).toString();
 
                 const xhr = new XMLHttpRequest();

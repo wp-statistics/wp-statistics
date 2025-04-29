@@ -4,6 +4,9 @@ namespace WP_STATISTICS\Service\Tracking\Core;
 
 use Exception;
 use WP_STATISTICS\Abstracts\BaseTracking;
+use WP_Statistics\Entity\Device;
+use WP_Statistics\Entity\EntityFactory;
+use WP_Statistics\Entity\Visitor as EntityVisitor;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Pages;
@@ -14,6 +17,7 @@ use WP_STATISTICS\Service\Tracking\TrackingFactory;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_Statistics\Traits\ErrorLoggerTrait;
+use WP_Statistics\Utils\Request;
 
 /**
  * Handles hit tracking for visitors, including page views, REST API activity, and login tracking.
@@ -147,31 +151,47 @@ class Hits extends BaseTracking
      * @param VisitorProfile|null $visitorProfile Optional profile object.
      * @return array Exclusion data if visitor was excluded.
      * @throws Exception If visitor is excluded by rules.
+     *
+     * @todo UserAgent has very bad performance we need to discuss about it.
      */
     public function record($visitorProfile = null)
     {
         $visitorProfile = $this->resolveProfile($visitorProfile);
         $exclusion      = $this->checkAndThrowIfExcluded($visitorProfile);
 
-        if (Visit::active()) {
-            Visit::record();
-        }
+        $visitorProfile->setResourceId(Request::get('resourceId', 0));
 
-        $pageId = false;
-        if (Pages::active()) {
-            $pageId = Pages::record($visitorProfile);
-        }
+        EntityFactory::visitor($visitorProfile)
+            ->record();
 
-        $visitorId = false;
-        if (Visitor::active()) {
-            $visitorId = Visitor::record($visitorProfile, ['page_id' => $pageId]);
-        }
+        EntityFactory::device($visitorProfile)
+            ->recordType()
+            ->recordOs()
+            ->recordBrowser()
+            ->recordBrowserVersion()
+            ->recordResolution();
 
-        if ($visitorId && $pageId) {
-            Visitor::save_visitors_relationships($pageId, $visitorId);
-        }
+        EntityFactory::geo($visitorProfile)
+            ->recordCountry()
+            ->recordCity();
 
-        TrackingFactory::userOnline()->recordIfAllowed($visitorProfile, $exclusion, $pageId);
+        EntityFactory::locale($visitorProfile)
+            ->recordLanguage()
+            ->recordTimezone();
+
+        EntityFactory::referrer($visitorProfile)
+            ->recordReferrer($visitorProfile);
+
+        EntityFactory::session($visitorProfile)
+            ->record();
+
+        EntityFactory::view($visitorProfile)
+            ->record();
+
+        EntityFactory::parameter($visitorProfile)
+            ->record();
+
+        // @todo: add online user request.
         $this->errorListener();
 
         return $exclusion;

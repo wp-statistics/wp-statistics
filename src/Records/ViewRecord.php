@@ -18,28 +18,4 @@ class ViewRecord extends BaseRecord
      * @var string
      */
     protected $tableName = 'views';
-
-    /**
-     * Get all records by session ID.
-     *
-     * @param int $sessionId
-     * @return array
-     * @todo This method is a sample usage; may be updated or removed based on future needs.
-     */
-    public function getAllBySessionId($sessionId)
-    {
-        return empty($sessionId) ? [] : $this->getAll(['session_id' => $sessionId]);
-    }
-
-    /**
-     * Get all records by resource ID.
-     *
-     * @param int $resourceId
-     * @return array
-     * @todo This method is a sample usage; may be updated or removed based on future needs.
-     */
-    public function getAllByResourceId($resourceId)
-    {
-        return empty($resourceId) ? [] : $this->getAll(['resource_id' => $resourceId]);
-    }
 }

@@ -21,8 +21,461 @@ class VisitorProfile
 {
     use ObjectCacheTrait;
 
+    /**
+     * Visitor record ID.
+     *
+     * @var string
+     */
+    private const META_VISITOR_ID = 'visitor_id';
+
+    /**
+     * Session record ID.
+     *
+     * @var string
+     */
+    private const META_SESSION_ID = 'session_id';
+
+    /**
+     * View record ID.
+     *
+     * @var string
+     */
+    private const META_VIEW_ID = 'view_id';
+
+    /**
+     * Resource record ID.
+     *
+     * @var string
+     */
+    private const META_RESOURCE_ID = 'resource_id';
+
+    /**
+     * Referrer record ID.
+     *
+     * @var string
+     */
+    private const META_REFERRER_ID = 'referrer_id';
+
+    /**
+     * Device type record ID.
+     *
+     * @var string
+     */
+    private const META_DEVICE_TYPE_ID = 'device_type_id';
+
+    /**
+     * Device operating system record ID.
+     *
+     * @var string
+     */
+    private const META_DEVICE_OS_ID = 'device_os_id';
+
+    /**
+     * Device browser record ID.
+     *
+     * @var string
+     */
+    private const META_DEVICE_BROWSER_ID = 'device_browser_id';
+
+    /**
+     * Device browser version record ID.
+     *
+     * @var string
+     */
+    private const META_DEVICE_BROWSER_VERSION_ID = 'device_browser_version_id';
+
+    /**
+     * Screen resolution record ID.
+     *
+     * @var string
+     */
+    private const META_RESOLUTION_ID = 'resolution_id';
+
+    /**
+     * Country record ID.
+     *
+     * @var string
+     */
+    private const META_COUNTRY_ID = 'country_id';
+
+    /**
+     * City record ID.
+     *
+     * @var string
+     */
+    private const META_CITY_ID = 'city_id';
+
+    /**
+     * Language record ID.
+     *
+     * @var string
+     */
+    private const META_LANGUAGE_ID = 'language_id';
+
+    /**
+     * Timezone record ID.
+     *
+     * @var string
+     */
+    private const META_TIMEZONE_ID = 'timezone_id';
+
+    /**
+     * Duration between views, in milliseconds.
+     *
+     * @var string
+     */
+    private const META_DURATION = 'duration';
+
+    /**
+     * Holds visitor tracking metadata loaded from the database.
+     *
+     * Includes visitor_id, session_id, view_id, resource_id, user_id and other tracking-related fields.
+     * These values are retrieved from or synchronized with the database during the session lifecycle.
+     *
+     * @var array
+     */
+    protected $meta = [];
+
     public function __construct()
     {
+    }
+
+    /**
+     * Store the Visitor record ID into internal metadata.
+     *
+     * @param int $id Visitor record ID.
+     * @return void
+     */
+    public function setVisitorId($id)
+    {
+        $this->setMeta(self::META_VISITOR_ID, $id);
+    }
+
+    /**
+     * Retrieve the Visitor record ID from internal metadata.
+     *
+     * @return int Visitor ID, or 0 if not set.
+     */
+    public function getVisitorIdMeta()
+    {
+        return (int)$this->getMeta(self::META_VISITOR_ID, 0);
+    }
+
+    /**
+     * Store the Session record ID into internal metadata.
+     *
+     * @param int $id Session record ID.
+     * @return void
+     */
+    public function setSessionId($id)
+    {
+        $this->setMeta(self::META_SESSION_ID, $id);
+    }
+
+    /**
+     * Retrieve the Session record ID from internal metadata.
+     *
+     * @return int Session ID, or 0 if not set.
+     */
+    public function getSessionId()
+    {
+        return (int)$this->getMeta(self::META_SESSION_ID, 0);
+    }
+
+    /**
+     * Store the Resource record ID into internal metadata.
+     *
+     * @param int $id Resource record ID.
+     * @return void
+     */
+    public function setResourceId($id)
+    {
+        $this->setMeta(self::META_RESOURCE_ID, $id);
+    }
+
+    /**
+     * Retrieve the Resource record ID from internal metadata.
+     *
+     * @return int Resource ID, or 0 if not set.
+     */
+    public function getResourceId()
+    {
+        return (int)$this->getMeta(self::META_RESOURCE_ID, 0);
+    }
+
+    /**
+     * Store the View record ID into internal metadata.
+     *
+     * @param int $id View record ID.
+     * @return void
+     */
+    public function setViewId($id)
+    {
+        $this->setMeta(self::META_VIEW_ID, $id);
+    }
+
+    /**
+     * Retrieve the View record ID from internal metadata.
+     *
+     * @return int View ID, or 0 if not set.
+     */
+    public function getViewId()
+    {
+        return (int)$this->getMeta(self::META_VIEW_ID, 0);
+    }
+
+    /**
+     * Store the Device Type record ID into internal metadata.
+     *
+     * @param int $id Device Type ID.
+     * @return void
+     */
+    public function setDeviceTypeId($id)
+    {
+        $this->setMeta(self::META_DEVICE_TYPE_ID, $id);
+    }
+
+    /**
+     * Retrieve the Device Type record ID from internal metadata.
+     *
+     * @return int Device Type ID, or 0 if not set.
+     */
+    public function getDeviceTypeId()
+    {
+        return (int)$this->getMeta(self::META_DEVICE_TYPE_ID, 0);
+    }
+
+    /**
+     * Store the Device Operating System record ID into internal metadata.
+     *
+     * @param int $id Device OS ID.
+     * @return void
+     */
+    public function setDeviceOsId($id)
+    {
+        $this->setMeta(self::META_DEVICE_OS_ID, $id);
+    }
+
+    /**
+     * Retrieve the Device Operating System record ID from internal metadata.
+     *
+     * @return int Device OS ID, or 0 if not set.
+     */
+    public function getDeviceOsId()
+    {
+        return (int)$this->getMeta(self::META_DEVICE_OS_ID, 0);
+    }
+
+    /**
+     * Store the Device Browser record ID into internal metadata.
+     *
+     * @param int $id Device Browser ID.
+     * @return void
+     */
+    public function setDeviceBrowserId($id)
+    {
+        $this->setMeta(self::META_DEVICE_BROWSER_ID, $id);
+    }
+
+    /**
+     * Retrieve the Device Browser record ID from internal metadata.
+     *
+     * @return int Device Browser ID, or 0 if not set.
+     */
+    public function getDeviceBrowserId()
+    {
+        return (int)$this->getMeta(self::META_DEVICE_BROWSER_ID, 0);
+    }
+
+    /**
+     * Store the Device Browser Version record ID into internal metadata.
+     *
+     * @param int $id Device Browser Version ID.
+     * @return void
+     */
+    public function setDeviceBrowserVersionId($id)
+    {
+        $this->setMeta(self::META_DEVICE_BROWSER_VERSION_ID, $id);
+    }
+
+    /**
+     * Retrieve the Device Browser Version record ID from internal metadata.
+     *
+     * @return int Device Browser Version ID, or 0 if not set.
+     */
+    public function getDeviceBrowserVersionId()
+    {
+        return (int)$this->getMeta(self::META_DEVICE_BROWSER_VERSION_ID, 0);
+    }
+
+    /**
+     * Store the Screen Resolution record ID into internal metadata.
+     *
+     * @param int $id Resolution ID.
+     * @return void
+     */
+    public function setResolutionId($id)
+    {
+        $this->setMeta(self::META_RESOLUTION_ID, $id);
+    }
+
+    /**
+     * Retrieve the Screen Resolution record ID from internal metadata.
+     *
+     * @return int Resolution ID, or 0 if not set.
+     */
+    public function getResolutionId()
+    {
+        return (int)$this->getMeta(self::META_RESOLUTION_ID, 0);
+    }
+
+    /**
+     * Store the Country record ID into internal metadata.
+     *
+     * @param int $id Country ID.
+     * @return void
+     */
+    public function setCountryId($id)
+    {
+        $this->setMeta(self::META_COUNTRY_ID, $id);
+    }
+
+    /**
+     * Retrieve the Country record ID from internal metadata.
+     *
+     * @return int Country ID, or 0 if not set.
+     */
+    public function getCountryId()
+    {
+        return (int)$this->getMeta(self::META_COUNTRY_ID, 0);
+    }
+
+    /**
+     * Store the City record ID into internal metadata.
+     *
+     * @param int $id City ID.
+     * @return void
+     */
+    public function setCityId($id)
+    {
+        $this->setMeta(self::META_CITY_ID, $id);
+    }
+
+    /**
+     * Retrieve the City record ID from internal metadata.
+     *
+     * @return int City ID, or 0 if not set.
+     */
+    public function getCityId()
+    {
+        return (int)$this->getMeta(self::META_CITY_ID, 0);
+    }
+
+    /**
+     * Store the Language record ID into internal metadata.
+     *
+     * @param int $id Language ID.
+     * @return void
+     */
+    public function setLanguageId($id)
+    {
+        $this->setMeta(self::META_LANGUAGE_ID, $id);
+    }
+
+    /**
+     * Retrieve the Language record ID from internal metadata.
+     *
+     * @return int Language ID, or 0 if not set.
+     */
+    public function getLanguageId()
+    {
+        return (int)$this->getMeta(self::META_LANGUAGE_ID, 0);
+    }
+
+    /**
+     * Store the Timezone record ID into internal metadata.
+     *
+     * @param int $id Timezone ID.
+     * @return void
+     */
+    public function setTimezoneId($id)
+    {
+        $this->setMeta(self::META_TIMEZONE_ID, $id);
+    }
+
+    /**
+     * Retrieve the Timezone record ID from internal metadata.
+     *
+     * @return int Timezone ID, or 0 if not set.
+     */
+    public function getTimezoneId()
+    {
+        return (int)$this->getMeta(self::META_TIMEZONE_ID, 0);
+    }
+
+    /**
+     * Store the Referrer record ID into internal metadata.
+     *
+     * @param int $id Referrer ID.
+     * @return void
+     */
+    public function setReferrerId($id)
+    {
+        $this->setMeta(self::META_REFERRER_ID, $id);
+    }
+
+    /**
+     * Retrieve the Referrer record ID from internal metadata.
+     *
+     * @return int Referrer ID, or 0 if not set.
+     */
+    public function getReferrerId()
+    {
+        return (int)$this->getMeta(self::META_REFERRER_ID, 0);
+    }
+
+    /**
+     * Store the view duration (milliseconds) into internal metadata.
+     *
+     * @param int $duration View duration in milliseconds.
+     * @return void
+     */
+    public function setDuration($duration)
+    {
+        $this->setMeta(self::META_DURATION, $duration);
+    }
+
+    /**
+     * Retrieve the view duration (milliseconds) from internal metadata.
+     *
+     * @return int View duration, or 0 if not set.
+     */
+    public function getDuration()
+    {
+        return (int)$this->getMeta(self::META_DURATION, 0);
+    }
+
+    /**
+     * Set a metadata key/value pair during runtime.
+     *
+     * @param string $key
+     * @param mixed $value
+     */
+    public function setMeta($key, $value)
+    {
+        $this->meta[$key] = $value;
+    }
+
+    /**
+     * Retrieve a previously set metadata value.
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed|null
+     */
+    public function getMeta($key, $default = null)
+    {
+        return isset($this->meta[$key]) ? $this->meta[$key] : $default;
     }
 
     /**

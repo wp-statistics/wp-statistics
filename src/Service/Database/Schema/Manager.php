@@ -149,7 +149,7 @@ class Manager
         'languages'               => [
             'columns'     => [
                 'ID'     => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
-                'code'   => 'varchar(4) NOT NULL UNIQUE',
+                'code'   => 'varchar(8) NOT NULL',
                 'name'   => 'varchar(64) NOT NULL',
                 'region' => 'varchar(4)',
             ],
@@ -172,7 +172,7 @@ class Manager
         'referrers'               => [
             'columns'     => [
                 'ID'      => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
-                'channel' => 'varchar(128) NOT NULL',
+                'channel' => 'varchar(128)',
                 'name'    => 'varchar(128) NOT NULL',
                 'domain'  => 'varchar(128) NOT NULL',
             ],
@@ -201,8 +201,8 @@ class Manager
                 'referrer_id'               => 'bigint(20) UNSIGNED DEFAULT NULL',
                 'country_id'                => 'bigint(20) UNSIGNED DEFAULT NULL',
                 'city_id'                   => 'bigint(20) UNSIGNED DEFAULT NULL',
-                'initial_view_id'           => 'bigint(20) UNSIGNED DEFAULT NULL',
-                'last_view_id'              => 'bigint(20) UNSIGNED DEFAULT NULL',
+                'initial_resource_id'       => 'bigint(20) UNSIGNED DEFAULT NULL',
+                'last_resouce_id'           => 'bigint(20) UNSIGNED DEFAULT NULL',
                 'total_views'               => 'int(11) NOT NULL DEFAULT 1',
                 'device_type_id'            => 'bigint(20) UNSIGNED DEFAULT NULL',
                 'device_os_id'              => 'bigint(20) UNSIGNED DEFAULT NULL',
@@ -222,8 +222,8 @@ class Manager
                 'KEY country_id (country_id)',
                 'KEY referrer_id (referrer_id)',
                 'KEY city_id (city_id)',
-                'KEY initial_view_id (initial_view_id)',
-                'KEY last_view_id (last_view_id)',
+                'KEY initial_resource_id (initial_resource_id)',
+                'KEY last_resouce_id (last_resouce_id)',
                 'KEY device_type_id (device_type_id)',
                 'KEY device_os_id (device_os_id)',
                 'KEY device_browser_id (device_browser_id)',

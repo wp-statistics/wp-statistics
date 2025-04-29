@@ -1,0 +1,106 @@
+<?php
+
+namespace WP_Statistics\Entity;
+
+use WP_Statistics\Abstracts\BaseEntity;
+use WP_Statistics\Records\LanguageRecord;
+use WP_Statistics\Records\TimezoneRecord;
+use WP_Statistics\Utils\Request;
+
+/**
+ * Entity for detecting and recording visitor's locale information.
+ *
+ * This includes browser language and timezone based on geolocation.
+ */
+class Locale extends BaseEntity
+{
+    /**
+     * Detect and record visitor's language based on user agent or browser headers.
+     *
+     * @return $this
+     */
+    public function recordLanguage()
+    {
+        $language = Request::get('language', '');
+        $fullName = Request::get('languageFullName', '');
+
+        if (empty($language) || !is_string($language)) {
+            return $this;
+        }
+
+        $region = $this->profile->getRegion();
+
+        $cacheKey = 'language_' . md5("{$language}-{$region}");
+
+        $languageId = $this->getCachedData($cacheKey, function () use ($language, $fullName, $region) {
+            $model  = new LanguageRecord();
+            $record = $model->get(['code' => $language, 'region' => $region]);
+
+            if (!empty($record) && isset($record->ID)) {
+                return (int)$record->ID;
+            }
+
+            return (int)$model->insert([
+                'code'   => $language,
+                'name'   => $fullName,
+                'region' => $region,
+            ]);
+        });
+
+        $this->profile->setLanguageId($languageId);
+        return $this;
+    }
+
+    /**
+     * Detect and record visitor’s timezone.
+     *
+     * Tries client‐sent IANA timezone first; if missing or invalid, falls back
+     * to the WordPress site setting (timezone_string or gmt_offset).
+     *
+     * @return $this
+     */
+    public function recordTimezone()
+    {
+        $tzName = Request::get('timezone', '');
+
+        if (empty($tzName) || !is_string($tzName)) {
+            $tz = wp_timezone();
+        } else {
+            try {
+                $tz = new \DateTimeZone(trim($tzName));
+            } catch (\Exception $e) {
+                $tz = wp_timezone();
+            }
+        }
+
+        // Compute offset & DST.
+        $dt            = new \DateTime('now', $tz);
+        $offsetSeconds = $tz->getOffset($dt);
+        $hours         = intdiv($offsetSeconds, 3600);
+        $minutes       = abs(($offsetSeconds % 3600) / 60);
+        $offset        = sprintf('%+03d:%02d', $hours, $minutes);
+        $isDst         = (bool)$dt->format('I');
+
+        $tzNameFinal = $tz->getName();
+        $cacheKey    = 'timezone_' . md5("{$tzNameFinal}|{$offset}|{$isDst}");
+
+        $timezoneId = $this->getCachedData($cacheKey, function () use ($tzNameFinal, $offset, $isDst) {
+            $model  = new TimezoneRecord();
+            $record = $model->get(['name' => $tzNameFinal]);
+
+            if (!empty($record) && isset($record->ID)) {
+                return (int)$record->ID;
+            }
+
+            return (int)$model->insert([
+                'name'   => $tzNameFinal,
+                'offset' => $offset,
+                'is_dst' => $isDst ? 1 : 0,
+            ]);
+        });
+
+        $this->profile->setTimezoneId($timezoneId);
+        return $this;
+    }
+
+}

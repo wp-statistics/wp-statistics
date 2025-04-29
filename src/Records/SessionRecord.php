@@ -75,7 +75,7 @@ class SessionRecord extends BaseRecord
      */
     public function getAllByInitialViewId($initialViewId)
     {
-        return empty($initialViewId) ? [] : $this->getAll(['initial_view_id' => $initialViewId]);
+        return empty($initialViewId) ? [] : $this->getAll(['initial_resource_id' => $initialViewId]);
     }
 
     /**
@@ -87,7 +87,7 @@ class SessionRecord extends BaseRecord
      */
     public function getAllByLastViewId($lastViewId)
     {
-        return empty($lastViewId) ? [] : $this->getAll(['last_view_id' => $lastViewId]);
+        return empty($lastViewId) ? [] : $this->getAll(['last_resouce_id' => $lastViewId]);
     }
 
     /**
