@@ -4,7 +4,6 @@ namespace WP_STATISTICS;
 
 use Exception;
 use WP_Statistics\Service\Analytics\VisitorProfile;
-use WP_Statistics\Service\Tracking\TrackingFactory;
 
 /**
  * WP Statistics
@@ -107,7 +106,7 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
         $number = \WP_CLI\Utils\get_flag_value($assoc_args, 'number', 15);
 
         // Get List Of Users Online
-        $lists = TrackingFactory::userOnline()->get(['per_page' => $number]);
+        $lists = UserOnline::get(['per_page' => $number]);
         if (count($lists) < 1) {
             \WP_CLI::error("There are no users online.");
         }
@@ -310,7 +309,7 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
 
         // Record the hit
         try {
-            TrackingFactory::hits()->record($visitorProfile);
+            Hits::record($visitorProfile);
 
             \WP_CLI::success('Hit recorded successfully.');
         } catch (Exception $e) {

@@ -4,16 +4,9 @@ namespace WP_STATISTICS\Service\Tracking\Core;
 
 use Exception;
 use WP_STATISTICS\Abstracts\BaseTracking;
-use WP_Statistics\Entity\Device;
 use WP_Statistics\Entity\EntityFactory;
-use WP_Statistics\Entity\Visitor as EntityVisitor;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
-use WP_STATISTICS\Pages;
-use WP_STATISTICS\Visit;
-use WP_STATISTICS\Visitor;
-use WP_STATISTICS\Exclusion;
-use WP_STATISTICS\Service\Tracking\TrackingFactory;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_Statistics\Traits\ErrorLoggerTrait;
@@ -191,7 +184,6 @@ class Hits extends BaseTracking
         EntityFactory::parameter($visitorProfile)
             ->record();
 
-        TrackingFactory::userOnline()->recordIfAllowed($visitorProfile, $exclusion);
         $this->errorListener();
 
         return $exclusion;

@@ -33,7 +33,6 @@ use WP_Statistics\Service\HooksManager;
 use WP_Statistics\Service\Resources\Core\ResourceManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
 use WP_STATISTICS\Service\Tracking\API\Hit as HitAPI;
-use WP_STATISTICS\Service\Tracking\API\UserOnline as UserOnlineAPI;
 
 defined('ABSPATH') || exit;
 
@@ -183,7 +182,6 @@ final class WP_Statistics
         $anonymizedUsageDataManager = new AnonymizedUsageDataManager();
         $notificationManager        = new NotificationManager();
         new HitAPI();
-        new UserOnlineAPI();
 
         // Admin classes
         if (is_admin()) {

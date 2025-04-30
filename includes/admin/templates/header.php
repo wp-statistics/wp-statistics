@@ -9,9 +9,8 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 use WP_Statistics\Service\Admin\ModalHandler\Modal;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditDataProvider;
 use WP_Statistics\Service\Admin\Notification\NotificationFactory;
-use WP_Statistics\Service\Tracking\TrackingFactory;
 
-$userOnline              = TrackingFactory::userOnline();
+$userOnline              = new \WP_STATISTICS\UserOnline();
 $isPremium               = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
 $hasUpdatedNotifications = NotificationFactory::hasUpdatedNotifications();
 $displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? true : false;
@@ -29,7 +28,7 @@ $displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? 
         <div class="wps-adminHeader__menu">
             <?php
             echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_overview_page', 'link_text' => __('Overview', 'wp-statistics'), 'icon_class' => 'overview', 'badge_count' => null], true);
-            if ($userOnline->isActive()) {
+            if ($userOnline::active()) {
                 echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_visitors_page&tab=online', 'link_text' => __('Online Visitors', 'wp-statistics'), 'icon_class' => 'online-users', 'badge_count' => wp_statistics_useronline()], true);
             }
             if (!$isPremium && apply_filters('wp_statistics_enable_header_addons_menu', true)) {

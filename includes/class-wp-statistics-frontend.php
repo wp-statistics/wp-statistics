@@ -53,7 +53,7 @@ class Frontend
                 // REST params
                 $requestUrl   = get_rest_url(null, RestAPI::$namespace);
                 $hitParams    = array_merge($params, ['endpoint' => TrackingFactory::hitApi()->getEndpoint()]);
-                $onlineParams = array_merge($params, ['endpoint' => TrackingFactory::userOnlineApi()->getEndpoint()]);
+                $onlineParams = array_merge($params, ['endpoint' => Api\v2\CheckUserOnline::$endpoint]);
             }
 
             /**
