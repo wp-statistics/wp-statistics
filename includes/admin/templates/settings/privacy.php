@@ -15,10 +15,6 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
                 updateVisibility(consentCategories, true);
                 updateVisibility(anonymousTracking, true);
                 break;
-            case 'real_cookie_banner':
-                updateVisibility(consentCategories, false);
-                updateVisibility(anonymousTracking, true);
-                break;
             default:
                 updateVisibility(consentCategories, false);
                 updateVisibility(anonymousTracking, false);
