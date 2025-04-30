@@ -110,6 +110,8 @@ class Install
      */
     private function markBackgroundProcessAsInitiated()
     {
+        Option::deleteOptionGroup('data_migration_process_started', 'jobs');
+
         if (!self::isFresh()) {
             return;
         }
@@ -119,6 +121,7 @@ class Install
         Option::saveOptionGroup('schema_migration_process_started', true, 'jobs');
         Option::saveOptionGroup('update_source_channel_process_initiated', true, 'jobs');
         Option::saveOptionGroup('table_operations_process_initiated', true, 'jobs');
+        Option::saveOptionGroup('word_count_process_initiated', true, 'jobs');
     }
 
     public static function delete_duplicate_data()
@@ -504,6 +507,10 @@ class Install
 
         if (Option::get('display_notifications') === false && version_compare($latest_version, '14.12', '>')) {
             Option::update('display_notifications', true);
+        }
+
+        if (Option::get('show_privacy_issues_in_report') === false && version_compare($latest_version, '14.12', '>')) {
+            Option::update('show_privacy_issues_in_report', false);
         }
 
         /**

@@ -30,6 +30,8 @@ class SocialMediaChartDataProvider extends AbstractChartDataProvider
         // Rest per_page to get all results
         $this->args['per_page'] = false;
 
+        $this->args['not_null'] = false;
+
         $this->visitorsModel = new VisitorsModel();
     }
 
@@ -93,7 +95,8 @@ class SocialMediaChartDataProvider extends AbstractChartDataProvider
         if (!empty($thisPeriodTotal)) {
             $this->addChartDataset(
                 esc_html__('Total', 'wp-statistics'),
-                array_values($thisPeriodTotal)
+                array_values($thisPeriodTotal),
+                'total'
             );
         }
     }

@@ -1,7 +1,8 @@
 <?php
 
-namespace WP_Statistics\Async;
+namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs;
 
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessMonitor;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Database\DatabaseFactory;
 use WP_Statistics\Service\Database\Migrations\DataMigration;
@@ -71,6 +72,10 @@ class DataMigrationProcess extends WP_Background_Process
 
             $instance->setMethod($method, $version);
             $instance->$method($version);
+
+            if (! class_exists(DataMigration::class)) {
+                return;
+            }
 
             $dataSteps = (new DataMigration)->getMigrationSteps();
 

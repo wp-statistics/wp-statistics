@@ -41,7 +41,7 @@ class TaxonomyModel extends BaseModel
 
         $categoryViewsQuery = Query::select(['id', 'date', 'SUM(count) AS views'])
             ->from('pages')
-            ->where('pages.type', '=', 'category')
+            ->where('pages.type', '=', $args['taxonomy'])
             ->whereDate('date', $args['date'])
             ->groupBy('id')
             ->getQuery();
