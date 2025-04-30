@@ -13,6 +13,7 @@ return array(
     'WP_Statistics\\Abstracts\\BaseTabView' => $baseDir . '/src/Abstracts/BaseTabView.php',
     'WP_Statistics\\Abstracts\\BaseView' => $baseDir . '/src/Abstracts/BaseView.php',
     'WP_Statistics\\Abstracts\\MultiViewPage' => $baseDir . '/src/Abstracts/MultiViewPage.php',
+    'WP_Statistics\\Abstracts\\UnlockedTabView' => $baseDir . '/src/Abstracts/UnlockedTabView.php',
     'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\AbstractAjaxBackgroundProcess' => $baseDir . '/src/BackgroundProcess/AjaxBackgroundProcess/AbstractAjaxBackgroundProcess.php',
     'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\AjaxBackgroundProcessFactory' => $baseDir . '/src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessFactory.php',
     'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\AjaxBackgroundProcessManager' => $baseDir . '/src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php',

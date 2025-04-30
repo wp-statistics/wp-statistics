@@ -1,7 +1,12 @@
 <?php
 
+use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
+use WP_Statistics\Utils\Url;
 use WP_Statistics\Components\View;
+
+$pageKey = Menus::getCurrentPage();
+$pageKey = $pageKey['page_url'];
 
 View::load('components/objects/share-anonymous-notice');
 
@@ -73,13 +78,17 @@ View::load('components/objects/share-anonymous-notice');
     <?php endif; ?>
     <?php if (!empty($tabs) && is_array($tabs)) { ?>
         <ul class="wps-tabs">
-            <?php foreach ($tabs as $tab) { ?>
-                <?php if (!empty($tab['hidden'])) continue; ?>
+            <?php foreach ($tabs as $tab) {
+                if (!empty($tab['hidden'])) continue;
+                $tabKey         = Url::getParam($tab['link'], 'tab');
+                $tab['locked']  = apply_filters("wp_statistics_{$pageKey}_{$tabKey}_locked", $tab['locked'] ?? false);
+                $tab['tooltip'] = apply_filters("wp_statistics_{$pageKey}_{$tabKey}_tooltip", $tab['tooltip'] ?? '');
+                ?>
 
                 <li class="wps-tab-link <?php echo esc_attr($tab['class']); ?>">
                     <?php if (isset($tab['coming_soon'])): ?>
                         <span class="wps-tooltip wps-tooltip--coming_soon" title="<?php echo esc_html__('Coming soon', 'wp-statistics') ?>"><?php echo esc_html($tab['title']); ?> <i class="wps-tooltip-icon coming-soon"></i></span>
-                    <?php elseif (isset($tab['locked'])) : ?>
+                    <?php elseif (!empty($tab['locked'])) : ?>
                         <a data-target="wp-statistics-data-plus" class="js-wps-openPremiumModal wps-locked">
                             <?php echo esc_html($tab['title']); ?>
                             <?php if (!empty($tab['tooltip'])) : ?>

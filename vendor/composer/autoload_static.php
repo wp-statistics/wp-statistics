@@ -15,12 +15,54 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         array (
             'WP_Statistics\\' => 14,
         ),
+        'M' => 
+        array (
+            'MaxMind\\WebService\\' => 19,
+            'MaxMind\\Exception\\' => 18,
+            'MaxMind\\Db\\' => 11,
+        ),
+        'G' => 
+        array (
+            'GeoIp2\\' => 7,
+        ),
+        'D' => 
+        array (
+            'DeviceDetector\\' => 15,
+        ),
+        'C' => 
+        array (
+            'Composer\\CaBundle\\' => 18,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'WP_Statistics\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'MaxMind\\WebService\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/WebService',
+        ),
+        'MaxMind\\Exception\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/Exception',
+        ),
+        'MaxMind\\Db\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind-db/reader/src/MaxMind/Db',
+        ),
+        'GeoIp2\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/geoip2/geoip2/src',
+        ),
+        'DeviceDetector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/matomo/device-detector',
+        ),
+        'Composer\\CaBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
         ),
     );
 
@@ -32,6 +74,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Abstracts\\BaseTabView' => __DIR__ . '/../..' . '/src/Abstracts/BaseTabView.php',
         'WP_Statistics\\Abstracts\\BaseView' => __DIR__ . '/../..' . '/src/Abstracts/BaseView.php',
         'WP_Statistics\\Abstracts\\MultiViewPage' => __DIR__ . '/../..' . '/src/Abstracts/MultiViewPage.php',
+        'WP_Statistics\\Abstracts\\UnlockedTabView' => __DIR__ . '/../..' . '/src/Abstracts/UnlockedTabView.php',
         'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\AbstractAjaxBackgroundProcess' => __DIR__ . '/../..' . '/src/BackgroundProcess/AjaxBackgroundProcess/AbstractAjaxBackgroundProcess.php',
         'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\AjaxBackgroundProcessFactory' => __DIR__ . '/../..' . '/src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessFactory.php',
         'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\AjaxBackgroundProcessManager' => __DIR__ . '/../..' . '/src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php',

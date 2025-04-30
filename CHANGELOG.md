@@ -1,19 +1,6 @@
-= 14.13.5 - 2025-05-x =
-- **Fix:** Fixed issue where page views were zero when using a taxonomy filter other than 'category'.
-
-= 14.13.4 - 2025-04-29 =
-- **Enhancement:** Enforced capability check in optionUpdater.
-- **Enhancement:** Improved the helper text for the Privacy Policy section.
-- **Enhancement:** Limited the migration process to run only within the plugin's admin pages.
-- **Fix:** Fixed 404 errors when "Bypass Ad-Blocker" proxies assets with extra query parameters.
-
-= 14.13.3 - 2025-04-23 =
-- **New:** Added an option to enable or disable the Privacy Audit section in email reports.
-- **Enhancement:** Improved the migrator to avoid sending redundant requests.
-- **Enhancement:** Added Source Category filter into the visitors report filters.
-- **Fix:** Fixed high memory usage during plugin activation.
-- **Fix:** Resolved occasional PHP warnings.
-- **Fix**: Fixed early translation loading warning.
+= 14.14 - 2025-xx-xx
+- **New**: Add Entry/Exit pages report.
+- **New**: Add display dynamic promo banner.
 
 = 14.13.2 - 2025-04-20 =
 - **Fix**: Fix Font Size issue on the Free Email Report.
