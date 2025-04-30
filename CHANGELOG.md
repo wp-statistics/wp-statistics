@@ -1,3 +1,6 @@
+= 14.14 - 2025-xx-xx
+- **New**: Add Entry/Exit pages report.
+
 = 14.13.2 - 2025-04-20 =
 - **Fix**: Fix Font Size issue on the Free Email Report.
 - **New:** Added a 28-day date range option to the date picker.
