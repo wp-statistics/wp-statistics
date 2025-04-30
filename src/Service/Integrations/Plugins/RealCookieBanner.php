@@ -33,7 +33,7 @@ class RealCookieBanner extends AbstractIntegration
 
     public function isActive()
     {
-        return is_plugin_active('real-cookie-banner-pro/index.php');
+        return is_plugin_active('real-cookie-banner-pro/index.php') || is_plugin_active('real-cookie-banner/index.php');
     }
 
     public function register()
