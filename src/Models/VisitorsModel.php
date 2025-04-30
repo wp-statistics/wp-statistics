@@ -3,11 +3,10 @@
 namespace WP_Statistics\Models;
 
 use WP_Statistics\Abstracts\BaseModel;
+use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\AjaxBackgroundProcessFactory;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Decorators\ReferralDecorator;
 use WP_Statistics\Decorators\VisitorDecorator;
-use WP_STATISTICS\Helper;
-use WP_Statistics\Service\Database\DatabaseFactory;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Utils\Query;
 
@@ -461,37 +460,38 @@ class VisitorsModel extends BaseModel
 
     public function getVisitorsData($args = [])
     {
-        if (!DatabaseFactory::compareCurrentVersion('14.12.6', '>=')) {
+        if (! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
             return LegacyModel::get('visitorsData', $args, '14.12.4');
         }
 
         $args = $this->parseArgs($args, [
-            'date'          => '',
-            'resource_type' => '',
-            'resource_id'   => '',
-            'post_type'     => '',
-            'author_id'     => '',
-            'post_id'       => '',
-            'country'       => '',
-            'agent'         => '',
-            'platform'      => '',
-            'user_id'       => '',
-            'ip'            => '',
-            'query_param'   => '',
-            'taxonomy'      => '',
-            'term'          => '',
-            'order_by'      => 'visitor.ID',
-            'order'         => 'DESC',
-            'page'          => '',
-            'per_page'      => '',
-            'user_info'     => false,
-            'date_field'    => 'visitor.last_counter',
-            'logged_in'     => false,
-            'user_role'     => '',
-            'event_target'  => '',
-            'event_name'    => '',
-            'fields'        => [],
-            'referrer'      => ''
+            'date'           => '',
+            'resource_type'  => '',
+            'resource_id'    => '',
+            'post_type'      => '',
+            'author_id'      => '',
+            'post_id'        => '',
+            'country'        => '',
+            'agent'          => '',
+            'platform'       => '',
+            'user_id'        => '',
+            'ip'             => '',
+            'query_param'    => '',
+            'taxonomy'       => '',
+            'term'           => '',
+            'order_by'       => 'visitor.ID',
+            'order'          => 'DESC',
+            'page'           => '',
+            'per_page'       => '',
+            'user_info'      => false,
+            'date_field'     => 'visitor.last_counter',
+            'logged_in'      => false,
+            'user_role'      => '',
+            'event_target'   => '',
+            'event_name'     => '',
+            'fields'         => [],
+            'referrer'       => '',
+            'source_channel' => '',
         ]);
 
         // Set default fields
@@ -538,6 +538,15 @@ class VisitorsModel extends BaseModel
             ->orderBy($args['order_by'], $args['order'])
             ->decorate(VisitorDecorator::class)
             ->groupBy('visitor.ID');
+
+        // When source_channel is `unassigned`, only get visitors without source_channel
+        if ($args['source_channel'] === 'unassigned') {
+            $query
+                ->whereNull('visitor.source_channel');
+        } else {
+            $query
+                ->where('source_channel', '=', $args['source_channel']);
+        }
 
         if ($args['logged_in'] === true) {
             $query->where('visitor.user_id', '!=', 0);
@@ -598,7 +607,7 @@ class VisitorsModel extends BaseModel
 
     public function getReferredVisitors($args = [])
     {
-        if (!DatabaseFactory::compareCurrentVersion('14.12.6', '>=')) {
+        if (! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
             return LegacyModel::get('referredVisitors', $args, '14.12.4');
         }
 
@@ -739,7 +748,7 @@ class VisitorsModel extends BaseModel
 
     public function getVisitorData($args = [])
     {
-        if (!DatabaseFactory::compareCurrentVersion('14.12.6', '>=')) {
+        if (! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
             return LegacyModel::get('visitorData', $args, '14.12.4');
         }
 
@@ -816,7 +825,6 @@ class VisitorsModel extends BaseModel
         }
 
         $result = $query
-            ->allowCaching()
             ->getRow();
 
         return $result;
@@ -1003,6 +1011,10 @@ class VisitorsModel extends BaseModel
 
     public function getReferrers($args = [])
     {
+        if (! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
+            return LegacyModel::get('referrers', $args, '14.12.6');
+        }
+
         $args = $this->parseArgs($args, [
             'date'           => '',
             'post_type'      => '',
@@ -1058,8 +1070,7 @@ class VisitorsModel extends BaseModel
 
         if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
-                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'], [], 'LEFT')
-                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+                ->join('pages', ['visitor.first_page', 'pages.page_id'], [], 'LEFT')
                 ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
                 ->where('post_type', 'IN', $args['post_type'])
                 ->where('posts.ID', '=', $args['post_id'])

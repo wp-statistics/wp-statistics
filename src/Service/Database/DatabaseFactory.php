@@ -3,14 +3,12 @@
 namespace WP_Statistics\Service\Database;
 
 use WP_STATISTICS\Option;
-use WP_Statistics\Service\Database\Migrations\DataMigration;
 use WP_Statistics\Service\Database\Migrations\SchemaMigration;
 use WP_Statistics\Service\Database\Operations\AbstractTableOperation;
 use WP_Statistics\Service\Database\Operations\Create;
 use WP_Statistics\Service\Database\Operations\Drop;
 use WP_Statistics\Service\Database\Operations\Insert;
 use WP_Statistics\Service\Database\Operations\Inspect;
-use WP_Statistics\Service\Database\Operations\MultiStepOps\VisitorSearchInsert;
 use WP_Statistics\Service\Database\Operations\Select;
 use WP_Statistics\Service\Database\Operations\Update;
 
@@ -28,13 +26,12 @@ class DatabaseFactory
      * @var array
      */
     private static $operations = [
-        'create'                => Create::class,
-        'update'                => Update::class,
-        'drop'                  => Drop::class,
-        'inspect'               => Inspect::class,
-        'insert'                => Insert::class,
-        'select'                => Select::class,
-        'visitor_search_insert' => VisitorSearchInsert::class
+        'create'  => Create::class,
+        'update'  => Update::class,
+        'drop'    => Drop::class,
+        'inspect' => Inspect::class,
+        'insert'  => Insert::class,
+        'select'  => Select::class,
     ];
 
     /**
@@ -44,7 +41,6 @@ class DatabaseFactory
      */
     private static $migrationTypes = [
         'schema' => SchemaMigration::class,
-        'data' => DataMigration::class,
     ];
 
     /**
