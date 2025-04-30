@@ -191,7 +191,7 @@ class Hits extends BaseTracking
         EntityFactory::parameter($visitorProfile)
             ->record();
 
-        // @todo: add online user request.
+        TrackingFactory::userOnline()->recordIfAllowed($visitorProfile, $exclusion);
         $this->errorListener();
 
         return $exclusion;

@@ -34,37 +34,30 @@ class Session extends BaseEntity
         $cacheKey = 'session_' . $visitorId;
 
         $sessionId = $this->getCachedData($cacheKey, function () use ($visitorId) {
-            $model = new SessionRecord();
-
-            // Try to find an existing "open" session for this visitor.
+            $model    = new SessionRecord();
             $existing = $this->existToday();
 
             if ($existing && isset($existing->ID)) {
                 $model = new SessionRecord($existing);
-                // increment existing session views
-                $newViews      = ((int)$existing->total_views) + 1;
-                $lastResouceId = $this->profile->getResourceId();
+
+                $newViews = ((int)$existing->total_views) + 1;
 
                 $model->update(
                     [
-                        'total_views'     => $newViews,
-                        'last_resouce_id' => $lastResouceId,
+                        'total_views' => $newViews,
                     ],
                 );
                 return (int)$existing->ID;
             }
 
-            $initialViewId = $this->profile->getResourceId();
-
-            // Otherwise, insert a brand-new session row
             return (int)$model->insert([
                 'visitor_id'                => $visitorId,
                 'ip'                        => $this->profile->getProcessedIPForStorage(),
                 'referrer_id'               => $this->profile->getReferrerId(),
                 'country_id'                => $this->profile->getCountryId(),
                 'city_id'                   => $this->profile->getCityId(),
-                'initial_resource_id'       => $initialViewId,
-                'last_resouce_id'           => 0,
+                'initial_view_id'           => $this->profile->getViewId(),
+                'last_view_id'              => $this->profile->getViewId(),
                 'total_views'               => 1,
                 'device_type_id'            => $this->profile->getDeviceTypeId(),
                 'device_os_id'              => $this->profile->getDeviceOsId(),
@@ -88,7 +81,6 @@ class Session extends BaseEntity
      * If a session exists where started_at is today, it is reused.
      *
      * @return object|false
-     * @todo: update existing functionality.
      */
     public function existToday()
     {
@@ -98,12 +90,37 @@ class Session extends BaseEntity
             return false;
         }
 
-        $model = new SessionRecord();
-
         $existing = (new SessionModel())->getTodaySession([
             'visitor_id' => $visitorId
         ]);
 
         return ($existing && isset($existing->ID)) ? $existing : false;
+    }
+
+    public function updateInitialView($viewId, $endAt) 
+    {
+        $sessionId = $this->profile->getSessionId();
+
+        if (!$sessionId || $viewId < 1) {
+            return;
+        }
+
+        $record = new SessionRecord();
+        $session = $record->get(['ID' => $sessionId]);
+
+        if (!$session || !isset($session->ID)) {
+            return;
+        }
+
+        $updates = [
+            'last_view_id' => $viewId,
+            'ended_at'     => $endAt
+        ];
+
+        if (empty($session->initial_view_id)) {
+            $updates['initial_view_id'] = $viewId;
+        }
+
+        (new SessionRecord($session))->update($updates);
     }
 }

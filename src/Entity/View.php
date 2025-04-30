@@ -70,6 +70,7 @@ class View extends BaseEntity
         }
 
         $this->profile->setViewId($newViewId);
+        EntityFactory::session($this->profile)->updateInitialView($newViewId, $now);
         return $this;
     }
 }

@@ -92,7 +92,9 @@ abstract class BaseRecord
             ->from($this->tableName);
 
         foreach ($args as $key => $value) {
-            if (!empty($value)) {
+            if (is_null($value)) {
+                $query->whereNull($key);
+            } elseif(!empty($value)) {
                 $query->where($key, '=', $value);
             }
         }
