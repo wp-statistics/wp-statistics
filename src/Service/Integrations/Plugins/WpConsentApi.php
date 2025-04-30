@@ -3,7 +3,6 @@
 namespace WP_Statistics\Service\Integrations\Plugins;
 
 use WP_STATISTICS\Option;
-use WP_CONSENT_API;
 
 class WpConsentApi extends AbstractIntegration
 {
@@ -20,13 +19,27 @@ class WpConsentApi extends AbstractIntegration
     }
 
     /**
+     * detection notice for "WP Consent API" plugin.
+     */
+    public function detectionNotice()
+    {
+        if (empty(self::getCompatiblePlugins())) return null;
+
+        return [
+            'key'           => 'wp_consent_api_detection_notice',
+            'title'         => esc_html__('Consent integration available', 'wp-statistics'),
+            'description'   => esc_html__('We’ve detected a consent plugin that supports WP Consent API. Enable the “WP Consent API integration” in WP Statistics → Settings → Privacy & Data Protection so your analytics respect visitor consent.', 'wp-statistics'),
+        ];
+    }
+
+    /**
      * Checks if "WP Consent API" plugin is activated.
      *
      * @return  bool
      */
     public function isActive()
     {
-        return class_exists(WP_CONSENT_API::class);
+        return is_plugin_active('wp-consent-api/wp-consent-api.php');
     }
 
     public function trackAnonymously()
@@ -79,27 +92,27 @@ class WpConsentApi extends AbstractIntegration
         $plugins = [];
 
         if (is_plugin_active('beautiful-and-responsive-cookie-consent/nsc_bar-cookie-consent.php')) {
-            $plugins['beautiful-cookie'] = esc_html__('Beautiful Cookie Consent Banner', 'wp-statistics');
+            $plugins['beautiful-and-responsive-cookie-consent/nsc_bar-cookie-consent.php'] = esc_html__('Beautiful Cookie Consent Banner', 'wp-statistics');
         }
 
         if (is_plugin_active('complianz-gdpr/complianz-gpdr.php')) {
-            $plugins['complianz'] = esc_html__('Complianz', 'wp-statistics');
+            $plugins['complianz-gdpr/complianz-gpdr.php'] = esc_html__('Complianz', 'wp-statistics');
         }
 
         if (is_plugin_active('cookiebot/cookiebot.php')) {
-            $plugins['cookiebot'] = esc_html__('Cookiebot', 'wp-statistics');
+            $plugins['cookiebot/cookiebot.php'] = esc_html__('Cookiebot', 'wp-statistics');
         }
 
         if (is_plugin_active('cookiehub/cookiehub.php')) {
-            $plugins['cookiehub'] = esc_html__('CookieHub', 'wp-statistics');
+            $plugins['cookie-law-info/cookie-law-info.php'] = esc_html__('CookieHub', 'wp-statistics');
         }
 
         if (is_plugin_active('cookie-law-info/cookie-law-info.php')) {
-            $plugins['cookieyes'] = esc_html__('CookieYes', 'wp-statistics');
+            $plugins['cookie-law-info/cookie-law-info.php'] = esc_html__('CookieYes', 'wp-statistics');
         }
 
         if (is_plugin_active('gdpr-cookie-compliance/moove-gdpr.php')) {
-            $plugins['gdpr-cookie-compliance'] = esc_html__('GDPR Cookie Compliance', 'wp-statistics');
+            $plugins['gdpr-cookie-compliance/moove-gdpr.php'] = esc_html__('GDPR Cookie Compliance', 'wp-statistics');
         }
 
         return $plugins;

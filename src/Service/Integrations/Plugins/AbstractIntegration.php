@@ -22,6 +22,11 @@ abstract class AbstractIntegration
     abstract public function getName();
 
     /**
+     * Detection notice
+     */
+    abstract public function detectionNotice();
+
+    /**
      * Checks if plugin is activated.
      *
      * @return  bool
