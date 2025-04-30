@@ -78,6 +78,10 @@ class WpConsentApi extends AbstractIntegration
     {
         $plugins = [];
 
+        if (is_plugin_active('beautiful-and-responsive-cookie-consent/nsc_bar-cookie-consent.php')) {
+            $plugins['beautiful-cookie'] = esc_html__('Beautiful Cookie Consent Banner', 'wp-statistics');
+        }
+
         if (is_plugin_active('complianz-gdpr/complianz-gpdr.php')) {
             $plugins['complianz'] = esc_html__('Complianz', 'wp-statistics');
         }
