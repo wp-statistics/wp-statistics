@@ -2,6 +2,7 @@
 - **Fix:** Fixed issue where page views were zero when using a taxonomy filter other than 'category'.
 - **Fix:** Show referrers data based on the first viewed page.
 - **Enhancement:** Display referred visitors via UTM parameters in the `Referrals` report.
+- **Fix:** Fixed Decimal Formatting
 
 = 14.13.4 - 2025-04-29 =
 - **Enhancement:** Enforced capability check in optionUpdater.
