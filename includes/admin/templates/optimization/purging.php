@@ -235,9 +235,9 @@
                 </th>
 
                 <td>
-                    <div class="wps-input-group">
-                        <span class="wps-input-group__label"><?php esc_html_e('Days', 'wp-statistics'); ?></span>
+                    <div class="wps-input-group wps-input-group__small">
                         <input type="text" class="wps-input-group__field wps-input-group__field--small code" id="purge-data" name="wps_purge_data" value="365">
+                        <span class="wps-input-group__label wps-input-group__label-side"><?php esc_html_e('Days', 'wp-statistics'); ?></span>
                     </div>
                     <p class="description"><?php echo esc_html__('Erase User Stats Older Than Specified Days.', 'wp-statistics') . ' ' . esc_html__('Minimum Age for Deletion: 30 Days.', 'wp-statistics'); ?></p>
                     <button id="purge-data-submit" class="js-openModal-setting-confirmation wps-mt-12 wps-button wps-button--danger"
@@ -252,9 +252,9 @@
                 </th>
 
                 <td>
-                    <div class="wps-input-group">
-                        <span class="wps-input-group__label"><?php esc_html_e('Views', 'wp-statistics'); ?></span>
+                    <div class="wps-input-group wps-input-group__small">
                         <input type="text" class="wps-input-group__field wps-input-group__field--small code" id="purge-visitor-hits" name="wps_purge_visitor_hits" value="100">
+                        <span class="wps-input-group__label wps-input-group__label-side"><?php esc_html_e('Views', 'wp-statistics'); ?></span>
                     </div>
 
                     <p class="description"><?php echo esc_html__('Erase User Stats for Visitors Exceeding Daily View Limit. Useful for cleaning bot-related data. Removes visitor and their site visits, but not individual page visits, as they are not recorded per user. Minimum View Threshold: 10 Views.', 'wp-statistics'); ?></p>
