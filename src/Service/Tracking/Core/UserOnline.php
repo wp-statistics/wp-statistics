@@ -3,6 +3,7 @@
 namespace WP_STATISTICS\Service\Tracking\Core;
 
 use WP_STATISTICS\Abstracts\BaseTracking;
+use WP_Statistics\Entity\EntityFactory;
 use WP_STATISTICS\Option;
 use WP_Statistics\Records\SessionRecord;
 use WP_Statistics\Service\Analytics\VisitorProfile;
@@ -72,8 +73,11 @@ class UserOnline extends BaseTracking
 
         $sessionRecord = new SessionRecord($session);
 
+        $now = TimeZone::getCurrentDate('Y-m-d H:i:s');
+
         $sessionRecord->update([
-            'ended_at' => TimeZone::getCurrentDate('Y-m-d H:i:s'),
+            'ended_at' => $now,
+            'duration' => EntityFactory::session($profile)->calculateDuration($now, $session->started_at)
         ]);
     }
 

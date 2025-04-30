@@ -97,6 +97,17 @@ class Session extends BaseEntity
         return ($existing && isset($existing->ID)) ? $existing : false;
     }
 
+    /**
+     * Update the current session's view tracking information.
+     *
+     * This method sets the `last_view_id` and `ended_at` timestamp for the session.
+     * If the session does not yet have an `initial_view_id`, it will be set to the provided `$viewId`.
+     *
+     * @param int    $viewId The ID of the most recent view in the session.
+     * @param string $endAt  The datetime string (Y-m-d H:i:s) when the session is considered ended.
+     * 
+     * @return void
+     */
     public function updateInitialView($viewId, $endAt) 
     {
         $sessionId = $this->profile->getSessionId();
@@ -114,7 +125,8 @@ class Session extends BaseEntity
 
         $updates = [
             'last_view_id' => $viewId,
-            'ended_at'     => $endAt
+            'ended_at'     => $endAt,
+            'duration'     => $this->calculateDuration($endAt, $session->started_at)
         ];
 
         if (empty($session->initial_view_id)) {
@@ -122,5 +134,24 @@ class Session extends BaseEntity
         }
 
         (new SessionRecord($session))->update($updates);
+    }
+
+    /**
+     * Calculate session duration in seconds.
+     *
+     * @param string $endAt      The end timestamp.
+     * @param string $startedAt  The start timestamp.
+     * @return int Duration in seconds, or 0 if invalid.
+     */
+    public function calculateDuration($endAt, $startedAt)
+    {
+        $start = strtotime($startedAt);
+        $end   = strtotime($endAt);
+
+        if ($start === false || $end === false || $end <= $start) {
+            return 0;
+        }
+
+        return $end - $start;
     }
 }
