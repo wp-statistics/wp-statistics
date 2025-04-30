@@ -73,14 +73,14 @@ class GeneralNotices
 
             $message = wp_kses(
                 sprintf(
-                    '<div><b>%s - %s:</b><p>%s</p><a href="%s">%s</a></div>',
+                    '<div class="wps-mt-10 wps-mb-10"><b class="wp-statistics-notice__title">%s - %s:</b><p>%s</p><a href="%s">%s</a></div>',
                     esc_html__('WP Statistics', 'wp-statistics'),
                         esc_html($notice['title']),
                         $notice['description'],
                         esc_url(Menus::admin_url('settings', ['tab' => 'privacy-settings']). '#consent_integration'),
                         esc_html__('Activate integration ›', 'wp-statistics')
                 ),
-                ['div' => [], 'b' => [], 'p' => [], 'a' => ['href' => []]]
+                ['div' => ['class' => []], 'b' => ['class' => []], 'p' => [], 'a' => ['href' => []]]
             );
 
             Notice::addNotice($message, $notice['key']);
