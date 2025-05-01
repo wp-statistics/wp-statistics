@@ -2,12 +2,11 @@
 
 namespace WP_Statistics\Service\Admin\ContentAnalytics;
 
-use WP_STATISTICS\Menus;
-use WP_STATISTICS\Option;
-use WP_Statistics\Utils\Request;
 use WP_Statistics\Abstracts\MultiViewPage;
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory;
+use WP_STATISTICS\Menus;
+use WP_Statistics\Utils\Request;
 use WP_Statistics\Async\SourceChannelUpdater;
-use WP_Statistics\Async\BackgroundProcessFactory;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Service\Admin\FilterHandler\FilterGenerator;

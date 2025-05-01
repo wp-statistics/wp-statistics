@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Statistics 14.13.1\n"
+"Project-Id-Version: WP Statistics 14.13.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-statistics\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-04-08T09:39:53+00:00\n"
+"POT-Creation-Date: 2025-04-20T05:26:47+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-statistics\n"
@@ -135,7 +135,7 @@ msgid "Invalid Page in Request."
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-ajax.php:500
-#: includes/admin/class-wp-statistics-admin-assets.php:392
+#: includes/admin/class-wp-statistics-admin-assets.php:393
 #: includes/admin/class-wp-statistics-admin-template.php:236
 #: includes/class-wp-statistics-widget.php:326
 #: src/Service/Admin/PageInsights/PageInsightsPage.php:29
@@ -172,8 +172,8 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:364
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:55
 #: src/Models/ViewsModel.php:178
-#: src/Models/VisitorsModel.php:348
-#: src/Models/VisitorsModel.php:407
+#: src/Models/VisitorsModel.php:347
+#: src/Models/VisitorsModel.php:406
 #: views/metabox/traffic-overview.php:88
 msgid "Today"
 msgstr ""
@@ -248,7 +248,7 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:322
 #: includes/admin/class-wp-statistics-admin-assets.php:359
-#: includes/admin/class-wp-statistics-admin-assets.php:426
+#: includes/admin/class-wp-statistics-admin-assets.php:427
 #: includes/admin/class-wp-statistics-admin-network.php:60
 #: includes/admin/class-wp-statistics-admin-user.php:36
 #: includes/admin/templates/emails/layout.php:156
@@ -267,7 +267,7 @@ msgstr ""
 #: includes/class-wp-statistics-shortcode.php:287
 #: src/Service/Admin/MiniChart/MiniChartHelper.php:112
 #: src/Service/Admin/VisitorInsights/Views/TabsView.php:102
-#: src/Service/Charts/DataProvider/PerformanceChartDataProvider.php:89
+#: src/Service/Charts/DataProvider/PerformanceChartDataProvider.php:90
 #: src/Service/Charts/DataProvider/TrafficChartDataProvider.php:53
 #: src/Service/Charts/DataProvider/TrafficChartDataProvider.php:67
 #: views/components/tables/404.php:19
@@ -287,8 +287,8 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:365
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:56
 #: src/Models/ViewsModel.php:182
-#: src/Models/VisitorsModel.php:352
-#: src/Models/VisitorsModel.php:411
+#: src/Models/VisitorsModel.php:351
+#: src/Models/VisitorsModel.php:410
 #: views/metabox/traffic-overview.php:93
 msgid "Yesterday"
 msgstr ""
@@ -297,8 +297,8 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:331
 #: includes/admin/class-wp-statistics-admin-assets.php:370
 #: src/Models/ViewsModel.php:202
-#: src/Models/VisitorsModel.php:372
-#: src/Models/VisitorsModel.php:431
+#: src/Models/VisitorsModel.php:371
+#: src/Models/VisitorsModel.php:430
 #: views/metabox/traffic-overview.php:98
 msgid "Last 7 days"
 msgstr ""
@@ -306,25 +306,25 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:326
 #: includes/admin/class-wp-statistics-admin-assets.php:366
 #: src/Models/ViewsModel.php:186
-#: src/Models/VisitorsModel.php:356
-#: src/Models/VisitorsModel.php:415
+#: src/Models/VisitorsModel.php:355
+#: src/Models/VisitorsModel.php:414
 msgid "This week"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:327
 #: includes/admin/class-wp-statistics-admin-assets.php:367
 #: src/Models/ViewsModel.php:190
-#: src/Models/VisitorsModel.php:360
-#: src/Models/VisitorsModel.php:419
+#: src/Models/VisitorsModel.php:359
+#: src/Models/VisitorsModel.php:418
 msgid "Last week"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:328
 #: includes/admin/class-wp-statistics-admin-assets.php:332
-#: includes/admin/class-wp-statistics-admin-assets.php:371
+#: includes/admin/class-wp-statistics-admin-assets.php:372
 #: src/Models/ViewsModel.php:206
-#: src/Models/VisitorsModel.php:376
-#: src/Models/VisitorsModel.php:435
+#: src/Models/VisitorsModel.php:375
+#: src/Models/VisitorsModel.php:434
 #: views/metabox/traffic-overview.php:103
 msgid "Last 30 days"
 msgstr ""
@@ -332,16 +332,16 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:329
 #: includes/admin/class-wp-statistics-admin-assets.php:368
 #: src/Models/ViewsModel.php:194
-#: src/Models/VisitorsModel.php:364
-#: src/Models/VisitorsModel.php:423
+#: src/Models/VisitorsModel.php:363
+#: src/Models/VisitorsModel.php:422
 msgid "This month"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:330
 #: includes/admin/class-wp-statistics-admin-assets.php:369
 #: src/Models/ViewsModel.php:198
-#: src/Models/VisitorsModel.php:368
-#: src/Models/VisitorsModel.php:427
+#: src/Models/VisitorsModel.php:367
+#: src/Models/VisitorsModel.php:426
 msgid "Last month"
 msgstr ""
 
@@ -350,18 +350,18 @@ msgid "Last 60 days"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:334
-#: includes/admin/class-wp-statistics-admin-assets.php:372
+#: includes/admin/class-wp-statistics-admin-assets.php:373
 #: src/Models/ViewsModel.php:210
-#: src/Models/VisitorsModel.php:380
-#: src/Models/VisitorsModel.php:439
+#: src/Models/VisitorsModel.php:379
+#: src/Models/VisitorsModel.php:438
 msgid "Last 90 days"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:335
-#: includes/admin/class-wp-statistics-admin-assets.php:373
+#: includes/admin/class-wp-statistics-admin-assets.php:374
 #: src/Models/ViewsModel.php:214
-#: src/Models/VisitorsModel.php:384
-#: src/Models/VisitorsModel.php:443
+#: src/Models/VisitorsModel.php:383
+#: src/Models/VisitorsModel.php:442
 msgid "Last 6 months"
 msgstr ""
 
@@ -371,14 +371,14 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:337
 #: src/Models/ViewsModel.php:218
-#: src/Models/VisitorsModel.php:388
-#: src/Models/VisitorsModel.php:447
+#: src/Models/VisitorsModel.php:387
+#: src/Models/VisitorsModel.php:446
 #: views/metabox/traffic-overview.php:108
 msgid "This year (Jan-Today)"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:338
-#: includes/admin/class-wp-statistics-admin-assets.php:376
+#: includes/admin/class-wp-statistics-admin-assets.php:377
 msgid "Last year"
 msgstr ""
 
@@ -396,15 +396,15 @@ msgstr ""
 #: includes/admin/templates/pages/content-analytics/single.php:28
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:60
 #: src/Models/ViewsModel.php:225
-#: src/Models/VisitorsModel.php:395
-#: src/Models/VisitorsModel.php:454
+#: src/Models/VisitorsModel.php:394
+#: src/Models/VisitorsModel.php:453
 #: src/Service/Charts/DataProvider/ExclusionsChartDataProvider.php:91
 #: src/Service/Charts/DataProvider/SearchEngineChartDataProvider.php:95
-#: src/Service/Charts/DataProvider/SearchEngineChartDataProvider.php:121
+#: src/Service/Charts/DataProvider/SearchEngineChartDataProvider.php:122
 #: src/Service/Charts/DataProvider/SocialMediaChartDataProvider.php:95
-#: src/Service/Charts/DataProvider/SocialMediaChartDataProvider.php:121
+#: src/Service/Charts/DataProvider/SocialMediaChartDataProvider.php:122
 #: src/Service/Charts/DataProvider/SourceCategoryChartDataProvider.php:91
-#: src/Service/Charts/DataProvider/SourceCategoryChartDataProvider.php:117
+#: src/Service/Charts/DataProvider/SourceCategoryChartDataProvider.php:118
 #: views/metabox/traffic-overview.php:113
 msgid "Total"
 msgstr ""
@@ -461,7 +461,6 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:348
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:66
-#: views/components/visitor-information.php:45
 msgid "ID"
 msgstr ""
 
@@ -539,56 +538,60 @@ msgstr ""
 msgid "Visited Page"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:374
+#: includes/admin/class-wp-statistics-admin-assets.php:371
+msgid "Last 28 days"
+msgstr ""
+
 #: includes/admin/class-wp-statistics-admin-assets.php:375
+#: includes/admin/class-wp-statistics-admin-assets.php:376
 msgid "This year"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:377
+#: includes/admin/class-wp-statistics-admin-assets.php:378
 msgid "Go Back"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:378
+#: includes/admin/class-wp-statistics-admin-assets.php:379
 msgid "Select Custom Range..."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:379
+#: includes/admin/class-wp-statistics-admin-assets.php:380
 msgid "Custom Range"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:380
+#: includes/admin/class-wp-statistics-admin-assets.php:381
 msgid "All time"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:381
+#: includes/admin/class-wp-statistics-admin-assets.php:382
 msgid "Additional Date Ranges"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:382
+#: includes/admin/class-wp-statistics-admin-assets.php:383
 msgid "Custom Date Range"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:383
+#: includes/admin/class-wp-statistics-admin-assets.php:384
 msgid "To (End Date)"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:384
+#: includes/admin/class-wp-statistics-admin-assets.php:385
 msgid "From (Start Date)"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:385
+#: includes/admin/class-wp-statistics-admin-assets.php:386
 msgid "Apply Range"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:386
+#: includes/admin/class-wp-statistics-admin-assets.php:387
 msgid "Sorry, there's no data available for this selection."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:387
+#: includes/admin/class-wp-statistics-admin-assets.php:388
 msgid "Total Number"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:388
+#: includes/admin/class-wp-statistics-admin-assets.php:389
 #: includes/admin/templates/pages/devices/browsers.php:20
 #: includes/admin/templates/pages/devices/categories.php:18
 #: includes/admin/templates/pages/devices/models.php:18
@@ -597,55 +600,55 @@ msgstr ""
 msgid "Percent Share"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:389
+#: includes/admin/class-wp-statistics-admin-assets.php:390
 #: src/Service/Admin/Devices/Views/SingleBrowserView.php:42
 #: src/Service/Admin/SiteHealthInfo.php:82
 #: views/metabox/about.php:7
 msgid "Version"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:390
+#: includes/admin/class-wp-statistics-admin-assets.php:391
 msgid "Apply Filters"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:391
+#: includes/admin/class-wp-statistics-admin-assets.php:392
 #: views/components/objects/header-filter-button.php:4
 msgid "Filters"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:393
+#: includes/admin/class-wp-statistics-admin-assets.php:394
 msgid "Select Desired Time Range"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:394
+#: includes/admin/class-wp-statistics-admin-assets.php:395
 msgid "Please enter a valid IP (e.g., 192.168.1.1) or hash (starting with #)"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:395
+#: includes/admin/class-wp-statistics-admin-assets.php:396
 msgid "Loading, Please Wait..."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:396
+#: includes/admin/class-wp-statistics-admin-assets.php:397
 #: src/Service/Admin/VisitorInsights/Views/SingleVisitorView.php:48
 #: src/Service/Admin/VisitorInsights/VisitorInsightsPage.php:72
 msgid "User"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:397
+#: includes/admin/class-wp-statistics-admin-assets.php:398
 msgid "Failed to retrieve data. Please check the browser console and the XHR request under Network → XHR for details."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:398
+#: includes/admin/class-wp-statistics-admin-assets.php:399
 #: src/Service/Admin/PrivacyAudit/PrivacyAuditController.php:87
 msgid "Your WP Statistics settings are privacy-compliant."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:399
+#: includes/admin/class-wp-statistics-admin-assets.php:400
 #: src/Service/Admin/PrivacyAudit/PrivacyAuditController.php:102
 msgid "Your WP Statistics settings are not privacy-compliant. Please update your settings."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:400
+#: includes/admin/class-wp-statistics-admin-assets.php:401
 #: includes/admin/templates/layout/author-analytics/top-authors.php:52
 #: includes/admin/templates/layout/author-analytics/top-authors.php:82
 #: includes/admin/templates/layout/author-analytics/top-authors.php:115
@@ -695,13 +698,13 @@ msgstr ""
 msgid "No recent data available."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:401
+#: includes/admin/class-wp-statistics-admin-assets.php:402
 #: includes/admin/templates/pages/author-analytics/authors-report.php:31
 #: includes/admin/templates/pages/category-analytics/category-report.php:33
 msgid "Published"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:402
+#: includes/admin/class-wp-statistics-admin-assets.php:403
 #: includes/admin/templates/layout/filters/author-filter.php:6
 #: includes/admin/templates/pages/author-analytics/authors-report.php:22
 #: src/Service/Admin/CategoryAnalytics/CategoryAnalyticsPage.php:43
@@ -710,25 +713,25 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:403
+#: includes/admin/class-wp-statistics-admin-assets.php:404
 msgid "View Detailed Analytics"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:404
+#: includes/admin/class-wp-statistics-admin-assets.php:405
 #: views/components/meta-box/enable-mail.php:9
 msgid "Enable Now"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:405
+#: includes/admin/class-wp-statistics-admin-assets.php:406
 #: views/components/meta-box/enable-mail.php:8
 msgid "Receive Weekly Email Reports"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:406
+#: includes/admin/class-wp-statistics-admin-assets.php:407
 msgid "Close"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:407
+#: includes/admin/class-wp-statistics-admin-assets.php:408
 #: views/components/charts/exclusions.php:11
 #: views/components/charts/income-visitor-chart.php:11
 #: views/components/charts/search-engines.php:21
@@ -740,53 +743,53 @@ msgstr ""
 msgid "Previous period"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:408
+#: includes/admin/class-wp-statistics-admin-assets.php:409
 #: views/components/tables/content-report.php:92
 #: views/metabox/most-visited-pages.php:12
 msgid "View Content"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:409
+#: includes/admin/class-wp-statistics-admin-assets.php:410
 msgid "Downloading"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:410
+#: includes/admin/class-wp-statistics-admin-assets.php:411
 #: src/Service/Admin/LicenseManagement/Plugin/PluginDecorator.php:222
 #: views/components/addon-active-card.php:27
 msgid "Activated"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:411
+#: includes/admin/class-wp-statistics-admin-assets.php:412
 #: includes/admin/templates/layout/author-analytics/performance-summary.php:30
 #: views/components/addon-active-card.php:34
 #: views/components/addon-box.php:39
 msgid "Active"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:412
+#: includes/admin/class-wp-statistics-admin-assets.php:413
 msgid "Activating"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:413
+#: includes/admin/class-wp-statistics-admin-assets.php:414
 #: views/components/addon-download-card.php:34
 msgid "Already installed"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:414
+#: includes/admin/class-wp-statistics-admin-assets.php:415
 #: views/components/addon-active-card.php:25
 msgid "Failed"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:415
+#: includes/admin/class-wp-statistics-admin-assets.php:416
 #: views/components/addon-active-card.php:32
 msgid "Retry"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:416
+#: includes/admin/class-wp-statistics-admin-assets.php:417
 msgid "Redirecting... Please wait"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:417
+#: includes/admin/class-wp-statistics-admin-assets.php:418
 #: views/components/tables/online.php:17
 #: views/components/tables/referred-visitors.php:17
 #: views/components/tables/views.php:9
@@ -797,14 +800,14 @@ msgstr ""
 msgid "Last View"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:418
+#: includes/admin/class-wp-statistics-admin-assets.php:419
 #: views/metabox/currently-online.php:21
 #: views/metabox/latest-visitor.php:18
 #: views/metabox/most-active-visitors.php:17
 msgid "Visitor Info"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:419
+#: includes/admin/class-wp-statistics-admin-assets.php:420
 #: views/components/tables/online.php:26
 #: views/components/tables/referred-visitors.php:26
 #: views/components/tables/top-visitors.php:23
@@ -817,25 +820,23 @@ msgstr ""
 msgid "Location"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:420
+#: includes/admin/class-wp-statistics-admin-assets.php:421
 #: includes/class-wp-statistics-widget.php:255
-#: views/components/visitor-information.php:50
 msgid "Name"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:421
+#: includes/admin/class-wp-statistics-admin-assets.php:422
 #: includes/admin/templates/settings/notifications.php:71
 #: src/Service/Analytics/Referrals/SourceChannels.php:20
-#: views/components/visitor-information.php:55
 msgid "Email"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:422
+#: includes/admin/class-wp-statistics-admin-assets.php:423
 #: views/components/account-information.php:43
 msgid "Role"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:423
+#: includes/admin/class-wp-statistics-admin-assets.php:424
 #: views/components/tables/online.php:32
 #: views/components/tables/top-visitors.php:29
 #: views/components/tables/views.php:35
@@ -846,7 +847,7 @@ msgstr ""
 msgid "Latest Page"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:424
+#: includes/admin/class-wp-statistics-admin-assets.php:425
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:51
 #: includes/class-wp-statistics-shortcode.php:301
 #: src/Service/Admin/VisitorInsights/VisitorInsightsPage.php:61
@@ -862,26 +863,26 @@ msgstr ""
 msgid "Referrer"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:425
+#: includes/admin/class-wp-statistics-admin-assets.php:426
 #: views/components/tables/online.php:20
 #: views/metabox/currently-online.php:33
 msgid "Online For"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:427
+#: includes/admin/class-wp-statistics-admin-assets.php:428
 #: views/metabox/most-visited-pages.php:14
 msgid "View"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:428
+#: includes/admin/class-wp-statistics-admin-assets.php:429
 msgid "Waiting"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:433
+#: includes/admin/class-wp-statistics-admin-assets.php:434
 msgid "Continue to Next Step"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:434
+#: includes/admin/class-wp-statistics-admin-assets.php:435
 #: includes/admin/templates/layout/privacy-audit/privacy-audits.php:3
 #: src/Service/Admin/PrivacyAudit/Audits/Abstracts/RecommendedAudit.php:46
 #: src/Service/Admin/PrivacyAudit/Audits/Abstracts/ResolvableAudit.php:119
@@ -891,16 +892,16 @@ msgstr ""
 msgid "Action Required"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:435
+#: includes/admin/class-wp-statistics-admin-assets.php:436
 msgid "Show less"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:436
-#: views/components/headers/post-type.php:84
+#: includes/admin/class-wp-statistics-admin-assets.php:437
+#: views/components/headers/post-type.php:88
 msgid "Show more"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:437
+#: includes/admin/class-wp-statistics-admin-assets.php:438
 msgid "Pending"
 msgstr ""
 
@@ -1101,7 +1102,7 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-template.php:278
 #: includes/admin/templates/pages/devices/models.php:28
 #: includes/admin/templates/pages/geographic/cities.php:46
-#: includes/class-wp-statistics-visitor.php:417
+#: includes/class-wp-statistics-visitor.php:418
 #: src/Decorators/DeviceDecorator.php:35
 #: src/Service/Admin/LicenseManagement/Plugin/PluginDecorator.php:224
 #: src/Service/Analytics/DeviceDetection/DeviceHelper.php:40
@@ -1158,7 +1159,7 @@ msgstr ""
 msgid "All Settings Have Been Reset to Default."
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:373
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:372
 msgid "Custom header IP detection failed or the specified custom header is empty. Will switch to default detection method (Sequential IP Detection)."
 msgstr ""
 
@@ -1340,7 +1341,7 @@ msgstr ""
 #: includes/admin/templates/layout/author-analytics/performance-summary.php:37
 #: includes/admin/templates/pages/content-analytics/post-type.php:17
 #: src/Service/Charts/DataProvider/AuthorsPostViewsChartDataProvider.php:58
-#: src/Service/Charts/DataProvider/PerformanceChartDataProvider.php:97
+#: src/Service/Charts/DataProvider/PerformanceChartDataProvider.php:99
 msgid "Published %s"
 msgstr ""
 
@@ -1471,7 +1472,7 @@ msgstr ""
 
 #: includes/admin/templates/layout/filters/post-type-filter.php:6
 #: includes/admin/templates/layout/filters/post-types-filter.php:6
-#: src/Service/Admin/AuthorAnalytics/AuthorAnalyticsPage.php:44
+#: src/Service/Admin/AuthorAnalytics/AuthorAnalyticsPage.php:45
 #: src/Service/Admin/CategoryAnalytics/CategoryAnalyticsPage.php:35
 #: src/Service/Admin/PageInsights/PageInsightsPage.php:86
 msgid "Post Type"
@@ -2505,7 +2506,7 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/widgets.php:82
 #: includes/admin/templates/settings/advanced.php:496
 #: includes/admin/templates/settings/display.php:146
-#: includes/admin/templates/settings/exclusions.php:281
+#: includes/admin/templates/settings/exclusions.php:263
 #: includes/admin/templates/settings/general.php:130
 #: includes/admin/templates/settings/notifications.php:144
 #: includes/admin/templates/settings/privacy.php:189
@@ -2618,7 +2619,7 @@ msgstr ""
 #: includes/admin/templates/settings/display.php:100
 #: includes/admin/templates/settings/display.php:122
 #: includes/admin/templates/settings/exclusions.php:196
-#: includes/admin/templates/settings/exclusions.php:273
+#: includes/admin/templates/settings/exclusions.php:255
 #: includes/admin/templates/settings/general.php:22
 #: includes/admin/templates/settings/general.php:38
 #: includes/admin/templates/settings/general.php:54
@@ -2685,7 +2686,7 @@ msgid "Find out which pages on your website are attracting the most attention."
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:180
-#: src/Service/Admin/Metabox/Metaboxes/TopCountries.php:15
+#: src/Service/Admin/Metabox/Metaboxes/TopCountries.php:16
 #: src/Service/Admin/SiteHealthInfo.php:411
 #: views/components/tables/top-countries.php:8
 msgid "Top Countries"
@@ -3756,27 +3757,15 @@ msgid "Weekly Auto-Update"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:249
-msgid "Host Exclusions"
-msgstr ""
-
-#: includes/admin/templates/settings/exclusions.php:253
-msgid "Excluded Hosts"
-msgstr ""
-
-#: includes/admin/templates/settings/exclusions.php:256
-msgid "Provide host names to exclude. Relies on cached IP, not live DNS lookup."
-msgstr ""
-
-#: includes/admin/templates/settings/exclusions.php:267
 msgid "General Exclusions"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:271
+#: includes/admin/templates/settings/exclusions.php:253
 #: src/Service/Admin/SiteHealthInfo.php:288
 msgid "Log Record Exclusions"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:274
+#: includes/admin/templates/settings/exclusions.php:256
 msgid "Maintain a log of all excluded visits for insight into exclusions."
 msgstr ""
 
@@ -4434,26 +4423,22 @@ msgid "Excluded URL"
 msgstr ""
 
 #: includes/class-wp-statistics-exclusion.php:40
-msgid "Host name"
-msgstr ""
-
-#: includes/class-wp-statistics-exclusion.php:41
 msgid "Geolocation"
 msgstr ""
 
-#: includes/class-wp-statistics-exclusion.php:42
+#: includes/class-wp-statistics-exclusion.php:41
 msgid "Robot threshold"
 msgstr ""
 
-#: includes/class-wp-statistics-exclusion.php:43
+#: includes/class-wp-statistics-exclusion.php:42
 msgid "XML-RPC"
 msgstr ""
 
-#: includes/class-wp-statistics-exclusion.php:44
+#: includes/class-wp-statistics-exclusion.php:43
 msgid "Cross site Request"
 msgstr ""
 
-#: includes/class-wp-statistics-exclusion.php:45
+#: includes/class-wp-statistics-exclusion.php:44
 msgid "Pre-flight Request"
 msgstr ""
 
@@ -4590,43 +4575,43 @@ msgstr ""
 msgid "Mini Chart"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:2013
-msgid "Invalid hit request params."
+#: includes/class-wp-statistics-helper.php:2020
+msgid "Invalid hit/online request."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:211
+#: includes/class-wp-statistics-install.php:214
 msgid "Click here to visit the plugin on WordPress.org"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:211
+#: includes/class-wp-statistics-install.php:214
 msgid "Visit WordPress.org page"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:213
+#: includes/class-wp-statistics-install.php:216
 msgid "Click here to rate and review this plugin on WordPress.org"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:213
+#: includes/class-wp-statistics-install.php:216
 msgid "Rate this plugin"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:600
+#: includes/class-wp-statistics-install.php:603
 msgid "WP Statistics database requires upgrade."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:603
+#: includes/class-wp-statistics-install.php:606
 msgid "Upgrade Database"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:627
+#: includes/class-wp-statistics-install.php:630
 msgid "Database Upgrade Completed Successfully!"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:665
+#: includes/class-wp-statistics-install.php:668
 msgid "Error During Operation. Please Refresh the Page."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:678
+#: includes/class-wp-statistics-install.php:681
 msgid "Item processed"
 msgstr ""
 
@@ -4929,7 +4914,7 @@ msgstr ""
 msgid "Choose a Specific Search Engine Type"
 msgstr ""
 
-#: includes/class-wp-statistics.php:288
+#: includes/class-wp-statistics.php:296
 msgid "Unable to create the required upload directory at <code>%s</code>. Please check that the web server has write permissions for the parent directory. Alternatively, you can manually create the directory yourself. Please keep in mind that the GeoIP database may not work correctly if the directory structure is not properly set up."
 msgstr ""
 
@@ -4950,15 +4935,63 @@ msgstr ""
 msgid "render method is not defined within %s class."
 msgstr ""
 
-#: src/Async/CalculatePostWordsCount.php:61
+#: src/BackgroundProcess/AjaxBackgroundProcess/AbstractAjaxBackgroundProcess.php:330
+msgid "Unauthorized request or insufficient permissions."
+msgstr ""
+
+#: src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php:97
+msgid "WP Statistics: Process Complete"
+msgstr ""
+
+#: src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php:98
+msgid "The Database Migration process has been completed successfully. Thank you for keeping WP Statistics up-to-date!"
+msgstr ""
+
+#: src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php:128
+msgid "WP Statistics: Migration In Progress"
+msgstr ""
+
+#: src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php:129
+msgid "Your data is currently migrating in the background"
+msgstr ""
+
+#: src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php:130
+msgid "completed"
+msgstr ""
+
+#: src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php:131
+msgid "Please keep this page open if possible. If you close, the migration will pause. Don’t worry—simply come back to this page to pick up where it left off."
+msgstr ""
+
+#: src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php:159
+msgid "WP Statistics: Migration Required"
+msgstr ""
+
+#: src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php:160
+msgid "A data migration is needed for WP Statistics. Click <strong>Start Migration</strong> below to begin."
+msgstr ""
+
+#: src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php:161
+msgid "<strong>Note:</strong> If you leave this page before the migration finishes, the process will pause. You can always return later to resume."
+msgstr ""
+
+#: src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php:163
+msgid "Start Migration"
+msgstr ""
+
+#: src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php:165
+msgid "Read More"
+msgstr ""
+
+#: src/BackgroundProcess/AsyncBackgroundProcess/Jobs/CalculatePostWordsCount.php:58
 msgid "Word count processed successfully."
 msgstr ""
 
-#: src/Async/IncompleteGeoIpUpdater.php:80
+#: src/BackgroundProcess/AsyncBackgroundProcess/Jobs/IncompleteGeoIpUpdater.php:80
 msgid "GeoIP update for incomplete visitors processed successfully."
 msgstr ""
 
-#: src/Async/SourceChannelUpdater.php:75
+#: src/BackgroundProcess/AsyncBackgroundProcess/Jobs/SourceChannelUpdater.php:72
 msgid "Source channel update for visitors processed successfully."
 msgstr ""
 
@@ -5006,17 +5039,17 @@ msgstr ""
 msgid "Every 2 Months"
 msgstr ""
 
-#: src/Service/Admin/AuthorAnalytics/AuthorAnalyticsPage.php:72
+#: src/Service/Admin/AuthorAnalytics/AuthorAnalyticsPage.php:73
 msgid "This post type doesn’t support authors, affecting the accuracy of author performance data. To fix this, please enable author support for this post type. <a href=\"%s\" target=\"_blank\">Learn more</a>."
 msgstr ""
 
-#: src/Service/Admin/AuthorAnalytics/AuthorAnalyticsPage.php:97
-#: src/Service/Admin/ContentAnalytics/ContentAnalyticsPage.php:71
+#: src/Service/Admin/AuthorAnalytics/AuthorAnalyticsPage.php:101
+#: src/Service/Admin/ContentAnalytics/ContentAnalyticsPage.php:74
 msgid "Please <a href=\"%s\">click here</a> to process the word count in the background. This is necessary for accurate analytics."
 msgstr ""
 
-#: src/Service/Admin/AuthorAnalytics/AuthorAnalyticsPage.php:116
-#: src/Service/Admin/ContentAnalytics/ContentAnalyticsPage.php:90
+#: src/Service/Admin/AuthorAnalytics/AuthorAnalyticsPage.php:122
+#: src/Service/Admin/ContentAnalytics/ContentAnalyticsPage.php:95
 msgid "Word count processing is already started."
 msgstr ""
 
@@ -5188,11 +5221,11 @@ msgstr ""
 msgid "Track and analyze the logs of excluded traffic based on your Filtering & Exceptions settings."
 msgstr ""
 
-#: src/Service/Admin/Geographic/GeographicPage.php:65
+#: src/Service/Admin/Geographic/GeographicPage.php:63
 msgid "Detected visitors without location data. Please <a href=\"%s\">click here</a> to update the geographic data in the background. This is necessary for accurate analytics."
 msgstr ""
 
-#: src/Service/Admin/Geographic/GeographicPage.php:74
+#: src/Service/Admin/Geographic/GeographicPage.php:72
 msgid "Geographic data update is already in progress."
 msgstr ""
 
@@ -5437,15 +5470,15 @@ msgstr ""
 msgid "Install Add-On"
 msgstr ""
 
-#: src/Service/Admin/Metabox/Metaboxes/BrowserUsage.php:16
+#: src/Service/Admin/Metabox/Metaboxes/BrowserUsage.php:17
 msgid "Browser Usage"
 msgstr ""
 
-#: src/Service/Admin/Metabox/Metaboxes/BrowserUsage.php:21
+#: src/Service/Admin/Metabox/Metaboxes/BrowserUsage.php:22
 msgid "Distribution of visitors based on the browsers they use."
 msgstr ""
 
-#: src/Service/Admin/Metabox/Metaboxes/BrowserUsage.php:30
+#: src/Service/Admin/Metabox/Metaboxes/BrowserUsage.php:31
 msgid "View Browser Usage"
 msgstr ""
 
@@ -5469,15 +5502,15 @@ msgstr ""
 msgid "Daily Traffic Trend Report"
 msgstr ""
 
-#: src/Service/Admin/Metabox/Metaboxes/DeviceUsageBreakdown.php:15
+#: src/Service/Admin/Metabox/Metaboxes/DeviceUsageBreakdown.php:16
 msgid "Device Usage Breakdown"
 msgstr ""
 
-#: src/Service/Admin/Metabox/Metaboxes/DeviceUsageBreakdown.php:20
+#: src/Service/Admin/Metabox/Metaboxes/DeviceUsageBreakdown.php:21
 msgid "Distribution of visitors based on the devices they use to access your site."
 msgstr ""
 
-#: src/Service/Admin/Metabox/Metaboxes/DeviceUsageBreakdown.php:29
+#: src/Service/Admin/Metabox/Metaboxes/DeviceUsageBreakdown.php:30
 msgid "View Most Device Categories"
 msgstr ""
 
@@ -5501,39 +5534,39 @@ msgstr ""
 msgid "Details of the most recent visitors to your site."
 msgstr ""
 
-#: src/Service/Admin/Metabox/Metaboxes/MostActiveVisitors.php:15
+#: src/Service/Admin/Metabox/Metaboxes/MostActiveVisitors.php:16
 msgid "Most Active Visitors"
 msgstr ""
 
-#: src/Service/Admin/Metabox/Metaboxes/MostActiveVisitors.php:20
+#: src/Service/Admin/Metabox/Metaboxes/MostActiveVisitors.php:21
 msgid "Visitors with the highest number of views, including their country, city, IP address, and browser."
 msgstr ""
 
-#: src/Service/Admin/Metabox/Metaboxes/MostActiveVisitors.php:29
+#: src/Service/Admin/Metabox/Metaboxes/MostActiveVisitors.php:30
 msgid "View Most Active Visitors"
 msgstr ""
 
-#: src/Service/Admin/Metabox/Metaboxes/MostVisitedPages.php:15
+#: src/Service/Admin/Metabox/Metaboxes/MostVisitedPages.php:16
 msgid "Most Visited Pages"
 msgstr ""
 
-#: src/Service/Admin/Metabox/Metaboxes/MostVisitedPages.php:20
+#: src/Service/Admin/Metabox/Metaboxes/MostVisitedPages.php:21
 msgid "Pages on your website with the highest number of views in the selected time frame."
 msgstr ""
 
-#: src/Service/Admin/Metabox/Metaboxes/MostVisitedPages.php:29
+#: src/Service/Admin/Metabox/Metaboxes/MostVisitedPages.php:30
 msgid "View Most Visited Pages"
 msgstr ""
 
-#: src/Service/Admin/Metabox/Metaboxes/OperatingSystems.php:15
+#: src/Service/Admin/Metabox/Metaboxes/OperatingSystems.php:16
 msgid "Most Used Operating Systems"
 msgstr ""
 
-#: src/Service/Admin/Metabox/Metaboxes/OperatingSystems.php:20
+#: src/Service/Admin/Metabox/Metaboxes/OperatingSystems.php:21
 msgid "Identify the operating systems most commonly used by your website visitors."
 msgstr ""
 
-#: src/Service/Admin/Metabox/Metaboxes/OperatingSystems.php:29
+#: src/Service/Admin/Metabox/Metaboxes/OperatingSystems.php:30
 msgid "View Most Used OS"
 msgstr ""
 
@@ -5553,24 +5586,24 @@ msgstr ""
 msgid "View Referrals from Search Engines"
 msgstr ""
 
-#: src/Service/Admin/Metabox/Metaboxes/TopCountries.php:29
+#: src/Service/Admin/Metabox/Metaboxes/TopCountries.php:30
 msgid "View Top Countries"
 msgstr ""
 
-#: src/Service/Admin/Metabox/Metaboxes/TopDeviceModel.php:15
+#: src/Service/Admin/Metabox/Metaboxes/TopDeviceModel.php:16
 msgid "Top Device Model"
 msgstr ""
 
-#: src/Service/Admin/Metabox/Metaboxes/TopDeviceModel.php:29
+#: src/Service/Admin/Metabox/Metaboxes/TopDeviceModel.php:30
 msgid "View Top Models"
 msgstr ""
 
-#: src/Service/Admin/Metabox/Metaboxes/TopReferring.php:15
+#: src/Service/Admin/Metabox/Metaboxes/TopReferring.php:16
 #: views/components/tables/top-referring.php:9
 msgid "Top Referring"
 msgstr ""
 
-#: src/Service/Admin/Metabox/Metaboxes/TopReferring.php:29
+#: src/Service/Admin/Metabox/Metaboxes/TopReferring.php:30
 msgid "View Top Referring"
 msgstr ""
 
@@ -5657,7 +5690,7 @@ msgid "Filter"
 msgstr ""
 
 #: src/Service/Admin/PageInsights/Views/TabsView.php:115
-#: src/Service/Charts/DataProvider/PerformanceChartDataProvider.php:98
+#: src/Service/Charts/DataProvider/PerformanceChartDataProvider.php:100
 msgid "Contents"
 msgstr ""
 
@@ -5847,11 +5880,11 @@ msgstr ""
 msgid "Check your privacy settings here to make sure WP Statistics is set up safely. This page helps you see if any settings might be collecting personal information and guides you on how to adjust them for better privacy. It's an easy way to keep your site's data use clear and safe."
 msgstr ""
 
-#: src/Service/Admin/Referrals/ReferralsPage.php:218
+#: src/Service/Admin/Referrals/ReferralsPage.php:212
 msgid "We’ve updated the referral structure in this version. To ensure accurate reports, please initiate the background data process <a href=\"%s\">by clicking here</a>."
 msgstr ""
 
-#: src/Service/Admin/Referrals/ReferralsPage.php:227
+#: src/Service/Admin/Referrals/ReferralsPage.php:221
 msgid "The referrals process is running in the background and may take a while depending on your data size. <br> <i>Note: The accuracy of the results may be affected as we only retain whitelisted query parameters.</i>"
 msgstr ""
 
@@ -6218,55 +6251,23 @@ msgstr ""
 msgid "Anonymous Visitors"
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:302
-msgid "Action Required: Upgrade Needed for WP Statistics"
-msgstr ""
-
-#: src/Service/Database/Managers/MigrationHandler.php:303
-msgid "A database upgrade is needed for your site. Running this upgrade will keep everything working correctly. Please run the process as soon as possible."
-msgstr ""
-
-#: src/Service/Database/Managers/MigrationHandler.php:305
-msgid "Run Process Now"
-msgstr ""
-
-#: src/Service/Database/Managers/MigrationHandler.php:307
-msgid "Read More"
-msgstr ""
-
-#: src/Service/Database/Managers/MigrationHandler.php:567
-msgid "WP Statistics: Process Running"
-msgstr ""
-
-#: src/Service/Database/Managers/MigrationHandler.php:569
-msgid "Database Migration is running in the background <strong>(%s records remaining)</strong>. You can continue working or dismiss this notice."
-msgstr ""
-
-#: src/Service/Database/Managers/MigrationHandler.php:586
-msgid "WP Statistics: Process Complete"
-msgstr ""
-
-#: src/Service/Database/Managers/MigrationHandler.php:587
-msgid "The Database Migration process has been completed successfully. Thank you for keeping WP Statistics up-to-date!"
-msgstr ""
-
-#: src/Service/Database/Managers/MigrationHandler.php:610
+#: src/Service/Database/Managers/MigrationHandler.php:422
 msgid "WP Statistics: Process Failed"
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:611
+#: src/Service/Database/Managers/MigrationHandler.php:423
 msgid "The Database Migration process encountered an error and could not be completed."
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:612
+#: src/Service/Database/Managers/MigrationHandler.php:424
 msgid "Error:"
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:615
+#: src/Service/Database/Managers/MigrationHandler.php:427
 msgid "Retry Process"
 msgstr ""
 
-#: src/Service/Database/Managers/MigrationHandler.php:617
+#: src/Service/Database/Managers/MigrationHandler.php:429
 msgid "Contact Support"
 msgstr ""
 
@@ -6276,54 +6277,54 @@ msgid "GeoIP update on"
 msgstr ""
 
 #: src/Service/Geolocation/Provider/DbIpProvider.php:146
-#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:139
+#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:138
 msgid "Unexpected HTTP status code %1$d while downloading GeoIP database from: %2$s"
 msgstr ""
 
 #: src/Service/Geolocation/Provider/DbIpProvider.php:150
-#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:143
+#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:142
 msgid "Error downloading GeoIP database from: %1$s - %2$s"
 msgstr ""
 
 #: src/Service/Geolocation/Provider/DbIpProvider.php:185
-#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:218
+#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:217
 msgid "Failed to open GZ archive."
 msgstr ""
 
 #: src/Service/Geolocation/Provider/DbIpProvider.php:191
-#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:224
+#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:223
 msgid "Failed to open destination file for writing."
 msgstr ""
 
 #: src/Service/Geolocation/Provider/DbIpProvider.php:202
-#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:235
+#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:234
 msgid "Error extracting GeoIP database file."
 msgstr ""
 
 #: src/Service/Geolocation/Provider/DbIpProvider.php:226
-#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:269
+#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:268
 msgid "GeoIP database does not exist."
 msgstr ""
 
 #: src/Service/Geolocation/Provider/DbIpProvider.php:231
-#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:274
+#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:273
 msgid "Failed to initialize GeoIP reader or invalid database file. Please remove the existing database file at %s and let the plugin redownload it."
 msgstr ""
 
 #: src/Service/Geolocation/Provider/DbIpProvider.php:239
-#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:281
+#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:280
 msgid "Unexpected database type %s"
 msgstr ""
 
-#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:191
+#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:190
 msgid "PharData class not found."
 msgstr ""
 
-#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:202
+#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:201
 msgid "Extraction failed: File not found."
 msgstr ""
 
-#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:206
+#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:205
 msgid "Failed to move extracted file."
 msgstr ""
 
@@ -6464,11 +6465,11 @@ msgstr ""
 msgid "Email to Author"
 msgstr ""
 
-#: views/components/headers/post-type.php:47
+#: views/components/headers/post-type.php:50
 msgid "Updated on"
 msgstr ""
 
-#: views/components/headers/post-type.php:49
+#: views/components/headers/post-type.php:53
 msgid "Author:"
 msgstr ""
 
@@ -7149,16 +7150,6 @@ msgstr ""
 msgid "Page View"
 msgstr ""
 
-#: views/components/visitor-information.php:62
-#: views/components/visitor-information.php:85
-msgid "Daily Visitor Hash: %s"
-msgstr ""
-
-#: views/components/visitor-information.php:62
-#: views/components/visitor-information.php:85
-msgid "IP: %s"
-msgstr ""
-
 #: views/metabox/about.php:10
 msgid "Quick Actions"
 msgstr ""
@@ -7203,6 +7194,14 @@ msgstr ""
 
 #: views/metabox/go-premium.php:22
 msgid "Start now with a 14-day money-back guarantee."
+msgstr ""
+
+#: views/metabox/horizontal-bar.php:14
+#: views/metabox/most-active-visitors.php:90
+#: views/metabox/most-visited-pages.php:65
+#: views/metabox/top-countries.php:42
+#: views/metabox/top-referring.php:35
+msgid "No data found for this date range."
 msgstr ""
 
 #: views/metabox/horizontal-bar.php:16
@@ -7580,14 +7579,14 @@ msgstr ""
 msgid "Latest Views"
 msgstr ""
 
-#: views/pages/visitor-insights/single-visitor.php:14
+#: views/pages/visitor-insights/single-visitor.php:15
 msgid "Session Details"
 msgstr ""
 
-#: views/pages/visitor-insights/single-visitor.php:22
+#: views/pages/visitor-insights/single-visitor.php:23
 msgid "Account Information"
 msgstr ""
 
-#: views/pages/visitor-insights/single-visitor.php:31
+#: views/pages/visitor-insights/single-visitor.php:32
 msgid "Recent Views"
 msgstr ""

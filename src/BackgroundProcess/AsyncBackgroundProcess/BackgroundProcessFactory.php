@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Async;
+namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess;
 
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Option;

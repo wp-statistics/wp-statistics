@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Database\Managers;
 
-use WP_Statistics\Async\BackgroundProcessMonitor;
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessMonitor;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Database\DatabaseFactory;
@@ -42,7 +42,6 @@ class MigrationHandler
      */
     public static function init()
     {
-        add_action('admin_post_' . self::MIGRATION_ACTION, [self::class, 'processManualMigrations']);
         add_action('admin_post_' . self::MIGRATION_RETRY_ACTION, [self::class, 'retryManualMigration']);
 
         add_action( 'admin_init', [self::class, 'handleNotice']);
@@ -56,7 +55,6 @@ class MigrationHandler
      */
     public static function handleNotice() {
         self::handleMigrationStatusNotices();
-        self::showManualMigrationNotice();
     }
 
     /**
@@ -138,46 +136,19 @@ class MigrationHandler
      * @param mixed $process Background process instance.
      * @return void
      */
-    private static function processMigrations($versions, $mappings, $process, $force = false)
+    private static function processMigrations($versions, $mappings, $process)
     {
-        $manualTasks = Option::getOptionGroup('db', 'manual_migration_tasks', []);
-
-        if (! empty($manualTasks)) {
-            Option::saveOptionGroup('migrated', true, 'db');
-        }
-
         foreach ($versions as $version) {
-            $migrations       = $mappings[$version];
-            $hasDataMigration = self::hasDataMigration($migrations) || $force;
+            $migrations = $mappings[$version];
 
             foreach ($migrations as $migration) {
                 self::processMigrationMethods(
                     $version,
                     $migration,
-                    $hasDataMigration,
-                    $manualTasks,
                     $process
                 );
             }
         }
-
-        Option::saveOptionGroup('manual_migration_tasks', $manualTasks, 'db');
-    }
-
-    /**
-     * Check if any migrations include data migrations.
-     *
-     * @param array $migrations List of migrations.
-     * @return bool Returns true if any data migrations exist.
-     */
-    private static function hasDataMigration($migrations)
-    {
-        foreach ($migrations as $migration) {
-            if ($migration['type'] === 'data') {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
@@ -185,42 +156,27 @@ class MigrationHandler
      *
      * @param string $version Current migration version.
      * @param array $migration Migration methods for the version.
-     * @param bool $hasDataMigration Indicates if data migrations are involved.
-     * @param array $manualTasks Existing manual tasks.
      * @param mixed $process Background process instance.
      * @return void
      */
-    private static function processMigrationMethods(
-        $version,
-        $migration,
-        $hasDataMigration,
-        &$manualTasks,
-        $process
-    ) {
+    private static function processMigrationMethods( $version, $migration, $process ) {
         $autoMigrationTasks = Option::getOptionGroup('db', 'auto_migration_tasks', []);
 
         foreach ($migration['methods'] as $method) {
-            if ($hasDataMigration || !empty($manualTasks)) {
-                $manualTasks[$version][$method] = [
-                    'class' => $migration['class'],
-                    'type' => $migration['type']
-                ];
-            } else {
-                $taskKey = $method . '_' . $version;
+            $taskKey = $method . '_' . $version;
 
-                if (! empty($autoMigrationTasks[$taskKey])) {
-                    continue;
-                }
-
-                $autoMigrationTasks[$taskKey] = true;
-
-                $process->push_to_queue([
-                    'class' => $migration['class'],
-                    'method' => $method,
-                    'version' => $version,
-                ]);
+            if (! empty($autoMigrationTasks[$taskKey])) {
+                continue;
             }
-        }
+
+            $autoMigrationTasks[$taskKey] = true;
+
+            $process->push_to_queue([
+                'class' => $migration['class'],
+                'method' => $method,
+                'version' => $version,
+            ]);
+    }
 
         Option::saveOptionGroup('auto_migration_tasks', $autoMigrationTasks, 'db');
     }
@@ -233,31 +189,10 @@ class MigrationHandler
      */
     private static function finalizeMigrationProcess($process)
     {
+        Option::saveOptionGroup('is_done', null, 'ajax_background_process');
+
         Option::saveOptionGroup('schema_migration_process_started', true, 'jobs');
         $process->save()->dispatch();
-    }
-
-    /**
-     * Display a notice in the admin panel if manual migrations are required.
-     *
-     * @return void
-     */
-    public static function showManualMigrationNotice()
-    {
-        $manualTasks = Option::getOptionGroup('db', 'manual_migration_tasks', []);
-        if (empty($manualTasks)) {
-            return;
-        }
-
-        $details = Option::getOptionGroup('db', 'migration_status_detail', null);
-
-        if (! empty($details['status']) && ('failed' === $details['status'] || 'progress' === $details['status'])) {
-            return;
-        }
-
-        $message = self::buildNoticeMessage();
-
-        Notice::addNotice($message, 'database_manual_migration', 'warning', false);
     }
 
     /**
@@ -283,57 +218,6 @@ class MigrationHandler
     }
 
     /**
-     * Build the complete notice message HTML.
-     *
-     * @todo The docs link should be updated.
-     * @return string Notice message HTML.
-     */
-    private static function buildNoticeMessage()
-    {
-        $actionUrl = self::buildActionUrl();
-
-        return sprintf(
-            '<p>
-                <strong>%1$s</strong>
-                </br>%2$s
-                </br><a href="%3$s" class="button button-primary" style="margin-top: 10px;">%4$s</a>
-                <a href="%5$s" style="margin: 10px" target="_blank">%6$s</a>
-            </p>',
-            esc_html__('Action Required: Upgrade Needed for WP Statistics', 'wp-statistics'),
-            esc_html__('A database upgrade is needed for your site. Running this upgrade will keep everything working correctly. Please run the process as soon as possible.', 'wp-statistics'),
-            esc_url($actionUrl),
-            esc_html__('Run Process Now', 'wp-statistics'),
-            'https://wp-statistics.com/resources/database-migration-process-guide/?utm_source=wp-statistics&utm_medium=link&utm_campaign=doc',
-            esc_html__('Read More', 'wp-statistics')
-        );
-    }
-
-    /**
-     * Process manual migration tasks when the action is triggered.
-     *
-     * @return void
-     */
-    public static function processManualMigrations()
-    {
-        if (!self::validateMigrationRequest()) {
-            return;
-        }
-
-        $manualTasks = Option::getOptionGroup('db', 'manual_migration_tasks', []);
-        if (empty($manualTasks)) {
-            return;
-        }
-
-        $process = WP_Statistics()->getBackgroundProcess('data_migration_process');
-        if ($process->is_active()) {
-            return;
-        }
-
-        self::processManualTasks($manualTasks, $process);
-        self::handleRedirect();
-    }
-
-    /**
      * Retries the manual migration process.
      *
      * @return void
@@ -354,7 +238,7 @@ class MigrationHandler
         }
 
         $migrationData = self::collectMigrationData();
-        self::processMigrations($migrationData['versions'], $migrationData['mappings'], $schemaProcess, true);
+        self::processMigrations($migrationData['versions'], $migrationData['mappings'], $schemaProcess);
 
         $manualTasks = Option::getOptionGroup('db', 'manual_migration_tasks', []);
 
@@ -436,11 +320,7 @@ class MigrationHandler
             return;
         }
 
-        if ($info['type'] === 'data') {
-            self::processDataTask($instance, $method, $version, $info['type'], $process);
-        } elseif ($info['type'] === 'schema') {
-            self::processSchemaTask($instance, $method, $version, $info['type'], $process);
-        }
+        self::processSchemaTask($instance, $method, $version, $info['type'], $process);
     }
 
     /**
@@ -455,38 +335,6 @@ class MigrationHandler
             return null;
         }
         return new $class();
-    }
-
-    /**
-     * Process data-related migration tasks.
-     *
-     * @param object $instance Migration class instance.
-     * @param string $method Migration method to call.
-     * @param string $version Task version.
-     * @param string $type Task type.
-     * @param mixed $process Background process instance.
-     * @return void
-     */
-    private static function processDataTask($instance, $method, $version, $type, $process)
-    {
-        if (!method_exists($instance, $method)) {
-            return;
-        }
-
-        $tasks = $instance->$method();
-        if (!is_array($tasks)) {
-            return;
-        }
-
-        foreach ($tasks as $task) {
-            $process->push_to_queue([
-                'class' => get_class($instance),
-                'method' => $method,
-                'version' => $version,
-                'task' => $task,
-                'type' => $type
-            ]);
-        }
     }
 
     /**
@@ -555,42 +403,6 @@ class MigrationHandler
         }
 
         $status = $details['status'];
-
-        if ($status === 'progress') {
-            $remaining = BackgroundProcessMonitor::getRemainingRecords('data_migration_process');
-
-            $message = sprintf(
-                '<p>
-                    <strong>%1$s</strong><br>
-                    %2$s
-                </p>',
-                esc_html__('WP Statistics: Process Running', 'wp-statistics'),
-                sprintf(
-                    __('Database Migration is running in the background <strong>(%s records remaining)</strong>. You can continue working or dismiss this notice.', 'wp-statistics'),
-                    number_format_i18n($remaining)
-                )
-            );
-
-            Notice::addNotice($message, 'database_manual_migration_progress', 'info');
-            return;
-        }
-
-        if ($status === 'done') {
-            $message = sprintf(
-                '
-                    <p>
-                        <strong>%1$s</strong>
-                        </br>%2$s
-                    </p>
-                ',
-                esc_html__('WP Statistics: Process Complete', 'wp-statistics'),
-                esc_html__('The Database Migration process has been completed successfully. Thank you for keeping WP Statistics up-to-date!', 'wp-statistics')
-            );
-
-            Notice::addFlashNotice($message, 'success', false);
-            Option::saveOptionGroup('migration_status_detail', null, 'db');
-            return;
-        }
 
         if ($status === 'failed') {
             BackgroundProcessMonitor::deleteOption('data_migration_process');

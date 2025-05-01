@@ -2197,4 +2197,34 @@ class Helper
 
         return '';
     }
+
+    /**
+     * Relocates items from source indexes to a target position in an array
+     *
+     * @param array $array The original array
+     * @param mixed $sourceIndex Array of source indexes to relocate
+     * @param int $targetIndex The target position where items should be inserted
+     * @return array The modified array with relocated items
+     */
+    public static function relocateArrayItems($array, $sourceIndex, $targetIndex)
+    {
+        // Extract the items to be relocated
+        $itemToRelocate = [];
+
+        if (isset($array[$sourceIndex])) {
+            $itemToRelocate[] = $array[$sourceIndex];
+            unset($array[$sourceIndex]);
+        }
+
+        // Reindex the array
+        $array = array_values($array);
+
+        // Reverse the items to maintain original order when inserted
+        $itemsToRelocate = array_reverse($itemToRelocate);
+
+        // Insert items at the target position
+        array_splice($array, $targetIndex, 0, $itemsToRelocate);
+
+        return $array;
+    }
 }

@@ -83,7 +83,7 @@ class TabsView extends BaseTabView
             ];
 
             $filters = [];
-            if ($this->isTab('contents')) {
+            if ($this->isTab(['contents', 'entry-pages', 'exit-pages'])) {
                 $filters = ['post-types', 'page-insight'];
 
                 $queryParams['pt']        = Request::get('pt', '');
@@ -133,12 +133,47 @@ class TabsView extends BaseTabView
                         'title'     => esc_html__('404 Pages', 'wp-statistics'),
                         'class'     => $this->isTab('404') ? 'current' : '',
                         'tooltip'   => esc_html__('View URLs that led visitors to 404 errors.', 'wp-statistics'),
-                    ]
+                    ],
+                    [
+                        'id'      => 'entry_pages',
+                        'link'    => Menus::admin_url('pages', ['tab' => 'entry-pages']),
+                        'title'   => esc_html__('Entry Pages', 'wp-statistics'),
+                        'tooltip' => esc_html__('To view this report, you need to have the Data Plus add-on.', 'wp-statistics'),
+                        'class'   => $this->isTab('entry-pages') ? 'current' : '',
+                        'locked'  => !Helper::isAddOnActive('data-plus')
+                    ],
+                    [
+                        'id'        => 'exit_pages',
+                        'link'      => Menus::admin_url('pages', ['tab' => 'exit-pages']),
+                        'title'     => esc_html__('Exit Pages', 'wp-statistics'),
+                        'tooltip'   => esc_html__('To view this report, you need to have the Data Plus add-on.', 'wp-statistics'),
+                        'class'     => $this->isTab('exit-pages') ? 'current' : '',
+                        'locked'    => !Helper::isAddOnActive('data-plus')
+                    ],
                 ]
             ];
 
+            // If Data Plus is active, relocate array items
+            if (Helper::isAddOnActive('data-plus')) {
+                $tabs = $args['tabs'];
+
+                $entryPage = $exitPage = null;
+
+                foreach ($tabs as $key => $tab) {
+                    if (isset($tab['id']) && $tab['id'] === 'entry_pages') $entryPage = $key;
+                    if (isset($tab['id']) && $tab['id'] === 'exit_pages') $exitPage = $key;
+                }
+
+                // Relocate array items when Data Plus is active
+                $tabs = Helper::relocateArrayItems($tabs, $entryPage, 1);
+                $tabs = Helper::relocateArrayItems($tabs, $exitPage, 2);
+
+                $args['tabs'] = $tabs;
+            }
+
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
             View::load("pages/page-insights/$template", $args);
+            do_action("wp_statistics_{$this->getCurrentPage()}_{$this->getCurrentTab()}_template", $args);
             Admin_Template::get_template(['layout/postbox.hide', 'layout/footer'], $args);
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
