@@ -81,6 +81,12 @@ html[dir=rtl] {
     padding-bottom: 8.5px;
     align-items: center;
 
+    &>span{
+      display: flex !important;
+      align-items: center;
+      gap: 4px;
+    }
+
     .tooltipstered{
       margin-top: 4px;
     }

@@ -109,7 +109,7 @@ use WP_Statistics\Components\View;
                 View::load("components/objects/external-link", [
                     'url'     => $page['link'],
                     'title'   => $page['title'],
-                    'tooltip' => $page['query'] ? "?{$page['query']}" : $page['link']
+                    'tooltip' => $page['query'] ? "?{$page['query']}" : ''
                 ]) ;
             else :
                 echo Admin_Template::UnknownColumn();
