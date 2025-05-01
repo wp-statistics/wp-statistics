@@ -31,7 +31,7 @@ class ExclusionsPage extends BasePage
         return $this->dataProvider->getExclusionsData();
     }
 
-    public function view()
+    public function render()
     {
         $args = [
             'title'         => esc_html__('Excluded Data Overview', 'wp-statistics'),
