@@ -122,6 +122,16 @@ class ContentAnalyticsDataProvider
         return $result;
     }
 
+    public function getSingleResourceData()
+    {
+        return [];
+    }
+
+    public function getSingleResourceChartData()
+    {
+        return [];
+    }
+
     public function getSinglePostData()
     {
         $totalHitsArgs      = array_merge(Helper::filterArrayByKeys($this->args, ['post_id', 'query_param', 'resource_type']), ['ignore_date' => true]);
