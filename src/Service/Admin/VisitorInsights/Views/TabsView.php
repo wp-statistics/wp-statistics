@@ -131,7 +131,7 @@ class TabsView extends BaseTabView
         ];
 
         if ($this->isOnlineUsersEnabled && $this->isTab('online')) {
-            $args['hasDateRang']        = true;
+            $args['hasDateRang']        = false;
             $args['real_time_button']   = true;
         }
 
