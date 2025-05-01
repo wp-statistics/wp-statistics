@@ -15,54 +15,12 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         array (
             'WP_Statistics\\' => 14,
         ),
-        'M' => 
-        array (
-            'MaxMind\\WebService\\' => 19,
-            'MaxMind\\Exception\\' => 18,
-            'MaxMind\\Db\\' => 11,
-        ),
-        'G' => 
-        array (
-            'GeoIp2\\' => 7,
-        ),
-        'D' => 
-        array (
-            'DeviceDetector\\' => 15,
-        ),
-        'C' => 
-        array (
-            'Composer\\CaBundle\\' => 18,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'WP_Statistics\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
-        ),
-        'MaxMind\\WebService\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/WebService',
-        ),
-        'MaxMind\\Exception\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/Exception',
-        ),
-        'MaxMind\\Db\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/maxmind-db/reader/src/MaxMind/Db',
-        ),
-        'GeoIp2\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/geoip2/geoip2/src',
-        ),
-        'DeviceDetector\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/matomo/device-detector',
-        ),
-        'Composer\\CaBundle\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
         ),
     );
 
@@ -100,6 +58,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Decorators\\BrowserDecorator' => __DIR__ . '/../..' . '/src/Decorators/BrowserDecorator.php',
         'WP_Statistics\\Decorators\\DeviceDecorator' => __DIR__ . '/../..' . '/src/Decorators/DeviceDecorator.php',
         'WP_Statistics\\Decorators\\LocationDecorator' => __DIR__ . '/../..' . '/src/Decorators/LocationDecorator.php',
+        'WP_Statistics\\Decorators\\MarketingCampaignDecorator' => __DIR__ . '/../..' . '/src/Decorators/MarketingCampaignDecorator.php',
         'WP_Statistics\\Decorators\\NotificationDecorator' => __DIR__ . '/../..' . '/src/Decorators/NotificationDecorator.php',
         'WP_Statistics\\Decorators\\OsDecorator' => __DIR__ . '/../..' . '/src/Decorators/OsDecorator.php',
         'WP_Statistics\\Decorators\\ReferralDecorator' => __DIR__ . '/../..' . '/src/Decorators/ReferralDecorator.php',
@@ -252,6 +211,9 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Admin\\LicenseManagement\\Views\\LockedMiniChartView' => __DIR__ . '/../..' . '/src/Service/Admin/LicenseManagement/Views/LockedMiniChartView.php',
         'WP_Statistics\\Service\\Admin\\LicenseManagement\\Views\\LockedRealTimeStatView' => __DIR__ . '/../..' . '/src/Service/Admin/LicenseManagement/Views/LockedRealTimeStatView.php',
         'WP_Statistics\\Service\\Admin\\LicenseManagement\\Views\\TabsView' => __DIR__ . '/../..' . '/src/Service/Admin/LicenseManagement/Views/TabsView.php',
+        'WP_Statistics\\Service\\Admin\\MarketingCampaign\\MarketingCampaignFactory' => __DIR__ . '/../..' . '/src/Service/Admin/MarketingCampaign/MarketingCampaignFactory.php',
+        'WP_Statistics\\Service\\Admin\\MarketingCampaign\\MarketingCampaignFetcher' => __DIR__ . '/../..' . '/src/Service/Admin/MarketingCampaign/MarketingCampaignFetcher.php',
+        'WP_Statistics\\Service\\Admin\\MarketingCampaign\\MarketingCampaignManager' => __DIR__ . '/../..' . '/src/Service/Admin/MarketingCampaign/MarketingCampaignManager.php',
         'WP_Statistics\\Service\\Admin\\Metabox\\MetaboxDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/Metabox/MetaboxDataProvider.php',
         'WP_Statistics\\Service\\Admin\\Metabox\\MetaboxHelper' => __DIR__ . '/../..' . '/src/Service/Admin/Metabox/MetaboxHelper.php',
         'WP_Statistics\\Service\\Admin\\Metabox\\MetaboxManager' => __DIR__ . '/../..' . '/src/Service/Admin/Metabox/MetaboxManager.php',

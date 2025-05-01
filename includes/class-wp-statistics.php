@@ -20,6 +20,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagementManager;
 use WP_Statistics\Service\Admin\Metabox\MetaboxManager;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Notification\NotificationManager;
+use WP_Statistics\Service\Admin\MarketingCampaign\MarketingCampaignManager;
 use WP_Statistics\Service\Admin\Overview\OverviewManager;
 use WP_Statistics\Service\Admin\PageInsights\PageInsightsManager;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
@@ -119,7 +120,7 @@ final class WP_Statistics
             });
 
             /**
-             * Setup background process
+             * Setup background process.
              */
             $this->initializeBackgroundProcess();
             MigrationHandler::init();
@@ -180,6 +181,7 @@ final class WP_Statistics
         $userOnline                 = new \WP_STATISTICS\UserOnline();
         $anonymizedUsageDataManager = new AnonymizedUsageDataManager();
         $notificationManager        = new NotificationManager();
+        $MarketingCampaignManager   = new MarketingCampaignManager();
 
         // Admin classes
         if (is_admin()) {
