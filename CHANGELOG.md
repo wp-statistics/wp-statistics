@@ -1,5 +1,15 @@
-= 14.13.x - 2025-xx-xx =
+= 14.13.5 - 2025-05-x =
+- **Fix:** Fixed issue where page views were zero when using a taxonomy filter other than 'category'.
+- **Fix:** Show referrers data based on the first viewed page.
+- **Enhancement:** Display referred visitors via UTM parameters in the `Referrals` report.
+- **Fix:** Fixed Decimal Formatting
 - **Fix**: Fixed visitors number aggregation issue.
+
+= 14.13.4 - 2025-04-29 =
+- **Enhancement:** Enforced capability check in optionUpdater.
+- **Enhancement:** Improved the helper text for the Privacy Policy section.
+- **Enhancement:** Limited the migration process to run only within the plugin's admin pages.
+- **Fix:** Fixed 404 errors when "Bypass Ad-Blocker" proxies assets with extra query parameters.
 
 = 14.13.3 - 2025-04-23 =
 - **New:** Added an option to enable or disable the Privacy Audit section in email reports.
@@ -26,6 +36,7 @@
 - **Fix:** Fixed compatibility issues with the Interactivity API.
 - **Fix:** Resolved layout issue with the "Account Information" widget on the Single Visitor page.
 - **Removal:** Removed the `Host Exclusions` setting.
+- **Enhancement:** Now counting approved comments instead of all comments.
 
 = 14.13.1 - 2025-04-08 =
 - **Enhancement:** Improved filter logic to avoid unnecessary requests.

@@ -161,8 +161,9 @@ class PostsModel extends BaseModel
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
             ->where('comments.comment_type', '=', 'comment')
+            ->where('comments.comment_approved', '=', '1')
             ->where('posts.ID', '=', $args['post_id'])
-            ->whereDate('post_date', $args['date']);
+            ->whereDate('comment_date', $args['date']);
 
         if (!empty($args['taxonomy']) || !empty($args['term'])) {
             $taxQuery = Query::select(['DISTINCT object_id'])
@@ -329,6 +330,7 @@ class PostsModel extends BaseModel
             ->where('post_status', '=', 'publish')
             ->where('posts.post_author', '=', $args['author_id'])
             ->where('comments.comment_type', '=', 'comment')
+            ->where('comments.comment_approved', '=', '1')
             ->whereDate('posts.post_date', $args['date'])
             ->groupBy('posts.ID')
             ->orderBy($args['order_by'], $args['order'])

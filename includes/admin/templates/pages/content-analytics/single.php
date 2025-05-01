@@ -41,7 +41,7 @@ $postType = get_post_type(Request::get('post_id'));
         if (post_type_supports($postType, 'comments')) {
             $args4 = [
                 'title'    => esc_html__('Comments', 'wp-statistics'),
-                'tooltip'  => sprintf(esc_html__('Total comments on this %s.', 'wp-statistics'), strtolower($postType)),
+                'tooltip'  => sprintf(esc_html__('Approved comments on this %s.', 'wp-statistics'), strtolower($postType)),
                 'selected' => Helper::formatNumberWithUnit($data['overview']['comments']['total'], 1),
             ];
             Admin_Template::get_template(['layout/content-analytics/overview-card'], $args4);

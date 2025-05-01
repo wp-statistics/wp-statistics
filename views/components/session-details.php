@@ -117,4 +117,10 @@ use WP_Statistics\Components\View;
             ?>
         </div>
     </div>
+    <div class="wps-visitor__visitors-detail--row">
+        <span><?php esc_html_e('Number of views', 'wp-statistics'); ?></span>
+        <div>
+            <span><?php echo esc_html($visitor->getHits()) ?></span>
+        </div>
+    </div>
 </div>
