@@ -1110,6 +1110,13 @@
   }
 }
 
+a.wps-internal-link span {
+  color: #404bf2 !important;
+  &:hover{
+    color: #3c4043 !important;
+  }
+}
+
 .wps-mb-16{
   margin-bottom: 16px;
 }
