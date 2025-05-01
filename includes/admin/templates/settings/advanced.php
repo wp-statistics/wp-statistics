@@ -1,10 +1,12 @@
 <?php
 
-use WP_STATISTICS\Helper;
+use WP_STATISTICS\Option;
 use WP_STATISTICS\IP;
+use WP_STATISTICS\Helper;
+use WP_Statistics\Service\Admin\Posts\WordCountService;
+use WP_STATISTICS\TimeZone;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
-use WP_STATISTICS\TimeZone;
 
 // Get IP Method
 $ip_method  = IP::getIpMethod();
@@ -392,6 +394,31 @@ add_thickbox();
         }
     }
 </script>
+
+<div class="postbox">
+    <table class="form-table">
+        <tbody>
+            <tr valign="top">
+                <th scope="row" colspan="2">
+                    <h3><?php esc_html_e('Content Analytics', 'wp-statistics'); ?></h3>
+                </th>
+            </tr>
+
+            <tr valign="top">
+                <th scope="row"><label for="word_count_analytics"><?php esc_html_e('Word Count Analytics', 'wp-statistics'); ?></label></th>
+                <td>
+                    <input id="word_count_analytics" type="checkbox" name="wps_word_count_analytics" <?php checked(WordCountService::isActive()) ?>>
+                    <label for="word_count_analytics"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+
+                    <p class="description">
+                        <?php esc_html_e('Provides word count data for content and author analytics reports. Turning off this option will remove all word count-related reports.', 'wp-statistics'); ?>
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
 <div class="postbox">
     <table class="form-table">
         <tbody>
