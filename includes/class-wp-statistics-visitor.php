@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\AjaxBackgroundProcessFactory;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Analytics\VisitorProfile;
@@ -145,7 +146,7 @@ class Visitor
             );
 
             // Store First and Last Page for versions above 14.12.6
-            if (DatabaseFactory::compareCurrentVersion('14.12.6', '>=')) {
+            if (AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
                 $visitor = array_merge($visitor, [
                     'first_page'    => $args['page_id'],
                     'first_view'    => TimeZone::getCurrentDate(),
@@ -175,7 +176,7 @@ class Visitor
                     'user_id'   => ! empty($same_visitor->user_id) ? $same_visitor->user_id : $visitorProfile->getUserId()
                 ];
 
-                if (DatabaseFactory::compareCurrentVersion('14.12.6', '>=')) {
+                if (AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
                     $data['last_page'] = $args['page_id'];
                     $data['last_view'] = TimeZone::getCurrentDate('Y-m-d H:i:s');
                 }
