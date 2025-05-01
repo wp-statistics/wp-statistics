@@ -3,6 +3,7 @@
 - **Fix:** Show referrers data based on the first viewed page.
 - **Enhancement:** Display referred visitors via UTM parameters in the `Referrals` report.
 - **Fix:** Fixed Decimal Formatting
+- **Fix**: Fixed visitors number aggregation issue.
 
 = 14.13.4 - 2025-04-29 =
 - **Enhancement:** Enforced capability check in optionUpdater.
