@@ -1110,9 +1110,32 @@
   }
 }
 
-a.wps-internal-link span {
-  color: #404bf2 !important;
-  &:hover{
+body .o-table-wrapper table.wps-new-table tbody tr td  .wps-ellipsis-parent.wps-internal-link{
+  display: flex !important;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+  max-width: 160px;
+
+  .wps-ellipsis-text{
+    max-width: 160px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: normal;
+    min-width: 22px;
+    color: #404bf2 !important;
+  }
+
+  .wps-tooltip{
+    width: 12px;
+    height: 12px;
+
+    i{
+      margin-top: 4px;
+    }
+  }
+  &:hover span{
     color: #3c4043 !important;
   }
 }
