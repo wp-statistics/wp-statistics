@@ -12,6 +12,7 @@ use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
+use WP_Statistics\Utils\Url;
 
 class MetaboxDataProvider
 {
@@ -221,7 +222,7 @@ class MetaboxDataProvider
 
             $data[] = [
                 'source_category' => $item->getSourceChannel(),
-                'top_domain'      => !empty($topDomain) ? $topDomain[0]->getReferrer() : '-',
+                'top_domain'      => !empty($topDomain) ? Url::cleanUrl($topDomain[0]->getReferrer()) : '-',
                 'visitors'        => number_format_i18n($referrers),
                 'percentage'      => Helper::divideNumbers($referrers, $totalReferrers) * 100 . '%'
             ];
