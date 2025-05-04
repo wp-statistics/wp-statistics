@@ -5,6 +5,7 @@
 - **Fix:** Fixed Decimal Formatting
 - **Fix**: Fixed visitors number aggregation issue.
 - **Fix:** Resolved posts view column issue.
+- **Enhancement:** Added `wp_statistics_disable_tracker_debugger_logs` filter to conditionally bypass tracker debugger error logging.
 
 = 14.13.4 - 2025-04-29 =
 - **Enhancement:** Enforced capability check in optionUpdater.
