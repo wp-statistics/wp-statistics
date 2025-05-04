@@ -5,6 +5,7 @@
 - **Fix:** Fixed Decimal Formatting
 - **Fix**: Fixed visitors number aggregation issue.
 - **Fix:** Resolved posts view column issue.
+- **Fix:** Removed "Get Premium" action link if license is available.
 
 = 14.13.4 - 2025-04-29 =
 - **Enhancement:** Enforced capability check in optionUpdater.
