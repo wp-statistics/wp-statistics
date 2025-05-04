@@ -1531,7 +1531,8 @@ class Helper
         if ($number < 1000) {
             $precision = empty($precision) ? 2 : $precision;
             $rounded = round($number, $precision);
-            return (floor($rounded) == $rounded) ? (int)$rounded : $rounded;
+            $formatted = (floor($rounded) == $rounded) ? (int)$rounded : $rounded;
+            return (string)$formatted;
         }
 
         $originalNumber = $number;
