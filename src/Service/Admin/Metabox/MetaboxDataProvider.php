@@ -195,7 +195,6 @@ class MetaboxDataProvider
     {
         $args = array_merge($args, [
             'group_by'  => 'visitor.source_channel',
-            'not_null'  => 'source_channel',
             'decorate'  => true,
             'per_page'  => 10,
             'page'      => 1
