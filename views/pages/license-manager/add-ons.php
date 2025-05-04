@@ -4,7 +4,24 @@ use WP_Statistics\Components\View;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginDecorator;
 
 ?>
+
 <div class="postbox-container wps-postbox-addon-container">
+
+    <div class="wps-notice wps-notice--success">
+        <div>
+            <p class="wps-notice__title"> <?php esc_html_e('No WP Statistics License Detected ', 'wp-statistics')?></p>
+            <div class="wps-notice__description">
+                <?php
+                echo wp_kses_post(sprintf(
+                    __('You haven’t registered a WP Statistics license yet. Having a valid license unlocks premium add-ons and features. <a href="%s">[Purchase]</a> or <a href="%s">[add a license]</a> now to get started!.', 'wp-statistics'),
+                    '',
+                    ''
+                ));
+                ?>
+            </div>
+        </div>
+    </div>
+
     <div class="wps-postbox-addon">
         <?php if (!empty($data['active_addons']) && is_array($data['active_addons'])) : ?>
             <div>
