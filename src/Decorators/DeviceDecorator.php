@@ -20,7 +20,7 @@ class DeviceDecorator
      */
     public function getType()
     {
-        return \WP_STATISTICS\Admin_Template::unknownToNotSet($this->visitor->device) ?? null;
+        return \WP_STATISTICS\Admin_Template::unknownToNotSet(ucfirst($this->visitor->device)) ?? null;
     }
 
     /**
