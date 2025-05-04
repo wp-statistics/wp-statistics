@@ -44,6 +44,6 @@ class DeviceDecorator
      */
     public function getLogo()
     {
-        return DeviceHelper::getDeviceLogo($this->visitor->model);
+        return DeviceHelper::getDeviceLogo($this->visitor->device);
     }
 }
