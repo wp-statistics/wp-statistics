@@ -520,6 +520,11 @@ class settings_page extends Singleton
             'wps_word_count_analytics'
         ];
 
+        // If word count was disabled before and enabled again, show background process notice
+        if (empty($wp_statistics_options['word_count_analytics']) && !empty($_POST['wps_word_count_analytics'])) {
+            Option::deleteOptionGroup('word_count_process_initiated', 'jobs');
+        }
+
         foreach ($wps_option_list as $option) {
             $wp_statistics_options[self::input_name_to_option($option)] = isset($_POST[$option]) ? true : false;
         }
