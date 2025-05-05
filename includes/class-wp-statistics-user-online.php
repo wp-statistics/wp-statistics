@@ -231,7 +231,7 @@ class UserOnline
         } else {
             $SQL .= $args['fields'];
         }
-        $SQL .= " FROM `" . DB::table('useronline') . "`";
+        $SQL .= " FROM `" . DB::table('useronline') . "` as useronline JOIN `" . DB::table('visitor') . "` as visitor ON `useronline`.`visitor_id` = `visitor`.`ID`";
 
         // Check Count
         if ($args['fields'] == "count") {
@@ -240,7 +240,7 @@ class UserOnline
 
         // Prepare Query
         if (empty($args['sql'])) {
-            $args['sql'] = "SELECT * FROM `" . DB::table('useronline') . "` ORDER BY ID DESC";
+            $args['sql'] = "SELECT * FROM `" . DB::table('useronline') . "` as useronline JOIN `" . DB::table('visitor') . "` as visitor ON `useronline`.`visitor_id` = `visitor`.`ID` ORDER BY useronline.ID DESC";
         }
 
         // Set Pagination
@@ -276,7 +276,7 @@ class UserOnline
             }
 
             // Page info
-            $item['page'] = Visitor::get_page_by_id($items->page_id);
+            $item['page'] = Visitor::get_page_by_id($items->last_page);
 
             // Push Browser
             $item['browser'] = array(
