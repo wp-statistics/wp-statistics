@@ -3,6 +3,7 @@
 namespace WP_Statistics\Decorators;
 
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
+use WP_STATISTICS\Admin_Template;
 
 class DeviceDecorator
 {
@@ -20,7 +21,8 @@ class DeviceDecorator
      */
     public function getType()
     {
-        return \WP_STATISTICS\Admin_Template::unknownToNotSet(ucfirst($this->visitor->device)) ?? null;
+        $device = $this->visitor->device ? ucfirst($this->visitor->device) : null;
+        return \WP_STATISTICS\Admin_Template::unknownToNotSet($device);
     }
 
     /**
@@ -30,7 +32,7 @@ class DeviceDecorator
      */
     public function getModel()
     {
-        if (! \WP_STATISTICS\Admin_Template::isUnknown($this->visitor->model)) {
+        if (! Admin_Template::isUnknown($this->visitor->model)) {
             return $this->visitor->model;
         }
 
@@ -44,6 +46,6 @@ class DeviceDecorator
      */
     public function getLogo()
     {
-        return DeviceHelper::getDeviceLogo($this->visitor->device);
+        return DeviceHelper::getDeviceLogo($this->visitor->device ?? '');
     }
 }

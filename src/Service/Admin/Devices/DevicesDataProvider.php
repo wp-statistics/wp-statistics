@@ -73,11 +73,11 @@ class DevicesDataProvider
             $visitors = array_reduce($visitors, function ($carry, $item) {
                 // Trim whitespace and default empty models to 'Unknown'
                 $model = trim($item->model ?? '');
-        
+
                 if ($model === '') {
                     $model = 'Unknown';
                 }
-        
+
                 if (isset($carry[$model])) {
                     $carry[$model]->visitors += $item->visitors;
                 } else {
@@ -113,7 +113,9 @@ class DevicesDataProvider
 
         $data = $this->visitorsModel->getVisitorsDevices($args);
         foreach ($data as $visitor) {
-            if (!empty(trim($visitor->device)) && strtolower($visitor->device) != "bot") {
+            $device = !empty($visitor->device) ? trim($visitor->device) : '';
+
+            if (strtolower($visitor->device) != "bot") {
                 $device = Helper::getDeviceCategoryName($visitor->device);
                 if (isset($visitors[$device])) {
                     $visitors[$device]->visitors += $visitor->visitors;
