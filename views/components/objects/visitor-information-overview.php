@@ -28,9 +28,7 @@ use WP_Statistics\Decorators\VisitorDecorator;
 
         <li class="wps-visitor__information">
             <div class="wps-tooltip" title="<?php echo esc_attr($visitor->getDevice()->getType()) ?>">
-                <a href="<?php echo esc_url(Menus::admin_url('visitors', ['device' => $visitor->getDevice()->getType()])) ?>">
-                    <img src="<?php echo esc_url($visitor->getDevice()->getLogo()) ?>" alt="<?php echo esc_attr($visitor->getDevice()->getType()) ?>" width="15" height="15">
-                </a>
+                <img src="<?php echo esc_url($visitor->getDevice()->getLogo()) ?>" alt="<?php echo esc_attr($visitor->getDevice()->getType()) ?>" width="15" height="15">
             </div>
         </li>
 
