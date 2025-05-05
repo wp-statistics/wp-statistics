@@ -144,27 +144,12 @@ class UserOnline
     {
         global $wpdb;
 
-        $current_page = $visitorProfile->getCurrentPageType();
-        $user_agent   = $visitorProfile->getUserAgent();
-        $pageId       = Pages::getPageId($current_page['type'], $current_page['id']);
-
         //Prepare User online Data
         $user_online = array(
             'ip'        => $visitorProfile->getProcessedIPForStorage(),
             'timestamp' => TimeZone::getCurrentTimestamp(),
             'created'   => TimeZone::getCurrentTimestamp(),
             'date'      => TimeZone::getCurrentDate(),
-            'referred'  => $visitorProfile->getReferrer(),
-            'agent'     => $user_agent->getBrowser(),
-            'platform'  => $user_agent->getPlatform(),
-            'version'   => $user_agent->getVersion(),
-            'location'  => $visitorProfile->getCountry(),
-            'region'    => $visitorProfile->getRegion(),
-            'continent' => $visitorProfile->getContinent(),
-            'city'      => $visitorProfile->getCity(),
-            'user_id'   => $visitorProfile->getUserId(),
-            'page_id'   => $pageId,
-            'type'      => $current_page['type'],
             'visitor_id'=> $visitorProfile->getVisitorId()
         );
         $user_online = apply_filters('wp_statistics_user_online_information', wp_parse_args($args, $user_online));
@@ -196,23 +181,10 @@ class UserOnline
     {
         global $wpdb;
 
-        $current_page = $visitorProfile->getCurrentPageType();
-        $user_id      = $visitorProfile->getUserId();
-        $sameVisitor  = $visitorProfile->isIpActiveToday();
-
-        if(! empty($sameVisitor)) {
-            $user_id = $sameVisitor->user_id;
-        }
-
-        $pageId = Pages::getPageId($current_page['type'], $current_page['id']);
-
         //Prepare User online Update data
         $user_online = array(
             'timestamp' => TimeZone::getCurrentTimestamp(),
             'date'      => TimeZone::getCurrentDate(),
-            'user_id'   => $user_id,
-            'page_id'   => $pageId,
-            'type'      => $current_page['type']
         );
         $user_online = apply_filters('wp_statistics_update_user_online_data', wp_parse_args($args, $user_online));
 
@@ -222,7 +194,7 @@ class UserOnline
         ));
 
         # Action After Update User Online
-        do_action('wp_statistics_update_user_online', $user_id, $user_online);
+        do_action('wp_statistics_update_user_online', $user_online);
     }
 
     /**
