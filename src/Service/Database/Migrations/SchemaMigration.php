@@ -97,6 +97,7 @@ class SchemaMigration extends AbstractMigrationOperation
                         'user_id',
                         'page_id',
                         'type',
+                        'location',
                         'city',
                         'region',
                         'continent'
