@@ -7,6 +7,7 @@
 - **Fix:** Resolved posts view column issue.
 - **Enhancement:** Added `wp_statistics_disable_tracker_debugger_logs` filter to conditionally bypass tracker debugger error logging.
 - **Fix:** Removed "Get Premium" action link if license is available.
+- **Enhancement:** Optimized online visitor tracking request to improve performance.
 
 = 14.13.4 - 2025-04-29 =
 - **Enhancement:** Enforced capability check in optionUpdater.
