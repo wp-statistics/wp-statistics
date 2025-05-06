@@ -315,36 +315,6 @@ class Install
         }
 
         /**
-         * Add online user city
-         *
-         * @version 14.5.2
-         */
-        $result = $wpdb->query("SHOW COLUMNS FROM {$userOnlineTable} LIKE 'city'");
-        if ($result == 0) {
-            $wpdb->query("ALTER TABLE {$userOnlineTable} ADD `city` VARCHAR(100) NULL;");
-        }
-
-        /**
-         * Add online user region
-         *
-         * @version 14.7.0
-         */
-        $result = $wpdb->query("SHOW COLUMNS FROM {$userOnlineTable} LIKE 'region'");
-        if ($result == 0) {
-            $wpdb->query("ALTER TABLE {$userOnlineTable} ADD `region` VARCHAR(100) NULL;");
-        }
-
-        /**
-         * Add online user continent
-         *
-         * @version 14.7.0
-         */
-        $result = $wpdb->query("SHOW COLUMNS FROM {$userOnlineTable} LIKE 'continent'");
-        if ($result == 0) {
-            $wpdb->query("ALTER TABLE {$userOnlineTable} ADD `continent` VARCHAR(50) NULL;");
-        }
-
-        /**
          * Add visitor device type
          *
          * @version 13.2.4
