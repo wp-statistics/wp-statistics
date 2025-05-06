@@ -45,9 +45,7 @@ class SingleResourceView extends BaseView
     public function render()
     {
         $args = [
-            'backUrl'       => Menus::admin_url('content-analytics'),
             'custom_get'    => ['type' => 'single-resource', 'uri' => Request::get('uri')],
-            'backTitle'     => esc_html__('Content Analytics', 'wp-statistics'),
             'pageName'      => Menus::get_page_slug('content-analytics'),
             'DateRang'      => Admin_Template::DateRange(),
             'hasDateRang'   => true,
