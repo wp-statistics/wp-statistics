@@ -8,6 +8,7 @@
 - **Enhancement:** Added `wp_statistics_disable_tracker_debugger_logs` filter to conditionally bypass tracker debugger error logging.
 - **Fix:** Removed "Get Premium" action link if license is available.
 - **Fix:** Unseted /online endpoint from REST API when Monitor Online Visitors option is disabled.
+- **Fix:** Fixed display issue for Android app referrers in Top Referrers widget.
 
 = 14.13.4 - 2025-04-29 =
 - **Enhancement:** Enforced capability check in optionUpdater.
