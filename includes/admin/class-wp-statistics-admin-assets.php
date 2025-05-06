@@ -446,9 +446,9 @@ class Admin_Assets
         $list['initial_post_date'] = Helper::getInitialPostDate();
 
         if (Request::has('post_id')) {
-            $list['post_creation_date'] = get_the_date(DateTime::$defaultDateFormat, Request::get('post_id'));
+            $list['post_creation_date'] = get_post_time(DateTime::$defaultDateFormat, false, Request::get('post_id'), false);
         } else if (is_singular()) {
-            $list['post_creation_date'] = get_the_date(DateTime::$defaultDateFormat);
+            $list['post_creation_date'] = get_post_time(DateTime::$defaultDateFormat, false, null, false);
         }
 
         // Rest-API Meta Box Url
