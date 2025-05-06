@@ -115,8 +115,9 @@ class DevicesDataProvider
         foreach ($data as $visitor) {
             $device = !empty($visitor->device) ? trim($visitor->device) : '';
 
-            if (strtolower($visitor->device) != "bot") {
-                $device = Helper::getDeviceCategoryName($visitor->device);
+            if (strtolower($device) != "bot") {
+                $device = Helper::getDeviceCategoryName($device);
+
                 if (isset($visitors[$device])) {
                     $visitors[$device]->visitors += $visitor->visitors;
                 } else {
