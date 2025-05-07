@@ -50,7 +50,7 @@ class BrowserChartDataProvider extends AbstractChartDataProvider
                 $agent = $item->getBrowser()->getRaw();
 
                 // Browser data
-                if (!empty($agent) && $agent !== '(not set)') {
+                if (!empty($agent)) {
                     $agents = array_column($parsedData, 'label');
 
                     if (!in_array($agent, $agents)) {

@@ -32,11 +32,7 @@ class DeviceDecorator
      */
     public function getModel()
     {
-        if (! Admin_Template::isUnknown($this->visitor->model)) {
-            return $this->visitor->model;
-        }
-
-        return esc_html__( 'Unknown', 'wp-statistics');
+        return \WP_STATISTICS\Admin_Template::unknownToNotSet($this->visitor->model);
     }
 
     /**
