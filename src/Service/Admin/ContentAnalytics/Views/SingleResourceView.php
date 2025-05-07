@@ -30,8 +30,7 @@ class SingleResourceView extends BaseView
         }
 
         $this->dataProvider = new ContentAnalyticsDataProvider([
-            'uri'           => $this->resourceUri,
-            'resource_type' => ['404', 'home', 'search', 'feed', 'loginpage']
+            'uri' => $this->resourceUri
         ]);
     }
 
