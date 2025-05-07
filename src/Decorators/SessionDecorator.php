@@ -22,7 +22,7 @@ class SessionDecorator
     /**
      * SessionDecorator constructor.
      *
-     * @param mixed
+     * @param object|null $session A stdClass for a 'sessions' row, or null.
      */
     public function __construct($session)
     {
