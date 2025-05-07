@@ -254,7 +254,6 @@ class Manager
                 'ID'             => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
                 'date'           => 'datetime NOT NULL',
                 'resource_id'    => 'bigint(20) UNSIGNED NOT NULL',
-                'type'           => 'tinyint(3) UNSIGNED NOT NULL',
                 'visitors'       => 'bigint(20) UNSIGNED NOT NULL',
                 'sessions'       => 'bigint(20) UNSIGNED NOT NULL',
                 'views'          => 'bigint(20) UNSIGNED NOT NULL',
@@ -264,6 +263,21 @@ class Manager
             'constraints' => [
                 'PRIMARY KEY (ID)',
                 'KEY resource_id (resource_id)',
+            ],
+        ],
+        'summary_totals'     => [
+            'columns'     => [
+                'ID'             => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'date'           => 'datetime NOT NULL',
+                'visitors'       => 'bigint(20) UNSIGNED NOT NULL',
+                'sessions'       => 'bigint(20) UNSIGNED NOT NULL',
+                'views'          => 'bigint(20) UNSIGNED NOT NULL',
+                'total_duration' => 'int(11) NOT NULL DEFAULT 0',
+                'bounces'        => 'tinyint(4) UNSIGNED NOT NULL DEFAULT 0',
+            ],
+            'constraints' => [
+                'PRIMARY KEY (ID)',
+                'KEY date (date)',
             ],
         ],
     ];

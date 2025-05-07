@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Resources\Core;
 
 use WP_STATISTICS\Helper;
+use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Records\ResourceRecord;
 
 /**
@@ -138,7 +139,7 @@ class ResourcesIdentifier
      */
     public function getModel()
     {
-        return new ResourceRecord($this->resource);
+        return RecordFactory::resource($this->resource);
     }
 
     /**
@@ -204,7 +205,7 @@ class ResourcesIdentifier
      */
     private function cleanUrl($url)
     {
-        $trackingParams = Helper::get_query_params_allow_list();
+        $trackingParams = Helper::get_query_params_allow_list('array', true);
 
         $parts = wp_parse_url($url);
 

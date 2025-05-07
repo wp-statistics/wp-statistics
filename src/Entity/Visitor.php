@@ -3,7 +3,7 @@
 namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
-use WP_Statistics\Records\VisitorRecord;
+use WP_Statistics\Records\RecordFactory;
 use WP_STATISTICS\TimeZone;
 
 /**
@@ -26,7 +26,7 @@ class Visitor extends BaseEntity
      */
     public function record()
     {
-        if (! $this->isActive('visitors')) {
+        if (!$this->isActive('visitors')) {
             return $this;
         }
 
@@ -39,12 +39,11 @@ class Visitor extends BaseEntity
         $cacheKey = 'visitor_' . md5($hash);
 
         $visitorId = $this->getCachedData($cacheKey, function () use ($hash) {
-            $model  = new VisitorRecord();
-            $record = $model->get(['hash' => $hash]);
+            $record = RecordFactory::visitor()->get(['hash' => $hash]);
 
             return !empty($record) && isset($record->ID)
                 ? (int)$record->ID
-                : $model->insert([
+                : RecordFactory::visitor()->insert([
                     'hash'       => $hash,
                     'created_at' => TimeZone::getCurrentDate('Y-m-d H:i:s'),
                 ]);

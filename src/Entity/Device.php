@@ -3,11 +3,7 @@
 namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
-use WP_Statistics\Records\DeviceTypeRecord;
-use WP_Statistics\Records\DeviceOsRecord;
-use WP_Statistics\Records\DeviceBrowserRecord;
-use WP_Statistics\Records\DeviceBrowserVersionRecord;
-use WP_Statistics\Records\ResolutionRecord;
+use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Utils\Request;
 
 /**
@@ -37,12 +33,11 @@ class Device extends BaseEntity
         $cacheKey   = 'device_type_' . md5($deviceType);
 
         $id = $this->getCachedData($cacheKey, function () use ($deviceType) {
-            $model  = new DeviceTypeRecord();
-            $record = $model->get(['name' => $deviceType]);
+            $record = RecordFactory::deviceType()->get(['name' => $deviceType]);
 
             return !empty($record) && isset($record->ID)
                 ? (int)$record->ID
-                : $model->insert(['name' => $deviceType]);
+                : RecordFactory::deviceType()->insert(['name' => $deviceType]);
         });
 
         $this->profile->setDeviceTypeId($id);
@@ -68,12 +63,11 @@ class Device extends BaseEntity
         $cacheKey = 'device_os_' . md5($os);
 
         $id = $this->getCachedData($cacheKey, function () use ($os) {
-            $model  = new DeviceOsRecord();
-            $record = $model->get(['name' => $os]);
+            $record = RecordFactory::deviceOs()->get(['name' => $os]);
 
             return !empty($record) && isset($record->ID)
                 ? (int)$record->ID
-                : $model->insert(['name' => $os]);
+                : RecordFactory::deviceOs()->insert(['name' => $os]);
         });
 
         $this->profile->setDeviceOsId($id);
@@ -99,12 +93,11 @@ class Device extends BaseEntity
         $cacheKey = 'device_browser_' . md5($browser);
 
         $id = $this->getCachedData($cacheKey, function () use ($browser) {
-            $model  = new DeviceBrowserRecord();
-            $record = $model->get(['name' => $browser]);
+            $record = RecordFactory::deviceBrowser()->get(['name' => $browser]);
 
             return !empty($record) && isset($record->ID)
                 ? (int)$record->ID
-                : $model->insert(['name' => $browser]);
+                : RecordFactory::deviceBrowser()->insert(['name' => $browser]);
         });
 
         $this->profile->setDeviceBrowserId($id);
@@ -142,15 +135,14 @@ class Device extends BaseEntity
         $cacheKey = 'device_browser_version_' . $browserId . '_' . md5($version);
 
         $id = $this->getCachedData($cacheKey, function () use ($browserId, $version) {
-            $model  = new DeviceBrowserVersionRecord();
-            $record = $model->get([
+            $record = RecordFactory::deviceBrowserVersion()->get([
                 'browser_id' => $browserId,
                 'version'    => $version,
             ]);
 
             return !empty($record) && isset($record->ID)
                 ? (int)$record->ID
-                : $model->insert([
+                : RecordFactory::deviceBrowserVersion()->insert([
                     'browser_id' => $browserId,
                     'version'    => $version,
                 ]);
@@ -177,15 +169,14 @@ class Device extends BaseEntity
         $cacheKey = 'resolution_' . $width . 'x' . $height;
 
         $id = $this->getCachedData($cacheKey, function () use ($width, $height) {
-            $model  = new ResolutionRecord();
-            $record = $model->get([
+            $record = RecordFactory::resolution()->get([
                 'width'  => $width,
                 'height' => $height,
             ]);
 
             return !empty($record) && isset($record->ID)
                 ? (int)$record->ID
-                : $model->insert([
+                : RecordFactory::resolution()->insert([
                     'width'  => $width,
                     'height' => $height,
                 ]);

@@ -4,7 +4,7 @@ namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
 use WP_Statistics\Models\SessionModel;
-use WP_Statistics\Records\SessionRecord;
+use WP_Statistics\Records\RecordFactory;
 use WP_STATISTICS\TimeZone;
 
 /**
@@ -21,7 +21,7 @@ class Session extends BaseEntity
      */
     public function record()
     {
-        if (! $this->isActive('sessions')) {
+        if (!$this->isActive('sessions')) {
             return $this;
         }
 
@@ -34,23 +34,22 @@ class Session extends BaseEntity
         $cacheKey = 'session_' . $visitorId;
 
         $sessionId = $this->getCachedData($cacheKey, function () use ($visitorId) {
-            $model    = new SessionRecord();
             $existing = $this->existToday();
 
             if ($existing && isset($existing->ID)) {
-                $model = new SessionRecord($existing);
-
                 $newViews = ((int)$existing->total_views) + 1;
+                $userId   = empty($existing->user_id) ? $this->profile->getUserId() : $existing->user_id;
 
-                $model->update(
+                RecordFactory::session($existing)->update(
                     [
                         'total_views' => $newViews,
+                        'user_id'     => $userId,
                     ],
                 );
                 return (int)$existing->ID;
             }
 
-            return (int)$model->insert([
+            return (int)RecordFactory::session()->insert([
                 'visitor_id'                => $visitorId,
                 'ip'                        => $this->profile->getProcessedIPForStorage(),
                 'referrer_id'               => $this->profile->getReferrerId(),
@@ -103,12 +102,12 @@ class Session extends BaseEntity
      * This method sets the `last_view_id` and `ended_at` timestamp for the session.
      * If the session does not yet have an `initial_view_id`, it will be set to the provided `$viewId`.
      *
-     * @param int    $viewId The ID of the most recent view in the session.
-     * @param string $endAt  The datetime string (Y-m-d H:i:s) when the session is considered ended.
-     * 
+     * @param int $viewId The ID of the most recent view in the session.
+     * @param string $endAt The datetime string (Y-m-d H:i:s) when the session is considered ended.
+     *
      * @return void
      */
-    public function updateInitialView($viewId, $endAt) 
+    public function updateInitialView($viewId, $endAt)
     {
         $sessionId = $this->profile->getSessionId();
 
@@ -116,8 +115,7 @@ class Session extends BaseEntity
             return;
         }
 
-        $record = new SessionRecord();
-        $session = $record->get(['ID' => $sessionId]);
+        $session = RecordFactory::session()->get(['ID' => $sessionId]);
 
         if (!$session || !isset($session->ID)) {
             return;
@@ -133,14 +131,14 @@ class Session extends BaseEntity
             $updates['initial_view_id'] = $viewId;
         }
 
-        (new SessionRecord($session))->update($updates);
+        RecordFactory::session($session)->update($updates);
     }
 
     /**
      * Calculate session duration in seconds.
      *
-     * @param string $endAt      The end timestamp.
-     * @param string $startedAt  The start timestamp.
+     * @param string $endAt The end timestamp.
+     * @param string $startedAt The start timestamp.
      * @return int Duration in seconds, or 0 if invalid.
      */
     public function calculateDuration($endAt, $startedAt)

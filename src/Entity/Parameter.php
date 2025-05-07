@@ -5,7 +5,7 @@ namespace WP_Statistics\Entity;
 use WP_Statistics\Abstracts\BaseEntity;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Pages;
-use WP_Statistics\Records\ParameterRecord;
+use WP_Statistics\Records\RecordFactory;
 
 /**
  * Entity for detecting and recording view parameters from the request URI.
@@ -24,7 +24,7 @@ class Parameter extends BaseEntity
      */
     public function record()
     {
-        if (! $this->isActive('parameters')) {
+        if (!$this->isActive('parameters')) {
             return $this;
         }
 
@@ -36,7 +36,7 @@ class Parameter extends BaseEntity
             return $this;
         }
 
-        $allowedParams = Helper::get_query_params_allow_list();
+        $allowedParams = Helper::get_query_params_allow_list('array', true);
         $pageUri       = Pages::sanitize_page_uri($this->profile);
 
         $queryParams = [];
@@ -56,10 +56,8 @@ class Parameter extends BaseEntity
             return $this;
         }
 
-        $model = new ParameterRecord();
-
         foreach ($filteredParams as $key => $value) {
-            $model->insert([
+            RecordFactory::parameter()->insert([
                 'session_id'  => $sessionId,
                 'resource_id' => $resourceId,
                 'view_id'     => $viewId,

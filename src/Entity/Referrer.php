@@ -3,7 +3,7 @@
 namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
-use WP_Statistics\Records\ReferrerRecord;
+use WP_Statistics\Records\RecordFactory;
 
 /**
  * Entity for detecting and recording visitor referrer information.
@@ -23,7 +23,7 @@ class Referrer extends BaseEntity
      */
     public function recordReferrer()
     {
-        if (! $this->isActive('referrers')) {
+        if (!$this->isActive('referrers')) {
             return $this;
         }
 
@@ -50,8 +50,7 @@ class Referrer extends BaseEntity
         $cacheKey = 'referrer_' . md5($channel . '|' . $name . '|' . $domain);
 
         $referrerId = $this->getCachedData($cacheKey, function () use ($channel, $name, $domain) {
-            $model  = new ReferrerRecord();
-            $record = $model->get([
+            $record = RecordFactory::referrer()->get([
                 'channel' => $channel,
                 'name'    => $name,
                 'domain'  => $domain,
@@ -61,7 +60,7 @@ class Referrer extends BaseEntity
                 return (int)$record->ID;
             }
 
-            return (int)$model->insert([
+            return RecordFactory::referrer()->insert([
                 'channel' => $channel,
                 'name'    => $name,
                 'domain'  => $domain,

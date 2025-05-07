@@ -3,8 +3,8 @@
 namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
-use WP_Statistics\Models\ViewModel;
-use WP_Statistics\Records\ViewRecord;
+use WP_Statistics\Models\ViewsModel;
+use WP_Statistics\Records\RecordFactory;
 use WP_STATISTICS\TimeZone;
 
 /**
@@ -25,7 +25,7 @@ class View extends BaseEntity
      */
     public function record()
     {
-        if (! $this->isActive('views')) {
+        if (!$this->isActive('views')) {
             return $this;
         }
 
@@ -36,9 +36,7 @@ class View extends BaseEntity
             return $this;
         }
 
-        $viewModel = new ViewRecord();
-
-        $previousView = (new ViewModel())->getLastViewBySessionId([
+        $previousView = (new ViewsModel())->getLastViewBySessionId([
             'session_id' => $sessionId
         ]);
 
@@ -52,7 +50,7 @@ class View extends BaseEntity
             'duration'     => $this->profile->getDuration(),
         ];
 
-        $newViewId = (int)$viewModel->insert($data);
+        $newViewId = (int)RecordFactory::view()->insert($data);
 
         if ($previousView && isset($previousView->ID)) {
             $previousViewedAt = strtotime($previousView->viewed_at);
@@ -61,9 +59,8 @@ class View extends BaseEntity
             $durationSeconds = max(0, $currentViewedAt - $previousViewedAt);
             $durationMillis  = $durationSeconds * 1000;
 
-            // Update previous view
-            $viewModel = new ViewRecord($previousView);
-            $viewModel->update([
+            // Update previous view.
+            RecordFactory::view($previousView)->update([
                 'next_view_id' => $newViewId,
                 'duration'     => $durationMillis,
             ]);

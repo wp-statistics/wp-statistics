@@ -3,8 +3,7 @@
 namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
-use WP_Statistics\Records\CountryRecord;
-use WP_Statistics\Records\CityRecord;
+use WP_Statistics\Records\RecordFactory;
 
 /**
  * Entity for detecting and recording visitor's geographic information.
@@ -20,7 +19,7 @@ class Geo extends BaseEntity
      */
     public function recordCountry()
     {
-        if (! $this->isActive('countries')) {
+        if (!$this->isActive('countries')) {
             return $this;
         }
 
@@ -33,17 +32,15 @@ class Geo extends BaseEntity
 
         $cacheKey  = 'country_' . $code;
         $countryId = $this->getCachedData($cacheKey, function () use ($geo) {
-            $model  = new CountryRecord();
-            $record = $model->get(['code' => $geo['country_code']]);
+            $record = RecordFactory::country()->get(['code' => $geo['country_code']]);
 
             if (!empty($record) && isset($record->ID)) {
                 return (int)$record->ID;
             }
 
-            // Use profile getters for continent
             $continent = $this->profile->getContinent();
 
-            return (int)$model->insert([
+            return (int)RecordFactory::country()->insert([
                 'code'           => $geo['country_code'],
                 'name'           => isset($geo['country_name']) ? $geo['country_name'] : '',
                 'continent_code' => isset($geo['continent_code']) ? $geo['continent_code'] : '',
@@ -62,7 +59,7 @@ class Geo extends BaseEntity
      */
     public function recordCity()
     {
-        if (! $this->isActive('cities')) {
+        if (!$this->isActive('cities')) {
             return $this;
         }
 
@@ -79,8 +76,7 @@ class Geo extends BaseEntity
 
         $cacheKey = 'city_' . $countryId . '_' . md5($cityName);
         $cityId   = $this->getCachedData($cacheKey, function () use ($countryId, $regionCode, $regionName, $cityName) {
-            $model  = new CityRecord();
-            $record = $model->get([
+            $record = RecordFactory::city()->get([
                 'country_id'  => $countryId,
                 'region_code' => $regionCode,
                 'city_name'   => $cityName,
@@ -90,7 +86,7 @@ class Geo extends BaseEntity
                 return (int)$record->ID;
             }
 
-            return (int)$model->insert([
+            return (int)RecordFactory::city()->insert([
                 'country_id'  => $countryId,
                 'region_code' => $regionCode,
                 'region_name' => $regionName,

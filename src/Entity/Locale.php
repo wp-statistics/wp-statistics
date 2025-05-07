@@ -3,8 +3,7 @@
 namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
-use WP_Statistics\Records\LanguageRecord;
-use WP_Statistics\Records\TimezoneRecord;
+use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Utils\Request;
 
 /**
@@ -21,7 +20,7 @@ class Locale extends BaseEntity
      */
     public function recordLanguage()
     {
-        if (! $this->isActive('languages')) {
+        if (!$this->isActive('languages')) {
             return $this;
         }
 
@@ -37,14 +36,13 @@ class Locale extends BaseEntity
         $cacheKey = 'language_' . md5("{$language}-{$region}");
 
         $languageId = $this->getCachedData($cacheKey, function () use ($language, $fullName, $region) {
-            $model  = new LanguageRecord();
-            $record = $model->get(['code' => $language, 'region' => $region]);
+            $record = RecordFactory::language()->get(['code' => $language, 'region' => $region]);
 
             if (!empty($record) && isset($record->ID)) {
                 return (int)$record->ID;
             }
 
-            return (int)$model->insert([
+            return (int)RecordFactory::language()->insert([
                 'code'   => $language,
                 'name'   => $fullName,
                 'region' => $region,
@@ -65,7 +63,7 @@ class Locale extends BaseEntity
      */
     public function recordTimezone()
     {
-        if (! $this->isActive('timezones')) {
+        if (!$this->isActive('timezones')) {
             return $this;
         }
 
@@ -93,14 +91,13 @@ class Locale extends BaseEntity
         $cacheKey    = 'timezone_' . md5("{$tzNameFinal}|{$offset}|{$isDst}");
 
         $timezoneId = $this->getCachedData($cacheKey, function () use ($tzNameFinal, $offset, $isDst) {
-            $model  = new TimezoneRecord();
-            $record = $model->get(['name' => $tzNameFinal]);
+            $record = RecordFactory::timezone()->get(['name' => $tzNameFinal]);
 
             if (!empty($record) && isset($record->ID)) {
                 return (int)$record->ID;
             }
 
-            return (int)$model->insert([
+            return (int)RecordFactory::timezone()->insert([
                 'name'   => $tzNameFinal,
                 'offset' => $offset,
                 'is_dst' => $isDst ? 1 : 0,

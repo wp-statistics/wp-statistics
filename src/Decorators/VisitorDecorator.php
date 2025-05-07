@@ -263,4 +263,24 @@ class VisitorDecorator
 
         return null;
     }
+
+    /**
+     * Get visitor hash.
+     *
+     * @return string
+     */
+    public function getHash()
+    {
+        return empty($this->visitor->hash) ? '' : $this->visitor->hash;
+    }
+
+    /**
+     * Get the timestamp when the visitor was created.
+     *
+     * @return string|null
+     */
+    public function getCreatedAt()
+    {
+        return empty($this->visitor->created_at) ? null : $this->visitor->created_at;
+    }
 }
