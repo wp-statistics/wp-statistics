@@ -1766,9 +1766,12 @@ class Helper
      */
     public static function getDeviceCategoryName($device)
     {
+        $device = $device ?? '';
+
         if (strpos($device, ':') !== false) {
             $device = explode(':', $device)[0];
         }
+
         return $device;
     }
 

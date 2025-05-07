@@ -45,7 +45,7 @@ if (strpos($page, 'overview') !== false) {
                 ?>
                 <tr>
                     <td class="wps-pd-l">
-                        <div class="wps-ellipsis-parent" title="<?php echo esc_attr($page['title']) ?>"><span class="wps-ellipsis-text"><?php echo esc_html($page['title']) ?></span></div>
+                        <div class="wps-ellipsis-parent" title="<?php echo esc_attr($page['title']) ?>"><a class="wps-ellipsis-text" href="<?php echo esc_url($reportUrl) ?>"><?php echo esc_html($page['title']) ?></a></div>
                     </td>
 
                     <td class="wps-pd-l">

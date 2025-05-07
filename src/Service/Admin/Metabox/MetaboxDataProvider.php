@@ -108,11 +108,6 @@ class MetaboxDataProvider
         ];
     }
 
-    public function getTopCountiesData($args = [])
-    {
-        return $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['per_page' => 5, 'not_null' => 'location']));
-    }
-
     public function getPostSummaryData($args = [])
     {
         $postId = Request::get('post', '', 'number');

@@ -341,6 +341,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Charts\\ChartDataProviderFactory' => __DIR__ . '/../..' . '/src/Service/Charts/ChartDataProviderFactory.php',
         'WP_Statistics\\Service\\Charts\\DataProvider\\AuthorsPostViewsChartDataProvider' => __DIR__ . '/../..' . '/src/Service/Charts/DataProvider/AuthorsPostViewsChartDataProvider.php',
         'WP_Statistics\\Service\\Charts\\DataProvider\\BrowserChartDataProvider' => __DIR__ . '/../..' . '/src/Service/Charts/DataProvider/BrowserChartDataProvider.php',
+        'WP_Statistics\\Service\\Charts\\DataProvider\\CountryChartDataProvider' => __DIR__ . '/../..' . '/src/Service/Charts/DataProvider/CountryChartDataProvider.php',
         'WP_Statistics\\Service\\Charts\\DataProvider\\DeviceChartDataProvider' => __DIR__ . '/../..' . '/src/Service/Charts/DataProvider/DeviceChartDataProvider.php',
         'WP_Statistics\\Service\\Charts\\DataProvider\\ExclusionsChartDataProvider' => __DIR__ . '/../..' . '/src/Service/Charts/DataProvider/ExclusionsChartDataProvider.php',
         'WP_Statistics\\Service\\Charts\\DataProvider\\MapChartDataProvider' => __DIR__ . '/../..' . '/src/Service/Charts/DataProvider/MapChartDataProvider.php',
