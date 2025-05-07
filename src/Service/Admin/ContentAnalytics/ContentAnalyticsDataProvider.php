@@ -124,12 +124,59 @@ class ContentAnalyticsDataProvider
 
     public function getSingleResourceData()
     {
-        return [];
+        $totalHitsArgs      = array_merge(Helper::filterArrayByKeys($this->args, ['query_param']), ['ignore_date' => true]);
+
+        $totalViews         = $this->viewsModel->countViews($totalHitsArgs);
+        $totalVisitors      = $this->visitorsModel->countVisitors($totalHitsArgs);
+
+        $recentViews        = $this->viewsModel->countViews($this->args);
+        $recentVisitors     = $this->visitorsModel->countVisitors($this->args);
+
+        $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
+
+        $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
+        $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
+
+        $referrersData      = $this->visitorsModel->getReferrers($this->args);
+
+        $performanceArgs    = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
+        $performanceData    = [
+            'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, $performanceArgs)),
+            'views'     => $this->viewsModel->countViews(array_merge($this->args, $performanceArgs)),
+        ];
+
+        return [
+            'visitors_country'  => $visitorsCountry,
+            'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
+            'performance'       => $performanceData,
+            'referrers'         => $referrersData,
+            'overview'          => [
+                'views'     => [
+                    'total' => $totalViews,
+                    'recent'=> $recentViews,
+                ],
+                'visitors'  => [
+                    'total' => $totalVisitors,
+                    'recent'=> $recentVisitors,
+                ]
+            ]
+        ];
     }
 
     public function getSingleResourceChartData()
     {
-        return [];
+        $performanceDataProvider    = ChartDataProviderFactory::performanceChart($this->args);
+        $searchEngineDataProvider   = ChartDataProviderFactory::searchEngineChart(array_merge($this->args, ['source_channel' => ['search', 'paid_search']]));
+        $platformDataProvider       = ChartDataProviderFactory::platformCharts($this->args);
+
+        return [
+            'performance_chart_data'    => $performanceDataProvider->getData(),
+            'search_engine_chart_data'  => $searchEngineDataProvider->getData(),
+            'os_chart_data'             => $platformDataProvider->getOsData(),
+            'browser_chart_data'        => $platformDataProvider->getBrowserData(),
+            'device_chart_data'         => $platformDataProvider->getDeviceData(),
+            'model_chart_data'          => $platformDataProvider->getModelData(),
+        ];
     }
 
     public function getSinglePostData()

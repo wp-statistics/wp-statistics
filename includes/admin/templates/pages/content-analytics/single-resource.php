@@ -2,10 +2,7 @@
 
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\View;
-
-$postType = get_post_type(Request::get('post_id'));
 ?>
 
 <div class="metabox-holder wps-content-analytics">
@@ -13,7 +10,7 @@ $postType = get_post_type(Request::get('post_id'));
         <?php
         $args1 = [
             'title'          => esc_html__('Views', 'wp-statistics'),
-            'tooltip'        => sprintf(esc_html__('Total views of this %s and views during the selected period.', 'wp-statistics'), strtolower($postType)),
+            'tooltip'        => esc_html__('Total views of this resource and views during the selected period.', 'wp-statistics'),
             'avg'            => Helper::formatNumberWithUnit($data['overview']['views']['total']),
             'avg_title'      => esc_html__('Total', 'wp-statistics'),
             'selected'       => Helper::formatNumberWithUnit($data['overview']['views']['recent']),
@@ -23,7 +20,7 @@ $postType = get_post_type(Request::get('post_id'));
 
         $args2 = [
             'title'          => esc_html__('Visitors', 'wp-statistics'),
-            'tooltip'        => sprintf(esc_html__('Total unique visitors to this %s and visitors during the selected period.', 'wp-statistics'), strtolower($postType)),
+            'tooltip'        => esc_html__('Total unique visitors to this resource and visitors during the selected period.', 'wp-statistics'),
             'avg'            => Helper::formatNumberWithUnit($data['overview']['visitors']['total']),
             'avg_title'      => esc_html__('Total', 'wp-statistics'),
             'selected'       => Helper::formatNumberWithUnit($data['overview']['visitors']['recent']),
