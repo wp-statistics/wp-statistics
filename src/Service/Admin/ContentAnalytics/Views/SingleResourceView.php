@@ -2,15 +2,11 @@
 
 namespace WP_Statistics\Service\Admin\ContentAnalytics\Views;
 
-use Exception;
-use WP_Statistics\Components\View;
 use WP_STATISTICS\Menus;
-use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseView;
 use WP_Statistics\Exception\SystemErrorException;
-use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\ContentAnalytics\ContentAnalyticsDataProvider;
 use WP_STATISTICS\Admin_Assets;
 
@@ -30,7 +26,8 @@ class SingleResourceView extends BaseView
         }
 
         $this->dataProvider = new ContentAnalyticsDataProvider([
-            'uri' => $this->resourceUri
+            'query_param'       => $this->resourceUri,
+            'ignore_post_type'  => true
         ]);
     }
 

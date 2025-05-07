@@ -92,8 +92,8 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
             'views'
         );
 
-        // On single post view, no need to count posts
-        if (empty($this->args['post_id'])) {
+        // On single post view and single resource, no need to count posts
+        if (empty($this->args['post_id']) || empty($this->args['query_param'])) {
             $this->addChartDataset(
                 sprintf(
                     esc_html__('Published %s', 'wp-statistics'),
