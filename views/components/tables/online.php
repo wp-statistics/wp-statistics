@@ -29,7 +29,7 @@ use WP_STATISTICS\Menus;
                             <?php esc_html_e('Referrer', 'wp-statistics'); ?>
                         </th>
                         <th class="wps-pd-l">
-                            <?php echo esc_html__('Latest Page', 'wp-statistics'); ?>
+                            <?php echo esc_html__('Current Page', 'wp-statistics'); ?>
                         </th>
                     </tr>
                 </thead>
