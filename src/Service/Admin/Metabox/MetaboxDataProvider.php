@@ -12,6 +12,7 @@ use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
+use WP_Statistics\Utils\Url;
 
 class MetaboxDataProvider
 {
@@ -181,6 +182,60 @@ class MetaboxDataProvider
         $data['top_referrer'] = $topReferrer[0] ?? '';
         $data['top_category'] = $topCategory[0] ?? '';
         $data['top_content']  = $topContent[0] ?? '';
+
+        return $data;
+    }
+
+    public function getSourceCategoriesData($args = [])
+    {
+        $args = array_merge($args, [
+            'group_by'  => 'visitor.source_channel',
+            'not_null'  => false,
+            'decorate'  => true,
+            'per_page'  => 10,
+            'page'      => 1
+        ]);
+
+        $topChannels    = $this->visitorsModel->getReferrers($args);
+
+        $data   = [];
+        $direct = null;
+
+        $totalReferrers = 0;
+        foreach ($topChannels as $item) {
+            $totalReferrers += $item->getTotalReferrals(true);
+        }
+
+        foreach ($topChannels as $item) {
+            $topDomain = $this->visitorsModel->getReferrers(['decorate' => true, 'per_page' => 1, 'source_channel' => $item->getRawSourceChannel()]);
+            $referrers = $item->getTotalReferrals(true);
+
+            // Store direct category in a temp variable and add it at the end separately
+            if ($item->getRawSourceChannel() === 'direct') {
+                $direct = $item;
+                continue;
+            }
+
+            // Limit to 4 categories
+            if (count($data) >= 4) break;
+
+            $data[] = [
+                'source_category' => $item->getSourceChannel(),
+                'top_domain'      => !empty($topDomain) ? Url::cleanUrl($topDomain[0]->getReferrer()) : '-',
+                'visitors'        => number_format_i18n($referrers),
+                'percentage'      => Helper::calculatePercentage($referrers, $totalReferrers) . '%'
+            ];
+        }
+
+        // Add direct category
+        if (!empty($data)) {
+            $data[] = [
+                'source_category' => esc_html__('Direct', 'wp-statistics'),
+                'top_domain'      => '-',
+                'visitors'        => $direct ? number_format_i18n($direct->getTotalReferrals(true)) : 0,
+                'percentage'      => Helper::calculatePercentage($direct->getTotalReferrals(true), $totalReferrers) . '%'
+            ];
+        }
 
         return $data;
     }

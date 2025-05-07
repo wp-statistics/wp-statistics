@@ -59,7 +59,10 @@ abstract class BaseTabView extends BaseView
         $currentTab     = ucwords($this->getCurrentTab(), '-');
         $tabDataMethod  = 'get' . str_replace('-', '', $currentTab) . 'Data';
 
-        if (!method_exists($this, $tabDataMethod)) return [];
+        if (!method_exists($this, $tabDataMethod)) {
+            // Filter to add data for locked tab
+            return apply_filters("wp_statistics_{$this->getCurrentPage()}_{$this->getCurrentTab()}_data", []);
+        };
 
         return $this->$tabDataMethod();
     }
