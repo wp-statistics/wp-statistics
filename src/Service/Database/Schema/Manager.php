@@ -265,7 +265,7 @@ class Manager
                 'KEY resource_id (resource_id)',
             ],
         ],
-        'summary_totals'     => [
+        'summary_totals'          => [
             'columns'     => [
                 'ID'             => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
                 'date'           => 'datetime NOT NULL',
