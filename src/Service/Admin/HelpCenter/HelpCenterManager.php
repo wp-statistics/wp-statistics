@@ -6,10 +6,7 @@ class HelpCenterManager
 {
     public function __construct()
     {
-        if (Option::get('help_center')) {
-            add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);
-        }
-
+        add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);
     }
 
     /**
