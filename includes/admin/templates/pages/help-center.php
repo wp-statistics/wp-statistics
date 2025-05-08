@@ -33,7 +33,7 @@ $displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? 
                 );
                 ?>
             </p>
-            <form class="wps-help__search-form" action="https://wp-statistics.com/documentation/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help" method="get">
+            <form class="wps-help__search-form" action="https://wp-statistics.com/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help" method="get" target="_blank">
                 <button type="submit" aria-label="submit"></button>
                 <input type="search" name="s" class="wps-help__search-input" placeholder="<?php esc_attr_e('Search Our Documentation', 'wp-statistics'); ?>"/>
             </form>
@@ -87,7 +87,7 @@ $displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? 
                 'category'        => esc_html__('Getting Started', 'wp-statistics'),
                 'title'           => esc_html__('Learn how WP Statistics works.', 'wp-statistics'),
                 'view_more_title' => esc_html__('View all articles', 'wp-statistics'),
-                'view_more_link'  => '',
+                'view_more_link'  => 'resources-category/getting-started',
                 'description'     => esc_html__('Explore the full documentation to understand key features and get the most out of WP Statistics.', 'wp-statistics'),
             ];
             View::load("components/objects/help-center-card", $card1);
@@ -103,7 +103,7 @@ $displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? 
                 'category'        => esc_html__('Guides', 'wp-statistics'),
                 'title'           => esc_html__('Make the most of WP Statistics.', 'wp-statistics'),
                 'view_more_title' => esc_html__('View all articles', 'wp-statistics'),
-                'view_more_link'  => '',
+                'view_more_link'  => 'resources-category/guides/',
                 'description'     => esc_html__('Find easy, step-by-step instructions to track user activity, analyze data, and improve your site’s performance.', 'wp-statistics'),
             ];
             View::load("components/objects/help-center-card", $card2);
@@ -119,7 +119,7 @@ $displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? 
                 'category'        => esc_html__('Privacy', 'wp-statistics'),
                 'title'           => esc_html__('Your data, your rules.', 'wp-statistics'),
                 'view_more_title' => esc_html__('View all articles', 'wp-statistics'),
-                'view_more_link'  => '',
+                'view_more_link'  => 'resources-category/privacy/',
                 'description'     => esc_html__('Learn how WP Statistics protects user privacy and how you can manage data settings to stay compliant.', 'wp-statistics'),
             ];
             View::load("components/objects/help-center-card", $card3);
@@ -188,7 +188,7 @@ $displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? 
         <?php if (!$isPremium) {
             $cta = [
                 'cta_title'   => esc_html__('Upgrade Now', 'wp-statistics'),
-                'cta_link'    => 'contact-us/technical-support/',
+                'cta_link'    => 'contact-us/technical-support',
                 'title'       => esc_html__('Want More Features?', 'wp-statistics'),
                 'description' => esc_html__('Upgrade your plan to access more tools and supercharge your growth.', 'wp-statistics')
             ];
@@ -196,7 +196,7 @@ $displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? 
         } else {
             $cta = [
                 'cta_title'   => esc_html__('Submit a Feature Request', 'wp-statistics'),
-                'cta_link'    => 'contact-us/technical-support/',
+                'cta_link'    => 'contact-us/technical-support',
                 'title'       => esc_html__('Got Ideas for New Features?', 'wp-statistics'),
                 'description' => esc_html__('We’re building WP Statistics with you in mind. Share your suggestions or upvote existing ones to help shape what comes next.', 'wp-statistics')
             ];

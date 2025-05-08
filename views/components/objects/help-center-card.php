@@ -3,7 +3,7 @@
         <?php echo wp_kses(
             $icon,
             array(
-                'svg'   => array(
+                'svg'  => array(
                     'class'       => true,
                     'xmlns'       => true,
                     'width'       => true,
@@ -14,20 +14,20 @@
                     'focusable'   => true,
                     'fill'        => true,
                 ),
-                'path'  => array(
-                    'd'      => true,
-                    'fill'   => true,
-                    'stroke' => true,
-                    'stroke-width' => true,
-                    'stroke-linecap' => true,
+                'path' => array(
+                    'd'               => true,
+                    'fill'            => true,
+                    'stroke'          => true,
+                    'stroke-width'    => true,
+                    'stroke-linecap'  => true,
                     'stroke-linejoin' => true,
                 ),
-                'g'     => array(
-                    'fill'   => true,
-                    'stroke' => true,
+                'g'    => array(
+                    'fill'      => true,
+                    'stroke'    => true,
                     'transform' => true,
                 ),
-             )
+            )
         );
         ?>
     </div>
@@ -41,10 +41,10 @@
     <?php endif; ?>
     <?php if (isset($social)): ?>
         <ul class="wps-help__card-socials">
-            <li><a href="" target="_blank" class="wps-help__card-social wps-help__card-social--linkedin"></a></li>
-            <li><a href="" target="_blank" class="wps-help__card-social wps-help__card-social--x"></a></li>
-            <li><a href="" target="_blank" class="wps-help__card-social wps-help__card-social--instagram"></a></li>
-            <li><a href="" target="_blank" class="wps-help__card-social wps-help__card-social--github"></a></li>
+            <li><a aria-label="WP Statistics on Linkedin" href="https://www.linkedin.com/showcase/wp-statistics" target="_blank" class="wps-help__card-social wps-help__card-social--linkedin"></a></li>
+            <li><a aria-label="WP Statistics on Twitter" href="https://x.com/wp_statistics" target="_blank" class="wps-help__card-social wps-help__card-social--x"></a></li>
+            <li><a aria-label="WP Statistics on Instagram" href="http://instagram.com/veronalabs" target="_blank" class="wps-help__card-social wps-help__card-social--instagram"></a></li>
+            <li><a aria-label="WP Statistics on Github" href="https://github.com/wp-statistics" target="_blank" class="wps-help__card-social wps-help__card-social--github"></a></li>
         </ul>
     <?php endif; ?>
 </div>
