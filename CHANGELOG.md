@@ -1,6 +1,7 @@
 = 14.14 - 2025-xx-xx
 - **Enhancement**: Add Entry/Exit Page to the reports.
 - **New:** Added an option to to disable word count analytics in reports.
+- **New**: Add display dynamic promo banner.
 
 = 14.13.5 - 2025-05-x =
 - **Fix:** Fixed issue where page views were zero when using a taxonomy filter other than 'category'.
