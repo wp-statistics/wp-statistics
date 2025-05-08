@@ -23,9 +23,6 @@ use WP_STATISTICS\Menus;
                             <?php esc_html_e('Visitor Information', 'wp-statistics'); ?>
                         </th>
                         <th class="wps-pd-l">
-                            <?php esc_html_e('Location', 'wp-statistics'); ?>
-                        </th>
-                        <th class="wps-pd-l">
                             <?php esc_html_e('Referrer', 'wp-statistics'); ?>
                         </th>
                         <th class="wps-pd-l">
@@ -46,16 +43,6 @@ use WP_STATISTICS\Menus;
                                 <?php
                                     View::load("components/visitor-information", ['visitor' => $visitor]);
                                 ?>
-                            </td>
-
-                            <td class="wps-pd-l">
-                                <div class="wps-country-flag wps-ellipsis-parent">
-                                    <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getLocation()->getCountryCode()])) ?>" class="wps-tooltip" title="<?php echo esc_attr($visitor->getLocation()->getCountryName()) ?>">
-                                        <img src="<?php echo esc_url($visitor->getLocation()->getCountryFlag()) ?>" alt="<?php echo esc_attr($visitor->getLocation()->getCountryName()) ?>" width="15" height="15">
-                                    </a>
-                                    <?php $location = Admin_Template::locationColumn($visitor->getLocation()->getCountryCode(), $visitor->getLocation()->getRegion(), $visitor->getLocation()->getCity()); ?>
-                                    <span class="wps-ellipsis-text" title="<?php echo esc_attr($location) ?>"><?php echo esc_html($location) ?></span>
-                                </div>
                             </td>
 
                             <td class="wps-pd-l">
