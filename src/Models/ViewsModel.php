@@ -267,7 +267,7 @@ class ViewsModel extends BaseModel
 
             $queries[] = Query::select($args['fields'])
                 ->from('pages')
-                ->where('id', '=', '666666')
+                ->where('id', '!=', '0')
                 ->whereDate('date', $args['date'])
                 ->groupBy('id')
                 ->getQuery();
