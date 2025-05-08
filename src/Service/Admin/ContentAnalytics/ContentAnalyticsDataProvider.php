@@ -122,6 +122,47 @@ class ContentAnalyticsDataProvider
         return $result;
     }
 
+    public function getSingleResourceData()
+    {
+        $totalHitsArgs      = array_merge(Helper::filterArrayByKeys($this->args, ['query_param', 'ignore_post_type']), ['ignore_date' => true]);
+
+        $totalViews         = $this->viewsModel->countViews(array_merge($totalHitsArgs, ['uri' => $this->args['query_param']]));
+        $totalVisitors      = $this->visitorsModel->countVisitors($totalHitsArgs);
+
+        $recentViews        = $this->viewsModel->countViews($this->args);
+        $recentVisitors     = $this->visitorsModel->countVisitors($this->args);
+
+        $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
+
+        $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
+        $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
+
+        $referrersData      = $this->visitorsModel->getReferrers($this->args);
+
+        $performanceArgs    = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
+        $performanceData    = [
+            'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, $performanceArgs)),
+            'views'     => $this->viewsModel->countViews(array_merge($this->args, $performanceArgs)),
+        ];
+
+        return [
+            'visitors_country'  => $visitorsCountry,
+            'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
+            'performance'       => $performanceData,
+            'referrers'         => $referrersData,
+            'overview'          => [
+                'views'     => [
+                    'total' => $totalViews,
+                    'recent'=> $recentViews,
+                ],
+                'visitors'  => [
+                    'total' => $totalVisitors,
+                    'recent'=> $recentVisitors,
+                ]
+            ]
+        ];
+    }
+
     public function getSinglePostData()
     {
         $totalHitsArgs      = array_merge(Helper::filterArrayByKeys($this->args, ['post_id', 'query_param', 'resource_type']), ['ignore_date' => true]);

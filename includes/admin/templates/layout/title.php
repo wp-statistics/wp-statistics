@@ -34,6 +34,9 @@ View::load('components/objects/share-anonymous-notice');
     if (Menus::in_page('content-analytics') && Request::compare('type', 'single')) {
         View::load("components/headers/post-type");
     }
+    if (Menus::in_page('content-analytics') && Request::compare('type', 'single-resource')) {
+        View::load("components/headers/single-resource");
+    }
     if (Menus::in_page('category-analytics') && Request::compare('type', 'single')) {
         View::load("components/headers/category-analytics");
     }

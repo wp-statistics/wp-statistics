@@ -160,6 +160,7 @@ return array(
     'WP_Statistics\\Service\\Admin\\ContentAnalytics\\ContentAnalyticsDataProvider' => $baseDir . '/src/Service/Admin/ContentAnalytics/ContentAnalyticsDataProvider.php',
     'WP_Statistics\\Service\\Admin\\ContentAnalytics\\ContentAnalyticsManager' => $baseDir . '/src/Service/Admin/ContentAnalytics/ContentAnalyticsManager.php',
     'WP_Statistics\\Service\\Admin\\ContentAnalytics\\ContentAnalyticsPage' => $baseDir . '/src/Service/Admin/ContentAnalytics/ContentAnalyticsPage.php',
+    'WP_Statistics\\Service\\Admin\\ContentAnalytics\\Views\\SingleResourceView' => $baseDir . '/src/Service/Admin/ContentAnalytics/Views/SingleResourceView.php',
     'WP_Statistics\\Service\\Admin\\ContentAnalytics\\Views\\SingleView' => $baseDir . '/src/Service/Admin/ContentAnalytics/Views/SingleView.php',
     'WP_Statistics\\Service\\Admin\\ContentAnalytics\\Views\\TabsView' => $baseDir . '/src/Service/Admin/ContentAnalytics/Views/TabsView.php',
     'WP_Statistics\\Service\\Admin\\Devices\\DevicesDataProvider' => $baseDir . '/src/Service/Admin/Devices/DevicesDataProvider.php',
