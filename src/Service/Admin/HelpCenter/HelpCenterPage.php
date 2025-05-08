@@ -38,6 +38,6 @@ class HelpCenterPage extends BasePage
             'data'          => $this->getData()
         ];
 
-        Admin_Template::get_template(['layout/header', 'layout/title', 'pages/help-center', 'layout/footer'], $args);
+        Admin_Template::get_template(['layout/header', 'pages/help-center', 'layout/footer'], $args);
     }
 }
