@@ -45,6 +45,21 @@ class EventsModel extends BaseModel
         return $result ?? 0;
     }
 
+    public function getInitialEventDate($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'event_name' => ''
+        ]);
+
+        $result = Query::select('MIN(events.date) as date')
+            ->from('events')
+            ->where('event_name', '=', $args['event_name'])
+            ->allowCaching()
+            ->getVar();
+
+        return $result;
+    }
+
     public function getEvents($args = [])
     {
         $args = $this->parseArgs($args, [
