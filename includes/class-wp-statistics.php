@@ -24,6 +24,7 @@ use WP_Statistics\Service\Admin\Overview\OverviewManager;
 use WP_Statistics\Service\Admin\PageInsights\PageInsightsManager;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditManager;
+use WP_Statistics\Service\Admin\HelpCenter\HelpCenterManager;
 use WP_Statistics\Service\Admin\Referrals\ReferralsManager;
 use WP_Statistics\Service\Admin\TrackerDebugger\TrackerDebuggerManager;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsManager;
@@ -204,6 +205,7 @@ final class WP_Statistics
             $analytics           = new AnalyticsManager();
             $authorAnalytics     = new AuthorAnalyticsManager();
             $privacyAudit        = new PrivacyAuditManager();
+            $helpCenter          = new HelpCenterManager();
             $geographic          = new GeographicManager();
             $devices             = new DevicesManager();
             $categoryAnalytics   = new CategoryAnalyticsManager();
