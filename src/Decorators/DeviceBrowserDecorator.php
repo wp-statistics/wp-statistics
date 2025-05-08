@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Decorators;
 
+use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
+
 /**
  * Decorator for a record from the 'device_browsers' table.
  *
@@ -44,5 +46,25 @@ class DeviceBrowserDecorator
     public function getName()
     {
         return empty($this->deviceBrowser->name) ? '' : $this->deviceBrowser->name;
+    }
+
+    /**
+     * Get the browser logo URL.
+     *
+     * @return string
+     */
+    public function getLogo()
+    {
+        return DeviceHelper::getBrowserLogo($this->getName());
+    }
+
+    /**
+     * Get the raw browser name.
+     *
+     * @return string
+     */
+    public function getRaw()
+    {
+        return \WP_STATISTICS\Admin_Template::unknownToNotSet($this->getName()) ?? null;
     }
 }

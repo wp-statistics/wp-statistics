@@ -71,7 +71,7 @@ class CityDecorator
      *
      * @return string
      */
-    public function getCityName()
+    public function getName()
     {
         return empty($this->city->city_name) ? '' : $this->city->city_name;
     }

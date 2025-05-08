@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Decorators;
 
+use WP_STATISTICS\Country;
+
 /**
  * Decorator for a record from the 'countries' table.
  *
@@ -74,5 +76,15 @@ class CountryDecorator
     public function getContinent()
     {
         return $this->country->continent ?? '';
+    }
+
+    /**
+     * Get the country icon URL based on the visitor's location.
+     *
+     * @return string
+     */
+    public function getFlag()
+    {
+        return Country::flag($this->getCode());
     }
 }

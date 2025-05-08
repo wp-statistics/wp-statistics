@@ -50,6 +50,38 @@ class SessionDecorator
     }
 
     /**
+     * Get the initial view associated with the session.
+     *
+     * @return ViewDecorator|null
+     */
+    public function getInitialView()
+    {
+        if (empty($this->session->initial_view_id)) {
+            return new ViewDecorator(null);
+        }
+
+        $record = RecordFactory::view()->get(['ID' => $this->session->initial_view_id]);
+
+        return new ViewDecorator($record);
+    }
+
+    /**
+     * Get the last view associated with the session.
+     *
+     * @return ViewDecorator|null
+     */
+    public function getLastView()
+    {
+        if (empty($this->session->last_view_id)) {
+            return new ViewDecorator(null);
+        }
+
+        $record = RecordFactory::view()->get(['ID' => $this->session->last_view_id]);
+
+        return new ViewDecorator($record);
+    }
+
+    /**
      * Get session start timestamp.
      *
      * @return string|null
@@ -86,7 +118,7 @@ class SessionDecorator
      */
     public function getViews()
     {
-        return empty($this->session->total_views) ? 0 : (int)$this->session->total_views;
+        return empty($this->session->total_views) ? 0 : number_format_i18n($this->session->total_views);
     }
 
     /**
@@ -97,8 +129,9 @@ class SessionDecorator
     public function getVisitor()
     {
         if (empty($this->session->visitor_id)) {
-            return null;
+            return new VisitorDecorator(null);
         }
+
         $record = RecordFactory::visitor()->get(['ID' => $this->session->visitor_id]);
         return new VisitorDecorator($record);
     }
@@ -111,8 +144,9 @@ class SessionDecorator
     public function getCountry()
     {
         if (empty($this->session->country_id)) {
-            return null;
+            return new CountryDecorator(null);
         }
+
         $record = RecordFactory::country()->get(['ID' => $this->session->country_id]);
         return new CountryDecorator($record);
     }
@@ -125,8 +159,9 @@ class SessionDecorator
     public function getCity()
     {
         if (empty($this->session->city_id)) {
-            return null;
+            return new CityDecorator(null);
         }
+
         $record = RecordFactory::city()->get(['ID' => $this->session->city_id]);
         return new CityDecorator($record);
     }
@@ -139,8 +174,9 @@ class SessionDecorator
     public function getReferral()
     {
         if (empty($this->session->referrer_id)) {
-            return null;
+            return new ReferrerDecorator(null);
         }
+
         $record = RecordFactory::referrer()->get(['ID' => $this->session->referrer_id]);
         return new ReferrerDecorator($record);
     }
@@ -153,8 +189,9 @@ class SessionDecorator
     public function getDeviceType()
     {
         if (empty($this->session->device_type_id)) {
-            return null;
+            return new DeviceTypeDecorator(null);
         }
+
         $record = RecordFactory::deviceType()->get(['ID' => $this->session->device_type_id]);
         return new DeviceTypeDecorator($record);
     }
@@ -167,8 +204,9 @@ class SessionDecorator
     public function getOs()
     {
         if (empty($this->session->device_os_id)) {
-            return null;
+            return new DeviceOsDecorator(null);
         }
+
         $record = RecordFactory::deviceOs()->get(['ID' => $this->session->device_os_id]);
         return new DeviceOsDecorator($record);
     }
@@ -181,8 +219,9 @@ class SessionDecorator
     public function getBrowser()
     {
         if (empty($this->session->device_browser_id)) {
-            return null;
+            return new DeviceBrowserDecorator(null);
         }
+
         $record = RecordFactory::deviceBrowser()->get(['ID' => $this->session->device_browser_id]);
         return new DeviceBrowserDecorator($record);
     }
@@ -195,8 +234,9 @@ class SessionDecorator
     public function getBrowserVersion()
     {
         if (empty($this->session->device_browser_version_id)) {
-            return null;
+            return new DeviceBrowserVersionDecorator(null);
         }
+
         $record = RecordFactory::deviceBrowserVersion()->get(['ID' => $this->session->device_browser_version_id]);
         return new DeviceBrowserVersionDecorator($record);
     }
@@ -209,8 +249,9 @@ class SessionDecorator
     public function getResolution()
     {
         if (empty($this->session->resolution_id)) {
-            return null;
+            return new ResolutionDecorator(null);
         }
+
         $record = RecordFactory::resolution()->get(['ID' => $this->session->resolution_id]);
         return new ResolutionDecorator($record);
     }
@@ -223,8 +264,9 @@ class SessionDecorator
     public function getLanguage()
     {
         if (empty($this->session->language_id)) {
-            return null;
+            return new LanguageDecorator(null);
         }
+
         $record = RecordFactory::language()->get(['ID' => $this->session->language_id]);
         return new LanguageDecorator($record);
     }
@@ -237,9 +279,64 @@ class SessionDecorator
     public function getTimezone()
     {
         if (empty($this->session->timezone_id)) {
-            return null;
+            return new TimezoneDecorator(null);
         }
+
         $record = RecordFactory::timezone()->get(['ID' => $this->session->timezone_id]);
         return new TimezoneDecorator($record);
+    }
+
+    /**
+     * Checks whether the visitor is a logged-in user.
+     *
+     * @return bool
+     */
+    public function isLoggedInUser()
+    {
+        return !empty($this->session->user_id);
+    }
+
+    /**
+     * Get the visitor's user object (if logged in).
+     *
+     * @return UserDecorator|null
+     */
+    public function getUser()
+    {
+        if ($this->getUserId()) {
+            return new UserDecorator($this->getUserId());
+        }
+
+        return null;
+    }
+
+    /**
+     * Get user ID
+     *
+     * @return mixed
+     */
+    public function getUserId()
+    {
+        return $this->session->user_id;
+    }
+
+    /**
+     * Get a parameter decorator scoped to the current session and a resource.
+     *
+     * @param int $resourceId Resource ID to filter by.
+     * @return ParameterDecorator
+     */
+    public function getParameter($resourceId)
+    {
+        if (empty($this->session->ID) || empty($resourceId)) {
+            return new ParameterDecorator(null);
+        }
+
+        $record = RecordFactory::parameter()->get([
+            'session_id'  => $this->session->ID,
+            'resource_id' => $resourceId,
+        ]);
+
+        return new ParameterDecorator($record);
     }
 }

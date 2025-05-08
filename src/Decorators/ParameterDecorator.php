@@ -85,4 +85,23 @@ class ParameterDecorator
     {
         return empty($this->parameter->value) ? null : (string)$this->parameter->value;
     }
+
+    /**
+     * Get the full parameter string in "key=value" format.
+     *
+     * Combines the parameter name and its value as a query string pair.
+     *
+     * @return string The full parameter string or an empty string if the key is missing.
+     */
+    public function getFull()
+    {
+        $key   = $this->getParameter();
+        $value = $this->getValue();
+
+        if ($key === null) {
+            return '';
+        }
+
+        return $value !== null ? "{$key}={$value}" : $key;
+    }
 }
