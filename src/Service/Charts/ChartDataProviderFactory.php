@@ -17,6 +17,7 @@ use WP_Statistics\Service\Charts\DataProvider\UsersTrafficChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\SourceCategoryChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\PublishOverviewChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\AuthorsPostViewsChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\CountryChartDataProvider;
 
 class ChartDataProviderFactory
 {
@@ -183,5 +184,16 @@ class ChartDataProviderFactory
     public static function sourceCategoryChart($args)
     {
         return new SourceCategoryChartDataProvider($args);
+    }
+
+    /**
+     * Returns a new instance of SourceCategoryChartDataProvider.
+     *
+     * @param array $args
+     * @return CountryChartDataProvider
+     */
+    public static function countryChart($args)
+    {
+        return new CountryChartDataProvider($args);
     }
 }

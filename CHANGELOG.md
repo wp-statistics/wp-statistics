@@ -1,9 +1,14 @@
+= 14.14 - 2025-xx-xx
+- **Enhancement**: Add Entry/Exit Page to the reports.
+- **New:** Added an option to to disable word count analytics in reports.
+
 = 14.13.5 - 2025-05-x =
 - **Fix:** Fixed issue where page views were zero when using a taxonomy filter other than 'category'.
 - **Fix:** Show referrers data based on the first viewed page.
 - **Enhancement:** Display referred visitors via UTM parameters in the `Referrals` report.
 - **Fix:** Fixed Decimal Formatting
 - **Fix**: Fixed visitors number aggregation issue.
+- **Fix:** Resolved posts view column issue.
 
 = 14.13.4 - 2025-04-29 =
 - **Enhancement:** Enforced capability check in optionUpdater.

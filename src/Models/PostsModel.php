@@ -220,28 +220,37 @@ class PostsModel extends BaseModel
             ->groupBy('pages.id')
             ->getQuery();
 
-        $result = Query::select([
+        $fields = [
             'posts.ID AS post_id',
             'posts.post_author AS author_id',
             'posts.post_title AS title',
             'posts.post_date AS date',
             'COALESCE(pages.views, 0) AS views',
             'COALESCE(visitors.visitors, 0) AS visitors',
-            'COALESCE(comments.total_comments, 0) AS comments',
-            "CAST(MAX(CASE WHEN postmeta.meta_key = 'wp_statistics_words_count' THEN postmeta.meta_value ELSE 0 END) AS UNSIGNED) AS words"
-        ])
+            'COALESCE(comments.total_comments, 0) AS comments'
+        ];
+
+        if (WordCountService::isActive()) {
+            $fields[] = "CAST(MAX(CASE WHEN postmeta.meta_key = 'wp_statistics_words_count' THEN postmeta.meta_value ELSE 0 END) AS UNSIGNED) AS words";
+        }
+
+        $query = Query::select($fields)
             ->from('posts')
             ->joinQuery($commentsQuery, ['posts.ID', 'comments.comment_post_ID'], 'comments', 'LEFT')
             ->joinQuery($viewsQuery, ['posts.ID', 'pages.id'], 'pages')
             ->joinQuery($visitorsQuery, ['posts.ID', 'visitors.post_id'], 'visitors', 'LEFT')
-            ->join('postmeta', ['posts.ID', 'postmeta.post_id'], [], 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_status', '=', 'publish')
             ->where('posts.post_author', '=', $args['author_id'])
             ->groupBy('posts.ID')
             ->orderBy($args['order_by'], $args['order'])
-            ->perPage($args['page'], $args['per_page'])
-            ->getAll();
+            ->perPage($args['page'], $args['per_page']);
+
+        if (WordCountService::isActive()) {
+            $query->join('postmeta', ['posts.ID', 'postmeta.post_id'], [], 'LEFT');
+        }
+
+        $result = $query->getAll();
 
         return $result;
     }

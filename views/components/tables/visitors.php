@@ -39,11 +39,12 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
 
                         <?php if (empty($hide_latest_page_column)) : ?>
                             <th class="wps-pd-l">
-                                <?php echo isset($page_column_title) ? esc_html($page_column_title) : esc_html__('Latest Page', 'wp-statistics'); ?>
+                                <?php echo isset($page_column_title) ? esc_html($page_column_title) : esc_html__('Exit Page', 'wp-statistics'); ?>
                             </th>
                         <?php endif; ?>
                         <th class="wps-pd-l">
                             <?php esc_html_e('Total Views', 'wp-statistics'); ?>
+                            <span class="wps-tooltip" title="<?php echo esc_html__('Total views for a single day. Privacy rules assign users a new ID daily, so visits on different days are counted separately.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></span>
                         </th>
 
                     </tr>
@@ -91,8 +92,8 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
                                     $page = $visitor->getFirstPage();
 
                                     if (!empty($page)) :
-                                        View::load("components/objects/external-link", [
-                                            'url'       => $page['link'],
+                                        View::load("components/objects/internal-link", [
+                                            'url'       => Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $page['id']]),
                                             'title'     => $page['title'],
                                             'tooltip'   => $page['query'] ? "?{$page['query']}" : ''
                                         ]);
@@ -109,8 +110,8 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
                                     $page = $visitor->getLastPage();
 
                                     if (!empty($page)) :
-                                        View::load("components/objects/external-link", [
-                                            'url'       => $page['link'],
+                                        View::load("components/objects/internal-link", [
+                                            'url'       => Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $page['id']]),
                                             'title'     => $page['title'],
                                         ]);
                                     else :

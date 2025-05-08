@@ -3,10 +3,12 @@
 namespace WP_Statistics\Models;
 
 use WP_Statistics\Abstracts\BaseModel;
+use WP_STATISTICS\Admin_Template;
 use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\AjaxBackgroundProcessFactory;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Decorators\ReferralDecorator;
 use WP_Statistics\Decorators\VisitorDecorator;
+use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Utils\Query;
 
@@ -32,7 +34,8 @@ class VisitorsModel extends BaseModel
             'ip'            => '',
             'logged_in'     => false,
             'user_role'     => '',
-            'referrer'      => ''
+            'referrer'      => '',
+            'not_null'      => ''
         ]);
 
         $filteredArgs = array_filter($args);
@@ -51,6 +54,7 @@ class VisitorsModel extends BaseModel
             ->where('user_id', '=', $args['user_id'])
             ->where('referred', '=', $args['referrer'])
             ->where('ip', '=', $args['ip'])
+            ->whereNotNull($args['not_null'])
             ->whereDate('last_counter', $args['date']);
 
 
@@ -1284,6 +1288,128 @@ class VisitorsModel extends BaseModel
             ->from('visitor')
             ->where('user_id', '=', $args['user_id'])
             ->whereDate('last_counter', $args['date']);
+
+        $result = $query->getVar();
+
+        return intval($result);
+    }
+
+    public function getEntryPages($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'          => '',
+            'resource_type' => Helper::getPostTypes(),
+            'page'          => 1,
+            'per_page'      => Admin_Template::$item_per_page,
+            'author_id'     => '',
+            'uri'           => '',
+            'order_by'      => 'visitors',
+            'order'         => 'DESC',
+        ]);
+
+        $result = Query::select([
+                'COUNT(visitor.ID) as visitors',
+                'pages.id as post_id, pages.page_id',
+                'posts.post_title',
+                'posts.post_date'
+            ])
+            ->from('visitor')
+            ->join('pages', ['visitor.first_page', 'pages.page_id'])
+            ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
+            ->where('pages.type', 'IN', $args['resource_type'])
+            ->where('pages.uri', '=', $args['uri'])
+            ->where('posts.post_author', '=', $args['author_id'])
+            ->whereDate('last_counter', $args['date'])
+            ->groupBy('pages.id')
+            ->orderBy($args['order_by'], $args['order'])
+            ->perPage($args['page'], $args['per_page'])
+            ->getAll();
+
+        return $result;
+    }
+
+    public function countEntryPages($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'          => '',
+            'resource_type' => Helper::getPostTypes(),
+            'author_id'     => '',
+            'uri'           => ''
+        ]);
+
+        $query = Query::select('COUNT(DISTINCT pages.id)')
+            ->from('visitor')
+            ->join('pages', ['visitor.first_page', 'pages.page_id'])
+            ->where('pages.type', 'IN', $args['resource_type'])
+            ->where('pages.uri', '=', $args['uri'])
+            ->whereDate('last_counter', $args['date']);
+
+        if (!empty($args['author_id'])) {
+            $query
+                ->join('posts', ['posts.ID', 'pages.id'])
+                ->where('posts.post_author', '=', $args['author_id']);
+        }
+
+        $result = $query->getVar();
+
+        return intval($result);
+    }
+
+    public function getExitPages($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'          => '',
+            'resource_type' => Helper::getPostTypes(),
+            'page'          => 1,
+            'per_page'      => Admin_Template::$item_per_page,
+            'author_id'     => '',
+            'uri'           => '',
+            'order_by'      => 'visitors',
+            'order'         => 'DESC'
+        ]);
+
+        $result = Query::select([
+                'COUNT(visitor.ID) as visitors',
+                'pages.id as post_id, pages.page_id',
+                'posts.post_title',
+                'posts.post_date'
+            ])
+            ->from('visitor')
+            ->join('pages', ['visitor.last_page', 'pages.page_id'])
+            ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
+            ->where('pages.type', 'IN', $args['resource_type'])
+            ->where('pages.uri', '=', $args['uri'])
+            ->where('posts.post_author', '=', $args['author_id'])
+            ->whereDate('last_counter', $args['date'])
+            ->groupBy('pages.id')
+            ->orderBy($args['order_by'], $args['order'])
+            ->perPage($args['page'], $args['per_page'])
+            ->getAll();
+
+        return $result;
+    }
+
+    public function countExitPages($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'          => '',
+            'resource_type' => Helper::getPostTypes(),
+            'author_id'     => '',
+            'uri'           => ''
+        ]);
+
+        $query = Query::select('COUNT(DISTINCT pages.id)')
+            ->from('visitor')
+            ->join('pages', ['visitor.last_page', 'pages.page_id'])
+            ->where('pages.type', 'IN', $args['resource_type'])
+            ->where('pages.uri', '=', $args['uri'])
+            ->whereDate('last_counter', $args['date']);
+
+        if (!empty($args['author_id'])) {
+            $query
+                ->join('posts', ['posts.ID', 'pages.id'])
+                ->where('posts.post_author', '=', $args['author_id']);
+        }
 
         $result = $query->getVar();
 
