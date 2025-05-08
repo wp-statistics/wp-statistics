@@ -7,44 +7,6 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginDecorator;
 
 <div class="postbox-container wps-postbox-addon-container">
 
-    <?php if (!$data['has_any_license']): ?>
-        <div class="wps-notice wps-notice--success">
-            <div>
-                <p class="wps-notice__title"><?php esc_html_e('No WP Statistics License Detected', 'wp-statistics') ?></p>
-                <div class="wps-notice__description">
-                    <?php
-                    echo wp_kses_post(sprintf(
-                        __('You haven’t registered a WP Statistics license yet. Having a valid license unlocks premium add-ons and features. <a href="%s" target="_blank">Purchase</a> or <a href="%s">add a license</a> now to get started!.', 'wp-statistics'),
-                        esc_url('https://wp-statistics.com/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon'),
-                        esc_url($data['install_addon_link'])
-                    ));
-                    ?>
-                </div>
-            </div>
-        </div>
-    <?php endif; ?>
-
-    <?php if ($data['has_valid_premium_license'] && !empty($data['missing_add_ons']) && is_array($data['missing_add_ons'])): ?>
-        <div class="wps-notice wps-notice--warning">
-            <div>
-                <p class="wps-notice__title"><?php esc_html_e('Some Add-ons Are Missing', 'wp-statistics'); ?></p>
-                <div class="wps-notice__description">
-                    <?php esc_html_e('You have a valid WP Statistics license, but you haven’t installed the following add-ons yet:', 'wp-statistics') ?>
-                    <ul>
-                        <?php foreach ($data['missing_add_ons'] as $addOn): ?>
-                            <li>
-                                <a href="<?php echo esc_url($addOn->getProductUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=dp" target="_blank">
-                                    <?php echo esc_html($addOn->getName()) ?>
-                                </a>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-                    <?php esc_html_e('Install them now to take full advantage of your WP Statistics.', 'wp-statistics') ?>
-                </div>
-            </div>
-        </div>
-    <?php endif; ?>
-
     <?php if (!empty($data['invalid_licenses']) && is_array($data['invalid_licenses'])): ?>
         <div class="wps-notice wps-notice--danger">
             <div>
@@ -89,6 +51,27 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginDecorator;
         </div>
     <?php endif; ?>
 
+    <?php if ($data['has_valid_premium_license'] && !empty($data['missing_add_ons']) && is_array($data['missing_add_ons'])): ?>
+        <div class="wps-notice wps-notice--warning">
+            <div>
+                <p class="wps-notice__title"><?php esc_html_e('Some Add-ons Are Missing', 'wp-statistics'); ?></p>
+                <div class="wps-notice__description">
+                    <?php esc_html_e('You have a valid WP Statistics license, but you haven’t installed the following add-ons yet:', 'wp-statistics') ?>
+                    <ul>
+                        <?php foreach ($data['missing_add_ons'] as $addOn): ?>
+                            <li>
+                                <a href="<?php echo esc_url($addOn->getProductUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=dp" target="_blank">
+                                    <?php echo esc_html($addOn->getName()) ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <?php esc_html_e('Install them now to take full advantage of your WP Statistics.', 'wp-statistics') ?>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+
     <?php if (!empty($data['inactive_installed_add_ons']) && is_array($data['inactive_installed_add_ons'])): ?>
         <div class="wps-notice wps-notice--warning">
             <div>
@@ -105,6 +88,23 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginDecorator;
                         <?php endforeach; ?>
                     </ul>
                     <?php esc_html_e('Activate them now to unlock their features and get the most out of WP Statistics.', 'wp-statistics'); ?>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if (!$data['has_any_license']): ?>
+        <div class="wps-notice wps-notice--success">
+            <div>
+                <p class="wps-notice__title"><?php esc_html_e('No WP Statistics License Detected', 'wp-statistics') ?></p>
+                <div class="wps-notice__description">
+                    <?php
+                    echo wp_kses_post(sprintf(
+                        __('You haven’t registered a WP Statistics license yet. Having a valid license unlocks premium add-ons and features. <a href="%s" target="_blank">Purchase</a> or <a href="%s">add a license</a> now to get started!.', 'wp-statistics'),
+                        esc_url('https://wp-statistics.com/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon'),
+                        esc_url($data['install_addon_link'])
+                    ));
+                    ?>
                 </div>
             </div>
         </div>
