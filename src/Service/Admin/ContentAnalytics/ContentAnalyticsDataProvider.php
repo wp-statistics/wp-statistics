@@ -124,9 +124,9 @@ class ContentAnalyticsDataProvider
 
     public function getSingleResourceData()
     {
-        $totalHitsArgs      = array_merge(Helper::filterArrayByKeys($this->args, ['query_param']), ['ignore_date' => true]);
+        $totalHitsArgs      = array_merge(Helper::filterArrayByKeys($this->args, ['query_param', 'ignore_post_type']), ['ignore_date' => true]);
 
-        $totalViews         = $this->viewsModel->countViews($totalHitsArgs);
+        $totalViews         = $this->viewsModel->countViews(array_merge($totalHitsArgs, ['uri' => $this->args['query_param']]));
         $totalVisitors      = $this->visitorsModel->countVisitors($totalHitsArgs);
 
         $recentViews        = $this->viewsModel->countViews($this->args);
@@ -160,22 +160,6 @@ class ContentAnalyticsDataProvider
                     'recent'=> $recentVisitors,
                 ]
             ]
-        ];
-    }
-
-    public function getSingleResourceChartData()
-    {
-        $performanceDataProvider    = ChartDataProviderFactory::performanceChart($this->args);
-        $searchEngineDataProvider   = ChartDataProviderFactory::searchEngineChart(array_merge($this->args, ['source_channel' => ['search', 'paid_search']]));
-        $platformDataProvider       = ChartDataProviderFactory::platformCharts($this->args);
-
-        return [
-            'performance_chart_data'    => $performanceDataProvider->getData(),
-            'search_engine_chart_data'  => $searchEngineDataProvider->getData(),
-            'os_chart_data'             => $platformDataProvider->getOsData(),
-            'browser_chart_data'        => $platformDataProvider->getBrowserData(),
-            'device_chart_data'         => $platformDataProvider->getDeviceData(),
-            'model_chart_data'          => $platformDataProvider->getModelData(),
         ];
     }
 

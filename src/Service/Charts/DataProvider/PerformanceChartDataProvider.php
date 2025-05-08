@@ -35,7 +35,7 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
         $views      = $this->viewsModel->countDailyViews($this->args);
 
         // On single post view, no need to count posts
-        $posts = empty($this->args['post_id']) ? $this->postsModel->countDailyPosts($this->args) : [];
+        $posts = empty($this->args['post_id']) && empty($this->args['hide_post']) ? $this->postsModel->countDailyPosts($this->args) : [];
 
         // Parse data
         $parsedData = $this->parseData([
@@ -93,7 +93,7 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
         );
 
         // On single post view and single resource, no need to count posts
-        if (empty($this->args['post_id']) || empty($this->args['query_param'])) {
+        if (empty($this->args['post_id']) && empty($this->args['hide_post'])) {
             $this->addChartDataset(
                 sprintf(
                     esc_html__('Published %s', 'wp-statistics'),

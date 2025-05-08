@@ -27,13 +27,14 @@ class SingleResourceView extends BaseView
 
         $this->dataProvider = new ContentAnalyticsDataProvider([
             'query_param'       => $this->resourceUri,
-            'ignore_post_type'  => true
+            'ignore_post_type'  => true,
+            'hide_post'         => true
         ]);
     }
 
     public function getData()
     {
-        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Content_Analytics_Object', $this->dataProvider->getSingleResourceChartData());
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Content_Analytics_Object', $this->dataProvider->getChartsData());
 
         return $this->dataProvider->getSingleResourceData();
     }
