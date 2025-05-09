@@ -30,7 +30,9 @@ use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsManager;
 use WP_Statistics\Service\Analytics\AnalyticsManager;
 use WP_Statistics\Service\Database\Managers\MigrationHandler;
 use WP_Statistics\Service\HooksManager;
+use WP_Statistics\Service\Resources\Core\ResourceManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
+use WP_STATISTICS\Service\Tracking\API\Hit as HitAPI;
 
 defined('ABSPATH') || exit;
 
@@ -177,9 +179,9 @@ final class WP_Statistics
         require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-template.php';
 
         $referrals                  = new ReferralsManager();
-        $userOnline                 = new \WP_STATISTICS\UserOnline();
         $anonymizedUsageDataManager = new AnonymizedUsageDataManager();
         $notificationManager        = new NotificationManager();
+        new HitAPI();
 
         // Admin classes
         if (is_admin()) {
@@ -216,6 +218,7 @@ final class WP_Statistics
             $metaboxManager      = new MetaboxManager();
             $exclusionsManager   = new ExclusionsManager();
             new FilterManager();
+            new ResourceManager();
             new AjaxBackgroundProcessManager();
         }
 

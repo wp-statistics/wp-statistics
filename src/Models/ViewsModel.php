@@ -6,9 +6,127 @@ use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Components\DateRange;
+use WP_STATISTICS\TimeZone;
 
 class ViewsModel extends BaseModel
 {
+     /**
+     * Retrieve the number of page views for a specific resource.
+     *
+     * @return int Total number of matching views.
+     * @since 15.0.0
+     */
+    public function getPagesViews($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'resource_id'   => '',
+            'resource_type' => '',
+            'resource_url'  => '',
+            'date'          => '',
+        ]);
+
+        $query = Query::select(['COUNT(*) AS count'])
+            ->from('views');
+
+        if (!empty($args['resource_id'])) {
+            $query->where('resources.resource_id', '=', $args['resource_id']);
+        }
+
+        if (!empty($args['resource_type'])) {
+            $query->join('resources', ['views.resource_id', 'resources.ID']);
+        }
+
+        if (!empty($args['resource_url'])) {
+            $query->where('resources.resource_url', '=', $args['resource_url']);
+        }
+
+        if (!empty($args['resource_type'])) {
+            $query->where('resources.resource_type', 'IN', $args['resource_type']);
+        }
+
+        if (!empty($args['date'])) {
+            $start = $args['date']['from'] . ' 00:00:00';
+            $end   = $args['date']['to'] . ' 23:59:59';
+
+            $query->where('views.viewed_at', '>=', $start)
+                  ->where('views.viewed_at', '<', $end);
+        }
+
+        return (int) $query->getVar();
+    }
+
+     /**
+     * Retrieve the most recent view record for a given session ID.
+     *
+     * @param array $args {
+     *     @type int $session_id Required. The session ID to fetch the latest view for.
+     * }
+     *
+     * @return object|null
+     * @since 15.0.0
+     */
+    public function getLastViewBySessionId($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'session_id' => 0
+        ]);
+
+        if (empty($args['session_id'])) {
+            return null;
+        }
+    
+        $query = Query::select('*')
+            ->from('views')
+            ->where('session_id', '=', $args['session_id'])
+            ->orderBy('ID', 'DESC')
+            ->perPage(1);
+    
+        return $query->getRow();
+    }
+
+    /**
+     * Get the number of visits for a specific day or date range.
+     *
+     * @param array $args {
+     *     Optional. Array of arguments.
+     *
+     *     @type string|array $time  Time range ('today', 'yesterday', or ['start' => 'Y-m-d', 'end' => 'Y-m-d']).
+     *     @type bool          $daily Whether to fetch visits for a single day.
+     * }
+     *
+     * @return int Total number of visits.
+     *
+     * @since 15.0.0
+     */
+    public function getViewsByTime($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'time'  => 'today',
+            'daily' => false,
+        ]);
+    
+        $query = Query::select(['COUNT(*) AS count'])
+            ->from('views');
+    
+        if ($args['daily']) {
+            $date = TimeZone::isValidDate($args['time'])
+                ? $args['time']
+                : TimeZone::getCurrentDate('Y-m-d', $args['time']);
+    
+            $query->where('viewed_at', '>=', $date . ' 00:00:00')
+                  ->where('viewed_at', '<=', $date . ' 23:59:59');
+        } else {
+            $range = is_array($args['time']) && isset($args['time']['start'], $args['time']['end'])
+                ? $args['time']
+                : DateRange::get($args['time']);
+    
+            $query->where('viewed_at', '>=', $range['from'] . ' 00:00:00')
+                  ->where('viewed_at', '<=', $range['to'] . ' 23:59:59');
+        }
+
+        return (int) $query->getVar();
+    }
+
     public function countViews($args = [])
     {
         $args = $this->parseArgs($args, [
