@@ -256,7 +256,7 @@ class Helper
      * @param string $type
      * @return array|bool|string
      */
-    public static function get_query_params_allow_list($type = 'array')
+    public static function get_query_params_allow_list($type = 'array', $ignoreReservedTerms = false)
     {
         # Set Default
         $list = [];
@@ -269,7 +269,47 @@ class Helper
             $list = self::get_default_query_params_allow_list();
         }
 
+        if ($ignoreReservedTerms) {
+            $list = array_diff($list, self::getWpReservedTerms());
+        }
+
         return ($type == "array" ? $list : implode("\n", $list));
+    }
+
+    /**
+     * Return an array of WordPress reserved terms.
+     *
+     * This list includes query vars and rewrite tags that should not be used
+     * as post slugs, taxonomy terms, or endpoint names.
+     *
+     *
+     * @return array Filterable list of reserved terms.
+     */
+    public static function getWpReservedTerms() {
+        $terms = [
+            'action', 'attachment', 'attachment_id', 'author', 'author_name', 'calendar', 'cat',
+            'category', 'category__and', 'category__in', 'category__not_in', 'category_name',
+            'comments_per_page', 'comments_popup', 'custom', 'customize_messenger_channel',
+            'customized', 'cpage', 'day', 'debug', 'embed', 'error', 'exact', 'feed', 'fields',
+            'hour', 'link', 'link_category', 'm', 'minute', 'monthnum', 'more', 'name',
+            'nav_menu', 'nonce', 'nopaging', 'offset', 'order', 'orderby', 'p', 'page',
+            'page_id', 'paged', 'pagename', 'pb', 'perm', 'post', 'post__in', 'post__not_in',
+            'post_format', 'post_mime_type', 'post_status', 'post_tag', 'post_type', 'posts',
+            'posts_per_archive_page', 'posts_per_page', 'preview', 'robots', 's', 'search',
+            'second', 'sentence', 'showposts', 'static', 'status', 'subpost', 'subpost_id',
+            'tag', 'tag__and', 'tag__in', 'tag__not_in', 'tag_id', 'tag_slug__and',
+            'tag_slug__in', 'taxonomy', 'tb', 'term', 'terms', 'theme', 'themes', 'title',
+            'type', 'types', 'w', 'withcomments', 'withoutcomments', 'year'
+        ];
+
+        /**
+         * Filter the list of reserved terms in WordPress.
+         *
+         * @since 6.1
+         *
+         * @param array $terms The reserved terms.
+         */
+        return apply_filters('wp_reserved_terms', $terms);
     }
 
 
