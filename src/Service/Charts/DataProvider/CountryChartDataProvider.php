@@ -49,20 +49,12 @@ class CountryChartDataProvider extends AbstractChartDataProvider
     {
         $parsedData = [];
 
-        if (!empty($data)) {
-            foreach ($data as $item) {
-                $parsedData[] = [
-                    'label'    => Country::getName($item->country),
-                    'icon'     => Country::flag($item->country),
-                    'visitors' => intval($item->visitors)
-                ];
-            }
+        foreach ($data as $item) {
+            $parsedData['labels'][] = Country::getName($item->country);
+            $parsedData['icons'][]  = Country::flag($item->country);
+            $parsedData['visitors'][] = intval($item->visitors);
         }
 
-        return [
-            'labels'    => wp_list_pluck($parsedData, 'label'),
-            'visitors'  => wp_list_pluck($parsedData, 'visitors'),
-            'icons'     => wp_list_pluck($parsedData, 'icon')
-        ];
+        return $parsedData;
     }
 }
