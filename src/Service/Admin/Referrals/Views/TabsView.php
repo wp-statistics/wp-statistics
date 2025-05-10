@@ -37,7 +37,7 @@ class TabsView extends BaseTabView
 
     public function getOverviewData()
     {
-        return [];
+        return $this->dataProvider->getReferralsOverview();
     }
 
     public function getReferredVisitorsData()

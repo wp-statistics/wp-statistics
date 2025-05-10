@@ -12,7 +12,7 @@ use WP_STATISTICS\Menus;
                     <?php esc_html_e('Top Referrers', 'wp-statistics') ?>
                 </h2>
             </div>
-            <?php View::load("components/tables/top-referrers"); ?>
+            <?php View::load("components/tables/top-referrers", ['data' => $data['referrers']]); ?>
             <div class="wps-card__footer">
                 <div class="wps-card__footer__more">
                     <a class="wps-card__footer__more__link" href="">
@@ -60,7 +60,7 @@ use WP_STATISTICS\Menus;
             </div>
 
             <?php
-            $data = [
+            View::load("components/tables/source-categories", ['data' => [
                 [
                     'source_category' => 'Organic Search',
                     'top_domain'      => 'google.com',
@@ -91,8 +91,7 @@ use WP_STATISTICS\Menus;
                     'visitors'        => 250,
                     'percentage'      => '10%'
                 ],
-            ];
-            View::load("components/tables/source-categories", ['data' => $data]); ?>
+            ]]); ?>
             <div class="wps-card__footer">
                 <div class="wps-card__footer__more">
                     <a class="wps-card__footer__more__link" href="">
@@ -128,10 +127,7 @@ use WP_STATISTICS\Menus;
                 </h2>
             </div>
             <?php
-            $args = [
-                'visitors'   => '',
-            ];
-            View::load("components/tables/latest-referrals", $args);
+            View::load("components/tables/latest-referrals", ['visitors' => $data['visitors']]);
             ?>
             <div class="wps-card__footer">
                 <div class="wps-card__footer__more">
