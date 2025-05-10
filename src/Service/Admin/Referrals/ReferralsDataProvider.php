@@ -32,10 +32,12 @@ class ReferralsDataProvider
 
         $countryData = ChartDataProviderFactory::countryChart($args)->getData();
         $browserData = ChartDataProviderFactory::browserChart($args)->getData();
+        $deviceData  = ChartDataProviderFactory::deviceChart($args)->getData();
 
         return [
             'countries_chart_data'  => $countryData,
-            'browser_chart_data'    => $browserData
+            'browser_chart_data'    => $browserData,
+            'device_chart_data'     => $deviceData
         ];
     }
 

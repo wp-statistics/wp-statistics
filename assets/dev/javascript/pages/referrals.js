@@ -54,6 +54,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         const topBrowsers = Wp_Statistics_Referrals_Object.browser_chart_data;
         renderHorizontalChart('referral-top-browser', topBrowsers);
+
+        const deviceType = Wp_Statistics_Referrals_Object.device_chart_data;
+        renderHorizontalChart('referral-device-type', deviceType);
     }
 
     // Charts with sample data
@@ -364,15 +367,4 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
     };
     renderChart('referral-social-media-chart', topSocialMedia);
-
-    const deviceType = {
-        "data": [
-            19
-        ],
-        "labels": [
-            "Desktop"
-        ],
-        "icons": []
-    };
-    renderHorizontalChart('referral-device-type', deviceType);
 }
