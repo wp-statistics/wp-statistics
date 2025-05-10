@@ -50,9 +50,9 @@ class DeviceChartDataProvider extends AbstractChartDataProvider
 
         if (!empty($data)) {
             foreach ($data as $item) {
-                $device = !empty($item->getDevice()->getType()) ? ucfirst(Helper::getDeviceCategoryName($item->getDevice()->getType())) : esc_html__('Unknown', 'wp-statistics');
+                $device = $item->getDevice()->getType();
 
-                if (!empty($device) && $device !== '(not set)') {
+                if (!empty($device)) {
                     $devices = array_column($parsedData, 'label');
 
                     if (!in_array($device, $devices)) {

@@ -136,7 +136,7 @@ class TabsView extends BaseTabView
             }
 
             // Remove source channels filter if tab is source categories
-            if ($this->isTab('source-categories')) {
+            if ($this->isTab('source-categories') || $this->isTab('referrers')) {
                 $args['filters'] = array_values(array_diff($args['filters'], ['source-channels']));
             }
 
