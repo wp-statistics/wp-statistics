@@ -1,0 +1,68 @@
+<?php
+
+namespace WP_Statistics\Service\Charts\DataProvider;
+
+use WP_STATISTICS\Admin_Template;
+use WP_STATISTICS\Country;
+use WP_Statistics\Decorators\VisitorDecorator;
+use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
+use WP_Statistics\Service\Charts\AbstractChartDataProvider;
+use WP_Statistics\Service\Charts\Traits\BarChartResponseTrait;
+
+class CountryChartDataProvider extends AbstractChartDataProvider
+{
+    use BarChartResponseTrait;
+
+    protected $visitorsModel;
+
+    public function __construct($args)
+    {
+        parent::__construct($args);
+
+        $this->args = array_merge_recursive($this->args, ['not_null' => ['location']]);
+
+        $this->args['fields']   = ['COUNT(DISTINCT visitor.ID) as visitors', 'visitor.location as country'];
+        $this->args['order_by'] = 'visitors';
+        $this->args['page']     = 1;
+        $this->args['per_page'] = 5;
+
+        $this->visitorsModel = new VisitorsModel();
+    }
+
+
+    public function getData()
+    {
+        $this->initChartData();
+
+        $data = $this->visitorsModel->getVisitorsGeoData($this->args);
+        $data = $this->parseData($data);
+
+        $this->setChartLabels($data['labels']);
+        $this->setChartData($data['visitors']);
+        $this->setChartIcons($data['icons']);
+
+        return $this->getChartData();
+    }
+
+    protected function parseData($data)
+    {
+        $parsedData = [];
+
+        if (!empty($data)) {
+            foreach ($data as $item) {
+                $parsedData[] = [
+                    'label'    => Country::getName($item->country),
+                    'icon'     => Country::flag($item->country),
+                    'visitors' => intval($item->visitors)
+                ];
+            }
+        }
+
+        return [
+            'labels'    => wp_list_pluck($parsedData, 'label'),
+            'visitors'  => wp_list_pluck($parsedData, 'visitors'),
+            'icons'     => wp_list_pluck($parsedData, 'icon')
+        ];
+    }
+}

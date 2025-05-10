@@ -37,6 +37,8 @@ class TabsView extends BaseTabView
 
     public function getOverviewData()
     {
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Referrals_Object', $this->dataProvider->getReferralsOverviewChartData());
+
         return $this->dataProvider->getReferralsOverview();
     }
 

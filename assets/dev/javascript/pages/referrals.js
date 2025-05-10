@@ -48,6 +48,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         const incomeVisitorData = Wp_Statistics_Referrals_Object.search_engine_chart_data;
         renderChart('incomeVisitorChart', incomeVisitorData);
+
+        const topCountries = Wp_Statistics_Referrals_Object.countries_chart_data;
+        renderHorizontalChart('referral-top-countries', topCountries);
     }
 
     // Charts with sample data
@@ -358,21 +361,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
     };
     renderChart('referral-social-media-chart', topSocialMedia);
-
-    const topCountries = {
-        "data": [
-            19
-        ],
-        "labels": [
-            "Germany",
-            "Croatia",
-        ],
-        "icons": [
-            "assets/images/flags/de.svg",
-            "assets/images/flags/hr.svg"
-        ]
-    };
-    renderHorizontalChart('referral-top-countries', topCountries);
 
     const topBrowsers = {
         "data": [

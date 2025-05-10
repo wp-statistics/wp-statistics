@@ -857,7 +857,7 @@ class VisitorsModel extends BaseModel
     public function getVisitorsGeoData($args = [])
     {
         $args = $this->parseArgs($args, [
-            'fields'       => [
+            'fields'                => [
                 'visitor.city as city',
                 'visitor.location as country',
                 'visitor.region as region',
@@ -865,25 +865,27 @@ class VisitorsModel extends BaseModel
                 'COUNT(DISTINCT visitor.ID) as visitors',
                 'SUM(visitor.hits) as views', // All views are counted and results can't be filtered by author, post type, etc...
             ],
-            'date'         => '',
-            'country'      => '',
-            'city'         => '',
-            'region'       => '',
-            'continent'    => '',
-            'not_null'     => '',
-            'post_type'    => '',
-            'author_id'    => '',
-            'post_id'      => '',
-            'per_page'     => '',
-            'query_param'  => '',
-            'taxonomy'     => '',
-            'term'         => '',
-            'page'         => 1,
-            'group_by'     => 'visitor.location',
-            'event_name'   => '',
-            'event_target' => '',
-            'order_by'     => ['visitors', 'views'],
-            'order'        => 'DESC',
+            'date'                  => '',
+            'country'               => '',
+            'city'                  => '',
+            'region'                => '',
+            'continent'             => '',
+            'not_null'              => '',
+            'post_type'             => '',
+            'author_id'             => '',
+            'post_id'               => '',
+            'per_page'              => '',
+            'query_param'           => '',
+            'taxonomy'              => '',
+            'term'                  => '',
+            'page'                  => 1,
+            'source_channel'        => '',
+            'source_channel_not'    => '',
+            'group_by'              => 'visitor.location',
+            'event_name'            => '',
+            'event_target'          => '',
+            'order_by'              => ['visitors', 'views'],
+            'order'                 => 'DESC',
         ]);
 
         $query = Query::select($args['fields'])
@@ -894,6 +896,7 @@ class VisitorsModel extends BaseModel
             ->where('visitor.continent', 'IN', $args['continent'])
             ->whereDate('visitor.last_counter', $args['date'])
             ->whereNotNull($args['not_null'])
+            ->where('source_channel', '!=', $args['source_channel_not'])
             ->perPage($args['page'], $args['per_page'])
             ->groupBy($args['group_by'])
             ->orderBy($args['order_by'], $args['order']);
