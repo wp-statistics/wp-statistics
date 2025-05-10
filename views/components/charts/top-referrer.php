@@ -29,7 +29,7 @@ use WP_Statistics\Components\View;
     <?php if(isset($footer_title)):?>
         <div class="wps-card__footer">
             <div class="wps-card__footer__more">
-                <a class="wps-card__footer__more__link" href="<?php esc_url($footer_link) ?>">
+                <a class="wps-card__footer__more__link" href="<?php echo esc_url($footer_link) ?>">
                     <?php echo esc_html($footer_title); ?>
                 </a>
             </div>
