@@ -36,8 +36,8 @@ class TopSourceCategoriesDataProvider extends AbstractChartDataProvider
 
     protected function parseData($data)
     {
-        $data   = [];
-        $direct = null;
+        $parsedData = [];
+        $direct     = null;
 
         $totalReferrers = 0;
         foreach ($data as $item) {
@@ -55,9 +55,9 @@ class TopSourceCategoriesDataProvider extends AbstractChartDataProvider
             }
 
             // Limit to 4 categories
-            if (count($data) >= 4) break;
+            if (count($parsedData) >= 4) break;
 
-            $data[] = [
+            $parsedData[] = [
                 'source_category' => $item->getSourceChannel(),
                 'top_domain'      => !empty($topDomain) ? Url::cleanUrl($topDomain[0]->getReferrer()) : '-',
                 'visitors'        => number_format_i18n($referrers),
@@ -66,17 +66,17 @@ class TopSourceCategoriesDataProvider extends AbstractChartDataProvider
         }
 
         // Add direct category
-        if (!empty($data)) {
+        if (!empty($parsedData)) {
             $referrers = $direct ? $direct->getTotalReferrals(true) : 0;
 
-            $data[] = [
+            $parsedData[] = [
                 'source_category' => esc_html__('Direct', 'wp-statistics'),
                 'top_domain'      => '-',
-                'visitors'        => $direct ? number_format_i18n($referrers) : 0,
+                'visitors'        => number_format_i18n($referrers),
                 'percentage'      => Helper::calculatePercentage($referrers, $totalReferrers) . '%'
             ];
         }
 
-        return $data;
+        return $parsedData;
     }
 }
