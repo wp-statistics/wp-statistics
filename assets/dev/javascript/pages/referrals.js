@@ -57,6 +57,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         const deviceType = Wp_Statistics_Referrals_Object.device_chart_data;
         renderHorizontalChart('referral-device-type', deviceType);
+
+        const visitorChart = Wp_Statistics_Referrals_Object.traffic_chart_data;
+        renderChart('referralVisitorChart', visitorChart);
     }
 
     // Charts with sample data
@@ -160,114 +163,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     };
     renderChart('referral-search-engines-chart', topSearchEngine);
 
-    const visitorChart = {
-        "data": {
-            "labels": [
-                {
-                    "formatted_date": "Apr 1",
-                    "date": "2025-04-01",
-                    "day": "Tuesday"
-                },
-                {
-                    "formatted_date": "Apr 2",
-                    "date": "2025-04-02",
-                    "day": "Wednesday"
-                },
-                {
-                    "formatted_date": "Apr 3",
-                    "date": "2025-04-03",
-                    "day": "Thursday"
-                },
-                {
-                    "formatted_date": "Apr 4",
-                    "date": "2025-04-04",
-                    "day": "Friday"
-                },
-                {
-                    "formatted_date": "Apr 5",
-                    "date": "2025-04-05",
-                    "day": "Saturday"
-                }
-            ],
-            "datasets": [
-                {
-                    "label": "Visitors",
-                    "data": [
-                        6,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "slug": "visitors"
-                },
-                {
-                    "label": "Views",
-                    "data": [
-                        6,
-                        0,
-                        0,
-                        0,
-                        0,
 
-                    ],
-                    "slug": "views"
-                }
-            ]
-        },
-        "previousData": {
-            "labels": [
-                {
-                    "formatted_date": "Mar 1",
-                    "date": "2025-03-01",
-                    "day": "Saturday"
-                },
-                {
-                    "formatted_date": "Mar 2",
-                    "date": "2025-03-02",
-                    "day": "Sunday"
-                },
-                {
-                    "formatted_date": "Mar 3",
-                    "date": "2025-03-03",
-                    "day": "Monday"
-                },
-                {
-                    "formatted_date": "Mar 4",
-                    "date": "2025-03-04",
-                    "day": "Tuesday"
-                },
-                {
-                    "formatted_date": "Mar 5",
-                    "date": "2025-03-05",
-                    "day": "Wednesday"
-                }
-            ],
-            "datasets": [
-                {
-                    "label": "Visitors",
-                    "data": [
-                        34,
-                        40,
-                        71,
-                        75,
-                        77
-                    ]
-                },
-                {
-                    "label": "Views",
-                    "data": [
-                        14,
-                        20,
-                        81,
-                        85,
-                        87
-                    ]
-                }
-            ]
-        }
-    };
-    renderChart('referralVisitorChart', visitorChart);
 
     const topSocialMedia = {
         "data": {

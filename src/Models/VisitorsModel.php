@@ -143,20 +143,22 @@ class VisitorsModel extends BaseModel
     public function countDailyVisitors($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'          => '',
-            'post_type'     => '',
-            'resource_id'   => '',
-            'resource_type' => '',
-            'author_id'     => '',
-            'post_id'       => '',
-            'query_param'   => '',
-            'taxonomy'      => '',
-            'term'          => '',
-            'country'       => '',
-            'user_id'       => '',
-            'logged_in'     => false,
-            'include_hits'  => false,
-            'user_role'     => ''
+            'date'                  => '',
+            'post_type'             => '',
+            'resource_id'           => '',
+            'resource_type'         => '',
+            'author_id'             => '',
+            'post_id'               => '',
+            'query_param'           => '',
+            'taxonomy'              => '',
+            'term'                  => '',
+            'country'               => '',
+            'user_id'               => '',
+            'logged_in'             => false,
+            'include_hits'          => false,
+            'user_role'             => '',
+            'source_channel_not'    => '',
+            'not_null'              => ''
         ]);
 
         $additionalFields = !empty($args['include_hits']) ? ['SUM(visitor.hits) as hits'] : [];
@@ -168,6 +170,8 @@ class VisitorsModel extends BaseModel
             ->from('visitor')
             ->where('location', '=', $args['country'])
             ->where('user_id', '=', $args['user_id'])
+            ->where('source_channel', '!=', $args['source_channel_not'])
+            ->whereNotNull($args['not_null'])
             ->whereDate('visitor.last_counter', $args['date'])
             ->groupBy('visitor.last_counter');
 
