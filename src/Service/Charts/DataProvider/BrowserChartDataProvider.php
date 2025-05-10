@@ -22,6 +22,10 @@ class BrowserChartDataProvider extends AbstractChartDataProvider
             'fields' => ['visitor.agent']
         ]);
 
+        // Get all results
+        $this->args['page']     = false;
+        $this->args['per_page'] = false;
+
         $this->visitorsModel = new VisitorsModel();
     }
 

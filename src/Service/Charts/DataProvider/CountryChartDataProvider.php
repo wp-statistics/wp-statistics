@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Charts\DataProvider;
 
+use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Country;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_Statistics\Models\VisitorsModel;
@@ -19,10 +20,12 @@ class CountryChartDataProvider extends AbstractChartDataProvider
     {
         parent::__construct($args);
 
-        $this->args = array_merge($this->args, [
-            'per_page' => 5,
-            'not_null' => 'location'
-        ]);
+        $this->args = array_merge_recursive($this->args, ['not_null' => ['location']]);
+
+        $this->args['fields']   = ['COUNT(DISTINCT visitor.ID) as visitors', 'visitor.location as country'];
+        $this->args['order_by'] = 'visitors';
+        $this->args['page']     = 1;
+        $this->args['per_page'] = 5;
 
         $this->visitorsModel = new VisitorsModel();
     }
@@ -33,7 +36,6 @@ class CountryChartDataProvider extends AbstractChartDataProvider
         $this->initChartData();
 
         $data = $this->visitorsModel->getVisitorsGeoData($this->args);
-
         $data = $this->parseData($data);
 
         $this->setChartLabels($data['labels']);
@@ -49,8 +51,8 @@ class CountryChartDataProvider extends AbstractChartDataProvider
 
         foreach ($data as $item) {
             $parsedData['labels'][] = Country::getName($item->country);
-            $parsedData['visitors'][] = number_format_i18n($item->visitors);
-            $parsedData['icons'][] = Country::flag($item->country);
+            $parsedData['icons'][]  = Country::flag($item->country);
+            $parsedData['visitors'][] = intval($item->visitors);
         }
 
         return $parsedData;

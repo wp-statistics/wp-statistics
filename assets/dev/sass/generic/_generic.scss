@@ -343,6 +343,10 @@
   padding-right: 24px;
   padding-left: 24px;
 
+  &.wps-p-0{
+    padding: 0;
+  }
+
   &--container {
     position: relative;
 

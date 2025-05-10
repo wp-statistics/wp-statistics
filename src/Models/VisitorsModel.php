@@ -147,20 +147,22 @@ class VisitorsModel extends BaseModel
     public function countDailyVisitors($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'          => '',
-            'post_type'     => '',
-            'resource_id'   => '',
-            'resource_type' => '',
-            'author_id'     => '',
-            'post_id'       => '',
-            'query_param'   => '',
-            'taxonomy'      => '',
-            'term'          => '',
-            'country'       => '',
-            'user_id'       => '',
-            'logged_in'     => false,
-            'include_hits'  => false,
-            'user_role'     => ''
+            'date'                  => '',
+            'post_type'             => '',
+            'resource_id'           => '',
+            'resource_type'         => '',
+            'author_id'             => '',
+            'post_id'               => '',
+            'query_param'           => '',
+            'taxonomy'              => '',
+            'term'                  => '',
+            'country'               => '',
+            'user_id'               => '',
+            'logged_in'             => false,
+            'include_hits'          => false,
+            'user_role'             => '',
+            'source_channel_not'    => '',
+            'not_null'              => ''
         ]);
 
         $additionalFields = !empty($args['include_hits']) ? ['SUM(visitor.hits) as hits'] : [];
@@ -172,6 +174,8 @@ class VisitorsModel extends BaseModel
             ->from('visitor')
             ->where('location', '=', $args['country'])
             ->where('user_id', '=', $args['user_id'])
+            ->where('source_channel', '!=', $args['source_channel_not'])
+            ->whereNotNull($args['not_null'])
             ->whereDate('visitor.last_counter', $args['date'])
             ->groupBy('visitor.last_counter');
 
@@ -469,32 +473,34 @@ class VisitorsModel extends BaseModel
         }
 
         $args = $this->parseArgs($args, [
-            'date'          => '',
-            'resource_type' => '',
-            'resource_id'   => '',
-            'post_type'     => '',
-            'author_id'     => '',
-            'post_id'       => '',
-            'country'       => '',
-            'agent'         => '',
-            'platform'      => '',
-            'user_id'       => '',
-            'ip'            => '',
-            'query_param'   => '',
-            'taxonomy'      => '',
-            'term'          => '',
-            'order_by'      => 'visitor.ID',
-            'order'         => 'DESC',
-            'page'          => '',
-            'per_page'      => '',
-            'user_info'     => false,
-            'date_field'    => 'visitor.last_counter',
-            'logged_in'     => false,
-            'user_role'     => '',
-            'event_target'  => '',
-            'event_name'    => '',
-            'fields'        => [],
-            'referrer'      => ''
+            'date'                  => '',
+            'resource_type'         => '',
+            'resource_id'           => '',
+            'post_type'             => '',
+            'author_id'             => '',
+            'post_id'               => '',
+            'country'               => '',
+            'agent'                 => '',
+            'platform'              => '',
+            'user_id'               => '',
+            'ip'                    => '',
+            'query_param'           => '',
+            'taxonomy'              => '',
+            'term'                  => '',
+            'order_by'              => 'visitor.ID',
+            'order'                 => 'DESC',
+            'page'                  => '',
+            'per_page'              => '',
+            'user_info'             => false,
+            'date_field'            => 'visitor.last_counter',
+            'logged_in'             => false,
+            'user_role'             => '',
+            'event_target'          => '',
+            'event_name'            => '',
+            'fields'                => [],
+            'referrer'              => '',
+            'not_null'              => '',
+            'source_channel_not'    => ''
         ]);
 
         // Set default fields
@@ -536,6 +542,8 @@ class VisitorsModel extends BaseModel
             ->where('ip', 'LIKE', "%{$args['ip']}%")
             ->where('referred', '=', $args['referrer'])
             ->where('visitor.location', '=', $args['country'])
+            ->where('visitor.source_channel', '!=', $args['source_channel_not'])
+            ->whereNotNull($args['not_null'])
             ->whereDate($args['date_field'], $args['date'])
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
@@ -861,7 +869,7 @@ class VisitorsModel extends BaseModel
     public function getVisitorsGeoData($args = [])
     {
         $args = $this->parseArgs($args, [
-            'fields'       => [
+            'fields'                => [
                 'visitor.city as city',
                 'visitor.location as country',
                 'visitor.region as region',
@@ -869,25 +877,27 @@ class VisitorsModel extends BaseModel
                 'COUNT(DISTINCT visitor.ID) as visitors',
                 'SUM(visitor.hits) as views', // All views are counted and results can't be filtered by author, post type, etc...
             ],
-            'date'         => '',
-            'country'      => '',
-            'city'         => '',
-            'region'       => '',
-            'continent'    => '',
-            'not_null'     => '',
-            'post_type'    => '',
-            'author_id'    => '',
-            'post_id'      => '',
-            'per_page'     => '',
-            'query_param'  => '',
-            'taxonomy'     => '',
-            'term'         => '',
-            'page'         => 1,
-            'group_by'     => 'visitor.location',
-            'event_name'   => '',
-            'event_target' => '',
-            'order_by'     => ['visitors', 'views'],
-            'order'        => 'DESC',
+            'date'                  => '',
+            'country'               => '',
+            'city'                  => '',
+            'region'                => '',
+            'continent'             => '',
+            'not_null'              => '',
+            'post_type'             => '',
+            'author_id'             => '',
+            'post_id'               => '',
+            'per_page'              => '',
+            'query_param'           => '',
+            'taxonomy'              => '',
+            'term'                  => '',
+            'page'                  => 1,
+            'source_channel'        => '',
+            'source_channel_not'    => '',
+            'group_by'              => 'visitor.location',
+            'event_name'            => '',
+            'event_target'          => '',
+            'order_by'              => ['visitors', 'views'],
+            'order'                 => 'DESC',
         ]);
 
         $query = Query::select($args['fields'])
@@ -898,6 +908,7 @@ class VisitorsModel extends BaseModel
             ->where('visitor.continent', 'IN', $args['continent'])
             ->whereDate('visitor.last_counter', $args['date'])
             ->whereNotNull($args['not_null'])
+            ->where('source_channel', '!=', $args['source_channel_not'])
             ->perPage($args['page'], $args['per_page'])
             ->groupBy($args['group_by'])
             ->orderBy($args['order_by'], $args['order']);

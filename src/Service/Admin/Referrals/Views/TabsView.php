@@ -14,8 +14,9 @@ use WP_Statistics\Service\Admin\Referrals\ReferralsDataProvider;
 
 class TabsView extends BaseTabView
 {
-    protected $defaultTab = 'referred-visitors';
+    protected $defaultTab = 'overview';
     protected $tabs = [
+        'overview',
         'referred-visitors',
         'referrers',
         'search-engines'
@@ -32,6 +33,13 @@ class TabsView extends BaseTabView
         ];
 
         $this->dataProvider = new ReferralsDataProvider($args);
+    }
+
+    public function getOverviewData()
+    {
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Referrals_Object', $this->dataProvider->getReferralsOverviewChartData());
+
+        return $this->dataProvider->getReferralsOverview();
     }
 
     public function getReferredVisitorsData()
@@ -89,6 +97,11 @@ class TabsView extends BaseTabView
                     'echo'  => false
                 ]),
                 'tabs'        => [
+                    [
+                        'link'  => Menus::admin_url('referrals', ['tab' => 'overview']),
+                        'title' => esc_html__('Overview', 'wp-statistics'),
+                        'class' => $this->isTab('overview') ? 'current' : '',
+                    ],
                     [
                         'link'  => Menus::admin_url('referrals', ['tab' => 'referred-visitors']),
                         'title' => esc_html__('Referred Visitors', 'wp-statistics'),
