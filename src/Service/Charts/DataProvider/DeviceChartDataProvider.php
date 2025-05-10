@@ -39,6 +39,7 @@ class DeviceChartDataProvider extends AbstractChartDataProvider
         $data = $this->parseData($data);
 
         $this->setChartLabels($data['labels']);
+        $this->setChartIcons($data['icons']);
         $this->setChartData($data['visitors']);
 
         return $this->getChartData();
@@ -58,6 +59,7 @@ class DeviceChartDataProvider extends AbstractChartDataProvider
                     if (!in_array($device, $devices)) {
                         $parsedData[] = [
                             'label'    => $device,
+                            'icon'     => DeviceHelper::getDeviceLogo($device),
                             'visitors' => 1
                         ];
                     } else {
@@ -80,6 +82,7 @@ class DeviceChartDataProvider extends AbstractChartDataProvider
                 // Show the rest of the results as others, and sum up the visitors
                 $otherItem    = [
                     'label'    => esc_html__('Other', 'wp-statistics'),
+                    'icon'     => '',
                     'visitors' => array_sum(array_column($otherData, 'visitors')),
                 ];
 
@@ -88,10 +91,12 @@ class DeviceChartDataProvider extends AbstractChartDataProvider
         }
 
         $labels     = wp_list_pluck($parsedData, 'label');
+        $icons      = wp_list_pluck($parsedData, 'icon');
         $visitors   = wp_list_pluck($parsedData, 'visitors');
 
         return [
             'labels'    => $labels,
+            'icons'     => $icons,
             'visitors'  => $visitors
         ];
     }
