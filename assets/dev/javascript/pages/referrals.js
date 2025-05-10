@@ -51,6 +51,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         const topCountries = Wp_Statistics_Referrals_Object.countries_chart_data;
         renderHorizontalChart('referral-top-countries', topCountries);
+
+        const topBrowsers = Wp_Statistics_Referrals_Object.browser_chart_data;
+        renderHorizontalChart('referral-top-browser', topBrowsers);
     }
 
     // Charts with sample data
@@ -361,28 +364,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
     };
     renderChart('referral-social-media-chart', topSocialMedia);
-
-    const topBrowsers = {
-        "data": [
-            11,
-            5,
-            2,
-            1
-        ],
-        "labels": [
-            "Chrome",
-            "Microsoft Edge",
-            "Opera",
-            "Firefox"
-        ],
-        "icons": [
-            "assets/images/browser/chrome.svg",
-            "assets/images/browser/microsoft_edge.svg",
-            "assets/images/browser/opera.svg",
-            "assets/images/browser/firefox.svg"
-        ]
-    };
-    renderHorizontalChart('referral-top-browser', topBrowsers);
 
     const deviceType = {
         "data": [

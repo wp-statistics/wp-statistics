@@ -28,10 +28,14 @@ class ReferralsDataProvider
 
     public function getReferralsOverviewChartData()
     {
-        $countryData = ChartDataProviderFactory::countryChart(array_merge($this->args, ['not_null' => 'source_channel', 'source_channel_not' => 'direct']))->getData();
+        $args = array_merge($this->args, ['not_null' => 'source_channel', 'source_channel_not' => 'direct']);
+
+        $countryData = ChartDataProviderFactory::countryChart($args)->getData();
+        $browserData = ChartDataProviderFactory::browserChart($args)->getData();
 
         return [
-            'countries_chart_data' => $countryData
+            'countries_chart_data'  => $countryData,
+            'browser_chart_data'    => $browserData
         ];
     }
 
