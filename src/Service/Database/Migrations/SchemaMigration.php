@@ -47,9 +47,9 @@ class SchemaMigration extends AbstractMigrationOperation
         '14.12.6' => [
             'addFirstAndLastPageToVisitors',
         ],
-        '14.13.5' => [
-            'dropDuplicateColumnsFromUserOnline'
-        ]
+        // '14.13.5' => [
+        //     'dropDuplicateColumnsFromUserOnline'
+        // ]
     ];
 
     /**

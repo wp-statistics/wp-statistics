@@ -315,6 +315,36 @@ class Install
         }
 
         /**
+         * Add online user city
+         *
+         * @version 14.5.2
+         */
+        $result = $wpdb->query("SHOW COLUMNS FROM {$userOnlineTable} LIKE 'city'");
+        if ($result == 0) {
+            $wpdb->query("ALTER TABLE {$userOnlineTable} ADD `city` VARCHAR(100) NULL;");
+        }
+
+        /**
+         * Add online user region
+         *
+         * @version 14.7.0
+         */
+        $result = $wpdb->query("SHOW COLUMNS FROM {$userOnlineTable} LIKE 'region'");
+        if ($result == 0) {
+            $wpdb->query("ALTER TABLE {$userOnlineTable} ADD `region` VARCHAR(100) NULL;");
+        }
+
+        /**
+         * Add online user continent
+         *
+         * @version 14.7.0
+         */
+        $result = $wpdb->query("SHOW COLUMNS FROM {$userOnlineTable} LIKE 'continent'");
+        if ($result == 0) {
+            $wpdb->query("ALTER TABLE {$userOnlineTable} ADD `continent` VARCHAR(50) NULL;");
+        }
+
+        /**
          * Add visitor device type
          *
          * @version 13.2.4
@@ -401,6 +431,11 @@ class Install
          * @version 12.6.1
          */
         if (DB::ExistTable($userOnlineTable)) {
+            $result = $wpdb->query("SHOW COLUMNS FROM `" . $userOnlineTable . "` LIKE 'user_id'");
+            if ($result == 0) {
+                $wpdb->query("ALTER TABLE `" . $userOnlineTable . "` ADD `user_id` BIGINT(48) NOT NULL AFTER `location`, ADD `page_id` BIGINT(48) NOT NULL AFTER `user_id`, ADD `type` VARCHAR(100) NOT NULL AFTER `page_id`;");
+            }
+
             // Add index ip
             $result = $wpdb->query("SHOW INDEX FROM `" . $userOnlineTable . "` WHERE Key_name = 'ip'");
             if (!$result) {

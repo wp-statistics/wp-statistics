@@ -24,6 +24,19 @@ class Manager
                 'timestamp'  => 'int(10) NOT NULL',
                 'date'       => 'datetime NOT NULL',
                 'visitor_id' => 'bigint(20) NOT NULL',
+
+                // Keep for backward compatibility
+                'referred'   => 'text CHARACTER SET utf8 NOT NULL',
+                'agent'      => 'varchar(255) NOT NULL',
+                'platform'   => 'varchar(255)',
+                'version'    => 'varchar(255)',
+                'location'   => 'varchar(10)',
+                'city'       => 'varchar(100)',
+                'region'     => 'varchar(100)',
+                'continent'  => 'varchar(50)',
+                'user_id'    => 'BIGINT(48) NOT NULL',
+                'page_id'    => 'BIGINT(48) NOT NULL',
+                'type'       => 'VARCHAR(100) NOT NULL',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
