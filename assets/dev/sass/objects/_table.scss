@@ -798,6 +798,9 @@
 
       .wps-postbox-chart--data {
         margin-top: 0 !important;
+        @media (max-width: 550px) {
+          gap: 0!important;
+        }
       }
     }
   }
