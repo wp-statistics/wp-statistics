@@ -79,6 +79,15 @@ use WP_STATISTICS\Menus;
 
         <div class="wps-card">
             <div class="wps-card__title">
+                <h2><?php esc_html_e('Top Entry Pages', 'wp-statistics') ?></h2>
+            </div>
+            <?php
+            View::load("components/tables/top-entry-pages");
+            ?>
+        </div>
+
+        <div class="wps-card">
+            <div class="wps-card__title">
                 <h2><?php esc_html_e('Latest Referrals', 'wp-statistics') ?></h2>
             </div>
             <?php
