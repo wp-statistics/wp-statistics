@@ -41,7 +41,7 @@ use WP_STATISTICS\Menus;
                     </td>
 
                     <td class="wps-pd-l">
-                        <?php View::load("components/objects/visitor-information-overview", ['visitor' => $visitor]); ?>
+                        <?php View::load("components/visitor-information", ['visitor' => $visitor]); ?>
                     </td>
 
 
