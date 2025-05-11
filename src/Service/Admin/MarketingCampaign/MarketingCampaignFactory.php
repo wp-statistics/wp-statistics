@@ -2,35 +2,48 @@
 
 namespace WP_Statistics\Service\Admin\MarketingCampaign;
 
-use WP_Statistics\Decorators\MarketingCampaignDecorator;
-
 class MarketingCampaignFactory
 {
+    /**
+     * Retrieves all marketing campaigns after processing and filtering.
+     *
+     * @return array Processed and decorated notifications.
+     */
+    public static function getAllMarketingCampaigns()
+    {
+        $rawMarketingCampaigns = self::getRawMarketingCampaignsData();
+        $marketingCampaigns    = MarketingCampaignProcessor::filterMarketingCampaignsByTags($rawMarketingCampaigns['data'] ?? []);
+
+        return MarketingCampaignProcessor::decorateMarketingCampaigns($marketingCampaigns);
+    }
 
     /**
-     * Retrieves the raw marketing campaign data from WordPress options.
+     * Retrieves the raw notification data from WordPress options.
      *
-     * @return array
+     * @return array The raw notification data stored in the database.
      */
-    public static function getRawMarketingCampaignData()
+    public static function getRawMarketingCampaignsData()
     {
-        return get_option('wp_statistics_marketing_campaign', []);
+        return get_option('wp_statistics_marketing_campaigns', []);
     }
 
     /**
      * Retrieves the marketing campaign data from WordPress options.
      *
-     * @return object
+     * @param string $type
+     *
+     * @return object|null
      */
-    public static function getMarketingCampaignData()
+    public static function getLatestMarketingCampaignByType($type)
     {
-        $rawMarketingCampaign = get_option('wp_statistics_marketing_campaign', []);
-        $marketingCampaign    = $rawMarketingCampaign['data'] ?? [];
+        $marketingCampaigns = self::getAllMarketingCampaigns();
 
-        if (empty($marketingCampaign) || !is_array($marketingCampaign)) {
-            return null;
+        foreach ($marketingCampaigns as $marketingCampaign) {
+            if ($marketingCampaign->getType() === $type) {
+                return $marketingCampaign;
+            }
         }
 
-        return new MarketingCampaignDecorator((object)$marketingCampaign);
+        return null;
     }
 }

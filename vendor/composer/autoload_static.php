@@ -215,6 +215,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Admin\\MarketingCampaign\\MarketingCampaignFactory' => __DIR__ . '/../..' . '/src/Service/Admin/MarketingCampaign/MarketingCampaignFactory.php',
         'WP_Statistics\\Service\\Admin\\MarketingCampaign\\MarketingCampaignFetcher' => __DIR__ . '/../..' . '/src/Service/Admin/MarketingCampaign/MarketingCampaignFetcher.php',
         'WP_Statistics\\Service\\Admin\\MarketingCampaign\\MarketingCampaignManager' => __DIR__ . '/../..' . '/src/Service/Admin/MarketingCampaign/MarketingCampaignManager.php',
+        'WP_Statistics\\Service\\Admin\\MarketingCampaign\\MarketingCampaignProcessor' => __DIR__ . '/../..' . '/src/Service/Admin/MarketingCampaign/MarketingCampaignProcessor.php',
         'WP_Statistics\\Service\\Admin\\Metabox\\MetaboxDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/Metabox/MetaboxDataProvider.php',
         'WP_Statistics\\Service\\Admin\\Metabox\\MetaboxHelper' => __DIR__ . '/../..' . '/src/Service/Admin/Metabox/MetaboxHelper.php',
         'WP_Statistics\\Service\\Admin\\Metabox\\MetaboxManager' => __DIR__ . '/../..' . '/src/Service/Admin/Metabox/MetaboxManager.php',

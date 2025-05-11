@@ -15,7 +15,7 @@ $userOnline              = new \WP_STATISTICS\UserOnline();
 $isPremium               = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
 $hasUpdatedNotifications = NotificationFactory::hasUpdatedNotifications();
 $displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? true : false;
-$marketingCampaign       = MarketingCampaignFactory::getMarketingCampaignData();
+$promoBanner             = MarketingCampaignFactory::getLatestMarketingCampaignByType('promo_banner');
 ?>
 
     <div class="wps-adminHeader <?php echo $isPremium ? 'wps-adminHeader__premium' : '' ?>">
@@ -66,9 +66,9 @@ $marketingCampaign       = MarketingCampaignFactory::getMarketingCampaignData();
         </div>
         <div class="wps-adminHeader__side">
             <?php if (apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) : ?>
-                <?php if ($displayNotifications && $marketingCampaign): ?>
-                    <a href="<?php echo esc_url($marketingCampaign->getUrl()); ?>" title="<?php echo esc_attr($marketingCampaign->getTooltip()); ?>" target="_blank" class="wps-license-status wps-license-status--free">
-                        <?php echo esc_html($marketingCampaign->getTitle()); ?>
+                <?php if ($displayNotifications && $promoBanner): ?>
+                    <a href="<?php echo esc_url($promoBanner->getUrl()); ?>" title="<?php echo esc_attr($promoBanner->getTooltip()); ?>" target="_blank" class="wps-license-status wps-license-status--free">
+                        <?php echo esc_html($promoBanner->getTitle()); ?>
                     </a>
                 <?php elseif (!$isPremium && !LicenseHelper::isValidLicenseAvailable()) : ?>
                     <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-license-status wps-license-status--free">

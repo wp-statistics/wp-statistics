@@ -196,6 +196,7 @@ return array(
     'WP_Statistics\\Service\\Admin\\MarketingCampaign\\MarketingCampaignFactory' => $baseDir . '/src/Service/Admin/MarketingCampaign/MarketingCampaignFactory.php',
     'WP_Statistics\\Service\\Admin\\MarketingCampaign\\MarketingCampaignFetcher' => $baseDir . '/src/Service/Admin/MarketingCampaign/MarketingCampaignFetcher.php',
     'WP_Statistics\\Service\\Admin\\MarketingCampaign\\MarketingCampaignManager' => $baseDir . '/src/Service/Admin/MarketingCampaign/MarketingCampaignManager.php',
+    'WP_Statistics\\Service\\Admin\\MarketingCampaign\\MarketingCampaignProcessor' => $baseDir . '/src/Service/Admin/MarketingCampaign/MarketingCampaignProcessor.php',
     'WP_Statistics\\Service\\Admin\\Metabox\\MetaboxDataProvider' => $baseDir . '/src/Service/Admin/Metabox/MetaboxDataProvider.php',
     'WP_Statistics\\Service\\Admin\\Metabox\\MetaboxHelper' => $baseDir . '/src/Service/Admin/Metabox/MetaboxHelper.php',
     'WP_Statistics\\Service\\Admin\\Metabox\\MetaboxManager' => $baseDir . '/src/Service/Admin/Metabox/MetaboxManager.php',

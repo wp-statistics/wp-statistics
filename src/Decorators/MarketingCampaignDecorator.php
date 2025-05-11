@@ -36,7 +36,7 @@ class MarketingCampaignDecorator
      */
     public function getUrl()
     {
-        return $this->marketingCampaign->promo_banner['url'] ?? null;
+        return $this->marketingCampaign->data['url'] ?? null;
     }
 
     /**
@@ -46,7 +46,7 @@ class MarketingCampaignDecorator
      */
     public function getIcon()
     {
-        return json_decode($this->marketingCampaign->promo_banner['icon']) ?? null;
+        return json_decode($this->marketingCampaign->data['icon']) ?? null;
     }
 
     /**
@@ -56,7 +56,7 @@ class MarketingCampaignDecorator
      */
     public function getTitle()
     {
-        return $this->marketingCampaign->promo_banner['title'] ?? null;
+        return $this->marketingCampaign->data['title'] ?? null;
     }
 
     /**
@@ -66,7 +66,7 @@ class MarketingCampaignDecorator
      */
     public function getTooltip()
     {
-        return $this->marketingCampaign->promo_banner['tooltip'] ?? null;
+        return $this->marketingCampaign->data['tooltip'] ?? null;
     }
 
     /**
@@ -76,7 +76,7 @@ class MarketingCampaignDecorator
      */
     public function getActivatedAt()
     {
-        return $this->marketingCampaign->promo_banner['activated_at'] ?? null;
+        return $this->marketingCampaign->activated_at ?? null;
     }
 
     /**
@@ -86,7 +86,7 @@ class MarketingCampaignDecorator
      */
     public function getExpiresAt()
     {
-        return $this->marketingCampaign->promo_banner['expires_at'] ?? null;
+        return $this->marketingCampaign->expires_at ?? null;
     }
 
     /**
@@ -104,7 +104,7 @@ class MarketingCampaignDecorator
             'success' => 'wps-marketing-campaign__success'
         ];
 
-        return $backgroundColors[$this->marketingCampaign->promo_banner['background_color']] ?? null;
+        return $backgroundColors[$this->marketingCampaign->data['background_color']] ?? null;
     }
 
     /**
@@ -120,22 +120,16 @@ class MarketingCampaignDecorator
             'light'   => 'wps-marketing-campaign-text__light',
         ];
 
-        return $textColor[$this->marketingCampaign->promo_banner['text_color']] ?? null;
+        return $textColor[$this->marketingCampaign->data['text_color']] ?? null;
     }
 
     /**
-     * Get the modal of the marketing campaign
+     * Get the type of the marketing campaign.
+     *
+     * @return string|null
      */
-    public function getModal()
+    public function getType()
     {
-        return $this->marketingCampaign->modal ?? null;
-    }
-
-    /**
-     * Get the modal of the marketing campaign
-     */
-    public function getSidebarCallout()
-    {
-        return $this->marketingCampaign->sidebar_callout ?? null;
+        return $this->marketingCampaign->type ?? null;
     }
 }
