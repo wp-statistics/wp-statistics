@@ -31,6 +31,7 @@ use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsManager;
 use WP_Statistics\Service\Analytics\AnalyticsManager;
 use WP_Statistics\Service\Database\Managers\MigrationHandler;
 use WP_Statistics\Service\HooksManager;
+use WP_Statistics\Service\CronEventManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
 
 defined('ABSPATH') || exit;
@@ -221,7 +222,8 @@ final class WP_Statistics
             new AjaxBackgroundProcessManager();
         }
 
-        $hooksManager = new HooksManager();
+        $hooksManager       = new HooksManager();
+        $cronEventManager   = new CronEventManager();
 
         // WordPress ShortCode and Widget
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-shortcode.php';
