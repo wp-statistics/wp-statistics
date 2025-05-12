@@ -81,9 +81,7 @@ use WP_STATISTICS\Menus;
             <div class="wps-card__title">
                 <h2><?php esc_html_e('Top Entry Pages', 'wp-statistics') ?></h2>
             </div>
-            <?php
-            View::load("components/tables/top-entry-pages");
-            ?>
+            <?php View::load("components/tables/top-entry-pages", ['pages' => $data['entry_pages']]); ?>
         </div>
 
         <div class="wps-card">
