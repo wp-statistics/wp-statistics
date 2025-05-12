@@ -184,7 +184,7 @@ if (!window.WpStatisticsUserTracker) {
                 }
             }
 
-            return requestUrl;
+            return 'http://wp-statistics.local/wp-content/plugins/wp-statistics/endpoint.php';
         },
 
         // Function to update the WP_Statistics_Tracker_Object when URL changes
