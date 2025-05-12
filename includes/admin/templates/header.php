@@ -16,16 +16,77 @@ $isPremium               = LicenseHelper::isPremiumLicenseAvailable() ? true : f
 $hasUpdatedNotifications = NotificationFactory::hasUpdatedNotifications();
 $displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? true : false;
 $promoBanner             = MarketingCampaignFactory::getLatestMarketingCampaignByType('promo_banner');
+
+/**
+ * Renders the license status link based on the license state and optional promo banner.
+ *
+ * @param bool $isPremium Whether the user has a premium license.
+ * @param object|null $promoBanner The promotional banner object, if available.
+ * @param bool $isMobile Whether the link is for the mobile menu.
+ * @return string The HTML for the license status link.
+ */
+function render_license_status_link($isPremium, $promoBanner, $isMobile = false)
+{
+    $baseUrl = esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=header');
+
+    if ($promoBanner && Option::get('display_notifications', false)) {
+        $banner = [
+            'url'       => esc_url($promoBanner->getUrl()),
+            'tooltip'   => $promoBanner->getTooltip(),
+            'title'     => esc_html($promoBanner->getTitle()),
+            'textColor' => esc_html($promoBanner->textColor()),
+            'bgColor'   => esc_html($promoBanner->backgroundColors()),
+            'icon'      => esc_url($promoBanner->getIcon()),
+        ];
+
+        $titleText = $banner['tooltip'] ?: $banner['title'];
+        $classes   = array_filter([
+            'wps-license-status',
+            'wps-license-status--custom',
+            $banner['tooltip'] ? 'wps-tooltip' : '',
+            $banner['textColor'],
+            $banner['bgColor'],
+        ]);
+        $class     = implode(' ', $classes);
+
+        return sprintf(
+            '<a href="%s" title="%s" target="_blank" class="%s"><img src="%s" alt="%s"><span>%s</span></a>',
+            esc_attr($banner['url']),
+            esc_attr($titleText),
+            esc_attr($class),
+            esc_url($banner['icon']),
+            esc_attr($banner['title']),
+            esc_html($banner['title'])
+        );
+    }
+
+    if (!$isPremium && !LicenseHelper::isValidLicenseAvailable()) {
+        return sprintf(
+            '<a href="%s" target="_blank" class="wps-license-status wps-license-status--free">%s</a>',
+            $baseUrl,
+            esc_html__('Upgrade To Premium', 'wp-statistics')
+        );
+    }
+
+    $licenseText = sprintf(
+        esc_html__('License: %s/%s', 'wp-statistics'),
+        count(PluginHelper::getLicensedPlugins()),
+        count(PluginHelper::$plugins)
+    );
+    return sprintf(
+        '<a href="%s" class="wps-license-status wps-license-status--valid"><span>%s</span> <span>%s</span></a>',
+        $baseUrl,
+        $licenseText,
+        esc_html__('Upgrade', 'wp-statistics')
+    );
+}
+
 ?>
 
     <div class="wps-adminHeader <?php echo $isPremium ? 'wps-adminHeader__premium' : '' ?>">
         <div class="wps-adminHeader__logo--container">
-            <?php if ($isPremium): ?>
-                <img class="wps-adminHeader__logo wps-adminHeader__logo--premium" src="<?php echo esc_url(apply_filters('wp_statistics_header_url', WP_STATISTICS_URL . 'assets/images/wp-statistics-premium.svg')); ?>"/>
-            <?php else: ?>
-                <img class="wps-adminHeader__logo" src="<?php echo esc_url(apply_filters('wp_statistics_header_url', WP_STATISTICS_URL . 'assets/images/white-header-logo.svg')); ?>"/>
-
-            <?php endif; ?>
+            <img class="wps-adminHeader__logo <?php echo $isPremium ? 'wps-adminHeader__logo--premium' : '' ?>"
+                 src="<?php echo esc_url(apply_filters('wp_statistics_header_url', WP_STATISTICS_URL . 'assets/images/' . ($isPremium ? 'wp-statistics-premium.svg' : 'white-header-logo.svg'))); ?>"/>
         </div>
         <div class="wps-adminHeader__menu">
             <?php
@@ -66,19 +127,7 @@ $promoBanner             = MarketingCampaignFactory::getLatestMarketingCampaignB
         </div>
         <div class="wps-adminHeader__side">
             <?php if (apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) : ?>
-                <?php if ($displayNotifications && $promoBanner): ?>
-                    <a href="<?php echo esc_url($promoBanner->getUrl()); ?>" title="<?php echo esc_attr($promoBanner->getTooltip()); ?>" target="_blank" class="wps-license-status wps-license-status--free">
-                        <?php echo esc_html($promoBanner->getTitle()); ?>
-                    </a>
-                <?php elseif (!$isPremium && !LicenseHelper::isValidLicenseAvailable()) : ?>
-                    <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-license-status wps-license-status--free">
-                        <?php esc_html_e('Upgrade To Premium', 'wp-statistics'); ?>
-                    </a>
-                <?php else : ?>
-                    <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" class="wps-license-status wps-license-status--valid">
-                        <span><?php esc_html_e(sprintf('License: %s/%s', count(PluginHelper::getLicensedPlugins()), count(PluginHelper::$plugins)), 'wp-statistics') ?></span> <span><?php esc_html_e('Upgrade', 'wp-statistics'); ?></span>
-                    </a>
-                <?php endif; ?>
+                <?php echo render_license_status_link($isPremium, $promoBanner); ?>
             <?php endif; ?>
 
             <?php if (Option::get('privacy_audit')) : ?>
@@ -135,21 +184,12 @@ $promoBanner             = MarketingCampaignFactory::getLatestMarketingCampaignB
                                 <?php esc_html_e('Help Center', 'wp-statistics'); ?>
                             </a>
                         </div>
-                    <?php } ?>
+                    <?php }
 
-                    <?php if (apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) : ?>
-                        <div class="wps-bundle">
-                            <?php if (!$isPremium && !LicenseHelper::isValidLicenseAvailable()) : ?>
-                                <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-license-status wps-license-status--free">
-                                    <?php esc_html_e('Upgrade To Premium', 'wp-statistics'); ?>
-                                </a>
-                            <?php else : ?>
-                                <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" class="wps-license-status wps-license-status--valid">
-                                    <span><?php esc_html_e(sprintf('License: %s/%s', count(PluginHelper::getLicensedPlugins()), count(PluginHelper::$plugins)), 'wp-statistics'); ?></span> <span><?php esc_html_e('Upgrade', 'wp-statistics'); ?></span>
-                                </a>
-                            <?php endif; ?>
-                        </div>
-                    <?php endif; ?>
+                    if (apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) {
+                        echo '<div class="wps-bundle">' . render_license_status_link($isPremium, $promoBanner, true) . '</div>';
+                    }
+                    ?>
                 </div>
             </div>
         </div>
@@ -158,5 +198,4 @@ $promoBanner             = MarketingCampaignFactory::getLatestMarketingCampaignB
 if ($displayNotifications) {
     View::load("components/notification/side-bar", ['notifications' => NotificationFactory::getAllNotifications()]);
 }
-?>
-<?php Modal::render('introduce-premium'); ?>
+Modal::render('introduce-premium'); ?>
