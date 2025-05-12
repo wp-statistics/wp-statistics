@@ -161,6 +161,7 @@ class VisitorsModel extends BaseModel
             'logged_in'             => false,
             'include_hits'          => false,
             'user_role'             => '',
+            'source_channel'        => '',
             'source_channel_not'    => '',
             'not_null'              => ''
         ]);
@@ -174,6 +175,7 @@ class VisitorsModel extends BaseModel
             ->from('visitor')
             ->where('location', '=', $args['country'])
             ->where('user_id', '=', $args['user_id'])
+            ->where('source_channel', 'IN', $args['source_channel'])
             ->where('source_channel', '!=', $args['source_channel_not'])
             ->whereNotNull($args['not_null'])
             ->whereDate('visitor.last_counter', $args['date'])
@@ -500,6 +502,7 @@ class VisitorsModel extends BaseModel
             'fields'                => [],
             'referrer'              => '',
             'not_null'              => '',
+            'source_channel'        => '',
             'source_channel_not'    => ''
         ]);
 
@@ -542,6 +545,7 @@ class VisitorsModel extends BaseModel
             ->where('ip', 'LIKE', "%{$args['ip']}%")
             ->where('referred', '=', $args['referrer'])
             ->where('visitor.location', '=', $args['country'])
+            ->where('visitor.source_channel', 'IN', $args['source_channel'])
             ->where('visitor.source_channel', '!=', $args['source_channel_not'])
             ->whereNotNull($args['not_null'])
             ->whereDate($args['date_field'], $args['date'])
@@ -1285,6 +1289,7 @@ class VisitorsModel extends BaseModel
             'uri'           => '',
             'order_by'      => 'visitors',
             'order'         => 'DESC',
+            'source_channel'=> ''
         ]);
 
         $result = Query::select([
@@ -1297,6 +1302,7 @@ class VisitorsModel extends BaseModel
             ->from('visitor')
             ->join('pages', ['visitor.first_page', 'pages.page_id'])
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
+            ->where('visitor.source_channel', 'IN', $args['source_channel'])
             ->where('pages.type', 'IN', $args['resource_type'])
             ->where('pages.uri', '=', $args['uri'])
             ->where('posts.post_author', '=', $args['author_id'])

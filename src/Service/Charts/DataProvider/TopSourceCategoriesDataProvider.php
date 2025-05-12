@@ -16,11 +16,12 @@ class TopSourceCategoriesDataProvider extends AbstractChartDataProvider
         parent::__construct($args);
 
         $this->args = array_merge($this->args, [
-            'group_by'  => 'visitor.source_channel',
-            'not_null'  => false,
-            'decorate'  => true,
-            'per_page'  => 10,
-            'page'      => 1
+            'group_by'       => 'visitor.source_channel',
+            'source_channel' => false,
+            'not_null'       => false,
+            'decorate'       => true,
+            'per_page'       => 10,
+            'page'           => 1
         ]);
 
         $this->visitorsModel = new VisitorsModel();

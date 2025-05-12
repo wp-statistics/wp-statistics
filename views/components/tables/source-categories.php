@@ -32,7 +32,7 @@ $source_colors = [
                             </p>
                         </td>
                         <td class="wps-pd-l"><span><?php echo htmlspecialchars($row['top_domain']); ?></span></td>
-                        <td class="wps-pd-l"><span><?php echo (int)$row['visitors']; ?></span></td>
+                        <td class="wps-pd-l"><span><?php echo esc_html($row['visitors']); ?></span></td>
                         <td class="wps-pd-l"><span><?php echo htmlspecialchars($row['percentage']); ?></span></td>
                     </tr>
                 <?php endforeach; ?>
