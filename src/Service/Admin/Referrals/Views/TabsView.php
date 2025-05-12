@@ -130,6 +130,11 @@ class TabsView extends BaseTabView
                 ]
             ];
 
+            // Remove filters in overview tab
+            if ($this->isTab('overview')) {
+                $args['filters'] = [];
+            }
+
             // Add referrer filter if tab is referred visitors
             if ($this->isTab('referred-visitors')) {
                 array_unshift($args['filters'], 'referrer');

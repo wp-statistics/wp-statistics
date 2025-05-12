@@ -1281,15 +1281,17 @@ class VisitorsModel extends BaseModel
     public function getEntryPages($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'          => '',
-            'resource_type' => Helper::getPostTypes(),
-            'page'          => 1,
-            'per_page'      => Admin_Template::$item_per_page,
-            'author_id'     => '',
-            'uri'           => '',
-            'order_by'      => 'visitors',
-            'order'         => 'DESC',
-            'source_channel'=> ''
+            'date'              => '',
+            'resource_type'     => Helper::getPostTypes(),
+            'page'              => 1,
+            'per_page'          => Admin_Template::$item_per_page,
+            'author_id'         => '',
+            'uri'               => '',
+            'order_by'          => 'visitors',
+            'order'             => 'DESC',
+            'source_channel'    => '',
+            'source_channel_not'=> '',
+            'not_null'          => ''
         ]);
 
         $result = Query::select([
@@ -1303,9 +1305,11 @@ class VisitorsModel extends BaseModel
             ->join('pages', ['visitor.first_page', 'pages.page_id'])
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
             ->where('visitor.source_channel', 'IN', $args['source_channel'])
+            ->where('visitor.source_channel', '!=', $args['source_channel_not'])
             ->where('pages.type', 'IN', $args['resource_type'])
             ->where('pages.uri', '=', $args['uri'])
             ->where('posts.post_author', '=', $args['author_id'])
+            ->whereNotNull($args['not_null'])
             ->whereDate('last_counter', $args['date'])
             ->groupBy('pages.id')
             ->orderBy($args['order_by'], $args['order'])

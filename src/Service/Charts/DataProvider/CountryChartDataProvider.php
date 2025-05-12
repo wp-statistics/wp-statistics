@@ -47,7 +47,11 @@ class CountryChartDataProvider extends AbstractChartDataProvider
 
     protected function parseData($data)
     {
-        $parsedData = [];
+        $parsedData = [
+            'labels'    => [],
+            'icons'     => [],
+            'visitors'  => []
+        ];
 
         foreach ($data as $item) {
             $parsedData['labels'][] = Country::getName($item->country);
