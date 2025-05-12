@@ -81,7 +81,10 @@
     border: 1px solid #dadce0;
 
     .wps-postbox-chart--container canvas{
-      max-height: 199px;
+      height: 199px!important;
+      @media (max-width: 600px) {
+        height: auto!important;
+      }
     }
 
     .c-chart__wps-skeleton{
