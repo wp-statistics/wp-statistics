@@ -24,7 +24,7 @@ class MarketingCampaignDecorator
      *
      * @return int|null The ID of the marketing campaign or null if not set.
      */
-    public function getID()
+    public function getId()
     {
         return $this->marketingCampaign->id ?? null;
     }
