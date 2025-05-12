@@ -285,4 +285,53 @@ class LicenseManagerDataProvider
 
         return $inactiveAddOns;
     }
+
+    /**
+     * Determines the type of license-related notice to display, based on priority.
+     *
+     * Priority order:
+     * 1. Expired or Invalid License
+     * 2. No License for Installed Add-ons
+     * 3. Some Add-ons Are Missing
+     * 4. Inactive Add-ons
+     * 5. No WP Statistics License Detected
+     * 6. Upgrade to WP Statistics Premium
+     *
+     * @return string|null Returns the first matching notice type, or null if none apply.
+     */
+    public function getLicenseNoticeType()
+    {
+        $invalidLicenses        = $this->getInvalidLicenses();
+        $hasValidPremiumLicense = $this->hasValidPremiumLicense();
+        $unlicensedAddOns       = $this->getInstalledAddOnsWithoutLicense();
+        $missingAddOns          = $this->getMissingAddOnsForPremiumLicense();
+        $inactiveAddOns         = $this->getInactiveInstalledAddOns();
+        $hasAnyLicense          = $this->hasAnyLicense();
+
+        if (!empty($invalidLicenses)) {
+            return 'expired_license';
+        }
+
+        if (!$hasValidPremiumLicense && !empty($unlicensedAddOns)) {
+            return 'no_license_for_addons';
+        }
+
+        if ($hasValidPremiumLicense && !empty($missingAddOns)) {
+            return 'missing_addons';
+        }
+
+        if (!empty($inactiveAddOns)) {
+            return 'inactive_addons';
+        }
+
+        if (!$hasAnyLicense) {
+            return 'no_license';
+        }
+
+        if (!$hasValidPremiumLicense) {
+            return 'upgrade_to_premium';
+        }
+
+        return null;
+    }
 }

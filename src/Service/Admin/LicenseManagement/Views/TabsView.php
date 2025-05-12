@@ -110,6 +110,7 @@ class TabsView extends BaseTabView
         $addOnsData['invalid_licenses']             = $this->dataProvider->getInvalidLicenses();
         $addOnsData['unlicensed_installed_add_ons'] = $this->dataProvider->getInstalledAddOnsWithoutLicense();
         $addOnsData['inactive_installed_add_ons']   = $this->dataProvider->getInactiveInstalledAddOns();
+        $addOnsData['license_notice_type']          = $this->dataProvider->getLicenseNoticeType();
         $addOnsData['install_addon_link']           = esc_url(Menus::admin_url('plugins', ['tab' => 'add-license']));
 
         return $addOnsData;
