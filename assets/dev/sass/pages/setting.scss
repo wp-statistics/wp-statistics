@@ -100,6 +100,13 @@
   .tab-content {
     display: none;
     margin: -1px 0 0 0;
+
+    .wps-settings-box__title {
+      @media(max-width: 785px) {
+        margin-bottom: 16px;
+      }
+    }
+
   }
 
   .tab-content.current {
@@ -149,6 +156,7 @@
         padding: 12px;
         cursor: pointer;
         margin-bottom: 6px;
+        border-radius: 8px;
 
         svg {
           fill: #283A49;
@@ -164,6 +172,8 @@
         }
 
         &:hover {
+          background: rgba(255, 255, 255, 0.70);
+
           svg, span {
             color: #0C0C0D !important;
             fill: #0C0C0D !important;
@@ -173,7 +183,6 @@
         &.current {
           box-shadow: 0px 2px 2px 0px #0000000D;
           background-color: #ffffff;
-          border-radius: 8px;
 
           span {
             color: #0C0C0D;
@@ -960,8 +969,8 @@
   .wps-setting-select-wrapper {
     position: relative;
     width: 100%;
-    margin-bottom: 48px;
-    margin-top: 16px;
+    margin-bottom: 24px;
+    margin-top: 4px;
     display: none;
     padding: 0 8px;
     box-sizing: border-box;
@@ -1043,12 +1052,12 @@
         width: 300px;
         max-width: 100%;
 
-        &__small{
+        &__small {
           width: 200px;
         }
 
-        .select2-container{
-          width: 100%!important;
+        .select2-container {
+          width: 100% !important;
         }
 
         .select2-selection {
@@ -1102,13 +1111,13 @@
         font-weight: 400;
         line-height: 20px;
 
-        &-side{
+        &-side {
           border-left: 1px solid #DADCE0;
           border-right: unset;
 
           .rtl & {
-            border-left: none!important;
-            border-right: 1px solid #DADCE0!important;
+            border-left: none !important;
+            border-right: 1px solid #DADCE0 !important;
           }
         }
 
@@ -1387,7 +1396,7 @@
 
               @media(max-width: 1200px) {
                 justify-content: space-between;
-               }
+              }
             }
 
             a {
@@ -1403,8 +1412,9 @@
             }
 
           }
-          .alert span{
-            @media(min-width: 800px){
+
+          .alert span {
+            @media(min-width: 800px) {
               white-space: nowrap;
             }
           }
@@ -1418,7 +1428,11 @@
         }
 
         th {
-          padding: 16px 32px !important;
+          padding: 16px 24px !important;
+
+          @media (max-width: 768px) {
+            padding: 16px !important;
+          }
 
           h3 {
             color: #0C0C0D;
@@ -1439,14 +1453,17 @@
         padding-left: 32px !important;
 
         @media(max-width: 785px) {
-          padding-top: 12px;
-          padding-bottom: 12px;
+          padding: 12px 16px !important;
         }
 
         .rtl & {
           padding-top: 16px !important;
           padding-bottom: 16px !important;
           padding-right: 32px !important;
+
+          @media(max-width: 785px) {
+            padding: 12px 16px !important;
+          }
         }
 
         @media (min-width: 785px) {
@@ -1505,13 +1522,13 @@
         padding: 16px 32px 16px 10px !important;
 
         @media(max-width: 785px) {
-          padding: 12px 32px 12px 32px !important;
+          padding: 12px 16px !important;
         }
 
         .rtl & {
           padding: 16px 10px 16px 32px !important;
           @media(max-width: 785px) {
-            padding: 12px 32px 12px 32px !important;
+            padding: 12px 16px !important;
           }
         }
 
@@ -1637,9 +1654,9 @@
             right: 10px;
             width: 18px;
             background-color: #fff;
-            border:none!important;
-            outline:none!important;
-            box-shadow:none!important;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
 
             .rtl & {
               right: unset;
@@ -1651,7 +1668,7 @@
               height: 18px !important;
               background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuMjUgNy41TDkgMTEuMjVMMTIuNzUgNy41IiBzdHJva2U9IiM1NjU4NUEiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==) no-repeat center center;
               background-size: 18px;
-              border:none!important;
+              border: none !important;
               margin: 0 !important;
               left: 0;
               top: 0;
@@ -1681,8 +1698,34 @@
     margin-top: 12px;
 
     &__setting-header {
-      margin-top: -8px;
-      margin-bottom: 16px;
+      margin-top: 0;
+      margin-bottom: 24px;
+      position: relative;
+      padding-right: 47px;
+
+      .rtl & {
+        padding-right: 16px;
+        padding-left: 47px;
+      }
+
+      .wps-alert__close {
+        width: 19px;
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+        height: 19px;
+        flex-shrink: 0;
+        background: transparent !important;
+        cursor: pointer;
+        position: absolute;
+        right: 16px;
+        top: 16px;
+
+        svg {
+          width: 9.5px;
+          height: 9.5px;
+        }
+      }
 
       a {
         text-decoration: underline;
@@ -1742,23 +1785,32 @@
 
   }
 
-  tr td .wps-alert{
+  tr td .wps-alert {
     padding: 0;
     box-shadow: none;
-    border:none;
+    border: none;
     font-size: 11px;
-    background: transparent!important;
+    background: transparent !important;
     gap: 4px;
-    color:#56585A!important;
+    color: #56585A !important;
     align-items: flex-start;
     line-height: 24px;
     font-weight: 400;
 
-    &:before{
+    b {
+      color: #0C0C0D;
+      font-weight: 500;
+    }
+
+    p, a {
+      font-size: 11px;
+    }
+
+    &:before {
       width: 12px;
       height: 12px;
       min-width: 12px;
-      background-size: 100%;
+      background-size: contain;
       margin-top: 5px;
     }
   }
@@ -1872,6 +1924,45 @@
   background-color: #F9FF8D;
   animation: fadeToWhite 600ms ease-out forwards;
   animation-delay: 500ms;
+}
+
+.wps-gototop {
+  width: 48px;
+  height: 48px;
+  background-color: #404BF2;
+  border-radius: 100%;
+  display: flex;
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  cursor: pointer;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  z-index: 9999999;
+  background-size: 20px 20px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDIwIDIwIiBmaWxsPSJub25lIj4KICA8cGF0aCBkPSJNMTYuMjg4NyA5LjQxMjQ2QzE2LjIwMTYgOS40OTk4NiAxNi4wOTgxIDkuNTY5MjEgMTUuOTg0MiA5LjYxNjUyQzE1Ljg3MDIgOS42NjM4NCAxNS43NDgxIDkuNjg4MiAxNS42MjQ3IDkuNjg4MkMxNS41MDEzIDkuNjg4MiAxNS4zNzkxIDkuNjYzODQgMTUuMjY1MiA5LjYxNjUyQzE1LjE1MTIgOS41NjkyMSAxNS4wNDc3IDkuNDk5ODYgMTQuOTYwNiA5LjQxMjQ2TDEwLjkzOCA1LjM4OThWMTYuODc0MkMxMC45MzggMTcuMTIyOCAxMC44MzkyIDE3LjM2MTMgMTAuNjYzNCAxNy41MzcxQzEwLjQ4NzYgMTcuNzEyOSAxMC4yNDkxIDE3LjgxMTcgMTAuMDAwNSAxNy44MTE3QzkuNzUxODEgMTcuODExNyA5LjUxMzM2IDE3LjcxMjkgOS4zMzc1NCAxNy41MzcxQzkuMTYxNzMgMTcuMzYxMyA5LjA2Mjk1IDE3LjEyMjggOS4wNjI5NSAxNi44NzQyVjUuMzg5OEw1LjAzODc0IDkuNDEyNDZDNC44NjI2MSA5LjU4ODU4IDQuNjIzNzQgOS42ODc1MiA0LjM3NDY3IDkuNjg3NTJDNC4xMjU2IDkuNjg3NTIgMy44ODY3MyA5LjU4ODU4IDMuNzEwNjEgOS40MTI0NkMzLjUzNDQ5IDkuMjM2MzQgMy40MzU1NSA4Ljk5NzQ3IDMuNDM1NTUgOC43NDg0QzMuNDM1NTUgOC40OTkzMiAzLjUzNDQ5IDguMjYwNDUgMy43MTA2MSA4LjA4NDMzTDkuMzM1NjEgMi40NTkzM0M5LjQyMjcxIDIuMzcxOTMgOS41MjYyIDIuMzAyNTkgOS42NDAxNiAyLjI1NTI3QzkuNzU0MTEgMi4yMDc5NSA5Ljg3NjI4IDIuMTgzNTkgOS45OTk2NyAyLjE4MzU5QzEwLjEyMzEgMi4xODM1OSAxMC4yNDUyIDIuMjA3OTUgMTAuMzU5MiAyLjI1NTI3QzEwLjQ3MzEgMi4zMDI1OSAxMC41NzY2IDIuMzcxOTMgMTAuNjYzNyAyLjQ1OTMzTDE2LjI4ODcgOC4wODQzM0MxNi4zNzYxIDguMTcxNDMgMTYuNDQ1NSA4LjI3NDkyIDE2LjQ5MjggOC4zODg4OEMxNi41NDAxIDguNTAyODMgMTYuNTY0NSA4LjYyNTAxIDE2LjU2NDUgOC43NDg0QzE2LjU2NDUgOC44NzE3OCAxNi41NDAxIDguOTkzOTYgMTYuNDkyOCA5LjEwNzkxQzE2LjQ0NTUgOS4yMjE4NyAxNi4zNzYxIDkuMzI1MzYgMTYuMjg4NyA5LjQxMjQ2WiIgZmlsbD0iI0ZBRkFGQiIvPgo8L3N2Zz4=");
+  opacity: 0;
+  transform: translateY(15px);
+  transition: all .2s linear;
+  visibility: hidden;
+
+  &.active{
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+  }
+
+  &:hover {
+    background-color: #7981f6;
+  }
+
+  .rtl & {
+    left: 16px;
+    right: unset;
+  }
 }
 
 @keyframes fadeToWhite {

@@ -9,6 +9,7 @@ View::load('components/objects/share-anonymous-notice');
     <div class="wp-header-end"></div>
 
 <div id="poststuff" class="wps-wrap__settings">
+    <button class="wps-gototop" aria-label="Go to top of page"></button>
     <div id="post-body" class="metabox-holder wps-settingsPageFlex">
         <?php include WP_STATISTICS_DIR . 'includes/admin/templates/layout/menu-settings.php'; ?>
 

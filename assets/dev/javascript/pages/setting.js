@@ -126,6 +126,35 @@ function navigateToTab(tab) {
 
 window.onload = function() {
     createMobileDropdown();
+    const closeButton = document.querySelector('.wps-alert__close');
+
+    if (closeButton) {
+         const alert = closeButton.closest('.wps-alert');
+        if (alert) {
+            closeButton.addEventListener('click', function() {
+                alert.remove();
+            });
+        }
+    }
+
+    const goToTopButton = document.querySelector('.wps-gototop');
+    if (goToTopButton) {
+        goToTopButton.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        window.addEventListener('scroll', function() {
+            const viewportHeight = 100;
+            const scrollPosition = window.scrollY;
+
+            if (scrollPosition > viewportHeight) {
+                goToTopButton.classList.add('active');
+            } else {
+                goToTopButton.classList.remove('active');
+            }
+        });
+    }
+
 };
 /**
  * Check has setting page

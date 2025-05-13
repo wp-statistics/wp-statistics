@@ -16,6 +16,11 @@ use WP_STATISTICS\Menus;
         esc_html__('report', 'wp-statistics')
     );
     ?>
+    <button class="wps-alert__close" aria-label="Close alert">
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 11 11" fill="none">
+            <path d="M4.77041 5.50001L0.75 1.4796L1.4796 0.75L5.5 4.77037L9.5204 0.75L10.25 1.4796L6.2296 5.50001L10.25 9.52036L9.5204 10.25L5.5 6.22961L1.4796 10.25L0.75 9.52036L4.77041 5.50001Z" fill="#56585A"/>
+        </svg>
+    </button>
 </div>
 <div class="postbox">
     <table class="form-table">

@@ -24,6 +24,7 @@ View::load('components/objects/share-anonymous-notice');
     ]);
     ?>
     <div id="post-body" class="metabox-holder wps-optimizationPageFlex">
+        <button class="wps-gototop" aria-label="Go to top of page"></button>
         <?php include WP_STATISTICS_DIR . 'includes/admin/templates/layout/menu-optimization.php'; ?>
 
         <div class="wp-list-table widefat wps-optimizationBox">
