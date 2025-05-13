@@ -70,8 +70,7 @@ use WP_STATISTICS\Menus;
                             </td>
 
                             <td class="wps-pd-l">
-                                <?php $page = $visitor->getFirstPage(); ?>
-
+                                <?php $page = $visitor->getLastPage(); ?>
                                 <?php if (!empty($page)) :
                                     View::load("components/objects/external-link", [
                                         'url'     => $page['link'],
