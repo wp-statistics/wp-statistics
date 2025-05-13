@@ -1679,6 +1679,10 @@
         .description {
           color: #4C4B5F;
           font-weight: 400;
+
+          a:hover{
+            color: rgb(60, 64, 67) !important;
+          }
         }
       }
     }
