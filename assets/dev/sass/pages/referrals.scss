@@ -188,6 +188,16 @@
               &:nth-child(2) {
                 display: none;
               }
+
+              &:nth-child(3) {
+                width: 64px;
+                box-sizing: border-box;
+              }
+
+              &:last-child {
+                width: 48px;
+                box-sizing: border-box;
+              }
             }
 
             &:last-child {
@@ -214,6 +224,10 @@
 
               @media(max-width: 600px) {
                 display: table !important;
+
+                &.wps-hidden {
+                  display: none !important;
+                }
               }
             }
 
@@ -266,8 +280,22 @@
               display: none;
             }
 
+            &:nth-child(3) {
+              width: 64px;
+              box-sizing: border-box;
+            }
+
+            &:last-child {
+              width: 48px;
+              box-sizing: border-box;
+            }
+
             p {
               display: table !important;
+
+              &.wps-hidden {
+                display: none !important;
+              }
             }
           }
         }
