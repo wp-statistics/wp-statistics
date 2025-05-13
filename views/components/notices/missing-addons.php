@@ -6,7 +6,7 @@
             <ul>
                 <?php foreach ($data['missing_add_ons'] as $addOn): ?>
                     <li>
-                        <a href="<?php echo esc_url($addOn->getProductUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=dp" target="_blank">
+                        <a href="<?php echo esc_url($addOn->getProductUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=<?php echo rawurlencode($addOn->getUtmCampaign()); ?>" target="_blank">
                             <?php echo esc_html($addOn->getName()) ?>
                         </a>
                     </li>
