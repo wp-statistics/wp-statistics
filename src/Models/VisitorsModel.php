@@ -1036,7 +1036,6 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->where('visitor.location', '=', $args['country'])
-            ->where('source_channel', 'IN', $args['source_channel'])
             ->whereNotNull($args['not_null'])
             ->groupBy($args['group_by'])
             ->orderBy('visitors')
@@ -1050,6 +1049,13 @@ class VisitorsModel extends BaseModel
                     OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '')
                 )
             ");
+        }
+
+        // When source_channel is `unassigned`, only get visitors without source_channel
+        if ($args['source_channel'] === 'unassigned') {
+            $query->whereNull('visitor.source_channel');
+        } else {
+            $query->where('source_channel', 'IN', $args['source_channel']);
         }
 
         if (!empty($args['referrer'])) {
