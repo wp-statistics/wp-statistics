@@ -1741,6 +1741,27 @@
     }
 
   }
+
+  tr td .wps-alert{
+    padding: 0;
+    box-shadow: none;
+    border:none;
+    font-size: 11px;
+    background: transparent!important;
+    gap: 4px;
+    color:#56585A!important;
+    align-items: flex-start;
+    line-height: 24px;
+    font-weight: 400;
+
+    &:before{
+      width: 12px;
+      height: 12px;
+      min-width: 12px;
+      background-size: 100%;
+      margin-top: 5px;
+    }
+  }
 }
 
 #mini-chart-settings .wp-picker-container {
