@@ -266,7 +266,7 @@ td .wps-tooltip-icon.info {
     }
   }
 }
-.o-table--wps-summary-stats {
+.wps-wrap .o-table--wps-summary-stats  , .o-table--wps-summary-stats{
   position: relative;
   border-collapse: collapse;
 
@@ -289,7 +289,20 @@ td .wps-tooltip-icon.info {
         padding-left: 24px;
 
         .rtl & {
-          padding-right: 24px;
+          padding-right: 24px!important;
+        }
+      }
+
+      &:nth-child(2) {
+        .rtl & {
+          padding-right: 24px!important;
+        }
+      }
+
+      &:last-child{
+        padding: 8px 0 12px 24px!important;
+        .rtl & {
+          padding: 8px 24px 12px 0!important;
         }
       }
     }
@@ -308,7 +321,7 @@ td .wps-tooltip-icon.info {
 
         .rtl & {
           text-align: right;
-          padding: 11.1px 40px 11.1px 0!important;
+          padding: 11.1px 24px 11.1px 0!important;
         }
 
 
@@ -317,14 +330,16 @@ td .wps-tooltip-icon.info {
 
           .rtl & {
             padding-right: 24px!important;
+            padding-left: 0!important;
           }
         }
 
         &:last-child {
           padding-right: 24px!important;
+          padding-left: 24px!important;
 
-          .rtl & {
-            padding-left: 24px!important;
+          .rtl &{
+            padding-left: 0!important;
           }
         }
 

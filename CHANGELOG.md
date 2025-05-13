@@ -25,6 +25,34 @@
 - **Fix:** Resolved occasional PHP warnings.
 - **Fix**: Fixed early translation loading warning.
 
+= 14.13.5 - 2025-05-x =
+- **Fix:** Fixed issue where page views were zero when using a taxonomy filter other than 'category'.
+- **Fix:** Show referrers data based on the first viewed page.
+- **Enhancement:** Display referred visitors via UTM parameters in the `Referrals` report.
+- **Fix:** Fixed Decimal Formatting
+- **Fix**: Fixed visitors number aggregation issue.
+- **Fix:** Resolved posts view column issue.
+- **Enhancement:** Added `wp_statistics_disable_tracker_debugger_logs` filter to conditionally bypass tracker debugger error logging.
+- **Fix:** Removed "Get Premium" action link if license is available.
+- **Enhancement:** Optimized online visitor tracking request to improve performance.
+- **Fix:** Unseted /online endpoint from REST API when Monitor Online Visitors option is disabled.
+- **Fix:** Fixed an issue with the 'All Time' date filter displaying incorrect content details in alternative calendars.
+- **Fix:** Fixed display issue for Android app referrers in Top Referrers widget.
+
+= 14.13.4 - 2025-04-29 =
+- **Enhancement:** Enforced capability check in optionUpdater.
+- **Enhancement:** Improved the helper text for the Privacy Policy section.
+- **Enhancement:** Limited the migration process to run only within the plugin's admin pages.
+- **Fix:** Fixed 404 errors when "Bypass Ad-Blocker" proxies assets with extra query parameters.
+
+= 14.13.3 - 2025-04-23 =
+- **New:** Added an option to enable or disable the Privacy Audit section in email reports.
+- **Enhancement:** Improved the migrator to avoid sending redundant requests.
+- **Enhancement:** Added Source Category filter into the visitors report filters.
+- **Fix:** Fixed high memory usage during plugin activation.
+- **Fix:** Resolved occasional PHP warnings.
+- **Fix**: Fixed early translation loading warning.
+
 = 14.13.2 - 2025-04-20 =
 - **Fix**: Fix Font Size issue on the Free Email Report.
 - **New:** Added a 28-day date range option to the date picker.
