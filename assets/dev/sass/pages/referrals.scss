@@ -140,6 +140,10 @@
             height: 16px;
             display: inline-flex;
             background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEwLjA4NTggNy40ODU3N0w3LjQwMzggNC43MjcyN0w4LjExMDkgNEwxMiA4LjAwMDAzTDguMTEwOSAxMkw3LjQwMzggMTEuMjcyN0wxMC4wODU4IDguNTE0MjlINFY3LjQ4NTc3SDEwLjA4NThaIiBmaWxsPSIjNTY1ODVBIi8+Cjwvc3ZnPgo=") center center no-repeat;
+
+            .rtl &{
+              transform: rotate(180deg);
+            }
           }
 
           &:hover {
