@@ -50,7 +50,7 @@ class NotificationProcessor
         if (empty($notifications) || !is_array($notifications)) {
             return [];
         }
-        
+
         return array_map(function ($notification) {
             return new NotificationDecorator((object)$notification);
         }, $notifications);
@@ -161,6 +161,38 @@ class NotificationProcessor
                 break;
             }
         }
+
+        return $rawNewNotifications;
+    }
+
+    /**
+     * Returns the new notifications array with an added count of unseen (new) notifications.
+     *
+     * @param array $rawNewNotifications
+     * @return array Modified array including a 'count' key indicating new notifications.
+     */
+    public static function annotateNewNotificationCount($rawNewNotifications)
+    {
+        $rawOldNotifications = NotificationFactory::getRawNotificationsData();
+        $oldNotifications    = self::filterNotificationsByTags($rawOldNotifications['data'] ?? []);
+        $oldNotificationIds  = [];
+
+        foreach ($oldNotifications as $oldNotification) {
+            if (!empty($oldNotification['id'])) {
+                $oldNotificationIds[$oldNotification['id']] = true;
+            }
+        }
+
+        $newNotifications = self::filterNotificationsByTags($rawNewNotifications['data'] ?? []);
+        $newCount         = 0;
+
+        foreach ($newNotifications as $newNotification) {
+            if (!empty($newNotification['id']) && !isset($oldNotificationIds[$newNotification['id']])) {
+                $newCount++;
+            }
+        }
+
+        $rawNewNotifications['count'] = $newCount;
 
         return $rawNewNotifications;
     }

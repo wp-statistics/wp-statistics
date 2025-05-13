@@ -7,17 +7,18 @@ use WP_Statistics\Service\Admin\Notification\NotificationFactory;
 $isPremium               = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
 $hasUpdatedNotifications = NotificationFactory::hasUpdatedNotifications();
 $displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? true : false;
+$notificationCount       = NotificationFactory::getNewNotificationCount();
 ?>
 
 <div class="wps-wrap__main wps-wrap__help-center <?php echo $isPremium ? 'wps-wrap__help-center--premium' : '' ?>">
     <div class="wp-header-end"></div>
     <section class="wps-help">
         <div class="wps-help__header">
-            <?php if ($displayNotifications): ?>
-                <button class="wps-help__notification js-wps-open-notification">
+            <?php if ($displayNotifications && $hasUpdatedNotifications): ?>
+                <a class="wps-help__notification js-wps-open-notification wps-notifications--has-items">
                     <span class="wps-help__notification__dot"></span>
-                    <span class="wps-help__notification__text"><?php echo sprintf(__('You have %s notifications', 'wp-statistics'), '4') ?></span>
-                </button>
+                    <span class="wps-help__notification__text"><?php echo sprintf(__('You have %s notifications', 'wp-statistics'), esc_html($notificationCount)) ?></span>
+                </a>
             <?php endif; ?>
             <h1 class="wps-help__title">
                 <?php esc_html_e('How can we help you?', 'wp-statistics'); ?>
