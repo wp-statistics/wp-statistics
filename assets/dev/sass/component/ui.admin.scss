@@ -3028,12 +3028,8 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 
   &.wps-license-status--custom {
-    padding: 8px 12px 8px 36px;
     position: relative;
-
-    .rtl & {
-      padding: 8px 36px 8px 12px;
-    }
+    cursor: pointer;
 
     &.wps-marketing-campaign-text__light {
       color: #fff !important;
@@ -3307,7 +3303,6 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
         padding: 14px 10px;
 
         &.wps-license-status--custom {
-          padding-left: 32px;
           position: relative;
 
           .rtl & {

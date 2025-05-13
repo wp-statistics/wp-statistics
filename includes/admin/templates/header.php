@@ -34,9 +34,9 @@ function render_license_status_link($isPremium, $promoBanner, $isMobile = false)
             'url'       => esc_url($promoBanner->getUrl()),
             'tooltip'   => $promoBanner->getTooltip(),
             'title'     => esc_html($promoBanner->getTitle()),
-            'textColor' => esc_html($promoBanner->textColor()),
-            'bgColor'   => esc_html($promoBanner->backgroundColors()),
-            'icon'      => esc_url($promoBanner->getIcon()),
+            'textColor' => esc_html($promoBanner->getTextColor()),
+            'bgColor'   => esc_html($promoBanner->getBackgroundColor()),
+            'icon'      => esc_html($promoBanner->getIcon()),
         ];
 
         $titleText = $banner['tooltip'] ?: $banner['title'];
@@ -50,12 +50,11 @@ function render_license_status_link($isPremium, $promoBanner, $isMobile = false)
         $class     = implode(' ', $classes);
 
         return sprintf(
-            '<a href="%s" title="%s" target="_blank" class="%s"><img src="%s" alt="%s"><span>%s</span></a>',
-            esc_attr($banner['url']),
+            '<a href="%s" title="%s" target="_blank" class="%s"><span>%s</span><span>%s</span></a>',
+            esc_url($banner['url']),
             esc_attr($titleText),
             esc_attr($class),
-            esc_url($banner['icon']),
-            esc_attr($banner['title']),
+            esc_html($banner['icon']),
             esc_html($banner['title'])
         );
     }

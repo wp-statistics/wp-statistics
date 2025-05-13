@@ -112,7 +112,7 @@ class MarketingCampaignDecorator
      *
      * @return string|null
      */
-    public function textColor()
+    public function getTextColor()
     {
         $textColor = [
             'inherit' => '',
