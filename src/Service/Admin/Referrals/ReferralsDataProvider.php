@@ -23,13 +23,13 @@ class ReferralsDataProvider
         return [
             'visitors'      => $this->visitorsModel->getReferredVisitors(array_merge($this->args, ['per_page' => 10, 'page' => 1])),
             'referrers'     => $this->visitorsModel->getReferrers(array_merge($this->args, ['decorate' => true, 'group_by' => ['visitor.referred', 'visitor.source_channel'], 'per_page' => 5, 'page' => 1])),
-            'entry_pages'   => $this->visitorsModel->getEntryPages(array_merge($this->args, ['not_null' => 'source_channel', 'source_channel_not' => 'direct', 'per_page' => 10])),
+            'entry_pages'   => $this->visitorsModel->getEntryPages(array_merge($this->args, ['referred_visitors' => true, 'per_page' => 10])),
         ];
     }
 
     public function getReferralsOverviewChartData()
     {
-        $args = array_merge($this->args, ['not_null' => 'source_channel', 'source_channel_not' => 'direct']);
+        $args = array_merge($this->args, ['referred_visitors' => true]);
 
         $countryData        = ChartDataProviderFactory::countryChart($args)->getData();
         $browserData        = ChartDataProviderFactory::browserChart($args)->getData();

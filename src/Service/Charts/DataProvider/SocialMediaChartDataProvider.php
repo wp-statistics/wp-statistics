@@ -23,7 +23,8 @@ class SocialMediaChartDataProvider extends AbstractChartDataProvider
         $this->args = array_merge($args, [
             'source_channel'    => ['social', 'paid_social'],
             'group_by'          => ['source_name', 'last_counter'],
-            'per_page'          => false
+            'per_page'          => false,
+            'not_null'          => false
         ]);
 
         $this->visitorsModel = new VisitorsModel();

@@ -24,6 +24,7 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
             'source_channel'    => ['search', 'paid_search'],
             'group_by'          => ['source_name', 'last_counter'],
             'per_page'          => false,
+            'not_null'          => false
         ]);
 
         $this->visitorsModel = new VisitorsModel();

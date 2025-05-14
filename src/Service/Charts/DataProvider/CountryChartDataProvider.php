@@ -20,12 +20,13 @@ class CountryChartDataProvider extends AbstractChartDataProvider
     {
         parent::__construct($args);
 
-        $this->args = array_merge_recursive($this->args, ['not_null' => ['location']]);
-
-        $this->args['fields']   = ['COUNT(DISTINCT visitor.ID) as visitors', 'visitor.location as country'];
-        $this->args['order_by'] = 'visitors';
-        $this->args['page']     = 1;
-        $this->args['per_page'] = 5;
+        $this->args = array_merge($this->args, [
+            'not_null'  => 'location',
+            'fields'    => ['COUNT(DISTINCT visitor.ID) as visitors', 'visitor.location as country'],
+            'order_by'  => 'visitors',
+            'page'      => 1,
+            'per_page'  => 5
+        ]);
 
         $this->visitorsModel = new VisitorsModel();
     }
