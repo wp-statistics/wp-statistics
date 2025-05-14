@@ -38,7 +38,15 @@ class VisitorsModel extends BaseModel
             'not_null'      => ''
         ]);
 
-        $query = Query::select('COUNT(*) as total_visitors')
+        $filteredArgs = array_filter($args);
+
+        $field = '*';
+
+        if (array_intersect(['resource_type', 'resource_id', 'query_param', 'post_type', 'author_id', 'post_id', 'taxonomy', 'term'], array_keys($filteredArgs))) {
+            $field = 'DISTINCT visitor.ID';
+        }
+
+        $query = Query::select("COUNT($field) as total_visitors")
             ->from('visitor')
             ->where('agent', '=', $args['agent'])
             ->where('location', '=', $args['country'])
@@ -60,8 +68,6 @@ class VisitorsModel extends BaseModel
                 $query->where('usermeta.meta_value', 'LIKE', "%{$args['user_role']}%");
             }
         }
-
-        $filteredArgs = array_filter($args);
 
         if (array_intersect(['resource_type', 'resource_id', 'query_param'], array_keys($filteredArgs))) {
             $query
@@ -554,6 +560,15 @@ class VisitorsModel extends BaseModel
             ->decorate(VisitorDecorator::class)
             ->groupBy('visitor.ID');
 
+        // When source_channel is `unassigned`, only get visitors without source_channel
+        if ($args['source_channel'] === 'unassigned') {
+            $query
+                ->whereNull('visitor.source_channel');
+        } else {
+            $query
+                ->where('source_channel', '=', $args['source_channel']);
+        }
+
         if ($args['logged_in'] === true) {
             $query->where('visitor.user_id', '!=', 0);
             $query->whereNotNull('visitor.user_id');
@@ -656,7 +671,13 @@ class VisitorsModel extends BaseModel
             ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
-            ->whereNotNull('visitor.referred')
+            ->whereRaw("
+                AND (
+                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    OR
+                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                )
+            ")
             ->whereDate('visitor.last_counter', $args['date'])
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
@@ -690,7 +711,13 @@ class VisitorsModel extends BaseModel
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
             ->whereDate('visitor.last_counter', $args['date'])
-            ->whereNotNull('visitor.referred');
+            ->whereRaw("
+                AND (
+                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    OR
+                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                )
+            ");
 
         // When source_channel is `unassigned`, only get visitors without source_channel
         if ($args['source_channel'] === 'unassigned') {
@@ -1008,6 +1035,10 @@ class VisitorsModel extends BaseModel
 
     public function getReferrers($args = [])
     {
+        if (! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
+            return LegacyModel::get('referrers', $args, '14.12.6');
+        }
+
         $args = $this->parseArgs($args, [
             'date'           => '',
             'post_type'      => '',
@@ -1069,8 +1100,7 @@ class VisitorsModel extends BaseModel
 
         if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
-                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'], [], 'LEFT')
-                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+                ->join('pages', ['visitor.first_page', 'pages.page_id'], [], 'LEFT')
                 ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
                 ->where('post_type', 'IN', $args['post_type'])
                 ->where('posts.ID', '=', $args['post_id'])

@@ -73,6 +73,10 @@ class DataMigrationProcess extends WP_Background_Process
             $instance->setMethod($method, $version);
             $instance->$method($version);
 
+            if (! class_exists(DataMigration::class)) {
+                return;
+            }
+
             $dataSteps = (new DataMigration)->getMigrationSteps();
 
             if (! isset($dataSteps[$version])) {
