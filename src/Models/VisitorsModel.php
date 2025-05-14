@@ -153,20 +153,23 @@ class VisitorsModel extends BaseModel
     public function countDailyVisitors($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'          => '',
-            'post_type'     => '',
-            'resource_id'   => '',
-            'resource_type' => '',
-            'author_id'     => '',
-            'post_id'       => '',
-            'query_param'   => '',
-            'taxonomy'      => '',
-            'term'          => '',
-            'country'       => '',
-            'user_id'       => '',
-            'logged_in'     => false,
-            'include_hits'  => false,
-            'user_role'     => ''
+            'date'                  => '',
+            'post_type'             => '',
+            'resource_id'           => '',
+            'resource_type'         => '',
+            'author_id'             => '',
+            'post_id'               => '',
+            'query_param'           => '',
+            'taxonomy'              => '',
+            'term'                  => '',
+            'country'               => '',
+            'user_id'               => '',
+            'logged_in'             => false,
+            'include_hits'          => false,
+            'user_role'             => '',
+            'source_channel'        => '',
+            'not_null'              => '',
+            'referred_visitors'     => false
         ]);
 
         $additionalFields = !empty($args['include_hits']) ? ['SUM(visitor.hits) as hits'] : [];
@@ -178,8 +181,20 @@ class VisitorsModel extends BaseModel
             ->from('visitor')
             ->where('location', '=', $args['country'])
             ->where('user_id', '=', $args['user_id'])
+            ->where('source_channel', 'IN', $args['source_channel'])
+            ->whereNotNull($args['not_null'])
             ->whereDate('visitor.last_counter', $args['date'])
             ->groupBy('visitor.last_counter');
+
+        if (!empty($args['referred_visitors'])) {
+            $query->whereRaw("
+                AND (
+                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    OR
+                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                )
+            ");
+        }
 
         if ($args['logged_in'] === true) {
             $query->where('visitor.user_id', '!=', 0);
@@ -475,33 +490,35 @@ class VisitorsModel extends BaseModel
         }
 
         $args = $this->parseArgs($args, [
-            'date'           => '',
-            'resource_type'  => '',
-            'resource_id'    => '',
-            'post_type'      => '',
-            'author_id'      => '',
-            'post_id'        => '',
-            'country'        => '',
-            'agent'          => '',
-            'platform'       => '',
-            'user_id'        => '',
-            'ip'             => '',
-            'query_param'    => '',
-            'taxonomy'       => '',
-            'term'           => '',
-            'order_by'       => 'visitor.ID',
-            'order'          => 'DESC',
-            'page'           => '',
-            'per_page'       => '',
-            'user_info'      => false,
-            'date_field'     => 'visitor.last_counter',
-            'logged_in'      => false,
-            'user_role'      => '',
-            'event_target'   => '',
-            'event_name'     => '',
-            'fields'         => [],
-            'referrer'       => '',
-            'source_channel' => '',
+            'date'                  => '',
+            'resource_type'         => '',
+            'resource_id'           => '',
+            'post_type'             => '',
+            'author_id'             => '',
+            'post_id'               => '',
+            'country'               => '',
+            'agent'                 => '',
+            'platform'              => '',
+            'user_id'               => '',
+            'ip'                    => '',
+            'query_param'           => '',
+            'taxonomy'              => '',
+            'term'                  => '',
+            'order_by'              => 'visitor.ID',
+            'order'                 => 'DESC',
+            'page'                  => '',
+            'per_page'              => '',
+            'user_info'             => false,
+            'date_field'            => 'visitor.last_counter',
+            'logged_in'             => false,
+            'user_role'             => '',
+            'event_target'          => '',
+            'event_name'            => '',
+            'fields'                => [],
+            'referrer'              => '',
+            'not_null'              => '',
+            'source_channel'        => '',
+            'referred_visitors'     => ''
         ]);
 
         // Set default fields
@@ -543,6 +560,8 @@ class VisitorsModel extends BaseModel
             ->where('ip', 'LIKE', "%{$args['ip']}%")
             ->where('referred', '=', $args['referrer'])
             ->where('visitor.location', '=', $args['country'])
+            ->where('visitor.source_channel', 'IN', $args['source_channel'])
+            ->whereNotNull($args['not_null'])
             ->whereDate($args['date_field'], $args['date'])
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
@@ -556,6 +575,16 @@ class VisitorsModel extends BaseModel
         } else {
             $query
                 ->where('source_channel', '=', $args['source_channel']);
+        }
+
+        if (!empty($args['referred_visitors'])) {
+            $query->whereRaw("
+                AND (
+                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    OR
+                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                )
+            ");
         }
 
         if ($args['logged_in'] === true) {
@@ -889,7 +918,7 @@ class VisitorsModel extends BaseModel
     public function getVisitorsGeoData($args = [])
     {
         $args = $this->parseArgs($args, [
-            'fields'       => [
+            'fields'                => [
                 'visitor.city as city',
                 'visitor.location as country',
                 'visitor.region as region',
@@ -897,25 +926,27 @@ class VisitorsModel extends BaseModel
                 'COUNT(DISTINCT visitor.ID) as visitors',
                 'SUM(visitor.hits) as views', // All views are counted and results can't be filtered by author, post type, etc...
             ],
-            'date'         => '',
-            'country'      => '',
-            'city'         => '',
-            'region'       => '',
-            'continent'    => '',
-            'not_null'     => '',
-            'post_type'    => '',
-            'author_id'    => '',
-            'post_id'      => '',
-            'per_page'     => '',
-            'query_param'  => '',
-            'taxonomy'     => '',
-            'term'         => '',
-            'page'         => 1,
-            'group_by'     => 'visitor.location',
-            'event_name'   => '',
-            'event_target' => '',
-            'order_by'     => ['visitors', 'views'],
-            'order'        => 'DESC',
+            'date'                  => '',
+            'country'               => '',
+            'city'                  => '',
+            'region'                => '',
+            'continent'             => '',
+            'not_null'              => '',
+            'post_type'             => '',
+            'author_id'             => '',
+            'post_id'               => '',
+            'per_page'              => '',
+            'query_param'           => '',
+            'taxonomy'              => '',
+            'term'                  => '',
+            'page'                  => 1,
+            'source_channel'        => '',
+            'group_by'              => 'visitor.location',
+            'event_name'            => '',
+            'event_target'          => '',
+            'order_by'              => ['visitors', 'views'],
+            'order'                 => 'DESC',
+            'referred_visitors'     => false
         ]);
 
         $query = Query::select($args['fields'])
@@ -930,6 +961,16 @@ class VisitorsModel extends BaseModel
             ->groupBy($args['group_by'])
             ->orderBy($args['order_by'], $args['order']);
 
+
+        if (!empty($args['referred_visitors'])) {
+            $query->whereRaw("
+                AND (
+                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    OR
+                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                )
+            ");
+        }
 
         $filteredArgs = array_filter($args);
         if (array_intersect(['post_type', 'post_id', 'query_param', 'author_id', 'taxonomy', 'term'], array_keys($filteredArgs))) {
@@ -1053,7 +1094,6 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->where('visitor.location', '=', $args['country'])
-            ->where('source_channel', 'IN', $args['source_channel'])
             ->whereNotNull($args['not_null'])
             ->groupBy($args['group_by'])
             ->orderBy('visitors')
@@ -1067,6 +1107,13 @@ class VisitorsModel extends BaseModel
                     OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '')
                 )
             ");
+        }
+
+        // When source_channel is `unassigned`, only get visitors without source_channel
+        if ($args['source_channel'] === 'unassigned') {
+            $query->whereNull('visitor.source_channel');
+        } else {
+            $query->where('source_channel', 'IN', $args['source_channel']);
         }
 
         if (!empty($args['referrer'])) {
@@ -1297,35 +1344,50 @@ class VisitorsModel extends BaseModel
     public function getEntryPages($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'          => '',
-            'resource_type' => Helper::getPostTypes(),
-            'page'          => 1,
-            'per_page'      => Admin_Template::$item_per_page,
-            'author_id'     => '',
-            'uri'           => '',
-            'order_by'      => 'visitors',
-            'order'         => 'DESC',
+            'date'              => '',
+            'resource_type'     => Helper::getPostTypes(),
+            'page'              => 1,
+            'per_page'          => Admin_Template::$item_per_page,
+            'author_id'         => '',
+            'uri'               => '',
+            'order_by'          => 'visitors',
+            'order'             => 'DESC',
+            'source_channel'    => '',
+            'not_null'          => '',
+            'referred_visitors' => false
         ]);
 
-        $result = Query::select([
+        $query = Query::select([
                 'COUNT(visitor.ID) as visitors',
-                'pages.id as post_id, pages.page_id',
+                'pages.id as post_id',
+                'pages.page_id',
                 'posts.post_title',
                 'posts.post_date'
             ])
             ->from('visitor')
             ->join('pages', ['visitor.first_page', 'pages.page_id'])
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
+            ->where('visitor.source_channel', 'IN', $args['source_channel'])
             ->where('pages.type', 'IN', $args['resource_type'])
             ->where('pages.uri', '=', $args['uri'])
             ->where('posts.post_author', '=', $args['author_id'])
+            ->whereNotNull($args['not_null'])
             ->whereDate('last_counter', $args['date'])
             ->groupBy('pages.id')
             ->orderBy($args['order_by'], $args['order'])
-            ->perPage($args['page'], $args['per_page'])
-            ->getAll();
+            ->perPage($args['page'], $args['per_page']);
 
-        return $result;
+        if (!empty($args['referred_visitors'])) {
+            $query->whereRaw("
+                AND (
+                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    OR
+                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                )
+            ");
+        }
+
+        return $query->getAll();
     }
 
     public function countEntryPages($args = [])

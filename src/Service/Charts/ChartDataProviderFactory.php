@@ -7,6 +7,8 @@ use WP_Statistics\Service\Charts\DataProvider\MapChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\ModelChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\DeviceChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\BrowserChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\CountryChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\TopSourceCategoriesDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\TrafficChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\PlatformChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\ExclusionsChartDataProvider;
@@ -17,7 +19,6 @@ use WP_Statistics\Service\Charts\DataProvider\UsersTrafficChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\SourceCategoryChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\PublishOverviewChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\AuthorsPostViewsChartDataProvider;
-use WP_Statistics\Service\Charts\DataProvider\CountryChartDataProvider;
 
 class ChartDataProviderFactory
 {
@@ -187,7 +188,7 @@ class ChartDataProviderFactory
     }
 
     /**
-     * Returns a new instance of SourceCategoryChartDataProvider.
+     * Returns a new instance of CountryChartDataProvider.
      *
      * @param array $args
      * @return CountryChartDataProvider
@@ -195,5 +196,16 @@ class ChartDataProviderFactory
     public static function countryChart($args)
     {
         return new CountryChartDataProvider($args);
+    }
+
+    /**
+     * Returns a new instance of TopSourceCategoriesDataProvider.
+     *
+     * @param array $args
+     * @return TopSourceCategoriesDataProvider
+     */
+    public static function topSourceCategories($args = [])
+    {
+        return new TopSourceCategoriesDataProvider($args = []);
     }
 }
