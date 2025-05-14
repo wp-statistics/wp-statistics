@@ -110,6 +110,11 @@ class Referred
         // Remove Url prefixes
         $host_name = Helper::get_domain_name($base_url['host']);
 
+        // Special case for android-app
+        if ($base_url['host'] === 'android-app' && !empty($base_url['path'])) {
+            $host_name = $base_url['host'] . ':' . $base_url['path'];
+        }
+
         // Get Html Link
         return "<a class='wps-link-arrow' href='{$html_referrer}' title='{$title}'" . ($is_blank === true ? ' target="_blank"' : '') . "><span >{$host_name}</span></a>";
     }

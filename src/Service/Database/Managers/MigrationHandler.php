@@ -43,18 +43,20 @@ class MigrationHandler
     public static function init()
     {
         add_action('admin_post_' . self::MIGRATION_RETRY_ACTION, [self::class, 'retryManualMigration']);
-
-        add_action( 'admin_init', [self::class, 'handleNotice']);
-        self::runMigrations();
+        add_action( 'admin_init', [self::class, 'handleMigrationEvents']);
     }
 
     /**
-     * handle notices.
+     * Handle migration events and status notices.
+     *
+     * This method runs pending database migration tasks and then displays
+     * any relevant notices about migration progress or failure.
      *
      * @return void
      */
-    public static function handleNotice() {
+    public static function handleMigrationEvents() {
         self::handleMigrationStatusNotices();
+        self::runMigrations();
     }
 
     /**

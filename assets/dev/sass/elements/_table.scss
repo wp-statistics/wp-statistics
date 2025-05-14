@@ -571,6 +571,13 @@ body .o-table-wrapper table.wps-new-table {
           img {
             width: 13px;
             height: 13px;
+
+            &.flag{
+              width: 16px;
+              height: 13px;
+              border-radius: 2px;
+            }
+
           }
 
           .wps-visitor__information__user-img {
