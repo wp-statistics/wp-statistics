@@ -1,6 +1,8 @@
 = 14.14 - 2025-xx-xx
 - **Enhancement**: Combined Location with Visitor Information in reports.
 - **Enhancement**: Add Entry/Exit Page to the reports.
+- **New:** Added an option to to disable word count analytics in reports.
+- **New:** Added Single Resource report for for resources without post id in WordPress.
 - **New:** Added an option to disable word count analytics in reports.
 
 = 14.13.5 - 2025-05-x =

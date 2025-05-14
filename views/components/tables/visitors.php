@@ -79,7 +79,7 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
 
                                     if (!empty($page)) :
                                         View::load("components/objects/internal-link", [
-                                            'url'       => Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $page['id']]),
+                                            'url'       => $page['report'],
                                             'title'     => $page['title'],
                                             'tooltip'   => $page['query'] ? "?{$page['query']}" : ''
                                         ]);
@@ -97,7 +97,7 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
 
                                     if (!empty($page)) :
                                         View::load("components/objects/internal-link", [
-                                            'url'       => Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $page['id']]),
+                                            'url'       => $page['report'],
                                             'title'     => $page['title'],
                                         ]);
                                     else :
