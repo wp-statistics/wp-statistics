@@ -35,7 +35,8 @@ class VisitorsModel extends BaseModel
             'logged_in'     => false,
             'user_role'     => '',
             'referrer'      => '',
-            'not_null'      => ''
+            'not_null'      => '',
+            'date_field'    => 'last_counter',
         ]);
 
         $query = Query::select('COUNT(DISTINCT visitor.ID) as total_visitors')
@@ -48,7 +49,7 @@ class VisitorsModel extends BaseModel
             ->where('ip', '=', $args['ip'])
             ->where('source_name', 'IN', $args['source_name'])
             ->whereNotNull($args['not_null'])
-            ->whereDate('last_counter', $args['date']);
+            ->whereDate($args['date_field'], $args['date']);
 
         if ($args['logged_in'] === true) {
             $query->where('visitor.user_id', '!=', 0);
