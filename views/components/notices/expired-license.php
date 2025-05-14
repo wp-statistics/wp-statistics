@@ -5,8 +5,10 @@
             <?php
             echo wp_kses_post(sprintf(
                 __('Your WP Statistics license %s has expired or isn’t valid. Without a valid license, we can’t ensure security or compatibility updates. <br> <a href="%s">Renew</a> or update your license to keep everything running smoothly. <br> Need help? <a href="%s">Contact Support</a>', 'wp-statistics'),
-                implode(", ", $data['invalid_licenses']),
-                esc_url($data['install_addon_link']),
+                implode(", ", array_map(function($license) {
+                    return '<code>' . esc_html($license) . '</code>';
+                }, $data['invalid_licenses'])),
+                esc_url("https://wp-statistics.com/resources/how-to-renew-a-license/"),
                 esc_url("https://wp-statistics.com/contact-us/?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon")
             ));
             ?>
