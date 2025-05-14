@@ -21,10 +21,9 @@ class ReferralsDataProvider
     public function getReferralsOverview()
     {
         return [
-            'visitors'          => $this->visitorsModel->getReferredVisitors(array_merge($this->args, ['per_page' => 10, 'page' => 1])),
-            'referrers'         => $this->visitorsModel->getReferrers(array_merge($this->args, ['decorate' => true, 'group_by' => ['visitor.referred', 'visitor.source_channel'], 'per_page' => 5, 'page' => 1])),
-            'entry_pages'       => $this->visitorsModel->getEntryPages(array_merge($this->args, ['not_null' => 'source_channel', 'source_channel_not' => 'direct', 'per_page' => 10])),
-            'source_categories' => ChartDataProviderFactory::topSourceCategories($this->args)->getData()
+            'visitors'      => $this->visitorsModel->getReferredVisitors(array_merge($this->args, ['per_page' => 10, 'page' => 1])),
+            'referrers'     => $this->visitorsModel->getReferrers(array_merge($this->args, ['decorate' => true, 'group_by' => ['visitor.referred', 'visitor.source_channel'], 'per_page' => 5, 'page' => 1])),
+            'entry_pages'   => $this->visitorsModel->getEntryPages(array_merge($this->args, ['not_null' => 'source_channel', 'source_channel_not' => 'direct', 'per_page' => 10])),
         ];
     }
 

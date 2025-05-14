@@ -204,8 +204,8 @@ class ChartDataProviderFactory
      * @param array $args
      * @return TopSourceCategoriesDataProvider
      */
-    public static function topSourceCategories($args)
+    public static function topSourceCategories($args = [])
     {
-        return new TopSourceCategoriesDataProvider($args);
+        return new TopSourceCategoriesDataProvider($args = []);
     }
 }

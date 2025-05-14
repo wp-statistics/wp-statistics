@@ -45,21 +45,7 @@ use WP_STATISTICS\Menus;
             ]);
         ?>
 
-        <div class="wps-card">
-            <div class="wps-card__title">
-                <h2><?php esc_html_e('Top Source Categories', 'wp-statistics') ?></h2>
-            </div>
-
-            <?php View::load("components/tables/source-categories", ['data' => $data['source_categories']]); ?>
-
-            <div class="wps-card__footer">
-                <div class="wps-card__footer__more">
-                    <a class="wps-card__footer__more__link" href="<?php echo Menus::admin_url('referrals', ['tab' => 'source-categories']) ?>">
-                        <?php esc_html_e('View Source Categories', 'wp-statistics') ?>
-                    </a>
-                </div>
-            </div>
-        </div>
+        <?php do_action('wp_statistics_referrals_overview_source_categories_widget'); ?>
 
         <?php
             View::load("components/charts/top-referrer", [
