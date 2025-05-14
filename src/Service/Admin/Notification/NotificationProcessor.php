@@ -153,12 +153,14 @@ class NotificationProcessor
         }
 
         $newNotifications               = self::filterNotificationsByTags($rawNewNotifications['data'] ?? []);
-        $rawNewNotifications['updated'] = false;
+        $rawNewNotifications['updated'] = $rawOldNotifications['updated'] ?? false;
 
-        foreach ($newNotifications as $newNotification) {
-            if (!empty($newNotification['id']) && !isset($oldNotificationIds[$newNotification['id']])) {
-                $rawNewNotifications['updated'] = true;
-                break;
+        if (!$rawNewNotifications['updated']) {
+            foreach ($newNotifications as $newNotification) {
+                if (!empty($newNotification['id']) && !isset($oldNotificationIds[$newNotification['id']])) {
+                    $rawNewNotifications['updated'] = true;
+                    break;
+                }
             }
         }
 
@@ -183,16 +185,23 @@ class NotificationProcessor
             }
         }
 
-        $newNotifications = self::filterNotificationsByTags($rawNewNotifications['data'] ?? []);
-        $newCount         = 0;
+        $newNotifications             = self::filterNotificationsByTags($rawNewNotifications['data'] ?? []);
+        $updated                      = $rawNewNotifications['updated'] ?? false;
+        $rawNewNotifications['count'] = $rawOldNotifications['count'] ?? 0;
 
-        foreach ($newNotifications as $newNotification) {
-            if (!empty($newNotification['id']) && !isset($oldNotificationIds[$newNotification['id']])) {
-                $newCount++;
+        if ($updated) {
+            $newCount = 0;
+
+            foreach ($newNotifications as $newNotification) {
+                if (!empty($newNotification['id']) && !isset($oldNotificationIds[$newNotification['id']])) {
+                    $newCount++;
+                }
             }
-        }
 
-        $rawNewNotifications['count'] = $newCount;
+            $rawNewNotifications['count'] += $newCount;
+        } else {
+            $rawNewNotifications['count'] = 0;
+        }
 
         return $rawNewNotifications;
     }

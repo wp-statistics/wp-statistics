@@ -12,7 +12,7 @@ class NotificationFetcher
      *
      * @var string
      */
-    private $apiUrl = 'https://connect.wp-statistics.com';
+    private $apiUrl = 'http://127.0.0.1:8000';
 
     /**
      * Fetches notifications from the remote API and stores them in the WordPress database.
