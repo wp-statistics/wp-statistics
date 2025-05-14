@@ -158,11 +158,39 @@ class LicenseManagerDataProvider
      */
     public function getInvalidLicenses(): array
     {
-        $licenses = LicenseHelper::getLicenses('all');
+        $validLicenses   = LicenseHelper::getLicenses('valid');
+        $expiredLicenses = LicenseHelper::getLicenses('license_expired');
 
-        return array_keys(array_filter($licenses ?? [], function ($info) {
-            return ($info['status'] ?? null) !== 'valid';
-        }));
+        // Track products that are already valid
+        $validProducts = [];
+        foreach ($validLicenses as $license) {
+            if (!empty($license['products'])) {
+                foreach ($license['products'] as $product) {
+                    $validProducts[$product] = true;
+                }
+            }
+        }
+
+        // Now filter expired licenses where none of its products have a valid license
+        $invalidLicenses = [];
+        foreach ($expiredLicenses as $key => $license) {
+            $products        = $license['products'] ?? [];
+            $hasValidProduct = false;
+
+            foreach ($products as $product) {
+                if (isset($validProducts[$product])) {
+                    $hasValidProduct = true;
+                    break;
+                }
+            }
+
+            // Only include if none of the products are valid
+            if (!$hasValidProduct) {
+                $invalidLicenses[] = $key;
+            }
+        }
+
+        return $invalidLicenses;
     }
 
     /**
@@ -308,7 +336,7 @@ class LicenseManagerDataProvider
         $inactiveAddOns         = $this->getInactiveInstalledAddOns();
         $hasAnyLicense          = $this->hasAnyLicense();
 
-        if (!empty($invalidLicenses)) {
+        if (!$hasValidPremiumLicense && !empty($invalidLicenses)) {
             return 'expired_license';
         }
 
