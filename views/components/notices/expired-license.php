@@ -4,7 +4,7 @@
         <div class="wps-notice__description">
             <?php
             echo wp_kses_post(sprintf(
-                __('Your WP Statistics license %s has expired or isn’t valid. Without a valid license, we can’t ensure security or compatibility updates. <br> <a href="%s">Renew</a> or update your license to keep everything running smoothly. <br> Need help? <a href="%s">Contact Support</a>', 'wp-statistics'),
+                __('Your WP Statistics license %s has expired or isn’t valid. Without a valid license, we can’t ensure security or compatibility updates. <br> <a href="%s" target="_blank">Renew</a> or update your license to keep everything running smoothly. <br> Need help? <a target="_blank" href="%s">Contact Support</a>', 'wp-statistics'),
                 implode(", ", array_map(function($license) {
                     return '<code>' . esc_html($license) . '</code>';
                 }, $data['invalid_licenses'])),
