@@ -711,7 +711,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                     type: 'line', // Previous datasets are always lines
                     label: `${dataset.label} (Previous)`,
                     data: prevAggregatedData.aggregatedData[idx],
-                    borderColor: wps_js.hex_to_rgba(chartColors[dataset.slug] || chartColors[`Other${idx}`], 0.7),
+                    borderColor: wps_js.hex_to_rgba(chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`], 0.7),
                     hoverBorderColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
                     backgroundColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
                     fill: false,
