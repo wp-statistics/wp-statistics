@@ -1529,28 +1529,28 @@ class Helper
         }
 
         if ($number < 1000) {
-            return !empty($precision) ? round($number, $precision) : $number;
+            $precision = empty($precision) ? 2 : $precision;
+            $rounded = round($number, $precision);
+            return (floor($rounded) == $rounded) ? (int)$rounded : $rounded;
         }
 
         $originalNumber = $number;
-        $units          = ['', 'K', 'M', 'B', 'T'];
+        $units = ['', 'K', 'M', 'B', 'T'];
 
         $exponent = (int)floor(log($number, 1000));
         $exponent = min($exponent, count($units) - 1);
 
-        // Adjust the number according to the exponent.
         $number /= pow(1000, $exponent);
-        $unit   = $units[$exponent];
+        $unit = $units[$exponent];
 
-        // Decide on the precision:
-        // - Between 1,000 and 9,999: use two decimals.
-        // - 10,000 and above: use one decimal.
+        // Choose precision factor
         $factor = ($originalNumber < 10000) ? 100 : 10;
+        $number = floor($number * $factor) / $factor;
 
-        // Round the scaled number with the desired decimals and append the unit.
-        $formattedNumber = floor($number * $factor) / $factor . $unit;
+        // Remove trailing decimals
+        $formatted = (floor($number) == $number) ? (int)$number : rtrim(rtrim(number_format($number, 2, '.', ''), '0'), '.');
 
-        return $formattedNumber;
+        return $formatted . $unit;
     }
 
     /**
@@ -1766,9 +1766,12 @@ class Helper
      */
     public static function getDeviceCategoryName($device)
     {
+        $device = $device ?? '';
+
         if (strpos($device, ':') !== false) {
             $device = explode(':', $device)[0];
         }
+
         return $device;
     }
 

@@ -343,6 +343,10 @@
   padding-right: 24px;
   padding-left: 24px;
 
+  &.wps-p-0{
+    padding: 0;
+  }
+
   &--container {
     position: relative;
 
@@ -416,8 +420,12 @@
 
     canvas {
       width: 100% !important;
-      height: auto;
+      height: 299px!important;
       max-height: 299px;
+
+      @media (max-width: 600px) {
+        height: auto!important;
+      }
     }
 
     .o-wrap--no-dat {
