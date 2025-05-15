@@ -8,7 +8,7 @@
                 implode(", ", array_map(function($license) {
                     return '<code>' . esc_html($license) . '</code>';
                 }, $data['invalid_licenses'])),
-                esc_url("https://wp-statistics.com/resources/how-to-renew-a-license/"),
+                esc_url("https://wp-statistics.com/my-account/subscriptions/"),
                 esc_url("https://wp-statistics.com/contact-us/?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon")
             ));
             ?>
