@@ -70,14 +70,10 @@ class PerformanceView extends BaseView
 
     public function render()
     {
-        try {
-            if ($this->isLocked()) {
-                $this->renderLocked();
-            } else {
-                $this->renderContent();
-            }
-        } catch (\Exception $e) {
-            Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
+        if ($this->isLocked()) {
+            $this->renderLocked();
+        } else {
+            $this->renderContent();
         }
     }
 }

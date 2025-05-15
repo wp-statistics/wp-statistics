@@ -128,61 +128,57 @@ class TabsView extends BaseTabView
 
     public function render()
     {
-        try {
-            $currentTab = $this->getCurrentTab();
-            $data       = $this->getTabData();
-            $urlParams  = [];
+        $currentTab = $this->getCurrentTab();
+        $data       = $this->getTabData();
+        $urlParams  = [];
 
-            if (Request::get('license_key')) {
-                $urlParams['license_key'] = Request::get('license_key');
-            }
-
-            $args = [
-                'title'      => esc_html__('License Manager', 'wp-statistics'),
-                'pageName'   => Menus::get_page_slug('plugins'),
-                'custom_get' => ['tab' => $currentTab],
-                'data'       => $data,
-                'tabs'       => [
-                    [
-                        'link'  => Menus::admin_url('plugins', ['tab' => 'add-ons']),
-                        'title' => esc_html__('Add-Ons', 'wp-statistics'),
-                        'class' => $this->isTab('add-ons') ? 'current' : '',
-                    ],
-                    [
-                        'link'  => Menus::admin_url('plugins', ['tab' => 'add-license']),
-                        'title' => esc_html__('Add Your License', 'wp-statistics'),
-                        'class' => $this->isTab('add-license') ? 'current' : '',
-                    ],
-                    [
-                        'link'  => Menus::admin_url('plugins', array_merge(['tab' => 'downloads'], $urlParams)),
-                        'title' => esc_html__('Download Add-Ons', 'wp-statistics'),
-                        'class' => $this->isTab('downloads') ? 'current' : '',
-                    ],
-                    [
-                        'link'  => Menus::admin_url('plugins', array_merge(['tab' => 'get-started'], $urlParams)),
-                        'title' => esc_html__('Get Started', 'wp-statistics'),
-                        'class' => $this->isTab('get-started') ? 'current' : '',
-                    ],
-                ]
-            ];
-
-            if ($this->isTab('add-ons')) {
-                $args['title']                  = esc_html__('Add-Ons', 'wp-statistics');
-
-                if (is_main_site()) {
-                    $args['install_addon_btn_txt']  = esc_html__('Install Add-On', 'wp-statistics');
-                    $args['install_addon_btn_link'] = esc_url(Menus::admin_url('plugins', ['tab' => 'add-license']));
-                }
-
-                Admin_Template::get_template(['layout/header', 'layout/title'], $args);
-            } else {
-                Admin_Template::get_template(['layout/header', 'layout/addon-header-steps'], $args);
-            }
-
-            View::load("pages/license-manager/$currentTab", $args);
-            Admin_Template::get_template(['layout/postbox.hide', 'layout/footer'], $args);
-        } catch (Exception $e) {
-            Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
+        if (Request::get('license_key')) {
+            $urlParams['license_key'] = Request::get('license_key');
         }
+
+        $args = [
+            'title'      => esc_html__('License Manager', 'wp-statistics'),
+            'pageName'   => Menus::get_page_slug('plugins'),
+            'custom_get' => ['tab' => $currentTab],
+            'data'       => $data,
+            'tabs'       => [
+                [
+                    'link'  => Menus::admin_url('plugins', ['tab' => 'add-ons']),
+                    'title' => esc_html__('Add-Ons', 'wp-statistics'),
+                    'class' => $this->isTab('add-ons') ? 'current' : '',
+                ],
+                [
+                    'link'  => Menus::admin_url('plugins', ['tab' => 'add-license']),
+                    'title' => esc_html__('Add Your License', 'wp-statistics'),
+                    'class' => $this->isTab('add-license') ? 'current' : '',
+                ],
+                [
+                    'link'  => Menus::admin_url('plugins', array_merge(['tab' => 'downloads'], $urlParams)),
+                    'title' => esc_html__('Download Add-Ons', 'wp-statistics'),
+                    'class' => $this->isTab('downloads') ? 'current' : '',
+                ],
+                [
+                    'link'  => Menus::admin_url('plugins', array_merge(['tab' => 'get-started'], $urlParams)),
+                    'title' => esc_html__('Get Started', 'wp-statistics'),
+                    'class' => $this->isTab('get-started') ? 'current' : '',
+                ],
+            ]
+        ];
+
+        if ($this->isTab('add-ons')) {
+            $args['title']                  = esc_html__('Add-Ons', 'wp-statistics');
+
+            if (is_main_site()) {
+                $args['install_addon_btn_txt']  = esc_html__('Install Add-On', 'wp-statistics');
+                $args['install_addon_btn_link'] = esc_url(Menus::admin_url('plugins', ['tab' => 'add-license']));
+            }
+
+            Admin_Template::get_template(['layout/header', 'layout/title'], $args);
+        } else {
+            Admin_Template::get_template(['layout/header', 'layout/addon-header-steps'], $args);
+        }
+
+        View::load("pages/license-manager/$currentTab", $args);
+        Admin_Template::get_template(['layout/postbox.hide', 'layout/footer'], $args);
     }
 }

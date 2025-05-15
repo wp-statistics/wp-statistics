@@ -297,8 +297,8 @@ class Ajax
             // Check Refer Ajax
             check_ajax_referer('wp_rest', 'wps_nonce');
 
-            // Delete UAStrings
             $result = $wpdb->query("DELETE FROM `" . $wpdb->postmeta . "` WHERE `meta_key` = 'wp_statistics_words_count'");
+            Option::deleteOptionGroup('word_count_process_initiated', 'jobs');
 
             if ($result) {
                 esc_html_e('Successfully deleted word count data.', 'wp-statistics');
