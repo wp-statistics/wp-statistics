@@ -35,27 +35,35 @@ class NotificationFactory
     public static function hasUpdatedNotifications()
     {
         $rawNotifications = self::getRawNotificationsData();
+        $notifications    = NotificationProcessor::filterNotificationsByTags($rawNotifications['data'] ?? []);
 
-        if (!is_array($rawNotifications)) {
-            return false;
+        foreach ($notifications as $notification) {
+            if (empty($notification['dismiss'])) {
+                return true;
+            }
         }
 
-        return !empty($rawNotifications['updated']) ? (bool)$rawNotifications['updated'] : false;
+        return false;
     }
 
     /**
      * Returns the count of new notifications, or false if no new notifications exist.
      *
-     * @return bool|int False if no new notifications exist, or the count of new notifications.
+     * @return int False if no new notifications exist, or the count of new notifications.
      */
     public static function getNewNotificationCount()
     {
         $rawNotifications = self::getRawNotificationsData();
+        $notifications    = NotificationProcessor::filterNotificationsByTags($rawNotifications['data'] ?? []);
 
-        if (!is_array($rawNotifications)) {
-            return false;
+        $count = 0;
+
+        foreach ($notifications as $notification) {
+            if (empty($notification['dismiss'])) {
+                $count++;
+            }
         }
 
-        return !empty($rawNotifications['count']) ? (int)$rawNotifications['count'] : 0;
+        return $count;
     }
 }

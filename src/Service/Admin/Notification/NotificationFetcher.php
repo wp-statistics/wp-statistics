@@ -58,8 +58,6 @@ class NotificationFetcher
             }
 
             $notifications = NotificationProcessor::syncNotifications($notifications);
-            $notifications = NotificationProcessor::checkUpdatedNotifications($notifications);
-            $notifications = NotificationProcessor::annotateNewNotificationCount($notifications);
             $notifications = NotificationProcessor::sortNotificationsByActivatedAt($notifications);
 
             $prevRawNotificationsData = NotificationFactory::getRawNotificationsData();
