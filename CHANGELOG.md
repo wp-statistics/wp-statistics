@@ -2,6 +2,7 @@
 - **Enhancement**: Combined Location with Visitor Information in reports.
 - **Enhancement**: Add Entry/Exit Page to the reports.
 - **New:** Added an option to to disable word count analytics in reports.
+- **New**: Add display dynamic promo banner.
 - **New:** Added Single Resource report for for resources without post id in WordPress.
 - **New:** Added an option to disable word count analytics in reports.
 

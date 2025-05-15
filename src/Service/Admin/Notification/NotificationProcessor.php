@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\Notification;
 
 use WP_Statistics\Decorators\NotificationDecorator;
+use WP_Statistics\Service\Admin\ConditionTagEvaluator;
 
 class NotificationProcessor
 {
@@ -19,7 +20,7 @@ class NotificationProcessor
                 if (!empty($notification['tags']) && is_array($notification['tags'])) {
                     $condition = true;
                     foreach ($notification['tags'] as $tag) {
-                        if (!NotificationConditionTags::checkConditions($tag)) {
+                        if (!ConditionTagEvaluator::checkConditions($tag)) {
                             $condition = false;
                             break;
                         }
@@ -50,7 +51,7 @@ class NotificationProcessor
         if (empty($notifications) || !is_array($notifications)) {
             return [];
         }
-        
+
         return array_map(function ($notification) {
             return new NotificationDecorator((object)$notification);
         }, $notifications);
