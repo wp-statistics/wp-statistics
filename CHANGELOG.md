@@ -4,9 +4,9 @@
 - **Enhancement**: Add Entry/Exit Page to the reports.
 - **New:** Added an option to to disable word count analytics in reports.
 - **Enhancement:** Add a notification count display to the Help Center page.
+- **Enhancement**: Added dynamic licensing notices for add-on page.
 - **New**: Add display dynamic promo banner.
 - **New:** Added Single Resource report for for resources without post id in WordPress.
-- **New:** Added an option to disable word count analytics in reports.
 
 = 14.13.5 - 2025-05-x =
 - **Fix:** Fixed issue where page views were zero when using a taxonomy filter other than 'category'.
