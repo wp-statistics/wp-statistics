@@ -166,7 +166,7 @@ class TabsView extends BaseTabView
         ];
 
         if ($this->isTab('add-ons')) {
-            $args['title']                  = esc_html__('Add-Ons', 'wp-statistics');
+            $args['title'] = esc_html__('Add-Ons', 'wp-statistics');
 
             if (is_main_site()) {
                 $args['install_addon_btn_txt']  = esc_html__('Install Add-On', 'wp-statistics');
