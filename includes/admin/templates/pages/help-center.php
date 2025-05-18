@@ -17,7 +17,9 @@ $notificationCount       = NotificationFactory::getNewNotificationCount();
             <?php if ($displayNotifications && $hasUpdatedNotifications && $notificationCount > 0): ?>
                 <a class="wps-help__notification js-wps-open-notification wps-notifications--has-items">
                     <span class="wps-help__notification__dot"></span>
-                    <span class="wps-help__notification__text"><?php echo sprintf(__('You have %s notifications', 'wp-statistics'), esc_html($notificationCount)) ?></span>
+                    <span class="wps-help__notification__text">
+                        <?php echo sprintf(_n('You have %s notification', 'You have %s notifications', $notificationCount, 'wp-statistics'), esc_html($notificationCount)); ?>
+                    </span>
                 </a>
             <?php endif; ?>
             <h1 class="wps-help__title">
