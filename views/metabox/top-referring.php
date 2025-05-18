@@ -12,7 +12,7 @@ use WP_Statistics\Components\View;
             <thead>
             <tr>
                 <th class="wps-pd-l"><?php esc_html_e('Domain Address', 'wp-statistics'); ?></th>
-                <th class="wps-pd-l"><span class="wps-order"><?php esc_html_e('Number of Referrals', 'wp-statistics'); ?></span></th>
+                <th class="wps-pd-l"><span class="wps-order"><?php esc_html_e('Referrals', 'wp-statistics'); ?></span></th>
             </tr>
             </thead>
             <tbody>

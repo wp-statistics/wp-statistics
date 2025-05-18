@@ -11,10 +11,24 @@ use WP_Statistics\Decorators\VisitorDecorator;
     <?php if (!empty($visitor)) : ?>
     <ul class="wps-visitor__information--container">
         <li class="wps-visitor__information">
+            <?php $location = Admin_Template::locationColumn($visitor->getLocation()->getCountryCode(), $visitor->getLocation()->getRegion(), $visitor->getLocation()->getCity()); ?>
+            <div class="wps-tooltip" title="<?php echo esc_attr($location) ?>">
+                <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getLocation()->getCountryCode()])) ?>">
+                    <img src="<?php echo esc_url($visitor->getLocation()->getCountryFlag()) ?>" alt="<?php echo esc_attr($visitor->getLocation()->getCountryName()) ?>" width="16" height="14" class="flag">
+                </a>
+            </div>
+        </li>
+        <li class="wps-visitor__information">
             <div class="wps-tooltip" title="<?php echo esc_attr($visitor->getOs()->getName()) ?>">
                 <a href="<?php echo esc_url(Menus::admin_url('visitors', ['platform' => $visitor->getOs()->getName()])) ?>">
                     <img src="<?php echo esc_url($visitor->getOs()->getLogo()) ?>" alt="<?php echo esc_attr($visitor->getOs()->getName()) ?>" width="15" height="15">
                 </a>
+            </div>
+        </li>
+
+        <li class="wps-visitor__information">
+            <div class="wps-tooltip" title="<?php echo esc_attr($visitor->getDevice()->getType()) ?>">
+                <img src="<?php echo esc_url($visitor->getDevice()->getLogo()) ?>" alt="<?php echo esc_attr($visitor->getDevice()->getType()) ?>" width="15" height="15">
             </div>
         </li>
 

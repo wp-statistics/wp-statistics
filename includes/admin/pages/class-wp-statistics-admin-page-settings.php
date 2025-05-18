@@ -168,6 +168,7 @@ class settings_page extends Singleton
             'wps_consent_level_integration',
             'wps_anonymous_tracking',
             'wps_do_not_track',
+            'wps_show_privacy_issues_in_report',
         );
 
         // If the IP hash's are enabled, disable storing the complete user agent.
@@ -519,6 +520,11 @@ class settings_page extends Singleton
             'wps_delete_data_on_uninstall',
             'wps_word_count_analytics'
         ];
+
+        // If word count was disabled before and enabled again, show background process notice
+        if (empty($wp_statistics_options['word_count_analytics']) && !empty($_POST['wps_word_count_analytics'])) {
+            Option::deleteOptionGroup('word_count_process_initiated', 'jobs');
+        }
 
         foreach ($wps_option_list as $option) {
             $wp_statistics_options[self::input_name_to_option($option)] = isset($_POST[$option]) ? true : false;
