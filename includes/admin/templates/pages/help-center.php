@@ -104,7 +104,7 @@ $notificationCount       = NotificationFactory::getNewNotificationCount();
                 'category'        => esc_html__('Guides', 'wp-statistics'),
                 'title'           => esc_html__('Make the most of WP Statistics.', 'wp-statistics'),
                 'view_more_title' => esc_html__('View all articles', 'wp-statistics'),
-                'view_more_link'  => esc_url(WP_STATISTICS_SITE_URL.'/resources-category/guides?utm_source=wp-statistics&utm_medium=link&utm_campaign=help'),
+                'view_more_link'  => esc_url(WP_STATISTICS_SITE_URL.'/resources-category/guides/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help'),
                 'description'     => esc_html__('Find easy, step-by-step instructions to track user activity, analyze data, and improve your site’s performance.', 'wp-statistics'),
             ];
             View::load("components/objects/help-center-card", $card2);
@@ -120,7 +120,7 @@ $notificationCount       = NotificationFactory::getNewNotificationCount();
                 'category'        => esc_html__('Privacy', 'wp-statistics'),
                 'title'           => esc_html__('Your data, your rules.', 'wp-statistics'),
                 'view_more_title' => esc_html__('View all articles', 'wp-statistics'),
-                'view_more_link'  => esc_url(WP_STATISTICS_SITE_URL.'/resources-category/privacy?utm_source=wp-statistics&utm_medium=link&utm_campaign=help'),
+                'view_more_link'  => esc_url(WP_STATISTICS_SITE_URL.'/resources-category/privacy/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help'),
                 'description'     => esc_html__('Learn how WP Statistics protects user privacy and how you can manage data settings to stay compliant.', 'wp-statistics'),
             ];
             View::load("components/objects/help-center-card", $card3);
@@ -136,7 +136,7 @@ $notificationCount       = NotificationFactory::getNewNotificationCount();
                 'category'        => esc_html__('Troubleshooting', 'wp-statistics'),
                 'title'           => esc_html__('Solve issues quickly.', 'wp-statistics'),
                 'view_more_title' => esc_html__('View all articles', 'wp-statistics'),
-                'view_more_link'  => esc_url(WP_STATISTICS_SITE_URL.'/resources-category/troubleshooting?utm_source=wp-statistics&utm_medium=link&utm_campaign=help'),
+                'view_more_link'  => esc_url(WP_STATISTICS_SITE_URL.'/resources-category/troubleshooting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help'),
                 'description'     => esc_html__('Get help fixing common problems, errors, or setup issues and keep your site running smoothly.', 'wp-statistics')
             ];
             View::load("components/objects/help-center-card", $card4);
@@ -190,7 +190,7 @@ $notificationCount       = NotificationFactory::getNewNotificationCount();
 
             $cta = [
                 'cta_title'   => esc_html__('Upgrade Now', 'wp-statistics'),
-                'cta_link'    => esc_url(WP_STATISTICS_SITE_URL.'/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=help'),
+                'cta_link'    => esc_url(WP_STATISTICS_SITE_URL.'/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help'),
                 'title'       => esc_html__('Want More Features?', 'wp-statistics'),
                 'description' => esc_html__('Upgrade your plan to access more tools and supercharge your growth.', 'wp-statistics')
             ];
