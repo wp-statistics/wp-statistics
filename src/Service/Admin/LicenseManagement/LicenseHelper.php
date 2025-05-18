@@ -215,7 +215,7 @@ class LicenseHelper
      */
     public static function renderLicenseStatusLink($isPremium, $promoBanner, $isMobile = false)
     {
-        $baseUrl = esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=header');
+        $baseUrl = esc_url(WP_STATISTICS_SITE_URL . '/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=header');
 
         if ($promoBanner && Option::get('display_notifications', false)) {
             $banner = [
