@@ -1,4 +1,5 @@
 = 14.14 - 2025-xx-xx
+- **New:** Added a Help Center page to assist users within the plugin.
 - **Enhancement**: Combined Location with Visitor Information in reports.
 - **Enhancement**: Add Entry/Exit Page to the reports.
 - **New:** Added an option to to disable word count analytics in reports.
