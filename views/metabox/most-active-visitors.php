@@ -56,29 +56,35 @@ use WP_STATISTICS\Menus;
                     </td>
 
                     <td class="wps-pd-l">
-                        <?php $page = $visitor->getFirstPage(); ?>
-                        <?php if (!empty($page)) :
-                            View::load("components/objects/external-link", [
-                                'url'       => $page['link'],
-                                'title'     => $page['title'],
-                                'tooltip'   => $page['query'] ? "?{$page['query']}" : ''
+                        <?php
+                        $firstPage = $visitor->getFirstPage();
+
+                        if (!empty($firstPage)) :
+                            View::load("components/objects/internal-link", [
+                                'url'       => $firstPage['report'],
+                                'title'     => $firstPage['title'],
+                                'tooltip'   => $firstPage['query'] ? "?{$firstPage['query']}" : ''
                             ]);
-                        else : ?>
-                            <?php echo Admin_Template::UnknownColumn() ?>
-                        <?php endif; ?>
+                        else :
+                            echo Admin_Template::UnknownColumn();
+                        endif;
+                        ?>
                     </td>
 
 
                     <td class="wps-pd-l">
-                        <?php $page = $visitor->getLastPage(); ?>
-                        <?php if (!empty($page)) :
-                            View::load("components/objects/external-link", [
-                                'url'       => $page['link'],
-                                'title'     => $page['title'],
+                        <?php
+                        $lastPage = $visitor->getLastPage();
+
+                        if (!empty($lastPage)) :
+                            View::load("components/objects/internal-link", [
+                                'url'       => $lastPage['report'],
+                                'title'     => $lastPage['title'],
                             ]);
-                        else : ?>
-                            <?php echo Admin_Template::UnknownColumn() ?>
-                        <?php endif; ?>
+                        else :
+                            echo Admin_Template::UnknownColumn();
+                        endif;
+                        ?>
                     </td>
 
                     <td class="wps-pd-l">
