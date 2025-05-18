@@ -258,7 +258,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
 
             <tr valign="top" data-id="email_header_customization_tr">
                 <th scope="row">
-                    <label for="wps_addon_settings[advanced_reporting][email_content_header]"><?php esc_html_e('Email Header Customization', 'wp-statistics'); ?></label>
+                    <label><?php esc_html_e('Email Header Customization', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
@@ -273,7 +273,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
 
             <tr valign="top" data-id="email_footer_customization_tr">
                 <th scope="row">
-                    <label for="wps_addon_settings[advanced_reporting][email_content_footer]"><?php esc_html_e('Email Footer Customization', 'wp-statistics'); ?></label>
+                    <label><?php esc_html_e('Email Footer Customization', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>

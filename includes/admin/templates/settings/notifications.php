@@ -18,7 +18,7 @@ use WP_STATISTICS\Schedule;
 
         <tr valign="top" data-id="recipient_email_addresses_tr">
             <th scope="row">
-                <label for="email-report"><?php esc_html_e('Recipient Email Addresses', 'wp-statistics'); ?></label>
+                <label><?php esc_html_e('Recipient Email Addresses', 'wp-statistics'); ?></label>
             </th>
 
             <td>

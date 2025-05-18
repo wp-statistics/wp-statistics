@@ -127,12 +127,10 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
     }
     $(document).ready(function () {
-
-
-
+        let isProgrammaticChange = false
         const checkbox = $('#wps_settings\\[wps_schedule_dbmaint\\]');
         checkbox.on('change', function () {
-            if (this.checked) {
+            if (this.checked && !isProgrammaticChange) {
                 const modalId = 'setting-confirmation';
                 const modal = document.getElementById(modalId);
                 if (modal) {
@@ -150,7 +148,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         closeButton.addEventListener('click', function () {
                             checkbox.prop('checked', false);
                             modal.classList.remove('wps-modal--open');
-                        }, { once: true });
+                            new ShowIfEnabled();
+                         }, { once: true });
                     }
                 } else {
                     console.error('Modal with ID "setting-confirmation" not found.');

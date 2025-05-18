@@ -102,7 +102,7 @@ add_thickbox();
                 <label><?php esc_html_e('WP Statistics', 'wp-statistics'); ?></label>
             </th>
             <td>
-                <input type="text"  readonly value="<?php echo $ip_address ?>" class="regular-text" />
+                <input type="text" id="wp_statistics_ip"  readonly value="<?php echo $ip_address ?>" class="regular-text" />
                 <p class="description">
                     <?php esc_html_e('Your IP address as detected by the current WP Statistics settings', 'wp-statistics'); ?>
                 </p>
@@ -165,7 +165,7 @@ add_thickbox();
             </th>
         </tr>
         <tr valign="top" data-id="location_detection_method_tr">
-            <th scope="row"><label for="wps_geoip_location_detection_method"><?php esc_html_e('Location Detection Method', 'wp-statistics'); ?></label></th>
+            <th scope="row"><label for="geoip_location_detection_method"><?php esc_html_e('Location Detection Method', 'wp-statistics'); ?></label></th>
             <td>
                 <select name="wps_geoip_location_detection_method" id="geoip_location_detection_method">
                     <option value="cf" <?php selected(WP_STATISTICS\Option::get('geoip_location_detection_method', 'maxmind'), 'cf'); ?><?php echo CloudflareGeolocationProvider::isBehindCloudflare() ? '' : 'disabled'; ?>><?php esc_html_e('Cloudflare IP Geolocation', 'wp-statistics'); ?></option>
@@ -186,7 +186,7 @@ add_thickbox();
         </tr>
 
         <tr valign="top" id="geoip_license_type_option" data-id="geolocation_database_update_source_tr">
-            <th scope="row"><label for="wps_geoip_license_type"><?php esc_html_e('Geolocation Database Update Source', 'wp-statistics'); ?></label></th>
+            <th scope="row"><label for="geoip_license_type"><?php esc_html_e('Geolocation Database Update Source', 'wp-statistics'); ?></label></th>
             <td>
                 <select name="wps_geoip_license_type" id="geoip_license_type">
                     <option value="js-deliver" <?php selected(WP_STATISTICS\Option::get('geoip_license_type'), 'js-deliver'); ?>><?php esc_html_e('Use the JsDelivr', 'wp-statistics'); ?></option>
@@ -230,7 +230,7 @@ add_thickbox();
 
         <tr valign="top" id="geoip_dbip_license_key_option" data-id="db_ip_license_key_tr">
             <th scope="row">
-                <label for="geoip_dbip_license_key_option"><?php esc_html_e('DB-IP License Key', 'wp-statistics'); ?></label>
+                <label><?php esc_html_e('DB-IP License Key', 'wp-statistics'); ?></label>
             </th>
             <td>
 
@@ -263,11 +263,11 @@ add_thickbox();
 
         <tr valign="top" id="enable_geoip_option" data-id="manual_update_of_geolocation_database_tr">
             <th scope="row">
-                <label for="geoip-enable"><?php esc_html_e('Manual Update of Geolocation Database', 'wp-statistics'); ?></label>
+                <label><?php esc_html_e('Manual Update of Geolocation Database', 'wp-statistics'); ?></label>
             </th>
 
             <td>
-                <label for="geoip-enable">
+                <label>
                     <?php submit_button(esc_html__('Update Now', 'wp-statistics'), "wps-button wps-button--default", "update_geoip", false); ?>
                 </label>
 

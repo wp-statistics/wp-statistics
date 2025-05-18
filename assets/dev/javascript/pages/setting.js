@@ -36,80 +36,112 @@ function wp_statistics_enableTab(tab_id) {
 
 
 function createMobileDropdown() {
-    const menu = document.querySelector('.wps-optionsMenu');
-    if (!menu) return;
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeDropdown);
+    } else {
+        initializeDropdown();
+    }
 
-    // Create a wrapper div for the select
-    const wrapper = document.createElement('div');
-    wrapper.classList.add('wps-setting-select-wrapper');
-
-    // Create the select element
-    const select = document.createElement('select');
-    select.classList.add('wps-options-mobile-menu');
-
-    // Get menu items
-    const settingsItems = menu.querySelectorAll('a[data-tab]:not(.premium)');
-    const premiumItems = menu.querySelectorAll('a[data-tab].premium');
-
-    const titleElement = menu.querySelector('.wps-settings-side__title');
-    const groupLabel = titleElement ? titleElement.textContent : wps_js._('settings');
-
-    // Create Settings optgroup
-    const settingsGroup = document.createElement('optgroup');
-    settingsGroup.label = groupLabel;
-
-    settingsItems.forEach(item => {
-        const option = document.createElement('option');
-        option.value = item.getAttribute('data-tab');
-        option.textContent = item.querySelector('span').textContent;
-
-        if (item.classList.contains('active')) {
-            option.selected = true;
+    function initializeDropdown() {
+        const menu = document.querySelector('.wps-optionsMenu');
+        if (!menu) {
+            return;
         }
-        settingsGroup.appendChild(option);
-    });
 
-    select.appendChild(settingsGroup);
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('wps-setting-select-wrapper');
 
-    // Create Premium Add-Ons optgroup
-    if (premiumItems.length > 0) {
-        const premiumGroup = document.createElement('optgroup');
-        premiumGroup.label =  wps_js._('premium_addons') ;
+        const select = document.createElement('select');
+        select.classList.add('wps-options-mobile-menu');
 
-        premiumItems.forEach(item => {
+        const settingsItems = menu.querySelectorAll('a[data-tab]:not(.premium)');
+        const premiumItems = menu.querySelectorAll('a[data-tab].premium');
+
+        const titleElement = menu.querySelector('.wps-settings-side__title');
+        const groupLabel = titleElement ? titleElement.textContent : wps_js._('settings');
+
+        const settingsGroup = document.createElement('optgroup');
+        settingsGroup.label = groupLabel;
+
+        settingsItems.forEach(item => {
             const option = document.createElement('option');
             option.value = item.getAttribute('data-tab');
             option.textContent = item.querySelector('span').textContent;
-
-            if (item.classList.contains('active')) {
-                option.selected = true;
-            }
-            premiumGroup.appendChild(option);
+            settingsGroup.appendChild(option);
         });
 
-        select.appendChild(premiumGroup);
+        select.appendChild(settingsGroup);
+
+        // Create Premium Add-Ons optgroup
+        if (premiumItems.length > 0) {
+            const premiumGroup = document.createElement('optgroup');
+            premiumGroup.label = wps_js._('premium_addons');
+
+            premiumItems.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.getAttribute('data-tab');
+                option.textContent = item.querySelector('span').textContent;
+                premiumGroup.appendChild(option);
+            });
+
+            select.appendChild(premiumGroup);
+        }
+
+        wrapper.appendChild(select);
+        menu.parentNode.insertBefore(wrapper, menu);
+
+        const currentItem = menu.querySelector('a[data-tab].current');
+        if (currentItem) {
+            const currentTab = currentItem.getAttribute('data-tab');
+            select.value = currentTab;
+        } else {
+            if (settingsItems.length > 0) {
+                const defaultTab = settingsItems[0].getAttribute('data-tab');
+                select.value = defaultTab;
+                navigateToTab(defaultTab);
+            }
+        }
+
+        const dirValue = jQuery('body').hasClass('rtl') ? 'rtl' : 'ltr';
+        if (typeof $.fn.select2 === 'function') {
+            $(select).select2({
+                dropdownCssClass: 'wps-setting-input__dropdown',
+                minimumResultsForSearch: Infinity,
+                dir: dirValue
+            });
+
+            if (currentItem) {
+                const currentTab = currentItem.getAttribute('data-tab');
+                $(select).val(currentTab).trigger('change.select2');
+            } else if (settingsItems.length > 0) {
+                const defaultTab = settingsItems[0].getAttribute('data-tab');
+                $(select).val(defaultTab).trigger('change.select2');
+            }
+        }
+
+        $(select).on('change', function (e) {
+            const selectedTab = e.target.value;
+            navigateToTab(selectedTab);
+        });
+
+        const observer = new MutationObserver(mutations => {
+            mutations.forEach(mutation => {
+                if (mutation.attributeName === 'class') {
+                    const currentItem = menu.querySelector('a[data-tab].current');
+                    if (currentItem) {
+                        const currentTab = currentItem.getAttribute('data-tab');
+                        if ($(select).val() !== currentTab) {
+                            $(select).val(currentTab).trigger('change.select2');
+                        }
+                    }
+                }
+            });
+        });
+
+        menu.querySelectorAll('a[data-tab]').forEach(item => {
+            observer.observe(item, {attributes: true});
+        });
     }
-
-    // Add event listener to navigate on change
-    select.addEventListener('change', (e) => {
-        navigateToTab(e.target.value);
-    });
-
-    // Append the select to the wrapper
-    wrapper.appendChild(select);
-    // Insert the wrapper before the menu
-    menu.parentNode.insertBefore(wrapper, menu);
-    const dirValue = jQuery('body').hasClass('rtl') ? 'rtl' : 'ltr';
-    $(select).select2({
-        dropdownCssClass: 'wps-setting-input__dropdown',
-        minimumResultsForSearch: Infinity,
-        dir: dirValue
-    });
-
-    // Add event listener for navigation
-    $(select).on('change', function(e) {
-        navigateToTab(e.target.value);
-    });
 }
 
 function navigateToTab(tab) {
@@ -120,18 +152,19 @@ function navigateToTab(tab) {
 
     const selectedItem = document.querySelector(`[data-tab="${tab}"]`);
     if (selectedItem) {
-         wp_statistics_enableTab(tab);
+        wp_statistics_enableTab(tab);
+        selectedItem.classList.add('current');
     }
 }
 
-window.onload = function() {
+window.onload = function () {
     createMobileDropdown();
     const closeButton = document.querySelector('.wps-alert__close');
 
     if (closeButton) {
-         const alert = closeButton.closest('.wps-alert');
+        const alert = closeButton.closest('.wps-alert');
         if (alert) {
-            closeButton.addEventListener('click', function() {
+            closeButton.addEventListener('click', function () {
                 alert.remove();
             });
         }
@@ -139,11 +172,11 @@ window.onload = function() {
 
     const goToTopButton = document.querySelector('.wps-gototop');
     if (goToTopButton) {
-        goToTopButton.addEventListener('click', function() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        goToTopButton.addEventListener('click', function () {
+            window.scrollTo({top: 0, behavior: 'smooth'});
         });
 
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function () {
             const viewportHeight = 100;
             const scrollPosition = window.scrollY;
 
@@ -194,16 +227,16 @@ if (jQuery('.wp-statistics-settings').length) {
 
 const copyButtons = document.querySelectorAll('.wps-input-group__copy');
 copyButtons.forEach(button => {
-    button.addEventListener('click', function() {
+    button.addEventListener('click', function () {
         const inputField = this.closest('.wps-input-group__action').querySelector('input');
         navigator.clipboard.writeText(inputField.value).then(() => {
             const originalText = button.textContent;
             button.textContent = wps_js._('copied');
-            button.classList.remove('has-icon')  ;
+            button.classList.remove('has-icon');
 
             setTimeout(() => {
                 button.textContent = originalText;
-                button.classList.add('has-icon')  ;
+                button.classList.add('has-icon');
             }, 2000);
         }).catch(err => {
             console.error('Failed to copy: ', err);
@@ -221,18 +254,18 @@ if (settingSelect2.length) {
 }
 
 
- function getUrlParameter(name) {
+function getUrlParameter(name) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(name);
 }
 
 const row = getUrlParameter('row');
 if (row) {
-     const targetRow = document.querySelector(`tr[data-id="${row}"]`);
+    const targetRow = document.querySelector(`tr[data-id="${row}"]`);
 
     if (targetRow) {
         setTimeout(() => {
-            targetRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            targetRow.scrollIntoView({behavior: 'smooth', block: 'center'});
             targetRow.classList.add('wps-highlight');
         }, 500);
     } else {

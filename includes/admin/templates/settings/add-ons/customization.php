@@ -178,7 +178,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
 
             <tr valign="top" class="js-wps-show_if_customization_show_wps_about_widget_overview_equal_yes" data-id="widget_content_tr">
                 <th scope="row">
-                    <label for="wps_addon_settings[customization][wps_about_widget_content]"><?php esc_html_e('Widget Content', 'wp-statistics'); ?></label>
+                    <label><?php esc_html_e('Widget Content', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>

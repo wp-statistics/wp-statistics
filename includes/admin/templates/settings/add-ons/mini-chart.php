@@ -57,7 +57,7 @@ if ($isMiniChartActive && !$isLicenseValid) {
 
         <tr data-id="chart_display_tr">
             <th scope="row">
-                <label for="mini-chart-interval-time"><?php esc_html_e('Chart Display', 'wp-statistics'); ?></label>
+                <label><?php esc_html_e('Chart Display', 'wp-statistics'); ?></label>
             </th>
 
             <td>

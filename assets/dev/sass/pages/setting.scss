@@ -105,6 +105,9 @@
       @media(max-width: 785px) {
         margin-bottom: 16px;
       }
+      a{
+        white-space: nowrap;
+      }
     }
 
   }
@@ -1382,6 +1385,11 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
+
+            .alert{
+              width: auto;
+            }
+
             @media(max-width: 1200px) {
               flex-direction: column;
               align-items: flex-start;
@@ -1680,6 +1688,10 @@
           color: #4C4B5F;
           font-weight: 400;
 
+          .code{
+            white-space: nowrap;
+          }
+
           a:hover{
             color: rgb(60, 64, 67) !important;
           }
@@ -1800,6 +1812,7 @@
     align-items: flex-start;
     line-height: 24px;
     font-weight: 400;
+    flex-wrap: wrap;
 
     b {
       color: #0C0C0D;

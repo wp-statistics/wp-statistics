@@ -72,7 +72,7 @@ use WP_STATISTICS\Option;
 
             <tr valign="top" data-id="statistics_widgets_dashboard_tr">
                 <th scope="row">
-                    <label for="disable-map"><?php esc_html_e('WP Statistics Widgets in the WordPress dashboard', 'wp-statistics'); ?></label>
+                    <label><?php esc_html_e('WP Statistics Widgets in the WordPress dashboard', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
