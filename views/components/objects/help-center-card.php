@@ -35,7 +35,7 @@
     <h3 class="wps-help__card-title"><?php echo esc_html($title) ?></h3>
     <p class="wps-help__card-description"><?php echo esc_html($description); ?></p>
     <?php if (isset($view_more_link)): ?>
-        <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . esc_attr($view_more_link) . '/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help'); ?>" target="_blank" class="wps-help__card-link">
+        <a href="<?php echo esc_url($view_more_link); ?>" target="_blank" class="wps-help__card-link">
             <?php echo esc_html($view_more_title); ?>
         </a>
     <?php endif; ?>

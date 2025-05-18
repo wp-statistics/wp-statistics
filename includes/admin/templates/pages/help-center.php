@@ -44,32 +44,32 @@ $notificationCount       = NotificationFactory::getNewNotificationCount();
                         <span><?php esc_html_e('Popular searches:', 'wp-statistics'); ?></span>
                     </li>
                     <li class="wps-help__popular-item">
-                        <a href="https://wp-statistics.com/resources/tracker-debugger/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help" class="wps-help__popular-link">
+                        <a href="https://wp-statistics.com/resources/tracker-debugger/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help" class="wps-help__popular-link" target="_blank"">
                             <?php esc_html_e('WP Statistics views not showing', 'wp-statistics'); ?>
                         </a>
                     </li>
                     <li class="wps-help__popular-item">
-                        <a href="https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help" class="wps-help__popular-link">
+                        <a href="https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help" class="wps-help__popular-link" target="_blank"">
                             <?php esc_html_e('Configuring for Maximum Privacy', 'wp-statistics'); ?>
                         </a>
                     </li>
                     <li class="wps-help__popular-item">
-                        <a href="https://wp-statistics.com/resources/enhancing-data-accuracy/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help" class="wps-help__popular-link">
+                        <a href="https://wp-statistics.com/resources/enhancing-data-accuracy/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help" class="wps-help__popular-link" target="_blank"">
                             <?php esc_html_e('Improve WP Statistics accuracy', 'wp-statistics'); ?>
                         </a>
                     </li>
                     <li class="wps-help__popular-item">
-                        <a href="https://wp-statistics.com/resources/counting-unique-visitors-without-cookies/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help" class="wps-help__popular-link">
+                        <a href="https://wp-statistics.com/resources/counting-unique-visitors-without-cookies/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help" class="wps-help__popular-link" target="_blank"">
                             <?php esc_html_e('Counting Unique Visitors Without Cookies', 'wp-statistics'); ?>
                         </a>
                     </li>
                     <li class="wps-help__popular-item">
-                        <a href="https://wp-statistics.com/resources/integrating-wp-statistics-with-consent-management-plugins/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help" class="wps-help__popular-link">
+                        <a href="https://wp-statistics.com/resources/integrating-wp-statistics-with-consent-management-plugins/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help" class="wps-help__popular-link" target="_blank"">
                             <?php esc_html_e('Connect WP Statistics to consent plugins', 'wp-statistics'); ?>
                         </a>
                     </li>
                     <li class="wps-help__popular-item">
-                        <a href="https://wp-statistics.com/resources/location-detection-methods-in-wp-statistics/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help" class="wps-help__popular-link">
+                        <a href="https://wp-statistics.com/resources/location-detection-methods-in-wp-statistics/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help" class="wps-help__popular-link" target="_blank"">
                             <?php esc_html_e('Best IP-location method for WP Statistics', 'wp-statistics'); ?>
                         </a>
                     </li>
@@ -88,7 +88,7 @@ $notificationCount       = NotificationFactory::getNewNotificationCount();
                 'category'        => esc_html__('Getting Started', 'wp-statistics'),
                 'title'           => esc_html__('Learn how WP Statistics works.', 'wp-statistics'),
                 'view_more_title' => esc_html__('View all articles', 'wp-statistics'),
-                'view_more_link'  => 'resources-category/getting-started',
+                'view_more_link'  => esc_url(WP_STATISTICS_SITE_URL.'/resources-category/getting-started/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help'),
                 'description'     => esc_html__('Explore the full documentation to understand key features and get the most out of WP Statistics.', 'wp-statistics'),
             ];
             View::load("components/objects/help-center-card", $card1);
@@ -104,7 +104,7 @@ $notificationCount       = NotificationFactory::getNewNotificationCount();
                 'category'        => esc_html__('Guides', 'wp-statistics'),
                 'title'           => esc_html__('Make the most of WP Statistics.', 'wp-statistics'),
                 'view_more_title' => esc_html__('View all articles', 'wp-statistics'),
-                'view_more_link'  => 'resources-category/guides/',
+                'view_more_link'  => esc_url(WP_STATISTICS_SITE_URL.'/resources-category/guides?utm_source=wp-statistics&utm_medium=link&utm_campaign=help'),
                 'description'     => esc_html__('Find easy, step-by-step instructions to track user activity, analyze data, and improve your site’s performance.', 'wp-statistics'),
             ];
             View::load("components/objects/help-center-card", $card2);
@@ -120,7 +120,7 @@ $notificationCount       = NotificationFactory::getNewNotificationCount();
                 'category'        => esc_html__('Privacy', 'wp-statistics'),
                 'title'           => esc_html__('Your data, your rules.', 'wp-statistics'),
                 'view_more_title' => esc_html__('View all articles', 'wp-statistics'),
-                'view_more_link'  => 'resources-category/privacy/',
+                'view_more_link'  => esc_url(WP_STATISTICS_SITE_URL.'/resources-category/privacy?utm_source=wp-statistics&utm_medium=link&utm_campaign=help'),
                 'description'     => esc_html__('Learn how WP Statistics protects user privacy and how you can manage data settings to stay compliant.', 'wp-statistics'),
             ];
             View::load("components/objects/help-center-card", $card3);
@@ -136,7 +136,7 @@ $notificationCount       = NotificationFactory::getNewNotificationCount();
                 'category'        => esc_html__('Troubleshooting', 'wp-statistics'),
                 'title'           => esc_html__('Solve issues quickly.', 'wp-statistics'),
                 'view_more_title' => esc_html__('View all articles', 'wp-statistics'),
-                'view_more_link'  => '',
+                'view_more_link'  => esc_url(WP_STATISTICS_SITE_URL.'/resources-category/troubleshooting?utm_source=wp-statistics&utm_medium=link&utm_campaign=help'),
                 'description'     => esc_html__('Get help fixing common problems, errors, or setup issues and keep your site running smoothly.', 'wp-statistics')
             ];
             View::load("components/objects/help-center-card", $card4);
@@ -148,7 +148,7 @@ $notificationCount       = NotificationFactory::getNewNotificationCount();
                 'category'        => esc_html__('FEATURE REQUESTS', 'wp-statistics'),
                 'title'           => esc_html__('Help Shape The Future.', 'wp-statistics'),
                 'view_more_title' => esc_html__('Submit Request', 'wp-statistics'),
-                'view_more_link'  => '',
+                'view_more_link'  => 'https://feedback.veronalabs.com/boards/wp-statistics',
                 'description'     => esc_html__('Submit your ideas or vote on features requested by others. Your feedback helps us improve WP Statistics based on what matters most to you.', 'wp-statistics')
             ];
 
@@ -159,7 +159,7 @@ $notificationCount       = NotificationFactory::getNewNotificationCount();
                 'category'        => esc_html__('REVIEWS', 'wp-statistics'),
                 'title'           => esc_html__('Leave Us a Review.', 'wp-statistics'),
                 'view_more_title' => esc_html__('Leave a Review', 'wp-statistics'),
-                'view_more_link'  => '',
+                'view_more_link'  => 'https://wordpress.org/support/plugin/wp-statistics/reviews/?filter=5#new-post',
                 'description'     => esc_html__('Love WP Statistics? Post a public review so other WordPress users can discover the plugin’s benefits.', 'wp-statistics')
             ];
 
@@ -187,9 +187,10 @@ $notificationCount       = NotificationFactory::getNewNotificationCount();
         </div>
 
         <?php if (!$isPremium) {
+
             $cta = [
                 'cta_title'   => esc_html__('Upgrade Now', 'wp-statistics'),
-                'cta_link'    => 'contact-us/technical-support',
+                'cta_link'    => esc_url(WP_STATISTICS_SITE_URL.'/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=help'),
                 'title'       => esc_html__('Want More Features?', 'wp-statistics'),
                 'description' => esc_html__('Upgrade your plan to access more tools and supercharge your growth.', 'wp-statistics')
             ];
@@ -197,7 +198,7 @@ $notificationCount       = NotificationFactory::getNewNotificationCount();
         } else {
             $cta = [
                 'cta_title'   => esc_html__('Submit a Feature Request', 'wp-statistics'),
-                'cta_link'    => 'contact-us/technical-support',
+                'cta_link'    => 'https://feedback.veronalabs.com/boards/wp-statistics',
                 'title'       => esc_html__('Got Ideas for New Features?', 'wp-statistics'),
                 'description' => esc_html__('We’re building WP Statistics with you in mind. Share your suggestions or upvote existing ones to help shape what comes next.', 'wp-statistics')
             ];

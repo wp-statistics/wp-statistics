@@ -327,8 +327,8 @@
       margin-bottom: 12px;
 
       @media(max-width: 500px) {
-        font-size: 35px;
-        line-height: 50px;
+        font-size: 28px;
+        line-height: 40px;
       }
     }
 
@@ -404,6 +404,10 @@
       font-size: 48px;
       margin: 0;
       line-height: 100%;
+
+      @media(max-width: 500px){
+        font-size: 24px;
+      }
     }
 
     p {
@@ -415,12 +419,15 @@
       line-height: 26px;
     }
 
-    .button {
-      padding: 32px 56px;
-      border-radius: 4px;
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 19px;
+    .button.wps-help__cta-button {
+      padding: 10.5px 56px!important;
+      border-radius: 4px!important;
+      margin: 0!important;
+      font-weight: 500 !important;
+      font-size: 16px!important;
+      line-height: 19px!important;
+      display: inline-flex!important;
+      border: none !important;
     }
   }
 }
