@@ -25,7 +25,11 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
         ]);
 
         // Group by source_name
-        $this->args['group_by'] = ['source_name', 'last_counter'];
+        if(false) {
+            $this->args['group_by'] = ['source_name', 'last_counter'];
+        } 
+
+        $this->args['group_by'] = ['source_name', 'started_at'];
 
         // Rest per_page to get all results
         $this->args['per_page'] = false;
@@ -63,9 +67,11 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
         $data = $this->visitorsModel->getReferrers($this->args);
 
         foreach ($data as $item) {
+            $dateKey = date('Y-m-d', strtotime($item->last_counter));
+
             $visitors = intval($item->visitors);
-            $thisParsedData[$item->source_name][$item->last_counter] = $visitors;
-            $thisPeriodTotal[$item->last_counter]                    += $visitors;
+            $thisParsedData[$item->source_name][$dateKey] = $visitors;
+            $thisPeriodTotal[$dateKey]                    += $visitors;
         }
 
         // Sort data by search engine referrals number

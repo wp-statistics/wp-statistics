@@ -66,7 +66,16 @@ class ResourceDecorator
      */
     public function getTitle()
     {
-        return $this->resourcesIdentifier->resource->cached_title ?? null;
+        $title = $this->resourcesIdentifier->resource->cached_title ?? null;
+
+        if (
+            !empty($this->resourcesIdentifier->resource->resource_type) &&
+            'home' === $this->resourcesIdentifier->resource->resource_type
+        ) {
+            $title = esc_html__('Home', 'wp-statistics');
+        }
+
+        return $title;
     }
 
     /**

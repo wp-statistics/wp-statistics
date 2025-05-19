@@ -24,6 +24,7 @@ class Geo extends BaseEntity
         }
 
         $geo  = (array)$this->profile->getLocation();
+
         $code = isset($geo['country_code']) ? $geo['country_code'] : '';
 
         if (empty($code)) {
@@ -42,7 +43,7 @@ class Geo extends BaseEntity
 
             return (int)RecordFactory::country()->insert([
                 'code'           => $geo['country_code'],
-                'name'           => isset($geo['country_name']) ? $geo['country_name'] : '',
+                'name'           => isset($geo['country']) ? $geo['country'] : '',
                 'continent_code' => isset($geo['continent_code']) ? $geo['continent_code'] : '',
                 'continent'      => $continent ?: (isset($geo['continent']) ? $geo['continent'] : ''),
             ]);

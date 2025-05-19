@@ -61,14 +61,16 @@ class CloudflareGeolocationProvider extends AbstractGeoIPProvider
         $sanitizedData = $this->sanitizeHeaderData($rawData);
 
         return [
-            'country'      => Country::getName($sanitizedData['country_code']),
-            'country_code' => $sanitizedData['country_code'],
-            'continent'    => $this->getContinentName($sanitizedData['continent']),
-            'region'       => $sanitizedData['region'],
-            'city'         => $sanitizedData['city'],
-            'latitude'     => $sanitizedData['latitude'],
-            'longitude'    => $sanitizedData['longitude'],
-            'postal_code'  => $sanitizedData['postal_code']
+            'country'        => Country::getName($sanitizedData['country_code']),
+            'country_code'   => $sanitizedData['country_code'],
+            'continent'      => $this->getContinentName($sanitizedData['continent']),
+            'continent_code' => $sanitizedData['continent'],
+            'region'         => $sanitizedData['region'],
+            'region_code'    => $sanitizedData['region_code'],
+            'city'           => $sanitizedData['city'],
+            'latitude'       => $sanitizedData['latitude'],
+            'longitude'      => $sanitizedData['longitude'],
+            'postal_code'    => $sanitizedData['postal_code']
         ];
     }
 
@@ -83,6 +85,7 @@ class CloudflareGeolocationProvider extends AbstractGeoIPProvider
             'country_code' => filter_input(INPUT_SERVER, 'HTTP_CF_IPCOUNTRY', FILTER_DEFAULT),
             'continent'    => filter_input(INPUT_SERVER, 'HTTP_CF_IPCONTINENT', FILTER_DEFAULT),
             'region'       => filter_input(INPUT_SERVER, 'HTTP_CF_REGION', FILTER_DEFAULT),
+            'region_code'  => filter_input(INPUT_SERVER, 'HTTP_CF_REGION_CODE', FILTER_DEFAULT),
             'city'         => filter_input(INPUT_SERVER, 'HTTP_CF_IPCITY', FILTER_DEFAULT),
             'latitude'     => filter_input(INPUT_SERVER, 'HTTP_CF_IPLATITUDE', FILTER_VALIDATE_FLOAT),
             'longitude'    => filter_input(INPUT_SERVER, 'HTTP_CF_IPLONGITUDE', FILTER_VALIDATE_FLOAT),
@@ -98,7 +101,7 @@ class CloudflareGeolocationProvider extends AbstractGeoIPProvider
      */
     private function sanitizeHeaderData(array $data)
     {
-        $stringFields = ['country_code', 'continent', 'region', 'city', 'postal_code'];
+        $stringFields = ['country_code', 'continent', 'region', 'region_code', 'city', 'postal_code'];
 
         foreach ($stringFields as $field) {
             $data[$field] = $data[$field] ?

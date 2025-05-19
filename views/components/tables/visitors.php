@@ -51,13 +51,37 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
 
                 <tbody>
                     <?php foreach ($data as $visitor) : ?>
-                        <?php /** @var VisitorDecorator $visitor */ ?>
+                        <?php
+                            if ($visitor instanceof VisitorDecorator) {
+                                $initialViewDate = $visitor->getPageView();
+                                $lastViewdate    = $visitor->getLastView();
+
+                                $countryCode = $visitor->getLocation()->getCountryCode();
+                                $countryName = $visitor->getLocation()->getCountryName();
+                                $countryFlag = $visitor->getLocation()->getCountryFlag();
+                                $region      = $visitor->getLocation()->getRegion();
+                                $city        = $visitor->getLocation()->getCity();
+
+                                $hits = $visitor->getHits();
+                            } else {
+                                $initialViewDate = $visitor->getInitialView()->getViewedAt();
+                                $lastViewdate    = $visitor->getLastView()->getViewedAt();
+
+                                $countryCode = $visitor->getCountry()->getCode();
+                                $countryName = $visitor->getCountry()->getName();
+                                $countryFlag = $visitor->getCountry()->getFlag();
+                                $region      = $visitor->getCity()->getRegionName();
+                                $city        = $visitor->getCity()->getName();
+
+                                $hits = $visitor->getViews();
+                            } 
+                        ?>
                         <tr>
                             <td class="wps-pd-l">
                                 <?php if (!empty($single_post)) : ?>
-                                    <?php echo esc_html($visitor->getPageView()); ?>
+                                    <?php echo esc_html($initialViewDate); ?>
                                 <?php else : ?>
-                                    <?php echo esc_html($visitor->getLastView()); ?>
+                                    <?php echo esc_html($lastViewdate); ?>
                                 <?php endif; ?>
                             </td>
 
@@ -67,10 +91,26 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
 
                             <td class="wps-pd-l">
                                 <div class="wps-country-flag wps-ellipsis-parent">
-                                    <a target="<?php echo esc_attr($linksTarget); ?>" href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getLocation()->getCountryCode()])) ?>" class="wps-tooltip" title="<?php echo esc_attr($visitor->getLocation()->getCountryName()) ?>">
-                                        <img src="<?php echo esc_url($visitor->getLocation()->getCountryFlag()) ?>" alt="<?php echo esc_attr($visitor->getLocation()->getCountryName()) ?>" width="15" height="15">
+                                    <a 
+                                        target="<?php echo esc_attr($linksTarget); ?>"
+                                        href="<?php echo esc_url(Menus::admin_url(
+                                            'geographic', [
+                                                'type' => 'single-country',
+                                                'country' => $countryCode
+                                            ]
+                                        )) ?>"
+                                        class="wps-tooltip"
+                                        title="<?php echo esc_attr($countryName) ?>"
+                                    >
+                                        <img src="<?php echo esc_url($countryFlag) ?>" alt="<?php echo esc_attr($countryName) ?>" width="15" height="15">
                                     </a>
-                                    <?php $location = Admin_Template::locationColumn($visitor->getLocation()->getCountryCode(), $visitor->getLocation()->getRegion(), $visitor->getLocation()->getCity()); ?>
+                                    <?php 
+                                        $location = Admin_Template::locationColumn(
+                                            $countryCode,
+                                            $region,
+                                            $city
+                                        );
+                                    ?>
                                     <span class="wps-ellipsis-text" title="<?php echo esc_attr($location) ?>"><?php echo esc_html($location) ?></span>
                                 </div>
                             </td>
@@ -88,13 +128,23 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
                             <?php if (empty($hide_entry_page_column)) : ?>
                                 <td class="wps-pd-l">
                                     <?php
-                                    $page = $visitor->getFirstPage();
+                                    if ($visitor instanceof VisitorDecorator) {
+                                        $initialResource      = $visitor->getFirstPage();
+                                        $initialResourceLink  = $initialResource['link'];
+                                        $initialResourceTitle = $initialResource['title'];
+                                        $initialesourceQuery  = $initialResource['query'] ? "?{$initialResource['query']}" : '';
+                                    } else {
+                                        $initialResource      = $visitor->getInitialView()->getResource();
+                                        $initialResourceLink  = $initialResource->getUrl();
+                                        $initialResourceTitle = $initialResource->getTitle();
+                                        $initialesourceQuery  = $visitor->getParameter($initialResource->getId())->getFull();
+                                    }
 
-                                    if (!empty($page)) :
+                                    if (!empty($initialResource)) :
                                         View::load("components/objects/external-link", [
-                                            'url'       => $page['link'],
-                                            'title'     => $page['title'],
-                                            'tooltip'   => $page['query'] ? "?{$page['query']}" : ''
+                                            'url'       => $initialResourceLink,
+                                            'title'     => $initialResourceTitle,
+                                            'tooltip'   => $initialesourceQuery
                                         ]);
                                     else :
                                         echo Admin_Template::UnknownColumn();
@@ -106,12 +156,20 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
                             <?php if (empty($hide_latest_page_column)) : ?>
                                 <td class="wps-pd-l">
                                     <?php
-                                    $page = $visitor->getLastPage();
+                                   if ($visitor instanceof VisitorDecorator) {
+                                        $lastResource      = $visitor->getLastPage();
+                                        $lastResourceLink  = $lastResource['link'];
+                                        $lastResourceTitle = $lastResource['title'];
+                                    } else {
+                                        $lastResource      = $visitor->getLastView()->getResource();
+                                        $lastResourceLink  = $lastResource->getUrl();
+                                        $lastResourceTitle = $lastResource->getTitle();
+                                    }
 
-                                    if (!empty($page)) :
+                                    if (!empty($lastResource)) :
                                         View::load("components/objects/external-link", [
-                                            'url'       => $page['link'],
-                                            'title'     => $page['title'],
+                                            'url'       => $lastResourceLink,
+                                            'title'     => $lastResourceTitle,
                                         ]);
                                     else :
                                         echo Admin_Template::UnknownColumn();
@@ -121,7 +179,17 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
                             <?php endif; ?>
 
                             <td class="wps-pd-l">
-                                <a target="<?php echo esc_attr($linksTarget); ?>" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>"><?php echo esc_html($visitor->getHits()) ?></a>
+                                <a
+                                    target="<?php echo esc_attr($linksTarget); ?>"
+                                    href="<?php echo esc_url(Menus::admin_url(
+                                        'visitors', [
+                                            'type' => 'single-visitor',
+                                            'visitor_id' => $visitor->getId()
+                                        ]
+                                    )) ?>"
+                                >
+                                    <?php echo esc_html($hits) ?>
+                                </a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

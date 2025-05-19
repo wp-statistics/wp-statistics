@@ -13,9 +13,9 @@ class VisitorsModel extends BaseModel
     {
         $this->legacy = new LegacyVisitorsModel();
     }
- 
+
     public function countVisitors($args = [])
-    {        
+    {
         if (false) {
             return $this->legacy->countVisitors($args);
         }
@@ -28,7 +28,7 @@ class VisitorsModel extends BaseModel
         if (false) {
             return $this->legacy->countDailyVisitors($args);
         }
-    
+
         return (new SessionModel())->countDailyVisitors($args);
     }
 
@@ -208,7 +208,11 @@ class VisitorsModel extends BaseModel
 
     public function countReferrers($args = [])
     {
-        return $this->legacy->countReferrers($args);
+        if (false) {
+            return $this->legacy->countReferrers($args);
+        }
+
+        return (new SessionModel())->countReferrers($args);
     }
 
     /**
@@ -222,11 +226,19 @@ class VisitorsModel extends BaseModel
      */
     public function getDailyStats($args = [])
     {
-        return $this->legacy->getDailyStats($args);
+        if (false) {
+            return $this->legacy->getDailyStats($args);
+        }
+
+        return (new SessionModel())->getDailyStats($args);
     }
 
     public function getVisitorHits($args = [])
     {
-        return $this->legacy->getVisitorHits($args);
+        if (false) {
+            return $this->legacy->getDailyStats($args);
+        }
+
+        return (new SessionModel())->getVisitorHits($args);
     }
 }

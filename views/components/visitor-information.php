@@ -17,11 +17,19 @@ use WP_Statistics\Decorators\VisitorDecorator;
                 </a>
             </div>
         </li>
+        <?php
+            if ($visitor instanceof VisitorDecorator) {
+                $browserVersion = $visitor->getBrowser()->getVersion();
+            } else {
+                $browserVersion = $visitor->getBrowserVersion()->getVersion();
+            }
 
+            $browserName = $visitor->getBrowser()->getName();
+        ?>
         <li class="wps-visitor__information">
-            <div class="wps-tooltip" title="<?php echo $visitor->getBrowser()->getName() !== '(not set)' ? esc_attr("{$visitor->getBrowser()->getName()} v{$visitor->getBrowser()->getVersion()}") : $visitor->getBrowser()->getName(); ?>">
+            <div class="wps-tooltip" title="<?php echo $browserName !== '(not set)' ? esc_attr("{$browserName} v{$browserVersion}") : $browserName; ?>">
                 <a href="<?php echo esc_url(Menus::admin_url('visitors', ['agent' => $visitor->getBrowser()->getRaw()])) ?>">
-                    <img src="<?php echo esc_url($visitor->getBrowser()->getLogo()) ?>" alt="<?php echo esc_attr($visitor->getBrowser()->getName()) ?>" width="15" height="15">
+                    <img src="<?php echo esc_url($visitor->getBrowser()->getLogo()) ?>" alt="<?php echo esc_attr($browserName) ?>" width="15" height="15">
                 </a>
             </div>
         </li>

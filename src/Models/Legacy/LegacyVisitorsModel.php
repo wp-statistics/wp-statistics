@@ -13,7 +13,6 @@ use WP_Statistics\Utils\Query;
 
 class LegacyVisitorsModel extends BaseModel
 {
-
     public function countVisitors($args = [])
     {
         $args = $this->parseArgs($args, [
@@ -461,7 +460,7 @@ class LegacyVisitorsModel extends BaseModel
 
     public function getVisitorsData($args = [])
     {
-        if (! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
+        if (!AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
             return LegacyModel::get('visitorsData', $args, '14.12.4');
         }
 
@@ -598,7 +597,7 @@ class LegacyVisitorsModel extends BaseModel
 
     public function getReferredVisitors($args = [])
     {
-        if (! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
+        if (!AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
             return LegacyModel::get('referredVisitors', $args, '14.12.4');
         }
 
@@ -727,7 +726,7 @@ class LegacyVisitorsModel extends BaseModel
 
     public function getVisitorData($args = [])
     {
-        if (! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
+        if (!AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
             return LegacyModel::get('visitorData', $args, '14.12.4');
         }
 

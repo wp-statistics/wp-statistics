@@ -47,8 +47,12 @@ class BrowserChartDataProvider extends AbstractChartDataProvider
         if (!empty($data)) {
             foreach ($data as $item) {
                 /** @var VisitorDecorator $item */
-                $agent = $item->getBrowser()->getRaw();
-
+                if ($item instanceof VisitorDecorator) {
+                    $agent = $item->getBrowser()->getRaw();
+                } else {
+                    $agent = $item->getBrowser()->getName();
+                }
+                
                 // Browser data
                 if (!empty($agent) && $agent !== '(not set)') {
                     $agents = array_column($parsedData, 'label');
