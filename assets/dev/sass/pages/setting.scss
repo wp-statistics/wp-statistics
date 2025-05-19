@@ -1685,8 +1685,9 @@
         }
 
         .description {
-          color: #4C4B5F;
+          color: #56585A;
           font-weight: 400;
+          font-size: 13px;
 
           .code{
             white-space: nowrap;
@@ -1805,14 +1806,13 @@
     padding: 0;
     box-shadow: none;
     border: none;
-    font-size: 11px;
+    font-size: 12px;
     background: transparent !important;
     gap: 4px;
     color: #56585A !important;
     align-items: flex-start;
     line-height: 24px;
     font-weight: 400;
-    flex-wrap: wrap;
 
     b {
       color: #0C0C0D;

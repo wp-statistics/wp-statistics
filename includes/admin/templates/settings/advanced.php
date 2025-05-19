@@ -483,7 +483,7 @@ Modal::render('setting-confirmation', [
                 <label for="reset-plugin"><?php esc_html_e('Reset', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('Revert all user-specific and global configurations to the WP Statistics default settings, preserving your existing data.', 'wp-statistics'); ?></p>
                 <div class="wps-alert wps-alert__danger">
-                    <?php echo sprintf(('<b>%s:</b>%s'), __('For multisite users', 'wp-statistics'), __('Every site within the network will return to the default settings.', 'wp-statistics')); ?>
+                    <?php echo sprintf(('<div class="wps-g-0"><b>%s</b>%s</div>'), __('For multisite users', 'wp-statistics'), __('Every site within the network will return to the default settings.', 'wp-statistics')); ?>
                 </div>
 
 

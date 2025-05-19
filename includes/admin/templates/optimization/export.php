@@ -58,8 +58,8 @@
                         <input id="export-headers" type="checkbox" value="1" name="export-headers">
                         <p class="description"><?php esc_html_e('Include column names at the top of the exported file.', 'wp-statistics'); ?></p>
                         <div class="wps-alert wps-alert__info">
-                            <div>
-                                <strong><?php esc_html_e('Privacy Notice for Data Export', 'wp-statistics') ?></strong>
+                            <div class="wps-g-0">
+                                <b><?php esc_html_e('Privacy Notice for Data Export', 'wp-statistics') ?></b>
                                 <p><?php _e('Exported data may contain personal information. Review our <a href="https://wp-statistics.com/resources/handling-of-personal-data-during-export-procedures/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Handling of Personal Data During Export Procedures</a> before exporting to ensure compliance with privacy laws.', 'wp-statistics') // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	 ?></p>
                             </div>
                         </div>
