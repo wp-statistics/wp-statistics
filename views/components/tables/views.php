@@ -67,9 +67,9 @@ $viewTitle   = !empty($single_post) ? esc_html__('Page View', 'wp-statistics') :
                                     $page = $visitor->getLastPage();
 
                                     if (!empty($page)) :
-                                        View::load("components/objects/external-link", [
-                                            'url'   => $page['link'],
-                                            'title' => $page['title'],
+                                        View::load("components/objects/internal-link", [
+                                            'url'       => $page['report'],
+                                            'title'     => $page['title'],
                                         ]);
                                     else :
                                         echo Admin_Template::UnknownColumn();

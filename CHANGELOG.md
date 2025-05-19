@@ -7,6 +7,7 @@
 - **Enhancement**: Added dynamic licensing notices for add-on page.
 - **New**: Add display dynamic promo banner.
 - **New:** Added Single Resource report for for resources without post id in WordPress.
+- **Fix:** Fixed inconsistent "Page" column link behavior across all widgets and reports.
 
 = 14.13.5 - 2025-05-x =
 - **Fix:** Fixed issue where page views were zero when using a taxonomy filter other than 'category'.

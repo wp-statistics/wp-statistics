@@ -63,8 +63,8 @@ use WP_STATISTICS\Menus;
                                 <?php $page = $visitor->getFirstPage(); ?>
 
                                 <?php if (!empty($page)) :
-                                    View::load("components/objects/external-link", [
-                                        'url'       => $page['link'],
+                                    View::load("components/objects/internal-link", [
+                                        'url'       => $page['report'],
                                         'title'     => $page['title'],
                                         'tooltip'   => $page['query'] ? "?{$page['query']}" : ''
                                     ]);
@@ -75,8 +75,8 @@ use WP_STATISTICS\Menus;
                             <td class="wps-pd-l">
                                 <?php $page = $visitor->getLastPage(); ?>
                                 <?php if (!empty($page)) :
-                                    View::load("components/objects/external-link", [
-                                        'url'   => $page['link'],
+                                    View::load("components/objects/internal-link", [
+                                        'url'   => $page['report'],
                                         'title' => $page['title'],
                                     ]);
                                 else : ?>

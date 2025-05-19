@@ -30,8 +30,8 @@ use WP_Statistics\Components\View;
                     ?>
                         <tr>
                             <td class="wps-pd-l">
-                                <?php View::load("components/objects/external-link", [
-                                    'url'   => Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $page->post_id]),
+                                <?php View::load("components/objects/internal-link", [
+                                    'url'   => $pageInfo['report'],
                                     'title' => $pageInfo['title']
                                 ]); ?>
                             </td>
