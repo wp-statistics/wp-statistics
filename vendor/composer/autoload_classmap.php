@@ -298,6 +298,7 @@ return array(
     'WP_Statistics\\Service\\Charts\\DataProvider\\SearchEngineChartDataProvider' => $baseDir . '/src/Service/Charts/DataProvider/SearchEngineChartDataProvider.php',
     'WP_Statistics\\Service\\Charts\\DataProvider\\SocialMediaChartDataProvider' => $baseDir . '/src/Service/Charts/DataProvider/SocialMediaChartDataProvider.php',
     'WP_Statistics\\Service\\Charts\\DataProvider\\SourceCategoryChartDataProvider' => $baseDir . '/src/Service/Charts/DataProvider/SourceCategoryChartDataProvider.php',
+    'WP_Statistics\\Service\\Charts\\DataProvider\\TopSourceCategoriesDataProvider' => $baseDir . '/src/Service/Charts/DataProvider/TopSourceCategoriesDataProvider.php',
     'WP_Statistics\\Service\\Charts\\DataProvider\\TrafficChartDataProvider' => $baseDir . '/src/Service/Charts/DataProvider/TrafficChartDataProvider.php',
     'WP_Statistics\\Service\\Charts\\DataProvider\\UsersTrafficChartDataProvider' => $baseDir . '/src/Service/Charts/DataProvider/UsersTrafficChartDataProvider.php',
     'WP_Statistics\\Service\\Charts\\Traits\\BarChartResponseTrait' => $baseDir . '/src/Service/Charts/Traits/BarChartResponseTrait.php',
