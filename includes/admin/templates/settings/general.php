@@ -99,7 +99,7 @@ use WP_STATISTICS\Menus;
                          <?php esc_html_e('Tracking Method', 'wp-statistics'); ?>
                      </span>
                  </label>
-                <span class="wps-tooltip wps-badge wps-badge--deprecated" title="<?php esc_attr_e('DEPRECATED', 'wp-statistics'); ?>"><?php esc_html_e('DEPRECATED', 'wp-statistics'); ?></span>
+                <span class="wps-badge wps-badge--deprecated"><?php esc_html_e('DEPRECATED', 'wp-statistics'); ?></span>
             </th>
 
             <td>
