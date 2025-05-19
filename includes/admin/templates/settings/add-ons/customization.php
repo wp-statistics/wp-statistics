@@ -49,6 +49,7 @@ if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/
     ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=customization'),
      'addon_title'        => __('Customization Add-On', 'wp-statistics'),
      'addon_modal_target' => 'wp-statistics-customization',
+     'campaign'           => 'customization',
      'addon_description'  => __('The settings on this page are part of the Customization add-on, which allows you to customize menus and make WP Statistics white-label.', 'wp-statistics'),
      'addon_features'     => [
          __('Customize menus according to your preferences.', 'wp-statistics'),
