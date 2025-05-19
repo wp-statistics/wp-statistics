@@ -1,7 +1,9 @@
 = 14.14 - 2025-xx-xx
+- **New:** Added a Help Center page to assist users within the plugin.
 - **Enhancement**: Combined Location with Visitor Information in reports.
 - **Enhancement**: Add Entry/Exit Page to the reports.
 - **New:** Added an option to to disable word count analytics in reports.
+- **Enhancement:** Add a notification count display to the Help Center page.
 - **Enhancement**: Added dynamic licensing notices for add-on page.
 - **New**: Add display dynamic promo banner.
 - **New:** Added Single Resource report for for resources without post id in WordPress.

@@ -449,6 +449,14 @@ jQuery(document).ready(function () {
     });
 });
 
+if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "help-center") {
+    const body = document.body;
+    const targetClass = 'statistics_page_wps_help-center_page';
+
+    if (!body.classList.contains(targetClass)) {
+        body.classList.add(targetClass);
+    }
+}
 jQuery(document).ready(function () {
     const targetElement = document.querySelector('.wp-header-end');
     const noticeElement = document.querySelector('.notice.notice-warning.update-nag');
