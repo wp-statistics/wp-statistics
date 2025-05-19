@@ -1,7 +1,7 @@
 <div class="o-wrap wps-about-widget js-wps-widget-customization-empty">
     <div class="c-about">
         <div class="c-about__row c-about__row--logo  hndle ui-sortable-handle">
-            <a href="<?php echo esc_url('https://veronalabs.com/?utm_source=wp-statistics&utm_medium=link&utm_campaign=overview'); ?>" target="_blank">
+            <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/?utm_source=wp-statistics&utm_medium=link&utm_campaign=overview'); ?>" target="_blank">
                 <span class="c-about-logo"></span>
             </a>
             <span class="c-about-badge"><span><?php esc_html_e('Version', 'wp-statistics'); ?></span> <span><?php echo WP_STATISTICS_VERSION // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></span> </span>
@@ -49,7 +49,7 @@
                 </div>
             <?php } ?>
             <div class="c-about__veronalabs">
-                <a href="https://veronalabs.com/?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress" target="_blank" title="<?php esc_html_e('Power by VeronaLabs', 'wp-statistics'); ?>">
+                <a href="https://veronalabs.com/?utm_source=wp-statistics&utm_medium=link&utm_campaign=overview" target="_blank" title="<?php esc_html_e('Power by VeronaLabs', 'wp-statistics'); ?>">
                     <span class="c-about__veronalabs--icon"></span>
                 </a>
             </div>
