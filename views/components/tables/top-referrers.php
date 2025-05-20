@@ -36,7 +36,7 @@ use WP_Statistics\Decorators\ReferralDecorator;
                             </td>
 
                             <td class="wps-pd-l wps-middle-vertical">
-                                <a href="<?php echo Menus::admin_url('referrals', ['tab' => 'referred-visitors', 'referrer' => $item->getRawReferrer()]) ?>" target="_blank"><?php echo esc_html($item->getTotalReferrals()) ?></a>
+                                <a href="<?php echo Menus::admin_url('referrals', ['tab' => 'referred-visitors', 'referrer' => $item->getRawReferrer()]) ?>"><?php echo esc_html($item->getTotalReferrals()) ?></a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
