@@ -4,24 +4,7 @@ use WP_STATISTICS\Menus;
 <h2 class="wps-settings-box__title">
     <span><?php esc_html_e('Filtering & Exceptions', 'wp-statistics'); ?></span>
     <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/resources/filtering-exceptions-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings') ?>" target="_blank"><?php esc_html_e('View Guide', 'wp-statistics'); ?></a>
-</h2>
-
-<div class="wps-alert wps-alert__setting-header wps-alert__info">
-    <?php
-    echo sprintf(
-        '<p>%s <a href="%s">%s</a> %s.</p>',
-        esc_html__('To view detailed performance analytics of each category based on the content within them, please visit the', 'wp-statistics'),
-        Menus::admin_url('category-analytics'),
-        esc_html__('Category Analytics', 'wp-statistics'),
-        esc_html__('report', 'wp-statistics')
-    );
-    ?>
-    <button class="wps-alert__close" aria-label="Close alert">
-        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 11 11" fill="none">
-            <path d="M4.77041 5.50001L0.75 1.4796L1.4796 0.75L5.5 4.77037L9.5204 0.75L10.25 1.4796L6.2296 5.50001L10.25 9.52036L9.5204 10.25L5.5 6.22961L1.4796 10.25L0.75 9.52036L4.77041 5.50001Z" fill="#56585A"/>
-        </svg>
-    </button>
-</div>
+</h2>Re
 <div class="postbox">
     <table class="form-table">
         <tbody>
