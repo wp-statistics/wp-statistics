@@ -136,14 +136,7 @@ class PluginDecorator
 
     public function getChangelogUrl()
     {
-        $clean_url = wp_unslash($this->plugin->changelog_url);
-
-        $url_parts = parse_url($clean_url);
-        $base_url = $url_parts['scheme'] . '://' . $url_parts['host'] . ($url_parts['path'] ?? '');
-
-        $base_url = rtrim($base_url, '/');
-
-        return $base_url;
+        return wp_unslash($this->plugin->changelog_url);
     }
 
     public function getChangelog()
