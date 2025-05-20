@@ -13,7 +13,6 @@ if (!$isRestApiActive) echo Admin_Template::get_template('layout/partials/addon-
     ['addon_slug'                => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-rest-api/?utm_source=wp-statistics&utm_medium=link&utm_campaign=rest-api'),
      'addon_title'               => __('Rest API Add-On', 'wp-statistics'),
      'addon_modal_target'        => 'wp-statistics-rest-api',
-     'campaign'                  => 'rest-api',
      'addon_description'         => __('The settings on this page are part of the REST API add-on, which enables the following endpoints in the WordPress REST API:', 'wp-statistics'),
      'addon_features'            => [
          __('Browsers', 'wp-statistics'),

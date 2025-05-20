@@ -13,7 +13,6 @@ if (!$isRealTimeStatsActive) echo Admin_Template::get_template('layout/partials/
     ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=realtime-stats'),
      'addon_title'        => __('Real-Time Add-On', 'wp-statistics'),
      'addon_modal_target' => 'wp-statistics-realtime-stats',
-     'campaign'           => 'real-time-stats',
      'addon_description'  => __('The settings on this page are part of the Real-Time add-on, which allows you to track your visitors and online users in real time without needing to refresh the page.', 'wp-statistics'),
      'addon_features'     => [
          __('Monitor website traffic and activity instantly.', 'wp-statistics'),

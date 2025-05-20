@@ -13,7 +13,6 @@ if (!$isWidgetsActive) echo Admin_Template::get_template('layout/partials/addon-
     ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-widgets/?utm_source=wp-statistics&utm_medium=link&utm_campaign=widgets'),
      'addon_title'        => __('Advanced Widgets Add-On', 'wp-statistics'),
      'addon_modal_target' => 'wp-statistics-widgets',
-     'campaign'           => 'widgets',
      'addon_description'  => __('The settings on this page are part of the Advanced Widgets add-on, allowing you to display a range of data widgets on your website.', 'wp-statistics'),
      'addon_features'     => [
          __('Display data widgets using Gutenberg blocks or theme widgets.', 'wp-statistics'),

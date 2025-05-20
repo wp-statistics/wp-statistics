@@ -23,7 +23,6 @@ $isActive      = $pluginHandler->isPluginActive($addon_modal_target);
             'addon_documentation_title' => $addon_documentation_title ?? '',
             'addon_documentation_slug'  => $addon_documentation_slug ?? '',
             'addon_modal_target'        => $addon_modal_target,
-            'campaign'                  => $campaign ?? '',
             'addon_slug'                => $addon_slug
         ]);
     endif;

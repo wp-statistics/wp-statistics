@@ -15,7 +15,6 @@ if (!$isDataPlusActive) echo Admin_Template::get_template(
         'addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=data-plus'),
         'addon_title'        => __('DataPlus Add-On', 'wp-statistics'),
         'addon_modal_target' => 'wp-statistics-data-plus',
-        'campaign'           => 'data-plus',
         'addon_description'  => __('The settings on this page are part of the DataPlus add-on, which enhances WP Statistics by expanding tracking capabilities and providing detailed visitor insights.', 'wp-statistics'),
         'addon_features'     => [
             __('Track custom post types and taxonomies.', 'wp-statistics'),
