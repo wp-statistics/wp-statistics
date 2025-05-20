@@ -37,10 +37,10 @@ use WP_STATISTICS\Schedule;
     <table class="form-table">
         <tbody>
         <tr valign="top" class="wps-settings-box_head">
-            <th scope="row">
+            <th scope="row" class="wps-sm-pb-0">
                 <h3><?php esc_html_e('Automated Report Delivery', 'wp-statistics'); ?></h3>
             </th>
-            <td>
+            <td  class="wps-sm-pt-0">
                 <div>
                     <?php $next_scheduled_time = Schedule::getNextScheduledTime('wp_statistics_report_hook') ?>
                     <?php if ($next_scheduled_time) : ?>
