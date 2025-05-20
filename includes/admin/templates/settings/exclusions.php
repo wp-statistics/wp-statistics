@@ -4,7 +4,7 @@ use WP_STATISTICS\Menus;
 <h2 class="wps-settings-box__title">
     <span><?php esc_html_e('Filtering & Exceptions', 'wp-statistics'); ?></span>
     <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/resources/filtering-exceptions-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings') ?>" target="_blank"><?php esc_html_e('View Guide', 'wp-statistics'); ?></a>
-</h2>Re
+</h2>
 <div class="postbox">
     <table class="form-table">
         <tbody>
