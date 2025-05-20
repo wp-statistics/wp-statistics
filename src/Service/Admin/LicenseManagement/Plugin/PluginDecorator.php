@@ -136,7 +136,7 @@ class PluginDecorator
 
     public function getChangelogUrl()
     {
-        return $this->plugin->changelog_url;
+        return wp_unslash($this->plugin->changelog_url);
     }
 
     public function getChangelog()

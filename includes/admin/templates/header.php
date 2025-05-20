@@ -76,7 +76,7 @@ $promoBanner             = MarketingCampaignFactory::getLatestMarketingCampaignB
                 echo 'active';
             } ?>"></a>
             <?php if (apply_filters('wp_statistics_enable_help_icon', true)) { ?>
-                <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/support?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" title="<?php esc_html_e('Help Center', 'wp-statistics'); ?>" class="support"></a>
+                <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/support/?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" title="<?php esc_html_e('Help Center', 'wp-statistics'); ?>" class="support"></a>
             <?php } ?>
             <?php if ($displayNotifications): ?>
 
@@ -113,7 +113,7 @@ $promoBanner             = MarketingCampaignFactory::getLatestMarketingCampaignB
                     <?php endif; ?>
                     <?php if (apply_filters('wp_statistics_enable_help_icon', true)) { ?>
                         <div>
-                            <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/support?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" title="<?php esc_html_e('Help Center', 'wp-statistics'); ?>" class="help">
+                            <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/support/?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" title="<?php esc_html_e('Help Center', 'wp-statistics'); ?>" class="help">
                                 <span class="icon"></span>
                                 <?php esc_html_e('Help Center', 'wp-statistics'); ?>
                             </a>
