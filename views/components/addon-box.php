@@ -51,7 +51,7 @@ if (!defined('ABSPATH') || empty($addOn)) {
                     <?php endif; ?>
                     <li><a href="<?php echo esc_url($addOn->getProductUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Add-On Details', 'wp-statistics'); ?></a></li>
                     <?php if (!empty($addOn->getChangelogUrl())) : ?>
-                        <li><a href="<?php echo esc_url($addOn->getChangelogUrl()); ?>/?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Changelog', 'wp-statistics'); ?></a></li>
+                        <li><a href="<?php echo esc_url($addOn->getChangelogUrl()); ?>/?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon&releases=<?php echo rawurlencode($addOn->getUtmCampaign()); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Changelog', 'wp-statistics'); ?></a></li>
                     <?php endif; ?>
                     <?php if (!empty($addOn->getDocumentationUrl())) : ?>
                         <li><a href="<?php echo esc_url($addOn->getDocumentationUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Documentation', 'wp-statistics'); ?></a></li>
