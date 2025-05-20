@@ -240,7 +240,7 @@
                         <span class="wps-input-group__label wps-input-group__label-side"><?php esc_html_e('Days', 'wp-statistics'); ?></span>
                     </div>
                     <p class="description"><?php echo esc_html__('Erase User Stats Older Than Specified Days.', 'wp-statistics') . ' ' . esc_html__('Minimum Age for Deletion: 30 Days.', 'wp-statistics'); ?></p>
-                    <button id="purge-data-submit" class="js-openModal-setting-confirmation wps-mt-12 wps-button wps-button--danger"
+                    <button id="purge-data-submit" class="js-openModal-setting-confirmation wps-mt-12 wps-button wps-button--danger-outline"
                             data-agree="<?php esc_html_e('Are you sure you want to permanently delete this data?', 'wp-statistics'); ?>" type="button" name="purge-data-submit"><?php esc_html_e('Start Purging Now', 'wp-statistics'); ?></button>
                      <div id="purge-data-result" class="wps-mt-12"></div>
                 </td>
@@ -258,7 +258,7 @@
                     </div>
 
                     <p class="description"><?php echo esc_html__('Erase User Stats for Visitors Exceeding Daily View Limit. Useful for cleaning bot-related data. Removes visitor and their site visits, but not individual page visits, as they are not recorded per user. Minimum View Threshold: 10 Views.', 'wp-statistics'); ?></p>
-                    <button id="purge-visitor-hits-submit" class="js-openModal-setting-confirmation wps-button wps-button--danger wps-mt-12" type="button" name="purge-visitor-hits-submit"><?php esc_html_e('Start Purging Now', 'wp-statistics'); ?></button>
+                    <button id="purge-visitor-hits-submit" class="js-openModal-setting-confirmation wps-button wps-button--danger-outline wps-mt-12" type="button" name="purge-visitor-hits-submit"><?php esc_html_e('Start Purging Now', 'wp-statistics'); ?></button>
                     <div id="purge-visitor-hits-result" class="wps-mt-12"></div>
                 </td>
             </tr>
@@ -268,7 +268,7 @@
                     <label for="delete-user-ids-submit"><?php esc_html_e('Remove User IDs', 'wp-statistics'); ?></label>
                 </th>
                 <td>
-                    <button id="delete-user-ids-submit" class="js-openModal-setting-confirmation wps-button wps-button--danger" type="button" name="delete_user_ids_submit"><?php esc_html_e('Delete User IDs Now', 'wp-statistics'); ?></button>
+                    <button id="delete-user-ids-submit" class="js-openModal-setting-confirmation wps-button wps-button--danger-outline" type="button" name="delete_user_ids_submit"><?php esc_html_e('Delete User IDs Now', 'wp-statistics'); ?></button>
                     <p class="description">
                         <?php esc_html_e('Permanently deletes all stored User IDs from the database to anonymize user visit records or to comply with privacy regulations.', 'wp-statistics'); ?><br>
 
@@ -285,7 +285,7 @@
                     <label for="clear-user-agent-strings-submit"><?php esc_html_e('Clear User Agent Strings', 'wp-statistics'); ?></label>
                 </th>
                 <td>
-                    <button id="clear-user-agent-strings-submit" class="js-openModal-setting-confirmation wps-button wps-button--danger" type="button" name="clear_user_agent_strings_submit"><?php esc_html_e('Clear User Agent Data Now', 'wp-statistics'); ?></button>
+                    <button id="clear-user-agent-strings-submit" class="js-openModal-setting-confirmation wps-button wps-button--danger-outline" type="button" name="clear_user_agent_strings_submit"><?php esc_html_e('Clear User Agent Data Now', 'wp-statistics'); ?></button>
                     <p class="description">
                         <?php esc_html_e('Permanently erases all User Agent Strings from the database, typically done after troubleshooting to remove unnecessary data.', 'wp-statistics'); ?><br>
                     </p>
@@ -301,7 +301,7 @@
                     <label for="query-params-cleanup-submit"><?php esc_html_e('Clean Up Recorded Query Parameters', 'wp-statistics'); ?></label>
                 </th>
                 <td>
-                    <button id="query-params-cleanup-submit" class="wps-button wps-button--danger js-openModal-setting-confirmation" type="button" name="query_params_cleanup_submit"><?php esc_html_e('Run Cleanup', 'wp-statistics'); ?></button>
+                    <button id="query-params-cleanup-submit" class="wps-button wps-button--danger-outline js-openModal-setting-confirmation" type="button" name="query_params_cleanup_submit"><?php esc_html_e('Run Cleanup', 'wp-statistics'); ?></button>
                     <p class="description">
                         <?php esc_html_e('Removes previously stored query parameters from your historical data, ensuring consistency with your current privacy settings.', 'wp-statistics'); ?><br>
                     </p>
@@ -339,7 +339,7 @@
                     </select>
 
                     <p class="description"><?php esc_html_e('Select and delete specific User Agents from the database. All associated data will be permanently removed.', 'wp-statistics'); ?></p>
-                    <button id="delete-agents-submit" class="wps-button wps-button--danger wps-mt-12 js-openModal-setting-confirmation" type="button" name="delete-agents-submit"><?php esc_html_e('Delete Selected Items Now', 'wp-statistics'); ?></button>
+                    <button id="delete-agents-submit" class="wps-button wps-button--danger-outline wps-mt-12 js-openModal-setting-confirmation" type="button" name="delete-agents-submit"><?php esc_html_e('Delete Selected Items Now', 'wp-statistics'); ?></button>
                     <div id="delete-agents-result" class="wps-mt-12"></div>
                 </td>
             </tr>
@@ -364,7 +364,7 @@
                     </select>
 
                     <p class="description"><?php esc_html_e('Select and delete specific platforms from the database. All associated data will be permanently removed.', 'wp-statistics'); ?></p>
-                    <button id="delete-platforms-submit" class="wps-button wps-button--danger wps-mt-12 js-openModal-setting-confirmation" type="button" name="delete-platforms-submit"><?php esc_html_e('Delete Selected Items Now', 'wp-statistics'); ?></button>
+                    <button id="delete-platforms-submit" class="wps-button wps-button--danger-outline wps-mt-12 js-openModal-setting-confirmation" type="button" name="delete-platforms-submit"><?php esc_html_e('Delete Selected Items Now', 'wp-statistics'); ?></button>
                     <div id="delete-platforms-result" class="wps-mt-12"></div>
                 </td>
             </tr>
@@ -378,7 +378,7 @@
                     <input dir="ltr" id="delete-ip" type="text" name="delete-ip"/>
 
                     <p class="description"><?php esc_html_e('Input and delete all data associated with a particular IP address. All associated data will be permanently removed.', 'wp-statistics'); ?></p>
-                    <button id="delete-ip-submit" class="wps-button wps-button--danger wps-mt-12 js-openModal-setting-confirmation" type="button" name="delete-ip-submit"><?php esc_html_e('Delete Selected Items Now', 'wp-statistics'); ?></button>
+                    <button id="delete-ip-submit" class="wps-button wps-button--danger-outline wps-mt-12 js-openModal-setting-confirmation" type="button" name="delete-ip-submit"><?php esc_html_e('Delete Selected Items Now', 'wp-statistics'); ?></button>
                     <div id="delete-ip-result" class="wps-mt-12"></div>
                 </td>
             </tr>
