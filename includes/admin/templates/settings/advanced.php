@@ -268,8 +268,10 @@ add_thickbox();
 
             <td>
                 <label>
-                    <?php submit_button(esc_html__('Update Now', 'wp-statistics'), "wps-button wps-button--default", "update_geoip", false); ?>
-                </label>
+                    <button type="submit" name="update_geoip" class="wps-button wps-button--default">
+                        <?php esc_html_e('Update Now', 'wp-statistics'); ?>
+                    </button>
+                 </label>
 
                 <p class="description"><?php esc_html_e('Click here to update the Geolocation database immediately for the database.', 'wp-statistics'); ?></p>
             </td>
@@ -356,15 +358,11 @@ add_thickbox();
                 jQuery("#geoip_license_type").on('change', handle_geoip_fields);
 
                 // Ajax function for updating database
-                jQuery("input[name = 'update_geoip']").click(function (event) {
+                jQuery("button[name = 'update_geoip']").click(function (event) {
                     event.preventDefault();
                     var geoip_clicked_button = this;
-
-                    jQuery(".geoip-update-loading").remove();
-                    jQuery(".update_geoip_result").remove();
-
-                    jQuery(this).after("<img class='geoip-update-loading' src='<?php echo esc_url(plugins_url('wp-statistics')); ?>/assets/images/loading.gif'/>");
-
+                    geoip_clicked_button.classList.add('wps-loading-button')
+                     jQuery(".wps-alert-box").remove();
                     var selectedLocationMethod = jQuery("#geoip_location_detection_method").val();
 
                     if (!selectedLocationMethod) {
@@ -381,11 +379,11 @@ add_thickbox();
                         },
                         datatype: 'json',
                     }).success(function (result) {
-                        jQuery(".geoip-update-loading").remove();
-                        jQuery(geoip_clicked_button).after("<span class='update_geoip_result'>" + result + "</span>")
+                        geoip_clicked_button.classList.remove('wps-loading-button')
+                        jQuery(geoip_clicked_button).after("<div class='wps-alert wps-alert-box wps-alert__success'><span>" + result + "</span></div>")
                     }).error(function (result) {
-                        jQuery(".geoip-update-loading").remove();
-                        jQuery(geoip_clicked_button).after("<span class='update_geoip_result'><?php _e('Oops! Something went wrong. Please try again. For more details, check the <b>PHP Error Log</b>.', 'wp-statistics'); ?></span>")
+                        geoip_clicked_button.classList.remove('wps-loading-button')
+                        jQuery(geoip_clicked_button).after("<div class='wps-alert wps-alert-box wps-alert__danger'><span>"+ _e('Oops! Something went wrong. Please try again. For more details, check the <b>PHP Error Log</b>.', 'wp-statistics') +"</span></div>")
                     });
                 });
             });
