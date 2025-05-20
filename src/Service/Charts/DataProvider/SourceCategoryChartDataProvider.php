@@ -129,7 +129,7 @@ class SourceCategoryChartDataProvider extends AbstractChartDataProvider
                 return [
                     'formatted_date'    => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
                     'date'              => date_i18n('Y-m-d', strtotime($date)),
-                    'day'               => date_i18n('l', strtotime($date))
+                    'day'               => date_i18n('D', strtotime($date))
                 ];
             },
             $dateRange
