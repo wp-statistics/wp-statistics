@@ -968,6 +968,20 @@
 }
 
 .wps-wrap__settings, .wps-wrap .wps-optimizationBox {
+  .select2-container--default .select2-selection--multiple .select2-selection__rendered li{
+    line-height: 21px;
+    margin-bottom: 0;
+    height: 21px;
+    margin-top: 5px;
+    font-weight: 400;
+
+    input{
+      line-height: 21px;
+      min-height: 21px;
+      margin-top: 0;
+      font-weight: 400;
+    }
+  }
 
   .wps-setting-select-wrapper {
     position: relative;
@@ -1001,7 +1015,6 @@
       font-weight: 600;
       font-size: 16px;
       line-height: 20px;
-
 
       &:before {
         content: '';
@@ -1836,47 +1849,65 @@
 }
 
 #mini-chart-settings .wp-picker-container {
-  .wp-picker-input-wrap .button.wp-picker-default {
-    margin-top: 0;
+
+  &.wp-picker-active{
+    .wp-color-result{
+      border-radius: 4px 0 0 4px!important;
+
+      .rtl &{
+        border-radius: 0 4px 4px 0!important;
+      }
+    }
   }
 
   .wp-picker-input-wrap {
-    display: none;
-  }
+    label input{
+      font-size: 13px !important;
+      color: #0c0c0d !important;
+      text-transform: uppercase;
+      font-weight: 400;
+      background: #fff;
+      width: 80px;
+      height: 40px;
+      padding-right: 12px !important;
+      padding-left: 12px !important;
+      line-height: 40px;
+      border: 1px solid #DADCE0 !important;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-left: 0 !important;
+
+      .rtl & {
+        border-right: 0 !important;
+        border-left: 1px solid #DADCE0 !important;
+        border-radius: 4px 0 0 4px!important;
+      }
+    }
+
+    input[type="button"]{
+      display: none;
+    }
+   }
 
   .wp-color-result {
     height: 40px !important;
     border: 1px solid #DADCE0 !important;
     border-radius: 3px !important;
-    display: flex !important;
+    display: inline-flex !important;
     align-items: center !important;
     background: #F4F5F6 !important;
     margin: 0;
-    padding: 0 0 0 13px;
+    padding: 0 13px;
     overflow: hidden;
 
-    .rtl & {
-      padding: 0 13px 0 0
+    &:focus{
+      box-shadow: none;
+      outline: none;
     }
   }
 
   .wp-color-result .wp-color-result-text {
-    font-size: 13px !important;
-    margin-left: 13px !important;
-    color: #0C0C0D !important;
-    text-transform: uppercase;
-    background: #fff;
-    border: none;
-    min-width: 69px;
-    height: 40px;
-    padding-right: 12px;
-    line-height: 40px;
-
-    .rtl & {
-      padding-left: 12px;
-      margin-right: 13px !important;
-      margin-left: unset !important;
-    }
+      display: none!important;
   }
 
   .wp-color-result::before {

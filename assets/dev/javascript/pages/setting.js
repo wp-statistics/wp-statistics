@@ -226,23 +226,28 @@ if (jQuery('.wp-statistics-settings').length) {
 
 
 const copyButtons = document.querySelectorAll('.wps-input-group__copy');
+
 copyButtons.forEach(button => {
     button.addEventListener('click', function () {
         const inputField = this.closest('.wps-input-group__action').querySelector('input');
-        navigator.clipboard.writeText(inputField.value).then(() => {
-            const originalText = button.textContent;
-            button.textContent = wps_js._('copied');
-            button.classList.remove('has-icon');
 
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.classList.add('has-icon');
-            }, 2000);
-        }).catch(err => {
-            console.error('Failed to copy: ', err);
-        });
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(inputField.value).then(() => {
+                const originalText = button.textContent;
+                button.textContent = wps_js._('copied');
+                button.classList.remove('has-icon');
+
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.add('has-icon');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
     });
 });
+
 
 const settingSelect2 = jQuery('.wps-wrap__settings select');
 
