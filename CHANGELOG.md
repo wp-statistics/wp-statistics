@@ -12,6 +12,7 @@
 - **Fix:** Fixed an issue with the 'All Time' date filter displaying incorrect content details in alternative calendars.
 - **Fix:** Fixed display issue for Android app referrers in Top Referrers widget.
 - **Fix:** Hide settings and help icons based on user role.
+- **Fix:** Resolved double slash issue in Link Report URL.
 
 = 14.13.4 - 2025-04-29 =
 - **Enhancement:** Enforced capability check in optionUpdater.
