@@ -165,6 +165,7 @@ return array(
     'WP_Statistics\\Models\\HistoricalModel' => $baseDir . '/src/Models/HistoricalModel.php',
     'WP_Statistics\\Models\\LegacyModel' => $baseDir . '/src/Models/LegacyModel.php',
     'WP_Statistics\\Models\\Legacy\\LegacyOnlineModel' => $baseDir . '/src/Models/Legacy/LegacyOnlineModel.php',
+    'WP_Statistics\\Models\\Legacy\\LegacyPostsModel' => $baseDir . '/src/Models/Legacy/LegacyPostsModel.php',
     'WP_Statistics\\Models\\Legacy\\LegacyViewsModel' => $baseDir . '/src/Models/Legacy/LegacyViewsModel.php',
     'WP_Statistics\\Models\\Legacy\\LegacyVisitorsModel' => $baseDir . '/src/Models/Legacy/LegacyVisitorsModel.php',
     'WP_Statistics\\Models\\OnlineModel' => $baseDir . '/src/Models/OnlineModel.php',

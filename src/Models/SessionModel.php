@@ -6,6 +6,7 @@ use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Decorators\ReferrerDecorator;
 use WP_Statistics\Decorators\SessionDecorator;
+use WP_Statistics\Decorators\ViewDecorator;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Utils\Query;
 use WP_STATISTICS\TimeZone;
@@ -802,19 +803,20 @@ class SessionModel extends BaseModel
         ]);
 
         $legacyMap = [
-            // 'legacy column'         => [ table,               column,               alias ]
-            'visitor.ID'           => ['sessions', 'ID', 'ID'],
-            'visitor.ip'           => ['sessions', 'ip', 'ip'],
-            'visitor.agent'        => ['device_browsers', 'name', 'agent'],
-            'visitor.platform'     => ['device_oss', 'name', 'platform'],
-            'visitor.model'        => ['device_types', 'name', 'model'],
-            'visitor.location'     => ['countries', 'code', 'country'],
-            'visitor.region'       => ['cities', 'region_name', 'region'],
-            'visitor.city'         => ['cities', 'city_name', 'city'],
-            'visitor.hits'         => ['sessions', 'total_views', 'total_views'],
-            'visitor.last_counter' => ['sessions', 'started_at', 'last_counter'],
-            'visitor.device'       => ['device_types', 'name', 'device'],
-            /* add any other legacy columns you still need */
+            // legacy key            table            col            alias         coalesce?
+            'visitor.ID'             => ['sessions', 'ID', 'ID', false],
+            'visitor.ip'             => ['sessions', 'ip', 'ip', false],
+            'visitor.agent'          => ['device_browsers', 'name', 'agent', false],
+            'visitor.platform'       => ['device_oss', 'name', 'platform', false],
+            'visitor.model'          => ['device_types', 'name', 'model', false],
+            'visitor.hits'           => ['sessions', 'total_views', 'total_views', false],
+            'visitor.last_counter'   => ['sessions', 'started_at', 'last_counter', false],
+            'visitor.device'         => ['device_types', 'name', 'device', false],
+            'visitor.location'       => ['countries', 'code', 'country', true],
+            'visitor.region'         => ['cities', 'region_name', 'region', true],
+            'visitor.city'           => ['cities', 'city_name', 'city', true],
+            'visitor.source_name'    => ['referrers', 'name', 'source_name', true],
+            'visitor.source_channel' => ['referrers', 'channel', 'source_channel', true],
         ];
 
         $essential = [
@@ -825,18 +827,12 @@ class SessionModel extends BaseModel
             'sessions.device_os_id',
             'sessions.device_type_id',
             'sessions.device_browser_version_id',
-            'sessions.country_id',
-            'sessions.city_id',
             'sessions.visitor_id',
             'sessions.user_id',
+            'sessions.country_id',
+            'sessions.city_id',
+            'sessions.referrer_id',
         ];
-
-        if (!empty($args['referrer'])) {
-            $legacyMap['visitor.source_name']    = ['referrers', 'name', 'source_name'];
-            $legacyMap['visitor.source_channel'] = ['referrers', 'channel', 'source_channel'];
-
-            $essential[] = 'sessions.referrer_id';
-        }
 
         $requested = $args['fields'];
         if (empty($requested)) {
@@ -846,14 +842,16 @@ class SessionModel extends BaseModel
         $select = $essential;
         $joins  = [];
 
-        foreach ($requested as $legacyCol) {
-            if (isset($legacyMap[$legacyCol])) {
-                [$tbl, $col, $alias] = $legacyMap[$legacyCol];
-                $select[]    = "{$tbl}.{$col} AS {$alias}";
-                $joins[$tbl] = true;
-            } else {
-                $select[] = $legacyCol;
+        foreach ($requested as $key) {
+            if (!isset($legacyMap[$key])) {
+                $select[] = $key;
+                continue;
             }
+
+            [$tbl, $col, $alias, $coalesce] = $legacyMap[$key];
+            $expr        = $coalesce ? "COALESCE({$tbl}.{$col}, '')" : "{$tbl}.{$col}";
+            $select[]    = "{$expr} AS {$alias}";
+            $joins[$tbl] = true;
         }
 
         $query = Query::select($select)
@@ -876,13 +874,13 @@ class SessionModel extends BaseModel
             $query->join('device_types', ['sessions.device_type_id', 'device_types.ID']);
         }
         if (isset($joins['countries'])) {
-            $query->join('countries', ['sessions.country_id', 'countries.ID']);
+            $query->join('countries', ['sessions.country_id', 'countries.ID'], [], 'LEFT');
         }
         if (isset($joins['cities'])) {
-            $query->join('cities', ['sessions.city_id', 'cities.ID']);
+            $query->join('cities', ['sessions.city_id', 'cities.ID'], [], 'LEFT');
         }
         if (!empty($joins['referrers'])) {
-            $query->join('referrers', ['sessions.referrer_id', 'referrers.ID']);
+            $query->join('referrers', ['sessions.referrer_id', 'referrers.ID'], [], 'LEFT');
         }
 
         $query->whereDate($args['date_field'], $args['date']);
@@ -1089,15 +1087,12 @@ class SessionModel extends BaseModel
             return null;
         }
 
-        // Define default fields
-        $fields = !empty($args['fields']) ? $args['fields'] : [
+        $select = [
             'sessions.ID',
-            'sessions.platform',
-            'sessions.agent',
-            'sessions.device_browser_version_id',
             'sessions.device_browser_id',
             'sessions.device_os_id',
             'sessions.device_type_id',
+            'sessions.device_browser_version_id',
             'sessions.resolution_id',
             'sessions.language_id',
             'sessions.timezone_id',
@@ -1112,24 +1107,42 @@ class SessionModel extends BaseModel
             'sessions.initial_view_id',
             'sessions.last_view_id',
             'sessions.referrer_id',
+            'device_browsers.name  AS agent',
+            'device_oss.name       AS platform',
+            'device_types.name     AS device',
+            'countries.code        AS country',
+            'cities.region_name    AS region',
+            'cities.city_name      AS city',
+            'referrers.channel     AS source_channel',
+            'referrers.name        AS source_name',
         ];
 
         if ($args['page_info']) {
-            $fields[] = 'resources.resource_url AS first_uri';
+            $select[] = 'resources.resource_url AS first_uri';
         }
 
         if ($args['user_info']) {
-            $fields[] = 'users.display_name';
-            $fields[] = 'users.user_email';
-            $fields[] = 'users.user_login';
-            $fields[] = 'users.user_registered';
+            $select = array_merge($select, [
+                'users.display_name',
+                'users.user_email',
+                'users.user_login',
+                'users.user_registered',
+            ]);
         }
 
-        $query = Query::select($fields)
+        $select = array_merge($select, $args['fields']);
+
+        $query = Query::select($select)
             ->from('sessions')
             ->where('sessions.visitor_id', '=', $args['visitor_id'])
             ->orderBy('sessions.started_at', 'DESC')
-            ->perPage(1);
+            ->perPage(1)
+            ->join('device_browsers', ['sessions.device_browser_id', 'device_browsers.ID'], [], 'LEFT')
+            ->join('device_oss', ['sessions.device_os_id', 'device_oss.ID'], [], 'LEFT')
+            ->join('device_types', ['sessions.device_type_id', 'device_types.ID'], [], 'LEFT')
+            ->join('countries', ['sessions.country_id', 'countries.ID'], [], 'LEFT')
+            ->join('cities', ['sessions.city_id', 'cities.ID'], [], 'LEFT')
+            ->join('referrers', ['sessions.referrer_id', 'referrers.ID'], [], 'LEFT');
 
         if ($args['page_info']) {
             $query->join('resources', ['sessions.initial_view_id', 'resources.ID'], [], 'LEFT');
@@ -1170,6 +1183,8 @@ class SessionModel extends BaseModel
         return Query::select([
             'views.viewed_at AS date',
             'views.resource_id',
+            'views.session_id',
+            'views.viewed_at',
             'resources.resource_url',
             'resources.cached_title',
         ])
@@ -1178,6 +1193,7 @@ class SessionModel extends BaseModel
             ->join('resources', ['views.resource_id', 'resources.ID'])
             ->where('sessions.visitor_id', '=', $args['visitor_id'])
             ->orderBy('views.viewed_at', 'ASC')
+            ->decorate(ViewDecorator::class)
             ->getAll() ?: [];
     }
 

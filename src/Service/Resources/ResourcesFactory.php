@@ -40,6 +40,10 @@ class ResourcesFactory
      */
     public static function getByUrl($resourceUrl)
     {
+        if (empty($resourceUrl)) {
+            return null;
+        }
+
         $record = RecordFactory::resource()->get([
             'resource_url' => $resourceUrl,
         ]);

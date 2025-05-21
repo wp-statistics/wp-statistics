@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Decorators;
 
+use WP_STATISTICS\IP;
 use WP_Statistics\Records\RecordFactory;
 
 /**
@@ -338,5 +339,15 @@ class SessionDecorator
         ]);
 
         return new ParameterDecorator($record);
+    }
+
+    /**
+     * Is the visitor's IP hashed?
+     *
+     * @return string|null
+     */
+    public function isHashedIP()
+    {
+        return IP::IsHashIP($this->getIp());
     }
 }

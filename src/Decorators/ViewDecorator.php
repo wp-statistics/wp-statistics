@@ -69,6 +69,31 @@ class ViewDecorator
     }
 
     /**
+     * Get the session id of this view.
+     *
+     * @return int|null
+     */
+    public function getSessionId()
+    {
+        return isset($this->view->session_id) ? (int)$this->view->session_id : null;
+    }
+
+    /**
+     * Get the session of this view.
+     *
+     * @return SessionDecorator|null
+     */
+    public function getSession()
+    {
+        if (empty($this->view->session_id)) {
+            return new SessionDecorator(null);
+        }
+
+        $record = RecordFactory::session()->get(['ID' => $this->view->session_id]);
+        return new SessionDecorator($record);
+    }
+
+    /**
      * Get the resource associated with this view.
      *
      * @return ResourceDecorator|null

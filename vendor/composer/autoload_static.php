@@ -184,6 +184,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Models\\HistoricalModel' => __DIR__ . '/../..' . '/src/Models/HistoricalModel.php',
         'WP_Statistics\\Models\\LegacyModel' => __DIR__ . '/../..' . '/src/Models/LegacyModel.php',
         'WP_Statistics\\Models\\Legacy\\LegacyOnlineModel' => __DIR__ . '/../..' . '/src/Models/Legacy/LegacyOnlineModel.php',
+        'WP_Statistics\\Models\\Legacy\\LegacyPostsModel' => __DIR__ . '/../..' . '/src/Models/Legacy/LegacyPostsModel.php',
         'WP_Statistics\\Models\\Legacy\\LegacyViewsModel' => __DIR__ . '/../..' . '/src/Models/Legacy/LegacyViewsModel.php',
         'WP_Statistics\\Models\\Legacy\\LegacyVisitorsModel' => __DIR__ . '/../..' . '/src/Models/Legacy/LegacyVisitorsModel.php',
         'WP_Statistics\\Models\\OnlineModel' => __DIR__ . '/../..' . '/src/Models/OnlineModel.php',
