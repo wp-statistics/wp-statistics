@@ -409,23 +409,23 @@ add_thickbox();
 <div class="postbox">
     <table class="form-table">
         <tbody>
-            <tr valign="top">
-                <th scope="row" colspan="2">
-                    <h3><?php esc_html_e('Content Analytics', 'wp-statistics'); ?></h3>
-                </th>
-            </tr>
+        <tr valign="top">
+            <th scope="row" colspan="2">
+                <h3><?php esc_html_e('Content Analytics', 'wp-statistics'); ?></h3>
+            </th>
+        </tr>
 
-            <tr valign="top">
-                <th scope="row"><label for="word_count_analytics"><?php esc_html_e('Word Count Analytics', 'wp-statistics'); ?></label></th>
-                <td>
-                    <input id="word_count_analytics" type="checkbox" name="wps_word_count_analytics" <?php checked(WordCountService::isActive()) ?>>
-                    <label for="word_count_analytics"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+        <tr valign="top">
+            <th scope="row"><label for="word_count_analytics"><?php esc_html_e('Word Count Analytics', 'wp-statistics'); ?></label></th>
+            <td>
+                <input id="word_count_analytics" type="checkbox" name="wps_word_count_analytics" <?php checked(WordCountService::isActive()) ?>>
+                <label for="word_count_analytics"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
 
-                    <p class="description">
-                        <?php esc_html_e('Provides word count data for content and author analytics reports. Turning off this option will remove all word count-related reports.', 'wp-statistics'); ?>
-                    </p>
-                </td>
-            </tr>
+                <p class="description">
+                    <?php esc_html_e('Provides word count data for content and author analytics reports. Turning off this option will remove all word count-related reports.', 'wp-statistics'); ?>
+                </p>
+            </td>
+        </tr>
         </tbody>
     </table>
 </div>
@@ -469,7 +469,8 @@ add_thickbox();
 
 <?php
 Modal::render('setting-confirmation', [
-    'title'                => __('This will permanently delete data from the database each day, are you sure you want to enable this option?', 'wp-statistics'),
+    'title'                => __('Confirmation', 'wp-statistics'),
+    'description'          => __('This will permanently delete data from the database each day, are you sure you want to enable this option?', 'wp-statistics'),
     'primaryButtonText'    => __('Yes , Enable', 'wp-statistics'),
     'primaryButtonStyle'   => 'danger',
     'secondaryButtonText'  => __('Cancel', 'wp-statistics'),
