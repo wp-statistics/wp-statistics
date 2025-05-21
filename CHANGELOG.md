@@ -13,6 +13,7 @@
 - **Fix:** Fixed display issue for Android app referrers in Top Referrers widget.
 - **Fix:** Hide settings and help icons based on user role.
 - **Fix:** Resolved double slash issue in Link Report URL.
+- **Fix:** Removed the /online and /hit endpoints from the REST API when the Tracking Method is set to Server-Side Tracking (deprecated).
 
 = 14.13.4 - 2025-04-29 =
 - **Enhancement:** Enforced capability check in optionUpdater.
