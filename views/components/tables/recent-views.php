@@ -24,13 +24,30 @@ use WP_Statistics\Components\View;
 
                 <tbody>
                 <?php foreach ($data as $view) : 
-                    $page = Visitor::get_page_by_id($view->page_id); 
+                    if (isset($view->page_id)) {
+                        $resource         = Visitor::get_page_by_id($view->page_id); 
+                        $resourceLink     = $resource['link'];
+                        $resourceTitle    = $resource['title'];
+                        $resourceQuery    = $resource['query'] ? "?{$resource['query']}" : '';
+                        $resourceViewDate = date_i18n(Helper::getDefaultDateFormat(true), strtotime($view->date));
+                    } else {
+                        $resource         = $view->getResource();
+                        $resourceLink     = $resource->getUrl();
+                        $resourceTitle    = $resource->getTitle();
+                        $resourceQuery    = $view->getSession()->getParameter($resource->getId())->getFull();
+                        $resourceViewDate = $view->getViewedAt();
+                    }
                 ?>
                     <tr>
-                        <td class="wps-pd-l"><?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(true), strtotime($view->date))); ?></td>
+                        <td class="wps-pd-l"><?php echo esc_html($resourceViewDate); ?></td>
                         <td class="wps-pd-l start">
                             <?php
-                            View::load("components/objects/external-link", ['url' => $page['link'], 'title' => $page['title']]);
+                            View::load(
+                                "components/objects/external-link", [
+                                    'url' => $resourceQuery,
+                                    'title' => $resourceTitle
+                                ]
+                            );
                             ?>
                         </td>
                     </tr>
