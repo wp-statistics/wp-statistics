@@ -178,11 +178,12 @@ function navigateToTab(tab) {
         selectedItem.classList.add('current');
     }
 }
+jQuery(document).ready(function () {
+    createMobileDropdown();
+});
 
 window.onload = function () {
-    createMobileDropdown();
-     const closeButton = document.querySelector('.wps-alert__close');
-
+    const closeButton = document.querySelector('.wps-alert__close');
     if (closeButton) {
         const alert = closeButton.closest('.wps-alert');
         if (alert) {
