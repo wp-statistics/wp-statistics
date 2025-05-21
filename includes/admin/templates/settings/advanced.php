@@ -7,7 +7,6 @@ use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_STATISTICS\TimeZone;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
-use WP_STATISTICS\TimeZone;
 use WP_Statistics\Service\Admin\ModalHandler\Modal;
 
 // Get IP Method
