@@ -17,7 +17,10 @@
 
 <?php if (!empty($addon_info)): ?>
     <div class="wps-premium-feature__addon_info">
-        <?php echo esc_html($addon_info); ?>
+        <?php if (isset($addon_info)) {
+            echo esc_html($addon_info);
+            }
+        ?>
         <?php if (!empty($addon_documentation_title) && !empty($addon_documentation_slug)): ?>
             <a href="<?php echo esc_url($addon_documentation_slug) ?>" target="_blank" title="<?php echo esc_html($addon_documentation_title); ?>"><?php echo esc_html($addon_documentation_title); ?></a>.
         <?php endif; ?>
