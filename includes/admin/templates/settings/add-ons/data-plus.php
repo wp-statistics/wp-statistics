@@ -30,7 +30,7 @@ if (!$isDataPlusActive) echo Admin_Template::get_template(
             __('Analyze individual content pieces with detailed widgets.', 'wp-statistics'),
         ],
         true
-    );
+    ]);
 
 
     if ($isDataPlusActive && !$isLicenseValid) {
