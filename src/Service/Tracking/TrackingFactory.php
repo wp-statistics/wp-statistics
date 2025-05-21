@@ -3,7 +3,6 @@
 namespace WP_Statistics\Service\Tracking;
 
 use WP_STATISTICS\Service\Tracking\Core\Hits;
-use WP_STATISTICS\Service\Tracking\API\Hit as HitAPI;
 
 /**
  * Factory for creating instances of tracking-related services.
@@ -22,15 +21,5 @@ class TrackingFactory
     public static function hits()
     {
         return new Hits();
-    }
-
-    /**
-     * Get the REST API endpoint handler for recording hits.
-     *
-     * @return HitAPI Instance of the Hit API class.
-     */
-    public static function hitApi()
-    {
-        return new HitAPI();
     }
 }

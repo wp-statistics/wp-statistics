@@ -39,22 +39,11 @@ class Frontend
              */
             $params = array_merge([TrackingFactory::hits()->getRestHitsKey() => 1], Helper::getHitsDefaultParams());
 
-            /**
-             * Handle the bypass ad blockers
-             *
-             * @todo This should be refactored in a service related to option. note that all the options with same functionality should be updated.
-             */
-            if (Option::get('bypass_ad_blockers', false)) {
-                // AJAX params
-                $requestUrl   = get_site_url();
-                $hitParams    = array_merge($params, ['action' => 'wp_statistics_hit_record']);
-                $onlineParams = array_merge($params, ['action' => 'wp_statistics_online_check']);
-            } else {
-                // REST params
-                $requestUrl   = get_rest_url(null, RestAPI::$namespace);
-                $hitParams    = array_merge($params, ['endpoint' => TrackingFactory::hitApi()->getEndpoint()]);
-                $onlineParams = array_merge($params, ['endpoint' => Api\v2\CheckUserOnline::$endpoint]);
-            }
+            $params = apply_filters( 'wp_statistics_js_localized_arguments', $params);
+
+            $requestUrl   = ! empty($params['requestUrl']) ? $params['requestUrl'] : get_site_url();
+            $hitParams    = ! empty($params['hitParams']) ? $params['hitParams'] : $params;
+            $onlineParams = ! empty($params['onlineParams']) ? $params['onlineParams'] : $params;
 
             /**
              * Build the parameters

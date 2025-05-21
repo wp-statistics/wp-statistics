@@ -32,7 +32,7 @@ use WP_Statistics\Service\Database\Managers\MigrationHandler;
 use WP_Statistics\Service\HooksManager;
 use WP_Statistics\Service\Resources\Core\ResourceManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
-use WP_STATISTICS\Service\Tracking\API\Hit as HitAPI;
+use WP_Statistics\Service\Tracking\TrackerControllerFactory;
 
 defined('ABSPATH') || exit;
 
@@ -181,7 +181,7 @@ final class WP_Statistics
         $referrals                  = new ReferralsManager();
         $anonymizedUsageDataManager = new AnonymizedUsageDataManager();
         $notificationManager        = new NotificationManager();
-        new HitAPI();
+        TrackerControllerFactory::createController();
 
         // Admin classes
         if (is_admin()) {
@@ -203,7 +203,6 @@ final class WP_Statistics
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-settings.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-optimization.php';
 
-            $analytics           = new AnalyticsManager();
             $authorAnalytics     = new AuthorAnalyticsManager();
             $privacyAudit        = new PrivacyAuditManager();
             $geographic          = new GeographicManager();
