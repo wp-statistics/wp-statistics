@@ -103,7 +103,17 @@ class TabsView extends BaseTabView
      */
     public function getAddOnsData()
     {
-        return $this->dataProvider->getAddOnsData();
+        $addOnsData                                 = $this->dataProvider->getAddOnsData();
+        $addOnsData['has_any_license']              = $this->dataProvider->hasAnyLicense();
+        $addOnsData['missing_add_ons']              = $this->dataProvider->getMissingAddOnsForPremiumLicense();
+        $addOnsData['has_valid_premium_license']    = $this->dataProvider->hasValidPremiumLicense();
+        $addOnsData['invalid_licenses']             = $this->dataProvider->getInvalidLicenses();
+        $addOnsData['unlicensed_installed_add_ons'] = $this->dataProvider->getInstalledAddOnsWithoutLicense();
+        $addOnsData['inactive_installed_add_ons']   = $this->dataProvider->getInactiveInstalledAddOns();
+        $addOnsData['license_notice_type']          = $this->dataProvider->getLicenseNoticeType();
+        $addOnsData['install_addon_link']           = esc_url(Menus::admin_url('plugins', ['tab' => 'add-license']));
+
+        return $addOnsData;
     }
 
     /**
@@ -167,7 +177,7 @@ class TabsView extends BaseTabView
             ];
 
             if ($this->isTab('add-ons')) {
-                $args['title']                  = esc_html__('Add-Ons', 'wp-statistics');
+                $args['title'] = esc_html__('Add-Ons', 'wp-statistics');
 
                 if (is_main_site()) {
                     $args['install_addon_btn_txt']  = esc_html__('Install Add-On', 'wp-statistics');

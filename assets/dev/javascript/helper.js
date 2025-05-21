@@ -203,6 +203,7 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
         let parent = element.parentNode;
         let nextSibling = element.nextSibling;
         parent.removeChild(element);
+        data = data.map(Number);
         let total = data.reduce((sum, data) => sum + data, 0);
         let blockDiv = document.createElement('div');
         blockDiv.classList.add('wps-horizontal-bar');
@@ -253,6 +254,10 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
         }
     }
 };
+
+window.renderHorizontalBar = (id, label, data, icons) => {
+    wps_js.horizontal_bar(id, label, data, icons);
+}
 
 /**
  * Create Chart ID by Meta Box name
@@ -407,7 +412,9 @@ jQuery(document).ready(function () {
         dropdown.addEventListener("click", function (event) {
             var dropdownContent = dropdown.querySelector(".dropdown-content");
             if (dropdownContent) {
-                dropdownContent.classList.toggle("show");
+                if(!event.target.classList.contains('disabled')){
+                    dropdownContent.classList.toggle("show");
+                }
             }
         });
     });
@@ -442,6 +449,14 @@ jQuery(document).ready(function () {
     });
 });
 
+if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "help-center") {
+    const body = document.body;
+    const targetClass = 'statistics_page_wps_help-center_page';
+
+    if (!body.classList.contains(targetClass)) {
+        body.classList.add(targetClass);
+    }
+}
 jQuery(document).ready(function () {
     const targetElement = document.querySelector('.wp-header-end');
     const noticeElement = document.querySelector('.notice.notice-warning.update-nag');

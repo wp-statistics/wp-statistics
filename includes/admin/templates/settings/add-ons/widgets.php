@@ -11,7 +11,7 @@ $isWidgetsActive = WP_STATISTICS\Helper::isAddOnActive('widgets');
 
 <?php
 if (!$isWidgetsActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
-    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-widgets/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
+    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-widgets/?utm_source=wp-statistics&utm_medium=link&utm_campaign=widgets'),
      'addon_title'        => __('Advanced Widgets Add-On', 'wp-statistics'),
      'addon_modal_target' => 'wp-statistics-widgets',
      'addon_description'  => __('The settings on this page are part of the Advanced Widgets add-on, allowing you to display a range of data widgets on your website.', 'wp-statistics'),

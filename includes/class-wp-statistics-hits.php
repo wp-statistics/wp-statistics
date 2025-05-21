@@ -192,7 +192,7 @@ class Hits extends Singleton
         /**
          * Record User Online with the visitor request in the same time.
          */
-        self::recordOnline($visitorProfile, $exclusion, $pageId);
+        self::recordOnline($visitorProfile);
 
         self::errorListener();
 
@@ -204,7 +204,7 @@ class Hits extends Singleton
      *
      * @throws Exception
      */
-    public static function recordOnline($visitorProfile = null, $exclusion = null, $pageId = null)
+    public static function recordOnline($visitorProfile = null)
     {
         if (!UserOnline::active()) {
             return;
@@ -214,33 +214,12 @@ class Hits extends Singleton
             $visitorProfile = new VisitorProfile();
         }
 
-        /**
-         * Check the exclusion
-         */
-        if (!$exclusion) {
-            $exclusion = Exclusion::check($visitorProfile);
+        if ($visitorProfile->getVisitorId() === 0) {
+            return;
         }
 
-        /**
-         * Record exclusion if needed & then skip the tracking
-         */
-        if ($exclusion['exclusion_match'] === true) {
-            Exclusion::record($exclusion);
-
-            self::errorListener();
-
-            throw new Exception($exclusion['exclusion_reason'], 200);
-        }
-
-        $args = null;
-        if ($pageId) {
-            $args['page_id'] = $pageId;
-        }
-
-        UserOnline::record($visitorProfile, $args);
+        UserOnline::record($visitorProfile);
         self::errorListener();
-
-        return $exclusion;
     }
 
     /**

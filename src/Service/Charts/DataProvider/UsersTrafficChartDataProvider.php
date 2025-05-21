@@ -53,8 +53,8 @@ class UsersTrafficChartDataProvider extends AbstractChartDataProvider
         $data = $this->parseData($currentDates, ['logged_in' => $loggedInData, 'anonymous' => $anonymousData]);
 
         $this->setChartLabels($data['labels']);
-        $this->addChartDataset(esc_html__('User Visitors', 'wp-statistics'), $data['users']);
-        $this->addChartDataset(esc_html__('Anonymous Visitors', 'wp-statistics'), $data['anonymous']);
+        $this->addChartDataset(esc_html__('User Visitors', 'wp-statistics'), $data['users'], 'user-visitors');
+        $this->addChartDataset(esc_html__('Anonymous Visitors', 'wp-statistics'), $data['anonymous'], 'anonymous-visitors');
     }
 
     protected function setPrevPeriodData()

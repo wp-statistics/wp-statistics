@@ -4,6 +4,8 @@ namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Components\DateTime;
+use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
 class TopCountries extends BaseMetabox
 {
@@ -35,11 +37,21 @@ class TopCountries extends BaseMetabox
     {
         $args = $this->getFilters();
 
-        $data = $this->dataProvider->getTopCountiesData($args);
+        $isTodayOrFutureDate = DateTime::isTodayOrFutureDate($args['date']['to'] ?? null);
 
-        $output = View::load('metabox/top-countries', ['data' => $data, 'filters' => $args], true);
+        $data = ChartDataProviderFactory::countryChart($args)->getData();
 
-        return $output;
+        $data = array_merge($data, [
+            'tag_id' => 'wps-top-countries',
+            'url'    => WP_STATISTICS_URL . 'assets/images/no-data/vector-3.svg'
+        ]);
+
+        $output = View::load('metabox/horizontal-bar', ['data' => $data, 'filters' => $args, 'isTodayOrFutureDate' => $isTodayOrFutureDate], true);
+
+        return [
+            'output' => $output,
+            'data'   => $data
+        ];
     }
 
     public function render()

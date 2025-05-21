@@ -15,7 +15,7 @@ global $wp_version;
 
 <?php
 if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
-    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
+    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=advanced-reporting'),
      'addon_title'        => __('Advanced Reporting Add-On', 'wp-statistics'),
      'addon_modal_target' => 'wp-statistics-advanced-reporting',
      'addon_description'  => __('The settings on this page are part of the Advanced Reporting add-on, which allows you to stay up-to-date on your website\'s performance by receiving graphical representations of your website\'s statistics directly in your inbox.', 'wp-statistics'),

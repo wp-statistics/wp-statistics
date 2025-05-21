@@ -1,5 +1,89 @@
-= 14.13.1 - 2025-04-** =
-- **Fix:** Removed table prefix from shared data.
+= 14.14 - 2025-xx-xx
+- **New:** Added a Help Center page to assist users within the plugin.
+- **Enhancement**: Combined Location with Visitor Information in reports.
+- **Enhancement**: Add Entry/Exit Page to the reports.
+- **New:** Added an option to to disable word count analytics in reports.
+- **Enhancement:** Add a notification count display to the Help Center page.
+- **Enhancement**: Added dynamic licensing notices for add-on page.
+- **New**: Add display dynamic promo banner.
+- **New:** Added Single Resource report for for resources without post id in WordPress.
+- **Fix:** Fixed inconsistent "Page" column link behavior across all widgets and reports.
+
+= 14.13.5 - 2025-05-x =
+- **Fix:** Fixed issue where page views were zero when using a taxonomy filter other than 'category'.
+- **Fix:** Show referrers data based on the first viewed page.
+- **Enhancement:** Display referred visitors via UTM parameters in the `Referrals` report.
+- **Fix:** Fixed Decimal Formatting
+- **Fix**: Fixed visitors number aggregation issue.
+- **Fix:** Resolved posts view column issue.
+
+= 14.13.4 - 2025-04-29 =
+- **Enhancement:** Enforced capability check in optionUpdater.
+- **Enhancement:** Improved the helper text for the Privacy Policy section.
+- **Enhancement:** Limited the migration process to run only within the plugin's admin pages.
+- **Fix:** Fixed 404 errors when "Bypass Ad-Blocker" proxies assets with extra query parameters.
+
+= 14.13.3 - 2025-04-23 =
+- **New:** Added an option to enable or disable the Privacy Audit section in email reports.
+- **Enhancement:** Improved the migrator to avoid sending redundant requests.
+- **Enhancement:** Added Source Category filter into the visitors report filters.
+- **Fix:** Fixed high memory usage during plugin activation.
+- **Fix:** Resolved occasional PHP warnings.
+- **Fix**: Fixed early translation loading warning.
+
+= 14.13.5 - 2025-05-x =
+- **Fix:** Fixed issue where page views were zero when using a taxonomy filter other than 'category'.
+- **Fix:** Show referrers data based on the first viewed page.
+- **Enhancement:** Display referred visitors via UTM parameters in the `Referrals` report.
+- **Fix:** Fixed Decimal Formatting
+- **Fix**: Fixed visitors number aggregation issue.
+- **Fix:** Resolved posts view column issue.
+- **Enhancement:** Added `wp_statistics_disable_tracker_debugger_logs` filter to conditionally bypass tracker debugger error logging.
+- **Fix:** Removed "Get Premium" action link if license is available.
+- **Enhancement:** Optimized online visitor tracking request to improve performance.
+- **Fix:** Unseted /online endpoint from REST API when Monitor Online Visitors option is disabled.
+- **Fix:** Fixed an issue with the 'All Time' date filter displaying incorrect content details in alternative calendars.
+- **Fix:** Fixed display issue for Android app referrers in Top Referrers widget.
+
+= 14.13.4 - 2025-04-29 =
+- **Enhancement:** Enforced capability check in optionUpdater.
+- **Enhancement:** Improved the helper text for the Privacy Policy section.
+- **Enhancement:** Limited the migration process to run only within the plugin's admin pages.
+- **Fix:** Fixed 404 errors when "Bypass Ad-Blocker" proxies assets with extra query parameters.
+
+= 14.13.3 - 2025-04-23 =
+- **New:** Added an option to enable or disable the Privacy Audit section in email reports.
+- **Enhancement:** Improved the migrator to avoid sending redundant requests.
+- **Enhancement:** Added Source Category filter into the visitors report filters.
+- **Fix:** Fixed high memory usage during plugin activation.
+- **Fix:** Resolved occasional PHP warnings.
+- **Fix**: Fixed early translation loading warning.
+
+= 14.13.2 - 2025-04-20 =
+- **Fix**: Fix Font Size issue on the Free Email Report.
+- **New:** Added a 28-day date range option to the date picker.
+- **Enhancement:** Improved overall performance.
+- **Enhancement:** On the Single Post Statistics page, the update date is now shown only if it's different from the creation date.
+- **Fix:** Fixed inconsistencies in online visitor analytics.
+- **Fix:** Ensured the "Views" column is visible for Editors on the posts list page.
+- **Fix:** Resolved errors that appeared during notification updates.
+- **Fix:** Stopped inactive users from appearing online after 30 minutes.
+- **Fix:** Fixed issues with hit and online tracking endpoints.
+- **Fix:** Corrected filters URL issue on the Referrals page.
+- **Fix:** Resolved chart color issues in RTL layout.
+- **Fix:** Fixed a notice related to the word count background process.
+- **Fix:** Removed unnecessary left join on the users table in Visitor Insights to improve query performance.
+- **Fix:** Fixed compatibility issues with the Interactivity API.
+- **Fix:** Resolved layout issue with the "Account Information" widget on the Single Visitor page.
+- **Removal:** Removed the `Host Exclusions` setting.
+- **Enhancement:** Now counting approved comments instead of all comments.
+
+= 14.13.1 - 2025-04-08 =
+- **Enhancement:** Improved filter logic to avoid unnecessary requests.
+- **Enhancement:** Enhanced source channel detection for more accurate results.
+- **Enhancement:** Removed the FeedbackBird button from the header along with its related functionality.
+- **Fix:** Removed table prefix from shared anonymous data.
+- **Fix:** Fixed `serveObfuscatedAsset` compatibility with URL cleanup features when Bypass Ad-blocker is enabled.
 
 = 14.13 - 2025-04-01 =
 - **New:** Introduced Notifications to receive important updates and promotions.
