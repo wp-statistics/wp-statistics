@@ -27,7 +27,15 @@ class AjaxBasedTracking extends BaseTrackerController
      *
      * @var string
      */
-    public const ENDPOINT_HIT = 'hit';
+    public const HIT_ACTION = 'hit_record';
+
+    /**
+     * REST API endpoint slug for recording online user.
+     * Used to register the /online endpoint that handles tracking online user.
+     *
+     * @var string
+     */
+    public const ONLINE_ACTION = 'online_check';
 
     /**
      * Initialize the AJAX tracking controller.
@@ -71,9 +79,12 @@ class AjaxBasedTracking extends BaseTrackerController
      */
     public function addLocalizedArguments($args)
     {
+        $hitAction    = 'wp_statistics_' . self::HIT_ACTION;
+        $onlineAction = 'wp_statistics_' . self::ONLINE_ACTION;
+
         $args['requestUrl']   = get_site_url();
-        $args['hitParams']    = array_merge($args, ['endpoint' => self::ENDPOINT_HIT]);
-        $args['onlineParams'] = array_merge($args, ['endpoint' => self::ENDPOINT_ONLINE]);
+        $args['hitParams']    = array_merge($args, ['action' => $hitAction]);
+        $args['onlineParams'] = array_merge($args, ['action' => $onlineAction]);
 
         return $args;
     }
@@ -89,13 +100,13 @@ class AjaxBasedTracking extends BaseTrackerController
     {
         $list[] = [
             'class'  => $this,
-            'action' => 'hit_record',
+            'action' => self::HIT_ACTION,
             'public' => true,
         ];
 
         $list[] = [
             'class'  => $this,
-            'action' => 'online_check',
+            'action' => self::ONLINE_ACTION,
             'public' => true,
         ];
 

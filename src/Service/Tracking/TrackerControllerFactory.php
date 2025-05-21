@@ -20,22 +20,16 @@ use WP_STATISTICS\Service\Tracking\Controllers\ServerSideTracking;
 class TrackerControllerFactory
 {
     /**
-     * Creates and returns the appropriate tracking controller instance based on plugin settings.
+     * Creates and returns the appropriate tracking controller based on settings.
      *
-     * The selection process considers:
-     * - Client/Server side tracking setting (use_cache_plugin)
-     * - Ad blocker bypass setting (bypass_adblocker)
-     *
-     * Custom tracking controllers can be implemented using the 'wp_statistics_tracker_controller' filter.
-     *
-     * @return BaseTrackerController The configured tracker controller instance.
-     * @throws Exception If the tracking method is invalid or custom controller is incorrect.
+     * @return BaseTrackerController The configured tracking controller instance
+     * @throws Exception If custom controller validation fails
      * @since 15.0.0
      */
     public static function createController()
     {
         $useClientSide   = Option::get('use_cache_plugin', true);
-        $bypassAdblocker = Option::get('bypass_adblocker', false);
+        $bypassAdblocker = Option::get('bypass_ad_blockers', false);
 
         /**
          * TODO: Add performance optimization setting, and remained controller.

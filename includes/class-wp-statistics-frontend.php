@@ -38,22 +38,21 @@ class Frontend
              * Get default params
              */
             $params = array_merge([TrackingFactory::hits()->getRestHitsKey() => 1], Helper::getHitsDefaultParams());
+            $params = apply_filters('wp_statistics_js_localized_arguments', $params);
 
-            $params = apply_filters( 'wp_statistics_js_localized_arguments', $params);
-
-            $requestUrl   = ! empty($params['requestUrl']) ? $params['requestUrl'] : get_site_url();
-            $hitParams    = ! empty($params['hitParams']) ? $params['hitParams'] : $params;
-            $onlineParams = ! empty($params['onlineParams']) ? $params['onlineParams'] : $params;
+            $requestUrl   = !empty($params['requestUrl']) ? $params['requestUrl'] : get_site_url();
+            $hitParams    = !empty($params['hitParams']) ? $params['hitParams'] : $params;
+            $onlineParams = !empty($params['onlineParams']) ? $params['onlineParams'] : $params;
 
             /**
              * Build the parameters
              */
             $jsArgs = array(
-                'requestUrl'   => $requestUrl,
-                'ajaxUrl'      => admin_url('admin-ajax.php'),
-                'hitParams'    => $hitParams,
-                'onlineParams' => $onlineParams,
-                'option'       => [
+                'requestUrl'          => $requestUrl,
+                'ajaxUrl'             => admin_url('admin-ajax.php'),
+                'hitParams'           => $hitParams,
+                'onlineParams'        => $onlineParams,
+                'option'              => [
                     'userOnline'           => Option::get('useronline'),
                     'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
                     'dntEnabled'           => Option::get('do_not_track'),
@@ -62,10 +61,10 @@ class Frontend
                     'trackAnonymously'     => Helper::shouldTrackAnonymously(),
                     'isPreview'            => is_preview(),
                 ],
-                'resourceId'   => ResourcesFactory::getCurrentResource()->getId(),
-                'jsCheckTime'  => apply_filters('wp_statistics_js_check_time_interval', 60000),
-                'jsCheckTime'           => apply_filters('wp_statistics_js_check_time_interval', 60000),
-                'isLegacyEventLoaded'   => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded
+                'resourceId'          => ResourcesFactory::getCurrentResource()->getId(),
+                'jsCheckTime'         => apply_filters('wp_statistics_js_check_time_interval', 60000),
+                'jsCheckTime'         => apply_filters('wp_statistics_js_check_time_interval', 60000),
+                'isLegacyEventLoaded' => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded
             );
 
             if (defined('WP_DEBUG') && WP_DEBUG) {
