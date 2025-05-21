@@ -273,7 +273,7 @@
                     <label for="delete-user-ids-submit"><?php esc_html_e('Remove User IDs', 'wp-statistics'); ?></label>
                 </th>
                 <td>
-                    <button id="delete-user-ids-submit" class="js-openModal-setting-confirmation wps-button wps-button--danger-outline" type="button" name="delete_user_ids_submit"><?php esc_html_e('Delete User IDs Now', 'wp-statistics'); ?></button>
+                    <button id="delete-user-ids-submit" class="js-openModal-setting-confirmation wps-button wps-button--danger-outline wps-mt-0" type="button" name="delete_user_ids_submit"><?php esc_html_e('Delete User IDs Now', 'wp-statistics'); ?></button>
                     <p class="description">
                         <?php esc_html_e('Permanently deletes all stored User IDs from the database to anonymize user visit records or to comply with privacy regulations.', 'wp-statistics'); ?><br>
 
@@ -290,7 +290,7 @@
                     <label for="clear-user-agent-strings-submit"><?php esc_html_e('Clear User Agent Strings', 'wp-statistics'); ?></label>
                 </th>
                 <td>
-                    <button id="clear-user-agent-strings-submit" class="js-openModal-setting-confirmation wps-button wps-button--danger-outline" type="button" name="clear_user_agent_strings_submit"><?php esc_html_e('Clear User Agent Data Now', 'wp-statistics'); ?></button>
+                    <button id="clear-user-agent-strings-submit" class="js-openModal-setting-confirmation wps-button wps-button--danger-outline wps-mt-0" type="button" name="clear_user_agent_strings_submit"><?php esc_html_e('Clear User Agent Data Now', 'wp-statistics'); ?></button>
                     <p class="description">
                         <?php esc_html_e('Permanently erases all User Agent Strings from the database, typically done after troubleshooting to remove unnecessary data.', 'wp-statistics'); ?><br>
                     </p>
@@ -306,12 +306,11 @@
                     <label for="delete-word-count-data-submit"><?php esc_html_e('Clear Word Count Data', 'wp-statistics'); ?></label>
                 </th>
                 <td>
-                    <button id="delete-word-count-data-submit" class="button button-primary" type="submit" name="delete_word_count_data_submit"><?php esc_html_e('Clear Word Count Data Now', 'wp-statistics'); ?></button>
-                    <p class="description">
+                    <button id="delete-word-count-data-submit" class="js-openModal-setting-confirmation wps-button  wps-button--danger-outline wps-mt-0" type="submit" name="delete_word_count_data_submit"><?php esc_html_e('Clear Word Count Data Now', 'wp-statistics'); ?></button>
+                    <div class="description">
                         <?php esc_html_e('Permanently deletes all stored word count data from the database.', 'wp-statistics'); ?><br>
-                        <span class="wps-note"><?php esc_html_e('Caution', 'wp-statistics'); ?>:</span>
-                        <?php esc_html_e('This action is irreversible.', 'wp-statistics'); ?>
-                    </p>
+                         <div class="wps-alert wps-alert__danger"><?php esc_html_e('This action is irreversible.', 'wp-statistics'); ?></div>
+                    </div>
                     <div id="delete-word-count-data-result"></div>
                 </td>
             </tr>
@@ -321,7 +320,7 @@
                     <label for="query-params-cleanup-submit"><?php esc_html_e('Clean Up Recorded Query Parameters', 'wp-statistics'); ?></label>
                 </th>
                 <td>
-                    <button id="query-params-cleanup-submit" class="wps-button wps-button--danger-outline js-openModal-setting-confirmation" type="button" name="query_params_cleanup_submit"><?php esc_html_e('Run Cleanup', 'wp-statistics'); ?></button>
+                    <button id="query-params-cleanup-submit" class="wps-button wps-button--danger-outline js-openModal-setting-confirmation wps-mt-0" type="button" name="query_params_cleanup_submit"><?php esc_html_e('Run Cleanup', 'wp-statistics'); ?></button>
                     <p class="description">
                         <?php esc_html_e('Removes previously stored query parameters from your historical data, ensuring consistency with your current privacy settings.', 'wp-statistics'); ?><br>
                     </p>
