@@ -36,111 +36,133 @@ function wp_statistics_enableTab(tab_id) {
 
 
 function createMobileDropdown() {
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initializeDropdown);
+     if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeDropdownWithRetry);
     } else {
-        initializeDropdown();
+        initializeDropdownWithRetry();
     }
 
-    function initializeDropdown() {
-        const menu = document.querySelector('.wps-optionsMenu');
-        if (!menu) {
-            return;
+    function initializeDropdownWithRetry() {
+        let retryCount = 0;
+        const maxRetries = 10;
+        const retryInterval = 500;
+         function tryInitializeDropdown() {
+            const menu = document.querySelector('.wps-optionsMenu');
+            if (menu) {
+                 initializeDropdown();
+            } else {
+                retryCount++;
+                if (retryCount < maxRetries) {
+                     setTimeout(tryInitializeDropdown, retryInterval);
+                } else {
+                    const wrapper = document.createElement('div');
+                    wrapper.classList.add('wps-setting-select-wrapper');
+                    wrapper.innerHTML = '<p>' + (wps_js._('no_menu_items') || 'Menu not available') + '</p>';
+                    document.body.appendChild(wrapper);
+                }
+            }
         }
 
-        const wrapper = document.createElement('div');
-        wrapper.classList.add('wps-setting-select-wrapper');
+        function initializeDropdown() {
+            const menu = document.querySelector('.wps-optionsMenu');
+            if (!menu) {
+                console.warn('Menu element (.wps-optionsMenu) not found');
+                return;
+            }
 
-        const select = document.createElement('select');
-        select.classList.add('wps-options-mobile-menu');
+            const wrapper = document.createElement('div');
+            wrapper.classList.add('wps-setting-select-wrapper');
 
-        const settingsItems = menu.querySelectorAll('a[data-tab]:not(.premium)');
-        const premiumItems = menu.querySelectorAll('a[data-tab].premium');
+            const select = document.createElement('select');
+            select.classList.add('wps-options-mobile-menu');
 
-        const titleElement = menu.querySelector('.wps-settings-side__title');
-        const groupLabel = titleElement ? titleElement.textContent : wps_js._('settings');
+            const settingsItems = menu.querySelectorAll('a[data-tab]:not(.premium)');
+            const premiumItems = menu.querySelectorAll('a[data-tab].premium');
 
-        const settingsGroup = document.createElement('optgroup');
-        settingsGroup.label = groupLabel;
+            const titleElement = menu.querySelector('.wps-settings-side__title');
+            const groupLabel = titleElement ? titleElement.textContent : wps_js._('settings');
 
-        settingsItems.forEach(item => {
-            const option = document.createElement('option');
-            option.value = item.getAttribute('data-tab');
-            option.textContent = item.querySelector('span').textContent;
-            settingsGroup.appendChild(option);
-        });
+            const settingsGroup = document.createElement('optgroup');
+            settingsGroup.label = groupLabel;
 
-        select.appendChild(settingsGroup);
-
-        // Create Premium Add-Ons optgroup
-        if (premiumItems.length > 0) {
-            const premiumGroup = document.createElement('optgroup');
-            premiumGroup.label = wps_js._('premium_addons');
-
-            premiumItems.forEach(item => {
+            settingsItems.forEach(item => {
                 const option = document.createElement('option');
                 option.value = item.getAttribute('data-tab');
                 option.textContent = item.querySelector('span').textContent;
-                premiumGroup.appendChild(option);
+                settingsGroup.appendChild(option);
             });
 
-            select.appendChild(premiumGroup);
-        }
+            select.appendChild(settingsGroup);
 
-        wrapper.appendChild(select);
-        menu.parentNode.insertBefore(wrapper, menu);
+            if (premiumItems.length > 0) {
+                const premiumGroup = document.createElement('optgroup');
+                premiumGroup.label = wps_js._('premium_addons');
 
-        const currentItem = menu.querySelector('a[data-tab].current');
-        if (currentItem) {
-            const currentTab = currentItem.getAttribute('data-tab');
-            select.value = currentTab;
-        } else {
-            if (settingsItems.length > 0) {
+                premiumItems.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.getAttribute('data-tab');
+                    option.textContent = item.querySelector('span').textContent;
+                    premiumGroup.appendChild(option);
+                });
+
+                select.appendChild(premiumGroup);
+            }
+
+            wrapper.appendChild(select);
+            menu.parentNode.insertBefore(wrapper, menu);
+
+            const currentItem = menu.querySelector('a[data-tab].current');
+            if (currentItem) {
+                const currentTab = currentItem.getAttribute('data-tab');
+                select.value = currentTab;
+            } else if (settingsItems.length > 0) {
                 const defaultTab = settingsItems[0].getAttribute('data-tab');
                 select.value = defaultTab;
                 navigateToTab(defaultTab);
             }
-        }
 
-        const dirValue = jQuery('body').hasClass('rtl') ? 'rtl' : 'ltr';
-        if (typeof $.fn.select2 === 'function') {
-            $(select).select2({
-                dropdownCssClass: 'wps-setting-input__dropdown',
-                minimumResultsForSearch: Infinity,
-                dir: dirValue
+            const dirValue = jQuery('body').hasClass('rtl') ? 'rtl' : 'ltr';
+            if (typeof $.fn.select2 === 'function') {
+                $(select).select2({
+                    dropdownCssClass: 'wps-setting-input__dropdown',
+                    minimumResultsForSearch: Infinity,
+                    dir: dirValue
+                });
+
+                if (currentItem) {
+                    const currentTab = currentItem.getAttribute('data-tab');
+                    $(select).val(currentTab).trigger('change.select2');
+                } else if (settingsItems.length > 0) {
+                    const defaultTab = settingsItems[0].getAttribute('data-tab');
+                    $(select).val(defaultTab).trigger('change.select2');
+                }
+            }
+
+            $(select).on('change', function (e) {
+                const selectedTab = e.target.value;
+                navigateToTab(selectedTab);
             });
 
-            if (currentItem) {
-                const currentTab = currentItem.getAttribute('data-tab');
-                $(select).val(currentTab).trigger('change.select2');
-            } else if (settingsItems.length > 0) {
-                const defaultTab = settingsItems[0].getAttribute('data-tab');
-                $(select).val(defaultTab).trigger('change.select2');
-            }
-        }
-
-        $(select).on('change', function (e) {
-            const selectedTab = e.target.value;
-            navigateToTab(selectedTab);
-        });
-
-        const observer = new MutationObserver(mutations => {
-            mutations.forEach(mutation => {
-                if (mutation.attributeName === 'class') {
-                    const currentItem = menu.querySelector('a[data-tab].current');
-                    if (currentItem) {
-                        const currentTab = currentItem.getAttribute('data-tab');
-                        if ($(select).val() !== currentTab) {
-                            $(select).val(currentTab).trigger('change.select2');
+            const observer = new MutationObserver(mutations => {
+                mutations.forEach(mutation => {
+                    if (mutation.attributeName === 'class') {
+                        const currentItem = menu.querySelector('a[data-tab].current');
+                        if (currentItem) {
+                            const currentTab = currentItem.getAttribute('data-tab');
+                            if ($(select).val() !== currentTab) {
+                                $(select).val(currentTab).trigger('change.select2');
+                            }
                         }
                     }
-                }
+                });
             });
-        });
 
-        menu.querySelectorAll('a[data-tab]').forEach(item => {
-            observer.observe(item, {attributes: true});
-        });
+            menu.querySelectorAll('a[data-tab]').forEach(item => {
+                observer.observe(item, { attributes: true });
+            });
+        }
+
+        tryInitializeDropdown();
     }
 }
 
@@ -157,10 +179,9 @@ function navigateToTab(tab) {
     }
 }
 
-
 window.onload = function () {
     createMobileDropdown();
-    const closeButton = document.querySelector('.wps-alert__close');
+     const closeButton = document.querySelector('.wps-alert__close');
 
     if (closeButton) {
         const alert = closeButton.closest('.wps-alert');
