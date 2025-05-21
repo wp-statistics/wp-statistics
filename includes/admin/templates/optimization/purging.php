@@ -39,9 +39,9 @@
                 const modal = document.getElementById(modalId);
                 if (modal) {
                      const message = title || wpsConfig.defaultMessage;
-                    const modalTitle = modal.querySelector('.wps-modal__title');
-                    if (modalTitle) {
-                        modalTitle.textContent = message;
+                    const modalDescription = modal.querySelector('.wps-modal__description');
+                    if (modalDescription) {
+                        modalDescription.textContent = message;
                     }
                     modal.classList.add('wps-modal--open');
 
@@ -191,9 +191,9 @@
                         const modal = document.getElementById(modalId);
                         if (modal) {
                             const message = wpsForm.getAttribute('data-agree') || wpsConfig.defaultMessage;
-                            const modalTitle = modal.querySelector('.wps-modal__title');
-                            if (modalTitle) {
-                                modalTitle.textContent = message;
+                            const modalDescription = modal.querySelector('.wps-modal__description');
+                            if (modalDescription) {
+                                modalDescription.textContent = message;
                             }
                             modal.classList.add('wps-modal--open');
                             const primaryButton = modal.querySelector('button[data-action="resolve"]');

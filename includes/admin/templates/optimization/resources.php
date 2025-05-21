@@ -3,7 +3,7 @@
         <span><?php esc_html_e('Overview & Info', 'wp-statistics'); ?></span>
     </h2>
     <div class="postbox">
-        <table class="form-table">
+        <table class="form-table wps-optimization-overview">
             <tbody>
             <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php use WP_STATISTICS\GeoIP;

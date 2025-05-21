@@ -157,6 +157,7 @@ function navigateToTab(tab) {
     }
 }
 
+
 window.onload = function () {
     createMobileDropdown();
     const closeButton = document.querySelector('.wps-alert__close');

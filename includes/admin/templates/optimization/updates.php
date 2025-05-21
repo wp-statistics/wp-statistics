@@ -17,7 +17,7 @@
 
                 <tr valign="top" data-id="update_country_data_tr">
                     <th scope="row">
-                        <label for="populate-submit"><?php esc_html_e('Update Country Data', 'wp-statistics'); ?></label>
+                        <label><?php esc_html_e('Update Country Data', 'wp-statistics'); ?></label>
                     </th>
 
                     <td>
@@ -47,7 +47,7 @@
 
                 <tr valign="top" data-id="update_source_channel_data_tr">
                     <th scope="row">
-                        <label for="populate-source-channel-submit"><?php esc_html_e('Update Source Channel Data', 'wp-statistics'); ?></label>
+                        <label><?php esc_html_e('Update Source Channel Data', 'wp-statistics'); ?></label>
                     </th>
 
                     <td>
@@ -77,7 +77,7 @@
 
                 <tr valign="top" data-id="convert_ip_addresses_to_hash_tr">
                     <th scope="row">
-                        <label for="hash-ips-submit"><?php esc_html_e('Convert IP Addresses to Hash', 'wp-statistics'); ?></label>
+                        <label><?php esc_html_e('Convert IP Addresses to Hash', 'wp-statistics'); ?></label>
                     </th>
 
                     <td>

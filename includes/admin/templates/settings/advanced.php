@@ -6,6 +6,7 @@ use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
 use WP_STATISTICS\TimeZone;
 use WP_Statistics\Service\Admin\ModalHandler\Modal;
+
 // Get IP Method
 $ip_method  = IP::getIpMethod();
 $ip_address = IP::getIP();
@@ -61,11 +62,11 @@ add_thickbox();
 
         <?php if (apply_filters('wp_statistics_ip_detection_preview', $ip_method)) : ?>
             <tr valign="top" data-id="ipify_org_ip_tr">
-                <th scope="row" >
+                <th scope="row">
                     <label><?php esc_html_e('Ipify.org IP', 'wp-statistics'); ?></label>
                 </th>
                 <td>
-                    <input type="text"  readonly id="js-ipService" class="regular-text" />
+                    <input type="text" readonly id="js-ipService" class="regular-text"/>
 
                     <p class="description">
                         <?php esc_html_e('Your IP address as detected by the Ipify.org service', 'wp-statistics'); ?>
@@ -102,7 +103,7 @@ add_thickbox();
                 <label><?php esc_html_e('WP Statistics', 'wp-statistics'); ?></label>
             </th>
             <td>
-                <input type="text" id="wp_statistics_ip"  readonly value="<?php echo $ip_address ?>" class="regular-text" />
+                <input type="text" id="wp_statistics_ip" readonly value="<?php echo $ip_address ?>" class="regular-text"/>
                 <p class="description">
                     <?php esc_html_e('Your IP address as detected by the current WP Statistics settings', 'wp-statistics'); ?>
                 </p>
@@ -126,10 +127,10 @@ add_thickbox();
             </th>
             <td>
                 <select id="wps_settings[ip_method]" name="ip_method">
-                    <option value="sequential" <?php echo WP_STATISTICS\Option::get('ip_method') ? "selected='selected'" : ''; ?>>
+                    <option value="sequential" <?php echo WP_STATISTICS\Option::get('ip_method') ? "sequential='selected'" : ''; ?>>
                         <?php esc_html_e('Sequential IP Detection (Recommended)', 'wp-statistics'); ?>
                     </option>
-                    <option value="CUSTOM_HEADER" <?php echo !WP_STATISTICS\Option::get('ip_method') ? "selected='selected'" : ''; ?>>
+                    <option value="CUSTOM_HEADER" <?php echo in_array(WP_STATISTICS\Option::get('ip_method'), $ip_options) ? 'selected' : ''; ?>>
                         <?php esc_html_e('Specify a Custom Header for IP Detection', 'wp-statistics'); ?>
                     </option>
                 </select>
@@ -141,7 +142,7 @@ add_thickbox();
 
                 <div class="js-wps-show_if_ip_method_equal_CUSTOM_HEADER">
                     <div style="display: flex; align-items: center; gap: 10px;" class="description">
-                        <input type="text" name="user_custom_header_ip_method" autocomplete="off"  value="<?php echo in_array($ip_method, $ip_options) ? esc_attr($ip_method) : '' ?>">
+                        <input type="text" name="user_custom_header_ip_method" autocomplete="off" value="<?php echo in_array($ip_method, $ip_options) ? esc_attr($ip_method) : '' ?>">
                     </div>
 
                     <p class="description">
@@ -204,7 +205,7 @@ add_thickbox();
             <td>
                 <div class="wps-input-group wps-input-group__action">
                     <input id="geoip_license_key" class="wps-input-group__field" type="text" size="30" name="wps_geoip_license_key" value="<?php echo esc_attr(WP_STATISTICS\Option::get('geoip_license_key')); ?>">
-                    <button type="button" id="copy-text" class="button has-icon wps-input-group__label wps-input-group__copy"  style="margin: 0; "><?php esc_html_e('Copy', 'wp-statistics'); ?></button>
+                    <button type="button" id="copy-text" class="button has-icon wps-input-group__label wps-input-group__copy" style="margin: 0; "><?php esc_html_e('Copy', 'wp-statistics'); ?></button>
                 </div>
                 <p class="description">
                     <?php
@@ -235,8 +236,8 @@ add_thickbox();
             <td>
 
                 <div class="wps-input-group wps-input-group__action">
-                    <input id="geoip_dbip_license_key_option" type="text" size="30" name="wps_geoip_dbip_license_key_option" class="regular-text wps-input-group__field"  value="<?php echo esc_attr(WP_STATISTICS\Option::get('geoip_dbip_license_key_option', '')); ?>">
-                    <button type="button" id="copy-text" class="button has-icon wps-input-group__label wps-input-group__copy"  style="margin: 0; "><?php esc_html_e('Copy', 'wp-statistics'); ?></button>
+                    <input id="geoip_dbip_license_key_option" type="text" size="30" name="wps_geoip_dbip_license_key_option" class="regular-text wps-input-group__field" value="<?php echo esc_attr(WP_STATISTICS\Option::get('geoip_dbip_license_key_option', '')); ?>">
+                    <button type="button" id="copy-text" class="button has-icon wps-input-group__label wps-input-group__copy" style="margin: 0; "><?php esc_html_e('Copy', 'wp-statistics'); ?></button>
                 </div>
                 <p class="description">
                     <?php
@@ -271,7 +272,7 @@ add_thickbox();
                     <button type="submit" name="update_geoip" class="wps-button wps-button--default">
                         <?php esc_html_e('Update Now', 'wp-statistics'); ?>
                     </button>
-                 </label>
+                </label>
 
                 <p class="description"><?php esc_html_e('Click here to update the Geolocation database immediately for the database.', 'wp-statistics'); ?></p>
             </td>
@@ -362,7 +363,7 @@ add_thickbox();
                     event.preventDefault();
                     var geoip_clicked_button = this;
                     geoip_clicked_button.classList.add('wps-loading-button')
-                     jQuery(".wps-alert-box").remove();
+                    jQuery(".wps-alert-box").remove();
                     var selectedLocationMethod = jQuery("#geoip_location_detection_method").val();
 
                     if (!selectedLocationMethod) {
@@ -383,7 +384,7 @@ add_thickbox();
                         jQuery(geoip_clicked_button).after("<div class='wps-alert wps-alert-box wps-alert__success'><span>" + result + "</span></div>")
                     }).error(function (result) {
                         geoip_clicked_button.classList.remove('wps-loading-button')
-                        jQuery(geoip_clicked_button).after("<div class='wps-alert wps-alert-box wps-alert__danger'><span>"+ _e('Oops! Something went wrong. Please try again. For more details, check the <b>PHP Error Log</b>.', 'wp-statistics') +"</span></div>")
+                        jQuery(geoip_clicked_button).after("<div class='wps-alert wps-alert-box wps-alert__danger'><span>" + _e('Oops! Something went wrong. Please try again. For more details, check the <b>PHP Error Log</b>.', 'wp-statistics') + "</span></div>")
                     });
                 });
             });
@@ -431,13 +432,13 @@ add_thickbox();
 
 <?php
 Modal::render('setting-confirmation', [
-    'title'               => __('This will permanently delete data from the database each day, are you sure you want to enable this option?', 'wp-statistics'),
-    'primaryButtonText'   => __('Yes , Enable', 'wp-statistics'),
-    'primaryButtonStyle'  => 'danger',
-    'secondaryButtonText' => __('Cancel', 'wp-statistics'),
+    'title'                => __('This will permanently delete data from the database each day, are you sure you want to enable this option?', 'wp-statistics'),
+    'primaryButtonText'    => __('Yes , Enable', 'wp-statistics'),
+    'primaryButtonStyle'   => 'danger',
+    'secondaryButtonText'  => __('Cancel', 'wp-statistics'),
     'secondaryButtonStyle' => 'cancel',
-    'showCloseButton'     => true,
-    'actions'             => [
+    'showCloseButton'      => true,
+    'actions'              => [
         'primary'   => 'enable',
         'secondary' => 'closeModal',
     ],
