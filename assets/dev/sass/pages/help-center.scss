@@ -7,8 +7,8 @@
     padding-bottom: 0;
   }
 
-  .notice, div.updated {
-    display: none;
+  .notice, div.updated,.wps-notice ,.wps-alert{
+    display: none!important;
   }
 }
 
