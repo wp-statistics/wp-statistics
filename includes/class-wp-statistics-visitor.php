@@ -170,10 +170,8 @@ class Visitor
                     'user_id'   => ! empty($same_visitor->user_id) ? $same_visitor->user_id : $visitorProfile->getUserId()
                 ];
 
-                if (AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
-                    $data['last_page'] = $args['page_id'];
-                    $data['last_view'] = TimeZone::getCurrentDate('Y-m-d H:i:s');
-                }
+                $data['last_page'] = $args['page_id'];
+                $data['last_view'] = TimeZone::getCurrentDate('Y-m-d H:i:s');
 
                 $data = apply_filters('wp_statistics_visitor_data_before_update', $data, $visitorProfile);
 
