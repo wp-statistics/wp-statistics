@@ -109,9 +109,9 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
                         <option <?php disabled(!$integration->isActive()) ?> value="<?php echo esc_attr($integration->getKey()); ?>" <?php selected(WP_STATISTICS\Option::get('consent_integration'), $integration->getKey()); ?>><?php echo esc_html($integration->getName()); ?></option>
                     <?php endforeach; ?>
                 </select>
-                <p class="description"><?php esc_html_e("Enable integration with supported consent management plugins, such as WP Consent API and Cookie Banner, to ensure WP Statistics respects user privacy preferences. When enabled, WP Statistics will only track data based on the consent settings provided by your active consent management plugin.", 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e("Enable integration with supported consent management plugins, such as WP Consent API and Real Cookie Banner, to ensure WP Statistics respects user privacy preferences. When enabled, WP Statistics will only track data based on the consent settings provided by your active consent management plugin.", 'wp-statistics'); ?></p>
                 <p class="description"><?php esc_html_e("Note: To use this feature, you must install and activate one of the supported consent management plugins.", 'wp-statistics'); ?></p>
-                <p class="description"><?php _e("For step-by-step setup, refer to our <a href='#'>detailed guide</a>.", 'wp-statistics'); ?></p>
+                <p class="description"><?php _e("For step-by-step setup, refer to our <a target='_blank' href='https://wp-statistics.com/resources/integrating-wp-statistics-with-consent-management-plugins/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'>detailed guide</a>.", 'wp-statistics'); ?></p>
             </td>
         </tr>
 
@@ -167,7 +167,7 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
                 <?php endif; ?>
 
                 <p class="description">
-                    <?php _e('More Information: Learn more about configuring WP Consent API and the available categories in our <a href="https://wp-statistics.com/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings">WP Consent API documentation</a>.', 'wp-statistics'); ?>
+                    <?php _e('More Information: Learn more about configuring WP Consent API and the available categories in our <a target="_blank" href="https://wp-statistics.com/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings">WP Consent API documentation</a>.', 'wp-statistics'); ?>
                     <br/>
                     <?php _e('Note: Selecting the correct categories ensures compliance with privacy laws and demonstrates respect for user preferences.', 'wp-statistics'); ?>
                 </p>
