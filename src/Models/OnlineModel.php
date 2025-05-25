@@ -48,6 +48,7 @@ class OnlineModel extends BaseModel
             'visitor.model',
             'visitor.device',
             'visitor.user_id',
+            'visitor.last_counter',
             'visitor.last_page as last_page',
             'visitor.last_view as last_view',
             'users.display_name',

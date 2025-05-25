@@ -170,9 +170,30 @@ class LegacyModel extends BaseModel
                 ->where('visitor_id', '=', $args['visitor_id'])
                 ->getQuery();
 
+            $lastHit = Query::select([
+                'visitor_id',
+                'MAX(date) as date'
+            ])
+                ->from('visitor_relationships')
+                ->groupBy('visitor_id')
+                ->getQuery();
+
+            $lastHitQuery = Query::select([
+                'visitor_relationships.visitor_id',
+                'page_id',
+                'date'
+            ])
+                ->from('visitor_relationships')
+                ->whereRaw("(visitor_id, date) IN ($lastHit)")
+                ->groupBy('visitor_id')
+                ->getQuery();
+
             $fields[] = 'first_view.date as first_view';
             $fields[] = 'first_page.page_id as first_page';
             $fields[] = 'pages.uri as first_uri';
+
+            $fields[] = 'last_hit.page_id as last_page';
+            $fields[] = 'last_hit.date as last_view';
         }
 
         if ($args['user_info']) {
@@ -190,6 +211,7 @@ class LegacyModel extends BaseModel
             $query
                 ->joinQuery($firstPage, ['visitor.ID', 'first_page.visitor_id'], 'first_page', 'LEFT')
                 ->joinQuery($firstView, ['visitor.ID', 'first_view.visitor_id'], 'first_view', 'LEFT')
+                ->joinQuery($lastHitQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit', 'LEFT')
                 ->join('pages', ['first_page.page_id', 'pages.page_id'], [], 'LEFT');
         }
 
