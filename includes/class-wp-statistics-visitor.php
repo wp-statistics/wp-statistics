@@ -142,18 +142,12 @@ class Visitor
                 'user_id'       => $visitorProfile->getUserId(),
                 'UAString'      => ((Option::get('store_ua') == true && !Helper::shouldTrackAnonymously()) ? $visitorProfile->getHttpUserAgent() : ''),
                 'hits'          => 1,
-                'honeypot'      => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0)
+                'honeypot'      => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0),
+                'first_page'    => $args['page_id'],
+                'first_view'    => TimeZone::getCurrentDate(),
+                'last_page'     => $args['page_id'],
+                'last_view'     => TimeZone::getCurrentDate()
             );
-
-            // Store First and Last Page for versions above 14.12.6
-            if (AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
-                $visitor = array_merge($visitor, [
-                    'first_page'    => $args['page_id'],
-                    'first_view'    => TimeZone::getCurrentDate(),
-                    'last_page'     => $args['page_id'],
-                    'last_view'     => TimeZone::getCurrentDate()
-                ]);
-            }
 
             $visitor = apply_filters('wp_statistics_visitor_information', $visitor);
 
