@@ -1,6 +1,7 @@
 <?php
 use WP_Statistics\Utils\Request;
-$uri = Request::get('uri');
+$uri = Request::get('uri', '', 'raw');
+$uri = rawurldecode($uri);
 ?>
 
 <div class="wps-content-analytics-header wps-content-analytics-header__single-resource">
