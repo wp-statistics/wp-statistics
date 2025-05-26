@@ -1,3 +1,6 @@
+= 14.14 - 2025-xx-xx =
+- **New:** Add integration with Real Cookie Banner plugin.
+
 = 14.13.5 - 2025-05-x =
 - **Fix:** Fixed issue where page views were zero when using a taxonomy filter other than 'category'.
 - **Fix:** Show referrers data based on the first viewed page.
