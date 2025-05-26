@@ -34,7 +34,7 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
      */
     protected function getTotal($needCaching = true)
     {
-        $attempts = $this->trackAttempts();
+        $attempts = $this->getCachedAttempts(self::$currentProcessKey);
         $total    = $needCaching ? $this->getCachedTotal(self::$currentProcessKey) : false;
 
         if (!empty($total)) {
