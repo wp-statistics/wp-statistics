@@ -485,10 +485,6 @@ class VisitorsModel extends BaseModel
 
     public function getVisitorsData($args = [])
     {
-        if (! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
-            return LegacyModel::get('visitorsData', $args, '14.12.4');
-        }
-
         $args = $this->parseArgs($args, [
             'date'                  => '',
             'resource_type'         => '',
@@ -646,10 +642,6 @@ class VisitorsModel extends BaseModel
 
     public function getReferredVisitors($args = [])
     {
-        if (! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
-            return LegacyModel::get('referredVisitors', $args, '14.12.4');
-        }
-
         $args = $this->parseArgs($args, [
             'date'           => '',
             'source_channel' => '',
@@ -787,10 +779,6 @@ class VisitorsModel extends BaseModel
 
     public function getVisitorData($args = [])
     {
-        if (! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
-            return LegacyModel::get('visitorData', $args, '14.12.4');
-        }
-
         $args = $this->parseArgs($args, [
             'fields'     => [],
             'visitor_id' => '',
@@ -1062,10 +1050,6 @@ class VisitorsModel extends BaseModel
 
     public function getReferrers($args = [])
     {
-        if (! AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
-            return LegacyModel::get('referrers', $args, '14.12.6');
-        }
-
         $args = $this->parseArgs($args, [
             'date'           => '',
             'post_type'      => '',
