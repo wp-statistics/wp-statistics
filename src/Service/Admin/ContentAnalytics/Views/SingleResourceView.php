@@ -17,7 +17,7 @@ class SingleResourceView extends BaseView
 
     public function __construct()
     {
-        $this->resourceUri = Request::get('uri');
+        $this->resourceUri = Request::get('uri', '', 'raw');
 
         if (empty($this->resourceUri)) {
             throw new SystemErrorException(
