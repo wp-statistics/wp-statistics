@@ -42,7 +42,7 @@ class MetaboxManager
     public function defaultHiddenMetaBoxes($hidden, $screen)
     {
         // Only apply hiding logic on fresh installs and on the dashboard screen
-        if ($screen->base !== 'dashboard') {
+        if (!Install::isFresh() || $screen->base !== 'dashboard') {
             return $hidden;
         }
 
