@@ -9,14 +9,14 @@ abstract class AbstractLoggerProvider implements LoggerServiceProviderInterface
 {
     /**
      * Logger identifier.
-     * 
+     *
      * @var string
      */
     protected $name = '';
 
     /**
      * Collection of logged errors.
-     * 
+     *
      * @var array
      */
     protected $errors = [];
@@ -24,30 +24,47 @@ abstract class AbstractLoggerProvider implements LoggerServiceProviderInterface
     /**
      * Map of PHP error constants to severity levels.
      */
-    protected static $ERROR_SEVERITY_MAP = [
-        // Critical errors
-        E_ERROR => 'critical',
-        E_PARSE => 'critical',
-        E_CORE_ERROR => 'critical',
-        E_COMPILE_ERROR => 'critical',
-        E_USER_ERROR => 'critical',
-        E_RECOVERABLE_ERROR => 'critical',
+    protected static $ERROR_SEVERITY_MAP = null;
 
-        // Standard errors
-        E_WARNING => 'error',
-        E_CORE_WARNING => 'error',
-        E_COMPILE_WARNING => 'error',
-        E_USER_WARNING => 'error',
+    /**
+     * Static initializer for error severity map.
+     */
+    public static function initErrorSeverityMap()
+    {
+        if (self::$ERROR_SEVERITY_MAP !== null) {
+            return self::$ERROR_SEVERITY_MAP;
+        }
 
-        // Notices
-        E_NOTICE => 'notice',
-        E_USER_NOTICE => 'notice',
-        E_STRICT => 'notice',
+        self::$ERROR_SEVERITY_MAP = [
+            // Critical errors
+            E_ERROR             => 'critical',
+            E_PARSE             => 'critical',
+            E_CORE_ERROR        => 'critical',
+            E_COMPILE_ERROR     => 'critical',
+            E_USER_ERROR        => 'critical',
+            E_RECOVERABLE_ERROR => 'critical',
 
-        // Deprecation notices
-        E_DEPRECATED => 'deprecated',
-        E_USER_DEPRECATED => 'deprecated'
-    ];
+            // Standard errors
+            E_WARNING           => 'error',
+            E_CORE_WARNING      => 'error',
+            E_COMPILE_WARNING   => 'error',
+            E_USER_WARNING      => 'error',
+
+            // Notices
+            E_NOTICE            => 'notice',
+            E_USER_NOTICE       => 'notice',
+
+            // Deprecation notices
+            E_DEPRECATED        => 'deprecated',
+            E_USER_DEPRECATED   => 'deprecated'
+        ];
+
+        if (defined('E_STRICT')) {
+            self::$ERROR_SEVERITY_MAP[E_STRICT] = 'notice';
+        }
+
+        return self::$ERROR_SEVERITY_MAP;
+    }
 
     /**
      * Sets logger identifier.
@@ -74,11 +91,11 @@ abstract class AbstractLoggerProvider implements LoggerServiceProviderInterface
         $errorName = $this->getErrorSeverity(isset($error['type']) ? $error['type'] : E_ERROR);
 
         $this->errors[] = [
-            'date' => date('Y-m-d H:i:s'),
-            'name' => $errorName,
+            'date'    => date('Y-m-d H:i:s'),
+            'name'    => $errorName,
             'message' => isset($error['message']) ? $error['message'] : '',
-            'file' => isset($error['file']) ? $error['file'] : '',
-            'line' => isset($error['line']) ? $error['line'] : 0,
+            'file'    => isset($error['file']) ? $error['file'] : '',
+            'line'    => isset($error['line']) ? $error['line'] : 0,
         ];
 
         return $this;
@@ -108,6 +125,10 @@ abstract class AbstractLoggerProvider implements LoggerServiceProviderInterface
      */
     public function getErrorSeverity($errno)
     {
+        if (self::$ERROR_SEVERITY_MAP === null) {
+            self::initErrorSeverityMap();
+        }
+
         return isset(self::$ERROR_SEVERITY_MAP[$errno]) ? self::$ERROR_SEVERITY_MAP[$errno] : 'unknown';
     }
 }
