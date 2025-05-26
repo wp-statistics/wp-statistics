@@ -11,7 +11,7 @@ class MetaboxManager
     public function __construct()
     {
         add_action('admin_init', [$this, 'registerMetaboxes']);
-        add_action('default_hidden_meta_boxes', [$this, 'defaultHiddenMetaBoxes'], 10, 2);
+        add_filter('default_hidden_meta_boxes', [$this, 'defaultHiddenMetaBoxes'], 10, 2);
     }
 
     /**
@@ -42,7 +42,7 @@ class MetaboxManager
     public function defaultHiddenMetaBoxes($hidden, $screen)
     {
         // Only apply hiding logic on fresh installs and on the dashboard screen
-        if (!Install::isFresh() || $screen->base !== 'dashboard') {
+        if ($screen->base !== 'dashboard') {
             return $hidden;
         }
 
