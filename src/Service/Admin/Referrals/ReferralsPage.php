@@ -52,16 +52,8 @@ class ReferralsPage extends MultiViewPage
             ->input('text', 'utm_campaign', [
                 'label' => esc_html__('UTM Campaign', 'wp-statistics'),
             ])
-            ->select('referrer', [
-                'name'          => 'referrer',
-                'classes'       => 'wps-width-100 wps-select2',
-                'attributes'    => [
-                    'data-type'       => 'getReferrer',
-                    'data-searchable' => true,
-                ],
-            ])
             ->select('pid', [
-                'label'         => esc_html__('Page', 'wp-statistics'),
+                'label'         => esc_html__('Entry Page', 'wp-statistics'),
                 'classes'       => 'wps-width-100 wps-select2',
                 'placeholder'   => Request::has('pid') ? get_the_title(Request::get('pid')) : esc_html__('All', 'wp-statistics'),
                 'attributes'    => [
