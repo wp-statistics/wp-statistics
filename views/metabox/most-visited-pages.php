@@ -16,7 +16,7 @@ if (strpos($page, 'overview') !== false) {
 ?>
 <?php if (!empty($data)) : ?>
     <div class="o-table-wrapper">
-        <table width="100%" class="o-table wps-new-table wps-new-table__most-visited">
+        <table width="100%" class="o-table wps-new-table wps-table-inspect wps-new-table__most-visited">
             <thead>
             <tr>
                 <th class="wps-pd-l"><?php esc_html_e('Page', 'wp-statistics'); ?></th>
@@ -33,7 +33,7 @@ if (strpos($page, 'overview') !== false) {
                 ?>
                 <tr>
                     <td class="wps-pd-l">
-                        <div class="wps-ellipsis-parent" title="<?php echo esc_attr($page['title']) ?>"><a class="wps-ellipsis-text" href="<?php echo esc_url($reportUrl) ?>"><?php echo esc_html($page['title']) ?></a></div>
+                        <a title="<?php echo esc_attr($page['title']) ?>" class="wps-table-ellipsis--name" href="<?php echo esc_url($reportUrl) ?>"><span><?php echo esc_html($page['title']) ?></span></a>
                     </td>
 
                     <td class="wps-pd-l">
