@@ -5,6 +5,7 @@ namespace WP_STATISTICS;
 use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Components\Event;
 use WP_Statistics\Service\Database\Managers\TableHandler;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
 
 class Install
 {
@@ -518,6 +519,17 @@ class Install
          */
         if (Option::get('schedule_geoip') && version_compare($installed_version, '14.11', '<')) {
             Event::reschedule('wp_statistics_geoip_hook', 'monthly');
+        }
+
+        /**
+         * Update consent integration to WP Consent API for backward compatibility
+         */
+        $integration            = Option::get('consent_integration');
+        $consentLevel           = Option::get('consent_level_integration', 'disabled');
+        $isWpConsentApiActive   = IntegrationHelper::getIntegration('wp_consent_api')->isActive();
+
+        if ($isWpConsentApiActive && empty($integration) && $consentLevel !== 'disabled') {
+            Option::update('consent_integration', 'wp_consent_api');
         }
 
         /**
