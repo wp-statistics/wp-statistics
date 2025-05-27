@@ -15,7 +15,7 @@ if (!defined('ABSPATH') || empty($addOn)) {
             <div class="wps-addon__download__item--info__title">
                 <?php echo esc_html($addOn->getName()); ?>
                 <?php if (!empty($addOn->getProductUrl())) : ?>
-                    <a target="_blank" href="<?php echo esc_html($addOn->getProductUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=dp" class="wps-postbox-addon__read-more" title="<?php esc_html_e('Learn More', 'wp-statistics'); ?>">
+                    <a target="_blank" href="<?php echo esc_html($addOn->getProductUrl()); ?>/?utm_source=wp-statistics&utm_medium=link&utm_campaign=<?php echo rawurlencode($addOn->getUtmCampaign()); ?>" class="wps-postbox-addon__read-more" title="<?php esc_html_e('Learn More', 'wp-statistics'); ?>">
                         <?php esc_html_e('Learn More', 'wp-statistics'); ?>
                     </a>
                 <?php endif; ?>

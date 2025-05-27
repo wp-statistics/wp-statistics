@@ -28,7 +28,7 @@
     <div class="wps-premium-box__info">
         <?php echo esc_html__('Unlock deeper insights into your website\'s performance with DataPlus.', 'wp-statistics'); ?>
     </div>
-    <a data-target="wp-statistics-data-plus" class="wps-show-premium-modal  js-wps-openPremiumModal button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-data-plus?utm_source=wp-statistics&utm_medium=link&utm_campaign=dp-'.$campaign); ?>">
+    <a data-target="wp-statistics-data-plus" class="wps-show-premium-modal  js-wps-openPremiumModal button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=dp-'.$campaign); ?>">
         <?php echo esc_html__('Upgrade Now.', 'wp-statistics'); ?>
     </a>
 </div>

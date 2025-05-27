@@ -85,8 +85,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         const {id} = this.extractIdAndValue(className);
                         if (id) {
                             const item = document.querySelector(`#wps_settings\\[${id}\\]`);
-                            if (item && item.type === 'select-one') {
-                                item.addEventListener('change', toggleElement);
+                            if (item) {
+                                if ($(item).hasClass('select2-hidden-accessible')) {
+                                     $(item).on('select2:select', toggleElement);
+                                } else if (item.type === 'select-one') {
+                                     item.addEventListener('change', toggleElement);
+                                }
                             }
                         }
                     }
@@ -122,7 +126,38 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             return {id, value};
         }
     }
+    $(document).ready(function () {
+        let isProgrammaticChange = false
+        const checkbox = $('#wps_settings\\[wps_schedule_dbmaint\\]');
+        checkbox.on('change', function () {
+            if (this.checked && !isProgrammaticChange) {
+                const modalId = 'setting-confirmation';
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.classList.add('wps-modal--open');
 
-    new ShowIfEnabled();
+                    const primaryButton = modal.querySelector('button[data-action="enable"]');
+                    if (primaryButton) {
+                        primaryButton.addEventListener('click', function () {
+                            modal.classList.remove('wps-modal--open');
+                        }, { once: true });
+                    }
 
- }
+                    const closeButton = modal.querySelector('button[data-action="closeModal"]');
+                    if (closeButton) {
+                        closeButton.addEventListener('click', function () {
+                            checkbox.prop('checked', false);
+                            modal.classList.remove('wps-modal--open');
+                            new ShowIfEnabled();
+                         }, { once: true });
+                    }
+                } else {
+                    console.error('Modal with ID "setting-confirmation" not found.');
+                }
+            }
+        });
+
+
+        new ShowIfEnabled();
+    });
+   }

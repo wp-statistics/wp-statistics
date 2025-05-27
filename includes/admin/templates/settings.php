@@ -1,4 +1,15 @@
-<div id="poststuff">
+
+<?php
+
+use WP_Statistics\Components\View;
+
+View::load('components/objects/share-anonymous-notice');
+?>
+<div class="wps-wrap__main">
+    <div class="wp-header-end"></div>
+
+<div id="poststuff" class="wps-wrap__settings">
+    <button class="wps-gototop" aria-label="Go to top of page"></button>
     <div id="post-body" class="metabox-holder wps-settingsPageFlex">
         <?php include WP_STATISTICS_DIR . 'includes/admin/templates/layout/menu-settings.php'; ?>
 
@@ -8,7 +19,7 @@
 
                 <div class="wp-statistics-container">
                     <?php if ($wps_admin) { ?>
-                        <div id="general-settings" class="tab-content current">
+                         <div id="general-settings" class="tab-content current">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/general.php'; ?>
                         </div>
                         <div id="advanced-settings" class="tab-content">
@@ -52,8 +63,7 @@
                         </div>
                     <?php } ?>
                 </div><!-- container -->
-
-                <input type="hidden" name="tab" id="wps_current_tab" value=""/>
+                 <input type="hidden" name="tab" id="wps_current_tab" value=""/>
             </form>
         </div>
     </div>

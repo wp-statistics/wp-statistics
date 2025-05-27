@@ -26,9 +26,12 @@ foreach ($miniChartPostTypes as $name => $label) {
 }
 ?>
 
+<h2 class="wps-settings-box__title"><span><?php esc_html_e('Mini Chart', 'wp-statistics'); ?></span></h2>
+
+
 <?php
 if (!$isMiniChartActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
-    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
+    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=mini-chart'),
      'addon_title'        => __('Mini Chart Add-On', 'wp-statistics'),
      'addon_modal_target' => 'wp-statistics-mini-chart',
      'addon_description'  => __('The settings on this page are part of the Mini Chart add-on, which provides tiny charts for all your posts and pages, along with an Admin Bar for quick access to traffic data.', 'wp-statistics'),
@@ -48,13 +51,13 @@ if ($isMiniChartActive && !$isLicenseValid) {
 <div class="postbox">
     <table class="form-table <?php echo !$isMiniChartActive ? 'form-table--preview' : '' ?>">
         <tbody>
-        <tr>
+        <tr class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Chart Preferences', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr>
+        <tr data-id="chart_display_tr">
             <th scope="row">
-                <label for="mini-chart-interval-time"><?php esc_html_e('Chart Display', 'wp-statistics'); ?></label>
+                <label><?php esc_html_e('Chart Display', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -68,7 +71,7 @@ if ($isMiniChartActive && !$isLicenseValid) {
             </td>
         </tr>
 
-        <tr>
+        <tr data-id="chart_metric_tr">
             <th scope="row">
                 <label for="mini-chart-metric"><?php esc_html_e('Chart Metric', 'wp-statistics'); ?></label>
             </th>
@@ -84,7 +87,7 @@ if ($isMiniChartActive && !$isLicenseValid) {
             </td>
         </tr>
 
-        <tr>
+        <tr data-id="chart_date_range_tr">
             <th scope="row">
                 <label for="mini-chart-date_range"><?php esc_html_e('Chart Date Range', 'wp-statistics'); ?></label>
             </th>
@@ -103,7 +106,7 @@ if ($isMiniChartActive && !$isLicenseValid) {
             </td>
         </tr>
 
-        <tr>
+        <tr data-id="count_display_tr">
             <th scope="row">
                 <label for="mini-chart-count_display"><?php esc_html_e('Count Display', 'wp-statistics'); ?></label>
             </th>
@@ -127,11 +130,11 @@ if ($isMiniChartActive && !$isLicenseValid) {
 <div class="postbox">
     <table class="form-table <?php echo !$isMiniChartActive ? 'form-table--preview' : '' ?>">
         <tbody>
-        <tr>
+        <tr class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Chart Appearance', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr>
+        <tr data-id="primary_color_tr">
             <th scope="row">
                 <label for="mini-chart-chart_color"><?php esc_html_e('Primary Color', 'wp-statistics'); ?></label>
             </th>
@@ -147,7 +150,7 @@ if ($isMiniChartActive && !$isLicenseValid) {
 
 <?php
 if ($isMiniChartActive) {
-    submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='mini-chart-settings'"));
+    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='mini-chart-settings'"));
 }
 ?>
 
@@ -155,7 +158,37 @@ if ($isMiniChartActive) {
     jQuery(document).ready(function ($) {
         // Ensure the color picker is available and initialize it
         if ($.fn.wpColorPicker) {
-            $('.js-color-picker').wpColorPicker();
+            $('.js-color-picker').each(function() {
+                $(this).wpColorPicker({
+                     defaultColor: '#000000',
+                     hide: true,
+                     change: function(event, ui) {
+                         var color = ui.color.toString();
+                         $(event.target).closest('.wp-picker-container').find('.wp-color-result-text').text(color);
+                         updateBeforeBackground($(event.target), color);
+                    },
+                     clear: function(event) {
+                         $(event.target).closest('.wp-picker-container').find('.wp-color-result-text').text('#000000');
+                         updateBeforeBackground($(event.target), '#000000');
+                    }
+                });
+
+                 var initialColor = $(this).val() || '#000000';
+                $(this).closest('.wp-picker-container').find('.wp-color-result-text').text(initialColor);
+                updateBeforeBackground($(this), initialColor);
+
+                function updateBeforeBackground($element, color) {
+                    var container = $element.closest('.wp-picker-container');
+                    var uniqueClass = 'wp-color-result-' + $element.attr('id');
+                    container.find('.wp-color-result').addClass(uniqueClass);
+                     $('#dynamic-style-' + $element.attr('id')).remove();
+                     $('head').append(
+                        `<style id="dynamic-style-${$element.attr('id')}">` +
+                        `.${uniqueClass}::before { background: ${color} !important; }` +
+                        `</style>`
+                    );
+                }
+            });
         } else {
             console.log('wpColorPicker function is not available.');
         }

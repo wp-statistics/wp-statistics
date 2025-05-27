@@ -102,11 +102,11 @@ class PlatformChartDataProvider extends AbstractChartDataProvider
                 /** @var VisitorDecorator $item */
                 $platform   = $item->getOs()->getName();
                 $agent      = $item->getBrowser()->getRaw();
-                $device     = !empty($item->getDevice()->getType()) ? ucfirst(Helper::getDeviceCategoryName($item->getDevice()->getType())) : esc_html__('Unknown', 'wp-statistics');
+                $device     = $item->getDevice()->getType();
                 $model      = $item->getDevice()->getModel();
 
                 // OS data
-                if (!empty($platform) && $platform !== '(not set)') {
+                if (!empty($platform)) {
                     $platforms = array_column($parsedData['os'], 'label');
 
                     if (!in_array($platform, $platforms)) {
@@ -122,7 +122,7 @@ class PlatformChartDataProvider extends AbstractChartDataProvider
                 }
 
                 // Browser data
-                if (!empty($agent) && $agent !== '(not set)') {
+                if (!empty($agent)) {
                     $agents = array_column($parsedData['browser'], 'label');
 
                     if (!in_array($agent, $agents)) {
@@ -138,7 +138,7 @@ class PlatformChartDataProvider extends AbstractChartDataProvider
                 }
 
                 // Device data
-                if (!empty($device) && $device !== '(not set)') {
+                if (!empty($device)) {
                     $devices = array_column($parsedData['device'], 'label');
 
                     if (!in_array($device, $devices)) {
@@ -153,7 +153,7 @@ class PlatformChartDataProvider extends AbstractChartDataProvider
                 }
 
                 // Model data
-                if (!empty($model) && $model !== '(not set)') {
+                if (!empty($model)) {
                     $models = array_column($parsedData['model'], 'label');
 
                     if (!in_array($model, $models)) {
