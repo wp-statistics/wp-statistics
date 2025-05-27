@@ -1,4 +1,4 @@
-import { useState, useEffect } from "@wordpress/element";
+import React, { useState, useEffect } from "react";
 import { Card, CardBody, CardFooter, __experimentalHeading as Heading } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import InformationIcon from "../../../../../images/information.svg";

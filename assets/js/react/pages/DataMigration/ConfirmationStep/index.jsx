@@ -1,4 +1,4 @@
-import { useState, useEffect, createElement, Fragment } from "@wordpress/element";
+import React, { useState, useEffect } from "react";
 import { __ } from "@wordpress/i18n";
 import { 
     Card, 
@@ -11,7 +11,6 @@ import {
 } from "@wordpress/components";
 import SelectedRadio from "../../../../../images/selected-radio.png";
 import ConfirmationInfo from "../../../components/ConfirmationInfo";
-import classNames from "classnames";
 import "../../../../../scss/pages/data-migration/_confirmation-step.scss";
 
 const ConfirmationStep = ({ handleStep }) => {

@@ -1,5 +1,4 @@
-import React from "react";
-import { useState, useEffect } from "@wordpress/element";
+import React, { useState, useEffect } from "react";
 import { Card, CardBody, CardFooter, __experimentalHeading as Heading } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import InfoIcon from "../../../../../images/info-icon.svg";
@@ -85,7 +84,24 @@ const IntroStep = ({ handleStep }) => {
                     >
                         <div className="intro-step__card-header">
                             <p className="intro-step__card-title">{__("Full Detailed Migration", "wp-statistics")}</p>
-                            <input type="radio" id="full-detailed" name="full-detailed" value="full-detailed" checked={option === "full-detailed"} />
+                            <input 
+                                type="radio" 
+                                id="full-detailed" 
+                                name="migration-type" 
+                                value="full-detailed" 
+                                checked={option === "full-detailed"} 
+                                onChange={() => {
+                                    setOption("full-detailed");
+                                    const option = {
+                                        type: "full-detailed",
+                                        title: __("Full Detailed Migration", "wp-statistics"),
+                                        description: __("Moves all your historical data—visitors, devices, referral sources, search engines, and more—into the new database structure.", "wp-statistics"),
+                                        estimatedTime: __("Depending on your site's traffic history and server resources, this process can range from a few minutes to several hours.", "wp-statistics"),
+                                        whoFor: __("Users who want to preserve every bit of their analytics data without losing any detail.", "wp-statistics"),
+                                    };
+                                    setData(option);
+                                }}
+                            />
                         </div>
                         <p className="intro-step__card-description">
                             {__("Moves all your historical data—visitors, devices, referral sources, search engines, and more—into the new database structure.", "wp-statistics")}
@@ -117,7 +133,24 @@ const IntroStep = ({ handleStep }) => {
                     >
                         <div className="intro-step__card-header">
                             <p className="intro-step__card-title">{__("Summary-Only Migration", "wp-statistics")}</p>
-                            <input type="radio" id="summary-only" name="summary-only" value="summary-only" checked={option === "summary-only"} />
+                            <input 
+                                type="radio" 
+                                id="summary-only" 
+                                name="migration-type" 
+                                value="summary-only" 
+                                checked={option === "summary-only"} 
+                                onChange={() => {
+                                    setOption("summary-only");
+                                    const option = {
+                                        type: "summary-only",
+                                        title: __("Summary-Only Migration", "wp-statistics"),
+                                        description: __("Quickly transfers only the visitor counts and page-view totals for older data. You'll lose detailed information (like devices, referrers, and search engines) for past visitors.", "wp-statistics"),
+                                        estimatedTime: __("Typically much faster than a full migration, often just a few minutes.", "wp-statistics"),
+                                        whoFor: __("Users who just need high-level trends and want the process done ASAP.", "wp-statistics"),
+                                    };
+                                    setData(option);
+                                }}
+                            />
                         </div>
                         <p className="intro-step__card-description">
                             {__("Quickly transfers only the visitor counts and page-view totals for older data. You'll lose detailed information (like devices, referrers, and search engines) for past visitors.", "wp-statistics")}
@@ -152,7 +185,24 @@ const IntroStep = ({ handleStep }) => {
                     >
                         <div className="intro-step__card-header">
                             <p className="intro-step__card-title">{__("Hybrid Migration", "wp-statistics")}</p>
-                            <input type="radio" id="hybrid" name="hybrid" value="hybrid" checked={option === "hybrid"} />
+                            <input 
+                                type="radio" 
+                                id="hybrid" 
+                                name="migration-type" 
+                                value="hybrid" 
+                                checked={option === "hybrid"} 
+                                onChange={() => {
+                                    setOption("hybrid");
+                                    const option = {
+                                        type: "hybrid",
+                                        title: __("Hybrid Migration", "wp-statistics"),
+                                        description: __("Imports full, detailed stats for your most recent history—by default the last 90 days, while older data is brought in as summary-only.", "wp-statistics"),
+                                        estimatedTime: __("Longer than summary-only, but faster than a full detailed migration.", "wp-statistics"),
+                                        whoFor: __("Users who want to retain granular data for a recent timeframe while speeding up the migration for older records.", "wp-statistics"),
+                                    };
+                                    setData(option);
+                                }}
+                            />
                         </div>
                         <p className="intro-step__card-description">
                             {__("Imports full, detailed stats for your most recent history—by default the last 90 days, while older data is brought in as summary-only.", "wp-statistics")}

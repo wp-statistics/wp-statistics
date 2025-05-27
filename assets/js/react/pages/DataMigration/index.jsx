@@ -1,4 +1,5 @@
-import { useState, useEffect, render } from "@wordpress/element";
+import React, { useState, useEffect } from "react";
+import { createRoot } from "react-dom/client"; 
 import IntroStep from "./IntroStep";
 import ConfirmationStep from "./ConfirmationStep";
 import ProgressStep from "./ProgressStep";
@@ -45,7 +46,8 @@ const DataMigration = () => {
 document.addEventListener("DOMContentLoaded", () => {
     const container = document.getElementById("wps-data-migration-page");
     if (container) {
-        render(<DataMigration />, container);
+        const root = createRoot(container);
+        root.render(<DataMigration />);
     }
 });
 

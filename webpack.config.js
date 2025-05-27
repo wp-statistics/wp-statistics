@@ -56,13 +56,6 @@ const reactConfig = {
         path: path.resolve(__dirname, "assets/dist/react"),
         filename: "[name].js",
         clean: true
-    },
-    externals: {
-        react: "React",
-        "react-dom": "ReactDOM",
-        "@wordpress/element": "wp.element",
-        "@wordpress/components": "wp.components",
-        "@wordpress/i18n": "wp.i18n"
     }
 };
 
