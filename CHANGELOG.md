@@ -11,6 +11,7 @@
 - **Enhancement:** Referrals report now displays traffic from UTM parameters.
 - **Enhancement:** Added `wp_statistics_disable_tracker_debugger_logs` filter to skip error logging in tracker debugger when needed.
 - **Enhancement:** Optimized online visitor tracking requests for better performance.
+- **Enhancement:** Reduced resource consumption during migration to improve efficiency and stability.
 - **Fix:** Standardized "Page" column links across all widgets and reports.
 - **Fix:** Fixed zero page views when using taxonomy filters other than 'category'.
 - **Fix:** Referrers data now reflect the first viewed page.
