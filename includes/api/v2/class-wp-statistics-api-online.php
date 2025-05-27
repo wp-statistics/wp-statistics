@@ -22,7 +22,7 @@ class CheckUserOnline extends \WP_STATISTICS\RestAPI
     public function __construct()
     {
 
-        if (Option::get('useronline')) {
+        if (Option::get('useronline') && Option::get('use_cache_plugin')) {
             # Create REST API to Check Online User
             add_action('rest_api_init', array($this, 'register_online_user_rest_api'));
         }
