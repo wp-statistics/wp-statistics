@@ -43,13 +43,13 @@ if (!defined('ABSPATH') || empty($addOn)) {
                     <li><a target="_blank" href="<?php echo esc_url($addOn->getSettingsUrl()); ?>" class="wps-addon--submenu wps-addon--submenu__settings"><?php esc_html_e('Settings', 'wp-statistics'); ?></a></li>
                 <?php endif; ?>
                 <?php if (!empty($addOn->getProductUrl())) : ?>
-                    <li><a href="<?php echo esc_url($addOn->getProductUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=dp" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Add-On Details', 'wp-statistics'); ?></a></li>
+                    <li><a href="<?php echo esc_url($addOn->getProductUrl()); ?>/?utm_source=wp-statistics&utm_medium=link&utm_campaign=<?php echo rawurlencode($addOn->getUtmCampaign()); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Add-On Details', 'wp-statistics'); ?></a></li>
                 <?php endif; ?>
                 <?php if (!empty($addOn->getChangelogUrl())) : ?>
-                    <li><a href="<?php echo esc_url($addOn->getChangelogUrl()); ?>&utm_source=wp-statistics&utm_medium=link&utm_campaign=dp" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Changelog', 'wp-statistics'); ?></a></li>
+                    <li><a href="<?php echo esc_url($addOn->getChangelogUrl()); ?>&?utm_source=wp-statistics&utm_medium=link&utm_campaign=<?php echo rawurlencode($addOn->getUtmCampaign()); ?>&releases=<?php echo rawurlencode($addOn->getUtmCampaign()); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Changelog', 'wp-statistics'); ?></a></li>
                 <?php endif; ?>
                 <?php if (!empty($addOn->getDocumentationUrl())) : ?>
-                    <li><a href="<?php echo esc_url($addOn->getDocumentationUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=dp" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Documentation', 'wp-statistics'); ?></a></li>
+                    <li><a href="<?php echo esc_url($addOn->getDocumentationUrl()); ?>/?utm_source=wp-statistics&utm_medium=link&utm_campaign=<?php echo rawurlencode($addOn->getUtmCampaign()); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Documentation', 'wp-statistics'); ?></a></li>
                 <?php endif; ?>
             </ul>
         </div>

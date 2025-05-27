@@ -43,7 +43,7 @@
         <div class="c-about__row c-about__footer">
             <?php if (!is_plugin_active('wp-statistics-customization/wp-statistics-customization.php')) { ?>
                 <div class="c-about__customization">
-                    <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-customization?utm_source=wp-statistics&utm_medium=link&utm_campaign=customization'); ?>" target="_blank">
+                    <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=customization'); ?>" target="_blank">
                         <?php esc_html_e('How to Customize This Widget', 'wp-statistics'); ?>
                     </a>
                 </div>

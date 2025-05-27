@@ -45,8 +45,8 @@ class AuthorsModel extends BaseModel
         ]);
 
         $query = Query::select([
-                'DISTINCT posts.post_author AS id', 
-                'display_name AS name', 
+                'DISTINCT posts.post_author AS id',
+                'display_name AS name',
                 'SUM(pages.count) AS total_views'
             ])
             ->from('posts')
@@ -76,7 +76,7 @@ class AuthorsModel extends BaseModel
 
         return $result ? $result : [];
     }
-    
+
     public function getAuthorsByPostPublishes($args = [])
     {
         $args = $this->parseArgs($args, [
@@ -126,8 +126,8 @@ class AuthorsModel extends BaseModel
         ]);
 
         $result = Query::select([
-                'DISTINCT posts.post_author AS id', 
-                'display_name AS name', 
+                'DISTINCT posts.post_author AS id',
+                'display_name AS name',
                 'COUNT(comments.comment_ID) / COUNT(DISTINCT posts.ID) AS average_comments'
             ])
             ->from('posts')
@@ -158,8 +158,8 @@ class AuthorsModel extends BaseModel
         ]);
 
         $result = Query::select([
-                'DISTINCT posts.post_author AS id', 
-                'display_name AS name', 
+                'DISTINCT posts.post_author AS id',
+                'display_name AS name',
                 'SUM(pages.count) AS total_views',
                 'COUNT(DISTINCT posts.ID) AS total_posts',
                 'SUM(pages.count) / COUNT(DISTINCT posts.ID) AS average_views'
@@ -188,8 +188,8 @@ class AuthorsModel extends BaseModel
         ]);
 
         $result = Query::select([
-                'DISTINCT posts.post_author AS id', 
-                'display_name AS name', 
+                'DISTINCT posts.post_author AS id',
+                'display_name AS name',
                 'SUM(postmeta.meta_value) / COUNT(DISTINCT posts.ID) AS average_words'
             ])
             ->from('posts')
@@ -238,16 +238,6 @@ class AuthorsModel extends BaseModel
             ->groupBy('post_author')
             ->getQuery();
 
-        $wordsQuery = Query::select(['DISTINCT post_author', 'SUM(meta_value) AS total_words'])
-            ->from('posts')
-            ->join('postmeta', ['posts.ID', 'postmeta.post_id'])
-            ->where('postmeta.meta_key', '=', 'wp_statistics_words_count')
-            ->where('post_status', '=', 'publish')
-            ->where('post_type', 'IN', $args['post_type'])
-            ->whereDate('post_date', $args['date'])
-            ->groupBy('post_author')
-            ->getQuery();
-
         $authorQuery = Query::select(['post_author'])
             ->from('posts')
             ->where('post_status', '=', 'publish')
@@ -255,24 +245,29 @@ class AuthorsModel extends BaseModel
             ->groupBy('post_author')
             ->getQuery();
 
-        $result = Query::select([
-                'users.ID AS id',
-                'users.display_name AS name',
-                'COUNT(DISTINCT posts.ID) AS total_posts',
-                'comments.total_comments AS total_comments',
-                'views.total_views AS total_views',
-                'words.total_words AS total_words',
-                'comments.total_comments / COUNT(DISTINCT posts.ID) AS average_comments',
-                'views.total_views / COUNT(DISTINCT posts.ID) AS average_views',
-                'words.total_words / COUNT(DISTINCT posts.ID) AS average_words'
-            ])
+        $fields = [
+            'users.ID AS id',
+            'users.display_name AS name',
+            'COUNT(DISTINCT posts.ID) AS total_posts',
+            'comments.total_comments AS total_comments',
+            'views.total_views AS total_views',
+            'comments.total_comments / COUNT(DISTINCT posts.ID) AS average_comments',
+            'views.total_views / COUNT(DISTINCT posts.ID) AS average_views'
+        ];
+
+        if (WordCountService::isActive()) {
+            $fields[] = 'words.total_words AS total_words';
+            $fields[] = 'words.total_words / COUNT(DISTINCT posts.ID) AS average_words';
+        }
+
+        $query = Query::select($fields)
             ->from('users')
             ->join(
-                'posts', 
+                'posts',
                 ['users.ID', 'posts.post_author'],
                 [
-                    ['posts.post_status', '=', 'publish'], 
-                    ['posts.post_type', 'IN', $args['post_type']], 
+                    ['posts.post_status', '=', 'publish'],
+                    ['posts.post_type', 'IN', $args['post_type']],
                     ['DATE(posts.post_date)', 'BETWEEN', [$args['date']['from'], $args['date']['to']]]
                 ],
                 'LEFT'
@@ -280,11 +275,25 @@ class AuthorsModel extends BaseModel
             ->joinQuery($authorQuery, ['users.ID', 'authors.post_author'], 'authors')
             ->joinQuery($commentsQuery, ['users.ID', 'comments.post_author'], 'comments', 'LEFT')
             ->joinQuery($viewsQuery, ['users.ID', 'views.post_author'], 'views', 'LEFT')
-            ->joinQuery($wordsQuery, ['users.ID', 'words.post_author'], 'words', 'LEFT')
             ->groupBy(['users.ID', 'users.display_name'])
             ->orderBy($args['order_by'], $args['order'])
-            ->perPage($args['page'], $args['per_page'])
-            ->getAll();
+            ->perPage($args['page'], $args['per_page']);
+
+        if (WordCountService::isActive()) {
+            $wordsQuery = Query::select(['DISTINCT post_author', 'SUM(meta_value) AS total_words'])
+                ->from('posts')
+                ->join('postmeta', ['posts.ID', 'postmeta.post_id'])
+                ->where('postmeta.meta_key', '=', 'wp_statistics_words_count')
+                ->where('post_status', '=', 'publish')
+                ->where('post_type', 'IN', $args['post_type'])
+                ->whereDate('post_date', $args['date'])
+                ->groupBy('post_author')
+                ->getQuery();
+
+            $query->joinQuery($wordsQuery, ['users.ID', 'words.post_author'], 'words', 'LEFT');
+        }
+
+        $result = $query->getAll();
 
         return $result ? $result : [];
     }
@@ -322,11 +331,11 @@ class AuthorsModel extends BaseModel
             ])
             ->from('users')
             ->join(
-                'posts', 
+                'posts',
                 ['users.ID', 'posts.post_author'],
                 [
-                    ['posts.post_status', '=', 'publish'], 
-                    ['posts.post_type', 'IN', $args['post_type']], 
+                    ['posts.post_status', '=', 'publish'],
+                    ['posts.post_type', 'IN', $args['post_type']],
                     ['DATE(posts.post_date)', 'BETWEEN', [$args['date']['from'], $args['date']['to']]]
                 ],
                 'LEFT'
