@@ -8,6 +8,7 @@ use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Database\DatabaseFactory;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Utils\Url;
 
 class Visitor
@@ -140,7 +141,7 @@ class Visitor
                 'region'        => $visitorProfile->getRegion(),
                 'continent'     => $visitorProfile->getContinent(),
                 'user_id'       => $visitorProfile->getUserId(),
-                'UAString'      => ((Option::get('store_ua') == true && !Helper::shouldTrackAnonymously()) ? $visitorProfile->getHttpUserAgent() : ''),
+                'UAString'      => ((Option::get('store_ua') == true && !IntegrationHelper::shouldTrackAnonymously()) ? $visitorProfile->getHttpUserAgent() : ''),
                 'hits'          => 1,
                 'honeypot'      => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0),
                 'first_page'    => $args['page_id'],

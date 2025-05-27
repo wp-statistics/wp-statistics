@@ -165,6 +165,7 @@ class settings_page extends Singleton
             'wps_hash_ips',
             'wps_privacy_audit',
             'wps_store_ua',
+            'wps_consent_integration',
             'wps_consent_level_integration',
             'wps_anonymous_tracking',
             'wps_do_not_track',

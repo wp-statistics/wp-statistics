@@ -2,15 +2,15 @@
 
 namespace WP_STATISTICS;
 
-use ErrorException;
 use Exception;
 use WP_STATISTICS;
-use WP_Statistics\Components\DateTime;
+use ErrorException;
 use WP_Statistics\Models\PostsModel;
-use WP_Statistics\Service\Integrations\WpConsentApi;
+use WP_Statistics_Mail;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Signature;
-use WP_Statistics_Mail;
+use WP_Statistics\Components\DateTime;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
 
 class Helper
 {
@@ -1862,16 +1862,16 @@ class Helper
      *
      * In this case, we have to track user's information anonymously.
      *
+     * @deprecated use `IntegrationHelper::shouldTrackAnonymously()` method
+     *
      * @return  bool
      */
     public static function shouldTrackAnonymously()
     {
-        $selectedConsentLevel = Option::get('consent_level_integration', 'disabled');
+        $isConsentGiven    = IntegrationHelper::isConsentGiven();
+        $anonymousTracking = IntegrationHelper::shouldTrackAnonymously();
 
-        return WpConsentApi::isWpConsentApiActive() &&
-            $selectedConsentLevel !== 'disabled' &&
-            Option::get('anonymous_tracking', false) == true &&
-            !(function_exists('wp_has_consent') && wp_has_consent($selectedConsentLevel));
+        return !$isConsentGiven && $anonymousTracking;
     }
 
     /**
