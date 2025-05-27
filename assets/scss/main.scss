@@ -1,0 +1,10 @@
+// Base
+@import 'variables';
+@import 'mixins';
+// Components
+@import 'components/migration-card';
+@import 'components/confirmation-info';
+// Pages
+@import 'pages/data-migration/intro-step';
+@import 'pages/data-migration/progress-step';
+@import 'pages/data-migration/confirmation-step';

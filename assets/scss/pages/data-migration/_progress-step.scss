@@ -1,0 +1,102 @@
+@use '../../core/typography' as type;
+@use '../../core/spacing' as space;
+@use '../../core/colors' as color;
+@use '../../core/components' as comp;
+@use '../../core/interactive' as interact;
+@use '../../core/layout' as layout;
+.wps-wrap {
+    .progress-step {
+        &__heading {
+            @include type.heading-large;
+        }
+        &__progress-container {
+            @include space.margin-y('xl');
+        }
+        &__operation-text {
+            @include type.text-base;
+            @include space.margin-bottom('sm');
+        }
+        &__progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #E6E8F0;
+            @include space.radius('base');
+            @include space.margin-bottom('sm');
+            overflow: hidden;
+        }
+        &__progress-bar-fill {
+            height: 100%;
+            @include color.bg-color('primary');
+            @include space.radius('base');
+            transition: width 0.5s ease-in-out;
+        }
+        &__progress-text {
+            @include type.text-base;
+            @include type.text-medium;
+            @include color.text-color('primary');
+            text-align: right;
+        }
+        &__info-box {
+            @include comp.info-box;
+            @include space.margin-x('xl');
+            &--error {
+                @include comp.error-box;
+            }
+        }
+        &__info-content {
+            @include layout.flex;
+            @include layout.justify-center;
+            @include space.gap('sm');
+            @include type.text-base;
+        }
+        &__info-icon {
+            width: 20px;
+            height: 20px;
+            @include space.margin-top('xs');
+        }
+        &__success-message {
+            text-align: center;
+            @include type.text-base;
+            @include space.margin-y('lg');
+            @include space.margin-x('xl');
+            p {
+                @include space.margin-y('sm');
+            }
+        }
+        &__button-container {
+            @include layout.flex-between-center;
+            @include space.gap('sm');
+            width: 100%;
+        }
+        &__cancel-button {
+            background: transparent;
+            border: 1px solid;
+            @include color.border-color('border');
+            @include type.text-base;
+            @include space.radius('base');
+            @include space.padding-x('lg');
+            @include space.padding-y('base');
+            @include interact.clickable;
+            &:hover {
+                background-color: #F5F5F5;
+            }
+        }
+        &__pause-button {
+            @include interact.button-primary;
+            @include type.text-base;
+            &--paused {
+                background-color: #FF9500;
+            }
+        }
+        &__complete-button {
+            @include interact.button-primary;
+            @include space.padding-x('xl');
+            @include space.padding-y('base');
+            @include type.text-base;
+            width: 100%;
+        }
+        &__footer {
+            @include color.bg-color('background');
+        }
+    }
+}

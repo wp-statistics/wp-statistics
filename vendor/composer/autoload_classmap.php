@@ -161,6 +161,8 @@ return array(
     'WP_Statistics\\Service\\Admin\\ContentAnalytics\\ContentAnalyticsPage' => $baseDir . '/src/Service/Admin/ContentAnalytics/ContentAnalyticsPage.php',
     'WP_Statistics\\Service\\Admin\\ContentAnalytics\\Views\\SingleView' => $baseDir . '/src/Service/Admin/ContentAnalytics/Views/SingleView.php',
     'WP_Statistics\\Service\\Admin\\ContentAnalytics\\Views\\TabsView' => $baseDir . '/src/Service/Admin/ContentAnalytics/Views/TabsView.php',
+    'WP_Statistics\\Service\\Admin\\DataMigration\\DataMigrationManager' => $baseDir . '/src/Service/Admin/DataMigration/DataMigrationManager.php',
+    'WP_Statistics\\Service\\Admin\\DataMigration\\DataMigrationPage' => $baseDir . '/src/Service/Admin/DataMigration/DataMigrationPage.php',
     'WP_Statistics\\Service\\Admin\\Devices\\DevicesDataProvider' => $baseDir . '/src/Service/Admin/Devices/DevicesDataProvider.php',
     'WP_Statistics\\Service\\Admin\\Devices\\DevicesManager' => $baseDir . '/src/Service/Admin/Devices/DevicesManager.php',
     'WP_Statistics\\Service\\Admin\\Devices\\DevicesPage' => $baseDir . '/src/Service/Admin/Devices/DevicesPage.php',

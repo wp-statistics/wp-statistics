@@ -1,0 +1,38 @@
+@use 'variables' as *;
+@use 'spacing' as space;
+@use 'colors' as color;
+@mixin card-container {
+    border: 1px solid map-get($colors, 'border');
+    @include space.radius('lg');
+    padding: map-get($spacing, 'xl');
+    @include color.bg-color('text', 'white');
+    box-shadow: none;
+}
+
+@mixin info-box {
+    @include card-container;
+    background-color: #F6FAFF;
+    border: 1px solid #4FA1FF66;
+    @include space.margin-y('lg');
+}
+
+@mixin error-box {
+    @include info-box;
+    background-color: #FFF4F4;
+    border-color: #FF4D4D66;
+}
+
+@mixin list-base {
+    list-style: disc;
+    padding-left: 30px;
+    @include space.margin-y;
+    li {
+        @include space.margin-bottom('xs');
+        &:last-child {
+            margin-bottom: 0;
+        }
+        strong {
+            font-weight: map-get($font-weights, 'medium');
+        }
+    }
+}

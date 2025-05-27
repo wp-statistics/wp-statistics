@@ -1,0 +1,153 @@
+@use '../../core/typography' as type;
+@use '../../core/layout' as layout;
+@use '../../core/spacing' as space;
+@use '../../core/colors' as color;
+@use '../../core/components' as comp;
+@use '../../core/interactive' as interact;
+.wps-wrap {
+    .intro-step {
+        &__heading {
+            @include type.heading-large;
+        }
+        &__text {
+            @include type.text-lg;
+            @include space.margin-bottom('lg');
+            &--bold {
+                @include type.text-medium;
+            }
+        }
+        &__info-box {
+            @include comp.info-box;
+            @include layout.flex;
+            @include layout.justify-center;
+            @include space.gap('sm');
+            @include space.margin-y('xl');
+        }
+        &__info-icon {
+            width: 20px;
+            height: 20px;
+            @include space.margin-top('xs');
+        }
+        &__info-content {
+            @include layout.flex-column;
+            @include space.gap('base');
+        }
+        &__info-text {
+            @include type.text-base;
+            margin: 0;
+        }
+        &__info-link {
+            text-decoration: underline;
+            &:hover {
+                text-decoration: none;
+            }
+        }
+        &__description {
+            @include type.text-base;
+        }
+        &__sub-heading {
+            @include type.heading-large;
+            @include space.margin-top('3xl');
+        }
+        &__card-container {
+            @include layout.flex-column;
+            @include space.gap('md');
+        }
+        &__card-header {
+            @include layout.flex-between;
+            width: 100%;
+        }
+        &__card-title {
+            @include type.text-base;
+            @include type.text-bold;
+            margin: 0;
+        }
+        &__card-description {
+            @include type.text-base;
+            @include space.margin-bottom;
+        }
+        &__card-list {
+            @include comp.list-base;
+        }
+        &__hybrid-input-container {
+            @include layout.flex;
+            @include layout.items-start;
+            @include layout.align-center;
+            @include space.gap('base');
+            p {
+                margin: 0;
+            }
+        }
+        &__hybrid-input {
+            outline: none;
+            @include color.border-color('border');
+            border-style: solid;
+            border-width: 1px;
+            width: 46px;
+            height: 32px;
+            @include space.radius('sm');
+            padding: 0 7px;
+            text-align: center;
+            &:focus {
+                @include color.border-color('primary');
+            }
+        }
+        &__footer {
+            @include layout.justify-end;
+            width: 100%;
+            @include space.padding('3xl');
+            @include color.bg-color('background');
+        }
+        &__back-link {
+            @include interact.clickable;
+            color: inherit;
+            background-color: transparent;
+            outline: none;
+            border: none;
+            &:hover {
+                text-decoration: none;
+            }
+        }
+        &__next-button {
+            @include interact.button-primary;
+        }
+        &__list {
+            @include comp.list-base;
+        }
+        &__radio-group {
+            @include layout.flex-column;
+            @include space.gap('sm');
+        }
+        &__radio-label {
+            @include type.text-base;
+            @include space.margin-top('xs');
+        }
+        &__radio-container {
+            @include layout.flex-column;
+            @include space.gap('base');
+        }
+        &__radio-card {
+            @include comp.card-container;
+            @include interact.clickable;
+            &--selected {
+                @include color.border-color('primary');
+            }
+        }
+        &__radio-card-body {
+            padding: 0;
+        }
+        &__title {
+            @include type.text-base;
+            @include type.text-bold;
+            margin: 0;
+        }
+        &__radio-image {
+            width: 17px;
+            height: 17px;
+        }
+        &__info-container {
+            @include layout.flex-column;
+            @include space.gap('md');
+        }
+    }
+}

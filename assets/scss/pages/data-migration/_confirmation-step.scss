@@ -1,0 +1,105 @@
+@use '../../core/typography' as type;
+@use '../../core/spacing' as space;
+@use '../../core/colors' as color;
+@use '../../core/components' as comp;
+@use '../../core/interactive' as interact;
+@use '../../core/layout' as layout;
+.wps-wrap {
+    .confirmation-step {
+        &__content {
+            @include layout.flex-column;
+            @include space.gap('2xl');
+        }
+        &__heading {
+            @include type.heading-large;
+        }
+        &__selected-card {
+            @include comp.card-container;
+            @include interact.clickable;
+        }
+        &__selected-card-body {
+            padding: 0;
+        }
+        &__card-header {
+            @include layout.flex-between-center;
+            width: 100%;
+        }
+        &__title {
+            @include type.text-base;
+            @include type.text-bold;
+            margin: 0;
+        }
+        &__radio-image {
+            width: 17px;
+            height: 17px;
+        }
+        &__description {
+            @include type.text-base;
+        }
+        &__list {
+            @include comp.list-base;
+        }
+        &__info-container {
+            @include layout.flex-column;
+            @include space.gap('sm');
+        }
+        &__reminder-container {
+            @include space.padding-y('lg');
+        }
+        &__reminder-title {
+            @include type.text-lg;
+            margin: 0;
+            strong {
+                @include type.text-medium;
+            }
+        }
+        &__reminder-list {
+            @include comp.list-base;
+            padding-left: 22px;
+            @include space.margin-y('xs');
+        }
+        &__reminder-item {
+            @include type.text-base;
+            a {
+                text-decoration: underline;
+            }
+        }
+        &__footer {
+            flex-direction: column;
+            @include color.bg-color('background');
+        }
+        &__footer-content {
+            margin-bottom: 0;
+        }
+        &__ready-text {
+            @include type.text-lg;
+            @include type.text-medium;
+            margin-bottom: 0;
+        }
+        &__instruction-text {
+            @include type.text-base;
+            margin: 0;
+        }
+        &__bold-text {
+            @include type.text-medium;
+        }
+        &__footer-actions {
+            @include layout.flex-between-center;
+            width: 100%;
+            @include space.padding-y('base');
+        }
+        &__back-link {
+            @include interact.clickable;
+            color: inherit;
+            background-color: transparent;
+            outline: none;
+            border: none;
+            &:hover {
+                text-decoration: none;
+            }
+        }
+        &__start-button {
+            @include interact.button-primary;
+        }
+    }
+}
