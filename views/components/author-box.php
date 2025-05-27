@@ -13,7 +13,7 @@ use WP_Statistics\Components\View;
             </div>
             <div class="wps-content-tabs__item--content">
                 <h3 class="wps-ellipsis-parent"><span  class="wps-ellipsis-text"><?php echo esc_html($author_name); ?></span></h3>
-                <span><span class="wps-content-tabs__item--count"><?php echo Helper::formatNumberWithUnit(esc_html($count)); ?></span><?php echo $count_label ?></span>
+                <span><span class="wps-content-tabs__item--count"><?php echo esc_html(Helper::formatNumberWithUnit($count, 1)); ?></span><?php echo esc_html($count_label) ?></span>
             </div>
         </div>
 
@@ -32,7 +32,7 @@ use WP_Statistics\Components\View;
         </div>
         <div class="wps-content-tabs__item--content">
             <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text" title="<?php echo esc_html($author_name); ?>"><?php echo esc_html($author_name); ?></span></h3>
-            <span><span class="wps-content-tabs__item--count"><?php echo Helper::formatNumberWithUnit(esc_html($count)); ?></span><?php echo $count_label ?></span>
+            <span><span class="wps-content-tabs__item--count"><?php echo esc_html(Helper::formatNumberWithUnit($count, 1)); ?></span><?php echo esc_html($count_label) ?></span>
         </div>
     </a>
 <?php endif ?>

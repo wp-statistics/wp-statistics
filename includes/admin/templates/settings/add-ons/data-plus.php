@@ -8,11 +8,17 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
 $isLicenseValid     = LicenseHelper::isPluginLicenseValid('wp-statistics-data-plus');
 $isDataPlusActive   = Helper::isAddOnActive('data-plus');
+?>
+    <h2 class="wps-settings-box__title">
+        <span><?php esc_html_e('Data Plus', 'wp-statistics'); ?></span>
+        <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/resources-category/data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings') ?>" target="_blank"><?php esc_html_e('View Guide', 'wp-statistics'); ?></a>
+    </h2>
+    <?php
 
 if (!$isDataPlusActive) echo Admin_Template::get_template(
     'layout/partials/addon-premium-feature',
     [
-        'addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
+        'addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=data-plus'),
         'addon_title'        => __('DataPlus Add-On', 'wp-statistics'),
         'addon_modal_target' => 'wp-statistics-data-plus',
         'addon_description'  => __('The settings on this page are part of the DataPlus add-on, which enhances WP Statistics by expanding tracking capabilities and providing detailed visitor insights.', 'wp-statistics'),
@@ -23,25 +29,24 @@ if (!$isDataPlusActive) echo Admin_Template::get_template(
             __('Compare weekly traffic and view hourly visitor patterns.', 'wp-statistics'),
             __('Analyze individual content pieces with detailed widgets.', 'wp-statistics'),
         ],
-        'addon_info'        => __('Unlock deeper insights into your website\'s performance with DataPlus.', 'wp-statistics'),
-    ],
-    true
-);
+        true
+    ]);
 
-if ($isDataPlusActive && !$isLicenseValid) {
-    View::load("components/lock-sections/notice-inactive-license-addon");
-}
-?>
+
+    if ($isDataPlusActive && !$isLicenseValid) {
+        View::load("components/lock-sections/notice-inactive-license-addon");
+    }
+    ?>
     <div class="postbox">
         <table class="form-table <?php echo !$isDataPlusActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2">
                     <h3><?php esc_html_e('Event Tracking', 'wp-statistics'); ?></h3>
                 </th>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="link_tracker_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[data_plus][link_tracker]"><?php esc_html_e('Link Tracker', 'wp-statistics'); ?></label>
                 </th>
@@ -54,7 +59,7 @@ if ($isDataPlusActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="download_tracker_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[data_plus][download_tracker]"><?php esc_html_e('Download Tracker', 'wp-statistics'); ?></label>
                 </th>
@@ -73,13 +78,13 @@ if ($isDataPlusActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isDataPlusActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2">
                     <h3><?php esc_html_e('User Interface Preferences', 'wp-statistics'); ?></h3>
                 </th>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="latest_visitors_in_editor_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[data_plus][latest_visitors_metabox]"><?php esc_html_e('Latest Visitors in Editor', 'wp-statistics'); ?></label>
                 </th>
@@ -97,6 +102,6 @@ if ($isDataPlusActive && !$isLicenseValid) {
 
 <?php
 if ($isDataPlusActive) {
-    submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='data-plus-settings'"));
+    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='data-plus-settings'"));
 }
 ?>

@@ -13,7 +13,7 @@ class MostVisitedPages extends BaseMetabox
 
     public function getName()
     {
-        return esc_html__('Most Visited Pages', 'wp-statistics');
+        return esc_html__('Top Pages', 'wp-statistics');
     }
 
     public function getDescription()
@@ -27,7 +27,7 @@ class MostVisitedPages extends BaseMetabox
             'datepicker'    => true,
             'button'        => View::load('metabox/action-button',[
                 'link'  => Menus::admin_url('pages'),
-                'title' => esc_html__('View Most Visited Pages', 'wp-statistics')
+                'title' => esc_html__('View Top Pages', 'wp-statistics')
             ],true)
         ];
     }

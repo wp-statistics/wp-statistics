@@ -8,6 +8,7 @@ use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Database\DatabaseFactory;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Utils\Url;
 
 class Visitor
@@ -140,20 +141,14 @@ class Visitor
                 'region'        => $visitorProfile->getRegion(),
                 'continent'     => $visitorProfile->getContinent(),
                 'user_id'       => $visitorProfile->getUserId(),
-                'UAString'      => ((Option::get('store_ua') == true && !Helper::shouldTrackAnonymously()) ? $visitorProfile->getHttpUserAgent() : ''),
+                'UAString'      => ((Option::get('store_ua') == true && !IntegrationHelper::shouldTrackAnonymously()) ? $visitorProfile->getHttpUserAgent() : ''),
                 'hits'          => 1,
-                'honeypot'      => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0)
+                'honeypot'      => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0),
+                'first_page'    => $args['page_id'],
+                'first_view'    => TimeZone::getCurrentDate(),
+                'last_page'     => $args['page_id'],
+                'last_view'     => TimeZone::getCurrentDate()
             );
-
-            // Store First and Last Page for versions above 14.12.6
-            if (AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
-                $visitor = array_merge($visitor, [
-                    'first_page'    => $args['page_id'],
-                    'first_view'    => TimeZone::getCurrentDate(),
-                    'last_page'     => $args['page_id'],
-                    'last_view'     => TimeZone::getCurrentDate()
-                ]);
-            }
 
             $visitor = apply_filters('wp_statistics_visitor_information', $visitor);
 
@@ -176,10 +171,8 @@ class Visitor
                     'user_id'   => ! empty($same_visitor->user_id) ? $same_visitor->user_id : $visitorProfile->getUserId()
                 ];
 
-                if (AjaxBackgroundProcessFactory::isDataMigrated('visitor_columns_migrate')) {
-                    $data['last_page'] = $args['page_id'];
-                    $data['last_view'] = TimeZone::getCurrentDate('Y-m-d H:i:s');
-                }
+                $data['last_page'] = $args['page_id'];
+                $data['last_view'] = TimeZone::getCurrentDate('Y-m-d H:i:s');
 
                 $data = apply_filters('wp_statistics_visitor_data_before_update', $data, $visitorProfile);
 
@@ -445,7 +438,7 @@ class Visitor
         global $wpdb;
 
         // Default Params
-        $params = array('link' => '', 'title' => '', 'query' => '');
+        $params = array('link' => '', 'title' => '', 'query' => '', 'id' => '');
 
         $pageTable = DB::table('pages');
 
@@ -458,6 +451,7 @@ class Visitor
             $params             = Pages::get_page_info($item['id'], $item['type'], $item['uri']);
             $linkWithParams     = !empty($item['uri']) ? home_url() . $item['uri'] : '';
             $params['query']    = Url::getParams($linkWithParams);
+            $params['id']       = $item['id'];
         }
 
         return $params;

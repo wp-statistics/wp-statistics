@@ -10,23 +10,22 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 use WP_Statistics\Service\Admin\ModalHandler\Modal;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditDataProvider;
 use WP_Statistics\Service\Admin\Notification\NotificationFactory;
+use WP_Statistics\Service\Admin\MarketingCampaign\MarketingCampaignFactory;
 
 $userOnline              = new \WP_STATISTICS\UserOnline();
 $isPremium               = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
 $hasUpdatedNotifications = NotificationFactory::hasUpdatedNotifications();
 $displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? true : false;
+$promoBanner             = MarketingCampaignFactory::getLatestMarketingCampaignByType('promo_banner');
 $manageCap               = User::ExistCapability(Option::get('manage_capability', 'manage_options'));
 $hasManageCap            = $manageCap && current_user_can($manageCap);
+
 ?>
 
     <div class="wps-adminHeader <?php echo $isPremium ? 'wps-adminHeader__premium' : '' ?>">
         <div class="wps-adminHeader__logo--container">
-            <?php if ($isPremium): ?>
-                <img class="wps-adminHeader__logo wps-adminHeader__logo--premium" src="<?php echo esc_url(apply_filters('wp_statistics_header_url', WP_STATISTICS_URL . 'assets/images/wp-statistics-premium.svg')); ?>"/>
-            <?php else: ?>
-                <img class="wps-adminHeader__logo" src="<?php echo esc_url(apply_filters('wp_statistics_header_url', WP_STATISTICS_URL . 'assets/images/white-header-logo.svg')); ?>"/>
-
-            <?php endif; ?>
+            <img class="wps-adminHeader__logo <?php echo $isPremium ? 'wps-adminHeader__logo--premium' : '' ?>"
+                 src="<?php echo esc_url(apply_filters('wp_statistics_header_url', WP_STATISTICS_URL . 'assets/images/' . ($isPremium ? 'wp-statistics-premium.svg' : 'white-header-logo.svg'))); ?>"/>
         </div>
         <div class="wps-adminHeader__menu">
             <?php
@@ -67,15 +66,7 @@ $hasManageCap            = $manageCap && current_user_can($manageCap);
         </div>
         <div class="wps-adminHeader__side">
             <?php if (apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) : ?>
-                <?php if (!$isPremium && !LicenseHelper::isValidLicenseAvailable()) : ?>
-                    <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-license-status wps-license-status--free">
-                        <?php esc_html_e('Upgrade To Premium', 'wp-statistics'); ?>
-                    </a>
-                <?php else : ?>
-                    <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" class="wps-license-status wps-license-status--valid">
-                        <span><?php esc_html_e(sprintf('License: %s/%s', count(PluginHelper::getLicensedPlugins()), count(PluginHelper::$plugins)), 'wp-statistics') ?></span> <span><?php esc_html_e('Upgrade', 'wp-statistics'); ?></span>
-                    </a>
-                <?php endif; ?>
+                <?php echo LicenseHelper::renderLicenseStatusLink($isPremium, $promoBanner); ?>
             <?php endif; ?>
 
             <?php if (Option::get('privacy_audit')) : ?>
@@ -87,13 +78,13 @@ $hasManageCap            = $manageCap && current_user_can($manageCap);
             <?php endif; ?>
 
             <?php if ($hasManageCap): ?>
-                <a href="<?php echo esc_url(admin_url('admin.php?page=wps_settings_page')); ?>" title="<?php esc_html_e('Settings', 'wp-statistics'); ?>" class="settings <?php if (isset($_GET['page']) && $_GET['page'] === 'wps_settings_page') {
-                    echo 'active';
-                } ?>"></a>
-            <?php endif; ?>
 
+            <a href="<?php echo esc_url(admin_url('admin.php?page=wps_settings_page')); ?>" title="<?php esc_html_e('Settings', 'wp-statistics'); ?>" class="settings <?php if (isset($_GET['page']) && $_GET['page'] === 'wps_settings_page') {
+                echo 'active';
+            } ?>"></a>
+            <?php endif; ?>
             <?php if (apply_filters('wp_statistics_enable_help_icon', true) && $hasManageCap) { ?>
-                <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/support?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" title="<?php esc_html_e('Help Center', 'wp-statistics'); ?>" class="support"></a>
+                <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/support/?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" title="<?php esc_html_e('Help Center', 'wp-statistics'); ?>" class="support"></a>
             <?php } ?>
 
             <?php if ($displayNotifications): ?>
@@ -133,26 +124,17 @@ $hasManageCap            = $manageCap && current_user_can($manageCap);
                     <?php endif; ?>
                     <?php if (apply_filters('wp_statistics_enable_help_icon', true) && $hasManageCap) { ?>
                         <div>
-                            <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/support?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" title="<?php esc_html_e('Help Center', 'wp-statistics'); ?>" class="help">
+                            <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/support/?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" title="<?php esc_html_e('Help Center', 'wp-statistics'); ?>" class="help">
                                 <span class="icon"></span>
                                 <?php esc_html_e('Help Center', 'wp-statistics'); ?>
                             </a>
                         </div>
-                    <?php } ?>
+                    <?php }
 
-                    <?php if (apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) : ?>
-                        <div class="wps-bundle">
-                            <?php if (!$isPremium && !LicenseHelper::isValidLicenseAvailable()) : ?>
-                                <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-license-status wps-license-status--free">
-                                    <?php esc_html_e('Upgrade To Premium', 'wp-statistics'); ?>
-                                </a>
-                            <?php else : ?>
-                                <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" class="wps-license-status wps-license-status--valid">
-                                    <span><?php esc_html_e(sprintf('License: %s/%s', count(PluginHelper::getLicensedPlugins()), count(PluginHelper::$plugins)), 'wp-statistics'); ?></span> <span><?php esc_html_e('Upgrade', 'wp-statistics'); ?></span>
-                                </a>
-                            <?php endif; ?>
-                        </div>
-                    <?php endif; ?>
+                    if (apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) {
+                        echo '<div class="wps-bundle">' . LicenseHelper::renderLicenseStatusLink($isPremium, $promoBanner, true) . '</div>';
+                    }
+                    ?>
                 </div>
             </div>
         </div>
@@ -161,5 +143,4 @@ $hasManageCap            = $manageCap && current_user_can($manageCap);
 if ($displayNotifications) {
     View::load("components/notification/side-bar", ['notifications' => NotificationFactory::getAllNotifications()]);
 }
-?>
-<?php Modal::render('introduce-premium'); ?>
+Modal::render('introduce-premium'); ?>

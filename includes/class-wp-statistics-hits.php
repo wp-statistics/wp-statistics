@@ -5,7 +5,7 @@ namespace WP_STATISTICS;
 use Exception;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Analytics\VisitorProfile;
-use WP_Statistics\Service\Integrations\WpConsentApi;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Traits\ErrorLoggerTrait;
 
 class Hits extends Singleton
@@ -196,6 +196,7 @@ class Hits extends Singleton
 
         self::errorListener();
 
+
         return $exclusion;
     }
 
@@ -250,9 +251,10 @@ class Hits extends Singleton
                 return;
             }
 
-            $consentLevel = Option::get('consent_level_integration', 'disabled');
+            $isConsentGiven     = IntegrationHelper::isConsentGiven();
+            $trackAnonymously   = IntegrationHelper::shouldTrackAnonymously();
 
-            if ($consentLevel == 'disabled' || Helper::shouldTrackAnonymously() || !WpConsentApi::isWpConsentApiActive() || !function_exists('wp_has_consent') || wp_has_consent($consentLevel)) {
+            if ($isConsentGiven || $trackAnonymously) {
                 self::record();
             }
 
