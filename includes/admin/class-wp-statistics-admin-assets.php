@@ -490,6 +490,7 @@ class Admin_Assets
             'select_page'                  => __('Select page', 'wp-statistics'),
             'required_error'               => __('This field is required', 'wp-statistics'),
             'validate_error'               => __('Must not contain spaces, #, or .', 'wp-statistics'),
+            'machine_validate_error'       => __('Please use lowercase letters, numbers, underscores, or dashes only. No spaces allowed.', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 
