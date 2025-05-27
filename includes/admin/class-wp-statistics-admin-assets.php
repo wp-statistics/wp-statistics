@@ -45,7 +45,7 @@ class Admin_Assets
      *
      * @var string
      */
-    public static $react_app_dir = 'build';
+    public static $react_app_dir = 'assets/dist/react';
 
     /**
      * Basic Of Plugin Url in WordPress
@@ -205,7 +205,8 @@ class Admin_Assets
         $screen_id = Helper::get_screen_id();
 
         if ($screen_id === 'admin_page_wps_data-migration_page') {
-            wp_enqueue_script(self::$react_dashboard_prefix, self::url('react-bundle.js', true), ['wp-element', 'wp-components', 'wp-blocks', 'wp-editor'], self::version(), ['in_footer' => true]);
+
+            wp_enqueue_script(self::$react_dashboard_prefix, self::url('migration.js', true), ['wp-element', 'wp-components', 'wp-blocks', 'wp-editor'], self::version(), ['in_footer' => true]);
             wp_localize_script(self::$react_dashboard_prefix, 'wps_global', self::wps_global($hook));
             return;
         }
@@ -523,3 +524,4 @@ class Admin_Assets
 }
 
 new Admin_Assets;
+

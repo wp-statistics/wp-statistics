@@ -1,5 +1,4 @@
-import { useState, useEffect } from "@wordpress/element";
-import { render } from "@wordpress/element";
+import { useState, useEffect, render } from "@wordpress/element";
 import IntroStep from "./IntroStep";
 import ConfirmationStep from "./ConfirmationStep";
 import ProgressStep from "./ProgressStep";
@@ -9,7 +8,7 @@ const getStepFromURL = () => {
     return params.get("step") || "step1";
 };
 
-const Page = () => {
+const DataMigration = () => {
     const [step, setStep] = useState(getStepFromURL());
 
     const handleStep = (item) => {
@@ -46,8 +45,8 @@ const Page = () => {
 document.addEventListener("DOMContentLoaded", () => {
     const container = document.getElementById("wps-data-migration-page");
     if (container) {
-        render(<Page />, container);
+        render(<DataMigration />, container);
     }
 });
 
-export default Page;
+export default DataMigration; 
