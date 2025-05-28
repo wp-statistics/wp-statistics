@@ -73,7 +73,7 @@ class GeneralNotices
 
             $message = wp_kses(
                 sprintf(
-                    '<div class="wps-mt-10 wps-mb-10"><b class="wp-statistics-notice__title">%s - %s</b><p>%s</p><a href="%s">%s</a></div>',
+                    '<div><b class="wp-statistics-notice__title">%s - %s</b><p>%s</p><a href="%s">%s</a></div>',
                     esc_html__('WP Statistics', 'wp-statistics'),
                         esc_html($notice['title']),
                         $notice['description'],
