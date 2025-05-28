@@ -1,3 +1,6 @@
+= 14.14.x - 2025-xx-xx =
+- **Enhancement:** Improved migration efficiency and stability by running schema migrations synchronously and removing background processes.
+
 = 14.14 - 2025-05-x =
 - **New:** Added a Help page inside the plugin to guide users.
 - **New:** Introduced dynamic promo text in the plugin header.
