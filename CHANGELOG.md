@@ -1,3 +1,6 @@
+= 14.15 - 2025-x-x =
+- **New:** Added export and import settings feature in the premium version.
+
 = 14.14 - 2025-05-x =
 - **New:** Added a Help page inside the plugin to guide users.
 - **New:** Introduced dynamic promo text in the plugin header.
