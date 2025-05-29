@@ -5,9 +5,10 @@ use WP_STATISTICS\Option;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 
-$isLicenseValid         = LicenseHelper::isPluginLicenseValid('wp-statistics-customization');
-$isCustomizationActive  = WP_STATISTICS\Helper::isAddOnActive('customization');
+$isLicenseValid        = LicenseHelper::isPluginLicenseValid('wp-statistics-customization');
+$isCustomizationActive = WP_STATISTICS\Helper::isAddOnActive('customization');
 global $wp_version;
 
 $disableMenuArray = [
@@ -98,7 +99,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
                 <th scope="row" colspan="2"><h3><?php esc_html_e('White label and Header Customization', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top"data-id="white_label_tr">
+            <tr valign="top" data-id="white_label_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[customization][wps_white_label]"><?php esc_html_e('White label', 'wp-statistics'); ?></label>
                 </th>
@@ -143,6 +144,55 @@ if ($isCustomizationActive && !$isLicenseValid) {
             </tbody>
         </table>
     </div>
+
+    <!-- Start !-->
+    <div class="postbox">
+        <table class="form-table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">
+            <tbody>
+            <tr valign="top" class="wps-settings-box_head">
+                <th scope="row" colspan="2"><h3><?php esc_html_e('Import & Export', 'wp-statistics'); ?></h3></th>
+            </tr>
+
+            <tr data-id="">
+                <th scope="row">
+                    <label><?php esc_html_e('Export Settings', 'wp-statistics'); ?></label>
+                </th>
+
+                <td>
+                    <?php foreach (PluginHelper::$plugins as $plugin => $title): ?>
+                        <p>
+                            <input id="" name="" type="checkbox" value="1">
+                            <label for=""><?php echo esc_html($title); ?></label>
+                        </p>
+                    <?php endforeach; ?>
+                    <p class="description"><?php esc_html_e('Choose any WP Statistics add‑ons whose settings you want in the file (e.g. Data Plus, Advanced Reporting, Real‑Time Stats). Core plugin settings are always included.', 'wp-statistics'); ?></p>
+                    <br>
+                    <a class=" wps-button wps-button--default" href="#"><?php esc_html_e('Download export file', 'wp-statistics'); ?></a>
+                    <p class="description"><?php _e('The file is saved in JSON format and contains both core settings and the add‑ons you tick above. <a href="#" target="_blank">See the full export guide</a>.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
+
+            <tr data-id="">
+                <th scope="row">
+                    <label><?php esc_html_e('Import Settings', 'wp-statistics'); ?></label>
+                </th>
+
+                <td>
+                    <input type="file" accept=".json">
+                    <p class="description"><?php esc_html_e('Select a JSON file exported from WP Statistics.', 'wp-statistics'); ?></p>
+                    <br>
+                    <input id="" type="checkbox" value="1" name="">
+                    <label for=""><?php esc_html_e('Download and import image files ', 'wp-statistics'); ?></label>
+                    <p class="description"><?php esc_html_e('When selected, image files will be downloaded and imported for use.', 'wp-statistics'); ?></p>
+                    <br>
+                    <a class="wps-button wps-button--default" href="#"><?php esc_html_e('Start import', 'wp-statistics'); ?></a>
+                    <p class="description"><?php _e('Need a safety net? Use <b>Download export file</b> above to back up your current settings first. You can always restore defaults later under <b>Settings › Advanced Options › Reset Options</b>. <a href="#" target="_blank">Learn how the import works</a>.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- End !-->
 
     <div class="postbox">
         <table class="form-table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">
