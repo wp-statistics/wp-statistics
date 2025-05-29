@@ -9,6 +9,8 @@ use WP_Statistics\Service\Database\Operations\Create;
 use WP_Statistics\Service\Database\Operations\Drop;
 use WP_Statistics\Service\Database\Operations\Insert;
 use WP_Statistics\Service\Database\Operations\Inspect;
+use WP_Statistics\Service\Database\Operations\InspectColumns;
+use WP_Statistics\Service\Database\Operations\Repair;
 use WP_Statistics\Service\Database\Operations\Select;
 use WP_Statistics\Service\Database\Operations\Update;
 
@@ -26,12 +28,14 @@ class DatabaseFactory
      * @var array
      */
     private static $operations = [
-        'create'  => Create::class,
-        'update'  => Update::class,
-        'drop'    => Drop::class,
-        'inspect' => Inspect::class,
-        'insert'  => Insert::class,
-        'select'  => Select::class,
+        'create'          => Create::class,
+        'update'          => Update::class,
+        'drop'            => Drop::class,
+        'inspect'         => Inspect::class,
+        'insert'          => Insert::class,
+        'select'          => Select::class,
+        'repair'          => Repair::class,
+        'inspect_columns' => InspectColumns::class,
     ];
 
     /**
@@ -77,7 +81,7 @@ class DatabaseFactory
         $migrationInstances = [];
 
         foreach (self::$migrationTypes as $migrationClass) {
-            if (! class_exists($migrationClass)) {
+            if (!class_exists($migrationClass)) {
                 continue;
             }
 
@@ -94,7 +98,7 @@ class DatabaseFactory
      * and compares it to a specified required version using a provided comparison operation.
      *
      * @param string $requiredVersion The version to compare against (e.g., "1.2.3").
-     * @param string $operation       The comparison operator for version comparison.
+     * @param string $operation The comparison operator for version comparison.
      *                                Allowed values: '<', '<=', '>', '>=', '==', '!='.
      *
      * @return bool Returns true if the comparison condition is met, false otherwise.
