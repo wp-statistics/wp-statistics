@@ -60,16 +60,19 @@ class ReferralsPage extends MultiViewPage
                     'data-source'       => 'getPageId',
                     'data-searchable'   => true
                 ],
-            ])
-            ->button('submitButton', [
-                'name'      => 'filter',
-                'type'      => 'button',
-                'classes'   => 'button-primary',
-                'label'     => esc_html__('Filter', 'wp-statistics'),
-                'attributes'  => [
-                    'type' => 'submit',
-                ],
             ]);
+
+            if (!Request::compare('type', 'single-campaign')) {
+                $this->filters
+                    ->select('referrer', [
+                        'name'          => 'referrer',
+                        'classes'       => 'wps-width-100 wps-select2',
+                        'attributes'    => [
+                            'data-type'       => 'getReferrer',
+                            'data-searchable' => true,
+                        ],
+                    ]);
+            }
 
             if (Request::compare('tab', 'campaigns')) {
                 $this->filters
@@ -91,7 +94,17 @@ class ReferralsPage extends MultiViewPage
                     ]);
             }
 
-            $this->filters = $this->filters->get();
+            $this->filters = $this->filters
+                ->button('submitButton', [
+                    'name'      => 'filter',
+                    'type'      => 'button',
+                    'classes'   => 'button-primary',
+                    'label'     => esc_html__('Filter', 'wp-statistics'),
+                    'attributes'  => [
+                        'type' => 'submit',
+                    ],
+                ])
+                ->get();
     }
 
     protected function setFilters() {
