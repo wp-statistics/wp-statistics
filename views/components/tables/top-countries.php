@@ -5,11 +5,7 @@ use WP_STATISTICS\Country;
 <div class="wps-card">
     <div class="wps-card__title">
         <h2>
-            <?php if ($title){
-                echo esc_html($title);
-            }else{
-                echo esc_html__('Top Countries', 'wp-statistics') ;
-            } ?>
+            <?php echo isset($title) ? esc_html($title) : esc_html__('Top Countries', 'wp-statistics'); ?>
 
             <?php if ($tooltip): ?>
                 <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
