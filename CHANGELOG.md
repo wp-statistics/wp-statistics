@@ -1,4 +1,4 @@
-= 14.14 - 2025-05-x =
+= 14.14 - 2025-06-01 =
 - **New:** Added a Help page inside the plugin to guide users.
 - **New:** Introduced dynamic promo text in the plugin header.
 - **New:** Added Single Resource report for assets without a post ID.
