@@ -1,8 +1,5 @@
 blank_issues_enabled: true
 contact_links:
-  - name: 🔒 Security issue
-    url: https://patchstack.com/database/vdp/wp-statistics
-    about: For security reasons, please report all security issues via PatchStack. If the issue is valid, a bug bounty will be paid out to you. Please disclose responsibly and not via GitHub (which allows for exploiting issues in the wild before the patch is released).
   - name: 💡 Feature Request
     url: https://feedback.veronalabs.com/boards/wp-statistics
     about: Have some great ideas to improve our site or this codebase? Open a new feature request in our team's app of choice.
