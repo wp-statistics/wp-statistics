@@ -14,17 +14,6 @@ return array(
     'WP_Statistics\\Abstracts\\BaseView' => $baseDir . '/src/Abstracts/BaseView.php',
     'WP_Statistics\\Abstracts\\MultiViewPage' => $baseDir . '/src/Abstracts/MultiViewPage.php',
     'WP_Statistics\\Abstracts\\UnlockedTabView' => $baseDir . '/src/Abstracts/UnlockedTabView.php',
-<<<<<<< HEAD
-    'WP_Statistics\\Async\\BackgroundProcessFactory' => $baseDir . '/src/Async/BackgroundProcessFactory.php',
-    'WP_Statistics\\Async\\BackgroundProcessMonitor' => $baseDir . '/src/Async/BackgroundProcessMonitor.php',
-    'WP_Statistics\\Async\\CalculatePostWordsCount' => $baseDir . '/src/Async/CalculatePostWordsCount.php',
-    'WP_Statistics\\Async\\DataMigrationProcess' => $baseDir . '/src/Async/DataMigrationProcess.php',
-    'WP_Statistics\\Async\\GeolocationDatabaseDownloadProcess' => $baseDir . '/src/Async/GeolocationDatabaseDownloadProcess.php',
-    'WP_Statistics\\Async\\IncompleteGeoIpUpdater' => $baseDir . '/src/Async/IncompleteGeoIpUpdater.php',
-    'WP_Statistics\\Async\\SchemaMigrationProcess' => $baseDir . '/src/Async/SchemaMigrationProcess.php',
-    'WP_Statistics\\Async\\SourceChannelUpdater' => $baseDir . '/src/Async/SourceChannelUpdater.php',
-    'WP_Statistics\\Async\\TableOperationProcess' => $baseDir . '/src/Async/TableOperationProcess.php',
-=======
     'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\AbstractAjaxBackgroundProcess' => $baseDir . '/src/BackgroundProcess/AjaxBackgroundProcess/AbstractAjaxBackgroundProcess.php',
     'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\AjaxBackgroundProcessFactory' => $baseDir . '/src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessFactory.php',
     'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\AjaxBackgroundProcessManager' => $baseDir . '/src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php',
@@ -38,7 +27,6 @@ return array(
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\SchemaMigrationProcess' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/SchemaMigrationProcess.php',
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\SourceChannelUpdater' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/SourceChannelUpdater.php',
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\TableOperationProcess' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/TableOperationProcess.php',
->>>>>>> development
     'WP_Statistics\\Components\\Ajax' => $baseDir . '/src/Components/Ajax.php',
     'WP_Statistics\\Components\\AssetNameObfuscator' => $baseDir . '/src/Components/AssetNameObfuscator.php',
     'WP_Statistics\\Components\\Assets' => $baseDir . '/src/Components/Assets.php',
@@ -321,13 +309,11 @@ return array(
     'WP_Statistics\\Service\\Charts\\Traits\\BaseChartResponseTrait' => $baseDir . '/src/Service/Charts/Traits/BaseChartResponseTrait.php',
     'WP_Statistics\\Service\\Charts\\Traits\\LineChartResponseTrait' => $baseDir . '/src/Service/Charts/Traits/LineChartResponseTrait.php',
     'WP_Statistics\\Service\\Charts\\Traits\\MapChartResponseTrait' => $baseDir . '/src/Service/Charts/Traits/MapChartResponseTrait.php',
-<<<<<<< HEAD
+    'WP_Statistics\\Service\\CronEventManager' => $baseDir . '/src/Service/CronEventManager.php',
+    'WP_Statistics\\Service\\CustomEvent\\CustomEventActions' => $baseDir . '/src/Service/CustomEvent/CustomEventActions.php',
     'WP_Statistics\\Service\\CustomEvent\\CustomEventDataParser' => $baseDir . '/src/Service/CustomEvent/CustomEventDataParser.php',
     'WP_Statistics\\Service\\CustomEvent\\CustomEventHelper' => $baseDir . '/src/Service/CustomEvent/CustomEventHelper.php',
     'WP_Statistics\\Service\\CustomEvent\\CustomEventManager' => $baseDir . '/src/Service/CustomEvent/CustomEventManager.php',
-=======
-    'WP_Statistics\\Service\\CronEventManager' => $baseDir . '/src/Service/CronEventManager.php',
->>>>>>> development
     'WP_Statistics\\Service\\Database\\AbstractDatabaseOperation' => $baseDir . '/src/Service/Database/AbstractDatabaseOperation.php',
     'WP_Statistics\\Service\\Database\\DatabaseFactory' => $baseDir . '/src/Service/Database/DatabaseFactory.php',
     'WP_Statistics\\Service\\Database\\DatabaseManager' => $baseDir . '/src/Service/Database/DatabaseManager.php',
