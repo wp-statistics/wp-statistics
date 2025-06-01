@@ -52,13 +52,11 @@
   &-header {
     display: flex;
     gap: 12px;
-    margin-top: -10px;
 
     &__title {
-      h2 {
-        font-size: 15px;
-        font-weight: 500;
-        line-height: 17.58px;
+      h2.wps_title {
+        font-size: 15px !important;
+        line-height: 18px !important;
         color: #0C0C0D;
       }
 
@@ -101,7 +99,7 @@
       gap: 16px;
       align-items: center;
       margin-bottom: 10px;
-      margin-top: 10px;
+      margin-top: 8px;
       flex-wrap: wrap;
 
       .wps-content-analytics-header__type {
@@ -109,7 +107,7 @@
         border-radius: 2px;
         font-size: 13px;
         font-weight: 500;
-        line-height: 15.23px;
+        line-height: 15px;
 
         &--post {
           background: #1961401A;
@@ -131,7 +129,7 @@
         &_published, &_updated {
           font-size: 13px;
           font-weight: 400;
-          line-height: 15.23px;
+          line-height: 15px;
           color: #0C0C0D;
         }
 
@@ -144,7 +142,7 @@
       .wps-content-analytics-header__author {
         font-size: 13px;
         font-weight: 400;
-        line-height: 15.23px;
+        line-height: 15px;
 
         span {
           color: #56585A
@@ -153,7 +151,7 @@
         a {
           font-size: 13px;
           font-weight: 400;
-          line-height: 15.23px;
+          line-height: 15px;
           color: #0C0C0D;
           text-decoration: underline;
           word-break: break-word;
@@ -178,7 +176,7 @@
         border-radius: 4px;
         color: #56585A;
         font-size: 12px;
-        line-height: 14.06px;
+        line-height: 14px;
         font-weight: 400;
         word-break: break-word;
         cursor: pointer;
@@ -201,7 +199,7 @@
           text-decoration: underline;
           font-size: 12px;
           font-weight: 400;
-          line-height: 14.06px;
+          line-height: 14px;
 
           &:hover {
             color: #0C0C0D;
