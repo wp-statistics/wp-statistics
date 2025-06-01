@@ -169,6 +169,6 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 - **Fix:** Ensured `tracker.js` works with Root Bedrock setups.
 - **Fix:** Handled `E_STRICT` deprecation warning in PHP 8.4.
 
-For more information about the major update, please [visit our blog post](https://wp-statistics.com/2025/06/introducing-wp-statistics-14-14/) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
+For more information about the major update, please [visit our release post](https://wp-statistics.com/release/wp-statistics-v14-14/) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).
