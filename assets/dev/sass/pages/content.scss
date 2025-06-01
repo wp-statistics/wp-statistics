@@ -53,6 +53,12 @@
     display: flex;
     gap: 12px;
 
+    &__single-resource{
+      margin-top: 0;
+      padding-top: 6.5px;
+      padding-bottom: 6.5px;
+    }
+
     &__title {
       h2.wps_title {
         font-size: 15px !important;
@@ -61,11 +67,11 @@
       }
 
       a {
-        margin-left: 6px;
+        margin-left: 8px;
 
         .rtl & {
           margin-left: 0;
-          margin-right: 6px;
+          margin-right: 8px;
         }
 
         &:after {

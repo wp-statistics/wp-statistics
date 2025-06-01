@@ -94,6 +94,10 @@ jQuery(document).ready(function () {
                 normalizeDate(localTime.clone().subtract(6, 'days'), validTimezone),
                 normalizeDate(localTime.clone(), validTimezone)
             ],
+            [wps_js._('str_28days')]:[
+                normalizeDate(localTime.clone().subtract(27, 'days'), validTimezone),
+                normalizeDate(localTime.clone(), validTimezone)
+            ],
             [wps_js._('str_30days')]: [
                 normalizeDate(localTime.clone().subtract(29, 'days'), validTimezone),
                 normalizeDate(localTime.clone(), validTimezone)

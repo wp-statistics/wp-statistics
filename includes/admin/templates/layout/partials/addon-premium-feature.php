@@ -1,5 +1,4 @@
 <?php
-
 use WP_Statistics\Components\View;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
@@ -19,7 +18,7 @@ $isActive      = $pluginHandler->isPluginActive($addon_modal_target);
             'addon_title'               => $addon_title,
             'addon_description'         => $addon_description,
             'addon_features'            => $addon_features,
-            'addon_info'                => $addon_info,
+            'addon_info'                => $addon_info ?? '',
             'addon_documentation_title' => $addon_documentation_title ?? '',
             'addon_documentation_slug'  => $addon_documentation_slug ?? '',
             'addon_modal_target'        => $addon_modal_target,

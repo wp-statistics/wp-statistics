@@ -1,5 +1,5 @@
 wps_js.set_content = function(response, key) {
-    if (response && response.response) {
+     if (response && response.response) {
         wps_js.metaBoxInner(key.replace(/_/g, '-')).html(response.response);
         wps_js.initDatePickerHandlers();
     }

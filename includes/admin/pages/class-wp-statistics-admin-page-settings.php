@@ -51,7 +51,7 @@ class settings_page extends Singleton
         $args['wp_statistics_options'] = Option::getOptions();
 
         // Load Template
-        Admin_Template::get_template(array('layout/header', 'layout/title', 'settings', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'settings', 'layout/footer'), $args);
     }
 
     /**
@@ -165,9 +165,11 @@ class settings_page extends Singleton
             'wps_hash_ips',
             'wps_privacy_audit',
             'wps_store_ua',
+            'wps_consent_integration',
             'wps_consent_level_integration',
             'wps_anonymous_tracking',
             'wps_do_not_track',
+            'wps_show_privacy_issues_in_report',
         );
 
         // If the IP hash's are enabled, disable storing the complete user agent.
@@ -316,7 +318,6 @@ class settings_page extends Singleton
             'wps_exclude_loginpage',
             'wps_excluded_countries',
             'wps_included_countries',
-            'wps_excluded_hosts',
             'wps_robot_threshold',
             'wps_exclude_feeds',
             'wps_excluded_urls',
@@ -517,8 +518,14 @@ class settings_page extends Singleton
     public static function save_advanced_option($wp_statistics_options)
     {
         $wps_option_list = [
-            'wps_delete_data_on_uninstall'
+            'wps_delete_data_on_uninstall',
+            'wps_word_count_analytics'
         ];
+
+        // If word count was disabled before and enabled again, show background process notice
+        if (empty($wp_statistics_options['word_count_analytics']) && !empty($_POST['wps_word_count_analytics'])) {
+            Option::deleteOptionGroup('word_count_process_initiated', 'jobs');
+        }
 
         foreach ($wps_option_list as $option) {
             $wp_statistics_options[self::input_name_to_option($option)] = isset($_POST[$option]) ? true : false;

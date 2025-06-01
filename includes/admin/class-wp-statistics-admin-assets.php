@@ -54,54 +54,8 @@ class Admin_Assets
         add_action('admin_enqueue_scripts', array($this, 'admin_styles'), 999);
         add_action('admin_enqueue_scripts', array($this, 'admin_scripts'), 999);
         add_filter('wp_statistics_enqueue_chartjs', [$this, 'shouldEnqueueChartJs']);
-
-        $this->initFeedback();
     }
 
-    /**
-     * Init FeedbackBird widget a third-party service to get feedbacks from users
-     *
-     * @url https://feedbackbird.io
-     *
-     * @return void
-     */
-    private function initFeedback()
-    {
-        add_action('admin_enqueue_scripts', function () {
-            $screen = get_current_screen();
-
-            if (apply_filters('wp_statistics_enable_feedbackbird', true) && stripos($screen->id, 'wps_') !== false) {
-                wp_enqueue_script('feedbackbird-widget', 'https://cdn.jsdelivr.net/gh/feedbackbird/assets@master/wp/app.js?uid=01H34YMWXSA9XPS61M4S11RV6Z', [], self::version(), false);
-                wp_add_inline_script('feedbackbird-widget', sprintf('var feedbackBirdObject = %s;', wp_json_encode([
-                    'user_email' => function_exists('wp_get_current_user') ? wp_get_current_user()->user_email : '',
-                    'platform'   => 'wordpress-admin',
-                    'config'     => [
-                        'color'         => '#2831bc',
-                        'button'        => __('Feedback', 'wp-sms'),
-                        'subtitle'      => __('Feel free to share your thoughts!', 'wp-sms'),
-                        'opening_style' => 'modal',
-                    ],
-                    'meta'       => [
-                        'php_version'    => PHP_VERSION,
-                        'active_plugins' => array_map(function ($plugin, $pluginPath) {
-                            return [
-                                'name'    => $plugin['Name'],
-                                'version' => $plugin['Version'],
-                                'status'  => is_plugin_active($pluginPath) ? 'active' : 'deactivate',
-                            ];
-                        }, get_plugins(), array_keys(get_plugins())),
-                    ]
-                ])));
-
-                add_filter('script_loader_tag', function ($tag, $handle, $src) {
-                    if ('feedbackbird-widget' === $handle) {
-                        return preg_replace('/^<script /i', '<script type="module" crossorigin="crossorigin" ', $tag);
-                    }
-                    return $tag;
-                }, 10, 3);
-            }
-        });
-    }
 
     /**
      * Get Version of File
@@ -209,9 +163,10 @@ class Admin_Assets
         //        }
 
         // Load Select2
-        if (Menus::in_page('visitors') || Menus::in_page('settings') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages') || Menus::in_page('goals')) {
+        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages') || Menus::in_page('settings') || Menus::in_page('optimization')  || Menus::in_page('goals')) {
             wp_enqueue_style(self::$prefix . '-select2', self::url('select2/select2.min.css'), array(), '4.0.9');
         }
+
         // Load RangeDatePicker
         if (Menus::in_plugin_page() || Menus::in_page('pages') || in_array($screen_id, array('dashboard'))) {
             wp_enqueue_style(self::$prefix . '-daterangepicker', self::url('datepicker/daterangepicker.css'), array(), '1.0.0');
@@ -258,7 +213,7 @@ class Admin_Assets
         //        }
 
         // Load Select2
-        if (Menus::in_page('visitors') || Menus::in_page('settings') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages') || Menus::in_page('goals')) {
+        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages') || Menus::in_page('settings') || Menus::in_page('optimization') || Menus::in_page('goals')) {
             wp_enqueue_script(self::$prefix . '-select2', self::url('select2/select2.full.min.js'), array('jquery'), "4.1.0", ['in_footer' => true]);
         }
 
@@ -413,6 +368,7 @@ class Admin_Assets
             'str_this_month'               => __('This month', 'wp-statistics'),
             'str_last_month'               => __('Last month', 'wp-statistics'),
             'str_7days'                    => __('Last 7 days', 'wp-statistics'),
+            'str_28days'                   => __('Last 28 days', 'wp-statistics'),
             'str_30days'                   => __('Last 30 days', 'wp-statistics'),
             'str_90days'                   => __('Last 90 days', 'wp-statistics'),
             'str_6months'                  => __('Last 6 months', 'wp-statistics'),
@@ -467,6 +423,7 @@ class Admin_Assets
             'role'                         => __('Role', 'wp-statistics'),
             'latest_page'                  => __('Latest Page', 'wp-statistics'),
             'referrer'                     => __('Referrer', 'wp-statistics'),
+            'source_channel'               => __('Source Category', 'wp-statistics'),
             'online_for'                   => __('Online For', 'wp-statistics'),
             'views'                        => __('Views', 'wp-statistics'),
             'view'                         => __('View', 'wp-statistics'),
@@ -480,6 +437,9 @@ class Admin_Assets
             'show_less'                    => __('Show less', 'wp-statistics'),
             'show_more'                    => __('Show more', 'wp-statistics'),
             'pending'                      => __('Pending', 'wp-statistics'),
+            'copied'                       => __('Copied!', 'wp-statistics'),
+            'settings'                     => __('SETTINGS', 'wp-statistics'),
+            'premium_addons'               => __('PREMIUM ADD-ONS', 'wp-statistics'),
             'clicks'                       => __('Clicks', 'wp-statistics'),
             'impressions'                  => __('Impressions', 'wp-statistics'),
             'prev'                         => __('Prev', 'wp-statistics'),
@@ -500,9 +460,9 @@ class Admin_Assets
         $list['initial_post_date'] = Helper::getInitialPostDate();
 
         if (Request::has('post_id')) {
-            $list['post_creation_date'] = get_the_date(DateTime::$defaultDateFormat, Request::get('post_id'));
+            $list['post_creation_date'] = get_post_time(DateTime::$defaultDateFormat, false, Request::get('post_id'), false);
         } else if (is_singular()) {
-            $list['post_creation_date'] = get_the_date(DateTime::$defaultDateFormat);
+            $list['post_creation_date'] = get_post_time(DateTime::$defaultDateFormat, false, null, false);
         }
 
         // Rest-API Meta Box Url

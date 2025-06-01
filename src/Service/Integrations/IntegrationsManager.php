@@ -5,14 +5,6 @@ namespace WP_Statistics\Service\Integrations;
 class IntegrationsManager
 {
     /**
-     * List of integrations to register.
-     * @var  array
-     */
-    private $integrations = [
-        WpConsentApi::class,
-    ];
-
-    /**
      * IntegrationsManager constructor.
      */
     public function __construct()
@@ -26,12 +18,11 @@ class IntegrationsManager
      */
     private function registerIntegrations()
     {
-        foreach ($this->integrations as $integration) {
-            if (!class_exists($integration)) {
-                continue;
-            }
+        $integrations = IntegrationHelper::getAllIntegrations();
 
-            $integration = new $integration();
+        foreach ($integrations as $integration) {
+            if (!$integration->isActive()) continue;
+
             $integration->register();
         }
     }

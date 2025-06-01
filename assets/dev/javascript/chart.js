@@ -36,8 +36,8 @@ const wpsBuildTicks = (scale) => {
 }
 
 const chartColors = {
-    'total': '#27A765', 'views': '#7362BF', 'visitors': '#3288D7', 'clicks': '#3288D7', 'impressions': '#7362BF', 'user-visitors': '#3288D7', 'anonymous-visitors': '#7362BF', 'published': '#8AC3D0', 'published-contents': '#8AC3D0', 'published-products': '#8AC3D0',
-    'published-pages': '#8AC3D0', 'published-posts': '#8AC3D0', 'posts': '#8AC3D0', downloads: '#3288D7', 'Other1': '#3288D7', 'Other2': '#7362BF', 'Other3': '#8AC3D0'
+    'total': '#27A765', 'views': '#7362BF', 'visitors': '#3288D7', 'user-visitors': '#3288D7', 'anonymous-visitors': '#7362BF', 'published': '#8AC3D0','published-contents': '#8AC3D0', 'published-products': '#8AC3D0',
+    'published-pages': '#8AC3D0', 'published-posts': '#8AC3D0', 'posts': '#8AC3D0' , downloads: '#3288D7', 'clicks': '#3288D7', 'impressions': '#7362BF', 'Other1': '#3288D7', 'Other2': '#7362BF', 'Other3': '#8AC3D0'
 };
 
 const chartTensionValues = [0.1, 0.3, 0.5, 0.7];
@@ -1041,7 +1041,7 @@ document.body.addEventListener('click', function (event) {
     }
 });
 
-window.renderWPSLineChart = function (chartId, data, newOptions) {
+window.renderWPSLineChart = function (chartId, data ,newOptions) {
     const chartItem = document.getElementById(chartId);
     if (chartItem) {
         const parentElement = jQuery(`#${chartId}`).parent();

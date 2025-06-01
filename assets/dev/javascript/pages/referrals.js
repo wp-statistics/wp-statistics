@@ -1,5 +1,6 @@
 if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "referrals") {
     const placeholder = wps_js.rectangle_placeholder();
+
     function renderChart(chartId, searchData) {
         const chartElement = document.getElementById(chartId);
         if (chartElement) {
@@ -14,7 +15,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
     }
 
-    const renderHorizontalChart=(id,data)=> {
+    const renderHorizontalChart = (id, data) => {
         const chartElement = document.getElementById(id);
         if (chartElement) {
             const parentElement = jQuery(`#${id}`).parent();

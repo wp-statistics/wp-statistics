@@ -100,6 +100,11 @@ class Ajax
                 'class'  => $this,
                 'action' => 'dismiss_notices',
                 'public' => false
+            ],
+            [
+                'class'  => $this,
+                'action' => 'delete_word_count_data',
+                'public' => false
             ]
         ];
 
@@ -112,7 +117,7 @@ class Ajax
             $isPublic = isset($item['public']) && $item['public'] == true ? true : false;
 
             // If callback exists in the class, register the action
-            if (method_exists($class, $callback)) {
+            if (! empty($class) && method_exists($class, $callback)) {
                 add_action('wp_ajax_wp_statistics_' . $action, [$class, $callback]);
 
                 // Register the AJAX callback publicly
@@ -280,6 +285,31 @@ class Ajax
                 esc_html_e('Successfully deleted user agent strings data.', 'wp-statistics');
             } else {
                 esc_html_e('Couldn’t find any user agent strings data to delete.', 'wp-statistics');
+            }
+
+        } else {
+            esc_html_e('Unauthorized access!', 'wp-statistics');
+        }
+
+        exit;
+    }
+
+    public function delete_word_count_data_action_callback()
+    {
+        global $wpdb;
+
+        if (Request::isFrom('ajax') && User::Access('manage')) {
+
+            // Check Refer Ajax
+            check_ajax_referer('wp_rest', 'wps_nonce');
+
+            $result = $wpdb->query("DELETE FROM `" . $wpdb->postmeta . "` WHERE `meta_key` = 'wp_statistics_words_count'");
+            Option::deleteOptionGroup('word_count_process_initiated', 'jobs');
+
+            if ($result) {
+                esc_html_e('Successfully deleted word count data.', 'wp-statistics');
+            } else {
+                esc_html_e('Couldn’t find any word count data to delete.', 'wp-statistics');
             }
 
         } else {

@@ -17,7 +17,10 @@
 
 <?php if (!empty($addon_info)): ?>
     <div class="wps-premium-feature__addon_info">
-        <?php echo esc_html($addon_info); ?>
+        <?php if (isset($addon_info)) {
+            echo esc_html($addon_info);
+            }
+        ?>
         <?php if (!empty($addon_documentation_title) && !empty($addon_documentation_slug)): ?>
             <a href="<?php echo esc_url($addon_documentation_slug) ?>" target="_blank" title="<?php echo esc_html($addon_documentation_title); ?>"><?php echo esc_html($addon_documentation_title); ?></a>.
         <?php endif; ?>
@@ -34,5 +37,5 @@
         echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings');
     }
     ?>"><?php esc_html_e('Unlock Everything with Premium', 'wp-statistics') ?></a>
-    <a class="wps-show-premium-modal button  js-wps-openPremiumModal" data-target="<?php echo esc_html($addon_modal_target) ?>" data-name="<?php echo esc_html($addon_title) ?>" href="<?php echo esc_url($addon_slug) ?>"><?php esc_html_e('Learn More', 'wp-statistics') ?></a>
+    <a class="wps-show-premium-modal button  js-wps-openPremiumModal" data-target="<?php echo esc_html($addon_modal_target) ?>" data-name="<?php echo esc_html($addon_title) ?>"><?php esc_html_e('Learn More', 'wp-statistics') ?></a>
 </div>

@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Components\DateTime;
 
 class MostVisitedPages extends BaseMetabox
 {
@@ -12,7 +13,7 @@ class MostVisitedPages extends BaseMetabox
 
     public function getName()
     {
-        return esc_html__('Most Visited Pages', 'wp-statistics');
+        return esc_html__('Top Pages', 'wp-statistics');
     }
 
     public function getDescription()
@@ -26,7 +27,7 @@ class MostVisitedPages extends BaseMetabox
             'datepicker'    => true,
             'button'        => View::load('metabox/action-button',[
                 'link'  => Menus::admin_url('pages'),
-                'title' => esc_html__('View Most Visited Pages', 'wp-statistics')
+                'title' => esc_html__('View Top Pages', 'wp-statistics')
             ],true)
         ];
     }
@@ -36,7 +37,9 @@ class MostVisitedPages extends BaseMetabox
         $args = $this->getFilters();
         $data = $this->dataProvider->getTopPages($args);
 
-        $output = View::load('metabox/most-visited-pages', ['data' => $data, 'args' => $args], true);
+        $isTodayOrFutureDate = DateTime::isTodayOrFutureDate($args['date']['to'] ?? null);
+
+        $output = View::load('metabox/most-visited-pages', ['data' => $data, 'args' => $args, 'isTodayOrFutureDate' => $isTodayOrFutureDate], true);
 
         return $output;
     }

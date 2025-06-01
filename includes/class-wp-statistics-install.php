@@ -5,6 +5,7 @@ namespace WP_STATISTICS;
 use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Components\Event;
 use WP_Statistics\Service\Database\Managers\TableHandler;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
 
 class Install
 {
@@ -110,6 +111,8 @@ class Install
      */
     private function markBackgroundProcessAsInitiated()
     {
+        Option::deleteOptionGroup('data_migration_process_started', 'jobs');
+
         if (!self::isFresh()) {
             return;
         }
@@ -119,6 +122,7 @@ class Install
         Option::saveOptionGroup('schema_migration_process_started', true, 'jobs');
         Option::saveOptionGroup('update_source_channel_process_initiated', true, 'jobs');
         Option::saveOptionGroup('table_operations_process_initiated', true, 'jobs');
+        Option::saveOptionGroup('word_count_process_initiated', true, 'jobs');
     }
 
     public static function delete_duplicate_data()
@@ -506,11 +510,26 @@ class Install
             Option::update('display_notifications', true);
         }
 
+        if (Option::get('show_privacy_issues_in_report') === false && version_compare($latest_version, '14.12', '>')) {
+            Option::update('show_privacy_issues_in_report', false);
+        }
+
         /**
          * Update GeoIP schedule from daily to monthly
          */
         if (Option::get('schedule_geoip') && version_compare($installed_version, '14.11', '<')) {
             Event::reschedule('wp_statistics_geoip_hook', 'monthly');
+        }
+
+        /**
+         * Update consent integration to WP Consent API for backward compatibility
+         */
+        $integration            = Option::get('consent_integration');
+        $consentLevel           = Option::get('consent_level_integration', 'disabled');
+        $isWpConsentApiActive   = IntegrationHelper::getIntegration('wp_consent_api')->isActive();
+
+        if ($isWpConsentApiActive && empty($integration) && $consentLevel !== 'disabled') {
+            Option::update('consent_integration', 'wp_consent_api');
         }
 
         /**

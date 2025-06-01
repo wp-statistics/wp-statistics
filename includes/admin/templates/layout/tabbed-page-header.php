@@ -10,8 +10,8 @@ $pageKey = Menus::getCurrentPage();
 $pageKey = $pageKey['page_url'];
 
 View::load('components/objects/share-anonymous-notice');
-
 ?>
+
 <div class="wps-wrap__top tabbed_page">
     <h2 class="wps_title <?php if (!empty($create_goal_url)) echo 'wps_flex' ?>">
         <span><?php echo(isset($title) ? esc_html($title) : (function_exists('get_admin_page_title') ? esc_html(get_admin_page_title()) : '')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
@@ -100,15 +100,14 @@ View::load('components/objects/share-anonymous-notice');
     <?php endif; ?>
     <?php if (!empty($tabs) && is_array($tabs)) { ?>
         <ul class="wps-tabs">
-            <?php foreach ($tabs as $tab) { ?>
-                <?php
-                    $tabKey         = Url::getParam($tab['link'], 'tab');
-                    $tab['locked']  = apply_filters("wp_statistics_{$pageKey}_{$tabKey}_locked", $tab['locked'] ?? false);
-                    $tab['tooltip'] = apply_filters("wp_statistics_{$pageKey}_{$tabKey}_tooltip", $tab['tooltip'] ?? '');
-                    $tab['hidden']  = apply_filters("wp_statistics_{$pageKey}_{$tabKey}_hidden", $tab['hidden'] ?? false);
-                ?>
+            <?php foreach ($tabs as $tab) {
+                $tabKey         = Url::getParam($tab['link'], 'tab');
+                $tab['locked']  = apply_filters("wp_statistics_{$pageKey}_{$tabKey}_locked", $tab['locked'] ?? false);
+                $tab['tooltip'] = apply_filters("wp_statistics_{$pageKey}_{$tabKey}_tooltip", $tab['tooltip'] ?? '');
+                $tab['hidden']  = apply_filters("wp_statistics_{$pageKey}_{$tabKey}_hidden", $tab['hidden'] ?? false);
 
-                <?php if (!empty($tab['hidden'])) continue; ?>
+                if (!empty($tab['hidden'])) continue;
+            ?>
 
                 <li class="wps-tab-link <?php echo esc_attr($tab['class']); ?>">
                     <?php if (isset($tab['coming_soon'])): ?>
@@ -140,3 +139,10 @@ View::load('components/objects/share-anonymous-notice');
 </div>
 <div class="wps-wrap__main">
     <div class="wp-header-end"></div>
+
+
+
+
+
+
+

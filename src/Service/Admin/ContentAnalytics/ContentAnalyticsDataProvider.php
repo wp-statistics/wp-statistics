@@ -6,6 +6,7 @@ use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 use WP_Statistics\Utils\Request;
 
@@ -52,9 +53,6 @@ class ContentAnalyticsDataProvider
         $recentViews    = $this->viewsModel->countViews($this->args);
         $recentVisitors = $this->visitorsModel->countVisitors($this->args);
 
-        $totalWords     = $this->postsModel->countWords(array_merge($this->args, ['ignore_date' => true]));
-        $recentWords    = $this->postsModel->countWords($this->args);
-
         $totalComments  = $this->postsModel->countComments(array_merge($this->args, ['ignore_date' => true]));
         $recentComments = $this->postsModel->countComments($this->args);
 
@@ -76,7 +74,7 @@ class ContentAnalyticsDataProvider
 
         $taxonomies         = $this->taxonomyModel->getTaxonomiesData($this->args);
 
-        return [
+        $result = [
             'taxonomies'        => $taxonomies,
             'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
             'overview'          => [
@@ -91,12 +89,6 @@ class ContentAnalyticsDataProvider
                 'visitors'  => [
                     'recent'    => $recentVisitors,
                     'avg'       => Helper::divideNumbers($recentVisitors, $recentPosts)
-                ],
-                'words'     => [
-                    'total'     => $totalWords,
-                    'recent'    => $recentWords,
-                    'avg'       => Helper::divideNumbers($recentWords, $recentPosts),
-                    'total_avg' => Helper::divideNumbers($totalWords, $totalPosts)
                 ],
                 'comments'  => [
                     'total'     => $totalComments,
@@ -114,20 +106,31 @@ class ContentAnalyticsDataProvider
                 'recent'        => $recentPostsData
             ]
         ];
+
+        if (WordCountService::isActive()) {
+            $totalWords     = $this->postsModel->countWords(array_merge($this->args, ['ignore_date' => true]));
+            $recentWords    = $this->postsModel->countWords($this->args);
+
+            $result['overview']['words'] = [
+                'total'     => $totalWords,
+                'recent'    => $recentWords,
+                'avg'       => Helper::divideNumbers($recentWords, $recentPosts),
+                'total_avg' => Helper::divideNumbers($totalWords, $totalPosts)
+            ];
+        }
+
+        return $result;
     }
 
-    public function getSinglePostData()
+    public function getSingleResourceData()
     {
-        $totalHitsArgs      = array_merge(Helper::filterArrayByKeys($this->args, ['post_id', 'query_param', 'resource_type']), ['ignore_date' => true]);
+        $totalHitsArgs      = array_merge(Helper::filterArrayByKeys($this->args, ['query_param', 'ignore_post_type']), ['ignore_date' => true]);
 
-        $totalViews         = $this->viewsModel->countViews($totalHitsArgs);
+        $totalViews         = $this->viewsModel->countViews(array_merge($totalHitsArgs, ['uri' => $this->args['query_param']]));
         $totalVisitors      = $this->visitorsModel->countVisitors($totalHitsArgs);
 
         $recentViews        = $this->viewsModel->countViews($this->args);
         $recentVisitors     = $this->visitorsModel->countVisitors($this->args);
-
-        $totalWords         = $this->postsModel->countWords($this->args);
-        $totalComments      = $this->postsModel->countComments($this->args);
 
         $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
 
@@ -155,14 +158,64 @@ class ContentAnalyticsDataProvider
                 'visitors'  => [
                     'total' => $totalVisitors,
                     'recent'=> $recentVisitors,
+                ]
+            ]
+        ];
+    }
+
+    public function getSinglePostData()
+    {
+        $totalHitsArgs      = array_merge(Helper::filterArrayByKeys($this->args, ['post_id', 'query_param', 'resource_type']), ['ignore_date' => true]);
+
+        $totalViews         = $this->viewsModel->countViews($totalHitsArgs);
+        $totalVisitors      = $this->visitorsModel->countVisitors($totalHitsArgs);
+
+        $recentViews        = $this->viewsModel->countViews($this->args);
+        $recentVisitors     = $this->visitorsModel->countVisitors($this->args);
+
+        $totalComments      = $this->postsModel->countComments($this->args);
+
+        $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
+
+        $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
+        $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
+
+        $referrersData      = $this->visitorsModel->getReferrers($this->args);
+
+        $performanceArgs    = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
+        $performanceData    = [
+            'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, $performanceArgs)),
+            'views'     => $this->viewsModel->countViews(array_merge($this->args, $performanceArgs)),
+        ];
+
+        $result = [
+            'visitors_country'  => $visitorsCountry,
+            'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
+            'performance'       => $performanceData,
+            'referrers'         => $referrersData,
+            'overview'          => [
+                'views'     => [
+                    'total' => $totalViews,
+                    'recent'=> $recentViews,
                 ],
-                'words'     => [
-                    'total' => $totalWords,
+                'visitors'  => [
+                    'total' => $totalVisitors,
+                    'recent'=> $recentVisitors,
                 ],
                 'comments'  => [
                     'total' => $totalComments,
                 ]
             ]
         ];
+
+        if (WordCountService::isActive()) {
+            $totalWords = $this->postsModel->countWords($this->args);
+
+            $result['overview']['words'] = [
+                'total' => $totalWords,
+            ];
+        }
+
+        return $result;
     }
 }

@@ -23,7 +23,7 @@ if (Menus::in_page('download_tracker')) {
             <?php
                 $target     = Request::get('target');
                 $filename   = basename(Url::getPath($target));
-                $url        = str_replace($filename, '', $target);
+                $url        = preg_replace('#(?<!:)/{2,}#', '/', str_replace($filename, '', $target));
             ?>
             <a href="<?php echo esc_url($target) ?>" title="<?php echo esc_html($target) ?>" target="_blank">
                 <span><?php echo esc_html($url) ?></span><span><?php echo esc_html($filename) ?></span>

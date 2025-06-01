@@ -219,6 +219,18 @@ class FilterManager
         return $args;
     }
 
+    /**
+     * Retrieves a list of source channel.
+     *
+     * @return array
+     */
+    public function sourceChannel() {
+        $channels   = SourceChannels::getList();
+        unset($channels['direct']);
+
+        return $channels;
+    }
+
     public function getUser($search) {
         global $wpdb;
 
@@ -433,6 +445,8 @@ class FilterManager
         $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey, 'pid'], $currentPage)));
         $authors  = get_users(['has_published_posts' => true]);
 
+        $args = [];
+
         foreach ($authors as $author) {
             $args[] = [
                 'slug' => esc_attr($author->ID),
@@ -460,6 +474,8 @@ class FilterManager
         $queryKey   = 'tx';
         $taxonomies = Helper::get_list_taxonomy(true);
         $baseUrl    = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey, 'pid'], $currentPage)));
+
+        $args = [];
 
         foreach ($taxonomies as $key => $name) {
             $args[] = [
@@ -572,6 +588,8 @@ class FilterManager
         $roles    = wp_roles()->role_names;
         $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey],$currentPage)));
 
+        $args = [];
+
         foreach ($roles as $key => $role) {
             $args[] = [
                 'slug' => esc_attr($key),
@@ -603,6 +621,8 @@ class FilterManager
         $viewsModel = new ViewsModel();
         $parameters = $viewsModel->getViewedPageUri(['id' => $postId]);
         $pageSlug   = get_page_uri($postId);
+
+        $args = [];
 
         foreach ($parameters as $key => $parameter) {
             $title = preg_replace('/^.*' . preg_quote($pageSlug, '/') . '/', '', $parameter->uri);

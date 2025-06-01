@@ -58,13 +58,14 @@ class NotificationFetcher
             }
 
             $notifications = NotificationProcessor::syncNotifications($notifications);
-            $notifications = NotificationProcessor::checkUpdatedNotifications($notifications);
             $notifications = NotificationProcessor::sortNotificationsByActivatedAt($notifications);
 
-            $result = update_option('wp_statistics_notifications', $notifications);
+            $prevRawNotificationsData = NotificationFactory::getRawNotificationsData();
 
-            if (!$result) {
-                WP_Statistics()->log('Failed to update wp_statistics_notifications option.', 'error');
+            if (!update_option('wp_statistics_notifications', $notifications)) {
+                if ($prevRawNotificationsData !== $notifications) {
+                    WP_Statistics()->log('Failed to update wp_statistics_notifications option.', 'error');
+                }
             }
 
             return true;

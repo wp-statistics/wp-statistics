@@ -4,6 +4,7 @@ namespace WP_Statistics\Service;
 
 use WP_STATISTICS\Menus;
 use WP_Statistics\Components\AssetNameObfuscator;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
 class HooksManager
 {
@@ -11,7 +12,7 @@ class HooksManager
     {
         add_filter('kses_allowed_protocols', [$this, 'updateAllowedProtocols']);
         add_filter('plugin_action_links_' . plugin_basename(WP_STATISTICS_MAIN_FILE), [$this, 'addActionLinks']);
-        add_filter('template_redirect', [$this, 'serveObfuscatedAsset']);
+        add_filter('plugins_loaded', [$this, 'serveObfuscatedAsset'], PHP_INT_MAX);
     }
 
     /**
@@ -23,11 +24,17 @@ class HooksManager
      */
     public function addActionLinks($links)
     {
+        $isPremium = (bool)LicenseHelper::isPremiumLicenseAvailable();
+
         $customLinks = [
-            '<a class="wps-premium-link-btn" target="_blank" href="https://wp-statistics.com/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugins">' . esc_html__('Get Premium', 'wp-statistics') . '</a>',
             '<a href="' . Menus::admin_url('settings') . '">' . esc_html__('Settings', 'wp-statistics') . '</a>',
             '<a target="_blank" href="https://wp-statistics.com/documentation/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugins">' . esc_html__('Docs', 'wp-statistics') . '</a>',
         ];
+
+        if (!$isPremium) {
+            $premiumLink = '<a class="wps-premium-link-btn" target="_blank" href="https://wp-statistics.com/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugins">' . esc_html__('Get Premium', 'wp-statistics') . '</a>';
+            array_unshift($customLinks, $premiumLink);
+        }
 
         return array_merge($customLinks, $links);
     }

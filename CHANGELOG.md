@@ -1,3 +1,72 @@
+= 14.14 - 2025-06-01 =
+- **New:** Added a Help page inside the plugin to guide users.
+- **New:** Introduced dynamic promo text in the plugin header.
+- **New:** Added Single Resource report for assets without a post ID.
+- **New:** Integrated with the Real Cookie Banner plugin.
+- **New:** Added an option to disable word count analytics in reports.
+- **Enhancement:** Merged Location data into Visitor Information in reports.
+- **Enhancement:** Added Entry and Exit Page columns to relevant reports.
+- **Enhancement:** Added license status helper on the Add-ons page.
+- **Enhancement:** Weekday names now use short format in charts.
+- **Enhancement:** Referrals report now displays traffic from UTM parameters.
+- **Enhancement:** Added `wp_statistics_disable_tracker_debugger_logs` filter to skip error logging in tracker debugger when needed.
+- **Enhancement:** Optimized online visitor tracking requests for better performance.
+- **Enhancement:** Reduced resource consumption during migration to improve efficiency and stability.
+- **Fix:** Standardized "Page" column links across all widgets and reports.
+- **Fix:** Fixed zero page views when using taxonomy filters other than 'category'.
+- **Fix:** Referrers data now reflect the first viewed page.
+- **Fix:** Corrected number formatting for decimal values.
+- **Fix:** Fixed visitor count aggregation issues.
+- **Fix:** Resolved issue with the post views column.
+- **Fix:** Removed `/online` endpoint from REST API when Monitor Online Visitors is disabled.
+- **Fix:** Fixed incorrect content details shown with "All Time" date filter in alternative calendars.
+- **Fix:** Corrected display for Android app traffic in the Top Referrers widget.
+- **Fix:** Settings and Help icons in the header now appear based on user access.
+- **Fix:** Resolved double slashes in Link Report URLs.
+- **Fix:** Removed `/online` and `/hit` REST endpoints when Server-Side Tracking is enabled (deprecated).
+- **Fix:** Ensured `tracker.js` works with Root Bedrock setups.
+- **Fix:** Handled `E_STRICT` deprecation warning in PHP 8.4.
+
+= 14.13.4 - 2025-04-29 =
+- **Enhancement:** Enforced capability check in optionUpdater.
+- **Enhancement:** Improved the helper text for the Privacy Policy section.
+- **Enhancement:** Limited the migration process to run only within the plugin's admin pages.
+- **Fix:** Fixed 404 errors when "Bypass Ad-Blocker" proxies assets with extra query parameters.
+
+= 14.13.3 - 2025-04-23 =
+- **New:** Added an option to enable or disable the Privacy Audit section in email reports.
+- **Enhancement:** Improved the migrator to avoid sending redundant requests.
+- **Enhancement:** Added Source Category filter into the visitors report filters.
+- **Fix:** Fixed high memory usage during plugin activation.
+- **Fix:** Resolved occasional PHP warnings.
+- **Fix**: Fixed early translation loading warning.
+
+= 14.13.2 - 2025-04-20 =
+- **Fix**: Fix Font Size issue on the Free Email Report.
+- **New:** Added a 28-day date range option to the date picker.
+- **Enhancement:** Improved overall performance.
+- **Enhancement:** On the Single Post Statistics page, the update date is now shown only if it's different from the creation date.
+- **Fix:** Fixed inconsistencies in online visitor analytics.
+- **Fix:** Ensured the "Views" column is visible for Editors on the posts list page.
+- **Fix:** Resolved errors that appeared during notification updates.
+- **Fix:** Stopped inactive users from appearing online after 30 minutes.
+- **Fix:** Fixed issues with hit and online tracking endpoints.
+- **Fix:** Corrected filters URL issue on the Referrals page.
+- **Fix:** Resolved chart color issues in RTL layout.
+- **Fix:** Fixed a notice related to the word count background process.
+- **Fix:** Removed unnecessary left join on the users table in Visitor Insights to improve query performance.
+- **Fix:** Fixed compatibility issues with the Interactivity API.
+- **Fix:** Resolved layout issue with the "Account Information" widget on the Single Visitor page.
+- **Removal:** Removed the `Host Exclusions` setting.
+- **Enhancement:** Now counting approved comments instead of all comments.
+
+= 14.13.1 - 2025-04-08 =
+- **Enhancement:** Improved filter logic to avoid unnecessary requests.
+- **Enhancement:** Enhanced source channel detection for more accurate results.
+- **Enhancement:** Removed the FeedbackBird button from the header along with its related functionality.
+- **Fix:** Removed table prefix from shared anonymous data.
+- **Fix:** Fixed `serveObfuscatedAsset` compatibility with URL cleanup features when Bypass Ad-blocker is enabled.
+
 = 14.13 - 2025-04-01 =
 - **New:** Introduced Notifications to receive important updates and promotions.
 - **New:** Added an optional "Share Anonymous Data" feature to help improve WP Statistics without collecting personal information.
@@ -114,9 +183,9 @@
 - **Fix:** Made the `views` column sortable again.
 - **Fix:** Resolved a PHP deprecation warning for better compatibility.
 - **Dev:** Added new filters for developers:
-  - `wp_statistics_geolocation_download_url`
-  - `wp_statistics_injection_patterns`
-  - `wp_statistics_location_column_value`
+    - `wp_statistics_geolocation_download_url`
+    - `wp_statistics_injection_patterns`
+    - `wp_statistics_location_column_value`
 
 14.11.3 - 2024-11-17
 - **New:** Added support for tracking unique visitors in shortcodes.
@@ -1819,7 +1888,7 @@ v13.1.2 - 09.11.2021
 * Release Date: January 13, 2014
 * Fixes: Critical bug that caused only a single visitor to be recorded.
 * Added: Version information to the optimization page.
-[Thanks Greg Ross](http://profiles.wordpress.org/gregross)
+  [Thanks Greg Ross](http://profiles.wordpress.org/gregross)
 
 4.3
 * Release Date: January 12, 2014

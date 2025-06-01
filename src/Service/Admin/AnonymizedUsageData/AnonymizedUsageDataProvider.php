@@ -285,9 +285,10 @@ class AnonymizedUsageDataProvider
 
         foreach ($rawLicenses as $k => $v) {
             $licenses[] = [
-                'status'   => $v['status'],
-                'type'     => $v['type'],
-                'products' => $v['products'],
+                'status'        => $v['status'],
+                'type'          => $v['type'],
+                'products'      => $v['products'],
+                'license_level' => $v['sku'] == 'premium' ? 'premium' : 'non-premium',
             ];
         }
 
@@ -304,11 +305,13 @@ class AnonymizedUsageDataProvider
         $userOnlineTable = DB::table('useronline');
         $rawTableRows    = DB::getTableRows();
         $tableRows       = [];
+        $prefix          = DB::prefix();
 
         foreach ($rawTableRows as $k => $v) {
             if ($k === $userOnlineTable) {
                 continue;
             }
+            $k             = str_replace($prefix, '', $k);
             $tableRows[$k] = $v['rows'];
         }
 
