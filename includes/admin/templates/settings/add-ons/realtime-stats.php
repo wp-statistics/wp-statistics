@@ -4,13 +4,13 @@ use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
-$isLicenseValid         = LicenseHelper::isPluginLicenseValid('wp-statistics-realtime-stats');
-$isRealTimeStatsActive  = WP_STATISTICS\Helper::isAddOnActive('realtime-stats');
+$isLicenseValid        = LicenseHelper::isPluginLicenseValid('wp-statistics-realtime-stats');
+$isRealTimeStatsActive = WP_STATISTICS\Helper::isAddOnActive('realtime-stats');
 ?>
-
+    <h2 class="wps-settings-box__title"><span><?php esc_html_e('Real-time Stats', 'wp-statistics'); ?></span></h2>
 <?php
 if (!$isRealTimeStatsActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
-    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
+    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=realtime-stats'),
      'addon_title'        => __('Real-Time Add-On', 'wp-statistics'),
      'addon_modal_target' => 'wp-statistics-realtime-stats',
      'addon_description'  => __('The settings on this page are part of the Real-Time add-on, which allows you to track your visitors and online users in real time without needing to refresh the page.', 'wp-statistics'),
@@ -29,10 +29,10 @@ if ($isRealTimeStatsActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isRealTimeStatsActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Update Interval', 'wp-statistics'); ?></h3></th>
             </tr>
-            <tr valign="top">
+            <tr valign="top" data-id="chart_and_map_refresh_rate_tr">
                 <th scope="row">
                     <label for="realtime-stats-interval-time"><?php esc_html_e('Chart & Map Refresh Rate (seconds)', 'wp-statistics'); ?></label>
                 </th>
@@ -49,6 +49,6 @@ if ($isRealTimeStatsActive && !$isLicenseValid) {
 
 <?php
 if ($isRealTimeStatsActive) {
-    submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='realtime-stats-settings'"));
+    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='realtime-stats-settings'"));
 }
 ?>

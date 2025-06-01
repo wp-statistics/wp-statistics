@@ -52,7 +52,7 @@ class Exclusion
      */
     public static function record_active()
     {
-        return Option::get('record_exclusions');
+        return !empty(self::$options['record_exclusions']);
     }
 
     /**
@@ -155,7 +155,7 @@ class Exclusion
      */
     public static function exclusion_feed()
     {
-        return (Option::get('exclude_feeds') and is_feed());
+        return !empty(self::$options['exclude_feeds']) && is_feed();
     }
 
     /**
@@ -163,7 +163,7 @@ class Exclusion
      */
     public static function exclusion_404()
     {
-        if (Option::get('exclude_404s')) {
+        if (!empty(self::$options['exclude_404s'])) {
 
             if (Helper::is_rest_request() && isset($_REQUEST['source_type']) && $_REQUEST['source_type'] == '404') {
                 return true;
@@ -319,7 +319,13 @@ class Exclusion
      */
     public static function exclusion_self_referral($visitorProfile)
     {
-        return $visitorProfile->getHttpUserAgent() == 'WordPress/' . Helper::get_wordpress_version() . '; ' . get_home_url(null, '/') || $visitorProfile->getHttpUserAgent() == 'WordPress/' . Helper::get_wordpress_version() . '; ' . get_home_url();
+        $userAgent  = $visitorProfile->getHttpUserAgent();
+        $version    = Helper::get_wordpress_version();
+
+        return in_array($userAgent, [
+            'WordPress/' . $version . '; ' . get_home_url(null, '/'),
+            'WordPress/' . $version . '; ' . get_home_url()
+        ]);
     }
 
     /**
@@ -327,7 +333,7 @@ class Exclusion
      */
     public static function exclusion_login_page()
     {
-        return (Option::get('exclude_loginpage') and Helper::is_login_page());
+        return !empty(self::$options['exclude_loginpage']) && Helper::is_login_page();
     }
 
     /**
@@ -420,24 +426,10 @@ class Exclusion
      */
     public static function exclusion_robot($visitorProfile)
     {
-
-        // Pull the robots from the database.
-        $robots = explode("\n", self::$options['robotlist'] ?? '');
-
-        // Check to see if we match any of the robots.
-        foreach ($robots as $robot) {
-            $robot = trim($robot);
-
-            // If the match case is less than 4 characters long, it might match too much so don't execute it.
-            if (strlen($robot) > 3) {
-                if (stripos($visitorProfile->getHttpUserAgent(), $robot) !== false) {
-                    return true;
-                }
-            }
-        }
+        $rawUserAgent = $visitorProfile->getHttpUserAgent();
 
         // Check user ip is empty or not user agent
-        if ($visitorProfile->getHttpUserAgent() == '' || $visitorProfile->getIp() == '') {
+        if (empty($rawUserAgent) || empty($visitorProfile->getIp())) {
             return true;
         }
 
@@ -449,6 +441,22 @@ class Exclusion
 
         if (!$userAgent->isBrowserDetected() && !$userAgent->isPlatformDetected()) {
             return true;
+        }
+
+        // Pull the robots from the database.
+        $robots = explode("\n", self::$options['robotlist'] ?? '');
+        $robots = apply_filters('wp_statistics_exclusion_robots', $robots);
+
+        // Check to see if we match any of the robots.
+        foreach ($robots as $robot) {
+            $robot = trim($robot);
+
+            // If the match case is less than 4 characters long, it might match too much so don't execute it.
+            if (strlen($robot) > 3) {
+                if (stripos($rawUserAgent, $robot) !== false) {
+                    return true;
+                }
+            }
         }
 
         return false;

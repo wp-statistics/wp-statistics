@@ -18,6 +18,35 @@ class ReferralsDataProvider
         $this->visitorsModel = new VisitorsModel();
     }
 
+    public function getReferralsOverview()
+    {
+        return [
+            'visitors'      => $this->visitorsModel->getReferredVisitors(array_merge($this->args, ['per_page' => 10, 'page' => 1])),
+            'referrers'     => $this->visitorsModel->getReferrers(array_merge($this->args, ['decorate' => true, 'group_by' => ['visitor.referred'], 'per_page' => 5, 'page' => 1])),
+        ];
+    }
+
+    public function getReferralsOverviewChartData()
+    {
+        $args = array_merge($this->args, ['referred_visitors' => true]);
+
+        $countryData        = ChartDataProviderFactory::countryChart($args)->getData();
+        $browserData        = ChartDataProviderFactory::browserChart($args)->getData();
+        $deviceData         = ChartDataProviderFactory::deviceChart($args)->getData();
+        $trafficData        = ChartDataProviderFactory::trafficChart($args)->getData();
+        $socialMediaData    = ChartDataProviderFactory::socialMediaChart(array_merge($this->args, ['source_channel' => Request::get('source_channel', ['social', 'paid_social'])]))->getData();
+        $searchEngineData   = ChartDataProviderFactory::searchEngineChart(array_merge($this->args, ['source_channel' => Request::get('source_channel', ['search', 'paid_search'])]))->getData();
+
+        return [
+            'countries_chart_data'      => $countryData,
+            'browser_chart_data'        => $browserData,
+            'device_chart_data'         => $deviceData,
+            'traffic_chart_data'        => $trafficData,
+            'social_media_chart_data'   => $socialMediaData,
+            'search_engine_chart_data'  => $searchEngineData
+        ];
+    }
+
     public function getReferredVisitors()
     {
         return [

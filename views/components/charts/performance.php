@@ -19,6 +19,9 @@ $postType = Request::get('tab', 'post');
         <div class="wps-postbox-chart--data c-wps-performance-chart__items">
             <div class="wps-postbox-chart--items"></div>
             <div class="wps-postbox-chart--info">
+                <div class="wps-postbox-chart--previousPeriod">
+                    <?php esc_html_e('Previous period', 'wp-statistics') ?>
+                </div>
                 <?php View::load("components/objects/chart-time-range"); ?>
             </div>
         </div>

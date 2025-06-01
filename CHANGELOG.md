@@ -1,4 +1,35 @@
+= 14.14 - 2025-06-01 =
+- **New:** Added a Help page inside the plugin to guide users.
+- **New:** Introduced dynamic promo text in the plugin header.
+- **New:** Added Single Resource report for assets without a post ID.
+- **New:** Integrated with the Real Cookie Banner plugin.
+- **New:** Added an option to disable word count analytics in reports.
+- **Enhancement:** Referral Overview and New Design for Settings and Optimization pages.
+- **Enhancement:** Merged Location data into Visitor Information in reports.
+- **Enhancement:** Added Entry and Exit Page columns to relevant reports.
+- **Enhancement:** Added license status helper on the Add-ons page.
+- **Enhancement:** Weekday names now use short format in charts.
+- **Enhancement:** Referrals report now displays traffic from UTM parameters.
+- **Enhancement:** Added `wp_statistics_disable_tracker_debugger_logs` filter to skip error logging in tracker debugger when needed.
+- **Enhancement:** Optimized online visitor tracking requests for better performance.
+- **Enhancement:** Reduced resource consumption during migration to improve efficiency and stability.
+- **Fix:** Standardized "Page" column links across all widgets and reports.
+- **Fix:** Fixed zero page views when using taxonomy filters other than 'category'.
+- **Fix:** Referrers data now reflect the first viewed page.
+- **Fix:** Corrected number formatting for decimal values.
+- **Fix:** Fixed visitor count aggregation issues.
+- **Fix:** Resolved issue with the post views column.
+- **Fix:** Removed `/online` endpoint from REST API when Monitor Online Visitors is disabled.
+- **Fix:** Fixed incorrect content details shown with "All Time" date filter in alternative calendars.
+- **Fix:** Corrected display for Android app traffic in the Top Referrers widget.
+- **Fix:** Settings and Help icons in the header now appear based on user access.
+- **Fix:** Resolved double slashes in Link Report URLs.
+- **Fix:** Removed `/online` and `/hit` REST endpoints when Server-Side Tracking is enabled (deprecated).
+- **Fix:** Ensured `tracker.js` works with Root Bedrock setups.
+- **Fix:** Handled `E_STRICT` deprecation warning in PHP 8.4.
+
 = 14.13.4 - 2025-04-29 =
+- **Enhancement:** Enforced capability check in optionUpdater.
 - **Enhancement:** Improved the helper text for the Privacy Policy section.
 - **Enhancement:** Limited the migration process to run only within the plugin's admin pages.
 - **Fix:** Fixed 404 errors when "Bypass Ad-Blocker" proxies assets with extra query parameters.

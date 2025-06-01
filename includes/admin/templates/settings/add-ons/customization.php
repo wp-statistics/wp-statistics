@@ -44,9 +44,12 @@ if (empty(Option::get('record_exclusions'))) {
 
 $disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customization', []);
 ?>
+
+    <h2 class="wps-settings-box__title"><span><?php esc_html_e('Customization', 'wp-statistics'); ?></span></h2>
+
 <?php
 if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
-    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
+    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=customization'),
      'addon_title'        => __('Customization Add-On', 'wp-statistics'),
      'addon_modal_target' => 'wp-statistics-customization',
      'addon_description'  => __('The settings on this page are part of the Customization add-on, which allows you to customize menus and make WP Statistics white-label.', 'wp-statistics'),
@@ -65,11 +68,11 @@ if ($isCustomizationActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Manage Admin Menus', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="disable_menus_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[customization][disable_menus]"><?php esc_html_e('Disable Menus', 'wp-statistics'); ?></label>
                 </th>
@@ -91,11 +94,11 @@ if ($isCustomizationActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('White label and Header Customization', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top"data-id="white_label_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[customization][wps_white_label]"><?php esc_html_e('White label', 'wp-statistics'); ?></label>
                 </th>
@@ -107,7 +110,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="change_the_header_logo_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[customization][wps_modify_banner]"><?php esc_html_e('Change the Header Logo', 'wp-statistics'); ?></label>
                 </th>
@@ -126,10 +129,14 @@ if ($isCustomizationActive && !$isLicenseValid) {
                     }
                 </script>
                 <td>
-                    <div class='wps-img-preview-wrapper'><img style="max-width: 300px; max-height: 200px;" id='wps-upload-image-preview' src='<?php echo esc_attr($header_logo_url) ?>' alt="Header Logo"></div>
-                    <input id="wps_addon_settings[customization][wps_modify_banner]" name="wps_addon_settings[customization][wps_modify_banner]" type="text" class="regular-text" value="<?php echo $custom_header_logo; ?>"/>
-                    <span>&nbsp;<input type="button" class="wps_img_settings_upload_button button" value="<?php esc_html_e('Upload File', 'wp-statistics-advanced-reporting') ?>" style="margin: 0; padding-top: 13px; padding-bottom: 13px;"/>&nbsp;<input type="button" class="wps_img_settings_clear_upload_button button" style="<?php echo esc_attr($display_clear); ?> margin: 0; padding-top: 13px; padding-bottom: 13px;" value="<?php esc_html_e('X', 'wp-statistics-advanced-reporting') ?>"/></span>
-
+                    <div class='wps-img-preview-wrapper'>
+                        <img style="max-width: 300px; max-height: 200px;" id='wps-upload-image-preview' src='<?php echo esc_attr($header_logo_url) ?>' alt="Header Logo">
+                        <input type="button" class="wps_img_settings_clear_upload_button button" style="<?php echo esc_attr($display_clear); ?> margin: 0 5px;" value="<?php esc_html_e('X', 'wp-statistics-advanced-reporting') ?>"/>
+                    </div>
+                    <div class="wps-input-group wps-input-group__action">
+                        <input id="wps_addon_settings[customization][wps_modify_banner]" name="wps_addon_settings[customization][wps_modify_banner]" type="text" class="regular-text wps-input-group__field wps-input-group__field--small" value="<?php echo $custom_header_logo; ?>"/>
+                        <input type="button" class="wps_img_settings_upload_button button wps-input-group__label" value="<?php esc_html_e('Upload File', 'wp-statistics-advanced-reporting') ?>" style="margin: 0; "/>
+                    </div>
                     <p class="description"><?php esc_html_e('Customize the header logo to match your branding by uploading your own logo.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
@@ -140,11 +147,11 @@ if ($isCustomizationActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Overview Widget Customization', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="enable_overview_widget_tr">
                 <th scope="row">
                     <label for="wps_settings[customization_show_wps_about_widget_overview]"><?php esc_html_e('Enable Overview Widget', 'wp-statistics'); ?></label>
                 </th>
@@ -158,7 +165,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top" class="js-wps-show_if_customization_show_wps_about_widget_overview_equal_yes">
+            <tr valign="top" class="js-wps-show_if_customization_show_wps_about_widget_overview_equal_yes" data-id="widget_title_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[customization][wps_about_widget_title]"><?php esc_html_e('Widget Title', 'wp-statistics'); ?></label>
                 </th>
@@ -169,9 +176,9 @@ if ($isCustomizationActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top" class="js-wps-show_if_customization_show_wps_about_widget_overview_equal_yes">
+            <tr valign="top" class="js-wps-show_if_customization_show_wps_about_widget_overview_equal_yes" data-id="widget_content_tr">
                 <th scope="row">
-                    <label for="wps_addon_settings[customization][wps_about_widget_content]"><?php esc_html_e('Widget Content', 'wp-statistics'); ?></label>
+                    <label><?php esc_html_e('Widget Content', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
@@ -190,6 +197,6 @@ if ($isCustomizationActive && !$isLicenseValid) {
 
 <?php
 if ($isCustomizationActive) {
-    submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='customization-settings'"));
+    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='customization-settings'"));
 }
 ?>

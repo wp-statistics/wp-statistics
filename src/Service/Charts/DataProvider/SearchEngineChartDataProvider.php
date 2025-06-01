@@ -20,15 +20,12 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
         parent::__construct($args);
 
         // Set default values
-        $this->args = wp_parse_args($args, [
-            'source_channel' => ['search', 'paid_search'],
+        $this->args = array_merge($args, [
+            'source_channel'    => ['search', 'paid_search'],
+            'group_by'          => ['source_name', 'last_counter'],
+            'per_page'          => false,
+            'not_null'          => false
         ]);
-
-        // Group by source_name
-        $this->args['group_by'] = ['source_name', 'last_counter'];
-
-        // Rest per_page to get all results
-        $this->args['per_page'] = false;
 
         $this->visitorsModel = new VisitorsModel();
     }
@@ -132,7 +129,7 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
                 return [
                     'formatted_date'    => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
                     'date'              => date_i18n('Y-m-d', strtotime($date)),
-                    'day'               => date_i18n('l', strtotime($date))
+                    'day'               => date_i18n('D', strtotime($date))
                 ];
             },
             $dateRange

@@ -4,17 +4,21 @@ use WP_STATISTICS\Option;
 use WP_STATISTICS\Schedule;
 
 ?>
+<h2 class="wps-settings-box__title">
+    <span><?php esc_html_e('Email Reports', 'wp-statistics'); ?></span>
+    <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/resources/admin-notifications-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings') ?>" target="_blank"><?php esc_html_e('View Guide', 'wp-statistics'); ?></a>
+</h2>
 
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top">
+        <tr valign="top" class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Email Configuration', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="recipient_email_addresses_tr">
             <th scope="row">
-                <label for="email-report"><?php esc_html_e('Recipient Email Addresses', 'wp-statistics'); ?></label>
+                <label><?php esc_html_e('Recipient Email Addresses', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -32,18 +36,21 @@ use WP_STATISTICS\Schedule;
 <div class="postbox" id='wps_stats_report_option'>
     <table class="form-table">
         <tbody>
-        <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Automated Report Delivery', 'wp-statistics'); ?></h3></th>
+        <tr valign="top" class="wps-settings-box_head">
+            <th scope="row" class="wps-sm-pb-0">
+                <h3><?php esc_html_e('Automated Report Delivery', 'wp-statistics'); ?></h3>
+            </th>
+            <td  class="wps-sm-pt-0">
+                <div>
+                    <?php $next_scheduled_time = Schedule::getNextScheduledTime('wp_statistics_report_hook') ?>
+                    <?php if ($next_scheduled_time) : ?>
+                        <div class="alert alert-success"><span><?php echo sprintf(__('Your next report is scheduled to be sent on <b>%s at %s</b>.', 'wp-statistics'), wp_date(get_option('date_format'), $next_scheduled_time), wp_date(get_option('time_format'), $next_scheduled_time)) ?></span></div>
+                    <?php endif; ?>
+                </div>
+            </td>
         </tr>
-        <?php $next_scheduled_time = Schedule::getNextScheduledTime('wp_statistics_report_hook') ?>
-        <?php if ($next_scheduled_time) { ?>
-            <tr valign="top">
-                <td colspan="2" scope="row" class="wps-alert-container">
-                    <div class="alert alert-success"><span><?php echo sprintf(__('Your next report is scheduled to be sent on <b>%s at %s</b>.', 'wp-statistics'), wp_date(get_option('date_format'), $next_scheduled_time), wp_date(get_option('time_format'), $next_scheduled_time)) ?></span></div>
-                </td>
-            </tr>
-        <?php } ?>
-        <tr valign="top">
+
+        <tr valign="top" data-id="report_frequency_tr">
             <th scope="row" style="vertical-align: top;">
                 <label for="time-report"><?php esc_html_e('Report Frequency', 'wp-statistics'); ?></label>
             </th>
@@ -60,7 +67,7 @@ use WP_STATISTICS\Schedule;
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="delivery_method_tr">
             <th scope="row" style="vertical-align: top;">
                 <label for="send-report"><?php esc_html_e('Delivery Method', 'wp-statistics'); ?></label>
             </th>
@@ -78,7 +85,7 @@ use WP_STATISTICS\Schedule;
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="custom_report_tr">
             <th scope="row" style="vertical-align: top;">
                 <label for="content-report"><?php esc_html_e('Custom Report', 'wp-statistics'); ?></label>
             </th>
@@ -107,7 +114,7 @@ use WP_STATISTICS\Schedule;
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="email_header_customization_tr">
             <th scope="row">
                 <label for="email_free_content_header"><?php esc_html_e('Email Header Customization', 'wp-statistics'); ?></label>
             </th>
@@ -118,7 +125,7 @@ use WP_STATISTICS\Schedule;
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" data-id="email_footer_customization_tr">
             <th scope="row">
                 <label for="email_free_content_footer"><?php esc_html_e('Email Footer Customization', 'wp-statistics'); ?></label>
             </th>
@@ -129,6 +136,7 @@ use WP_STATISTICS\Schedule;
             </td>
         </tr>
 
+        <tr valign="top" data-id="enhanced_visual_report_tr">
         <?php if (Option::get('privacy_audit')) : ?>
             <tr valign="top">
                 <th scope="row">
@@ -154,4 +162,4 @@ use WP_STATISTICS\Schedule;
     </table>
 </div>
 
-<?php submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='notifications-settings'")); ?>
+<?php submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='notifications-settings'")); ?>

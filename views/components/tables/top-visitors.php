@@ -14,19 +14,21 @@ use WP_STATISTICS\Menus;
                 <thead>
                 <tr>
                     <th class="wps-pd-l">
-                        <span class="wps-order"><?php esc_html_e('Total Views', 'wp-statistics'); ?>&nbsp;</span>
+                        <span class="wps-order"><?php esc_html_e('Total Views', 'wp-statistics'); ?>
+                            <span class="wps-tooltip" title="<?php echo esc_html__('Total views for a single day. Privacy rules assign users a new ID daily, so visits on different days are counted separately.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></span>
+                        </span>
                     </th>
                     <th class="wps-pd-l">
                         <?php esc_html_e('Visitor Information', 'wp-statistics'); ?>
                     </th>
                     <th class="wps-pd-l">
-                        <?php esc_html_e('Location', 'wp-statistics'); ?>
-                    </th>
-                    <th class="wps-pd-l">
                         <?php esc_html_e('Referrer', 'wp-statistics'); ?>
                     </th>
                     <th class="wps-pd-l">
-                        <?php esc_html_e('Latest Page', 'wp-statistics'); ?>
+                        <?php esc_html_e('Entry Page', 'wp-statistics'); ?>
+                    </th>
+                    <th class="wps-pd-l">
+                        <?php esc_html_e('Exit Page', 'wp-statistics'); ?>
                     </th>
                 </tr>
                 </thead>
@@ -46,16 +48,6 @@ use WP_STATISTICS\Menus;
                         </td>
 
                         <td class="wps-pd-l">
-                            <div class="wps-country-flag wps-ellipsis-parent">
-                                <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getLocation()->getCountryCode()])) ?>" class="wps-tooltip" title="<?php echo esc_attr($visitor->getLocation()->getCountryName()) ?>">
-                                    <img src="<?php echo esc_url($visitor->getLocation()->getCountryFlag()) ?>" alt="<?php echo esc_attr($visitor->getLocation()->getCountryName()) ?>" width="15" height="15">
-                                </a>
-                                <?php $location = Admin_Template::locationColumn($visitor->getLocation()->getCountryCode(), $visitor->getLocation()->getRegion(), $visitor->getLocation()->getCity()); ?>
-                                <span class="wps-ellipsis-text" title="<?php echo esc_attr($location) ?>"><?php echo esc_html($location) ?></span>
-                            </div>
-                        </td>
-
-                        <td class="wps-pd-l">
                             <?php
                             View::load("components/objects/referrer-link", [
                                 'label' => $visitor->getReferral()->getSourceChannel(),
@@ -64,12 +56,26 @@ use WP_STATISTICS\Menus;
                             ]);
                             ?>
                         </td>
+                        <td class="wps-pd-l">
+                            <?php
+                            $page = $visitor->getFirstPage();
 
+                            if (!empty($page)) :
+                                View::load("components/objects/internal-link", [
+                                    'url'       => $page['report'],
+                                    'title'     => $page['title'],
+                                    'tooltip'   => $page['query'] ? "?{$page['query']}" : ''
+                                ]);
+                            else :
+                                echo Admin_Template::UnknownColumn();
+                            endif;
+                            ?>
+                        </td>
                         <td class="wps-pd-l">
                             <?php $page = $visitor->getLastPage(); ?>
                             <?php if (!empty($page)) :
-                                View::load("components/objects/external-link", [
-                                    'url'   => $page['link'],
+                                View::load("components/objects/internal-link", [
+                                    'url'   => $page['report'],
                                     'title' => $page['title'],
                                 ]);
                             else : ?>

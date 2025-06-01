@@ -23,6 +23,10 @@ class DeviceChartDataProvider extends AbstractChartDataProvider
             'fields' => ['visitor.device']
         ]);
 
+        // Get all results
+        $this->args['page']     = false;
+        $this->args['per_page'] = false;
+
         $this->visitorsModel = new VisitorsModel();
     }
 
@@ -35,6 +39,7 @@ class DeviceChartDataProvider extends AbstractChartDataProvider
         $data = $this->parseData($data);
 
         $this->setChartLabels($data['labels']);
+        $this->setChartIcons($data['icons']);
         $this->setChartData($data['visitors']);
 
         return $this->getChartData();
@@ -46,14 +51,15 @@ class DeviceChartDataProvider extends AbstractChartDataProvider
 
         if (!empty($data)) {
             foreach ($data as $item) {
-                $device = !empty($item->getDevice()->getType()) ? ucfirst(Helper::getDeviceCategoryName($item->getDevice()->getType())) : esc_html__('Unknown', 'wp-statistics');
+                $device = $item->getDevice()->getType();
 
-                if (!empty($device) && $device !== '(not set)') {
+                if (!empty($device)) {
                     $devices = array_column($parsedData, 'label');
 
                     if (!in_array($device, $devices)) {
                         $parsedData[] = [
                             'label'    => $device,
+                            'icon'     => DeviceHelper::getDeviceLogo($device),
                             'visitors' => 1
                         ];
                     } else {
@@ -76,6 +82,7 @@ class DeviceChartDataProvider extends AbstractChartDataProvider
                 // Show the rest of the results as others, and sum up the visitors
                 $otherItem    = [
                     'label'    => esc_html__('Other', 'wp-statistics'),
+                    'icon'     => '',
                     'visitors' => array_sum(array_column($otherData, 'visitors')),
                 ];
 
@@ -84,10 +91,12 @@ class DeviceChartDataProvider extends AbstractChartDataProvider
         }
 
         $labels     = wp_list_pluck($parsedData, 'label');
+        $icons      = wp_list_pluck($parsedData, 'icon');
         $visitors   = wp_list_pluck($parsedData, 'visitors');
 
         return [
             'labels'    => $labels,
+            'icons'     => $icons,
             'visitors'  => $visitors
         ];
     }

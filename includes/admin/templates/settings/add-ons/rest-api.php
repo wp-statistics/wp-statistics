@@ -1,4 +1,5 @@
 <?php
+
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
@@ -6,10 +7,11 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 $isLicenseValid  = LicenseHelper::isPluginLicenseValid('wp-statistics-rest-api');
 $isRestApiActive = WP_STATISTICS\Helper::isAddOnActive('rest-api');
 ?>
+    <h2 class="wps-settings-box__title"><span><?php esc_html_e('REST API', 'wp-statistics'); ?></span></h2>
 
 <?php
 if (!$isRestApiActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
-    ['addon_slug'                => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-rest-api/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
+    ['addon_slug'                => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-rest-api/?utm_source=wp-statistics&utm_medium=link&utm_campaign=rest-api'),
      'addon_title'               => __('Rest API Add-On', 'wp-statistics'),
      'addon_modal_target'        => 'wp-statistics-rest-api',
      'addon_description'         => __('The settings on this page are part of the REST API add-on, which enables the following endpoints in the WordPress REST API:', 'wp-statistics'),
@@ -37,11 +39,11 @@ if ($isRestApiActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isRestApiActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('WordPress REST API Integration', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="api_service_status_tr">
                 <th scope="row">
                     <label for="realtime-stats-interval-time"><?php esc_html_e('API Service Status', 'wp-statistics'); ?></label>
                 </th>
@@ -53,13 +55,16 @@ if ($isRestApiActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr valign="top" data-id="authentication_token_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[rest_api][token_auth]"><?php esc_html_e('Authentication Token', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
-                    <input type="text" name="wps_addon_settings[rest_api][token_auth]" id="wps_addon_settings[rest_api][token_auth]" class="regular-text" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('token_auth', 'rest_api')) ?>"/>
+                    <div class="wps-input-group wps-input-group__action">
+                        <input type="text" name="wps_addon_settings[rest_api][token_auth]" id="wps_addon_settings[rest_api][token_auth]" class="regular-text wps-input-group__field" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('token_auth', 'rest_api')) ?>"/>
+                        <button type="button" id="copy-text" class="button has-icon wps-input-group__label wps-input-group__copy"  style="margin: 0; "><?php esc_html_e('Copy', 'wp-statistics'); ?></button>
+                    </div>
                     <p class="description"><?php esc_html_e('Enter your unique token here to secure and authorize API requests.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
@@ -70,6 +75,6 @@ if ($isRestApiActive && !$isLicenseValid) {
 
 <?php
 if ($isRestApiActive) {
-    submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='rest-api-settings'"));
+    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='rest-api-settings'"));
 }
 ?>

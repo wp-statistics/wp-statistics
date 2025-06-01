@@ -63,8 +63,9 @@
     }
   }
 
-  #wp-statistics-hits-widget_chart, #wp-statistics-search-widget-chart {
-    min-height: 262px
+  .wps-postbox-chart--container canvas {
+    min-height: 199px!important;
+    height: 199px!important;
   }
 
 }

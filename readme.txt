@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.8
-Stable tag: 14.13.4
+Stable tag: 14.14
 Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -139,56 +139,36 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.13.4 - 2025-04-29 =
-- **Enhancement:** Improved the helper text for the Privacy Policy section.
-- **Enhancement:** Limited the migration process to run only within the plugin's admin pages.
-- **Fix:** Fixed 404 errors when "Bypass Ad-Blocker" proxies assets with extra query parameters.
+= 14.14 - 2025-06-01 =
+- **New:** Added a Help page inside the plugin to guide users.
+- **New:** Introduced dynamic promo text in the plugin header.
+- **New:** Added Single Resource report for assets without a post ID.
+- **New:** Integrated with the Real Cookie Banner plugin.
+- **New:** Added an option to disable word count analytics in reports.
+- **Enhancement:** Referral Overview and New Design for Settings and Optimization pages.
+- **Enhancement:** Merged Location data into Visitor Information in reports.
+- **Enhancement:** Added Entry and Exit Page columns to relevant reports.
+- **Enhancement:** Added license status helper on the Add-ons page.
+- **Enhancement:** Weekday names now use short format in charts.
+- **Enhancement:** Referrals report now displays traffic from UTM parameters.
+- **Enhancement:** Added `wp_statistics_disable_tracker_debugger_logs` filter to skip error logging in tracker debugger when needed.
+- **Enhancement:** Optimized online visitor tracking requests for better performance.
+- **Enhancement:** Reduced resource consumption during migration to improve efficiency and stability.
+- **Fix:** Standardized "Page" column links across all widgets and reports.
+- **Fix:** Fixed zero page views when using taxonomy filters other than 'category'.
+- **Fix:** Referrers data now reflect the first viewed page.
+- **Fix:** Corrected number formatting for decimal values.
+- **Fix:** Fixed visitor count aggregation issues.
+- **Fix:** Resolved issue with the post views column.
+- **Fix:** Removed `/online` endpoint from REST API when Monitor Online Visitors is disabled.
+- **Fix:** Fixed incorrect content details shown with "All Time" date filter in alternative calendars.
+- **Fix:** Corrected display for Android app traffic in the Top Referrers widget.
+- **Fix:** Settings and Help icons in the header now appear based on user access.
+- **Fix:** Resolved double slashes in Link Report URLs.
+- **Fix:** Removed `/online` and `/hit` REST endpoints when Server-Side Tracking is enabled (deprecated).
+- **Fix:** Ensured `tracker.js` works with Root Bedrock setups.
+- **Fix:** Handled `E_STRICT` deprecation warning in PHP 8.4.
 
-= 14.13.3 - 2025-04-23 =
-- **New:** Added an option to enable or disable the Privacy Audit section in email reports.
-- **Enhancement:** Improved the migrator to avoid sending redundant requests.
-- **Enhancement:** Added Source Category filter into the visitors report filters.
-- **Fix:** Fixed high memory usage during plugin activation.
-- **Fix:** Resolved occasional PHP warnings.
-
-= 14.13.2 - 2025-04-20 =
-- **New:** Added a 28-day date range option to the date picker.
-- **Enhancement:** Improved overall performance.
-- **Enhancement:** On the Single Post Statistics page, the update date is now shown only if it's different from the creation date.
-- **Fix:** Fixed inconsistencies in online visitor analytics.
-- **Fix:** Ensured the "Views" column is visible for Editors on the posts list page.
-- **Fix:** Resolved errors that appeared during notification updates.
-- **Fix:** Stopped inactive users from appearing online after 30 minutes.
-- **Fix:** Fixed issues with hit and online tracking endpoints.
-- **Fix:** Corrected filters URL issue on the Referrals page.
-- **Fix:** Resolved chart color issues in RTL layout.
-- **Fix:** Fixed a notice related to the word count background process.
-- **Fix:** Removed unnecessary left join on the users table in Visitor Insights to improve query performance.
-- **Fix:** Fixed compatibility issues with the Interactivity API.
-- **Fix:** Resolved layout issue with the "Account Information" widget on the Single Visitor page.
-- **Removal:** Removed the `Host Exclusions` setting.
-
-= 14.13.1 - 2025-04-08 =
-- **Enhancement:** Improved filter logic to avoid unnecessary requests.
-- **Enhancement:** Enhanced source channel detection for more accurate results.
-- **Enhancement:** Removed the FeedbackBird button from the header along with its related functionality.
-- **Fix:** Removed table prefix from shared anonymous data.
-- **Fix:** Fixed `serveObfuscatedAsset` compatibility with URL cleanup features when Bypass Ad-blocker is enabled.
-
-= 14.13 - 2025-04-01 =
-- **New:** Introduced Notifications to receive important updates and promotions.
-- **New:** Added an optional "Share Anonymous Data" feature to help improve WP Statistics without collecting personal information.
-- **Enhancement:** Removed the Honeypot feature.
-- **Enhancement:** Improved detection of source names for referred visitors.
-- **Enhancement:** Enhanced device tracking to store and display device model and brand.
-- **Enhancement:** Reduced the displayed record count in the Top Referring widget to 5.
-- **Fix:** Fixed loading issues of obfuscated assets when using the proxy method.
-- **Fix:** Ensured `tracker.js` compatibility with the WordPress Interactivity API.
-- **Fix:** Resolved an issue where the `first_page` key was undefined in the Visitor Insights page.
-- **Fix:** The 'Get More with Premium Analytics' widget is now hidden for premium users.
-- **Fix:** Fixed discrepancies between shortcode view counts and traffic summary/visitor insights.
-- **Fix:** Corrected an issue where all Facebook traffic was categorized as Paid Social.
-
-For more information about the major update, please [visit our blog post](https://wp-statistics.com/2025/03/introducing-wp-statistics-14-13/) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
+For more information about the major update, please [visit our release post](https://wp-statistics.com/release/wp-statistics-v14-14/) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).

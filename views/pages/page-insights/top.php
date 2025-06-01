@@ -7,7 +7,7 @@ use WP_Statistics\Components\View;
         <div class="meta-box-sortables">
             <div class="postbox">
                 <?php
-                    View::load("components/tables/content-report", [
+                    View::load("components/tables/top-report", [
                         'data'       => $data['posts'],
                         'pagination' => $pagination
                     ]);
