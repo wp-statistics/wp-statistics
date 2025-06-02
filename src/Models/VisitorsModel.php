@@ -1116,6 +1116,7 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->where('visitor.location', '=', $args['country'])
+            ->whereDate('visitor.last_counter', $args['date'])
             ->whereNotNull($args['not_null'])
             ->groupBy($args['group_by'])
             ->orderBy('visitors')
@@ -1142,11 +1143,6 @@ class VisitorsModel extends BaseModel
             $query->where('visitor.referred', 'LIKE', "%{$args['referrer']}%");
         }
 
-        // When date is passed, but all other parameters below are empty, compare the given date with `visitor.last_counter`
-        if (!empty($args['date']) && !array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
-            $query->whereDate('visitor.last_counter', $args['date']);
-        }
-
         if (array_intersect(['resource_id', 'resource_type', 'query_param', 'utm_source', 'utm_medium', 'utm_campaign'], array_keys($filteredArgs))) {
             $query
                 ->join('pages', ['visitor.first_page', 'pages.page_id'], [], 'LEFT')
@@ -1155,8 +1151,7 @@ class VisitorsModel extends BaseModel
                 ->where('pages.uri', '=', $args['query_param'])
                 ->where('pages.uri', 'LIKE', $args['utm_source'] ? "%utm_source={$args['utm_source']}%" : '')
                 ->where('pages.uri', 'LIKE', $args['utm_medium'] ? "%utm_medium={$args['utm_medium']}%" : '')
-                ->where('pages.uri', 'LIKE', $args['utm_campaign'] ? "%utm_campaign={$args['utm_campaign']}%" : '')
-                ->whereDate('pages.date', $args['date']);
+                ->where('pages.uri', 'LIKE', $args['utm_campaign'] ? "%utm_campaign={$args['utm_campaign']}%" : '');
         }
 
         if (array_intersect(['post_type', 'post_id', 'taxonomy', 'term'], array_keys($filteredArgs))) {
@@ -1210,6 +1205,8 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->where('source_channel', 'IN', $args['source_channel'])
+            ->where('visitor.location', '=', $args['country'])
+            ->whereDate('visitor.last_counter', $args['date'])
             ->whereNotNull($args['not_null']);
 
         // If not null is not set, get all referrers including those coming with just UTM without any source
@@ -1222,19 +1219,13 @@ class VisitorsModel extends BaseModel
             ");
         }
 
-        // When date is passed, but all other parameters below are empty, compare the given date with `visitor.last_counter`
-        if (!empty($args['date']) && !array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
-            $query->whereDate('visitor.last_counter', $args['date']);
-        }
-
         if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
                 ->join('pages', ['visitor.first_page', 'pages.page_id'], [], 'LEFT')
                 ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
                 ->where('post_type', 'IN', $args['post_type'])
                 ->where('posts.ID', '=', $args['post_id'])
-                ->where('pages.uri', '=', $args['query_param'])
-                ->whereDate('pages.date', $args['date']);
+                ->where('pages.uri', '=', $args['query_param']);
 
             if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
                 $taxQuery = Query::select(['DISTINCT object_id'])
@@ -1248,12 +1239,6 @@ class VisitorsModel extends BaseModel
                 $query
                     ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
             }
-        }
-
-        if (!empty($args['country'])) {
-            $query
-                ->where('visitor.location', '=', $args['country'])
-                ->whereDate('visitor.last_counter', $args['date']);
         }
 
         $result = $query->getVar();
