@@ -1,12 +1,13 @@
 = 14.14.x - 2025-xx-xx =
 - **Enhancement:** Improved migration efficiency and stability by running schema migrations synchronously and removing background processes.
 
-= 14.14 - 2025-05-x =
+= 14.14 - 2025-06-01 =
 - **New:** Added a Help page inside the plugin to guide users.
 - **New:** Introduced dynamic promo text in the plugin header.
 - **New:** Added Single Resource report for assets without a post ID.
 - **New:** Integrated with the Real Cookie Banner plugin.
 - **New:** Added an option to disable word count analytics in reports.
+- **Enhancement:** Referral Overview and New Design for Settings and Optimization pages.
 - **Enhancement:** Merged Location data into Visitor Information in reports.
 - **Enhancement:** Added Entry and Exit Page columns to relevant reports.
 - **Enhancement:** Added license status helper on the Add-ons page.

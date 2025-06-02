@@ -445,6 +445,7 @@ class Exclusion
 
         // Pull the robots from the database.
         $robots = explode("\n", self::$options['robotlist'] ?? '');
+        $robots = apply_filters('wp_statistics_exclusion_robots', $robots);
 
         // Check to see if we match any of the robots.
         foreach ($robots as $robot) {
