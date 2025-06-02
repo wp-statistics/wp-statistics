@@ -38,7 +38,6 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
 <?php if (!$isAuthenticated) : ?>
     <h2 class="wps_title">
         <?php esc_html_e('Marketing', 'wp-statistics'); ?>
-        <span class="wps-tooltip" title="<?php esc_html_e('Marketing tooltip', 'wp-statistics'); ?>"><i class="wps-tooltip-icon info"></i></span>
     </h2>
     <div class="postbox wps-addon-settings--marketing">
         <table class="form-table <?php echo !$isMarketingActive ? esc_attr('form-table--preview') : '' ?>">
