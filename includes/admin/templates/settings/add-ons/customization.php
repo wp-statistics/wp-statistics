@@ -6,6 +6,7 @@ use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 
 $isLicenseValid        = LicenseHelper::isPluginLicenseValid('wp-statistics-customization');
 $isCustomizationActive = WP_STATISTICS\Helper::isAddOnActive('customization');
@@ -44,6 +45,7 @@ if (empty(Option::get('record_exclusions'))) {
 }
 
 $disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customization', []);
+$pluginHandler     = new PluginHandler();
 ?>
 
     <h2 class="wps-settings-box__title"><span><?php esc_html_e('Customization', 'wp-statistics'); ?></span></h2>
@@ -159,10 +161,12 @@ if ($isCustomizationActive && !$isLicenseValid) {
                 </th>
 
                 <td>
-                    <?php foreach (PluginHelper::$plugins as $plugin => $title): ?>
-                        <p>
-                            <input id="" name="" type="checkbox" value="1">
-                            <label for=""><?php echo esc_html($title); ?></label>
+                    <?php foreach (PluginHelper::$plugins as $plugin => $title):
+                        $isPluginActive = $pluginHandler->isPluginActive($plugin);
+                        ?>
+                        <p class="<?php echo !$isPluginActive ? esc_attr('p--preview') : '' ?>">
+                            <input id="<?php echo esc_attr($plugin); ?>" name="<?php echo esc_attr($plugin); ?>" type="checkbox" value="1" <?php echo $isPluginActive ? 'checked' : 'disabled'; ?>>
+                            <label for="<?php echo esc_attr($plugin); ?>"><?php echo esc_html($title); ?></label>
                         </p>
                     <?php endforeach; ?>
                     <p class="description"><?php esc_html_e('Choose any WP Statistics add‑ons whose settings you want in the file (e.g. Data Plus, Advanced Reporting, Real‑Time Stats). Core plugin settings are always included.', 'wp-statistics'); ?></p>

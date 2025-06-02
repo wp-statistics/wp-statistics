@@ -21,6 +21,7 @@ use WP_Statistics\Service\Admin\Metabox\MetaboxManager;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Notification\NotificationManager;
 use WP_Statistics\Service\Admin\MarketingCampaign\MarketingCampaignManager;
+use WP_Statistics\Service\Admin\ExportImportRest\ExportImportRestManager;
 use WP_Statistics\Service\Admin\Overview\OverviewManager;
 use WP_Statistics\Service\Admin\PageInsights\PageInsightsManager;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
@@ -184,6 +185,7 @@ final class WP_Statistics
         $anonymizedUsageDataManager = new AnonymizedUsageDataManager();
         $notificationManager        = new NotificationManager();
         $MarketingCampaignManager   = new MarketingCampaignManager();
+        $exportImportRestManager    = new ExportImportRestManager();
 
         // Admin classes
         if (is_admin()) {
