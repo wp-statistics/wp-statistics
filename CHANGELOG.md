@@ -1,5 +1,6 @@
 = 14.14.x - 2025-xx-xx =
 - **Enhancement:** Improved migration efficiency and stability by running schema migrations synchronously and removing background processes.
+- **Enhancement:** Improved `Views` report under `Visitor Insight` page.
 
 = 14.14 - 2025-06-01 =
 - **New:** Added a Help page inside the plugin to guide users.
