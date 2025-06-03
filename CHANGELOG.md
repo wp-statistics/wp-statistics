@@ -2,6 +2,7 @@
 - **Fix:** Resolve Zero Page View Issue for Non-'Category' Taxonomies.
 - **Enhancement:** Improved migration efficiency and stability by running schema migrations synchronously and removing background processes.
 - **Enhancement:** Improved `Views` report under `Visitor Insight` page.
+- **Fix:** Resolve date range bug in email report for `Views in the last 10 days`.
 
 = 14.14 - 2025-06-01 =
 - **New:** Added a Help page inside the plugin to guide users.
