@@ -184,7 +184,7 @@ class ViewsModel extends BaseModel
             ->join('visitor', ['visitor_relationships.visitor_id', 'visitor.ID'])
             ->whereDate('visitor_relationships.date', $args['date'])
             ->decorate(VisitorDecorator::class)
-            ->orderBy('visitor_relationships.ID')
+            ->orderBy('visitor_relationships.date')
             ->perPage($args['page'], $args['per_page'])
             ->getAll();
 
