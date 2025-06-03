@@ -7,7 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
-    'WP_Statistics\\Abstracts\\AdminAssets' => $baseDir . '/src/Abstracts/AdminAssets.php',
+    'WP_Statistics\\Abstracts\\BaseAdminAssets' => $baseDir . '/src/Abstracts/BaseAdminAssets.php',
     'WP_Statistics\\Abstracts\\BaseMetabox' => $baseDir . '/src/Abstracts/BaseMetabox.php',
     'WP_Statistics\\Abstracts\\BaseModel' => $baseDir . '/src/Abstracts/BaseModel.php',
     'WP_Statistics\\Abstracts\\BasePage' => $baseDir . '/src/Abstracts/BasePage.php',

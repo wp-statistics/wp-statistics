@@ -11,7 +11,7 @@ namespace WP_Statistics\Abstracts;
  * @package WP_STATISTICS\Abstracts
  * @since   15.0.0
  */
-abstract class AdminAssets
+abstract class BaseAdminAssets
 {
     /**
      * Asset handle name prefix

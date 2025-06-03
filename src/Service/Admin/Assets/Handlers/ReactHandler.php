@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\Assets\Handlers;
 
-use WP_Statistics\Abstracts\AdminAssets;
+use WP_Statistics\Abstracts\BaseAdminAssets;
 use WP_STATISTICS\Helper;
 
 /**
@@ -14,7 +14,7 @@ use WP_STATISTICS\Helper;
  * @package WP_STATISTICS\Service\Admin\Assets
  * @since   15.0.0
  */
-class ReactHandler extends AdminAssets
+class ReactHandler extends BaseAdminAssets
 {
     /**
      * Initialize the React assets manager

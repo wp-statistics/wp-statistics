@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\Assets\Handlers;
 
-use WP_Statistics\Abstracts\AdminAssets;
+use WP_Statistics\Abstracts\BaseAdminAssets;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
@@ -21,7 +21,7 @@ use WP_STATISTICS\Utils\Request;
  * @package WP_STATISTICS\Service\Admin\Assets
  * @since   15.0.0
  */
-class LegacyHandler extends AdminAssets
+class LegacyHandler extends BaseAdminAssets
 {
     /**
      * Initialize the assets manager
