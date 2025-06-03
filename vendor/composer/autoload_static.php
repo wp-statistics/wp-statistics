@@ -26,6 +26,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'WP_Statistics\\Abstracts\\AdminAssets' => __DIR__ . '/../..' . '/src/Abstracts/AdminAssets.php',
         'WP_Statistics\\Abstracts\\BaseMetabox' => __DIR__ . '/../..' . '/src/Abstracts/BaseMetabox.php',
         'WP_Statistics\\Abstracts\\BaseModel' => __DIR__ . '/../..' . '/src/Abstracts/BaseModel.php',
         'WP_Statistics\\Abstracts\\BasePage' => __DIR__ . '/../..' . '/src/Abstracts/BasePage.php',
@@ -163,6 +164,9 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Admin\\AnonymizedUsageData\\AnonymizedUsageDataManager' => __DIR__ . '/../..' . '/src/Service/Admin/AnonymizedUsageData/AnonymizedUsageDataManager.php',
         'WP_Statistics\\Service\\Admin\\AnonymizedUsageData\\AnonymizedUsageDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/AnonymizedUsageData/AnonymizedUsageDataProvider.php',
         'WP_Statistics\\Service\\Admin\\AnonymizedUsageData\\AnonymizedUsageDataSender' => __DIR__ . '/../..' . '/src/Service/Admin/AnonymizedUsageData/AnonymizedUsageDataSender.php',
+        'WP_Statistics\\Service\\Admin\\Assets\\AdminAssetsFactory' => __DIR__ . '/../..' . '/src/Service/Admin/Assets/AdminAssetsFactory.php',
+        'WP_Statistics\\Service\\Admin\\Assets\\Handlers\\LegacyHandler' => __DIR__ . '/../..' . '/src/Service/Admin/Assets/Handlers/LegacyHandler.php',
+        'WP_Statistics\\Service\\Admin\\Assets\\Handlers\\ReactHandler' => __DIR__ . '/../..' . '/src/Service/Admin/Assets/Handlers/ReactHandler.php',
         'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\AuthorAnalyticsDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/AuthorAnalytics/AuthorAnalyticsDataProvider.php',
         'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\AuthorAnalyticsManager' => __DIR__ . '/../..' . '/src/Service/Admin/AuthorAnalytics/AuthorAnalyticsManager.php',
         'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\AuthorAnalyticsPage' => __DIR__ . '/../..' . '/src/Service/Admin/AuthorAnalytics/AuthorAnalyticsPage.php',

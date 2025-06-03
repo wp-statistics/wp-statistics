@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'WP_Statistics\\Abstracts\\AdminAssets' => $baseDir . '/src/Abstracts/AdminAssets.php',
     'WP_Statistics\\Abstracts\\BaseMetabox' => $baseDir . '/src/Abstracts/BaseMetabox.php',
     'WP_Statistics\\Abstracts\\BaseModel' => $baseDir . '/src/Abstracts/BaseModel.php',
     'WP_Statistics\\Abstracts\\BasePage' => $baseDir . '/src/Abstracts/BasePage.php',
@@ -144,6 +145,9 @@ return array(
     'WP_Statistics\\Service\\Admin\\AnonymizedUsageData\\AnonymizedUsageDataManager' => $baseDir . '/src/Service/Admin/AnonymizedUsageData/AnonymizedUsageDataManager.php',
     'WP_Statistics\\Service\\Admin\\AnonymizedUsageData\\AnonymizedUsageDataProvider' => $baseDir . '/src/Service/Admin/AnonymizedUsageData/AnonymizedUsageDataProvider.php',
     'WP_Statistics\\Service\\Admin\\AnonymizedUsageData\\AnonymizedUsageDataSender' => $baseDir . '/src/Service/Admin/AnonymizedUsageData/AnonymizedUsageDataSender.php',
+    'WP_Statistics\\Service\\Admin\\Assets\\AdminAssetsFactory' => $baseDir . '/src/Service/Admin/Assets/AdminAssetsFactory.php',
+    'WP_Statistics\\Service\\Admin\\Assets\\Handlers\\LegacyHandler' => $baseDir . '/src/Service/Admin/Assets/Handlers/LegacyHandler.php',
+    'WP_Statistics\\Service\\Admin\\Assets\\Handlers\\ReactHandler' => $baseDir . '/src/Service/Admin/Assets/Handlers/ReactHandler.php',
     'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\AuthorAnalyticsDataProvider' => $baseDir . '/src/Service/Admin/AuthorAnalytics/AuthorAnalyticsDataProvider.php',
     'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\AuthorAnalyticsManager' => $baseDir . '/src/Service/Admin/AuthorAnalytics/AuthorAnalyticsManager.php',
     'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\AuthorAnalyticsPage' => $baseDir . '/src/Service/Admin/AuthorAnalytics/AuthorAnalyticsPage.php',
