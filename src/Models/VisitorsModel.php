@@ -1235,7 +1235,7 @@ class VisitorsModel extends BaseModel
             'term_id'       => '',
         ]);
 
-        $range = DateRange::get('30days');
+        $range = $args['date'] ?? DateRange::get('30days');
 
         $startDate = $range['from'] . ' 00:00:00';
         $endDate   = date('Y-m-d', strtotime($range['to'] . ' +1 day')) . ' 00:00:00';
