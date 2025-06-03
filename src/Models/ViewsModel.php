@@ -6,6 +6,7 @@ use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Components\DateRange;
+use WP_Statistics\Decorators\VisitorDecorator;
 
 class ViewsModel extends BaseModel
 {
@@ -150,6 +151,60 @@ class ViewsModel extends BaseModel
         $result = $query->getAll();
 
         return $result ?? [];
+    }
+
+    public function getViewsData($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'      => '',
+            'page'      => 1,
+            'per_page'  => 20
+        ]);
+
+        $result = Query::select([
+                'visitor.ID',
+                'visitor.ip',
+                'visitor.platform',
+                'visitor.agent',
+                'CAST(`visitor`.`version` AS SIGNED) as version',
+                'visitor.model',
+                'visitor.device',
+                'visitor.region',
+                'visitor.city',
+                'visitor.location',
+                'visitor.hits',
+                'visitor.user_id',
+                'visitor.referred',
+                'visitor.source_channel',
+                'visitor.source_name',
+                'visitor_relationships.page_id as last_page',
+                'visitor_relationships.date as last_view',
+            ])
+            ->from('visitor_relationships')
+            ->join('visitor', ['visitor_relationships.visitor_id', 'visitor.ID'])
+            ->whereDate('visitor_relationships.date', $args['date'])
+            ->decorate(VisitorDecorator::class)
+            ->orderBy('visitor_relationships.date')
+            ->perPage($args['page'], $args['per_page'])
+            ->getAll();
+
+        return $result;
+    }
+
+    public function countViewRecords($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date' => '',
+        ]);
+
+        $result = Query::select([
+                'COUNT(*)',
+            ])
+            ->from('visitor_relationships')
+            ->whereDate('visitor_relationships.date', $args['date'])
+            ->getVar();
+
+        return $result;
     }
 
     public function getHourlyViews($args = [])
