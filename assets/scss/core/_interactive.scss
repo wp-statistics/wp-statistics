@@ -1,0 +1,24 @@
+@use 'variables' as *;
+@use 'spacing' as space;
+@use 'colors' as color;
+@mixin clickable {
+    cursor: pointer;
+    transition: $transition-base;
+    &:hover {
+        opacity: 0.9;
+    }
+}
+
+@mixin button-primary {
+    @include color.bg-color('primary');
+    @include color.text-color('text', 'white');
+    outline: none;
+    border: none;
+    @include space.padding-x('lg');
+    @include space.padding-y('md');
+    @include space.radius('base');
+    cursor: pointer;
+    &:hover {
+        opacity: 0.9;
+    }
+}
