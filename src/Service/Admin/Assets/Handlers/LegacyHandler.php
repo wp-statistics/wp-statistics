@@ -198,7 +198,7 @@ class LegacyHandler extends BaseAdminAssets
         $list['setting_url']         = Menus::admin_url('settings');
         $list['meta_boxes']          = MetaboxHelper::getScreenMetaboxes();
 
-        return apply_filters('wp_statistics_admin_assets', $list);
+        return apply_filters('wp_statistics_admin_localized_data', $list);
     }
 
     /**

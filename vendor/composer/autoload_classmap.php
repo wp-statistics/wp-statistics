@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'WP_Statistics\\Abstracts\\BaseAdminAssets' => $baseDir . '/src/Abstracts/BaseAdminAssets.php',
+    'WP_Statistics\\Abstracts\\BaseDashboardController' => $baseDir . '/src/Abstracts/BaseDashboardController.php',
     'WP_Statistics\\Abstracts\\BaseMetabox' => $baseDir . '/src/Abstracts/BaseMetabox.php',
     'WP_Statistics\\Abstracts\\BaseModel' => $baseDir . '/src/Abstracts/BaseModel.php',
     'WP_Statistics\\Abstracts\\BasePage' => $baseDir . '/src/Abstracts/BasePage.php',
@@ -165,6 +166,8 @@ return array(
     'WP_Statistics\\Service\\Admin\\ContentAnalytics\\ContentAnalyticsPage' => $baseDir . '/src/Service/Admin/ContentAnalytics/ContentAnalyticsPage.php',
     'WP_Statistics\\Service\\Admin\\ContentAnalytics\\Views\\SingleView' => $baseDir . '/src/Service/Admin/ContentAnalytics/Views/SingleView.php',
     'WP_Statistics\\Service\\Admin\\ContentAnalytics\\Views\\TabsView' => $baseDir . '/src/Service/Admin/ContentAnalytics/Views/TabsView.php',
+    'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\DashboardManager' => $baseDir . '/src/Service/Admin/DashboardBootstrap/DashboardManager.php',
+    'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\Requests\\AjaxManager' => $baseDir . '/src/Service/Admin/DashboardBootstrap/Requests/AjaxManager.php',
     'WP_Statistics\\Service\\Admin\\DataMigration\\DataMigrationManager' => $baseDir . '/src/Service/Admin/DataMigration/DataMigrationManager.php',
     'WP_Statistics\\Service\\Admin\\DataMigration\\DataMigrationPage' => $baseDir . '/src/Service/Admin/DataMigration/DataMigrationPage.php',
     'WP_Statistics\\Service\\Admin\\Devices\\DevicesDataProvider' => $baseDir . '/src/Service/Admin/Devices/DevicesDataProvider.php',

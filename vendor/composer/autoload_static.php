@@ -27,6 +27,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'WP_Statistics\\Abstracts\\BaseAdminAssets' => __DIR__ . '/../..' . '/src/Abstracts/BaseAdminAssets.php',
+        'WP_Statistics\\Abstracts\\BaseDashboardController' => __DIR__ . '/../..' . '/src/Abstracts/BaseDashboardController.php',
         'WP_Statistics\\Abstracts\\BaseMetabox' => __DIR__ . '/../..' . '/src/Abstracts/BaseMetabox.php',
         'WP_Statistics\\Abstracts\\BaseModel' => __DIR__ . '/../..' . '/src/Abstracts/BaseModel.php',
         'WP_Statistics\\Abstracts\\BasePage' => __DIR__ . '/../..' . '/src/Abstracts/BasePage.php',
@@ -184,6 +185,8 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Admin\\ContentAnalytics\\ContentAnalyticsPage' => __DIR__ . '/../..' . '/src/Service/Admin/ContentAnalytics/ContentAnalyticsPage.php',
         'WP_Statistics\\Service\\Admin\\ContentAnalytics\\Views\\SingleView' => __DIR__ . '/../..' . '/src/Service/Admin/ContentAnalytics/Views/SingleView.php',
         'WP_Statistics\\Service\\Admin\\ContentAnalytics\\Views\\TabsView' => __DIR__ . '/../..' . '/src/Service/Admin/ContentAnalytics/Views/TabsView.php',
+        'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\DashboardManager' => __DIR__ . '/../..' . '/src/Service/Admin/DashboardBootstrap/DashboardManager.php',
+        'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\Requests\\AjaxManager' => __DIR__ . '/../..' . '/src/Service/Admin/DashboardBootstrap/Requests/AjaxManager.php',
         'WP_Statistics\\Service\\Admin\\DataMigration\\DataMigrationManager' => __DIR__ . '/../..' . '/src/Service/Admin/DataMigration/DataMigrationManager.php',
         'WP_Statistics\\Service\\Admin\\DataMigration\\DataMigrationPage' => __DIR__ . '/../..' . '/src/Service/Admin/DataMigration/DataMigrationPage.php',
         'WP_Statistics\\Service\\Admin\\Devices\\DevicesDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/Devices/DevicesDataProvider.php',

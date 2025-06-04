@@ -73,23 +73,8 @@ class ReactHandler extends BaseAdminAssets
     {
         $list = parent::getLocalizedData($hook);
 
-        // React-specific options
-        $list['options'] = [];
+        $list = [];
 
-        // React-specific translations
-        $list['i18n'] = $this->getI18nStrings();
-
-        return apply_filters('wp_statistics_react_assets', $list);
-    }
-
-    /**
-     * Get internationalization strings for React
-     *
-     * @return array Array of translated strings
-     * @since 15.0.0
-     */
-    protected function getI18nStrings()
-    {
-        return [];
+        return apply_filters('wp_statistics_react_localized_data', $list);
     }
 }
