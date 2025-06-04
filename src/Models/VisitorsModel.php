@@ -860,8 +860,10 @@ class VisitorsModel extends BaseModel
     public function getVisitorJourney($args)
     {
         $args = $this->parseArgs($args, [
-            'visitor_id'  => '',
-            'ignore_date' => true,
+            'visitor_id'    => '',
+            'user_id'       => '',
+            'ip'            => '',
+            'ignore_date'   => true,
         ]);
 
         $result = Query::select([
@@ -870,10 +872,16 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor_relationships')
             ->where('visitor_relationships.visitor_id', '=', $args['visitor_id'])
-            ->orderBy('date')
-            ->getAll();
+            ->orderBy('date');
 
-        return $result;
+        if (!empty($args['user_id']) || !empty($args['ip'])) {
+            $result
+                ->join('visitor', ['visitor_relationships.visitor_id', 'visitor.ID'])
+                ->where('visitor.user_id', '=', $args['user_id'])
+                ->where('visitor.ip', '=', $args['ip']);
+        }
+
+        return $result->getAll();
     }
 
     public function countGeoData($args = [])

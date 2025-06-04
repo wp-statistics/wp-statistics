@@ -82,11 +82,22 @@ class VisitorInsightsDataProvider
 
     public function getVisitorData()
     {
-        $visitorInfo    = $this->visitorsModel->getVisitorData($this->args);
-        $visitorJourney = $this->visitorsModel->getVisitorJourney($this->args);
+        $args = $this->args;
+
+        $visitor = $this->visitorsModel->getVisitorData($args);
+
+        if ($visitor->getUserId()) {
+            // Get visitor journey by user ID if it's set
+            $args = ['user_id' => $visitor->getUserId()];
+        } elseif (!$visitor->isHashedIP() && !$visitor->isIpAnonymized()) {
+            // Get visitor journey by IP if IP is not hashed or anonymized
+            $args = ['ip' => $visitor->getIP()];
+        }
+
+        $visitorJourney = $this->visitorsModel->getVisitorJourney($args);
 
         return [
-            'visitor'           => $visitorInfo,
+            'visitor'           => $visitor,
             'visitor_journey'   => $visitorJourney
         ];
     }

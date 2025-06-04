@@ -115,6 +115,16 @@ class VisitorDecorator
     }
 
     /**
+     * Checks if the visitor's IP address is anonymized.
+     *
+     * @return bool True if the IP address is anonymized, false otherwise.
+     */
+    public function isIpAnonymized()
+    {
+        return IP::isIpAnonymized($this->visitor->ip);
+    }
+
+    /**
      * Get the number of hits the visitor has made.
      *
      * @return int|null
