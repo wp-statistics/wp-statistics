@@ -82,10 +82,13 @@ class Install
 
         if (empty($version)) {
             update_option('wp_statistics_is_fresh', true);
-            return;
+        } else {
+            update_option('wp_statistics_is_fresh', false);
         }
 
-        update_option('wp_statistics_is_fresh', false);
+        if (Option::get('installation_time') === false) {
+            Option::update('installation_time', time());
+        }
     }
 
     /**
@@ -512,10 +515,6 @@ class Install
 
         if (Option::get('show_privacy_issues_in_report') === false && version_compare($latest_version, '14.12', '>')) {
             Option::update('show_privacy_issues_in_report', false);
-        }
-
-        if (Option::get('activation_time') === false && version_compare($latest_version, '14.14', '>')) {
-            Option::update('activation_time', time());
         }
 
         /**
