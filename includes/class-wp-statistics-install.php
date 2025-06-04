@@ -514,6 +514,10 @@ class Install
             Option::update('show_privacy_issues_in_report', false);
         }
 
+        if (Option::get('activation_time') === false && version_compare($latest_version, '14.14', '>')) {
+            Option::update('activation_time', time());
+        }
+
         /**
          * Update GeoIP schedule from daily to monthly
          */
@@ -524,9 +528,9 @@ class Install
         /**
          * Update consent integration to WP Consent API for backward compatibility
          */
-        $integration            = Option::get('consent_integration');
-        $consentLevel           = Option::get('consent_level_integration', 'disabled');
-        $isWpConsentApiActive   = IntegrationHelper::getIntegration('wp_consent_api')->isActive();
+        $integration          = Option::get('consent_integration');
+        $consentLevel         = Option::get('consent_level_integration', 'disabled');
+        $isWpConsentApiActive = IntegrationHelper::getIntegration('wp_consent_api')->isActive();
 
         if ($isWpConsentApiActive && empty($integration) && $consentLevel !== 'disabled') {
             Option::update('consent_integration', 'wp_consent_api');
