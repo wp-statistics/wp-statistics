@@ -44,6 +44,7 @@ class IntegrationsManager
         foreach ($integrations as $integration) {
             if ($integration->isActive()) {
                 $isAnyIntegrationActive = true;
+                break;
             }
         }
 
