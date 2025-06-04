@@ -82,10 +82,13 @@ class Install
 
         if (empty($version)) {
             update_option('wp_statistics_is_fresh', true);
-            return;
+        } else {
+            update_option('wp_statistics_is_fresh', false);
         }
 
-        update_option('wp_statistics_is_fresh', false);
+        if (Option::get('installation_time') === false) {
+            Option::update('installation_time', time());
+        }
     }
 
     /**
@@ -524,9 +527,9 @@ class Install
         /**
          * Update consent integration to WP Consent API for backward compatibility
          */
-        $integration            = Option::get('consent_integration');
-        $consentLevel           = Option::get('consent_level_integration', 'disabled');
-        $isWpConsentApiActive   = IntegrationHelper::getIntegration('wp_consent_api')->isActive();
+        $integration          = Option::get('consent_integration');
+        $consentLevel         = Option::get('consent_level_integration', 'disabled');
+        $isWpConsentApiActive = IntegrationHelper::getIntegration('wp_consent_api')->isActive();
 
         if ($isWpConsentApiActive && empty($integration) && $consentLevel !== 'disabled') {
             Option::update('consent_integration', 'wp_consent_api');
