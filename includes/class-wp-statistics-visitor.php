@@ -457,8 +457,6 @@ class Visitor
 
             if (count($segments) > 1) {
                 $params['sub_page'] = implode('/', $segments);
-            } else {
-                $params['sub_page'] = '';
             }
         }
 
