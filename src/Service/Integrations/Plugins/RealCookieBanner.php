@@ -16,7 +16,7 @@ class RealCookieBanner extends AbstractIntegration
      */
     public function getName()
     {
-        return esc_html__('Real Cookie Banner', 'wp-statistics');
+        return esc_html__('Real Cookie Banner PRO', 'wp-statistics');
     }
 
     /**
@@ -33,7 +33,7 @@ class RealCookieBanner extends AbstractIntegration
 
     public function isActive()
     {
-        return is_plugin_active('real-cookie-banner-pro/index.php') || is_plugin_active('real-cookie-banner/index.php');
+        return is_plugin_active('real-cookie-banner-pro/index.php');
     }
 
     public function register()
