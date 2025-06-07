@@ -17,7 +17,7 @@ if ( $step_name !== 'first-step'){
         <?php if ($hasLicense && !$isActive) : ?>
             <div class="wps-premium-step__notice">
                 <div>
-                    <?php echo  sprintf(__('Your license includes the %s, but it’s not installed yet. Go to the Add-Ons page to install and activate it, so you can start using all its features.', 'wp-statistics'),
+                    <?php echo  sprintf(__('Your license includes the %s, but it’s not installed yet. Go to the Add-ons page to install and activate it, so you can start using all its features.', 'wp-statistics'),
                         esc_attr($step_title)) ?>
                 </div>
             </div>
