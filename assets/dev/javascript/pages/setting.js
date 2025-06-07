@@ -57,7 +57,6 @@ function createMobileDropdown() {
                 } else {
                     const wrapper = document.createElement('div');
                     wrapper.classList.add('wps-setting-select-wrapper');
-                    wrapper.innerHTML = '<p>' + (wps_js._('no_menu_items') || 'Menu not available') + '</p>';
                     document.body.appendChild(wrapper);
                 }
             }
