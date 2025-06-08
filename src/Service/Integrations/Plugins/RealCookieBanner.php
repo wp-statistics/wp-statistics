@@ -31,11 +31,6 @@ class RealCookieBanner extends AbstractIntegration
         ];
     }
 
-    public function isActive()
-    {
-        return is_plugin_active($this->getPath());
-    }
-
     public function register()
     {
         add_action('wp_statistics_save_settings', [$this, 'clearTemplateCache']);

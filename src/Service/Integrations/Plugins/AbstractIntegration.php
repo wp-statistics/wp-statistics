@@ -25,6 +25,16 @@ abstract class AbstractIntegration
     }
 
     /**
+     * Checks if plugin is activated.
+     *
+     * @return  bool
+     */
+    public function isActive()
+    {
+        return is_plugin_active($this->getPath());
+    }
+
+    /**
      * Integration name
      * @return string
      */
@@ -34,13 +44,6 @@ abstract class AbstractIntegration
      * Detection notice
      */
     abstract public function detectionNotice();
-
-    /**
-     * Checks if plugin is activated.
-     *
-     * @return  bool
-     */
-    abstract public function isActive();
 
     /**
      * If returns true, the user data will be collected anonymously

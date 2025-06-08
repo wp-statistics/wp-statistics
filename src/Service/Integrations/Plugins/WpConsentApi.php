@@ -33,16 +33,6 @@ class WpConsentApi extends AbstractIntegration
         ];
     }
 
-    /**
-     * Checks if "WP Consent API" plugin is activated.
-     *
-     * @return  bool
-     */
-    public function isActive()
-    {
-        return is_plugin_active($this->getPath());
-    }
-
     public function trackAnonymously()
     {
         return Option::get('anonymous_tracking', false) != false;
