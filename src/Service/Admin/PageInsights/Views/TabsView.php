@@ -14,8 +14,9 @@ use WP_Statistics\Service\Admin\PageInsights\PageInsightsDataProvider;
 
 class TabsView extends BaseTabView
 {
-    protected $defaultTab = 'top';
+    protected $defaultTab = 'overview';
     protected $tabs = [
+        'overview',
         'top',
         'category',
         'author',
@@ -109,6 +110,12 @@ class TabsView extends BaseTabView
                 'echo'  => false
             ]),
             'tabs'          => [
+                [
+                    'link'    => Menus::admin_url('pages', ['tab' => 'overview']),
+                    'title'   => esc_html__('Overview', 'wp-statistics'),
+                    'tooltip' => esc_html__('Tooltip', 'wp-statistics'),
+                    'class'   => $this->isTab('overview') ? 'current' : '',
+                ],
                 [
                     'link'    => Menus::admin_url('pages', ['tab' => 'top']),
                     'title'   => esc_html__('Top Pages', 'wp-statistics'),
