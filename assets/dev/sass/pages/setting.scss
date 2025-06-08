@@ -2093,6 +2093,10 @@
     border: none;
     flex-direction: column;
 
+    @media(max-width: 500px){
+      padding: 16px;
+    }
+
     .wps-alert--setting--title{
       h1{
         font-weight: 700;
@@ -2166,6 +2170,12 @@
       width: auto;
       margin: 0;
       align-self: flex-start;
+
+      @media(max-width: 500px){
+        padding: 12px 16px;
+        font-size: 12px;
+      }
+
     }
   }
 
