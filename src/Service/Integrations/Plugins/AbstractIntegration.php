@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Integrations\Plugins;
 abstract class AbstractIntegration
 {
     protected $key;
+    protected $path;
 
     /**
      * Integration key
@@ -13,6 +14,14 @@ abstract class AbstractIntegration
     public function getKey()
     {
         return $this->key;
+    }
+
+    /**
+     * Get plugin path
+     */
+    public function getPath()
+    {
+        return $this->path;
     }
 
     /**

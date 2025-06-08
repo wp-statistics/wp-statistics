@@ -7,6 +7,7 @@ use WP_STATISTICS\Option;
 class WpConsentApi extends AbstractIntegration
 {
     protected $key = 'wp_consent_api';
+    protected $path = 'wp-consent-api/wp-consent-api.php';
 
     /**
      * Returns the name of the integration.
@@ -39,7 +40,7 @@ class WpConsentApi extends AbstractIntegration
      */
     public function isActive()
     {
-        return is_plugin_active('wp-consent-api/wp-consent-api.php');
+        return is_plugin_active($this->getPath());
     }
 
     public function trackAnonymously()

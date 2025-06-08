@@ -3,11 +3,11 @@
 namespace WP_Statistics\Service\Integrations\Plugins;
 
 use WP_STATISTICS\Option;
-use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 class RealCookieBanner extends AbstractIntegration
 {
     protected $key = 'real_cookie_banner';
+    protected $path = 'real-cookie-banner-pro/index.php';
 
     /**
      * Returns the name of the integration.
@@ -33,7 +33,7 @@ class RealCookieBanner extends AbstractIntegration
 
     public function isActive()
     {
-        return is_plugin_active('real-cookie-banner-pro/index.php');
+        return is_plugin_active($this->getPath());
     }
 
     public function register()

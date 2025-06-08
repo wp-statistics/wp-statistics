@@ -13,7 +13,7 @@ class IntegrationsManager
     {
         $this->registerIntegrations();
 
-        add_action('update_option_active_plugins', [$this, 'unsetIntegrationUponDeactivation']);
+        add_action('update_option_active_plugins', [$this, 'unsetIntegrationUponDeactivation'], 10, 2);
     }
 
     /**
@@ -32,23 +32,19 @@ class IntegrationsManager
     }
 
     /**
-     * When a plugin is deactivated, check if any integration is active.
-     * If none are active, reset the integration value to none.
+     * When integration is deactivated, reset the integration option.
      */
-    public function unsetIntegrationUponDeactivation()
+    public function unsetIntegrationUponDeactivation($oldPlugins, $newPlugins)
     {
-        $isAnyIntegrationActive = false;
+        $activeIntegration = Option::get('consent_integration');
+        $activeIntegration = IntegrationHelper::getIntegration($activeIntegration);
 
-        $integrations = IntegrationHelper::getAllIntegrations();
+        if (!$activeIntegration) return;
 
-        foreach ($integrations as $integration) {
-            if ($integration->isActive()) {
-                $isAnyIntegrationActive = true;
-                break;
-            }
-        }
+        $plugin              = $activeIntegration->getPath();
+        $isPluginDeactivated = in_array($plugin, $oldPlugins) && !in_array($plugin, $newPlugins);
 
-        if (!$isAnyIntegrationActive) {
+        if ($isPluginDeactivated) {
             Option::update('consent_integration', '');
         }
     }
