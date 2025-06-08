@@ -146,7 +146,7 @@ class TabsView extends BaseTabView
             ],
         ];
 
-        if ($data['total'] > 0) {
+        if (isset($data['total']) && $data['total'] > 0) {
             $args['total'] = $data['total'];
 
             $args['pagination'] = Admin_Template::paginate_links([
