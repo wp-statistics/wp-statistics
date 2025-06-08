@@ -1,6 +1,6 @@
 <div class="wps-premium-feature__head">
     <h1>
-        <?php esc_html_e('You Have Access to This Add-On!', 'wp-statistics')?>
+        <?php esc_html_e('You Have Access to This Add-on!', 'wp-statistics')?>
     </h1>
 </div>
 <div class="wps-premium-feature__info wps-premium-feature__info--premium-user">

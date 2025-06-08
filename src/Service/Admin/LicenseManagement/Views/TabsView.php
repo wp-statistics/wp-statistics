@@ -180,7 +180,7 @@ class TabsView extends BaseTabView
                 $args['title'] = esc_html__('Add-ons', 'wp-statistics');
 
                 if (is_main_site()) {
-                    $args['install_addon_btn_txt']  = esc_html__('Install Add-On', 'wp-statistics');
+                    $args['install_addon_btn_txt']  = esc_html__('Install Add-on', 'wp-statistics');
                     $args['install_addon_btn_link'] = esc_url(Menus::admin_url('plugins', ['tab' => 'add-license']));
                 }
 
