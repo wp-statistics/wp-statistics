@@ -7,26 +7,29 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
-$isLicenseValid     = LicenseHelper::isPluginLicenseValid('marketing');
+$isLicenseValid     = LicenseHelper::isPluginLicenseValid('wp-statistics-marketing');
 $isMarketingActive  = Helper::isAddOnActive('marketing');
+?>
+    <h2 class="wps-settings-box__title">
+        <span><?php esc_html_e('Marketing', 'wp-statistics'); ?></span>
+     </h2>
+<?php
 
-if (!$isMarketingActive) {
-    echo Admin_Template::get_template(
-        'layout/partials/addon-premium-feature',
-        [
-            'addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-marketing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
-            'addon_title'        => __('Marketing Add-On', 'wp-statistics'),
-            'addon_modal_target' => 'wp-statistics-marketing',
-            'addon_campaign'     => 'dp-marketing',
-            'addon_description'  => __('The settings on this page are part of the Marketing add-on, which enhances WP Statistics by expanding tracking capabilities and providing detailed visitor insights.', 'wp-statistics'),
-            'addon_features'     => [
-                // ...
-            ],
-            'addon_info'         => __('Unlock deeper insights into your website\'s performance with Marketing.', 'wp-statistics'),
-        ],
-        true
-    );
-}
+
+ if (!$isMarketingActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
+    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp/?utm_source=wp-statistics&utm_medium=link&utm_campaign=widgets'),
+     'addon_title'        => __('Advanced Widgets Add-On', 'wp-statistics'),
+     'addon_modal_target' => 'wp-statistics-marketing',
+     'addon_campaign'     => 'marketing',
+     'addon_description'  => __('The settings on this page are part of the Marketing add-on', 'wp-statistics'),
+     'addon_features'     => [
+         __('View your Search Console data in WordPress—no more switching tabs.', 'wp-statistics'),
+         __('Get key metrics in your overview page for quick insights.', 'wp-statistics'),
+         __('Track traffic and keywords for each page or post at a glance.', 'wp-statistics'),
+         __('Unlock detailed search data to make smarter content decisions.', 'wp-statistics'),
+     ],
+    ], true);
+
 
 if ($isMarketingActive && !$isLicenseValid) {
     View::load("components/lock-sections/notice-inactive-license-addon");
@@ -36,27 +39,23 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
 ?>
 
 <?php if (!$isAuthenticated) : ?>
-    <h2 class="wps_title">
-        <?php esc_html_e('Marketing', 'wp-statistics'); ?>
-    </h2>
     <div class="postbox wps-addon-settings--marketing">
         <table class="form-table <?php echo !$isMarketingActive ? esc_attr('form-table--preview') : '' ?>">
             <tbody>
-            <tr valign="top">
-                <th scope="row" colspan="2">
+            <tr valign="top" class="wps-settings-box_head">
+                <th scope="row">
                     <h3><?php esc_html_e('Search Console', 'wp-statistics'); ?></h3>
                 </th>
             </tr>
             <tr>
-                <td  scope="row" colspan="2">
-                    <div class="wps-alert wps-alert--setting wps-alert--success">
+                <td  scope="row" class="wps-addon-settings--marketing__row">
+                    <div class="wps-alert--marketing">
                         <a href="<?php echo apply_filters('wp_statistics_google_auth_url', '') ?>" class="button button-primary"><?php esc_html_e('Connect to Google Search Console', 'wp-statistics'); ?></a>
                         <div class="wps-alert--setting--title">
                             <h1>
                                 <?php esc_html_e('Benefits of Connecting', 'wp-statistics'); ?>
                                 <span><?php esc_html_e('Google Search Console', 'wp-statistics'); ?></span>
                             </h1>
-                            <p><?php esc_html_e('The settings on this page are part of the REST API add-on, which enables the following endpoints in the WordPress REST API:', 'wp-statistics'); ?></p>
                         </div>
                         <div>
                             <ul>
@@ -77,12 +76,10 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
         </table>
     </div>
 <?php else : ?>
-
-
     <div class="postbox wps-addon-settings--marketing">
         <table class="form-table <?php echo !$isMarketingActive ? esc_attr('form-table--preview') : '' ?>">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2">
                     <div class="wps-addon-settings--marketing__title">
                         <div>
