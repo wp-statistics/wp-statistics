@@ -448,15 +448,16 @@ class Visitor
             ARRAY_A);
 
         if ($item !== null) {
-            $uri             = trim($item['uri'], '/');
-            $segments        = explode('/', $uri);
-            $params          = Pages::get_page_info($item['id'], $item['type'], $item['uri']);
-            $linkWithParams  = !empty($item['uri']) ? home_url() . $item['uri'] : '';
-            $params['query'] = Url::getParams($linkWithParams);
-            $params['id']    = $item['id'];
+            $postIdUri          = get_page_uri($item['id']);
+            $dbUri              = trim(Url::getPath(home_url($item['uri'])), '/');
+            $params             = Pages::get_page_info($item['id'], $item['type'], $item['uri']);
+            $linkWithParams     = !empty($item['uri']) ? home_url() . $item['uri'] : '';
+            $params['query']    = Url::getParams($linkWithParams);
+            $params['id']       = $item['id'];
+            $params['sub_page'] = '';
 
-            if (count($segments) > 1) {
-                $params['sub_page'] = implode('/', $segments);
+            if ($postIdUri != $dbUri) {
+                $params['sub_page'] = trim($item['uri'], '/');
             }
         }
 
