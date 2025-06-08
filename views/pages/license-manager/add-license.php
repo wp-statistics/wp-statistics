@@ -27,7 +27,7 @@
                 </li>
             </ul>
         </div>
-        <a class="wps-addon__step__back-to-addons" href="<?php echo esc_url(admin_url('admin.php?page=wps_plugins_page')) ?>" title="<?php esc_html_e('Back to Add-Ons', 'wp-statistics'); ?>"><?php esc_html_e('Back to Add-Ons', 'wp-statistics'); ?></a>
+        <a class="wps-addon__step__back-to-addons" href="<?php echo esc_url(admin_url('admin.php?page=wps_plugins_page')) ?>" title="<?php esc_html_e('Back to Add-ons', 'wp-statistics'); ?>"><?php esc_html_e('Back to Add-ons', 'wp-statistics'); ?></a>
 
     </div>
 </div>
