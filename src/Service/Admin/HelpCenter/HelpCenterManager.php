@@ -20,7 +20,7 @@ class HelpCenterManager
      */
     public function addMenuItem($items)
     {
-        $plusOne                 = '';
+        $notificationBadge       = '';
         $hasUpdatedNotifications = NotificationFactory::hasUpdatedNotifications();
         $displayNotifications    = Option::get('display_notifications') ? true : false;
         $newNotificationCount    = NotificationFactory::getNewNotificationCount();
@@ -28,13 +28,13 @@ class HelpCenterManager
 
         if ($displayNotifications && $hasUpdatedNotifications && $newNotificationCount > 0) {
             $notificationTitle = esc_attr(sprintf(esc_html__('%s plugin notifications', 'wp-statistics'), $notificationCount));
-            $plusOne           = " <span class='update-plugins count-$notificationCount' title='$notificationTitle'><span class='update-count'>" . $notificationCount . "</span></span>";
+            $notificationBadge = " <span class='update-plugins count-$notificationCount' title='$notificationTitle'><span class='update-count'>" . $notificationCount . "</span></span>";
         }
 
 
         $items['help_center'] = [
             'sub'      => 'overview',
-            'title'    => esc_html__('Help Center', 'wp-statistics') . $plusOne,
+            'title'    => esc_html__('Help Center', 'wp-statistics') . $notificationBadge,
             'page_url' => 'help-center',
             'callback' => HelpCenterPage::class,
             'priority' => 999
