@@ -9,7 +9,7 @@
             // And add "disabled" class to next tabs if the user has no licenses
             // So, for example if the second tab is the current tab, add "completed" to the first tab only, etc.
             foreach ($tabs as $key => $step) {
-                // Skip the "Add-Ons" tab
+                // Skip the "Add-ons" tab
                 if ($key !== 0) {
                     $stepClass = esc_attr($step['class']);
                     if ($foundCurrent) {
