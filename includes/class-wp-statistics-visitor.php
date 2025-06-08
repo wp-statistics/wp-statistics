@@ -10,6 +10,7 @@ use WP_Statistics\Service\Database\DatabaseFactory;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Utils\Url;
+use WP_STATISTICS\Helper;
 
 class Visitor
 {
@@ -448,6 +449,7 @@ class Visitor
             ARRAY_A);
 
         if ($item !== null) {
+            $postTypes          = Helper::get_list_post_type();
             $postIdUri          = get_page_uri($item['id']);
             $dbUri              = trim(Url::getPath(home_url($item['uri'])), '/');
             $params             = Pages::get_page_info($item['id'], $item['type'], $item['uri']);
@@ -456,8 +458,8 @@ class Visitor
             $params['id']       = $item['id'];
             $params['sub_page'] = '';
 
-            if ($postIdUri != $dbUri) {
-                $params['sub_page'] = trim($item['uri'], '/');
+            if ($postIdUri != $dbUri && in_array($item['type'], $postTypes)) {
+                $params['sub_page'] = $item['uri'];
             }
         }
 
