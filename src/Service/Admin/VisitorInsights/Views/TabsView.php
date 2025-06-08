@@ -18,8 +18,9 @@ class TabsView extends BaseTabView
     private $isTrackLoggedInUsersEnabled;
     private $isOnlineUsersEnabled;
 
-    protected $defaultTab = 'visitors';
+    protected $defaultTab = 'overview';
     protected $tabs = [
+        'overview',
         'visitors',
         'views',
         'top-visitors'
@@ -99,6 +100,11 @@ class TabsView extends BaseTabView
                 'echo'  => false
             ]),
             'tabs'       => [
+                [
+                    'link'  => Menus::admin_url('visitors', ['tab' => 'overview']),
+                    'title' => esc_html__('Overview', 'wp-statistics'),
+                    'class' => $this->isTab('overview') ? 'current' : '',
+                ],
                 [
                     'link'  => Menus::admin_url('visitors', ['tab' => 'visitors']),
                     'title' => esc_html__('Visitors', 'wp-statistics'),
