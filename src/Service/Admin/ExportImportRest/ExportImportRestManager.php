@@ -14,8 +14,8 @@ class ExportImportRestManager
     public function __construct()
     {
         if ($this->isAddon('wp-statistics-customization')) {
-            $this->createExportRestController();
-            $this->createImportRestController();
+            $this->createExportSettingsRestController();
+            $this->createImportSettingsRestController();
         }
     }
 
@@ -24,11 +24,11 @@ class ExportImportRestManager
      *
      * This controller handles the /export-settings endpoint for exporting plugin settings.
      *
-     * @return ExportRestController
+     * @return ExportSettingsRestController
      */
-    public function createExportRestController()
+    public function createExportSettingsRestController()
     {
-        return new ExportRestController();
+        return new ExportSettingsRestController();
     }
 
     /**
@@ -36,11 +36,11 @@ class ExportImportRestManager
      *
      * This controller handles the /import-settings endpoint for importing plugin settings.
      *
-     * @return ImportRestController
+     * @return ImportSettingsRestController
      */
-    public function createImportRestController()
+    public function createImportSettingsRestController()
     {
-        return new ImportRestController();
+        return new ImportSettingsRestController();
     }
 
     /**

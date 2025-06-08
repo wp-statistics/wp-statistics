@@ -7,10 +7,10 @@ use WP_STATISTICS\User;
 use WP_Error;
 use WP_REST_Request;
 
-class ImportRestController extends BaseRestAPI
+class ImportSettingsRestController extends BaseRestAPI
 {
     /**
-     * ImportRestController constructor.
+     * ImportSettingsRestController constructor.
      */
     public function __construct()
     {
