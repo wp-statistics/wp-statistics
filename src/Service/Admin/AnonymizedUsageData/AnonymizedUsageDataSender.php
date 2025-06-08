@@ -34,7 +34,7 @@ class AnonymizedUsageDataSender
                 'headers'     => array(
                     'Accept'       => 'application/json',
                     'Content-Type' => 'application/json; charset=utf-8',
-                    'user-agent'   => $pluginSlug,
+                    'user-agent'   => 'WPStatisticsShareData/' . md5(esc_url_raw(home_url('/'))) . ';',
                 ),
                 'body'        => json_encode($data),
                 'cookies'     => array(),
