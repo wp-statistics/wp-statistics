@@ -53,6 +53,17 @@ class VisitorInsightsDataProvider
         ];
     }
 
+    public function getViewsData()
+    {
+        return [
+            'data'  => $this->viewsModel->getViewsData(array_merge($this->args, [
+                'page'      => Admin_Template::getCurrentPaged(),
+                'per_page'  => Admin_Template::$item_per_page,
+            ])),
+            'total' => $this->viewsModel->countViewRecords($this->args)
+        ];
+    }
+
     public function getOnlineVisitorsData()
     {
         return [
