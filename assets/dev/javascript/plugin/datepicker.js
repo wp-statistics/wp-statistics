@@ -140,11 +140,25 @@ jQuery(document).ready(function () {
 
 
         const phpDateFormat = datePickerBtn.attr('data-date-format') ? datePickerBtn.attr('data-date-format') : 'MM/DD/YYYY';
+        const createDate = datePickerBtn.attr('data-date-create') ? datePickerBtn.attr('data-date-create') : null;
         let momentDateFormat = phpToMomentFormat(phpDateFormat);
+        const DATE_FORMAT = 'YYYY-MM-DD';
         // Default dates for the date picker
-        let defaultStartDate = moment(wps_js.global.user_date_range.from).format('YYYY-MM-DD');
-        let defaultEndDate = moment(wps_js.global.user_date_range.to).format('YYYY-MM-DD');
-        if (datePickerBtn.length && datePickerElement.length && datePickerForm.length && !datePickerElement.data('daterangepicker')) {
+        let defaultStartDate = moment(wps_js.global.user_date_range.from).format(DATE_FORMAT);
+        let defaultEndDate = moment(wps_js.global.user_date_range.to).format(DATE_FORMAT);
+
+        let minDate = null;
+        if (createDate) {
+            const parsedDate = moment(createDate, [momentDateFormat, 'YYYY-MM-DD', 'YYYY/MM/DD', 'YYYY-MM-DD HH:mm:ss'], true);
+            if (parsedDate.isValid()) {
+                minDate = parsedDate.clone().startOf('day');
+                if (moment(defaultStartDate).isBefore(minDate)) {
+                    defaultStartDate = minDate.format(DATE_FORMAT);
+                }
+            }
+        }
+
+         if (datePickerBtn.length && datePickerElement.length && datePickerForm.length && !datePickerElement.data('daterangepicker')) {
             datePickerElement.daterangepicker({
                 "autoApply": true,
                 "ranges": ranges,
@@ -152,8 +166,26 @@ jQuery(document).ready(function () {
                     "customRangeLabel": wps_js._('custom_range')
                 },
                 startDate: defaultStartDate,
-                endDate: defaultEndDate
+                endDate: defaultEndDate,
+                minDate: minDate,
+                isInvalidDate: function(date) {
+                    if (!minDate) return false;
+                    return date.clone().startOf('day').isBefore(minDate.clone().startOf('day'));
+                }
             });
+
+            // Hide ranges before createDate
+            if (minDate) {
+                const picker = datePickerElement.data('daterangepicker');
+                const rangeList = picker.container.find('.ranges li');
+                rangeList.each(function() {
+                    const rangeText = $(this).text();
+                    const range = ranges[rangeText];
+                    if (range && range[0].isBefore(minDate, 'day')) {
+                        $(this).hide();
+                    }
+                });
+            }
         }
 
         if (wps_js.isset(wps_js.global, 'request_params', 'from') && wps_js.isset(wps_js.global, 'request_params', 'to')) {
