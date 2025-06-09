@@ -20,15 +20,17 @@ class HelpCenterManager
      */
     public function addMenuItem($items)
     {
-        $notificationBadge       = '';
-        $hasUpdatedNotifications = NotificationFactory::hasUpdatedNotifications();
-        $displayNotifications    = Option::get('display_notifications') ? true : false;
-        $newNotificationCount    = NotificationFactory::getNewNotificationCount();
-        $notificationCount       = $newNotificationCount > 9 ? esc_html('9+') : number_format_i18n($newNotificationCount);
+        $notificationBadge    = '';
+        $displayNotifications = Option::get('display_notifications') ? true : false;
 
-        if ($displayNotifications && $hasUpdatedNotifications && $newNotificationCount > 0) {
-            $notificationTitle = esc_attr(sprintf(esc_html__('%s plugin notifications', 'wp-statistics'), $notificationCount));
-            $notificationBadge = " <span class='update-plugins count-$notificationCount' title='$notificationTitle'><span class='update-count'>" . $notificationCount . "</span></span>";
+        if ($displayNotifications) {
+            $newNotificationCount = NotificationFactory::getNewNotificationCount();
+
+            if ($newNotificationCount > 0) {
+                $notificationCount = $newNotificationCount > 9 ? esc_html('9+') : number_format_i18n($newNotificationCount);
+                $notificationTitle = esc_attr(sprintf(esc_html__('%s plugin notifications', 'wp-statistics'), $notificationCount));
+                $notificationBadge = " <span class='update-plugins count-$notificationCount' title='$notificationTitle'><span class='update-count'>" . $notificationCount . "</span></span>";
+            }
         }
 
 
