@@ -2,6 +2,7 @@
 - **Fix:** Resolve Zero Page View Issue for Non-'Category' Taxonomies.
 - **Enhancement:** Improved migration efficiency and stability by running schema migrations synchronously and removing background processes.
 - **Enhancement:** Improved `Views` report under `Visitor Insight` page.
+- **Fix:** Fixed inaccurate tracking of WooCommerce My Account sub-page titles.
 - **Enhancement:** Unset `Consent Integration` option upon integration deactivation.
 - **New:** Add Country Name to Visitor Info Flag Tooltip.
 - **New:** Added unread notification badge to Help Center menu.
