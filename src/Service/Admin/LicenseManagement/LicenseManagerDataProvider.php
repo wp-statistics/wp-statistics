@@ -19,7 +19,7 @@ class LicenseManagerDataProvider
     }
 
     /**
-     * Returns data for "Add-Ons" tab.
+     * Returns data for "Add-ons" tab.
      *
      * @return array
      */
