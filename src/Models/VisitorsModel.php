@@ -1243,7 +1243,7 @@ class VisitorsModel extends BaseModel
         $fields = [
             '`visitor`.`last_counter` AS `date`',
             'COUNT(DISTINCT `visitor`.`ID`) AS `visitors`',
-            '`visit`.`visit` AS `visits`',
+            'SUM(`visitor`.`hits`) AS `visits`',
             'COUNT(DISTINCT CASE WHEN(`visitor`.`referred` <> "") THEN `visitor`.`ID` END) AS `referrers`',
         ];
         if (is_numeric($args['post_id']) || !empty($args['author_id']) || !empty($args['term_id'])) {
@@ -1252,10 +1252,6 @@ class VisitorsModel extends BaseModel
         }
 
         $query = Query::select($fields)->from('visitor');
-        if (!is_numeric($args['post_id']) && empty($args['author_id']) && empty($args['term_id'])) {
-            // For single pages/posts/authors/terms
-            $query->join('visit', ['`visitor`.`last_counter`', '`visit`.`last_counter`']);
-        }
         $query->where('visitor.last_counter', '>=', $startDate)
             ->where('visitor.last_counter', '<', $endDate)
             ->groupBy('visitor.last_counter');
