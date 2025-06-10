@@ -1,12 +1,13 @@
-@use 'variables' as *;
+@use 'sass:map';
+@use 'variables' as vars;
 @use 'spacing' as space;
 @use 'colors' as color;
 @mixin card-container {
-    border: 1px solid map-get($colors, 'border');
+    border: 1px solid map.get(vars.$colors, 'border') !important;
     @include space.radius('lg');
-    padding: map-get($spacing, 'xl');
+    padding: map.get(vars.$spacing, 'xl') !important;
     @include color.bg-color('text', 'white');
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 @mixin info-box {
@@ -32,7 +33,7 @@
             margin-bottom: 0;
         }
         strong {
-            font-weight: map-get($font-weights, 'medium');
+            font-weight: map.get(vars.$font-weights, 'medium');
         }
     }
 }

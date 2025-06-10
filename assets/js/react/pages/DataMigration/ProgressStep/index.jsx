@@ -3,7 +3,7 @@ import { Card, CardBody, CardFooter, __experimentalHeading as Heading } from "@w
 import { __ } from "@wordpress/i18n";
 import InformationIcon from "../../../../../images/information.svg";
 import classNames from "classnames";
-import "../../../../../scss/pages/data-migration/_progress-step.scss";
+import styles from "./styles.module.scss";
 
 const ProgressStep = ({ handleStep }) => {
     const [isCompleted, setIsCompleted] = useState(false);
@@ -65,28 +65,28 @@ const ProgressStep = ({ handleStep }) => {
 
     if (error) {
         return (
-            <Card>
+            <Card className={`${styles.progressStep} wps-wrap-progressStep`}>
                 <CardBody>
-                    <Heading className="progress-step__heading">
+                    <Heading className={`${styles.heading} wps-wrap-progressStep__heading`}>
                         {__("Migration Error", "wp-statistics")}
                     </Heading>
-                    <div className="progress-step__info-box progress-step__info-box--error">
-                        <div className="progress-step__info-content">
-                            <img src={InformationIcon} alt="error" className="progress-step__info-icon" />
+                    <div className={`${styles.infoBox} ${styles.infoBoxError} wps-wrap-progressStep__infoBox wps-wrap-progressStep__infoBox--error`}>
+                        <div className={`${styles.infoContent} wps-wrap-progressStep__infoContent`}>
+                            <img src={InformationIcon} alt="error" className={`${styles.infoIcon} wps-wrap-progressStep__infoIcon`} />
                             <div>{error}</div>
                         </div>
                     </div>
                 </CardBody>
                 <CardFooter>
-                    <div className="progress-step__button-container">
+                    <div className={`${styles.buttonContainer} wps-wrap-progressStep__buttonContainer`}>
                         <button
-                            className="progress-step__cancel-button"
+                            className={`${styles.cancelButton} wps-wrap-progressStep__cancelButton`}
                             onClick={() => handleStep("step2")}
                         >
                             {__("Back", "wp-statistics")}
                         </button>
                         <button
-                            className="progress-step__pause-button"
+                            className={`${styles.pauseButton} wps-wrap-progressStep__pauseButton`}
                             onClick={() => {
                                 setError(null);
                                 setProgress(0);
@@ -101,25 +101,25 @@ const ProgressStep = ({ handleStep }) => {
     }
 
     return (
-        <Card>
+        <Card className={`${styles.progressStep} wps-wrap-progressStep`}>
             <CardBody>
-                <Heading className="progress-step__heading">
+                <Heading className={`${styles.heading} wps-wrap-progressStep__heading`}>
                     {isCompleted
                         ? __("Migration Complete!", "wp-statistics")
                         : __("Migration in Progress", "wp-statistics")}
                 </Heading>
 
-                <div className="progress-step__progress-container">
-                    <div className="progress-step__operation-text">
+                <div className={`${styles.progressContainer} wps-wrap-progressStep__progressContainer`}>
+                    <div className={`${styles.operationText} wps-wrap-progressStep__operationText`}>
                         {currentOperation}
                     </div>
-                    <div className="progress-step__progress-bar">
+                    <div className={`${styles.progressBar} wps-wrap-progressStep__progressBar`}>
                         <div
-                            className="progress-step__progress-bar-fill"
+                            className={`${styles.progressBarFill} wps-wrap-progressStep__progressBarFill`}
                             style={{ width: `${progress}%` }}
                         />
                     </div>
-                    <div className="progress-step__progress-text">
+                    <div className={`${styles.progressText} wps-wrap-progressStep__progressText`}>
                         {progress}%
                     </div>
                 </div>
@@ -127,13 +127,13 @@ const ProgressStep = ({ handleStep }) => {
 
             {isCompleted ? (
                 <>
-                    <div className="progress-step__success-message">
+                    <div className={`${styles.successMessage} wps-wrap-progressStep__successMessage`}>
                         <p>{__("Your data has been successfully migrated to the new format!", "wp-statistics")}</p>
                         <p>{__("You can now enjoy improved performance and efficiency in your statistics.", "wp-statistics")}</p>
                     </div>
                     <CardFooter>
                         <button
-                            className="progress-step__complete-button"
+                            className={`${styles.completeButton} wps-wrap-progressStep__completeButton`}
                             onClick={handleComplete}
                         >
                             {__("View Statistics", "wp-statistics")}
@@ -142,27 +142,30 @@ const ProgressStep = ({ handleStep }) => {
                 </>
             ) : (
                 <>
-                    <div className="progress-step__info-box">
-                        <div className="progress-step__info-content">
-                            <img src={InformationIcon} alt="info" className="progress-step__info-icon" />
+                    <div className={`${styles.infoBox} wps-wrap-progressStep__infoBox`}>
+                        <div className={`${styles.infoContent} wps-wrap-progressStep__infoContent`}>
+                            <img src={InformationIcon} alt="info" className={`${styles.infoIcon} wps-wrap-progressStep__infoIcon`} />
                             <div>
                                 {__("Please don't close your browser while the migration is in progress. This process may take several minutes depending on your database size.", "wp-statistics")}
                             </div>
                         </div>
                     </div>
 
-                    <CardFooter className="progress-step__footer">
-                        <div className="progress-step__button-container">
+                    <CardFooter className={`${styles.footer} wps-wrap-progressStep__footer`}>
+                        <div className={`${styles.buttonContainer} wps-wrap-progressStep__buttonContainer`}>
                             <button
-                                className="progress-step__cancel-button"
+                                className={`${styles.cancelButton} wps-wrap-progressStep__cancelButton`}
                                 onClick={handleCancel}
                             >
                                 {__("Cancel", "wp-statistics")}
                             </button>
                             <button
-                                className={classNames('progress-step__pause-button', {
-                                    'progress-step__pause-button--paused': isPaused
-                                })}
+                                className={classNames(
+                                    `${styles.pauseButton} wps-wrap-progressStep__pauseButton`,
+                                    {
+                                        [`${styles.pauseButtonPaused} wps-wrap-progressStep__pauseButton--paused`]: isPaused
+                                    }
+                                )}
                                 onClick={handlePause}
                             >
                                 {isPaused ? __("Resume", "wp-statistics") : __("Pause", "wp-statistics")}
@@ -175,4 +178,4 @@ const ProgressStep = ({ handleStep }) => {
     );
 };
 
-export default ProgressStep; 
+export default ProgressStep;

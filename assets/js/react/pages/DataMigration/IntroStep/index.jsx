@@ -3,7 +3,7 @@ import { Card, CardBody, CardFooter, __experimentalHeading as Heading } from "@w
 import { __ } from "@wordpress/i18n";
 import InfoIcon from "../../../../../images/info-icon.svg";
 import MigrationCard from "../../../components/MigrationCard";
-import "../../../../../scss/pages/data-migration/_intro-step.scss";
+import styles from "./styles.module.scss";
 
 const IntroStep = ({ handleStep }) => {
     const [option, setOption] = useState("");
@@ -32,41 +32,41 @@ const IntroStep = ({ handleStep }) => {
     };
 
     return (
-        <Card>
+        <Card className={`${styles.introStep} wps-wrap-introStep`}>
             <CardBody>
-                <Heading className="intro-step__heading">
+                <Heading className={`${styles.heading} wps-wrap-introStep__heading`}>
                     {__("We've updated WP Statistics to use a faster, more efficient database structure!", "wp-statistics")}
                 </Heading>
 
-                <p className="intro-step__text">
-                    {__("By running this migration, you'll safely move all your", "wp-statistics")} <span className="intro-step__text--bold">{__("older stats", "wp-statistics")}</span> {__("into the new system. Any visits recorded", "wp-statistics")} <span className="intro-step__text--bold">{__("after", "wp-statistics")}</span> {__("your update are already being stored in the new format, so you won't lose any current data", "wp-statistics")}
+                <p className={`${styles.text} wps-wrap-introStep__text`}>
+                    {__("By running this migration, you'll safely move all your", "wp-statistics")} <span className={`${styles.bold} wps-wrap-introStep__bold`}>{__("older stats", "wp-statistics")}</span> {__("into the new system. Any visits recorded", "wp-statistics")} <span className={`${styles.bold} wps-wrap-introStep__bold`}>{__("after", "wp-statistics")}</span> {__("your update are already being stored in the new format, so you won't lose any current data", "wp-statistics")}
                 </p>
 
-                <div className="intro-step__info-box">
+                <div className={`${styles.infoBox} wps-wrap-introStep__infoBox`}>
                     <div>
-                        <img src={InfoIcon} className="intro-step__info-icon" alt="info-icon" />
+                        <img src={InfoIcon} className={`${styles.infoIcon} wps-wrap-introStep__infoIcon`} alt="info-icon" />
                     </div>
-                    <div className="intro-step__info-content">
-                        <p className="intro-step__info-text">
+                    <div className={`${styles.infoContent} wps-wrap-introStep__infoContent`}>
+                        <p className={`${styles.infoText} wps-wrap-introStep__infoText`}>
                             {__("We recommend making a complete backup of your WordPress site. This is just in case you ever need to revert changes.", "wp-statistics")}{" "}
-                            <a href="#" className="intro-step__info-link">
+                            <a href="#" className={`${styles.infoLink} wps-wrap-introStep__infoLink`}>
                                 {__("Learn how to back up your site", "wp-statistics")}
                             </a>
                         </p>
-                        <p className="intro-step__info-text">{__("Keep in mind the migration could take time. (anywhere from minutes to a few hours, depending on your site's size and server resources).", "wp-statistics")}</p>
-                        <p className="intro-step__info-text">{__("You can pause, cancel, or restart the migration at any point. Your old data remains untouched until the process fully completes.", "wp-statistics")}</p>
+                        <p className={`${styles.infoText} wps-wrap-introStep__infoText`}>{__("Keep in mind the migration could take time. (anywhere from minutes to a few hours, depending on your site's size and server resources).", "wp-statistics")}</p>
+                        <p className={`${styles.infoText} wps-wrap-introStep__infoText`}>{__("You can pause, cancel, or restart the migration at any point. Your old data remains untouched until the process fully completes.", "wp-statistics")}</p>
                     </div>
                 </div>
 
-                <p className="intro-step__description">
+                <p className={`${styles.description} wps-wrap-introStep__description`}>
                     {__("When you're ready, simply choose your preferred migration option below and click Next. You're in full control, and your data will remain safe every step of the way.", "wp-statistics")}
                 </p>
 
-                <Heading className="intro-step__sub-heading">
+                <Heading className={`${styles.subHeading} wps-wrap-introStep__subHeading`}>
                     {__("Choose Your Preferred Migration", "wp-statistics")}
                 </Heading>
 
-                <div className="intro-step__card-container">
+                <div className={`${styles.cardContainer} wps-wrap-introStep__cardContainer`}>
                     <MigrationCard
                         name={"full-detailed"}
                         option={option}
@@ -82,8 +82,8 @@ const IntroStep = ({ handleStep }) => {
                             setData(option);
                         }}
                     >
-                        <div className="intro-step__card-header">
-                            <p className="intro-step__card-title">{__("Full Detailed Migration", "wp-statistics")}</p>
+                        <div className={`${styles.cardHeader} wps-wrap-introStep__cardHeader`}>
+                            <p className={`${styles.cardTitle} wps-wrap-introStep__cardTitle`}>{__("Full Detailed Migration", "wp-statistics")}</p>
                             <input 
                                 type="radio" 
                                 id="full-detailed" 
@@ -103,10 +103,10 @@ const IntroStep = ({ handleStep }) => {
                                 }}
                             />
                         </div>
-                        <p className="intro-step__card-description">
+                        <p className={`${styles.cardDescription} wps-wrap-introStep__cardDescription`}>
                             {__("Moves all your historical data—visitors, devices, referral sources, search engines, and more—into the new database structure.", "wp-statistics")}
                         </p>
-                        <ul className="intro-step__card-list">
+                        <ul className={`${styles.cardList} wps-wrap-introStep__cardList`}>
                             <li>
                                 <strong>{__("Estimated Time:", "wp-statistics")}</strong> {__("Depending on your site's traffic history and server resources, this process can range from a few minutes to several hours.", "wp-statistics")}
                             </li>
@@ -131,8 +131,8 @@ const IntroStep = ({ handleStep }) => {
                             setData(option);
                         }}
                     >
-                        <div className="intro-step__card-header">
-                            <p className="intro-step__card-title">{__("Summary-Only Migration", "wp-statistics")}</p>
+                        <div className={`${styles.cardHeader} wps-wrap-introStep__cardHeader`}>
+                            <p className={`${styles.cardTitle} wps-wrap-introStep__cardTitle`}>{__("Summary-Only Migration", "wp-statistics")}</p>
                             <input 
                                 type="radio" 
                                 id="summary-only" 
@@ -152,10 +152,10 @@ const IntroStep = ({ handleStep }) => {
                                 }}
                             />
                         </div>
-                        <p className="intro-step__card-description">
+                        <p className={`${styles.cardDescription} wps-wrap-introStep__cardDescription`}>
                             {__("Quickly transfers only the visitor counts and page-view totals for older data. You'll lose detailed information (like devices, referrers, and search engines) for past visitors.", "wp-statistics")}
                         </p>
-                        <ul className="intro-step__card-list">
+                        <ul className={`${styles.cardList} wps-wrap-introStep__cardList`}>
                             <li>
                                 <strong>{__("Estimated Time:", "wp-statistics")}</strong> {__("Typically much faster than a full migration, often just a few minutes.", "wp-statistics")}
                             </li>
@@ -183,8 +183,8 @@ const IntroStep = ({ handleStep }) => {
                             setData(option);
                         }}
                     >
-                        <div className="intro-step__card-header">
-                            <p className="intro-step__card-title">{__("Hybrid Migration", "wp-statistics")}</p>
+                        <div className={`${styles.cardHeader} wps-wrap-introStep__cardHeader`}>
+                            <p className={`${styles.cardTitle} wps-wrap-introStep__cardTitle`}>{__("Hybrid Migration", "wp-statistics")}</p>
                             <input 
                                 type="radio" 
                                 id="hybrid" 
@@ -204,10 +204,10 @@ const IntroStep = ({ handleStep }) => {
                                 }}
                             />
                         </div>
-                        <p className="intro-step__card-description">
+                        <p className={`${styles.cardDescription} wps-wrap-introStep__cardDescription`}>
                             {__("Imports full, detailed stats for your most recent history—by default the last 90 days, while older data is brought in as summary-only.", "wp-statistics")}
                         </p>
-                        <ul className="intro-step__card-list">
+                        <ul className={`${styles.cardList} wps-wrap-introStep__cardList`}>
                             <li>
                                 <strong>{__("Estimated Time:", "wp-statistics")}</strong> {__("Longer than summary-only, but faster than a full detailed migration.", "wp-statistics")}
                             </li>
@@ -215,12 +215,12 @@ const IntroStep = ({ handleStep }) => {
                                 <strong>{__("Who It's For:", "wp-statistics")}</strong> {__("Users who want to retain granular data for a recent timeframe while speeding up the migration for older records.", "wp-statistics")}
                             </li>
                         </ul>
-                        <div className="intro-step__hybrid-input-container">
+                        <div className={`${styles.hybridInputContainer} wps-wrap-introStep__hybridInputContainer`}>
                             <p>{__("Enter the number of days to migrate with full detail:", "wp-statistics")}</p>
                             <input
                                 name="hybrid-value"
                                 value={hybridDays}
-                                className="intro-step__hybrid-input"
+                                className={`${styles.hybridInput} wps-wrap-introStep__hybridInput`}
                                 onChange={(e) => setHybridDays(e.target.value)}
                             />
                         </div>
@@ -228,9 +228,9 @@ const IntroStep = ({ handleStep }) => {
                 </div>
             </CardBody>
 
-            <CardFooter className="intro-step__footer">
+            <CardFooter className={`${styles.footer} wps-wrap-introStep__footer`}>
                 <button
-                    className="intro-step__next-button"
+                    className={`${styles.nextButton} wps-wrap-introStep__nextButton`}
                     onClick={handleNext}
                 >
                     {__("Next Step", "wp-statistics")}

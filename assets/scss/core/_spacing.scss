@@ -1,52 +1,53 @@
-@use 'variables' as *;
+@use 'sass:map';
+@use 'variables' as vars;
 @mixin margin($size: 'base') {
-    margin: map-get($spacing, $size);
+    margin: map.get(vars.$spacing, $size);
 }
 
 @mixin margin-x($size: 'base') {
-    margin-left: map-get($spacing, $size);
-    margin-right: map-get($spacing, $size);
+    margin-left: map.get(vars.$spacing, $size);
+    margin-right: map.get(vars.$spacing, $size);
 }
 
 @mixin margin-y($size: 'base') {
-    margin-top: map-get($spacing, $size);
-    margin-bottom: map-get($spacing, $size);
+    margin-top: map.get(vars.$spacing, $size);
+    margin-bottom: map.get(vars.$spacing, $size);
 }
 
 @mixin margin-top($size: 'base') {
-    margin-top: map-get($spacing, $size);
+    margin-top: map.get(vars.$spacing, $size);
 }
 
 @mixin margin-right($size: 'base') {
-    margin-right: map-get($spacing, $size);
+    margin-right: map.get(vars.$spacing, $size);
 }
 
 @mixin margin-bottom($size: 'base') {
-    margin-bottom: map-get($spacing, $size);
+    margin-bottom: map.get(vars.$spacing, $size);
 }
 
 @mixin margin-left($size: 'base') {
-    margin-left: map-get($spacing, $size);
+    margin-left: map.get(vars.$spacing, $size);
 }
 
 @mixin padding($size: 'base') {
-    padding: map-get($spacing, $size);
+    padding: map.get(vars.$spacing, $size);
 }
 
 @mixin padding-x($size: 'base') {
-    padding-left: map-get($spacing, $size);
-    padding-right: map-get($spacing, $size);
+    padding-left: map.get(vars.$spacing, $size);
+    padding-right: map.get(vars.$spacing, $size);
 }
 
 @mixin padding-y($size: 'base') {
-    padding-top: map-get($spacing, $size);
-    padding-bottom: map-get($spacing, $size);
+    padding-top: map.get(vars.$spacing, $size);
+    padding-bottom: map.get(vars.$spacing, $size);
 }
 
 @mixin gap($size: 'base') {
-    gap: map-get($spacing, $size);
+    gap: map.get(vars.$spacing, $size);
 }
 
 @mixin radius($size: 'base') {
-    border-radius: map-get($border-radius, $size);
+    border-radius: map.get(vars.$border-radius, $size) !important;
 }

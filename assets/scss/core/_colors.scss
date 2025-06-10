@@ -1,8 +1,9 @@
-@use 'variables' as *;
+@use 'sass:map';
+@use 'variables' as vars;
 @function get-color-value($color-path...) {
-    $map: $colors;
+    $map: vars.$colors;
     @each $key in $color-path {
-        $map: map-get($map, $key);
+        $map: map.get($map, $key);
     }
     @return $map;
 }

@@ -1,31 +1,32 @@
-@use 'variables' as *;
+@use 'sass:map';
+@use 'variables' as vars;
 @use 'spacing' as space;
 @use 'colors' as color;
 @mixin text-base {
-    font-size: map-get($font-sizes, 'base');
+    font-size: map.get(vars.$font-sizes, 'base');
     line-height: 1.5;
     @include color.text-color('text.secondary');
 }
 
 @mixin text-lg {
-    font-size: map-get($font-sizes, 'lg');
+    font-size: map.get(vars.$font-sizes, 'lg');
     line-height: 1.5;
     @include color.text-color('text.primary');
 }
 
 @mixin text-bold {
-    font-weight: map-get($font-weights, 'bold');
+    font-weight: map.get(vars.$font-weights, 'bold');
     @include color.text-color('text.primary');
 }
 
 @mixin text-medium {
-    font-weight: map-get($font-weights, 'medium');
+    font-weight: map.get(vars.$font-weights, 'medium');
     @include color.text-color('text.primary');
 }
 
 @mixin heading-large {
-    font-size: map-get($font-sizes, 'xl');
-    font-weight: map-get($font-weights, 'medium');
+    font-size: map.get(vars.$font-sizes, 'xl');
+    font-weight: map.get(vars.$font-weights, 'medium');
     line-height: 1.3;
     @include space.margin-top('base');
     @include space.margin-bottom('lg');
