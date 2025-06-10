@@ -177,7 +177,6 @@ class Purge
     {
         global $wpdb;
         $visitor_table = DB::table('visitor');
-        $visit_table   = DB::table('visit');
 
         // If it's less than 10 hits, don't do anything.
         if ($purge_hits > 9) {
@@ -196,17 +195,6 @@ class Purge
             }
             if (count($to_delete) > 0) {
                 foreach ($to_delete as $item) {
-
-                    // First update the daily hit count.
-                    $wpdb->query(
-                        $wpdb->prepare(
-                            "UPDATE {$visit_table} SET `visit` = `visit` - %d WHERE `last_counter` = %s;",
-                            $item[2],
-                            $item[1]
-                        )
-                    );
-
-                    // Next remove the visitor.  Note we can't do both in a single query, looks like $wpdb doesn't like executing them together.
                     $wpdb->query(
                         $wpdb->prepare("DELETE FROM {$visitor_table} WHERE `id` = %s;", $item[0])
                     );
