@@ -3,7 +3,7 @@
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Option;
 
-$installationTime = Option::get('installation_time');
+$installationTime = get_option('wp_statistics_installation_time');
 
 if (!Option::get('share_anonymous_data') && !in_array('share_anonymous_data', get_option('wp_statistics_dismissed_notices', [])) && (time() > $installationTime + 7 * DAY_IN_SECONDS)) {
     $notice = [

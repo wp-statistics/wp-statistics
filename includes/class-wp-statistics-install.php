@@ -86,8 +86,9 @@ class Install
             update_option('wp_statistics_is_fresh', false);
         }
 
-        if (Option::get('installation_time') === false) {
-            Option::update('installation_time', time());
+        $installationTime = get_option('wp_statistics_installation_time');
+        if (empty($installationTime)) {
+            update_option('wp_statistics_installation_time', time());
         }
     }
 
