@@ -481,7 +481,7 @@ class DateRange
      * @param mixed $date A date string, array, or period name.
      * @return array|bool An array containing 'from' and 'to' date strings. False if the date is invalid.
      */
-    private static function resolveDate($date)
+    public static function resolveDate($date)
     {
         // If date is an array
         if (is_array($date)) {
@@ -490,6 +490,7 @@ class DateRange
             }
 
             if (count($date) == 2) {
+                $date = array_values($date);
                 return ['from' => $date[0], 'to' => $date[1]];
             }
         }

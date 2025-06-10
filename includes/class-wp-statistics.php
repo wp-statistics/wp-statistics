@@ -168,7 +168,6 @@ final class WP_Statistics
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-pages.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-visitor.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-historical.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-visit.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-referred.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-search-engine.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-exclusion.php';

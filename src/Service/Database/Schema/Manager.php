@@ -75,18 +75,6 @@ class Manager
                 'UNIQUE KEY uri (uri)',
             ],
         ],
-        'visit' => [
-            'columns' => [
-                'ID'           => 'bigint(20) NOT NULL AUTO_INCREMENT',
-                'last_visit'   => 'datetime NOT NULL',
-                'last_counter' => 'date NOT NULL',
-                'visit'        => 'int(10) NOT NULL',
-            ],
-            'constraints' => [
-                'PRIMARY KEY (ID)',
-                'UNIQUE KEY unique_date (last_counter)',
-            ],
-        ],
         'visitor' => [
             'columns' => [
                 'ID'             => 'bigint(20) NOT NULL AUTO_INCREMENT',
