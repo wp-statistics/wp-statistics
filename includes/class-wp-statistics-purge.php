@@ -16,16 +16,13 @@ class Purge
         if ($purge_days >= apply_filters('wp_statistics_schedule_db_maint_days', 30)) {
 
             /**
-             * Purge the visit data.
+             * Store visits data.
              */
-            $table_name  = DB::table('visit');
+            $table_name  = DB::table('visitor');
             $date_string = TimeZone::getCurrentDate('Y-m-d', '-' . $purge_days);
 
             // Get sum of visits
-            $result = $wpdb->get_var($wpdb->prepare("SELECT SUM(visit) FROM {$table_name} WHERE `last_counter` < %s", $date_string));
-
-            // Delete visit records from database
-            $wpdb->query($wpdb->prepare("DELETE FROM {$table_name} WHERE `last_counter` < %s", $date_string));
+            $result = $wpdb->get_var($wpdb->prepare("SELECT SUM(hits) FROM {$table_name} WHERE `last_counter` < %s", $date_string));
 
             if ($result) {
                 // Update the historical count with what we purged.
