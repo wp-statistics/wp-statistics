@@ -47,6 +47,9 @@ class SchemaMigration extends AbstractMigrationOperation
         '14.12.6' => [
             'addFirstAndLastPageToVisitors',
         ],
+        // '14.15' => [
+        //     'dropVisitTable',
+        // ],
         // '14.13.5' => [
         //     'dropDuplicateColumnsFromUserOnline'
         // ]
@@ -72,6 +75,17 @@ class SchemaMigration extends AbstractMigrationOperation
                         'last_view'  => 'datetime DEFAULT NULL'
                     ]
                 ])
+                ->execute();
+        } catch (Exception $e) {
+            $this->setErrorStatus($e->getMessage());
+        }
+    }
+
+    public function dropVisitTable()
+    {
+        try {
+            DatabaseFactory::table('drop')
+                ->setName('visit')
                 ->execute();
         } catch (Exception $e) {
             $this->setErrorStatus($e->getMessage());
