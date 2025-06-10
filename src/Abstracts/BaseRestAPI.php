@@ -168,8 +168,10 @@ abstract class BaseRestAPI
      * Subclasses must implement this to provide the actual
      * endpoint behavior.
      *
+     * @param WP_REST_Request $request The incoming REST request.
+     *
      * @return WP_REST_Response
      * @throws Exception
      */
-    abstract public function handle();
+    abstract public function handle(WP_REST_Request $request);
 }

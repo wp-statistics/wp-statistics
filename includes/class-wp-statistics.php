@@ -21,7 +21,6 @@ use WP_Statistics\Service\Admin\Metabox\MetaboxManager;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Notification\NotificationManager;
 use WP_Statistics\Service\Admin\MarketingCampaign\MarketingCampaignManager;
-use WP_Statistics\Service\Admin\ExportImportRest\ExportImportRestManager;
 use WP_Statistics\Service\Admin\Overview\OverviewManager;
 use WP_Statistics\Service\Admin\PageInsights\PageInsightsManager;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
@@ -35,6 +34,7 @@ use WP_Statistics\Service\Database\Managers\MigrationHandler;
 use WP_Statistics\Service\HooksManager;
 use WP_Statistics\Service\CronEventManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
+use WP_Statistics\Service\Admin\ExportImportHandler\ExportImportManager;
 
 defined('ABSPATH') || exit;
 
@@ -185,7 +185,7 @@ final class WP_Statistics
         $anonymizedUsageDataManager = new AnonymizedUsageDataManager();
         $notificationManager        = new NotificationManager();
         $MarketingCampaignManager   = new MarketingCampaignManager();
-        $exportImportRestManager    = new ExportImportRestManager();
+        $exportImportManager        = new ExportImportManager();
 
         // Admin classes
         if (is_admin()) {
@@ -226,8 +226,8 @@ final class WP_Statistics
             new AjaxBackgroundProcessManager();
         }
 
-        $hooksManager       = new HooksManager();
-        $cronEventManager   = new CronEventManager();
+        $hooksManager     = new HooksManager();
+        $cronEventManager = new CronEventManager();
 
         // WordPress ShortCode and Widget
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-shortcode.php';
