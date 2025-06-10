@@ -134,7 +134,7 @@ class TabsView extends BaseTabView
                     'link'      => Menus::admin_url('visitors', ['tab' => 'search-terms']),
                     'title'     => esc_html__('Search Terms', 'wp-statistics'),
                     'class'     => $this->isTab('search-terms') ? 'current' : '',
-                    'tooltip'   => esc_html__('To view this report, you need to have the Data Plus add-on.', 'wp-statistics'),
+                    'tooltip'   => !Helper::isAddOnActive('data-plus') ? esc_html__('To view this report, you need to have the Data Plus add-on.', 'wp-statistics') : esc_html__('Total number of times this term was searched.', 'wp-statistics'),
                     'locked'    => !Helper::isAddOnActive('data-plus')
                 ]
             ]
