@@ -32,14 +32,19 @@ jQuery(document).ready(function () {
         return phpFormat.replace(/([a-zA-Z])/g, (match) => formatMap[match] || match);
     }
     function normalizeDate(date, timezone) {
-         if (timezone && (timezone.startsWith('UTC') || timezone.startsWith('+') || timezone.startsWith('-'))) {
+        if (!date) return null;
+        
+        let normalizedDate;
+        if (timezone && (timezone.startsWith('UTC') || timezone.startsWith('+') || timezone.startsWith('-'))) {
             const offset = timezone.startsWith('UTC') ? timezone.replace('UTC', '') : timezone;
-            return moment(date).utcOffset(offset).startOf('day');
+            normalizedDate = moment(date).utcOffset(offset);
         } else if (moment.tz.zone(timezone)) {
-             return moment(date).tz(timezone).startOf('day');
+            normalizedDate = moment(date).tz(timezone);
         } else {
-             return moment(date).utc().startOf('day');
+            normalizedDate = moment(date).utc();
         }
+        
+        return normalizedDate.clone().startOf('day');
     }
 
     if (datePickerBtn.length && datePickerElement.length && datePickerForm.length) {
@@ -51,6 +56,7 @@ jQuery(document).ready(function () {
         } else if (!moment.tz.zone(validTimezone)) {
             validTimezone = 'UTC'; // Fallback to UTC if the timezone is invalid
         }
+
         function getLocalTime() {
             if (validTimezone) {
                 if (validTimezone.startsWith('UTC') || validTimezone.startsWith('+') || validTimezone.startsWith('-')) {
@@ -60,7 +66,7 @@ jQuery(document).ready(function () {
                     return moment().tz(validTimezone);
                 }
             }
-            return moment().utc();
+            return moment();
         }
 
         const localTime = getLocalTime();
@@ -170,7 +176,9 @@ jQuery(document).ready(function () {
                 minDate: minDate,
                 isInvalidDate: function(date) {
                     if (!minDate) return false;
-                    return date.clone().startOf('day').isBefore(minDate.clone().startOf('day'));
+                    const normalizedDate = normalizeDate(date, validTimezone);
+                    const normalizedMinDate = normalizeDate(minDate, validTimezone);
+                    return normalizedDate.isBefore(normalizedMinDate);
                 }
             });
 
@@ -178,11 +186,16 @@ jQuery(document).ready(function () {
             if (minDate) {
                 const picker = datePickerElement.data('daterangepicker');
                 const rangeList = picker.container.find('.ranges li');
+                const normalizedMinDate = moment(minDate).utcOffset(validTimezone, true).startOf('day');
+                
                 rangeList.each(function() {
                     const rangeText = $(this).text();
                     const range = ranges[rangeText];
-                    if (range && range[0].isBefore(minDate, 'day')) {
-                        $(this).hide();
+                    if (range) {
+                        const rangeStart = moment(range[0]).utcOffset(validTimezone, true).startOf('day');
+                        if (rangeStart.isBefore(normalizedMinDate)) {
+                            $(this).hide();
+                        }
                     }
                 });
             }
@@ -222,8 +235,8 @@ jQuery(document).ready(function () {
             datePickerElement.data('daterangepicker').setEndDate(moment(requestToDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').updateCalendars();
             const activeText = datePickerElement.data('daterangepicker').chosenLabel;
-            const startMoment = moment(requestFromDate);
-            const endMoment = moment(requestToDate);
+            const startMoment = moment(requestFromDate).utcOffset(validTimezone, true);
+            const endMoment = moment(requestToDate).utcOffset(validTimezone, true);
             let activeRangeText;
             if (startMoment.year() === endMoment.year()) {
                 const startDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
@@ -241,8 +254,8 @@ jQuery(document).ready(function () {
             }
             datePickerBtn.find('span').html(activeRangeText);
         } else {
-            const defaultStartMoment = moment(defaultStartDate);
-            const defaultEndMoment = moment(defaultEndDate);
+            const defaultStartMoment = moment(defaultStartDate).utcOffset(validTimezone, true);
+            const defaultEndMoment = moment(defaultEndDate).utcOffset(validTimezone, true);
             datePickerElement.data('daterangepicker').setStartDate(moment(defaultStartDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').setEndDate(moment(defaultEndDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').updateCalendars();
@@ -279,8 +292,10 @@ jQuery(document).ready(function () {
         datePickerElement.on('apply.daterangepicker', function (ev, picker) {
             const inputFrom = datePickerForm.find('.js-date-range-picker-input-from').first();
             const inputTo = datePickerForm.find('.js-date-range-picker-input-to').first();
-            const startDate = picker.startDate.startOf('day').utcOffset(validTimezone, true).format('YYYY-MM-DD');
-            const endDate = picker.endDate.startOf('day').utcOffset(validTimezone, true).format('YYYY-MM-DD');
+            
+            // Get the dates in the target timezone
+            const startDate = picker.startDate.clone().startOf('day').format('YYYY-MM-DD');
+            const endDate = picker.endDate.clone().startOf('day').format('YYYY-MM-DD');
 
             inputFrom.val(startDate);
             inputTo.val(endDate);
@@ -309,7 +324,6 @@ jQuery(document).ready(function () {
             } else {
                 datePickerForm.submit();
             }
-
         });
     }
 
