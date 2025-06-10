@@ -8,6 +8,7 @@ use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Geolocation\Provider\DbIpProvider;
 use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;
+use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
 
 class optimization_page extends Singleton
 {
@@ -26,13 +27,13 @@ class optimization_page extends Singleton
 
         // Add Class inf
         $args['class'] = 'wp-statistics-settings';
-        $args['title'] =  __('Optimization', 'wp-statistics');
+        $args['title'] = __('Optimization', 'wp-statistics');
 
         // Get List Table
         $args['list_table'] = DB::table('all');
         $args['result']     = DB::getTableRows();
 
-        Admin_Template::get_template(array('layout/header',  'optimization', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'optimization', 'layout/footer'), $args);
     }
 
     public function processForms()
@@ -112,6 +113,20 @@ class optimization_page extends Singleton
 
             // Show Notice
             Notice::addFlashNotice(__('Historical Data Successfully Updated.', "wp-statistics"), "success");
+        }
+
+        // Repair Schema Issues
+        if (isset($_POST['repair_schema_action']) && intval($_POST['repair_schema_action']) == 1) {
+            $schemaRepairResult = SchemaMaintainer::repair();
+            $schemaCheckResult  = SchemaMaintainer::check();
+            $databaseStatus     = $schemaCheckResult['status'] ?? null;
+
+            // Show Notice
+            if ($databaseStatus === 'success') {
+                Notice::addFlashNotice(__('Database schema issues have been successfully repaired.', 'wp-statistics'), 'success');
+            } else {
+                Notice::addFlashNotice(__('Failed to repair database schema. Please try again.', 'wp-statistics'), 'error');
+            }
         }
     }
 }

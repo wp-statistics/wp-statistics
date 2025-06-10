@@ -45,6 +45,9 @@ View::load('components/objects/share-anonymous-notice');
                     <div id="historical" class="tab-content">
                         <?php include(WP_STATISTICS_DIR . 'includes/admin/templates/optimization/historical.php'); ?>
                     </div>
+                    <div id="database-schema" class="tab-content">
+                        <?php include(WP_STATISTICS_DIR . 'includes/admin/templates/optimization/database-schema.php'); ?>
+                    </div>
                 </div>
             </div>
         </div>
