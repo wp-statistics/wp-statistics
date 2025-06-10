@@ -11,9 +11,6 @@
     }
   },
   "autoload": {
-    "files": [
-      "functions.php"
-    ],
     "psr-4": {
       "WP_Statistics\\": "src/"
     }

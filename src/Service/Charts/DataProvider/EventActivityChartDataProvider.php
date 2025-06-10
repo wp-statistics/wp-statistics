@@ -71,7 +71,10 @@ class EventActivityChartDataProvider extends AbstractChartDataProvider
 
         $events = wp_list_pluck($data, 'count', 'date');
 
-        $parsedData = [];
+        $parsedData = [
+            'labels' => [],
+            'events' => []
+        ];
         foreach ($dates as $date) {
             $parsedData['labels'][] = [
                 'formatted_date'    => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),

@@ -8,7 +8,6 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
 {
     public static $files = array (
         '04c6c5c2f7095ccf6c481d3e53e1776f' => __DIR__ . '/..' . '/mustangostang/spyc/Spyc.php',
-        '41da55927f7e15e2e05566a733ef4ad4' => __DIR__ . '/../..' . '/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -16,12 +15,54 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         array (
             'WP_Statistics\\' => 14,
         ),
+        'M' => 
+        array (
+            'MaxMind\\WebService\\' => 19,
+            'MaxMind\\Exception\\' => 18,
+            'MaxMind\\Db\\' => 11,
+        ),
+        'G' => 
+        array (
+            'GeoIp2\\' => 7,
+        ),
+        'D' => 
+        array (
+            'DeviceDetector\\' => 15,
+        ),
+        'C' => 
+        array (
+            'Composer\\CaBundle\\' => 18,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'WP_Statistics\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'MaxMind\\WebService\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/WebService',
+        ),
+        'MaxMind\\Exception\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/Exception',
+        ),
+        'MaxMind\\Db\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind-db/reader/src/MaxMind/Db',
+        ),
+        'GeoIp2\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/geoip2/geoip2/src',
+        ),
+        'DeviceDetector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/matomo/device-detector',
+        ),
+        'Composer\\CaBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
         ),
     );
 
