@@ -253,6 +253,9 @@ final class WP_Statistics
 
         // Template functions.
         include WP_STATISTICS_DIR . 'includes/template-functions.php';
+
+        // Include functions
+        require_once WP_STATISTICS_DIR . 'functions.php';
     }
 
     /**
