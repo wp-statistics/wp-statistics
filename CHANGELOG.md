@@ -3,6 +3,10 @@
 - **Enhancement:** Improved migration efficiency and stability by running schema migrations synchronously and removing background processes.
 - **Enhancement:** Improved `Views` report under `Visitor Insight` page.
 - **Fix:** Delay anonymous data opt-in notice to 7 days after plugin activation.
+- **Fix:** Fixed inaccurate tracking of WooCommerce My Account sub-page titles.
+- **Enhancement:** Unset `Consent Integration` option upon integration deactivation.
+- **New:** Add Country Name to Visitor Info Flag Tooltip.
+- **New:** Added unread notification badge to Help Center menu.
 
 = 14.14 - 2025-06-01 =
 - **New:** Added a Help page inside the plugin to guide users.
