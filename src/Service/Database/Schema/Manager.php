@@ -280,6 +280,19 @@ class Manager
                 'KEY date (date)',
             ],
         ],
+        'exclusions' => [
+            'columns' => [
+                'ID'     => 'bigint(20) NOT NULL AUTO_INCREMENT',
+                'date'   => 'date NOT NULL',
+                'reason' => 'varchar(180) DEFAULT NULL',
+                'count'  => 'bigint(20) NOT NULL',
+            ],
+            'constraints' => [
+                'PRIMARY KEY (ID)',
+                'KEY date (date)',
+                'KEY reason (reason)',
+            ],
+        ],
     ];
 
     /**

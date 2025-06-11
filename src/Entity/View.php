@@ -40,7 +40,7 @@ class View extends BaseEntity
             'session_id' => $sessionId
         ]);
 
-        $now = TimeZone::getCurrentDate('Y-m-d H:i:s');
+        $now = TimeZone::getCurrentDateByUTC('Y-m-d H:i:s');
 
         $data = [
             'session_id'   => $sessionId,

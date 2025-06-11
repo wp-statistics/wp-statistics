@@ -7,6 +7,7 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Visitor;
 use WP_Statistics\Components\DateTime;
+use WP_STATISTICS\TimeZone;
 
 class VisitorDecorator
 {
@@ -275,12 +276,12 @@ class VisitorDecorator
     }
 
     /**
-     * Get the timestamp when the visitor was created.
+     * Get the timestamp when the visitor was created, converted to site's timezone.
      *
-     * @return string|null
+     * @return string|null Formatted date in site's timezone or null if not available
      */
     public function getCreatedAt()
     {
-        return empty($this->visitor->created_at) ? null : $this->visitor->created_at;
+        return empty($this->visitor->created_at) ? null : TimeZone::convertUtcToSiteTimezone($this->visitor->created_at);
     }
 }

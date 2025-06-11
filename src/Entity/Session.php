@@ -66,7 +66,7 @@ class Session extends BaseEntity
                 'language_id'               => $this->profile->getLanguageId(),
                 'timezone_id'               => $this->profile->getTimezoneId(),
                 'user_id'                   => $this->profile->getUserId(),
-                'started_at'                => TimeZone::getCurrentDate('Y-m-d H:i:s'),
+                'started_at'                => TimeZone::getCurrentDateByUTC('Y-m-d H:i:s'),
             ]);
         });
 

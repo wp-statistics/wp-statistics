@@ -203,6 +203,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Records\\DeviceBrowserVersionRecord' => __DIR__ . '/../..' . '/src/Records/DeviceBrowserVersionRecord.php',
         'WP_Statistics\\Records\\DeviceOsRecord' => __DIR__ . '/../..' . '/src/Records/DeviceOsRecord.php',
         'WP_Statistics\\Records\\DeviceTypeRecord' => __DIR__ . '/../..' . '/src/Records/DeviceTypeRecord.php',
+        'WP_Statistics\\Records\\ExclusionRecord' => __DIR__ . '/../..' . '/src/Records/ExclusionRecord.php',
         'WP_Statistics\\Records\\LanguageRecord' => __DIR__ . '/../..' . '/src/Records/LanguageRecord.php',
         'WP_Statistics\\Records\\ParameterRecord' => __DIR__ . '/../..' . '/src/Records/ParameterRecord.php',
         'WP_Statistics\\Records\\RecordFactory' => __DIR__ . '/../..' . '/src/Records/RecordFactory.php',

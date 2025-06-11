@@ -184,6 +184,7 @@ return array(
     'WP_Statistics\\Records\\DeviceBrowserVersionRecord' => $baseDir . '/src/Records/DeviceBrowserVersionRecord.php',
     'WP_Statistics\\Records\\DeviceOsRecord' => $baseDir . '/src/Records/DeviceOsRecord.php',
     'WP_Statistics\\Records\\DeviceTypeRecord' => $baseDir . '/src/Records/DeviceTypeRecord.php',
+    'WP_Statistics\\Records\\ExclusionRecord' => $baseDir . '/src/Records/ExclusionRecord.php',
     'WP_Statistics\\Records\\LanguageRecord' => $baseDir . '/src/Records/LanguageRecord.php',
     'WP_Statistics\\Records\\ParameterRecord' => $baseDir . '/src/Records/ParameterRecord.php',
     'WP_Statistics\\Records\\RecordFactory' => $baseDir . '/src/Records/RecordFactory.php',

@@ -4,6 +4,7 @@ namespace WP_Statistics\Decorators;
 
 use WP_STATISTICS\IP;
 use WP_Statistics\Records\RecordFactory;
+use WP_STATISTICS\TimeZone;
 
 /**
  * Decorator for a record from the 'sessions' table.
@@ -89,7 +90,7 @@ class SessionDecorator
      */
     public function getStartedAt()
     {
-        return $this->session->started_at ?? null;
+        return empty($this->session->started_at) ? null : TimeZone::convertUtcToSiteTimezone($this->session->started_at);
     }
 
     /**
@@ -99,7 +100,7 @@ class SessionDecorator
      */
     public function getEndedAt()
     {
-        return $this->session->ended_at ?? null;
+        return empty($this->session->ended_at) ? null : TimeZone::convertUtcToSiteTimezone($this->session->ended_at);
     }
 
     /**

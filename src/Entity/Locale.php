@@ -54,10 +54,10 @@ class Locale extends BaseEntity
     }
 
     /**
-     * Detect and record visitor’s timezone.
+     * Detect and record visitor's timezone.
      *
      * Tries client‐sent IANA timezone first; if missing or invalid, falls back
-     * to the WordPress site setting (timezone_string or gmt_offset).
+     * to UTC+0 as a standard reference point.
      *
      * @return $this
      */
@@ -70,12 +70,12 @@ class Locale extends BaseEntity
         $tzName = Request::get('timezone', '');
 
         if (empty($tzName) || !is_string($tzName)) {
-            $tz = wp_timezone();
+            $tz = new \DateTimeZone('UTC');
         } else {
             try {
                 $tz = new \DateTimeZone(trim($tzName));
             } catch (\Exception $e) {
-                $tz = wp_timezone();
+                $tz = new \DateTimeZone('UTC');
             }
         }
 

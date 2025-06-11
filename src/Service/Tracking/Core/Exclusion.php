@@ -8,6 +8,7 @@ use WP_STATISTICS\Option;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\Utils\Request;
+use WP_Statistics\Records\RecordFactory;
 
 /**
  * Class Exclusion
@@ -149,7 +150,7 @@ class Exclusion
         }
 
         $keys = array_keys(self::$exclusionMap);
-        return (array) apply_filters('wp_statistics_exclusion_list', $keys);
+        return (array)apply_filters('wp_statistics_exclusion_list', $keys);
     }
 
     /**
@@ -159,7 +160,7 @@ class Exclusion
      */
     public static function isRecordActive()
     {
-        return (bool) Option::get('record_exclusions');
+        return (bool)Option::get('record_exclusions');
     }
 
     /**
@@ -209,35 +210,34 @@ class Exclusion
      */
     public static function record($exclusion = [])
     {
-        global $wpdb;
-
         if (!self::isRecordActive()) {
             return;
         }
 
-        $table  = DB::table('exclusions');
         $date   = TimeZone::getCurrentDate('Y-m-d');
         $reason = $exclusion['exclusion_reason'] ?? '';
 
-        $result = $wpdb->query(
-            $wpdb->prepare(
-                "UPDATE `{$table}` SET `count` = `count` + 1 WHERE `date` = %s AND `reason` = %s",
-                $date,
-                $reason
-            )
-        );
+        $record = RecordFactory::exclusion()->get([
+            'date'   => $date,
+            'reason' => $reason
+        ]);
 
-        if (!$result) {
-            $insert = $wpdb->insert(
-                $table,
-                ['date' => $date, 'reason' => $reason, 'count' => 1]
-            );
+        if ($record) {
+            RecordFactory::exclusion($record)->update([
+                'count' => $record->count + 1
+            ]);
 
-            if (!$insert && !empty($wpdb->last_error)) {
-                \WP_Statistics::log($wpdb->last_error);
-            }
+            return;
+        }
 
-            do_action('wp_statistics_save_exclusion', $exclusion, $wpdb->insert_id);
+        $id = RecordFactory::exclusion()->insert([
+            'date'   => $date,
+            'reason' => $reason,
+            'count'  => 1
+        ]);
+
+        if ($id) {
+            do_action('wp_statistics_save_exclusion', $exclusion, $id);
         }
     }
 
@@ -420,8 +420,8 @@ class Exclusion
             return false;
         }
 
-        $referrer       = $visitorProfile->getReferrer();
-        $spamList       = explode("\n", self::$options['referrerspamlist'] ?? '');
+        $referrer = $visitorProfile->getReferrer();
+        $spamList = explode("\n", self::$options['referrerspamlist'] ?? '');
 
         foreach ($spamList as $spamEntry) {
             $spamEntry = trim($spamEntry);
@@ -579,7 +579,7 @@ class Exclusion
             return true;
         }
 
-        if (! $userAgentObject->isBrowserDetected() && ! $userAgentObject->isPlatformDetected()) {
+        if (!$userAgentObject->isBrowserDetected() && !$userAgentObject->isPlatformDetected()) {
             return true;
         }
 
@@ -604,7 +604,7 @@ class Exclusion
         }
 
         if ($includedCountries === null) {
-            $countriesString = strtoupper(str_replace("\r\n", "\n", self::$options['included_countries'] ?? ''));
+            $countriesString   = strtoupper(str_replace("\r\n", "\n", self::$options['included_countries'] ?? ''));
             $includedCountries = $countriesString === '' ? [] : array_flip(array_filter(explode("\n", $countriesString)));
         }
 

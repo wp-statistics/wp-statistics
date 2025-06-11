@@ -204,4 +204,15 @@ class RecordFactory
     {
         return new SummaryTotalRecord($record);
     }
+
+    /**
+     * Create a new ExclusionRecord instance.
+     *
+     * @param object|null $record Optional existing record to wrap.
+     * @return ExclusionRecord
+     */
+    public static function exclusion($record = null)
+    {
+        return new ExclusionRecord($record);
+    }
 }

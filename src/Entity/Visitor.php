@@ -45,7 +45,7 @@ class Visitor extends BaseEntity
                 ? (int)$record->ID
                 : RecordFactory::visitor()->insert([
                     'hash'       => $hash,
-                    'created_at' => TimeZone::getCurrentDate('Y-m-d H:i:s'),
+                    'created_at' => TimeZone::getCurrentDateByUTC('Y-m-d H:i:s'),
                 ]);
         });
 
