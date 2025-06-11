@@ -22,7 +22,9 @@ wps_js.render_line_chart = function (response, key) {
                                 font: {
                                     size: 13
                                 }
-                            }
+                            },
+                            grid: {display: false, drawBorder: false, tickLength: 0, drawTicks: false},
+                            border: {color: 'transparent', width: 0},
                         },
                         y: {
                             position: 'right',
@@ -36,8 +38,11 @@ wps_js.render_line_chart = function (response, key) {
                                 }
                             },
                             ticks: {
+                                maxTicksLimit: 7,
                                 callback: formatNumChart
                             },
+                            grid: {display: false, drawBorder: false, tickLength: 0, drawTicks: false},
+                            border: {display: false, color: 'transparent', width: 0},
                         },
                         y1: {
                             border: {
@@ -46,14 +51,9 @@ wps_js.render_line_chart = function (response, key) {
                             },
                             type: 'linear',
                             position: 'left',
-                            grid: {
-                                display: true,
-                                borderDash: [5, 5],
-                                tickColor: '#EEEFF1',
-                                color: '#EEEFF1'
-                            },
                             ticks: {
-                                maxTicksLimit: 9,
+                                autoSkip: true,
+                                maxTicksLimit: 7,
                                 fontColor: '#898A8E',
                                 fontSize: 13,
                                 padding: 8,
@@ -68,7 +68,8 @@ wps_js.render_line_chart = function (response, key) {
                                 font: {
                                     size: 13
                                 }
-                            }
+                            },
+                            grid: {display: true, borderDash: [5, 5], tickColor: '#EEEFF1', color: '#EEEFF1'},
                         }
                     }
                 }

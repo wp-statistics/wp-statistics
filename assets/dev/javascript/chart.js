@@ -928,26 +928,6 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 grid: {display: true, tickMarkLength: 0, drawBorder: false, tickColor: '#EEEFF1', color: '#EEEFF1'},
                 gridLines: {drawTicks: false},
                 title: {display: false},
-            },
-            y1: { // Add default y1 configuration to ensure it exists
-                min: 0,
-                type: 'linear',
-                position: 'left',
-                border: {color: 'transparent', width: 0},
-                grid: {display: true, borderDash: [5, 5], tickColor: '#EEEFF1', color: '#EEEFF1'},
-                ticks: {
-                    autoSkip: true,
-                    maxTicksLimit: 7,
-                    fontColor: '#898A8E',
-                    fontSize: 13,
-                    fontStyle: 'italic',
-                    fontWeight: 'lighter',
-                    padding: 8,
-                    lineHeight: 15,
-                    callback: renderFormatNum,
-                },
-                afterBuildTicks: wpsBuildTicks,
-                title: {display: false},
             }
         },
     };
