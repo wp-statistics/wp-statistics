@@ -318,7 +318,7 @@ class GeneralNotices
 
         $message = sprintf(
             wp_kses(
-                __('<b>WP Statistics Notice (Database Schema Issue Detected):</b> has found inconsistencies in its database tables. Some reports may be inaccurate until they’re fixed. <a href="%1$s">Run the Database Maintenance tool now</a> to repair the schema.', 'wp-statistics'),
+                __('<b>WP Statistics:</b> Your database needs a quick update. <a href="%1$s">Run the Database Maintenance tool</a> to keep your stats accurate.', 'wp-statistics'),
                 [
                     'b' => [],
                     'a' => [
