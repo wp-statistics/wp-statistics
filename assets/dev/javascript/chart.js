@@ -400,6 +400,11 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
 }
 
 const sortTotal = (datasets) => {
+    // Store original indices before sorting
+    datasets.forEach((dataset, index) => {
+        dataset.originalIndex = index;
+    });
+    
     datasets.sort((a, b) => {
         if (a.slug === 'total') return -1;
         if (b.slug === 'total') return 1;
@@ -677,26 +682,33 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
         }
 
         const datasets = data.data.datasets.map((dataset, idx) => {
-            const datasetType = dataset.type || (type === 'performance' && idx === 2 ? 'bar' : 'line');
+            let color = chartColors[data.data.datasets[idx].slug] || chartColors[`Other${data.data.datasets[idx].originalIndex + 1}`];
+            let tension = chartTensionValues[idx % chartTensionValues.length];
+
+            let datasetType = 'line'; // Default to line
+            if (type === 'performance' && idx === 2) {
+                datasetType = 'bar'; // Set to bar for index 2 in performance charts
+            }
+
             const yAxisID = dataset.label === 'Clicks' || datasetType === 'bar' ? 'y1' : 'y';
             return {
                 ...dataset,
                 type: datasetType, // Set the type explicitly
                 data: aggregatedData.aggregatedData[idx],
-                borderColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
-                backgroundColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
+                borderColor: color,
+                backgroundColor: color,
                 fill: false,
                 yAxisID: yAxisID,
                 borderWidth: datasetType === 'line' ? 2 : undefined,
                 pointRadius: datasetType === 'line' ? dateLabels.length === 1 ? 5 : 0 : undefined,
                 pointBorderColor: datasetType === 'line' ? 'transparent' : undefined,
-                pointBackgroundColor: datasetType === 'line' ? chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`] : undefined,
+                pointBackgroundColor: datasetType === 'line' ? color : undefined,
                 pointBorderWidth: datasetType === 'line' ? 2 : undefined,
                 hoverPointRadius: datasetType === 'line' ? 6 : undefined,
                 hoverPointBorderColor: datasetType === 'line' ? '#fff' : undefined,
-                hoverPointBackgroundColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
+                hoverPointBackgroundColor: color,
                 hoverPointBorderWidth: datasetType === 'line' ? 4 : undefined,
-                tension: datasetType === 'line' ? chartTensionValues[idx % chartTensionValues.length] : undefined,
+                tension: datasetType === 'line' ? tension : undefined,
                 hitRadius: 10,
                 meta: {
                     incompletePeriods: aggregatedData.isIncompletePeriod || []
@@ -718,27 +730,32 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
 
         if (prevAggregatedData) {
             data.previousData.datasets.forEach((dataset, idx) => {
+                const currentDataset = data.data.datasets.find(d => d.label === dataset.label);
+                const slug = currentDataset?.slug || dataset.slug || `Other${idx + 1}`;
+                let color = chartColors[slug] || chartColors[`Other${idx + 1}`];
+                let tension = chartTensionValues[idx % chartTensionValues.length];
+
                 datasets.push({
                     ...dataset,
-                    type: 'line', // Previous datasets are always lines
+                    type: 'line',
                     label: `${dataset.label} (Previous)`,
                     data: prevAggregatedData.aggregatedData[idx],
-                    borderColor: wps_js.hex_to_rgba(chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`], 0.7),
-                    hoverBorderColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
-                    backgroundColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
+                    borderColor: wps_js.hex_to_rgba(color, 0.7),
+                    hoverBorderColor: color,
+                    backgroundColor: color,
                     fill: false,
                     yAxisID: 'y',
                     borderWidth: 1,
                     borderDash: [5, 5],
                     pointRadius: aggregatedData.aggregatedLabels.length === 1 ? 5 : 0,
                     pointBorderColor: 'transparent',
-                    pointBackgroundColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
+                    pointBackgroundColor: color,
                     pointBorderWidth: 2,
                     hoverPointRadius: 6,
                     hoverPointBorderColor: '#fff',
-                    hoverPointBackgroundColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
+                    hoverPointBackgroundColor: color,
                     hoverPointBorderWidth: 4,
-                    tension: chartTensionValues[idx % chartTensionValues.length],
+                    tension: tension,
                     hitRadius: 10
                 });
             });
@@ -792,7 +809,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
     let ctx_line = document.getElementById(tag_id).getContext('2d');
 
     Object.keys(data.data.datasets).forEach((key, index) => {
-        let color = chartColors[data.data.datasets[key].slug] || chartColors[`Other${index + 1}`];
+        let color = chartColors[data.data.datasets[key].slug] || chartColors[`Other${data.data.datasets[key].originalIndex + 1}`];
         let tension = chartTensionValues[index % chartTensionValues.length];
 
         let datasetType = 'line'; // Default to line
@@ -828,7 +845,9 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
 
     if (data?.previousData) {
         Object.keys(data.previousData.datasets).forEach((key, index) => {
-            let color = chartColors[data.previousData.datasets[key].slug] || chartColors[`Other${index}`];
+            const currentDataset = data.data.datasets.find(d => d.label === data.previousData.datasets[key].label);
+            const slug = currentDataset?.slug || data.previousData.datasets[key].slug || `Other${index + 1}`;
+            let color = chartColors[slug] || chartColors[`Other${index + 1}`];
             let tension = chartTensionValues[index % chartTensionValues.length];
 
             datasets.push({
