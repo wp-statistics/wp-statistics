@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\ExportImportHandler;
 
-use PHPMailer\PHPMailer\Exception;
+use Exception;
 use InvalidArgumentException;
 
 /**
@@ -11,9 +11,9 @@ use InvalidArgumentException;
 class ExportImport
 {
     /**
-     * @var object The current driver instance.
+     * @var object|null The current driver instance.
      */
-    protected $driver;
+    protected $driver = null;
 
     /**
      * @var array|null Available drivers.
@@ -45,7 +45,7 @@ class ExportImport
      */
     protected function getDriver(string $driver): ?object
     {
-        $drivers = apply_filters('wp_statistics_exporter_importer_drivers', []);
+        $drivers = apply_filters('wp_statistics_exporter_importer_drivers', $this->drivers);
 
         return $drivers[$driver] ?? null;
     }
