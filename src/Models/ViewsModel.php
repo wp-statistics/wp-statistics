@@ -312,6 +312,7 @@ class ViewsModel extends BaseModel
             'resource_id'   => '',
             'resource_type' => '',
             'date'          => '',
+            'group_by'      => 'id',
             'page'          => 1,
             'per_page'      => 10
         ]);
@@ -345,7 +346,7 @@ class ViewsModel extends BaseModel
                 ->where('type', 'IN', $args['resource_type'])
                 ->whereDate('date', $args['date'])
                 ->perPage($args['page'], $args['per_page'])
-                ->groupBy('id')
+                ->groupBy($args['group_by'])
                 ->getAll();
         }
 
