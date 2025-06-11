@@ -314,6 +314,7 @@ class ViewsModel extends BaseModel
             'date'          => '',
             'group_by'      => 'id',
             'not_null'      => '',
+            'order_by'      => 'views',
             'page'          => 1,
             'per_page'      => 10
         ]);
@@ -347,6 +348,7 @@ class ViewsModel extends BaseModel
                 ->where('type', 'IN', $args['resource_type'])
                 ->whereDate('date', $args['date'])
                 ->whereNotNull($args['not_null'])
+                ->orderBy($args['order_by'])
                 ->perPage($args['page'], $args['per_page'])
                 ->groupBy($args['group_by'])
                 ->getAll();
