@@ -1,6 +1,8 @@
 <?php
 
-namespace WP_Statistics\Interfaces;
+namespace WP_Statistics\Service\Admin\ExportImportHandler\Interfaces;
+
+use WP_REST_Request;
 
 /**
  * Interface ImportDriveInterface
@@ -18,7 +20,9 @@ interface ImportDriveInterface
      * This method should contain the logic to import data into the system,
      * whether from a file, API, or other external source.
      *
+     * @param WP_REST_Request $request
+     *
      * @return array
      */
-    public function import();
+    public function import(WP_REST_Request $request);
 }

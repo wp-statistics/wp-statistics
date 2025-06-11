@@ -1,6 +1,8 @@
 <?php
 
-namespace WP_Statistics\Interfaces;
+namespace WP_Statistics\Service\Admin\ExportImportHandler\Interfaces;
+
+use WP_REST_Request;
 
 /**
  * Interface ExportDriveInterface
@@ -18,7 +20,9 @@ interface ExportDriveInterface
      * This method should contain the logic to export data from the system,
      * returning the result as a JSON-decoded associative array.
      *
+     * @param WP_REST_Request $request
+     *
      * @return array
      */
-    public function export();
+    public function export(WP_REST_Request $request);
 }

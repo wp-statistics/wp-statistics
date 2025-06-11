@@ -196,6 +196,8 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Admin\\ExportImportHandler\\ExportImportManager' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImportHandler/ExportImportManager.php',
         'WP_Statistics\\Service\\Admin\\ExportImportHandler\\ExportRestController' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImportHandler/ExportRestController.php',
         'WP_Statistics\\Service\\Admin\\ExportImportHandler\\ImportRestController' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImportHandler/ImportRestController.php',
+        'WP_Statistics\\Service\\Admin\\ExportImportHandler\\Interfaces\\ExportDriveInterface' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImportHandler/Interfaces/ExportDriveInterface.php',
+        'WP_Statistics\\Service\\Admin\\ExportImportHandler\\Interfaces\\ImportDriveInterface' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImportHandler/Interfaces/ImportDriveInterface.php',
         'WP_Statistics\\Service\\Admin\\FilterHandler\\FilterGenerator' => __DIR__ . '/../..' . '/src/Service/Admin/FilterHandler/FilterGenerator.php',
         'WP_Statistics\\Service\\Admin\\FilterHandler\\FilterManager' => __DIR__ . '/../..' . '/src/Service/Admin/FilterHandler/FilterManager.php',
         'WP_Statistics\\Service\\Admin\\Geographic\\GeographicDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/Geographic/GeographicDataProvider.php',

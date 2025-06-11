@@ -177,6 +177,8 @@ return array(
     'WP_Statistics\\Service\\Admin\\ExportImportHandler\\ExportImportManager' => $baseDir . '/src/Service/Admin/ExportImportHandler/ExportImportManager.php',
     'WP_Statistics\\Service\\Admin\\ExportImportHandler\\ExportRestController' => $baseDir . '/src/Service/Admin/ExportImportHandler/ExportRestController.php',
     'WP_Statistics\\Service\\Admin\\ExportImportHandler\\ImportRestController' => $baseDir . '/src/Service/Admin/ExportImportHandler/ImportRestController.php',
+    'WP_Statistics\\Service\\Admin\\ExportImportHandler\\Interfaces\\ExportDriveInterface' => $baseDir . '/src/Service/Admin/ExportImportHandler/Interfaces/ExportDriveInterface.php',
+    'WP_Statistics\\Service\\Admin\\ExportImportHandler\\Interfaces\\ImportDriveInterface' => $baseDir . '/src/Service/Admin/ExportImportHandler/Interfaces/ImportDriveInterface.php',
     'WP_Statistics\\Service\\Admin\\FilterHandler\\FilterGenerator' => $baseDir . '/src/Service/Admin/FilterHandler/FilterGenerator.php',
     'WP_Statistics\\Service\\Admin\\FilterHandler\\FilterManager' => $baseDir . '/src/Service/Admin/FilterHandler/FilterManager.php',
     'WP_Statistics\\Service\\Admin\\Geographic\\GeographicDataProvider' => $baseDir . '/src/Service/Admin/Geographic/GeographicDataProvider.php',

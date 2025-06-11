@@ -68,7 +68,7 @@ class ImportRestController extends BaseRestAPI
         try {
             $driver       = sanitize_text_field($request->get_param('driver'));
             $exportImport = new ExportImport($driver);
-            $result       = $exportImport->import();
+            $result       = $exportImport->import($request);
 
             return new WP_REST_Response($result);
         } catch (\Exception $e) {

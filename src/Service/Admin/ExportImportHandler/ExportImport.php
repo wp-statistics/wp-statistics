@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\ExportImportHandler;
 
 use Exception;
 use InvalidArgumentException;
+use WP_REST_Request;
 
 /**
  * Handles export and import operations using different drivers.
@@ -47,16 +48,35 @@ class ExportImport
     {
         $drivers = apply_filters('wp_statistics_exporter_importer_drivers', $this->drivers);
 
-        return $drivers[$driver] ?? null;
+        if (!isset($drivers[$driver])) {
+            return null;
+        }
+
+        $class = $drivers[$driver];
+
+
+        if (!class_exists($class)) {
+            return null;
+        }
+
+        static $instances = [];
+
+        if (!isset($instances[$driver])) {
+            $instances[$driver] = new $class();
+        }
+
+        return $instances[$driver];
     }
 
     /**
      * Perform import using the current driver.
      *
+     * @param WP_REST_Request $request
+     *
      * @return mixed
      * @throws Exception If the driver doesn't support import.
      */
-    public function import()
+    public function import(WP_REST_Request $request)
     {
         if (!method_exists($this->driver, 'import')) {
             throw new Exception(
@@ -64,16 +84,18 @@ class ExportImport
             );
         }
 
-        return $this->driver->import();
+        return $this->driver->import($request);
     }
 
     /**
      * Perform export using the current driver.
      *
+     * @param WP_REST_Request $request
+     *
      * @return mixed
      * @throws Exception If the driver doesn't support export.
      */
-    public function export()
+    public function export(WP_REST_Request $request)
     {
         if (!method_exists($this->driver, 'export')) {
             throw new Exception(
@@ -81,6 +103,6 @@ class ExportImport
             );
         }
 
-        return $this->driver->export();
+        return $this->driver->export($request);
     }
 }
