@@ -115,34 +115,41 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
                     </th>
                     <td>
                         <?php if ($databaseStatus === 'success'): ?>
-                            <label>✅ <?php esc_html_e('Database schema is healthy.', 'wp-statistics'); ?></label>
+                            <div class="wps-alert wps-alert__success">
+                                <?php esc_html_e('Database schema is healthy.', 'wp-statistics'); ?>
+                            </div>
                         <?php else: ?>
                             <input type="hidden" id="repair-schema-submit" name="repair_schema_action" value="1"/>
-                            <button id="repair-schema-submit-button" class="wps-button wps-button--danger-outline js-openModal-setting-confirmation wps-mt-0" type="button" name="database-schema-issues-submit">⚠️ <?php esc_html_e('Repair Schema Issues', 'wp-statistics'); ?></button>
+                            <button id="repair-schema-submit-button" class="wps-button wps-button--danger-outline js-openModal-setting-confirmation wps-mt-0" type="button" name="database-schema-issues-submit"><?php esc_html_e('Repair Schema Issues', 'wp-statistics'); ?></button>
                             <p class="description"><?php esc_html_e('Checks the integrity of the WP Statistics database tables and automatically applies any required fixes to keep your analytics accurate.', 'wp-statistics'); ?></p>
-                            <label><?php esc_html_e('Detected Schema Issues', 'wp-statistics'); ?></label>
-                            <p class="description"><?php _e('We’ve found the following inconsistencies. Click <b>Repair Schema Issues</b> to fix them automatically.', 'wp-statistics'); ?></p>
-                            <ul>
-                                <?php
-                                if (!empty($schemaCheckResult['issues']) && is_array($schemaCheckResult['issues'])) {
-                                    foreach ($schemaCheckResult['issues'] as $issue) {
-                                        if ($issue['type'] === 'missing_column') {
-                                            $message = "<b>{$issue['table']}.{$issue['column']}</b> — " . __('Missing column');
-                                            echo '<li>' . $message . '</li>';
+                            <div class="wps-alert wps-alert__danger">
+                                <div class="wps-g-0">
+                                    <b><?php esc_html_e('Detected Schema Issues', 'wp-statistics'); ?></b>
+                                    <p class="description"><?php _e('We’ve found the following inconsistencies. Click <b>Repair Schema Issues</b> to fix them automatically.', 'wp-statistics'); ?></p>
+                                    <ul class="wps-alert-list">
+                                        <?php
+                                        if (!empty($schemaCheckResult['issues']) && is_array($schemaCheckResult['issues'])) {
+                                            foreach ($schemaCheckResult['issues'] as $issue) {
+                                                if ($issue['type'] === 'missing_column') {
+                                                    $message = "<b>{$issue['table']}.{$issue['column']}</b> — " . __('Missing column', 'wp-statistics');
+                                                    echo '<li>' . $message . '</li>';
+                                                }
+                                            }
                                         }
-                                    }
-                                }
 
-                                if (!empty($schemaCheckResult['errors']) && is_array($schemaCheckResult['errors'])) {
-                                    foreach ($schemaCheckResult['errors'] as $issue) {
-                                        if ($issue['type'] === 'table_missing') {
-                                            $message = "<b>{$issue['table']}</b> — " . __('Missing table');
-                                            echo '<li>' . $message . '</li>';
+                                        if (!empty($schemaCheckResult['errors']) && is_array($schemaCheckResult['errors'])) {
+                                            foreach ($schemaCheckResult['errors'] as $issue) {
+                                                if ($issue['type'] === 'table_missing') {
+                                                    $message = "<b>{$issue['table']}</b> — " . __('Missing table', 'wp-statistics');
+                                                    echo '<li>' . $message . '</li>';
+                                                }
+                                            }
                                         }
-                                    }
-                                }
-                                ?>
-                            </ul>
+                                        ?>
+                                    </ul>
+                                </div>
+                            </div>
+
                         <?php endif; ?>
                     </td>
                 </tr>
