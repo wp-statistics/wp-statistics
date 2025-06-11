@@ -22,7 +22,7 @@ class ExportImportManager
      *
      * @return ExportRestController
      */
-    public function createExportRestController(): ExportRestController
+    public function createExportRestController()
     {
         return new ExportRestController();
     }
@@ -34,7 +34,7 @@ class ExportImportManager
      *
      * @return ImportRestController
      */
-    public function createImportRestController(): ImportRestController
+    public function createImportRestController()
     {
         return new ImportRestController();
     }

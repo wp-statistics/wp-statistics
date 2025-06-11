@@ -24,7 +24,7 @@ class ImportRestController extends BaseRestAPI
      *
      * @return array
      */
-    protected function getArgs(): array
+    protected function getArgs()
     {
         return [
             'driver' => [

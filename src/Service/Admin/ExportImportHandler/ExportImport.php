@@ -16,9 +16,9 @@ class ExportImport
     protected $driver = null;
 
     /**
-     * @var array|null Available drivers.
+     * @var array Available drivers.
      */
-    protected $drivers = null;
+    protected $drivers = [];
 
     /**
      * Constructor.
@@ -43,7 +43,7 @@ class ExportImport
      * @param string $driver The driver key.
      * @return object|null The driver instance or null if not found.
      */
-    protected function getDriver(string $driver): ?object
+    protected function getDriver(string $driver)
     {
         $drivers = apply_filters('wp_statistics_exporter_importer_drivers', $this->drivers);
 
