@@ -15,34 +15,8 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
     <div class="wps-premium-step__header">
         <span class="wps-premium-step__skip js-wps-premiumModalClose"></span>
         <span><?php esc_html_e('WP Statistics Premium', 'wp-statistics'); ?></span>
-        <div class="js-wps-premium-first-step__head">
-            <?php if ($isPremium) : ?>
-                <p><?php esc_html_e('You\'re All Set with WP Statistics Premium', 'wp-statistics'); ?></p>
-            <?php elseif ($hasLicense && !$isPremium) : ?>
-                <p><?php esc_html_e('You\'re Already Enjoying Some Premium Add-ons!', 'wp-statistics'); ?></p>
-            <?php else : ?>
-                <p><?php esc_html_e('Unlock WP Statistics Premium', 'wp-statistics'); ?></p>
-            <?php endif; ?>
-        </div>
-        <div class="js-wps-premium-steps__head">
-            <?php foreach (PluginHelper::$plugins as $slug => $title) :
-                $isActive       = $pluginHandler->isPluginActive($slug);
-                $isInstalled    = $pluginHandler->isPluginInstalled($slug);
-                $hasLicense     = LicenseHelper::isPluginLicenseValid($slug);
-                ?>
-                <?php if (!$installedPlugins && !$hasLicense) : ?>
-                    <p class="js-wps-premium-steps__title"><?php esc_html_e('Go Premium. See more. Do more.', 'wp-statistics'); ?></p>
-                <?php elseif ($hasLicense && !$isPremium) : ?>
-                    <p class="js-wps-premium-steps__title"><?php esc_html_e('You\'re Already Enjoying Some Premium Add-ons!', 'wp-statistics'); ?></p>
-                <?php elseif ($isPremium) : ?>
-                    <p class="js-wps-premium-steps__title"><?php esc_html_e('You\'re All Set with WP Statistics Premium', 'wp-statistics'); ?></p>
-                <?php else : ?>
-                    <p class="js-wps-premium-steps__title"><?php esc_html_e('Go Premium. See more. Do more.', 'wp-statistics'); ?></p>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        </div>
+        <div class="wps-premium-step__title js-wps-dynamic-title" id="dynamic-title"></div>
     </div>
-    <div class="wps-premium-step__title js-wps-dynamic-title"></div>
     <div class="wps-premium-step__body">
         <div class="wps-premium-step__content">
             <?php

@@ -9,6 +9,8 @@ const premiumFeatures = document.querySelectorAll('.js-wps-premiumStepFeature');
 const upgradeButtonBox = document.querySelectorAll('.wps-premium-step__action-container');
 const premiumStepsTitle = document.querySelectorAll('.js-wps-premium-steps__title');
 const firstStepHeader = document.querySelectorAll('.js-wps-premium-first-step__head');
+const dynamicTitle = document.querySelector('.js-wps-dynamic-title');
+
 
 let autoSlideInterval;
 let currentStepIndex = 1;
@@ -100,20 +102,27 @@ const loadModalImages=()=>{
 
 // Function to show a specific step and sync the sidebar
 const showStep = (index) => {
-     setTimeout(() => {
+    if (!premiumSteps || index < 0 || index >= premiumSteps.length) {
+         return;
+    }
+
+    setTimeout(() => {
         setMaxHeightForAllSteps();
     }, 100);
 
-    if (index < 0 || index >= premiumSteps.length) return;
-
-    const dynamicTitle = document.querySelector('.js-wps-dynamic-title');
     const activeStep = premiumSteps[index];
-    const stepTitle = activeStep.querySelector('.js-wps-premium-step__title');
-    if (dynamicTitle && stepTitle) {
-        dynamicTitle.textContent = stepTitle.textContent;
-    }
 
     premiumSteps.forEach(step => step.classList.remove('wps-modal__premium-step--active'));
+
+
+    if(activeStep && activeStep !=='undefined'){
+        const stepTitle = activeStep.querySelector('.js-wps-premium-step__title');
+        if (dynamicTitle && stepTitle) {
+            dynamicTitle.textContent = stepTitle.textContent.trim();
+        }
+        activeStep.classList.add('wps-modal__premium-step--active');
+    }
+
     if (upgradeButtonBox && upgradeButtonBox.length > 0) {
         upgradeButtonBox.forEach(btn => {
             if (btn) {

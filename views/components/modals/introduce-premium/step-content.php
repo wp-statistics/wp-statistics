@@ -17,7 +17,9 @@ if ( $step_name !== 'first-step'){
                 <?php echo esc_html($step_title); ?>
             </div>
         </div>
-        <?php echo $description; ?>
+        <span class="wps-modal__premium-step__desc">
+            <?php echo $description; ?>
+        </span>
     </div>
     <?php if ( $step_name !== 'first-step') : ?>
         <img class="wps-premium-step__image v-image-lazy" width="509" height="291" data-src="<?php echo WP_STATISTICS_URL . 'assets/images/premium-modal/' . esc_attr($step_name) . '.png'; ?>" alt="<?php echo esc_attr($step_name); ?>">
