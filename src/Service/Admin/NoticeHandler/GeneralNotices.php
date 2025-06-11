@@ -327,7 +327,7 @@ class GeneralNotices
                     ],
                 ]
             ),
-            esc_url(admin_url('admin.php?page=wps_optimization_page&tab=database-schema'))
+            esc_url(admin_url('admin.php?page=wps_optimization_page&tab=updates#wps_database_schema_form'))
         );
 
         Notice::addNotice($message, 'database_schema_issue_detected', 'warning');

@@ -39,8 +39,4 @@
         </svg>
         <span><?php esc_html_e('Historical Data', 'wp-statistics'); ?></span>
     </a>
-
-    <a data-tab="database-schema" class="wps-optionsMenuItem">
-        <span><?php esc_html_e('Database Schema', 'wp-statistics'); ?></span>
-    </a>
 </div>
