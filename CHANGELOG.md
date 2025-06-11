@@ -1,3 +1,6 @@
+= 14.15 - 2025-x-x =
+- **New:** Added a new `Search Terms` report under `Visitor Insight` page.
+
 = 14.14 - 2025-x-x =
 - **Fix:** Resolve Zero Page View Issue for Non-'Category' Taxonomies.
 - **Enhancement:** Improved migration efficiency and stability by running schema migrations synchronously and removing background processes.
