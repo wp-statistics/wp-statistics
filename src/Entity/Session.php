@@ -4,6 +4,7 @@ namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
 use WP_Statistics\Models\SessionModel;
+use WP_STATISTICS\Option;
 use WP_Statistics\Records\RecordFactory;
 use WP_STATISTICS\TimeZone;
 
@@ -40,12 +41,17 @@ class Session extends BaseEntity
                 $newViews = ((int)$existing->total_views) + 1;
                 $userId   = empty($existing->user_id) ? $this->profile->getUserId() : $existing->user_id;
 
-                RecordFactory::session($existing)->update(
-                    [
-                        'total_views' => $newViews,
-                        'user_id'     => $userId,
-                    ],
-                );
+                $newData = [];
+                if (Option::get('attribution_model') === 'last-touch') {
+                    $newData['referrer_id'] = $this->profile->getReferrerId();
+                }
+
+                $newData = [
+                    'total_views' => $newViews,
+                    'user_id'     => $userId,
+                ];
+
+                RecordFactory::session($existing)->update($newData);
                 return (int)$existing->ID;
             }
 

@@ -3,6 +3,8 @@
 namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
+use WP_STATISTICS\Helper;
+use WP_STATISTICS\Option;
 use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Utils\Request;
 
@@ -21,7 +23,7 @@ class Device extends BaseEntity
      */
     public function recordType()
     {
-        if (! $this->isActive('device_types')) {
+        if (!$this->isActive('device_types')) {
             return $this;
         }
 
@@ -51,7 +53,7 @@ class Device extends BaseEntity
      */
     public function recordOs()
     {
-        if (! $this->isActive('device_oss')) {
+        if (!$this->isActive('device_oss')) {
             return $this;
         }
 
@@ -81,7 +83,11 @@ class Device extends BaseEntity
      */
     public function recordBrowser()
     {
-        if (! $this->isActive('device_browsers')) {
+        if (!$this->isActive('device_browsers')) {
+            return $this;
+        }
+
+        if (!(Option::get('store_ua') == true && !Helper::shouldTrackAnonymously())) {
             return $this;
         }
 
@@ -111,7 +117,11 @@ class Device extends BaseEntity
      */
     public function recordBrowserVersion()
     {
-        if (! $this->isActive('device_browser_versions')) {
+        if (!$this->isActive('device_browser_versions')) {
+            return $this;
+        }
+
+        if (!(Option::get('store_ua') == true && !Helper::shouldTrackAnonymously())) {
             return $this;
         }
 
@@ -159,12 +169,12 @@ class Device extends BaseEntity
      */
     public function recordResolution()
     {
-        if (! $this->isActive('device_resolutions')) {
+        if (!$this->isActive('device_resolutions')) {
             return $this;
         }
 
-        $width  = (int) Request::get('screenWidth', 0);
-        $height = (int) Request::get('screenHeight', 0);
+        $width  = (int)Request::get('screenWidth', 0);
+        $height = (int)Request::get('screenHeight', 0);
 
         $cacheKey = 'resolution_' . $width . 'x' . $height;
 

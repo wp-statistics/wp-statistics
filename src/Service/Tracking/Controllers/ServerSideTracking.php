@@ -4,10 +4,8 @@ namespace WP_STATISTICS\Service\Tracking\Controllers;
 
 use WP_Statistics\Abstracts\BaseTrackerController;
 use WP_STATISTICS\Option;
-use WP_Statistics\Service\Tracking\TrackingFactory;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Integrations\WpConsentApi;
-use WP_STATISTICS\UserOnline;
 use WP_STATISTICS\Hits;
 use WP_Statistics\Traits\ErrorLoggerTrait;
 

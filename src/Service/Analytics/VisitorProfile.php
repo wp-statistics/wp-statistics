@@ -590,6 +590,16 @@ class VisitorProfile
     }
 
     /**
+     * Get the visitor's region code from the location data.
+     *
+     * @return string The region code.
+     */
+    public function getRegionCode()
+    {
+        return $this->getLocation('region_code');
+    }
+
+    /**
      * Get the visitor's continent from the location data.
      *
      * @return string The continent.

@@ -32,6 +32,7 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
             'country_code' => null,
             'continent'    => null,
             'region'       => null,
+            'region_code'  => null,
             'city'         => null,
             'latitude'     => null,
             'longitude'    => null,

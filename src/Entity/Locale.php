@@ -31,7 +31,7 @@ class Locale extends BaseEntity
             return $this;
         }
 
-        $region = $this->profile->getRegion();
+        $region = $this->profile->getRegionCode();
 
         $cacheKey = 'language_' . md5("{$language}-{$region}");
 
