@@ -120,7 +120,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
 <?php endif; ?>
 
 <?php
-if ($isMarketingActive) {
-    submit_button(__('Save Settings', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='marketing-settings'"));
+if ($isMarketingActive & $isAuthenticated) {
+    submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='marketing-settings'"));
 }
 ?>
