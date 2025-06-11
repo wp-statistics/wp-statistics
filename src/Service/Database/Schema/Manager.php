@@ -35,9 +35,9 @@ class Manager
         'resources'               => [
             'columns'     => [
                 'ID'                 => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
-                'resource_type'      => 'varchar(50)',
+                'resource_type'      => 'varchar(64) NOT NULL',
                 'resource_id'        => 'bigint(20) UNSIGNED NOT NULL',
-                'resource_url'       => 'VARCHAR(255)',
+                'resource_url'       => 'VARCHAR(255) NOT NULL',
                 'cached_title'       => 'text',
                 'cached_terms'       => 'text',
                 'cached_author_id'   => 'bigint(20) UNSIGNED DEFAULT NULL',
@@ -57,7 +57,7 @@ class Manager
                 'ID'           => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
                 'session_id'   => 'bigint(20) UNSIGNED NOT NULL',
                 'resource_id'  => 'bigint(20) UNSIGNED NOT NULL',
-                'viewed_at'    => 'datetime',
+                'viewed_at'    => 'datetime NOT NULL',
                 'next_view_id' => 'bigint(20) UNSIGNED DEFAULT NULL',
                 'duration'     => 'bigint(11) UNSIGNED DEFAULT NULL',
             ],
@@ -119,7 +119,7 @@ class Manager
         'device_browsers'         => [
             'columns'     => [
                 'ID'   => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
-                'name' => 'varchar(64)',
+                'name' => 'varchar(64) NOT NULL UNIQUE',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
@@ -129,7 +129,7 @@ class Manager
         'device_oss'              => [
             'columns'     => [
                 'ID'   => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
-                'name' => 'varchar(64)',
+                'name' => 'varchar(64) NOT NULL UNIQUE',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
@@ -197,7 +197,7 @@ class Manager
             'columns'     => [
                 'ID'                        => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
                 'visitor_id'                => 'bigint(20) UNSIGNED DEFAULT NULL',
-                'ip'                        => 'varchar(60) DEFAULT NULL',
+                'ip'                        => 'varchar(128) DEFAULT NULL',
                 'referrer_id'               => 'bigint(20) UNSIGNED DEFAULT NULL',
                 'country_id'                => 'bigint(20) UNSIGNED DEFAULT NULL',
                 'city_id'                   => 'bigint(20) UNSIGNED DEFAULT NULL',
@@ -218,6 +218,7 @@ class Manager
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
+                'KEY ip (ip)',
                 'KEY visitor_id (visitor_id)',
                 'KEY country_id (country_id)',
                 'KEY referrer_id (referrer_id)',
@@ -237,8 +238,8 @@ class Manager
             'columns'     => [
                 'ID'           => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
                 'created_by'   => 'bigint(20) UNSIGNED DEFAULT NULL',
-                'title'        => 'varchar(128)',
-                'description'  => 'varchar(256)',
+                'title'        => 'varchar(128) NOT NULL',
+                'description'  => 'varchar(255)',
                 'filters'      => 'text',
                 'widgets'      => 'text',
                 'access_level' => 'varchar(128)',
