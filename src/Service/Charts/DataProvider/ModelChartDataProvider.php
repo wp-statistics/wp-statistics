@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Charts\DataProvider;
 
+use WP_Statistics\Decorators\VisitorDecorator;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\BarChartResponseTrait;
@@ -44,7 +45,11 @@ class ModelChartDataProvider extends AbstractChartDataProvider
 
         if (!empty($data)) {
             foreach ($data as $item) {
-                $model = $item->getDevice()->getModel();
+                if ($item instanceof VisitorDecorator) {
+                    $model = $item->getDevice()->getModel();
+                } else {
+                    continue;
+                }
 
                 if (!empty($model) && $model !== 'Unknown') {
                     $models = array_column($parsedData, 'label');
