@@ -148,94 +148,90 @@ if ($isCustomizationActive && !$isLicenseValid) {
     </div>
 
     <div class="postbox">
-        <form id="wps-export-form" class="wps-export">
-            <table class="form-table wps-export__table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">
-                <tbody>
-                <tr class="wps-settings-box_head">
-                    <th scope="row" colspan="2">
-                        <h3><?php esc_html_e('Import & Export', 'wp-statistics'); ?></h3>
-                    </th>
-                </tr>
+        <table id="wps-export-form" class="wps-export form-table wps-export__table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">
+            <tbody>
+            <tr class="wps-settings-box_head">
+                <th scope="row" colspan="2">
+                    <h3><?php esc_html_e('Import & Export', 'wp-statistics'); ?></h3>
+                </th>
+            </tr>
 
-                <tr>
-                    <th scope="row">
-                        <label for=""><?php esc_html_e('Export Settings', 'wp-statistics'); ?></label>
-                    </th>
+            <tr>
+                <th scope="row">
+                    <label for=""><?php esc_html_e('Export Settings', 'wp-statistics'); ?></label>
+                </th>
 
-                    <td>
-                        <?php foreach (PluginHelper::$plugins as $plugin => $title):
-                            $isPluginActive = $pluginHandler->isPluginActive($plugin); ?>
-                            <p class="wps-export__item <?php echo !$isPluginActive ? esc_attr('wps-export__item--disabled') : ''; ?>">
-                                <input
-                                    id="wps-addon-<?php echo esc_attr($plugin); ?>"
-                                    name="addons[]"
-                                    class="wps-export__checkbox"
-                                    type="checkbox"
-                                    value="<?php echo esc_attr($plugin); ?>"
-                                    <?php echo $isPluginActive ? 'checked' : 'disabled'; ?>
-                                >
-                                <label for="wps-addon-<?php echo esc_attr($plugin); ?>" class="wps-export__label">
-                                    <?php echo esc_html($title); ?>
-                                </label>
-                            </p>
-                        <?php endforeach; ?>
-
-                        <p class="description"><?php esc_html_e('Choose any WP Statistics add‑ons whose settings you want in the file (e.g. Data Plus, Advanced Reporting, Real‑Time Stats). Core plugin settings are always included.', 'wp-statistics'); ?></p>
-                        <br>
-                        <button type="button" class="wps-button wps-button--default" id="wps-btn-export-settings">
-                            <?php esc_html_e('Download export file', 'wp-statistics'); ?>
-                        </button>
-                        <p class="description">
-                            <?php _e('The file is saved in JSON format and contains both core settings and the add‑ons you tick above. <a href="#" target="_blank">See the full export guide</a>.', 'wp-statistics'); ?>
+                <td>
+                    <?php foreach (PluginHelper::$plugins as $plugin => $title):
+                        $isPluginActive = $pluginHandler->isPluginActive($plugin); ?>
+                        <p class="wps-export__item <?php echo !$isPluginActive ? esc_attr('wps-export__item--disabled') : ''; ?>">
+                            <input
+                                id="wps-addon-<?php echo esc_attr($plugin); ?>"
+                                name="addons[]"
+                                class="wps-export__checkbox"
+                                type="checkbox"
+                                value="<?php echo esc_attr($plugin); ?>"
+                                <?php echo $isPluginActive ? 'checked' : 'disabled'; ?>
+                            >
+                            <label for="wps-addon-<?php echo esc_attr($plugin); ?>" class="wps-export__label">
+                                <?php echo esc_html($title); ?>
+                            </label>
                         </p>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </form>
+                    <?php endforeach; ?>
 
-        <form id="wps-import-form" class="wps-import" enctype="multipart/form-data">
-            <table class="form-table wps-import__table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">
-                <tbody>
-                <tr id="wps-import-form-row">
-                    <th scope="row">
-                        <label for="wps-input-import-file"><?php esc_html_e('Import Settings', 'wp-statistics'); ?></label>
-                    </th>
+                    <p class="description"><?php esc_html_e('Choose any WP Statistics add‑ons whose settings you want in the file (e.g. Data Plus, Advanced Reporting, Real‑Time Stats). Core plugin settings are always included.', 'wp-statistics'); ?></p>
+                    <br>
+                    <button type="button" class="wps-button wps-button--default" id="wps-btn-export-settings">
+                        <?php esc_html_e('Download export file', 'wp-statistics'); ?>
+                    </button>
+                    <p class="description">
+                        <?php _e('The file is saved in JSON format and contains both core settings and the add‑ons you tick above. <a href="#" target="_blank">See the full export guide</a>.', 'wp-statistics'); ?>
+                    </p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
-                    <td>
-                        <input
-                            type="file"
-                            accept=".json"
-                            id="wps-input-import-file"
-                            name="import_file"
-                            class="wps-import__file"
-                        >
-                        <p class="description"><?php esc_html_e('Select a JSON file exported from WP Statistics.', 'wp-statistics'); ?></p>
-                        <br>
+        <table id="wps-import-form" class="wps-import form-table wps-import__table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">
+            <tbody>
+            <tr id="wps-import-form-row">
+                <th scope="row">
+                    <label for="wps-input-import-file"><?php esc_html_e('Import Settings', 'wp-statistics'); ?></label>
+                </th>
 
-                        <input
-                            id="wps-input-import-images"
-                            type="checkbox"
-                            name="import_images"
-                            value="1"
-                            class="wps-import__checkbox"
-                        >
-                        <label for="wps-input-import-images"><?php esc_html_e('Download and import image files', 'wp-statistics'); ?></label>
-                        <p class="description"><?php esc_html_e('When selected, image files will be downloaded and imported for use.', 'wp-statistics'); ?></p>
-                        <br>
+                <td>
+                    <input
+                        type="file"
+                        accept=".json"
+                        id="wps-input-import-file"
+                        name="import_file"
+                        class="wps-import__file"
+                    >
+                    <p class="description"><?php esc_html_e('Select a JSON file exported from WP Statistics.', 'wp-statistics'); ?></p>
+                    <br>
 
-                        <button type="button" class="wps-button wps-button--default" id="wps-btn-import-settings">
-                            <?php esc_html_e('Start import', 'wp-statistics'); ?>
-                        </button>
+                    <input
+                        id="wps-input-import-images"
+                        type="checkbox"
+                        name="import_images"
+                        value="1"
+                        class="wps-import__checkbox"
+                    >
+                    <label for="wps-input-import-images"><?php esc_html_e('Download and import image files', 'wp-statistics'); ?></label>
+                    <p class="description"><?php esc_html_e('When selected, image files will be downloaded and imported for use.', 'wp-statistics'); ?></p>
+                    <br>
 
-                        <p class="description">
-                            <?php _e('Need a safety net? Use <b>Download export file</b> above to back up your current settings first. You can always restore defaults later under <b>Settings › Advanced Options › Reset Options</b>. <a href="#" target="_blank">Learn how the import works</a>.', 'wp-statistics'); ?>
-                        </p>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </form>
+                    <button type="button" class="wps-button wps-button--default" id="wps-btn-import-settings">
+                        <?php esc_html_e('Start import', 'wp-statistics'); ?>
+                    </button>
+
+                    <p class="description">
+                        <?php _e('Need a safety net? Use <b>Download export file</b> above to back up your current settings first. You can always restore defaults later under <b>Settings › Advanced Options › Reset Options</b>. <a href="#" target="_blank">Learn how the import works</a>.', 'wp-statistics'); ?>
+                    </p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
     <div class="postbox">
