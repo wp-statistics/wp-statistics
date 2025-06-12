@@ -305,10 +305,6 @@ class GeneralNotices
      */
     private function checkDbSchemaIssue()
     {
-        if (Notice::isNoticeDismissed('database_schema_issue_detected')) {
-            return;
-        }
-
         $schemaCheckResult = SchemaMaintainer::check();
         $databaseStatus    = $schemaCheckResult['status'] ?? null;
 
