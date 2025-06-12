@@ -373,7 +373,7 @@
           }
 
           .form-table--preview {
-            tr:not(:first-child, .upgrade-notice) {
+            tr:not(:first-child, .upgrade-notice) , tr#wps-import-form-row {
               position: relative;
 
               &::after {

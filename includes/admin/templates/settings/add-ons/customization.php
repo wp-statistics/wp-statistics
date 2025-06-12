@@ -149,9 +149,9 @@ if ($isCustomizationActive && !$isLicenseValid) {
 
     <div class="postbox">
         <form id="wps-export-form" class="wps-export">
-            <table class="form-table wps-export__table <?php echo !$isCustomizationActive ? 'wps-export__table--preview' : '' ?>">
+            <table class="form-table wps-export__table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">
                 <tbody>
-                <tr class="wps-settings-box__head">
+                <tr class="wps-settings-box_head">
                     <th scope="row" colspan="2">
                         <h3><?php esc_html_e('Import & Export', 'wp-statistics'); ?></h3>
                     </th>
@@ -195,9 +195,9 @@ if ($isCustomizationActive && !$isLicenseValid) {
         </form>
 
         <form id="wps-import-form" class="wps-import" enctype="multipart/form-data">
-            <table class="form-table wps-import__table">
+            <table class="form-table wps-import__table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">
                 <tbody>
-                <tr>
+                <tr id="wps-import-form-row">
                     <th scope="row">
                         <label for="wps-input-import-file"><?php esc_html_e('Import Settings', 'wp-statistics'); ?></label>
                     </th>
