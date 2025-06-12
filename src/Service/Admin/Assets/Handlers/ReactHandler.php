@@ -71,8 +71,6 @@ class ReactHandler extends BaseAdminAssets
      */
     protected function getLocalizedData($hook)
     {
-        $list = parent::getLocalizedData($hook);
-
         $list = [];
 
         return apply_filters('wp_statistics_react_localized_data', $list);

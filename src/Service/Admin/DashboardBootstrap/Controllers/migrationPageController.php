@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers;
 
 use WP_Statistics\Abstracts\BaseDashboardController;
 use WP_Statistics\Option;
+use WP_Statistics\Utils\Request;
 
 /**
  * Controller for handling data migration page.
@@ -28,6 +29,25 @@ class MigrationPageController extends BaseDashboardController
      */
     public function getActions()
     {
+        return [
+            'start_migration',
+        ];
+    }
+
+    /**
+     * Start a new migration.
+     *
+     * @return array Empty array indicating success
+     * @throws \Exception If invalid data is provided
+     * @since 15.0.0
+     */
+    public function start_migration() {
+        $type = Request::get('type');
+
+        if (empty($type)) {
+            throw new \Exception("Invalid Data");
+        }
+
         return [];
     }
 }

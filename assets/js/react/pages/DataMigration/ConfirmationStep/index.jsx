@@ -12,10 +12,13 @@ import {
 import SelectedRadio from "../../../../../images/selected-radio.png";
 import ConfirmationInfo from "../../../components/ConfirmationInfo";
 import styles from "./styles.module.scss";
+import { ajaxPost } from "../../../utils/ajax";
 
 const ConfirmationStep = ({handleStep}) => {
     const [data, setData] = useState(null);
     const [isValid, setIsValid] = useState(true);
+    const [error, setError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const storage = localStorage.getItem("wps_migration_option");
 
     useEffect(() => {
@@ -44,6 +47,21 @@ const ConfirmationStep = ({handleStep}) => {
     if (!data) {
         return null;
     }
+
+    const  handleMigration = async() => {
+        try {
+            const result = await ajaxPost(
+                'migration_start_migration', 
+                {
+                    'type': data.type
+                },
+                setIsLoading
+            );
+        } catch (err) {
+            setError(true);
+            console.error(err)
+        }
+    };
 
     return (
             <Card className={`${styles.confirmationStep} wps-wrap-confirmationStep`}>
@@ -152,10 +170,12 @@ const ConfirmationStep = ({handleStep}) => {
                         <Button
                                 variant="primary"
                                 className={`${styles.startButton} wps-wrap-confirmationStep__startButton`}
-                                onClick={() => handleStep("step3")}
-                                disabled={!isValid}
+                                onClick={handleMigration}
+                                disabled={!isValid || error || isLoading}
                         >
-                            {__("Start Migration", "wp-statistics")}
+                            {isLoading
+                                ? __("Starting…", "wp-statistics")
+                                : (error ? __("There is an error", "wp-statistics") : __("Start Migration", "wp-statistics"))}
                         </Button>
                     </div>
                 </CardFooter>

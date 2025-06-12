@@ -204,13 +204,6 @@ class Admin_Assets
         // Get Current Screen ID
         $screen_id = Helper::get_screen_id();
 
-        if ($screen_id === 'admin_page_wps_data-migration_page') {
-
-            wp_enqueue_script(self::$react_dashboard_prefix, self::url('migration.js', true), [], self::version(), ['in_footer' => true]);
-            wp_localize_script(self::$react_dashboard_prefix, 'wps_global', self::wps_global($hook));
-            return;
-        }
-
         // Load Chart.js library
         if (apply_filters('wp_statistics_enqueue_chartjs', false)) {
             Assets::script('chart.js', 'js/chartjs/chart.umd.min.js', [], [], true, false, null, '4.4.4');
