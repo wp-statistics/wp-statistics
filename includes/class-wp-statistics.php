@@ -12,6 +12,8 @@ use WP_Statistics\Service\Admin\AnonymizedUsageData\AnonymizedUsageDataManager;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsManager;
 use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsManager;
 use WP_Statistics\Service\Admin\ContentAnalytics\ContentAnalyticsManager;
+use WP_Statistics\Service\Admin\DashboardBootstrap\DashboardManager;
+use WP_Statistics\Service\Admin\DataMigration\DataMigrationManager;
 use WP_Statistics\Service\Admin\Devices\DevicesManager;
 use WP_Statistics\Service\Admin\Exclusions\ExclusionsManager;
 use WP_Statistics\Service\Admin\FilterHandler\FilterManager;
@@ -183,7 +185,7 @@ final class WP_Statistics
 
         // Admin classes
         if (is_admin()) {
-
+            new DashboardManager();
             $adminManager     = new \WP_Statistics\Service\Admin\AdminManager();
             $contentAnalytics = new ContentAnalyticsManager();
 
@@ -217,6 +219,7 @@ final class WP_Statistics
             $exclusionsManager   = new ExclusionsManager();
             new FilterManager();
             new AjaxBackgroundProcessManager();
+            new DataMigrationManager();
         }
 
         $hooksManager = new HooksManager();

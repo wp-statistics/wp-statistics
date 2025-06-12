@@ -1,0 +1,130 @@
+
+
+@use '../../../../../scss/core/typography' as type;
+@use '../../../../../scss/core/spacing' as space;
+@use '../../../../../scss/core/colors' as color;
+@use '../../../../../scss/core/components' as comp;
+@use '../../../../../scss/core/interactive' as interact;
+@use '../../../../../scss/core/layout' as layout;
+
+/* root */
+.progressStep {
+  /* reserved for root-level styles if needed */
+}
+
+/* heading */
+.heading {
+  @include type.heading-large;
+}
+
+/* progress */
+.progressContainer {
+  @include space.margin-y('xl');
+}
+
+.operationText {
+  @include type.text-base;
+  @include space.margin-bottom('sm');
+}
+
+.progressBar {
+  width: 100%;
+  height: 8px;
+  background-color: #E6E8F0;
+  @include space.radius('base');
+  @include space.margin-bottom('sm');
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  @include color.bg-color('primary');
+  @include space.radius('base');
+  transition: width 0.5s ease-in-out;
+}
+
+.progressText {
+  @include type.text-base;
+  @include type.text-medium;
+  @include color.text-color('primary');
+  text-align: right;
+}
+
+/* info box */
+.infoBox {
+  @include comp.info-box;
+  @include space.margin-x('xl');
+}
+
+.infoBoxError {
+  @include comp.error-box;
+}
+
+.infoContent {
+  @include layout.flex;
+  @include layout.justify-center;
+  @include space.gap('sm');
+  @include type.text-base;
+}
+
+.infoIcon {
+  width: 20px;
+  height: 20px;
+  @include space.margin-top('xs');
+}
+
+/* success message */
+.successMessage {
+  text-align: center;
+  @include type.text-base;
+  @include space.margin-y('lg');
+  @include space.margin-x('xl');
+
+  p {
+    @include space.margin-y('sm');
+  }
+}
+
+/* buttons */
+.buttonContainer {
+  @include layout.flex-between-center;
+  @include space.gap('sm');
+  width: 100%;
+}
+
+.cancelButton {
+  background: transparent;
+  border: 1px solid;
+  @include color.border-color('border');
+  @include type.text-base;
+  @include space.radius('base');
+  @include space.padding-x('lg');
+  @include space.padding-y('base');
+  @include interact.clickable;
+
+  &:hover {
+    background-color: #F5F5F5;
+  }
+}
+
+.pauseButton {
+  @include interact.button-primary;
+  @include type.text-base;
+}
+
+.pauseButtonPaused {
+  background-color: #FF9500;
+}
+
+.completeButton {
+  @include interact.button-primary;
+  @include space.padding-x('xl');
+  @include space.padding-y('base');
+  @include type.text-base;
+  width: 100%;
+}
+
+/* footer */
+.footer {
+  @include color.bg-color('background');
+}

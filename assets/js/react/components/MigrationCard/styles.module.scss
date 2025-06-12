@@ -1,0 +1,42 @@
+@use '../../../../scss/core/components' as comp;
+@use '../../../../scss/core/interactive' as interact;
+@use '../../../../scss/core/typography' as type;
+@use '../../../../scss/core/spacing' as space;
+@use '../../../../scss/core/colors' as color;
+@use '../../../../scss/core/layout' as layout;
+
+/* Root card */
+.migrationCard {
+  @include comp.card-container;
+  @include interact.clickable;
+}
+
+/* state: selected */
+.migrationCardSelected {
+  @include color.border-color('primary');
+}
+
+/* inner structure */
+.body {
+  padding: 0;
+}
+
+.header {
+  @include layout.flex-between-center;
+  width: 100%;
+}
+
+.title {
+  @include type.text-base;
+  @include type.text-bold;
+  @include space.margin-bottom('sm');
+}
+
+.radioImage {
+  width: 17px;
+  height: 17px;
+}
+
+.description {
+  @include type.text-base;
+}

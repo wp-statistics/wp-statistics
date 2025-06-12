@@ -1,208 +1,89 @@
 <?php
 
-namespace WP_STATISTICS;
+namespace WP_Statistics\Service\Admin\Assets\Handlers;
 
-use WP_Statistics\Utils\Request;
-use WP_Statistics\Components\Assets;
-use WP_Statistics\Components\DateRange;
-use WP_Statistics\Components\DateTime;
-use WP_Statistics\Service\Admin\Metabox\MetaboxHelper;
+use WP_Statistics\Abstracts\BaseAdminAssets;
+use WP_STATISTICS\Option;
+use WP_STATISTICS\Helper;
+use WP_STATISTICS\Menus;
+use WP_STATISTICS\Components\Assets;
+use WP_STATISTICS\Components\DateRange;
+use WP_STATISTICS\Components\DateTime;
+use WP_STATISTICS\Service\Admin\Metabox\MetaboxHelper;
+use WP_STATISTICS\Utils\Request;
 
-class Admin_Assets
+/**
+ * Legacy Admin Assets Service
+ *
+ * Handles WordPress admin legacy assets (CSS/JS) in WP Statistics plugin.
+ * Manages loading and enqueuing of styles and scripts for the admin interface.
+ *
+ * @package WP_STATISTICS\Service\Admin\Assets
+ * @since   15.0.0
+ */
+class LegacyHandler extends BaseAdminAssets
 {
     /**
-     * Prefix Of Load Css/Js in WordPress Admin
+     * Initialize the assets manager
      *
-     * @var string
-     */
-    public static $prefix = 'wp-statistics-admin';
-
-    /**
-     * Script/style handle prefix for the React-based admin dashboard.
-     *
-     * Used when registering or enqueueing scripts/styles related to the React dashboard app.
-     *
-     * @var string
-     */
-    public static $react_dashboard_prefix = 'wp-statistics-react-dashboard';
-
-    /**
-     * Suffix Of Minify File in Assets
-     *
-     * @var string
-     */
-    public static $suffix_min = '.min';
-
-    /**
-     * Assets Folder name in Plugin
-     *
-     * @var string
-     */
-    public static $asset_dir = 'assets';
-
-    /**
-     * React App Build Folder name in Plugin
-     *
-     * @var string
-     */
-    public static $react_app_dir = 'assets/dist/react';
-
-    /**
-     * Basic Of Plugin Url in WordPress
-     *
-     * @var string
-     * @example http://site.com/wp-content/plugins/my-plugin/
-     */
-    public static $plugin_url = WP_STATISTICS_URL;
-
-    /**
-     * Current Asset Version for this plugin
-     *
-     * @var string
-     */
-    public static $asset_version = WP_STATISTICS_VERSION;
-
-    /**
-     * Admin_Assets constructor.
+     * @return void
+     * @since 15.0.0
      */
     public function __construct()
     {
-        add_action('admin_enqueue_scripts', array($this, 'admin_styles'), 999);
-        add_action('admin_enqueue_scripts', array($this, 'admin_scripts'), 999);
+        $this->setContext('legacy');
+        add_action('admin_enqueue_scripts', [$this, 'adminStyles'], 999);
+        add_action('admin_enqueue_scripts', [$this, 'adminScripts'], 999);
         add_filter('wp_statistics_enqueue_chartjs', [$this, 'shouldEnqueueChartJs']);
     }
 
-
     /**
-     * Get Version of File
+     * Register and enqueue admin styles
      *
-     * @param $ver
-     * @return bool
+     * @return void
+     * @since 15.0.0
      */
-    public static function version($ver = false)
+    public function adminStyles()
     {
-        if ($ver) {
-            return $ver;
-        } else {
-            if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
-                return time();
-            } else {
-                return self::$asset_version;
-            }
-        }
-    }
-
-    /**
-     * Localize jquery datepicker
-     *
-     * @see https://gist.github.com/mehrshaddarzi/7f661baeb5d801961deb8b821157e820
-     */
-    public static function localize_jquery_datepicker()
-    {
-        global $wp_locale;
-
-        return array(
-            'closeText'       => __('Action Completed', 'wp-statistics'),
-            'currentText'     => __('Today', 'wp-statistics'),
-            'monthNames'      => Helper::strip_array_indices($wp_locale->month),
-            'monthNamesShort' => Helper::strip_array_indices($wp_locale->month_abbrev),
-            'monthStatus'     => __('Display Other Month', 'wp-statistics'),
-            'dayNames'        => Helper::strip_array_indices($wp_locale->weekday),
-            'dayNamesShort'   => Helper::strip_array_indices($wp_locale->weekday_abbrev),
-            'dayNamesMin'     => Helper::strip_array_indices($wp_locale->weekday_initial),
-            'dateFormat'      => 'yy-mm-dd', // Format time for Jquery UI
-            'firstDay'        => get_option('start_of_week'),
-            'isRTL'           => $wp_locale->is_rtl(),
-        );
-    }
-
-    /**
-     * Enqueue dashboard page styles.
-     */
-
-    public function dashboard_styles()
-    {
-        // Load Dashboard Css
-        wp_enqueue_style(self::$prefix . '-dashboard', self::url('dashboard.min.css'), array(), self::version());
-    }
-
-    /**
-     * Get Asset Url
-     *
-     * @param $file_name
-     * @return string
-     */
-    public static function url($file_name, $isReact = false)
-    {
-        // Get file Extension Type
-        $ext = pathinfo($file_name, PATHINFO_EXTENSION);
-        if ($ext != "js" and $ext != "css") {
-            $ext = 'images';
-        }
-
-        if ($isReact) {
-            return self::$plugin_url . self::$react_app_dir . '/' . $file_name;
-        }
-
-        // Prepare File Path
-        $path = self::$asset_dir . '/' . $ext . '/';
-
-        // Prepare Full Url
-        $url = self::$plugin_url . $path;
-
-        // Return Url
-        return $url . $file_name;
-    }
-
-    /**
-     * Enqueue styles.
-     */
-    public function admin_styles()
-    {
-
         // Get Current Screen ID
-        $screen_id = Helper::get_screen_id();
+        $screenId = Helper::get_screen_id();
 
         // Load Admin Css
-        wp_enqueue_style(self::$prefix, self::url('admin.min.css'), array(), self::version());
+        wp_enqueue_style($this->getAssetHandle(), $this->getUrl('admin.min.css'), [], $this->getVersion());
 
         // Load Rtl Version Css
         if (is_rtl()) {
-            wp_enqueue_style(self::$prefix . '-rtl', self::url('rtl.min.css'), array(), self::version());
+            wp_enqueue_style($this->getAssetHandle('rtl'), $this->getUrl('rtl.min.css'), [], $this->getVersion());
         }
 
         //Load Jquery VMap Css
-        if (Menus::in_page('overview') || Menus::in_page('pages') || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard'))) {
-            wp_enqueue_style(self::$prefix . '-jqvmap', self::url('jqvmap/jqvmap.min.css'), array(), '1.5.1');
+        if (Menus::in_page('overview') || Menus::in_page('pages') || (in_array($screenId, ['dashboard']) && !Option::get('disable_dashboard'))) {
+            wp_enqueue_style($this->getAssetHandle('jqvmap'), $this->getUrl('jqvmap/jqvmap.min.css'), [], '1.5.1');
         }
-
-        // Load Jquery-ui theme
-        //        if (Menus::in_plugin_page() and Menus::in_page('optimization') === false and Menus::in_page('settings') === false) {
-        //            wp_enqueue_style(self::$prefix . '-jquery-datepicker', self::url('datepicker.min.css'), array(), '1.11.4');
-        //        }
 
         // Load Select2
         if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages')) {
-            wp_enqueue_style(self::$prefix . '-select2', self::url('select2/select2.min.css'), array(), '4.0.9');
+            wp_enqueue_style($this->getAssetHandle('select2'), $this->getUrl('select2/select2.min.css'), [], '4.0.9');
         }
 
         // Load RangeDatePicker
-        if (Menus::in_plugin_page() || Menus::in_page('pages') || in_array($screen_id, array('dashboard'))) {
-            wp_enqueue_style(self::$prefix . '-daterangepicker', self::url('datepicker/daterangepicker.css'), array(), '1.0.0');
-            wp_enqueue_style(self::$prefix . '-customize', self::url('datepicker/customize.css'), array(), '1.0.0');
+        if (Menus::in_plugin_page() || Menus::in_page('pages') || in_array($screenId, ['dashboard'])) {
+            wp_enqueue_style($this->getAssetHandle('daterangepicker'), $this->getUrl('datepicker/daterangepicker.css'), [], '1.0.0');
+            wp_enqueue_style($this->getAssetHandle('customize'), $this->getUrl('datepicker/customize.css'), [], '1.0.0');
         }
     }
 
     /**
-     * Enqueue scripts.
+     * Register and enqueue admin scripts
      *
-     * @param $hook [ Page Now ]
+     * @param string $hook Current admin page hook
+     * @return void
+     * @since 15.0.0
      */
-    public function admin_scripts($hook)
+    public function adminScripts($hook)
     {
-
         // Get Current Screen ID
-        $screen_id = Helper::get_screen_id();
+        $screenId = Helper::get_screen_id();
 
         // Load Chart.js library
         if (apply_filters('wp_statistics_enqueue_chartjs', false)) {
@@ -215,29 +96,22 @@ class Admin_Assets
         }
 
         if (Menus::in_page('author-analytics')) {
-            wp_enqueue_script(self::$prefix . '-chart-matrix.js', self::url('chartjs/chart-matrix.min.js'), [], '2.0.8', true);
+            wp_enqueue_script($this->getAssetHandle('chart-matrix'), $this->getUrl('chartjs/chart-matrix.min.js'), [], '2.0.8', true);
         }
 
         // Load Jquery VMap Js Library
-        if (Menus::in_page('overview') || Menus::in_page('pages') || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard'))) {
-            wp_enqueue_script(self::$prefix . '-jqvmap', self::url('jqvmap/jquery.vmap.min.js'), array('jquery'), "1.5.1", ['in_footer' => true]);
-            wp_enqueue_script(self::$prefix . '-jqvmap-world', self::url('jqvmap/jquery.vmap.world.min.js'), array('jquery'), "1.5.1", ['in_footer' => true]);
+        if (Menus::in_page('overview') || Menus::in_page('pages') || (in_array($screenId, ['dashboard']) && !Option::get('disable_dashboard'))) {
+            wp_enqueue_script($this->getAssetHandle('jqvmap'), $this->getUrl('jqvmap/jquery.vmap.min.js'), ['jquery'], "1.5.1", true);
+            wp_enqueue_script($this->getAssetHandle('jqvmap-world'), $this->getUrl('jqvmap/jquery.vmap.world.min.js'), ['jquery'], "1.5.1", true);
         }
-
-
-        // Load Jquery UI
-        //        if (Menus::in_plugin_page() and Menus::in_page('optimization') === false and Menus::in_page('settings') === false) {
-        //            wp_enqueue_script('jquery-ui-datepicker');
-        //            wp_localize_script('jquery-ui-datepicker', 'wps_i18n_jquery_datepicker', self::localize_jquery_datepicker());
-        //        }
 
         // Load Select2
         if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages')) {
-            wp_enqueue_script(self::$prefix . '-select2', self::url('select2/select2.full.min.js'), array('jquery'), "4.1.0", ['in_footer' => true]);
+            wp_enqueue_script($this->getAssetHandle('select2'), $this->getUrl('select2/select2.full.min.js'), ['jquery'], "4.1.0", true);
         }
 
         // Load WordPress PostBox Script
-        if (Menus::in_plugin_page() and Menus::in_page('optimization') === false and Menus::in_page('settings') === false) {
+        if (Menus::in_plugin_page() && Menus::in_page('optimization') === false && Menus::in_page('settings') === false) {
             wp_enqueue_script('common');
             wp_enqueue_script('wp-lists');
             wp_enqueue_script('postbox');
@@ -250,17 +124,17 @@ class Admin_Assets
 
         // Load Admin Js
         if (
-            Menus::in_plugin_page() || (in_array($screen_id, ['dashboard']) && !Option::get('disable_dashboard')) ||
+            Menus::in_plugin_page() || (in_array($screenId, ['dashboard']) && !Option::get('disable_dashboard')) ||
             (in_array($hook, ['post.php', 'edit.php']) && !Option::get('disable_editor')) ||
             (in_array($hook, ['post.php', 'edit.php']) && Helper::isAddOnActive('data-plus') && Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1')
         ) {
-            wp_enqueue_script(self::$prefix, self::url('admin.min.js'), array('jquery'), self::version(), ['in_footer' => true]);
-            wp_localize_script(self::$prefix, 'wps_global', self::wps_global($hook));
+            wp_enqueue_script($this->getAssetHandle(), $this->getUrl('admin.min.js'), ['jquery'], $this->getVersion(), true);
+            wp_localize_script($this->getAssetHandle(), 'wps_global', $this->getLocalizedData($hook));
         }
 
         // Load TinyMCE for Widget Page
-        if (in_array($screen_id, array('widgets'))) {
-            wp_enqueue_script(self::$prefix . '-button-widget', self::url('tinymce.min.js'), array('jquery'), "3.2.5", ['in_footer' => true]);
+        if (in_array($screenId, ['widgets'])) {
+            wp_enqueue_script($this->getAssetHandle('button-widget'), $this->getUrl('tinymce.min.js'), ['jquery'], "3.2.5", true);
         }
 
         // Add Thick box
@@ -270,29 +144,29 @@ class Admin_Assets
         }
 
         // Add RangeDatePicker
-        if (Menus::in_plugin_page() || Menus::in_page('pages') || in_array($screen_id, array('dashboard'))) {
-            wp_enqueue_script(self::$prefix . '-moment', self::url('datepicker/moment.min.js'), array(), "2.30.2", ['in_footer' => true]);
-            wp_enqueue_script(self::$prefix . '-daterangepicker', self::url('datepicker/daterangepicker.min.js'), array(), "1.13.2", ['in_footer' => true]);
+        if (Menus::in_plugin_page() || Menus::in_page('pages') || in_array($screenId, ['dashboard'])) {
+            wp_enqueue_script($this->getAssetHandle('moment'), $this->getUrl('datepicker/moment.min.js'), [], "2.30.2", true);
+            wp_enqueue_script($this->getAssetHandle('daterangepicker'), $this->getUrl('datepicker/daterangepicker.min.js'), [], "1.13.2", true);
         }
 
         if (Menus::in_page('pages')) {
-            wp_enqueue_script(self::$prefix . '-datepicker', self::url('datepicker/datepicker.js'), array(), self::version(), ['in_footer' => true]);
+            wp_enqueue_script($this->getAssetHandle('datepicker'), $this->getUrl('datepicker/datepicker.js'), [], $this->getVersion(), true);
         }
     }
 
     /**
-     * Prepare global WP Statistics data for use Admin Js
+     * Get localized data for JavaScript
      *
-     * @param $hook
-     * @return mixed
+     * @param string $hook Current admin page hook
+     * @return array Localized data for JavaScript
+     * @since 15.0.0
      */
-    public static function wps_global($hook)
+    protected function getLocalizedData($hook)
     {
-        global $post;
+        $list = parent::getLocalizedData($hook);
 
         //Global Option
-        $list['options'] = array(
-            'rtl'            => (is_rtl() ? 1 : 0),
+        $list['options'] = array_merge($list['options'], [
             'user_online'    => (Option::get('useronline') ? 1 : 0),
             'visitors'       => 1,
             'visits'         => 1,
@@ -303,36 +177,39 @@ class Admin_Assets
             'more_btn'       => (apply_filters('wp_statistics_meta_box_more_button', true) ? 1 : 0),
             'wp_date_format' => Helper::getDefaultDateFormat(),
             'track_users'    => Option::get('visitors_log') ? 1 : 0,
-            'wp_timezone'    => DateTime::getTimezone()->getName()
-        );
+            'wp_timezone'    => (new DateTime())->getTimezone()->getName()
+        ]);
 
+        //Global i18n
+        $list['i18n'] = $this->getI18nStrings();
 
-        // WordPress Current Page
-        $list['page'] = array(
-            'file' => $hook,
-            'ID'   => (isset($post) ? $post->ID : 0)
-        );
+        $list['active_post_type']  = Helper::getPostTypeName(Request::get('pt', 'post'));
+        $list['user_date_range']   = DateRange::get();
+        $list['initial_post_date'] = Helper::getInitialPostDate();
 
-        // WordPress Admin Page request Params
-        if (isset($_GET)) {
-            foreach ($_GET as $key => $value) {
-                if ($key == "page") {
-                    $slug  = Menus::getPageKeyFromSlug(esc_html($value));
-                    $value = $slug[0];
-                }
-                if (!is_array($value)) {
-                    $list['request_params'][esc_html($key)] = esc_html($value);
-                } else {
-                    // Ensure each value in the array is escaped properly
-                    $value = array_map('esc_html', $value);
-                    // Assign the entire escaped array to the request_params array
-                    $list['request_params'][esc_html($key)] = $value;
-                }
-            }
+        if (Request::has('post_id')) {
+            $list['post_creation_date'] = get_the_date(DateTime::$defaultDateFormat, Request::get('post_id'));
+        } else if (is_singular()) {
+            $list['post_creation_date'] = get_the_date(DateTime::$defaultDateFormat);
         }
 
-        // Global Lang
-        $list['i18n'] = array(
+        // Rest-API Meta Box Url
+        $list['stats_report_option'] = Option::get('time_report') == '0' ? false : true;
+        $list['setting_url']         = Menus::admin_url('settings');
+        $list['meta_boxes']          = MetaboxHelper::getScreenMetaboxes();
+
+        return apply_filters('wp_statistics_admin_localized_data', $list);
+    }
+
+    /**
+     * Get internationalization strings
+     *
+     * @return array Array of translated strings
+     * @since 15.0.0
+     */
+    protected function getI18nStrings()
+    {
+        return [
             'more_detail'                  => __('View Details', 'wp-statistics'),
             'reload'                       => __('Reload', 'wp-statistics'),
             'online_users'                 => __('Online Visitors', 'wp-statistics'),
@@ -456,65 +333,23 @@ class Admin_Assets
             'show_more'                    => __('Show more', 'wp-statistics'),
             'pending'                      => __('Pending', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
-        );
-
-        $list['active_post_type'] = Helper::getPostTypeName(Request::get('pt', 'post'));
-        $list['user_date_range']  = DateRange::get();
-
-        $list['initial_post_date'] = Helper::getInitialPostDate();
-
-        if (Request::has('post_id')) {
-            $list['post_creation_date'] = get_the_date(DateTime::$defaultDateFormat, Request::get('post_id'));
-        } else if (is_singular()) {
-            $list['post_creation_date'] = get_the_date(DateTime::$defaultDateFormat);
-        }
-
-        // Rest-API Meta Box Url
-        $list['stats_report_option'] = Option::get('time_report') == '0' ? false : true;
-        $list['setting_url']         = Menus::admin_url('settings');
-        $list['admin_url']           = admin_url();
-        $list['ajax_url']            = admin_url('admin-ajax.php');
-        $list['assets_url']          = self::$plugin_url . self::$asset_dir;
-        $list['rest_api_nonce']      = wp_create_nonce('wp_rest');
-        $list['meta_box_api']        = admin_url('admin-ajax.php?action=wp_statistics_admin_meta_box');
-
-        // For developers: WordPress debugging mode.
-        $list['wp_debug'] = defined('WP_DEBUG') && WP_DEBUG ? true : false;
-
-        $list['meta_boxes'] = MetaboxHelper::getScreenMetaboxes();
-
-        /**
-         * Filter: wp_statistics_admin_assets
-         *
-         * @since 14.9.4
-         */
-        return apply_filters('wp_statistics_admin_assets', $list);
+        ];
     }
 
     /**
-     * Checks if any of the conditions for enqueuing Chart.js library are met.
+     * Checks if Chart.js library should be enqueued
      *
-     * Conditions are:
-     * - Mini Chart add-on is enabled and admin bar button is showing.
-     * - User is currently viewing the WP Statistics admin pages (e.g. Settings, Overview, Optimization, etc.).
-     * - User is currently viewing WP dashboard and `disable_dashboard` option is not disabled.
-     * - User is currently in edit post page and `disable_editor` is disabled.
-     * - User is currently in edit post page and `latest_visitors_metabox` is enabled.
-     *
-     * @return  bool
-     *
-     * @hooked  filter: `wp_statistics_enqueue_chartjs` - 10
+     * @return bool Whether Chart.js should be enqueued
+     * @since 15.0.0
      */
     public function shouldEnqueueChartJs()
     {
         global $pagenow;
 
-        return (Helper::isAddOnActive('mini-chart') && Helper::isAdminBarShowing()) || Menus::in_plugin_page() ||
+        return (Helper::isAddOnActive('mini-chart') && Helper::isAdminBarShowing()) ||
+            Menus::in_plugin_page() ||
             (in_array(Helper::get_screen_id(), ['dashboard']) && !Option::get('disable_dashboard')) ||
             (in_array($pagenow, ['post.php', 'edit.php']) && !Option::get('disable_editor')) ||
             (in_array($pagenow, ['post.php', 'edit.php']) && Helper::isAddOnActive('data-plus') && Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1');
     }
 }
-
-new Admin_Assets;
-
