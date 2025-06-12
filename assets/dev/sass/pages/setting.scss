@@ -1840,6 +1840,19 @@
       }
     }
 
+    .wps-alert-list{
+      padding: 0 16px;
+      width: 100%;
+      list-style-type: disc;
+
+      li{
+        font-weight: 400;
+
+        &::marker {
+          line-height: 10px;
+        }
+      }
+    }
   }
 
   tr td .wps-alert {
