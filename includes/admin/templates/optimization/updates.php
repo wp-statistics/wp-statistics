@@ -125,14 +125,19 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
                             <div class="wps-alert wps-alert__danger">
                                 <div class="wps-g-0">
                                     <b><?php esc_html_e('Detected Schema Issues', 'wp-statistics'); ?></b>
-                                    <p class="description"><?php _e('We’ve found the following inconsistencies. Click <b>Repair Schema Issues</b> to fix them automatically.', 'wp-statistics'); ?></p>
+                                    <p class="description"><?php echo wp_kses(__('We’ve found the following inconsistencies. Click <b>Repair Schema Issues</b> to fix them automatically.', 'wp-statistics'), ['b' => []]); ?></p>
                                     <ul class="wps-alert-list">
                                         <?php
                                         if (!empty($schemaCheckResult['issues']) && is_array($schemaCheckResult['issues'])) {
                                             foreach ($schemaCheckResult['issues'] as $issue) {
                                                 if ($issue['type'] === 'missing_column') {
-                                                    $message = "<b>{$issue['table']}.{$issue['column']}</b> — " . __('Missing column', 'wp-statistics');
-                                                    echo '<li>' . $message . '</li>';
+                                                    $message = sprintf(
+                                                        '%1$s.%2$s — %3$s',
+                                                        esc_html($issue['table']),
+                                                        esc_html($issue['column']),
+                                                        __('Missing column', 'wp-statistics')
+                                                    );
+                                                    echo '<li>' . esc_html($message) . '</li>';
                                                 }
                                             }
                                         }
@@ -140,8 +145,12 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
                                         if (!empty($schemaCheckResult['errors']) && is_array($schemaCheckResult['errors'])) {
                                             foreach ($schemaCheckResult['errors'] as $issue) {
                                                 if ($issue['type'] === 'table_missing') {
-                                                    $message = "<b>{$issue['table']}</b> — " . __('Missing table', 'wp-statistics');
-                                                    echo '<li>' . $message . '</li>';
+                                                    $message = sprintf(
+                                                        '%1$s — %2$s',
+                                                        esc_html($issue['table']),
+                                                        __('Missing table', 'wp-statistics')
+                                                    );
+                                                    echo '<li>' . esc_html($message) . '</li>';
                                                 }
                                             }
                                         }

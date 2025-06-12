@@ -9,6 +9,7 @@ use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Geolocation\Provider\DbIpProvider;
 use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;
 use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
+use WP_Statistics\Utils\Request;
 
 class optimization_page extends Singleton
 {
@@ -116,10 +117,9 @@ class optimization_page extends Singleton
         }
 
         // Repair Schema Issues
-        if (isset($_POST['repair_schema_action']) && intval($_POST['repair_schema_action']) == 1) {
+        if (Request::get('repair_schema_action', '', 'number')) {
             $schemaRepairResult = SchemaMaintainer::repair();
-            $schemaCheckResult  = SchemaMaintainer::check();
-            $databaseStatus     = $schemaCheckResult['status'] ?? null;
+            $databaseStatus     = $schemaRepairResult['status'] ?? null;
 
             // Show Notice
             if ($databaseStatus === 'success') {

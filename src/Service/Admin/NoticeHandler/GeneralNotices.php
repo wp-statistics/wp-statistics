@@ -78,7 +78,7 @@ class GeneralNotices
                     '<div><b class="wp-statistics-notice__title">%s - %s</b><p>%s</p><a href="%s">%s</a></div>',
                     esc_html__('WP Statistics', 'wp-statistics'),
                     esc_html($notice['title']),
-                    $notice['description'],
+                    esc_html($notice['description']),
                     esc_url(Menus::admin_url('settings', ['tab' => 'privacy-settings']) . '#consent_integration'),
                     esc_html__('Activate integration ›', 'wp-statistics')
                 ),
