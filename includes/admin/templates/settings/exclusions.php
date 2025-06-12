@@ -66,7 +66,12 @@ use WP_STATISTICS\Menus;
         </tr>
 
         <tr data-id="robot_list_tr">
-            <th scope="row"><label for="wps_robotlist"><?php esc_html_e('Robot List', 'wp-statistics'); ?></label></th>
+            <th scope="row">
+                <label for="wps_robotlist">
+                    <span><?php esc_html_e('Robot List', 'wp-statistics'); ?></span>
+                    <span class="wps-badge wps-badge--deprecated"><?php esc_html_e('DEPRECATED', 'wp-statistics'); ?></span>
+                </label>
+            </th>
             <td>
                 <div class="wps-settings-box_restore">
                      <textarea name="wps_robotlist" class="code textarea-input-reset" dir="ltr" rows="10" cols="60" id="wps_robotlist"><?php
