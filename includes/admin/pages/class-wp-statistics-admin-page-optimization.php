@@ -117,7 +117,7 @@ class optimization_page extends Singleton
         }
 
         // Repair Schema Issues
-        if (Request::get('repair_schema_action')) {
+        if (Request::has('repair_schema_action')) {
             $schemaRepairResult = SchemaMaintainer::repair();
             $databaseStatus     = $schemaRepairResult['status'] ?? null;
 
