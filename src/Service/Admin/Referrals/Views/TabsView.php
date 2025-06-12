@@ -85,15 +85,15 @@ class TabsView extends BaseTabView
                 'title'       => esc_html__('Referrals', 'wp-statistics'),
                 'pageName'    => Menus::get_page_slug('referrals'),
                 'custom_get'  => [
-                    'tab'           => $this->getCurrentTab(),
-                    'order_by'      => Request::get('order_by'),
-                    'order'         => Request::get('order'),
-                    'referrer'      => Request::get('referrer'),
-                    'pid'           => Request::get('pid'),
-                    'utm_source'    => Request::get('utm_source'),
-                    'utm_medium'    => Request::get('utm_medium'),
-                    'utm_campaign'  => Request::get('utm_campaign'),
-                    'utm_param'     => Request::get('utm_param')
+                    'tab'          => $this->getCurrentTab(),
+                    'order_by'     => Request::get('order_by'),
+                    'order'        => Request::get('order'),
+                    'referrer'     => Request::get('referrer'),
+                    'pid'          => Request::get('pid'),
+                    'utm_source'   => Request::get('utm_source'),
+                    'utm_medium'   => Request::get('utm_medium'),
+                    'utm_campaign' => Request::get('utm_campaign'),
+                    'utm_param'    => Request::get('utm_param')
                 ],
                 'filters'     => ['source-channels'],
                 'DateRang'    => Admin_Template::DateRange(),
@@ -135,18 +135,20 @@ class TabsView extends BaseTabView
                         'class' => $this->isTab('source-categories') ? 'current' : '',
                     ],
                     [
-                        'link'    => Menus::admin_url('referrals', ['tab' => 'campaigns']),
-                        'title'   => esc_html__('Campaigns', 'wp-statistics'),
-                        'class'   => $this->isTab('campaigns') ? 'current' : '',
-                        'locked'  => true,
-                        'lockedTarget'  => 'wp-statistics-marketing'
+                        'link'         => Menus::admin_url('referrals', ['tab' => 'campaigns']),
+                        'title'        => esc_html__('Campaigns', 'wp-statistics'),
+                        'class'        => $this->isTab('campaigns') ? 'current' : '',
+                        'locked'       => true,
+                        'tooltip'      => esc_html__('To view this report, you need to have Marketing add-on.', 'wp-statistics'),
+                        'lockedTarget' => 'wp-statistics-marketing'
                     ],
                     [
-                        'link'    => Menus::admin_url('referrals', ['tab' => 'utm-performance']),
-                        'title'   => esc_html__('UTM Performance', 'wp-statistics'),
-                        'class'   => $this->isTab('utm-performance') ? 'current' : '',
-                        'locked'  => true,
-                        'lockedTarget'  => 'wp-statistics-marketing'
+                        'link'         => Menus::admin_url('referrals', ['tab' => 'utm-performance']),
+                        'title'        => esc_html__('UTM Performance', 'wp-statistics'),
+                        'class'        => $this->isTab('utm-performance') ? 'current' : '',
+                        'locked'       => true,
+                        'tooltip'      => esc_html__('To view this report, you need to have Marketing add-on.', 'wp-statistics'),
+                        'lockedTarget' => 'wp-statistics-marketing'
                     ],
                     [
                         'link'               => Menus::admin_url('referrals', ['tab' => 'google-search']),
@@ -155,7 +157,8 @@ class TabsView extends BaseTabView
                         'lastUpdated'        => true,
                         'lastUpdatedTooltip' => esc_html__('We fetch data from Google Search Console once daily to keep things running smoothly without extra load. The numbers you see are based on the latest update at the time shown.', 'wp-statistics'),
                         'locked'             => true,
-                        'lockedTarget'  => 'wp-statistics-marketing'
+                        'tooltip'            => esc_html__('To view this report, you need to have Marketing add-on.', 'wp-statistics'),
+                        'lockedTarget'       => 'wp-statistics-marketing'
                     ]
                 ]
             ];
