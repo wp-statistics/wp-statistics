@@ -105,7 +105,17 @@ abstract class AbstractDatabaseOperation implements DatabaseManager
             throw new \InvalidArgumentException('Table name must be set before proceeding.');
         }
 
-        $this->fullName = $this->wpdb->prefix . 'statistics_' . $this->tableName;
+        $basePrefix = $this->wpdb->prefix;
+
+        /**
+         * Filter the suffix used in WP Statistics table names.
+         *
+         * @param string $suffix The default 'statistics' (no trailing underscore).
+         * @param string $tableName The logical table name.
+         */
+        $tableNamePrefix = apply_filters('wp_statistics_table_prefix', 'statistics', $this->tableName);
+
+        $this->fullName = $basePrefix . $tableNamePrefix . '_' . $this->tableName;
     }
 
     /**
