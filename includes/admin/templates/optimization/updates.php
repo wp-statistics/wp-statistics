@@ -106,7 +106,7 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
             <table class="form-table">
                 <tbody>
                 <tr valign="top" class="wps-settings-box_head">
-                    <th scope="row" colspan="2"><h3><?php esc_html_e('Database Schema Issues', 'wp-statistics'); ?></h3></th>
+                    <th scope="row" colspan="2"><h3><?php esc_html_e('Database Schema', 'wp-statistics'); ?></h3></th>
                 </tr>
 
                 <tr valign="top" data-id="database_schema_issues">
@@ -115,7 +115,7 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
                     </th>
                     <td>
                         <?php if ($databaseStatus === 'success'): ?>
-                            <div class="wps-alert wps-alert__success">
+                            <div class="wps-alert wps-alert__success wps-mt-0">
                                 <?php esc_html_e('Database schema is healthy.', 'wp-statistics'); ?>
                             </div>
                         <?php else: ?>
