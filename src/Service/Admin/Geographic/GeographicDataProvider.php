@@ -11,13 +11,18 @@ class GeographicDataProvider
     protected $args;
     protected $visitorsModel;
 
-
     public function __construct($args)
     {
         $this->args = $args;
 
         $this->visitorsModel = new VisitorsModel();
     }
+
+    public function getOverviewData()
+    {
+        return [];
+    }
+
 
     public function getCountriesData()
     {

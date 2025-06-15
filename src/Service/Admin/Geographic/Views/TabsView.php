@@ -2,21 +2,19 @@
 
 namespace WP_Statistics\Service\Admin\Geographic\Views;
 
-use Exception;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
 use WP_STATISTICS\Country;
-use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Geographic\GeographicDataProvider;
 
 class TabsView extends BaseTabView
 {
     protected $dataProvider;
-    protected $defaultTab = 'countries';
+    protected $defaultTab = 'overview';
     protected $tabs = [
+        'overview',
         'countries',
         'cities',
         'europe',
@@ -32,6 +30,11 @@ class TabsView extends BaseTabView
             'per_page'  => Admin_Template::$item_per_page,
             'page'      => Admin_Template::getCurrentPaged()
         ]);
+    }
+
+    public function getOverviewData()
+    {
+        return $this->dataProvider->getOverviewData();
     }
 
     public function getCountriesData()
@@ -75,6 +78,12 @@ class TabsView extends BaseTabView
             'data'       => $data,
             'tabs'       => [
                 [
+                    'link'    => Menus::admin_url('geographic', ['tab'   => 'overview']),
+                    'title'   => esc_html__('Overview', 'wp-statistics'),
+                    'tooltip' => esc_html__('Tooltip', 'wp-statistics'),
+                    'class'   => $this->isTab('overview') ? 'current' : '',
+                ],
+                [
                     'link'    => Menus::admin_url('geographic', ['tab'   => 'countries']),
                     'title'   => esc_html__('Countries', 'wp-statistics'),
                     'tooltip' => esc_html__('Displays visitor counts from different countries.', 'wp-statistics'),
@@ -113,7 +122,7 @@ class TabsView extends BaseTabView
             array_splice($args['tabs'], 4, 0, [$regionsTab]);
         }
 
-        if ($data['total'] > 0) {
+        if (isset($data['total']) && $data['total'] > 0) {
             $args['total'] = $data['total'];
 
             $args['pagination'] = Admin_Template::paginate_links([
