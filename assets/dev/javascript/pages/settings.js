@@ -152,8 +152,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             new ShowIfEnabled();
                         }, {once: true});
                     }
-                } else {
-                    console.error('Modal with ID "setting-confirmation" not found.');
                 }
             }
         });
@@ -208,8 +206,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         }
                     },
                     error: function (xhr, status, error) {
-                        console.error('AJAX error:', status, error);
-                        return {results: []};
+                         return {results: []};
                     },
                     cache: true
                 },

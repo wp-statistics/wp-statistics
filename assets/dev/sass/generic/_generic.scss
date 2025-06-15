@@ -417,6 +417,14 @@
       }
     }
 
+    &.c-chart__wps-skeleton .wps-ph-item{
+      @media (min-width: 601px) {
+        .wps-ph-picture{
+          height: 299px;
+        }
+      }
+    }
+
     canvas {
       width: 100% !important;
       height: 299px !important;

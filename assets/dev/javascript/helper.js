@@ -203,8 +203,21 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
         let parent = element.parentNode;
         let nextSibling = element.nextSibling;
         parent.removeChild(element);
-        data = data.map(Number);
-        let total = data.reduce((sum, data) => sum + data, 0);
+        if (!Array.isArray(data) && typeof data === 'object' && data !== null) {
+             data = Object.values(data);
+        } else if (!Array.isArray(data)) {
+             data = [];
+        }
+        data = data?.map(Number);
+
+        let total;
+        if (Array.isArray(data)) {
+            total = data.reduce((sum, item) => sum + item, 0);
+        } else if (typeof data === 'object' && data !== null) {
+             total = Object.values(data).reduce((sum, item) => sum + item, 0);
+        } else {
+             total = 0;
+        }
         let blockDiv = document.createElement('div');
         blockDiv.classList.add('wps-horizontal-bar');
         for (let i = 0; i < data.length; i++) {
