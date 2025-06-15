@@ -109,7 +109,7 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
                     <th scope="row" colspan="2"><h3><?php esc_html_e('Database Schema', 'wp-statistics'); ?></h3></th>
                 </tr>
 
-                <tr valign="top" data-id="database_schema_issues">
+                <tr valign="top" data-id="wps_database_schema_form">
                     <th scope="row">
                         <label><?php esc_html_e('Check & Repair Database Schema', 'wp-statistics'); ?></label>
                     </th>
