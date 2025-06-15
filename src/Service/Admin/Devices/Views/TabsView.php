@@ -34,6 +34,11 @@ class TabsView extends BaseTabView
         ]);
     }
 
+    public function getOverviewData()
+    {
+        return $this->dataProvider->getOverviewData();
+    }
+
     /**
      * Returns data for "Browsers" tab.
      *
