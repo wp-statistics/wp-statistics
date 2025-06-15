@@ -16,8 +16,8 @@ class Manager
      * @var array
      */
     private static $tablesSchema = [
-        'useronline' => [
-            'columns' => [
+        'useronline'            => [
+            'columns'     => [
                 'ID'         => 'bigint(20) NOT NULL AUTO_INCREMENT',
                 'ip'         => 'varchar(60) NOT NULL',
                 'created'    => 'int(11)',
@@ -39,12 +39,12 @@ class Manager
                 'type'       => 'VARCHAR(100) NOT NULL',
             ],
             'constraints' => [
-                'PRIMARY KEY (ID)',
-                'KEY ip (ip)'
+                'ID' => 'PRIMARY KEY (ID)',
+                'ip' => 'KEY ip (ip)'
             ],
         ],
-        'pages' => [
-            'columns' => [
+        'pages'                 => [
+            'columns'     => [
                 'page_id' => 'BIGINT(20) NOT NULL AUTO_INCREMENT',
                 'uri'     => 'varchar(190) NOT NULL',
                 'type'    => 'varchar(180) NOT NULL',
@@ -53,16 +53,16 @@ class Manager
                 'id'      => 'int(11) NOT NULL',
             ],
             'constraints' => [
-                'PRIMARY KEY (page_id)',
-                'UNIQUE KEY date_2 (date, uri)',
-                'KEY url (uri)',
-                'KEY date (date)',
-                'KEY id (id)',
-                'KEY uri (uri, count, id)',
+                'page_id'      => 'PRIMARY KEY (page_id)',
+                'date_uri'     => 'UNIQUE KEY date_2 (date, uri)',
+                'uri'          => 'KEY url (uri)',
+                'date'         => 'KEY date (date)',
+                'id'           => 'KEY id (id)',
+                'uri_count_id' => 'KEY uri (uri, count, id)',
             ],
         ],
-        'historical' => [
-            'columns' => [
+        'historical'            => [
+            'columns'     => [
                 'ID'       => 'bigint(20) NOT NULL AUTO_INCREMENT',
                 'category' => 'varchar(25) NOT NULL',
                 'page_id'  => 'bigint(20) NOT NULL',
@@ -70,25 +70,25 @@ class Manager
                 'value'    => 'bigint(20) NOT NULL',
             ],
             'constraints' => [
-                'PRIMARY KEY (ID)',
-                'KEY category (category)',
-                'UNIQUE KEY uri (uri)',
+                'ID'       => 'PRIMARY KEY (ID)',
+                'category' => 'KEY category (category)',
+                'uri'      => 'UNIQUE KEY uri (uri)',
             ],
         ],
-        'visit' => [
-            'columns' => [
+        'visit'                 => [
+            'columns'     => [
                 'ID'           => 'bigint(20) NOT NULL AUTO_INCREMENT',
                 'last_visit'   => 'datetime NOT NULL',
                 'last_counter' => 'date NOT NULL',
                 'visit'        => 'int(10) NOT NULL',
             ],
             'constraints' => [
-                'PRIMARY KEY (ID)',
-                'UNIQUE KEY unique_date (last_counter)',
+                'ID'           => 'PRIMARY KEY (ID)',
+                'last_counter' => 'UNIQUE KEY unique_date (last_counter)',
             ],
         ],
-        'visitor' => [
-            'columns' => [
+        'visitor'               => [
+            'columns'     => [
                 'ID'             => 'bigint(20) NOT NULL AUTO_INCREMENT',
                 'last_counter'   => 'date NOT NULL',
                 'referred'       => 'text NOT NULL',
@@ -114,32 +114,32 @@ class Manager
                 'last_view'      => 'datetime DEFAULT NULL'
             ],
             'constraints' => [
-                'PRIMARY KEY (ID)',
-                'UNIQUE KEY date_ip_agent (last_counter, ip, agent(50), platform(50), version(50))',
-                'KEY agent (agent)',
-                'KEY platform (platform)',
-                'KEY version (version)',
-                'KEY device (device)',
-                'KEY model (model)',
-                'KEY location (location)',
-                'KEY ip (ip)',
+                'ID'            => 'PRIMARY KEY (ID)',
+                'date_ip_agent' => 'UNIQUE KEY date_ip_agent (last_counter, ip, agent(50), platform(50), version(50))',
+                'agent'         => 'KEY agent (agent)',
+                'platform'      => 'KEY platform (platform)',
+                'version'       => 'KEY version (version)',
+                'device'        => 'KEY device (device)',
+                'model'         => 'KEY model (model)',
+                'location'      => 'KEY location (location)',
+                'ip'            => 'KEY ip (ip)',
             ],
         ],
-        'exclusions' => [
-            'columns' => [
+        'exclusions'            => [
+            'columns'     => [
                 'ID'     => 'bigint(20) NOT NULL AUTO_INCREMENT',
                 'date'   => 'date NOT NULL',
                 'reason' => 'varchar(180) DEFAULT NULL',
                 'count'  => 'bigint(20) NOT NULL',
             ],
             'constraints' => [
-                'PRIMARY KEY (ID)',
-                'KEY date (date)',
-                'KEY reason (reason)',
+                'ID'     => 'PRIMARY KEY (ID)',
+                'date'   => 'KEY date (date)',
+                'reason' => 'KEY reason (reason)',
             ],
         ],
-        'events' => [
-            'columns' => [
+        'events'                => [
+            'columns'     => [
                 'ID'         => 'bigint(20) NOT NULL AUTO_INCREMENT',
                 'date'       => 'datetime NOT NULL',
                 'page_id'    => 'bigint(20) NULL',
@@ -148,23 +148,23 @@ class Manager
                 'event_data' => 'text NOT NULL',
             ],
             'constraints' => [
-                'PRIMARY KEY (ID)',
-                'KEY visitor_id (visitor_id)',
-                'KEY page_id (page_id)',
-                'KEY event_name (event_name)',
+                'ID'         => 'PRIMARY KEY (ID)',
+                'visitor_id' => 'KEY visitor_id (visitor_id)',
+                'page_id'    => 'KEY page_id (page_id)',
+                'event_name' => 'KEY event_name (event_name)',
             ],
         ],
         'visitor_relationships' => [
-            'columns' => [
+            'columns'     => [
                 'ID'         => 'bigint(20) NOT NULL AUTO_INCREMENT',
                 'visitor_id' => 'bigint(20) NOT NULL',
                 'page_id'    => 'bigint(20) NOT NULL',
                 'date'       => 'datetime NOT NULL',
             ],
             'constraints' => [
-                'PRIMARY KEY (ID)',
-                'KEY visitor_id (visitor_id)',
-                'KEY page_id (page_id)',
+                'ID'         => 'PRIMARY KEY (ID)',
+                'visitor_id' => 'KEY visitor_id (visitor_id)',
+                'page_id'    => 'KEY page_id (page_id)',
             ],
         ],
     ];
