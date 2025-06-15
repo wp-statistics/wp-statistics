@@ -1,0 +1,21 @@
+@use 'sass:map';
+@use 'variables' as vars;
+@function get-color-value($color-path...) {
+    $map: vars.$colors;
+    @each $key in $color-path {
+        $map: map.get($map, $key);
+    }
+    @return $map;
+}
+
+@mixin bg-color($color...) {
+    background-color: get-color-value($color...);
+}
+
+@mixin text-color($color...) {
+    color: get-color-value($color...);
+}
+
+@mixin border-color($color...) {
+    border-color: get-color-value($color...);
+}
