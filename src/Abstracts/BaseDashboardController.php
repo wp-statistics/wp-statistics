@@ -73,7 +73,7 @@ abstract class BaseDashboardController
             'title'    => $view->getPageTitle(),
             'page_url' => $view->getPageSlug(),
             'callback' => $this->pageView,
-            'priority' => 100,
+            'priority' => $view->getPriority(),
         ];
 
         return $items;

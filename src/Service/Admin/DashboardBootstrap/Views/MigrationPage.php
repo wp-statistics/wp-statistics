@@ -92,6 +92,16 @@ class MigrationPage extends BasePage
     }
 
     /**
+     * Get the page priority.
+     *
+     * @return int
+     */
+    public function getPriority()
+    {
+        return 100;
+    }
+
+    /**
      * Renders the Data Migration page in the WordPress admin.
      *
      * This method:
