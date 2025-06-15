@@ -1,9 +1,20 @@
-= 14.14 - 2025-05-x =
+= 14.14 - 2025-x-x =
+- **Fix:** Resolve Zero Page View Issue for Non-'Category' Taxonomies.
+- **Enhancement:** Improved migration efficiency and stability by running schema migrations synchronously and removing background processes.
+- **Enhancement:** Improved `Views` report under `Visitor Insight` page.
+- **Fix:** Delay anonymous data opt-in notice to 7 days after plugin activation.
+- **Fix:** Fixed inaccurate tracking of WooCommerce My Account sub-page titles.
+- **Enhancement:** Unset `Consent Integration` option upon integration deactivation.
+- **New:** Add Country Name to Visitor Info Flag Tooltip.
+- **New:** Added unread notification badge to Help Center menu.
+
+= 14.14 - 2025-06-01 =
 - **New:** Added a Help page inside the plugin to guide users.
 - **New:** Introduced dynamic promo text in the plugin header.
 - **New:** Added Single Resource report for assets without a post ID.
 - **New:** Integrated with the Real Cookie Banner plugin.
 - **New:** Added an option to disable word count analytics in reports.
+- **Enhancement:** Referral Overview and New Design for Settings and Optimization pages.
 - **Enhancement:** Merged Location data into Visitor Information in reports.
 - **Enhancement:** Added Entry and Exit Page columns to relevant reports.
 - **Enhancement:** Added license status helper on the Add-ons page.

@@ -40,7 +40,7 @@ use WP_STATISTICS\Menus;
     <div class="postbox-container" id="wps-postbox-container-2">
         <?php
             View::load("components/charts/top-referrer", [
-                'title'        => esc_html__('Visitor Chart', 'wp-statistics'),
+                'title'        => esc_html__('Referred Visitors', 'wp-statistics'),
                 'unique_id'    => 'referralVisitorChart',
             ]);
         ?>
@@ -63,12 +63,7 @@ use WP_STATISTICS\Menus;
             ]);
         ?>
 
-        <div class="wps-card">
-            <div class="wps-card__title">
-                <h2><?php esc_html_e('Top Entry Pages', 'wp-statistics') ?></h2>
-            </div>
-            <?php View::load("components/tables/top-entry-pages", ['pages' => $data['entry_pages']]); ?>
-        </div>
+        <?php do_action('wp_statistics_referrals_overview_entry_pages_widget'); ?>
 
         <div class="wps-card">
             <div class="wps-card__title">

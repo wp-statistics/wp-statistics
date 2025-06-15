@@ -106,6 +106,14 @@ html[dir=rtl] {
       font-size: 13px;
       font-weight: 400;
 
+      span{
+        word-break: break-word;
+        overflow-wrap: anywhere;
+        white-space: normal;
+        display: inline-block;
+        max-width: 100%;
+      }
+
       &.wps-browsers__flag, &.wps-os__flag, &.wps-country__flag, &.wps-ellipsis-parent {
         max-width: 160px;
         display: flex;

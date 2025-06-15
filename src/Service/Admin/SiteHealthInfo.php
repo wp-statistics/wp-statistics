@@ -89,7 +89,7 @@ class SiteHealthInfo
             'detectActiveCachePlugin'        => [
                 'label' => esc_html__('Detect Active Cache Plugin', 'wp-statistics'),
                 'value' => Helper::checkActiveCachePlugin()['status'] === true ? sprintf(__('Enabled (%s)', 'wp-statistics'), Helper::checkActiveCachePlugin()['plugin']) : __('Disabled', 'wp-statistics'),
-                'debug' => Helper::checkActiveCachePlugin()['status'] === true ? sprintf(__('Enabled (%s)', 'wp-statistics'), Helper::checkActiveCachePlugin()['plugin']) : 'Disabled',
+                'debug' => Helper::checkActiveCachePlugin()['status'] === true ? 'Enabled ' . Helper::checkActiveCachePlugin()['debug'] : 'Disabled',
             ],
             'activePostTypes'                => [
                 'label' => esc_html__('Active Post Types', 'wp-statistics'),
