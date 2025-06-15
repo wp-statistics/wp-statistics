@@ -1,9 +1,8 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\DataMigration;
+namespace WP_Statistics\Service\Admin\DashboardBootstrap\Views;
 
 use WP_Statistics\Abstracts\BasePage;
-use WP_STATISTICS\Admin_Assets;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Menus;
@@ -15,7 +14,7 @@ use WP_STATISTICS\Menus;
  * within the WP Statistics admin interface. It extends the base page controller and
  * integrates with the React-based dashboard interface.
  */
-class DataMigrationPage extends BasePage
+class MigrationPage extends BasePage
 {
     /**
      * Slug identifier for the admin page.
@@ -27,6 +26,20 @@ class DataMigrationPage extends BasePage
     protected $pageSlug = 'data-migration';
 
     /**
+     * The page title.
+     *
+     * @var string
+     */
+    protected $pageTitle = '';
+
+    /**
+     * The page index.
+     *
+     * @var string
+     */
+    protected $pageIndex = 'data_migration';
+
+    /**
      * Constructor.
      *
      * Calls the parent constructor to ensure proper base page setup.
@@ -35,17 +48,47 @@ class DataMigrationPage extends BasePage
     {
         parent::__construct();
 
-        wp_localize_script(Admin_Assets::$react_dashboard_prefix, 'Wp_Statistics_Data_Migration_Object', $this->getData());
+        $this->setPageTitle();
     }
 
     /**
-     * Provides data to be passed to the React app via wp_localize_script.
+     * Set the page title.
      *
-     * @return array Array of data exposed to the React frontend.
+     * @return void
      */
-    public function getData()
+    private function setPageTitle()
     {
-        return [];
+        $this->pageTitle = esc_html__('Data Migration', 'wp-statistics');
+    }
+
+    /**
+     * Get the page title.
+     *
+     * @return string
+     */
+    public function getPageTitle()
+    {
+        return $this->pageTitle;
+    }
+
+    /**
+     * Get the page slug.
+     *
+     * @return string
+     */
+    public function getPageSlug()
+    {
+        return $this->pageSlug;
+    }
+
+    /**
+     * Get the page index.
+     *
+     * @return string
+     */
+    public function getPageIndex()
+    {
+        return $this->pageIndex;
     }
 
     /**
@@ -59,13 +102,13 @@ class DataMigrationPage extends BasePage
     public function view()
     {
         $args = [
-            'title'    => esc_html__('Data Migration', 'wp-statistics'),
+            'title'    => $this->getPageTitle(),
             'tooltip'      => esc_html__(" "),
-            'pageName' => Menus::get_page_slug('data_migration'),
+            'pageName' => Menus::get_page_slug($this->getPageIndex()),
         ];
 
         Admin_Template::get_template(['layout/header', 'layout/title'], $args);
         View::load(['pages/data-migration/data-migration'], $args);
-        // Admin_Template::get_template(['layout/footer'], $args);
+        Admin_Template::get_template(['layout/footer'], $args);
     }
 }

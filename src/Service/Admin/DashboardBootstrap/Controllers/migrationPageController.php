@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers;
 
 use WP_Statistics\Abstracts\BaseDashboardController;
-use WP_Statistics\Option;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Views\MigrationPage;
 use WP_Statistics\Utils\Request;
 
 /**
@@ -18,6 +18,13 @@ use WP_Statistics\Utils\Request;
  */
 class MigrationPageController extends BaseDashboardController
 {
+    /**
+     * The page view.
+     *
+     * @var string|null
+     */
+    protected $pageView = MigrationPage::class;
+
     /**
      * Get list of available AJAX actions.
      *

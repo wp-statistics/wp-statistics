@@ -30,6 +30,56 @@ abstract class BaseDashboardController
     protected $nonceKey = 'wp_statistics_dashboard_nonce';
 
     /**
+     * The sub page for the dashboard.
+     *
+     * @since 15.0.0
+     * @var string
+     */
+    protected $subPage = 'settings';
+
+    /**
+     * The page view.
+     *
+     * @var string|null
+     */
+    protected $pageView = null;
+
+    /**
+     * Class constructor.
+     *
+     * Hooks into the admin menu to register the Data Migration page.
+     */
+    public function __construct()
+    {
+        add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);
+    }
+
+    /**
+     * Adds the "Data Migration" item to the WP Statistics admin submenu.
+     *
+     * @param array $items Existing menu items.
+     * @return array Modified menu items with the Data Migration entry added.
+     */
+    public function addMenuItem($items)
+    {
+        if (empty($this->pageView)) {
+            return $items;
+        }
+
+        $view = new $this->pageView();
+
+        $items[$view->getPageIndex()] = [
+            'sub'      => $this->subPage,
+            'title'    => $view->getPageTitle(),
+            'page_url' => $view->getPageSlug(),
+            'callback' => $this->pageView,
+            'priority' => 100,
+        ];
+
+        return $items;
+    }
+
+    /**
      * Add dashboard localized data.
      *
      * Adds necessary data to be localized for React components, including:

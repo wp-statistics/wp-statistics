@@ -57,6 +57,8 @@ const ConfirmationStep = ({handleStep}) => {
                 },
                 setIsLoading
             );
+
+            handleStep("step3");
         } catch (err) {
             setError(true);
             console.error(err)
