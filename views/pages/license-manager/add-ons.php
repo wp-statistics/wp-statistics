@@ -34,7 +34,7 @@ $type = $data['license_notice_type'];
     <div class="wps-postbox-addon">
         <?php if (!empty($data['active_addons']) && is_array($data['active_addons'])) : ?>
             <div>
-                <h2 class="wps-postbox-addon__title"><?php esc_html_e('Active Add-Ons', 'wp-statistics'); ?></h2>
+                <h2 class="wps-postbox-addon__title"><?php esc_html_e('Active Add-ons', 'wp-statistics'); ?></h2>
                 <div class="wps-postbox-addon__items">
                     <?php
                     /** @var PluginDecorator $addOn */
@@ -47,7 +47,7 @@ $type = $data['license_notice_type'];
         <?php endif; ?>
         <?php if (!empty($data['inactive_addons']) && is_array($data['active_addons'])) : ?>
             <div>
-                <h2 class="wps-postbox-addon__title"><?php esc_html_e('Inactive Add-Ons', 'wp-statistics'); ?></h2>
+                <h2 class="wps-postbox-addon__title"><?php esc_html_e('Inactive Add-ons', 'wp-statistics'); ?></h2>
                 <div class="wps-postbox-addon__items">
                     <?php
                     /** @var PluginDecorator $addOn */

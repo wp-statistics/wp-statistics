@@ -1,3 +1,10 @@
+= 14.14 - 2025-x-x =
+- **Fix:** Resolve Zero Page View Issue for Non-'Category' Taxonomies.
+- **Enhancement:** Improved migration efficiency and stability by running schema migrations synchronously and removing background processes.
+- **Enhancement:** Improved `Views` report under `Visitor Insight` page.
+- **Enhancement:** Unset `Consent Integration` option upon integration deactivation.
+- **New:** Add Country Name to Visitor Info Flag Tooltip.
+
 = 14.14 - 2025-06-01 =
 - **New:** Added a Help page inside the plugin to guide users.
 - **New:** Introduced dynamic promo text in the plugin header.

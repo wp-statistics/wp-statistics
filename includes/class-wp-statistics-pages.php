@@ -89,7 +89,8 @@ class Pages
 
         //is Custom Term From Taxonomy
         if (is_tax()) {
-            $current_page['type'] = "tax";
+            $term                 = get_queried_object();
+            $current_page['type'] = $term->taxonomy;
         }
 
         //is Author Page

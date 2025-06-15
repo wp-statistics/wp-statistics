@@ -12,8 +12,9 @@ use WP_Statistics\Service\Admin\Devices\DevicesDataProvider;
 class TabsView extends BaseTabView
 {
     protected $dataProvider;
-    protected $defaultTab = 'browsers';
+    protected $defaultTab = 'overview';
     protected $tabs       = [
+        'overview',
         'browsers',
         'platforms',
         'models',
@@ -31,6 +32,11 @@ class TabsView extends BaseTabView
             'per_page' => 10,
             'page'     => Admin_Template::getCurrentPaged()
         ]);
+    }
+
+    public function getOverviewData()
+    {
+        return $this->dataProvider->getOverviewData();
     }
 
     /**
@@ -92,6 +98,12 @@ class TabsView extends BaseTabView
             'viewMoreUrlArgs' => ['type' => 'single-' . rtrim($currentTab, 's'), 'from' => Request::get('from'), 'to' => Request::get('to')],
             'tabs'            => [
                 [
+                    'link'        => Menus::admin_url('devices', ['tab' => 'overview']),
+                    'title'       => esc_html__('Overview', 'wp-statistics'),
+                    'tooltip'     => esc_html__('Tooltip', 'wp-statistics'),
+                    'class'       => $this->isTab('overview') ? 'current' : '',
+                ],
+                [
                     'link'        => Menus::admin_url('devices', ['tab' => 'browsers']),
                     'title'       => esc_html__('Browsers', 'wp-statistics'),
                     'tooltip'     => esc_html__('Displays the different web browsers used by your visitors.', 'wp-statistics'),
@@ -139,7 +151,7 @@ class TabsView extends BaseTabView
             ],
         ];
 
-        if ($data['total'] > 0) {
+        if (isset($data['total']) && $data['total'] > 0) {
             $args['total'] = $data['total'];
 
             $args['pagination'] = Admin_Template::paginate_links([

@@ -56,7 +56,7 @@ class TabsView extends BaseTabView
     {
         wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Visitors_Object', $this->dataProvider->getChartsData());
 
-        return $this->dataProvider->getVisitorsData();
+        return $this->dataProvider->getViewsData();
     }
 
     public function getVisitorsData()

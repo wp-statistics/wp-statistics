@@ -21,7 +21,7 @@ $disableMenuArray = [
     'devices'            => __('Devices', 'wp-statistics'),
     'link_tracker'       => __('Link Tracker', 'wp-statistics'),
     'download_tracker'   => __('Download Tracker', 'wp-statistics'),
-    'plugins'            => __('Add-Ons', 'wp-statistics'),
+    'plugins'            => __('Add-ons', 'wp-statistics'),
     'privacy_audit'      => __('Privacy Audit', 'wp-statistics'),
     'optimize'           => __('Optimization', 'wp-statistics'),
     'exclusions'         => __('Exclusions', 'wp-statistics'),
@@ -50,7 +50,7 @@ $disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customiz
 <?php
 if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
     ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=customization'),
-     'addon_title'        => __('Customization Add-On', 'wp-statistics'),
+     'addon_title'        => __('Customization Add-on', 'wp-statistics'),
      'addon_modal_target' => 'wp-statistics-customization',
      'addon_description'  => __('The settings on this page are part of the Customization add-on, which allows you to customize menus and make WP Statistics white-label.', 'wp-statistics'),
      'addon_features'     => [

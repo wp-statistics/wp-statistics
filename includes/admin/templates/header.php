@@ -34,7 +34,7 @@ $hasManageCap            = $manageCap && current_user_can($manageCap);
                 echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_visitors_page&tab=online', 'link_text' => __('Online Visitors', 'wp-statistics'), 'icon_class' => 'online-users', 'badge_count' => wp_statistics_useronline()], true);
             }
             if (!$isPremium && apply_filters('wp_statistics_enable_header_addons_menu', true)) {
-                echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => __('Add-Ons', 'wp-statistics'), 'icon_class' => 'addons', 'badge_count' => null], true);
+                echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => __('Add-ons', 'wp-statistics'), 'icon_class' => 'addons', 'badge_count' => null], true);
             }
             if ($isPremium) {
                 echo Admin_Template::get_template('layout/partials/menu-link', [
@@ -104,7 +104,7 @@ $hasManageCap            = $manageCap && current_user_can($manageCap);
                 <div class="wps-mobileMenuContent">
                     <?php
                     if (!$isPremium && apply_filters('wp_statistics_enable_header_addons_menu', true)) {
-                        echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => __('Add-Ons', 'wp-statistics'), 'icon_class' => 'addons', 'badge_count' => null], true);
+                        echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => __('Add-ons', 'wp-statistics'), 'icon_class' => 'addons', 'badge_count' => null], true);
                     }
                     if ($isPremium) {
                         echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_pages_page', 'link_text' => __('Top Pages', 'wp-statistics'), 'icon_class' => 'top-pages', 'badge_count' => null], true);

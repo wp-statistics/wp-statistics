@@ -53,7 +53,7 @@ $pluginHandler = new PluginHandler();
         <span><?php esc_html_e('Advanced Options', 'wp-statistics'); ?></span>
     </a>
 
-   <div class="wps-settings-side__title wps-settings-side__title--premium"><?php esc_html_e('Premium Add-Ons', 'wp-statistics'); ?></div>
+   <div class="wps-settings-side__title wps-settings-side__title--premium"><?php esc_html_e('Premium Add-ons', 'wp-statistics'); ?></div>
 
     <?php
     $addons = [

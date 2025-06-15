@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\Devices;
 
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
 class DevicesDataProvider
 {
@@ -15,6 +16,18 @@ class DevicesDataProvider
         $this->args = $args;
 
         $this->visitorsModel = new VisitorsModel();
+    }
+
+    public function getOverviewData()
+    {
+        $platformChartDataProvider = ChartDataProviderFactory::platformCharts(['limit' => 6]);
+
+        return [
+            'os'        => $platformChartDataProvider->getOsData(),
+            'browsers'  => $platformChartDataProvider->getBrowserData(),
+            'devices'   => $platformChartDataProvider->getDeviceData(),
+            'models'    => $platformChartDataProvider->getModelData()
+        ];
     }
 
     /**
