@@ -100,7 +100,6 @@ class TabsView extends BaseTabView
                 [
                     'link'        => Menus::admin_url('devices', ['tab' => 'overview']),
                     'title'       => esc_html__('Overview', 'wp-statistics'),
-                    'tooltip'     => esc_html__('Tooltip', 'wp-statistics'),
                     'class'       => $this->isTab('overview') ? 'current' : '',
                 ],
                 [
