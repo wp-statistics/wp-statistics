@@ -125,28 +125,7 @@ class TabsView extends BaseTabView
                     'title'       => esc_html__('Device Categories', 'wp-statistics'),
                     'tooltip'     => esc_html__('Displays visitor distribution across various device categories.', 'wp-statistics'),
                     'class'       => $this->isTab('categories') ? 'current' : '',
-                ],
-                [
-                    'link'        => '#',
-                    'title'       => esc_html__('Screen Resolutions', 'wp-statistics'),
-                    'tooltip'     => esc_html__('Coming Soon', 'wp-statistics'),
-                    'class'       => $this->isTab('resolutions') ? 'current' : '',
-                    'coming_soon' => true,
-                ],
-                [
-                    'link'        => '#',
-                    'title'       => esc_html__('Languages', 'wp-statistics'),
-                    'tooltip'     => esc_html__('Coming Soon', 'wp-statistics'),
-                    'class'       => $this->isTab('languages') ? 'current' : '',
-                    'coming_soon' => true,
-                ],
-                [
-                    'link'        => '#',
-                    'title'       => esc_html__('Timezones', 'wp-statistics'),
-                    'tooltip'     => esc_html__('Coming Soon', 'wp-statistics'),
-                    'class'       => $this->isTab('timezones') ? 'current' : '',
-                    'coming_soon' => true,
-                ],
+                ]
             ],
         ];
 

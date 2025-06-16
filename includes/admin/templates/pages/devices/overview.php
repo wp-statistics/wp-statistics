@@ -42,7 +42,7 @@ use WP_STATISTICS\Helper;
                                             <?php if (!empty($icon)) : ?>
                                                 <img alt="<?php echo esc_attr($browser) ?>" src="<?php echo esc_url($icon) ?>" title="<?php echo esc_attr($browser) ?>" class="log-tools wps-flag">
                                             <?php endif; ?>
-                                            <?php echo esc_html($browser) ?>
+                                            <a href=""><?php echo esc_html($browser) ?></a>
                                         </span>
                                     </td>
                                     <td class="wps-pd-l">
