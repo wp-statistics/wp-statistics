@@ -2153,7 +2153,7 @@ class Helper
             return 0;
         }
 
-        return round(($number / $totalNumber) * 100, 2);
+        return round(($number / $totalNumber) * 100, 1);
     }
 
     /**
