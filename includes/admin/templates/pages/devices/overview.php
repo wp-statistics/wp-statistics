@@ -58,7 +58,7 @@ use WP_STATISTICS\Helper;
                 </div>
             <?php else : ?>
                 <div class="o-wrap o-wrap--no-data wps-center">
-                    <?php esc_html_e('No recent data available.', 'wp-statistics'); ?>
+                    <?php echo esc_html(Helper::getNoDataMessage()); ?>
                 </div>
             <?php endif; ?>
         </div>
@@ -123,7 +123,7 @@ use WP_STATISTICS\Helper;
                 </div>
             <?php else : ?>
                 <div class="o-wrap o-wrap--no-data wps-center">
-                    <?php esc_html_e('No recent data available.', 'wp-statistics'); ?>
+                    <?php echo esc_html(Helper::getNoDataMessage()); ?>
                 </div>
             <?php endif; ?>
         </div>
@@ -185,7 +185,7 @@ use WP_STATISTICS\Helper;
                 </div>
             <?php else: ?>
                 <div class="o-wrap o-wrap--no-data wps-center">
-                    <?php esc_html_e('No recent data available.', 'wp-statistics'); ?>
+                    <?php echo esc_html(Helper::getNoDataMessage()); ?>
                 </div>
             <?php endif; ?>
         </div>
@@ -248,7 +248,7 @@ use WP_STATISTICS\Helper;
                 </div>
             <?php else : ?>
                 <div class="o-wrap o-wrap--no-data wps-center">
-                    <?php esc_html_e('No recent data available.', 'wp-statistics'); ?>
+                    <?php echo esc_html(Helper::getNoDataMessage()); ?>
                 </div>
             <?php endif; ?>
         </div>
