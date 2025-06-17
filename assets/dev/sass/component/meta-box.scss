@@ -248,6 +248,16 @@ a.wps-tooltip:hover {
       }
     }
 
+    .wps-new-table{
+      tr{
+        td , th{
+          &:last-child , &:nth-child(2){
+            width: 183px!important;
+          }
+        }
+      }
+    }
+
     .c-footer{
       padding-top: 0!important;
       position: absolute;

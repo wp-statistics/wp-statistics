@@ -14,10 +14,10 @@
                                             <?php esc_html_e('Browser', 'wp-statistics'); ?>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <?php esc_html_e('Visitor Count', 'wp-statistics'); ?>
+                                            <span class="wps-order"><?php esc_html_e('Visitors', 'wp-statistics'); ?></span>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <?php esc_html_e('Percent Share', 'wp-statistics'); ?>
+                                            %
                                         </th>
                                         <th></th>
                                     </tr>
