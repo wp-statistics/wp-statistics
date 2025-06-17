@@ -5,6 +5,7 @@ namespace WP_STATISTICS;
 use Exception;
 use WP_STATISTICS;
 use ErrorException;
+use WP_Statistics\Components\DateRange;
 use WP_Statistics\Models\PostsModel;
 use WP_Statistics_Mail;
 use WP_Statistics\Utils\Request;
@@ -2152,7 +2153,7 @@ class Helper
             return 0;
         }
 
-        return round(($number / $totalNumber) * 100, 2);
+        return round(($number / $totalNumber) * 100, 1);
     }
 
     /**
@@ -2229,5 +2230,22 @@ class Helper
         array_splice($array, $targetIndex, 0, $itemsToRelocate);
 
         return $array;
+    }
+
+    public static function getNoDataMessage($date = '')
+    {
+        if (empty($date)) {
+            $date = DateRange::get()['to'];
+        }
+
+        $isFutureDate = DateTime::isTodayOrFutureDate($date);
+
+        $message = esc_html__('No data found for this date range.', 'wp-statistics');
+
+        if ($isFutureDate) {
+            $message = esc_html__('Data coming soon!', 'wp-statistics');
+        }
+
+        return $message;
     }
 }
