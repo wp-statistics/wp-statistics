@@ -1,7 +1,6 @@
 <?php
 
 namespace WP_Statistics\Service\Admin\Referrals;
-use WP_Statistics\Decorators\ReferralDecorator;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 use WP_Statistics\Utils\Request;

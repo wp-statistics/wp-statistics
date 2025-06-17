@@ -120,113 +120,13 @@ use WP_STATISTICS\Helper;
         ?>
     </div>
 
-
     <!-- Top Entry Pages-->
-    <div class="postbox">
-        <?php
-            View::load("components/objects/card-header", [
-                'title' => esc_html__('Top Entry Pages', 'wp-statistics'),
-            ]);
-        ?>
-        <div class="inside">
-            <div class="o-table-wrapper">
-                <table width="100%" class="o-table wps-new-table wps-table-inspect">
-                    <thead>
-                        <tr>
-                            <th class="wps-pd-l">
-                                <?php esc_html_e('Entry Page', 'wp-statistics'); ?>
-                            </th>
-                            <th class="wps-pd-l">
-                                <span class="wps-order"><?php esc_html_e('Unique Entrances', 'wp-statistics'); ?></span>
-                            </th>
-                            <th class="wps-pd-l"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="wps-pd-l">
-                                <a class="wps-table-ellipsis--name" target="_blank" href="">
-                                    <span title="Data Plus">Data Plus</span>
-                                </a>
-                            </td>
-                            <td class="wps-pd-l">
-                                725
-                            </td>
-                            <td class="wps-pd-l view-more view-more__arrow">
-                                <a target="_blank" href="">
-                                    <?php esc_html_e('View Page', 'wp-statistics'); ?>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="o-wrap o-wrap--no-data wps-center">
-                <?php echo esc_html(Helper::getNoDataMessage()); ?>
-            </div>
-        </div>
-        <?php
-            View::load("components/objects/card-footer", [
-                'href'  => add_query_arg(['tab' => 'entry-pages'], Menus::admin_url('pages')),
-                'title' => esc_html__('View Entry Pages', 'wp-statistics'),
-            ]);
-        ?>
-    </div>
-
+    <?php do_action('wp_statistics_pages_overview_entry_pages_widget'); ?>
 
     <!-- Top Exit Pages -->
-    <div class="postbox">
-        <?php
-            View::load("components/objects/card-header", [
-                'title' => esc_html__('Top Exit Pages ', 'wp-statistics'),
-            ]);
-        ?>
-        <div class="inside">
-            <div class="o-table-wrapper">
-                <table width="100%" class="o-table wps-new-table wps-table-inspect">
-                    <thead>
-                        <tr>
-                            <th class="wps-pd-l">
-                                <?php esc_html_e('Exit page ', 'wp-statistics'); ?>
-                            </th>
-                            <th class="wps-pd-l">
-                                <span class="wps-order"><?php esc_html_e('Unique Exits', 'wp-statistics'); ?></span>
-                            </th>
-                            <th class="wps-pd-l"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="wps-pd-l">
-                                <a class="wps-table-ellipsis--name" target="_blank" href="">
-                                    <span title="Data Plus">Data Plus</span>
-                                </a>
-                            </td>
-                            <td class="wps-pd-l">
-                                725
-                            </td>
-                            <td class="wps-pd-l view-more view-more__arrow">
-                                <a target="_blank" href="">
-                                    <?php esc_html_e('View Page', 'wp-statistics'); ?>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="o-wrap o-wrap--no-data wps-center">
-                <?php echo esc_html(Helper::getNoDataMessage()); ?>
-            </div>
-        </div>
-        <?php
-            View::load("components/objects/card-footer", [
-                'href'  => add_query_arg(['tab' => 'exit-pages'], Menus::admin_url('pages')),
-                'title' => esc_html__('View Exit Pages', 'wp-statistics'),
-            ]);
-        ?>
-    </div>
+    <?php do_action('wp_statistics_pages_overview_exit_pages_widget'); ?>
 
-    <!--    Top 404 Pages  -->
+    <!--  Top 404 Pages  -->
     <div class="postbox">
         <?php
             View::load("components/objects/card-header", [
