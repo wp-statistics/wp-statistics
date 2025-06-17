@@ -24,6 +24,21 @@ class PageInsightsDataProvider
         $this->taxonomyModel    = new TaxonomyModel();
     }
 
+    public function getOverviewData()
+    {
+        $topData        = $this->postsModel->getPostsReportData(['order_by' => 'visitors', 'per_page' => 5]);
+        $recentData     = $this->postsModel->getPostsReportData(['order_by' => 'date', 'per_page' => 5]);
+        $notFoundData   = $this->postsModel->get404Data(['per_page' => 5]);
+        $authorsData    = $this->authorsModel->getAuthorsPagesData(['order_by' => 'page_views', 'per_page' => 5]);
+
+        return [
+            'top'       => $topData,
+            'recent'    => $recentData,
+            '404'       => $notFoundData,
+            'author'    => $authorsData
+        ];
+    }
+
     public function getTopData()
     {
         $args = array_merge($this->args, [

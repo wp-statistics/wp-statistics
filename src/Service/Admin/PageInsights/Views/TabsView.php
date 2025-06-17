@@ -2,14 +2,12 @@
 
 namespace WP_Statistics\Service\Admin\PageInsights\Views;
 
-use Exception;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
-use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\PageInsights\PageInsightsDataProvider;
 
 class TabsView extends BaseTabView
@@ -50,6 +48,11 @@ class TabsView extends BaseTabView
         }
 
         return $isLocked;
+    }
+
+    public function getOverviewData()
+    {
+        return $this->dataProvider->getOverviewData();
     }
 
     public function getTopData()
@@ -101,7 +104,7 @@ class TabsView extends BaseTabView
             'custom_get'    => $queryParams,
             'DateRang'      => Admin_Template::DateRange(),
             'hasDateRang'   => true,
-            'showLockedPage' => $this->isLocked(),
+            'showLockedPage'=> $this->isLocked(),
             'data'          => $data,
             'allTimeOption' => true,
             'filters'       => $filters,
