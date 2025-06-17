@@ -1,6 +1,7 @@
 <?php
 use WP_STATISTICS\Menus;
 use WP_Statistics\Components\View;
+use WP_STATISTICS\Helper;
 ?>
 
 <div class="wps-postbox-two-col">
@@ -49,7 +50,7 @@ use WP_Statistics\Components\View;
                 </div>
             <?php else : ?>
                 <div class="o-wrap o-wrap--no-data wps-center">
-                    <?php esc_html_e('No recent data available.', 'wp-statistics'); ?>
+                    <?php echo esc_html(Helper::getNoDataMessage()); ?>
                 </div>
             <?php endif; ?>
         </div>
@@ -107,7 +108,7 @@ use WP_Statistics\Components\View;
                 </div>
             <?php else : ?>
                 <div class="o-wrap o-wrap--no-data wps-center">
-                    <?php esc_html_e('No recent data available.', 'wp-statistics'); ?>
+                    <?php echo esc_html(Helper::getNoDataMessage()); ?>
                 </div>
             <?php endif; ?>
         </div>
@@ -161,14 +162,15 @@ use WP_Statistics\Components\View;
                 </table>
             </div>
             <div class="o-wrap o-wrap--no-data wps-center">
-                <?php esc_html_e('No recent data available.', 'wp-statistics'); ?>
+                <?php echo esc_html(Helper::getNoDataMessage()); ?>
             </div>
         </div>
         <?php
-        View::load("components/objects/card-footer", [
-            'href'  => add_query_arg(['tab' => 'entry-pages'], Menus::admin_url('pages')),
-            'title' => esc_html__('View Entry Pages', 'wp-statistics'),
-        ]); ?>
+            View::load("components/objects/card-footer", [
+                'href'  => add_query_arg(['tab' => 'entry-pages'], Menus::admin_url('pages')),
+                'title' => esc_html__('View Entry Pages', 'wp-statistics'),
+            ]);
+        ?>
     </div>
 
 
@@ -213,7 +215,7 @@ use WP_Statistics\Components\View;
                 </table>
             </div>
             <div class="o-wrap o-wrap--no-data wps-center">
-                <?php esc_html_e('No recent data available.', 'wp-statistics'); ?>
+                <?php echo esc_html(Helper::getNoDataMessage()); ?>
             </div>
         </div>
         <?php
@@ -262,7 +264,7 @@ use WP_Statistics\Components\View;
                 </div>
             <?php else : ?>
                 <div class="o-wrap o-wrap--no-data wps-center">
-                    <?php esc_html_e('No recent data available.', 'wp-statistics'); ?>
+                    <?php echo esc_html(Helper::getNoDataMessage()); ?>
                 </div>
             <?php endif; ?>
         </div>
@@ -318,7 +320,7 @@ use WP_Statistics\Components\View;
                 </div>
             <?php else : ?>
                 <div class="o-wrap o-wrap--no-data wps-center">
-                    <?php esc_html_e('No recent data available.', 'wp-statistics'); ?>
+                    <?php echo esc_html(Helper::getNoDataMessage()); ?>
                 </div>
             <?php endif; ?>
         </div>
