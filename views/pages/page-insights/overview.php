@@ -56,7 +56,7 @@ use WP_STATISTICS\Helper;
         </div>
         <?php
             View::load("components/objects/card-footer", [
-                'href'  => add_query_arg(['tab' => 'top'], Menus::admin_url('pages')),
+                'href'  => Menus::admin_url('pages', ['tab' => 'top']),
                 'title' => esc_html__('View Top Pages', 'wp-statistics'),
             ]);
         ?>

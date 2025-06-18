@@ -24,11 +24,11 @@ class MostVisitedPages extends BaseMetabox
     public function getOptions()
     {
         return [
-            'datepicker'    => true,
-            'button'        => View::load('metabox/action-button',[
-                'link'  => Menus::admin_url('pages'),
+            'datepicker' => true,
+            'button'     => View::load('metabox/action-button', [
+                'link'  => Menus::admin_url('pages', ['tab' => 'top']),
                 'title' => esc_html__('View Top Pages', 'wp-statistics')
-            ],true)
+            ], true)
         ];
     }
 
