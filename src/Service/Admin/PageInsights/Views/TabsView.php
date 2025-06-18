@@ -2,20 +2,19 @@
 
 namespace WP_Statistics\Service\Admin\PageInsights\Views;
 
-use Exception;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
-use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\PageInsights\PageInsightsDataProvider;
 
 class TabsView extends BaseTabView
 {
-    protected $defaultTab = 'top';
+    protected $defaultTab = 'overview';
     protected $tabs = [
+        'overview',
         'top',
         'category',
         'author',
@@ -49,6 +48,11 @@ class TabsView extends BaseTabView
         }
 
         return $isLocked;
+    }
+
+    public function getOverviewData()
+    {
+        return $this->dataProvider->getOverviewData();
     }
 
     public function getTopData()
@@ -100,7 +104,7 @@ class TabsView extends BaseTabView
             'custom_get'    => $queryParams,
             'DateRang'      => Admin_Template::DateRange(),
             'hasDateRang'   => true,
-            'showLockedPage' => $this->isLocked(),
+            'showLockedPage'=> $this->isLocked(),
             'data'          => $data,
             'allTimeOption' => true,
             'filters'       => $filters,
@@ -109,6 +113,11 @@ class TabsView extends BaseTabView
                 'echo'  => false
             ]),
             'tabs'          => [
+                [
+                    'link'    => Menus::admin_url('pages', ['tab' => 'overview']),
+                    'title'   => esc_html__('Overview', 'wp-statistics'),
+                    'class'   => $this->isTab('overview') ? 'current' : '',
+                ],
                 [
                     'link'    => Menus::admin_url('pages', ['tab' => 'top']),
                     'title'   => esc_html__('Top Pages', 'wp-statistics'),
@@ -164,8 +173,8 @@ class TabsView extends BaseTabView
             }
 
             // Relocate array items when Data Plus is active
-            $tabs = Helper::relocateArrayItems($tabs, $entryPage, 1);
-            $tabs = Helper::relocateArrayItems($tabs, $exitPage, 2);
+            $tabs = Helper::relocateArrayItems($tabs, $entryPage, 2);
+            $tabs = Helper::relocateArrayItems($tabs, $exitPage, 3);
 
             $args['tabs'] = $tabs;
         }
