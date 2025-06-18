@@ -1,6 +1,7 @@
 <?php
 
 use WP_Statistics\Components\DateRange;
+use WP_Statistics\Components\DateTime;
 use WP_STATISTICS\Country;
 use WP_STATISTICS\IP;
 use WP_Statistics\Models\VisitorsModel;
@@ -218,6 +219,8 @@ function wp_statistics_visit($time, $daily = null)
         $time = '30days';
     } elseif ($time === 'year') {
         $time = '12months';
+    } else if (is_numeric($time)) {
+        $time = DateTime::get("$time days");
     }
 
     $args = [
