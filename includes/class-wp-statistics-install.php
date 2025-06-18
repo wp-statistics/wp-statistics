@@ -390,10 +390,6 @@ class Install
             $wpdb->query("ALTER TABLE {$userOnlineTable} CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
         }
 
-        if (!DB::isColumnType('visit', 'ID', 'bigint(20)') && !DB::isColumnType('visit', 'ID', 'bigint')) {
-            $wpdb->query("ALTER TABLE `" . DB::table('visit') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
-        }
-
         /**
          * Change Charset All Table To New WordPress Collate
          * Reset Overview Order Meta Box View
@@ -519,6 +515,13 @@ class Install
          */
         if (Option::get('schedule_geoip') && version_compare($installed_version, '14.11', '<')) {
             Event::reschedule('wp_statistics_geoip_hook', 'monthly');
+        }
+
+        /**
+         * Remove wp_statistics_add_visit_hook from schedule
+         */
+        if (version_compare($latest_version, '14.15', '>=')) {
+            Event::unschedule('wp_statistics_add_visit_hook');
         }
 
         /**

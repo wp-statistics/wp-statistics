@@ -160,13 +160,6 @@ class Hits extends Singleton
         }
 
         /**
-         * Record User Views
-         */
-        if (Visit::active()) {
-            Visit::record();
-        }
-
-        /**
          * Record Pages
          */
         $pageId = false;
