@@ -173,8 +173,8 @@ class TabsView extends BaseTabView
             }
 
             // Relocate array items when Data Plus is active
-            $tabs = Helper::relocateArrayItems($tabs, $entryPage, 1);
-            $tabs = Helper::relocateArrayItems($tabs, $exitPage, 2);
+            $tabs = Helper::relocateArrayItems($tabs, $entryPage, 2);
+            $tabs = Helper::relocateArrayItems($tabs, $exitPage, 3);
 
             $args['tabs'] = $tabs;
         }
