@@ -2,6 +2,8 @@
 use WP_STATISTICS\Menus;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
+
+echo '<script>console.log(' . json_encode( $data ) . ')</script>';
 ?>
 
 <div class="wps-postbox-two-col">
@@ -36,7 +38,7 @@ use WP_STATISTICS\Helper;
                                         </a>
                                     </td>
                                     <td class="wps-pd-l">
-                                        <?php echo esc_html(number_format_i18n($item->visitors)) ?>
+                                        <?php echo esc_html(number_format_i18n($item->views)) ?>
                                     </td>
                                     <td class="wps-pd-l view-more view-more__arrow">
                                         <a target="_blank" href="<?php the_permalink($item->post_id) ?>">
@@ -94,7 +96,7 @@ use WP_STATISTICS\Helper;
                                         </a>
                                     </td>
                                     <td class="wps-pd-l">
-                                        <?php echo esc_html(number_format_i18n($item->visitors)) ?>
+                                        <?php echo esc_html(number_format_i18n($item->views)) ?>
                                     </td>
                                     <td class="wps-pd-l view-more view-more__arrow">
                                         <a target="_blank" href="<?php the_permalink($item->post_id) ?>">
