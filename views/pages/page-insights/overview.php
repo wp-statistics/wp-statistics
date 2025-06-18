@@ -22,7 +22,7 @@ use WP_STATISTICS\Helper;
                                     <?php esc_html_e('Page', 'wp-statistics'); ?>
                                 </th>
                                 <th class="wps-pd-l">
-                                    <span class="wps-order"><?php esc_html_e('Visitors', 'wp-statistics'); ?></span>
+                                    <span class="wps-order"><?php esc_html_e('Views', 'wp-statistics'); ?></span>
                                 </th>
                                 <th class="wps-pd-l"></th>
                             </tr>
@@ -80,7 +80,7 @@ use WP_STATISTICS\Helper;
                                     <?php esc_html_e('Page', 'wp-statistics'); ?>
                                 </th>
                                 <th class="wps-pd-l">
-                                    <span class="wps-order"><?php esc_html_e('Visitors', 'wp-statistics'); ?></span>
+                                    <span class="wps-order"><?php esc_html_e('Views', 'wp-statistics'); ?></span>
                                 </th>
                                 <th class="wps-pd-l"></th>
                             </tr>
