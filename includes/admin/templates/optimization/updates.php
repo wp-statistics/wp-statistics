@@ -142,8 +142,8 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
                                             }
                                         }
 
-                                        if (!empty($schemaCheckResult['errors']) && is_array($schemaCheckResult['errors'])) {
-                                            foreach ($schemaCheckResult['errors'] as $issue) {
+                                        if (!empty($schemaCheckResult['issues']) && is_array($schemaCheckResult['issues'])) {
+                                            foreach ($schemaCheckResult['issues'] as $issue) {
                                                 if ($issue['type'] === 'table_missing') {
                                                     $message = sprintf(
                                                         '%1$s — %2$s',

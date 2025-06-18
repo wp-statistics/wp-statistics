@@ -39,8 +39,22 @@ class SchemaMaintainer
             $tableNames = Manager::getAllTableNames();
 
             foreach ($tableNames as $tableName) {
-                $schema = Manager::getSchemaForTable($tableName);
+                $inspect = DatabaseFactory::table('inspect')
+                    ->setName($tableName)
+                    ->execute();
+
+                 $schema = Manager::getSchemaForTable($tableName);
+               
                 if (!$schema) {
+                    continue;
+                }
+
+                if (!$inspect->getResult()) {
+                    $results['issues'][] = [
+                        'type'   => 'table_missing',
+                        'table'  => $tableName,
+                        'schema' => $schema,
+                    ];
                     continue;
                 }
 
@@ -75,7 +89,7 @@ class SchemaMaintainer
                 } catch (\RuntimeException $e) {
                     if (strpos($e->getMessage(), 'does not exist') !== false) {
                         $results['errors'][] = [
-                            'type'  => 'table_missing',
+                            'type'  => 'failed',
                             'table' => $tableName
                         ];
                         WP_Statistics::log($e->getMessage());
@@ -134,6 +148,10 @@ class SchemaMaintainer
                                 'indexDefinition' => $issue['indexDefinition']
                             ])
                             ->execute();
+                    }
+
+                    if ($issue['type'] === 'table_missing') {
+                        TableHandler::createTable($issue['table'], $issue['schema']);
                     }
 
                     $results['fixed'][] = $issue;
