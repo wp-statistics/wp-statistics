@@ -312,6 +312,9 @@ class ViewsModel extends BaseModel
             'resource_id'   => '',
             'resource_type' => '',
             'date'          => '',
+            'group_by'      => 'id',
+            'not_null'      => '',
+            'order_by'      => 'views',
             'page'          => 1,
             'per_page'      => 10
         ]);
@@ -344,11 +347,33 @@ class ViewsModel extends BaseModel
                 ->where('id', '=', $args['resource_id'])
                 ->where('type', 'IN', $args['resource_type'])
                 ->whereDate('date', $args['date'])
+                ->whereNotNull($args['not_null'])
+                ->orderBy($args['order_by'])
                 ->perPage($args['page'], $args['per_page'])
-                ->groupBy('id')
+                ->groupBy($args['group_by'])
                 ->getAll();
         }
 
         return $results;
+    }
+
+    public function countPagesRecords($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'resource_id'   => '',
+            'resource_type' => '',
+            'date'          => '',
+            'not_null'      => '',
+        ]);
+
+        $result = Query::select('COUNT(*)')
+            ->from('pages')
+            ->where('id', '=', $args['resource_id'])
+            ->where('type', 'IN', $args['resource_type'])
+            ->whereDate('date', $args['date'])
+            ->whereNotNull($args['not_null'])
+            ->getVar();
+
+        return $result;
     }
 }
