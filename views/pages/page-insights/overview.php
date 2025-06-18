@@ -2,8 +2,6 @@
 use WP_STATISTICS\Menus;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
-
-echo '<script>console.log(' . json_encode( $data ) . ')</script>';
 ?>
 
 <div class="wps-postbox-two-col">
