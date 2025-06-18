@@ -6,6 +6,19 @@ use WP_STATISTICS\Menus;
 ?>
 <div class="metabox-holder wps-referral-overview">
     <div class="postbox-container" id="wps-postbox-container-1">
+
+        <?php
+        View::load("components/objects/glance-card", ['metrics' => [
+            ['label' => esc_html__('Referred Visitors', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => '31.1K', 'change' => '8.3'],
+            ['label' => esc_html__('Top Referrer', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => '31.1K', 'change' => '-1.3'],
+            ['label' => esc_html__('Top Country', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => 'France'],
+            ['label' => esc_html__('Top Browser', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => '125.4K', 'change' => '8.3'],
+            ['label' => esc_html__('Top Search Engine', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => '125.4K', 'change' => '0'],
+            ['label' => esc_html__('Top Social Media', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => '125.4K', 'change' => '-2.3'],
+            ['label' => esc_html__('Top Entry Page', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => '125.4K', 'change' => '5.3'],
+        ]]);
+
+        ?>
         <div class="wps-card">
             <div class="wps-card__title">
                 <h2><?php esc_html_e('Top Referrers', 'wp-statistics') ?></h2>
