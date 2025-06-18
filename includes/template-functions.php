@@ -219,7 +219,7 @@ function wp_statistics_visit($time, $daily = null)
         $time = '30days';
     } elseif ($time === 'year') {
         $time = '12months';
-    } else if (is_numeric($time)) {
+    } else if (is_numeric($time) && $daily) {
         $time = DateTime::get("$time days");
     }
 
