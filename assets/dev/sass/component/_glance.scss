@@ -23,6 +23,16 @@
         flex: 0 0 100% !important;
       }
 
+      &:nth-child(odd){
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+
+        @media (max-width: 600px) {
+          align-items: flex-start;
+        }
+      }
+
     }
 
     .wps-at-a-glance-label {
@@ -55,11 +65,11 @@
       gap: 4px;
       align-items: center;
 
-      span:first-child {
+      span:first-child  ,.wps-external-link{
         color: #1E1E20;
         font-weight: 400;
         font-size: 20px;
-        line-height: 24px;
+        line-height: 26px;
         display: block;
         max-width: 150px;
         white-space: nowrap;
@@ -75,6 +85,18 @@
         @media (max-width: 480px) {
           font-size: 14px;
           line-height: 18px;
+        }
+      }
+
+      .wps-external-link{
+        color: #10188D;
+
+        &:after{
+
+        }
+
+        &:hover{
+          color: #3c4043;
         }
       }
 

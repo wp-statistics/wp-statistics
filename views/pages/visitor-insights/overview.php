@@ -12,9 +12,58 @@ use WP_STATISTICS\Menus;
             ['label' => esc_html__('Visitors', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => '31.1K', 'change' => '8.3'],
             ['label' => esc_html__('Views', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => '31.1K', 'change' => '-1.3'],
             ['label' => esc_html__('Top Country', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => 'France'],
-            ['label' => esc_html__('Top Referrer', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => '125.4K', 'change' => '8.3'],
+            ['label' => esc_html__('Top Referrer', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'link-title' => 'google.com',  'link-href' => 'http://google.com', ],
             ['label' => esc_html__('Logged-in Share', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => '125.4K', 'change' => '0'],
         ]]);
+
+        ?>
+        <div class="wps-card">
+            <div class="wps-card__title">
+                <h2><?php esc_html_e('Traffic Summary', 'wp-statistics') ?></h2>
+            </div>
+            <div class="wps-meta-traffic-summary">
+                <div class="c-live">
+                    <div>
+                        <span class="c-live__status"></span>
+                        <span class="c-live__title"><?php esc_html_e('Online Users', 'wp-statistics') ?></span>
+                    </div>
+                    <div class="c-live__online">
+                        <span class="c-live__online--value">0</span>
+                        <a class="c-live__value" href=""><span class="c-live__online--arrow"></span></a>
+                    </div>
+                </div>
+                <div class="o-table-wrapper">
+                    <table width="100%" class="o-table o-table--wps-summary-stats">
+                        <thead>
+                        <tr>
+                            <th width="50%"><?php esc_html_e('Time', 'wp-statistics') ?></th>
+                            <th><?php esc_html_e('Visitors', 'wp-statistics') ?></th>
+                            <th><?php esc_html_e('Views', 'wp-statistics') ?></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><b><?php esc_html_e('Today', 'wp-statistics') ?></b></td>
+                            <td><a href=""><span class="quickstats-values">1</span></a></td>
+                            <td><a href=""><span class="quickstats-values">2</span></a></td>
+                        </tr>
+                        <tr>
+                            <td><b><?php esc_html_e('Yesterday', 'wp-statistics') ?></b></td>
+                            <td><a href=""><span class="quickstats-values">0</span></a></td>
+                            <td><a href=""><span class="quickstats-values">0</span></a></td>
+                        </tr>
+                        <tr>
+                            <td><b><?php esc_html_e('7-Day Avg', 'wp-statistics') ?></b></td>
+                            <td><a href=""><span class="quickstats-values">1</span></a></td>
+                            <td><a href=""><span class="quickstats-values">2</span></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <?php
 
         View::load("components/charts/horizontal-bar", [
             'title'        => esc_html__('Logged-in Users', 'wp-statistics'),
@@ -61,6 +110,14 @@ use WP_STATISTICS\Menus;
 
     </div>
     <div class="postbox-container" id="wps-postbox-container-2">
+        <div class="wps-card">
+            <div class="wps-card__title">
+                <h2><?php esc_html_e('Referred Visitors', 'wp-statistics') ?></h2>
+            </div>
+            <?php View::load("components/charts/traffic-trends", ['chart_id' => 'referredVisitors']); ?>
+        </div>
+
+
         <div class="wps-card">
             <div class="wps-card__title">
                 <h2><?php esc_html_e('Top Entry Pages', 'wp-statistics') ?></h2>

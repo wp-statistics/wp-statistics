@@ -14,12 +14,18 @@
                             <?php endif; ?>
                         </span>
                         <span class="wps-at-a-glance-value">
+                            <?php if (isset($metric['value'])): ?>
                             <span title="<?php echo esc_html($metric['value']); ?>"><?php echo esc_html($metric['value']); ?></span>
+                            <?php endif; ?>
 
                             <?php if (isset($metric['change'])): ?>
                                 <span class="wps-at-a-glance-change <?php echo esc_attr($metric['change'] > 0 ? 'wps-glance-positive' : ($metric['change'] < 0 ? 'wps-glance-negative' : '')); ?>">
                                 <?php echo esc_html($metric['change'] > 0 ? '+' : '') . esc_html($metric['change']) . '%'; ?>
                             </span>
+                            <?php endif; ?>
+
+                            <?php if (isset($metric['link-href'])): ?>
+                                <a href="<?php echo esc_url($metric['link-href']); ?>" class="wps-external-link"><?php echo esc_html($metric['link-title']); ?></a>
                             <?php endif; ?>
                         </span>
                     </div>
