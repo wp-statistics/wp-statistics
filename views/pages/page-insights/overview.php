@@ -31,7 +31,7 @@ use WP_STATISTICS\Helper;
                             <?php foreach ($data['top'] as $item) : ?>
                                 <tr>
                                     <td class="wps-pd-l">
-                                        <a class="wps-table-ellipsis--name" target="_blank" href="<?php echo esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $item->post_id])) ?>">
+                                        <a class="wps-table-ellipsis--name" href="<?php echo esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $item->post_id])) ?>">
                                             <span title="<?php  echo esc_attr($item->title); ?>"><?php echo esc_html($item->title); ?></span>
                                         </a>
                                     </td>
@@ -89,7 +89,7 @@ use WP_STATISTICS\Helper;
                             <?php foreach ($data['recent'] as $item) : ?>
                                 <tr>
                                     <td class="wps-pd-l">
-                                        <a class="wps-table-ellipsis--name" target="_blank" href="<?php echo esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $item->post_id])) ?>">
+                                        <a class="wps-table-ellipsis--name" href="<?php echo esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $item->post_id])) ?>">
                                             <span title="<?php  echo esc_attr($item->title); ?>"><?php echo esc_html($item->title); ?></span>
                                         </a>
                                     </td>
@@ -203,7 +203,7 @@ use WP_STATISTICS\Helper;
                             <?php foreach ($data['author'] as $author) : ?>
                                 <tr>
                                     <td class="wps-pd-l">
-                                        <a class="wps-table-ellipsis--name" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])) ?>" target="_blank">
+                                        <a class="wps-table-ellipsis--name" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])) ?>">
                                             <span title="<?php echo esc_attr($author->name) ?>"><?php echo esc_html($author->name) ?></span>
                                         </a>
                                     </td>
