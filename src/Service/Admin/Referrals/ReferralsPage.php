@@ -174,9 +174,9 @@ class ReferralsPage extends MultiViewPage
                 'panel'         => true,
                 'attributes'    => [
                     'data-type'     => 'utm_params',
-                    'data-source'   => 'getUtmParams',
                     'data-default'  => '',
                 ],
+                'predefined' => $this->getUtmParamsFilter()
             ])
             ->button('resetButton', [
                 'name' => 'reset',
@@ -197,6 +197,41 @@ class ReferralsPage extends MultiViewPage
 
 
         return $this->filters;
+    }
+
+    /**
+     * Retrieves UTM filter items.
+     *
+     * @return array
+     */
+    public function getUtmParamsFilter()
+    {
+        $queryKey   = 'utm_param';
+        $baseUrl    = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey])));
+
+        $args = [
+            [
+                'slug'  => 'utm_campaign',
+                'name'  => esc_html__('UTM Campaign', 'wp-statistics'),
+                'url'   => add_query_arg([$queryKey => 'utm_campaign'], $baseUrl),
+            ],
+            [
+                'slug'  => 'utm_source',
+                'name'  => esc_html__('UTM Source', 'wp-statistics'),
+                'url'   => add_query_arg([$queryKey => 'utm_source'], $baseUrl),
+            ],
+            [
+                'slug'  => 'utm_medium',
+                'name'  => esc_html__('UTM Medium', 'wp-statistics'),
+                'url'   => add_query_arg([$queryKey => 'utm_medium'], $baseUrl),
+            ]
+        ];
+
+        return [
+            'args'              => $args,
+            'baseUrl'           => $baseUrl,
+            'selectedOption'    => Request::get($queryKey, 'utm_campaign'),
+        ];
     }
 
     /**
