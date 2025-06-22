@@ -1156,8 +1156,13 @@ body .o-table-wrapper table.wps-new-table tbody tr td {
       }
     }
 
-    &:hover span {
-      color: #3c4043 !important;
+    &:hover{
+      span {
+        color: #3c4043 !important;
+      }
+      &:after{
+        filter: grayscale(1);
+      }
     }
   }
 }
