@@ -7,26 +7,45 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
-$isLicenseValid     = LicenseHelper::isPluginLicenseValid('wp-statistics-marketing');
-$isMarketingActive  = Helper::isAddOnActive('marketing');
+$isLicenseValid    = LicenseHelper::isPluginLicenseValid('wp-statistics-marketing');
+$isMarketingActive = Helper::isAddOnActive('marketing');
 ?>
     <h2 class="wps-settings-box__title">
         <span><?php esc_html_e('Marketing', 'wp-statistics'); ?></span>
-     </h2>
+    </h2>
 <?php
 
 
- if (!$isMarketingActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
-    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp/?utm_source=wp-statistics&utm_medium=link&utm_campaign=widgets'),
-     'addon_title'        => __('Advanced Widgets Add-On', 'wp-statistics'),
+if (!$isMarketingActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
+    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp/?utm_source=wp-statistics&utm_medium=link&utm_campaign=marketing'),
+     'addon_title'        => __('Marketing Add-On', 'wp-statistics'),
      'addon_modal_target' => 'wp-statistics-marketing',
      'addon_campaign'     => 'marketing',
-     'addon_description'  => __('The settings on this page are part of the Marketing add-on', 'wp-statistics'),
+     'addon_description'  => sprintf(
+         __('The settings on this page are part of the %s add-on, which upgrades WP Statistics from simple analytics to a full-fledged growth dashboard.', 'wp-statistics'),
+         '<b>' . esc_html__('Marketing', 'wp-statistics') . '</b>'
+     ),
      'addon_features'     => [
-         __('View your Search Console data in WordPress—no more switching tabs.', 'wp-statistics'),
-         __('Get key metrics in your overview page for quick insights.', 'wp-statistics'),
-         __('Track traffic and keywords for each page or post at a glance.', 'wp-statistics'),
-         __('Unlock detailed search data to make smarter content decisions.', 'wp-statistics'),
+         sprintf(
+             __('Pull %s keywords and traffic for every page without leaving WordPress.', 'wp-statistics'),
+             '<b>' . esc_html__('Google Search Console', 'wp-statistics') . '</b>'
+         ),
+         sprintf(
+             __('Track %s and instantly see which channels bring the best visitors.', 'wp-statistics'),
+             '<b>' . esc_html__('campaigns & UTM links', 'wp-statistics') . '</b>'
+         ),
+         sprintf(
+             __('%s on buttons, links, and other elements with a quick toggle.', 'wp-statistics'),
+             '<b>' . esc_html__('Record click events', 'wp-statistics') . '</b>'
+         ),
+         sprintf(
+             __('Create unlimited %s for custom interactions or funnels.', 'wp-statistics'),
+             '<b>' . esc_html__('code-based events ', 'wp-statistics') . '</b>'
+         ),
+         sprintf(
+             __('Set %s and watch progress toward your targets in real-time.', 'wp-statistics'),
+             '<b>' . esc_html__('PageView goals', 'wp-statistics') . '</b>'
+         )
      ],
     ], true);
 
@@ -48,7 +67,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                 </th>
             </tr>
             <tr>
-                <td  scope="row" class="wps-addon-settings--marketing__row">
+                <td scope="row" class="wps-addon-settings--marketing__row">
                     <div class="wps-alert--marketing">
                         <a href="<?php echo apply_filters('wp_statistics_google_auth_url', '') ?>" class="button button-primary"><?php esc_html_e('Connect to Google Search Console', 'wp-statistics'); ?></a>
                         <div class="wps-alert--setting--title">
@@ -65,7 +84,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                                 <li><?php esc_html_e('Unlock detailed search data to make smarter content decisions.', 'wp-statistics'); ?></li>
                             </ul>
                             <a href="" class="wps-link-underline"
-                            target="_blank"><?php esc_html_e('Learn more about these benefits', 'wp-statistics'); ?>
+                               target="_blank"><?php esc_html_e('Learn more about these benefits', 'wp-statistics'); ?>
                             </a>
                         </div>
                         <?php View::load("components/objects/google-data-policy-alert"); ?>
@@ -107,8 +126,9 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                             <option disabled selected value=""><?php esc_html_e('Select site', 'wp-statistics'); ?></option>
                         <?php endif; ?>
                     </select>
-                 </td>
-            </tr><tr valign="top">
+                </td>
+            </tr>
+            <tr valign="top">
                 <th scope="row"></th>
                 <td class="wps_addon_settings__site">
                     <?php View::load("components/objects/google-data-policy-alert"); ?>
