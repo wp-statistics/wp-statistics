@@ -365,42 +365,6 @@ class FilterManager
     }
 
     /**
-     * Retrieves UTM params.
-     *
-     * @return array
-     */
-    public function getUtmParams($page)
-    {
-        $currentPage    = admin_url("admin.php{$page}");
-        $queryKey       = 'utm_param';
-        $baseUrl        = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey], $currentPage)));
-
-        $args = [
-            [
-                'slug'  => 'utm_source',
-                'name'  => esc_html__('UTM Source', 'wp-statistics'),
-                'url'   => add_query_arg([$queryKey => 'utm_source'], $baseUrl),
-            ],
-            [
-                'slug'  => 'utm_medium',
-                'name'  => esc_html__('UTM Medium', 'wp-statistics'),
-                'url'   => add_query_arg([$queryKey => 'utm_medium'], $baseUrl),
-            ],
-            [
-                'slug'  => 'utm_campaign',
-                'name'  => esc_html__('UTM Campaign', 'wp-statistics'),
-                'url'   => add_query_arg([$queryKey => 'utm_campaign'], $baseUrl),
-            ]
-        ];
-
-        return [
-            'args'              => $args,
-            'baseUrl'           => $baseUrl,
-            'selectedOption'   => Request::get($queryKey, 'utm_source'),
-        ];
-    }
-
-    /**
      * Retrieves post types with their details and generates corresponding data.
      *
      * @return array
