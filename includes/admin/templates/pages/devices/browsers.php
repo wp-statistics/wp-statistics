@@ -19,7 +19,9 @@
                                         <th class="wps-pd-l">
                                             <?php esc_html_e('Percent Share', 'wp-statistics'); ?>
                                         </th>
-                                        <th></th>
+                                        <th scope="col">
+                                            <span class="screen-reader-text"><?php esc_html_e('View browser detail', 'wp-statistics'); ?></span>
+                                        </th>
                                     </tr>
                                 </thead>
 

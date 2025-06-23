@@ -135,7 +135,7 @@ $email_performance_html = '
         <div class="card__body" style=" border-top: 0; padding: 24px 32px 32px;">
             <table width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
-                    <td width="40%" valign="top">
+                    <td width="40%" >
                           ' . generatePerformanceSection(
                             'visitor.png',
                             Helper::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodVisitors(), 1),
@@ -149,7 +149,7 @@ $email_performance_html = '
                             __('Referrals', 'wp-statistics')
                         ) . '
                     </td>
-                    <td width="60%" valign="top">
+                    <td width="60%" >
                         ' . generatePerformanceSection(
                             'views.png',
                             Helper::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodViews(), 1),
@@ -264,8 +264,8 @@ if (!empty($websitePerformanceDataProvider->getTopReferral())) {
 }
 
 // Create the table rows with the correct columns
-$email_performance_html .= '<td width="40%" valign="top">' . implode('', $firstColumnContent) . '</td>';
-$email_performance_html .= '<td width="60%" valign="top">' . implode('', $secondColumnContent) . '</td>';
+$email_performance_html .= '<td width="40%" >' . implode('', $firstColumnContent) . '</td>';
+$email_performance_html .= '<td width="60%" >' . implode('', $secondColumnContent) . '</td>';
 
 $email_performance_html .= '</tr></table></div></div>';
 

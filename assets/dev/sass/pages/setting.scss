@@ -547,11 +547,11 @@
 
   &__info {
     border-top: 1px solid #DADCE0;
-    margin-bottom: 16px;
-    padding-top: 24px;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 24px;
+    margin-bottom: 16px!important;
+    padding: 24px 0 0!important;
+    font-size: 16px!important;
+    font-weight: 500!important;
+    line-height: 24px!important;
     color: #0C0C0D;
     width: 100%;
 
@@ -1383,7 +1383,7 @@
   .form-table {
     margin: 0;
     &.wps-optimization-overview{
-      tbody th label{
+      tbody th label , tbody th .wps-setting-label{
         gap: 0;
         flex-wrap: wrap;
         &>span{
@@ -1553,7 +1553,8 @@
           }
         }
 
-        label {
+        label  , .wps-setting-label{
+          color: #000;
           display: flex;
           gap: 8px;
 

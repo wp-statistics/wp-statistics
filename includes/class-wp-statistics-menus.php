@@ -276,7 +276,15 @@ class Menus
             if (array_key_exists('sub', $menu)) {
                 //Check if add Break Line
                 if (array_key_exists('break', $menu)) {
-                    add_submenu_page(self::get_page_slug($menu['sub']), '', '', $capability, 'wps_break_menu', $callback);
+                    add_menu_page(
+                        '',
+                        '',
+                        $capability,
+                        'wps_break_menu',
+                        '__return_null',
+                        'none',
+                        null
+                    );
                 }
 
                 //Check Conditions For Show Menu

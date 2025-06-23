@@ -31,11 +31,11 @@ if ($isWidgetsActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isWidgetsActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top" class="wps-settings-box_head">
+            <tr class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Widget Cache Duration', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top" data-id="refresh_every_tr">
+            <tr data-id="refresh_every_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[widgets][cache_life]"><?php esc_html_e('Refresh Every', 'wp-statistics'); ?></label>
                 </th>
@@ -62,13 +62,13 @@ if ($isWidgetsActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isWidgetsActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top" class="wps-settings-box_head">
+            <tr class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Widget Design Customization', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top" data-id="use_default_widget_styling_tr">
+            <tr data-id="use_default_widget_styling_tr">
                 <th scope="row">
-                    <label for="wps_addon_settings[widgets][disable_styles]"><?php esc_html_e('Use Default Widget Styling', 'wp-statistics'); ?></label>
+                    <span class="wps-setting-label"><?php esc_html_e('Use Default Widget Styling', 'wp-statistics'); ?></span>
                 </th>
 
                 <td>

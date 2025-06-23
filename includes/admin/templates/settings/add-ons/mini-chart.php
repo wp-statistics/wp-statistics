@@ -57,7 +57,7 @@ if ($isMiniChartActive && !$isLicenseValid) {
 
         <tr data-id="chart_display_tr">
             <th scope="row">
-                <label><?php esc_html_e('Chart Display', 'wp-statistics'); ?></label>
+                <span class="wps-setting-label"><?php esc_html_e('Chart Display', 'wp-statistics'); ?></span>
             </th>
 
             <td>
