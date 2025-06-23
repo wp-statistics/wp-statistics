@@ -123,6 +123,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                 'step_title'  => esc_html__('Set goals, measure conversions, and optimize your reach for real results.', 'wp-statistics'),
             ];
             View::load("components/modals/introduce-premium/step-content", $data);
+
             ?>
         </div>
         <div class="wps-premium-step__sidebar">
@@ -132,18 +133,18 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                     <?php foreach (PluginHelper::$plugins as $slug => $title) :
                         $class = '';
 
-                        $isActive       = $pluginHandler->isPluginActive($slug);
-                        $isInstalled    = $pluginHandler->isPluginInstalled($slug);
-                        $hasLicense     = LicenseHelper::isPluginLicenseValid($slug);
+                        $isActive    = $pluginHandler->isPluginActive($slug);
+                        $isInstalled = $pluginHandler->isPluginInstalled($slug);
+                        $hasLicense  = LicenseHelper::isPluginLicenseValid($slug);
 
                         if ($hasLicense && $isActive) {
                             $class = 'activated';
-                        }elseif ($hasLicense && $isInstalled && !$isActive) {
+                        } elseif ($hasLicense && $isInstalled && !$isActive) {
                             $class = 'not-active';
                         } elseif (!$hasLicense && ($isInstalled || $isActive)) {
                             $class = 'no-license';
                         }
-                    ?>
+                        ?>
                         <li class="<?php echo esc_attr($class); ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="<?php echo esc_attr($slug) ?>">
                             <?php echo esc_html($title); ?>
 

@@ -2,6 +2,7 @@
 - **Fix:** Resolve Zero Page View Issue for Non-'Category' Taxonomies.
 - **Enhancement:** Improved migration efficiency and stability by running schema migrations synchronously and removing background processes.
 - **Enhancement:** Improved `Views` report under `Visitor Insight` page.
+- **Fix:** Delay anonymous data opt-in notice to 7 days after plugin activation.
 - **Fix:** Fixed inaccurate tracking of WooCommerce My Account sub-page titles.
 - **Enhancement:** Unset `Consent Integration` option upon integration deactivation.
 - **New:** Add Country Name to Visitor Info Flag Tooltip.
@@ -36,6 +37,7 @@
 - **Fix:** Removed `/online` and `/hit` REST endpoints when Server-Side Tracking is enabled (deprecated).
 - **Fix:** Ensured `tracker.js` works with Root Bedrock setups.
 - **Fix:** Handled `E_STRICT` deprecation warning in PHP 8.4.
+- **New:** Added a database schema section to the Optimization page to resolve database errors.
 
 = 14.13.4 - 2025-04-29 =
 - **Enhancement:** Enforced capability check in optionUpdater.

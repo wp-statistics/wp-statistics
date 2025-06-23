@@ -1,5 +1,5 @@
 <?php
- use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 $pluginHandler = new PluginHandler();
 if ( $step_name !== 'first-step'){

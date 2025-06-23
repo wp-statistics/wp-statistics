@@ -16,23 +16,23 @@ let autoSlideInterval;
 let currentStepIndex = 1;
 
 const closeModal=()=> {
-     if (modal) {
+    if (modal) {
         modal.style.display = 'none';
         document.body.style.overflow = '';
-     }
+    }
 }
 
 const setMaxHeightForAllSteps = () => {
-     if (premiumSteps.length === 0) {
+    if (premiumSteps.length === 0) {
         return;
     }
     let maxStepHeight = 0;
     premiumSteps.forEach(step => {
         const originalDisplay = step.style.display;
         step.style.display = 'block';
-         step.style.minHeight = 'auto';
-         let stepHeight = step.getBoundingClientRect().height;
-         maxStepHeight = Math.max(maxStepHeight, stepHeight);
+        step.style.minHeight = 'auto';
+        let stepHeight = step.getBoundingClientRect().height;
+        maxStepHeight = Math.max(maxStepHeight, stepHeight);
         step.style.display = originalDisplay;
     });
     premiumSteps.forEach(step => {
@@ -44,22 +44,22 @@ const setMaxHeightForAllSteps = () => {
 // Optionally, re-run the function when the window is resized
 window.addEventListener('resize', setMaxHeightForAllSteps);
 const openModal = (target, href) => {
-     if (modal){
-          modal.style.display = 'block';
-         document.body.style.overflow = 'hidden';
-     }
-     const targetIndex = Array.from(premiumFeatures).findIndex(step => step.getAttribute('data-modal') === target);
-      if (targetIndex !== -1) {
-        currentStepIndex = targetIndex;
-         if(welcomeContent){
-             welcomeContent.style.display = 'none';
-          }
-          loadModalImages();
-          showStep(currentStepIndex+1);
-          premiumStepsContent.style.display = 'block';
-          stopAutoSlide();
+    if (modal){
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
     }
- }
+    const targetIndex = Array.from(premiumFeatures).findIndex(step => step.getAttribute('data-modal') === target);
+    if (targetIndex !== -1) {
+        currentStepIndex = targetIndex;
+        if(welcomeContent){
+            welcomeContent.style.display = 'none';
+        }
+        loadModalImages();
+        showStep(currentStepIndex+1);
+        premiumStepsContent.style.display = 'block';
+        stopAutoSlide();
+    }
+}
 
 document.addEventListener('click', (event) => {
     const button = event.target.closest('.js-wps-openPremiumModal');
@@ -103,7 +103,7 @@ const loadModalImages=()=>{
 // Function to show a specific step and sync the sidebar
 const showStep = (index) => {
     if (!premiumSteps || index < 0 || index >= premiumSteps.length) {
-         return;
+        return;
     }
 
     setTimeout(() => {
@@ -162,7 +162,7 @@ const showStep = (index) => {
 
 // Function to start the auto-slide process
 const startAutoSlide = () => {
-        autoSlideInterval = setInterval(() => {
+    autoSlideInterval = setInterval(() => {
         currentStepIndex = (currentStepIndex + 1) % premiumWelcomeSteps.length;
         showStep(currentStepIndex); // Show the current step and sync sidebar
     }, 5000);
@@ -179,7 +179,7 @@ if (premiumFeatures.length>0) {
             stopAutoSlide(); // Stop auto-slide when user interacts
             currentStepIndex = index + 1
             showStep(currentStepIndex);
-         });
+        });
     });
 }
 
@@ -189,7 +189,7 @@ class ModalHandler {
     }
 
     init() {
-         document.addEventListener('click', (event) => {
+        document.addEventListener('click', (event) => {
             const button = event.target.closest('[class*="js-openModal-"]');
             if (button) {
                 const modalId = this.extractModalIdFromClass(button.classList);
@@ -249,13 +249,13 @@ class ModalHandler {
             if (button) {
                 const modal = button.closest('.wps-modal');
                 if (modal) {
-                     modal.classList.remove('wps-modal--open');
+                    modal.classList.remove('wps-modal--open');
                 }
             }
         });
     }
 
-     handleModalAction(modal, action) {
+    handleModalAction(modal, action) {
         switch (action) {
             case 'resolve':
                 break;
