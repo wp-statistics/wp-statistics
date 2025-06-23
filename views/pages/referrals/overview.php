@@ -55,6 +55,8 @@ use WP_STATISTICS\Menus;
                 'footer_link'  => Menus::admin_url('referrals', ['tab' => 'search-engines'])
             ]);
 
+            do_action('wp_statistics_referrals_overview_gsc_widgets');
+
             View::load("components/charts/top-referrer", [
                 'title'        => esc_html__('Top Social Media', 'wp-statistics'),
                 'unique_id'    => 'referral-social-media-chart',
