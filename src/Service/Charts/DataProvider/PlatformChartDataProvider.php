@@ -9,6 +9,7 @@ use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\BarChartResponseTrait;
 use WP_STATISTICS\UserAgent;
+use WP_Statistics\Utils\Format;
 
 class PlatformChartDataProvider extends AbstractChartDataProvider
 {
@@ -102,7 +103,7 @@ class PlatformChartDataProvider extends AbstractChartDataProvider
                 /** @var VisitorDecorator $item */
                 $platform   = $item->getOs()->getName();
                 $agent      = $item->getBrowser()->getRaw();
-                $device     = !empty($item->getDevice()->getType()) ? ucfirst(Helper::getDeviceCategoryName($item->getDevice()->getType())) : esc_html__('Unknown', 'wp-statistics');
+                $device     = !empty($item->getDevice()->getType()) ? ucfirst(Format::getSegment($item->getDevice()->getType())) : esc_html__('Unknown', 'wp-statistics');
                 $model      = $item->getDevice()->getModel();
 
                 // OS data

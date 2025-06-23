@@ -196,4 +196,64 @@ class DateTime
 
         return ($inputDate >= $today);
     }
+
+    /**
+     * Build a default date‑format pattern string based on WordPress settings.
+     *
+     * @param bool   $withTime     Include the time portion.
+     * @param bool   $excludeYear  Omit the year from the pattern.
+     * @param bool   $shortMonth   Use a short month name (e.g. 'Jan').
+     * @param string $separator     Separator between date and time parts.
+     *
+     * @return string Date‑format pattern.
+     */
+    public static function getDefaultDateFormat($withTime = false, $excludeYear = false, $shortMonth = false, $separator = ' ') {
+        $dateFormat = self::getDateFormat();
+        $timeFormat = self::getTimeFormat();
+
+        if ($withTime) {
+            $dateFormat = trim($dateFormat . $separator . $timeFormat);
+        }
+
+        if ($excludeYear) {
+            $dateFormat = preg_replace('/(,\s?Y|Y\s?,|Y[, \\/-]?|[, \\/-]?Y)/i', '', $dateFormat);
+        }
+
+        if ($shortMonth) {
+            $dateFormat = str_replace('F', 'M', $dateFormat);
+        }
+
+        return $dateFormat;
+    }
+
+    /**
+     * Calculate the difference between two dates.
+     *
+     * @param string|int $startDate A date string or Unix timestamp.
+     * @param string|int $endDate   A date string or Unix timestamp. Defaults to 'now'.
+     * @param string     $unit       Unit to return: 'days', 'hours', or 'minutes'.
+     *
+     * @return int Difference expressed in the requested unit; zero on failure.
+     */
+    public static function calculateDateDifference($fromDate, $toDate = 'now') {
+        $fromDateTime = new \DateTime($fromDate);
+        $toDateTime   = new \DateTime($toDate);
+
+        $interval = $fromDateTime->diff($toDateTime);
+
+        if ( $interval->y > 0 ) {
+            return _n( 'a year', sprintf( '%d years', $interval->y ), $interval->y, 'wp-statistics' );
+        }
+
+        if ( $interval->m > 0 ) {
+            return _n( 'a month', sprintf( '%d months', $interval->m ), $interval->m, 'wp-statistics' );
+        }
+
+        if ( $interval->d >= 7 ) {
+            $weekCount = (int) floor( $interval->d / 7 );
+            return _n( 'a week', sprintf( '%d weeks', $weekCount ), $weekCount, 'wp-statistics' );
+        }
+
+        return _n( 'a day', sprintf( '%d days', $interval->d ), $interval->d, 'wp-statistics' );
+    }
 }

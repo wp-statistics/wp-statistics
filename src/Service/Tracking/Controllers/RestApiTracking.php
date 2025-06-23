@@ -8,8 +8,8 @@ use WP_STATISTICS\Option;
 use WP_REST_Server;
 use WP_REST_Request;
 use WP_REST_Response;
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\Hits;
+use WP_Statistics\Service\Tracking\TrackerHelper;
 use WP_Statistics\Service\Tracking\TrackingFactory;
 
 /**
@@ -140,7 +140,7 @@ class RestApiTracking extends BaseTrackerController
 
         try {
             $this->checkSignature();
-            Helper::validateHitRequest();
+            TrackerHelper::validateHitRequest();
             TrackingFactory::hits()->record();
 
             $responseData['status'] = true;
@@ -186,7 +186,7 @@ class RestApiTracking extends BaseTrackerController
 
         try {
             $this->checkSignature();
-            Helper::validateHitRequest();
+            TrackerHelper::validateHitRequest();
             Hits::recordOnline();
 
             $responseData['status'] = true;

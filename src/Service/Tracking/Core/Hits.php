@@ -4,6 +4,7 @@ namespace WP_STATISTICS\Service\Tracking\Core;
 
 use Exception;
 use WP_STATISTICS\Abstracts\BaseTracking;
+use WP_Statistics\Context\Route;
 use WP_Statistics\Entity\EntityFactory;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
@@ -203,7 +204,7 @@ class Hits extends BaseTracking
      */
     public function trackLoginPageCallback()
     {
-        if (Helper::is_login_page()) {
+        if (Route::isLoginPage()) {
             try {
                 $this->record();
             } catch (Exception $e) {

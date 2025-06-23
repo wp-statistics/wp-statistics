@@ -8,6 +8,7 @@ use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\BarChartResponseTrait;
+use WP_Statistics\Utils\Format;
 
 class DeviceChartDataProvider extends AbstractChartDataProvider
 {
@@ -47,7 +48,7 @@ class DeviceChartDataProvider extends AbstractChartDataProvider
         if (!empty($data)) {
             foreach ($data as $item) {
                 $deviceType = !empty($item instanceof VisitorDecorator) ? $item->getDevice()->getType() : $item->getDeviceType()->getName();
-                $device     = !empty($deviceType) ? ucfirst(Helper::getDeviceCategoryName($deviceType)) : esc_html__('Unknown', 'wp-statistics');
+                $device     = !empty($deviceType) ? ucfirst(Format::getSegment($deviceType)) : esc_html__('Unknown', 'wp-statistics');
 
                 if (!empty($device) && $device !== '(not set)') {
                     $devices = array_column($parsedData, 'label');

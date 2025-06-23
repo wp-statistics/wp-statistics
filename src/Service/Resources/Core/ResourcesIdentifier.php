@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Resources\Core;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Records\ResourceRecord;
+use WP_Statistics\Utils\QueryParams;
 
 /**
  * Identifies and manages resource-related data.
@@ -205,7 +206,7 @@ class ResourcesIdentifier
      */
     private function cleanUrl($url)
     {
-        $trackingParams = Helper::get_query_params_allow_list('array', true);
+        $trackingParams = QueryParams::getAllowedList('array', true);
 
         $parts = wp_parse_url($url);
 

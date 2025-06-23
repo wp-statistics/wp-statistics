@@ -6,6 +6,7 @@ use WP_Statistics\Abstracts\BaseTrackerController;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Hits;
 use WP_STATISTICS\Option;
+use WP_Statistics\Service\Tracking\TrackerHelper;
 use WP_Statistics\Service\Tracking\TrackingFactory;
 
 /**
@@ -138,7 +139,7 @@ class AjaxBasedTracking extends BaseTrackerController
 
         try {
             $this->checkSignature();
-            Helper::validateHitRequest();
+            TrackerHelper::validateHitRequest();
 
             TrackingFactory::hits()->record();
             wp_send_json(['status' => true]);
@@ -162,7 +163,7 @@ class AjaxBasedTracking extends BaseTrackerController
 
         try {
             $this->checkSignature();
-            Helper::validateHitRequest();
+            TrackerHelper::validateHitRequest();
 
             Hits::recordOnline();
             wp_send_json(['status' => true]);

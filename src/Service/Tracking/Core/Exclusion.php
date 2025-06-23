@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS\Service\Tracking\Core;
 
+use WP_Statistics\Context\Route;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
@@ -469,7 +470,7 @@ class Exclusion
             return false;
         }
 
-        return Helper::is_login_page();
+        return Route::isLoginPage();
     }
 
     /**

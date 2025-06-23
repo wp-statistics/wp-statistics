@@ -6,6 +6,7 @@ use WP_Statistics\Abstracts\BaseEntity;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Pages;
 use WP_Statistics\Records\RecordFactory;
+use WP_Statistics\Utils\QueryParams;
 
 /**
  * Entity for detecting and recording view parameters from the request URI.
@@ -36,7 +37,7 @@ class Parameter extends BaseEntity
             return $this;
         }
 
-        $allowedParams = Helper::get_query_params_allow_list('array', true);
+        $allowedParams = QueryParams::getAllowedList('array', true);
         $pageUri       = Pages::sanitize_page_uri($this->profile);
 
         $queryParams = [];

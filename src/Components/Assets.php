@@ -3,6 +3,7 @@
 namespace WP_Statistics\Components;
 
 use WP_STATISTICS\Helper;
+use WP_Statistics\Utils\FileSystem;
 
 class Assets
 {
@@ -179,7 +180,7 @@ class Assets
     public static function getSrc($src, $obfuscate = false, $plugin_url = null)
     {
         if ($obfuscate) {
-            $file = $plugin_url ? Helper::urlToDir($plugin_url) : self::$plugin_dir;
+            $file = $plugin_url ? FileSystem::urlToDir($plugin_url) : self::$plugin_dir;
             $file = new AssetNameObfuscator(path_join($file, self::$asset_dir . '/' . $src));
             return $file->getUrlThroughProxy();
         }

@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Resources\Core;
 
+use WP_Statistics\Context\Route;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Url;
 
@@ -239,7 +240,7 @@ class ResourceDetector
             return $data;
         }
 
-        if (Helper::is_login_page()) {
+        if (Route::isLoginPage()) {
             $data['type'] = 'loginpage';
             return $data;
         }

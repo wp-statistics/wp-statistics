@@ -65,6 +65,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Components\\RemoteRequest' => __DIR__ . '/../..' . '/src/Components/RemoteRequest.php',
         'WP_Statistics\\Components\\Singleton' => __DIR__ . '/../..' . '/src/Components/Singleton.php',
         'WP_Statistics\\Components\\View' => __DIR__ . '/../..' . '/src/Components/View.php',
+        'WP_Statistics\\Context\\Route' => __DIR__ . '/../..' . '/src/Context/Route.php',
         'WP_Statistics\\Decorators\\BrowserDecorator' => __DIR__ . '/../..' . '/src/Decorators/BrowserDecorator.php',
         'WP_Statistics\\Decorators\\CityDecorator' => __DIR__ . '/../..' . '/src/Decorators/CityDecorator.php',
         'WP_Statistics\\Decorators\\CountryDecorator' => __DIR__ . '/../..' . '/src/Decorators/CountryDecorator.php',
@@ -418,14 +419,20 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Resources\\Core\\ResourcesIdentifier' => __DIR__ . '/../..' . '/src/Service/Resources/Core/ResourcesIdentifier.php',
         'WP_Statistics\\Service\\Resources\\ResourcesFactory' => __DIR__ . '/../..' . '/src/Service/Resources/ResourcesFactory.php',
         'WP_Statistics\\Service\\Tracking\\TrackerControllerFactory' => __DIR__ . '/../..' . '/src/Service/Tracking/TrackerControllerFactory.php',
+        'WP_Statistics\\Service\\Tracking\\TrackerHelper' => __DIR__ . '/../..' . '/src/Service/Tracking/TrackerHelper.php',
         'WP_Statistics\\Service\\Tracking\\TrackingFactory' => __DIR__ . '/../..' . '/src/Service/Tracking/TrackingFactory.php',
         'WP_Statistics\\Traits\\ErrorLoggerTrait' => __DIR__ . '/../..' . '/src/Traits/ErrorLoggerTrait.php',
         'WP_Statistics\\Traits\\ObjectCacheTrait' => __DIR__ . '/../..' . '/src/Traits/ObjectCacheTrait.php',
         'WP_Statistics\\Traits\\TransientCacheTrait' => __DIR__ . '/../..' . '/src/Traits/TransientCacheTrait.php',
+        'WP_Statistics\\Utils\\Addons' => __DIR__ . '/../..' . '/src/Utils/Addons.php',
+        'WP_Statistics\\Utils\\FileSystem' => __DIR__ . '/../..' . '/src/Utils/FileSystem.php',
+        'WP_Statistics\\Utils\\Format' => __DIR__ . '/../..' . '/src/Utils/Format.php',
         'WP_Statistics\\Utils\\Query' => __DIR__ . '/../..' . '/src/Utils/Query.php',
+        'WP_Statistics\\Utils\\QueryParams' => __DIR__ . '/../..' . '/src/Utils/QueryParams.php',
         'WP_Statistics\\Utils\\Request' => __DIR__ . '/../..' . '/src/Utils/Request.php',
         'WP_Statistics\\Utils\\Signature' => __DIR__ . '/../..' . '/src/Utils/Signature.php',
         'WP_Statistics\\Utils\\Url' => __DIR__ . '/../..' . '/src/Utils/Url.php',
+        'WP_Statistics\\Utils\\Validator' => __DIR__ . '/../..' . '/src/Utils/Validator.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

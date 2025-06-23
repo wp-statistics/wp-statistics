@@ -13,6 +13,7 @@ use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Analytics\Referrals\Referrals;
 use WP_Statistics\Service\Analytics\Referrals\SourceDetector;
+use WP_Statistics\Service\Tracking\TrackerHelper;
 
 /**
  * @todo Replace object cache internally with ObjectCacheTrait
@@ -696,7 +697,7 @@ class VisitorProfile
     public function getRequestUri()
     {
         return $this->getCachedData('requestUri', function () {
-            return Helper::getRequestUri();
+            return TrackerHelper::getRequestUri();
         });
     }
 
