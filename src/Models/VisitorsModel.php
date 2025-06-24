@@ -4,6 +4,8 @@ namespace WP_Statistics\Models;
 
 use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Models\Legacy\LegacyVisitorsModel;
+use WP_Statistics\Records\RecordFactory;
+use WP_STATISTICS\TimeZone;
 use WP_Statistics\Utils\Query;
 
 class VisitorsModel extends BaseModel
@@ -264,5 +266,30 @@ class VisitorsModel extends BaseModel
         }
 
         return date_i18n('Y-m-d', strtotime($firstDate));
+    }
+
+    /**
+     * Retrieve a visitor record by hash and created date.
+     *
+     * This method checks for a visitor entry that matches the given hash
+     * and was created on the current date (date portion only, time ignored).
+     *
+     * @param array $args {
+     *     Optional. Arguments to match the visitor.
+     *
+     * @type string $hash Visitor hash identifier.
+     * @type string $DATE (created_at) Creation date (default is today's date).
+     * }
+     * @return object|false The visitor record if found, false otherwise.
+     * @since 15.0.0
+     */
+    public function getByHashAndDate($args)
+    {
+        $args = [
+            'hash'             => '',
+            'DATE(created_at)' => TimeZone::getCurrentDate('Y-m-d')
+        ];
+
+        return RecordFactory::visitor()->get($args);
     }
 }

@@ -7,6 +7,7 @@ use WP_Statistics\Traits\ObjectCacheTrait;
 use WP_STATISTICS\User;
 use WP_STATISTICS\Pages;
 use WP_STATISTICS\Helper;
+use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Option;
 use WP_Statistics\Records\RecordFactory;
 use WP_STATISTICS\Visitor;
@@ -504,11 +505,11 @@ class VisitorProfile
             if (false) {
                 $visitor = Visitor::exist_ip_in_day($this->getProcessedIPForStorage());
             } else {
-                $visitor = RecordFactory::visitor()->getByHashAndDate([
+                $visitor = (new VisitorsModel())->getByHashAndDate([
                     'hash' => $this->getProcessedIPForStorage()
                 ]);
             }
-            
+
             return $visitor->ID ?? 0;
         });
     }
@@ -549,7 +550,7 @@ class VisitorProfile
                 return Visitor::exist_ip_in_day($this->getProcessedIPForStorage());
             }
 
-            return RecordFactory::visitor()->getByHashAndDate([
+            return (new VisitorsModel())->getByHashAndDate([
                 'hash' => $this->getProcessedIPForStorage()
             ]);
         });
