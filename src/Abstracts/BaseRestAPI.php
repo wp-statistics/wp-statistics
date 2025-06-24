@@ -6,12 +6,7 @@ use WP_REST_Request;
 use WP_REST_Server;
 use WP_REST_Response;
 use WP_Error;
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
-
-;
-
-use WP_Statistics\Utils\Signature;
 use Exception;
 
 /**
@@ -119,37 +114,6 @@ abstract class BaseRestAPI
     protected function getArgs()
     {
         return [];
-    }
-
-    /**
-     * Check the request signature for validation.
-     *
-     * If signature validation is enabled in plugin settings, this method
-     * verifies that the request matches the expected hash signature.
-     *
-     * @param WP_REST_Request $request Incoming REST request.
-     * @return true|WP_Error True if valid, or WP_Error if invalid.
-     * @doc https://wp-statistics.com/resources/managing-request-signatures/
-     */
-    protected function checkSignature(WP_REST_Request $request)
-    {
-        if (Helper::isRequestSignatureEnabled()) {
-            $signature = $request->get_param('signature');
-            $payload   = [
-                $request->get_param('source_type'),
-                (int)$request->get_param('source_id'),
-            ];
-
-            if (!Signature::check($payload, $signature)) {
-                return new WP_Error(
-                    'rest_forbidden',
-                    __('Invalid signature', 'wp-statistics'),
-                    ['status' => 403]
-                );
-            }
-        }
-
-        return true;
     }
 
     /**

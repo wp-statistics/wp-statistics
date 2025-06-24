@@ -12,7 +12,7 @@ use WP_REST_Request;
  *
  * @package WP_Statistics\Interfaces
  */
-interface ExportDriveInterface
+interface ExportDriverInterface
 {
     /**
      * Export data to a drive or destination.

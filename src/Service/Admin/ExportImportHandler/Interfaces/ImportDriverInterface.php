@@ -12,7 +12,7 @@ use WP_REST_Request;
  *
  * @package WP_Statistics\Interfaces
  */
-interface ImportDriveInterface
+interface ImportDriverInterface
 {
     /**
      * Import data from a drive or source.

@@ -9,7 +9,7 @@ use WP_REST_Request;
 /**
  * Handles export and import operations using different drivers.
  */
-class ExportImport
+class ExportImportHandler
 {
     /**
      * @var object|null The current driver instance.
