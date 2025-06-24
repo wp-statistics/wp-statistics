@@ -21,7 +21,7 @@ class ReferralsDataProvider
     public function getReferralsOverview()
     {
         return [
-            'visitors'      => $this->visitorsModel->getReferredVisitors(array_merge($this->args, ['per_page' => 10, 'page' => 1])),
+            'visitors'      => $this->visitorsModel->getReferredVisitors(array_merge($this->args, ['per_page' => 5, 'page' => 1])),
             'referrers'     => $this->visitorsModel->getReferrers(array_merge($this->args, ['decorate' => true, 'group_by' => ['visitor.referred'], 'per_page' => 5, 'page' => 1])),
         ];
     }
