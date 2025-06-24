@@ -32,16 +32,16 @@
                     <table class="widefat table-stats wps-summary-stats" id="summary-stats">
                         <tbody>
                         <tr>
-                            <th></th>
-                            <th class="th-center"><?php esc_html_e('Count', 'wp-statistics'); ?></th>
+                            <th scope="col"></th>
+                            <th scope="col" class="th-center"><?php esc_html_e('Count', 'wp-statistics'); ?></th>
                         </tr>
 
                         <?php
                         if (isset($number_post_in_category)) {
                             ?>
                             <tr>
-                                <th><?php esc_html_e('The Number of Posts in Category', 'wp-statistics'); ?>:</th>
-                                <th class="th-center">
+                                <th scope="col"><?php esc_html_e('The Number of Posts in Category', 'wp-statistics'); ?>:</th>
+                                <th scope="col" class="th-center">
                                     <span><?php echo esc_html(number_format_i18n($number_post_in_category)); ?></span></th>
                             </tr>
                             <?php
@@ -49,13 +49,13 @@
                         ?>
 
                         <tr>
-                            <th><?php esc_html_e('Chart Views', 'wp-statistics'); ?>:</th>
-                            <th class="th-center"><span id="number-total-chart-visits"></span></th>
+                            <th scope="col"><?php esc_html_e('Chart Views', 'wp-statistics'); ?>:</th>
+                            <th scope="col" class="th-center"><span id="number-total-chart-visits"></span></th>
                         </tr>
 
                         <tr>
-                            <th><?php esc_html_e('All Time Views', 'wp-statistics'); ?>:</th>
-                            <th class="th-center"><span id="number-total-visits"></span></th>
+                            <th scope="col"><?php esc_html_e('All Time Views', 'wp-statistics'); ?>:</th>
+                            <th scope="col" class="th-center"><span id="number-total-visits"></span></th>
                         </tr>
                         </tbody>
                     </table>

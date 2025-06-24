@@ -12,12 +12,12 @@ View::load('components/objects/share-anonymous-notice');
 
 ?>
 <div class="wps-wrap__top tabbed_page">
-    <h2 class="wps_title">
+    <h1 class="wps_title">
         <span><?php echo(isset($title) ? esc_html($title) : (function_exists('get_admin_page_title') ? esc_html(get_admin_page_title()) : '')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
         <?php if (!empty($tooltip)) : ?>
             <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
         <?php endif; ?>
-    </h2>
+    </h1>
 
     <?php if (!empty($description)) echo '<p class="wps_description">' . esc_html($description) . '</p>'    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	?>
 

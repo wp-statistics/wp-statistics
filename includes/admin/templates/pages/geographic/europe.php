@@ -17,16 +17,18 @@ $isActive       = $pluginHandler->isPluginActive('wp-statistics-data-plus');
                             <table width="100%" class="o-table wps-new-table">
                                 <thead>
                                     <tr>
-                                        <th class="wps-pd-l">
+                                        <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('Country', 'wp-statistics') ?>
                                         </th>
-                                        <th class="wps-pd-l">
+                                        <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('Visitor Count', 'wp-statistics') ?>
                                         </th>
-                                        <th class="wps-pd-l">
+                                        <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('View Count', 'wp-statistics') ?>
                                         </th>
-                                        <th></th>
+                                        <th scope="col">
+                                            <span class="screen-reader-text"><?php esc_html_e('Details', 'wp-statistics'); ?></span>
+                                        </th>
                                     </tr>
                                 </thead>
 
