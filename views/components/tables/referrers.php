@@ -11,13 +11,13 @@ use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
                 <table width="100%" class="o-table wps-new-table wps-new-table--referrers">
                     <thead>
                         <tr>
-                            <th class="wps-pd-l">
+                            <th scope="col" class="wps-pd-l">
                                 <span><?php esc_html_e('Domain Address', 'wp-statistics') ?></span>
                             </th>
-                            <th class="wps-pd-l">
+                            <th scope="col" class="wps-pd-l">
                                 <?php esc_html_e('Source Name', 'wp-statistics') ?>
                             </th>
-                            <th class="wps-pd-l start">
+                            <th scope="col" class="wps-pd-l start">
                                 <span class="wps-order"><?php esc_html_e('Number of Referrals', 'wp-statistics') ?></span>
                             </th>
                         </tr>

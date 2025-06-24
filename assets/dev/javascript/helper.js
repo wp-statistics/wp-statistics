@@ -224,7 +224,7 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
             if (imageUrls && imageUrls[i] && imageUrls[i] !== 'undefined') {
                 let img = document.createElement('img');
                 img.src = imageUrls[i];
-                img.alt = labels[i];
+                img.alt = labels[i] + ' icon';
                 img.classList.add('wps-horizontal-bar__image');
                 labelImageDiv.appendChild(img);
             }

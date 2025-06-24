@@ -47,7 +47,7 @@ use WP_Statistics\Decorators\VisitorDecorator;
         <?php if ($visitor->isLoggedInUser() && Option::get('visitors_log')) : ?>
             <li class="wps-visitor__information">
                 <div>
-                    <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])); ?>">
+                    <a aria-label="Visitor Information" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])); ?>">
                         <span class="wps-visitor__information__user-img"></span>
                     </a>
                     <a class="wps-visitor__information__user-text wps-tooltip" title="<?php echo esc_html($visitor->getUser()->getEmail()) ?> (<?php echo esc_html($visitor->getUser()->getRole()) ?>)" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])); ?>">
@@ -59,7 +59,7 @@ use WP_Statistics\Decorators\VisitorDecorator;
         <?php else : ?>
             <li class="wps-visitor__information">
                 <div>
-                    <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>">
+                    <a aria-label="visitor information" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>">
                         <span class="wps-visitor__information__incognito-img"></span>
                     </a>
 

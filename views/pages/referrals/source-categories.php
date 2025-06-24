@@ -30,13 +30,15 @@ use WP_STATISTICS\Menus;
                         <table width="100%" class="o-table wps-new-table wps-new-table--referrers">
                             <thead>
                                 <tr>
-                                    <th class="wps-pd-l">
+                                    <th scope="col" class="wps-pd-l">
                                         <span><?php esc_html_e('Source Category', 'wp-statistics') ?></span>
                                     </th>
-                                    <th class="wps-pd-l start">
+                                    <th scope="col" class="wps-pd-l start">
                                         <span class="wps-order"><?php esc_html_e('Number of Referrals', 'wp-statistics') ?></span>
                                     </th>
-                                    <th class="wps-pd-l"></th>
+                                    <th scope="col">
+                                        <span class="screen-reader-text"><?php esc_html_e('Percentage', 'wp-statistics'); ?></span>
+                                    </th>
                                 </tr>
                             </thead>
 

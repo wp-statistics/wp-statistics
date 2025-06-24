@@ -2484,13 +2484,14 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       background: #eeeff1;
     }
 
-    label {
+    .selectedItemLabel {
       font-size: 13px;
       font-weight: 400;
       line-height: 24px;
       color: #8F9093;
       cursor: pointer;
       white-space: nowrap;
+      vertical-align: middle;
     }
 
     .wps-search-dropdown {
