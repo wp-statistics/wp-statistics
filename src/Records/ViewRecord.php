@@ -9,6 +9,8 @@ use WP_Statistics\Abstracts\BaseRecord;
  *
  * This class provides convenience methods for retrieving view records
  * by common filters such as session ID or resource ID.
+ *
+ * @since 15.0.0
  */
 class ViewRecord extends BaseRecord
 {

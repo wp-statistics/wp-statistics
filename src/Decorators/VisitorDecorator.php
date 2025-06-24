@@ -268,6 +268,7 @@ class VisitorDecorator
     /**
      * Get visitor hash.
      *
+     * @since 15.0.0
      * @return string
      */
     public function getHash()
@@ -278,7 +279,9 @@ class VisitorDecorator
     /**
      * Get the timestamp when the visitor was created, converted to site's timezone.
      *
-     * @return string|null Formatted date in site's timezone or null if not available
+     * @return string|null Formatted date in site's timezone or null if not available.
+     * 
+     * @since 15.0.0
      */
     public function getCreatedAt()
     {

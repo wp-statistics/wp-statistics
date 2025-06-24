@@ -10,6 +10,8 @@ use WP_Statistics\Records\RecordFactory;
  *
  * This includes referrer URL, domain, channel (e.g., organic, paid, direct),
  * and source name based on the detected referral source.
+ *
+ * @since 15.0.0
  */
 class Referrer extends BaseEntity
 {

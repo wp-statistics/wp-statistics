@@ -3,7 +3,6 @@
 namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\Pages;
 use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Utils\QueryParams;
@@ -12,6 +11,8 @@ use WP_Statistics\Utils\QueryParams;
  * Entity for detecting and recording view parameters from the request URI.
  *
  * This includes parameters attached to the current page URL, excluding known tracking parameters.
+ *
+ * @since 15.0.0
  */
 class Parameter extends BaseEntity
 {

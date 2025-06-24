@@ -8,6 +8,8 @@ use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
  * Decorator for a record from the 'device_oss' table.
  *
  * Provides accessors for each column in the 'device_oss' schema.
+ *
+ * @since 15.0.0
  */
 class DeviceOsDecorator
 {

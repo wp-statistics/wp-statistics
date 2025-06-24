@@ -5,6 +5,15 @@ namespace WP_Statistics\Decorators;
 use WP_Statistics\Records\ResourceRecord;
 use WP_Statistics\Service\Resources\Core\ResourcesIdentifier;
 
+/**
+ * Decorator for a record from the `resources` table.
+ *
+ * Wraps a ResourcesIdentifier instance and provides accessor methods
+ * for various resource-related properties such as ID, URL, title, and metadata.
+ * Helps abstract direct access to the raw resource data structure.
+ *
+ * @since 15.0.0
+ */
 class ResourceDecorator
 {
     /**

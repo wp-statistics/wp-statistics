@@ -11,6 +11,8 @@ use WP_STATISTICS\TimeZone;
  *
  * This ensures unique visitor entries, using the hashed IP address
  * as the primary lookup key to avoid duplication.
+ *
+ * @since 15.0.0
  */
 class Visitor extends BaseEntity
 {

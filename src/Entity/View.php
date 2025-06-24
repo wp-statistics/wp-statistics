@@ -12,6 +12,8 @@ use WP_STATISTICS\TimeZone;
  *
  * This handles tracking each view during a session,
  * linking them with next view IDs and calculating duration between views.
+ *
+ * @since 15.0.0
  */
 class View extends BaseEntity
 {

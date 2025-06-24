@@ -8,6 +8,8 @@ use WP_Statistics\Service\Analytics\VisitorProfile;
  * Factory class to create entity instances tied to a visitor profile.
  *
  * Each method initializes and returns a corresponding entity using a given VisitorProfile instance.
+ *
+ * @since 15.0.0
  */
 class EntityFactory
 {

@@ -6,6 +6,8 @@ namespace WP_Statistics\Decorators;
  * Decorator for a record from the 'cities' table.
  *
  * Provides accessors for each column in the 'cities' schema.
+ *
+ * @since 15.0.0
  */
 class CityDecorator
 {

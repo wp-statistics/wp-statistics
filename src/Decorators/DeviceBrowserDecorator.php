@@ -8,6 +8,8 @@ use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
  * Decorator for a record from the 'device_browsers' table.
  *
  * Provides accessors for each column in the 'device_browsers' schema.
+ *
+ * @since 15.0.0
  */
 class DeviceBrowserDecorator
 {

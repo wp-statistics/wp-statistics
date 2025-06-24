@@ -6,6 +6,8 @@ namespace WP_Statistics\Decorators;
  * Decorator for a record from the 'parameters' table.
  *
  * Provides accessors for each column in the record.
+ *
+ * @since 15.0.0
  */
 class ParameterDecorator
 {

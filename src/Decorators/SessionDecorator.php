@@ -11,6 +11,8 @@ use WP_STATISTICS\TimeZone;
  *
  * Provides accessors for session properties and related entities via
  * their respective decorators.
+ *
+ * @since 15.0.0
  */
 class SessionDecorator
 {

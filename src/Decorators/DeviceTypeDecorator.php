@@ -6,6 +6,8 @@ namespace WP_Statistics\Decorators;
  * Decorator for a record from the 'device_types' table.
  *
  * Provides accessors for each column in the 'device_types' schema.
+ *
+ * @since 15.0.0
  */
 class DeviceTypeDecorator
 {

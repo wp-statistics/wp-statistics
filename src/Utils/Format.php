@@ -2,13 +2,19 @@
 
 namespace WP_Statistics\Utils;
 
+/**
+ * Utility class for formatting values such as numbers, versions, and strings.
+ *
+ * @package WP_Statistics\Utils
+ * @since 15.0.0
+ */
 final class Format
 {
     /**
      * Converts a large number to a short “12.3K / 4.5M” style string.
      *
-     * @param float|int $number   The number to format.
-     * @param int       $decimals Decimal precision.
+     * @param float|int $number The number to format.
+     * @param int $decimals Decimal precision.
      * @return string
      */
     public static function formatNumberWithUnit($number, $precision = 1)
@@ -39,10 +45,10 @@ final class Format
 
     /**
      * Anonymise a semantic version by stripping the patch segment.
-     * 
-     * @example 106.2.124.0 -> 106.0.0.0
+     *
      * @param string $version
      * @return string
+     * @example 106.2.124.0 -> 106.0.0.0
      */
     public static function anonymizeVersion($version)
     {
@@ -60,9 +66,9 @@ final class Format
      *   "mobile:smart" → "mobile"   (default $index = 0, $separator = ':')
      *   "news/world"   → "world"    (with $index = 1,  $separator = '/')
      *
-     * @param string     $value      The raw string to split.
-     * @param string     $separator  Delimiter that separates segments.
-     * @param int|string $index      Segment index to return (0‑based).
+     * @param string $value The raw string to split.
+     * @param string $separator Delimiter that separates segments.
+     * @param int|string $index Segment index to return (0‑based).
      * @return string                The requested segment, or original string
      *                               if the index does not exist.
      */
@@ -76,6 +82,30 @@ final class Format
             }
         }
 
+        return $value;
+    }
+
+    /**
+     * Convert a size string (e.g. "128M", "1G") to its equivalent in bytes.
+     *
+     * Accepts size suffixes K, M, and G (case-insensitive).
+     * The method multiplies values successively for larger units.
+     *
+     * @param string $input The size string to convert.
+     * @return int Size in bytes.
+     */
+    public static function SizeToBytes($input)
+    {
+        $unit  = strtoupper(substr($input, -1));
+        $value = (int)$input;
+        switch ($unit) {
+            case 'G':
+                $value *= 1024;
+            case 'M':
+                $value *= 1024;
+            case 'K':
+                $value *= 1024;
+        }
         return $value;
     }
 }

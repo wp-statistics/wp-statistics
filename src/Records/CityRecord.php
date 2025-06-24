@@ -9,6 +9,8 @@ use WP_Statistics\Abstracts\BaseRecord;
  *
  * Provides methods to retrieve city data based on country, region, or name.
  * This class relies on BaseRecord for all data access functionality.
+ *
+ * @since 15.0.0
  */
 class CityRecord extends BaseRecord
 {

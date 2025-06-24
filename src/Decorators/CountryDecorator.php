@@ -8,6 +8,8 @@ use WP_STATISTICS\Country;
  * Decorator for a record from the 'countries' table.
  *
  * Provides accessors for each column in the 'countries' schema.
+ *
+ * @since 15.0.0
  */
 class CountryDecorator
 {

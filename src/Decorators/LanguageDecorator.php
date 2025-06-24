@@ -6,6 +6,8 @@ namespace WP_Statistics\Decorators;
  * Decorator for a record from the 'languages' table.
  *
  * Provides accessors for each column in the 'languages' schema.
+ *
+ * @since 15.0.0
  */
 class LanguageDecorator
 {

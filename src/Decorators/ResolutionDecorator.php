@@ -6,6 +6,8 @@ namespace WP_Statistics\Decorators;
  * Decorator for a record from the 'resolutions' table.
  *
  * Provides accessors for each column in the 'resolutions' schema.
+ *
+ * @since 15.0.0
  */
 class ResolutionDecorator
 {

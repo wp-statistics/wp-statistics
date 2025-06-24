@@ -9,6 +9,8 @@ use WP_Statistics\Abstracts\BaseRecord;
  *
  * Provides methods to retrieve exclusion data based on date and reason.
  * This class relies on BaseRecord for all data access functionality.
+ *
+ * @since 15.0.0
  */
 class ExclusionRecord extends BaseRecord
 {

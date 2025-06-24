@@ -7,6 +7,7 @@ use WP_STATISTICS\Option;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_STATISTICS\Hits;
+use WP_Statistics\Service\Tracking\TrackerHelper;
 use WP_Statistics\Traits\ErrorLoggerTrait;
 
 /**
@@ -90,7 +91,7 @@ class ServerSideTracking extends BaseTrackerController
      */
     protected function shouldSkipTracking()
     {
-        return is_favicon() || is_admin() || is_preview() || Option::get('use_cache_plugin') || Helper::dntEnabled();
+        return is_favicon() || is_admin() || is_preview() || Option::get('use_cache_plugin') || TrackerHelper::isDoNotTrackEnabled();
     }
 
     /**

@@ -5,6 +5,13 @@ namespace WP_Statistics\Records;
 use WP_Statistics\Abstracts\BaseRecord;
 use WP_Statistics\Utils\Query;
 
+/**
+ * Handles database interactions for the `resources` table.
+ *
+ * This class relies on BaseRecord for core database operations.
+ *
+ * @since 15.0.0
+ */
 class ResourceRecord extends BaseRecord
 {
     /**

@@ -8,6 +8,7 @@ use WP_STATISTICS\User;
 use WP_STATISTICS\Pages;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
+use WP_Statistics\Records\RecordFactory;
 use WP_STATISTICS\Visitor;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
@@ -500,7 +501,14 @@ class VisitorProfile
     public function getVisitorId()
     {
         return $this->getCachedData('visitorId', function () {
-            $visitor = Visitor::exist_ip_in_day($this->getProcessedIPForStorage());
+            if (false) {
+                $visitor = Visitor::exist_ip_in_day($this->getProcessedIPForStorage());
+            } else {
+                $visitor = RecordFactory::visitor()->getByHashAndDate([
+                    'hash' => $this->getProcessedIPForStorage()
+                ]);
+            }
+            
             return $visitor->ID ?? 0;
         });
     }
@@ -537,7 +545,13 @@ class VisitorProfile
     public function isIpActiveToday()
     {
         return $this->getCachedData('isIpActiveToday', function () {
-            return Visitor::exist_ip_in_day($this->getProcessedIPForStorage());
+            if (false) {
+                return Visitor::exist_ip_in_day($this->getProcessedIPForStorage());
+            }
+
+            return RecordFactory::visitor()->getByHashAndDate([
+                'hash' => $this->getProcessedIPForStorage()
+            ]);
         });
     }
 

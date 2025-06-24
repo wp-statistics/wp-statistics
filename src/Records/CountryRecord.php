@@ -10,6 +10,8 @@ use WP_Statistics\Abstracts\BaseRecord;
  * Provides utility methods for fetching countries based on code,
  * continent code, or other identifying fields.
  * This class relies on BaseRecord for all data access functionality.
+ *
+ * @since 15.0.0
  */
 class CountryRecord extends BaseRecord
 {

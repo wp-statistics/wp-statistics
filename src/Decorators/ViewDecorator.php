@@ -9,6 +9,8 @@ use WP_STATISTICS\TimeZone;
  * Decorator for a record from the 'views' table.
  *
  * Provides accessor methods for view-related data and linked entities.
+ *
+ * @since 15.0.0
  */
 class ViewDecorator
 {

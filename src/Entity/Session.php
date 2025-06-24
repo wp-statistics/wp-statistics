@@ -10,6 +10,8 @@ use WP_STATISTICS\TimeZone;
 
 /**
  * Entity to record session-related information.
+ *
+ * @since 15.0.0
  */
 class Session extends BaseEntity
 {

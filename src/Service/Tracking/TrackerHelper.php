@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Tracking;
 
 use ErrorException;
 use WP_STATISTICS\IP;
+use WP_STATISTICS\Option;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Validator;
 
@@ -54,56 +55,56 @@ final class TrackerHelper
     public static function validateHitRequest()
     {
         $isValid = Request::validate([
-            'page_uri'     => [
+            'page_uri'         => [
                 'required'        => true,
                 'nullable'        => true,
                 'type'            => 'string',
                 'encoding'        => 'base64',
                 'invalid_pattern' => Validator::getThreatPatterns()
             ],
-            'search_query' => [
+            'search_query'     => [
                 'required'        => true,
                 'nullable'        => true,
                 'type'            => 'string',
                 'encoding'        => 'base64',
                 'invalid_pattern' => Validator::getThreatPatterns()
             ],
-            'source_id'    => [
+            'source_id'        => [
                 'type'     => 'number',
                 'required' => true,
                 'nullable' => false
             ],
-            'resourceId'    => [
+            'resourceId'       => [
                 'type'     => 'number',
                 'required' => true,
                 'nullable' => false
             ],
-            'timezone'    => [
+            'timezone'         => [
                 'type'     => 'string',
                 'required' => true,
                 'nullable' => false
             ],
-            'language'    => [
+            'language'         => [
                 'type'     => 'string',
                 'required' => true,
                 'nullable' => false
             ],
-            'languageFullName'    => [
+            'languageFullName' => [
                 'type'     => 'string',
                 'required' => true,
                 'nullable' => false
             ],
-            'screenWidth'    => [
+            'screenWidth'      => [
                 'type'     => 'number',
                 'required' => true,
                 'nullable' => false
             ],
-            'screenHeight'    => [
+            'screenHeight'     => [
                 'type'     => 'number',
                 'required' => true,
                 'nullable' => false
             ],
-            'referred'     => [
+            'referred'         => [
                 'required' => true,
                 'nullable' => true,
                 'type'     => 'url',
@@ -111,7 +112,7 @@ final class TrackerHelper
             ],
         ]);
 
-        $timestamp = !empty($_SERVER['HTTP_X_WPS_TS']) ? (int) base64_decode($_SERVER['HTTP_X_WPS_TS']) : false;
+        $timestamp = !empty($_SERVER['HTTP_X_WPS_TS']) ? (int)base64_decode($_SERVER['HTTP_X_WPS_TS']) : false;
 
         // Check if the request was sent no more than 10 seconds ago
         if (!$timestamp || time() - $timestamp > 10) {
@@ -152,5 +153,23 @@ final class TrackerHelper
         }
 
         return sanitize_url(wp_unslash($_SERVER['REQUEST_URI']));
+    }
+
+    /**
+     * Determine whether Do Not Track (DNT) is enabled in the user's browser,
+     * and allowed by the plugin settings.
+     *
+     * Checks both the HTTP_DNT header and the DNT value from getallheaders(),
+     * if available, and only if the plugin setting 'do_not_track' is enabled.
+     *
+     * @return bool True if DNT is enabled and respected, false otherwise.
+     */
+    public static function isDoNotTrackEnabled()
+    {
+        if (Option::get('do_not_track')) {
+            return (isset($_SERVER['HTTP_DNT']) && $_SERVER['HTTP_DNT'] == 1) || (function_exists('getallheaders') && isset(getallheaders()['DNT']) && getallheaders()['DNT'] == 1);
+        }
+
+        return false;
     }
 }

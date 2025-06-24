@@ -9,6 +9,8 @@ use WP_Statistics\Abstracts\BaseRecord;
  *
  * This class provides convenience methods for retrieving language records
  * by common filters such as region.
+ *
+ * @since 15.0.0
  */
 class LanguageRecord extends BaseRecord
 {

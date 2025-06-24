@@ -10,10 +10,12 @@ use WP_Statistics\Utils\Query;
  *
  * This class provides convenience methods for retrieving referrers
  * by channel, name, or domain.
+ *
+ * @since 15.0.0
  */
 class ReferrerRecord extends BaseRecord
 {
-   /**
+    /**
      * The current table name.
      *
      * @var string

@@ -9,6 +9,8 @@ use WP_Statistics\Records\RecordFactory;
  * Entity for detecting and recording visitor's geographic information.
  *
  * This includes country and city lookups based on geolocation services.
+ *
+ * @since 15.0.0
  */
 class Geo extends BaseEntity
 {
@@ -23,7 +25,7 @@ class Geo extends BaseEntity
             return $this;
         }
 
-        $geo  = (array)$this->profile->getLocation();
+        $geo = (array)$this->profile->getLocation();
 
         $code = isset($geo['country_code']) ? $geo['country_code'] : '';
 

@@ -4,6 +4,8 @@ namespace WP_Statistics\Records;
 
 /**
  * Factory class to create record instances tied to database tables.
+ *
+ * @since 15.0.0
  */
 class RecordFactory
 {

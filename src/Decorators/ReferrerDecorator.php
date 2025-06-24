@@ -9,6 +9,8 @@ use WP_Statistics\Utils\Url;
  * Decorator for a record from the 'referrers' table.
  *
  * Provides accessors for each column in the 'referrers' schema.
+ *
+ * @since 15.0.0
  */
 class ReferrerDecorator
 {

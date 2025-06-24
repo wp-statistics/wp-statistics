@@ -13,6 +13,8 @@ use WP_Statistics\Utils\Request;
  *
  * This includes device type (desktop, mobile, etc.), operating system,
  * browser name and version, and screen resolution.
+ *
+ * @since 15.0.0
  */
 class Device extends BaseEntity
 {

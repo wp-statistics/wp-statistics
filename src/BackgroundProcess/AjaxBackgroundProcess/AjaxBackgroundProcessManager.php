@@ -3,6 +3,7 @@
 namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess;
 
 use WP_STATISTICS\Admin_Assets;
+use WP_Statistics\Context\Route;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
@@ -243,7 +244,7 @@ class AjaxBackgroundProcessManager
             return true;
         }
 
-        if (in_array(\WP_STATISTICS\Helper::get_screen_id(), ['dashboard'], true)) {
+        if (Route::isScreen(['dashboard'])) {
             return true;
         }
 

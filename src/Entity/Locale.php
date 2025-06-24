@@ -10,6 +10,8 @@ use WP_Statistics\Utils\Request;
  * Entity for detecting and recording visitor's locale information.
  *
  * This includes browser language and timezone based on geolocation.
+ *
+ * @since 15.0.0
  */
 class Locale extends BaseEntity
 {

@@ -10,6 +10,8 @@ use WP_Statistics\Abstracts\BaseRecord;
  * This class extends the BaseRecord and provides convenient methods
  * to retrieve parameter data based on common filters such as session ID,
  * resource ID, view ID, and parameter key.
+ *
+ * @since 15.0.0
  */
 class ParameterRecord extends BaseRecord
 {

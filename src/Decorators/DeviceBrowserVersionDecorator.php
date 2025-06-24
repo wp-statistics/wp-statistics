@@ -6,6 +6,8 @@ namespace WP_Statistics\Decorators;
  * Decorator for a record from the 'device_browser_versions' table.
  *
  * Provides accessors for each column in the 'device_browser_versions' schema.
+ *
+ * @since 15.0.0
  */
 class DeviceBrowserVersionDecorator
 {

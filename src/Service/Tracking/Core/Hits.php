@@ -10,6 +10,7 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Integrations\WpConsentApi;
+use WP_Statistics\Service\Tracking\TrackerHelper;
 use WP_Statistics\Traits\ErrorLoggerTrait;
 use WP_Statistics\Utils\Request;
 
@@ -226,7 +227,7 @@ class Hits extends BaseTracking
                 is_admin() ||
                 is_preview() ||
                 Option::get('use_cache_plugin') ||
-                Helper::dntEnabled()
+                TrackerHelper::isDoNotTrackEnabled()
             ) {
                 return;
             }

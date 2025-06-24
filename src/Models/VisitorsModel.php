@@ -4,6 +4,7 @@ namespace WP_Statistics\Models;
 
 use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Models\Legacy\LegacyVisitorsModel;
+use WP_Statistics\Utils\Query;
 
 class VisitorsModel extends BaseModel
 {
@@ -240,5 +241,28 @@ class VisitorsModel extends BaseModel
         }
 
         return (new SessionModel())->getVisitorHits($args);
+    }
+
+
+    /**
+     * Retrieve the earliest recorded visit date.
+     *
+     * Extracts the minimum date from the visitor table's created_at column,
+     * formatted as Y-m-d. Returns false if no rows are found.
+     *
+     * @return string|false Date string in 'Y-m-d' format or false if not found.
+     * @since 15.0.0
+     */
+    public function getFirstVisitDate()
+    {
+        $firstDate = Query::select('MIN(DATE(`created_at`))')
+            ->from('visitor')
+            ->getVar();
+
+        if (empty($firstDate)) {
+            return false;
+        }
+
+        return date_i18n('Y-m-d', strtotime($firstDate));
     }
 }
