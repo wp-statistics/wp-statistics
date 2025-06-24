@@ -1,6 +1,6 @@
 <?php
 
-namespace WPStatistics\Components;
+namespace WP_Statistics\Context;
 
 use WP_Statistics\Utils\Format;
 

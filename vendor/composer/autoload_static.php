@@ -65,6 +65,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Components\\RemoteRequest' => __DIR__ . '/../..' . '/src/Components/RemoteRequest.php',
         'WP_Statistics\\Components\\Singleton' => __DIR__ . '/../..' . '/src/Components/Singleton.php',
         'WP_Statistics\\Components\\View' => __DIR__ . '/../..' . '/src/Components/View.php',
+        'WP_Statistics\\Context\\Environment' => __DIR__ . '/../..' . '/src/Context/Environment.php',
         'WP_Statistics\\Context\\Route' => __DIR__ . '/../..' . '/src/Context/Route.php',
         'WP_Statistics\\Decorators\\BrowserDecorator' => __DIR__ . '/../..' . '/src/Decorators/BrowserDecorator.php',
         'WP_Statistics\\Decorators\\CityDecorator' => __DIR__ . '/../..' . '/src/Decorators/CityDecorator.php',

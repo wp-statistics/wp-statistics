@@ -2,8 +2,8 @@
 
 namespace WP_STATISTICS\Service\Tracking\Core;
 
+use WP_Statistics\Context\Environment;
 use WP_Statistics\Context\Route;
-use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Analytics\VisitorProfile;
@@ -444,7 +444,7 @@ class Exclusion
     public static function exclusionSelfReferral($visitorProfile)
     {
         $currentUserAgent   = $visitorProfile->getHttpUserAgent();
-        $wordpressUserAgent = 'WordPress/' . Helper::get_wordpress_version();
+        $wordpressUserAgent = 'WordPress/' . Environment::getWordPressVersion();
         $homeUrl            = rtrim(get_home_url(), '/');
 
         if ($currentUserAgent === $wordpressUserAgent . '; ' . $homeUrl) {
