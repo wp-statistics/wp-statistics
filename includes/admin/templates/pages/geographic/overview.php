@@ -55,17 +55,12 @@ use WP_STATISTICS\Menus;
         </div>
 
         <?php
-        $topCountries = [
-            'data' => ''
-        ];
-        View::load("components/tables/geographic-top-countries", $topCountries);
+            View::load("components/tables/geographic-top-countries", ['data' => $data['countries']]);
 
-
-        $topCities = [
-            'data' => ''
-        ];
-        View::load("components/tables/geographic-top-cities", $topCities);
-
+            $topCities = [
+                'data' => ''
+            ];
+            View::load("components/tables/geographic-top-cities", $topCities);
         ?>
     </div>
 </div>

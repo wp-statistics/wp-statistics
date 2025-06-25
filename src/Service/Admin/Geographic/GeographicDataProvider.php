@@ -20,7 +20,11 @@ class GeographicDataProvider
 
     public function getOverviewData()
     {
-        return [];
+        $args = array_merge($this->args, ['per_page' => 5, 'page' => 1]);
+
+        return [
+            'countries' => $this->visitorsModel->getVisitorsGeoData($args),
+        ];
     }
 
     public function getOverviewChartData()
