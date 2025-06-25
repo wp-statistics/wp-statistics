@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\Geographic\Views;
 
+use WP_STATISTICS\Admin_Assets;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Admin_Template;
@@ -34,7 +35,15 @@ class TabsView extends BaseTabView
 
     public function getOverviewData()
     {
-        return $this->dataProvider->getOverviewData();
+        $data       = $this->dataProvider->getOverviewData();
+        $chartData  = $this->dataProvider->getOverviewChartData();
+
+        // Send map chart to the view as well
+        $data['map_data'] = $chartData['map_chart_data'];
+
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Geographic_Object', $chartData);
+
+        return $data;
     }
 
     public function getCountriesData()

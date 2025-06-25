@@ -23,6 +23,14 @@ class GeographicDataProvider
         return [];
     }
 
+    public function getOverviewChartData()
+    {
+        $mapData = ChartDataProviderFactory::mapChart()->getData();
+
+        return [
+            'map_chart_data' => $mapData
+        ];
+    }
 
     public function getCountriesData()
     {

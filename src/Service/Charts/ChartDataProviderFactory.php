@@ -160,7 +160,7 @@ class ChartDataProviderFactory
      * @param array $args
      * @return MapChartDataProvider
      */
-    public static function mapChart($args)
+    public static function mapChart($args = [])
     {
         return new MapChartDataProvider($args);
     }
