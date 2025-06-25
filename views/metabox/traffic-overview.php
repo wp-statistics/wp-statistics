@@ -70,7 +70,10 @@ $userOnline     = new \WP_STATISTICS\UserOnline();
             </div>
         </div>
         <div class="wps-postbox-chart--container">
-            <canvas id="wp-statistics-quickstats-widget-chart" height="166"></canvas>
+            <p class="screen-reader-text">
+                <?php echo esc_html__('Traffic overview chart', 'wp-statistics') ?>
+            </p>
+            <canvas id="wp-statistics-quickstats-widget-chart" aria-labelledby="Traffic overview chart" role="img" height="166"></canvas>
         </div>
     </div>
 

@@ -81,7 +81,7 @@ FilterGenerator.prototype.createSelect = function ({name, label, classes = '', a
     const select = document.createElement('select');
     select.name = name;
     select.className = classes;
-    select.setAttribute('aria-labelledby', `wps-label-${name}`);
+    select.setAttribute('aria-label', `wps-label-${name}`);
 
     for (const [key, value] of Object.entries(attributes)) {
         select.setAttribute(key, value);
@@ -278,7 +278,7 @@ FilterGenerator.prototype.createInput = function ({name, label, type = 'text', c
     input.type = type;
     input.className = classes;
     input.placeholder = placeholder;
-    input.setAttribute('aria-labelledby', `wps-label-${name}`);
+    input.setAttribute('aria-label', `wps-label-${name}`);
 
     for (const [key, value] of Object.entries(attributes)) {
         input.setAttribute(key, value);

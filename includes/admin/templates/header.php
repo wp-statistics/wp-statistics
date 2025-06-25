@@ -24,7 +24,7 @@ $hasManageCap            = $manageCap && current_user_can($manageCap);
 
     <div class="wps-adminHeader <?php echo $isPremium ? 'wps-adminHeader__premium' : '' ?>">
         <div class="wps-adminHeader__logo--container">
-            <img class="wps-adminHeader__logo <?php echo $isPremium ? 'wps-adminHeader__logo--premium' : '' ?>" aria-label="VeronaLabs logo"
+            <img class="wps-adminHeader__logo <?php echo $isPremium ? 'wps-adminHeader__logo--premium' : '' ?>" aria-label="VeronaLabs logo" alt="VeronaLabs logo"
                  src="<?php echo esc_url(apply_filters('wp_statistics_header_url', WP_STATISTICS_URL . 'assets/images/' . ($isPremium ? 'wp-statistics-premium.svg' : 'white-header-logo.svg'))); ?>"/>
         </div>
         <div class="wps-adminHeader__menu">
