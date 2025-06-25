@@ -277,13 +277,6 @@
     }
   }
 
-  button {
-    &:focus {
-      outline: none;
-      box-shadow: none;
-    }
-  }
-
   table {
     tr td, tr th {
       white-space: nowrap;
@@ -532,7 +525,7 @@
     font-style: italic;
     font-weight: 400;
     line-height: 15.23px;
-    color: #898A8E;
+    color: #565759;
     display: none;
     gap: 6px;
     align-items: center;
@@ -540,7 +533,7 @@
 
     &:before {
       content: "- -";
-      color: #898A8E;
+      color: #565759;
     }
   }
 
@@ -709,10 +702,10 @@
   }
 
   &.previous-data {
-    color: #898A8E !important;
+    color: #565759 !important;
 
     span.wps-postbox-chart--item--color {
-      border-color: #898A8E !important;
+      border-color: #565759 !important;
     }
   }
 
@@ -722,12 +715,6 @@
 .wps-gutenberg {
   #wp-statistics-post-widget.postbox .postbox-header .handle-actions .handlediv:not(.wps-refresh) {
     height: 44px !important;
-  }
-
-  .postbox .handle-order-higher, .postbox .handle-order-lower, .postbox .handlediv {
-    &:focus {
-      box-shadow: none !important;
-    }
   }
 }
 
