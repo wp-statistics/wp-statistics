@@ -1556,6 +1556,7 @@
         label {
           display: flex;
           gap: 8px;
+          flex-wrap: wrap;
 
           & > span {
             display: flex;
