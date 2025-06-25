@@ -120,29 +120,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     }
 
     wps_js.render_wp_statistics_hitsmap_widget()
-    const topCountries = {
-        "data": [
-            4934,
-            4233,
-            2670,
-            2198,
-            1998
-        ],
-        "labels": [
-            "Germany",
-            "United States",
-            "Iran",
-            "France",
-            "Netherlands"
-        ],
-        "icons": [
-            "images/flags/de.svg",
-            "images/flags/us.svg",
-            "images/flags/ir.svg",
-            "images/flags/fr.svg",
-            "images/flags/nl.svg"
-        ]
-    };
+    const topCountries = Wp_Statistics_Geographic_Object.europe_chart_data;
     renderHorizontalChart('geographic--top-countries', topCountries);
 
     const visitorsContinent = {
