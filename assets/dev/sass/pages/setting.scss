@@ -294,8 +294,8 @@
           padding: 12px 15px 12px 15px;
 
           span, svg path {
-            color: #A9AAAE;
-            fill: #A9AAAE
+            color: #6b6c6f;
+            fill: #6F7073
           }
 
           &:after {
@@ -305,8 +305,8 @@
           &.active, &.current {
             span, &:after, svg path {
               opacity: 100%;
-              color: #56585A;
-              fill: #292D32
+              color: #28272A;
+              fill: #4C4B5F
             }
           }
 

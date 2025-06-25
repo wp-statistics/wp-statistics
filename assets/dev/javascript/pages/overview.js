@@ -492,7 +492,7 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
                             <button data-metabox-key="${key}" data-filter="last_year" class="c-footer__filters__list-item">` + wps_js._('str_last_year') + `</button>
                             <button class="c-footer__filters__close-more-filters js-close-more-filters">` + wps_js._('str_back') + `</button>
                         </div>
-                        <input type="text" class="c-footer__filters__custom-date-input js-datepicker-input"/>
+                        <input aria-label="date picker value" type="text" class="c-footer__filters__custom-date-input js-datepicker-input"/>
                         <button data-metabox-key="${key}" data-filter="custom" class="c-footer__filters__list-item c-footer__filters__list-item--custom js-custom-datepicker">` + wps_js._('str_custom') + `</button>
                     </div>
                 </div> `;

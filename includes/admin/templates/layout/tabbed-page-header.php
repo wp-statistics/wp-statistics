@@ -56,7 +56,7 @@ View::load('components/objects/share-anonymous-notice');
             <div>
                 <input type="hidden" name="page" value="<?php echo esc_attr($pageName); ?>">
                 <input type="hidden" name="tab" id="active-tab-input" value="<?php echo esc_attr($active_tab); ?>">
-                <input class="wps-search-date__input wps-js-calendar-field" id="search-date-input" type="text" size="18" name="day" data-wps-date-picker="day" readonly value="<?php echo esc_attr($day); ?>" autocomplete="off" placeholder="YYYY-MM-DD" required>
+                <input aria-label="day" class="wps-search-date__input wps-js-calendar-field" id="search-date-input" type="text" size="18" name="day" data-wps-date-picker="day" readonly value="<?php echo esc_attr($day); ?>" autocomplete="off" placeholder="YYYY-MM-DD" required>
             </div>
         </form>
     <?php endif ?>

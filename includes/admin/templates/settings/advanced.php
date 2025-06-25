@@ -232,7 +232,7 @@ add_thickbox();
 
         <tr id="geoip_dbip_license_key_option" data-id="db_ip_license_key_tr">
             <th scope="row">
-                <label><?php esc_html_e('DB-IP License Key', 'wp-statistics'); ?></label>
+                <label for="geoip_dbip_license_key_option"><?php esc_html_e('DB-IP License Key', 'wp-statistics'); ?></label>
             </th>
             <td>
 

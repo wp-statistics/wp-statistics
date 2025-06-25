@@ -10,10 +10,8 @@ if (!defined('ABSPATH') || empty($addOn)) {
     <div>
         <div class="wps-postbox-addon__item--info">
             <div class="wps-postbox-addon__item--info__img">
-                <a href="<?php echo esc_url($addOn->getProductUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon" target="_blank">
-                    <img src="<?php echo esc_url($addOn->getIcon()); ?>" alt="<?php echo esc_html($addOn->getName()); ?>" />
-                </a>
-            </div>
+                 <img src="<?php echo esc_url($addOn->getIcon()); ?>" alt="<?php echo esc_html($addOn->getName()); ?>" />
+             </div>
             <div class="wps-postbox-addon__item--info__text">
                 <div class="wps-postbox-addon__item--info__title">
                     <a href="<?php echo esc_url($addOn->getProductUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon" target="_blank">
