@@ -67,8 +67,8 @@ class AdminBar
                 $footerLink = esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $object_id]));
 
             } elseif (is_tax()) {
-
-                $view_type  = 'tax';
+                $term       = get_queried_object();
+                $view_type  = 'tax_' . $term->taxonomy;
                 $view_title = __('Taxonomy Views', 'wp-statistics');
                 $footerText = __('View Taxonomy Performance', 'wp-statistics');
                 $footerLink = esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $object_id]));
@@ -89,8 +89,8 @@ class AdminBar
 
             if (!Helper::isAddOnActive('mini-chart') && $view_type && $view_title) {
                 $pageLink = '';
-                if (in_array($view_type, ['category', 'post_tag', 'tax'])) {
-                    $term     = get_term($object_id);
+                $term     = get_term($object_id);
+                if (in_array($view_type, ['category', 'post_tag', 'tax_' . $term->taxonomy])) {
                     $pageLink = get_term_link(intval($term->term_id), $term->taxonomy);
                     $pageLink = !is_wp_error($pageLink) ? $pageLink : '';
                 } else {
