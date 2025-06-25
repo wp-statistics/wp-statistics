@@ -33,7 +33,7 @@ class ExportImportHandler
 
         if ($this->driver === null) {
             throw new InvalidArgumentException(
-                sprintf(__('Invalid driver: %s', 'wp-statistics'), $driver)
+                sprintf(esc_html__('Invalid driver: %s', 'wp-statistics'), $driver)
             );
         }
     }
@@ -80,7 +80,7 @@ class ExportImportHandler
     {
         if (!method_exists($this->driver, 'import')) {
             throw new Exception(
-                __('The current driver does not support import operations', 'wp-statistics')
+                esc_html__('The current driver does not support import operations', 'wp-statistics')
             );
         }
 
@@ -99,7 +99,7 @@ class ExportImportHandler
     {
         if (!method_exists($this->driver, 'export')) {
             throw new Exception(
-                __('The current driver does not support export operations', 'wp-statistics')
+                esc_html__('The current driver does not support export operations', 'wp-statistics')
             );
         }
 

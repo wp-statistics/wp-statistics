@@ -32,7 +32,7 @@ class ImportRestController extends BaseRestAPI
                     return is_string($param) && !empty($param) && preg_match('/^[a-zA-Z0-9-_]+$/', $param);
                 },
                 'required'          => true,
-                'description'       => __('The import driver to use', 'wp-statistics'),
+                'description'       => esc_html__('The import driver to use', 'wp-statistics'),
                 'type'              => 'string'
             ]
         ];
@@ -49,7 +49,7 @@ class ImportRestController extends BaseRestAPI
         if (!User::Access('manage')) {
             return new WP_Error(
                 'rest_forbidden',
-                __('Sorry, you are not authorized to import settings.', 'wp-statistics'),
+                esc_html__('Sorry, you are not authorized to import settings.', 'wp-statistics'),
                 ['status' => rest_authorization_required_code()]
             );
         }
