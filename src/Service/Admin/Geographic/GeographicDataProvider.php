@@ -25,12 +25,14 @@ class GeographicDataProvider
 
     public function getOverviewChartData()
     {
-        $mapData    = ChartDataProviderFactory::mapChart()->getData();
-        $europeData = ChartDataProviderFactory::countryChart(['continent' => 'Europe'])->getData();
+        $mapData        = ChartDataProviderFactory::mapChart()->getData();
+        $europeData     = ChartDataProviderFactory::countryChart(['continent' => 'Europe'])->getData();
+        $continentsData = ChartDataProviderFactory::continentChart()->getData();
 
         return [
-            'map_chart_data'    => $mapData,
-            'europe_chart_data' => $europeData
+            'map_chart_data'        => $mapData,
+            'europe_chart_data'     => $europeData,
+            'continent_chart_data'  => $continentsData
         ];
     }
 

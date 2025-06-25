@@ -123,17 +123,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     const topCountries = Wp_Statistics_Geographic_Object.europe_chart_data;
     renderHorizontalChart('geographic--top-countries', topCountries);
 
-    const visitorsContinent = {
-        "data": [
-            4934,
-            4233,
-            2670,
-        ],
-        "labels": [
-            "Europe",
-            "Asia",
-            "North America",
-        ]
-    };
+    const visitorsContinent = Wp_Statistics_Geographic_Object.continent_chart_data;
     renderHorizontalChart('geographic-visitors-continent', visitorsContinent);
 }
