@@ -94,7 +94,7 @@ final class Format
      * @param string $input The size string to convert.
      * @return int Size in bytes.
      */
-    public static function SizeToBytes($input)
+    public static function sizeToBytes($input)
     {
         $unit  = strtoupper(substr($input, -1));
         $value = (int)$input;

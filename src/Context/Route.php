@@ -6,12 +6,10 @@ use WP_STATISTICS\Option;
 use WP_STATISTICS\User;
 
 /**
- * WordPress route‑detection helper.
+ * Context helper for WordPress route detection.
  *
- * Provides static methods that determine which core WordPress
- * screen or endpoint the current HTTP request is targeting.
- * Currently exposes {@see Route::isLoginPage()} but can be
- * extended with additional route checks (REST, admin‑ajax, etc.).
+ * This class is only for functionality related to identifying the current
+ * route or screen (e.g., login page, block editor, admin bar visibility).
  *
  * @package WP_Statistics\Context
  * @since   15.0.0

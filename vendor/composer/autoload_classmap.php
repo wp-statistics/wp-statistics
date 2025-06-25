@@ -47,6 +47,8 @@ return array(
     'WP_Statistics\\Components\\Singleton' => $baseDir . '/src/Components/Singleton.php',
     'WP_Statistics\\Components\\View' => $baseDir . '/src/Components/View.php',
     'WP_Statistics\\Context\\Environment' => $baseDir . '/src/Context/Environment.php',
+    'WP_Statistics\\Context\\Post' => $baseDir . '/src/Context/Post.php',
+    'WP_Statistics\\Context\\PostType' => $baseDir . '/src/Context/PostType.php',
     'WP_Statistics\\Context\\Route' => $baseDir . '/src/Context/Route.php',
     'WP_Statistics\\Decorators\\BrowserDecorator' => $baseDir . '/src/Decorators/BrowserDecorator.php',
     'WP_Statistics\\Decorators\\CityDecorator' => $baseDir . '/src/Decorators/CityDecorator.php',

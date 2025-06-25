@@ -34,7 +34,7 @@ final class Environment
 
         $memoryLimit = ini_get('memory_limit');
 
-        if (memory_get_peak_usage(true) > Format::SizeToBytes($memoryLimit)) {
+        if (memory_get_peak_usage(true) > Format::sizeToBytes($memoryLimit)) {
             return true;
         }
 

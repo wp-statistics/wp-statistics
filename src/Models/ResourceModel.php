@@ -4,7 +4,7 @@ namespace WP_Statistics\Models;
 
 use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Components\DateRange;
-use WP_STATISTICS\Helper;
+use WP_Statistics\Context\PostType;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Utils\Query;
 
@@ -533,7 +533,7 @@ class ResourceModel extends BaseModel
     public function getInitialResourceDate($args = [])
     {
         $args = $this->parseArgs($args, [
-            'post_type' => Helper::getPostTypes(),
+            'post_type' => PostType::getQueryableTypes(),
         ]);
 
         $query = Query::select(['MIN(resources.cached_date) AS date'])

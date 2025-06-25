@@ -1,11 +1,12 @@
 <?php
+
 namespace WP_Statistics\Utils;
 
 /**
  * Validation helper utilities.
  *
  * @package WP_Statistics\Utils
- * @since   14.0.0
+ * @since   15.0.0
  * @internal
  */
 class Validator
@@ -15,7 +16,7 @@ class Validator
      * malicious input such as SQL‑injection or XSS attempts.
      *
      * @return array Array of regex patterns.
-     * @since  14.0.0
+     * @since  15.0.0
      */
     public static function getThreatPatterns()
     {
@@ -62,11 +63,11 @@ class Validator
      * Checks whether a string's length falls within a specified inclusive range.
      *
      * @param string $string The input string to test.
-     * @param int    $min    Minimum accepted length.
-     * @param int    $max    Maximum accepted length.
+     * @param int $min Minimum accepted length.
+     * @param int $max Maximum accepted length.
      *
      * @return bool True when the length is between $min and $max, inclusive.
-     * @since  14.0.0
+     * @since  15.0.0
      */
     public static function isLengthInRange($string, $min, $max)
     {
