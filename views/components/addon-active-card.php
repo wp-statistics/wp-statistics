@@ -29,9 +29,9 @@ if (!defined('ABSPATH') || empty($addOn)) {
 
         <div class="wps-postbox-addon__buttons">
             <?php if (in_array($addOn->getSlug(), $selectedAddOns) && (!$addOn->isInstalled() || $addOn->isUpdateAvailable())) : ?>
-                <a class="wps-postbox-addon__button button-retry-addon-download js-addon-retry-btn" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" title="<?php esc_html_e('Retry', 'wp-statistics'); ?>"><?php esc_html_e('Retry', 'wp-statistics'); ?></a>
+                <a class="wps-postbox-addon__button button-retry-addon-download js-addon-retry-btn" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" aria-label="<?php esc_html_e('Retry', 'wp-statistics'); ?>"><?php esc_html_e('Retry', 'wp-statistics'); ?></a>
             <?php elseif ($addOn->isInstalled() && !$addOn->isActivated() ) : ?>
-                <a class="wps-postbox-addon__button button-activate-addon js-addon-active-plugin-btn" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" title="<?php esc_html_e('Active', 'wp-statistics'); ?>"><?php esc_html_e('Active', 'wp-statistics'); ?></a>
+                <a class="wps-postbox-addon__button button-activate-addon js-addon-active-plugin-btn" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" aria-label="<?php esc_html_e('Active', 'wp-statistics'); ?>"><?php esc_html_e('Active', 'wp-statistics'); ?></a>
             <?php endif; ?>
         </div>
 

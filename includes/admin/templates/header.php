@@ -89,7 +89,7 @@ $hasManageCap            = $manageCap && current_user_can($manageCap);
 
             <?php if ($displayNotifications): ?>
 
-                <a title="<?php esc_html_e('Notifications', 'wp-statistics'); ?>" class="wps-notifications js-wps-open-notification <?php echo $hasUpdatedNotifications ? esc_attr('wps-notifications--has-items') : ''; ?>"></a>
+                <a href="#" title="<?php esc_html_e('Notifications', 'wp-statistics'); ?>" class="wps-notifications js-wps-open-notification <?php echo $hasUpdatedNotifications ? esc_attr('wps-notifications--has-items') : ''; ?>"></a>
             <?php endif; ?>
             <div class="wps-adminHeader__mobileMenu">
                 <input type="checkbox" id="wps-menu-toggle" class="hamburger-menu">

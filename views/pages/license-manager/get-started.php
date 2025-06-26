@@ -49,4 +49,3 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginDecorator;
             </div>
         </div>
     </div>
-</div>
