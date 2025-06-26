@@ -1,6 +1,10 @@
 <?php
 use WP_Statistics\Components\View;
+use WP_STATISTICS\Country;
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
+
+$timezoneCountry = Country::getName(Helper::getTimezoneCountry());
 ?>
 
 <div class="metabox-holder wps-referral-overview">
@@ -13,9 +17,21 @@ use WP_STATISTICS\Menus;
                 ['label' => esc_html__('Top City', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => 'Amsterdam'],
             ]]);
 
-            View::load("components/tables/geographic-top-regions", ['data' => $data['regions']]);
+            View::load("components/tables/geographic-top-regions", [
+                'title'        => esc_html__('Regions of', 'wp-statistics') . ' ' . $timezoneCountry,
+                'top_title'    => esc_html__('Regions', 'wp-statistics'),
+                'footer_title' => esc_html__('View Regions of', 'wp-statistics') . ' ' . $timezoneCountry,
+                'footer_link'  => esc_url(Menus::admin_url('geographic', ['tab' => 'regions'])),
+                'data'         => $data['regions']
+            ]);
 
-            View::load("components/tables/geographic-top-us-states", ['data' => $data['states']]);
+            View::load("components/tables/geographic-top-regions", [
+                'title'        => esc_html__('Top US States', 'wp-statistics'),
+                'top_title'    => esc_html__('States', 'wp-statistics'),
+                'footer_title' => esc_html__('View US States', 'wp-statistics'),
+                'footer_link'  => esc_url(Menus::admin_url('geographic', ['tab' => 'us'])),
+                'data'         => $data['states']
+            ]);
 
 
             View::load("components/charts/horizontal-bar", [

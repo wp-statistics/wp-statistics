@@ -1,15 +1,12 @@
 <?php
-use WP_STATISTICS\Country;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
-
-$timezoneCountry = Country::getName(Helper::getTimezoneCountry());
 ?>
 
 <div class="wps-card">
     <div class="wps-card__title">
         <h2>
-            <?php echo esc_html__('Regions of', 'wp-statistics')  . ' ' . esc_html($timezoneCountry); ?>
+            <?php echo esc_html($title); ?>
         </h2>
     </div>
     <div class="inside">
@@ -19,7 +16,7 @@ $timezoneCountry = Country::getName(Helper::getTimezoneCountry());
                     <thead>
                         <tr>
                             <th class="wps-pd-l">
-                                <?php echo esc_html__('Regions', 'wp-statistics'); ?>
+                                <?php echo esc_html($top_title); ?>
                             </th>
                             <th class="wps-pd-l">
                                 <span class="wps-order">
@@ -51,8 +48,8 @@ $timezoneCountry = Country::getName(Helper::getTimezoneCountry());
 
     <div class="wps-card__footer">
         <div class="wps-card__footer__more">
-            <a class="wps-card__footer__more__link" href="<?php echo esc_url(Menus::admin_url('geographic', ['tab' => 'regions'])) ?>">
-                <?php echo esc_html__('View Regions of', 'wp-statistics') . ' ' . esc_html($timezoneCountry); ?>
+            <a class="wps-card__footer__more__link" href="<?php echo esc_url($footer_link) ?>">
+                <?php echo esc_html($footer_title); ?>
             </a>
         </div>
     </div>
