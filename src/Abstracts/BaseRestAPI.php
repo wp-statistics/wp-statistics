@@ -6,7 +6,6 @@ use WP_REST_Request;
 use WP_REST_Server;
 use WP_REST_Response;
 use WP_Error;
-use WP_STATISTICS\Option;
 use Exception;
 
 /**
@@ -40,31 +39,12 @@ abstract class BaseRestAPI
     protected $method = WP_REST_Server::CREATABLE;
 
     /**
-     * Plugin options from WP Statistics.
-     *
-     * @var array
-     */
-    protected $option;
-
-    /**
-     * WordPress database instance.
-     *
-     * @var \wpdb
-     */
-    protected $db;
-
-    /**
      * BaseRestAPI constructor.
      *
      * Initializes database access, loads options, and hooks route registration.
      */
     public function __construct()
     {
-        global $wpdb;
-
-        $this->db     = $wpdb;
-        $this->option = Option::getOptions();
-
         add_action('rest_api_init', [$this, 'registerRoutes']);
     }
 
@@ -100,7 +80,7 @@ abstract class BaseRestAPI
      */
     public function permissionCallback(WP_REST_Request $request)
     {
-        return $this->checkSignature($request);
+        return true;
     }
 
     /**
