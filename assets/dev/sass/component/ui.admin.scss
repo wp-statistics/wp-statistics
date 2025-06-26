@@ -2489,7 +2489,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       font-size: 13px;
       font-weight: 400;
       line-height: 24px;
-      color: #8F9093;
+      color: #747578;
       cursor: pointer;
       white-space: nowrap;
       vertical-align: middle;
@@ -3615,7 +3615,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       outline: none !important;
     }
 
-    .select2-selection__rendered {
+    .select2-selection__rendered , .select2-selection__placeholder {
       padding-left: 0 !important;
       padding-right: 11px !important;
       line-height: 24px;
