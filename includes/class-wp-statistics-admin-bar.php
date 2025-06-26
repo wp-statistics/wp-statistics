@@ -88,9 +88,15 @@ class AdminBar
             }
 
             if (!Helper::isAddOnActive('mini-chart') && $view_type && $view_title) {
-                $pageLink = '';
-                $term     = get_term($object_id);
-                if (in_array($view_type, ['category', 'post_tag', 'tax_' . $term->taxonomy])) {
+                $pageLink   = '';
+                $term       = get_term($object_id);
+                $taxonomies = ['category', 'post_tag'];
+
+                if (!empty($term)) {
+                    $taxonomies[] = "tax_$term->taxonomy";
+                }
+
+                if (in_array($view_type, $taxonomies)) {
                     $pageLink = get_term_link(intval($term->term_id), $term->taxonomy);
                     $pageLink = !is_wp_error($pageLink) ? $pageLink : '';
                 } else {
