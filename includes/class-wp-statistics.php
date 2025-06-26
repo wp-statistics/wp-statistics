@@ -34,7 +34,7 @@ use WP_Statistics\Service\Database\Managers\MigrationHandler;
 use WP_Statistics\Service\HooksManager;
 use WP_Statistics\Service\CronEventManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
-use WP_Statistics\Service\Admin\ExportImportHandler\ExportImportManager;
+use WP_Statistics\Service\Admin\ExportImport\ExportImportManager;
 
 defined('ABSPATH') || exit;
 

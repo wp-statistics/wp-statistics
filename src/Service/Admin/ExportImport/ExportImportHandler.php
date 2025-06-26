@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\ExportImportHandler;
+namespace WP_Statistics\Service\Admin\ExportImport;
 
 use Exception;
 use InvalidArgumentException;

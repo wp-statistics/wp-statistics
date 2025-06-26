@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\ExportImportHandler;
+namespace WP_Statistics\Service\Admin\ExportImport;
 
 use WP_Statistics\Abstracts\BaseRestAPI;
 use WP_STATISTICS\User;
@@ -8,15 +8,15 @@ use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 
-class ImportRestController extends BaseRestAPI
+class ExportRestController extends BaseRestAPI
 {
     /**
-     * ImportRestController constructor.
+     * ExportRestController constructor.
      */
     public function __construct()
     {
         parent::__construct();
-        $this->endpoint = 'import/(?P<driver>[a-zA-Z0-9-_]+)';
+        $this->endpoint = 'export/(?P<driver>[a-zA-Z0-9-_]+)';
     }
 
     /**
@@ -32,14 +32,14 @@ class ImportRestController extends BaseRestAPI
                     return is_string($param) && !empty($param) && preg_match('/^[a-zA-Z0-9-_]+$/', $param);
                 },
                 'required'          => true,
-                'description'       => esc_html__('The import driver to use', 'wp-statistics'),
+                'description'       => esc_html__('The export driver to use', 'wp-statistics'),
                 'type'              => 'string'
             ]
         ];
     }
 
     /**
-     * Checks import permissions.
+     * Checks export permissions.
      *
      * @param WP_REST_Request $request
      * @return bool|WP_Error
@@ -49,7 +49,7 @@ class ImportRestController extends BaseRestAPI
         if (!User::Access('manage')) {
             return new WP_Error(
                 'rest_forbidden',
-                esc_html__('Sorry, you are not authorized to import settings.', 'wp-statistics'),
+                esc_html__('Sorry, you are not authorized to export settings.', 'wp-statistics'),
                 ['status' => rest_authorization_required_code()]
             );
         }
@@ -58,7 +58,7 @@ class ImportRestController extends BaseRestAPI
     }
 
     /**
-     * Handle import request.
+     * Handle export request.
      *
      * @param WP_REST_Request $request
      * @return WP_REST_Response|WP_Error
@@ -68,12 +68,12 @@ class ImportRestController extends BaseRestAPI
         try {
             $driver              = sanitize_text_field($request->get_param('driver'));
             $exportImportHandler = new ExportImportHandler($driver);
-            $result              = $exportImportHandler->import($request);
+            $result              = $exportImportHandler->export($request);
 
             return new WP_REST_Response($result);
         } catch (\Exception $e) {
             return new WP_Error(
-                'import_failed',
+                'export_failed',
                 $e->getMessage(),
                 ['status' => 400]
             );

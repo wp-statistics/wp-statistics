@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\ExportImportHandler\Interfaces;
+namespace WP_Statistics\Service\Admin\ExportImport\Interfaces;
 
 use WP_REST_Request;
 
