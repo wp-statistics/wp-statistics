@@ -9,6 +9,6 @@
     </div>
 
     <div class="c-wps-horizontal-bar__container">
-        <canvas id="<?php echo esc_attr($unique_id); ?>" height="0"></canvas>
+        <canvas id="<?php echo esc_attr($unique_id); ?>" height="0" aria-label="<?php echo esc_html($title); ?> chart" role="img"></canvas>
     </div>
 </div>

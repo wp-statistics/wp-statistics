@@ -39,13 +39,13 @@ if ($isRestApiActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isRestApiActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top" class="wps-settings-box_head">
+            <tr class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('WordPress REST API Integration', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top" data-id="api_service_status_tr">
+            <tr data-id="api_service_status_tr">
                 <th scope="row">
-                    <label for="realtime-stats-interval-time"><?php esc_html_e('API Service Status', 'wp-statistics'); ?></label>
+                    <span class="wps-setting-label"><?php esc_html_e('API Service Status', 'wp-statistics'); ?></span>
                 </th>
 
                 <td>
@@ -55,7 +55,7 @@ if ($isRestApiActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top" data-id="authentication_token_tr">
+            <tr data-id="authentication_token_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[rest_api][token_auth]"><?php esc_html_e('Authentication Token', 'wp-statistics'); ?></label>
                 </th>

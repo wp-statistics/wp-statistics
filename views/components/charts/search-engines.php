@@ -24,7 +24,7 @@ use WP_Statistics\Components\View;
             </div>
         </div>
         <div class="wps-postbox-chart--container">
-            <canvas id="<?php echo esc_attr($unique_id); ?>"></canvas>
+            <canvas id="<?php echo esc_attr($unique_id); ?>" aria-label="<?php echo esc_html__('Search engines chart', 'wp-statistics') ?>" role="img"></canvas>
         </div>
     </div>
 </div>

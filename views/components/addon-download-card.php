@@ -15,7 +15,7 @@ if (!defined('ABSPATH') || empty($addOn)) {
             <div class="wps-addon__download__item--info__title">
                 <?php echo esc_html($addOn->getName()); ?>
                 <?php if (!empty($addOn->getProductUrl())) : ?>
-                    <a target="_blank" href="<?php echo esc_html($addOn->getProductUrl()); ?>/?utm_source=wp-statistics&utm_medium=link&utm_campaign=<?php echo rawurlencode($addOn->getUtmCampaign()); ?>" class="wps-postbox-addon__read-more" title="<?php esc_html_e('Learn More', 'wp-statistics'); ?>">
+                    <a target="_blank" href="<?php echo esc_html($addOn->getProductUrl()); ?>/?utm_source=wp-statistics&utm_medium=link&utm_campaign=<?php echo rawurlencode($addOn->getUtmCampaign()); ?>" class="wps-postbox-addon__read-more" aria-label="<?php esc_html_e('Learn More', 'wp-statistics'); ?>">
                         <?php esc_html_e('Learn More', 'wp-statistics'); ?>
                     </a>
                 <?php endif; ?>
@@ -37,7 +37,7 @@ if (!defined('ABSPATH') || empty($addOn)) {
         <?php endif; ?>
 
         <?php if ($included && (!$addOn->isInstalled() || $addOn->isUpdateAvailable())) : ?>
-            <span> <input type="checkbox" class="js-wps-addon-check-box" name="addon-select" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>"></span>
+            <span> <input aria-label="<?php esc_html_e('Select to download and install addon', 'wp-statistics'); ?>" type="checkbox" class="js-wps-addon-check-box" name="addon-select" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>"></span>
         <?php endif; ?>
     </div>
 </div>

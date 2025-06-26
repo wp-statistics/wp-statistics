@@ -1,4 +1,5 @@
 = 14.14 - 2025-x-x =
+- **Fix:** Fixed audit and Accessibility (A11y) Issues.
 - **Fix:** Resolve Zero Page View Issue for Non-'Category' Taxonomies.
 - **Enhancement:** Improved migration efficiency and stability by running schema migrations synchronously and removing background processes.
 - **Enhancement:** Improved `Views` report under `Visitor Insight` page.

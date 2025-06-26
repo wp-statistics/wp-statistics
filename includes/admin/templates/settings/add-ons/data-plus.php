@@ -40,15 +40,15 @@ if (!$isDataPlusActive) echo Admin_Template::get_template(
     <div class="postbox">
         <table class="form-table <?php echo !$isDataPlusActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top" class="wps-settings-box_head">
+            <tr class="wps-settings-box_head">
                 <th scope="row" colspan="2">
                     <h3><?php esc_html_e('Event Tracking', 'wp-statistics'); ?></h3>
                 </th>
             </tr>
 
-            <tr valign="top" data-id="link_tracker_tr">
+            <tr data-id="link_tracker_tr">
                 <th scope="row">
-                    <label for="wps_addon_settings[data_plus][link_tracker]"><?php esc_html_e('Link Tracker', 'wp-statistics'); ?></label>
+                    <span class="wps-setting-label"><?php esc_html_e('Link Tracker', 'wp-statistics'); ?></span>
                 </th>
 
                 <td>
@@ -59,9 +59,9 @@ if (!$isDataPlusActive) echo Admin_Template::get_template(
                 </td>
             </tr>
 
-            <tr valign="top" data-id="download_tracker_tr">
+            <tr data-id="download_tracker_tr">
                 <th scope="row">
-                    <label for="wps_addon_settings[data_plus][download_tracker]"><?php esc_html_e('Download Tracker', 'wp-statistics'); ?></label>
+                    <span class="wps-setting-label"><?php esc_html_e('Download Tracker', 'wp-statistics'); ?></span>
                 </th>
 
                 <td>
@@ -78,15 +78,15 @@ if (!$isDataPlusActive) echo Admin_Template::get_template(
     <div class="postbox">
         <table class="form-table <?php echo !$isDataPlusActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top" class="wps-settings-box_head">
+            <tr class="wps-settings-box_head">
                 <th scope="row" colspan="2">
                     <h3><?php esc_html_e('User Interface Preferences', 'wp-statistics'); ?></h3>
                 </th>
             </tr>
 
-            <tr valign="top" data-id="latest_visitors_in_editor_tr">
+            <tr data-id="latest_visitors_in_editor_tr">
                 <th scope="row">
-                    <label for="wps_addon_settings[data_plus][latest_visitors_metabox]"><?php esc_html_e('Latest Visitors in Editor', 'wp-statistics'); ?></label>
+                    <span class="wps-setting-label"><?php esc_html_e('Latest Visitors in Editor', 'wp-statistics'); ?></span>
                 </th>
 
                 <td>

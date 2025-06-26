@@ -224,13 +224,13 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
             if (imageUrls && imageUrls[i] && imageUrls[i] !== 'undefined') {
                 let img = document.createElement('img');
                 img.src = imageUrls[i];
-                img.alt = labels[i];
+                img.alt = labels[i] + ' icon';
                 img.classList.add('wps-horizontal-bar__image');
                 labelImageDiv.appendChild(img);
             }
             let labelDiv = document.createElement('div');
             labelDiv.innerHTML = labels[i];
-            labelDiv.setAttribute('title', labels[i]);
+            labelDiv.setAttribute('aria-label', labels[i]);
             labelDiv.classList.add('wps-horizontal-bar__label');
             labelImageDiv.appendChild(labelDiv);
             itemDiv.appendChild(labelImageDiv);
@@ -466,6 +466,12 @@ jQuery(document).ready(function () {
         targetElement.parentNode.insertBefore(noticeElement, targetElement.nextSibling);
     }
 
+    document.querySelectorAll('.wp-has-submenu.menu-top.toplevel_page_wps_overview_page li a')
+        .forEach(link => {
+            if (link.querySelector('.wps-text-warning')) {
+                link.classList.add('addon-menu');
+            }
+        });
 });
 
 window.renderFormatNum = function (data) {

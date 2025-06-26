@@ -155,7 +155,7 @@
         gap: 16px;
 
         &__img {
-          background: #404BF214;
+          background: #E6E7FA;
           padding: 8px;
           border-radius: 6px;
           width: 48px;
@@ -206,7 +206,7 @@
           flex-wrap: wrap;
 
           span.wps-postbox-addon__version {
-            color: #898A8E;
+            color: #717274;
             font-size: 11px;
             display: inline-block;
             font-weight: 400;
@@ -336,7 +336,7 @@
             &.disabled {
               pointer-events: none;
               background: #F1F1F9;
-              color: #B2B2CF;
+              color: #6c6c7c;
               position: relative;
             }
           }
@@ -590,6 +590,10 @@
         &--disabled {
           background: #EEEFF1;
 
+          .wps-addon__download__item--info__desc{
+            color: #6b6c6d;
+          }
+
           &:hover {
             background: #EEEFF1;
             border: 1px solid #DADCE0;
@@ -640,7 +644,7 @@
           }
 
           &__img {
-            background: #404BF214;
+            background: #E6E7FA;
             padding: 8px;
             border-radius: 6px;
             width: 48px;
@@ -679,7 +683,7 @@
             min-height: 27px;
 
             span.wps-postbox-addon__version {
-              color: #898A8E;
+              color: #717274;
               font-size: 11px;
               font-weight: 500;
               line-height: 16px;
@@ -1319,7 +1323,7 @@
     }
 
     &__review-btn {
-      background: #f6585e;
+      background: #AD1F23;
       padding: 8px 23px;
       gap: 6px;
       border-radius: 4px;
@@ -1334,7 +1338,7 @@
       }
 
       &:hover {
-        background: #F6585ECC;
+        background: #ad1f23cc;
       }
 
       &:after {

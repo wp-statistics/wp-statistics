@@ -29,10 +29,10 @@ if ($isRealTimeStatsActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isRealTimeStatsActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top" class="wps-settings-box_head">
+            <tr class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Update Interval', 'wp-statistics'); ?></h3></th>
             </tr>
-            <tr valign="top" data-id="chart_and_map_refresh_rate_tr">
+            <tr data-id="chart_and_map_refresh_rate_tr">
                 <th scope="row">
                     <label for="realtime-stats-interval-time"><?php esc_html_e('Chart & Map Refresh Rate (seconds)', 'wp-statistics'); ?></label>
                 </th>

@@ -13,10 +13,10 @@ $source_colors = [
             <table class="o-table wps-new-table wps-source-category__table">
                 <thead>
                 <tr>
-                    <th class="wps-pd-l"><?php echo esc_html_e('Source Category', 'wp-statistics') ?></th>
-                    <th class="wps-pd-l"><?php echo esc_html_e('Top Domain', 'wp-statistics') ?></th>
-                    <th class="wps-pd-l"><?php echo esc_html_e('Visitors', 'wp-statistics') ?></th>
-                    <th class="wps-pd-l">%</th>
+                    <th scope="col" class="wps-pd-l"><?php echo esc_html_e('Source Category', 'wp-statistics') ?></th>
+                    <th scope="col" class="wps-pd-l"><?php echo esc_html_e('Top Domain', 'wp-statistics') ?></th>
+                    <th scope="col" class="wps-pd-l"><?php echo esc_html_e('Visitors', 'wp-statistics') ?></th>
+                    <th scope="col" class="wps-pd-l">%</th>
                 </tr>
                 </thead>
                 <tbody>

@@ -10,7 +10,7 @@ use WP_Statistics\Decorators\UserDecorator;
         <span><?php esc_html_e('Username', 'wp-statistics'); ?></span>
         <div>
             <a href="<?php echo get_edit_user_link($user->getId()); ?>" class="wps-visitor__username">
-                <img src="<?php echo WP_STATISTICS_URL . 'assets/images/user-icon.svg' ?>" width="19" height="19">
+                <img src="<?php echo WP_STATISTICS_URL . 'assets/images/user-icon.svg' ?>" width="19" height="19" alt="<?php echo sprintf('%s (#%s)', $user->getDisplayName(), $user->getId()); ?>">
                 <span><?php echo sprintf('%s (#%s)', $user->getDisplayName(), $user->getId()); ?></span>
             </a>
         </div>
