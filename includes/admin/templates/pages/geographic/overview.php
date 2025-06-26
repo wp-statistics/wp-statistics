@@ -12,9 +12,9 @@ $timezoneCountry = Country::getName(Helper::getTimezoneCountry());
 
         <?php
             View::load("components/objects/glance-card", ['metrics' => [
-                ['label' => esc_html__('Top Country', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => 'United States'],
-                ['label' => esc_html__('Top Region', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => 'Harjumaa'],
-                ['label' => esc_html__('Top City', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => 'Amsterdam'],
+                ['label' => esc_html__('Top Country', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => $data['summary']['country']],
+                ['label' => esc_html__('Top Region', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => $data['summary']['region']],
+                ['label' => esc_html__('Top City', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => $data['summary']['city']],
             ]]);
 
             View::load("components/tables/geographic-top-regions", [

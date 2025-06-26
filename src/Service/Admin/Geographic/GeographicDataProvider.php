@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\Geographic;
 
+use WP_STATISTICS\Country;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
@@ -22,11 +23,23 @@ class GeographicDataProvider
     {
         $args = array_merge($this->args, ['per_page' => 5, 'page' => 1]);
 
+        $countries = $this->visitorsModel->getVisitorsGeoData($args);
+        $cities    = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['group_by' => ['city'], 'not_null' => 'visitor.city', 'count_field' => 'city']));
+        $regions   = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['country' => Helper::getTimezoneCountry(), 'group_by' => ['country', 'region'], 'count_field' => 'region', 'not_null' => 'visitor.region']));
+        $states    = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['country' => 'US', 'continent' => 'North America', 'group_by' => ['region'], 'count_field' => 'region', 'not_null' => 'visitor.region']));
+
+        $summary   = [
+            'country'   => !empty($countries[0]->country) ? Country::getName($countries[0]->country) : '',
+            'region'    => $regions[0]->region ?? '',
+            'city'      => $cities[0]->city ?? '',
+        ];
+
         return [
-            'countries' => $this->visitorsModel->getVisitorsGeoData($args),
-            'cities'    => $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['group_by' => ['city'], 'not_null' => 'visitor.city', 'count_field' => 'city'])),
-            'regions'   => $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['country' => Helper::getTimezoneCountry(), 'group_by' => ['country', 'region'], 'count_field' => 'region', 'not_null' => 'visitor.region'])),
-            'states'    => $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['country' => 'US', 'continent' => 'North America', 'group_by' => ['region'], 'count_field' => 'region', 'not_null' => 'visitor.region'])),
+            'summary'   => $summary,
+            'countries' => $countries,
+            'cities'    => $cities,
+            'regions'   => $regions,
+            'states'    => $states,
         ];
     }
 
