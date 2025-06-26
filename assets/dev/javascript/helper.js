@@ -466,6 +466,12 @@ jQuery(document).ready(function () {
         targetElement.parentNode.insertBefore(noticeElement, targetElement.nextSibling);
     }
 
+    document.querySelectorAll('.wp-has-submenu.menu-top.toplevel_page_wps_overview_page li a')
+        .forEach(link => {
+            if (link.querySelector('.wps-text-warning')) {
+                link.classList.add('addon-menu');
+            }
+        });
 });
 
 window.renderFormatNum = function (data) {
