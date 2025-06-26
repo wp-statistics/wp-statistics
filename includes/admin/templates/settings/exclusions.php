@@ -201,7 +201,10 @@ use WP_STATISTICS\Menus;
 
         <tr data-id="referrer_spam_blacklist_tr">
             <th scope="row">
-                <label for="wps_settings[referrer_spam]"><?php esc_html_e('Referrer Spam Blacklist', 'wp-statistics'); ?></label>
+                <label for="wps_settings[referrer_spam]">
+                    <span><?php esc_html_e('Referrer Spam Blacklist', 'wp-statistics'); ?></span>
+                    <span class="wps-badge wps-badge--deprecated"><?php esc_html_e('DEPRECATED', 'wp-statistics'); ?></span>
+                </label>
             </th>
 
             <td>
