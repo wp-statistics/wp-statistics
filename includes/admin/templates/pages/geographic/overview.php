@@ -6,41 +6,36 @@ use WP_STATISTICS\Menus;
 <div class="metabox-holder wps-referral-overview">
     <div class="postbox-container" id="wps-postbox-container-1">
 
-        <?php View::load("components/objects/glance-card", ['metrics' => [
-            ['label' => esc_html__('Top Country', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => 'United States'],
-            ['label' => esc_html__('Top Region', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => 'Harjumaa'],
-            ['label' => esc_html__('Top City', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => 'Amsterdam'],
-        ]]);
+        <?php
+            View::load("components/objects/glance-card", ['metrics' => [
+                ['label' => esc_html__('Top Country', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => 'United States'],
+                ['label' => esc_html__('Top Region', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => 'Harjumaa'],
+                ['label' => esc_html__('Top City', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => 'Amsterdam'],
+            ]]);
 
-        View::load("components/tables/geographic-top-visitors", [
-            'title'        => esc_html__('Regions of Estonia', 'wp-statistics'),
-            'top_title'    => esc_html__('Regions', 'wp-statistics'),
-            'footer_title' => esc_html__('View Regions of Estonia', 'wp-statistics'),
-            'footer_link'  => esc_url(Menus::admin_url('geographic', ['tab' => 'estonia'])),
-        ]);
+            View::load("components/tables/geographic-top-regions", ['data' => $data['regions']]);
 
-
-        View::load("components/tables/geographic-top-visitors", [
-            'title'        => esc_html__('Top US States', 'wp-statistics'),
-            'top_title'    => esc_html__('States', 'wp-statistics'),
-            'footer_title' => esc_html__('View US States', 'wp-statistics'),
-            'footer_link'  => esc_url(Menus::admin_url('geographic', ['tab' => 'us'])),
-        ]);
+            View::load("components/tables/geographic-top-visitors", [
+                'title'        => esc_html__('Top US States', 'wp-statistics'),
+                'top_title'    => esc_html__('States', 'wp-statistics'),
+                'footer_title' => esc_html__('View US States', 'wp-statistics'),
+                'footer_link'  => esc_url(Menus::admin_url('geographic', ['tab' => 'us'])),
+            ]);
 
 
-        View::load("components/charts/horizontal-bar", [
-            'title'        => esc_html__('Top European Countries', 'wp-statistics'),
-            'footer_title' => esc_html__('View European Countries', 'wp-statistics'),
-            'footer_link'  => esc_url(Menus::admin_url('geographic', ['tab' => 'europe'])),
-            'unique_id'    => 'geographic--top-countries'
-        ]);
+            View::load("components/charts/horizontal-bar", [
+                'title'        => esc_html__('Top European Countries', 'wp-statistics'),
+                'footer_title' => esc_html__('View European Countries', 'wp-statistics'),
+                'footer_link'  => esc_url(Menus::admin_url('geographic', ['tab' => 'europe'])),
+                'unique_id'    => 'geographic--top-countries'
+            ]);
 
-        View::load("components/charts/horizontal-bar", [
-            'title'     => esc_html__('Visitors by Continent', 'wp-statistics'),
-            'unique_id' => 'geographic-visitors-continent'
-        ]);
-
+            View::load("components/charts/horizontal-bar", [
+                'title'     => esc_html__('Visitors by Continent', 'wp-statistics'),
+                'unique_id' => 'geographic-visitors-continent'
+            ]);
         ?>
+
     </div>
     <div class="postbox-container" id="wps-postbox-container-2">
         <div class="wps-card">
