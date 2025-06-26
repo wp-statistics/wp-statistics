@@ -336,7 +336,7 @@
             &.disabled {
               pointer-events: none;
               background: #F1F1F9;
-              color: #B2B2CF;
+              color: #6c6c7c;
               position: relative;
             }
           }
@@ -589,6 +589,10 @@
 
         &--disabled {
           background: #EEEFF1;
+
+          .wps-addon__download__item--info__desc{
+            color: #6b6c6d;
+          }
 
           &:hover {
             background: #EEEFF1;

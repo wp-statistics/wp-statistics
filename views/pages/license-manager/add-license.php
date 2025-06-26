@@ -10,7 +10,7 @@
         <div class="wps-addon__step__license">
             <div class="wps-addon__step__active-license">
                 <!--   Add wps-danger or wps-warning class to input-->
-                <input aria-label="<?php esc_html_e('License', 'wp-statistics'); ?>" type="text" placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+                <input id="wps-addon__step__license-input" aria-label="<?php esc_html_e('License', 'wp-statistics'); ?>" type="text" placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
                 <button class="wps-postbox-addon-button js-addon-active-license disabled"><?php esc_html_e('Activate License', 'wp-statistics'); ?></button>
             </div>
          </div>

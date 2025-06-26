@@ -2878,6 +2878,10 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
         cursor: pointer;
       }
 
+      span.screen-reader-text{
+        color: #fff;
+      }
+
       .wps-step-link__badge {
         background-color: #165E2E;
       }
