@@ -6,11 +6,10 @@ use WP_Statistics\Components\DateTime;
 use WP_Statistics\Models\PostsModel;
 
 /**
- * Context helper for post‑level date information.
+ * Helper for posts across all post types.
  *
- * Provides utility methods for retrieving a single post object and its
- * basic metadata (e.g. publish date) for a given post type. The focus is on
- * one‑post operations.
+ * Provides utility methods for retrieving posts, counting published items,
+ * and computing averages for posting frequency.
  *
  * @package WP_Statistics\Context
  * @since   15.0.0
@@ -69,5 +68,39 @@ final class Post
         }
 
         return DateTime::format($post->post_date, ['date_format' => 'Y-m-d']);
+    }
+
+    /**
+     * Calculate average posting frequency for standard posts.
+     *
+     * When <code>$daysBetween</code> is <code>true</code> returns the average
+     * <em>days between</em> published posts. Otherwise returns the average
+     * <em>posts per day</em>. Uses the date of the earliest published post
+     * as the starting point.
+     *
+     * @param bool $daysBetween Optional. True for days-between, false for
+     *                          posts-per-day. Default false.
+     * @return float            Rounded average, or 0 when no posts exist.
+     */
+    public static function getPublishRate($daysBetween = false)
+    {
+        $postsCount = PostType::countPublished();
+        if ($postsCount === 0) {
+            return 0;
+        }
+
+        $firstPost = self::get('post', 'post_date', 'ASC');
+        if (empty($firstPost->post_date)) {
+            return 0;
+        }
+
+        $daysSpan = max(
+            1,
+            (int)floor((time() - strtotime($firstPost->post_date)) / DAY_IN_SECONDS)
+        );
+
+        return $daysBetween
+            ? round($daysSpan / $postsCount, 0)   // days between posts
+            : round($postsCount / $daysSpan, 2); // posts per day
     }
 }

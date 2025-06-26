@@ -141,4 +141,19 @@ final class PostType
             ? $postTypeObj->labels->singular_name
             : $postTypeObj->labels->name;
     }
+
+    /**
+     * Count published items for a given post type.
+     *
+     * @param string $postType Optional. Post‑type slug. Default 'post'.
+     * @return int             Number of published posts.
+     */
+    public static function countPublished(string $postType = 'post')
+    {
+        $totals = wp_count_posts($postType);
+
+        return (is_object($totals) && isset($totals->publish))
+            ? (int)$totals->publish
+            : 0;
+    }
 }
