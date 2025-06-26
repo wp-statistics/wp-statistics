@@ -26,6 +26,7 @@ class GeographicDataProvider
             'countries' => $this->visitorsModel->getVisitorsGeoData($args),
             'cities'    => $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['group_by' => ['city'], 'not_null' => 'visitor.city', 'count_field' => 'city'])),
             'regions'   => $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['country' => Helper::getTimezoneCountry(), 'group_by' => ['country', 'region'], 'count_field' => 'region', 'not_null' => 'visitor.region'])),
+            'states'    => $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['country' => 'US', 'continent' => 'North America', 'group_by' => ['region'], 'count_field' => 'region', 'not_null' => 'visitor.region'])),
         ];
     }
 

@@ -15,12 +15,7 @@ use WP_STATISTICS\Menus;
 
             View::load("components/tables/geographic-top-regions", ['data' => $data['regions']]);
 
-            View::load("components/tables/geographic-top-visitors", [
-                'title'        => esc_html__('Top US States', 'wp-statistics'),
-                'top_title'    => esc_html__('States', 'wp-statistics'),
-                'footer_title' => esc_html__('View US States', 'wp-statistics'),
-                'footer_link'  => esc_url(Menus::admin_url('geographic', ['tab' => 'us'])),
-            ]);
+            View::load("components/tables/geographic-top-us-states", ['data' => $data['states']]);
 
 
             View::load("components/charts/horizontal-bar", [
