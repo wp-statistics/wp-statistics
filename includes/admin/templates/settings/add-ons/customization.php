@@ -100,7 +100,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
 
             <tr data-id="white_label_tr">
                 <th scope="row">
-                    <label for="wps_addon_settings[customization][wps_white_label]"><?php esc_html_e('White label', 'wp-statistics'); ?></label>
+                    <span class="wps-setting-label"><?php esc_html_e('White label', 'wp-statistics'); ?></span>
                 </th>
 
                 <td>
@@ -178,14 +178,18 @@ if ($isCustomizationActive && !$isLicenseValid) {
 
             <tr class="js-wps-show_if_customization_show_wps_about_widget_overview_equal_yes" data-id="widget_content_tr">
                 <th scope="row">
-                    <span class="wps-setting-label"><?php esc_html_e('Widget Content', 'wp-statistics'); ?></span>
+                    <?php if ($wp_version >= 3.3 && function_exists('wp_editor')): ?>
+                        <label for="wps_about_widget_content"><?php esc_html_e('Widget Content', 'wp-statistics'); ?></label>
+                    <?php else : ?>
+                        <label for="wps_addon_settings[customization][wps_about_widget_content]"><?php esc_html_e('Widget Content', 'wp-statistics'); ?></label>
+                    <?php endif ?>
                 </th>
 
                 <td>
                     <?php if ($wp_version >= 3.3 && function_exists('wp_editor')) { ?>
                         <?php wp_editor(stripslashes(WP_STATISTICS\Option::getByAddon('wps_about_widget_content', 'customization')), 'wps_about_widget_content', array('textarea_name' => 'wps_addon_settings[customization][wps_about_widget_content]', 'editor_height' => 400)); ?>
                     <?php } else { ?>
-                        <textarea aria-label="<?php esc_html_e('Widget Content', 'wp-statistics'); ?>" class="large-text" rows="10" id="wps_addon_settings[customization][wps_about_widget_content]" name="wps_addon_settings[customization][wps_about_widget_content]"><?php echo esc_textarea(stripslashes(WP_STATISTICS\Option::getByAddon('wps_about_widget_content', 'customization'))) ?></textarea>
+                        <textarea class="large-text" rows="10" id="wps_addon_settings[customization][wps_about_widget_content]" name="wps_addon_settings[customization][wps_about_widget_content]"><?php echo esc_textarea(stripslashes(WP_STATISTICS\Option::getByAddon('wps_about_widget_content', 'customization'))) ?></textarea>
                     <?php } ?>
                     <p class="description"><?php esc_html_e('Craft the content for your widget; text, images, and HTML are supported.', 'wp-statistics'); ?></p>
                 </td>

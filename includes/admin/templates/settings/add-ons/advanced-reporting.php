@@ -258,7 +258,11 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
 
             <tr data-id="email_header_customization_tr">
                 <th scope="row">
-                    <span class="wps-setting-label"><?php esc_html_e('Email Header Customization', 'wp-statistics'); ?></span>
+                    <?php if ($wp_version >= 3.3 && function_exists('wp_editor')) { ?>
+                        <label for="email_content_header"><?php esc_html_e('Email Header Customization', 'wp-statistics'); ?></label>
+                    <?php } else { ?>
+                        <span class="wps-setting-label"><?php esc_html_e('Email Header Customization', 'wp-statistics'); ?></span>
+                    <?php } ?>
                 </th>
 
                 <td>
@@ -273,7 +277,11 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
 
             <tr data-id="email_footer_customization_tr">
                 <th scope="row">
-                    <span class="wps-setting-label"><?php esc_html_e('Email Footer Customization', 'wp-statistics'); ?></span>
+                    <?php if ($wp_version >= 3.3 && function_exists('wp_editor')) { ?>
+                        <label for="email_content_footer"><?php esc_html_e('Email Footer Customization', 'wp-statistics'); ?></label>
+                    <?php } else { ?>
+                        <span class="wps-setting-label"><?php esc_html_e('Email Footer Customization', 'wp-statistics'); ?></span>
+                    <?php } ?>
                 </th>
 
                 <td>
