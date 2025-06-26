@@ -24,6 +24,7 @@ class GeographicDataProvider
 
         return [
             'countries' => $this->visitorsModel->getVisitorsGeoData($args),
+            'cities'    => $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['group_by' => ['city'], 'not_null' => 'visitor.city', 'count_field' => 'city']))
         ];
     }
 
