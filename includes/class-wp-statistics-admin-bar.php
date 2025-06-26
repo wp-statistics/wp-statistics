@@ -92,7 +92,7 @@ class AdminBar
                 $term       = get_term($object_id);
                 $taxonomies = ['category', 'post_tag'];
 
-                if (!empty($term)) {
+                if (!empty($term) && !is_wp_error($term)) {
                     $taxonomies[] = "tax_$term->taxonomy";
                 }
 
