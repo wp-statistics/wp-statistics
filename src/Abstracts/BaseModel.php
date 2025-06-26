@@ -60,19 +60,24 @@ abstract class BaseModel
             }
 
             foreach ($args['resource_type'] as $key => $value) {
-                // If it's not a post type, skip
-                if (!in_array($value, Helper::getPostTypes())) {
-                    continue;
+                // If it's a taxonomy.
+                if (taxonomy_exists($value)) {
+                    if (!in_array($value, ['category', 'post_tag'])) {
+                        $args['resource_type'][$key] = "tax_{$value}";
+                    }
                 }
 
-                // If it's a custom post type, add 'post_type' prefix
-                if (!in_array($value, ['post', 'page', 'product', 'attachment'])) {
-                    $args['resource_type'][$key] = "post_type_$value";
-                }
+                // If it's a post type.
+                if (post_type_exists($value)) {
+                    // If it's a custom post type, add 'post_type' prefix
+                    if (!in_array($value, ['post', 'page', 'product', 'attachment'])) {
+                        $args['resource_type'][$key] = "post_type_$value";
+                    }
 
-                // If the array contains page post type, add home as well
-                if (!in_array('home', $args['resource_type']) && $value === 'page') {
-                    $args['resource_type'][] = 'home';
+                    // If the array contains page post type, add home as well
+                    if (!in_array('home', $args['resource_type']) && $value === 'page') {
+                        $args['resource_type'][] = 'home';
+                    }
                 }
             }
         }

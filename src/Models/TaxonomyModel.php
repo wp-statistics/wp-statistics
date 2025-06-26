@@ -11,13 +11,13 @@ class TaxonomyModel extends BaseModel
     public function countTerms($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'      => '',
-            'taxonomy'  => '',
+            'date'     => '',
+            'taxonomy' => '',
         ]);
 
         $result = Query::select([
-                'COUNT(*)',
-            ])
+            'COUNT(*)',
+        ])
             ->from('term_taxonomy')
             ->where('taxonomy', 'IN', $args['taxonomy'])
             ->getVar();
@@ -31,6 +31,7 @@ class TaxonomyModel extends BaseModel
             'post_type'         => Helper::get_list_post_type(),
             'order_by'          => ['term_taxonomy.taxonomy', 'post_count'],
             'taxonomy'          => array_keys(Helper::get_list_taxonomy(true)),
+            'resource_type'     => array_keys(Helper::get_list_taxonomy(true)),
             'page'              => 1,
             'per_page'          => 5,
             'date'              => '',
@@ -41,26 +42,26 @@ class TaxonomyModel extends BaseModel
 
         $categoryViewsQuery = Query::select(['id', 'date', 'SUM(count) AS views'])
             ->from('pages')
-            ->where('pages.type', 'IN', $args['taxonomy'])
+            ->where('pages.type', 'IN', $args['resource_type'])
             ->whereDate('date', $args['date'])
             ->groupBy('id')
             ->getQuery();
 
         $query = Query::select([
-                'taxonomy',
-                'terms.term_id',
-                'terms.name',
-                'COUNT(DISTINCT posts.ID) as post_count',
-                'COALESCE(category.views, 0) as term_views'
-            ])
+            'taxonomy',
+            'terms.term_id',
+            'terms.name',
+            'COUNT(DISTINCT posts.ID) as post_count',
+            'COALESCE(category.views, 0) as term_views'
+        ])
             ->from('term_taxonomy')
             ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
             ->join('term_relationships', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'], [], 'LEFT')
-            ->join('posts', ['posts.ID', 'term_relationships.object_id'], [['posts.post_type' , 'IN', $args['post_type']], ['posts.post_status', '=', 'publish']], 'LEFT')
+            ->join('posts', ['posts.ID', 'term_relationships.object_id'], [['posts.post_type', 'IN', $args['post_type']], ['posts.post_status', '=', 'publish']], 'LEFT')
             ->joinQuery($categoryViewsQuery, ['category.id', 'term_taxonomy.term_taxonomy_id'], 'category', 'LEFT')
             ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
             ->where('posts.post_author', '=', $args['author_id'])
-            ->groupBy(['taxonomy', 'terms.term_id','terms.name'])
+            ->groupBy(['taxonomy', 'terms.term_id', 'terms.name'])
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page']);
 
@@ -76,10 +77,10 @@ class TaxonomyModel extends BaseModel
 
             foreach ($result as $item) {
                 $taxonomies[$item->taxonomy][] = [
-                    'term_id'       => $item->term_id,
-                    'term_name'     => $item->name,
-                    'posts_count'   => $item->post_count,
-                    'views'         => $item->term_views
+                    'term_id'     => $item->term_id,
+                    'term_name'   => $item->name,
+                    'posts_count' => $item->post_count,
+                    'views'       => $item->term_views
                 ];
             }
 
@@ -92,23 +93,23 @@ class TaxonomyModel extends BaseModel
     public function getTermsData($args = [])
     {
         $args = $this->parseArgs($args, [
-            'order_by'  => 'views',
-            'order'     => '',
-            'page'      => 1,
-            'per_page'  => 5,
-            'date'      => '',
-            'taxonomy'  => '',
-            'author_id' => '',
-            'post_type' => Helper::getPostTypes(),
-            'date_field'=> 'pages.date'
+            'order_by'   => 'views',
+            'order'      => '',
+            'page'       => 1,
+            'per_page'   => 5,
+            'date'       => '',
+            'taxonomy'   => '',
+            'author_id'  => '',
+            'post_type'  => Helper::getPostTypes(),
+            'date_field' => 'pages.date'
         ]);
 
         $result = Query::select([
-                'terms.term_id',
-                'terms.name as term_name',
-                'SUM(pages.count) AS views',
-                'COUNT(DISTINCT posts.ID) AS posts'
-            ])
+            'terms.term_id',
+            'terms.name as term_name',
+            'SUM(pages.count) AS views',
+            'COUNT(DISTINCT posts.ID) AS posts'
+        ])
             ->from('posts')
             ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
             ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
@@ -129,23 +130,23 @@ class TaxonomyModel extends BaseModel
     public function getTermsReportData($args = [])
     {
         $args = $this->parseArgs($args, [
-            'order_by'  => 'views',
-            'order'     => '',
-            'page'      => 1,
-            'per_page'  => 5,
-            'date'      => '',
-            'taxonomy'  => '',
-            'author_id' => '',
-            'post_type' => Helper::getDefaultPostTypes(),
-            'date_field'=> 'pages.date'
+            'order_by'   => 'views',
+            'order'      => '',
+            'page'       => 1,
+            'per_page'   => 5,
+            'date'       => '',
+            'taxonomy'   => '',
+            'author_id'  => '',
+            'post_type'  => Helper::getDefaultPostTypes(),
+            'date_field' => 'pages.date'
         ]);
 
         $wordsQuery = Query::select([
-                'terms.term_id',
-                'terms.name as term_name',
-                'SUM(postmeta.meta_value) AS words',
-                'COUNT(DISTINCT posts.ID) AS posts'
-            ])
+            'terms.term_id',
+            'terms.name as term_name',
+            'SUM(postmeta.meta_value) AS words',
+            'COUNT(DISTINCT posts.ID) AS posts'
+        ])
             ->from('postmeta')
             ->join('posts', ['postmeta.post_id', 'posts.ID'])
             ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
@@ -160,14 +161,14 @@ class TaxonomyModel extends BaseModel
             ->getQuery();
 
         $result = Query::select([
-                'terms.term_id',
-                'terms.name as term_name',
-                'SUM(pages.count) AS views',
-                'COALESCE(postmeta.posts, 0) AS posts',
-                'COALESCE(postmeta.words, 0) AS words',
-                'COALESCE(SUM(pages.count) / postmeta.posts, 0) AS avg_views',
-                'COALESCE(postmeta.words / postmeta.posts, 0) AS avg_words'
-            ])
+            'terms.term_id',
+            'terms.name as term_name',
+            'SUM(pages.count) AS views',
+            'COALESCE(postmeta.posts, 0) AS posts',
+            'COALESCE(postmeta.words, 0) AS words',
+            'COALESCE(SUM(pages.count) / postmeta.posts, 0) AS avg_views',
+            'COALESCE(postmeta.words / postmeta.posts, 0) AS avg_words'
+        ])
             ->from('posts')
             ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
             ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])

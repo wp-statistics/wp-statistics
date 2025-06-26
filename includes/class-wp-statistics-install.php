@@ -889,7 +889,7 @@ class Install
                         } elseif ($taxonomy == "post_tag") {
                             $page_type = 'post_tag';
                         } else {
-                            $page_type = 'tax';
+                            $page_type = 'tax_' . $taxonomy;
                         }
                     }
 

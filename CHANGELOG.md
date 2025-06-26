@@ -8,6 +8,7 @@
 - **New:** Add Country Name to Visitor Info Flag Tooltip.
 - **New:** Added unread notification badge to Help Center menu.
 - **Enhancement:** Deprecated Matomo Referrer Spam Blacklist option; scheduled for removal in future versions.
+- **Fix:** Normalized type field for taxonomies with tax_ prefix.
 
 = 14.14 - 2025-06-01 =
 - **New:** Added a Help page inside the plugin to guide users.
