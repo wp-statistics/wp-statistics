@@ -33,7 +33,9 @@
                                 <span>-</span>
                             <?php endif; ?>
                             <?php if (isset($metric['change'])): ?>
-                                <span class="wps-glance-card__change"><?php echo esc_html($metric['change']); ?></span>
+                                <span class="wps-at-a-glance-change <?php echo esc_attr($metric['change'] > 0 ? 'wps-glance-positive' : ($metric['change'] < 0 ? 'wps-glance-negative' : '')); ?>">
+                                    <?php echo esc_html($metric['change'] > 0 ? '+' : '') . esc_html($metric['change']) . '%'; ?>
+                                </span>
                             <?php endif; ?>
                         </span>
                     </div>
