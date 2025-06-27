@@ -1,22 +1,49 @@
 <?php
+
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
+
 ?>
 
 <div class="metabox-holder wps-referral-overview">
     <div class="postbox-container" id="wps-postbox-container-1">
 
         <?php
-            View::load("components/objects/glance-card", ['metrics' => [
-                ['label' => esc_html__('Referred Visitors', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => Helper::formatNumberWithUnit($data['summary']['visitors']['value']), 'change' => $data['summary']['visitors']['change']],
-                ['label' => esc_html__('Top Referrer', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => $data['summary']['referrer']],
-                ['label' => esc_html__('Top Country', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => $data['summary']['country']],
-                ['label' => esc_html__('Top Browser', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => $data['summary']['browser']],
-                ['label' => esc_html__('Top Search Engine', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => $data['summary']['search_engine']],
-                ['label' => esc_html__('Top Social Media', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => $data['summary']['social_media']],
-                ['label' => esc_html__('Top Entry Page', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => $data['summary']['entry_page']['title']],
-            ]]);
+        View::load("components/objects/glance-card", ['metrics' => [
+            [
+                'label'  => esc_html__('Referred Visitors', 'wp-statistics'),
+                'value'  => Helper::formatNumberWithUnit($data['summary']['visitors']['value']),
+                'change' => $data['summary']['visitors']['change']
+            ],
+            [
+                'label'      => esc_html__('Top Referrer', 'wp-statistics'),
+                'link-href'  => !empty($data['summary']['referrer']) ? esc_url($data['summary']['referrer']) : null,
+                'link-title' => $data['summary']['referrer'] ?? null
+            ],
+            [
+                'label' => esc_html__('Top Country', 'wp-statistics'),
+                'value' => $data['summary']['country'] ?? null
+            ],
+            [
+                'label' => esc_html__('Top Browser', 'wp-statistics'),
+                'value' => $data['summary']['browser'] ?? null
+            ],
+            [
+                'label' => esc_html__('Top Search Engine', 'wp-statistics'),
+                'value' => $data['summary']['search_engine'] ?? null
+            ],
+            [
+                'label' => esc_html__('Top Social Media', 'wp-statistics'),
+                'value' => $data['summary']['social_media'] ?? null
+            ],
+            [
+                'label'      => esc_html__('Top Entry Page', 'wp-statistics'),
+                'link-href'  => !empty($data['summary']['entry_page']['link']) ? esc_url($data['summary']['entry_page']['link']) : null,
+                'link-title' => $data['summary']['entry_page']['title'] ?? null,
+            ],
+        ]]);
+
         ?>
         <div class="wps-card">
             <div class="wps-card__title">
@@ -33,46 +60,46 @@ use WP_STATISTICS\Menus;
         </div>
 
         <?php
-            View::load("components/charts/horizontal-bar", [
-                'title'     => esc_html__('Top Countries', 'wp-statistics'),
-                'unique_id' => 'referral-top-countries'
-            ]);
+        View::load("components/charts/horizontal-bar", [
+            'title'     => esc_html__('Top Countries', 'wp-statistics'),
+            'unique_id' => 'referral-top-countries'
+        ]);
 
-            View::load("components/charts/horizontal-bar", [
-                'title'     => esc_html__('Top Browsers', 'wp-statistics'),
-                'unique_id' => 'referral-top-browser'
-            ]);
+        View::load("components/charts/horizontal-bar", [
+            'title'     => esc_html__('Top Browsers', 'wp-statistics'),
+            'unique_id' => 'referral-top-browser'
+        ]);
 
-            View::load("components/charts/horizontal-bar", [
-                'title'     => esc_html__('Device Type', 'wp-statistics'),
-                'unique_id' => 'referral-device-type'
-            ]);
+        View::load("components/charts/horizontal-bar", [
+            'title'     => esc_html__('Device Type', 'wp-statistics'),
+            'unique_id' => 'referral-device-type'
+        ]);
         ?>
     </div>
     <div class="postbox-container" id="wps-postbox-container-2">
         <?php
-            View::load("components/charts/top-referrer", [
-                'title'        => esc_html__('Referred Visitors', 'wp-statistics'),
-                'unique_id'    => 'referralVisitorChart',
-            ]);
+        View::load("components/charts/top-referrer", [
+            'title'     => esc_html__('Referred Visitors', 'wp-statistics'),
+            'unique_id' => 'referralVisitorChart',
+        ]);
         ?>
 
         <?php do_action('wp_statistics_referrals_overview_source_categories_widget'); ?>
 
         <?php
-            View::load("components/charts/top-referrer", [
-                'title'        => esc_html__('Top Search Engines', 'wp-statistics'),
-                'unique_id'    => 'referral-search-engines-chart',
-                'footer_title' => esc_html__('View Search Engines', 'wp-statistics'),
-                'footer_link'  => Menus::admin_url('referrals', ['tab' => 'search-engines'])
-            ]);
+        View::load("components/charts/top-referrer", [
+            'title'        => esc_html__('Top Search Engines', 'wp-statistics'),
+            'unique_id'    => 'referral-search-engines-chart',
+            'footer_title' => esc_html__('View Search Engines', 'wp-statistics'),
+            'footer_link'  => Menus::admin_url('referrals', ['tab' => 'search-engines'])
+        ]);
 
-            View::load("components/charts/top-referrer", [
-                'title'        => esc_html__('Top Social Media', 'wp-statistics'),
-                'unique_id'    => 'referral-social-media-chart',
-                'footer_title' => esc_html__('View Social Media', 'wp-statistics'),
-                'footer_link'  => Menus::admin_url('referrals', ['tab' => 'social-media'])
-            ]);
+        View::load("components/charts/top-referrer", [
+            'title'        => esc_html__('Top Social Media', 'wp-statistics'),
+            'unique_id'    => 'referral-social-media-chart',
+            'footer_title' => esc_html__('View Social Media', 'wp-statistics'),
+            'footer_link'  => Menus::admin_url('referrals', ['tab' => 'social-media'])
+        ]);
         ?>
 
         <?php do_action('wp_statistics_referrals_overview_entry_pages_widget'); ?>
@@ -82,7 +109,7 @@ use WP_STATISTICS\Menus;
                 <h2><?php esc_html_e('Latest Referrals', 'wp-statistics') ?></h2>
             </div>
             <?php
-                View::load("components/tables/latest-referrals", ['visitors' => $data['visitors']]);
+            View::load("components/tables/latest-referrals", ['visitors' => $data['visitors']]);
             ?>
             <div class="wps-card__footer">
                 <div class="wps-card__footer__more">
