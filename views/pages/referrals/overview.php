@@ -4,7 +4,7 @@ use WP_Statistics\Components\View;
 use WP_STATISTICS\Menus;
 
 ?>
-<div class="metabox-holder wps-referral-overview">
+<div class="metabox-holder wps-referral-overview wps-google-search">
     <div class="postbox-container" id="wps-postbox-container-1">
         <div class="wps-card">
             <div class="wps-card__title">
