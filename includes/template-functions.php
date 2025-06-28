@@ -194,8 +194,12 @@ function wp_statistics_useronline($options = array())
         $sql .= ' WHERE ' . implode(' AND ', $where);
     }
 
+    if($arg['return'] == "count") {
+        return $wpdb->get_var($sql) ?? 0; // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+    }
+
     //Return Number od user Online
-    return ($arg['return'] == "count" ? $wpdb->get_var($sql) : $wpdb->get_results($sql)); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+    return $wpdb->get_results($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 }
 
 /**
