@@ -98,7 +98,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
     <div class="postbox wps-addon-settings--marketing">
         <table class="form-table <?php echo !$isMarketingActive ? esc_attr('form-table--preview') : '' ?>">
             <tbody>
-            <tr valign="top" class="wps-settings-box_head">
+            <tr class="wps-settings-box_head">
                 <th scope="row" colspan="2">
                     <div class="wps-addon-settings--marketing__title">
                         <div>
@@ -111,7 +111,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     </div>
                 </th>
             </tr>
-            <tr valign="top">
+            <tr data-id="wps_addon_settings-marketing-site">
                 <th scope="row">
                     <label for="wps_addon_settings[marketing][site]"><?php esc_html_e('Site', 'wp-statistics'); ?></label>
                 </th>
@@ -132,6 +132,17 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                 <th scope="row"></th>
                 <td class="wps_addon_settings__site">
                     <?php View::load("components/objects/google-data-policy-alert"); ?>
+                </td>
+            </tr>
+            <tr data-id="wps_addon_settings-marketing-campaign-builder">
+                <th scope="row">
+                    <span class="wps-setting-label"><?php esc_html_e('Campaign Builder', 'wp-statistics'); ?></span>
+                </th>
+
+                <td>
+                    <input id="wps_addon_settings[marketing][campaign]" name="wps_addon_settings[marketing][campaign]" type="checkbox" value="1">
+                    <label for="wps_addon_settings[marketing][campaign]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <p class="description"><?php esc_html_e('Generate and validate UTM-tagged links.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
             </tbody>
