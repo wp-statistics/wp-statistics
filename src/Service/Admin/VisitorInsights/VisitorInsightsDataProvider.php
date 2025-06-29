@@ -42,7 +42,8 @@ class VisitorInsightsDataProvider
                     'yesterday' => $this->visitorsModel->countHits(['date' => DateRange::get('yesterday')]),
                     '7days'     => $this->visitorsModel->countHits(['date' => DateRange::get('7days', true)]),
                 ],
-            ]
+            ],
+            'referrers' => $this->visitorsModel->getReferrers(['decorate' => true, 'per_page' => 5])
         ];
     }
 

@@ -91,7 +91,7 @@ use WP_STATISTICS\Option;
             <div class="wps-card__title">
                 <h2><?php esc_html_e('Top Referrers', 'wp-statistics') ?></h2>
             </div>
-            <?php View::load("components/tables/top-referrers", ['data' => []]); ?>
+            <?php View::load("components/tables/top-referrers", ['data' => $data['referrers']]); ?>
             <div class="wps-card__footer">
                 <div class="wps-card__footer__more">
                     <a class="wps-card__footer__more__link" href="<?php echo Menus::admin_url('referrals', ['tab' => 'referrers']) ?>">
