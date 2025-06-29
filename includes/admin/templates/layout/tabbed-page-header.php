@@ -11,9 +11,8 @@ $pageKey = $pageKey['page_url'];
 
 View::load('components/objects/share-anonymous-notice');
 ?>
-
 <div class="wps-wrap__top tabbed_page">
-    <h2 class="wps_title <?php if (!empty($create_goal_url)) echo 'wps_flex' ?>">
+    <h1 class="wps_title <?php if (!empty($create_goal_url)) echo 'wps_flex' ?>">
         <span><?php echo(isset($title) ? esc_html($title) : (function_exists('get_admin_page_title') ? esc_html(get_admin_page_title()) : '')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
         <?php if (!empty($tooltip)) : ?>
             <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
@@ -21,7 +20,7 @@ View::load('components/objects/share-anonymous-notice');
         <?php if (!empty($create_goal_url)) : ?>
             <a href="<?php echo esc_url($create_goal_url) ?>" class="wps-button wps-button--outline-primary"> <?php esc_html_e('Add New Goal', 'wp-statistics'); ?></a>
         <?php endif; ?>
-    </h2>
+    </h1>
 
     <?php if (!empty($description)) echo '<p class="wps_description">' . esc_html($description) . '</p>'    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	?>
 
@@ -60,7 +59,7 @@ View::load('components/objects/share-anonymous-notice');
             <div>
                 <input type="hidden" name="page" value="<?php echo esc_attr($pageName); ?>">
                 <input type="hidden" name="tab" id="active-tab-input" value="<?php echo esc_attr($active_tab); ?>">
-                <input class="wps-search-date__input wps-js-calendar-field" id="search-date-input" type="text" size="18" name="day" data-wps-date-picker="day" readonly value="<?php echo esc_attr($day); ?>" autocomplete="off" placeholder="YYYY-MM-DD" required>
+                <input aria-label="day" class="wps-search-date__input wps-js-calendar-field" id="search-date-input" type="text" size="18" name="day" data-wps-date-picker="day" readonly value="<?php echo esc_attr($day); ?>" autocomplete="off" placeholder="YYYY-MM-DD" required>
             </div>
         </form>
     <?php endif ?>
@@ -139,10 +138,3 @@ View::load('components/objects/share-anonymous-notice');
 </div>
 <div class="wps-wrap__main">
     <div class="wp-header-end"></div>
-
-
-
-
-
-
-

@@ -37,8 +37,8 @@ $notificationCount       = NotificationFactory::getNewNotificationCount();
                 ?>
             </p>
             <form class="wps-help__search-form" action="https://wp-statistics.com/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help" method="get" target="_blank">
-                <button type="submit" aria-label="submit"></button>
-                <input type="search" name="s" class="wps-help__search-input" placeholder="<?php esc_attr_e('Search Our Documentation', 'wp-statistics'); ?>"/>
+                <button type="submit" aria-label="<?php esc_attr_e('Submit search for WP Statistics documentation', 'wp-statistics'); ?>"></button>
+                <input type="search" name="s" class="wps-help__search-input" aria-label="<?php esc_attr_e('Search Our Documentation', 'wp-statistics'); ?>" placeholder="<?php esc_attr_e('Search Our Documentation', 'wp-statistics'); ?>"/>
             </form>
             <div class="wps-help__popular">
                 <ul class="wps-help__popular-items">

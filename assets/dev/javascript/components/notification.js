@@ -31,7 +31,8 @@ jQuery(document).ready(function () {
         document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
 
         wpsNotificationButtons.forEach(function (button) {
-            button.addEventListener('click', function () {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
                 wpsSidebar.classList.toggle('is-active');
                 wpsOverlay.classList.toggle('is-active');
                 setTimeout(() => {

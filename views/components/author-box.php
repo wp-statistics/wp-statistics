@@ -8,7 +8,7 @@ use WP_Statistics\Components\View;
     <div class="disabled wps-tooltip-premium">
         <div class="wps-tabs-item">
             <div class="wps-content-tabs__item--image">
-                <span><a href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => esc_html($author_id)])) ?>"></a></span>
+                <span><a href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => esc_html($author_id)])) ?>"> <span class="screen-reader-text"><?php echo esc_html_e('View author analytics', 'wp-statistics') ?></span></a></span>
                 <img src="<?php echo esc_url(get_avatar_url($author_id)); ?>" alt="<?php echo esc_html($author_name); ?>" />
             </div>
             <div class="wps-content-tabs__item--content">

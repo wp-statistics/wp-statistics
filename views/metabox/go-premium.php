@@ -4,7 +4,7 @@
             'action'    => 'wp_statistics_dismiss_widget',
             'nonce'     => wp_create_nonce('wp_statistics_dismiss_widget'),
             'widget_id' => $widget_id
-        ])) ?>">
+        ])) ?>" aria-label="<?php esc_attr_e('Dismiss go premium widget', 'wp-statistics'); ?>">
             <span class="wp-close" title="Close"></span>
         </a>
     </div>

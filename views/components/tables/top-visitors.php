@@ -13,21 +13,21 @@ use WP_STATISTICS\Menus;
             <table width="100%" class="o-table wps-new-table">
                 <thead>
                 <tr>
-                    <th class="wps-pd-l">
+                    <th scope="col" class="wps-pd-l">
                         <span class="wps-order"><?php esc_html_e('Total Views', 'wp-statistics'); ?>
                             <span class="wps-tooltip" title="<?php echo esc_html__('Total views for a single day. Privacy rules assign users a new ID daily, so visits on different days are counted separately.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></span>
                         </span>
                     </th>
-                    <th class="wps-pd-l">
+                    <th scope="col" class="wps-pd-l">
                         <?php esc_html_e('Visitor Information', 'wp-statistics'); ?>
                     </th>
-                    <th class="wps-pd-l">
+                    <th scope="col" class="wps-pd-l">
                         <?php esc_html_e('Referrer', 'wp-statistics'); ?>
                     </th>
-                    <th class="wps-pd-l">
+                    <th scope="col" class="wps-pd-l">
                         <?php esc_html_e('Entry Page', 'wp-statistics'); ?>
                     </th>
-                    <th class="wps-pd-l">
+                    <th scope="col" class="wps-pd-l">
                         <?php esc_html_e('Exit Page', 'wp-statistics'); ?>
                     </th>
                 </tr>

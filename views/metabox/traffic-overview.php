@@ -70,7 +70,10 @@ $userOnline     = new \WP_STATISTICS\UserOnline();
             </div>
         </div>
         <div class="wps-postbox-chart--container">
-            <canvas id="wp-statistics-quickstats-widget-chart" height="166"></canvas>
+            <p class="screen-reader-text">
+                <?php echo esc_html__('Traffic overview chart', 'wp-statistics') ?>
+            </p>
+            <canvas id="wp-statistics-quickstats-widget-chart" aria-labelledby="Traffic overview chart" role="img" height="166"></canvas>
         </div>
     </div>
 
@@ -78,9 +81,11 @@ $userOnline     = new \WP_STATISTICS\UserOnline();
         <table width="100%" class="o-table o-table--wps-summary-stats">
             <thead>
                 <tr>
-                    <th width="50%"></th>
-                    <th><?php esc_html_e('Visitors', 'wp-statistics'); ?></th>
-                    <th><?php esc_html_e('Views', 'wp-statistics'); ?></th>
+                    <th width="50%" scope="col">
+                        <span class="screen-reader-text"><?php esc_html_e('Date range', 'wp-statistics'); ?></span>
+                    </th>
+                    <th scope="col"><?php esc_html_e('Visitors', 'wp-statistics'); ?></th>
+                    <th scope="col"><?php esc_html_e('Views', 'wp-statistics'); ?></th>
                 </tr>
             </thead>
             <tbody>

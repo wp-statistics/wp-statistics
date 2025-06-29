@@ -16,15 +16,15 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
             <?php wp_nonce_field('wps_optimization_nonce'); ?>
             <table class="form-table">
                 <tbody>
-                <tr valign="top" class="wps-settings-box_head">
+                <tr class="wps-settings-box_head">
                     <th scope="row" colspan="2">
                         <h3><?php esc_html_e('GeoLocation Settings', 'wp-statistics'); ?></h3>
                     </th>
                 </tr>
 
-                <tr valign="top" data-id="update_country_data_tr">
+                <tr data-id="update_country_data_tr">
                     <th scope="row">
-                        <label><?php esc_html_e('Update Country Data', 'wp-statistics'); ?></label>
+                        <span class="wps-setting-label"><?php esc_html_e('Update Country Data', 'wp-statistics'); ?></span>
                     </th>
 
                     <td>
@@ -46,15 +46,15 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
             <?php wp_nonce_field('wps_optimization_nonce'); ?>
             <table class="form-table">
                 <tbody>
-                <tr valign="top" class="wps-settings-box_head">
+                <tr class="wps-settings-box_head">
                     <th scope="row" colspan="2">
                         <h3><?php esc_html_e('Referrals Settings', 'wp-statistics'); ?></h3>
                     </th>
                 </tr>
 
-                <tr valign="top" data-id="update_source_channel_data_tr">
+                <tr data-id="update_source_channel_data_tr">
                     <th scope="row">
-                        <label><?php esc_html_e('Update Source Channel Data', 'wp-statistics'); ?></label>
+                        <label for="populate-source-channel-submit"><?php esc_html_e('Update Source Channel Data', 'wp-statistics'); ?></label>
                     </th>
 
                     <td>
@@ -76,15 +76,15 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
             <?php wp_nonce_field('wps_optimization_nonce'); ?>
             <table class="form-table">
                 <tbody>
-                <tr valign="top" class="wps-settings-box_head">
+                <tr class="wps-settings-box_head">
                     <th scope="row" colspan="2">
                         <h3><?php esc_html_e('IP Address Management', 'wp-statistics'); ?></h3>
                     </th>
                 </tr>
 
-                <tr valign="top" data-id="convert_ip_addresses_to_hash_tr">
+                <tr data-id="convert_ip_addresses_to_hash_tr">
                     <th scope="row">
-                        <label><?php esc_html_e('Convert IP Addresses to Hash', 'wp-statistics'); ?></label>
+                        <label for="hash-ips-submit"><?php esc_html_e('Convert IP Addresses to Hash', 'wp-statistics'); ?></label>
                     </th>
 
                     <td>
@@ -105,13 +105,13 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
             <?php wp_nonce_field('wps_optimization_nonce'); ?>
             <table class="form-table">
                 <tbody>
-                <tr valign="top" class="wps-settings-box_head">
+                <tr class="wps-settings-box_head">
                     <th scope="row" colspan="2"><h3><?php esc_html_e('Database Schema', 'wp-statistics'); ?></h3></th>
                 </tr>
 
-                <tr valign="top" data-id="wps_database_schema_form">
+                <tr data-id="wps_database_schema_form">
                     <th scope="row">
-                        <label><?php esc_html_e('Check & Repair Database Schema', 'wp-statistics'); ?></label>
+                        <span class="wps-setting-label"><?php esc_html_e('Check & Repair Database Schema', 'wp-statistics'); ?></span>
                     </th>
                     <td>
                         <?php if ($databaseStatus === 'success'): ?>

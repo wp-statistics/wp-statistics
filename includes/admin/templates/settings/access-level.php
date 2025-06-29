@@ -13,7 +13,7 @@ global $wp_roles;
     <div class="postbox">
         <table class="form-table">
             <tbody>
-            <tr valign="top" class="wps-settings-box_head">
+            <tr class="wps-settings-box_head">
                 <th scope="row" colspan="2">
                     <h3><?php esc_html_e('Roles & Permissions', 'wp-statistics'); ?></h3>
                 </th>
@@ -57,7 +57,7 @@ global $wp_roles;
                 );
             }
             ?>
-            <tr valign="top" data-id="minimum_role_to_view_statistics_tr">
+            <tr data-id="minimum_role_to_view_statistics_tr">
                 <th scope="row">
                     <label for="wps_read_capability"><?php esc_html_e('Minimum Role to View Statistics', 'wp-statistics') ?></label>
                 </th>
@@ -92,7 +92,7 @@ global $wp_roles;
                 );
             }
             ?>
-            <tr valign="top" data-id="minimum_role_to_manage_settings_tr">
+            <tr data-id="minimum_role_to_manage_settings_tr">
                 <th scope="row">
                     <label for="wps_manage_capability"><?php esc_html_e('Minimum Role to Manage Settings', 'wp-statistics') ?></label>
                 </th>
@@ -103,7 +103,7 @@ global $wp_roles;
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr>
                 <th scope="row" colspan="2">
                     <p class="description"><?php echo sprintf(__('For a deeper understanding of user roles and capabilities in WordPress, you can refer to the <a target=_blank href="%s">WordPress Roles and Capabilities</a> page.', 'wp-statistics'), 'https://wordpress.org/support/article/roles-and-capabilities/');  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></p>
                     <p class="description"><?php echo __('<b>Hints on Capabilities:</b>', 'wp-statistics');   // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	?></p>

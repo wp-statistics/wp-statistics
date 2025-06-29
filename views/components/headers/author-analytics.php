@@ -19,7 +19,7 @@ $email       = $hasUserData ? $userData->user_email : '';
 ?>
 <div class="wps-author-analytics--header">
     <div class="wps-author-analytics--header__img">
-        <img src="<?php echo esc_url(get_avatar_url($authorId)); ?>" alt="">
+        <img src="<?php echo esc_url(get_avatar_url($authorId)); ?>" alt="<?php echo esc_html($displayName); ?>">
     </div>
     <div>
         <div class="wps-author-analytics--header__title">

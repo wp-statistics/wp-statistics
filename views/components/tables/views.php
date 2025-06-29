@@ -10,19 +10,19 @@ use WP_STATISTICS\Menus;
                 <table width="100%" class="o-table wps-new-table">
                     <thead>
                     <tr>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <span class="wps-order"><?php esc_html_e('View Time', 'wp-statistics'); ?></span>
                         </th>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <?php esc_html_e('Visitor Information', 'wp-statistics'); ?>
                         </th>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <?php esc_html_e('Referrer', 'wp-statistics'); ?>
                         </th>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <?php esc_html_e('Total Views', 'wp-statistics'); ?>
                         </th>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <?php esc_html_e('Page', 'wp-statistics'); ?>
                         </th>
                     </tr>
@@ -51,7 +51,9 @@ use WP_STATISTICS\Menus;
                             </td>
 
                             <td class="wps-pd-l">
-                                <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>"><?php echo esc_html($visitor->getHits()) ?></a>
+                                <a aria-label="<?php esc_html_e('Hits', 'wp-statistics'); ?>" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>">
+                                    <?php echo esc_html($visitor->getHits()) ?>
+                                </a>
                             </td>
 
                             <td class="wps-pd-l">

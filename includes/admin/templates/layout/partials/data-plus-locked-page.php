@@ -33,5 +33,5 @@
     </a>
 </div>
 <div class="wps-premium-box-image">
-    <img  src="<?php echo esc_url(WP_STATISTICS_URL . $src); ?>"/>
+    <img alt="Data plus feature image"  src="<?php echo esc_url(WP_STATISTICS_URL . $src); ?>"/>
 </div>

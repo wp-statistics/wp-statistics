@@ -11,10 +11,10 @@ $order = Request::get('order', 'desc');
             <table width="100%" class="o-table wps-new-table wps-new-table--404">
                 <thead>
                     <tr>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <?php esc_html_e('URL', 'wp-statistics'); ?>
                         </th>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('views')); ?>" class="sort <?php echo esc_attr($order); ?>">
                                 <?php esc_html_e('Views', 'wp-statistics') ?>
                             </a>

@@ -46,4 +46,3 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginDecorator;
             </a>
         </div>
     </div>
-</div>
