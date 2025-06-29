@@ -140,6 +140,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 
 == Changelog ==
 = 14.14.1 - 2025-06-29 =
+- **New:** Added a Database Schema tool to check and repair database structure in the Optimization page.
 - **Enhancement:** Added country name to the flag tooltip in Visitor Info.
 - **Enhancement:** Added unread notification badge to the Help Center menu.
 - **Enhancement:** Improved migration performance by running schema updates synchronously and removing background processes.
