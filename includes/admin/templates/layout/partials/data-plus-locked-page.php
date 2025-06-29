@@ -2,7 +2,7 @@
     <div class="wps-premium-box-feature__head">
         <h1>
             <?php echo esc_html__('This Feature is Part of the', 'wp-statistics') ?>
-            <span><?php echo esc_html__('DataPlus Add-On', 'wp-statistics') ?></span>
+            <span><?php echo esc_html__('DataPlus Add-on', 'wp-statistics') ?></span>
         </h1>
         <p>
             <?php echo esc_html__('The settings on this page are part of the DataPlus add-on, which enhances WP Statistics by expanding tracking capabilities and providing detailed visitor insights.', 'wp-statistics') ?>
@@ -28,10 +28,10 @@
     <div class="wps-premium-box__info">
         <?php echo esc_html__('Unlock deeper insights into your website\'s performance with DataPlus.', 'wp-statistics') ?>
     </div>
-    <a data-target="wp-statistics-data-plus" class="wps-show-premium-modal js-wps-openPremiumModal button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-data-plus?utm_source=wp-statistics&utm_medium=link&utm_campaign=dp-'.$campaign); ?>">
+    <a data-target="wp-statistics-data-plus" class="wps-show-premium-modal js-wps-openPremiumModal button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=dp-'.$campaign); ?>">
         <?php echo esc_html__('Upgrade Now.', 'wp-statistics') ?>
     </a>
 </div>
 <div class="wps-premium-box-image">
-    <img  src="<?php echo esc_url(WP_STATISTICS_URL . $src); ?>"/>
+    <img alt="Data plus feature image"  src="<?php echo esc_url(WP_STATISTICS_URL . $src); ?>"/>
 </div>

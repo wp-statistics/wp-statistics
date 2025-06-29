@@ -1,5 +1,5 @@
 <?php
- use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 $pluginHandler = new PluginHandler();
 if ( $step_name !== 'first-step'){
@@ -11,13 +11,22 @@ if ( $step_name !== 'first-step'){
 ?>
 
 <div class="wps-modal__premium-step js-wps-premiumModalStep wps-modal__premium-step--<?php echo esc_attr($step_name) ?>" >
-    <?php echo $description; ?>
+    <div class="js-wps-premium-steps__head">
+        <div class="js-wps-premium-step__title">
+            <div class="js-wps-premium-step__title">
+                <?php echo esc_html($step_title); ?>
+            </div>
+        </div>
+        <span class="wps-modal__premium-step__desc">
+            <?php echo $description; ?>
+        </span>
+    </div>
     <?php if ( $step_name !== 'first-step') : ?>
         <img class="wps-premium-step__image v-image-lazy" width="509" height="291" data-src="<?php echo WP_STATISTICS_URL . 'assets/images/premium-modal/' . esc_attr($step_name) . '.png'; ?>" alt="<?php echo esc_attr($step_name); ?>">
         <?php if ($hasLicense && !$isActive) : ?>
             <div class="wps-premium-step__notice">
                 <div>
-                    <?php echo  sprintf(__('Your license includes the %s, but it’s not installed yet. Go to the Add-Ons page to install and activate it, so you can start using all its features.', 'wp-statistics'),
+                    <?php echo  sprintf(__('Your license includes the %s, but it’s not installed yet. Go to the Add-ons page to install and activate it, so you can start using all its features.', 'wp-statistics'),
                         esc_attr($step_title)) ?>
                 </div>
             </div>

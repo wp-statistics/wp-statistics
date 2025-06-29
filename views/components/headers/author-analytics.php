@@ -19,7 +19,7 @@ $email       = $hasUserData ? $userData->user_email : '';
 ?>
 <div class="wps-author-analytics--header">
     <div class="wps-author-analytics--header__img">
-        <img src="<?php echo esc_url(get_avatar_url($authorId)); ?>" alt="">
+        <img src="<?php echo esc_url(get_avatar_url($authorId)); ?>" alt="<?php echo esc_html($displayName); ?>">
     </div>
     <div>
         <div class="wps-author-analytics--header__title">
@@ -29,7 +29,7 @@ $email       = $hasUserData ? $userData->user_email : '';
         <div class="wps-author-analytics--header__info">
             <span class="wps-author-analytics--header__joined"><?php echo esc_html__('Joined on', 'wp-statistics') ?> <?php echo esc_html($formattedDate); ?></span>
             <a href="<?php echo esc_url(get_edit_user_link($authorId)); ?>"><?php echo esc_html__('Visit Profile', 'wp-statistics') ?></a>
-            <a href="<?php echo Menus::admin_url('pages', ['tab' => 'contents', 'author_id' => $authorId, 'pt' => 'post']); ?>"><?php echo esc_html__('View Author Posts', 'wp-statistics') ?></a>
+            <a href="<?php echo Menus::admin_url('pages', ['tab' => 'top', 'author_id' => $authorId, 'pt' => 'post']); ?>"><?php echo esc_html__('View Author Posts', 'wp-statistics') ?></a>
             <a href="mailto:<?php echo esc_attr($email); ?>"><?php echo esc_html__('Email to Author', 'wp-statistics') ?></a>
         </div>
     </div>

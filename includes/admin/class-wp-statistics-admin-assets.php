@@ -163,7 +163,7 @@ class Admin_Assets
         //        }
 
         // Load Select2
-        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages')) {
+        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages') || Menus::in_page('settings') || Menus::in_page('optimization')) {
             wp_enqueue_style(self::$prefix . '-select2', self::url('select2/select2.min.css'), array(), '4.0.9');
         }
 
@@ -213,7 +213,7 @@ class Admin_Assets
         //        }
 
         // Load Select2
-        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages')) {
+        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages') || Menus::in_page('settings') || Menus::in_page('optimization')) {
             wp_enqueue_script(self::$prefix . '-select2', self::url('select2/select2.full.min.js'), array('jquery'), "4.1.0", ['in_footer' => true]);
         }
 
@@ -437,6 +437,9 @@ class Admin_Assets
             'show_less'                    => __('Show less', 'wp-statistics'),
             'show_more'                    => __('Show more', 'wp-statistics'),
             'pending'                      => __('Pending', 'wp-statistics'),
+            'copied'                       => __('Copied!', 'wp-statistics'),
+            'settings'                     => __('SETTINGS', 'wp-statistics'),
+            'premium_addons'               => __('PREMIUM ADD-ONS', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 

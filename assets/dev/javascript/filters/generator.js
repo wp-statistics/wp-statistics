@@ -46,11 +46,12 @@ FilterGenerator.prototype.createWrapper = function (name, reset = false) {
  * @param {string} label - Label text.
  * @returns {HTMLElement} - The label `<span>`.
  */
-FilterGenerator.prototype.createLabel = function (label) {
-    const labelSpan = document.createElement('span');
-    labelSpan.className = 'wps-filter-label';
-    labelSpan.textContent = label;
-    return labelSpan;
+FilterGenerator.prototype.createLabel = function (label, name) {
+    const labelElement = document.createElement('span');
+    labelElement.className = 'wps-filter-label';
+    labelElement.id = `wps-label-${name}`;
+    labelElement.textContent = label;
+    return labelElement;
 };
 
 /**
@@ -76,21 +77,21 @@ FilterGenerator.prototype.createSelect = function ({name, label, classes = '', a
     }
 
     const wrapper = this.createWrapper(name);
-    const labelSpan = this.createLabel(label);
+    const labelElement = this.createLabel(label, name);
     const select = document.createElement('select');
     select.name = name;
     select.className = classes;
+    select.setAttribute('aria-label', `wps-label-${name}`);
 
     for (const [key, value] of Object.entries(attributes)) {
         select.setAttribute(key, value);
     }
 
-    wrapper.appendChild(labelSpan);
+    wrapper.appendChild(labelElement);
     wrapper.appendChild(select);
 
     if (panel || attributes['data-searchable']) {
         const defaultValue = select.getAttribute('data-default');
-
         this.createOptions(select, {}, placeholder, defaultValue);
     }
 
@@ -192,7 +193,7 @@ FilterGenerator.prototype.enableSearchableSelect = function (select, name, attri
             },
         },
         minimumInputLength: 1,
-        allowClear: true,             
+        allowClear: true,
         placeholder: wps_js._('all'),
         ...panelParams
     });
@@ -271,18 +272,19 @@ FilterGenerator.prototype.createInput = function ({name, label, type = 'text', c
     }
 
     const wrapper = this.createWrapper(name);
-    const labelSpan = this.createLabel(label);
+    const labelElement = this.createLabel(label, name);
     const input = document.createElement('input');
     input.name = name;
     input.type = type;
     input.className = classes;
     input.placeholder = placeholder;
+    input.setAttribute('aria-label', `wps-label-${name}`);
 
     for (const [key, value] of Object.entries(attributes)) {
         input.setAttribute(key, value);
     }
 
-    wrapper.appendChild(labelSpan);
+    wrapper.appendChild(labelElement);
     wrapper.appendChild(input);
     this.container.appendChild(wrapper);
 };
@@ -306,6 +308,7 @@ FilterGenerator.prototype.createButton = function ({name, label, classes = '', o
     button.textContent = label;
     button.className = classes;
     button.id = buttonId;
+    button.setAttribute('aria-label', `wps-label-${label}`);
 
     for (const [key, value] of Object.entries(attributes)) {
         button.setAttribute(key, value);
@@ -339,29 +342,29 @@ FilterGenerator.prototype.createDropdown = function (filterConfig, filterData) {
 
     const {baseUrl, selectedOption, lockCustomPostTypes, args} = filterData;
 
-    let defaultValue =  wps_js._('all');
+    let defaultValue = wps_js._('all');
 
     if (filterConfig.attributes.hasOwnProperty('data-default')) {
         defaultValue = filterConfig.attributes['data-default'];
     }
 
     let dropdownHTML = `
-        <div class="wps-dropdown">
-            <label class="selectedItemLabel">${filterConfig.label || "Post Type"}: </label>
-            <button type="button" class="dropbtn">
+        <div class="wps-dropdown" role="combobox" aria-haspopup="listbox" aria-label="${filterConfig.label || 'Post Type Filter'}">
+            <span class="selectedItemLabel" id="wps-dropdown-label-${filterConfig.containerSelector.replace(/[^a-zA-Z0-9]/g, '-')}" for="wps-dropdown-button-${filterConfig.containerSelector.replace(/[^a-zA-Z0-9]/g, '-')}">${filterConfig.label || "Post Type"}: </span>
+            <button type="button" class="dropbtn" class="dropbtn" id="wps-dropdown-button-${filterConfig.containerSelector.replace(/[^a-zA-Z0-9]/g, '-')}" aria-expanded="false">
                 <span>${selectedOption ? this.getFilterName(filterData, defaultValue) : defaultValue}</span>
             </button>
-            <div class="dropdown-content"><div class="dropdown-scroll">
+            <div class="dropdown-content" role="listbox"><div class="dropdown-scroll">
     `;
 
     if (filterConfig.searchable) {
-        dropdownHTML += `<input type="text" class="wps-search-dropdown">`;
+        dropdownHTML += `<input type="text" class="wps-search-dropdown" aria-label="Search ${filterConfig.label || 'Post Type'}">`;
     }
 
     if (!filterConfig.selected && defaultValue) {
-        dropdownHTML += `<a href="${baseUrl}" data-index="0" class="${!selectedOption ? 'selected' : ''}">${defaultValue}</a>`;
+        dropdownHTML += `<a href="${baseUrl}" data-index="0" class="${!selectedOption ? 'selected' : ''}" role="option">${defaultValue}</a>`;
     }
-    if (args){
+    if (args) {
         args.forEach((item, key) => {
             let classList = [];
             if (selectedOption === item.slug) classList.push("selected");
@@ -369,13 +372,13 @@ FilterGenerator.prototype.createDropdown = function (filterConfig, filterData) {
 
             if (item.premium) {
                 dropdownHTML += `
-                <a data-target="wp-statistics-data-plus" title="${item.name}" 
-                   class="js-wps-openPremiumModal ${classList.join(" ")}">
+                 <a data-target="wp-statistics-data-plus" title="${item.name}" 
+                   class="js-wps-openPremiumModal ${classList.join(" ")}" role="option" aria-label="${item.name} (Premium)">
                     ${item.name}
                 </a>`;
             } else {
                 dropdownHTML += `
-                <a href="${item.url}" data-index="${key}" title="${item.name}" class="${classList.join(" ")}">
+                 <a href="${item.url}" data-index="${key}" title="${item.name}" class="${classList.join(" ")}" role="option" aria-label="${item.name}">
                     ${item.name}
                 </a>`;
             }
@@ -417,7 +420,7 @@ FilterGenerator.prototype.enableSearchableDropdown = function () {
 
         input.addEventListener("input", function () {
             const filter = this.value.toLowerCase();
-            const items = this.parentElement.querySelectorAll("a");
+            const items = this.parentElement.querySelectorAll("a[role='option']");
 
             items.forEach(item => {
                 const text = item.textContent.toLowerCase();

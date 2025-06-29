@@ -19,6 +19,9 @@ $postType = Request::get('tab', 'post');
         <div class="wps-postbox-chart--data c-wps-performance-chart__items">
             <div class="wps-postbox-chart--items"></div>
             <div class="wps-postbox-chart--info">
+                <div class="wps-postbox-chart--previousPeriod">
+                    <?php esc_html_e('Previous period', 'wp-statistics') ?>
+                </div>
                 <?php View::load("components/objects/chart-time-range"); ?>
             </div>
         </div>
@@ -32,7 +35,7 @@ $postType = Request::get('tab', 'post');
             ];
 
             if (isset($canvasIds[$type])) {
-                echo '<canvas id="' . esc_attr($canvasIds[$type]) . '" height="299"></canvas>';
+                echo '<canvas id="' . esc_attr($canvasIds[$type]) . '" height="299" aria-label="' .esc_html__("Performance chart", "wp-statistics"). '" role="img"></canvas>';
             }
             ?>
         </div>

@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Notification;
+namespace WP_Statistics\Service\Admin;
 
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
@@ -8,7 +8,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\User;
 
-class NotificationConditionTags
+class ConditionTagEvaluator
 {
     /**
      * Array mapping condition tags to their respective methods.

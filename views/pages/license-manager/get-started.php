@@ -15,7 +15,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginDecorator;
         <div class="wps-addon__step__download">
             <div class="wps-addon__download__title">
                 <h3>
-                    <?php esc_html_e('Select Your Add-Ons', 'wp-statistics'); ?>
+                    <?php esc_html_e('Select Your Add-ons', 'wp-statistics'); ?>
                 </h3>
                 <a class="wps-addon__download_active-all js-addon_active-all <?php echo empty($data['display_activate_all']) ? 'wps-hide' : ''; ?>"><?php esc_html_e('Activate All', 'wp-statistics'); ?></a>
             </div>
@@ -49,4 +49,3 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginDecorator;
             </div>
         </div>
     </div>
-</div>

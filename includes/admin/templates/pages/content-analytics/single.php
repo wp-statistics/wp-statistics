@@ -4,6 +4,7 @@ use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\Posts\WordCountService;
 
 $postType = get_post_type(Request::get('post_id'));
 ?>
@@ -31,12 +32,14 @@ $postType = get_post_type(Request::get('post_id'));
         ];
         Admin_Template::get_template(['layout/content-analytics/overview-card'], $args2);
 
-        $args3 = [
-            'title'    => esc_html__('Words', 'wp-statistics'),
-            'tooltip'  => sprintf(esc_html__('Total number of words in this %s.', 'wp-statistics'), strtolower($postType)),
-            'selected' => Helper::formatNumberWithUnit($data['overview']['words']['total']),
-        ];
-        Admin_Template::get_template(['layout/content-analytics/overview-card'], $args3);
+        if (WordCountService::isActive()) {
+            $args3 = [
+                'title'    => esc_html__('Words', 'wp-statistics'),
+                'tooltip'  => sprintf(esc_html__('Total number of words in this %s.', 'wp-statistics'), strtolower($postType)),
+                'selected' => Helper::formatNumberWithUnit($data['overview']['words']['total']),
+            ];
+            Admin_Template::get_template(['layout/content-analytics/overview-card'], $args3);
+        }
 
         if (post_type_supports($postType, 'comments')) {
             $args4 = [

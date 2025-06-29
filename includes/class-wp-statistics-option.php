@@ -78,7 +78,8 @@ class Option
             'delete_data_on_uninstall'        => false,
             'share_anonymous_data'            => false,
             'display_notifications'           => true,
-            'show_privacy_issues_in_report'            => false,
+            'word_count_analytics'            => true,
+            'show_privacy_issues_in_report'   => false,
         );
 
         return $options;

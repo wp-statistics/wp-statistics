@@ -24,7 +24,7 @@ class AdminManager
     {
         add_action('admin_notices', [Notice::class, 'displayNotices']);
         add_action('admin_init', [Notice::class, 'handleDismissNotice']);
-        add_action('admin_init', [Notice::class, 'handleGeneralNotices']);
+        add_action('admin_init', [Notice::class, 'handleGeneralNotices'], 11);
     }
 
     private function initSiteHealthInfo()
@@ -52,10 +52,11 @@ class AdminManager
 
         if (apply_filters('wp_statistics_enable_footer_text', true) && stripos($screen->id, 'wps_') !== false) {
             $text = sprintf(
-                __('Please rate <strong>WP Statistics</strong> <a href="%2$s" title="%3$s" target="_blank">★★★★★</a> on <a href="%2$s" target="_blank">WordPress.org</a> to help us spread the word. Thank you!', 'wp-statistics'),
-                esc_html__('WP Statistics', 'wp-statistics'),
+                __('Please rate <strong>WP Statistics</strong> <a href="%s" aria-label="%s" title="%s" target="_blank">★★★★★ %s</a> to help us spread the word. Thank you!', 'wp-statistics'),
                 'https://wordpress.org/support/plugin/wp-statistics/reviews/?filter=5#new-post',
-                esc_html__('Rate WP Statistics', 'wp-statistics')
+                esc_attr__('Rate WP Statistics with five stars on WordPress.org', 'wp-statistics'),
+                esc_attr__('Rate WP Statistics', 'wp-statistics'),
+                esc_html__('on WordPress.org', 'wp-statistics')
             );
         }
         return $text;

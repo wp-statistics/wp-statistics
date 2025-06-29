@@ -5,25 +5,25 @@
             <table width="100%" class="o-table wps-new-table wps-recent-events-table">
                 <thead>
                 <tr>
-                    <th class="wps-pd-l">
+                    <th scope="col" class="wps-pd-l">
                         <?php esc_html_e('Date', 'wp-statistics'); ?>
                     </th>
-                    <th class="wps-pd-l">
+                    <th scope="col" class="wps-pd-l">
                         <?php esc_html_e('Link URL', 'wp-statistics'); ?>
                     </th>
-                    <th class="wps-pd-l">
+                    <th scope="col" class="wps-pd-l">
                         <?php esc_html_e('Link ID', 'wp-statistics'); ?>
                     </th>
-                    <th class="wps-pd-l">
+                    <th scope="col" class="wps-pd-l">
                         <?php esc_html_e('Link Class', 'wp-statistics'); ?>
                     </th>
-                    <th class="wps-pd-l">
+                    <th scope="col" class="wps-pd-l">
                         <?php esc_html_e('Link Text', 'wp-statistics'); ?>
                     </th>
-                    <th class="wps-pd-l">
+                    <th scope="col" class="wps-pd-l">
                         <?php esc_html_e('Page', 'wp-statistics') ?>
                     </th>
-                    <th class="wps-pd-l">
+                    <th scope="col" class="wps-pd-l">
                         <?php esc_html_e('Action', 'wp-statistics') ?>
                     </th>
                 </tr>

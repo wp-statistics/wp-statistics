@@ -5,6 +5,7 @@ use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\View;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
+use WP_Statistics\Service\Admin\Posts\WordCountService;
 
 $pluginHandler        = new PluginHandler();
 $showPreview          = !$pluginHandler->isPluginActive('wp-statistics-data-plus');
@@ -151,35 +152,37 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                     </div>
                 <?php endif; ?>
 
-                <input type="radio" name="side-tabs" id="words-post">
-                <label for="words-post"><?php echo sprintf(esc_html__('Words/Per %s', 'wp-statistics'), $postTypeNameSingular) ?></label>
-                <div class="wps-tabs__content">
-                    <?php
-                    /** @var stdClass[] */
-                    $topByWordsPerPost = $data['authors']['top_by_words'];
-                    $counter           = 1;
-
-                    if ($topByWordsPerPost) {
-                        foreach ($topByWordsPerPost as $author) :
-                            View::load("components/author-box", [
-                                'show_preview'  => $showPreview,
-                                'author_id'     => $author->id,
-                                'author_name'   => $author->name,
-                                'count'         => $author->average_words,
-                                'counter'       => $counter,
-                                'count_label'   => sprintf(esc_html__('words/%s', 'wp-statistics'), strtolower($postTypeNameSingular)),
-                            ]);
-                            $counter++;
-                        endforeach;
-                    } else {
-                        ?>
-                        <div class="o-wrap o-wrap--no-data">
-                            <p><?php esc_html_e('No recent data available.', 'wp-statistics') ?></p>
-                        </div>
+                <?php if (WordCountService::isActive()) : ?>
+                    <input type="radio" name="side-tabs" id="words-post">
+                    <label for="words-post"><?php echo sprintf(esc_html__('Words/Per %s', 'wp-statistics'), $postTypeNameSingular) ?></label>
+                    <div class="wps-tabs__content">
                         <?php
-                    }
-                    ?>
-                </div>
+                        /** @var stdClass[] */
+                        $topByWordsPerPost = $data['authors']['top_by_words'];
+                        $counter           = 1;
+
+                        if ($topByWordsPerPost) {
+                            foreach ($topByWordsPerPost as $author) :
+                                View::load("components/author-box", [
+                                    'show_preview'  => $showPreview,
+                                    'author_id'     => $author->id,
+                                    'author_name'   => $author->name,
+                                    'count'         => $author->average_words,
+                                    'counter'       => $counter,
+                                    'count_label'   => sprintf(esc_html__('words/%s', 'wp-statistics'), strtolower($postTypeNameSingular)),
+                                ]);
+                                $counter++;
+                            endforeach;
+                        } else {
+                            ?>
+                            <div class="o-wrap o-wrap--no-data">
+                                <p><?php esc_html_e('No recent data available.', 'wp-statistics') ?></p>
+                            </div>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>

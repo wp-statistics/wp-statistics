@@ -7,22 +7,26 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
 
 ?>
 <div class="wrap wps-wrap">
-    <div class="postbox">
-        <form action="<?php echo esc_url(admin_url('admin.php?page=wps_optimization_page&tab=historical')) ?>" id="wps_historical_form" method="post">
+    <h2 class="wps-settings-box__title">
+        <span><?php esc_html_e('Historical Data', 'wp-statistics'); ?></span>
+        <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/resources/optimization-historical-data/?utm_source=wp-statistics&utm_medium=link&utm_campaign=optimization') ?>" target="_blank"><?php esc_html_e('View Guide', 'wp-statistics'); ?></a>
+    </h2>
+    <form class="wps-wrap__setting-form" action="<?php echo esc_url(admin_url('admin.php?page=wps_optimization_page&tab=historical')) ?>" id="wps_historical_form" method="post">
+        <div class="postbox">
             <?php wp_nonce_field('wps_optimization_nonce'); ?>
             <table class="form-table">
                 <tbody>
-                <tr valign="top">
+                <tr class="wps-settings-box_head">
                     <th scope="row" colspan="2"><h3><?php esc_html_e('Historical Data Entry', 'wp-statistics'); ?></h3></th>
                 </tr>
 
-                <tr valign="top" id="wps_historical_purge" style="display: none">
+                <tr id="wps_historical_purge" style="display: none">
                     <th scope="row" colspan=2>
                         <?php esc_html_e('Reminder: After database purging, please reload this page to update these figures correctly.', 'wp-statistics'); ?>
                     </th>
                 </tr>
 
-                <tr valign="top">
+                <tr data-id="historical_total_visitors_tr">
                     <th scope="row">
                         <label for="wps_historical_visitors"><?php esc_html_e('Historical Total Visitors', 'wp-statistics'); ?></label>
                     </th>
@@ -32,7 +36,7 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
                     </td>
                 </tr>
 
-                <tr valign="top">
+                <tr data-id="historical_total_site_views_tr">
                     <th scope="row">
                         <label for="wps_historical_visits"><?php esc_html_e('Historical Total Site Views', 'wp-statistics'); ?></label>
                     </th>
@@ -42,14 +46,14 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
                     </td>
                 </tr>
 
-                <tr valign="top">
+                <tr>
                     <td colspan=2>
                         <input type="hidden" name="submit" value="1"/>
-                        <button id="historical-submit" class="button button-primary" type="submit" value="1" name="historical-submit"><?php esc_html_e('Save Changes', 'wp-statistics'); ?></button>
                     </td>
                 </tr>
                 </tbody>
             </table>
-        </form>
-    </div>
+        </div>
+        <button id="historical-submit" class="wps-button wps-button--primary" type="submit" value="1" name="historical-submit"><?php esc_html_e('Save Changes', 'wp-statistics'); ?></button>
+    </form>
 </div>
