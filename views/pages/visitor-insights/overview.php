@@ -129,47 +129,29 @@ use WP_STATISTICS\Option;
             ?>
             <div class="wps-p-0">
                 <?php
-                View::load("components/objects/card-footer", [
-                    'href'  => Menus::admin_url('pages', ['tab' => 'entry-pages']),
-                    'title' => __('View Entry Pages', 'wp-statistics'),
-                ]);
+                    View::load("components/objects/card-footer", [
+                        'href'  => Menus::admin_url('pages', ['tab' => 'entry-pages']),
+                        'title' => esc_html__('View Entry Pages', 'wp-statistics'),
+                    ]);
                 ?>
             </div>
         </div>
 
-        <div class="wps-card">
-            <div class="wps-card__title">
-                <h2><?php esc_html_e('Peak Hour Heat-Line', 'wp-statistics') ?></h2>
-            </div>
-            <div id="wp-statistics-hourly-usage-widget" class="inside">
-                <div class="o-wrap wps-p-0">
-                    <div class="wps-postbox-chart--data">
-                        <div class="wps-postbox-chart--items"></div>
-                        <div class="wps-postbox-chart--previousPeriod">
-                            <?php esc_html_e('Previous period', 'wp-statistics'); ?>
-                        </div>
-                    </div>
-                    <div class="wps-postbox-chart--container">
-                        <canvas id="hourly-usage-chart" style="width: 100%;" height="217"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <?php do_action('wp_statistics_visitors_overview_hourly_traffic_widget') ?>
 
         <div class="wps-card">
             <div class="wps-card__title">
                 <h2><?php esc_html_e('Most Active Visitors', 'wp-statistics') ?></h2>
             </div>
             <?php
-            View::load("components/tables/most-active-visitors", ['data' => [], 'isTodayOrFutureDate' => null]);
+                View::load("components/tables/most-active-visitors", ['data' => [], 'isTodayOrFutureDate' => null]);
             ?>
             <div class="wps-p-0">
                 <?php
-                View::load("components/objects/card-footer", [
-                    'href'  => Menus::admin_url('visitors', ['tab' => 'visitors']),
-                    'title' => __('View Top Visitors', 'wp-statistics'),
-                ]);
+                    View::load("components/objects/card-footer", [
+                        'href'  => Menus::admin_url('visitors', ['tab' => 'visitors']),
+                        'title' => esc_html__('View Top Visitors', 'wp-statistics'),
+                    ]);
                 ?>
             </div>
         </div>
@@ -184,7 +166,5 @@ use WP_STATISTICS\Option;
                 ?>
             </div>
         </div>
-
-
     </div>
 </div>

@@ -48,46 +48,7 @@ const lineChartConfigs = [
  */
 const trafficHourConfig = {
     elementId: 'hourly-usage-chart',
-    data: {
-        data: {
-            labels: Array.from({length: 24}, (_, i) => ({
-                hour: `${i % 12 === 0 ? 12 : i % 12} ${i < 12 ? 'AM' : 'PM'}`,
-                date: '2025-06-22',
-                formatted_date: 'June 22',
-            })),
-            datasets: [
-                {
-                    label: 'Visitors',
-                    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    slug: 'visitors',
-                },
-                {
-                    label: 'Views',
-                    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    slug: 'views',
-                },
-            ],
-        },
-        previousData: {
-            labels: Array.from({length: 24}, (_, i) => ({
-                hour: `${i % 12 === 0 ? 12 : i % 12} ${i < 12 ? 'AM' : 'PM'}`,
-                date: '2025-06-21',
-                formatted_date: 'June 21',
-            })),
-            datasets: [
-                {
-                    label: 'Visitors',
-                    data: Array(24).fill(0),
-                    slug: '',
-                },
-                {
-                    label: 'Views',
-                    data: Array(24).fill(0),
-                    slug: '',
-                },
-            ],
-        },
-    },
+    data: Wp_Statistics_Data_Plus_Visitors_Object.hourly_traffic,
 };
 
 /**
