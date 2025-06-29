@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\Devices;
 
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Utils\Format;
 
 class DevicesDataProvider
 {
@@ -114,7 +115,7 @@ class DevicesDataProvider
         $data = $this->visitorsModel->getVisitorsDevices($args);
         foreach ($data as $visitor) {
             if (!empty(trim($visitor->device)) && strtolower($visitor->device) != "bot") {
-                $device = Helper::getDeviceCategoryName($visitor->device);
+                $device = Format::getSegment($visitor->device);
                 if (isset($visitors[$device])) {
                     $visitors[$device]->visitors += $visitor->visitors;
                 } else {

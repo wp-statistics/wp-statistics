@@ -5,6 +5,8 @@ namespace WP_STATISTICS;
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Service\Integrations\WpConsentApi;
+use WP_Statistics\Service\Resources\ResourcesFactory;
+use WP_Statistics\Service\Tracking\TrackingFactory;
 
 class Frontend
 {
@@ -35,34 +37,22 @@ class Frontend
             /**
              * Get default params
              */
-            $params = array_merge([Hits::$rest_hits_key => 1], Helper::getHitsDefaultParams());
+            $params = array_merge([TrackingFactory::hits()->getRestHitsKey() => 1], Helper::getHitsDefaultParams());
+            $params = apply_filters('wp_statistics_js_localized_arguments', $params);
 
-            /**
-             * Handle the bypass ad blockers
-             *
-             * @todo This should be refactored in a service related to option. note that all the options with same functionality should be updated.
-             */
-            if (Option::get('bypass_ad_blockers', false)) {
-                // AJAX params
-                $requestUrl   = get_site_url();
-                $hitParams    = array_merge($params, ['action' => 'wp_statistics_hit_record']);
-                $onlineParams = array_merge($params, ['action' => 'wp_statistics_online_check']);
-            } else {
-                // REST params
-                $requestUrl   = get_rest_url(null, RestAPI::$namespace);
-                $hitParams    = array_merge($params, ['endpoint' => Api\v2\Hit::$endpoint]);
-                $onlineParams = array_merge($params, ['endpoint' => Api\v2\CheckUserOnline::$endpoint]);
-            }
+            $requestUrl   = !empty($params['requestUrl']) ? $params['requestUrl'] : get_site_url();
+            $hitParams    = !empty($params['hitParams']) ? $params['hitParams'] : $params;
+            $onlineParams = !empty($params['onlineParams']) ? $params['onlineParams'] : $params;
 
             /**
              * Build the parameters
              */
             $jsArgs = array(
-                'requestUrl'   => $requestUrl,
-                'ajaxUrl'      => admin_url('admin-ajax.php'),
-                'hitParams'    => $hitParams,
-                'onlineParams' => $onlineParams,
-                'option'       => [
+                'requestUrl'          => $requestUrl,
+                'ajaxUrl'             => admin_url('admin-ajax.php'),
+                'hitParams'           => $hitParams,
+                'onlineParams'        => $onlineParams,
+                'option'              => [
                     'userOnline'           => Option::get('useronline'),
                     'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
                     'dntEnabled'           => Option::get('do_not_track'),
@@ -71,8 +61,10 @@ class Frontend
                     'trackAnonymously'     => Helper::shouldTrackAnonymously(),
                     'isPreview'            => is_preview(),
                 ],
-                'jsCheckTime'           => apply_filters('wp_statistics_js_check_time_interval', 60000),
-                'isLegacyEventLoaded'   => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded
+                'resourceId'          => ResourcesFactory::getCurrentResource()->getId(),
+                'jsCheckTime'         => apply_filters('wp_statistics_js_check_time_interval', 60000),
+                'jsCheckTime'         => apply_filters('wp_statistics_js_check_time_interval', 60000),
+                'isLegacyEventLoaded' => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded
             );
 
             if (defined('WP_DEBUG') && WP_DEBUG) {

@@ -5,7 +5,6 @@ namespace WP_Statistics\Service\Analytics;
 use Exception;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Hits;
-use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Signature;
 
 class AnalyticsController

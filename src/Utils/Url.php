@@ -154,4 +154,93 @@ class Url
     {
         return wp_parse_url($url, PHP_URL_PATH) ?? '';
     }
+
+    /**
+     * Returns the relative path of a given URL with respect to the site's base URL.
+     *
+     * @return string The relative path or the original URL if it doesn't match the site URL.
+     */
+    public static function getRelativePathToSiteUrl()
+    {
+        // Build the current URL from server variables.
+        if (!empty($_SERVER['HTTP_HOST']) && !empty($_SERVER['REQUEST_URI'])) {
+            $scheme = 'http';
+            if (
+                (!empty($_SERVER['REQUEST_SCHEME']) && $_SERVER['REQUEST_SCHEME'] === 'https') ||
+                (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ||
+                (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] === '443')
+            ) {
+                $scheme = 'https';
+            }
+            $url = esc_url_raw($scheme . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+        } else {
+            return null;
+        }
+
+        $site_url = site_url();
+
+        // If the URL exactly matches the site URL, return a single slash.
+        if ($url === $site_url) {
+            return '/';
+        }
+
+        // If the URL starts with the site URL, return the remaining part as the relative path.
+        $siteLength = strlen($site_url);
+        if (substr($url, 0, $siteLength) === $site_url) {
+            return substr($url, $siteLength);
+        }
+
+        // Otherwise, return the constructed URL.
+        return $url;
+    }
+
+    /**
+     * Removes specified query parameters from a URL.
+     *
+     * If <code>$keys</code> is an empty array the entire query string is stripped;
+     * otherwise, only the given parameters are removed.
+     *
+     * @param string $url  The URL to clean.
+     * @param array  $keys List of query‑string keys to remove. Empty array = remove all.
+     *
+     * @return string The URL with the query string (or selected parameters) filtered out.
+     */
+    public static function getFilterParams($url, $keys = [])
+    {
+        $pos = strpos($url, '?');
+
+        if ($pos === false) {
+            return $url;
+        }
+
+        if ($keys === []) {
+            return substr($url, 0, $pos);
+        }
+
+        $base   = substr($url, 0, $pos);
+        $query  = substr($url, $pos + 1);
+
+        parse_str($query, $params);
+
+        foreach ($keys as $key) {
+            unset($params[$key]);
+        }
+
+        if (empty($params)) {
+            return $base;
+        }
+
+        return $base . '?' . http_build_query($params);
+    }
+
+    /**
+     * Get decoded URL.
+     *
+     * @param string $value The URL to decode.
+     * @return string The decoded URL.
+     */
+    public static function getDecodeUrl($value)
+    {
+        return mb_convert_encoding(urldecode($value), 'ISO-8859-1', 'UTF-8');
+    }
 }

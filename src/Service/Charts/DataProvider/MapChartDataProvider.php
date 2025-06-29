@@ -25,10 +25,20 @@ class MapChartDataProvider extends AbstractChartDataProvider
 
     public function getData()
     {
+        if(false) {
+            $args = array_merge($this->args, [
+                'fields'   => [
+                    'visitor.location as country',
+                    'COUNT(*) as visitors'
+                ],
+                'order_by' => [],
+            ]);
+        }
+
         $args = array_merge($this->args, [
             'fields'   => [
-                'visitor.location as country',
-                'COUNT(*) as visitors'
+                'countries.code AS country',
+                'COUNT(DISTINCT IFNULL(sessions.visitor_id, sessions.ID)) AS visitors'
             ],
             'order_by' => [],
         ]);

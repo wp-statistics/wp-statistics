@@ -33,23 +33,56 @@ use WP_STATISTICS\Menus;
 
             <tbody>
             <?php foreach ($data as $visitor) : ?>
-                <?php /** @var VisitorDecorator $visitor */ ?>
+                <?php
+                    if ($visitor instanceof VisitorDecorator) {
+                        $hits = $visitor->getHits();
+
+                        $lastResouceViewDate = $visitor->getLastView();
+
+                        $countryCode = $visitor->getLocation()->getCountryCode();
+                        $countryName = $visitor->getLocation()->getCountryName();
+                        $countryflag = $visitor->getLocation()->getCountryFlag();
+                        $region      = $visitor->getLocation()->getRegion();
+                        $city        = $visitor->getLocation()->getCity();
+
+                        $lastResource        = $visitor->getLastPage();
+                        $lastResourceLink    = $lastResource['link'];
+                        $lastResourceTitle   = $lastResource['title'];
+                        $lastResourceQuery   = $lastResource['query'] ? "?{$lastResource['query']}" : '';
+                        $lastResouceViewDate = $visitor->getLastView();
+                    } else {
+                        $hits = $visitor->getViews();
+
+                        $lastResouceViewDate = $visitor->getLastView()->getViewedAt();  
+
+                        $countryCode = $visitor->getCountry()->getCode();
+                        $countryName = $visitor->getCountry()->getName();
+                        $countryflag = $visitor->getCountry()->getFlag();
+                        $region      = $visitor->getCity()->getRegionName();
+                        $city        = $visitor->getCity()->getName();
+
+                        $lastResource        = $visitor->getLastView()->getResource();
+                        $lastResourceLink    = $lastResource->getUrl();
+                        $lastResourceTitle   = $lastResource->getTitle();
+                        $lastResourceQuery   = $visitor->getParameter($lastResource->getId())->getFull();
+                        $lastResouceViewDate = $visitor->getLastView()->getViewedAt();                                   
+                    }
+                ?>
 
                 <tr>
                     <td class="wps-pd-l">
-                        <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>"><?php echo esc_html($visitor->getHits()) ?></a>
+                        <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>"><?php echo esc_html($hits) ?></a>
                     </td>
 
                     <td class="wps-pd-l">
                         <?php View::load("components/visitor-information", ['visitor' => $visitor]); ?>
                     </td>
-
                     <td class="wps-pd-l">
                         <div class="wps-country-flag wps-ellipsis-parent">
-                            <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getLocation()->getCountryCode()])) ?>" class="wps-tooltip" title="<?php echo esc_attr($visitor->getLocation()->getCountryName()) ?>">
-                                <img src="<?php echo esc_url($visitor->getLocation()->getCountryFlag()) ?>" alt="<?php echo esc_attr($visitor->getLocation()->getCountryName()) ?>" width="15" height="15">
+                            <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $countryCode])) ?>" class="wps-tooltip" title="<?php echo esc_attr($countryName) ?>">
+                                <img src="<?php echo esc_url($countryflag) ?>" alt="<?php echo esc_attr($countryName) ?>" width="15" height="15">
                             </a>
-                            <?php $location = Admin_Template::locationColumn($visitor->getLocation()->getCountryCode(), $visitor->getLocation()->getRegion(), $visitor->getLocation()->getCity()); ?>
+                            <?php $location = Admin_Template::locationColumn($countryCode, $region, $city); ?>
                             <span class="wps-ellipsis-text" title="<?php echo esc_attr($location) ?>"><?php echo esc_html($location) ?></span>
                         </div>
                     </td>
@@ -65,20 +98,19 @@ use WP_STATISTICS\Menus;
                     </td>
 
                     <td class="wps-pd-l">
-                        <?php $page = $visitor->getLastPage(); ?>
-                        <?php if (!empty($page)) :
+                        <?php if (!empty($lastResource)) :
                             View::load("components/objects/external-link", [
-                                'url'       => $page['link'],
-                                'title'     => $page['title'],
-                                'tooltip'   => $page['query'] ? "?{$page['query']}" : ''
+                                'url'       => $lastResourceLink,
+                                'title'     => $lastResourceTitle,
+                                'tooltip'   => $lastResourceQuery
                             ]);
                         else : ?>
-                            <?php echo Admin_Template::UnknownColumn() ?>
+                            <?php echo Admin_Template::UnknownColumn(); ?>
                         <?php endif; ?>
                     </td>
 
                     <td class="wps-pd-l">
-                        <?php echo esc_html($visitor->getLastView()) ?>
+                        <?php echo esc_html($lastResouceViewDate); ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
