@@ -17,6 +17,7 @@ class VisitorInsightsDataProvider
     protected $visitorsModel;
     protected $onlineModel;
     protected $viewsModel;
+    protected $overviewChartData;
 
     public function __construct($args)
     {
@@ -29,6 +30,8 @@ class VisitorInsightsDataProvider
 
     public function getOverviewData()
     {
+        $overviewChartData = $this->getOverviewChartsData();
+
         return [
             'summary'   => [
                 'online'    => $this->onlineModel->countOnlines(),
@@ -45,11 +48,16 @@ class VisitorInsightsDataProvider
             ],
             'referrers'     => $this->visitorsModel->getReferrers(['decorate' => true, 'per_page' => 5]),
             'entry_pages'   => $this->visitorsModel->getEntryPages(['per_page' => 5]),
+            'map_chart'     => $overviewChartData['map']
         ];
     }
 
     public function getOverviewChartsData()
     {
+        if (!empty($this->overviewChartData)) {
+            return $this->overviewChartData;
+        }
+
         $platformsChart = ChartDataProviderFactory::platformCharts();
         $countryChart   = ChartDataProviderFactory::countryChart();
         $trafficChart   = ChartDataProviderFactory::trafficChart();
@@ -66,6 +74,8 @@ class VisitorInsightsDataProvider
         if (Option::get('visitors_log')) {
             $chartData['logged_in_users'] = ChartDataProviderFactory::loggedInUsers()->getData();
         }
+
+        $this->overviewChartData = $chartData;
 
         return $chartData;
     }
