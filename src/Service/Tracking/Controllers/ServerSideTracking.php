@@ -4,7 +4,6 @@ namespace WP_STATISTICS\Service\Tracking\Controllers;
 
 use WP_Statistics\Abstracts\BaseTrackerController;
 use WP_STATISTICS\Option;
-use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_STATISTICS\Hits;
 use WP_Statistics\Service\Tracking\TrackerHelper;
@@ -68,7 +67,7 @@ class ServerSideTracking extends BaseTrackerController
 
             $consentLevel = Option::get('consent_level_integration', 'disabled');
 
-            if ($consentLevel == 'disabled' || Helper::shouldTrackAnonymously() || !WpConsentApi::isWpConsentApiActive() || !\function_exists('wp_has_consent') || \wp_has_consent($consentLevel)) {
+            if ($consentLevel == 'disabled' || TrackerHelper::shouldTrackAnonymously() || !WpConsentApi::isWpConsentApiActive() || !\function_exists('wp_has_consent') || \wp_has_consent($consentLevel)) {
                 Hits::record();
             }
         } catch (\Exception $e) {

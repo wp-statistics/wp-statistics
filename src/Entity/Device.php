@@ -3,9 +3,9 @@
 namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_Statistics\Records\RecordFactory;
+use WP_Statistics\Service\Tracking\TrackerHelper;
 use WP_Statistics\Utils\Request;
 
 /**
@@ -89,7 +89,7 @@ class Device extends BaseEntity
             return $this;
         }
 
-        if (!(Option::get('store_ua') == true && !Helper::shouldTrackAnonymously())) {
+        if (!(Option::get('store_ua') == true && !TrackerHelper::shouldTrackAnonymously())) {
             return $this;
         }
 
@@ -123,7 +123,7 @@ class Device extends BaseEntity
             return $this;
         }
 
-        if (!(Option::get('store_ua') == true && !Helper::shouldTrackAnonymously())) {
+        if (!(Option::get('store_ua') == true && !TrackerHelper::shouldTrackAnonymously())) {
             return $this;
         }
 

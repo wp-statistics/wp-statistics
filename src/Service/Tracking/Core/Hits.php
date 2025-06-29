@@ -236,7 +236,7 @@ class Hits extends BaseTracking
 
             if (
                 $consentLevel === 'disabled' ||
-                Helper::shouldTrackAnonymously() ||
+                TrackerHelper::shouldTrackAnonymously() ||
                 !WpConsentApi::isWpConsentApiActive() ||
                 !function_exists('wp_has_consent') ||
                 wp_has_consent($consentLevel)
