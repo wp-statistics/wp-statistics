@@ -136,9 +136,9 @@ class Test_AbstractLoggerProvider extends WP_UnitTestCase {
 		$map = AbstractLoggerProvider::initErrorSeverityMap();
 
 		if ( defined( 'E_STRICT' ) && PHP_VERSION_ID < 80400 ) {
-			$this->assertArrayHasKey( E_STRICT, $map, 'E_STRICT should be in the error severity map for PHP < 8.' );
+			$this->assertArrayHasKey( E_STRICT, $map, 'E_STRICT should be in the error severity map for PHP < 8.4' );
 		} else {
-			$this->assertArrayNotHasKey( E_STRICT, $map, 'E_STRICT should not be in the error severity map for PHP 8+.' );
+			$this->assertArrayNotHasKey( E_STRICT, $map, 'E_STRICT should not be in the error severity map for PHP 8.4+.' );
 		}
 	}
 }
