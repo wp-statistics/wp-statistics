@@ -1,5 +1,6 @@
 <?php
 use WP_Statistics\Components\DateRange;
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
@@ -144,12 +145,12 @@ use WP_STATISTICS\Option;
                 <h2><?php esc_html_e('Most Active Visitors', 'wp-statistics') ?></h2>
             </div>
             <?php
-                View::load("components/tables/most-active-visitors", ['data' => [], 'isTodayOrFutureDate' => null]);
+                View::load("components/tables/most-active-visitors", ['data' => $data['visitors'], 'isTodayOrFutureDate' => DateTime::isTodayOrFutureDate(DateRange::get()['to'])]);
             ?>
             <div class="wps-p-0">
                 <?php
                     View::load("components/objects/card-footer", [
-                        'href'  => Menus::admin_url('visitors', ['tab' => 'visitors']),
+                        'href'  => Menus::admin_url('visitors', ['tab' => 'top-visitors']),
                         'title' => esc_html__('View Top Visitors', 'wp-statistics'),
                     ]);
                 ?>

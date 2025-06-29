@@ -48,7 +48,8 @@ class VisitorInsightsDataProvider
             ],
             'referrers'     => $this->visitorsModel->getReferrers(['decorate' => true, 'per_page' => 5]),
             'entry_pages'   => $this->visitorsModel->getEntryPages(['per_page' => 5]),
-            'map_chart'     => $overviewChartData['map']
+            'map_chart'     => $overviewChartData['map'],
+            'visitors'      => $this->visitorsModel->getVisitorsData(['order_by' => 'hits', 'order' => 'DESC', 'page' => 1, 'per_page' => 5]),
         ];
     }
 
@@ -162,7 +163,6 @@ class VisitorInsightsDataProvider
         return [
             'data'  => $this->visitorsModel->getVisitorsData(array_merge($this->args, [
                 'user_role' => Request::get('role', ''),
-                'user_info' => true,
                 'logged_in' => true,
                 'order_by'  => 'visitor.ID',
                 'order'     => 'DESC',

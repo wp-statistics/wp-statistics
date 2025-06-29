@@ -97,12 +97,12 @@ use WP_STATISTICS\Menus;
     </div>
 <?php else : ?>
     <?php
-    $title = __('No data found for this date range.', 'wp-statistics');
+    $title = esc_html__('No data found for this date range.', 'wp-statistics');
     if ($isTodayOrFutureDate) {
-        $title = __('Data coming soon!', 'wp-statistics');
+        $title = esc_html__('Data coming soon!', 'wp-statistics');
     }
     View::load("components/objects/no-data", [
-         'title' => $title
+        'title' => $title
     ]);
     ?>
 <?php endif; ?>
