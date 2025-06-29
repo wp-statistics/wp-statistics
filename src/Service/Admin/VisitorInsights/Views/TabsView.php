@@ -167,7 +167,7 @@ class TabsView extends BaseTabView
                 }
             }
 
-            $tabs = Helper::relocateArrayItems($tabs, $searchTerms, 2);
+            $tabs = Helper::relocateArrayItems($tabs, $searchTerms, 3);
 
             $args['tabs'] = $tabs;
         }
