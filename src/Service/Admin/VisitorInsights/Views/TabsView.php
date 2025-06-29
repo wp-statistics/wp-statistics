@@ -55,9 +55,16 @@ class TabsView extends BaseTabView
         parent::__construct();
     }
 
+    public function getOverviewData()
+    {
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Visitors_Object', $this->dataProvider->getOverviewChartsData());
+
+        return $this->dataProvider->getOverviewData();
+    }
+
     public function getViewsData()
     {
-        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Visitors_Object', $this->dataProvider->getChartsData());
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Visitors_Object', $this->dataProvider->getViewsChartsData());
 
         return $this->dataProvider->getViewsData();
     }

@@ -2,12 +2,13 @@
 
 namespace WP_Statistics\Service\Admin\VisitorInsights;
 
+use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
-use WP_Statistics\Models\OnlineModel;
 use WP_Statistics\Models\ViewsModel;
+use WP_Statistics\Models\OnlineModel;
+use WP_Statistics\Components\DateRange;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
-use WP_Statistics\Utils\Request;
 
 class VisitorInsightsDataProvider
 {
@@ -25,7 +26,31 @@ class VisitorInsightsDataProvider
         $this->viewsModel    = new ViewsModel();
     }
 
-    public function getChartsData()
+    public function getOverviewData()
+    {
+        return [
+            'summary' => [
+                'online'    => $this->onlineModel->countOnlines(),
+                'visitors'  => [
+                    'today'     => $this->visitorsModel->countVisitors(['date' => DateRange::get('today')]),
+                    'yesterday' => $this->visitorsModel->countVisitors(['date' => DateRange::get('yesterday')]),
+                    '7days'     => $this->visitorsModel->countVisitors(['date' => DateRange::get('7days', true)]),
+                ],
+                'views'     => [
+                    'today'     => $this->visitorsModel->countHits(['date' => DateRange::get('today')]),
+                    'yesterday' => $this->visitorsModel->countHits(['date' => DateRange::get('yesterday')]),
+                    '7days'     => $this->visitorsModel->countHits(['date' => DateRange::get('7days', true)]),
+                ],
+            ]
+        ];
+    }
+
+    public function getOverviewChartsData()
+    {
+        return [];
+    }
+
+    public function getViewsChartsData()
     {
         return [
             'traffic_chart_data' => ChartDataProviderFactory::trafficChart($this->args)->getData()

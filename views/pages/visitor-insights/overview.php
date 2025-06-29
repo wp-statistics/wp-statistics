@@ -1,8 +1,8 @@
 <?php
-
+use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\View;
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
-
 ?>
 <div class="metabox-holder wps-referral-overview">
     <div class="postbox-container" id="wps-postbox-container-1">
@@ -12,7 +12,7 @@ use WP_STATISTICS\Menus;
             ['label' => esc_html__('Visitors', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => '31.1K', 'change' => '8.3'],
             ['label' => esc_html__('Views', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => '31.1K', 'change' => '-1.3'],
             ['label' => esc_html__('Top Country', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => 'France'],
-            ['label' => esc_html__('Top Referrer', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'link-title' => 'google.com',  'link-href' => 'http://google.com', ],
+            ['label' => esc_html__('Top Referrer', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'link-title' => 'google.com',  'link-href' => 'http://google.com',],
             ['label' => esc_html__('Logged-in Share', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => '125.4K', 'change' => '0'],
         ]]);
 
@@ -28,35 +28,35 @@ use WP_STATISTICS\Menus;
                         <span class="c-live__title"><?php esc_html_e('Online Users', 'wp-statistics') ?></span>
                     </div>
                     <div class="c-live__online">
-                        <span class="c-live__online--value">0</span>
-                        <a class="c-live__value" href=""><span class="c-live__online--arrow"></span></a>
+                        <span class="c-live__online--value"><?php echo esc_html(number_format_i18n($data['summary']['online'])) ?></span>
+                        <a class="c-live__value" href="<?php echo esc_url(Menus::admin_url('visitors', ['tab' => 'online'])) ?>"><span class="c-live__online--arrow"></span></a>
                     </div>
                 </div>
                 <div class="o-table-wrapper">
                     <table width="100%" class="o-table o-table--wps-summary-stats">
                         <thead>
-                        <tr>
-                            <th width="50%"><?php esc_html_e('Time', 'wp-statistics') ?></th>
-                            <th><?php esc_html_e('Visitors', 'wp-statistics') ?></th>
-                            <th><?php esc_html_e('Views', 'wp-statistics') ?></th>
-                        </tr>
+                            <tr>
+                                <th width="50%"><?php esc_html_e('Time', 'wp-statistics') ?></th>
+                                <th><?php esc_html_e('Visitors', 'wp-statistics') ?></th>
+                                <th><?php esc_html_e('Views', 'wp-statistics') ?></th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td><b><?php esc_html_e('Today', 'wp-statistics') ?></b></td>
-                            <td><a href=""><span class="quickstats-values">1</span></a></td>
-                            <td><a href=""><span class="quickstats-values">2</span></a></td>
-                        </tr>
-                        <tr>
-                            <td><b><?php esc_html_e('Yesterday', 'wp-statistics') ?></b></td>
-                            <td><a href=""><span class="quickstats-values">0</span></a></td>
-                            <td><a href=""><span class="quickstats-values">0</span></a></td>
-                        </tr>
-                        <tr>
-                            <td><b><?php esc_html_e('7-Day Avg', 'wp-statistics') ?></b></td>
-                            <td><a href=""><span class="quickstats-values">1</span></a></td>
-                            <td><a href=""><span class="quickstats-values">2</span></a></td>
-                        </tr>
+                            <tr>
+                                <td><b><?php esc_html_e('Today', 'wp-statistics') ?></b></td>
+                                <td><a href="<?php echo esc_url(Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('today')))); ?>"><span class="quickstats-values"><?php echo esc_html(number_format_i18n($data['summary']['visitors']['today'])); ?></span></a></td>
+                                <td><a href="<?php echo esc_url(Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('today')))); ?>"><span class="quickstats-values"><?php echo esc_html(number_format_i18n($data['summary']['views']['today'])); ?></span></a></td>
+                            </tr>
+                            <tr>
+                                <td><b><?php esc_html_e('Yesterday', 'wp-statistics') ?></b></td>
+                                <td><a href="<?php echo esc_url(Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('yesterday')))); ?>"><span class="quickstats-values"><?php echo esc_html(number_format_i18n($data['summary']['visitors']['yesterday'])); ?></span></a></td>
+                                <td><a href="<?php echo esc_url(Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('yesterday')))); ?>"><span class="quickstats-values"><?php echo esc_html(number_format_i18n($data['summary']['views']['yesterday'])); ?></span></a></td>
+                            </tr>
+                            <tr>
+                                <td><b><?php esc_html_e('7-Day Avg', 'wp-statistics') ?></b></td>
+                                <td><a href="<?php echo esc_url(Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('7days', true)))); ?>"><span class="quickstats-values"><?php echo esc_html(Helper::divideNumbers($data['summary']['visitors']['7days'], 7)); ?></span></a></td>
+                                <td><a href="<?php echo esc_url(Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('7days', true)))); ?>"><span class="quickstats-values"><?php echo esc_html(Helper::divideNumbers($data['summary']['views']['7days'], 7)); ?></span></a></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
