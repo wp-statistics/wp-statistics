@@ -27,7 +27,7 @@
                                         <tr>
                                             <td class="wps-pd-l">
                                                 <span title="<?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->platform); ?>" class="wps-platform-name">
-                                                    <img alt="<?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->platform); ?>" src="<?php echo esc_url(DeviceHelper::getPlatformLogo($item->platform)); ?>" title="<?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->platform); ?>" class="log-tools wps-flag" />
+                                                    <img alt="<?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->platform); ?>" src="<?php echo esc_url(DeviceHelper::getPlatformLogo($item->platform)); ?>" class="log-tools wps-flag" />
                                                     <?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->platform); ?>
                                                 </span>
                                             </td>

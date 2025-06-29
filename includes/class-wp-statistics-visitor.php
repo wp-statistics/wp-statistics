@@ -10,6 +10,7 @@ use WP_Statistics\Service\Database\DatabaseFactory;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Utils\Url;
+use WP_STATISTICS\Helper;
 
 class Visitor
 {
@@ -126,28 +127,28 @@ class Visitor
 
             // Prepare Visitor information
             $visitor = array(
-                'last_counter'  => TimeZone::getCurrentDate('Y-m-d'),
-                'referred'      => $visitorProfile->getReferrer(),
-                'source_name'   => $visitorProfile->getSource()->getName(),
-                'source_channel'=> $visitorProfile->getSource()->getChannel(),
-                'agent'         => $userAgent->getBrowser(),
-                'platform'      => $userAgent->getPlatform(),
-                'version'       => $userAgent->getVersion(),
-                'device'        => $userAgent->getDevice(),
-                'model'         => $userAgent->getModel(),
-                'ip'            => $visitorProfile->getProcessedIPForStorage(),
-                'location'      => $visitorProfile->getCountry(),
-                'city'          => $visitorProfile->getCity(),
-                'region'        => $visitorProfile->getRegion(),
-                'continent'     => $visitorProfile->getContinent(),
-                'user_id'       => $visitorProfile->getUserId(),
-                'UAString'      => ((Option::get('store_ua') == true && !IntegrationHelper::shouldTrackAnonymously()) ? $visitorProfile->getHttpUserAgent() : ''),
-                'hits'          => 1,
-                'honeypot'      => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0),
-                'first_page'    => $args['page_id'],
-                'first_view'    => TimeZone::getCurrentDate(),
-                'last_page'     => $args['page_id'],
-                'last_view'     => TimeZone::getCurrentDate()
+                'last_counter'   => TimeZone::getCurrentDate('Y-m-d'),
+                'referred'       => $visitorProfile->getReferrer(),
+                'source_name'    => $visitorProfile->getSource()->getName(),
+                'source_channel' => $visitorProfile->getSource()->getChannel(),
+                'agent'          => $userAgent->getBrowser(),
+                'platform'       => $userAgent->getPlatform(),
+                'version'        => $userAgent->getVersion(),
+                'device'         => $userAgent->getDevice(),
+                'model'          => $userAgent->getModel(),
+                'ip'             => $visitorProfile->getProcessedIPForStorage(),
+                'location'       => $visitorProfile->getCountry(),
+                'city'           => $visitorProfile->getCity(),
+                'region'         => $visitorProfile->getRegion(),
+                'continent'      => $visitorProfile->getContinent(),
+                'user_id'        => $visitorProfile->getUserId(),
+                'UAString'       => ((Option::get('store_ua') == true && !IntegrationHelper::shouldTrackAnonymously()) ? $visitorProfile->getHttpUserAgent() : ''),
+                'hits'           => 1,
+                'honeypot'       => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0),
+                'first_page'     => $args['page_id'],
+                'first_view'     => TimeZone::getCurrentDate(),
+                'last_page'      => $args['page_id'],
+                'last_view'      => TimeZone::getCurrentDate()
             );
 
             $visitor = apply_filters('wp_statistics_visitor_information', $visitor);
@@ -167,8 +168,8 @@ class Visitor
                 do_action('wp_statistics_update_visitor_hits', $visitor_id, $same_visitor);
 
                 $data = [
-                    'hits'      => $same_visitor->hits + 1,
-                    'user_id'   => ! empty($same_visitor->user_id) ? $same_visitor->user_id : $visitorProfile->getUserId()
+                    'hits'    => $same_visitor->hits + 1,
+                    'user_id' => !empty($same_visitor->user_id) ? $same_visitor->user_id : $visitorProfile->getUserId()
                 ];
 
                 $data['last_page'] = $args['page_id'];
@@ -448,10 +449,18 @@ class Visitor
             ARRAY_A);
 
         if ($item !== null) {
+            $postTypes          = Helper::get_list_post_type();
+            $postIdUri          = get_page_uri($item['id']);
+            $dbUri              = trim(Url::getPath(home_url($item['uri'])), '/');
             $params             = Pages::get_page_info($item['id'], $item['type'], $item['uri']);
             $linkWithParams     = !empty($item['uri']) ? home_url() . $item['uri'] : '';
             $params['query']    = Url::getParams($linkWithParams);
             $params['id']       = $item['id'];
+            $params['sub_page'] = '';
+
+            if ($postIdUri != $dbUri && in_array($item['type'], $postTypes)) {
+                $params['sub_page'] = $item['uri'];
+            }
         }
 
         return $params;

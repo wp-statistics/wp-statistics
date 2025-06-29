@@ -117,6 +117,15 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
                     $target.closest('.js-widget-filters').addClass('is-down');
                 }
             });
+
+            document.querySelectorAll('button.handlediv:not(.wps-refresh)').forEach(btn => {
+                if (!btn.hasAttribute('aria-label')) {
+                    const srText = btn.querySelector('.screen-reader-text');
+                    if (srText && srText.textContent.trim()) {
+                        btn.setAttribute('aria-label', srText.textContent.trim());
+                    }
+                }
+            });
         }
 
         initializeMoreFilters() {
@@ -440,7 +449,7 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
     wps_js.handelReloadButton = key => {
         const selector = "#" + key + " .handle-actions button:first";
         if (!jQuery('#' + key + ' .wps-refresh').length) {
-            jQuery(`<button class="handlediv wps-refresh" type="button" title="${wps_js._('reload')}"></button>`).insertBefore(selector);
+            jQuery(`<button class="handlediv wps-refresh" aria-label="reload button" type="button" title="${wps_js._('reload')}"></button>`).insertBefore(selector);
         }
     };
 
@@ -492,7 +501,7 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
                             <button data-metabox-key="${key}" data-filter="last_year" class="c-footer__filters__list-item">` + wps_js._('str_last_year') + `</button>
                             <button class="c-footer__filters__close-more-filters js-close-more-filters">` + wps_js._('str_back') + `</button>
                         </div>
-                        <input type="text" class="c-footer__filters__custom-date-input js-datepicker-input"/>
+                        <input aria-label="date picker value" type="text" class="c-footer__filters__custom-date-input js-datepicker-input"/>
                         <button data-metabox-key="${key}" data-filter="custom" class="c-footer__filters__list-item c-footer__filters__list-item--custom js-custom-datepicker">` + wps_js._('str_custom') + `</button>
                     </div>
                 </div> `;

@@ -219,7 +219,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
         auditElement += ` 
                          <a ${actionData} class="wps-privacy-list__button wps-privacy-list__button--${buttonClass}">${buttonTitle}</a>
-                        <button class="wps-audit-card__toggle" aria-expanded="false"></button>
+                        <button class="wps-audit-card__toggle"  aria-label="Toggle audit details"  aria-expanded="false"></button>
                     </div>
                 </div>
             </div>
@@ -262,7 +262,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
 
         faqElement += `
-                        <button class="wps-audit-card__toggle" aria-expanded="false"></button>
+                        <button class="wps-audit-card__toggle"  aria-label="Toggle audit details"  aria-expanded="false"></button>
                     </div>
                 </div>
             </div>

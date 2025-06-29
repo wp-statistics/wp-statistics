@@ -89,7 +89,8 @@ class Pages
 
         //is Custom Term From Taxonomy
         if (is_tax()) {
-            $current_page['type'] = "tax";
+            $term                 = get_queried_object();
+            $current_page['type'] = 'tax_' . $term->taxonomy;
         }
 
         //is Author Page
@@ -336,6 +337,9 @@ class Pages
             'report'    => Menus::admin_url('content-analytics', ['type' => 'single-resource', 'uri' => rawurlencode($slug)]),
             'meta'      => array()
         );
+        if (strpos($type, 'tax_') === 0) {
+            $type = 'tax';
+        }
 
         if (!empty($type)) {
             switch ($type) {

@@ -3,11 +3,11 @@
 namespace WP_Statistics\Service\Integrations\Plugins;
 
 use WP_STATISTICS\Option;
-use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 class RealCookieBanner extends AbstractIntegration
 {
     protected $key = 'real_cookie_banner';
+    protected $path = 'real-cookie-banner-pro/index.php';
 
     /**
      * Returns the name of the integration.
@@ -16,7 +16,7 @@ class RealCookieBanner extends AbstractIntegration
      */
     public function getName()
     {
-        return esc_html__('Real Cookie Banner', 'wp-statistics');
+        return esc_html__('Real Cookie Banner PRO', 'wp-statistics');
     }
 
     /**
@@ -29,11 +29,6 @@ class RealCookieBanner extends AbstractIntegration
             'title'         => esc_html__('Real Cookie Banner integration available', 'wp-statistics'),
             'description'   => esc_html__('Real Cookie Banner is active, but its integration with WP Statistics is disabled. Turn it on in WP Statistics → Settings → Privacy & Data Protection so your analytics follow the consent given in Real Cookie Banner.', 'wp-statistics'),
         ];
-    }
-
-    public function isActive()
-    {
-        return is_plugin_active('real-cookie-banner-pro/index.php') || is_plugin_active('real-cookie-banner/index.php');
     }
 
     public function register()

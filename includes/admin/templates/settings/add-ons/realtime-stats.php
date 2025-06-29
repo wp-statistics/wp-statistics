@@ -11,7 +11,7 @@ $isRealTimeStatsActive = WP_STATISTICS\Helper::isAddOnActive('realtime-stats');
 <?php
 if (!$isRealTimeStatsActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
     ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=realtime-stats'),
-     'addon_title'        => __('Real-Time Add-On', 'wp-statistics'),
+     'addon_title'        => __('Real-Time Add-on', 'wp-statistics'),
      'addon_modal_target' => 'wp-statistics-realtime-stats',
      'addon_description'  => __('The settings on this page are part of the Real-Time add-on, which allows you to track your visitors and online users in real time without needing to refresh the page.', 'wp-statistics'),
      'addon_features'     => [
@@ -29,10 +29,10 @@ if ($isRealTimeStatsActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isRealTimeStatsActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top" class="wps-settings-box_head">
+            <tr class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Update Interval', 'wp-statistics'); ?></h3></th>
             </tr>
-            <tr valign="top" data-id="chart_and_map_refresh_rate_tr">
+            <tr data-id="chart_and_map_refresh_rate_tr">
                 <th scope="row">
                     <label for="realtime-stats-interval-time"><?php esc_html_e('Chart & Map Refresh Rate (seconds)', 'wp-statistics'); ?></label>
                 </th>

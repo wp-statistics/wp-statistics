@@ -7,7 +7,7 @@
 
   .wps-settings-side {
     &__title {
-      color: #898A8E;
+      color: #565759;
       font-weight: 500;
       font-size: 11px;
       letter-spacing: 9%;
@@ -294,8 +294,8 @@
           padding: 12px 15px 12px 15px;
 
           span, svg path {
-            color: #A9AAAE;
-            fill: #A9AAAE
+            color: #6b6c6f;
+            fill: #6F7073
           }
 
           &:after {
@@ -305,8 +305,8 @@
           &.active, &.current {
             span, &:after, svg path {
               opacity: 100%;
-              color: #56585A;
-              fill: #292D32
+              color: #28272A;
+              fill: #4C4B5F
             }
           }
 
@@ -547,11 +547,11 @@
 
   &__info {
     border-top: 1px solid #DADCE0;
-    margin-bottom: 16px;
-    padding-top: 24px;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 24px;
+    margin-bottom: 16px!important;
+    padding: 24px 0 0!important;
+    font-size: 16px!important;
+    font-weight: 500!important;
+    line-height: 24px!important;
     color: #0C0C0D;
     width: 100%;
 
@@ -1383,7 +1383,7 @@
   .form-table {
     margin: 0;
     &.wps-optimization-overview{
-      tbody th label{
+      tbody th label , tbody th .wps-setting-label{
         gap: 0;
         flex-wrap: wrap;
         &>span{
@@ -1553,9 +1553,11 @@
           }
         }
 
-        label {
+        label  , .wps-setting-label{
+          color: #000;
           display: flex;
           gap: 8px;
+          flex-wrap: wrap;
 
           & > span {
             display: flex;
@@ -1840,6 +1842,19 @@
       }
     }
 
+    .wps-alert-list{
+      padding: 0 16px;
+      width: 100%;
+      list-style-type: disc;
+
+      li{
+        font-weight: 400;
+
+        &::marker {
+          line-height: 10px;
+        }
+      }
+    }
   }
 
   tr td .wps-alert {

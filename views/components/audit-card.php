@@ -17,7 +17,7 @@
                     <span class="wps-audit-card__status-text"> <?php echo $status === 'danger' ? esc_html__('Attention Needed', 'wp-statistics'): esc_html__('Warning', 'wp-statistics') ?> </span>
                 <?php endif; ?>
 
-                <button class="wps-audit-card__toggle" aria-expanded="false"></button>
+                <button aria-label="Toggle audit details" class="wps-audit-card__toggle" aria-expanded="false"></button>
             </div>
 
         </div>

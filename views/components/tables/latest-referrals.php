@@ -12,22 +12,22 @@ use WP_STATISTICS\Menus;
             <table width="100%" class="o-table wps-new-table">
                 <thead>
                     <tr>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <span class="wps-order"><?php esc_html_e('Last View', 'wp-statistics') ?></span>
                         </th>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <span><?php esc_html_e('Referrer', 'wp-statistics') ?></span>
                         </th>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <?php esc_html_e('Visitor Information', 'wp-statistics') ?>
                         </th>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <?php echo esc_html__('Entry Page', 'wp-statistics'); ?>
                         </th>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <?php echo esc_html__('Exit Page', 'wp-statistics'); ?>
                         </th>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <?php echo esc_html__('Total Views', 'wp-statistics'); ?>
                         </th>
                     </tr>

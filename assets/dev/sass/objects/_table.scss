@@ -558,7 +558,7 @@
   }
 
   #wp-statistics-quickstats-widget, #wp-statistics-hits-widget, #wp-statistics-search-widget, #wp-statistics-countries-widget, #wp-statistics-pages-widget,
-  #wp-statistics-browsers-widget, #wp-statistics-platforms-widget, #wp-statistics-models-widget, #wp-statistics-devices-widget,
+  #wp-statistics-browsers-widget, #wp-statistics-platforms-widget, #wp-statistics-models-widget, #wp-statistics-devices-widget, #wp-statistics-source-categories-widget ,
   #wp-statistics-referring-widget, #wp-statistics-top-visitors-widget, #wp-statistics-recent-widget , #wp-statistics-useronline-widget, #wp-statistics-hitsmap-widget {
 
     .handle-order-lower, .handle-order-higher {
@@ -577,11 +577,6 @@
 
       a {
         text-decoration: none;
-
-        &:focus {
-          outline: none;
-          box-shadow: none;
-        }
       }
 
       td, th {
@@ -601,7 +596,7 @@
     }
   }
 
-  #wp-statistics-browsers-widget, #wp-statistics-platforms-widget, #wp-statistics-models-widget, #wp-statistics-devices-widget {
+  #wp-statistics-browsers-widget, #wp-statistics-platforms-widget, #wp-statistics-models-widget, #wp-statistics-devices-widget ,#wp-statistics-source-categories-widget {
     &.postbox .inside {
       margin-top: 20px;
     }

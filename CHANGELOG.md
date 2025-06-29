@@ -1,3 +1,16 @@
+= 14.14.1 - 2025-06-29 =
+- **New:** Added a Database Schema tool to check and repair database structure in the Optimization page.
+- **Enhancement:** Added country name to the flag tooltip in Visitor Info.
+- **Enhancement:** Added unread notification badge to the Help Center menu.
+- **Enhancement:** Improved migration performance by running schema updates synchronously and removing background processes.
+- **Enhancement:** Improved the "Views" section in the Visitor Insight report.
+- **Enhancement:** Deprecated the Matomo Referrer Spam Blacklist option (to be removed in v14.16).
+- **Fix:** Fixed accessibility (A11y) issues.
+- **Fix:** Resolved zero page views for non-'category' taxonomy filters.
+- **Fix:** Anonymous data opt-in notice now appears 7 days after plugin activation.
+- **Fix:** Fixed incorrect page titles for WooCommerce My Account sub-pages.
+- **Fix:** Normalized the taxonomy `type` field for `tax_` prefixes.
+
 = 14.14 - 2025-06-01 =
 - **New:** Added a Help page inside the plugin to guide users.
 - **New:** Introduced dynamic promo text in the plugin header.
@@ -27,6 +40,7 @@
 - **Fix:** Removed `/online` and `/hit` REST endpoints when Server-Side Tracking is enabled (deprecated).
 - **Fix:** Ensured `tracker.js` works with Root Bedrock setups.
 - **Fix:** Handled `E_STRICT` deprecation warning in PHP 8.4.
+- **New:** Added a database schema section to the Optimization page to resolve database errors.
 
 = 14.13.4 - 2025-04-29 =
 - **Enhancement:** Enforced capability check in optionUpdater.

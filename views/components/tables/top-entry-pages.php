@@ -11,16 +11,18 @@ use WP_Statistics\Components\View;
             <table width="100%" class="o-table wps-new-table">
                 <thead>
                     <tr>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <?php esc_html_e('Entry Page', 'wp-statistics') ?>
                         </th>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <span class="wps-order"><?php esc_html_e('Unique Entrances', 'wp-statistics') ?></span>
                         </th>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <?php esc_html_e('Publish Date', 'wp-statistics') ?>
                         </th>
-                        <th class="wps-pd-l"></th>
+                        <th scope="col">
+                            <span class="screen-reader-text"><?php esc_html_e('View page detail', 'wp-statistics'); ?></span>
+                        </th>
                     </tr>
                 </thead>
 

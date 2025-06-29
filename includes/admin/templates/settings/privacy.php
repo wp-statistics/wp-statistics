@@ -36,20 +36,20 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top" class="wps-settings-box_head">
+        <tr class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Data Protection', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr valign="top" data-id="anonymize_ip_addresses_tr">
+        <tr data-id="anonymize_ip_addresses_tr">
             <th scope="row">
-                <label for="anonymize_ips">
+                <span class="wps-setting-label">
                     <span>
                         <?php esc_html_e('Anonymize IP Addresses', 'wp-statistics'); ?>
                         <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
                             <a class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
                         <?php endif ?>
                     </span>
-                </label>
+                </span>
             </th>
             <td>
                 <input id="anonymize_ips" type="checkbox" value="1" name="wps_anonymize_ips" <?php echo WP_STATISTICS\Option::get('anonymize_ips') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
@@ -58,16 +58,16 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
             </td>
         </tr>
 
-        <tr valign="top" data-id="hash_ip_addresses_tr">
+        <tr data-id="hash_ip_addresses_tr">
             <th scope="row">
-                <label for="hash_ips">
+                <span class="wps-setting-label">
                     <span>
                         <?php esc_html_e('Hash IP Addresses', 'wp-statistics'); ?>
                         <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
                              <a class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
                         <?php endif ?>
                     </span>
-                </label>
+                </span>
             </th>
             <td>
                 <input id="hash_ips" type="checkbox" value="1" name="wps_hash_ips" <?php echo WP_STATISTICS\Option::get('hash_ips') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
@@ -81,13 +81,13 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top" class="wps-settings-box_head">
+        <tr class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Privacy Compliance', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr valign="top" data-id="privacy_audit_tr">
+        <tr data-id="privacy_audit_tr">
             <th scope="row">
-                <label for="privacy_audit"><?php esc_html_e('Privacy Audit', 'wp-statistics'); ?></label>
+                <span class="wps-setting-label"><?php esc_html_e('Privacy Audit', 'wp-statistics'); ?></span>
             </th>
 
             <td>
@@ -103,11 +103,11 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top" class="wps-settings-box_head">
+        <tr class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('User Preferences', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr valign="top" data-id="consent_level_integration_tr">
+        <tr data-id="consent_level_integration_tr">
             <th scope="row">
                 <label for="consent_integration"><?php esc_html_e('Consent Plugin Integration', 'wp-statistics'); ?></label>
             </th>
@@ -126,7 +126,7 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
             </td>
         </tr>
 
-        <tr valign="top" id="wps-consent-categories">
+        <tr id="wps-consent-categories">
             <th scope="row">
                 <label for="consent_level_integration"><?php esc_html_e('Consent Categories', 'wp-statistics'); ?></label>
             </th>
@@ -185,9 +185,9 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
             </td>
         </tr>
 
-        <tr valign="top" id="wps-anonymous-tracking">
+        <tr id="wps-anonymous-tracking">
             <th scope="row">
-                <label for="anonymous_tracking"><?php _e('Anonymous Tracking', 'wp-statistics'); ?></label>
+                <span class="wps-setting-label"><?php _e('Anonymous Tracking', 'wp-statistics'); ?></span>
             </th>
 
             <td>
@@ -198,9 +198,9 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
             </td>
         </tr>
 
-        <tr valign="top" data-id="do_not_track_tr">
+        <tr data-id="do_not_track_tr">
             <th scope="row">
-                <label for="do_not_track"><?php esc_html_e('Do Not Track (DNT)', 'wp-statistics'); ?></label>
+                <span class="wps-setting-label"><?php esc_html_e('Do Not Track (DNT)', 'wp-statistics'); ?></span>
             </th>
 
             <td>

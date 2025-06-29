@@ -19,7 +19,9 @@
                                         <th class="wps-pd-l">
                                             <?php esc_html_e('Percent Share', 'wp-statistics'); ?>
                                         </th>
-                                        <th></th>
+                                        <th scope="col">
+                                            <span class="screen-reader-text"><?php esc_html_e('View browser detail', 'wp-statistics'); ?></span>
+                                        </th>
                                     </tr>
                                 </thead>
 
@@ -28,7 +30,7 @@
                                         <tr>
                                             <td class="wps-pd-l">
                                                 <span title="<?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent); ?>" class="wps-browser-name">
-                                                    <img alt="<?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent); ?>" src="<?php echo esc_url(DeviceHelper::getBrowserLogo($item->agent)); ?>" title="<?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent); ?>" class="log-tools wps-flag" />
+                                                    <img alt="<?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent); ?>" src="<?php echo esc_url(DeviceHelper::getBrowserLogo($item->agent)); ?>"  class="log-tools wps-flag" />
                                                     <?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent); ?>
                                                 </span>
                                             </td>
@@ -39,7 +41,7 @@
                                                 <?php echo number_format(\WP_STATISTICS\Helper::divideNumbers($item->visitors, $data['visits'], 4) * 100, 2); ?>%
                                             </td>
                                             <td class="view-more">
-                                                <a href="<?php echo esc_url(\WP_STATISTICS\Menus::admin_url('devices', array_merge($viewMoreUrlArgs, ['browser' => $item->agent]))); ?>" title="<?php esc_html_e('View Details', 'wp-statistics'); ?>">
+                                                <a href="<?php echo esc_url(\WP_STATISTICS\Menus::admin_url('devices', array_merge($viewMoreUrlArgs, ['browser' => $item->agent]))); ?>" aria-label="<?php esc_html_e('View Details', 'wp-statistics'); ?>">
                                                     <?php esc_html_e('View Details', 'wp-statistics'); ?>
                                                 </a>
                                             </td>

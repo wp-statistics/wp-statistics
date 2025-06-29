@@ -16,17 +16,17 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
             <?php wp_nonce_field('wps_optimization_nonce'); ?>
             <table class="form-table">
                 <tbody>
-                <tr valign="top" class="wps-settings-box_head">
+                <tr class="wps-settings-box_head">
                     <th scope="row" colspan="2"><h3><?php esc_html_e('Historical Data Entry', 'wp-statistics'); ?></h3></th>
                 </tr>
 
-                <tr valign="top" id="wps_historical_purge" style="display: none">
+                <tr id="wps_historical_purge" style="display: none">
                     <th scope="row" colspan=2>
                         <?php esc_html_e('Reminder: After database purging, please reload this page to update these figures correctly.', 'wp-statistics'); ?>
                     </th>
                 </tr>
 
-                <tr valign="top" data-id="historical_total_visitors_tr">
+                <tr data-id="historical_total_visitors_tr">
                     <th scope="row">
                         <label for="wps_historical_visitors"><?php esc_html_e('Historical Total Visitors', 'wp-statistics'); ?></label>
                     </th>
@@ -36,7 +36,7 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
                     </td>
                 </tr>
 
-                <tr valign="top" data-id="historical_total_site_views_tr">
+                <tr data-id="historical_total_site_views_tr">
                     <th scope="row">
                         <label for="wps_historical_visits"><?php esc_html_e('Historical Total Site Views', 'wp-statistics'); ?></label>
                     </th>
@@ -46,7 +46,7 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
                     </td>
                 </tr>
 
-                <tr valign="top">
+                <tr>
                     <td colspan=2>
                         <input type="hidden" name="submit" value="1"/>
                     </td>

@@ -9,7 +9,7 @@
     </div>
     <div class="wps-scatter-chart">
         <div class="chart-container">
-            <canvas id="publishedChart"></canvas>
+            <canvas id="publishedChart" aria-label="<?php echo esc_html__('published chart', 'wp-statistics') ?>" role="img"></canvas>
         </div>
     </div>
 </div>

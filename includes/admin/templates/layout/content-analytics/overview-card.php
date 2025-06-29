@@ -17,7 +17,7 @@
                 <span><?php echo $avg ?></span>
             <?php endif?>
             <?php if(isset($avg_title)): ?>
-                <span title="<?php echo esc_attr($avg_title) ?>"><?php echo $avg_title ?></span>
+                <span aria-label="<?php echo esc_attr($avg_title) ?>"><?php echo $avg_title ?></span>
             <?php endif?>
         </div>
 

@@ -230,7 +230,7 @@
     <div class="postbox">
         <table class="form-table">
             <tbody>
-            <tr valign="top" class="wps-settings-box_head">
+            <tr class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Data', 'wp-statistics'); ?></h3></th>
             </tr>
 
@@ -245,7 +245,7 @@
                         <span class="wps-input-group__label wps-input-group__label-side"><?php esc_html_e('Days', 'wp-statistics'); ?></span>
                     </div>
                     <p class="description"><?php echo esc_html__('Erase User Stats Older Than Specified Days.', 'wp-statistics') . ' ' . esc_html__('Minimum Age for Deletion: 30 Days.', 'wp-statistics'); ?></p>
-                    <button id="purge-data-submit" class="js-openModal-setting-confirmation wps-mt-12 wps-button wps-button--danger-outline"
+                    <button id="purge-data-submit" class="js-openModal-setting-confirmation wps-mt-12 wps-button wps-button--danger-outline" aria-label="<?php esc_attr_e('Purge data older than specified days', 'wp-statistics'); ?>"
                             data-agree="<?php esc_html_e('Are you sure you want to permanently delete this data?', 'wp-statistics'); ?>" type="button" name="purge-data-submit"><?php esc_html_e('Start Purging Now', 'wp-statistics'); ?></button>
                      <div id="purge-data-result" class="wps-mt-12"></div>
                 </td>
@@ -270,13 +270,12 @@
 
             <tr data-id="remove_user_ids_tr">
                 <th scope="row">
-                    <label for="delete-user-ids-submit"><?php esc_html_e('Remove User IDs', 'wp-statistics'); ?></label>
+                    <span class="wps-setting-label"><?php esc_html_e('Remove User IDs', 'wp-statistics'); ?></span>
                 </th>
                 <td>
                     <button id="delete-user-ids-submit" class="js-openModal-setting-confirmation wps-button wps-button--danger-outline wps-mt-0" type="button" name="delete_user_ids_submit"><?php esc_html_e('Delete User IDs Now', 'wp-statistics'); ?></button>
                     <p class="description">
                         <?php esc_html_e('Permanently deletes all stored User IDs from the database to anonymize user visit records or to comply with privacy regulations.', 'wp-statistics'); ?><br>
-
                     </p>
                     <div class="wps-alert wps-alert__danger">
                         <?php esc_html_e('Permanent and cannot be reversed.', 'wp-statistics'); ?>
@@ -287,7 +286,7 @@
 
             <tr data-id="clear_user_agent_strings_tr">
                 <th scope="row">
-                    <label for="clear-user-agent-strings-submit"><?php esc_html_e('Clear User Agent Strings', 'wp-statistics'); ?></label>
+                    <span class="wps-setting-label"><?php esc_html_e('Clear User Agent Strings', 'wp-statistics'); ?></span>
                 </th>
                 <td>
                     <button id="clear-user-agent-strings-submit" class="js-openModal-setting-confirmation wps-button wps-button--danger-outline wps-mt-0" type="button" name="clear_user_agent_strings_submit"><?php esc_html_e('Clear User Agent Data Now', 'wp-statistics'); ?></button>
@@ -303,7 +302,7 @@
 
             <tr data-id="clean_up_recorded_query_parameters_tr">
                 <th scope="row">
-                    <label for="delete-word-count-data-submit"><?php esc_html_e('Clear Word Count Data', 'wp-statistics'); ?></label>
+                    <span class="wps-setting-label"><?php esc_html_e('Clear Word Count Data', 'wp-statistics'); ?></span>
                 </th>
                 <td>
                     <button id="delete-word-count-data-submit" class="js-openModal-setting-confirmation wps-button  wps-button--danger-outline wps-mt-0" type="submit" name="delete_word_count_data_submit"><?php esc_html_e('Clear Word Count Data Now', 'wp-statistics'); ?></button>
@@ -317,7 +316,7 @@
 
             <tr>
                 <th scope="row">
-                    <label for="query-params-cleanup-submit"><?php esc_html_e('Clean Up Recorded Query Parameters', 'wp-statistics'); ?></label>
+                    <span class="wps-setting-label"><?php esc_html_e('Clean Up Recorded Query Parameters', 'wp-statistics'); ?></span>
                 </th>
                 <td>
                     <button id="query-params-cleanup-submit" class="wps-button wps-button--danger-outline js-openModal-setting-confirmation wps-mt-0" type="button" name="query_params_cleanup_submit"><?php esc_html_e('Run Cleanup', 'wp-statistics'); ?></button>
@@ -336,11 +335,11 @@
     <div class="postbox">
         <table class="form-table">
             <tbody>
-            <tr valign="top" class="wps-settings-box_head">
+            <tr class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Remove Certain User Agent Types', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top" data-id="choose_agents_to_delete_tr">
+            <tr data-id="choose_agents_to_delete_tr">
                 <th scope="row">
                     <label for="delete-agent"><?php esc_html_e('Choose Agents to Delete', 'wp-statistics'); ?></label>
                 </th>
@@ -363,7 +362,7 @@
                 </td>
             </tr>
 
-            <tr valign="top" data-id="choose_operating_systems_to_delete_tr">
+            <tr data-id="choose_operating_systems_to_delete_tr">
                 <th scope="row">
                     <label for="delete-platform"><?php esc_html_e('Choose Operating Systems to Delete', 'wp-statistics'); ?></label>
                 </th>
@@ -388,7 +387,7 @@
                 </td>
             </tr>
 
-            <tr valign="top" data-id="erase_data_for_specific_ip_tr">
+            <tr data-id="erase_data_for_specific_ip_tr">
                 <th scope="row">
                     <label for="delete-ip"><?php esc_html_e('Erase Data for Specific IP', 'wp-statistics'); ?></label>
                 </th>

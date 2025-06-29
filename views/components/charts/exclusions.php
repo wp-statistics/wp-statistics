@@ -14,7 +14,7 @@ use WP_Statistics\Components\View;
             </div>
         </div>
         <div class="wps-postbox-chart--container c-chart__wps-skeleton">
-            <canvas id="exclusionsChart">
+            <canvas id="exclusionsChart" aria-label="<?php echo esc_html__('Exclusions over time chart', 'wp-statistics') ?>" role="img">
         </div>
     </div>
 </div>

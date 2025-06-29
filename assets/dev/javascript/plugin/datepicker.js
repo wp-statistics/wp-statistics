@@ -301,3 +301,27 @@ jQuery(document).ready(function () {
         });
     }
 });
+
+function fixDatePickerA11y() {
+     const datePickers = document.querySelectorAll('.drp-calendar');
+
+    datePickers.forEach((datePicker) => {
+         const headers = datePicker.querySelectorAll('.calendar-table table thead tr:first-child th');
+
+        if (headers.length) {
+             if (headers[0] && headers[0].textContent.trim() === '') {
+                headers[0].innerHTML = '<span class="screen-reader-text">Previous Month</span>';
+            }
+
+            if (headers[2] && headers[2].textContent.trim() === '') {
+                headers[2].innerHTML = '<span class="screen-reader-text">Next Month</span>';
+            }
+        }
+
+         datePicker.querySelectorAll('.calendar-table thead tr:nth-child(2) th').forEach((th) => {
+            th.setAttribute('scope', 'col');
+        });
+    });
+}
+
+setTimeout(fixDatePickerA11y, 300);

@@ -164,7 +164,7 @@ body.admin-bar .wps-notification-sidebar {
 
   &__tab {
     cursor: pointer;
-    color: #A9AAAE;
+    color: #747578;
     padding: 0px 12px 11px 12px;
     border-bottom: 2px solid transparent;
     margin: 0;
@@ -175,13 +175,13 @@ body.admin-bar .wps-notification-sidebar {
     }
 
     &--active, &--active:hover {
-      color: #292D32;
+      color: #0c0c0d;
       border-bottom: 2px solid #292D32;
     }
   }
 
   a.wps-notification-sidebar__dismiss-all {
-    color: #898A8E;
+    color: #565759;
     font-size: 14px;
     font-weight: 400;
     line-height: 16.41px;
@@ -312,7 +312,7 @@ body.admin-bar .wps-notification-sidebar {
   }
 
   &__card-date {
-    color: #898A8E;
+    color: #565759;
     font-size: 12px;
     font-weight: 400;
     line-height: 14.06px;
@@ -376,7 +376,7 @@ body.admin-bar .wps-notification-sidebar {
   }
 
   a.wps-notification-sidebar__dismiss {
-    color: #A9AAAE;
+    color: #747578;
     font-size: 13px;
     font-weight: 400;
     line-height: 15px;

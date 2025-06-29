@@ -22,13 +22,13 @@
             }
         ?>
         <?php if (!empty($addon_documentation_title) && !empty($addon_documentation_slug)): ?>
-            <a href="<?php echo esc_url($addon_documentation_slug) ?>" target="_blank" title="<?php echo esc_html($addon_documentation_title); ?>"><?php echo esc_html($addon_documentation_title); ?></a>.
+            <a href="<?php echo esc_url($addon_documentation_slug) ?>" target="_blank" aria-label="<?php echo esc_html($addon_documentation_title); ?>"><?php echo esc_html($addon_documentation_title); ?></a>.
         <?php endif; ?>
     </div>
 <?php endif; ?>
-<div class="wps-premium-feature__info">
+<h2 class="wps-premium-feature__info">
     <?php echo esc_html_e('To unlock every premium feature in WP Statistics, upgrade to Premium.', 'wp-statistics'); ?>
-</div>
+</h2>
 <div class="wps-premium-feature__buttons">
     <a class="button button-primary" target="_blank" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings') ?>"><?php esc_html_e('Unlock Everything with Premium', 'wp-statistics') ?></a>
     <a class="wps-show-premium-modal button  js-wps-openPremiumModal" data-target="<?php echo esc_html($addon_modal_target) ?>" data-name="<?php echo esc_html($addon_title) ?>"><?php esc_html_e('Learn More', 'wp-statistics') ?></a>

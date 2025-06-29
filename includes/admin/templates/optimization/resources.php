@@ -5,15 +5,15 @@
     <div class="postbox">
         <table class="form-table wps-optimization-overview">
             <tbody>
-            <tr valign="top" class="wps-settings-box_head">
+            <tr class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php use WP_STATISTICS\GeoIP;
 
                         esc_html_e('Resources/Information', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top" data-id="current_php_memory_consumption_tr">
+            <tr data-id="current_php_memory_consumption_tr">
                 <th scope="row">
-                    <label><?php esc_html_e('Current PHP Memory Consumption', 'wp-statistics'); ?></label>
+                    <span class="wps-setting-label"><?php esc_html_e('Current PHP Memory Consumption', 'wp-statistics'); ?></span>
                 </th>
                 <td>
                     <strong><?php echo esc_html(size_format(memory_get_usage(), 3)); ?></strong>
@@ -21,9 +21,9 @@
                 </td>
             </tr>
 
-            <tr valign="top" data-id="maximum_allowed_php_memory_tr">
+            <tr data-id="maximum_allowed_php_memory_tr">
                 <th scope="row">
-                    <label><?php esc_html_e('Maximum Allowed PHP Memory', 'wp-statistics'); ?></label>
+                    <span class="wps-setting-label"><?php esc_html_e('Maximum Allowed PHP Memory', 'wp-statistics'); ?></span>
                 </th>
 
                 <td>
@@ -35,9 +35,9 @@
             <?php
             foreach ($result as $table_name => $data) {
                 ?>
-                <tr valign="top" data-id="<?php echo 'number_of_rows_in_the_' . esc_attr($table_name).'_tr'; ?>">
+                <tr data-id="<?php echo 'number_of_rows_in_the_' . esc_attr($table_name).'_tr'; ?>">
                     <th scope="row">
-                        <label><?php echo sprintf(esc_html__('Number of rows in the %s', 'wp-statistics'), '<span><span class="wps-badge wps-badge--addon">' . esc_attr($table_name) . '</span>' .esc_html__('table', 'wp-statistics').'</span>'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped   ?></label>
+                        <span class="wps-setting-label"><?php echo sprintf(esc_html__('Number of rows in the %s', 'wp-statistics'), '<span><span class="wps-badge wps-badge--addon">' . esc_attr($table_name) . '</span>' .esc_html__('table', 'wp-statistics').'</span>'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped   ?></span>
                     </th>
                     <td>
                         <strong><?php echo esc_html(number_format_i18n($data['rows'])); ?></strong> <?php echo esc_html(_n('Row', 'Rows', number_format_i18n($data['rows']), 'wp-statistics')); ?>

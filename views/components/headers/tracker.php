@@ -15,9 +15,9 @@ if (Menus::in_page('download_tracker')) {
     <div>
         <div class="wps-tracker-header__title">
 
-            <h2 class="wps_title">
+            <h1 class="wps_title">
                 <?php echo esc_html($title) ?>
-            </h2>
+            </h1>
         </div>
         <div class="wps-tracker-header__info">
             <?php

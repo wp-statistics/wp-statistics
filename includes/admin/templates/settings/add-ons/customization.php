@@ -21,7 +21,7 @@ $disableMenuArray = [
     'devices'            => __('Devices', 'wp-statistics'),
     'link_tracker'       => __('Link Tracker', 'wp-statistics'),
     'download_tracker'   => __('Download Tracker', 'wp-statistics'),
-    'plugins'            => __('Add-Ons', 'wp-statistics'),
+    'plugins'            => __('Add-ons', 'wp-statistics'),
     'privacy_audit'      => __('Privacy Audit', 'wp-statistics'),
     'optimize'           => __('Optimization', 'wp-statistics'),
     'exclusions'         => __('Exclusions', 'wp-statistics'),
@@ -50,7 +50,7 @@ $disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customiz
 <?php
 if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
     ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=customization'),
-     'addon_title'        => __('Customization Add-On', 'wp-statistics'),
+     'addon_title'        => __('Customization Add-on', 'wp-statistics'),
      'addon_modal_target' => 'wp-statistics-customization',
      'addon_description'  => __('The settings on this page are part of the Customization add-on, which allows you to customize menus and make WP Statistics white-label.', 'wp-statistics'),
      'addon_features'     => [
@@ -68,11 +68,11 @@ if ($isCustomizationActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top" class="wps-settings-box_head">
+            <tr class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Manage Admin Menus', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top" data-id="disable_menus_tr">
+            <tr data-id="disable_menus_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[customization][disable_menus]"><?php esc_html_e('Disable Menus', 'wp-statistics'); ?></label>
                 </th>
@@ -94,13 +94,13 @@ if ($isCustomizationActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top" class="wps-settings-box_head">
+            <tr class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('White label and Header Customization', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top"data-id="white_label_tr">
+            <tr data-id="white_label_tr">
                 <th scope="row">
-                    <label for="wps_addon_settings[customization][wps_white_label]"><?php esc_html_e('White label', 'wp-statistics'); ?></label>
+                    <span class="wps-setting-label"><?php esc_html_e('White label', 'wp-statistics'); ?></span>
                 </th>
 
                 <td>
@@ -110,7 +110,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top" data-id="change_the_header_logo_tr">
+            <tr data-id="change_the_header_logo_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[customization][wps_modify_banner]"><?php esc_html_e('Change the Header Logo', 'wp-statistics'); ?></label>
                 </th>
@@ -147,11 +147,11 @@ if ($isCustomizationActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top" class="wps-settings-box_head">
+            <tr class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Overview Widget Customization', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top" data-id="enable_overview_widget_tr">
+            <tr data-id="enable_overview_widget_tr">
                 <th scope="row">
                     <label for="wps_settings[customization_show_wps_about_widget_overview]"><?php esc_html_e('Enable Overview Widget', 'wp-statistics'); ?></label>
                 </th>
@@ -165,7 +165,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top" class="js-wps-show_if_customization_show_wps_about_widget_overview_equal_yes" data-id="widget_title_tr">
+            <tr class="js-wps-show_if_customization_show_wps_about_widget_overview_equal_yes" data-id="widget_title_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[customization][wps_about_widget_title]"><?php esc_html_e('Widget Title', 'wp-statistics'); ?></label>
                 </th>
@@ -176,9 +176,13 @@ if ($isCustomizationActive && !$isLicenseValid) {
                 </td>
             </tr>
 
-            <tr valign="top" class="js-wps-show_if_customization_show_wps_about_widget_overview_equal_yes" data-id="widget_content_tr">
+            <tr class="js-wps-show_if_customization_show_wps_about_widget_overview_equal_yes" data-id="widget_content_tr">
                 <th scope="row">
-                    <label><?php esc_html_e('Widget Content', 'wp-statistics'); ?></label>
+                    <?php if ($wp_version >= 3.3 && function_exists('wp_editor')): ?>
+                        <label for="wps_about_widget_content"><?php esc_html_e('Widget Content', 'wp-statistics'); ?></label>
+                    <?php else : ?>
+                        <label for="wps_addon_settings[customization][wps_about_widget_content]"><?php esc_html_e('Widget Content', 'wp-statistics'); ?></label>
+                    <?php endif ?>
                 </th>
 
                 <td>

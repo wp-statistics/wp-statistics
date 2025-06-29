@@ -11,13 +11,13 @@ use WP_STATISTICS\Menus;
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top" class="wps-settings-box_head">
+        <tr class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Tracking Options', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr valign="top" data-id="monitor_online_visitors_tr">
+        <tr data-id="monitor_online_visitors_tr">
             <th scope="row">
-                <label for="useronline"><?php esc_html_e('Monitor Online Visitors', 'wp-statistics'); ?></label>
+                <span class="wps-setting-label"><?php esc_html_e('Monitor Online Visitors', 'wp-statistics'); ?></span>
             </th>
 
             <td>
@@ -27,16 +27,16 @@ use WP_STATISTICS\Menus;
             </td>
         </tr>
 
-        <tr valign="top" data-id="track_logged_in_user_activity_tr" data-view="visitors_log_tr">
+        <tr data-id="track_logged_in_user_activity_tr" data-view="visitors_log_tr">
             <th scope="row">
-                <label for="visitors_log">
+                <span class="wps-setting-label">
                     <span>
                         <?php esc_html_e('Track Logged-In User Activity', 'wp-statistics'); ?>
                         <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
                             <a class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
                         <?php endif ?>
                     </span>
-                </label>
+                </span>
             </th>
             <td>
                 <input id="visitors_log" type="checkbox" value="1" name="wps_visitors_log" <?php echo WP_STATISTICS\Option::get('visitors_log') == true ? "checked='checked'" : ''; ?>>
@@ -46,16 +46,16 @@ use WP_STATISTICS\Menus;
             </td>
         </tr>
 
-        <tr valign="top" data-id="store_ua_tr">
+        <tr data-id="store_ua_tr">
             <th scope="row">
-                <label for="store_ua">
+                <span class="wps-setting-label">
                     <span>
                         <?php esc_html_e('Store Entire User Agent String', 'wp-statistics'); ?>
                         <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
                             <a class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
                         <?php endif ?>
                     </span>
-                </label>
+                </span>
             </th>
 
             <td>
@@ -65,7 +65,7 @@ use WP_STATISTICS\Menus;
             </td>
         </tr>
 
-        <tr valign="top" data-id="attribution_model_tr">
+        <tr data-id="attribution_model_tr">
             <th scope="row">
                 <label for="attribution_model"><?php esc_html_e('Attribution Model', 'wp-statistics'); ?></label>
             </th>
@@ -88,7 +88,7 @@ use WP_STATISTICS\Menus;
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top" class="wps-settings-box_head">
+        <tr class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Tracker Configuration', 'wp-statistics'); ?></h3></th>
         </tr>
 
@@ -115,9 +115,9 @@ use WP_STATISTICS\Menus;
             </td>
         </tr>
 
-        <tr valign="top" class="js-wps-show_if_use_cache_plugin_equal_1" data-id="bypass_ad_blockers_tr">
+        <tr class="js-wps-show_if_use_cache_plugin_equal_1" data-id="bypass_ad_blockers_tr">
             <th scope="row">
-                <label for="bypass_ad_blockers"><?php esc_html_e('Bypass Ad Blockers', 'wp-statistics'); ?></label>
+                <span class="wps-setting-label"><?php esc_html_e('Bypass Ad Blockers', 'wp-statistics'); ?></span>
             </th>
 
             <td>
@@ -127,9 +127,9 @@ use WP_STATISTICS\Menus;
             </td>
         </tr>
 
-        <tr valign="top" class="js-wps-show_if_use_cache_plugin_equal_1" data-id="tracker_debugger_tr">
+        <tr class="js-wps-show_if_use_cache_plugin_equal_1" data-id="tracker_debugger_tr">
             <th scope="row">
-                <label for="bypass_ad_blockers"><?php esc_html_e('Tracker Debugger', 'wp-statistics'); ?></label>
+                <span class="wps-setting-label"><?php esc_html_e('Tracker Debugger', 'wp-statistics'); ?></span>
             </th>
 
             <td>
