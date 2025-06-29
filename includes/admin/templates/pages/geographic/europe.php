@@ -17,16 +17,18 @@ $isActive       = $pluginHandler->isPluginActive('wp-statistics-data-plus');
                             <table width="100%" class="o-table wps-new-table">
                                 <thead>
                                     <tr>
-                                        <th class="wps-pd-l">
+                                        <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('Country', 'wp-statistics') ?>
                                         </th>
-                                        <th class="wps-pd-l">
+                                        <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('Visitor Count', 'wp-statistics') ?>
                                         </th>
-                                        <th class="wps-pd-l">
+                                        <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('View Count', 'wp-statistics') ?>
                                         </th>
-                                        <th></th>
+                                        <th scope="col">
+                                            <span class="screen-reader-text"><?php esc_html_e('Details', 'wp-statistics'); ?></span>
+                                        </th>
                                     </tr>
                                 </thead>
 
@@ -36,7 +38,7 @@ $isActive       = $pluginHandler->isPluginActive('wp-statistics-data-plus');
                                         <tr>
                                             <td class="wps-pd-l">
                                                 <span title="<?php echo esc_attr(Country::getName($item->country)) ?>" class="wps-country-name">
-                                                    <img alt="<?php echo esc_attr(Country::getName($item->country)) ?>" src="<?php echo esc_url(Country::flag($item->country)) ?>" title="<?php echo esc_attr(Country::getName($item->country)) ?>" class="log-tools wps-flag"/>
+                                                    <img alt="<?php echo esc_attr(Country::getName($item->country)) ?>" src="<?php echo esc_url(Country::flag($item->country)) ?>" class="log-tools wps-flag"/>
                                                     <?php echo esc_html(Country::getName($item->country)) ?>
                                                 </span>
                                             </td>

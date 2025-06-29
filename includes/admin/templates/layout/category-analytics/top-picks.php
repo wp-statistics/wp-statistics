@@ -103,7 +103,7 @@ $taxonomy = Request::get('tx', 'category');
 
     <?php if (Menus::in_page('category-analytics') && !Request::compare('type', 'single')) {
         View::load("components/objects/view-more", [
-            'href'  => add_query_arg(['tab' => 'contents'], Menus::admin_url('pages')),
+            'href'  => add_query_arg(['tab' => 'top'], Menus::admin_url('pages')),
             'title' => __('See all contents', 'wp-statistics'),
         ]);
     } ?>

@@ -19,7 +19,7 @@ $trackerStatus      = $tracker->getTrackerStatus();
 <div class="postbox-container wps-postbox-tracker__container">
     <div class="wps-postbox-tracker__box">
         <div class="wps-postbox-tracker__info">
-            <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/tracker/debug.svg') ?>" width="52" height="52">
+            <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/tracker/debug.svg') ?>" alt="Tracker diagnostics tool" width="52" height="52">
             <div>
                 <h3><?php esc_html_e('Tracker.js Diagnostics Tool', 'wp-statistics'); ?></h3>
                 <p><?php esc_html_e('Use this tool to identify and resolve issues affecting tracker.js. Below, you\'ll find diagnostics results, real-time data, and suggestions to ensure your visitor tracking is functioning properly.', 'wp-statistics'); ?></p>
@@ -393,10 +393,10 @@ $trackerStatus      = $tracker->getTrackerStatus();
                                 </td>
                                 <td class="wps-pd-l">
                                     <div class="wps-country-flag wps-ellipsis-parent">
-                                        <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getLocation()->getCountryCode()])) ?>" class="wps-tooltip tooltipstered">
-                                            <img src="<?php echo esc_url($visitor->getLocation()->getCountryFlag()) ?>" alt="Hesse, Frankfurt am Main" width="15" height="15">
-                                        </a>
                                         <?php $location = Admin_Template::locationColumn($visitor->getLocation()->getCountryCode(), $visitor->getLocation()->getRegion(), $visitor->getLocation()->getCity()); ?>
+                                        <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getLocation()->getCountryCode()])) ?>" class="wps-tooltip tooltipstered">
+                                            <img src="<?php echo esc_url($visitor->getLocation()->getCountryFlag()) ?>" alt="<?php echo esc_html($location) ?>" width="15" height="15">
+                                        </a>
                                         <span class="wps-ellipsis-text" title="<?php echo esc_attr($location) ?>"><?php echo esc_html($location) ?></span>
                                     </div>
                                 </td>

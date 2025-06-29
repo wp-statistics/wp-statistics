@@ -13,19 +13,19 @@ use WP_STATISTICS\Admin_Template;
                             <table width="100%" class="o-table wps-new-table">
                                 <thead>
                                     <tr>
-                                        <th class="wps-pd-l">
+                                        <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('City', 'wp-statistics') ?>
                                         </th>
-                                        <th class="wps-pd-l">
+                                        <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('Region', 'wp-statistics') ?>
                                         </th>
-                                        <th class="wps-pd-l">
+                                        <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('Country', 'wp-statistics') ?>
                                         </th>
-                                        <th class="wps-pd-l" style="width: 15%">
+                                        <th scope="col" class="wps-pd-l" style="width: 15%">
                                             <?php esc_html_e('Visitor Count', 'wp-statistics') ?>
                                         </th>
-                                        <th class="wps-pd-l" style="width: 15%">
+                                        <th scope="col" class="wps-pd-l" style="width: 15%">
                                             <?php esc_html_e('View Count', 'wp-statistics') ?>
                                         </th>
                                     </tr>
@@ -43,12 +43,12 @@ use WP_STATISTICS\Admin_Template;
                                             <td class="wps-pd-l">
                                                 <?php if (\WP_STATISTICS\Admin_Template::isUnknown($item->city)) : ?>
                                                     <span title="<?php esc_attr_e('(not set)', 'wp-statistics') ?>" class="wps-country-name">
-                                                        <img alt="<?php esc_attr_e('(not set)', 'wp-statistics') ?>" src="<?php echo esc_url(Country::flag(Country::$unknown_location)) ?>" title="<?php esc_attr_e('Unknown', 'wp-statistics') ?>" class="log-tools wps-flag"/>
+                                                        <img alt="<?php esc_attr_e('(not set)', 'wp-statistics') ?>" src="<?php echo esc_url(Country::flag(Country::$unknown_location)) ?>" class="log-tools wps-flag"/>
                                                         <?php esc_html_e('(not set)', 'wp-statistics') ?>
                                                     </span>
                                                 <?php else : ?>
                                                     <span title="<?php echo esc_attr(Country::getName($item->country)) ?>" class="wps-country-name">
-                                                        <img alt="<?php echo esc_attr(Country::getName($item->country)) ?>" src="<?php echo esc_url(Country::flag($item->country)) ?>" title="<?php echo esc_attr(Country::getName($item->country)) ?>" class="log-tools wps-flag"/>
+                                                        <img alt="<?php echo esc_attr(Country::getName($item->country)) ?>" src="<?php echo esc_url(Country::flag($item->country)) ?>" class="log-tools wps-flag"/>
                                                         <?php echo esc_html(Country::getName($item->country)) ?>
                                                     </span>
                                                 <?php endif; ?>

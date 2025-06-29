@@ -21,7 +21,7 @@ class LicenseManagementManager
 
         // Initialize the necessary components.
         $this->initActionCallbacks();
-        
+
         add_action('init', [$this, 'initPluginUpdaters']);
         add_action('admin_init', [$this, 'showPluginActivationNotice']);
         add_filter('wp_statistics_enable_upgrade_to_bundle', [$this, 'showUpgradeToBundle']);
@@ -33,13 +33,12 @@ class LicenseManagementManager
     {
         $items['plugins'] = [
             'sub'      => 'overview',
-            'title'    => __('Add-Ons', 'wp-statistics'),
-            'name'     => '<span class="wps-text-warning">' . __('Add-Ons', 'wp-statistics') . '</span>',
+            'title'    => __('Add-ons', 'wp-statistics'),
+            'name'     => '<span class="wps-text-warning">' . __('Add-ons', 'wp-statistics') . '</span>',
             'page_url' => 'plugins',
             'callback' => LicenseManagerPage::class,
-            'cap' => User::ExistCapability(Option::get('manage_capability', 'manage_options')),
-            'priority' => 90,
-            'break'    => true,
+            'cap'      => User::ExistCapability(Option::get('manage_capability', 'manage_options')),
+            'priority' => 90
         ];
         return $items;
     }

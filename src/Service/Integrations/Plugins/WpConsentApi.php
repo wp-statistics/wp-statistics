@@ -7,6 +7,7 @@ use WP_STATISTICS\Option;
 class WpConsentApi extends AbstractIntegration
 {
     protected $key = 'wp_consent_api';
+    protected $path = 'wp-consent-api/wp-consent-api.php';
 
     /**
      * Returns the name of the integration.
@@ -30,16 +31,6 @@ class WpConsentApi extends AbstractIntegration
             'title'         => esc_html__('Consent integration available', 'wp-statistics'),
             'description'   => esc_html__('We’ve detected a consent plugin that supports WP Consent API. Enable the “WP Consent API integration” in WP Statistics → Settings → Privacy & Data Protection so your analytics respect visitor consent.', 'wp-statistics'),
         ];
-    }
-
-    /**
-     * Checks if "WP Consent API" plugin is activated.
-     *
-     * @return  bool
-     */
-    public function isActive()
-    {
-        return is_plugin_active('wp-consent-api/wp-consent-api.php');
     }
 
     public function trackAnonymously()

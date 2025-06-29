@@ -36,7 +36,6 @@ wps_js.render_wp_statistics_hitsmap_widget = function (response, key) {
                     <div class="map-country-header">
                         <img src='${country.flag}' 
                             alt="${country.label}" 
-                            title='${country.label}' 
                             class='log-tools wps-flag'/> 
                             <span>${country.label}  </span>
                     </div>
@@ -73,7 +72,7 @@ wps_js.render_wp_statistics_hitsmap_widget = function (response, key) {
             fetch(imageUrl)
                 .then(response => {
                     const flagImage = response.ok
-                        ? `<img src='${imageUrl}' alt="${countryName}" title="${countryName}" class='log-tools wps-flag'/>`
+                        ? `<img src='${imageUrl}' alt="${countryName}"  class='log-tools wps-flag'/>`
                         : '';
 
                     label.html(`

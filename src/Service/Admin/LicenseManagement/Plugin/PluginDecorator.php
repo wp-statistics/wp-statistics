@@ -1,4 +1,5 @@
 <?php
+
 namespace WP_Statistics\Service\Admin\LicenseManagement\Plugin;
 
 use Exception;
@@ -15,9 +16,9 @@ class PluginDecorator
 
     public function __construct($plugin)
     {
-        $this->apiCommunicator  = new ApiCommunicator();
-        $this->pluginHandler    = new PluginHandler();
-        $this->plugin           = $plugin;
+        $this->apiCommunicator = new ApiCommunicator();
+        $this->pluginHandler   = new PluginHandler();
+        $this->plugin          = $plugin;
     }
 
     public function getId()
@@ -135,7 +136,7 @@ class PluginDecorator
 
     public function getChangelogUrl()
     {
-        return $this->plugin->changelog_url;
+        return wp_unslash($this->plugin->changelog_url);
     }
 
     public function getChangelog()
@@ -305,5 +306,15 @@ class PluginDecorator
         }
 
         return version_compare($this->getVersion(), $installedPlugin['Version'], '>');
+    }
+
+    /**
+     * Return product utm campaign
+     *
+     * @return string
+     */
+    public function getUtmCampaign()
+    {
+        return str_replace('wp-statistics-', '', $this->getSlug());
     }
 }

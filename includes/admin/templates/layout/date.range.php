@@ -62,7 +62,7 @@
             </button>
             <?php endif ?>
         </div>
-        <input type="text" class="c-footer__filters__custom-date-input js-date-range-picker-input">
+        <input type="text" class="c-footer__filters__custom-date-input js-date-range-picker-input" aria-label="Select custom date range">
     </div>
     <form action="<?php echo esc_url(admin_url('admin.php')); ?>" method="get" style="display: none" class="js-date-range-picker-form">
         <input name="page" type="hidden" value="<?php echo esc_attr($pageName); ?>">
