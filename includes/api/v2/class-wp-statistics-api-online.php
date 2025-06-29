@@ -5,6 +5,7 @@ namespace WP_STATISTICS\Api\v2;
 use Exception;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Hits;
+use WP_STATISTICS\Option;
 
 class CheckUserOnline extends \WP_STATISTICS\RestAPI
 {
@@ -21,8 +22,10 @@ class CheckUserOnline extends \WP_STATISTICS\RestAPI
     public function __construct()
     {
 
-        # Create REST API to Check Online User
-        add_action('rest_api_init', array($this, 'register_online_user_rest_api'));
+        if (Option::get('useronline') && Option::get('use_cache_plugin')) {
+            # Create REST API to Check Online User
+            add_action('rest_api_init', array($this, 'register_online_user_rest_api'));
+        }
     }
 
     // Create REST API to Check Online Users

@@ -88,10 +88,15 @@ abstract class BaseModel
     private function parseQueryParamArg($args)
     {
         if (!empty($args['query_param'])) {
-            $uri = Query::select('uri')
-                ->from('pages')
-                ->where('page_id', '=', $args['query_param'])
-                ->getVar();
+
+            if (is_numeric($args['query_param'])) {
+                $uri = Query::select('uri')
+                    ->from('pages')
+                    ->where('page_id', '=', $args['query_param'])
+                    ->getVar();
+            } else if (is_string($args['query_param'])) {
+                $uri = $args['query_param'];
+            }
 
             $args['query_param'] = !empty($uri) ? $uri : '';
         }

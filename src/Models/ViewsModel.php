@@ -6,6 +6,7 @@ use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Components\DateRange;
+use WP_Statistics\Decorators\VisitorDecorator;
 
 class ViewsModel extends BaseModel
 {
@@ -152,6 +153,60 @@ class ViewsModel extends BaseModel
         return $result ?? [];
     }
 
+    public function getViewsData($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'      => '',
+            'page'      => 1,
+            'per_page'  => 20
+        ]);
+
+        $result = Query::select([
+                'visitor.ID',
+                'visitor.ip',
+                'visitor.platform',
+                'visitor.agent',
+                'CAST(`visitor`.`version` AS SIGNED) as version',
+                'visitor.model',
+                'visitor.device',
+                'visitor.region',
+                'visitor.city',
+                'visitor.location',
+                'visitor.hits',
+                'visitor.user_id',
+                'visitor.referred',
+                'visitor.source_channel',
+                'visitor.source_name',
+                'visitor_relationships.page_id as last_page',
+                'visitor_relationships.date as last_view',
+            ])
+            ->from('visitor_relationships')
+            ->join('visitor', ['visitor_relationships.visitor_id', 'visitor.ID'])
+            ->whereDate('visitor_relationships.date', $args['date'])
+            ->decorate(VisitorDecorator::class)
+            ->orderBy('visitor_relationships.date')
+            ->perPage($args['page'], $args['per_page'])
+            ->getAll();
+
+        return $result;
+    }
+
+    public function countViewRecords($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date' => '',
+        ]);
+
+        $result = Query::select([
+                'COUNT(*)',
+            ])
+            ->from('visitor_relationships')
+            ->whereDate('visitor_relationships.date', $args['date'])
+            ->getVar();
+
+        return $result;
+    }
+
     public function getHourlyViews($args = [])
     {
         $args = $this->parseArgs($args, [
@@ -257,6 +312,9 @@ class ViewsModel extends BaseModel
             'resource_id'   => '',
             'resource_type' => '',
             'date'          => '',
+            'group_by'      => 'id',
+            'not_null'      => '',
+            'order_by'      => 'views',
             'page'          => 1,
             'per_page'      => 10
         ]);
@@ -289,11 +347,33 @@ class ViewsModel extends BaseModel
                 ->where('id', '=', $args['resource_id'])
                 ->where('type', 'IN', $args['resource_type'])
                 ->whereDate('date', $args['date'])
+                ->whereNotNull($args['not_null'])
+                ->orderBy($args['order_by'])
                 ->perPage($args['page'], $args['per_page'])
-                ->groupBy('id')
+                ->groupBy($args['group_by'])
                 ->getAll();
         }
 
         return $results;
+    }
+
+    public function countPagesRecords($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'resource_id'   => '',
+            'resource_type' => '',
+            'date'          => '',
+            'not_null'      => '',
+        ]);
+
+        $result = Query::select('COUNT(*)')
+            ->from('pages')
+            ->where('id', '=', $args['resource_id'])
+            ->where('type', 'IN', $args['resource_type'])
+            ->whereDate('date', $args['date'])
+            ->whereNotNull($args['not_null'])
+            ->getVar();
+
+        return $result;
     }
 }

@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\Notification;
 
 use WP_Statistics\Decorators\NotificationDecorator;
+use WP_Statistics\Service\Admin\ConditionTagEvaluator;
 
 class NotificationProcessor
 {
@@ -19,7 +20,7 @@ class NotificationProcessor
                 if (!empty($notification['tags']) && is_array($notification['tags'])) {
                     $condition = true;
                     foreach ($notification['tags'] as $tag) {
-                        if (!NotificationConditionTags::checkConditions($tag)) {
+                        if (!ConditionTagEvaluator::checkConditions($tag)) {
                             $condition = false;
                             break;
                         }
@@ -50,7 +51,7 @@ class NotificationProcessor
         if (empty($notifications) || !is_array($notifications)) {
             return [];
         }
-        
+
         return array_map(function ($notification) {
             return new NotificationDecorator((object)$notification);
         }, $notifications);
@@ -153,13 +154,54 @@ class NotificationProcessor
         }
 
         $newNotifications               = self::filterNotificationsByTags($rawNewNotifications['data'] ?? []);
-        $rawNewNotifications['updated'] = false;
+        $rawNewNotifications['updated'] = $rawOldNotifications['updated'] ?? false;
 
-        foreach ($newNotifications as $newNotification) {
-            if (!empty($newNotification['id']) && !isset($oldNotificationIds[$newNotification['id']])) {
-                $rawNewNotifications['updated'] = true;
-                break;
+        if (!$rawNewNotifications['updated']) {
+            foreach ($newNotifications as $newNotification) {
+                if (!empty($newNotification['id']) && !isset($oldNotificationIds[$newNotification['id']])) {
+                    $rawNewNotifications['updated'] = true;
+                    break;
+                }
             }
+        }
+
+        return $rawNewNotifications;
+    }
+
+    /**
+     * Returns the new notifications array with an added count of unseen (new) notifications.
+     *
+     * @param array $rawNewNotifications
+     * @return array Modified array including a 'count' key indicating new notifications.
+     */
+    public static function annotateNewNotificationCount($rawNewNotifications)
+    {
+        $rawOldNotifications = NotificationFactory::getRawNotificationsData();
+        $oldNotifications    = self::filterNotificationsByTags($rawOldNotifications['data'] ?? []);
+        $oldNotificationIds  = [];
+
+        foreach ($oldNotifications as $oldNotification) {
+            if (!empty($oldNotification['id'])) {
+                $oldNotificationIds[$oldNotification['id']] = true;
+            }
+        }
+
+        $newNotifications             = self::filterNotificationsByTags($rawNewNotifications['data'] ?? []);
+        $updated                      = $rawNewNotifications['updated'] ?? false;
+        $rawNewNotifications['count'] = $rawOldNotifications['count'] ?? 0;
+
+        if ($updated) {
+            $newCount = 0;
+
+            foreach ($newNotifications as $newNotification) {
+                if (!empty($newNotification['id']) && !isset($oldNotificationIds[$newNotification['id']])) {
+                    $newCount++;
+                }
+            }
+
+            $rawNewNotifications['count'] += $newCount;
+        } else {
+            $rawNewNotifications['count'] = 0;
         }
 
         return $rawNewNotifications;

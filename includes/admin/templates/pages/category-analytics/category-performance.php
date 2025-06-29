@@ -1,9 +1,8 @@
 <?php
-
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Components\View;
-
+use WP_Statistics\Service\Admin\Posts\WordCountService;
 ?>
 
 <div class="metabox-holder wps-category-analytics">
@@ -39,17 +38,19 @@ use WP_Statistics\Components\View;
         ];
         Admin_Template::get_template(['layout/category-analytics/overview-card'], $args3);
 
-        $args4 = [
-            'title'          => esc_html__('Words', 'wp-statistics'),
-            'tooltip'        => esc_html__('Total word count and average per content based on published contents in the selected period. Also shows total word count and average per content for all time.', 'wp-statistics'),
-            'selected'       => Helper::formatNumberWithUnit($data['overview']['words']['recent']),
-            'selected_title' => esc_html__('Selected Period', 'wp-statistics'),
-            'avg'            => Helper::formatNumberWithUnit($data['overview']['words']['avg']),
-            'avg_title'      => esc_html__('Avg. per Content', 'wp-statistics'),
-            'total'          => Helper::formatNumberWithUnit($data['overview']['words']['total']),
-            'total_avg'      => Helper::formatNumberWithUnit($data['overview']['words']['total_avg'])
-        ];
-        Admin_Template::get_template(['layout/category-analytics/overview-card'], $args4);
+        if (WordCountService::isActive()) {
+            $args4 = [
+                'title'          => esc_html__('Words', 'wp-statistics'),
+                'tooltip'        => esc_html__('Total word count and average per content based on published contents in the selected period. Also shows total word count and average per content for all time.', 'wp-statistics'),
+                'selected'       => Helper::formatNumberWithUnit($data['overview']['words']['recent']),
+                'selected_title' => esc_html__('Selected Period', 'wp-statistics'),
+                'avg'            => Helper::formatNumberWithUnit($data['overview']['words']['avg']),
+                'avg_title'      => esc_html__('Avg. per Content', 'wp-statistics'),
+                'total'          => Helper::formatNumberWithUnit($data['overview']['words']['total']),
+                'total_avg'      => Helper::formatNumberWithUnit($data['overview']['words']['total_avg'])
+            ];
+            Admin_Template::get_template(['layout/category-analytics/overview-card'], $args4);
+        }
 
         $args5 = [
             'title'          => esc_html__('Comments', 'wp-statistics'),

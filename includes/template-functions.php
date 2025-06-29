@@ -156,14 +156,14 @@ function wp_statistics_useronline($options = array())
 
     //Basic SQL
     $type_request = ($arg['return'] == "all" ? '*' : 'COUNT(*)');
-    $sql          = "SELECT {$type_request} FROM " . WP_STATISTICS\DB::table('useronline');
+    $sql          = "SELECT {$type_request} FROM " . WP_STATISTICS\DB::table('useronline') . " as useronline JOIN " . WP_STATISTICS\DB::table('visitor') . " as visitor ON useronline.visitor_id = visitor.ID";
 
     //Check Where Condition
     $where = [];
 
     //Check Type of Page
     if ($arg['type'] != "all") {
-        $where[] = "`type`='" . $arg['type'] . "' AND `page_id` = " . $arg['ID'];
+        $where[] = "`visitor`.`last_page` = " . $arg['ID'];
     }
 
     //Check Custom user

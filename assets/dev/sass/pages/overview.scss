@@ -5,6 +5,14 @@ body.toplevel_page_wps_overview_page {
   }
 
   #side-sortables {
+
+    .wps-postbox-chart--data{
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: 0;
+    }
+
     .postbox {
 
       .c-footer {
@@ -79,6 +87,11 @@ body.toplevel_page_wps_overview_page {
 
 body.toplevel_page_wps_overview_page,
 #dashboard-widgets-wrap {
+
+  .wps-postbox-chart--container canvas{
+    height: 199px!important;
+    min-height: 199px!important;
+  }
 
   .postbox-header:has(.wps-tooltip) {
     h2.hndle {

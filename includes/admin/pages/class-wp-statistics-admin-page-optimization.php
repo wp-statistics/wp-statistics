@@ -32,7 +32,7 @@ class optimization_page extends Singleton
         $args['list_table'] = DB::table('all');
         $args['result']     = DB::getTableRows();
 
-        Admin_Template::get_template(array('layout/header', 'layout/title', 'optimization', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header',  'optimization', 'layout/footer'), $args);
     }
 
     public function processForms()

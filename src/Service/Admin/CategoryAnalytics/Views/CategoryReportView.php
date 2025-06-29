@@ -49,7 +49,7 @@ class CategoryReportView extends BaseView
             'page_second_title' => esc_html__('WP Statistics Premium: Beyond Just Data Plus', 'wp-statistics'),
             'addon_name'        => esc_html__('Data Plus', 'wp-statistics'),
             'addon_slug'        => 'wp-statistics-data-plus',
-            'campaign'          => 'category',
+            'campaign'          => 'data-plus',
             'more_title'        => esc_html__('Learn More About Data Plus', 'wp-statistics'),
             'premium_btn_title' => esc_html__('Upgrade Now to Unlock All Premium Features!', 'wp-statistics'),
             'images'            => ['data-plus-advanced-filtering.png','data-plus-category.png','data-plus-comparison-widget.png','data-plus-download-tracker-recents.png'],

@@ -23,6 +23,9 @@ class Manager
                 'created'    => 'int(11)',
                 'timestamp'  => 'int(10) NOT NULL',
                 'date'       => 'datetime NOT NULL',
+                'visitor_id' => 'bigint(20) NOT NULL',
+
+                // Keep for backward compatibility
                 'referred'   => 'text CHARACTER SET utf8 NOT NULL',
                 'agent'      => 'varchar(255) NOT NULL',
                 'platform'   => 'varchar(255)',
@@ -31,7 +34,6 @@ class Manager
                 'city'       => 'varchar(100)',
                 'region'     => 'varchar(100)',
                 'continent'  => 'varchar(50)',
-                'visitor_id' => 'bigint(20) NOT NULL',
                 'user_id'    => 'BIGINT(48) NOT NULL',
                 'page_id'    => 'BIGINT(48) NOT NULL',
                 'type'       => 'VARCHAR(100) NOT NULL',

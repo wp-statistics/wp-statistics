@@ -5,10 +5,15 @@ use WP_STATISTICS\User;
 
 global $wp_roles;
 ?>
+    <h2 class="wps-settings-box__title">
+        <span><?php esc_html_e('Roles & Permissions', 'wp-statistics'); ?></span>
+        <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/resources/access-control-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings') ?>" target="_blank"><?php esc_html_e('View Guide', 'wp-statistics'); ?></a>
+    </h2>
+
     <div class="postbox">
         <table class="form-table">
             <tbody>
-            <tr valign="top">
+            <tr valign="top" class="wps-settings-box_head">
                 <th scope="row" colspan="2">
                     <h3><?php esc_html_e('Roles & Permissions', 'wp-statistics'); ?></h3>
                 </th>
@@ -52,7 +57,7 @@ global $wp_roles;
                 );
             }
             ?>
-            <tr valign="top">
+            <tr valign="top" data-id="minimum_role_to_view_statistics_tr">
                 <th scope="row">
                     <label for="wps_read_capability"><?php esc_html_e('Minimum Role to View Statistics', 'wp-statistics') ?></label>
                 </th>
@@ -87,7 +92,7 @@ global $wp_roles;
                 );
             }
             ?>
-            <tr valign="top">
+            <tr valign="top" data-id="minimum_role_to_manage_settings_tr">
                 <th scope="row">
                     <label for="wps_manage_capability"><?php esc_html_e('Minimum Role to Manage Settings', 'wp-statistics') ?></label>
                 </th>
@@ -111,4 +116,4 @@ global $wp_roles;
         </table>
     </div>
 
-<?php submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='access-settings'")); ?>
+<?php submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='access-settings'")); ?>

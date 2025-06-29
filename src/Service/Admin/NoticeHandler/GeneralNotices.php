@@ -9,6 +9,7 @@ use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Schedule;
 use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_STATISTICS\User;
 use WP_Statistics\Traits\TransientCacheTrait;
 
@@ -22,6 +23,7 @@ class GeneralNotices
      * @var array
      */
     private $coreNotices = [
+        'detectConsentIntegrations',
         'checkTrackingMode',
         'performanceAndCleanUp',
         'memoryLimitCheck',
@@ -48,6 +50,40 @@ class GeneralNotices
                     call_user_func([$this, $notice]);
                 }
             }
+        }
+    }
+
+    /**
+     * Detect consent integrations and shows notice
+     *
+     * @return void
+     */
+    private function detectConsentIntegrations()
+    {
+        if (Option::get('consent_integration')) return;
+
+        $integrations = IntegrationHelper::getAllIntegrations();
+
+        foreach ($integrations as $integration) {
+            if (!$integration->isActive()) continue;
+
+            $notice = $integration->detectionNotice();
+
+            if (empty($notice) || Notice::isNoticeDismissed($notice['key'])) continue;
+
+            $message = wp_kses(
+                sprintf(
+                    '<div><b class="wp-statistics-notice__title">%s - %s</b><p>%s</p><a href="%s">%s</a></div>',
+                    esc_html__('WP Statistics', 'wp-statistics'),
+                        esc_html($notice['title']),
+                        $notice['description'],
+                        esc_url(Menus::admin_url('settings', ['tab' => 'privacy-settings']). '#consent_integration'),
+                        esc_html__('Activate integration ›', 'wp-statistics')
+                ),
+                ['div' => ['class' => []], 'b' => ['class' => []], 'p' => [], 'a' => ['href' => []]]
+            );
+
+            Notice::addNotice($message, $notice['key']);
         }
     }
 
@@ -209,7 +245,7 @@ class GeneralNotices
 
     /**
      * Notifies users about clouldflare geolocation feature.
-     * 
+     *
      * @return void
      */
     public function checkCloudflareGeolocatin()

@@ -48,7 +48,7 @@ class OsChartDataProvider extends AbstractChartDataProvider
             foreach ($data as $item) {
                 $platform = $item->getOs()->getName();
 
-                if (!empty($platform) && $platform !== '(not set)') {
+                if (!empty($platform)) {
                     $platforms = array_column($parsedData, 'label');
 
                     if (!in_array($platform, $platforms)) {

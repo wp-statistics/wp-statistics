@@ -20,7 +20,7 @@ class OverviewPage extends BasePage
         $this->handleDismissWidgets();
     }
 
-    public function view()
+    public function render()
     {
         $args = [
             'title'             => esc_html__('Overview', 'wp-statistics'),

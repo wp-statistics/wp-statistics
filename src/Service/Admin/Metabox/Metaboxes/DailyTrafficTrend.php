@@ -12,7 +12,7 @@ class DailyTrafficTrend extends BaseMetabox
 
     public function getName()
     {
-        return esc_html__('Daily Traffic Trend', 'wp-statistics');
+        return esc_html__('Traffic Trend', 'wp-statistics');
     }
 
     public function getDescription()
@@ -26,7 +26,7 @@ class DailyTrafficTrend extends BaseMetabox
             'datepicker'    => true,
             'button'        => View::load('metabox/action-button',[
                 'link'  => Menus::admin_url('visitors', ['tab' => 'views']),
-                'title' => esc_html__('Daily Traffic Trend Report', 'wp-statistics')
+                'title' => esc_html__('Traffic Trend Report', 'wp-statistics')
             ],true)
         ];
     }

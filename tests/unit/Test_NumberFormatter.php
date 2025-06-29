@@ -25,7 +25,7 @@ class Test_NumberFormatter extends WP_UnitTestCase
     {
         $this->assertSame(0, Helper::formatNumberWithUnit("abc"));
         $this->assertSame(0, Helper::formatNumberWithUnit(null));
-        $this->assertSame("500", Helper::formatNumberWithUnit("500"));
+        $this->assertSame(500, Helper::formatNumberWithUnit("500"));
         $this->assertSame("1.24K", Helper::formatNumberWithUnit("1242"));
     }
 

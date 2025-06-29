@@ -6,7 +6,7 @@
             <?php echo esc_html($title); ?>
         </h2>
         <p class="wps-modal__description">
-            <?php echo esc_html($description); ?>
+            <?php echo wp_kses($description, ['b' => [], 'a' => ['href' => []], 'br' => []]); ?>
         </p>
         <div class="wps-modal__footer">
             <button class="wps-modal__button wps-modal__button--secondary wps-modal__button--<?php echo esc_html($secondaryButtonStyle); ?>" type="button"

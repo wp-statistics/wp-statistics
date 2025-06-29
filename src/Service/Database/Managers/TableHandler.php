@@ -54,8 +54,6 @@ class TableHandler
 
         if (Install::isFresh()) {
             Option::saveOptionGroup('migrated', true, 'db');
-            Option::saveOptionGroup('manual_migration_tasks', [], 'db');
-            Option::saveOptionGroup('auto_migration_tasks', [], 'db');
             Option::saveOptionGroup('version', WP_STATISTICS_VERSION, 'db');
             Option::saveOptionGroup('is_done', true, 'ajax_background_process');
             return;

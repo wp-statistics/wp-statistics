@@ -753,6 +753,7 @@
                 border-radius: 100%;
                 position: relative;
                 display: inline-block;
+                padding: 0;
 
                 &:before {
                   content: "";
@@ -798,6 +799,9 @@
 
       .wps-postbox-chart--data {
         margin-top: 0 !important;
+        @media (max-width: 550px) {
+          gap: 0!important;
+        }
       }
     }
   }

@@ -66,6 +66,10 @@ class VisitorInsightsPage extends MultiViewPage
                     'data-default'    => $referrer,
                 ],
             ])
+            ->select('sourceChannel', [
+                'name'  => 'source_channel',
+                'label' => esc_html__('Source Category', 'wp-statistics'),
+            ])
             ->select('users', [
                 'name' => 'user_id',
                 'placeholder' => $userPlaceholder,

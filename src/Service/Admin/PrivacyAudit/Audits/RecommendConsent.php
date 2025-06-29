@@ -11,10 +11,10 @@ class RecommendConsent extends RecommendedAudit
 {
     public static function getStatus()
     {
-        $consentLevel  = Option::get('consent_level_integration');
-        $consentStatus = RequireConsent::getStatus();
+        $consentIntegration = Option::get('consent_integration');
+        $consentStatus      = RequireConsent::getStatus();
 
-        if (!empty($consentLevel) && $consentLevel != 'disabled') {
+        if (!empty($consentIntegration)) {
             return 'passed';
         }
 

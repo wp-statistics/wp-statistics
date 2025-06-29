@@ -63,9 +63,9 @@ jQuery(document).ready(function ($) {
     $(document.body).on('click', '.wps_img_settings_clear_upload_button', function (e) {
 
         e.preventDefault();
-
-        $(this).parent().prev().val('');
-        $('#wps-upload-image-preview').attr('src', wps_ar_vars.default_avatar_url);
+                console.log(wps_ar_vars.default_avatar_url)
+        $(this).parent().parent().find('.wps-input-group__field').val('');
+        $(this).parent().parent().parent().find('#wps-upload-image-preview').attr('src', wps_ar_vars.default_avatar_url);
         $('.wps_img_settings_clear_upload_button').hide();
 
     });

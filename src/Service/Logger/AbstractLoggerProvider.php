@@ -9,14 +9,14 @@ abstract class AbstractLoggerProvider implements LoggerServiceProviderInterface
 {
     /**
      * Logger identifier.
-     * 
+     *
      * @var string
      */
     protected $name = '';
 
     /**
      * Collection of logged errors.
-     * 
+     *
      * @var array
      */
     protected $errors = [];

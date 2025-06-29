@@ -219,33 +219,45 @@ class FilterManager
         return $args;
     }
 
+    /**
+     * Retrieves a list of source channel.
+     *
+     * @return array
+     */
+    public function sourceChannel() {
+        $channels   = SourceChannels::getList();
+        unset($channels['direct']);
+
+        return $channels;
+    }
+
     public function getUser($search) {
         global $wpdb;
 
         $args = [];
 
         // Base query
-        $query = "SELECT visitors.user_id, users.user_login, users.user_email 
-                  FROM `" . DB::table('visitor') . "` AS visitors 
-                  JOIN `" . $wpdb->users . "` AS users 
-                  ON visitors.user_id = users.ID 
+        $query = "SELECT visitors.user_id, users.user_login, users.user_email
+                  FROM `" . DB::table('visitor') . "` AS visitors
+                  JOIN `" . $wpdb->users . "` AS users
+                  ON visitors.user_id = users.ID
                   WHERE visitors.user_id > 0";
-    
+
         // If search term is provided, filter by email or username
         if (!empty($search)) {
             $search = '%' . $wpdb->esc_like($search) . '%';
             $query .= " AND (users.user_login LIKE %s OR users.user_email LIKE %s)";
         }
-    
+
         $query .= " GROUP BY visitors.user_id ORDER BY visitors.user_id DESC;";
-    
+
         // Prepare and execute the query
         if (!empty($search)) {
             $query = $wpdb->prepare($query, $search, $search);
         }
-    
+
         $results = $wpdb->get_results($query, ARRAY_A);
-      
+
         foreach ($results as $user) {
             $option = [
                 'id'   => $user['user_id'],
@@ -354,13 +366,13 @@ class FilterManager
 
     /**
      * Retrieves post types with their details and generates corresponding data.
-     * 
+     *
      * @return array
      */
     public function getPostTypes($page)
     {
         $currentPage = admin_url("admin.php{$page}");
-        
+
         $queryKey  = 'pt';
         $baseUrl   = htmlspecialchars_decode(esc_url(remove_query_arg(['pt', 'pid'], $currentPage)));
         $postTypes = Helper::get_list_post_type();
@@ -386,7 +398,7 @@ class FilterManager
 
     /**
      * Retrieves a list of authors and generates corresponding data.
-     * 
+     *
      * @return array
      */
     public function getAuthor($page)
@@ -396,6 +408,8 @@ class FilterManager
         $queryKey = 'author_id';
         $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey, 'pid'], $currentPage)));
         $authors  = get_users(['has_published_posts' => true]);
+
+        $args = [];
 
         foreach ($authors as $author) {
             $args[] = [
@@ -414,7 +428,7 @@ class FilterManager
 
     /**
      * Retrieves a list of taxonomies and generates corresponding data.
-     * 
+     *
      * @return array
      */
     public function getTaxonomies($page)
@@ -424,6 +438,8 @@ class FilterManager
         $queryKey   = 'tx';
         $taxonomies = Helper::get_list_taxonomy(true);
         $baseUrl    = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey, 'pid'], $currentPage)));
+
+        $args = [];
 
         foreach ($taxonomies as $key => $name) {
             $args[] = [
@@ -442,7 +458,7 @@ class FilterManager
 
     /**
      * Retrieves a list of user roles and generates corresponding data.
-     * 
+     *
      * @return array
      */
     public function getUserRoles($page)
@@ -452,6 +468,8 @@ class FilterManager
         $queryKey = 'role';
         $roles    = wp_roles()->role_names;
         $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey],$currentPage)));
+
+        $args = [];
 
         foreach ($roles as $key => $role) {
             $args[] = [
@@ -470,7 +488,7 @@ class FilterManager
 
     /**
      * Retrieves query parameters for a specific post and generates corresponding data.
-     * 
+     *
      * @return array
      */
     public function getQueryParameters($page)
@@ -484,6 +502,8 @@ class FilterManager
         $viewsModel = new ViewsModel();
         $parameters = $viewsModel->getViewedPageUri(['id' => $postId]);
         $pageSlug   = get_page_uri($postId);
+
+        $args = [];
 
         foreach ($parameters as $key => $parameter) {
             $title = preg_replace('/^.*' . preg_quote($pageSlug, '/') . '/', '', $parameter->uri);

@@ -153,7 +153,7 @@ class Admin_Assets
         }
 
         //Load Jquery VMap Css
-        if (Menus::in_page('overview') || Menus::in_page('pages') || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard'))) {
+        if (Menus::in_page('overview') || Menus::in_page('pages') || Menus::in_page('visitors') || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard'))) {
             wp_enqueue_style(self::$prefix . '-jqvmap', self::url('jqvmap/jqvmap.min.css'), array(), '1.5.1');
         }
 
@@ -163,7 +163,7 @@ class Admin_Assets
         //        }
 
         // Load Select2
-        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages')) {
+        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages') || Menus::in_page('settings') || Menus::in_page('optimization')) {
             wp_enqueue_style(self::$prefix . '-select2', self::url('select2/select2.min.css'), array(), '4.0.9');
         }
 
@@ -200,7 +200,7 @@ class Admin_Assets
         }
 
         // Load Jquery VMap Js Library
-        if (Menus::in_page('overview') || Menus::in_page('pages') || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard'))) {
+        if (Menus::in_page('overview') || Menus::in_page('pages') || Menus::in_page('visitors') || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard'))) {
             wp_enqueue_script(self::$prefix . '-jqvmap', self::url('jqvmap/jquery.vmap.min.js'), array('jquery'), "1.5.1", ['in_footer' => true]);
             wp_enqueue_script(self::$prefix . '-jqvmap-world', self::url('jqvmap/jquery.vmap.world.min.js'), array('jquery'), "1.5.1", ['in_footer' => true]);
         }
@@ -213,7 +213,7 @@ class Admin_Assets
         //        }
 
         // Load Select2
-        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages')) {
+        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages') || Menus::in_page('settings') || Menus::in_page('optimization')) {
             wp_enqueue_script(self::$prefix . '-select2', self::url('select2/select2.full.min.js'), array('jquery'), "4.1.0", ['in_footer' => true]);
         }
 
@@ -423,6 +423,7 @@ class Admin_Assets
             'role'                         => __('Role', 'wp-statistics'),
             'latest_page'                  => __('Latest Page', 'wp-statistics'),
             'referrer'                     => __('Referrer', 'wp-statistics'),
+            'source_channel'               => __('Source Category', 'wp-statistics'),
             'online_for'                   => __('Online For', 'wp-statistics'),
             'views'                        => __('Views', 'wp-statistics'),
             'view'                         => __('View', 'wp-statistics'),
@@ -436,6 +437,9 @@ class Admin_Assets
             'show_less'                    => __('Show less', 'wp-statistics'),
             'show_more'                    => __('Show more', 'wp-statistics'),
             'pending'                      => __('Pending', 'wp-statistics'),
+            'copied'                       => __('Copied!', 'wp-statistics'),
+            'settings'                     => __('SETTINGS', 'wp-statistics'),
+            'premium_addons'               => __('PREMIUM ADD-ONS', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 
@@ -445,9 +449,9 @@ class Admin_Assets
         $list['initial_post_date'] = Helper::getInitialPostDate();
 
         if (Request::has('post_id')) {
-            $list['post_creation_date'] = get_the_date(DateTime::$defaultDateFormat, Request::get('post_id'));
+            $list['post_creation_date'] = get_post_time(DateTime::$defaultDateFormat, false, Request::get('post_id'), false);
         } else if (is_singular()) {
-            $list['post_creation_date'] = get_the_date(DateTime::$defaultDateFormat);
+            $list['post_creation_date'] = get_post_time(DateTime::$defaultDateFormat, false, null, false);
         }
 
         // Rest-API Meta Box Url

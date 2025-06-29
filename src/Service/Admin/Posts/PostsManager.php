@@ -23,8 +23,10 @@ class PostsManager
     {
         $this->wordsCount = new WordCountService();
 
-        add_action('save_post', [$this, 'addWordsCountCallback'], 99, 3);
-        add_action('delete_post', [$this, 'removeWordsCountCallback'], 99, 2);
+        if ($this->wordsCount->isActive()) {
+            add_action('save_post', [$this, 'addWordsCountCallback'], 99, 3);
+            add_action('delete_post', [$this, 'removeWordsCountCallback'], 99, 2);
+        }
 
         // Add Hits column in edit lists of all post types
         if (User::Access('read') && !Option::get('disable_column')) {
@@ -85,7 +87,7 @@ class PostsManager
             }
 
             $currentPage = Request::get('post_type', 'post');
-            
+
             add_filter("manage_edit-{$currentPage}_sortable_columns", [$hitColumnHandler, 'modifySortableColumns']);
 
             if (!$isPostQuickEdit) {

@@ -17,22 +17,7 @@ class NotificationManager
     {
         if (Option::get('display_notifications')) {
             add_action('admin_init', [$this, 'registerActions']);
-            Event::schedule('wp_statistics_notification_hook', time(), 'daily', [$this, 'fetchNotification']);
-        } else {
-            Event::unschedule('wp_statistics_notification_hook');
         }
-    }
-
-    /**
-     * Fetches new notifications.
-     *
-     * This method is triggered by the scheduled cron event
-     * and retrieves new notifications.
-     */
-    public function fetchNotification()
-    {
-        $notificationFetcher = new NotificationFetcher();
-        $notificationFetcher->fetchNotification();
     }
 
     /**

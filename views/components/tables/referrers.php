@@ -48,7 +48,7 @@ use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
                                 </td>
 
                                 <td class="wps-pd-l start">
-                                    <a href="<?php echo esc_url(Menus::admin_url('referrals', ['referrer' => $referrer->getRawReferrer()])) ?>">
+                                    <a href="<?php echo esc_url(Menus::admin_url('referrals', ['tab'=>'referred-visitors','referrer' => $referrer->getRawReferrer()])) ?>">
                                         <?php echo esc_html($referrer->getTotalReferrals()) ?>
                                     </a>
                                 </td>

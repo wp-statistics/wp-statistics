@@ -35,6 +35,12 @@
     gap: 12px;
     margin-top: -10px;
 
+    &__single-resource{
+      margin-top: 0;
+      padding-top: 6.5px;
+      padding-bottom: 6.5px;
+    }
+
     &__title {
       h2 {
         font-size: 15px;
@@ -44,11 +50,11 @@
       }
 
       a {
-        margin-left: 6px;
+        margin-left: 8px;
 
         .rtl & {
           margin-left: 0;
-          margin-right: 6px;
+          margin-right: 8px;
         }
 
         &:after {

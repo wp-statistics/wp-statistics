@@ -23,13 +23,14 @@ use WP_STATISTICS\Menus;
                             <?php esc_html_e('Visitor Information', 'wp-statistics') ?>
                         </th>
                         <th class="wps-pd-l">
-                            <?php esc_html_e('Location', 'wp-statistics') ?>
+                            <?php echo esc_html__('Entry Page', 'wp-statistics'); ?>
                         </th>
                         <th class="wps-pd-l">
-                            <?php echo esc_html__('Landing Page', 'wp-statistics'); ?>
+                            <?php echo esc_html__('Exit Page', 'wp-statistics'); ?>
                         </th>
                         <th class="wps-pd-l">
-                            <?php echo esc_html__('Number of Views', 'wp-statistics'); ?>
+                            <?php echo esc_html__('Total Views', 'wp-statistics'); ?>
+                            <span class="wps-tooltip" title="<?php echo esc_html__('Total views for a single day. Privacy rules assign users a new ID daily, so visits on different days are counted separately.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></span>
                         </th>
                     </tr>
                 </thead>
@@ -59,23 +60,11 @@ use WP_STATISTICS\Menus;
                              </td>
 
                             <td class="wps-pd-l">
-                                <div class="wps-country-flag wps-ellipsis-parent">
-                                    <div class="wps-country-flag wps-ellipsis-parent">
-                                        <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getLocation()->getCountryCode()])) ?>" class="wps-tooltip" title="<?php echo esc_attr($visitor->getLocation()->getCountryName()) ?>">
-                                            <img src="<?php echo esc_url($visitor->getLocation()->getCountryFlag()) ?>" alt="<?php echo esc_attr($visitor->getLocation()->getCountryName()) ?>" width="15" height="15">
-                                        </a>
-                                        <?php $location = Admin_Template::locationColumn($visitor->getLocation()->getCountryCode(), $visitor->getLocation()->getRegion(), $visitor->getLocation()->getCity()); ?>
-                                        <span class="wps-ellipsis-text" title="<?php echo esc_attr($location) ?>"><?php echo esc_html($location) ?></span>
-                                    </div>
-                                </div>
-                            </td>
-
-                            <td class="wps-pd-l">
                                 <?php $page = $visitor->getFirstPage(); ?>
 
                                 <?php if (!empty($page)) :
-                                    View::load("components/objects/external-link", [
-                                        'url'       => $page['link'],
+                                    View::load("components/objects/internal-link", [
+                                        'url'       => $page['report'],
                                         'title'     => $page['title'],
                                         'tooltip'   => $page['query'] ? "?{$page['query']}" : ''
                                     ]);
@@ -83,7 +72,17 @@ use WP_STATISTICS\Menus;
                                     <?php echo Admin_Template::UnknownColumn() ?>
                                 <?php endif; ?>
                             </td>
-
+                            <td class="wps-pd-l">
+                                <?php $page = $visitor->getLastPage(); ?>
+                                <?php if (!empty($page)) :
+                                    View::load("components/objects/internal-link", [
+                                        'url'   => $page['report'],
+                                        'title' => $page['title'],
+                                    ]);
+                                else : ?>
+                                    <?php echo Admin_Template::UnknownColumn() ?>
+                                <?php endif; ?>
+                            </td>
                             <td class="wps-pd-l">
                                 <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>">
                                     <?php echo esc_html($visitor->getHits()) ?>
