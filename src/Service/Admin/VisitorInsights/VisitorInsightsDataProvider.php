@@ -51,11 +51,13 @@ class VisitorInsightsDataProvider
     {
         $platformsChart = ChartDataProviderFactory::platformCharts();
         $countryChart = ChartDataProviderFactory::countryChart();
+        $trafficChart = ChartDataProviderFactory::trafficChart();
 
         $chartData = [
             'devices'   => $platformsChart->getDeviceData(),
             'browsers'  => $platformsChart->getBrowserData(),
-            'countries' => $countryChart->getData()
+            'countries' => $countryChart->getData(),
+            'traffic'   => $trafficChart->getData()
         ];
 
         if (Option::get('visitors_log')) {

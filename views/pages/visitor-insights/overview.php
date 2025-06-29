@@ -114,9 +114,9 @@ use WP_STATISTICS\Option;
     <div class="postbox-container" id="wps-postbox-container-2">
         <div class="wps-card">
             <div class="wps-card__title">
-                <h2><?php esc_html_e('Referred Visitors', 'wp-statistics') ?></h2>
+                <h2><?php esc_html_e('Traffic Trends', 'wp-statistics') ?></h2>
             </div>
-            <?php View::load("components/charts/traffic-trends", ['chart_id' => 'referredVisitors']); ?>
+            <?php View::load("components/charts/traffic-trends", ['chart_id' => 'trafficChart']); ?>
         </div>
 
 

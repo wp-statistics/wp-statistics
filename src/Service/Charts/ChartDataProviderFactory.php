@@ -106,7 +106,7 @@ class ChartDataProviderFactory
      * @param array $args The arguments to pass to the TrafficChartDataProvider constructor.
      * @return TrafficChartDataProvider
      */
-    public static function trafficChart($args)
+    public static function trafficChart($args = [])
     {
         return new TrafficChartDataProvider($args);
     }

@@ -26,66 +26,16 @@ const barChartConfigs = [
  * Configuration for line charts
  */
 
-const referredChart = {
-    "data": {
-        "labels": [
-            {
-                "formatted_date": "Jun 21",
-                "date": "2025-06-21",
-                "day": "Sat"
-            }
-        ],
-        "datasets": [
-            {
-                "label": "Visitors",
-                "data": [
-                    0
-                ],
-                "slug": "visitors"
-            },
-            {
-                "label": "Views",
-                "data": [
-                    0
-                ],
-                "slug": "views"
-            }
-        ]
-    },
-    "previousData": {
-        "labels": [
-            {
-                "formatted_date": "Jun 20",
-                "date": "2025-06-20",
-                "day": "Fri"
-            }
-        ],
-        "datasets": [
-            {
-                "label": "Visitors",
-                "data": [
-                    0
-                ],
-                "slug": ""
-            },
-            {
-                "label": "Views",
-                "data": [
-                    0
-                ],
-                "slug": ""
-            }
-        ]
-    }
-}
+const trafficChart = data.traffic;
+
 const lineChartConfigs = [
     {
         elementId: 'trafficTrendsChart',
         dataSource: () => Wp_Statistics_Visitors_Object?.traffic_chart_data,
     },
     {
-        elementId: 'referredVisitors',
-        dataSource: () => referredChart
+        elementId: 'trafficChart',
+        dataSource: () => trafficChart
     },
     {
         elementId: 'LoggedInUsersChart',
