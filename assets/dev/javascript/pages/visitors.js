@@ -10,11 +10,7 @@ const barChartConfigs = [
     },
     {
         elementId: 'visitors-device-categories',
-        data: {
-            data: [1],
-            labels: ['Desktop'],
-            icons: ['/assets/images/device/desktop.svg'],
-        },
+        data: data.devices,
     },
     {
         elementId: 'visitors-top-countries',
@@ -32,11 +28,7 @@ const barChartConfigs = [
     },
     {
         elementId: 'visitors-top-browsers',
-        data: {
-            data: [1],
-            labels: ['Chrome'],
-            icons: ['/assets/images/browser/chrome.svg'],
-        },
+        data: data.browsers,
     },
 ];
 

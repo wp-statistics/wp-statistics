@@ -48,8 +48,11 @@ class VisitorInsightsDataProvider
 
     public function getOverviewChartsData()
     {
-        $chartData = [
+        $platformsChart = ChartDataProviderFactory::platformCharts();
 
+        $chartData = [
+            'devices'    => $platformsChart->getDeviceData(),
+            'browsers'   => $platformsChart->getBrowserData(),
         ];
 
         if (Option::get('visitors_log')) {

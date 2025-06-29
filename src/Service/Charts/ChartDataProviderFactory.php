@@ -128,7 +128,7 @@ class ChartDataProviderFactory
      * @param array $args The arguments to pass to the PlatformChartDataProvider constructor.
      * @return PlatformChartDataProvider
      */
-    public static function platformCharts($args)
+    public static function platformCharts($args = [])
     {
         return new PlatformChartDataProvider($args);
     }
