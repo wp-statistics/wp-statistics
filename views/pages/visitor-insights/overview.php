@@ -5,19 +5,26 @@ use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
+use WP_Statistics\Utils\Url;
+
+$isTrackLoggedInUsersEnabled = Option::get('visitors_log');
 ?>
 <div class="metabox-holder wps-referral-overview">
     <div class="postbox-container" id="wps-postbox-container-1">
 
         <?php
-        View::load("components/objects/glance-card", ['metrics' => [
-            ['label' => esc_html__('Visitors', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => '31.1K', 'change' => '8.3'],
-            ['label' => esc_html__('Views', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => '31.1K', 'change' => '-1.3'],
-            ['label' => esc_html__('Top Country', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => 'France'],
-            ['label' => esc_html__('Top Referrer', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'link-title' => 'google.com',  'link-href' => 'http://google.com',],
-            ['label' => esc_html__('Logged-in Share', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => '125.4K', 'change' => '0'],
-        ]]);
+            $metrics = [
+                ['label' => esc_html__('Visitors', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => Helper::formatNumberWithUnit($data['glance']['visitors']['value']), 'change' => $data['glance']['visitors']['change']],
+                ['label' => esc_html__('Views', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => Helper::formatNumberWithUnit($data['glance']['views']['value']), 'change' => $data['glance']['views']['change']],
+                ['label' => esc_html__('Top Country', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => $data['glance']['country']],
+                ['label' => esc_html__('Top Referrer', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'link-title' => $data['glance']['referrer'], 'link-href' => Url::formatUrl($data['glance']['referrer'])],
+            ];
 
+            if ($isTrackLoggedInUsersEnabled) {
+                $metrics[] = ['label' => esc_html__('Logged-in Share', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => Helper::formatNumberWithUnit($data['glance']['logged_in']['value']), 'change' => $data['glance']['logged_in']['change']];
+            }
+
+            View::load("components/objects/glance-card", ['metrics' => $metrics]);
         ?>
         <div class="wps-card">
             <div class="wps-card__title">
@@ -66,7 +73,7 @@ use WP_STATISTICS\Option;
         </div>
 
         <?php
-            if (Option::get('visitors_log')) {
+            if ($isTrackLoggedInUsersEnabled) {
                 View::load("components/charts/horizontal-bar", [
                     'title'        => esc_html__('Logged-in Users', 'wp-statistics'),
                     'unique_id'    => 'visitors-logged-in-users',

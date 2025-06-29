@@ -8,6 +8,7 @@ use WP_Statistics\Utils\Request;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\OnlineModel;
 use WP_Statistics\Components\DateRange;
+use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
@@ -17,11 +18,16 @@ class VisitorInsightsDataProvider
     protected $visitorsModel;
     protected $onlineModel;
     protected $viewsModel;
+
+    protected $isTrackLoggedInUsersEnabled;
+
     protected $overviewChartData;
 
     public function __construct($args)
     {
         $this->args = $args;
+
+        $this->isTrackLoggedInUsersEnabled = Option::get('visitors_log') ? true : false;
 
         $this->visitorsModel = new VisitorsModel();
         $this->onlineModel   = new OnlineModel();
@@ -32,24 +38,58 @@ class VisitorInsightsDataProvider
     {
         $overviewChartData = $this->getOverviewChartsData();
 
-        return [
-            'summary'   => [
-                'online'    => $this->onlineModel->countOnlines(),
-                'visitors'  => [
-                    'today'     => $this->visitorsModel->countVisitors(['date' => DateRange::get('today')]),
-                    'yesterday' => $this->visitorsModel->countVisitors(['date' => DateRange::get('yesterday')]),
-                    '7days'     => $this->visitorsModel->countVisitors(['date' => DateRange::get('7days', true)]),
-                ],
-                'views'     => [
-                    'today'     => $this->visitorsModel->countHits(['date' => DateRange::get('today')]),
-                    'yesterday' => $this->visitorsModel->countHits(['date' => DateRange::get('yesterday')]),
-                    '7days'     => $this->visitorsModel->countHits(['date' => DateRange::get('7days', true)]),
-                ],
+        $visitors       = $this->visitorsModel->countVisitors();
+        $prevVisitors   = $this->visitorsModel->countVisitors(['date' => DateRange::getPrevPeriod()]);
+        $views          = $this->visitorsModel->countHits();
+        $prevViews      = $this->visitorsModel->countHits(['date' => DateRange::getPrevPeriod()]);
+        $loggedIn       = $this->visitorsModel->countVisitors(['logged_in' => true]);
+        $prevLoggedIn   = $this->visitorsModel->countVisitors(['logged_in' => true, 'date' => DateRange::getPrevPeriod()]);
+
+        $referrers      = $this->visitorsModel->getReferrers(['decorate' => true, 'per_page' => 5]);
+        $topVisitors    = $this->visitorsModel->getVisitorsData(['order_by' => 'hits', 'order' => 'DESC', 'page' => 1, 'per_page' => 5]);
+        $entryPages     = $this->visitorsModel->getEntryPages(['per_page' => 5]);
+
+        $glance = [
+            'visitors'  => [
+                'value'     => $visitors,
+                'change'    => Helper::calculatePercentageChange($prevVisitors, $visitors)
             ],
-            'referrers'     => $this->visitorsModel->getReferrers(['decorate' => true, 'per_page' => 5]),
-            'entry_pages'   => $this->visitorsModel->getEntryPages(['per_page' => 5]),
+            'views'     => [
+                'value'     => $views,
+                'change'    => Helper::calculatePercentageChange($prevViews, $views)
+            ],
+            'country'   => $overviewChartData['countries']['labels'][0] ?? '',
+            'referrer'  => isset($referrers[0]) ? $referrers[0]->getRawReferrer() : '',
+        ];
+
+        if ($this->isTrackLoggedInUsersEnabled) {
+            $glance['logged_in'] = [
+                'value'     => $loggedIn,
+                'change'    => Helper::calculatePercentageChange($prevLoggedIn, $loggedIn)
+            ];
+        }
+
+        $summary = [
+            'online'    => $this->onlineModel->countOnlines(),
+            'visitors'  => [
+                'today'     => $this->visitorsModel->countVisitors(['date' => DateRange::get('today')]),
+                'yesterday' => $this->visitorsModel->countVisitors(['date' => DateRange::get('yesterday')]),
+                '7days'     => $this->visitorsModel->countVisitors(['date' => DateRange::get('7days', true)]),
+            ],
+            'views'     => [
+                'today'     => $this->visitorsModel->countHits(['date' => DateRange::get('today')]),
+                'yesterday' => $this->visitorsModel->countHits(['date' => DateRange::get('yesterday')]),
+                '7days'     => $this->visitorsModel->countHits(['date' => DateRange::get('7days', true)]),
+            ],
+        ];
+
+        return [
+            'glance'        => $glance,
+            'summary'       => $summary,
+            'referrers'     => $referrers,
+            'entry_pages'   => $entryPages,
             'map_chart'     => $overviewChartData['map'],
-            'visitors'      => $this->visitorsModel->getVisitorsData(['order_by' => 'hits', 'order' => 'DESC', 'page' => 1, 'per_page' => 5]),
+            'visitors'      => $topVisitors,
         ];
     }
 
@@ -72,7 +112,7 @@ class VisitorInsightsDataProvider
             'map'       => $mapChart->getData()
         ];
 
-        if (Option::get('visitors_log')) {
+        if ($this->isTrackLoggedInUsersEnabled) {
             $chartData['logged_in_users'] = ChartDataProviderFactory::loggedInUsers()->getData();
         }
 
