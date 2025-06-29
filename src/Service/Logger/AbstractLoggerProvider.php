@@ -59,7 +59,7 @@ abstract class AbstractLoggerProvider implements LoggerServiceProviderInterface
             E_USER_DEPRECATED   => 'deprecated'
         ];
 
-        if (defined('E_STRICT')) {
+        if (defined('E_STRICT') && PHP_VERSION_ID < 80000) {
             self::$ERROR_SEVERITY_MAP[E_STRICT] = 'notice';
         }
 
