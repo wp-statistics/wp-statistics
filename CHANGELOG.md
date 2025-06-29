@@ -1,15 +1,14 @@
-= 14.14 - 2025-x-x =
-- **Fix:** Fixed audit and Accessibility (A11y) Issues.
-- **Fix:** Resolve Zero Page View Issue for Non-'Category' Taxonomies.
-- **Enhancement:** Improved migration efficiency and stability by running schema migrations synchronously and removing background processes.
-- **Enhancement:** Improved `Views` report under `Visitor Insight` page.
-- **Fix:** Delay anonymous data opt-in notice to 7 days after plugin activation.
-- **Fix:** Fixed inaccurate tracking of WooCommerce My Account sub-page titles.
-- **Enhancement:** Unset `Consent Integration` option upon integration deactivation.
-- **New:** Add Country Name to Visitor Info Flag Tooltip.
-- **New:** Added unread notification badge to Help Center menu.
-- **Enhancement:** Deprecated Matomo Referrer Spam Blacklist option; scheduled for removal in future versions.
-- **Fix:** Normalized type field for taxonomies with tax_ prefix.
+= 14.14.1 - 2025-06-29 =
+- **Enhancement:** Added country name to the flag tooltip in Visitor Info.
+- **Enhancement:** Added unread notification badge to the Help Center menu.
+- **Enhancement:** Improved migration performance by running schema updates synchronously and removing background processes.
+- **Enhancement:** Improved the "Views" section in the Visitor Insight report.
+- **Enhancement:** Deprecated the Matomo Referrer Spam Blacklist option (to be removed in v14.16).
+- **Fix:** Fixed accessibility (A11y) issues.
+- **Fix:** Resolved zero page views for non-'category' taxonomy filters.
+- **Fix:** Anonymous data opt-in notice now appears 7 days after plugin activation.
+- **Fix:** Fixed incorrect page titles for WooCommerce My Account sub-pages.
+- **Fix:** Normalized the taxonomy `type` field for `tax_` prefixes.
 
 = 14.14 - 2025-06-01 =
 - **New:** Added a Help page inside the plugin to guide users.
