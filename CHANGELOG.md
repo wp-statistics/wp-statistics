@@ -1,3 +1,6 @@
+= 14.14.x - 2025-x-x =
+- **Fix:** Handled `E_STRICT` deprecation warning in PHP 8.4.
+
 = 14.14.1 - 2025-06-29 =
 - **New:** Added a Database Schema tool to check and repair database structure in the Optimization page.
 - **Enhancement:** Added country name to the flag tooltip in Visitor Info.
