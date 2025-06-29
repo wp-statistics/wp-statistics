@@ -1,17 +1,12 @@
 /**
  * Configuration for horizontal bar charts
  */
+const data = Wp_Statistics_Visitors_Object;
+
 const barChartConfigs = [
     {
         elementId: 'visitors-logged-in-users',
-        data: {
-            data: [6230, 5462],
-            labels: ['User Visitors', 'Anonymous Visitors'],
-            icons: [
-                '/assets/images/user-visitor.svg',
-                '/assets/images/anonymous.svg',
-            ],
-        },
+        data: data.logged_in_users,
     },
     {
         elementId: 'visitors-device-categories',
@@ -339,7 +334,7 @@ const renderBarChart = ({elementId, data}) => {
     }
 
     try {
-        wps_js.horizontal_bar(elementId, data.labels, data.data, null);
+        wps_js.horizontal_bar(elementId, data.labels, data.data, data.icons);
     } catch (error) {
         console.error(`Error rendering bar chart ${elementId}:`, error);
         jQuery(element).parent().html(wps_js.no_results());

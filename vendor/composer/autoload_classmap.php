@@ -289,6 +289,7 @@ return array(
     'WP_Statistics\\Service\\Charts\\DataProvider\\CountryChartDataProvider' => $baseDir . '/src/Service/Charts/DataProvider/CountryChartDataProvider.php',
     'WP_Statistics\\Service\\Charts\\DataProvider\\DeviceChartDataProvider' => $baseDir . '/src/Service/Charts/DataProvider/DeviceChartDataProvider.php',
     'WP_Statistics\\Service\\Charts\\DataProvider\\ExclusionsChartDataProvider' => $baseDir . '/src/Service/Charts/DataProvider/ExclusionsChartDataProvider.php',
+    'WP_Statistics\\Service\\Charts\\DataProvider\\LoggedInUsersChartDataProvider' => $baseDir . '/src/Service/Charts/DataProvider/LoggedInUsersChartDataProvider.php',
     'WP_Statistics\\Service\\Charts\\DataProvider\\MapChartDataProvider' => $baseDir . '/src/Service/Charts/DataProvider/MapChartDataProvider.php',
     'WP_Statistics\\Service\\Charts\\DataProvider\\ModelChartDataProvider' => $baseDir . '/src/Service/Charts/DataProvider/ModelChartDataProvider.php',
     'WP_Statistics\\Service\\Charts\\DataProvider\\OsChartDataProvider' => $baseDir . '/src/Service/Charts/DataProvider/OsChartDataProvider.php',

@@ -2,8 +2,9 @@
 
 namespace WP_Statistics\Service\Admin\VisitorInsights;
 
-use WP_Statistics\Utils\Request;
+use WP_STATISTICS\Option;
 use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Utils\Request;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\OnlineModel;
 use WP_Statistics\Components\DateRange;
@@ -47,7 +48,15 @@ class VisitorInsightsDataProvider
 
     public function getOverviewChartsData()
     {
-        return [];
+        $chartData = [
+
+        ];
+
+        if (Option::get('visitors_log')) {
+            $chartData['logged_in_users'] = ChartDataProviderFactory::loggedInUsers()->getData();
+        }
+
+        return $chartData;
     }
 
     public function getViewsChartsData()

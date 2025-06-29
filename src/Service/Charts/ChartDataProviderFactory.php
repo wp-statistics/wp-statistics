@@ -19,6 +19,7 @@ use WP_Statistics\Service\Charts\DataProvider\UsersTrafficChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\SourceCategoryChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\PublishOverviewChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\AuthorsPostViewsChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\LoggedInUsersChartDataProvider;
 
 class ChartDataProviderFactory
 {
@@ -206,6 +207,17 @@ class ChartDataProviderFactory
      */
     public static function topSourceCategories($args = [])
     {
-        return new TopSourceCategoriesDataProvider($args = []);
+        return new TopSourceCategoriesDataProvider($args);
+    }
+
+    /**
+     * Returns a new instance of TopSourceCategoriesDataProvider.
+     *
+     * @param array $args
+     * @return LoggedInUsersChartDataProvider
+     */
+    public static function loggedInUsers($args = [])
+    {
+        return new LoggedInUsersChartDataProvider($args);
     }
 }

@@ -3,6 +3,7 @@ use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\Option;
 ?>
 <div class="metabox-holder wps-referral-overview">
     <div class="postbox-container" id="wps-postbox-container-1">
@@ -64,25 +65,26 @@ use WP_STATISTICS\Menus;
         </div>
 
         <?php
+            if (Option::get('visitors_log')) {
+                View::load("components/charts/horizontal-bar", [
+                    'title'        => esc_html__('Logged-in Users', 'wp-statistics'),
+                    'unique_id'    => 'visitors-logged-in-users',
+                    'footer_title' => esc_html__('View Logged-in Users', 'wp-statistics'),
+                    'footer_link'  => Menus::admin_url('visitors', ['tab' => 'logged-in-users'])
+                ]);
+            }
 
-        View::load("components/charts/horizontal-bar", [
-            'title'        => esc_html__('Logged-in Users', 'wp-statistics'),
-            'unique_id'    => 'visitors-logged-in-users',
-            'footer_title' => esc_html__('View Logged-in Users', 'wp-statistics'),
-            'footer_link'  => Menus::admin_url('visitors', ['tab' => 'logged-in-users'])
-        ]);
+            View::load("components/charts/horizontal-bar", [
+                'title'     => esc_html__('Device Categories', 'wp-statistics'),
+                'unique_id' => 'visitors-device-categories'
+            ]);
 
-        View::load("components/charts/horizontal-bar", [
-            'title'     => esc_html__('Device Categories', 'wp-statistics'),
-            'unique_id' => 'visitors-device-categories'
-        ]);
-
-        View::load("components/charts/horizontal-bar", [
-            'title'        => esc_html__('Top Countries', 'wp-statistics'),
-            'unique_id'    => 'visitors-top-countries',
-            'footer_title' => esc_html__('View Countries', 'wp-statistics'),
-            'footer_link'  => Menus::admin_url('geographic', ['tab' => 'countries'])
-        ]);
+            View::load("components/charts/horizontal-bar", [
+                'title'        => esc_html__('Top Countries', 'wp-statistics'),
+                'unique_id'    => 'visitors-top-countries',
+                'footer_title' => esc_html__('View Countries', 'wp-statistics'),
+                'footer_link'  => Menus::admin_url('geographic', ['tab' => 'countries'])
+            ]);
         ?>
 
         <div class="wps-card">
