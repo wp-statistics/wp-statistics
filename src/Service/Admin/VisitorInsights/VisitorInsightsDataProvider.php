@@ -30,7 +30,7 @@ class VisitorInsightsDataProvider
     public function getOverviewData()
     {
         return [
-            'summary' => [
+            'summary'   => [
                 'online'    => $this->onlineModel->countOnlines(),
                 'visitors'  => [
                     'today'     => $this->visitorsModel->countVisitors(['date' => DateRange::get('today')]),
@@ -43,7 +43,8 @@ class VisitorInsightsDataProvider
                     '7days'     => $this->visitorsModel->countHits(['date' => DateRange::get('7days', true)]),
                 ],
             ],
-            'referrers' => $this->visitorsModel->getReferrers(['decorate' => true, 'per_page' => 5])
+            'referrers'     => $this->visitorsModel->getReferrers(['decorate' => true, 'per_page' => 5]),
+            'entry_pages'   => $this->visitorsModel->getEntryPages(['per_page' => 5]),
         ];
     }
 

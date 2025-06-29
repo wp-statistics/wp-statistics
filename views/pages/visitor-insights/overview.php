@@ -125,7 +125,7 @@ use WP_STATISTICS\Option;
                 <h2><?php esc_html_e('Top Entry Pages', 'wp-statistics') ?></h2>
             </div>
             <?php
-            View::load("components/tables/visitors-top-entry-pages", ['data' => []]);
+            View::load("components/tables/visitors-top-entry-pages", ['data' => $data['entry_pages']]);
             ?>
             <div class="wps-p-0">
                 <?php
