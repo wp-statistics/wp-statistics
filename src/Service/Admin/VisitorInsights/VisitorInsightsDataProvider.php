@@ -49,10 +49,12 @@ class VisitorInsightsDataProvider
     public function getOverviewChartsData()
     {
         $platformsChart = ChartDataProviderFactory::platformCharts();
+        $countryChart = ChartDataProviderFactory::countryChart();
 
         $chartData = [
-            'devices'    => $platformsChart->getDeviceData(),
-            'browsers'   => $platformsChart->getBrowserData(),
+            'devices'   => $platformsChart->getDeviceData(),
+            'browsers'  => $platformsChart->getBrowserData(),
+            'countries' => $countryChart->getData()
         ];
 
         if (Option::get('visitors_log')) {

@@ -14,17 +14,7 @@ const barChartConfigs = [
     },
     {
         elementId: 'visitors-top-countries',
-        data: {
-            data: [6230, 5462, 3134, 2642, 2458],
-            labels: ['Germany', 'United States', 'Iran', 'France', 'Netherlands'],
-            icons: [
-                '/assets/images/flags/de.svg',
-                '/assets/images/flags/us.svg',
-                '/assets/images/flags/ir.svg',
-                '/assets/images/flags/fr.svg',
-                '/assets/images/flags/nl.svg',
-            ],
-        },
+        data: data.countries,
     },
     {
         elementId: 'visitors-top-browsers',

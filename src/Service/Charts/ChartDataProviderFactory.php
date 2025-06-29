@@ -194,7 +194,7 @@ class ChartDataProviderFactory
      * @param array $args
      * @return CountryChartDataProvider
      */
-    public static function countryChart($args)
+    public static function countryChart($args = [])
     {
         return new CountryChartDataProvider($args);
     }
