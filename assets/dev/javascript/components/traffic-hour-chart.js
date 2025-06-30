@@ -290,3 +290,7 @@ wps_js.TrafficHourCharts=function(data){
     };
     updateLegends();
 }
+
+window.renderTrafficHourChart = (data) => {
+    wps_js.TrafficHourCharts(data);
+}

@@ -117,23 +117,6 @@ const renderLineChart = ({elementId, dataSource}) => {
 };
 
 /**
- * Render the traffic hour chart
- * @param {Object} config - Configuration object with elementId and data
- */
-const renderTrafficHourChart = ({elementId, data}) => {
-    const element = document.getElementById(elementId);
-    if (!element) {
-        return;
-    }
-
-    try {
-        wps_js.TrafficHourCharts(data);
-    } catch (error) {
-        jQuery(element).parent().html(wps_js.no_results());
-    }
-};
-
-/**
  * Render the vector map
  * @param {Object} config - Configuration object with elementId and data
  */
@@ -164,7 +147,6 @@ const initializeVisualizations = () => {
     }
     barChartConfigs.forEach(renderBarChart);
     lineChartConfigs.forEach(renderLineChart);
-    renderTrafficHourChart(trafficHourConfig);
     renderVectorMap(vectorMapConfig);
 };
 
