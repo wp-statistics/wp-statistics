@@ -152,7 +152,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
             <tbody>
             <tr class="wps-settings-box_head">
                 <th scope="row" colspan="2">
-                    <h3><?php esc_html_e('Import & Export', 'wp-statistics'); ?></h3>
+                    <h3><?php esc_html_e('Import & Export Settings', 'wp-statistics'); ?></h3>
                 </th>
             </tr>
 
