@@ -2,6 +2,10 @@
 use WP_STATISTICS\Country;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
+
+$pluginHandler  = new PluginHandler();
+$isActive       = $pluginHandler->isPluginActive('wp-statistics-data-plus');
 ?>
 
 <div class="wps-card">
@@ -46,9 +50,25 @@ use WP_STATISTICS\Menus;
                                     <span><?php echo esc_html(number_format_i18n($country->views)); ?></span>
                                 </td>
                                 <td class="-table__cell o-table__cell--right view-more">
-                                    <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $country->country ?? Country::$unknown_location])) ?>" title="View Details">
+                                    <?php if($isActive): ?>
+                                    <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $country->country ?? Country::$unknown_location])) ?>" aria-label="View Details">
                                         <?php esc_html_e('View Details', 'wp-statistics') ?>
                                     </a>
+                                    <?php else: ?>
+                                        <div>
+                                            <button class="disabled wps-tooltip-premium">
+                                                <a class="wps-tooltip-premium__link" href="#"><?php esc_html_e('View Details', 'wp-statistics'); ?></a>
+                                                <span class="wps-tooltip_templates tooltip-premium tooltip-premium--side tooltip-premium--left">
+                                                    <span id="tooltip_realtime">
+                                                        <a data-target="wp-statistics-data-plus" class="js-wps-openPremiumModal"><?php esc_html_e('Learn More', 'wp-statistics'); ?></a>
+                                                        <span>
+                                                             <?php esc_html_e('Premium Feature', 'wp-statistics'); ?>
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            </button>
+                                        </div>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
