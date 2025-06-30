@@ -14,14 +14,14 @@ $isTrackLoggedInUsersEnabled = Option::get('visitors_log');
 
         <?php
             $metrics = [
-                ['label' => esc_html__('Visitors', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => Helper::formatNumberWithUnit($data['glance']['visitors']['value']), 'change' => $data['glance']['visitors']['change']],
-                ['label' => esc_html__('Views', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => Helper::formatNumberWithUnit($data['glance']['views']['value']), 'change' => $data['glance']['views']['change']],
-                ['label' => esc_html__('Top Country', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => $data['glance']['country']],
-                ['label' => esc_html__('Top Referrer', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'link-title' => $data['glance']['referrer'], 'link-href' => Url::formatUrl($data['glance']['referrer'])],
+                ['label' => esc_html__('Visitors', 'wp-statistics'), 'value' => Helper::formatNumberWithUnit($data['glance']['visitors']['value']), 'change' => $data['glance']['visitors']['change']],
+                ['label' => esc_html__('Views', 'wp-statistics'), 'value' => Helper::formatNumberWithUnit($data['glance']['views']['value']), 'change' => $data['glance']['views']['change']],
+                ['label' => esc_html__('Top Country', 'wp-statistics'), 'value' => $data['glance']['country']],
+                ['label' => esc_html__('Top Referrer', 'wp-statistics'), 'link-title' => $data['glance']['referrer'], 'link-href' => Url::formatUrl($data['glance']['referrer'])],
             ];
 
             if ($isTrackLoggedInUsersEnabled) {
-                $metrics[] = ['label' => esc_html__('Logged-in Share', 'wp-statistics'), 'tooltip' => esc_html__('tooltip', 'wp-statistics'), 'value' => Helper::formatNumberWithUnit($data['glance']['logged_in']['value']), 'change' => $data['glance']['logged_in']['change']];
+                $metrics[] = ['label' => esc_html__('Logged-in Share', 'wp-statistics'), 'value' => Helper::formatNumberWithUnit($data['glance']['logged_in']['value']), 'change' => $data['glance']['logged_in']['change']];
             }
 
             View::load("components/objects/glance-card", ['metrics' => $metrics]);

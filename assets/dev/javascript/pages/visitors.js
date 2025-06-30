@@ -43,13 +43,6 @@ const lineChartConfigs = [
     },
 ];
 
-/**
- * Configuration for traffic hour chart
- */
-const trafficHourConfig = {
-    elementId: 'hourly-usage-chart',
-    data: Wp_Statistics_Data_Plus_Visitors_Object.hourly_traffic,
-};
 
 /**
  * Configuration for vector map
