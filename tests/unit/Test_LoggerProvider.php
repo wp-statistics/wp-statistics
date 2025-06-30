@@ -3,14 +3,14 @@
 use WP_Statistics\Service\Logger\AbstractLoggerProvider;
 
 /**
- * Class Test_AbstractLoggerProvider
+ * Class Test_LoggerProvider
  *
  * Unit tests for the AbstractLoggerProvider class.
  *
  * This test class creates a dummy anonymous logger provider
  * extending AbstractLoggerProvider for testing purposes.
  */
-class Test_AbstractLoggerProvider extends WP_UnitTestCase {
+class Test_LoggerProvider extends WP_UnitTestCase {
 	/**
 	 * @var AbstractLoggerProvider Instance of the dummy logger provider.
 	 */
