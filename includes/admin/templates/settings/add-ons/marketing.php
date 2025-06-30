@@ -93,17 +93,6 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     <p class="description"><?php esc_html_e('Display the Search Console report tab when no Google property is connected.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
-            <tr data-id="wps_addon_settings-marketing-campaign-builder">
-                <th scope="row">
-                    <span class="wps-setting-label"><?php esc_html_e('Campaign Builder', 'wp-statistics'); ?></span>
-                </th>
-                <td>
-                    <input type="hidden" name="wps_addon_settings[marketing][campaign_builder]" value="0"/>
-                    <input id="wps_addon_settings[marketing][campaign_builder]" name="wps_addon_settings[marketing][campaign_builder]" type="checkbox" value="1" <?php checked(Option::getByAddon('campaign_builder', 'marketing', '1')); ?>>
-                    <label for="wps_addon_settings[marketing][campaign_builder]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php esc_html_e('Generate and validate UTM-tagged links.', 'wp-statistics'); ?></p>
-                </td>
-            </tr>
             <?php if (!$isAuthenticated) : ?>
                 <tr>
                     <td colspan="2" scope="row" class="wps-addon-settings--marketing__row">
@@ -155,6 +144,17 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     </td>
                 </tr>
             <?php endif; ?>
+            <tr data-id="wps_addon_settings-marketing-campaign-builder">
+                <th scope="row">
+                    <span class="wps-setting-label"><?php esc_html_e('Campaign Builder', 'wp-statistics'); ?></span>
+                </th>
+                <td>
+                    <input type="hidden" name="wps_addon_settings[marketing][campaign_builder]" value="0"/>
+                    <input id="wps_addon_settings[marketing][campaign_builder]" name="wps_addon_settings[marketing][campaign_builder]" type="checkbox" value="1" <?php checked(Option::getByAddon('campaign_builder', 'marketing', '1')); ?>>
+                    <label for="wps_addon_settings[marketing][campaign_builder]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <p class="description"><?php esc_html_e('Generate and validate UTM-tagged links.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>
