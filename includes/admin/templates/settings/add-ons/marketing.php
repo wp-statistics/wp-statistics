@@ -100,7 +100,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
             </tr>
             <?php if (!$isAuthenticated) : ?>
                 <tr>
-                    <td scope="row" class="wps-addon-settings--marketing__row">
+                    <td colspan="2" scope="row" class="wps-addon-settings--marketing__row">
                         <div class="wps-alert--marketing">
                             <a href="<?php echo apply_filters('wp_statistics_google_auth_url', '') ?>" class="button button-primary"><?php esc_html_e('Connect to Google Search Console', 'wp-statistics'); ?></a>
                             <div class="wps-alert--setting--title">
