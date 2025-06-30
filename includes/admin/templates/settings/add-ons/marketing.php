@@ -56,102 +56,104 @@ if ($isMarketingActive && !$isLicenseValid) {
 
 $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', false);
 ?>
-
-<?php if (!$isAuthenticated) : ?>
     <div class="postbox wps-addon-settings--marketing">
         <table class="form-table <?php echo !$isMarketingActive ? esc_attr('form-table--preview') : '' ?>">
             <tbody>
             <tr valign="top" class="wps-settings-box_head">
+                <?php if (!$isAuthenticated) : ?>
+                    <th scope="row">
+                        <h3><?php esc_html_e('Search Console', 'wp-statistics'); ?></h3>
+                    </th>
+                <?php else : ?>
+                    <th scope="row" colspan="2">
+                        <div class="wps-addon-settings--marketing__title">
+                            <div>
+                                <h3><?php esc_html_e('Search Console', 'wp-statistics'); ?></h3>
+                            </div>
+                            <div>
+                                <a href="<?php echo apply_filters('wp_statistics_google_auth_url', '') ?>" class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Reconnect', 'wp-statistics'); ?></a>
+                                <a href="<?php echo apply_filters('wp_statistics_google_auth_disconnect_url', '') ?>" class="wps-addon-settings--marketing__disconnect"><?php esc_html_e('Disconnect', 'wp-statistics'); ?></a>
+                            </div>
+                        </div>
+                    </th>
+                <?php endif; ?>
+            </tr>
+            <tr data-id="wps_addon_settings-marketing-search-console">
                 <th scope="row">
-                    <h3><?php esc_html_e('Search Console', 'wp-statistics'); ?></h3>
+                    <span class="wps-setting-label"><?php esc_html_e('Show Search Console tab', 'wp-statistics'); ?></span>
                 </th>
-            </tr>
-            <tr>
-                <td scope="row" class="wps-addon-settings--marketing__row">
-                    <div class="wps-alert--marketing">
-                        <a href="<?php echo apply_filters('wp_statistics_google_auth_url', '') ?>" class="button button-primary"><?php esc_html_e('Connect to Google Search Console', 'wp-statistics'); ?></a>
-                        <div class="wps-alert--setting--title">
-                            <h1>
-                                <?php esc_html_e('Benefits of Connecting', 'wp-statistics'); ?>
-                                <span><?php esc_html_e('Google Search Console', 'wp-statistics'); ?></span>
-                            </h1>
-                        </div>
-                        <div>
-                            <ul>
-                                <li><?php esc_html_e('View your Search Console data in WordPress—no more switching tabs.', 'wp-statistics'); ?></li>
-                                <li><?php esc_html_e('Get key metrics in your overview page for quick insights.', 'wp-statistics'); ?></li>
-                                <li><?php esc_html_e('Track traffic and keywords for each page or post at a glance.', 'wp-statistics'); ?></li>
-                                <li><?php esc_html_e('Unlock detailed search data to make smarter content decisions.', 'wp-statistics'); ?></li>
-                            </ul>
-                            <a href="" class="wps-link-underline"
-                               target="_blank"><?php esc_html_e('Learn more about these benefits', 'wp-statistics'); ?>
-                            </a>
-                        </div>
-                        <?php View::load("components/objects/google-data-policy-alert"); ?>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-<?php else : ?>
-    <div class="postbox wps-addon-settings--marketing">
-        <table class="form-table <?php echo !$isMarketingActive ? esc_attr('form-table--preview') : '' ?>">
-            <tbody>
-            <tr class="wps-settings-box_head">
-                <th scope="row" colspan="2">
-                    <div class="wps-addon-settings--marketing__title">
-                        <div>
-                            <h3><?php esc_html_e('Search Console', 'wp-statistics'); ?></h3>
-                        </div>
-                        <div>
-                            <a href="<?php echo apply_filters('wp_statistics_google_auth_url', '') ?>" class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Reconnect', 'wp-statistics'); ?></a>
-                            <a href="<?php echo apply_filters('wp_statistics_google_auth_disconnect_url', '') ?>" class="wps-addon-settings--marketing__disconnect"><?php esc_html_e('Disconnect', 'wp-statistics'); ?></a>
-                        </div>
-                    </div>
-                </th>
-            </tr>
-            <tr data-id="wps_addon_settings-marketing-site">
-                <th scope="row">
-                    <label for="wps_addon_settings[marketing][site]"><?php esc_html_e('Site', 'wp-statistics'); ?></label>
-                </th>
-
-                <td class="wps_addon_settings__site">
-                    <?php $selectedSite = Option::getByAddon('site', 'marketing'); ?>
-
-                    <select dir="ltr" id="wps_addon_settings[marketing][site]" name="wps_addon_settings[marketing][site]">
-                        <?php if (!empty($selectedSite)) : ?>
-                            <option selected value="<?php echo esc_attr($selectedSite) ?>"><?php echo esc_html(str_replace('sc-domain:', '', $selectedSite)); ?></option>
-                        <?php else : ?>
-                            <option disabled selected value=""><?php esc_html_e('Select site', 'wp-statistics'); ?></option>
-                        <?php endif; ?>
-                    </select>
-                </td>
-            </tr>
-            <tr valign="top">
-                <th scope="row"></th>
-                <td class="wps_addon_settings__site">
-                    <?php View::load("components/objects/google-data-policy-alert"); ?>
+                <td>
+                    <input id="wps_addon_settings[marketing][search]" name="wps_addon_settings[marketing][search]" type="checkbox" value="1">
+                    <label for="wps_addon_settings[marketing][search]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <p class="description"><?php esc_html_e('Display the Search Console report tab when no Google property is connected.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
             <tr data-id="wps_addon_settings-marketing-campaign-builder">
                 <th scope="row">
                     <span class="wps-setting-label"><?php esc_html_e('Campaign Builder', 'wp-statistics'); ?></span>
                 </th>
-
                 <td>
                     <input id="wps_addon_settings[marketing][campaign]" name="wps_addon_settings[marketing][campaign]" type="checkbox" value="1">
                     <label for="wps_addon_settings[marketing][campaign]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                     <p class="description"><?php esc_html_e('Generate and validate UTM-tagged links.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
+            <?php if (!$isAuthenticated) : ?>
+                <tr>
+                    <td scope="row" class="wps-addon-settings--marketing__row">
+                        <div class="wps-alert--marketing">
+                            <a href="<?php echo apply_filters('wp_statistics_google_auth_url', '') ?>" class="button button-primary"><?php esc_html_e('Connect to Google Search Console', 'wp-statistics'); ?></a>
+                            <div class="wps-alert--setting--title">
+                                <h1>
+                                    <?php esc_html_e('Benefits of Connecting', 'wp-statistics'); ?>
+                                    <span><?php esc_html_e('Google Search Console', 'wp-statistics'); ?></span>
+                                </h1>
+                            </div>
+                            <div>
+                                <ul>
+                                    <li><?php esc_html_e('View your Search Console data in WordPress—no more switching tabs.', 'wp-statistics'); ?></li>
+                                    <li><?php esc_html_e('Get key metrics in your overview page for quick insights.', 'wp-statistics'); ?></li>
+                                    <li><?php esc_html_e('Track traffic and keywords for each page or post at a glance.', 'wp-statistics'); ?></li>
+                                    <li><?php esc_html_e('Unlock detailed search data to make smarter content decisions.', 'wp-statistics'); ?></li>
+                                </ul>
+                                <a href="" class="wps-link-underline"
+                                   target="_blank"><?php esc_html_e('Learn more about these benefits', 'wp-statistics'); ?>
+                                </a>
+                            </div>
+                            <?php View::load("components/objects/google-data-policy-alert"); ?>
+                        </div>
+                    </td>
+                </tr>
+            <?php else : ?>
+                <tr data-id="wps_addon_settings-marketing-site">
+                    <th scope="row">
+                        <label for="wps_addon_settings[marketing][site]"><?php esc_html_e('Site', 'wp-statistics'); ?></label>
+                    </th>
+
+                    <td class="wps_addon_settings__site">
+                        <?php $selectedSite = Option::getByAddon('site', 'marketing'); ?>
+
+                        <select dir="ltr" id="wps_addon_settings[marketing][site]" name="wps_addon_settings[marketing][site]">
+                            <?php if (!empty($selectedSite)) : ?>
+                                <option selected value="<?php echo esc_attr($selectedSite) ?>"><?php echo esc_html(str_replace('sc-domain:', '', $selectedSite)); ?></option>
+                            <?php else : ?>
+                                <option disabled selected value=""><?php esc_html_e('Select site', 'wp-statistics'); ?></option>
+                            <?php endif; ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row"></th>
+                    <td class="wps_addon_settings__site">
+                        <?php View::load("components/objects/google-data-policy-alert"); ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
             </tbody>
         </table>
     </div>
-<?php endif; ?>
-
 <?php
 if ($isMarketingActive & $isAuthenticated) {
-    submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='marketing-settings'"));
+    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='marketing-settings'"));
 }
 ?>
