@@ -28,7 +28,12 @@ class PlatformChartDataProvider extends AbstractChartDataProvider
 
     private function getVisitorsData()
     {
-        $rawData = $this->visitorsModel->getVisitorsData($this->args);
+        if (!empty($this->args['referred_visitors'])) {
+            $rawData = $this->visitorsModel->getReferredVisitors($this->args);
+        } else {
+            $rawData = $this->visitorsModel->getVisitorsData($this->args);
+        }
+
         return $this->parseData($rawData);
     }
 

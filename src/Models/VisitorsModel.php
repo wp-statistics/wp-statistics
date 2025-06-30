@@ -660,6 +660,11 @@ class VisitorsModel extends BaseModel
             'order'          => 'desc',
             'page'           => '',
             'per_page'       => '',
+            'utm_source'     => '',
+            'utm_medium'     => '',
+            'utm_campaign'   => '',
+            'resource_id'    => '',
+            'resource_type'  => Helper::getPostTypes()
         ]);
 
         $query = Query::select([
@@ -709,6 +714,16 @@ class VisitorsModel extends BaseModel
         } else {
             $query
                 ->where('source_channel', '=', $args['source_channel']);
+        }
+
+        if (!empty($args['utm_source']) || !empty($args['utm_medium']) || !empty($args['utm_campaign']) || !empty($args['resource_id'])) {
+            $query
+                ->join('pages', ['visitor.first_page', 'pages.page_id'])
+                ->where('pages.id', '=', $args['resource_id'])
+                ->where('pages.type', 'IN', $args['resource_type'])
+                ->where('pages.uri', 'LIKE', $args['utm_source'] ? "%utm_source={$args['utm_source']}%" : '')
+                ->where('pages.uri', 'LIKE', $args['utm_medium'] ? "%utm_medium={$args['utm_medium']}%" : '')
+                ->where('pages.uri', 'LIKE', $args['utm_campaign'] ? "%utm_campaign={$args['utm_campaign']}%" : '');
         }
 
         $result = $query->getAll();
