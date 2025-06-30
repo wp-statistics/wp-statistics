@@ -38,6 +38,8 @@ class ReferralsPage extends MultiViewPage
 
     protected function setCampaignsFilter()
     {
+        $pageId = Request::get('pid', '', 'number');
+
         $this->filters = FilterGenerator::create()
             ->hidden('pageName', [
                 'name'       => 'page',
@@ -57,10 +59,11 @@ class ReferralsPage extends MultiViewPage
             ->select('pid', [
                 'label'         => esc_html__('Entry Page', 'wp-statistics'),
                 'classes'       => 'wps-width-100 wps-select2',
-                'placeholder'   => Request::has('pid') ? get_the_title(Request::get('pid')) : esc_html__('All', 'wp-statistics'),
+                'placeholder'   => $pageId ? get_the_title($pageId) : esc_html__('All', 'wp-statistics'),
                 'attributes'    => [
                     'data-source'       => 'getPageId',
-                    'data-searchable'   => true
+                    'data-searchable'   => true,
+                    'data-default'      => $pageId
                 ],
             ]);
 
