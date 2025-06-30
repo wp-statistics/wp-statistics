@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Messaging\Provider;
 
 use Exception;
-use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Context\Template;
 
 /**
  * Handles construction and sending of e‑mail messages through `wp_mail()`.
@@ -338,9 +338,9 @@ class MailProvider
     public function setTemplate($template, $vars = [])
     {
         if ($template === true) {
-            $template = WP_STATISTICS_DIR . 'src/Service/Admin/Messaging/Templates/Emails/layout.php';
+            $template = Template::getPath('Emails/layout', 'Messaging');
             $template = apply_filters('wp_statistics_email_template_layout', $template);
-            $template = wp_normalize_path($template);
+            $template = Template::normalizePath($template);
         }
 
         if ($template && !file_exists($template)) {
@@ -360,7 +360,7 @@ class MailProvider
             'logo_url'    => apply_filters('wp_statistics_email_logo_url', get_bloginfo('url')),
             'copyright'   => apply_filters(
                 'wp_statistics_email_footer_copyright',
-                Admin_Template::get_template('emails/copyright', [], true)
+                Template::get('Emails/copyright', 'Messaging', [] , true)
             ),
             'is_rtl'      => $isRtl,
         ];

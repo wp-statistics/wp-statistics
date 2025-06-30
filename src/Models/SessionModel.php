@@ -15,6 +15,8 @@ use WP_STATISTICS\TimeZone;
  * Model class for performing database operations related to visitor sessions.
  *
  * Provides methods to query and interact with the sessions table.
+ * 
+ * @since 15.0.0
  */
 class SessionModel extends BaseModel
 {
