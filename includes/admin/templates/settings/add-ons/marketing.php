@@ -83,8 +83,13 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     <span class="wps-setting-label"><?php esc_html_e('Show Search Console tab', 'wp-statistics'); ?></span>
                 </th>
                 <td>
-                    <input id="wps_addon_settings[marketing][search]" name="wps_addon_settings[marketing][search]" type="checkbox" value="1">
-                    <label for="wps_addon_settings[marketing][search]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <?php
+                        $gscReport = Option::getByAddon('gsc_report', 'marketing', '1');
+                        $site      = Option::getByAddon('site', 'marketing');
+                    ?>
+                    <input type="hidden" name="wps_addon_settings[marketing][gsc_report]" value="0"/>
+                    <input id="wps_addon_settings[marketing][gsc_report]" name="wps_addon_settings[marketing][gsc_report]" type="checkbox" value="1" <?php disabled(!empty($site)); ?> <?php checked($gscReport || $site); ?>>
+                    <label for="wps_addon_settings[marketing][gsc_report]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                     <p class="description"><?php esc_html_e('Display the Search Console report tab when no Google property is connected.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
@@ -93,8 +98,9 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     <span class="wps-setting-label"><?php esc_html_e('Campaign Builder', 'wp-statistics'); ?></span>
                 </th>
                 <td>
-                    <input id="wps_addon_settings[marketing][campaign]" name="wps_addon_settings[marketing][campaign]" type="checkbox" value="1">
-                    <label for="wps_addon_settings[marketing][campaign]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <input type="hidden" name="wps_addon_settings[marketing][campaign_builder]" value="0"/>
+                    <input id="wps_addon_settings[marketing][campaign_builder]" name="wps_addon_settings[marketing][campaign_builder]" type="checkbox" value="1" <?php checked(Option::getByAddon('campaign_builder', 'marketing', '1')); ?>>
+                    <label for="wps_addon_settings[marketing][campaign_builder]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                     <p class="description"><?php esc_html_e('Generate and validate UTM-tagged links.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
@@ -153,7 +159,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
         </table>
     </div>
 <?php
-if ($isMarketingActive & $isAuthenticated) {
-    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='marketing-settings'"));
+if ($isMarketingActive) {
+    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='marketing-settings'"));
 }
 ?>

@@ -6,6 +6,7 @@ use Exception;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Admin_Assets;
+use WP_STATISTICS\Option;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
@@ -157,6 +158,7 @@ class TabsView extends BaseTabView
                         'lastUpdated'        => true,
                         'lastUpdatedTooltip' => esc_html__('We fetch data from Google Search Console once daily to keep things running smoothly without extra load. The numbers you see are based on the latest update at the time shown.', 'wp-statistics'),
                         'locked'             => true,
+                        'hidden'             => !Option::getByAddon('gsc_report', 'marketing', '1') && !Option::getByAddon('site', 'marketing'),
                         'tooltip'            => esc_html__('To view this report, you need to have Marketing add-on.', 'wp-statistics'),
                         'lockedTarget'       => 'wp-statistics-marketing'
                     ]
