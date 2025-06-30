@@ -45,7 +45,7 @@ class ReferralsDataProvider
             : '';
 
         $socialMedia    = isset($chartData['social_media_chart_data']['data']['datasets'][0]['label']) && $chartData['social_media_chart_data']['data']['datasets'][0]['slug'] != 'total'
-            ? $chartData['search_engine_chart_data']['data']['datasets'][0]['label']
+            ? $chartData['social_media_chart_data']['data']['datasets'][0]['label']
             : '';
 
         return [
