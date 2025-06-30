@@ -10,40 +10,38 @@ use WP_STATISTICS\Menus;
     <div class="postbox-container" id="wps-postbox-container-1">
 
         <?php
-        View::load("components/objects/glance-card", ['metrics' => [
-            [
-                'label'  => esc_html__('Referred Visitors', 'wp-statistics'),
-                'value'  => Helper::formatNumberWithUnit($data['summary']['visitors']['value']),
-                'change' => $data['summary']['visitors']['change']
-            ],
-            [
-                'label'      => esc_html__('Top Referrer', 'wp-statistics'),
-                'link-href'  => !empty($data['summary']['referrer']) ? esc_url($data['summary']['referrer']) : null,
-                'link-title' => $data['summary']['referrer'] ?? null
-            ],
-            [
-                'label' => esc_html__('Top Country', 'wp-statistics'),
-                'value' => $data['summary']['country'] ?? null
-            ],
-            [
-                'label' => esc_html__('Top Browser', 'wp-statistics'),
-                'value' => $data['summary']['browser'] ?? null
-            ],
-            [
-                'label' => esc_html__('Top Search Engine', 'wp-statistics'),
-                'value' => $data['summary']['search_engine'] ?? null
-            ],
-            [
-                'label' => esc_html__('Top Social Media', 'wp-statistics'),
-                'value' => $data['summary']['social_media'] ?? null
-            ],
-            [
-                'label'      => esc_html__('Top Entry Page', 'wp-statistics'),
-                'link-href'  => !empty($data['summary']['entry_page']['link']) ? esc_url($data['summary']['entry_page']['link']) : null,
-                'link-title' => $data['summary']['entry_page']['title'] ?? null,
-            ],
-        ]]);
+            $metrics = [
+                [
+                    'label'  => esc_html__('Referred Visitors', 'wp-statistics'),
+                    'value'  => Helper::formatNumberWithUnit($data['summary']['visitors']['value']),
+                    'change' => $data['summary']['visitors']['change']
+                ],
+                [
+                    'label'      => esc_html__('Top Referrer', 'wp-statistics'),
+                    'link-href'  => !empty($data['summary']['referrer']) ? esc_url($data['summary']['referrer']) : null,
+                    'link-title' => $data['summary']['referrer'] ?? null
+                ],
+                [
+                    'label' => esc_html__('Top Country', 'wp-statistics'),
+                    'value' => $data['summary']['country'] ?? null
+                ],
+                [
+                    'label' => esc_html__('Top Browser', 'wp-statistics'),
+                    'value' => $data['summary']['browser'] ?? null
+                ],
+                [
+                    'label' => esc_html__('Top Search Engine', 'wp-statistics'),
+                    'value' => $data['summary']['search_engine'] ?? null
+                ],
+                [
+                    'label' => esc_html__('Top Social Media', 'wp-statistics'),
+                    'value' => $data['summary']['social_media'] ?? null
+                ]
+            ];
 
+            $metrics = apply_filters('wp_statistics_referrals_overview_glance_metrics', $metrics);
+
+            View::load("components/objects/glance-card", ['metrics' => $metrics]);
         ?>
         <div class="wps-card">
             <div class="wps-card__title">

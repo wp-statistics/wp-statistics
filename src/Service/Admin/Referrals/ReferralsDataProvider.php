@@ -34,9 +34,6 @@ class ReferralsDataProvider
         $referrer = $this->visitorsModel->getReferrers(['per_page' => 1]);
         $referrer = $referrer[0]->referred ?? '';
 
-        $entryPage = $this->visitorsModel->getEntryPages(['per_page' => 1, 'referred_visitors' => true]);
-        $entryPage = !empty($entryPage[0]) ? Visitor::get_page_by_id($entryPage[0]->page_id) : '';
-
         $browser = $chartData['browser_chart_data']['labels'][0] ?? '';
         $country = $chartData['countries_chart_data']['labels'][0] ?? '';
 
@@ -58,8 +55,7 @@ class ReferralsDataProvider
                 'browser'       => $browser,
                 'country'       => $country,
                 'search_engine' => $searchEngine,
-                'social_media'  => $socialMedia,
-                'entry_page'    => $entryPage
+                'social_media'  => $socialMedia
             ],
             'visitors'      => $this->visitorsModel->getReferredVisitors(array_merge($this->args, ['per_page' => 5, 'page' => 1])),
             'referrers'     => $this->visitorsModel->getReferrers(array_merge($this->args, ['decorate' => true, 'group_by' => ['visitor.referred'], 'per_page' => 5, 'page' => 1])),
