@@ -80,7 +80,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
             </tr>
             <tr data-id="wps_addon_settings-marketing-search-console">
                 <th scope="row">
-                    <span class="wps-setting-label"><?php esc_html_e('Show Search Console tab', 'wp-statistics'); ?></span>
+                    <span class="wps-setting-label"><?php esc_html_e('Show Google Search tab', 'wp-statistics'); ?></span>
                 </th>
                 <td>
                     <?php
@@ -90,7 +90,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     <input type="hidden" name="wps_addon_settings[marketing][gsc_report]" value="0"/>
                     <input id="wps_addon_settings[marketing][gsc_report]" name="wps_addon_settings[marketing][gsc_report]" type="checkbox" value="1" <?php disabled(!empty($site)); ?> <?php checked($gscReport || $site); ?>>
                     <label for="wps_addon_settings[marketing][gsc_report]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php esc_html_e('Display the Search Console report tab when no Google property is connected.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php esc_html_e('Display the Google Search Console report tab when no Google property is connected.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
             <?php if (!$isAuthenticated) : ?>
