@@ -10,6 +10,7 @@
 - **Fix:** Anonymous data opt-in notice now appears 7 days after plugin activation.
 - **Fix:** Fixed incorrect page titles for WooCommerce My Account sub-pages.
 - **Fix:** Normalized the taxonomy `type` field for `tax_` prefixes.
+- **Enhancement:** Combined notification and marketing campaign cron jobs into a single daily scheduled event to optimize scheduling.
 
 = 14.14 - 2025-06-01 =
 - **New:** Added a Help page inside the plugin to guide users.
