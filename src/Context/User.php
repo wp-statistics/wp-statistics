@@ -219,15 +219,18 @@ final class User
      * @param string $metaKey Meta key to fetch.
      * @param bool $single Whether to return a single value.
      * @param int $userId Optional. User ID or 0 for current user.
+     * @param mixed $default Optional. Default value to return if meta key is not found.
      * @return mixed          Meta value(s) or false if not found.
      */
-    public static function getMeta($metaKey, $single = false, $userId = 0)
+    public static function getMeta($metaKey, $single = false, $userId = 0, $default = null)
     {
         if (empty($userId)) {
-            $userId = get_current_user_id();
+            $userId = self::getId();
         }
 
-        return get_user_meta($userId, $metaKey, $single);
+        $meta = get_user_meta($userId, $metaKey, $single);
+
+        return $meta ?? $default;
     }
 
     /**
@@ -241,7 +244,7 @@ final class User
     public static function saveMeta($metaKey, $metaValue, $userId = 0)
     {
         if (empty($userId)) {
-            $userId = get_current_user_id();
+            $userId = self::getId();
         }
 
         return update_user_meta($userId, $metaKey, $metaValue);

@@ -22,6 +22,36 @@ final class Environment
     }
 
     /**
+     * Get the site name.
+     *
+     * @return string The site name.
+     */
+    public static function getSiteName()
+    {
+        return get_bloginfo('name');
+    }
+
+    /**
+     * Get the site URL.
+     *
+     * @return string The site URL.
+     */
+    public static function getSiteUrl()
+    {
+        return get_bloginfo('url');
+    }
+
+    /**
+     * Get the site admin email.
+     *
+     * @return string The admin email address.
+     */
+    public static function getAdminEmail()
+    {
+        return get_bloginfo('admin_email');
+    }
+
+    /**
      * Check whether the current memory usage exceeds the configured PHP memory limit.
      *
      * @return bool True if the memory limit is exceeded, false otherwise.
@@ -49,7 +79,7 @@ final class Environment
     public static function getWordpressSitesList()
     {
         $site_list = array();
-        $sites     = get_sites();
+        $sites     = \get_sites();
         foreach ($sites as $site) {
             $site_list[] = $site->blog_id;
         }
