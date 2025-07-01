@@ -3,6 +3,35 @@
   display: flex;
   flex-wrap: wrap;
 
+  &.wps-at-a-glance__two-col{
+    .wps-at-a-glance-item{
+      &:first-child {
+        flex: 0 0 calc(50%);
+
+        @media (max-width: 600px) {
+          flex: 0 0 100% !important;
+        }
+      }
+
+      &:nth-child(even){
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+
+        @media (max-width: 600px) {
+          align-items: flex-start;
+        }
+      }
+
+      &:nth-child(odd){
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+    }
+  }
+
   &-item {
     box-sizing: border-box;
     padding-top: 16px;

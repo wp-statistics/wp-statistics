@@ -12,43 +12,57 @@ $postType = get_post_type(Request::get('post_id'));
 <div class="metabox-holder wps-content-analytics">
     <div class="postbox-container" id="wps-postbox-container-1">
         <?php
-        $args1 = [
-            'title'          => esc_html__('Views', 'wp-statistics'),
-            'tooltip'        => sprintf(esc_html__('Total views of this %s and views during the selected period.', 'wp-statistics'), strtolower($postType)),
-            'avg'            => Helper::formatNumberWithUnit($data['overview']['views']['total']),
-            'avg_title'      => esc_html__('Total', 'wp-statistics'),
-            'selected'       => Helper::formatNumberWithUnit($data['overview']['views']['recent']),
-            'selected_title' => esc_html__('Selected Period', 'wp-statistics')
-        ];
-        Admin_Template::get_template(['layout/content-analytics/overview-card'], $args1);
 
-        $args2 = [
-            'title'          => esc_html__('Visitors', 'wp-statistics'),
-            'tooltip'        => sprintf(esc_html__('Total unique visitors to this %s and visitors during the selected period.', 'wp-statistics'), strtolower($postType)),
-            'avg'            => Helper::formatNumberWithUnit($data['overview']['visitors']['total']),
-            'avg_title'      => esc_html__('Total', 'wp-statistics'),
-            'selected'       => Helper::formatNumberWithUnit($data['overview']['visitors']['recent']),
-            'selected_title' => esc_html__('Selected Period', 'wp-statistics'),
-        ];
-        Admin_Template::get_template(['layout/content-analytics/overview-card'], $args2);
-
-        if (WordCountService::isActive()) {
-            $args3 = [
-                'title'    => esc_html__('Words', 'wp-statistics'),
+        $metrics = [
+            [
+                'label'  => esc_html__('Visitors', 'wp-statistics'),
+                'value'  => '29.8K',
+                'change' => '-1.6'
+            ],
+            [
+                'label'      => esc_html__('Views', 'wp-statistics'),
+                'value'  => '29.8K',
+                'change' => '2.3'
+            ],
+            [
+                'label' => esc_html__('Entry Page', 'wp-statistics'),
+                'value'  => '29.8K',
+                'change' => '-2.3',
+                'tooltip'  =>  esc_html__('Number of times this content was the first page visited in a session.', 'wp-statistics') ,
+            ],
+            [
+                'label' => esc_html__('Exit Page', 'wp-statistics'),
+                'value'  => '29.8K',
+                'change' => '2.3',
+                'tooltip'  =>  esc_html__('Number of times this content was the last page viewed before a session ended.', 'wp-statistics') ,
+            ],
+            [
+                'label' => esc_html__('Bounce Rate', 'wp-statistics'),
+                'value'  => '29.8K',
+                'change' => '2.3',
+                'tooltip'  =>  esc_html__('Percentage of single-page sessions that began and ended on this content.', 'wp-statistics') ,
+            ],
+            [
+                'label' => esc_html__('Exit Rate', 'wp-statistics'),
+                'value'  => '29.8K',
+                'change' => '-2.3',
+                'tooltip'  =>  esc_html__('Percentage of total views that ended on this content.', 'wp-statistics') ,
+            ],
+            [
+                'label' => esc_html__('Words', 'wp-statistics'),
+                'value' => '29.8K',
                 'tooltip'  => sprintf(esc_html__('Total number of words in this %s.', 'wp-statistics'), strtolower($postType)),
-                'selected' => Helper::formatNumberWithUnit($data['overview']['words']['total']),
-            ];
-            Admin_Template::get_template(['layout/content-analytics/overview-card'], $args3);
-        }
-
-        if (post_type_supports($postType, 'comments')) {
-            $args4 = [
-                'title'    => esc_html__('Comments', 'wp-statistics'),
+            ],
+            [
+                'label' => esc_html__('Comments', 'wp-statistics'),
+                'value'  => '29.8K',
+                'change' => '-2.3',
                 'tooltip'  => sprintf(esc_html__('Approved comments on this %s.', 'wp-statistics'), strtolower($postType)),
-                'selected' => Helper::formatNumberWithUnit($data['overview']['comments']['total'], 1),
-            ];
-            Admin_Template::get_template(['layout/content-analytics/overview-card'], $args4);
-        }
+            ]
+        ];
+
+
+        View::load("components/objects/glance-card", ['metrics' => $metrics , 'two_column' => true]);
 
         $operatingSystems = [
             'title'     => esc_html__('Operating Systems', 'wp-statistics'),
