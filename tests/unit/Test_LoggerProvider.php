@@ -146,17 +146,19 @@ class Test_LoggerProvider extends WP_UnitTestCase
     {
         $map = AbstractLoggerProvider::initErrorSeverityMap();
 
-        if (defined('E_STRICT')) {
-            $eStrict = constant('E_STRICT');
-
-            if (PHP_VERSION_ID < 80400) {
-                $this->assertArrayHasKey($eStrict, $map, 'E_STRICT should be in the error severity map for PHP < 8.4');
-            } else {
-                $this->assertArrayNotHasKey($eStrict, $map, 'E_STRICT should not be in the error severity map for PHP 8.4+.');
-            }
-        } else {
-            // Constant doesn't exist in this PHP version; skip test
+        if (!defined('E_STRICT')) {
             $this->assertTrue(true, 'E_STRICT is not defined, skipping assertion.');
+            return;
+        }
+
+        // PHP < 8.4: should include E_STRICT
+        if (PHP_VERSION_ID < 80400) {
+            $this->assertArrayHasKey(constant('E_STRICT'), $map, 'E_STRICT should be in the error severity map for PHP < 8.4');
+        }
+
+        // PHP >= 8.4: E_STRICT should not be present
+        if (PHP_VERSION_ID >= 80400) {
+            $this->assertArrayNotHasKey(2048, $map, 'E_STRICT should not appear in the error severity map on PHP 8.4+');
         }
     }
 }
