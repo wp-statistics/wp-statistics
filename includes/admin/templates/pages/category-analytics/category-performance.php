@@ -8,61 +8,51 @@ use WP_Statistics\Service\Admin\Posts\WordCountService;
 <div class="metabox-holder wps-category-analytics">
     <div class="postbox-container" id="wps-postbox-container-1">
         <?php
-        $args1 = [
-            'title'          => esc_html__('Published Contents', 'wp-statistics'),
-            'tooltip'        => esc_html__('The number of published content items with this taxonomy during the selected period, as well as the total number of published contents.', 'wp-statistics'),
-            'avg'            => Helper::formatNumberWithUnit($data['overview']['published']['total']),
-            'avg_title'      => esc_html__('Total', 'wp-statistics'),
-            'selected'       => Helper::formatNumberWithUnit($data['overview']['published']['recent']),
-            'selected_title' => esc_html__('Selected Period', 'wp-statistics')
+        $metrics = [
+            [
+                'label'  => esc_html__('Published Contents', 'wp-statistics'),
+                'value'  => '2',
+                'change' => '4'
+            ],
+            [
+                'label'  => esc_html__('Visitors', 'wp-statistics'),
+                'value'  => '2',
+                'change' => '-4'
+            ],
+            [
+                'label'  => esc_html__('Views', 'wp-statistics'),
+                'value'  => '2',
+                'change' => '-4'
+            ],
         ];
-        Admin_Template::get_template(['layout/category-analytics/overview-card'], $args1);
 
-        $args2 = [
-            'title'          => esc_html__('Views', 'wp-statistics'),
-            'tooltip'        => esc_html__('Total views of published content with this taxonomy in the selected period. Average per content is the total views divided by the number of published contents in that period.', 'wp-statistics'),
-            'selected'       => Helper::formatNumberWithUnit($data['overview']['views']['recent']),
-            'selected_title' => esc_html__('Selected Period', 'wp-statistics'),
-            'avg'            => Helper::formatNumberWithUnit($data['overview']['views']['avg']),
-            'avg_title'      => esc_html__('Avg. per Content', 'wp-statistics')
-        ];
-        Admin_Template::get_template(['layout/category-analytics/overview-card'], $args2);
-
-        $args3 = [
-            'title'          => esc_html__('Visitors', 'wp-statistics'),
-            'tooltip'        => esc_html__('Total unique visitors for contents with this taxonomy during the selected period. The average per content is calculated by dividing the total visitors by the number of published contents in that period.', 'wp-statistics'),
-            'selected'       => Helper::formatNumberWithUnit($data['overview']['visitors']['recent']),
-            'selected_title' => esc_html__('Selected Period', 'wp-statistics'),
-            'avg'            => Helper::formatNumberWithUnit($data['overview']['visitors']['avg']),
-            'avg_title'      => esc_html__('Avg. per Content', 'wp-statistics')
-        ];
-        Admin_Template::get_template(['layout/category-analytics/overview-card'], $args3);
+        $additionalMetrics = [];
 
         if (WordCountService::isActive()) {
-            $args4 = [
-                'title'          => esc_html__('Words', 'wp-statistics'),
-                'tooltip'        => esc_html__('Total word count and average per content based on published contents in the selected period. Also shows total word count and average per content for all time.', 'wp-statistics'),
-                'selected'       => Helper::formatNumberWithUnit($data['overview']['words']['recent']),
-                'selected_title' => esc_html__('Selected Period', 'wp-statistics'),
-                'avg'            => Helper::formatNumberWithUnit($data['overview']['words']['avg']),
-                'avg_title'      => esc_html__('Avg. per Content', 'wp-statistics'),
-                'total'          => Helper::formatNumberWithUnit($data['overview']['words']['total']),
-                'total_avg'      => Helper::formatNumberWithUnit($data['overview']['words']['total_avg'])
-            ];
-            Admin_Template::get_template(['layout/category-analytics/overview-card'], $args4);
+            $additionalMetrics[] = [
+                'label'  => esc_html__('Words', 'wp-statistics'),
+                'value'  => '2',
+             ];
+            $additionalMetrics[] = [
+                'label'  => esc_html__('Avg. words per post', 'wp-statistics'),
+                'value'  => '2',
+             ];
         }
-
-        $args5 = [
-            'title'          => esc_html__('Comments', 'wp-statistics'),
-            'tooltip'        => esc_html__('Total comments and average per content based on published contents in the selected period. Also shows total comments and average per content for all time.', 'wp-statistics'),
-            'selected'       => Helper::formatNumberWithUnit($data['overview']['comments']['recent'], 1),
-            'selected_title' => esc_html__('Selected Period', 'wp-statistics'),
-            'avg'            => Helper::formatNumberWithUnit($data['overview']['comments']['avg'], 1),
-            'avg_title'      => esc_html__('Avg. per Content', 'wp-statistics'),
-            'total'          => Helper::formatNumberWithUnit($data['overview']['comments']['total'], 1),
-            'total_avg'      => Helper::formatNumberWithUnit($data['overview']['comments']['total_avg'], 1)
+         $additionalMetrics[] = [
+            'label'  => esc_html__('Comments', 'wp-statistics'),
+            'value'  => '2',
+            'change' => '-4'
         ];
-        Admin_Template::get_template(['layout/category-analytics/overview-card'], $args5);
+        $additionalMetrics[] = [
+            'label'  => esc_html__('Avg. comments per post', 'wp-statistics'),
+            'value'  => '2',
+            'change' => '-4'
+        ];
+
+
+        $metrics = array_merge($metrics, $additionalMetrics);
+        View::load("components/objects/glance-card", ['metrics' => $metrics  ]);
+
         ?>
 
         <?php
