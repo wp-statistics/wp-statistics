@@ -8,7 +8,8 @@ use WP_STATISTICS\Country;
             <?php echo esc_html__('Top Countries', 'wp-statistics') ?>
             <?php if ($tooltip): ?>
                 <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
-            <?php endif ?>        </h2>
+            <?php endif ?>
+        </h2>
     </div>
     <div class="inside">
         <?php if (!empty($data)) : ?>
