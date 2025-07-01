@@ -11,7 +11,7 @@ class MetaboxManager
     public function __construct()
     {
         add_action('admin_init', [$this, 'registerMetaboxes']);
-        add_filter('default_hidden_meta_boxes', [$this, 'defaultHiddenMetaBoxes'], 10, 2);
+        add_action('admin_init', [$this, 'defaultHiddenMetaBoxes']);
     }
 
     /**
@@ -29,40 +29,54 @@ class MetaboxManager
     }
 
     /**
-     * Filters the default hidden meta boxes on the WordPress dashboard screen.
+     * Hides default dashboard metaboxes for the current user on fresh installs.
      *
-     * This method hides all active metaboxes on the dashboard except for
-     * the 'wp-statistics-quickstats-widget'.
+     * Hooked into 'wp_dashboard_setup'. Runs only once on fresh installs.
+     * Excludes the 'wp-statistics-quickstats-widget' from being hidden.
      *
-     * @param array $hidden Array of IDs of meta boxes to hide by default.
-     * @param WP_Screen $screen Current screen object.
-     *
-     * @return array Modified array of hidden meta box IDs.
+     * @return void
      */
-    public function defaultHiddenMetaBoxes($hidden, $screen)
+    public function defaultHiddenMetaBoxes()
     {
-        // Only apply hiding logic on fresh installs and on the dashboard screen
-        if (!Install::isFresh() || $screen->base !== 'dashboard') {
-            return $hidden;
+        if (!Install::isFresh()) {
+            return;
         }
 
-        // Get all active metaboxes
+        $userId      = get_current_user_id();
+        $metaKey     = 'metaboxhidden_dashboard';
+        $initFlagKey = 'wps_metaboxhidden_dashboard_initialized';
+
+        if (get_user_meta($userId, $initFlagKey, true)) {
+            return;
+        }
+
+        $hidden = [];
+
         $metaboxes = MetaboxHelper::getActiveMetaboxes();
 
         foreach ($metaboxes as $metabox) {
             $key = $metabox->getKey();
 
-            // Skip the specific metabox
             if ($key === 'wp-statistics-quickstats-widget') {
                 continue;
             }
 
-            // Avoid duplicates
-            if (!in_array($key, $hidden, true)) {
-                $hidden[] = $key;
-            }
+            $hidden[] = $key;
         }
 
-        return $hidden;
+        if (empty($hidden)) {
+            return;
+        }
+
+        $existingHidden = get_user_meta($userId, $metaKey, true);
+
+        if (!is_array($existingHidden)) {
+            update_user_meta($userId, $metaKey, $hidden);
+        } elseif (array_diff($hidden, $existingHidden)) {
+            $mergedHidden = array_unique(array_merge($existingHidden, $hidden));
+            update_user_meta($userId, $metaKey, $mergedHidden);
+        }
+
+        update_user_meta($userId, $initFlagKey, 1);
     }
 }
