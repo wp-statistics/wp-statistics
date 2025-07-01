@@ -18,21 +18,21 @@ final class Option
     /**
      * WP Statistics Basic Option name.
      *
-     * @var     string
+     * @var string
      */
     public static string $optionName = 'wp_statistics';
 
     /**
      * WP Statistics Option name Prefix.
      *
-     * @var     string
+     * @var string
      */
     public static string $optionPrefix = 'wps_';
 
     /**
      * WP Statistics Addon Option name Prefix.
      *
-     * @var     string
+     * @var string
      */
     public static string $addonOptionPrefix = 'wpstatistics';
 
@@ -42,9 +42,9 @@ final class Option
      * Returns an array of default plugin settings with predefined values.
      * These defaults are used when no custom values are set.
      *
-     * @return  array Array of default option values.
+     * @return array Array of default option values.
      */
-    public static function getDefaultOptions()
+    public static function getDefaults()
     {
         return [
             'query_params_allow_list'         => QueryParams::getDefaultAllowedList('string'),
@@ -91,12 +91,12 @@ final class Option
     /**
      * Get complete option name with WP Statistics prefix.
      *
-     * Prepends the plugin's option prefix to the given option name.
+     * Prepends the plugin's option prefix to the given name.
      *
      * @param string $name The base option name.
-     * @return  string The complete prefixed option name.
+     * @return string The complete prefixed option name.
      */
-    public static function getOptionName(string $name)
+    public static function getName(string $name)
     {
         return self::$optionPrefix . $name;
     }
@@ -104,9 +104,9 @@ final class Option
     /**
      * Get all values stored in WP Statistics option.
      *
-     * @return  array Array of all option values.
+     * @return array Array of all option values.
      */
-    public static function getOption()
+    public static function get()
     {
         $options = get_option(self::$optionName);
         return (is_array($options)) ? $options : [];
@@ -116,9 +116,9 @@ final class Option
      * Save values to WP Statistics option.
      *
      * @param array $options Array of values to store in the option.
-     * @return  void
+     * @return void
      */
-    public static function saveOption(array $options)
+    public static function save(array $options)
     {
         update_option(self::$optionName, $options);
     }
@@ -128,11 +128,11 @@ final class Option
      *
      * @param string $optionKey The option key to retrieve.
      * @param mixed|null $default Optional. Default value if option not found.
-     * @return  mixed The option value or default/false if not found.
+     * @return mixed The option value or default/false if not found.
      */
     public static function getValue(string $optionKey, $default = null)
     {
-        $options = self::getOption();
+        $options = self::get();
         if (!array_key_exists($optionKey, $options)) {
             return $default ?? false;
         }
@@ -151,11 +151,11 @@ final class Option
      *
      * @param string $optionKey The option key to update.
      * @param mixed $value The new value for the option.
-     * @return  void
+     * @return void
      */
     public static function updateValue(string $optionKey, $value)
     {
-        $options = self::getOption();
+        $options = self::get();
         if (isset($options[$optionKey]) && $options[$optionKey] === $value) {
             return; // No update needed
         }
@@ -170,7 +170,7 @@ final class Option
      *
      * @param array $optionConfig The option configuration array.
      * @param string $conditionKey The key to check for requirements (default: 'require').
-     * @return  bool True if all requirements are met, false otherwise.
+     * @return bool True if all requirements are met, false otherwise.
      */
     public static function meetsRequirements($optionConfig = [], $conditionKey = 'require')
     {
@@ -192,9 +192,9 @@ final class Option
      * Get addon option name.
      *
      * @param string $addonName The name of the addon.
-     * @return  string The complete option name for the addon.
+     * @return string The complete option name for the addon.
      */
-    private static function getAddonOptionName(string $addonName)
+    private static function getAddonName(string $addonName)
     {
         return self::$addonOptionPrefix . "_{$addonName}_settings";
     }
@@ -203,11 +203,11 @@ final class Option
      * Get all values stored in addon option.
      *
      * @param string $addonName The name of the addon.
-     * @return  array|false Array of addon options or false if not found.
+     * @return array|false Array of addon option values or false if not found.
      */
-    public static function getAddonOption(string $addonName = '')
+    public static function getAddon(string $addonName = '')
     {
-        $settingName = self::getAddonOptionName($addonName);
+        $settingName = self::getAddonName($addonName);
         $options     = get_option($settingName);
         return (is_array($options)) ? $options : false;
     }
@@ -218,11 +218,11 @@ final class Option
      * @param string $optionName The option name to retrieve.
      * @param string $addonName The name of the addon.
      * @param mixed|null $default Optional. Default value if option not found.
-     * @return  mixed The option value or default/false if not found.
+     * @return mixed The option value or default/false if not found.
      */
     public static function getAddonValue(string $optionName, string $addonName = '', $default = null)
     {
-        $settingName = self::getAddonOptionName($addonName);
+        $settingName = self::getAddonName($addonName);
         $options     = get_option($settingName);
         if (!is_array($options) || !array_key_exists($optionName, $options)) {
             return $default ?? false;
@@ -235,11 +235,11 @@ final class Option
      *
      * @param array $options Array of values to store in the option.
      * @param string $addonName The name of the addon.
-     * @return  void
+     * @return void
      */
-    public static function saveAddonValue(array $options, string $addonName = '')
+    public static function saveAddon(array $options, string $addonName = '')
     {
-        $settingName = self::getAddonOptionName($addonName);
+        $settingName = self::getAddonName($addonName);
         update_option($settingName, $options);
     }
 
@@ -247,9 +247,9 @@ final class Option
      * Get group option name.
      *
      * @param string $group The group name.
-     * @return  string The complete option name for the group.
+     * @return string The complete option name for the group.
      */
-    private static function getGroupOptionName(string $group)
+    private static function getGroupName(string $group)
     {
         return self::$optionName . "_{$group}";
     }
@@ -258,11 +258,11 @@ final class Option
      * Get all values stored in group option.
      *
      * @param string $group The group name.
-     * @return  array Array of all values in the group option.
+     * @return array Array of all values in the group option.
      */
-    public static function getGroupValues(string $group)
+    public static function getGroup(string $group)
     {
-        $settingName = self::getGroupOptionName($group);
+        $settingName = self::getGroupName($group);
         $options     = get_option($settingName, []);
         $options     = is_array($options) ? $options : [];
 
@@ -273,79 +273,79 @@ final class Option
      * Get a single value from group option.
      *
      * @param string $group The group name.
-     * @param string $key The key to retrieve.
-     * @param mixed|null $default Optional. Default value if key not found.
-     * @return  mixed The value or default/false if not found.
+     * @param string $optionKey The option key to retrieve.
+     * @param mixed|null $default Optional. Default value if option not found.
+     * @return mixed The value or default/false if not found.
      */
-    public static function getGroupValue(string $group, string $key, $default = null)
+    public static function getGroupValue(string $group, string $optionKey, $default = null)
     {
-        $settingName = self::getGroupOptionName($group);
+        $settingName = self::getGroupName($group);
         $options     = get_option($settingName, []);
         $options     = is_array($options) ? $options : [];
 
-        $result = isset($options[$key]) ? $options[$key] : ($default ?? false);
+        $result = isset($options[$optionKey]) ? $options[$optionKey] : ($default ?? false);
 
-        return apply_filters("wp_statistics_option_{$settingName}_{$key}", $result);
+        return apply_filters("wp_statistics_option_{$settingName}_{$optionKey}", $result);
     }
 
     /**
      * Save a single value to group option.
      *
-     * @param string $key The option key to update.
+     * @param string $optionKey The option key to update.
      * @param mixed $value The new value for the option.
      * @param string $group The group name.
-     * @return  void
+     * @return void
      */
-    public static function saveOptionGroup(string $key, $value, string $group)
+    public static function saveGroup(string $optionKey, $value, string $group)
     {
-        $settingName = self::getGroupOptionName($group);
+        $settingName = self::getGroupName($group);
         $options     = get_option($settingName, []);
         $options     = is_array($options) ? $options : [];
 
-        if (isset($options[$key]) && $options[$key] === $value) {
+        if (isset($options[$optionKey]) && $options[$optionKey] === $value) {
             return;
         }
 
-        $options[$key] = $value;
+        $options[$optionKey] = $value;
         update_option($settingName, $options);
     }
 
     /**
      * Add a single value to new group option.
      *
-     * @param string $key The option key to add.
+     * @param string $optionKey The option key to add.
      * @param mixed $value The value for the new option.
      * @param string $group The group name.
-     * @return  void
+     * @return void
      */
-    public static function addOptionGroup(string $key, $value, string $group)
+    public static function addGroup(string $optionKey, $value, string $group)
     {
-        $settingName = self::getGroupOptionName($group);
+        $settingName = self::getGroupName($group);
         $options     = get_option($settingName, []);
         $options     = is_array($options) ? $options : [];
 
-        $options[$key] = $value;
+        $options[$optionKey] = $value;
         add_option($settingName, $options);
     }
 
     /**
      * Delete a single value from group option.
      *
-     * @param string $key The option key to delete.
+     * @param string $optionKey The option key to delete.
      * @param string $group The group name.
-     * @return  void
+     * @return void
      */
-    public static function deleteOptionGroup(string $key, string $group)
+    public static function deleteGroup(string $optionKey, string $group)
     {
-        $settingName = self::getGroupOptionName($group);
+        $settingName = self::getGroupName($group);
         $options     = get_option($settingName, []);
         $options     = is_array($options) ? $options : [];
 
-        if (!isset($options[$key])) {
+        if (!isset($options[$optionKey])) {
             return;
         }
 
-        unset($options[$key]);
+        unset($options[$optionKey]);
         update_option($settingName, $options);
     }
 }
