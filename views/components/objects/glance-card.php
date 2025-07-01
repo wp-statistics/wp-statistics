@@ -3,7 +3,7 @@
         <h2><?php esc_html_e('At a Glance', 'wp-statistics'); ?></h2>
     </div>
     <div class="inside">
-        <div class="wps-at-a-glance">
+        <div class="wps-at-a-glance <?php echo isset($two_column) && $two_column ? 'wps-at-a-glance__two-col' : ''; ?>">
             <?php if (!empty($metrics) && is_array($metrics)): ?>
                 <?php foreach ($metrics as $metric): ?>
                     <div class="wps-at-a-glance-item">
