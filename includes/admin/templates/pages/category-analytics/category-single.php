@@ -36,6 +36,7 @@ use WP_Statistics\Service\Admin\Posts\WordCountService;
             $additionalMetrics[] = [
                 'label'  => esc_html__('Avg. words per post', 'wp-statistics'),
                 'value'  => '2',
+                'change' => '-4'
             ];
         }
         $additionalMetrics[] = [

@@ -46,6 +46,7 @@ $postTypeNamePlural     = Helper::getPostTypeName($postType);
             $additionalMetrics[] = [
                 'label'  => esc_html__('Avg. words per post', 'wp-statistics'),
                 'value'  => '2',
+                'change' => '-4'
              ];
         }
 
