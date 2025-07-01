@@ -10,11 +10,22 @@ use WP_Statistics\Service\Admin\Notification\NotificationFetcher;
 class CronEventManager
 {
     /**
+     * Array of legacy cron hook names that should be unscheduled
+     * @var string[]
+     * @static
+     */
+    private static $legacyCronHooks = [
+        'wp_statistics_marketing_campaign_hook',
+        'wp_statistics_notification_hook'
+    ];
+
+    /**
      * CronEventManager constructor.
      */
     public function __construct()
     {
         Event::schedule('wp_statistics_daily_cron_hook', time(), 'daily', [$this, 'handleDailyTasks']);
+        $this->cleanupLegacyCronJobs();
     }
 
     /**
@@ -52,5 +63,20 @@ class CronEventManager
     {
         $marketingCampaignFetcher = new MarketingCampaignFetcher();
         $marketingCampaignFetcher->fetchMarketingCampaign();
+    }
+
+    /**
+     * Cleans up legacy cron jobs that are no longer needed.
+     *
+     * This removes the old individual cron hooks that have been consolidated
+     * into the daily cron job handler.
+     */
+    private function cleanupLegacyCronJobs(): void
+    {
+        foreach (self::$legacyCronHooks as $hook) {
+            if (Event::isScheduled($hook)) {
+                Event::unschedule($hook);
+            }
+        }
     }
 }
