@@ -2,18 +2,22 @@
 
 namespace WP_Statistics\Service\Integrations;
 
-use WP_STATISTICS\Option;
-
 class IntegrationsManager
 {
+    /**
+     * List of integrations to register.
+     * @var  array
+     */
+    private $integrations = [
+        WpConsentApi::class,
+    ];
+
     /**
      * IntegrationsManager constructor.
      */
     public function __construct()
     {
         $this->registerIntegrations();
-
-        add_action('update_option_active_plugins', [$this, 'unsetIntegrationUponDeactivation'], 10, 2);
     }
 
     /**
@@ -22,30 +26,13 @@ class IntegrationsManager
      */
     private function registerIntegrations()
     {
-        $integrations = IntegrationHelper::getAllIntegrations();
+        foreach ($this->integrations as $integration) {
+            if (!class_exists($integration)) {
+                continue;
+            }
 
-        foreach ($integrations as $integration) {
-            if (!$integration->isActive()) continue;
-
+            $integration = new $integration();
             $integration->register();
-        }
-    }
-
-    /**
-     * When integration is deactivated, reset the integration option.
-     */
-    public function unsetIntegrationUponDeactivation($oldPlugins, $newPlugins)
-    {
-        $activeIntegration = Option::get('consent_integration');
-        $activeIntegration = IntegrationHelper::getIntegration($activeIntegration);
-
-        if (!$activeIntegration) return;
-
-        $plugin              = $activeIntegration->getPath();
-        $isPluginDeactivated = in_array($plugin, $oldPlugins) && !in_array($plugin, $newPlugins);
-
-        if ($isPluginDeactivated) {
-            Option::update('consent_integration', '');
         }
     }
 }

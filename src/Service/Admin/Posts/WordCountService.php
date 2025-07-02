@@ -9,11 +9,6 @@ class WordCountService
 {
     const WORDS_COUNT_META_KEY = 'wp_statistics_words_count';
 
-    public static function isActive()
-    {
-        return Option::get('word_count_analytics', true);
-    }
-
     /**
      * Calculate the number of words in a given text.
      *

@@ -38,12 +38,6 @@ class PageInsightsPage extends MultiViewPage
                     'value' => Menus::get_page_slug('pages')
                 ]
             ])
-            ->hidden('tab', [
-                'name' => 'tab',
-                'attributes' => [
-                    'value' => Request::get('tab')
-                ]
-            ])
             ->dropdown('tx', [
                 'label' => esc_html__('Taxonomy', 'wp-statistics'),
                 'selected' => 'category',
@@ -97,7 +91,7 @@ class PageInsightsPage extends MultiViewPage
                 ],
             ])
             ->get();
-
+        
         return $this->filters;
     }
 

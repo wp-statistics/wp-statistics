@@ -88,7 +88,7 @@ class AuthorAnalyticsPage extends MultiViewPage
         /** @var SourceChannelUpdater $backgroundProcess */
         $backgroundProcess = WP_Statistics()->getBackgroundProcess('calculate_post_words_count');
 
-        if (!$backgroundProcess->is_initiated() && $this->wordsCount->isActive()) {
+        if (!$backgroundProcess->is_initiated()) {
             $actionUrl = add_query_arg(
                 [
                     'action' => 'process_word_count',

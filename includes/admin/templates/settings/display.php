@@ -1,18 +1,14 @@
 <?php
 use WP_STATISTICS\Option;
 ?>
-<h2 class="wps-settings-box__title">
-    <span><?php esc_html_e('Display Options', 'wp-statistics'); ?></span>
-    <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/resources/display-options-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings') ?>" target="_blank"><?php esc_html_e('View Guide', 'wp-statistics'); ?></a>
-</h2>
 
 <div class="postbox">
     <table class="form-table">
         <tbody>
-            <tr valign="top" class="wps-settings-box_head">
+            <tr valign="top">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Admin Interface', 'wp-statistics'); ?></h3></th>
             </tr>
-            <tr valign="top" data-id="visitors_stats_in_editor_tr">
+            <tr valign="top">
                 <th scope="row">
                     <label for="disable-editor"><?php esc_html_e('View Stats in Editor', 'wp-statistics'); ?></label>
                 </th>
@@ -24,7 +20,7 @@ use WP_STATISTICS\Option;
                 </td>
             </tr>
 
-            <tr valign="top" data-id="views_column_in_content_tr">
+            <tr valign="top">
                 <th scope="row">
                     <label for="disable_column"><?php esc_html_e('Views Column in Content List', 'wp-statistics'); ?></label>
                 </th>
@@ -35,7 +31,7 @@ use WP_STATISTICS\Option;
                 </td>
             </tr>
 
-            <tr valign="top" data-id="views_column_user_list_tr" data-view="visitors_log_tr">
+            <tr valign="top" data-view="visitors_log_tr">
                 <th scope="row">
                     <label for="enable_user_column"><?php esc_html_e('Views Column in User List', 'wp-statistics'); ?></label>
                 </th>
@@ -46,7 +42,7 @@ use WP_STATISTICS\Option;
                 </td>
             </tr>
 
-            <tr valign="top" data-id="show_stats_admin_menu_bar_tr">
+            <tr valign="top">
                 <th scope="row">
                     <label for="menu-bar"><?php esc_html_e('Show Stats in Admin Menu Bar', 'wp-statistics'); ?></label>
                 </th>
@@ -58,7 +54,7 @@ use WP_STATISTICS\Option;
                 </td>
             </tr>
 
-            <tr valign="top" data-id="previous_period_charts_tr">
+            <tr valign="top">
                 <th scope="row">
                     <label for="charts_previous_period"><?php esc_html_e('Previous Period in Charts', 'wp-statistics'); ?></label>
                 </th>
@@ -70,9 +66,9 @@ use WP_STATISTICS\Option;
                 </td>
             </tr>
 
-            <tr valign="top" data-id="statistics_widgets_dashboard_tr">
+            <tr valign="top">
                 <th scope="row">
-                    <label><?php esc_html_e('WP Statistics Widgets in the WordPress dashboard', 'wp-statistics'); ?></label>
+                    <label for="disable-map"><?php esc_html_e('WP Statistics Widgets in the WordPress dashboard', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
@@ -82,7 +78,7 @@ use WP_STATISTICS\Option;
                 </td>
             </tr>
 
-            <tr valign="top" data-id="notifications_tr">
+            <tr valign="top">
                 <th scope="row">
                     <label for="display-notifications"><?php esc_html_e('WP Statistics Notifications', 'wp-statistics'); ?></label>
                 </th>
@@ -94,7 +90,7 @@ use WP_STATISTICS\Option;
                 </td>
             </tr>
 
-            <tr valign="top" data-id="disable_inactive_notices_tr">
+            <tr valign="top">
                 <th scope="row">
                     <label for="hide_notices"><?php esc_html_e('Disable Inactive Essential Feature Notices', 'wp-statistics'); ?></label>
                 </th>
@@ -112,11 +108,11 @@ use WP_STATISTICS\Option;
 <div class="postbox">
     <table class="form-table">
         <tbody>
-            <tr valign="top" class="wps-settings-box_head">
+            <tr valign="top">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Frontend Display', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top" data-id="views_single_contents_tr">
+            <tr valign="top">
                 <th scope="row">
                     <label for="wps_settings[show_hits]"><?php esc_html_e('Views in Single Contents', 'wp-statistics'); ?></label>
                 </th>
@@ -128,7 +124,7 @@ use WP_STATISTICS\Option;
                 </td>
             </tr>
 
-            <tr valign="top" data-id="display_position_tr" class="js-wps-show_if_show_hits_enabled" <?php echo WP_STATISTICS\Option::get('show_hits') ? 'style="display: table-row"' : 'style="display: none"' ?> id='wps_show_hits_option'>
+            <tr valign="top" class="js-wps-show_if_show_hits_enabled" <?php echo WP_STATISTICS\Option::get('show_hits') ? 'style="display: table-row"' : 'style="display: none"' ?> id='wps_show_hits_option'>
                 <th scope="row" style="vertical-align: top;">
                     <label for="display_hits_position"><?php esc_html_e('Display position', 'wp-statistics'); ?></label>
                 </th>
@@ -147,4 +143,4 @@ use WP_STATISTICS\Option;
     </table>
 </div>
 
-<?php submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='display-settings'")); ?>
+<?php submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='display-settings'")); ?>

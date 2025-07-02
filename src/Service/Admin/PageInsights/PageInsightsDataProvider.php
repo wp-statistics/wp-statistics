@@ -24,7 +24,7 @@ class PageInsightsDataProvider
         $this->taxonomyModel    = new TaxonomyModel();
     }
 
-    public function getTopData()
+    public function getContentsData()
     {
         $args = array_merge($this->args, [
             'order_by'              => Request::get('order_by', 'visitors'),

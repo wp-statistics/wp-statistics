@@ -1,6 +1,3 @@
-<?php
-use WP_STATISTICS\Helper;
-?>
 <div class="postbox-container wps-postbox-full">
     <div class="metabox-holder">
         <div class="meta-box-sortables">
@@ -18,7 +15,7 @@ use WP_STATISTICS\Helper;
                                             <?php esc_html_e('Visitor Count', 'wp-statistics'); ?>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <?php esc_html_e('%', 'wp-statistics'); ?>
+                                            <?php esc_html_e('Percent Share', 'wp-statistics'); ?>
                                         </th>
                                     </tr>
                                 </thead>
@@ -35,7 +32,7 @@ use WP_STATISTICS\Helper;
                                                 <?php echo number_format_i18n(intval($item->visitors)); ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo esc_html(Helper::calculatePercentage($item->visitors, $data['visits'])); ?>%
+                                                <?php echo number_format(\WP_STATISTICS\Helper::divideNumbers($item->visitors, $data['visits'], 4) * 100, 2); ?>%
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -48,7 +45,7 @@ use WP_STATISTICS\Helper;
                         </div>
                     <?php endif; ?>
                 </div>
-                <?php echo isset($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                <?php echo isset($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped 
                 ?>
             </div>
         </div>

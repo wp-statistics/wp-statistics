@@ -1,14 +1,11 @@
-<?php
-use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
-use WP_STATISTICS\Helper;
-?>
-
 <div class="postbox-container wps-postbox-full">
     <div class="metabox-holder">
         <div class="meta-box-sortables">
             <div class="postbox">
                 <div class="inside">
-                    <?php if (!empty($data['visitors'])) : ?>
+                    <?php use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
+
+                    if (!empty($data['visitors'])) : ?>
                         <div class="o-table-wrapper">
                             <table width="100%" class="o-table wps-new-table">
                                 <thead>
@@ -17,10 +14,10 @@ use WP_STATISTICS\Helper;
                                             <?php esc_html_e('OS', 'wp-statistics'); ?>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <span class="wps-order"><?php esc_html_e('Visitors', 'wp-statistics'); ?></span>
+                                            <?php esc_html_e('Visitor Count', 'wp-statistics'); ?>
                                         </th>
                                         <th class="wps-pd-l">
-                                            %
+                                            <?php esc_html_e('Percent Share', 'wp-statistics'); ?>
                                         </th>
                                     </tr>
                                 </thead>
@@ -35,10 +32,10 @@ use WP_STATISTICS\Helper;
                                                 </span>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo esc_html(number_format_i18n($item->visitors)); ?>
+                                                <?php echo number_format($item->visitors); ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo esc_html(Helper::calculatePercentage($item->visitors, $data['visits'])); ?>%
+                                                <?php echo number_format(\WP_STATISTICS\Helper::divideNumbers($item->visitors, $data['visits'], 4) * 100, 2); ?>%
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -51,7 +48,7 @@ use WP_STATISTICS\Helper;
                         </div>
                     <?php endif; ?>
                 </div>
-                <?php echo isset($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                <?php echo isset($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped 
                 ?>
             </div>
         </div>

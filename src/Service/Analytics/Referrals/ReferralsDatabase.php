@@ -6,7 +6,7 @@ use Exception;
 
 class ReferralsDatabase
 {
-    public $databaseFileName = 'source-channels.min.json';
+    public $databaseFileName = 'source-channels.json';
 
     /**
      * Retrieves the file path for the 'source-channels.json' file in the WordPress uploads directory.
@@ -15,7 +15,7 @@ class ReferralsDatabase
      */
     protected function getFilePath()
     {
-        return WP_STATISTICS_DIR . 'assets/json/' . $this->databaseFileName;
+        return __DIR__ . '/DB/' . $this->databaseFileName;
     }
 
     /**

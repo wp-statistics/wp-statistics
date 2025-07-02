@@ -57,7 +57,7 @@ class PerformanceView extends BaseView
             'page_title'        => esc_html__('Uncover Author Performance at a Glance', 'wp-statistics'),
             'addon_name'        => esc_html__('Data Plus', 'wp-statistics'),
             'addon_slug'        => 'wp-statistics-data-plus',
-            'campaign'          => 'data-plus',
+            'campaign'          => 'author-analystics',
             'more_title'        => esc_html__('Learn More', 'wp-statistics'),
             'premium_btn_title' => esc_html__('Discover Author Insights with Premium', 'wp-statistics'),
             'images'            => ['data-plus-single-author.png'],
@@ -70,10 +70,14 @@ class PerformanceView extends BaseView
 
     public function render()
     {
-        if ($this->isLocked()) {
-            $this->renderLocked();
-        } else {
-            $this->renderContent();
+        try {
+            if ($this->isLocked()) {
+                $this->renderLocked();
+            } else {
+                $this->renderContent();
+            }
+        } catch (\Exception $e) {
+            Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }
     }
 }

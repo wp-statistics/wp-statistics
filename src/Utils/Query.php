@@ -817,14 +817,7 @@ class Query
      */
     public function allowCaching($flag = true)
     {
-        /**
-         * Filter whether to allow caching in WP Statistics Query.
-         *
-         * @param bool $flag Current allowCaching flag.
-         * @param object $query The current Query object.
-         */
-        $this->allowCaching = apply_filters('wp_statistics_query_allow_caching', $flag, $this);
-
+        $this->allowCaching = $flag;
         return $this;
     }
 

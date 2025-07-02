@@ -1,7 +1,6 @@
 <?php
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Utils\Request;
 
 $order          = Request::get('order', 'desc');
@@ -32,15 +31,11 @@ $postTypeNameSingular  = Helper::getPostTypeName($postType, true);
                                                 <?php esc_html_e('Published', 'wp-statistics') ?>
                                             </a>
                                         </th>
-
-                                        <?php if (WordCountService::isActive()) : ?>
-                                            <th class="wps-pd-l">
-                                                <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('total_words')) ?>" class="sort <?php echo Request::compare('order_by', 'total_words') ? esc_attr($order) : ''; ?>">
-                                                    <?php esc_html_e('Words', 'wp-statistics') ?>
-                                                </a>
-                                            </th>
-                                        <?php endif; ?>
-
+                                        <th class="wps-pd-l">
+                                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('total_words')) ?>" class="sort <?php echo Request::compare('order_by', 'total_words') ? esc_attr($order) : ''; ?>">
+                                                <?php esc_html_e('Words', 'wp-statistics') ?>
+                                            </a>
+                                        </th>
                                         <th class="wps-pd-l">
                                             <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('total_comments')) ?>" class="sort <?php echo Request::compare('order_by', 'total_comments') ? esc_attr($order) : ''; ?>">
                                                 <?php esc_html_e('Comments', 'wp-statistics') ?>
@@ -56,14 +51,11 @@ $postTypeNameSingular  = Helper::getPostTypeName($postType, true);
                                                 <?php echo sprintf(esc_html__('Views/Per %s', 'wp-statistics'), $postTypeNameSingular) ?>
                                             </a>
                                         </th>
-
-                                        <?php if (WordCountService::isActive()) : ?>
-                                            <th class="wps-pd-l">
-                                                <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('average_words')) ?>" class="sort <?php echo Request::compare('order_by', 'average_words') ? esc_attr($order) : ''; ?>">
-                                                    <?php echo sprintf(esc_html__('Words/%s', 'wp-statistics'), $postTypeNameSingular) ?>
-                                                </a>
-                                            </th>
-                                        <?php endif; ?>
+                                        <th class="wps-pd-l">
+                                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('average_words')) ?>" class="sort <?php echo Request::compare('order_by', 'average_words') ? esc_attr($order) : ''; ?>">
+                                                <?php echo sprintf(esc_html__('Words/%s', 'wp-statistics'), $postTypeNameSingular) ?>
+                                            </a>
+                                        </th>
                                     </tr>
                                 </thead>
 
@@ -85,13 +77,9 @@ $postTypeNameSingular  = Helper::getPostTypeName($postType, true);
                                             <td class="wps-pd-l">
                                                 <?php echo esc_html(number_format_i18n(intval($author->total_posts))) ?>
                                             </td>
-
-                                            <?php if (WordCountService::isActive()) : ?>
-                                                <td class="wps-pd-l">
-                                                    <?php echo esc_html(number_format_i18n(intval($author->total_words))) ?>
-                                                </td>
-                                            <?php endif; ?>
-
+                                            <td class="wps-pd-l">
+                                                <?php echo esc_html(number_format_i18n(intval($author->total_words))) ?>
+                                            </td>
                                             <td class="wps-pd-l">
                                                 <?php echo esc_html(number_format_i18n(intval($author->total_comments)))?>
                                             </td>
@@ -101,12 +89,9 @@ $postTypeNameSingular  = Helper::getPostTypeName($postType, true);
                                             <td class="wps-pd-l">
                                                 <?php echo esc_html(number_format_i18n(intval($author->average_views))) ?>
                                             </td>
-
-                                            <?php if (WordCountService::isActive()) : ?>
-                                                <td class="wps-pd-l">
-                                                    <?php echo esc_html(number_format_i18n(intval($author->average_words))) ?>
-                                                </td>
-                                            <?php endif; ?>
+                                            <td class="wps-pd-l">
+                                                <?php echo esc_html(number_format_i18n(intval($author->average_words))) ?>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -114,7 +99,7 @@ $postTypeNameSingular  = Helper::getPostTypeName($postType, true);
                         </div>
                     <?php else : ?>
                         <div class="o-wrap o-wrap--no-data wps-center">
-                            <?php esc_html_e('No recent data available.', 'wp-statistics')   ?>
+                            <?php esc_html_e('No recent data available.', 'wp-statistics')   ?> 
                         </div>
                     <?php endif; ?>
                 </div>

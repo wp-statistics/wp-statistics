@@ -185,7 +185,6 @@ class TrackerProvider extends AbstractDebuggerProvider
             return false;
         }
 
-        // If the file is dynamic (obfuscated query string), try remote HEAD check
         if (!empty($parsedUrl['query'])) {
             parse_str($parsedUrl['query'], $queryParams);
 
@@ -195,22 +194,24 @@ class TrackerProvider extends AbstractDebuggerProvider
             if (isset($queryParams[$dynamicAssetKey])) {
                 $response = wp_safe_remote_head($this->trackerPath, ['sslverify' => false]);
 
-                return !is_wp_error($response) && wp_remote_retrieve_response_code($response) === 200;
+                if (!is_wp_error($response) && wp_remote_retrieve_response_code($response) == 200) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         }
 
-        // Normalize path by removing leading slash
-        $urlPath = ltrim($parsedUrl['path'], '/');
+        $urlPath        = $parsedUrl['path'];
+        $trimmedUrlPath = ltrim($urlPath, '/');
 
-        // Try matching with actual wp-content directory
-        $contentDirName  = basename(WP_CONTENT_DIR); // usually 'wp-content'
-        $contentPosition = strpos($urlPath, $contentDirName . '/');
+        $wpContentPosition = strpos($trimmedUrlPath, 'wp-content/');
 
-        if ($contentPosition === false) {
+        if ($wpContentPosition === false) {
             return false;
         }
 
-        $relativeFilePath = substr($urlPath, $contentPosition + strlen($contentDirName . '/'));
+        $relativeFilePath = substr($trimmedUrlPath, $wpContentPosition + strlen('wp-content/'));
         $absoluteFilePath = WP_CONTENT_DIR . '/' . $relativeFilePath;
 
         return file_exists($absoluteFilePath) && is_readable($absoluteFilePath);

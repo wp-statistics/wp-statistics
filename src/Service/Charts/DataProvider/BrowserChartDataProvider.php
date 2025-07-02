@@ -22,10 +22,6 @@ class BrowserChartDataProvider extends AbstractChartDataProvider
             'fields' => ['visitor.agent']
         ]);
 
-        // Get all results
-        $this->args['page']     = false;
-        $this->args['per_page'] = false;
-
         $this->visitorsModel = new VisitorsModel();
     }
 
@@ -54,7 +50,7 @@ class BrowserChartDataProvider extends AbstractChartDataProvider
                 $agent = $item->getBrowser()->getRaw();
 
                 // Browser data
-                if (!empty($agent)) {
+                if (!empty($agent) && $agent !== '(not set)') {
                     $agents = array_column($parsedData, 'label');
 
                     if (!in_array($agent, $agents)) {

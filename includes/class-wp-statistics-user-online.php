@@ -144,26 +144,28 @@ class UserOnline
     {
         global $wpdb;
 
+        $current_page = $visitorProfile->getCurrentPageType();
+        $user_agent   = $visitorProfile->getUserAgent();
+        $pageId       = Pages::getPageId($current_page['type'], $current_page['id']);
+
         //Prepare User online Data
         $user_online = array(
             'ip'        => $visitorProfile->getProcessedIPForStorage(),
             'timestamp' => TimeZone::getCurrentTimestamp(),
             'created'   => TimeZone::getCurrentTimestamp(),
             'date'      => TimeZone::getCurrentDate(),
-            'visitor_id'=> $visitorProfile->getVisitorId(),
-
-            // Set to null for backward compatibility
-            'referred'  => '',
-            'agent'     => '',
-            'platform'  => null,
-            'version'   => null,
-            'location'  => null,
-            'region'    => null,
-            'continent' => null,
-            'city'      => null,
-            'user_id'   => 0,
-            'page_id'   => 0,
-            'type'      => ''
+            'referred'  => $visitorProfile->getReferrer(),
+            'agent'     => $user_agent->getBrowser(),
+            'platform'  => $user_agent->getPlatform(),
+            'version'   => $user_agent->getVersion(),
+            'location'  => $visitorProfile->getCountry(),
+            'region'    => $visitorProfile->getRegion(),
+            'continent' => $visitorProfile->getContinent(),
+            'city'      => $visitorProfile->getCity(),
+            'user_id'   => $visitorProfile->getUserId(),
+            'page_id'   => $pageId,
+            'type'      => $current_page['type'],
+            'visitor_id'=> $visitorProfile->getVisitorId()
         );
         $user_online = apply_filters('wp_statistics_user_online_information', wp_parse_args($args, $user_online));
 
@@ -194,15 +196,23 @@ class UserOnline
     {
         global $wpdb;
 
+        $current_page = $visitorProfile->getCurrentPageType();
+        $user_id      = $visitorProfile->getUserId();
+        $sameVisitor  = $visitorProfile->isIpActiveToday();
+
+        if(! empty($sameVisitor)) {
+            $user_id = $sameVisitor->user_id;
+        }
+
+        $pageId = Pages::getPageId($current_page['type'], $current_page['id']);
+
         //Prepare User online Update data
         $user_online = array(
             'timestamp' => TimeZone::getCurrentTimestamp(),
             'date'      => TimeZone::getCurrentDate(),
-
-            // Set to null for backward compatibility
-            'user_id'   => 0,
-            'page_id'   => 0,
-            'type'      => ''
+            'user_id'   => $user_id,
+            'page_id'   => $pageId,
+            'type'      => $current_page['type']
         );
         $user_online = apply_filters('wp_statistics_update_user_online_data', wp_parse_args($args, $user_online));
 
@@ -212,7 +222,7 @@ class UserOnline
         ));
 
         # Action After Update User Online
-        do_action('wp_statistics_update_user_online', $user_online);
+        do_action('wp_statistics_update_user_online', $user_id, $user_online);
     }
 
     /**
@@ -249,7 +259,7 @@ class UserOnline
         } else {
             $SQL .= $args['fields'];
         }
-        $SQL .= " FROM `" . DB::table('useronline') . "` as useronline JOIN `" . DB::table('visitor') . "` as visitor ON `useronline`.`visitor_id` = `visitor`.`ID`";
+        $SQL .= " FROM `" . DB::table('useronline') . "`";
 
         // Check Count
         if ($args['fields'] == "count") {
@@ -258,7 +268,7 @@ class UserOnline
 
         // Prepare Query
         if (empty($args['sql'])) {
-            $args['sql'] = "SELECT * FROM `" . DB::table('useronline') . "` as useronline JOIN `" . DB::table('visitor') . "` as visitor ON `useronline`.`visitor_id` = `visitor`.`ID` ORDER BY useronline.ID DESC";
+            $args['sql'] = "SELECT * FROM `" . DB::table('useronline') . "` ORDER BY ID DESC";
         }
 
         // Set Pagination
@@ -294,7 +304,7 @@ class UserOnline
             }
 
             // Page info
-            $item['page'] = Visitor::get_page_by_id($items->last_page);
+            $item['page'] = Visitor::get_page_by_id($items->page_id);
 
             // Push Browser
             $item['browser'] = array(

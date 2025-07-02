@@ -22,7 +22,7 @@ class TrackerDebuggerPage extends BasePage
         parent::__construct();
     }
 
-    public function render()
+    public function view()
     {
         $providers = (new DebuggerFactory())->getAllProviders();
 
@@ -32,7 +32,7 @@ class TrackerDebuggerPage extends BasePage
         ];
 
         $args = array_merge($args, $providers);
-
+                
         Admin_Template::get_template(['layout/header', 'layout/title'], $args);
         View::load(['pages/tracker-debugger/tracker-debugger'], $args);
         Admin_Template::get_template(['layout/footer'], $args);

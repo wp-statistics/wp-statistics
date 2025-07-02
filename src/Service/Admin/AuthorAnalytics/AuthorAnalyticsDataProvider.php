@@ -8,7 +8,6 @@ use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\VisitorsModel;
-use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
 class AuthorAnalyticsDataProvider
@@ -41,18 +40,22 @@ class AuthorAnalyticsDataProvider
         $topViewingAuthors    = $this->authorModel->getTopViewingAuthors($this->args);
         $topAuthorsByComment  = $this->authorModel->getAuthorsByCommentsPerPost($this->args);
         $topAuthorsByViews    = $this->authorModel->getAuthorsByViewsPerPost($this->args);
+        $topAuthorsByWords    = $this->authorModel->getAuthorsByWordsPerPost($this->args);
 
         // Views data
         $totalViews           = $this->viewsModel->countViews($this->args);
 
         // Posts data
+        $recentWords    = $this->postsModel->countWords($this->args);
+        $totalWords     = $this->postsModel->countWords(array_merge($this->args, ['ignore_date' => true]));
+
         $recentComments = $this->postsModel->countComments($this->args);
         $totalComments  = $this->postsModel->countComments(array_merge($this->args, ['ignore_date' => true]));
 
         $recentPosts    = $this->postsModel->countPosts($this->args);
         $totalPosts     = $this->postsModel->countPosts(array_merge($this->args, ['ignore_date' => true]));
 
-        $result = [
+        return [
             'authors' => [
                 'total'             => $totalAuthors,
                 'active'            => $activeAuthors,
@@ -62,12 +65,19 @@ class AuthorAnalyticsDataProvider
                 'top_viewing'       => $topViewingAuthors,
                 'top_by_comments'   => $topAuthorsByComment,
                 'top_by_views'      => $topAuthorsByViews,
+                'top_by_words'      => $topAuthorsByWords
             ],
             'views'   => [
                 'total' => $totalViews,
                 'avg'   => Helper::divideNumbers($totalViews, $recentPosts)
             ],
             'posts'   => [
+                'words'     => [
+                    'total'     => $totalWords,
+                    'recent'    => $recentWords,
+                    'avg'       => Helper::divideNumbers($recentWords, $recentPosts),
+                    'total_avg' => Helper::divideNumbers($totalWords, $totalPosts)
+                ],
                 'comments'  => [
                     'total'     => $totalComments,
                     'recent'    => $recentComments,
@@ -76,23 +86,6 @@ class AuthorAnalyticsDataProvider
                 ]
             ]
         ];
-
-        if (WordCountService::isActive()) {
-            $topAuthorsByWords  = $this->authorModel->getAuthorsByWordsPerPost($this->args);
-            $recentWords        = $this->postsModel->countWords($this->args);
-            $totalWords         = $this->postsModel->countWords(array_merge($this->args, ['ignore_date' => true]));
-
-            $result['authors']['top_by_words'] = $topAuthorsByWords;
-
-            $result['posts']['words'] = [
-                'total'     => $totalWords,
-                'recent'    => $recentWords,
-                'avg'       => Helper::divideNumbers($recentWords, $recentPosts),
-                'total_avg' => Helper::divideNumbers($totalWords, $totalPosts)
-            ];
-        }
-
-        return $result;
     }
 
     public function getAuthorsReportData()
@@ -122,6 +115,7 @@ class AuthorAnalyticsDataProvider
         return $data;
     }
 
+
     public function getAuthorsChartData()
     {
         $authorsPostViewsDataProvider   = ChartDataProviderFactory::authorsPostViews(array_merge($this->args, ['per_page' => -1]));
@@ -137,9 +131,14 @@ class AuthorAnalyticsDataProvider
         return $data;
     }
 
+
+
     public function getAuthorSingleData()
     {
         $recentViews        = $this->viewsModel->countViews($this->args);
+
+        $recentWords        = $this->postsModel->countWords($this->args);
+        $totalWords         = $this->postsModel->countWords(array_merge($this->args, ['ignore_date' => true]));
 
         $recentComments     = $this->postsModel->countComments($this->args);
         $totalComments      = $this->postsModel->countComments(array_merge($this->args, ['ignore_date' => true]));
@@ -152,6 +151,7 @@ class AuthorAnalyticsDataProvider
         $taxonomies         = $this->taxonomyModel->getTaxonomiesData($this->args);
         $topPostsByView     = $this->postsModel->getPostsViewsData($this->args);
         $topPostsByComment  = $this->postsModel->getPostsCommentsData($this->args);
+        $topPostsByWords    = $this->postsModel->getPostsWordsData($this->args);
 
         $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
         $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
@@ -175,6 +175,12 @@ class AuthorAnalyticsDataProvider
                     'recent'    => $recentVisitors,
                     'avg'       => Helper::divideNumbers($recentVisitors, $recentPosts)
                 ],
+                'words'     => [
+                    'total'     => $totalWords,
+                    'recent'    => $recentWords,
+                    'avg'       => Helper::divideNumbers($recentWords, $recentPosts),
+                    'total_avg' => Helper::divideNumbers($totalWords, $totalPosts)
+                ],
                 'comments'  => [
                     'total'     => $totalComments,
                     'recent'    => $recentComments,
@@ -185,23 +191,9 @@ class AuthorAnalyticsDataProvider
             'posts'         => [
                 'top_views'     => $topPostsByView,
                 'top_comments'  => $topPostsByComment,
+                'top_words'     => $topPostsByWords
             ]
         ];
-
-        if (WordCountService::isActive()) {
-            $recentWords     = $this->postsModel->countWords($this->args);
-            $totalWords      = $this->postsModel->countWords(array_merge($this->args, ['ignore_date' => true]));
-            $topPostsByWords = $this->postsModel->getPostsWordsData($this->args);
-
-            $data['overview']['words'] = [
-                'total'     => $totalWords,
-                'recent'    => $recentWords,
-                'avg'       => Helper::divideNumbers($recentWords, $recentPosts),
-                'total_avg' => Helper::divideNumbers($totalWords, $totalPosts)
-            ];
-
-            $data['posts']['top_words'] = $topPostsByWords;
-        }
 
         return $data;
     }
