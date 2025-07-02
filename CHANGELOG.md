@@ -1,3 +1,6 @@
+= 14.14.x - 2025-x-x =
+- **Enhancement:** Combined notification and marketing campaign cron jobs into a single daily scheduled event to optimize scheduling.
+
 = 14.14.1 - 2025-06-29 =
 - **New:** Added a Database Schema tool to check and repair database structure in the Optimization page.
 - **Enhancement:** Added country name to the flag tooltip in Visitor Info.
