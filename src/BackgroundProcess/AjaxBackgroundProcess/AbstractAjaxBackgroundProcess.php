@@ -79,6 +79,19 @@ abstract class AbstractAjaxBackgroundProcess
     protected $cachedProcessTotals = null;
 
     /**
+     * Cached 'attempts' section from the 'ajax_background_process' option group.
+     *
+     * This stores the number of attempts made for each migration key to help
+     * prevent infinite retries or stuck processes. Used to track how many times
+     * a background migration process has executed.
+     *
+     * Example: ['visitor_columns_migrate' => 3]
+     *
+     * @var array|null
+     */
+    protected $cachedProcessAttempts = null;
+
+    /**
      * Calculates the total number of records to migrate.
      *
      * @param bool $needCaching Whether to load/save the total from cache. Defaults to true.
@@ -127,6 +140,64 @@ abstract class AbstractAjaxBackgroundProcess
         }
 
         return new self::$currentProcess();
+    }
+
+    /**
+     * Retrieves a previously saved attempt count by its key from the 'ajax_background_process' option group.
+     *
+     * This is used to track how many times a particular migration has been attempted,
+     * which can help prevent infinite loops in case of persistent failures.
+     *
+     * @param string $key The key associated with the attempt count.
+     * @return int The cached attempt count, or 0 if not found.
+     */
+    protected function getCachedAttempts($key = '')
+    {
+        if (empty($key)) {
+            $key = self::$currentProcessKey;
+        }
+
+        if ($this->cachedProcessAttempts === null) {
+            $this->cachedProcessAttempts = Option::getOptionGroup('ajax_background_process', 'attempts', []);
+        }
+
+        return isset($this->cachedProcessAttempts[$key]) ? (int) $this->cachedProcessAttempts[$key] : 0;
+    }
+
+    /**
+     * Stores an attempt count under the 'attempts' key in the 'ajax_background_process' option group.
+     *
+     * This allows the background process to persist the number of attempts between executions,
+     * ensuring the process can detect excessive retries and exit gracefully.
+     *
+     * @param string $key   The unique key to associate with the attempt count.
+     * @param int    $count The number of attempts to store.
+     * @return void
+     */
+    protected function saveAttempts($key, $count)
+    {
+        $meta = Option::getOptionGroup('ajax_background_process', 'attempts', []);
+        $meta[$key] = $count;
+
+        Option::saveOptionGroup('attempts', $meta, 'ajax_background_process');
+    }
+
+    /**
+     * Increments and returns the number of attempts for the current migration process.
+     *
+     * This is used to count how many times a process has executed and can be used to prevent
+     * infinite loops or excessive processing if the process becomes stuck.
+     *
+     * @return int The updated attempt count after incrementing.
+     */
+    protected function trackAttempts()
+    {
+        $key = self::$currentProcessKey;
+        $current = $this->getCachedAttempts($key);
+        $current++;
+
+        $this->saveAttempts($key, $current);
+        return $current;
     }
 
     /**

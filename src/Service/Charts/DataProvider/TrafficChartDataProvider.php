@@ -15,14 +15,12 @@ class TrafficChartDataProvider extends AbstractChartDataProvider
     use LineChartResponseTrait;
 
     protected $visitorsModel;
-    protected $viewsModel;
 
     public function __construct($args)
     {
         parent::__construct($args);
 
-        $this->visitorsModel    = new VisitorsModel();
-        $this->viewsModel       = new ViewsModel();
+        $this->visitorsModel = new VisitorsModel();
     }
 
     public function getData()
@@ -77,7 +75,7 @@ class TrafficChartDataProvider extends AbstractChartDataProvider
             $parsedData['labels'][]   = [
                 'formatted_date'    => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
                 'date'              => date_i18n('Y-m-d', strtotime($date)),
-                'day'               => date_i18n('l', strtotime($date))
+                'day'               => date_i18n('D', strtotime($date))
             ];
             $parsedData['visitors'][] = isset($visitors[$date]) ? intval($visitors[$date]) : 0;
             $parsedData['views'][]    = isset($views[$date]) ? intval($views[$date]) : 0;

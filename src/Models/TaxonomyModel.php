@@ -41,13 +41,13 @@ class TaxonomyModel extends BaseModel
 
         $categoryViewsQuery = Query::select(['id', 'date', 'SUM(count) AS views'])
             ->from('pages')
-            ->where('pages.type', '=', 'category')
+            ->where('pages.type', 'IN', $args['taxonomy'])
             ->whereDate('date', $args['date'])
             ->groupBy('id')
             ->getQuery();
 
         $query = Query::select([
-                'taxonomy', 
+                'taxonomy',
                 'terms.term_id',
                 'terms.name',
                 'COUNT(DISTINCT posts.ID) as post_count',

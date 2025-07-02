@@ -16,7 +16,7 @@ if (strpos($page, 'overview') !== false) {
 ?>
 <?php if (!empty($data)) : ?>
     <div class="o-table-wrapper">
-        <table width="100%" class="o-table wps-new-table wps-new-table__most-visited">
+        <table width="100%" class="o-table wps-new-table wps-table-inspect wps-new-table__most-visited">
             <thead>
             <tr>
                 <th class="wps-pd-l"><?php esc_html_e('Page', 'wp-statistics'); ?></th>
@@ -28,28 +28,16 @@ if (strpos($page, 'overview') !== false) {
             <tbody>
             <?php foreach ($data as $item) : ?>
                 <?php
-                $page       = Pages::get_page_info($item->id, $item->type, $item->uri);
-                $isDisabled = false;
-                $reportUrl  = '';
-
-                if (isset($page['meta']['term_taxonomy_id'])) {
-                    $reportUrl = Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $page['meta']['term_taxonomy_id'], 'from' => $args['date']['from'], 'to' => $args['date']['to']]);
-                } else if (isset($page['meta']['author_id'])) {
-                    $reportUrl = Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $page['meta']['author_id'], 'from' => $args['date']['from'], 'to' => $args['date']['to']]);
-                } else if (isset($page['meta']['post_type'])) {
-                    $reportUrl = Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $item->id, 'from' => $args['date']['from'], 'to' => $args['date']['to']]);
-                    $isDisabled = $item->id == 0;
-                } else if ($item->type == '404') {
-                    $reportUrl = Menus::admin_url('pages', ['tab' => '404', 'from' => $args['date']['from'], 'to' => $args['date']['to']]);
-                }
+                    $page       = Pages::get_page_info($item->id, $item->type, $item->uri);
+                    $reportUrl  = add_query_arg(['from' => $args['date']['from'], 'to' => $args['date']['to']], $page['report']);
                 ?>
                 <tr>
                     <td class="wps-pd-l">
-                        <div class="wps-ellipsis-parent" title="<?php echo esc_attr($page['title']) ?>"><span class="wps-ellipsis-text"><?php echo esc_html($page['title']) ?></span></div>
+                        <a title="<?php echo esc_attr($page['title']) ?>" class="wps-table-ellipsis--name" href="<?php echo esc_url($reportUrl) ?>"><span><?php echo esc_html($page['title']) ?></span></a>
                     </td>
 
                     <td class="wps-pd-l">
-                        <a class="<?php echo !empty($isDisabled) ? 'disabled' : ''; ?>" href="<?php echo esc_url($reportUrl) ?>" target="_blank"><?php echo esc_html(number_format_i18n($item->views)) ?></a>
+                        <a href="<?php echo esc_url($reportUrl) ?>" target="_blank"><?php echo esc_html(number_format_i18n($item->views)) ?></a>
                     </td>
 
                     <td class="wps-pd-l wps-middle-vertical">

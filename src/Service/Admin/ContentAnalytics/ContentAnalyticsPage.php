@@ -7,6 +7,7 @@ use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFact
 use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Async\SourceChannelUpdater;
+use WP_Statistics\Service\Admin\ContentAnalytics\Views\SingleResourceView;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Service\Admin\FilterHandler\FilterGenerator;
@@ -19,8 +20,9 @@ class ContentAnalyticsPage extends MultiViewPage
     protected $pageSlug = 'content-analytics';
     protected $defaultView = 'tabs';
     protected $views = [
-        'tabs'      => TabsView::class,
-        'single'    => SingleView::class
+        'tabs'              => TabsView::class,
+        'single'            => SingleView::class,
+        'single-resource'   => SingleResourceView::class
     ];
     private $wordsCount;
 
@@ -61,7 +63,7 @@ class ContentAnalyticsPage extends MultiViewPage
         /** @var SourceChannelUpdater $backgroundProcess */
         $backgroundProcess = WP_Statistics()->getBackgroundProcess('calculate_post_words_count');
 
-        if (!$backgroundProcess->is_initiated()) {
+        if (!$backgroundProcess->is_initiated() && $this->wordsCount->isActive()) {
             $actionUrl = add_query_arg(
                 [
                     'action' => 'process_word_count',

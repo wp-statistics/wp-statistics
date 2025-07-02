@@ -147,8 +147,9 @@ class AdminBar
                 ),
                 'wp-statistics-menu-page'             => array(
                     'parent' => 'wp-statistic-menu-global-data',
-                    'title'  => sprintf('<img src="%s"/><div><span class="wps-admin-bar__chart__unlock-button">%s</span><button>%s</button></div>',
+                    'title'  => sprintf('<img src="%s" alt="%s"/><div><span class="wps-admin-bar__chart__unlock-button">%s</span><button>%s</button></div>',
                         esc_url(WP_STATISTICS_URL . 'assets/images/mini-chart-lock.png'),
+                        __('Unlock the Full Power of WP Statistics', 'wp-statistics'),
                         __('Unlock the Full Power of WP Statistics', 'wp-statistics'),
                         __('Learn More', 'wp-statistics')
                     ),
@@ -159,12 +160,13 @@ class AdminBar
                 ),
                 'wp-statistics-footer-page'           => array(
                     'parent' => 'wp-statistic-menu-global-data',
-                    'title'  => sprintf('<img src="%s"/>
+                    'title'  => sprintf('<img src="%s" alt="%s"/>
                         <a href="%s" target="_blank">
                         <span class="wps-admin-bar__chart__unlock-button">%s</span>
                         </a>'
                         ,
                         esc_url(WP_STATISTICS_URL . 'assets/images/mini-chart-logo.svg'),
+                        esc_attr__('Mini Chart Logo', 'wp-statistics'),
                         esc_url($footerLink),
                         __('Explore Details', 'wp-statistics')
                     ),

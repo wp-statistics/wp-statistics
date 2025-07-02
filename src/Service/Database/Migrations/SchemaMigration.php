@@ -47,6 +47,9 @@ class SchemaMigration extends AbstractMigrationOperation
         '14.12.6' => [
             'addFirstAndLastPageToVisitors',
         ],
+        // '14.13.5' => [
+        //     'dropDuplicateColumnsFromUserOnline'
+        // ]
     ];
 
     /**
@@ -67,6 +70,37 @@ class SchemaMigration extends AbstractMigrationOperation
                         'first_view' => 'datetime DEFAULT NULL',
                         'last_page'  => 'bigint(20) UNSIGNED DEFAULT NULL',
                         'last_view'  => 'datetime DEFAULT NULL'
+                    ]
+                ])
+                ->execute();
+        } catch (Exception $e) {
+            $this->setErrorStatus($e->getMessage());
+        }
+    }
+
+    /**
+     * Removes duplicate columns from the 'user_online' table.
+     *
+     * @return void
+     */
+    public function dropDuplicateColumnsFromUserOnline()
+    {
+        try {
+            DatabaseFactory::table('update')
+                ->setName('useronline')
+                ->setArgs([
+                    'drop' => [
+                        'referred',
+                        'agent',
+                        'platform',
+                        'version',
+                        'user_id',
+                        'page_id',
+                        'type',
+                        'location',
+                        'city',
+                        'region',
+                        'continent'
                     ]
                 ])
                 ->execute();

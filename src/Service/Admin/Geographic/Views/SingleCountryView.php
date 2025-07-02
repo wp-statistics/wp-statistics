@@ -26,7 +26,7 @@ class SingleCountryView extends BaseView
             'page_title'        => esc_html__('Unlock Detailed Geographic Traffic Insights', 'wp-statistics'),
             'addon_name'        => esc_html__('Data Plus', 'wp-statistics'),
             'addon_slug'        => 'wp-statistics-data-plus',
-            'campaign'          => 'geographic',
+            'campaign'          => 'data-plus',
             'more_title'        => esc_html__('Learn More', 'wp-statistics'),
             'premium_btn_title' => esc_html__('Go Premium for Complete Geographic Reports', 'wp-statistics'),
             'images'            => ['geographic-single.png'],

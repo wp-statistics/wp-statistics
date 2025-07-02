@@ -75,4 +75,22 @@ class DeviceHelper
 
         return esc_url(WP_STATISTICS_URL . 'assets/images/operating-system/unknown.svg');
     }
+
+    /**
+     * Returns device logo URL.
+     *
+     * @param string $device
+     * @return string
+     */
+    public static function getDeviceLogo($device)
+    {
+        $device = str_replace([' ', '/'], '_', sanitize_text_field(strtolower($device)));
+        $logoPath = "assets/images/device/{$device}.svg";
+
+        if (file_exists(WP_STATISTICS_DIR . $logoPath)) {
+            return esc_url(WP_STATISTICS_URL . $logoPath);
+        }
+
+        return esc_url(WP_STATISTICS_URL . 'assets/images/device/unknown.svg');
+    }
 }

@@ -12,7 +12,7 @@ class LatestVisitor extends BaseMetabox
 
     public function getName()
     {
-        return esc_html__('Latest Visitor Breakdown', 'wp-statistics');
+        return esc_html__('Latest Visitors', 'wp-statistics');
     }
 
     public function getDescription()
@@ -24,7 +24,7 @@ class LatestVisitor extends BaseMetabox
     {
         return [
             'datepicker'    => false,
-            'button'        => View::load('metabox/action-button',['link'=> Menus::admin_url('visitors') ,'title'=>'View Latest Visitor Breakdown'],true)
+            'button'        => View::load('metabox/action-button',['link'=> Menus::admin_url('visitors') ,'title'=>' View Latest Visitors'],true)
         ];
     }
 
