@@ -4,7 +4,17 @@ namespace WP_Statistics\Service\Resources\Core;
 
 use WP_Statistics\Service\Resources\ResourcesFactory;
 
-class ResourceManager
+/**
+ * ResourceSynchronizer Class
+ *
+ * Handles synchronization of WordPress resources (posts, pages, custom post types) with the WP Statistics database.
+ * This class ensures that resource data is kept up-to-date when WordPress content is modified, deleted, or when
+ * related entities (authors, terms) are changed.
+ *
+ * @package WP_Statistics\Service\Resources\Core
+ * @since 15.0.0
+ */
+class ResourceSynchronizer
 {
     /**
      * Holds the ResourcesIdentifier for the current resource.
@@ -26,12 +36,11 @@ class ResourceManager
         add_action('delete_post', [$this, 'setResourceAsDeleted'], 10, 2);
 
         /**
-         * @todo: We have to remove them from here and move them to the admin page of the resouces.
+         * @todo: We have to remove them from here and move them to the admin page of the resources.
          */
         add_action('profile_update', [$this, 'updateResourceAuthor']);
         add_action('delete_term', [$this, 'removeResourceTerm'], 10, 3);
         add_action('delete_user', [$this, 'reassignResourceAuhtor'], 10, 3);
-        add_action('permalink_structure_changed', [$this, 'updateResourceUrl']);
     }
 
     /**
@@ -80,17 +89,23 @@ class ResourceManager
             return;
         }
 
-        $this->resource->getModel()->markAsDeleted();
+        $this->resource->getRecord()->markAsDeleted();
     }
 
     /**
      * Updates the resource data when a WordPress post is updated.
      *
      * This method is hooked to the 'wp_after_insert_post' action and performs
-     * several checks to ensure the post is valid before updating resource data.
+     * several validation checks before processing:
+     * - Ensures the post type is publicly viewable
+     * - Checks the post exists and is not in trash
+     * - Verifies the post is published
      *
-     * @param int $postId The ID of the post.
-     * @param \WP_Post $post The post object.
+     * If the resource doesn't exist, it creates a new one. If it exists, it updates
+     * the cached resource data including title, author, terms, and date.
+     *
+     * @param int $postId The ID of the post
+     * @param \WP_Post $post The post object
      *
      * @return void
      */
@@ -117,9 +132,8 @@ class ResourceManager
             return;
         }
 
-        $this->resource->getModel()->update([
+        $this->resource->getRecord()->update([
             'cached_title'       => $post->post_title,
-            'resource_url'       => get_the_permalink($postId),
             'cached_author_id'   => $post->post_author,
             'cached_author_name' => $this->getAuthorName($post->post_author),
             'cached_terms'       => $this->getTerms($postId),
@@ -130,8 +144,15 @@ class ResourceManager
     /**
      * Retrieves and formats the taxonomy term IDs for the specified resource.
      *
-     * @param int $postId The ID of the post.
-     * @return string|null
+     * Collects all taxonomy terms associated with a post and returns them as a
+     * comma-separated string of term IDs. This method:
+     * - Gets all taxonomies associated with the post type
+     * - Retrieves terms for each taxonomy
+     * - Formats them into a comma-separated list
+     *
+     * @param int $postId The ID of the post
+     *
+     * @return string|null Comma-separated string of term IDs, or null if no terms found
      */
     private function getTerms($postId)
     {
@@ -165,10 +186,14 @@ class ResourceManager
     }
 
     /**
-     *  Retrieves the display name for a given author ID.
+     * Retrieves the display name for a given author ID.
      *
-     * @param int $authorId The ID of the author to set.
-     * @return string|null
+     * Fetches user data from WordPress and returns the display name.
+     * If the author ID is empty or the user doesn't exist, returns an empty string.
+     *
+     * @param int $authorId The ID of the author
+     *
+     * @return string|null The author's display name, empty string if not found, or null if no author ID provided
      */
     public function getAuthorName($authorId)
     {
@@ -182,9 +207,14 @@ class ResourceManager
     }
 
     /**
-     * Updates the resource author information.
+     * Updates the resource author information when a user profile is updated.
      *
-     * @param int $userId The ID of the user whose profile is updated.
+     * This method is triggered when a WordPress user profile is updated.
+     * It should update all resource records that reference the updated user.
+     *
+     * @param int $userId The ID of the user whose profile was updated
+     *
+     * @return void
      * @todo It should be decided whether this should be handled as a background process,
      *       or directly query and update the table.
      */
@@ -193,11 +223,16 @@ class ResourceManager
     }
 
     /**
-     * Updates the resource term information.
+     * Updates resource term information when a term is deleted.
      *
-     * @param int $termId The ID of the term that was removed.
-     * @param int $termTaxonomyId The term taxonomy ID.
-     * @param string $taxonomy The taxonomy slug.
+     * This method is triggered when a WordPress taxonomy term is deleted.
+     * It should update all resource records that reference the deleted term.
+     *
+     * @param int $termId The ID of the term that was removed
+     * @param int $termTaxonomyId The term taxonomy ID
+     * @param string $taxonomy The taxonomy slug
+     *
+     * @return void
      * @todo It should be decided whether this should be handled as a background process,
      *       or directly query and update the table.
      */
@@ -206,25 +241,20 @@ class ResourceManager
     }
 
     /**
-     * Reassign the resource author information.
+     * Reassigns resource author information when a user is deleted.
      *
-     * @param int $userId The ID of the user being deleted.
-     * @param int $reassignId The new user ID to reassign the posts to.
-     * @param object $user The deleted user object.
+     * This method is triggered when a WordPress user is deleted.
+     * It should reassign all resource records from the deleted user to the new user.
+     *
+     * @param int $userId The ID of the user being deleted
+     * @param int $reassignId The new user ID to reassign the posts to
+     * @param object $user The deleted user object
+     *
+     * @return void
      * @todo It should be decided whether this should be handled as a background process,
      *       or directly query and update the table.
      */
     public function reassignResourceAuhtor($userId, $reassignId, $user)
-    {
-    }
-
-    /**
-     * Updates the resource url.
-     *
-     * @todo It should be decided whether this should be handled as a background process,
-     *       or directly query and update the table.
-     */
-    public function updateResourceUrl()
     {
     }
 }

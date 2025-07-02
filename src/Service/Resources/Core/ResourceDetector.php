@@ -3,7 +3,6 @@
 namespace WP_Statistics\Service\Resources\Core;
 
 use WP_Statistics\Context\Route;
-use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Url;
 
 /**
@@ -11,6 +10,9 @@ use WP_Statistics\Utils\Url;
  *
  * Determines the current resource context (e.g., singular, home, archive) and gathers
  * relevant details (title, taxonomies/terms, publish date, author info, etc.) when appropriate.
+ *
+ * @package WP_Statistics\Service\Resources\Core
+ * @since 15.0.0
  */
 class ResourceDetector
 {

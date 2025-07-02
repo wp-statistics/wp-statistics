@@ -61,7 +61,7 @@ class Frontend
                     'trackAnonymously'     => Helper::shouldTrackAnonymously(),
                     'isPreview'            => is_preview(),
                 ],
-                'resourceId'          => ResourcesFactory::getCurrentResource()->getId(),
+                'resourceUrlId'       => ResourcesFactory::getCurrentResourceUrl()->getId(),
                 'jsCheckTime'         => apply_filters('wp_statistics_js_check_time_interval', 60000),
                 'jsCheckTime'         => apply_filters('wp_statistics_js_check_time_interval', 60000),
                 'isLegacyEventLoaded' => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded

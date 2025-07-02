@@ -3,8 +3,20 @@
 namespace WP_Statistics\Service\Resources;
 
 use WP_Statistics\Decorators\ResourceDecorator;
+use WP_Statistics\Decorators\ResourceUrlDecorator;
 use WP_Statistics\Records\RecordFactory;
 
+/**
+ * Factory class for creating and retrieving resource objects and decorators.
+ *
+ * This factory provides a centralized way to create and retrieve resource-related objects,
+ * including ResourceDecorator and ResourceUrlDecorator instances. It serves as an abstraction
+ * layer that simplifies resource management by offering various methods to retrieve resources
+ * based on different identifiers and contexts.
+ *
+ * @package WP_Statistics\Service\Resources
+ * @since 15.0.0
+ */
 class ResourcesFactory
 {
     /**
@@ -44,9 +56,31 @@ class ResourcesFactory
             return null;
         }
 
+        $resourceUrlRecord = RecordFactory::resourceUrl()->get(['url' => $resourceUrl]);
+
+        if (empty($resourceUrlRecord->resource_id)) {
+            return null;
+        }
+
         $record = RecordFactory::resource()->get([
-            'resource_url' => $resourceUrl,
+            'ID' => $resourceUrlRecord->resource_id,
         ]);
+
+        return !empty($record) ? new ResourceDecorator($record) : null;
+    }
+
+    /**
+     * Retrieves a resource by its URL ID.
+     *
+     * This method searches the 'url' table for a resource URL that matches the provided URL ID,
+     * and wraps the resulting resource record in a ResourceDecorator if a match is found.
+     *
+     * @param int $resourceUrlId The ID of the resource URL.
+     * @return ResourceDecorator|null A decorator for the resource record, or null if not found.
+     */
+    public static function getByUrlId($resourceUrlId)
+    {
+        $record = RecordFactory::resourceUrl()->get(['ID' => $resourceUrlId]);
 
         return !empty($record) ? new ResourceDecorator($record) : null;
     }
@@ -76,6 +110,19 @@ class ResourcesFactory
     public static function getCurrentResource()
     {
         return new ResourceDecorator();
+    }
+
+    /**
+     * Retrieves the current resource URL based on the current request.
+     *
+     * This method creates a ResourceUrlDecorator without a specific identifier,
+     * allowing it to determine the resource URL context from the current request.
+     *
+     * @return ResourceUrlDecorator A decorator representing the current resource URL.
+     */
+    public static function getCurrentResourceUrl()
+    {
+        return new ResourceUrlDecorator();
     }
 
     /**

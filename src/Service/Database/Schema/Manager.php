@@ -18,17 +18,17 @@ class Manager
     private static $tablesSchema = [
         'parameters'              => [
             'columns'     => [
-                'ID'          => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
-                'session_id'  => 'bigint(20) UNSIGNED NOT NULL',
-                'resource_id' => 'bigint(20) UNSIGNED NOT NULL',
-                'view_id'     => 'bigint(20) UNSIGNED NOT NULL',
-                'parameter'   => 'varchar(64)',
-                'value'       => 'varchar(255)',
+                'ID'              => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'session_id'      => 'bigint(20) UNSIGNED NOT NULL',
+                'resource_url_id' => 'bigint(20) UNSIGNED NOT NULL',
+                'view_id'         => 'bigint(20) UNSIGNED NOT NULL',
+                'parameter'       => 'varchar(64)',
+                'value'           => 'varchar(255)',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
                 'KEY session_id (session_id)',
-                'KEY resource_id (resource_id)',
+                'KEY resource_url_id (resource_url_id)',
                 'KEY view_id (view_id)',
             ],
         ],
@@ -37,7 +37,6 @@ class Manager
                 'ID'                 => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
                 'resource_type'      => 'varchar(64) NOT NULL',
                 'resource_id'        => 'bigint(20) UNSIGNED NOT NULL',
-                'resource_url'       => 'VARCHAR(255) NOT NULL',
                 'cached_title'       => 'text',
                 'cached_terms'       => 'text',
                 'cached_author_id'   => 'bigint(20) UNSIGNED DEFAULT NULL',
@@ -54,17 +53,17 @@ class Manager
         ],
         'views'                   => [
             'columns'     => [
-                'ID'           => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
-                'session_id'   => 'bigint(20) UNSIGNED NOT NULL',
-                'resource_id'  => 'bigint(20) UNSIGNED NOT NULL',
-                'viewed_at'    => 'datetime NOT NULL',
-                'next_view_id' => 'bigint(20) UNSIGNED DEFAULT NULL',
-                'duration'     => 'bigint(11) UNSIGNED DEFAULT NULL',
+                'ID'              => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'session_id'      => 'bigint(20) UNSIGNED NOT NULL',
+                'resource_url_id' => 'bigint(20) UNSIGNED NOT NULL',
+                'viewed_at'       => 'datetime NOT NULL',
+                'next_view_id'    => 'bigint(20) UNSIGNED DEFAULT NULL',
+                'duration'        => 'bigint(11) UNSIGNED DEFAULT NULL',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
                 'KEY session_id (session_id)',
-                'KEY resource_id (resource_id)',
+                'KEY resource_url_id (resource_url_id)',
             ],
         ],
         'countries'               => [
@@ -98,11 +97,10 @@ class Manager
         'device_types'            => [
             'columns'     => [
                 'ID'   => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
-                'name' => 'varchar(64) NOT NULL',
+                'name' => 'varchar(64) NOT NULL UNIQUE',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
-                'UNIQUE KEY name (name)',
             ],
         ],
         'device_browser_versions' => [
@@ -123,7 +121,6 @@ class Manager
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
-                'KEY name (name)',
             ],
         ],
         'device_oss'              => [
@@ -133,7 +130,6 @@ class Manager
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
-                'KEY name (name)',
             ],
         ],
         'resolutions'             => [
@@ -252,18 +248,18 @@ class Manager
         ],
         'summary'                 => [
             'columns'     => [
-                'ID'             => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
-                'date'           => 'datetime NOT NULL',
-                'resource_id'    => 'bigint(20) UNSIGNED NOT NULL',
-                'visitors'       => 'bigint(20) UNSIGNED NOT NULL',
-                'sessions'       => 'bigint(20) UNSIGNED NOT NULL',
-                'views'          => 'bigint(20) UNSIGNED NOT NULL',
-                'total_duration' => 'int(11) NOT NULL DEFAULT 0',
-                'bounces'        => 'tinyint(4) UNSIGNED NOT NULL DEFAULT 0',
+                'ID'              => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'date'            => 'datetime NOT NULL',
+                'resource_url_id' => 'bigint(20) UNSIGNED NOT NULL',
+                'visitors'        => 'bigint(20) UNSIGNED NOT NULL',
+                'sessions'        => 'bigint(20) UNSIGNED NOT NULL',
+                'views'           => 'bigint(20) UNSIGNED NOT NULL',
+                'total_duration'  => 'int(11) NOT NULL DEFAULT 0',
+                'bounces'         => 'tinyint(4) UNSIGNED NOT NULL DEFAULT 0',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
-                'KEY resource_id (resource_id)',
+                'KEY resource_url_id (resource_url_id)',
             ],
         ],
         'summary_totals'          => [
@@ -281,8 +277,8 @@ class Manager
                 'KEY date (date)',
             ],
         ],
-        'exclusions' => [
-            'columns' => [
+        'exclusions'              => [
+            'columns'     => [
                 'ID'     => 'bigint(20) NOT NULL AUTO_INCREMENT',
                 'date'   => 'date NOT NULL',
                 'reason' => 'varchar(180) DEFAULT NULL',
@@ -292,6 +288,18 @@ class Manager
                 'PRIMARY KEY (ID)',
                 'KEY date (date)',
                 'KEY reason (reason)',
+            ],
+        ],
+        'resource_urls'           => [
+            'columns'     => [
+                'ID'          => 'bigint(20) NOT NULL AUTO_INCREMENT',
+                'resource_id' => 'bigint(20) UNSIGNED NOT NULL',
+                'url'         => 'varchar(255) NOT NULL',
+            ],
+            'constraints' => [
+                'PRIMARY KEY (ID)',
+                'KEY resource_id (resource_id)',
+                'KEY url (url)',
             ],
         ],
     ];

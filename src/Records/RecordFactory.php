@@ -217,4 +217,15 @@ class RecordFactory
     {
         return new ExclusionRecord($record);
     }
+
+    /**
+     * Create a new ResourceUrlRecord instance.
+     *
+     * @param object|null $record Optional existing record to wrap.
+     * @return ResourceUrlRecord
+     */
+    public static function resourceUrl($record = null)
+    {
+        return new ResourceUrlRecord($record);
+    }
 }

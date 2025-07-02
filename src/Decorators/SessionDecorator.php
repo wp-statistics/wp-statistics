@@ -337,8 +337,8 @@ class SessionDecorator
         }
 
         $record = RecordFactory::parameter()->get([
-            'session_id'  => $this->session->ID,
-            'resource_id' => $resourceId,
+            'session_id'      => $this->session->ID,
+            'resource_url_id' => $resourceId,
         ]);
 
         return new ParameterDecorator($record);

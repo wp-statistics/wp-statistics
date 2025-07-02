@@ -3,13 +3,14 @@
 namespace WP_Statistics\Decorators;
 
 use WP_Statistics\Records\ResourceRecord;
-use WP_Statistics\Service\Resources\Core\ResourcesIdentifier;
+use WP_Statistics\Service\Resources\ResourceManager;
 
 /**
  * Decorator for a record from the `resources` table.
  *
- * Wraps a ResourcesIdentifier instance and provides accessor methods
- * for various resource-related properties such as ID, URL, title, and metadata.
+ * This class provides a clean interface for accessing resource data
+ * by wrapping the ResourceManager and exposing formatted accessors for
+ * various resource-related properties such as ID, URL, title, and metadata.
  * Helps abstract direct access to the raw resource data structure.
  *
  * @since 15.0.0
@@ -17,69 +18,74 @@ use WP_Statistics\Service\Resources\Core\ResourcesIdentifier;
 class ResourceDecorator
 {
     /**
-     * The underlying ResourcesIdentifier instance.
+     * The resource manager instance that handles resource identification.
      *
-     * @var ResourcesIdentifier
+     * @var ResourceManager The ResourceManager instance for managing resource operations
      */
-    private $resourcesIdentifier;
+    private $identifier;
 
     /**
-     * Constructor.
+     * Constructs a new ResourceDecorator instance.
      *
-     * Initializes the ResourceDecorator with an optional resource record.
-     * If a resource record (object) or record ID is provided, a ResourcesIdentifier is
-     * instantiated using that data. Otherwise, the ResourcesIdentifier will attempt to
-     * determine the resource context based on the current request (e.g., via the current URL).
+     * Initializes the decorator with an optional record parameter that can be
+     * a resource record object, record ID, or null for current context.
+     * The ResourceManager will handle resource identification and data retrieval.
      *
-     * @param mixed $record A resource record object or resource record ID.
+     * @param mixed $record Optional. Resource record object, record ID (int), or null
      */
     public function __construct($record = null)
     {
-        $this->resourcesIdentifier = new ResourcesIdentifier($record);
+        $this->identifier = new ResourceManager($record);
     }
 
     /**
-     * Retrieves the underlying ResourcesIdentifier instance.
+     * Retrieves the underlying ResourceManager instance.
      *
-     * @return ResourcesIdentifier The underlying ResourcesIdentifier instance.
+     * @return ResourceManager The underlying ResourceManager instance
      */
     public function getResource()
     {
-        return $this->resourcesIdentifier;
+        return $this->identifier->resource;
     }
 
     /**
-     * Retrieves the row ID that was derived from the current URL.
+     * Gets the record ID from the resources table.
      *
-     * @return int|null
+     * Returns the primary key ID from the resources table.
+     *
+     * @return int|null The record ID as an integer, or null if not available
      */
     public function getId()
     {
-        return $this->resourcesIdentifier->resource->ID ?? null;
+        return $this->identifier->resource->record->ID ?? null;
     }
 
     /**
      * Gets the resource's unique identifier.
      *
-     * @return int|null
+     * Returns the resource_id field which identifies the actual WordPress object.
+     *
+     * @return int|null The resource ID as an integer, or null if not available
      */
     public function getResourceId()
     {
-        return $this->resourcesIdentifier->resource->resource_id ?? null;
+        return $this->identifier->resource->record->resource_id ?? null;
     }
 
     /**
-     * Gets the resource's unique identifier.
+     * Gets the resource title.
      *
-     * @return int|null
+     * Returns the cached title for the resource, with special handling for home page.
+     *
+     * @return string|null The resource title, or null if not available
      */
     public function getTitle()
     {
-        $title = $this->resourcesIdentifier->resource->cached_title ?? null;
+        $title = $this->identifier->resource->record->cached_title ?? null;
 
         if (
-            !empty($this->resourcesIdentifier->resource->resource_type) &&
-            'home' === $this->resourcesIdentifier->resource->resource_type
+            !empty($this->identifier->resource->record->resource_type) &&
+            'home' === $this->identifier->resource->record->resource_type
         ) {
             $title = esc_html__('Home', 'wp-statistics');
         }
@@ -88,82 +94,86 @@ class ResourceDecorator
     }
 
     /**
-     * Retrieves the resource type.
+     * Gets the resource type.
      *
-     * @return int|null
+     * Returns the type of resource (e.g., post type or 'user').
+     *
+     * @return string|null The resource type, or null if not available
      */
     public function getType()
     {
-        return $this->resourcesIdentifier->resource->resource_type ?? null;
+        return $this->identifier->resource->record->resource_type ?? null;
     }
 
     /**
-     * Retrieves the URL of the resource.
+     * Gets the cached terms associated with the resource.
      *
-     * @return string|null
-     */
-    public function getUrl()
-    {
-        return $this->resourcesIdentifier->resource->resource_url ?? null;
-    }
-
-    /**
-     * Retrieves the cached terms associated with the resource.
+     * Returns the cached taxonomy terms for this resource.
      *
-     * @return string|null
+     * @return string|null The cached terms as a string, or empty array if not available
      */
     public function getCachedTerms()
     {
-        return $this->resourcesIdentifier->resource->cached_terms ?? [];
+        return $this->identifier->resource->record->cached_terms ?? [];
     }
 
     /**
-     * Retrieves the cached author ID for the resource.
+     * Gets the cached author ID for the resource.
      *
-     * @return int|null
+     * Returns the cached author ID associated with this resource.
+     *
+     * @return int|null The cached author ID, or 0 if not available
      */
     public function getCachedAuthorId()
     {
-        return $this->resourcesIdentifier->resource->cached_author_id ?? 0;
+        return $this->identifier->resource->record->cached_author_id ?? 0;
     }
 
     /**
-     * Retrieves the cached author name for the resource.
+     * Gets the cached author name for the resource.
      *
-     * @return string|null
+     * Returns the cached author display name for this resource.
+     *
+     * @return string|null The cached author name, or 0 if not available
      */
     public function getCachedAuthorName()
     {
-        return $this->resourcesIdentifier->resource->cached_author_name ?? 0;
+        return $this->identifier->resource->record->cached_author_name ?? 0;
     }
 
     /**
-     * Retrieves the cached date of the resource.
+     * Gets the cached date of the resource.
      *
-     * @return string|null
+     * Returns the cached creation/publication date for this resource.
+     *
+     * @return string|null The cached date, or empty string if not available
      */
     public function getCachedDate()
     {
-        return $this->resourcesIdentifier->resource->cached_date ?? '';
+        return $this->identifier->resource->record->cached_date ?? '';
     }
 
     /**
-     * Retrieves the resource metadata.
+     * Gets the resource metadata.
      *
-     * @return string|null
+     * Returns any additional metadata stored for this resource.
+     *
+     * @return string|null The resource metadata, or empty string if not available
      */
     public function getResourceMeta()
     {
-        return $this->resourcesIdentifier->resource->resource_meta ?? '';
+        return $this->identifier->resource->record->resource_meta ?? '';
     }
 
     /**
-     * Retrieves the resource model.
+     * Gets the resource model instance.
      *
-     * @return ResourceRecord The resource model instance.
+     * Returns the ResourceRecord model for performing database operations.
+     *
+     * @return ResourceRecord The resource model instance
      */
-    public function getModel()
+    public function getRecord()
     {
-        return $this->resourcesIdentifier->getModel();
+        return $this->identifier->resource->getRecord();
     }
 }

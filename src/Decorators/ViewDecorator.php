@@ -3,6 +3,7 @@
 namespace WP_Statistics\Decorators;
 
 use WP_Statistics\Records\RecordFactory;
+use WP_Statistics\Service\Resources\ResourcesFactory;
 use WP_STATISTICS\TimeZone;
 
 /**
@@ -103,11 +104,10 @@ class ViewDecorator
      */
     public function getResource()
     {
-        if (empty($this->view->resource_id)) {
+        if (empty($this->view->resource_url_id)) {
             return new ResourceDecorator(null);
         }
 
-        $record = RecordFactory::resource()->get(['ID' => $this->view->resource_id]);
-        return new ResourceDecorator($record);
+        return ResourcesFactory::getByUrlId($this->view->resource_url_id);
     }
 }

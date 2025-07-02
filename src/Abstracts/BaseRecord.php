@@ -182,7 +182,7 @@ abstract class BaseRecord
      * Retrieves a record's primary key (ID) based on given criteria.
      *
      * This method expects that the passed $args contains the key-value pairs that
-     * uniquely identify a record (e.g., ['resource_id' => '...', 'resource_type' => '...', 'resource_url' => '...']).
+     * uniquely identify a record (e.g., ['resource_id' => '...', 'resource_type' => '...']).
      *
      * @param array $args Associative array of columns and their values.
      * @return int|null The record's ID if found, or null otherwise.

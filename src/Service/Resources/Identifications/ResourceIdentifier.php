@@ -1,16 +1,15 @@
 <?php
 
-namespace WP_Statistics\Service\Resources\Core;
+namespace WP_Statistics\Service\Resources\Identifications;
 
-use WP_STATISTICS\Helper;
 use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Records\ResourceRecord;
-use WP_Statistics\Utils\QueryParams;
+use WP_Statistics\Service\Resources\Core\ResourceDetector;
 
 /**
  * Identifies and manages resource-related data.
  */
-class ResourcesIdentifier
+class ResourceIdentifier
 {
     /**
      * Holds an instance of ResourceDetector used to gather detailed resource information.
@@ -26,12 +25,6 @@ class ResourcesIdentifier
      */
     private $rowId = null;
 
-    /**
-     * The resource URL, used for lookup or insertion.
-     *
-     * @var string|null
-     */
-    private $resourceUrl = null;
 
     /**
      * The "raw" resource ID extracted from the input (e.g. WP_Post or WP_User).
@@ -52,7 +45,7 @@ class ResourcesIdentifier
      *
      * @var object|null
      */
-    public $resource = null;
+    public $record = null;
 
     /**
      * Initializes the resource with its properties.
@@ -65,14 +58,14 @@ class ResourcesIdentifier
      */
     public function __construct($record = null)
     {
-        $this->setRecord($record);
+        $this->set($record);
 
         if (!empty($this->rowId)) {
-            $this->getResource();
+            $this->get();
             return;
         }
 
-        $this->setResource();
+        $this->insert();
     }
 
     /**
@@ -93,7 +86,7 @@ class ResourcesIdentifier
      *
      * @param mixed $record Either a resource record object, a raw object (e.g. WP_Post, WP_User), or a record ID (int).
      */
-    private function setRecord($record)
+    private function set($record)
     {
         if (empty($record)) {
             return;
@@ -105,13 +98,12 @@ class ResourcesIdentifier
         }
 
         if (!empty($record->resource_type) && isset($record->resource_id)) {
-            $this->resource = $record;
-            $this->rowId    = isset($record->ID) ? $record->ID : null;
+            $this->record = $record;
+            $this->rowId  = isset($record->ID) ? $record->ID : null;
             return;
         }
 
         if (isset($record->ID)) {
-            $this->resourceUrl  = get_the_permalink($record->ID);
             $this->resourceId   = $record->ID;
             $this->resourceType = isset($record->post_type) ? $record->post_type : null;
         }
@@ -124,13 +116,13 @@ class ResourcesIdentifier
      *
      * @return void
      */
-    private function getResource()
+    private function get()
     {
-        if (!empty($this->resource)) {
+        if (!empty($this->record)) {
             return;
         }
 
-        $this->resource = $this->getModel()->get(['ID' => $this->rowId]);
+        $this->record = $this->getRecord()->get(['ID' => $this->rowId]);
     }
 
     /**
@@ -138,31 +130,9 @@ class ResourcesIdentifier
      *
      * @return ResourceRecord
      */
-    public function getModel()
+    public function getRecord()
     {
-        return RecordFactory::resource($this->resource);
-    }
-
-    /**
-     * Attempts to load the resource record using the resource URL.
-     *
-     * If a record is found, it is stored in the $resource property.
-     * Otherwise, setNewResource() is invoked to insert a new record.
-     *
-     * @return void
-     */
-    private function setResource()
-    {
-        $this->resourceUrl = !empty($this->resourceUrl) ? $this->resourceUrl : home_url(add_query_arg(null, null));
-        $this->resourceUrl = $this->cleanUrl($this->resourceUrl);
-
-        $this->resource = $this->getModel()->get(['resource_url' => $this->resourceUrl]);
-
-        if (!empty($this->resource)) {
-            return;
-        }
-
-        $this->setNewResource();
+        return RecordFactory::resource($this->record);
     }
 
     /**
@@ -173,16 +143,28 @@ class ResourcesIdentifier
      *
      * @return void
      */
-    private function setNewResource()
+    private function insert()
     {
+        if (!empty($this->record)) {
+            return;
+        }
+
         if (empty($this->detector)) {
             $this->detector = new ResourceDetector($this->resourceId, $this->resourceType);
         }
 
-        $insertId = $this->getModel()->insert([
+        $this->record = $this->getRecord()->get([
+            'resource_id'   => $this->detector->getResourceId(),
+            'resource_type' => $this->detector->getResourceType(),
+        ]);
+
+        if (!empty($this->record)) {
+            return;
+        }
+
+        $insertId = $this->getRecord()->insert([
             'resource_id'        => $this->detector->getResourceId(),
             'resource_type'      => $this->detector->getResourceType(),
-            'resource_url'       => $this->resourceUrl,
             'cached_title'       => $this->detector->getCachedTitle(),
             'cached_terms'       => $this->detector->getCachedTerms(),
             'cached_author_id'   => $this->detector->getCachedAuthorId(),
@@ -195,40 +177,6 @@ class ResourcesIdentifier
             return;
         }
 
-        $this->resource = $this->getModel()->get(['ID' => $insertId]);
-    }
-
-    /**
-     * Cleans a URL by removing specific tracking parameters.
-     *
-     * @param string $url
-     * @return string
-     */
-    private function cleanUrl($url)
-    {
-        $trackingParams = QueryParams::getAllowedList('array', true);
-
-        $parts = wp_parse_url($url);
-
-        $query = [];
-        if (!empty($parts['query'])) {
-            parse_str($parts['query'], $query);
-
-            foreach ($trackingParams as $param) {
-                unset($query[$param]);
-            }
-        }
-
-        $scheme = isset($parts['scheme']) ? $parts['scheme'] . '://' : '';
-        $host   = isset($parts['host']) ? $parts['host'] : '';
-        $path   = isset($parts['path']) ? $parts['path'] : '/';
-
-        $newUrl = $scheme . $host . $path;
-
-        if (!empty($query)) {
-            $newUrl .= '?' . http_build_query($query);
-        }
-
-        return $newUrl;
+        $this->record = $this->getRecord()->get(['ID' => $insertId]);
     }
 }

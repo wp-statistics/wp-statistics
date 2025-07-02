@@ -50,7 +50,7 @@ class VisitorProfile
      *
      * @var string
      */
-    private const META_RESOURCE_ID = 'resource_id';
+    private const META_RESOURCE_URL_ID = 'resource_url_id';
 
     /**
      * Referrer record ID.
@@ -191,9 +191,9 @@ class VisitorProfile
      * @param int $id Resource record ID.
      * @return void
      */
-    public function setResourceId($id)
+    public function setResourceUrlId($id)
     {
-        $this->setMeta(self::META_RESOURCE_ID, $id);
+        $this->setMeta(self::META_RESOURCE_URL_ID, $id);
     }
 
     /**
@@ -201,9 +201,9 @@ class VisitorProfile
      *
      * @return int Resource ID, or 0 if not set.
      */
-    public function getResourceId()
+    public function getResourceUrlId()
     {
-        return (int)$this->getMeta(self::META_RESOURCE_ID, 0);
+        return (int)$this->getMeta(self::META_RESOURCE_URL_ID, 0);
     }
 
     /**

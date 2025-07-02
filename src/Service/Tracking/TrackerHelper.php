@@ -77,7 +77,7 @@ final class TrackerHelper
                 'required' => true,
                 'nullable' => false
             ],
-            'resourceId'       => [
+            'resourceUrlId'    => [
                 'type'     => 'number',
                 'required' => true,
                 'nullable' => false
@@ -98,12 +98,12 @@ final class TrackerHelper
                 'nullable' => false
             ],
             'screenWidth'      => [
-                'type'     => 'number',
+                'type'     => 'string',
                 'required' => true,
                 'nullable' => false
             ],
             'screenHeight'     => [
-                'type'     => 'number',
+                'type'     => 'string',
                 'required' => true,
                 'nullable' => false
             ],
