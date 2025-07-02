@@ -38,15 +38,15 @@ class MetaboxManager
      */
     public function hideDashboardMetaboxes()
     {
-        if (!Install::isFresh()) {
+        $userId             = get_current_user_id();
+        $hiddenMetaboxesKey = 'metaboxhidden_dashboard';
+        $metaboxInitFlagKey = 'wp_statistics_metaboxhidden_dashboard_initialized';
+
+        if (get_user_meta($userId, $metaboxInitFlagKey, true)) {
             return;
         }
 
-        $userId             = get_current_user_id();
-        $hiddenMetaboxesKey = 'metaboxhidden_dashboard';
-        $metaboxInitFlagKey = 'wps_metaboxhidden_dashboard_initialized';
-
-        if (get_user_meta($userId, $metaboxInitFlagKey, true)) {
+        if (!Install::isFresh() && get_user_meta($userId, $hiddenMetaboxesKey, true)) {
             return;
         }
 
