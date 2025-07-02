@@ -21,7 +21,7 @@ class VisitorInsightsDataProvider
 
     protected $isTrackLoggedInUsersEnabled;
 
-    protected $overviewChartData;
+    protected $chartData;
 
     public function __construct($args)
     {
@@ -95,8 +95,8 @@ class VisitorInsightsDataProvider
 
     public function getOverviewChartsData()
     {
-        if (!empty($this->overviewChartData)) {
-            return $this->overviewChartData;
+        if (!empty($this->chartData)) {
+            return $this->chartData;
         }
 
         $platformsChart = ChartDataProviderFactory::platformCharts();
@@ -104,7 +104,7 @@ class VisitorInsightsDataProvider
         $trafficChart   = ChartDataProviderFactory::trafficChart();
         $mapChart       = ChartDataProviderFactory::mapChart();
 
-        $chartData = [
+        $this->chartData = [
             'devices'   => $platformsChart->getDeviceData(),
             'browsers'  => $platformsChart->getBrowserData(),
             'countries' => $countryChart->getData(),
@@ -113,12 +113,10 @@ class VisitorInsightsDataProvider
         ];
 
         if ($this->isTrackLoggedInUsersEnabled) {
-            $chartData['logged_in_users'] = ChartDataProviderFactory::loggedInUsers()->getData();
+            $this->chartData['logged_in_users'] = ChartDataProviderFactory::loggedInUsers()->getData();
         }
 
-        $this->overviewChartData = $chartData;
-
-        return $chartData;
+        return $this->chartData;
     }
 
     public function getViewsChartsData()

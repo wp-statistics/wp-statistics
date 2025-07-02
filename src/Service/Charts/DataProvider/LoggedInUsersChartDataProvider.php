@@ -42,16 +42,25 @@ class LoggedInUsersChartDataProvider extends AbstractChartDataProvider
         $loggedInData   = $this->visitorsModel->countVisitors(array_merge($this->args, ['logged_in' => true, 'user_role' => Request::get('role', '')]));
         $anonymousData  = $this->visitorsModel->countVisitors(array_merge($this->args, ['user_id' => '0']));
 
-        $this->setChartLabels([
-            esc_html__('User Visitors', 'wp-statistics'),
-            esc_html__('Anonymous Visitors', 'wp-statistics')
-        ]);
+        $data = [
+            [
+                'label' => esc_html__('User Visitors', 'wp-statistics'),
+                'icon'  => WP_STATISTICS_URL . 'assets/images/user-visitor.svg',
+                'value' => $loggedInData
+            ],
+            [
+                'label' => esc_html__('Anonymous Visitors', 'wp-statistics'),
+                'icon'  => WP_STATISTICS_URL . 'assets/images/anonymous.svg',
+                'value' => $anonymousData
+            ]
+        ];
 
-        $this->setChartIcons([
-            WP_STATISTICS_URL . 'assets/images/user-visitor.svg',
-            WP_STATISTICS_URL . 'assets/images/anonymous.svg',
-        ]);
+        usort($data, function ($a, $b) {
+            return $b['value'] <=> $a['value'];
+        });
 
-        $this->setChartData([$loggedInData, $anonymousData]);
+        $this->setChartLabels(wp_list_pluck($data, 'label'));
+        $this->setChartIcons(wp_list_pluck($data, 'icon'));
+        $this->setChartData(wp_list_pluck($data, 'value'));
     }
 }
