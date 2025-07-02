@@ -16,8 +16,8 @@
                                 </span>
                             <?php endif; ?>
                         </span>
-                        <span class="wps-at-a-glance-value<?php echo !empty($metric['link-href']) ? ' wps-at-a-glance-link' : ''; ?>">
-                            <?php if (!empty($metric['link-href'])): ?>
+                        <span class="wps-at-a-glance-value<?php echo !empty($metric['link-href']) && !empty($metric['link-title']) ? ' wps-at-a-glance-link' : ''; ?>">
+                            <?php if (!empty($metric['link-href']) & !empty($metric['link-title'])): ?>
                                 <a href="<?php echo esc_url($metric['link-href']); ?>" target="_blank" class="wps-external-link">
                                     <?php echo esc_html($metric['link-title'] ?? 'View Details'); ?>
                                 </a>

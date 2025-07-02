@@ -5,4 +5,5 @@
     <?= isset($tooltip) ? 'title="' .esc_html($tooltip). '"' : '' ?>
     >
     <span class="wps_search-console_icon"></span>
+    <p class="screen-reader-text"><?php echo esc_html__('Search Console', 'wp-statistics') ?></p>
 </a>
