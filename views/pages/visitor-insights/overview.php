@@ -28,9 +28,6 @@ $isTrackLoggedInUsersEnabled = Option::get('visitors_log');
             $metrics[] = ['label' => esc_html__('Logged-in Share', 'wp-statistics'), 'value' => $data['glance']['logged_in']['value'], 'change' => $data['glance']['logged_in']['change']];
         }
 
-        $metrics[] = ['label' => esc_html__('Top Search Term', 'wp-statistics'), 'value' => 'Home Page'];
-
-
         $metrics = apply_filters('wp_statistics_visitors_overview_glance_metrics', $metrics);
 
         View::load("components/objects/glance-card", ['metrics' => $metrics, 'two_column' => true]);
