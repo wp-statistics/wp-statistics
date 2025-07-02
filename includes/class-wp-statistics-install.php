@@ -526,6 +526,14 @@ class Install
         }
 
         /**
+         * Remove wp_statistics_marketing_campaign_hook, wp_statistics_notification_hook from schedule
+         */
+        if (version_compare($latest_version, '14.15', '>=')) {
+            Event::unschedule('wp_statistics_marketing_campaign_hook');
+            Event::unschedule('wp_statistics_notification_hook');
+        }
+
+        /**
          * Update consent integration to WP Consent API for backward compatibility
          */
         $integration          = Option::get('consent_integration');
