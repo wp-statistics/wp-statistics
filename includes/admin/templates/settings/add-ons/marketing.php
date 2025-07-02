@@ -146,7 +146,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     </td>
                 </tr>
                 <tr valign="top">
-                    <th scope="row"></th>
+                    <th scope="row"><span class="screen-reader-text"><?php echo esc_html__('Google data policy alert', 'wp-statistics') ?></span></th>
                     <td class="wps_addon_settings__site">
                         <?php View::load("components/objects/google-data-policy-alert"); ?>
                     </td>
