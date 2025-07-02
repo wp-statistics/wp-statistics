@@ -115,7 +115,7 @@ class ResourceUrlIdentifier
         if (
             empty($record->resource_id) &&
             !empty($record->resource_type) &&
-            $record->resource_type === 'home'
+            ($record->resource_type === 'home' || $record->resource_type === '404' || $record->resource_type === 'search')
         ) {
             $this->resourceId = $record->ID;
             return;
