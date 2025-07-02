@@ -3,8 +3,8 @@
         <h2><?php esc_html_e('At a Glance', 'wp-statistics'); ?></h2>
     </div>
     <div class="inside">
-        <div class="wps-at-a-glance">
-            <?php if (!empty($metrics) && is_array($metrics)): ?>
+        <div class="wps-at-a-glance <?php echo isset($two_column) && $two_column ? 'wps-at-a-glance__two-col' : ''; ?>">
+        <?php if (!empty($metrics) && is_array($metrics)): ?>
                 <?php foreach ($metrics as $metric): ?>
                     <div class="wps-at-a-glance-item">
                         <!-- Metric Label -->
@@ -16,8 +16,8 @@
                                 </span>
                             <?php endif; ?>
                         </span>
-                        <span class="wps-at-a-glance-value<?php echo !empty($metric['link-href']) ? ' wps-at-a-glance-link' : ''; ?>">
-                            <?php if (!empty($metric['link-href'])): ?>
+                        <span class="wps-at-a-glance-value<?php echo !empty($metric['link-href']) && !empty($metric['link-title']) ? ' wps-at-a-glance-link' : ''; ?>">
+                            <?php if (!empty($metric['link-href']) && !empty($metric['link-title'])): ?>
                                 <a href="<?php echo esc_url($metric['link-href']); ?>" target="_blank" class="wps-external-link">
                                     <?php echo esc_html($metric['link-title'] ?? 'View Details'); ?>
                                 </a>

@@ -17,20 +17,23 @@ $isTrackLoggedInUsersEnabled = Option::get('visitors_log');
     <div class="postbox-container" id="wps-postbox-container-1">
 
         <?php
-            $metrics = [
-                ['label' => esc_html__('Visitors', 'wp-statistics'), 'value' => Helper::formatNumberWithUnit($data['glance']['visitors']['value']), 'change' => $data['glance']['visitors']['change']],
-                ['label' => esc_html__('Views', 'wp-statistics'), 'value' => Helper::formatNumberWithUnit($data['glance']['views']['value']), 'change' => $data['glance']['views']['change']],
-                ['label' => esc_html__('Top Country', 'wp-statistics'), 'value' => $data['glance']['country']],
-                ['label' => esc_html__('Top Referrer', 'wp-statistics'), 'link-title' => $data['glance']['referrer'], 'link-href' => Url::formatUrl($data['glance']['referrer'])],
-            ];
+        $metrics = [
+            ['label' => esc_html__('Visitors', 'wp-statistics'), 'value' => Helper::formatNumberWithUnit($data['glance']['visitors']['value']), 'change' => $data['glance']['visitors']['change']],
+            ['label' => esc_html__('Views', 'wp-statistics'), 'value' => Helper::formatNumberWithUnit($data['glance']['views']['value']), 'change' => $data['glance']['views']['change']],
+            ['label' => esc_html__('Top Country', 'wp-statistics'), 'value' => $data['glance']['country']],
+            ['label' => esc_html__('Top Referrer', 'wp-statistics'), 'link-title' => $data['glance']['referrer'], 'link-href' => Url::formatUrl($data['glance']['referrer'])],
+        ];
 
-            if ($isTrackLoggedInUsersEnabled) {
-                $metrics[] = ['label' => esc_html__('Logged-in Share', 'wp-statistics'), 'value' => $data['glance']['logged_in']['value'], 'change' => $data['glance']['logged_in']['change']];
-            }
+        if ($isTrackLoggedInUsersEnabled) {
+            $metrics[] = ['label' => esc_html__('Logged-in Share', 'wp-statistics'), 'value' => $data['glance']['logged_in']['value'], 'change' => $data['glance']['logged_in']['change']];
+        }
 
-            $metrics = apply_filters('wp_statistics_visitors_overview_glance_metrics', $metrics);
+        $metrics[] = ['label' => esc_html__('Top Search Term', 'wp-statistics'), 'value' => 'Home Page'];
 
-            View::load("components/objects/glance-card", ['metrics' => $metrics]);
+
+        $metrics = apply_filters('wp_statistics_visitors_overview_glance_metrics', $metrics);
+
+        View::load("components/objects/glance-card", ['metrics' => $metrics, 'two_column' => true]);
         ?>
         <div class="wps-card">
             <div class="wps-card__title">
@@ -133,23 +136,23 @@ $isTrackLoggedInUsersEnabled = Option::get('visitors_log');
             <?php View::load("components/charts/traffic-trends", ['chart_id' => 'trafficChart']); ?>
         </div>
 
-        <?php if($isActive): ?>
-        <div class="wps-card">
-            <div class="wps-card__title">
-                <h2><?php esc_html_e('Top Entry Pages', 'wp-statistics') ?></h2>
-            </div>
-            <?php
-            View::load("components/tables/visitors-top-entry-pages", ['data' => $data['entry_pages']]);
-            ?>
-            <div class="wps-p-0">
+        <?php if ($isActive): ?>
+            <div class="wps-card">
+                <div class="wps-card__title">
+                    <h2><?php esc_html_e('Top Entry Pages', 'wp-statistics') ?></h2>
+                </div>
                 <?php
-                View::load("components/objects/card-footer", [
-                    'href'  => Menus::admin_url('pages', ['tab' => 'entry-pages']),
-                    'title' => esc_html__('View Entry Pages', 'wp-statistics'),
-                ]);
+                View::load("components/tables/visitors-top-entry-pages", ['data' => $data['entry_pages']]);
                 ?>
+                <div class="wps-p-0">
+                    <?php
+                    View::load("components/objects/card-footer", [
+                        'href'  => Menus::admin_url('pages', ['tab' => 'entry-pages']),
+                        'title' => esc_html__('View Entry Pages', 'wp-statistics'),
+                    ]);
+                    ?>
+                </div>
             </div>
-        </div>
         <?php endif; ?>
 
         <?php do_action('wp_statistics_visitors_overview_hourly_traffic_widget') ?>
