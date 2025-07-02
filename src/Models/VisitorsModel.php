@@ -491,54 +491,54 @@ class VisitorsModel extends BaseModel
         $summary = [
             'today'      => [
                 'label'          => esc_html__('Today', 'wp-statistics'),
-                'search_engines' => $this->countReferrers(array_merge($args, ['date' => DateRange::get('today'), 'source_channel' => ['search', 'paid_search']]))
+                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get('today'), 'source_channel' => ['search', 'paid_search']]))
             ],
             'yesterday'  => [
                 'label'          => esc_html__('Yesterday', 'wp-statistics'),
-                'search_engines' => $this->countReferrers(array_merge($args, ['date' => DateRange::get('yesterday'), 'source_channel' => ['search', 'paid_search']]))
+                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get('yesterday'), 'source_channel' => ['search', 'paid_search']]))
             ],
             'this_week'  => [
                 'label'          => esc_html__('This week', 'wp-statistics'),
-                'search_engines' => $this->countReferrers(array_merge($args, ['date' => DateRange::get('this_week'), 'source_channel' => ['search', 'paid_search']]))
+                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get('this_week'), 'source_channel' => ['search', 'paid_search']]))
             ],
             'last_week'  => [
                 'label'          => esc_html__('Last week', 'wp-statistics'),
-                'search_engines' => $this->countReferrers(array_merge($args, ['date' => DateRange::get('last_week'), 'source_channel' => ['search', 'paid_search']]))
+                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get('last_week'), 'source_channel' => ['search', 'paid_search']]))
             ],
             'this_month' => [
                 'label'          => esc_html__('This month', 'wp-statistics'),
-                'search_engines' => $this->countReferrers(array_merge($args, ['date' => DateRange::get('this_month'), 'source_channel' => ['search', 'paid_search']]))
+                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get('this_month'), 'source_channel' => ['search', 'paid_search']]))
             ],
             'last_month' => [
                 'label'          => esc_html__('Last month', 'wp-statistics'),
-                'search_engines' => $this->countReferrers(array_merge($args, ['date' => DateRange::get('last_month'), 'source_channel' => ['search', 'paid_search']]))
+                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get('last_month'), 'source_channel' => ['search', 'paid_search']]))
             ],
             '7days'      => [
                 'label'          => esc_html__('Last 7 days', 'wp-statistics'),
-                'search_engines' => $this->countReferrers(array_merge($args, ['date' => DateRange::get('7days'), 'source_channel' => ['search', 'paid_search']]))
+                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get('7days'), 'source_channel' => ['search', 'paid_search']]))
             ],
             '30days'     => [
                 'label'          => esc_html__('Last 30 days', 'wp-statistics'),
-                'search_engines' => $this->countReferrers(array_merge($args, ['date' => DateRange::get('30days'), 'source_channel' => ['search', 'paid_search']]))
+                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get('30days'), 'source_channel' => ['search', 'paid_search']]))
             ],
             '90days'     => [
                 'label'          => esc_html__('Last 90 days', 'wp-statistics'),
-                'search_engines' => $this->countReferrers(array_merge($args, ['date' => DateRange::get('90days'), 'source_channel' => ['search', 'paid_search']]))
+                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get('90days'), 'source_channel' => ['search', 'paid_search']]))
             ],
             '6months'    => [
                 'label'          => esc_html__('Last 6 months', 'wp-statistics'),
-                'search_engines' => $this->countReferrers(array_merge($args, ['date' => DateRange::get('6months'), 'source_channel' => ['search', 'paid_search']]))
+                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get('6months'), 'source_channel' => ['search', 'paid_search']]))
             ],
             'this_year'  => [
                 'label'          => esc_html__('This year (Jan-Today)', 'wp-statistics'),
-                'search_engines' => $this->countReferrers(array_merge($args, ['date' => DateRange::get('this_year'), 'source_channel' => ['search', 'paid_search']]))
+                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get('this_year'), 'source_channel' => ['search', 'paid_search']]))
             ]
         ];
 
         if (!empty($args['include_total'])) {
             $summary['total'] = [
                 'label'          => esc_html__('Total', 'wp-statistics'),
-                'search_engines' => $this->countReferrers(array_merge($args, ['ignore_date' => true, 'historical' => true, 'source_channel' => ['search', 'paid_search']]))
+                'search_engines' => $this->countReferredVisitors(array_merge($args, ['ignore_date' => true, 'historical' => true, 'source_channel' => ['search', 'paid_search']]))
             ];
         }
 
@@ -797,7 +797,7 @@ class VisitorsModel extends BaseModel
                 ->whereNull('visitor.source_channel');
         } else {
             $query
-                ->where('source_channel', '=', $args['source_channel']);
+                ->where('source_channel', 'IN', $args['source_channel']);
         }
 
         return $query->getVar() ?? 0;
