@@ -25,7 +25,7 @@ $isTrackLoggedInUsersEnabled = Option::get('visitors_log');
         ];
 
         if ($isTrackLoggedInUsersEnabled) {
-            $metrics[] = ['label' => esc_html__('Logged-in Share', 'wp-statistics'), 'value' => Helper::formatNumberWithUnit($data['glance']['logged_in']['value']), 'change' => $data['glance']['logged_in']['change']];
+            $metrics[] = ['label' => esc_html__('Logged-in Share', 'wp-statistics'), 'value' => $data['glance']['logged_in']['value'], 'change' => $data['glance']['logged_in']['change']];
         }
 
         View::load("components/objects/glance-card", ['metrics' => $metrics]);

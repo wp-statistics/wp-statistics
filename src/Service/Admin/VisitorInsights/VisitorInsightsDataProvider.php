@@ -42,8 +42,11 @@ class VisitorInsightsDataProvider
         $prevVisitors   = $this->visitorsModel->countVisitors(['date' => DateRange::getPrevPeriod()]);
         $views          = $this->visitorsModel->countHits();
         $prevViews      = $this->visitorsModel->countHits(['date' => DateRange::getPrevPeriod()]);
-        $loggedIn       = $this->visitorsModel->countVisitors(['logged_in' => true]);
-        $prevLoggedIn   = $this->visitorsModel->countVisitors(['logged_in' => true, 'date' => DateRange::getPrevPeriod()]);
+
+        $loggedIn           = $this->visitorsModel->countVisitors(['logged_in' => true]);
+        $prevLoggedIn       = $this->visitorsModel->countVisitors(['logged_in' => true, 'date' => DateRange::getPrevPeriod()]);
+        $loggedInShare      = Helper::calculatePercentage($loggedIn, $visitors);
+        $prevLoggedInShare  = Helper::calculatePercentage($prevLoggedIn, $prevVisitors);
 
         $referrers      = $this->visitorsModel->getReferrers(['decorate' => true, 'per_page' => 5]);
         $topVisitors    = $this->visitorsModel->getVisitorsData(['order_by' => 'hits', 'order' => 'DESC', 'page' => 1, 'per_page' => 5]);
@@ -64,8 +67,8 @@ class VisitorInsightsDataProvider
 
         if ($this->isTrackLoggedInUsersEnabled) {
             $glance['logged_in'] = [
-                'value'     => $loggedIn,
-                'change'    => Helper::calculatePercentageChange($prevLoggedIn, $loggedIn)
+                'value'     => $loggedInShare . '%',
+                'change'    => $loggedInShare - $prevLoggedInShare
             ];
         }
 
