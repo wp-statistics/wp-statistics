@@ -11,7 +11,7 @@ class MetaboxManager
     public function __construct()
     {
         add_action('admin_init', [$this, 'registerMetaboxes']);
-        add_action('admin_init', [$this, 'defaultHiddenMetaBoxes']);
+        add_action('admin_init', [$this, 'hideDashboardMetaboxes']);
     }
 
     /**
@@ -31,22 +31,22 @@ class MetaboxManager
     /**
      * Hides default dashboard metaboxes for the current user on fresh installs.
      *
-     * Hooked into 'wp_dashboard_setup'. Runs only once on fresh installs.
+     * Hooked into 'admin_init'. Runs only once on fresh installs.
      * Excludes the 'wp-statistics-quickstats-widget' from being hidden.
      *
      * @return void
      */
-    public function defaultHiddenMetaBoxes()
+    public function hideDashboardMetaboxes()
     {
         if (!Install::isFresh()) {
             return;
         }
 
-        $userId      = get_current_user_id();
-        $metaKey     = 'metaboxhidden_dashboard';
-        $initFlagKey = 'wps_metaboxhidden_dashboard_initialized';
+        $userId             = get_current_user_id();
+        $hiddenMetaboxesKey = 'metaboxhidden_dashboard';
+        $metaboxInitFlagKey = 'wps_metaboxhidden_dashboard_initialized';
 
-        if (get_user_meta($userId, $initFlagKey, true)) {
+        if (get_user_meta($userId, $metaboxInitFlagKey, true)) {
             return;
         }
 
@@ -68,15 +68,15 @@ class MetaboxManager
             return;
         }
 
-        $existingHidden = get_user_meta($userId, $metaKey, true);
+        $existingHidden = get_user_meta($userId, $hiddenMetaboxesKey, true);
 
         if (!is_array($existingHidden)) {
-            update_user_meta($userId, $metaKey, $hidden);
+            update_user_meta($userId, $hiddenMetaboxesKey, $hidden);
         } elseif (array_diff($hidden, $existingHidden)) {
             $mergedHidden = array_unique(array_merge($existingHidden, $hidden));
-            update_user_meta($userId, $metaKey, $mergedHidden);
+            update_user_meta($userId, $hiddenMetaboxesKey, $mergedHidden);
         }
 
-        update_user_meta($userId, $initFlagKey, 1);
+        update_user_meta($userId, $metaboxInitFlagKey, 1);
     }
 }
