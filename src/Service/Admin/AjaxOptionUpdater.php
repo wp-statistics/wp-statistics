@@ -6,7 +6,6 @@ use WP_Statistics\Components\Ajax;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Option;
 use Exception;
-use WP_STATISTICS\User;
 
 class AjaxOptionUpdater
 {
@@ -34,22 +33,20 @@ class AjaxOptionUpdater
     public function optionUpdater()
     {
         try {
-            if (Request::isFrom('ajax') && User::Access('manage')) {
-                check_ajax_referer('wp_rest', 'wps_nonce');
+            check_ajax_referer('wp_rest', 'wps_nonce');
 
-                $option = Request::get('option');
-                $value  = Request::get('value');
+            $option = Request::get('option');
+            $value  = Request::get('value');
 
-                if ($value === 'true') {
-                    $value = true;
-                } elseif ($value === 'false') {
-                    $value = false;
-                }
-
-                Option::update($option, $value);
-
-                wp_send_json_success(['message' => __('Update option success.', 'wp-statistics')]);
+            if ($value === 'true') {
+                $value = true;
+            } elseif ($value === 'false') {
+                $value = false;
             }
+
+            Option::update($option, $value);
+
+            wp_send_json_success(['message' => __('Update option success.', 'wp-statistics')]);
         } catch (Exception $e) {
             wp_send_json_error($e->getMessage());
         }

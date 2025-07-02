@@ -285,10 +285,9 @@ class AnonymizedUsageDataProvider
 
         foreach ($rawLicenses as $k => $v) {
             $licenses[] = [
-                'status'        => $v['status'],
-                'type'          => $v['type'],
-                'products'      => $v['products'],
-                'license_level' => $v['sku'] == 'premium' ? 'premium' : 'non-premium',
+                'status'   => $v['status'],
+                'type'     => $v['type'],
+                'products' => $v['products'],
             ];
         }
 

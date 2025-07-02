@@ -73,15 +73,13 @@ trait LineChartResponseTrait
      *
      * @param string $label The label for the dataset.
      * @param array $data The data for the dataset.
-     * @param string $slug The slug for the dataset
      * @return void
      */
-    protected function addChartPreviousDataset($label, $data, $slug = '')
+    protected function addChartPreviousDataset($label, $data)
     {
         $this->chartData['previousData']['datasets'][] = [
             'label' => $label,
-            'data'  => $data,
-            'slug'  => $slug
+            'data'  => $data
         ];
     }
 

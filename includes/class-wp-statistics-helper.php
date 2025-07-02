@@ -2,16 +2,15 @@
 
 namespace WP_STATISTICS;
 
+use ErrorException;
 use Exception;
 use WP_STATISTICS;
-use ErrorException;
-use WP_Statistics\Components\DateRange;
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Models\PostsModel;
-use WP_Statistics_Mail;
+use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Signature;
-use WP_Statistics\Components\DateTime;
-use WP_Statistics\Service\Integrations\IntegrationHelper;
+use WP_Statistics_Mail;
 
 class Helper
 {
@@ -153,42 +152,42 @@ class Helper
         // TODO: Optimize this function
         /* WordPress core */
         if (defined('WP_CACHE') && WP_CACHE) {
-            $use = array('status' => true, 'plugin' => __('WordPress Object Cache', 'wp-statistics'), 'debug' => 'WordPress Object Cache');
+            $use = array('status' => true, 'plugin' => __('WordPress Object Cache', 'wp-statistics'));
         }
 
         /* WP Rocket */
         if (function_exists('get_rocket_cdn_url')) {
-            $use = array('status' => true, 'plugin' => __('WP Rocket', 'wp-statistics'), 'debug' => 'WP Rocket');
+            $use = array('status' => true, 'plugin' => __('WP Rocket', 'wp-statistics'));
         }
 
         /* WP Super Cache */
         if (function_exists('wpsc_init')) {
-            $use = array('status' => true, 'plugin' => __('WP Super Cache', 'wp-statistics'), 'debug' => 'WP Super Cache');
+            $use = array('status' => true, 'plugin' => __('WP Super Cache', 'wp-statistics'));
         }
 
         /* Comet Cache */
         if (function_exists('___wp_php_rv_initialize')) {
-            $use = array('status' => true, 'plugin' => __('Comet Cache', 'wp-statistics'), 'debug' => 'Comet Cache');
+            $use = array('status' => true, 'plugin' => __('Comet Cache', 'wp-statistics'));
         }
 
         /* WP Fastest Cache */
         if (class_exists('WpFastestCache')) {
-            $use = array('status' => true, 'plugin' => __('WP Fastest Cache', 'wp-statistics'), 'debug' => 'WP Fastest Cache');
+            $use = array('status' => true, 'plugin' => __('WP Fastest Cache', 'wp-statistics'));
         }
 
         /* Cache Enabler */
         if (defined('CE_MIN_WP')) {
-            $use = array('status' => true, 'plugin' => __('Cache Enabler', 'wp-statistics'), 'debug' => 'Cache Enabler');
+            $use = array('status' => true, 'plugin' => __('Cache Enabler', 'wp-statistics'));
         }
 
         /* W3 Total Cache */
         if (defined('W3TC')) {
-            $use = array('status' => true, 'plugin' => __('W3 Total Cache', 'wp-statistics'), 'debug' => 'W3 Total Cache');
+            $use = array('status' => true, 'plugin' => __('W3 Total Cache', 'wp-statistics'));
         }
 
         /* WP-Optimize */
         if (class_exists('WP_Optimize')) {
-            $use = array('status' => true, 'plugin' => __('WP-Optimize', 'wp-statistics'), 'debug' => 'WP-Optimize');
+            $use = array('status' => true, 'plugin' => __('WP-Optimize', 'wp-statistics'));
         }
 
         return apply_filters('wp_statistics_cache_status', $use);
@@ -1530,28 +1529,28 @@ class Helper
         }
 
         if ($number < 1000) {
-            $precision = empty($precision) ? 2 : $precision;
-            $rounded = round($number, $precision);
-            return (floor($rounded) == $rounded) ? (int)$rounded : $rounded;
+            return !empty($precision) ? round($number, $precision) : $number;
         }
 
         $originalNumber = $number;
-        $units = ['', 'K', 'M', 'B', 'T'];
+        $units          = ['', 'K', 'M', 'B', 'T'];
 
         $exponent = (int)floor(log($number, 1000));
         $exponent = min($exponent, count($units) - 1);
 
+        // Adjust the number according to the exponent.
         $number /= pow(1000, $exponent);
-        $unit = $units[$exponent];
+        $unit   = $units[$exponent];
 
-        // Choose precision factor
+        // Decide on the precision:
+        // - Between 1,000 and 9,999: use two decimals.
+        // - 10,000 and above: use one decimal.
         $factor = ($originalNumber < 10000) ? 100 : 10;
-        $number = floor($number * $factor) / $factor;
 
-        // Remove trailing decimals
-        $formatted = (floor($number) == $number) ? (int)$number : rtrim(rtrim(number_format($number, 2, '.', ''), '0'), '.');
+        // Round the scaled number with the desired decimals and append the unit.
+        $formattedNumber = floor($number * $factor) / $factor . $unit;
 
-        return $formatted . $unit;
+        return $formattedNumber;
     }
 
     /**
@@ -1767,12 +1766,9 @@ class Helper
      */
     public static function getDeviceCategoryName($device)
     {
-        $device = $device ?? '';
-
         if (strpos($device, ':') !== false) {
             $device = explode(':', $device)[0];
         }
-
         return $device;
     }
 
@@ -1863,16 +1859,16 @@ class Helper
      *
      * In this case, we have to track user's information anonymously.
      *
-     * @deprecated use `IntegrationHelper::shouldTrackAnonymously()` method
-     *
      * @return  bool
      */
     public static function shouldTrackAnonymously()
     {
-        $isConsentGiven    = IntegrationHelper::isConsentGiven();
-        $anonymousTracking = IntegrationHelper::shouldTrackAnonymously();
+        $selectedConsentLevel = Option::get('consent_level_integration', 'disabled');
 
-        return !$isConsentGiven && $anonymousTracking;
+        return WpConsentApi::isWpConsentApiActive() &&
+            $selectedConsentLevel !== 'disabled' &&
+            Option::get('anonymous_tracking', false) == true &&
+            !(function_exists('wp_has_consent') && wp_has_consent($selectedConsentLevel));
     }
 
     /**
@@ -2153,7 +2149,7 @@ class Helper
             return 0;
         }
 
-        return round(($number / $totalNumber) * 100, 1);
+        return round(($number / $totalNumber) * 100, 2);
     }
 
     /**
@@ -2200,52 +2196,5 @@ class Helper
         }
 
         return '';
-    }
-
-    /**
-     * Relocates items from source indexes to a target position in an array
-     *
-     * @param array $array The original array
-     * @param mixed $sourceIndex Array of source indexes to relocate
-     * @param int $targetIndex The target position where items should be inserted
-     * @return array The modified array with relocated items
-     */
-    public static function relocateArrayItems($array, $sourceIndex, $targetIndex)
-    {
-        // Extract the items to be relocated
-        $itemToRelocate = [];
-
-        if (isset($array[$sourceIndex])) {
-            $itemToRelocate[] = $array[$sourceIndex];
-            unset($array[$sourceIndex]);
-        }
-
-        // Reindex the array
-        $array = array_values($array);
-
-        // Reverse the items to maintain original order when inserted
-        $itemsToRelocate = array_reverse($itemToRelocate);
-
-        // Insert items at the target position
-        array_splice($array, $targetIndex, 0, $itemsToRelocate);
-
-        return $array;
-    }
-
-    public static function getNoDataMessage($date = '')
-    {
-        if (empty($date)) {
-            $date = DateRange::get()['to'];
-        }
-
-        $isFutureDate = DateTime::isTodayOrFutureDate($date);
-
-        $message = esc_html__('No data found for this date range.', 'wp-statistics');
-
-        if ($isFutureDate) {
-            $message = esc_html__('Data coming soon!', 'wp-statistics');
-        }
-
-        return $message;
     }
 }

@@ -77,7 +77,7 @@ class AjaxBackgroundProcessManager
      */
     public function handleDoneNotice()
     {
-        if (!$this->isValidMigrationContext()) {
+        if (!$this->shouldShowNotice()) {
             return;
         }
 
@@ -112,7 +112,7 @@ class AjaxBackgroundProcessManager
      */
     public function handleNotice()
     {
-        if (!$this->isValidMigrationContext()) {
+        if (!$this->shouldShowNotice()) {
             return;
         }
 
@@ -141,22 +141,19 @@ class AjaxBackgroundProcessManager
             return;
         }
 
-        $current_page_url = home_url(add_query_arg(null, null));
-
         $migrationUrl = add_query_arg(
             [
                 'action' => self::MIGRATION_ACTION,
                 'nonce'  => wp_create_nonce(self::MIGRATION_NONCE),
-                'status' => Option::getOptionGroup('ajax_background_process', 'status', null),
-                'current_page' => rawurlencode($current_page_url)
+                'status' => Option::getOptionGroup('ajax_background_process', 'status', null)
             ],
             admin_url('admin-post.php')
         );
 
         $message = sprintf(
             '<div id="wp-statistics-background-process-notice">
-                <p><strong>%1$s</strong></p>
-                <p>%2$s <br> %3$s</p>
+                <p><strong>%1$s</strong><br>%2$s</p>
+                <p>%3$s</p>
                 <p><a href="%4$s" id="start-migration-btn" class="button-primary">%5$s</a><a href="%6$s" style="margin: 10px" target="_blank">%7$s</a></p>
             </div>',
             esc_html__('WP Statistics: Migration Required', 'wp-statistics'),
@@ -178,10 +175,6 @@ class AjaxBackgroundProcessManager
      */
     public function registerScript()
     {
-        if (!$this->isValidMigrationContext()) {
-            return;
-        }
-
         wp_enqueue_script(
             'wp-statistics-ajax-migrator',
             Admin_Assets::url('background-process.min.js'),
@@ -230,31 +223,27 @@ class AjaxBackgroundProcessManager
      */
     private function handleRedirect()
     {
-        $redirect_url = $_POST['current_page'] ?? $_GET['current_page'] ?? '';
-
-        if (empty($redirect_url)) {
-            $redirect_url = home_url();
-        }
-
-        wp_redirect(esc_url_raw($redirect_url));
+        $referer = wp_get_referer();
+        wp_redirect($referer ?: admin_url());
         exit;
     }
 
     /**
-     * Validates whether the current admin page and user have access to handle migration-related functionality.
-     *
-     * Checks if the user has sufficient permissions and if the current page belongs to the plugin's pages.
-     * Used to control when migration notices and background processes should be active.
+     * Determines whether the background process notice should be displayed.
      *
      * @return bool
      */
-    private function isValidMigrationContext()
+    private function shouldShowNotice()
     {
         if (!current_user_can('manage_options')) {
             return false;
         }
 
         if (Menus::in_plugin_page()) {
+            return true;
+        }
+
+        if (in_array(\WP_STATISTICS\Helper::get_screen_id(), ['dashboard'], true)) {
             return true;
         }
 

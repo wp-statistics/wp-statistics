@@ -30,94 +30,31 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
 
     public function getData()
     {
-        // Init chart data
-        $this->initChartData($this->isPreviousDataEnabled());
-
-        $this->setThisPeriodData();
-
-        // Get previous data only if previous chart data option is enabled
-        if ($this->isPreviousDataEnabled()) {
-            $this->setPrevPeriodData();
-        }
-
-        return $this->getChartData();
-    }
-
-    protected function setThisPeriodData()
-    {
-        $currentPeriod  = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
-        $currentDates   = array_keys(TimeZone::getListDays($currentPeriod));
-
+        // Get data from database
         $visitors   = $this->visitorsModel->countDailyVisitors($this->args);
         $views      = $this->viewsModel->countDailyViews($this->args);
-        $posts      = empty($this->args['post_id']) && empty($this->args['hide_post']) ? $this->postsModel->countDailyPosts($this->args) : []; // On single post view, no need to count posts
 
-        $parsedData = $this->parseData($currentDates, [
+        // On single post view, no need to count posts
+        $posts = empty($this->args['post_id']) ? $this->postsModel->countDailyPosts($this->args) : [];
+
+        // Parse data
+        $parsedData = $this->parseData([
             'visitors'  => $visitors,
             'views'     => $views,
             'posts'     => $posts
         ]);
 
+        // Prepare data
+        $result = $this->prepareResult($parsedData);
 
-        $this->setChartLabels($parsedData['labels']);
-
-        $this->addChartDataset(
-            esc_html__('Visitors', 'wp-statistics'),
-            $parsedData['visitors'],
-            'visitors'
-        );
-
-        $this->addChartDataset(
-            esc_html__('Views', 'wp-statistics'),
-            $parsedData['views'],
-            'views'
-        );
-
-        // On single post view and single resource, no need to count posts
-        if (empty($this->args['post_id']) && empty($this->args['hide_post'])) {
-            $this->addChartDataset(
-                sprintf(
-                    esc_html__('Published %s', 'wp-statistics'),
-                    isset($this->args['post_type']) ? Helper::getPostTypeName($this->args['post_type']) : esc_html__('Contents', 'wp-statistics')
-                ),
-                $parsedData['posts'],
-                'published'
-            );
-        }
+        return $result;
     }
 
-    protected function setPrevPeriodData()
+    protected function parseData($data)
     {
-        $currentPeriod  = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
-        $prevPeriod     = DateRange::getPrevPeriod($currentPeriod);
-        $pervDates      = array_keys(TimeZone::getListDays($prevPeriod));
+        $datePeriod = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
+        $dates      = array_keys(TimeZone::getListDays($datePeriod));
 
-        $visitors   = $this->visitorsModel->countDailyVisitors(array_merge($this->args, ['date' => $prevPeriod]));
-        $views      = $this->viewsModel->countDailyViews(array_merge($this->args, ['date' => $prevPeriod]));
-
-        $parsedData = $this->parseData($pervDates, [
-            'visitors'  => $visitors,
-            'views'     => $views,
-            'posts'     => []
-        ]);
-
-        $this->setChartPreviousLabels($parsedData['labels']);
-
-        $this->addChartPreviousDataset(
-            esc_html__('Visitors', 'wp-statistics'),
-            $parsedData['visitors'],
-            'visitors'
-        );
-
-        $this->addChartPreviousDataset(
-            esc_html__('Views', 'wp-statistics'),
-            $parsedData['views'],
-            'views'
-        );
-    }
-
-    protected function parseData($dates, $data)
-    {
         $visitors   = wp_list_pluck($data['visitors'], 'visitors', 'date');
         $views      = wp_list_pluck($data['views'], 'views', 'date');
         $posts      = wp_list_pluck($data['posts'], 'posts', 'date');
@@ -127,7 +64,7 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
             $parsedData['labels'][]     = [
                 'formatted_date'    => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
                 'date'              => date_i18n('Y-m-d', strtotime($date)),
-                'day'               => date_i18n('D', strtotime($date))
+                'day'               => date_i18n('l', strtotime($date))
             ];
             $parsedData['visitors'][]   = isset($visitors[$date]) ? intval($visitors[$date]) : 0;
             $parsedData['views'][]      = isset($views[$date]) ? intval($views[$date]) : 0;
@@ -135,5 +72,38 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
         }
 
         return $parsedData;
+    }
+
+    protected function prepareResult($data)
+    {
+        $this->initChartData();
+
+        $this->setChartLabels($data['labels']);
+
+        $this->addChartDataset(
+            esc_html__('Visitors', 'wp-statistics'),
+            $data['visitors'],
+            'visitors'
+        );
+
+        $this->addChartDataset(
+            esc_html__('Views', 'wp-statistics'),
+            $data['views'],
+            'views'
+        );
+
+        // On single post view, no need to count posts
+        if (empty($this->args['post_id'])) {
+            $this->addChartDataset(
+                sprintf(
+                    esc_html__('Published %s', 'wp-statistics'),
+                    isset($this->args['post_type']) ? Helper::getPostTypeName($this->args['post_type']) : esc_html__('Contents', 'wp-statistics')
+                ),
+                $data['posts'],
+                'published'
+            );
+        }
+
+        return $this->getChartData();
     }
 }

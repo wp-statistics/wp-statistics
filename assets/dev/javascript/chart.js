@@ -92,7 +92,7 @@ wps_js.setTooltipPosition = function (tooltipEl, chart, tooltip) {
     tooltipEl.style.top = tooltipY + 'px';
 }
 
-const externalTooltipHandler = (context, data, dateLabels, prevDateLabels, monthTooltip, prevMonthTooltip, prevFullLabels) => {
+const externalTooltipHandler = (context, data, dateLabels, prevDateLabels, monthTooltip, prevMonthTooltip) => {
     const {chart, tooltip} = context;
     const unitTime = chart.options.plugins.tooltip.unitTime;
     const tooltipEl = getOrCreateTooltip(chart);
@@ -105,17 +105,12 @@ const externalTooltipHandler = (context, data, dateLabels, prevDateLabels, month
         const dataIndex = tooltip.dataPoints[0].dataIndex;
         const datasets = chart.data.datasets;
         let innerHtml = `<div>`;
-        const phpDateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
-        let momentDateFormat = phpToMomentFormat(phpDateFormat);
-        momentDateFormat = momentDateFormat
-            .replace(/\/YYYY|YYYY/g, '')
-            .replace(/,\s*$/, '')
-            .replace(/^\s*,/, '')
-            .trim();
         titleLines.forEach(title => {
             if (unitTime === 'day') {
                 const label = (data.data) ? data.data.labels[dataIndex] : data.labels[dataIndex];
                 const {date, day} = label; // Ensure `date` and `day` are correctly extracted
+                const phpDateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
+                let momentDateFormat = phpToMomentFormat(phpDateFormat);
                 innerHtml += `<div class="chart-title">${moment(date).format(momentDateFormat)} (${day})</div>`;
             } else if (unitTime === 'month') {
                 innerHtml += `<div class="chart-title">${monthTooltip[dataIndex]}</div>`;
@@ -149,12 +144,7 @@ const externalTooltipHandler = (context, data, dateLabels, prevDateLabels, month
                     const previousValue = previousDataset.data[dataIndex] || 0;
                     let previousLabel = null;
                     if (unitTime === 'day') {
-                        const prevLabelObj = prevFullLabels && prevFullLabels[dataIndex];
-                        if (prevLabelObj) {
-                            previousLabel = `${moment(prevLabelObj.date).format(momentDateFormat)} (${prevLabelObj.day})`;
-                        } else {
-                            previousLabel = prevDateLabels[dataIndex] || 'N/A';
-                        }
+                        previousLabel = prevDateLabels[dataIndex];
                     } else if (unitTime === 'month') {
                         previousLabel = prevMonthTooltip[dataIndex];
                     } else {
@@ -220,32 +210,33 @@ const phpToMomentFormat = (phpFormat) => {
 }
 
 const formatDateRange = (startDate, endDate, unit, momentDateFormat, isInsideDashboardWidgets) => {
-
-    const baseFormat = momentDateFormat
-        .replace(/\/YYYY|YYYY/g, '')
-        .replace(/\/YY|YY/g, '')
-        .replace(/[,/\s-]/g, ' ')
-        .trim();
-    const cleanFormat = baseFormat
-        .replace(/MM|MMM/g, 'MMM')
-        .replace(/DD|D/g, 'D')
-        .trim();
-
+    const startDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
     if (unit === 'month') {
-        const monthFormat = cleanFormat
-            .replace(/\s*D/g, '')
-            .replace(/YYYY|YY/g, '')
-            .replace(/\/YY|YY/g, '')
+        const monthFormat = momentDateFormat
+            .replace(/D+/g, '')
+            .replace(/\/\//g, '/')
+            .replace(/^\//, '')
+            .replace(/\/$/, '')
+            .replace(/\s*,/, '')
+            .replace(/-$/, '')
             .trim();
         return moment(startDate).format(monthFormat);
     } else {
-        return `${moment(startDate).format(cleanFormat)} to ${moment(endDate).format(cleanFormat)}`;
+        if (moment(startDate).year() === moment(endDate).year()) {
+            return `${moment(startDate).format(startDateFormat)} to ${moment(endDate).format(momentDateFormat)}`;
+        } else {
+            return `${moment(startDate).format(momentDateFormat)} to ${moment(endDate).format(momentDateFormat)}`;
+        }
     }
 }
 
 const setMonthDateRange = (startDate, endDate, momentDateFormat) => {
     const startDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
-    return `${moment(startDate).format(startDateFormat)} to ${moment(endDate).format(startDateFormat)}`;
+    if (moment(startDate).year() === moment(endDate).year()) {
+        return `${moment(startDate).format(startDateFormat)} to ${moment(endDate).format(momentDateFormat)}`;
+    } else {
+        return `${moment(startDate).format(momentDateFormat)} to ${moment(endDate).format(momentDateFormat)}`;
+    }
 }
 
 const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboardWidgets) => {
@@ -720,7 +711,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                     type: 'line', // Previous datasets are always lines
                     label: `${dataset.label} (Previous)`,
                     data: prevAggregatedData.aggregatedData[idx],
-                    borderColor: wps_js.hex_to_rgba(chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`], 0.7),
+                    borderColor: wps_js.hex_to_rgba(chartColors[dataset.slug] || chartColors[`Other${idx}`], 0.7),
                     hoverBorderColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
                     backgroundColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
                     fill: false,
@@ -773,7 +764,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
             : unitTime === 'week' ? 3 : unitTime === 'month' ? 7 : 9;
         lineChart.options.plugins.tooltip.unitTime = unitTime;
         lineChart.options.plugins.tooltip.external = (context) =>
-            externalTooltipHandler(context, realdata, dateLabels, prevDateLabels, monthTooltip, prevMonthTooltip, realdata.previousData ? realdata.previousData.labels : []);
+            externalTooltipHandler(context, realdata, dateLabels, prevDateLabels, monthTooltip, prevMonthTooltip);
         updateLegend(lineChart, datasets, tag_id, data);
         lineChart.update();
     }
@@ -855,7 +846,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
             legend: false,
             tooltip: {
                 enabled: false,
-                external: (context) => externalTooltipHandler(context, realdata, dateLabels, prevDateLabels, monthTooltip, prevMonthTooltip, realdata.previousData ? realdata.previousData.labels : []),
+                external: (context) => externalTooltipHandler(context, realdata, dateLabels, prevDateLabels, monthTooltip, prevMonthTooltip),
                 unitTime: unitTime, // Set initial unitTime
             },
         },

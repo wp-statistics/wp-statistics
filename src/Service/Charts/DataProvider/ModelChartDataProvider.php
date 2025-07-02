@@ -46,7 +46,7 @@ class ModelChartDataProvider extends AbstractChartDataProvider
             foreach ($data as $item) {
                 $model = $item->getDevice()->getModel();
 
-                if (!empty($model)) {
+                if (!empty($model) && $model !== 'Unknown') {
                     $models = array_column($parsedData, 'label');
 
                     if (!in_array($model, $models)) {

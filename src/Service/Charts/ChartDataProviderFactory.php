@@ -7,8 +7,6 @@ use WP_Statistics\Service\Charts\DataProvider\MapChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\ModelChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\DeviceChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\BrowserChartDataProvider;
-use WP_Statistics\Service\Charts\DataProvider\CountryChartDataProvider;
-use WP_Statistics\Service\Charts\DataProvider\TopSourceCategoriesDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\TrafficChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\PlatformChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\ExclusionsChartDataProvider;
@@ -19,7 +17,6 @@ use WP_Statistics\Service\Charts\DataProvider\UsersTrafficChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\SourceCategoryChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\PublishOverviewChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\AuthorsPostViewsChartDataProvider;
-use WP_Statistics\Service\Charts\DataProvider\LoggedInUsersChartDataProvider;
 
 class ChartDataProviderFactory
 {
@@ -106,7 +103,7 @@ class ChartDataProviderFactory
      * @param array $args The arguments to pass to the TrafficChartDataProvider constructor.
      * @return TrafficChartDataProvider
      */
-    public static function trafficChart($args = [])
+    public static function trafficChart($args)
     {
         return new TrafficChartDataProvider($args);
     }
@@ -128,7 +125,7 @@ class ChartDataProviderFactory
      * @param array $args The arguments to pass to the PlatformChartDataProvider constructor.
      * @return PlatformChartDataProvider
      */
-    public static function platformCharts($args = [])
+    public static function platformCharts($args)
     {
         return new PlatformChartDataProvider($args);
     }
@@ -161,7 +158,7 @@ class ChartDataProviderFactory
      * @param array $args
      * @return MapChartDataProvider
      */
-    public static function mapChart($args = [])
+    public static function mapChart($args)
     {
         return new MapChartDataProvider($args);
     }
@@ -186,38 +183,5 @@ class ChartDataProviderFactory
     public static function sourceCategoryChart($args)
     {
         return new SourceCategoryChartDataProvider($args);
-    }
-
-    /**
-     * Returns a new instance of CountryChartDataProvider.
-     *
-     * @param array $args
-     * @return CountryChartDataProvider
-     */
-    public static function countryChart($args = [])
-    {
-        return new CountryChartDataProvider($args);
-    }
-
-    /**
-     * Returns a new instance of TopSourceCategoriesDataProvider.
-     *
-     * @param array $args
-     * @return TopSourceCategoriesDataProvider
-     */
-    public static function topSourceCategories($args = [])
-    {
-        return new TopSourceCategoriesDataProvider($args);
-    }
-
-    /**
-     * Returns a new instance of TopSourceCategoriesDataProvider.
-     *
-     * @param array $args
-     * @return LoggedInUsersChartDataProvider
-     */
-    public static function loggedInUsers($args = [])
-    {
-        return new LoggedInUsersChartDataProvider($args);
     }
 }

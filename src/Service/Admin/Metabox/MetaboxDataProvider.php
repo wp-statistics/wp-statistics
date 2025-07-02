@@ -12,7 +12,6 @@ use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
-use WP_Statistics\Utils\Url;
 
 class MetaboxDataProvider
 {
@@ -108,6 +107,11 @@ class MetaboxDataProvider
         ];
     }
 
+    public function getTopCountiesData($args = [])
+    {
+        return $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['per_page' => 5, 'not_null' => 'location']));
+    }
+
     public function getPostSummaryData($args = [])
     {
         $postId = Request::get('post', '', 'number');
@@ -184,11 +188,6 @@ class MetaboxDataProvider
         $data['top_content']  = $topContent[0] ?? '';
 
         return $data;
-    }
-
-    public function getSourceCategoriesData($args = [])
-    {
-        return ChartDataProviderFactory::topSourceCategories($args)->getData();
     }
 
     public function getTrafficChartData($args = [])

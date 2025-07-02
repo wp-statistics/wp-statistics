@@ -17,7 +17,7 @@ else: ?>
                 <div class="postbox">
                     <?php
                         View::load("components/tables/category-pages", [
-                            'data'       => $data['categories'][$taxonomy] ?? null,
+                            'data'       => $data['categories'][$taxonomy],
                             'pagination' => $pagination
                         ]);
                     ?>

@@ -3,7 +3,6 @@
 namespace WP_Statistics\Service\Analytics;
 
 use WP_STATISTICS\IP;
-use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Traits\ObjectCacheTrait;
 use WP_STATISTICS\User;
 use WP_STATISTICS\Pages;
@@ -246,7 +245,7 @@ class VisitorProfile
     public function getUserId()
     {
         return $this->getCachedData('userId', function () {
-            if (!Option::get('visitors_log') || IntegrationHelper::shouldTrackAnonymously()) {
+            if (!Option::get('visitors_log') || Helper::shouldTrackAnonymously()) {
                 return 0;
             } else {
                 return User::get_user_id();

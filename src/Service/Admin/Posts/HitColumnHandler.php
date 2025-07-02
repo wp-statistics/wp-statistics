@@ -2,14 +2,15 @@
 
 namespace WP_Statistics\Service\Admin\Posts;
 
-use WP_Statistics\Components\DateRange;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\MiniChart\WP_Statistics_Mini_Chart_Settings;
+use WP_Statistics\Models\HistoricalModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Option;
+use WP_STATISTICS\Pages;
 use WP_Statistics\Service\Admin\MiniChart\MiniChartHelper;
 use WP_STATISTICS\TimeZone;
 use WP_Statistics\Traits\ObjectCacheTrait;
@@ -289,12 +290,17 @@ class HitColumnHandler
 
         $hitArgs = [
             'resource_type' => $this->getCache('postType'),
-            'ignore_date'   => true
+            'date'          => [
+                'from' => date('Y-m-d', strtotime($this->initialPostDate)),
+                'to'   => date('Y-m-d'),
+            ],
         ];
 
         // Change `resource_type` parameter if it's a term
         if (!empty($term)) {
             $hitArgs['resource_type'] = $this->getCache('postType');
+        } else {
+            $hitArgs['date']['from'] = get_post_time('Y-m-d', false, $objectId);
         }
 
         if ($this->miniChartHelper->getCountDisplay() === 'date_range') {
@@ -361,21 +367,18 @@ class HitColumnHandler
 
         // Display hit count only if it's a valid number
         if (is_numeric($hitCount)) {
-            $date = $this->getCache('hitArgs')['date'] ?? DateRange::get('30days');
-
             $analyticsUrl = Menus::admin_url('content-analytics', [
                 'post_id' => $objectId,
                 'type'    => 'single',
-                'from'    => $date['from'],
-                'to'      => $date['to']
+                'from'    => Request::get('from', $this->getCache('hitArgs')['date']['from']),
+                'to'      => Request::get('to', $this->getCache('hitArgs')['date']['to']),
             ]);
-
             if ($isTerm) {
                 $analyticsUrl = Menus::admin_url('category-analytics', [
                     'term_id' => $objectId,
                     'type'    => 'single',
-                    'from'    => $date['from'],
-                    'to'      => $date['to']
+                    'from'    => Request::get('from', $this->getCache('hitArgs')['date']['from']),
+                    'to'      => Request::get('to', $this->getCache('hitArgs')['date']['to']),
                 ]);
             }
 

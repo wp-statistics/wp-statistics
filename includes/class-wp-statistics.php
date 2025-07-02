@@ -20,19 +20,16 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagementManager;
 use WP_Statistics\Service\Admin\Metabox\MetaboxManager;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Notification\NotificationManager;
-use WP_Statistics\Service\Admin\MarketingCampaign\MarketingCampaignManager;
 use WP_Statistics\Service\Admin\Overview\OverviewManager;
 use WP_Statistics\Service\Admin\PageInsights\PageInsightsManager;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditManager;
-use WP_Statistics\Service\Admin\HelpCenter\HelpCenterManager;
 use WP_Statistics\Service\Admin\Referrals\ReferralsManager;
 use WP_Statistics\Service\Admin\TrackerDebugger\TrackerDebuggerManager;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsManager;
 use WP_Statistics\Service\Analytics\AnalyticsManager;
 use WP_Statistics\Service\Database\Managers\MigrationHandler;
 use WP_Statistics\Service\HooksManager;
-use WP_Statistics\Service\CronEventManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
 
 defined('ABSPATH') || exit;
@@ -122,7 +119,7 @@ final class WP_Statistics
             });
 
             /**
-             * Setup background process.
+             * Setup background process
              */
             $this->initializeBackgroundProcess();
             MigrationHandler::init();
@@ -183,7 +180,6 @@ final class WP_Statistics
         $userOnline                 = new \WP_STATISTICS\UserOnline();
         $anonymizedUsageDataManager = new AnonymizedUsageDataManager();
         $notificationManager        = new NotificationManager();
-        $MarketingCampaignManager   = new MarketingCampaignManager();
 
         // Admin classes
         if (is_admin()) {
@@ -208,7 +204,6 @@ final class WP_Statistics
             $analytics           = new AnalyticsManager();
             $authorAnalytics     = new AuthorAnalyticsManager();
             $privacyAudit        = new PrivacyAuditManager();
-            $helpCenter          = new HelpCenterManager();
             $geographic          = new GeographicManager();
             $devices             = new DevicesManager();
             $categoryAnalytics   = new CategoryAnalyticsManager();
@@ -224,8 +219,7 @@ final class WP_Statistics
             new AjaxBackgroundProcessManager();
         }
 
-        $hooksManager       = new HooksManager();
-        $cronEventManager   = new CronEventManager();
+        $hooksManager = new HooksManager();
 
         // WordPress ShortCode and Widget
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-shortcode.php';
@@ -262,6 +256,8 @@ final class WP_Statistics
         $this->registerBackgroundProcess(IncompleteGeoIpUpdater::class, 'update_unknown_visitor_geoip');
         $this->registerBackgroundProcess(GeolocationDatabaseDownloadProcess::class, 'geolocation_database_download');
         $this->registerBackgroundProcess(SourceChannelUpdater::class, 'update_visitors_source_channel');
+        $this->registerBackgroundProcess(DataMigrationProcess::class, 'data_migration_process');
+        $this->registerBackgroundProcess(SchemaMigrationProcess::class, 'schema_migration_process');
         $this->registerBackgroundProcess(TableOperationProcess::class, 'table_operations_process');
     }
 

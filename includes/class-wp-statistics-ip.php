@@ -6,7 +6,6 @@ use ErrorException;
 use Exception;
 use WP_Statistics;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
-use WP_Statistics\Service\Integrations\IntegrationHelper;
 
 class IP
 {
@@ -211,14 +210,14 @@ class IP
          * @example 192.168.1.1 -> 192.168.1.0
          * @example 0897:D836:7A7C:803F:344B:5348:71EE:1130 -> 897:d836:7a7c:803f::
          */
-        if (Option::get('anonymize_ips') == true || IntegrationHelper::shouldTrackAnonymously()) {
+        if (Option::get('anonymize_ips') == true || Helper::shouldTrackAnonymously()) {
             $user_ip = wp_privacy_anonymize_ip($user_ip);
         }
 
         /**
          * Check if the option to hash IP addresses is enabled in the settings.
          */
-        if (Option::get('hash_ips') == true || IntegrationHelper::shouldTrackAnonymously()) {
+        if (Option::get('hash_ips') == true || Helper::shouldTrackAnonymously()) {
             $user_ip = self::hashUserIp($user_ip);
         }
 
@@ -412,7 +411,7 @@ class IP
 
     /**
      * Gets visitor's IP address from Cloudflare header.
-     *
+     * 
      * @return string Sanitized IP address or empty string
      */
     public static function getCloudflareIp(): string
