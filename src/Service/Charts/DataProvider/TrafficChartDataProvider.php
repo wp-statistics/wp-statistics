@@ -15,14 +15,12 @@ class TrafficChartDataProvider extends AbstractChartDataProvider
     use LineChartResponseTrait;
 
     protected $visitorsModel;
-    protected $viewsModel;
 
     public function __construct($args)
     {
         parent::__construct($args);
 
-        $this->visitorsModel    = new VisitorsModel();
-        $this->viewsModel       = new ViewsModel();
+        $this->visitorsModel = new VisitorsModel();
     }
 
     public function getData()

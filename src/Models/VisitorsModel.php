@@ -504,7 +504,6 @@ class VisitorsModel extends BaseModel
             'order'                 => 'DESC',
             'page'                  => '',
             'per_page'              => '',
-            'user_info'             => false,
             'date_field'            => 'visitor.last_counter',
             'logged_in'             => false,
             'user_role'             => '',
