@@ -4,7 +4,7 @@ namespace WP_STATISTICS;
 
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Models\ViewsModel;
-use WP_Statistics\Service\Integrations\WpConsentApi;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
 
 class Frontend
 {
@@ -64,12 +64,15 @@ class Frontend
                 'onlineParams' => $onlineParams,
                 'option'       => [
                     'userOnline'           => Option::get('useronline'),
-                    'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
                     'dntEnabled'           => Option::get('do_not_track'),
                     'bypassAdBlockers'     => Option::get('bypass_ad_blockers', false),
-                    'isWpConsentApiActive' => WpConsentApi::isWpConsentApiActive(),
-                    'trackAnonymously'     => Helper::shouldTrackAnonymously(),
+                    'consentIntegration'   => IntegrationHelper::getIntegrationStatus(),
                     'isPreview'            => is_preview(),
+
+                    // legacy params for backward compatibility (with older versions of DataPlus)
+                    'trackAnonymously'     => IntegrationHelper::shouldTrackAnonymously(),
+                    'isWpConsentApiActive' => IntegrationHelper::isIntegrationActive('wp_consent_api'),
+                    'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
                 ],
                 'jsCheckTime'           => apply_filters('wp_statistics_js_check_time_interval', 60000),
                 'isLegacyEventLoaded'   => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded

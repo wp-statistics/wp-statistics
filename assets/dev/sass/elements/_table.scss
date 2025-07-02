@@ -229,6 +229,10 @@ body .o-table-wrapper table.wps-new-table {
           gap: 5px;
           align-items: center;
 
+          .wps-tooltip-icon{
+            margin-bottom: 0!important;
+          }
+
           &:after {
             content: '';
             background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iMTEiIHZpZXdCb3g9IjAgMCAxMCAxMSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuNTIwOTQgNy42NzMzNkw4LjMxNDY5IDQuODc5NjFMOS4wNTEyNiA1LjYxNjE3TDUuMDAwMTEgOS42NjczMkwwLjk0ODk3NSA1LjYxNjE3TDEuNjg1NTUgNC44Nzk2MUw0LjQ3OTI4IDcuNjczMzZWMS4zMzM5OEg1LjUyMDk0VjcuNjczMzZaIiBmaWxsPSIjNTY1ODVBIi8+Cjwvc3ZnPgo=") center center no-repeat;
@@ -567,6 +571,13 @@ body .o-table-wrapper table.wps-new-table {
           img {
             width: 13px;
             height: 13px;
+
+            &.flag{
+              width: 16px;
+              height: 13px;
+              border-radius: 2px;
+            }
+
           }
 
           .wps-visitor__information__user-img {

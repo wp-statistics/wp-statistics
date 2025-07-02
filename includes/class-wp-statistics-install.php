@@ -5,6 +5,7 @@ namespace WP_STATISTICS;
 use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Components\Event;
 use WP_Statistics\Service\Database\Managers\TableHandler;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
 
 class Install
 {
@@ -81,10 +82,14 @@ class Install
 
         if (empty($version)) {
             update_option('wp_statistics_is_fresh', true);
-            return;
+        } else {
+            update_option('wp_statistics_is_fresh', false);
         }
 
-        update_option('wp_statistics_is_fresh', false);
+        $installationTime = get_option('wp_statistics_installation_time');
+        if (empty($installationTime)) {
+            update_option('wp_statistics_installation_time', time());
+        }
     }
 
     /**
@@ -521,6 +526,25 @@ class Install
         }
 
         /**
+         * Remove wp_statistics_marketing_campaign_hook, wp_statistics_notification_hook from schedule
+         */
+        if (version_compare($latest_version, '14.15', '>=')) {
+            Event::unschedule('wp_statistics_marketing_campaign_hook');
+            Event::unschedule('wp_statistics_notification_hook');
+        }
+
+        /**
+         * Update consent integration to WP Consent API for backward compatibility
+         */
+        $integration          = Option::get('consent_integration');
+        $consentLevel         = Option::get('consent_level_integration', 'disabled');
+        $isWpConsentApiActive = IntegrationHelper::getIntegration('wp_consent_api')->isActive();
+
+        if ($isWpConsentApiActive && empty($integration) && $consentLevel !== 'disabled') {
+            Option::update('consent_integration', 'wp_consent_api');
+        }
+
+        /**
          * Removes duplicate entries from the visitor_relationships table.
          *
          * @version 14.4
@@ -873,7 +897,7 @@ class Install
                         } elseif ($taxonomy == "post_tag") {
                             $page_type = 'post_tag';
                         } else {
-                            $page_type = 'tax';
+                            $page_type = 'tax_' . $taxonomy;
                         }
                     }
 

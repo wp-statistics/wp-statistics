@@ -34,13 +34,20 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
      */
     protected function getTotal($needCaching = true)
     {
-        $total = $needCaching ? $this->getCachedTotal(self::$currentProcessKey) : false;
+        $attempts = $this->getCachedAttempts(self::$currentProcessKey);
+        $total    = $needCaching ? $this->getCachedTotal(self::$currentProcessKey) : false;
 
         if (!empty($total)) {
             $this->total   = $total;
             $this->batches = ceil($this->total / $this->batchSize);
-
-            return;
+            
+            // Check for last batch after we have batches count.
+            if ($attempts - 1 >= $this->batches) {
+                // Force a recount on last batch.
+                $needCaching = false;
+            } else {
+                return;
+            }
         }
 
         $inspect = DatabaseFactory::table('inspect')
@@ -136,7 +143,7 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
             ->execute()
             ->getResult();
 
-        $this->getTotal(false);
+        $this->getTotal(true);
         $completedCount = (int) ($visitors[0]['total'] ?? 0);
 
         if ($completedCount >= $this->total) {
@@ -156,7 +163,7 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
     protected function migrate()
     {
         $this->setBatchSize(100);
-        $this->getTotal(false);
+        $this->getTotal(true);
         $this->calculateOffset();
 
         $attempts = $this->trackAttempts();

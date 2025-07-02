@@ -15,7 +15,7 @@ use WP_Statistics\Components\View;
             </div>
         </div>
         <div class="wps-postbox-chart--container">
-            <canvas id="<?php echo esc_attr($chart_id) ?>">
+            <canvas id="<?php echo esc_attr($chart_id) ?>" aria-label="<?php echo esc_html__('Traffic trend chart', 'wp-statistics') ?>" role="img">
         </div>
     </div>
 </div>

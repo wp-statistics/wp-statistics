@@ -10,7 +10,7 @@ View::load('components/objects/share-anonymous-notice');
 ?>
 <div class="wps-wrap__top <?php echo isset($real_time_button) ? 'wps-wrap__top--has__realtime' : ''; ?>">
     <?php if (isset($backUrl, $backTitle)): ?>
-        <a href="<?php echo esc_url($backUrl) ?>" title="<?php echo esc_html($backTitle) ?>" class="wps-previous-url"><?php echo esc_html($backTitle) ?></a>
+        <a href="<?php echo esc_url($backUrl) ?>"  aria-label="<?php echo esc_html($backTitle) ?>" class="wps-previous-url"><?php echo esc_html($backTitle) ?></a>
     <?php endif ?>
 
     <?php if (isset($title)): ?>
@@ -33,6 +33,9 @@ View::load('components/objects/share-anonymous-notice');
     <?php
     if (Menus::in_page('content-analytics') && Request::compare('type', 'single')) {
         View::load("components/headers/post-type");
+    }
+    if (Menus::in_page('content-analytics') && Request::compare('type', 'single-resource')) {
+        View::load("components/headers/single-resource");
     }
     if (Menus::in_page('category-analytics') && Request::compare('type', 'single')) {
         View::load("components/headers/category-analytics");

@@ -25,13 +25,15 @@ use WP_STATISTICS\Helper;
                         <table width="100%" class="o-table wps-new-table wps-new-table--referrers">
                             <thead>
                                 <tr>
-                                    <th class="wps-pd-l">
+                                    <th scope="col" class="wps-pd-l">
                                         <span><?php esc_html_e('Type', 'wp-statistics') ?></span>
                                     </th>
-                                    <th class="wps-pd-l start">
+                                    <th scope="col" class="wps-pd-l start">
                                         <span class="wps-order"><?php esc_html_e('Exclusions', 'wp-statistics') ?></span>
                                     </th>
-                                    <th class="wps-pd-l"></th>
+                                    <th scope="col" class="wps-pd-l">
+                                        <span class="screen-reader-text"><?php esc_html_e('View excluded percentage', 'wp-statistics'); ?></span>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>

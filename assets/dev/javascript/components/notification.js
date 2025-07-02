@@ -31,13 +31,14 @@ jQuery(document).ready(function () {
         document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
 
         wpsNotificationButtons.forEach(function (button) {
-            button.addEventListener('click', function () {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
                 wpsSidebar.classList.toggle('is-active');
                 wpsOverlay.classList.toggle('is-active');
                 setTimeout(() => {
                     body.classList.toggle('wps-no-scroll');
                 }, 250);
-             });
+            });
         });
 
         wpsOverlay.addEventListener('click', function () {
@@ -64,22 +65,26 @@ jQuery(document).ready(function () {
         }
 
         if (activeTab.dataset.tab === "tab-2") {
-            if(dismissAllBtn) dismissAllBtn.style.display = "none";
+            if (dismissAllBtn) dismissAllBtn.style.display = "none";
         } else {
             const activeCards = document.querySelectorAll(
                 ".wps-notification-sidebar__cards--active .wps-notification-sidebar__card:not(.wps-notification-sidebar__no-card)"
             );
             const hasNotifications = activeCards.length > 0;
-            if(dismissAllBtn) dismissAllBtn.style.display = hasNotifications ? "inline-flex" : "none";
+            if (dismissAllBtn) dismissAllBtn.style.display = hasNotifications ? "inline-flex" : "none";
         }
     };
 
     const checkEmptyNotifications = () => {
+        let notificationsHasItems = jQuery('.wps-notifications--has-items');
+        let helpNotification = jQuery('.wps-help__notification');
         let activeCards = jQuery('.wps-notification-sidebar__tab-pane--active .wps-notification-sidebar__card:not(.wps-notification-sidebar__no-card)');
         let noCardMessages = jQuery('.wps-notification-sidebar__tab-pane--active .wps-notification-sidebar__no-card');
         let noCardMessage = noCardMessages.first();
         if (activeCards.length === 0) {
             noCardMessage.css('display', 'flex');
+            helpNotification.hide();
+            notificationsHasItems.removeClass('wps-notifications--has-items');
         } else {
             noCardMessage.hide();
         }
@@ -144,35 +149,6 @@ jQuery(document).ready(function () {
             'wps_nonce': wps_js.global.rest_api_nonce,
             'action': 'wp_statistics_dismiss_notification',
             'notification_id': notificationId
-        }
-
-        jQuery.ajax({
-            url: wps_js.global.admin_url + 'admin-ajax.php',
-            type: 'GET',
-            dataType: 'json',
-            data: params,
-            timeout: 30000,
-            success: function ({data, success}) {
-                if (!success) {
-                    console.log(data);
-                }
-            },
-            error: function (xhr, status, error) {
-                console.log(error);
-            }
-        });
-    });
-
-    jQuery(document).on('click', "a.wps-notifications--has-items", function (e) {
-        e.preventDefault();
-
-        let $this = jQuery(this);
-
-        $this.removeClass('wps-notifications--has-items');
-
-        let params = {
-            'wps_nonce': wps_js.global.rest_api_nonce,
-            'action': 'wp_statistics_update_notifications_status',
         }
 
         jQuery.ajax({

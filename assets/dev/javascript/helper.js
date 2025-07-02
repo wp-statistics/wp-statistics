@@ -203,6 +203,7 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
         let parent = element.parentNode;
         let nextSibling = element.nextSibling;
         parent.removeChild(element);
+        data = data.map(Number);
         let total = data.reduce((sum, data) => sum + data, 0);
         let blockDiv = document.createElement('div');
         blockDiv.classList.add('wps-horizontal-bar');
@@ -223,13 +224,13 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
             if (imageUrls && imageUrls[i] && imageUrls[i] !== 'undefined') {
                 let img = document.createElement('img');
                 img.src = imageUrls[i];
-                img.alt = labels[i];
+                img.alt = labels[i] + ' icon';
                 img.classList.add('wps-horizontal-bar__image');
                 labelImageDiv.appendChild(img);
             }
             let labelDiv = document.createElement('div');
             labelDiv.innerHTML = labels[i];
-            labelDiv.setAttribute('title', labels[i]);
+            labelDiv.setAttribute('aria-label', labels[i]);
             labelDiv.classList.add('wps-horizontal-bar__label');
             labelImageDiv.appendChild(labelDiv);
             itemDiv.appendChild(labelImageDiv);
@@ -448,6 +449,14 @@ jQuery(document).ready(function () {
     });
 });
 
+if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "help-center") {
+    const body = document.body;
+    const targetClass = 'statistics_page_wps_help-center_page';
+
+    if (!body.classList.contains(targetClass)) {
+        body.classList.add(targetClass);
+    }
+}
 jQuery(document).ready(function () {
     const targetElement = document.querySelector('.wp-header-end');
     const noticeElement = document.querySelector('.notice.notice-warning.update-nag');
@@ -457,6 +466,12 @@ jQuery(document).ready(function () {
         targetElement.parentNode.insertBefore(noticeElement, targetElement.nextSibling);
     }
 
+    document.querySelectorAll('.wp-has-submenu.menu-top.toplevel_page_wps_overview_page li a')
+        .forEach(link => {
+            if (link.querySelector('.wps-text-warning')) {
+                link.classList.add('addon-menu');
+            }
+        });
 });
 
 window.renderFormatNum = function (data) {

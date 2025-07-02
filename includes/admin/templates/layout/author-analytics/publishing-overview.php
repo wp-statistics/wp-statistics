@@ -12,7 +12,7 @@
     </div>
     <div class="wps-card__chart-matrix">
         <div class="chart-container">
-            <canvas id="overviewPublishChart">
+            <canvas id="overviewPublishChart" aria-label="<?php echo esc_html__('Publishing overview chart', 'wp-statistics') ?>" role="img">
         </div>
         <div class="wps-card__chart-guide">
             <div class="wps-card__chart-guide--items">

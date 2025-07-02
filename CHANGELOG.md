@@ -1,20 +1,50 @@
-= 14.13.5 - 2025-05-x =
-- **Fix:** Fixed issue where page views were zero when using a taxonomy filter other than 'category'.
-- **Fix:** Show referrers data based on the first viewed page.
-- **Enhancement:** Display referred visitors via UTM parameters in the `Referrals` report.
-- **Fix:** Fixed Decimal Formatting
-- **Fix**: Fixed visitors number aggregation issue.
-- **Fix:** Resolved posts view column issue.
-- **Enhancement:** Added `wp_statistics_disable_tracker_debugger_logs` filter to conditionally bypass tracker debugger error logging.
-- **Fix:** Removed "Get Premium" action link if license is available.
-- **Enhancement:** Optimized online visitor tracking request to improve performance.
-- **Fix:** Unseted /online endpoint from REST API when Monitor Online Visitors option is disabled.
-- **Fix:** Fixed an issue with the 'All Time' date filter displaying incorrect content details in alternative calendars.
-- **Fix:** Fixed display issue for Android app referrers in Top Referrers widget.
-- **Fix:** Hide settings and help icons based on user role.
-- **Fix:** Resolved double slash issue in Link Report URL.
-- **Fix:** Removed the /online and /hit endpoints from the REST API when the Tracking Method is set to Server-Side Tracking (deprecated).
+= 14.14.x - 2025-x-x =
+- **Enhancement:** Combined notification and marketing campaign cron jobs into a single daily scheduled event to optimize scheduling.
 - **Enhancement:** Default dashboard now displays only the “Traffic Overview” widget for a cleaner initial experience.
+
+= 14.14.1 - 2025-06-29 =
+- **New:** Added a Database Schema tool to check and repair database structure in the Optimization page.
+- **Enhancement:** Added country name to the flag tooltip in Visitor Info.
+- **Enhancement:** Added unread notification badge to the Help Center menu.
+- **Enhancement:** Improved migration performance by running schema updates synchronously and removing background processes.
+- **Enhancement:** Improved the "Views" section in the Visitor Insight report.
+- **Enhancement:** Deprecated the Matomo Referrer Spam Blacklist option (to be removed in v14.16).
+- **Fix:** Fixed accessibility (A11y) issues.
+- **Fix:** Resolved zero page views for non-'category' taxonomy filters.
+- **Fix:** Anonymous data opt-in notice now appears 7 days after plugin activation.
+- **Fix:** Fixed incorrect page titles for WooCommerce My Account sub-pages.
+- **Fix:** Normalized the taxonomy `type` field for `tax_` prefixes.
+
+= 14.14 - 2025-06-01 =
+- **New:** Added a Help page inside the plugin to guide users.
+- **New:** Introduced dynamic promo text in the plugin header.
+- **New:** Added Single Resource report for assets without a post ID.
+- **New:** Integrated with the Real Cookie Banner plugin.
+- **New:** Added an option to disable word count analytics in reports.
+- **Enhancement:** Referral Overview and New Design for Settings and Optimization pages.
+- **Enhancement:** Merged Location data into Visitor Information in reports.
+- **Enhancement:** Added Entry and Exit Page columns to relevant reports.
+- **Enhancement:** Added license status helper on the Add-ons page.
+- **Enhancement:** Weekday names now use short format in charts.
+- **Enhancement:** Referrals report now displays traffic from UTM parameters.
+- **Enhancement:** Added `wp_statistics_disable_tracker_debugger_logs` filter to skip error logging in tracker debugger when needed.
+- **Enhancement:** Optimized online visitor tracking requests for better performance.
+- **Enhancement:** Reduced resource consumption during migration to improve efficiency and stability.
+- **Fix:** Standardized "Page" column links across all widgets and reports.
+- **Fix:** Fixed zero page views when using taxonomy filters other than 'category'.
+- **Fix:** Referrers data now reflect the first viewed page.
+- **Fix:** Corrected number formatting for decimal values.
+- **Fix:** Fixed visitor count aggregation issues.
+- **Fix:** Resolved issue with the post views column.
+- **Fix:** Removed `/online` endpoint from REST API when Monitor Online Visitors is disabled.
+- **Fix:** Fixed incorrect content details shown with "All Time" date filter in alternative calendars.
+- **Fix:** Corrected display for Android app traffic in the Top Referrers widget.
+- **Fix:** Settings and Help icons in the header now appear based on user access.
+- **Fix:** Resolved double slashes in Link Report URLs.
+- **Fix:** Removed `/online` and `/hit` REST endpoints when Server-Side Tracking is enabled (deprecated).
+- **Fix:** Ensured `tracker.js` works with Root Bedrock setups.
+- **Fix:** Handled `E_STRICT` deprecation warning in PHP 8.4.
+- **New:** Added a database schema section to the Optimization page to resolve database errors.
 
 = 14.13.4 - 2025-04-29 =
 - **Enhancement:** Enforced capability check in optionUpdater.

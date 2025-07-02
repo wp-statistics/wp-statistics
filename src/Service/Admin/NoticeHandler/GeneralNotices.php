@@ -9,8 +9,10 @@ use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Schedule;
 use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_STATISTICS\User;
 use WP_Statistics\Traits\TransientCacheTrait;
+use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
 
 class GeneralNotices
 {
@@ -22,11 +24,13 @@ class GeneralNotices
      * @var array
      */
     private $coreNotices = [
+        'detectConsentIntegrations',
         'checkTrackingMode',
         'performanceAndCleanUp',
         'memoryLimitCheck',
         'emailReportSchedule',
-        'checkCloudflareGeolocatin'
+        'checkCloudflareGeolocatin',
+        'checkDbSchemaIssue'
     ];
 
     /**
@@ -38,7 +42,7 @@ class GeneralNotices
     {
         $this->coreNotices = apply_filters('wp_statistics_admin_notices', $this->coreNotices);
 
-        if (! is_admin()) {
+        if (!is_admin()) {
             return;
         }
 
@@ -48,6 +52,40 @@ class GeneralNotices
                     call_user_func([$this, $notice]);
                 }
             }
+        }
+    }
+
+    /**
+     * Detect consent integrations and shows notice
+     *
+     * @return void
+     */
+    private function detectConsentIntegrations()
+    {
+        if (Option::get('consent_integration')) return;
+
+        $integrations = IntegrationHelper::getAllIntegrations();
+
+        foreach ($integrations as $integration) {
+            if (!$integration->isActive()) continue;
+
+            $notice = $integration->detectionNotice();
+
+            if (empty($notice) || Notice::isNoticeDismissed($notice['key'])) continue;
+
+            $message = wp_kses(
+                sprintf(
+                    '<div><b class="wp-statistics-notice__title">%s - %s</b><p>%s</p><a href="%s">%s</a></div>',
+                    esc_html__('WP Statistics', 'wp-statistics'),
+                    esc_html($notice['title']),
+                    esc_html($notice['description']),
+                    esc_url(Menus::admin_url('settings', ['tab' => 'privacy-settings']) . '#consent_integration'),
+                    esc_html__('Activate integration ›', 'wp-statistics')
+                ),
+                ['div' => ['class' => []], 'b' => ['class' => []], 'p' => [], 'a' => ['href' => []]]
+            );
+
+            Notice::addNotice($message, $notice['key']);
         }
     }
 
@@ -75,7 +113,7 @@ class GeneralNotices
         $settingsUrl = Menus::admin_url('settings');
         $noticeText  = sprintf(
             wp_kses(
-                /* translators: %s: settings URL */
+            /* translators: %s: settings URL */
                 __('<b>WP Statistics Notice:</b> Server Side Tracking is less accurate and will be deprecated in <b>version 15</b>. Please switch to Client Side Tracking for better accuracy. <a href="%s">Update Tracking Settings</a>.', 'wp-statistics'),
                 [
                     'b' => [],
@@ -118,12 +156,12 @@ class GeneralNotices
 
             $message = sprintf(
                 wp_kses(
-                    /* translators: %1$s: Settings URL, %2$s: Optimization URL, %3$s: Documentation URL */
+                /* translators: %1$s: Settings URL, %2$s: Optimization URL, %3$s: Documentation URL */
                     __('<b>WP Statistics Notice (Database Maintenance Recommended):</b> Your database has accumulated many records, which could slow down your site. To improve performance, go to <a href="%1$s">Settings → Data Management</a> to enable the option that stops recording old visitor data, and visit the <a href="%2$s">Optimization page</a> to clean up your database. This process only removes detailed old visitor logs but retains aggregated data. Your other data and overall statistics will remain unchanged. For more details, <a href="%3$s" target="_blank">click here</a>.', 'wp-statistics'),
                     [
                         'b' => [],
                         'a' => [
-                            'href' => [],
+                            'href'   => [],
                             'target' => [],
                         ],
                     ]
@@ -148,11 +186,11 @@ class GeneralNotices
             return;
         }
 
-        if (! Menus::in_plugin_page()) {
+        if (!Menus::in_plugin_page()) {
             return;
         }
 
-        if (! Helper::checkMemoryLimit()) {
+        if (!Helper::checkMemoryLimit()) {
             return;
         }
 
@@ -191,7 +229,7 @@ class GeneralNotices
 
         Notice::addNotice(
             sprintf(
-                /* translators: %1$s: URL to the update settings page */
+            /* translators: %1$s: URL to the update settings page */
                 wp_kses(
                     __('Please update your email report schedule due to new changes in our latest release: <a href="%1$s">Update Settings</a>.', 'wp-statistics'),
                     [
@@ -209,7 +247,7 @@ class GeneralNotices
 
     /**
      * Notifies users about clouldflare geolocation feature.
-     * 
+     *
      * @return void
      */
     public function checkCloudflareGeolocatin()
@@ -218,7 +256,7 @@ class GeneralNotices
             return;
         }
 
-        if (! Menus::in_plugin_page() || empty(IP::getCloudflareIp())) {
+        if (!Menus::in_plugin_page() || empty(IP::getCloudflareIp())) {
             return;
         }
 
@@ -229,7 +267,7 @@ class GeneralNotices
         Notice::addNotice(
             wp_kses(
                 sprintf(
-                    /* translators: %1$s: opening strong tag, %2$s: closing strong tag, %3$s: suggestion text about Cloudflare, %4$s: opening link tag with href and title, %5$s: link text, %6$s: closing link tag */
+                /* translators: %1$s: opening strong tag, %2$s: closing strong tag, %3$s: suggestion text about Cloudflare, %4$s: opening link tag with href and title, %5$s: link text, %6$s: closing link tag */
                     '%1$sSuggestion:%2$s %3$s %4$s%5$s%6$s',
                     '<strong>',
                     '</strong>',
@@ -238,7 +276,7 @@ class GeneralNotices
                         'wp-statistics'
                     ),
                     sprintf(
-                        /* translators: %1$s: URL to advanced settings page, %2$s: Title attribute for the link tooltip */
+                    /* translators: %1$s: URL to advanced settings page, %2$s: Title attribute for the link tooltip */
                         '<a href="%1$s" title="%2$s">',
                         esc_url(admin_url('admin.php?page=wps_settings_page&tab=advanced-settings')),
                         esc_attr__('Go to WP Statistics Advanced Settings', 'wp-statistics')
@@ -248,15 +286,46 @@ class GeneralNotices
                 ),
                 [
                     'strong' => [],
-                    'a' => [
-                        'href' => [],
+                    'a'      => [
+                        'href'   => [],
                         'target' => [],
-                        'title' => [],
+                        'title'  => [],
                     ],
                 ]
             ),
             'cloudflare_geolocation',
             'info'
         );
+    }
+
+    /**
+     * Checks for database schema issues and displays a warning notice if inconsistencies are found.
+     *
+     * @return void
+     */
+    private function checkDbSchemaIssue()
+    {
+        $schemaCheckResult = SchemaMaintainer::check();
+        $databaseStatus    = $schemaCheckResult['status'] ?? null;
+
+        if ($databaseStatus === 'success') {
+            return;
+        }
+
+        $message = sprintf(
+            wp_kses(
+                __('<b>WP Statistics:</b> Your database needs a quick update. <a href="%1$s">Run the Database Maintenance tool</a> to keep your stats accurate.', 'wp-statistics'),
+                [
+                    'b' => [],
+                    'a' => [
+                        'href'   => [],
+                        'target' => [],
+                    ],
+                ]
+            ),
+            esc_url(admin_url('admin.php?page=wps_optimization_page&tab=updates&row=wps_database_schema_form'))
+        );
+
+        Notice::addNotice($message, 'database_schema_issue_detected', 'warning', false);
     }
 }
