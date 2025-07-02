@@ -1,6 +1,8 @@
 = 14.15 - 2025-x-x =
 - **New:** Added a new `Search Terms` report under `Visitor Insight` page.
 - **New:** Added `Overview` report for `Visitor Insight`.
+- **New:** Added overview report for `Page Insights`.
+- **New:** Added `Device Overview` report.
 
 = 14.14 - 2025-x-x =
 - **New:** Added `Device Overview` report.

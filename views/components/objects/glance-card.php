@@ -4,7 +4,7 @@
     </div>
     <div class="inside">
         <div class="wps-at-a-glance <?php echo isset($two_column) && $two_column ? 'wps-at-a-glance__two-col' : ''; ?>">
-        <?php if (!empty($metrics) && is_array($metrics)): ?>
+            <?php if (!empty($metrics) && is_array($metrics)): ?>
                 <?php foreach ($metrics as $metric): ?>
                     <div class="wps-at-a-glance-item">
                         <!-- Metric Label -->
