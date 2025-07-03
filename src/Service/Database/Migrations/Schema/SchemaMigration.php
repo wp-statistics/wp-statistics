@@ -1,14 +1,15 @@
 <?php
 
-namespace WP_Statistics\Service\Database\Migrations;
+namespace WP_Statistics\Service\Database\Migrations\Schema;
 
 use Exception;
+use WP_Statistics\Abstracts\BaseMigrationOperation;
 use WP_Statistics\Service\Database\DatabaseFactory;
 
 /**
  * Manages migrations related to database schema.
  */
-class SchemaMigration extends AbstractMigrationOperation
+class SchemaMigration extends BaseMigrationOperation
 {
     /**
      * The name of the migration operation.

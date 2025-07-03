@@ -4,7 +4,6 @@ namespace WP_Statistics\Models;
 
 use WP_Statistics\Abstracts\BaseModel;
 use WP_STATISTICS\Admin_Template;
-use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\AjaxBackgroundProcessFactory;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Decorators\ReferralDecorator;
 use WP_Statistics\Decorators\VisitorDecorator;
