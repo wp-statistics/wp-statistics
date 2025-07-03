@@ -159,7 +159,6 @@ class QueueFactory
         $migrationSteps    = $migrationInstance->getMigrationSteps();
 
         foreach ($migrationSteps as $stepKey => $methodName) {
-            // Skip if already completed.
             if (self::isStepCompleted($stepKey, $completedSteps)) {
                 continue;
             }
@@ -274,10 +273,8 @@ class QueueFactory
                 return false;
             }
 
-            // Execute the migration method
             $instance->$method();
 
-            // Mark as completed
             self::markStepCompleted($step['identifier']);
 
             return true;

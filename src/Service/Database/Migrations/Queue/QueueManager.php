@@ -45,10 +45,8 @@ class QueueManager
      */
     public function __construct()
     {
-        // Always handle completion notices
         add_action('current_screen', [$this, 'handleDoneNotice']);
 
-        // Only setup migration hooks if migrations are pending or completed
         if (!QueueFactory::isMigrationCompleted() && !QueueFactory::needsMigration()) {
             return;
         }
@@ -160,10 +158,8 @@ class QueueManager
 
         check_admin_referer(self::MIGRATION_NONCE, 'nonce');
 
-        // Execute all pending migration steps
         $this->executeAllMigrations();
 
-        // Mark as completed
         Option::saveOptionGroup('status', 'done', 'queue_background_process');
 
         $this->handleRedirect();
