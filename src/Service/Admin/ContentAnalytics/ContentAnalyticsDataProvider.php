@@ -1,6 +1,7 @@
 <?php
 namespace WP_Statistics\Service\Admin\ContentAnalytics;
 
+use WP_Statistics\Components\DateRange;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Models\TaxonomyModel;
@@ -165,25 +166,22 @@ class ContentAnalyticsDataProvider
 
     public function getSinglePostData()
     {
-        $totalHitsArgs      = array_merge(Helper::filterArrayByKeys($this->args, ['post_id', 'query_param', 'resource_type']), ['ignore_date' => true]);
+        $views          = $this->viewsModel->countViews($this->args);
+        $prevViews      = $this->viewsModel->countViews(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+        $viewsSummary   = $this->viewsModel->getViewsSummary($this->args);
 
-        $totalViews         = $this->viewsModel->countViews($totalHitsArgs);
-        $totalVisitors      = $this->visitorsModel->countVisitors($totalHitsArgs);
+        $visitors        = $this->visitorsModel->countVisitors($this->args);
+        $prevVisitors    = $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+        $visitorsSummary = $this->visitorsModel->getVisitorsSummary($this->args);
+        $visitorsCountry = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
 
-        $recentViews        = $this->viewsModel->countViews($this->args);
-        $recentVisitors     = $this->visitorsModel->countVisitors($this->args);
+        $comments       = $this->postsModel->countComments($this->args);
+        $prevComments   = $this->postsModel->countComments(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $totalComments      = $this->postsModel->countComments($this->args);
+        $referrersData = $this->visitorsModel->getReferrers($this->args);
 
-        $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
-
-        $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
-        $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
-
-        $referrersData      = $this->visitorsModel->getReferrers($this->args);
-
-        $performanceArgs    = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
-        $performanceData    = [
+        $performanceArgs = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
+        $performanceData = [
             'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, $performanceArgs)),
             'views'     => $this->viewsModel->countViews(array_merge($this->args, $performanceArgs)),
         ];
@@ -193,17 +191,18 @@ class ContentAnalyticsDataProvider
             'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
             'performance'       => $performanceData,
             'referrers'         => $referrersData,
-            'overview'          => [
+            'glance'            => [
                 'views'     => [
-                    'total' => $totalViews,
-                    'recent'=> $recentViews,
+                    'value'  => $views,
+                    'change' => Helper::calculatePercentageChange($prevViews, $views)
                 ],
                 'visitors'  => [
-                    'total' => $totalVisitors,
-                    'recent'=> $recentVisitors,
+                    'value'  => $visitors,
+                    'change' => Helper::calculatePercentageChange($prevVisitors, $visitors)
                 ],
                 'comments'  => [
-                    'total' => $totalComments,
+                    'value'  => $comments,
+                    'change' => Helper::calculatePercentageChange($prevComments, $comments),
                 ]
             ]
         ];
@@ -211,8 +210,8 @@ class ContentAnalyticsDataProvider
         if (WordCountService::isActive()) {
             $totalWords = $this->postsModel->countWords($this->args);
 
-            $result['overview']['words'] = [
-                'total' => $totalWords,
+            $result['glance']['words'] = [
+                'value' => $totalWords
             ];
         }
 

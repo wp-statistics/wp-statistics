@@ -16,13 +16,13 @@ $postType = get_post_type(Request::get('post_id'));
         $metrics = [
             [
                 'label'  => esc_html__('Visitors', 'wp-statistics'),
-                'value'  => '29.8K',
-                'change' => '-1.6'
+                'value'  => Helper::formatNumberWithUnit($data['glance']['visitors']['value']),
+                'change' => $data['glance']['visitors']['change']
             ],
             [
                 'label'      => esc_html__('Views', 'wp-statistics'),
-                'value'  => '29.8K',
-                'change' => '2.3'
+                'value'  => Helper::formatNumberWithUnit($data['glance']['views']['value']),
+                'change' => $data['glance']['views']['change']
             ],
             [
                 'label' => esc_html__('Entry Page', 'wp-statistics'),
@@ -47,20 +47,25 @@ $postType = get_post_type(Request::get('post_id'));
                 'value'  => '29.8K',
                 'change' => '-2.3',
                 'tooltip'  =>  esc_html__('Percentage of total views that ended on this content.', 'wp-statistics') ,
-            ],
-            [
-                'label' => esc_html__('Words', 'wp-statistics'),
-                'value' => '29.8K',
-                'tooltip'  => sprintf(esc_html__('Total number of words in this %s.', 'wp-statistics'), strtolower($postType)),
-            ],
-            [
-                'label' => esc_html__('Comments', 'wp-statistics'),
-                'value'  => '29.8K',
-                'change' => '-2.3',
-                'tooltip'  => sprintf(esc_html__('Approved comments on this %s.', 'wp-statistics'), strtolower($postType)),
             ]
         ];
 
+        if (WordCountService::isActive()) {
+            $metrics[] = [
+                'label' => esc_html__('Words', 'wp-statistics'),
+                'value' => Helper::formatNumberWithUnit($data['glance']['words']['value']),
+                'tooltip'  => sprintf(esc_html__('Total number of words in this %s.', 'wp-statistics'), strtolower($postType)),
+            ];
+        }
+
+        if (post_type_supports($postType, 'comments')) {
+            $metrics[] = [
+                'label' => esc_html__('Comments', 'wp-statistics'),
+                'value'  => Helper::formatNumberWithUnit($data['glance']['comments']['value']),
+                'change' => $data['glance']['comments']['change'],
+                'tooltip'  => sprintf(esc_html__('Approved comments on this %s.', 'wp-statistics'), strtolower($postType)),
+            ];
+        }
 
         View::load("components/objects/glance-card", ['metrics' => $metrics , 'two_column' => true]);
 
