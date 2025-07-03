@@ -1,6 +1,4 @@
 <?php
-
-use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Components\View;
 ?>
@@ -12,14 +10,14 @@ use WP_Statistics\Components\View;
         $metrics = [
             [
                 'label'  => esc_html__('Visitors', 'wp-statistics'),
-                'value'  => '29.8K',
-                'change' => '-1.6'
+                'value'  => Helper::formatNumberWithUnit($data['glance']['visitors']['value']),
+                'change' => $data['glance']['visitors']['change']
             ],
             [
-                'label'      => esc_html__('Views', 'wp-statistics'),
-                'value'  => '29.8K',
-                'change' => '2.3'
-            ]
+                'label'  => esc_html__('Views', 'wp-statistics'),
+                'value'  => Helper::formatNumberWithUnit($data['glance']['views']['value']),
+                'change' => $data['glance']['views']['change']
+            ],
         ];
         View::load("components/objects/glance-card", ['metrics' => $metrics , 'two_column' => true]);
 

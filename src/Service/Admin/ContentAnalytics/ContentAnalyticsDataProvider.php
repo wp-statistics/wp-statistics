@@ -125,13 +125,11 @@ class ContentAnalyticsDataProvider
 
     public function getSingleResourceData()
     {
-        $totalHitsArgs      = array_merge(Helper::filterArrayByKeys($this->args, ['query_param', 'ignore_post_type']), ['ignore_date' => true]);
+        $views          = $this->viewsModel->countViews($this->args);
+        $prevViews      = $this->viewsModel->countViews(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $totalViews         = $this->viewsModel->countViews(array_merge($totalHitsArgs, ['uri' => $this->args['query_param']]));
-        $totalVisitors      = $this->visitorsModel->countVisitors($totalHitsArgs);
-
-        $recentViews        = $this->viewsModel->countViews($this->args);
-        $recentVisitors     = $this->visitorsModel->countVisitors($this->args);
+        $visitors        = $this->visitorsModel->countVisitors($this->args);
+        $prevVisitors    = $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
         $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
 
@@ -151,14 +149,14 @@ class ContentAnalyticsDataProvider
             'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
             'performance'       => $performanceData,
             'referrers'         => $referrersData,
-            'overview'          => [
+            'glance'            => [
                 'views'     => [
-                    'total' => $totalViews,
-                    'recent'=> $recentViews,
+                    'value'  => $views,
+                    'change' => Helper::calculatePercentageChange($prevViews, $views)
                 ],
                 'visitors'  => [
-                    'total' => $totalVisitors,
-                    'recent'=> $recentVisitors,
+                    'value'  => $visitors,
+                    'change' => Helper::calculatePercentageChange($prevVisitors, $visitors)
                 ]
             ]
         ];
