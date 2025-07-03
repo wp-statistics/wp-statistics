@@ -484,7 +484,11 @@ class VisitorsModel extends BaseModel
     }
 
     /**
+     * Get a summary of referred visitors from search engines.
      *
+     * @param array $args
+     *
+     * @return array
      */
     public function getSearchEnginesSummary($args = [])
     {

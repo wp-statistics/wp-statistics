@@ -56,7 +56,6 @@ class MetaboxDataProvider
             'online'         => $this->onlineModel->countOnlines($args),
             'visitors'       => $this->visitorsModel->getVisitorsSummary($args),
             'hits'           => $this->visitorsModel->getHitsSummary($args),
-            'search_engines' => $this->visitorsModel->getSearchEnginesSummary($args),
         ];
 
         return $data;
