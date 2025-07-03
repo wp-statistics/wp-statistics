@@ -1326,7 +1326,8 @@ class VisitorsModel extends BaseModel
         $args = $this->parseArgs($args, [
             'date'          => '',
             'resource_id'   => '',
-            'resource_type' => ''
+            'resource_type' => '',
+            'query_param'   => ''
         ]);
 
         $singlePageVisitors = Query::select('visitor_id')
@@ -1341,7 +1342,8 @@ class VisitorsModel extends BaseModel
             ->join('visitor', ['visitor.ID', 'single.visitor_id'])
             ->join('pages', ['visitor.first_page', 'pages.page_id'])
             ->where('pages.id', '=', $args['resource_id'])
-            ->where('pages.type', 'IN', $args['resource_type']);
+            ->where('pages.type', 'IN', $args['resource_type'])
+            ->where('pages.uri', '=', $args['query_param']);
 
         $singlePageVisits = $query->getVar() ?? 0;
         $totalPageEntries = $this->countEntryPageVisitors($args);
@@ -1356,7 +1358,8 @@ class VisitorsModel extends BaseModel
         $args = $this->parseArgs($args, [
             'date'          => '',
             'resource_id'   => '',
-            'resource_type' => ''
+            'resource_type' => '',
+            'query_param'   => ''
         ]);
 
         $query = Query::select(['COUNT(visitor.ID) as visitors'])
@@ -1364,6 +1367,7 @@ class VisitorsModel extends BaseModel
             ->join('pages', ['visitor.first_page', 'pages.page_id'])
             ->where('pages.id', '=', $args['resource_id'])
             ->where('pages.type', 'IN', $args['resource_type'])
+            ->where('pages.uri', '=', $args['query_param'])
             ->whereDate('last_counter', $args['date']);
 
         $result = $query->getVar();
@@ -1376,7 +1380,8 @@ class VisitorsModel extends BaseModel
         $args = $this->parseArgs($args, [
             'date'          => '',
             'resource_id'   => '',
-            'resource_type' => ''
+            'resource_type' => '',
+            'query_param'   => ''
         ]);
 
         $query = Query::select(['COUNT(visitor.ID) as visitors'])
@@ -1384,6 +1389,7 @@ class VisitorsModel extends BaseModel
             ->join('pages', ['visitor.last_page', 'pages.page_id'])
             ->where('pages.id', '=', $args['resource_id'])
             ->where('pages.type', 'IN', $args['resource_type'])
+            ->where('pages.uri', '=', $args['query_param'])
             ->whereDate('last_counter', $args['date']);
 
         $result = $query->getVar();
