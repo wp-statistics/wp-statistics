@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Database\Managers;
 use WP_STATISTICS\Install;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Database\DatabaseFactory;
+use WP_Statistics\Service\Database\Migrations\Queue\QueueFactory;
 use WP_Statistics\Service\Database\Schema\Manager;
 
 
@@ -63,6 +64,7 @@ class TableHandler
         Option::saveOptionGroup('migration_status_detail', null, 'db');
         Option::saveOptionGroup('is_done', null, 'ajax_background_process');
         Option::saveOptionGroup('status', null, 'ajax_background_process');
+        Option::saveOptionGroup('completed', false, 'queue_background_process');
 
         $dismissedNotices = get_option('wp_statistics_dismissed_notices', []);
 

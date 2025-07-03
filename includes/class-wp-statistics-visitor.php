@@ -2,11 +2,9 @@
 
 namespace WP_STATISTICS;
 
-use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\AjaxBackgroundProcessFactory;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Analytics\VisitorProfile;
-use WP_Statistics\Service\Database\DatabaseFactory;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Utils\Url;

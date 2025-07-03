@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Database;
 
 use WP_STATISTICS\Option;
-use WP_Statistics\Service\Database\Migrations\SchemaMigration;
+use WP_Statistics\Service\Database\Migrations\Schema\SchemaMigration;
 use WP_Statistics\Service\Database\Operations\AbstractTableOperation;
 use WP_Statistics\Service\Database\Operations\Create;
 use WP_Statistics\Service\Database\Operations\Drop;

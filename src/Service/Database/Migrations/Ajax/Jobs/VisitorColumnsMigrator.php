@@ -1,16 +1,16 @@
 <?php
 
-namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\Jobs;
+namespace WP_Statistics\Service\Database\Migrations\Ajax\Jobs;
 
-use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\AbstractAjaxBackgroundProcess;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Database\DatabaseFactory;
+use WP_Statistics\Service\Database\Migrations\Ajax\AbstractAjax;
 
 /**
  * Handles the migration of visitor column data, ensuring first and last page visits
  * are correctly stored in the `visitor` table.
  */
-class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
+class VisitorColumnsMigrator extends AbstractAjax
 {
     /**
      * Total number of batches required for migration.
@@ -40,7 +40,7 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
         if (!empty($total)) {
             $this->total   = $total;
             $this->batches = ceil($this->total / $this->batchSize);
-            
+
             // Check for last batch after we have batches count.
             if ($attempts - 1 >= $this->batches) {
                 // Force a recount on last batch.
@@ -74,7 +74,7 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
             ->execute()
             ->getResult();
 
-        $this->total   = (int) ($result[0]['total'] ?? 0);
+        $this->total   = (int)($result[0]['total'] ?? 0);
         $this->batches = ceil($this->total / $this->batchSize);
 
         if ($needCaching) {
@@ -92,8 +92,8 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
         $visitors = DatabaseFactory::table('select')
             ->setName('visitor')
             ->setArgs([
-                'columns'   => ['COUNT(*) as total'],
-                'raw_where' => [
+                'columns'        => ['COUNT(*) as total'],
+                'raw_where'      => [
                     "first_page IS NOT NULL AND first_page != ''",
                     "first_view IS NOT NULL AND first_view > '0000-00-00 00:00:00'",
                     "last_page IS NOT NULL AND last_page != ''",
@@ -104,7 +104,7 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
             ->execute()
             ->getResult();
 
-        $this->done = (int) ($visitors[0]['total'] ?? 0);
+        $this->done   = (int)($visitors[0]['total'] ?? 0);
         $currentBatch = ceil($this->done / $this->batchSize);
         $this->offset = $currentBatch * $this->batchSize;
 
@@ -131,8 +131,8 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
         $visitors = DatabaseFactory::table('select')
             ->setName('visitor')
             ->setArgs([
-                'columns'   => ['COUNT(*) as total'],
-                'raw_where' => [
+                'columns'        => ['COUNT(*) as total'],
+                'raw_where'      => [
                     "first_page IS NOT NULL AND first_page != ''",
                     "first_view IS NOT NULL AND first_view > '0000-00-00 00:00:00'",
                     "last_page IS NOT NULL AND last_page != ''",
@@ -144,7 +144,7 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
             ->getResult();
 
         $this->getTotal(true);
-        $completedCount = (int) ($visitors[0]['total'] ?? 0);
+        $completedCount = (int)($visitors[0]['total'] ?? 0);
 
         if ($completedCount >= $this->total) {
             $this->markAsCompleted(get_class($this));
