@@ -1321,6 +1321,76 @@ class VisitorsModel extends BaseModel
         return intval($result);
     }
 
+    public function getBounceRate($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'          => '',
+            'resource_id'   => '',
+            'resource_type' => ''
+        ]);
+
+        $singlePageVisitors = Query::select('visitor_id')
+            ->from('visitor_relationships')
+            ->whereDate('date', $args['date'])
+            ->groupBy('visitor_id')
+            ->having('COUNT(DISTINCT page_id) = 1')
+            ->getQuery();
+
+        $query = Query::select(['COUNT(visitor.ID) as visitors'])
+            ->fromQuery($singlePageVisitors, 'single')
+            ->join('visitor', ['visitor.ID', 'single.visitor_id'])
+            ->join('pages', ['visitor.first_page', 'pages.page_id'])
+            ->where('pages.id', '=', $args['resource_id'])
+            ->where('pages.type', 'IN', $args['resource_type']);
+
+        $singlePageVisits = $query->getVar() ?? 0;
+        $totalPageEntries = $this->countEntryPageVisitors($args);
+
+        $result = Helper::calculatePercentage($singlePageVisits, $totalPageEntries);
+
+        return $result;
+    }
+
+    public function countEntryPageVisitors($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'          => '',
+            'resource_id'   => '',
+            'resource_type' => ''
+        ]);
+
+        $query = Query::select(['COUNT(visitor.ID) as visitors'])
+            ->from('visitor')
+            ->join('pages', ['visitor.first_page', 'pages.page_id'])
+            ->where('pages.id', '=', $args['resource_id'])
+            ->where('pages.type', 'IN', $args['resource_type'])
+            ->whereDate('last_counter', $args['date']);
+
+        $result = $query->getVar();
+
+        return $result ?? 0;
+    }
+
+    public function countExitPageVisitors($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'          => '',
+            'resource_id'   => '',
+            'resource_type' => ''
+        ]);
+
+        $query = Query::select(['COUNT(visitor.ID) as visitors'])
+            ->from('visitor')
+            ->join('pages', ['visitor.last_page', 'pages.page_id'])
+            ->where('pages.id', '=', $args['resource_id'])
+            ->where('pages.type', 'IN', $args['resource_type'])
+            ->whereDate('last_counter', $args['date']);
+
+        $result = $query->getVar();
+
+        return $result ?? 0;
+    }
+
     public function getEntryPages($args = [])
     {
         $args = $this->parseArgs($args, [

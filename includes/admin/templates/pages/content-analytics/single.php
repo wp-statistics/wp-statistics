@@ -20,50 +20,50 @@ $postType = get_post_type(Request::get('post_id'));
                 'change' => $data['glance']['visitors']['change']
             ],
             [
-                'label'      => esc_html__('Views', 'wp-statistics'),
+                'label'  => esc_html__('Views', 'wp-statistics'),
                 'value'  => Helper::formatNumberWithUnit($data['glance']['views']['value']),
                 'change' => $data['glance']['views']['change']
             ],
             [
-                'label' => esc_html__('Entry Page', 'wp-statistics'),
-                'value'  => '29.8K',
-                'change' => '-2.3',
-                'tooltip'  =>  esc_html__('Number of times this content was the first page visited in a session.', 'wp-statistics') ,
+                'label'   => esc_html__('Entry Page', 'wp-statistics'),
+                'value'   => Helper::formatNumberWithUnit($data['glance']['entry_page']['value']),
+                'change'  => $data['glance']['entry_page']['change'],
+                'tooltip' =>  esc_html__('Number of times this content was the first page visited in a session.', 'wp-statistics') ,
             ],
             [
-                'label' => esc_html__('Exit Page', 'wp-statistics'),
-                'value'  => '29.8K',
-                'change' => '2.3',
-                'tooltip'  =>  esc_html__('Number of times this content was the last page viewed before a session ended.', 'wp-statistics') ,
+                'label'   => esc_html__('Exit Page', 'wp-statistics'),
+                'value'   => Helper::formatNumberWithUnit($data['glance']['exit_page']['value']),
+                'change'  => $data['glance']['exit_page']['change'],
+                'tooltip' =>  esc_html__('Number of times this content was the last page viewed before a session ended.', 'wp-statistics') ,
             ],
             [
-                'label' => esc_html__('Bounce Rate', 'wp-statistics'),
-                'value'  => '29.8K',
-                'change' => '2.3',
-                'tooltip'  =>  esc_html__('Percentage of single-page sessions that began and ended on this content.', 'wp-statistics') ,
+                'label'   => esc_html__('Bounce Rate', 'wp-statistics'),
+                'value'   => $data['glance']['bounce_rate']['value'],
+                'change'  => $data['glance']['bounce_rate']['change'],
+                'tooltip' =>  esc_html__('Percentage of single-page sessions that began and ended on this content.', 'wp-statistics') ,
             ],
             [
-                'label' => esc_html__('Exit Rate', 'wp-statistics'),
-                'value'  => '29.8K',
-                'change' => '-2.3',
-                'tooltip'  =>  esc_html__('Percentage of total views that ended on this content.', 'wp-statistics') ,
+                'label'   => esc_html__('Exit Rate', 'wp-statistics'),
+                'value'   => $data['glance']['exit_rate']['value'],
+                'change'  => $data['glance']['exit_rate']['change'],
+                'tooltip' =>  esc_html__('Percentage of total views that ended on this content.', 'wp-statistics') ,
             ]
         ];
 
         if (WordCountService::isActive()) {
             $metrics[] = [
-                'label' => esc_html__('Words', 'wp-statistics'),
-                'value' => Helper::formatNumberWithUnit($data['glance']['words']['value']),
-                'tooltip'  => sprintf(esc_html__('Total number of words in this %s.', 'wp-statistics'), strtolower($postType)),
+                'label'   => esc_html__('Words', 'wp-statistics'),
+                'value'   => Helper::formatNumberWithUnit($data['glance']['words']['value']),
+                'tooltip' => sprintf(esc_html__('Total number of words in this %s.', 'wp-statistics'), strtolower($postType)),
             ];
         }
 
         if (post_type_supports($postType, 'comments')) {
             $metrics[] = [
-                'label' => esc_html__('Comments', 'wp-statistics'),
-                'value'  => Helper::formatNumberWithUnit($data['glance']['comments']['value']),
-                'change' => $data['glance']['comments']['change'],
-                'tooltip'  => sprintf(esc_html__('Approved comments on this %s.', 'wp-statistics'), strtolower($postType)),
+                'label'   => esc_html__('Comments', 'wp-statistics'),
+                'value'   => Helper::formatNumberWithUnit($data['glance']['comments']['value']),
+                'change'  => $data['glance']['comments']['change'],
+                'tooltip' => sprintf(esc_html__('Approved comments on this %s.', 'wp-statistics'), strtolower($postType)),
             ];
         }
 

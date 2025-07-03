@@ -175,6 +175,17 @@ class ContentAnalyticsDataProvider
         $visitorsSummary = $this->visitorsModel->getVisitorsSummary($this->args);
         $visitorsCountry = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
 
+        $entryPages     = $this->visitorsModel->countEntryPageVisitors(array_merge($this->args, ['resource_id' => $this->args['post_id']]));
+        $prevEntryPages = $this->visitorsModel->countEntryPageVisitors(array_merge($this->args, ['resource_id' => $this->args['post_id'], 'date' => DateRange::getPrevPeriod()]));
+
+        $exitPages     = $this->visitorsModel->countExitPageVisitors(array_merge($this->args, ['resource_id' => $this->args['post_id']]));
+        $prevExitPages = $this->visitorsModel->countExitPageVisitors(array_merge($this->args, ['resource_id' => $this->args['post_id'], 'date' => DateRange::getPrevPeriod()]));
+        $exitRate      = Helper::calculatePercentage($exitPages, $visitors);
+        $prevExitRate  = Helper::calculatePercentage($prevExitPages, $prevVisitors);
+
+        $bounceRate     = $this->visitorsModel->getBounceRate(array_merge($this->args, ['resource_id' => $this->args['post_id']]));
+        $prevBounceRate = $this->visitorsModel->getBounceRate(array_merge($this->args, ['resource_id' => $this->args['post_id'], 'date' => DateRange::getPrevPeriod()]));
+
         $comments       = $this->postsModel->countComments($this->args);
         $prevComments   = $this->postsModel->countComments(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
@@ -199,6 +210,22 @@ class ContentAnalyticsDataProvider
                 'visitors'  => [
                     'value'  => $visitors,
                     'change' => Helper::calculatePercentageChange($prevVisitors, $visitors)
+                ],
+                'entry_page' => [
+                    'value'  => $entryPages,
+                    'change' => Helper::calculatePercentageChange($prevEntryPages, $entryPages)
+                ],
+                'exit_page' => [
+                    'value'  => $exitPages,
+                    'change' => Helper::calculatePercentageChange($prevExitPages, $exitPages)
+                ],
+                'bounce_rate' => [
+                    'value'  => $bounceRate . '%',
+                    'change' => $bounceRate - $prevBounceRate
+                ],
+                'exit_rate' => [
+                    'value'  => $exitRate . '%',
+                    'change' => $exitRate - $prevExitRate
                 ],
                 'comments'  => [
                     'value'  => $comments,
