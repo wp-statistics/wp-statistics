@@ -3,6 +3,7 @@
 namespace WP_STATISTICS\Service\Tracking\Core;
 
 use WP_Statistics\Context\Environment;
+use WP_Statistics\Context\Ip;
 use WP_Statistics\Context\Route;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
@@ -513,7 +514,7 @@ class Exclusion
         foreach ($ipRanges as $subnet) {
             $subnet = trim($subnet);
 
-            if (strlen($subnet) > 6 && IP::checkIPRange([$subnet])) {
+            if (strlen($subnet) > 6 && Ip::isInRange([$subnet])) {
                 return true;
             }
         }

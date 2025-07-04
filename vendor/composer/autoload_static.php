@@ -69,6 +69,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Context\\Comment' => __DIR__ . '/../..' . '/src/Context/Comment.php',
         'WP_Statistics\\Context\\Country' => __DIR__ . '/../..' . '/src/Context/Country.php',
         'WP_Statistics\\Context\\Environment' => __DIR__ . '/../..' . '/src/Context/Environment.php',
+        'WP_Statistics\\Context\\Ip' => __DIR__ . '/../..' . '/src/Context/Ip.php',
         'WP_Statistics\\Context\\Option' => __DIR__ . '/../..' . '/src/Context/Option.php',
         'WP_Statistics\\Context\\Post' => __DIR__ . '/../..' . '/src/Context/Post.php',
         'WP_Statistics\\Context\\PostType' => __DIR__ . '/../..' . '/src/Context/PostType.php',

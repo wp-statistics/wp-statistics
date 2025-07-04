@@ -50,6 +50,7 @@ return array(
     'WP_Statistics\\Context\\Comment' => $baseDir . '/src/Context/Comment.php',
     'WP_Statistics\\Context\\Country' => $baseDir . '/src/Context/Country.php',
     'WP_Statistics\\Context\\Environment' => $baseDir . '/src/Context/Environment.php',
+    'WP_Statistics\\Context\\Ip' => $baseDir . '/src/Context/Ip.php',
     'WP_Statistics\\Context\\Option' => $baseDir . '/src/Context/Option.php',
     'WP_Statistics\\Context\\Post' => $baseDir . '/src/Context/Post.php',
     'WP_Statistics\\Context\\PostType' => $baseDir . '/src/Context/PostType.php',

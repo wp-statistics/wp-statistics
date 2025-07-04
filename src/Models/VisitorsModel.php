@@ -3,6 +3,7 @@
 namespace WP_Statistics\Models;
 
 use WP_Statistics\Abstracts\BaseModel;
+use WP_Statistics\Context\Ip;
 use WP_Statistics\Models\Legacy\LegacyVisitorsModel;
 use WP_Statistics\Records\RecordFactory;
 use WP_STATISTICS\TimeZone;
@@ -291,5 +292,40 @@ class VisitorsModel extends BaseModel
         ];
 
         return RecordFactory::visitor()->get($args);
+    }
+
+    /**
+     * Updates non-hashed IP addresses to their hashed versions.
+     *
+     * This method finds all IP addresses that are stored in plaintext format
+     * and converts them to their hashed format for better privacy compliance.
+     *
+     * @return int Number of records updated.
+     * @since 15.0.0
+     */
+    public function updatePlaintextIps()
+    {
+        // Get all distinct non-hashed IPs
+        $result = Query::select('DISTINCT ip')
+            ->from('visitors')
+            ->where('ip', 'NOT LIKE', Ip::$hashIpPrefix . '%')
+            ->getAll();
+        
+        $resultUpdate = [];
+
+        foreach ($result as $row) {
+            if (!Ip::isHashed($row->ip)) {
+                $updated = Query::update('visitors')
+                    ->set(['ip' => Ip::hash($row->ip)])
+                    ->where('ip', '=', $row->ip)
+                    ->execute();
+                
+                if ($updated !== false) {
+                    $resultUpdate[] = $updated;
+                }
+            }
+        }
+
+        return count($resultUpdate);
     }
 }
