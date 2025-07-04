@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Analytics\DeviceDetection;
 use DeviceDetector\DeviceDetector;
 use Exception;
 use WP_STATISTICS\Helper;
+use WP_Statistics\Utils\Format;
 
 class UserAgentService
 {
@@ -66,7 +67,7 @@ class UserAgentService
      */
     public function getVersion()
     {
-        return $this->deviceDetector ? Helper::makeAnonymousVersion($this->deviceDetector->getClient('version')) : null;
+        return $this->deviceDetector ? Format::anonymizeVersion($this->deviceDetector->getClient('version')) : null;
     }
 
     /**

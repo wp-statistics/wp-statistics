@@ -78,14 +78,16 @@ class DbIpProvider extends AbstractGeoIPProvider
 
         try {
             return [
-               'country'       => $record->country->name,
-                'country_code' => $record->country->isoCode,
-                'continent'    => $record->continent->name,
-                'region'       => $record->mostSpecificSubdivision->name,
-                'city'         => $record->city->name,
-                'latitude'     => $record->location->latitude,
-                'longitude'    => $record->location->longitude,
-                'postal_code'  => $record->postal->code,
+                'country'       => $record->country->name,
+                'country_code'  => $record->country->isoCode,
+                'continent'     => $record->continent->name,
+                'continen_code' => $record->continent->code,
+                'region'        => $record->mostSpecificSubdivision->name,
+                'region_code'   => $record->mostSpecificSubdivision->isoCode,
+                'city'          => $record->city->name,
+                'latitude'      => $record->location->latitude,
+                'longitude'     => $record->location->longitude,
+                'postal_code'   => $record->postal->code,
             ];
 
         } catch (Exception $e) {

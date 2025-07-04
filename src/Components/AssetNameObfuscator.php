@@ -5,6 +5,7 @@ namespace WP_Statistics\Components;
 use WP_Statistics;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
+use WP_Statistics\Utils\FileSystem;
 
 /**
  * Ofuscates/Randomizes assets file names.
@@ -105,13 +106,13 @@ class AssetNameObfuscator
         $this->hashedFileName     = $this->generateShortHash(WP_STATISTICS_VERSION . $this->hashedFileOptionKey);
         $this->hashedFileName     .= '.' . pathinfo($this->inputFileDir, PATHINFO_EXTENSION);
         $this->hashedFileName     = apply_filters('wp_statistics_hashed_asset_name', $this->hashedFileName, $this->inputFileDir);
-        $this->hashedFilesRootDir = apply_filters('wp_statistics_hashed_asset_root', Helper::get_uploads_dir());
+        $this->hashedFilesRootDir = apply_filters('wp_statistics_hashed_asset_root', FileSystem::getUploadsDir());
 
         if (!is_dir($this->hashedFilesRootDir)) {
             // Try to make the filtered dir if it not exists
             if (!mkdir($this->hashedFilesRootDir, 0700)) {
                 // Revert back to default uploads folder if the filtered dir is invalid
-                $this->hashedFilesRootDir = Helper::get_uploads_dir();
+                $this->hashedFilesRootDir = FileSystem::getUploadsDir();
             }
         }
 
@@ -205,7 +206,7 @@ class AssetNameObfuscator
      */
     public function getHashedFileUrl()
     {
-        return Helper::get_upload_url() . '/' . $this->hashedFileName;
+        return FileSystem::getUploadUrl() . '/' . $this->hashedFileName;
     }
 
     /**

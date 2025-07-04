@@ -16,115 +16,269 @@ class Manager
      * @var array
      */
     private static $tablesSchema = [
-        'useronline' => [
-            'columns' => [
-                'ID'         => 'bigint(20) NOT NULL AUTO_INCREMENT',
-                'ip'         => 'varchar(60) NOT NULL',
-                'created'    => 'int(11)',
-                'timestamp'  => 'int(10) NOT NULL',
-                'date'       => 'datetime NOT NULL',
-                'referred'   => 'text CHARACTER SET utf8 NOT NULL',
-                'agent'      => 'varchar(255) NOT NULL',
-                'platform'   => 'varchar(255)',
-                'version'    => 'varchar(255)',
-                'location'   => 'varchar(10)',
-                'city'       => 'varchar(100)',
-                'region'     => 'varchar(100)',
-                'continent'  => 'varchar(50)',
-                'visitor_id' => 'bigint(20) NOT NULL',
-                'user_id'    => 'BIGINT(48) NOT NULL',
-                'page_id'    => 'BIGINT(48) NOT NULL',
-                'type'       => 'VARCHAR(100) NOT NULL',
+        'parameters'              => [
+            'columns'     => [
+                'ID'              => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'session_id'      => 'bigint(20) UNSIGNED NOT NULL',
+                'resource_url_id' => 'bigint(20) UNSIGNED NOT NULL',
+                'view_id'         => 'bigint(20) UNSIGNED NOT NULL',
+                'parameter'       => 'varchar(64)',
+                'value'           => 'varchar(255)',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
-                'KEY ip (ip)'
+                'KEY session_id (session_id)',
+                'KEY resource_url_id (resource_url_id)',
+                'KEY view_id (view_id)',
             ],
         ],
-        'pages' => [
-            'columns' => [
-                'page_id' => 'BIGINT(20) NOT NULL AUTO_INCREMENT',
-                'uri'     => 'varchar(190) NOT NULL',
-                'type'    => 'varchar(180) NOT NULL',
-                'date'    => 'date NOT NULL',
-                'count'   => 'int(11) NOT NULL',
-                'id'      => 'int(11) NOT NULL',
-            ],
-            'constraints' => [
-                'PRIMARY KEY (page_id)',
-                'UNIQUE KEY date_2 (date, uri)',
-                'KEY url (uri)',
-                'KEY date (date)',
-                'KEY id (id)',
-                'KEY uri (uri, count, id)',
-            ],
-        ],
-        'historical' => [
-            'columns' => [
-                'ID'       => 'bigint(20) NOT NULL AUTO_INCREMENT',
-                'category' => 'varchar(25) NOT NULL',
-                'page_id'  => 'bigint(20) NOT NULL',
-                'uri'      => 'varchar(190) NOT NULL',
-                'value'    => 'bigint(20) NOT NULL',
+        'resources'               => [
+            'columns'     => [
+                'ID'                 => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'resource_type'      => 'varchar(64) NOT NULL',
+                'resource_id'        => 'bigint(20) UNSIGNED NOT NULL',
+                'cached_title'       => 'text',
+                'cached_terms'       => 'text',
+                'cached_author_id'   => 'bigint(20) UNSIGNED DEFAULT NULL',
+                'cached_author_name' => 'varchar(250)',
+                'cached_date'        => 'datetime',
+                'resource_meta'      => 'text',
+                'is_deleted'         => 'tinyint(1) NOT NULL DEFAULT 0',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
-                'KEY category (category)',
-                'UNIQUE KEY uri (uri)',
+                'KEY resource_type (resource_type)',
+                'KEY resource_id (resource_id)',
             ],
         ],
-        'visit' => [
-            'columns' => [
-                'ID'           => 'bigint(20) NOT NULL AUTO_INCREMENT',
-                'last_visit'   => 'datetime NOT NULL',
-                'last_counter' => 'date NOT NULL',
-                'visit'        => 'int(10) NOT NULL',
+        'views'                   => [
+            'columns'     => [
+                'ID'              => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'session_id'      => 'bigint(20) UNSIGNED NOT NULL',
+                'resource_url_id' => 'bigint(20) UNSIGNED NOT NULL',
+                'viewed_at'       => 'datetime NOT NULL',
+                'next_view_id'    => 'bigint(20) UNSIGNED DEFAULT NULL',
+                'duration'        => 'bigint(11) UNSIGNED DEFAULT NULL',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
-                'UNIQUE KEY unique_date (last_counter)',
+                'KEY session_id (session_id)',
+                'KEY resource_url_id (resource_url_id)',
             ],
         ],
-        'visitor' => [
-            'columns' => [
-                'ID'             => 'bigint(20) NOT NULL AUTO_INCREMENT',
-                'last_counter'   => 'date NOT NULL',
-                'referred'       => 'text NOT NULL',
-                'agent'          => 'varchar(180) NOT NULL',
-                'platform'       => 'varchar(180)',
-                'version'        => 'varchar(180)',
-                'device'         => 'varchar(180)',
-                'model'          => 'varchar(180)',
-                'UAString'       => 'varchar(190)',
-                'ip'             => 'varchar(60) NOT NULL',
-                'location'       => 'varchar(10)',
-                'user_id'        => 'BIGINT(40) NOT NULL',
-                'hits'           => 'int(11)',
-                'honeypot'       => 'int(11)',
-                'city'           => 'varchar(100)',
-                'region'         => 'varchar(100)',
-                'continent'      => 'varchar(50)',
-                'source_channel' => 'varchar(50)',
-                'source_name'    => 'varchar(100)',
-                'first_page'     => 'bigint(20) UNSIGNED DEFAULT NULL',
-                'first_view'     => 'datetime DEFAULT NULL',
-                'last_page'      => 'bigint(20) UNSIGNED DEFAULT NULL',
-                'last_view'      => 'datetime DEFAULT NULL'
+        'countries'               => [
+            'columns'     => [
+                'ID'             => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'code'           => 'varchar(4) NOT NULL UNIQUE',
+                'name'           => 'varchar(64) NOT NULL',
+                'continent_code' => 'varchar(4) NOT NULL',
+                'continent'      => 'varchar(16) NOT NULL',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
-                'UNIQUE KEY date_ip_agent (last_counter, ip, agent(50), platform(50), version(50))',
-                'KEY agent (agent)',
-                'KEY platform (platform)',
+                'KEY continent_code (continent_code)',
+            ],
+        ],
+        'cities'                  => [
+            'columns'     => [
+                'ID'          => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'country_id'  => 'bigint(20) UNSIGNED NOT NULL',
+                'region_code' => 'varchar(4)',
+                'region_name' => 'varchar(64) NOT NULL',
+                'city_name'   => 'varchar(64) NOT NULL',
+            ],
+            'constraints' => [
+                'PRIMARY KEY (ID)',
+                'KEY country_id (country_id)',
+                'KEY region_code (region_code)',
+                'KEY city_name (city_name)',
+            ],
+        ],
+        'device_types'            => [
+            'columns'     => [
+                'ID'   => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'name' => 'varchar(64) NOT NULL UNIQUE',
+            ],
+            'constraints' => [
+                'PRIMARY KEY (ID)',
+            ],
+        ],
+        'device_browser_versions' => [
+            'columns'     => [
+                'ID'         => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'browser_id' => 'bigint(20) UNSIGNED NOT NULL',
+                'version'    => 'varchar(64) NOT NULL',
+            ],
+            'constraints' => [
+                'PRIMARY KEY (ID)',
                 'KEY version (version)',
-                'KEY device (device)',
-                'KEY model (model)',
-                'KEY location (location)',
-                'KEY ip (ip)',
             ],
         ],
-        'exclusions' => [
-            'columns' => [
+        'device_browsers'         => [
+            'columns'     => [
+                'ID'   => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'name' => 'varchar(64) NOT NULL UNIQUE',
+            ],
+            'constraints' => [
+                'PRIMARY KEY (ID)',
+            ],
+        ],
+        'device_oss'              => [
+            'columns'     => [
+                'ID'   => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'name' => 'varchar(64) NOT NULL UNIQUE',
+            ],
+            'constraints' => [
+                'PRIMARY KEY (ID)',
+            ],
+        ],
+        'resolutions'             => [
+            'columns'     => [
+                'ID'     => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'width'  => 'INT(5) NOT NULL',
+                'height' => 'INT(5) NOT NULL',
+            ],
+            'constraints' => [
+                'PRIMARY KEY (ID)',
+            ],
+        ],
+        'languages'               => [
+            'columns'     => [
+                'ID'     => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'code'   => 'varchar(8) NOT NULL',
+                'name'   => 'varchar(64) NOT NULL',
+                'region' => 'varchar(4)',
+            ],
+            'constraints' => [
+                'PRIMARY KEY (ID)',
+                'KEY name (name)',
+            ],
+        ],
+        'timezones'               => [
+            'columns'     => [
+                'ID'     => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'name'   => 'varchar(128) NOT NULL UNIQUE',
+                'offset' => 'varchar(16) NOT NULL',
+                'is_dst' => 'TINYINT(1) NOT NULL DEFAULT 0',
+            ],
+            'constraints' => [
+                'PRIMARY KEY (ID)',
+            ],
+        ],
+        'referrers'               => [
+            'columns'     => [
+                'ID'      => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'channel' => 'varchar(128)',
+                'name'    => 'varchar(128) NOT NULL',
+                'domain'  => 'varchar(128) NOT NULL',
+            ],
+            'constraints' => [
+                'PRIMARY KEY (ID)',
+                'KEY domain (domain)',
+                'KEY name (name)',
+            ],
+        ],
+        'visitors'                => [
+            'columns'     => [
+                'ID'         => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'hash'       => 'varchar(128)',
+                'created_at' => 'datetime',
+            ],
+            'constraints' => [
+                'PRIMARY KEY (ID)',
+                'KEY hash (hash)',
+            ],
+        ],
+        'sessions'                => [
+            'columns'     => [
+                'ID'                        => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'visitor_id'                => 'bigint(20) UNSIGNED DEFAULT NULL',
+                'ip'                        => 'varchar(128) DEFAULT NULL',
+                'referrer_id'               => 'bigint(20) UNSIGNED DEFAULT NULL',
+                'country_id'                => 'bigint(20) UNSIGNED DEFAULT NULL',
+                'city_id'                   => 'bigint(20) UNSIGNED DEFAULT NULL',
+                'initial_view_id'           => 'bigint(20) UNSIGNED DEFAULT NULL',
+                'last_view_id'              => 'bigint(20) UNSIGNED DEFAULT NULL',
+                'total_views'               => 'int(11) NOT NULL DEFAULT 1',
+                'device_type_id'            => 'bigint(20) UNSIGNED DEFAULT NULL',
+                'device_os_id'              => 'bigint(20) UNSIGNED DEFAULT NULL',
+                'device_browser_id'         => 'bigint(20) UNSIGNED DEFAULT NULL',
+                'device_browser_version_id' => 'bigint(20) UNSIGNED DEFAULT NULL',
+                'started_at'                => 'datetime NOT NULL',
+                'ended_at'                  => 'datetime',
+                'duration'                  => 'int(11)',
+                'user_id'                   => 'bigint(20) UNSIGNED DEFAULT NULL',
+                'timezone_id'               => 'bigint(20) UNSIGNED DEFAULT NULL',
+                'language_id'               => 'bigint(20) UNSIGNED DEFAULT NULL',
+                'resolution_id'             => 'bigint(20) UNSIGNED DEFAULT NULL',
+            ],
+            'constraints' => [
+                'PRIMARY KEY (ID)',
+                'KEY ip (ip)',
+                'KEY visitor_id (visitor_id)',
+                'KEY country_id (country_id)',
+                'KEY referrer_id (referrer_id)',
+                'KEY city_id (city_id)',
+                'KEY initial_view_id (initial_view_id)',
+                'KEY last_view_id (last_view_id)',
+                'KEY device_type_id (device_type_id)',
+                'KEY device_os_id (device_os_id)',
+                'KEY device_browser_id (device_browser_id)',
+                'KEY device_browser_version_id (device_browser_version_id)',
+                'KEY timezone_id (timezone_id)',
+                'KEY language_id (language_id)',
+                'KEY resolution_id (resolution_id)',
+            ],
+        ],
+        'reports'                 => [
+            'columns'     => [
+                'ID'           => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'created_by'   => 'bigint(20) UNSIGNED DEFAULT NULL',
+                'title'        => 'varchar(128) NOT NULL',
+                'description'  => 'varchar(255)',
+                'filters'      => 'text',
+                'widgets'      => 'text',
+                'access_level' => 'varchar(128)',
+                'created_at'   => 'datetime NOT NULL',
+                'updated_at'   => 'datetime',
+            ],
+            'constraints' => [
+                'PRIMARY KEY (ID)',
+            ],
+        ],
+        'summary'                 => [
+            'columns'     => [
+                'ID'              => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'date'            => 'datetime NOT NULL',
+                'resource_url_id' => 'bigint(20) UNSIGNED NOT NULL',
+                'visitors'        => 'bigint(20) UNSIGNED NOT NULL',
+                'sessions'        => 'bigint(20) UNSIGNED NOT NULL',
+                'views'           => 'bigint(20) UNSIGNED NOT NULL',
+                'total_duration'  => 'int(11) NOT NULL DEFAULT 0',
+                'bounces'         => 'tinyint(4) UNSIGNED NOT NULL DEFAULT 0',
+            ],
+            'constraints' => [
+                'PRIMARY KEY (ID)',
+                'KEY resource_url_id (resource_url_id)',
+            ],
+        ],
+        'summary_totals'          => [
+            'columns'     => [
+                'ID'             => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'date'           => 'datetime NOT NULL',
+                'visitors'       => 'bigint(20) UNSIGNED NOT NULL',
+                'sessions'       => 'bigint(20) UNSIGNED NOT NULL',
+                'views'          => 'bigint(20) UNSIGNED NOT NULL',
+                'total_duration' => 'int(11) NOT NULL DEFAULT 0',
+                'bounces'        => 'tinyint(4) UNSIGNED NOT NULL DEFAULT 0',
+            ],
+            'constraints' => [
+                'PRIMARY KEY (ID)',
+                'KEY date (date)',
+            ],
+        ],
+        'exclusions'              => [
+            'columns'     => [
                 'ID'     => 'bigint(20) NOT NULL AUTO_INCREMENT',
                 'date'   => 'date NOT NULL',
                 'reason' => 'varchar(180) DEFAULT NULL',
@@ -136,33 +290,16 @@ class Manager
                 'KEY reason (reason)',
             ],
         ],
-        'events' => [
-            'columns' => [
-                'ID'         => 'bigint(20) NOT NULL AUTO_INCREMENT',
-                'date'       => 'datetime NOT NULL',
-                'page_id'    => 'bigint(20) NULL',
-                'visitor_id' => 'bigint(20) NULL',
-                'event_name' => 'varchar(64) NOT NULL',
-                'event_data' => 'text NOT NULL',
+        'resource_urls'           => [
+            'columns'     => [
+                'ID'          => 'bigint(20) NOT NULL AUTO_INCREMENT',
+                'resource_id' => 'bigint(20) UNSIGNED NOT NULL',
+                'url'         => 'varchar(255) NOT NULL',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
-                'KEY visitor_id (visitor_id)',
-                'KEY page_id (page_id)',
-                'KEY event_name (event_name)',
-            ],
-        ],
-        'visitor_relationships' => [
-            'columns' => [
-                'ID'         => 'bigint(20) NOT NULL AUTO_INCREMENT',
-                'visitor_id' => 'bigint(20) NOT NULL',
-                'page_id'    => 'bigint(20) NOT NULL',
-                'date'       => 'datetime NOT NULL',
-            ],
-            'constraints' => [
-                'PRIMARY KEY (ID)',
-                'KEY visitor_id (visitor_id)',
-                'KEY page_id (page_id)',
+                'KEY resource_id (resource_id)',
+                'KEY url (url)',
             ],
         ],
     ];

@@ -3,6 +3,7 @@
 namespace WP_Statistics\Utils;
 
 use WP_STATISTICS\Helper;
+use WP_Statistics\Service\Tracking\TrackerHelper;
 
 class Request
 {
@@ -266,5 +267,30 @@ class Request
         }
 
         return false;
+    }
+
+    /**
+     * Determine whether the current HTTP request targets the WordPress REST API.
+     *
+     * The check order is:
+     *  1. `wp_doing_rest()` – earliest, cheapest and most reliable on WP 5.0+.
+     *  2. The plugin’s legacy “Bypass Ad‑Blockers” tracking‑pixel helper.
+     *  3. A string match against the REST prefix inside `REQUEST_URI`.
+     *  4. Existence of a `rest_route` query argument in `GET` or `POST`.
+     *
+     * @return bool True when handling a REST request, false otherwise.
+     */
+    public static function isRestRequest()
+    {
+        if (empty($_SERVER['REQUEST_URI'])) {
+            return false;
+        }
+
+        if (TrackerHelper::isBypassAdBlockersRequest()) {
+            return true;
+        }
+
+        $restPrefix = trailingslashit(rest_get_url_prefix());
+        return (false !== strpos($_SERVER['REQUEST_URI'], $restPrefix)) || isset($_REQUEST['rest_route']);
     }
 }

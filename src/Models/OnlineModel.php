@@ -3,62 +3,32 @@
 namespace WP_Statistics\Models;
 
 use WP_Statistics\Abstracts\BaseModel;
-use WP_Statistics\Decorators\VisitorDecorator;
-use WP_Statistics\Utils\Query;
+use WP_Statistics\Models\Legacy\LegacyOnlineModel;
 
 class OnlineModel extends BaseModel
 {
+    private $legacy;
+
+    public function __construct()
+    {
+        $this->legacy = new LegacyOnlineModel();
+    }
 
     public function countOnlines($args = [])
     {
-        $args = $this->parseArgs($args, []);
+        if (false) {
+            return $this->legacy->countOnlines($args);
+        }
 
-        $result = Query::select('COUNT(*)')
-            ->from('useronline')
-            ->getVar();
-
-        return $result ? $result : 0;
+        return (new SessionModel())->countOnlines($args);
     }
 
     public function getOnlineVisitorsData($args = [])
     {
-        $args = $this->parseArgs($args, [
-            'page'      => 1,
-            'per_page'  => '',
-            'order_by'  => '',
-            'order'     => '',
-        ]);
+        if (false) {
+            return $this->legacy->getOnlineVisitorsData($args);
+        }
 
-        $result = Query::select([
-            'useronline.ID as online_id',
-            'visitor_id as ID',
-            'useronline.ip',
-            'useronline.created',
-            'useronline.timestamp',
-            'useronline.referred',
-            'useronline.agent',
-            'useronline.platform',
-            'CAST(useronline.version AS SIGNED) as version',
-            'useronline.location',
-            'useronline.region',
-            'useronline.city',
-            'visitor.hits',
-            'visitor.source_name',
-            'visitor.source_channel',
-            'useronline.user_id',
-            'page_id as last_page',
-            'date as last_view',
-            'users.display_name',
-            'users.user_email'
-        ])
-            ->from('useronline')
-            ->join('users', ['useronline.user_id', 'users.ID'], [], 'LEFT')
-            ->join('visitor', ['useronline.visitor_id', 'visitor.ID'], [], 'LEFT')
-            ->perPage($args['page'], $args['per_page'])
-            ->orderBy($args['order_by'], $args['order'])
-            ->decorate(VisitorDecorator::class)
-            ->getAll();
-
-        return $result ? $result : [];
+        return (new SessionModel())->getOnlineVisitorsData($args);
     }
 }

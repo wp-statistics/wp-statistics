@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess;
 
+use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\Jobs\ResourceMigrator;
 use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\Jobs\VisitorColumnsMigrator;
 use WP_STATISTICS\Install;
 use WP_STATISTICS\Option;
@@ -24,6 +25,7 @@ class AjaxBackgroundProcessFactory
      */
     public static $migrations = [
         'visitor_columns_migrate' => VisitorColumnsMigrator::class,
+        'resource_migrate' => ResourceMigrator::class,
     ];
 
     /**
