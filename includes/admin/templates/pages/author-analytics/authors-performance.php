@@ -13,59 +13,56 @@ $postTypeNamePlural     = Helper::getPostTypeName($postType);
 <div class="metabox-holder" id="authors-performance">
     <div class="postbox-container" id="wps-postbox-container-1">
         <?php
-
-        $metrics = [
-            [
-                'label'  => esc_html__('Published Posts', 'wp-statistics'),
-                'value'  => '2',
-                'change' => '4'
-            ],
-            [
-                'label'  => esc_html__('Active Authors', 'wp-statistics'),
-                'value'  => '2',
-                'change' => '4'
-            ],
-            [
-                'label'  => esc_html__('Visitors', 'wp-statistics'),
-                'value'  => '2',
-                'change' => '-4'
-            ],
-            [
-                'label'  => esc_html__('Views', 'wp-statistics'),
-                'value'  => '2',
-                'change' => '-4'
-            ]
-        ];
-
-        $additionalMetrics = [];
-        if (WordCountService::isActive()) {
-            $additionalMetrics[] = [
-                'label'  => esc_html__('Words', 'wp-statistics'),
-                'value'  => '2',
-             ];
-            $additionalMetrics[] = [
-                'label'  => esc_html__('Avg. words per post', 'wp-statistics'),
-                'value'  => '2',
-                'change' => '-4'
-             ];
-        }
-
-        if (post_type_supports($postType, 'comments')) {
-            $additionalMetrics[] = [
-                'label'  => esc_html__('Comments', 'wp-statistics'),
-                'value'  => '2',
-                'change' => '-4'
+            $metrics = [
+                [
+                    'label'  => sprintf(esc_html__('Published %s', 'wp-statistics'), $postTypeNamePlural),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['posts']['value']),
+                    'change' => $data['glance']['posts']['change']
+                ],
+                [
+                    'label'  => esc_html__('Active Authors', 'wp-statistics'),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['authors']['value']),
+                    'change' => $data['glance']['authors']['change']
+                ],
+                [
+                    'label'  => esc_html__('Visitors', 'wp-statistics'),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['visitors']['value']),
+                    'change' => $data['glance']['visitors']['change']
+                ],
+                [
+                    'label'  => esc_html__('Views', 'wp-statistics'),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['views']['value']),
+                    'change' => $data['glance']['views']['change']
+                ]
             ];
-            $additionalMetrics[] = [
-                'label'  => esc_html__('Avg. comments per post', 'wp-statistics'),
-                'value'  => '2',
-                'change' => '-4'
-            ];
-        }
 
-        $metrics = array_merge($metrics, $additionalMetrics);
-        View::load("components/objects/glance-card", ['metrics' => $metrics, 'two_column' => true]);
+            if (WordCountService::isActive()) {
+                $metrics[] = [
+                    'label'  => esc_html__('Words', 'wp-statistics'),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['words']['value']),
+                ];
 
+                $metrics[] = [
+                    'label'  => sprintf(esc_html__('Avg. words per %s', 'wp-statistics'), $postTypeNamePlural),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['words_avg']['value']),
+                ];
+            }
+
+            if (post_type_supports($postType, 'comments')) {
+                $metrics[] = [
+                    'label'  => esc_html__('Comments', 'wp-statistics'),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['comments']['value']),
+                    'change' => $data['glance']['comments']['change']
+                ];
+
+                $metrics[] = [
+                    'label'  => sprintf(esc_html__('Avg. comments per %s', 'wp-statistics'), $postTypeNamePlural),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['comments_avg']['value']),
+                    'change' => $data['glance']['comments_avg']['change']
+                ];
+            }
+
+            View::load("components/objects/glance-card", ['metrics' => $metrics, 'two_column' => true]);
         ?>
     </div>
 
@@ -78,7 +75,6 @@ $postTypeNamePlural     = Helper::getPostTypeName($postType);
                     strtolower($postTypeNamePlural)
                 ),
                 'description'   => esc_html__('Last 12 Months', 'wp-statistics'),
-                'data'          => $data
             ]);
 
             Admin_Template::get_template(['layout/author-analytics/top-authors'], [
@@ -95,8 +91,7 @@ $postTypeNamePlural     = Helper::getPostTypeName($postType);
                 'tooltip'   => sprintf(
                     esc_html__('This scatter plot shows the relationship between the number of %1$s published by an author and the number of views those %1$s have received. Each point represents an author.', 'wp-statistics'),
                     strtolower($postTypeNamePlural)
-                ),
-                'data'      => $data
+                )
             ]);
         ?>
     </div>

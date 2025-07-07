@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\AuthorAnalytics;
 
 use WP_STATISTICS\Helper;
+use WP_Statistics\Components\DateRange;
 use WP_Statistics\Models\AuthorsModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\PostsModel;
@@ -34,62 +35,70 @@ class AuthorAnalyticsDataProvider
 
     public function getAuthorsPerformanceData()
     {
-        // Authors data
-        $totalAuthors         = $this->authorModel->countAuthors();
-        $activeAuthors        = $this->authorModel->countAuthors($this->args);
+        $posts     = $this->postsModel->countPosts($this->args);
+        $prevPosts = $this->postsModel->countPosts(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+
+        $authors     = $this->authorModel->countAuthors($this->args);
+        $prevAuthors = $this->authorModel->countAuthors(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+
+        $visitors     = $this->visitorsModel->countVisitors($this->args);
+        $prevVisitors = $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+
+        $views     = $this->viewsModel->countViews($this->args);
+        $prevViews = $this->viewsModel->countViews(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+
+        $comments        = $this->postsModel->countComments($this->args);
+        $prevComments    = $this->postsModel->countComments(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+        $avgComments     = Helper::divideNumbers($comments, $posts);
+        $prevAvgComments = Helper::divideNumbers($prevComments, $prevPosts);
+
         $topPublishingAuthors = $this->authorModel->getAuthorsByPostPublishes($this->args);
         $topViewingAuthors    = $this->authorModel->getTopViewingAuthors($this->args);
         $topAuthorsByComment  = $this->authorModel->getAuthorsByCommentsPerPost($this->args);
         $topAuthorsByViews    = $this->authorModel->getAuthorsByViewsPerPost($this->args);
 
-        // Views data
-        $totalViews           = $this->viewsModel->countViews($this->args);
-
-        // Posts data
-        $recentComments = $this->postsModel->countComments($this->args);
-        $totalComments  = $this->postsModel->countComments(array_merge($this->args, ['ignore_date' => true]));
-
-        $recentPosts    = $this->postsModel->countPosts($this->args);
-        $totalPosts     = $this->postsModel->countPosts(array_merge($this->args, ['ignore_date' => true]));
-
         $result = [
-            'authors' => [
-                'total'             => $totalAuthors,
-                'active'            => $activeAuthors,
-                'published'         => $recentPosts,
-                'avg'               => Helper::divideNumbers($recentPosts, $activeAuthors),
-                'top_publishing'    => $topPublishingAuthors,
-                'top_viewing'       => $topViewingAuthors,
-                'top_by_comments'   => $topAuthorsByComment,
-                'top_by_views'      => $topAuthorsByViews,
-            ],
-            'views'   => [
-                'total' => $totalViews,
-                'avg'   => Helper::divideNumbers($totalViews, $recentPosts)
-            ],
-            'posts'   => [
+            'glance'  => [
+                'authors' => [
+                    'value'  => $authors,
+                    'change' => Helper::calculatePercentageChange($prevAuthors, $authors)
+                ],
+                'posts' => [
+                    'value'  => $posts,
+                    'change' => Helper::calculatePercentageChange($prevPosts, $posts)
+                ],
+                'visitors' => [
+                    'value'  => $visitors,
+                    'change' => Helper::calculatePercentageChange($prevVisitors, $visitors)
+                ],
+                'views' => [
+                    'value'  => $views,
+                    'change' => Helper::calculatePercentageChange($prevViews, $views)
+                ],
                 'comments'  => [
-                    'total'     => $totalComments,
-                    'recent'    => $recentComments,
-                    'avg'       => Helper::divideNumbers($recentComments, $recentPosts),
-                    'total_avg' => Helper::divideNumbers($totalComments, $totalPosts),
+                    'value'  => $comments,
+                    'change' => Helper::calculatePercentageChange($prevComments, $comments)
+                ],
+                'comments_avg' => [
+                    'value'  => $avgComments,
+                    'change' => Helper::calculatePercentageChange($prevAvgComments, $avgComments)
                 ]
-            ]
+            ],
+            'top_publishing'    => $topPublishingAuthors,
+            'top_viewing'       => $topViewingAuthors,
+            'top_by_comments'   => $topAuthorsByComment,
+            'top_by_views'      => $topAuthorsByViews
         ];
 
         if (WordCountService::isActive()) {
-            $topAuthorsByWords  = $this->authorModel->getAuthorsByWordsPerPost($this->args);
-            $recentWords        = $this->postsModel->countWords($this->args);
-            $totalWords         = $this->postsModel->countWords(array_merge($this->args, ['ignore_date' => true]));
+            $words    = $this->postsModel->countWords($this->args);
+            $avgWords = Helper::divideNumbers($words, $posts);
 
-            $result['authors']['top_by_words'] = $topAuthorsByWords;
+            $topAuthorsByWords = $this->authorModel->getAuthorsByWordsPerPost($this->args);
 
-            $result['posts']['words'] = [
-                'total'     => $totalWords,
-                'recent'    => $recentWords,
-                'avg'       => Helper::divideNumbers($recentWords, $recentPosts),
-                'total_avg' => Helper::divideNumbers($totalWords, $totalPosts)
-            ];
+            $result['top_by_words']        = $topAuthorsByWords;
+            $result['glance']['words']     = ['value' => $words];
+            $result['glance']['words_avg'] = ['value' => $avgWords];
         }
 
         return $result;
