@@ -16,8 +16,8 @@
                                 </span>
                             <?php endif; ?>
                         </span>
-                        <span class="wps-at-a-glance-value<?php echo !empty($metric['link-href']) ? ' wps-at-a-glance-link' : ''; ?>">
-                            <?php if (!empty($metric['link-href'])): ?>
+                        <span class="wps-at-a-glance-value<?php echo !empty($metric['link-href']) && !empty($metric['link-title']) ? ' wps-at-a-glance-link' : ''; ?>">
+                            <?php if (!empty($metric['link-href']) && !empty($metric['link-title'])): ?>
                                 <a href="<?php echo esc_url($metric['link-href']); ?>" target="_blank" class="wps-external-link">
                                     <?php echo esc_html($metric['link-title'] ?? 'View Details'); ?>
                                 </a>
@@ -34,7 +34,7 @@
                             <?php endif; ?>
                             <?php if (isset($metric['change'])): ?>
                                 <span class="wps-at-a-glance-change <?php echo esc_attr($metric['change'] > 0 ? 'wps-glance-positive' : ($metric['change'] < 0 ? 'wps-glance-negative' : '')); ?>">
-                                    <?php echo esc_html($metric['change'] > 0 ? '+' : '') . esc_html($metric['change']) . '%'; ?>
+                                   <?php echo esc_html($metric['change'] > 0 ? '+' : '') . esc_html($metric['change']) . '%'; ?>
                                 </span>
                             <?php endif; ?>
                         </span>

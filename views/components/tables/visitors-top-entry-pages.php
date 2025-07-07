@@ -1,12 +1,11 @@
 <?php
-use WP_STATISTICS\Admin_Template;
-use WP_STATISTICS\Menus;
-use WP_STATISTICS\Visitor;
 use WP_Statistics\Components\View;
+use WP_STATISTICS\Helper;
+use WP_STATISTICS\Visitor;
 ?>
 
 <div class="inside">
-    <?php if (!empty($pages)) : ?>
+    <?php if (!empty($data)) : ?>
         <div class="o-table-wrapper">
             <table width="100%" class="o-table wps-new-table wps-table-inspect">
                 <thead>
@@ -15,17 +14,13 @@ use WP_Statistics\Components\View;
                             <?php esc_html_e('Entry Page', 'wp-statistics') ?>
                         </th>
                         <th class="wps-pd-l">
-                            <span class="wps-order"><?php esc_html_e('Unique Entrances', 'wp-statistics') ?></span>
-                        </th>
-                        <th class="wps-pd-l">
-                            <?php esc_html_e('Publish Date', 'wp-statistics') ?>
+                            <?php esc_html_e('Unique Entrances', 'wp-statistics') ?>
                         </th>
                         <th class="wps-pd-l"></th>
                     </tr>
                 </thead>
-
                 <tbody>
-                    <?php foreach ($pages as $page) :
+                    <?php foreach ($data as $page) :
                         $pageInfo = Visitor::get_page_by_id($page->page_id);
                     ?>
                         <tr>
@@ -40,14 +35,6 @@ use WP_Statistics\Components\View;
                                 <span><?php echo esc_html(number_format_i18n($page->visitors)); ?></span>
                             </td>
 
-                            <td class="wps-pd-l">
-                                <?php if (!empty($page->post_date)) : ?>
-                                    <?php echo esc_html(date_i18n(get_option('date_format', 'Y-m-d'), strtotime($page->post_date))) . ' ' . esc_html__('at', 'wp-statistics') . ' ' . esc_html(date_i18n(get_option('time_format', 'g:i a'), strtotime($page->post_date))); ?>
-                                <?php else : ?>
-                                    <?php echo Admin_Template::UnknownColumn() ?>
-                                <?php endif; ?>
-                            </td>
-
                             <td class="wps-pd-l view-more view-more__arrow">
                                 <a target="_blank" href="<?php echo esc_url($pageInfo['link']) ?>"><?php esc_html_e('View Page', 'wp-statistics') ?></a>
                             </td>
@@ -58,7 +45,7 @@ use WP_Statistics\Components\View;
         </div>
     <?php else : ?>
         <div class="o-wrap o-wrap--no-data wps-center">
-            <?php esc_html_e('No recent data available.', 'wp-statistics') ?>
+            <?php echo esc_html(Helper::getNoDataMessage()); ?>
         </div>
     <?php endif; ?>
 </div>

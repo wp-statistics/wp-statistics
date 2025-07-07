@@ -338,11 +338,14 @@
   }
 }
 
+.wps-card__traffic-trends .wps-postbox-chart--trafficChart{
+  padding: 0!important;
+}
 .wps-postbox-chart {
   padding-right: 24px;
   padding-left: 24px;
 
-  &.wps-p-0 {
+  &.wps-p-0 , &.wps-postbox-chart--referredVisitors {
     padding: 0;
   }
 
@@ -1156,8 +1159,13 @@ body .o-table-wrapper table.wps-new-table tbody tr td {
       }
     }
 
-    &:hover span {
-      color: #3c4043 !important;
+    &:hover{
+      span {
+        color: #3c4043 !important;
+      }
+      &:after{
+        filter: grayscale(1);
+      }
     }
   }
 }
