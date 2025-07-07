@@ -50,7 +50,7 @@ use WP_Statistics\Service\Admin\Posts\WordCountService;
                 'change' => $data['glance']['comments_avg']['change']
             ];
 
-            View::load("components/objects/glance-card", ['metrics' => $metrics  ]);
+            View::load("components/objects/glance-card", ['metrics' => $metrics]);
 
             $operatingSystems = [
                 'title'     => esc_html__('Operating Systems', 'wp-statistics'),
