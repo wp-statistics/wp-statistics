@@ -148,68 +148,70 @@ class AuthorAnalyticsDataProvider
 
     public function getAuthorSingleData()
     {
-        $recentViews        = $this->viewsModel->countViews($this->args);
+        $views     = $this->viewsModel->countViews($this->args);
+        $prevViews = $this->viewsModel->countViews(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $recentComments     = $this->postsModel->countComments($this->args);
-        $totalComments      = $this->postsModel->countComments(array_merge($this->args, ['ignore_date' => true]));
+        $posts     = $this->postsModel->countPosts($this->args);
+        $prevPosts = $this->postsModel->countPosts(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $recentPosts        = $this->postsModel->countPosts($this->args);
-        $totalPosts         = $this->postsModel->countPosts(array_merge($this->args, ['ignore_date' => true]));
+        $comments        = $this->postsModel->countComments($this->args);
+        $prevComments    = $this->postsModel->countComments(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+        $avgComments     = Helper::divideNumbers($comments, $posts);
+        $prevAvgComments = Helper::divideNumbers($prevComments, $prevPosts);
 
-        $recentVisitors     = $this->visitorsModel->countVisitors($this->args);
+        $visitors     = $this->visitorsModel->countVisitors($this->args);
+        $prevVisitors = $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $taxonomies         = $this->taxonomyModel->getTaxonomiesData($this->args);
-        $topPostsByView     = $this->postsModel->getPostsViewsData($this->args);
-        $topPostsByComment  = $this->postsModel->getPostsCommentsData($this->args);
+        $taxonomies        = $this->taxonomyModel->getTaxonomiesData($this->args);
+        $topPostsByView    = $this->postsModel->getPostsViewsData($this->args);
+        $topPostsByComment = $this->postsModel->getPostsCommentsData($this->args);
 
-        $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
-        $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
+        $visitorsSummary = $this->visitorsModel->getVisitorsSummary($this->args);
+        $viewsSummary    = $this->viewsModel->getViewsSummary($this->args);
 
-        $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
+        $visitorsCountry = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
 
         $data = [
-            'visit_summary'     => array_replace_recursive($visitorsSummary, $viewsSummary),
-            'visitors_country'  => $visitorsCountry,
-            'taxonomies'        => $taxonomies,
-            'overview'          => [
-                'posts'     => [
-                    'total'     => $totalPosts,
-                    'recent'    => $recentPosts
+            'glance' => [
+                'posts' => [
+                    'value'  => $posts,
+                    'change' => Helper::calculatePercentageChange($prevPosts, $posts)
                 ],
-                'views'     => [
-                    'recent'    => $recentViews,
-                    'avg'       => Helper::divideNumbers($recentViews, $recentPosts)
+                'views' => [
+                    'value'  => $views,
+                    'change' => Helper::calculatePercentageChange($prevViews, $views)
                 ],
-                'visitors'  => [
-                    'recent'    => $recentVisitors,
-                    'avg'       => Helper::divideNumbers($recentVisitors, $recentPosts)
+                'visitors' => [
+                    'value'  => $visitors,
+                    'change' => Helper::calculatePercentageChange($prevVisitors, $visitors)
                 ],
                 'comments'  => [
-                    'total'     => $totalComments,
-                    'recent'    => $recentComments,
-                    'avg'       => Helper::divideNumbers($recentComments, $recentPosts),
-                    'total_avg' => Helper::divideNumbers($totalComments, $totalPosts),
+                    'value'  => $comments,
+                    'change' => Helper::calculatePercentageChange($prevComments, $comments)
+                ],
+                'comments_avg' => [
+                    'value'  => $avgComments,
+                    'change' => Helper::calculatePercentageChange($prevAvgComments, $avgComments)
                 ]
             ],
-            'posts'         => [
-                'top_views'     => $topPostsByView,
-                'top_comments'  => $topPostsByComment,
-            ]
+            'posts' => [
+                'top_views'    => $topPostsByView,
+                'top_comments' => $topPostsByComment,
+            ],
+            'visit_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
+            'visitors_country' => $visitorsCountry,
+            'taxonomies'       => $taxonomies
         ];
 
         if (WordCountService::isActive()) {
-            $recentWords     = $this->postsModel->countWords($this->args);
-            $totalWords      = $this->postsModel->countWords(array_merge($this->args, ['ignore_date' => true]));
+            $words    = $this->postsModel->countWords($this->args);
+            $avgWords = Helper::divideNumbers($words, $posts);
+
             $topPostsByWords = $this->postsModel->getPostsWordsData($this->args);
 
-            $data['overview']['words'] = [
-                'total'     => $totalWords,
-                'recent'    => $recentWords,
-                'avg'       => Helper::divideNumbers($recentWords, $recentPosts),
-                'total_avg' => Helper::divideNumbers($totalWords, $totalPosts)
-            ];
-
-            $data['posts']['top_words'] = $topPostsByWords;
+            $data['glance']['words']     = ['value' => $words];
+            $data['glance']['words_avg'] = ['value' => $avgWords];
+            $data['posts']['top_words']  = $topPostsByWords;
         }
 
         return $data;
