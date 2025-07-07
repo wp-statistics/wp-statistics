@@ -156,7 +156,6 @@ class Hits extends BaseTracking
 
         $resourceUrlId = Request::get('resourceUrlId', 0);
 
-
         if (empty($resourceUrlId)) {
             throw new Exception(esc_html__('Missing or invalid resource url ID', 'wp-statistics'), 200);
             return;

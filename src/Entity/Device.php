@@ -3,7 +3,7 @@
 namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
-use WP_STATISTICS\Option;
+use WP_Statistics\Context\Option;
 use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Service\Tracking\TrackerHelper;
 use WP_Statistics\Utils\Request;

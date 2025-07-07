@@ -33,7 +33,6 @@ class ResourceUrlDecorator
     public function __construct($record = null)
     {
         $this->identifier = new ResourceManager($record);
-
     }
 
     /**

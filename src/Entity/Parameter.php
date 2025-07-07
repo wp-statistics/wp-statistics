@@ -59,6 +59,17 @@ class Parameter extends BaseEntity
         }
 
         foreach ($filteredParams as $key => $value) {
+            $existingRecord = RecordFactory::parameter()->get([
+                'session_id'      => $sessionId,
+                'view_id'         => $viewId,
+                'resource_url_id' => $resourceUrlId,
+                'parameter'       => $key
+            ]);
+
+            if (!empty($existingRecord)) {
+                continue;
+            }
+
             RecordFactory::parameter()->insert([
                 'session_id'      => $sessionId,
                 'resource_url_id' => $resourceUrlId,
