@@ -49,13 +49,29 @@ class MetaboxDataProvider
         return $data;
     }
 
-    public function getTrafficOverviewData($args = [])
+    /**
+     * Get traffic overview data with optional exclusions
+     *
+     * @param array $args Filter arguments for the queries
+     * @param array $exclude Keys to exclude from the results
+     *
+     * @return array
+     */
+    public function getTrafficOverviewData($args = [], $exclude = [])
     {
-        $data = [
-            'online'    => $this->onlineModel->countOnlines($args),
-            'visitors'  => $this->visitorsModel->getVisitorsSummary($args),
-            'hits'      => $this->visitorsModel->getHitsSummary($args)
+        $data = [];
+
+        $queryMap = [
+            'online'   => [$this->onlineModel, 'countOnlines'],
+            'visitors' => [$this->visitorsModel, 'getVisitorsSummary'],
+            'hits'     => [$this->visitorsModel, 'getHitsSummary']
         ];
+
+        foreach ($queryMap as $key => $callable) {
+            if (!in_array($key, $exclude, true)) {
+                $data[$key] = call_user_func($callable, $args);
+            }
+        }
 
         return $data;
     }
