@@ -2,8 +2,9 @@
 
 namespace WP_Statistics\Service\Admin\Geographic;
 
-use WP_STATISTICS\Country;
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\Country;
+use WP_Statistics\Components\DateRange;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
@@ -136,8 +137,17 @@ class GeographicDataProvider
 
     public function getSingleCountryData()
     {
-        $visitorsGeoData = $this->visitorsModel->getVisitorsGeoData($this->args);
-        $stats           = reset($visitorsGeoData);
+        $geoData = $this->visitorsModel->getVisitorsGeoData($this->args);
+        $stats   = reset($geoData);
+
+        $prevGeoData = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+        $prevStats   = reset($prevGeoData);
+
+        $visitors     = !empty($stats) ? $stats->visitors : 0;
+        $prevVisitors = !empty($prevStats) ? $prevStats->visitors : 0;
+
+        $views     = !empty($stats) ? $stats->views : 0;
+        $prevViews = !empty($prevStats) ? $prevStats->views : 0;
 
         $regions = $this->visitorsModel->getVisitorsGeoData(array_merge(
             $this->args,
@@ -172,9 +182,24 @@ class GeographicDataProvider
         $referrers = $this->visitorsModel->getReferrers($this->args);
 
         return [
-            'stats'     => [
-                'visitors' => !empty($stats) ? $stats->visitors : 0,
-                'views'    => !empty($stats) ? $stats->views : 0
+            'glance'     => [
+                'visitors' => [
+                    'value'  => $visitors,
+                    'change' => Helper::calculatePercentageChange($prevVisitors, $visitors)
+                ],
+                'views'    => [
+                    'value'  => $views,
+                    'change' => Helper::calculatePercentageChange($prevViews, $views)
+                ],
+                'region' => [
+                    'value' => !empty($regions) ? $regions[0]->region : ''
+                ],
+                'city' => [
+                    'value' => !empty($cities) ? $cities[0]->city : ''
+                ],
+                'referrer' => [
+                    'value' => !empty($referrers) ? $referrers[0]->referred : ''
+                ]
             ],
             'regions'   => $regions,
             'cities'    => [
