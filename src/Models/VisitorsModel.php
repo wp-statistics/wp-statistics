@@ -1334,7 +1334,7 @@ class VisitorsModel extends BaseModel
             ->from('visitor_relationships')
             ->whereDate('date', $args['date'])
             ->groupBy('visitor_id')
-            ->having('COUNT(DISTINCT page_id) = 1')
+            ->having('COUNT(page_id) = 1')
             ->getQuery();
 
         $query = Query::select(['COUNT(visitor.ID) as visitors'])
