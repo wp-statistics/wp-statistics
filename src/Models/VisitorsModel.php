@@ -176,7 +176,7 @@ class VisitorsModel extends BaseModel
 
         $query = Query::select(array_merge([
             'visitor.last_counter as date',
-            'COUNT(*) as visitors'
+            'COUNT(DISTINCT visitor.ID) as visitors'
         ], $additionalFields))
             ->from('visitor')
             ->where('location', '=', $args['country'])
