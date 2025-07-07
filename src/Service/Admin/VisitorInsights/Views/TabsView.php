@@ -19,8 +19,9 @@ class TabsView extends BaseTabView
     private $isTrackLoggedInUsersEnabled;
     private $isOnlineUsersEnabled;
 
-    protected $defaultTab = 'visitors';
+    protected $defaultTab = 'overview';
     protected $tabs = [
+        'overview',
         'visitors',
         'views',
         'search-terms',
@@ -54,9 +55,16 @@ class TabsView extends BaseTabView
         parent::__construct();
     }
 
+    public function getOverviewData()
+    {
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Visitors_Object', $this->dataProvider->getOverviewChartsData());
+
+        return $this->dataProvider->getOverviewData();
+    }
+
     public function getViewsData()
     {
-        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Visitors_Object', $this->dataProvider->getChartsData());
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Visitors_Object', $this->dataProvider->getViewsChartsData());
 
         return $this->dataProvider->getViewsData();
     }
@@ -101,6 +109,11 @@ class TabsView extends BaseTabView
                 'echo'  => false
             ]),
             'tabs'       => [
+                [
+                    'link'  => Menus::admin_url('visitors', ['tab' => 'overview']),
+                    'title' => esc_html__('Overview', 'wp-statistics'),
+                    'class' => $this->isTab('overview') ? 'current' : '',
+                ],
                 [
                     'link'  => Menus::admin_url('visitors', ['tab' => 'visitors']),
                     'title' => esc_html__('Visitors', 'wp-statistics'),
@@ -154,7 +167,7 @@ class TabsView extends BaseTabView
                 }
             }
 
-            $tabs = Helper::relocateArrayItems($tabs, $searchTerms, 2);
+            $tabs = Helper::relocateArrayItems($tabs, $searchTerms, 3);
 
             $args['tabs'] = $tabs;
         }

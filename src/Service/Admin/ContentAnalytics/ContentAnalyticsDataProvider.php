@@ -133,13 +133,11 @@ class ContentAnalyticsDataProvider
 
     public function getSingleResourceData()
     {
-        $totalHitsArgs      = array_merge(Helper::filterArrayByKeys($this->args, ['query_param', 'ignore_post_type']), ['ignore_date' => true]);
+        $views          = $this->viewsModel->countViews($this->args);
+        $prevViews      = $this->viewsModel->countViews(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $totalViews         = $this->viewsModel->countViews(array_merge($totalHitsArgs, ['uri' => $this->args['query_param']]));
-        $totalVisitors      = $this->visitorsModel->countVisitors($totalHitsArgs);
-
-        $recentViews        = $this->viewsModel->countViews($this->args);
-        $recentVisitors     = $this->visitorsModel->countVisitors($this->args);
+        $visitors        = $this->visitorsModel->countVisitors($this->args);
+        $prevVisitors    = $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
         $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
 
@@ -159,14 +157,14 @@ class ContentAnalyticsDataProvider
             'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
             'performance'       => $performanceData,
             'referrers'         => $referrersData,
-            'overview'          => [
+            'glance'            => [
                 'views'     => [
-                    'total' => $totalViews,
-                    'recent'=> $recentViews,
+                    'value'  => $views,
+                    'change' => Helper::calculatePercentageChange($prevViews, $views)
                 ],
                 'visitors'  => [
-                    'total' => $totalVisitors,
-                    'recent'=> $recentVisitors,
+                    'value'  => $visitors,
+                    'change' => Helper::calculatePercentageChange($prevVisitors, $visitors)
                 ]
             ]
         ];
@@ -174,25 +172,33 @@ class ContentAnalyticsDataProvider
 
     public function getSinglePostData()
     {
-        $totalHitsArgs      = array_merge(Helper::filterArrayByKeys($this->args, ['post_id', 'query_param', 'resource_type']), ['ignore_date' => true]);
+        $views          = $this->viewsModel->countViews($this->args);
+        $prevViews      = $this->viewsModel->countViews(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+        $viewsSummary   = $this->viewsModel->getViewsSummary($this->args);
 
-        $totalViews         = $this->viewsModel->countViews($totalHitsArgs);
-        $totalVisitors      = $this->visitorsModel->countVisitors($totalHitsArgs);
+        $visitors        = $this->visitorsModel->countVisitors($this->args);
+        $prevVisitors    = $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+        $visitorsSummary = $this->visitorsModel->getVisitorsSummary($this->args);
+        $visitorsCountry = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
 
-        $recentViews        = $this->viewsModel->countViews($this->args);
-        $recentVisitors     = $this->visitorsModel->countVisitors($this->args);
+        $entryPages     = $this->visitorsModel->countEntryPageVisitors(array_merge($this->args, ['resource_id' => $this->args['post_id']]));
+        $prevEntryPages = $this->visitorsModel->countEntryPageVisitors(array_merge($this->args, ['resource_id' => $this->args['post_id'], 'date' => DateRange::getPrevPeriod()]));
 
-        $totalComments      = $this->postsModel->countComments($this->args);
+        $exitPages     = $this->visitorsModel->countExitPageVisitors(array_merge($this->args, ['resource_id' => $this->args['post_id']]));
+        $prevExitPages = $this->visitorsModel->countExitPageVisitors(array_merge($this->args, ['resource_id' => $this->args['post_id'], 'date' => DateRange::getPrevPeriod()]));
+        $exitRate      = Helper::calculatePercentage($exitPages, $visitors);
+        $prevExitRate  = Helper::calculatePercentage($prevExitPages, $prevVisitors);
 
-        $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
+        $bounceRate     = $this->visitorsModel->getBounceRate(array_merge($this->args, ['resource_id' => $this->args['post_id']]));
+        $prevBounceRate = $this->visitorsModel->getBounceRate(array_merge($this->args, ['resource_id' => $this->args['post_id'], 'date' => DateRange::getPrevPeriod()]));
 
-        $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
-        $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
+        $comments       = $this->postsModel->countComments($this->args);
+        $prevComments   = $this->postsModel->countComments(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $referrersData      = $this->visitorsModel->getReferrers($this->args);
+        $referrersData = $this->visitorsModel->getReferrers($this->args);
 
-        $performanceArgs    = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
-        $performanceData    = [
+        $performanceArgs = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
+        $performanceData = [
             'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, $performanceArgs)),
             'views'     => $this->viewsModel->countViews(array_merge($this->args, $performanceArgs)),
         ];
@@ -202,17 +208,34 @@ class ContentAnalyticsDataProvider
             'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
             'performance'       => $performanceData,
             'referrers'         => $referrersData,
-            'overview'          => [
+            'glance'            => [
                 'views'     => [
-                    'total' => $totalViews,
-                    'recent'=> $recentViews,
+                    'value'  => $views,
+                    'change' => Helper::calculatePercentageChange($prevViews, $views)
                 ],
                 'visitors'  => [
-                    'total' => $totalVisitors,
-                    'recent'=> $recentVisitors,
+                    'value'  => $visitors,
+                    'change' => Helper::calculatePercentageChange($prevVisitors, $visitors)
+                ],
+                'entry_page' => [
+                    'value'  => $entryPages,
+                    'change' => Helper::calculatePercentageChange($prevEntryPages, $entryPages)
+                ],
+                'exit_page' => [
+                    'value'  => $exitPages,
+                    'change' => Helper::calculatePercentageChange($prevExitPages, $exitPages)
+                ],
+                'bounce_rate' => [
+                    'value'  => $bounceRate . '%',
+                    'change' => $bounceRate - $prevBounceRate
+                ],
+                'exit_rate' => [
+                    'value'  => $exitRate . '%',
+                    'change' => $exitRate - $prevExitRate
                 ],
                 'comments'  => [
-                    'total' => $totalComments,
+                    'value'  => $comments,
+                    'change' => Helper::calculatePercentageChange($prevComments, $comments),
                 ]
             ]
         ];
@@ -220,8 +243,8 @@ class ContentAnalyticsDataProvider
         if (WordCountService::isActive()) {
             $totalWords = $this->postsModel->countWords($this->args);
 
-            $result['overview']['words'] = [
-                'total' => $totalWords,
+            $result['glance']['words'] = [
+                'value' => $totalWords
             ];
         }
 

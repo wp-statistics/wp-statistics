@@ -19,7 +19,9 @@ use WP_Statistics\Service\Charts\DataProvider\UsersTrafficChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\SourceCategoryChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\PublishOverviewChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\AuthorsPostViewsChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\LoggedInUsersChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\ContinentChartDataProvider;
+
 
 class ChartDataProviderFactory
 {
@@ -106,7 +108,7 @@ class ChartDataProviderFactory
      * @param array $args The arguments to pass to the TrafficChartDataProvider constructor.
      * @return TrafficChartDataProvider
      */
-    public static function trafficChart($args)
+    public static function trafficChart($args = [])
     {
         return new TrafficChartDataProvider($args);
     }
@@ -128,7 +130,7 @@ class ChartDataProviderFactory
      * @param array $args The arguments to pass to the PlatformChartDataProvider constructor.
      * @return PlatformChartDataProvider
      */
-    public static function platformCharts($args)
+    public static function platformCharts($args = [])
     {
         return new PlatformChartDataProvider($args);
     }
@@ -194,7 +196,7 @@ class ChartDataProviderFactory
      * @param array $args
      * @return CountryChartDataProvider
      */
-    public static function countryChart($args)
+    public static function countryChart($args = [])
     {
         return new CountryChartDataProvider($args);
     }
@@ -218,6 +220,17 @@ class ChartDataProviderFactory
      */
     public static function topSourceCategories($args = [])
     {
-        return new TopSourceCategoriesDataProvider($args = []);
+        return new TopSourceCategoriesDataProvider($args);
+    }
+
+    /**
+     * Returns a new instance of TopSourceCategoriesDataProvider.
+     *
+     * @param array $args
+     * @return LoggedInUsersChartDataProvider
+     */
+    public static function loggedInUsers($args = [])
+    {
+        return new LoggedInUsersChartDataProvider($args);
     }
 }
