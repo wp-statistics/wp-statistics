@@ -8,84 +8,78 @@ use WP_Statistics\Service\Admin\Posts\WordCountService;
 <div class="metabox-holder wps-category-analytics">
     <div class="postbox-container" id="wps-postbox-container-1">
         <?php
-        $metrics = [
-            [
-                'label'  => esc_html__('Published Contents', 'wp-statistics'),
-                'value'  => '2',
-                'change' => '4'
-            ],
-            [
-                'label'  => esc_html__('Visitors', 'wp-statistics'),
-                'value'  => '2',
-                'change' => '-4'
-            ],
-            [
-                'label'  => esc_html__('Views', 'wp-statistics'),
-                'value'  => '2',
-                'change' => '-4'
-            ],
-        ];
+            $metrics = [
+                [
+                    'label'  => esc_html__('Published Contents', 'wp-statistics'),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['posts']['value']),
+                    'change' => $data['glance']['posts']['change']
+                ],
+                [
+                    'label'  => esc_html__('Visitors', 'wp-statistics'),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['visitors']['value']),
+                    'change' => $data['glance']['visitors']['change']
+                ],
+                [
+                    'label'  => esc_html__('Views', 'wp-statistics'),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['views']['value']),
+                    'change' => $data['glance']['views']['change']
+                ]
+            ];
 
-        $additionalMetrics = [];
+            if (WordCountService::isActive()) {
+                $metrics[] = [
+                    'label'  => esc_html__('Words', 'wp-statistics'),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['words']['value']),
+                ];
 
-        if (WordCountService::isActive()) {
-            $additionalMetrics[] = [
-                'label'  => esc_html__('Words', 'wp-statistics'),
-                'value'  => '2',
-             ];
-            $additionalMetrics[] = [
-                'label'  => esc_html__('Avg. words per post', 'wp-statistics'),
-                'value'  => '2',
-                'change' => '-4'
-             ];
-        }
-         $additionalMetrics[] = [
-            'label'  => esc_html__('Comments', 'wp-statistics'),
-            'value'  => '2',
-            'change' => '-4'
-        ];
-        $additionalMetrics[] = [
-            'label'  => esc_html__('Avg. comments per post', 'wp-statistics'),
-            'value'  => '2',
-            'change' => '-4'
-        ];
+                $metrics[] = [
+                    'label'  => esc_html__('Avg. words per content', 'wp-statistics'),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['words_avg']['value']),
+                ];
+            }
 
+            $metrics[] = [
+                'label'  => esc_html__('Comments', 'wp-statistics'),
+                'value'  => Helper::formatNumberWithUnit($data['glance']['comments']['value']),
+                'change' => $data['glance']['comments']['change']
+            ];
 
-        $metrics = array_merge($metrics, $additionalMetrics);
-        View::load("components/objects/glance-card", ['metrics' => $metrics  ]);
+            $metrics[] = [
+                'label'  => esc_html__('Avg. comments per content', 'wp-statistics'),
+                'value'  => Helper::formatNumberWithUnit($data['glance']['comments_avg']['value']),
+                'change' => $data['glance']['comments_avg']['change']
+            ];
 
-        ?>
+            View::load("components/objects/glance-card", ['metrics' => $metrics  ]);
 
-        <?php
-        $operatingSystems = [
-            'title'     => esc_html__('Operating Systems', 'wp-statistics'),
-            'tooltip'   => esc_html__('Distribution of visitors by their operating systems.', 'wp-statistics'),
-            'unique_id' => 'category_operating_systems'
-        ];
-        View::load("components/charts/horizontal-bar", $operatingSystems);
+            $operatingSystems = [
+                'title'     => esc_html__('Operating Systems', 'wp-statistics'),
+                'tooltip'   => esc_html__('Distribution of visitors by their operating systems.', 'wp-statistics'),
+                'unique_id' => 'category_operating_systems'
+            ];
+            View::load("components/charts/horizontal-bar", $operatingSystems);
 
-        $browsers = [
-            'title'     => esc_html__('Browsers', 'wp-statistics'),
-            'tooltip'   => esc_html__('Distribution of visitors by their web browsers.', 'wp-statistics'),
-            'unique_id' => 'category_browsers'
-        ];
-        View::load("components/charts/horizontal-bar", $browsers);
+            $browsers = [
+                'title'     => esc_html__('Browsers', 'wp-statistics'),
+                'tooltip'   => esc_html__('Distribution of visitors by their web browsers.', 'wp-statistics'),
+                'unique_id' => 'category_browsers'
+            ];
+            View::load("components/charts/horizontal-bar", $browsers);
 
-        $deviceModels = [
-            'title'     => esc_html__('Device Models', 'wp-statistics'),
-            'tooltip'   => esc_html__('Distribution of visitors by their device models.', 'wp-statistics'),
-            'unique_id' => 'category_device_models'
-        ];
-        View::load("components/charts/horizontal-bar", $deviceModels);
+            $deviceModels = [
+                'title'     => esc_html__('Device Models', 'wp-statistics'),
+                'tooltip'   => esc_html__('Distribution of visitors by their device models.', 'wp-statistics'),
+                'unique_id' => 'category_device_models'
+            ];
+            View::load("components/charts/horizontal-bar", $deviceModels);
 
 
-        $deviceUsage = [
-            'title'     => esc_html__('Device Usage', 'wp-statistics'),
-            'tooltip'   => esc_html__('Distribution of visitors by their device types.', 'wp-statistics'),
-            'unique_id' => 'category_device_usage'
-        ];
-        View::load("components/charts/horizontal-bar", $deviceUsage);
-
+            $deviceUsage = [
+                'title'     => esc_html__('Device Usage', 'wp-statistics'),
+                'tooltip'   => esc_html__('Distribution of visitors by their device types.', 'wp-statistics'),
+                'unique_id' => 'category_device_usage'
+            ];
+            View::load("components/charts/horizontal-bar", $deviceUsage);
         ?>
     </div>
 
