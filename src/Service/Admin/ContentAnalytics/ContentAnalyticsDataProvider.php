@@ -1,6 +1,7 @@
 <?php
 namespace WP_Statistics\Service\Admin\ContentAnalytics;
 
+use WP_Statistics\Components\DateRange;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Models\TaxonomyModel;
@@ -47,14 +48,19 @@ class ContentAnalyticsDataProvider
 
     public function getPostTypeData()
     {
-        $totalPosts     = $this->postsModel->countPosts(array_merge($this->args, ['ignore_date' => true]));
-        $recentPosts    = $this->postsModel->countPosts($this->args);
+        $posts     = $this->postsModel->countPosts($this->args);
+        $prevPosts = $this->postsModel->countPosts(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $recentViews    = $this->viewsModel->countViews($this->args);
-        $recentVisitors = $this->visitorsModel->countVisitors($this->args);
+        $visitors     = $this->visitorsModel->countVisitors($this->args);
+        $prevVisitors = $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $totalComments  = $this->postsModel->countComments(array_merge($this->args, ['ignore_date' => true]));
-        $recentComments = $this->postsModel->countComments($this->args);
+        $views     = $this->viewsModel->countViews($this->args);
+        $prevViews = $this->viewsModel->countViews(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+
+        $comments        = $this->postsModel->countComments($this->args);
+        $prevComments    = $this->postsModel->countComments(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+        $avgComments     = Helper::divideNumbers($comments, $posts);
+        $prevAvgComments = Helper::divideNumbers($prevComments, $prevPosts);
 
         $visitorsCountry = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
 
@@ -75,28 +81,30 @@ class ContentAnalyticsDataProvider
         $taxonomies         = $this->taxonomyModel->getTaxonomiesData($this->args);
 
         $result = [
-            'taxonomies'        => $taxonomies,
-            'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
-            'overview'          => [
-                'published' => [
-                    'total'     => $totalPosts,
-                    'recent'    => $recentPosts
+            'glance' => [
+                'posts' => [
+                    'value'  => $posts,
+                    'change' => Helper::calculatePercentageChange($prevPosts, $posts)
                 ],
-                'views'     => [
-                    'recent'    => $recentViews,
-                    'avg'       => Helper::divideNumbers($recentViews, $recentPosts)
+                'views' => [
+                    'value'  => $views,
+                    'change' => Helper::calculatePercentageChange($prevViews, $views)
                 ],
-                'visitors'  => [
-                    'recent'    => $recentVisitors,
-                    'avg'       => Helper::divideNumbers($recentVisitors, $recentPosts)
+                'visitors' => [
+                    'value'  => $visitors,
+                    'change' => Helper::calculatePercentageChange($prevVisitors, $visitors)
                 ],
-                'comments'  => [
-                    'total'     => $totalComments,
-                    'recent'    => $recentComments,
-                    'avg'       => Helper::divideNumbers($recentComments, $recentPosts),
-                    'total_avg' => Helper::divideNumbers($totalComments, $totalPosts)
+                'comments' => [
+                    'value'  => $comments,
+                    'change' => Helper::calculatePercentageChange($prevComments, $comments),
+                ],
+                'comments_avg' => [
+                    'value'  => Helper::divideNumbers($comments, $posts),
+                    'change' => Helper::calculatePercentageChange($prevAvgComments, $avgComments)
                 ]
             ],
+            'taxonomies'        => $taxonomies,
+            'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
             'visitors_country'  => $visitorsCountry,
             'performance'       => $performanceData,
             'referrers'         => $referrersData,
@@ -108,14 +116,15 @@ class ContentAnalyticsDataProvider
         ];
 
         if (WordCountService::isActive()) {
-            $totalWords     = $this->postsModel->countWords(array_merge($this->args, ['ignore_date' => true]));
-            $recentWords    = $this->postsModel->countWords($this->args);
+            $words    = $this->postsModel->countWords($this->args);
+            $avgWords = Helper::divideNumbers($words, $posts);
 
-            $result['overview']['words'] = [
-                'total'     => $totalWords,
-                'recent'    => $recentWords,
-                'avg'       => Helper::divideNumbers($recentWords, $recentPosts),
-                'total_avg' => Helper::divideNumbers($totalWords, $totalPosts)
+            $result['glance']['words'] = [
+                'value' => $words
+            ];
+
+            $result['glance']['words_avg'] = [
+                'value' => $avgWords
             ];
         }
 
