@@ -15,11 +15,45 @@ use WP_STATISTICS\TimeZone;
  * Model class for performing database operations related to visitor sessions.
  *
  * Provides methods to query and interact with the sessions table.
- * 
+ *
  * @since 15.0.0
  */
 class SessionModel extends BaseModel
 {
+    /**
+     * Get the number of hits for a given date or range.
+     *
+     * @param array $args {
+     * @type string|array $date Date or range to analyse.
+     * }
+     * @return int Number of hits.
+     */
+    public function getDailyHits($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date' => DateRange::get('today')
+        ]);
+
+        $query = Query::select(['COUNT(*)'])
+            ->from('sessions')
+            ->where('started_at', '>=', $args['date']['from'] . ' 00:00:00')
+            ->where('started_at', '<=', $args['date']['to'] . ' 23:59:59');
+
+        return (int)$query->getVar();
+    }
+
+    /**
+     * Get the total number of hits.
+     *
+     * @return int Number of hits.
+     */
+    public function getTotalHits()
+    {
+        return (int)Query::select(['COUNT(*)'])
+            ->from('sessions')
+            ->getVar();
+    }
+
     /**
      * Find an open session for a visitor that was started today.
      *
@@ -66,8 +100,6 @@ class SessionModel extends BaseModel
             ->from('sessions')
             ->where('ended_at', '>=', gmdate('Y-m-d H:i:s', time() - 300))
             ->getVar();
-
-        return $result;
     }
 
     /**

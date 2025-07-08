@@ -2,6 +2,9 @@
 
 namespace WP_Statistics\Service\Admin;
 
+use WP_Statistics\Context\Menu;
+use WP_Statistics\Context\Option;
+use WP_Statistics\Context\User;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 class AdminManager
@@ -12,6 +15,18 @@ class AdminManager
         $this->initNoticeHandler();
         $this->initSiteHealthInfo();
         $this->initAjaxOptionUpdater();
+        $this->initAdminMenu();
+    }
+
+    /**
+     * Register admin menu pages.
+     *
+     * @return void
+     * @since 15.0.0
+     */
+    private function initAdminMenu()
+    {
+        add_action('admin_menu', [$this, 'adminMenu']);
     }
 
     private function initFooterModifier()
@@ -75,5 +90,56 @@ class AdminManager
             );
         }
         return $content;
+    }
+
+    /**
+     * Register admin menu pages.
+     *
+     * @return void
+     * @since 15.0.0
+     */
+    public function adminMenu()
+    {
+        $read_cap = User::getExistingCapability(Option::getValue('read_capability', 'manage_options'));
+
+        foreach (Menu::getMenuList() as $key => $menu) {
+            $capability = $read_cap;
+            $method     = 'log';
+            $name       = $menu['title'];
+
+            if (array_key_exists('cap', $menu)) {
+                $capability = $menu['cap'];
+            }
+
+            if (array_key_exists('method', $menu)) {
+                $method = $menu['method'];
+            }
+
+            if (array_key_exists('name', $menu)) {
+                $name = $menu['name'];
+            }
+
+            $baseNamespace = '\WP_STATISTICS\\';
+
+            $className = isset($menu['callback']) ? $menu['callback'] : $baseNamespace . $method . '_page';
+
+            if (method_exists($className, 'view')) {
+                $callback = [$className::instance(), 'view'];
+            } else {
+                continue;
+            }
+
+            if (array_key_exists('sub', $menu)) {
+                if (array_key_exists('break', $menu)) {
+                    add_submenu_page(Menu::buildPageSlug($menu['sub']), '', '', $capability, 'wps_break_menu', $callback);
+                }
+
+                if (Option::meetsRequirements($menu) === true) {
+                    add_submenu_page(Menu::buildPageSlug($menu['sub']), $menu['title'], $name, $capability, Menu::buildPageSlug($menu['page_url']), $callback);
+                }
+            } else {
+                add_menu_page($menu['title'], $name, $capability, Menu::buildPageSlug($menu['page_url']), $callback, $menu['icon']);
+            }
+        }
     }
 }

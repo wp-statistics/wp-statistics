@@ -213,4 +213,52 @@ class ViewsModel extends BaseModel
 
         return $results ?: [];
     }
+
+    /**
+     * Count the number of views for a specific resource URL ID.
+     *
+     * @param array $args {
+     *     Optional. Array of arguments.
+     *
+     * @type int $resource_uri_id Required. The resource URL ID to count views for.
+     * }
+     *
+     * @return int Total number of views for the resource URL ID.
+     * @since 15.0.0
+     */
+    public function countViewsByResourceUriId($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'resource_uri_id' => '',
+        ]);
+
+        $query = Query::select(['COUNT(*) AS count'])
+            ->from('views')
+            ->where('resource_uri_id', '=', $args['resource_uri_id']);
+
+        return (int)$query->getVar();
+    }
+
+    /**
+     * Get the number of views for a given date or range.
+     *
+     * @param array $args {
+     * @type string|array $date Date or range to analyse.
+     * }
+     * @return int Number of views.
+     * @since 15.0.0
+     */
+    public function getDailyViews($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date' => DateRange::get('today')
+        ]);
+
+        $query = Query::select(['COUNT(*) AS count'])
+            ->from('views')
+            ->where('viewed_at', '>=', $args['date']['from'] . ' 00:00:00')
+            ->where('viewed_at', '<=', $args['date']['to'] . ' 23:59:59');
+
+        return (int)$query->getVar();
+    }
 }
