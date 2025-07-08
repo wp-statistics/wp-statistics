@@ -20,7 +20,7 @@ class Parameter extends BaseEntity
      * Detect and record URL query parameters related to the current view.
      *
      * Removes known tracking parameters such as utm_source, ref, etc.
-     * and saves the clean parameters associated with session, resourceUrl, and view.
+     * and saves the clean parameters associated with session, resourceUri, and view.
      *
      * @return $this
      */
@@ -31,10 +31,10 @@ class Parameter extends BaseEntity
         }
 
         $sessionId     = $this->profile->getSessionId();
-        $resourceUrlId = $this->profile->getResourceUrlId();
+        $resourceUriId = $this->profile->getResourceUriId();
         $viewId        = $this->profile->getViewId();
 
-        if (!$sessionId || !$resourceUrlId || !$viewId) {
+        if (!$sessionId || !$resourceUriId || !$viewId) {
             return $this;
         }
 
@@ -62,7 +62,7 @@ class Parameter extends BaseEntity
             $existingRecord = RecordFactory::parameter()->get([
                 'session_id'      => $sessionId,
                 'view_id'         => $viewId,
-                'resource_url_id' => $resourceUrlId,
+                'resource_uri_id' => $resourceUriId,
                 'parameter'       => $key
             ]);
 
@@ -72,7 +72,7 @@ class Parameter extends BaseEntity
 
             RecordFactory::parameter()->insert([
                 'session_id'      => $sessionId,
-                'resource_url_id' => $resourceUrlId,
+                'resource_uri_id' => $resourceUriId,
                 'view_id'         => $viewId,
                 'parameter'       => sanitize_text_field($key),
                 'value'           => sanitize_textarea_field($value),

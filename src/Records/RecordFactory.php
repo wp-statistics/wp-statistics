@@ -219,13 +219,13 @@ class RecordFactory
     }
 
     /**
-     * Create a new ResourceUrlRecord instance.
+     * Create a new ResourceUriRecord instance.
      *
      * @param object|null $record Optional existing record to wrap.
-     * @return ResourceUrlRecord
+     * @return ResourceUriRecord
      */
-    public static function resourceUrl($record = null)
+    public static function resourceUri($record = null)
     {
-        return new ResourceUrlRecord($record);
+        return new ResourceUriRecord($record);
     }
 }

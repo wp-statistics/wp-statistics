@@ -3,14 +3,14 @@
 namespace WP_Statistics\Service\Resources;
 
 use WP_Statistics\Decorators\ResourceDecorator;
-use WP_Statistics\Decorators\ResourceUrlDecorator;
+use WP_Statistics\Decorators\ResourceUriDecorator;
 use WP_Statistics\Records\RecordFactory;
 
 /**
  * Factory class for creating and retrieving resource objects and decorators.
  *
  * This factory provides a centralized way to create and retrieve resource-related objects,
- * including ResourceDecorator and ResourceUrlDecorator instances. It serves as an abstraction
+ * including ResourceDecorator and ResourceUriDecorator instances. It serves as an abstraction
  * layer that simplifies resource management by offering various methods to retrieve resources
  * based on different identifiers and contexts.
  *
@@ -46,24 +46,24 @@ class ResourcesFactory
      * This method searches the 'resources' table for a resource that matches the provided URL,
      * and wraps the resulting resource record in a ResourceDecorator if a match is found.
      *
-     * @param string $resourceUrl The URL of the resource.
+     * @param string $resourceUri The URL of the resource.
      *
      * @return ResourceDecorator|null A decorator for the resource record, or null if not found.
      */
-    public static function getByUrl($resourceUrl)
+    public static function getByUrl($resourceUri)
     {
-        if (empty($resourceUrl)) {
+        if (empty($resourceUri)) {
             return null;
         }
 
-        $resourceUrlRecord = RecordFactory::resourceUrl()->get(['url' => $resourceUrl]);
+        $resourceUriRecord = RecordFactory::resourceUri()->get(['url' => $resourceUri]);
 
-        if (empty($resourceUrlRecord->resource_id)) {
+        if (empty($resourceUriRecord->resource_id)) {
             return null;
         }
 
         $record = RecordFactory::resource()->get([
-            'ID' => $resourceUrlRecord->resource_id,
+            'ID' => $resourceUriRecord->resource_id,
         ]);
 
         return !empty($record) ? new ResourceDecorator($record) : null;
@@ -75,12 +75,12 @@ class ResourcesFactory
      * This method searches the 'url' table for a resource URL that matches the provided URL ID,
      * and wraps the resulting resource record in a ResourceDecorator if a match is found.
      *
-     * @param int $resourceUrlId The ID of the resource URL.
+     * @param int $resourceUriId The ID of the resource URL.
      * @return ResourceDecorator|null A decorator for the resource record, or null if not found.
      */
-    public static function getByUrlId($resourceUrlId)
+    public static function getByUrlId($resourceUriId)
     {
-        $record = RecordFactory::resourceUrl()->get(['ID' => $resourceUrlId]);
+        $record = RecordFactory::resourceUri()->get(['ID' => $resourceUriId]);
 
         return !empty($record) ? new ResourceDecorator($record) : null;
     }
@@ -115,14 +115,14 @@ class ResourcesFactory
     /**
      * Retrieves the current resource URL based on the current request.
      *
-     * This method creates a ResourceUrlDecorator without a specific identifier,
+     * This method creates a ResourceUriDecorator without a specific identifier,
      * allowing it to determine the resource URL context from the current request.
      *
-     * @return ResourceUrlDecorator A decorator representing the current resource URL.
+     * @return ResourceUriDecorator A decorator representing the current resource URL.
      */
-    public static function getCurrentResourceUrl()
+    public static function getCurrentResourceUri()
     {
-        return new ResourceUrlDecorator();
+        return new ResourceUriDecorator();
     }
 
     /**

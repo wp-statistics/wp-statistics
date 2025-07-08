@@ -18,7 +18,7 @@ use WP_STATISTICS\TimeZone;
 class View extends BaseEntity
 {
     /**
-     * Record a new view for the current visitor session and resourceUrl.
+     * Record a new view for the current visitor session and resourceUri.
      *
      * - If there is a previous view, update its `next_view_id` and calculate its `duration`.
      * - Insert a new view with the current timestamp.
@@ -32,9 +32,9 @@ class View extends BaseEntity
         }
 
         $sessionId     = $this->profile->getSessionId();
-        $resourceUrlId = $this->profile->getResourceUrlId();
+        $resourceUriId = $this->profile->getResourceUriId();
 
-        if ($sessionId < 1 || $resourceUrlId < 1) {
+        if ($sessionId < 1 || $resourceUriId < 1) {
             return $this;
         }
 
@@ -46,7 +46,7 @@ class View extends BaseEntity
 
         $data = [
             'session_id'      => $sessionId,
-            'resource_url_id' => $resourceUrlId,
+            'resource_uri_id' => $resourceUriId,
             'viewed_at'       => $now,
             'next_view_id'    => null,
             'duration'        => $this->profile->getDuration(),

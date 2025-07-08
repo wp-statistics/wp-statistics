@@ -97,7 +97,7 @@ if (!window.WpStatisticsUserTracker) {
     
                 const params = new URLSearchParams({
                     ...WP_Statistics_Tracker_Object.hitParams,
-                    resourceUrlId: WP_Statistics_Tracker_Object?.resourceUrlId,
+                    resourceUriId: WP_Statistics_Tracker_Object ? .resourceUriId,
                     referred: this.getReferred(), // Use the getReferred method
                     page_uri: this.getPathAndQueryString(), // Use the correct key for the path and query string (Base64 encoded)
                     timezone: visitorLocaleInfo.timezone,

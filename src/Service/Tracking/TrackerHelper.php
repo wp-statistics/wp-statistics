@@ -77,7 +77,7 @@ final class TrackerHelper
                 'required' => true,
                 'nullable' => false
             ],
-            'resourceUrlId'    => [
+            'resourceUriId'    => [
                 'type'     => 'number',
                 'required' => true,
                 'nullable' => false

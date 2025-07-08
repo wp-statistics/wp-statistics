@@ -104,10 +104,10 @@ class ViewDecorator
      */
     public function getResource()
     {
-        if (empty($this->view->resource_url_id)) {
+        if (empty($this->view->resource_uri_id)) {
             return new ResourceDecorator(null);
         }
 
-        return ResourcesFactory::getByUrlId($this->view->resource_url_id);
+        return ResourcesFactory::getByUrlId($this->view->resource_uri_id);
     }
 }

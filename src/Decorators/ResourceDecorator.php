@@ -166,6 +166,18 @@ class ResourceDecorator
     }
 
     /**
+     * Gets the resource language.
+     *
+     * Returns the language of the resource.
+     *
+     * @return string|null The resource language, or null if not available
+     */
+    public function getLanguage()
+    {
+        return $this->identifier->resource->record->language ?? null;
+    }
+
+    /**
      * Gets the resource model instance.
      *
      * Returns the ResourceRecord model for performing database operations.

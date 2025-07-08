@@ -20,7 +20,7 @@ class Manager
             'columns'     => [
                 'ID'              => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
                 'session_id'      => 'bigint(20) UNSIGNED NOT NULL',
-                'resource_url_id' => 'bigint(20) UNSIGNED NOT NULL',
+                'resource_uri_id' => 'bigint(20) UNSIGNED NOT NULL',
                 'view_id'         => 'bigint(20) UNSIGNED NOT NULL',
                 'parameter'       => 'varchar(64)',
                 'value'           => 'varchar(255)',
@@ -28,7 +28,7 @@ class Manager
             'constraints' => [
                 'PRIMARY KEY (ID)',
                 'KEY session_id (session_id)',
-                'KEY resource_url_id (resource_url_id)',
+                'KEY resource_uri_id (resource_uri_id)',
                 'KEY view_id (view_id)',
             ],
         ],
@@ -43,19 +43,21 @@ class Manager
                 'cached_author_name' => 'varchar(250)',
                 'cached_date'        => 'datetime',
                 'resource_meta'      => 'text',
+                'language'           => 'varchar(32) DEFAULT NULL',
                 'is_deleted'         => 'tinyint(1) NOT NULL DEFAULT 0',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
                 'KEY resource_type (resource_type)',
                 'KEY resource_id (resource_id)',
+                'KEY language (language)',
             ],
         ],
         'views'                   => [
             'columns'     => [
                 'ID'              => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
                 'session_id'      => 'bigint(20) UNSIGNED NOT NULL',
-                'resource_url_id' => 'bigint(20) UNSIGNED NOT NULL',
+                'resource_uri_id' => 'bigint(20) UNSIGNED NOT NULL',
                 'viewed_at'       => 'datetime NOT NULL',
                 'next_view_id'    => 'bigint(20) UNSIGNED DEFAULT NULL',
                 'duration'        => 'bigint(11) UNSIGNED DEFAULT NULL',
@@ -63,7 +65,7 @@ class Manager
             'constraints' => [
                 'PRIMARY KEY (ID)',
                 'KEY session_id (session_id)',
-                'KEY resource_url_id (resource_url_id)',
+                'KEY resource_uri_id (resource_uri_id)',
             ],
         ],
         'countries'               => [
@@ -250,7 +252,7 @@ class Manager
             'columns'     => [
                 'ID'              => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
                 'date'            => 'datetime NOT NULL',
-                'resource_url_id' => 'bigint(20) UNSIGNED NOT NULL',
+                'resource_uri_id' => 'bigint(20) UNSIGNED NOT NULL',
                 'visitors'        => 'bigint(20) UNSIGNED NOT NULL',
                 'sessions'        => 'bigint(20) UNSIGNED NOT NULL',
                 'views'           => 'bigint(20) UNSIGNED NOT NULL',
@@ -259,7 +261,7 @@ class Manager
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
-                'KEY resource_url_id (resource_url_id)',
+                'KEY resource_uri_id (resource_uri_id)',
             ],
         ],
         'summary_totals'          => [
@@ -290,16 +292,16 @@ class Manager
                 'KEY reason (reason)',
             ],
         ],
-        'resource_urls'           => [
+        'resource_uris'           => [
             'columns'     => [
                 'ID'          => 'bigint(20) NOT NULL AUTO_INCREMENT',
                 'resource_id' => 'bigint(20) UNSIGNED NOT NULL',
-                'url'         => 'varchar(255) NOT NULL',
+                'uri'         => 'varchar(255) NOT NULL',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
                 'KEY resource_id (resource_id)',
-                'KEY url (url)',
+                'KEY uri (uri)',
             ],
         ],
     ];

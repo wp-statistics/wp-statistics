@@ -55,7 +55,7 @@ class ParameterDecorator
      */
     public function getResourceId()
     {
-        return empty($this->parameter->resource_url_id) ? null : (int)$this->parameter->resource_url_id;
+        return empty($this->parameter->resource_uri_id) ? null : (int)$this->parameter->resource_uri_id;
     }
 
     /**

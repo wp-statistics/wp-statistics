@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Resources;
 
 use WP_Statistics\Service\Resources\Identifications\ResourceIdentifier;
-use WP_Statistics\Service\Resources\Identifications\ResourceUrlIdentifier;
+use WP_Statistics\Service\Resources\Identifications\ResourceUriIdentifier;
 
 /**
  * ResourceManager Class
@@ -27,9 +27,9 @@ class ResourceManager
     /**
      * Resource URL identifier instance
      *
-     * @var ResourceUrlIdentifier|null
+     * @var ResourceUriIdentifier|null
      */
-    public $resourceUrl = null;
+    public $resourceUri = null;
 
     /**
      * ResourceManager constructor
@@ -53,7 +53,7 @@ class ResourceManager
         }
 
         if (!empty($record->url)) {
-            $this->resourceUrl = new ResourceUrlIdentifier($record);
+            $this->resourceUri = new ResourceUriIdentifier($record);
             return;
         }
     }
@@ -62,7 +62,7 @@ class ResourceManager
      * Resolve resource automatically
      *
      * Creates a new ResourceIdentifier instance and, if successful,
-     * creates a corresponding ResourceUrlIdentifier. This method handles
+     * creates a corresponding ResourceUriIdentifier. This method handles
      * the automatic resolution of resources when no specific record is provided.
      *
      * @return void
@@ -75,6 +75,6 @@ class ResourceManager
             return;
         }
 
-        $this->resourceUrl = new ResourceUrlIdentifier($this->resource->record);
+        $this->resourceUri = new ResourceUriIdentifier($this->resource->record);
     }
 }

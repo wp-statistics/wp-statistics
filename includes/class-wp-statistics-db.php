@@ -21,7 +21,7 @@ class DB
         'historical',
         'visitor_relationships',
         'resources',
-        'resource_urls',
+        'resource_uris',
         'parameters',
         'views',
         'countries',

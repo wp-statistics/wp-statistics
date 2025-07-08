@@ -6,37 +6,37 @@ use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Utils\QueryParams;
 
 /**
- * Class ResourceUrlIdentifier
+ * Class ResourceUriIdentifier
  *
- * Handles identification and management of resource URLs in the WP Statistics system.
- * This class is responsible for creating, retrieving, and managing URL records
+ * Handles identification and management of resource URIs in the WP Statistics system.
+ * This class is responsible for creating, retrieving, and managing URI records
  * associated with specific resources.
  *
  * @package WP_Statistics\Service\Resources\Identifications
  * @since 15.0.0
  */
-class ResourceUrlIdentifier
+class ResourceUriIdentifier
 {
     /**
-     * The database row ID of the resource URL record.
+     * The database row ID of the resource URI record.
      *
      * @var int|null
      */
     private $rowId = null;
 
     /**
-     * The resource URL record object.
+     * The resource URI record object.
      *
      * @var object|null
      */
     public $record = null;
 
     /**
-     * The cleaned URL string.
+     * The cleaned URI string.
      *
      * @var string|null
      */
-    private $url = null;
+    private $uri = null;
 
     /**
      * The ID of the associated resource.
@@ -46,7 +46,7 @@ class ResourceUrlIdentifier
     private $resourceId = null;
 
     /**
-     * ResourceUrlIdentifier constructor.
+     * ResourceUriIdentifier constructor.
      *
      * Initializes the identifier with a record and handles the workflow
      * of either retrieving an existing record or creating a new one.
@@ -66,16 +66,16 @@ class ResourceUrlIdentifier
     }
 
     /**
-     * Gets the ResourceUrl record instance.
+     * Gets the ResourceUri record instance.
      *
-     * Creates and returns a ResourceUrl record factory instance
+     * Creates and returns a ResourceUri record factory instance
      * using the current record data.
      *
-     * @return object The ResourceUrl record instance
+     * @return object The ResourceUri record instance
      */
     public function getRecord()
     {
-        return RecordFactory::resourceUrl($this->record);
+        return RecordFactory::resourceUri($this->record);
     }
 
     /**
@@ -100,7 +100,7 @@ class ResourceUrlIdentifier
         }
 
         if (!empty($record->resource_id)) {
-            if (!empty($record->url)) {
+            if (!empty($record->uri)) {
                 $this->record = $record;
                 $this->rowId  = isset($record->ID) ? $record->ID : null;
                 return;
@@ -123,7 +123,7 @@ class ResourceUrlIdentifier
     }
 
     /**
-     * Retrieves the resource URL record from the database.
+     * Retrieves the resource URI record from the database.
      *
      * Fetches the complete record data using the stored row ID
      * if the record is not already loaded.
@@ -140,26 +140,26 @@ class ResourceUrlIdentifier
     }
 
     /**
-     * Inserts a new resource URL record into the database.
+     * Inserts a new resource URI record into the database.
      *
      * Creates a new record if one doesn't exist for the current
-     * resource ID and URL combination. The URL is cleaned before
+     * resource ID and URI combination. The URI is cleaned before
      * insertion to remove tracking parameters.
      *
      * @return void
      */
     private function insert()
     {
-        $this->url = !empty($this->url) ? $this->url : home_url(add_query_arg(null, null));
-        $this->url = $this->cleanUrl($this->url);
+        $this->uri = !empty($this->uri) ? $this->uri : home_url(add_query_arg(null, null));
+        $this->uri = $this->cleanUrl($this->uri);
 
         if (empty($this->resourceId)) {
             return;
         }
 
-        $this->record = RecordFactory::resourceUrl()->get([
+        $this->record = RecordFactory::resourceUri()->get([
             'resource_id' => $this->resourceId,
-            'url'         => $this->url,
+            'uri'         => $this->uri,
         ]);
 
         if (!empty($this->record)) {
@@ -168,21 +168,21 @@ class ResourceUrlIdentifier
 
         $rowId = $this->getRecord()->insert([
             'resource_id' => $this->resourceId,
-            'url'         => $this->url,
+            'uri'         => $this->uri,
         ]);
 
         $this->record = $this->getRecord()->get(['ID' => $rowId]);
     }
 
     /**
-     * Cleans a URL by removing specific tracking parameters.
+     * Cleans a URI by removing specific tracking parameters.
      *
-     * Removes tracking and analytics parameters from URLs to create
+     * Removes tracking and analytics parameters from URIs to create
      * a canonical version for storage. This helps prevent duplicate
      * entries for the same logical resource.
      *
      * @param string $url The URL to clean
-     * @return string The cleaned URL without tracking parameters
+     * @return string The cleaned relative path without tracking parameters
      */
     private function cleanUrl($url)
     {
@@ -199,16 +199,14 @@ class ResourceUrlIdentifier
             }
         }
 
-        $scheme = isset($parts['scheme']) ? $parts['scheme'] . '://' : '';
-        $host   = isset($parts['host']) ? $parts['host'] : '';
-        $path   = isset($parts['path']) ? $parts['path'] : '/';
+        $path = isset($parts['path']) ? $parts['path'] : '/';
 
-        $newUrl = $scheme . $host . $path;
+        $relativePath = $path;
 
         if (!empty($query)) {
-            $newUrl .= '?' . http_build_query($query);
+            $relativePath .= '?' . http_build_query($query);
         }
 
-        return $newUrl;
+        return $relativePath;
     }
 }
