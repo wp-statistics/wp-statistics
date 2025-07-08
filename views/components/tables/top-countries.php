@@ -5,7 +5,8 @@ use WP_STATISTICS\Country;
 <div class="wps-card">
     <div class="wps-card__title">
         <h2>
-            <?php echo esc_html__('Top Countries', 'wp-statistics') ?>
+            <?php echo isset($title) ? esc_html($title) : esc_html__('Top Countries', 'wp-statistics'); ?>
+
             <?php if ($tooltip): ?>
                 <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
             <?php endif ?>
@@ -17,10 +18,10 @@ use WP_STATISTICS\Country;
                 <table width="100%" class="o-table wps-new-table">
                     <thead>
                     <tr>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <?php esc_html_e('Country', 'wp-statistics') ?>
                         </th>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <span class="wps-order">
                                 <?php esc_html_e('Visitors', 'wp-statistics') ?>
                             </span>

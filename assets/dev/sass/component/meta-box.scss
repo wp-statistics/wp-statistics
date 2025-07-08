@@ -398,6 +398,7 @@ a.wps-tooltip:hover {
 #wp-statistics-platforms-widget,
 #wp-statistics-browsers-widget,
 #wp-statistics-devices-widget,
+#wp-statistics-source-categories-widget,
 #wp-statistics-models-widget {
   .inside {
     margin-top: 20px;
@@ -423,4 +424,7 @@ a.wps-tooltip:hover {
     }
   }
 }
-
+body #wp-statistics-search-queries-widget
+.o-table-wrapper table.wps-new-table tbody tr td .wps-ellipsis-parent{
+  max-width: 300px;
+}

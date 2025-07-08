@@ -12,10 +12,10 @@ use WP_Statistics\Components\View;
                 <table width="100%" class="o-table wps-new-table wps-recent-views-table">
                     <thead>
                     <tr>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <?php esc_html_e('Date', 'wp-statistics'); ?>
                         </th>
-                        <th class="wps-pd-l start">
+                        <th scope="col" class="wps-pd-l start">
                             <?php esc_html_e('Page', 'wp-statistics'); ?>
                         </th>
                     </tr>

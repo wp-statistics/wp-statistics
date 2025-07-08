@@ -274,11 +274,6 @@ class Menus
 
             //Check if SubMenu or Main Menu
             if (array_key_exists('sub', $menu)) {
-                //Check if add Break Line
-                if (array_key_exists('break', $menu)) {
-                    add_submenu_page(self::get_page_slug($menu['sub']), '', '', $capability, 'wps_break_menu', $callback);
-                }
-
                 //Check Conditions For Show Menu
                 if (Option::check_option_require($menu) === true) {
                     add_submenu_page(self::get_page_slug($menu['sub']), $menu['title'], $name, $capability, self::get_page_slug($menu['page_url']), $callback);
@@ -305,6 +300,13 @@ class Menus
         });
 
         return reset($currentPage);
+    }
+
+    public static function isPluginPage($page)
+    {
+        $pattern = str_replace("[slug]", '[a-z0-9_-]+', self::$admin_menu_slug);
+
+        return preg_match('/^' . $pattern . '$/i', $page);
     }
 
 }

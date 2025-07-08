@@ -222,7 +222,7 @@ body .o-table-wrapper table.wps-new-table {
         padding-left: 24px !important;
 
         .rtl & {
-          padding-left: 0px !important;
+          padding-left: 0 !important;
           padding-right: 24px !important;
         }
 
@@ -739,6 +739,14 @@ body .o-table-wrapper table.wps-new-table {
           &:hover {
             text-decoration: underline;
           }
+        }
+
+        .badge{
+          color: #10188D;
+          border: 0.5px solid #10188D;
+          border-radius: 4px;
+          font-size: smaller;
+          padding: 0 4px;
         }
 
         .wps-tooltip {

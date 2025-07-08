@@ -2,7 +2,8 @@
     <div class="c-about">
         <div class="c-about__row c-about__row--logo  hndle ui-sortable-handle">
             <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/?utm_source=wp-statistics&utm_medium=link&utm_campaign=overview'); ?>" target="_blank">
-                <span class="c-about-logo"></span>
+                <span class="c-about-logo" aria-hidden="true"></span>
+                <span class="screen-reader-text">WP Statistics website</span>
             </a>
             <span class="c-about-badge"><span><?php esc_html_e('Version', 'wp-statistics'); ?></span> <span><?php echo WP_STATISTICS_VERSION // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></span> </span>
         </div>

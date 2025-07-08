@@ -12,13 +12,13 @@ use WP_STATISTICS\Admin_Template;
                             <table width="100%" class="o-table wps-new-table">
                                 <thead>
                                     <tr>
-                                        <th class="wps-pd-l">
+                                        <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('Region', 'wp-statistics') ?>
                                         </th>
-                                        <th class="wps-pd-l">
+                                        <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('Visitors', 'wp-statistics') ?>
                                         </th>
-                                        <th class="wps-pd-l">
+                                        <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('Views', 'wp-statistics') ?>
                                         </th>
                                     </tr>

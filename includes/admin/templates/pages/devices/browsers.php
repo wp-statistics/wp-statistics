@@ -22,7 +22,9 @@ use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
                                         <th class="wps-pd-l">
                                             %
                                         </th>
-                                        <th></th>
+                                        <th scope="col">
+                                            <span class="screen-reader-text"><?php esc_html_e('View browser detail', 'wp-statistics'); ?></span>
+                                        </th>
                                     </tr>
                                 </thead>
 
@@ -31,7 +33,7 @@ use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
                                         <tr>
                                             <td class="wps-pd-l">
                                                 <span title="<?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent); ?>" class="wps-browser-name">
-                                                    <img alt="<?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent); ?>" src="<?php echo esc_url(DeviceHelper::getBrowserLogo($item->agent)); ?>" title="<?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent); ?>" class="log-tools wps-flag" />
+                                                    <img alt="<?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent); ?>" src="<?php echo esc_url(DeviceHelper::getBrowserLogo($item->agent)); ?>"  class="log-tools wps-flag" />
                                                     <?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent); ?>
                                                 </span>
                                             </td>
@@ -42,7 +44,7 @@ use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
                                                 <?php echo esc_html(Helper::calculatePercentage($item->visitors, $data['visits'])); ?>%
                                             </td>
                                             <td class="view-more">
-                                                <a href="<?php echo esc_url(\WP_STATISTICS\Menus::admin_url('devices', array_merge($viewMoreUrlArgs, ['browser' => $item->agent]))); ?>" title="<?php esc_html_e('View Details', 'wp-statistics'); ?>">
+                                                <a href="<?php echo esc_url(\WP_STATISTICS\Menus::admin_url('devices', array_merge($viewMoreUrlArgs, ['browser' => $item->agent]))); ?>" aria-label="<?php esc_html_e('View Details', 'wp-statistics'); ?>">
                                                     <?php esc_html_e('View Details', 'wp-statistics'); ?>
                                                 </a>
                                             </td>

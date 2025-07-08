@@ -6,7 +6,7 @@ use WP_STATISTICS\Menus;
 
 ?>
 
-<div class="metabox-holder wps-referral-overview">
+<div class="metabox-holder wps-referral-overview wps-google-search">
     <div class="postbox-container" id="wps-postbox-container-1">
 
         <?php
@@ -92,12 +92,14 @@ use WP_STATISTICS\Menus;
             'footer_link'  => Menus::admin_url('referrals', ['tab' => 'search-engines'])
         ]);
 
-        View::load("components/charts/top-referrer", [
-            'title'        => esc_html__('Top Social Media', 'wp-statistics'),
-            'unique_id'    => 'referral-social-media-chart',
-            'footer_title' => esc_html__('View Social Media', 'wp-statistics'),
-            'footer_link'  => Menus::admin_url('referrals', ['tab' => 'social-media'])
-        ]);
+            do_action('wp_statistics_referrals_overview_gsc_widgets');
+
+            View::load("components/charts/top-referrer", [
+                'title'        => esc_html__('Top Social Media', 'wp-statistics'),
+                'unique_id'    => 'referral-social-media-chart',
+                'footer_title' => esc_html__('View Social Media', 'wp-statistics'),
+                'footer_link'  => Menus::admin_url('referrals', ['tab' => 'social-media'])
+            ]);
         ?>
 
         <?php do_action('wp_statistics_referrals_overview_entry_pages_widget'); ?>

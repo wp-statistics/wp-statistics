@@ -53,6 +53,9 @@ class SchemaMigration extends AbstractMigrationOperation
         // '14.13.5' => [
         //     'dropDuplicateColumnsFromUserOnline'
         // ]
+        '14.15' => [
+            'addUserIdToEvents',
+        ]
     ];
 
     /**
@@ -115,6 +118,29 @@ class SchemaMigration extends AbstractMigrationOperation
                         'city',
                         'region',
                         'continent'
+                    ]
+                ])
+                ->execute();
+        } catch (Exception $e) {
+            $this->setErrorStatus($e->getMessage());
+        }
+    }
+
+    /**
+     * Adds `user_id` column to the 'events' table.
+     *
+     * @return void
+     */
+    public function addUserIdToEvents()
+    {
+        $this->ensureConnection();
+
+        try {
+            DatabaseFactory::table('update')
+                ->setName('events')
+                ->setArgs([
+                    'add' => [
+                        'user_id' => 'bigint(20) UNSIGNED DEFAULT NULL',
                     ]
                 ])
                 ->execute();

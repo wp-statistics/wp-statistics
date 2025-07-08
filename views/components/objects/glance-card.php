@@ -32,7 +32,7 @@
                             <?php else: ?>
                                 <span>-</span>
                             <?php endif; ?>
-                            <?php if (isset($metric['change'])): ?>
+                            <?php if (isset($metric['change']) && ( !empty($metric['link-title'])  || !empty($metric['value']) ) ): ?>
                                 <span class="wps-at-a-glance-change <?php echo esc_attr($metric['change'] > 0 ? 'wps-glance-positive' : ($metric['change'] < 0 ? 'wps-glance-negative' : '')); ?>">
                                    <?php echo esc_html($metric['change'] > 0 ? '+' : '') . esc_html($metric['change']) . '%'; ?>
                                 </span>

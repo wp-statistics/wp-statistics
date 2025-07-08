@@ -20,8 +20,8 @@ $taxonomy  = Request::get('tx', 'category');
     <div class="wps-flex-container">
         <div class="wps-flex-half">
             <div class="wps-tabs">
-                <input type="radio" name="category-views" id="category-views" checked="checked">
-                <label for="category-views"><?php esc_html_e('Views', 'wp-statistics') ?></label>
+                <input type="radio" name="category-views" id="top-category-views" checked="checked">
+                <label for="top-category-views"><?php esc_html_e('Views', 'wp-statistics') ?></label>
                 <div class="wps-tabs__content">
                     <?php
                     if (!empty($data['viewing'])) {
@@ -47,8 +47,8 @@ $taxonomy  = Request::get('tx', 'category');
         </div>
         <div class="wps-flex-half">
             <div class="wps-tabs">
-                <input type="radio" name="category-publishing" id="category-publishing" checked="checked">
-                <label for="category-publishing"><?php esc_html_e('Publishing', 'wp-statistics') ?></label>
+                <input type="radio" name="category-publishing" id="top-category-publishing" checked="checked">
+                <label for="top-category-publishing"><?php esc_html_e('Publishing', 'wp-statistics') ?></label>
                 <div class="wps-tabs__content">
                     <?php
                     if (!empty($data['publishing'])) {

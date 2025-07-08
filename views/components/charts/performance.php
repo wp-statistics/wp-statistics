@@ -35,7 +35,7 @@ $postType = Request::get('tab', 'post');
             ];
 
             if (isset($canvasIds[$type])) {
-                echo '<canvas id="' . esc_attr($canvasIds[$type]) . '" height="299"></canvas>';
+                echo '<canvas id="' . esc_attr($canvasIds[$type]) . '" height="299" aria-label="' .esc_html__("Performance chart", "wp-statistics"). '" role="img"></canvas>';
             }
             ?>
         </div>

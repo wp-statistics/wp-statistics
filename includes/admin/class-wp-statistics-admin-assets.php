@@ -163,7 +163,7 @@ class Admin_Assets
         //        }
 
         // Load Select2
-        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages') || Menus::in_page('settings') || Menus::in_page('optimization')) {
+        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages') || Menus::in_page('settings') || Menus::in_page('optimization')  || Menus::in_page('goals')) {
             wp_enqueue_style(self::$prefix . '-select2', self::url('select2/select2.min.css'), array(), '4.0.9');
         }
 
@@ -213,7 +213,7 @@ class Admin_Assets
         //        }
 
         // Load Select2
-        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages') || Menus::in_page('settings') || Menus::in_page('optimization')) {
+        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages') || Menus::in_page('settings') || Menus::in_page('optimization') || Menus::in_page('goals')) {
             wp_enqueue_script(self::$prefix . '-select2', self::url('select2/select2.full.min.js'), array('jquery'), "4.1.0", ['in_footer' => true]);
         }
 
@@ -440,6 +440,17 @@ class Admin_Assets
             'copied'                       => __('Copied!', 'wp-statistics'),
             'settings'                     => __('SETTINGS', 'wp-statistics'),
             'premium_addons'               => __('PREMIUM ADD-ONS', 'wp-statistics'),
+            'clicks'                       => __('Clicks', 'wp-statistics'),
+            'impressions'                  => __('Impressions', 'wp-statistics'),
+            'prev'                         => __('Prev', 'wp-statistics'),
+            'next'                         => __('Next', 'wp-statistics'),
+            'loading_error'                => __('Oops, something went wrong while loading statistics.', 'wp-statistics'),
+            'last_updated'                 => __('Last updated:', 'wp-statistics'),
+            'unassigned'                   => __('Unassigned', 'wp-statistics'),
+            'select_page'                  => __('Select page', 'wp-statistics'),
+            'required_error'               => __('This field is required', 'wp-statistics'),
+            'validate_error'               => __('Must not contain spaces, #, or .', 'wp-statistics'),
+            'machine_validate_error'       => __('Please use lowercase letters, numbers, underscores, or dashes only. No spaces allowed.', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 
