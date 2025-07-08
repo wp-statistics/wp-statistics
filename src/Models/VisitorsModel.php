@@ -492,57 +492,39 @@ class VisitorsModel extends BaseModel
      */
     public function getSearchEnginesSummary($args = [])
     {
-        $summary = [
-            'today'      => [
-                'label'          => esc_html__('Today', 'wp-statistics'),
-                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get('today'), 'source_channel' => ['search', 'paid_search']]))
-            ],
-            'yesterday'  => [
-                'label'          => esc_html__('Yesterday', 'wp-statistics'),
-                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get('yesterday'), 'source_channel' => ['search', 'paid_search']]))
-            ],
-            'this_week'  => [
-                'label'          => esc_html__('This week', 'wp-statistics'),
-                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get('this_week'), 'source_channel' => ['search', 'paid_search']]))
-            ],
-            'last_week'  => [
-                'label'          => esc_html__('Last week', 'wp-statistics'),
-                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get('last_week'), 'source_channel' => ['search', 'paid_search']]))
-            ],
-            'this_month' => [
-                'label'          => esc_html__('This month', 'wp-statistics'),
-                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get('this_month'), 'source_channel' => ['search', 'paid_search']]))
-            ],
-            'last_month' => [
-                'label'          => esc_html__('Last month', 'wp-statistics'),
-                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get('last_month'), 'source_channel' => ['search', 'paid_search']]))
-            ],
-            '7days'      => [
-                'label'          => esc_html__('Last 7 days', 'wp-statistics'),
-                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get('7days'), 'source_channel' => ['search', 'paid_search']]))
-            ],
-            '30days'     => [
-                'label'          => esc_html__('Last 30 days', 'wp-statistics'),
-                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get('30days'), 'source_channel' => ['search', 'paid_search']]))
-            ],
-            '90days'     => [
-                'label'          => esc_html__('Last 90 days', 'wp-statistics'),
-                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get('90days'), 'source_channel' => ['search', 'paid_search']]))
-            ],
-            '6months'    => [
-                'label'          => esc_html__('Last 6 months', 'wp-statistics'),
-                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get('6months'), 'source_channel' => ['search', 'paid_search']]))
-            ],
-            'this_year'  => [
-                'label'          => esc_html__('This year (Jan-Today)', 'wp-statistics'),
-                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get('this_year'), 'source_channel' => ['search', 'paid_search']]))
-            ]
+        $periods = [
+            'today'      => ['label' => esc_html__('Today', 'wp-statistics'), 'date' => 'today'],
+            'yesterday'  => ['label' => esc_html__('Yesterday', 'wp-statistics'), 'date' => 'yesterday'],
+            'this_week'  => ['label' => esc_html__('This week', 'wp-statistics'), 'date' => 'this_week'],
+            'last_week'  => ['label' => esc_html__('Last week', 'wp-statistics'), 'date' => 'last_week'],
+            'this_month' => ['label' => esc_html__('This month', 'wp-statistics'), 'date' => 'this_month'],
+            'last_month' => ['label' => esc_html__('Last month', 'wp-statistics'), 'date' => 'last_month'],
+            '7days'      => ['label' => esc_html__('Last 7 days', 'wp-statistics'), 'date' => '7days'],
+            '30days'     => ['label' => esc_html__('Last 30 days', 'wp-statistics'), 'date' => '30days'],
+            '90days'     => ['label' => esc_html__('Last 90 days', 'wp-statistics'), 'date' => '90days'],
+            '6months'    => ['label' => esc_html__('Last 6 months', 'wp-statistics'), 'date' => '6months'],
+            'this_year'  => ['label' => esc_html__('This year (Jan-Today)', 'wp-statistics'), 'date' => 'this_year'],
         ];
 
-        if (!empty($args['include_total'])) {
+        $exclude = $args['exclude'] ?? [];
+        $summary = [];
+
+        foreach ($periods as $key => $period) {
+            if (in_array($key, $exclude, true)) {
+                continue; // Skip excluded periods
+            }
+
+            $summary[$key] = [
+                'label'          => $period['label'],
+                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get($period['date']), 'source_channel' => ['search', 'paid_search']])),
+            ];
+        }
+
+        // Conditionally add 'total' (if not excluded)
+        if (!empty($args['include_total']) && !in_array('total', $exclude, true)) {
             $summary['total'] = [
                 'label'          => esc_html__('Total', 'wp-statistics'),
-                'search_engines' => $this->countReferredVisitors(array_merge($args, ['ignore_date' => true, 'historical' => true, 'source_channel' => ['search', 'paid_search']]))
+                'search_engines' => $this->countReferredVisitors(array_merge($args, ['ignore_date' => true, 'historical' => true, 'source_channel' => ['search', 'paid_search']])),
             ];
         }
 
