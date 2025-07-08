@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Utils;
 
+use WP_Statistics\Utils\Url;
+
 class Env
 {
     /**
@@ -16,17 +18,15 @@ class Env
             'localhost',
             '127.0.0.1',
             '::1',
-            'local.test',
             'local.dev',
             'local.wp',
-            '*.loc', // Wildcard for domains like site.loc
-            '*.test', // Wildcard for Laravel Valet style domains
-            '*.local', // Wildcard for .local domains
+            '*.loc',
+            '*.test',
+            '*.local',
         );
 
         // Get current site URL and parse the host
-        $siteUrl = parse_url(site_url(), PHP_URL_HOST);
-        $siteUrl = str_replace('www.', '', $siteUrl);
+        $siteUrl = Url::getDomain(home_url());
 
         // Check against local domains
         foreach ($localDomains as $domain) {
@@ -47,7 +47,7 @@ class Env
             return true;
         }
 
-        if (isset($_SERVER['REMOTE_ADDR']) && in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
+        if (isset($_SERVER['REMOTE_ADDR']) && in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1'])) {
             return true;
         }
 
