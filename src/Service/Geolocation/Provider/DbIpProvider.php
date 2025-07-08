@@ -9,6 +9,7 @@ use WP_Statistics\Components\RemoteRequest;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Geolocation\AbstractGeoIPProvider;
 use WP_Statistics\Dependencies\GeoIp2\Database\Reader;
+use WP_Statistics\Utils\Env;
 
 class DbIpProvider extends AbstractGeoIPProvider
 {
@@ -45,7 +46,7 @@ class DbIpProvider extends AbstractGeoIPProvider
 
         try {
             // Check if the GeoIP database exists and download it immediately.
-            if (!$this->isDatabaseExist() && !$this->isLocal()) {
+            if (!$this->isDatabaseExist() && !Env::isLocal()) {
                 $this->downloadDatabase();
             }
 
