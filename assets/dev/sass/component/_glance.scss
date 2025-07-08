@@ -7,6 +7,7 @@
     .wps-at-a-glance-item {
       &:first-child {
         flex: 0 0 calc(50%);
+        overflow: hidden;
 
         @media (max-width: 600px) {
           flex: 0 0 100% !important;
@@ -18,8 +19,24 @@
         flex-direction: column;
         align-items: flex-end;
 
+        .wps-at-a-glance-label {
+          text-align: right;
+
+          .rtl & {
+            text-align: left;
+          }
+        }
+
         @media (max-width: 600px) {
           align-items: flex-start;
+
+          .wps-at-a-glance-label {
+            text-align: left;
+
+            .rtl & {
+              text-align: right;
+            }
+          }
         }
       }
 
@@ -27,6 +44,24 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+
+        .wps-at-a-glance-label {
+          text-align: left;
+
+          .rtl & {
+            text-align: right;
+          }
+        }
+
+        @media (max-width: 600px) {
+          .wps-at-a-glance-label {
+            text-align: left;
+
+            .rtl & {
+              text-align: right;
+            }
+          }
+        }
       }
 
     }
@@ -47,8 +82,16 @@
 
     &:not(:first-child) {
       flex: 0 0 calc(50%);
+      overflow: hidden;
+      padding-right: 10px;
+
+      .rtl & {
+        padding-right: 0;
+        padding-left: 10px;
+      }
 
       @media (max-width: 600px) {
+        padding: 0 !important;
         flex: 0 0 100% !important;
       }
 
@@ -56,24 +99,45 @@
         display: flex;
         flex-direction: column;
         align-items: flex-end;
+        padding-right: 0;
+
+        .wps-at-a-glance-label {
+          text-align: right;
+
+          .rtl & {
+            text-align: left;
+          }
+        }
 
         @media (max-width: 600px) {
           align-items: flex-start;
+
+          .wps-at-a-glance-label {
+            text-align: left;
+
+            .rtl & {
+              text-align: right;
+            }
+          }
         }
       }
 
     }
 
     .wps-at-a-glance-label {
-      display: flex;
-      gap: 4px;
-      align-items: center;
       color: #56585A;
       font-weight: 500;
       font-size: 11px;
       line-height: 11px;
       text-transform: uppercase;
       margin-bottom: 12px;
+      width: 100%;
+      overflow: hidden;
+      display: block;
+      max-width: 100px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      word-break: break-all;
 
       .wps-tooltip {
         width: 12px;
@@ -101,6 +165,10 @@
           min-width: 13px;
           height: 13px;
           background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTMiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxMyAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuNDE2NjcgMy43NVY0LjgzMzMzSDIuNzA4MzNWMTAuNzkxN0g4LjY2NjY3VjguMDgzMzNIOS43NVYxMS4zMzMzQzkuNzUgMTEuNjMyNSA5LjUwNzUgMTEuODc1IDkuMjA4MzMgMTEuODc1SDIuMTY2NjdDMS44Njc1MSAxMS44NzUgMS42MjUgMTEuNjMyNSAxLjYyNSAxMS4zMzMzVjQuMjkxNjdDMS42MjUgMy45OTI1MiAxLjg2NzUxIDMuNzUgMi4xNjY2NyAzLjc1SDUuNDE2NjdaTTExLjM3NSAyLjEyNVY2LjQ1ODMzSDEwLjI5MTdMMTAuMjkxNiAzLjk3MzcxTDYuMDcwNTEgOC4xOTU1MUw1LjMwNDQ4IDcuNDI5NDlMOS41MjUxNSAzLjIwODMzSDcuMDQxNjdWMi4xMjVIMTEuMzc1WiIgZmlsbD0iIzEwMTg4RCIvPgo8L3N2Zz4K");
+
+          .rtl & {
+            transform: rotateY(180deg);
+          }
         }
 
         &:hover:after {
@@ -114,7 +182,7 @@
         font-size: 20px;
         line-height: 26px;
         display: block;
-        max-width: 122px;
+        max-width: 100px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
