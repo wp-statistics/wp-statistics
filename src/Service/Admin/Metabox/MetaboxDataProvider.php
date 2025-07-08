@@ -53,25 +53,16 @@ class MetaboxDataProvider
      * Get traffic overview data with optional exclusions
      *
      * @param array $args Filter arguments for the queries
-     * @param array $exclude Keys to exclude from the results
      *
      * @return array
      */
-    public function getTrafficOverviewData($args = [], $exclude = [])
+    public function getTrafficOverviewData($args = [])
     {
-        $data = [];
-
-        $queryMap = [
-            'online'   => [$this->onlineModel, 'countOnlines'],
-            'visitors' => [$this->visitorsModel, 'getVisitorsSummary'],
-            'hits'     => [$this->visitorsModel, 'getHitsSummary']
+        $data = [
+            'online'    => $this->onlineModel->countOnlines($args),
+            'visitors'  => $this->visitorsModel->getVisitorsSummary($args),
+            'hits'      => $this->visitorsModel->getHitsSummary($args)
         ];
-
-        foreach ($queryMap as $key => $callable) {
-            if (!in_array($key, $exclude, true)) {
-                $data[$key] = call_user_func($callable, $args);
-            }
-        }
 
         return $data;
     }

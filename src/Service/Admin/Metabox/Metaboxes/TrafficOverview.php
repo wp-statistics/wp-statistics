@@ -34,7 +34,7 @@ class TrafficOverview extends BaseMetabox
         ];
 
         $chartData = $this->dataProvider->getTrafficChartData(array_merge($args, ['date' => DateRange::get('15days'), 'prev_data' => true]));
-        $data      = $this->dataProvider->getTrafficOverviewData($args, ['online']);
+        $data      = $this->dataProvider->getTrafficOverviewData($args);
 
         // Merge chart data with template data
         $data = array_merge($data, [

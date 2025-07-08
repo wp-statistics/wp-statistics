@@ -368,17 +368,17 @@ class VisitorsModel extends BaseModel
     public function getVisitorsSummary($args = [])
     {
         $periods = [
-            'today'      => ['label' => __('Today', 'wp-statistics'), 'date' => 'today'],
-            'yesterday'  => ['label' => __('Yesterday', 'wp-statistics'), 'date' => 'yesterday'],
-            'this_week'  => ['label' => __('This week', 'wp-statistics'), 'date' => 'this_week'],
-            'last_week'  => ['label' => __('Last week', 'wp-statistics'), 'date' => 'last_week'],
-            'this_month' => ['label' => __('This month', 'wp-statistics'), 'date' => 'this_month'],
-            'last_month' => ['label' => __('Last month', 'wp-statistics'), 'date' => 'last_month'],
-            '7days'      => ['label' => __('Last 7 days', 'wp-statistics'), 'date' => '7days'],
-            '30days'     => ['label' => __('Last 30 days', 'wp-statistics'), 'date' => '30days'],
-            '90days'     => ['label' => __('Last 90 days', 'wp-statistics'), 'date' => '90days'],
-            '6months'    => ['label' => __('Last 6 months', 'wp-statistics'), 'date' => '6months'],
-            'this_year'  => ['label' => __('This year (Jan-Today)', 'wp-statistics'), 'date' => 'this_year'],
+            'today'      => ['label' => esc_html__('Today', 'wp-statistics'), 'date' => 'today'],
+            'yesterday'  => ['label' => esc_html__('Yesterday', 'wp-statistics'), 'date' => 'yesterday'],
+            'this_week'  => ['label' => esc_html__('This week', 'wp-statistics'), 'date' => 'this_week'],
+            'last_week'  => ['label' => esc_html__('Last week', 'wp-statistics'), 'date' => 'last_week'],
+            'this_month' => ['label' => esc_html__('This month', 'wp-statistics'), 'date' => 'this_month'],
+            'last_month' => ['label' => esc_html__('Last month', 'wp-statistics'), 'date' => 'last_month'],
+            '7days'      => ['label' => esc_html__('Last 7 days', 'wp-statistics'), 'date' => '7days'],
+            '30days'     => ['label' => esc_html__('Last 30 days', 'wp-statistics'), 'date' => '30days'],
+            '90days'     => ['label' => esc_html__('Last 90 days', 'wp-statistics'), 'date' => '90days'],
+            '6months'    => ['label' => esc_html__('Last 6 months', 'wp-statistics'), 'date' => '6months'],
+            'this_year'  => ['label' => esc_html__('This year (Jan-Today)', 'wp-statistics'), 'date' => 'this_year'],
         ];
 
         $exclude = $args['exclude'] ?? [];
@@ -398,7 +398,7 @@ class VisitorsModel extends BaseModel
         // Conditionally add 'total' (if not excluded)
         if (!empty($args['include_total']) && !in_array('total', $exclude, true)) {
             $summary['total'] = [
-                'label'    => __('Total', 'wp-statistics'),
+                'label'    => esc_html__('Total', 'wp-statistics'),
                 'visitors' => $this->countVisitors(array_merge($args, ['ignore_date' => true, 'historical' => true])),
             ];
         }
@@ -409,17 +409,17 @@ class VisitorsModel extends BaseModel
     public function getHitsSummary($args = [])
     {
         $periods = [
-            'today'      => ['label' => __('Today', 'wp-statistics'), 'date' => 'today'],
-            'yesterday'  => ['label' => __('Yesterday', 'wp-statistics'), 'date' => 'yesterday'],
-            'this_week'  => ['label' => __('This week', 'wp-statistics'), 'date' => 'this_week'],
-            'last_week'  => ['label' => __('Last week', 'wp-statistics'), 'date' => 'last_week'],
-            'this_month' => ['label' => __('This month', 'wp-statistics'), 'date' => 'this_month'],
-            'last_month' => ['label' => __('Last month', 'wp-statistics'), 'date' => 'last_month'],
-            '7days'      => ['label' => __('Last 7 days', 'wp-statistics'), 'date' => '7days'],
-            '30days'     => ['label' => __('Last 30 days', 'wp-statistics'), 'date' => '30days'],
-            '90days'     => ['label' => __('Last 90 days', 'wp-statistics'), 'date' => '90days'],
-            '6months'    => ['label' => __('Last 6 months', 'wp-statistics'), 'date' => '6months'],
-            'this_year'  => ['label' => __('This year (Jan-Today)', 'wp-statistics'), 'date' => 'this_year'],
+            'today'      => ['label' => esc_html__('Today', 'wp-statistics'), 'date' => 'today'],
+            'yesterday'  => ['label' => esc_html__('Yesterday', 'wp-statistics'), 'date' => 'yesterday'],
+            'this_week'  => ['label' => esc_html__('This week', 'wp-statistics'), 'date' => 'this_week'],
+            'last_week'  => ['label' => esc_html__('Last week', 'wp-statistics'), 'date' => 'last_week'],
+            'this_month' => ['label' => esc_html__('This month', 'wp-statistics'), 'date' => 'this_month'],
+            'last_month' => ['label' => esc_html__('Last month', 'wp-statistics'), 'date' => 'last_month'],
+            '7days'      => ['label' => esc_html__('Last 7 days', 'wp-statistics'), 'date' => '7days'],
+            '30days'     => ['label' => esc_html__('Last 30 days', 'wp-statistics'), 'date' => '30days'],
+            '90days'     => ['label' => esc_html__('Last 90 days', 'wp-statistics'), 'date' => '90days'],
+            '6months'    => ['label' => esc_html__('Last 6 months', 'wp-statistics'), 'date' => '6months'],
+            'this_year'  => ['label' => esc_html__('This year (Jan-Today)', 'wp-statistics'), 'date' => 'this_year'],
         ];
 
         $exclude = $args['exclude'] ?? [];
@@ -439,7 +439,7 @@ class VisitorsModel extends BaseModel
         // Conditionally add 'total' (if not excluded)
         if (!empty($args['include_total']) && !in_array('total', $exclude, true)) {
             $summary['total'] = [
-                'label' => __('Total', 'wp-statistics'),
+                'label' => esc_html__('Total', 'wp-statistics'),
                 'hits'  => $this->countHits(array_merge($args, ['ignore_date' => true, 'historical' => true])),
             ];
         }
