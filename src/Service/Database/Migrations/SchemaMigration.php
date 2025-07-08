@@ -50,7 +50,7 @@ class SchemaMigration extends AbstractMigrationOperation
         // '14.13.5' => [
         //     'dropDuplicateColumnsFromUserOnline'
         // ]
-        '14.14' => [
+        '14.15' => [
             'addUserIdToEvents',
         ]
     ];
