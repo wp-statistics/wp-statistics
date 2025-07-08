@@ -50,7 +50,7 @@ class MetaboxDataProvider
     }
 
     /**
-     * Get traffic overview data with optional exclusions
+     * Get traffic overview data
      *
      * @param array $args Filter arguments for the queries
      *
