@@ -126,6 +126,7 @@ return array(
     'WP_Statistics\\Dependencies\\Psr\\Cache\\CacheItemInterface' => $baseDir . '/src/Dependencies/Psr/Cache/CacheItemInterface.php',
     'WP_Statistics\\Dependencies\\Psr\\Cache\\CacheItemPoolInterface' => $baseDir . '/src/Dependencies/Psr/Cache/CacheItemPoolInterface.php',
     'WP_Statistics\\Dependencies\\Psr\\Cache\\InvalidArgumentException' => $baseDir . '/src/Dependencies/Psr/Cache/InvalidArgumentException.php',
+    'WP_Statistics\\Exception\\ArrayException' => $baseDir . '/src/Exception/ArrayException.php',
     'WP_Statistics\\Exception\\LicenseException' => $baseDir . '/src/Exception/LicenseException.php',
     'WP_Statistics\\Exception\\LogException' => $baseDir . '/src/Exception/LogException.php',
     'WP_Statistics\\Exception\\SystemErrorException' => $baseDir . '/src/Exception/SystemErrorException.php',

@@ -145,6 +145,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Dependencies\\Psr\\Cache\\CacheItemInterface' => __DIR__ . '/../..' . '/src/Dependencies/Psr/Cache/CacheItemInterface.php',
         'WP_Statistics\\Dependencies\\Psr\\Cache\\CacheItemPoolInterface' => __DIR__ . '/../..' . '/src/Dependencies/Psr/Cache/CacheItemPoolInterface.php',
         'WP_Statistics\\Dependencies\\Psr\\Cache\\InvalidArgumentException' => __DIR__ . '/../..' . '/src/Dependencies/Psr/Cache/InvalidArgumentException.php',
+        'WP_Statistics\\Exception\\ArrayException' => __DIR__ . '/../..' . '/src/Exception/ArrayException.php',
         'WP_Statistics\\Exception\\LicenseException' => __DIR__ . '/../..' . '/src/Exception/LicenseException.php',
         'WP_Statistics\\Exception\\LogException' => __DIR__ . '/../..' . '/src/Exception/LogException.php',
         'WP_Statistics\\Exception\\SystemErrorException' => __DIR__ . '/../..' . '/src/Exception/SystemErrorException.php',

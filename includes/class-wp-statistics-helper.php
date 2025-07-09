@@ -4,13 +4,13 @@ namespace WP_STATISTICS;
 
 use Exception;
 use WP_STATISTICS;
-use ErrorException;
 use WP_Statistics\Models\PostsModel;
 use WP_Statistics_Mail;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Signature;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
+use WP_Statistics\Exception\ArrayException;
 
 class Helper
 {
@@ -1972,7 +1972,7 @@ class Helper
      * Validates the hit request parameters to prevent invalid requests from stats.
      *
      * @return bool True if the request is valid, throws an error otherwise.
-     * @throws ErrorException If the request parameters are invalid.
+     * @throws ArrayException If the request parameters are invalid.
      */
     public static function validateHitRequest()
     {
@@ -2031,7 +2031,7 @@ class Helper
 
             do_action('wp_statistics_invalid_hit_request', false, IP::getIP(), $response);
 
-            throw new ErrorException(json_encode($response), 400);
+            throw new ArrayException($response, 400);
         }
 
         return true;

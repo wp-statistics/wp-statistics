@@ -52,16 +52,7 @@ class CheckUserOnline extends \WP_STATISTICS\RestAPI
 
         } catch (Exception $e) {
             $responseData['status'] = false;
-
-            $decoded = json_decode($e->getMessage(), true);
-            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                $responseData['data'] = $decoded;
-            } else {
-                $responseData['data'] = [
-                    'message' => $e->getMessage(),
-                ];
-            }
-
+            $responseData['data']   = $e->getData();
             $statusCode             = $e->getCode();
         }
 
