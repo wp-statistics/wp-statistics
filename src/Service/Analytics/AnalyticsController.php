@@ -29,7 +29,20 @@ class AnalyticsController
             wp_send_json(['status' => true]);
 
         } catch (Exception $e) {
-            wp_send_json(['status' => false, 'data' => $e->getMessage()], $e->getCode());
+            $responseData['status'] = false;
+
+            $decoded = json_decode($e->getMessage(), true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                $responseData['data'] = $decoded;
+            } else {
+                $responseData['data'] = [
+                    'message' => $e->getMessage(),
+                ];
+            }
+
+            $statusCode = $e->getCode();
+
+            wp_send_json($responseData, $statusCode);
         }
     }
 
@@ -52,7 +65,20 @@ class AnalyticsController
             wp_send_json(['status' => true]);
 
         } catch (Exception $e) {
-            wp_send_json(['status' => false, 'data' => $e->getMessage()], $e->getCode());
+            $responseData['status'] = false;
+
+            $decoded = json_decode($e->getMessage(), true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                $responseData['data'] = $decoded;
+            } else {
+                $responseData['data'] = [
+                    'message' => $e->getMessage(),
+                ];
+            }
+
+            $statusCode = $e->getCode();
+
+            wp_send_json($responseData, $statusCode);
         }
     }
 

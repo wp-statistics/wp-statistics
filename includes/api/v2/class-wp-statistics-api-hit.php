@@ -84,8 +84,17 @@ class Hit extends \WP_STATISTICS\RestAPI
 
         } catch (Exception $e) {
             $responseData['status'] = false;
-            $responseData['data']   = $e->getMessage();
-            $statusCode             = $e->getCode();
+
+            $decoded = json_decode($e->getMessage(), true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                $responseData['data'] = $decoded;
+            } else {
+                $responseData['data'] = [
+                    'message' => $e->getMessage(),
+                ];
+            }
+
+            $statusCode = $e->getCode();
         }
 
         $response = rest_ensure_response($responseData);

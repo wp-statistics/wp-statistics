@@ -3,6 +3,7 @@
 namespace WP_Statistics\Utils;
 
 use WP_STATISTICS\Helper;
+use Exception;
 
 class Request
 {
@@ -266,5 +267,159 @@ class Request
         }
 
         return false;
+    }
+
+    /**
+     * Validates parameters against rules and returns detailed error messages
+     *
+     * @param array $params Validation rules
+     * @return array Array of validation error messages (empty if valid)
+     */
+    public static function getValidationErrors($params)
+    {
+        $errors = [];
+
+        foreach ($params as $param => $validation) {
+            // Check required parameters
+            if (!isset($_REQUEST[$param])) {
+                if (!empty($validation['required'])) {
+                    $errors[] = sprintf("Missing required parameter: %s", $param);
+                }
+                continue;
+            }
+
+            $paramValue = $_REQUEST[$param];
+
+            // Skip validation for empty nullable values
+            if (!empty($validation['nullable']) && !is_numeric($paramValue) && empty($paramValue)) {
+                continue;
+            }
+
+            // Check type specification
+            if (!isset($validation['type'])) {
+                $errors[] = sprintf("No validation type specified for parameter: %s", $param);
+                continue;
+            }
+
+            // Handle encoding
+            if (!empty($validation['encoding'])) {
+                try {
+                    if ($validation['encoding'] === 'base64') {
+                        $decoded = base64_decode($paramValue, true);
+                        if ($decoded === false) {
+                            $errors[] = sprintf("Failed to base64 decode parameter: %s", $param);
+                            continue;
+                        }
+                        $paramValue = $decoded;
+                    } else if ($validation['encoding'] === 'url') {
+                        $paramValue = urldecode($paramValue);
+                    }
+                } catch (Exception $e) {
+                    $errors[] = sprintf("Decoding failed for parameter %s: %s", $param, $e->getMessage());
+                    continue;
+                }
+            }
+
+            // Type-specific validation
+            switch ($validation['type']) {
+                case 'string':
+                    if (!is_string($paramValue)) {
+                        $errors[] = sprintf("Parameter %s must be a string, %s given", $param, gettype($paramValue));
+                        break;
+                    }
+
+                    if (isset($validation['minlength']) && strlen($paramValue) < $validation['minlength']) {
+                        $errors[] = sprintf(
+                            "Parameter %s too short (min %d characters, got %d)",
+                            $param,
+                            $validation['minlength'],
+                            strlen($paramValue)
+                        );
+                    }
+
+                    if (isset($validation['maxlength']) && strlen($paramValue) > $validation['maxlength']) {
+                        $errors[] = sprintf(
+                            "Parameter %s too long (max %d characters, got %d)",
+                            $param,
+                            $validation['maxlength'],
+                            strlen($paramValue)
+                        );
+                    }
+                    break;
+
+                case 'number':
+                    if (!is_numeric($paramValue)) {
+                        $errors[] = sprintf("Parameter %s must be numeric, %s given", $param, gettype($paramValue));
+                        break;
+                    }
+
+                    if (isset($validation['min']) && $paramValue < $validation['min']) {
+                        $errors[] = sprintf(
+                            "Parameter %s value %s below minimum allowed %s",
+                            $param,
+                            $paramValue,
+                            $validation['min']
+                        );
+                    }
+
+                    if (isset($validation['max']) && $paramValue > $validation['max']) {
+                        $errors[] = sprintf(
+                            "Parameter %s value %s above maximum allowed %s",
+                            $param,
+                            $paramValue,
+                            $validation['max']
+                        );
+                    }
+                    break;
+
+                case 'url':
+                    if (!filter_var($paramValue, FILTER_VALIDATE_URL)) {
+                        $errors[] = sprintf("Parameter %s is not a valid URL: %s", $param, $paramValue);
+                    }
+                    break;
+
+                default:
+                    $errors[] = sprintf("Unknown validation type '%s' for parameter %s", $validation['type'], $param);
+                    break;
+            }
+
+            // Check for invalid patterns
+            if (isset($validation['invalid_pattern'])) {
+                $patterns = is_array($validation['invalid_pattern'])
+                    ? $validation['invalid_pattern']
+                    : [$validation['invalid_pattern']];
+
+                foreach ($patterns as $pattern) {
+                    if (preg_match($pattern, $paramValue)) {
+                        $errors[] = sprintf(
+                            "Parameter %s contains potentially dangerous content matching pattern: %s",
+                            $param,
+                            $pattern
+                        );
+                        break;
+                    }
+                }
+            }
+
+            // Check for required valid patterns
+            if (isset($validation['valid_pattern'])) {
+                $patterns = is_array($validation['valid_pattern'])
+                    ? $validation['valid_pattern']
+                    : [$validation['valid_pattern']];
+
+                foreach ($patterns as $pattern) {
+                    if (!preg_match($pattern, $paramValue)) {
+                        $errors[] = sprintf(
+                            "Parameter %s does not match required format pattern: %s",
+                            $param,
+                            $pattern
+                        );
+                        break;
+                    }
+                }
+            }
+        }
+
+        return $errors;
     }
 }

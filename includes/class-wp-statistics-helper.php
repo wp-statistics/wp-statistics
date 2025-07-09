@@ -1530,18 +1530,18 @@ class Helper
 
         if ($number < 1000) {
             $precision = empty($precision) ? 2 : $precision;
-            $rounded = round($number, $precision);
+            $rounded   = round($number, $precision);
             return (floor($rounded) == $rounded) ? (int)$rounded : $rounded;
         }
 
         $originalNumber = $number;
-        $units = ['', 'K', 'M', 'B', 'T'];
+        $units          = ['', 'K', 'M', 'B', 'T'];
 
         $exponent = (int)floor(log($number, 1000));
         $exponent = min($exponent, count($units) - 1);
 
         $number /= pow(1000, $exponent);
-        $unit = $units[$exponent];
+        $unit   = $units[$exponent];
 
         // Choose precision factor
         $factor = ($originalNumber < 10000) ? 100 : 10;
@@ -1862,9 +1862,9 @@ class Helper
      *
      * In this case, we have to track user's information anonymously.
      *
+     * @return  bool
      * @deprecated use `IntegrationHelper::shouldTrackAnonymously()` method
      *
-     * @return  bool
      */
     public static function shouldTrackAnonymously()
     {
@@ -1976,7 +1976,11 @@ class Helper
      */
     public static function validateHitRequest()
     {
-        $isValid = Request::validate([
+        $validationErrors = [];
+        $currentTime      = time();
+
+        // Validate parameters
+        $validationRules = [
             'page_uri'     => [
                 'required'        => true,
                 'nullable'        => true,
@@ -2002,25 +2006,32 @@ class Helper
                 'type'     => 'url',
                 'encoding' => 'base64'
             ],
-        ]);
+        ];
 
-        $timestamp = !empty($_SERVER['HTTP_X_WPS_TS']) ? (int) base64_decode($_SERVER['HTTP_X_WPS_TS']) : false;
+        $validationErrors = Request::getValidationErrors($validationRules);
 
-        // Check if the request was sent no more than 10 seconds ago
-        if (!$timestamp || time() - $timestamp > 10) {
-            $isValid = false;
+        // Validate timestamp
+        $timestamp = !empty($_SERVER['HTTP_X_WPS_TS']) ? (int)base64_decode($_SERVER['HTTP_X_WPS_TS']) : false;
+
+        if (!$timestamp) {
+            $validationErrors[] = "Missing required timestamp header (X-WPS-TS)";
+        } elseif ($currentTime - $timestamp > 10) {
+            $validationErrors[] = sprintf(
+                "Request timestamp expired. Current server time: %d, received timestamp: %d (max 10s allowed)",
+                $currentTime,
+                $timestamp
+            );
         }
 
-        if (!$isValid) {
-            /**
-             * Trigger action after validating the hit request parameters.
-             *
-             * @param bool $isValid Indicates if the request parameters are valid.
-             * @param string $ipAddress The IP address of the requester.
-             */
-            do_action('wp_statistics_invalid_hit_request', $isValid, IP::getIP());
+        if (!empty($validationErrors)) {
+            $response = [
+                'message' => 'Invalid hit request detected.',
+                'errors'  => $validationErrors,
+            ];
 
-            throw new ErrorException(esc_html__('Invalid hit/online request.', 'wp-statistics'));
+            do_action('wp_statistics_invalid_hit_request', false, IP::getIP(), $response);
+
+            throw new ErrorException(json_encode($response), 400);
         }
 
         return true;
