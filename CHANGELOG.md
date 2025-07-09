@@ -2,6 +2,7 @@
 - **Enhancement:** Combined notification and marketing campaign cron jobs into a single daily scheduled event to optimize scheduling.
 - **Enhancement:** Default dashboard now displays only the “Traffic Overview” widget for a cleaner initial experience.
 - **Enhancement:** Optimized `getTrafficOverviewData` to reduce queries and improve Traffic Overview widget performance.
+- **Enhancement:** Skip GeoIP database download when running in local development environments to improve setup speed and reduce unnecessary external requests.
 
 = 14.14.1 - 2025-06-29 =
 - **New:** Added a Database Schema tool to check and repair database structure in the Optimization page.
