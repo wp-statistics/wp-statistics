@@ -16,7 +16,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
     }
 
-
     class ShowIfEnabled {
         constructor() {
             this.initialize();
@@ -43,7 +42,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                                     } else if (!checkbox.checked && className.includes('_disabled')) {
                                         satisfied++;
                                     }
-                                } else {
                                 }
                             }
                         } else if (className.includes('_equal_')) {
@@ -67,7 +65,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         const checkboxInside = element.querySelector('input[type="checkbox"]');
                         if (checkboxInside) {
                             checkboxInside.checked = false;
-                         }
+                        }
                     }
                 };
 
@@ -77,7 +75,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     if (className.includes('_enabled') || className.includes('_disabled')) {
                         const id = this.extractId(element);
                         const checkbox = document.querySelector(`#wps_settings\\[${id}\\]`);
-
                         if (checkbox) {
                             checkbox.addEventListener('change', toggleElement);
                         }
@@ -87,9 +84,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             const item = document.querySelector(`#wps_settings\\[${id}\\]`);
                             if (item) {
                                 if ($(item).hasClass('select2-hidden-accessible')) {
-                                     $(item).on('select2:select', toggleElement);
+                                    $(item).on('select2:select', toggleElement);
                                 } else if (item.type === 'select-one') {
-                                     item.addEventListener('change', toggleElement);
+                                    item.addEventListener('change', toggleElement);
                                 }
                             }
                         }
@@ -126,8 +123,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             return {id, value};
         }
     }
+
     $(document).ready(function () {
-        let isProgrammaticChange = false
+        let isProgrammaticChange = false;
         const checkbox = $('#wps_settings\\[wps_schedule_dbmaint\\]');
         checkbox.on('change', function () {
             if (this.checked && !isProgrammaticChange) {
@@ -149,7 +147,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             checkbox.prop('checked', false);
                             modal.classList.remove('wps-modal--open');
                             new ShowIfEnabled();
-                         }, { once: true });
+                        }, { once: true });
                     }
                 } else {
                     console.error('Modal with ID "setting-confirmation" not found.');
@@ -157,7 +155,108 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             }
         });
 
+        // Handle retention period change
+        const retentionSelect = $('#wps_settings\\[wps_schedule_dbmaint_days_select\\]');
+        const customRetentionInput = $('#wps_schedule_dbmaint_days_custom');
+        const hiddenRetentionInput = $('#wps_schedule_dbmaint_days');
+        const presets = [0, 30, 60, 90, 180, 365, 730];
+        const initialRetention = parseInt(hiddenRetentionInput.val()) || 365; // مقدار اولیه ذخیره‌شده از دیتابیس
+        let previousRetention = initialRetention; // مقدار قبلی برای ردیابی تغییرات
+
+        function updateHiddenInput() {
+            const selectValue = retentionSelect.val();
+            let newValue;
+
+            if (selectValue === 'custom') {
+                newValue = parseInt(customRetentionInput.val());
+                if (isNaN(newValue) || newValue < 30 || newValue > 3650) {
+                    newValue = previousRetention; // اگر مقدار نامعتبر باشد، به مقدار قبلی برگرد
+                    customRetentionInput.val(newValue); // اینپوت کاستوم را به‌روزرسانی کن
+                }
+            } else {
+                newValue = parseInt(selectValue);
+            }
+
+            hiddenRetentionInput.val(newValue);
+            return newValue;
+        }
+
+        // تنظیم اولیه اینپوت مخفی در زمان لود صفحه
+        updateHiddenInput();
+
+        function revertToInitialState() {
+            hiddenRetentionInput.val(initialRetention);
+            if (presets.includes(initialRetention)) {
+                retentionSelect.val(initialRetention.toString());
+                customRetentionInput.val('');
+            } else {
+                retentionSelect.val('custom');
+                customRetentionInput.val(initialRetention);
+            }
+            new ShowIfEnabled(); // به‌روزرسانی نمایش اینپوت کاستوم
+        }
+
+        function showRetentionConfirmationModal(newValue, callback) {
+            const modalId = 'enable-automatic-data-deletion';
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                const description = modal.querySelector('.wps-alert__danger span');
+                if (description) {
+                    description.textContent = newValue;
+                }
+
+                modal.classList.add('wps-modal--open');
+
+                const primaryButton = modal.querySelector('button[data-action="enable"]');
+                if (primaryButton) {
+                    primaryButton.addEventListener('click', function () {
+                        modal.classList.remove('wps-modal--open');
+                        previousRetention = newValue;
+                        callback(true);
+                    }, { once: true });
+                }
+
+                const closeButton = modal.querySelector('button[data-action="closeModal"]');
+                if (closeButton) {
+                    closeButton.addEventListener('click', function () {
+                        modal.classList.remove('wps-modal--open');
+                        revertToInitialState();
+                        callback(false);
+                    }, { once: true });
+                }
+            } else {
+                callback(true);
+            }
+        }
+
+        retentionSelect.on('change', function () {
+            const newValue = updateHiddenInput();
+            if (newValue !== 0 && newValue < initialRetention) {
+                showRetentionConfirmationModal(newValue, function (confirmed) {
+                    if (!confirmed) {
+                        revertToInitialState();
+                    }
+                });
+            } else {
+                previousRetention = newValue;
+            }
+        });
+
+        customRetentionInput.on('change', function () {
+            if (retentionSelect.val() === 'custom') {
+                const newValue = updateHiddenInput();
+                if (newValue !== 0 && newValue < initialRetention) {
+                    showRetentionConfirmationModal(newValue, function (confirmed) {
+                        if (!confirmed) {
+                            revertToInitialState();
+                        }
+                    });
+                } else {
+                    previousRetention = newValue;
+                }
+            }
+        });
 
         new ShowIfEnabled();
     });
-   }
+}

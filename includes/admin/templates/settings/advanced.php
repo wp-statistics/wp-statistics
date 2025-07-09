@@ -148,7 +148,7 @@ add_thickbox();
 
                     <p class="description">
                         <?php _e('If your server uses a custom key in <code>$_SERVER</code> for IP detection (e.g., <code>HTTP_CF_CONNECTING_IP</code> for CloudFlare), specify it here.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?>
-                        <a  aria-label="<?php esc_attr_e('Open modal to view available headers on your server', 'wp-statistics'); ?>"> href="#TB_inline?&width=950&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e('View available headers on your server.', 'wp-statistics');   // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></a>
+                        <a aria-label="<?php esc_attr_e('Open modal to view available headers on your server', 'wp-statistics'); ?>"> href="#TB_inline?&width=950&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e('View available headers on your server.', 'wp-statistics');   // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></a>
                     </p>
                     <p class="description"><?php _e('Refer to our <a href="https://wp-statistics.com/resources/how-to-configure-ip-detection-in-wp-statistics-for-accurate-visitor-tracking/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Documentation</a> for more info and how to configure IP Detection properly.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></p>
                 </div>
@@ -394,21 +394,10 @@ add_thickbox();
     </table>
 </div>
 
-<script type="text/javascript">
-    function DBMaintWarning() {
-        const checkbox = jQuery('#wps_schedule_dbmaint');
-        if (checkbox.prop('checked')) {
-            if (!confirm('<?php esc_html_e('This will permanently delete data from the database each day, are you sure you want to enable this option?', 'wp-statistics'); ?>')) {
-                checkbox.prop('checked', false);
-            }
-        }
-    }
-</script>
-
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr>
+        <tr class="wps-settings-box_head">
             <th scope="row" colspan="2">
                 <h3><?php esc_html_e('Content Analytics', 'wp-statistics'); ?></h3>
             </th>
@@ -433,7 +422,12 @@ add_thickbox();
     <table class="form-table">
         <tbody>
         <tr class="wps-settings-box_head">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Purge Old Data Daily', 'wp-statistics'); ?></h3></th>
+            <th scope="row" class="wps-sm-pb-0"><h3><?php esc_html_e('Purge Old Data Daily', 'wp-statistics'); ?></h3></th>
+            <td class="wps-sm-pt-0">
+                <div>
+                    <div class="alert alert-success"><span>Next cleanup scheduled for <b>July 10, 2025 at 8:00 am</b>.</span></div>
+                </div>
+            </td>
         </tr>
 
         <tr data-id="automatic_cleanup_tr">
@@ -450,16 +444,36 @@ add_thickbox();
 
         <tr data-id="purge_data_older_than_tr" class="js-wps-show_if_wps_schedule_dbmaint_enabled">
             <th scope="row">
-                <label for="wps_schedule_dbmaint_days"><?php esc_html_e('Purge Data Older Than', 'wp-statistics'); ?></label>
+                <label for="wps_settings[wps_schedule_dbmaint_days_select]"><?php esc_html_e('Automatically Aggregate Old Data', 'wp-statistics'); ?></label>
             </th>
-
             <td>
-
-                <div class="wps-input-group wps-input-group__small">
-                    <input type="text" class="wps-input-group__field wps-input-group__field--small code" id="wps_schedule_dbmaint_days" name="wps_schedule_dbmaint_days" value="<?php echo esc_attr(WP_STATISTICS\Option::get('schedule_dbmaint_days', "365")); ?>">
-                    <span class="wps-input-group__label wps-input-group__label-side"><?php esc_html_e('Days', 'wp-statistics'); ?></span>
+                <?php
+                $stored_days    = WP_STATISTICS\Option::get('schedule_dbmaint_days', 365);
+                $presets        = [30, 60, 90, 180, 365, 730, 0]; // 0 for Forever
+                $selected_value = in_array($stored_days, $presets) ? $stored_days : 'custom';
+                ?>
+                <div class="wps-input-group">
+                    <select id="wps_settings[wps_schedule_dbmaint_days_select]" name="wps_schedule_dbmaint_days_select" class="wps-input-group__field">
+                        <option value="30" <?php selected($selected_value, 30); ?>><?php esc_html_e('Keep data for 30 days', 'wp-statistics'); ?></option>
+                        <option value="60" <?php selected($selected_value, 60); ?>><?php esc_html_e('Keep data for 60 days', 'wp-statistics'); ?></option>
+                        <option value="90" <?php selected($selected_value, 90); ?>><?php esc_html_e('Keep data for 90 days', 'wp-statistics'); ?></option>
+                        <option value="180" <?php selected($selected_value, 180); ?>><?php esc_html_e('Keep data for 180 days', 'wp-statistics'); ?></option>
+                        <option value="365" <?php selected($selected_value, 365); ?>><?php esc_html_e('Keep data for 1 year', 'wp-statistics'); ?></option>
+                        <option value="730" <?php selected($selected_value, 730); ?>><?php esc_html_e('Keep data for 2 years', 'wp-statistics'); ?></option>
+                        <option value="0" <?php selected($selected_value, 0); ?>><?php esc_html_e('Keep data forever', 'wp-statistics'); ?></option>
+                        <option value="custom" <?php selected($selected_value, 'custom'); ?>><?php esc_html_e('Custom...', 'wp-statistics'); ?></option>
+                    </select>
                 </div>
-                <p class="description"><?php echo esc_html__('Sets the age threshold for deleting data entries. Data exceeding the specified age in days will be removed. The minimum setting is 30 days.', 'wp-statistics'); ?></p>
+                <div class="js-wps-show_if_wps_schedule_dbmaint_days_select_equal_custom">
+                    <div class="wps-input-group wps-input-group__small description">
+                        <input aria-label="<?php esc_html_e('Custom data retention period in days', 'wp-statistics'); ?>"
+                               type="number" class="wps-input-group__field wps-input-group__field--small" id="wps_schedule_dbmaint_days_custom" min="30" max="3650" step="1"
+                               value="<?php echo $selected_value === 'custom' ? esc_attr($stored_days) : ''; ?>">
+                        <span class="wps-input-group__label wps-input-group__label-side"><?php esc_html_e('Days', 'wp-statistics'); ?></span>
+                    </div>
+                </div>
+                <input type="hidden" id="wps_schedule_dbmaint_days" name="wps_schedule_dbmaint_days" value="<?php echo esc_attr($stored_days); ?>">
+                <p class="description"><?php echo esc_html__('Choose how long to keep detailed data before it\'s automatically aggregated. Aggregation stores the number of visits and views per page while deleting other detailed data, helping to optimize your database. Learn more about data aggregation.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>
@@ -480,6 +494,9 @@ Modal::render('setting-confirmation', [
         'secondary' => 'closeModal',
     ],
 ]);
+
+
+Modal::render('enable-automatic-data-deletion');
 ?>
 
 <div class="postbox">
@@ -521,8 +538,6 @@ Modal::render('setting-confirmation', [
                 <div class="wps-alert wps-alert__danger">
                     <?php echo sprintf(('<div class="wps-g-0"><b>%s</b>%s</div>'), __('For multisite users', 'wp-statistics'), __('Every site within the network will return to the default settings.', 'wp-statistics')); ?>
                 </div>
-
-
             </td>
         </tr>
         </tbody>
