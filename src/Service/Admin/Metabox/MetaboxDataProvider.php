@@ -49,6 +49,13 @@ class MetaboxDataProvider
         return $data;
     }
 
+    /**
+     * Get traffic overview data
+     *
+     * @param array $args Filter arguments for the queries
+     *
+     * @return array
+     */
     public function getTrafficOverviewData($args = [])
     {
         $data = [
