@@ -373,6 +373,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Traits\\ErrorLoggerTrait' => __DIR__ . '/../..' . '/src/Traits/ErrorLoggerTrait.php',
         'WP_Statistics\\Traits\\ObjectCacheTrait' => __DIR__ . '/../..' . '/src/Traits/ObjectCacheTrait.php',
         'WP_Statistics\\Traits\\TransientCacheTrait' => __DIR__ . '/../..' . '/src/Traits/TransientCacheTrait.php',
+        'WP_Statistics\\Utils\\Env' => __DIR__ . '/../..' . '/src/Utils/Env.php',
         'WP_Statistics\\Utils\\Query' => __DIR__ . '/../..' . '/src/Utils/Query.php',
         'WP_Statistics\\Utils\\Request' => __DIR__ . '/../..' . '/src/Utils/Request.php',
         'WP_Statistics\\Utils\\Signature' => __DIR__ . '/../..' . '/src/Utils/Signature.php',
