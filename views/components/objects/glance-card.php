@@ -8,7 +8,7 @@
                 <?php foreach ($metrics as $metric): ?>
                     <div class="wps-at-a-glance-item">
                         <!-- Metric Label -->
-                        <span class="wps-at-a-glance-label">
+                        <span class="wps-at-a-glance-label" title="<?php echo esc_html($metric['label'] ?? ''); ?>">
                             <?php echo esc_html($metric['label'] ?? ''); ?>
                             <?php if (!empty($metric['tooltip'])): ?>
                                 <span class="wps-tooltip" title="<?php echo esc_html($metric['tooltip']); ?>">
