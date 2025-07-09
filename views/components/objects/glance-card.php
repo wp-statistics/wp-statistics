@@ -18,11 +18,11 @@
                         </span>
                         <span class="wps-at-a-glance-value<?php echo !empty($metric['link-href']) && !empty($metric['link-title']) ? ' wps-at-a-glance-link' : ''; ?>">
                             <?php if (!empty($metric['link-href']) && !empty($metric['link-title'])): ?>
-                                <a href="<?php echo esc_url($metric['link-href']); ?>" target="_blank" class="wps-external-link">
+                                <a href="<?php echo esc_url($metric['link-href']); ?>" title="<?php echo esc_html($metric['link-title'] ?? 'View Details'); ?>" target="_blank" class="wps-external-link">
                                     <?php echo esc_html($metric['link-title'] ?? 'View Details'); ?>
                                 </a>
                             <?php elseif (isset($metric['value'])): ?>
-                                <span aria-label="<?php echo esc_html($metric['value'] ?? 'No data'); ?>">
+                                <span title="<?php echo esc_html($metric['value'] ?? 'No data'); ?>">
                                     <?php if ($metric['value']): ?>
                                         <?php echo esc_html($metric['value']); ?>
                                     <?php else: ?>
