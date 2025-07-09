@@ -9,7 +9,7 @@ View::load('components/objects/share-anonymous-notice');
 
 if (isset($backUrl, $backTitle, $_SERVER['HTTP_REFERER'])) {
     $backUrl   = esc_url_raw($_SERVER['HTTP_REFERER']);
-    $backTitle = __('Back to Previous Page', 'wp-statistics');
+    $backTitle = esc_html__('Back to Previous Page', 'wp-statistics');
 }
 ?>
 <div class="wps-wrap__top <?php echo isset($real_time_button) ? 'wps-wrap__top--has__realtime' : ''; ?>">
