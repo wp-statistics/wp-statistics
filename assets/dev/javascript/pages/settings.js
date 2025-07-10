@@ -125,43 +125,13 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     }
 
     $(document).ready(function () {
-        let isProgrammaticChange = false;
-        const checkbox = $('#wps_settings\\[wps_schedule_dbmaint\\]');
-        checkbox.on('change', function () {
-            if (this.checked && !isProgrammaticChange) {
-                const modalId = 'setting-confirmation';
-                const modal = document.getElementById(modalId);
-                if (modal) {
-                    modal.classList.add('wps-modal--open');
-
-                    const primaryButton = modal.querySelector('button[data-action="enable"]');
-                    if (primaryButton) {
-                        primaryButton.addEventListener('click', function () {
-                            modal.classList.remove('wps-modal--open');
-                        }, { once: true });
-                    }
-
-                    const closeButton = modal.querySelector('button[data-action="closeModal"]');
-                    if (closeButton) {
-                        closeButton.addEventListener('click', function () {
-                            checkbox.prop('checked', false);
-                            modal.classList.remove('wps-modal--open');
-                            new ShowIfEnabled();
-                        }, { once: true });
-                    }
-                } else {
-                    console.error('Modal with ID "setting-confirmation" not found.');
-                }
-            }
-        });
-
         // Handle retention period change
         const retentionSelect = $('#wps_settings\\[wps_schedule_dbmaint_days_select\\]');
         const customRetentionInput = $('#wps_schedule_dbmaint_days_custom');
         const hiddenRetentionInput = $('#wps_schedule_dbmaint_days');
         const presets = [0, 30, 60, 90, 180, 365, 730];
-        const initialRetention = parseInt(hiddenRetentionInput.val()) || 365; // مقدار اولیه ذخیره‌شده از دیتابیس
-        let previousRetention = initialRetention; // مقدار قبلی برای ردیابی تغییرات
+        const initialRetention = parseInt(hiddenRetentionInput.val()) || 365;
+        let previousRetention = initialRetention;
 
         function updateHiddenInput() {
             const selectValue = retentionSelect.val();
@@ -170,8 +140,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             if (selectValue === 'custom') {
                 newValue = parseInt(customRetentionInput.val());
                 if (isNaN(newValue) || newValue < 30 || newValue > 3650) {
-                    newValue = previousRetention; // اگر مقدار نامعتبر باشد، به مقدار قبلی برگرد
-                    customRetentionInput.val(newValue); // اینپوت کاستوم را به‌روزرسانی کن
+                    newValue = previousRetention;
+                    customRetentionInput.val(newValue);
                 }
             } else {
                 newValue = parseInt(selectValue);
@@ -181,7 +151,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             return newValue;
         }
 
-        // تنظیم اولیه اینپوت مخفی در زمان لود صفحه
         updateHiddenInput();
 
         function revertToInitialState() {
@@ -193,7 +162,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 retentionSelect.val('custom');
                 customRetentionInput.val(initialRetention);
             }
-            new ShowIfEnabled(); // به‌روزرسانی نمایش اینپوت کاستوم
+            new ShowIfEnabled();
         }
 
         function showRetentionConfirmationModal(newValue, callback) {
