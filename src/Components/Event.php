@@ -77,8 +77,9 @@ class Event
         // If not scheduled, return
         if (!self::isScheduled($event)) return;
 
-        // If already scheduled with the same recurrence, return
-        if (self::get($event)->schedule === $recurrence) return;
+        // If already scheduled with the same recurrence and next run, return
+        $prevEvent = self::get($event);
+        if ($prevEvent->schedule === $recurrence && $prevEvent->timestamp === $nextRun) return;
 
         // unschedule previous event
         self::unschedule($event);
