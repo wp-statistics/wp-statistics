@@ -84,7 +84,7 @@ class Hit extends \WP_STATISTICS\RestAPI
 
         } catch (Exception $e) {
             $responseData['status'] = false;
-            $responseData['data']   = $e->getData();
+            $responseData['data']   = $e->getMessages();
             $statusCode             = $e->getCode();
         }
 

@@ -14,19 +14,19 @@ class ArrayException extends Exception
     /**
      * @var array The original data passed to the exception.
      */
-    protected $data;
+    protected $errors;
 
     /**
      * ArrayException constructor.
      *
-     * @param array $data The data to be stored in the exception.
+     * @param array $errors The data to be stored in the exception.
      * @param int $code The HTTP or application-specific error code.
      * @param Exception|null $previous The previous exception for nested exceptions.
      */
-    public function __construct($data, $code = 0, Exception $previous = null)
+    public function __construct($errors, $code = 0, Exception $previous = null)
     {
-        $this->data = $data;
-        parent::__construct(json_encode($data), $code, $previous);
+        $this->errors = $errors;
+        parent::__construct(json_encode($errors), $code, $previous);
     }
 
     /**
@@ -34,8 +34,8 @@ class ArrayException extends Exception
      *
      * @return array The array of data.
      */
-    public function getData()
+    public function getMessages ()
     {
-        return $this->data;
+        return $this->errors;
     }
 }

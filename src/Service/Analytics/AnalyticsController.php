@@ -30,7 +30,7 @@ class AnalyticsController
 
         } catch (Exception $e) {
             $responseData['status'] = false;
-            $responseData['data']   = $e->getData();
+            $responseData['data']   = $e->getMessages();
             $statusCode             = $e->getCode();
 
             wp_send_json($responseData, $statusCode);
@@ -57,7 +57,7 @@ class AnalyticsController
 
         } catch (Exception $e) {
             $responseData['status'] = false;
-            $responseData['data']   = $e->getData();
+            $responseData['data']   = $e->getMessages();
             $statusCode             = $e->getCode();
 
             wp_send_json($responseData, $statusCode);
