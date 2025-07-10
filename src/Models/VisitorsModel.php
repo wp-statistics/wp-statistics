@@ -176,7 +176,7 @@ class VisitorsModel extends BaseModel
 
         $query = Query::select(array_merge([
             'visitor.last_counter as date',
-            'COUNT(*) as visitors'
+            'COUNT(DISTINCT visitor.ID) as visitors'
         ], $additionalFields))
             ->from('visitor')
             ->where('location', '=', $args['country'])
@@ -367,57 +367,39 @@ class VisitorsModel extends BaseModel
 
     public function getVisitorsSummary($args = [])
     {
-        $summary = [
-            'today'      => [
-                'label'    => esc_html__('Today', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('today')]))
-            ],
-            'yesterday'  => [
-                'label'    => esc_html__('Yesterday', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('yesterday')]))
-            ],
-            'this_week'  => [
-                'label'    => esc_html__('This week', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('this_week')]))
-            ],
-            'last_week'  => [
-                'label'    => esc_html__('Last week', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('last_week')]))
-            ],
-            'this_month' => [
-                'label'    => esc_html__('This month', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('this_month')]))
-            ],
-            'last_month' => [
-                'label'    => esc_html__('Last month', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('last_month')]))
-            ],
-            '7days'      => [
-                'label'    => esc_html__('Last 7 days', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('7days')]))
-            ],
-            '30days'     => [
-                'label'    => esc_html__('Last 30 days', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('30days')]))
-            ],
-            '90days'     => [
-                'label'    => esc_html__('Last 90 days', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('90days')]))
-            ],
-            '6months'    => [
-                'label'    => esc_html__('Last 6 months', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('6months')]))
-            ],
-            'this_year'  => [
-                'label'    => esc_html__('This year (Jan-Today)', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('this_year')]))
-            ]
+        $periods = [
+            'today'      => ['label' => esc_html__('Today', 'wp-statistics'), 'date' => 'today'],
+            'yesterday'  => ['label' => esc_html__('Yesterday', 'wp-statistics'), 'date' => 'yesterday'],
+            'this_week'  => ['label' => esc_html__('This week', 'wp-statistics'), 'date' => 'this_week'],
+            'last_week'  => ['label' => esc_html__('Last week', 'wp-statistics'), 'date' => 'last_week'],
+            'this_month' => ['label' => esc_html__('This month', 'wp-statistics'), 'date' => 'this_month'],
+            'last_month' => ['label' => esc_html__('Last month', 'wp-statistics'), 'date' => 'last_month'],
+            '7days'      => ['label' => esc_html__('Last 7 days', 'wp-statistics'), 'date' => '7days'],
+            '30days'     => ['label' => esc_html__('Last 30 days', 'wp-statistics'), 'date' => '30days'],
+            '90days'     => ['label' => esc_html__('Last 90 days', 'wp-statistics'), 'date' => '90days'],
+            '6months'    => ['label' => esc_html__('Last 6 months', 'wp-statistics'), 'date' => '6months'],
+            'this_year'  => ['label' => esc_html__('This year (Jan-Today)', 'wp-statistics'), 'date' => 'this_year'],
         ];
 
-        if (!empty($args['include_total'])) {
+        $exclude = $args['exclude'] ?? [];
+        $summary = [];
+
+        foreach ($periods as $key => $period) {
+            if (in_array($key, $exclude, true)) {
+                continue; // Skip excluded periods
+            }
+
+            $summary[$key] = [
+                'label'    => $period['label'],
+                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get($period['date'])])),
+            ];
+        }
+
+        // Conditionally add 'total' (if not excluded)
+        if (!empty($args['include_total']) && !in_array('total', $exclude, true)) {
             $summary['total'] = [
                 'label'    => esc_html__('Total', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['ignore_date' => true, 'historical' => true]))
+                'visitors' => $this->countVisitors(array_merge($args, ['ignore_date' => true, 'historical' => true])),
             ];
         }
 
@@ -426,57 +408,39 @@ class VisitorsModel extends BaseModel
 
     public function getHitsSummary($args = [])
     {
-        $summary = [
-            'today'      => [
-                'label' => esc_html__('Today', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('today')]))
-            ],
-            'yesterday'  => [
-                'label' => esc_html__('Yesterday', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('yesterday')]))
-            ],
-            'this_week'  => [
-                'label' => esc_html__('This week', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('this_week')]))
-            ],
-            'last_week'  => [
-                'label' => esc_html__('Last week', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('last_week')]))
-            ],
-            'this_month' => [
-                'label' => esc_html__('This month', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('this_month')]))
-            ],
-            'last_month' => [
-                'label' => esc_html__('Last month', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('last_month')]))
-            ],
-            '7days'      => [
-                'label' => esc_html__('Last 7 days', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('7days')]))
-            ],
-            '30days'     => [
-                'label' => esc_html__('Last 30 days', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('30days')]))
-            ],
-            '90days'     => [
-                'label' => esc_html__('Last 90 days', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('90days')]))
-            ],
-            '6months'    => [
-                'label' => esc_html__('Last 6 months', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('6months')]))
-            ],
-            'this_year'  => [
-                'label' => esc_html__('This year (Jan-Today)', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('this_year')]))
-            ]
+        $periods = [
+            'today'      => ['label' => esc_html__('Today', 'wp-statistics'), 'date' => 'today'],
+            'yesterday'  => ['label' => esc_html__('Yesterday', 'wp-statistics'), 'date' => 'yesterday'],
+            'this_week'  => ['label' => esc_html__('This week', 'wp-statistics'), 'date' => 'this_week'],
+            'last_week'  => ['label' => esc_html__('Last week', 'wp-statistics'), 'date' => 'last_week'],
+            'this_month' => ['label' => esc_html__('This month', 'wp-statistics'), 'date' => 'this_month'],
+            'last_month' => ['label' => esc_html__('Last month', 'wp-statistics'), 'date' => 'last_month'],
+            '7days'      => ['label' => esc_html__('Last 7 days', 'wp-statistics'), 'date' => '7days'],
+            '30days'     => ['label' => esc_html__('Last 30 days', 'wp-statistics'), 'date' => '30days'],
+            '90days'     => ['label' => esc_html__('Last 90 days', 'wp-statistics'), 'date' => '90days'],
+            '6months'    => ['label' => esc_html__('Last 6 months', 'wp-statistics'), 'date' => '6months'],
+            'this_year'  => ['label' => esc_html__('This year (Jan-Today)', 'wp-statistics'), 'date' => 'this_year'],
         ];
 
-        if (!empty($args['include_total'])) {
+        $exclude = $args['exclude'] ?? [];
+        $summary = [];
+
+        foreach ($periods as $key => $period) {
+            if (in_array($key, $exclude, true)) {
+                continue; // Skip excluded periods
+            }
+
+            $summary[$key] = [
+                'label' => $period['label'],
+                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get($period['date'])])),
+            ];
+        }
+
+        // Conditionally add 'total' (if not excluded)
+        if (!empty($args['include_total']) && !in_array('total', $exclude, true)) {
             $summary['total'] = [
                 'label' => esc_html__('Total', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['ignore_date' => true, 'historical' => true]))
+                'hits'  => $this->countHits(array_merge($args, ['ignore_date' => true, 'historical' => true])),
             ];
         }
 
