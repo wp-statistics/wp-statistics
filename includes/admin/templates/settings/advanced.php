@@ -427,10 +427,10 @@ add_thickbox();
             <th scope="row" class="wps-sm-pb-0"><h3><?php esc_html_e('Purge Old Data Daily', 'wp-statistics'); ?></h3></th>
             <td class="wps-sm-pt-0">
                 <div>
-                    <?php $event = Event::get('wp_statistics_dbmaint_hook'); ?>
+                    <?php $storedDays = Option::get('schedule_dbmaint_days', 180); ?>
 
-                    <?php if ($event): ?>
-                        <div class="alert alert-success"><span><?php esc_html_e('Next cleanup scheduled for', 'wp-statistics'); ?> <b><?php echo esc_html(DateTime::format($event->timestamp, ['exclude_year' => true, 'include_time' => true])) ?></b></span></div>
+                    <?php if ($storedDays != 0): ?>
+                        <div class="alert alert-success"><span><?php esc_html_e('Next cleanup scheduled for', 'wp-statistics'); ?> <b><?php echo esc_html(DateTime::format('tomorrow midnight', ['exclude_year' => true, 'include_time' => true])) ?></b></span></div>
                     <?php endif; ?>
                 </div>
             </td>
@@ -442,7 +442,6 @@ add_thickbox();
             </th>
             <td>
                 <?php
-                $storedDays     = Option::get('schedule_dbmaint_days', 180);
                 $presets        = [30, 60, 90, 180, 365, 730, 0]; // 0 for Forever
                 $selectedOption = in_array($storedDays, $presets) ? $storedDays : 'custom';
                 ?>
