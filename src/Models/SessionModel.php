@@ -4,12 +4,12 @@ namespace WP_Statistics\Models;
 
 use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Components\DateRange;
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Decorators\ReferrerDecorator;
 use WP_Statistics\Decorators\SessionDecorator;
 use WP_Statistics\Decorators\ViewDecorator;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Utils\Query;
-use WP_STATISTICS\TimeZone;
 
 /**
  * Model class for performing database operations related to visitor sessions.
@@ -73,7 +73,7 @@ class SessionModel extends BaseModel
             return null;
         }
 
-        $today = TimeZone::getCurrentDate('Y-m-d');
+        $today = DateTime::get();
 
         return Query::select('*')
             ->from('sessions')

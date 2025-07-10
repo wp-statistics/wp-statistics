@@ -1,4 +1,5 @@
 <?php
+
 namespace WP_Statistics\Utils;
 
 class Url
@@ -60,7 +61,8 @@ class Url
      * @param string $url The URL to be formatted.
      * @return string The formatted URL.
      */
-    public static function formatUrl($url) {
+    public static function formatUrl($url)
+    {
         // Remove trailing slash
         $url = rtrim($url, '/');
 
@@ -123,8 +125,8 @@ class Url
      */
     public static function isInternal($url)
     {
-        $url        = Url::getDomain($url);
-        $homeUrl    = Url::getDomain(home_url());
+        $url     = Url::getDomain($url);
+        $homeUrl = Url::getDomain(home_url());
 
         return $url === $homeUrl;
     }
@@ -195,45 +197,6 @@ class Url
     }
 
     /**
-     * Removes specified query parameters from a URL.
-     *
-     * If <code>$keys</code> is an empty array the entire query string is stripped;
-     * otherwise, only the given parameters are removed.
-     *
-     * @param string $url  The URL to clean.
-     * @param array  $keys List of query‑string keys to remove. Empty array = remove all.
-     *
-     * @return string The URL with the query string (or selected parameters) filtered out.
-     */
-    public static function getFilterParams($url, $keys = [])
-    {
-        $pos = strpos($url, '?');
-
-        if ($pos === false) {
-            return $url;
-        }
-
-        if ($keys === []) {
-            return substr($url, 0, $pos);
-        }
-
-        $base   = substr($url, 0, $pos);
-        $query  = substr($url, $pos + 1);
-
-        parse_str($query, $params);
-
-        foreach ($keys as $key) {
-            unset($params[$key]);
-        }
-
-        if (empty($params)) {
-            return $base;
-        }
-
-        return $base . '?' . http_build_query($params);
-    }
-
-    /**
      * Get decoded URL.
      *
      * @param string $value The URL to decode.
@@ -242,5 +205,37 @@ class Url
     public static function getDecodeUrl($value)
     {
         return mb_convert_encoding(urldecode($value), 'ISO-8859-1', 'UTF-8');
+    }
+
+    /**
+     * Get relative path of urls.
+     *
+     * @param string $url
+     * @return string Relative path or empty string
+     */
+    public static function getRelativePath($url)
+    {
+        $trackingParams = QueryParams::getAllowedList('array', true);
+
+        $parts = wp_parse_url($url);
+
+        $query = [];
+        if (!empty($parts['query'])) {
+            parse_str($parts['query'], $query);
+
+            foreach ($trackingParams as $param) {
+                unset($query[$param]);
+            }
+        }
+
+        $path = isset($parts['path']) ? $parts['path'] : '/';
+
+        $relativePath = $path;
+
+        if (!empty($query)) {
+            $relativePath .= '?' . http_build_query($query);
+        }
+
+        return $relativePath;
     }
 }

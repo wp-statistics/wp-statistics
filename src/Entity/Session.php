@@ -3,10 +3,10 @@
 namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
+use WP_Statistics\Components\DateTime;
+use WP_Statistics\Context\Option;
 use WP_Statistics\Models\SessionModel;
-use WP_STATISTICS\Option;
 use WP_Statistics\Records\RecordFactory;
-use WP_STATISTICS\TimeZone;
 
 /**
  * Entity to record session-related information.
@@ -44,7 +44,7 @@ class Session extends BaseEntity
                 $userId   = empty($existing->user_id) ? $this->profile->getUserId() : $existing->user_id;
 
                 $newData = [];
-                if (Option::get('attribution_model') === 'last-touch') {
+                if (Option::getValue('attribution_model') === 'last-touch') {
                     $newData['referrer_id'] = $this->profile->getReferrerId();
                 }
 
@@ -74,7 +74,7 @@ class Session extends BaseEntity
                 'language_id'               => $this->profile->getLanguageId(),
                 'timezone_id'               => $this->profile->getTimezoneId(),
                 'user_id'                   => $this->profile->getUserId(),
-                'started_at'                => TimeZone::getCurrentDateByUTC('Y-m-d H:i:s'),
+                'started_at'                => DateTime::getUtc(),
             ]);
         });
 

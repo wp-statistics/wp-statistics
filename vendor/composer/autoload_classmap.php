@@ -435,6 +435,7 @@ return array(
     'WP_Statistics\\Utils\\QueryParams' => $baseDir . '/src/Utils/QueryParams.php',
     'WP_Statistics\\Utils\\Request' => $baseDir . '/src/Utils/Request.php',
     'WP_Statistics\\Utils\\Signature' => $baseDir . '/src/Utils/Signature.php',
+    'WP_Statistics\\Utils\\Uri' => $baseDir . '/src/Utils/Uri.php',
     'WP_Statistics\\Utils\\Url' => $baseDir . '/src/Utils/Url.php',
     'WP_Statistics\\Utils\\Validator' => $baseDir . '/src/Utils/Validator.php',
 );

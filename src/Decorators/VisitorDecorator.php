@@ -285,6 +285,6 @@ class VisitorDecorator
      */
     public function getCreatedAt()
     {
-        return empty($this->visitor->created_at) ? null : TimeZone::convertUtcToSiteTimezone($this->visitor->created_at);
+        return empty($this->visitor->created_at) ? null : DateTime::convertUtc($this->visitor->created_at);
     }
 }

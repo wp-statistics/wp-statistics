@@ -2,7 +2,7 @@
 namespace WP_Statistics\Abstracts;
 
 use Exception;
-use WP_STATISTICS\Helper;
+use WP_Statistics\Service\Tracking\TrackerHelper;
 use WP_Statistics\Utils\Signature;
 
 /**
@@ -44,7 +44,7 @@ abstract class BaseTrackerController {
      * @throws Exception Invalid signature results in 403 status code
      */
     protected function checkSignature() {
-        if (Helper::isRequestSignatureEnabled()) {
+        if (TrackerHelper::isSignatureEnabled()) {
             $signature = ! empty($_REQUEST['signature']) ? sanitize_text_field($_REQUEST['signature']) : '';
             $payload   = [
                 ! empty($_REQUEST['source_type']) ? sanitize_text_field($_REQUEST['source_type']) : '',

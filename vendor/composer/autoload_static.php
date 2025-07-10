@@ -454,6 +454,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Utils\\QueryParams' => __DIR__ . '/../..' . '/src/Utils/QueryParams.php',
         'WP_Statistics\\Utils\\Request' => __DIR__ . '/../..' . '/src/Utils/Request.php',
         'WP_Statistics\\Utils\\Signature' => __DIR__ . '/../..' . '/src/Utils/Signature.php',
+        'WP_Statistics\\Utils\\Uri' => __DIR__ . '/../..' . '/src/Utils/Uri.php',
         'WP_Statistics\\Utils\\Url' => __DIR__ . '/../..' . '/src/Utils/Url.php',
         'WP_Statistics\\Utils\\Validator' => __DIR__ . '/../..' . '/src/Utils/Validator.php',
     );

@@ -111,12 +111,12 @@ class DateTime
      *
      * @param string|int $date The date string to format. If numeric, it is treated as a Unix timestamp.
      * @param array $args {
-     *     @type bool $include_time Whether to include the time in the formatted string. Default false.
-     *     @type bool $exclude_year Whether to exclude the year from the formatted string. Default false.
-     *     @type bool $short_month Whether to use a short month name (e.g. 'Jan' instead of 'January'). Default false.
-     *     @type string $separator The separator to use between date and time. Default ' '.
-     *     @type string $date_format The format string to use for the date. Default is the WordPress option 'date_format'.
-     *     @type string $time_format The format string to use for the time. Default is the WordPress option 'time_format'.
+     * @type bool $include_time Whether to include the time in the formatted string. Default false.
+     * @type bool $exclude_year Whether to exclude the year from the formatted string. Default false.
+     * @type bool $short_month Whether to use a short month name (e.g. 'Jan' instead of 'January'). Default false.
+     * @type string $separator The separator to use between date and time. Default ' '.
+     * @type string $date_format The format string to use for the date. Default is the WordPress option 'date_format'.
+     * @type string $time_format The format string to use for the time. Default is the WordPress option 'time_format'.
      * }
      *
      * @return string The formatted datetime string.
@@ -126,12 +126,12 @@ class DateTime
     public static function format($date, $args = [])
     {
         $args = wp_parse_args($args, [
-            'include_time'  => false,
-            'exclude_year'  => false,
-            'short_month'   => false,
-            'separator'     => ' ',
-            'date_format'   => self::getDateFormat(),
-            'time_format'   => self::getTimeFormat()
+            'include_time' => false,
+            'exclude_year' => false,
+            'short_month'  => false,
+            'separator'    => ' ',
+            'date_format'  => self::getDateFormat(),
+            'time_format'  => self::getTimeFormat()
         ]);
 
         // If the date is numeric, treat it as a Unix timestamp
@@ -200,14 +200,15 @@ class DateTime
     /**
      * Build a default date‑format pattern string based on WordPress settings.
      *
-     * @param bool   $withTime     Include the time portion.
-     * @param bool   $excludeYear  Omit the year from the pattern.
-     * @param bool   $shortMonth   Use a short month name (e.g. 'Jan').
-     * @param string $separator     Separator between date and time parts.
+     * @param bool $withTime Include the time portion.
+     * @param bool $excludeYear Omit the year from the pattern.
+     * @param bool $shortMonth Use a short month name (e.g. 'Jan').
+     * @param string $separator Separator between date and time parts.
      *
      * @return string Date‑format pattern.
      */
-    public static function getDefaultDateFormat($withTime = false, $excludeYear = false, $shortMonth = false, $separator = ' ') {
+    public static function getDefaultDateFormat($withTime = false, $excludeYear = false, $shortMonth = false, $separator = ' ')
+    {
         $dateFormat = self::getDateFormat();
         $timeFormat = self::getTimeFormat();
 
@@ -230,30 +231,138 @@ class DateTime
      * Calculate the difference between two dates.
      *
      * @param string|int $startDate A date string or Unix timestamp.
-     * @param string|int $endDate   A date string or Unix timestamp. Defaults to 'now'.
-     * @param string     $unit       Unit to return: 'days', 'hours', or 'minutes'.
+     * @param string|int $endDate A date string or Unix timestamp. Defaults to 'now'.
+     * @param string $unit Unit to return: 'days', 'hours', or 'minutes'.
      *
      * @return int Difference expressed in the requested unit; zero on failure.
      */
-    public static function calculateDateDifference($fromDate, $toDate = 'now') {
+    public static function calculateDateDifference($fromDate, $toDate = 'now')
+    {
         $fromDateTime = new \DateTime($fromDate);
         $toDateTime   = new \DateTime($toDate);
 
         $interval = $fromDateTime->diff($toDateTime);
 
-        if ( $interval->y > 0 ) {
-            return _n( 'a year', sprintf( '%d years', $interval->y ), $interval->y, 'wp-statistics' );
+        if ($interval->y > 0) {
+            return _n('a year', sprintf('%d years', $interval->y), $interval->y, 'wp-statistics');
         }
 
-        if ( $interval->m > 0 ) {
-            return _n( 'a month', sprintf( '%d months', $interval->m ), $interval->m, 'wp-statistics' );
+        if ($interval->m > 0) {
+            return _n('a month', sprintf('%d months', $interval->m), $interval->m, 'wp-statistics');
         }
 
-        if ( $interval->d >= 7 ) {
-            $weekCount = (int) floor( $interval->d / 7 );
-            return _n( 'a week', sprintf( '%d weeks', $weekCount ), $weekCount, 'wp-statistics' );
+        if ($interval->d >= 7) {
+            $weekCount = (int)floor($interval->d / 7);
+            return _n('a week', sprintf('%d weeks', $weekCount), $weekCount, 'wp-statistics');
         }
 
-        return _n( 'a day', sprintf( '%d days', $interval->d ), $interval->d, 'wp-statistics' );
+        return _n('a day', sprintf('%d days', $interval->d), $interval->d, 'wp-statistics');
+    }
+
+    /**
+     * Get the UTC offset in seconds.
+     *
+     * @return int
+     */
+    public static function getUtcOffset()
+    {
+        $timezone  = get_option('timezone_string');
+        $gmtOffset = get_option('gmt_offset');
+
+        if ($timezone) {
+            return timezone_offset_get(timezone_open($timezone), new \DateTime());
+        }
+
+        if ($gmtOffset) {
+            return $gmtOffset * 60 * 60;
+        }
+
+        return 0;
+    }
+
+    /**
+     * Get current timestamp with timezone offset applied
+     *
+     * This method returns a timestamp that includes the site's timezone offset,
+     * maintaining compatibility with the original TimeZone class implementation.
+     *
+     * @return int|string Current timestamp with timezone offset
+     */
+    public static function getCurrentTimestamp()
+    {
+        $dateTime  = new \DateTime('now', self::getTimezone());
+        $timestamp = $dateTime->format('U');
+
+        return apply_filters('wp_statistics_current_timestamp', $timestamp);
+    }
+
+    /**
+     * Convert UTC datetime to site's timezone.
+     *
+     * @param string $utcDateTime UTC datetime string
+     * @param string|bool $format Optional. Format string or boolean flag (default: true)
+     *                           If true: uses WordPress default format with i18n
+     *                           If false: returns Y-m-d H:i:s without i18n
+     *                           If string: uses that as date format with i18n
+     * @return string|null Formatted datetime in site's timezone
+     * @since 15.0.0
+     */
+    public static function convertUtc($utcDateTime, $format = true)
+    {
+        if (empty($utcDateTime)) {
+            return null;
+        }
+
+        // Convert UTC timestamp to site's timezone
+        $datetime = new \DateTime($utcDateTime, new \DateTimeZone('UTC'));
+        $datetime->setTimezone(self::getTimezone());
+
+        // Handle format based on input type
+        if (is_string($format)) {
+            // Use custom format with i18n
+            return date_i18n($format, strtotime($datetime->format('Y-m-d H:i:s')));
+        }
+
+        if ($format === true) {
+            // Use WordPress default format with i18n
+            return date_i18n(
+                self::getDefaultDateFormat(true, true),
+                strtotime($datetime->format('Y-m-d H:i:s'))
+            );
+        }
+
+        // Return standard format without i18n
+        return $datetime->format('Y-m-d H:i:s');
+    }
+
+    /**
+     * Get current date in UTC timezone.
+     *
+     * @param string $format The format string to use for the date. Default is 'Y-m-d H:i:s'.
+     * @param string|null $strtotime Optional. A string parsable by strtotime (e.g. '+1 day', '-2 weeks')
+     * @return string Formatted date string in UTC
+     * @since 15.0.0
+     */
+    public static function getUtc($format = 'Y-m-d H:i:s', $strtotime = null)
+    {
+        $datetime = new \DateTime('now', new \DateTimeZone('UTC'));
+
+        if ($strtotime) {
+            $datetime->modify($strtotime);
+        }
+
+        return $datetime->format($format);
+    }
+
+    public static function isValid($date)
+    {
+        if (empty($date)) {
+            return false;
+        }
+
+        if (preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $date) && strtotime($date) !== false) {
+            return true;
+        }
+        return false;
     }
 }

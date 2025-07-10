@@ -288,7 +288,7 @@ class VisitorsModel extends BaseModel
     {
         $args = [
             'hash'             => '',
-            'DATE(created_at)' => TimeZone::getCurrentDate('Y-m-d')
+            'DATE(created_at)' => DateTime::get()
         ];
 
         return RecordFactory::visitor()->get($args);

@@ -216,7 +216,7 @@ class Exclusion
             return;
         }
 
-        $date   = TimeZone::getCurrentDate('Y-m-d');
+        $date   = DateTime::get();
         $reason = $exclusion['exclusion_reason'] ?? '';
 
         $record = RecordFactory::exclusion()->get([

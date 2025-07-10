@@ -2,9 +2,9 @@
 
 namespace WP_Statistics\Decorators;
 
-use WP_STATISTICS\IP;
+use WP_Statistics\Components\DateTime;
+use WP_Statistics\Context\Ip;
 use WP_Statistics\Records\RecordFactory;
-use WP_STATISTICS\TimeZone;
 
 /**
  * Decorator for a record from the 'sessions' table.
@@ -92,7 +92,7 @@ class SessionDecorator
      */
     public function getStartedAt()
     {
-        return empty($this->session->started_at) ? null : TimeZone::convertUtcToSiteTimezone($this->session->started_at);
+        return empty($this->session->started_at) ? null : DateTime::convertUtc($this->session->started_at);
     }
 
     /**
@@ -102,7 +102,7 @@ class SessionDecorator
      */
     public function getEndedAt()
     {
-        return empty($this->session->ended_at) ? null : TimeZone::convertUtcToSiteTimezone($this->session->ended_at);
+        return empty($this->session->ended_at) ? null : DateTime::convertUtc($this->session->ended_at);
     }
 
     /**
@@ -351,6 +351,6 @@ class SessionDecorator
      */
     public function isHashedIP()
     {
-        return IP::IsHashIP($this->getIp());
+        return Ip::isHashed($this->getIp());
     }
 }

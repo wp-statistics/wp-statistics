@@ -2,9 +2,9 @@
 
 namespace WP_Statistics\Decorators;
 
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Service\Resources\ResourcesFactory;
-use WP_STATISTICS\TimeZone;
 
 /**
  * Decorator for a record from the 'views' table.
@@ -49,7 +49,7 @@ class ViewDecorator
      */
     public function getViewedAt()
     {
-        return empty($this->view->viewed_at) ? null : TimeZone::convertUtcToSiteTimezone($this->view->viewed_at);
+        return empty($this->view->viewed_at) ? null : DateTime::convertUtc($this->view->viewed_at);
     }
 
     /**

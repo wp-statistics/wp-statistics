@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Decorators;
 
-use WP_STATISTICS\Country;
+use WP_Statistics\Context\Country;
 
 /**
  * Decorator for a record from the 'countries' table.
@@ -87,6 +87,6 @@ class CountryDecorator
      */
     public function getFlag()
     {
-        return Country::flag($this->getCode());
+        return Country::getFlag($this->getCode());
     }
 }

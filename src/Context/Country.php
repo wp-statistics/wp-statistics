@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Context;
 
+use DateTimeZone;
 use WP_STATISTICS\TimeZone;
 
 /**
@@ -362,8 +363,15 @@ final class Country
      */
     public static function getByTimeZone()
     {
-        $timezone    = get_option('timezone_string');
-        $countryCode = TimeZone::getCountry($timezone);
+        $countryCode = '';
+
+        $timezone  = get_option('timezone_string');
+        $timezones = timezone_identifiers_list();
+
+        if (in_array($timezone, $timezones)) {
+            $location    = timezone_location_get(new DateTimeZone($timezone));
+            $countryCode = $location['country_code'];
+        }
 
         return $countryCode;
     }

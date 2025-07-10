@@ -3,9 +3,9 @@
 namespace WP_STATISTICS\Abstracts;
 
 use WP_Statistics\Service\Analytics\VisitorProfile;
-use WP_STATISTICS\TimeZone;
-use Exception;
+use WP_Statistics\Components\DateTime;
 use WP_STATISTICS\Service\Tracking\Core\Exclusion;
+use Exception;
 
 /**
  * Abstract base class for tracking implementations such as Hits and UserOnline.
@@ -55,7 +55,7 @@ abstract class BaseTracking
      */
     protected function getCurrentTimestamp()
     {
-        return TimeZone::getCurrentTimestamp();
+        return DateTime::getCurrentTimestamp();
     }
 
     /**
@@ -65,7 +65,7 @@ abstract class BaseTracking
      */
     protected function getCurrentDate()
     {
-        return TimeZone::getCurrentDate();
+        return DateTime::get();
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Components;
 
-use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\User;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
@@ -495,7 +494,7 @@ class DateRange
         }
 
         // If date is a simple date string
-        if (TimeZone::isValidDate($date)) {
+        if (DateTime::isValid($date)) {
             return ['from' => $date, 'to' => $date];
         }
 

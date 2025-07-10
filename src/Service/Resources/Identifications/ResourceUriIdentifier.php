@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Resources\Identifications;
 
 use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Utils\QueryParams;
+use WP_Statistics\Utils\Url;
 
 /**
  * Class ResourceUriIdentifier
@@ -151,7 +152,7 @@ class ResourceUriIdentifier
     private function insert()
     {
         $this->uri = !empty($this->uri) ? $this->uri : home_url(add_query_arg(null, null));
-        $this->uri = $this->cleanUrl($this->uri);
+        $this->uri = Url::getRelativePath($this->uri);
 
         if (empty($this->resourceId)) {
             return;
@@ -172,41 +173,5 @@ class ResourceUriIdentifier
         ]);
 
         $this->record = $this->getRecord()->get(['ID' => $rowId]);
-    }
-
-    /**
-     * Cleans a URI by removing specific tracking parameters.
-     *
-     * Removes tracking and analytics parameters from URIs to create
-     * a canonical version for storage. This helps prevent duplicate
-     * entries for the same logical resource.
-     *
-     * @param string $url The URL to clean
-     * @return string The cleaned relative path without tracking parameters
-     */
-    private function cleanUrl($url)
-    {
-        $trackingParams = QueryParams::getAllowedList('array', true);
-
-        $parts = wp_parse_url($url);
-
-        $query = [];
-        if (!empty($parts['query'])) {
-            parse_str($parts['query'], $query);
-
-            foreach ($trackingParams as $param) {
-                unset($query[$param]);
-            }
-        }
-
-        $path = isset($parts['path']) ? $parts['path'] : '/';
-
-        $relativePath = $path;
-
-        if (!empty($query)) {
-            $relativePath .= '?' . http_build_query($query);
-        }
-
-        return $relativePath;
     }
 }

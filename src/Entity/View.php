@@ -3,9 +3,9 @@
 namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Records\RecordFactory;
-use WP_STATISTICS\TimeZone;
 
 /**
  * Entity for recording individual page views by visitors.
@@ -42,7 +42,7 @@ class View extends BaseEntity
             'session_id' => $sessionId
         ]);
 
-        $now = TimeZone::getCurrentDateByUTC('Y-m-d H:i:s');
+        $now = DateTime::getUtc();
 
         $data = [
             'session_id'      => $sessionId,

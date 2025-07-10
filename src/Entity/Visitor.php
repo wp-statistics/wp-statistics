@@ -3,8 +3,8 @@
 namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Records\RecordFactory;
-use WP_STATISTICS\TimeZone;
 
 /**
  * Entity for recording or retrieving visitor information based on IP hash.
@@ -47,7 +47,7 @@ class Visitor extends BaseEntity
                 ? (int)$record->ID
                 : RecordFactory::visitor()->insert([
                     'hash'       => $hash,
-                    'created_at' => TimeZone::getCurrentDateByUTC('Y-m-d H:i:s'),
+                    'created_at' => DateTime::getUtc(),
                 ]);
         });
 

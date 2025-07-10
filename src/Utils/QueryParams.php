@@ -15,9 +15,9 @@ final class QueryParams
     /**
      * Return the allow‑list of URL query parameters.
      *
-     * @param string $type           'array' → array ; anything else → newline
+     * @param string $type 'array' → array ; anything else → newline
      *                               delimited string.
-     * @param bool   $ignoreReserved Exclude WP‑core reserved terms?
+     * @param bool $ignoreReserved Exclude WP‑core reserved terms?
      *
      * @return array|string
      */
@@ -25,7 +25,7 @@ final class QueryParams
     {
         $option = Option::get('query_params_allow_list');
 
-        if (! empty($option)) {
+        if (!empty($option)) {
             $list = array_map('trim', explode("\n", $option));
         } else {
             $list = self::getDefaultAllowedList('array');
@@ -46,7 +46,7 @@ final class QueryParams
      */
     public static function getDefaultAllowedList($type = 'array')
     {
-       $allowList = [
+        $allowList = [
             'ref',
             'source',
             'utm_source',
@@ -90,10 +90,49 @@ final class QueryParams
         /**
          * Filter the list of reserved terms in WordPress.
          *
+         * @param array $terms Reserved terms.
          * @since 6.1 (WP core)
          *
-         * @param array $terms Reserved terms.
          */
         return apply_filters('wp_reserved_terms', $terms);
+    }
+
+    /**
+     * Removes specified query parameters from a URL.
+     *
+     * If <code>$keys</code> is an empty array the entire query string is stripped;
+     * otherwise, only the given parameters are removed.
+     *
+     * @param string $url The URL to clean.
+     * @param array $keys List of query‑string keys to remove. Empty array = remove all.
+     *
+     * @return string The URL with the query string (or selected parameters) filtered out.
+     */
+    public static function getFilterParams($url, $keys = [])
+    {
+        $pos = strpos($url, '?');
+
+        if ($pos === false) {
+            return $url;
+        }
+
+        if ($keys === []) {
+            return substr($url, 0, $pos);
+        }
+
+        $base  = substr($url, 0, $pos);
+        $query = substr($url, $pos + 1);
+
+        parse_str($query, $params);
+
+        foreach ($keys as $key) {
+            unset($params[$key]);
+        }
+
+        if (empty($params)) {
+            return $base;
+        }
+
+        return $base . '?' . http_build_query($params);
     }
 }
