@@ -430,49 +430,37 @@ add_thickbox();
             </td>
         </tr>
 
-        <tr data-id="automatic_cleanup_tr">
-            <th scope="row">
-                <span class="wps-setting-label"><?php esc_html_e('Automatic Cleanup', 'wp-statistics'); ?></span>
-            </th>
-
-            <td>
-                <input id="wps_settings[wps_schedule_dbmaint]" type="checkbox" name="wps_schedule_dbmaint" <?php echo WP_STATISTICS\Option::get('schedule_dbmaint') == true ? "checked='checked'" : ''; ?> >
-                <label for="wps_settings[wps_schedule_dbmaint]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Automatic deletion of data entries that are more than a specified number of days old to keep the database optimized. The process runs the following day.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-
-        <tr data-id="purge_data_older_than_tr" class="js-wps-show_if_wps_schedule_dbmaint_enabled">
+        <tr data-id="purge_data_older_than_tr">
             <th scope="row">
                 <label for="wps_settings[wps_schedule_dbmaint_days_select]"><?php esc_html_e('Automatically Aggregate Old Data', 'wp-statistics'); ?></label>
             </th>
             <td>
                 <?php
-                $stored_days    = WP_STATISTICS\Option::get('schedule_dbmaint_days', 365);
+                $storedDays     = Option::get('schedule_dbmaint_days', 180);
                 $presets        = [30, 60, 90, 180, 365, 730, 0]; // 0 for Forever
-                $selected_value = in_array($stored_days, $presets) ? $stored_days : 'custom';
+                $selectedOption = in_array($storedDays, $presets) ? $storedDays : 'custom';
                 ?>
                 <div class="wps-input-group">
                     <select id="wps_settings[wps_schedule_dbmaint_days_select]" name="wps_schedule_dbmaint_days_select" class="wps-input-group__field">
-                        <option value="30" <?php selected($selected_value, 30); ?>><?php esc_html_e('Keep data for 30 days', 'wp-statistics'); ?></option>
-                        <option value="60" <?php selected($selected_value, 60); ?>><?php esc_html_e('Keep data for 60 days', 'wp-statistics'); ?></option>
-                        <option value="90" <?php selected($selected_value, 90); ?>><?php esc_html_e('Keep data for 90 days', 'wp-statistics'); ?></option>
-                        <option value="180" <?php selected($selected_value, 180); ?>><?php esc_html_e('Keep data for 180 days', 'wp-statistics'); ?></option>
-                        <option value="365" <?php selected($selected_value, 365); ?>><?php esc_html_e('Keep data for 1 year', 'wp-statistics'); ?></option>
-                        <option value="730" <?php selected($selected_value, 730); ?>><?php esc_html_e('Keep data for 2 years', 'wp-statistics'); ?></option>
-                        <option value="0" <?php selected($selected_value, 0); ?>><?php esc_html_e('Keep data forever', 'wp-statistics'); ?></option>
-                        <option value="custom" <?php selected($selected_value, 'custom'); ?>><?php esc_html_e('Custom...', 'wp-statistics'); ?></option>
+                        <option value="30" <?php selected($selectedOption, 30); ?>><?php esc_html_e('Keep data for 30 days', 'wp-statistics'); ?></option>
+                        <option value="60" <?php selected($selectedOption, 60); ?>><?php esc_html_e('Keep data for 60 days', 'wp-statistics'); ?></option>
+                        <option value="90" <?php selected($selectedOption, 90); ?>><?php esc_html_e('Keep data for 90 days', 'wp-statistics'); ?></option>
+                        <option value="180" <?php selected($selectedOption, 180); ?>><?php esc_html_e('Keep data for 180 days', 'wp-statistics'); ?></option>
+                        <option value="365" <?php selected($selectedOption, 365); ?>><?php esc_html_e('Keep data for 1 year', 'wp-statistics'); ?></option>
+                        <option value="730" <?php selected($selectedOption, 730); ?>><?php esc_html_e('Keep data for 2 years', 'wp-statistics'); ?></option>
+                        <option value="0" <?php selected($selectedOption, 0); ?>><?php esc_html_e('Keep data forever', 'wp-statistics'); ?></option>
+                        <option value="custom" <?php selected($selectedOption, 'custom'); ?>><?php esc_html_e('Custom...', 'wp-statistics'); ?></option>
                     </select>
                 </div>
                 <div class="js-wps-show_if_wps_schedule_dbmaint_days_select_equal_custom">
                     <div class="wps-input-group wps-input-group__small description">
                         <input aria-label="<?php esc_html_e('Custom data retention period in days', 'wp-statistics'); ?>"
                                type="number" class="wps-input-group__field wps-input-group__field--small" id="wps_schedule_dbmaint_days_custom" min="30" max="3650" step="1"
-                               value="<?php echo $selected_value === 'custom' ? esc_attr($stored_days) : ''; ?>">
+                               value="<?php echo $selectedOption === 'custom' ? esc_attr($storedDays) : ''; ?>">
                         <span class="wps-input-group__label wps-input-group__label-side"><?php esc_html_e('Days', 'wp-statistics'); ?></span>
                     </div>
                 </div>
-                <input type="hidden" id="wps_schedule_dbmaint_days" name="wps_schedule_dbmaint_days" value="<?php echo esc_attr($stored_days); ?>">
+                <input type="hidden" id="wps_schedule_dbmaint_days" name="wps_schedule_dbmaint_days" value="<?php echo esc_attr($storedDays); ?>">
                 <p class="description"><?php echo esc_html__('Choose how long to keep detailed data before it\'s automatically aggregated. Aggregation stores the number of visits and views per page while deleting other detailed data, helping to optimize your database. Learn more about data aggregation.', 'wp-statistics'); ?></p>
             </td>
         </tr>
