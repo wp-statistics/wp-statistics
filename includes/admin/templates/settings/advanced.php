@@ -1,5 +1,7 @@
 <?php
 
+use WP_Statistics\Components\DateTime;
+use WP_Statistics\Components\Event;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\IP;
 use WP_STATISTICS\Helper;
@@ -425,7 +427,11 @@ add_thickbox();
             <th scope="row" class="wps-sm-pb-0"><h3><?php esc_html_e('Purge Old Data Daily', 'wp-statistics'); ?></h3></th>
             <td class="wps-sm-pt-0">
                 <div>
-                    <div class="alert alert-success"><span>Next cleanup scheduled for <b>July 10, 2025 at 8:00 am</b>.</span></div>
+                    <?php $event = Event::get('wp_statistics_dbmaint_hook'); ?>
+
+                    <?php if ($event): ?>
+                        <div class="alert alert-success"><span><?php esc_html_e('Next cleanup scheduled for', 'wp-statistics'); ?> <b><?php echo esc_html(DateTime::format($event->timestamp, ['exclude_year' => true, 'include_time' => true])) ?></b></span></div>
+                    <?php endif; ?>
                 </div>
             </td>
         </tr>
