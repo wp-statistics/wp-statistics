@@ -11,6 +11,7 @@
 
         @media (max-width: 600px) {
           flex: 0 0 100% !important;
+          overflow: hidden;
         }
       }
 
@@ -69,10 +70,7 @@
 
     &:first-child {
       flex: 0 0 100%;
-
-      .wps-at-a-glance-value span:first-child {
-        max-width: 280px;
-      }
+      overflow: hidden;
     }
 
     &:not(:first-child) {
@@ -126,7 +124,6 @@
       width: 100%;
       overflow: hidden;
       display: block;
-      max-width: 100px;
       white-space: nowrap;
       text-overflow: ellipsis;
       word-break: break-all;
@@ -175,7 +172,6 @@
         font-size: 20px;
         line-height: 26px;
         display: block;
-        max-width: 100px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
