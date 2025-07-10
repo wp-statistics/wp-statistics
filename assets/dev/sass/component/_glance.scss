@@ -3,8 +3,8 @@
   display: flex;
   flex-wrap: wrap;
 
-  &.wps-at-a-glance__two-col{
-    .wps-at-a-glance-item{
+  &.wps-at-a-glance__two-col {
+    .wps-at-a-glance-item {
       &:first-child {
         flex: 0 0 calc(50%);
         overflow: hidden;
@@ -15,13 +15,15 @@
         }
       }
 
-      &:nth-child(even){
+      &:nth-child(even) {
         display: flex;
         flex-direction: column;
         align-items: flex-end;
+
         .wps-at-a-glance-label {
           text-align: right;
-          .rtl &{
+
+          .rtl & {
             text-align: left;
           }
         }
@@ -31,21 +33,23 @@
 
           .wps-at-a-glance-label {
             text-align: left;
-            .rtl &{
+
+            .rtl & {
               text-align: right;
             }
           }
         }
       }
 
-      &:nth-child(odd){
+      &:nth-child(odd) {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
 
         .wps-at-a-glance-label {
           text-align: left;
-          .rtl &{
+
+          .rtl & {
             text-align: right;
           }
         }
@@ -53,7 +57,8 @@
         @media (max-width: 600px) {
           .wps-at-a-glance-label {
             text-align: left;
-            .rtl &{
+
+            .rtl & {
               text-align: right;
             }
           }
@@ -77,17 +82,18 @@
       flex: 0 0 calc(50%);
       overflow: hidden;
       padding-right: 10px;
-      .rtl &{
+
+      .rtl & {
         padding-right: 0;
         padding-left: 10px;
       }
 
       @media (max-width: 600px) {
-        padding: 0!important;
+        padding: 0 !important;
         flex: 0 0 100% !important;
       }
 
-      &:nth-child(odd){
+      &:nth-child(odd) {
         display: flex;
         flex-direction: column;
         align-items: flex-end;
@@ -95,7 +101,8 @@
 
         .wps-at-a-glance-label {
           text-align: right;
-          .rtl &{
+
+          .rtl & {
             text-align: left;
           }
         }
@@ -105,7 +112,8 @@
 
           .wps-at-a-glance-label {
             text-align: left;
-            .rtl &{
+
+            .rtl & {
               text-align: right;
             }
           }
@@ -147,26 +155,25 @@
       gap: 4px;
       align-items: center;
 
-      &.wps-at-a-glance-link
-      {
-        &:after{
+      &.wps-at-a-glance-link {
+        &:after {
           content: '';
           width: 13px;
           min-width: 13px;
           height: 13px;
-          background:url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTMiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxMyAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuNDE2NjcgMy43NVY0LjgzMzMzSDIuNzA4MzNWMTAuNzkxN0g4LjY2NjY3VjguMDgzMzNIOS43NVYxMS4zMzMzQzkuNzUgMTEuNjMyNSA5LjUwNzUgMTEuODc1IDkuMjA4MzMgMTEuODc1SDIuMTY2NjdDMS44Njc1MSAxMS44NzUgMS42MjUgMTEuNjMyNSAxLjYyNSAxMS4zMzMzVjQuMjkxNjdDMS42MjUgMy45OTI1MiAxLjg2NzUxIDMuNzUgMi4xNjY2NyAzLjc1SDUuNDE2NjdaTTExLjM3NSAyLjEyNVY2LjQ1ODMzSDEwLjI5MTdMMTAuMjkxNiAzLjk3MzcxTDYuMDcwNTEgOC4xOTU1MUw1LjMwNDQ4IDcuNDI5NDlMOS41MjUxNSAzLjIwODMzSDcuMDQxNjdWMi4xMjVIMTEuMzc1WiIgZmlsbD0iIzEwMTg4RCIvPgo8L3N2Zz4K") ;
+          background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTMiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxMyAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuNDE2NjcgMy43NVY0LjgzMzMzSDIuNzA4MzNWMTAuNzkxN0g4LjY2NjY3VjguMDgzMzNIOS43NVYxMS4zMzMzQzkuNzUgMTEuNjMyNSA5LjUwNzUgMTEuODc1IDkuMjA4MzMgMTEuODc1SDIuMTY2NjdDMS44Njc1MSAxMS44NzUgMS42MjUgMTEuNjMyNSAxLjYyNSAxMS4zMzMzVjQuMjkxNjdDMS42MjUgMy45OTI1MiAxLjg2NzUxIDMuNzUgMi4xNjY2NyAzLjc1SDUuNDE2NjdaTTExLjM3NSAyLjEyNVY2LjQ1ODMzSDEwLjI5MTdMMTAuMjkxNiAzLjk3MzcxTDYuMDcwNTEgOC4xOTU1MUw1LjMwNDQ4IDcuNDI5NDlMOS41MjUxNSAzLjIwODMzSDcuMDQxNjdWMi4xMjVIMTEuMzc1WiIgZmlsbD0iIzEwMTg4RCIvPgo8L3N2Zz4K");
 
-          .rtl &{
+          .rtl & {
             transform: rotateY(180deg);
           }
         }
 
-        &:hover:after{
+        &:hover:after {
           filter: brightness(0);
         }
       }
 
-      span:first-child  ,.wps-external-link{
+      span:first-child, .wps-external-link {
         color: #1E1E20;
         font-weight: 400;
         font-size: 20px;
@@ -188,9 +195,10 @@
         }
       }
 
-      .wps-external-link{
+      .wps-external-link {
         color: #10188D;
-        &:hover{
+
+        &:hover {
           color: #3c4043;
         }
       }
