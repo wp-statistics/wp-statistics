@@ -7,7 +7,7 @@
         </h2>
         <p class="wps-modal__description">
             <?php esc_attr_e('You are about to enable automatic data deletion.', 'wp-statistics'); ?>
-            <?php esc_attr_e('This will delete all data older than the selected timeframe, reducing the size of the database tables that Independent Analytics uses.', 'wp-statistics'); ?>
+            <?php esc_attr_e('This will delete all data older than the selected timeframe, reducing the size of the database tables that WP Statistics uses.', 'wp-statistics'); ?>
         </p>
         <div class="wps-alert wps-alert__danger">
             <p><?php
