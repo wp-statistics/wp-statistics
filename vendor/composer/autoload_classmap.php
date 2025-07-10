@@ -355,6 +355,7 @@ return array(
     'WP_Statistics\\Traits\\ErrorLoggerTrait' => $baseDir . '/src/Traits/ErrorLoggerTrait.php',
     'WP_Statistics\\Traits\\ObjectCacheTrait' => $baseDir . '/src/Traits/ObjectCacheTrait.php',
     'WP_Statistics\\Traits\\TransientCacheTrait' => $baseDir . '/src/Traits/TransientCacheTrait.php',
+    'WP_Statistics\\Utils\\Env' => $baseDir . '/src/Utils/Env.php',
     'WP_Statistics\\Utils\\Query' => $baseDir . '/src/Utils/Query.php',
     'WP_Statistics\\Utils\\Request' => $baseDir . '/src/Utils/Request.php',
     'WP_Statistics\\Utils\\Signature' => $baseDir . '/src/Utils/Signature.php',
