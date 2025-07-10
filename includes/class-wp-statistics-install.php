@@ -518,6 +518,10 @@ class Install
             Option::update('show_privacy_issues_in_report', false);
         }
 
+        if (!Option::get('schedule_dbmaint') && version_compare($installed_version, '14.14.2', '<')) {
+            Option::update('schedule_dbmaint_days', '0');
+        }
+
         /**
          * Update GeoIP schedule from daily to monthly
          */
