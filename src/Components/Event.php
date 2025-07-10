@@ -68,10 +68,11 @@ class Event
      *
      * @param string $event
      * @param string $recurrence
+     * @param string $nextRun If it's not provided, use the next scheduled time based on recurrence
      *
      * @return void
      */
-    public static function reschedule($event, $recurrence)
+    public static function reschedule($event, $recurrence, $nextRun = null)
     {
         // If not scheduled, return
         if (!self::isScheduled($event)) return;
@@ -85,7 +86,10 @@ class Event
         $schedules = Schedule::getSchedules();
 
         if (isset($schedules[$recurrence])) {
-            $nextRun = $schedules[$recurrence]['next_schedule'];
+            if (!$nextRun) {
+                $nextRun = $schedules[$recurrence]['next_schedule'];
+            }
+
             self::schedule($event, $nextRun, $recurrence);
         }
     }
