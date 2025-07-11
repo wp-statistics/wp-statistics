@@ -130,36 +130,36 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         const customRetentionInput = $('#wps_schedule_dbmaint_days_custom');
         const hiddenRetentionInput = $('#wps_schedule_dbmaint_days');
         const presets = [0, 30, 60, 90, 180, 365, 730];
-        const initialRetention = parseInt(hiddenRetentionInput.val()) || 365;
-        let previousRetention = initialRetention;
+        let initialRetention = parseInt(hiddenRetentionInput.val()) || 0;
+        let isProcessingChange = false;
 
-        function updateHiddenInput() {
+        function getNewValue() {
             const selectValue = retentionSelect.val();
             let newValue;
 
             if (selectValue === 'custom') {
                 newValue = parseInt(customRetentionInput.val());
                 if (isNaN(newValue) || newValue < 30 || newValue > 3650) {
-                    newValue = previousRetention;
+                    newValue = initialRetention;
                     customRetentionInput.val(newValue);
                 }
             } else {
                 newValue = parseInt(selectValue);
             }
-
-            hiddenRetentionInput.val(newValue);
             return newValue;
         }
 
-        updateHiddenInput();
+        function updateHiddenInput(newValue) {
+            hiddenRetentionInput.val(newValue);
+        }
 
         function revertToInitialState() {
-            hiddenRetentionInput.val(initialRetention);
+            updateHiddenInput(initialRetention);
             if (presets.includes(initialRetention)) {
-                retentionSelect.val(initialRetention.toString());
+                retentionSelect.val(initialRetention.toString()).trigger('change.select2');
                 customRetentionInput.val('');
             } else {
-                retentionSelect.val('custom');
+                retentionSelect.val('custom').trigger('change.select2');
                 customRetentionInput.val(initialRetention);
             }
             new ShowIfEnabled();
@@ -168,63 +168,107 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         function showRetentionConfirmationModal(newValue, callback) {
             const modalId = 'enable-automatic-data-deletion';
             const modal = document.getElementById(modalId);
-            if (modal) {
-                const description = modal.querySelector('.wps-alert__danger span');
-                if (description) {
-                    description.textContent = newValue;
-                }
-
-                modal.classList.add('wps-modal--open');
-
-                const primaryButton = modal.querySelector('button[data-action="enable"]');
-                if (primaryButton) {
-                    primaryButton.addEventListener('click', function () {
-                        modal.classList.remove('wps-modal--open');
-                        previousRetention = newValue;
-                        callback(true);
-                    }, { once: true });
-                }
-
-                const closeButton = modal.querySelector('button[data-action="closeModal"]');
-                if (closeButton) {
-                    closeButton.addEventListener('click', function () {
-                        modal.classList.remove('wps-modal--open');
-                        revertToInitialState();
-                        callback(false);
-                    }, { once: true });
-                }
-            } else {
+            if (!modal) {
                 callback(true);
+                return;
+            }
+
+            const description = modal.querySelector('.wps-alert__danger span');
+            if (description) {
+                description.textContent = newValue === 0 ? 'Forever' : newValue;
+            }
+
+            modal.classList.add('wps-modal--open');
+
+            const primaryButton = modal.querySelector('button[data-action="enable"]');
+            if (primaryButton) {
+                primaryButton.addEventListener('click', function handler() {
+                    modal.classList.remove('wps-modal--open');
+                    updateHiddenInput(newValue);
+                    initialRetention = newValue;
+                    callback(true);
+                }, { once: true });
+            }
+
+            const closeButton = modal.querySelector('button[data-action="closeModal"]');
+            if (closeButton) {
+                closeButton.addEventListener('click', function handler() {
+                    modal.classList.remove('wps-modal--open');
+                    revertToInitialState();
+                    callback(false);
+                }, { once: true });
+            }
+
+            const overlay = modal.querySelector('.wps-modal__overlay');
+            if (overlay) {
+                overlay.addEventListener('click', function handler() {
+                    modal.classList.remove('wps-modal--open');
+                    revertToInitialState();
+                    callback(false);
+                }, { once: true });
             }
         }
 
         retentionSelect.on('change', function () {
-            const newValue = updateHiddenInput();
-            if (newValue !== 0 && newValue < initialRetention) {
+            if (isProcessingChange) {
+                return;
+            }
+            isProcessingChange = true;
+
+            if (retentionSelect.val() === 'custom' && !customRetentionInput.val()) {
+                customRetentionInput.val(initialRetention || 30);
+            }
+
+            const newValue = getNewValue();
+            if ((initialRetention === 0 && newValue !== 0) || (newValue !== 0 && initialRetention !== 0 && newValue < initialRetention)) {
                 showRetentionConfirmationModal(newValue, function (confirmed) {
                     if (!confirmed) {
                         revertToInitialState();
                     }
+                    isProcessingChange = false;
                 });
             } else {
-                previousRetention = newValue;
+                updateHiddenInput(newValue);
+                initialRetention = newValue;
+                isProcessingChange = false;
             }
         });
 
         customRetentionInput.on('change', function () {
-            if (retentionSelect.val() === 'custom') {
-                const newValue = updateHiddenInput();
-                if (newValue !== 0 && newValue < initialRetention) {
-                    showRetentionConfirmationModal(newValue, function (confirmed) {
-                        if (!confirmed) {
-                            revertToInitialState();
-                        }
-                    });
-                } else {
-                    previousRetention = newValue;
-                }
+            if (isProcessingChange || retentionSelect.val() !== 'custom') {
+                isProcessingChange = false;
+                return;
+            }
+            isProcessingChange = true;
+
+            const newValue = getNewValue();
+            if ((initialRetention === 0 && newValue !== 0) || (newValue !== 0 && initialRetention !== 0 && newValue < initialRetention)) {
+                showRetentionConfirmationModal(newValue, function (confirmed) {
+                    if (!confirmed) {
+                        revertToInitialState();
+                    }
+                    isProcessingChange = false;
+                });
+            } else {
+                updateHiddenInput(newValue);
+                initialRetention = newValue;
+                isProcessingChange = false;
             }
         });
+
+        retentionSelect.on('select2:select', function () {
+            if (!isProcessingChange) {
+                retentionSelect.trigger('change');
+            }
+        });
+
+        if (presets.includes(initialRetention)) {
+            retentionSelect.val(initialRetention.toString()).trigger('change.select2');
+            customRetentionInput.val('');
+        } else {
+            retentionSelect.val('custom').trigger('change.select2');
+            customRetentionInput.val(initialRetention);
+        }
 
         new ShowIfEnabled();
     });
