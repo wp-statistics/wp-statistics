@@ -153,23 +153,23 @@ class VisitorsModel extends BaseModel
     public function countDailyVisitors($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'                  => '',
-            'post_type'             => '',
-            'resource_id'           => '',
-            'resource_type'         => '',
-            'author_id'             => '',
-            'post_id'               => '',
-            'query_param'           => '',
-            'taxonomy'              => '',
-            'term'                  => '',
-            'country'               => '',
-            'user_id'               => '',
-            'logged_in'             => false,
-            'include_hits'          => false,
-            'user_role'             => '',
-            'source_channel'        => '',
-            'not_null'              => '',
-            'referred_visitors'     => false
+            'date'              => '',
+            'post_type'         => '',
+            'resource_id'       => '',
+            'resource_type'     => '',
+            'author_id'         => '',
+            'post_id'           => '',
+            'query_param'       => '',
+            'taxonomy'          => '',
+            'term'              => '',
+            'country'           => '',
+            'user_id'           => '',
+            'logged_in'         => false,
+            'include_hits'      => false,
+            'user_role'         => '',
+            'source_channel'    => '',
+            'not_null'          => '',
+            'referred_visitors' => false
         ]);
 
         $additionalFields = !empty($args['include_hits']) ? ['SUM(visitor.hits) as hits'] : [];
@@ -447,38 +447,86 @@ class VisitorsModel extends BaseModel
         return $summary;
     }
 
+    /**
+     * Get a summary of referred visitors from search engines.
+     *
+     * @param array $args
+     *
+     * @return array
+     */
+    public function getSearchEnginesSummary($args = [])
+    {
+        $periods = [
+            'today'      => ['label' => esc_html__('Today', 'wp-statistics'), 'date' => 'today'],
+            'yesterday'  => ['label' => esc_html__('Yesterday', 'wp-statistics'), 'date' => 'yesterday'],
+            'this_week'  => ['label' => esc_html__('This week', 'wp-statistics'), 'date' => 'this_week'],
+            'last_week'  => ['label' => esc_html__('Last week', 'wp-statistics'), 'date' => 'last_week'],
+            'this_month' => ['label' => esc_html__('This month', 'wp-statistics'), 'date' => 'this_month'],
+            'last_month' => ['label' => esc_html__('Last month', 'wp-statistics'), 'date' => 'last_month'],
+            '7days'      => ['label' => esc_html__('Last 7 days', 'wp-statistics'), 'date' => '7days'],
+            '30days'     => ['label' => esc_html__('Last 30 days', 'wp-statistics'), 'date' => '30days'],
+            '90days'     => ['label' => esc_html__('Last 90 days', 'wp-statistics'), 'date' => '90days'],
+            '6months'    => ['label' => esc_html__('Last 6 months', 'wp-statistics'), 'date' => '6months'],
+            'this_year'  => ['label' => esc_html__('This year (Jan-Today)', 'wp-statistics'), 'date' => 'this_year'],
+        ];
+
+        $exclude = $args['exclude'] ?? [];
+        $summary = [];
+
+        foreach ($periods as $key => $period) {
+            if (in_array($key, $exclude, true)) {
+                continue; // Skip excluded periods
+            }
+
+            $summary[$key] = [
+                'label'          => $period['label'],
+                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get($period['date']), 'source_channel' => ['search', 'paid_search']])),
+            ];
+        }
+
+        // Conditionally add 'total' (if not excluded)
+        if (!empty($args['include_total']) && !in_array('total', $exclude, true)) {
+            $summary['total'] = [
+                'label'          => esc_html__('Total', 'wp-statistics'),
+                'search_engines' => $this->countReferredVisitors(array_merge($args, ['ignore_date' => true, 'historical' => true, 'source_channel' => ['search', 'paid_search']])),
+            ];
+        }
+
+        return $summary;
+    }
+
     public function getVisitorsData($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'                  => '',
-            'resource_type'         => '',
-            'resource_id'           => '',
-            'post_type'             => '',
-            'author_id'             => '',
-            'post_id'               => '',
-            'country'               => '',
-            'agent'                 => '',
-            'platform'              => '',
-            'user_id'               => '',
-            'ip'                    => '',
-            'query_param'           => '',
-            'taxonomy'              => '',
-            'term'                  => '',
-            'order_by'              => 'visitor.ID',
-            'order'                 => 'DESC',
-            'page'                  => '',
-            'per_page'              => '',
-            'user_info'             => false,
-            'date_field'            => 'visitor.last_counter',
-            'logged_in'             => false,
-            'user_role'             => '',
-            'event_target'          => '',
-            'event_name'            => '',
-            'fields'                => [],
-            'referrer'              => '',
-            'not_null'              => '',
-            'source_channel'        => '',
-            'referred_visitors'     => ''
+            'date'              => '',
+            'resource_type'     => '',
+            'resource_id'       => '',
+            'post_type'         => '',
+            'author_id'         => '',
+            'post_id'           => '',
+            'country'           => '',
+            'agent'             => '',
+            'platform'          => '',
+            'user_id'           => '',
+            'ip'                => '',
+            'query_param'       => '',
+            'taxonomy'          => '',
+            'term'              => '',
+            'order_by'          => 'visitor.ID',
+            'order'             => 'DESC',
+            'page'              => '',
+            'per_page'          => '',
+            'user_info'         => false,
+            'date_field'        => 'visitor.last_counter',
+            'logged_in'         => false,
+            'user_role'         => '',
+            'event_target'      => '',
+            'event_name'        => '',
+            'fields'            => [],
+            'referrer'          => '',
+            'not_null'          => '',
+            'source_channel'    => '',
+            'referred_visitors' => ''
         ]);
 
         // Set default fields
@@ -699,7 +747,7 @@ class VisitorsModel extends BaseModel
                 ->whereNull('visitor.source_channel');
         } else {
             $query
-                ->where('source_channel', '=', $args['source_channel']);
+                ->where('source_channel', 'IN', $args['source_channel']);
         }
 
         return $query->getVar() ?? 0;
@@ -870,7 +918,7 @@ class VisitorsModel extends BaseModel
     public function getVisitorsGeoData($args = [])
     {
         $args = $this->parseArgs($args, [
-            'fields'                => [
+            'fields'            => [
                 'visitor.city as city',
                 'visitor.location as country',
                 'visitor.region as region',
@@ -878,27 +926,27 @@ class VisitorsModel extends BaseModel
                 'COUNT(DISTINCT visitor.ID) as visitors',
                 'SUM(visitor.hits) as views', // All views are counted and results can't be filtered by author, post type, etc...
             ],
-            'date'                  => '',
-            'country'               => '',
-            'city'                  => '',
-            'region'                => '',
-            'continent'             => '',
-            'not_null'              => '',
-            'post_type'             => '',
-            'author_id'             => '',
-            'post_id'               => '',
-            'per_page'              => '',
-            'query_param'           => '',
-            'taxonomy'              => '',
-            'term'                  => '',
-            'page'                  => 1,
-            'source_channel'        => '',
-            'group_by'              => 'visitor.location',
-            'event_name'            => '',
-            'event_target'          => '',
-            'order_by'              => ['visitors', 'views'],
-            'order'                 => 'DESC',
-            'referred_visitors'     => false
+            'date'              => '',
+            'country'           => '',
+            'city'              => '',
+            'region'            => '',
+            'continent'         => '',
+            'not_null'          => '',
+            'post_type'         => '',
+            'author_id'         => '',
+            'post_id'           => '',
+            'per_page'          => '',
+            'query_param'       => '',
+            'taxonomy'          => '',
+            'term'              => '',
+            'page'              => 1,
+            'source_channel'    => '',
+            'group_by'          => 'visitor.location',
+            'event_name'        => '',
+            'event_target'      => '',
+            'order_by'          => ['visitors', 'views'],
+            'order'             => 'DESC',
+            'referred_visitors' => false
         ]);
 
         $query = Query::select($args['fields'])
@@ -1306,12 +1354,12 @@ class VisitorsModel extends BaseModel
         ]);
 
         $query = Query::select([
-                'COUNT(visitor.ID) as visitors',
-                'pages.id as post_id',
-                'pages.page_id',
-                'posts.post_title',
-                'posts.post_date'
-            ])
+            'COUNT(visitor.ID) as visitors',
+            'pages.id as post_id',
+            'pages.page_id',
+            'posts.post_title',
+            'posts.post_date'
+        ])
             ->from('visitor')
             ->join('pages', ['visitor.first_page', 'pages.page_id'])
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
@@ -1379,11 +1427,11 @@ class VisitorsModel extends BaseModel
         ]);
 
         $result = Query::select([
-                'COUNT(visitor.ID) as visitors',
-                'pages.id as post_id, pages.page_id',
-                'posts.post_title',
-                'posts.post_date'
-            ])
+            'COUNT(visitor.ID) as visitors',
+            'pages.id as post_id, pages.page_id',
+            'posts.post_title',
+            'posts.post_date'
+        ])
             ->from('visitor')
             ->join('pages', ['visitor.last_page', 'pages.page_id'])
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
