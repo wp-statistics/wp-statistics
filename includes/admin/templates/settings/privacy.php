@@ -147,23 +147,14 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
                     $compatiblePlugins = IntegrationHelper::getIntegration('wp_consent_api')->getCompatiblePlugins();
 
                     if (empty($compatiblePlugins)) {
-                        echo wp_kses(
+                        echo wp_kses_post(
                             sprintf(
                                 '<p class="description"><b>%s</b> %s <a href="%s" target="_blank" rel="noopener">%s</a></p>',
                                 esc_html__('⚠️ No compatible consent-management plugin detected.', 'wp-statistics'),
                                 esc_html__('Install or activate one so WP Statistics only tracks visitors who have given consent.', 'wp-statistics'),
                                 esc_url('https://wp-statistics.com/resources/compatible-consent-plugins-with-wp-statistics/'),
-                                esc_html__('See compatible plugins →', 'your-text-domain')
-                            ),
-                            [
-                                'p' => ['class' => []],
-                                'b' => [],
-                                'a' => [
-                                    'href'   => [],
-                                    'target' => [],
-                                    'rel'    => [],
-                                ],
-                            ]
+                                esc_html__('See compatible plugins →', 'wp-statistics')
+                            )
                         );
                     } else {
                         ?>
