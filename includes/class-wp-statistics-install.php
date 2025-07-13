@@ -3,6 +3,7 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Components\AssetNameObfuscator;
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\Event;
 use WP_Statistics\Service\Database\Managers\TableHandler;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
@@ -516,6 +517,14 @@ class Install
 
         if (Option::get('show_privacy_issues_in_report') === false && version_compare($latest_version, '14.12', '>')) {
             Option::update('show_privacy_issues_in_report', false);
+        }
+
+        if (!Option::get('schedule_dbmaint') && version_compare($installed_version, '14.14.2', '<')) {
+            Option::update('schedule_dbmaint_days', '0');
+        }
+
+        if (Option::get('schedule_dbmaint') && version_compare($installed_version, '14.14.2', '<')) {
+            Event::reschedule('wp_statistics_dbmaint_hook', 'daily', DateTime::get('tomorrow midnight', 'U'));
         }
 
         /**
