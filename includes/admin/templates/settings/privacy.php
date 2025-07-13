@@ -156,7 +156,7 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
                                 esc_html__('See compatible plugins →', 'your-text-domain')
                             ),
                             [
-                                'p' => [],
+                                'p' => ['class' => []],
                                 'b' => [],
                                 'a' => [
                                     'href'   => [],
