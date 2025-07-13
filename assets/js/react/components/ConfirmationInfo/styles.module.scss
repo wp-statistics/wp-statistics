@@ -1,0 +1,138 @@
+@use '../../../../scss/core/typography' as type;
+@use '../../../../scss/core/spacing' as space;
+@use '../../../../scss/core/colors' as color;
+@use '../../../../scss/core/components' as comp;
+@use '../../../../scss/core/interactive' as interact;
+@use '../../../../scss/core/layout' as layout;
+
+/* root container */
+.confirmationStep {
+  /* no root‑level mixins in the legacy code, but keep hook for future use */
+}
+
+/* layout / content */
+.content {
+  @include layout.flex-column;
+  @include space.gap('2xl');
+}
+
+/* headings and text */
+.heading {
+  @include type.heading-large;
+}
+
+.description {
+  @include type.text-base;
+}
+
+.readyText {
+  @include type.text-lg;
+  @include type.text-medium;
+  margin-bottom: 0;
+}
+
+.instructionText {
+  @include type.text-base;
+  margin: 0;
+}
+
+.boldText {
+  @include type.text-medium;
+}
+
+/* selected option card */
+.selectedCard {
+  @include comp.card-container;
+  @include interact.clickable;
+}
+
+.selectedCardBody {
+  padding: 0;
+}
+
+/* card internals */
+.cardHeader {
+  @include layout.flex-between-center;
+  width: 100%;
+}
+
+.title {
+  @include type.text-base;
+  @include type.text-bold;
+  margin: 0;
+}
+
+.radioImage {
+  width: 17px;
+  height: 17px;
+}
+
+/* generic lists */
+.list {
+  @include comp.list-base;
+}
+
+.infoContainer {
+  @include layout.flex-column;
+  @include space.gap('sm');
+}
+
+/* reminder section */
+.reminderContainer {
+  @include space.padding-y('lg');
+}
+
+.reminderTitle {
+  @include type.text-lg;
+  margin: 0;
+
+  strong {
+    @include type.text-medium;
+  }
+}
+
+.reminderList {
+  @include comp.list-base;
+  padding-left: 22px;
+  @include space.margin-y('xs');
+}
+
+.reminderItem {
+  @include type.text-base;
+
+  a {
+    text-decoration: underline;
+  }
+}
+
+/* footer area */
+.footer {
+  flex-direction: column;
+  @include color.bg-color('background');
+}
+
+.footerContent {
+  margin-bottom: 0;
+}
+
+.footerActions {
+  @include layout.flex-between-center;
+  width: 100%;
+  @include space.padding-y('base');
+}
+
+.backLink {
+  @include interact.clickable;
+  color: inherit;
+  background-color: transparent;
+  outline: none;
+  border: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.startButton {
+  @include interact.button-primary;
+}

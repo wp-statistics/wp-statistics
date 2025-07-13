@@ -30,6 +30,7 @@ class Menus
         'category-analytics' => 'category-analytics',
         'pages'              => 'pages',
         'visitors'           => 'visitors',
+        'data-migration'     => 'data-migration',
     );
 
     /**

@@ -1,84 +1,91 @@
-const defaultConfig = require('@wordpress/scripts/config/webpack.config.js');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const path = require('path');
-const fs = require('fs');
+const path = require("path");
 
-class MoveRtlStylePlugin {
-    apply(compiler) {
-        compiler.hooks.emit.tapAsync('MoveRtlStylePlugin', (compilation, callback) => {
-            const assets = Object.keys(compilation.assets);
-
-            // Change output folder only for `post-summary` block CSS files
-            assets.forEach((asset) => {
-                if (asset.includes('post-summary')) {
-                    const targetPath = path.join('assets/blocks/post-summary', path.basename(asset));
-                    const content = compilation.assets[asset].source();
-
-                    fs.mkdirSync(path.dirname(path.resolve(__dirname, targetPath)), { recursive: true });
-                    fs.writeFileSync(path.resolve(__dirname, targetPath), content);
-
-                    // Remove the old asset
-                    delete compilation.assets[asset];
-                }
-            });
-
-            callback();
-        });
-    }
-}
-
-module.exports = {
-    ...defaultConfig,
-    entry: {
-        ...defaultConfig.entry(),
-        'post-summary': './assets/dev/blocks/post-summary/index.js',
-    },
-    output: {
-        ...defaultConfig.output,
-        filename: (pathData) => {
-            // Apply custom output folder only to `post-summary`
-            if (pathData.chunk.name === 'post-summary') {
-                return 'post-summary/[name].js';
-            }
-            return '[name].js'; // Default output for all other blocks
-        },
-    },
-    plugins: [
-        ...defaultConfig.plugins.filter(
-            (plugin) => !(plugin instanceof MiniCssExtractPlugin)
-        ),
-        new MiniCssExtractPlugin({
-            filename: ({ chunk }) => {
-                // Only apply custom folder for `post-summary` CSS files
-                if (chunk.name === 'post-summary') {
-                    return 'post-summary/[name].css';
-                }
-                return '[name].css'; // Default for other blocks
-            },
-        }),
-        new MoveRtlStylePlugin(), // Handles moving 'post-summary' RTL files
-    ],
+const commonConfig = {
     module: {
-        rules: [
-            ...defaultConfig.module.rules,
+        rules: [{
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: [
+                            ["@babel/preset-env", {
+                                targets: {
+                                    node: "21"
+                                }
+                            }],
+                            "@babel/preset-react"
+                        ]
+                    }
+                }
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    "style-loader",
+                    "css-loader",
+                    "sass-loader"
+                ]
+            },
             {
                 test: /\.css$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    'css-loader',
-                    {
-                        loader: 'postcss-loader',
-                        options: {
-                            postcssOptions: {
-                                plugins: [
-                                    require('autoprefixer'),
-                                    require('rtlcss')(), // Generate RTL CSS
-                                ],
-                            },
-                        },
-                    },
-                ],
+                use: ["style-loader", "css-loader"]
             },
-        ],
+            {
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: "asset/resource"
+            }
+        ]
     },
+    resolve: {
+        extensions: [".js", ".jsx", ".json", ".scss"],
+        fallback: {
+            "path": false,
+            "fs": false
+        }
+    }
+};
+
+const reactConfig = {
+    ...commonConfig,
+    name: 'react',
+    entry: {
+        "migration": "./assets/js/react/pages/DataMigration/index.jsx"
+    },
+    output: {
+        path: path.resolve(__dirname, "assets/dist/react"),
+        filename: "[name].js",
+        clean: true
+    }
+};
+
+const blocksConfig = {
+    ...commonConfig,
+    name: 'blocks',
+    entry: {
+        "blocks": "./assets/dev/blocks/index.js"
+    },
+    output: {
+        path: path.resolve(__dirname, "assets/dist/blocks"),
+        filename: "[name].js",
+        clean: true
+    },
+    externals: {
+        "@wordpress/blocks": "wp.blocks",
+        "@wordpress/element": "wp.element",
+        "@wordpress/components": "wp.components",
+        "@wordpress/i18n": "wp.i18n"
+    }
+};
+
+// Export configuration based on target
+module.exports = (env = {}) => {
+    if (env.target === 'react') {
+        return reactConfig;
+    }
+    if (env.target === 'blocks') {
+        return blocksConfig;
+    }
+    // Default: return both configurations
+    return [reactConfig, blocksConfig];
 };

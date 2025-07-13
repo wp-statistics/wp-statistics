@@ -1,0 +1,11 @@
+// Colors
+$colors: ( 'primary': #404BF2, 'text': ( 'primary': #1E1E20, 'secondary': #56585A, 'dark': #000, 'white': #fff), 'border': #EEEFF1, 'background': #FAFAFB);
+// Typography
+$font-sizes: ( 'xl': 24px, 'lg': 16px, 'base': 14px, 'sm': 13px);
+$font-weights: ( 'regular': 400, 'medium': 500, 'bold': 700);
+// Spacing
+$spacing: ( 'none': 0, 'xs': 4px, 'sm': 8px, 'base': 10px, 'md': 12px, 'lg': 16px, 'xl': 24px, '2xl': 28px, '3xl': 32px);
+// Border Radius
+$border-radius: ( 'sm': 3px, 'base': 4px, 'lg': 8px);
+// Transitions
+$transition-base: all 0.3s ease;

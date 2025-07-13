@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Statistics 14.13.1\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-statistics\n"
+"Project-Id-Version: WP Statistics 14.13.2\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-statisticsAI\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-04-16T11:25:48+00:00\n"
+"POT-Creation-Date: 2025-04-22T09:48:25+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-statistics\n"
@@ -135,7 +135,7 @@ msgid "Invalid Page in Request."
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-ajax.php:500
-#: includes/admin/class-wp-statistics-admin-assets.php:393
+#: includes/admin/class-wp-statistics-admin-assets.php:418
 #: includes/admin/class-wp-statistics-admin-template.php:236
 #: includes/class-wp-statistics-widget.php:326
 #: src/Service/Admin/PageInsights/PageInsightsPage.php:29
@@ -163,13 +163,13 @@ msgstr ""
 msgid "Invalid Notice ID."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:89
+#: includes/admin/class-wp-statistics-admin-assets.php:105
 msgid "Action Completed"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:90
-#: includes/admin/class-wp-statistics-admin-assets.php:323
-#: includes/admin/class-wp-statistics-admin-assets.php:364
+#: includes/admin/class-wp-statistics-admin-assets.php:106
+#: includes/admin/class-wp-statistics-admin-assets.php:348
+#: includes/admin/class-wp-statistics-admin-assets.php:389
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:55
 #: src/Models/ViewsModel.php:178
 #: src/Models/VisitorsModel.php:347
@@ -178,11 +178,11 @@ msgstr ""
 msgid "Today"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:93
+#: includes/admin/class-wp-statistics-admin-assets.php:109
 msgid "Display Other Month"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:317
+#: includes/admin/class-wp-statistics-admin-assets.php:342
 #: includes/admin/templates/pages/devices/browsers.php:42
 #: includes/admin/templates/pages/devices/browsers.php:43
 #: includes/admin/templates/pages/geographic/countries.php:52
@@ -194,11 +194,11 @@ msgstr ""
 msgid "View Details"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:318
+#: includes/admin/class-wp-statistics-admin-assets.php:343
 msgid "Reload"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:319
+#: includes/admin/class-wp-statistics-admin-assets.php:344
 #: includes/admin/templates/header.php:32
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:36
 #: includes/class-wp-statistics-shortcode.php:286
@@ -210,7 +210,7 @@ msgstr ""
 msgid "Online Visitors"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:320
+#: includes/admin/class-wp-statistics-admin-assets.php:345
 #: includes/admin/templates/layout/tabbed-page-header.php:26
 #: includes/admin/templates/layout/tabbed-page-header.php:30
 #: includes/admin/templates/layout/title.php:57
@@ -218,8 +218,8 @@ msgstr ""
 msgid "Realtime"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:321
-#: includes/admin/class-wp-statistics-admin-assets.php:347
+#: includes/admin/class-wp-statistics-admin-assets.php:346
+#: includes/admin/class-wp-statistics-admin-assets.php:372
 #: includes/admin/class-wp-statistics-admin-network.php:62
 #: includes/admin/templates/emails/layout.php:142
 #: includes/admin/templates/pages/category-analytics/category-performance.php:33
@@ -246,9 +246,9 @@ msgstr ""
 msgid "Visitors"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:322
-#: includes/admin/class-wp-statistics-admin-assets.php:359
-#: includes/admin/class-wp-statistics-admin-assets.php:427
+#: includes/admin/class-wp-statistics-admin-assets.php:347
+#: includes/admin/class-wp-statistics-admin-assets.php:384
+#: includes/admin/class-wp-statistics-admin-assets.php:452
 #: includes/admin/class-wp-statistics-admin-network.php:60
 #: includes/admin/class-wp-statistics-admin-user.php:36
 #: includes/admin/templates/emails/layout.php:156
@@ -283,8 +283,8 @@ msgstr ""
 msgid "Views"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:324
-#: includes/admin/class-wp-statistics-admin-assets.php:365
+#: includes/admin/class-wp-statistics-admin-assets.php:349
+#: includes/admin/class-wp-statistics-admin-assets.php:390
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:56
 #: src/Models/ViewsModel.php:182
 #: src/Models/VisitorsModel.php:351
@@ -293,9 +293,9 @@ msgstr ""
 msgid "Yesterday"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:325
-#: includes/admin/class-wp-statistics-admin-assets.php:331
-#: includes/admin/class-wp-statistics-admin-assets.php:370
+#: includes/admin/class-wp-statistics-admin-assets.php:350
+#: includes/admin/class-wp-statistics-admin-assets.php:356
+#: includes/admin/class-wp-statistics-admin-assets.php:395
 #: src/Models/ViewsModel.php:202
 #: src/Models/VisitorsModel.php:371
 #: src/Models/VisitorsModel.php:430
@@ -303,25 +303,25 @@ msgstr ""
 msgid "Last 7 days"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:326
-#: includes/admin/class-wp-statistics-admin-assets.php:366
+#: includes/admin/class-wp-statistics-admin-assets.php:351
+#: includes/admin/class-wp-statistics-admin-assets.php:391
 #: src/Models/ViewsModel.php:186
 #: src/Models/VisitorsModel.php:355
 #: src/Models/VisitorsModel.php:414
 msgid "This week"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:327
-#: includes/admin/class-wp-statistics-admin-assets.php:367
+#: includes/admin/class-wp-statistics-admin-assets.php:352
+#: includes/admin/class-wp-statistics-admin-assets.php:392
 #: src/Models/ViewsModel.php:190
 #: src/Models/VisitorsModel.php:359
 #: src/Models/VisitorsModel.php:418
 msgid "Last week"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:328
-#: includes/admin/class-wp-statistics-admin-assets.php:332
-#: includes/admin/class-wp-statistics-admin-assets.php:372
+#: includes/admin/class-wp-statistics-admin-assets.php:353
+#: includes/admin/class-wp-statistics-admin-assets.php:357
+#: includes/admin/class-wp-statistics-admin-assets.php:397
 #: src/Models/ViewsModel.php:206
 #: src/Models/VisitorsModel.php:375
 #: src/Models/VisitorsModel.php:434
@@ -329,47 +329,47 @@ msgstr ""
 msgid "Last 30 days"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:329
-#: includes/admin/class-wp-statistics-admin-assets.php:368
+#: includes/admin/class-wp-statistics-admin-assets.php:354
+#: includes/admin/class-wp-statistics-admin-assets.php:393
 #: src/Models/ViewsModel.php:194
 #: src/Models/VisitorsModel.php:363
 #: src/Models/VisitorsModel.php:422
 msgid "This month"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:330
-#: includes/admin/class-wp-statistics-admin-assets.php:369
+#: includes/admin/class-wp-statistics-admin-assets.php:355
+#: includes/admin/class-wp-statistics-admin-assets.php:394
 #: src/Models/ViewsModel.php:198
 #: src/Models/VisitorsModel.php:367
 #: src/Models/VisitorsModel.php:426
 msgid "Last month"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:333
+#: includes/admin/class-wp-statistics-admin-assets.php:358
 msgid "Last 60 days"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:334
-#: includes/admin/class-wp-statistics-admin-assets.php:373
+#: includes/admin/class-wp-statistics-admin-assets.php:359
+#: includes/admin/class-wp-statistics-admin-assets.php:398
 #: src/Models/ViewsModel.php:210
 #: src/Models/VisitorsModel.php:379
 #: src/Models/VisitorsModel.php:438
 msgid "Last 90 days"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:335
-#: includes/admin/class-wp-statistics-admin-assets.php:374
+#: includes/admin/class-wp-statistics-admin-assets.php:360
+#: includes/admin/class-wp-statistics-admin-assets.php:399
 #: src/Models/ViewsModel.php:214
 #: src/Models/VisitorsModel.php:383
 #: src/Models/VisitorsModel.php:442
 msgid "Last 6 months"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:336
+#: includes/admin/class-wp-statistics-admin-assets.php:361
 msgid "Last 12 months"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:337
+#: includes/admin/class-wp-statistics-admin-assets.php:362
 #: src/Models/ViewsModel.php:218
 #: src/Models/VisitorsModel.php:387
 #: src/Models/VisitorsModel.php:446
@@ -377,12 +377,12 @@ msgstr ""
 msgid "This year (Jan-Today)"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:338
-#: includes/admin/class-wp-statistics-admin-assets.php:377
+#: includes/admin/class-wp-statistics-admin-assets.php:363
+#: includes/admin/class-wp-statistics-admin-assets.php:402
 msgid "Last year"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:339
+#: includes/admin/class-wp-statistics-admin-assets.php:364
 #: includes/admin/templates/layout/author-analytics/performance-summary.php:24
 #: includes/admin/templates/layout/author-analytics/performance-summary.php:53
 #: includes/admin/templates/layout/category-analytics/overview-card.php:13
@@ -409,24 +409,24 @@ msgstr ""
 msgid "Total"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:340
+#: includes/admin/class-wp-statistics-admin-assets.php:365
 msgid "Daily Total"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:341
+#: includes/admin/class-wp-statistics-admin-assets.php:366
 #: views/components/tables/recent-events.php:9
 #: views/components/tables/recent-views.php:17
 msgid "Date"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:342
+#: includes/admin/class-wp-statistics-admin-assets.php:367
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:53
 #: views/components/tables/summary.php:17
 #: views/metabox/traffic-summary.php:27
 msgid "Time"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:343
+#: includes/admin/class-wp-statistics-admin-assets.php:368
 #: includes/admin/class-wp-statistics-admin-network.php:68
 #: includes/admin/templates/pages/category-analytics/category-performance.php:76
 #: includes/admin/templates/pages/category-analytics/category-single.php:77
@@ -439,15 +439,15 @@ msgstr ""
 msgid "Browsers"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:344
+#: includes/admin/class-wp-statistics-admin-assets.php:369
 msgid "#"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:345
+#: includes/admin/class-wp-statistics-admin-assets.php:370
 msgid "Country Flag"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:346
+#: includes/admin/class-wp-statistics-admin-assets.php:371
 #: includes/admin/templates/pages/country.php:10
 #: includes/admin/templates/pages/geographic/cities.php:23
 #: includes/admin/templates/pages/geographic/countries.php:22
@@ -459,12 +459,12 @@ msgstr ""
 msgid "Country"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:348
+#: includes/admin/class-wp-statistics-admin-assets.php:373
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:66
 msgid "ID"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:349
+#: includes/admin/class-wp-statistics-admin-assets.php:374
 #: includes/admin/templates/layout/filters/page-filter.php:6
 #: views/components/tables/recent-events.php:24
 #: views/components/tables/recent-views.php:20
@@ -474,124 +474,124 @@ msgstr ""
 msgid "Page"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:350
+#: includes/admin/class-wp-statistics-admin-assets.php:375
 msgid "Page Link"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:351
+#: includes/admin/class-wp-statistics-admin-assets.php:376
 #: views/components/tables/referrers.php:15
 #: views/components/tables/top-referring.php:22
 #: views/metabox/top-referring.php:14
 msgid "Domain Address"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:352
+#: includes/admin/class-wp-statistics-admin-assets.php:377
 msgid "Search Term"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:353
+#: includes/admin/class-wp-statistics-admin-assets.php:378
 msgid "Visitor's Browser"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:354
+#: includes/admin/class-wp-statistics-admin-assets.php:379
 msgid "Visitor's City"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:355
+#: includes/admin/class-wp-statistics-admin-assets.php:380
 #: views/components/session-details.php:15
 msgid "Daily Visitor Hash"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:355
+#: includes/admin/class-wp-statistics-admin-assets.php:380
 #: src/Service/Admin/VisitorInsights/VisitorInsightsPage.php:81
 #: views/components/session-details.php:19
 msgid "IP Address"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:356
+#: includes/admin/class-wp-statistics-admin-assets.php:381
 msgid "IP Address/Hash"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:357
+#: includes/admin/class-wp-statistics-admin-assets.php:382
 #: src/Service/Admin/VisitorInsights/VisitorInsightsPage.php:82
 msgid "Enter IP (e.g., 192.168.1.1) or hash (#...)"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:358
+#: includes/admin/class-wp-statistics-admin-assets.php:383
 msgid "Referring Site"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:360
+#: includes/admin/class-wp-statistics-admin-assets.php:385
 msgid "User Agent"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:361
+#: includes/admin/class-wp-statistics-admin-assets.php:386
 #: views/components/session-details.php:64
 msgid "Operating System"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:362
+#: includes/admin/class-wp-statistics-admin-assets.php:387
 msgid "Browser/OS Version"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:363
+#: includes/admin/class-wp-statistics-admin-assets.php:388
 msgid "Visited Page"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:371
+#: includes/admin/class-wp-statistics-admin-assets.php:396
 msgid "Last 28 days"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:375
-#: includes/admin/class-wp-statistics-admin-assets.php:376
+#: includes/admin/class-wp-statistics-admin-assets.php:400
+#: includes/admin/class-wp-statistics-admin-assets.php:401
 msgid "This year"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:378
+#: includes/admin/class-wp-statistics-admin-assets.php:403
 msgid "Go Back"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:379
+#: includes/admin/class-wp-statistics-admin-assets.php:404
 msgid "Select Custom Range..."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:380
+#: includes/admin/class-wp-statistics-admin-assets.php:405
 msgid "Custom Range"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:381
+#: includes/admin/class-wp-statistics-admin-assets.php:406
 msgid "All time"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:382
+#: includes/admin/class-wp-statistics-admin-assets.php:407
 msgid "Additional Date Ranges"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:383
+#: includes/admin/class-wp-statistics-admin-assets.php:408
 msgid "Custom Date Range"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:384
+#: includes/admin/class-wp-statistics-admin-assets.php:409
 msgid "To (End Date)"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:385
+#: includes/admin/class-wp-statistics-admin-assets.php:410
 msgid "From (Start Date)"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:386
+#: includes/admin/class-wp-statistics-admin-assets.php:411
 msgid "Apply Range"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:387
+#: includes/admin/class-wp-statistics-admin-assets.php:412
 msgid "Sorry, there's no data available for this selection."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:388
+#: includes/admin/class-wp-statistics-admin-assets.php:413
 msgid "Total Number"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:389
+#: includes/admin/class-wp-statistics-admin-assets.php:414
 #: includes/admin/templates/pages/devices/browsers.php:20
 #: includes/admin/templates/pages/devices/categories.php:18
 #: includes/admin/templates/pages/devices/models.php:18
@@ -600,55 +600,55 @@ msgstr ""
 msgid "Percent Share"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:390
+#: includes/admin/class-wp-statistics-admin-assets.php:415
 #: src/Service/Admin/Devices/Views/SingleBrowserView.php:42
 #: src/Service/Admin/SiteHealthInfo.php:82
 #: views/metabox/about.php:7
 msgid "Version"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:391
+#: includes/admin/class-wp-statistics-admin-assets.php:416
 msgid "Apply Filters"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:392
+#: includes/admin/class-wp-statistics-admin-assets.php:417
 #: views/components/objects/header-filter-button.php:4
 msgid "Filters"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:394
+#: includes/admin/class-wp-statistics-admin-assets.php:419
 msgid "Select Desired Time Range"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:395
+#: includes/admin/class-wp-statistics-admin-assets.php:420
 msgid "Please enter a valid IP (e.g., 192.168.1.1) or hash (starting with #)"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:396
+#: includes/admin/class-wp-statistics-admin-assets.php:421
 msgid "Loading, Please Wait..."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:397
+#: includes/admin/class-wp-statistics-admin-assets.php:422
 #: src/Service/Admin/VisitorInsights/Views/SingleVisitorView.php:48
 #: src/Service/Admin/VisitorInsights/VisitorInsightsPage.php:72
 msgid "User"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:398
+#: includes/admin/class-wp-statistics-admin-assets.php:423
 msgid "Failed to retrieve data. Please check the browser console and the XHR request under Network → XHR for details."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:399
+#: includes/admin/class-wp-statistics-admin-assets.php:424
 #: src/Service/Admin/PrivacyAudit/PrivacyAuditController.php:87
 msgid "Your WP Statistics settings are privacy-compliant."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:400
+#: includes/admin/class-wp-statistics-admin-assets.php:425
 #: src/Service/Admin/PrivacyAudit/PrivacyAuditController.php:102
 msgid "Your WP Statistics settings are not privacy-compliant. Please update your settings."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:401
+#: includes/admin/class-wp-statistics-admin-assets.php:426
 #: includes/admin/templates/layout/author-analytics/top-authors.php:52
 #: includes/admin/templates/layout/author-analytics/top-authors.php:82
 #: includes/admin/templates/layout/author-analytics/top-authors.php:115
@@ -698,13 +698,13 @@ msgstr ""
 msgid "No recent data available."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:402
+#: includes/admin/class-wp-statistics-admin-assets.php:427
 #: includes/admin/templates/pages/author-analytics/authors-report.php:31
 #: includes/admin/templates/pages/category-analytics/category-report.php:33
 msgid "Published"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:403
+#: includes/admin/class-wp-statistics-admin-assets.php:428
 #: includes/admin/templates/layout/filters/author-filter.php:6
 #: includes/admin/templates/pages/author-analytics/authors-report.php:22
 #: src/Service/Admin/CategoryAnalytics/CategoryAnalyticsPage.php:43
@@ -713,25 +713,25 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:404
+#: includes/admin/class-wp-statistics-admin-assets.php:429
 msgid "View Detailed Analytics"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:405
+#: includes/admin/class-wp-statistics-admin-assets.php:430
 #: views/components/meta-box/enable-mail.php:9
 msgid "Enable Now"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:406
+#: includes/admin/class-wp-statistics-admin-assets.php:431
 #: views/components/meta-box/enable-mail.php:8
 msgid "Receive Weekly Email Reports"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:407
+#: includes/admin/class-wp-statistics-admin-assets.php:432
 msgid "Close"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:408
+#: includes/admin/class-wp-statistics-admin-assets.php:433
 #: views/components/charts/exclusions.php:11
 #: views/components/charts/income-visitor-chart.php:11
 #: views/components/charts/search-engines.php:21
@@ -743,53 +743,53 @@ msgstr ""
 msgid "Previous period"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:409
+#: includes/admin/class-wp-statistics-admin-assets.php:434
 #: views/components/tables/content-report.php:92
 #: views/metabox/most-visited-pages.php:12
 msgid "View Content"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:410
+#: includes/admin/class-wp-statistics-admin-assets.php:435
 msgid "Downloading"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:411
+#: includes/admin/class-wp-statistics-admin-assets.php:436
 #: src/Service/Admin/LicenseManagement/Plugin/PluginDecorator.php:222
 #: views/components/addon-active-card.php:27
 msgid "Activated"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:412
+#: includes/admin/class-wp-statistics-admin-assets.php:437
 #: includes/admin/templates/layout/author-analytics/performance-summary.php:30
 #: views/components/addon-active-card.php:34
 #: views/components/addon-box.php:39
 msgid "Active"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:413
+#: includes/admin/class-wp-statistics-admin-assets.php:438
 msgid "Activating"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:414
+#: includes/admin/class-wp-statistics-admin-assets.php:439
 #: views/components/addon-download-card.php:34
 msgid "Already installed"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:415
+#: includes/admin/class-wp-statistics-admin-assets.php:440
 #: views/components/addon-active-card.php:25
 msgid "Failed"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:416
+#: includes/admin/class-wp-statistics-admin-assets.php:441
 #: views/components/addon-active-card.php:32
 msgid "Retry"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:417
+#: includes/admin/class-wp-statistics-admin-assets.php:442
 msgid "Redirecting... Please wait"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:418
+#: includes/admin/class-wp-statistics-admin-assets.php:443
 #: views/components/tables/online.php:17
 #: views/components/tables/referred-visitors.php:17
 #: views/components/tables/views.php:9
@@ -800,14 +800,14 @@ msgstr ""
 msgid "Last View"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:419
+#: includes/admin/class-wp-statistics-admin-assets.php:444
 #: views/metabox/currently-online.php:21
 #: views/metabox/latest-visitor.php:18
 #: views/metabox/most-active-visitors.php:17
 msgid "Visitor Info"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:420
+#: includes/admin/class-wp-statistics-admin-assets.php:445
 #: views/components/tables/online.php:26
 #: views/components/tables/referred-visitors.php:26
 #: views/components/tables/top-visitors.php:23
@@ -820,23 +820,23 @@ msgstr ""
 msgid "Location"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:421
+#: includes/admin/class-wp-statistics-admin-assets.php:446
 #: includes/class-wp-statistics-widget.php:255
 msgid "Name"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:422
+#: includes/admin/class-wp-statistics-admin-assets.php:447
 #: includes/admin/templates/settings/notifications.php:71
 #: src/Service/Analytics/Referrals/SourceChannels.php:20
 msgid "Email"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:423
+#: includes/admin/class-wp-statistics-admin-assets.php:448
 #: views/components/account-information.php:43
 msgid "Role"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:424
+#: includes/admin/class-wp-statistics-admin-assets.php:449
 #: views/components/tables/online.php:32
 #: views/components/tables/top-visitors.php:29
 #: views/components/tables/views.php:35
@@ -847,7 +847,7 @@ msgstr ""
 msgid "Latest Page"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:425
+#: includes/admin/class-wp-statistics-admin-assets.php:450
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:51
 #: includes/class-wp-statistics-shortcode.php:301
 #: src/Service/Admin/VisitorInsights/VisitorInsightsPage.php:61
@@ -863,26 +863,26 @@ msgstr ""
 msgid "Referrer"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:426
+#: includes/admin/class-wp-statistics-admin-assets.php:451
 #: views/components/tables/online.php:20
 #: views/metabox/currently-online.php:33
 msgid "Online For"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:428
+#: includes/admin/class-wp-statistics-admin-assets.php:453
 #: views/metabox/most-visited-pages.php:14
 msgid "View"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:429
+#: includes/admin/class-wp-statistics-admin-assets.php:454
 msgid "Waiting"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:434
+#: includes/admin/class-wp-statistics-admin-assets.php:459
 msgid "Continue to Next Step"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:435
+#: includes/admin/class-wp-statistics-admin-assets.php:460
 #: includes/admin/templates/layout/privacy-audit/privacy-audits.php:3
 #: src/Service/Admin/PrivacyAudit/Audits/Abstracts/RecommendedAudit.php:46
 #: src/Service/Admin/PrivacyAudit/Audits/Abstracts/ResolvableAudit.php:119
@@ -892,16 +892,18 @@ msgstr ""
 msgid "Action Required"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:436
+#: includes/admin/class-wp-statistics-admin-assets.php:461
 msgid "Show less"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:437
+#: includes/admin/class-wp-statistics-admin-assets.php:462
 #: views/components/headers/post-type.php:88
 msgid "Show more"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:438
+#: includes/admin/class-wp-statistics-admin-assets.php:463
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:22
 msgid "Pending"
 msgstr ""
 
@@ -990,7 +992,7 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-network.php:72
 #: includes/admin/pages/class-wp-statistics-admin-page-optimization.php:29
 #: includes/admin/templates/settings/add-ons/customization.php:26
-#: includes/class-wp-statistics-menus.php:168
+#: includes/class-wp-statistics-menus.php:169
 msgid "Optimization"
 msgstr ""
 
@@ -998,7 +1000,7 @@ msgstr ""
 #: includes/admin/pages/class-wp-statistics-admin-page-settings.php:36
 #: includes/admin/templates/header.php:86
 #: includes/admin/templates/header.php:116
-#: includes/class-wp-statistics-menus.php:160
+#: includes/class-wp-statistics-menus.php:161
 #: src/Service/HooksManager.php:28
 #: views/components/addon-active-card.php:43
 #: views/components/addon-box.php:49
@@ -2451,6 +2453,7 @@ msgid "Yes, Resolve"
 msgstr ""
 
 #: includes/admin/templates/pages/privacy-audit.php:12
+#: src/React/pages/data-migration/ProgressStep.js:186
 msgid "Cancel"
 msgstr ""
 
@@ -4914,7 +4917,7 @@ msgstr ""
 msgid "Choose a Specific Search Engine Type"
 msgstr ""
 
-#: includes/class-wp-statistics.php:296
+#: includes/class-wp-statistics.php:298
 msgid "Unable to create the required upload directory at <code>%s</code>. Please check that the web server has write permissions for the parent directory. Alternatively, you can manually create the directory yourself. Please keep in mind that the GeoIP database may not work correctly if the directory structure is not properly set up."
 msgstr ""
 
@@ -4976,6 +4979,9 @@ msgid "<strong>Note:</strong> If you leave this page before the migration finish
 msgstr ""
 
 #: src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php:163
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ConfirmationStep.js:112
+#: src/React/pages/data-migration/ConfirmationStep.js:139
 msgid "Start Migration"
 msgstr ""
 
@@ -5164,6 +5170,11 @@ msgstr ""
 
 #: src/Service/Admin/ContentAnalytics/Views/TabsView.php:57
 msgid "To view reports for all your custom post types, you need to have the Data Plus add-on."
+msgstr ""
+
+#: src/Service/Admin/DataMigration/DataMigrationManager.php:33
+#: src/Service/Admin/DataMigration/DataMigrationPage.php:62
+msgid "Data Migration"
 msgstr ""
 
 #: src/Service/Admin/Devices/Views/SingleBrowserView.php:21
@@ -6905,6 +6916,8 @@ msgid "By integrating a consent plugin, WP Statistics aligns with user consent c
 msgstr ""
 
 #: views/components/privacy-audit/recommend-consent.php:9
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ConfirmationStep.js:81
 msgid "What’s Next?"
 msgstr ""
 
@@ -7589,4 +7602,477 @@ msgstr ""
 
 #: views/pages/visitor-insights/single-visitor.php:32
 msgid "Recent Views"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:36
+msgid "We’ve updated WP Statistics to use a faster, more efficient database structure!"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:39
+msgid "By running this migration, you’ll safely move all your"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:39
+msgid "older stats"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:39
+msgid "into the new system. Any visits recorded"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:39
+msgid "after"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:39
+msgid "your update are already being stored in the new format, so you won’t lose any current data"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:59
+msgid "We recommend making a complete backup of your WordPress site. This is just in case you ever need to revert changes."
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:61
+msgid "Learn how to back up your site"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:64
+msgid "Keep in mind the migration could take time. (anywhere from minutes to a few hours, depending on your site’s size and server resources)."
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:65
+msgid "You can pause, cancel, or restart the migration at any point. Your old data remains untouched until the process fully completes."
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:69
+msgid "When you’re ready, simply choose your preferred migration option below and click Next. You’re in full control, and your data will remain safe every step of the way."
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:71
+msgid "Choose Your Preferred Migration"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:87
+#: src/React/pages/data-migration/IntroStep.js:104
+msgid "Full Detailed Migration"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:88
+#: src/React/pages/data-migration/IntroStep.js:107
+msgid "Moves all your historical data—visitors, devices, referral sources, search engines, and more—into the new database structure."
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:89
+#: src/React/pages/data-migration/IntroStep.js:110
+msgid "Depending on your site’s traffic history and server resources, this process can range from a few minutes to several hours."
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:90
+#: src/React/pages/data-migration/IntroStep.js:113
+msgid "Users who want to preserve every bit of their analytics data without losing any detail."
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ConfirmationStep.js:64
+#: src/React/pages/data-migration/ConfirmationStep.js:90
+#: src/React/pages/data-migration/IntroStep.js:110
+#: src/React/pages/data-migration/IntroStep.js:155
+#: src/React/pages/data-migration/IntroStep.js:204
+msgid "Estimated Time:"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ConfirmationStep.js:67
+#: src/React/pages/data-migration/IntroStep.js:113
+#: src/React/pages/data-migration/IntroStep.js:158
+#: src/React/pages/data-migration/IntroStep.js:207
+msgid "Who It’s For:"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:132
+#: src/React/pages/data-migration/IntroStep.js:149
+msgid "Summary-Only Migration"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:133
+#: src/React/pages/data-migration/IntroStep.js:152
+msgid "Quickly transfers only the visitor counts and page-view totals for older data. You’ll lose detailed information (like devices, referrers, and search engines) for past visitors."
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:134
+#: src/React/pages/data-migration/IntroStep.js:155
+msgid "Typically much faster than a full migration, often just a few minutes."
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:135
+#: src/React/pages/data-migration/IntroStep.js:158
+msgid "Users who just need high-level trends and want the process done ASAP."
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:161
+msgid "Learn more about Summary-Only Migration"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:180
+#: src/React/pages/data-migration/IntroStep.js:198
+msgid "Hybrid Migration"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:181
+#: src/React/pages/data-migration/IntroStep.js:201
+msgid "Imports full, detailed stats for your most recent history—by default the last 90 days, while older data is brought in as summary-only."
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:182
+#: src/React/pages/data-migration/IntroStep.js:204
+msgid "Longer than summary-only, but faster than a full detailed migration."
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:183
+#: src/React/pages/data-migration/IntroStep.js:207
+msgid "Users who want to retain granular data for a recent timeframe while speeding up the migration for older records."
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:212
+msgid "Enter the number of days to migrate with full detail:"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/IntroStep.js:244
+msgid "Next Step"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ConfirmationStep.js:27
+msgid "Confirmation Step"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ConfirmationStep.js:81
+msgid "We’ll migrate all of your historical data—visitors, devices, search engines, referrers, and more—into the new database structure."
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ConfirmationStep.js:84
+msgid "What’s Migrated?"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ConfirmationStep.js:84
+msgid "Absolutely everything from your past analytics, so you retain complete visibility into your site’s historical data."
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ConfirmationStep.js:87
+msgid "What’s Lost?"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ConfirmationStep.js:87
+msgid "Nothing! All detailed stats will be preserved."
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ConfirmationStep.js:90
+msgid "Depending on the size of your site and server performance, it can take anywhere from minutes to a few hours."
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ConfirmationStep.js:94
+msgid "Regardless of the choice,"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ConfirmationStep.js:94
+msgid "you could also include these reminders at the bottom of the confirmation step:"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ConfirmationStep.js:97
+msgid "You can pause, cancel, or restart the migration at any time."
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ConfirmationStep.js:98
+msgid "Nothing is deleted from your old data source until the migration is fully complete."
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ConfirmationStep.js:101
+msgid "Need more details or help?"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ConfirmationStep.js:101
+msgid "Check our Migration FAQs or contact support."
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ConfirmationStep.js:110
+msgid "Ready to proceed?"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ConfirmationStep.js:112
+msgid "You can"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ConfirmationStep.js:112
+msgid "go back"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ConfirmationStep.js:112
+msgid "to change the number of days or pick a different migration method. Or, click"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ConfirmationStep.js:112
+msgid "to begin."
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ConfirmationStep.js:125
+msgid "< Go Back"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:8
+msgid "Visitor Records"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:8
+msgid "5,200 records migrated"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:9
+msgid "Page Views Data"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:9
+msgid "12,300 records migrated"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:10
+msgid "Geo-Location Data"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:10
+msgid " (next)"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:10
+msgid "4,100 of 10,000 completed"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:11
+msgid "Referral Traffic"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:11
+msgid "0 of 8,400 completed"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:12
+msgid "Author Performance Data"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:12
+msgid "0 of 2,000 completed"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:36
+msgid "Overall Progress"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:39
+msgid "100%"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:18
+#: src/React/pages/data-migration/ProgressStep.js:39
+msgid "Completed"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:50
+msgid "Task Name"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:51
+msgid "Status"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:52
+msgid "Records"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:20
+msgid "In Progress"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:106
+msgid "Migration Completed Successfully!"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:108
+msgid "All your historical data has been successfully migrated!"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:109
+msgid "You can now take full advantage of WP Statistics' new structure."
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:110
+msgid "Next Steps:"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:113
+msgid "Check out your updated stats in the"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:115
+msgid "WP Statistics Dashboard"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:120
+msgid "If you have any questions, visit our"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:122
+msgid "Migration FAQs"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:124
+#: src/React/pages/data-migration/ProgressStep.js:163
+msgid "or"
+msgstr ""
+
+#: build/react-bundle.js:1
+#: src/React/pages/data-migration/ProgressStep.js:126
+msgid "contact support"
+msgstr ""
+
+#: src/React/pages/data-migration/ProgressStep.js:39
+msgid "60%"
+msgstr ""
+
+#: src/React/pages/data-migration/ProgressStep.js:79
+msgid "Status Icons Explanation:"
+msgstr ""
+
+#: src/React/pages/data-migration/ProgressStep.js:85
+msgid "Completed: The task is fully finished."
+msgstr ""
+
+#: src/React/pages/data-migration/ProgressStep.js:91
+msgid "In Progress: Task is currently migrating."
+msgstr ""
+
+#: src/React/pages/data-migration/ProgressStep.js:97
+msgid "Pending: Task is queued and will start after the current one completes."
+msgstr ""
+
+#: src/React/pages/data-migration/ProgressStep.js:153
+msgid "Important Notes"
+msgstr ""
+
+#: src/React/pages/data-migration/ProgressStep.js:157
+msgid "Migration time"
+msgstr ""
+
+#: src/React/pages/data-migration/ProgressStep.js:157
+msgid "varies based on your data size and server resources."
+msgstr ""
+
+#: src/React/pages/data-migration/ProgressStep.js:160
+msgid "You can continue using your site in"
+msgstr ""
+
+#: src/React/pages/data-migration/ProgressStep.js:160
+msgid "another browser tab"
+msgstr ""
+
+#: src/React/pages/data-migration/ProgressStep.js:160
+msgid "but this migration page must remain open."
+msgstr ""
+
+#: src/React/pages/data-migration/ProgressStep.js:163
+msgid "If the migration is"
+msgstr ""
+
+#: src/React/pages/data-migration/ProgressStep.js:163
+msgid "paused"
+msgstr ""
+
+#: src/React/pages/data-migration/ProgressStep.js:163
+msgid "interrupted"
+msgstr ""
+
+#: src/React/pages/data-migration/ProgressStep.js:163
+msgid "returning to this page resumes it from where you left off."
+msgstr ""
+
+#: src/React/pages/data-migration/ProgressStep.js:166
+msgid "No data is deleted"
+msgstr ""
+
+#: src/React/pages/data-migration/ProgressStep.js:166
+msgid "until the migration is fully complete—feel free to pause or cancel if you need to, without losing your old records."
+msgstr ""
+
+#: src/React/pages/data-migration/ProgressStep.js:199
+msgid "Pause"
 msgstr ""
