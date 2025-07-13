@@ -165,7 +165,10 @@ class Device extends BaseEntity
     }
 
     /**
-     * Record visitor screen resolution.
+     * Detect and record visitor screen resolution (e.g., 1920×1080).
+     *
+     * For privacy protection, the height is rounded down to the nearest ten
+     * and the last digit is set to zero (e.g., 1920×1087 → 1920×1080).
      *
      * @return $this
      */
@@ -177,6 +180,10 @@ class Device extends BaseEntity
 
         $width  = (int)Request::get('screenWidth', 0);
         $height = (int)Request::get('screenHeight', 0);
+
+        if ($height > 0) {
+            $height = (int)(floor($height / 10) * 10);
+        }
 
         $cacheKey = 'resolution_' . $width . 'x' . $height;
 
