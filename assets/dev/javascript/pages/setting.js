@@ -74,6 +74,7 @@ function createMobileDropdown() {
 
             const select = document.createElement('select');
             select.classList.add('wps-options-mobile-menu');
+            select.setAttribute('aria-label', 'mobile menu');
 
             const settingsItems = menu.querySelectorAll('a[data-tab]:not(.premium)');
             const premiumItems = menu.querySelectorAll('a[data-tab].premium');
@@ -219,6 +220,15 @@ if (jQuery('.wp-statistics-settings').length) {
     if (current_tab) {
         wp_statistics_enableTab(current_tab);
     }
+
+    document.querySelectorAll('.iris-square-value').forEach(element => {
+        if (!element.classList.contains('screen-reader-text')) {
+            const span = document.createElement('span');
+            span.className = 'screen-reader-text';
+            span.textContent = 'square-value';
+            element.appendChild(span);
+        }
+    });
 
     jQuery('.wp-statistics-settings .wps-optionsMenu .wps-optionsMenuItem').click(function () {
         var tab_id = jQuery(this).attr('data-tab');

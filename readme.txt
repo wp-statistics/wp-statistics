@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.8
-Stable tag: 14.14
+Stable tag: 14.14.1
 Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -139,6 +139,19 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.14.1 - 2025-06-29 =
+- **New:** Added a Database Schema tool to check and repair database structure in the Optimization page.
+- **Enhancement:** Added country name to the flag tooltip in Visitor Info.
+- **Enhancement:** Added unread notification badge to the Help Center menu.
+- **Enhancement:** Improved migration performance by running schema updates synchronously and removing background processes.
+- **Enhancement:** Improved the "Views" section in the Visitor Insight report.
+- **Enhancement:** Deprecated the Matomo Referrer Spam Blacklist option (to be removed in v14.16).
+- **Fix:** Fixed accessibility (A11y) issues.
+- **Fix:** Resolved zero page views for non-'category' taxonomy filters.
+- **Fix:** Anonymous data opt-in notice now appears 7 days after plugin activation.
+- **Fix:** Fixed incorrect page titles for WooCommerce My Account sub-pages.
+- **Fix:** Normalized the taxonomy `type` field for `tax_` prefixes.
+
 = 14.14 - 2025-06-01 =
 - **New:** Added a Help page inside the plugin to guide users.
 - **New:** Introduced dynamic promo text in the plugin header.
