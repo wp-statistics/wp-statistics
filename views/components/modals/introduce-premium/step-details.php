@@ -56,6 +56,16 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
 
             $data = [
                 'description' => sprintf(
+                    __('<p>Take your marketing strategy to the next level with the Marketing Add-on. Track your campaign performance with detailed UTM reports, connect to Google Search Console for in-depth traffic analysis, and set conversion goals to measure success—all directly within WP Statistics. Optimize your campaigns, monitor search traffic, and drive results effortlessly. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
+                    esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-marketing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
+                ),
+                'step_name'   => 'wp-statistics-marketing',
+                'step_title'  => esc_html__('Set goals, measure conversions, and optimize your reach for real results.', 'wp-statistics'),
+            ];
+            View::load("components/modals/introduce-premium/step-content", $data);
+
+            $data = [
+                'description' => sprintf(
                     __('<p>Mini Chart gives you quick insights into how your posts, pages, and products are performing by displaying small, customizable charts directly in your admin panel. Track views and engagement at a glance and customize chart types and colors to match your preferences. Analyze content performance easily and stay on top of key metrics with minimal time. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
@@ -113,17 +123,6 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                 'step_title'  => esc_html__('Connect your site’s stats anywhere.', 'wp-statistics'),
             ];
             View::load("components/modals/introduce-premium/step-content", $data);
-
-            $data = [
-                'description' => sprintf(
-                    __('<p>Take your marketing strategy to the next level with the Marketing Add-on. Track your campaign performance with detailed UTM reports, connect to Google Search Console for in-depth traffic analysis, and set conversion goals to measure success—all directly within WP Statistics. Optimize your campaigns, monitor search traffic, and drive results effortlessly. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
-                    esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-marketing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
-                ),
-                'step_name'   => 'wp-statistics-marketing',
-                'step_title'  => esc_html__('Set goals, measure conversions, and optimize your reach for real results.', 'wp-statistics'),
-            ];
-            View::load("components/modals/introduce-premium/step-content", $data);
-
             ?>
         </div>
         <div class="wps-premium-step__sidebar">
