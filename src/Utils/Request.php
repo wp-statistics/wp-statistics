@@ -121,11 +121,19 @@ class Request
      */
     public static function validate($param, $rules)
     {
-        if (!isset($_REQUEST[$param]) && !empty($rules['required'])) {
-            return false;
+        if (!isset($_REQUEST[$param])) {
+            if (empty($rules['required'])) {
+                return true;
+            } else {
+                return false;
+            }
         }
 
         $paramValue = $_REQUEST[$param];
+
+        if (!empty($rules['nullable']) && !is_numeric($paramValue) && empty($paramValue)) {
+            return true;
+        }
 
         // Type must be specified
         if (!isset($rules['type'])) {
