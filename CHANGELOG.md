@@ -1,4 +1,16 @@
-= 14.14.x - 2025-x-x =
+= 14.15 - 2025-x-x =
+- **New:** Added a new `Search Terms` report under `Visitor Insight` page.
+- **New:** Added `Overview` report for `Visitor Insight`.
+- **New:** Added `Overview` report for `Page Insights`.
+- **New:** Added `Device Overview` report.
+- **Fix:** Fix report URL issue for posts with custom post type.
+- **Fix:** Resolve Zero Page View Issue for Non-'Category' Taxonomies.
+- **Enhancement:** Improved migration efficiency and stability by running schema migrations synchronously and removing background processes.
+- **Enhancement:** Improved `Views` report under `Visitor Insight` page.
+- **Fix:** Fixed inaccurate tracking of WooCommerce My Account sub-page titles.
+- **Enhancement:** Unset `Consent Integration` option upon integration deactivation.
+- **New:** Add Country Name to Visitor Info Flag Tooltip.
+- **New:** Added unread notification badge to Help Center menu.
 - **Enhancement:** Combined notification and marketing campaign cron jobs into a single daily scheduled event to optimize scheduling.
 - **Enhancement:** Default dashboard now displays only the “Traffic Overview” widget for a cleaner initial experience.
 - **Enhancement:** Optimized `getTrafficOverviewData` to reduce queries and improve Traffic Overview widget performance.
@@ -6,6 +18,7 @@
 - **Enhancement:** Removed unused comments join from Page Insights query to improve performance.
 - **Enhancement:** Improved back button functionality on all pages to ensure accurate navigation to the previous view.
 - **Enhancement:** Improved warning message for missing consent-management plugin.
+- **Fix:** Prevented number_format() warning with null on PHP 8.4.5.
 - **Enhancement:** Disabled "Consent Categories" dropdown on settings page if no WP Consent API-compatible plugin is active.
 
 = 14.14.1 - 2025-06-29 =
@@ -16,7 +29,7 @@
 - **Enhancement:** Improved the "Views" section in the Visitor Insight report.
 - **Enhancement:** Deprecated the Matomo Referrer Spam Blacklist option (to be removed in v14.16).
 - **Fix:** Fixed accessibility (A11y) issues.
-- **Fix:** Resolved zero page views for non-'category' taxonomy filters.
+- **Fix:** Resolved Zero Page views for non-'category' taxonomy filters.
 - **Fix:** Anonymous data opt-in notice now appears 7 days after plugin activation.
 - **Fix:** Fixed incorrect page titles for WooCommerce My Account sub-pages.
 - **Fix:** Normalized the taxonomy `type` field for `tax_` prefixes.

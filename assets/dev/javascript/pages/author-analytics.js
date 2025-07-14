@@ -3,7 +3,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     const wpStatisticsAuthorAnalytics = {
         init: function () {
             if (typeof Wp_Statistics_Author_Analytics_Object == "undefined") {
-                console.log('Variable Wp_Statistics_Author_Analytics_Object not found.');
                 return;
             }
 

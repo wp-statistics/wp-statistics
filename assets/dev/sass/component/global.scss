@@ -125,6 +125,13 @@ a[href*='?page=wps_break_menu'] {
 .wps_title {
   display: inline;
   font-size: 1.6em;
+
+  &.wps_flex{
+    display: flex;
+    align-items: center;
+    gap:24px;
+    margin-bottom: -2px;
+  }
 }
 
 .wp-statistics-container {

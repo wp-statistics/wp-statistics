@@ -33,14 +33,29 @@ class EventsModel extends BaseModel
             ->whereDate('events.date', $args['date'])
             ->groupBy($args['group_by']);
 
-        if (!empty($args['author_id']) || !empty($args['post_type']) || !empty($args['post_id'])) {
+        if (!empty($args['author_id']) || !empty($args['post_type'])) {
             $query
                 ->join('posts', ['events.page_id', 'posts.ID'])
-                ->where('posts.post_type', '=', $args['post_type'])
+                ->where('posts.post_type', 'IN', $args['post_type'])
                 ->where('posts.post_author', '=', $args['author_id']);
         }
 
         $result = $query->getVar();
+
+        return $result ?? 0;
+    }
+
+    public function getInitialEventDate($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'event_name' => ''
+        ]);
+
+        $result = Query::select('MIN(events.date) as date')
+            ->from('events')
+            ->where('event_name', '=', $args['event_name'])
+            ->allowCaching()
+            ->getVar();
 
         return $result;
     }
@@ -48,6 +63,7 @@ class EventsModel extends BaseModel
     public function getEvents($args = [])
     {
         $args = $this->parseArgs($args, [
+            'fields'        => '*',
             'page'          => 1,
             'per_page'      => Admin_Template::$item_per_page,
             'event_name'    => '',
@@ -61,7 +77,7 @@ class EventsModel extends BaseModel
             'order_by'      => 'DESC',
         ]);
 
-        $query = Query::select('*')
+        $query = Query::select($args['fields'])
             ->from('events')
             ->where('event_name', 'IN', $args['event_name'])
             ->where('events.page_id', '=', $args['post_id'])
@@ -105,10 +121,10 @@ class EventsModel extends BaseModel
             ->groupBy('Date(events.date)')
             ->decorate($args['decorator']);
 
-        if (!empty($args['author_id']) || !empty($args['post_type']) || !empty($args['post_id'])) {
+        if (!empty($args['author_id']) || !empty($args['post_type'])) {
             $query
                 ->join('posts', ['events.page_id', 'posts.ID'])
-                ->where('posts.post_type', '=', $args['post_type'])
+                ->where('posts.post_type', 'IN', $args['post_type'])
                 ->where('posts.post_author', '=', $args['author_id']);
         }
 
@@ -153,6 +169,36 @@ class EventsModel extends BaseModel
         return $query->getAll();
     }
 
+    public function countEventVisitorsByPage($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'event_name'    => '',
+            'author_id'     => '',
+            'post_type'     => '',
+            'post_id'       => '',
+            'date'          => '',
+            'per_page'      => 10,
+            'page'          => 1,
+            'order'         => 'visitors',
+            'order_by'      => 'DESC',
+        ]);
+
+        $query = Query::select('COUNT(DISTINCT events.visitor_id) as visitors, events.page_id as post_id, posts.post_title as title')
+            ->from('events')
+            ->join('posts', ['events.page_id', 'posts.ID'])
+            ->where('events.page_id', '=', $args['post_id'])
+            ->where('posts.post_type', '=', $args['post_type'])
+            ->where('posts.post_author', '=', $args['author_id'])
+            ->where('event_name', 'IN', $args['event_name'])
+            ->whereDate('events.date', $args['date'])
+            ->orderBy($args['order'], $args['order_by'])
+            ->groupBy('events.page_id')
+            ->whereNotNull('events.page_id')
+            ->perPage($args['page'], $args['per_page']);
+
+        return $query->getAll();
+    }
+
     public function getTopEvents($args = [])
     {
         $args = $this->parseArgs($args, [
@@ -167,7 +213,7 @@ class EventsModel extends BaseModel
         ]);
 
         $query = Query::select([
-                "JSON_UNQUOTE(JSON_EXTRACT(`event_data`, '$.target_url')) AS url",
+                "JSON_UNQUOTE(JSON_EXTRACT(`event_data`, '$.target_url')) AS target_url",
                 "event_data",
                 "COUNT(*) AS count"
             ])
@@ -177,7 +223,7 @@ class EventsModel extends BaseModel
             ->whereDate('events.date', $args['date'])
             ->orderBy('count', 'DESC')
             ->perPage($args['page'], $args['per_page'])
-            ->groupBy('url')
+            ->groupBy('target_url')
             ->decorate($args['decorator']);
 
         if (!empty($args['author_id']) || !empty($args['post_type']) || !empty($args['post_id'])) {
@@ -227,12 +273,26 @@ class EventsModel extends BaseModel
             'date'       => DateTime::get('now', 'Y-m-d H:i:s'),
             'page_id'    => $args['page_id'],
             'visitor_id' => $args['visitor_id'],
+            'user_id'    => $args['user_id'] ?? null,
             'event_name' => $args['event_name'],
             'event_data' => json_encode($args['event_data'])
         ];
 
         $result = Query::insert('events')
             ->set($data)
+            ->execute();
+
+        return $result;
+    }
+
+    public function deleteEvents($args)
+    {
+        $args = $this->parseArgs($args, [
+            'event_name' => ''
+        ]);
+
+        $result = Query::delete('events')
+            ->where('event_name', '=', $args['event_name'])
             ->execute();
 
         return $result;
