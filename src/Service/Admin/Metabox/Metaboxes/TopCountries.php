@@ -27,9 +27,9 @@ class TopCountries extends BaseMetabox
         return [
             'datepicker'    => true,
             'button'        => View::load('metabox/action-button',[
-                'link'  => Menus::admin_url('geographic'),
+                'link'  => Menus::admin_url('geographic', ['tab' => 'countries']),
                 'title' => esc_html__('View Top Countries', 'wp-statistics')
-            ],true)
+            ], true)
         ];
     }
 

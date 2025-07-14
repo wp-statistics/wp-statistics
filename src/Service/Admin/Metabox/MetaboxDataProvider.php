@@ -1,4 +1,5 @@
 <?php
+
 namespace WP_Statistics\Service\Admin\Metabox;
 
 use WP_STATISTICS\Helper;
@@ -25,25 +26,25 @@ class MetaboxDataProvider
 
     public function __construct()
     {
-        $this->visitorsModel    = new VisitorsModel();
-        $this->authorsModel     = new AuthorsModel();
-        $this->viewsModel       = new ViewsModel();
-        $this->onlineModel      = new OnlineModel();
-        $this->postsModel       = new PostsModel();
-        $this->taxonomyModel    = new TaxonomyModel();
+        $this->visitorsModel = new VisitorsModel();
+        $this->authorsModel  = new AuthorsModel();
+        $this->viewsModel    = new ViewsModel();
+        $this->onlineModel   = new OnlineModel();
+        $this->postsModel    = new PostsModel();
+        $this->taxonomyModel = new TaxonomyModel();
     }
 
     public function getTrafficSummaryData($args = [])
     {
-        $visitors   = $this->visitorsModel->getVisitorsSummary($args);
-        $views      = $this->visitorsModel->getHitsSummary($args);
+        $visitors = $this->visitorsModel->getVisitorsSummary($args);
+        $views    = $this->visitorsModel->getHitsSummary($args);
 
         $data = [
-            'online'    => $this->onlineModel->countOnlines($args),
-            'visitors'  => array_values(wp_list_pluck($visitors, 'visitors')),
-            'hits'      => array_values(wp_list_pluck($views, 'hits')),
-            'labels'    => array_values(wp_list_pluck($views, 'label')),
-            'keys'      => array_keys($views),
+            'online'   => $this->onlineModel->countOnlines($args),
+            'visitors' => array_values(wp_list_pluck($visitors, 'visitors')),
+            'hits'     => array_values(wp_list_pluck($views, 'hits')),
+            'labels'   => array_values(wp_list_pluck($views, 'label')),
+            'keys'     => array_keys($views),
         ];
 
         return $data;
@@ -59,9 +60,9 @@ class MetaboxDataProvider
     public function getTrafficOverviewData($args = [])
     {
         $data = [
-            'online'    => $this->onlineModel->countOnlines($args),
-            'visitors'  => $this->visitorsModel->getVisitorsSummary($args),
-            'hits'      => $this->visitorsModel->getHitsSummary($args)
+            'online'         => $this->onlineModel->countOnlines($args),
+            'visitors'       => $this->visitorsModel->getVisitorsSummary($args),
+            'hits'           => $this->visitorsModel->getHitsSummary($args),
         ];
 
         return $data;
@@ -70,9 +71,9 @@ class MetaboxDataProvider
     public function getReferrersData($args = [])
     {
         $args = array_merge($args, [
-            'decorate'  => true,
-            'per_page'  => 5,
-            'page'      => 1
+            'decorate' => true,
+            'per_page' => 5,
+            'page'     => 1
         ]);
 
         return $this->visitorsModel->getReferrers($args);
@@ -110,8 +111,8 @@ class MetaboxDataProvider
     public function getOnlineVisitorsData($args = [])
     {
         return [
-            'visitors'  => $this->onlineModel->getOnlineVisitorsData(array_merge($args, ['per_page' => 10])),
-            'total'     => $this->onlineModel->countOnlines($args)
+            'visitors' => $this->onlineModel->getOnlineVisitorsData(array_merge($args, ['per_page' => 10])),
+            'total'    => $this->onlineModel->countOnlines($args)
         ];
     }
 
@@ -129,7 +130,7 @@ class MetaboxDataProvider
     public function getSinglePostData($args = [])
     {
         $currentPage = Request::get('current_page', [], 'array');
-        $postId = $currentPage['ID'] ?? 0;
+        $postId      = $currentPage['ID'] ?? 0;
 
         $args = [
             'resource_id'   => $postId,
@@ -145,8 +146,8 @@ class MetaboxDataProvider
 
     public function getWeeklyPerformanceData($args = [])
     {
-        $currentPeriod  = DateRange::get('7days', true);
-        $prevPeriod     = DateRange::getPrevPeriod('7days', true);
+        $currentPeriod = DateRange::get('7days', true);
+        $prevPeriod    = DateRange::getPrevPeriod('7days', true);
 
         $data = [
             'visitors'  => [
@@ -180,10 +181,10 @@ class MetaboxDataProvider
             $data[$key]['diff_percentage'] = abs($data[$key]['diff_percentage']);
         }
 
-        $topReferrer    = $this->visitorsModel->getReferrers(['per_page' => 1, 'decorate' => true, 'date' => $currentPeriod]);
-        $topAuthor      = $this->authorsModel->getTopViewingAuthors(['date' => $currentPeriod, 'per_page' => 1]);
-        $topCategory    = $this->taxonomyModel->getTermsData(['date' => $currentPeriod, 'per_page' => 5, 'taxonomy' => Helper::get_list_taxonomy()]);
-        $topContent     = $this->postsModel->getPostsViewsData(['date' => $currentPeriod, 'per_page' => 1]);
+        $topReferrer = $this->visitorsModel->getReferrers(['per_page' => 1, 'decorate' => true, 'date' => $currentPeriod]);
+        $topAuthor   = $this->authorsModel->getTopViewingAuthors(['date' => $currentPeriod, 'per_page' => 1]);
+        $topCategory = $this->taxonomyModel->getTermsData(['date' => $currentPeriod, 'per_page' => 5, 'taxonomy' => Helper::get_list_taxonomy()]);
+        $topContent  = $this->postsModel->getPostsViewsData(['date' => $currentPeriod, 'per_page' => 1]);
 
         $data['top_author']   = $topAuthor[0] ?? '';
         $data['top_referrer'] = $topReferrer[0] ?? '';

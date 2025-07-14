@@ -67,7 +67,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         const checkboxInside = element.querySelector('input[type="checkbox"]');
                         if (checkboxInside) {
                             checkboxInside.checked = false;
-                         }
+                        }
                     }
                 };
 
@@ -87,9 +87,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             const item = document.querySelector(`#wps_settings\\[${id}\\]`);
                             if (item) {
                                 if ($(item).hasClass('select2-hidden-accessible')) {
-                                     $(item).on('select2:select', toggleElement);
+                                    $(item).on('select2:select', toggleElement);
                                 } else if (item.type === 'select-one') {
-                                     item.addEventListener('change', toggleElement);
+                                    item.addEventListener('change', toggleElement);
                                 }
                             }
                         }
@@ -126,6 +126,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             return {id, value};
         }
     }
+
     $(document).ready(function () {
         let isProgrammaticChange = false
         const checkbox = $('#wps_settings\\[wps_schedule_dbmaint\\]');
@@ -140,7 +141,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     if (primaryButton) {
                         primaryButton.addEventListener('click', function () {
                             modal.classList.remove('wps-modal--open');
-                        }, { once: true });
+                        }, {once: true});
                     }
 
                     const closeButton = modal.querySelector('button[data-action="closeModal"]');
@@ -149,15 +150,75 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             checkbox.prop('checked', false);
                             modal.classList.remove('wps-modal--open');
                             new ShowIfEnabled();
-                         }, { once: true });
+                        }, {once: true});
                     }
-                } else {
-                    console.error('Modal with ID "setting-confirmation" not found.');
                 }
             }
         });
 
 
         new ShowIfEnabled();
+        const searchConsoleSite = document.getElementById('wps_addon_settings[marketing][site]');
+        if (searchConsoleSite) {
+            let notice = document.createElement("div");
+            notice.className = "notice notice-error wp-statistics-notice";
+            const dir = jQuery('body').hasClass('rtl') ? 'rtl' : 'ltr';
+            const $select = jQuery('.wps-addon-settings--marketing select').select2({
+                ajax: {
+                    url: wps_js.global.admin_url + 'admin-ajax.php',
+                    type: 'POST',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            wps_nonce: wps_js.global.rest_api_nonce,
+                            action: 'wp_statistics_get_gsc_sites',
+                            term: params.term
+                        };
+                    },
+                    processResults: function (response) {
+                        if (response && response.success && response.data) {
+                            const results = response.data.map(item => ({
+                                id: item.key,
+                                text: item.label
+                            }));
+
+                            const selectedItem = results.find(item => response.data.find(d => d.selected && d.key === item.id));
+                            if (selectedItem) {
+                                $select.append(new Option(selectedItem.text, selectedItem.id, true, true)).trigger('change.select2');
+                            }
+
+                            return {results: results};
+                        } else {
+                            let notice = document.querySelector('.wp-statistics-notice');
+                            if (!notice) {
+                                notice = document.createElement("div");
+                                notice.className = "notice notice-error wp-statistics-notice";
+                            }
+                            notice.innerHTML = `<p>${response.data || 'Error loading sites'}</p>`;
+                            document.querySelector("#marketing-settings").prepend(notice);
+                            const topOffset = document.querySelector('#marketing-settings').getBoundingClientRect().top + window.scrollY;
+                            window.scrollTo({
+                                top: topOffset,
+                                behavior: "smooth"
+                            });
+                            return {results: []};
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                         return {results: []};
+                    },
+                    cache: true
+                },
+                dir: dir,
+                dropdownCssClass: 'wps-site-dropdown-class wps-marketing-select2',
+                minimumResultsForSearch: Infinity,
+            });
+
+            $select.on('select2:select', function (e) {
+                const data = e.params.data;
+                $select.val(data.id).trigger('change');
+            });
+        }
     });
-   }
+}

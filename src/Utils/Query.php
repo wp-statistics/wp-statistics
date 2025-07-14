@@ -20,6 +20,7 @@ class Query
     private $orderClause;
     private $groupByClause;
     private $limitClause;
+    private $havingClause;
     private $whereRelation = 'AND';
     private $setClauses = [];
     private $joinClauses = [];
@@ -99,7 +100,7 @@ class Query
                 if (is_string($value)) {
                     $this->setClauses[]      = "$column = %s";
                     $this->valuesToPrepare[] = $value;
-                } else if (is_numeric($value)) {
+                } else if (is_numeric($value) || is_bool($value)) {
                     $this->setClauses[]      = "$column = %d";
                     $this->valuesToPrepare[] = $value;
                 } else if (is_null($value)) {
@@ -119,7 +120,7 @@ class Query
 
                 if (is_string($value)) {
                     $placeholders[] = '%s';
-                } else if (is_numeric($value)) {
+                } else if (is_numeric($value) || is_bool($value)) {
                     $placeholders[] = '%d';
                 }
             }
@@ -644,6 +645,15 @@ class Query
         return $this;
     }
 
+    public function having($expression)
+    {
+        if (!empty($expression)) {
+            $this->havingClause = "HAVING {$expression}";
+        }
+
+        return $this;
+    }
+
     protected function buildQuery()
     {
         $queryMethod = "{$this->operation}Query";
@@ -710,6 +720,11 @@ class Query
         // Append GROUP BY clauses
         if (!empty($this->groupByClause)) {
             $query .= ' ' . $this->groupByClause;
+        }
+
+        // Append HAVING clauses
+        if (!empty($this->havingClause)) {
+            $query .= ' ' . $this->havingClause;
         }
 
         // Append ORDER clauses

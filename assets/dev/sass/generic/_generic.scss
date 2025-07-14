@@ -334,11 +334,14 @@
   }
 }
 
+.wps-card__traffic-trends .wps-postbox-chart--trafficChart{
+  padding: 0!important;
+}
 .wps-postbox-chart {
   padding-right: 24px;
   padding-left: 24px;
 
-  &.wps-p-0 {
+  &.wps-p-0 , &.wps-postbox-chart--referredVisitors {
     padding: 0;
   }
 
@@ -410,6 +413,14 @@
         font-style: italic;
         font-weight: 400;
         line-height: 15.23px;
+      }
+    }
+
+    &.c-chart__wps-skeleton .wps-ph-item{
+      @media (min-width: 601px) {
+        .wps-ph-picture{
+          height: 299px;
+        }
       }
     }
 
@@ -799,7 +810,7 @@
 
 .wps-wrap table tbody tr td a {
   &.wps-tooltip-premium__link {
-    color: #707276  !important;
+    color: #707276 !important;
 
     &:hover {
       color: #707276 !important;
@@ -1147,8 +1158,13 @@ body .o-table-wrapper table.wps-new-table tbody tr td {
       }
     }
 
-    &:hover span {
-      color: #3c4043 !important;
+    &:hover{
+      span {
+        color: #3c4043 !important;
+      }
+      &:after{
+        filter: grayscale(1);
+      }
     }
   }
 }

@@ -32,7 +32,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                 <div class="wps-tabs__content">
                     <?php
                     /** @var stdClass[] */
-                    $viewingAuthors = $data['authors']['top_viewing'];
+                    $viewingAuthors = $data['top_viewing'];
                     $counter        = 1;
 
                     if ($viewingAuthors) {
@@ -62,7 +62,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                     <?php
 
                     /** @var stdClass[] */
-                    $publishingAuthors = $data['authors']['top_publishing'];
+                    $publishingAuthors = $data['top_publishing'];
                     $counter           = 1;
 
                     if ($publishingAuthors) {
@@ -95,7 +95,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                 <div class="wps-tabs__content">
                     <?php
                     /** @var stdClass[] */
-                    $topByViewsPerPost = $data['authors']['top_by_views'];
+                    $topByViewsPerPost = $data['top_by_views'];
                     $counter           = 1;
 
                     if ($topByViewsPerPost) {
@@ -126,7 +126,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                     <div class="wps-tabs__content">
                         <?php
                         /** @var stdClass[] */
-                        $topByCommentsPerPost = $data['authors']['top_by_comments'];
+                        $topByCommentsPerPost = $data['top_by_comments'];
                         $counter              = 1;
 
                         if ($topByCommentsPerPost) {
@@ -158,7 +158,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                     <div class="wps-tabs__content">
                         <?php
                         /** @var stdClass[] */
-                        $topByWordsPerPost = $data['authors']['top_by_words'];
+                        $topByWordsPerPost = $data['top_by_words'];
                         $counter           = 1;
 
                         if ($topByWordsPerPost) {

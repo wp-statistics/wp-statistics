@@ -56,7 +56,7 @@ $order                = Request::get('order', 'desc');
                 <?php foreach ($data as $post) : ?>
                     <tr>
                         <td class="wps-pd-l">
-                            <a target="_blank" href="<?php echo esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $post->post_id])) ?>" class="wps-table-ellipsis--name">
+                            <a href="<?php echo esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $post->post_id])) ?>" class="wps-table-ellipsis--name">
                                 <?php if (has_post_thumbnail($post->post_id)) : ?>
                                     <img src="<?php echo esc_url(get_the_post_thumbnail_url($post->post_id)) ?>" class="wps-pages-image" alt="<?php echo esc_attr($post->title) ?>">
                                 <?php else : ?>

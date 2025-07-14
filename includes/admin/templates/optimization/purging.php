@@ -174,6 +174,13 @@
                 buttonId: '#query-params-cleanup-submit',
                 resultId: '#query-params-cleanup-result',
                 action: 'wp_statistics_query_params_cleanup'
+            },
+            {
+                buttonId: '#event-data-cleanup-submit',
+                resultId: '#event-data-cleanup-result',
+                action: 'wp_statistics_event_data_cleanup',
+                selectId: '#event-name',
+                dataKey: 'event_name'
             }
         ];
 
@@ -327,6 +334,32 @@
                         <?php esc_html_e('It is recommended to back up your database before proceeding, as this cleanup is irreversible.', 'wp-statistics'); ?>
                     </div>
                     <div id="query-params-cleanup-result" class="wps-mt-12"></div>
+                </td>
+            </tr>
+
+            <tr>
+                <th scope="row">
+                    <label for="event-data-cleanup-submit"><?php esc_html_e('Select Event to Delete', 'wp-statistics'); ?></label>
+                </th>
+                <td>
+                    <?php
+                        $eventsModel = new WP_Statistics\Models\EventsModel();
+                        $events      = $eventsModel->getEvents(['fields' => 'DISTINCT event_name', 'per_page' => false]);
+                    ?>
+                    <select dir="ltr" id="event-name" name="event_name">
+                        <option value=""><?php esc_html_e('Select an Option', 'wp-statistics'); ?></option>
+
+                        <?php foreach ($events as $event) : ?>
+                            <option value="<?php echo esc_attr($event->event_name); ?>"><?php echo esc_html($event->event_name); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+
+                    <p class="description">
+                        <?php esc_html_e('Choose which event to remove from the database. Once deleted, the data cannot be recovered. To stop recording this data in the future, please disable the event.', 'wp-statistics'); ?><br>
+                    </p>
+
+                    <button id="event-data-cleanup-submit" class="button button-primary" type="submit" name="event_data_cleanup_submit"><?php esc_html_e('Delete Data', 'wp-statistics'); ?></button>
+                    <div id="event-data-cleanup-result"></div>
                 </td>
             </tr>
             </tbody>
