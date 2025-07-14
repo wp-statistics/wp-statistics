@@ -1,41 +1,51 @@
 /**
  * Configuration for horizontal bar charts
  */
-const data = Wp_Statistics_Visitors_Object;
+let data;
+let skipConfigs = false;
 
-const barChartConfigs = [
+try {
+    if (typeof Wp_Statistics_Visitors_Object !== 'undefined' && Wp_Statistics_Visitors_Object) {
+        data = Wp_Statistics_Visitors_Object;
+    } else {
+        skipConfigs = true;
+    }
+} catch (error) {
+    skipConfigs = true;
+}
+
+const barChartConfigs = skipConfigs ? [] : [
     {
         elementId: 'visitors-logged-in-users',
-        data: data.logged_in_users,
+        data: data?.logged_in_users,
     },
     {
         elementId: 'visitors-device-categories',
-        data: data.devices,
+        data: data?.devices,
     },
     {
         elementId: 'visitors-top-countries',
-        data: data.countries,
+        data: data?.countries,
     },
     {
         elementId: 'visitors-top-browsers',
-        data: data.browsers,
+        data: data?.browsers,
     },
 ];
 
 /**
  * Configuration for line charts
  */
+const trafficChart = skipConfigs ? null : data?.traffic;
 
-const trafficChart = data.traffic;
-
-const lineChartConfigs = [
+const lineChartConfigs = skipConfigs ? [] : [
     {
         elementId: 'trafficTrendsChart',
         dataSource: () => Wp_Statistics_Visitors_Object?.traffic_chart_data,
     },
     {
         elementId: 'trafficChart',
-        dataSource: () => trafficChart
+        dataSource: () => trafficChart,
     },
     {
         elementId: 'LoggedInUsersChart',
@@ -43,13 +53,12 @@ const lineChartConfigs = [
     },
 ];
 
-
 /**
  * Configuration for vector map
  */
-const vectorMapConfig = {
+const vectorMapConfig = skipConfigs ? {} : {
     elementId: 'wp-statistics-visitors-map',
-    data: data.map
+    data: data?.map,
 };
 
 /**
@@ -69,7 +78,6 @@ const isPropertySet = (obj, ...keys) => {
 const renderBarChart = ({elementId, data}) => {
     const element = document.getElementById(elementId);
     if (!element) {
-        console.warn(`Element with ID ${elementId} not found`);
         return;
     }
 
@@ -81,7 +89,6 @@ const renderBarChart = ({elementId, data}) => {
     try {
         wps_js.horizontal_bar(elementId, data.labels, data.data, data.icons);
     } catch (error) {
-        console.error(`Error rendering bar chart ${elementId}:`, error);
         jQuery(element).parent().html(wps_js.no_results());
     }
 };
@@ -101,7 +108,6 @@ const renderLineChart = ({elementId, dataSource}) => {
         jQuery(element).parent().html(wps_js.no_results());
         return;
     }
-
     try {
         wps_js.new_line_chart(data, elementId, null);
     } catch (error) {
@@ -135,12 +141,17 @@ const renderVectorMap = ({elementId, data}) => {
  * Initialize all visualizations
  */
 const initializeVisualizations = () => {
-    if (!wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "visitors") {
+    if (typeof Wp_Statistics_Visitors_Object === 'undefined' || !Wp_Statistics_Visitors_Object) {
         return;
     }
+
+    if (!wps_js.isset(wps_js.global, 'request_params', 'page') || wps_js.global.request_params.page !== "visitors") {
+        return;
+    }
+
     barChartConfigs.forEach(renderBarChart);
     lineChartConfigs.forEach(renderLineChart);
     renderVectorMap(vectorMapConfig);
 };
 
-initializeVisualizations()
+initializeVisualizations();
