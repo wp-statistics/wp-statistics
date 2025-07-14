@@ -40,7 +40,7 @@ $order = Request::get('order', 'desc');
                     <?php foreach ($data as $author) : ?>
                         <tr>
                             <td class="wps-pd-l">
-                                <a class="wps-table-ellipsis--name" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])) ?>" target="_blank">
+                                <a class="wps-table-ellipsis--name" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])) ?>">
                                     <img class="wps-avatar" src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_attr($author->name) ?>" role="presentation"/>
                                     <span><?php echo esc_html($author->name) ?></span>
                                 </a>
