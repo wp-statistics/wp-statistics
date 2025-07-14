@@ -12,7 +12,7 @@ $visitor = $data['visitor'];
     <div class="postbox-container postbox-container--first-col">
         <div class="wps-card">
             <div class="wps-card__title">
-                <h2><?php esc_html_e('Session Details', 'wp-statistics'); ?></h2>
+                <h2><?php esc_html_e('Visitor Overview', 'wp-statistics'); ?></h2>
             </div>
             <?php View::load("components/session-details", ['visitor' => $visitor]); ?>
         </div>
@@ -38,6 +38,21 @@ $visitor = $data['visitor'];
                     'pagination' => $pagination ?? null
                 ];
                 View::load("components/tables/recent-views", $args);
+                ?>
+            </div>
+        </div>
+
+        <div class="wps-card wps-card wps-card--table">
+            <div class="wps-card__title">
+                <h2><?php esc_html_e('Recent Events', 'wp-statistics'); ?></h2>
+            </div>
+            <div class="wps-card--table__body">
+                <?php
+                $args = [
+                    'data'       => $data['visitor_journey'],
+                    'pagination' => $pagination ?? null
+                ];
+                View::load("components/tables/recent-events", $args);
                 ?>
             </div>
         </div>

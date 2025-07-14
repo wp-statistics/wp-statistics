@@ -14,10 +14,13 @@ use WP_Statistics\Components\View;
                 <thead>
                     <tr>
                         <th class="wps-pd-l">
+                            <?php esc_html_e('ID', 'wp-statistics'); ?>
+                        </th>
+                        <th class="wps-pd-l">
                             <?php esc_html_e('Date', 'wp-statistics'); ?>
                         </th>
-                        <th class="wps-pd-l start">
-                            <?php esc_html_e('Page', 'wp-statistics'); ?>
+                        <th class="wps-pd-l">
+                            <?php esc_html_e('Visitor Information', 'wp-statistics'); ?>
                         </th>
                     </tr>
                 </thead>
@@ -27,11 +30,22 @@ use WP_Statistics\Components\View;
                     $page = Visitor::get_page_by_id($view->page_id); 
                 ?>
                     <tr>
+                        <td class="wps-pd-l">
+                            <div class="wps-recent-views__id">
+                                <span class="wps-recent-views__visitor-hash">#4e2vdjit3</span>
+                                <ul>
+                                    <li>
+                                        <span>3 : 26 pm</span>
+                                        <?php
+                                        View::load("components/objects/internal-link", ['url' => $page['report'], 'title' => $page['title']]);
+                                        ?>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
                         <td class="wps-pd-l"><?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(true), strtotime($view->date))); ?></td>
-                        <td class="wps-pd-l start">
-                            <?php
-                            View::load("components/objects/internal-link", ['url' => $page['report'], 'title' => $page['title']]);
-                            ?>
+                        <td class="wps-pd-l">
+                            <?php View::load("components/visitor-information", ['visitor' => []]); ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

@@ -222,13 +222,47 @@ html[dir=rtl] {
 }
 
 .o-table-wrapper .wps-new-table.wps-recent-views-table {
-  tbody td {
-    width: 50%;
 
-    a.wps-link-arrow {
-      max-width: 300px;
-    }
+  tbody td{
+    vertical-align: top;
   }
+   .wps-recent-views__id{
+     .wps-recent-views__visitor-hash{
+        color:#56585A;
+       font-weight: 400;
+       font-size: 12px;
+       line-height: 15px;
+     }
+
+     ul{
+       display: flex;
+       flex-direction: column;
+       padding-left: 24px ;
+       gap: 12px;
+       margin-bottom: 0;
+       margin-top: 14px;
+
+       .rtl &{
+         padding-right: 24px ;
+         padding-left: 0 ;
+       }
+
+       li{
+         display: inline-flex;
+         align-items: center;
+         gap: 12px;
+         margin-bottom: 0;
+
+         span{
+           font-weight: 400;
+           font-size: 12px;
+           line-height: 15px;
+           color:#444F5C
+         }
+       }
+     }
+   }
+
 }
 
 .o-table-wrapper .wps-new-table.wps-recent-events-table {
@@ -252,6 +286,8 @@ html[dir=rtl] {
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
+        display: inline-block;
+        max-width: 100%;
 
         &.wps-ellipsis-text--disable {
           color: #56585A;

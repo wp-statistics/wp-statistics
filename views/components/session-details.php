@@ -10,23 +10,7 @@ use WP_Statistics\Components\View;
 
 <div class="wps-visitor__visitors-details">
     <div class="wps-visitor__visitors-detail--row">
-        <?php if ($visitor->isHashedIP()) : ?>
-            <span>
-                <?php esc_html_e('Daily Visitor Hash', 'wp-statistics'); ?>
-            </span>
-        <?php else : ?>
-            <span>
-                <?php esc_html_e('IP Address', 'wp-statistics'); ?>
-            </span>
-        <?php endif; ?>
-
-        <div>
-            <span title="<?php echo esc_attr($visitor->getIP()); ?>"><?php echo esc_html($visitor->getIP()); ?></span>
-        </div>
-    </div>
-
-    <div class="wps-visitor__visitors-detail--row">
-        <span><?php esc_html_e('Referrer', 'wp-statistics'); ?></span>
+        <span><?php esc_html_e('First Referrer', 'wp-statistics'); ?></span>
         <div class="wps-visitor__visitors-detail--link wps-ellipsis-parent">
             <?php if (!empty($visitor->getReferral()->getReferrer())) :
                 View::load("components/objects/external-link", ['url' => $visitor->getReferral()->getReferrer(), 'title' => $visitor->getReferral()->getRawReferrer()]);
@@ -137,7 +121,7 @@ use WP_Statistics\Components\View;
     </div>
 
     <div class="wps-visitor__visitors-detail--row">
-        <span><?php esc_html_e('Total Views', 'wp-statistics'); ?> <span class="wps-tooltip" title="<?php esc_html_e('Total views for a single day. Privacy rules assign users a new ID daily, so visits on different days are counted separately.', 'wp-statistics'); ?>"><i class="wps-tooltip-icon"></i></span></span>
+        <span><?php esc_html_e('Total Views', 'wp-statistics'); ?></span>
         <div>
             <span><?php echo esc_html($visitor->getHits()) ?></span>
         </div>

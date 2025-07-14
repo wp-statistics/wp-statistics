@@ -1,4 +1,9 @@
 
+<?php
+
+use WP_Statistics\Components\View;
+
+?>
 <div class="inside">
     <?php if (!empty($data)) : ?>
         <div class="o-table-wrapper">
@@ -56,9 +61,9 @@
                             </div>
                         </td>
                         <td class="wps-pd-l">
-                            <a target="_blank" href="" title="Home Page" class="wps-link-arrow">
-                                <span>Home Page</span>
-                            </a>
+                            <?php
+                            View::load("components/objects/internal-link", ['url' => '', 'title' => 'Home Page']);
+                            ?>
                         </td>
                         <td class="wps-pd-l">
                             <div class="wps-ellipsis-parent">
