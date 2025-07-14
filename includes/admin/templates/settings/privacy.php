@@ -118,22 +118,10 @@ $hasCompatiblePlugins = !empty($compatiblePlugins);
 
                 <td>
                     <select id="consent_integration" name="wps_consent_integration">
-                        <option value="" <?php selected(WP_STATISTICS\Option::get('consent_integration'), ''); ?>>
-                            <?php esc_html_e('None', 'wp-statistics'); ?>
-                        </option>
+                        <option value="" <?php selected(WP_STATISTICS\Option::get('consent_integration')); ?>><?php esc_html_e('None', 'wp-statistics'); ?></option>
 
-                        <?php foreach (IntegrationHelper::getAllIntegrations() as $integration) :
-                            $integrationKey = $integration->getKey();
-                            $isDisabled = !$integration->isActive() || ($integrationKey === 'wp_consent_api' && !$hasCompatiblePlugins);
-
-                            // Only mark as selected if not disabled
-                            $isSelected = !$isDisabled && WP_STATISTICS\Option::get('consent_integration') === $integrationKey;
-                            ?>
-                            <option value="<?php echo esc_attr($integrationKey); ?>"
-                                <?php disabled($isDisabled); ?>
-                                <?php selected($isSelected); ?>>
-                                <?php echo esc_html($integration->getName()); ?>
-                            </option>
+                        <?php foreach (IntegrationHelper::getAllIntegrations() as $integration) : ?>
+                            <option <?php disabled(!$integration->isActive()) ?> value="<?php echo esc_attr($integration->getKey()); ?>" <?php selected(WP_STATISTICS\Option::get('consent_integration'), $integration->getKey()); ?>><?php echo esc_html($integration->getName()); ?></option>
                         <?php endforeach; ?>
                     </select>
                     <p class="description"><?php esc_html_e("Enable integration with supported consent management plugins, such as WP Consent API and Real Cookie Banner, to ensure WP Statistics respects user privacy preferences. When enabled, WP Statistics will only track data based on the consent settings provided by your active consent management plugin.", 'wp-statistics'); ?></p>
