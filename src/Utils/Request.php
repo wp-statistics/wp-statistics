@@ -100,142 +100,80 @@ class Request
     }
 
     /**
-     * Validates query params value.
+     * Validates a request parameter against the given rules.
      *
-     * @param array $params Array of params to validate, each param can be an array with type, minlength and regex.
-     * @return bool Returns true if all params are valid, false otherwise.
+     * Supported rules:
+     * - 'required'        => (bool) Whether the parameter is required.
+     * - 'nullable'        => (bool) If true, allows empty value (except numeric zero).
+     * - 'type'            => (string) 'string', 'number', or 'url'.
+     * - 'encoding'        => (string) Optional decoding: 'base64' or 'url'.
+     * - 'minlength'       => (int) Minimum string length (for 'string' type).
+     * - 'maxlength'       => (int) Maximum string length (for 'string' type).
+     * - 'min'             => (int|float) Minimum numeric value (for 'number' type).
+     * - 'max'             => (int|float) Maximum numeric value (for 'number' type).
+     * - 'invalid_pattern' => (string|array) One or more regex patterns that should not match.
+     * - 'valid_pattern'   => (string|array) One or more regex patterns that must match.
      *
-     * Example usage:
-     * $params = [
-     *     'username' => [
-     *         'type'           => 'string',
-     *         'required'       => true,
-     *         'nullable'       => false,
-     *         'minlength'      => 5,
-     *         'valid_pattern'  => '/^[a-zA-Z0-9_]+$/'
-     *     ],
-     *     'age' => [
-     *         'type'            => 'integer',
-     *         'required'        => false,
-     *         'minlength'       => 1,
-     *         'invalid_pattern' => '/^\d+$/'
-     *     ]
-     * ];
+     * @param string $param The name of the parameter to validate (from $_REQUEST).
+     * @param array $rules An associative array of validation rules.
      *
-     * if (validate($params)) {
-     *     // All parameters are valid
-     * } else {
-     *     // One or more parameters are invalid
-     * }
+     * @return bool True if validation passes, false otherwise.
      */
-    public static function validate($params)
+    public static function validate($param, $rules)
     {
-        foreach ($params as $param => $validation) {
-            // Skip if value is not required and param is not set
-            if (!isset($_REQUEST[$param])) {
-                if (empty($validation['required'])) {
-                    continue;
-                } else {
-                    return false;
-                }
+        if (!isset($_REQUEST[$param]) && !empty($rules['required'])) {
+            return false;
+        }
+
+        $paramValue = $_REQUEST[$param];
+
+        // Type must be specified
+        if (!isset($rules['type'])) {
+            return false;
+        }
+
+        // Decode value if needed
+        if (!empty($rules['encoding'])) {
+            if ($rules['encoding'] === 'base64') {
+                $decoded = base64_decode($paramValue, true);
+                if ($decoded === false) return false;
+                $paramValue = $decoded;
+            } elseif ($rules['encoding'] === 'url') {
+                $paramValue = urldecode($paramValue);
             }
+        }
 
-            $paramValue = $_REQUEST[$param];
-
-            // Skip if value is empty and param is nullable
-            if (!empty($validation['nullable']) && !is_numeric($paramValue) && empty($paramValue)) {
-                continue;
-            }
-
-            // Return false if type is not specified
-            if (!isset($validation['type'])) {
+        switch ($rules['type']) {
+            case 'string':
+                if (!is_string($paramValue)) return false;
+                if (isset($rules['minlength']) && strlen($paramValue) < $rules['minlength']) return false;
+                if (isset($rules['maxlength']) && strlen($paramValue) > $rules['maxlength']) return false;
+                break;
+            case 'number':
+                if (!is_numeric($paramValue)) return false;
+                if (isset($rules['min']) && $paramValue < $rules['min']) return false;
+                if (isset($rules['max']) && $paramValue > $rules['max']) return false;
+                break;
+            case 'url':
+                if (!filter_var($paramValue, FILTER_VALIDATE_URL)) return false;
+                break;
+            default:
                 return false;
+        }
+
+        // Check invalid patterns
+        if (!empty($rules['invalid_pattern'])) {
+            $patterns = is_array($rules['invalid_pattern']) ? $rules['invalid_pattern'] : [$rules['invalid_pattern']];
+            foreach ($patterns as $pattern) {
+                if (preg_match($pattern, $paramValue)) return false;
             }
+        }
 
-            // Decode if it's base64 encoded
-            if (!empty($validation['encoding'])) {
-                if ($validation['encoding'] === 'base64') {
-                    $paramValue = base64_decode($paramValue);
-                } else if ($validation['encoding'] === 'url') {
-                    $paramValue = urldecode($paramValue);
-                }
-            }
-
-            switch ($validation['type']) {
-                case 'string':
-                    // Validate type
-                    if (!is_string($paramValue)) {
-                        return false;
-                    }
-
-                    // Validate minlength
-                    if (isset($validation['minlength']) && strlen($paramValue) < $validation['minlength']) {
-                        return false;
-                    }
-
-                    // Validate maxlength
-                    if (isset($validation['maxlength']) && strlen($paramValue) > $validation['maxlength']) {
-                        return false;
-                    }
-                    break;
-                case 'number':
-                    // Validate type
-                    if (!is_numeric($paramValue)) {
-                        return false;
-                    }
-
-                    // Validate min
-                    if (isset($validation['min']) && $paramValue < $validation['min']) {
-                        return false;
-                    }
-
-                    // Validate max
-                    if (isset($validation['max']) && $paramValue > $validation['max']) {
-                        return false;
-                    }
-                    break;
-                case 'url':
-                    // Validate url
-                    if (!filter_var($paramValue, FILTER_VALIDATE_URL)) {
-                        return false;
-                    }
-                    break;
-                default:
-                    return false;
-            }
-
-            // Invalid pattern
-            if (isset($validation['invalid_pattern'])) {
-                if (is_string($validation['invalid_pattern'])) {
-                    if (preg_match($validation['invalid_pattern'], $paramValue)) {
-                        return false;
-                    }
-                }
-
-                if (is_array($validation['invalid_pattern'])) {
-                    foreach ($validation['invalid_pattern'] as $pattern) {
-                        if (preg_match($pattern, $paramValue)) {
-                            return false;
-                        }
-                    }
-                }
-            }
-
-            // Valid pattern
-            if (isset($validation['valid_pattern'])) {
-                if (is_string($validation['valid_pattern'])) {
-                    if (!preg_match($validation['valid_pattern'], $paramValue)) {
-                        return false;
-                    }
-                }
-
-                if (is_array($validation['valid_pattern'])) {
-                    foreach ($validation['valid_pattern'] as $pattern) {
-                        if (!preg_match($pattern, $paramValue)) {
-                            return false;
-                        }
-                    }
-                }
+        // Check valid patterns
+        if (!empty($rules['valid_pattern'])) {
+            $patterns = is_array($rules['valid_pattern']) ? $rules['valid_pattern'] : [$rules['valid_pattern']];
+            foreach ($patterns as $pattern) {
+                if (!preg_match($pattern, $paramValue)) return false;
             }
         }
 
@@ -267,159 +205,5 @@ class Request
         }
 
         return false;
-    }
-
-    /**
-     * Validates parameters against rules and returns detailed error messages
-     *
-     * @param array $params Validation rules
-     * @return array Array of validation error messages (empty if valid)
-     */
-    public static function getValidationErrors($params)
-    {
-        $errors = [];
-
-        foreach ($params as $param => $validation) {
-            // Check required parameters
-            if (!isset($_REQUEST[$param])) {
-                if (!empty($validation['required'])) {
-                    $errors[] = sprintf("Missing required parameter: %s", $param);
-                }
-                continue;
-            }
-
-            $paramValue = $_REQUEST[$param];
-
-            // Skip validation for empty nullable values
-            if (!empty($validation['nullable']) && !is_numeric($paramValue) && empty($paramValue)) {
-                continue;
-            }
-
-            // Check type specification
-            if (!isset($validation['type'])) {
-                $errors[] = sprintf("No validation type specified for parameter: %s", $param);
-                continue;
-            }
-
-            // Handle encoding
-            if (!empty($validation['encoding'])) {
-                try {
-                    if ($validation['encoding'] === 'base64') {
-                        $decoded = base64_decode($paramValue, true);
-                        if ($decoded === false) {
-                            $errors[] = sprintf("Failed to base64 decode parameter: %s", $param);
-                            continue;
-                        }
-                        $paramValue = $decoded;
-                    } else if ($validation['encoding'] === 'url') {
-                        $paramValue = urldecode($paramValue);
-                    }
-                } catch (Exception $e) {
-                    $errors[] = sprintf("Decoding failed for parameter %s: %s", $param, $e->getMessage());
-                    continue;
-                }
-            }
-
-            // Type-specific validation
-            switch ($validation['type']) {
-                case 'string':
-                    if (!is_string($paramValue)) {
-                        $errors[] = sprintf("Parameter %s must be a string, %s given", $param, gettype($paramValue));
-                        break;
-                    }
-
-                    if (isset($validation['minlength']) && strlen($paramValue) < $validation['minlength']) {
-                        $errors[] = sprintf(
-                            "Parameter %s too short (min %d characters, got %d)",
-                            $param,
-                            $validation['minlength'],
-                            strlen($paramValue)
-                        );
-                    }
-
-                    if (isset($validation['maxlength']) && strlen($paramValue) > $validation['maxlength']) {
-                        $errors[] = sprintf(
-                            "Parameter %s too long (max %d characters, got %d)",
-                            $param,
-                            $validation['maxlength'],
-                            strlen($paramValue)
-                        );
-                    }
-                    break;
-
-                case 'number':
-                    if (!is_numeric($paramValue)) {
-                        $errors[] = sprintf("Parameter %s must be numeric, %s given", $param, gettype($paramValue));
-                        break;
-                    }
-
-                    if (isset($validation['min']) && $paramValue < $validation['min']) {
-                        $errors[] = sprintf(
-                            "Parameter %s value %s below minimum allowed %s",
-                            $param,
-                            $paramValue,
-                            $validation['min']
-                        );
-                    }
-
-                    if (isset($validation['max']) && $paramValue > $validation['max']) {
-                        $errors[] = sprintf(
-                            "Parameter %s value %s above maximum allowed %s",
-                            $param,
-                            $paramValue,
-                            $validation['max']
-                        );
-                    }
-                    break;
-
-                case 'url':
-                    if (!filter_var($paramValue, FILTER_VALIDATE_URL)) {
-                        $errors[] = sprintf("Parameter %s is not a valid URL: %s", $param, $paramValue);
-                    }
-                    break;
-
-                default:
-                    $errors[] = sprintf("Unknown validation type '%s' for parameter %s", $validation['type'], $param);
-                    break;
-            }
-
-            // Check for invalid patterns
-            if (isset($validation['invalid_pattern'])) {
-                $patterns = is_array($validation['invalid_pattern'])
-                    ? $validation['invalid_pattern']
-                    : [$validation['invalid_pattern']];
-
-                foreach ($patterns as $pattern) {
-                    if (preg_match($pattern, $paramValue)) {
-                        $errors[] = sprintf(
-                            "Parameter %s contains potentially dangerous content matching pattern: %s",
-                            $param,
-                            $pattern
-                        );
-                        break;
-                    }
-                }
-            }
-
-            // Check for required valid patterns
-            if (isset($validation['valid_pattern'])) {
-                $patterns = is_array($validation['valid_pattern'])
-                    ? $validation['valid_pattern']
-                    : [$validation['valid_pattern']];
-
-                foreach ($patterns as $pattern) {
-                    if (!preg_match($pattern, $paramValue)) {
-                        $errors[] = sprintf(
-                            "Parameter %s does not match required format pattern: %s",
-                            $param,
-                            $pattern
-                        );
-                        break;
-                    }
-                }
-            }
-        }
-
-        return $errors;
     }
 }

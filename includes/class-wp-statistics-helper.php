@@ -1979,36 +1979,42 @@ class Helper
         $validationErrors = [];
         $currentTime      = time();
 
-        // Validate parameters
-        $validationRules = [
-            'page_uri'     => [
-                'required'        => true,
-                'nullable'        => true,
-                'type'            => 'string',
-                'encoding'        => 'base64',
-                'invalid_pattern' => self::injectionPatterns()
-            ],
-            'search_query' => [
-                'required'        => true,
-                'nullable'        => true,
-                'type'            => 'string',
-                'encoding'        => 'base64',
-                'invalid_pattern' => self::injectionPatterns()
-            ],
-            'source_id'    => [
-                'type'     => 'number',
-                'required' => true,
-                'nullable' => false
-            ],
-            'referred'     => [
-                'required' => true,
-                'nullable' => true,
-                'type'     => 'url',
-                'encoding' => 'base64'
-            ],
-        ];
+        if (!Request::validate('page_uri', [
+            'required'        => true,
+            'nullable'        => true,
+            'type'            => 'string',
+            'encoding'        => 'base64',
+            'invalid_pattern' => self::injectionPatterns()
+        ])) {
+            $validationErrors[] = "Invalid parameter: page_uri.";
+        }
 
-        $validationErrors = Request::getValidationErrors($validationRules);
+        if (!Request::validate('search_query', [
+            'required'        => true,
+            'nullable'        => true,
+            'type'            => 'string',
+            'encoding'        => 'base64',
+            'invalid_pattern' => self::injectionPatterns()
+        ])) {
+            $validationErrors[] = "Invalid parameter: search_query";
+        }
+
+        if (!Request::validate('source_id', [
+            'type'     => 'number',
+            'required' => true,
+            'nullable' => false
+        ])) {
+            $validationErrors[] = "Invalid parameter: source_id";
+        }
+
+        if (!Request::validate('referred', [
+            'required' => true,
+            'nullable' => true,
+            'type'     => 'url',
+            'encoding' => 'base64'
+        ])) {
+            $validationErrors[] = "Invalid parameter: referred";
+        }
 
         // Validate timestamp
         $timestamp = !empty($_SERVER['HTTP_X_WPS_TS']) ? (int)base64_decode($_SERVER['HTTP_X_WPS_TS']) : false;
