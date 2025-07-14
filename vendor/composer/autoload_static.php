@@ -15,12 +15,54 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         array (
             'WP_Statistics\\' => 14,
         ),
+        'M' => 
+        array (
+            'MaxMind\\WebService\\' => 19,
+            'MaxMind\\Exception\\' => 18,
+            'MaxMind\\Db\\' => 11,
+        ),
+        'G' => 
+        array (
+            'GeoIp2\\' => 7,
+        ),
+        'D' => 
+        array (
+            'DeviceDetector\\' => 15,
+        ),
+        'C' => 
+        array (
+            'Composer\\CaBundle\\' => 18,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'WP_Statistics\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'MaxMind\\WebService\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/WebService',
+        ),
+        'MaxMind\\Exception\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/Exception',
+        ),
+        'MaxMind\\Db\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind-db/reader/src/MaxMind/Db',
+        ),
+        'GeoIp2\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/geoip2/geoip2/src',
+        ),
+        'DeviceDetector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/matomo/device-detector',
+        ),
+        'Composer\\CaBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
         ),
     );
 
@@ -55,6 +97,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Components\\View' => __DIR__ . '/../..' . '/src/Components/View.php',
         'WP_Statistics\\Decorators\\BrowserDecorator' => __DIR__ . '/../..' . '/src/Decorators/BrowserDecorator.php',
         'WP_Statistics\\Decorators\\DeviceDecorator' => __DIR__ . '/../..' . '/src/Decorators/DeviceDecorator.php',
+        'WP_Statistics\\Decorators\\EventDecorator' => __DIR__ . '/../..' . '/src/Decorators/EventDecorator.php',
         'WP_Statistics\\Decorators\\LocationDecorator' => __DIR__ . '/../..' . '/src/Decorators/LocationDecorator.php',
         'WP_Statistics\\Decorators\\MarketingCampaignDecorator' => __DIR__ . '/../..' . '/src/Decorators/MarketingCampaignDecorator.php',
         'WP_Statistics\\Decorators\\NotificationDecorator' => __DIR__ . '/../..' . '/src/Decorators/NotificationDecorator.php',
@@ -305,9 +348,12 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Charts\\ChartDataProviderFactory' => __DIR__ . '/../..' . '/src/Service/Charts/ChartDataProviderFactory.php',
         'WP_Statistics\\Service\\Charts\\DataProvider\\AuthorsPostViewsChartDataProvider' => __DIR__ . '/../..' . '/src/Service/Charts/DataProvider/AuthorsPostViewsChartDataProvider.php',
         'WP_Statistics\\Service\\Charts\\DataProvider\\BrowserChartDataProvider' => __DIR__ . '/../..' . '/src/Service/Charts/DataProvider/BrowserChartDataProvider.php',
+        'WP_Statistics\\Service\\Charts\\DataProvider\\ContinentChartDataProvider' => __DIR__ . '/../..' . '/src/Service/Charts/DataProvider/ContinentChartDataProvider.php',
         'WP_Statistics\\Service\\Charts\\DataProvider\\CountryChartDataProvider' => __DIR__ . '/../..' . '/src/Service/Charts/DataProvider/CountryChartDataProvider.php',
         'WP_Statistics\\Service\\Charts\\DataProvider\\DeviceChartDataProvider' => __DIR__ . '/../..' . '/src/Service/Charts/DataProvider/DeviceChartDataProvider.php',
+        'WP_Statistics\\Service\\Charts\\DataProvider\\EventActivityChartDataProvider' => __DIR__ . '/../..' . '/src/Service/Charts/DataProvider/EventActivityChartDataProvider.php',
         'WP_Statistics\\Service\\Charts\\DataProvider\\ExclusionsChartDataProvider' => __DIR__ . '/../..' . '/src/Service/Charts/DataProvider/ExclusionsChartDataProvider.php',
+        'WP_Statistics\\Service\\Charts\\DataProvider\\LoggedInUsersChartDataProvider' => __DIR__ . '/../..' . '/src/Service/Charts/DataProvider/LoggedInUsersChartDataProvider.php',
         'WP_Statistics\\Service\\Charts\\DataProvider\\MapChartDataProvider' => __DIR__ . '/../..' . '/src/Service/Charts/DataProvider/MapChartDataProvider.php',
         'WP_Statistics\\Service\\Charts\\DataProvider\\ModelChartDataProvider' => __DIR__ . '/../..' . '/src/Service/Charts/DataProvider/ModelChartDataProvider.php',
         'WP_Statistics\\Service\\Charts\\DataProvider\\OsChartDataProvider' => __DIR__ . '/../..' . '/src/Service/Charts/DataProvider/OsChartDataProvider.php',
@@ -325,6 +371,10 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Charts\\Traits\\LineChartResponseTrait' => __DIR__ . '/../..' . '/src/Service/Charts/Traits/LineChartResponseTrait.php',
         'WP_Statistics\\Service\\Charts\\Traits\\MapChartResponseTrait' => __DIR__ . '/../..' . '/src/Service/Charts/Traits/MapChartResponseTrait.php',
         'WP_Statistics\\Service\\CronEventManager' => __DIR__ . '/../..' . '/src/Service/CronEventManager.php',
+        'WP_Statistics\\Service\\CustomEvent\\CustomEventActions' => __DIR__ . '/../..' . '/src/Service/CustomEvent/CustomEventActions.php',
+        'WP_Statistics\\Service\\CustomEvent\\CustomEventDataParser' => __DIR__ . '/../..' . '/src/Service/CustomEvent/CustomEventDataParser.php',
+        'WP_Statistics\\Service\\CustomEvent\\CustomEventHelper' => __DIR__ . '/../..' . '/src/Service/CustomEvent/CustomEventHelper.php',
+        'WP_Statistics\\Service\\CustomEvent\\CustomEventManager' => __DIR__ . '/../..' . '/src/Service/CustomEvent/CustomEventManager.php',
         'WP_Statistics\\Service\\Database\\AbstractDatabaseOperation' => __DIR__ . '/../..' . '/src/Service/Database/AbstractDatabaseOperation.php',
         'WP_Statistics\\Service\\Database\\DatabaseFactory' => __DIR__ . '/../..' . '/src/Service/Database/DatabaseFactory.php',
         'WP_Statistics\\Service\\Database\\DatabaseManager' => __DIR__ . '/../..' . '/src/Service/Database/DatabaseManager.php',

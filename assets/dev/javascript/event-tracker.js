@@ -16,19 +16,80 @@ if (!window.WpStatisticsEventTracker) {
                 this.downloadTracker = WP_Statistics_DataPlus_Event_Object.options.downloadTracker;
                 this.linkTracker = WP_Statistics_DataPlus_Event_Object.options.linkTracker;
 
-                if (this.downloadTracker || this.linkTracker) {
-                    this.captureEvent();
-                }
+            if (this.downloadTracker || this.linkTracker) {
+                this.captureEvent();
             }
-        },
+        }
 
-        captureEvent: function () {
-            const elementsToObserve = document.querySelectorAll('a');
-            elementsToObserve.forEach(element => {
-                element.addEventListener('click', async (event) => await this.handleEvent(event));
-                element.addEventListener('mouseup', async (event) => await this.handleEvent(event));
+        // Attach handleCustomEvent to window object
+        window.wp_statistics_event = this.handleCustomEvent.bind(this);
+
+        // Capture custom events when Marketing is active
+        if (typeof WP_Statistics_Marketing_Event_Object !== 'undefined') {
+            this.captureCustomClickEvents();
+        }
+    },
+
+    // Handles preparing and sending marketing custom events to the server
+    handleCustomEvent: function (eventName, eventData = {}) {
+        const ajaxUrl = WP_Statistics_Tracker_Object.customEventAjaxUrl;
+
+        // Add timestamp
+        eventData.timestamp = Date.now();
+
+        // If resource_id is not set, set it to the source_id by default
+        if (!eventData.resource_id) {
+            eventData.resource_id = WP_Statistics_Tracker_Object.hitParams.source_id;
+        }
+
+        const data = {
+            event_name: eventName,
+            event_data: JSON.stringify(eventData)
+        };
+
+        this.sendEventData(data, ajaxUrl);
+    },
+
+    // Captures custom click events from Marketing
+    captureCustomClickEvents: function () {
+        const events = WP_Statistics_Marketing_Event_Object.events.clicks;
+
+        events.forEach(event => {
+            // Skip if event has no selector
+            if (!event.selector) {
+                return;
+            }
+
+            // Check if the custom event scope is global or specific to a page
+            if (event.scope != null && event.scope != WP_Statistics_Tracker_Object.hitParams.source_id) {
+                return;
+            }
+
+            const elements = document.querySelectorAll(`${event.selector}`);
+
+            elements.forEach(element => {
+                element.addEventListener('click', (e) => {
+                    const eventData = {
+                        text: e.target.textContent,
+                        id: e.currentTarget.id,
+                        class: e.currentTarget.className,
+                        target: e.currentTarget.href
+                    };
+
+                    this.handleCustomEvent(event.name, eventData)
+                });
             });
-        },
+        });
+    },
+
+    // DataPlus click and download events
+    captureEvent: function () {
+        const elementsToObserve = document.querySelectorAll('a');
+        elementsToObserve.forEach(element => {
+            element.addEventListener('click', async (event) => await this.handleEvent(event));
+            element.addEventListener('mouseup', async (event) => await this.handleEvent(event));
+        });
+    },
 
         handleEvent: async function (event) {
             if (event.type == 'mouseup' && event.button != 1) {
@@ -36,11 +97,12 @@ if (!window.WpStatisticsEventTracker) {
                 return;
             }
 
-            const eventData = this.prepareEventData(event);
-            if (eventData) {
-                await this.sendEventData(eventData);
-            }
-        },
+        const eventData = this.prepareEventData(event);
+        if (eventData) {
+            const ajaxUrl = WP_Statistics_DataPlus_Event_Object.eventAjaxUrl;
+            await this.sendEventData(eventData, ajaxUrl);
+        }
+    },
 
         prepareEventData: function (event) {
             let eventData = {
@@ -121,24 +183,22 @@ if (!window.WpStatisticsEventTracker) {
             return eventData;
         },
 
-        sendEventData: async function (eventData) {
-            const formData = new URLSearchParams();
-            for (const key in eventData) {
-                formData.append(key, eventData[key]);
-            }
+    sendEventData: async function (eventData, ajaxUrl) {
+        const formData = new URLSearchParams();
+        for (const key in eventData) {
+            formData.append(key, eventData[key]);
+        }
 
-            try {
-                const ajaxUrl = WP_Statistics_DataPlus_Event_Object.eventAjaxUrl;
+        if (!ajaxUrl) {
+            throw new Error('AJAX URL is not defined.');
+        }
 
-                if (!ajaxUrl) {
-                    throw new Error('DataPlus Event Ajax URL is not defined.');
-                }
-
-                const response = await fetch(ajaxUrl, {
-                    method: 'POST',
-                    keepalive: true,
-                    body: formData
-                });
+        try {
+            const response = await fetch(ajaxUrl, {
+                method: 'POST',
+                keepalive: true,
+                body: formData
+            });
 
                 if (response.ok) {
                     // Response processing can be done here if needed

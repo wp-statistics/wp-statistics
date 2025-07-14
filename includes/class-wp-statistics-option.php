@@ -296,6 +296,20 @@ class Option
         update_option($setting_name, $options);
     }
 
+    public static function deleteByAddon($option_name, $addon_name = '')
+    {
+        $setting_name = "wpstatistics_{$addon_name}_settings";
+
+        $options = get_option($setting_name);
+        if (!isset($options) || !is_array($options)) {
+            $options = array();
+        }
+
+        unset($options[$option_name]);
+
+        update_option($setting_name, $options);
+    }
+
     public static function getOptionGroup($group, $key = null, $default = null)
     {
         $settingName = "wp_statistics_{$group}";

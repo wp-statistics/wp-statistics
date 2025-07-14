@@ -18,3 +18,4 @@ wps_js.render_wp_statistics_about_metabox = wps_js.render_table_content;
 wps_js.render_wp_statistics_weekly_performance_widget = wps_js.render_table_content;
 wps_js.render_wp_statistics_post_visitors_widget = wps_js.render_table_content;
 wps_js.render_wp_statistics_source_categories_widget = wps_js.render_table_content;
+wps_js.render_wp_statistics_search_queries_widget = wps_js.render_table_content;
