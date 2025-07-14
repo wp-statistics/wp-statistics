@@ -91,6 +91,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Components\\Assets' => __DIR__ . '/../..' . '/src/Components/Assets.php',
         'WP_Statistics\\Components\\DateRange' => __DIR__ . '/../..' . '/src/Components/DateRange.php',
         'WP_Statistics\\Components\\DateTime' => __DIR__ . '/../..' . '/src/Components/DateTime.php',
+        'WP_Statistics\\Components\\Encryptor' => __DIR__ . '/../..' . '/src/Components/Encryptor.php',
         'WP_Statistics\\Components\\Event' => __DIR__ . '/../..' . '/src/Components/Event.php',
         'WP_Statistics\\Components\\RemoteRequest' => __DIR__ . '/../..' . '/src/Components/RemoteRequest.php',
         'WP_Statistics\\Components\\Singleton' => __DIR__ . '/../..' . '/src/Components/Singleton.php',

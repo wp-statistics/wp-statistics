@@ -30,6 +30,7 @@ return array(
     'WP_Statistics\\Components\\Assets' => $baseDir . '/src/Components/Assets.php',
     'WP_Statistics\\Components\\DateRange' => $baseDir . '/src/Components/DateRange.php',
     'WP_Statistics\\Components\\DateTime' => $baseDir . '/src/Components/DateTime.php',
+    'WP_Statistics\\Components\\Encryptor' => $baseDir . '/src/Components/Encryptor.php',
     'WP_Statistics\\Components\\Event' => $baseDir . '/src/Components/Event.php',
     'WP_Statistics\\Components\\RemoteRequest' => $baseDir . '/src/Components/RemoteRequest.php',
     'WP_Statistics\\Components\\Singleton' => $baseDir . '/src/Components/Singleton.php',
