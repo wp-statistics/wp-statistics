@@ -1,12 +1,11 @@
-if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "geographic") {
-    const wpsVectorMap= document.getElementById('wp-statistics-visitors-map')
+if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "geographic" && wps_js.global.request_params.tab === "overview") {
 
-    if(wpsVectorMap){
+    const wpsVectorMap = document.getElementById('wp-statistics-visitors-map')
+    if (wpsVectorMap) {
         const mapData = Wp_Statistics_Geographic_Object.map_chart_data;
         let pin = Array();
         let colors = {};
-
-        if (mapData?.codes?.length > 0) {
+        if (mapData && mapData?.codes?.length > 0) {
             const geoCountryData = {};
             mapData.codes.forEach((code, index) => {
                 const visitors_raw = Number(mapData.raw_data[index]) || 0;
@@ -107,7 +106,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         });
     }
 
-    const renderHorizontalChart=(id,data)=> {
+    const renderHorizontalChart = (id, data) => {
         const chartElement = document.getElementById(id);
         if (chartElement) {
             const parentElement = jQuery(`#${id}`).parent();
