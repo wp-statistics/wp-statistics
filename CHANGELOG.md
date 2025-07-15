@@ -1,3 +1,6 @@
+= 14.15.x - 2025-xx-xx =
+- **Enhancement:** Redesigned `Single Visitor` page to show all visitor sessions.
+
 = 14.14.x - 2025-xx-xx =
 - **Enhancement:** Improved migration efficiency and stability by running schema migrations synchronously and removing background processes.
 
