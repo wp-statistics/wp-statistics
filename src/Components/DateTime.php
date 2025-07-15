@@ -3,9 +3,7 @@
 namespace WP_Statistics\Components;
 
 use ErrorException;
-use DateTimeImmutable;
 use DateTimeZone;
-use Exception;
 
 class DateTime
 {
@@ -14,21 +12,34 @@ class DateTime
 
 
     /**
-     * Returns a formatted date string.
+     * Returns a formatted date string or false if input is invalid.
      *
-     * @param string $date Human readable date string passed to strtotime() function. Defaults to 'now'
+     * @param string $date Human-readable date string passed to strtotime(). Defaults to 'now'.
      * @param string $format The format string to use for the date. Default is 'Y-m-d'.
+     * @param string|null $timezone Optional timezone string (e.g., 'UTC', 'Asia/Tehran'). Defaults to self::getTimezone().
      *
-     * @return string The formatted date string.
+     * @return string|false The formatted date string, or false on failure.
      */
-    public static function get($date = 'now', $format = 'Y-m-d')
+    public static function get($date = 'now', $format = 'Y-m-d', $timezone = null)
     {
-        if (is_numeric($date)) {
-            $date = "@$date";
-        }
+        try {
+            if (is_numeric($date)) {
+                $date = "@$date";
+            }
 
-        $dateTime = new \DateTime($date, self::getTimezone());
-        return $dateTime->format($format);
+            $tz = $timezone ? new \DateTimeZone($timezone) : self::getTimezone();
+
+            // Ensure timezone is a DateTimeZone object
+            if (!$tz instanceof \DateTimeZone) {
+                $tz = new \DateTimeZone($tz);
+            }
+
+            $dateTime = new \DateTime($date, $tz);
+
+            return $dateTime->format($format);
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**
@@ -198,26 +209,5 @@ class DateTime
         $inputDate = date('Y-m-d', strtotime($date));
 
         return ($inputDate >= $today);
-    }
-
-    /**
-     * Converts a dateTime string to a Unix timestamp.
-     *
-     * This method takes a date-time string,
-     * formatted in ISO 8601 (e.g., "2025-07-15T10:09:11.8220819"),
-     * and converts it to a Unix timestamp (seconds since 1970-01-01 UTC).
-     *
-     * @param string $dateTimeStr The date-time string in ISO 8601 format.
-     * @return int|false Returns the Unix timestamp on success,
-     *                   or false if the input is invalid or conversion fails.
-     */
-    public static function convertDateTimeToTimestamp($dateTimeStr)
-    {
-        try {
-            $dt = new DateTimeImmutable($dateTimeStr, new DateTimeZone('UTC'));
-            return $dt->getTimestamp();
-        } catch (Exception $e) {
-            return false;
-        }
     }
 }

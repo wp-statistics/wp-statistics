@@ -298,7 +298,7 @@ class TrackerProvider extends AbstractDebuggerProvider
         }
 
         $serverTime    = time();
-        $referenceTime = DateTime::convertDateTimeToTimestamp($responseBody['dateTime']);
+        $referenceTime = DateTime::get($responseBody['dateTime'], 'U', 'UTC');
 
         if ($referenceTime === false) {
             return [
