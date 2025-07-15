@@ -55,7 +55,10 @@ class SessionModel extends BaseModel
     }
 
     /**
-     * Find an open session for a visitor that was started today.
+     * Find an active or recently active session for a visitor.
+     *
+     * Returns a session that started today and is either still active
+     * or ended within the last 30 minutes.
      *
      * @param array $args {
      * @type int $visitor_id Visitor ID to search for.
@@ -63,7 +66,7 @@ class SessionModel extends BaseModel
      * @return object|null
      * @since 15.0.0
      */
-    public function getTodaySession($args = [])
+    public function getActiveSession($args = [])
     {
         $args = $this->parseArgs($args, [
             'visitor_id' => 0
@@ -73,13 +76,12 @@ class SessionModel extends BaseModel
             return null;
         }
 
-        $today = DateTime::get();
+        $thirtyMinutesAgo = gmdate('Y-m-d H:i:s', time() - 1800);
 
         return Query::select('*')
             ->from('sessions')
             ->where('visitor_id', '=', $args['visitor_id'])
-            ->where('started_at', '>=', $today . ' 00:00:00')
-            ->where('started_at', '<=', $today . ' 23:59:59')
+            ->where('ended_at', '>=', $thirtyMinutesAgo)
             ->perPage(1)
             ->getRow();
     }
@@ -414,7 +416,7 @@ class SessionModel extends BaseModel
     }
 
     /**
-     * Count total page views (“hits”) for a specific date and filter set.
+     * Count total page views ("hits") for a specific date and filter set.
      *
      * @param array $args See method body for accepted keys.
      * @return int Total hits.

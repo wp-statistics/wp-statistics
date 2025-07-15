@@ -37,11 +37,11 @@ class Session extends BaseEntity
         $cacheKey = 'session_' . $visitorId;
 
         $sessionId = $this->getCachedData($cacheKey, function () use ($visitorId) {
-            $existing = $this->existToday();
+            $activeSession = $this->getActive();
 
-            if ($existing && isset($existing->ID)) {
-                $newViews = ((int)$existing->total_views) + 1;
-                $userId   = empty($existing->user_id) ? $this->profile->getUserId() : $existing->user_id;
+            if ($activeSession && isset($activeSession->ID)) {
+                $newViews = ((int)$activeSession->total_views) + 1;
+                $userId   = empty($activeSession->user_id) ? $this->profile->getUserId() : $activeSession->user_id;
 
                 $newData = [];
                 if (Option::getValue('attribution_model') === 'last-touch') {
@@ -53,8 +53,8 @@ class Session extends BaseEntity
                     'user_id'     => $userId,
                 ];
 
-                RecordFactory::session($existing)->update($newData);
-                return (int)$existing->ID;
+                RecordFactory::session($activeSession)->update($newData);
+                return (int)$activeSession->ID;
             }
 
             return (int)RecordFactory::session()->insert([
@@ -83,13 +83,14 @@ class Session extends BaseEntity
     }
 
     /**
-     * Check if a session exists today for the current visitor.
+     * Check if an active session exists for the current visitor.
      *
-     * If a session exists where started_at is today, it is reused.
+     * Returns a session that started today and is either still active
+     * or ended within the last 30 minutes.
      *
      * @return object|false
      */
-    public function existToday()
+    public function getActive()
     {
         $visitorId = $this->profile->getVisitorIdMeta();
 
@@ -97,11 +98,11 @@ class Session extends BaseEntity
             return false;
         }
 
-        $existing = (new SessionModel())->getTodaySession([
+        $activeSession = (new SessionModel())->getActiveSession([
             'visitor_id' => $visitorId
         ]);
 
-        return ($existing && isset($existing->ID)) ? $existing : false;
+        return ($activeSession && isset($activeSession->ID)) ? $activeSession : false;
     }
 
     /**
