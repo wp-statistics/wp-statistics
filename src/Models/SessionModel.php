@@ -76,7 +76,7 @@ class SessionModel extends BaseModel
             return null;
         }
 
-        $thirtyMinutesAgo = gmdate('Y-m-d H:i:s', time() - 1800);
+        $thirtyMinutesAgo = DateTime::getUtc('Y-m-d H:i:s', '-30 minutes');
 
         return Query::select('*')
             ->from('sessions')
