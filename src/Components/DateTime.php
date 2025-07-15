@@ -3,6 +3,9 @@
 namespace WP_Statistics\Components;
 
 use ErrorException;
+use DateTimeImmutable;
+use DateTimeZone;
+use Exception;
 
 class DateTime
 {
@@ -111,12 +114,12 @@ class DateTime
      *
      * @param string|int $date The date string to format. If numeric, it is treated as a Unix timestamp.
      * @param array $args {
-     *     @type bool $include_time Whether to include the time in the formatted string. Default false.
-     *     @type bool $exclude_year Whether to exclude the year from the formatted string. Default false.
-     *     @type bool $short_month Whether to use a short month name (e.g. 'Jan' instead of 'January'). Default false.
-     *     @type string $separator The separator to use between date and time. Default ' '.
-     *     @type string $date_format The format string to use for the date. Default is the WordPress option 'date_format'.
-     *     @type string $time_format The format string to use for the time. Default is the WordPress option 'time_format'.
+     * @type bool $include_time Whether to include the time in the formatted string. Default false.
+     * @type bool $exclude_year Whether to exclude the year from the formatted string. Default false.
+     * @type bool $short_month Whether to use a short month name (e.g. 'Jan' instead of 'January'). Default false.
+     * @type string $separator The separator to use between date and time. Default ' '.
+     * @type string $date_format The format string to use for the date. Default is the WordPress option 'date_format'.
+     * @type string $time_format The format string to use for the time. Default is the WordPress option 'time_format'.
      * }
      *
      * @return string The formatted datetime string.
@@ -126,12 +129,12 @@ class DateTime
     public static function format($date, $args = [])
     {
         $args = wp_parse_args($args, [
-            'include_time'  => false,
-            'exclude_year'  => false,
-            'short_month'   => false,
-            'separator'     => ' ',
-            'date_format'   => self::getDateFormat(),
-            'time_format'   => self::getTimeFormat()
+            'include_time' => false,
+            'exclude_year' => false,
+            'short_month'  => false,
+            'separator'    => ' ',
+            'date_format'  => self::getDateFormat(),
+            'time_format'  => self::getTimeFormat()
         ]);
 
         // If the date is numeric, treat it as a Unix timestamp
@@ -195,5 +198,26 @@ class DateTime
         $inputDate = date('Y-m-d', strtotime($date));
 
         return ($inputDate >= $today);
+    }
+
+    /**
+     * Converts a dateTime string to a Unix timestamp.
+     *
+     * This method takes a date-time string,
+     * formatted in ISO 8601 (e.g., "2025-07-15T10:09:11.8220819"),
+     * and converts it to a Unix timestamp (seconds since 1970-01-01 UTC).
+     *
+     * @param string $dateTimeStr The date-time string in ISO 8601 format.
+     * @return int|false Returns the Unix timestamp on success,
+     *                   or false if the input is invalid or conversion fails.
+     */
+    public static function convertDateTimeToTimestamp($dateTimeStr)
+    {
+        try {
+            $dt = new DateTimeImmutable($dateTimeStr, new DateTimeZone('UTC'));
+            return $dt->getTimestamp();
+        } catch (Exception $e) {
+            return false;
+        }
     }
 }

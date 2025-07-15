@@ -9,6 +9,7 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Debugger\AbstractDebuggerProvider;
 use Exception;
+use WP_Statistics\Components\DateTime;
 
 /**
  * Provider for handling tracker file status and cache information
@@ -51,7 +52,7 @@ class TrackerProvider extends AbstractDebuggerProvider
      *
      * @var string
      */
-    private $timeApiUrl = 'https://worldtimeapi.org/api/timezone/Etc/UTC';
+    private $timeApiUrl = 'https://timeapi.io';
 
     /**
      * Initialize tracker provider with necessary setup
@@ -264,6 +265,8 @@ class TrackerProvider extends AbstractDebuggerProvider
     public function getServerClockStatus()
     {
         $method = 'GET';
+        $url    = $this->timeApiUrl . '/api/Time/current/zone';
+        $params = ['timeZone' => 'UTC'];
         $args   = [
             'timeout'     => 45,
             'redirection' => 5,
@@ -274,7 +277,7 @@ class TrackerProvider extends AbstractDebuggerProvider
             'cookies'     => array(),
         ];
 
-        $remoteRequest = new RemoteRequest($this->timeApiUrl, $method, [], $args);
+        $remoteRequest = new RemoteRequest($url, $method, $params, $args);
         $remoteRequest->execute(false, false);
 
         $response     = $remoteRequest->getResponseBody();
@@ -288,15 +291,22 @@ class TrackerProvider extends AbstractDebuggerProvider
 
         $responseBody = json_decode($response, true);
 
-        if (!isset($responseBody['unixtime'])) {
+        if (!isset($responseBody['dateTime'])) {
             return [
-                'status' => 'error',
+                'status' => 'failed',
             ];
         }
 
         $serverTime    = time();
-        $referenceTime = intval($responseBody['unixtime']);
-        $drift         = abs($serverTime - $referenceTime);
+        $referenceTime = DateTime::convertDateTimeToTimestamp($responseBody['dateTime']);
+
+        if ($referenceTime === false) {
+            return [
+                'status' => 'failed',
+            ];
+        }
+
+        $drift = abs($serverTime - $referenceTime);
 
         if ($drift <= 120) {
             return [
@@ -304,7 +314,7 @@ class TrackerProvider extends AbstractDebuggerProvider
             ];
         } else {
             return [
-                'status' => 'error',
+                'status' => 'out_of_sync',
             ];
         }
     }

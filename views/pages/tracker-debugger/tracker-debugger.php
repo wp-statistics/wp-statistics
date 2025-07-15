@@ -378,7 +378,7 @@ $serverClockStatus  = $tracker->getServerClockStatus();
                     ];
                 }
 
-                if ($serverClockStatus['status'] === 'error') {
+                if ($serverClockStatus['status'] === 'out_of_sync') {
                     $serverClockStatusData = [
                         'svg'     => $clockIcon,
                         'title'   => esc_html__('Server Clock Status: Out of Sync', 'wp-statistics'),
