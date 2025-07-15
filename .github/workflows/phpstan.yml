@@ -12,5 +12,4 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - uses: ramsey/composer-install@v2 # or alternative dependency management
     - uses: dingo-d/phpstan-wp-action@v2
