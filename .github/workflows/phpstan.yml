@@ -1,0 +1,16 @@
+name: PHPStan
+
+on:
+  pull_request:
+    branches:
+      - master
+      - development
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ramsey/composer-install@v2 # or alternative dependency management
+    - uses: dingo-d/phpstan-wp-action@v2
