@@ -50,6 +50,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-data-plus',
+                'step'        => 'Data Plus',
                 'step_title'  => esc_html__('See more data.', 'wp-statistics'),
             ];
             View::load("components/modals/introduce-premium/step-content", $data);
@@ -60,6 +61,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-marketing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-marketing',
+                'step'        => 'Marketing',
                 'step_title'  => esc_html__('Set goals, measure conversions, and optimize your reach for real results.', 'wp-statistics'),
             ];
             View::load("components/modals/introduce-premium/step-content", $data);
@@ -70,6 +72,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-mini-chart',
+                'step'        => 'Mini Chart',
                 'step_title'  => esc_html__('View real‐time metrics at a glance.', 'wp-statistics'),
             ];
             View::load("components/modals/introduce-premium/step-content", $data);
@@ -80,6 +83,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-advanced-reporting',
+                'step'        => 'Advanced Reporting',
                 'step_title'  => esc_html__('Schedule detailed email reports.', 'wp-statistics'),
             ];
             View::load("components/modals/introduce-premium/step-content", $data);
@@ -90,6 +94,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-realtime-stats',
+                'step'        => 'Real-Time Stats',
                 'step_title'  => esc_html__('See who’s on your site right now and watch engagement as it happens.', 'wp-statistics'),
             ];
             View::load("components/modals/introduce-premium/step-content", $data);
@@ -100,6 +105,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-widgets/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-widgets',
+                'step'        => 'Widgets',
                 'step_title'  => esc_html__('Display detailed stats anywhere you want on your website.', 'wp-statistics'),
             ];
             View::load("components/modals/introduce-premium/step-content", $data);
@@ -110,6 +116,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-customization',
+                'step'        => 'Customization',
                 'step_title'  => esc_html__('Tailor everything from layout to branding to suit your style.', 'wp-statistics'),
             ];
             View::load("components/modals/introduce-premium/step-content", $data);
@@ -120,6 +127,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-rest-api/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-rest-api',
+                'step'        => 'REST API',
                 'step_title'  => esc_html__('Connect your site’s stats anywhere.', 'wp-statistics'),
             ];
             View::load("components/modals/introduce-premium/step-content", $data);
@@ -173,10 +181,10 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                 </div>
                 <div class="js-wps-premium-steps__head js-wps-premium-steps__side-buttons">
                     <?php foreach (PluginHelper::$plugins as $slug => $title) :
-                        $isActive       = $pluginHandler->isPluginActive($slug);
-                        $isInstalled    = $pluginHandler->isPluginInstalled($slug);
-                        $hasLicense     = LicenseHelper::isPluginLicenseValid($slug);
-                    ?>
+                        $isActive = $pluginHandler->isPluginActive($slug);
+                        $isInstalled = $pluginHandler->isPluginInstalled($slug);
+                        $hasLicense = LicenseHelper::isPluginLicenseValid($slug);
+                        ?>
 
                         <div class="wps-premium-step__action-container">
                             <?php if (!$hasLicense && !$isInstalled) : ?>
@@ -188,8 +196,8 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                                 <a class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade  activated js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Add-on Activated', 'wp-statistics'); ?></a>
                             <?php endif; ?>
                         </div>
-                      <?php endforeach; ?>
-                 </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
         </div>
     </div>
