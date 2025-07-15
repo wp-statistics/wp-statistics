@@ -37,3 +37,6 @@ function WP_Statistics()
 
 # Global for backwards compatibility.
 $GLOBALS['WP_Statistics'] = WP_Statistics();
+
+
+echo $foo;
