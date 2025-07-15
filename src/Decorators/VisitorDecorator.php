@@ -125,7 +125,17 @@ class VisitorDecorator
     }
 
     /**
-     * Get the number of hits the visitor has made.
+     * Get the raw number of hits.
+     *
+     * @return int|null
+     */
+    public function getHitsRaw()
+    {
+        return $this->visitor->hits ? intval($this->visitor->hits) : 0;
+    }
+
+    /**
+     * Get the formatted number of hits.
      *
      * @return int|null
      */

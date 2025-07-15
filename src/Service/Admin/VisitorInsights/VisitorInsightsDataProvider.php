@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\VisitorInsights;
 
 use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Decorators\VisitorDecorator;
 use WP_Statistics\Models\OnlineModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
@@ -94,11 +95,27 @@ class VisitorInsightsDataProvider
             $args = ['ip' => $visitor->getIP()];
         }
 
-        $visitorJourney = $this->visitorsModel->getVisitorJourney($args);
+        $visits = $this->visitorsModel->getVisitorJourney(array_merge($args, ['visitor_info' => true]));
+
+        // Group data by date
+        $data = [];
+        foreach ($visits as $visit) {
+            $page = ['page_id' => $visit->page_id, 'date' => $visit->date];
+
+            if (!empty($data[$visit->last_counter])) {
+                $data[$visit->last_counter]['journey'][] = $page;
+                continue;
+            }
+
+            $data[$visit->last_counter] = [
+                'session' => new VisitorDecorator($visit),
+                'journey' => [$page]
+            ];
+        }
 
         return [
-            'visitor'           => $visitor,
-            'visitor_journey'   => $visitorJourney
+            'visitor'  => $visitor,
+            'sessions' => $data
         ];
     }
 

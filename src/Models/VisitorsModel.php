@@ -864,17 +864,21 @@ class VisitorsModel extends BaseModel
             'user_id'       => '',
             'ip'            => '',
             'ignore_date'   => true,
+            'visitor_info'  => false
         ]);
 
-        $result = Query::select([
-            'date',
-            'page_id',
-        ])
+        $fields = ['date', 'page_id'];
+
+        if (!empty($args['visitor_info'])) {
+            $fields[] = 'visitor.*';
+        }
+
+        $result = Query::select($fields)
             ->from('visitor_relationships')
             ->where('visitor_relationships.visitor_id', '=', $args['visitor_id'])
             ->orderBy('date');
 
-        if (!empty($args['user_id']) || !empty($args['ip'])) {
+        if (!empty($args['user_id']) || !empty($args['ip']) || !empty($args['visitor_info'])) {
             $result
                 ->join('visitor', ['visitor_relationships.visitor_id', 'visitor.ID'])
                 ->where('visitor.user_id', '=', $args['user_id'])
