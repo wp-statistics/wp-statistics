@@ -8,6 +8,7 @@ use WP_Statistics\Components\RemoteRequest;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Debugger\AbstractDebuggerProvider;
+use Exception;
 
 /**
  * Provider for handling tracker file status and cache information
@@ -41,6 +42,16 @@ class TrackerProvider extends AbstractDebuggerProvider
      * @var array Configuration arguments for remote requests
      */
     private $args = [];
+
+    /**
+     * URL endpoint for retrieving the current UTC time from the WorldTimeAPI.
+     *
+     * Used by getServerClockStatus() to fetch a reference time for comparing
+     * against the server's local clock.
+     *
+     * @var string
+     */
+    private $timeApiUrl = 'https://worldtimeapi.org/api/timezone/Etc/UTC';
 
     /**
      * Initialize tracker provider with necessary setup
@@ -236,5 +247,65 @@ class TrackerProvider extends AbstractDebuggerProvider
     {
         $cacheInfo = Helper::checkActiveCachePlugin();
         return $cacheInfo['plugin'] ?? '';
+    }
+
+
+    /**
+     * Compares the current server time to UTC reference time from WorldTimeAPI.
+     *
+     * This method fetches the current time from the WorldTimeAPI and compares it
+     * against the server's own time to calculate time drift. If the drift exceeds
+     * 120 seconds, it's considered an error.
+     *
+     * @return array
+     *
+     * @throws Exception If the remote time API request fails or returns an error status.
+     */
+    public function getServerClockStatus()
+    {
+        $method = 'GET';
+        $args   = [
+            'timeout'     => 45,
+            'redirection' => 5,
+            'headers'     => array(
+                'Accept'       => 'application/json',
+                'Content-Type' => 'application/json; charset=utf-8',
+            ),
+            'cookies'     => array(),
+        ];
+
+        $remoteRequest = new RemoteRequest($this->timeApiUrl, $method, [], $args);
+        $remoteRequest->execute(false, false);
+
+        $response     = $remoteRequest->getResponseBody();
+        $responseCode = $remoteRequest->getResponseCode();
+
+        if ($responseCode !== 200) {
+            return [
+                'status' => 'failed',
+            ];
+        }
+
+        $responseBody = json_decode($response, true);
+
+        if (!isset($responseBody['unixtime'])) {
+            return [
+                'status' => 'error',
+            ];
+        }
+
+        $serverTime    = time();
+        $referenceTime = intval($responseBody['unixtime']);
+        $drift         = abs($serverTime - $referenceTime);
+
+        if ($drift <= 120) {
+            return [
+                'status' => 'success',
+            ];
+        } else {
+            return [
+                'status' => 'error',
+            ];
+        }
     }
 }

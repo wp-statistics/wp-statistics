@@ -14,6 +14,7 @@ $excludedUrls       = $options->getExcludedUrls();
 $includeCountries   = $options->getIncludedCountries();
 $excludeCountries   = $options->getExcludedCountries();
 $trackerStatus      = $tracker->getTrackerStatus();
+$serverClockStatus  = $tracker->getServerClockStatus();
 ?>
 
 <div class="postbox-container wps-postbox-tracker__container">
@@ -354,6 +355,39 @@ $trackerStatus      = $tracker->getTrackerStatus();
                 }
 
                 View::load("components/audit-card", $errorData);
+
+                // Server Clock Status
+                $clockIcon             = '<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 6V12" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M16.24 16.24L12 12" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>';
+                $serverClockStatusData = [
+                    'svg'     => $clockIcon,
+                    'title'   => esc_html__('Server Clock Status: Accurate', 'wp-statistics'),
+                    'content' => esc_html__('Your server’s UTC clock matches the reference time. Timestamping and session logic will work as expected—no action needed.', 'wp-statistics'),
+                    'status'  => 'success'
+                ];
+
+                if ($serverClockStatus['status'] === 'failed') {
+                    $serverClockStatusData = [
+                        'svg'     => $clockIcon,
+                        'title'   => esc_html__('Server Clock Check Failed', 'wp-statistics'),
+                        'content' => esc_html__('We couldn’t connect to the time service, so we’re unable to confirm the server clock. Check your firewall or try again later.', 'wp-statistics'),
+                        'status'  => 'info'
+                    ];
+                }
+
+                if ($serverClockStatus['status'] === 'error') {
+                    $serverClockStatusData = [
+                        'svg'     => $clockIcon,
+                        'title'   => esc_html__('Server Clock Status: Out of Sync', 'wp-statistics'),
+                        'content' => esc_html__('Your server’s UTC clock differs from the reference time. This can distort visit timestamps and break tracker.js de-duplication. Please enable NTP or ask your host to correct the system clock.', 'wp-statistics'),
+                        'status'  => 'danger'
+                    ];
+                }
+
+                View::load("components/audit-card", $serverClockStatusData);
                 ?>
             </div>
         </div>
