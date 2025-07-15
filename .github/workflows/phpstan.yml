@@ -7,24 +7,27 @@ on:
       - development
 
 jobs:
-    phpstan:
-        name: Static Analysis
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
+  phpstan:
+    name: Static Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: 'latest'
-                  coverage: none
-                  tools: composer, cs2pr
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+            php-version: 'latest'
+            coverage: none
+            tools: composer, cs2pr
 
-            - name: Install PHP dependencies
-              uses: ramsey/composer-install@v2
-              with:
-                  composer-options: '--prefer-dist --no-scripts'
+      - name: Install PHP dependencies
+        uses: ramsey/composer-install@v2
+        with:
+            composer-options: '--prefer-dist --no-scripts --with-all-dependencies'
 
-            - name: PHPStan
-              run: composer phpstan
+      - name: Debug Composer Dependencies
+        run: composer show # Optional: for debugging
+
+      - name: PHPStan
+        run: composer phpstan # Or use `vendor/bin/phpstan analyse` directly
