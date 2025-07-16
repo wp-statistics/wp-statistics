@@ -365,49 +365,6 @@ class ViewsModel extends BaseModel
     }
 
     /**
-     * Get the number of visits for a specific day or date range.
-     *
-     * @param array $args {
-     *     Optional. Array of arguments.
-     *
-     * @type string|array $time Time range ('today', 'yesterday', or ['start' => 'Y-m-d', 'end' => 'Y-m-d']).
-     * @type bool $daily Whether to fetch visits for a single day.
-     * }
-     *
-     * @return int Total number of visits.
-     *
-     * @since 15.0.0
-     */
-    public function getViewsByTime($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'time'  => 'today',
-            'daily' => false,
-        ]);
-
-        $query = Query::select(['COUNT(*) AS count'])
-            ->from('views');
-
-        if ($args['daily']) {
-            $date = DateTime::isValid($args['time'])
-                ? $args['time']
-                : TimeZone::getCurrentDate('Y-m-d', $args['time']);
-
-            $query->where('viewed_at', '>=', $date . ' 00:00:00')
-                ->where('viewed_at', '<=', $date . ' 23:59:59');
-        } else {
-            $range = is_array($args['time']) && isset($args['time']['start'], $args['time']['end'])
-                ? $args['time']
-                : DateRange::get($args['time']);
-
-            $query->where('viewed_at', '>=', $range['from'] . ' 00:00:00')
-                ->where('viewed_at', '<=', $range['to'] . ' 23:59:59');
-        }
-
-        return (int)$query->getVar();
-    }
-
-    /**
      * Count the number of views for a specific resource URL ID.
      *
      * @param array $args {
