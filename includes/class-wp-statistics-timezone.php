@@ -86,24 +86,6 @@ class TimeZone
     }
 
     /**
-     * Returns the current date in UTC+0 (GMT) timezone
-     *
-     * @param string $format The format of the date to return (default: 'Y-m-d H:i:s')
-     * @param string|null $strtotime Optional. A string parsable by strtotime (e.g. '+1 day', '-2 weeks')
-     * @return string Formatted date string in UTC
-     */
-    public static function getCurrentDateByUTC($format = 'Y-m-d H:i:s', $strtotime = null)
-    {
-        $datetime = new \DateTime('now', new \DateTimeZone('UTC'));
-        
-        if ($strtotime) {
-            $datetime->modify($strtotime);
-        }
-        
-        return $datetime->format($format);
-    }
-
-    /**
      * Returns a date string in the desired format.
      *
      * @param string $format

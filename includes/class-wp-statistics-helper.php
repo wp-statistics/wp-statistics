@@ -272,6 +272,7 @@ class Helper
         return ($type == "array" ? $list : implode("\n", $list));
     }
 
+
     /**
      * Get the default URL Query Parameters List
      * @param string $type
