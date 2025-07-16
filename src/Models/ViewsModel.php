@@ -6,8 +6,6 @@ use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Components\DateRange;
-use WP_Statistics\Components\DateTime;
-use WP_STATISTICS\TimeZone;
 
 class ViewsModel extends BaseModel
 {

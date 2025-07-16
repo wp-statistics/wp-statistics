@@ -182,7 +182,7 @@ class Hits extends BaseTracking
             ->recordTimezone();
 
         EntityFactory::referrer($visitorProfile)
-            ->recordReferrer();
+            ->record();
 
         EntityFactory::session($visitorProfile)
             ->record();

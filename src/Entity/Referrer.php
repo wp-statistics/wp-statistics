@@ -23,7 +23,7 @@ class Referrer extends BaseEntity
      *
      * @return $this
      */
-    public function recordReferrer()
+    public function record()
     {
         if (!$this->isActive('referrers')) {
             return $this;
