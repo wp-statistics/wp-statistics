@@ -56,12 +56,20 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     const img = new Image();
                     img.src = url;
                     img.onload = () => resolve(img);
-                    img.onerror = () => reject(new Error(`Failed to load image: ${url}`));
+                    img.onerror = () => resolve(null);
                 });
             };
 
             Promise.all(chartImageUrls.map(url => loadImage(url)))
                 .then(chartImages => {
+
+                    const validImages = chartImages.filter(img => img instanceof HTMLImageElement);
+
+                    if (!validImages.length) {
+                        jQuery('#publishedChart').parent().html(wps_js.no_results());
+                        return;
+                    }
+
                     const afterRenderPlugin = {
                         id: 'afterRenderPlugin',
                         afterDraw: function (chart, args, options) {
@@ -231,13 +239,13 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 const value = c.dataset.data[c.dataIndex].v;
                 const minValue = Math.min(...c.dataset.data.map(data => data.v));
                 const maxValue = Math.max(...c.dataset.data.map(data => data.v));
-                 if (value === 0) {
+                if (value === 0) {
                     return '#e8eaee';
                 }
                 const interpolatedColor = interpolateColor('#B28DFF', '#250766', minValue, maxValue, value);
 
                 return interpolatedColor;
-             };
+            };
 
             const overviewPublishData = {
                 datasets: [{
