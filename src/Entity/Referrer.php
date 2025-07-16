@@ -48,26 +48,22 @@ class Referrer extends BaseEntity
             return $this;
         }
 
-        // Cache key to prevent duplicate lookups/inserts in one request
-        $cacheKey = 'referrer_' . md5($channel . '|' . $name . '|' . $domain);
+        $record = RecordFactory::referrer()->get([
+            'channel' => $channel,
+            'name'    => $name,
+            'domain'  => $domain,
+        ]);
 
-        $referrerId = $this->getCachedData($cacheKey, function () use ($channel, $name, $domain) {
-            $record = RecordFactory::referrer()->get([
-                'channel' => $channel,
-                'name'    => $name,
-                'domain'  => $domain,
-            ]);
+        if (!empty($record) && isset($record->ID)) {
+            $this->profile->setReferrerId((int)$record->ID);
+            return $this;
+        }
 
-            if (!empty($record) && isset($record->ID)) {
-                return (int)$record->ID;
-            }
-
-            return RecordFactory::referrer()->insert([
-                'channel' => $channel,
-                'name'    => $name,
-                'domain'  => $domain,
-            ]);
-        });
+        $referrerId = RecordFactory::referrer()->insert([
+            'channel' => $channel,
+            'name'    => $name,
+            'domain'  => $domain,
+        ]);
 
         $this->profile->setReferrerId($referrerId);
         return $this;

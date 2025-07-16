@@ -34,22 +34,18 @@ class Locale extends BaseEntity
         }
 
         $region = $this->profile->getRegionCode();
+        $record = RecordFactory::language()->get(['code' => $language, 'region' => $region]);
 
-        $cacheKey = 'language_' . md5("{$language}-{$region}");
+        if (!empty($record) && isset($record->ID)) {
+            $this->profile->setLanguageId((int)$record->ID);
+            return $this;
+        }
 
-        $languageId = $this->getCachedData($cacheKey, function () use ($language, $fullName, $region) {
-            $record = RecordFactory::language()->get(['code' => $language, 'region' => $region]);
-
-            if (!empty($record) && isset($record->ID)) {
-                return (int)$record->ID;
-            }
-
-            return (int)RecordFactory::language()->insert([
-                'code'   => $language,
-                'name'   => $fullName,
-                'region' => $region,
-            ]);
-        });
+        $languageId = (int)RecordFactory::language()->insert([
+            'code'   => $language,
+            'name'   => $fullName,
+            'region' => $region,
+        ]);
 
         $this->profile->setLanguageId($languageId);
         return $this;
@@ -90,21 +86,18 @@ class Locale extends BaseEntity
         $isDst         = (bool)$dt->format('I');
 
         $tzNameFinal = $tz->getName();
-        $cacheKey    = 'timezone_' . md5("{$tzNameFinal}|{$offset}|{$isDst}");
+        $record      = RecordFactory::timezone()->get(['name' => $tzNameFinal]);
 
-        $timezoneId = $this->getCachedData($cacheKey, function () use ($tzNameFinal, $offset, $isDst) {
-            $record = RecordFactory::timezone()->get(['name' => $tzNameFinal]);
+        if (!empty($record) && isset($record->ID)) {
+            $this->profile->setTimezoneId((int)$record->ID);
+            return $this;
+        }
 
-            if (!empty($record) && isset($record->ID)) {
-                return (int)$record->ID;
-            }
-
-            return (int)RecordFactory::timezone()->insert([
-                'name'   => $tzNameFinal,
-                'offset' => $offset,
-                'is_dst' => $isDst ? 1 : 0,
-            ]);
-        });
+        $timezoneId = (int)RecordFactory::timezone()->insert([
+            'name'   => $tzNameFinal,
+            'offset' => $offset,
+            'is_dst' => $isDst ? 1 : 0,
+        ]);
 
         $this->profile->setTimezoneId($timezoneId);
         return $this;

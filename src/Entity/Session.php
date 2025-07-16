@@ -34,49 +34,47 @@ class Session extends BaseEntity
             return $this;
         }
 
-        $cacheKey = 'session_' . $visitorId;
+        $activeSession = $this->getActive();
 
-        $sessionId = $this->getCachedData($cacheKey, function () use ($visitorId) {
-            $activeSession = $this->getActive();
+        if ($activeSession && isset($activeSession->ID)) {
+            $newViews = ((int)$activeSession->total_views) + 1;
+            $userId   = empty($activeSession->user_id) ? $this->profile->getUserId() : $activeSession->user_id;
 
-            if ($activeSession && isset($activeSession->ID)) {
-                $newViews = ((int)$activeSession->total_views) + 1;
-                $userId   = empty($activeSession->user_id) ? $this->profile->getUserId() : $activeSession->user_id;
-
-                $newData = [];
-                if (Option::getValue('attribution_model') === 'last-touch') {
-                    $newData['referrer_id'] = $this->profile->getReferrerId();
-                }
-
-                $newData = [
-                    'total_views' => $newViews,
-                    'user_id'     => $userId,
-                ];
-
-                RecordFactory::session($activeSession)->update($newData);
-                return (int)$activeSession->ID;
+            $newData = [];
+            if (Option::getValue('attribution_model') === 'last-touch') {
+                $newData['referrer_id'] = $this->profile->getReferrerId();
             }
 
-            return (int)RecordFactory::session()->insert([
-                'visitor_id'                => $visitorId,
-                'ip'                        => $this->profile->getProcessedIPForStorage(),
-                'referrer_id'               => $this->profile->getReferrerId(),
-                'country_id'                => $this->profile->getCountryId(),
-                'city_id'                   => $this->profile->getCityId(),
-                'initial_view_id'           => $this->profile->getViewId(),
-                'last_view_id'              => $this->profile->getViewId(),
-                'total_views'               => 1,
-                'device_type_id'            => $this->profile->getDeviceTypeId(),
-                'device_os_id'              => $this->profile->getDeviceOsId(),
-                'device_browser_id'         => $this->profile->getDeviceBrowserId(),
-                'device_browser_version_id' => $this->profile->getDeviceBrowserVersionId(),
-                'resolution_id'             => $this->profile->getResolutionId(),
-                'language_id'               => $this->profile->getLanguageId(),
-                'timezone_id'               => $this->profile->getTimezoneId(),
-                'user_id'                   => $this->profile->getUserId(),
-                'started_at'                => DateTime::getUtc(),
-            ]);
-        });
+            $newData = [
+                'total_views' => $newViews,
+                'user_id'     => $userId,
+            ];
+
+            RecordFactory::session($activeSession)->update($newData);
+
+            $this->profile->setSessionId((int)$activeSession->ID);
+            return $this;
+        }
+
+        $sessionId = (int)RecordFactory::session()->insert([
+            'visitor_id'                => $visitorId,
+            'ip'                        => $this->profile->getProcessedIPForStorage(),
+            'referrer_id'               => $this->profile->getReferrerId(),
+            'country_id'                => $this->profile->getCountryId(),
+            'city_id'                   => $this->profile->getCityId(),
+            'initial_view_id'           => $this->profile->getViewId(),
+            'last_view_id'              => $this->profile->getViewId(),
+            'total_views'               => 1,
+            'device_type_id'            => $this->profile->getDeviceTypeId(),
+            'device_os_id'              => $this->profile->getDeviceOsId(),
+            'device_browser_id'         => $this->profile->getDeviceBrowserId(),
+            'device_browser_version_id' => $this->profile->getDeviceBrowserVersionId(),
+            'resolution_id'             => $this->profile->getResolutionId(),
+            'language_id'               => $this->profile->getLanguageId(),
+            'timezone_id'               => $this->profile->getTimezoneId(),
+            'user_id'                   => $this->profile->getUserId(),
+            'started_at'                => DateTime::getUtc(),
+        ]);
 
         $this->profile->setSessionId($sessionId);
         return $this;

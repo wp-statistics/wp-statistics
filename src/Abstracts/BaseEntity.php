@@ -4,7 +4,6 @@ namespace WP_Statistics\Abstracts;
 
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgentService;
-use WP_Statistics\Traits\ObjectCacheTrait;
 
 /**
  * Base entity class for tracking-related entities.
@@ -14,8 +13,6 @@ use WP_Statistics\Traits\ObjectCacheTrait;
  */
 abstract class BaseEntity
 {
-    use ObjectCacheTrait;
-
     /**
      * VisitorProfile instance containing visitor/session metadata.
      *
@@ -46,11 +43,11 @@ abstract class BaseEntity
      *
      * Constructs a dynamic filter name based on the entity name and returns the filtered result.
      * This allows plugins or themes to conditionally disable tracking for specific data types.
-     * 
+     *
      * @param string $entityName The name of the tracking entity (e.g., 'device_types', 'device_resolutions').
      * @return bool
      */
-    protected function isActive($entityName) 
+    protected function isActive($entityName)
     {
         $filterName = 'wp_statistics_active_' . esc_html($entityName);
 

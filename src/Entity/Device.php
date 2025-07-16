@@ -34,15 +34,11 @@ class Device extends BaseEntity
         }
 
         $deviceType = $this->userAgent->getDevice();
-        $cacheKey   = 'device_type_' . md5($deviceType);
+        $record     = RecordFactory::deviceType()->get(['name' => $deviceType]);
 
-        $id = $this->getCachedData($cacheKey, function () use ($deviceType) {
-            $record = RecordFactory::deviceType()->get(['name' => $deviceType]);
-
-            return !empty($record) && isset($record->ID)
-                ? (int)$record->ID
-                : RecordFactory::deviceType()->insert(['name' => $deviceType]);
-        });
+        $id = !empty($record) && isset($record->ID)
+            ? (int)$record->ID
+            : RecordFactory::deviceType()->insert(['name' => $deviceType]);
 
         $this->profile->setDeviceTypeId($id);
         return $this;
@@ -63,16 +59,12 @@ class Device extends BaseEntity
             return $this;
         }
 
-        $os       = $this->userAgent->getPlatform();
-        $cacheKey = 'device_os_' . md5($os);
+        $os     = $this->userAgent->getPlatform();
+        $record = RecordFactory::deviceOs()->get(['name' => $os]);
 
-        $id = $this->getCachedData($cacheKey, function () use ($os) {
-            $record = RecordFactory::deviceOs()->get(['name' => $os]);
-
-            return !empty($record) && isset($record->ID)
-                ? (int)$record->ID
-                : RecordFactory::deviceOs()->insert(['name' => $os]);
-        });
+        $id = !empty($record) && isset($record->ID)
+            ? (int)$record->ID
+            : RecordFactory::deviceOs()->insert(['name' => $os]);
 
         $this->profile->setDeviceOsId($id);
         return $this;
@@ -97,16 +89,12 @@ class Device extends BaseEntity
             return $this;
         }
 
-        $browser  = $this->userAgent->getBrowser();
-        $cacheKey = 'device_browser_' . md5($browser);
+        $browser = $this->userAgent->getBrowser();
+        $record  = RecordFactory::deviceBrowser()->get(['name' => $browser]);
 
-        $id = $this->getCachedData($cacheKey, function () use ($browser) {
-            $record = RecordFactory::deviceBrowser()->get(['name' => $browser]);
-
-            return !empty($record) && isset($record->ID)
-                ? (int)$record->ID
-                : RecordFactory::deviceBrowser()->insert(['name' => $browser]);
-        });
+        $id = !empty($record) && isset($record->ID)
+            ? (int)$record->ID
+            : RecordFactory::deviceBrowser()->insert(['name' => $browser]);
 
         $this->profile->setDeviceBrowserId($id);
         return $this;
@@ -143,22 +131,17 @@ class Device extends BaseEntity
         }
 
         $version = $this->userAgent->getVersion();
+        $record  = RecordFactory::deviceBrowserVersion()->get([
+            'browser_id' => $browserId,
+            'version'    => $version,
+        ]);
 
-        $cacheKey = 'device_browser_version_' . $browserId . '_' . md5($version);
-
-        $id = $this->getCachedData($cacheKey, function () use ($browserId, $version) {
-            $record = RecordFactory::deviceBrowserVersion()->get([
+        $id = !empty($record) && isset($record->ID)
+            ? (int)$record->ID
+            : RecordFactory::deviceBrowserVersion()->insert([
                 'browser_id' => $browserId,
                 'version'    => $version,
             ]);
-
-            return !empty($record) && isset($record->ID)
-                ? (int)$record->ID
-                : RecordFactory::deviceBrowserVersion()->insert([
-                    'browser_id' => $browserId,
-                    'version'    => $version,
-                ]);
-        });
 
         $this->profile->setDeviceBrowserVersionId($id);
         return $this;
@@ -185,21 +168,17 @@ class Device extends BaseEntity
             $height = (int)(floor($height / 10) * 10);
         }
 
-        $cacheKey = 'resolution_' . $width . 'x' . $height;
+        $record = RecordFactory::resolution()->get([
+            'width'  => $width,
+            'height' => $height,
+        ]);
 
-        $id = $this->getCachedData($cacheKey, function () use ($width, $height) {
-            $record = RecordFactory::resolution()->get([
+        $id = !empty($record) && isset($record->ID)
+            ? (int)$record->ID
+            : RecordFactory::resolution()->insert([
                 'width'  => $width,
                 'height' => $height,
             ]);
-
-            return !empty($record) && isset($record->ID)
-                ? (int)$record->ID
-                : RecordFactory::resolution()->insert([
-                    'width'  => $width,
-                    'height' => $height,
-                ]);
-        });
 
         $this->profile->setResolutionId($id);
         return $this;

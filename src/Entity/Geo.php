@@ -33,23 +33,21 @@ class Geo extends BaseEntity
             return $this;
         }
 
-        $cacheKey  = 'country_' . $code;
-        $countryId = $this->getCachedData($cacheKey, function () use ($geo) {
-            $record = RecordFactory::country()->get(['code' => $geo['country_code']]);
+        $record = RecordFactory::country()->get(['code' => $geo['country_code']]);
 
-            if (!empty($record) && isset($record->ID)) {
-                return (int)$record->ID;
-            }
+        if (!empty($record) && isset($record->ID)) {
+            $this->profile->setCountryId((int)$record->ID);
+            return $this;
+        }
 
-            $continent = $this->profile->getContinent();
+        $continent = $this->profile->getContinent();
 
-            return (int)RecordFactory::country()->insert([
-                'code'           => $geo['country_code'],
-                'name'           => isset($geo['country']) ? $geo['country'] : '',
-                'continent_code' => isset($geo['continent_code']) ? $geo['continent_code'] : '',
-                'continent'      => $continent ?: (isset($geo['continent']) ? $geo['continent'] : ''),
-            ]);
-        });
+        $countryId = (int)RecordFactory::country()->insert([
+            'code'           => $geo['country_code'],
+            'name'           => isset($geo['country']) ? $geo['country'] : '',
+            'continent_code' => isset($geo['continent_code']) ? $geo['continent_code'] : '',
+            'continent'      => $continent ?: (isset($geo['continent']) ? $geo['continent'] : ''),
+        ]);
 
         $this->profile->setCountryId($countryId);
         return $this;
@@ -77,25 +75,23 @@ class Geo extends BaseEntity
             return $this;
         }
 
-        $cacheKey = 'city_' . $countryId . '_' . md5($cityName);
-        $cityId   = $this->getCachedData($cacheKey, function () use ($countryId, $regionCode, $regionName, $cityName) {
-            $record = RecordFactory::city()->get([
-                'country_id'  => $countryId,
-                'region_code' => $regionCode,
-                'city_name'   => $cityName,
-            ]);
+        $record = RecordFactory::city()->get([
+            'country_id'  => $countryId,
+            'region_code' => $regionCode,
+            'city_name'   => $cityName,
+        ]);
 
-            if (!empty($record) && isset($record->ID)) {
-                return (int)$record->ID;
-            }
+        if (!empty($record) && isset($record->ID)) {
+            $this->profile->setCityId((int)$record->ID);
+            return $this;
+        }
 
-            return (int)RecordFactory::city()->insert([
-                'country_id'  => $countryId,
-                'region_code' => $regionCode,
-                'region_name' => $regionName,
-                'city_name'   => $cityName,
-            ]);
-        });
+        $cityId = (int)RecordFactory::city()->insert([
+            'country_id'  => $countryId,
+            'region_code' => $regionCode,
+            'region_name' => $regionName,
+            'city_name'   => $cityName,
+        ]);
 
         $this->profile->setCityId($cityId);
         return $this;

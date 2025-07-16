@@ -38,18 +38,14 @@ class Visitor extends BaseEntity
             return $this;
         }
 
-        $cacheKey = 'visitor_' . md5($hash);
+        $record = RecordFactory::visitor()->get(['hash' => $hash]);
 
-        $visitorId = $this->getCachedData($cacheKey, function () use ($hash) {
-            $record = RecordFactory::visitor()->get(['hash' => $hash]);
-
-            return !empty($record) && isset($record->ID)
-                ? (int)$record->ID
-                : RecordFactory::visitor()->insert([
-                    'hash'       => $hash,
-                    'created_at' => DateTime::getUtc(),
-                ]);
-        });
+        $visitorId = !empty($record) && isset($record->ID)
+            ? (int)$record->ID
+            : RecordFactory::visitor()->insert([
+                'hash'       => $hash,
+                'created_at' => DateTime::getUtc(),
+            ]);
 
         $this->profile->setVisitorId($visitorId);
         return $this;
