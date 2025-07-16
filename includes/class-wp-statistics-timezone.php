@@ -388,42 +388,4 @@ class TimeZone
             absint($diffMinutes)
         );
     }
-
-    /**
-     * Convert UTC datetime to site's timezone
-     *
-     * @param string $utcDateTime UTC datetime string
-     * @param string|bool $format Optional. Format string or boolean flag (default: true)
-     *                           If true: uses WordPress default format with i18n
-     *                           If false: returns Y-m-d H:i:s without i18n
-     *                           If string: uses that as date format with i18n
-     * @return string|null Formatted datetime in site's timezone
-     */
-    public static function convertUtcToSiteTimezone($utcDateTime, $format = true)
-    {
-        if (empty($utcDateTime)) {
-            return null;
-        }
-
-        // Convert UTC timestamp to site's timezone
-        $datetime = new \DateTime($utcDateTime, new \DateTimeZone('UTC'));
-        $datetime->setTimezone(wp_timezone());
-
-        // Handle format based on input type
-        if (is_string($format)) {
-            // Use custom format with i18n
-            return date_i18n($format, strtotime($datetime->format('Y-m-d H:i:s')));
-        }
-
-        if ($format === true) {
-            // Use WordPress default format with i18n
-            return date_i18n(
-                Helper::getDefaultDateFormat(true, true),
-                strtotime($datetime->format('Y-m-d H:i:s'))
-            );
-        }
-
-        // Return standard format without i18n
-        return $datetime->format('Y-m-d H:i:s');
-    }
 }

@@ -106,7 +106,7 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
         $number = \WP_CLI\Utils\get_flag_value($assoc_args, 'number', 15);
 
         // Get List Of Users Online
-        $lists = UserOnline::get(['per_page' => $number]);
+        $lists = UserOnline::get(array('per_page' => $number));
         if (count($lists) < 1) {
             \WP_CLI::error("There are no users online.");
         }
