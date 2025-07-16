@@ -304,6 +304,23 @@ class Manager
                 'KEY uri (uri)',
             ],
         ],
+        'events'                  => [
+            'columns'     => [
+                'ID'              => 'bigint(20) NOT NULL AUTO_INCREMENT',
+                'date'            => 'datetime NOT NULL',
+                'resource_uri_id' => 'bigint(20) UNSIGNED NOT NULL',
+                'session_id'      => 'bigint(20) UNSIGNED NOT NULL',
+                'event_name'      => 'varchar(64) NOT NULL',
+                'event_data'      => 'text NOT NULL',
+                'user_id'         => 'bigint(20) UNSIGNED DEFAULT NULL',
+            ],
+            'constraints' => [
+                'ID'              => 'PRIMARY KEY (ID)',
+                'session_id'      => 'KEY session_id (session_id)',
+                'resource_uri_id' => 'KEY resource_uri_id (resource_uri_id)',
+                'event_name'      => 'KEY event_name (event_name)',
+            ],
+        ],
     ];
 
     /**
