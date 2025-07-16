@@ -29,8 +29,8 @@ $hits = array_sum($hits);
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('First Source Category', 'wp-statistics'); ?></span>
         <div class="wps-visitor__visitors-detail--link wps-ellipsis-parent">
-            <?php if (!empty($lastSession->getReferral()->getSourceChannel())) : ?>
-                <span><?php echo esc_html($lastSession->getReferral()->getSourceChannel()) ?></span>
+            <?php if (!empty($firstSession->getReferral()->getSourceChannel())) : ?>
+                <span><?php echo esc_html($firstSession->getReferral()->getSourceChannel()) ?></span>
             <?php else : ?>
                 <?php echo Admin_Template::UnknownColumn() ?>
             <?php endif; ?>
