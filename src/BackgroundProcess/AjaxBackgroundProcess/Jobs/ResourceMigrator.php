@@ -45,7 +45,7 @@ class ResourceMigrator extends AbstractAjaxBackgroundProcess
      *
      * @return void
      */
-    protected function getTotal()
+    protected function getTotal($needCaching = true)
     {
         $pages = DatabaseFactory::table('select')
             ->setName('pages')
