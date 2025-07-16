@@ -13,13 +13,13 @@ class PostsModel extends BaseModel
     public function countPosts($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'                => '',
-            'post_type'           => Helper::getPostTypes(),
-            'author_id'           => '',
-            'taxonomy'            => '',
-            'term'                => '',
-            'filter_by_view_date' => false,
-            'url'                 => ''
+            'date'                  => '',
+            'post_type'             => Helper::getPostTypes(),
+            'author_id'             => '',
+            'taxonomy'              => '',
+            'term'                  => '',
+            'filter_by_view_date'   => false,
+            'url'                   => ''
         ]);
 
         $query = Query::select('COUNT(*)')
@@ -402,11 +402,11 @@ class PostsModel extends BaseModel
     public function get404Data($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'     => '',
-            'order_by' => 'views',
-            'order'    => 'DESC',
-            'page'     => 1,
-            'per_page' => 10,
+            'date'          => '',
+            'order_by'      => 'views',
+            'order'         => 'DESC',
+            'page'          => 1,
+            'per_page'      => 10,
         ]);
 
         $result = Query::select(['uri', 'SUM(count) AS views'])
@@ -424,9 +424,9 @@ class PostsModel extends BaseModel
     public function count404Data($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'     => '',
-            'page'     => 1,
-            'per_page' => 10,
+            'date'          => '',
+            'page'          => 1,
+            'per_page'      => 10,
         ]);
 
         $result = Query::select(['COUNT(DISTINCT uri)'])
