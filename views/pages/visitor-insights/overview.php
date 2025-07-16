@@ -69,7 +69,7 @@ $isTrackLoggedInUsersEnabled = Option::get('visitors_log');
                         </tr>
                         <tr>
                             <td><b><?php esc_html_e('7-Day Avg', 'wp-statistics') ?></b></td>
-                            <td><a href="<?php echo esc_url(Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('7days', true)))); ?>"><span class="quickstats-values"><?php echo esc_html(Helper::divideNumbers($data['summary']['visitors']['7days'], 7, 0)); ?></span></a></td>
+                            <td><a href="<?php echo esc_url(Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('7days', true)))); ?>"><span class="quickstats-values"><?php echo esc_html(ceil(Helper::divideNumbers($data['summary']['visitors']['7days'], 7, 1))); ?></span></a></td>
                             <td><a href="<?php echo esc_url(Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('7days', true)))); ?>"><span class="quickstats-values"><?php echo esc_html(Helper::divideNumbers($data['summary']['views']['7days'], 7, 0)); ?></span></a></td>
                         </tr>
                         </tbody>
