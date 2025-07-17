@@ -162,6 +162,19 @@ if ($isCustomizationActive && !$isLicenseValid) {
                 </th>
 
                 <td>
+                    <p class="wps-export__item">
+                        <input
+                            id="wps-addon-wp-statistics"
+                            name="addons[]"
+                            class="wps-export__checkbox"
+                            type="checkbox"
+                            value="wp-statistics"
+                            checked
+                        >
+                        <label for="wps-addon-wp-statistics" class="wps-export__label">
+                            <?php echo esc_html__('WP Statistics (core settings)'); ?>
+                        </label>
+                    </p>
                     <?php foreach (PluginHelper::$plugins as $plugin => $title):
                         $isPluginActive = $pluginHandler->isPluginActive($plugin); ?>
                         <p class="wps-export__item <?php echo !$isPluginActive ? esc_attr('wps-export__item--disabled') : ''; ?>">
@@ -185,7 +198,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
                         <?php esc_html_e('Download export file', 'wp-statistics'); ?>
                     </button>
                     <p class="description">
-                        <?php _e('The file is saved in JSON format and contains both core settings and the add‑ons you tick above. <a href="#" target="_blank">See the full export guide</a>.', 'wp-statistics'); ?>
+                        <?php _e('The file is saved in JSON format and contains both core settings and the add‑ons you tick above. <a href="https://wp-statistics.com/resources/import-export-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Learn more</a>.', 'wp-statistics'); ?>
                     </p>
                 </td>
             </tr>
@@ -226,7 +239,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
                     </button>
 
                     <p class="description">
-                        <?php _e('Need a safety net? Use <b>Download export file</b> above to back up your current settings first. You can always restore defaults later under <b>Settings › Advanced Options › Reset Options</b>. <a href="#" target="_blank">Learn how the import works</a>.', 'wp-statistics'); ?>
+                        <?php _e('Need a safety net? Use <b>Download export file</b> above to back up your current settings first. You can always restore defaults later under <b>Settings › Advanced Options › Reset Options</b>. <a href="https://wp-statistics.com/resources/import-export-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Learn more</a>.', 'wp-statistics'); ?>
                     </p>
                 </td>
             </tr>
