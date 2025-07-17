@@ -135,26 +135,22 @@ class Uri
      */
     public static function getByVisitor($visitorProfile)
     {
-        $pageType = $visitorProfile->getCurrentPageType();
-        $pageUri  = self::get();
-
-        if (array_key_exists('search_query', $pageType) && !empty($pageType['search_query'])) {
-            $pageUri = "?s=" . $pageType['search_query'];
-        }
+        $pageType    = $visitorProfile->getCurrentPageType();
+        $resourceUri = self::get();
 
         if ($pageType['type'] === "loginpage") {
-            $pageUri = QueryParams::getFilterParams($pageUri);
+            $pageUri = QueryParams::getFilterParams($resourceUri);
         }
 
         if (array_key_exists('search_query', $pageType) === false) {
-            $uriParts = explode('?', $pageUri);
+            $uriParts = explode('?', $resourceUri);
             if ($uriParts !== false) {
-                $pageUri = $uriParts[0];
+                $resourceUri = $uriParts[0];
             }
         }
 
-        $pageUri = QueryParams::getFilterParams($pageUri, QueryParams::getAllowedList());
+        $resourceUri = QueryParams::getFilterParams($resourceUri, QueryParams::getAllowedList());
 
-        return substr($pageUri, 0, 255);
+        return substr($resourceUri, 0, 255);
     }
 }

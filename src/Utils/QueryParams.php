@@ -125,7 +125,11 @@ final class QueryParams
 
         parse_str($query, $params);
 
-        foreach ($keys as $key) {
+        foreach ($params as $key => $value) {
+            if (in_array($key, $keys, true)) {
+                continue;
+            }
+
             unset($params[$key]);
         }
 
