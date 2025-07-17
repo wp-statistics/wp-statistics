@@ -1,24 +1,24 @@
-= 14.15 - 2025-x-x =
-- **New:** Added a new `Search Terms` report under `Visitor Insight` page.
-- **New:** Added `Overview` report for `Visitor Insight`.
-- **New:** Added `Overview` report for `Page Insights`.
-- **New:** Added `Device Overview` report.
-- **Fix:** Fix report URL issue for posts with custom post type.
-- **Fix:** Resolve Zero Page View Issue for Non-'Category' Taxonomies.
-- **Enhancement:** Improved migration efficiency and stability by running schema migrations synchronously and removing background processes.
-- **Enhancement:** Improved `Views` report under `Visitor Insight` page.
-- **Fix:** Fixed inaccurate tracking of WooCommerce My Account sub-page titles.
-- **Enhancement:** Unset `Consent Integration` option upon integration deactivation.
-- **New:** Add Country Name to Visitor Info Flag Tooltip.
-- **New:** Added unread notification badge to Help Center menu.
-- **Enhancement:** Combined notification and marketing campaign cron jobs into a single daily scheduled event to optimize scheduling.
-- **Enhancement:** Default dashboard now displays only the “Traffic Overview” widget for a cleaner initial experience.
-- **Enhancement:** Optimized `getTrafficOverviewData` to reduce queries and improve Traffic Overview widget performance.
-- **Enhancement:** Skip GeoIP database download when running in local development environments to improve setup speed and reduce unnecessary external requests.
-- **Enhancement:** Removed unused comments join from Page Insights query to improve performance.
-- **Enhancement:** Improved back button functionality on all pages to ensure accurate navigation to the previous view.
+= 14.15 - 2025-07-21 =
+- **New:** Added a new `Search Terms` report under the Visitor Insight page.
+- **New:** Added an `Overview` report for Visitor Insight.
+- **New:** Added an `Overview` report for Page Insights.
+- **New:** Added a `Device Overview` report.
+- **Enhancement:** Improved migration performance by running schema updates synchronously and removing background processes.
+- **Enhancement:** Improved the `Views` report under Visitor Insight.
+- **Enhancement:** Unset the `Consent Integration` setting when integration is deactivated.
+- **Enhancement:** Added country name to flag tooltip in Visitor Info.
+- **Enhancement:** Added unread notification badge to the Help Center menu.
+- **Enhancement:** Merged notification and campaign cron jobs into a single daily schedule.
+- **Enhancement:** Dashboard now shows only the "Traffic Overview" widget by default for a cleaner start.
+- **Enhancement:** Optimized `getTrafficOverviewData` for fewer queries and faster widget loading.
+- **Enhancement:** Skipped GeoIP database download in local environments to speed up setup.
+- **Enhancement:** Removed unused `comments` join from Page Insights query to improve performance.
+- **Enhancement:** Improved "Back" button functionality across pages to return to the previous view accurately.
 - **Enhancement:** Improved warning message for missing consent-management plugin.
-- **Fix:** Prevented number_format() warning with null on PHP 8.4.5.
+- **Fix:** Fixed report URL issues for custom post types.
+- **Fix:** Resolved zero page view issues for non-'category' taxonomy filters.
+- **Fix:** Fixed incorrect tracking of WooCommerce My Account sub-pages.
+- **Fix:** Prevented `number_format()` warning when value is null in PHP 8.4.5.
 
 = 14.14.1 - 2025-06-29 =
 - **New:** Added a Database Schema tool to check and repair database structure in the Optimization page.
