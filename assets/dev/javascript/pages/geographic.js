@@ -1,4 +1,5 @@
-if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "geographic" && wps_js.global.request_params.tab === "overview") {
+if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "geographic"
+    && (!wps_js.isset(wps_js.global, 'request_params', 'tab') || wps_js.global.request_params.tab === "overview")) {
 
     const wpsVectorMap = document.getElementById('wp-statistics-visitors-map')
     if (wpsVectorMap) {
