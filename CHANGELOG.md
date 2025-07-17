@@ -19,6 +19,7 @@
 - **Enhancement:** Improved back button functionality on all pages to ensure accurate navigation to the previous view.
 - **Enhancement:** Improved warning message for missing consent-management plugin.
 - **Fix:** Prevented number_format() warning with null on PHP 8.4.5.
+- **Enhancement:** Disabled "Consent Categories" dropdown on settings page if no WP Consent API-compatible plugin is active.
 
 = 14.14.1 - 2025-06-29 =
 - **New:** Added a Database Schema tool to check and repair database structure in the Optimization page.

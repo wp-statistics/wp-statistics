@@ -20,6 +20,16 @@ class WpConsentApi extends AbstractIntegration
     }
 
     /**
+     * Checks if plugin is activated.
+     *
+     * @return  bool
+     */
+    public function isActive()
+    {
+        return is_plugin_active($this->getPath()) && !empty($this->getCompatiblePlugins());
+    }
+
+    /**
      * detection notice for "WP Consent API" plugin.
      */
     public function detectionNotice()
@@ -27,9 +37,9 @@ class WpConsentApi extends AbstractIntegration
         if (empty(self::getCompatiblePlugins())) return null;
 
         return [
-            'key'           => 'wp_consent_api_detection_notice',
-            'title'         => esc_html__('Consent integration available', 'wp-statistics'),
-            'description'   => esc_html__('We’ve detected a consent plugin that supports WP Consent API. Enable the “WP Consent API integration” in WP Statistics → Settings → Privacy & Data Protection so your analytics respect visitor consent.', 'wp-statistics'),
+            'key'         => 'wp_consent_api_detection_notice',
+            'title'       => esc_html__('Consent integration available', 'wp-statistics'),
+            'description' => esc_html__('We’ve detected a consent plugin that supports WP Consent API. Enable the “WP Consent API integration” in WP Statistics → Settings → Privacy & Data Protection so your analytics respect visitor consent.', 'wp-statistics'),
         ];
     }
 
