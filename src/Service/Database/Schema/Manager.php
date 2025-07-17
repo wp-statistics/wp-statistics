@@ -310,9 +310,9 @@ class Manager
                 'date'            => 'datetime NOT NULL',
                 'resource_uri_id' => 'bigint(20) UNSIGNED DEFAULT NULL',
                 'session_id'      => 'bigint(20) UNSIGNED DEFAULT NULL',
+                'user_id'         => 'bigint(20) UNSIGNED DEFAULT NULL',
                 'event_name'      => 'varchar(64) NOT NULL',
                 'event_data'      => 'text NOT NULL',
-                'user_id'         => 'bigint(20) UNSIGNED DEFAULT NULL',
             ],
             'constraints' => [
                 'ID'              => 'PRIMARY KEY (ID)',
