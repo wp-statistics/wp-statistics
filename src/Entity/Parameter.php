@@ -39,12 +39,12 @@ class Parameter extends BaseEntity
         }
 
         $allowedParams = QueryParams::getAllowedList('array', true);
-        $pageUri       = Uri::getByVisitor($this->profile);
+        $resoueceUri   = Uri::getByVisitor($this->profile);
 
         $queryParams = [];
 
-        if (strpos($pageUri, '?') !== false) {
-            list(, $queryString) = explode('?', $pageUri, 2);
+        if (strpos($resoueceUri, '?') !== false) {
+            list(, $queryString) = explode('?', $resoueceUri, 2);
             parse_str($queryString, $queryParams);
         }
 

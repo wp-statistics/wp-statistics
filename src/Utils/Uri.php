@@ -139,17 +139,8 @@ class Uri
         $resourceUri = self::get();
 
         if ($pageType['type'] === "loginpage") {
-            $pageUri = QueryParams::getFilterParams($resourceUri);
+            $resourceUri = QueryParams::getFilterParams($resourceUri);
         }
-
-        if (array_key_exists('search_query', $pageType) === false) {
-            $uriParts = explode('?', $resourceUri);
-            if ($uriParts !== false) {
-                $resourceUri = $uriParts[0];
-            }
-        }
-
-        $resourceUri = QueryParams::getFilterParams($resourceUri, QueryParams::getAllowedList());
 
         return substr($resourceUri, 0, 255);
     }
