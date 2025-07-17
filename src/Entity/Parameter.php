@@ -10,7 +10,7 @@ use WP_Statistics\Utils\Uri;
 /**
  * Entity for detecting and recording view parameters from the request URI.
  *
- * This includes parameters attached to the current page URL, excluding known tracking parameters.
+ * This includes parameters attached to the current resource URL, excluding known tracking parameters.
  *
  * @since 15.0.0
  */

@@ -11,9 +11,9 @@ namespace WP_Statistics\Utils;
 class Uri
 {
     /**
-     * Get the current page URI relative to the WordPress installation
+     * Get the current resource URI relative to the WordPress installation
      *
-     * @return string The sanitized page URI
+     * @return string The sanitized resource URI
      */
     public static function get()
     {
@@ -63,7 +63,7 @@ class Uri
      *
      * We need to check which URI is longer in case one contains the other.
      * For example home_uri might be "/site/wp" and site_uri might be "/site".
-     * In that case we want to check to see if the page_uri starts with "/site/wp" before
+     * In that case we want to check to see if the resource_uri starts with "/site/wp" before
      * we check for "/site", but in the reverse case, we need to swap the order of the check.
      *
      * @param string $requestUri The current request URI
@@ -106,10 +106,10 @@ class Uri
     }
 
     /**
-     * Sanitize the page URI
+     * Sanitize the resource URI
      *
-     * @param string $pageUri The page URI to sanitize
-     * @return string The sanitized page URI
+     * @param string $uri The resource URI to sanitize
+     * @return string The sanitized resource URI
      */
     private static function sanitizeUri($uri)
     {
@@ -128,17 +128,17 @@ class Uri
     }
 
     /**
-     * Sanitize page URI with comprehensive WordPress-specific handling
+     * Sanitize resource URI with comprehensive WordPress-specific handling
      *
      * @param object $visitorProfile The visitor profile object
-     * @return string The sanitized page URI limited to 255 characters
+     * @return string The sanitized resource URI limited to 255 characters
      */
     public static function getByVisitor($visitorProfile)
     {
-        $pageType    = $visitorProfile->getCurrentPageType();
-        $resourceUri = self::get();
+        $resourceType = $visitorProfile->getCurrentPageType();
+        $resourceUri  = self::get();
 
-        if ($pageType['type'] === "loginpage") {
+        if ($resourceType['type'] === "loginpage") {
             $resourceUri = QueryParams::getFilterParams($resourceUri);
         }
 
