@@ -335,6 +335,11 @@ td .wps-tooltip-icon.info {
           display: -webkit-box !important;
           overflow: hidden;
           text-overflow: ellipsis;
+
+          .rtl &{
+            direction: ltr;
+            text-align: right;
+          }
         }
       }
     }
