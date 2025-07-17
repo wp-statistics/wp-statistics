@@ -21,6 +21,10 @@
   }
 }
 
+.wps-export__item.wps-export__item--disabled{
+  opacity: 50%;
+}
+
 .wps-wrap.wp-statistics-settings {
 
   .wp-statistics-notice {
