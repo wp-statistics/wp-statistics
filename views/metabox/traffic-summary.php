@@ -38,8 +38,8 @@ $userOnline     = new \WP_STATISTICS\UserOnline();
                 ?>
                     <tr>
                         <td><b><?php echo esc_html($label); ?></b></td>
-                        <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get($key))); ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($visitors, 1)) ?></span></a></td>
-                        <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get($key))); ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($hits, 1)) ?></span></a></td>
+                        <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get($key))); ?>" title="<?php echo esc_html(Helper::formatNumberWithUnit($visitors, 1)) ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($visitors, 1)) ?></span></a></td>
+                        <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get($key))); ?>" title="<?php echo esc_html(Helper::formatNumberWithUnit($hits, 1)) ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($hits, 1)) ?></span></a></td>
                     </tr>
                 <?php endfor; ?>
             </tbody>
