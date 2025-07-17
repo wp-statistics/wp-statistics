@@ -744,7 +744,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                     hoverBorderColor: color,
                     backgroundColor: color,
                     fill: false,
-                    yAxisID: 'y',
+                    yAxisID: dataset.label === 'Clicks' ? 'y1' : 'y',
                     borderWidth: 1,
                     borderDash: [5, 5],
                     pointRadius: aggregatedData.aggregatedLabels.length === 1 ? 5 : 0,
