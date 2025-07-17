@@ -663,7 +663,8 @@ class VisitorProfile
     public function getReferrer()
     {
         return $this->getCachedData('referrer', function () {
-            return Referrals::getUrl();
+            $referrerUrl = Referrals::getUrl();
+            return !empty($referrerUrl) ? $referrerUrl : null;
         });
     }
 

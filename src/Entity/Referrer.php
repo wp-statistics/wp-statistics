@@ -29,22 +29,12 @@ class Referrer extends BaseEntity
             return $this;
         }
 
-        $refUrl = $this->profile->getReferrer();
-        if (empty($refUrl)) {
-            return $this;
-        }
-
-        $domain = parse_url($refUrl, PHP_URL_HOST) ?: $refUrl;
-
+        $domain  = $this->profile->getReferrer();
         $source  = $this->profile->getSource();
-        $channel = method_exists($source, 'getChannel')
-            ? $source->getChannel()
-            : '';
-        $name    = method_exists($source, 'getName')
-            ? $source->getName()
-            : $domain;
+        $channel = $source->getChannel();
+        $name    = $source->getName();
 
-        if (empty($name)) {
+        if (empty($channel)) {
             return $this;
         }
 

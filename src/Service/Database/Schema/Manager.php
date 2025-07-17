@@ -170,9 +170,9 @@ class Manager
         'referrers'               => [
             'columns'     => [
                 'ID'      => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
-                'channel' => 'varchar(128)',
-                'name'    => 'varchar(128) NOT NULL',
-                'domain'  => 'varchar(128) NOT NULL',
+                'channel' => 'varchar(128) NOT NULL',
+                'name'    => 'varchar(128)',
+                'domain'  => 'varchar(128)',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',

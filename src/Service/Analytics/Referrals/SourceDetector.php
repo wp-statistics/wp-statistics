@@ -39,7 +39,7 @@ class SourceDetector
      */
     public function getChannel()
     {
-        return $this->referral['channel'] ?? null;
+        return $this->referral['channel'] ?? 'unassigned';
     }
 
     /**
