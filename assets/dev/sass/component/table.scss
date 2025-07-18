@@ -299,11 +299,6 @@ td .wps-tooltip-icon.info {
         padding: 11px 0 11px 16px!important;
         font-size: 13px;
         color: #0c0c0d;
-        word-wrap: break-word;
-        word-break: break-word;
-        max-width: 0;
-        overflow: hidden;
-        text-overflow: ellipsis;
 
         .rtl & {
           text-align: right;
@@ -319,27 +314,12 @@ td .wps-tooltip-icon.info {
 
         a:not(.wps-link-arrow) {
           text-decoration: none;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          display: -webkit-box !important;
-          overflow: hidden;
-          text-overflow: ellipsis;
         }
 
         .quickstats-values {
           font-weight: 500;
           font-size: 13px;
           color: #404bf2;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          display: -webkit-box !important;
-          overflow: hidden;
-          text-overflow: ellipsis;
-
-          .rtl &{
-            direction: ltr;
-            text-align: right;
-          }
         }
       }
     }
