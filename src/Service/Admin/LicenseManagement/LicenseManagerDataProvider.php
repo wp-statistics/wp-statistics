@@ -19,7 +19,7 @@ class LicenseManagerDataProvider
     }
 
     /**
-     * Returns data for "Add-Ons" tab.
+     * Returns data for "Add-ons" tab.
      *
      * @return array
      */
@@ -278,7 +278,11 @@ class LicenseManagerDataProvider
 
         foreach ($installedAddOns as $plugin => $title) {
             if (!LicenseHelper::isPluginLicenseValid($plugin)) {
-                $unlicensedAddOns[] = PluginHelper::getRemotePluginBySlug($plugin);
+                $unlicensedAddOn = PluginHelper::getRemotePluginBySlug($plugin);
+
+                if (empty($unlicensedAddOn)) continue;
+
+                $unlicensedAddOns[] = $unlicensedAddOn;
             }
         }
 
@@ -307,7 +311,11 @@ class LicenseManagerDataProvider
 
         foreach ($installedAddOns as $plugin => $title) {
             if (!$pluginHandler->isPluginActive($plugin)) {
-                $inactiveAddOns[] = PluginHelper::getRemotePluginBySlug($plugin);
+                $inactiveAddOn = PluginHelper::getRemotePluginBySlug($plugin);
+
+                if (empty($inactiveAddOn)) continue;
+
+                $inactiveAddOns[] = $inactiveAddOn;
             }
         }
 

@@ -40,8 +40,32 @@ abstract class BaseModel
         $args = $this->parseQueryParamArg($args);
         $args = $this->parseResourceTypeArg($args);
         $args = $this->parseDateArg($args);
+        $args = $this->parseUtmParams($args);
 
         return apply_filters('wp_statistics_data_{child-method-name}_args', $args);
+    }
+
+    /**
+     * Escape any underscores in UTM params with a backslash
+     * This is necessary because WordPress's LIKE operator uses underscores as a wildcard
+     * @param array $args
+     * @return array
+     */
+    private function parseUtmParams($args)
+    {
+        if (!empty($args['utm_source'])) {
+            $args['utm_source'] = str_replace('_', '\_', $args['utm_source']);
+        }
+
+        if (!empty($args['utm_medium'])) {
+            $args['utm_medium'] = str_replace('_', '\_', $args['utm_medium']);
+        }
+
+        if (!empty($args['utm_campaign'])) {
+            $args['utm_campaign'] = str_replace('_', '\_', $args['utm_campaign']);
+        }
+
+        return $args;
     }
 
     /**
@@ -60,19 +84,24 @@ abstract class BaseModel
             }
 
             foreach ($args['resource_type'] as $key => $value) {
-                // If it's not a post type, skip
-                if (!in_array($value, Helper::getPostTypes())) {
-                    continue;
+                // If it's a taxonomy.
+                if (taxonomy_exists($value)) {
+                    if (!in_array($value, ['category', 'post_tag'])) {
+                        $args['resource_type'][$key] = "tax_{$value}";
+                    }
                 }
 
-                // If it's a custom post type, add 'post_type' prefix
-                if (!in_array($value, ['post', 'page', 'product', 'attachment'])) {
-                    $args['resource_type'][$key] = "post_type_$value";
-                }
+                // If it's a post type.
+                if (post_type_exists($value)) {
+                    // If it's a custom post type, add 'post_type' prefix
+                    if (!in_array($value, ['post', 'page', 'product', 'attachment'])) {
+                        $args['resource_type'][$key] = "post_type_$value";
+                    }
 
-                // If the array contains page post type, add home as well
-                if (!in_array('home', $args['resource_type']) && $value === 'page') {
-                    $args['resource_type'][] = 'home';
+                    // If the array contains page post type, add home as well
+                    if (!in_array('home', $args['resource_type']) && $value === 'page') {
+                        $args['resource_type'][] = 'home';
+                    }
                 }
             }
         }

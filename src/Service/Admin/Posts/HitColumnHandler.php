@@ -59,7 +59,7 @@ class HitColumnHandler
     /**
      * Adds a custom column to posts/taxonomies lists for hits statistics.
      *
-     * @param array  $columns Columns array.
+     * @param array $columns Columns array.
      * @param string $postType Post type.
      *
      * @return array
@@ -67,9 +67,9 @@ class HitColumnHandler
      * @hooked action: `manage_{$type}_posts_columns` - 10
      * @hooked action: `manage_edit-{$tax}_columns` - 10
      */
-    public function addHitColumn($columns, $postType='')
+    public function addHitColumn($columns, $postType = '')
     {
-        if (! empty($postType) && empty(is_post_type_viewable($postType))) {
+        if (!empty($postType) && empty(is_post_type_viewable($postType))) {
             return $columns;
         }
 
@@ -138,7 +138,7 @@ class HitColumnHandler
 
         // Initialize class attributes only once (since all terms in the list have the same taxonomy)
         if (!$this->isCacheSet('postType')) {
-            $this->setCache('postType', (($term instanceof \WP_Term) && ($term->taxonomy === 'category' || $term->taxonomy === 'post_tag')) ? $term->taxonomy : 'tax');
+            $this->setCache('postType', (($term instanceof \WP_Term) && ($term->taxonomy === 'category' || $term->taxonomy === 'post_tag')) ? $term->taxonomy : 'tax_' . $term->taxonomy);
         }
 
         $hitCount = $this->calculateHitCount($termId, $term);
@@ -346,7 +346,7 @@ class HitColumnHandler
 
         if (!$this->isCacheSet('isCurrentPostTypeSelected')) {
             // Check if current post type is selected in Mini-chart add-on's options
-            $miniChartSettings               = class_exists(WP_Statistics_Mini_Chart_Settings::class) ? get_option(WP_Statistics_Mini_Chart_Settings::get_instance()->setting_name) : '';
+            $miniChartSettings = class_exists(WP_Statistics_Mini_Chart_Settings::class) ? get_option(WP_Statistics_Mini_Chart_Settings::get_instance()->setting_name) : '';
             $this->setCache('isCurrentPostTypeSelected', !empty($miniChartSettings) && !empty($miniChartSettings["active_mini_chart_{$actualPostType}"]));
         }
 

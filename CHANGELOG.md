@@ -1,12 +1,48 @@
-= 14.15 - 2025-x-x =
+= 14.15.1 - 2025-x-x =
 - **New:** Added export and import settings feature in the premium version.
 
-= 14.14 - 2025-05-x =
+= 14.15 - 2025-07-21 =
+- **New:** Added a new `Search Terms` report under the Visitor Insight page.
+- **New:** Added an `Overview` report for Visitor Insight.
+- **New:** Added an `Overview` report for Page Insights.
+- **New:** Added a `Device Overview` report.
+- **Enhancement:** Improved migration performance by running schema updates synchronously and removing background processes.
+- **Enhancement:** Improved the `Views` report under Visitor Insight.
+- **Enhancement:** Unset the `Consent Integration` setting when integration is deactivated.
+- **Enhancement:** Added country name to flag tooltip in Visitor Info.
+- **Enhancement:** Added unread notification badge to the Help Center menu.
+- **Enhancement:** Merged notification and campaign cron jobs into a single daily schedule.
+- **Enhancement:** Dashboard now shows only the "Traffic Overview" widget by default for a cleaner start.
+- **Enhancement:** Optimized `getTrafficOverviewData` for fewer queries and faster widget loading.
+- **Enhancement:** Skipped GeoIP database download in local environments to speed up setup.
+- **Enhancement:** Removed unused `comments` join from Page Insights query to improve performance.
+- **Enhancement:** Improved "Back" button functionality across pages to return to the previous view accurately.
+- **Enhancement:** Improved warning message for missing consent-management plugin.
+- **Fix:** Fixed report URL issues for custom post types.
+- **Fix:** Resolved zero page view issues for non-'category' taxonomy filters.
+- **Fix:** Fixed incorrect tracking of WooCommerce My Account sub-pages.
+- **Fix:** Prevented `number_format()` warning when value is null in PHP 8.4.5.
+
+= 14.14.1 - 2025-06-29 =
+- **New:** Added a Database Schema tool to check and repair database structure in the Optimization page.
+- **Enhancement:** Added country name to the flag tooltip in Visitor Info.
+- **Enhancement:** Added unread notification badge to the Help Center menu.
+- **Enhancement:** Improved migration performance by running schema updates synchronously and removing background processes.
+- **Enhancement:** Improved the "Views" section in the Visitor Insight report.
+- **Enhancement:** Deprecated the Matomo Referrer Spam Blacklist option (to be removed in v14.16).
+- **Fix:** Fixed accessibility (A11y) issues.
+- **Fix:** Resolved Zero Page views for non-'category' taxonomy filters.
+- **Fix:** Anonymous data opt-in notice now appears 7 days after plugin activation.
+- **Fix:** Fixed incorrect page titles for WooCommerce My Account sub-pages.
+- **Fix:** Normalized the taxonomy `type` field for `tax_` prefixes.
+
+= 14.14 - 2025-06-01 =
 - **New:** Added a Help page inside the plugin to guide users.
 - **New:** Introduced dynamic promo text in the plugin header.
 - **New:** Added Single Resource report for assets without a post ID.
 - **New:** Integrated with the Real Cookie Banner plugin.
 - **New:** Added an option to disable word count analytics in reports.
+- **Enhancement:** Referral Overview and New Design for Settings and Optimization pages.
 - **Enhancement:** Merged Location data into Visitor Information in reports.
 - **Enhancement:** Added Entry and Exit Page columns to relevant reports.
 - **Enhancement:** Added license status helper on the Add-ons page.
@@ -29,6 +65,7 @@
 - **Fix:** Removed `/online` and `/hit` REST endpoints when Server-Side Tracking is enabled (deprecated).
 - **Fix:** Ensured `tracker.js` works with Root Bedrock setups.
 - **Fix:** Handled `E_STRICT` deprecation warning in PHP 8.4.
+- **New:** Added a database schema section to the Optimization page to resolve database errors.
 
 = 14.13.4 - 2025-04-29 =
 - **Enhancement:** Enforced capability check in optionUpdater.

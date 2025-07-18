@@ -12,7 +12,7 @@ $isWidgetsActive = WP_STATISTICS\Helper::isAddOnActive('widgets');
 <?php
 if (!$isWidgetsActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
     ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-widgets/?utm_source=wp-statistics&utm_medium=link&utm_campaign=widgets'),
-     'addon_title'        => __('Advanced Widgets Add-On', 'wp-statistics'),
+     'addon_title'        => __('Advanced Widgets Add-on', 'wp-statistics'),
      'addon_modal_target' => 'wp-statistics-widgets',
      'addon_description'  => __('The settings on this page are part of the Advanced Widgets add-on, allowing you to display a range of data widgets on your website.', 'wp-statistics'),
      'addon_features'     => [
@@ -31,11 +31,11 @@ if ($isWidgetsActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isWidgetsActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top" class="wps-settings-box_head">
+            <tr class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Widget Cache Duration', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top" data-id="refresh_every_tr">
+            <tr data-id="refresh_every_tr">
                 <th scope="row">
                     <label for="wps_addon_settings[widgets][cache_life]"><?php esc_html_e('Refresh Every', 'wp-statistics'); ?></label>
                 </th>
@@ -62,13 +62,13 @@ if ($isWidgetsActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isWidgetsActive ? 'form-table--preview' : '' ?>">
             <tbody>
-            <tr valign="top" class="wps-settings-box_head">
+            <tr class="wps-settings-box_head">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Widget Design Customization', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <tr valign="top" data-id="use_default_widget_styling_tr">
+            <tr data-id="use_default_widget_styling_tr">
                 <th scope="row">
-                    <label for="wps_addon_settings[widgets][disable_styles]"><?php esc_html_e('Use Default Widget Styling', 'wp-statistics'); ?></label>
+                    <span class="wps-setting-label"><?php esc_html_e('Use Default Widget Styling', 'wp-statistics'); ?></span>
                 </th>
 
                 <td>

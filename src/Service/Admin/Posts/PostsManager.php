@@ -37,7 +37,7 @@ class PostsManager
         add_action('deleted_post', [$this, 'deletePostHits']);
 
         // Remove term hits on term delete
-        add_action('delete_term', [$this, 'deleteTermHits'], 10, 2);
+        add_action('delete_term', [$this, 'deleteTermHits'], 10, 3);
     }
 
     /**
@@ -138,6 +138,7 @@ class PostsManager
      *
      * @param int $term Term ID.
      * @param int $ttId Term taxonomy ID.
+     * @param string $taxonomy Taxonomy slug.
      *
      * @return void
      *
@@ -146,12 +147,18 @@ class PostsManager
      * @todo Replace this method with visitor decorator call after the class is ready.
      * @todo Also delete from historical table.
      */
-    public static function deleteTermHits($term, $ttId)
+    public static function deleteTermHits($term, $ttId, $taxonomy)
     {
         global $wpdb;
 
+        $taxSlug = 'tax_' . $taxonomy;
+
         $wpdb->query(
-            $wpdb->prepare("DELETE FROM `" . DB::table('pages') . "` WHERE `id` = %d AND (`type` = 'category' OR `type` = 'post_tag' OR `type` = 'tax');", esc_sql($ttId))
+            $wpdb->prepare(
+                "DELETE FROM `" . DB::table('pages') . "` WHERE `id` = %d AND (`type` = 'category' OR `type` = 'post_tag' OR `type` = %s);",
+                $ttId,
+                $taxSlug
+            )
         );
     }
 

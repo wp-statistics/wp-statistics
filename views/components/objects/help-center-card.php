@@ -32,7 +32,7 @@
         ?>
     </div>
     <span class="wps-help__card-category"><?php echo esc_html($category) ?></span>
-    <h3 class="wps-help__card-title"><?php echo esc_html($title) ?></h3>
+    <h2 class="wps-help__card-title"><?php echo esc_html($title) ?></h2>
     <p class="wps-help__card-description"><?php echo esc_html($description); ?></p>
     <?php if (isset($view_more_link)): ?>
         <a href="<?php echo esc_url($view_more_link); ?>" target="_blank" class="wps-help__card-link">

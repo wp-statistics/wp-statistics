@@ -82,10 +82,14 @@ class Install
 
         if (empty($version)) {
             update_option('wp_statistics_is_fresh', true);
-            return;
+        } else {
+            update_option('wp_statistics_is_fresh', false);
         }
 
-        update_option('wp_statistics_is_fresh', false);
+        $installationTime = get_option('wp_statistics_installation_time');
+        if (empty($installationTime)) {
+            update_option('wp_statistics_installation_time', time());
+        }
     }
 
     /**
@@ -390,10 +394,6 @@ class Install
             $wpdb->query("ALTER TABLE {$userOnlineTable} CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
         }
 
-        if (!DB::isColumnType('visit', 'ID', 'bigint(20)') && !DB::isColumnType('visit', 'ID', 'bigint')) {
-            $wpdb->query("ALTER TABLE `" . DB::table('visit') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
-        }
-
         /**
          * Change Charset All Table To New WordPress Collate
          * Reset Overview Order Meta Box View
@@ -522,11 +522,26 @@ class Install
         }
 
         /**
+         * Remove wp_statistics_marketing_campaign_hook, wp_statistics_notification_hook from schedule
+         */
+        if (version_compare($latest_version, '14.15', '>=')) {
+            Event::unschedule('wp_statistics_marketing_campaign_hook');
+            Event::unschedule('wp_statistics_notification_hook');
+        }
+
+        /**
+         * Remove wp_statistics_add_visit_hook from schedule
+         */
+        if (version_compare($latest_version, '14.15', '>=')) {
+            Event::unschedule('wp_statistics_add_visit_hook');
+        }
+
+        /**
          * Update consent integration to WP Consent API for backward compatibility
          */
-        $integration            = Option::get('consent_integration');
-        $consentLevel           = Option::get('consent_level_integration', 'disabled');
-        $isWpConsentApiActive   = IntegrationHelper::getIntegration('wp_consent_api')->isActive();
+        $integration          = Option::get('consent_integration');
+        $consentLevel         = Option::get('consent_level_integration', 'disabled');
+        $isWpConsentApiActive = IntegrationHelper::getIntegration('wp_consent_api')->isActive();
 
         if ($isWpConsentApiActive && empty($integration) && $consentLevel !== 'disabled') {
             Option::update('consent_integration', 'wp_consent_api');
@@ -885,7 +900,7 @@ class Install
                         } elseif ($taxonomy == "post_tag") {
                             $page_type = 'post_tag';
                         } else {
-                            $page_type = 'tax';
+                            $page_type = 'tax_' . $taxonomy;
                         }
                     }
 

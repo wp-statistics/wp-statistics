@@ -12,13 +12,13 @@ use WP_STATISTICS\Schedule;
 <div class="postbox">
     <table class="form-table">
         <tbody>
-        <tr valign="top" class="wps-settings-box_head">
+        <tr class="wps-settings-box_head">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Email Configuration', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr valign="top" data-id="recipient_email_addresses_tr">
+        <tr data-id="recipient_email_addresses_tr">
             <th scope="row">
-                <label><?php esc_html_e('Recipient Email Addresses', 'wp-statistics'); ?></label>
+                <label for="email_list"><?php esc_html_e('Recipient Email Addresses', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -36,7 +36,7 @@ use WP_STATISTICS\Schedule;
 <div class="postbox" id='wps_stats_report_option'>
     <table class="form-table">
         <tbody>
-        <tr valign="top" class="wps-settings-box_head">
+        <tr class="wps-settings-box_head">
             <th scope="row" class="wps-sm-pb-0">
                 <h3><?php esc_html_e('Automated Report Delivery', 'wp-statistics'); ?></h3>
             </th>
@@ -50,7 +50,7 @@ use WP_STATISTICS\Schedule;
             </td>
         </tr>
 
-        <tr valign="top" data-id="report_frequency_tr">
+        <tr data-id="report_frequency_tr">
             <th scope="row" style="vertical-align: top;">
                 <label for="time-report"><?php esc_html_e('Report Frequency', 'wp-statistics'); ?></label>
             </th>
@@ -67,7 +67,7 @@ use WP_STATISTICS\Schedule;
             </td>
         </tr>
 
-        <tr valign="top" data-id="delivery_method_tr">
+        <tr data-id="delivery_method_tr">
             <th scope="row" style="vertical-align: top;">
                 <label for="send-report"><?php esc_html_e('Delivery Method', 'wp-statistics'); ?></label>
             </th>
@@ -85,9 +85,9 @@ use WP_STATISTICS\Schedule;
             </td>
         </tr>
 
-        <tr valign="top" data-id="custom_report_tr">
+        <tr data-id="custom_report_tr">
             <th scope="row" style="vertical-align: top;">
-                <label for="content-report"><?php esc_html_e('Custom Report', 'wp-statistics'); ?></label>
+                <span class="wps-setting-label"><?php esc_html_e('Custom Report', 'wp-statistics'); ?></span>
             </th>
 
             <td>
@@ -114,7 +114,7 @@ use WP_STATISTICS\Schedule;
             </td>
         </tr>
 
-        <tr valign="top" data-id="email_header_customization_tr">
+        <tr data-id="email_header_customization_tr">
             <th scope="row">
                 <label for="email_free_content_header"><?php esc_html_e('Email Header Customization', 'wp-statistics'); ?></label>
             </th>
@@ -125,7 +125,7 @@ use WP_STATISTICS\Schedule;
             </td>
         </tr>
 
-        <tr valign="top" data-id="email_footer_customization_tr">
+        <tr data-id="email_footer_customization_tr">
             <th scope="row">
                 <label for="email_free_content_footer"><?php esc_html_e('Email Footer Customization', 'wp-statistics'); ?></label>
             </th>
@@ -136,11 +136,11 @@ use WP_STATISTICS\Schedule;
             </td>
         </tr>
 
-        <tr valign="top" data-id="enhanced_visual_report_tr">
+        <tr data-id="enhanced_visual_report_tr">
         <?php if (Option::get('privacy_audit')) : ?>
-            <tr valign="top">
+            <tr>
                 <th scope="row">
-                    <label for="wps_show_privacy_issues_in_report"><?php esc_html_e('Privacy Audit issues', 'wp-statistics'); ?></label>
+                    <span class="wps-setting-label"><?php esc_html_e('Privacy Audit issues', 'wp-statistics'); ?></span>
                 </th>
                 <td>
                     <input id="wps_show_privacy_issues_in_report" type="checkbox" name="wps_show_privacy_issues_in_report" <?php echo WP_STATISTICS\Option::get('show_privacy_issues_in_report') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'>
@@ -150,7 +150,7 @@ use WP_STATISTICS\Schedule;
             </tr>
         <?php endif; ?>
 
-        <tr valign="top">
+        <tr>
             <th scope="row" style="vertical-align: top;">
                 <label for="content-report"><?php esc_html_e('Enhanced Visual Report', 'wp-statistics'); ?></label>
             </th>

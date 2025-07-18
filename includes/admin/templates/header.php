@@ -24,7 +24,7 @@ $hasManageCap            = $manageCap && current_user_can($manageCap);
 
     <div class="wps-adminHeader <?php echo $isPremium ? 'wps-adminHeader__premium' : '' ?>">
         <div class="wps-adminHeader__logo--container">
-            <img class="wps-adminHeader__logo <?php echo $isPremium ? 'wps-adminHeader__logo--premium' : '' ?>"
+            <img class="wps-adminHeader__logo <?php echo $isPremium ? 'wps-adminHeader__logo--premium' : '' ?>" aria-label="VeronaLabs logo" alt="VeronaLabs logo"
                  src="<?php echo esc_url(apply_filters('wp_statistics_header_url', WP_STATISTICS_URL . 'assets/images/' . ($isPremium ? 'wp-statistics-premium.svg' : 'white-header-logo.svg'))); ?>"/>
         </div>
         <div class="wps-adminHeader__menu">
@@ -34,7 +34,7 @@ $hasManageCap            = $manageCap && current_user_can($manageCap);
                 echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_visitors_page&tab=online', 'link_text' => __('Online Visitors', 'wp-statistics'), 'icon_class' => 'online-users', 'badge_count' => wp_statistics_useronline()], true);
             }
             if (!$isPremium && apply_filters('wp_statistics_enable_header_addons_menu', true)) {
-                echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => __('Add-Ons', 'wp-statistics'), 'icon_class' => 'addons', 'badge_count' => null], true);
+                echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => __('Add-ons', 'wp-statistics'), 'icon_class' => 'addons', 'badge_count' => null], true);
             }
             if ($isPremium) {
                 echo Admin_Template::get_template('layout/partials/menu-link', [
@@ -89,7 +89,7 @@ $hasManageCap            = $manageCap && current_user_can($manageCap);
 
             <?php if ($displayNotifications): ?>
 
-                <a title="<?php esc_html_e('Notifications', 'wp-statistics'); ?>" class="wps-notifications js-wps-open-notification <?php echo $hasUpdatedNotifications ? esc_attr('wps-notifications--has-items') : ''; ?>"></a>
+                <a href="#" title="<?php esc_html_e('Notifications', 'wp-statistics'); ?>" class="wps-notifications js-wps-open-notification <?php echo $hasUpdatedNotifications ? esc_attr('wps-notifications--has-items') : ''; ?>"></a>
             <?php endif; ?>
             <div class="wps-adminHeader__mobileMenu">
                 <input type="checkbox" id="wps-menu-toggle" class="hamburger-menu">
@@ -104,7 +104,7 @@ $hasManageCap            = $manageCap && current_user_can($manageCap);
                 <div class="wps-mobileMenuContent">
                     <?php
                     if (!$isPremium && apply_filters('wp_statistics_enable_header_addons_menu', true)) {
-                        echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => __('Add-Ons', 'wp-statistics'), 'icon_class' => 'addons', 'badge_count' => null], true);
+                        echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => __('Add-ons', 'wp-statistics'), 'icon_class' => 'addons', 'badge_count' => null], true);
                     }
                     if ($isPremium) {
                         echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_pages_page', 'link_text' => __('Top Pages', 'wp-statistics'), 'icon_class' => 'top-pages', 'badge_count' => null], true);

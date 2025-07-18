@@ -1,7 +1,10 @@
 <?php
 
+use WP_Statistics\Components\DateRange;
+use WP_Statistics\Components\DateTime;
 use WP_STATISTICS\Country;
 use WP_STATISTICS\IP;
+use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Pages;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
@@ -194,8 +197,12 @@ function wp_statistics_useronline($options = array())
         $sql .= ' WHERE ' . implode(' AND ', $where);
     }
 
+    if($arg['return'] == "count") {
+        return $wpdb->get_var($sql) ?? 0; // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+    }
+
     //Return Number od user Online
-    return ($arg['return'] == "count" ? $wpdb->get_var($sql) : $wpdb->get_results($sql)); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+    return $wpdb->get_results($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 }
 
 /**
@@ -204,68 +211,29 @@ function wp_statistics_useronline($options = array())
  * @param $time
  * @param null $daily
  * @return int
+ *
+ * @deprecated This function has been deprecated. Use ViewsModel->countViews() or VisitorsModel->countHits().
  */
 function wp_statistics_visit($time, $daily = null)
 {
-    global $wpdb;
-
-    //Date Column Name in visits table
-    $table_name  = WP_STATISTICS\DB::table('visit');
-    $date_column = 'last_counter';
-
-    //Prepare Selector Sql
-    $selector = 'SUM(visit)';
-    if ($daily == true) {
-        $selector = '*';
+    // Map legacy time ranges to new range
+    if ($time === 'week') {
+        $time = '7days';
+    } elseif ($time === 'month') {
+        $time = '30days';
+    } elseif ($time === 'year') {
+        $time = '12months';
+    } else if (is_numeric($time) && $daily) {
+        $time = DateTime::get("$time days");
     }
 
-    //Generate Base Sql
-    $sql = "SELECT " . $selector . " FROM `" . $table_name . "` ";
+    $args = [
+        'date' => DateRange::resolveDate($time)
+    ];
 
-    //Create Sum Views variable
-    $sum = 0;
+    $visitorModel = new VisitorsModel();
 
-    //Check if daily Report
-    if ($daily === true) {
-
-        // Check Sanitize Datetime
-        if (TimeZone::isValidDate($time)) {
-            $d = $time;
-        } else {
-            $d = TimeZone::getCurrentDate('Y-m-d', $time);
-        }
-
-        $result = $wpdb->get_row($sql . " WHERE `$date_column` = '" . $d . "'");  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-        if (null !== $result) {
-            $sum = $result->visit;
-        }
-    } else {
-
-        //Generate MySql Time Conditions
-        if (is_array($time) && array_key_exists('start', $time) && array_key_exists('end', $time)) {
-            $mysql_time_sql = WP_STATISTICS\Helper::mysql_time_conditions($date_column, '', $time);
-            if (!empty($mysql_time_sql)) {
-                $sql = $sql . ' WHERE ' . $mysql_time_sql;
-            }
-        } else {
-            $mysql_time_sql = WP_STATISTICS\Helper::mysql_time_conditions($date_column, $time);
-            if (!empty($mysql_time_sql)) {
-                $sql = $sql . ' WHERE ' . $mysql_time_sql;
-            }
-        }
-
-        //Request To database
-        $result = $wpdb->get_var($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-
-        //Custom Action
-        if ($time == "total") {
-            $result += WP_STATISTICS\Historical::get('visits');
-        }
-
-        $sum = $result;
-    }
-
-    return !is_numeric($sum) ? 0 : $sum;
+    return $visitorModel->countHits($args);
 }
 
 /**

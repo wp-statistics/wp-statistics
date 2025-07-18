@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.8
-Stable tag: 14.14
+Stable tag: 14.15
 Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -139,57 +139,28 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.13.4 - 2025-04-29 =
-- **Enhancement:** Enforced capability check in optionUpdater.
-- **Enhancement:** Improved the helper text for the Privacy Policy section.
-- **Enhancement:** Limited the migration process to run only within the plugin's admin pages.
-- **Fix:** Fixed 404 errors when "Bypass Ad-Blocker" proxies assets with extra query parameters.
+= 14.15 - 2025-07-21 =
+- **New:** Added a new `Search Terms` report under the Visitor Insight page.
+- **New:** Added an `Overview` report for Visitor Insight.
+- **New:** Added an `Overview` report for Page Insights.
+- **New:** Added a `Device Overview` report.
+- **Enhancement:** Improved migration performance by running schema updates synchronously and removing background processes.
+- **Enhancement:** Improved the `Views` report under Visitor Insight.
+- **Enhancement:** Unset the `Consent Integration` setting when integration is deactivated.
+- **Enhancement:** Added country name to flag tooltip in Visitor Info.
+- **Enhancement:** Added unread notification badge to the Help Center menu.
+- **Enhancement:** Merged notification and campaign cron jobs into a single daily schedule.
+- **Enhancement:** Dashboard now shows only the "Traffic Overview" widget by default for a cleaner start.
+- **Enhancement:** Optimized `getTrafficOverviewData` for fewer queries and faster widget loading.
+- **Enhancement:** Skipped GeoIP database download in local environments to speed up setup.
+- **Enhancement:** Removed unused `comments` join from Page Insights query to improve performance.
+- **Enhancement:** Improved "Back" button functionality across pages to return to the previous view accurately.
+- **Enhancement:** Improved warning message for missing consent-management plugin.
+- **Fix:** Fixed report URL issues for custom post types.
+- **Fix:** Resolved zero page view issues for non-'category' taxonomy filters.
+- **Fix:** Fixed incorrect tracking of WooCommerce My Account sub-pages.
+- **Fix:** Prevented `number_format()` warning when value is null in PHP 8.4.5.
 
-= 14.13.3 - 2025-04-23 =
-- **New:** Added an option to enable or disable the Privacy Audit section in email reports.
-- **Enhancement:** Improved the migrator to avoid sending redundant requests.
-- **Enhancement:** Added Source Category filter into the visitors report filters.
-- **Fix:** Fixed high memory usage during plugin activation.
-- **Fix:** Resolved occasional PHP warnings.
-
-= 14.13.2 - 2025-04-20 =
-- **New:** Added a 28-day date range option to the date picker.
-- **Enhancement:** Improved overall performance.
-- **Enhancement:** On the Single Post Statistics page, the update date is now shown only if it's different from the creation date.
-- **Fix:** Fixed inconsistencies in online visitor analytics.
-- **Fix:** Ensured the "Views" column is visible for Editors on the posts list page.
-- **Fix:** Resolved errors that appeared during notification updates.
-- **Fix:** Stopped inactive users from appearing online after 30 minutes.
-- **Fix:** Fixed issues with hit and online tracking endpoints.
-- **Fix:** Corrected filters URL issue on the Referrals page.
-- **Fix:** Resolved chart color issues in RTL layout.
-- **Fix:** Fixed a notice related to the word count background process.
-- **Fix:** Removed unnecessary left join on the users table in Visitor Insights to improve query performance.
-- **Fix:** Fixed compatibility issues with the Interactivity API.
-- **Fix:** Resolved layout issue with the "Account Information" widget on the Single Visitor page.
-- **Removal:** Removed the `Host Exclusions` setting.
-
-= 14.13.1 - 2025-04-08 =
-- **Enhancement:** Improved filter logic to avoid unnecessary requests.
-- **Enhancement:** Enhanced source channel detection for more accurate results.
-- **Enhancement:** Removed the FeedbackBird button from the header along with its related functionality.
-- **Fix:** Removed table prefix from shared anonymous data.
-- **Fix:** Fixed `serveObfuscatedAsset` compatibility with URL cleanup features when Bypass Ad-blocker is enabled.
-
-= 14.13 - 2025-04-01 =
-- **New:** Introduced Notifications to receive important updates and promotions.
-- **New:** Added an optional "Share Anonymous Data" feature to help improve WP Statistics without collecting personal information.
-- **Enhancement:** Removed the Honeypot feature.
-- **Enhancement:** Improved detection of source names for referred visitors.
-- **Enhancement:** Enhanced device tracking to store and display device model and brand.
-- **Enhancement:** Reduced the displayed record count in the Top Referring widget to 5.
-- **Fix:** Fixed loading issues of obfuscated assets when using the proxy method.
-- **Fix:** Ensured `tracker.js` compatibility with the WordPress Interactivity API.
-- **Fix:** Resolved an issue where the `first_page` key was undefined in the Visitor Insights page.
-- **Fix:** The 'Get More with Premium Analytics' widget is now hidden for premium users.
-- **Fix:** Fixed discrepancies between shortcode view counts and traffic summary/visitor insights.
-- **Fix:** Corrected an issue where all Facebook traffic was categorized as Paid Social.
-
-For more information about the major update, please [visit our blog post](https://wp-statistics.com/2025/03/introducing-wp-statistics-14-13/) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
+For more information about the major update, please [visit our release post](https://wp-statistics.com/release/wp-statistics-v14-15/) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).

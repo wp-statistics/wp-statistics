@@ -34,6 +34,7 @@ use WP_Statistics\Service\Database\Managers\MigrationHandler;
 use WP_Statistics\Service\HooksManager;
 use WP_Statistics\Service\CronEventManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
+use WP_Statistics\Service\CustomEvent\CustomEventManager;
 use WP_Statistics\Service\Admin\ExportImport\ExportImportManager;
 
 defined('ABSPATH') || exit;
@@ -169,7 +170,6 @@ final class WP_Statistics
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-pages.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-visitor.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-historical.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-visit.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-referred.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-search-engine.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-exclusion.php';
@@ -226,8 +226,9 @@ final class WP_Statistics
             new AjaxBackgroundProcessManager();
         }
 
-        $hooksManager     = new HooksManager();
-        $cronEventManager = new CronEventManager();
+        $hooksManager       = new HooksManager();
+        $customEventManager = new CustomEventManager();
+        $cronEventManager   = new CronEventManager();
 
         // WordPress ShortCode and Widget
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-shortcode.php';
@@ -253,6 +254,9 @@ final class WP_Statistics
 
         // Template functions.
         include WP_STATISTICS_DIR . 'includes/template-functions.php';
+
+        // Include functions
+        require_once WP_STATISTICS_DIR . 'functions.php';
     }
 
     /**
@@ -264,8 +268,6 @@ final class WP_Statistics
         $this->registerBackgroundProcess(IncompleteGeoIpUpdater::class, 'update_unknown_visitor_geoip');
         $this->registerBackgroundProcess(GeolocationDatabaseDownloadProcess::class, 'geolocation_database_download');
         $this->registerBackgroundProcess(SourceChannelUpdater::class, 'update_visitors_source_channel');
-        $this->registerBackgroundProcess(DataMigrationProcess::class, 'data_migration_process');
-        $this->registerBackgroundProcess(SchemaMigrationProcess::class, 'schema_migration_process');
         $this->registerBackgroundProcess(TableOperationProcess::class, 'table_operations_process');
     }
 

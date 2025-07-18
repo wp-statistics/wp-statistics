@@ -1,12 +1,13 @@
 if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "referrals") {
     const placeholder = wps_js.rectangle_placeholder();
+
     function renderChart(chartId, searchData) {
         const chartElement = document.getElementById(chartId);
-         if (chartElement) {
-             const parentElement = jQuery(`#${chartId}`).parent();
+        if (chartElement) {
+            const parentElement = jQuery(`#${chartId}`).parent();
             if (!searchData?.data?.datasets || searchData.data.datasets.length === 0) {
                 parentElement.html(wps_js.no_results());
-             } else {
+            } else {
                 jQuery('.wps-postbox-chart--data').removeClass('c-chart__wps-skeleton--legend');
                 parentElement.removeClass('c-chart__wps-skeleton');
                 wps_js.new_line_chart(searchData, chartId);
@@ -14,11 +15,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
     }
 
-    const renderHorizontalChart=(id,data)=> {
-         const chartElement = document.getElementById(id);
+    const renderHorizontalChart = (id, data) => {
+        const chartElement = document.getElementById(id);
         if (chartElement) {
             const parentElement = jQuery(`#${id}`).parent();
-             parentElement.find('.wps-ph-item').remove();
+            parentElement.find('.wps-ph-item').remove();
             parentElement.append(placeholder);
             if (!data.data || data.data.length === 0) {
                 parentElement.html(wps_js.no_results());

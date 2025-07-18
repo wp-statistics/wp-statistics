@@ -22,7 +22,7 @@ use WP_Statistics\Components\View;
                 </div>
             </div>
             <div class="wps-postbox-chart--container c-chart__wps-skeleton">
-                <canvas id="<?php echo esc_html($unique_id); ?>">
+                <canvas id="<?php echo esc_html($unique_id); ?>" aria-label="<?php echo esc_html($title); ?> chart" role="img">
             </div>
         </div>
     </div>
