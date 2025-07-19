@@ -13,7 +13,7 @@ Get website traffic insights with GDPR/CCPA compliant, privacy-friendly analytic
 
 == Description ==
 = WP Statistics: THE #1 WORDPRESS ANALYTICS PLUGIN =
-Discover GDPR-compliant analytics with [WP Statistics](https://wp-statistics.com/?utm_source=wporg&utm_medium=link&utm_campaign=website), the top choice for WordPress users seeking an alternative to Google Analytics. No external accounts, unlimited visitor tracking, and full data ownership-all stored directly in your WordPress database.
+Discover GDPR-compliant analytics with [WP Statistics](https://wp-statistics.com/?utm_source=wporg&utm_medium=link&utm_campaign=website), the top choice for WordPress users seeking an alternative to Google Analytics. No external accounts, unlimited visitor tracking, and full data ownership—all stored directly in your WordPress database.
 
 [Checkout Demo](https://wp-statistics.com/demo) | [View Screenshots](#screenshots)
 
@@ -61,9 +61,14 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
  * **Individual Author Performance**: Detailed metrics on the performance of individual authors.
  * **Detailed Analytics for Each Country**: In-depth analytics for each country to enhance geographical reporting.
  * And more!
+* Premium Add-on: [Marketing](https://wp-statistics.com/product/wp-statistics-marketing/?utm_source=wporg&utm_medium=link&utm_campaign=marketing)
+ * **Campaign Analytics**: Track UTM-tagged links and see which campaigns drive the most visitors.
+ * **Google Search Console Integration**: Monitor impressions, clicks, and queries.
+ * **Custom Event Tracking**: Create goals based on clicks, pageviews, or events and monitor conversions.
+ * **Built-in UTM Link Builder**: Generate and validate campaign URLs inside your dashboard.
 
 **Get the most out of your website analytics by using WP Statistics Premium Add-ons**
-Upgrade your analytics toolkit with our range of premium add-ons, including [Data Plus](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wporg&utm_medium=link&utm_campaign=dp), [Advanced Reporting](https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wporg&utm_medium=link&utm_campaign=adv-report), [Real-Time Stats](https://wp-statistics.com/product/wp-statistics-realtime-stats/?utm_source=wporg&utm_medium=link&utm_campaign=realtime), [Mini Chart](https://wp-statistics.com/product/wp-statistics-mini-chart/?utm_source=wporg&utm_medium=link&utm_campaign=mini-chart), and [more](https://wp-statistics.com/add-ons/?utm_source=wporg&utm_medium=link&utm_campaign=add-ons). Making informed decisions is easier with these powerful tools.
+Upgrade your analytics toolkit with our range of premium add-ons, including [Data Plus](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wporg&utm_medium=link&utm_campaign=dp), [Advanced Reporting](https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wporg&utm_medium=link&utm_campaign=adv-report), [Real-Time Stats](https://wp-statistics.com/product/wp-statistics-realtime-stats/?utm_source=wporg&utm_medium=link&utm_campaign=realtime), [Mini Chart](https://wp-statistics.com/product/wp-statistics-mini-chart/?utm_source=wporg&utm_medium=link&utm_campaign=mini-chart), [Marketing](https://wp-statistics.com/product/wp-statistics-marketing/?utm_source=wporg&utm_medium=link&utm_campaign=marketing), and [more](https://wp-statistics.com/add-ons/?utm_source=wporg&utm_medium=link&utm_campaign=add-ons). Making informed decisions is easier with these powerful tools.
 
 **Special Offer:** Save up to 60% on all premium features when you purchase [WP Statistics Premium](https://wp-statistics.com/pricing/?utm_source=wporg&utm_medium=link&utm_campaign=premium).
 
@@ -132,6 +137,9 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 17. Mini Chart Quick View
 18. Page Insights
 19. Detailed Visitor Report
+20. Campaign Reports
+21. Google Search Console Reports
+22. Goal and Event Tracking
 
 == Upgrade Notice ==
 = 14.11 =
