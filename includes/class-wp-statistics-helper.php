@@ -2005,13 +2005,6 @@ class Helper
             ],
         ]);
 
-        $timestamp = !empty($_SERVER['HTTP_X_WPS_TS']) ? (int) base64_decode($_SERVER['HTTP_X_WPS_TS']) : false;
-
-        // Check if the request was sent no more than 10 seconds ago
-        if (!$timestamp || time() - $timestamp > 10) {
-            $isValid = false;
-        }
-
         if (!$isValid) {
             /**
              * Trigger action after validating the hit request parameters.
