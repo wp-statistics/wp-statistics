@@ -113,12 +113,12 @@ final class Option
     }
 
     /**
-     * Save values to WP Statistics option.
+     * Update values to WP Statistics option.
      *
      * @param array $options Array of values to store in the option.
      * @return void
      */
-    public static function save(array $options)
+    public static function update(array $options)
     {
         update_option(self::$optionName, $options);
     }
@@ -231,13 +231,13 @@ final class Option
     }
 
     /**
-     * Save values to addon option.
+     * Update values to addon option.
      *
      * @param array $options Array of values to store in the option.
      * @param string $addonName The name of the addon.
      * @return void
      */
-    public static function saveAddon(array $options, string $addonName = '')
+    public static function updateAddon(array $options, string $addonName = '')
     {
         $settingName = self::getAddonName($addonName);
         update_option($settingName, $options);
@@ -289,14 +289,14 @@ final class Option
     }
 
     /**
-     * Save a single value to group option.
+     * Update a single value to group option.
      *
      * @param string $optionKey The option key to update.
      * @param mixed $value The new value for the option.
      * @param string $group The group name.
      * @return void
      */
-    public static function saveGroup(string $optionKey, $value, string $group)
+    public static function updateGroup(string $optionKey, $value, string $group)
     {
         $settingName = self::getGroupName($group);
         $options     = get_option($settingName, []);
