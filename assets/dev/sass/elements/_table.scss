@@ -174,10 +174,12 @@
           content: '';
           background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE1IiBoZWlnaHQ9IjE1IiB2aWV3Qm94PSIwIDAgMTUgMTUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xMS4wMTg0IDEwLjE5NDRMMTMuNTE2NyAxMi42OTI3TDEyLjY5MTcgMTMuNTE3NkwxMC4xOTM1IDExLjAxOTRDOS4yOTUxOCAxMS43MzgxIDguMTU1OTkgMTIuMTY4IDYuOTE2OTkgMTIuMTY4QzQuMDE4OTkgMTIuMTY4IDEuNjY2OTkgOS44MTU5NyAxLjY2Njk5IDYuOTE3OTdDMS42NjY5OSA0LjAxOTk3IDQuMDE4OTkgMS42Njc5NyA2LjkxNjk5IDEuNjY3OTdDOS44MTQ5OSAxLjY2Nzk3IDEyLjE2NyA0LjAxOTk3IDEyLjE2NyA2LjkxNzk3QzEyLjE2NyA4LjE1Njk3IDExLjczNzEgOS4yOTYxNiAxMS4wMTg0IDEwLjE5NDRaTTkuODQ4MDcgOS43NjE2QzEwLjU2MTQgOS4wMjY0OCAxMS4wMDAzIDguMDIzNzQgMTEuMDAwMyA2LjkxNzk3QzExLjAwMDMgNC42NjE5MyA5LjE3MzAzIDIuODM0NjQgNi45MTY5OSAyLjgzNDY0QzQuNjYwOTUgMi44MzQ2NCAyLjgzMzY2IDQuNjYxOTMgMi44MzM2NiA2LjkxNzk3QzIuODMzNjYgOS4xNzQwMSA0LjY2MDk1IDExLjAwMTMgNi45MTY5OSAxMS4wMDEzQzguMDIyNzYgMTEuMDAxMyA5LjAyNTUxIDEwLjU2MjMgOS43NjA2MiA5Ljg0OTA0TDkuODQ4MDcgOS43NjE2WiIgZmlsbD0iIzQwNEJGMiIvPgo8L3N2Zz4K") center center no-repeat;
           width: 14px;
+          min-width: 14px;
           height: 14px;
           display: inline-flex;
           margin-left: 4px;
           visibility: hidden;
+          margin-top: 2px;
 
           .rtl & {
             margin-right: 4px;
@@ -220,7 +222,7 @@ body .o-table-wrapper table.wps-new-table {
         padding-left: 24px !important;
 
         .rtl & {
-          padding-left: 0px !important;
+          padding-left: 0 !important;
           padding-right: 24px !important;
         }
 
@@ -239,6 +241,7 @@ body .o-table-wrapper table.wps-new-table {
             width: 10px;
             height: 10px;
             display: inline-flex;
+            margin-top: 2px;
           }
         }
       }
@@ -736,6 +739,14 @@ body .o-table-wrapper table.wps-new-table {
           &:hover {
             text-decoration: underline;
           }
+        }
+
+        .badge{
+          color: #10188D;
+          border: 0.5px solid #10188D;
+          border-radius: 4px;
+          font-size: smaller;
+          padding: 0 4px;
         }
 
         .wps-tooltip {

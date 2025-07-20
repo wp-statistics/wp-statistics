@@ -374,9 +374,6 @@ $trackerStatus      = $tracker->getTrackerStatus();
                             <th class="wps-pd-l">
                                 <?php echo esc_html_e('Visitor Information', 'wp-statistics'); ?>
                             </th>
-                            <th class="wps-pd-l start">
-                                <?php echo esc_html_e('Location', 'wp-statistics'); ?>
-                            </th>
                         </tr>
                         </thead>
                         <tbody>

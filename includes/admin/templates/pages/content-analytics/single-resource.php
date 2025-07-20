@@ -1,6 +1,4 @@
 <?php
-
-use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Components\View;
 ?>
@@ -8,25 +6,20 @@ use WP_Statistics\Components\View;
 <div class="metabox-holder wps-content-analytics">
     <div class="postbox-container" id="wps-postbox-container-1">
         <?php
-        $args1 = [
-            'title'          => esc_html__('Views', 'wp-statistics'),
-            'tooltip'        => esc_html__('Total views of this resource and views during the selected period.', 'wp-statistics'),
-            'avg'            => Helper::formatNumberWithUnit($data['overview']['views']['total']),
-            'avg_title'      => esc_html__('Total', 'wp-statistics'),
-            'selected'       => Helper::formatNumberWithUnit($data['overview']['views']['recent']),
-            'selected_title' => esc_html__('Selected Period', 'wp-statistics')
-        ];
-        Admin_Template::get_template(['layout/content-analytics/overview-card'], $args1);
 
-        $args2 = [
-            'title'          => esc_html__('Visitors', 'wp-statistics'),
-            'tooltip'        => esc_html__('Total unique visitors to this resource and visitors during the selected period.', 'wp-statistics'),
-            'avg'            => Helper::formatNumberWithUnit($data['overview']['visitors']['total']),
-            'avg_title'      => esc_html__('Total', 'wp-statistics'),
-            'selected'       => Helper::formatNumberWithUnit($data['overview']['visitors']['recent']),
-            'selected_title' => esc_html__('Selected Period', 'wp-statistics'),
+        $metrics = [
+            [
+                'label'  => esc_html__('Visitors', 'wp-statistics'),
+                'value'  => Helper::formatNumberWithUnit($data['glance']['visitors']['value']),
+                'change' => $data['glance']['visitors']['change']
+            ],
+            [
+                'label'  => esc_html__('Views', 'wp-statistics'),
+                'value'  => Helper::formatNumberWithUnit($data['glance']['views']['value']),
+                'change' => $data['glance']['views']['change']
+            ],
         ];
-        Admin_Template::get_template(['layout/content-analytics/overview-card'], $args2);
+        View::load("components/objects/glance-card", ['metrics' => $metrics , 'two_column' => true]);
 
         $operatingSystems = [
             'title'     => esc_html__('Operating Systems', 'wp-statistics'),

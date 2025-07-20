@@ -50,7 +50,19 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-data-plus',
+                'step'        => 'Data Plus',
                 'step_title'  => esc_html__('See more data.', 'wp-statistics'),
+            ];
+            View::load("components/modals/introduce-premium/step-content", $data);
+
+            $data = [
+                'description' => sprintf(
+                    __('<p>Take your marketing strategy to the next level with the Marketing Add-on. Track your campaign performance with detailed UTM reports, connect to Google Search Console for in-depth traffic analysis, and set conversion goals to measure success—all directly within WP Statistics. Optimize your campaigns, monitor search traffic, and drive results effortlessly. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
+                    esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-marketing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
+                ),
+                'step_name'   => 'wp-statistics-marketing',
+                'step'        => 'Marketing',
+                'step_title'  => esc_html__('Set goals, measure conversions, and optimize your reach for real results.', 'wp-statistics'),
             ];
             View::load("components/modals/introduce-premium/step-content", $data);
 
@@ -60,6 +72,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-mini-chart',
+                'step'        => 'Mini Chart',
                 'step_title'  => esc_html__('View real‐time metrics at a glance.', 'wp-statistics'),
             ];
             View::load("components/modals/introduce-premium/step-content", $data);
@@ -70,6 +83,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-advanced-reporting',
+                'step'        => 'Advanced Reporting',
                 'step_title'  => esc_html__('Schedule detailed email reports.', 'wp-statistics'),
             ];
             View::load("components/modals/introduce-premium/step-content", $data);
@@ -80,6 +94,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-realtime-stats',
+                'step'        => 'Real-Time Stats',
                 'step_title'  => esc_html__('See who’s on your site right now and watch engagement as it happens.', 'wp-statistics'),
             ];
             View::load("components/modals/introduce-premium/step-content", $data);
@@ -90,6 +105,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-widgets/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-widgets',
+                'step'        => 'Widgets',
                 'step_title'  => esc_html__('Display detailed stats anywhere you want on your website.', 'wp-statistics'),
             ];
             View::load("components/modals/introduce-premium/step-content", $data);
@@ -100,6 +116,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-customization',
+                'step'        => 'Customization',
                 'step_title'  => esc_html__('Tailor everything from layout to branding to suit your style.', 'wp-statistics'),
             ];
             View::load("components/modals/introduce-premium/step-content", $data);
@@ -110,6 +127,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-rest-api/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-rest-api',
+                'step'        => 'REST API',
                 'step_title'  => esc_html__('Connect your site’s stats anywhere.', 'wp-statistics'),
             ];
             View::load("components/modals/introduce-premium/step-content", $data);

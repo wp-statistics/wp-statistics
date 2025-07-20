@@ -33,6 +33,7 @@ use WP_Statistics\Service\Database\Migrations\Ajax\AjaxManager as DatabaseMigrat
 use WP_Statistics\Service\Database\Migrations\Queue\QueueManager as DatabaseMigrationQueueManager;
 use WP_Statistics\Service\Database\Migrations\Schema\SchemaManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
+use WP_Statistics\Service\CustomEvent\CustomEventManager;
 
 defined('ABSPATH') || exit;
 
@@ -167,7 +168,6 @@ final class WP_Statistics
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-pages.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-visitor.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-historical.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-visit.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-referred.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-search-engine.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-exclusion.php';
@@ -225,6 +225,7 @@ final class WP_Statistics
         }
 
         $hooksManager       = new HooksManager();
+        $customEventManager = new CustomEventManager();
         $cronEventManager   = new CronEventManager();
 
         // WordPress ShortCode and Widget
@@ -251,6 +252,9 @@ final class WP_Statistics
 
         // Template functions.
         include WP_STATISTICS_DIR . 'includes/template-functions.php';
+
+        // Include functions
+        require_once WP_STATISTICS_DIR . 'functions.php';
     }
 
     /**

@@ -457,6 +457,89 @@ class FilterManager
     }
 
     /**
+     * Retrieves filtered search channels and generates corresponding data.
+     *
+     * @return array
+     */
+    public function getSearchChannels($page)
+    {
+        $currentPage = admin_url("admin.php{$page}");
+
+        $channels = Helper::filterArrayByKeys(SourceChannels::getList(), ['search', 'paid_search']);
+        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'], $currentPage)));
+
+        foreach ($channels as $key => $channel) {
+            $args[] = [
+                'slug' => esc_attr($key),
+                'name' => esc_html($channel),
+                'url' => add_query_arg(['source_channel' => $key], $baseUrl),
+            ];
+        }
+
+        return [
+            'args' => $args,
+            'baseUrl' => $baseUrl,
+            'selectedOption' => Request::get('source_channel'),
+        ];
+    }
+
+    /**
+     * Retrieves filtered social channels and generates corresponding data.
+     *
+     * @return array
+     */
+    public function getSocialChannels($page)
+    {
+        $currentPage = admin_url("admin.php{$page}");
+
+        $channels = Helper::filterArrayByKeys(SourceChannels::getList(), ['social', 'paid_social']);
+        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'], $currentPage)));
+
+        foreach ($channels as $key => $channel) {
+            $args[] = [
+                'slug' => esc_attr($key),
+                'name' => esc_html($channel),
+                'url' => add_query_arg(['source_channel' => $key], $baseUrl),
+            ];
+        }
+
+        return [
+            'args' => $args,
+            'baseUrl' => $baseUrl,
+            'selectedOption' => Request::get('source_channel'),
+        ];
+    }
+
+    /**
+     * Retrieves filtered source channels and generates corresponding data.
+     *
+     * @return array
+     */
+    public function getSourceChannels($page)
+    {
+        $currentPage = admin_url("admin.php{$page}");
+
+        $channels = SourceChannels::getList();
+        unset($channels['direct']);
+
+        $baseUrl = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'], $currentPage)));
+
+        foreach ($channels as $key => $channel) {
+            $args[] = [
+                'slug' => esc_attr($key),
+                'name' => esc_html($channel),
+                'url' => add_query_arg(['source_channel' => $key], $baseUrl),
+            ];
+        }
+
+        return [
+            'args' => $args,
+            'baseUrl' => $baseUrl,
+            'selectedOption' => Request::get('source_channel')
+        ];
+    }
+
+    /**
      * Retrieves a list of user roles and generates corresponding data.
      *
      * @return array
@@ -562,6 +645,32 @@ class FilterManager
                 $option = [
                     'id'   => add_query_arg(['pid' => get_the_ID()], $baseUrl),
                     'text' => get_the_title()
+                ];
+
+                $args[] = $option;
+            }
+        }
+
+        return $args;
+    }
+
+    public function getPageId($search)
+    {
+        $query = new \WP_Query([
+            'post_status'    => 'publish',
+            'posts_per_page' => 10,
+            's'              => $search
+        ]);
+
+        $args = [];
+
+        if ($query->have_posts()) {
+            while ($query->have_posts()) {
+                $query->the_post();
+
+                $option = [
+                    'id'    => get_the_ID(),
+                    'text'  => get_the_title()
                 ];
 
                 $args[] = $option;

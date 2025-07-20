@@ -75,20 +75,8 @@ class Manager
                 'uri'      => 'UNIQUE KEY uri (uri)',
             ],
         ],
-        'visit'                 => [
-            'columns'     => [
-                'ID'           => 'bigint(20) NOT NULL AUTO_INCREMENT',
-                'last_visit'   => 'datetime NOT NULL',
-                'last_counter' => 'date NOT NULL',
-                'visit'        => 'int(10) NOT NULL',
-            ],
-            'constraints' => [
-                'ID'           => 'PRIMARY KEY (ID)',
-                'last_counter' => 'UNIQUE KEY unique_date (last_counter)',
-            ],
-        ],
-        'visitor'               => [
-            'columns'     => [
+        'visitor' => [
+            'columns' => [
                 'ID'             => 'bigint(20) NOT NULL AUTO_INCREMENT',
                 'last_counter'   => 'date NOT NULL',
                 'referred'       => 'text NOT NULL',
@@ -144,6 +132,7 @@ class Manager
                 'date'       => 'datetime NOT NULL',
                 'page_id'    => 'bigint(20) NULL',
                 'visitor_id' => 'bigint(20) NULL',
+                'user_id'    => 'bigint(20) UNSIGNED DEFAULT NULL',
                 'event_name' => 'varchar(64) NOT NULL',
                 'event_data' => 'text NOT NULL',
             ],

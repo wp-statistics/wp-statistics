@@ -11,8 +11,7 @@ use WP_Statistics\Components\View;
             <?php View::load("components/objects/chart-time-range"); ?>
         </div>
     </div>
-    <div class="wps-postbox-chart--contain
-    er">
+    <div class="wps-postbox-chart--container">
         <p class="screen-reader-text">
             <?php echo esc_html__('Search engine traffic over the selected period', 'wp-statistics') ?>
         </p>

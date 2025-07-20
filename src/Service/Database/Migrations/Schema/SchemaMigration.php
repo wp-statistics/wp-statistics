@@ -51,6 +51,10 @@ class SchemaMigration extends BaseMigrationOperation
         // '14.13.5' => [
         //     'dropDuplicateColumnsFromUserOnline'
         // ]
+        '14.15' => [
+            'dropVisitTable',
+            'addUserIdToEvents'
+        ]
     ];
 
     /**
@@ -73,6 +77,17 @@ class SchemaMigration extends BaseMigrationOperation
                         'last_view'  => 'datetime DEFAULT NULL'
                     ]
                 ])
+                ->execute();
+        } catch (Exception $e) {
+            $this->setErrorStatus($e->getMessage());
+        }
+    }
+
+    public function dropVisitTable()
+    {
+        try {
+            DatabaseFactory::table('drop')
+                ->setName('visit')
                 ->execute();
         } catch (Exception $e) {
             $this->setErrorStatus($e->getMessage());
@@ -102,6 +117,29 @@ class SchemaMigration extends BaseMigrationOperation
                         'city',
                         'region',
                         'continent'
+                    ]
+                ])
+                ->execute();
+        } catch (Exception $e) {
+            $this->setErrorStatus($e->getMessage());
+        }
+    }
+
+    /**
+     * Adds `user_id` column to the 'events' table.
+     *
+     * @return void
+     */
+    public function addUserIdToEvents()
+    {
+        $this->ensureConnection();
+
+        try {
+            DatabaseFactory::table('update')
+                ->setName('events')
+                ->setArgs([
+                    'add' => [
+                        'user_id' => 'bigint(20) UNSIGNED DEFAULT NULL',
                     ]
                 ])
                 ->execute();
