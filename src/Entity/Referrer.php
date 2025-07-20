@@ -34,7 +34,7 @@ class Referrer extends BaseEntity
         $channel = $source->getChannel();
         $name    = $source->getName();
 
-        if (empty($channel)) {
+        if (empty($channel) || empty($domain)) {
             return $this;
         }
 
