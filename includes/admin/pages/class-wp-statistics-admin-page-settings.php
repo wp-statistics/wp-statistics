@@ -141,8 +141,8 @@ class settings_page extends Singleton
         }
 
         // Import Settings
-        if (isset($_GET['import'])) {
-            $importStatus = sanitize_text_field($_GET['import']);
+        if (Request::has($_GET['import'])) {
+            $importStatus = Request::get($_GET['import']);
 
             switch ($importStatus) {
                 case 'success':
