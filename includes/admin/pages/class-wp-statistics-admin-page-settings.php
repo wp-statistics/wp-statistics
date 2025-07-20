@@ -142,7 +142,7 @@ class settings_page extends Singleton
 
         // Import Settings
         if (Request::has($_GET['import'])) {
-            $importStatus = Request::get($_GET['import']);
+            $importStatus = Request::get('import');
 
             switch ($importStatus) {
                 case 'success':
