@@ -232,26 +232,6 @@ class Helper
     }
 
     /**
-     * Get Robots List
-     *
-     * @param string $type
-     * @return array|bool|string
-     */
-    public static function get_robots_list($type = 'list')
-    {
-        # Set Default
-        $list = array();
-
-        # Load From file
-        include WP_STATISTICS_DIR . "includes/defines/robots-list.php";
-        if (isset($wps_robots_list_array)) {
-            $list = $wps_robots_list_array;
-        }
-
-        return ($type == "array" ? $list : implode("\n", $list));
-    }
-
-    /**
      * Get URL Query Parameters List
      *
      * @param string $type
