@@ -289,24 +289,6 @@ class QueueFactory
     }
 
     /**
-     * Calculates the total number of migration steps available.
-     *
-     * This method retrieves the migration instance and counts all available
-     * migration steps, including both completed and pending ones. This is
-     * useful for progress tracking and determining the overall scope of
-     * migration operations.
-     *
-     * @return int Total number of migration steps available
-     */
-    public static function getTotalSteps()
-    {
-        $migrationInstance = self::getQueueMigration();
-        $migrationSteps    = $migrationInstance->getMigrationSteps();
-
-        return count($migrationSteps);
-    }
-
-    /**
      * Retrieves the list of completed migration steps.
      *
      * This method fetches the array of completed step identifiers from the

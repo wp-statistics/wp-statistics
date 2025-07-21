@@ -124,8 +124,6 @@ class QueueManager
             admin_url('admin-post.php')
         );
 
-        $totalSteps = QueueFactory::getTotalSteps();
-
         $message = sprintf(
             '<div id="wp-statistics-queue-process-notice">
                 <p><strong>%1$s:</strong> %2$s</p>
