@@ -12,13 +12,6 @@ class Referred
     public static $top_referring_transient = 'wps_top_referring';
 
     /**
-     * Referrer Spam List
-     *
-     * @var string
-     */
-    public static $referrer_spam_link = 'https://cdn.jsdelivr.net/gh/matomo-org/referrer-spam-list@master/spammers.txt';
-
-    /**
      * Referred constructor.
      */
     public function __construct()
@@ -184,36 +177,6 @@ class Referred
         
         //Get Count
         return ($type == 'number' ? $wpdb->get_var($sql) : Visitor::prepareData($wpdb->get_results($sql))); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
-    }
-
-    /**
-     * Downloads the referrer spam database
-     *
-     * @see https://github.com/matomo-org/referrer-spam-blacklist.
-     * @return string
-     */
-    public static function download_referrer_spam()
-    {
-
-        if (Option::get('referrerspam') == false) {
-            return '';
-        }
-
-        // Download the file from MaxMind, this places it in a temporary location.
-        $response = wp_remote_get(self::$referrer_spam_link, array('timeout' => 60));
-        if (is_wp_error($response)) {
-            return false;
-        }
-        $referrerspamlist = wp_remote_retrieve_body($response);
-        if (is_wp_error($referrerspamlist)) {
-            return false;
-        }
-
-        if ($referrerspamlist != '' || Option::get('referrerspamlist') != '') {
-            Option::update('referrerspamlist', $referrerspamlist);
-        }
-
-        return true;
     }
 
     /**

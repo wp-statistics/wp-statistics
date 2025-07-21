@@ -64,7 +64,6 @@ class Option
             'anonymous_tracking'              => false,
             'do_not_track'                    => false,
             'exclude_administrator'           => true,
-            'referrerspam'                    => true,
             'map_type'                        => 'jqvmap',
             'ip_method'                       => 'sequential',
             'exclude_loginpage'               => true,
