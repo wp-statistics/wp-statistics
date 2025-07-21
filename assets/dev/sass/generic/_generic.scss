@@ -112,24 +112,12 @@
     @media(min-width: 759px) {
       flex-direction: row;
     }
-
-    &.postbox-container--visitor {
-      @media(min-width: 759px) {
-        .postbox-container--first-col {
-          width: 356px;
-        }
-        .postbox-container--second-col {
-          width: calc(100% - 360px);
-        }
-      }
-    }
-
     .postbox-container--first-col {
       display: inline-flex;
       flex-direction: column;
       gap: 8px;
       @media(min-width: 759px) {
-        width: 304px;
+        width: 367px;
       }
     }
 
@@ -139,7 +127,7 @@
       gap: 8px;
       margin: 0;
       @media(min-width: 759px) {
-        width: calc(100% - 308px);
+        width: calc(100% - 367px);
         float: none;
       }
     }
@@ -334,11 +322,14 @@
   }
 }
 
+.wps-card__traffic-trends .wps-postbox-chart--trafficChart{
+  padding: 0!important;
+}
 .wps-postbox-chart {
   padding-right: 24px;
   padding-left: 24px;
 
-  &.wps-p-0 {
+  &.wps-p-0 , &.wps-postbox-chart--referredVisitors {
     padding: 0;
   }
 
@@ -410,6 +401,14 @@
         font-style: italic;
         font-weight: 400;
         line-height: 15.23px;
+      }
+    }
+
+    &.c-chart__wps-skeleton .wps-ph-item{
+      @media (min-width: 601px) {
+        .wps-ph-picture{
+          height: 299px;
+        }
       }
     }
 
@@ -799,7 +798,7 @@
 
 .wps-wrap table tbody tr td a {
   &.wps-tooltip-premium__link {
-    color: #707276  !important;
+    color: #707276 !important;
 
     &:hover {
       color: #707276 !important;
@@ -1147,8 +1146,13 @@ body .o-table-wrapper table.wps-new-table tbody tr td {
       }
     }
 
-    &:hover span {
-      color: #3c4043 !important;
+    &:hover{
+      span {
+        color: #3c4043 !important;
+      }
+      &:after{
+        filter: grayscale(1);
+      }
     }
   }
 }

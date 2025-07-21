@@ -4,7 +4,6 @@ namespace WP_Statistics\Models;
 
 use WP_Statistics\Abstracts\BaseModel;
 use WP_STATISTICS\Admin_Template;
-use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\AjaxBackgroundProcessFactory;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Decorators\ReferralDecorator;
 use WP_Statistics\Decorators\VisitorDecorator;
@@ -32,10 +31,12 @@ class VisitorsModel extends BaseModel
             'country'       => '',
             'user_id'       => '',
             'ip'            => '',
+            'source_name'   => '',
             'logged_in'     => false,
             'user_role'     => '',
             'referrer'      => '',
-            'not_null'      => ''
+            'not_null'      => '',
+            'date_field'    => 'last_counter',
         ]);
 
         $filteredArgs = array_filter($args);
@@ -54,9 +55,9 @@ class VisitorsModel extends BaseModel
             ->where('user_id', '=', $args['user_id'])
             ->where('referred', '=', $args['referrer'])
             ->where('ip', '=', $args['ip'])
+            ->where('source_name', 'IN', $args['source_name'])
             ->whereNotNull($args['not_null'])
-            ->whereDate('last_counter', $args['date']);
-
+            ->whereDate($args['date_field'], $args['date']);
 
         if ($args['logged_in'] === true) {
             $query->where('visitor.user_id', '!=', 0);
@@ -153,30 +154,30 @@ class VisitorsModel extends BaseModel
     public function countDailyVisitors($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'                  => '',
-            'post_type'             => '',
-            'resource_id'           => '',
-            'resource_type'         => '',
-            'author_id'             => '',
-            'post_id'               => '',
-            'query_param'           => '',
-            'taxonomy'              => '',
-            'term'                  => '',
-            'country'               => '',
-            'user_id'               => '',
-            'logged_in'             => false,
-            'include_hits'          => false,
-            'user_role'             => '',
-            'source_channel'        => '',
-            'not_null'              => '',
-            'referred_visitors'     => false
+            'date'              => '',
+            'post_type'         => '',
+            'resource_id'       => '',
+            'resource_type'     => '',
+            'author_id'         => '',
+            'post_id'           => '',
+            'query_param'       => '',
+            'taxonomy'          => '',
+            'term'              => '',
+            'country'           => '',
+            'user_id'           => '',
+            'logged_in'         => false,
+            'include_hits'      => false,
+            'user_role'         => '',
+            'source_channel'    => '',
+            'not_null'          => '',
+            'referred_visitors' => false
         ]);
 
         $additionalFields = !empty($args['include_hits']) ? ['SUM(visitor.hits) as hits'] : [];
 
         $query = Query::select(array_merge([
             'visitor.last_counter as date',
-            'COUNT(*) as visitors'
+            'COUNT(DISTINCT visitor.ID) as visitors'
         ], $additionalFields))
             ->from('visitor')
             ->where('location', '=', $args['country'])
@@ -367,57 +368,39 @@ class VisitorsModel extends BaseModel
 
     public function getVisitorsSummary($args = [])
     {
-        $summary = [
-            'today'      => [
-                'label'    => esc_html__('Today', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('today')]))
-            ],
-            'yesterday'  => [
-                'label'    => esc_html__('Yesterday', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('yesterday')]))
-            ],
-            'this_week'  => [
-                'label'    => esc_html__('This week', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('this_week')]))
-            ],
-            'last_week'  => [
-                'label'    => esc_html__('Last week', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('last_week')]))
-            ],
-            'this_month' => [
-                'label'    => esc_html__('This month', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('this_month')]))
-            ],
-            'last_month' => [
-                'label'    => esc_html__('Last month', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('last_month')]))
-            ],
-            '7days'      => [
-                'label'    => esc_html__('Last 7 days', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('7days')]))
-            ],
-            '30days'     => [
-                'label'    => esc_html__('Last 30 days', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('30days')]))
-            ],
-            '90days'     => [
-                'label'    => esc_html__('Last 90 days', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('90days')]))
-            ],
-            '6months'    => [
-                'label'    => esc_html__('Last 6 months', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('6months')]))
-            ],
-            'this_year'  => [
-                'label'    => esc_html__('This year (Jan-Today)', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('this_year')]))
-            ]
+        $periods = [
+            'today'      => ['label' => esc_html__('Today', 'wp-statistics'), 'date' => 'today'],
+            'yesterday'  => ['label' => esc_html__('Yesterday', 'wp-statistics'), 'date' => 'yesterday'],
+            'this_week'  => ['label' => esc_html__('This week', 'wp-statistics'), 'date' => 'this_week'],
+            'last_week'  => ['label' => esc_html__('Last week', 'wp-statistics'), 'date' => 'last_week'],
+            'this_month' => ['label' => esc_html__('This month', 'wp-statistics'), 'date' => 'this_month'],
+            'last_month' => ['label' => esc_html__('Last month', 'wp-statistics'), 'date' => 'last_month'],
+            '7days'      => ['label' => esc_html__('Last 7 days', 'wp-statistics'), 'date' => '7days'],
+            '30days'     => ['label' => esc_html__('Last 30 days', 'wp-statistics'), 'date' => '30days'],
+            '90days'     => ['label' => esc_html__('Last 90 days', 'wp-statistics'), 'date' => '90days'],
+            '6months'    => ['label' => esc_html__('Last 6 months', 'wp-statistics'), 'date' => '6months'],
+            'this_year'  => ['label' => esc_html__('This year (Jan-Today)', 'wp-statistics'), 'date' => 'this_year'],
         ];
 
-        if (!empty($args['include_total'])) {
+        $exclude = $args['exclude'] ?? [];
+        $summary = [];
+
+        foreach ($periods as $key => $period) {
+            if (in_array($key, $exclude, true)) {
+                continue; // Skip excluded periods
+            }
+
+            $summary[$key] = [
+                'label'    => $period['label'],
+                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get($period['date'])])),
+            ];
+        }
+
+        // Conditionally add 'total' (if not excluded)
+        if (!empty($args['include_total']) && !in_array('total', $exclude, true)) {
             $summary['total'] = [
                 'label'    => esc_html__('Total', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['ignore_date' => true, 'historical' => true]))
+                'visitors' => $this->countVisitors(array_merge($args, ['ignore_date' => true, 'historical' => true])),
             ];
         }
 
@@ -426,57 +409,87 @@ class VisitorsModel extends BaseModel
 
     public function getHitsSummary($args = [])
     {
-        $summary = [
-            'today'      => [
-                'label' => esc_html__('Today', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('today')]))
-            ],
-            'yesterday'  => [
-                'label' => esc_html__('Yesterday', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('yesterday')]))
-            ],
-            'this_week'  => [
-                'label' => esc_html__('This week', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('this_week')]))
-            ],
-            'last_week'  => [
-                'label' => esc_html__('Last week', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('last_week')]))
-            ],
-            'this_month' => [
-                'label' => esc_html__('This month', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('this_month')]))
-            ],
-            'last_month' => [
-                'label' => esc_html__('Last month', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('last_month')]))
-            ],
-            '7days'      => [
-                'label' => esc_html__('Last 7 days', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('7days')]))
-            ],
-            '30days'     => [
-                'label' => esc_html__('Last 30 days', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('30days')]))
-            ],
-            '90days'     => [
-                'label' => esc_html__('Last 90 days', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('90days')]))
-            ],
-            '6months'    => [
-                'label' => esc_html__('Last 6 months', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('6months')]))
-            ],
-            'this_year'  => [
-                'label' => esc_html__('This year (Jan-Today)', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('this_year')]))
-            ]
+        $periods = [
+            'today'      => ['label' => esc_html__('Today', 'wp-statistics'), 'date' => 'today'],
+            'yesterday'  => ['label' => esc_html__('Yesterday', 'wp-statistics'), 'date' => 'yesterday'],
+            'this_week'  => ['label' => esc_html__('This week', 'wp-statistics'), 'date' => 'this_week'],
+            'last_week'  => ['label' => esc_html__('Last week', 'wp-statistics'), 'date' => 'last_week'],
+            'this_month' => ['label' => esc_html__('This month', 'wp-statistics'), 'date' => 'this_month'],
+            'last_month' => ['label' => esc_html__('Last month', 'wp-statistics'), 'date' => 'last_month'],
+            '7days'      => ['label' => esc_html__('Last 7 days', 'wp-statistics'), 'date' => '7days'],
+            '30days'     => ['label' => esc_html__('Last 30 days', 'wp-statistics'), 'date' => '30days'],
+            '90days'     => ['label' => esc_html__('Last 90 days', 'wp-statistics'), 'date' => '90days'],
+            '6months'    => ['label' => esc_html__('Last 6 months', 'wp-statistics'), 'date' => '6months'],
+            'this_year'  => ['label' => esc_html__('This year (Jan-Today)', 'wp-statistics'), 'date' => 'this_year'],
         ];
 
-        if (!empty($args['include_total'])) {
+        $exclude = $args['exclude'] ?? [];
+        $summary = [];
+
+        foreach ($periods as $key => $period) {
+            if (in_array($key, $exclude, true)) {
+                continue; // Skip excluded periods
+            }
+
+            $summary[$key] = [
+                'label' => $period['label'],
+                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get($period['date'])])),
+            ];
+        }
+
+        // Conditionally add 'total' (if not excluded)
+        if (!empty($args['include_total']) && !in_array('total', $exclude, true)) {
             $summary['total'] = [
                 'label' => esc_html__('Total', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['ignore_date' => true, 'historical' => true]))
+                'hits'  => $this->countHits(array_merge($args, ['ignore_date' => true, 'historical' => true])),
+            ];
+        }
+
+        return $summary;
+    }
+
+    /**
+     * Get a summary of referred visitors from search engines.
+     *
+     * @param array $args
+     *
+     * @return array
+     */
+    public function getSearchEnginesSummary($args = [])
+    {
+        $periods = [
+            'today'      => ['label' => esc_html__('Today', 'wp-statistics'), 'date' => 'today'],
+            'yesterday'  => ['label' => esc_html__('Yesterday', 'wp-statistics'), 'date' => 'yesterday'],
+            'this_week'  => ['label' => esc_html__('This week', 'wp-statistics'), 'date' => 'this_week'],
+            'last_week'  => ['label' => esc_html__('Last week', 'wp-statistics'), 'date' => 'last_week'],
+            'this_month' => ['label' => esc_html__('This month', 'wp-statistics'), 'date' => 'this_month'],
+            'last_month' => ['label' => esc_html__('Last month', 'wp-statistics'), 'date' => 'last_month'],
+            '7days'      => ['label' => esc_html__('Last 7 days', 'wp-statistics'), 'date' => '7days'],
+            '30days'     => ['label' => esc_html__('Last 30 days', 'wp-statistics'), 'date' => '30days'],
+            '90days'     => ['label' => esc_html__('Last 90 days', 'wp-statistics'), 'date' => '90days'],
+            '6months'    => ['label' => esc_html__('Last 6 months', 'wp-statistics'), 'date' => '6months'],
+            'this_year'  => ['label' => esc_html__('This year (Jan-Today)', 'wp-statistics'), 'date' => 'this_year'],
+        ];
+
+        $exclude = $args['exclude'] ?? [];
+        $summary = [];
+
+        foreach ($periods as $key => $period) {
+            if (in_array($key, $exclude, true)) {
+                continue; // Skip excluded periods
+            }
+
+            $summary[$key] = [
+                'label'          => $period['label'],
+                'search_engines' => $this->countReferredVisitors(array_merge($args, ['date' => DateRange::get($period['date']), 'source_channel' => ['search', 'paid_search']])),
+            ];
+        }
+
+        // Conditionally add 'total' (if not excluded)
+        if (!empty($args['include_total']) && !in_array('total', $exclude, true)) {
+            $summary['total'] = [
+                'label'          => esc_html__('Total', 'wp-statistics'),
+                'search_engines' => $this->countReferredVisitors(array_merge($args, ['ignore_date' => true, 'historical' => true, 'source_channel' => ['search', 'paid_search']])),
             ];
         }
 
@@ -504,7 +517,6 @@ class VisitorsModel extends BaseModel
             'order'                 => 'DESC',
             'page'                  => '',
             'per_page'              => '',
-            'user_info'             => false,
             'date_field'            => 'visitor.last_counter',
             'logged_in'             => false,
             'user_role'             => '',
@@ -514,7 +526,11 @@ class VisitorsModel extends BaseModel
             'referrer'              => '',
             'not_null'              => '',
             'source_channel'        => '',
-            'referred_visitors'     => ''
+            'referred_visitors'     => '',
+            'utm_source'            => '',
+            'utm_medium'            => '',
+            'utm_campaign'          => '',
+            'source_name'           => '',
         ]);
 
         // Set default fields
@@ -557,6 +573,7 @@ class VisitorsModel extends BaseModel
             ->where('referred', '=', $args['referrer'])
             ->where('visitor.location', '=', $args['country'])
             ->where('visitor.source_channel', 'IN', $args['source_channel'])
+            ->where('visitor.source_name', 'IN', $args['source_name'])
             ->whereNotNull($args['not_null'])
             ->whereDate($args['date_field'], $args['date'])
             ->perPage($args['page'], $args['per_page'])
@@ -596,13 +613,16 @@ class VisitorsModel extends BaseModel
 
         $filteredArgs = array_filter($args);
 
-        if (array_intersect(['resource_type', 'resource_id', 'query_param'], array_keys($filteredArgs))) {
+        if (array_intersect(['resource_type', 'resource_id', 'query_param', 'utm_source', 'utm_medium', 'utm_campaign'], array_keys($filteredArgs))) {
             $query
                 ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
                 ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
                 ->where('pages.type', 'IN', $args['resource_type'])
                 ->where('pages.id', '=', $args['resource_id'])
-                ->where('pages.uri', '=', $args['query_param']);
+                ->where('pages.uri', '=', $args['query_param'])
+                ->where('pages.uri', 'LIKE', $args['utm_source'] ? "%utm_source={$args['utm_source']}%" : '')
+                ->where('pages.uri', 'LIKE', $args['utm_medium'] ? "%utm_medium={$args['utm_medium']}%" : '')
+                ->where('pages.uri', 'LIKE', $args['utm_campaign'] ? "%utm_campaign={$args['utm_campaign']}%" : '');
         }
 
         if (array_intersect(['post_type', 'post_id', 'author_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
@@ -651,6 +671,11 @@ class VisitorsModel extends BaseModel
             'order'          => 'desc',
             'page'           => '',
             'per_page'       => '',
+            'utm_source'     => '',
+            'utm_medium'     => '',
+            'utm_campaign'   => '',
+            'resource_id'    => '',
+            'resource_type'  => Helper::getPostTypes()
         ]);
 
         $query = Query::select([
@@ -702,6 +727,16 @@ class VisitorsModel extends BaseModel
                 ->where('source_channel', '=', $args['source_channel']);
         }
 
+        if (!empty($args['utm_source']) || !empty($args['utm_medium']) || !empty($args['utm_campaign']) || !empty($args['resource_id'])) {
+            $query
+                ->join('pages', ['visitor.first_page', 'pages.page_id'])
+                ->where('pages.id', '=', $args['resource_id'])
+                ->where('pages.type', 'IN', $args['resource_type'])
+                ->where('pages.uri', 'LIKE', $args['utm_source'] ? "%utm_source={$args['utm_source']}%" : '')
+                ->where('pages.uri', 'LIKE', $args['utm_medium'] ? "%utm_medium={$args['utm_medium']}%" : '')
+                ->where('pages.uri', 'LIKE', $args['utm_campaign'] ? "%utm_campaign={$args['utm_campaign']}%" : '');
+        }
+
         $result = $query->getAll();
 
         return $result ?? [];
@@ -735,7 +770,7 @@ class VisitorsModel extends BaseModel
                 ->whereNull('visitor.source_channel');
         } else {
             $query
-                ->where('source_channel', '=', $args['source_channel']);
+                ->where('source_channel', 'IN', $args['source_channel']);
         }
 
         return $query->getVar() ?? 0;
@@ -906,7 +941,7 @@ class VisitorsModel extends BaseModel
     public function getVisitorsGeoData($args = [])
     {
         $args = $this->parseArgs($args, [
-            'fields'                => [
+            'fields'            => [
                 'visitor.city as city',
                 'visitor.location as country',
                 'visitor.region as region',
@@ -934,6 +969,12 @@ class VisitorsModel extends BaseModel
             'event_target'          => '',
             'order_by'              => ['visitors', 'views'],
             'order'                 => 'DESC',
+            'utm_source'            => '',
+            'utm_medium'            => '',
+            'utm_campaign'          => '',
+            'referrer'              => '',
+            'resource_id'           => '',
+            'resource_type'         => '',
             'referred_visitors'     => false
         ]);
 
@@ -943,6 +984,7 @@ class VisitorsModel extends BaseModel
             ->where('visitor.city', 'IN', $args['city'])
             ->where('visitor.region', 'IN', $args['region'])
             ->where('visitor.continent', 'IN', $args['continent'])
+            ->where('visitor.referred', '=', $args['referrer'])
             ->whereDate('visitor.last_counter', $args['date'])
             ->whereNotNull($args['not_null'])
             ->perPage($args['page'], $args['per_page'])
@@ -961,6 +1003,23 @@ class VisitorsModel extends BaseModel
         }
 
         $filteredArgs = array_filter($args);
+
+        if (array_intersect(['resource_id', 'resource_type'], array_keys($filteredArgs))) {
+            $query
+                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
+                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+                ->where('pages.id', '=', $args['resource_id'])
+                ->where('pages.type', 'IN', $args['resource_type']);
+        }
+
+        if (array_intersect(['utm_source', 'utm_medium', 'utm_campaign'], array_keys($filteredArgs))) {
+            $query
+                ->join('pages', ['visitor.first_page', 'pages.page_id'], [])
+                ->where('pages.uri', 'LIKE', $args['utm_source'] ? "%utm_source={$args['utm_source']}%" : '')
+                ->where('pages.uri', 'LIKE', $args['utm_medium'] ? "%utm_medium={$args['utm_medium']}%" : '')
+                ->where('pages.uri', 'LIKE', $args['utm_campaign'] ? "%utm_campaign={$args['utm_campaign']}%" : '');
+        }
+
         if (array_intersect(['post_type', 'post_id', 'query_param', 'author_id', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
                 ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
@@ -1064,7 +1123,12 @@ class VisitorsModel extends BaseModel
             'group_by'       => 'visitor.referred',
             'page'           => 1,
             'per_page'       => 10,
-            'decorate'       => false
+            'decorate'       => false,
+            'utm_source'    => '',
+            'utm_medium'    => '',
+            'utm_campaign'  => '',
+            'resource_id'   => '',
+            'resource_type' => ''
         ]);
 
         $filteredArgs = array_filter($args);
@@ -1078,6 +1142,7 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->where('visitor.location', '=', $args['country'])
+            ->whereDate('visitor.last_counter', $args['date'])
             ->whereNotNull($args['not_null'])
             ->groupBy($args['group_by'])
             ->orderBy('visitors')
@@ -1104,19 +1169,23 @@ class VisitorsModel extends BaseModel
             $query->where('visitor.referred', 'LIKE', "%{$args['referrer']}%");
         }
 
-        // When date is passed, but all other parameters below are empty, compare the given date with `visitor.last_counter`
-        if (!empty($args['date']) && !array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
-            $query->whereDate('visitor.last_counter', $args['date']);
+        if (array_intersect(['resource_id', 'resource_type', 'query_param', 'utm_source', 'utm_medium', 'utm_campaign'], array_keys($filteredArgs))) {
+            $query
+                ->join('pages', ['visitor.first_page', 'pages.page_id'], [], 'LEFT')
+                ->where('pages.id', '=', $args['resource_id'])
+                ->where('pages.type', 'IN', $args['resource_type'])
+                ->where('pages.uri', '=', $args['query_param'])
+                ->where('pages.uri', 'LIKE', $args['utm_source'] ? "%utm_source={$args['utm_source']}%" : '')
+                ->where('pages.uri', 'LIKE', $args['utm_medium'] ? "%utm_medium={$args['utm_medium']}%" : '')
+                ->where('pages.uri', 'LIKE', $args['utm_campaign'] ? "%utm_campaign={$args['utm_campaign']}%" : '');
         }
 
-        if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
+        if (array_intersect(['post_type', 'post_id', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
                 ->join('pages', ['visitor.first_page', 'pages.page_id'], [], 'LEFT')
                 ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
                 ->where('post_type', 'IN', $args['post_type'])
-                ->where('posts.ID', '=', $args['post_id'])
-                ->where('pages.uri', '=', $args['query_param'])
-                ->whereDate('pages.date', $args['date']);
+                ->where('posts.ID', '=', $args['post_id']);
 
             if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
                 $taxQuery = Query::select(['DISTINCT object_id'])
@@ -1162,6 +1231,8 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->where('source_channel', 'IN', $args['source_channel'])
+            ->where('visitor.location', '=', $args['country'])
+            ->whereDate('visitor.last_counter', $args['date'])
             ->whereNotNull($args['not_null']);
 
         // If not null is not set, get all referrers including those coming with just UTM without any source
@@ -1174,20 +1245,13 @@ class VisitorsModel extends BaseModel
             ");
         }
 
-        // When date is passed, but all other parameters below are empty, compare the given date with `visitor.last_counter`
-        if (!empty($args['date']) && !array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
-            $query->whereDate('visitor.last_counter', $args['date']);
-        }
-
         if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
-                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'], [], 'LEFT')
-                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+                ->join('pages', ['visitor.first_page', 'pages.page_id'], [], 'LEFT')
                 ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
                 ->where('post_type', 'IN', $args['post_type'])
                 ->where('posts.ID', '=', $args['post_id'])
-                ->where('pages.uri', '=', $args['query_param'])
-                ->whereDate('pages.date', $args['date']);
+                ->where('pages.uri', '=', $args['query_param']);
 
             if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
                 $taxQuery = Query::select(['DISTINCT object_id'])
@@ -1201,12 +1265,6 @@ class VisitorsModel extends BaseModel
                 $query
                     ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
             }
-        }
-
-        if (!empty($args['country'])) {
-            $query
-                ->where('visitor.location', '=', $args['country'])
-                ->whereDate('visitor.last_counter', $args['date']);
         }
 
         $result = $query->getVar();
@@ -1243,7 +1301,7 @@ class VisitorsModel extends BaseModel
         $fields = [
             '`visitor`.`last_counter` AS `date`',
             'COUNT(DISTINCT `visitor`.`ID`) AS `visitors`',
-            '`visit`.`visit` AS `visits`',
+            'SUM(`visitor`.`hits`) AS `visits`',
             'COUNT(DISTINCT CASE WHEN(`visitor`.`referred` <> "") THEN `visitor`.`ID` END) AS `referrers`',
         ];
         if (is_numeric($args['post_id']) || !empty($args['author_id']) || !empty($args['term_id'])) {
@@ -1252,10 +1310,6 @@ class VisitorsModel extends BaseModel
         }
 
         $query = Query::select($fields)->from('visitor');
-        if (!is_numeric($args['post_id']) && empty($args['author_id']) && empty($args['term_id'])) {
-            // For single pages/posts/authors/terms
-            $query->join('visit', ['`visitor`.`last_counter`', '`visit`.`last_counter`']);
-        }
         $query->where('visitor.last_counter', '>=', $startDate)
             ->where('visitor.last_counter', '<', $endDate)
             ->groupBy('visitor.last_counter');
@@ -1325,6 +1379,82 @@ class VisitorsModel extends BaseModel
         return intval($result);
     }
 
+    public function getBounceRate($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'          => '',
+            'resource_id'   => '',
+            'resource_type' => '',
+            'query_param'   => ''
+        ]);
+
+        $singlePageVisitors = Query::select('visitor_id')
+            ->from('visitor_relationships')
+            ->whereDate('date', $args['date'])
+            ->groupBy('visitor_id')
+            ->having('COUNT(page_id) = 1')
+            ->getQuery();
+
+        $query = Query::select(['COUNT(visitor.ID) as visitors'])
+            ->fromQuery($singlePageVisitors, 'single')
+            ->join('visitor', ['visitor.ID', 'single.visitor_id'])
+            ->join('pages', ['visitor.first_page', 'pages.page_id'])
+            ->where('pages.id', '=', $args['resource_id'])
+            ->where('pages.type', 'IN', $args['resource_type'])
+            ->where('pages.uri', '=', $args['query_param']);
+
+        $singlePageVisits = $query->getVar() ?? 0;
+        $totalPageEntries = $this->countEntryPageVisitors($args);
+
+        $result = Helper::calculatePercentage($singlePageVisits, $totalPageEntries);
+
+        return $result;
+    }
+
+    public function countEntryPageVisitors($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'          => '',
+            'resource_id'   => '',
+            'resource_type' => '',
+            'query_param'   => ''
+        ]);
+
+        $query = Query::select(['COUNT(visitor.ID) as visitors'])
+            ->from('visitor')
+            ->join('pages', ['visitor.first_page', 'pages.page_id'])
+            ->where('pages.id', '=', $args['resource_id'])
+            ->where('pages.type', 'IN', $args['resource_type'])
+            ->where('pages.uri', '=', $args['query_param'])
+            ->whereDate('last_counter', $args['date']);
+
+        $result = $query->getVar();
+
+        return $result ?? 0;
+    }
+
+    public function countExitPageVisitors($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'          => '',
+            'resource_id'   => '',
+            'resource_type' => '',
+            'query_param'   => ''
+        ]);
+
+        $query = Query::select(['COUNT(visitor.ID) as visitors'])
+            ->from('visitor')
+            ->join('pages', ['visitor.last_page', 'pages.page_id'])
+            ->where('pages.id', '=', $args['resource_id'])
+            ->where('pages.type', 'IN', $args['resource_type'])
+            ->where('pages.uri', '=', $args['query_param'])
+            ->whereDate('last_counter', $args['date']);
+
+        $result = $query->getVar();
+
+        return $result ?? 0;
+    }
+
     public function getEntryPages($args = [])
     {
         $args = $this->parseArgs($args, [
@@ -1342,12 +1472,12 @@ class VisitorsModel extends BaseModel
         ]);
 
         $query = Query::select([
-                'COUNT(visitor.ID) as visitors',
-                'pages.id as post_id',
-                'pages.page_id',
-                'posts.post_title',
-                'posts.post_date'
-            ])
+            'COUNT(visitor.ID) as visitors',
+            'pages.id as post_id',
+            'pages.page_id',
+            'posts.post_title',
+            'posts.post_date'
+        ])
             ->from('visitor')
             ->join('pages', ['visitor.first_page', 'pages.page_id'])
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
@@ -1415,11 +1545,11 @@ class VisitorsModel extends BaseModel
         ]);
 
         $result = Query::select([
-                'COUNT(visitor.ID) as visitors',
-                'pages.id as post_id, pages.page_id',
-                'posts.post_title',
-                'posts.post_date'
-            ])
+            'COUNT(visitor.ID) as visitors',
+            'pages.id as post_id, pages.page_id',
+            'posts.post_title',
+            'posts.post_date'
+        ])
             ->from('visitor')
             ->join('pages', ['visitor.last_page', 'pages.page_id'])
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')

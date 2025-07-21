@@ -1,14 +1,15 @@
 <?php
 
-namespace WP_Statistics\Service\Database\Migrations;
+namespace WP_Statistics\Service\Database\Migrations\Schema;
 
 use Exception;
+use WP_Statistics\Abstracts\BaseMigrationOperation;
 use WP_Statistics\Service\Database\DatabaseFactory;
 
 /**
  * Manages migrations related to database schema.
  */
-class SchemaMigration extends AbstractMigrationOperation
+class SchemaMigration extends BaseMigrationOperation
 {
     /**
      * The name of the migration operation.
@@ -50,6 +51,10 @@ class SchemaMigration extends AbstractMigrationOperation
         // '14.13.5' => [
         //     'dropDuplicateColumnsFromUserOnline'
         // ]
+        '14.15' => [
+            'dropVisitTable',
+            'addUserIdToEvents'
+        ]
     ];
 
     /**
@@ -72,6 +77,17 @@ class SchemaMigration extends AbstractMigrationOperation
                         'last_view'  => 'datetime DEFAULT NULL'
                     ]
                 ])
+                ->execute();
+        } catch (Exception $e) {
+            $this->setErrorStatus($e->getMessage());
+        }
+    }
+
+    public function dropVisitTable()
+    {
+        try {
+            DatabaseFactory::table('drop')
+                ->setName('visit')
                 ->execute();
         } catch (Exception $e) {
             $this->setErrorStatus($e->getMessage());
@@ -101,6 +117,29 @@ class SchemaMigration extends AbstractMigrationOperation
                         'city',
                         'region',
                         'continent'
+                    ]
+                ])
+                ->execute();
+        } catch (Exception $e) {
+            $this->setErrorStatus($e->getMessage());
+        }
+    }
+
+    /**
+     * Adds `user_id` column to the 'events' table.
+     *
+     * @return void
+     */
+    public function addUserIdToEvents()
+    {
+        $this->ensureConnection();
+
+        try {
+            DatabaseFactory::table('update')
+                ->setName('events')
+                ->setArgs([
+                    'add' => [
+                        'user_id' => 'bigint(20) UNSIGNED DEFAULT NULL',
                     ]
                 ])
                 ->execute();

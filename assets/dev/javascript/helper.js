@@ -61,7 +61,108 @@ wps_js.formatNumber = function (num, fixed = 0) {
     return e;
 }
 
+wps_js.vectorMap = function (data){
+    let pin = Array();
+    let colors = {};
+    if (data?.codes?.length > 0) {
+        const geoCountryData = {};
+        data.codes.forEach((code, index) => {
+            const visitors_raw = Number(data.raw_data[index]) || 0;
+            const visitors = data.data[index];
+            geoCountryData[code.toLowerCase()] = {
+                label: data.labels[index],
+                flag: data.flags[index],
+                visitors_raw,
+                visitors
+            };
+        });
 
+        const maxVisitors = Math.max(1, ...Object.values(geoCountryData).map(country => country.visitors_raw));
+
+        Object.keys(geoCountryData).forEach(code => {
+            const country = geoCountryData[code];
+
+            const intensity = country.visitors_raw / maxVisitors;
+            // #EBF5FF to #3288D7
+            const r = Math.round(235 - (185 * intensity));  // From 235 to 50
+            const g = Math.round(245 - (109 * intensity));  // From 245 to 136
+            const b = Math.round(255 - (40 * intensity));   // From 255 to 215
+
+            colors[code] = `rgb(${r}, ${g}, ${b})`;
+
+            pin[code] = `<div class='map-html-marker'>
+                    <div class="map-country-header">
+                        <img src='${country.flag}' 
+                            alt="${country.label}" 
+                            title='${country.label}' 
+                            class='log-tools wps-flag'/> 
+                            <span>${country.label}  </span>
+                    </div>
+                    <div class="map-country-content">
+                        <div>${wps_js._('visitors')}</div>
+                        <div>${country.visitors}</div>
+                    </div>
+                </div>`;
+        });
+    }
+    jQuery('#wp-statistics-visitors-map').vectorMap({
+        map: 'world_en',
+        backgroundColor: '#fff',
+        borderColor: '#fff',
+        borderOpacity: 0.6,
+        color: '#e6e6e6',
+        selectedColor: '#596773',
+        hoverColor: '#596773',
+
+
+        colors: colors,
+        onLabelShow: function (element, label, code) {
+            const lowerCode = code.toLowerCase();
+            if (pin[lowerCode]) {
+                label.html(pin[lowerCode]);
+                return;
+            }
+
+            const imageUrl = `${wps_js.global.assets_url}/images/flags/${lowerCode}.svg`;
+            const countryName = label.text();
+
+            fetch(imageUrl)
+                .then(response => {
+                    const flagImage = response.ok
+                        ? `<img src='${imageUrl}' alt="${countryName}" title="${countryName}" class='log-tools wps-flag'/>`
+                        : '';
+
+                    label.html(`
+                <div class='map-html-marker'>
+                    <div class="map-country-header">
+                        ${flagImage}
+                        <span>${countryName}</span>
+                    </div>
+                    <div class="map-country-content">
+                        <div>${wps_js._('visitors')}</div>
+                        <div>0</div>
+                    </div>
+                </div>
+            `);
+                })
+                .catch(error => {
+                    console.error('Error fetching the image:', error);
+
+                    label.html(`
+                <div class='map-html-marker'>
+                    <div class="map-country-header">
+                        <span>${countryName}</span>
+                    </div>
+                    <div class="map-country-content">
+                        <div>${wps_js._('visitors')}</div>
+                        <div>0</div>
+                    </div>
+                </div>
+            `);
+                });
+        },
+    });
+}
 /**
  * Set Select2
  */
@@ -203,8 +304,21 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
         let parent = element.parentNode;
         let nextSibling = element.nextSibling;
         parent.removeChild(element);
-        data = data.map(Number);
-        let total = data.reduce((sum, data) => sum + data, 0);
+        if (!Array.isArray(data) && typeof data === 'object' && data !== null) {
+             data = Object.values(data);
+        } else if (!Array.isArray(data)) {
+             data = [];
+        }
+        data = data?.map(Number);
+
+        let total;
+        if (Array.isArray(data)) {
+            total = data.reduce((sum, item) => sum + item, 0);
+        } else if (typeof data === 'object' && data !== null) {
+             total = Object.values(data).reduce((sum, item) => sum + item, 0);
+        } else {
+             total = 0;
+        }
         let blockDiv = document.createElement('div');
         blockDiv.classList.add('wps-horizontal-bar');
         for (let i = 0; i < data.length; i++) {
@@ -476,4 +590,9 @@ jQuery(document).ready(function () {
 
 window.renderFormatNum = function (data) {
     return wps_js.formatNumber(data)
+}
+window.renderWPSSelect2 = function (class_name) {
+    jQuery("select[data-type-show=select2]").select2({
+        dropdownCssClass: class_name,
+    });
 }

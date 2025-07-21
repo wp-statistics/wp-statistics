@@ -90,6 +90,10 @@ class WpConsentApi extends AbstractIntegration
             $plugins['complianz-gdpr/complianz-gpdr.php'] = esc_html__('Complianz', 'wp-statistics');
         }
 
+        if (is_plugin_active('complianz-gdpr-premium/complianz-gpdr-premium.php')) {
+            $plugins['complianz-gdpr-premium/complianz-gpdr-premium.php'] = esc_html__('Complianz Premium', 'wp-statistics');
+        }
+
         if (is_plugin_active('cookiebot/cookiebot.php')) {
             $plugins['cookiebot/cookiebot.php'] = esc_html__('Cookiebot', 'wp-statistics');
         }

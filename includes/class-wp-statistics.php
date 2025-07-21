@@ -1,11 +1,8 @@
 <?php
 
-use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\AjaxBackgroundProcessManager;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\CalculatePostWordsCount;
-use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\DataMigrationProcess;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\GeolocationDatabaseDownloadProcess;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\IncompleteGeoIpUpdater;
-use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\SchemaMigrationProcess;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\SourceChannelUpdater;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\TableOperationProcess;
 use WP_Statistics\Service\Admin\AnonymizedUsageData\AnonymizedUsageDataManager;
@@ -30,10 +27,13 @@ use WP_Statistics\Service\Admin\Referrals\ReferralsManager;
 use WP_Statistics\Service\Admin\TrackerDebugger\TrackerDebuggerManager;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsManager;
 use WP_Statistics\Service\Analytics\AnalyticsManager;
-use WP_Statistics\Service\Database\Managers\MigrationHandler;
 use WP_Statistics\Service\HooksManager;
 use WP_Statistics\Service\CronEventManager;
+use WP_Statistics\Service\Database\Migrations\Ajax\AjaxManager as DatabaseMigrationAjaxManager;
+use WP_Statistics\Service\Database\Migrations\Queue\QueueManager as DatabaseMigrationQueueManager;
+use WP_Statistics\Service\Database\Migrations\Schema\SchemaManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
+use WP_Statistics\Service\CustomEvent\CustomEventManager;
 
 defined('ABSPATH') || exit;
 
@@ -125,7 +125,7 @@ final class WP_Statistics
              * Setup background process.
              */
             $this->initializeBackgroundProcess();
-            MigrationHandler::init();
+            SchemaManager::init();
 
         } catch (Exception $e) {
             self::log($e->getMessage());
@@ -168,7 +168,6 @@ final class WP_Statistics
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-pages.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-visitor.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-historical.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-visit.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-referred.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-search-engine.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-exclusion.php';
@@ -221,10 +220,12 @@ final class WP_Statistics
             $metaboxManager      = new MetaboxManager();
             $exclusionsManager   = new ExclusionsManager();
             new FilterManager();
-            new AjaxBackgroundProcessManager();
+            new DatabaseMigrationAjaxManager();
+            new DatabaseMigrationQueueManager();
         }
 
         $hooksManager       = new HooksManager();
+        $customEventManager = new CustomEventManager();
         $cronEventManager   = new CronEventManager();
 
         // WordPress ShortCode and Widget
@@ -251,6 +252,9 @@ final class WP_Statistics
 
         // Template functions.
         include WP_STATISTICS_DIR . 'includes/template-functions.php';
+
+        // Include functions
+        require_once WP_STATISTICS_DIR . 'functions.php';
     }
 
     /**

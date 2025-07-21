@@ -21,9 +21,9 @@ $email       = $hasUserData ? $userData->user_email : '';
     <div class="wps-author-analytics--header__img">
         <img src="<?php echo esc_url(get_avatar_url($authorId)); ?>" alt="<?php echo esc_html($displayName); ?>">
     </div>
-    <div>
+    <div class="wps-author-analytics--header__desc">
         <div class="wps-author-analytics--header__title">
-            <h2 class="wps_title"><?php echo esc_html($displayName); ?></h2>
+            <h2 class="wps_title" title="<?php echo esc_html($displayName); ?>"><?php echo esc_html($displayName); ?></h2>
             <span><?php echo esc_html($userRole); ?></span>
         </div>
         <div class="wps-author-analytics--header__info">

@@ -36,7 +36,7 @@ $taxName  = Helper::getTaxonomyName(Request::get('tx', 'category'), true);
                     <?php foreach ($data as $category) : ?>
                         <tr>
                             <td class="wps-pd-l">
-                                <a class="wps-table-ellipsis--name" target="_blank" href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $category['term_id']])) ?>">
+                                <a class="wps-table-ellipsis--name" href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $category['term_id']])) ?>">
                                     <span title="<?php echo esc_attr($category['term_name']) ?>"><?php echo esc_html($category['term_name']) ?></span>
                                 </a>
                             </td>
