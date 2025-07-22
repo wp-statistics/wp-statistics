@@ -1544,8 +1544,6 @@ class VisitorsModel extends BaseModel
             'order'         => 'DESC'
         ]);
 
-        $totalExits = $this->countExitPageVisitors();
-
         $subQuery = Query::select("pages.id, COUNT(DISTINCT visitor.ID) as visitors")
             ->from('visitor')
             ->join('visitor_relationships', ['visitor.ID', 'visitor_relationships.visitor_id'])
@@ -1559,7 +1557,7 @@ class VisitorsModel extends BaseModel
             'page_visitors.visitors as visitors',
             'COUNT(visitor.ID) as exits',
             'pages.id as post_id, pages.page_id',
-            "COALESCE(COUNT(visitor.ID) / $totalExits, 0) * 100 AS exit_rate"
+            "COALESCE(COUNT(visitor.ID) / page_visitors.visitors, 0) * 100 AS exit_rate"
         ])
             ->from('visitor')
             ->join('pages', ['visitor.last_page', 'pages.page_id'])
