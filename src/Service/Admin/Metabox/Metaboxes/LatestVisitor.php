@@ -24,7 +24,7 @@ class LatestVisitor extends BaseMetabox
     {
         return [
             'datepicker'    => false,
-            'button'        => View::load('metabox/action-button',['link'=> Menus::admin_url('visitors') ,'title'=>' View Latest Visitors'],true)
+            'button'        => View::load('metabox/action-button',['link'=> Menus::admin_url('visitors', ['tab' => 'visitors']) ,'title'=>' View Latest Visitors'],true)
         ];
     }
 
