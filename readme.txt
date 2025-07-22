@@ -147,7 +147,7 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.15 - 2025-07-21 =
+= 14.15 - 2025-07-22 =
 - **New:** Added a new `Search Terms` report under the Visitor Insight page.
 - **New:** Added an `Overview` report for Visitor Insight.
 - **New:** Added an `Overview` report for Page Insights.
