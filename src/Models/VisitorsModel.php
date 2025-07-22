@@ -1544,9 +1544,12 @@ class VisitorsModel extends BaseModel
             'order'         => 'DESC'
         ]);
 
+        $totalExits = $this->countExitPageVisitors();
+
         $result = Query::select([
             'COUNT(visitor.ID) as visitors',
             'pages.id as post_id, pages.page_id',
+            "COALESCE(COUNT(visitor.ID) / $totalExits, 0) * 100 AS exit_rate",
             'posts.post_title',
             'posts.post_date'
         ])
