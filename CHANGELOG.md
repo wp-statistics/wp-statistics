@@ -1,3 +1,6 @@
+= 14.16 - 2025-x-x =
+- **Enhancement:** Removed Matomo Referrer Spam Blacklist due to misalignment, performance concerns, and functionality issues.
+
 = 14.15 - 2025-07-21 =
 - **New:** Added a new `Search Terms` report under the Visitor Insight page.
 - **New:** Added an `Overview` report for Visitor Insight.
