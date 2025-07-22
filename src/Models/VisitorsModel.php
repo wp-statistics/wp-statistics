@@ -1540,14 +1540,24 @@ class VisitorsModel extends BaseModel
             'per_page'      => Admin_Template::$item_per_page,
             'author_id'     => '',
             'uri'           => '',
-            'order_by'      => 'visitors',
+            'order_by'      => 'exits',
             'order'         => 'DESC'
         ]);
 
         $totalExits = $this->countExitPageVisitors();
 
+        $subQuery = Query::select("pages.id, COUNT(DISTINCT visitor.ID) as visitors")
+            ->from('visitor')
+            ->join('visitor_relationships', ['visitor.ID', 'visitor_relationships.visitor_id'])
+            ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'])
+            ->where('pages.type', 'IN', $args['resource_type'])
+            ->whereDate('visitor.last_counter', $args['date'])
+            ->groupBy('pages.id')
+            ->getQuery();
+
         $result = Query::select([
-            'COUNT(visitor.ID) as visitors',
+            'page_visitors.visitors as visitors',
+            'COUNT(visitor.ID) as exits',
             'pages.id as post_id, pages.page_id',
             "COALESCE(COUNT(visitor.ID) / $totalExits, 0) * 100 AS exit_rate",
             'posts.post_title',
@@ -1556,6 +1566,7 @@ class VisitorsModel extends BaseModel
             ->from('visitor')
             ->join('pages', ['visitor.last_page', 'pages.page_id'])
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
+            ->joinQuery($subQuery, ['pages.id', 'page_visitors.id'], 'page_visitors')
             ->where('pages.type', 'IN', $args['resource_type'])
             ->where('pages.uri', '=', $args['uri'])
             ->where('posts.post_author', '=', $args['author_id'])
