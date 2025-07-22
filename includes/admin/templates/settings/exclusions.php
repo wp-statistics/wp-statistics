@@ -77,21 +77,15 @@ use WP_STATISTICS\Option;
                     </textarea>
                 </div>
 
-                <p class="description"><?php printf(
-                        wp_kses(
+                <p class="description"><?php
+                    echo wp_kses_post(
+                        sprintf(
                             __(
                                 'WP Statistics already filters common crawlers. Add any extra user-agent snippets you’d like treated as bots—one per line (leave blank if none). See the <a href="%s" target="_blank">Robot Exclusions guide</a> for details.',
                                 'wp-statistics'
                             ),
-                            [
-                                'a' => [
-                                    'href' => [],
-                                    'target' => [],
-                                    'rel' => [],
-                                ],
-                            ]
-                        ),
-                        esc_url('#')
+                            esc_url('#')
+                        )
                     ); ?></p>
             </td>
         </tr>

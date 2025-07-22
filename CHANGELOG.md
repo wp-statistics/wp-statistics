@@ -1,6 +1,7 @@
+= 14.15.x - 2025-x-x =
 - **Enhancement:** Replaced legacy Robot List with Device-Detector isBot check, and renamed the bot detection field.
 
-= 14.15 - 2025-07-21 =
+= 14.15 - 2025-07-22 =
 - **New:** Added a new `Search Terms` report under the Visitor Insight page.
 - **New:** Added an `Overview` report for Visitor Insight.
 - **New:** Added an `Overview` report for Page Insights.
