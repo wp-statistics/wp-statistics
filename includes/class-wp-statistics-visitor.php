@@ -439,7 +439,7 @@ class Visitor
         global $wpdb;
 
         // Default Params
-        $params = array('link' => '', 'title' => '', 'query' => '', 'id' => '');
+        $params = array('id' => '', 'link' => '', 'title' => '', 'query' => '');
 
         $pageTable = DB::table('pages');
 

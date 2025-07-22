@@ -8,7 +8,7 @@ use WP_Statistics\Components\View;
 <div class="inside">
     <?php if (!empty($pages)) : ?>
         <div class="o-table-wrapper">
-            <table width="100%" class="o-table wps-new-table">
+            <table width="100%" class="o-table wps-new-table wps-table-inspect">
                 <thead>
                     <tr>
                         <th scope="col" class="wps-pd-l">

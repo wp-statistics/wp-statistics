@@ -5,6 +5,7 @@ namespace WP_STATISTICS;
 use Exception;
 use WP_STATISTICS;
 use ErrorException;
+use WP_Statistics\Components\DateRange;
 use WP_Statistics\Models\PostsModel;
 use WP_Statistics_Mail;
 use WP_Statistics\Utils\Request;
@@ -1571,10 +1572,10 @@ class Helper
      *
      * @param int|float $dividend The number to be divided.
      * @param int|float $divisor The number to divide by.
-     * @param int $precision The number of decimal places to round the result to. Default is 2.
+     * @param int $precision The number of decimal places to round the result to. Default is 1.
      * @return float The result of the division, rounded to the specified precision. Returns 0 if the divisor is 0.
      */
-    public static function divideNumbers($dividend, $divisor, $precision = 2)
+    public static function divideNumbers($dividend, $divisor, $precision = 1)
     {
         if ($divisor == 0) {
             return 0;
@@ -2004,13 +2005,6 @@ class Helper
             ],
         ]);
 
-        $timestamp = !empty($_SERVER['HTTP_X_WPS_TS']) ? (int) base64_decode($_SERVER['HTTP_X_WPS_TS']) : false;
-
-        // Check if the request was sent no more than 10 seconds ago
-        if (!$timestamp || time() - $timestamp > 10) {
-            $isValid = false;
-        }
-
         if (!$isValid) {
             /**
              * Trigger action after validating the hit request parameters.
@@ -2152,7 +2146,7 @@ class Helper
             return 0;
         }
 
-        return round(($number / $totalNumber) * 100, 2);
+        return round(($number / $totalNumber) * 100, 1);
     }
 
     /**
@@ -2229,5 +2223,22 @@ class Helper
         array_splice($array, $targetIndex, 0, $itemsToRelocate);
 
         return $array;
+    }
+
+    public static function getNoDataMessage($date = '')
+    {
+        if (empty($date)) {
+            $date = DateRange::get()['to'];
+        }
+
+        $isFutureDate = DateTime::isTodayOrFutureDate($date);
+
+        $message = esc_html__('No data found for this date range.', 'wp-statistics');
+
+        if ($isFutureDate) {
+            $message = esc_html__('Data coming soon!', 'wp-statistics');
+        }
+
+        return $message;
     }
 }

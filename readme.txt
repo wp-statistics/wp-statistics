@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.8
-Stable tag: 14.14.1
+Stable tag: 14.15
 Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -13,7 +13,7 @@ Get website traffic insights with GDPR/CCPA compliant, privacy-friendly analytic
 
 == Description ==
 = WP Statistics: THE #1 WORDPRESS ANALYTICS PLUGIN =
-Discover GDPR-compliant analytics with [WP Statistics](https://wp-statistics.com/?utm_source=wporg&utm_medium=link&utm_campaign=website), the top choice for WordPress users seeking an alternative to Google Analytics. No external accounts, unlimited visitor tracking, and full data ownership-all stored directly in your WordPress database.
+Discover GDPR-compliant analytics with [WP Statistics](https://wp-statistics.com/?utm_source=wporg&utm_medium=link&utm_campaign=website), the top choice for WordPress users seeking an alternative to Google Analytics. No external accounts, unlimited visitor tracking, and full data ownership—all stored directly in your WordPress database.
 
 [Checkout Demo](https://wp-statistics.com/demo) | [View Screenshots](#screenshots)
 
@@ -61,9 +61,14 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
  * **Individual Author Performance**: Detailed metrics on the performance of individual authors.
  * **Detailed Analytics for Each Country**: In-depth analytics for each country to enhance geographical reporting.
  * And more!
+* Premium Add-on: [Marketing](https://wp-statistics.com/product/wp-statistics-marketing/?utm_source=wporg&utm_medium=link&utm_campaign=marketing)
+ * **Campaign Analytics**: Track UTM-tagged links and see which campaigns drive the most visitors.
+ * **Google Search Console Integration**: Monitor impressions, clicks, and queries.
+ * **Custom Event Tracking**: Create goals based on clicks, pageviews, or events and monitor conversions.
+ * **Built-in UTM Link Builder**: Generate and validate campaign URLs inside your dashboard.
 
 **Get the most out of your website analytics by using WP Statistics Premium Add-ons**
-Upgrade your analytics toolkit with our range of premium add-ons, including [Data Plus](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wporg&utm_medium=link&utm_campaign=dp), [Advanced Reporting](https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wporg&utm_medium=link&utm_campaign=adv-report), [Real-Time Stats](https://wp-statistics.com/product/wp-statistics-realtime-stats/?utm_source=wporg&utm_medium=link&utm_campaign=realtime), [Mini Chart](https://wp-statistics.com/product/wp-statistics-mini-chart/?utm_source=wporg&utm_medium=link&utm_campaign=mini-chart), and [more](https://wp-statistics.com/add-ons/?utm_source=wporg&utm_medium=link&utm_campaign=add-ons). Making informed decisions is easier with these powerful tools.
+Upgrade your analytics toolkit with our range of premium add-ons, including [Data Plus](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wporg&utm_medium=link&utm_campaign=dp), [Advanced Reporting](https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wporg&utm_medium=link&utm_campaign=adv-report), [Real-Time Stats](https://wp-statistics.com/product/wp-statistics-realtime-stats/?utm_source=wporg&utm_medium=link&utm_campaign=realtime), [Mini Chart](https://wp-statistics.com/product/wp-statistics-mini-chart/?utm_source=wporg&utm_medium=link&utm_campaign=mini-chart), [Marketing](https://wp-statistics.com/product/wp-statistics-marketing/?utm_source=wporg&utm_medium=link&utm_campaign=marketing), and [more](https://wp-statistics.com/add-ons/?utm_source=wporg&utm_medium=link&utm_campaign=add-ons). Making informed decisions is easier with these powerful tools.
 
 **Special Offer:** Save up to 60% on all premium features when you purchase [WP Statistics Premium](https://wp-statistics.com/pricing/?utm_source=wporg&utm_medium=link&utm_campaign=premium).
 
@@ -132,6 +137,9 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 17. Mini Chart Quick View
 18. Page Insights
 19. Detailed Visitor Report
+20. Campaign Reports
+21. Google Search Console Reports
+22. Goal and Event Tracking
 
 == Upgrade Notice ==
 = 14.11 =
@@ -139,49 +147,28 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.14.1 - 2025-06-29 =
-- **New:** Added a Database Schema tool to check and repair database structure in the Optimization page.
-- **Enhancement:** Added country name to the flag tooltip in Visitor Info.
-- **Enhancement:** Added unread notification badge to the Help Center menu.
+= 14.15 - 2025-07-22 =
+- **New:** Added a new `Search Terms` report under the Visitor Insight page.
+- **New:** Added an `Overview` report for Visitor Insight.
+- **New:** Added an `Overview` report for Page Insights.
+- **New:** Added a `Device Overview` report.
 - **Enhancement:** Improved migration performance by running schema updates synchronously and removing background processes.
-- **Enhancement:** Improved the "Views" section in the Visitor Insight report.
-- **Enhancement:** Deprecated the Matomo Referrer Spam Blacklist option (to be removed in v14.16).
-- **Fix:** Fixed accessibility (A11y) issues.
-- **Fix:** Resolved zero page views for non-'category' taxonomy filters.
-- **Fix:** Anonymous data opt-in notice now appears 7 days after plugin activation.
-- **Fix:** Fixed incorrect page titles for WooCommerce My Account sub-pages.
-- **Fix:** Normalized the taxonomy `type` field for `tax_` prefixes.
+- **Enhancement:** Improved the `Views` report under Visitor Insight.
+- **Enhancement:** Unset the `Consent Integration` setting when integration is deactivated.
+- **Enhancement:** Added country name to flag tooltip in Visitor Info.
+- **Enhancement:** Added unread notification badge to the Help Center menu.
+- **Enhancement:** Merged notification and campaign cron jobs into a single daily schedule.
+- **Enhancement:** Dashboard now shows only the "Traffic Overview" widget by default for a cleaner start.
+- **Enhancement:** Optimized `getTrafficOverviewData` for fewer queries and faster widget loading.
+- **Enhancement:** Skipped GeoIP database download in local environments to speed up setup.
+- **Enhancement:** Removed unused `comments` join from Page Insights query to improve performance.
+- **Enhancement:** Improved "Back" button functionality across pages to return to the previous view accurately.
+- **Enhancement:** Improved warning message for missing consent-management plugin.
+- **Fix:** Fixed report URL issues for custom post types.
+- **Fix:** Resolved zero page view issues for non-'category' taxonomy filters.
+- **Fix:** Fixed incorrect tracking of WooCommerce My Account sub-pages.
+- **Fix:** Prevented `number_format()` warning when value is null in PHP 8.4.5.
 
-= 14.14 - 2025-06-01 =
-- **New:** Added a Help page inside the plugin to guide users.
-- **New:** Introduced dynamic promo text in the plugin header.
-- **New:** Added Single Resource report for assets without a post ID.
-- **New:** Integrated with the Real Cookie Banner plugin.
-- **New:** Added an option to disable word count analytics in reports.
-- **Enhancement:** Referral Overview and New Design for Settings and Optimization pages.
-- **Enhancement:** Merged Location data into Visitor Information in reports.
-- **Enhancement:** Added Entry and Exit Page columns to relevant reports.
-- **Enhancement:** Added license status helper on the Add-ons page.
-- **Enhancement:** Weekday names now use short format in charts.
-- **Enhancement:** Referrals report now displays traffic from UTM parameters.
-- **Enhancement:** Added `wp_statistics_disable_tracker_debugger_logs` filter to skip error logging in tracker debugger when needed.
-- **Enhancement:** Optimized online visitor tracking requests for better performance.
-- **Enhancement:** Reduced resource consumption during migration to improve efficiency and stability.
-- **Fix:** Standardized "Page" column links across all widgets and reports.
-- **Fix:** Fixed zero page views when using taxonomy filters other than 'category'.
-- **Fix:** Referrers data now reflect the first viewed page.
-- **Fix:** Corrected number formatting for decimal values.
-- **Fix:** Fixed visitor count aggregation issues.
-- **Fix:** Resolved issue with the post views column.
-- **Fix:** Removed `/online` endpoint from REST API when Monitor Online Visitors is disabled.
-- **Fix:** Fixed incorrect content details shown with "All Time" date filter in alternative calendars.
-- **Fix:** Corrected display for Android app traffic in the Top Referrers widget.
-- **Fix:** Settings and Help icons in the header now appear based on user access.
-- **Fix:** Resolved double slashes in Link Report URLs.
-- **Fix:** Removed `/online` and `/hit` REST endpoints when Server-Side Tracking is enabled (deprecated).
-- **Fix:** Ensured `tracker.js` works with Root Bedrock setups.
-- **Fix:** Handled `E_STRICT` deprecation warning in PHP 8.4.
-
-For more information about the major update, please [visit our release post](https://wp-statistics.com/release/wp-statistics-v14-14/) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
+For more information about the major update, please [visit our release post](https://wp-statistics.com/release/wp-statistics-v14-15/) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).

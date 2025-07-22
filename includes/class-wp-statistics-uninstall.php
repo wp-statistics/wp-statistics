@@ -59,6 +59,7 @@ class Uninstall
         delete_option('wp_statistics_tracker_js_errors');
         delete_option('wp_statistics_db');
         delete_option('wp_statistics_installation_time');
+        delete_option('wp_statistics_cipher_key');
 
         // Delete the transients.
         delete_transient('wps_top_referring');
@@ -75,6 +76,7 @@ class Uninstall
             wp_clear_scheduled_hook('wp_statistics_add_visit_hook');
             wp_clear_scheduled_hook('wp_statistics_report_hook');
             wp_clear_scheduled_hook('wp_statistics_optimize_table');
+            wp_clear_scheduled_hook('wp_statistics_daily_cron_hook');
         }
 
         // Delete all hashed files and their options

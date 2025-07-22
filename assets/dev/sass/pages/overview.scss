@@ -122,6 +122,14 @@ body.toplevel_page_wps_overview_page .postbox-header:has(.wps-wps-currently-onli
   line-height: 16.41px
 }
 
+#dashboard-widgets-wrap .wps-google-link {
+  width: 24px;
+  height: 21px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
 .wps-wps-currently-online__container{
   position: relative;
   margin-left: 10px;

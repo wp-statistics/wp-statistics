@@ -23,10 +23,10 @@ use WP_STATISTICS\Admin_Template;
                                             <?php esc_html_e('Country', 'wp-statistics') ?>
                                         </th>
                                         <th scope="col" class="wps-pd-l" style="width: 15%">
-                                            <?php esc_html_e('Visitor Count', 'wp-statistics') ?>
+                                            <?php esc_html_e('Visitors', 'wp-statistics') ?>
                                         </th>
                                         <th scope="col" class="wps-pd-l" style="width: 15%">
-                                            <?php esc_html_e('View Count', 'wp-statistics') ?>
+                                            <?php esc_html_e('Views', 'wp-statistics') ?>
                                         </th>
                                     </tr>
                                 </thead>
