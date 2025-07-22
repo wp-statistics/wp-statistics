@@ -251,22 +251,30 @@ class VisitorsModel extends BaseModel
     {
         $args = $this->parseArgs($args, [
             'date'           => '',
+            'resource_id'    => '',
+            'resource_type'  => '',
             'source_channel' => '',
             'source_name'    => '',
             'referrer'       => ''
         ]);
 
-        $result = Query::select('COUNT(*) as visitors, last_counter as date')
+        $result = Query::select('COUNT(*) as referrers, last_counter as date')
             ->from('visitor')
             ->where('source_channel', '=', $args['source_channel'])
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
             ->whereDate('visitor.last_counter', $args['date'])
             ->whereNotNull('visitor.referred')
-            ->groupBy('last_counter')
-            ->getVar();
+            ->groupBy('last_counter');
 
-        return $result ?? [];
+        if (!empty($args['resource_id']) || !empty($args['resource_type'])) {
+            $result
+                ->join('pages', ['visitor.first_page', 'pages.page_id'])
+                ->where('pages.id', '=', $args['resource_id'])
+                ->where('pages.type', 'IN', $args['resource_type']);
+        }
+
+        return $result->getAll() ?? [];
     }
 
     /**
