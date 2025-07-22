@@ -14,7 +14,7 @@ class CustomEventDataParser
     public function __construct($eventName, $eventData = [], $visitorProfile = null)
     {
         $this->eventName        = $eventName;
-        $this->eventData        = $eventData;
+        $this->eventData        = is_array($eventData) ? $eventData : [];
         $this->visitorProfile   = $visitorProfile;
 
         if (!$visitorProfile) {

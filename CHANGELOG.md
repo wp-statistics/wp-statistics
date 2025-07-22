@@ -1,8 +1,7 @@
 = 14.15.1 - 2025-x-x =
 - **New:** Added export and import settings feature in the premium version.
 
-= 14.15 - 2025-07-21 =
-- **New:** Added a new `Search Terms` report under the Visitor Insight page.
+= 14.15 - 2025-07-22 =
 - **New:** Added an `Overview` report for Visitor Insight.
 - **New:** Added an `Overview` report for Page Insights.
 - **New:** Added a `Device Overview` report.
