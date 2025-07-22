@@ -527,6 +527,7 @@ class Install
         if (version_compare($latest_version, '14.15', '>=')) {
             Event::unschedule('wp_statistics_marketing_campaign_hook');
             Event::unschedule('wp_statistics_notification_hook');
+            Event::unschedule('wp_statistics_referrerspam_hook');
         }
 
         /**
