@@ -2,6 +2,41 @@
   border: none;
 }
 
+#wp-statistics-traffic-summary-widget , #wp-statistics-quickstats-widget {
+  .o-table {
+
+    td a{
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      display: -webkit-box !important;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 80px;
+
+      .quickstats-values{
+        display: block!important;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        max-width: 80px;
+
+        .rtl &{
+          direction: ltr;
+          text-align: right;
+        }
+      }
+    }
+    td b{
+      word-wrap: break-word;
+      word-break: break-word;
+      white-space: normal;
+      max-width: 250px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
 #th-colspan {
   text-align: center;
 }
