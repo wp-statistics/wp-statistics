@@ -116,9 +116,6 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                                     <li><?php esc_html_e('Track traffic and keywords for each page or post at a glance.', 'wp-statistics'); ?></li>
                                     <li><?php esc_html_e('Unlock detailed search data to make smarter content decisions.', 'wp-statistics'); ?></li>
                                 </ul>
-                                <a href="" class="wps-link-underline"
-                                   target="_blank"><?php esc_html_e('Learn more about these benefits', 'wp-statistics'); ?>
-                                </a>
                             </div>
                             <?php View::load("components/objects/google-data-policy-alert"); ?>
                         </div>

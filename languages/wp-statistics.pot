@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-07-14T07:14:30+00:00\n"
+"POT-Creation-Date: 2025-07-22T07:31:32+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-statistics\n"
@@ -200,7 +200,7 @@ msgstr ""
 #: src/Models/VisitorsModel.php:372
 #: src/Models/VisitorsModel.php:413
 #: src/Models/VisitorsModel.php:461
-#: views/metabox/traffic-overview.php:93
+#: views/metabox/traffic-overview.php:92
 #: views/pages/visitor-insights/overview.php:61
 msgid "Today"
 msgstr ""
@@ -290,7 +290,7 @@ msgstr ""
 #: views/components/tables/top-report.php:25
 #: views/metabox/top-countries.php:15
 #: views/metabox/traffic-overview.php:23
-#: views/metabox/traffic-overview.php:87
+#: views/metabox/traffic-overview.php:86
 #: views/metabox/traffic-summary.php:28
 #: views/pages/visitor-insights/overview.php:21
 #: views/pages/visitor-insights/overview.php:55
@@ -339,7 +339,7 @@ msgstr ""
 #: views/metabox/most-active-visitors.php:14
 #: views/metabox/most-visited-pages.php:23
 #: views/metabox/traffic-overview.php:41
-#: views/metabox/traffic-overview.php:88
+#: views/metabox/traffic-overview.php:87
 #: views/metabox/traffic-summary.php:29
 #: views/pages/page-insights/overview.php:25
 #: views/pages/page-insights/overview.php:83
@@ -356,7 +356,7 @@ msgstr ""
 #: src/Models/VisitorsModel.php:373
 #: src/Models/VisitorsModel.php:414
 #: src/Models/VisitorsModel.php:462
-#: views/metabox/traffic-overview.php:98
+#: views/metabox/traffic-overview.php:101
 #: views/pages/visitor-insights/overview.php:66
 msgid "Yesterday"
 msgstr ""
@@ -368,7 +368,7 @@ msgstr ""
 #: src/Models/VisitorsModel.php:378
 #: src/Models/VisitorsModel.php:419
 #: src/Models/VisitorsModel.php:467
-#: views/metabox/traffic-overview.php:103
+#: views/metabox/traffic-overview.php:110
 msgid "Last 7 days"
 msgstr ""
 
@@ -397,7 +397,7 @@ msgstr ""
 #: src/Models/VisitorsModel.php:379
 #: src/Models/VisitorsModel.php:420
 #: src/Models/VisitorsModel.php:468
-#: views/metabox/traffic-overview.php:108
+#: views/metabox/traffic-overview.php:119
 msgid "Last 30 days"
 msgstr ""
 
@@ -450,7 +450,7 @@ msgstr ""
 #: src/Models/VisitorsModel.php:382
 #: src/Models/VisitorsModel.php:423
 #: src/Models/VisitorsModel.php:471
-#: views/metabox/traffic-overview.php:113
+#: views/metabox/traffic-overview.php:128
 msgid "This year (Jan-Today)"
 msgstr ""
 
@@ -472,7 +472,7 @@ msgstr ""
 #: src/Service/Charts/DataProvider/SocialMediaChartDataProvider.php:119
 #: src/Service/Charts/DataProvider/SourceCategoryChartDataProvider.php:92
 #: src/Service/Charts/DataProvider/SourceCategoryChartDataProvider.php:119
-#: views/metabox/traffic-overview.php:118
+#: views/metabox/traffic-overview.php:137
 msgid "Total"
 msgstr ""
 
@@ -956,6 +956,26 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:430
 msgid "Waiting"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:431
+msgid "Apply"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:432
+#: includes/admin/templates/settings/advanced.php:519
+#: src/Service/Admin/PageInsights/PageInsightsPage.php:80
+#: src/Service/Admin/Referrals/ReferralsPage.php:188
+#: src/Service/Admin/VisitorInsights/VisitorInsightsPage.php:92
+msgid "Reset"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:433
+msgid "Loading"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:434
+msgid "Go to Overview"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:435
@@ -3065,7 +3085,7 @@ msgid "Get updates, tips, and news about WP Statistics to help you get even more
 msgstr ""
 
 #: includes/admin/templates/pages/help-center.php:194
-#: views/components/modals/introduce-premium/step-details.php:168
+#: views/components/modals/introduce-premium/step-details.php:175
 #: views/metabox/pages-visitors-preview.php:10
 msgid "Upgrade Now"
 msgstr ""
@@ -3144,7 +3164,7 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:395
 #: includes/admin/templates/settings/add-ons/customization.php:204
 #: includes/admin/templates/settings/add-ons/data-plus.php:105
-#: includes/admin/templates/settings/add-ons/marketing.php:184
+#: includes/admin/templates/settings/add-ons/marketing.php:181
 #: includes/admin/templates/settings/add-ons/mini-chart.php:153
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:52
 #: includes/admin/templates/settings/add-ons/rest-api.php:78
@@ -3248,7 +3268,7 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/data-plus.php:70
 #: includes/admin/templates/settings/add-ons/data-plus.php:95
 #: includes/admin/templates/settings/add-ons/marketing.php:96
-#: includes/admin/templates/settings/add-ons/marketing.php:175
+#: includes/admin/templates/settings/add-ons/marketing.php:172
 #: includes/admin/templates/settings/add-ons/rest-api.php:53
 #: includes/admin/templates/settings/add-ons/widgets.php:76
 #: includes/admin/templates/settings/advanced.php:289
@@ -3698,28 +3718,24 @@ msgstr ""
 msgid "Unlock detailed search data to make smarter content decisions."
 msgstr ""
 
-#: includes/admin/templates/settings/add-ons/marketing.php:120
-msgid "Learn more about these benefits"
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/marketing.php:130
+#: includes/admin/templates/settings/add-ons/marketing.php:127
 msgid "Site"
 msgstr ""
 
-#: includes/admin/templates/settings/add-ons/marketing.php:143
+#: includes/admin/templates/settings/add-ons/marketing.php:140
 msgid "Select site"
 msgstr ""
 
-#: includes/admin/templates/settings/add-ons/marketing.php:149
+#: includes/admin/templates/settings/add-ons/marketing.php:146
 msgid "Google data policy alert"
 msgstr ""
 
-#: includes/admin/templates/settings/add-ons/marketing.php:163
-#: includes/admin/templates/settings/add-ons/marketing.php:168
+#: includes/admin/templates/settings/add-ons/marketing.php:160
+#: includes/admin/templates/settings/add-ons/marketing.php:165
 msgid "Campaign Builder"
 msgstr ""
 
-#: includes/admin/templates/settings/add-ons/marketing.php:176
+#: includes/admin/templates/settings/add-ons/marketing.php:173
 msgid "Generate and validate UTM-tagged links."
 msgstr ""
 
@@ -4229,13 +4245,6 @@ msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:514
 msgid "Reset Options"
-msgstr ""
-
-#: includes/admin/templates/settings/advanced.php:519
-#: src/Service/Admin/PageInsights/PageInsightsPage.php:80
-#: src/Service/Admin/Referrals/ReferralsPage.php:188
-#: src/Service/Admin/VisitorInsights/VisitorInsightsPage.php:92
-msgid "Reset"
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:520
@@ -5377,11 +5386,11 @@ msgstr ""
 msgid "Real-Time Stats"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:2024
+#: includes/class-wp-statistics-helper.php:2017
 msgid "Invalid hit/online request."
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:2243
+#: includes/class-wp-statistics-helper.php:2236
 #: views/components/tables/most-active-visitors.php:99
 #: views/metabox/horizontal-bar.php:14
 #: views/metabox/most-active-visitors.php:100
@@ -5391,7 +5400,7 @@ msgstr ""
 msgid "No data found for this date range."
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:2246
+#: includes/class-wp-statistics-helper.php:2239
 #: views/components/tables/most-active-visitors.php:101
 #: views/metabox/horizontal-bar.php:16
 #: views/metabox/latest-visitor.php:76
@@ -6054,7 +6063,7 @@ msgstr ""
 msgid "Detected visitors without location data. Please <a href=\"%s\">click here</a> to update the geographic data in the background. This is necessary for accurate analytics."
 msgstr ""
 
-#: src/Service/Admin/Geographic/GeographicPage.php:72
+#: src/Service/Admin/Geographic/GeographicPage.php:73
 msgid "Geographic data update is already in progress."
 msgstr ""
 
@@ -6202,7 +6211,7 @@ msgstr ""
 #: src/Service/Admin/SiteHealthInfo.php:329
 #: src/Service/Admin/SiteHealthInfo.php:334
 #: src/Service/Admin/SiteHealthInfo.php:339
-#: views/components/modals/introduce-premium/step-details.php:152
+#: views/components/modals/introduce-premium/step-details.php:159
 msgid "Not Installed"
 msgstr ""
 
@@ -7476,7 +7485,7 @@ msgid "Your license includes the %s, but it’s not installed yet. Go to the Add
 msgstr ""
 
 #: views/components/lock-sections/setting-active-licensed-addon.php:9
-#: views/components/modals/introduce-premium/step-details.php:187
+#: views/components/modals/introduce-premium/step-details.php:194
 msgid "Go to Add-ons Page"
 msgstr ""
 
@@ -7557,90 +7566,90 @@ msgstr ""
 msgid "<p>Data Plus supercharges WP Statistics by unlocking advanced analytics features. Get deeper insights into your site's performance with tools that help you understand visitor behavior, optimize your content, and track engagement like never before. <a target=\"_blank\" href=\"%s\">Learn more</a></p>"
 msgstr ""
 
-#: views/components/modals/introduce-premium/step-details.php:53
+#: views/components/modals/introduce-premium/step-details.php:54
 msgid "See more data."
 msgstr ""
 
-#: views/components/modals/introduce-premium/step-details.php:59
-msgid "<p>Mini Chart gives you quick insights into how your posts, pages, and products are performing by displaying small, customizable charts directly in your admin panel. Track views and engagement at a glance and customize chart types and colors to match your preferences. Analyze content performance easily and stay on top of key metrics with minimal time. <a target=\"_blank\" href=\"%s\">Learn more</a></p>"
-msgstr ""
-
-#: views/components/modals/introduce-premium/step-details.php:63
-msgid "View real‐time metrics at a glance."
-msgstr ""
-
-#: views/components/modals/introduce-premium/step-details.php:69
-msgid "<p>Advanced Reporting keeps you informed by sending detailed performance reports directly to your inbox. Gain insights into your website’s traffic, views, and key metrics through customizable email reports. Schedule updates to receive data as often as you like, ensuring you always stay up-to-date on your website's performance with clear, graphical insights. <a target=\"_blank\" href=\"%s\">Learn more</a></p>"
-msgstr ""
-
-#: views/components/modals/introduce-premium/step-details.php:73
-msgid "Schedule detailed email reports."
-msgstr ""
-
-#: views/components/modals/introduce-premium/step-details.php:79
-msgid "<p>You can monitor your website's traffic in real-time with the Real-Time add-on. Watch live data flow in, track online users, and analyze their activity without page refreshes. Stay connected with real-time insights to make informed decisions about your site’s performance, right when it matters most. <a target=\"_blank\" href=\"%s\">Learn more</a></p>"
-msgstr ""
-
-#: views/components/modals/introduce-premium/step-details.php:83
-msgid "See who’s on your site right now and watch engagement as it happens."
-msgstr ""
-
-#: views/components/modals/introduce-premium/step-details.php:89
-msgid "<p>Advanced Widgets improve your website by providing a flexible way to showcase key statistical insights. Whether through Gutenberg blocks or theme widgets, this add-on makes it easy to present vital stats like traffic, top pages, and browsers to your visitors, offering a richer, data-driven user experience. <a target=\"_blank\" href=\"%s\">Learn more</a></p>"
-msgstr ""
-
-#: views/components/modals/introduce-premium/step-details.php:93
-msgid "Display detailed stats anywhere you want on your website."
-msgstr ""
-
-#: views/components/modals/introduce-premium/step-details.php:99
-msgid "<p>The Customization add-on is designed to help you white-label key areas of your dashboard. Easily replace the WP Statistics branding with your own, giving you full control over how the plugin looks and feels. Create a fully branded experience by customizing menus, headers, and even the Overview page with your own widgets. <a target=\"_blank\" href=\"%s\">Learn more</a></p>"
-msgstr ""
-
-#: views/components/modals/introduce-premium/step-details.php:103
-msgid "Tailor everything from layout to branding to suit your style."
-msgstr ""
-
-#: views/components/modals/introduce-premium/step-details.php:109
-msgid "<p>Unlock powerful integration options with the Rest API add-on. This feature enables access to your website’s statistics through WordPress REST API endpoints, allowing seamless data retrieval for external applications, custom dashboards, and automation tools. <a target=\"_blank\" href=\"%s\">Learn more</a></p>"
-msgstr ""
-
-#: views/components/modals/introduce-premium/step-details.php:113
-msgid "Connect your site’s stats anywhere."
-msgstr ""
-
-#: views/components/modals/introduce-premium/step-details.php:119
+#: views/components/modals/introduce-premium/step-details.php:60
 msgid "<p>Take your marketing strategy to the next level with the Marketing Add-on. Track your campaign performance with detailed UTM reports, connect to Google Search Console for in-depth traffic analysis, and set conversion goals to measure success—all directly within WP Statistics. Optimize your campaigns, monitor search traffic, and drive results effortlessly. <a target=\"_blank\" href=\"%s\">Learn more</a></p>"
 msgstr ""
 
-#: views/components/modals/introduce-premium/step-details.php:123
+#: views/components/modals/introduce-premium/step-details.php:65
 msgid "Set goals, measure conversions, and optimize your reach for real results."
 msgstr ""
 
+#: views/components/modals/introduce-premium/step-details.php:71
+msgid "<p>Mini Chart gives you quick insights into how your posts, pages, and products are performing by displaying small, customizable charts directly in your admin panel. Track views and engagement at a glance and customize chart types and colors to match your preferences. Analyze content performance easily and stay on top of key metrics with minimal time. <a target=\"_blank\" href=\"%s\">Learn more</a></p>"
+msgstr ""
+
+#: views/components/modals/introduce-premium/step-details.php:76
+msgid "View real‐time metrics at a glance."
+msgstr ""
+
+#: views/components/modals/introduce-premium/step-details.php:82
+msgid "<p>Advanced Reporting keeps you informed by sending detailed performance reports directly to your inbox. Gain insights into your website’s traffic, views, and key metrics through customizable email reports. Schedule updates to receive data as often as you like, ensuring you always stay up-to-date on your website's performance with clear, graphical insights. <a target=\"_blank\" href=\"%s\">Learn more</a></p>"
+msgstr ""
+
+#: views/components/modals/introduce-premium/step-details.php:87
+msgid "Schedule detailed email reports."
+msgstr ""
+
+#: views/components/modals/introduce-premium/step-details.php:93
+msgid "<p>You can monitor your website's traffic in real-time with the Real-Time add-on. Watch live data flow in, track online users, and analyze their activity without page refreshes. Stay connected with real-time insights to make informed decisions about your site’s performance, right when it matters most. <a target=\"_blank\" href=\"%s\">Learn more</a></p>"
+msgstr ""
+
+#: views/components/modals/introduce-premium/step-details.php:98
+msgid "See who’s on your site right now and watch engagement as it happens."
+msgstr ""
+
+#: views/components/modals/introduce-premium/step-details.php:104
+msgid "<p>Advanced Widgets improve your website by providing a flexible way to showcase key statistical insights. Whether through Gutenberg blocks or theme widgets, this add-on makes it easy to present vital stats like traffic, top pages, and browsers to your visitors, offering a richer, data-driven user experience. <a target=\"_blank\" href=\"%s\">Learn more</a></p>"
+msgstr ""
+
+#: views/components/modals/introduce-premium/step-details.php:109
+msgid "Display detailed stats anywhere you want on your website."
+msgstr ""
+
+#: views/components/modals/introduce-premium/step-details.php:115
+msgid "<p>The Customization add-on is designed to help you white-label key areas of your dashboard. Easily replace the WP Statistics branding with your own, giving you full control over how the plugin looks and feels. Create a fully branded experience by customizing menus, headers, and even the Overview page with your own widgets. <a target=\"_blank\" href=\"%s\">Learn more</a></p>"
+msgstr ""
+
+#: views/components/modals/introduce-premium/step-details.php:120
+msgid "Tailor everything from layout to branding to suit your style."
+msgstr ""
+
+#: views/components/modals/introduce-premium/step-details.php:126
+msgid "<p>Unlock powerful integration options with the Rest API add-on. This feature enables access to your website’s statistics through WordPress REST API endpoints, allowing seamless data retrieval for external applications, custom dashboards, and automation tools. <a target=\"_blank\" href=\"%s\">Learn more</a></p>"
+msgstr ""
+
 #: views/components/modals/introduce-premium/step-details.php:131
-#: views/components/modals/introduce-premium/step-details.php:162
+msgid "Connect your site’s stats anywhere."
+msgstr ""
+
+#: views/components/modals/introduce-premium/step-details.php:138
+#: views/components/modals/introduce-premium/step-details.php:169
 msgid "WP Statistics Premium Includes"
 msgstr ""
 
-#: views/components/modals/introduce-premium/step-details.php:154
+#: views/components/modals/introduce-premium/step-details.php:161
 msgid "Not activated"
 msgstr ""
 
-#: views/components/modals/introduce-premium/step-details.php:164
+#: views/components/modals/introduce-premium/step-details.php:171
 msgid "Premium Activated"
 msgstr ""
 
-#: views/components/modals/introduce-premium/step-details.php:166
-#: views/components/modals/introduce-premium/step-details.php:184
+#: views/components/modals/introduce-premium/step-details.php:173
+#: views/components/modals/introduce-premium/step-details.php:191
 msgid "Upgrade to Premium"
 msgstr ""
 
-#: views/components/modals/introduce-premium/step-details.php:172
-#: views/components/modals/introduce-premium/step-details.php:185
+#: views/components/modals/introduce-premium/step-details.php:179
+#: views/components/modals/introduce-premium/step-details.php:192
 msgid "Maybe Later"
 msgstr ""
 
-#: views/components/modals/introduce-premium/step-details.php:189
+#: views/components/modals/introduce-premium/step-details.php:196
 msgid "Add-on Activated"
 msgstr ""
 
@@ -8351,7 +8360,7 @@ msgstr ""
 msgid "Page visitors locked section"
 msgstr ""
 
-#: views/metabox/search_engines.php:17
+#: views/metabox/search_engines.php:16
 msgid "Search engine traffic over the selected period"
 msgstr ""
 
@@ -8359,7 +8368,7 @@ msgstr ""
 msgid "Traffic overview chart"
 msgstr ""
 
-#: views/metabox/traffic-overview.php:85
+#: views/metabox/traffic-overview.php:84
 msgid "Date range"
 msgstr ""
 

@@ -112,24 +112,12 @@
     @media(min-width: 759px) {
       flex-direction: row;
     }
-
-    &.postbox-container--visitor {
-      @media(min-width: 759px) {
-        .postbox-container--first-col {
-          width: 356px;
-        }
-        .postbox-container--second-col {
-          width: calc(100% - 360px);
-        }
-      }
-    }
-
     .postbox-container--first-col {
       display: inline-flex;
       flex-direction: column;
       gap: 8px;
       @media(min-width: 759px) {
-        width: 304px;
+        width: 367px;
       }
     }
 
@@ -139,7 +127,7 @@
       gap: 8px;
       margin: 0;
       @media(min-width: 759px) {
-        width: calc(100% - 308px);
+        width: calc(100% - 367px);
         float: none;
       }
     }

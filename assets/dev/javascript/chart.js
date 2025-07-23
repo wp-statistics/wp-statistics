@@ -690,7 +690,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 datasetType = 'bar'; // Set to bar for index 2 in performance charts
             }
 
-            const yAxisID = dataset.label === 'Clicks' || datasetType === 'bar' ? 'y1' : 'y';
+            const yAxisID = dataset?.slug === 'clicks' || datasetType === 'bar' ? 'y1' : 'y';
             return {
                 ...dataset,
                 type: datasetType, // Set the type explicitly
@@ -744,7 +744,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                     hoverBorderColor: color,
                     backgroundColor: color,
                     fill: false,
-                    yAxisID: 'y',
+                    yAxisID: dataset?.slug === 'clicks' ? 'y1' : 'y',
                     borderWidth: 1,
                     borderDash: [5, 5],
                     pointRadius: aggregatedData.aggregatedLabels.length === 1 ? 5 : 0,
