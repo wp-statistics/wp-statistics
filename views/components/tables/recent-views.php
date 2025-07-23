@@ -20,30 +20,19 @@ use WP_Statistics\Components\View;
                             <?php esc_html_e('Visitor Information', 'wp-statistics'); ?>
                         </th>
                     </tr>
-                </thead>
+                    </thead>
 
                 <tbody>
-                <?php foreach ($data['sessions'] as $date => $item) : ?>
+                <?php foreach ($data as $view) :
+                    $page  = Visitor::get_page_by_id($view->page_id);
+                    $title = !empty($page['sub_page']) ? $page['title'] . ' (' . $page['sub_page'] . ')' : $page['title'];
+                ?>
                     <tr>
-                        <td class="wps-pd-l">
-                            <div class="wps-recent-views__id">
-                                <span class="wps-recent-views__visitor-hash"><?php echo esc_html($item['session']->getIp()); ?></span>
-
-                                <ul>
-                                    <?php foreach ($item['journey'] as $page) :
-                                        $pageInfo = Visitor::get_page_by_id($page['page_id']);
-                                    ?>
-                                        <li>
-                                            <span><?php echo esc_html(date_i18n('H:i a', strtotime($page['date']))) ?></span>
-                                            <?php View::load("components/objects/internal-link", ['url' => $pageInfo['report'], 'title' => $pageInfo['title']]); ?>
-                                        </li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            </div>
-                        </td>
-                        <td class="wps-pd-l"><?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(), strtotime($date))); ?></td>
-                        <td class="wps-pd-l">
-                            <?php View::load("components/visitor-information", ['visitor' => $item['session']]); ?>
+                        <td class="wps-pd-l"><?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(true), strtotime($view->date))); ?></td>
+                        <td class="wps-pd-l start">
+                            <?php
+                            View::load("components/objects/internal-link", ['url' => $page['report'], 'title' => $title]);
+                            ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -56,3 +45,4 @@ use WP_Statistics\Components\View;
         </div>
     <?php endif; ?>
 </div>
+<?php echo isset($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>

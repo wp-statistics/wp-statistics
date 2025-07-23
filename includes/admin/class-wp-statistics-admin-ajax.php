@@ -3,6 +3,7 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Components\DateRange;
+use WP_Statistics\Models\EventsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Geolocation\Provider\DbIpProvider;
@@ -33,6 +34,11 @@ class Ajax
             [
                 'class'  => $this,
                 'action' => 'query_params_cleanup',
+                'public' => false
+            ],
+            [
+                'class'  => $this,
+                'action' => 'event_data_cleanup',
                 'public' => false
             ],
             [
@@ -371,6 +377,38 @@ class Ajax
     }
 
     /**
+     * Setup an AJAX action to clean up events data from event table.
+     */
+    public function event_data_cleanup_action_callback()
+    {
+        if (Request::isFrom('ajax') && User::Access('manage')) {
+
+            check_ajax_referer('wp_rest', 'wps_nonce');
+
+            $eventName = Request::get('event_name');
+
+            if ($eventName) {
+                $eventsModel = new EventsModel();
+                $result = $eventsModel->deleteEvents(['event_name' => $eventName]);
+
+                if ($result) {
+                    esc_html_e('Successfully removed event data from \'events\' table.', 'wp-statistics');
+                } else {
+                    esc_html_e('Cannot delete any data from \'events\' table.', 'wp-statistics');
+                }
+            } else {
+                esc_html_e('Event name is not valid.', 'wp-statistics');
+            }
+
+
+        } else {
+            esc_html_e('Unauthorized access!', 'wp-statistics');
+        }
+
+        exit;
+    }
+
+    /**
      * Setup an AJAX action to purge old data in the optimization page.
      */
     public function purge_data_action_callback()
@@ -499,12 +537,13 @@ class Ajax
 
             check_ajax_referer('wp_rest', 'wps_nonce');
 
-            $paged        = Request::get('paged', 1, 'number');
-            $postType     = Request::get('post_type', array_values(Helper::get_list_post_type()));
-            $authorId     = Request::get('author_id', '', 'number');
-            $search       = Request::get('search', '');
-            $page         = Request::get('page');
-            $selectedPost = Request::get('post_id', false, 'number');
+            $paged          = Request::get('paged', 1, 'number');
+            $postType       = Request::get('post_type', array_values(Helper::get_list_post_type()));
+            $authorId       = Request::get('author_id', '', 'number');
+            $search         = Request::get('search', '');
+            $page           = Request::get('page');
+            $selectedPost   = Request::get('post_id', false, 'number');
+            $hideAllOption  = Request::get('hide_all_option', false);
 
             if (!$page) {
                 wp_send_json([
@@ -524,7 +563,7 @@ class Ajax
 
             $posts = [];
             if ($query->have_posts()) {
-                if ($paged == 1 && empty($search)) {
+                if (empty($hideAllOption) && $paged == 1 && empty($search)) {
                     $allOption = [
                         'id'   => Menus::admin_url($page),
                         'text' => esc_html__('All', 'wp-statistics')

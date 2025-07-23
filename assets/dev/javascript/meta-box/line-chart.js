@@ -8,9 +8,74 @@ wps_js.render_line_chart = function (response, key) {
                 data: params['data'],
                 previousData: params['previousData']
             };
-            if (keyName !== 'wp-statistics-quickstats-widget') {
+            if (keyName !== 'wp-statistics-quickstats-widget' && keyName !== 'wp-statistics-search-traffic-widget' ) {
                 wps_js.new_line_chart(data, `${keyName}-chart`);
-            } else {
+            }
+
+            if (keyName === 'wp-statistics-search-traffic-widget' ) {
+                const newOptions = {
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                color: '#898A8E',
+                                font: {
+                                    size: 13
+                                }
+                            },
+                            grid: {display: false, drawBorder: false, tickLength: 0, drawTicks: false},
+                            border: {color: 'transparent', width: 0},
+                        },
+                        y: {
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: wps_js._('impressions'),
+                                color: '#898A8E',
+                                rotation: 2000,
+                                font: {
+                                    size: 13
+                                }
+                            },
+                            ticks: {
+                                maxTicksLimit: 7,
+                                callback: formatNumChart
+                            },
+                            grid: {display: false, drawBorder: false, tickLength: 0, drawTicks: false},
+                            border: {display: false, color: 'transparent', width: 0},
+                        },
+                        y1: {
+                            border: {
+                                color: 'transparent',
+                                width: 0
+                            },
+                            type: 'linear',
+                            position: 'left',
+                            ticks: {
+                                autoSkip: true,
+                                maxTicksLimit: 7,
+                                fontColor: '#898A8E',
+                                fontSize: 13,
+                                padding: 8,
+                                lineHeight: 15,
+                                callback: renderFormatNum
+                            },
+                            afterBuildTicks: wpsBuildTicks,
+                            title: {
+                                display: true,
+                                text: wps_js._('clicks'),
+                                color: '#898A8E',
+                                font: {
+                                    size: 13
+                                }
+                            },
+                            grid: {display: true, borderDash: [5, 5], tickColor: '#EEEFF1', color: '#EEEFF1'},
+                        }
+                    }
+                }
+                wps_js.new_line_chart(data, `${keyName}-chart` , newOptions);
+            }
+            if (keyName === 'wp-statistics-quickstats-widget') {
                 const trafficOptions = {
                     scales: {
                         x: {
@@ -50,9 +115,9 @@ wps_js.render_line_chart = function (response, key) {
                                 fontWeight: 'lighter ',
                                 padding: 8,
                                 lineHeight: 14.06,
-                                stepSize: 1,
                                 callback: renderFormatNum,
                             },
+                            afterBuildTicks: wpsBuildTicks,
                             border: {
                                 color: 'transparent',
                                 width: 0
@@ -105,3 +170,4 @@ wps_js.render_wp_statistics_search_widget = wps_js.render_line_chart;
 wps_js.render_wp_statistics_hits_widget = wps_js.render_line_chart;
 wps_js.render_wp_statistics_traffic_summary_widget = wps_js.render_line_chart;
 wps_js.render_wp_statistics_quickstats_widget = wps_js.render_line_chart;
+wps_js.render_wp_statistics_search_traffic_widget = wps_js.render_line_chart;

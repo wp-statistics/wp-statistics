@@ -14,7 +14,6 @@ class DB
          * WP Statistics Table
          */
         'useronline',
-        'visit',
         'visitor',
         'exclusions',
         'pages',
@@ -35,6 +34,7 @@ class DB
          * Marketing Tables
          */
         'campaigns',
+        'goals'
     );
 
     /**
@@ -82,7 +82,6 @@ class DB
              * WP Statistics Table
              */
             'useronline'            => __('This table keeps a record of users currently online on your website. Each row corresponds to a unique user session.', 'wp-statistics'),
-            'visit'                 => __('This table logs each unique visit to your website. A new row is added every time a visitor accesses your site.', 'wp-statistics'),
             'visitor'               => __('This table keeps a record of individual visitors to your website. Each row represents a unique visitor\'s information and their activities.', 'wp-statistics'),
             'exclusions'            => __('This table logs views that have been excluded based on certain criteria, like bots or specific IP addresses. It helps keep your statistics clean from non-human or unwanted traffic.', 'wp-statistics'),
             'pages'                 => __('This table logs the number of views each page on your website receives. Each row represents the data for a specific page.', 'wp-statistics'),

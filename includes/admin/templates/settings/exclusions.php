@@ -23,7 +23,7 @@ use WP_STATISTICS\Menus;
             ?>
 
             <tr data-id="<?php echo esc_attr(strtolower($translated_role_name))?>_tr">
-                <th scope="row"><label for="<?php echo esc_attr($option_name); ?>"><?php echo esc_attr($translated_role_name); ?></label>
+                <th scope="row"><span class="wps-setting-label"><?php echo esc_attr($translated_role_name); ?></span>
                 </th>
                 <td>
                     <input id="<?php echo esc_attr($option_name); ?>" type="checkbox" value="1" name="<?php echo esc_attr($option_name); ?>" <?php echo WP_STATISTICS\Option::get($store_name) == true ? "checked='checked'" : ''; ?>><label for="<?php echo esc_attr($option_name); ?>"><?php esc_html_e('Exclude', 'wp-statistics'); ?></label>
@@ -118,7 +118,7 @@ use WP_STATISTICS\Menus;
             <th scope="row"><label for="wps_included_countries"><?php esc_html_e('Include Countries', 'wp-statistics'); ?></label></th>
             <td>
                 <textarea id="wps_included_countries" name="wps_included_countries" rows="5" cols="50" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('included_countries')); ?></textarea>
-                <p class="description"><?php _e('Enter the country codes of the countries you want to include in tracking. Only visitors from these specified countries will be tracked. Add one country code per line. For a complete list of valid country codes, please refer to the <a href="https://wp-statistics.com/resources/list-of-country-codes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Country Codes Document</a>.', 'wp-statistics') ?></p>
+                <p class="description"><?php _e('Enter the country codes of the countries you want to include in tracking. Only visitors from these specified countries will be tracked. Add one country code per line. For a complete list of valid country codes, please refer to the <a href="https://wp-statistics.com/resources/list-of-country-codes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank" aria-label="Country Codes Document">Country Codes Document</a>.', 'wp-statistics') ?></p>
             </td>
         </tr>
         </tbody>
@@ -133,21 +133,21 @@ use WP_STATISTICS\Menus;
         </tr>
 
         <tr data-id="excluded_login_page_tr">
-            <th scope="row"><label for="wps-exclude-loginpage"><?php esc_html_e('Excluded Login Page', 'wp-statistics'); ?></label></th>
+            <th scope="row"><span class="wps-setting-label"><?php esc_html_e('Excluded Login Page', 'wp-statistics'); ?></span></th>
             <td>
                 <input id="wps-exclude-loginpage" type="checkbox" value="1" name="wps_exclude_loginpage" <?php echo WP_STATISTICS\Option::get('exclude_loginpage') == true ? "checked='checked'" : ''; ?>><label for="wps-exclude-loginpage"><?php esc_html_e('Exclude', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('Login and Register page visits will not be included in site visit counts.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         <tr data-id="excluded_rss_feeds_tr">
-            <th scope="row"><label for="wps-exclude-feeds"><?php esc_html_e('Excluded RSS Feeds', 'wp-statistics'); ?></label></th>
+            <th scope="row"><span class="wps-setting-label"><?php esc_html_e('Excluded RSS Feeds', 'wp-statistics'); ?></span></th>
             <td>
                 <input id="wps-exclude-feeds" type="checkbox" value="1" name="wps_exclude_feeds" <?php echo WP_STATISTICS\Option::get('exclude_feeds') == true ? "checked='checked'" : ''; ?>><label for="wps-exclude-feeds"><?php esc_html_e('Exclude', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('RSS feeds visits will not be included in site visit counts.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         <tr data-id="excluded_404_pages_tr">
-            <th scope="row"><label for="wps-exclude-404s"><?php esc_html_e('Excluded 404 Pages', 'wp-statistics'); ?></label></th>
+            <th scope="row"><span class="wps-setting-label"><?php esc_html_e('Excluded 404 Pages', 'wp-statistics'); ?></span></th>
             <td>
                 <input id="wps-exclude-404s" type="checkbox" value="1" name="wps_exclude_404s" <?php echo WP_STATISTICS\Option::get('exclude_404s') == true ? "checked='checked'" : ''; ?>><label for="wps-exclude-404s"><?php esc_html_e('Exclude', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('404 Page visits will not be included in site visit counts.', 'wp-statistics'); ?></p>
@@ -183,7 +183,7 @@ use WP_STATISTICS\Menus;
                     <textarea name="wps_query_params_allow_list" class="code textarea-input-reset" dir="ltr" rows="10" cols="60" id="wps_query_params_allow_list"><?php echo esc_textarea(WP_STATISTICS\Helper::get_query_params_allow_list('string')); ?></textarea>
                     <a onclick="var wps_query_params_allow_list = getElementById('wps_query_params_allow_list'); wps_query_params_allow_list.value = '<?php echo esc_attr(str_replace(array("\r\n", "\n", "\r"), '\n', esc_html(WP_STATISTICS\Helper::get_default_query_params_allow_list('string')))); ?>';" class="wps-button wps-button--default"><?php esc_html_e('Reset to Default', 'wp-statistics'); ?></a>
                 </div>
-                <p class="description"><?php echo __('Control which URL query parameters are retained in your statistics. The default parameters allowed are: <code>ref</code>, <code>source</code>, <code>utm_source</code>, <code>utm_medium</code>, <code>utm_campaign</code>, <code>utm_content</code>, <code>utm_term</code>, <code>utm_id</code>, <code>s</code>, <code>p</code>. You can add or remove parameters from this list to suit your tracking needs. Enter one parameter per line. For a detailed explanation of each default parameter and guidance on customizing this list, visit our documentation <a href="https://wp-statistics.com/resources/managing-url-query-parameters/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">here</a>.', 'wp-statistics'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	?></p>
+                <p class="description"><?php echo __('Control which URL query parameters are retained in your statistics. The default parameters allowed are: <code>ref</code>, <code>source</code>, <code>utm_source</code>, <code>utm_medium</code>, <code>utm_campaign</code>, <code>utm_content</code>, <code>utm_term</code>, <code>utm_id</code>, <code>s</code>, <code>p</code>. You can add or remove parameters from this list to suit your tracking needs. Enter one parameter per line. For a detailed explanation of each default parameter and guidance on customizing this list, visit our documentation <a href="https://wp-statistics.com/resources/managing-url-query-parameters/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank" aria-label="Learn more about managing URL query parameters in the documentation">here</a>.', 'wp-statistics'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	?></p>
             </td>
         </tr>
         </tbody>
@@ -201,7 +201,10 @@ use WP_STATISTICS\Menus;
 
         <tr data-id="referrer_spam_blacklist_tr">
             <th scope="row">
-                <label for="wps_settings[referrer_spam]"><?php esc_html_e('Referrer Spam Blacklist', 'wp-statistics'); ?></label>
+                <span class="wps-setting-label">
+                    <span><?php esc_html_e('Referrer Spam Blacklist', 'wp-statistics'); ?></span>
+                    <span class="wps-badge wps-badge--deprecated"><?php esc_html_e('DEPRECATED', 'wp-statistics'); ?></span>
+                </span>
             </th>
 
             <td>
@@ -213,7 +216,7 @@ use WP_STATISTICS\Menus;
 
         <tr class="js-wps-show_if_referrer_spam_enabled" data-id="refresh_blacklist_data_tr">
             <th scope="row">
-                <label><?php esc_html_e('Refresh Blacklist Data', 'wp-statistics'); ?></label>
+                <span class="wps-setting-label"><?php esc_html_e('Refresh Blacklist Data', 'wp-statistics'); ?></span>
             </th>
 
             <td>
@@ -227,7 +230,7 @@ use WP_STATISTICS\Menus;
 
         <tr class="js-wps-show_if_referrer_spam_enabled" data-id="automate_blacklist_updates_tr">
             <th scope="row">
-                <label for="referrerspam-schedule"><?php esc_html_e('Automate Blacklist Updates', 'wp-statistics'); ?></label>
+                <span class="wps-setting-label"><?php esc_html_e('Automate Blacklist Updates', 'wp-statistics'); ?></span>
             </th>
 
             <td>
@@ -281,9 +284,10 @@ use WP_STATISTICS\Menus;
         </tr>
 
         <tr data-id="log_record_exclusions_tr">
-            <th scope="row"><label for="wps-exclusions"><?php esc_html_e('Log Record Exclusions', 'wp-statistics'); ?></label></th>
+            <th scope="row"><span class="wps-setting-label"><?php esc_html_e('Log Record Exclusions', 'wp-statistics'); ?></span></th>
             <td>
-                <input id="wps-exclusions" type="checkbox" value="1" name="wps_record_exclusions" <?php echo WP_STATISTICS\Option::get('record_exclusions') == true ? "checked='checked'" : ''; ?>><label for="wps-exclusions"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                <input id="wps-exclusions" type="checkbox" value="1" name="wps_record_exclusions" <?php echo WP_STATISTICS\Option::get('record_exclusions') == true ? "checked='checked'" : ''; ?>>
+                <label for="wps-exclusions"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php echo esc_html__('Maintain a log of all excluded visits for insight into exclusions.', 'wp-statistics') ?></p>
             </td>
         </tr>

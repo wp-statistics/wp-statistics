@@ -44,7 +44,7 @@ class HistoricalModel
         }
 
         $args           = wp_parse_args($args, $defaults);
-        $allowedArgs    = ['ignore_post_type', 'ignore_date', 'historical', 'include_total'];
+        $allowedArgs    = ['ignore_post_type', 'ignore_date', 'historical', 'include_total', 'exclude', 'date_field'];
 
         foreach ($args as $key => $value) {
             if (in_array($key, $allowedArgs, true)) {

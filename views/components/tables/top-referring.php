@@ -18,10 +18,10 @@ use WP_STATISTICS\Referred;
                 <table width="100%" class="o-table wps-new-table wps-new-table__top-referring">
                     <thead>
                     <tr>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <?php echo esc_html__('Domain Address', 'wp-statistics') ?>
                         </th>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <?php echo esc_html__('Number of Referrals', 'wp-statistics') ?>
                         </th>
                     </tr>

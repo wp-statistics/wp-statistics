@@ -36,7 +36,88 @@ class ReferralsPage extends MultiViewPage
         $this->processSourceChannelBackgroundAction();
     }
 
+    protected function setCampaignsFilter()
+    {
+        $pageId = Request::get('pid', '', 'number');
+
+        $this->filters = FilterGenerator::create()
+            ->hidden('pageName', [
+                'name'       => 'page',
+                'attributes' => [
+                    'value' => Menus::get_page_slug('referrals')
+                ]
+            ])
+            ->input('text', 'utm_source', [
+                'label' => esc_html__('UTM Source', 'wp-statistics'),
+            ])
+            ->input('text', 'utm_medium', [
+                'label' => esc_html__('UTM Medium', 'wp-statistics'),
+            ])
+            ->input('text', 'utm_campaign', [
+                'label' => esc_html__('UTM Campaign', 'wp-statistics'),
+            ])
+            ->select('pid', [
+                'label'         => esc_html__('Entry Page', 'wp-statistics'),
+                'classes'       => 'wps-width-100 wps-select2',
+                'placeholder'   => $pageId ? get_the_title($pageId) : esc_html__('All', 'wp-statistics'),
+                'attributes'    => [
+                    'data-source'       => 'getPageId',
+                    'data-searchable'   => true,
+                    'data-default'      => $pageId
+                ],
+            ]);
+
+            if (!Request::compare('type', 'single-campaign')) {
+                $this->filters
+                    ->select('referrer', [
+                        'name'          => 'referrer',
+                        'classes'       => 'wps-width-100 wps-select2',
+                        'attributes'    => [
+                            'data-type'       => 'getReferrer',
+                            'data-searchable' => true,
+                        ],
+                    ]);
+            }
+
+            if (Request::compare('tab', 'campaigns')) {
+                $this->filters
+                    ->hidden('tab', [
+                        'name'       => 'tab',
+                        'attributes' => [
+                            'value' => 'campaigns'
+                        ]
+                    ]);
+            }
+
+            if (Request::compare('type', 'single-campaign')) {
+                $this->filters
+                    ->hidden('type', [
+                        'name'       => 'type',
+                        'attributes' => [
+                            'value' => 'single-campaign'
+                        ]
+                    ]);
+            }
+
+            $this->filters = $this->filters
+                ->button('submitButton', [
+                    'name'      => 'filter',
+                    'type'      => 'button',
+                    'classes'   => 'button-primary',
+                    'label'     => esc_html__('Filter', 'wp-statistics'),
+                    'attributes'  => [
+                        'type' => 'submit',
+                    ],
+                ])
+                ->get();
+    }
+
     protected function setFilters() {
+        // Campaigns tab filter
+        if (Request::compare('tab', 'campaigns') || Request::compare('type', 'single-campaign')) {
+            return $this->setCampaignsFilter();
+        }
+
         $searchChannelsData = $this->getSearchChannels();
         $socialChannelsData = $this->getSocialChannels();
         $sourceChannelsData = $this->getSourceChannels();
@@ -87,9 +168,18 @@ class ReferralsPage extends MultiViewPage
                 'panel' => true,
                 'searchable' => true,
                 'attributes'  => [
-                    'data-type' => 'source-channels',
+                    'data-type' => 'source-channels'
                 ],
                 'predefined' => $sourceChannelsData
+            ])
+            ->dropdown('utm_params', [
+                'label'         => esc_html__('Campaigns', 'wp-statistics'),
+                'panel'         => true,
+                'attributes'    => [
+                    'data-type'     => 'utm_params',
+                    'data-default'  => '',
+                ],
+                'predefined' => $this->getUtmParamsFilter()
             ])
             ->button('resetButton', [
                 'name' => 'reset',
@@ -108,7 +198,43 @@ class ReferralsPage extends MultiViewPage
             ])
             ->get();
 
+
         return $this->filters;
+    }
+
+    /**
+     * Retrieves UTM filter items.
+     *
+     * @return array
+     */
+    public function getUtmParamsFilter()
+    {
+        $queryKey   = 'utm_param';
+        $baseUrl    = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey])));
+
+        $args = [
+            [
+                'slug'  => 'utm_campaign',
+                'name'  => esc_html__('UTM Campaign', 'wp-statistics'),
+                'url'   => add_query_arg([$queryKey => 'utm_campaign'], $baseUrl),
+            ],
+            [
+                'slug'  => 'utm_source',
+                'name'  => esc_html__('UTM Source', 'wp-statistics'),
+                'url'   => add_query_arg([$queryKey => 'utm_source'], $baseUrl),
+            ],
+            [
+                'slug'  => 'utm_medium',
+                'name'  => esc_html__('UTM Medium', 'wp-statistics'),
+                'url'   => add_query_arg([$queryKey => 'utm_medium'], $baseUrl),
+            ]
+        ];
+
+        return [
+            'args'              => $args,
+            'baseUrl'           => $baseUrl,
+            'selectedOption'    => Request::get($queryKey, 'utm_campaign'),
+        ];
     }
 
     /**

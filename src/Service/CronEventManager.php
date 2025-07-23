@@ -10,16 +10,23 @@ use WP_Statistics\Service\Admin\Notification\NotificationFetcher;
 class CronEventManager
 {
     /**
-     *
+     * CronEventManager constructor.
      */
     public function __construct()
     {
+        Event::schedule('wp_statistics_daily_cron_hook', time(), 'daily', [$this, 'handleDailyTasks']);
+    }
+
+    /**
+     * Handle daily tasks triggered by the scheduled cron event.
+     *
+     * Calls both notification and marketing campaign fetchers.
+     */
+    public function handleDailyTasks()
+    {
         if (Option::get('display_notifications')) {
-            Event::schedule('wp_statistics_notification_hook', time(), 'daily', [$this, 'fetchNotification']);
-            Event::schedule('wp_statistics_marketing_campaign_hook', time(), 'daily', [$this, 'fetchMarketingCampaign']);
-        } else {
-            Event::unschedule('wp_statistics_notification_hook');
-            Event::unschedule('wp_statistics_marketing_campaign_hook');
+            $this->fetchNotification();
+            $this->fetchMarketingCampaign();
         }
     }
 
@@ -29,7 +36,7 @@ class CronEventManager
      * This method is triggered by the scheduled cron event
      * and retrieves new notifications.
      */
-    public function fetchNotification()
+    private function fetchNotification()
     {
         $notificationFetcher = new NotificationFetcher();
         $notificationFetcher->fetchNotification();
@@ -40,10 +47,8 @@ class CronEventManager
      *
      * This method is triggered by the scheduled cron event
      * and retrieve marketing campaign.
-     *
-     * @return void
      */
-    public function fetchMarketingCampaign()
+    private function fetchMarketingCampaign()
     {
         $marketingCampaignFetcher = new MarketingCampaignFetcher();
         $marketingCampaignFetcher->fetchMarketingCampaign();

@@ -14,39 +14,41 @@ $order                = Request::get('order', 'desc');
             <table width="100%" class="o-table wps-new-table wps-table-inspect">
                 <thead>
                     <tr>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('title')); ?>" class="sort <?php echo Request::compare('order_by', 'title') ? esc_attr($order) : ''; ?>">
                                 <?php echo Request::has('pt') ? esc_html($postTypeNameSingular) : esc_html__('Page', 'wp-statistics'); ?>
                             </a>
                         </th>
 
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('visitors')) ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'visitors') ? esc_attr($order) : ''; ?>">
                                 <?php esc_html_e('Visitors', 'wp-statistics'); ?>
                             </a>
                         </th>
 
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('views')) ?>" class="sort <?php echo Request::compare('order_by', 'views') ? esc_attr($order) : ''; ?>">
                                 <?php esc_html_e('Views', 'wp-statistics'); ?>
                             </a>
                         </th>
 
                         <?php if (WordCountService::isActive()) : ?>
-                            <th class="wps-pd-l">
+                            <th scope="col" class="wps-pd-l">
                                 <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('words')) ?>" class="sort <?php echo Request::compare('order_by', 'words') ? esc_attr($order) : ''; ?>">
                                     <?php esc_html_e('Words', 'wp-statistics') ?>
                                 </a>
                             </th>
                         <?php endif; ?>
 
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('date')) ?>" class="sort <?php echo Request::compare('order_by', 'date') ? esc_attr($order) : ''; ?>">
                                 <?php esc_html_e('Published Date', 'wp-statistics'); ?>
                             </a>
                         </th>
 
-                        <th></th>
+                        <th scope="col">
+                            <span class="screen-reader-text"><?php esc_html_e('View page detail', 'wp-statistics'); ?></span>
+                        </th>
                     </tr>
                 </thead>
 
@@ -54,7 +56,7 @@ $order                = Request::get('order', 'desc');
                 <?php foreach ($data as $post) : ?>
                     <tr>
                         <td class="wps-pd-l">
-                            <a target="_blank" href="<?php echo esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $post->post_id])) ?>" class="wps-table-ellipsis--name">
+                            <a href="<?php echo esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $post->post_id])) ?>" class="wps-table-ellipsis--name">
                                 <?php if (has_post_thumbnail($post->post_id)) : ?>
                                     <img src="<?php echo esc_url(get_the_post_thumbnail_url($post->post_id)) ?>" class="wps-pages-image" alt="<?php echo esc_attr($post->title) ?>">
                                 <?php else : ?>

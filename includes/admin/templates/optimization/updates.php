@@ -1,3 +1,10 @@
+<?php
+
+use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
+
+$schemaCheckResult = SchemaMaintainer::check();
+$databaseStatus    = $schemaCheckResult['status'] ?? null;
+?>
 <div class="wrap wps-wrap wps-wrap__setting-form js-updatesForm">
     <h2 class="wps-settings-box__title">
         <span><?php esc_html_e('Plugin Maintenance', 'wp-statistics'); ?></span>
@@ -9,15 +16,15 @@
             <?php wp_nonce_field('wps_optimization_nonce'); ?>
             <table class="form-table">
                 <tbody>
-                <tr valign="top" class="wps-settings-box_head">
+                <tr class="wps-settings-box_head">
                     <th scope="row" colspan="2">
                         <h3><?php esc_html_e('GeoLocation Settings', 'wp-statistics'); ?></h3>
                     </th>
                 </tr>
 
-                <tr valign="top" data-id="update_country_data_tr">
+                <tr data-id="update_country_data_tr">
                     <th scope="row">
-                        <label><?php esc_html_e('Update Country Data', 'wp-statistics'); ?></label>
+                        <span class="wps-setting-label"><?php esc_html_e('Update Country Data', 'wp-statistics'); ?></span>
                     </th>
 
                     <td>
@@ -39,15 +46,15 @@
             <?php wp_nonce_field('wps_optimization_nonce'); ?>
             <table class="form-table">
                 <tbody>
-                <tr valign="top" class="wps-settings-box_head">
+                <tr class="wps-settings-box_head">
                     <th scope="row" colspan="2">
                         <h3><?php esc_html_e('Referrals Settings', 'wp-statistics'); ?></h3>
                     </th>
                 </tr>
 
-                <tr valign="top" data-id="update_source_channel_data_tr">
+                <tr data-id="update_source_channel_data_tr">
                     <th scope="row">
-                        <label><?php esc_html_e('Update Source Channel Data', 'wp-statistics'); ?></label>
+                        <label for="populate-source-channel-submit"><?php esc_html_e('Update Source Channel Data', 'wp-statistics'); ?></label>
                     </th>
 
                     <td>
@@ -69,15 +76,15 @@
             <?php wp_nonce_field('wps_optimization_nonce'); ?>
             <table class="form-table">
                 <tbody>
-                <tr valign="top" class="wps-settings-box_head">
+                <tr class="wps-settings-box_head">
                     <th scope="row" colspan="2">
                         <h3><?php esc_html_e('IP Address Management', 'wp-statistics'); ?></h3>
                     </th>
                 </tr>
 
-                <tr valign="top" data-id="convert_ip_addresses_to_hash_tr">
+                <tr data-id="convert_ip_addresses_to_hash_tr">
                     <th scope="row">
-                        <label><?php esc_html_e('Convert IP Addresses to Hash', 'wp-statistics'); ?></label>
+                        <label for="hash-ips-submit"><?php esc_html_e('Convert IP Addresses to Hash', 'wp-statistics'); ?></label>
                     </th>
 
                     <td>
@@ -91,3 +98,73 @@
         </form>
     </div>
 </div>
+
+<div class="wrap wps-wrap wps-wrap__setting-form">
+    <div class="postbox">
+        <form class="wps-submit-agree" data-agree="<?php esc_html_e('Are you sure you want to repair the schema issues?', 'wp-statistics'); ?>" action="<?php echo esc_url(admin_url('admin.php?page=wps_optimization_page&tab=updates')) ?>" id="wps_database_schema_form" method="post">
+            <?php wp_nonce_field('wps_optimization_nonce'); ?>
+            <table class="form-table">
+                <tbody>
+                <tr class="wps-settings-box_head">
+                    <th scope="row" colspan="2"><h3><?php esc_html_e('Database Schema', 'wp-statistics'); ?></h3></th>
+                </tr>
+
+                <tr data-id="wps_database_schema_form">
+                    <th scope="row">
+                        <span class="wps-setting-label"><?php esc_html_e('Check & Repair Database Schema', 'wp-statistics'); ?></span>
+                    </th>
+                    <td>
+                        <?php if ($databaseStatus === 'success'): ?>
+                            <div class="wps-alert wps-alert__success wps-mt-0">
+                                <?php esc_html_e('Database schema is healthy.', 'wp-statistics'); ?>
+                            </div>
+                        <?php else: ?>
+                            <input type="hidden" id="repair-schema-submit" name="repair_schema_action" value="1"/>
+                            <button id="repair-schema-submit-button" class="wps-button wps-button--danger-outline js-openModal-setting-confirmation wps-mt-0" type="button" name="database-schema-issues-submit"><?php esc_html_e('Repair Schema Issues', 'wp-statistics'); ?></button>
+                            <p class="description"><?php esc_html_e('Checks the integrity of the WP Statistics database tables and automatically applies any required fixes to keep your analytics accurate.', 'wp-statistics'); ?></p>
+                            <div class="wps-alert wps-alert__danger">
+                                <div class="wps-g-0">
+                                    <b><?php esc_html_e('Detected Schema Issues', 'wp-statistics'); ?></b>
+                                    <p class="description"><?php echo wp_kses(__('We’ve found the following inconsistencies. Click <b>Repair Schema Issues</b> to fix them automatically.', 'wp-statistics'), ['b' => []]); ?></p>
+                                    <ul class="wps-alert-list">
+                                        <?php
+                                        if (!empty($schemaCheckResult['issues']) && is_array($schemaCheckResult['issues'])) {
+                                            foreach ($schemaCheckResult['issues'] as $issue) {
+                                                if ($issue['type'] === 'missing_column') {
+                                                    $message = sprintf(
+                                                        '%1$s.%2$s — %3$s',
+                                                        esc_html($issue['table']),
+                                                        esc_html($issue['column']),
+                                                        __('Missing column', 'wp-statistics')
+                                                    );
+                                                    echo '<li>' . esc_html($message) . '</li>';
+                                                }
+                                            }
+                                        }
+
+                                        if (!empty($schemaCheckResult['issues']) && is_array($schemaCheckResult['issues'])) {
+                                            foreach ($schemaCheckResult['issues'] as $issue) {
+                                                if ($issue['type'] === 'table_missing') {
+                                                    $message = sprintf(
+                                                        '%1$s — %2$s',
+                                                        esc_html($issue['table']),
+                                                        __('Missing table', 'wp-statistics')
+                                                    );
+                                                    echo '<li>' . esc_html($message) . '</li>';
+                                                }
+                                            }
+                                        }
+                                        ?>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+

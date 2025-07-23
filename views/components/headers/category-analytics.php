@@ -15,6 +15,6 @@ $termLink = get_term_link($term);
         <a href="<?php echo esc_url($termLink); ?>" target="_blank" title="<?php echo esc_html($term->name); ?>"></a>
     </div>
     <div class="wps-category-analytics--header__tags">
-        <a href="<?php echo esc_url($termLink); ?>" target="_blank"><?php echo esc_html($termName); ?></a>
+        <a href="<?php echo esc_url($termLink); ?>" aria-label="<?php echo esc_html($termName); ?>" target="_blank"><?php echo esc_html($termName); ?></a>
     </div>
 </div>

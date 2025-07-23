@@ -2,21 +2,20 @@
 
 namespace WP_Statistics\Service\Admin\Geographic\Views;
 
-use Exception;
+use WP_STATISTICS\Admin_Assets;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
 use WP_STATISTICS\Country;
-use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Geographic\GeographicDataProvider;
 
 class TabsView extends BaseTabView
 {
     protected $dataProvider;
-    protected $defaultTab = 'countries';
+    protected $defaultTab = 'overview';
     protected $tabs = [
+        'overview',
         'countries',
         'cities',
         'europe',
@@ -32,6 +31,19 @@ class TabsView extends BaseTabView
             'per_page'  => Admin_Template::$item_per_page,
             'page'      => Admin_Template::getCurrentPaged()
         ]);
+    }
+
+    public function getOverviewData()
+    {
+        $data       = $this->dataProvider->getOverviewData();
+        $chartData  = $this->dataProvider->getOverviewChartData();
+
+        // Send map chart to the view as well
+        $data['map_data'] = $chartData['map_chart_data'];
+
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Geographic_Object', $chartData);
+
+        return $data;
     }
 
     public function getCountriesData()
@@ -75,6 +87,11 @@ class TabsView extends BaseTabView
             'data'       => $data,
             'tabs'       => [
                 [
+                    'link'    => Menus::admin_url('geographic', ['tab'   => 'overview']),
+                    'title'   => esc_html__('Overview', 'wp-statistics'),
+                    'class'   => $this->isTab('overview') ? 'current' : '',
+                ],
+                [
                     'link'    => Menus::admin_url('geographic', ['tab'   => 'countries']),
                     'title'   => esc_html__('Countries', 'wp-statistics'),
                     'tooltip' => esc_html__('Displays visitor counts from different countries.', 'wp-statistics'),
@@ -113,7 +130,7 @@ class TabsView extends BaseTabView
             array_splice($args['tabs'], 4, 0, [$regionsTab]);
         }
 
-        if ($data['total'] > 0) {
+        if (isset($data['total']) && $data['total'] > 0) {
             $args['total'] = $data['total'];
 
             $args['pagination'] = Admin_Template::paginate_links([

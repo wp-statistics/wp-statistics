@@ -97,7 +97,7 @@ class TabsView extends BaseTabView
     }
 
     /**
-     * Returns data for "Add-Ons" tab.
+     * Returns data for "Add-ons" tab.
      *
      * @return array
      */
@@ -155,7 +155,7 @@ class TabsView extends BaseTabView
                 'tabs'       => [
                     [
                         'link'  => Menus::admin_url('plugins', ['tab' => 'add-ons']),
-                        'title' => esc_html__('Add-Ons', 'wp-statistics'),
+                        'title' => esc_html__('Add-ons', 'wp-statistics'),
                         'class' => $this->isTab('add-ons') ? 'current' : '',
                     ],
                     [
@@ -165,7 +165,7 @@ class TabsView extends BaseTabView
                     ],
                     [
                         'link'  => Menus::admin_url('plugins', array_merge(['tab' => 'downloads'], $urlParams)),
-                        'title' => esc_html__('Download Add-Ons', 'wp-statistics'),
+                        'title' => esc_html__('Download Add-ons', 'wp-statistics'),
                         'class' => $this->isTab('downloads') ? 'current' : '',
                     ],
                     [
@@ -177,10 +177,10 @@ class TabsView extends BaseTabView
             ];
 
             if ($this->isTab('add-ons')) {
-                $args['title'] = esc_html__('Add-Ons', 'wp-statistics');
+                $args['title'] = esc_html__('Add-ons', 'wp-statistics');
 
                 if (is_main_site()) {
-                    $args['install_addon_btn_txt']  = esc_html__('Install Add-On', 'wp-statistics');
+                    $args['install_addon_btn_txt']  = esc_html__('Install Add-on', 'wp-statistics');
                     $args['install_addon_btn_link'] = esc_url(Menus::admin_url('plugins', ['tab' => 'add-license']));
                 }
 

@@ -1,6 +1,7 @@
 <?php
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
+use WP_Statistics\Components\View;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 
@@ -12,70 +13,56 @@ $postTypeNamePlural     = Helper::getPostTypeName($postType);
 <div class="metabox-holder" id="authors-performance">
     <div class="postbox-container" id="wps-postbox-container-1">
         <?php
-            $items = [
+            $metrics = [
                 [
-                    'title'        => esc_html__('Authors', 'wp-statistics'),
-                    'tooltip'      => sprintf(
-                        esc_html__('Total number of authors contributing content. Active authors have published at least one %s in the selected period.', 'wp-statistics'),
-                        strtolower($postTypeNamePlural)
-                    ),
-                    'total'        => Helper::formatNumberWithUnit($data['authors']['total']),
-                    'published'    => Helper::formatNumberWithUnit($data['authors']['published']),
-                    'active'       => Helper::formatNumberWithUnit($data['authors']['active']),
-                    'avg'          => Helper::formatNumberWithUnit($data['authors']['avg'], 1),
-                    'avg_title'    => sprintf(esc_html__('%s per Author', 'wp-statistics'), $postTypeNamePlural)
+                    'label'  => sprintf(esc_html__('Published %s', 'wp-statistics'), $postTypeNamePlural),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['posts']['value']),
+                    'change' => $data['glance']['posts']['change']
                 ],
                 [
-                    'title'        => esc_html__('Views', 'wp-statistics'),
-                    'tooltip'      => sprintf(
-                        esc_html__('Total number of views across all %1$s by all authors. Average views per %2$s is calculated by dividing total views by the number of %1$s.', 'wp-statistics'),
-                        strtolower($postTypeNamePlural),
-                        strtolower($postTypeNameSingular)
-                    ),
-                    'total'        => Helper::formatNumberWithUnit($data['views']['total']),
-                    'total_title'  => esc_html__('Selected Period', 'wp-statistics'),
-                    'avg'          => Helper::formatNumberWithUnit($data['views']['avg']),
-                    'avg_title'    => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeNameSingular)
+                    'label'  => esc_html__('Active Authors', 'wp-statistics'),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['authors']['value']),
+                    'change' => $data['glance']['authors']['change']
                 ],
+                [
+                    'label'  => esc_html__('Visitors', 'wp-statistics'),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['visitors']['value']),
+                    'change' => $data['glance']['visitors']['change']
+                ],
+                [
+                    'label'  => esc_html__('Views', 'wp-statistics'),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['views']['value']),
+                    'change' => $data['glance']['views']['change']
+                ]
             ];
 
             if (WordCountService::isActive()) {
-                $items[] = [
-                    'title'        => esc_html__('Words', 'wp-statistics'),
-                    'tooltip'      => sprintf(
-                        esc_html__('Total number of words written by all authors. Average words per %1$s is calculated by dividing total words by the number of %2$s.', 'wp-statistics'),
-                        strtolower($postTypeNameSingular),
-                        strtolower($postTypeNamePlural)
-                    ),
-                    'total'        => Helper::formatNumberWithUnit($data['posts']['words']['recent']),
-                    'total_title'  => esc_html__('Selected Period', 'wp-statistics'),
-                    'total_type'   => Helper::formatNumberWithUnit($data['posts']['words']['total']),
-                    'total_avg'    => Helper::formatNumberWithUnit($data['posts']['words']['total_avg']),
-                    'avg'          => Helper::formatNumberWithUnit($data['posts']['words']['avg']),
-                    'avg_title'    => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeNameSingular)
+                $metrics[] = [
+                    'label'  => esc_html__('Words', 'wp-statistics'),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['words']['value']),
+                ];
+
+                $metrics[] = [
+                    'label'  => sprintf(esc_html__('Avg. words per %s', 'wp-statistics'), $postTypeNamePlural),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['words_avg']['value']),
                 ];
             }
 
             if (post_type_supports($postType, 'comments')) {
-                $items[] = [
-                    'title'        => esc_html__('Comments', 'wp-statistics'),
-                    'tooltip'      => sprintf(
-                        esc_html__('Total number of comments received on %1$s by all authors. Average comments per %2$s is calculated by dividing total comments by the number of %1$s.', 'wp-statistics'),
-                        strtolower($postTypeNamePlural),
-                        strtolower($postTypeNameSingular)
-                    ),
-                    'total'        => Helper::formatNumberWithUnit($data['posts']['comments']['recent'], 1),
-                    'total_title'  => esc_html__('Selected Period', 'wp-statistics'),
-                    'total_type'   => Helper::formatNumberWithUnit($data['posts']['comments']['total']),
-                    'total_avg'    => Helper::formatNumberWithUnit($data['posts']['comments']['total_avg']),
-                    'avg'          => Helper::formatNumberWithUnit($data['posts']['comments']['avg'], 1),
-                    'avg_title'    => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeNameSingular)
+                $metrics[] = [
+                    'label'  => esc_html__('Comments', 'wp-statistics'),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['comments']['value']),
+                    'change' => $data['glance']['comments']['change']
+                ];
+
+                $metrics[] = [
+                    'label'  => sprintf(esc_html__('Avg. comments per %s', 'wp-statistics'), $postTypeNamePlural),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['comments_avg']['value']),
+                    'change' => $data['glance']['comments_avg']['change']
                 ];
             }
 
-            foreach ($items as $args) {
-                Admin_Template::get_template(['layout/author-analytics/performance-summary'], $args);
-            }
+            View::load("components/objects/glance-card", ['metrics' => $metrics, 'two_column' => true]);
         ?>
     </div>
 
@@ -88,7 +75,6 @@ $postTypeNamePlural     = Helper::getPostTypeName($postType);
                     strtolower($postTypeNamePlural)
                 ),
                 'description'   => esc_html__('Last 12 Months', 'wp-statistics'),
-                'data'          => $data
             ]);
 
             Admin_Template::get_template(['layout/author-analytics/top-authors'], [
@@ -105,8 +91,7 @@ $postTypeNamePlural     = Helper::getPostTypeName($postType);
                 'tooltip'   => sprintf(
                     esc_html__('This scatter plot shows the relationship between the number of %1$s published by an author and the number of views those %1$s have received. Each point represents an author.', 'wp-statistics'),
                     strtolower($postTypeNamePlural)
-                ),
-                'data'      => $data
+                )
             ]);
         ?>
     </div>

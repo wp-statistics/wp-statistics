@@ -1,8 +1,3 @@
-#TB_closeWindowButton:focus .tb-close-icon {
-  -webkit-box-shadow: none !important;
-  box-shadow: none !important;
-}
-
 #referrals-filter {
   cursor: pointer;
   color: #666;
@@ -58,9 +53,6 @@
     display: inline-flex;
     flex-direction: column;
     gap: 8px;
-    @media (min-width: 759px) {
-      width: 367px;
-    }
   }
 
   #wps-postbox-container-2 {
@@ -68,9 +60,6 @@
     flex-direction: column;
     gap: 8px;
     margin: 0;
-    @media (min-width: 759px) {
-      width: calc(100% - 367px);
-    }
   }
 
   .wps-card {
