@@ -173,7 +173,7 @@ class IP
         $userAgent = UserAgent::getHttpUserAgent();
 
         $hash          = hash('sha256', $dailySalt['salt'] . $ip . $userAgent);
-        $truncatedHash = substr( self::$hash_ip_prefix . $hash, 0, 46); 
+        $truncatedHash = substr( self::$hash_ip_prefix . $hash, 0, 46);
 
         // Hash the combination of daily salt, IP, and user agent to create a unique identifier.
         // This hash is then prefixed and filtered for potential modification before being returned.
@@ -418,8 +418,28 @@ class IP
     public static function getCloudflareIp(): string
     {
         $ip = $_SERVER['HTTP_CF_CONNECTING_IP'] ?? '';
-    
+
         return IP::check_sanitize_ip($ip) ? $ip : '';
     }
-    
+
+    /**
+     * Checks if the given IPv4 address is anonymized by verifying if the last octet is zero.
+     *
+     * @param string $ip The IP address to check.
+     * @return bool True if the IP is anonymized, false otherwise.
+     */
+    public static function isIpAnonymized($ip)
+    {
+        if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+            return false;
+        }
+
+        $octets = explode('.', $ip);
+
+        if (count($octets) !== 4) {
+            return false;
+        }
+
+        return intval($octets[3]) === 0;
+    }
 }

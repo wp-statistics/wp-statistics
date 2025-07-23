@@ -115,7 +115,27 @@ class VisitorDecorator
     }
 
     /**
-     * Get the number of hits the visitor has made.
+     * Checks if the visitor's IP address is anonymized.
+     *
+     * @return bool True if the IP address is anonymized, false otherwise.
+     */
+    public function isIpAnonymized()
+    {
+        return IP::isIpAnonymized($this->visitor->ip);
+    }
+
+    /**
+     * Get the raw number of hits.
+     *
+     * @return int|null
+     */
+    public function getHitsRaw()
+    {
+        return $this->visitor->hits ? intval($this->visitor->hits) : 0;
+    }
+
+    /**
+     * Get the formatted number of hits.
      *
      * @return int|null
      */

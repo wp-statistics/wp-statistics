@@ -1,3 +1,6 @@
+= 14.15.x - 2025-xx-xx =
+- **Enhancement:** Update `Single Visitor` page to show all visitor sessions.
+
 = 14.15 - 2025-07-22 =
 - **New:** Added an `Overview` report for Visitor Insight.
 - **New:** Added an `Overview` report for Page Insights.

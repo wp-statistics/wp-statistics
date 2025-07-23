@@ -12,9 +12,9 @@ $visitor = $data['visitor'];
     <div class="postbox-container postbox-container--first-col">
         <div class="wps-card">
             <div class="wps-card__title">
-                <h2><?php esc_html_e('Session Details', 'wp-statistics'); ?></h2>
+                <h2><?php esc_html_e('Visitor Overview', 'wp-statistics'); ?></h2>
             </div>
-            <?php View::load("components/session-details", ['visitor' => $visitor]); ?>
+            <?php View::load("components/session-details", ['data' => $data]); ?>
         </div>
 
         <?php if (!empty($visitor->isLoggedInUser()) && Option::get('visitors_log')) : ?>
@@ -33,13 +33,24 @@ $visitor = $data['visitor'];
             </div>
             <div class="wps-card--table__body">
                 <?php
-                $args = [
-                    'data'       => $data['visitor_journey'],
-                    'pagination' => $pagination ?? null
-                ];
-                View::load("components/tables/recent-views", $args);
+                    View::load("components/tables/recent-views", ['data' => $data]);
                 ?>
             </div>
         </div>
+
+        <!-- <div class="wps-card wps-card wps-card--table">
+            <div class="wps-card__title">
+                <h2><?php esc_html_e('Recent Events', 'wp-statistics'); ?></h2>
+            </div>
+            <div class="wps-card--table__body">
+                <?php
+                $args = [
+                    'data'       => [],
+                    'pagination' => $pagination ?? null
+                ];
+                View::load("components/tables/recent-events", $args);
+                ?>
+            </div>
+        </div> -->
     </div>
 </div>

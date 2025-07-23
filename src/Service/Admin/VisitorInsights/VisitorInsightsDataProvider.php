@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\VisitorInsights;
 
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Decorators\VisitorDecorator;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\OnlineModel;
@@ -190,12 +191,42 @@ class VisitorInsightsDataProvider
 
     public function getVisitorData()
     {
-        $visitorInfo    = $this->visitorsModel->getVisitorData($this->args);
-        $visitorJourney = $this->visitorsModel->getVisitorJourney($this->args);
+        $args = $this->args;
+
+        $visitor = $this->visitorsModel->getVisitorData($args);
+
+        if ($visitor->getUserId()) {
+            // Get visitor journey by user ID if it's set
+            $args = ['user_id' => $visitor->getUserId()];
+        } elseif (!$visitor->isHashedIP() && !$visitor->isIpAnonymized()) {
+            // Get visitor journey by IP if IP is not hashed or anonymized
+            $args = ['ip' => $visitor->getIP()];
+        }
+
+        $visits = $this->visitorsModel->getVisitorJourney(array_merge($args, ['visitor_info' => true]));
+
+        $data = [];
+        foreach ($visits as $visit) {
+            // Create a unique key using date and hash for grouping data
+            $key = "{$visit->last_counter}_{$visit->ip}";
+
+            $page = ['page_id' => $visit->page_id, 'date' => $visit->date];
+
+            if (!empty($data[$key])) {
+                $data[$key]['journey'][] = $page;
+                continue;
+            }
+
+            $data[$key] = [
+                'session' => new VisitorDecorator($visit),
+                'date'    => $visit->last_counter,
+                'journey' => [$page]
+            ];
+        }
 
         return [
-            'visitor'           => $visitorInfo,
-            'visitor_journey'   => $visitorJourney
+            'visitor'  => $visitor,
+            'sessions' => $data
         ];
     }
 
