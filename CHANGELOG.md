@@ -1,3 +1,6 @@
+= 14.15.1 - 2025-x-x =
+- **Enhancement:** Abbreviated numbers in Overview widgets (e.g., 10k). Full value shown on hover via tooltip.
+
 = 14.15 - 2025-07-22 =
 - **New:** Added an `Overview` report for Visitor Insight.
 - **New:** Added an `Overview` report for Page Insights.
