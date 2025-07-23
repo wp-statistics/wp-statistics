@@ -59,6 +59,7 @@ class Uninstall
         delete_option('wp_statistics_tracker_js_errors');
         delete_option('wp_statistics_db');
         delete_option('wp_statistics_installation_time');
+        delete_option('wps_robotlist');
         delete_option('wp_statistics_cipher_key');
 
         // Delete the transients.

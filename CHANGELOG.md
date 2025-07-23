@@ -1,3 +1,6 @@
+= 14.15.x - 2025-x-x =
+- **Enhancement:** Replaced legacy Robot List with Device-Detector isBot check, and renamed the bot detection field.
+
 = 14.15 - 2025-07-22 =
 - **New:** Added an `Overview` report for Visitor Insight.
 - **New:** Added an `Overview` report for Page Insights.
@@ -31,6 +34,7 @@
 - **Fix:** Anonymous data opt-in notice now appears 7 days after plugin activation.
 - **Fix:** Fixed incorrect page titles for WooCommerce My Account sub-pages.
 - **Fix:** Normalized the taxonomy `type` field for `tax_` prefixes.
+- **Enhancement:** Deprecated legacy Robot List bot detection and renamed the `Robot List` field to `Custom Bot Exclusions`.
 
 = 14.14 - 2025-06-01 =
 - **New:** Added a Help page inside the plugin to guide users.

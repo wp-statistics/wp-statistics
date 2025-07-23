@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Database\Migrations;
+namespace WP_Statistics\Abstracts;
 
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Database\AbstractDatabaseOperation;
@@ -11,7 +11,7 @@ use WP_Statistics\Service\Database\AbstractDatabaseOperation;
  * Provides methods for managing migration versions, executing migration steps,
  * and handling metadata related to database migrations.
  */
-abstract class AbstractMigrationOperation extends AbstractDatabaseOperation
+abstract class BaseMigrationOperation extends AbstractDatabaseOperation
 {
     /**
      * Target database version for this migration.
