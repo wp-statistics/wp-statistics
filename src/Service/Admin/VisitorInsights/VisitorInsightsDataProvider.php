@@ -205,18 +205,21 @@ class VisitorInsightsDataProvider
 
         $visits = $this->visitorsModel->getVisitorJourney(array_merge($args, ['visitor_info' => true]));
 
-        // Group data by date
         $data = [];
         foreach ($visits as $visit) {
+            // Create a unique key using date and hash for grouping data
+            $key = "{$visit->last_counter}_{$visit->ip}";
+
             $page = ['page_id' => $visit->page_id, 'date' => $visit->date];
 
-            if (!empty($data[$visit->last_counter])) {
-                $data[$visit->last_counter]['journey'][] = $page;
+            if (!empty($data[$key])) {
+                $data[$key]['journey'][] = $page;
                 continue;
             }
 
-            $data[$visit->last_counter] = [
+            $data[$key] = [
                 'session' => new VisitorDecorator($visit),
+                'date'    => $visit->last_counter,
                 'journey' => [$page]
             ];
         }

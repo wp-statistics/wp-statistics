@@ -23,7 +23,7 @@ use WP_Statistics\Components\View;
                 </thead>
 
                 <tbody>
-                <?php foreach ($data['sessions'] as $date => $item) : ?>
+                <?php foreach ($data['sessions'] as $item) : ?>
                     <tr>
                         <td class="wps-pd-l">
                             <div class="wps-recent-views__id">
@@ -42,7 +42,7 @@ use WP_Statistics\Components\View;
                                 </ul>
                             </div>
                         </td>
-                        <td class="wps-pd-l"><?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(), strtotime($date))); ?></td>
+                        <td class="wps-pd-l"><?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(), strtotime($item['date']))); ?></td>
                         <td class="wps-pd-l">
                             <?php View::load("components/visitor-information", ['visitor' => $item['session']]); ?>
                         </td>
