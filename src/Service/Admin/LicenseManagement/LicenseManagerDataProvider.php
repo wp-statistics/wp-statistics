@@ -227,7 +227,11 @@ class LicenseManagerDataProvider
 
         foreach (PluginHelper::$plugins as $plugin => $title) {
             if (!$pluginHandler->isPluginInstalled($plugin)) {
-                $missingAddOns[] = PluginHelper::getRemotePluginBySlug($plugin);
+                $missingAddon = PluginHelper::getRemotePluginBySlug($plugin);
+
+                if (empty($missingAddon)) continue;
+
+                $missingAddOns[] = $missingAddon;
             }
         }
 
