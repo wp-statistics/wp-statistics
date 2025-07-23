@@ -1,3 +1,6 @@
+= 14.15.1 - 2025-x-x =
+- **Enhancement:** Store only the major browser version in visitor data to improve performance and reduce query overhead.
+
 = 14.15 - 2025-07-22 =
 - **New:** Added an `Overview` report for Visitor Insight.
 - **New:** Added an `Overview` report for Page Insights.

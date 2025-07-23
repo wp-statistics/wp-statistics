@@ -166,7 +166,7 @@ class ViewsModel extends BaseModel
                 'visitor.ip',
                 'visitor.platform',
                 'visitor.agent',
-                'CAST(`visitor`.`version` AS SIGNED) as version',
+                'version',
                 'visitor.model',
                 'visitor.device',
                 'visitor.region',

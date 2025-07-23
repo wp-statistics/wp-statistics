@@ -366,13 +366,13 @@ class VisitorsModel extends BaseModel
         ]);
 
         $result = Query::select([
-            'CAST(`version` AS SIGNED) AS `casted_version`',
+            '`version`',
             'COUNT(DISTINCT `ID`) AS `visitors`',
         ])
             ->from('visitor')
             ->where($args['where_col'], '=', $args['where_val'])
             ->whereDate('last_counter', $args['date'])
-            ->groupBy('casted_version')
+            ->groupBy('version')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
             ->getAll();
@@ -554,7 +554,7 @@ class VisitorsModel extends BaseModel
                 'visitor.ip',
                 'visitor.platform',
                 'visitor.agent',
-                'CAST(`visitor`.`version` AS SIGNED) as version',
+                'version',
                 'visitor.model',
                 'visitor.device',
                 'visitor.location',
@@ -697,7 +697,7 @@ class VisitorsModel extends BaseModel
             'visitor.ip',
             'visitor.platform',
             'visitor.agent',
-            'CAST(`visitor`.`version` AS SIGNED) as version',
+            'version',
             'visitor.model',
             'visitor.device',
             'visitor.location',
@@ -841,7 +841,7 @@ class VisitorsModel extends BaseModel
             'visitor.ID',
             'visitor.platform',
             'visitor.agent',
-            'CAST(`visitor`.`version` AS SIGNED) as version',
+            'version',
             'visitor.model',
             'visitor.device',
             'visitor.location',
