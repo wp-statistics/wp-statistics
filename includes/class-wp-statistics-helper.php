@@ -1425,22 +1425,34 @@ class Helper
     }
 
     /**
-     * Extracts and returns only the major version number from a full version string.
+     * Extracts the major version from a version string.
      *
-     * For example:
-     * - '3.5.12-beta2' => '3'
-     * - '2.0'          => '2'
-     * - '1'            => '1'
+     * If the version string starts with a dot (e.g. ".NK") meaning
+     * no major version is present, the entire input string is returned.
+     * If the input is empty or not a string, returns null.
      *
-     * This can be useful when only the main version level is needed,
-     * and other details like minor, patch, or build metadata are irrelevant or need to be hidden.
+     * Examples:
+     * - "1.2.3" => "1"
+     * - ".NK"   => ".NK"
+     * - ""      => null
+     * - null    => null
      *
-     * @param string $version The full version string (e.g., '3.5.12-beta2')
-     * @return string The major version number as a string (e.g., '3')
+     * @param string|null $version Version string to extract from.
+     * @return string|null Major version or full input if no major version, or null if invalid.
      */
     public static function getMajorVersionOnly($version)
     {
-        return strtok($version, '.');
+        if(empty($version)) {
+            return null;
+        }
+
+        $parts = explode('.', $version);
+
+        if ($parts[0] === '') {
+            return $version;
+        }
+
+        return $parts[0];
     }
 
     /**
