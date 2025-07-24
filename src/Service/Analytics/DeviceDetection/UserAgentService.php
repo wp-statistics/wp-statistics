@@ -67,7 +67,7 @@ class UserAgentService
      */
     public function getVersion()
     {
-        return $this->deviceDetector ? Env::getMajorVersionOnly($this->deviceDetector->getClient('version')) : null;
+        return $this->deviceDetector ? Helper::getMajorVersionOnly($this->deviceDetector->getClient('version')) : null;
     }
 
     /**

@@ -51,6 +51,6 @@ class BrowserDecorator
      */
     public function getVersion()
     {
-        return Env::getMajorVersionOnly($this->visitor->version) ?? null;
+        return Helper::getMajorVersionOnly($this->visitor->version) ?? null;
     }
 }
