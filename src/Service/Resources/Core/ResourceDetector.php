@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Resources\Core;
 
-use WP_Statistics\Context\Route;
+use WP_Statistics\Utils\Route;
 use WP_Statistics\Utils\Url;
 
 /**

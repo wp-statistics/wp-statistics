@@ -1,17 +1,19 @@
 <?php
 
-namespace WP_Statistics\Context;
+namespace WP_Statistics\Components;
 
 use DateTimeZone;
-use WP_STATISTICS\TimeZone;
 
 /**
- * Helper for country‑related utilities.
+ * Manages country-related data.
  *
- * @package WP_Statistics\Context
- * @since   15.0.0
+ * Provides access to localized country names, flag URLs, and validation utilities
+ * based on ISO country codes. Also supports country inference via WordPress timezone settings.
+ *
+ * @package WP_Statistics\Components
+ * @since 15.0.0
  */
-final class Country
+class Country
 {
     /**
      * The code for an unknown country.

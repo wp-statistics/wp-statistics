@@ -3,7 +3,7 @@
 namespace WP_Statistics\Decorators;
 
 use WP_Statistics\Components\DateTime;
-use WP_Statistics\Context\Ip;
+use WP_Statistics\Components\Ip;
 use WP_Statistics\Records\RecordFactory;
 
 /**

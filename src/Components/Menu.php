@@ -1,20 +1,22 @@
 <?php
 
-namespace WP_Statistics\Context;
+namespace WP_Statistics\Components;
 
 use WP_Statistics\Utils\Request;
 
 /**
- * Context helper for WP-Statistics admin-area pages and slugs.
+ * Handles registration and management of WP Statistics admin menu pages.
  *
- * NOTE: This class is read-only.  It does not register WordPress hooks – that
- * remains the responsibility of service-layer classes.
+ * This class maps logical page keys to their corresponding WordPress admin slugs,
+ * constructs admin URLs, determines if the current request is within a plugin page,
+ * and retrieves menu configurations. It acts as a centralized utility for managing
+ * the dashboard navigation structure for WP Statistics.
  *
- * @package WP_Statistics\Context
- * @since   15.0.0
- * @todo it should be moved to dashboard bootstrap helper
+ * @package WP_Statistics\Components
+ * @since 15.0.0
+ * @todo Move to dashboard bootstrap helper
  */
-final class Menu
+class Menu
 {
     /**
      * Map of logical page keys to their raw slug strings.

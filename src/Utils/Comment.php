@@ -1,14 +1,18 @@
 <?php
 
-namespace WP_Statistics\Context;
+namespace WP_Statistics\Utils;
 
 /**
- * Helper for comment‑related statistics.
+ * Utility class for retrieving and analyzing WordPress comment data.
  *
- * @package WP_Statistics\Context
- * @since   15.0.0
+ * Includes methods for counting comments by status and calculating
+ * publishing rates over time. Supports both localized spam counts
+ * and metrics like daily averages or intervals between approved comments.
+ *
+ * @package WP_Statistics\Utils
+ * @since 15.0.0
  */
-final class Comment
+class Comment
 {
     /**
      * Count comments for the given status.

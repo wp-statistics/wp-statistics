@@ -3,11 +3,14 @@
 namespace WP_Statistics\Utils;
 
 /**
- * Validation helper utilities.
+ * Utility class for validating input values.
+ *
+ * Provides methods for detecting patterns commonly associated with
+ * injection or XSS attacks and for validating input length ranges.
+ * Designed to support basic input sanitization and security checks.
  *
  * @package WP_Statistics\Utils
- * @since   15.0.0
- * @internal
+ * @since 15.0.0
  */
 class Validator
 {

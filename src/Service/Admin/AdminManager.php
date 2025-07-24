@@ -2,9 +2,9 @@
 
 namespace WP_Statistics\Service\Admin;
 
-use WP_Statistics\Context\Menu;
-use WP_Statistics\Context\Option;
-use WP_Statistics\Context\User;
+use WP_Statistics\Components\Menu;
+use WP_Statistics\Globals\Option;
+use WP_Statistics\Utils\User;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 class AdminManager

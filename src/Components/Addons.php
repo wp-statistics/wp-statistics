@@ -1,15 +1,20 @@
 <?php
-namespace WP_Statistics\Utils;
 
-use WP_Statistics\Option;
+namespace WP_Statistics\Components;
+
+use WP_Statistics\Globals\Option;
 
 /**
- * Helper utilities for add‑ons.
+ * Class responsible for handling plugin add-ons.
  *
- * @package WP_Statistics\Utils
- * @since   15.0.0
+ * Provides methods to check if an add-on is active and to compare
+ * stored option values for active add-ons. Useful for controlling
+ * conditional behavior based on add-on states and configurations.
+ *
+ * @package WP_Statistics\Components
+ * @since 15.0.0
  */
-final class Addons
+class Addons
 {
     /**
      * Check if an add‑on is active based on its slug.
@@ -34,19 +39,19 @@ final class Addons
     /**
      * Compare an add‑on option to a given value, but only if the add‑on is active.
      *
-     * @param string      $addon      Add‑on slug used for `isActive()`.
-     * @param string      $optionName Option key stored under the add‑on.
-     * @param mixed       $value      Target value to compare against.
-     * @param mixed|null  $default    Default when option is missing.
-     * @param string      $addonName  Optional second name for
-     *                                `Option::getByAddon()`. When empty,
+     * @param string $addon Add‑on slug used for `isActive()`.
+     * @param string $optionName Option key stored under the add‑on.
+     * @param mixed $value Target value to compare against.
+     * @param mixed|null $default Default when option is missing.
+     * @param string $addonName Optional second name for
+     *                                `Option::getAddonValue()`. When empty,
      *                                `$addon` is converted from kebab‑case
      *                                to snake_case and reused.
      * @return bool       True when add‑on is active **and** option matches.
      */
     public static function optionMatches($addon, $optionName, $value, $default = null, $addonName = '')
     {
-        if (! self::isActive($addon)) {
+        if (!self::isActive($addon)) {
             return false;
         }
 
@@ -54,6 +59,6 @@ final class Addons
             $addonName = str_replace('-', '_', $addon);
         }
 
-        return Option::getByAddon($optionName, $addonName, $default) === $value;
+        return Option::getAddonValue($optionName, $addonName, $default) === $value;
     }
 }

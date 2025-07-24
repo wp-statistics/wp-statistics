@@ -4,7 +4,7 @@ namespace WP_Statistics\Models;
 
 use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Components\DateRange;
-use WP_Statistics\Context\PostType;
+use WP_Statistics\Utils\PostType;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Utils\Query;
 

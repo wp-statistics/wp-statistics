@@ -1,20 +1,21 @@
 <?php
 
-namespace WP_Statistics\Context;
+namespace WP_Statistics\Utils;
 
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Models\PostsModel;
 
 /**
- * Helper for posts across all post types.
+ * Utility class for retrieving and analyzing post data.
  *
- * Provides utility methods for retrieving posts, counting published items,
- * and computing averages for posting frequency.
+ * Provides methods to retrieve posts, determine publishing dates,
+ * and calculate posting frequency metrics such as posts per day
+ * or days between posts.
  *
- * @package WP_Statistics\Context
- * @since   15.0.0
+ * @package WP_Statistics\Utils
+ * @since 15.0.0
  */
-final class Post
+class Post
 {
     /**
      * Retrieve a single post by type, ordered by a specific column.
@@ -100,7 +101,7 @@ final class Post
         );
 
         return $daysBetween
-            ? round($daysSpan / $postsCount, 0)   // days between posts
-            : round($postsCount / $daysSpan, 2); // posts per day
+            ? round($daysSpan / $postsCount, 0)   // days between posts.
+            : round($postsCount / $daysSpan, 2); // posts per day.
     }
 }

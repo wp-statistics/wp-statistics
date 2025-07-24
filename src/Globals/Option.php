@@ -1,7 +1,8 @@
 <?php
 
-namespace WP_Statistics\Context;
+namespace WP_Statistics\Globals;
 
+use WP_Statistics\Components\Singleton;
 use WP_Statistics\Utils\QueryParams;
 
 /**
@@ -10,10 +11,10 @@ use WP_Statistics\Utils\QueryParams;
  * Provides static methods for retrieving, updating, and managing plugin options and user meta.
  * Handles both core plugin options and addon-specific settings.
  *
- * @package WP_Statistics\Context
+ * @package WP_Statistics\Globals
  * @since   15.0.0
  */
-final class Option
+class Option extends Singleton
 {
     /**
      * WP Statistics Basic Option name.

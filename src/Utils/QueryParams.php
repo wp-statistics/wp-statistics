@@ -5,12 +5,16 @@ namespace WP_Statistics\Utils;
 use WP_Statistics\Option;
 
 /**
- * Utilities for working with query parameters in url.
+ * Utility class for working with URL query parameters.
+ *
+ * Provides methods to retrieve, filter, and manage query parameters
+ * in WordPress URLs. Includes support for allow-lists, reserved terms,
+ * and sanitizing URLs by removing specified parameters.
  *
  * @package WP_Statistics\Utils
- * @since   15.0.0
+ * @since 15.0.0
  */
-final class QueryParams
+class QueryParams
 {
     /**
      * Return the allow‑list of URL query parameters.

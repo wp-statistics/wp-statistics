@@ -3,10 +3,14 @@
 namespace WP_Statistics\Utils;
 
 /**
- * Utilities for handling URI operations.
+ * Utility class for retrieving and sanitizing WordPress URIs.
+ *
+ * Provides methods to retrieve the current request URI relative to the WordPress installation,
+ * strip installation paths, sanitize input, and normalize root URIs.
+ * Also includes support for visitor-specific context when determining the URI.
  *
  * @package WP_Statistics\Utils
- * @since   15.0.0
+ * @since 15.0.0
  */
 class Uri
 {

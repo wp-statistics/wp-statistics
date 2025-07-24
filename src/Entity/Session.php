@@ -4,7 +4,7 @@ namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
 use WP_Statistics\Components\DateTime;
-use WP_Statistics\Context\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Models\SessionModel;
 use WP_Statistics\Records\RecordFactory;
 

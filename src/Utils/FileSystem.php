@@ -3,12 +3,16 @@
 namespace WP_Statistics\Utils;
 
 /**
- * Filesystem helper utilities.
+ * Utility class for interacting with the WordPress file system.
+ *
+ * Provides methods to retrieve upload directory paths and URLs,
+ * as well as convert specific content URLs into file system paths.
+ * Useful for resolving paths and links within WordPress content directories.
  *
  * @package WP_Statistics\Utils
- * @since   15.0.0
+ * @since 15.0.0
  */
-final class FileSystem
+class FileSystem
 {
     /**
      * Absolute path to the uploads directory.

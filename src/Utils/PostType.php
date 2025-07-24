@@ -1,16 +1,19 @@
 <?php
 
-namespace WP_Statistics\Context;
+namespace WP_Statistics\Utils;
 
 /**
- * Context helper for WordPress post‑type.
+ * Utility class for handling WordPress post types.
  *
- * This class is only for functionalities related to post types,
- * and performing modifications on post types.
+ * Provides methods for retrieving and analyzing built-in and custom
+ * post types. Supports functionality such as listing public post types,
+ * determining if a post type is custom, retrieving post type labels,
+ * and counting published posts.
  *
+ * @package WP_Statistics\Utils
  * @since 15.0.0
  */
-final class PostType
+class PostType
 {
     /**
      * Retrieve all public post types.

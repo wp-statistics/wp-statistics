@@ -1,20 +1,20 @@
 <?php
 
-namespace WP_Statistics\Context;
+namespace WP_Statistics\Utils;
 
-use WP_STATISTICS\Option;
-use WP_STATISTICS\User;
+use WP_Statistics\Globals\Option;
 
 /**
- * Context helper for WordPress route detection.
+ * Utility class for determining the current WordPress route or screen context.
  *
- * This class is only for functionality related to identifying the current
- * route or screen (e.g., login page, block editor, admin bar visibility).
+ * Provides methods to detect the login screen, block editor, screen ID,
+ * and admin bar visibility based on plugin and user settings.
+ * Useful for customizing behavior depending on the current request context.
  *
- * @package WP_Statistics\Context
- * @since   15.0.0
+ * @package WP_Statistics\Utils
+ * @since 15.0.0
  */
-final class Route
+class Route
 {
     /**
      * Returns true when the current request is for the core WordPress
@@ -105,7 +105,7 @@ final class Route
      */
     public static function isAdminBarShowing()
     {
-        $showAdminBar = (Option::get('menu_bar') && is_admin_bar_showing() && User::Access());
+        $showAdminBar = (Option::getValue('menu_bar') && is_admin_bar_showing() && User::hasAccess());
 
         /**
          * Filters whether to show the WordPress admin bar.

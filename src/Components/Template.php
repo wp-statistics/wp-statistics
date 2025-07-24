@@ -1,14 +1,16 @@
 <?php
 
-namespace WP_Statistics\Context;
+namespace WP_Statistics\Components;
 
 /**
- * Lightweight template loader used across admin classes.
+ * Handles template loading and rendering functionality
  *
- * Resolves a template path, extracts provided variables, and either includes
- * or returns the rendered markup. When a custom `$base` is supplied the loader
- * searches the service‑specific *Templates* directory; otherwise it falls back
- * to the global admin‑template folder.
+ * Provides a lightweight template loader for WordPress admin pages.
+ * This class handles the rendering of template files, including the
+ * extraction of variables and the inclusion or return of rendered markup.
+ *
+ * @package WP_Statistics\Components
+ * @since   15.0.0
  */
 class Template
 {

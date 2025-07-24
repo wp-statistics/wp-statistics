@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Decorators;
 
-use WP_Statistics\Context\Country;
+use WP_Statistics\Components\Country;
 
 /**
  * Decorator for a record from the 'countries' table.

@@ -1,24 +1,27 @@
 <?php
 
-namespace WP_Statistics\Context;
+namespace WP_Statistics\Components;
 
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 use WP_Statistics\Service\Tracking\TrackerHelper;
-use WP_Statistics\Context\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics;
 use ErrorException;
 use Exception;
 
 /**
- * Context helper for IP address management and utilities.
+ * Handles IP address detection, validation, and anonymization for visitor tracking.
  *
- * Provides static methods for retrieving, validating, and processing IP addresses.
- * Handles IP hashing, anonymization, and range checking functionality.
+ * Provides static methods for retrieving the client IP from server headers, validating
+ * IP formats, anonymizing and hashing IPs for privacy compliance, and checking IPs
+ * against private or custom-defined ranges. Supports both IPv4 and IPv6.
  *
- * @package WP_Statistics\Context
- * @since   15.0.0
+ * Used throughout the plugin to ensure accurate and privacy-aware IP tracking.
+ *
+ * @package WP_Statistics\Components
+ * @since 15.0.0
  */
-final class Ip
+class Ip
 {
     /**
      * Default User IP.

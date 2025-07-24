@@ -3,12 +3,16 @@
 namespace WP_Statistics\Utils;
 
 /**
- * Utility class for formatting values such as numbers, versions, and strings.
+ * Utility class for formatting values.
+ *
+ * Provides methods for formatting numbers, version strings,
+ * and size representations. Useful for display logic and
+ * consistent value transformations across the application.
  *
  * @package WP_Statistics\Utils
  * @since 15.0.0
  */
-final class Format
+class Format
 {
     /**
      * Converts a large number to a short “12.3K / 4.5M” style string.

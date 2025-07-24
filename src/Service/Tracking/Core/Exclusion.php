@@ -2,13 +2,12 @@
 
 namespace WP_STATISTICS\Service\Tracking\Core;
 
-use WP_Statistics\Context\Environment;
-use WP_Statistics\Context\Ip;
-use WP_Statistics\Context\Route;
+use WP_Statistics\Utils\Environment;
+use WP_Statistics\Components\Ip;
+use WP_Statistics\Utils\Route;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Analytics\VisitorProfile;
-use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\Utils\Request;
 use WP_Statistics\Records\RecordFactory;
 

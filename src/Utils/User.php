@@ -1,19 +1,22 @@
 <?php
 
-namespace WP_Statistics\Context;
+namespace WP_Statistics\Utils;
 
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Models\UserModel;
 
 /**
- * Helper for user-related statistics.
+ * Utility class for retrieving and managing WordPress user data.
  *
- * Provides utility methods to retrieve counts and other data about
- * registered WordPress users across the entire site.
+ * Provides methods for checking user roles and permissions, retrieving user
+ * metadata and identity, assessing authentication status, and calculating
+ * registration statistics. Supports both current and specified users and
+ * includes compatibility with multisite and custom capabilities.
  *
- * @package WP_Statistics\Context
- * @since   15.0.0
+ * @package WP_Statistics\Utils
+ * @since 15.0.0
  */
-final class User
+class User
 {
     /**
      * Count registered users on the site.
@@ -325,7 +328,7 @@ final class User
 
         // Resolve configured capability
         [$optionKey, $fallback] = $capabilityMap[$permissionType] ?? ['manage_capability', 'manage_options'];
-        $capability  = Option::get($optionKey, $fallback);
+        $capability  = Option::getValue($optionKey, $fallback);
         $resolvedCap = self::getExistingCapability($capability);
 
         if ($returnCapability) {
@@ -340,7 +343,7 @@ final class User
         // 'both' - return true if any passes
         foreach (['manage', 'read'] as $type) {
             [$optKey, $fb] = $capabilityMap[$type];
-            $cap = Option::get($optKey, $fb);
+            $cap = Option::getValue($optKey, $fb);
             if (current_user_can(self::getExistingCapability($cap))) {
                 return true;
             }

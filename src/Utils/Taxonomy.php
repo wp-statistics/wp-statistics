@@ -1,17 +1,19 @@
 <?php
 
-namespace WP_Statistics\Context;
+namespace WP_Statistics\Utils;
 
 /**
- * Helper for taxonomy look‑ups and metadata.
+ * Utility class for working with WordPress taxonomies.
  *
- * This class is only for functionality related to taxonomies—listing,
- * identifying, and modifying taxonomy objects.
+ * Provides methods to retrieve core and custom taxonomies,
+ * determine whether a taxonomy is built-in or custom, retrieve taxonomy labels,
+ * and find associated post types. Useful for analyzing and interacting with
+ * registered taxonomy structures.
  *
- * @package WP_Statistics\Context
- * @since   15.0.0
+ * @package WP_Statistics\Utils
+ * @since 15.0.0
  */
-final class Taxonomy
+class Taxonomy
 {
     /**
      * Retrieve public taxonomies.

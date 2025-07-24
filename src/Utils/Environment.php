@@ -1,15 +1,20 @@
 <?php
 
-namespace WP_Statistics\Context;
+namespace WP_Statistics\Utils;
 
 use WP_Statistics\Utils\Format;
 
 /**
- * Provides environment-related information and system checks.
+ * Utility class for retrieving WordPress environment information.
  *
+ * Provides static methods to access details such as the WordPress version,
+ * site name, URL, admin email, memory usage, and multisite configuration.
+ * Intended to centralize access to common environment data points.
+ *
+ * @package WP_Statistics\Utils
  * @since 15.0.0
  */
-final class Environment
+class Environment
 {
     /**
      * Retrieve the current WordPress version.
@@ -79,7 +84,7 @@ final class Environment
     public static function getWordpressSitesList()
     {
         $site_list = array();
-        $sites     = \get_sites();
+        $sites     = get_sites();
         foreach ($sites as $site) {
             $site_list[] = $site->blog_id;
         }

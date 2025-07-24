@@ -2,8 +2,8 @@
 
 namespace WP_Statistics\Service\Messaging\Provider;
 
+use WP_Statistics\Components\Template;
 use Exception;
-use WP_Statistics\Context\Template;
 
 /**
  * Handles construction and sending of e‑mail messages through `wp_mail()`.

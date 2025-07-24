@@ -1,18 +1,21 @@
 <?php
 
-namespace WP_Statistics\Context;
+namespace WP_Statistics\Components;
 
 /**
- * Helper for third‑party cache plugins.
+ * Detects and identifies active WordPress caching mechanisms.
  *
- * Provides utilities for detecting active cache layers and retrieving
- * information about the current cache plugin.
+ * This component checks for known WordPress caching plugins and the core object cache,
+ * caching the result per request to minimize overhead. It supports plugins like WP Rocket,
+ * WP Super Cache, Comet Cache, WP Fastest Cache, Cache Enabler, W3 Total Cache, WP-Optimize,
+ * and the built-in object cache (via WP_CACHE).
  *
- * @todo It should be more optimized later.
- * @package WP_Statistics\Context
- * @since   15.0.0
+ * Developers can extend detection using the {@see 'wp_statistics_cache_status'} filter.
+ *
+ * @package WP_Statistics\Components
+ * @since 15.0.0
  */
-final class CachePlugin
+class CachePlugin
 {
     /**
      * Cached detection result for the current request.
