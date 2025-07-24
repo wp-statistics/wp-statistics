@@ -83,8 +83,8 @@ class Environment
      */
     public static function getWordpressSitesList()
     {
-        $site_list = array();
-        $sites     = get_sites();
+        $site_list = [];
+        $sites     = \get_sites();
         foreach ($sites as $site) {
             $site_list[] = $site->blog_id;
         }
