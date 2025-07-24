@@ -3,8 +3,6 @@
 namespace WP_Statistics\Decorators;
 
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
-use WP_Statistics\Utils\Env;
-
 class BrowserDecorator
 {
     private $visitor;
