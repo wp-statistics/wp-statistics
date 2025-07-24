@@ -3,16 +3,17 @@
 namespace WP_Statistics\Service\Admin\NoticeHandler;
 
 use WP_STATISTICS\DB;
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\IP;
+use WP_STATISTICS\User;
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Schedule;
-use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
-use WP_Statistics\Service\Integrations\IntegrationHelper;
-use WP_STATISTICS\User;
+use WP_Statistics\Components\Assets;
 use WP_Statistics\Traits\TransientCacheTrait;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
+use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
 
 class GeneralNotices
 {
@@ -25,6 +26,7 @@ class GeneralNotices
      */
     private $coreNotices = [
         'detectConsentIntegrations',
+        'detectCachePlugins',
         'checkTrackingMode',
         'performanceAndCleanUp',
         'memoryLimitCheck',
@@ -87,6 +89,35 @@ class GeneralNotices
 
             Notice::addNotice($message, $notice['key']);
         }
+    }
+
+    /**
+     * Detect cache plugins and shows notice
+     *
+     * @return void
+     */
+    private function detectCachePlugins()
+    {
+        if (Notice::isNoticeDismissed('cache_plugin_detected')) {
+            return;
+        }
+
+        $cacheInfo = Helper::checkActiveCachePlugin();
+
+        if (empty($cacheInfo['status'])) {
+            return;
+        }
+
+        $trackerPath = Assets::getSrc('js/tracker.js', Option::get('bypass_ad_blockers'));
+
+        $message = sprintf(
+            __('<b>WP Statistics Notice:</b> The cache plugin %1$s is detected, please make sure the %2$s file is excluded from file optimization and caching, <a href="%3$s">Click here</a> for more info.','wp-statistics'),
+            esc_html($cacheInfo['plugin']),
+            esc_html($trackerPath),
+            esc_url('https://wp-statistics.com/resources/how-to-exclude-wp-statistics-tracker-js-from-caching-minification/')
+        );
+
+        Notice::addNotice($message, 'cache_plugin_detected', 'info');
     }
 
     /**
