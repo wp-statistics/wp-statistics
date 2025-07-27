@@ -98,26 +98,27 @@ class GeneralNotices
      */
     private function detectCachePlugins()
     {
-        if (Notice::isNoticeDismissed('cache_plugin_detected') || !Option::get('use_cache_plugin')) {
-            return;
-        }
-
         $cacheInfo = Helper::checkActiveCachePlugin();
 
-        if (empty($cacheInfo['status'])) {
+        // Return if no cache plugin is active
+        if (empty($cacheInfo['status'])) return;
+
+        // Generate notice id
+        $noticeId = sanitize_key($cacheInfo['debug']) . '_cache_plugin_detected';
+
+        // Return if notice is already dismissed, server-side tracking or bypass ad blocker is active
+        if (Notice::isNoticeDismissed($noticeId) || !Option::get('use_cache_plugin') || Option::get('bypass_ad_blockers')) {
             return;
         }
-
-        $trackerPath = Assets::getSrc('js/tracker.js', Option::get('bypass_ad_blockers'));
 
         $message = sprintf(
             __('<b>WP Statistics Notice:</b> The cache plugin %1$s is detected, please make sure the %2$s file is excluded from file optimization and caching, <a href="%3$s">Click here</a> for more info.','wp-statistics'),
             esc_html($cacheInfo['plugin']),
-            esc_url($trackerPath),
-            esc_url('https://wp-statistics.com/resources/how-to-exclude-wp-statistics-tracker-js-from-caching-minification/')
+            esc_url(Assets::getSrc('js/tracker.js')),
+            esc_url('https://wp-statistics.com/resources/how-to-exclude-wp-statistics-tracker-js-from-caching-minification/?utm_source=wp-statistics&utm_medium=link')
         );
 
-        Notice::addNotice($message, 'cache_plugin_detected', 'info');
+        Notice::addNotice($message, $noticeId, 'info');
     }
 
     /**
