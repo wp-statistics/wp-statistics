@@ -98,7 +98,7 @@ class GeneralNotices
      */
     private function detectCachePlugins()
     {
-        if (Notice::isNoticeDismissed('cache_plugin_detected')) {
+        if (Notice::isNoticeDismissed('cache_plugin_detected') || !Option::get('use_cache_plugin')) {
             return;
         }
 
