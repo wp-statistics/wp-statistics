@@ -510,6 +510,64 @@ class VisitorsModel extends BaseModel
         return $summary;
     }
 
+    /**
+     * Get all search engine statistics grouped by date and source name
+     *
+     * @param int $daysAgo Number of days ago to start fetching data from (default: 10)
+     * @return array List of search engine hits grouped by date and source name
+     */
+    public function getSearchEngineStatsGroupedByDate($daysAgo = 10)
+    {
+        $fromDate = date('Y-m-d', strtotime("-{$daysAgo} days"));
+        $toDate   = date('Y-m-d'); // End of today
+
+        $query = Query::select(
+            [
+                'last_counter',
+                'source_name',
+                'COUNT(ID) AS hits'
+            ]
+        )
+            ->from('visitor')
+            ->where('source_channel', '=', 'search')
+            ->where('last_counter', 'BETWEEN', [$fromDate, $toDate])
+            ->groupBy(['last_counter', 'source_name'])
+            ->orderBy('last_counter', 'ASC');
+
+        $result = $query->getAll();
+
+        return $result ?? [];
+    }
+
+    /**
+     * Get visit statistics grouped by browser (user agent), optionally filtered by date range.
+     *
+     * @param array $date Optional. Array with two elements [start_date, end_date] for filtering.
+     * @return array Returns list of agents with visit count.
+     */
+    public function getBrowserVisitStatsByDateRange($date = [])
+    {
+        $query = Query::select(
+            [
+                'agent',
+                'COUNT(*) as total'
+            ]
+        )
+            ->from('visitor')
+            ->whereNotNull('agent');
+
+        if (!empty($date)) {
+            $query->where('last_counter', 'BETWEEN', $date);
+        }
+
+        $query->groupBy('agent');
+        $query->orderBy('total');
+
+        $result = $query->getAll();
+
+        return $result ?? [];
+    }
+
     public function getVisitorsData($args = [])
     {
         $args = $this->parseArgs($args, [
