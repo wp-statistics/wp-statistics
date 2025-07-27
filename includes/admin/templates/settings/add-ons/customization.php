@@ -158,7 +158,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
 
             <tr>
                 <th scope="row">
-                    <label for=""><?php esc_html_e('Export Settings', 'wp-statistics'); ?></label>
+                    <span class="wps-setting-label"><?php esc_html_e('Export Settings', 'wp-statistics'); ?></span>
                 </th>
 
                 <td>
