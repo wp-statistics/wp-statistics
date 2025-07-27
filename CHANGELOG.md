@@ -1,5 +1,7 @@
 = 14.15.1 - 2025-x-x =
 - **Enhancement:** Abbreviated numbers in Overview widgets (e.g., 10k). Full value shown on hover via tooltip.
+- **Enhancement:** Show notice when active cache plugin is detected.
+- **Fix:** Fix transient cache duration issue.
 - **Enhancement:** Refactored advanced reporting to reduce redundant query execution and improve performance.
 
 = 14.15 - 2025-07-22 =
