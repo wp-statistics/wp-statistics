@@ -127,7 +127,7 @@ class SessionModel extends BaseModel
     public function getByTime($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date' => 'today',
+            'date' => '',
         ]);
 
         $range = is_array($args['date']) && isset($args['date']['from'], $args['date']['to'])

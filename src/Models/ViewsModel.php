@@ -298,42 +298,6 @@ class ViewsModel extends BaseModel
     }
 
     /**
-     * Retrieve the number of page views for a specific resource.
-     *
-     * @return int Total number of matching views.
-     * @since 15.0.0
-     */
-    public function getPagesViews($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'resource_id'   => '',
-            'resource_type' => '',
-            'resource_url'  => '',
-            'date'          => '',
-        ]);
-
-        $query = Query::select(['COUNT(*) AS count'])
-            ->from('views')
-            ->where('resources.resource_id', '=', $args['resource_id'])
-            ->where('resources.resource_url', '=', $args['resource_url'])
-            ->where('resources.resource_type', 'IN', $args['resource_type']);
-
-        if (!empty($args['resource_type'])) {
-            $query->join('resources', ['views.resource_id', 'resources.ID']);
-        }
-
-        if (!empty($args['date'])) {
-            $start = $args['date']['from'] . ' 00:00:00';
-            $end   = $args['date']['to'] . ' 23:59:59';
-
-            $query->where('views.viewed_at', '>=', $start)
-                ->where('views.viewed_at', '<', $end);
-        }
-
-        return (int)$query->getVar();
-    }
-
-    /**
      * Retrieve the most recent view record for a given session ID.
      *
      * @param array $args {
@@ -374,7 +338,7 @@ class ViewsModel extends BaseModel
      * @return int Total number of views for the resource URL ID.
      * @since 15.0.0
      */
-    public function countViewsByResourceUriId($args = [])
+    public function countByResourceUriId($args = [])
     {
         $args = $this->parseArgs($args, [
             'resource_uri_id' => '',

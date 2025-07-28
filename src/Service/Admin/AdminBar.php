@@ -381,7 +381,7 @@ class AdminBar
             return 0;
         }
 
-        return $this->viewsModel->countViewsByResourceUriId([
+        return $this->viewsModel->countByResourceUriId([
             'resource_uri_id' => $resourceUriObj->ID,
         ]);
     }
