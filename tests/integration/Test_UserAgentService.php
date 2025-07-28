@@ -110,7 +110,7 @@ class Test_UserAgentService extends WP_UnitTestCase
         $userAgentService = new UserAgentService();
 
         $this->assertEquals('UNK', $userAgentService->getBrowser());
-        $this->assertEquals('.NK', $userAgentService->getVersion());
+        $this->assertEquals('UNK', $userAgentService->getVersion());
         $this->assertEquals('UNK', $userAgentService->getPlatform());
         $this->assertEquals('', $userAgentService->getDevice());
     }
