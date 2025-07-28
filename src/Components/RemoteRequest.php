@@ -81,7 +81,7 @@ class RemoteRequest
      */
     public function generateCacheKey()
     {
-        return $this->getCacheKey($this->requestUrl . serialize($this->parsedArgs));
+        return wp_json_encode(array_merge(['url' => $this->requestUrl], $this->parsedArgs));
     }
 
 
