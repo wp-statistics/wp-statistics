@@ -1,5 +1,6 @@
 = 14.15.1 - 2025-x-x =
 - **Enhancement:** Abbreviated numbers in Overview widgets (e.g., 10k). Full value shown on hover via tooltip.
+- **Enhancement:** Added integrations js files as tracker.js dependencies to prevent cache issues.
 - **Enhancement:** Show notice when active cache plugin is detected.
 - **Fix:** Fix transient cache duration issue.
 
