@@ -2,6 +2,10 @@
 
 namespace WP_Statistics\Service\Integrations\Plugins;
 
+use Borlabs\Cookie\Repository\Service\ServiceRepository;
+use WP_STATISTICS\Option;
+use WP_Statistics\Utils\Query;
+
 class BorlabsCookie extends AbstractIntegration
 {
     protected $key = 'borlabs_cookie';
@@ -41,7 +45,22 @@ class BorlabsCookie extends AbstractIntegration
      * Registers our plugin in "Borlabs Cookie'.
      * @return  void
      */
-    public function register() {}
+    public function register()
+    {
+        if (!class_exists(ServiceRepository::class) || Option::get('consent_integration') === 'borlabs_cookie') {
+            return;
+        }
+
+        $isServiceActive = Query::select('*')
+            ->from(ServiceRepository::TABLE)
+            ->where(ServiceRepository::TABLE . '.key', '=', 'wp-statistics')
+            ->where('status', '=', '1')
+            ->getRow();
+
+        if (!$isServiceActive) return;
+
+        Option::update('consent_integration', $this->getKey());
+    }
 
     /**
      * Return an array of js handles for this integration.
