@@ -366,13 +366,13 @@ class VisitorsModel extends BaseModel
         ]);
 
         $result = Query::select([
-            '`version`',
+            'CAST(`version` AS SIGNED) AS `casted_version`',
             'COUNT(DISTINCT `ID`) AS `visitors`',
         ])
             ->from('visitor')
             ->where($args['where_col'], '=', $args['where_val'])
             ->whereDate('last_counter', $args['date'])
-            ->groupBy('version')
+            ->groupBy('casted_version')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
             ->getAll();
