@@ -6,6 +6,7 @@ use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Components\Event;
 use WP_Statistics\Service\Database\Managers\TableHandler;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
+use WP_Statistics\Utils\Query;
 
 class Install
 {
@@ -534,6 +535,15 @@ class Install
          */
         if (version_compare($latest_version, '14.15', '>=')) {
             Event::unschedule('wp_statistics_add_visit_hook');
+        }
+
+        /**
+         * Remove all wp statistics transients
+         */
+        if (version_compare($latest_version, '14.15.1', '>=')) {
+            Query::delete('options')
+                ->where('option_name', 'LIKE', '%wp_statistics_cache%')
+                ->execute();
         }
 
         /**
