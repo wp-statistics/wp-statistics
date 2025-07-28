@@ -17,6 +17,10 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
                     updateVisibility(consentCategories, true);
                     updateVisibility(anonymousTracking, true);
                     break;
+                case 'borlabs_cookie':
+                    updateVisibility(consentCategories, false);
+                    updateVisibility(anonymousTracking, true);
+                    break;
                 default:
                     updateVisibility(consentCategories, false);
                     updateVisibility(anonymousTracking, false);

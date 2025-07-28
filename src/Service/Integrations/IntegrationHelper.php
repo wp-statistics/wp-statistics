@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Integrations;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Integrations\Plugins\WpConsentApi;
 use WP_Statistics\Service\Integrations\Plugins\RealCookieBanner;
+use WP_Statistics\Service\Integrations\Plugins\BorlabsCookie;
 use WP_Statistics\Service\Integrations\Plugins\AbstractIntegration;
 
 
@@ -16,7 +17,8 @@ class IntegrationHelper
      */
     public static $integrations = [
         WpConsentApi::class,
-        RealCookieBanner::class
+        RealCookieBanner::class,
+        BorlabsCookie::class,
     ];
 
     /**
