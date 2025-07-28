@@ -32,10 +32,39 @@
                             <?php else: ?>
                                 <span>-</span>
                             <?php endif; ?>
-                            <?php if (isset($metric['change']) && ( !empty($metric['link-title'])  || !empty($metric['value']) ) ): ?>
-                                <span class="wps-at-a-glance-change <?php echo esc_attr($metric['change'] > 0 ? 'wps-glance-positive' : ($metric['change'] < 0 ? 'wps-glance-negative' : '')); ?>">
-                                   <?php echo esc_html($metric['change'] > 0 ? '+' : '') . esc_html($metric['change']) . '%'; ?>
-                                </span>
+                            <?php if (isset($metric['change']) && (!empty($metric['link-title']) || !empty($metric['value']))): ?>
+                                <?php
+                                $change       = $metric['change'] ?? null;
+                                $polarity     = $metric['polarity'] ?? 'positive';
+                                $change_class = '';
+                                $change_sign  = '';
+
+                                if (is_numeric($change)) {
+                                    if ($change != 0) {
+                                        if ($polarity === 'positive') {
+                                            $change_class = $change > 0 ? 'wps-glance-positive' : 'wps-glance-negative';
+                                        } elseif ($polarity === 'negative') {
+                                            $change_class = $change < 0 ? 'wps-glance-positive' : 'wps-glance-negative';
+                                        }
+
+                                        if ($polarity === 'positive') {
+                                            $change_sign = $change > 0 ? '+' : '';
+                                        } elseif ($polarity === 'negative') {
+                                            $change_sign = $change > 0 ? '−' : '';
+                                        }
+                                    } else {
+                                        $change_sign = '';
+                                    }
+                                }
+                                ?>
+
+                                <?php if ($change !== null && isset($metric['value'])): ?>
+                                    <span class="wps-at-a-glance-change <?php echo esc_attr($change_class); ?>">
+                                        <?php echo esc_html($change_sign . abs($change) . '%'); ?>
+                                    </span>
+                                <?php endif; ?>
+
+
                             <?php endif; ?>
                         </span>
                     </div>
