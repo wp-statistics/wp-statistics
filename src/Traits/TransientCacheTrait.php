@@ -50,15 +50,15 @@ trait TransientCacheTrait
     }
 
     /**
-     * Clear the cached result for the given query.
+     * Clear the cached result for the given input.
      *
-     * @param string $query
+     * @param string $input
      *
      * @return bool
      */
-    public function clearCache($query)
+    public function clearCache($input)
     {
-        $cacheKey = $this->getCacheKey($query);
+        $cacheKey = $this->getCacheKey($input);
         return delete_transient($cacheKey);
     }
 }
