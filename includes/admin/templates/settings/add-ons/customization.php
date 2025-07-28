@@ -215,7 +215,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
                 <td>
                     <input
                         type="file"
-                        accept=".json"
+                        accept=".json,.txt"
                         id="wps-input-import-file"
                         name="import_file"
                         class="wps-import__file"
