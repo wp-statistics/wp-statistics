@@ -89,19 +89,6 @@ class RealCookieBanner extends AbstractIntegration
     }
 
     /**
-     * Return the status of the integration.
-     *
-     * @return array The status of the integration.
-     */
-    public function getStatus()
-    {
-        return [
-            'has_consent'       => $this->hasConsent(),
-            'track_anonymously' => $this->trackAnonymously()
-        ];
-    }
-
-    /**
      * Return an array of js handles for this integration.
      * The result will be used as dependencies for the tracker js file
      *

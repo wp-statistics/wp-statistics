@@ -33,11 +33,6 @@ class WpConsentApi extends AbstractIntegration
         ];
     }
 
-    public function trackAnonymously()
-    {
-        return Option::get('anonymous_tracking', false) != false;
-    }
-
     public function hasConsent()
     {
         if (!function_exists('wp_has_consent')) {
