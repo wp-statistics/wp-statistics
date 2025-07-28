@@ -47,19 +47,42 @@ class BorlabsCookie extends AbstractIntegration
      */
     public function register()
     {
-        if (!class_exists(ServiceRepository::class) || Option::get('consent_integration') === 'borlabs_cookie') {
-            return;
+        $integration = Option::get('consent_integration');
+
+        // If any other consent integration is active, return
+        if (!empty($integration) && $integration !== $this->getKey()) return;
+
+        $isServiceActive = $this->isServiceInstalled();
+
+        // If the WP Statistics service is no longer active, remove the integration
+        if ($integration === $this->getKey() && !$isServiceActive) {
+            Option::update('consent_integration', '');
         }
 
-        $isServiceActive = Query::select('*')
+        // If the WP Statistics service is active, set the integration
+        if ($isServiceActive) {
+            Option::update('consent_integration', $this->getKey());
+        }
+    }
+
+    /**
+     * Check if the WP Statistics service is installed in Borlabs Cookie.
+     *
+     * @return  bool
+     */
+    public function isServiceInstalled()
+    {
+        if (!class_exists(ServiceRepository::class)) {
+            return false;
+        }
+
+        $isServiceInstalled = Query::select('*')
             ->from(ServiceRepository::TABLE)
-            ->where(ServiceRepository::TABLE . '.key', '=', 'wp-statistics')
+            ->where('`key`', '=', 'wp-statistics')
             ->where('status', '=', '1')
             ->getRow();
 
-        if (!$isServiceActive) return;
-
-        Option::update('consent_integration', $this->getKey());
+        return !empty($isServiceInstalled);
     }
 
     /**

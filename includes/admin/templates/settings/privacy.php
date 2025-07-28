@@ -119,7 +119,7 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
                 </th>
 
                 <td>
-                    <select id="consent_integration" name="wps_consent_integration">
+                    <select id="consent_integration" name="wps_consent_integration" <?php disabled(IntegrationHelper::isIntegrationActive('borlabs_cookie')) ?>>
                         <option value="" <?php selected(WP_STATISTICS\Option::get('consent_integration')); ?>><?php esc_html_e('None', 'wp-statistics'); ?></option>
 
                         <?php foreach (IntegrationHelper::getAllIntegrations() as $integration) : ?>
