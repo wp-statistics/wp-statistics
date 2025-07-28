@@ -231,7 +231,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
                         class="wps-import__checkbox"
                     >
                     <label for="wps-input-import-images"><?php esc_html_e('Download and import image files', 'wp-statistics'); ?></label>
-                    <p class="description"><?php esc_html_e('When selected, image files will be downloaded and imported for use.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php esc_html_e('If the exported settings reference custom images, fetch them and add them to this site’s Media Library.', 'wp-statistics'); ?></p>
                     <br>
 
                     <button type="button" class="wps-button wps-button--default" id="wps-btn-import-settings">
