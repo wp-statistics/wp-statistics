@@ -352,6 +352,7 @@ return array(
     'WP_Statistics\\Service\\Integrations\\IntegrationHelper' => $baseDir . '/src/Service/Integrations/IntegrationHelper.php',
     'WP_Statistics\\Service\\Integrations\\IntegrationsManager' => $baseDir . '/src/Service/Integrations/IntegrationsManager.php',
     'WP_Statistics\\Service\\Integrations\\Plugins\\AbstractIntegration' => $baseDir . '/src/Service/Integrations/Plugins/AbstractIntegration.php',
+    'WP_Statistics\\Service\\Integrations\\Plugins\\BorlabsCookie' => $baseDir . '/src/Service/Integrations/Plugins/BorlabsCookie.php',
     'WP_Statistics\\Service\\Integrations\\Plugins\\RealCookieBanner' => $baseDir . '/src/Service/Integrations/Plugins/RealCookieBanner.php',
     'WP_Statistics\\Service\\Integrations\\Plugins\\WpConsentApi' => $baseDir . '/src/Service/Integrations/Plugins/WpConsentApi.php',
     'WP_Statistics\\Service\\Logger\\AbstractLoggerProvider' => $baseDir . '/src/Service/Logger/AbstractLoggerProvider.php',
