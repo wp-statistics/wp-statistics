@@ -330,7 +330,7 @@ class AdminBar
     private function getDefaultContext(array $context)
     {
         $context['view_title'] = __('Total Website Views', 'wp-statistics');
-        $context['hit_number'] = number_format_i18n($this->sessionModel->getTotalHits());
+        $context['hit_number'] = number_format_i18n($this->sessionModel->countTotal());
 
         return $context;
     }
@@ -355,7 +355,7 @@ class AdminBar
             $menuTitle .= ' - ';
         }
 
-        $menuTitle .= sprintf('Online: %s', number_format($this->sessionModel->getOnlineUsers()));
+        $menuTitle .= sprintf('Online: %s', number_format($this->sessionModel->countOnlineUsers()));
 
         return $menuTitle;
     }
@@ -471,8 +471,8 @@ class AdminBar
     private function buildVisitorsTodayTitle()
     {
         return '<div class="wp-statistics-menu-visitors-today__title">' . __('Visitors Today', 'wp-statistics') . '</div>'
-            . '<div class="wp-statistics-menu-visitors-today__count">' . $this->sessionModel->getDailyHits() . '</div>'
-            . '<div class="wp-statistics-menu-todayvisits">' . sprintf(__('was %s last day', 'wp-statistics'), $this->sessionModel->getDailyHits(['date' => DateRange::get('yesterday')])) . '</div>';
+            . '<div class="wp-statistics-menu-visitors-today__count">' . $this->sessionModel->countDaily() . '</div>'
+            . '<div class="wp-statistics-menu-todayvisits">' . sprintf(__('was %s last day', 'wp-statistics'), $this->sessionModel->countDaily(['date' => DateRange::get('yesterday')])) . '</div>';
     }
 
     /**
@@ -486,8 +486,8 @@ class AdminBar
     private function buildViewsTodayTitle()
     {
         return '<div class="wp-statistics-menu-views-today__title">' . __('Views Today', 'wp-statistics') . '</div>'
-            . '<div class="wp-statistics-menu-views-today__count">' . $this->viewsModel->getDailyViews() . '</div>'
-            . '<div class="wp-statistics-menu-yesterdayvisits">' . sprintf(__('was %s last day', 'wp-statistics'), $this->viewsModel->getDailyViews(['date' => DateRange::get('yesterday')])) . '</div>';
+            . '<div class="wp-statistics-menu-views-today__count">' . $this->viewsModel->countDaily() . '</div>'
+            . '<div class="wp-statistics-menu-yesterdayvisits">' . sprintf(__('was %s last day', 'wp-statistics'), $this->viewsModel->countDaily(['date' => DateRange::get('yesterday')])) . '</div>';
     }
 
     /**
@@ -546,11 +546,11 @@ class AdminBar
             'footer_text'        => $context['footer_text'],
             'footer_link'        => $context['footer_link'],
             'menu_href'          => Menus::admin_url('overview'),
-            'today_visits'       => number_format($this->viewsModel->getDailyViews()),
-            'today_visitors'     => number_format($this->sessionModel->getDailyHits()),
-            'yesterday_visits'   => number_format($this->viewsModel->getDailyViews(['date' => DateRange::get('yesterday')])),
-            'yesterday_visitors' => number_format($this->sessionModel->getDailyHits(['date' => DateRange::get('yesterday')])),
-            'online_users'       => number_format($this->sessionModel->getOnlineUsers()),
+            'today_visits'       => number_format($this->viewsModel->countDaily()),
+            'today_visitors'     => number_format($this->sessionModel->countDaily()),
+            'yesterday_visits'   => number_format($this->viewsModel->countDaily(['date' => DateRange::get('yesterday')])),
+            'yesterday_visitors' => number_format($this->sessionModel->countDaily(['date' => DateRange::get('yesterday')])),
+            'online_users'       => number_format($this->sessionModel->countOnlineUsers()),
         ];
     }
 }

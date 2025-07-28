@@ -396,7 +396,7 @@ class ViewsModel extends BaseModel
      * @return int Number of views.
      * @since 15.0.0
      */
-    public function getDailyViews($args = [])
+    public function countDaily($args = [])
     {
         $args = $this->parseArgs($args, [
             'date' => DateRange::get('today')

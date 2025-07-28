@@ -5,10 +5,6 @@ namespace WP_Statistics\Models;
 use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\DateTime;
-use WP_Statistics\Decorators\ReferrerDecorator;
-use WP_Statistics\Decorators\SessionDecorator;
-use WP_Statistics\Decorators\ViewDecorator;
-use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Utils\Query;
 
 /**
@@ -21,14 +17,19 @@ use WP_Statistics\Utils\Query;
 class SessionModel extends BaseModel
 {
     /**
-     * Get the number of hits for a given date or range.
+     * Count sessions that started within the specified date or date‑range.
      *
-     * @param array $args {
-     * @type string|array $date Date or range to analyse.
-     * }
-     * @return int Number of hits.
+     * If no date is supplied, the preset **'today'** is used. The `date` element
+     * accepts either a preset understood by {@see DateRange::get()} (e.g.
+     * `'today'`, `'yesterday'`, `'7days'`) or an associative array  
+     * `['from' => 'Y-m-d', 'to' => 'Y-m-d']`.
+     *
+     * @param array{
+     *     date?: string|array{from:string,to:string}
+     * } $args Optional. Query arguments.
+     * @return int Number of sessions that started in the period.
      */
-    public function getDailyHits($args = [])
+    public function countDaily($args = [])
     {
         $args = $this->parseArgs($args, [
             'date' => DateRange::get('today')
@@ -43,11 +44,11 @@ class SessionModel extends BaseModel
     }
 
     /**
-     * Get the total number of hits.
+     * Count all sessions ever recorded.
      *
-     * @return int Number of hits.
+     * @return int Lifetime session count.
      */
-    public function getTotalHits()
+    public function countTotal()
     {
         return (int)Query::select(['COUNT(*)'])
             ->from('sessions')
@@ -55,16 +56,17 @@ class SessionModel extends BaseModel
     }
 
     /**
-     * Find an active or recently active session for a visitor.
+     * Return the still‑active (or recently ended) session for the given visitor.
      *
-     * Returns a session that started today and is either still active
-     * or ended within the last 30 minutes.
+     * A session qualifies as *active* when its `ended_at` timestamp is within
+     * the last 30 minutes. Only sessions that started **today** are considered.
      *
-     * @param array $args {
-     * @type int $visitor_id Visitor ID to search for.
+     * @param array{
+     *     visitor_id?: int
+     * } $args {
+     *     Optional. Visitor identifier to search for.
      * }
-     * @return object|null
-     * @since 15.0.0
+     * @return object|null The matching session row or `null` if not found.
      */
     public function getActiveSession($args = [])
     {
@@ -87,35 +89,40 @@ class SessionModel extends BaseModel
     }
 
     /**
-     * Retrieve currently online users based on recent view activity.
+     * Retrieve sessions whose last activity occurred in the past five minutes.
      *
-     * A session is considered "online" if its last view has no next view (indicating an active session)
-     * and the last viewed time is within the configured timeout window.
-     *
-     * @return array List of online session records.
-     *
-     * @since 15.0.0
+     * @return array<array<string,mixed>> Array of session rows.
      */
     public function getOnlineUsers()
     {
-        return Query::select(['COUNT(*)'])
+        return Query::select('*')
+            ->from('sessions')
+            ->where('ended_at', '>=', gmdate('Y-m-d H:i:s', time() - 300))
+            ->getAll();
+    }
+
+    /**
+     * Count sessions considered *online* (last activity < 5 minutes).
+     *
+     * @return int Number of live sessions.
+     */
+    public function countOnlineUsers()
+    {
+        return Query::select('COUNT(*)')
             ->from('sessions')
             ->where('ended_at', '>=', gmdate('Y-m-d H:i:s', time() - 300))
             ->getVar();
     }
 
     /**
-     * Get the number of unique visitors for a given date or range.
+     * Count distinct `visitor_id` values inside the supplied date window.
      *
-     * Counts unique visitor IDs from the `sessions` table based on session start time.
+     * Uses the same `date` argument format accepted by {@see countDaily()}.
      *
-     * @param array $args {
-     *     Optional. Query arguments.
-     *
-     * @type string|array $date A string like 'today', or an array ['from' => Y-m-d, 'to' => Y-m-d]
-     * }
-     * @return int Number of visitors.
-     * @since 15.0.0
+     * @param array{
+     *     date?: string|array{from:string,to:string}
+     * } $args Optional. Date filter.
+     * @return int Unique‑visitor total.
      */
     public function getByTime($args = [])
     {
@@ -140,13 +147,17 @@ class SessionModel extends BaseModel
     }
 
     /**
-     * Count distinct visitors that satisfy a complex set of filters.
+     * Count distinct sessions matching a rich filter set.
      *
-     * @param array $args See method body for accepted keys.
-     * @return int Visitor count.
-     * @since 15.0.0
+     * The method supports filters for agent, platform, country, referrer,
+     * resource attributes, login status, user‑role and more.  Internally it
+     * executes `COUNT(DISTINCT IFNULL(visitor_id, ID))`.
+     *
+     * @param array<string,mixed> $args Optional. See method body for keys
+     *                                  and default values.
+     * @return int Unique‑session total after filtering.
      */
-    public function count($args = [])
+    public function countDistinct($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'          => '',
@@ -252,61 +263,61 @@ class SessionModel extends BaseModel
      *
      * @param array $args Arguments passed through to {@see count()}.
      * @return array Associative array keyed by period slug.
-     * @since 15.0.0
+     * @todo It should be replaced after the dashboard bootstrap is merged.
      */
     public function getSummary($args = [])
     {
         $summary = [
             'today'      => [
                 'label'    => esc_html__('Today', 'wp-statistics'),
-                'visitors' => $this->count(array_merge($args, ['date' => DateRange::get('today')]))
+                'visitors' => $this->countDistinct(array_merge($args, ['date' => DateRange::get('today')]))
             ],
             'yesterday'  => [
                 'label'    => esc_html__('Yesterday', 'wp-statistics'),
-                'visitors' => $this->count(array_merge($args, ['date' => DateRange::get('yesterday')]))
+                'visitors' => $this->countDistinct(array_merge($args, ['date' => DateRange::get('yesterday')]))
             ],
             'this_week'  => [
                 'label'    => esc_html__('This week', 'wp-statistics'),
-                'visitors' => $this->count(array_merge($args, ['date' => DateRange::get('this_week')]))
+                'visitors' => $this->countDistinct(array_merge($args, ['date' => DateRange::get('this_week')]))
             ],
             'last_week'  => [
                 'label'    => esc_html__('Last week', 'wp-statistics'),
-                'visitors' => $this->count(array_merge($args, ['date' => DateRange::get('last_week')]))
+                'visitors' => $this->countDistinct(array_merge($args, ['date' => DateRange::get('last_week')]))
             ],
             'this_month' => [
                 'label'    => esc_html__('This month', 'wp-statistics'),
-                'visitors' => $this->count(array_merge($args, ['date' => DateRange::get('this_month')]))
+                'visitors' => $this->countDistinct(array_merge($args, ['date' => DateRange::get('this_month')]))
             ],
             'last_month' => [
                 'label'    => esc_html__('Last month', 'wp-statistics'),
-                'visitors' => $this->count(array_merge($args, ['date' => DateRange::get('last_month')]))
+                'visitors' => $this->countDistinct(array_merge($args, ['date' => DateRange::get('last_month')]))
             ],
             '7days'      => [
                 'label'    => esc_html__('Last 7 days', 'wp-statistics'),
-                'visitors' => $this->count(array_merge($args, ['date' => DateRange::get('7days')]))
+                'visitors' => $this->countDistinct(array_merge($args, ['date' => DateRange::get('7days')]))
             ],
             '30days'     => [
                 'label'    => esc_html__('Last 30 days', 'wp-statistics'),
-                'visitors' => $this->count(array_merge($args, ['date' => DateRange::get('30days')]))
+                'visitors' => $this->countDistinct(array_merge($args, ['date' => DateRange::get('30days')]))
             ],
             '90days'     => [
                 'label'    => esc_html__('Last 90 days', 'wp-statistics'),
-                'visitors' => $this->count(array_merge($args, ['date' => DateRange::get('90days')]))
+                'visitors' => $this->countDistinct(array_merge($args, ['date' => DateRange::get('90days')]))
             ],
             '6months'    => [
                 'label'    => esc_html__('Last 6 months', 'wp-statistics'),
-                'visitors' => $this->count(array_merge($args, ['date' => DateRange::get('6months')]))
+                'visitors' => $this->countDistinct(array_merge($args, ['date' => DateRange::get('6months')]))
             ],
             'this_year'  => [
                 'label'    => esc_html__('This year (Jan-Today)', 'wp-statistics'),
-                'visitors' => $this->count(array_merge($args, ['date' => DateRange::get('this_year')]))
+                'visitors' => $this->countDistinct(array_merge($args, ['date' => DateRange::get('this_year')]))
             ]
         ];
 
         if (!empty($args['include_total'])) {
             $summary['total'] = [
                 'label'    => esc_html__('Total', 'wp-statistics'),
-                'visitors' => $this->count(array_merge($args, ['ignore_date' => true]))
+                'visitors' => $this->countDistinct(array_merge($args, ['ignore_date' => true]))
             ];
         }
 
@@ -314,13 +325,14 @@ class SessionModel extends BaseModel
     }
 
     /**
-     * Count total page views ("hits") for a specific date and filter set.
+     * Sum `sessions.total_views` across sessions that satisfy the filters.
      *
-     * @param array $args See method body for accepted keys.
-     * @return int Total hits.
-     * @since 15.0.0
+     * Accepts the same filter keys recognised by {@see countDistinct()}.
+     *
+     * @param array<string,mixed> $args Optional. Filter arguments.
+     * @return int Aggregated view count.
      */
-    public function countHits($args = [])
+    public function countViews($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -373,63 +385,63 @@ class SessionModel extends BaseModel
     /**
      * Return a summary array (today, yesterday, this week, …) of hit totals.
      *
-     * @param array $args Arguments passed through to {@see countHits()}.
+     * @param array $args Arguments passed through to {@see countViews()}.
      * @return array Associative array keyed by period slug.
-     * @since 15.0.0
+     * @todo It should be replaced after the dashboard bootstrap is merged.
      */
     public function getHitsSummary($args = [])
     {
         $summary = [
             'today'      => [
                 'label' => esc_html__('Today', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('today')]))
+                'hits'  => $this->countViews(array_merge($args, ['date' => DateRange::get('today')]))
             ],
             'yesterday'  => [
                 'label' => esc_html__('Yesterday', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('yesterday')]))
+                'hits'  => $this->countViews(array_merge($args, ['date' => DateRange::get('yesterday')]))
             ],
             'this_week'  => [
                 'label' => esc_html__('This week', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('this_week')]))
+                'hits'  => $this->countViews(array_merge($args, ['date' => DateRange::get('this_week')]))
             ],
             'last_week'  => [
                 'label' => esc_html__('Last week', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('last_week')]))
+                'hits'  => $this->countViews(array_merge($args, ['date' => DateRange::get('last_week')]))
             ],
             'this_month' => [
                 'label' => esc_html__('This month', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('this_month')]))
+                'hits'  => $this->countViews(array_merge($args, ['date' => DateRange::get('this_month')]))
             ],
             'last_month' => [
                 'label' => esc_html__('Last month', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('last_month')]))
+                'hits'  => $this->countViews(array_merge($args, ['date' => DateRange::get('last_month')]))
             ],
             '7days'      => [
                 'label' => esc_html__('Last 7 days', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('7days')]))
+                'hits'  => $this->countViews(array_merge($args, ['date' => DateRange::get('7days')]))
             ],
             '30days'     => [
                 'label' => esc_html__('Last 30 days', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('30days')]))
+                'hits'  => $this->countViews(array_merge($args, ['date' => DateRange::get('30days')]))
             ],
             '90days'     => [
                 'label' => esc_html__('Last 90 days', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('90days')]))
+                'hits'  => $this->countViews(array_merge($args, ['date' => DateRange::get('90days')]))
             ],
             '6months'    => [
                 'label' => esc_html__('Last 6 months', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('6months')]))
+                'hits'  => $this->countViews(array_merge($args, ['date' => DateRange::get('6months')]))
             ],
             'this_year'  => [
                 'label' => esc_html__('This year (Jan-Today)', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['date' => DateRange::get('this_year')]))
+                'hits'  => $this->countViews(array_merge($args, ['date' => DateRange::get('this_year')]))
             ]
         ];
 
         if (!empty($args['include_total'])) {
             $summary['total'] = [
                 'label' => esc_html__('Total', 'wp-statistics'),
-                'hits'  => $this->countHits(array_merge($args, ['ignore_date' => true, 'historical' => true]))
+                'hits'  => $this->countViews(array_merge($args, ['ignore_date' => true, 'historical' => true]))
             ];
         }
 
@@ -437,1272 +449,22 @@ class SessionModel extends BaseModel
     }
 
     /**
-     * Count referred visitors on a given day, filtered by channel/name/domain.
+     * Return a breakdown of sessions grouped by one lookup dimension
+     * (browser, OS, device type, country, etc.).
      *
-     * @param array $args See method body for accepted keys.
-     * @return int Visitor count.
-     * @since 15.0.0
-     */
-    public function countDailyReferrers($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'date'           => '',
-            'source_channel' => '',
-            'source_name'    => '',
-            'referrer'       => '',
-        ]);
-
-        $query = Query::select(['COUNT(DISTINCT sessions.visitor_id) AS visitors'])
-            ->from('sessions')
-            ->join('referrers', ['sessions.referrer_id', 'referrers.ID'])
-            ->whereDate('sessions.started_at', $args['date'])
-            ->where('referrers.channel', '=', $args['source_channel'])
-            ->where('referrers.name', '=', $args['source_name'])
-            ->where('referrers.domain', '=', $args['referrer'])
-            ->whereNotNull('sessions.referrer_id');
-
-        $result = $query->getVar();
-
-        return $result ? (int)$result : 0;
-    }
-
-    /**
-     * Count the number of distinct non-null values in a chosen column.
+     * Pass the dimension via the `'by'` argument, e.g.
+     * `['device_browsers' => 'device_browser_id']`.
      *
-     * The `$field` argument can reference a virtual column (e.g. `country`),
-     * which is internally resolved to the proper joined table/column.
+     * Each result row contains:
+     *  • **label** – Human‑readable value from the lookup table.  
+     *  • **session_count** – Number of matching sessions.
      *
-     * @param array $args See method body for accepted keys.
-     * @return int Distinct count.
-     * @since 15.0.0
-     */
-    public function countColumnDistinct($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'field'          => 'ID',
-            'date'           => '',
-            'where_col'      => 'ID',
-            'where_val'      => '',
-            'where_not_null' => '',
-        ]);
-
-        $lookup = [
-            /* geo */
-            'location'       => ['countries', 'code', ['sessions.country_id', 'countries.ID']],
-            'country'        => ['countries', 'code', ['sessions.country_id', 'countries.ID']],
-            'continent'      => ['countries', 'continent', ['sessions.country_id', 'countries.ID']],
-            'continent_code' => ['countries', 'continent_code', ['sessions.country_id', 'countries.ID']],
-            'region'         => ['cities', 'region_name', ['sessions.city_id', 'cities.ID']],
-            'city'           => ['cities', 'city_name', ['sessions.city_id', 'cities.ID']],
-
-            /* devices */
-            'device_type'    => ['device_types', 'name', ['sessions.device_type_id', 'device_types.ID']],
-            'platform'       => ['device_oss', 'name', ['sessions.device_os_id', 'device_oss.ID']],
-            'device_os'      => ['device_oss', 'name', ['sessions.device_os_id', 'device_oss.ID']],
-            'agent'          => ['device_browsers', 'name', ['sessions.device_browser_id', 'device_browsers.ID']],
-            'device_browser' => ['device_browsers', 'name', ['sessions.device_browser_id', 'device_browsers.ID']],
-            'version'        => ['device_browser_versions', 'version', ['sessions.device_browser_version_id', 'device_browser_versions.ID']],
-
-            /* tech */
-            'resolution'     => ['resolutions', 'ID', ['sessions.resolution_id', 'resolutions.ID']],
-            'language'       => ['languages', 'code', ['sessions.language_id', 'languages.ID']],
-            'timezone'       => ['timezones', 'name', ['sessions.timezone_id', 'timezones.ID']],
-
-            /* referrers */
-            'referrer'       => ['referrers', 'domain', ['sessions.referrer_id', 'referrers.ID']],
-            'source_channel' => ['referrers', 'channel', ['sessions.referrer_id', 'referrers.ID']],
-            'source_name'    => ['referrers', 'name', ['sessions.referrer_id', 'referrers.ID']],
-        ];
-
-        $selectCol = $args['field'];
-        if (isset($lookup[$args['field']])) {
-            $meta      = $lookup[$args['field']];
-            $selectCol = "{$meta[0]}.{$meta[1]}";
-        }
-
-        $query = Query::select(["COUNT(DISTINCT {$selectCol}) AS total"])
-            ->from('sessions')
-            ->whereDate('sessions.started_at', $args['date']);
-
-        if (isset($lookup[$args['field']])) {
-            $meta = $lookup[$args['field']];
-            $query->join($meta[0], $meta[2]);
-        }
-
-        if (!empty($args['where_val'])) {
-            if (isset($lookup[$args['where_col']])) {
-                $meta = $lookup[$args['where_col']];
-                $query->join($meta[0], $meta[2])
-                    ->where("{$meta[0]}.{$meta[1]}", '=', $args['where_val']);
-            } else {
-                $query->where($args['where_col'], '=', $args['where_val']);
-            }
-        }
-
-        if (!empty($args['where_not_null'])) {
-            if (isset($lookup[$args['where_not_null']])) {
-                $meta = $lookup[$args['where_not_null']];
-                $query->join($meta[0], $meta[2])
-                    ->whereNotNull("{$meta[0]}.{$meta[1]}");
-            } else {
-                $query->whereNotNull($args['where_not_null']);
-            }
-        }
-
-        $result = $query->perPage(1, 1)->getVar();
-
-        return $result ? (int)$result : 0;
-    }
-
-    /**
-     * Get aggregated visitor counts grouped by a device-related dimension.
-     *
-     * @param array $args See method body for accepted keys.
-     * @return array[] Result rows each containing the requested dimension and
-     *                 `visitors`.
-     * @since 15.0.0
-     */
-    public function getVisitorsDevices($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'field'          => 'agent',
-            'date'           => '',
-            'where_not_null' => '',
-            'group_by'       => [],
-            'order_by'       => 'visitors',
-            'order'          => 'DESC',
-            'per_page'       => '',
-            'page'           => 1,
-        ]);
-
-        $map = [
-            'agent'       => ['device_browsers', 'name', ['sessions.device_browser_id', 'device_browsers.ID']],
-            'browser'     => ['device_browsers', 'name', ['sessions.device_browser_id', 'device_browsers.ID']],
-            'version'     => ['device_browser_versions', 'version', ['sessions.device_browser_version_id', 'device_browser_versions.ID']],
-            'platform'    => ['device_oss', 'name', ['sessions.device_os_id', 'device_oss.ID']],
-            'device_type' => ['device_types', 'name', ['sessions.device_type_id', 'device_types.ID']],
-            'resolution'  => ['resolutions', 'ID', ['sessions.resolution_id', 'resolutions.ID']],
-            'language'    => ['languages', 'code', ['sessions.language_id', 'languages.ID']],
-            'timezone'    => ['timezones', 'name', ['sessions.timezone_id', 'timezones.ID']],
-        ];
-
-        /* column to select */
-        $sel = $args['field'];
-        if (isset($map[$args['field']])) {
-            $meta = $map[$args['field']];
-            $sel  = "{$meta[0]}.{$meta[1]}";
-        }
-
-        $query = Query::select([
-            $sel . ' AS ' . $args['field'],
-            'COUNT(DISTINCT IFNULL(sessions.visitor_id, sessions.ID)) AS visitors',
-        ])
-            ->from('sessions')
-            ->whereDate('sessions.started_at', $args['date']);
-
-        /* join for main field */
-        if (isset($meta)) {
-            $query->join($meta[0], $meta[2]);
-        }
-
-        /* where_not_null */
-        if (!empty($args['where_not_null'])) {
-            if (isset($map[$args['where_not_null']])) {
-                $m = $map[$args['where_not_null']];
-                $query->join($m[0], $m[2])
-                    ->whereNotNull("{$m[0]}.{$m[1]}");
-            } else {
-                $query->whereNotNull($args['where_not_null']);
-            }
-        }
-
-        /* group_by */
-        $groups = array_filter($args['group_by']);
-        if (empty($groups)) {
-            $groups = [$sel];
-        } else {
-            foreach ($groups as $g) {
-                if (isset($map[$g])) {
-                    $m = $map[$g];
-                    $query->join($m[0], $m[2]);
-                    $groups[array_search($g, $groups, true)] = "{$m[0]}.{$m[1]}";
-                }
-            }
-        }
-        $query->groupBy($groups);
-
-        /* ordering & pagination */
-        $orderCol = $args['order_by'] === 'visitors' ? 'visitors' : $sel;
-        $query->orderBy($orderCol, $args['order'])
-            ->perPage($args['page'], $args['per_page']);
-
-        $rows = $query->getAll();
-
-        return $rows ?: [];
-    }
-
-    /**
-     * Get browser-version distribution for the selected subset of sessions.
-     *
-     * @param array $args See method body for accepted keys.
-     * @return array[] Rows with `casted_version` and `visitors`.
-     * @since 15.0.0
-     */
-    public function getVisitorsDevicesVersions($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'date'      => '',
-            'where_col' => 'agent',
-            'where_val' => '',
-            'order_by'  => 'visitors',
-            'order'     => 'DESC',
-            'per_page'  => '',
-            'page'      => 1,
-        ]);
-
-        $map = [
-            'agent'          => ['device_browsers', 'name', ['sessions.device_browser_id', 'device_browsers.ID']],
-            'browser'        => ['device_browsers', 'name', ['sessions.device_browser_id', 'device_browsers.ID']],
-            'platform'       => ['device_oss', 'name', ['sessions.device_os_id', 'device_oss.ID']],
-            'device_os'      => ['device_oss', 'name', ['sessions.device_os_id', 'device_oss.ID']],
-            'device_type'    => ['device_types', 'name', ['sessions.device_type_id', 'device_types.ID']],
-            'resolution'     => ['resolutions', 'ID', ['sessions.resolution_id', 'resolutions.ID']],
-            'language'       => ['languages', 'code', ['sessions.language_id', 'languages.ID']],
-            'timezone'       => ['timezones', 'name', ['sessions.timezone_id', 'timezones.ID']],
-            'country'        => ['countries', 'code', ['sessions.country_id', 'countries.ID']],
-            'continent'      => ['countries', 'continent', ['sessions.country_id', 'countries.ID']],
-            'city'           => ['cities', 'city_name', ['sessions.city_id', 'cities.ID']],
-            'region'         => ['cities', 'region_name', ['sessions.city_id', 'cities.ID']],
-            'source_channel' => ['referrers', 'channel', ['sessions.referrer_id', 'referrers.ID']],
-            'source_name'    => ['referrers', 'name', ['sessions.referrer_id', 'referrers.ID']],
-            'referrer'       => ['referrers', 'domain', ['sessions.referrer_id', 'referrers.ID']],
-        ];
-
-        $query = Query::select([
-            'CAST(device_browser_versions.version AS SIGNED) AS casted_version',
-            'COUNT(DISTINCT IFNULL(sessions.visitor_id, sessions.ID)) AS visitors',
-        ])
-            ->from('sessions')
-            ->join('device_browser_versions', ['sessions.device_browser_version_id', 'device_browser_versions.ID'])
-            ->whereDate('sessions.started_at', $args['date'])
-            ->groupBy('casted_version')
-            ->orderBy($args['order_by'] === 'visitors' ? 'visitors' : 'casted_version', $args['order'])
-            ->perPage($args['page'], $args['per_page']);
-
-        if (!empty($args['where_val']) && isset($map[$args['where_col']])) {
-            $meta = $map[$args['where_col']];
-            $query->join($meta[0], $meta[2])
-                ->where($meta[0] . '.' . $meta[1], '=', $args['where_val']);
-        }
-
-        return $query->getAll() ?: [];
-    }
-
-    /**
-     * Retrieve a list of sessions with rich, backward-compatible field mapping.
-     *
-     * @param array $args See method body for accepted keys.
-     * @return array[]|object[] Decorated session rows.
-     * @since 15.0.0
-     */
-    public function getVisitorsData($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'date'          => '',
-            'resource_type' => '',
-            'resource_id'   => '',
-            'post_type'     => '',
-            'author_id'     => '',
-            'post_id'       => '',
-            'country'       => '',
-            'agent'         => '',
-            'platform'      => '',
-            'user_id'       => '',
-            'ip'            => '',
-            'query_param'   => '',
-            'taxonomy'      => '',
-            'term'          => '',
-            'order_by'      => 'sessions.ID',
-            'order'         => 'DESC',
-            'page'          => 1,
-            'per_page'      => '',
-            'user_info'     => false,
-            'date_field'    => 'sessions.started_at',
-            'logged_in'     => false,
-            'user_role'     => '',
-            'event_target'  => '',
-            'event_name'    => '',
-            'fields'        => [],
-            'referrer'      => '',
-        ]);
-
-        $legacyMap = [
-            // legacy key            table            col            alias         coalesce?
-            'visitor.ID'             => ['sessions', 'ID', 'ID', false],
-            'visitor.ip'             => ['sessions', 'ip', 'ip', false],
-            'visitor.agent'          => ['device_browsers', 'name', 'agent', false],
-            'visitor.platform'       => ['device_oss', 'name', 'platform', false],
-            'visitor.model'          => ['device_types', 'name', 'model', false],
-            'visitor.hits'           => ['sessions', 'total_views', 'total_views', false],
-            'visitor.last_counter'   => ['sessions', 'started_at', 'last_counter', false],
-            'visitor.device'         => ['device_types', 'name', 'device', false],
-            'visitor.location'       => ['countries', 'code', 'country', true],
-            'visitor.region'         => ['cities', 'region_name', 'region', true],
-            'visitor.city'           => ['cities', 'city_name', 'city', true],
-            'visitor.source_name'    => ['referrers', 'name', 'source_name', true],
-            'visitor.source_channel' => ['referrers', 'channel', 'source_channel', true],
-        ];
-
-        $essential = [
-            'sessions.ID',
-            'sessions.initial_view_id',
-            'sessions.last_view_id',
-            'sessions.device_browser_id',
-            'sessions.device_os_id',
-            'sessions.device_type_id',
-            'sessions.device_browser_version_id',
-            'sessions.visitor_id',
-            'sessions.user_id',
-            'sessions.country_id',
-            'sessions.city_id',
-            'sessions.referrer_id',
-        ];
-
-        $requested = $args['fields'];
-        if (empty($requested)) {
-            $requested = array_keys($legacyMap);
-        }
-
-        $select = $essential;
-        $joins  = [];
-
-        foreach ($requested as $key) {
-            if (!isset($legacyMap[$key])) {
-                $select[] = $key;
-                continue;
-            }
-
-            [$tbl, $col, $alias, $coalesce] = $legacyMap[$key];
-            $expr        = $coalesce ? "COALESCE({$tbl}.{$col}, '')" : "{$tbl}.{$col}";
-            $select[]    = "{$expr} AS {$alias}";
-            $joins[$tbl] = true;
-        }
-
-        $query = Query::select($select)
-            ->from('sessions')
-            ->perPage($args['page'], $args['per_page'])
-            ->groupBy('sessions.ID')
-            ->decorate(SessionDecorator::class);
-
-        $query->join('visitors', ['sessions.visitor_id', 'visitors.ID'], [], 'LEFT')
-            ->join('resources', ['sessions.initial_view_id', 'resources.ID'], [], 'LEFT')
-            ->join('users', ['sessions.user_id', 'users.ID'], [], 'LEFT');
-
-        if (isset($joins['device_browsers'])) {
-            $query->join('device_browsers', ['sessions.device_browser_id', 'device_browsers.ID']);
-        }
-        if (isset($joins['device_oss'])) {
-            $query->join('device_oss', ['sessions.device_os_id', 'device_oss.ID']);
-        }
-        if (isset($joins['device_types'])) {
-            $query->join('device_types', ['sessions.device_type_id', 'device_types.ID']);
-        }
-        if (isset($joins['countries'])) {
-            $query->join('countries', ['sessions.country_id', 'countries.ID'], [], 'LEFT');
-        }
-        if (isset($joins['cities'])) {
-            $query->join('cities', ['sessions.city_id', 'cities.ID'], [], 'LEFT');
-        }
-        if (!empty($joins['referrers'])) {
-            $query->join('referrers', ['sessions.referrer_id', 'referrers.ID'], [], 'LEFT');
-        }
-
-        $query->whereDate($args['date_field'], $args['date']);
-
-        $query->where('sessions.ip', 'LIKE', "%{$args['ip']}%")
-            ->where('sessions.user_id', '=', $args['user_id']);
-
-        if ($args['logged_in']) {
-            $query->where('sessions.user_id', '!=', 0)
-                ->whereNotNull('sessions.user_id');
-
-            if (!empty($args['user_role'])) {
-                $query->join('usermeta', ['sessions.user_id', 'usermeta.user_id'])
-                    ->where('usermeta.meta_key', '=', 'wp_capabilities')
-                    ->where('usermeta.meta_value', 'LIKE', "%{$args['user_role']}%");
-            }
-        }
-
-        if (!empty($args['country'])) {
-            $query->join('countries', ['sessions.country_id', 'countries.ID'])
-                ->where('countries.code', '=', $args['country']);
-        }
-        if (!empty($args['agent'])) {
-            $query->join('device_browsers', ['sessions.device_browser_id', 'device_browsers.ID'])
-                ->where('device_browsers.name', '=', $args['agent']);
-        }
-        if (!empty($args['platform'])) {
-            $query->join('device_oss', ['sessions.device_os_id', 'device_oss.ID'])
-                ->where('device_oss.name', '=', $args['platform']);
-        }
-
-        if (!empty($args['referrer'])) {
-            $query->join('referrers', ['sessions.referrer_id', 'referrers.ID'])
-                ->where('referrers.domain', '=', $args['referrer']);
-        }
-
-        $query->where('resources.resource_type', 'IN', $args['resource_type'])
-            ->where('resources.resource_id', '=', $args['resource_id'])
-            ->where('resources.resource_url', 'LIKE', "%{$args['query_param']}%");
-
-        $orderCol = $args['order_by'];
-
-        if ($orderCol === 'visitor.ID' || $orderCol === 'visitors.ID') {
-            $orderCol = 'visitors.ID';
-        } elseif ($orderCol === 'hits') {
-            $orderCol = 'sessions.total_views';
-        }
-        $query->orderBy($orderCol, $args['order']);
-
-        return $query->getAll() ?: [];
-    }
-
-    /**
-     * Return detailed sessions that originated from a referrer.
-     *
-     * @param array $args See method body for accepted keys.
-     * @return array[]|object[] Decorated session rows.
-     * @since 15.0.0
-     */
-    public function getReferredVisitors($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'date'           => '',
-            'source_channel' => '',
-            'source_name'    => '',
-            'referrer'       => '',
-            'order_by'       => 'sessions.ID',
-            'order'          => 'desc',
-            'page'           => '',
-            'per_page'       => '',
-        ]);
-
-        $query = Query::select([
-            'sessions.*',
-            'users.display_name',
-            'users.user_email'
-        ])
-            ->from('sessions')
-            ->join('referrers', ['sessions.referrer_id', 'referrers.ID'])
-            ->join('visitors', ['sessions.visitor_id', 'visitors.ID'], [], 'LEFT')
-            ->join('users', ['sessions.user_id', 'users.ID'], [], 'LEFT')
-            ->whereNotNull('sessions.referrer_id')
-            ->whereDate('sessions.started_at', $args['date'])
-            ->perPage($args['page'], $args['per_page'])
-            ->orderBy($args['order_by'], $args['order'])
-            ->where('referrers.name', '=', $args['source_name'])
-            ->where('referrers.domain', '=', $args['referrer'])
-            ->decorate(SessionDecorator::class);
-
-        if ($args['source_channel'] === 'unassigned') {
-            $query->whereNull('referrers.channel');
-        } elseif (!empty($args['source_channel'])) {
-            $query->where('referrers.channel', '=', $args['source_channel']);
-        }
-
-        return $query->getAll() ?: [];
-    }
-
-    /**
-     * Count sessions that match a referrer filter.
-     *
-     * @param array $args See method body for accepted keys.
-     * @return int Session count.
-     * @since 15.0.0
-     */
-    public function countReferredVisitors($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'date'           => '',
-            'source_channel' => '',
-            'source_name'    => '',
-            'referrer'       => ''
-        ]);
-
-        $query = Query::select('COUNT(*)')
-            ->from('sessions')
-            ->join('referrers', ['sessions.referrer_id', 'referrers.ID'])
-            ->whereNotNull('sessions.referrer_id')
-            ->where('referrers.name', '=', $args['source_name'])
-            ->where('referrers.domain', '=', $args['referrer'])
-            ->whereDate('sessions.started_at', $args['date']);
-
-        if ($args['source_channel'] === 'unassigned') {
-            $query->whereNull('referrers.channel');
-        } elseif (!empty($args['source_channel'])) {
-            $query->where('referrers.channel', '=', $args['source_channel']);
-        }
-
-        return $query->getVar() ?? 0;
-    }
-
-    /**
-     * Search sessions by user/visitor identifiers.
-     *
-     * @param array $args See method body for accepted keys.
-     * @return array[] Result rows.
-     * @since 15.0.0
-     */
-    public function searchVisitors($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'user_id'  => '',
-            'ip'       => '',
-            'username' => '',
-            'email'    => '',
-        ]);
-
-        $query = Query::select([
-            'sessions.ID',
-            'sessions.visitor_id',
-            'sessions.ip',
-            'users.display_name',
-            'users.user_email',
-            'users.user_login'
-        ])
-            ->from('sessions')
-            ->join('users', ['sessions.user_id', 'users.ID'], [], 'LEFT')
-            ->where('sessions.user_id', '=', $args['user_id'])
-            ->where('users.user_email', 'LIKE', "%{$args['email']}%")
-            ->where('users.user_login', 'LIKE', "%{$args['username']}%")
-            ->whereRelation('OR')
-            ->whereRaw(
-                "sessions.ip LIKE '#hash#%%' AND sessions.ip LIKE %s",
-                ["#hash#{$args['ip']}%"]
-            )
-            ->whereRaw(
-                "sessions.ip NOT LIKE '#hash#%%' AND sessions.ip LIKE %s",
-                ["{$args['ip']}%"]
-            )
-            ->getAll();
-
-        return $query ?: [];
-    }
-
-    /**
-     * Fetch the most recent session for a visitor, including optional joins.
-     *
-     * @param array $args See method body for accepted keys.
-     * @return object|null Decorated session or null.
-     * @since 15.0.0
-     */
-    public function getVisitorData($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'fields'     => [],
-            'visitor_id' => '',
-            'ip'         => '',
-            'decorate'   => true,
-            'page_info'  => true,
-            'user_info'  => true,
-        ]);
-
-        // If visitor_id not given, attempt to resolve via IP
-        if (empty($args['visitor_id']) && !empty($args['ip'])) {
-            $args['visitor_id'] = Query::select(['visitor_id'])
-                ->from('sessions')
-                ->where('ip', '=', $args['ip'])
-                ->orderBy('ID', 'DESC')
-                ->perPage(1)
-                ->getVar();
-        }
-
-        if (empty($args['visitor_id'])) {
-            return null;
-        }
-
-        $select = [
-            'sessions.ID',
-            'sessions.device_browser_id',
-            'sessions.device_os_id',
-            'sessions.device_type_id',
-            'sessions.device_browser_version_id',
-            'sessions.resolution_id',
-            'sessions.language_id',
-            'sessions.timezone_id',
-            'sessions.user_id',
-            'sessions.ip',
-            'sessions.country_id',
-            'sessions.city_id',
-            'sessions.started_at',
-            'sessions.ended_at',
-            'sessions.duration',
-            'sessions.total_views',
-            'sessions.initial_view_id',
-            'sessions.last_view_id',
-            'sessions.referrer_id',
-            'device_browsers.name  AS agent',
-            'device_oss.name       AS platform',
-            'device_types.name     AS device',
-            'countries.code        AS country',
-            'cities.region_name    AS region',
-            'cities.city_name      AS city',
-            'referrers.channel     AS source_channel',
-            'referrers.name        AS source_name',
-        ];
-
-        if ($args['page_info']) {
-            $select[] = 'resources.resource_url AS first_uri';
-        }
-
-        if ($args['user_info']) {
-            $select = array_merge($select, [
-                'users.display_name',
-                'users.user_email',
-                'users.user_login',
-                'users.user_registered',
-            ]);
-        }
-
-        $select = array_merge($select, $args['fields']);
-
-        $query = Query::select($select)
-            ->from('sessions')
-            ->where('sessions.visitor_id', '=', $args['visitor_id'])
-            ->orderBy('sessions.started_at', 'DESC')
-            ->perPage(1)
-            ->join('device_browsers', ['sessions.device_browser_id', 'device_browsers.ID'], [], 'LEFT')
-            ->join('device_oss', ['sessions.device_os_id', 'device_oss.ID'], [], 'LEFT')
-            ->join('device_types', ['sessions.device_type_id', 'device_types.ID'], [], 'LEFT')
-            ->join('countries', ['sessions.country_id', 'countries.ID'], [], 'LEFT')
-            ->join('cities', ['sessions.city_id', 'cities.ID'], [], 'LEFT')
-            ->join('referrers', ['sessions.referrer_id', 'referrers.ID'], [], 'LEFT');
-
-        if ($args['page_info']) {
-            $query->join('resources', ['sessions.initial_view_id', 'resources.ID'], [], 'LEFT');
-        }
-
-        if ($args['user_info']) {
-            $query->join('users', ['sessions.user_id', 'users.ID'], [], 'LEFT');
-        }
-
-        if ($args['decorate']) {
-            $query->decorate(SessionDecorator::class);
-        }
-
-        return $query->getRow();
-    }
-
-    /**
-     * Return the chronological journey (views) for a visitor.
-     *
-     * @param array $args {
-     * @type int $visitor_id Required visitor ID.
-     * @type bool $ignore_date Whether to ignore date filtering.
-     * }
-     * @return array[] Rows ordered by `date`.
-     * @since 15.0.0
-     */
-    public function getJourney($args)
-    {
-        $args = $this->parseArgs($args, [
-            'visitor_id'  => '',
-            'ignore_date' => true,
-        ]);
-
-        if (empty($args['visitor_id'])) {
-            return [];
-        }
-
-        return Query::select([
-            'views.viewed_at AS date',
-            'views.resource_id',
-            'views.session_id',
-            'views.viewed_at',
-            'resources.resource_url',
-            'resources.cached_title',
-        ])
-            ->from('sessions')
-            ->join('views', ['sessions.ID', 'views.session_id'])
-            ->join('resources', ['views.resource_id', 'resources.ID'])
-            ->where('sessions.visitor_id', '=', $args['visitor_id'])
-            ->orderBy('views.viewed_at', 'ASC')
-            ->decorate(ViewDecorator::class)
-            ->getAll() ?: [];
-    }
-
-    /**
-     * Count distinct geo-location items (city, region, country, …).
-     *
-     * @param array $args See method body for accepted keys.
-     * @return int Count result.
-     * @since 15.0.0
-     */
-    public function countGeoData($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'date'        => '',
-            'count_field' => 'country',
-            'continent'   => '',
-            'country'     => '',
-            'region'      => '',
-            'city'        => '',
-            'not_null'    => '',
-        ]);
-
-        $geoMap = [
-            'continent' => ['countries', 'continent', ['sessions.country_id', 'countries.ID']],
-            'country'   => ['countries', 'code', ['sessions.country_id', 'countries.ID']],
-            'region'    => ['cities', 'region_name', ['sessions.city_id', 'cities.ID']],
-            'city'      => ['cities', 'city_name', ['sessions.city_id', 'cities.ID']],
-        ];
-
-        if (!isset($geoMap[$args['count_field']])) {
-            return 0;
-        }
-
-        list($table, $column, $join) = $geoMap[$args['count_field']];
-
-        $query = Query::select(["COUNT(DISTINCT {$table}.{$column}) AS total"])
-            ->from('sessions')
-            ->join($table, $join)
-            ->whereDate('sessions.started_at', $args['date']);
-
-        if (!empty($args['continent'])) {
-            $query->join('countries', ['sessions.country_id', 'countries.ID'])
-                ->where('countries.continent', '=', $args['continent']);
-        }
-
-        if (!empty($args['country'])) {
-            $query->join('countries', ['sessions.country_id', 'countries.ID'])
-                ->where('countries.code', '=', $args['country']);
-        }
-
-        if (!empty($args['region'])) {
-            $query->join('cities', ['sessions.city_id', 'cities.ID'])
-                ->where('cities.region_name', '=', $args['region']);
-        }
-
-        if (!empty($args['city'])) {
-            $query->join('cities', ['sessions.city_id', 'cities.ID'])
-                ->where('cities.city_name', '=', $args['city']);
-        }
-
-        if (!empty($args['not_null']) && isset($geoMap[$args['not_null']])) {
-            list($ntTable, $ntColumn, $ntJoin) = $geoMap[$args['not_null']];
-            $query->join($ntTable, $ntJoin)
-                ->whereNotNull("{$ntTable}.{$ntColumn}");
-        }
-
-        $result = $query->getVar();
-
-        return $result ? (int)$result : 0;
-    }
-
-    /**
-     * Aggregate visitor and view counts grouped by geographic columns.
-     *
-     * @param array $args See method body for accepted keys.
-     * @return array[] Result rows.
-     * @since 15.0.0
-     */
-    public function getByGeo($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'fields'       => [
-                'countries.code as country',
-                'cities.city_name as city',
-                'cities.region_name as region',
-                'countries.continent as continent',
-                'COUNT(DISTINCT IFNULL(sessions.visitor_id, sessions.ID)) as visitors',
-                'SUM(sessions.total_views) as views',
-            ],
-            'date'         => '',
-            'country'      => '',
-            'city'         => '',
-            'region'       => '',
-            'continent'    => '',
-            'not_null'     => '',
-            'post_type'    => '',
-            'author_id'    => '',
-            'post_id'      => '',
-            'per_page'     => '',
-            'query_param'  => '',
-            'taxonomy'     => '',
-            'term'         => '',
-            'page'         => 1,
-            'group_by'     => 'countries.code',
-            'event_name'   => '',
-            'event_target' => '',
-            'order_by'     => ['visitors', 'views'],
-            'order'        => 'DESC',
-        ]);
-
-        $query = Query::select($args['fields'])
-            ->from('sessions')
-            ->whereDate('sessions.started_at', $args['date'])
-            ->perPage($args['page'], $args['per_page']);
-
-        $query->join('countries', ['sessions.country_id', 'countries.ID'])
-            ->join('cities', ['sessions.city_id', 'cities.ID'])
-            ->where('countries.continent', 'IN', $args['continent'])
-            ->where('cities.city_name', 'IN', $args['city'])
-            ->where('cities.region_name', 'IN', $args['region'])
-            ->where('countries.code', 'IN', $args['country']);
-
-        if (!empty($args['not_null'])) {
-            $map = [
-                'country'   => ['countries', 'code'],
-                'city'      => ['cities', 'city_name'],
-                'region'    => ['cities', 'region_name'],
-                'continent' => ['countries', 'continent']
-            ];
-
-            if (isset($map[$args['not_null']])) {
-                list($table, $column) = $map[$args['not_null']];
-                $query->whereNotNull("{$table}.{$column}");
-            }
-        }
-
-        $resourceFilters = array_filter(array_intersect_key($args, array_flip([
-            'post_type', 'post_id', 'query_param', 'author_id', 'taxonomy', 'term'
-        ])));
-
-        if (!empty($resourceFilters)) {
-            $query->join('views', ['views.session_id', 'sessions.ID'])
-                ->join('resources', ['views.resource_id', 'resources.ID'])
-                ->join('posts', ['posts.ID', 'resources.resource_id'], [], 'LEFT')
-                ->where('resources.resource_type', 'IN', $args['post_type'])
-                ->where('resources.resource_id', '=', $args['post_id'])
-                ->where('resources.resource_url', '=', $args['query_param'])
-                ->where('resources.cached_author_id', '=', $args['author_id']);
-
-            if (!empty($args['taxonomy']) || !empty($args['term'])) {
-                $taxQuery = Query::select(['DISTINCT object_id'])
-                    ->from('term_relationships')
-                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                    ->where('terms.term_id', '=', $args['term'])
-                    ->getQuery();
-
-                $query->joinQuery($taxQuery, ['resources.resource_id', 'tax.object_id'], 'tax');
-            }
-        }
-
-        if (!empty($args['event_target']) || !empty($args['event_name'])) {
-            $query->join('events', ['events.session_id', 'sessions.ID'])
-                ->where('event_name', 'IN', $args['event_name'])
-                ->whereJson('event_data', 'target_url', '=', $args['event_target']);
-        }
-
-        $query->groupBy($args['group_by'])
-            ->orderBy($args['order_by'], $args['order']);
-
-        $result = $query->getAll();
-
-        return $result ?: [];
-    }
-
-    /**
-     * Fetch sessions whose country/continent information is incomplete.
-     *
-     * @param bool $returnCount When true, return an integer count instead of rows.
-     * @return int|array[] Count or rows depending on `$returnCount`.
-     * @since 15.0.0
-     */
-    public function getMissingLocationData($returnCount = false)
-    {
-        $privateCountry = GeolocationFactory::getProviderInstance()->getPrivateCountryCode();
-
-        $selectFields = $returnCount ? 'COUNT(*)' : ['sessions.ID'];
-
-        $query = Query::select($selectFields)
-            ->from('sessions')
-            ->join('countries', ['sessions.country_id', 'countries.ID'], [], 'LEFT')
-            ->whereRaw(
-                "(
-                    countries.code = ''
-                    OR countries.code = %s
-                    OR countries.code IS NULL
-                    OR countries.continent = ''
-                    OR countries.continent IS NULL
-                    OR countries.continent = countries.code
-                )
-                AND sessions.ip NOT LIKE '#hash#%'",
-                [$privateCountry]
-            );
-
-        return $returnCount ? intval($query->getVar()) : $query->getAll();
-    }
-
-    /**
-     * List sessions that have a referrer but no source channel/name assigned.
-     *
-     * @return array[] Session IDs.
-     * @since 15.0.0
-     */
-    public function getUnassignedReferrers()
-    {
-        $query = Query::select(['sessions.ID'])
-            ->from('sessions')
-            ->join('referrers', ['sessions.referrer_id', 'referrers.ID'])
-            ->whereNotNull('sessions.referrer_id')
-            ->whereNull('referrers.channel')
-            ->whereNull('referrers.name');
-
-        return $query->getAll() ?: [];
-    }
-
-    /**
-     * Get aggregated referrer data with optional decoration.
-     *
-     * @param array $args See method body for accepted keys.
-     * @return array[]|object[] Result rows (optionally decorated).
-     * @since 15.0.0
-     */
-    public function getReferrers($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'date'           => '',
-            'post_type'      => '',
-            'source_channel' => '',
-            'post_id'        => '',
-            'country'        => '',
-            'query_param'    => '',
-            'taxonomy'       => '',
-            'term'           => '',
-            'referrer'       => '',
-            'not_null'       => 'referrers.domain',
-            'group_by'       => 'referrers.domain',
-            'page'           => 1,
-            'per_page'       => 10,
-            'decorate'       => false
-        ]);
-
-        $filteredArgs = array_filter($args);
-
-        $query = Query::select([
-            'COUNT(DISTINCT IFNULL(sessions.visitor_id, sessions.ID)) AS visitors',
-            'referrers.domain AS domain',
-            'referrers.channel AS source_channel',
-            'referrers.name AS source_name',
-            'MAX(sessions.started_at) AS last_counter'
-        ])
-            ->from('sessions')
-            ->join('referrers', ['sessions.referrer_id', 'referrers.ID'])
-            ->where('countries.code', '=', $args['country'])
-            ->groupBy($args['group_by'])
-            ->orderBy('visitors', 'DESC')
-            ->perPage($args['page'], $args['per_page']);
-
-        if (!empty($args['source_channel'])) {
-            $query->where('referrers.channel', 'IN', $args['source_channel']);
-        }
-
-        if (!empty($args['referrer'])) {
-            $query->where('referrers.domain', 'LIKE', "%{$args['referrer']}%");
-        }
-
-        if (!empty($args['not_null'])) {
-            $query->whereNotNull($args['not_null']);
-        } else {
-            // fallback to broad match for referral
-            $query->whereRaw("
-                AND (
-                    (referrers.domain != '' AND referrers.domain IS NOT NULL)
-                    OR (referrers.channel IS NOT NULL AND referrers.channel != '')
-                )
-            ");
-        }
-
-        if (!empty($args['date']) && !array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
-            $query->whereDate('sessions.started_at', $args['date']);
-        }
-
-        if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
-            $query
-                ->join('views', ['views.session_id', 'sessions.ID'])
-                ->join('resources', ['views.resource_id', 'resources.ID'])
-                ->join('posts', ['posts.ID', 'resources.resource_id'], [], 'LEFT')
-                ->where('resources.resource_type', 'IN', $args['post_type'])
-                ->where('resources.resource_url', '=', $args['query_param'])
-                ->where('resources.resource_id', '=', $args['post_id'])
-                ->where('resources.cached_author_id', '=', $args['author_id']);
-
-            if (!empty($args['taxonomy']) || !empty($args['term'])) {
-                $taxQuery = Query::select(['DISTINCT object_id'])
-                    ->from('term_relationships')
-                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                    ->where('terms.term_id', '=', $args['term'])
-                    ->getQuery();
-
-                $query->joinQuery($taxQuery, ['resources.resource_id', 'tax.object_id'], 'tax');
-            }
-        }
-
-        if ($args['decorate']) {
-            $query->decorate(ReferrerDecorator::class);
-        }
-
-        return $query->getAll() ?: [];
-    }
-
-    /**
-     * Count the number of distinct referrers that satisfy the filters.
-     *
-     * @param array $args See method body for accepted keys.
-     * @return int Referrer count.
-     * @since 15.0.0
-     */
-    public function countReferrers($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'date'           => '',
-            'source_channel' => '',
-            'post_type'      => '',
-            'post_id'        => '',
-            'country'        => '',
-            'query_param'    => '',
-            'taxonomy'       => '',
-            'term'           => '',
-            'not_null'       => 'referrers.domain'
-        ]);
-
-        $query = Query::select(['COUNT(DISTINCT referrers.domain) AS total'])
-            ->from('sessions')
-            ->join('referrers', ['sessions.referrer_id', 'referrers.ID'])
-            ->whereNotNull($args['not_null'])
-            ->whereDate('sessions.started_at', $args['date']);
-
-        if (!empty($args['source_channel'])) {
-            $query->where('referrers.channel', 'IN', $args['source_channel']);
-        }
-
-        if (!empty($args['country'])) {
-            $query->join('countries', ['sessions.country_id', 'countries.ID'])
-                ->where('countries.code', '=', $args['country']);
-        }
-
-        $resourceFilters = array_filter(array_intersect_key($args, array_flip([
-            'post_type', 'post_id', 'query_param', 'author_id', 'taxonomy', 'term'
-        ])));
-
-        if (!empty($resourceFilters)) {
-            $query
-                ->join('views', ['views.session_id', 'sessions.ID'])
-                ->join('resources', ['views.resource_id', 'resources.ID'])
-                ->join('posts', ['posts.ID', 'resources.resource_id'], [], 'LEFT')
-                ->where('resources.resource_type', 'IN', $args['post_type'])
-                ->where('resources.resource_id', '=', $args['post_id'])
-                ->where('resources.resource_url', '=', $args['query_param']);
-
-            if (!empty($args['taxonomy']) || !empty($args['term'])) {
-                $taxQuery = Query::select(['DISTINCT object_id'])
-                    ->from('term_relationships')
-                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                    ->where('terms.term_id', '=', $args['term'])
-                    ->getQuery();
-
-                $query->joinQuery($taxQuery, ['resources.resource_id', 'tax.object_id'], 'tax');
-            }
-        }
-
-        return (int)($query->getVar() ?? 0);
-    }
-
-    /**
-     * Return day-level statistics for visitors, visits, and referrers.
-     *
-     * @param array $args See method body for accepted keys.
-     * @return array[] Rows keyed by date.
-     * @since 15.0.0
-     */
-    public function getDailyStats($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'date'          => DateRange::get('30days'),
-            'post_type'     => '',
-            'post_id'       => '',
-            'resource_type' => '',
-            'author_id'     => '',
-            'taxonomy'      => '',
-            'term_id'       => '',
-        ]);
-
-        $range = is_array($args['date']) ? $args['date'] : DateRange::get('30days');
-        $start = $range['from'] . ' 00:00:00';
-        $end   = date('Y-m-d', strtotime($range['to'] . ' +1 day')) . ' 00:00:00';
-
-        $fields = [
-            'DATE(sessions.started_at) AS date',
-            'COUNT(DISTINCT sessions.visitor_id) AS visitors',
-            'SUM(sessions.total_views) AS visits',
-            'COUNT(DISTINCT CASE WHEN referrers.domain IS NOT NULL AND referrers.domain != "" THEN sessions.visitor_id END) AS referrers',
-        ];
-
-        $query = Query::select($fields)
-            ->from('sessions')
-            ->join('referrers', ['sessions.referrer_id', 'referrers.ID'], [], 'LEFT')
-            ->where('sessions.started_at', '>=', $start)
-            ->where('sessions.started_at', '<', $end)
-            ->groupBy('DATE(sessions.started_at)');
-
-        $filteredArgs = array_filter($args);
-
-        if (array_intersect(['post_type', 'post_id', 'resource_type', 'author_id', 'taxonomy', 'term_id'], array_keys($filteredArgs))) {
-            $query
-                ->join('views', ['views.session_id', 'sessions.ID'])
-                ->join('resources', ['views.resource_id', 'resources.ID'])
-                ->join('posts', ['posts.ID', 'resources.resource_id'], [], 'LEFT');
-
-            if (!empty($args['resource_type'])) {
-                $query->where('resources.resource_type', 'IN', $args['resource_type']);
-
-                if (!empty($args['post_id'])) {
-                    $query->where('resources.resource_id', '=', $args['post_id']);
-                }
-            } else {
-                if (!empty($args['post_type'])) {
-                    $query->where('posts.post_type', 'IN', $args['post_type']);
-                }
-
-                if (!empty($args['post_id'])) {
-                    $query->where('posts.ID', '=', $args['post_id']);
-                }
-
-                if (!empty($args['author_id'])) {
-                    $query->where('posts.post_author', '=', $args['author_id']);
-                }
-            }
-
-            if (!empty($args['taxonomy']) && !empty($args['term_id']) && empty($args['resource_type'])) {
-                $taxQuery = Query::select(['DISTINCT object_id'])
-                    ->from('term_relationships')
-                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                    ->where('terms.term_id', '=', $args['term_id'])
-                    ->getQuery();
-
-                $query->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
-            }
-        }
-
-        return $query->getAll() ?: [];
-    }
-
-    /**
-     * Sum total views generated by a specific user on a given date.
-     *
-     * @param array $args {
-     * @type string $date Date to filter.
-     * @type int $user_id User ID.
-     * }
-     * @return int Hit total.
-     * @since 15.0.0
-     */
-    public function getVisitorHits($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'date'    => '',
-            'user_id' => '',
-        ]);
-
-        $query = Query::select('SUM(sessions.total_views) as hits')
-            ->from('sessions')
-            ->where('sessions.user_id', '=', $args['user_id'])
-            ->whereDate('sessions.started_at', $args['date']);
-
-        $result = $query->getVar();
-
-        return intval($result);
-    }
-
-    /**
-     * Count sessions currently online (five-minute window).
-     *
-     * @return int Number of online sessions.
-     * @since 15.0.0
-     */
-    public function countOnlines($args = [])
-    {
-        return Query::select('COUNT(*)')
-            ->from('sessions')
-            ->where('ended_at', '>=', gmdate('Y-m-d H:i:s', time() - 300))
-            ->getVar();
-    }
-
-    /**
-     * Retrieve a paginated list of sessions that are still online.
-     *
-     * @param array $args {
-     * @type int $page Page number.
-     * @type int $per_page Items per page.
-     * @type string $order_by Column for ordering.
-     * @type string $order ASC|DESC.
-     * }
-     * @return array[]|object[] Decorated session rows.
-     * @since 15.0.0
-     */
-    public function getOnlineVisitorsData($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'page'     => 1,
-            'per_page' => '',
-            'order_by' => 'sessions.ended_at',
-            'order'    => 'DESC',
-        ]);
-
-        $query = Query::select([
-            'sessions.ID as session_id',
-            'sessions.visitor_id',
-            'sessions.user_id',
-            'sessions.ip',
-            'sessions.started_at',
-            'sessions.ended_at',
-            'sessions.referrer_id',
-            'sessions.device_browser_id',
-            'sessions.device_os_id',
-            'sessions.device_browser_version_id',
-            'sessions.country_id',
-            'sessions.city_id',
-            'sessions.total_views',
-            'sessions.initial_view_id',
-            'sessions.last_view_id',
-            'users.display_name',
-            'users.user_email'
-        ])
-            ->from('sessions')
-            ->join('users', ['sessions.user_id', 'users.ID'], [], 'LEFT')
-            ->where('sessions.ended_at', '>=', gmdate('Y-m-d H:i:s', time() - 300))
-            ->orderBy($args['order_by'], $args['order'])
-            ->perPage($args['page'], $args['per_page'])
-            ->decorate(SessionDecorator::class);
-
-        return $query->getAll() ?: [];
-    }
-
-    /**
-     * Aggregate session counts grouped by a chosen device dimension
-     * (browser, platform, device type, etc.).
-     * 
-     * @param array $args {
-     *     Optional. Query arguments.
-     *
-     *     @type array|string $by   Associative array of lookup table ⇒ foreign‑key column.
-     *                              Defaults to ['device_browsers' => 'device_browser_id'].
-     *     @type string|array $date Date preset (e.g. 'today', '7days') or
-     *                              ['from' => 'Y-m-d', 'to' => 'Y-m-d'].
-     * }
-     * @return array[] Each row contains:
-     *                 - string $label         Human‑readable name from the lookup table.
-     *                 - int    $session_count Number of sessions.
-     * @since 15.0.0
+     * @param array{
+     *     by:       array<string,string>,
+     *     date?:    array{from:string,to:string},
+     *     per_page?: int
+     * } $args Arguments controlling dimension, date filter and limit.
+     * @return array<array{label:string,session_count:int}>
      */
     public function countUsage($args = [])
     {
@@ -1713,7 +475,6 @@ class SessionModel extends BaseModel
             'date' => '',
         ]);
 
-        // Resolve lookup table & FK
         $lookupTable      = key($args['by']);
         $foreignKeyColumn = current($args['by']);
 
@@ -1731,7 +492,6 @@ class SessionModel extends BaseModel
             ->join($lookupTable, ["sessions.$foreignKeyColumn", "{$lookupTable}.ID"])
             ->whereNotNull("sessions.$foreignKeyColumn");
 
-        // Optional date window
         if (!empty($args['date'])) {
             $query->where('sessions.started_at', '>=', $args['date']['from'] . ' 00:00:00')
                   ->where('sessions.started_at', '<=', $args['date']['to']   . ' 23:59:59');
