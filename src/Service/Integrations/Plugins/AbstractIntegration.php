@@ -37,6 +37,16 @@ abstract class AbstractIntegration
     }
 
     /**
+     * Check if the integration option is selectable.
+     *
+     * @return  bool
+     */
+    public function isSelectable()
+    {
+        return $this->isActive();
+    }
+
+    /**
      * Get integration status
      * @return array
      */

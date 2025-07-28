@@ -122,16 +122,8 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
                     <select id="consent_integration" name="wps_consent_integration" <?php disabled(IntegrationHelper::isIntegrationActive('borlabs_cookie')) ?>>
                         <option value="" <?php selected(WP_STATISTICS\Option::get('consent_integration')); ?>><?php esc_html_e('None', 'wp-statistics'); ?></option>
 
-                        <?php foreach (IntegrationHelper::getAllIntegrations() as $integration) :
-                            $isDisabled = $integration->isActive();
-
-                            // Check if the WP Statistics service is installed on Borlabs
-                            if ($integration->getKey() === 'borlabs_cookie') {
-                                $isDisabled = IntegrationHelper::getIntegration('borlabs_cookie')->isServiceInstalled() == false;
-                            }
-                        ?>
-
-                            <option <?php disabled($isDisabled) ?> value="<?php echo esc_attr($integration->getKey()); ?>" <?php selected(WP_STATISTICS\Option::get('consent_integration'), $integration->getKey()); ?>><?php echo esc_html($integration->getName()); ?></option>
+                        <?php foreach (IntegrationHelper::getAllIntegrations() as $integration) : ?>
+                            <option <?php disabled(!$integration->isSelectable()) ?> value="<?php echo esc_attr($integration->getKey()); ?>" <?php selected(WP_STATISTICS\Option::get('consent_integration'), $integration->getKey()); ?>><?php echo esc_html($integration->getName()); ?></option>
                         <?php endforeach; ?>
                     </select>
                     <p class="description"><?php esc_html_e("Enable integration with supported consent management plugins, such as WP Consent API and Real Cookie Banner, to ensure WP Statistics respects user privacy preferences. When enabled, WP Statistics will only track data based on the consent settings provided by your active consent management plugin.", 'wp-statistics'); ?></p>

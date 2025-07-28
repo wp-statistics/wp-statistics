@@ -21,6 +21,16 @@ class BorlabsCookie extends AbstractIntegration
         return esc_html__('Borlabs Cookie', 'wp-statistics');
     }
 
+    /**
+     * Check if the integration option is selectable.
+     *
+     * @return  bool
+     */
+    public function isSelectable()
+    {
+        return $this->isActive() && $this->isServiceInstalled();
+    }
+
     public function detectionNotice()
     {
         return [
