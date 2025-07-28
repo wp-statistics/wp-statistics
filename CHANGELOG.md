@@ -1,3 +1,6 @@
+= 14.15.x - 2025-x-x =
+- **New:** Added compatibility with `Borlabs Cookie` plugin.
+
 = 14.15.1 - 2025-x-x =
 - **Enhancement:** Abbreviated numbers in Overview widgets (e.g., 10k). Full value shown on hover via tooltip.
 - **Enhancement:** Added integrations js files as tracker.js dependencies to prevent cache issues.
