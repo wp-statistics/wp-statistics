@@ -1343,4 +1343,35 @@ class VisitorsModel extends BaseModel
 
         return count($resultUpdate);
     }
+
+    /**
+     * Count visitors within an optional date range.
+     *
+     * @param array $args Arguments for counting.
+     * @return int
+     * @since 15.0.0
+     */
+    public function count($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date' => '',
+        ]);
+
+        $fromDate = '';
+        $toDate = '';
+
+        if (!empty($args['date']) && is_array($args['date'])) {
+            $fromDate = !empty($args['date']['from']) ? $args['date']['from'] . ' 00:00:00' : '';
+            $toDate = !empty($args['date']['to']) ? $args['date']['to'] . ' 23:59:59' : '';
+        }
+
+        $query = Query::select('COUNT(*) as visitors')
+            ->from('visitors')
+            ->where('created_at', '>=', $fromDate)
+            ->where('created_at', '<=', $toDate);
+
+        $result = $query->getVar();
+
+        return intval($result);
+    }
 }

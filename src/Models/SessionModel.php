@@ -117,7 +117,7 @@ class SessionModel extends BaseModel
      * @return int Number of visitors.
      * @since 15.0.0
      */
-    public function getSessionByTime($args = [])
+    public function getByTime($args = [])
     {
         $args = $this->parseArgs($args, [
             'date' => 'today',
@@ -140,115 +140,13 @@ class SessionModel extends BaseModel
     }
 
     /**
-     * Return a day-by-day breakdown of visitor counts (and optionally hits).
-     *
-     * @param array $args {
-     * @type string|array $date Date or range to analyse.
-     * @type string|string[] $post_type Optional post types to filter.
-     * @type bool $include_hits Whether to include hit totals.
-     *     ... (see implementation for remaining keys)
-     * }
-     * @return array[] Each row contains `date`, `visitors`, and optionally `hits`.
-     * @since 15.0.0
-     */
-    public function countDailyVisitors($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'date'          => '',
-            'post_type'     => '',
-            'resource_id'   => '',
-            'resource_type' => '',
-            'author_id'     => '',
-            'post_id'       => '',
-            'query_param'   => '',
-            'taxonomy'      => '',
-            'term'          => '',
-            'country'       => '',
-            'user_id'       => '',
-            'logged_in'     => false,
-            'include_hits'  => false,
-            'user_role'     => ''
-        ]);
-
-        $fields = [
-            'DATE(sessions.started_at) AS date',
-            'COUNT(DISTINCT sessions.visitor_id) AS visitors',
-        ];
-
-        if ($args['include_hits']) {
-            $fields[] = 'SUM(sessions.total_views) AS hits';
-        }
-
-        $query = Query::select($fields)
-            ->from('sessions')
-            ->groupBy('DATE(sessions.started_at)')
-            ->whereDate('sessions.started_at', $args['date'])
-            ->where('sessions.user_id', '=', $args['user_id']);
-
-        if ($args['country'] !== '') {
-            $query->join('countries', ['sessions.country_id', 'countries.ID'])
-                ->where('countries.code', '=', $args['country']);
-        }
-
-        if ($args['logged_in']) {
-            $query->where('sessions.user_id', '!=', 0)
-                ->whereNotNull('sessions.user_id');
-
-            if ($args['user_role'] !== '') {
-                $query->join('usermeta', ['sessions.user_id', 'usermeta.user_id'])
-                    ->where('usermeta.meta_key', '=', 'wp_capabilities')
-                    ->where('usermeta.meta_value', 'LIKE', "%{$args['user_role']}%");
-            }
-        }
-
-        $resourceFilters = array_intersect(
-            [
-                'resource_type', 'resource_id', 'query_param',
-                'post_type', 'author_id', 'post_id',
-                'taxonomy', 'term',
-            ],
-            array_keys(array_filter($args))
-        );
-
-        if ($resourceFilters) {
-            $query->join('views', ['views.session_id', 'sessions.ID'])
-                ->join('resources', ['views.resource_id', 'resources.ID'])
-                ->where('resources.resource_type', 'IN', $args['resource_type'])
-                ->where('resources.resource_id', '=', $args['resource_id'])
-                ->where('resources.resource_url', 'LIKE', '%' . $args['query_param'] . '%')
-                ->where('resources.cached_author_id', '=', $args['author_id'])
-                ->where('resources.resource_id', '=', $args['post_id']);
-
-            if ($args['post_type'] !== '') {
-                $query->join('parameters AS pt_param', ['sessions.ID', 'pt_param.session_id'])
-                    ->where('pt_param.parameter', '=', 'post_type')
-                    ->where('pt_param.value', 'IN', $args['post_type']);
-            }
-
-            if ($args['taxonomy'] !== '' || $args['term'] !== '') {
-                $taxQuery = Query::select(['DISTINCT object_id'])
-                    ->from('term_relationships')
-                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                    ->where('terms.term_id', '=', $args['term'])
-                    ->getQuery();
-
-                $query->joinQuery($taxQuery, ['resources.resource_id', 'tax.object_id'], 'tax');
-            }
-        }
-
-        return $query->getAll();
-    }
-
-    /**
      * Count distinct visitors that satisfy a complex set of filters.
      *
      * @param array $args See method body for accepted keys.
      * @return int Visitor count.
      * @since 15.0.0
      */
-    public function countVisitors($args = [])
+    public function count($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'          => '',
@@ -352,63 +250,63 @@ class SessionModel extends BaseModel
     /**
      * Produce a summary array (today, yesterday, this week, …) of visitor totals.
      *
-     * @param array $args Arguments passed through to {@see countVisitors()}.
+     * @param array $args Arguments passed through to {@see count()}.
      * @return array Associative array keyed by period slug.
      * @since 15.0.0
      */
-    public function getVisitorsSummary($args = [])
+    public function getSummary($args = [])
     {
         $summary = [
             'today'      => [
                 'label'    => esc_html__('Today', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('today')]))
+                'visitors' => $this->count(array_merge($args, ['date' => DateRange::get('today')]))
             ],
             'yesterday'  => [
                 'label'    => esc_html__('Yesterday', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('yesterday')]))
+                'visitors' => $this->count(array_merge($args, ['date' => DateRange::get('yesterday')]))
             ],
             'this_week'  => [
                 'label'    => esc_html__('This week', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('this_week')]))
+                'visitors' => $this->count(array_merge($args, ['date' => DateRange::get('this_week')]))
             ],
             'last_week'  => [
                 'label'    => esc_html__('Last week', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('last_week')]))
+                'visitors' => $this->count(array_merge($args, ['date' => DateRange::get('last_week')]))
             ],
             'this_month' => [
                 'label'    => esc_html__('This month', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('this_month')]))
+                'visitors' => $this->count(array_merge($args, ['date' => DateRange::get('this_month')]))
             ],
             'last_month' => [
                 'label'    => esc_html__('Last month', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('last_month')]))
+                'visitors' => $this->count(array_merge($args, ['date' => DateRange::get('last_month')]))
             ],
             '7days'      => [
                 'label'    => esc_html__('Last 7 days', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('7days')]))
+                'visitors' => $this->count(array_merge($args, ['date' => DateRange::get('7days')]))
             ],
             '30days'     => [
                 'label'    => esc_html__('Last 30 days', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('30days')]))
+                'visitors' => $this->count(array_merge($args, ['date' => DateRange::get('30days')]))
             ],
             '90days'     => [
                 'label'    => esc_html__('Last 90 days', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('90days')]))
+                'visitors' => $this->count(array_merge($args, ['date' => DateRange::get('90days')]))
             ],
             '6months'    => [
                 'label'    => esc_html__('Last 6 months', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('6months')]))
+                'visitors' => $this->count(array_merge($args, ['date' => DateRange::get('6months')]))
             ],
             'this_year'  => [
                 'label'    => esc_html__('This year (Jan-Today)', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => DateRange::get('this_year')]))
+                'visitors' => $this->count(array_merge($args, ['date' => DateRange::get('this_year')]))
             ]
         ];
 
         if (!empty($args['include_total'])) {
             $summary['total'] = [
                 'label'    => esc_html__('Total', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['ignore_date' => true, 'historical' => true]))
+                'visitors' => $this->count(array_merge($args, ['ignore_date' => true]))
             ];
         }
 
@@ -1205,7 +1103,7 @@ class SessionModel extends BaseModel
      * @return array[] Rows ordered by `date`.
      * @since 15.0.0
      */
-    public function getVisitorJourney($args)
+    public function getJourney($args)
     {
         $args = $this->parseArgs($args, [
             'visitor_id'  => '',
@@ -1308,7 +1206,7 @@ class SessionModel extends BaseModel
      * @return array[] Result rows.
      * @since 15.0.0
      */
-    public function getVisitorsGeoData($args = [])
+    public function getByGeo($args = [])
     {
         $args = $this->parseArgs($args, [
             'fields'       => [
@@ -1413,7 +1311,7 @@ class SessionModel extends BaseModel
      * @return int|array[] Count or rows depending on `$returnCount`.
      * @since 15.0.0
      */
-    public function getVisitorsWithIncompleteLocation($returnCount = false)
+    public function getMissingLocationData($returnCount = false)
     {
         $privateCountry = GeolocationFactory::getProviderInstance()->getPrivateCountryCode();
 
@@ -1444,7 +1342,7 @@ class SessionModel extends BaseModel
      * @return array[] Session IDs.
      * @since 15.0.0
      */
-    public function getVisitorsWithIncompleteSourceChannel()
+    public function getUnassignedReferrers()
     {
         $query = Query::select(['sessions.ID'])
             ->from('sessions')
@@ -1787,5 +1685,65 @@ class SessionModel extends BaseModel
             ->decorate(SessionDecorator::class);
 
         return $query->getAll() ?: [];
+    }
+
+    /**
+     * Aggregate session counts grouped by a chosen device dimension
+     * (browser, platform, device type, etc.).
+     * 
+     * @param array $args {
+     *     Optional. Query arguments.
+     *
+     *     @type array|string $by   Associative array of lookup table ⇒ foreign‑key column.
+     *                              Defaults to ['device_browsers' => 'device_browser_id'].
+     *     @type string|array $date Date preset (e.g. 'today', '7days') or
+     *                              ['from' => 'Y-m-d', 'to' => 'Y-m-d'].
+     * }
+     * @return array[] Each row contains:
+     *                 - string $label         Human‑readable name from the lookup table.
+     *                 - int    $session_count Number of sessions.
+     * @since 15.0.0
+     */
+    public function countUsage($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'by'   => [
+                'device_browsers' => 'device_browser_id'
+            ],
+            'date' => '',
+        ]);
+
+        // Resolve lookup table & FK
+        $lookupTable      = key($args['by']);
+        $foreignKeyColumn = current($args['by']);
+
+        /*
+         * Single‑pass aggregation:
+         *  sessions  →  lookup table
+         *  GROUP BY sessions.<fk>
+         *  ORDER BY COUNT(*) DESC
+         */
+        $query = Query::select([
+                "{$lookupTable}.name AS label",
+                "COUNT(*) AS session_count",
+            ])
+            ->from('sessions')
+            ->join($lookupTable, ["sessions.$foreignKeyColumn", "{$lookupTable}.ID"])
+            ->whereNotNull("sessions.$foreignKeyColumn");
+
+        // Optional date window
+        if (!empty($args['date'])) {
+            $query->where('sessions.started_at', '>=', $args['date']['from'] . ' 00:00:00')
+                  ->where('sessions.started_at', '<=', $args['date']['to']   . ' 23:59:59');
+        }
+
+        $query->groupBy("sessions.$foreignKeyColumn")
+              ->orderBy('session_count', 'DESC');
+
+        if (!empty($args['per_page'])) {
+            $query->perPage(1, $args['per_page']);
+        }
+
+        return $query->getAll();
     }
 }

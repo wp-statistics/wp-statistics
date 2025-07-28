@@ -24,12 +24,7 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
             'source_channel' => ['search', 'paid_search'],
         ]);
 
-        // Group by source_name
-        if(false) {
-            $this->args['group_by'] = ['source_name', 'last_counter'];
-        } 
-
-        $this->args['group_by'] = ['source_name', 'started_at'];
+        $this->args['group_by'] = ['source_name', 'last_counter'];
 
         // Rest per_page to get all results
         $this->args['per_page'] = false;
