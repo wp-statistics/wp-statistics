@@ -19,18 +19,6 @@ class RealCookieBanner extends AbstractIntegration
         return esc_html__('Real Cookie Banner PRO', 'wp-statistics');
     }
 
-    /**
-     * detection notice of "Real Cookie Banner" plugin.
-     */
-    public function detectionNotice()
-    {
-        return [
-            'key'           => 'real_cookie_banner_detection_notice',
-            'title'         => esc_html__('Real Cookie Banner integration available', 'wp-statistics'),
-            'description'   => esc_html__('Real Cookie Banner is active, but its integration with WP Statistics is disabled. Turn it on in WP Statistics → Settings → Privacy & Data Protection so your analytics follow the consent given in Real Cookie Banner.', 'wp-statistics'),
-        ];
-    }
-
     public function register()
     {
         add_action('wp_statistics_save_settings', [$this, 'clearTemplateCache']);

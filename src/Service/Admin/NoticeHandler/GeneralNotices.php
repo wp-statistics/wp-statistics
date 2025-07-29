@@ -67,28 +67,22 @@ class GeneralNotices
     {
         if (Option::get('consent_integration')) return;
 
-        $integrations = IntegrationHelper::getAllIntegrations();
+        $notices = IntegrationHelper::getDetectionNotice();
 
-        foreach ($integrations as $integration) {
-            if (!$integration->isActive()) continue;
+        foreach ($notices as $notice) {
+            $noticeKey = $notice['key'] . '_detection_notice';
 
-            $notice = $integration->detectionNotice();
+            if (Notice::isNoticeDismissed($noticeKey)) continue;
 
-            if (empty($notice) || Notice::isNoticeDismissed($notice['key'])) continue;
-
-            $message = wp_kses(
+            $message = wp_kses_post(
                 sprintf(
-                    '<div><b class="wp-statistics-notice__title">%s - %s</b><p>%s</p><a href="%s">%s</a></div>',
-                    esc_html__('WP Statistics', 'wp-statistics'),
-                    esc_html($notice['title']),
-                    esc_html($notice['description']),
-                    esc_url(Menus::admin_url('settings', ['tab' => 'privacy-settings']) . '#consent_integration'),
-                    esc_html__('Activate integration ›', 'wp-statistics')
-                ),
-                ['div' => ['class' => []], 'b' => ['class' => []], 'p' => [], 'a' => ['href' => []]]
+                    '<div><b class="wp-statistics-notice__title">%s</b><p>%s</p></div>',
+                    $notice['title'],
+                    $notice['content']
+                )
             );
 
-            Notice::addNotice($message, $notice['key']);
+            Notice::addNotice($message, $noticeKey);
         }
     }
 

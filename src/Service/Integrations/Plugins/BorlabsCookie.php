@@ -31,15 +31,6 @@ class BorlabsCookie extends AbstractIntegration
         return $this->isActive() && $this->isServiceInstalled();
     }
 
-    public function detectionNotice()
-    {
-        return [
-            'key'           => 'borlabs_cookie_detection_notice',
-            'title'         => esc_html__('Consent integration available', 'wp-statistics'),
-            'description'   => esc_html__('We’ve detected Borlabs consent plugin. Enable the “Borlabs Cookie integration” in WP Statistics → Settings → Privacy & Data Protection so your analytics respect visitor consent.', 'wp-statistics'),
-        ];
-    }
-
     /**
      * Since this plugin handles consent automatically itself, we always return true
      * @note: this approach is not compatible with Server side tracking mode

@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Integrations;
 
+use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Integrations\Plugins\WpConsentApi;
 use WP_Statistics\Service\Integrations\Plugins\RealCookieBanner;
@@ -133,5 +134,35 @@ class IntegrationHelper
         $integration = self::getActiveIntegration();
 
         return !empty($integration) && $integration->trackAnonymously();
+    }
+
+    /**
+     * Checks all integrations for active consent plugins and returns a list of notices.
+     *
+     * @return array
+     */
+    public static function getDetectionNotice()
+    {
+        $result = [];
+
+        foreach (self::getAllIntegrations() as $integration) {
+            if (!$integration->isActive()) continue;
+
+            $result[] = [
+                'key'     => $integration->getKey(),
+                'title'   => esc_html__('WP Statistics - Consent Plugin Detected', 'wp-statistics'),
+                'content' => sprintf(
+                    '%s <br> %s · %s',
+                    sprintf(
+                        esc_html__('We’ve detected %s on your site. To ensure WP Statistics respects visitor consent preferences, you can enable integration with this plugin.', 'wp-statistics'),
+                        $integration->getName(),
+                    ),
+                    '<a href="' . esc_url(Menus::admin_url('settings', ['tab' => 'privacy-settings']) . '#consent_integration') . '">' . esc_html__('Activate integration ›', 'wp-statistics') . '</a>',
+                    '<a target="_blank" href="https://wp-statistics.com/resources/integrating-wp-statistics-with-consent-management-plugins/?utm_source=wp-statistics&utm_medium=link">' . esc_html__('Learn More', 'wp-statistics') . '</a>',
+                )
+            ];
+        }
+
+        return $result;
     }
 }

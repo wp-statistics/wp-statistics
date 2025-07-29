@@ -74,11 +74,6 @@ abstract class AbstractIntegration
     abstract public function getName();
 
     /**
-     * Detection notice
-     */
-    abstract public function detectionNotice();
-
-    /**
      * Checks if the user has given consent.
      * @return bool
      */
