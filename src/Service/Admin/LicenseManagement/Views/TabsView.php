@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Admin\LicenseManagement\Views;
 
 use Exception;
-use WP_Statistics\Components\CacheCleanup;
+use WP_Statistics\Components\SystemCleaner;
 use WP_Statistics\Components\View;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Menus;
@@ -123,7 +123,7 @@ class TabsView extends BaseTabView
      */
     public function getDownloadsData()
     {
-        CacheCleanup::clearAddonsList();
+        SystemCleaner::clearAddonsListCache();
 
         return $this->dataProvider->getDownloadsData();
     }

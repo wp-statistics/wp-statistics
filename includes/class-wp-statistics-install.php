@@ -4,7 +4,7 @@ namespace WP_STATISTICS;
 
 use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Components\Event;
-use WP_Statistics\Components\CacheCleanup;
+use WP_Statistics\Components\SystemCleaner;
 use WP_Statistics\Service\Database\Managers\TableHandler;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Utils\Query;
@@ -542,7 +542,7 @@ class Install
          * Remove all wp statistics transients
          */
         if (version_compare($latest_version, '14.15.1', '>=')) {
-            CacheCleanup::clearAll();
+            SystemCleaner::clearAllTransients();
         }
 
         /**
