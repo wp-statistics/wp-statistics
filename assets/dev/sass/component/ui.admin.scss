@@ -9,6 +9,16 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 }
 
 .notice.wp-statistics-notice{
+
+  &.is-dismissible{
+    padding-right: 36px !important;
+
+    .rtl &{
+      padding-right: 16px !important;
+      padding-left: 36px !important;
+    }
+  }
+
    &::before{
     margin-top: 3px!important;
   }
@@ -100,6 +110,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     min-width: 19px;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
 
     &:hover{
       &:before{
