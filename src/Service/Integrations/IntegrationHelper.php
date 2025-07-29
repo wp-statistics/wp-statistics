@@ -143,12 +143,12 @@ class IntegrationHelper
      */
     public static function getDetectionNotice()
     {
-        $result = [];
+        $notices = [];
 
         foreach (self::getAllIntegrations() as $integration) {
             if (!$integration->isActive()) continue;
 
-            $result[] = [
+            $notices[] = [
                 'key'     => $integration->getKey(),
                 'title'   => esc_html__('WP Statistics - Consent Plugin Detected', 'wp-statistics'),
                 'content' => sprintf(
@@ -163,6 +163,6 @@ class IntegrationHelper
             ];
         }
 
-        return $result;
+        return $notices;
     }
 }
