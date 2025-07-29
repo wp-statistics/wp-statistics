@@ -15,6 +15,7 @@ use WP_STATISTICS\Admin_Template;
                                         <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('State', 'wp-statistics') ?>
                                         </th>
+<<<<<<< HEAD
                                         <th scope="col" class="wps-pd-l">
                                             <span class="wps-order">
                                                 <?php esc_html_e('Visitor Count', 'wp-statistics') ?>
@@ -22,6 +23,15 @@ use WP_STATISTICS\Admin_Template;
                                         </th>
                                         <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('View Count', 'wp-statistics') ?>
+=======
+                                        <th class="wps-pd-l">
+                                            <span class="wps-order">
+                                                <?php esc_html_e('Visitor Count', 'wp-statistics') ?>
+                                            </span>
+>>>>>>> d606938abafb64eb2d48f20554280c979a1ee1ce
+                                        </th>
+                                        <th class="wps-pd-l">
+                                            <?php esc_html_e('Percent Share', 'wp-statistics') ?>
                                         </th>
                                         <th class="wps-pd-l">
                                             <?php esc_html_e('Percent Share', 'wp-statistics') ?>

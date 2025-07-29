@@ -21,8 +21,15 @@ $isActive       = $pluginHandler->isPluginActive('wp-statistics-data-plus');
                                         <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('Country', 'wp-statistics') ?>
                                         </th>
+<<<<<<< HEAD
                                         <th scope="col" class="wps-order">
                                             <?php esc_html_e('Visitor Count', 'wp-statistics') ?>
+=======
+                                        <th class="wps-pd-l">
+                                            <span class="wps-order">
+                                                <?php esc_html_e('Visitor Count', 'wp-statistics') ?>
+                                            </span>
+>>>>>>> d606938abafb64eb2d48f20554280c979a1ee1ce
                                         </th>
                                         <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('View Count', 'wp-statistics') ?>
@@ -30,9 +37,13 @@ $isActive       = $pluginHandler->isPluginActive('wp-statistics-data-plus');
                                         <th class="wps-pd-l">
                                             <?php esc_html_e('Percent Share', 'wp-statistics') ?>
                                         </th>
+<<<<<<< HEAD
                                         <th scope="col">
                                             <span class="screen-reader-text"><?php esc_html_e('Details', 'wp-statistics'); ?></span>
                                         </th>
+=======
+                                        <th></th>
+>>>>>>> d606938abafb64eb2d48f20554280c979a1ee1ce
                                     </tr>
                                 </thead>
 

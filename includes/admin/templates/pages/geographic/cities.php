@@ -64,6 +64,9 @@ use WP_STATISTICS\Admin_Template;
                                             <td class="wps-pd-l">
                                                 <?php echo esc_html(number_format($item->views)) ?>
                                             </td>
+                                            <td class="wps-pd-l">
+                                                33%
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
