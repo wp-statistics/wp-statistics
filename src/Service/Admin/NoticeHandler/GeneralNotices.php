@@ -65,9 +65,9 @@ class GeneralNotices
      */
     private function detectConsentIntegrations()
     {
-        if (Option::get('consent_integration')) return;
-
         $notices = IntegrationHelper::getDetectionNotice();
+
+        if (empty($notices)) return;
 
         foreach ($notices as $notice) {
             $noticeKey = $notice['key'] . '_detection_notice';

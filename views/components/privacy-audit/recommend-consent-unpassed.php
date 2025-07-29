@@ -12,14 +12,14 @@ $notices = IntegrationHelper::getDetectionNotice();
     </div>
 </div>
 
-<?php foreach ($notices as $notice) { ?>
+<?php foreach ($notices as $notice) : ?>
     <div class="wps-audit-card__suggestion wps-mb-16">
         <div class="wps-audit-card__suggestion-head"><?php echo esc_html($notice['title']); ?></div>
         <div class="wps-audit-card__suggestion-text">
             <?php echo wp_kses_post($notice['content']) ?>
         </div>
     </div>
-<?php } ?>
+<?php endforeach; ?>
 
 <div class="wps-audit-card__suggestion">
     <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('Need Help?', 'wp-statistics') ?></div>

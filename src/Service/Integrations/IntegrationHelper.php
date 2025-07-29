@@ -145,6 +145,8 @@ class IntegrationHelper
     {
         $notices = [];
 
+        if (Option::get('consent_integration')) return $notices;
+
         foreach (self::getAllIntegrations() as $integration) {
             if (!$integration->isActive()) continue;
 
