@@ -3,7 +3,7 @@
 - **Enhancement:** Added integrations js files as tracker.js dependencies to prevent cache issues.
 - **Enhancement:** Show notice when active cache plugin is detected.
 - **Fix:** Fix transient cache duration issue.
-- **Fix:** Fix color for period‑over‑period metrics.
+- **Fix:** Corrected color display for period-over-period comparison metrics.
 
 = 14.15 - 2025-07-22 =
 - **New:** Added an `Overview` report for Visitor Insight.
