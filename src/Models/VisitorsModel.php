@@ -251,22 +251,36 @@ class VisitorsModel extends BaseModel
     {
         $args = $this->parseArgs($args, [
             'date'           => '',
+            'resource_id'    => '',
+            'resource_type'  => '',
             'source_channel' => '',
             'source_name'    => '',
             'referrer'       => ''
         ]);
 
-        $result = Query::select('COUNT(*) as visitors, last_counter as date')
+        $result = Query::select('COUNT(*) as referrers, last_counter as date')
             ->from('visitor')
             ->where('source_channel', '=', $args['source_channel'])
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
             ->whereDate('visitor.last_counter', $args['date'])
-            ->whereNotNull('visitor.referred')
-            ->groupBy('last_counter')
-            ->getVar();
+            ->whereRaw("
+                AND (
+                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    OR
+                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                )
+            ")
+            ->groupBy('last_counter');
 
-        return $result ?? [];
+        if (!empty($args['resource_id']) || !empty($args['resource_type'])) {
+            $result
+                ->join('pages', ['visitor.first_page', 'pages.page_id'])
+                ->where('pages.id', '=', $args['resource_id'])
+                ->where('pages.type', 'IN', $args['resource_type']);
+        }
+
+        return $result->getAll() ?? [];
     }
 
     /**
@@ -1279,7 +1293,7 @@ class VisitorsModel extends BaseModel
      *
      * @return  array   Format: `[{'date' => "STRING", 'visitors' => INT, 'visits' => INT, 'referrers' => INT}, ...]`.
      *
-     * @todo    Make the query faster for date ranges greater than one month.
+     * @deprecated Do NOT use this class anymore as it's been deprecated. Instead, use getDailyVisitors, getDailyViews, and getDailyReferrals
      */
     public function getDailyStats($args = [])
     {
@@ -1540,27 +1554,42 @@ class VisitorsModel extends BaseModel
             'per_page'      => Admin_Template::$item_per_page,
             'author_id'     => '',
             'uri'           => '',
-            'order_by'      => 'visitors',
+            'order_by'      => 'exits',
             'order'         => 'DESC'
         ]);
 
-        $result = Query::select([
-            'COUNT(visitor.ID) as visitors',
+        $subQuery = Query::select("pages.id, COUNT(DISTINCT visitor.ID) as visitors")
+            ->from('visitor')
+            ->join('visitor_relationships', ['visitor.ID', 'visitor_relationships.visitor_id'])
+            ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'])
+            ->where('pages.type', 'IN', $args['resource_type'])
+            ->whereDate('visitor.last_counter', $args['date'])
+            ->groupBy('pages.id')
+            ->getQuery();
+
+        $query = Query::select([
+            'page_visitors.visitors as visitors',
+            'COUNT(visitor.ID) as exits',
             'pages.id as post_id, pages.page_id',
-            'posts.post_title',
-            'posts.post_date'
+            "COALESCE(COUNT(visitor.ID) / page_visitors.visitors, 0) * 100 AS exit_rate"
         ])
             ->from('visitor')
             ->join('pages', ['visitor.last_page', 'pages.page_id'])
-            ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
+            ->joinQuery($subQuery, ['pages.id', 'page_visitors.id'], 'page_visitors')
             ->where('pages.type', 'IN', $args['resource_type'])
             ->where('pages.uri', '=', $args['uri'])
-            ->where('posts.post_author', '=', $args['author_id'])
             ->whereDate('last_counter', $args['date'])
             ->groupBy('pages.id')
             ->orderBy($args['order_by'], $args['order'])
-            ->perPage($args['page'], $args['per_page'])
-            ->getAll();
+            ->perPage($args['page'], $args['per_page']);
+
+        if (!empty($args['author_id'])) {
+            $query
+                ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
+                ->where('posts.post_author', '=', $args['author_id']);
+        }
+
+        $result = $query->getAll();
 
         return $result;
     }

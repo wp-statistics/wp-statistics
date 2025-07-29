@@ -68,4 +68,12 @@ abstract class AbstractIntegration
      * @return  void
      */
     abstract public function register();
+
+    /**
+     * Return an array of js handles for this integration.
+     * The result will be used as dependencies for the tracker js file
+     *
+     * @return  array
+     */
+    abstract public function getJsHandles();
 }

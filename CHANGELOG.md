@@ -1,5 +1,11 @@
+= 14.15.1 - 2025-07-29 =
+- **Enhancement:** Numbers in Overview widgets are now abbreviated (e.g., 10k), with full values shown on hover.
+- **Enhancement:** Made integration JS files dependencies of `tracker.js` to avoid cache-related issues.
+- **Enhancement:** Display a notice when a caching plugin is active.
+- **Fix:** Fixed an issue with transient cache duration settings.
+- **Fix:** Corrected color display for period-over-period comparison metrics.
+
 = 14.15 - 2025-07-22 =
-- **New:** Added a new `Search Terms` report under the Visitor Insight page.
 - **New:** Added an `Overview` report for Visitor Insight.
 - **New:** Added an `Overview` report for Page Insights.
 - **New:** Added a `Device Overview` report.
