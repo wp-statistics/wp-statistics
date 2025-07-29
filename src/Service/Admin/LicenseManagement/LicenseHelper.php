@@ -267,4 +267,19 @@ class LicenseHelper
             esc_html__('Upgrade', 'wp-statistics')
         );
     }
+
+    /**
+     * Returns an associative array mapping plugin slugs to their license constant names.
+     *
+     * These constants (typically defined in wp-config.php) are used to retrieve
+     * plugin license keys for validation purposes.
+     *
+     * @return array<string, string> Associative array where the key is the plugin slug and the value is the constant name.
+     */
+    public static function getPluginLicenseConstants()
+    {
+        return [
+            'wp-statistics' => 'WP_STATISTICS_KEY',
+        ];
+    }
 }

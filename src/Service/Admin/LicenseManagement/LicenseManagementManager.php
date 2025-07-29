@@ -12,22 +12,65 @@ use WP_STATISTICS\User;
 
 class LicenseManagementManager
 {
+    /** @var ApiCommunicator */
+    private $apiCommunicator;
+
     private $pluginHandler;
     private $handledPlugins = [];
 
     public function __construct()
     {
-        $this->pluginHandler = new PluginHandler();
+        $this->apiCommunicator = new ApiCommunicator();
+        $this->pluginHandler   = new PluginHandler();
 
         // Initialize the necessary components.
         $this->initActionCallbacks();
 
+        add_action('init', [$this, 'initLicenseValidation']);
         add_action('init', [$this, 'initPluginUpdaters']);
         add_action('admin_init', [$this, 'showPluginActivationNotice']);
         add_filter('wp_statistics_enable_upgrade_to_bundle', [$this, 'showUpgradeToBundle']);
         add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);
     }
 
+    /**
+     * Validates licenses for active plugins using constants defined in wp-config.php.
+     *
+     * This method loops through a list of expected plugin license constants,
+     * and for each active plugin with a defined constant and available license key,
+     * it triggers license validation via the API communicator.
+     *
+     * @return void
+     *
+     * @throws Exception if the API call fails
+     */
+    public function initLicenseValidation(): void
+    {
+        $constants = LicenseHelper::getPluginLicenseConstants();
+
+        foreach ($constants as $slug => $constant) {
+            if (
+                defined($constant) &&
+                $this->pluginHandler->isPluginActive($slug)
+            ) {
+                $storedLicense   = LicenseHelper::getPluginLicense($slug);
+                $constantLicense = constant($constant);
+
+                if (empty($storedLicense) && !empty($constantLicense)) {
+                    if ($constant === 'WP_STATISTICS_KEY') {
+                        $this->apiCommunicator->validateLicense(
+                            sanitize_text_field($constantLicense)
+                        );
+                    } else {
+                        $this->apiCommunicator->validateLicense(
+                            sanitize_text_field($constantLicense),
+                            $slug
+                        );
+                    }
+                }
+            }
+        }
+    }
 
     public function addMenuItem($items)
     {

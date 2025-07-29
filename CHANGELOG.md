@@ -1,3 +1,6 @@
+= 14.15.x - 2025-x-x =
+- **New:** License keys can now be defined in `wp-config.php` using constants (e.g. `WP_STATISTICS_KEY`) and will be automatically validated on `init`.
+
 = 14.15.1 - 2025-07-29 =
 - **Enhancement:** Numbers in Overview widgets are now abbreviated (e.g., 10k), with full values shown on hover.
 - **Enhancement:** Made integration JS files dependencies of `tracker.js` to avoid cache-related issues.
