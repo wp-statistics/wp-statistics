@@ -1,8 +1,8 @@
-= 14.15.1 - 2025-x-x =
-- **Enhancement:** Abbreviated numbers in Overview widgets (e.g., 10k). Full value shown on hover via tooltip.
-- **Enhancement:** Added integrations js files as tracker.js dependencies to prevent cache issues.
-- **Enhancement:** Show notice when active cache plugin is detected.
-- **Fix:** Fix transient cache duration issue.
+= 14.15.1 - 2025-07-29 =
+- **Enhancement:** Numbers in Overview widgets are now abbreviated (e.g., 10k), with full values shown on hover.
+- **Enhancement:** Made integration JS files dependencies of `tracker.js` to avoid cache-related issues.
+- **Enhancement:** Display a notice when a caching plugin is active.
+- **Fix:** Fixed an issue with transient cache duration settings.
 
 = 14.15 - 2025-07-22 =
 - **New:** Added an `Overview` report for Visitor Insight.
