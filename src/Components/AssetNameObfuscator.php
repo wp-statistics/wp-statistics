@@ -3,7 +3,6 @@
 namespace WP_Statistics\Components;
 
 use WP_Statistics;
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_Statistics\Utils\FileSystem;
 

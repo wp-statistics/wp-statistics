@@ -2,13 +2,10 @@
 
 namespace WP_Statistics\Service\Charts\DataProvider;
 
-use WP_Statistics\Decorators\VisitorDecorator;
-use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\BarChartResponseTrait;
-use WP_Statistics\Utils\Format;
 
 class DeviceChartDataProvider extends AbstractChartDataProvider
 {

@@ -2,10 +2,10 @@
 
 namespace WP_Statistics\Service\Messaging;
 
+use WP_Statistics\Components\Addons;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Messaging\Provider\MailProvider;
 use WP_Statistics\Service\Messaging\Provider\SmsProvider;
-use WP_Statistics\Utils\Addons;
 
 /**
  * Static helper that routes outgoing messages to the appropriate provider.

@@ -3,7 +3,6 @@
 namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess;
 
 use WP_STATISTICS\Admin_Assets;
-use WP_Statistics\Utils\Route;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;

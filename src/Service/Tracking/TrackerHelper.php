@@ -9,7 +9,6 @@ use WP_STATISTICS\Pages;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Signature;
 use WP_Statistics\Utils\Validator;
-use WP_Statistics\Service\Integrations\WpConsentApi;
 
 /**
  * Helper methods that are used exclusively by the tracking subsystem.

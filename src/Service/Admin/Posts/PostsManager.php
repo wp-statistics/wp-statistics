@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\Posts;
 
+use WP_Statistics\Components\Addons;
 use WP_Statistics\Components\Assets;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
@@ -10,7 +11,6 @@ use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\MiniChart\MiniChartHelper;
 use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\User;
-use WP_Statistics\Utils\Addons;
 use WP_Statistics\Utils\Request;
 
 class PostsManager

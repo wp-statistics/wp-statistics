@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Components;
 
-use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\FileSystem;
 
 class Assets
