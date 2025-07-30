@@ -357,6 +357,23 @@ class ViewsModel extends BaseModel
         return $results;
     }
 
+    public function getPageRecord($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'fields'        => '*',
+            'page_id'       => '',
+            'ignore_date'   => true
+        ]);
+
+        $result = Query::select('*')
+            ->from('pages')
+            ->where('page_id', '=', $args['page_id'])
+            ->allowCaching()
+            ->getRow();
+
+        return $result;
+    }
+
     public function countPagesRecords($args = [])
     {
         $args = $this->parseArgs($args, [
