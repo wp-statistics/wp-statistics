@@ -14,7 +14,7 @@ class LicenseManagerPage extends MultiViewPage
     protected $views       = [
         'tabs'              => TabsView::class,
         'locked-mini-chart' => LockedMiniChartView::class,
-        'locked-real-time' => LockedRealTimeStatView::class
+        'locked-real-time'  => LockedRealTimeStatView::class
     ];
 
     public function __construct()

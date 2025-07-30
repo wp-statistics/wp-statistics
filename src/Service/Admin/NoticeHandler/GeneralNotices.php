@@ -107,7 +107,7 @@ class GeneralNotices
         }
 
         $message = sprintf(
-            __('<b>WP Statistics Notice:</b> The cache plugin %1$s is detected, please make sure the %2$s file is excluded from file optimization and caching, <a target="_blank" href="%3$s">Click here</a> for more info.','wp-statistics'),
+            __('<b>WP Statistics Notice:</b> The cache plugin %1$s is detected, please make sure the <code>%2$s</code> file is excluded from file optimization and caching, <a target="_blank" href="%3$s">Click here</a> for more info.','wp-statistics'),
             esc_html($cacheInfo['plugin']),
             esc_url(Url::getPath(Assets::getSrc('js/tracker.js'))),
             esc_url('https://wp-statistics.com/resources/how-to-exclude-wp-statistics-tracker-js-from-caching-minification/?utm_source=wp-statistics&utm_medium=link')
