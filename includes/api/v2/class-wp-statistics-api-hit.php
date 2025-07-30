@@ -5,7 +5,6 @@ namespace WP_STATISTICS\Api\v2;
 use Exception;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Hits;
-use WP_Statistics\Service\Tracking\TrackingFactory;
 
 class Hit extends \WP_STATISTICS\RestAPI
 {
@@ -76,7 +75,7 @@ class Hit extends \WP_STATISTICS\RestAPI
 
         try {
             Helper::validateHitRequest();
-            TrackingFactory::hits()->record();
+            Hits::record();
 
             $responseData['status'] = true;
 
