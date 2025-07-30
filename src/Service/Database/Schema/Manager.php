@@ -287,9 +287,9 @@ class Manager
                 'count'  => 'bigint(20) NOT NULL',
             ],
             'constraints' => [
-                'ID'     => 'PRIMARY KEY (ID)',
-                'date'   => 'KEY date (date)',
-                'reason' => 'KEY reason (reason)',
+                'PRIMARY KEY (ID)',
+                'KEY date (date)',
+                'KEY reason (reason)',
             ],
         ],
         'resource_uris'           => [
@@ -315,10 +315,10 @@ class Manager
                 'event_data'      => 'text NOT NULL',
             ],
             'constraints' => [
-                'ID'              => 'PRIMARY KEY (ID)',
-                'session_id'      => 'KEY session_id (session_id)',
-                'resource_uri_id' => 'KEY resource_uri_id (resource_uri_id)',
-                'event_name'      => 'KEY event_name (event_name)',
+                'PRIMARY KEY (ID)',
+                'KEY session_id (session_id)',
+                'KEY resource_uri_id (resource_uri_id)',
+                'KEY event_name (event_name)',
             ],
         ],
     ];

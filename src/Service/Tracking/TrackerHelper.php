@@ -115,13 +115,6 @@ final class TrackerHelper
             ],
         ]);
 
-        $timestamp = !empty($_SERVER['HTTP_X_WPS_TS']) ? (int)base64_decode($_SERVER['HTTP_X_WPS_TS']) : false;
-
-        // Check if the request was sent no more than 10 seconds ago
-        if (!$timestamp || time() - $timestamp > 10) {
-            $isValid = false;
-        }
-
         if (!$isValid) {
             /**
              * Trigger action after validating the hit request parameters.
@@ -220,41 +213,5 @@ final class TrackerHelper
         }
 
         return $params;
-    }
-
-    /**
-     * Decide whether the current visitor must be tracked anonymously.
-     *
-     * The request will be anonymised when all the following are true:
-     *  • WP Consent API is active.
-     *  • A consent‑level other than 'disabled' is configured.
-     *  • The "anonymous_tracking" option is enabled.
-     *  • The visitor has not granted the required consent level.
-     *
-     * @return bool True when tracking should mask visitor identifiers.
-     * @since  15.0.0
-     */
-    public static function shouldTrackAnonymously()
-    {
-        // Ensure the Consent API integration is available.
-        if (!WpConsentApi::isWpConsentApiActive()) {
-            return false;
-        }
-
-        // Determine required consent level.
-        $consentLevel = Option::get('consent_level_integration', 'disabled');
-        if ($consentLevel === 'disabled') {
-            return false;
-        }
-
-        // Anonymous tracking must be enabled in plugin settings.
-        if (!Option::get('anonymous_tracking', false)) {
-            return false;
-        }
-
-        // If the visitor HAS given consent, no need to anonymise.
-        $hasConsent = function_exists('wp_has_consent') && wp_has_consent($consentLevel);
-
-        return !$hasConsent;
     }
 }

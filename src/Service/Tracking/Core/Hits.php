@@ -9,7 +9,7 @@ use WP_Statistics\Entity\EntityFactory;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Analytics\VisitorProfile;
-use WP_Statistics\Service\Integrations\WpConsentApi;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Service\Tracking\TrackerHelper;
 use WP_Statistics\Traits\ErrorLoggerTrait;
 use WP_Statistics\Utils\Request;
@@ -236,10 +236,7 @@ class Hits extends BaseTracking
 
             if (
                 $consentLevel === 'disabled' ||
-                TrackerHelper::shouldTrackAnonymously() ||
-                !WpConsentApi::isWpConsentApiActive() ||
-                !function_exists('wp_has_consent') ||
-                wp_has_consent($consentLevel)
+                IntegrationHelper::shouldTrackAnonymously()
             ) {
                 $this->record();
             }

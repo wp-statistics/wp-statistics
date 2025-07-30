@@ -3,11 +3,11 @@
 namespace WP_Statistics\Components;
 
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
-use WP_Statistics\Service\Tracking\TrackerHelper;
 use WP_Statistics\Globals\Option;
 use WP_Statistics;
 use ErrorException;
 use Exception;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
 
 /**
  * Handles IP address detection, validation, and anonymization for visitor tracking.
@@ -263,14 +263,14 @@ class Ip
          * @example 192.168.1.1 -> 192.168.1.0
          * @example 2001:db8::1 -> 2001:db8::
          */
-        if (Option::getValue('anonymize_ips') || TrackerHelper::shouldTrackAnonymously()) {
+        if (Option::getValue('anonymize_ips') || IntegrationHelper::shouldTrackAnonymously()) {
             $userIp = wp_privacy_anonymize_ip($userIp);
         }
 
         /**
          * Hash IP if enabled in settings.
          */
-        if (Option::getValue('hash_ips') || TrackerHelper::shouldTrackAnonymously()) {
+        if (Option::getValue('hash_ips') || IntegrationHelper::shouldTrackAnonymously()) {
             $userIp = self::hash($userIp);
         }
 
