@@ -56,7 +56,7 @@ trait TransientCacheTrait
      *
      * @return bool
      */
-    public function clearCache($input)
+    protected function clearCachedResult($input)
     {
         $cacheKey = $this->getCacheKey($input);
         return delete_transient($cacheKey);
