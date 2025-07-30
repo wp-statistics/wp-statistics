@@ -1,5 +1,5 @@
 = 14.15.x - 2025-xx-xx =
-- **Fix:** Fixed visitors page filter issue.
+- **Fix:** Fixed visitors and referred visitors page filter issue.
 
 = 14.15.1 - 2025-07-29 =
 - **Enhancement:** Numbers in Overview widgets are now abbreviated (e.g., 10k), with full values shown on hover.
