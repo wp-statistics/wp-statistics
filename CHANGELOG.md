@@ -1,5 +1,6 @@
 = 14.15.x - 2025-xx-xx =
 - **New:** Added compatibility with `Borlabs Cookie` plugin.
+- **New:** License keys can now be defined in `wp-config.php` using constants (e.g. `WP_STATISTICS_LICENSE`) and will be automatically validated on `init`.
 - **Enhancement:** Store only the major browser version in visitor data to improve performance and reduce query overhead.
 - **Fix:** Fixed visitors and referred visitors page filter issue.
 
