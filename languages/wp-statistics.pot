@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Statistics 14.15\n"
+"Project-Id-Version: WP Statistics 14.15.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-statistics\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-07-22T07:31:32+00:00\n"
+"POT-Creation-Date: 2025-07-29T06:57:46+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-statistics\n"
@@ -20,7 +20,7 @@ msgstr ""
 #: includes/admin/templates/settings/advanced.php:104
 #: includes/admin/templates/settings/advanced.php:107
 #: src/Service/Admin/Metabox/Metaboxes/AboutWPS.php:51
-#: src/Service/Admin/NoticeHandler/GeneralNotices.php:79
+#: src/Service/Admin/NoticeHandler/GeneralNotices.php:82
 #: src/Service/Admin/SiteHealthInfo.php:43
 msgid "WP Statistics"
 msgstr ""
@@ -197,10 +197,10 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:364
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:55
 #: src/Models/ViewsModel.php:233
-#: src/Models/VisitorsModel.php:372
-#: src/Models/VisitorsModel.php:413
-#: src/Models/VisitorsModel.php:461
-#: views/metabox/traffic-overview.php:92
+#: src/Models/VisitorsModel.php:386
+#: src/Models/VisitorsModel.php:427
+#: src/Models/VisitorsModel.php:475
+#: views/metabox/traffic-overview.php:93
 #: views/pages/visitor-insights/overview.php:61
 msgid "Today"
 msgstr ""
@@ -290,7 +290,7 @@ msgstr ""
 #: views/components/tables/top-report.php:25
 #: views/metabox/top-countries.php:15
 #: views/metabox/traffic-overview.php:23
-#: views/metabox/traffic-overview.php:86
+#: views/metabox/traffic-overview.php:87
 #: views/metabox/traffic-summary.php:28
 #: views/pages/visitor-insights/overview.php:21
 #: views/pages/visitor-insights/overview.php:55
@@ -339,7 +339,7 @@ msgstr ""
 #: views/metabox/most-active-visitors.php:14
 #: views/metabox/most-visited-pages.php:23
 #: views/metabox/traffic-overview.php:41
-#: views/metabox/traffic-overview.php:87
+#: views/metabox/traffic-overview.php:88
 #: views/metabox/traffic-summary.php:29
 #: views/pages/page-insights/overview.php:25
 #: views/pages/page-insights/overview.php:83
@@ -353,10 +353,10 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:365
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:56
 #: src/Models/ViewsModel.php:237
-#: src/Models/VisitorsModel.php:373
-#: src/Models/VisitorsModel.php:414
-#: src/Models/VisitorsModel.php:462
-#: views/metabox/traffic-overview.php:101
+#: src/Models/VisitorsModel.php:387
+#: src/Models/VisitorsModel.php:428
+#: src/Models/VisitorsModel.php:476
+#: views/metabox/traffic-overview.php:98
 #: views/pages/visitor-insights/overview.php:66
 msgid "Yesterday"
 msgstr ""
@@ -365,28 +365,28 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:331
 #: includes/admin/class-wp-statistics-admin-assets.php:370
 #: src/Models/ViewsModel.php:257
-#: src/Models/VisitorsModel.php:378
-#: src/Models/VisitorsModel.php:419
-#: src/Models/VisitorsModel.php:467
-#: views/metabox/traffic-overview.php:110
+#: src/Models/VisitorsModel.php:392
+#: src/Models/VisitorsModel.php:433
+#: src/Models/VisitorsModel.php:481
+#: views/metabox/traffic-overview.php:103
 msgid "Last 7 days"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:326
 #: includes/admin/class-wp-statistics-admin-assets.php:366
 #: src/Models/ViewsModel.php:241
-#: src/Models/VisitorsModel.php:374
-#: src/Models/VisitorsModel.php:415
-#: src/Models/VisitorsModel.php:463
+#: src/Models/VisitorsModel.php:388
+#: src/Models/VisitorsModel.php:429
+#: src/Models/VisitorsModel.php:477
 msgid "This week"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:327
 #: includes/admin/class-wp-statistics-admin-assets.php:367
 #: src/Models/ViewsModel.php:245
-#: src/Models/VisitorsModel.php:375
-#: src/Models/VisitorsModel.php:416
-#: src/Models/VisitorsModel.php:464
+#: src/Models/VisitorsModel.php:389
+#: src/Models/VisitorsModel.php:430
+#: src/Models/VisitorsModel.php:478
 msgid "Last week"
 msgstr ""
 
@@ -394,28 +394,28 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:332
 #: includes/admin/class-wp-statistics-admin-assets.php:372
 #: src/Models/ViewsModel.php:261
-#: src/Models/VisitorsModel.php:379
-#: src/Models/VisitorsModel.php:420
-#: src/Models/VisitorsModel.php:468
-#: views/metabox/traffic-overview.php:119
+#: src/Models/VisitorsModel.php:393
+#: src/Models/VisitorsModel.php:434
+#: src/Models/VisitorsModel.php:482
+#: views/metabox/traffic-overview.php:108
 msgid "Last 30 days"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:329
 #: includes/admin/class-wp-statistics-admin-assets.php:368
 #: src/Models/ViewsModel.php:249
-#: src/Models/VisitorsModel.php:376
-#: src/Models/VisitorsModel.php:417
-#: src/Models/VisitorsModel.php:465
+#: src/Models/VisitorsModel.php:390
+#: src/Models/VisitorsModel.php:431
+#: src/Models/VisitorsModel.php:479
 msgid "This month"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:330
 #: includes/admin/class-wp-statistics-admin-assets.php:369
 #: src/Models/ViewsModel.php:253
-#: src/Models/VisitorsModel.php:377
-#: src/Models/VisitorsModel.php:418
-#: src/Models/VisitorsModel.php:466
+#: src/Models/VisitorsModel.php:391
+#: src/Models/VisitorsModel.php:432
+#: src/Models/VisitorsModel.php:480
 msgid "Last month"
 msgstr ""
 
@@ -426,18 +426,18 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:334
 #: includes/admin/class-wp-statistics-admin-assets.php:373
 #: src/Models/ViewsModel.php:265
-#: src/Models/VisitorsModel.php:380
-#: src/Models/VisitorsModel.php:421
-#: src/Models/VisitorsModel.php:469
+#: src/Models/VisitorsModel.php:394
+#: src/Models/VisitorsModel.php:435
+#: src/Models/VisitorsModel.php:483
 msgid "Last 90 days"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:335
 #: includes/admin/class-wp-statistics-admin-assets.php:374
 #: src/Models/ViewsModel.php:269
-#: src/Models/VisitorsModel.php:381
-#: src/Models/VisitorsModel.php:422
-#: src/Models/VisitorsModel.php:470
+#: src/Models/VisitorsModel.php:395
+#: src/Models/VisitorsModel.php:436
+#: src/Models/VisitorsModel.php:484
 msgid "Last 6 months"
 msgstr ""
 
@@ -447,10 +447,10 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:337
 #: src/Models/ViewsModel.php:273
-#: src/Models/VisitorsModel.php:382
-#: src/Models/VisitorsModel.php:423
-#: src/Models/VisitorsModel.php:471
-#: views/metabox/traffic-overview.php:128
+#: src/Models/VisitorsModel.php:396
+#: src/Models/VisitorsModel.php:437
+#: src/Models/VisitorsModel.php:485
+#: views/metabox/traffic-overview.php:113
 msgid "This year (Jan-Today)"
 msgstr ""
 
@@ -462,9 +462,9 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:339
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:60
 #: src/Models/ViewsModel.php:280
-#: src/Models/VisitorsModel.php:402
-#: src/Models/VisitorsModel.php:443
-#: src/Models/VisitorsModel.php:491
+#: src/Models/VisitorsModel.php:416
+#: src/Models/VisitorsModel.php:457
+#: src/Models/VisitorsModel.php:505
 #: src/Service/Charts/DataProvider/ExclusionsChartDataProvider.php:91
 #: src/Service/Charts/DataProvider/SearchEngineChartDataProvider.php:92
 #: src/Service/Charts/DataProvider/SearchEngineChartDataProvider.php:119
@@ -472,7 +472,7 @@ msgstr ""
 #: src/Service/Charts/DataProvider/SocialMediaChartDataProvider.php:119
 #: src/Service/Charts/DataProvider/SourceCategoryChartDataProvider.php:92
 #: src/Service/Charts/DataProvider/SourceCategoryChartDataProvider.php:119
-#: views/metabox/traffic-overview.php:137
+#: views/metabox/traffic-overview.php:118
 msgid "Total"
 msgstr ""
 
@@ -1863,7 +1863,7 @@ msgstr ""
 
 #: includes/admin/templates/layout/menu-settings.php:74
 #: includes/admin/templates/settings/add-ons/mini-chart.php:29
-#: includes/class-wp-statistics-helper.php:1752
+#: includes/class-wp-statistics-helper.php:1757
 #: src/Service/Admin/LicenseManagement/Views/LockedMiniChartView.php:16
 msgid "Mini Chart"
 msgstr ""
@@ -2776,7 +2776,7 @@ msgstr ""
 
 #: includes/admin/templates/pages/devices/categories.php:16
 #: includes/admin/templates/pages/devices/overview.php:215
-#: includes/class-wp-statistics-helper.php:948
+#: includes/class-wp-statistics-helper.php:953
 msgid "Category"
 msgstr ""
 
@@ -5260,7 +5260,7 @@ msgstr ""
 msgid "Pre-flight Request"
 msgstr ""
 
-#: includes/class-wp-statistics-frontend.php:136
+#: includes/class-wp-statistics-frontend.php:144
 msgid "Views: %s"
 msgstr ""
 
@@ -5296,101 +5296,105 @@ msgstr ""
 msgid "WP-Optimize"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:841
+#: includes/class-wp-statistics-helper.php:196
+msgid "Speed Optimizer"
+msgstr ""
+
+#: includes/class-wp-statistics-helper.php:846
 msgid "Your Website Performance Overview"
 msgstr ""
 
 #. translators: 1: Report start date - 2: Report end date.
-#: includes/class-wp-statistics-helper.php:851
+#: includes/class-wp-statistics-helper.php:856
 msgid "%s - %s"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:948
+#: includes/class-wp-statistics-helper.php:953
 msgid "Tags"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1602
+#: includes/class-wp-statistics-helper.php:1607
 msgid "a year"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1604
+#: includes/class-wp-statistics-helper.php:1609
 msgid "a month"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1607
+#: includes/class-wp-statistics-helper.php:1612
 msgid "a week"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1609
+#: includes/class-wp-statistics-helper.php:1614
 msgid "a day"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1695
+#: includes/class-wp-statistics-helper.php:1700
 msgid "Optimize Your Content Strategy"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1697
+#: includes/class-wp-statistics-helper.php:1702
 msgid "For maximum accuracy, enable the cache compatibility mode on your website and check your filtering settings. By following these steps, traffic data becomes more accurate. <div style=\"margin-top: 16px\">For more details, read <a href=\"%1$s\" style=\"color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none\" target=\"_blank\">%2$s <img width=\"6.67\" height=\"10.91\" style=\"margin-"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1704
+#: includes/class-wp-statistics-helper.php:1709
 msgid "Optimize Your Data Accuracy"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1708
+#: includes/class-wp-statistics-helper.php:1713
 msgid "Keep the plugin up-to-date"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1709
+#: includes/class-wp-statistics-helper.php:1714
 msgid "Ensure that your WP Statistics plugin is up-to-date in order to get the latest features and security improvements."
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1712
+#: includes/class-wp-statistics-helper.php:1717
 msgid "Maintain Privacy Compliance"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1716
+#: includes/class-wp-statistics-helper.php:1721
 msgid "WordPress Export and Erasure"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1720
+#: includes/class-wp-statistics-helper.php:1725
 msgid "Track Links and Downloads"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1724
+#: includes/class-wp-statistics-helper.php:1729
 msgid "Advanced Filtering"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1728
+#: includes/class-wp-statistics-helper.php:1733
 msgid "Weekly Performance Overview"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1732
+#: includes/class-wp-statistics-helper.php:1737
 msgid "Traffic by Hour Widget"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1736
+#: includes/class-wp-statistics-helper.php:1741
 msgid "Content-Specific Analytics"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1740
+#: includes/class-wp-statistics-helper.php:1745
 msgid "Custom Post Type Tracking"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1744
+#: includes/class-wp-statistics-helper.php:1749
 msgid "Custom Taxonomy Analytics"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1748
+#: includes/class-wp-statistics-helper.php:1753
 #: src/Service/Admin/LicenseManagement/Views/LockedRealTimeStatView.php:16
 msgid "Real-Time Stats"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:2017
+#: includes/class-wp-statistics-helper.php:2022
 msgid "Invalid hit/online request."
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:2236
+#: includes/class-wp-statistics-helper.php:2241
 #: views/components/tables/most-active-visitors.php:99
 #: views/metabox/horizontal-bar.php:14
 #: views/metabox/most-active-visitors.php:100
@@ -5400,7 +5404,7 @@ msgstr ""
 msgid "No data found for this date range."
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:2239
+#: includes/class-wp-statistics-helper.php:2244
 #: views/components/tables/most-active-visitors.php:101
 #: views/metabox/horizontal-bar.php:16
 #: views/metabox/latest-visitor.php:76
@@ -5411,39 +5415,39 @@ msgstr ""
 msgid "Data coming soon!"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:219
+#: includes/class-wp-statistics-install.php:220
 msgid "Click here to visit the plugin on WordPress.org"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:219
+#: includes/class-wp-statistics-install.php:220
 msgid "Visit WordPress.org page"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:221
+#: includes/class-wp-statistics-install.php:222
 msgid "Click here to rate and review this plugin on WordPress.org"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:221
+#: includes/class-wp-statistics-install.php:222
 msgid "Rate this plugin"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:634
+#: includes/class-wp-statistics-install.php:644
 msgid "WP Statistics database requires upgrade."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:637
+#: includes/class-wp-statistics-install.php:647
 msgid "Upgrade Database"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:661
+#: includes/class-wp-statistics-install.php:671
 msgid "Database Upgrade Completed Successfully!"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:699
+#: includes/class-wp-statistics-install.php:709
 msgid "Error During Operation. Please Refresh the Page."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:712
+#: includes/class-wp-statistics-install.php:722
 msgid "Item processed"
 msgstr ""
 
@@ -6260,6 +6264,14 @@ msgstr ""
 msgid "Failed to activate the plugin: %s"
 msgstr ""
 
+#: src/Service/Admin/LicenseManagement/Plugin/PluginUpdater.php:222
+msgid "Automatic updates are disabled for the <b>%s</b>."
+msgstr ""
+
+#: src/Service/Admin/LicenseManagement/Plugin/PluginUpdater.php:223
+msgid "To unlock automatic updates and access new features and security improvements, please <a href=\"%s\">activate your license</a>."
+msgstr ""
+
 #: src/Service/Admin/LicenseManagement/Views/LockedMiniChartView.php:14
 msgid "Mini Chart: Easy Insights, Right in Your Dashboard"
 msgstr ""
@@ -6476,41 +6488,45 @@ msgstr ""
 msgid "A quick overview of your website's visitor statistics."
 msgstr ""
 
-#: src/Service/Admin/NoticeHandler/GeneralNotices.php:83
+#: src/Service/Admin/NoticeHandler/GeneralNotices.php:86
 msgid "Activate integration ›"
 msgstr ""
 
+#: src/Service/Admin/NoticeHandler/GeneralNotices.php:116
+msgid "<b>WP Statistics Notice:</b> The cache plugin %1$s is detected, please make sure the %2$s file is excluded from file optimization and caching, <a target=\"_blank\" href=\"%3$s\">Click here</a> for more info."
+msgstr ""
+
 #. translators: %s: settings URL
-#: src/Service/Admin/NoticeHandler/GeneralNotices.php:117
+#: src/Service/Admin/NoticeHandler/GeneralNotices.php:150
 msgid "<b>WP Statistics Notice:</b> Server Side Tracking is less accurate and will be deprecated in <b>version 15</b>. Please switch to Client Side Tracking for better accuracy. <a href=\"%s\">Update Tracking Settings</a>."
 msgstr ""
 
 #. translators: %1$s: Settings URL, %2$s: Optimization URL, %3$s: Documentation URL
-#: src/Service/Admin/NoticeHandler/GeneralNotices.php:160
+#: src/Service/Admin/NoticeHandler/GeneralNotices.php:193
 msgid "<b>WP Statistics Notice (Database Maintenance Recommended):</b> Your database has accumulated many records, which could slow down your site. To improve performance, go to <a href=\"%1$s\">Settings → Data Management</a> to enable the option that stops recording old visitor data, and visit the <a href=\"%2$s\">Optimization page</a> to clean up your database. This process only removes detailed old visitor logs but retains aggregated data. Your other data and overall statistics will remain unchanged. For more details, <a href=\"%3$s\" target=\"_blank\">click here</a>."
 msgstr ""
 
-#: src/Service/Admin/NoticeHandler/GeneralNotices.php:198
+#: src/Service/Admin/NoticeHandler/GeneralNotices.php:231
 msgid "Your server memory limit is too low. Please contact your hosting provider to increase the memory limit."
 msgstr ""
 
-#: src/Service/Admin/NoticeHandler/GeneralNotices.php:234
+#: src/Service/Admin/NoticeHandler/GeneralNotices.php:267
 msgid "Please update your email report schedule due to new changes in our latest release: <a href=\"%1$s\">Update Settings</a>."
 msgstr ""
 
-#: src/Service/Admin/NoticeHandler/GeneralNotices.php:274
+#: src/Service/Admin/NoticeHandler/GeneralNotices.php:307
 msgid "You're using Cloudflare. For better performance, you can switch to using Cloudflare's Geolocation feature instead of MaxMind's GeoIP database. Enable this option in WP Statistics settings."
 msgstr ""
 
-#: src/Service/Admin/NoticeHandler/GeneralNotices.php:282
+#: src/Service/Admin/NoticeHandler/GeneralNotices.php:315
 msgid "Go to WP Statistics Advanced Settings"
 msgstr ""
 
-#: src/Service/Admin/NoticeHandler/GeneralNotices.php:284
+#: src/Service/Admin/NoticeHandler/GeneralNotices.php:317
 msgid "Enable this option"
 msgstr ""
 
-#: src/Service/Admin/NoticeHandler/GeneralNotices.php:317
+#: src/Service/Admin/NoticeHandler/GeneralNotices.php:350
 msgid "<b>WP Statistics:</b> Your database needs a quick update. <a href=\"%1$s\">Run the Database Maintenance tool</a> to keep your stats accurate."
 msgstr ""
 
@@ -7182,6 +7198,22 @@ msgstr ""
 
 #: src/Service/CustomEvent/CustomEventActions.php:50
 msgid "Event recorded successfully."
+msgstr ""
+
+#: src/Service/CustomEvent/CustomEventDataParser.php:59
+msgid "The event name you entered is not valid."
+msgstr ""
+
+#: src/Service/CustomEvent/CustomEventDataParser.php:64
+msgid "The event does not exist, or is not active."
+msgstr ""
+
+#: src/Service/CustomEvent/CustomEventDataParser.php:69
+msgid "The event data is not valid."
+msgstr ""
+
+#: src/Service/CustomEvent/CustomEventDataParser.php:75
+msgid "The value for the key \"%s\" in the event data is an array. Only strings, numbers and booleans are allowed."
 msgstr ""
 
 #: src/Service/Geolocation/AbstractGeoIPProvider.php:214
@@ -8368,7 +8400,7 @@ msgstr ""
 msgid "Traffic overview chart"
 msgstr ""
 
-#: views/metabox/traffic-overview.php:84
+#: views/metabox/traffic-overview.php:85
 msgid "Date range"
 msgstr ""
 

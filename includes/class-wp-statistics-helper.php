@@ -1430,6 +1430,37 @@ class Helper
     }
 
     /**
+     * Extracts the major version from a version string.
+     *
+     * If the version string starts with a dot (e.g. ".NK") meaning
+     * no major version is present, the entire input string is returned.
+     * If the input is empty or not a string, returns null.
+     *
+     * Examples:
+     * - "1.2.3" => "1"
+     * - ".NK"   => ".NK"
+     * - ""      => null
+     * - null    => null
+     *
+     * @param string|null $version Version string to extract from.
+     * @return string|null Major version or full input if no major version, or null if invalid.
+     */
+    public static function getMajorVersionOnly($version)
+    {
+        if(empty($version)) {
+            return null;
+        }
+
+        $parts = explode('.', $version);
+
+        if ($parts[0] === '') {
+            return $version;
+        }
+
+        return $parts[0];
+    }
+
+    /**
      * Do not track browser detection
      *
      * @return bool
