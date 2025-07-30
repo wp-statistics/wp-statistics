@@ -22,7 +22,7 @@ use WP_STATISTICS\Admin_Template;
                                         <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('Country', 'wp-statistics') ?>
                                         </th>
-                                        <th class="wps-pd-l">
+                                        <th scope="col" class="wps-pd-l" style="width: 15%">
                                             <span class="wps-order"><?php esc_html_e('Visitors', 'wp-statistics'); ?></span>
                                         </th>
                                         <th scope="col" class="wps-pd-l" style="width: 15%">
