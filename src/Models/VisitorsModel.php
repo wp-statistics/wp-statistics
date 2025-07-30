@@ -1293,7 +1293,7 @@ class VisitorsModel extends BaseModel
      *
      * @return  array   Format: `[{'date' => "STRING", 'visitors' => INT, 'visits' => INT, 'referrers' => INT}, ...]`.
      *
-     * @deprecated Do NOT use this class anymore as it's been deprecated. Instead, use getDailyVisitors, getDailyViews, and getDailyReferrals
+     * @deprecated Do NOT use this class anymore as it's been deprecated. Instead, use countDailyVisitors, countDailyViews, and countDailyReferrers
      */
     public function getDailyStats($args = [])
     {
