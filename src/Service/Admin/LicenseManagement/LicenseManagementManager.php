@@ -4,11 +4,13 @@ namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 use Exception;
 use WP_Statistics;
+use WP_STATISTICS\User;
 use WP_STATISTICS\Option;
+use WP_Statistics\Exception\LicenseException;
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginActions;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginUpdater;
-use WP_STATISTICS\User;
 
 class LicenseManagementManager
 {
@@ -26,7 +28,7 @@ class LicenseManagementManager
         // Initialize the necessary components.
         $this->initActionCallbacks();
 
-        add_action('init', [$this, 'initLicenseValidation']);
+        add_action('init', [$this, 'constLicenseValidation']);
         add_action('init', [$this, 'initPluginUpdaters']);
         add_action('admin_init', [$this, 'showPluginActivationNotice']);
         add_filter('wp_statistics_enable_upgrade_to_bundle', [$this, 'showUpgradeToBundle']);
@@ -44,36 +46,34 @@ class LicenseManagementManager
      *
      * @throws Exception if the API call fails
      */
-    public function initLicenseValidation(): void
+    public function constLicenseValidation()
     {
-        $constants = LicenseHelper::getPluginLicenseConstants();
+        // Check if the license is defined
+        if (!defined('WP_STATISTICS_LICENSE')) return;
 
-        foreach ($constants as $slug => $constant) {
-            if (defined($constant) && $this->pluginHandler->isPluginActive($slug)) {
-                if ($constant === 'WP_STATISTICS_LICENSE') {
-                    $storedLicense = LicenseHelper::isPremiumLicenseAvailable();
-                } else {
-                    $storedLicense = LicenseHelper::getPluginLicense($slug);
-                }
+        $licenses = WP_STATISTICS_LICENSE;
 
-                $constantLicense = constant($constant);
+        // Check if the license is a string, multiple licenses are allowed if separated by commas
+        if (is_string($licenses)) {
+            $licenses = explode(',', $licenses);
+        }
 
-                if (empty($storedLicense) && !empty($constantLicense)) {
-                    try {
-                        if ($constant === 'WP_STATISTICS_LICENSE') {
-                            $this->apiCommunicator->validateLicense(
-                                sanitize_text_field($constantLicense)
-                            );
-                        } else {
-                            $this->apiCommunicator->validateLicense(
-                                sanitize_text_field($constantLicense),
-                                $slug
-                            );
-                        }
-                    } catch (Exception $e) {
+        // Check if the license is an array
+        if (!is_array($licenses)) return;
 
-                    }
-                }
+        $licenses = array_map('sanitize_text_field', $licenses);
+
+        foreach ($licenses as $license) {
+            // Check if the license is stored
+            $isStored = LicenseHelper::getLicenseInfo($license);
+
+            // If the license is stored, skip validation
+            if ($isStored) continue;
+
+            try {
+                $this->apiCommunicator->validateLicense($license);
+            } catch (LicenseException $e) {
+                Notice::addNotice(sprintf(esc_html__('Failed to validate license: %s', 'wp-statistics'), $e->getMessage()), 'license_validation', 'error');
             }
         }
     }
