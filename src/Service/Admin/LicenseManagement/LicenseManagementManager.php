@@ -49,23 +49,29 @@ class LicenseManagementManager
         $constants = LicenseHelper::getPluginLicenseConstants();
 
         foreach ($constants as $slug => $constant) {
-            if (
-                defined($constant) &&
-                $this->pluginHandler->isPluginActive($slug)
-            ) {
-                $storedLicense   = LicenseHelper::getPluginLicense($slug);
+            if (defined($constant) && $this->pluginHandler->isPluginActive($slug)) {
+                if ($constant === 'WP_STATISTICS_LICENSE') {
+                    $storedLicense = LicenseHelper::isPremiumLicenseAvailable();
+                } else {
+                    $storedLicense = LicenseHelper::getPluginLicense($slug);
+                }
+
                 $constantLicense = constant($constant);
 
                 if (empty($storedLicense) && !empty($constantLicense)) {
-                    if ($constant === 'WP_STATISTICS_KEY') {
-                        $this->apiCommunicator->validateLicense(
-                            sanitize_text_field($constantLicense)
-                        );
-                    } else {
-                        $this->apiCommunicator->validateLicense(
-                            sanitize_text_field($constantLicense),
-                            $slug
-                        );
+                    try {
+                        if ($constant === 'WP_STATISTICS_LICENSE') {
+                            $this->apiCommunicator->validateLicense(
+                                sanitize_text_field($constantLicense)
+                            );
+                        } else {
+                            $this->apiCommunicator->validateLicense(
+                                sanitize_text_field($constantLicense),
+                                $slug
+                            );
+                        }
+                    } catch (Exception $e) {
+
                     }
                 }
             }

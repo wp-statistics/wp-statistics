@@ -279,7 +279,7 @@ class LicenseHelper
     public static function getPluginLicenseConstants()
     {
         return [
-            'wp-statistics' => 'WP_STATISTICS_KEY',
+            'wp-statistics' => 'WP_STATISTICS_LICENSE',
         ];
     }
 }
