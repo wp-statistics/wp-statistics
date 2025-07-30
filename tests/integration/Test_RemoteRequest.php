@@ -53,25 +53,17 @@ class Test_RemoteRequest extends WP_UnitTestCase
      */
     public function test_generateCacheKey()
     {
-        $url = 'https://example.com/api';
-        $params = ['key' => 'value'];
+        $url    = 'https://example.com/api';
         $method = 'GET';
-        $args = ['timeout' => 5];
+        $params = ['key' => 'value'];
+        $args   = ['timeout' => 5];
 
-        $remoteRequest = $this->getMockBuilder(RemoteRequest::class)
-            ->setConstructorArgs([$url, $method, $params, $args])
-            ->onlyMethods(['getCacheKey'])
-            ->getMock();
+		$request = new RemoteRequest($url, $method, $params, $args);
 
-        // Mock the getCacheKey method
-        $remoteRequest->expects($this->once())
-            ->method('getCacheKey')
-            ->with($this->isType('string'))
-            ->willReturn('mock_cache_key');
+		// Build the expected JSON the same way the class does.
+		$expected = wp_json_encode(array_merge(['url' => $request->getRequestUrl()], $request->getParsedArgs()));
 
-        // Test the cache key generation
-        $cacheKey = $remoteRequest->generateCacheKey();
-        $this->assertEquals('mock_cache_key', $cacheKey);
+		$this->assertSame($expected, $request->generateCacheKey());
     }
 
     /**

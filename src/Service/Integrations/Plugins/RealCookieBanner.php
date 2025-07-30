@@ -100,4 +100,15 @@ class RealCookieBanner extends AbstractIntegration
             'track_anonymously' => $this->trackAnonymously()
         ];
     }
+
+    /**
+     * Return an array of js handles for this integration.
+     * The result will be used as dependencies for the tracker js file
+     *
+     * @return  array
+     */
+    public function getJsHandles()
+    {
+        return ['real-cookie-banner-pro-banner'];
+    }
 }

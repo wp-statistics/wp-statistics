@@ -112,4 +112,15 @@ class WpConsentApi extends AbstractIntegration
 
         return $plugins;
     }
+
+    /**
+     * Return an array of js handles for this integration.
+     * The result will be used as dependencies for the tracker js file
+     *
+     * @return  array
+     */
+    public function getJsHandles()
+    {
+        return ['wp-consent-api'];
+    }
 }

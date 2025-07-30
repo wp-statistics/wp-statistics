@@ -263,6 +263,12 @@
           &:before {
             background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOCIgaGVpZ2h0PSI4IiB2aWV3Qm94PSIwIDAgOCA4IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZyBjbGlwLXBhdGg9InVybCgjY2xpcDBfMjcyOThfNDk3ODEpIj4KPHBhdGggZD0iTTUuMjk0NTEgNi4wMDI1OEwwLjk5MTIxMSAxLjY5OTNMMS42OTgzMiAwLjk5MjE4OEw2LjAwMTYxIDUuMjk1NDhWMS41MDI2SDcuMDAxNjFWNy4wMDI1OEgxLjUwMTYyVjYuMDAyNThINS4yOTQ1MVoiIGZpbGw9IiNENTQwMzciLz4KPC9nPgo8ZGVmcz4KPGNsaXBQYXRoIGlkPSJjbGlwMF8yNzI5OF80OTc4MSI+CjxyZWN0IHdpZHRoPSI4IiBoZWlnaHQ9IjciIGZpbGw9IndoaXRlIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwIDAuNSkiLz4KPC9jbGlwUGF0aD4KPC9kZWZzPgo8L3N2Zz4K") center center no-repeat;
           }
+
+          &.wps-glance-up{
+            &:before {
+              transform: rotateX(180deg);
+            }
+          }
         }
       }
     }

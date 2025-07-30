@@ -191,6 +191,11 @@ class Helper
             $use = array('status' => true, 'plugin' => __('WP-Optimize', 'wp-statistics'), 'debug' => 'WP-Optimize');
         }
 
+        /* Speed Optimizer */
+        if (class_exists('\SiteGround_Optimizer\Loader\Loader')) {
+            $use = array('status' => true, 'plugin' => esc_html__('Speed Optimizer', 'wp-statistics'), 'debug' => 'Speed Optimizer');
+        }
+
         return apply_filters('wp_statistics_cache_status', $use);
     }
 
