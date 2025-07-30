@@ -21,10 +21,13 @@ $isActive       = $pluginHandler->isPluginActive('wp-statistics-data-plus');
                                             <?php esc_html_e('Country', 'wp-statistics') ?>
                                         </th>
                                         <th scope="col" class="wps-pd-l">
-                                            <?php esc_html_e('Visitors', 'wp-statistics') ?>
+                                            <span class="wps-order"><?php esc_html_e('Visitors', 'wp-statistics'); ?></span>
                                         </th>
                                         <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('Views', 'wp-statistics') ?>
+                                        </th>
+                                        <th class="wps-pd-l">
+                                            %
                                         </th>
                                         <th scope="col">
                                             <span class="screen-reader-text"><?php esc_html_e('Details', 'wp-statistics'); ?></span>
@@ -47,6 +50,9 @@ $isActive       = $pluginHandler->isPluginActive('wp-statistics-data-plus');
                                             </td>
                                             <td class="wps-pd-l">
                                                 <?php echo esc_html(number_format($item->views)) ?>
+                                            </td>
+                                            <td class="wps-pd-l">
+                                                33%
                                             </td>
                                             <td class="-table__cell o-table__cell--right view-more">
                                                 <?php if($isActive): ?>

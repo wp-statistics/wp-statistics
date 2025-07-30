@@ -16,10 +16,13 @@ use WP_STATISTICS\Admin_Template;
                                             <?php esc_html_e('Region', 'wp-statistics') ?>
                                         </th>
                                         <th scope="col" class="wps-pd-l">
-                                            <?php esc_html_e('Visitors', 'wp-statistics') ?>
+                                            <span class="wps-order"><?php esc_html_e('Visitors', 'wp-statistics'); ?></span>
                                         </th>
                                         <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('Views', 'wp-statistics') ?>
+                                        </th>
+                                        <th class="wps-pd-l">
+                                            %
                                         </th>
                                     </tr>
                                 </thead>
@@ -36,6 +39,9 @@ use WP_STATISTICS\Admin_Template;
                                             </td>
                                             <td class="wps-pd-l">
                                                 <?php echo esc_html(number_format($item->views)) ?>
+                                            </td>
+                                            <td class="wps-pd-l">
+                                                33%
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
