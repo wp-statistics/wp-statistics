@@ -415,6 +415,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Integrations\\IntegrationHelper' => __DIR__ . '/../..' . '/src/Service/Integrations/IntegrationHelper.php',
         'WP_Statistics\\Service\\Integrations\\IntegrationsManager' => __DIR__ . '/../..' . '/src/Service/Integrations/IntegrationsManager.php',
         'WP_Statistics\\Service\\Integrations\\Plugins\\AbstractIntegration' => __DIR__ . '/../..' . '/src/Service/Integrations/Plugins/AbstractIntegration.php',
+        'WP_Statistics\\Service\\Integrations\\Plugins\\BorlabsCookie' => __DIR__ . '/../..' . '/src/Service/Integrations/Plugins/BorlabsCookie.php',
         'WP_Statistics\\Service\\Integrations\\Plugins\\RealCookieBanner' => __DIR__ . '/../..' . '/src/Service/Integrations/Plugins/RealCookieBanner.php',
         'WP_Statistics\\Service\\Integrations\\Plugins\\WpConsentApi' => __DIR__ . '/../..' . '/src/Service/Integrations/Plugins/WpConsentApi.php',
         'WP_Statistics\\Service\\Logger\\AbstractLoggerProvider' => __DIR__ . '/../..' . '/src/Service/Logger/AbstractLoggerProvider.php',

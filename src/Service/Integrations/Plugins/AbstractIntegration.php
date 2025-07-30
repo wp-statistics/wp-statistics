@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Integrations\Plugins;
 
+use WP_STATISTICS\Option;
+
 abstract class AbstractIntegration
 {
     protected $key;
@@ -35,33 +37,47 @@ abstract class AbstractIntegration
     }
 
     /**
+     * Check if the integration option is selectable.
+     *
+     * @return  bool
+     */
+    public function isSelectable()
+    {
+        return $this->isActive();
+    }
+
+    /**
+     * Get integration status
+     * @return array
+     */
+    public function getStatus()
+    {
+        return [
+            'has_consent'       => $this->hasConsent(),
+            'track_anonymously' => $this->trackAnonymously()
+        ];
+    }
+
+    /**
+     * If returns true, the user data will be collected anonymously
+     * @return bool
+     */
+    public function trackAnonymously()
+    {
+        return Option::get('anonymous_tracking', false) != false;
+    }
+
+    /**
      * Integration name
      * @return string
      */
     abstract public function getName();
 
     /**
-     * Detection notice
-     */
-    abstract public function detectionNotice();
-
-    /**
-     * If returns true, the user data will be collected anonymously
-     * @return bool
-     */
-    abstract public function trackAnonymously();
-
-    /**
      * Checks if the user has given consent.
      * @return bool
      */
     abstract public function hasConsent();
-
-    /**
-     * Get integration status
-     * @return array
-     */
-    abstract public function getStatus();
 
     /**
      * Register integration hooks.

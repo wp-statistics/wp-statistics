@@ -1,8 +1,7 @@
 <?php
-use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 
-$integrations = IntegrationHelper::getAllIntegrations();
+$notices = IntegrationHelper::getDetectionNotice();
 ?>
 
 <div class="wps-mb-16"><?php echo esc_html__('WP Statistics does not require consent by default, as it doesn’t record any Personally Identifiable Information (PII). However, one of your enabled settings collects PII, making visitor consent mandatory to stay compliant with GDPR, CCPA, and other privacy regulations.', 'wp-statistics') ?></div>
@@ -13,25 +12,14 @@ $integrations = IntegrationHelper::getAllIntegrations();
     </div>
 </div>
 
-<?php
-foreach ($integrations as $integration) {
-    if (!$integration->isActive()) continue;
-
-    $notice = $integration->detectionNotice();
-
-    if (empty($notice)) continue;
-
-    ?>
-        <div class="wps-audit-card__suggestion wps-mb-16">
-            <div class="wps-audit-card__suggestion-head"><?php echo esc_html($notice['title']) ?></div>
-            <div class="wps-audit-card__suggestion-text">
-                <p><?php echo esc_html($notice['description']) ?></p>
-                <a href="<?php echo esc_url(Menus::admin_url('settings', ['tab' => 'privacy-settings']). '#consent_integration') ?>"><?php esc_html_e('Activate integration ›') ?></a>
-            </div>
+<?php foreach ($notices as $notice) : ?>
+    <div class="wps-audit-card__suggestion wps-mb-16">
+        <div class="wps-audit-card__suggestion-head"><?php esc_html_e('Consent Integration Available', 'wp-statistics'); ?></div>
+        <div class="wps-audit-card__suggestion-text">
+            <?php echo wp_kses_post($notice['content']) ?>
         </div>
-    <?php
-}
-?>
+    </div>
+<?php endforeach; ?>
 
 <div class="wps-audit-card__suggestion">
     <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('Need Help?', 'wp-statistics') ?></div>
