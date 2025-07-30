@@ -282,7 +282,7 @@ class Visitor
         }
 
         // Prepare Query
-        $args['sql'] = $wpdb->prepare("SELECT *, CAST(`version` AS SIGNED) AS `casted_version` FROM `" . DB::table('visitor') . "` WHERE last_counter = %s ORDER BY hits DESC", $sql_time);
+        $args['sql'] = $wpdb->prepare("SELECT * FROM `" . DB::table('visitor') . "` WHERE last_counter = %s ORDER BY hits DESC", $sql_time);
 
         // Get Visitors Data
         return self::get($args);
@@ -313,7 +313,7 @@ class Visitor
 
         // Prepare the Query & Set Pagination
         if (empty($args['sql'])) {
-            $args['sql'] = "SELECT *, CAST(`version` AS SIGNED) AS `casted_version` FROM `" . DB::table('visitor') . "` ORDER BY ID DESC";
+            $args['sql'] = "SELECT * FROM `" . DB::table('visitor') . "` ORDER BY ID DESC";
         }
 
         $args['sql'] = $args['sql'] . $wpdb->prepare(" LIMIT %d, %d", $limit, $args['per_page']);
@@ -342,7 +342,7 @@ class Visitor
 
             $ip          = esc_html($items->ip);
             $agent       = esc_html($items->agent);
-            $version     = esc_html(isset($items->casted_version) ? $items->casted_version : $items->version);
+            $version     = esc_html($items->version);
             $platform    = esc_html($items->platform);
             $geoLocation = false;
 

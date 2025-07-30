@@ -169,7 +169,7 @@ class Referred
         }
 
         $sql = $wpdb->prepare(
-            "SELECT " . ($type == 'number' ? 'COUNT(*)' : '*') . ", CAST(`version` AS SIGNED) AS `casted_version`
+            "SELECT " . ($type == 'number' ? 'COUNT(*)' : '*') . "
              FROM `" . DB::table('visitor') . "`
              WHERE `referred` REGEXP \"^[A-Za-z0-9\\.-]+\\.[A-Za-z]{2,}\"
                AND referred <> ''

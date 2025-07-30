@@ -1,4 +1,5 @@
 = 14.15.x - 2025-xx-xx =
+- **Enhancement:** Store only the major browser version in visitor data to improve performance and reduce query overhead.
 - **Fix:** Fixed visitors and referred visitors page filter issue.
 
 = 14.15.1 - 2025-07-29 =
