@@ -123,8 +123,6 @@ class TabsView extends BaseTabView
      */
     public function getDownloadsData()
     {
-        SystemCleaner::clearAddonsListCache();
-
         return $this->dataProvider->getDownloadsData();
     }
 

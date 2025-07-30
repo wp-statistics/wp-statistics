@@ -26,7 +26,7 @@ class ApiCommunicator
 
             if (empty($plugins) || !is_array($plugins)) {
                 throw new Exception(
-                    sprintf(__('No products were found. The API returned an empty response from the following URL: %s', 'wp-statistics'), "{$this->apiUrl}/product/list")
+                    sprintf(__('No products were found. The API returned an empty response from the following URL: %s', 'wp-statistics'), ApiEndpoints::PRODUCT_LIST)
                 );
             }
 
