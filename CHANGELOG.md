@@ -1,3 +1,6 @@
+= 14.15.x - 2025-x-x =
+- **Enhancement:** Updated table headers in Geographic & Devices and added Percent Share to the Geographic table.
+
 = 14.15.1 - 2025-07-29 =
 - **Enhancement:** Numbers in Overview widgets are now abbreviated (e.g., 10k), with full values shown on hover.
 - **Enhancement:** Made integration JS files dependencies of `tracker.js` to avoid cache-related issues.

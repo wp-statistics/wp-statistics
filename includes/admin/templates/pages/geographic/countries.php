@@ -1,11 +1,13 @@
 <?php
 use WP_STATISTICS\Country;
 use WP_STATISTICS\Menus;
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
+use WP_Statistics\Utils\Request;
 
 $pluginHandler  = new PluginHandler();
 $isActive       = $pluginHandler->isPluginActive('wp-statistics-data-plus');
+$order          = Request::get('order', 'desc');
 ?>
 
 <div class="postbox-container wps-postbox-full">
@@ -22,7 +24,9 @@ $isActive       = $pluginHandler->isPluginActive('wp-statistics-data-plus');
                                             <?php esc_html_e('Country', 'wp-statistics') ?>
                                         </th>
                                         <th scope="col" class="wps-pd-l">
-                                            <span class="wps-order"><?php esc_html_e('Visitors', 'wp-statistics'); ?></span>
+                                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('visitors')) ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'visitors') ? esc_attr($order) : ''; ?>">
+                                                <?php esc_html_e('Visitors', 'wp-statistics'); ?>
+                                            </a>
                                         </th>
                                         <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('Views', 'wp-statistics') ?>
@@ -53,7 +57,7 @@ $isActive       = $pluginHandler->isPluginActive('wp-statistics-data-plus');
                                                 <?php echo esc_html(number_format($item->views)) ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                33%
+                                                <?php echo esc_html(Helper::calculatePercentage($item->visitors, $data['visits'])); ?>%
                                             </td>
                                             <td class="-table__cell o-table__cell--right view-more">
                                                 <?php if($isActive): ?>

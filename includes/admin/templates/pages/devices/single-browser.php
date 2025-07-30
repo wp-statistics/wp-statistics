@@ -1,5 +1,8 @@
 <?php
 use WP_STATISTICS\Helper;
+use WP_Statistics\Utils\Request;
+
+$order = Request::get('order', 'desc');
 ?>
 <div class="postbox-container wps-postbox-full">
     <div class="metabox-holder">
@@ -15,7 +18,9 @@ use WP_STATISTICS\Helper;
                                             <?php echo esc_html($firstColTitle); ?>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <span class="wps-order"><?php esc_html_e('Visitors', 'wp-statistics'); ?></span>
+                                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('visitors')) ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'visitors') ? esc_attr($order) : ''; ?>">
+                                                <?php esc_html_e('Visitors', 'wp-statistics'); ?>
+                                            </a>
                                         </th>
                                         <th class="wps-pd-l">
                                             <?php esc_html_e('%', 'wp-statistics'); ?>

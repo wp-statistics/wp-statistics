@@ -7,6 +7,7 @@ use WP_STATISTICS\Country;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
+use WP_Statistics\Utils\Request;
 
 class GeographicDataProvider
 {
@@ -60,9 +61,14 @@ class GeographicDataProvider
 
     public function getCountriesData()
     {
+        $args = array_merge($this->args, [
+            'order_by' => Request::get('order_by', 'visitors'),
+        ]);
+
         return [
-            'countries' => $this->visitorsModel->getVisitorsGeoData($this->args),
-            'total'     => $this->visitorsModel->countGeoData($this->args)
+            'countries' => $this->visitorsModel->getVisitorsGeoData($args),
+            'total'     => $this->visitorsModel->countGeoData($args),
+            'visits'    => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
         ];
     }
 
@@ -73,13 +79,15 @@ class GeographicDataProvider
             [
                 'group_by'    => ['city'],
                 'not_null'    => 'visitor.city',
-                'count_field' => 'city'
+                'count_field' => 'city',
+                'order_by'    => Request::get('order_by', 'visitors'),
             ]
         );
 
         return [
             'cities' => $this->visitorsModel->getVisitorsGeoData($args),
-            'total'  => $this->visitorsModel->countGeoData($args)
+            'total'  => $this->visitorsModel->countGeoData($args),
+            'visits' => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
         ];
     }
 
@@ -87,12 +95,16 @@ class GeographicDataProvider
     {
         $args = array_merge(
             $this->args,
-            ['continent' => 'Europe']
+            [
+                'continent' => 'Europe',
+                'order_by'  => Request::get('order_by', 'visitors'),
+            ]
         );
 
         return [
             'countries' => $this->visitorsModel->getVisitorsGeoData($args),
-            'total'     => $this->visitorsModel->countGeoData($args)
+            'total'     => $this->visitorsModel->countGeoData($args),
+            'visits'    => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
         ];
     }
 
@@ -105,13 +117,15 @@ class GeographicDataProvider
                 'continent'   => 'North America',
                 'group_by'    => ['region'],
                 'count_field' => 'region',
-                'not_null'    => 'visitor.region'
+                'not_null'    => 'visitor.region',
+                'order_by'    => Request::get('order_by', 'visitors'),
             ]
         );
 
         return [
             'states' => $this->visitorsModel->getVisitorsGeoData($args),
-            'total'  => $this->visitorsModel->countGeoData($args)
+            'total'  => $this->visitorsModel->countGeoData($args),
+            'visits' => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
         ];
     }
 
@@ -125,13 +139,15 @@ class GeographicDataProvider
                 'country'     => $countryCode,
                 'group_by'    => ['country', 'region'],
                 'count_field' => 'region',
-                'not_null'    => 'visitor.region'
+                'not_null'    => 'visitor.region',
+                'order_by'    => Request::get('order_by', 'visitors'),
             ]
         );
 
         return [
             'regions' => $this->visitorsModel->getVisitorsGeoData($args),
-            'total'   => $this->visitorsModel->countGeoData($args)
+            'total'   => $this->visitorsModel->countGeoData($args),
+            'visits'  => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
         ];
     }
 

@@ -1,5 +1,9 @@
 <?php 
 use WP_STATISTICS\Admin_Template;
+use WP_STATISTICS\Helper;
+use WP_Statistics\Utils\Request;
+
+$order = Request::get('order', 'desc');
 ?>
 
 <div class="postbox-container wps-postbox-full">
@@ -16,7 +20,9 @@ use WP_STATISTICS\Admin_Template;
                                             <?php esc_html_e('State', 'wp-statistics') ?>
                                         </th>
                                         <th scope="col" class="wps-pd-l">
-                                            <span class="wps-order"><?php esc_html_e('Visitors', 'wp-statistics'); ?></span>
+                                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('visitors')) ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'visitors') ? esc_attr($order) : ''; ?>">
+                                                <?php esc_html_e('Visitors', 'wp-statistics'); ?>
+                                            </a>
                                         </th>
                                         <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('Views', 'wp-statistics') ?>
@@ -32,7 +38,7 @@ use WP_STATISTICS\Admin_Template;
                                     <?php foreach ($data['states'] as $item) : ?>
                                         <tr>
                                             <td class="wps-pd-l">
-                                                <?php echo esc_html(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->region)) ?>
+                                                <?php echo esc_html(Admin_Template::unknownToNotSet($item->region)) ?>
                                             </td>
                                             <td class="wps-pd-l">
                                                 <?php echo esc_html(number_format($item->visitors)) ?>
@@ -41,7 +47,7 @@ use WP_STATISTICS\Admin_Template;
                                                 <?php echo esc_html(number_format($item->views)) ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                33%
+                                                <?php echo esc_html(Helper::calculatePercentage($item->visitors, $data['visits'])); ?>%
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
