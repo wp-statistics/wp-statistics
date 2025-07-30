@@ -14,7 +14,7 @@ $notices = IntegrationHelper::getDetectionNotice();
 
 <?php foreach ($notices as $notice) : ?>
     <div class="wps-audit-card__suggestion wps-mb-16">
-        <div class="wps-audit-card__suggestion-head"><?php echo esc_html($notice['title']); ?></div>
+        <div class="wps-audit-card__suggestion-head"><?php esc_html_e('Consent Integration Available', 'wp-statistics'); ?></div>
         <div class="wps-audit-card__suggestion-text">
             <?php echo wp_kses_post($notice['content']) ?>
         </div>
