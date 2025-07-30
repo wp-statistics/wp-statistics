@@ -1,4 +1,91 @@
-= 14.13.2 - 2025-04-16 =
+= 14.15.1 - 2025-07-29 =
+- **Enhancement:** Numbers in Overview widgets are now abbreviated (e.g., 10k), with full values shown on hover.
+- **Enhancement:** Made integration JS files dependencies of `tracker.js` to avoid cache-related issues.
+- **Enhancement:** Display a notice when a caching plugin is active.
+- **Fix:** Fixed an issue with transient cache duration settings.
+- **Fix:** Corrected color display for period-over-period comparison metrics.
+
+= 14.15 - 2025-07-22 =
+- **New:** Added an `Overview` report for Visitor Insight.
+- **New:** Added an `Overview` report for Page Insights.
+- **New:** Added a `Device Overview` report.
+- **Enhancement:** Improved migration performance by running schema updates synchronously and removing background processes.
+- **Enhancement:** Improved the `Views` report under Visitor Insight.
+- **Enhancement:** Unset the `Consent Integration` setting when integration is deactivated.
+- **Enhancement:** Added country name to flag tooltip in Visitor Info.
+- **Enhancement:** Added unread notification badge to the Help Center menu.
+- **Enhancement:** Merged notification and campaign cron jobs into a single daily schedule.
+- **Enhancement:** Dashboard now shows only the "Traffic Overview" widget by default for a cleaner start.
+- **Enhancement:** Optimized `getTrafficOverviewData` for fewer queries and faster widget loading.
+- **Enhancement:** Skipped GeoIP database download in local environments to speed up setup.
+- **Enhancement:** Removed unused `comments` join from Page Insights query to improve performance.
+- **Enhancement:** Improved "Back" button functionality across pages to return to the previous view accurately.
+- **Enhancement:** Improved warning message for missing consent-management plugin.
+- **Fix:** Fixed report URL issues for custom post types.
+- **Fix:** Resolved zero page view issues for non-'category' taxonomy filters.
+- **Fix:** Fixed incorrect tracking of WooCommerce My Account sub-pages.
+- **Fix:** Prevented `number_format()` warning when value is null in PHP 8.4.5.
+
+= 14.14.1 - 2025-06-29 =
+- **New:** Added a Database Schema tool to check and repair database structure in the Optimization page.
+- **Enhancement:** Added country name to the flag tooltip in Visitor Info.
+- **Enhancement:** Added unread notification badge to the Help Center menu.
+- **Enhancement:** Improved migration performance by running schema updates synchronously and removing background processes.
+- **Enhancement:** Improved the "Views" section in the Visitor Insight report.
+- **Enhancement:** Deprecated the Matomo Referrer Spam Blacklist option (to be removed in v14.16).
+- **Fix:** Fixed accessibility (A11y) issues.
+- **Fix:** Resolved Zero Page views for non-'category' taxonomy filters.
+- **Fix:** Anonymous data opt-in notice now appears 7 days after plugin activation.
+- **Fix:** Fixed incorrect page titles for WooCommerce My Account sub-pages.
+- **Fix:** Normalized the taxonomy `type` field for `tax_` prefixes.
+
+= 14.14 - 2025-06-01 =
+- **New:** Added a Help page inside the plugin to guide users.
+- **New:** Introduced dynamic promo text in the plugin header.
+- **New:** Added Single Resource report for assets without a post ID.
+- **New:** Integrated with the Real Cookie Banner plugin.
+- **New:** Added an option to disable word count analytics in reports.
+- **Enhancement:** Referral Overview and New Design for Settings and Optimization pages.
+- **Enhancement:** Merged Location data into Visitor Information in reports.
+- **Enhancement:** Added Entry and Exit Page columns to relevant reports.
+- **Enhancement:** Added license status helper on the Add-ons page.
+- **Enhancement:** Weekday names now use short format in charts.
+- **Enhancement:** Referrals report now displays traffic from UTM parameters.
+- **Enhancement:** Added `wp_statistics_disable_tracker_debugger_logs` filter to skip error logging in tracker debugger when needed.
+- **Enhancement:** Optimized online visitor tracking requests for better performance.
+- **Enhancement:** Reduced resource consumption during migration to improve efficiency and stability.
+- **Fix:** Standardized "Page" column links across all widgets and reports.
+- **Fix:** Fixed zero page views when using taxonomy filters other than 'category'.
+- **Fix:** Referrers data now reflect the first viewed page.
+- **Fix:** Corrected number formatting for decimal values.
+- **Fix:** Fixed visitor count aggregation issues.
+- **Fix:** Resolved issue with the post views column.
+- **Fix:** Removed `/online` endpoint from REST API when Monitor Online Visitors is disabled.
+- **Fix:** Fixed incorrect content details shown with "All Time" date filter in alternative calendars.
+- **Fix:** Corrected display for Android app traffic in the Top Referrers widget.
+- **Fix:** Settings and Help icons in the header now appear based on user access.
+- **Fix:** Resolved double slashes in Link Report URLs.
+- **Fix:** Removed `/online` and `/hit` REST endpoints when Server-Side Tracking is enabled (deprecated).
+- **Fix:** Ensured `tracker.js` works with Root Bedrock setups.
+- **Fix:** Handled `E_STRICT` deprecation warning in PHP 8.4.
+- **New:** Added a database schema section to the Optimization page to resolve database errors.
+
+= 14.13.4 - 2025-04-29 =
+- **Enhancement:** Enforced capability check in optionUpdater.
+- **Enhancement:** Improved the helper text for the Privacy Policy section.
+- **Enhancement:** Limited the migration process to run only within the plugin's admin pages.
+- **Fix:** Fixed 404 errors when "Bypass Ad-Blocker" proxies assets with extra query parameters.
+
+= 14.13.3 - 2025-04-23 =
+- **New:** Added an option to enable or disable the Privacy Audit section in email reports.
+- **Enhancement:** Improved the migrator to avoid sending redundant requests.
+- **Enhancement:** Added Source Category filter into the visitors report filters.
+- **Fix:** Fixed high memory usage during plugin activation.
+- **Fix:** Resolved occasional PHP warnings.
+- **Fix**: Fixed early translation loading warning.
+
+= 14.13.2 - 2025-04-20 =
+- **Fix**: Fix Font Size issue on the Free Email Report.
 - **New:** Added a 28-day date range option to the date picker.
 - **Enhancement:** Improved overall performance.
 - **Enhancement:** On the Single Post Statistics page, the update date is now shown only if it's different from the creation date.
@@ -14,6 +101,7 @@
 - **Fix:** Fixed compatibility issues with the Interactivity API.
 - **Fix:** Resolved layout issue with the "Account Information" widget on the Single Visitor page.
 - **Removal:** Removed the `Host Exclusions` setting.
+- **Enhancement:** Now counting approved comments instead of all comments.
 
 = 14.13.1 - 2025-04-08 =
 - **Enhancement:** Improved filter logic to avoid unnecessary requests.

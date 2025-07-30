@@ -26,7 +26,7 @@ use WP_Statistics\Components\View;
                 <tr>
                     <td class="wps-pd-l">
                         <div class="wps-country-flag wps-ellipsis-parent">
-                            <img src="<?php echo esc_url(Country::flag($item->country)) ?>" title="<?php echo esc_attr(Country::getName($item->country)) ?>" class="wps-flag wps-flag--first">
+                            <img src="<?php echo esc_url(Country::flag($item->country)) ?>" alt="<?php echo esc_attr(Country::getName($item->country)) ?>" class="wps-flag wps-flag--first">
                             <span class="wps-ellipsis-text" title="<?php echo esc_attr(Country::getName($item->country)) ?>"><?php echo esc_html(Country::getName($item->country)) ?></span>
                         </div>
                     </td>

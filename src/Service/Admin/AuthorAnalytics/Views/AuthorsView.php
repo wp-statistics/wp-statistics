@@ -8,7 +8,6 @@ use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsDataProvider;
-use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Utils\Request;
 
 class AuthorsView extends BaseView
@@ -45,7 +44,7 @@ class AuthorsView extends BaseView
             'page_title'        => esc_html__('Uncover Author Performance at a Glance', 'wp-statistics'),
             'addon_name'        => esc_html__('Data Plus', 'wp-statistics'),
             'addon_slug'        => 'wp-statistics-data-plus',
-            'campaign'          => 'author-analystics',
+            'campaign'          => 'data-plus',
             'more_title'        => esc_html__('Learn More', 'wp-statistics'),
             'premium_btn_title' => esc_html__('Discover Author Insights with Premium', 'wp-statistics'),
             'images'            => ['data-plus-single-author.png'],
@@ -92,14 +91,10 @@ class AuthorsView extends BaseView
 
     public function render()
     {
-        try {
-            if ($this->isLocked()) {
-                $this->renderLocked();
-            } else {
-                $this->renderContent();
-            }
-        } catch (\Exception $e) {
-            Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
+        if ($this->isLocked()) {
+            $this->renderLocked();
+        } else {
+            $this->renderContent();
         }
     }
 

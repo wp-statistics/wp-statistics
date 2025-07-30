@@ -2,15 +2,14 @@
 
 namespace WP_Statistics\Service\Admin\Posts;
 
+use WP_Statistics\Components\DateRange;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\MiniChart\WP_Statistics_Mini_Chart_Settings;
-use WP_Statistics\Models\HistoricalModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Option;
-use WP_STATISTICS\Pages;
 use WP_Statistics\Service\Admin\MiniChart\MiniChartHelper;
 use WP_STATISTICS\TimeZone;
 use WP_Statistics\Traits\ObjectCacheTrait;
@@ -60,7 +59,7 @@ class HitColumnHandler
     /**
      * Adds a custom column to posts/taxonomies lists for hits statistics.
      *
-     * @param array  $columns Columns array.
+     * @param array $columns Columns array.
      * @param string $postType Post type.
      *
      * @return array
@@ -68,9 +67,9 @@ class HitColumnHandler
      * @hooked action: `manage_{$type}_posts_columns` - 10
      * @hooked action: `manage_edit-{$tax}_columns` - 10
      */
-    public function addHitColumn($columns, $postType='')
+    public function addHitColumn($columns, $postType = '')
     {
-        if (! empty($postType) && empty(is_post_type_viewable($postType))) {
+        if (!empty($postType) && empty(is_post_type_viewable($postType))) {
             return $columns;
         }
 
@@ -139,7 +138,7 @@ class HitColumnHandler
 
         // Initialize class attributes only once (since all terms in the list have the same taxonomy)
         if (!$this->isCacheSet('postType')) {
-            $this->setCache('postType', (($term instanceof \WP_Term) && ($term->taxonomy === 'category' || $term->taxonomy === 'post_tag')) ? $term->taxonomy : 'tax');
+            $this->setCache('postType', (($term instanceof \WP_Term) && ($term->taxonomy === 'category' || $term->taxonomy === 'post_tag')) ? $term->taxonomy : 'tax_' . $term->taxonomy);
         }
 
         $hitCount = $this->calculateHitCount($termId, $term);
@@ -290,17 +289,12 @@ class HitColumnHandler
 
         $hitArgs = [
             'resource_type' => $this->getCache('postType'),
-            'date'          => [
-                'from' => date('Y-m-d', strtotime($this->initialPostDate)),
-                'to'   => date('Y-m-d'),
-            ],
+            'ignore_date'   => true
         ];
 
         // Change `resource_type` parameter if it's a term
         if (!empty($term)) {
             $hitArgs['resource_type'] = $this->getCache('postType');
-        } else {
-            $hitArgs['date']['from'] = get_post_time('Y-m-d', false, $objectId);
         }
 
         if ($this->miniChartHelper->getCountDisplay() === 'date_range') {
@@ -352,7 +346,7 @@ class HitColumnHandler
 
         if (!$this->isCacheSet('isCurrentPostTypeSelected')) {
             // Check if current post type is selected in Mini-chart add-on's options
-            $miniChartSettings               = class_exists(WP_Statistics_Mini_Chart_Settings::class) ? get_option(WP_Statistics_Mini_Chart_Settings::get_instance()->setting_name) : '';
+            $miniChartSettings = class_exists(WP_Statistics_Mini_Chart_Settings::class) ? get_option(WP_Statistics_Mini_Chart_Settings::get_instance()->setting_name) : '';
             $this->setCache('isCurrentPostTypeSelected', !empty($miniChartSettings) && !empty($miniChartSettings["active_mini_chart_{$actualPostType}"]));
         }
 
@@ -367,18 +361,21 @@ class HitColumnHandler
 
         // Display hit count only if it's a valid number
         if (is_numeric($hitCount)) {
+            $date = $this->getCache('hitArgs')['date'] ?? DateRange::get('30days');
+
             $analyticsUrl = Menus::admin_url('content-analytics', [
                 'post_id' => $objectId,
                 'type'    => 'single',
-                'from'    => Request::get('from', $this->getCache('hitArgs')['date']['from']),
-                'to'      => Request::get('to', $this->getCache('hitArgs')['date']['to']),
+                'from'    => $date['from'],
+                'to'      => $date['to']
             ]);
+
             if ($isTerm) {
                 $analyticsUrl = Menus::admin_url('category-analytics', [
                     'term_id' => $objectId,
                     'type'    => 'single',
-                    'from'    => Request::get('from', $this->getCache('hitArgs')['date']['from']),
-                    'to'      => Request::get('to', $this->getCache('hitArgs')['date']['to']),
+                    'from'    => $date['from'],
+                    'to'      => $date['to']
                 ]);
             }
 

@@ -35,7 +35,7 @@
 .wps_page #TB_window {
   max-height: 90vh;
   max-width: 98%;
-  box-shadow: 4px 4px 25px 0px #0000001A;
+  box-shadow: 4px 4px 25px 0 #0000001A;
   border-radius: 4px;
   border: none;
   margin: 0 !important;
@@ -46,6 +46,8 @@
   gap: 8px;
   box-sizing: border-box;
   overflow: auto;
+  height: auto !important;
+  top: 50% !important;
 
   #TB_ajaxContent {
     width: auto !important;

@@ -99,6 +99,7 @@ class Select extends AbstractTableOperation
             // Add WHERE clause if provided
             $params       = [];
             $whereClauses = [];
+            $connector    = strtoupper($this->args['raw_where_type'] ?? 'AND');
 
             if (!empty($this->args['where'])) {
                 foreach ($this->args['where'] as $column => $value) {
@@ -132,7 +133,7 @@ class Select extends AbstractTableOperation
 
             // Add WHERE conditions to SQL query
             if (!empty($whereClauses)) {
-                $sql .= " WHERE " . implode(' AND ', $whereClauses);
+                $sql .= ' WHERE ' . implode(" $connector ", $whereClauses);
             }
 
             // Add GROUP BY clause if provided

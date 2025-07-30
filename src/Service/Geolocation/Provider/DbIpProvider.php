@@ -9,6 +9,7 @@ use WP_Statistics\Components\RemoteRequest;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Geolocation\AbstractGeoIPProvider;
 use WP_Statistics\Dependencies\GeoIp2\Database\Reader;
+use WP_Statistics\Utils\Env;
 
 class DbIpProvider extends AbstractGeoIPProvider
 {
@@ -30,7 +31,7 @@ class DbIpProvider extends AbstractGeoIPProvider
         $this->initializeReader();
     }
 
-     /**
+    /**
      * Initialize the GeoIP Reader.
      *
      * Attempts to download the database if it doesn't exist.
@@ -45,7 +46,7 @@ class DbIpProvider extends AbstractGeoIPProvider
 
         try {
             // Check if the GeoIP database exists and download it immediately.
-            if (!$this->isDatabaseExist()) {
+            if (!$this->isDatabaseExist() && !Env::isLocal()) {
                 $this->downloadDatabase();
             }
 
@@ -98,15 +99,15 @@ class DbIpProvider extends AbstractGeoIPProvider
     /**
      * Get the download URL for the DB-IP database.
      *
-     * @todo The default url should be updated to js-deliver.
      * @return string
+     * @todo The default url should be updated to js-deliver.
      */
     public function getDownloadUrl()
     {
         $licenseKey = Option::get('geoip_dbip_license_key_option') && Option::get('geoip_license_type') == 'user-license'
             ? Option::get('geoip_dbip_license_key_option')
             : null;
-        
+
         $downloadUrl = '';
 
         if ($licenseKey) {
@@ -127,7 +128,7 @@ class DbIpProvider extends AbstractGeoIPProvider
         set_time_limit(0);
 
         try {
-            $downloadUrl = $this->getDownloadUrl();
+            $downloadUrl   = $this->getDownloadUrl();
             $remoteRequest = new RemoteRequest(
                 $downloadUrl,
                 'GET',
@@ -236,8 +237,8 @@ class DbIpProvider extends AbstractGeoIPProvider
 
             // Verify the database type and metadata
             $databaseType = $this->reader->metadata()->databaseType;
-            
-            if (! in_array($databaseType, ['DBIP-Location (compat=City)', 'DBIP-City-Lite'], true)) {
+
+            if (!in_array($databaseType, ['DBIP-Location (compat=City)', 'DBIP-City-Lite'], true)) {
                 throw new Exception(sprintf(__('Unexpected database type %s', 'wp-statistics'), $databaseType));
             }
 

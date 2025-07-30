@@ -47,6 +47,13 @@ class SchemaMigration extends AbstractMigrationOperation
         '14.12.6' => [
             'addFirstAndLastPageToVisitors',
         ],
+        // '14.13.5' => [
+        //     'dropDuplicateColumnsFromUserOnline'
+        // ]
+        '14.15' => [
+            'dropVisitTable',
+            'addUserIdToEvents'
+        ],
         '15.0.0'  => [
             'addResourceUriIdAndSessionIdToEvents',
         ],
@@ -70,6 +77,71 @@ class SchemaMigration extends AbstractMigrationOperation
                         'first_view' => 'datetime DEFAULT NULL',
                         'last_page'  => 'bigint(20) UNSIGNED DEFAULT NULL',
                         'last_view'  => 'datetime DEFAULT NULL'
+                    ]
+                ])
+                ->execute();
+        } catch (Exception $e) {
+            $this->setErrorStatus($e->getMessage());
+        }
+    }
+
+    public function dropVisitTable()
+    {
+        try {
+            DatabaseFactory::table('drop')
+                ->setName('visit')
+                ->execute();
+        } catch (Exception $e) {
+            $this->setErrorStatus($e->getMessage());
+        }
+    }
+
+    /**
+     * Removes duplicate columns from the 'user_online' table.
+     *
+     * @return void
+     */
+    public function dropDuplicateColumnsFromUserOnline()
+    {
+        try {
+            DatabaseFactory::table('update')
+                ->setName('useronline')
+                ->setArgs([
+                    'drop' => [
+                        'referred',
+                        'agent',
+                        'platform',
+                        'version',
+                        'user_id',
+                        'page_id',
+                        'type',
+                        'location',
+                        'city',
+                        'region',
+                        'continent'
+                    ]
+                ])
+                ->execute();
+        } catch (Exception $e) {
+            $this->setErrorStatus($e->getMessage());
+        }
+    }
+
+    /**
+     * Adds `user_id` column to the 'events' table.
+     *
+     * @return void
+     */
+    public function addUserIdToEvents()
+    {
+        $this->ensureConnection();
+
+        try {
+            DatabaseFactory::table('update')
+                ->setName('events')
+                ->setArgs([
+                    'add' => [
+                        'user_id' => 'bigint(20) UNSIGNED DEFAULT NULL',
                     ]
                 ])
                 ->execute();

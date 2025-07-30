@@ -15,7 +15,7 @@ $dateUpdated      = get_the_modified_date(Helper::getDefaultDateFormat(true), $p
 <div class="wps-content-analytics-header">
     <div>
         <?php if (has_post_thumbnail($postId)) : ?>
-            <img src="<?php echo esc_url(get_the_post_thumbnail_url($postId)); ?>">
+            <img src="<?php echo esc_url(get_the_post_thumbnail_url($postId)); ?>" alt="<?php echo esc_attr(sprintf(__('%s thumbnail', 'wp-statistics'), get_the_title($postId))); ?>">
         <?php else : ?>
             <svg xmlns="http://www.w3.org/2000/svg" width="140" height="140" viewBox="0 0 140 140" fill="none">
                 <g clip-path="url(#clip0_9208_25189)">
@@ -40,9 +40,10 @@ $dateUpdated      = get_the_modified_date(Helper::getDefaultDateFormat(true), $p
             $className = in_array($postType, ['post', 'page'], true) ? $postType : 'custom';
 
             printf(
-                '<span class="wps-content-analytics-header__type wps-content-analytics-header__type--%1$s">%2$s</span>',
+                '<a class="wps-content-analytics-header__type wps-content-analytics-header__type--%1$s" href="%3$s">%2$s</a>',
                 esc_attr($className),
-                esc_html($postTypeSingular)
+                esc_html($postTypeSingular),
+                esc_url(admin_url('admin.php?page=wps_pages_page&pt=' . urlencode($postType)))
             )
             ?>
             <span class="wps-content-analytics-header__date_published"><?php echo esc_html($datePublished); ?></span>

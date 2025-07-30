@@ -28,6 +28,16 @@ class Schedule
         // Define New Cron Schedules Time in WordPress
         add_filter('cron_schedules', array($this, 'define_schedules_time'));
 
+        add_action('init', [$this, 'maybe_schedule_hooks']);
+    }
+
+    /**
+     * Schedule or unschedule all WP-Statistics cron hooks based on current options.
+     *
+     * @return void
+     */
+    public function maybe_schedule_hooks()
+    {
         if (!Request::isFrom('admin')) {
 
             // Add the referrerspam update schedule if it doesn't exist and it should be.
@@ -50,13 +60,7 @@ class Schedule
                 wp_unschedule_event(wp_next_scheduled('wp_statistics_dbmaint_hook'), 'wp_statistics_dbmaint_hook');
             }
 
-            // Add the add visit table row schedule if it does exist and it should.
-            if (!wp_next_scheduled('wp_statistics_add_visit_hook')) {
-                wp_schedule_event(time(), 'daily', 'wp_statistics_add_visit_hook');
-            }
-
             //After construct
-            add_action('wp_statistics_add_visit_hook', array($this, 'add_visit_event'));
             add_action('wp_statistics_dbmaint_hook', array($this, 'dbmaint_event'));
         }
 
@@ -226,37 +230,6 @@ class Schedule
     public static function getNextScheduledTime($event)
     {
         return wp_next_scheduled($event);
-    }
-
-    /**
-     * adds a record for tomorrow to the visit table to avoid a race condition.
-     */
-    public function add_visit_event()
-    {
-        global $wpdb;
-
-        $date = TimeZone::getCurrentDate('Y-m-d', '+1');
-
-        // check if the record already exists
-        $exists = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM `" . DB::table('visit') . "` WHERE `last_counter` = %s", $date));
-        if ($exists > 0) {
-            return;
-        }
-
-        //Insert
-        $insert = $wpdb->insert(
-            DB::table('visit'),
-            array(
-                'last_visit'   => TimeZone::getCurrentDate('Y-m-d H:i:s', '+1'),
-                'last_counter' => TimeZone::getCurrentDate('Y-m-d', '+1'),
-                'visit'        => 0,
-            )
-        );
-        if (!$insert) {
-            if (!empty($wpdb->last_error)) {
-                \WP_Statistics::log($wpdb->last_error, 'warning');
-            }
-        }
     }
 
     /**

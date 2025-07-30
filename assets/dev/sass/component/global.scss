@@ -83,6 +83,18 @@ a[href*='?page=wps_break_menu'] {
   margin-top: 20px;
 }
 
+.wps-mt-10 {
+  margin-top: 10px;
+}
+
+.wps-mb-10 {
+  margin-bottom: 10px;
+}
+
+.wps-m-b-20 {
+  margin-bottom: 20px;
+}
+
 /* Text Wrap */
 .wps-text-wrap {
   display: inline-block;
@@ -117,6 +129,13 @@ a[href*='?page=wps_break_menu'] {
 .wps_title {
   display: inline;
   font-size: 1.6em;
+
+  &.wps_flex{
+    display: flex;
+    align-items: center;
+    gap:24px;
+    margin-bottom: -2px;
+  }
 }
 
 .wp-statistics-container {

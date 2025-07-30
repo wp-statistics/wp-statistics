@@ -51,7 +51,7 @@ class ModelChartDataProvider extends AbstractChartDataProvider
                     continue;
                 }
 
-                if (!empty($model) && $model !== 'Unknown') {
+                if (!empty($model)) {
                     $models = array_column($parsedData, 'label');
 
                     if (!in_array($model, $models)) {

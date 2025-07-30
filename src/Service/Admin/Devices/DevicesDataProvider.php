@@ -2,9 +2,9 @@
 
 namespace WP_Statistics\Service\Admin\Devices;
 
-use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Utils\Format;
+use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
 class DevicesDataProvider
 {
@@ -16,6 +16,18 @@ class DevicesDataProvider
         $this->args = $args;
 
         $this->visitorsModel = new VisitorsModel();
+    }
+
+    public function getOverviewData()
+    {
+        $platformChartDataProvider = ChartDataProviderFactory::platformCharts(['limit' => 6]);
+
+        return [
+            'os'        => $platformChartDataProvider->getOsData(),
+            'browsers'  => $platformChartDataProvider->getBrowserData(),
+            'devices'   => $platformChartDataProvider->getDeviceData(),
+            'models'    => $platformChartDataProvider->getModelData()
+        ];
     }
 
     /**
@@ -74,11 +86,11 @@ class DevicesDataProvider
             $visitors = array_reduce($visitors, function ($carry, $item) {
                 // Trim whitespace and default empty models to 'Unknown'
                 $model = trim($item->model ?? '');
-        
+
                 if ($model === '') {
                     $model = 'Unknown';
                 }
-        
+
                 if (isset($carry[$model])) {
                     $carry[$model]->visitors += $item->visitors;
                 } else {
@@ -114,8 +126,11 @@ class DevicesDataProvider
 
         $data = $this->visitorsModel->getVisitorsDevices($args);
         foreach ($data as $visitor) {
-            if (!empty(trim($visitor->device)) && strtolower($visitor->device) != "bot") {
-                $device = Format::getSegment($visitor->device);
+            $device = !empty($visitor->device) ? trim($visitor->device) : '';
+
+            if (strtolower($device) != "bot") {
+                $device = Format::getSegment($device);
+
                 if (isset($visitors[$device])) {
                     $visitors[$device]->visitors += $visitor->visitors;
                 } else {

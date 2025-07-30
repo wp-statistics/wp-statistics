@@ -15,37 +15,33 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
             <table width="100%" class="o-table wps-new-table">
                 <thead>
                     <tr>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <span class="wps-order"><?php echo esc_html($viewTitle); ?></span>
                         </th>
 
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <?php esc_html_e('Visitor Information', 'wp-statistics'); ?>
                         </th>
 
-                        <th class="wps-pd-l">
-                            <?php esc_html_e('Location', 'wp-statistics'); ?>
-                        </th>
-
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <?php esc_html_e('Referrer', 'wp-statistics'); ?>
                         </th>
 
                         <?php if (empty($hide_entry_page_column)) : ?>
-                            <th class="wps-pd-l">
+                            <th scope="col" class="wps-pd-l">
                                 <?php echo esc_html__('Entry Page', 'wp-statistics'); ?>
                             </th>
                         <?php endif; ?>
 
                         <?php if (empty($hide_latest_page_column)) : ?>
-                            <th class="wps-pd-l">
-                                <?php echo isset($page_column_title) ? esc_html($page_column_title) : esc_html__('Latest Page', 'wp-statistics'); ?>
+                            <th scope="col" class="wps-pd-l">
+                                <?php echo isset($page_column_title) ? esc_html($page_column_title) : esc_html__('Exit Page', 'wp-statistics'); ?>
                             </th>
                         <?php endif; ?>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <?php esc_html_e('Total Views', 'wp-statistics'); ?>
+                            <span class="wps-tooltip" title="<?php echo esc_html__('Total views for a single day. Privacy rules assign users a new ID daily, so visits on different days are counted separately.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></span>
                         </th>
-
                     </tr>
                 </thead>
 
@@ -90,32 +86,6 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
                             </td>
 
                             <td class="wps-pd-l">
-                                <div class="wps-country-flag wps-ellipsis-parent">
-                                    <a 
-                                        target="<?php echo esc_attr($linksTarget); ?>"
-                                        href="<?php echo esc_url(Menus::admin_url(
-                                            'geographic', [
-                                                'type' => 'single-country',
-                                                'country' => $countryCode
-                                            ]
-                                        )) ?>"
-                                        class="wps-tooltip"
-                                        title="<?php echo esc_attr($countryName) ?>"
-                                    >
-                                        <img src="<?php echo esc_url($countryFlag) ?>" alt="<?php echo esc_attr($countryName) ?>" width="15" height="15">
-                                    </a>
-                                    <?php 
-                                        $location = Admin_Template::locationColumn(
-                                            $countryCode,
-                                            $region,
-                                            $city
-                                        );
-                                    ?>
-                                    <span class="wps-ellipsis-text" title="<?php echo esc_attr($location) ?>"><?php echo esc_html($location) ?></span>
-                                </div>
-                            </td>
-
-                            <td class="wps-pd-l">
                                 <?php
                                     View::load("components/objects/referrer-link", [
                                         'label' => $visitor->getReferral()->getSourceChannel(),
@@ -140,11 +110,11 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
                                         $initialesourceQuery  = $visitor->getParameter($initialResource->getId())->getFull();
                                     }
 
-                                    if (!empty($initialResource)) :
-                                        View::load("components/objects/external-link", [
-                                            'url'       => $initialResourceLink,
-                                            'title'     => $initialResourceTitle,
-                                            'tooltip'   => $initialesourceQuery
+                                    if (!empty($page)) :
+                                        View::load("components/objects/internal-link", [
+                                            'url'       => $page['report'],
+                                            'title'     => $page['title'],
+                                            'tooltip'   => $page['query'] ? "?{$page['query']}" : ''
                                         ]);
                                     else :
                                         echo Admin_Template::UnknownColumn();
@@ -166,10 +136,10 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
                                         $lastResourceTitle = $lastResource->getTitle();
                                     }
 
-                                    if (!empty($lastResource)) :
-                                        View::load("components/objects/external-link", [
-                                            'url'       => $lastResourceLink,
-                                            'title'     => $lastResourceTitle,
+                                    if (!empty($page)) :
+                                        View::load("components/objects/internal-link", [
+                                            'url'       => $page['report'],
+                                            'title'     => $page['title'],
                                         ]);
                                     else :
                                         echo Admin_Template::UnknownColumn();

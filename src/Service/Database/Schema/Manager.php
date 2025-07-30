@@ -287,9 +287,9 @@ class Manager
                 'count'  => 'bigint(20) NOT NULL',
             ],
             'constraints' => [
-                'PRIMARY KEY (ID)',
-                'KEY date (date)',
-                'KEY reason (reason)',
+                'ID'     => 'PRIMARY KEY (ID)',
+                'date'   => 'KEY date (date)',
+                'reason' => 'KEY reason (reason)',
             ],
         ],
         'resource_uris'           => [

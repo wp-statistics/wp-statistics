@@ -3,6 +3,7 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Components\DateRange;
+use WP_Statistics\Models\EventsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Geolocation\Provider\DbIpProvider;
@@ -33,6 +34,11 @@ class Ajax
             [
                 'class'  => $this,
                 'action' => 'query_params_cleanup',
+                'public' => false
+            ],
+            [
+                'class'  => $this,
+                'action' => 'event_data_cleanup',
                 'public' => false
             ],
             [
@@ -93,6 +99,11 @@ class Ajax
             [
                 'class'  => $this,
                 'action' => 'dismiss_notices',
+                'public' => false
+            ],
+            [
+                'class'  => $this,
+                'action' => 'delete_word_count_data',
                 'public' => false
             ]
         ];
@@ -283,6 +294,31 @@ class Ajax
         exit;
     }
 
+    public function delete_word_count_data_action_callback()
+    {
+        global $wpdb;
+
+        if (Request::isFrom('ajax') && User::Access('manage')) {
+
+            // Check Refer Ajax
+            check_ajax_referer('wp_rest', 'wps_nonce');
+
+            $result = $wpdb->query("DELETE FROM `" . $wpdb->postmeta . "` WHERE `meta_key` = 'wp_statistics_words_count'");
+            Option::deleteOptionGroup('word_count_process_initiated', 'jobs');
+
+            if ($result) {
+                esc_html_e('Successfully deleted word count data.', 'wp-statistics');
+            } else {
+                esc_html_e('Couldn’t find any word count data to delete.', 'wp-statistics');
+            }
+
+        } else {
+            esc_html_e('Unauthorized access!', 'wp-statistics');
+        }
+
+        exit;
+    }
+
     /**
      * Setup an AJAX action to clean up query parameters from pages table.
      */
@@ -332,6 +368,38 @@ class Ajax
             } else {
                 esc_html_e('Couldn\'t find any user query string parameter data to delete from \'visitor\' table.', 'wp-statistics');
             }
+
+        } else {
+            esc_html_e('Unauthorized access!', 'wp-statistics');
+        }
+
+        exit;
+    }
+
+    /**
+     * Setup an AJAX action to clean up events data from event table.
+     */
+    public function event_data_cleanup_action_callback()
+    {
+        if (Request::isFrom('ajax') && User::Access('manage')) {
+
+            check_ajax_referer('wp_rest', 'wps_nonce');
+
+            $eventName = Request::get('event_name');
+
+            if ($eventName) {
+                $eventsModel = new EventsModel();
+                $result = $eventsModel->deleteEvents(['event_name' => $eventName]);
+
+                if ($result) {
+                    esc_html_e('Successfully removed event data from \'events\' table.', 'wp-statistics');
+                } else {
+                    esc_html_e('Cannot delete any data from \'events\' table.', 'wp-statistics');
+                }
+            } else {
+                esc_html_e('Event name is not valid.', 'wp-statistics');
+            }
+
 
         } else {
             esc_html_e('Unauthorized access!', 'wp-statistics');
@@ -393,7 +461,7 @@ class Ajax
 
         exit;
     }
- 
+
     /**
      * Setup an AJAX action to update geoIP database.
      */
@@ -407,7 +475,7 @@ class Ajax
 
             $method   = Request::get('geoip_location_detection_method', 'maxmind');
             $provider = MaxmindGeoIPProvider::class;
-            
+
             if ('dbip' === $method) {
                 $provider = DbIpProvider::class;
             }
@@ -469,12 +537,13 @@ class Ajax
 
             check_ajax_referer('wp_rest', 'wps_nonce');
 
-            $paged        = Request::get('paged', 1, 'number');
-            $postType     = Request::get('post_type', array_values(Helper::get_list_post_type()));
-            $authorId     = Request::get('author_id', '', 'number');
-            $search       = Request::get('search', '');
-            $page         = Request::get('page');
-            $selectedPost = Request::get('post_id', false, 'number');
+            $paged          = Request::get('paged', 1, 'number');
+            $postType       = Request::get('post_type', array_values(Helper::get_list_post_type()));
+            $authorId       = Request::get('author_id', '', 'number');
+            $search         = Request::get('search', '');
+            $page           = Request::get('page');
+            $selectedPost   = Request::get('post_id', false, 'number');
+            $hideAllOption  = Request::get('hide_all_option', false);
 
             if (!$page) {
                 wp_send_json([
@@ -494,7 +563,7 @@ class Ajax
 
             $posts = [];
             if ($query->have_posts()) {
-                if ($paged == 1 && empty($search)) {
+                if (empty($hideAllOption) && $paged == 1 && empty($search)) {
                     $allOption = [
                         'id'   => Menus::admin_url($page),
                         'text' => esc_html__('All', 'wp-statistics')

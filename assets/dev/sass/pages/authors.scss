@@ -84,6 +84,8 @@
   display: flex;
   gap: 12px;
   margin-top: -10px;
+  width: 100%;
+  box-sizing: border-box;
 
   &__img {
     img, svg {
@@ -95,6 +97,16 @@
 
     img {
       border: 1px solid #D9DBFC;
+    }
+  }
+
+  &__desc{
+    display: block;
+    width: 100%;
+    @media (min-width: 1123px) {
+      .wps_title{
+        max-width: calc(100% - 650px)!important;
+      }
     }
   }
 

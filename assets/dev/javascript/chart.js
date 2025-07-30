@@ -20,7 +20,9 @@ wps_js.rgba_to_hex = function (r, g, b, a) {
     let hex_a = Math.round(a * 255).toString(16).padStart(2, '0');
     return `#${hex_r}${hex_g}${hex_b}${hex_a}`;
 }
-
+const formatNumChart = (value) => {
+    return wps_js.formatNumber(value);
+}
 const wpsBuildTicks = (scale) => {
     const ticks = scale.getTicks();
     if (ticks.length > scale.options.ticks.maxTicksLimit) {
@@ -35,7 +37,7 @@ const wpsBuildTicks = (scale) => {
 
 const chartColors = {
     'total': '#27A765', 'views': '#7362BF', 'visitors': '#3288D7', 'user-visitors': '#3288D7', 'anonymous-visitors': '#7362BF', 'published': '#8AC3D0','published-contents': '#8AC3D0', 'published-products': '#8AC3D0',
-    'published-pages': '#8AC3D0', 'published-posts': '#8AC3D0', 'posts': '#8AC3D0' , downloads: '#3288D7', 'clicks': '#3288D7', 'Other1': '#3288D7', 'Other2': '#7362BF', 'Other3': '#8AC3D0'
+    'published-pages': '#8AC3D0', 'published-posts': '#8AC3D0', 'posts': '#8AC3D0' , downloads: '#3288D7', 'clicks': '#3288D7', 'impressions': '#7362BF', 'Other1': '#3288D7', 'Other2': '#7362BF', 'Other3': '#8AC3D0'
 };
 
 const chartTensionValues = [0.1, 0.3, 0.5, 0.7];
@@ -92,7 +94,7 @@ wps_js.setTooltipPosition = function (tooltipEl, chart, tooltip) {
     tooltipEl.style.top = tooltipY + 'px';
 }
 
-const externalTooltipHandler = (context, data, dateLabels, prevDateLabels, monthTooltip, prevMonthTooltip) => {
+const externalTooltipHandler = (context, data, dateLabels, prevDateLabels, monthTooltip, prevMonthTooltip, prevFullLabels) => {
     const {chart, tooltip} = context;
     const unitTime = chart.options.plugins.tooltip.unitTime;
     const tooltipEl = getOrCreateTooltip(chart);
@@ -105,12 +107,17 @@ const externalTooltipHandler = (context, data, dateLabels, prevDateLabels, month
         const dataIndex = tooltip.dataPoints[0].dataIndex;
         const datasets = chart.data.datasets;
         let innerHtml = `<div>`;
+        const phpDateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
+        let momentDateFormat = phpToMomentFormat(phpDateFormat);
+        momentDateFormat = momentDateFormat
+            .replace(/\/YYYY|YYYY/g, '')
+            .replace(/,\s*$/, '')
+            .replace(/^\s*,/, '')
+            .trim();
         titleLines.forEach(title => {
             if (unitTime === 'day') {
                 const label = (data.data) ? data.data.labels[dataIndex] : data.labels[dataIndex];
                 const {date, day} = label; // Ensure `date` and `day` are correctly extracted
-                const phpDateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
-                let momentDateFormat = phpToMomentFormat(phpDateFormat);
                 innerHtml += `<div class="chart-title">${moment(date).format(momentDateFormat)} (${day})</div>`;
             } else if (unitTime === 'month') {
                 innerHtml += `<div class="chart-title">${monthTooltip[dataIndex]}</div>`;
@@ -144,7 +151,12 @@ const externalTooltipHandler = (context, data, dateLabels, prevDateLabels, month
                     const previousValue = previousDataset.data[dataIndex] || 0;
                     let previousLabel = null;
                     if (unitTime === 'day') {
-                        previousLabel = prevDateLabels[dataIndex];
+                        const prevLabelObj = prevFullLabels && prevFullLabels[dataIndex];
+                        if (prevLabelObj) {
+                            previousLabel = `${moment(prevLabelObj.date).format(momentDateFormat)} (${prevLabelObj.day})`;
+                        } else {
+                            previousLabel = prevDateLabels[dataIndex] || 'N/A';
+                        }
                     } else if (unitTime === 'month') {
                         previousLabel = prevMonthTooltip[dataIndex];
                     } else {
@@ -210,33 +222,32 @@ const phpToMomentFormat = (phpFormat) => {
 }
 
 const formatDateRange = (startDate, endDate, unit, momentDateFormat, isInsideDashboardWidgets) => {
-    const startDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
+
+    const baseFormat = momentDateFormat
+        .replace(/\/YYYY|YYYY/g, '')
+        .replace(/\/YY|YY/g, '')
+        .replace(/[,/\s-]/g, ' ')
+        .trim();
+    const cleanFormat = baseFormat
+        .replace(/MM|MMM/g, 'MMM')
+        .replace(/DD|D/g, 'D')
+        .trim();
+
     if (unit === 'month') {
-        const monthFormat = momentDateFormat
-            .replace(/D+/g, '')
-            .replace(/\/\//g, '/')
-            .replace(/^\//, '')
-            .replace(/\/$/, '')
-            .replace(/\s*,/, '')
-            .replace(/-$/, '')
+        const monthFormat = cleanFormat
+            .replace(/\s*D/g, '')
+            .replace(/YYYY|YY/g, '')
+            .replace(/\/YY|YY/g, '')
             .trim();
         return moment(startDate).format(monthFormat);
     } else {
-        if (moment(startDate).year() === moment(endDate).year()) {
-            return `${moment(startDate).format(startDateFormat)} to ${moment(endDate).format(momentDateFormat)}`;
-        } else {
-            return `${moment(startDate).format(momentDateFormat)} to ${moment(endDate).format(momentDateFormat)}`;
-        }
+        return `${moment(startDate).format(cleanFormat)} to ${moment(endDate).format(cleanFormat)}`;
     }
 }
 
 const setMonthDateRange = (startDate, endDate, momentDateFormat) => {
     const startDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
-    if (moment(startDate).year() === moment(endDate).year()) {
-        return `${moment(startDate).format(startDateFormat)} to ${moment(endDate).format(momentDateFormat)}`;
-    } else {
-        return `${moment(startDate).format(momentDateFormat)} to ${moment(endDate).format(momentDateFormat)}`;
-    }
+    return `${moment(startDate).format(startDateFormat)} to ${moment(endDate).format(startDateFormat)}`;
 }
 
 const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboardWidgets) => {
@@ -389,6 +400,11 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
 }
 
 const sortTotal = (datasets) => {
+    // Store original indices before sorting
+    datasets.forEach((dataset, index) => {
+        dataset.originalIndex = index;
+    });
+    
     datasets.sort((a, b) => {
         if (a.slug === 'total') return -1;
         if (b.slug === 'total') return 1;
@@ -666,25 +682,33 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
         }
 
         const datasets = data.data.datasets.map((dataset, idx) => {
-            const datasetType = dataset.type || (type === 'performance' && idx === 2 ? 'bar' : 'line');
+            let color = chartColors[data.data.datasets[idx].slug] || chartColors[`Other${data.data.datasets[idx].originalIndex + 1}`];
+            let tension = chartTensionValues[idx % chartTensionValues.length];
+
+            let datasetType = 'line'; // Default to line
+            if (type === 'performance' && idx === 2) {
+                datasetType = 'bar'; // Set to bar for index 2 in performance charts
+            }
+
+            const yAxisID = dataset?.slug === 'clicks' || datasetType === 'bar' ? 'y1' : 'y';
             return {
                 ...dataset,
                 type: datasetType, // Set the type explicitly
                 data: aggregatedData.aggregatedData[idx],
-                borderColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
-                backgroundColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
+                borderColor: color,
+                backgroundColor: color,
                 fill: false,
-                yAxisID: datasetType === 'bar' ? 'y1' : 'y', // Use y1 for bar, y for line
+                yAxisID: yAxisID,
                 borderWidth: datasetType === 'line' ? 2 : undefined,
                 pointRadius: datasetType === 'line' ? dateLabels.length === 1 ? 5 : 0 : undefined,
                 pointBorderColor: datasetType === 'line' ? 'transparent' : undefined,
-                pointBackgroundColor: datasetType === 'line' ? chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`] : undefined,
+                pointBackgroundColor: datasetType === 'line' ? color : undefined,
                 pointBorderWidth: datasetType === 'line' ? 2 : undefined,
                 hoverPointRadius: datasetType === 'line' ? 6 : undefined,
                 hoverPointBorderColor: datasetType === 'line' ? '#fff' : undefined,
-                hoverPointBackgroundColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
+                hoverPointBackgroundColor: color,
                 hoverPointBorderWidth: datasetType === 'line' ? 4 : undefined,
-                tension: datasetType === 'line' ? chartTensionValues[idx % chartTensionValues.length] : undefined,
+                tension: datasetType === 'line' ? tension : undefined,
                 hitRadius: 10,
                 meta: {
                     incompletePeriods: aggregatedData.isIncompletePeriod || []
@@ -706,27 +730,32 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
 
         if (prevAggregatedData) {
             data.previousData.datasets.forEach((dataset, idx) => {
+                const currentDataset = data.data.datasets.find(d => d.label === dataset.label);
+                const slug = currentDataset?.slug || dataset.slug || `Other${idx + 1}`;
+                let color = chartColors[slug] || chartColors[`Other${idx + 1}`];
+                let tension = chartTensionValues[idx % chartTensionValues.length];
+
                 datasets.push({
                     ...dataset,
-                    type: 'line', // Previous datasets are always lines
+                    type: 'line',
                     label: `${dataset.label} (Previous)`,
                     data: prevAggregatedData.aggregatedData[idx],
-                    borderColor: wps_js.hex_to_rgba(chartColors[dataset.slug] || chartColors[`Other${idx}`], 0.7),
-                    hoverBorderColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
-                    backgroundColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
+                    borderColor: wps_js.hex_to_rgba(color, 0.7),
+                    hoverBorderColor: color,
+                    backgroundColor: color,
                     fill: false,
-                    yAxisID: 'y',
+                    yAxisID: dataset?.slug === 'clicks' ? 'y1' : 'y',
                     borderWidth: 1,
                     borderDash: [5, 5],
                     pointRadius: aggregatedData.aggregatedLabels.length === 1 ? 5 : 0,
                     pointBorderColor: 'transparent',
-                    pointBackgroundColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
+                    pointBackgroundColor: color,
                     pointBorderWidth: 2,
                     hoverPointRadius: 6,
                     hoverPointBorderColor: '#fff',
-                    hoverPointBackgroundColor: chartColors[data.data.datasets[idx].slug] || chartColors[`Other${idx}`],
+                    hoverPointBackgroundColor: color,
                     hoverPointBorderWidth: 4,
-                    tension: chartTensionValues[idx % chartTensionValues.length],
+                    tension: tension,
                     hitRadius: 10
                 });
             });
@@ -748,12 +777,20 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
         // Set dynamic stepSize based on max values
         const maxTicksY = isInsideDashboardWidgets ? 4 : 7;
         const stepSizeY = yMax > 0 ? Math.ceil(yMax / maxTicksY) : 1;
+        const suggestedMaxY = yMax > 0 ? stepSizeY * (maxTicksY + 1) : 4;
+
         const maxTicksY1 = 7;
         const stepSizeY1 = y1Max > 0 ? Math.ceil(y1Max / maxTicksY1) : 1;
+        const suggestedMaxY1 = y1Max > 0 ? stepSizeY1 * (maxTicksY1 + 1) : 4;
 
-        lineChart.options.scales.y.ticks.stepSize = Math.max(1, stepSizeY);
+        lineChart.options.scales.y.min = 0;
+        lineChart.options.scales.y.ticks.stepSize = stepSizeY;
+        lineChart.options.scales.y.max = suggestedMaxY;
+
         if (lineChart.options.scales.y1) {
-            lineChart.options.scales.y1.ticks.stepSize = Math.max(1, stepSizeY1);
+            lineChart.options.scales.y1.min = 0;
+            lineChart.options.scales.y1.ticks.stepSize = stepSizeY1;
+            lineChart.options.scales.y1.max = suggestedMaxY1;
         }
 
         lineChart.data.labels = dateLabels;
@@ -764,7 +801,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
             : unitTime === 'week' ? 3 : unitTime === 'month' ? 7 : 9;
         lineChart.options.plugins.tooltip.unitTime = unitTime;
         lineChart.options.plugins.tooltip.external = (context) =>
-            externalTooltipHandler(context, realdata, dateLabels, prevDateLabels, monthTooltip, prevMonthTooltip);
+            externalTooltipHandler(context, realdata, dateLabels, prevDateLabels, monthTooltip, prevMonthTooltip, realdata.previousData ? realdata.previousData.labels : []);
         updateLegend(lineChart, datasets, tag_id, data);
         lineChart.update();
     }
@@ -772,7 +809,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
     let ctx_line = document.getElementById(tag_id).getContext('2d');
 
     Object.keys(data.data.datasets).forEach((key, index) => {
-        let color = chartColors[data.data.datasets[key].slug] || chartColors[`Other${index + 1}`];
+        let color = chartColors[data.data.datasets[key].slug] || chartColors[`Other${data.data.datasets[key].originalIndex + 1}`];
         let tension = chartTensionValues[index % chartTensionValues.length];
 
         let datasetType = 'line'; // Default to line
@@ -787,7 +824,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
             backgroundColor: color,
             hoverBackgroundColor: color,
             hoverPointBackgroundColor: color,
-            yAxisID: datasetType === 'bar' ? 'y1' : 'y', // Use y1 for bar, y for line
+            yAxisID: datasetType === 'bar' || data.data.datasets[key].label === 'Clicks' ? 'y1' : 'y', // Use y1 for bar, y for line
         };
         if (datasetType === 'line') {
             dataset.borderColor = color;
@@ -808,7 +845,9 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
 
     if (data?.previousData) {
         Object.keys(data.previousData.datasets).forEach((key, index) => {
-            let color = chartColors[data.previousData.datasets[key].slug] || chartColors[`Other${index}`];
+            const currentDataset = data.data.datasets.find(d => d.label === data.previousData.datasets[key].label);
+            const slug = currentDataset?.slug || data.previousData.datasets[key].slug || `Other${index + 1}`;
+            let color = chartColors[slug] || chartColors[`Other${index + 1}`];
             let tension = chartTensionValues[index % chartTensionValues.length];
 
             datasets.push({
@@ -819,7 +858,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 hoverBorderColor: color,
                 backgroundColor: color,
                 fill: false,
-                yAxisID: 'y',
+                yAxisID: data.previousData.datasets[key].label === 'Clicks' ? 'y1' : 'y',
                 borderWidth: 1,
                 borderDash: [5, 5],
                 pointRadius: 0,
@@ -846,7 +885,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
             legend: false,
             tooltip: {
                 enabled: false,
-                external: (context) => externalTooltipHandler(context, realdata, dateLabels, prevDateLabels, monthTooltip, prevMonthTooltip),
+                external: (context) => externalTooltipHandler(context, realdata, dateLabels, prevDateLabels, monthTooltip, prevMonthTooltip, realdata.previousData ? realdata.previousData.labels : []),
                 unitTime: unitTime, // Set initial unitTime
             },
         },

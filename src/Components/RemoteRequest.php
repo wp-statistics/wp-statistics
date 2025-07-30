@@ -81,7 +81,7 @@ class RemoteRequest
      */
     public function generateCacheKey()
     {
-        return $this->getCacheKey($this->requestUrl . serialize($this->parsedArgs));
+        return wp_json_encode(array_merge(['url' => $this->requestUrl], $this->parsedArgs));
     }
 
 
@@ -93,6 +93,16 @@ class RemoteRequest
     public function isRequestSuccessful()
     {
         return in_array($this->responseCode, [200, 201, 202]);
+    }
+
+    /**
+     * Checks if the request is cached.
+     *
+     * @return bool True if the request is cached, false otherwise.
+     */
+    public function isCached()
+    {
+        return $this->getCachedResult($this->generateCacheKey()) !== false;
     }
 
     /**
@@ -162,7 +172,7 @@ class RemoteRequest
 
     /**
      * Returns the response body from the executed request
-     * 
+     *
      * @return string|null The response body or null if no request has been executed
      */
     public function getResponseBody()
@@ -172,7 +182,7 @@ class RemoteRequest
 
     /**
      * Returns the HTTP response code from the last executed request
-     * 
+     *
      * @return int|null The HTTP response code or null if no request has been executed
      */
     public function getResponseCode()

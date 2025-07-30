@@ -24,9 +24,9 @@
     <?php
     if (isset($custom_get)) {
         foreach ($custom_get as $key => $val) {
-            ?>
-            <input name="<?php echo esc_attr($key); ?>" type="hidden" value="<?php echo esc_attr($val); ?>">
-            <?php
+            if (empty($val)) continue;
+
+            ?><input name="<?php echo esc_attr($key); ?>" type="hidden" value="<?php echo esc_attr($val); ?>"><?php
         }
     }
     ?>
@@ -42,7 +42,8 @@
     <div class="c-footer__filter js-pages-date-range-picker">
         <div class="c-footer__filter__btn-group">
             <?php if (isset($hasDateRang)): ?>
-                <button  data-date-format="<?php echo str_replace('F', 'M', get_option('date_format')) ?>"
+
+                 <button data-date-create="<?php echo isset($createDate) ? esc_attr($createDate) : null ?>"  data-date-format="<?php echo str_replace('F', 'M', get_option('date_format')) ?>"
                     class="c-footer__filter__btn js-date-range-picker-btn
                     <?php echo isset($allTimeOption) && $allTimeOption === true ? 'js-date-range-picker-all-time' : ''; ?>">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none">
@@ -62,16 +63,16 @@
             </button>
             <?php endif ?>
         </div>
-        <input type="text" class="c-footer__filters__custom-date-input js-date-range-picker-input">
+        <input type="text" class="c-footer__filters__custom-date-input js-date-range-picker-input" aria-label="Select custom date range">
     </div>
     <form action="<?php echo esc_url(admin_url('admin.php')); ?>" method="get" style="display: none" class="js-date-range-picker-form">
         <input name="page" type="hidden" value="<?php echo esc_attr($pageName); ?>">
         <?php
         if (isset($custom_get)) {
             foreach ($custom_get as $key => $val) {
-                ?>
-                <input name="<?php echo esc_attr($key); ?>" type="hidden" value="<?php echo esc_attr($val); ?>">
-                <?php
+                if (empty($val)) continue;
+
+                ?><input name="<?php echo esc_attr($key); ?>" type="hidden" value="<?php echo esc_attr($val); ?>"><?php
             }
         }
         ?>

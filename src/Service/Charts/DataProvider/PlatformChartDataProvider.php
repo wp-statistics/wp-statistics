@@ -9,7 +9,6 @@ use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\BarChartResponseTrait;
 use WP_STATISTICS\UserAgent;
-use WP_Statistics\Utils\Format;
 
 class PlatformChartDataProvider extends AbstractChartDataProvider
 {
@@ -20,16 +19,23 @@ class PlatformChartDataProvider extends AbstractChartDataProvider
 
     public function __construct($args)
     {
-        parent::__construct($args);
+        $this->args = wp_parse_args($args, [
+            'limit' => 5
+        ]);
 
         $this->visitorsModel = new VisitorsModel();
 
-        $this->data = $this->getVisitorsData();
+        $this->data = $this->getVisitorsData($this->args);
     }
 
-    private function getVisitorsData()
+    private function getVisitorsData($args)
     {
-        $rawData = $this->visitorsModel->getVisitorsData($this->args);
+        if (!empty($this->args['referred_visitors'])) {
+            $rawData = $this->visitorsModel->getReferredVisitors($this->args);
+        } else {
+            $rawData = $this->visitorsModel->getVisitorsData($this->args);
+        }
+
         return $this->parseData($rawData);
     }
 
@@ -103,11 +109,11 @@ class PlatformChartDataProvider extends AbstractChartDataProvider
                 /** @var VisitorDecorator $item */
                 $platform   = $item->getOs()->getName();
                 $agent      = $item->getBrowser()->getRaw();
-                $device     = !empty($item->getDevice()->getType()) ? ucfirst(Format::getSegment($item->getDevice()->getType())) : esc_html__('Unknown', 'wp-statistics');
+                $device     = $item->getDevice()->getType();
                 $model      = $item->getDevice()->getModel();
 
                 // OS data
-                if (!empty($platform) && $platform !== '(not set)') {
+                if (!empty($platform)) {
                     $platforms = array_column($parsedData['os'], 'label');
 
                     if (!in_array($platform, $platforms)) {
@@ -123,7 +129,7 @@ class PlatformChartDataProvider extends AbstractChartDataProvider
                 }
 
                 // Browser data
-                if (!empty($agent) && $agent !== '(not set)') {
+                if (!empty($agent)) {
                     $agents = array_column($parsedData['browser'], 'label');
 
                     if (!in_array($agent, $agents)) {
@@ -139,7 +145,7 @@ class PlatformChartDataProvider extends AbstractChartDataProvider
                 }
 
                 // Device data
-                if (!empty($device) && $device !== '(not set)') {
+                if (!empty($device)) {
                     $devices = array_column($parsedData['device'], 'label');
 
                     if (!in_array($device, $devices)) {
@@ -154,7 +160,7 @@ class PlatformChartDataProvider extends AbstractChartDataProvider
                 }
 
                 // Model data
-                if (!empty($model) && $model !== '(not set)') {
+                if (!empty($model)) {
                     $models = array_column($parsedData['model'], 'label');
 
                     if (!in_array($model, $models)) {
@@ -175,10 +181,13 @@ class PlatformChartDataProvider extends AbstractChartDataProvider
                     return $b['visitors'] - $a['visitors'];
                 });
 
-                if (count($data) > 4) {
+                // Limit the number of items. If limit is 5, limit items to 4 + other
+                $limit = $this->args['limit'] - 1;
+
+                if (count($data) > $limit) {
                     // Get top 4 results, and others
-                    $topData    = array_slice($data, 0, 4);
-                    $otherData  = array_slice($data, 4);
+                    $topData    = array_slice($data, 0, $limit);
+                    $otherData  = array_slice($data, $limit);
 
                     // Show the rest of the results as others, and sum up the visitors
                     $otherItem    = [

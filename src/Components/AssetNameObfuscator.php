@@ -105,6 +105,7 @@ class AssetNameObfuscator
 
         $this->hashedFileName     = $this->generateShortHash(WP_STATISTICS_VERSION . $this->hashedFileOptionKey);
         $this->hashedFileName     .= '.' . pathinfo($this->inputFileDir, PATHINFO_EXTENSION);
+        $this->hashedFileName     = $this->cleanHashedFileName($this->hashedFileName);
         $this->hashedFileName     = apply_filters('wp_statistics_hashed_asset_name', $this->hashedFileName, $this->inputFileDir);
         $this->hashedFilesRootDir = apply_filters('wp_statistics_hashed_asset_root', FileSystem::getUploadsDir());
 
@@ -279,6 +280,7 @@ class AssetNameObfuscator
      */
     public function serveAssetByHash($asset)
     {
+        $asset             = $this->cleanHashedFileName($asset);
         $hashedAssetsArray = Option::getOptionGroup($this->optionName, null, []);
         $originalFilePath  = $this->getHashedAssetPath($asset, $hashedAssetsArray);
 
@@ -321,5 +323,27 @@ class AssetNameObfuscator
         }
 
         return null;
+    }
+
+    /**
+     * Clean the file name by removing any extra data
+     *
+     * @param string $hashedFileName
+     *
+     * @return string
+     */
+    private function cleanHashedFileName($hashedFileName)
+    {
+        $posJs = strpos($hashedFileName, '.js');
+        if ($posJs !== false) {
+            return substr($hashedFileName, 0, $posJs + 3);
+        }
+
+        $posCss = strpos($hashedFileName, '.css');
+        if ($posCss !== false) {
+            return substr($hashedFileName, 0, $posCss + 4);
+        }
+
+        return $hashedFileName;
     }
 }

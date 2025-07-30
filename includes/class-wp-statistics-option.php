@@ -76,8 +76,10 @@ class Option
             'attribution_model'               => 'first-touch',
             'geoip_location_detection_method' => 'maxmind',
             'delete_data_on_uninstall'        => false,
-            'share_anonymous_data'             => false,
+            'share_anonymous_data'            => false,
             'display_notifications'           => true,
+            'word_count_analytics'            => true,
+            'show_privacy_issues_in_report'   => false,
         );
 
         return $options;
@@ -291,6 +293,20 @@ class Option
     public static function saveByAddon($options, $addon_name = '')
     {
         $setting_name = "wpstatistics_{$addon_name}_settings";
+        update_option($setting_name, $options);
+    }
+
+    public static function deleteByAddon($option_name, $addon_name = '')
+    {
+        $setting_name = "wpstatistics_{$addon_name}_settings";
+
+        $options = get_option($setting_name);
+        if (!isset($options) || !is_array($options)) {
+            $options = array();
+        }
+
+        unset($options[$option_name]);
+
         update_option($setting_name, $options);
     }
 

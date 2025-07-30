@@ -4,9 +4,9 @@ namespace WP_STATISTICS;
 
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Models\ViewsModel;
-use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_Statistics\Service\Resources\ResourcesFactory;
 use WP_Statistics\Service\Tracking\TrackingFactory;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
 
 class Frontend
 {
@@ -54,24 +54,35 @@ class Frontend
                 'onlineParams'        => $onlineParams,
                 'option'              => [
                     'userOnline'           => Option::get('useronline'),
-                    'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
                     'dntEnabled'           => Option::get('do_not_track'),
                     'bypassAdBlockers'     => Option::get('bypass_ad_blockers', false),
-                    'isWpConsentApiActive' => WpConsentApi::isWpConsentApiActive(),
-                    'trackAnonymously'     => Helper::shouldTrackAnonymously(),
+                    'consentIntegration'   => IntegrationHelper::getIntegrationStatus(),
                     'isPreview'            => is_preview(),
+
+                    // legacy params for backward compatibility (with older versions of DataPlus)
+                    'trackAnonymously'     => IntegrationHelper::shouldTrackAnonymously(),
+                    'isWpConsentApiActive' => IntegrationHelper::isIntegrationActive('wp_consent_api'),
+                    'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
                 ],
                 'resourceUriId'       => ResourcesFactory::getCurrentResourceUri()->getId(),
                 'jsCheckTime'         => apply_filters('wp_statistics_js_check_time_interval', 60000),
-                'jsCheckTime'         => apply_filters('wp_statistics_js_check_time_interval', 60000),
                 'isLegacyEventLoaded' => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded
+                'customEventAjaxUrl'  => add_query_arg(['action' => 'wp_statistics_custom_event', 'nonce' => wp_create_nonce('wp_statistics_custom_event')], admin_url('admin-ajax.php')),
             );
 
             if (defined('WP_DEBUG') && WP_DEBUG) {
                 $jsArgs['isConsoleVerbose'] = true;
             }
 
-            Assets::script('tracker', 'js/tracker.js', [], $jsArgs, true, Option::get('bypass_ad_blockers', false));
+
+            // Add tracker.js dependencies
+            $dependencies = [];
+            $integration = IntegrationHelper::getActiveIntegration();
+            if ($integration) {
+                $dependencies = $integration->getJsHandles();
+            }
+
+            Assets::script('tracker', 'js/tracker.js', $dependencies, $jsArgs, true, Option::get('bypass_ad_blockers', false));
         }
 
         // Load Chart.js library

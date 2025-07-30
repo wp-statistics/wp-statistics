@@ -16,7 +16,7 @@ $userOnline     = new \WP_STATISTICS\UserOnline();
         </div>
         <div class="c-live__online">
             <span class="c-live__online--value"><?php echo esc_html($data['online']) ?></span>
-            <a class="c-live__value" href="<?php echo Menus::admin_url('visitors', ['tab' => 'online']) ?>"><span class="c-live__online--arrow"></span></a>
+            <a class="c-live__value" href="<?php echo Menus::admin_url('visitors', ['tab' => 'online']) ?>" aria-label="<?php esc_attr_e('View online visitors', 'wp-statistics'); ?>"><span class="c-live__online--arrow"></span></a>
         </div>
     </div>
     <?php endif ?>
@@ -38,8 +38,8 @@ $userOnline     = new \WP_STATISTICS\UserOnline();
                 ?>
                     <tr>
                         <td><b><?php echo esc_html($label); ?></b></td>
-                        <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get($key))); ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($visitors, 1)) ?></span></a></td>
-                        <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get($key))); ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($hits, 1)) ?></span></a></td>
+                        <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get($key))); ?>"><span class="quickstats-values" title="<?php echo esc_attr($visitors); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($visitors, 1)) ?></span></a></td>
+                        <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get($key))); ?>"><span class="quickstats-values" title="<?php echo esc_attr($hits); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($hits, 1)) ?></span></a></td>
                     </tr>
                 <?php endfor; ?>
             </tbody>

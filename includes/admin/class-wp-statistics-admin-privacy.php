@@ -5,6 +5,8 @@ namespace WP_STATISTICS\Admin;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\PrivacyErasers;
 use WP_STATISTICS\PrivacyExporter;
+use WP_STATISTICS\User;
+use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent;
 
 class Privacy
 {
@@ -33,30 +35,64 @@ class Privacy
      */
     private function get_privacy_message()
     {
-        $content = '<div class="wp-suggested-text">' .
-            '<p class="privacy-policy-tutorial">' .
-            __('The template provided outlines the essential personal data that may be collected and stored by your store. This may change based on your settings and the plugins you use. It is advisable to seek legal counsel to determine the precise information to include in your privacy policy.', 'wp-statistics') .
-            '</p>' .
-            '<p>' . __('We gather information about you during your website visit.', 'wp-statistics') . '</p>' .
-            '<h2>' . __('Information We Collect and Store', 'wp-statistics') . '</h2>' .
-            '<p>' . __('During your visit, we monitor:', 'wp-statistics') . '</p>' .
-            '<ul>' .
-            '<li>' . __('Pages Viewed: This helps us analyze site usage statistics and understand user behavior.', 'wp-statistics') . '</li>' .
-            '<li>' . __('Browser user agent: we’ll use this for purposes like creating charts of views, most used browsers, etc.', 'wp-statistics') . '</li>';
+        $content = '<div class="wp-suggested-text">';
 
-        if (!Option::get('anonymize_ips') and !Option::get('hash_ips')) {
-            $content .= '<li>' . __('IP address', 'wp-statistics') . '</li>';
-        } else {
-            if (Option::get('anonymize_ips')) {
-                $content .= '<li>' . __('An anonymize string created from your ip address, For example, 888.888.888.888 > 888.888.888.000).', 'wp-statistics') . '</li>';
-            }
-
-            if (Option::get('hash_ips')) {
-                $content .= '<li>' . __('An hashed string created from your ip address.', 'wp-statistics') . '</li>';
-            }
+        if (User::isAdmin()) {
+            $content .= '<p class="privacy-policy-tutorial">' .
+                __('The text that follows has been generated from your current <b>WP Statistics</b> configuration and details the visitor data your site collects, the reasons for that collection, how the information is stored, and who can access it. Copy the wording into your privacy policy and adjust the style as needed; if you later change any WP Statistics option or install another tool that affects data collection, regenerate this section so your policy remains accurate. For complete compliance, have a qualified lawyer review the final version.', 'wp-statistics') .
+                '</p>' .
+                '<p>' . __('<b>We use the WP Statistics plugin to analyze traffic on our website.</b> WP Statistics stores its data on our own server and does not transmit it to any third parties. Below, we describe what information we collect through WP Statistics, why we collect it, and how it is handled. If you have questions or concerns about our analytics practices, please contact us or review the <a href="https://wp-statistics.com/resources/wp-statistics-data-privacy/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy-policy" target="_blank">WP Statistics Data Privacy guide.</a>', 'wp-statistics') . '</p>';
         }
 
-        $content .= '</ul></div>';
+        if (RequireConsent::getStatus() == 'success') {
+            $content .= '<p>' .
+                __('We do <b>not</b> collect or store any information that can identify you personally. This means:', 'wp-statistics') .
+                '</p>' .
+                '<ul>' .
+                '<li>' . __('<b>No Cookies</b>: We do not set tracking cookies or similar identifiers in your browser.', 'wp-statistics') . '</li>' .
+                '<li>' . __('<b>Anonymized IP</b>: Your IP address is anonymized and securely processed (e.g., hashed) so it can’t be reversed to identify you.', 'wp-statistics') . '</li>' .
+                '<li>' . __('<b>Aggregated Statistics</b>: We only track general activity like page views or country of access.', 'wp-statistics') . '</li>' .
+                '<li>' . __('<b>Local Storage</b>: All data is stored locally on our server; we never share it with third parties.', 'wp-statistics') . '</li>' .
+                '</ul>';
+        }
+
+        if (Option::get('visitors_log')) {
+            $content .= '<p>' .
+                __('We track certain details about logged-in visitors on our site. Specifically:', 'wp-statistics') .
+                '</p>' .
+                '<ul>' .
+                '<li>' . __('<b>User ID & Page Views</b>: If you are logged in, we associate your account (username/ID) with your page visits.', 'wp-statistics') . '</li>' .
+                '<li>' . __('<b>Purpose</b>: This helps us understand how registered members use our site and improve their experience.', 'wp-statistics') . '</li>' .
+                '<li>' . __('<b>Local & Secure Storage</b>: These logs are kept securely on our server and are not shared externally.', 'wp-statistics') . '</li>' .
+                '<li>' . __('<b>Your Choices</b>: You can choose to browse without logging in if you prefer not to link your visits with your user account. You may also contact us to request removal of any collected data where legally applicable.', 'wp-statistics') . '</li>' .
+                '</ul>';
+        }
+
+        if (!Option::get('anonymize_ips') || !Option::get('hash_ips')) {
+            $content .= '<p>' .
+                __('We store visitors’ <b>IP addresses</b> in a way that may allow them to be identifiable. Specifically:', 'wp-statistics') .
+                '</p>' .
+                '<ul>' .
+                '<li>' . __('<b>Collecting IP Data</b>: Your IP address is recorded alongside your page visits, which can sometimes be used to estimate your location (country, city).', 'wp-statistics') . '</li>' .
+                '<li>' . __('<b>Why We Store IPs</b>: This helps us detect unique visits, identify possible misuse or security issues, and gather accurate traffic data.', 'wp-statistics') . '</li>' .
+                '<li>' . __('<b>Data Protection</b>: We keep IP records on our own server, secured and accessible only to authorized staff. We do not share them unless required by law.', 'wp-statistics') . '</li>' .
+                '<li>' . __('<b>Privacy Considerations</b>: Since IP addresses may be considered personal data, we take reasonable measures to protect them. You can contact us regarding removal or other data rights if you feel your IP address is personally identifying.', 'wp-statistics') . '</li>' .
+                '</ul>';
+        }
+
+        if (Option::get('store_ua')) {
+            $content .= '<p>' .
+                __('We record <b>full User-Agent strings</b> for each visitor’s browser/device. This includes:', 'wp-statistics') .
+                '</p>' .
+                '<ul>' .
+                '<li>' . __('<b>Detailed Browser/OS Info</b>: The User-Agent string reveals your browser version, operating system type, and sometimes device model or other technical specifics.', 'wp-statistics') . '</li>' .
+                '<li>' . __('<b>Purpose</b>: We use this information for diagnostic or compatibility analysis, to ensure our site functions well across different setups.', 'wp-statistics') . '</li>' .
+                '<li>' . __('<b>Potential Identifiability</b>: Although this data generally does not include your name or email, detailed User-Agent strings can (in rare cases) be used to identify unique browsing configurations.', 'wp-statistics') . '</li>' .
+                '<li>' . __('<b>Local Storage</b>: All User-Agent data is stored on our server and not shared with third parties unless required by law. We periodically review and may remove these logs.', 'wp-statistics') . '</li>' .
+                '</ul>';
+        }
+
+        $content .= '</div>';
 
         return apply_filters('wp_statistics_privacy_policy_content', $content);
     }

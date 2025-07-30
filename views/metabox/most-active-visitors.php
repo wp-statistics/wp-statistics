@@ -17,13 +17,13 @@ use WP_STATISTICS\Menus;
                     <?php esc_html_e('Visitor Info', 'wp-statistics'); ?>
                 </th>
                 <th class="wps-pd-l">
-                    <?php esc_html_e('Location', 'wp-statistics'); ?>
-                </th>
-                <th class="wps-pd-l">
                     <?php esc_html_e('Referrer', 'wp-statistics'); ?>
                 </th>
                 <th class="wps-pd-l">
-                    <?php esc_html_e('Latest Page', 'wp-statistics'); ?>
+                    <?php esc_html_e('Entry Page', 'wp-statistics'); ?>
+                </th>
+                <th class="wps-pd-l">
+                    <?php esc_html_e('Exit Page', 'wp-statistics'); ?>
                 </th>
                 <th class="wps-pd-l">
                     <?php esc_html_e('Last View', 'wp-statistics'); ?>
@@ -77,15 +77,6 @@ use WP_STATISTICS\Menus;
                     <td class="wps-pd-l">
                         <?php View::load("components/visitor-information", ['visitor' => $visitor]); ?>
                     </td>
-                    <td class="wps-pd-l">
-                        <div class="wps-country-flag wps-ellipsis-parent">
-                            <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $countryCode])) ?>" class="wps-tooltip" title="<?php echo esc_attr($countryName) ?>">
-                                <img src="<?php echo esc_url($countryflag) ?>" alt="<?php echo esc_attr($countryName) ?>" width="15" height="15">
-                            </a>
-                            <?php $location = Admin_Template::locationColumn($countryCode, $region, $city); ?>
-                            <span class="wps-ellipsis-text" title="<?php echo esc_attr($location) ?>"><?php echo esc_html($location) ?></span>
-                        </div>
-                    </td>
 
                     <td class="wps-pd-l">
                         <?php
@@ -98,15 +89,35 @@ use WP_STATISTICS\Menus;
                     </td>
 
                     <td class="wps-pd-l">
-                        <?php if (!empty($lastResource)) :
-                            View::load("components/objects/external-link", [
-                                'url'       => $lastResourceLink,
-                                'title'     => $lastResourceTitle,
-                                'tooltip'   => $lastResourceQuery
+                        <?php
+                        $firstPage = $visitor->getFirstPage();
+
+                        if (!empty($firstPage)) :
+                            View::load("components/objects/internal-link", [
+                                'url'       => $firstPage['report'],
+                                'title'     => $firstPage['title'],
+                                'tooltip'   => $firstPage['query'] ? "?{$firstPage['query']}" : ''
                             ]);
-                        else : ?>
-                            <?php echo Admin_Template::UnknownColumn(); ?>
-                        <?php endif; ?>
+                        else :
+                            echo Admin_Template::UnknownColumn();
+                        endif;
+                        ?>
+                    </td>
+
+
+                    <td class="wps-pd-l">
+                        <?php
+                        $lastPage = $visitor->getLastPage();
+
+                        if (!empty($lastPage)) :
+                            View::load("components/objects/internal-link", [
+                                'url'       => $lastPage['report'],
+                                'title'     => $lastPage['title'],
+                            ]);
+                        else :
+                            echo Admin_Template::UnknownColumn();
+                        endif;
+                        ?>
                     </td>
 
                     <td class="wps-pd-l">

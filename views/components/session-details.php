@@ -82,7 +82,7 @@ if ($visitor instanceof VisitorDecorator) {
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('Browser', 'wp-statistics'); ?></span>
         <div class="wps-browsers__flag">
-            <a href="<?php echo Menus::admin_url('visitors', ['agent' => $visitor->getBrowser()->getRaw()]) ?>"><img src="<?php echo esc_url($visitor->getBrowser()->getLogo()); ?>" alt="<?php echo esc_attr($visitor->getBrowser()->getName()) ?>" width="15" height="15"></a>
+            <a href="<?php echo Menus::admin_url('visitors', ['tab' => 'visitors','agent' => $visitor->getBrowser()->getRaw()]) ?>"><img src="<?php echo esc_url($visitor->getBrowser()->getLogo()); ?>" alt="<?php echo esc_attr($visitor->getBrowser()->getName()) ?>" width="15" height="15"></a>
 
             <?php if ($visitor->getBrowser()->getName() !== 'Unknown') : ?>
                 <span 
@@ -98,7 +98,7 @@ if ($visitor instanceof VisitorDecorator) {
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('Operating System', 'wp-statistics'); ?></span>
         <div class="wps-os__flag">
-            <a href="<?php echo Menus::admin_url('visitors', ['platform' => $visitor->getOs()->getName()]) ?>"><img src="<?php echo esc_url($visitor->getOs()->getLogo()) ?>" alt="<?php echo esc_attr($visitor->getOs()->getName()) ?>" width="15" height="15"></a>
+            <a href="<?php echo Menus::admin_url('visitors', ['tab' => 'visitors','platform' => $visitor->getOs()->getName()]) ?>"><img src="<?php echo esc_url($visitor->getOs()->getLogo()) ?>" alt="<?php echo esc_attr($visitor->getOs()->getName()) ?>" width="15" height="15"></a>
             <span title="<?php echo esc_attr($visitor->getOs()->getName()) ?>"><?php echo esc_html($visitor->getOs()->getName()) ?></span>
         </div>
     </div>
@@ -159,16 +159,43 @@ if ($visitor instanceof VisitorDecorator) {
         <span><?php esc_html_e('Entry Page', 'wp-statistics'); ?></span>
         <div>
             <?php
-            if (!empty($initialResource)) :
-                View::load("components/objects/external-link", [
-                    'url'     => $initialResourceLink,
-                    'title'   => $initialResourceTitle,
-                    'tooltip' => $initialesourceQuery
+            $page = $visitor->getFirstPage();
+
+            if (!empty($page)) :
+                View::load("components/objects/internal-link", [
+                    'url'     => $page['report'],
+                    'title'   => $page['title'],
+                    'tooltip' => $page['query'] ? "?{$page['query']}" : ''
+                ]) ;
+            else :
+                echo Admin_Template::UnknownColumn();
+            endif;
+            ?>
+        </div>
+    </div>
+
+    <div class="wps-visitor__visitors-detail--row">
+        <span><?php esc_html_e('Exit Page', 'wp-statistics'); ?>&nbsp;</span>
+        <div>
+            <?php
+            $page = $visitor->getLastPage();
+
+            if (!empty($page)) :
+                View::load("components/objects/internal-link", [
+                    'url'     => $page['report'],
+                    'title'   => $page['title']
                 ]);
             else :
                 echo Admin_Template::UnknownColumn();
             endif;
             ?>
+        </div>
+    </div>
+
+    <div class="wps-visitor__visitors-detail--row">
+        <span><?php esc_html_e('Total Views', 'wp-statistics'); ?> <span class="wps-tooltip" title="<?php esc_html_e('Total views for a single day. Privacy rules assign users a new ID daily, so visits on different days are counted separately.', 'wp-statistics'); ?>"><i class="wps-tooltip-icon"></i></span></span>
+        <div>
+            <span><?php echo esc_html($visitor->getHits()) ?></span>
         </div>
     </div>
 </div>

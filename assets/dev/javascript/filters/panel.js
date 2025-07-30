@@ -83,7 +83,7 @@ FilterPanel.prototype.fetchFilterOptions = function () {
     if (hasPredefinedFilters) {
         this.renderFilters(this.predefinedCache);
         this.removeLoadingState(this.predefinedCache);
-        
+
         return;
     }
 

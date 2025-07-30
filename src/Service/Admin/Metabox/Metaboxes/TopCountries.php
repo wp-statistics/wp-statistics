@@ -5,6 +5,7 @@ use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Components\DateTime;
+use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
 class TopCountries extends BaseMetabox
 {
@@ -26,9 +27,9 @@ class TopCountries extends BaseMetabox
         return [
             'datepicker'    => true,
             'button'        => View::load('metabox/action-button',[
-                'link'  => Menus::admin_url('geographic'),
+                'link'  => Menus::admin_url('geographic', ['tab' => 'countries']),
                 'title' => esc_html__('View Top Countries', 'wp-statistics')
-            ],true)
+            ], true)
         ];
     }
 
@@ -38,11 +39,19 @@ class TopCountries extends BaseMetabox
 
         $isTodayOrFutureDate = DateTime::isTodayOrFutureDate($args['date']['to'] ?? null);
 
-        $data = $this->dataProvider->getTopCountiesData($args);
+        $data = ChartDataProviderFactory::countryChart($args)->getData();
 
-        $output = View::load('metabox/top-countries', ['data' => $data, 'filters' => $args, 'isTodayOrFutureDate' => $isTodayOrFutureDate], true);
+        $data = array_merge($data, [
+            'tag_id' => 'wps-top-countries',
+            'url'    => WP_STATISTICS_URL . 'assets/images/no-data/vector-3.svg'
+        ]);
 
-        return $output;
+        $output = View::load('metabox/horizontal-bar', ['data' => $data, 'filters' => $args, 'isTodayOrFutureDate' => $isTodayOrFutureDate], true);
+
+        return [
+            'output' => $output,
+            'data'   => $data
+        ];
     }
 
     public function render()
