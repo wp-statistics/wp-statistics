@@ -28,7 +28,7 @@ class RequireConsent extends AbstractFaq
                 'status'  => $status,
                 'title'   => $title,
                 'summary' => esc_html__('User Consent Required.', 'wp-statistics'),
-                'notes'   => __('<p>Your current settings indicate that WP Statistics is configured to collect personal data. In this case, it is essential to obtain user consent to comply with privacy laws and regulations. For detailed information on which settings may necessitate user consent and how to adjust them, please refer to the <b>Privacy Audit</b> section of this page.</p><p>To have consent for WP Statistics on your site, read <a target="_blank" href="https://wp-statistics.com/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">WP Consent Level Integration</a>.</p>', 'wp-statistics')
+                'notes'   => __('<p>Your current settings indicate that WP Statistics is configured to collect personal data. In this case, it is essential to obtain user consent to comply with privacy laws and regulations. For detailed information on which settings may necessitate user consent and how to adjust them, please refer to the <b>Privacy Audit</b> section of this page.</p><p>To have consent for WP Statistics on your site, read <a target="_blank" href="https://wp-statistics.com/resources/integrating-wp-statistics-with-consent-management-plugins/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">Integrating WP Statistics with Consent Management Plugins</a>.</p>', 'wp-statistics')
             ],
         ];
     }
