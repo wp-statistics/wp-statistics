@@ -61,11 +61,11 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
             <tbody>
             <tr valign="top" class="wps-settings-box_head">
                 <?php if (!$isAuthenticated) : ?>
-                    <th scope="row">
+                    <th scope="row" class="js-wps-show_if_gsc-connection-method_equal_1">
                         <h3><?php esc_html_e('Google Search Console', 'wp-statistics'); ?></h3>
                     </th>
                 <?php else : ?>
-                    <th scope="row" colspan="2">
+                    <th scope="row" colspan="2"  class="js-wps-show_if_gsc-connection-method_equal_1">
                         <div class="wps-addon-settings--marketing__title">
                             <div>
                                 <h3><?php esc_html_e('Google Search Console', 'wp-statistics'); ?></h3>
@@ -79,6 +79,22 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                         </div>
                     </th>
                 <?php endif; ?>
+
+
+                <th scope="row" colspan="2"  class="js-wps-show_if_gsc-connection-method_equal_0">
+                    <div class="wps-addon-settings--marketing__title">
+                        <div>
+                            <h3><?php esc_html_e('Google Search Console', 'wp-statistics'); ?></h3>
+                        </div>
+                        <div>
+                            <a href="" class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Reconnect', 'wp-statistics'); ?></a>
+                            <a href="" class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Test Connection', 'wp-statistics'); ?></a>
+                            <a href="" class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Fetch Data Now', 'wp-statistics'); ?></a>
+                            <a href="" class="wps-addon-settings--marketing__disconnect"><?php esc_html_e('Disconnect', 'wp-statistics'); ?></a>
+                        </div>
+                    </div>
+                </th>
+
             </tr>
 
             <tr data-id="wps_addon_settings-gsc-connection-method">
@@ -134,6 +150,27 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     <div class="wps-alert wps-alert__info">
                         <?php echo esc_html__('Add this exact URI in Google Cloud.', 'wp-statistics'); ?>
                     </div>
+                </td>
+            </tr>
+            <tr class="js-wps-show_if_gsc-connection-method_equal_0" data-id="wps_addon_settings-gsc-property">
+                <th scope="row">
+                    <label for="wps_addon_settings[marketing][property]"><?php esc_html_e('Property', 'wp-statistics'); ?></label>
+                </th>
+
+                <td class="wps_addon_settings__property">
+
+                    <select dir="ltr" class="wps-marketing-property" id="wps_addon_settings[marketing][property]"
+                            name="wps_addon_settings[marketing][property]">
+                        <?php $selectedSite = ''; ?>
+
+                        <?php if (!empty($selectedSite)) : ?>
+                            <option selected
+                                    value="<?php echo esc_attr($selectedSite) ?>"><?php echo esc_html(str_replace('sc-domain:', '', $selectedSite)); ?></option>
+                        <?php else : ?>
+                            <option disabled selected
+                                    value=""><?php esc_html_e('Select property', 'wp-statistics'); ?></option>
+                        <?php endif; ?>
+                    </select>
                 </td>
             </tr>
             <tr class="js-wps-show_if_gsc-connection-method_equal_0">
