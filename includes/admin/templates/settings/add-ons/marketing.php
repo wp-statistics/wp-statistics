@@ -80,7 +80,77 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     </th>
                 <?php endif; ?>
             </tr>
-            <tr data-id="wps_addon_settings-marketing-search-console">
+
+            <tr data-id="wps_addon_settings-gsc-connection-method">
+                <th scope="row">
+                    <label for="wps_settings[gsc-connection-method]"><?php esc_html_e('Connection Method', 'wp-statistics'); ?></label>
+                 </th>
+                <td>
+                    <select id="wps_settings[gsc-connection-method]" name="wps_gsc_connection_method">
+                        <option value="1" selected>
+                            <?php esc_html_e('Our Credentials', 'wp-statistics'); ?>
+                        </option>
+                        <option value="0">
+                            <?php esc_html_e('Direct (Your Credentials)', 'wp-statistics'); ?>
+                        </option>
+                    </select>
+                </td>
+            </tr>
+            <tr class="js-wps-show_if_gsc-connection-method_equal_0" data-id="wps_addon_settings-gsc-client-id">
+                <th scope="row">
+                    <label for="gsc-client-id"><?php esc_html_e('Google Client ID', 'wp-statistics'); ?></label>
+                </th>
+                <td>
+                    <input type="text" size="3" id="gsc-client-id" name="wps_gsc_client_id" placeholder="1234567890-abc123def456.apps.googleusercontent.com" value="">
+                    <div class="wps-alert wps-alert__info">
+                        <?php echo esc_html__('From Google Cloud → OAuth 2.0 Client ID.', 'wp-statistics'); ?>
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="js-wps-show_if_gsc-connection-method_equal_0" data-id="wps_addon_settings-gsc-client-secret">
+                <th scope="row">
+                    <label for="gsc-client-secret"><?php esc_html_e('Google Client Secret', 'wp-statistics'); ?></label>
+                </th>
+                <td>
+                    <div class="c-password-field">
+                        <input type="password" size="3" class="js-password-toggle" id="gsc-client-secret" name="wps_gsc_client_secret" value="">
+                        <button type="button" class="c-password-field__btn" aria-label="Toggle password visibility">
+                            <span class="icon-eye"></span>
+                         </button>
+                    </div>
+                    <div class="wps-alert wps-alert__info">
+                        <?php echo esc_html__('From the same OAuth app. Keep private.', 'wp-statistics'); ?>
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="js-wps-show_if_gsc-connection-method_equal_0" data-id="wps_addon_settings-gsc-auth-redirect-url">
+                <th scope="row">
+                    <label for="gsc-auth-redirect-url"><?php esc_html_e('Authorized Redirect URI', 'wp-statistics'); ?></label>
+                </th>
+                <td>
+                    <input type="text" size="3" readonly id="gsc-auth-redirect-url" name="wps_gsc_auth_redirect_url" value="">
+                    <div class="wps-alert wps-alert__info">
+                        <?php echo esc_html__('Add this exact URI in Google Cloud.', 'wp-statistics'); ?>
+                    </div>
+                </td>
+            </tr>
+            <tr class="js-wps-show_if_gsc-connection-method_equal_0">
+                <th scope="row"><span class="screen-reader-text"><?php echo esc_html__('Search Google Console direct policy alert', 'wp-statistics') ?></span></th>
+                <td class="wps_addon_settings__site">
+                    <div class="wps-addon-settings-marketing--alert">
+                        <div>
+                            <h3><?php esc_html_e('Privacy & Data', 'wp-statistics'); ?></h3>
+                            <p><?php esc_html_e('Credentials & tokens stay on your server; Disconnect removes them', 'wp-statistics'); ?>.</p>
+                        </div>
+                    </div>
+                 </td>
+            </tr>
+
+
+
+            <tr data-id="wps_addon_settings-marketing-search-console" class="js-wps-show_if_gsc-connection-method_equal_1">
                 <th scope="row">
                     <span class="wps-setting-label"><?php esc_html_e('Show Google Search tab', 'wp-statistics'); ?></span>
                 </th>
@@ -98,7 +168,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                 </td>
             </tr>
             <?php if (!$isAuthenticated) : ?>
-                <tr>
+                <tr class="js-wps-show_if_gsc-connection-method_equal_1">
                     <td colspan="2" scope="row" class="wps-addon-settings--marketing__row">
                         <div class="wps-alert--marketing">
                             <a href="<?php echo apply_filters('wp_statistics_google_auth_url', '') ?>"
@@ -122,7 +192,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     </td>
                 </tr>
             <?php else : ?>
-                <tr data-id="wps_addon_settings-marketing-site">
+                <tr data-id="wps_addon_settings-marketing-site" class="js-wps-show_if_gsc-connection-method_equal_1">
                     <th scope="row">
                         <label for="wps_addon_settings[marketing][site]"><?php esc_html_e('Site', 'wp-statistics'); ?></label>
                     </th>
@@ -130,7 +200,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     <td class="wps_addon_settings__site">
                         <?php $selectedSite = Option::getByAddon('site', 'marketing'); ?>
 
-                        <select dir="ltr" id="wps_addon_settings[marketing][site]"
+                        <select dir="ltr" class="wps-marketing-site" id="wps_addon_settings[marketing][site]"
                                 name="wps_addon_settings[marketing][site]">
                             <?php if (!empty($selectedSite)) : ?>
                                 <option selected
@@ -142,7 +212,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                         </select>
                     </td>
                 </tr>
-                <tr valign="top">
+                <tr class="js-wps-show_if_gsc-connection-method_equal_1">
                     <th scope="row"><span class="screen-reader-text"><?php echo esc_html__('Google data policy alert', 'wp-statistics') ?></span></th>
                     <td class="wps_addon_settings__site">
                         <?php View::load("components/objects/google-data-policy-alert"); ?>
