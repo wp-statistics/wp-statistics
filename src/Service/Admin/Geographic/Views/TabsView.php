@@ -9,6 +9,7 @@ use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
 use WP_STATISTICS\Country;
 use WP_Statistics\Service\Admin\Geographic\GeographicDataProvider;
+use WP_Statistics\Utils\Request;
 
 class TabsView extends BaseTabView
 {
@@ -28,8 +29,9 @@ class TabsView extends BaseTabView
         parent::__construct();
 
         $this->dataProvider = new GeographicDataProvider([
+            'order'     => Request::get('order', 'DESC'),
             'per_page'  => Admin_Template::$item_per_page,
-            'page'      => Admin_Template::getCurrentPaged()
+            'page'      => Admin_Template::getCurrentPaged(),
         ]);
     }
 
@@ -76,12 +78,17 @@ class TabsView extends BaseTabView
         $currentTab     = $this->getCurrentTab();
         $data           = $this->getTabData();
         $countryCode    = Helper::getTimezoneCountry();
+        $queryParams    = [
+            'tab'      => $currentTab,
+            'order_by' => Request::get('order_by'),
+            'order'    => Request::get('order')
+        ];
 
         $args = [
             'title'      => esc_html__('Geographic', 'wp-statistics'),
             'pageName'   => Menus::get_page_slug('geographic'),
             'paged'      => Admin_Template::getCurrentPaged(),
-            'custom_get' => ['tab' => $currentTab],
+            'custom_get' => $queryParams,
             'DateRang'   => Admin_Template::DateRange(),
             'hasDateRang'=> true,
             'data'       => $data,

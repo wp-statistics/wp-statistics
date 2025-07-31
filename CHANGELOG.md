@@ -1,3 +1,6 @@
+= 14.15.x - 2025-xx-xx =
+- **Enhancement:** Updated table headers in Geographic & Devices and added Percent Share to the Geographic table.
+
 = 14.15.2 - 2025-07-31 =
 - **New:** Added compatibility with the `Borlabs Cookie` plugin.
 - **New:** License keys can now be set via `wp-config.php` using constants like `WP_STATISTICS_LICENSE` and are auto-validated on init.

@@ -6,7 +6,6 @@ use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
-use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Devices\DevicesDataProvider;
 
 class TabsView extends BaseTabView
@@ -30,7 +29,7 @@ class TabsView extends BaseTabView
 
         $this->dataProvider = new DevicesDataProvider([
             'per_page' => 10,
-            'page'     => Admin_Template::getCurrentPaged()
+            'page'     => Admin_Template::getCurrentPaged(),
         ]);
     }
 
@@ -86,12 +85,15 @@ class TabsView extends BaseTabView
     {
         $currentTab  = $this->getCurrentTab();
         $data        = $this->getTabData();
+        $queryParams = [
+            'tab'      => $currentTab,
+        ];
 
         $args = [
             'title'           => esc_html__('Devices', 'wp-statistics'),
             'pageName'        => Menus::get_page_slug('devices'),
             'paged'           => Admin_Template::getCurrentPaged(),
-            'custom_get'      => ['tab' => $currentTab],
+            'custom_get'      => $queryParams,
             'DateRang'        => Admin_Template::DateRange(),
             'hasDateRang'     => true,
             'data'            => $data,
