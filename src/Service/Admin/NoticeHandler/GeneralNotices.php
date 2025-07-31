@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\NoticeHandler;
 
+use WP_Statistics\Utils\Environment;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\IP;
 use WP_STATISTICS\User;
@@ -223,7 +224,7 @@ class GeneralNotices
             return;
         }
 
-        if (!Helper::checkMemoryLimit()) {
+        if (!Environment::checkMemoryLimit()) {
             return;
         }
 

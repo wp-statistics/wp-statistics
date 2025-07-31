@@ -53,7 +53,10 @@ class SchemaMigration extends AbstractMigrationOperation
         '14.15' => [
             'dropVisitTable',
             'addUserIdToEvents'
-        ]
+        ],
+        '15.0.0'  => [
+            'addResourceUriIdAndSessionIdToEvents',
+        ],
     ];
 
     /**
@@ -139,6 +142,31 @@ class SchemaMigration extends AbstractMigrationOperation
                 ->setArgs([
                     'add' => [
                         'user_id' => 'bigint(20) UNSIGNED DEFAULT NULL',
+                    ]
+                ])
+                ->execute();
+        } catch (Exception $e) {
+            $this->setErrorStatus($e->getMessage());
+        }
+    }
+
+    /**
+     * Updates the 'events' table to add new columns: 'resource_uri_id' and 'session_id'.
+     *
+     * @return void
+     * @since 15.0.0
+     */
+    public function addResourceUriIdAndSessionIdToEvents()
+    {
+        $this->ensureConnection();
+
+        try {
+            DatabaseFactory::table('update')
+                ->setName('events')
+                ->setArgs([
+                    'add' => [
+                        'resource_uri_id' => 'BIGINT(20) UNSIGNED DEFAULT NULL',
+                        'session_id'      => 'BIGINT(20) UNSIGNED DEFAULT NULL',
                     ]
                 ])
                 ->execute();

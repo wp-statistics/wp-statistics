@@ -2,8 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\Devices;
 
-use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Utils\Format;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
 class DevicesDataProvider
@@ -129,7 +129,7 @@ class DevicesDataProvider
             $device = !empty($visitor->device) ? trim($visitor->device) : '';
 
             if (strtolower($device) != "bot") {
-                $device = Helper::getDeviceCategoryName($device);
+                $device = Format::getSegment($device);
 
                 if (isset($visitors[$device])) {
                     $visitors[$device]->visitors += $visitor->visitors;

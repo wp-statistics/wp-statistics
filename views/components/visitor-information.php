@@ -29,7 +29,15 @@ use WP_Statistics\Decorators\VisitorDecorator;
                 </a>
             </div>
         </li>
+        <?php
+            if ($visitor instanceof VisitorDecorator) {
+                $browserVersion = $visitor->getBrowser()->getVersion();
+            } else {
+                $browserVersion = $visitor->getBrowserVersion()->getVersion();
+            }
 
+            $browserName = $visitor->getBrowser()->getName();
+        ?>
         <li class="wps-visitor__information">
             <div class="wps-tooltip" title="<?php echo esc_attr($visitor->getDevice()->getType()) ?>">
                 <img src="<?php echo esc_url($visitor->getDevice()->getLogo()) ?>" alt="<?php echo esc_attr($visitor->getDevice()->getType()) ?>" width="15" height="15">
