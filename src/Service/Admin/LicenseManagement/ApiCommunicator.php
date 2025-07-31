@@ -12,8 +12,6 @@ class ApiCommunicator
 {
     use TransientCacheTrait;
 
-    private $apiUrl = WP_STATISTICS_SITE_URL . '/wp-json/wp-license-manager/v1';
-
     /**
      * Get the list of products (add-ons) from the API and cache it for 1 week.
      *
@@ -23,12 +21,12 @@ class ApiCommunicator
     public function getProducts()
     {
         try {
-            $remoteRequest = new RemoteRequest("{$this->apiUrl}/product/list", 'GET');
+            $remoteRequest = new RemoteRequest(ApiEndpoints::PRODUCT_LIST, 'GET');
             $plugins       = $remoteRequest->execute(false, true, WEEK_IN_SECONDS);
 
             if (empty($plugins) || !is_array($plugins)) {
                 throw new Exception(
-                    sprintf(__('No products were found. The API returned an empty response from the following URL: %s', 'wp-statistics'), "{$this->apiUrl}/product/list")
+                    sprintf(__('No products were found. The API returned an empty response from the following URL: %s', 'wp-statistics'), ApiEndpoints::PRODUCT_LIST)
                 );
             }
 
@@ -53,7 +51,7 @@ class ApiCommunicator
      */
     public function getDownloadUrl($licenseKey, $pluginSlug)
     {
-        $remoteRequest = new RemoteRequest("{$this->apiUrl}/product/download", 'GET', [
+        $remoteRequest = new RemoteRequest(ApiEndpoints::PRODUCT_DOWNLOAD, 'GET', [
             'license_key' => $licenseKey,
             'domain'      => home_url(),
             'plugin_slug' => $pluginSlug,
@@ -104,7 +102,7 @@ class ApiCommunicator
             );
         }
 
-        $remoteRequest = new RemoteRequest("{$this->apiUrl}/license/status", 'GET', [
+        $remoteRequest = new RemoteRequest(ApiEndpoints::LICENSE_STATUS, 'GET', [
             'license_key' => $licenseKey,
             'domain'      => home_url(),
         ]);
