@@ -163,7 +163,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             let notice = document.createElement("div");
             notice.className = "notice notice-error wp-statistics-notice";
             const dir = jQuery('body').hasClass('rtl') ? 'rtl' : 'ltr';
-            const $select = jQuery('.wps-addon-settings--marketing select').select2({
+            const $select = jQuery('.wps-addon-settings--marketing select.wps-marketing-site').select2({
                 ajax: {
                     url: wps_js.global.admin_url + 'admin-ajax.php',
                     type: 'POST',
@@ -220,5 +220,17 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 $select.val(data.id).trigger('change');
             });
         }
+
+        document.querySelectorAll('.c-password-field').forEach(function (wrapper) {
+            const input = wrapper.querySelector('.js-password-toggle');
+            const btn = wrapper.querySelector('.c-password-field__btn');
+            btn.addEventListener('click', function () {
+                const isPassword = input.type === 'password';
+                input.type = isPassword ? 'text' : 'password';
+                btn.classList.toggle('show', isPassword);
+            });
+        });
     });
+
+
 }
