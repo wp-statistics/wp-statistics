@@ -2,9 +2,10 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
+use WP_Statistics\Utils\Request;
+use WP_Statistics\Components\SystemCleaner;
 use WP_Statistics\Exception\SystemErrorException;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
-use WP_Statistics\Utils\Request;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 
 class LicenseManagerDataProvider
@@ -62,6 +63,9 @@ class LicenseManagerDataProvider
      */
     public function getDownloadsData()
     {
+        // Clean up previously fetched products list
+        SystemCleaner::clearAddonsListCache();
+
         $result = [
             'licensed_addons'     => [],
             'not_included_addons' => [],

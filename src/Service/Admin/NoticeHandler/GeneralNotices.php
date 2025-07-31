@@ -65,30 +65,24 @@ class GeneralNotices
      */
     private function detectConsentIntegrations()
     {
-        if (Option::get('consent_integration')) return;
+        $notices = IntegrationHelper::getDetectionNotice();
 
-        $integrations = IntegrationHelper::getAllIntegrations();
+        if (empty($notices)) return;
 
-        foreach ($integrations as $integration) {
-            if (!$integration->isActive()) continue;
+        foreach ($notices as $notice) {
+            $noticeKey = $notice['key'] . '_detection_notice';
 
-            $notice = $integration->detectionNotice();
+            if (Notice::isNoticeDismissed($noticeKey)) continue;
 
-            if (empty($notice) || Notice::isNoticeDismissed($notice['key'])) continue;
-
-            $message = wp_kses(
+            $message = wp_kses_post(
                 sprintf(
-                    '<div><b class="wp-statistics-notice__title">%s - %s</b><p>%s</p><a href="%s">%s</a></div>',
-                    esc_html__('WP Statistics', 'wp-statistics'),
-                    esc_html($notice['title']),
-                    esc_html($notice['description']),
-                    esc_url(Menus::admin_url('settings', ['tab' => 'privacy-settings']) . '#consent_integration'),
-                    esc_html__('Activate integration ›', 'wp-statistics')
-                ),
-                ['div' => ['class' => []], 'b' => ['class' => []], 'p' => [], 'a' => ['href' => []]]
+                    '<div><b class="wp-statistics-notice__title">%s</b><p>%s</p></div>',
+                    $notice['title'],
+                    $notice['content']
+                )
             );
 
-            Notice::addNotice($message, $notice['key']);
+            Notice::addNotice($message, $noticeKey);
         }
     }
 
@@ -99,6 +93,8 @@ class GeneralNotices
      */
     private function detectCachePlugins()
     {
+        if (!Menus::in_plugin_page()) return;
+
         $cacheInfo = Helper::checkActiveCachePlugin();
 
         // Return if no cache plugin is active
@@ -113,7 +109,7 @@ class GeneralNotices
         }
 
         $message = sprintf(
-            __('<b>WP Statistics Notice:</b> The cache plugin %1$s is detected, please make sure the %2$s file is excluded from file optimization and caching, <a target="_blank" href="%3$s">Click here</a> for more info.','wp-statistics'),
+            __('<b>WP Statistics Notice:</b> The cache plugin %1$s is detected, please make sure the <code>%2$s</code> file is excluded from file optimization and caching, <a target="_blank" href="%3$s">Click here</a> for more info.','wp-statistics'),
             esc_html($cacheInfo['plugin']),
             esc_url(Url::getPath(Assets::getSrc('js/tracker.js'))),
             esc_url('https://wp-statistics.com/resources/how-to-exclude-wp-statistics-tracker-js-from-caching-minification/?utm_source=wp-statistics&utm_medium=link')

@@ -132,6 +132,12 @@ class ReferralsPage extends MultiViewPage
                     'value' => Menus::get_page_slug('referrals')
                 ]
             ])
+            ->hidden('tabName', [
+                'name'  => 'tab',
+                'attributes' => [
+                    'value' => Request::get('tab')
+                ]
+            ])
             ->select('referrers', [
                 'name' => 'referrer',
                 'placeholder' => $referrerPlaceholder,

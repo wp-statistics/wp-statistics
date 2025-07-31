@@ -34,18 +34,21 @@ $postType = get_post_type(Request::get('post_id'));
                 'label'   => esc_html__('Exit Page', 'wp-statistics'),
                 'value'   => Helper::formatNumberWithUnit($data['glance']['exit_page']['value']),
                 'change'  => $data['glance']['exit_page']['change'],
+                'polarity' => 'negative',
                 'tooltip' =>  esc_html__('Number of times this content was the last page viewed before a session ended.', 'wp-statistics') ,
             ],
             [
                 'label'   => esc_html__('Bounce Rate', 'wp-statistics'),
                 'value'   => $data['glance']['bounce_rate']['value'],
                 'change'  => $data['glance']['bounce_rate']['change'],
+                'polarity' => 'negative',
                 'tooltip' =>  esc_html__('Percentage of single-page sessions that began and ended on this content.', 'wp-statistics') ,
             ],
             [
                 'label'   => esc_html__('Exit Rate', 'wp-statistics'),
                 'value'   => $data['glance']['exit_rate']['value'],
                 'change'  => $data['glance']['exit_rate']['change'],
+                'polarity' => 'negative',
                 'tooltip' =>  esc_html__('Percentage of total views that ended on this content.', 'wp-statistics') ,
             ]
         ];
