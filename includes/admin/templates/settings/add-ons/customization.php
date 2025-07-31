@@ -5,9 +5,11 @@ use WP_STATISTICS\Option;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 
-$isLicenseValid         = LicenseHelper::isPluginLicenseValid('wp-statistics-customization');
-$isCustomizationActive  = WP_STATISTICS\Helper::isAddOnActive('customization');
+$isLicenseValid        = LicenseHelper::isPluginLicenseValid('wp-statistics-customization');
+$isCustomizationActive = WP_STATISTICS\Helper::isAddOnActive('customization');
 global $wp_version;
 
 $disableMenuArray = [
@@ -43,6 +45,7 @@ if (empty(Option::get('record_exclusions'))) {
 }
 
 $disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customization', []);
+$pluginHandler     = new PluginHandler();
 ?>
 
     <h2 class="wps-settings-box__title"><span><?php esc_html_e('Customization', 'wp-statistics'); ?></span></h2>
@@ -138,6 +141,106 @@ if ($isCustomizationActive && !$isLicenseValid) {
                         <input type="button" class="wps_img_settings_upload_button button wps-input-group__label" value="<?php esc_html_e('Upload File', 'wp-statistics-advanced-reporting') ?>" style="margin: 0; "/>
                     </div>
                     <p class="description"><?php esc_html_e('Customize the header logo to match your branding by uploading your own logo.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="postbox">
+        <table id="wps-export-form" class="wps-export form-table wps-export__table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">
+            <tbody>
+            <tr class="wps-settings-box_head">
+                <th scope="row" colspan="2">
+                    <h3><?php esc_html_e('Import & Export Settings', 'wp-statistics'); ?></h3>
+                </th>
+            </tr>
+
+            <tr>
+                <th scope="row">
+                    <span class="wps-setting-label"><?php esc_html_e('Export Settings', 'wp-statistics'); ?></span>
+                </th>
+
+                <td>
+                    <p class="wps-export__item">
+                        <input
+                            id="wps-addon-wp-statistics"
+                            name="addons[]"
+                            class="wps-export__checkbox"
+                            type="checkbox"
+                            value="wp-statistics"
+                            checked
+                        >
+                        <label for="wps-addon-wp-statistics" class="wps-export__label">
+                            <?php echo esc_html__('WP Statistics (core settings)'); ?>
+                        </label>
+                    </p>
+                    <?php foreach (PluginHelper::$plugins as $plugin => $title):
+                        $isPluginActive = $pluginHandler->isPluginActive($plugin); ?>
+                        <p class="wps-export__item <?php echo !$isPluginActive ? esc_attr('wps-export__item--disabled') : ''; ?>">
+                            <input
+                                id="wps-addon-<?php echo esc_attr($plugin); ?>"
+                                name="addons[]"
+                                class="wps-export__checkbox"
+                                type="checkbox"
+                                value="<?php echo esc_attr($plugin); ?>"
+                                <?php echo $isPluginActive ? 'checked' : 'disabled'; ?>
+                            >
+                            <label for="wps-addon-<?php echo esc_attr($plugin); ?>" class="wps-export__label">
+                                <?php echo esc_html($title); ?>
+                            </label>
+                        </p>
+                    <?php endforeach; ?>
+
+                    <p class="description"><?php esc_html_e('Choose any WP Statistics add‑ons whose settings you want in the file (e.g. Data Plus, Advanced Reporting, Real‑Time Stats). Core plugin settings are always included.', 'wp-statistics'); ?></p>
+                    <br>
+                    <button type="button" class="wps-button wps-button--default" id="wps-btn-export-settings">
+                        <?php esc_html_e('Download export file', 'wp-statistics'); ?>
+                    </button>
+                    <p class="description">
+                        <?php _e('The file is saved in JSON format and contains both core settings and the add‑ons you tick above. <a href="https://wp-statistics.com/resources/import-export-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Learn more</a>.', 'wp-statistics'); ?>
+                    </p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table id="wps-import-form" class="wps-import form-table wps-import__table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">
+            <tbody>
+            <tr id="wps-import-form-row">
+                <th scope="row">
+                    <label for="wps-input-import-file"><?php esc_html_e('Import Settings', 'wp-statistics'); ?></label>
+                </th>
+
+                <td>
+                    <input
+                        type="file"
+                        accept=".json,.txt"
+                        id="wps-input-import-file"
+                        name="import_file"
+                        class="wps-import__file"
+                    >
+                    <p class="description"><?php esc_html_e('Select a JSON file exported from WP Statistics.', 'wp-statistics'); ?></p>
+                    <br>
+
+                    <input
+                        id="wps-input-import-images"
+                        type="checkbox"
+                        name="import_images"
+                        value="1"
+                        class="wps-import__checkbox"
+                    >
+                    <label for="wps-input-import-images"><?php esc_html_e('Download and import image files', 'wp-statistics'); ?></label>
+                    <p class="description"><?php esc_html_e('If the exported settings reference custom images, fetch them and add them to this site’s Media Library.', 'wp-statistics'); ?></p>
+                    <br>
+
+                    <button type="button" class="wps-button wps-button--default" id="wps-btn-import-settings">
+                        <?php esc_html_e('Start import', 'wp-statistics'); ?>
+                    </button>
+
+                    <p class="description">
+                        <?php _e('Need a safety net? Use <b>Download export file</b> above to back up your current settings first. You can always restore defaults later under <b>Settings › Advanced Options › Reset Options</b>. <a href="https://wp-statistics.com/resources/import-export-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Learn more</a>.', 'wp-statistics'); ?>
+                    </p>
                 </td>
             </tr>
             </tbody>

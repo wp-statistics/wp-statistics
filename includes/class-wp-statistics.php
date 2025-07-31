@@ -35,6 +35,7 @@ use WP_Statistics\Service\HooksManager;
 use WP_Statistics\Service\CronEventManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
 use WP_Statistics\Service\CustomEvent\CustomEventManager;
+use WP_Statistics\Service\Admin\ExportImport\ExportImportManager;
 
 defined('ABSPATH') || exit;
 
@@ -184,6 +185,7 @@ final class WP_Statistics
         $anonymizedUsageDataManager = new AnonymizedUsageDataManager();
         $notificationManager        = new NotificationManager();
         $MarketingCampaignManager   = new MarketingCampaignManager();
+        $exportImportManager        = new ExportImportManager();
 
         // Admin classes
         if (is_admin()) {
