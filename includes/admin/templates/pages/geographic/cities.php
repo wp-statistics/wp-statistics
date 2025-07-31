@@ -2,9 +2,6 @@
 use WP_STATISTICS\Country;
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Utils\Request;
-
-$order = Request::get('order', 'desc');
 ?>
 
 <div class="postbox-container wps-postbox-full">
@@ -27,9 +24,9 @@ $order = Request::get('order', 'desc');
                                             <?php esc_html_e('Country', 'wp-statistics') ?>
                                         </th>
                                         <th scope="col" class="wps-pd-l" style="width: 15%">
-                                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('visitors')) ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'visitors') ? esc_attr($order) : ''; ?>">
+                                            <span class="wps-order">
                                                 <?php esc_html_e('Visitors', 'wp-statistics'); ?>
-                                            </a>
+                                            </span>
                                         </th>
                                         <th scope="col" class="wps-pd-l" style="width: 15%">
                                             <?php esc_html_e('Views', 'wp-statistics') ?>
@@ -69,7 +66,7 @@ $order = Request::get('order', 'desc');
                                                 <?php echo esc_html(number_format($item->views)) ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo esc_html(Helper::calculatePercentage($item->visitors, $data['visits'])); ?>%
+                                                <?php echo esc_html(Helper::calculatePercentage($item->visitors, $data['visitors'])); ?>%
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
