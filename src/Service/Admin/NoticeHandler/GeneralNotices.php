@@ -93,6 +93,8 @@ class GeneralNotices
      */
     private function detectCachePlugins()
     {
+        if (!Menus::in_plugin_page()) return;
+
         $cacheInfo = Helper::checkActiveCachePlugin();
 
         // Return if no cache plugin is active
