@@ -7,6 +7,7 @@ use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Service\Resources\ResourcesFactory;
 use WP_Statistics\Service\Tracking\TrackingFactory;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
+use WP_Statistics\Service\Tracking\TrackerHelper;
 
 class Frontend
 {
@@ -37,7 +38,7 @@ class Frontend
             /**
              * Get default params
              */
-            $params = array_merge([TrackingFactory::hits()->getRestHitsKey() => 1], Helper::getHitsDefaultParams());
+            $params = array_merge([TrackingFactory::hits()->getRestHitsKey() => 1], TrackerHelper::getHitsDefaultParams());
             $params = apply_filters('wp_statistics_js_localized_arguments', $params);
 
             $requestUrl   = !empty($params['requestUrl']) ? $params['requestUrl'] : get_site_url();

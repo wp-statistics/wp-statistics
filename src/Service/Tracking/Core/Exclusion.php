@@ -303,7 +303,7 @@ class Exclusion
             return false;
         }
 
-        if (Helper::is_rest_request() && ($_REQUEST['source_type'] ?? '') === '404') {
+        if (Helper::is_rest_request() && ($_REQUEST['resource_type'] ?? '') === '404') {
             return true;
         }
 

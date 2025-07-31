@@ -86,20 +86,6 @@ class ResourcesFactory
     }
 
     /**
-     * Retrieves a resource by its database record ID.
-     *
-     * This method instantiates a ResourceDecorator for the resource corresponding to the given record ID.
-     *
-     * @param int $rowId The database record ID for the resource.
-     *
-     * @return ResourceDecorator|null A decorator for the resource record, or null if the ID is empty.
-     */
-    public static function getById($rowId)
-    {
-        return !empty($rowId) ? new ResourceDecorator($rowId) : null;
-    }
-
-    /**
      * Retrieves the current resource based on the current URL or context.
      *
      * This method creates a ResourceDecorator without a specific identifier,

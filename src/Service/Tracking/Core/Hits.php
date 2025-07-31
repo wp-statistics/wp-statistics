@@ -39,7 +39,8 @@ class Hits extends BaseTracking
     protected $restHits = null;
 
     /**
-     * Constructor. Adds filters and actions for tracking based on context.
+     * Hits Constructor.
+     * Adds filters and actions for tracking based on context.
      *
      * @return void
      */
@@ -47,10 +48,6 @@ class Hits extends BaseTracking
     {
         if ($this->isRestHit()) {
             $this->restHits = (object)$this->getRestParams();
-
-            add_filter('wp_statistics_current_page', [$this, 'setCurrentPage']);
-            add_filter('wp_statistics_page_uri', [$this, 'setPageUri']);
-            add_filter('wp_statistics_user_id', [$this, 'setCurrentUser']);
         }
 
         if (!Option::get('exclude_loginpage')) {
@@ -89,55 +86,6 @@ class Hits extends BaseTracking
         }
 
         return $key === false ? $data : (isset($data[$key]) ? $data[$key] : false);
-    }
-
-    /**
-     * Set the current page from REST hit data.
-     *
-     * @param array $currentPage Default page info from WordPress.
-     * @return array Modified or original page data.
-     */
-    public function setCurrentPage($currentPage)
-    {
-        if (isset($this->restHits->source_type) && isset($this->restHits->source_id)) {
-            return [
-                'type'         => esc_sql($this->restHits->source_type),
-                'id'           => esc_sql($this->restHits->source_id),
-                'search_query' => isset($this->restHits->search_query)
-                    ? base64_decode($this->restHits->search_query)
-                    : '',
-            ];
-        }
-
-        return $currentPage;
-    }
-
-    /**
-     * Set the page URI using REST data, if available.
-     *
-     * @param string $pageUri Original page URI.
-     * @return string Modified or original URI.
-     */
-    public function setPageUri($pageUri)
-    {
-        return isset($this->restHits->page_uri)
-            ? base64_decode($this->restHits->page_uri)
-            : $pageUri;
-    }
-
-    /**
-     * Set the user ID from global override if not already set.
-     *
-     * @param int $userId Default user ID from core.
-     * @return int Resolved user ID.
-     */
-    public function setCurrentUser($userId)
-    {
-        if (!$userId && isset($GLOBALS['wp_statistics_user_id'])) {
-            $userId = $GLOBALS['wp_statistics_user_id'];
-        }
-
-        return $userId;
     }
 
     /**

@@ -3,12 +3,11 @@
 namespace WP_Statistics\Service\Tracking;
 
 use ErrorException;
-use WP_STATISTICS\IP;
-use WP_STATISTICS\Option;
-use WP_STATISTICS\Pages;
+use WP_Statistics\Components\Ip;
+use WP_Statistics\Globals\Option;
+use WP_Statistics\Service\Resources\ResourcesFactory;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Signature;
-use WP_Statistics\Utils\Validator;
 
 /**
  * Helper methods that are used exclusively by the tracking subsystem.
@@ -57,26 +56,17 @@ final class TrackerHelper
     public static function validateHitRequest()
     {
         $isValid = Request::validate([
-            'page_uri'         => [
-                'required'        => true,
-                'nullable'        => true,
-                'type'            => 'string',
-                'encoding'        => 'base64',
-                'invalid_pattern' => Validator::getThreatPatterns()
-            ],
-            'search_query'     => [
-                'required'        => true,
-                'nullable'        => true,
-                'type'            => 'string',
-                'encoding'        => 'base64',
-                'invalid_pattern' => Validator::getThreatPatterns()
-            ],
-            'source_id'        => [
+            'resourceUriId'    => [
                 'type'     => 'number',
                 'required' => true,
                 'nullable' => false
             ],
-            'resourceUriId'    => [
+            'resource_type'  => [
+                'type'     => 'string',
+                'required' => false,
+                'nullable' => false
+            ],
+            'resource_id'     => [
                 'type'     => 'number',
                 'required' => true,
                 'nullable' => false
@@ -121,7 +111,7 @@ final class TrackerHelper
              * @param bool $isValid Indicates if the request parameters are valid.
              * @param string $ipAddress The IP address of the requester.
              */
-            do_action('wp_statistics_invalid_hit_request', $isValid, IP::getIP());
+            do_action('wp_statistics_invalid_hit_request', $isValid, Ip::getCurrent());
 
             throw new ErrorException(esc_html__('Invalid hit/online request.', 'wp-statistics'));
         }
@@ -161,7 +151,7 @@ final class TrackerHelper
      */
     public static function isDoNotTrackEnabled()
     {
-        if (Option::get('do_not_track')) {
+        if (Option::getValue('do_not_track')) {
             return (isset($_SERVER['HTTP_DNT']) && $_SERVER['HTTP_DNT'] == 1) || (function_exists('getallheaders') && isset(getallheaders()['DNT']) && getallheaders()['DNT'] == 1);
         }
 
@@ -182,32 +172,23 @@ final class TrackerHelper
     /**
      * Build the default query parameters sent by the front‑end hit pixel.
      *
-     * Returned keys:
-     *  - source_type   Page‑type slug (post, page, product, …)
-     *  - source_id     Related object ID (int)
-     *  - search_query  Base‑64 encoded search term (empty string if none)
-     *  - signature     (Optional) Anti‑tamper token when enabled
-     *
      * @return array<string,int|string>
      * @since  15.0.0
      */
     public static function getHitsDefaultParams()
     {
-        $page = Pages::get_page_type();
+        $resource = ResourcesFactory::getCurrentResource();
 
         $params = [
-            'source_type'  => $page['type'],
-            'source_id'    => (int)$page['id'],
-            'search_query' => empty($page['search_query'])
-                ? ''
-                : base64_encode($page['search_query']),
+            'resource_type' => $resource->getType(),
+            'resource_id'   => $resource->getResourceId(),
         ];
 
         // Append request signature when the feature is active.
         if (self::isSignatureEnabled()) {
             $params['signature'] = Signature::generate([
-                $params['source_type'],
-                $params['source_id'],
+                $params['resource_type'],
+                $params['resource_id'],
             ]);
         }
 

@@ -3,7 +3,6 @@
 namespace WP_Statistics\Service\Resources\Identifications;
 
 use WP_Statistics\Records\RecordFactory;
-use WP_Statistics\Utils\QueryParams;
 use WP_Statistics\Utils\Url;
 
 /**
@@ -153,6 +152,7 @@ class ResourceUriIdentifier
     {
         $this->uri = !empty($this->uri) ? $this->uri : home_url(add_query_arg(null, null));
         $this->uri = Url::getRelativePath($this->uri);
+        $this->uri = apply_filters('wp_statistics_page_uri', $this->uri);
 
         if (empty($this->resourceId)) {
             return;

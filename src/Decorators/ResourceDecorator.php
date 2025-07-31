@@ -35,6 +35,11 @@ class ResourceDecorator
      */
     public function __construct($record = null)
     {
+        if (is_int($record)) {
+            new PostDecorator($record);
+            return;
+        }
+    
         $this->identifier = new ResourceManager($record);
     }
 
@@ -57,7 +62,7 @@ class ResourceDecorator
      */
     public function getId()
     {
-        return $this->identifier->resource->record->ID ?? null;
+        return ! empty($this->identifier->resource->record->ID) ? (int)$this->identifier->resource->record->ID : null;
     }
 
     /**
@@ -65,11 +70,11 @@ class ResourceDecorator
      *
      * Returns the resource_id field which identifies the actual WordPress object.
      *
-     * @return int|null The resource ID as an integer, or null if not available
+     * @return int The resource ID as an integer, or zero if not available
      */
     public function getResourceId()
     {
-        return $this->identifier->resource->record->resource_id ?? null;
+        return ! empty($this->identifier->resource->record->resource_id) ? (int)$this->identifier->resource->record->resource_id : 0;
     }
 
     /**

@@ -247,6 +247,8 @@ class ResourceDetector
             return $data;
         }
 
+        $data['type'] = apply_filters('wp_statistics_current_page', $data['type']);
+
         return $data;
     }
 

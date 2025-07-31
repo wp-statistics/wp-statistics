@@ -3,9 +3,9 @@
 namespace WP_STATISTICS\Service\Tracking\Controllers;
 
 use WP_Statistics\Abstracts\BaseTrackerController;
+use WP_Statistics\Globals\Option;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Hits;
-use WP_STATISTICS\Option;
 use WP_Statistics\Service\Tracking\TrackerHelper;
 use WP_Statistics\Service\Tracking\TrackingFactory;
 
@@ -61,8 +61,8 @@ class AjaxBasedTracking extends BaseTrackerController
     public function register()
     {
         if (
-            !Option::get('use_cache_plugin') ||
-            !Option::get('bypass_ad_blockers', false)
+            !Option::getValue('use_cache_plugin') ||
+            !Option::getValue('bypass_ad_blockers', false)
         ) {
             return;
         }
