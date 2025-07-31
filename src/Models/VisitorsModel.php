@@ -1396,119 +1396,6 @@ class VisitorsModel extends BaseModel
         return intval($result);
     }
 
-    /**
-     * Retrieve the earliest recorded visit date.
-     *
-     * Extracts the minimum date from the visitor table's created_at column,
-     * formatted as Y-m-d. Returns false if no rows are found.
-     *
-     * @return string|false Date string in 'Y-m-d' format or false if not found.
-     * @since 15.0.0
-     */
-    public function getFirstVisitDate()
-    {
-        $firstDate = Query::select('MIN(DATE(`created_at`))')
-            ->from('visitor')
-            ->getVar();
-
-        if (empty($firstDate)) {
-            return false;
-        }
-
-        return date_i18n('Y-m-d', strtotime($firstDate));
-    }
-
-    /**
-     * Retrieve a visitor record by hash and created date.
-     *
-     * This method checks for a visitor entry that matches the given hash
-     * and was created on the current date (date portion only, time ignored).
-     *
-     * @param array $args {
-     *     Optional. Arguments to match the visitor.
-     *
-     * @type string $hash Visitor hash identifier.
-     * @type string $DATE (created_at) Creation date (default is today's date).
-     * }
-     * @return object|false The visitor record if found, false otherwise.
-     * @since 15.0.0
-     */
-    public function getByHashAndDate($args)
-    {
-        $args = [
-            'hash'             => '',
-            'DATE(created_at)' => DateTime::get()
-        ];
-
-        return RecordFactory::visitor()->get($args);
-    }
-
-    /**
-     * Updates non-hashed IP addresses to their hashed versions.
-     *
-     * This method finds all IP addresses that are stored in plaintext format
-     * and converts them to their hashed format for better privacy compliance.
-     *
-     * @return int Number of records updated.
-     * @since 15.0.0
-     */
-    public function updatePlaintextIps()
-    {
-        // Get all distinct non-hashed IPs
-        $result = Query::select('DISTINCT ip')
-            ->from('visitors')
-            ->where('ip', 'NOT LIKE', Ip::$hashIpPrefix . '%')
-            ->getAll();
-        
-        $resultUpdate = [];
-
-        foreach ($result as $row) {
-            if (!Ip::isHashed($row->ip)) {
-                $updated = Query::update('visitors')
-                    ->set(['ip' => Ip::hash($row->ip)])
-                    ->where('ip', '=', $row->ip)
-                    ->execute();
-                
-                if ($updated !== false) {
-                    $resultUpdate[] = $updated;
-                }
-            }
-        }
-
-        return count($resultUpdate);
-    }
-
-    /**
-     * Count visitors within an optional date range.
-     *
-     * @param array $args Arguments for counting.
-     * @return int
-     * @since 15.0.0
-     */
-    public function count($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'date' => '',
-        ]);
-
-        $fromDate = '';
-        $toDate = '';
-
-        if (!empty($args['date']) && is_array($args['date'])) {
-            $fromDate = !empty($args['date']['from']) ? $args['date']['from'] . ' 00:00:00' : '';
-            $toDate = !empty($args['date']['to']) ? $args['date']['to'] . ' 23:59:59' : '';
-        }
-
-        $query = Query::select('COUNT(*) as visitors')
-            ->from('visitors')
-            ->where('created_at', '>=', $fromDate)
-            ->where('created_at', '<=', $toDate);
-        
-        $result = $query->getVar();
-
-        return intval($result);
-    }
-
     public function getBounceRate($args = [])
     {
         $args = $this->parseArgs($args, [
@@ -1732,6 +1619,119 @@ class VisitorsModel extends BaseModel
                 ->where('posts.post_author', '=', $args['author_id']);
         }
 
+        $result = $query->getVar();
+
+        return intval($result);
+    }
+
+    /**
+     * Retrieve the earliest recorded visit date.
+     *
+     * Extracts the minimum date from the visitor table's created_at column,
+     * formatted as Y-m-d. Returns false if no rows are found.
+     *
+     * @return string|false Date string in 'Y-m-d' format or false if not found.
+     * @since 15.0.0
+     */
+    public function getFirstVisitDate()
+    {
+        $firstDate = Query::select('MIN(DATE(`created_at`))')
+            ->from('visitor')
+            ->getVar();
+
+        if (empty($firstDate)) {
+            return false;
+        }
+
+        return date_i18n('Y-m-d', strtotime($firstDate));
+    }
+
+    /**
+     * Retrieve a visitor record by hash and created date.
+     *
+     * This method checks for a visitor entry that matches the given hash
+     * and was created on the current date (date portion only, time ignored).
+     *
+     * @param array $args {
+     *     Optional. Arguments to match the visitor.
+     *
+     * @type string $hash Visitor hash identifier.
+     * @type string $DATE (created_at) Creation date (default is today's date).
+     * }
+     * @return object|false The visitor record if found, false otherwise.
+     * @since 15.0.0
+     */
+    public function getByHashAndDate($args)
+    {
+        $args = [
+            'hash'             => '',
+            'DATE(created_at)' => DateTime::get()
+        ];
+
+        return RecordFactory::visitor()->get($args);
+    }
+
+    /**
+     * Updates non-hashed IP addresses to their hashed versions.
+     *
+     * This method finds all IP addresses that are stored in plaintext format
+     * and converts them to their hashed format for better privacy compliance.
+     *
+     * @return int Number of records updated.
+     * @since 15.0.0
+     */
+    public function updatePlaintextIps()
+    {
+        // Get all distinct non-hashed IPs
+        $result = Query::select('DISTINCT ip')
+            ->from('visitors')
+            ->where('ip', 'NOT LIKE', Ip::$hashIpPrefix . '%')
+            ->getAll();
+        
+        $resultUpdate = [];
+
+        foreach ($result as $row) {
+            if (!Ip::isHashed($row->ip)) {
+                $updated = Query::update('visitors')
+                    ->set(['ip' => Ip::hash($row->ip)])
+                    ->where('ip', '=', $row->ip)
+                    ->execute();
+                
+                if ($updated !== false) {
+                    $resultUpdate[] = $updated;
+                }
+            }
+        }
+
+        return count($resultUpdate);
+    }
+
+    /**
+     * Count visitors within an optional date range.
+     *
+     * @param array $args Arguments for counting.
+     * @return int
+     * @since 15.0.0
+     */
+    public function count($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date' => '',
+        ]);
+
+        $fromDate = '';
+        $toDate = '';
+
+        if (!empty($args['date']) && is_array($args['date'])) {
+            $fromDate = !empty($args['date']['from']) ? $args['date']['from'] . ' 00:00:00' : '';
+            $toDate = !empty($args['date']['to']) ? $args['date']['to'] . ' 23:59:59' : '';
+        }
+
+        $query = Query::select('COUNT(*) as visitors')
+            ->from('visitors')
+            ->where('created_at', '>=', $fromDate)
+            ->where('created_at', '<=', $toDate);
+        
         $result = $query->getVar();
 
         return intval($result);

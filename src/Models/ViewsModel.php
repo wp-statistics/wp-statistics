@@ -357,6 +357,26 @@ class ViewsModel extends BaseModel
         return $results;
     }
 
+    public function countPagesRecords($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'resource_id'   => '',
+            'resource_type' => '',
+            'date'          => '',
+            'not_null'      => '',
+        ]);
+
+        $result = Query::select('COUNT(*)')
+            ->from('pages')
+            ->where('id', '=', $args['resource_id'])
+            ->where('type', 'IN', $args['resource_type'])
+            ->whereDate('date', $args['date'])
+            ->whereNotNull($args['not_null'])
+            ->getVar();
+
+        return $result;
+    }
+
     /**
      * Retrieve the most recent view record for a given session ID.
      *
@@ -432,25 +452,5 @@ class ViewsModel extends BaseModel
             ->where('viewed_at', '<=', $args['date']['to'] . ' 23:59:59');
 
         return (int)$query->getVar();
-    }
-
-    public function countPagesRecords($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'resource_id'   => '',
-            'resource_type' => '',
-            'date'          => '',
-            'not_null'      => '',
-        ]);
-
-        $result = Query::select('COUNT(*)')
-            ->from('pages')
-            ->where('id', '=', $args['resource_id'])
-            ->where('type', 'IN', $args['resource_type'])
-            ->whereDate('date', $args['date'])
-            ->whereNotNull($args['not_null'])
-            ->getVar();
-
-        return $result;
     }
 }

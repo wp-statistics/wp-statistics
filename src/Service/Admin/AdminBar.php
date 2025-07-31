@@ -2,8 +2,8 @@
 
 namespace WP_Statistics\Service\Admin;
 
-use WP_Statistics\Models\ViewsModel;
 use WP_Admin_Bar;
+use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Components\Addons;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\Menu;

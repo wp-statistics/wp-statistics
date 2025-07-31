@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS\Service\Tracking\Core;
 
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Utils\Environment;
 use WP_Statistics\Components\Ip;
 use WP_Statistics\Globals\Option;
@@ -52,87 +53,70 @@ class Exclusion
                 'message' => esc_html__('Ajax', 'wp-statistics'),
                 'method'  => 'exclusionAjax',
             ],
-
             'cronjob' => [
                 'message' => esc_html__('Cron Job', 'wp-statistics'),
                 'method'  => 'exclusionCronjob',
             ],
-
             'robot' => [
                 'message' => esc_html__('Robot', 'wp-statistics'),
                 'method'  => 'exclusionRobot',
             ],
-
             'broken_file' => [
                 'message' => esc_html__('Broken Link', 'wp-statistics'),
                 'method'  => 'exclusionBrokenFile',
             ],
-
             'ip_match' => [
                 'message' => esc_html__('IP Match', 'wp-statistics'),
                 'method'  => 'exclusionIpMatch',
             ],
-
             'self_referral' => [
                 'message' => esc_html__('Self Referral', 'wp-statistics'),
                 'method'  => 'exclusionSelfReferral',
             ],
-
             'login_page' => [
                 'message' => esc_html__('Login Page', 'wp-statistics'),
                 'method'  => 'exclusionLoginPage',
             ],
-
             'admin_page' => [
                 'message' => esc_html__('Admin Page', 'wp-statistics'),
                 'method'  => 'exclusionAdminPage',
             ],
-
             'referrer_spam' => [
                 'message' => esc_html__('Referrer Spam', 'wp-statistics'),
                 'method'  => 'exclusionReferrerSpam',
             ],
-
             'feed' => [
                 'message' => esc_html__('Feed', 'wp-statistics'),
                 'method'  => 'exclusionFeed',
             ],
-
             '404' => [
                 'message' => esc_html__('404', 'wp-statistics'),
                 'method'  => 'exclusion404',
             ],
-
             'excluded_url' => [
                 'message' => esc_html__('Excluded URL', 'wp-statistics'),
                 'method'  => 'exclusionExcludedUrl',
             ],
-
             'user_role' => [
                 'message' => esc_html__('User Role', 'wp-statistics'),
                 'method'  => 'exclusionUserRole',
             ],
-
             'geoip' => [
                 'message' => esc_html__('Geolocation', 'wp-statistics'),
                 'method'  => 'exclusionGeoIp',
             ],
-
             'robot_threshold' => [
                 'message' => esc_html__('Robot Threshold', 'wp-statistics'),
                 'method'  => 'exclusionRobotThreshold',
             ],
-
             'xmlrpc' => [
                 'message' => esc_html__('XML-RPC', 'wp-statistics'),
                 'method'  => 'exclusionXmlRpc',
             ],
-
             'cross_site' => [
                 'message' => esc_html__('Cross Site Request', 'wp-statistics'),
                 'method'  => 'exclusionCrossSite',
             ],
-
             'pre_flight' => [
                 'message' => esc_html__('Pre-flight Request', 'wp-statistics'),
                 'method'  => 'exclusionPreFlight',
@@ -162,7 +146,7 @@ class Exclusion
      */
     public static function isRecordActive()
     {
-        return (bool)Option::getValue('record_exclusions');
+        return ! empty(self::$options['record_exclusions']);
     }
 
     /**
@@ -173,7 +157,10 @@ class Exclusion
      */
     public static function check($visitorProfile)
     {
-        $exclude = ['exclusion_match' => false, 'exclusion_reason' => ''];
+        $exclude = [
+            'exclusion_match' => false,
+            'exclusion_reason' => ''
+        ];
 
         if (empty(self::$options)) {
             self::$options = Option::get();
@@ -195,7 +182,10 @@ class Exclusion
             if (self::$method($visitorProfile)) {
                 return apply_filters(
                     'wp_statistics_exclusion',
-                    ['exclusion_match' => true, 'exclusion_reason' => $reason],
+                    [
+                        'exclusion_match' => true, 
+                        'exclusion_reason' => $reason
+                    ],
                     $visitorProfile
                 );
             }
@@ -285,11 +275,7 @@ class Exclusion
      */
     public static function exclusionFeed($visitorProfile)
     {
-        if (!Option::getValue('exclude_feeds')) {
-            return false;
-        }
-
-        return is_feed();
+       !empty(self::$options['exclude_feeds']) && is_feed();
     }
 
     /**
@@ -300,7 +286,7 @@ class Exclusion
      */
     public static function exclusion404($visitorProfile)
     {
-        if (!Option::getValue('exclude_404s')) {
+        if (!empty(self::$options['exclude_404s'])) {
             return false;
         }
 
@@ -444,19 +430,17 @@ class Exclusion
      */
     public static function exclusionSelfReferral($visitorProfile)
     {
-        $currentUserAgent   = $visitorProfile->getHttpUserAgent();
-        $wordpressUserAgent = 'WordPress/' . Environment::getWordPressVersion();
-        $homeUrl            = rtrim(get_home_url(), '/');
+        $userAgent = $visitorProfile->getHttpUserAgent();
+        $version   = Environment::getWordPressVersion();
 
-        if ($currentUserAgent === $wordpressUserAgent . '; ' . $homeUrl) {
-            return true;
-        }
-
-        if ($currentUserAgent === $wordpressUserAgent . '; ' . $homeUrl . '/') {
-            return true;
-        }
-
-        return false;
+        return in_array(
+            $userAgent,
+            [
+                'WordPress/' . $version . '; ' . get_home_url(null, '/'),
+                'WordPress/' . $version . '; ' . get_home_url()
+            ],
+            true
+        );
     }
 
     /**
@@ -467,11 +451,7 @@ class Exclusion
      */
     public static function exclusionLoginPage($visitorProfile)
     {
-        if (!Option::getValue('exclude_loginpage')) {
-            return false;
-        }
-
-        return Route::isLoginPage();
+        return ! empty(self::$options['exclude_loginpage']) && Route::isLoginPage();
     }
 
     /**
@@ -560,29 +540,33 @@ class Exclusion
      */
     public static function exclusionRobot($visitorProfile)
     {
-        $httpUserAgent   = $visitorProfile->getHttpUserAgent();
-        $ipAddress       = $visitorProfile->getIp();
-        $userAgentObject = $visitorProfile->getUserAgent();
-        $robotPatterns   = explode("\n", self::$options['robotlist'] ?? '');
+        $rawUserAgent = $visitorProfile->getHttpUserAgent();
 
-        foreach ($robotPatterns as $pattern) {
-            $pattern = trim($pattern);
+        if (empty($rawUserAgent) || empty($visitorProfile->getIp())) {
+            return true;
+        }
 
-            if (strlen($pattern) > 3 && stripos($httpUserAgent, $pattern) !== false) {
-                return true;
+        $userAgent = $visitorProfile->getUserAgent();
+
+        if ($userAgent->isBot()) {
+            return true;
+        }
+
+        if (!$userAgent->isBrowserDetected() && !$userAgent->isPlatformDetected()) {
+            return true;
+        }
+
+        $robots = explode("\n", self::$options['robotlist'] ?? '');
+        $robots = apply_filters('wp_statistics_exclusion_robots', $robots);
+
+        foreach ($robots as $robot) {
+            $robot = trim($robot);
+
+            if (strlen($robot) > 3) {
+                if (stripos($rawUserAgent, $robot) !== false) {
+                    return true;
+                }
             }
-        }
-
-        if ($httpUserAgent === '' || $ipAddress === '') {
-            return true;
-        }
-
-        if ($userAgentObject->isBot()) {
-            return true;
-        }
-
-        if (!$userAgentObject->isBrowserDetected() && !$userAgentObject->isPlatformDetected()) {
-            return true;
         }
 
         return false;
