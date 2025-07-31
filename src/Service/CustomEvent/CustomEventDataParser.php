@@ -56,23 +56,23 @@ class CustomEventDataParser
 
         // Check if the event name is not empty, or is excluded
         if (empty($this->eventName) || in_array($this->eventName, $excludedEvents)) {
-            throw new Exception(esc_html__('The event name you entered is not valid.', 'wp-statistics-marketing'));
+            throw new Exception(esc_html__('The event name you entered is not valid.', 'wp-statistics'));
         }
 
         // Check if the event name is active and exists
         if (!CustomEventHelper::isEventActive($this->eventName)) {
-            throw new Exception(esc_html__('The event does not exist, or is not active.', 'wp-statistics-marketing'));
+            throw new Exception(esc_html__('The event does not exist, or is not active.', 'wp-statistics'));
         }
 
         // Check if the event data is not empty
         if (empty($this->eventData)) {
-            throw new Exception(esc_html__('The event data is not valid.', 'wp-statistics-marketing'));
+            throw new Exception(esc_html__('The event data is not valid.', 'wp-statistics'));
         }
 
         // Validate event data types
         foreach ($this->eventData as $key => $value) {
             if (is_array($value)) {
-                throw new Exception(sprintf(__('The value for the key "%s" in the event data is an array. Only strings, numbers and booleans are allowed.', 'wp-statistics-marketing'), $key));
+                throw new Exception(sprintf(__('The value for the key "%s" in the event data is an array. Only strings, numbers and booleans are allowed.', 'wp-statistics'), $key));
             }
         }
     }

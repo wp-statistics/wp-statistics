@@ -32,9 +32,18 @@
                             <?php else: ?>
                                 <span>-</span>
                             <?php endif; ?>
-                            <?php if (isset($metric['change']) && ( !empty($metric['link-title'])  || !empty($metric['value']) ) ): ?>
-                                <span class="wps-at-a-glance-change <?php echo esc_attr($metric['change'] > 0 ? 'wps-glance-positive' : ($metric['change'] < 0 ? 'wps-glance-negative' : '')); ?>">
-                                   <?php echo esc_html($metric['change'] > 0 ? '+' : '') . esc_html($metric['change']) . '%'; ?>
+                            <?php if (isset($metric['change']) && (!empty($metric['link-title']) || !empty($metric['value']))): ?>
+                                <?php
+                                $arrow_class = $metric['change'] > 0 ? 'wps-glance-up' : ($metric['change'] < 0 ? 'wps-glance-down' : '');
+                                $color_class = '';
+                                if ($metric['change'] != 0) {
+                                    $is_negative_polarity = isset($metric['polarity']) && $metric['polarity'] === 'negative';
+                                    $is_good_change = ($is_negative_polarity && $metric['change'] < 0) || (!$is_negative_polarity && $metric['change'] > 0);
+                                    $color_class = $is_good_change ? 'wps-glance-positive' : 'wps-glance-negative';
+                                }
+                                ?>
+                                <span class="wps-at-a-glance-change <?php echo esc_attr($arrow_class . ' ' . $color_class); ?>">
+                                    <?php echo esc_html(($metric['change'] > 0 ? '+' : '') . $metric['change'] . '%'); ?>
                                 </span>
                             <?php endif; ?>
                         </span>

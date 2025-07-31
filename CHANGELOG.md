@@ -1,5 +1,19 @@
-= 14.15.1 - 2025-x-x =
+= 14.15.x - 2025-x-x =
 - **New:** Added export and import settings feature in the premium version.
+
+= 14.15.2 - 2025-07-31 =
+- **New:** Added compatibility with the `Borlabs Cookie` plugin.
+- **New:** License keys can now be set via `wp-config.php` using constants like `WP_STATISTICS_LICENSE` and are auto-validated on init.
+- **Enhancement:** Visitor data now stores only the major browser version to improve performance and reduce query load.
+- **Fix:** Fixed filter issues on the Visitors and Referred Visitors pages.
+- **Fix:** Adjusted access control for specific plugin actions.
+
+= 14.15.1 - 2025-07-29 =
+- **Enhancement:** Numbers in Overview widgets are now abbreviated (e.g., 10k), with full values shown on hover.
+- **Enhancement:** Made integration JS files dependencies of `tracker.js` to avoid cache-related issues.
+- **Enhancement:** Display a notice when a caching plugin is active.
+- **Fix:** Fixed an issue with transient cache duration settings.
+- **Fix:** Corrected color display for period-over-period comparison metrics.
 
 = 14.15 - 2025-07-22 =
 - **New:** Added an `Overview` report for Visitor Insight.
