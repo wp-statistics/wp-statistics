@@ -27,17 +27,13 @@ final class TrackerHelper
      *
      * The request is recognised when the GET parameter “action” equals either
      * `wp_statistics_hit_record` (page‑view counter) or
-     * `wp_statistics_online_check` (online‑user heartbeat).
      *
      * @return bool True when the request should bypass ad‑blocker rules.
      * @since  15.0.0
      */
     public static function isBypassAdBlockersRequest()
     {
-        return (
-            Request::compare('action', 'wp_statistics_hit_record') ||
-            Request::compare('action', 'wp_statistics_online_check')
-        );
+        return (Request::compare('action', 'wp_statistics_hit_record'));
     }
 
     /**
@@ -113,7 +109,7 @@ final class TrackerHelper
              */
             do_action('wp_statistics_invalid_hit_request', $isValid, Ip::getCurrent());
 
-            throw new ErrorException(esc_html__('Invalid hit/online request.', 'wp-statistics'));
+            throw new ErrorException(esc_html__('Invalid hit request.', 'wp-statistics'));
         }
 
         return true;
@@ -133,7 +129,7 @@ final class TrackerHelper
      */
     public static function getRequestUri()
     {
-        if (Request::isRestRequest() && isset($_REQUEST['page_uri'])) {
+        if (Request::isRestApiCall() && isset($_REQUEST['page_uri'])) {
             return base64_decode($_REQUEST['page_uri']);
         }
 

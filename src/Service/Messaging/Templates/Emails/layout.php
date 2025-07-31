@@ -1,10 +1,10 @@
 <?php
 
-use WP_STATISTICS\Helper;
-use WP_STATISTICS\Menus;
-use WP_Statistics\Service\Admin\Messaging\MessagingFactory;
+use WP_Statistics\Components\Menu;
+use WP_Statistics\Service\Messaging\MessagingFactory;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditDataProvider;
 use WP_Statistics\Service\Admin\WebsitePerformance\WebsitePerformanceDataProvider;
+use WP_Statistics\Utils\Format;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -51,7 +51,7 @@ if (intval($complianceStatus['percentage_ready']) !== 100 && !empty($complianceS
                                             __('There are %d items that need to be addressed to ensure compliance with privacy laws.', 'wp-statistics'),
                                             intval($complianceStatus['summary']['action_required'])
                                         ) . '</p>
-                                            <a href="' . esc_url(Menus::admin_url('privacy-audit')) . '" style="border-bottom: 1px solid #B26620;text-decoration: none;color:#B26620;font-size: 14px;font-weight: 500;line-height: 16.41px">' . __('Review Audit Details', 'wp-statistics') . '<img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-brown-'.$text_align_reverse.'.png') . '" width="6.67" height="10.91" style="vertical-align: middle;margin-'.$text_align.':6px" alt=""></a>
+                                            <a href="' . esc_url(Menu::getAdminUrl('privacy-audit')) . '" style="border-bottom: 1px solid #B26620;text-decoration: none;color:#B26620;font-size: 14px;font-weight: 500;line-height: 16.41px">' . __('Review Audit Details', 'wp-statistics') . '<img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-brown-'.$text_align_reverse.'.png') . '" width="6.67" height="10.91" style="vertical-align: middle;margin-'.$text_align.':6px" alt=""></a>
                                         </td>
                                     </tr>   
                                 </tbody>
@@ -138,13 +138,13 @@ $email_performance_html = '
                     <td width="40%" valign="top">
                           ' . generatePerformanceSection(
                             'visitor.png',
-                            Helper::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodVisitors(), 1),
+                            Format::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodVisitors(), 1),
                             $websitePerformanceDataProvider->getPercentageChangeVisitors(),
                             __('Visitors', 'wp-statistics')
                         ) . '
                         ' . generatePerformanceSection(
                             'referrals.png',
-                            Helper::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodReferralsCount(), 1),
+                            Format::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodReferralsCount(), 1),
                             $websitePerformanceDataProvider->getPercentageChangeReferrals(),
                             __('Referrals', 'wp-statistics')
                         ) . '
@@ -152,7 +152,7 @@ $email_performance_html = '
                     <td width="60%" valign="top">
                         ' . generatePerformanceSection(
                             'views.png',
-                            Helper::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodViews(), 1),
+                            Format::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodViews(), 1),
                             $websitePerformanceDataProvider->getPercentageChangeViews(),
                             __('Views', 'wp-statistics')
                         ) . '

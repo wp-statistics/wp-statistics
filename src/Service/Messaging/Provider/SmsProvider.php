@@ -10,7 +10,7 @@ namespace WP_Statistics\Service\Messaging\Provider;
  * `setText()`, `send()`—sufficient for the messaging factory to configure
  * and trigger a message.
  *
- * @package WP_Statistics\Service\Admin\Messaging\Provider
+ * @package WP_Statistics\Service\Messaging\Provider
  * @since 15.0.0
  */
 class SmsProvider

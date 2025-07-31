@@ -116,12 +116,12 @@ class QueryParams
     {
         $pos = strpos($url, '?');
 
-        if ($pos === false) {
-            return $url;
-        }
-
         if ($keys === []) {
             return substr($url, 0, $pos);
+        }
+
+        if ($pos === false) {
+            return $url;
         }
 
         $base  = substr($url, 0, $pos);

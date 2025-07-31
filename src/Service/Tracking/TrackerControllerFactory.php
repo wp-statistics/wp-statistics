@@ -2,9 +2,9 @@
 
 namespace WP_Statistics\Service\Tracking;
 
-use WP_Statistics\Abstracts\BaseTrackerController;
-use WP_STATISTICS\Option;
 use Exception;
+use WP_Statistics\Abstracts\BaseTrackerController;
+use WP_Statistics\Globals\Option;
 use WP_STATISTICS\Service\Tracking\Controllers\AjaxBasedTracking;
 use WP_STATISTICS\Service\Tracking\Controllers\RestApiTracking;
 use WP_STATISTICS\Service\Tracking\Controllers\ServerSideTracking;
@@ -28,8 +28,8 @@ class TrackerControllerFactory
      */
     public static function createController()
     {
-        $useClientSide   = Option::get('use_cache_plugin', true);
-        $bypassAdblocker = Option::get('bypass_ad_blockers', false);
+        $useClientSide   = Option::getValue('use_cache_plugin', true);
+        $bypassAdblocker = Option::getValue('bypass_ad_blockers', false);
 
         /**
          * TODO: Add performance optimization setting, and remained controller.

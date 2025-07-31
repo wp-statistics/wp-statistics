@@ -2,23 +2,22 @@
 
 namespace WP_STATISTICS\Service\Tracking\Controllers;
 
-use Exception;
 use WP_Statistics\Abstracts\BaseTrackerController;
+use WP_Statistics\Globals\Option;
+use WP_Statistics\Service\Tracking\TrackerHelper;
+use WP_Statistics\Service\Tracking\TrackingFactory;
+use Exception;
 use WP_REST_Server;
 use WP_REST_Request;
 use WP_REST_Response;
-use WP_Statistics\Globals\Option;
-use WP_STATISTICS\Hits;
-use WP_Statistics\Service\Tracking\TrackerHelper;
-use WP_Statistics\Service\Tracking\TrackingFactory;
 
 /**
  * REST API-based Tracking Controller
  *
  * Handles visitor tracking through WordPress REST API endpoints when client-side tracking
  * is enabled but ad blocker bypass is disabled. This controller integrates with WordPress
- * REST API for secure tracking requests, providing endpoints for recording page hits (/hit)
- * and tracking online users (/online). Includes signature validation, client-side configuration,
+ * REST API for secure tracking requests, providing endpoints for recording page hits (/hit). 
+ * Includes signature validation, client-side configuration,
  * and compatibility with cache plugins while following privacy settings.
  *
  * @since 15.0.0
@@ -27,7 +26,7 @@ class RestApiTracking extends BaseTrackerController
 {
     /**
      * Initialize the REST API tracking controller.
-     * Calls the register method to set up REST API endpoints for hit and online tracking.
+     * Calls the register method to set up REST API endpoints for hit.
      *
      * @since 15.0.0
      */
@@ -66,15 +65,14 @@ class RestApiTracking extends BaseTrackerController
      */
     public function addLocalizedArguments($args)
     {
-        $args['requestUrl']   = get_rest_url(null, $this->namespace);
-        $args['hitParams']    = array_merge($args, ['endpoint' => self::ENDPOINT_HIT]);
-        $args['onlineParams'] = array_merge($args, ['endpoint' => self::ENDPOINT_ONLINE]);
+        $args['requestUrl'] = get_rest_url(null, $this->namespace);
+        $args['hitParams']  = array_merge($args, ['endpoint' => self::ENDPOINT_HIT]);
 
         return $args;
     }
 
     /**
-     * Register REST API routes for hit and online tracking.
+     * Register REST API routes for hit tracking.
      * Sets up endpoints with appropriate HTTP methods, callbacks, and argument validation.
      *
      * @return void
@@ -85,13 +83,6 @@ class RestApiTracking extends BaseTrackerController
         register_rest_route($this->namespace, '/' . self::ENDPOINT_HIT, [
             'methods'             => WP_REST_Server::CREATABLE,
             'callback'            => [$this, 'recordHit'],
-            'permission_callback' => '__return_true',
-            'args'                => $this->getArgs(),
-        ]);
-
-        register_rest_route($this->namespace, '/' . self::ENDPOINT_ONLINE, [
-            'methods'             => WP_REST_Server::CREATABLE,
-            'callback'            => [$this, 'markOnline'],
             'permission_callback' => '__return_true',
             'args'                => $this->getArgs(),
         ]);
@@ -134,52 +125,6 @@ class RestApiTracking extends BaseTrackerController
             $this->checkSignature();
             TrackerHelper::validateHitRequest();
             TrackingFactory::hits()->record();
-
-            $responseData['status'] = true;
-        } catch (Exception $e) {
-            $responseData['status'] = false;
-            $responseData['data']   = $e->getMessage();
-            $statusCode             = $e->getCode();
-        }
-
-        $response = rest_ensure_response($responseData);
-
-        /**
-         * Set the status code.
-         */
-        if ($statusCode) {
-            $response->set_status($statusCode);
-        }
-
-        /**
-         * Set headers to avoid caching.
-         *
-         * @since 13.0.8
-         * @link https://wordpress.org/support/topic/request-for-cloudflare-html-caching-compatibility/
-         */
-        $response->set_headers([
-            'Cache-Control' => 'no-cache',
-        ]);
-
-        return $response;
-    }
-
-    /**
-     * Handle requests to mark a user as online.
-     * Validates the request, updates online status, and returns appropriate response.
-     *
-     * @param WP_REST_Request $request The REST API request object
-     * @return WP_REST_Response The REST API response
-     * @since 15.0.0
-     */
-    public function markOnline(WP_REST_Request $request)
-    {
-        $statusCode = false;
-
-        try {
-            $this->checkSignature();
-            TrackerHelper::validateHitRequest();
-            Hits::recordOnline();
 
             $responseData['status'] = true;
         } catch (Exception $e) {

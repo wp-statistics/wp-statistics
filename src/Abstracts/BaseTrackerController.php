@@ -22,14 +22,6 @@ abstract class BaseTrackerController {
     protected const ENDPOINT_HIT = 'hit';
 
     /**
-     * REST API endpoint slug for tracking online users.
-     * Used to register the /online endpoint that updates user online status.
-     *
-     * @var string
-     */
-    protected const ENDPOINT_ONLINE = 'online';
-
-    /**
      * Namespace for tracking endpoints.
      *
      * @since 15.0.0

@@ -284,7 +284,7 @@ class Request
      *
      * @return bool True when handling a REST request, false otherwise.
      */
-    public static function isRestRequest()
+    public static function isRestApiCall()
     {
         if (empty($_SERVER['REQUEST_URI'])) {
             return false;

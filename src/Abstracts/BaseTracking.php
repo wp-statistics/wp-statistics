@@ -8,7 +8,7 @@ use WP_STATISTICS\Service\Tracking\Core\Exclusion;
 use Exception;
 
 /**
- * Abstract base class for tracking implementations such as Hits and UserOnline.
+ * Abstract base class for tracking implementations such as Hits.
  *
  * Provides shared utility methods to support timestamping, profile resolution,
  * REST API key handling, and exclusion logic.

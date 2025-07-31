@@ -42,8 +42,8 @@ class Frontend
             $params = apply_filters('wp_statistics_js_localized_arguments', $params);
 
             $requestUrl   = !empty($params['requestUrl']) ? $params['requestUrl'] : get_site_url();
-            $hitParams    = !empty($params['hitParams']) ? $params['hitParams'] : $params;
-            $onlineParams = !empty($params['onlineParams']) ? $params['onlineParams'] : $params;
+            $hitParams    = !empty($params['hitParams']) ? $params['hitParams'] : [];
+            $onlineParams = !empty($params['onlineParams']) ? $params['onlineParams'] : [];
 
             /**
              * Build the parameters

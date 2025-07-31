@@ -11,7 +11,7 @@ use Exception;
  * The class exposes fluent setters for recipients, headers, subject, body,
  * templates and attachments, then dispatches the message via {@see wp_mail()}.
  *
- * @package WP_Statistics\Service\Admin\Messaging\Provider
+ * @package WP_Statistics\Service\Messaging\Provider
  * @since 15.0.0
  */
 class MailProvider

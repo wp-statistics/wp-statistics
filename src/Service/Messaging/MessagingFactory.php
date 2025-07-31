@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Messaging;
 
 use WP_Statistics\Components\Addons;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Messaging\Provider\MailProvider;
 use WP_Statistics\Service\Messaging\Provider\SmsProvider;
 
@@ -105,7 +105,7 @@ class MessagingFactory
      */
     public static function scheduleMail($to, $subject, $content, $template = true, $args = [])
     {
-        $scheduleKey = Option::get('time_report', false);
+        $scheduleKey = Option::getValue('time_report', false);
         $isRtl       = is_rtl();
         $textAlign   = $isRtl ? 'right' : 'left';
 
@@ -149,7 +149,7 @@ class MessagingFactory
         $emailFooter = '';
         $dir         = $isRtl ? 'rtl' : 'ltr';
 
-        $headerContent = wp_strip_all_tags(Option::get('email_free_content_header', ''));
+        $headerContent = wp_strip_all_tags(Option::getValue('email_free_content_header', ''));
         if ($headerContent !== '') {
             $emailHeader = '<div style="direction:' . $dir . ';background:#D0DEF5;padding:16px 32px;color:#0C0C0D;font-size:16px;font-weight:500;line-height:18.75px;text-align:' .
                 $textAlign .
@@ -160,7 +160,7 @@ class MessagingFactory
                 '</div>';
         }
 
-        $footerContent = wp_strip_all_tags(\WP_Statistics\Option::get('email_free_content_footer', ''));
+        $footerContent = wp_strip_all_tags(Option::getValue('email_free_content_footer', ''));
         if ($footerContent !== '') {
             $emailFooter = '<div style="direction:' . $dir . ';background:#D0DEF5;padding:16px 32px;color:#0C0C0D;font-size:16px;font-weight:500;line-height:18.75px;text-align:' .
                 $textAlign .

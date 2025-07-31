@@ -109,7 +109,7 @@ class Option extends Singleton
      */
     public static function get()
     {
-        $options = get_option(self::$optionName);
+        $options = get_option(self::$optionName, []);
         return (is_array($options)) ? $options : [];
     }
 

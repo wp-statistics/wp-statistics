@@ -2,11 +2,11 @@
 
 namespace WP_Statistics\Service\Admin;
 
-use WP_STATISTICS\Menus;
 use WP_Statistics\Models\ViewsModel;
 use WP_Admin_Bar;
 use WP_Statistics\Components\Addons;
 use WP_Statistics\Components\DateRange;
+use WP_Statistics\Components\Menu;
 use WP_Statistics\Utils\Route;
 use WP_Statistics\Models\SessionModel;
 use WP_Statistics\Records\RecordFactory;
@@ -233,7 +233,7 @@ class AdminBar
         $context['view_type']   = get_post_type($objectId);
         $context['view_title']  = __('Page Views', 'wp-statistics');
         $context['footer_text'] = __('View Page Performance', 'wp-statistics');
-        $context['footer_link'] = esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $objectId]));
+        $context['footer_link'] = esc_url(Menu::getAdminUrl('content-analytics', ['type' => 'single', 'post_id' => $objectId]));
 
         return $context;
     }
@@ -253,7 +253,7 @@ class AdminBar
         $context['view_type']   = 'category';
         $context['view_title']  = __('Category Views', 'wp-statistics');
         $context['footer_text'] = __('View Category Performance', 'wp-statistics');
-        $context['footer_link'] = esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $objectId]));
+        $context['footer_link'] = esc_url(Menu::getAdminUrl('category-analytics', ['type' => 'single', 'term_id' => $objectId]));
 
         return $context;
     }
@@ -273,7 +273,7 @@ class AdminBar
         $context['view_type']   = 'post_tag';
         $context['view_title']  = __('Tag Views', 'wp-statistics');
         $context['footer_text'] = __('View Tag Performance', 'wp-statistics');
-        $context['footer_link'] = esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $objectId]));
+        $context['footer_link'] = esc_url(Menu::getAdminUrl('category-analytics', ['type' => 'single', 'term_id' => $objectId]));
 
         return $context;
     }
@@ -293,7 +293,7 @@ class AdminBar
         $context['view_type']   = 'tax';
         $context['view_title']  = __('Taxonomy Views', 'wp-statistics');
         $context['footer_text'] = __('View Taxonomy Performance', 'wp-statistics');
-        $context['footer_link'] = esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $objectId]));
+        $context['footer_link'] = esc_url(Menu::getAdminUrl('category-analytics', ['type' => 'single', 'term_id' => $objectId]));
 
         return $context;
     }
@@ -313,7 +313,7 @@ class AdminBar
         $context['view_type']   = 'author';
         $context['view_title']  = __('Author Views', 'wp-statistics');
         $context['footer_text'] = __('View Author Performance', 'wp-statistics');
-        $context['footer_link'] = esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $objectId]));
+        $context['footer_link'] = esc_url(Menu::getAdminUrl('author-analytics', ['type' => 'single-author', 'author_id' => $objectId]));
 
         return $context;
     }
@@ -427,7 +427,7 @@ class AdminBar
         return [
             'wp-statistic-menu'                   => [
                 'title' => $menuTitle,
-                'href'  => Menus::admin_url('overview'),
+                'href'  => Menu::getAdminUrl('overview'),
             ],
             'wp-statistic-menu-global-data'       => [
                 'parent' => 'wp-statistic-menu',
@@ -545,7 +545,7 @@ class AdminBar
             'hit_number'         => $context['hit_number'],
             'footer_text'        => $context['footer_text'],
             'footer_link'        => $context['footer_link'],
-            'menu_href'          => Menus::admin_url('overview'),
+            'menu_href'          => Menu::getAdminUrl('overview'),
             'today_visits'       => number_format($this->viewsModel->countDaily()),
             'today_visitors'     => number_format($this->sessionModel->countDaily()),
             'yesterday_visits'   => number_format($this->viewsModel->countDaily(['date' => DateRange::get('yesterday')])),

@@ -4,10 +4,9 @@ namespace WP_STATISTICS\Service\Tracking\Controllers;
 
 use WP_Statistics\Abstracts\BaseTrackerController;
 use WP_Statistics\Globals\Option;
-use WP_STATISTICS\Helper;
-use WP_STATISTICS\Hits;
 use WP_Statistics\Service\Tracking\TrackerHelper;
 use WP_Statistics\Service\Tracking\TrackingFactory;
+use WP_Statistics\Utils\Request;
 
 /**
  * AJAX-based Tracking Controller
@@ -15,8 +14,7 @@ use WP_Statistics\Service\Tracking\TrackingFactory;
  * Implements visitor tracking through WordPress AJAX endpoints when both client-side
  * tracking and ad blocker bypass are enabled. This controller provides a more robust
  * tracking solution that can bypass ad blockers by using WordPress's admin-ajax.php
- * instead of REST API endpoints. Manages both page hit recording and online user
- * status tracking through dedicated AJAX callbacks.
+ * instead of REST API endpoints. Manages both page hit recording through dedicated AJAX callbacks.
  *
  * @since 15.0.0
  */
@@ -29,14 +27,6 @@ class AjaxBasedTracking extends BaseTrackerController
      * @var string
      */
     public const HIT_ACTION = 'hit_record';
-
-    /**
-     * REST API endpoint slug for recording online user.
-     * Used to register the /online endpoint that handles tracking online user.
-     *
-     * @var string
-     */
-    public const ONLINE_ACTION = 'online_check';
 
     /**
      * Initialize the AJAX tracking controller.
@@ -80,12 +70,10 @@ class AjaxBasedTracking extends BaseTrackerController
      */
     public function addLocalizedArguments($args)
     {
-        $hitAction    = 'wp_statistics_' . self::HIT_ACTION;
-        $onlineAction = 'wp_statistics_' . self::ONLINE_ACTION;
+        $hitAction = 'wp_statistics_' . self::HIT_ACTION;
 
         $args['requestUrl']   = get_site_url();
         $args['hitParams']    = array_merge($args, ['action' => $hitAction]);
-        $args['onlineParams'] = array_merge($args, ['action' => $onlineAction]);
 
         return $args;
     }
@@ -102,12 +90,6 @@ class AjaxBasedTracking extends BaseTrackerController
         $list[] = [
             'class'  => $this,
             'action' => self::HIT_ACTION,
-            'public' => true,
-        ];
-
-        $list[] = [
-            'class'  => $this,
-            'action' => self::ONLINE_ACTION,
             'public' => true,
         ];
 
@@ -133,7 +115,7 @@ class AjaxBasedTracking extends BaseTrackerController
      */
     public function hit_record_action_callback()
     {
-        if (!Helper::is_request('ajax')) {
+        if (!Request::isFrom('ajax')) {
             return;
         }
 
@@ -142,30 +124,6 @@ class AjaxBasedTracking extends BaseTrackerController
             TrackerHelper::validateHitRequest();
 
             TrackingFactory::hits()->record();
-            wp_send_json(['status' => true]);
-
-        } catch (Exception $e) {
-            wp_send_json(['status' => false, 'data' => $e->getMessage()], $e->getCode());
-        }
-    }
-
-    /**
-     * Handle online status updates via AJAX.
-     *
-     * @return void Sends JSON response with status and optional error message
-     * @since 15.0.0
-     */
-    public function online_check_action_callback()
-    {
-        if (!Helper::is_request('ajax')) {
-            return;
-        }
-
-        try {
-            $this->checkSignature();
-            TrackerHelper::validateHitRequest();
-
-            Hits::recordOnline();
             wp_send_json(['status' => true]);
 
         } catch (Exception $e) {

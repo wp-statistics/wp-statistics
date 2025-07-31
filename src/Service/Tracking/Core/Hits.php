@@ -6,8 +6,7 @@ use Exception;
 use WP_STATISTICS\Abstracts\BaseTracking;
 use WP_Statistics\Utils\Route;
 use WP_Statistics\Entity\EntityFactory;
-use WP_STATISTICS\Helper;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Service\Tracking\TrackerHelper;
@@ -17,8 +16,7 @@ use WP_Statistics\Utils\Request;
 /**
  * Handles hit tracking for visitors, including page views, REST API activity, and login tracking.
  *
- * Integrates with the exclusion system to respect rules such as DNT, user roles, and IP blocks,
- * and optionally ties into the UserOnline system to log real-time presence.
+ * Integrates with the exclusion system to respect rules such as DNT, user roles, and IP blocks, and etc.
  */
 class Hits extends BaseTracking
 {
@@ -50,7 +48,7 @@ class Hits extends BaseTracking
             $this->restHits = (object)$this->getRestParams();
         }
 
-        if (!Option::get('exclude_loginpage')) {
+        if (!Option::getValue('exclude_loginpage')) {
             add_action('init', [$this, 'trackLoginPageCallback']);
         }
 
@@ -64,7 +62,7 @@ class Hits extends BaseTracking
      */
     protected function isRestHit()
     {
-        return Helper::is_rest_request() && isset($_REQUEST[$this->getRestHitsKey()]);
+        return Request::isRestApiCall() && isset($_REQUEST[$this->getRestHitsKey()]);
     }
 
     /**
@@ -89,7 +87,7 @@ class Hits extends BaseTracking
     }
 
     /**
-     * Record a hit including visit, page, and online tracking.
+     * Record a hit including visitor, device, geo, locale, referrer, session, view, and parameter tracking.
      *
      * @param VisitorProfile|null $visitorProfile Optional profile object.
      * @return array Exclusion data if visitor was excluded.
@@ -174,13 +172,13 @@ class Hits extends BaseTracking
                 is_favicon() ||
                 is_admin() ||
                 is_preview() ||
-                Option::get('use_cache_plugin') ||
+                Option::getValue('use_cache_plugin') ||
                 TrackerHelper::isDoNotTrackEnabled()
             ) {
                 return;
             }
 
-            $consentLevel = Option::get('consent_level_integration', 'disabled');
+            $consentLevel = Option::getValue('consent_level_integration', 'disabled');
 
             if (
                 $consentLevel === 'disabled' ||

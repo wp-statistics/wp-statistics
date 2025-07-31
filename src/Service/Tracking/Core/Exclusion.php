@@ -4,12 +4,13 @@ namespace WP_STATISTICS\Service\Tracking\Core;
 
 use WP_Statistics\Utils\Environment;
 use WP_Statistics\Components\Ip;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Utils\Route;
-use WP_STATISTICS\Helper;
-use WP_STATISTICS\Option;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_STATISTICS\Utils\Request;
 use WP_Statistics\Records\RecordFactory;
+use WP_Statistics\Service\Tracking\TrackerHelper;
+use WP_Statistics\Utils\QueryParams;
 
 /**
  * Class Exclusion
@@ -161,7 +162,7 @@ class Exclusion
      */
     public static function isRecordActive()
     {
-        return (bool)Option::get('record_exclusions');
+        return (bool)Option::getValue('record_exclusions');
     }
 
     /**
@@ -175,7 +176,7 @@ class Exclusion
         $exclude = ['exclusion_match' => false, 'exclusion_reason' => ''];
 
         if (empty(self::$options)) {
-            self::$options = Option::getOptions();
+            self::$options = Option::get();
         }
 
         $exclusionList = self::getExclusionList();
@@ -250,7 +251,7 @@ class Exclusion
      */
     public static function exclusionAjax($visitorProfile)
     {
-        if (Helper::isBypassAdBlockersRequest() || Request::compare('action', 'wp_statistics_event')) {
+        if (TrackerHelper::isBypassAdBlockersRequest() || Request::compare('action', 'wp_statistics_event')) {
             return false;
         }
 
@@ -284,7 +285,7 @@ class Exclusion
      */
     public static function exclusionFeed($visitorProfile)
     {
-        if (!Option::get('exclude_feeds')) {
+        if (!Option::getValue('exclude_feeds')) {
             return false;
         }
 
@@ -299,11 +300,11 @@ class Exclusion
      */
     public static function exclusion404($visitorProfile)
     {
-        if (!Option::get('exclude_404s')) {
+        if (!Option::getValue('exclude_404s')) {
             return false;
         }
 
-        if (Helper::is_rest_request() && ($_REQUEST['resource_type'] ?? '') === '404') {
+        if (Request::isRestApiCall() && ($_REQUEST['resource_type'] ?? '') === '404') {
             return true;
         }
 
@@ -343,7 +344,7 @@ class Exclusion
     {
         $currentUser = null;
 
-        if (Helper::is_rest_request() && isset($GLOBALS['wp_statistics_user_id'])) {
+        if (request::isRestApiCall() && isset($GLOBALS['wp_statistics_user_id'])) {
             $currentUser = get_user_by('id', $GLOBALS['wp_statistics_user_id']);
         } elseif (is_user_logged_in()) {
             $currentUser = wp_get_current_user();
@@ -466,7 +467,7 @@ class Exclusion
      */
     public static function exclusionLoginPage($visitorProfile)
     {
-        if (!Option::get('exclude_loginpage')) {
+        if (!Option::getValue('exclude_loginpage')) {
             return false;
         }
 
@@ -487,9 +488,9 @@ class Exclusion
             return false;
         }
 
-        $fullUrl = Helper::RemoveQueryStringUrl($_SERVER['SERVER_NAME'] . $requestUri);
+        $fullUrl = QueryParams::getFilterParams($_SERVER['SERVER_NAME'] . $requestUri);
 
-        if (Helper::isBypassAdBlockersRequest() || Request::compare('action', 'wp_statistics_event')) {
+        if (TrackerHelper::isBypassAdBlockersRequest() || Request::compare('action', 'wp_statistics_event')) {
             return false;
         }
 
