@@ -258,7 +258,7 @@ class VisitorsModel extends BaseModel
             'referrer'       => ''
         ]);
 
-        $result = Query::select('COUNT(*) as referrers, last_counter as date')
+        $result = Query::select('COUNT(*) as referrers, last_counter as date, source_name')
             ->from('visitor')
             ->where('source_channel', '=', $args['source_channel'])
             ->where('source_name', '=', $args['source_name'])
