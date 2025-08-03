@@ -112,6 +112,23 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     </select>
                 </td>
             </tr>
+            <tr data-id="wps_addon_settings-marketing-search-console">
+                <th scope="row">
+                    <span class="wps-setting-label"><?php esc_html_e('Show Google Search tab', 'wp-statistics'); ?></span>
+                </th>
+                <td>
+                    <?php
+                    $gscReport = Option::getByAddon('gsc_report', 'marketing', '1');
+                    $site = Option::getByAddon('site', 'marketing');
+                    ?>
+                    <input type="hidden" name="wps_addon_settings[marketing][gsc_report]" value="0"/>
+                    <input id="wps_addon_settings[marketing][gsc_report]"
+                           name="wps_addon_settings[marketing][gsc_report]" type="checkbox"
+                           value="1" <?php disabled(!empty($site)); ?> <?php checked($gscReport || $site); ?>>
+                    <label for="wps_addon_settings[marketing][gsc_report]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <p class="description"><?php esc_html_e('Display the Google Search Console report tab when no Google property is connected.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
             <tr class="js-wps-show_if_gsc-connection-method_equal_0" data-id="wps_addon_settings-gsc-client-id">
                 <th scope="row">
                     <label for="gsc-client-id"><?php esc_html_e('Google Client ID', 'wp-statistics'); ?></label>
@@ -123,7 +140,6 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     </div>
                 </td>
             </tr>
-
             <tr class="js-wps-show_if_gsc-connection-method_equal_0" data-id="wps_addon_settings-gsc-client-secret">
                 <th scope="row">
                     <label for="gsc-client-secret"><?php esc_html_e('Google Client Secret', 'wp-statistics'); ?></label>
@@ -152,58 +168,6 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     </div>
                 </td>
             </tr>
-            <tr class="js-wps-show_if_gsc-connection-method_equal_0" data-id="wps_addon_settings-gsc-property">
-                <th scope="row">
-                    <label for="wps_addon_settings[marketing][property]"><?php esc_html_e('Property', 'wp-statistics'); ?></label>
-                </th>
-
-                <td class="wps_addon_settings__property">
-
-                    <select dir="ltr" class="wps-marketing-property" id="wps_addon_settings[marketing][property]"
-                            name="wps_addon_settings[marketing][property]">
-                        <?php $selectedSite = ''; ?>
-
-                        <?php if (!empty($selectedSite)) : ?>
-                            <option selected
-                                    value="<?php echo esc_attr($selectedSite) ?>"><?php echo esc_html(str_replace('sc-domain:', '', $selectedSite)); ?></option>
-                        <?php else : ?>
-                            <option disabled selected
-                                    value=""><?php esc_html_e('Select property', 'wp-statistics'); ?></option>
-                        <?php endif; ?>
-                    </select>
-                </td>
-            </tr>
-            <tr class="js-wps-show_if_gsc-connection-method_equal_0">
-                <th scope="row"><span class="screen-reader-text"><?php echo esc_html__('Search Google Console direct policy alert', 'wp-statistics') ?></span></th>
-                <td class="wps_addon_settings__site">
-                    <div class="wps-addon-settings-marketing--alert">
-                        <div>
-                            <h3><?php esc_html_e('Privacy & Data', 'wp-statistics'); ?></h3>
-                            <p><?php esc_html_e('Credentials & tokens stay on your server; Disconnect removes them', 'wp-statistics'); ?>.</p>
-                        </div>
-                    </div>
-                 </td>
-            </tr>
-
-
-
-            <tr data-id="wps_addon_settings-marketing-search-console" class="js-wps-show_if_gsc-connection-method_equal_1">
-                <th scope="row">
-                    <span class="wps-setting-label"><?php esc_html_e('Show Google Search tab', 'wp-statistics'); ?></span>
-                </th>
-                <td>
-                    <?php
-                    $gscReport = Option::getByAddon('gsc_report', 'marketing', '1');
-                    $site = Option::getByAddon('site', 'marketing');
-                    ?>
-                    <input type="hidden" name="wps_addon_settings[marketing][gsc_report]" value="0"/>
-                    <input id="wps_addon_settings[marketing][gsc_report]"
-                           name="wps_addon_settings[marketing][gsc_report]" type="checkbox"
-                           value="1" <?php disabled(!empty($site)); ?> <?php checked($gscReport || $site); ?>>
-                    <label for="wps_addon_settings[marketing][gsc_report]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php esc_html_e('Display the Google Search Console report tab when no Google property is connected.', 'wp-statistics'); ?></p>
-                </td>
-            </tr>
             <?php if (!$isAuthenticated) : ?>
                 <tr class="js-wps-show_if_gsc-connection-method_equal_1">
                     <td colspan="2" scope="row" class="wps-addon-settings--marketing__row">
@@ -229,7 +193,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     </td>
                 </tr>
             <?php else : ?>
-                <tr data-id="wps_addon_settings-marketing-site" class="js-wps-show_if_gsc-connection-method_equal_1">
+                <tr data-id="wps_addon_settings-marketing-site">
                     <th scope="row">
                         <label for="wps_addon_settings[marketing][site]"><?php esc_html_e('Site', 'wp-statistics'); ?></label>
                     </th>
@@ -256,6 +220,17 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     </td>
                 </tr>
             <?php endif; ?>
+            <tr class="js-wps-show_if_gsc-connection-method_equal_0">
+                <th scope="row"><span class="screen-reader-text"><?php echo esc_html__('Search Google Console direct policy alert', 'wp-statistics') ?></span></th>
+                <td class="wps_addon_settings__site">
+                    <div class="wps-addon-settings-marketing--alert">
+                        <div>
+                            <h3><?php esc_html_e('Privacy & Data', 'wp-statistics'); ?></h3>
+                            <p><?php esc_html_e('Credentials & tokens stay on your server; Disconnect removes them', 'wp-statistics'); ?>.</p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>
