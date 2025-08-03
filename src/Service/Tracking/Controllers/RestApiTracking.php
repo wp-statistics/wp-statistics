@@ -16,7 +16,7 @@ use WP_REST_Response;
  *
  * Handles visitor tracking through WordPress REST API endpoints when client-side tracking
  * is enabled but ad blocker bypass is disabled. This controller integrates with WordPress
- * REST API for secure tracking requests, providing endpoints for recording page hits (/hit). 
+ * REST API for secure tracking requests, providing endpoints for recording page hits (/hit).
  * Includes signature validation, client-side configuration,
  * and compatibility with cache plugins while following privacy settings.
  *
@@ -102,7 +102,7 @@ class RestApiTracking extends BaseTrackerController
                 'required' => true,
                 'type'     => 'string',
             ],
-            'signature'   => [
+            'signature'     => [
                 'required' => false,
                 'type'     => 'string',
             ],

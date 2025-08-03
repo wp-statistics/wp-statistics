@@ -12,6 +12,8 @@ use WP_Statistics\Utils\Query;
  * This abstract class handles the core CRUD operations for a given database table
  * including fetching, inserting, updating, and deleting records.
  * All table-specific models should extend this class and implement the `setTableName` method.
+ *
+ * @since 15.0.0
  */
 abstract class BaseRecord
 {
@@ -94,7 +96,7 @@ abstract class BaseRecord
         foreach ($args as $key => $value) {
             if (is_null($value)) {
                 $query->whereNull($key);
-            } elseif(!empty($value)) {
+            } elseif (!empty($value)) {
                 $query->where($key, '=', $value);
             }
         }

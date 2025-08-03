@@ -39,7 +39,7 @@ class ResourceDecorator
             new PostDecorator($record);
             return;
         }
-    
+
         $this->identifier = new ResourceManager($record);
     }
 
@@ -62,7 +62,7 @@ class ResourceDecorator
      */
     public function getId()
     {
-        return ! empty($this->identifier->resource->record->ID) ? (int)$this->identifier->resource->record->ID : null;
+        return !empty($this->identifier->resource->record->ID) ? (int)$this->identifier->resource->record->ID : null;
     }
 
     /**
@@ -74,7 +74,7 @@ class ResourceDecorator
      */
     public function getResourceId()
     {
-        return ! empty($this->identifier->resource->record->resource_id) ? (int)$this->identifier->resource->record->resource_id : 0;
+        return !empty($this->identifier->resource->record->resource_id) ? (int)$this->identifier->resource->record->resource_id : 0;
     }
 
     /**

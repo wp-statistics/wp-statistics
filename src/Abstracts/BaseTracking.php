@@ -12,6 +12,8 @@ use Exception;
  *
  * Provides shared utility methods to support timestamping, profile resolution,
  * REST API key handling, and exclusion logic.
+ *
+ * @since 15.0.0
  */
 abstract class BaseTracking
 {

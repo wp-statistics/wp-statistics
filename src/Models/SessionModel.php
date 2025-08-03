@@ -21,7 +21,7 @@ class SessionModel extends BaseModel
      *
      * If no date is supplied, the preset **'today'** is used. The `date` element
      * accepts either a preset understood by {@see DateRange::get()} (e.g.
-     * `'today'`, `'yesterday'`, `'7days'`) or an associative array  
+     * `'today'`, `'yesterday'`, `'7days'`) or an associative array
      * `['from' => 'Y-m-d', 'to' => 'Y-m-d']`.
      *
      * @param array{
@@ -456,7 +456,7 @@ class SessionModel extends BaseModel
      * `['device_browsers' => 'device_browser_id']`.
      *
      * Each result row contains:
-     *  • **label** – Human‑readable value from the lookup table.  
+     *  • **label** – Human‑readable value from the lookup table.
      *  • **session_count** – Number of matching sessions.
      *
      * @param array{
@@ -485,20 +485,20 @@ class SessionModel extends BaseModel
          *  ORDER BY COUNT(*) DESC
          */
         $query = Query::select([
-                "{$lookupTable}.name AS label",
-                "COUNT(*) AS session_count",
-            ])
+            "{$lookupTable}.name AS label",
+            "COUNT(*) AS session_count",
+        ])
             ->from('sessions')
             ->join($lookupTable, ["sessions.$foreignKeyColumn", "{$lookupTable}.ID"])
             ->whereNotNull("sessions.$foreignKeyColumn");
 
         if (!empty($args['date'])) {
             $query->where('sessions.started_at', '>=', $args['date']['from'] . ' 00:00:00')
-                  ->where('sessions.started_at', '<=', $args['date']['to']   . ' 23:59:59');
+                ->where('sessions.started_at', '<=', $args['date']['to'] . ' 23:59:59');
         }
 
         $query->groupBy("sessions.$foreignKeyColumn")
-              ->orderBy('session_count', 'DESC');
+            ->orderBy('session_count', 'DESC');
 
         if (!empty($args['per_page'])) {
             $query->perPage(1, $args['per_page']);

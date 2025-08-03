@@ -57,12 +57,12 @@ final class TrackerHelper
                 'required' => true,
                 'nullable' => false
             ],
-            'resource_type'  => [
+            'resource_type'    => [
                 'type'     => 'string',
                 'required' => false,
                 'nullable' => false
             ],
-            'resource_id'     => [
+            'resource_id'      => [
                 'type'     => 'number',
                 'required' => true,
                 'nullable' => false

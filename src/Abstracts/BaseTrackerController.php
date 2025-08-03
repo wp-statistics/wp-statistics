@@ -1,4 +1,5 @@
 <?php
+
 namespace WP_Statistics\Abstracts;
 
 use Exception;
@@ -12,7 +13,8 @@ use WP_Statistics\Utils\Signature;
  *
  * @since 15.0.0
  */
-abstract class BaseTrackerController {
+abstract class BaseTrackerController
+{
     /**
      * REST API endpoint slug for recording page hits.
      * Used to register the /hit endpoint that handles tracking page views.
@@ -32,18 +34,19 @@ abstract class BaseTrackerController {
     /**
      * Validate request signature for tracking authenticity.
      *
-     * @since 15.0.0
      * @throws Exception Invalid signature results in 403 status code
+     * @since 15.0.0
      */
-    protected function checkSignature() {
-        if (! TrackerHelper::isSignatureEnabled()) {
-           return;
+    protected function checkSignature()
+    {
+        if (!TrackerHelper::isSignatureEnabled()) {
+            return;
         }
 
-        $signature = ! empty($_REQUEST['signature']) ? sanitize_text_field($_REQUEST['signature']) : '';
+        $signature = !empty($_REQUEST['signature']) ? sanitize_text_field($_REQUEST['signature']) : '';
         $payload   = [
-            ! empty($_REQUEST['resource_type']) ? sanitize_text_field($_REQUEST['resource_type']) : '',
-            ! empty($_REQUEST['resource_id']) ? (int)sanitize_text_field($_REQUEST['resource_id']) : 0,
+            !empty($_REQUEST['resource_type']) ? sanitize_text_field($_REQUEST['resource_type']) : '',
+            !empty($_REQUEST['resource_id']) ? (int)sanitize_text_field($_REQUEST['resource_id']) : 0,
         ];
 
         if (!Signature::check($payload, $signature)) {
@@ -61,8 +64,8 @@ abstract class BaseTrackerController {
     /**
      * Get tracking endpoint route.
      *
-     * @since 15.0.0
      * @return string|null Tracking endpoint route
+     * @since 15.0.0
      */
     abstract public function getRoute();
 }
