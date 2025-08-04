@@ -76,7 +76,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                                 <h3><?php esc_html_e('Google Search Console', 'wp-statistics'); ?></h3>
                             </div>
                             <div>
-                                <a href="<?php echo esc_url(add_query_arg($authUrl, ['method' => 'middleware'])); ?>"
+                                <a href="<?php echo esc_url(add_query_arg(['method' => 'middleware'], $authUrl)); ?>"
                                    class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Reconnect', 'wp-statistics'); ?></a>
                                 <a href="<?php echo esc_url($disconnectUrl); ?>"
                                    class="wps-addon-settings--marketing__disconnect"><?php esc_html_e('Disconnect', 'wp-statistics'); ?></a>
