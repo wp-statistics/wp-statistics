@@ -7,7 +7,7 @@ use WP_Statistics\Marketing\Services\Auth\AuthHelper;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
-$isLicenseValid = LicenseHelper::isPluginLicenseValid('wp-statistics-marketing');
+$isLicenseValid    = LicenseHelper::isPluginLicenseValid('wp-statistics-marketing');
 $isMarketingActive = Helper::isAddOnActive('marketing');
 ?>
     <h2 class="wps-settings-box__title">
@@ -17,36 +17,36 @@ $isMarketingActive = Helper::isAddOnActive('marketing');
 
 
 if (!$isMarketingActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
-    ['addon_slug' => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp/?utm_source=wp-statistics&utm_medium=link&utm_campaign=marketing'),
-        'addon_title' => __('Marketing Add-On', 'wp-statistics'),
-        'addon_modal_target' => 'wp-statistics-marketing',
-        'addon_campaign' => 'marketing',
-        'addon_description' => sprintf(
-            __('The settings on this page are part of the %s add-on, which upgrades WP Statistics from simple analytics to a full-fledged growth dashboard.', 'wp-statistics'),
-            '<b>' . esc_html__('Marketing', 'wp-statistics') . '</b>'
-        ),
-        'addon_features' => [
-            sprintf(
-                __('Pull %s keywords and traffic for every page without leaving WordPress.', 'wp-statistics'),
-                '<b>' . esc_html__('Google Search Console', 'wp-statistics') . '</b>'
-            ),
-            sprintf(
-                __('Track %s and instantly see which channels bring the best visitors.', 'wp-statistics'),
-                '<b>' . esc_html__('campaigns & UTM links', 'wp-statistics') . '</b>'
-            ),
-            sprintf(
-                __('%s on buttons, links, and other elements with a quick toggle.', 'wp-statistics'),
-                '<b>' . esc_html__('Record click events', 'wp-statistics') . '</b>'
-            ),
-            sprintf(
-                __('Create unlimited %s for custom interactions or funnels.', 'wp-statistics'),
-                '<b>' . esc_html__('code-based events ', 'wp-statistics') . '</b>'
-            ),
-            sprintf(
-                __('Set %s and watch progress toward your targets in real-time.', 'wp-statistics'),
-                '<b>' . esc_html__('PageView goals', 'wp-statistics') . '</b>'
-            )
-        ],
+    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp/?utm_source=wp-statistics&utm_medium=link&utm_campaign=marketing'),
+     'addon_title'        => __('Marketing Add-On', 'wp-statistics'),
+     'addon_modal_target' => 'wp-statistics-marketing',
+     'addon_campaign'     => 'marketing',
+     'addon_description'  => sprintf(
+         __('The settings on this page are part of the %s add-on, which upgrades WP Statistics from simple analytics to a full-fledged growth dashboard.', 'wp-statistics'),
+         '<b>' . esc_html__('Marketing', 'wp-statistics') . '</b>'
+     ),
+     'addon_features'     => [
+         sprintf(
+             __('Pull %s keywords and traffic for every page without leaving WordPress.', 'wp-statistics'),
+             '<b>' . esc_html__('Google Search Console', 'wp-statistics') . '</b>'
+         ),
+         sprintf(
+             __('Track %s and instantly see which channels bring the best visitors.', 'wp-statistics'),
+             '<b>' . esc_html__('campaigns & UTM links', 'wp-statistics') . '</b>'
+         ),
+         sprintf(
+             __('%s on buttons, links, and other elements with a quick toggle.', 'wp-statistics'),
+             '<b>' . esc_html__('Record click events', 'wp-statistics') . '</b>'
+         ),
+         sprintf(
+             __('Create unlimited %s for custom interactions or funnels.', 'wp-statistics'),
+             '<b>' . esc_html__('code-based events ', 'wp-statistics') . '</b>'
+         ),
+         sprintf(
+             __('Set %s and watch progress toward your targets in real-time.', 'wp-statistics'),
+             '<b>' . esc_html__('PageView goals', 'wp-statistics') . '</b>'
+         )
+     ],
     ], true);
 
 
@@ -64,13 +64,11 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
     <div class="postbox wps-addon-settings--marketing">
         <table class="form-table <?php echo !$isMarketingActive ? esc_attr('form-table--preview') : '' ?>">
             <tbody>
-            <tr valign="top" class="wps-settings-box_head">
-                <?php if (!$isAuthenticated) : ?>
-                    <th scope="row" class="js-wps-show_if_gsc-connection-method_equal_middleware">
+            <tr class="js-wps-show_if_gsc-connection-method_equal_middleware wps-settings-box_head">
+                <th scope="row" colspan="2">
+                    <?php if (!$isAuthenticated) : ?>
                         <h3><?php esc_html_e('Google Search Console', 'wp-statistics'); ?></h3>
-                    </th>
-                <?php else : ?>
-                    <th scope="row" colspan="2"  class="js-wps-show_if_gsc-connection-method_equal_middleware">
+                    <?php else : ?>
                         <div class="wps-addon-settings--marketing__title">
                             <div>
                                 <h3><?php esc_html_e('Google Search Console', 'wp-statistics'); ?></h3>
@@ -82,11 +80,11 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                                    class="wps-addon-settings--marketing__disconnect"><?php esc_html_e('Disconnect', 'wp-statistics'); ?></a>
                             </div>
                         </div>
-                    </th>
-                <?php endif; ?>
-
-
-                <th scope="row" colspan="2"  class="js-wps-show_if_gsc-connection-method_equal_direct">
+                    <?php endif; ?>
+                </th>
+            </tr>
+            <tr class="js-wps-show_if_gsc-connection-method_equal_direct wps-settings-box_head">
+                <th scope="row" colspan="2">
                     <div class="wps-addon-settings--marketing__title">
                         <div>
                             <h3><?php esc_html_e('Google Search Console', 'wp-statistics'); ?></h3>
@@ -97,18 +95,22 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                                 <a href="<?php echo esc_url($testUrl); ?>" class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Test Connection', 'wp-statistics'); ?></a>
                                 <a href="<?php echo esc_url($disconnectUrl); ?>" class="wps-addon-settings--marketing__disconnect"><?php esc_html_e('Disconnect', 'wp-statistics'); ?></a>
                             <?php elseif (Option::getByAddon('gsc_client_id', 'marketing') && Option::getByAddon('gsc_client_secret', 'marketing')) : ?>
-                                <a href="<?php echo esc_url(add_query_arg(['method' => 'direct'], $authUrl)); ?>" class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Connect', 'wp-statistics'); ?></a>
+                                <a href="<?php echo esc_url(add_query_arg(['method' => 'direct'], $authUrl)); ?>" class="wps-addon-settings--marketing__reconnect last"><?php esc_html_e('Connect', 'wp-statistics'); ?></a>
                             <?php endif; ?>
                         </div>
                     </div>
                 </th>
-
             </tr>
 
             <tr data-id="wps_addon_settings-gsc-connection-method">
                 <th scope="row">
-                    <label for="wps_settings[gsc-connection-method]"><?php esc_html_e('Connection Method', 'wp-statistics'); ?></label>
-                 </th>
+                    <label for="wps_settings[gsc-connection-method]">
+                        <?php esc_html_e('Connection Method', 'wp-statistics'); ?>
+                        <?php if ($isAuthenticated): ?>
+                            <span class="wps-tooltip" title="<?php echo esc_attr__('This option is locked. Click “Disconnect” to enable it.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></span>
+                        <?php endif; ?>
+                    </label>
+                </th>
                 <td>
                     <?php $connectionMethod = Option::getByAddon('gsc_connection_method', 'marketing', 'middleware'); ?>
                     <select <?php disabled($isAuthenticated) ?> id="wps_settings[gsc-connection-method]" name="wps_addon_settings[marketing][gsc_connection_method]">
@@ -127,8 +129,8 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                 </th>
                 <td>
                     <?php
-                        $gscReport = Option::getByAddon('gsc_report', 'marketing', '1');
-                        $site      = Option::getByAddon('site', 'marketing');
+                    $gscReport = Option::getByAddon('gsc_report', 'marketing', '1');
+                    $site      = Option::getByAddon('site', 'marketing');
                     ?>
                     <input type="hidden" name="wps_addon_settings[marketing][gsc_report]" value="0"/>
                     <input id="wps_addon_settings[marketing][gsc_report]"
@@ -158,7 +160,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                         <input type="password" size="3" class="js-password-toggle" id="gsc-client-secret" name="wps_addon_settings[marketing][gsc_client_secret]" value="<?php echo esc_attr(Option::getByAddon('gsc_client_secret', 'marketing')); ?>">
                         <button type="button" class="c-password-field__btn" aria-label="Toggle password visibility">
                             <span class="icon-eye"></span>
-                         </button>
+                        </button>
                     </div>
                     <div class="wps-alert wps-alert__info">
                         <?php echo esc_html__('From the same OAuth app. Keep private.', 'wp-statistics'); ?>
@@ -243,7 +245,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
     <div class="postbox wps-addon-settings--marketing">
         <table class="form-table <?php echo !$isMarketingActive ? esc_attr('form-table--preview') : '' ?>">
             <tbody>
-            <tr class="wps-settings-box_head">
+            <tr class="wps-settings-box_head wps-settings-box_marketing">
                 <th scope="row">
                     <h3><?php esc_html_e('Campaign Builder', 'wp-statistics'); ?></h3>
                 </th>

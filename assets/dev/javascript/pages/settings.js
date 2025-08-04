@@ -99,7 +99,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
 
         toggleDisplay(element) {
-            const displayType = element.tagName.toLowerCase() === 'tr' ? 'table-row' : element.tagName.toLowerCase() === 'th' ? 'block' : 'table-cell';
+            const displayType = element.tagName.toLowerCase() === 'tr' ? 'table-row' : 'table-cell';
             element.style.display = displayType;
         }
 
