@@ -54,6 +54,11 @@ if ($isMarketingActive && !$isLicenseValid) {
     View::load("components/lock-sections/notice-inactive-license-addon");
 }
 
+$authUrl       = apply_filters('wp_statistics_google_auth_url', '');
+$testUrl       = apply_filters('wp_statistics_google_auth_test_url', '');
+$redirectUrl   = apply_filters('wp_statistics_google_auth_redirect_url', '');
+$disconnectUrl = apply_filters('wp_statistics_google_auth_disconnect_url', '');
+
 $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', false);
 ?>
     <div class="postbox wps-addon-settings--marketing">
@@ -71,9 +76,9 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                                 <h3><?php esc_html_e('Google Search Console', 'wp-statistics'); ?></h3>
                             </div>
                             <div>
-                                <a href="<?php echo apply_filters('wp_statistics_google_auth_url', '') ?>"
+                                <a href="<?php echo esc_url(add_query_arg($authUrl, ['method' => 'middleware'])); ?>"
                                    class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Reconnect', 'wp-statistics'); ?></a>
-                                <a href="<?php echo apply_filters('wp_statistics_google_auth_disconnect_url', '') ?>"
+                                <a href="<?php echo esc_url($disconnectUrl); ?>"
                                    class="wps-addon-settings--marketing__disconnect"><?php esc_html_e('Disconnect', 'wp-statistics'); ?></a>
                             </div>
                         </div>
@@ -88,11 +93,11 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                         </div>
                         <div>
                             <?php if (AuthHelper::isAuthenticated()) : ?>
-                                <a href="<?php echo apply_filters('wp_statistics_google_auth_url', ''); ?>" class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Reconnect', 'wp-statistics'); ?></a>
-                                <a href="<?php echo apply_filters('wp_statistics_google_auth_test_url', ''); ?>" class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Test Connection', 'wp-statistics'); ?></a>
-                                <a href="<?php echo apply_filters('wp_statistics_google_auth_disconnect_url', ''); ?>" class="wps-addon-settings--marketing__disconnect"><?php esc_html_e('Disconnect', 'wp-statistics'); ?></a>
+                                <a href="<?php echo esc_url(add_query_arg(['method' => 'direct'], $authUrl)); ?>" class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Reconnect', 'wp-statistics'); ?></a>
+                                <a href="<?php echo esc_url($testUrl); ?>" class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Test Connection', 'wp-statistics'); ?></a>
+                                <a href="<?php echo esc_url($disconnectUrl); ?>" class="wps-addon-settings--marketing__disconnect"><?php esc_html_e('Disconnect', 'wp-statistics'); ?></a>
                             <?php elseif (Option::getByAddon('gsc_client_id', 'marketing') && Option::getByAddon('gsc_client_secret', 'marketing')) : ?>
-                                <a href="<?php echo apply_filters('wp_statistics_google_auth_url', ''); ?>" class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Connect', 'wp-statistics'); ?></a>
+                                <a href="<?php echo esc_url(add_query_arg(['method' => 'direct'], $authUrl)); ?>" class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Connect', 'wp-statistics'); ?></a>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -166,7 +171,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     <label for="gsc-auth-redirect-url"><?php esc_html_e('Authorized Redirect URI', 'wp-statistics'); ?></label>
                 </th>
                 <td>
-                    <input type="text" size="3" readonly id="gsc-auth-redirect-url" value="<?php echo apply_filters('wp_statistics_google_auth_redirect_url', ''); ?>">
+                    <input type="text" size="3" readonly id="gsc-auth-redirect-url" value="<?php echo esc_url($redirectUrl); ?>">
                     <div class="wps-alert wps-alert__info">
                         <?php echo esc_html__('Add this exact URI in Google Cloud.', 'wp-statistics'); ?>
                     </div>
@@ -176,7 +181,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                 <tr class="js-wps-show_if_gsc-connection-method_equal_middleware">
                     <td colspan="2" scope="row" class="wps-addon-settings--marketing__row">
                         <div class="wps-alert--marketing">
-                            <a href="<?php echo apply_filters('wp_statistics_google_auth_url', '') ?>"
+                            <a href="<?php echo esc_url(add_query_arg(['method' => 'middleware'], $authUrl)); ?>"
                                class="button button-primary"><?php esc_html_e('Connect to Google Search Console', 'wp-statistics'); ?></a>
                             <div class="wps-alert--setting--title">
                                 <h1>
