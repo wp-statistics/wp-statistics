@@ -1913,6 +1913,7 @@
 
       td, td:last-child {
         padding: 16px 32px 16px 10px !important;
+        box-sizing: border-box;
 
         @media(max-width: 785px) {
           padding: 12px 16px !important;
