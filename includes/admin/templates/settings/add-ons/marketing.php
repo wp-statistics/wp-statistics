@@ -179,7 +179,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
             </tr>
             <?php if (!$isAuthenticated) : ?>
                 <tr class="js-wps-show_if_gsc-connection-method_equal_middleware">
-                    <td colspan="2" scope="row" class="wps-addon-settings--marketing__row">
+                    <td colspan="2" class="wps-addon-settings--marketing__row">
                         <div class="wps-alert--marketing">
                             <a href="<?php echo esc_url(add_query_arg(['method' => 'middleware'], $authUrl)); ?>"
                                class="button button-primary"><?php esc_html_e('Connect to Google Search Console', 'wp-statistics'); ?></a>
@@ -243,7 +243,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
     <div class="postbox wps-addon-settings--marketing">
         <table class="form-table <?php echo !$isMarketingActive ? esc_attr('form-table--preview') : '' ?>">
             <tbody>
-            <tr valign="top" class="wps-settings-box_head">
+            <tr class="wps-settings-box_head">
                 <th scope="row">
                     <h3><?php esc_html_e('Campaign Builder', 'wp-statistics'); ?></h3>
                 </th>
