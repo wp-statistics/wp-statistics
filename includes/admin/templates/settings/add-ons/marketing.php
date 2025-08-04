@@ -91,7 +91,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                                 <a href="<?php echo apply_filters('wp_statistics_google_auth_url', ''); ?>" class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Reconnect', 'wp-statistics'); ?></a>
                                 <a href="<?php echo apply_filters('wp_statistics_google_auth_test_url', ''); ?>" class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Test Connection', 'wp-statistics'); ?></a>
                                 <a href="<?php echo apply_filters('wp_statistics_google_auth_disconnect_url', ''); ?>" class="wps-addon-settings--marketing__disconnect"><?php esc_html_e('Disconnect', 'wp-statistics'); ?></a>
-                            <?php else : ?>
+                            <?php elseif (Option::getByAddon('gsc_client_id', 'marketing') && Option::getByAddon('gsc_client_secret', 'marketing')) : ?>
                                 <a href="<?php echo apply_filters('wp_statistics_google_auth_url', ''); ?>" class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Connect', 'wp-statistics'); ?></a>
                             <?php endif; ?>
                         </div>
