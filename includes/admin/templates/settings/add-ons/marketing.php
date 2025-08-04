@@ -106,7 +106,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                  </th>
                 <td>
                     <?php $connectionMethod = Option::getByAddon('gsc_connection_method', 'marketing', 'middleware'); ?>
-                    <select id="wps_settings[gsc-connection-method]" name="wps_addon_settings[marketing][gsc_connection_method]">
+                    <select <?php disabled($isAuthenticated) ?> id="wps_settings[gsc-connection-method]" name="wps_addon_settings[marketing][gsc_connection_method]">
                         <option <?php selected($connectionMethod, 'middleware'); ?> value="middleware">
                             <?php esc_html_e('Our Credentials', 'wp-statistics'); ?>
                         </option>
