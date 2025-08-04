@@ -255,10 +255,12 @@ class VisitorsModel extends BaseModel
             'resource_type'  => '',
             'source_channel' => '',
             'source_name'    => '',
-            'referrer'       => ''
+            'referrer'       => '',
+            'fields'         => [],
+            'group_by'       => []
         ]);
 
-        $result = Query::select('COUNT(*) as referrers, last_counter as date, source_name')
+        $result = Query::select(array_merge(['COUNT(*) as referrers, last_counter as date'], $args['fields']))
             ->from('visitor')
             ->where('source_channel', '=', $args['source_channel'])
             ->where('source_name', '=', $args['source_name'])
@@ -271,7 +273,7 @@ class VisitorsModel extends BaseModel
                     (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
                 )
             ")
-            ->groupBy('last_counter');
+            ->groupBy(array_merge(['last_counter'], $args['group_by']));
 
         if (!empty($args['resource_id']) || !empty($args['resource_type'])) {
             $result
