@@ -50,6 +50,8 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\Jobs\\VisitorColumnsMigrator' => __DIR__ . '/../..' . '/src/BackgroundProcess/AjaxBackgroundProcess/Jobs/VisitorColumnsMigrator.php',
         'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\BackgroundProcessFactory' => __DIR__ . '/../..' . '/src/BackgroundProcess/AsyncBackgroundProcess/BackgroundProcessFactory.php',
         'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\BackgroundProcessMonitor' => __DIR__ . '/../..' . '/src/BackgroundProcess/AsyncBackgroundProcess/BackgroundProcessMonitor.php',
+        'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\CalculateDailySummary' => __DIR__ . '/../..' . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/CalculateDailySummary.php',
+        'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\CalculateDailySummaryTotal' => __DIR__ . '/../..' . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/CalculateDailySummaryTotal.php',
         'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\CalculatePostWordsCount' => __DIR__ . '/../..' . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/CalculatePostWordsCount.php',
         'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\GeolocationDatabaseDownloadProcess' => __DIR__ . '/../..' . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/GeolocationDatabaseDownloadProcess.php',
         'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\IncompleteGeoIpUpdater' => __DIR__ . '/../..' . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/IncompleteGeoIpUpdater.php',

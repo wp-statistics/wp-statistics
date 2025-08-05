@@ -37,6 +37,7 @@ class DB
         'sessions',
         'reports',
         'summary',
+        'summary_totals',
 
         /**
          * Data Plus Table

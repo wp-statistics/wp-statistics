@@ -31,6 +31,8 @@ return array(
     'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\Jobs\\VisitorColumnsMigrator' => $baseDir . '/src/BackgroundProcess/AjaxBackgroundProcess/Jobs/VisitorColumnsMigrator.php',
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\BackgroundProcessFactory' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/BackgroundProcessFactory.php',
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\BackgroundProcessMonitor' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/BackgroundProcessMonitor.php',
+    'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\CalculateDailySummary' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/CalculateDailySummary.php',
+    'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\CalculateDailySummaryTotal' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/CalculateDailySummaryTotal.php',
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\CalculatePostWordsCount' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/CalculatePostWordsCount.php',
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\GeolocationDatabaseDownloadProcess' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/GeolocationDatabaseDownloadProcess.php',
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\IncompleteGeoIpUpdater' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/IncompleteGeoIpUpdater.php',

@@ -5,6 +5,7 @@ namespace WP_Statistics\Models;
 use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\DateTime;
+use WP_STATISTICS\DB;
 use WP_Statistics\Utils\Query;
 
 /**
@@ -505,5 +506,140 @@ class SessionModel extends BaseModel
         }
 
         return $query->getAll();
+    }
+
+    /**
+     * Per‑resource daily summary (visitors, sessions, views, duration, bounces).
+     *
+     * Aggregates metrics for a single resource URI (identified by
+     * `resource_uri_id`).
+     *
+     * @param array $args Arguments: target `resource_uri_id`.
+     * @return object|null Aggregated row for the resource, or `null` if none.
+     */
+    public function getDailySummary($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'resource_uri_id' => null,
+        ]);
+
+        $oneResSub = Query::select([
+            'session_id',
+            'COUNT(DISTINCT resource_uri_id) AS res_cnt',
+            'MIN(resource_uri_id) AS resource_uri_id',
+        ])
+            ->from('views')
+            ->groupBy(['session_id'])
+            ->getQuery();
+
+        $bounceSessionsSub = Query::select([
+            'sessions.ID AS session_id',
+            'one.resource_uri_id',
+        ])
+            ->from('sessions')
+            ->joinQuery($oneResSub, ['one.session_id', 'sessions.ID'], 'one', 'LEFT')
+            ->whereRaw('COALESCE(one.res_cnt, 0) <= 1')
+            ->getQuery();
+
+        $query = Query::select([
+            "DATE(sessions.started_at) AS date",
+            "COALESCE(views.resource_uri_id, 'no_views') AS resource",
+            'COUNT(DISTINCT visitors.hash)           AS visitors',
+            'COUNT(DISTINCT sessions.ID)             AS sessions',
+            'COUNT(views.ID)                         AS views',
+            'SUM(sessions.duration)                  AS total_duration',
+            'COUNT(DISTINCT b.session_id)            AS bounces',
+        ])
+            ->from('sessions')
+            ->join('visitors', ['visitors.ID', 'sessions.visitor_id'])
+            ->join('views', ['views.session_id', 'sessions.ID'], null, 'LEFT')
+            ->joinQuery($bounceSessionsSub, ['b.session_id', 'sessions.ID'], 'b', 'LEFT')
+            ->where('views.resource_uri_id', '=', $args['resource_uri_id']);
+
+        return $query->getRow();
+    }
+
+    /**
+     * List distinct resource URI IDs that occurred on a specific day.
+     *
+     * Returns the set of `views.resource_uri_id` values among sessions whose
+     * `started_at` date matches the target day. Sessions without any view rows
+     * are represented by the sentinel `'no_views'`.
+     *
+     * @param array $args Arguments: optional `date` preset; defaults to 'yesterday'.
+     * @return array<int|string> Ordered list of resource URI IDs (may include 'no_views').
+     */
+    public function getResourceUriIdsByDate($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date' => 'yesterday',
+        ]);
+
+        $targetDate = DateTime::getUtc('Y-m-d', $args['date']);
+
+        $rows = Query::select("DISTINCT COALESCE(views.resource_uri_id, 'no_views') AS resource_uri_id")
+            ->from('sessions')
+            ->join('views', ['views.session_id', 'sessions.ID'], null, 'LEFT')
+            ->where('DATE(sessions.started_at)', '=', $targetDate)
+            ->orderBy('resource_uri_id')
+            ->getAll();
+
+        if (empty($rows)) {
+            return [];
+        }
+
+        return array_column($rows, 'resource_uri_id');
+    }
+
+
+    /**
+     * Site‑wide daily totals (visitors, sessions, views, duration, bounces).
+     *
+     * Aggregates metrics across all resources for a single calendar day.
+     * A *bounce* is defined here as a session with **at most one** view
+     * (i.e., zero or one rows in `views` for that session).
+     *
+     * @param array $args Arguments: optional `date` preset; defaults to 'yesterday'.
+     * @return object|null Aggregated totals for the day, or `null` if none.
+     */
+    public function getDailySummaryTotal($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date' => 'yesterday',
+        ]);
+
+        $targetDate = DateTime::getUtc('Y-m-d', $args['date']);
+
+        $oneResSub = Query::select([
+            'session_id',
+            'COUNT(*) AS view_count',
+        ])
+            ->from('views')
+            ->groupBy(['session_id'])
+            ->getQuery();
+
+        $bounceSessionsSub = Query::select([
+            'sessions.ID AS session_id',
+        ])
+            ->from('sessions')
+            ->joinQuery($oneResSub, ['one.session_id', 'sessions.ID'], 'one', 'LEFT')
+            ->whereRaw('COALESCE(one.view_count, 0) <= 1')
+            ->getQuery();
+
+        $query = Query::select([
+            "DATE(sessions.started_at) AS date",
+            'COUNT(DISTINCT visitors.hash) AS visitors',
+            'COUNT(DISTINCT sessions.ID) AS sessions',
+            'COUNT(views.ID) AS views',
+            'SUM(sessions.duration) AS total_duration',
+            'COUNT(DISTINCT b.session_id) AS bounces',
+        ])
+            ->from('sessions')
+            ->join('visitors', ['visitors.ID', 'sessions.visitor_id'])
+            ->join('views', ['views.session_id', 'sessions.ID'], null, 'LEFT')
+            ->joinQuery($bounceSessionsSub, ['b.session_id', 'sessions.ID'], 'b', 'LEFT')
+            ->where('DATE(sessions.started_at)', '=', $targetDate);
+
+        return $query->getRow();
     }
 }

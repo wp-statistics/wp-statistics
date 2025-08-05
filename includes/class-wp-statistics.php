@@ -1,11 +1,12 @@
 <?php
 
 use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\AjaxBackgroundProcessManager;
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory;
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\CalculateDailySummary;
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\CalculateDailySummaryTotal;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\CalculatePostWordsCount;
-use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\DataMigrationProcess;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\GeolocationDatabaseDownloadProcess;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\IncompleteGeoIpUpdater;
-use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\SchemaMigrationProcess;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\SourceChannelUpdater;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\TableOperationProcess;
 use WP_Statistics\Service\Admin\AnonymizedUsageData\AnonymizedUsageDataManager;
@@ -129,7 +130,6 @@ final class WP_Statistics
              */
             $this->initializeBackgroundProcess();
             MigrationHandler::init();
-
         } catch (Exception $e) {
             self::log($e->getMessage());
         }
@@ -269,6 +269,8 @@ final class WP_Statistics
         $this->registerBackgroundProcess(GeolocationDatabaseDownloadProcess::class, 'geolocation_database_download');
         $this->registerBackgroundProcess(SourceChannelUpdater::class, 'update_visitors_source_channel');
         $this->registerBackgroundProcess(TableOperationProcess::class, 'table_operations_process');
+        $this->registerBackgroundProcess(CalculateDailySummary::class, 'calculate_daily_summary');
+        $this->registerBackgroundProcess(CalculateDailySummaryTotal::class, 'calculate_daily_summary_total');
     }
 
     /**
