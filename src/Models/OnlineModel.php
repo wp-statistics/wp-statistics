@@ -38,7 +38,7 @@ class OnlineModel extends BaseModel
             'visitor.referred',
             'visitor.agent',
             'visitor.platform',
-            'CAST(visitor.version AS SIGNED) as version',
+            'visitor.version',
             'visitor.location',
             'visitor.region',
             'visitor.city',

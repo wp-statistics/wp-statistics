@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\LicenseManagement\Views;
 
 use Exception;
+use WP_Statistics\Components\SystemCleaner;
 use WP_Statistics\Components\View;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Menus;
@@ -13,7 +14,6 @@ use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagerDataProvider;
-use WP_STATISTICS\User;
 
 class TabsView extends BaseTabView
 {

@@ -351,7 +351,7 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
             let dataPercentDiv = document.createElement('div');
             dataPercentDiv.classList.add('wps-horizontal-bar__data-percent-container');
             let dataDiv = document.createElement('div');
-            dataDiv.innerHTML = `<span>${wps_js.formatNumber(data[i])}</span><span>${percentageText}%</span>`;
+            dataDiv.innerHTML = `<span title="${data[i]}">${wps_js.formatNumber(data[i])}</span><span>${percentageText}%</span>`;
             dataDiv.classList.add('wps-horizontal-bar__data');
             dataPercentDiv.appendChild(dataDiv);
             itemDiv.appendChild(dataPercentDiv);

@@ -21,6 +21,10 @@
   }
 }
 
+.wps-export__item.wps-export__item--disabled{
+  opacity: 50%;
+}
+
 .wps-wrap.wp-statistics-settings {
 
   .wp-statistics-notice {
@@ -373,7 +377,7 @@
           }
 
           .form-table--preview {
-            tr:not(:first-child, .upgrade-notice) {
+            tr:not(:first-child, .upgrade-notice) , tr#wps-import-form-row {
               position: relative;
 
               &::after {
