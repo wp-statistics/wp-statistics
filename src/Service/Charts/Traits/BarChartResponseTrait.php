@@ -15,9 +15,10 @@ trait BarChartResponseTrait
     protected function initChartData()
     {
         $this->chartData = [
-            'data'      => [],
-            'labels'    => [],
-            'icons'     => []
+            'data'        => [],
+            'labels'      => [],
+            'icons'       => [],
+            'percentages' => [],
         ];
     }
 
