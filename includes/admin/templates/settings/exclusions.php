@@ -84,7 +84,7 @@ use WP_STATISTICS\Option;
                                 'WP Statistics already filters common crawlers. Add any extra user-agent snippets you’d like treated as bots—one per line (leave blank if none). See the <a href="%s" target="_blank">Robot Exclusions guide</a> for details.',
                                 'wp-statistics'
                             ),
-                            esc_url('https://wp-statistics.com/resources/robot-exclusions/')
+                            esc_url('https://wp-statistics.com/resources/robot-exclusions/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings')
                         )
                     ); ?></p>
             </td>
