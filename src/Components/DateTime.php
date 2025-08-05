@@ -13,14 +13,19 @@ class DateTime
     /**
      * Returns a formatted date string.
      *
-     * @param string $date Human readable date string passed to strtotime() function. Defaults to 'today'
+     * @param string $date Human readable date string passed to strtotime() function. Defaults to 'now'
      * @param string $format The format string to use for the date. Default is 'Y-m-d'.
      *
      * @return string The formatted date string.
      */
-    public static function get($date = 'today', $format = 'Y-m-d')
+    public static function get($date = 'now', $format = 'Y-m-d')
     {
-        return DateTime::format($date, ['date_format' => $format]);
+        if (is_numeric($date)) {
+            $date = "@$date";
+        }
+
+        $dateTime = new \DateTime($date, self::getTimezone());
+        return $dateTime->format($format);
     }
 
     /**
@@ -32,33 +37,9 @@ class DateTime
     public static function getStartOfWeek($return = 'name')
     {
         $dayNumber = intval(get_option('start_of_week', 0));
+        $weekDays  = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-        switch ($dayNumber) {
-            case 0:
-                $dayName = 'Sunday';
-                break;
-            case 1:
-                $dayName = 'Monday';
-                break;
-            case 2:
-                $dayName = 'Tuesday';
-                break;
-            case 3:
-                $dayName = 'Wednesday';
-                break;
-            case 4:
-                $dayName = 'Thursday';
-                break;
-            case 5:
-                $dayName = 'Friday';
-                break;
-            case 6:
-                $dayName = 'Saturday';
-                break;
-            default:
-                $dayName = 'Monday';
-                break;
-        }
+        $dayName = $weekDays[$dayNumber] ?? 'Monday';
 
         // Return the name of the day, the number of the day, or both.
         switch ($return) {
@@ -89,6 +70,16 @@ class DateTime
     public static function getTimeFormat()
     {
         return get_option('time_format', self::$defaultTimeFormat);
+    }
+
+    /**
+     * Returns the timezone object based on the current WordPress setting.
+     *
+     * @return \DateTimeZone
+     */
+    public static function getTimezone()
+    {
+        return new \DateTimeZone(wp_timezone_string());
     }
 
     /**
@@ -143,9 +134,12 @@ class DateTime
             'time_format'   => self::getTimeFormat()
         ]);
 
-        $timestamp  = is_numeric($date) ? $date : strtotime($date);
-        if ($timestamp === false) {
-            throw new ErrorException(esc_html__('Invalid date passed as argument.', 'wp-statistics'));
+        // If the date is numeric, treat it as a Unix timestamp
+        if (is_numeric($date)) {
+            $dateTime = new \DateTime('@' . $date, new \DateTimeZone('UTC'));
+            $dateTime->setTimezone(self::getTimezone());
+        } else {
+            $dateTime = new \DateTime($date, self::getTimezone());
         }
 
         $format = $args['date_format'];
@@ -161,7 +155,7 @@ class DateTime
             $format = str_replace('F', 'M', $format);
         }
 
-        return date($format, $timestamp);
+        return $dateTime->format($format);
     }
 
     /**
@@ -181,5 +175,25 @@ class DateTime
         }
 
         return false;
+    }
+
+    /**
+     * Checks if the given date is today or in the future.
+     *
+     * @param string $date
+     *
+     * @return bool
+     */
+    public static function isTodayOrFutureDate($date)
+    {
+        $today = date('Y-m-d');
+
+        if (!$date || strtotime($date) === false) {
+            return false;
+        }
+
+        $inputDate = date('Y-m-d', strtotime($date));
+
+        return ($inputDate >= $today);
     }
 }

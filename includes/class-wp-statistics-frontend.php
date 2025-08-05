@@ -4,7 +4,7 @@ namespace WP_STATISTICS;
 
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Models\ViewsModel;
-use WP_Statistics\Service\Integrations\WpConsentApi;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
 
 class Frontend
 {
@@ -13,11 +13,8 @@ class Frontend
         # Enable ShortCode in Widget
         add_filter('widget_text', 'do_shortcode');
 
-        # Add the honey trap code in the footer.
-        add_action('wp_footer', array($this, 'add_honeypot'));
-
         # Enqueue scripts & styles
-        add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'), 11);
 
         # Print out the WP Statistics HTML comment
         add_action('wp_head', array($this, 'print_out_plugin_html'));
@@ -25,17 +22,6 @@ class Frontend
         # Check to show hits in posts/pages
         if (Option::get('show_hits')) {
             add_filter('the_content', array($this, 'show_hits'));
-        }
-    }
-
-    /**
-     * Footer Action
-     */
-    public function add_honeypot()
-    {
-        if (Option::get('use_honeypot') && Option::get('honeypot_postid') > 0) {
-            $post_url = get_permalink(Option::get('honeypot_postid'));
-            echo sprintf('<a href="%s" style="display: none;" rel="noindex">&nbsp;</a>', esc_html($post_url));
         }
     }
 
@@ -53,7 +39,7 @@ class Frontend
 
             /**
              * Handle the bypass ad blockers
-             * 
+             *
              * @todo This should be refactored in a service related to option. note that all the options with same functionality should be updated.
              */
             if (Option::get('bypass_ad_blockers', false)) {
@@ -78,17 +64,34 @@ class Frontend
                 'onlineParams' => $onlineParams,
                 'option'       => [
                     'userOnline'           => Option::get('useronline'),
-                    'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
                     'dntEnabled'           => Option::get('do_not_track'),
                     'bypassAdBlockers'     => Option::get('bypass_ad_blockers', false),
-                    'isWpConsentApiActive' => WpConsentApi::isWpConsentApiActive(),
-                    'trackAnonymously'     => Helper::shouldTrackAnonymously(),
+                    'consentIntegration'   => IntegrationHelper::getIntegrationStatus(),
                     'isPreview'            => is_preview(),
+
+                    // legacy params for backward compatibility (with older versions of DataPlus)
+                    'trackAnonymously'     => IntegrationHelper::shouldTrackAnonymously(),
+                    'isWpConsentApiActive' => IntegrationHelper::isIntegrationActive('wp_consent_api'),
+                    'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
                 ],
-                'jsCheckTime'  => apply_filters('wp_statistics_js_check_time_interval', 60000),
+                'jsCheckTime'           => apply_filters('wp_statistics_js_check_time_interval', 60000),
+                'isLegacyEventLoaded'   => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded
+                'customEventAjaxUrl'    => add_query_arg(['action' => 'wp_statistics_custom_event', 'nonce' => wp_create_nonce('wp_statistics_custom_event')], admin_url('admin-ajax.php')),
             );
 
-            Assets::script('tracker', 'js/tracker.js', [], $jsArgs, true, Option::get('bypass_ad_blockers', false));
+            if (defined('WP_DEBUG') && WP_DEBUG) {
+                $jsArgs['isConsoleVerbose'] = true;
+            }
+
+
+            // Add tracker.js dependencies
+            $dependencies = [];
+            $integration = IntegrationHelper::getActiveIntegration();
+            if ($integration) {
+                $dependencies = $integration->getJsHandles();
+            }
+
+            Assets::script('tracker', 'js/tracker.js', $dependencies, $jsArgs, true, Option::get('bypass_ad_blockers', false));
         }
 
         // Load Chart.js library
@@ -105,7 +108,7 @@ class Frontend
     public function print_out_plugin_html()
     {
         if (apply_filters('wp_statistics_html_comment', true)) {
-            echo '<!-- Analytics by WP Statistics v' . WP_STATISTICS_VERSION . ' - ' . WP_STATISTICS_SITE_URL . ' -->' . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo '<!-- Analytics by WP Statistics - ' . esc_url(WP_STATISTICS_SITE_URL) . ' -->' . "\n";
         }
     }
 

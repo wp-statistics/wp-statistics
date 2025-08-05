@@ -18,7 +18,7 @@ class Test_UserAgentService extends WP_UnitTestCase
         $userAgentService = new UserAgentService();
 
         $this->assertEquals('Chrome', $userAgentService->getBrowser(), 'Failed to detect Chrome browser');
-        $this->assertEquals('91.0', $userAgentService->getVersion(), 'Failed to detect correct Chrome version');
+        $this->assertEquals('91', $userAgentService->getVersion(), 'Failed to detect correct Chrome version');
         $this->assertEquals('Windows', $userAgentService->getPlatform(), 'Failed to detect Windows platform');
     }
 
@@ -33,10 +33,10 @@ class Test_UserAgentService extends WP_UnitTestCase
         $userAgentService = new UserAgentService();
 
         $this->assertEquals('Mobile Safari', $userAgentService->getBrowser(), 'Failed to detect Safari browser on iPhone');
-        $this->assertEquals('14.0', $userAgentService->getVersion(), 'Failed to detect correct Safari version');
+        $this->assertEquals('14', $userAgentService->getVersion(), 'Failed to detect correct Safari version');
         $this->assertEquals('iOS', $userAgentService->getPlatform(), 'Failed to detect iOS platform');
         $this->assertEquals('smartphone', $userAgentService->getDevice(), 'Failed to detect iPhone device');
-        $this->assertEquals('Apple', $userAgentService->getModel(), 'Failed to detect iPhone device');
+        $this->assertEquals('Apple iPhone', $userAgentService->getModel(), 'Failed to detect iPhone device');
     }
 
     /**
@@ -110,7 +110,7 @@ class Test_UserAgentService extends WP_UnitTestCase
         $userAgentService = new UserAgentService();
 
         $this->assertEquals('UNK', $userAgentService->getBrowser());
-        $this->assertEquals('.NK', $userAgentService->getVersion());
+        $this->assertEquals('UNK', $userAgentService->getVersion());
         $this->assertEquals('UNK', $userAgentService->getPlatform());
         $this->assertEquals('', $userAgentService->getDevice());
     }

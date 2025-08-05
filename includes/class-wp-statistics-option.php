@@ -53,6 +53,7 @@ class Option
             'send_report'                     => 'mail',
             'geoip_license_type'              => 'js-deliver',
             'geoip_license_key'               => '',
+            'geoip_dbip_license_key_option'   => '',
             'content_report'                  => '',
             'email_free_content_header'       => '',
             'email_free_content_footer'       => '',
@@ -73,7 +74,12 @@ class Option
             'schedule_dbmaint_days'           => '180',
             'charts_previous_period'          => true,
             'attribution_model'               => 'first-touch',
-            'geoip_location_detection_method' => 'maxmind'
+            'geoip_location_detection_method' => 'maxmind',
+            'delete_data_on_uninstall'        => false,
+            'share_anonymous_data'            => false,
+            'display_notifications'           => true,
+            'word_count_analytics'            => true,
+            'show_privacy_issues_in_report'   => false,
         );
 
         return $options;
@@ -290,6 +296,20 @@ class Option
         update_option($setting_name, $options);
     }
 
+    public static function deleteByAddon($option_name, $addon_name = '')
+    {
+        $setting_name = "wpstatistics_{$addon_name}_settings";
+
+        $options = get_option($setting_name);
+        if (!isset($options) || !is_array($options)) {
+            $options = array();
+        }
+
+        unset($options[$option_name]);
+
+        update_option($setting_name, $options);
+    }
+
     public static function getOptionGroup($group, $key = null, $default = null)
     {
         $settingName = "wp_statistics_{$group}";
@@ -317,6 +337,11 @@ class Option
         $settingName = "wp_statistics_{$group}";
         $options     = get_option($settingName, []);
 
+        // Backward compatibility.
+        if (!is_array($options)) {
+            $options = array();
+        }
+
         // Store the value in the array.
         $options[$key] = $value;
 
@@ -328,6 +353,11 @@ class Option
     {
         $settingName = "wp_statistics_{$group}";
         $options     = get_option($settingName, []);
+
+        // Backward compatibility.
+        if (!is_array($options)) {
+            $options = array();
+        }
 
         // Store the value in the array.
         $options[$key] = $value;

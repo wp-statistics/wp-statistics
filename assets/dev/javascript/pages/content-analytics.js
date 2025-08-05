@@ -10,7 +10,22 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             }
 
             this.data = Wp_Statistics_Content_Analytics_Object;
-            this.generateCharts()
+            this.generateCharts();
+            const toggleContentButton = document.querySelector('.js-toggle-content-tags');
+            if (toggleContentButton) {
+                toggleContentButton.addEventListener('click', function (event) {
+                    event.preventDefault(); // Prevent the default link behavior
+
+                    const extraTags = document.querySelectorAll('.extra-item');
+                    extraTags.forEach(tag => tag.classList.toggle('show'));
+                    toggleContentButton.classList.toggle('toggled');
+                    if (toggleContentButton.classList.contains('toggled')) {
+                        toggleContentButton.textContent = wps_js._('show_less');
+                    } else {
+                        toggleContentButton.textContent = wps_js._('show_more');
+                    }
+                });
+            }
         },
         generateCharts: function () {
             if (document.getElementById('performance-chart')) this.generatePerformanceChart();
@@ -23,7 +38,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         },
         generatePerformanceChart: function () {
             const performanceData = this.data.performance_chart_data;
-            wps_js.new_line_chart(performanceData, 'performance-chart',null, 'performance');
+            if (!performanceData.data.datasets || performanceData.data.datasets.length == 0) {
+                jQuery('#performance-chart').parent().html(wps_js.no_results());
+            } else {
+                wps_js.new_line_chart(performanceData, 'performance-chart', null, 'performance');
+            }
         },
         generateOperatingSystemChart: function () {
             const operatingSystemData = this.data.os_chart_data;
@@ -66,12 +85,16 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 jQuery('#content-search-engines-chart').parent().html(wps_js.no_results());
                 jQuery('.wps-postbox-chart--data').remove();
             } else {
-                wps_js.new_line_chart(searchData, 'content-search-engines-chart')
+                 wps_js.new_line_chart(searchData, 'content-search-engines-chart')
             }
         },
         generatePerformanceChartSingle: function () {
             const performanceSingleData = this.data.performance_chart_data;
-            wps_js.new_line_chart(performanceSingleData, 'performance-chart-single' , null , 'performance');
+            if (!performanceSingleData.data.datasets || performanceSingleData.data.datasets.length == 0) {
+                jQuery('#performance-chart-single').parent().html(wps_js.no_results());
+            } else {
+                wps_js.new_line_chart(performanceSingleData, 'performance-chart-single', null, 'performance');
+            }
         }
     }
 

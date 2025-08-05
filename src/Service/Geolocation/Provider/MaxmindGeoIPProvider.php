@@ -6,10 +6,10 @@ use Exception;
 use PharData;
 use WP_Error;
 use WP_Statistics;
-use WP_Statistics\Async\BackgroundProcessFactory;
-use WP_STATISTICS\Option;
 use WP_Statistics\Dependencies\GeoIp2\Database\Reader;
+use WP_STATISTICS\Option;
 use WP_Statistics\Service\Geolocation\AbstractGeoIPProvider;
+use WP_Statistics\Utils\Env;
 
 class MaxmindGeoIPProvider extends AbstractGeoIPProvider
 {
@@ -81,7 +81,7 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
 
         try {
             // Check if the GeoIP database exists and download it immediately.
-            if (!$this->isDatabaseExist()) {
+            if (!$this->isDatabaseExist() && !Env::isLocal()) {
                 $this->downloadDatabase();
 
                 throw new Exception('GeoIP database not found. Attempting to download...');

@@ -6,6 +6,7 @@ use ErrorException;
 use Exception;
 use WP_Statistics;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
 
 class IP
 {
@@ -145,7 +146,7 @@ class IP
         if (isset($dailySalt['date']) && $dailySalt['date'] != $date) {
             $dailySalt = [
                 'date' => $date, // Update the salt's date to today.
-                'salt' => sha1(wp_generate_password()) // Generate a new salt based on a new password and today's date.
+                'salt' =>  hash('sha256', wp_generate_password()) // Generate a new salt based on a new password and today's date.
             ];
 
             // Save the new daily salt in the WordPress options for future use.
@@ -156,7 +157,7 @@ class IP
         if (!$dailySalt || !is_array($dailySalt)) {
             $dailySalt = [
                 'date' => $date, // Set the salt's date to today.
-                'salt' => sha1(wp_generate_password()) // Generate a new salt.
+                'salt' =>  hash('sha256', wp_generate_password()) // Generate a new salt.
             ];
 
             // Save the new daily salt in the WordPress options.
@@ -171,9 +172,12 @@ class IP
         // Retrieve the current user agent, defaulting to '' if unavailable or empty.
         $userAgent = UserAgent::getHttpUserAgent();
 
+        $hash          = hash('sha256', $dailySalt['salt'] . $ip . $userAgent);
+        $truncatedHash = substr( self::$hash_ip_prefix . $hash, 0, 46); 
+
         // Hash the combination of daily salt, IP, and user agent to create a unique identifier.
         // This hash is then prefixed and filtered for potential modification before being returned.
-        return apply_filters('wp_statistics_hash_ip', self::$hash_ip_prefix . sha1($dailySalt['salt'] . $ip . $userAgent));
+        return apply_filters('wp_statistics_hash_ip', $truncatedHash);
     }
 
     /**
@@ -207,14 +211,14 @@ class IP
          * @example 192.168.1.1 -> 192.168.1.0
          * @example 0897:D836:7A7C:803F:344B:5348:71EE:1130 -> 897:d836:7a7c:803f::
          */
-        if (Option::get('anonymize_ips') == true || Helper::shouldTrackAnonymously()) {
+        if (Option::get('anonymize_ips') == true || IntegrationHelper::shouldTrackAnonymously()) {
             $user_ip = wp_privacy_anonymize_ip($user_ip);
         }
 
         /**
          * Check if the option to hash IP addresses is enabled in the settings.
          */
-        if (Option::get('hash_ips') == true || Helper::shouldTrackAnonymously()) {
+        if (Option::get('hash_ips') == true || IntegrationHelper::shouldTrackAnonymously()) {
             $user_ip = self::hashUserIp($user_ip);
         }
 
@@ -378,8 +382,7 @@ class IP
      */
     public static function check_sanitize_ip($ip)
     {
-        $preg = preg_replace('/[^0-9- .:]/', '', $ip);
-        return $preg == $ip;
+        return filter_var($ip, FILTER_VALIDATE_IP) !== false;
     }
 
     /**
@@ -409,14 +412,14 @@ class IP
 
     /**
      * Gets visitor's IP address from Cloudflare header.
-     * 
+     *
      * @return string Sanitized IP address or empty string
      */
-    public static function getCloudflareIp() {
-        if (empty($_SERVER['HTTP_CF_CONNECTING_IP'])) {
-            return '';
-        }
-
-        return IP::check_sanitize_ip($_SERVER['HTTP_CF_CONNECTING_IP']);
+    public static function getCloudflareIp(): string
+    {
+        $ip = $_SERVER['HTTP_CF_CONNECTING_IP'] ?? '';
+    
+        return IP::check_sanitize_ip($ip) ? $ip : '';
     }
+    
 }

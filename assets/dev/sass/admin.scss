@@ -36,6 +36,9 @@ $image_path: "../images";
 @import "component/premium-modal";
 @import "component/skeleton";
 @import "component/modal";
+@import "component/spinner";
+@import "component/notifications";
+@import "component/glance";
 
 // WordPress Admin Page
 @import "pages/setting";
@@ -51,6 +54,7 @@ $image_path: "../images";
 @import "pages/privacy";
 @import "pages/lock-page";
 @import "pages/tracker";
+@import "pages/help-center";
 
 // Load WordPress Meta Box
 @import "meta-box/about";

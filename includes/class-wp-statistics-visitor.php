@@ -2,11 +2,14 @@
 
 namespace WP_STATISTICS;
 
+use WP_STATISTICS\Helper;
+use WP_Statistics\Utils\Url;
+use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
-use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
-use WP_Statistics\Service\Analytics\Referrals\Referrals;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
+use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 
 class Visitor
 {
@@ -111,6 +114,7 @@ class Visitor
             'location'         => '',
             'exclusion_match'  => false,
             'exclusion_reason' => '',
+            'page_id'          => 0
         );
 
         $args         = wp_parse_args($arg, $defaults);
@@ -122,25 +126,30 @@ class Visitor
 
             // Prepare Visitor information
             $visitor = array(
-                'last_counter'  => TimeZone::getCurrentDate('Y-m-d'),
-                'referred'      => $visitorProfile->getReferrer(),
-                'source_name'   => $visitorProfile->getSource()->getName(),
-                'source_channel'=> $visitorProfile->getSource()->getChannel(),
-                'agent'         => $userAgent->getBrowser(),
-                'platform'      => $userAgent->getPlatform(),
-                'version'       => $userAgent->getVersion(),
-                'device'        => $userAgent->getDevice(),
-                'model'         => $userAgent->getModel(),
-                'ip'            => $visitorProfile->getProcessedIPForStorage(),
-                'location'      => $visitorProfile->getCountry(),
-                'city'          => $visitorProfile->getCity(),
-                'region'        => $visitorProfile->getRegion(),
-                'continent'     => $visitorProfile->getContinent(),
-                'user_id'       => $visitorProfile->getUserId(),
-                'UAString'      => ((Option::get('store_ua') == true && !Helper::shouldTrackAnonymously()) ? $visitorProfile->getHttpUserAgent() : ''),
-                'hits'          => 1,
-                'honeypot'      => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0),
+                'last_counter'   => TimeZone::getCurrentDate('Y-m-d'),
+                'referred'       => $visitorProfile->getReferrer(),
+                'source_name'    => $visitorProfile->getSource()->getName(),
+                'source_channel' => $visitorProfile->getSource()->getChannel(),
+                'agent'          => $userAgent->getBrowser(),
+                'platform'       => $userAgent->getPlatform(),
+                'version'        => $userAgent->getVersion(),
+                'device'         => $userAgent->getDevice(),
+                'model'          => $userAgent->getModel(),
+                'ip'             => $visitorProfile->getProcessedIPForStorage(),
+                'location'       => $visitorProfile->getCountry(),
+                'city'           => $visitorProfile->getCity(),
+                'region'         => $visitorProfile->getRegion(),
+                'continent'      => $visitorProfile->getContinent(),
+                'user_id'        => $visitorProfile->getUserId(),
+                'UAString'       => ((Option::get('store_ua') == true && !IntegrationHelper::shouldTrackAnonymously()) ? $visitorProfile->getHttpUserAgent() : ''),
+                'hits'           => 1,
+                'honeypot'       => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0),
+                'first_page'     => $args['page_id'],
+                'first_view'     => TimeZone::getCurrentDate(),
+                'last_page'      => $args['page_id'],
+                'last_view'      => TimeZone::getCurrentDate()
             );
+
             $visitor = apply_filters('wp_statistics_visitor_information', $visitor);
 
             //Save Visitor TO DB
@@ -152,15 +161,18 @@ class Visitor
             $visitor_id = $same_visitor->ID;
 
             // Update Same Visitor Hits
-            if ($args['exclusion_reason'] != 'Honeypot' and $args['exclusion_reason'] != 'Robot threshold') {
+            if ($args['exclusion_reason'] != 'Robot threshold') {
 
                 // Action Before Visitor Update
                 do_action('wp_statistics_update_visitor_hits', $visitor_id, $same_visitor);
 
                 $data = [
-                    'hits'      => $same_visitor->hits + 1,
-                    'user_id'   => $visitorProfile->getUserId()
+                    'hits'    => $same_visitor->hits + 1,
+                    'user_id' => !empty($same_visitor->user_id) ? $same_visitor->user_id : $visitorProfile->getUserId()
                 ];
+
+                $data['last_page'] = $args['page_id'];
+                $data['last_view'] = TimeZone::getCurrentDate('Y-m-d H:i:s');
 
                 $data = apply_filters('wp_statistics_visitor_data_before_update', $data, $visitorProfile);
 
@@ -268,7 +280,7 @@ class Visitor
         }
 
         // Prepare Query
-        $args['sql'] = $wpdb->prepare("SELECT *, CAST(`version` AS SIGNED) AS `casted_version` FROM `" . DB::table('visitor') . "` WHERE last_counter = %s ORDER BY hits DESC", $sql_time);
+        $args['sql'] = $wpdb->prepare("SELECT * FROM `" . DB::table('visitor') . "` WHERE last_counter = %s ORDER BY hits DESC", $sql_time);
 
         // Get Visitors Data
         return self::get($args);
@@ -299,7 +311,7 @@ class Visitor
 
         // Prepare the Query & Set Pagination
         if (empty($args['sql'])) {
-            $args['sql'] = "SELECT *, CAST(`version` AS SIGNED) AS `casted_version` FROM `" . DB::table('visitor') . "` ORDER BY ID DESC";
+            $args['sql'] = "SELECT * FROM `" . DB::table('visitor') . "` ORDER BY ID DESC";
         }
 
         $args['sql'] = $args['sql'] . $wpdb->prepare(" LIMIT %d, %d", $limit, $args['per_page']);
@@ -328,7 +340,7 @@ class Visitor
 
             $ip          = esc_html($items->ip);
             $agent       = esc_html($items->agent);
-            $version     = esc_html(isset($items->casted_version) ? $items->casted_version : $items->version);
+            $version     = esc_html($items->version);
             $platform    = esc_html($items->platform);
             $geoLocation = false;
 
@@ -422,25 +434,25 @@ class Visitor
      */
     public static function get_page_by_id($page_id)
     {
-        global $wpdb;
-
         // Default Params
-        $params = array('link' => '', 'title' => '');
+        $params = ['id' => '', 'link' => '', 'title' => '', 'query' => '', 'report' => '', 'sub_page' => ''];
 
-        $pageTable = DB::table('pages');
+        $viewsModel = new ViewsModel();
+        $item       = $viewsModel->getPageRecord(['page_id' => $page_id]);
 
-        // Get Row
-        $item = $wpdb->get_row(
-            $wpdb->prepare("SELECT * FROM `" . $pageTable . "` WHERE page_id = %s", $page_id),
-            ARRAY_A);
+        if (!empty($item)) {
+            $item = (array) $item;
 
-        if ($item !== null) {
-            $params         = Pages::get_page_info($item['id'], $item['type'], $item['uri']);
-            $linkWithParams = !empty($item['uri']) ? home_url() . $item['uri'] : false;
+            $postTypes          = Helper::get_list_post_type();
+            $postIdUri          = get_page_uri($item['id']);
+            $dbUri              = trim(Url::getPath(home_url($item['uri'])), '/');
+            $params             = Pages::get_page_info($item['id'], $item['type'], $item['uri']);
+            $linkWithParams     = !empty($item['uri']) ? home_url() . $item['uri'] : '';
+            $params['query']    = Url::getParams($linkWithParams);
+            $params['id']       = $item['id'];
 
-            // If URL has params, add it to the title (except for allowed params like UTM params, etc...)
-            if (trim($params['link'], '/') !== trim($linkWithParams, '/') && !Helper::checkUrlForParams($linkWithParams, Helper::get_query_params_allow_list())) {
-                $params['title'] .= ' (' . trim($item['uri']) . ')';
+            if ($postIdUri != $dbUri && in_array($item['type'], $postTypes)) {
+                $params['sub_page'] = $item['uri'];
             }
         }
 

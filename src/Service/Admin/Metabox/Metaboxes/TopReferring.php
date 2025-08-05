@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Components\DateTime;
 
 class TopReferring extends BaseMetabox
 {
@@ -35,8 +36,10 @@ class TopReferring extends BaseMetabox
     {
         $args = $this->getFilters();
 
+        $isTodayOrFutureDate = DateTime::isTodayOrFutureDate($args['date']['to'] ?? null);
+
         $data   = $this->dataProvider->getReferrersData($args);
-        $output = View::load('metabox/top-referring', ['data' => $data, 'filters' => $args], true);
+        $output = View::load('metabox/top-referring', ['data' => $data, 'filters' => $args, 'isTodayOrFutureDate' => $isTodayOrFutureDate], true);
 
         return $output;
     }

@@ -13,20 +13,22 @@ $taxName  = Helper::getTaxonomyName(Request::get('tx', 'category'), true);
             <table width="100%" class="o-table wps-new-table wps-table-inspect">
                 <thead>
                     <tr>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('name')); ?>" class="sort <?php echo Request::compare('order_by', 'name') ? esc_attr($order) : '' ?>"><?php echo esc_html($taxName); ?></a>
                         </th>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('views')); ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'views') ? esc_attr($order) : '' ?>">
                                 <?php echo sprintf(esc_html__('%s Page Views', 'wp-statistics'), $taxName); ?>
                             </a>
                         </th>
-                        <th class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l">
                             <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('post_count')); ?>" class="sort <?php echo Request::compare('order_by', 'post_count') ? esc_attr($order) : '' ?>">
                                 <?php esc_html_e('Total Published Contents', 'wp-statistics') ?>
                             </a>
                         </th>
-                        <th></th>
+                        <th scope="col">
+                            <span class="screen-reader-text"><?php esc_html_e('View page detail', 'wp-statistics'); ?></span>
+                        </th>
                     </tr>
                 </thead>
 
@@ -34,7 +36,7 @@ $taxName  = Helper::getTaxonomyName(Request::get('tx', 'category'), true);
                     <?php foreach ($data as $category) : ?>
                         <tr>
                             <td class="wps-pd-l">
-                                <a class="wps-table-ellipsis--name" target="_blank" href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $category['term_id']])) ?>">
+                                <a class="wps-table-ellipsis--name" href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $category['term_id']])) ?>">
                                     <span title="<?php echo esc_attr($category['term_name']) ?>"><?php echo esc_html($category['term_name']) ?></span>
                                 </a>
                             </td>

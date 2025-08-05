@@ -123,7 +123,8 @@ wps_js.render_wp_statistics_post_summary_widget = function(response, key){
                         fontColor: '#898A8E',
                         fontSize: 10,
                         padding: 8,
-                        stepSize:1
+                        stepSize:1,
+                        callback: renderFormatNum,
                     }
                 }
             },

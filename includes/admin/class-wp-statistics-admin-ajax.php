@@ -3,10 +3,10 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Components\DateRange;
+use WP_Statistics\Models\EventsModel;
 use WP_Statistics\Models\VisitorsModel;
-use WP_Statistics\Service\Admin\NoticeHandler\Notice;
-use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Service\Geolocation\Provider\DbIpProvider;
 use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;
 use WP_Statistics\Utils\Request;
 
@@ -34,6 +34,11 @@ class Ajax
             [
                 'class'  => $this,
                 'action' => 'query_params_cleanup',
+                'public' => false
+            ],
+            [
+                'class'  => $this,
+                'action' => 'event_data_cleanup',
                 'public' => false
             ],
             [
@@ -68,11 +73,6 @@ class Ajax
             ],
             [
                 'class'  => $this,
-                'action' => 'visitors_page_filters',
-                'public' => false
-            ],
-            [
-                'class'  => $this,
                 'action' => 'update_geoip_database',
                 'public' => false
             ],
@@ -100,6 +100,11 @@ class Ajax
                 'class'  => $this,
                 'action' => 'dismiss_notices',
                 'public' => false
+            ],
+            [
+                'class'  => $this,
+                'action' => 'delete_word_count_data',
+                'public' => false
             ]
         ];
 
@@ -112,7 +117,7 @@ class Ajax
             $isPublic = isset($item['public']) && $item['public'] == true ? true : false;
 
             // If callback exists in the class, register the action
-            if (method_exists($class, $callback)) {
+            if (! empty($class) && method_exists($class, $callback)) {
                 add_action('wp_ajax_wp_statistics_' . $action, [$class, $callback]);
 
                 // Register the AJAX callback publicly
@@ -289,6 +294,31 @@ class Ajax
         exit;
     }
 
+    public function delete_word_count_data_action_callback()
+    {
+        global $wpdb;
+
+        if (Request::isFrom('ajax') && User::Access('manage')) {
+
+            // Check Refer Ajax
+            check_ajax_referer('wp_rest', 'wps_nonce');
+
+            $result = $wpdb->query("DELETE FROM `" . $wpdb->postmeta . "` WHERE `meta_key` = 'wp_statistics_words_count'");
+            Option::deleteOptionGroup('word_count_process_initiated', 'jobs');
+
+            if ($result) {
+                esc_html_e('Successfully deleted word count data.', 'wp-statistics');
+            } else {
+                esc_html_e('Couldn’t find any word count data to delete.', 'wp-statistics');
+            }
+
+        } else {
+            esc_html_e('Unauthorized access!', 'wp-statistics');
+        }
+
+        exit;
+    }
+
     /**
      * Setup an AJAX action to clean up query parameters from pages table.
      */
@@ -338,6 +368,38 @@ class Ajax
             } else {
                 esc_html_e('Couldn\'t find any user query string parameter data to delete from \'visitor\' table.', 'wp-statistics');
             }
+
+        } else {
+            esc_html_e('Unauthorized access!', 'wp-statistics');
+        }
+
+        exit;
+    }
+
+    /**
+     * Setup an AJAX action to clean up events data from event table.
+     */
+    public function event_data_cleanup_action_callback()
+    {
+        if (Request::isFrom('ajax') && User::Access('manage')) {
+
+            check_ajax_referer('wp_rest', 'wps_nonce');
+
+            $eventName = Request::get('event_name');
+
+            if ($eventName) {
+                $eventsModel = new EventsModel();
+                $result = $eventsModel->deleteEvents(['event_name' => $eventName]);
+
+                if ($result) {
+                    esc_html_e('Successfully removed event data from \'events\' table.', 'wp-statistics');
+                } else {
+                    esc_html_e('Cannot delete any data from \'events\' table.', 'wp-statistics');
+                }
+            } else {
+                esc_html_e('Event name is not valid.', 'wp-statistics');
+            }
+
 
         } else {
             esc_html_e('Unauthorized access!', 'wp-statistics');
@@ -401,73 +463,6 @@ class Ajax
     }
 
     /**
-     * Show Page Visitors Filter
-     */
-    public function visitors_page_filters_action_callback()
-    {
-
-        if (Helper::is_request('ajax') and isset($_REQUEST['page'])) {
-
-            // Run only Visitors Page
-            if ($_REQUEST['page'] != "visitors") {
-                exit;
-            }
-
-            // Check Refer Ajax
-            check_ajax_referer('wp_rest', 'wps_nonce');
-
-            // Create Output object
-            $filter = array();
-
-            // Browsers
-            $filter['browsers'] = array();
-            $browsers           = DeviceHelper::getBrowserList();
-            foreach ($browsers as $key => $se) {
-                $filter['browsers'][$se] = $se;
-            }
-
-            // Location
-            $filter['location'] = array();
-            $country_list       = Country::getList();
-            foreach ($country_list as $key => $name) {
-                $filter['location'][$key] = $name;
-            }
-
-            // Push First "000" Unknown to End of List
-            $first_key = key($filter['location']);
-            $first_val = $filter['location'][$first_key];
-            unset($filter['location'][$first_key]);
-            $filter['location'][$first_key] = $first_val;
-
-            // Platforms
-            $filter['platform'] = array();
-            $platforms_list     = DeviceHelper::getPlatformsList();
-
-            foreach ($platforms_list as $platform) {
-                $filter['platform'][$platform] = $platform;
-            }
-
-            // Referrer
-            $filter['referrer'] = array();
-            $referrer_list      = Referred::getList(array('min' => 50, 'limit' => 300));
-            foreach ($referrer_list as $site) {
-                $filter['referrer'][$site->domain] = $site->domain;
-            }
-
-            // User
-            $filter['users'] = array();
-            $user_list       = Visitor::get_users_visitor();
-            foreach ($user_list as $user_id => $user_inf) {
-                $filter['users'][$user_id] = $user_inf['user_login'] . " #" . $user_id . "";
-            }
-
-            // Send Json
-            wp_send_json($filter);
-        }
-        exit;
-    }
-
-    /**
      * Setup an AJAX action to update geoIP database.
      */
     public function update_geoip_database_action_callback()
@@ -477,14 +472,21 @@ class Ajax
             // Check Refer Ajax
             check_ajax_referer('wp_rest', 'wps_nonce');
 
-            $result = GeolocationFactory::downloadDatabase(MaxmindGeoIPProvider::class);
+
+            $method   = Request::get('geoip_location_detection_method', 'maxmind');
+            $provider = MaxmindGeoIPProvider::class;
+
+            if ('dbip' === $method) {
+                $provider = DbIpProvider::class;
+            }
+
+            $result = GeolocationFactory::downloadDatabase($provider);
 
             if (is_wp_error($result)) {
                 esc_html_e($result->get_error_message());
+            } else {
+                esc_html_e('GeoIP Database successfully updated.', 'wp-statistics');
             }
-
-            esc_html_e('GeoIP Database successfully updated.', 'wp-statistics');
-
         } else {
             esc_html_e('Unauthorized access!', 'wp-statistics');
         }
@@ -535,12 +537,13 @@ class Ajax
 
             check_ajax_referer('wp_rest', 'wps_nonce');
 
-            $paged        = Request::get('paged', 1, 'number');
-            $postType     = Request::get('post_type', array_values(Helper::get_list_post_type()));
-            $authorId     = Request::get('author_id', '', 'number');
-            $search       = Request::get('search', '');
-            $page         = Request::get('page');
-            $selectedPost = Request::get('post_id', false, 'number');
+            $paged          = Request::get('paged', 1, 'number');
+            $postType       = Request::get('post_type', array_values(Helper::get_list_post_type()));
+            $authorId       = Request::get('author_id', '', 'number');
+            $search         = Request::get('search', '');
+            $page           = Request::get('page');
+            $selectedPost   = Request::get('post_id', false, 'number');
+            $hideAllOption  = Request::get('hide_all_option', false);
 
             if (!$page) {
                 wp_send_json([
@@ -560,7 +563,7 @@ class Ajax
 
             $posts = [];
             if ($query->have_posts()) {
-                if ($paged == 1 && empty($search)) {
+                if (empty($hideAllOption) && $paged == 1 && empty($search)) {
                     $allOption = [
                         'id'   => Menus::admin_url($page),
                         'text' => esc_html__('All', 'wp-statistics')
@@ -577,7 +580,7 @@ class Ajax
                     $query->the_post();
 
                     $option = [
-                        'id'   => add_query_arg(['pid' => get_the_ID()], Menus::admin_url($page)),
+                        'id'   => get_the_ID(),
                         'text' => get_the_title()
                     ];
 

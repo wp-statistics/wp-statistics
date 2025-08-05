@@ -89,7 +89,8 @@ class Pages
 
         //is Custom Term From Taxonomy
         if (is_tax()) {
-            $current_page['type'] = "tax";
+            $term                 = get_queried_object();
+            $current_page['type'] = 'tax_' . $term->taxonomy;
         }
 
         //is Author Page
@@ -333,8 +334,12 @@ class Pages
             'edit_link' => '',
             'object_id' => $page_id,
             'title'     => '-',
+            'report'    => Menus::admin_url('content-analytics', ['type' => 'single-resource', 'uri' => rawurlencode($slug)]),
             'meta'      => array()
         );
+        if (strpos($type, 'tax_') === 0) {
+            $type = 'tax';
+        }
 
         if (!empty($type)) {
             switch ($type) {
@@ -346,6 +351,7 @@ class Pages
                         'title'     => get_the_title($page_id),
                         'link'      => get_the_permalink($page_id),
                         'edit_link' => get_edit_post_link($page_id),
+                        'report'    => Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $page_id]),
                         'meta'      => array(
                             'post_type' => get_post_type($page_id)
                         )
@@ -360,6 +366,7 @@ class Pages
                             'title'     => esc_html($term->name),
                             'link'      => (is_wp_error(get_term_link($page_id)) === true ? '' : get_term_link($page_id)),
                             'edit_link' => get_edit_term_link($page_id),
+                            'report'    => Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term->term_taxonomy_id]),
                             'meta'      => array(
                                 'taxonomy'         => $term->taxonomy,
                                 'term_taxonomy_id' => $term->term_taxonomy_id,
@@ -376,6 +383,10 @@ class Pages
                             'post_type' => get_post_type($page_id)
                         )
                     );
+
+                    if ($page_id) {
+                        $arg['report'] = Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $page_id]);
+                    }
                     break;
                 case "author":
                     $user_info = get_userdata($page_id);
@@ -383,6 +394,7 @@ class Pages
                         'title'     => ($user_info->display_name != "" ? esc_html($user_info->display_name) : esc_html($user_info->first_name . ' ' . $user_info->last_name)),
                         'link'      => get_author_posts_url($page_id),
                         'edit_link' => get_edit_user_link($page_id),
+                        'report'    => Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $user_info->ID]),
                         'meta'      => [
                             'author_id' => $user_info->ID
                         ]
@@ -426,6 +438,10 @@ class Pages
                             'post_type' => get_post_type($page_id)
                         )
                     );
+
+                    if ($page_id) {
+                        $arg['report'] = Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $page_id]);
+                    }
                     break;
             }
         }
@@ -516,7 +532,7 @@ class Pages
 
         // Get List Of Pages
         $list   = array();
-        $result = $wpdb->get_results($sql . " LIMIT " . ($args['paged'] - 1) * $args['per_page'] . "," . $args['per_page']); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
+        $result = $wpdb->get_results($sql . " LIMIT " . ($args['paged'] - 1) * $args['per_page'] . "," . $args['per_page']); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
         foreach ($result as $item) {
             // Lookup the post title.
@@ -568,7 +584,7 @@ class Pages
         $where = !empty($where) ? "WHERE " . implode(" AND ", $where) : "";
 
         // Return
-        return $wpdb->get_var("SELECT COUNT(*) FROM (SELECT COUNT(page_id) FROM `" . DB::table('pages') . "` `pages` {$where} GROUP BY `{$group_by}`) AS totalCount"); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        return $wpdb->get_var("SELECT COUNT(*) FROM (SELECT COUNT(*) FROM `" . DB::table('pages') . "` `pages` {$where} GROUP BY `{$group_by}`) AS totalCount"); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
     }
 
     /**

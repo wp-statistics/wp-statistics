@@ -20,8 +20,8 @@ $taxonomy  = Request::get('tx', 'category');
     <div class="wps-flex-container">
         <div class="wps-flex-half">
             <div class="wps-tabs">
-                <input type="radio" name="category-views" id="category-views" checked="checked">
-                <label for="category-views"><?php esc_html_e('Views', 'wp-statistics') ?></label>
+                <input type="radio" name="category-views" id="top-category-views" checked="checked">
+                <label for="top-category-views"><?php esc_html_e('Views', 'wp-statistics') ?></label>
                 <div class="wps-tabs__content">
                     <?php
                     if (!empty($data['viewing'])) {
@@ -31,7 +31,7 @@ $taxonomy  = Request::get('tx', 'category');
                                 <div class="wps-content-tabs__item--content">
                                     <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($term->term_name); ?></span></h3>
                                     <span>
-                                        <?php echo esc_html(Helper::formatNumberWithUnit($term->views));?> <?php esc_html_e('content views', 'wp-statistics') ?>
+                                        <span class="wps-content-tabs__item--count"><?php echo esc_html(Helper::formatNumberWithUnit($term->views));?></span><?php esc_html_e('content views', 'wp-statistics') ?>
                                     </span>
                                 </div>
                             </a>
@@ -47,8 +47,8 @@ $taxonomy  = Request::get('tx', 'category');
         </div>
         <div class="wps-flex-half">
             <div class="wps-tabs">
-                <input type="radio" name="category-publishing" id="category-publishing" checked="checked">
-                <label for="category-publishing"><?php esc_html_e('Publishing', 'wp-statistics') ?></label>
+                <input type="radio" name="category-publishing" id="top-category-publishing" checked="checked">
+                <label for="top-category-publishing"><?php esc_html_e('Publishing', 'wp-statistics') ?></label>
                 <div class="wps-tabs__content">
                     <?php
                     if (!empty($data['publishing'])) {
@@ -58,7 +58,7 @@ $taxonomy  = Request::get('tx', 'category');
                                 <div class="wps-content-tabs__item--content">
                                     <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($term->term_name); ?></span></h3>
                                     <span>
-                                        <?php echo esc_html(number_format_i18n($term->posts)); ?> <?php esc_html_e('contents published', 'wp-statistics') ?>
+                                        <span class="wps-content-tabs__item--count"><?php echo esc_html(number_format_i18n($term->posts)); ?></span><?php esc_html_e('contents published', 'wp-statistics') ?>
                                     </span>
                                 </div>
                             </a>

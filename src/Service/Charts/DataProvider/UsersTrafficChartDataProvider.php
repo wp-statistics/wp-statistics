@@ -53,8 +53,8 @@ class UsersTrafficChartDataProvider extends AbstractChartDataProvider
         $data = $this->parseData($currentDates, ['logged_in' => $loggedInData, 'anonymous' => $anonymousData]);
 
         $this->setChartLabels($data['labels']);
-        $this->addChartDataset(esc_html__('User Visitors', 'wp-statistics'), $data['users']);
-        $this->addChartDataset(esc_html__('Anonymous Visitors', 'wp-statistics'), $data['anonymous']);
+        $this->addChartDataset(esc_html__('User Visitors', 'wp-statistics'), $data['users'], 'user-visitors');
+        $this->addChartDataset(esc_html__('Anonymous Visitors', 'wp-statistics'), $data['anonymous'], 'anonymous-visitors');
     }
 
     protected function setPrevPeriodData()
@@ -83,7 +83,7 @@ class UsersTrafficChartDataProvider extends AbstractChartDataProvider
             $parsedData['labels'][]   = [
                 'formatted_date'    => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
                 'date'              => date_i18n('Y-m-d', strtotime($date)),
-                'day'               => date_i18n('l', strtotime($date))
+                'day'               => date_i18n('D', strtotime($date))
             ];
             $parsedData['users'][]  = isset($loggedIn[$date]) ? intval($loggedIn[$date]) : 0;
             $parsedData['anonymous'][] = isset($anonymous[$date]) ? intval($anonymous[$date]) : 0;

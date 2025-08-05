@@ -9,7 +9,7 @@
 - I have reviewed my code for [security best practices](https://developer.wordpress.org/apis/security/).
 - Following the above guidelines will result in quick merges and clear and detailed feedback when appropriate.
 - My code follows the style guidelines of this project
-- I have updated the change-log in `readme.txt`.
+- I have updated the change-log in `CHANGELOG.md`.
 
 ### Type of change
 

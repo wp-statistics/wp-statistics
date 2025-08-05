@@ -26,7 +26,6 @@ use WP_Statistics\Components\View;
             </div>
             <?php
             $args = [
-                'page_column_title' => esc_html__('Page', 'wp-statistics'),
                 'data'              => $data['data'],
                 'pagination'        => isset($pagination) ? $pagination : null
             ];

@@ -13,7 +13,7 @@ class OnlineModel extends BaseModel
     {
         $args = $this->parseArgs($args, []);
 
-        $result = Query::select('COUNT(ID)')
+        $result = Query::select('COUNT(*)')
             ->from('useronline')
             ->getVar();
 
@@ -35,26 +35,28 @@ class OnlineModel extends BaseModel
             'useronline.ip',
             'useronline.created',
             'useronline.timestamp',
-            'useronline.referred',
-            'useronline.agent',
-            'useronline.platform',
-            'CAST(useronline.version AS SIGNED) as version',
-            'useronline.location',
-            'useronline.region',
-            'useronline.city',
-            'visitor.hits',
             'visitor.referred',
+            'visitor.agent',
+            'visitor.platform',
+            'visitor.version',
+            'visitor.location',
+            'visitor.region',
+            'visitor.city',
+            'visitor.hits',
             'visitor.source_name',
             'visitor.source_channel',
-            'useronline.user_id',
-            'page_id as last_page',
-            'date as last_view',
+            'visitor.model',
+            'visitor.device',
+            'visitor.user_id',
+            'visitor.last_counter',
+            'visitor.last_page as last_page',
+            'visitor.last_view as last_view',
             'users.display_name',
             'users.user_email'
         ])
             ->from('useronline')
-            ->join('users', ['useronline.user_id', 'users.ID'], [], 'LEFT')
             ->join('visitor', ['useronline.visitor_id', 'visitor.ID'])
+            ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
             ->decorate(VisitorDecorator::class)

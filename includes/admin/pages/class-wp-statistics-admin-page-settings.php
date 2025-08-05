@@ -33,7 +33,7 @@ class settings_page extends Singleton
 
         // Add Class inf
         $args['class'] = 'wp-statistics-settings';
-        $args['title'] =  __('Settings', 'wp-statistics');
+        $args['title'] = __('Settings', 'wp-statistics');
 
         // Check User Access To Save Setting
         $args['wps_admin'] = false;
@@ -51,7 +51,7 @@ class settings_page extends Singleton
         $args['wp_statistics_options'] = Option::getOptions();
 
         // Load Template
-        Admin_Template::get_template(array('layout/header', 'layout/title', 'settings', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'settings', 'layout/footer'), $args);
     }
 
     /**
@@ -78,7 +78,8 @@ class settings_page extends Singleton
                 'external',
                 'maintenance',
                 'notification',
-                'privacy'
+                'privacy',
+                'advanced'
             );
             foreach ($method_list as $method) {
                 $wp_statistics_options = self::{'save_' . $method . '_option'}($wp_statistics_options);
@@ -164,9 +165,11 @@ class settings_page extends Singleton
             'wps_hash_ips',
             'wps_privacy_audit',
             'wps_store_ua',
+            'wps_consent_integration',
             'wps_consent_level_integration',
             'wps_anonymous_tracking',
             'wps_do_not_track',
+            'wps_show_privacy_issues_in_report',
         );
 
         // If the IP hash's are enabled, disable storing the complete user agent.
@@ -255,12 +258,14 @@ class settings_page extends Singleton
             'wps_geoip_license_type',
             'wps_geoip_location_detection_method',
             'wps_geoip_license_key',
+            'wps_geoip_dbip_license_key_option',
             'wps_update_geoip',
             'wps_schedule_geoip',
             'wps_auto_pop',
             'wps_private_country_code',
             'wps_referrerspam',
-            'wps_schedule_referrerspam'
+            'wps_schedule_referrerspam',
+            'wps_share_anonymous_data',
         );
 
         // For country codes we always use upper case, otherwise default to 000 which is 'unknown'.
@@ -304,18 +309,6 @@ class settings_page extends Singleton
             $wp_statistics_options[self::input_name_to_option($role_post)] = (isset($_POST[$role_post]) ? $_POST[$role_post] : '');
         }
 
-        // Save HoneyPot
-        if (isset($_POST['wps_create_honeypot'])) {
-            $my_post                      = array(
-                'post_type'    => 'page',
-                'post_title'   => __('WP Statistics - Honey Pot Page for Tracking', 'wp-statistics') . ' [' . TimeZone::getCurrentDate() . ']',
-                'post_content' => __('Do Not Delete: Honey Pot Page for WP Statistics Tracking.', 'wp-statistics'),
-                'post_status'  => 'publish',
-                'post_author'  => 1,
-            );
-            $_POST['wps_honeypot_postid'] = wp_insert_post($my_post);
-        }
-
         // Save Exclusion
         $wps_option_list = array(
             'wps_record_exclusions',
@@ -325,10 +318,7 @@ class settings_page extends Singleton
             'wps_exclude_loginpage',
             'wps_excluded_countries',
             'wps_included_countries',
-            'wps_excluded_hosts',
             'wps_robot_threshold',
-            'wps_use_honeypot',
-            'wps_honeypot_postid',
             'wps_exclude_feeds',
             'wps_excluded_urls',
             'wps_exclude_404s',
@@ -351,7 +341,7 @@ class settings_page extends Singleton
     {
         $wps_option_list = array('wps_read_capability', 'wps_manage_capability');
         foreach ($wps_option_list as $option) {
-            $capability = ! empty($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '';
+            $capability = !empty($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '';
 
             if (!User::checkUserCapability($capability)) {
                 continue;
@@ -417,7 +407,8 @@ class settings_page extends Singleton
             'wps_menu_bar',
             'wps_coefficient',
             'wps_hide_notices',
-            'wps_charts_previous_period'
+            'wps_charts_previous_period',
+            'wps_display_notifications'
         );
 
         foreach ($wps_option_list as $option) {
@@ -522,6 +513,25 @@ class settings_page extends Singleton
 
         // Update Option
         update_option(Option::$opt_name, $default_options);
+    }
+
+    public static function save_advanced_option($wp_statistics_options)
+    {
+        $wps_option_list = [
+            'wps_delete_data_on_uninstall',
+            'wps_word_count_analytics'
+        ];
+
+        // If word count was disabled before and enabled again, show background process notice
+        if (empty($wp_statistics_options['word_count_analytics']) && !empty($_POST['wps_word_count_analytics'])) {
+            Option::deleteOptionGroup('word_count_process_initiated', 'jobs');
+        }
+
+        foreach ($wps_option_list as $option) {
+            $wp_statistics_options[self::input_name_to_option($option)] = isset($_POST[$option]) ? true : false;
+        }
+
+        return $wp_statistics_options;
     }
 }
 

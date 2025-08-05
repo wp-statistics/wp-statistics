@@ -2,12 +2,10 @@
 
 namespace WP_Statistics\Service\Admin\Geographic;
 
-use WP_Statistics\Async\BackgroundProcessFactory;
-use WP_STATISTICS\GeoIP;
-use WP_STATISTICS\Menus;
-use WP_STATISTICS\Option;
 use WP_Statistics\Abstracts\MultiViewPage;
-use WP_Statistics\Async\IncompleteGeoIpUpdater;
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory;
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\IncompleteGeoIpUpdater;
+use WP_STATISTICS\Menus;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Admin\Geographic\Views\SingleCountryView;
 use WP_Statistics\Service\Admin\Geographic\Views\TabsView;
@@ -63,7 +61,8 @@ class GeographicPage extends MultiViewPage
 
             $message = sprintf(
                 __('Detected visitors without location data. Please <a href="%s">click here</a> to update the geographic data in the background. This is necessary for accurate analytics.', 'wp-statistics'),
-                esc_url($actionUrl)
+                esc_url($actionUrl),
+                '' // compatibility with old translations
             );
 
             Notice::addNotice($message, 'update_unknown_visitor_geoip');

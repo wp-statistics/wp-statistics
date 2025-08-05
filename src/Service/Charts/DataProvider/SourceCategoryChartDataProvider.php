@@ -22,6 +22,7 @@ class SourceCategoryChartDataProvider extends AbstractChartDataProvider
         $this->args['group_by'] = ['visitor.source_channel', 'visitor.last_counter'];
         $this->args['per_page'] = false;
         $this->args['decorate'] = true;
+        $this->args['not_null'] = false;
 
         $this->visitorsModel = new VisitorsModel();
     }
@@ -89,7 +90,8 @@ class SourceCategoryChartDataProvider extends AbstractChartDataProvider
         if (!empty($thisPeriodTotal)) {
             $this->addChartDataset(
                 esc_html__('Total', 'wp-statistics'),
-                array_values($thisPeriodTotal)
+                array_values($thisPeriodTotal),
+                'total'
             );
         }
     }
@@ -127,7 +129,7 @@ class SourceCategoryChartDataProvider extends AbstractChartDataProvider
                 return [
                     'formatted_date'    => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
                     'date'              => date_i18n('Y-m-d', strtotime($date)),
-                    'day'               => date_i18n('l', strtotime($date))
+                    'day'               => date_i18n('D', strtotime($date))
                 ];
             },
             $dateRange

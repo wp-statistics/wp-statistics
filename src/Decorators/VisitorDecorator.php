@@ -4,6 +4,7 @@ namespace WP_Statistics\Decorators;
 
 use WP_STATISTICS\IP;
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\Option;
 use WP_STATISTICS\Visitor;
 use WP_Statistics\Components\DateTime;
 
@@ -124,17 +125,6 @@ class VisitorDecorator
     }
 
     /**
-     * Get the honeypot status (whether the visitor triggered honeypot protection).
-     *
-     * @return bool|null
-     * @deprecated This will probably depreciate in v15
-     */
-    public function isHoneypotTriggered()
-    {
-        return $this->visitor->honeypot ?? null;
-    }
-
-    /**
      * Get the last counter value recorded for the visitor.
      *
      * @return int|null
@@ -142,9 +132,9 @@ class VisitorDecorator
     public function getLastCounter()
     {
         return !empty($this->visitor->last_counter) ? DateTime::format($this->visitor->last_counter, [
-            'include_time'  => true,
-            'exclude_year'  => true,
-            'separator'     => ', '
+            'include_time' => true,
+            'exclude_year' => true,
+            'separator'    => ', '
         ]) : null;
     }
 
@@ -175,7 +165,11 @@ class VisitorDecorator
      */
     public function getUser()
     {
-        return new UserDecorator($this->visitor);
+        if ($this->getUserId()) {
+            return new UserDecorator($this->getUserId());
+        }
+
+        return null;
     }
 
     /**
@@ -196,9 +190,9 @@ class VisitorDecorator
     public function getFirstView()
     {
         return !empty($this->visitor->first_view) ? DateTime::format($this->visitor->first_view, [
-            'include_time'  => true,
-            'exclude_year'  => true,
-            'separator'     => ', '
+            'include_time' => true,
+            'exclude_year' => true,
+            'separator'    => ', '
         ]) : null;
     }
 
@@ -209,7 +203,7 @@ class VisitorDecorator
      */
     public function getFirstPage()
     {
-        return $this->visitor->first_page ? Visitor::get_page_by_id($this->visitor->first_page) : null;
+        return !empty($this->visitor->first_page) ? Visitor::get_page_by_id($this->visitor->first_page) : null;
     }
 
     /**
@@ -250,9 +244,9 @@ class VisitorDecorator
     public function getPageView()
     {
         return !empty($this->visitor->page_view) ? DateTime::format($this->visitor->page_view, [
-            'include_time'  => true,
-            'exclude_year'  => true,
-            'separator'     => ', '
+            'include_time' => true,
+            'exclude_year' => true,
+            'separator'    => ', '
         ]) : null;
     }
 

@@ -54,54 +54,8 @@ class Admin_Assets
         add_action('admin_enqueue_scripts', array($this, 'admin_styles'), 999);
         add_action('admin_enqueue_scripts', array($this, 'admin_scripts'), 999);
         add_filter('wp_statistics_enqueue_chartjs', [$this, 'shouldEnqueueChartJs']);
-
-        $this->initFeedback();
     }
 
-    /**
-     * Init FeedbackBird widget a third-party service to get feedbacks from users
-     *
-     * @url https://feedbackbird.io
-     *
-     * @return void
-     */
-    private function initFeedback()
-    {
-        add_action('admin_enqueue_scripts', function () {
-            $screen = get_current_screen();
-
-            if (apply_filters('wp_statistics_enable_feedbackbird', true) && stripos($screen->id, 'wps_') !== false) {
-                wp_enqueue_script('feedbackbird-widget', 'https://cdn.jsdelivr.net/gh/feedbackbird/assets@master/wp/app.js?uid=01H34YMWXSA9XPS61M4S11RV6Z', [], self::version(), false);
-                wp_add_inline_script('feedbackbird-widget', sprintf('var feedbackBirdObject = %s;', wp_json_encode([
-                    'user_email' => function_exists('wp_get_current_user') ? wp_get_current_user()->user_email : '',
-                    'platform'   => 'wordpress-admin',
-                    'config'     => [
-                        'color'         => '#2831bc',
-                        'button'        => __('Feedback', 'wp-sms'),
-                        'subtitle'      => __('Feel free to share your thoughts!', 'wp-sms'),
-                        'opening_style' => 'modal',
-                    ],
-                    'meta'       => [
-                        'php_version'    => PHP_VERSION,
-                        'active_plugins' => array_map(function ($plugin, $pluginPath) {
-                            return [
-                                'name'    => $plugin['Name'],
-                                'version' => $plugin['Version'],
-                                'status'  => is_plugin_active($pluginPath) ? 'active' : 'deactivate',
-                            ];
-                        }, get_plugins(), array_keys(get_plugins())),
-                    ]
-                ])));
-
-                add_filter('script_loader_tag', function ($tag, $handle, $src) {
-                    if ('feedbackbird-widget' === $handle) {
-                        return preg_replace('/^<script /i', '<script type="module" crossorigin="crossorigin" ', $tag);
-                    }
-                    return $tag;
-                }, 10, 3);
-            }
-        });
-    }
 
     /**
      * Get Version of File
@@ -199,7 +153,7 @@ class Admin_Assets
         }
 
         //Load Jquery VMap Css
-        if (Menus::in_page('overview') || Menus::in_page('pages') || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard'))) {
+        if (Menus::in_page('overview') || Menus::in_page('pages') || Menus::in_page('geographic') || Menus::in_page('visitors') || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard'))) {
             wp_enqueue_style(self::$prefix . '-jqvmap', self::url('jqvmap/jqvmap.min.css'), array(), '1.5.1');
         }
 
@@ -209,7 +163,7 @@ class Admin_Assets
         //        }
 
         // Load Select2
-        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || (Menus::in_page('pages') and isset($_GET['ID']))) {
+        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages') || Menus::in_page('settings') || Menus::in_page('optimization')  || Menus::in_page('goals')) {
             wp_enqueue_style(self::$prefix . '-select2', self::url('select2/select2.min.css'), array(), '4.0.9');
         }
 
@@ -246,7 +200,7 @@ class Admin_Assets
         }
 
         // Load Jquery VMap Js Library
-        if (Menus::in_page('overview') || Menus::in_page('pages') || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard'))) {
+        if (Menus::in_page('overview') || Menus::in_page('pages') || Menus::in_page('geographic') || Menus::in_page('visitors') || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard'))) {
             wp_enqueue_script(self::$prefix . '-jqvmap', self::url('jqvmap/jquery.vmap.min.js'), array('jquery'), "1.5.1", ['in_footer' => true]);
             wp_enqueue_script(self::$prefix . '-jqvmap-world', self::url('jqvmap/jquery.vmap.world.min.js'), array('jquery'), "1.5.1", ['in_footer' => true]);
         }
@@ -259,7 +213,7 @@ class Admin_Assets
         //        }
 
         // Load Select2
-        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || (Menus::in_page('pages') and isset($_GET['ID']))) {
+        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages') || Menus::in_page('settings') || Menus::in_page('optimization') || Menus::in_page('goals')) {
             wp_enqueue_script(self::$prefix . '-select2', self::url('select2/select2.full.min.js'), array('jquery'), "4.1.0", ['in_footer' => true]);
         }
 
@@ -291,14 +245,14 @@ class Admin_Assets
         }
 
         // Add Thick box
-        if (Menus::in_page('visitors') || Menus::in_page('visitors-report') || Menus::in_page('referrals')) {
+        if (Menus::in_page('visitors') || Menus::in_page('visitors-report') || Menus::in_page('referrals') || Menus::in_page('pages')) {
             wp_enqueue_script('thickbox');
             wp_enqueue_style('thickbox');
         }
 
         // Add RangeDatePicker
         if (Menus::in_plugin_page() || Menus::in_page('pages') || in_array($screen_id, array('dashboard'))) {
-            wp_enqueue_script(self::$prefix . '-moment', self::url('datepicker/moment.min.js'), array(), "2.30.1", ['in_footer' => true]);
+            wp_enqueue_script(self::$prefix . '-moment', self::url('datepicker/moment.min.js'), array(), "2.30.2", ['in_footer' => true]);
             wp_enqueue_script(self::$prefix . '-daterangepicker', self::url('datepicker/daterangepicker.min.js'), array(), "1.13.2", ['in_footer' => true]);
         }
 
@@ -329,8 +283,10 @@ class Admin_Assets
             'gutenberg'      => (Helper::is_gutenberg() ? 1 : 0),
             'more_btn'       => (apply_filters('wp_statistics_meta_box_more_button', true) ? 1 : 0),
             'wp_date_format' => Helper::getDefaultDateFormat(),
-            'track_users'    => Option::get('visitors_log') ? 1 : 0
+            'track_users'    => Option::get('visitors_log') ? 1 : 0,
+            'wp_timezone'    => DateTime::getTimezone()->getName()
         );
+
 
         // WordPress Current Page
         $list['page'] = array(
@@ -407,18 +363,22 @@ class Admin_Assets
             'page'                         => __('Visited Page', 'wp-statistics'),
             'str_today'                    => __('Today', 'wp-statistics'),
             'str_yesterday'                => __('Yesterday', 'wp-statistics'),
-            'str_this_week'                => __('This Week', 'wp-statistics'),
-            'str_last_week'                => __('Last Week', 'wp-statistics'),
-            'str_this_month'               => __('This Month', 'wp-statistics'),
-            'str_last_month'               => __('Last Month', 'wp-statistics'),
+            'str_this_week'                => __('This week', 'wp-statistics'),
+            'str_last_week'                => __('Last week', 'wp-statistics'),
+            'str_this_month'               => __('This month', 'wp-statistics'),
+            'str_last_month'               => __('Last month', 'wp-statistics'),
             'str_7days'                    => __('Last 7 days', 'wp-statistics'),
+            'str_28days'                   => __('Last 28 days', 'wp-statistics'),
             'str_30days'                   => __('Last 30 days', 'wp-statistics'),
             'str_90days'                   => __('Last 90 days', 'wp-statistics'),
             'str_6months'                  => __('Last 6 months', 'wp-statistics'),
             'str_year'                     => __('This year', 'wp-statistics'),
             'str_this_year'                => __('This year', 'wp-statistics'),
+            'str_last_year'                => __('Last year', 'wp-statistics'),
             'str_back'                     => __('Go Back', 'wp-statistics'),
             'str_custom'                   => __('Select Custom Range...', 'wp-statistics'),
+            'custom_range'                 => __('Custom Range', 'wp-statistics'),
+            'all_time'                     => __('All time', 'wp-statistics'),
             'str_more'                     => __('Additional Date Ranges', 'wp-statistics'),
             'custom'                       => __('Custom Date Range', 'wp-statistics'),
             'to'                           => __('To (End Date)', 'wp-statistics'),
@@ -450,7 +410,7 @@ class Admin_Assets
             'downloading'                  => __('Downloading', 'wp-statistics'),
             'activated'                    => __('Activated', 'wp-statistics'),
             'active'                       => __('Active', 'wp-statistics'),
-            'activating'                   => __('Activating ', 'wp-statistics'),
+            'activating'                   => __('Activating', 'wp-statistics'),
             'already_installed'            => __('Already installed', 'wp-statistics'),
             'failed'                       => __('Failed', 'wp-statistics'),
             'retry'                        => __('Retry', 'wp-statistics'),
@@ -463,16 +423,34 @@ class Admin_Assets
             'role'                         => __('Role', 'wp-statistics'),
             'latest_page'                  => __('Latest Page', 'wp-statistics'),
             'referrer'                     => __('Referrer', 'wp-statistics'),
+            'source_channel'               => __('Source Category', 'wp-statistics'),
             'online_for'                   => __('Online For', 'wp-statistics'),
             'views'                        => __('Views', 'wp-statistics'),
             'view'                         => __('View', 'wp-statistics'),
             'waiting'                      => __('Waiting', 'wp-statistics'),
-            'apply'                        => __('Apply'),
-            'reset'                        => __('Reset'),
-            'loading'                      => __('Loading'),
-            'go_to_overview'                      => __('Go to Overview'),
+            'apply'                        => __('Apply', 'wp-statistics'),
+            'reset'                        => __('Reset', 'wp-statistics'),
+            'loading'                      => __('Loading', 'wp-statistics'),
+            'go_to_overview'               => __('Go to Overview', 'wp-statistics'),
             'continue_to_next_step'        => __('Continue to Next Step', 'wp-statistics'),
             'action_required'              => __('Action Required', 'wp-statistics'),
+            'show_less'                    => __('Show less', 'wp-statistics'),
+            'show_more'                    => __('Show more', 'wp-statistics'),
+            'pending'                      => __('Pending', 'wp-statistics'),
+            'copied'                       => __('Copied!', 'wp-statistics'),
+            'settings'                     => __('SETTINGS', 'wp-statistics'),
+            'premium_addons'               => __('PREMIUM ADD-ONS', 'wp-statistics'),
+            'clicks'                       => __('Clicks', 'wp-statistics'),
+            'impressions'                  => __('Impressions', 'wp-statistics'),
+            'prev'                         => __('Prev', 'wp-statistics'),
+            'next'                         => __('Next', 'wp-statistics'),
+            'loading_error'                => __('Oops, something went wrong while loading statistics.', 'wp-statistics'),
+            'last_updated'                 => __('Last updated:', 'wp-statistics'),
+            'unassigned'                   => __('Unassigned', 'wp-statistics'),
+            'select_page'                  => __('Select page', 'wp-statistics'),
+            'required_error'               => __('This field is required', 'wp-statistics'),
+            'validate_error'               => __('Must not contain spaces, #, or .', 'wp-statistics'),
+            'machine_validate_error'       => __('Please use lowercase letters, numbers, underscores, or dashes only. No spaces allowed.', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 
@@ -482,9 +460,9 @@ class Admin_Assets
         $list['initial_post_date'] = Helper::getInitialPostDate();
 
         if (Request::has('post_id')) {
-            $list['post_creation_date'] = get_the_date(DateTime::$defaultDateFormat, Request::get('post_id'));
+            $list['post_creation_date'] = get_post_time(DateTime::$defaultDateFormat, false, Request::get('post_id'), false);
         } else if (is_singular()) {
-            $list['post_creation_date'] = get_the_date(DateTime::$defaultDateFormat);
+            $list['post_creation_date'] = get_post_time(DateTime::$defaultDateFormat, false, null, false);
         }
 
         // Rest-API Meta Box Url
@@ -496,8 +474,10 @@ class Admin_Assets
         $list['rest_api_nonce']      = wp_create_nonce('wp_rest');
         $list['meta_box_api']        = admin_url('admin-ajax.php?action=wp_statistics_admin_meta_box');
 
-        // Meta Box List
-        $list['meta_boxes'] = array_keys(MetaboxHelper::getScreenMetaboxes());
+        // For developers: WordPress debugging mode.
+        $list['wp_debug'] = defined('WP_DEBUG') && WP_DEBUG ? true : false;
+
+        $list['meta_boxes'] = MetaboxHelper::getScreenMetaboxes();
 
         /**
          * Filter: wp_statistics_admin_assets

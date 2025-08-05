@@ -1,9 +1,11 @@
 <?php
+
 namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Components\DateTime;
 
 class BrowserUsage extends BaseMetabox
 {
@@ -23,8 +25,8 @@ class BrowserUsage extends BaseMetabox
     public function getOptions()
     {
         return [
-            'datepicker'    => true,
-            'button'        => View::load('metabox/action-button',[
+            'datepicker' => true,
+            'button'     => View::load('metabox/action-button', [
                 'link'  => Menus::admin_url('devices', ['tab' => 'browsers']),
                 'title' => esc_html__('View Browser Usage', 'wp-statistics')
             ], true)
@@ -35,17 +37,20 @@ class BrowserUsage extends BaseMetabox
     {
         $args = $this->getFilters();
 
+        $isTodayOrFutureDate = DateTime::isTodayOrFutureDate($args['date']['to'] ?? null);
+
         $data = $this->dataProvider->getBrowsersChartData($args);
 
         $data = array_merge($data, [
-            'tag_id' => 'wps-browser-usage'
+            'tag_id' => 'wps-browser-usage',
+            'url'    => WP_STATISTICS_URL . 'assets/images/no-data/vector-3.svg'
         ]);
 
-        $output = View::load('metabox/horizontal-bar', ['data' => $data], true);
+        $output = View::load('metabox/horizontal-bar', ['data' => $data, 'filters' => $args, 'isTodayOrFutureDate' => $isTodayOrFutureDate], true);
 
         return [
-            'output'    => $output,
-            'data'      => $data
+            'output' => $output,
+            'data'   => $data
         ];
     }
 

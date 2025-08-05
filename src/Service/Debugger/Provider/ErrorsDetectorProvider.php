@@ -36,6 +36,12 @@ class ErrorsDetectorProvider extends AbstractDebuggerProvider
      */
     public function errorListener()
     {
+        $disableLogs = apply_filters('wp_statistics_disable_tracker_debugger_logs', false);
+
+        if ($disableLogs) {
+            return;
+        }
+
         $error = error_get_last();
         if (empty($error)) {
             return;

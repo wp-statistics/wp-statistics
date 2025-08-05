@@ -25,6 +25,12 @@ class RemoteRequest
     private $responseBody;
 
     /**
+     * Complete WordPress HTTP API response object
+     * @var array|null
+     */
+    private $response;
+
+    /**
      * @param string $url
      * @param string $method
      * @param array $params URL parameters.
@@ -75,9 +81,18 @@ class RemoteRequest
      */
     public function generateCacheKey()
     {
-        return $this->getCacheKey($this->requestUrl . serialize($this->parsedArgs));
+        return wp_json_encode(array_merge(['url' => $this->requestUrl], $this->parsedArgs));
     }
 
+    /**
+     * Clears the cache for the current request.
+     *
+     * This method is useful when you want to make sure that the next request is not served from the cache.
+     */
+    public function clearCache()
+    {
+        $this->clearCachedResult($this->generateCacheKey());
+    }
 
     /**
      * Checks if the given HTTP response code indicates a successful request.
@@ -87,6 +102,16 @@ class RemoteRequest
     public function isRequestSuccessful()
     {
         return in_array($this->responseCode, [200, 201, 202]);
+    }
+
+    /**
+     * Checks if the request is cached.
+     *
+     * @return bool True if the request is cached, false otherwise.
+     */
+    public function isCached()
+    {
+        return $this->getCachedResult($this->generateCacheKey()) !== false;
     }
 
     /**
@@ -118,6 +143,8 @@ class RemoteRequest
             $this->requestUrl,
             $this->parsedArgs
         );
+
+        $this->response = $response;
 
         if (is_wp_error($response)) {
             if (empty($throwFailedHttpCodeResponse)) {
@@ -154,7 +181,7 @@ class RemoteRequest
 
     /**
      * Returns the response body from the executed request
-     * 
+     *
      * @return string|null The response body or null if no request has been executed
      */
     public function getResponseBody()
@@ -164,12 +191,22 @@ class RemoteRequest
 
     /**
      * Returns the HTTP response code from the last executed request
-     * 
+     *
      * @return int|null The HTTP response code or null if no request has been executed
      */
     public function getResponseCode()
     {
         return $this->responseCode;
+    }
+
+    /**
+     * Retrieves the complete WordPress HTTP API response object
+     *
+     * @return array|null Complete response array or null if no request executed
+     */
+    public function getResponse()
+    {
+        return $this->response;
     }
 
     /**

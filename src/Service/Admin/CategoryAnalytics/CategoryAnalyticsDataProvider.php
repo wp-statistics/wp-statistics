@@ -3,11 +3,13 @@
 namespace WP_Statistics\Service\Admin\CategoryAnalytics;
 
 use WP_STATISTICS\Helper;
-use WP_Statistics\Models\AuthorsModel;
 use WP_Statistics\Models\PostsModel;
-use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\ViewsModel;
+use WP_Statistics\Models\AuthorsModel;
+use WP_Statistics\Components\DateRange;
+use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
 class CategoryAnalyticsDataProvider
@@ -48,23 +50,25 @@ class CategoryAnalyticsDataProvider
 
     public function getSingleTermData()
     {
-        $totalPosts         = $this->postsModel->countPosts(array_merge($this->args, ['ignore_date' => true]));
-        $recentPosts        = $this->postsModel->countPosts($this->args);
+        $posts     = $this->postsModel->countPosts($this->args);
+        $prevPosts = $this->postsModel->countPosts(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $recentViews         = $this->viewsModel->countViews($this->args);
-        $recentVisitors      = $this->visitorsModel->countVisitors($this->args);
+        $visitors     = $this->visitorsModel->countVisitors($this->args);
+        $prevVisitors = $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $totalWords         = $this->postsModel->countWords(array_merge($this->args, ['ignore_date' => true]));
-        $recentWords        = $this->postsModel->countWords($this->args);
+        $views     = $this->viewsModel->countViews($this->args);
+        $prevViews = $this->viewsModel->countViews(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $totalComments      = $this->postsModel->countComments(array_merge($this->args, ['ignore_date' => true]));
-        $recentComments     = $this->postsModel->countComments($this->args);
+        $comments        = $this->postsModel->countComments($this->args);
+        $prevComments    = $this->postsModel->countComments(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+        $avgComments     = Helper::divideNumbers($comments, $posts);
+        $prevAvgComments = Helper::divideNumbers($prevComments, $prevPosts);
 
         $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
         $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
 
         $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
-        $referrersData      = $this->visitorsModel->getReferrers(array_merge($this->args, ['not_null' => 'visitor.referred']));
+        $referrersData      = $this->visitorsModel->getReferrers($this->args);
 
         $performanceData    = [
             'posts'     => $this->postsModel->countPosts($this->args),
@@ -76,31 +80,27 @@ class CategoryAnalyticsDataProvider
         $recentPostsData    = $this->postsModel->getPostsViewsData(array_merge($this->args, ['order_by' => 'post_date', 'show_no_views' => true]));
         $topCommentedPosts  = $this->postsModel->getPostsCommentsData($this->args);
 
-        return [
-            'overview'          => [
-                'published' => [
-                    'total'     => $totalPosts,
-                    'recent'    => $recentPosts
+        $result = [
+            'glance' => [
+                'posts' => [
+                    'value'  => $posts,
+                    'change' => Helper::calculatePercentageChange($prevPosts, $posts)
                 ],
-                'views'     => [
-                    'recent'    => $recentViews,
-                    'avg'       => Helper::divideNumbers($recentViews, $recentPosts)
+                'visitors' => [
+                    'value'  => $visitors,
+                    'change' => Helper::calculatePercentageChange($prevVisitors, $visitors)
                 ],
-                'visitors'  => [
-                    'recent'    => $recentVisitors,
-                    'avg'       => Helper::divideNumbers($recentVisitors, $recentPosts)
-                ],
-                'words'     => [
-                    'recent'    => $recentWords,
-                    'avg'       => Helper::divideNumbers($recentWords, $recentPosts),
-                    'total'     => $totalWords,
-                    'total_avg' => Helper::divideNumbers($totalWords, $totalPosts)
+                'views' => [
+                    'value'  => $views,
+                    'change' => Helper::calculatePercentageChange($prevViews, $views)
                 ],
                 'comments'  => [
-                    'recent'    => $recentComments,
-                    'avg'       => Helper::divideNumbers($recentComments, $recentPosts),
-                    'total'     => $totalComments,
-                    'total_avg' => Helper::divideNumbers($totalComments, $totalPosts)
+                    'value'  => $comments,
+                    'change' => Helper::calculatePercentageChange($prevComments, $comments)
+                ],
+                'comments_avg' => [
+                    'value'  => $avgComments,
+                    'change' => Helper::calculatePercentageChange($prevAvgComments, $avgComments)
                 ]
             ],
             'posts'             => [
@@ -113,21 +113,33 @@ class CategoryAnalyticsDataProvider
             'visitors_country'  => $visitorsCountry,
             'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary)
         ];
+
+        if (WordCountService::isActive()) {
+            $words    = $this->postsModel->countWords($this->args);
+            $avgWords = Helper::divideNumbers($words, $posts);
+
+            $result['glance']['words']     = ['value' => $words];
+            $result['glance']['words_avg'] = ['value' => $avgWords];
+        }
+
+        return $result;
     }
 
     public function getPerformanceData()
     {
-        $totalPosts         = $this->postsModel->countPosts(array_merge($this->args, ['ignore_date' => true]));
-        $recentPosts        = $this->postsModel->countPosts($this->args);
+        $posts     = $this->postsModel->countPosts($this->args);
+        $prevPosts = $this->postsModel->countPosts(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $recentViews        = $this->viewsModel->countViews($this->args);
-        $recentVisitors     = $this->visitorsModel->countVisitors($this->args);
+        $visitors     = $this->visitorsModel->countVisitors($this->args);
+        $prevVisitors = $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $recentWords        = $this->postsModel->countWords($this->args);
-        $totalWords         = $this->postsModel->countWords(array_merge($this->args, ['ignore_date' => true]));
+        $views     = $this->viewsModel->countViews($this->args);
+        $prevViews = $this->viewsModel->countViews(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $recentComments     = $this->postsModel->countComments($this->args);
-        $totalComments      = $this->postsModel->countComments(array_merge($this->args, ['ignore_date' => true]));
+        $comments        = $this->postsModel->countComments($this->args);
+        $prevComments    = $this->postsModel->countComments(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+        $avgComments     = Helper::divideNumbers($comments, $posts);
+        $prevAvgComments = Helper::divideNumbers($prevComments, $prevPosts);
 
         $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
         $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
@@ -136,7 +148,7 @@ class CategoryAnalyticsDataProvider
         $topViewingAuthors    = $this->authorModel->getTopViewingAuthors($this->args);
 
         $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
-        $referrersData      = $this->visitorsModel->getReferrers(array_merge($this->args, ['not_null' => 'visitor.referred']));
+        $referrersData      = $this->visitorsModel->getReferrers($this->args);
 
         $performanceData = [
             'posts'     => $this->postsModel->countPosts($this->args),
@@ -151,7 +163,7 @@ class CategoryAnalyticsDataProvider
         $topViewingCategories    = $this->taxonomyModel->getTermsData($this->args);
         $topPublishingCategories = $this->taxonomyModel->getTermsData(array_merge($this->args, ['order_by' => 'posts', 'date_field' => 'posts.post_date']));
 
-        return [
+        $result = [
             'visitors_country'  => $visitorsCountry,
             'referrers'         => $referrersData,
             'authors'           => [
@@ -162,30 +174,26 @@ class CategoryAnalyticsDataProvider
                 'publishing' => $topPublishingCategories,
                 'viewing'    => $topViewingCategories
             ],
-            'overview'          => [
-                'published' => [
-                    'total' => $totalPosts,
-                    'recent' => $recentPosts
+            'glance' => [
+                'posts' => [
+                    'value'  => $posts,
+                    'change' => Helper::calculatePercentageChange($prevPosts, $posts)
                 ],
-                'views'     => [
-                    'recent'    => $recentViews,
-                    'avg'       => Helper::divideNumbers($recentViews, $recentPosts)
+                'visitors' => [
+                    'value'  => $visitors,
+                    'change' => Helper::calculatePercentageChange($prevVisitors, $visitors)
                 ],
-                'visitors'  => [
-                    'recent'    => $recentVisitors,
-                    'avg'       => Helper::divideNumbers($recentVisitors, $recentPosts)
-                ],
-                'words'     => [
-                    'recent'    => $recentWords,
-                    'avg'       => Helper::divideNumbers($recentWords, $recentPosts),
-                    'total'     => $totalWords,
-                    'total_avg' => Helper::divideNumbers($totalWords, $totalPosts)
+                'views' => [
+                    'value'  => $views,
+                    'change' => Helper::calculatePercentageChange($prevViews, $views)
                 ],
                 'comments'  => [
-                    'recent'    => $recentComments,
-                    'avg'       => Helper::divideNumbers($recentComments, $recentPosts),
-                    'total'     => $totalComments,
-                    'total_avg' => Helper::divideNumbers($totalComments, $totalPosts)
+                    'value'  => $comments,
+                    'change' => Helper::calculatePercentageChange($prevComments, $comments)
+                ],
+                'comments_avg' => [
+                    'value'  => $avgComments,
+                    'change' => Helper::calculatePercentageChange($prevAvgComments, $avgComments)
                 ]
             ],
             'performance'       => $performanceData,
@@ -196,6 +204,16 @@ class CategoryAnalyticsDataProvider
                 'recent'        => $recentPostsData
             ]
         ];
+
+        if (WordCountService::isActive()) {
+            $words    = $this->postsModel->countWords($this->args);
+            $avgWords = Helper::divideNumbers($words, $posts);
+
+            $result['glance']['words']     = ['value' => $words];
+            $result['glance']['words_avg'] = ['value' => $avgWords];
+        }
+
+        return $result;
     }
 
     public function getCategoryReportData()

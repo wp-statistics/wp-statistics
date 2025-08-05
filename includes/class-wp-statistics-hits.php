@@ -5,7 +5,7 @@ namespace WP_STATISTICS;
 use Exception;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Analytics\VisitorProfile;
-use WP_Statistics\Service\Integrations\WpConsentApi;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Traits\ErrorLoggerTrait;
 
 class Hits extends Singleton
@@ -160,10 +160,11 @@ class Hits extends Singleton
         }
 
         /**
-         * Record User Views
+         * Record Pages
          */
-        if (Visit::active()) {
-            Visit::record();
+        $pageId = false;
+        if (Pages::active()) {
+            $pageId = Pages::record($visitorProfile);
         }
 
         /**
@@ -171,15 +172,7 @@ class Hits extends Singleton
          */
         $visitorId = false;
         if (Visitor::active()) {
-            $visitorId = Visitor::record($visitorProfile);
-        }
-
-        /**
-         * Record Pages
-         */
-        $pageId = false;
-        if (Pages::active()) {
-            $pageId = Pages::record($visitorProfile);
+            $visitorId = Visitor::record($visitorProfile, ['page_id' => $pageId]);
         }
 
         /**
@@ -192,10 +185,11 @@ class Hits extends Singleton
         /**
          * Record User Online with the visitor request in the same time.
          */
-        self::recordOnline($visitorProfile, $exclusion, $pageId);
+        self::recordOnline($visitorProfile);
 
         self::errorListener();
-        
+
+
         return $exclusion;
     }
 
@@ -204,7 +198,7 @@ class Hits extends Singleton
      *
      * @throws Exception
      */
-    public static function recordOnline($visitorProfile = null, $exclusion = null, $pageId = null)
+    public static function recordOnline($visitorProfile = null)
     {
         if (!UserOnline::active()) {
             return;
@@ -214,33 +208,12 @@ class Hits extends Singleton
             $visitorProfile = new VisitorProfile();
         }
 
-        /**
-         * Check the exclusion
-         */
-        if (!$exclusion) {
-            $exclusion = Exclusion::check($visitorProfile);
+        if ($visitorProfile->getVisitorId() === 0) {
+            return;
         }
 
-        /**
-         * Record exclusion if needed & then skip the tracking
-         */
-        if ($exclusion['exclusion_match'] === true) {
-            Exclusion::record($exclusion);
-
-            self::errorListener();
-            
-            throw new Exception($exclusion['exclusion_reason'], 200);
-        }
-
-        $args = null;
-        if ($pageId) {
-            $args['page_id'] = $pageId;
-        }
-
-        UserOnline::record($visitorProfile, $args);
+        UserOnline::record($visitorProfile);
         self::errorListener();
-
-        return $exclusion;
     }
 
     /**
@@ -271,9 +244,10 @@ class Hits extends Singleton
                 return;
             }
 
-            $consentLevel = Option::get('consent_level_integration', 'disabled');
+            $isConsentGiven     = IntegrationHelper::isConsentGiven();
+            $trackAnonymously   = IntegrationHelper::shouldTrackAnonymously();
 
-            if ($consentLevel == 'disabled' || Helper::shouldTrackAnonymously() || !WpConsentApi::isWpConsentApiActive() || !function_exists('wp_has_consent') || wp_has_consent($consentLevel)) {
+            if ($isConsentGiven || $trackAnonymously) {
                 self::record();
             }
 

@@ -1,11 +1,13 @@
 <?php
 namespace WP_Statistics\Service\Admin\ContentAnalytics;
 
+use WP_Statistics\Components\DateRange;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 use WP_Statistics\Utils\Request;
 
@@ -46,24 +48,26 @@ class ContentAnalyticsDataProvider
 
     public function getPostTypeData()
     {
-        $totalPosts     = $this->postsModel->countPosts(array_merge($this->args, ['ignore_date' => true]));
-        $recentPosts    = $this->postsModel->countPosts($this->args);
+        $posts     = $this->postsModel->countPosts($this->args);
+        $prevPosts = $this->postsModel->countPosts(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $recentViews    = $this->viewsModel->countViews($this->args);
-        $recentVisitors = $this->visitorsModel->countVisitors($this->args);
+        $visitors     = $this->visitorsModel->countVisitors($this->args);
+        $prevVisitors = $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $totalWords     = $this->postsModel->countWords(array_merge($this->args, ['ignore_date' => true]));
-        $recentWords    = $this->postsModel->countWords($this->args);
+        $views     = $this->viewsModel->countViews($this->args);
+        $prevViews = $this->viewsModel->countViews(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $totalComments  = $this->postsModel->countComments(array_merge($this->args, ['ignore_date' => true]));
-        $recentComments = $this->postsModel->countComments($this->args);
+        $comments        = $this->postsModel->countComments($this->args);
+        $prevComments    = $this->postsModel->countComments(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+        $avgComments     = Helper::divideNumbers($comments, $posts);
+        $prevAvgComments = Helper::divideNumbers($prevComments, $prevPosts);
 
         $visitorsCountry = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
 
         $visitorsSummary = $this->visitorsModel->getVisitorsSummary($this->args);
         $viewsSummary    = $this->viewsModel->getViewsSummary($this->args);
 
-        $referrersData   = $this->visitorsModel->getReferrers(array_merge($this->args, ['not_null' => 'visitor.referred']));
+        $referrersData   = $this->visitorsModel->getReferrers($this->args);
         $performanceData = [
             'posts'     => $this->postsModel->countPosts($this->args),
             'visitors'  => $this->visitorsModel->countVisitors($this->args),
@@ -76,35 +80,31 @@ class ContentAnalyticsDataProvider
 
         $taxonomies         = $this->taxonomyModel->getTaxonomiesData($this->args);
 
-        return [
-            'taxonomies'        => $taxonomies,
-            'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
-            'overview'          => [
-                'published' => [
-                    'total'     => $totalPosts,
-                    'recent'    => $recentPosts
+        $result = [
+            'glance' => [
+                'posts' => [
+                    'value'  => $posts,
+                    'change' => Helper::calculatePercentageChange($prevPosts, $posts)
                 ],
-                'views'     => [
-                    'recent'    => $recentViews,
-                    'avg'       => Helper::divideNumbers($recentViews, $recentPosts)
+                'views' => [
+                    'value'  => $views,
+                    'change' => Helper::calculatePercentageChange($prevViews, $views)
                 ],
-                'visitors'  => [
-                    'recent'    => $recentVisitors,
-                    'avg'       => Helper::divideNumbers($recentVisitors, $recentPosts)
+                'visitors' => [
+                    'value'  => $visitors,
+                    'change' => Helper::calculatePercentageChange($prevVisitors, $visitors)
                 ],
-                'words'     => [
-                    'total'     => $totalWords,
-                    'recent'    => $recentWords,
-                    'avg'       => Helper::divideNumbers($recentWords, $recentPosts),
-                    'total_avg' => Helper::divideNumbers($totalWords, $totalPosts)
+                'comments' => [
+                    'value'  => $comments,
+                    'change' => Helper::calculatePercentageChange($prevComments, $comments),
                 ],
-                'comments'  => [
-                    'total'     => $totalComments,
-                    'recent'    => $recentComments,
-                    'avg'       => Helper::divideNumbers($recentComments, $recentPosts),
-                    'total_avg' => Helper::divideNumbers($totalComments, $totalPosts)
+                'comments_avg' => [
+                    'value'  => Helper::divideNumbers($comments, $posts),
+                    'change' => Helper::calculatePercentageChange($prevAvgComments, $avgComments)
                 ]
             ],
+            'taxonomies'        => $taxonomies,
+            'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
             'visitors_country'  => $visitorsCountry,
             'performance'       => $performanceData,
             'referrers'         => $referrersData,
@@ -114,32 +114,42 @@ class ContentAnalyticsDataProvider
                 'recent'        => $recentPostsData
             ]
         ];
+
+        if (WordCountService::isActive()) {
+            $words    = $this->postsModel->countWords($this->args);
+            $avgWords = Helper::divideNumbers($words, $posts);
+
+            $result['glance']['words'] = [
+                'value' => $words
+            ];
+
+            $result['glance']['words_avg'] = [
+                'value' => $avgWords
+            ];
+        }
+
+        return $result;
     }
 
-    public function getSinglePostData()
+    public function getSingleResourceData()
     {
-        $totalHitsArgs      = array_merge(Helper::filterArrayByKeys($this->args, ['post_id', 'query_param', 'resource_type']), ['ignore_date' => true]);
+        $views     = $this->viewsModel->countViews($this->args);
+        $prevViews = $this->viewsModel->countViews(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $totalViews         = $this->viewsModel->countViews($totalHitsArgs);
-        $totalVisitors      = $this->visitorsModel->countVisitors($totalHitsArgs);
+        $visitors     = $this->visitorsModel->countVisitors($this->args);
+        $prevVisitors = $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $recentViews        = $this->viewsModel->countViews($this->args);
-        $recentVisitors     = $this->visitorsModel->countVisitors($this->args);
+        $visitorsCountry = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
 
-        $totalWords         = $this->postsModel->countWords($this->args);
-        $totalComments      = $this->postsModel->countComments($this->args);
+        $visitorsSummary = $this->visitorsModel->getVisitorsSummary($this->args);
+        $viewsSummary    = $this->viewsModel->getViewsSummary($this->args);
 
-        $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
+        $referrersData = $this->visitorsModel->getReferrers($this->args);
 
-        $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
-        $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
-
-        $referrersData      = $this->visitorsModel->getReferrers(array_merge($this->args, ['not_null' => 'visitor.referred']));
-
-        $performanceArgs    = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
-        $performanceData    = [
-            'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, $performanceArgs)),
-            'views'     => $this->viewsModel->countViews(array_merge($this->args, $performanceArgs)),
+        $performanceArgs = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
+        $performanceData = [
+            'visitors' => $this->visitorsModel->countVisitors(array_merge($this->args, $performanceArgs)),
+            'views'    => $this->viewsModel->countViews(array_merge($this->args, $performanceArgs)),
         ];
 
         return [
@@ -147,22 +157,97 @@ class ContentAnalyticsDataProvider
             'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
             'performance'       => $performanceData,
             'referrers'         => $referrersData,
-            'overview'          => [
+            'glance'            => [
                 'views'     => [
-                    'total' => $totalViews,
-                    'recent'=> $recentViews,
+                    'value'  => $views,
+                    'change' => Helper::calculatePercentageChange($prevViews, $views)
                 ],
                 'visitors'  => [
-                    'total' => $totalVisitors,
-                    'recent'=> $recentVisitors,
-                ],
-                'words'     => [
-                    'total' => $totalWords,
-                ],
-                'comments'  => [
-                    'total' => $totalComments,
+                    'value'  => $visitors,
+                    'change' => Helper::calculatePercentageChange($prevVisitors, $visitors)
                 ]
             ]
         ];
+    }
+
+    public function getSinglePostData()
+    {
+        $views          = $this->viewsModel->countViews($this->args);
+        $prevViews      = $this->viewsModel->countViews(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+        $viewsSummary   = $this->viewsModel->getViewsSummary($this->args);
+
+        $visitors        = $this->visitorsModel->countVisitors($this->args);
+        $prevVisitors    = $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+        $visitorsSummary = $this->visitorsModel->getVisitorsSummary($this->args);
+        $visitorsCountry = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
+
+        $entryPages     = $this->visitorsModel->countEntryPageVisitors(array_merge($this->args, ['resource_id' => $this->args['post_id']]));
+        $prevEntryPages = $this->visitorsModel->countEntryPageVisitors(array_merge($this->args, ['resource_id' => $this->args['post_id'], 'date' => DateRange::getPrevPeriod()]));
+
+        $exitPages     = $this->visitorsModel->countExitPageVisitors(array_merge($this->args, ['resource_id' => $this->args['post_id']]));
+        $prevExitPages = $this->visitorsModel->countExitPageVisitors(array_merge($this->args, ['resource_id' => $this->args['post_id'], 'date' => DateRange::getPrevPeriod()]));
+        $exitRate      = Helper::calculatePercentage($exitPages, $visitors);
+        $prevExitRate  = Helper::calculatePercentage($prevExitPages, $prevVisitors);
+
+        $bounceRate     = $this->visitorsModel->getBounceRate(array_merge($this->args, ['resource_id' => $this->args['post_id']]));
+        $prevBounceRate = $this->visitorsModel->getBounceRate(array_merge($this->args, ['resource_id' => $this->args['post_id'], 'date' => DateRange::getPrevPeriod()]));
+
+        $comments       = $this->postsModel->countComments($this->args);
+        $prevComments   = $this->postsModel->countComments(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+
+        $referrersData = $this->visitorsModel->getReferrers($this->args);
+
+        $performanceArgs = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
+        $performanceData = [
+            'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, $performanceArgs)),
+            'views'     => $this->viewsModel->countViews(array_merge($this->args, $performanceArgs)),
+        ];
+
+        $result = [
+            'visitors_country'  => $visitorsCountry,
+            'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
+            'performance'       => $performanceData,
+            'referrers'         => $referrersData,
+            'glance'            => [
+                'views'     => [
+                    'value'  => $views,
+                    'change' => Helper::calculatePercentageChange($prevViews, $views)
+                ],
+                'visitors'  => [
+                    'value'  => $visitors,
+                    'change' => Helper::calculatePercentageChange($prevVisitors, $visitors)
+                ],
+                'entry_page' => [
+                    'value'  => $entryPages,
+                    'change' => Helper::calculatePercentageChange($prevEntryPages, $entryPages)
+                ],
+                'exit_page' => [
+                    'value'  => $exitPages,
+                    'change' => Helper::calculatePercentageChange($prevExitPages, $exitPages)
+                ],
+                'bounce_rate' => [
+                    'value'  => $bounceRate . '%',
+                    'change' => round($bounceRate - $prevBounceRate, 1)
+                ],
+                'exit_rate' => [
+                    'value'  => $exitRate . '%',
+                    'change' => round($exitRate - $prevExitRate, 1)
+                ],
+                'comments'  => [
+                    'value'  => $comments,
+                    'change' => Helper::calculatePercentageChange($prevComments, $comments),
+                ]
+            ]
+        ];
+
+        if (WordCountService::isActive()) {
+            $totalWords = $this->postsModel->countWords($this->args);
+
+            $result['glance']['words'] = [
+                'value' => $totalWords
+            ];
+        }
+
+        return $result;
     }
 }

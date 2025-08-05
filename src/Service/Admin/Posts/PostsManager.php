@@ -23,8 +23,10 @@ class PostsManager
     {
         $this->wordsCount = new WordCountService();
 
-        add_action('save_post', [$this, 'addWordsCountCallback'], 99, 3);
-        add_action('delete_post', [$this, 'removeWordsCountCallback'], 99, 2);
+        if ($this->wordsCount->isActive()) {
+            add_action('save_post', [$this, 'addWordsCountCallback'], 99, 3);
+            add_action('delete_post', [$this, 'removeWordsCountCallback'], 99, 2);
+        }
 
         // Add Hits column in edit lists of all post types
         if (User::Access('read') && !Option::get('disable_column')) {
@@ -35,7 +37,7 @@ class PostsManager
         add_action('deleted_post', [$this, 'deletePostHits']);
 
         // Remove term hits on term delete
-        add_action('delete_term', [$this, 'deleteTermHits'], 10, 2);
+        add_action('delete_term', [$this, 'deleteTermHits'], 10, 3);
     }
 
     /**
@@ -85,7 +87,7 @@ class PostsManager
             }
 
             $currentPage = Request::get('post_type', 'post');
-            
+
             add_filter("manage_edit-{$currentPage}_sortable_columns", [$hitColumnHandler, 'modifySortableColumns']);
 
             if (!$isPostQuickEdit) {
@@ -136,6 +138,7 @@ class PostsManager
      *
      * @param int $term Term ID.
      * @param int $ttId Term taxonomy ID.
+     * @param string $taxonomy Taxonomy slug.
      *
      * @return void
      *
@@ -144,12 +147,18 @@ class PostsManager
      * @todo Replace this method with visitor decorator call after the class is ready.
      * @todo Also delete from historical table.
      */
-    public static function deleteTermHits($term, $ttId)
+    public static function deleteTermHits($term, $ttId, $taxonomy)
     {
         global $wpdb;
 
+        $taxSlug = 'tax_' . $taxonomy;
+
         $wpdb->query(
-            $wpdb->prepare("DELETE FROM `" . DB::table('pages') . "` WHERE `id` = %d AND (`type` = 'category' OR `type` = 'post_tag' OR `type` = 'tax');", esc_sql($ttId))
+            $wpdb->prepare(
+                "DELETE FROM `" . DB::table('pages') . "` WHERE `id` = %d AND (`type` = 'category' OR `type` = 'post_tag' OR `type` = %s);",
+                $ttId,
+                $taxSlug
+            )
         );
     }
 

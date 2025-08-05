@@ -2,6 +2,12 @@
 
 namespace WP_Statistics\Service\Admin\VisitorInsights;
 
+use WP_STATISTICS\Helper;
+use WP_STATISTICS\User;
+use WP_Statistics\Utils\Query;
+use WP_Statistics\Utils\Request;
+use WP_Statistics\Utils\Url;
+
 class VisitorInsightsManager
 {
 

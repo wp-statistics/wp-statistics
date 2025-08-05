@@ -44,7 +44,7 @@ class HistoricalModel
         }
 
         $args           = wp_parse_args($args, $defaults);
-        $allowedArgs    = ['ignore_post_type', 'ignore_date', 'historical', 'include_total'];
+        $allowedArgs    = ['ignore_post_type', 'ignore_date', 'historical', 'include_total', 'exclude', 'date_field'];
 
         foreach ($args as $key => $value) {
             if (in_array($key, $allowedArgs, true)) {
@@ -147,16 +147,16 @@ class HistoricalModel
         }
 
         if ($this->type === 'taxonomy') {
-            return Url::getPath($this->resourceId, $args['taxonomy']);
+            return Helper::getResourcePath($this->resourceId, $args['taxonomy']);
         }
 
         if ($this->type === 'author') {
-            return Url::getPath($this->resourceId, 'author');
+            return Helper::getResourcePath($this->resourceId, 'author');
         }
 
         if ($this->type === 'post') {
             $postType = strtolower(Helper::getPostTypeName(get_post_type($this->resourceId), true));
-            return Url::getPath($this->resourceId, $postType);
+            return Helper::getResourcePath($this->resourceId, $postType);
         }
 
         return null;

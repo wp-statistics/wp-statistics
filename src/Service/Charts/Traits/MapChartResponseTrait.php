@@ -65,6 +65,16 @@ trait MapChartResponseTrait
         $this->chartData['data'] = $data;
     }
 
+    /**
+     * Sets the chart raw data
+     *
+     * @param array $rawData The chart raw data
+     * @return void
+     */
+    protected function setChartRawData($rawData) {
+        $this->chartData['raw_data'] = $rawData;
+    }
+
     protected function getChartData()
     {
         return $this->chartData;

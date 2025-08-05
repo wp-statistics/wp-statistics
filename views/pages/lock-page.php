@@ -12,7 +12,9 @@ $isInstalled    = $pluginHandler->isPluginInstalled($addon_slug);
 
 
 <div class="wps-wrap__main wps-lock-page__main">
-    <div class="wp-header-end"></div>
+    <?php if (!isset($header_end)): ?>
+        <div class="wp-header-end"></div>
+    <?php endif; ?>
     <div class="wps-lock-page wps-lock-page--container">
         <?php
         if (!$hasLicense && $isInstalled) :
@@ -45,7 +47,7 @@ $isInstalled    = $pluginHandler->isPluginInstalled($addon_slug);
 
         <?php if (!$hasLicense && !$isActive) : ?>
             <div class="wps-lock-page__actions">
-                <a target="_blank" class="wps-lock-page__action wps-lock-page__action--premium" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=dp-' . esc_html($campaign)) ?>">
+                <a target="_blank" class="wps-lock-page__action wps-lock-page__action--premium" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=' . esc_html($campaign)) ?>">
                     <?php echo esc_html($premium_btn_title); ?>
                 </a>
                 <a data-target="<?php echo esc_attr($addon_slug) ?>" class="wps-lock-page__action wps-lock-page__action--learn-more js-wps-openPremiumModal"><?php echo esc_html($more_title) ?></a>

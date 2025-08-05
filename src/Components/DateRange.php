@@ -128,6 +128,11 @@ class DateRange
             }
         }
 
+        // If period is 'total', set the from date to the initial post date
+        if ($period === 'total') {
+            $range['from'] = Helper::getInitialPostDate();
+        }
+
         if (!empty($range) && $excludeToday) {
             // Only applicable for periods that their last day is today, like 7days, 30days, etc...
             if ($period !== 'today' && self::compare($range['to'], 'is', 'today')) {
@@ -325,6 +330,17 @@ class DateRange
                 ]
             ],
 
+            '28days'    => [
+                'period' => [
+                    'from'  => DateTime::get('-27 days'),
+                    'to'    => DateTime::get()
+                ],
+                'prev_period' => [
+                    'from'  => DateTime::get('-55 days'),
+                    'to'    => DateTime::get('-28 days')
+                ]
+            ],
+
             '30days'    => [
                 'period' => [
                     'from'  => DateTime::get('-29 days'),
@@ -393,7 +409,7 @@ class DateRange
 
             'total'     => [
                 'period' => [
-                    'from'  => Helper::getInitialPostDate(),
+                    'from'  => DateTime::get(0),
                     'to'    => DateTime::get()
                 ],
                 'prev_period' => [
@@ -402,6 +418,35 @@ class DateRange
                 ]
             ],
         ];
+    }
+
+
+    /**
+     * Get all dates within a specific range.
+     *
+     * @param array|string $range The date range, containing 'from' and 'to' keys, or a period name.
+     * @return array An array of dates, each date represented as a Y-m-d string.
+     */
+    public static function getDatesInRange($range)
+    {
+        $dates = [];
+
+        $range = self::resolveDate($range);
+
+        if (!is_array($range)) {
+            return [];
+        }
+
+        $from = strtotime($range['from']);
+        $to   = strtotime($range['to']);
+
+        while ($from <= $to) {
+            $dates[] = date('Y-m-d', $from);
+
+            $from += DAY_IN_SECONDS;
+        }
+
+        return $dates;
     }
 
     /**
@@ -465,7 +510,7 @@ class DateRange
      * @param mixed $date A date string, array, or period name.
      * @return array|bool An array containing 'from' and 'to' date strings. False if the date is invalid.
      */
-    private static function resolveDate($date)
+    public static function resolveDate($date)
     {
         // If date is an array
         if (is_array($date)) {
@@ -474,6 +519,7 @@ class DateRange
             }
 
             if (count($date) == 2) {
+                $date = array_values($date);
                 return ['from' => $date[0], 'to' => $date[1]];
             }
         }
@@ -502,7 +548,7 @@ class DateRange
         $startOfWeek    = DateTime::getStartOfWeek('number');
         $dateFormat     = DateTime::$defaultDateFormat;
 
-        $today = new \DateTime();
+        $today = new \DateTime('now', DateTime::getTimezone());
         $today->modify("-{$weeksAgo} weeks");
 
         // Calculate the start of the week

@@ -22,4 +22,65 @@
       overflow: hidden;
     }
   }
+
+  &--header {
+    margin-top: -10px;
+
+    &__title {
+      margin-bottom: 8px;
+
+      h2 {
+        margin: 0;
+        padding: 0;
+        color: #0C0C0D;
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 17.58px;
+      }
+
+      a {
+        margin-left: 6px;
+
+        .rtl & {
+          margin-left: 0;
+          margin-right: 6px;
+        }
+
+        &:after {
+          content: '';
+          width: 15px;
+          height: 15px;
+          background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUiIGhlaWdodD0iMTUiIHZpZXdCb3g9IjAgMCAxNSAxNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTYuMjUgMi41SDMuNzVDMy4wNTk2NCAyLjUgMi41IDMuMDU5NjQgMi41IDMuNzVWMTEuMjVDMi41IDExLjk0MDQgMy4wNTk2NCAxMi41IDMuNzUgMTIuNUgxMS4yNUMxMS45NDA0IDEyLjUgMTIuNSAxMS45NDA0IDEyLjUgMTEuMjVWOC43NU02Ljg3NSA4LjEyNUwxMi41IDIuNU0xMi41IDIuNVY1LjYyNU0xMi41IDIuNUg5LjM3NSIgc3Ryb2tlPSIjNDA0QkYyIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=") center center no-repeat;
+          display: inline-block;
+          margin-bottom: -2px;
+
+          .rtl & {
+            transform: rotateZ(270deg);
+          }
+        }
+      }
+    }
+
+    &__tags {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+
+      a {
+        background: #0000801A;
+        padding: 2px 8px;
+        border-radius: 2px;
+        color: #000080;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 15.23px;
+
+        &:hover {
+          background: #00008033;
+          color: #000080;
+        }
+      }
+    }
+  }
 }

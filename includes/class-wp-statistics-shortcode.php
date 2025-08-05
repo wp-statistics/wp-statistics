@@ -71,7 +71,9 @@ class ShortCode
                 break;
 
             case 'visits':
-                $result = wp_statistics_visit($atts['time']);
+                $visitorsModel = new VisitorsModel();
+                $args          = $this->parseArgs($atts['time'], $atts);
+                $result        = $visitorsModel->countHits($args);
                 break;
 
             case 'visitors':
@@ -268,7 +270,7 @@ class ShortCode
                     'label'         => 'WP Statistics',
 
                     // Icon/image for shortcode. Optional. src or dashicons-$icon. Defaults to carrot.
-                    'listItemImage' => '<img src="' . WP_STATISTICS_URL . 'assets/images/logo-250.png" width="128" height="128">',
+                    'listItemImage' => '<img alt="logo" src="' . WP_STATISTICS_URL . 'assets/images/logo-250.png" width="128" height="128">',
 
                     // Available shortCode attributes and default values. Required. Array.
                     // Attribute model expects 'attr', 'type' and 'label'

@@ -5,6 +5,7 @@ namespace WP_STATISTICS\Api\v2;
 use Exception;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Hits;
+use WP_STATISTICS\Option;
 
 class Hit extends \WP_STATISTICS\RestAPI
 {
@@ -25,8 +26,10 @@ class Hit extends \WP_STATISTICS\RestAPI
         // Use Parent Construct
         parent::__construct();
 
-        // Register routes
-        add_action('rest_api_init', array($this, 'register_routes'));
+        if (Option::get('use_cache_plugin')) {
+            // Register routes
+            add_action('rest_api_init', array($this, 'register_routes'));
+        }
     }
 
     /**

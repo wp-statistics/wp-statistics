@@ -8,9 +8,74 @@ wps_js.render_line_chart = function (response, key) {
                 data: params['data'],
                 previousData: params['previousData']
             };
-            if (keyName !== 'wp_statistics_quickstats_metabox') {
+            if (keyName !== 'wp-statistics-quickstats-widget' && keyName !== 'wp-statistics-search-traffic-widget' ) {
                 wps_js.new_line_chart(data, `${keyName}-chart`);
-            } else {
+            }
+
+            if (keyName === 'wp-statistics-search-traffic-widget' ) {
+                const newOptions = {
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                color: '#898A8E',
+                                font: {
+                                    size: 13
+                                }
+                            },
+                            grid: {display: false, drawBorder: false, tickLength: 0, drawTicks: false},
+                            border: {color: 'transparent', width: 0},
+                        },
+                        y: {
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: wps_js._('impressions'),
+                                color: '#898A8E',
+                                rotation: 2000,
+                                font: {
+                                    size: 13
+                                }
+                            },
+                            ticks: {
+                                maxTicksLimit: 7,
+                                callback: formatNumChart
+                            },
+                            grid: {display: false, drawBorder: false, tickLength: 0, drawTicks: false},
+                            border: {display: false, color: 'transparent', width: 0},
+                        },
+                        y1: {
+                            border: {
+                                color: 'transparent',
+                                width: 0
+                            },
+                            type: 'linear',
+                            position: 'left',
+                            ticks: {
+                                autoSkip: true,
+                                maxTicksLimit: 7,
+                                fontColor: '#898A8E',
+                                fontSize: 13,
+                                padding: 8,
+                                lineHeight: 15,
+                                callback: renderFormatNum
+                            },
+                            afterBuildTicks: wpsBuildTicks,
+                            title: {
+                                display: true,
+                                text: wps_js._('clicks'),
+                                color: '#898A8E',
+                                font: {
+                                    size: 13
+                                }
+                            },
+                            grid: {display: true, borderDash: [5, 5], tickColor: '#EEEFF1', color: '#EEEFF1'},
+                        }
+                    }
+                }
+                wps_js.new_line_chart(data, `${keyName}-chart` , newOptions);
+            }
+            if (keyName === 'wp-statistics-quickstats-widget') {
                 const trafficOptions = {
                     scales: {
                         x: {
@@ -50,8 +115,9 @@ wps_js.render_line_chart = function (response, key) {
                                 fontWeight: 'lighter ',
                                 padding: 8,
                                 lineHeight: 14.06,
-                                stepSize: 1
+                                callback: renderFormatNum,
                             },
+                            afterBuildTicks: wpsBuildTicks,
                             border: {
                                 color: 'transparent',
                                 width: 0
@@ -74,28 +140,24 @@ wps_js.render_line_chart = function (response, key) {
                         }
                     },
                 };
-                const trafficChart = wps_js.new_line_chart(data, `wps_${keyName}_meta_chart`, trafficOptions);
+                const trafficChart = wps_js.new_line_chart(data, `wp-statistics-quickstats-widget-chart`, trafficOptions);
 
                 function toggleDataset(datasetIndex) {
-                    const meta = trafficChart.getDatasetMeta(datasetIndex);
+                    const meta = trafficChart.chart.getDatasetMeta(datasetIndex);
                     meta.hidden = !meta.hidden;
-                    trafficChart.update();
+                    trafficChart.chart.update();
                 }
 
-                const visitorsElement = document.querySelector('#wp-statistics-quickstats-widget .wps-postbox-chart--items:nth-child(2) .wps-postbox-chart--item:nth-child(1) .current-data');
-                const viewsElement = document.querySelector('#wp-statistics-quickstats-widget .wps-postbox-chart--items:nth-child(2) .wps-postbox-chart--item:nth-child(2) .current-data');
-                if (visitorsElement) {
-                    visitorsElement.addEventListener('click', function () {
-                        this.querySelector('span:first-child').classList.toggle('wps-line-through');
-                        toggleDataset(0);
+                document.querySelectorAll('#wp-statistics-quickstats-widget .wps-postbox-chart--items:nth-child(2) .wps-postbox-chart--item')
+                    .forEach((item, index) => {
+                        const spanElement = item.querySelector('.current-data span:first-child');
+                        if (spanElement) {
+                            item.addEventListener('click', () => {
+                                spanElement.classList.toggle('wps-line-through');
+                                toggleDataset(index);
+                            });
+                        }
                     });
-                }
-                if (viewsElement) {
-                    viewsElement.addEventListener('click', function () {
-                        this.querySelector('span:first-child').classList.toggle('wps-line-through');
-                        toggleDataset(1);
-                    });
-                }
 
             }
         }
@@ -108,3 +170,4 @@ wps_js.render_wp_statistics_search_widget = wps_js.render_line_chart;
 wps_js.render_wp_statistics_hits_widget = wps_js.render_line_chart;
 wps_js.render_wp_statistics_traffic_summary_widget = wps_js.render_line_chart;
 wps_js.render_wp_statistics_quickstats_widget = wps_js.render_line_chart;
+wps_js.render_wp_statistics_search_traffic_widget = wps_js.render_line_chart;
