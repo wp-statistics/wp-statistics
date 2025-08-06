@@ -6,6 +6,7 @@ use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Models\SessionModel;
 
 class BackgroundProcessFactory
 {
