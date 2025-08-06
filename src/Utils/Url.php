@@ -1,4 +1,5 @@
 <?php
+
 namespace WP_Statistics\Utils;
 
 class Url
@@ -60,7 +61,8 @@ class Url
      * @param string $url The URL to be formatted.
      * @return string The formatted URL.
      */
-    public static function formatUrl($url) {
+    public static function formatUrl($url)
+    {
         // Remove trailing slash
         $url = rtrim($url, '/');
 
@@ -123,8 +125,8 @@ class Url
      */
     public static function isInternal($url)
     {
-        $url        = Url::getDomain($url);
-        $homeUrl    = Url::getDomain(home_url());
+        $url     = Url::getDomain($url);
+        $homeUrl = Url::getDomain(home_url());
 
         return $url === $homeUrl;
     }
@@ -153,5 +155,87 @@ class Url
     public static function getPath($url)
     {
         return wp_parse_url($url, PHP_URL_PATH) ?? '';
+    }
+
+    /**
+     * Returns the relative path of a given URL with respect to the site's base URL.
+     *
+     * @return string The relative path or the original URL if it doesn't match the site URL.
+     */
+    public static function getRelativePathToSiteUrl()
+    {
+        // Build the current URL from server variables.
+        if (!empty($_SERVER['HTTP_HOST']) && !empty($_SERVER['REQUEST_URI'])) {
+            $scheme = 'http';
+            if (
+                (!empty($_SERVER['REQUEST_SCHEME']) && $_SERVER['REQUEST_SCHEME'] === 'https') ||
+                (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ||
+                (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] === '443')
+            ) {
+                $scheme = 'https';
+            }
+            $url = esc_url_raw($scheme . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+        } else {
+            return null;
+        }
+
+        $site_url = site_url();
+
+        // If the URL exactly matches the site URL, return a single slash.
+        if ($url === $site_url) {
+            return '/';
+        }
+
+        // If the URL starts with the site URL, return the remaining part as the relative path.
+        $siteLength = strlen($site_url);
+        if (substr($url, 0, $siteLength) === $site_url) {
+            return substr($url, $siteLength);
+        }
+
+        // Otherwise, return the constructed URL.
+        return $url;
+    }
+
+    /**
+     * Get decoded URL.
+     *
+     * @param string $value The URL to decode.
+     * @return string The decoded URL.
+     */
+    public static function getDecodeUrl($value)
+    {
+        return mb_convert_encoding(urldecode($value), 'ISO-8859-1', 'UTF-8');
+    }
+
+    /**
+     * Get relative path of urls.
+     *
+     * @param string $url
+     * @return string Relative path or empty string
+     */
+    public static function getRelativePath($url)
+    {
+        $trackingParams = QueryParams::getAllowedList('array', true);
+
+        $parts = wp_parse_url($url);
+
+        $query = [];
+        if (!empty($parts['query'])) {
+            parse_str($parts['query'], $query);
+
+            foreach ($trackingParams as $param) {
+                unset($query[$param]);
+            }
+        }
+
+        $path = isset($parts['path']) ? $parts['path'] : '/';
+
+        $relativePath = $path;
+
+        if (!empty($query)) {
+            $relativePath .= '?' . http_build_query($query);
+        }
+
+        return $relativePath;
     }
 }

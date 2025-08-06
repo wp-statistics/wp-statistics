@@ -31,9 +31,43 @@ use WP_STATISTICS\Menus;
 
             <tbody>
             <?php foreach ($data as $visitor) : ?>
-                <?php /** @var VisitorDecorator $visitor */ ?>
+                <?php
+                    if ($visitor instanceof VisitorDecorator) {
+                        $hits = $visitor->getHits();
+
+                        $lastResouceViewDate = $visitor->getLastView();
+
+                        $countryCode = $visitor->getLocation()->getCountryCode();
+                        $countryName = $visitor->getLocation()->getCountryName();
+                        $countryflag = $visitor->getLocation()->getCountryFlag();
+                        $region      = $visitor->getLocation()->getRegion();
+                        $city        = $visitor->getLocation()->getCity();
+
+                        $lastResource        = $visitor->getLastPage();
+                        $lastResourceLink    = $lastResource['link'];
+                        $lastResourceTitle   = $lastResource['title'];
+                        $lastResourceQuery   = $lastResource['query'] ? "?{$lastResource['query']}" : '';
+                        $lastResouceViewDate = $visitor->getLastView();
+                    } else {
+                        $hits = $visitor->getViews();
+
+                        $lastResouceViewDate = $visitor->getLastView()->getViewedAt();  
+
+                        $countryCode = $visitor->getCountry()->getCode();
+                        $countryName = $visitor->getCountry()->getName();
+                        $countryflag = $visitor->getCountry()->getFlag();
+                        $region      = $visitor->getCity()->getRegionName();
+                        $city        = $visitor->getCity()->getName();
+
+                        $lastResource        = $visitor->getLastView()->getResource();
+                        $lastResourceLink    = $lastResource->getUrl();
+                        $lastResourceTitle   = $lastResource->getTitle();
+                        $lastResourceQuery   = $visitor->getParameter($lastResource->getId())->getFull();
+                        $lastResouceViewDate = $visitor->getLastView()->getViewedAt();                        
+                    }
+                ?>
                 <tr>
-                    <td class="wps-pd-l"><?php echo esc_html($visitor->getLastView()) ?></td>
+                    <td class="wps-pd-l"><?php echo esc_html($lastResouceViewDate); ?></td>
 
                     <td class="wps-pd-l">
                         <?php View::load("components/visitor-information", ['visitor' => $visitor]); ?>
@@ -62,7 +96,7 @@ use WP_STATISTICS\Menus;
                     </td>
 
                     <td class="wps-pd-l">
-                        <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>"><?php echo esc_html($visitor->getHits()) ?></a>
+                        <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>"><?php echo esc_html($hits); ?></a>
                     </td>
                 </tr>
             <?php endforeach; ?>

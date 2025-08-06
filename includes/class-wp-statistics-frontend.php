@@ -4,7 +4,10 @@ namespace WP_STATISTICS;
 
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Models\ViewsModel;
+use WP_Statistics\Service\Resources\ResourcesFactory;
+use WP_Statistics\Service\Tracking\TrackingFactory;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
+use WP_Statistics\Service\Tracking\TrackerHelper;
 
 class Frontend
 {
@@ -35,34 +38,22 @@ class Frontend
             /**
              * Get default params
              */
-            $params = array_merge([Hits::$rest_hits_key => 1], Helper::getHitsDefaultParams());
+            $params = array_merge([TrackingFactory::hits()->getRestHitsKey() => 1], TrackerHelper::getHitsDefaultParams());
+            $params = apply_filters('wp_statistics_js_localized_arguments', $params);
 
-            /**
-             * Handle the bypass ad blockers
-             *
-             * @todo This should be refactored in a service related to option. note that all the options with same functionality should be updated.
-             */
-            if (Option::get('bypass_ad_blockers', false)) {
-                // AJAX params
-                $requestUrl   = get_site_url();
-                $hitParams    = array_merge($params, ['action' => 'wp_statistics_hit_record']);
-                $onlineParams = array_merge($params, ['action' => 'wp_statistics_online_check']);
-            } else {
-                // REST params
-                $requestUrl   = get_rest_url(null, RestAPI::$namespace);
-                $hitParams    = array_merge($params, ['endpoint' => Api\v2\Hit::$endpoint]);
-                $onlineParams = array_merge($params, ['endpoint' => Api\v2\CheckUserOnline::$endpoint]);
-            }
+            $requestUrl   = !empty($params['requestUrl']) ? $params['requestUrl'] : get_site_url();
+            $hitParams    = !empty($params['hitParams']) ? $params['hitParams'] : [];
+            $onlineParams = !empty($params['onlineParams']) ? $params['onlineParams'] : [];
 
             /**
              * Build the parameters
              */
             $jsArgs = array(
-                'requestUrl'   => $requestUrl,
-                'ajaxUrl'      => admin_url('admin-ajax.php'),
-                'hitParams'    => $hitParams,
-                'onlineParams' => $onlineParams,
-                'option'       => [
+                'requestUrl'          => $requestUrl,
+                'ajaxUrl'             => admin_url('admin-ajax.php'),
+                'hitParams'           => $hitParams,
+                'onlineParams'        => $onlineParams,
+                'option'              => [
                     'userOnline'           => Option::get('useronline'),
                     'dntEnabled'           => Option::get('do_not_track'),
                     'bypassAdBlockers'     => Option::get('bypass_ad_blockers', false),
@@ -74,9 +65,10 @@ class Frontend
                     'isWpConsentApiActive' => IntegrationHelper::isIntegrationActive('wp_consent_api'),
                     'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
                 ],
-                'jsCheckTime'           => apply_filters('wp_statistics_js_check_time_interval', 60000),
-                'isLegacyEventLoaded'   => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded
-                'customEventAjaxUrl'    => add_query_arg(['action' => 'wp_statistics_custom_event', 'nonce' => wp_create_nonce('wp_statistics_custom_event')], admin_url('admin-ajax.php')),
+                'resourceUriId'       => ResourcesFactory::getCurrentResourceUri()->getId(),
+                'jsCheckTime'         => apply_filters('wp_statistics_js_check_time_interval', 60000),
+                'isLegacyEventLoaded' => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded
+                'customEventAjaxUrl'  => add_query_arg(['action' => 'wp_statistics_custom_event', 'nonce' => wp_create_nonce('wp_statistics_custom_event')], admin_url('admin-ajax.php')),
             );
 
             if (defined('WP_DEBUG') && WP_DEBUG) {

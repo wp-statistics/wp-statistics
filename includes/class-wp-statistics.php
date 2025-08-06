@@ -1,11 +1,12 @@
 <?php
 
 use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\AjaxBackgroundProcessManager;
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory;
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\CalculateDailySummary;
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\CalculateDailySummaryTotal;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\CalculatePostWordsCount;
-use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\DataMigrationProcess;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\GeolocationDatabaseDownloadProcess;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\IncompleteGeoIpUpdater;
-use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\SchemaMigrationProcess;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\SourceChannelUpdater;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\TableOperationProcess;
 use WP_Statistics\Service\Admin\AnonymizedUsageData\AnonymizedUsageDataManager;
@@ -32,8 +33,10 @@ use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsManager;
 use WP_Statistics\Service\Analytics\AnalyticsManager;
 use WP_Statistics\Service\Database\Managers\MigrationHandler;
 use WP_Statistics\Service\HooksManager;
-use WP_Statistics\Service\CronEventManager;
+use WP_Statistics\Service\Resources\Core\ResourceSynchronizer;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
+use WP_Statistics\Service\Tracking\TrackerControllerFactory;
+use WP_Statistics\Service\CronEventManager;
 use WP_Statistics\Service\CustomEvent\CustomEventManager;
 
 defined('ABSPATH') || exit;
@@ -127,7 +130,6 @@ final class WP_Statistics
              */
             $this->initializeBackgroundProcess();
             MigrationHandler::init();
-
         } catch (Exception $e) {
             self::log($e->getMessage());
         }
@@ -180,10 +182,10 @@ final class WP_Statistics
         require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-template.php';
 
         $referrals                  = new ReferralsManager();
-        $userOnline                 = new \WP_STATISTICS\UserOnline();
         $anonymizedUsageDataManager = new AnonymizedUsageDataManager();
         $notificationManager        = new NotificationManager();
         $MarketingCampaignManager   = new MarketingCampaignManager();
+        TrackerControllerFactory::createController();
 
         // Admin classes
         if (is_admin()) {
@@ -205,7 +207,6 @@ final class WP_Statistics
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-settings.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-optimization.php';
 
-            $analytics           = new AnalyticsManager();
             $authorAnalytics     = new AuthorAnalyticsManager();
             $privacyAudit        = new PrivacyAuditManager();
             $helpCenter          = new HelpCenterManager();
@@ -221,6 +222,7 @@ final class WP_Statistics
             $metaboxManager      = new MetaboxManager();
             $exclusionsManager   = new ExclusionsManager();
             new FilterManager();
+            new ResourceSynchronizer();
             new AjaxBackgroundProcessManager();
         }
 
@@ -267,6 +269,8 @@ final class WP_Statistics
         $this->registerBackgroundProcess(GeolocationDatabaseDownloadProcess::class, 'geolocation_database_download');
         $this->registerBackgroundProcess(SourceChannelUpdater::class, 'update_visitors_source_channel');
         $this->registerBackgroundProcess(TableOperationProcess::class, 'table_operations_process');
+        $this->registerBackgroundProcess(CalculateDailySummary::class, 'calculate_daily_summary');
+        $this->registerBackgroundProcess(CalculateDailySummaryTotal::class, 'calculate_daily_summary_total');
     }
 
     /**

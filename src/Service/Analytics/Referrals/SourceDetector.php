@@ -39,7 +39,7 @@ class SourceDetector
      */
     public function getChannel()
     {
-        return $this->referral['channel'] ?? null;
+        return $this->referral['channel'] ?? 'unassigned';
     }
 
     /**
@@ -49,8 +49,6 @@ class SourceDetector
      */
     public function getChannelName()
     {
-        $sourceChannel = $this->referral['channel'] ?? 'unassigned';
-
-        return SourceChannels::getName($sourceChannel);
+        return SourceChannels::getName($this->getChannel());
     }
 }

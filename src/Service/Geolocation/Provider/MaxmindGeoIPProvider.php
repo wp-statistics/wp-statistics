@@ -9,7 +9,7 @@ use WP_Statistics;
 use WP_Statistics\Dependencies\GeoIp2\Database\Reader;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Geolocation\AbstractGeoIPProvider;
-use WP_Statistics\Utils\Env;
+use WP_Statistics\Utils\Environment;
 
 class MaxmindGeoIPProvider extends AbstractGeoIPProvider
 {
@@ -51,14 +51,16 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
             $record = $this->reader->city($ipAddress);
 
             return [
-                'country'      => $record->country->name,
-                'country_code' => $record->country->isoCode,
-                'continent'    => $record->continent->name,
-                'region'       => $record->mostSpecificSubdivision->name,
-                'city'         => $record->city->name,
-                'latitude'     => $record->location->latitude,
-                'longitude'    => $record->location->longitude,
-                'postal_code'  => $record->postal->code,
+                'country'        => $record->country->name,
+                'country_code'   => $record->country->isoCode,
+                'continent'      => $record->continent->name,
+                'continent_code' => $record->continent->code,
+                'region'         => $record->mostSpecificSubdivision->name,
+                'region_code'    => $record->mostSpecificSubdivision->isoCode,
+                'city'           => $record->city->name,
+                'latitude'       => $record->location->latitude,
+                'longitude'      => $record->location->longitude,
+                'postal_code'    => $record->postal->code,
             ];
 
         } catch (Exception $e) {
@@ -81,7 +83,7 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
 
         try {
             // Check if the GeoIP database exists and download it immediately.
-            if (!$this->isDatabaseExist() && !Env::isLocal()) {
+            if (!$this->isDatabaseExist() && !Environment::isLocal()) {
                 $this->downloadDatabase();
 
                 throw new Exception('GeoIP database not found. Attempting to download...');

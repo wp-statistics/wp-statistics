@@ -60,9 +60,11 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
         $data = $this->visitorsModel->getReferrers($this->args);
 
         foreach ($data as $item) {
+            $dateKey = date('Y-m-d', strtotime($item->last_counter));
+
             $visitors = intval($item->visitors);
-            $thisParsedData[$item->source_name][$item->last_counter] = $visitors;
-            $thisPeriodTotal[$item->last_counter]                    += $visitors;
+            $thisParsedData[$item->source_name][$dateKey] = $visitors;
+            $thisPeriodTotal[$dateKey]                    += $visitors;
         }
 
         // Sort data by search engine referrals number

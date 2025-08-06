@@ -6,6 +6,7 @@ use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Models\SessionModel;
 
 class BackgroundProcessFactory
 {
@@ -125,6 +126,59 @@ class BackgroundProcessFactory
 
         // Save the queue and dispatch it
         $updateIncompleteVisitorsSourceChannels->save()->dispatch();
+    }
+
+    /**
+     * Batch calculation of per-resource daily summaries.
+     *
+     * Retrieves the set of resource URI IDs for the target day via
+     * {@see SessionModel::getResourceUriIdsByDate()}, splits them into
+     * manageable batches, and enqueues a background job (`calculate_daily_summary`)
+     * for each batch.
+     *
+     * @return void
+     * @since 15.0.0
+     */
+    public static function processDailySummary()
+    {
+        $calculateDailySummary = WP_Statistics()->getBackgroundProcess('calculate_daily_summary');
+
+        if ($calculateDailySummary->is_active()) {
+            return;
+        }
+
+        $todayResoueces = (new SessionModel())->getResourceUriIdsByDate();
+
+        $batchSize = 50;
+        $batches   = array_chunk($todayResoueces, $batchSize);
+
+        foreach ($batches as $batch) {
+            $calculateDailySummary->push_to_queue(['ids' => $batch]);
+        }
+
+        $calculateDailySummary->save()->dispatch();
+    }
+
+    /**
+     * Queue calculation of the site-wide daily summary totals.
+     *
+     * Schedules a single background task that aggregates the daily totals
+     * (e.g., visitors, sessions, views, duration) across all resources for
+     * the target day.
+     *
+     * @return void
+     * @since 15.0.0
+     */
+    public static function processDailySummaryTotal()
+    {
+        $calculateDailySummaryTotal = WP_Statistics()->getBackgroundProcess('calculate_daily_summary_total');
+
+        if ($calculateDailySummaryTotal->is_active()) {
+            return;
+        }
+
+        $calculateDailySummaryTotal->push_to_queue(['is_total' => true]);
+        $calculateDailySummaryTotal->save()->dispatch();
     }
 
     // Add other static methods for different background processes as needed

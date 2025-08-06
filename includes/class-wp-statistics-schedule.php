@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\Event;
 use WP_Statistics\Components\DateTime;
@@ -68,6 +69,8 @@ class Schedule
             wp_schedule_event(time(), 'monthly', 'wp_statistics_referrals_db_hook');
         }
 
+        
+
         // Add the report schedule if it doesn't exist and is enabled.
         if (!wp_next_scheduled('wp_statistics_report_hook') && Option::get('time_report') != '0') {
             $timeReports       = Option::get('time_report');
@@ -114,6 +117,19 @@ class Schedule
         if (in_array($locationDetection, ['maxmind', 'dbip'], true)) {
             add_action('wp_statistics_geoip_hook', array($this, 'geoip_event'));
         }
+
+        if (! wp_next_scheduled( 'wp_statistics_queue_daily_summary')) {
+            $timeZone = wp_timezone();
+            $dateTime = new \DateTimeImmutable('now', $timeZone);
+            $nextDate = $dateTime->modify('tomorrow')->setTime(0, 1);
+
+            $nextDailySummary = $nextDate->getTimestamp();
+
+            wp_schedule_event($nextDailySummary, 'daily', 'wp_statistics_queue_daily_summary');
+        }
+
+        add_action( 'wp_statistics_queue_daily_summary', [BackgroundProcessFactory::class, 'processDailySummaryTotal']);
+        add_action( 'wp_statistics_queue_daily_summary', [BackgroundProcessFactory::class, 'processDailySummary']);
 
         add_action('wp_statistics_report_hook', array($this, 'send_report'));
         add_action('wp_statistics_licenses_hook', [$this, 'migrateOldLicenses']);
@@ -165,6 +181,10 @@ class Schedule
         $monthly->modify('first day of next month')->setTime(8, 0);
 
         $schedules = [
+            'every_minute' => [
+                'interval' => 60,
+                'display'  => __('Every Minute', 'wp-statistics'),
+            ],
             'daily'    => [
                 'interval'      => DAY_IN_SECONDS,
                 'display'       => __('Daily', 'wp-statistics'),
@@ -192,7 +212,7 @@ class Schedule
                 'start'         => wp_date('Y-m-d', strtotime('First day of previous month')),
                 'end'           => wp_date('Y-m-d', strtotime('Last day of previous month')),
                 'next_schedule' => $monthly->getTimestamp()
-            ]
+            ],
         ];
 
         return apply_filters('wp_statistics_cron_schedules', $schedules);
