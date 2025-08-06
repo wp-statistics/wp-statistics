@@ -4,6 +4,7 @@ namespace WP_Statistics\Decorators;
 
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\User;
+use WP_User;
 
 class UserDecorator
 {
@@ -12,6 +13,16 @@ class UserDecorator
     public function __construct($userId)
     {
         $this->user = get_user_by('id', $userId);
+    }
+
+    /**
+     * Check if the user exists in the database.
+     *
+     * @return bool
+     */
+    public function exists()
+    {
+        return $this->user instanceof WP_User;
     }
 
     /**
