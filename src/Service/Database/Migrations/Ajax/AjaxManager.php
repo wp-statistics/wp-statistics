@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess;
+namespace WP_Statistics\Service\Database\Migrations\Ajax;
 
 use WP_STATISTICS\Admin_Assets;
 use WP_STATISTICS\Menus;
@@ -17,7 +17,7 @@ use WP_Statistics\Utils\Request;
  * - Managing the AJAX request lifecycle for triggering and running migrations.
  * - Ensuring migrations are executed sequentially and their status is tracked persistently.
  */
-class AjaxBackgroundProcessManager
+class AjaxManager
 {
     /**
      * The action slug used for manually triggering the background migration.
@@ -41,7 +41,7 @@ class AjaxBackgroundProcessManager
     {
         add_action('current_screen', [$this, 'handleDoneNotice']);
 
-        if (!AjaxBackgroundProcessFactory::needsMigration()) {
+        if (!AjaxFactory::needsMigration()) {
             return;
         }
 
@@ -60,7 +60,7 @@ class AjaxBackgroundProcessManager
     public function addAjax($list)
     {
         $list[] = [
-            'class'  => !AjaxBackgroundProcessFactory::isDatabaseMigrated() ? null : AjaxBackgroundProcessFactory::getCurrentMigrate(),
+            'class'  => !AjaxFactory::isDatabaseMigrated() ? null : AjaxFactory::getCurrentMigrate(),
             'action' => 'background_process',
             'public' => false
         ];
@@ -135,7 +135,7 @@ class AjaxBackgroundProcessManager
             return;
         }
 
-        $isMigrated = AjaxBackgroundProcessFactory::isDatabaseMigrated();
+        $isMigrated = AjaxFactory::isDatabaseMigrated();
 
         if (!$isMigrated) {
             return;
@@ -145,9 +145,9 @@ class AjaxBackgroundProcessManager
 
         $migrationUrl = add_query_arg(
             [
-                'action' => self::MIGRATION_ACTION,
-                'nonce'  => wp_create_nonce(self::MIGRATION_NONCE),
-                'status' => Option::getOptionGroup('ajax_background_process', 'status', null),
+                'action'       => self::MIGRATION_ACTION,
+                'nonce'        => wp_create_nonce(self::MIGRATION_NONCE),
+                'status'       => Option::getOptionGroup('ajax_background_process', 'status', null),
                 'current_page' => rawurlencode($current_page_url)
             ],
             admin_url('admin-post.php')
