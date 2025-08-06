@@ -523,10 +523,10 @@ class SessionModel extends BaseModel
             'resource_uri_id' => null,
         ]);
 
-        $oneResSub = Query::select([
+        $oneViewSub = Query::select([
             'session_id',
-            'COUNT(DISTINCT resource_uri_id) AS res_cnt',
-            'MIN(resource_uri_id) AS resource_uri_id',
+            'COUNT(*) AS view_count',
+            'MIN(resource_uri_id) AS only_resource_uri_id',
         ])
             ->from('views')
             ->groupBy(['session_id'])
@@ -534,26 +534,55 @@ class SessionModel extends BaseModel
 
         $bounceSessionsSub = Query::select([
             'sessions.ID AS session_id',
-            'one.resource_uri_id',
         ])
             ->from('sessions')
-            ->joinQuery($oneResSub, ['one.session_id', 'sessions.ID'], 'one', 'LEFT')
-            ->whereRaw('COALESCE(one.res_cnt, 0) <= 1')
+            ->joinQuery($oneViewSub, ['one_view.session_id', 'sessions.ID'], 'one_view', 'LEFT');
+
+        if (!is_null($args['resource_uri_id'])) {
+            $bounceSessionsSub->whereRaw('COALESCE(one_view.view_count, 0) = 1 AND one_view.only_resource_uri_id = %s', [
+                $args['resource_uri_id']
+            ]);
+        } else {
+            $bounceSessionsSub->whereRaw('COALESCE(one_view.view_count, 0) = 1');
+        }
+
+        $bounceSessionsSub = $bounceSessionsSub->getQuery();
+
+        $firstViewIdSub = Query::select([
+            'session_id',
+            'MIN(ID) AS first_view_id',
+        ])
+            ->from('views')
+            ->groupBy(['session_id'])
             ->getQuery();
+
+        $entrancesSub = Query::select([
+            'sessions.ID AS session_id',
+        ])
+            ->from('sessions')
+            ->joinQuery($firstViewIdSub, ['first_view_id.session_id', 'sessions.ID'], 'first_view_id', 'LEFT')
+            ->join('views', ['views.ID', 'first_view_id.first_view_id']);
+
+        if (!is_null($args['resource_uri_id'])) {
+            $entrancesSub->where('views.resource_uri_id', '=', $args['resource_uri_id']);
+        }
+
+        $entrancesSub = $entrancesSub->getQuery();
 
         $query = Query::select([
             "DATE(sessions.started_at) AS date",
-            "COALESCE(views.resource_uri_id, 'no_views') AS resource",
-            'COUNT(DISTINCT visitors.hash)           AS visitors',
-            'COUNT(DISTINCT sessions.ID)             AS sessions',
-            'COUNT(views.ID)                         AS views',
-            'SUM(sessions.duration)                  AS total_duration',
-            'COUNT(DISTINCT b.session_id)            AS bounces',
+            "COALESCE(views.resource_uri_id, '') AS resource",
+            'COUNT(DISTINCT visitors.hash) AS visitors',
+            'COUNT(DISTINCT entrance_sessions.session_id) AS sessions',
+            'COUNT(views.ID) AS views',
+            'SUM(sessions.duration) AS total_duration',
+            'ROUND(COUNT(DISTINCT bounce_sessions.session_id) / NULLIF(COUNT(DISTINCT entrance_sessions.session_id), 0), 4) AS bounce',
         ])
             ->from('sessions')
             ->join('visitors', ['visitors.ID', 'sessions.visitor_id'])
             ->join('views', ['views.session_id', 'sessions.ID'], null, 'LEFT')
-            ->joinQuery($bounceSessionsSub, ['b.session_id', 'sessions.ID'], 'b', 'LEFT')
+            ->joinQuery($bounceSessionsSub, ['bounce_sessions.session_id', 'sessions.ID'], 'bounce_sessions', 'LEFT')
+            ->joinQuery($entrancesSub, ['entrance_sessions.session_id', 'sessions.ID'], 'entrance_sessions', 'LEFT')
             ->where('views.resource_uri_id', '=', $args['resource_uri_id']);
 
         return $query->getRow();
@@ -564,10 +593,10 @@ class SessionModel extends BaseModel
      *
      * Returns the set of `views.resource_uri_id` values among sessions whose
      * `started_at` date matches the target day. Sessions without any view rows
-     * are represented by the sentinel `'no_views'`.
+     * are represented by the sentinel `''`.
      *
      * @param array $args Arguments: optional `date` preset; defaults to 'yesterday'.
-     * @return array<int|string> Ordered list of resource URI IDs (may include 'no_views').
+     * @return array<int|string> Ordered list of resource URI IDs (may include '').
      */
     public function getResourceUriIdsByDate($args = [])
     {
@@ -577,7 +606,7 @@ class SessionModel extends BaseModel
 
         $targetDate = DateTime::getUtc('Y-m-d', $args['date']);
 
-        $rows = Query::select("DISTINCT COALESCE(views.resource_uri_id, 'no_views') AS resource_uri_id")
+        $rows = Query::select("DISTINCT COALESCE(views.resource_uri_id, '') AS resource_uri_id")
             ->from('sessions')
             ->join('views', ['views.session_id', 'sessions.ID'], null, 'LEFT')
             ->where('DATE(sessions.started_at)', '=', $targetDate)
