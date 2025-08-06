@@ -50,13 +50,10 @@ class OnlineModel extends BaseModel
             'visitor.user_id',
             'visitor.last_counter',
             'visitor.last_page as last_page',
-            'visitor.last_view as last_view',
-            'users.display_name',
-            'users.user_email'
+            'visitor.last_view as last_view'
         ])
             ->from('useronline')
             ->join('visitor', ['useronline.visitor_id', 'visitor.ID'])
-            ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
             ->decorate(VisitorDecorator::class)

@@ -9,6 +9,7 @@
 - **Fix:** Adjusted access control for specific plugin actions.
 - **Fix:** Fixed display issues on the single-visitor page when user_id is missing.
 - **Fix:** Updated Top Countries widget to show percentages based on all visitors.
+- **Enhancement:** Remove extra join in online users query to improve performance.
 
 = 14.15.1 - 2025-07-29 =
 - **Enhancement:** Numbers in Overview widgets are now abbreviated (e.g., 10k), with full values shown on hover.
