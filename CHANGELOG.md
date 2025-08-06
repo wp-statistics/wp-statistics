@@ -4,6 +4,7 @@
 - **New:** The **Customization add-on** now includes an export and import feature for settings.
 - **Enhancement:** Visitor data now stores only the major browser version to improve performance and reduce query load.
 - **Enhancement:** Refactored advanced reporting to reduce redundant query execution and improve performance.
+- **Enhancement:** Replaced legacy Robot List with Device-Detector isBot check, and renamed the bot detection field.
 - **Fix:** Fixed filter issues on the Visitors and Referred Visitors pages.
 - **Fix:** Adjusted access control for specific plugin actions.
 - **Fix:** Updated Top Countries widget to show percentages based on all visitors.
@@ -48,6 +49,7 @@
 - **Fix:** Anonymous data opt-in notice now appears 7 days after plugin activation.
 - **Fix:** Fixed incorrect page titles for WooCommerce My Account sub-pages.
 - **Fix:** Normalized the taxonomy `type` field for `tax_` prefixes.
+- **Enhancement:** Deprecated legacy Robot List bot detection and renamed the `Robot List` field to `Custom Bot Exclusions`.
 
 = 14.14 - 2025-06-01 =
 - **New:** Added a Help page inside the plugin to guide users.
