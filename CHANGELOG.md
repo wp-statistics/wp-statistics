@@ -6,6 +6,7 @@
 - **Enhancement:** Refactored advanced reporting to reduce redundant query execution and improve performance.
 - **Fix:** Fixed filter issues on the Visitors and Referred Visitors pages.
 - **Fix:** Adjusted access control for specific plugin actions.
+- **Fix:** Fixed display issues on the single-visitor page when user_id is missing.
 
 = 14.15.1 - 2025-07-29 =
 - **Enhancement:** Numbers in Overview widgets are now abbreviated (e.g., 10k), with full values shown on hover.
