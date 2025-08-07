@@ -5,6 +5,7 @@
 - **Enhancement:** Visitor data now stores only the major browser version to improve performance and reduce query load.
 - **Enhancement:** Refactored advanced reporting to reduce redundant query execution and improve performance.
 - **Enhancement:** Replaced legacy Robot List with Device-Detector isBot check, and renamed the bot detection field.
+- **Enhancement:** Refactored the update process and database schema updates to run on the frontend.
 - **Fix:** Fixed filter issues on the Visitors and Referred Visitors pages.
 - **Fix:** Adjusted access control for specific plugin actions.
 - **Fix:** Fixed display issues on the single-visitor page when user_id is missing.
