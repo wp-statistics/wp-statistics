@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Admin\Devices;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
+use WP_Statistics\Utils\Request;
 
 class DevicesDataProvider
 {
@@ -14,7 +15,6 @@ class DevicesDataProvider
     public function __construct($args)
     {
         $this->args = $args;
-
         $this->visitorsModel = new VisitorsModel();
     }
 
@@ -162,6 +162,7 @@ class DevicesDataProvider
             'field'     => 'agent',
             'where_col' => 'agent',
             'where_val' => esc_sql($selectedBrowser),
+            'order_by'  => Request::get('order_by', 'visitors'),
         ]);
 
         return [
