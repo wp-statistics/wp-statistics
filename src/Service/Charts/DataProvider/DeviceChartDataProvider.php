@@ -28,6 +28,10 @@ class DeviceChartDataProvider extends AbstractChartDataProvider
             'per_page' => false
         ]);
 
+        if (empty($this->args['limit'])) {
+            $this->args['limit'] = 5;
+        }
+
         $this->visitorsModel = new VisitorsModel();
     }
 
@@ -66,10 +70,13 @@ class DeviceChartDataProvider extends AbstractChartDataProvider
                 ];
             }
 
-            if (count($parsedData) > 4) {
+            // Limit the number of items. If limit is 5, limit items to 4 + other
+            $limit = $this->args['limit'] - 1;
+
+            if (count($parsedData) > $limit) {
                 // Get top 4 results, and others
-                $topData    = array_slice($parsedData, 0, 4);
-                $otherData  = array_slice($parsedData, 4);
+                $topData    = array_slice($parsedData, 0, $limit);
+                $otherData  = array_slice($parsedData, $limit);
 
                 // Show the rest of the results as others, and sum up the visitors
                 $otherItem    = [
