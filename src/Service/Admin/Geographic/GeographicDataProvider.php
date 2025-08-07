@@ -68,7 +68,7 @@ class GeographicDataProvider
         return [
             'countries' => $this->visitorsModel->getVisitorsGeoData($args),
             'total'     => $this->visitorsModel->countGeoData($args),
-            'visitors'  => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
+            'visitors'  => $this->visitorsModel->countGeoData(array_merge($args, ['count_field' => 'ID'])),
         ];
     }
 
@@ -87,7 +87,7 @@ class GeographicDataProvider
         return [
             'cities'   => $this->visitorsModel->getVisitorsGeoData($args),
             'total'    => $this->visitorsModel->countGeoData($args),
-            'visitors' => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
+            'visitors' => $this->visitorsModel->countGeoData(array_merge($args, ['count_field' => 'ID'])),
         ];
     }
 
@@ -104,7 +104,7 @@ class GeographicDataProvider
         return [
             'countries' => $this->visitorsModel->getVisitorsGeoData($args),
             'total'     => $this->visitorsModel->countGeoData($args),
-            'visitors'  => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
+            'visitors'  => $this->visitorsModel->countGeoData(array_merge($args, ['count_field' => 'ID'])),
         ];
     }
 
@@ -125,7 +125,7 @@ class GeographicDataProvider
         return [
             'states'   => $this->visitorsModel->getVisitorsGeoData($args),
             'total'    => $this->visitorsModel->countGeoData($args),
-            'visitors' => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
+            'visitors' => $this->visitorsModel->countGeoData(array_merge($args, ['count_field' => 'ID'])),
         ];
     }
 
@@ -147,7 +147,7 @@ class GeographicDataProvider
         return [
             'regions'  => $this->visitorsModel->getVisitorsGeoData($args),
             'total'    => $this->visitorsModel->countGeoData($args),
-            'visitors' => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
+            'visitors' => $this->visitorsModel->countGeoData(array_merge($args, ['count_field' => 'ID'])),
         ];
     }
 

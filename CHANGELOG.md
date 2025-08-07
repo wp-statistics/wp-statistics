@@ -1,3 +1,4 @@
+= 14.15.2 - 2025-x-x =
 - **New:** Added compatibility with the `Borlabs Cookie` plugin.
 - **New:** License keys can now be set via `wp-config.php` using constants like `WP_STATISTICS_LICENSE` and are auto-validated on init.
 - **New:** The **Customization add-on** now includes an export and import feature for settings.
