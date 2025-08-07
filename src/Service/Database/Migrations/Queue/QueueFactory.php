@@ -99,13 +99,7 @@ class QueueFactory
             return false;
         }
 
-        if (Install::isFresh()) {
-            $allStepIdentifiers = array_keys(self::getQueueMigration()->getMigrationSteps());
-            self::saveCompletedSteps($allStepIdentifiers);
-
-            Option::saveOptionGroup('completed', true, self::QUEUE_OPTION_GROUP);
-            return false;
-        }
+        add_action('admin_init', [self::class, 'markAsComplete']);
 
         $migrationSteps = self::collectQueueMigrationSteps();
 
@@ -115,6 +109,24 @@ class QueueFactory
         }
 
         return true;
+    }
+
+    /**
+     * Sets all the migration process as completed.
+     *
+     * @return bool Returns false if no migration steps are needed, true otherwise
+     * @todo This method should be moved to the Core once implemented.
+     */
+    public static function markAsComplete()
+    {
+        if (!Install::isFresh()) {
+            return;
+        }
+
+        $allStepIdentifiers = array_keys(self::getQueueMigration()->getMigrationSteps());
+        self::saveCompletedSteps($allStepIdentifiers);
+
+        Option::saveOptionGroup('completed', true, self::QUEUE_OPTION_GROUP);
     }
 
     /**
