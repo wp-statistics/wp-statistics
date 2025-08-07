@@ -20,12 +20,13 @@ class DeviceChartDataProvider extends AbstractChartDataProvider
         parent::__construct($args);
 
         $this->args = array_merge($this->args, [
-            'fields' => ['visitor.device']
+            'fields'   => ['visitor.device', 'COUNT(DISTINCT visitor.ID) as visitors'],
+            'group_by' => 'visitor.device',
+            'order_by' => 'visitors',
+            'decorate' => false,
+            'page'     => false,
+            'per_page' => false
         ]);
-
-        // Get all results
-        $this->args['page']     = false;
-        $this->args['per_page'] = false;
 
         $this->visitorsModel = new VisitorsModel();
     }
@@ -35,7 +36,12 @@ class DeviceChartDataProvider extends AbstractChartDataProvider
     {
         $this->initChartData();
 
-        $data = $this->visitorsModel->getVisitorsData($this->args);
+        if (!empty($this->args['referred_visitors'])) {
+            $data = $this->visitorsModel->getReferredVisitors($this->args);
+        } else {
+            $data = $this->visitorsModel->getVisitorsData($this->args);
+        }
+
         $data = $this->parseData($data);
 
         $this->setChartLabels($data['labels']);
@@ -51,28 +57,14 @@ class DeviceChartDataProvider extends AbstractChartDataProvider
 
         if (!empty($data)) {
             foreach ($data as $item) {
-                $device = $item->getDevice()->getType();
+                if (empty($item->device)) continue;
 
-                if (!empty($device)) {
-                    $devices = array_column($parsedData, 'label');
-
-                    if (!in_array($device, $devices)) {
-                        $parsedData[] = [
-                            'label'    => $device,
-                            'icon'     => DeviceHelper::getDeviceLogo($device),
-                            'visitors' => 1
-                        ];
-                    } else {
-                        $index = array_search($device, $devices);
-                        $parsedData[$index]['visitors']++;
-                    }
-                }
+                $parsedData[] = [
+                    'label'    => ucfirst($item->device),
+                    'icon'     => DeviceHelper::getDeviceLogo($item->device),
+                    'visitors' => $item->visitors
+                ];
             }
-
-            // Sort data by visitors
-            usort($parsedData, function ($a, $b) {
-                return $b['visitors'] - $a['visitors'];
-            });
 
             if (count($parsedData) > 4) {
                 // Get top 4 results, and others

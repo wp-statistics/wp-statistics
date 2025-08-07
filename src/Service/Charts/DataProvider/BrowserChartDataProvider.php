@@ -19,12 +19,13 @@ class BrowserChartDataProvider extends AbstractChartDataProvider
         parent::__construct($args);
 
         $this->args = array_merge($this->args, [
-            'fields' => ['visitor.agent']
+            'fields'   => ['visitor.agent', 'COUNT(DISTINCT visitor.ID) as visitors'],
+            'group_by' => 'visitor.agent',
+            'order_by' => 'visitors',
+            'decorate' => false,
+            'page'     => false,
+            'per_page' => false
         ]);
-
-        // Get all results
-        $this->args['page']     = false;
-        $this->args['per_page'] = false;
 
         $this->visitorsModel = new VisitorsModel();
     }
@@ -34,7 +35,12 @@ class BrowserChartDataProvider extends AbstractChartDataProvider
     {
         $this->initChartData();
 
-        $data = $this->visitorsModel->getVisitorsData($this->args);
+        if (!empty($this->args['referred_visitors'])) {
+            $data = $this->visitorsModel->getReferredVisitors($this->args);
+        } else {
+            $data = $this->visitorsModel->getVisitorsData($this->args);
+        }
+
         $data = $this->parseData($data);
 
         $this->setChartLabels($data['labels']);
@@ -50,30 +56,15 @@ class BrowserChartDataProvider extends AbstractChartDataProvider
 
         if (!empty($data)) {
             foreach ($data as $item) {
-                /** @var VisitorDecorator $item */
-                $agent = $item->getBrowser()->getRaw();
+                if (empty($item->agent)) continue;
 
-                // Browser data
-                if (!empty($agent)) {
-                    $agents = array_column($parsedData, 'label');
-
-                    if (!in_array($agent, $agents)) {
-                        $parsedData[] = [
-                            'label'    => $agent,
-                            'icon'     => DeviceHelper::getBrowserLogo($agent),
-                            'visitors' => 1
-                        ];
-                    } else {
-                        $index = array_search($agent, $agents);
-                        $parsedData[$index]['visitors']++;
-                    }
-                }
+                $parsedData[] = [
+                    'label'    => $item->agent,
+                    'icon'     => DeviceHelper::getBrowserLogo($item->agent),
+                    'visitors' => $item->visitors
+                ];
             }
 
-            // Sort data by visitors
-            usort($parsedData, function ($a, $b) {
-                return $b['visitors'] - $a['visitors'];
-            });
 
             if (count($parsedData) > 4) {
                 // Get top 4 results, and others

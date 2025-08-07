@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Charts\DataProvider;
 
+use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\BarChartResponseTrait;
@@ -17,7 +18,12 @@ class ModelChartDataProvider extends AbstractChartDataProvider
         parent::__construct($args);
 
         $this->args = array_merge($this->args, [
-            'fields' => ['visitor.model']
+            'fields'   => ['visitor.model', 'COUNT(DISTINCT visitor.ID) as visitors'],
+            'group_by' => 'visitor.model',
+            'order_by' => 'visitors',
+            'decorate' => false,
+            'page'     => false,
+            'per_page' => false
         ]);
 
         $this->visitorsModel = new VisitorsModel();
@@ -28,7 +34,12 @@ class ModelChartDataProvider extends AbstractChartDataProvider
     {
         $this->initChartData();
 
-        $data = $this->visitorsModel->getVisitorsData($this->args);
+        if (!empty($this->args['referred_visitors'])) {
+            $data = $this->visitorsModel->getReferredVisitors($this->args);
+        } else {
+            $data = $this->visitorsModel->getVisitorsData($this->args);
+        }
+
         $data = $this->parseData($data);
 
         $this->setChartLabels($data['labels']);
@@ -40,42 +51,16 @@ class ModelChartDataProvider extends AbstractChartDataProvider
     protected function parseData($data)
     {
         $parsedData = [];
-        $unknownData = 0;
 
         if (!empty($data)) {
             foreach ($data as $item) {
-                $model = $item->getDevice()->getModel();
+                $model = Admin_Template::unknownToNotSet($item->model);
 
-                if (!empty($model)) {
-                    $models = array_column($parsedData, 'label');
-
-                    if (!in_array($model, $models)) {
-                        $parsedData[] = [
-                            'label'    => $model,
-                            'visitors' => 1
-                        ];
-                    } else {
-                        $index = array_search($model, $models);
-                        $parsedData[$index]['visitors']++;
-                    }
-                }
-
-                if ($model === 'Unknown' || empty($model)) {
-                    ++$unknownData;
-                }
-            }
-
-            if ($unknownData > 0) {
                 $parsedData[] = [
-                    'label'    => esc_html__('Unknown', 'wp-statistics'),
-                    'visitors' => $unknownData
+                    'label'    => $model,
+                    'visitors' => $item->visitors
                 ];
             }
-
-            // Sort data by visitors
-            usort($parsedData, function ($a, $b) {
-                return $b['visitors'] - $a['visitors'];
-            });
 
             if (count($parsedData) > 4) {
                 // Get top 4 results, and others

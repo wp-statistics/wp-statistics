@@ -626,6 +626,8 @@ class VisitorsModel extends BaseModel
             'utm_medium'            => '',
             'utm_campaign'          => '',
             'source_name'           => '',
+            'group_by'              => 'visitor.ID',
+            'decorate'              => true
         ]);
 
         // Set default fields
@@ -652,11 +654,11 @@ class VisitorsModel extends BaseModel
                 'visitor.last_page',
                 'visitor.last_view',
             ];
-        }
 
-        // When retrieving data for a single resource, get the page view date
-        if (!empty($args['resource_id']) && ($args['resource_type'])) {
-            $args['fields'][] = 'visitor_relationships.date as page_view';
+            // When retrieving data for a single resource, get the page view date
+            if (!empty($args['resource_id']) && ($args['resource_type'])) {
+                $args['fields'][] = 'visitor_relationships.date as page_view';
+            }
         }
 
         $query = Query::select($args['fields'])
@@ -673,8 +675,11 @@ class VisitorsModel extends BaseModel
             ->whereDate($args['date_field'], $args['date'])
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
-            ->decorate(VisitorDecorator::class)
-            ->groupBy('visitor.ID');
+            ->groupBy($args['group_by']);
+
+        if ($args['decorate'] == true) {
+            $query->decorate(VisitorDecorator::class);
+        }
 
         // When source_channel is `unassigned`, only get visitors without source_channel
         if ($args['source_channel'] === 'unassigned') {
@@ -758,6 +763,7 @@ class VisitorsModel extends BaseModel
     public function getReferredVisitors($args = [])
     {
         $args = $this->parseArgs($args, [
+            'fields'         => ['visitor.ID', 'visitor.ip', 'visitor.platform', 'visitor.agent', 'version', 'visitor.model', 'visitor.device', 'visitor.location', 'visitor.user_id', 'visitor.region', 'visitor.city', 'visitor.hits', 'visitor.referred', 'visitor.last_counter', 'visitor.source_channel', 'visitor.source_name', 'users.display_name', 'users.user_email', 'visitor.first_page', 'visitor.first_view', 'visitor.last_page', 'visitor.last_view'],
             'date'           => '',
             'source_channel' => '',
             'source_name'    => '',
@@ -770,33 +776,12 @@ class VisitorsModel extends BaseModel
             'utm_medium'     => '',
             'utm_campaign'   => '',
             'resource_id'    => '',
-            'resource_type'  => Helper::getPostTypes()
+            'resource_type'  => Helper::getPostTypes(),
+            'group_by'       => '',
+            'decorate'       => true
         ]);
 
-        $query = Query::select([
-            'visitor.ID',
-            'visitor.ip',
-            'visitor.platform',
-            'visitor.agent',
-            'version',
-            'visitor.model',
-            'visitor.device',
-            'visitor.location',
-            'visitor.user_id',
-            'visitor.region',
-            'visitor.city',
-            'visitor.hits',
-            'visitor.referred',
-            'visitor.last_counter',
-            'visitor.source_channel',
-            'visitor.source_name',
-            'users.display_name',
-            'users.user_email',
-            'visitor.first_page',
-            'visitor.first_view',
-            'visitor.last_page',
-            'visitor.last_view'
-        ])
+        $query = Query::select($args['fields'])
             ->from('visitor')
             ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
             ->where('source_name', '=', $args['source_name'])
@@ -811,7 +796,11 @@ class VisitorsModel extends BaseModel
             ->whereDate('visitor.last_counter', $args['date'])
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
-            ->decorate(VisitorDecorator::class);
+            ->groupBy($args['group_by']);
+
+        if ($args['decorate'] == true) {
+            $query->decorate(VisitorDecorator::class);
+        }
 
         // When source_channel is `unassigned`, only get visitors without source_channel
         if ($args['source_channel'] === 'unassigned') {

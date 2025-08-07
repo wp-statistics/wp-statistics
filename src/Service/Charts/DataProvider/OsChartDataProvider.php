@@ -19,7 +19,12 @@ class OsChartDataProvider extends AbstractChartDataProvider
         parent::__construct($args);
 
         $this->args = array_merge($this->args, [
-            'fields' => ['visitor.platform']
+            'fields'   => ['visitor.platform', 'COUNT(DISTINCT visitor.ID) as visitors'],
+            'group_by' => 'visitor.platform',
+            'order_by' => 'visitors',
+            'decorate' => false,
+            'page'     => false,
+            'per_page' => false
         ]);
 
         $this->visitorsModel = new VisitorsModel();
@@ -30,7 +35,12 @@ class OsChartDataProvider extends AbstractChartDataProvider
     {
         $this->initChartData();
 
-        $data = $this->visitorsModel->getVisitorsData($this->args);
+        if (!empty($this->args['referred_visitors'])) {
+            $data = $this->visitorsModel->getReferredVisitors($this->args);
+        } else {
+            $data = $this->visitorsModel->getVisitorsData($this->args);
+        }
+
         $data = $this->parseData($data);
 
         $this->setChartLabels($data['labels']);
@@ -46,28 +56,14 @@ class OsChartDataProvider extends AbstractChartDataProvider
 
         if (!empty($data)) {
             foreach ($data as $item) {
-                $platform = $item->getOs()->getName();
+                if (empty($item->platform)) continue;
 
-                if (!empty($platform)) {
-                    $platforms = array_column($parsedData, 'label');
-
-                    if (!in_array($platform, $platforms)) {
-                        $parsedData[] = [
-                            'label'    => $platform,
-                            'icon'     => DeviceHelper::getPlatformLogo($platform),
-                            'visitors' => 1
-                        ];
-                    } else {
-                        $index = array_search($platform, $platforms);
-                        $parsedData[$index]['visitors']++;
-                    }
-                }
+                $parsedData[] = [
+                    'label'    => $item->platform,
+                    'icon'     => DeviceHelper::getPlatformLogo($item->platform),
+                    'visitors' => $item->visitors
+                ];
             }
-
-            // Sort data by visitors
-            usort($parsedData, function ($a, $b) {
-                return $b['visitors'] - $a['visitors'];
-            });
 
             if (count($parsedData) > 4) {
                 // Get top 4 results, and others
