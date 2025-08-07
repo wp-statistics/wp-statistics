@@ -151,6 +151,38 @@ class VisitorsModel extends BaseModel
         return $total;
     }
 
+    public function getVisitorsHits($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'          => '',
+            'agent'         => '',
+            'platform'      => '',
+            'country'       => '',
+            'user_id'       => '',
+            'ip'            => '',
+            'source_name'   => '',
+            'referrer'      => ''
+        ]);
+
+        $query = Query::select(['COUNT(visitor.ID) as visitors', 'SUM(visitor.hits) as hits'])
+            ->from('visitor')
+            ->where('agent', '=', $args['agent'])
+            ->where('location', '=', $args['country'])
+            ->where('platform', '=', $args['platform'])
+            ->where('user_id', '=', $args['user_id'])
+            ->where('referred', '=', $args['referrer'])
+            ->where('ip', '=', $args['ip'])
+            ->where('source_name', 'IN', $args['source_name'])
+            ->whereDate('last_counter', $args['date']);
+
+        $result = $query->getRow();
+
+        return [
+            'visitors' => $result->visitors + $this->historicalModel->getVisitors($args),
+            'hits'     => $result->hits + $this->historicalModel->getViews($args)
+        ];
+    }
+
     public function countDailyVisitors($args = [])
     {
         $args = $this->parseArgs($args, [
@@ -458,6 +490,53 @@ class VisitorsModel extends BaseModel
             $summary['total'] = [
                 'label' => esc_html__('Total', 'wp-statistics'),
                 'hits'  => $this->countHits(array_merge($args, ['ignore_date' => true, 'historical' => true])),
+            ];
+        }
+
+        return $summary;
+    }
+
+    public function getVisitorsHitsSummary($args = [])
+    {
+        $periods = [
+            'today'      => ['label' => esc_html__('Today', 'wp-statistics'), 'date' => 'today'],
+            'yesterday'  => ['label' => esc_html__('Yesterday', 'wp-statistics'), 'date' => 'yesterday'],
+            'this_week'  => ['label' => esc_html__('This week', 'wp-statistics'), 'date' => 'this_week'],
+            'last_week'  => ['label' => esc_html__('Last week', 'wp-statistics'), 'date' => 'last_week'],
+            'this_month' => ['label' => esc_html__('This month', 'wp-statistics'), 'date' => 'this_month'],
+            'last_month' => ['label' => esc_html__('Last month', 'wp-statistics'), 'date' => 'last_month'],
+            '7days'      => ['label' => esc_html__('Last 7 days', 'wp-statistics'), 'date' => '7days'],
+            '30days'     => ['label' => esc_html__('Last 30 days', 'wp-statistics'), 'date' => '30days'],
+            '90days'     => ['label' => esc_html__('Last 90 days', 'wp-statistics'), 'date' => '90days'],
+            '6months'    => ['label' => esc_html__('Last 6 months', 'wp-statistics'), 'date' => '6months'],
+            'this_year'  => ['label' => esc_html__('This year (Jan-Today)', 'wp-statistics'), 'date' => 'this_year'],
+        ];
+
+        $exclude = $args['exclude'] ?? [];
+        $summary = [];
+
+        foreach ($periods as $key => $period) {
+            if (in_array($key, $exclude)) {
+                continue; // Skip excluded periods
+            }
+
+            $data = $this->getVisitorsHits(array_merge($args, ['date' => DateRange::get($period['date'])]));
+
+            $summary[$key] = [
+                'label'     => $period['label'],
+                'visitors'  => $data['visitors'],
+                'hits'      => $data['hits'],
+            ];
+        }
+
+        // Conditionally add 'total' (if not excluded)
+        if (!empty($args['include_total']) && !in_array('total', $exclude)) {
+            $data = $this->getVisitorsHits(array_merge($args, ['ignore_date' => true, 'historical' => true]));
+
+            $summary['total'] = [
+                'label'     => $period['label'],
+                'visitors'  => $data['visitors'],
+                'hits'      => $data['hits'],
             ];
         }
 
