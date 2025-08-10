@@ -205,12 +205,23 @@ class VisitorsModel extends BaseModel
             'referred_visitors' => false
         ]);
 
-        $additionalFields = !empty($args['include_hits']) ? ['SUM(visitor.hits) as hits'] : [];
+        $filteredArgs = array_filter($args);
 
-        $query = Query::select(array_merge([
-            'visitor.last_counter as date',
-            'COUNT(DISTINCT visitor.ID) as visitors'
-        ], $additionalFields))
+        $fields = [
+            'date'     => 'visitor.last_counter as date',
+            'visitors' => 'COUNT(visitor.ID) as visitors'
+        ];
+
+        if (!empty($args['include_hits'])) {
+            $fields['hits'] = 'SUM(visitor.hits) as hits';
+        }
+
+        // If joined to other tables, add DISTINCT to count unique visitors
+        if (array_intersect(['resource_type', 'resource_id', 'query_param', 'post_type', 'author_id', 'post_id', 'taxonomy', 'term'], array_keys($filteredArgs))) {
+            $fields['visitors'] = 'COUNT(DISTINCT visitor.ID) as visitors';
+        }
+
+        $query = Query::select($fields)
             ->from('visitor')
             ->where('location', '=', $args['country'])
             ->where('user_id', '=', $args['user_id'])
@@ -239,8 +250,6 @@ class VisitorsModel extends BaseModel
                 $query->where('usermeta.meta_value', 'LIKE', "%{$args['user_role']}%");
             }
         }
-
-        $filteredArgs = array_filter($args);
 
         if (array_intersect(['resource_type', 'resource_id', 'query_param'], array_keys($filteredArgs))) {
             $query
