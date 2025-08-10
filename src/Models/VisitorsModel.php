@@ -376,7 +376,7 @@ class VisitorsModel extends BaseModel
 
         $result = Query::select([
             $args['field'],
-            'COUNT(DISTINCT `ID`) AS `visitors`',
+            'COUNT(visitor.ID) AS `visitors`',
         ])
             ->from('visitor')
             ->whereDate('last_counter', $args['date'])
@@ -410,7 +410,7 @@ class VisitorsModel extends BaseModel
 
         $result = Query::select([
             'CAST(`version` AS SIGNED) AS `casted_version`',
-            'COUNT(DISTINCT `ID`) AS `visitors`',
+            'COUNT(visitor.ID) AS `visitors`',
         ])
             ->from('visitor')
             ->where($args['where_col'], '=', $args['where_val'])
