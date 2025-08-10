@@ -51,11 +51,8 @@ class Country
     public static function getName($code)
     {
         $list_country = self::getList();
-
-        if (is_string($code) || is_int($code)) {
-            if (array_key_exists($code, $list_country)) {
-                return $list_country[$code];
-            }
+        if (array_key_exists($code, $list_country)) {
+            return $list_country[$code];
         }
 
         return $list_country[self::$unknown_location];
