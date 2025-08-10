@@ -237,26 +237,6 @@ class Helper
     }
 
     /**
-     * Get Robots List
-     *
-     * @param string $type
-     * @return array|bool|string
-     */
-    public static function get_robots_list($type = 'list')
-    {
-        # Set Default
-        $list = array();
-
-        # Load From file
-        include WP_STATISTICS_DIR . "includes/defines/robots-list.php";
-        if (isset($wps_robots_list_array)) {
-            $list = $wps_robots_list_array;
-        }
-
-        return ($type == "array" ? $list : implode("\n", $list));
-    }
-
-    /**
      * Get URL Query Parameters List
      *
      * @param string $type
@@ -1427,6 +1407,37 @@ class Helper
         $anonymousSubVersion = preg_replace('/[0-9]+/', '0', $subVersion);
 
         return "{$mainVersion}.{$anonymousSubVersion}";
+    }
+
+    /**
+     * Extracts the major version from a version string.
+     *
+     * If the version string starts with a dot (e.g. ".NK") meaning
+     * no major version is present, the entire input string is returned.
+     * If the input is empty or not a string, returns null.
+     *
+     * Examples:
+     * - "1.2.3" => "1"
+     * - ".NK"   => ".NK"
+     * - ""      => null
+     * - null    => null
+     *
+     * @param string|null $version Version string to extract from.
+     * @return string|null Major version or full input if no major version, or null if invalid.
+     */
+    public static function getMajorVersionOnly($version)
+    {
+        if(empty($version)) {
+            return null;
+        }
+
+        $parts = explode('.', $version);
+
+        if ($parts[0] === '') {
+            return $version;
+        }
+
+        return $parts[0];
     }
 
     /**

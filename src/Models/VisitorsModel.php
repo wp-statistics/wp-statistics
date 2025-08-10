@@ -255,10 +255,12 @@ class VisitorsModel extends BaseModel
             'resource_type'  => '',
             'source_channel' => '',
             'source_name'    => '',
-            'referrer'       => ''
+            'referrer'       => '',
+            'fields'         => [],
+            'group_by'       => []
         ]);
 
-        $result = Query::select('COUNT(*) as referrers, last_counter as date')
+        $result = Query::select(array_merge(['COUNT(*) as referrers, last_counter as date'], $args['fields']))
             ->from('visitor')
             ->where('source_channel', '=', $args['source_channel'])
             ->where('source_name', '=', $args['source_name'])
@@ -271,7 +273,7 @@ class VisitorsModel extends BaseModel
                     (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
                 )
             ")
-            ->groupBy('last_counter');
+            ->groupBy(array_merge(['last_counter'], $args['group_by']));
 
         if (!empty($args['resource_id']) || !empty($args['resource_type'])) {
             $result
@@ -554,7 +556,7 @@ class VisitorsModel extends BaseModel
                 'visitor.ip',
                 'visitor.platform',
                 'visitor.agent',
-                'CAST(`visitor`.`version` AS SIGNED) as version',
+                'version',
                 'visitor.model',
                 'visitor.device',
                 'visitor.location',
@@ -697,7 +699,7 @@ class VisitorsModel extends BaseModel
             'visitor.ip',
             'visitor.platform',
             'visitor.agent',
-            'CAST(`visitor`.`version` AS SIGNED) as version',
+            'version',
             'visitor.model',
             'visitor.device',
             'visitor.location',
@@ -841,7 +843,7 @@ class VisitorsModel extends BaseModel
             'visitor.ID',
             'visitor.platform',
             'visitor.agent',
-            'CAST(`visitor`.`version` AS SIGNED) as version',
+            'version',
             'visitor.model',
             'visitor.device',
             'visitor.location',
@@ -1293,7 +1295,7 @@ class VisitorsModel extends BaseModel
      *
      * @return  array   Format: `[{'date' => "STRING", 'visitors' => INT, 'visits' => INT, 'referrers' => INT}, ...]`.
      *
-     * @deprecated Do NOT use this class anymore as it's been deprecated. Instead, use getDailyVisitors, getDailyViews, and getDailyReferrals
+     * @deprecated Do NOT use this class anymore as it's been deprecated. Instead, use countDailyVisitors, countDailyViews, and countDailyReferrers
      */
     public function getDailyStats($args = [])
     {

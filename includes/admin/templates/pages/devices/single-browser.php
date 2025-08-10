@@ -27,8 +27,8 @@ use WP_STATISTICS\Helper;
                                     <?php foreach ($data['visitors'] as $item) : ?>
                                         <tr>
                                             <td class="wps-pd-l">
-                                                <span title="<?php echo esc_attr($item->casted_version); ?>" class="wps-single-name">
-                                                    <?php echo esc_html($item->casted_version); ?>
+                                                <span title="<?php echo esc_attr(Helper::getMajorVersionOnly($item->casted_version)); ?>" class="wps-single-name">
+                                                    <?php echo esc_html(Helper::getMajorVersionOnly($item->casted_version)); ?>
                                                 </span>
                                             </td>
                                             <td class="wps-pd-l">

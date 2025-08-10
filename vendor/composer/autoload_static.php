@@ -15,6 +15,24 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         array (
             'WP_Statistics\\' => 14,
         ),
+        'M' => 
+        array (
+            'MaxMind\\WebService\\' => 19,
+            'MaxMind\\Exception\\' => 18,
+            'MaxMind\\Db\\' => 11,
+        ),
+        'G' => 
+        array (
+            'GeoIp2\\' => 7,
+        ),
+        'D' => 
+        array (
+            'DeviceDetector\\' => 15,
+        ),
+        'C' => 
+        array (
+            'Composer\\CaBundle\\' => 18,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -22,21 +40,43 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
+        'MaxMind\\WebService\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/WebService',
+        ),
+        'MaxMind\\Exception\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/Exception',
+        ),
+        'MaxMind\\Db\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind-db/reader/src/MaxMind/Db',
+        ),
+        'GeoIp2\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/geoip2/geoip2/src',
+        ),
+        'DeviceDetector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/matomo/device-detector',
+        ),
+        'Composer\\CaBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
+        ),
     );
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'WP_Statistics\\Abstracts\\BaseMetabox' => __DIR__ . '/../..' . '/src/Abstracts/BaseMetabox.php',
+        'WP_Statistics\\Abstracts\\BaseMigrationOperation' => __DIR__ . '/../..' . '/src/Abstracts/BaseMigrationOperation.php',
         'WP_Statistics\\Abstracts\\BaseModel' => __DIR__ . '/../..' . '/src/Abstracts/BaseModel.php',
         'WP_Statistics\\Abstracts\\BasePage' => __DIR__ . '/../..' . '/src/Abstracts/BasePage.php',
+        'WP_Statistics\\Abstracts\\BaseRestAPI' => __DIR__ . '/../..' . '/src/Abstracts/BaseRestAPI.php',
         'WP_Statistics\\Abstracts\\BaseTabView' => __DIR__ . '/../..' . '/src/Abstracts/BaseTabView.php',
         'WP_Statistics\\Abstracts\\BaseView' => __DIR__ . '/../..' . '/src/Abstracts/BaseView.php',
         'WP_Statistics\\Abstracts\\MultiViewPage' => __DIR__ . '/../..' . '/src/Abstracts/MultiViewPage.php',
         'WP_Statistics\\Abstracts\\UnlockedTabView' => __DIR__ . '/../..' . '/src/Abstracts/UnlockedTabView.php',
-        'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\AbstractAjaxBackgroundProcess' => __DIR__ . '/../..' . '/src/BackgroundProcess/AjaxBackgroundProcess/AbstractAjaxBackgroundProcess.php',
-        'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\AjaxBackgroundProcessFactory' => __DIR__ . '/../..' . '/src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessFactory.php',
-        'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\AjaxBackgroundProcessManager' => __DIR__ . '/../..' . '/src/BackgroundProcess/AjaxBackgroundProcess/AjaxBackgroundProcessManager.php',
-        'WP_Statistics\\BackgroundProcess\\AjaxBackgroundProcess\\Jobs\\VisitorColumnsMigrator' => __DIR__ . '/../..' . '/src/BackgroundProcess/AjaxBackgroundProcess/Jobs/VisitorColumnsMigrator.php',
         'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\BackgroundProcessFactory' => __DIR__ . '/../..' . '/src/BackgroundProcess/AsyncBackgroundProcess/BackgroundProcessFactory.php',
         'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\BackgroundProcessMonitor' => __DIR__ . '/../..' . '/src/BackgroundProcess/AsyncBackgroundProcess/BackgroundProcessMonitor.php',
         'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\CalculatePostWordsCount' => __DIR__ . '/../..' . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/CalculatePostWordsCount.php',
@@ -53,6 +93,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Components\\Event' => __DIR__ . '/../..' . '/src/Components/Event.php',
         'WP_Statistics\\Components\\RemoteRequest' => __DIR__ . '/../..' . '/src/Components/RemoteRequest.php',
         'WP_Statistics\\Components\\Singleton' => __DIR__ . '/../..' . '/src/Components/Singleton.php',
+        'WP_Statistics\\Components\\SystemCleaner' => __DIR__ . '/../..' . '/src/Components/SystemCleaner.php',
         'WP_Statistics\\Components\\View' => __DIR__ . '/../..' . '/src/Components/View.php',
         'WP_Statistics\\Decorators\\BrowserDecorator' => __DIR__ . '/../..' . '/src/Decorators/BrowserDecorator.php',
         'WP_Statistics\\Decorators\\DeviceDecorator' => __DIR__ . '/../..' . '/src/Decorators/DeviceDecorator.php',
@@ -191,6 +232,12 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Admin\\Exclusions\\ExclusionsDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/Exclusions/ExclusionsDataProvider.php',
         'WP_Statistics\\Service\\Admin\\Exclusions\\ExclusionsManager' => __DIR__ . '/../..' . '/src/Service/Admin/Exclusions/ExclusionsManager.php',
         'WP_Statistics\\Service\\Admin\\Exclusions\\ExclusionsPage' => __DIR__ . '/../..' . '/src/Service/Admin/Exclusions/ExclusionsPage.php',
+        'WP_Statistics\\Service\\Admin\\ExportImport\\ExportImportHandler' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImport/ExportImportHandler.php',
+        'WP_Statistics\\Service\\Admin\\ExportImport\\ExportImportManager' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImport/ExportImportManager.php',
+        'WP_Statistics\\Service\\Admin\\ExportImport\\ExportRestController' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImport/ExportRestController.php',
+        'WP_Statistics\\Service\\Admin\\ExportImport\\ImportRestController' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImport/ImportRestController.php',
+        'WP_Statistics\\Service\\Admin\\ExportImport\\Interfaces\\ExportDriverInterface' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImport/Interfaces/ExportDriverInterface.php',
+        'WP_Statistics\\Service\\Admin\\ExportImport\\Interfaces\\ImportDriverInterface' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImport/Interfaces/ImportDriverInterface.php',
         'WP_Statistics\\Service\\Admin\\FilterHandler\\FilterGenerator' => __DIR__ . '/../..' . '/src/Service/Admin/FilterHandler/FilterGenerator.php',
         'WP_Statistics\\Service\\Admin\\FilterHandler\\FilterManager' => __DIR__ . '/../..' . '/src/Service/Admin/FilterHandler/FilterManager.php',
         'WP_Statistics\\Service\\Admin\\Geographic\\GeographicDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/Geographic/GeographicDataProvider.php',
@@ -202,6 +249,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Admin\\HelpCenter\\HelpCenterManager' => __DIR__ . '/../..' . '/src/Service/Admin/HelpCenter/HelpCenterManager.php',
         'WP_Statistics\\Service\\Admin\\HelpCenter\\HelpCenterPage' => __DIR__ . '/../..' . '/src/Service/Admin/HelpCenter/HelpCenterPage.php',
         'WP_Statistics\\Service\\Admin\\LicenseManagement\\ApiCommunicator' => __DIR__ . '/../..' . '/src/Service/Admin/LicenseManagement/ApiCommunicator.php',
+        'WP_Statistics\\Service\\Admin\\LicenseManagement\\ApiEndpoints' => __DIR__ . '/../..' . '/src/Service/Admin/LicenseManagement/ApiEndpoints.php',
         'WP_Statistics\\Service\\Admin\\LicenseManagement\\LicenseHelper' => __DIR__ . '/../..' . '/src/Service/Admin/LicenseManagement/LicenseHelper.php',
         'WP_Statistics\\Service\\Admin\\LicenseManagement\\LicenseManagementManager' => __DIR__ . '/../..' . '/src/Service/Admin/LicenseManagement/LicenseManagementManager.php',
         'WP_Statistics\\Service\\Admin\\LicenseManagement\\LicenseManagerDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/LicenseManagement/LicenseManagerDataProvider.php',
@@ -337,12 +385,18 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Database\\AbstractDatabaseOperation' => __DIR__ . '/../..' . '/src/Service/Database/AbstractDatabaseOperation.php',
         'WP_Statistics\\Service\\Database\\DatabaseFactory' => __DIR__ . '/../..' . '/src/Service/Database/DatabaseFactory.php',
         'WP_Statistics\\Service\\Database\\DatabaseManager' => __DIR__ . '/../..' . '/src/Service/Database/DatabaseManager.php',
-        'WP_Statistics\\Service\\Database\\Managers\\MigrationHandler' => __DIR__ . '/../..' . '/src/Service/Database/Managers/MigrationHandler.php',
         'WP_Statistics\\Service\\Database\\Managers\\SchemaMaintainer' => __DIR__ . '/../..' . '/src/Service/Database/Managers/SchemaMaintainer.php',
         'WP_Statistics\\Service\\Database\\Managers\\TableHandler' => __DIR__ . '/../..' . '/src/Service/Database/Managers/TableHandler.php',
         'WP_Statistics\\Service\\Database\\Managers\\TransactionHandler' => __DIR__ . '/../..' . '/src/Service/Database/Managers/TransactionHandler.php',
-        'WP_Statistics\\Service\\Database\\Migrations\\AbstractMigrationOperation' => __DIR__ . '/../..' . '/src/Service/Database/Migrations/AbstractMigrationOperation.php',
-        'WP_Statistics\\Service\\Database\\Migrations\\SchemaMigration' => __DIR__ . '/../..' . '/src/Service/Database/Migrations/SchemaMigration.php',
+        'WP_Statistics\\Service\\Database\\Migrations\\Ajax\\AbstractAjax' => __DIR__ . '/../..' . '/src/Service/Database/Migrations/Ajax/AbstractAjax.php',
+        'WP_Statistics\\Service\\Database\\Migrations\\Ajax\\AjaxFactory' => __DIR__ . '/../..' . '/src/Service/Database/Migrations/Ajax/AjaxFactory.php',
+        'WP_Statistics\\Service\\Database\\Migrations\\Ajax\\AjaxManager' => __DIR__ . '/../..' . '/src/Service/Database/Migrations/Ajax/AjaxManager.php',
+        'WP_Statistics\\Service\\Database\\Migrations\\Ajax\\Jobs\\VisitorColumnsMigrator' => __DIR__ . '/../..' . '/src/Service/Database/Migrations/Ajax/Jobs/VisitorColumnsMigrator.php',
+        'WP_Statistics\\Service\\Database\\Migrations\\Queue\\QueueFactory' => __DIR__ . '/../..' . '/src/Service/Database/Migrations/Queue/QueueFactory.php',
+        'WP_Statistics\\Service\\Database\\Migrations\\Queue\\QueueManager' => __DIR__ . '/../..' . '/src/Service/Database/Migrations/Queue/QueueManager.php',
+        'WP_Statistics\\Service\\Database\\Migrations\\Queue\\QueueMigration' => __DIR__ . '/../..' . '/src/Service/Database/Migrations/Queue/QueueMigration.php',
+        'WP_Statistics\\Service\\Database\\Migrations\\Schema\\SchemaManager' => __DIR__ . '/../..' . '/src/Service/Database/Migrations/Schema/SchemaManager.php',
+        'WP_Statistics\\Service\\Database\\Migrations\\Schema\\SchemaMigration' => __DIR__ . '/../..' . '/src/Service/Database/Migrations/Schema/SchemaMigration.php',
         'WP_Statistics\\Service\\Database\\Operations\\AbstractTableOperation' => __DIR__ . '/../..' . '/src/Service/Database/Operations/AbstractTableOperation.php',
         'WP_Statistics\\Service\\Database\\Operations\\Create' => __DIR__ . '/../..' . '/src/Service/Database/Operations/Create.php',
         'WP_Statistics\\Service\\Database\\Operations\\Drop' => __DIR__ . '/../..' . '/src/Service/Database/Operations/Drop.php',
@@ -371,6 +425,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Integrations\\IntegrationHelper' => __DIR__ . '/../..' . '/src/Service/Integrations/IntegrationHelper.php',
         'WP_Statistics\\Service\\Integrations\\IntegrationsManager' => __DIR__ . '/../..' . '/src/Service/Integrations/IntegrationsManager.php',
         'WP_Statistics\\Service\\Integrations\\Plugins\\AbstractIntegration' => __DIR__ . '/../..' . '/src/Service/Integrations/Plugins/AbstractIntegration.php',
+        'WP_Statistics\\Service\\Integrations\\Plugins\\BorlabsCookie' => __DIR__ . '/../..' . '/src/Service/Integrations/Plugins/BorlabsCookie.php',
         'WP_Statistics\\Service\\Integrations\\Plugins\\RealCookieBanner' => __DIR__ . '/../..' . '/src/Service/Integrations/Plugins/RealCookieBanner.php',
         'WP_Statistics\\Service\\Integrations\\Plugins\\WpConsentApi' => __DIR__ . '/../..' . '/src/Service/Integrations/Plugins/WpConsentApi.php',
         'WP_Statistics\\Service\\Logger\\AbstractLoggerProvider' => __DIR__ . '/../..' . '/src/Service/Logger/AbstractLoggerProvider.php',

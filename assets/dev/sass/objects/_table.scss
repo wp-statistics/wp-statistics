@@ -719,6 +719,10 @@
               align-self: flex-end;
               line-height :unset;
 
+              .rtl &{
+                direction: ltr;
+              }
+
               &__success {
                 color: #196140;
               }

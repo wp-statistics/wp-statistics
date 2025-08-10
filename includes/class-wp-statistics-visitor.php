@@ -2,15 +2,14 @@
 
 namespace WP_STATISTICS;
 
-use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\AjaxBackgroundProcessFactory;
+use WP_STATISTICS\Helper;
+use WP_Statistics\Utils\Url;
+use WP_Statistics\Models\ViewsModel;  
 use WP_Statistics\Models\VisitorsModel;
-use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Analytics\VisitorProfile;
-use WP_Statistics\Service\Database\DatabaseFactory;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
-use WP_Statistics\Utils\Url;
-use WP_STATISTICS\Helper;
+use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 
 class Visitor
 {
@@ -282,7 +281,7 @@ class Visitor
         }
 
         // Prepare Query
-        $args['sql'] = $wpdb->prepare("SELECT *, CAST(`version` AS SIGNED) AS `casted_version` FROM `" . DB::table('visitor') . "` WHERE last_counter = %s ORDER BY hits DESC", $sql_time);
+        $args['sql'] = $wpdb->prepare("SELECT * FROM `" . DB::table('visitor') . "` WHERE last_counter = %s ORDER BY hits DESC", $sql_time);
 
         // Get Visitors Data
         return self::get($args);
@@ -313,7 +312,7 @@ class Visitor
 
         // Prepare the Query & Set Pagination
         if (empty($args['sql'])) {
-            $args['sql'] = "SELECT *, CAST(`version` AS SIGNED) AS `casted_version` FROM `" . DB::table('visitor') . "` ORDER BY ID DESC";
+            $args['sql'] = "SELECT * FROM `" . DB::table('visitor') . "` ORDER BY ID DESC";
         }
 
         $args['sql'] = $args['sql'] . $wpdb->prepare(" LIMIT %d, %d", $limit, $args['per_page']);
@@ -342,7 +341,7 @@ class Visitor
 
             $ip          = esc_html($items->ip);
             $agent       = esc_html($items->agent);
-            $version     = esc_html(isset($items->casted_version) ? $items->casted_version : $items->version);
+            $version     = esc_html($items->version);
             $platform    = esc_html($items->platform);
             $geoLocation = false;
 
@@ -436,19 +435,15 @@ class Visitor
      */
     public static function get_page_by_id($page_id)
     {
-        global $wpdb;
-
         // Default Params
-        $params = array('id' => '', 'link' => '', 'title' => '', 'query' => '', 'report' => '', 'sub_page' => '');
+        $params = ['id' => '', 'link' => '', 'title' => '', 'query' => '', 'report' => '', 'sub_page' => ''];
 
-        $pageTable = DB::table('pages');
+        $viewsModel = new ViewsModel();
+        $item       = $viewsModel->getPageRecord(['page_id' => $page_id]);
 
-        // Get Row
-        $item = $wpdb->get_row(
-            $wpdb->prepare("SELECT * FROM `" . $pageTable . "` WHERE page_id = %s", $page_id),
-            ARRAY_A);
+        if (!empty($item)) {
+            $item = (array) $item;
 
-        if ($item !== null) {
             $postTypes          = Helper::get_list_post_type();
             $postIdUri          = get_page_uri($item['id']);
             $dbUri              = trim(Url::getPath(home_url($item['uri'])), '/');
