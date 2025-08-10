@@ -140,9 +140,11 @@ class Schedule
      */
     public static function getSchedules()
     {
-        $timestamp = time();
-        $timezone  = wp_timezone();
-        $datetime  = new \DateTime('@' . $timestamp);
+        $randomHour   = wp_rand(0, 23);
+        $randomMinute = wp_rand(0, 59);
+        $timestamp    = time();
+        $timezone     = wp_timezone();
+        $datetime     = new \DateTime('@' . $timestamp);
         $datetime->setTimezone($timezone);
 
         // Determine the day name based on the start of the week setting
@@ -161,8 +163,8 @@ class Schedule
         $biweekly->modify("next {$start_day_name} +1 week")->setTime(8, 0);
 
         // Monthly schedule
-        $monthly = clone $datetime;
-        $monthly->modify('first day of next month')->setTime(8, 0);
+        $monthly      = clone $datetime;
+        $monthly->modify('first day of next month')->setTime($randomHour, $randomMinute);
 
         $schedules = [
             'daily'    => [

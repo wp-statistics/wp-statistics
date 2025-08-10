@@ -1,5 +1,6 @@
 = 14.15.x - 2025-x-x =
 - **Enhancement:** Added LiteSpeed Cache detection for improved cache-related warning notifications.
+- **Enhancement:** Randomized the execution time of the GeoIP update event to reduce simultaneous load on jsdelivr.
 
 = 14.15.2 - 2025-08-10 =
 - **New:** Added compatibility with the `Borlabs Cookie` plugin.
