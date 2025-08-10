@@ -101,28 +101,6 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     </div>
                 </th>
             </tr>
-
-            <tr data-id="wps_addon_settings-gsc-connection-method">
-                <th scope="row">
-                    <label for="wps_settings[gsc-connection-method]">
-                        <?php esc_html_e('Connection Method', 'wp-statistics'); ?>
-                        <?php if ($isAuthenticated): ?>
-                            <span class="wps-tooltip" title="<?php echo esc_attr__('This option is locked. Click “Disconnect” to enable it.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></span>
-                        <?php endif; ?>
-                    </label>
-                </th>
-                <td>
-                    <?php $connectionMethod = Option::getByAddon('gsc_connection_method', 'marketing', 'middleware'); ?>
-                    <select <?php disabled($isAuthenticated) ?> id="wps_settings[gsc-connection-method]" name="wps_addon_settings[marketing][gsc_connection_method]">
-                        <option <?php selected($connectionMethod, 'middleware'); ?> value="middleware">
-                            <?php esc_html_e('Our Credentials', 'wp-statistics'); ?>
-                        </option>
-                        <option <?php selected($connectionMethod, 'direct'); ?> value="direct">
-                            <?php esc_html_e('Direct (Your Credentials)', 'wp-statistics'); ?>
-                        </option>
-                    </select>
-                </td>
-            </tr>
             <tr data-id="wps_addon_settings-marketing-search-console">
                 <th scope="row">
                     <span class="wps-setting-label"><?php esc_html_e('Show Google Search tab', 'wp-statistics'); ?></span>
@@ -140,15 +118,37 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     <p class="description"><?php esc_html_e('Display the Google Search Console report tab when no Google property is connected.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
+
+            <tr data-id="wps_addon_settings-gsc-connection-method">
+                <th scope="row">
+                    <label for="wps_settings[gsc-connection-method]">
+                        <?php esc_html_e('Connection Method', 'wp-statistics'); ?>
+                        <?php if ($isAuthenticated): ?>
+                            <span class="wps-tooltip" title="<?php echo esc_attr__('This option is locked. Click “Disconnect” to enable it.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></span>
+                        <?php endif; ?>
+                    </label>
+                </th>
+                <td>
+                    <?php $connectionMethod = Option::getByAddon('gsc_connection_method', 'marketing', 'middleware'); ?>
+                    <select <?php disabled($isAuthenticated) ?> id="wps_settings[gsc-connection-method]" name="wps_addon_settings[marketing][gsc_connection_method]">
+                        <option <?php selected($connectionMethod, 'middleware'); ?> value="middleware">
+                            <?php esc_html_e('WP Statistics Credentials', 'wp-statistics'); ?>
+                        </option>
+                        <option <?php selected($connectionMethod, 'direct'); ?> value="direct">
+                            <?php esc_html_e('Direct (Your Credentials)', 'wp-statistics'); ?>
+                        </option>
+                    </select>
+                </td>
+            </tr>
             <tr class="js-wps-show_if_gsc-connection-method_equal_direct" data-id="wps_addon_settings-gsc-client-id">
                 <th scope="row">
                     <label for="gsc-client-id"><?php esc_html_e('Google Client ID', 'wp-statistics'); ?></label>
                 </th>
                 <td>
                     <input type="text" size="3" id="gsc-client-id" name="wps_addon_settings[marketing][gsc_client_id]" placeholder="1234567890-abc123def456.apps.googleusercontent.com" value="<?php echo esc_attr(Option::getByAddon('gsc_client_id', 'marketing')); ?>">
-                    <div class="wps-alert wps-alert__info">
+                    <p class="description">
                         <?php echo esc_html__('From Google Cloud → OAuth 2.0 Client ID.', 'wp-statistics'); ?>
-                    </div>
+                    </p>
                 </td>
             </tr>
             <tr class="js-wps-show_if_gsc-connection-method_equal_direct" data-id="wps_addon_settings-gsc-client-secret">
@@ -162,9 +162,9 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                             <span class="icon-eye"></span>
                         </button>
                     </div>
-                    <div class="wps-alert wps-alert__info">
+                    <p class="description">
                         <?php echo esc_html__('From the same OAuth app. Keep private.', 'wp-statistics'); ?>
-                    </div>
+                    </p>
                 </td>
             </tr>
 
@@ -174,13 +174,13 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                 </th>
                 <td>
                     <input type="text" size="3" readonly id="gsc-auth-redirect-url" value="<?php echo esc_url($redirectUrl); ?>">
-                    <div class="wps-alert wps-alert__info">
+                    <p class="description">
                         <?php echo esc_html__('Add this exact URI in Google Cloud.', 'wp-statistics'); ?>
-                    </div>
+                    </p>
                 </td>
             </tr>
             <?php if (!$isAuthenticated) : ?>
-                <tr class="js-wps-show_if_gsc-connection-method_equal_middleware">
+                <tr>
                     <td colspan="2" class="wps-addon-settings--marketing__row">
                         <div class="wps-alert--marketing">
                             <a href="<?php echo esc_url(add_query_arg(['method' => 'middleware'], $authUrl)); ?>"
@@ -193,13 +193,37 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                             </div>
                             <div>
                                 <ul>
-                                    <li><?php esc_html_e('View your Search Console data in WordPress—no more switching tabs.', 'wp-statistics'); ?></li>
+                                    <li><?php esc_html_e('View your Search Console data in WordPress.', 'wp-statistics'); ?></li>
                                     <li><?php esc_html_e('Get key metrics in your overview page for quick insights.', 'wp-statistics'); ?></li>
                                     <li><?php esc_html_e('Track traffic and keywords for each page or post at a glance.', 'wp-statistics'); ?></li>
                                     <li><?php esc_html_e('Unlock detailed search data to make smarter content decisions.', 'wp-statistics'); ?></li>
                                 </ul>
                             </div>
-                            <?php View::load("components/objects/google-data-policy-alert"); ?>
+
+                            <div class="js-wps-show_if_gsc-connection-method_equal_middleware">
+                                <?php
+                                View::load(
+                                    "components/objects/google-data-policy-alert",
+                                    [
+                                        'content' => sprintf(
+                                            '%s <a href="%s" target="_blank" rel="noopener">%s</a>.',
+                                            esc_html__('We do not store any of the data from your Google account on our servers, everything is processed & stored on your server. We take your privacy extremely seriously and ensure it is never misused.', 'wp-statistics'),
+                                            esc_url(WP_STATISTICS_SITE_URL . '/resources/google-search-console-integration-privacy-data-handling/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'), esc_html__('Learn more', 'wp-statistics')
+                                        )
+                                    ]
+                                );
+                                ?>
+                            </div>
+
+
+                            <div class="js-wps-show_if_gsc-connection-method_equal_direct">
+                                <?php
+                                View::load(
+                                    "components/objects/google-data-policy-alert",
+                                    ['content' => esc_html__('Credentials & tokens stay on your server; Disconnect removes them.', 'wp-statistics')]
+                                );
+                                ?>
+                            </div>
                         </div>
                     </td>
                 </tr>
@@ -224,21 +248,22 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                 <tr class="js-wps-show_if_gsc-connection-method_equal_middleware">
                     <th scope="row"><span class="screen-reader-text"><?php echo esc_html__('Google data policy alert', 'wp-statistics') ?></span></th>
                     <td class="wps_addon_settings__site">
-                        <?php View::load("components/objects/google-data-policy-alert"); ?>
-                    </td>
+                         <?php
+                        View::load(
+                            "components/objects/google-data-policy-alert",
+                            [
+                                'content' => sprintf(
+                                    '%s <a href="%s" target="_blank" rel="noopener">%s</a>.',
+                                    esc_html__('We do not store any of the data from your Google account on our servers, everything is processed & stored on your server. We take your privacy extremely seriously and ensure it is never misused.', 'wp-statistics'),
+                                    esc_url(WP_STATISTICS_SITE_URL . '/resources/google-search-console-integration-privacy-data-handling/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'), esc_html__('Learn more', 'wp-statistics')
+                                )
+                            ]
+                        );
+                        ?>
+                     </td>
                 </tr>
             <?php endif; ?>
-            <tr class="js-wps-show_if_gsc-connection-method_equal_direct">
-                <th scope="row"><span class="screen-reader-text"><?php echo esc_html__('Search Google Console direct policy alert', 'wp-statistics') ?></span></th>
-                <td class="wps_addon_settings__site">
-                    <div class="wps-addon-settings-marketing--alert">
-                        <div>
-                            <h3><?php esc_html_e('Privacy & Data', 'wp-statistics'); ?></h3>
-                            <p><?php esc_html_e('Credentials & tokens stay on your server; Disconnect removes them', 'wp-statistics'); ?>.</p>
-                        </div>
-                    </div>
-                </td>
-            </tr>
+
             </tbody>
         </table>
     </div>
