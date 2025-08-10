@@ -307,7 +307,7 @@ class TimeZone
      */
     public static function getCountry($timezone)
     {
-        $countryCode = false;
+        $countryCode = '';
         $timezones   = timezone_identifiers_list();
 
         if (in_array($timezone, $timezones)) {
