@@ -22,7 +22,6 @@ class CountryChartDataProvider extends AbstractChartDataProvider
         parent::__construct($args);
 
         $this->args = array_merge($this->args, [
-            'not_null'  => 'location',
             'fields'    => ['COUNT(DISTINCT visitor.ID) as visitors', 'visitor.location as country'],
             'order_by'  => 'visitors',
             'page'      => false,

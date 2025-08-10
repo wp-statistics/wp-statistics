@@ -1,6 +1,7 @@
 <?php
 use WP_STATISTICS\Country;
 use WP_STATISTICS\Admin_Template;
+use WP_STATISTICS\Helper;
 ?>
 
 <div class="postbox-container wps-postbox-full">
@@ -23,10 +24,15 @@ use WP_STATISTICS\Admin_Template;
                                             <?php esc_html_e('Country', 'wp-statistics') ?>
                                         </th>
                                         <th scope="col" class="wps-pd-l" style="width: 15%">
-                                            <?php esc_html_e('Visitors', 'wp-statistics') ?>
+                                            <span class="wps-order">
+                                                <?php esc_html_e('Visitors', 'wp-statistics'); ?>
+                                            </span>
                                         </th>
                                         <th scope="col" class="wps-pd-l" style="width: 15%">
                                             <?php esc_html_e('Views', 'wp-statistics') ?>
+                                        </th>
+                                        <th class="wps-pd-l">
+                                           %
                                         </th>
                                     </tr>
                                 </thead>
@@ -58,6 +64,9 @@ use WP_STATISTICS\Admin_Template;
                                             </td>
                                             <td class="wps-pd-l">
                                                 <?php echo esc_html(number_format($item->views)) ?>
+                                            </td>
+                                            <td class="wps-pd-l">
+                                                <?php echo esc_html(Helper::calculatePercentage($item->visitors, $data['visitors'])); ?>%
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

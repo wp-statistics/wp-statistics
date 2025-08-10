@@ -22,6 +22,7 @@ class SingleBrowserView extends BaseView
         }
 
         $this->dataProvider = new DevicesDataProvider([
+            'order'    => Request::get('order', 'DESC'),
             'per_page' => 10,
             'page'     => Admin_Template::getCurrentPaged()
         ]);
@@ -34,6 +35,13 @@ class SingleBrowserView extends BaseView
 
     public function render()
     {
+        $queryParams = [
+            'order_by' => Request::get('order_by'),
+            'order'    => Request::get('order'),
+            'type'     => 'single-browser',
+            'browser'  => $this->browser
+        ];
+
         $args = [
             // translators: %s: Browser/OS/Model/etc. name.
             'title'         => sprintf(esc_html__('%s Report', 'wp-statistics'), $this->browser),
@@ -44,7 +52,7 @@ class SingleBrowserView extends BaseView
             'paged'         => Admin_Template::getCurrentPaged(),
             'DateRang'      => Admin_Template::DateRange(),
             'hasDateRang'   => true,
-            'custom_get'    => ['type' => 'single-browser', 'browser' => $this->browser],
+            'custom_get'    => $queryParams,
             'data'          => $this->getData()
         ];
 
