@@ -1,3 +1,6 @@
+= 14.15.x - 2025-x-x =
+- **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.
+
 = 14.15.2 - 2025-x-x =
 - **New:** Added compatibility with the `Borlabs Cookie` plugin.
 - **New:** License keys can now be set via `wp-config.php` using constants like `WP_STATISTICS_LICENSE` and are auto-validated on init.
