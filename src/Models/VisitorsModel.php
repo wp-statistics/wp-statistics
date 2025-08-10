@@ -1035,12 +1035,12 @@ class VisitorsModel extends BaseModel
     {
         $args = $this->parseArgs($args, [
             'fields'            => [
-                'visitor.city as city',
-                'visitor.location as country',
-                'visitor.region as region',
-                'visitor.continent as continent',
-                'COUNT(DISTINCT visitor.ID) as visitors',
-                'SUM(visitor.hits) as views', // All views are counted and results can't be filtered by author, post type, etc...
+                'city'      => 'visitor.city as city',
+                'country'   => 'visitor.location as country',
+                'region'    => 'visitor.region as region',
+                'continent' => 'visitor.continent as continent',
+                'visitors'  => 'COUNT(visitor.ID) as visitors',
+                'views'     => 'SUM(visitor.hits) as views', // All views are counted and results can't be filtered by author, post type, etc...
             ],
             'date'                  => '',
             'country'               => '',
@@ -1071,6 +1071,13 @@ class VisitorsModel extends BaseModel
             'referred_visitors'     => false
         ]);
 
+        $filteredArgs = array_filter($args);
+
+        // If joined to other tables, add DISTINCT to count unique visitors
+        if (isset($args['fields']['visitors']) && array_intersect(['resource_type', 'resource_id', 'query_param', 'post_type', 'author_id', 'post_id', 'taxonomy', 'term', 'event_name', 'event_target'], array_keys($filteredArgs))) {
+            $args['fields']['visitors'] = 'COUNT(DISTINCT visitor.ID) as visitors';
+        }
+
         $query = Query::select($args['fields'])
             ->from('visitor')
             ->where('visitor.location', 'IN', $args['country'])
@@ -1094,8 +1101,6 @@ class VisitorsModel extends BaseModel
                 )
             ");
         }
-
-        $filteredArgs = array_filter($args);
 
         if (array_intersect(['resource_id', 'resource_type'], array_keys($filteredArgs))) {
             $query
