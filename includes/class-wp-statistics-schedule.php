@@ -201,7 +201,7 @@ class Schedule
             ],
             'random_monthly' => [
                 'interval'      => MONTH_IN_SECONDS,
-                'display'       => __('Monthly', 'wp-statistics'),
+                'display'       => __('Monthly - Random Time', 'wp-statistics'),
                 'start'         => wp_date('Y-m-d', strtotime('First day of previous month')),
                 'end'           => wp_date('Y-m-d', strtotime('Last day of previous month')),
                 'next_schedule' => $randomMonthly->getTimestamp()
