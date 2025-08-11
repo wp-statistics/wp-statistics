@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Service\Charts\DataProvider;
 
-use WP_Statistics\Decorators\VisitorDecorator;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
@@ -19,13 +18,18 @@ class BrowserChartDataProvider extends AbstractChartDataProvider
         parent::__construct($args);
 
         $this->args = array_merge($this->args, [
-            'fields'   => ['visitor.agent', 'COUNT(DISTINCT visitor.ID) as visitors'],
+            'fields'   => ['agent' => 'visitor.agent', 'visitors' => 'COUNT(visitor.ID) as visitors'],
             'group_by' => 'visitor.agent',
             'order_by' => 'visitors',
             'decorate' => false,
             'page'     => false,
             'per_page' => false
         ]);
+
+        // If filter is applied, get distinct visitors to avoid data duplication
+        if ($this->isFilterApplied()) {
+            $this->args['fields']['visitors'] = 'COUNT(DISTINCT visitor.ID) as visitors';
+        }
 
         if (empty($this->args['limit'])) {
             $this->args['limit'] = 5;

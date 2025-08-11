@@ -18,13 +18,18 @@ class ModelChartDataProvider extends AbstractChartDataProvider
         parent::__construct($args);
 
         $this->args = array_merge($this->args, [
-            'fields'   => ['visitor.model', 'COUNT(DISTINCT visitor.ID) as visitors'],
+            'fields'   => ['model' => 'visitor.model', 'visitors' => 'COUNT(visitor.ID) as visitors'],
             'group_by' => 'visitor.model',
             'order_by' => 'visitors',
             'decorate' => false,
             'page'     => false,
             'per_page' => false
         ]);
+
+        // If filter is applied, get distinct visitors to avoid data duplication
+        if ($this->isFilterApplied()) {
+            $this->args['fields']['visitors'] = 'COUNT(DISTINCT visitor.ID) as visitors';
+        }
 
         if (empty($this->args['limit'])) {
             $this->args['limit'] = 5;
