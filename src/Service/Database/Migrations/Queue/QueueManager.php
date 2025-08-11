@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Database\Migrations\Queue;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Database\DatabaseHelper;
 use WP_Statistics\Utils\Request;
 
 /**
@@ -113,13 +114,11 @@ class QueueManager
             return;
         }
 
-        $current_page_url = home_url(add_query_arg(null, null));
-
         $migrationUrl = add_query_arg(
             [
                 'action'       => self::MIGRATION_ACTION,
                 'nonce'        => wp_create_nonce(self::MIGRATION_NONCE),
-                'current_page' => rawurlencode($current_page_url)
+                'current_page' => DatabaseHelper::getCurrentAdminUrl()
             ],
             admin_url('admin-post.php')
         );
@@ -192,13 +191,13 @@ class QueueManager
      */
     private function handleRedirect()
     {
-        $redirect_url = $_POST['current_page'] ?? $_GET['current_page'] ?? '';
+        $redirectUrl = $_POST['current_page'] ?? $_GET['current_page'] ?? '';
 
-        if (empty($redirect_url)) {
-            $redirect_url = home_url();
+        if (empty($redirectUrl)) {
+            $redirectUrl = home_url();
         }
 
-        wp_redirect(esc_url_raw($redirect_url));
+        wp_redirect(esc_url_raw($redirectUrl));
         exit;
     }
 

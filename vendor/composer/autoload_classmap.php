@@ -323,6 +323,7 @@ return array(
     'WP_Statistics\\Service\\CustomEvent\\CustomEventManager' => $baseDir . '/src/Service/CustomEvent/CustomEventManager.php',
     'WP_Statistics\\Service\\Database\\AbstractDatabaseOperation' => $baseDir . '/src/Service/Database/AbstractDatabaseOperation.php',
     'WP_Statistics\\Service\\Database\\DatabaseFactory' => $baseDir . '/src/Service/Database/DatabaseFactory.php',
+    'WP_Statistics\\Service\\Database\\DatabaseHelper' => $baseDir . '/src/Service/Database/DatabaseHelper.php',
     'WP_Statistics\\Service\\Database\\DatabaseManager' => $baseDir . '/src/Service/Database/DatabaseManager.php',
     'WP_Statistics\\Service\\Database\\Managers\\SchemaMaintainer' => $baseDir . '/src/Service/Database/Managers/SchemaMaintainer.php',
     'WP_Statistics\\Service\\Database\\Managers\\TableHandler' => $baseDir . '/src/Service/Database/Managers/TableHandler.php',
