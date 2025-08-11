@@ -1,4 +1,5 @@
 = 14.15.x - 2025-x-x =
+- **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.
 - **Enhancement:** Added LiteSpeed Cache detection for improved cache-related warning notifications.
 
 = 14.15.2 - 2025-08-10 =
