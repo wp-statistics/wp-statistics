@@ -54,11 +54,10 @@ if ($isMarketingActive && !$isLicenseValid) {
     View::load("components/lock-sections/notice-inactive-license-addon");
 }
 
-$authUrl       = apply_filters('wp_statistics_google_auth_url', '');
-$testUrl       = apply_filters('wp_statistics_google_auth_test_url', '');
-$redirectUrl   = apply_filters('wp_statistics_google_auth_redirect_url', '');
-$disconnectUrl = apply_filters('wp_statistics_google_auth_disconnect_url', '');
-
+$authUrl         = apply_filters('wp_statistics_google_auth_url', '');
+$testUrl         = apply_filters('wp_statistics_google_auth_test_url', '');
+$redirectUrl     = apply_filters('wp_statistics_google_auth_redirect_url', '');
+$disconnectUrl   = apply_filters('wp_statistics_google_auth_disconnect_url', '');
 $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', false);
 ?>
     <div class="postbox wps-addon-settings--marketing">
@@ -94,8 +93,6 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                                 <a href="<?php echo esc_url(add_query_arg(['method' => 'direct'], $authUrl)); ?>" class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Reconnect', 'wp-statistics'); ?></a>
                                 <a href="<?php echo esc_url($testUrl); ?>" class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Test Connection', 'wp-statistics'); ?></a>
                                 <a href="<?php echo esc_url($disconnectUrl); ?>" class="wps-addon-settings--marketing__disconnect"><?php esc_html_e('Disconnect', 'wp-statistics'); ?></a>
-                            <?php elseif (Option::getByAddon('gsc_client_id', 'marketing') && Option::getByAddon('gsc_client_secret', 'marketing')) : ?>
-                                <a href="<?php echo esc_url(add_query_arg(['method' => 'direct'], $authUrl)); ?>" class="wps-addon-settings--marketing__reconnect last"><?php esc_html_e('Connect', 'wp-statistics'); ?></a>
                             <?php endif; ?>
                         </div>
                     </div>
