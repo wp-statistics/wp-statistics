@@ -342,15 +342,16 @@ add_thickbox();
                         licenseTypeOption.textContent = "<?php esc_html_e('Use the DB-IP server with your own license key', 'wp-statistics'); ?>";
                     }
                     const licenseSelect = jQuery('#wps_settings\\[geoip_license_type\\]');
-                    if (licenseSelect.hasClass('select2-hidden-accessible')) {
-                        console.log('aaaa')
-                        licenseSelect.trigger('change.select2');
-                    }
+                    licenseSelect.trigger('change.select2');
+                    licenseSelect.select2({
+                        dropdownCssClass: 'wps-setting-input__dropdown',
+                        minimumResultsForSearch: Infinity,
+                    });
                 }
 
                 // Add event listeners
                 if (locationMethodElement) {
-                    locationMethodElement.addEventListener('change', updateLicenseTypeText);
+                    jQuery(locationMethodElement).on('change select2:select', updateLicenseTypeText);
                     updateLicenseTypeText();
                 }
 
