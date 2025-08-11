@@ -1303,6 +1303,21 @@
     }
   }
 
+  select.disabled + .select2-container .select2-selection {
+    border: 1px solid #dadce0 !important;
+    background-color: #fafafb;
+    pointer-events: none;
+
+    .select2-selection__rendered {
+      color: #a9aaae !important;
+    }
+
+    .select2-selection__arrow {
+      opacity: .5;
+    }
+  }
+
+
   .wps-setting-select-wrapper {
     position: relative;
     width: 100%;
