@@ -183,8 +183,19 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                 <tr>
                     <td colspan="2" class="wps-addon-settings--marketing__row">
                         <div class="wps-alert--marketing">
-                            <a href="<?php echo esc_url(add_query_arg(['method' => 'middleware'], $authUrl)); ?>"
-                               class="button button-primary"><?php esc_html_e('Connect to Google Search Console', 'wp-statistics'); ?></a>
+
+                            <div class="js-wps-show_if_gsc-connection-method_equal_middleware">
+                                <a href="<?php echo esc_url(add_query_arg(['method' => 'middleware'], $authUrl)); ?>"
+                                   class="button button-primary">
+                                    <?php esc_html_e('Connect to Google Search Console', 'wp-statistics'); ?></a>
+                            </div>
+
+                            <div class="js-wps-show_if_gsc-connection-method_equal_direct">
+                                <a href="<?php echo esc_url(add_query_arg(['method' => 'direct'], $authUrl)); ?>"
+                                   class="button button-primary">
+                                    <?php esc_html_e('Connect to Google Search Console', 'wp-statistics'); ?></a>
+                            </div>
+
                             <div class="wps-alert--setting--title">
                                 <h1>
                                     <?php esc_html_e('Benefits of Connecting', 'wp-statistics'); ?>
