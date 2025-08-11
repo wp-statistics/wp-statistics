@@ -196,6 +196,11 @@ class Helper
             $use = array('status' => true, 'plugin' => esc_html__('Speed Optimizer', 'wp-statistics'), 'debug' => 'Speed Optimizer');
         }
 
+        /** LiteSpeed Cache */
+        if (defined('LSCWP_V')) {
+            $use = array('status' => true, 'plugin' => __('LiteSpeed Cache', 'wp-statistics'), 'debug' => 'LiteSpeed Cache');
+        }
+
         return apply_filters('wp_statistics_cache_status', $use);
     }
 
