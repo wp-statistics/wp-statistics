@@ -31,6 +31,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     let conditions = 0;
                     let satisfied = 0;
 
+                    const isOrCondition = element.classList.contains('js-wps-show_if_or');
+
                     classListArray.forEach(className => {
                         if (className.includes('_enabled') || className.includes('_disabled')) {
                             conditions++;
@@ -43,7 +45,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                                     } else if (!checkbox.checked && className.includes('_disabled')) {
                                         satisfied++;
                                     }
-                                } else {
                                 }
                             }
                         } else if (className.includes('_equal_')) {
@@ -60,14 +61,30 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         }
                     });
 
-                    if (conditions > 0 && satisfied === conditions) {
-                        this.toggleDisplay(element);
-                    } else {
-                        element.style.display = 'none';
-                        const checkboxInside = element.querySelector('input[type="checkbox"]');
-                        if (checkboxInside) {
-                            checkboxInside.checked = false;
+                    if (conditions > 0) {
+                        if (isOrCondition) {
+                            if (satisfied > 0) {
+                                this.toggleDisplay(element);
+                            } else {
+                                element.style.display = 'none';
+                                const checkboxInside = element.querySelector('input[type="checkbox"]');
+                                if (checkboxInside) {
+                                    checkboxInside.checked = false;
+                                }
+                            }
+                        } else {
+                            if (satisfied === conditions) {
+                                this.toggleDisplay(element);
+                            } else {
+                                element.style.display = 'none';
+                                const checkboxInside = element.querySelector('input[type="checkbox"]');
+                                if (checkboxInside) {
+                                    checkboxInside.checked = false;
+                                }
+                            }
                         }
+                    } else {
+                        this.toggleDisplay(element);
                     }
                 };
 
@@ -107,7 +124,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             const classes = element.className.split(' ');
             for (const className of classes) {
                 if (className.startsWith('js-wps-show_if_')) {
-                    return className.replace('js-wps-show_if_', '').replace('_enabled', '').replace('_disabled', '');
+                    return className.replace('js-wps-show_if_', '').replace('_enabled', '').replace('_disabled', '').replace('_equal_', '_');
                 }
             }
             return null;
@@ -206,7 +223,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         }
                     },
                     error: function (xhr, status, error) {
-                         return {results: []};
+                        return {results: []};
                     },
                     cache: true
                 },
