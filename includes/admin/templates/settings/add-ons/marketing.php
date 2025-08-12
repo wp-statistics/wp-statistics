@@ -142,7 +142,8 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     <label for="gsc-client-id"><?php esc_html_e('Google Client ID', 'wp-statistics'); ?></label>
                 </th>
                 <td>
-                    <input type="text" size="3" id="gsc-client-id" name="wps_addon_settings[marketing][gsc_client_id]" placeholder="1234567890-abc123def456.apps.googleusercontent.com" value="<?php echo esc_attr(Option::getByAddon('gsc_client_id', 'marketing')); ?>">
+                    <?php $gscClientId = Option::getByAddon('gsc_client_id', 'marketing'); ?>
+                    <input type="text" size="3" id="gsc-client-id" name="wps_addon_settings[marketing][gsc_client_id]" placeholder="1234567890-abc123def456.apps.googleusercontent.com" value="<?php echo esc_attr($gscClientId); ?>">
                     <p class="description">
                         <?php echo esc_html__('From Google Cloud → OAuth 2.0 Client ID.', 'wp-statistics'); ?>
                     </p>
@@ -154,7 +155,8 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                 </th>
                 <td>
                     <div class="c-password-field">
-                        <input type="password" size="3" class="js-password-toggle" id="gsc-client-secret" name="wps_addon_settings[marketing][gsc_client_secret]" value="<?php echo esc_attr(Option::getByAddon('gsc_client_secret', 'marketing')); ?>">
+                        <?php $gscClientSecret = Option::getByAddon('gsc_client_secret', 'marketing'); ?>
+                        <input type="password" size="3" class="js-password-toggle" id="gsc-client-secret" name="wps_addon_settings[marketing][gsc_client_secret]" value="<?php echo esc_attr($gscClientSecret); ?>">
                         <button type="button" class="c-password-field__btn" aria-label="Toggle password visibility">
                             <span class="icon-eye"></span>
                         </button>
@@ -188,8 +190,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                             </div>
 
                             <div class="js-wps-show_if_gsc-connection-method_equal_direct">
-                                <a href="<?php echo esc_url(add_query_arg(['method' => 'direct'], $authUrl)); ?>"
-                                   class="button button-primary">
+                                <a  href="<?php echo esc_url(add_query_arg(['method' => 'direct'], $authUrl)); ?>" class="button button-primary" <?php disabled(empty($gscClientId) || empty($gscClientSecret)) ?>>
                                     <?php esc_html_e('Connect to Google Search Console', 'wp-statistics'); ?></a>
                             </div>
 
