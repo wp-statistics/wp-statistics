@@ -127,6 +127,49 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
     }
 
+
+    class GSCConnectButton {
+        constructor() {
+            this.clientIdInput = $('#gsc-client-id');
+            this.clientSecretInput = $('#gsc-client-secret');
+            this.connectBtn = $('#wps-gsc-connect-btn');
+            this.tooltipWrapper = this.connectBtn.closest('.wps-tooltip');
+
+            if (!this.clientIdInput.length || !this.clientSecretInput.length || !this.connectBtn.length || !this.tooltipWrapper.length) {
+                return;
+            }
+
+            this.initTooltip();
+            this.bindEvents();
+            this.toggleButtonState();
+        }
+
+        initTooltip() {
+            this.tooltipWrapper.tooltipster({
+                theme: 'tooltipster-shadow',
+                contentCloning: true
+            });
+        }
+
+        toggleButtonState() {
+            const hasClientId = this.clientIdInput.val().trim() !== '';
+            const hasClientSecret = this.clientSecretInput.val().trim() !== '';
+
+            if (hasClientId && hasClientSecret) {
+                this.connectBtn.removeAttr('disabled').removeClass('is-disabled');
+                this.tooltipWrapper.tooltipster('content', this.tooltipWrapper.data('enable-tooltip'));
+            } else {
+                this.connectBtn.attr('disabled', 'disabled').addClass('is-disabled');
+                this.tooltipWrapper.tooltipster('content', this.tooltipWrapper.data('disable-tooltip'));
+            }
+        }
+
+        bindEvents() {
+            this.clientIdInput.on('input', () => this.toggleButtonState());
+            this.clientSecretInput.on('input', () => this.toggleButtonState());
+        }
+    }
+
     $(document).ready(function () {
         let isProgrammaticChange = false
         const checkbox = $('#wps_settings\\[wps_schedule_dbmaint\\]');
@@ -158,6 +201,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
 
         new ShowIfEnabled();
+        new GSCConnectButton();
+
+
         const searchConsoleSite = document.getElementById('wps_addon_settings[marketing][site]');
         if (searchConsoleSite) {
             let notice = document.createElement("div");
@@ -206,7 +252,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         }
                     },
                     error: function (xhr, status, error) {
-                         return {results: []};
+                        return {results: []};
                     },
                     cache: true
                 },

@@ -2266,6 +2266,15 @@
       }
 
     }
+
+    .button-primary[disabled],
+    .button-primary[disabled]:hover {
+      opacity: .5;
+      color: #fff !important;
+      background: #404bf2 !important;
+      border-color: #404bf2 !important;
+      pointer-events: none;
+     }
   }
 
   .wps-alert {
