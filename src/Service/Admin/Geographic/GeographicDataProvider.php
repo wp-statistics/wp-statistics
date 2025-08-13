@@ -25,10 +25,10 @@ class GeographicDataProvider
         $args = array_merge($this->args, ['per_page' => 5, 'page' => 1]);
 
         $countries      = $this->visitorsModel->getVisitorsGeoData($args);
-        $cities         = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['group_by' => ['city'], 'not_null' => 'visitor.city', 'count_field' => 'city']));
-        $countryRegions = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['country' => Helper::getTimezoneCountry(), 'group_by' => ['country', 'region'], 'count_field' => 'region', 'not_null' => 'visitor.region']));
-        $globalRegions  = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['group_by' => ['region'], 'count_field' => 'region', 'not_null' => 'visitor.region', 'per_page' => 1]));
-        $states         = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['country' => 'US', 'continent' => 'North America', 'group_by' => ['region'], 'count_field' => 'region', 'not_null' => 'visitor.region']));
+        $cities         = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['group_by' => ['city'], 'not_null' => 'visitor.city']));
+        $countryRegions = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['country' => Helper::getTimezoneCountry(), 'group_by' => ['country', 'region'], 'not_null' => 'visitor.region']));
+        $globalRegions  = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['group_by' => ['region'], 'not_null' => 'visitor.region', 'per_page' => 1]));
+        $states         = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['country' => 'US', 'continent' => 'North America', 'group_by' => ['region'], 'not_null' => 'visitor.region']));
 
         $summary   = [
             'country'   => !empty($countries[0]->country) ? Country::getName($countries[0]->country) : '',
