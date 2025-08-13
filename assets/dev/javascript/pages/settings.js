@@ -155,10 +155,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             const hasClientId = this.clientIdInput.val().trim() !== '';
             const hasClientSecret = this.clientSecretInput.val().trim() !== '';
 
-            if (hasClientId && hasClientSecret) {
-                this.connectBtn.removeAttr('disabled').removeClass('is-disabled');
-                this.tooltipWrapper.tooltipster('content', this.tooltipWrapper.data('enable-tooltip'));
-            } else {
+            if (!(hasClientId && hasClientSecret)) {
                 this.connectBtn.attr('disabled', 'disabled').addClass('is-disabled');
                 this.tooltipWrapper.tooltipster('content', this.tooltipWrapper.data('disable-tooltip'));
             }
