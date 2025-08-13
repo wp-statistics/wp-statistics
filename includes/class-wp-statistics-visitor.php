@@ -215,17 +215,8 @@ class Visitor
             $wpdb->prepare("SELECT ID, page_id FROM `" . $tableName . "` WHERE `visitor_id` = %d AND DATE(`date`) = %s ORDER BY `date` DESC LIMIT 1", $visitor_id, $currentDate)
         );
 
-        /**
-         * If a record exists, update its date to the current date.
-         * Otherwise, insert a new record with the visitor ID, page ID, and current date.
-         */
-        if ($row->page_id == $page_id) {
-            $result = $wpdb->query(
-                $wpdb->prepare("UPDATE `" . $tableName . "` SET `date` = %s WHERE `ID` = %d", TimeZone::getCurrentDate(), $row->ID)
-            );
-
-        } else {
-
+        // Insert a new record in visitor relationship only if the last viewed page is not equal to the current page
+        if ($row->page_id != $page_id) {
             $result = $wpdb->insert($tableName,
                 array(
                     'visitor_id' => $visitor_id,
@@ -234,11 +225,11 @@ class Visitor
                 ),
                 array('%d', '%d', '%s')
             );
-        }
 
-        if (!$result) {
-            if (!empty($wpdb->last_error)) {
-                \WP_Statistics::log($wpdb->last_error);
+            if (!$result) {
+                if (!empty($wpdb->last_error)) {
+                    \WP_Statistics::log($wpdb->last_error);
+                }
             }
         }
 
