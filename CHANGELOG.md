@@ -1,5 +1,6 @@
 = 14.15.x - 2025-x-x =
 - **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.
+- **Fix:** Correct redirect URL after clicking 'Start Migration'.
 - **Enhancement:** Added LiteSpeed Cache detection for improved cache-related warning notifications.
 - **Enhancement:** Randomized the execution time of the GeoIP update event to reduce simultaneous load on jsdelivr.
 
