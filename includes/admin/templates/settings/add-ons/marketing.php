@@ -3,7 +3,6 @@
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Marketing\Services\Auth\AuthHelper;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
@@ -90,7 +89,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                             <h3><?php esc_html_e('Google Search Console', 'wp-statistics'); ?></h3>
                         </div>
                         <div>
-                            <?php if (AuthHelper::isAuthenticated()) : ?>
+                            <?php if ($isAuthenticated) : ?>
                                 <a href="<?php echo esc_url(add_query_arg(['method' => 'direct'], $authUrl)); ?>" class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Reconnect', 'wp-statistics'); ?></a>
                                 <a href="<?php echo esc_url($testUrl); ?>" class="wps-addon-settings--marketing__reconnect"><?php esc_html_e('Test Connection', 'wp-statistics'); ?></a>
                                 <a href="<?php echo esc_url($disconnectUrl); ?>" class="wps-addon-settings--marketing__disconnect"><?php esc_html_e('Disconnect', 'wp-statistics'); ?></a>
