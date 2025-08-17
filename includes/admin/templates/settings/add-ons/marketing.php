@@ -11,7 +11,6 @@ $isMarketingActive = Helper::isAddOnActive('marketing');
 ?>
     <h2 class="wps-settings-box__title">
         <span><?php esc_html_e('Marketing', 'wp-statistics'); ?></span>
-        <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/resources/connect-google-search-console-with-your-own-google-oauth-app-direct-method?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings') ?>" target="_blank"><?php esc_html_e('View Guide', 'wp-statistics'); ?></a>
     </h2>
 <?php
 
@@ -244,7 +243,12 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                                 <?php
                                 View::load(
                                     "components/objects/google-data-policy-alert",
-                                    ['content' => esc_html__('Client ID, Secret, and tokens are stored only on your site. Disconnect removes the tokens. Step-by-step setup: Direct integration guide.', 'wp-statistics')]
+                                    ['content' => sprintf(
+                                        '%s <a href="%s" target="_blank" rel="noopener">%s</a>.',
+                                        esc_html__('Client ID, Secret, and tokens are stored only on your site. Disconnect removes the tokens. Step-by-step setup:', 'wp-statistics'),
+                                        esc_url(WP_STATISTICS_SITE_URL . '/resources/connect-google-search-console-with-your-own-google-oauth-app-direct-method?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'),
+                                        esc_html__('Direct integration guide', 'wp-statistics')
+                                    )]
                                 );
                                 ?>
                             </div>
