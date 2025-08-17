@@ -216,7 +216,7 @@ class Visitor
         );
 
         // Insert a new record in visitor relationship only if the last viewed page is not equal to the current page
-        if ($row->page_id != $page_id) {
+        if (empty($row) || $row->page_id != $page_id) {
             $result = $wpdb->insert($tableName,
                 array(
                     'visitor_id' => $visitor_id,
