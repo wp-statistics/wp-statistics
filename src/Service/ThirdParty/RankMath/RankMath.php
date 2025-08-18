@@ -4,6 +4,16 @@ namespace WP_Statistics\Service\ThirdParty\RankMath;
 class RankMath
 {
     /**
+     * Check if the Rank Math plugin is active.
+     *
+     * @return bool
+     */
+    public function isActive()
+    {
+        return is_plugin_active('seo-by-rank-math/rank-math.php');
+    }
+
+    /**
      * Retrieves the post data for a given post ID from the `rank_math_analytics_objects` table.
      *
      * @param int $postId The ID of the post to retrieve data for.
@@ -13,8 +23,8 @@ class RankMath
     {
         $result = [];
 
-        // Check if Rank Math free or pro is active
-        if (!is_plugin_active('seo-by-rank-math/rank-math.php')) {
+        // Check if Rank Math plugin is active
+        if (!$this->isActive()) {
             return $result;
 	    }
 
@@ -42,8 +52,8 @@ class RankMath
         $data = $response->get_data();
 
         $result = [
-            'page_score' => $data['page_score'] ?? 0,
-            'seo_score'  => $data['seo_score'] ?? 0
+            'page_score' => $data['page_score'] ?? null,
+            'seo_score'  => $data['seo_score'] ?? null
         ];
 
         return $result;
