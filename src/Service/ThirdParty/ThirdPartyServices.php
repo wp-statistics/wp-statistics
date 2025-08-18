@@ -6,7 +6,7 @@ use WP_Statistics\Service\ThirdParty\RankMath\RankMath;
 /**
  * The ThirdPartyFactory is a factory class that creates instances of third-party services
 */
-class ThirdPartyFactory
+class ThirdPartyServices
 {
     public static function rankMath()
     {
