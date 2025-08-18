@@ -17,13 +17,15 @@ $timezoneCountry = Country::getName(Helper::getTimezoneCountry());
                 ['label' => esc_html__('Top City', 'wp-statistics'), 'value' => $data['summary']['city']],
             ]]);
 
-            View::load("components/tables/geographic-top-regions", [
-                'title'        => esc_html__('Regions of', 'wp-statistics') . ' ' . $timezoneCountry,
-                'top_title'    => esc_html__('Regions', 'wp-statistics'),
-                'footer_title' => esc_html__('View Regions of', 'wp-statistics') . ' ' . $timezoneCountry,
-                'footer_link'  => esc_url(Menus::admin_url('geographic', ['tab' => 'regions'])),
-                'data'         => $data['regions']
-            ]);
+            if (isset($data['regions'])) {
+                View::load("components/tables/geographic-top-regions", [
+                    'title'        => esc_html__('Regions of', 'wp-statistics') . ' ' . $timezoneCountry,
+                    'top_title'    => esc_html__('Regions', 'wp-statistics'),
+                    'footer_title' => esc_html__('View Regions of', 'wp-statistics') . ' ' . $timezoneCountry,
+                    'footer_link'  => esc_url(Menus::admin_url('geographic', ['tab' => 'regions'])),
+                    'data'         => $data['regions']
+                ]);
+            }
 
             View::load("components/tables/geographic-top-regions", [
                 'title'        => esc_html__('Top US States', 'wp-statistics'),
