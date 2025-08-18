@@ -29,7 +29,7 @@ class RankMath
         $response = rest_do_request($request);
 
         // Check if response is an error
-        if ($response->is_error() || $response->get_status() !== 200 || empty($response->get_data())) {
+        if ($response->is_error() || $response->get_status() !== 200) {
             return $result;
         }
 
