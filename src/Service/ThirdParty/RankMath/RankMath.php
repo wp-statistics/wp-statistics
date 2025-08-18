@@ -3,6 +3,12 @@ namespace WP_Statistics\Service\ThirdParty\RankMath;
 
 class RankMath
 {
+    /**
+     * Retrieves the post data for a given post ID from the `rank_math_analytics_objects` table.
+     *
+     * @param int $postId The ID of the post to retrieve data for.
+     * @return array
+     */
     public function getPostData($postId)
     {
         $result = [];
