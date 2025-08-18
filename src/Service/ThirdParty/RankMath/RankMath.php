@@ -23,11 +23,6 @@ class RankMath
     {
         $result = [];
 
-        // Check if Rank Math plugin is active
-        if (!$this->isActive()) {
-            return $result;
-	    }
-
         // Check if post ID is set
         if (empty($postId)) {
             return $result;

@@ -237,10 +237,14 @@ class ContentAnalyticsDataProvider
                 'comments'  => [
                     'value'  => $comments,
                     'change' => Helper::calculatePercentageChange($prevComments, $comments),
-                ],
-                'rankmath' => ThirdPartyFactory::rankMath()->getPostData($this->args['post_id'])
+                ]
             ]
         ];
+
+        // Add RankMath data
+        if (ThirdPartyFactory::rankMath()->isActive()) {
+            $result['glance']['rankmath'] = ThirdPartyFactory::rankMath()->getPostData($this->args['post_id']);
+        }
 
         if (WordCountService::isActive()) {
             $totalWords = $this->postsModel->countWords($this->args);
