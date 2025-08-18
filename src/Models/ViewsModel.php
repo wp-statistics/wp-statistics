@@ -214,12 +214,12 @@ class ViewsModel extends BaseModel
         ]);
 
         $result = Query::select([
-            'HOUR(date) as hour',
-            'COUNT(DISTINCT visitor_id) as visitors',
-            'COUNT(*) as views'
+            'HOUR(visitor.first_view) as hour',
+            'COUNT(visitor.ID) as visitors',
+            'SUM(visitor.hits) as views'
             ])
-            ->from('visitor_relationships')
-            ->whereDate('visitor_relationships.date', $args['date'])
+            ->from('visitor')
+            ->whereDate('visitor.last_counter', $args['date'])
             ->groupBy('hour')
             ->getAll();
 
