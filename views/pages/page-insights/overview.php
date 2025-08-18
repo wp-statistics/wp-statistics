@@ -80,7 +80,7 @@ use WP_STATISTICS\Helper;
                                     <?php esc_html_e('Page', 'wp-statistics'); ?>
                                 </th>
                                 <th class="wps-pd-l">
-                                    <span class="wps-order"><?php esc_html_e('Views', 'wp-statistics'); ?></span>
+                                    <?php esc_html_e('Views', 'wp-statistics'); ?>
                                 </th>
                                 <th class="wps-pd-l"></th>
                             </tr>
