@@ -6,7 +6,8 @@ use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\View;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 
-$postType = get_post_type(Request::get('post_id'));
+$postId   = Request::get('post_id');
+$postType = get_post_type($postId);
 ?>
 
 <div class="metabox-holder wps-content-analytics">
@@ -70,21 +71,23 @@ $postType = get_post_type(Request::get('post_id'));
             ];
         }
 
-        $metrics[] = [
-            'label'     => esc_html__('Content Score', 'wp-statistics'),
-            'score'     => 13,
-            'icon'      => 'rank-math',
-            'link-href' => admin_url('admin.php?page=rank-math'),
-            'tooltip'   => esc_html__('Rank Math SEO score', 'wp-statistics')
-        ];
+        if (!empty($data['glance']['rankmath'])) {
+            $metrics[] = [
+                'label'     => esc_html__('Content Score', 'wp-statistics'),
+                'score'     => $data['glance']['rankmath']['page_score'],
+                'icon'      => 'rank-math',
+                'link-href' => admin_url("admin.php?page=rank-math-analytics#/single/$postId"),
+                'tooltip'   => esc_html__('Rank Math SEO score', 'wp-statistics')
+            ];
 
-        $metrics[] = [
-            'label'     => esc_html__('SEO Score', 'wp-statistics'),
-            'score'     => 78,
-            'icon'      => 'rank-math',
-            'link-href' => admin_url('admin.php?page=rank-math'),
-            'tooltip'   => esc_html__('Rank Math’s SEO Analyzer score', 'wp-statistics')
-        ];
+            $metrics[] = [
+                'label'     => esc_html__('SEO Score', 'wp-statistics'),
+                'score'     => $data['glance']['rankmath']['seo_score'],
+                'icon'      => 'rank-math',
+                'link-href' => admin_url("admin.php?page=rank-math-analytics#/single/$postId"),
+                'tooltip'   => esc_html__('Rank Math’s SEO Analyzer score', 'wp-statistics')
+            ];
+        }
 
         View::load("components/objects/glance-card", ['metrics' => $metrics, 'two_column' => true]);
 

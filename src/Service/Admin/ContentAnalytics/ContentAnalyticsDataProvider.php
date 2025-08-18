@@ -9,6 +9,7 @@ use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
+use WP_Statistics\Service\ThirdParty\ThirdPartyFactory;
 use WP_Statistics\Utils\Request;
 
 class ContentAnalyticsDataProvider
@@ -236,7 +237,8 @@ class ContentAnalyticsDataProvider
                 'comments'  => [
                     'value'  => $comments,
                     'change' => Helper::calculatePercentageChange($prevComments, $comments),
-                ]
+                ],
+                'rankmath' => ThirdPartyFactory::rankMath()->getPostData($this->args['post_id'])
             ]
         ];
 
