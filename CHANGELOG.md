@@ -1,5 +1,6 @@
 = 14.15.x - 2025-xx-xx =
 - **Fix:** Fixed `Top Pages` widget sort issue on `Page Insights` report.
+- **Fix:** Region widget issue when country is not detected on `Geographic` page.
 
 = 14.15.3 - 2025-08-18 =
 - **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.
