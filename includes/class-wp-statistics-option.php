@@ -366,6 +366,17 @@ class Option
         add_option($settingName, $options);
     }
 
+    public static function updateGroupOptions($group, $options)
+    {
+        $settingName = "wp_statistics_{$group}";
+
+        if (!is_array($options)) {
+            $options = [];
+        }
+
+        update_option($settingName, $options);
+    }
+
     public static function deleteOptionGroup($key, $group)
     {
         $settingName = "wp_statistics_{$group}";
