@@ -261,8 +261,11 @@ class VisitorDecorator
      */
     public function getOnlineTime()
     {
-        if (isset($this->visitor->timestamp) && isset($this->visitor->created)) {
-            return date_i18n('H:i:s', $this->visitor->timestamp - $this->visitor->created);
+        if (isset($this->visitor->last_view)) {
+            $lastActivity = strtotime($this->visitor->last_view);
+            $now          = strtotime(DateTime::get('now', 'Y-m-d H:i:s'));
+
+            return date_i18n('H:i:s', $now - $lastActivity);
         }
 
         return null;
