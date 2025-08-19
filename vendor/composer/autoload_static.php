@@ -384,6 +384,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\CustomEvent\\CustomEventManager' => __DIR__ . '/../..' . '/src/Service/CustomEvent/CustomEventManager.php',
         'WP_Statistics\\Service\\Database\\AbstractDatabaseOperation' => __DIR__ . '/../..' . '/src/Service/Database/AbstractDatabaseOperation.php',
         'WP_Statistics\\Service\\Database\\DatabaseFactory' => __DIR__ . '/../..' . '/src/Service/Database/DatabaseFactory.php',
+        'WP_Statistics\\Service\\Database\\DatabaseHelper' => __DIR__ . '/../..' . '/src/Service/Database/DatabaseHelper.php',
         'WP_Statistics\\Service\\Database\\DatabaseManager' => __DIR__ . '/../..' . '/src/Service/Database/DatabaseManager.php',
         'WP_Statistics\\Service\\Database\\Managers\\SchemaMaintainer' => __DIR__ . '/../..' . '/src/Service/Database/Managers/SchemaMaintainer.php',
         'WP_Statistics\\Service\\Database\\Managers\\TableHandler' => __DIR__ . '/../..' . '/src/Service/Database/Managers/TableHandler.php',

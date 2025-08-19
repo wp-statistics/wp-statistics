@@ -95,9 +95,9 @@ class VisitorColumnsMigrator extends AbstractAjax
                 'columns'        => ['COUNT(*) as total'],
                 'raw_where'      => [
                     "first_page IS NOT NULL AND first_page != ''",
-                    "first_view IS NOT NULL AND first_view > '0000-00-00 00:00:00'",
+                    "first_view IS NOT NULL",
                     "last_page IS NOT NULL AND last_page != ''",
-                    "last_view IS NOT NULL AND last_view > '0000-00-00 00:00:00'"
+                    "last_view IS NOT NULL"
                 ],
                 'raw_where_type' => 'OR',
             ])
@@ -134,9 +134,9 @@ class VisitorColumnsMigrator extends AbstractAjax
                 'columns'        => ['COUNT(*) as total'],
                 'raw_where'      => [
                     "first_page IS NOT NULL AND first_page != ''",
-                    "first_view IS NOT NULL AND first_view > '0000-00-00 00:00:00'",
+                    "first_view IS NOT NULL",
                     "last_page IS NOT NULL AND last_page != ''",
-                    "last_view IS NOT NULL AND last_view > '0000-00-00 00:00:00'"
+                    "last_view IS NOT NULL"
                 ],
                 'raw_where_type' => 'OR',
             ])

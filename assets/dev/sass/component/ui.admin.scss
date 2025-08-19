@@ -9,6 +9,10 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 }
 
 .notice.wp-statistics-notice{
+  padding: 11px 15px;
+}
+
+.wps_page  .notice.wp-statistics-notice{
 
   &.is-dismissible{
     padding-right: 36px !important;

@@ -1,14 +1,25 @@
-= 14.15.2 - 2025-x-x =
+= 14.15.x - 2025-xx-xx =
+- **Fix:** Fixed `Top Pages` widget sort issue on `Page Insights` report.
+- **Fix:** Region widget issue when country is not detected on `Geographic` page.
+
+= 14.15.3 - 2025-08-18 =
+- **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.
+- **Fix:** Correct redirect URL after clicking 'Start Migration'.
+- **Fix:** Fixed Author Analytics filter issue.
+- **Enhancement:** Added LiteSpeed Cache detection for improved cache-related warning notifications.
+- **Enhancement:** Randomized the execution time of the GeoIP update event to reduce simultaneous load on jsdelivr.
+- **Enhancement:** Improve performance of visitor migration.
+
+= 14.15.2 - 2025-08-10 =
 - **New:** Added compatibility with the `Borlabs Cookie` plugin.
-- **New:** License keys can now be set via `wp-config.php` using constants like `WP_STATISTICS_LICENSE` and are auto-validated on init.
-- **New:** The **Customization add-on** now includes an export and import feature for settings.
+- **New:** License keys can now be set via `wp-config.php` using constants like `WP_STATISTICS_LICENSE` and are automatically validated on init.
 - **Enhancement:** Visitor data now stores only the major browser version to improve performance and reduce query load.
-- **Enhancement:** Refactored advanced reporting to reduce redundant query execution and improve performance.
-- **Enhancement:** Replaced legacy Robot List with Device-Detector isBot check, and renamed the bot detection field.
+- **Enhancement:** Refactored advanced reporting to reduce redundant queries and improve performance.
+- **Enhancement:** Replaced the legacy Robot List with the Device-Detector `isBot` check and renamed the bot detection field.
 - **Fix:** Fixed filter issues on the Visitors and Referred Visitors pages.
 - **Fix:** Adjusted access control for specific plugin actions.
-- **Fix:** Fixed display issues on the single-visitor page when user_id is missing.
-- **Fix:** Updated Top Countries widget to show percentages based on all visitors.
+- **Fix:** Fixed display issues on the single-visitor page when `user_id` is missing.
+- **Fix:** Updated the Top Countries widget to calculate percentages based on all visitors.
 
 = 14.15.1 - 2025-07-29 =
 - **Enhancement:** Numbers in Overview widgets are now abbreviated (e.g., 10k), with full values shown on hover.
