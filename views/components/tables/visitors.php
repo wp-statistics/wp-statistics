@@ -76,12 +76,18 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
                                     <?php
                                     $page = $visitor->getFirstPage();
 
-                                    if (!empty($page)) :
-                                        View::load("components/objects/internal-link", [
-                                            'url'       => $page['report'],
-                                            'title'     => $page['title'],
-                                            'tooltip'   => $page['query'] ? "?{$page['query']}" : ''
-                                        ]);
+                                    if (!empty($page)) :?>
+                                        <div class="wps-entry-page">
+                                            <?php
+                                            View::load("components/objects/internal-link", [
+                                                'url'     => $page['report'],
+                                                'title'   => $page['title'],
+                                                'tooltip' => $page['query'] ? "?{$page['query']}" : ''
+                                            ]);
+                                            ?>
+                                            <span class="wps-campaign-label wps-tooltip" title="Campaign: {{CampaignName}}">CampaignName</span>
+                                        </div>
+                                    <?php
                                     else :
                                         echo Admin_Template::UnknownColumn();
                                     endif;

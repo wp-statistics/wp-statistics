@@ -32,13 +32,10 @@ use WP_Statistics\Components\View;
                     ?>
                         <tr>
                             <td class="wps-pd-l">
-                                <div class="wps-entry-page">
-                                    <?php View::load("components/objects/internal-link", [
-                                        'url'   => $pageInfo['report'],
-                                        'title' => $pageInfo['title']
-                                    ]); ?>
-                                    <span class="wps-campaign-label wps-tooltip" title="Campaign: {{CampaignName}}">CampaignName</span>
-                                </div>
+                                <?php View::load("components/objects/internal-link", [
+                                    'url'   => $pageInfo['report'],
+                                    'title' => $pageInfo['title']
+                                ]); ?>
                             </td>
 
                             <td class="wps-pd-l">

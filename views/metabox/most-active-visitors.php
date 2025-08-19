@@ -59,12 +59,18 @@ use WP_STATISTICS\Menus;
                         <?php
                         $firstPage = $visitor->getFirstPage();
 
-                        if (!empty($firstPage)) :
-                            View::load("components/objects/internal-link", [
-                                'url'       => $firstPage['report'],
-                                'title'     => $firstPage['title'],
-                                'tooltip'   => $firstPage['query'] ? "?{$firstPage['query']}" : ''
-                            ]);
+                        if (!empty($firstPage)) :?>
+                            <div class="wps-entry-page">
+                                <?php
+                                View::load("components/objects/internal-link", [
+                                    'url'     => $firstPage['report'],
+                                    'title'   => $firstPage['title'],
+                                    'tooltip' => $firstPage['query'] ? "?{$firstPage['query']}" : ''
+                                ]);
+                                ?>
+                                <span class="wps-campaign-label wps-tooltip" title="Campaign: {{CampaignName}}">CampaignName</span>
+                            </div>
+                        <?php
                         else :
                             echo Admin_Template::UnknownColumn();
                         endif;
