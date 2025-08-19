@@ -44,7 +44,7 @@ class GeographicDataProvider
         // Add country region data, if user country is detected
         $userCountry = Helper::getTimezoneCountry();
         if ($userCountry) {
-            $data['regions'] = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['country' => $userCountry, 'group_by' => ['country', 'region'], 'count_field' => 'region', 'not_null' => 'visitor.region']));
+            $data['regions'] = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['country' => $userCountry, 'group_by' => ['country', 'region'], 'not_null' => 'visitor.region']));
         }
 
         return $data;
