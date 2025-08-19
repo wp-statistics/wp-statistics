@@ -34,9 +34,10 @@ class OnlineModel extends BaseModel
         return $result ? $result : 0;
     }
 
-    public function getOnlineVisitorsData($args = [])
+    public function getOnlineVisitors($args = [])
     {
         $args = $this->parseArgs($args, [
+            'ip'        => '',
             'page'      => 1,
             'per_page'  => '',
             'order_by'  => 'last_view',
@@ -45,6 +46,7 @@ class OnlineModel extends BaseModel
 
         $result = Query::select('*')
             ->from('visitor')
+            ->where('ip', '=', $args['ip'])
             ->whereDate('last_view', $this->onlineTimeframe)
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
@@ -52,21 +54,5 @@ class OnlineModel extends BaseModel
             ->getAll();
 
         return $result ? $result : [];
-    }
-
-    public function getOnlineVisitor($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'ip' => ''
-        ]);
-
-        $result = Query::select('*')
-            ->from('visitor')
-            ->where('ip', '=', $args['ip'])
-            ->whereDate('last_view', $this->onlineTimeframe)
-            ->decorate(VisitorDecorator::class)
-            ->getRow();
-
-        return $result;
     }
 }

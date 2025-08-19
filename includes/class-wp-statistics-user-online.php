@@ -32,7 +32,7 @@ class UserOnline
     public static function is_ip_online($user_ip = false)
     {
         $onlineModel = new OnlineModel();
-        $user_online = $onlineModel->getOnlineVisitor(['ip' => $user_ip]);
+        $user_online = $onlineModel->getOnlineVisitors(['ip' => $user_ip]);
 
         return (!$user_online ? false : $user_online);
     }
@@ -49,7 +49,7 @@ class UserOnline
     {
         $onlineModel = new OnlineModel();
 
-        $result = $onlineModel->getOnlineVisitorsData($arg);
+        $result = $onlineModel->getOnlineVisitors($arg);
 
         // Get List
         $list = array();
