@@ -157,10 +157,10 @@ class IntegrationHelper
                     '%s <br> %s · %s',
                     sprintf(
                         __('We’ve detected <b>%s</b> on your site. To ensure WP Statistics respects visitor consent preferences, you can enable integration with this plugin.', 'wp-statistics'),
-                        $integration->getName(),
+                        $integration->getName()
                     ),
                     '<a href="' . esc_url(Menus::admin_url('settings', ['tab' => 'privacy-settings']) . '#consent_integration') . '">' . esc_html__('Activate integration ›', 'wp-statistics') . '</a>',
-                    '<a target="_blank" href="https://wp-statistics.com/resources/integrating-wp-statistics-with-consent-management-plugins/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">' . esc_html__('Learn More ›', 'wp-statistics') . '</a>',
+                    '<a target="_blank" href="https://wp-statistics.com/resources/integrating-wp-statistics-with-consent-management-plugins/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">' . esc_html__('Learn More ›', 'wp-statistics') . '</a>'
                 )
             ];
         }
