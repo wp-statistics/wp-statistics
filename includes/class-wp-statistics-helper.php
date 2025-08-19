@@ -196,6 +196,11 @@ class Helper
             $use = array('status' => true, 'plugin' => esc_html__('Speed Optimizer', 'wp-statistics'), 'debug' => 'Speed Optimizer');
         }
 
+        /** LiteSpeed Cache */
+        if (defined('LSCWP_V')) {
+            $use = array('status' => true, 'plugin' => __('LiteSpeed Cache', 'wp-statistics'), 'debug' => 'LiteSpeed Cache');
+        }
+
         return apply_filters('wp_statistics_cache_status', $use);
     }
 
@@ -234,26 +239,6 @@ class Helper
         }
 
         return $baseurl;
-    }
-
-    /**
-     * Get Robots List
-     *
-     * @param string $type
-     * @return array|bool|string
-     */
-    public static function get_robots_list($type = 'list')
-    {
-        # Set Default
-        $list = array();
-
-        # Load From file
-        include WP_STATISTICS_DIR . "includes/defines/robots-list.php";
-        if (isset($wps_robots_list_array)) {
-            $list = $wps_robots_list_array;
-        }
-
-        return ($type == "array" ? $list : implode("\n", $list));
     }
 
     /**

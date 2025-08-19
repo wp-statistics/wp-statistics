@@ -448,13 +448,15 @@ class Exclusion
         $robots = apply_filters('wp_statistics_exclusion_robots', $robots);
 
         // Check to see if we match any of the robots.
-        foreach ($robots as $robot) {
-            $robot = trim($robot);
+        if(is_array($robots) && !empty($robots)) {
+            foreach ($robots as $robot) {
+                $robot = trim($robot);
 
-            // If the match case is less than 4 characters long, it might match too much so don't execute it.
-            if (strlen($robot) > 3) {
-                if (stripos($rawUserAgent, $robot) !== false) {
-                    return true;
+                // If the match case is less than 4 characters long, it might match too much so don't execute it.
+                if (strlen($robot) > 3) {
+                    if (stripos($rawUserAgent, $robot) !== false) {
+                        return true;
+                    }
                 }
             }
         }

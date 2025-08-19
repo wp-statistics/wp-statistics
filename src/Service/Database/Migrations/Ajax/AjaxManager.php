@@ -1,11 +1,12 @@
 <?php
 
-namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess;
+namespace WP_Statistics\Service\Database\Migrations\Ajax;
 
 use WP_STATISTICS\Admin_Assets;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Database\DatabaseHelper;
 use WP_Statistics\Utils\Request;
 
 /**
@@ -17,7 +18,7 @@ use WP_Statistics\Utils\Request;
  * - Managing the AJAX request lifecycle for triggering and running migrations.
  * - Ensuring migrations are executed sequentially and their status is tracked persistently.
  */
-class AjaxBackgroundProcessManager
+class AjaxManager
 {
     /**
      * The action slug used for manually triggering the background migration.
@@ -41,7 +42,7 @@ class AjaxBackgroundProcessManager
     {
         add_action('current_screen', [$this, 'handleDoneNotice']);
 
-        if (!AjaxBackgroundProcessFactory::needsMigration()) {
+        if (!AjaxFactory::needsMigration()) {
             return;
         }
 
@@ -60,7 +61,7 @@ class AjaxBackgroundProcessManager
     public function addAjax($list)
     {
         $list[] = [
-            'class'  => !AjaxBackgroundProcessFactory::isDatabaseMigrated() ? null : AjaxBackgroundProcessFactory::getCurrentMigrate(),
+            'class'  => !AjaxFactory::isDatabaseMigrated() ? null : AjaxFactory::getCurrentMigrate(),
             'action' => 'background_process',
             'public' => false
         ];
@@ -135,20 +136,18 @@ class AjaxBackgroundProcessManager
             return;
         }
 
-        $isMigrated = AjaxBackgroundProcessFactory::isDatabaseMigrated();
+        $isMigrated = AjaxFactory::isDatabaseMigrated();
 
         if (!$isMigrated) {
             return;
         }
 
-        $current_page_url = home_url(add_query_arg(null, null));
-
         $migrationUrl = add_query_arg(
             [
-                'action' => self::MIGRATION_ACTION,
-                'nonce'  => wp_create_nonce(self::MIGRATION_NONCE),
-                'status' => Option::getOptionGroup('ajax_background_process', 'status', null),
-                'current_page' => rawurlencode($current_page_url)
+                'action'       => self::MIGRATION_ACTION,
+                'nonce'        => wp_create_nonce(self::MIGRATION_NONCE),
+                'status'       => Option::getOptionGroup('ajax_background_process', 'status', null),
+                'current_page' => DatabaseHelper::getCurrentAdminUrl(),
             ],
             admin_url('admin-post.php')
         );
@@ -230,13 +229,13 @@ class AjaxBackgroundProcessManager
      */
     private function handleRedirect()
     {
-        $redirect_url = $_POST['current_page'] ?? $_GET['current_page'] ?? '';
+        $redirectUrl = $_POST['current_page'] ?? $_GET['current_page'] ?? '';
 
-        if (empty($redirect_url)) {
-            $redirect_url = home_url();
+        if (empty($redirectUrl)) {
+            $redirectUrl = home_url();
         }
 
-        wp_redirect(esc_url_raw($redirect_url));
+        wp_redirect(esc_url_raw($redirectUrl));
         exit;
     }
 

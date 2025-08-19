@@ -38,7 +38,7 @@ class Option
     {
 
         $options = array(
-            'robotlist'                       => Helper::get_robots_list(),
+            'robotlist'                       => '',
             'query_params_allow_list'         => Helper::get_default_query_params_allow_list('string'),
             'anonymize_ips'                   => true,
             'hash_ips'                        => true,
@@ -377,6 +377,17 @@ class Option
 
         // Write the array to the database.
         add_option($settingName, $options);
+    }
+
+    public static function updateGroupOptions($group, $options)
+    {
+        $settingName = "wp_statistics_{$group}";
+
+        if (!is_array($options)) {
+            $options = [];
+        }
+
+        update_option($settingName, $options);
     }
 
     public static function deleteOptionGroup($key, $group)

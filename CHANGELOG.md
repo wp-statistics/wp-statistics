@@ -1,8 +1,27 @@
 = 14.15.x - 2025-xx-xx =
-- **New:** Added compatibility with `Borlabs Cookie` plugin.
-- **New:** License keys can now be defined in `wp-config.php` using constants (e.g. `WP_STATISTICS_LICENSE`) and will be automatically validated on `init`.
-- **Enhancement:** Store only the major browser version in visitor data to improve performance and reduce query overhead.
-- **Fix:** Fixed visitors and referred visitors page filter issue.
+- **Fix:** Prevented wp_statistics_tracker_js_errors option bloat by limiting the maximum number of saved errors and truncating error messages.
+- **Fix:** Fixed `Top Pages` widget sort issue on `Page Insights` report.
+- **Fix:** Region widget issue when country is not detected on `Geographic` page.
+- **Enhancement:** Refactored the update process and database schema updates to run on the frontend.
+
+= 14.15.3 - 2025-08-18 =
+- **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.
+- **Fix:** Correct redirect URL after clicking 'Start Migration'.
+- **Fix:** Fixed Author Analytics filter issue.
+- **Enhancement:** Added LiteSpeed Cache detection for improved cache-related warning notifications.
+- **Enhancement:** Randomized the execution time of the GeoIP update event to reduce simultaneous load on jsdelivr.
+- **Enhancement:** Improve performance of visitor migration.
+
+= 14.15.2 - 2025-08-10 =
+- **New:** Added compatibility with the `Borlabs Cookie` plugin.
+- **New:** License keys can now be set via `wp-config.php` using constants like `WP_STATISTICS_LICENSE` and are automatically validated on init.
+- **Enhancement:** Visitor data now stores only the major browser version to improve performance and reduce query load.
+- **Enhancement:** Refactored advanced reporting to reduce redundant queries and improve performance.
+- **Enhancement:** Replaced the legacy Robot List with the Device-Detector `isBot` check and renamed the bot detection field.
+- **Fix:** Fixed filter issues on the Visitors and Referred Visitors pages.
+- **Fix:** Adjusted access control for specific plugin actions.
+- **Fix:** Fixed display issues on the single-visitor page when `user_id` is missing.
+- **Fix:** Updated the Top Countries widget to calculate percentages based on all visitors.
 
 = 14.15.1 - 2025-07-29 =
 - **Enhancement:** Numbers in Overview widgets are now abbreviated (e.g., 10k), with full values shown on hover.
@@ -44,6 +63,7 @@
 - **Fix:** Anonymous data opt-in notice now appears 7 days after plugin activation.
 - **Fix:** Fixed incorrect page titles for WooCommerce My Account sub-pages.
 - **Fix:** Normalized the taxonomy `type` field for `tax_` prefixes.
+- **Enhancement:** Deprecated legacy Robot List bot detection and renamed the `Robot List` field to `Custom Bot Exclusions`.
 
 = 14.14 - 2025-06-01 =
 - **New:** Added a Help page inside the plugin to guide users.

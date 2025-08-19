@@ -1,5 +1,5 @@
 <?php
-use WP_STATISTICS\Menus;
+use WP_STATISTICS\Option;
 ?>
 <h2 class="wps-settings-box__title">
     <span><?php esc_html_e('Filtering & Exceptions', 'wp-statistics'); ?></span>
@@ -66,23 +66,27 @@ use WP_STATISTICS\Menus;
         </tr>
 
         <tr data-id="robot_list_tr">
-            <th scope="row"><label for="wps_robotlist"><?php esc_html_e('Robot List', 'wp-statistics'); ?></label></th>
+            <th scope="row"><label for="wps_robotlist"><?php esc_html_e('Custom Bot Exclusions', 'wp-statistics'); ?></label></th>
             <td>
                 <div class="wps-settings-box_restore">
                      <textarea name="wps_robotlist" class="code textarea-input-reset" dir="ltr" rows="10" cols="60" id="wps_robotlist"><?php
-                         $robotlist = WP_STATISTICS\Option::get('robotlist');
-                         if ($robotlist == '') {
-                             $robotlist = WP_STATISTICS\Helper::get_robots_list();
-                             update_option('wps_robotlist', $robotlist);
-                         }
+                         $robotlist = Option::get('robotlist');
+
                          echo esc_textarea($robotlist);
                          ?>
                     </textarea>
-                    <a onclick="var wps_robotlist = getElementById('wps_robotlist'); wps_robotlist.value = '<?php echo esc_attr(str_replace(array("\r\n", "\n", "\r"), '\n', esc_html(\WP_STATISTICS\Helper::get_robots_list()))); ?>';" class="wps-button wps-button--default"><?php esc_html_e('Reset to Default', 'wp-statistics'); ?></a>
-
                 </div>
 
-                <p class="description"><?php echo esc_html__('Enter robot agents to exclude. One agent name per line, minimum four characters.', 'wp-statistics'); ?></p>
+                <p class="description"><?php
+                    echo wp_kses_post(
+                        sprintf(
+                            __(
+                                'WP Statistics already filters common crawlers. Add any extra user-agent snippets you’d like treated as bots—one per line (leave blank if none). See the <a href="%s" target="_blank">Robot Exclusions guide</a> for details.',
+                                'wp-statistics'
+                            ),
+                            esc_url('https://wp-statistics.com/resources/robot-exclusions/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings')
+                        )
+                    ); ?></p>
             </td>
         </tr>
 

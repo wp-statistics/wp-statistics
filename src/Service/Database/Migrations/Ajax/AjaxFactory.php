@@ -1,10 +1,11 @@
 <?php
 
-namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess;
+namespace WP_Statistics\Service\Database\Migrations\Ajax;
 
-use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\Jobs\VisitorColumnsMigrator;
+use WP_Statistics\Core\CoreFactory;
 use WP_STATISTICS\Install;
 use WP_STATISTICS\Option;
+use WP_Statistics\Service\Database\Migrations\Ajax\Jobs\VisitorColumnsMigrator;
 
 /**
  * Factory class responsible for managing and coordinating background database migrations.
@@ -15,7 +16,7 @@ use WP_STATISTICS\Option;
  * It ensures that only necessary migrations are executed while skipping completed tasks.
  * The factory serves as a bridge between migration processes and the background process manager.
  */
-class AjaxBackgroundProcessFactory
+class AjaxFactory
 {
     /**
      * List of available migrations.
@@ -40,23 +41,27 @@ class AjaxBackgroundProcessFactory
      */
     public static function needsMigration()
     {
-        if (!class_exists(AbstractAjaxBackgroundProcess::class)) {
-            return;
-        }
-
-        if (Install::isFresh()) {
-            return;
-        }
-
-        $isMigrated = self::isDatabaseMigrated();
-
-        if (!$isMigrated) {
+        if (!class_exists(AbstractAjax::class)) {
             return;
         }
 
         $isDone = Option::getOptionGroup('ajax_background_process', 'is_done', false);
 
         if ($isDone) {
+            return;
+        }
+
+        if (CoreFactory::isFresh()) {
+            $jobs = array_keys(self::$migrations);
+
+            Option::saveOptionGroup('jobs', $jobs, 'ajax_background_process');
+            Option::saveOptionGroup('is_done', true, 'ajax_background_process');
+            return;
+        }
+
+        $isMigrated = self::isDatabaseMigrated();
+
+        if (!$isMigrated) {
             return;
         }
 
@@ -75,7 +80,7 @@ class AjaxBackgroundProcessFactory
      */
     public static function migrate($key = null)
     {
-        return AbstractAjaxBackgroundProcess::getMigrations($key);
+        return AbstractAjax::getMigrations($key);
     }
 
     /**
@@ -85,7 +90,7 @@ class AjaxBackgroundProcessFactory
      */
     public static function getCurrentMigrate()
     {
-        return AbstractAjaxBackgroundProcess::getMigration();
+        return AbstractAjax::getMigration();
     }
 
     /**
@@ -114,7 +119,7 @@ class AjaxBackgroundProcessFactory
             return true;
         }
 
-        self::$doneJobs = ! empty(self::$doneJobs) ? self::$doneJobs : $jobs;
+        self::$doneJobs = !empty(self::$doneJobs) ? self::$doneJobs : $jobs;
 
         if (empty(self::$doneJobs)) {
             return false;

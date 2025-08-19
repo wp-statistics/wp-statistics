@@ -11,6 +11,7 @@ use WP_Statistics\Service\Admin\AuthorAnalytics\Views\SingleAuthorView;
 use WP_Statistics\Service\Admin\FilterHandler\FilterGenerator;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Async\SourceChannelUpdater;
+use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 
@@ -42,16 +43,43 @@ class AuthorAnalyticsPage extends MultiViewPage
     protected function setFilters() {
         $this->filters = FilterGenerator::create()
             ->dropdown('pt', [
-                'label' => esc_html__('Post Type', 'wp-statistics'),
-                'panel' => true,
-                'attributes'  => [
-                    'data-type' => 'post-type',
-                    'data-source' => 'getPostTypes',
+                'label'      => esc_html__('Post Type', 'wp-statistics'),
+                'panel'      => true,
+                'attributes' => [
+                    'data-type'    => 'post-type',
+                    'data-default' => ''
                 ],
+                'predefined' => self::getPostTypes()
             ])
             ->get();
 
         return $this->filters;
+    }
+
+    public function getPostTypes()
+    {
+        $args = [];
+
+        $postTypes = Helper::get_list_post_type();
+
+        $queryKey   = 'pt';
+        $baseUrl    = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey])));
+
+        foreach ($postTypes as $postType) {
+            $args[] = [
+                'slug'    => esc_html($postType),
+                'name'    => esc_html(Helper::getPostTypeName($postType)),
+                'url'     => add_query_arg([$queryKey => $postType], $baseUrl),
+                'premium' => Helper::isCustomPostType($postType) && !Helper::isAddOnActive('data-plus')
+            ];
+        }
+
+        return [
+            'args'                => $args,
+            'baseUrl'             => $baseUrl,
+            'selectedOption'      => Request::get($queryKey, 'post'),
+            'lockCustomPostTypes' => !Helper::isAddOnActive('data-plus')
+        ];
     }
 
     protected function init()
