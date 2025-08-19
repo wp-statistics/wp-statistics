@@ -53,4 +53,20 @@ class OnlineModel extends BaseModel
 
         return $result ? $result : [];
     }
+
+    public function getOnlineVisitor($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'ip' => ''
+        ]);
+
+        $result = Query::select('*')
+            ->from('visitor')
+            ->where('ip', '=', $args['ip'])
+            ->whereDate('last_view', $this->onlineTimeframe)
+            ->decorate(VisitorDecorator::class)
+            ->getRow();
+
+        return $result;
+    }
 }
