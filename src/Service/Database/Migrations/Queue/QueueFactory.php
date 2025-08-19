@@ -4,7 +4,6 @@ namespace WP_Statistics\Service\Database\Migrations\Queue;
 
 use WP_Statistics;
 use WP_Statistics\Core\CoreFactory;
-use WP_STATISTICS\Install;
 use WP_STATISTICS\Option;
 
 /**
@@ -120,7 +119,7 @@ class QueueFactory
      */
     public static function markAsComplete()
     {
-        if (!Install::isFresh()) {
+        if (!CoreFactory::isFresh()) {
             return;
         }
 
