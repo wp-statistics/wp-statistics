@@ -1,8 +1,5 @@
 if (!window.WpStatisticsUserTracker) {
     window.WpStatisticsUserTracker = {
-        // User online interval id
-        userOnlineIntervalId: null,
-
         // Track URL changes for AJAX in Gutenberg SPA mode using History API
         lastUrl: window.location.href,
 
