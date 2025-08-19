@@ -24,12 +24,36 @@ class OnlineModel extends BaseModel
 
     public function countOnlines($args = [])
     {
-        $args = $this->parseArgs($args, []);
+        $args = $this->parseArgs($args, [
+            'resource_type' => '',
+            'resource_id'   => '',
+            'page_id'       => '',
+            'agent'         => '',
+            'platform'      => '',
+            'country'       => '',
+            'logged_in'     => false
+        ]);
 
-        $result = Query::select('COUNT(*)')
+        $query = Query::select('COUNT(*)')
             ->from('visitor')
-            ->whereDate('last_view', $this->onlineTimeframe)
-            ->getVar();
+            ->where('location', '=', $args['country'])
+            ->where('platform', '=', $args['platform'])
+            ->where('agent', '=', $args['agent'])
+            ->where('last_page', '=', $args['page_id'])
+            ->whereDate('last_view', $this->onlineTimeframe);
+
+        if ($args['logged_in'] === true) {
+            $query->where('visitor.user_id', '!=', 0);
+        }
+
+        if (!empty($args['resource_type']) || !empty($args['resource_id'])) {
+            $query
+                ->join('pages', ['visitor.last_page', 'pages.page_id'])
+                ->where('pages.type', 'IN', $args['resource_type'])
+                ->where('pages.id', '=', $args['resource_id']);
+        }
+
+        $result = $query->getVar();
 
         return $result ? $result : 0;
     }
@@ -37,21 +61,44 @@ class OnlineModel extends BaseModel
     public function getOnlineVisitors($args = [])
     {
         $args = $this->parseArgs($args, [
-            'ip'        => '',
-            'page'      => 1,
-            'per_page'  => '',
-            'order_by'  => 'last_view',
-            'order'     => 'DESC',
+            'ip'            => '',
+            'resource_type' => '',
+            'resource_id'   => '',
+            'page_id'       => '',
+            'agent'         => '',
+            'platform'      => '',
+            'country'       => '',
+            'logged_in'     => false,
+            'page'          => 1,
+            'per_page'      => '',
+            'order_by'      => 'last_view',
+            'order'         => 'DESC',
         ]);
 
-        $result = Query::select('*')
+        $query = Query::select('*')
             ->from('visitor')
             ->where('ip', '=', $args['ip'])
+            ->where('location', '=', $args['country'])
+            ->where('platform', '=', $args['platform'])
+            ->where('agent', '=', $args['agent'])
+            ->where('last_page', '=', $args['page_id'])
             ->whereDate('last_view', $this->onlineTimeframe)
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
-            ->decorate(VisitorDecorator::class)
-            ->getAll();
+            ->decorate(VisitorDecorator::class);
+
+        if ($args['logged_in'] === true) {
+            $query->where('visitor.user_id', '!=', 0);
+        }
+
+        if (!empty($args['resource_type']) || !empty($args['resource_id'])) {
+            $query
+                ->join('pages', ['visitor.last_page', 'pages.page_id'])
+                ->where('pages.type', '=', $args['resource_type'])
+                ->where('pages.id', '=', $args['resource_id']);
+        }
+
+        $result = $query->getAll();
 
         return $result ? $result : [];
     }
