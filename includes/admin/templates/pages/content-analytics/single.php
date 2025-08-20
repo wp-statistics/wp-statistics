@@ -71,23 +71,7 @@ $postType = get_post_type($postId);
             ];
         }
 
-        if (!empty($data['glance']['rankmath'])) {
-            $metrics[] = [
-                'label'     => esc_html__('Content Score', 'wp-statistics'),
-                'score'     => $data['glance']['rankmath']['page_score'],
-                'icon'      => 'rank-math',
-                'link-href' => admin_url("admin.php?page=rank-math-analytics#/single/$postId"),
-                'tooltip'   => esc_html__('Rank Math SEO score', 'wp-statistics')
-            ];
-
-            $metrics[] = [
-                'label'     => esc_html__('SEO Score', 'wp-statistics'),
-                'score'     => $data['glance']['rankmath']['seo_score'],
-                'icon'      => 'rank-math',
-                'link-href' => admin_url("admin.php?page=rank-math-analytics#/single/$postId"),
-                'tooltip'   => esc_html__('Rank Math’s SEO Analyzer score', 'wp-statistics')
-            ];
-        }
+        $metrics = apply_filters('wp_statistics_single_content_analytics_glance_metrics', $metrics, $postId);
 
         View::load("components/objects/glance-card", ['metrics' => $metrics, 'two_column' => true]);
 

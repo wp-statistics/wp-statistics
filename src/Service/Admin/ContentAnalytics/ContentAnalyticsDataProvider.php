@@ -9,7 +9,6 @@ use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
-use WP_Statistics\Service\ThirdParty\ThirdPartyServices;
 use WP_Statistics\Utils\Request;
 
 class ContentAnalyticsDataProvider
@@ -240,11 +239,6 @@ class ContentAnalyticsDataProvider
                 ]
             ]
         ];
-
-        // Add RankMath data
-        if (ThirdPartyServices::rankMath()->isActive()) {
-            $result['glance']['rankmath'] = ThirdPartyServices::rankMath()->getPostData($this->args['post_id']);
-        }
 
         if (WordCountService::isActive()) {
             $totalWords = $this->postsModel->countWords($this->args);
