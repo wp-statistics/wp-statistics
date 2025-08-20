@@ -25,9 +25,9 @@ class GeographicDataProvider
         $args = array_merge($this->args, ['per_page' => 5, 'page' => 1]);
 
         $countries     = $this->visitorsModel->getVisitorsGeoData($args);
-        $cities        = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['group_by' => ['city'], 'not_null' => 'visitor.city', 'count_field' => 'city']));
-        $globalRegions = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['group_by' => ['region'], 'count_field' => 'region', 'not_null' => 'visitor.region', 'per_page' => 1]));
-        $states        = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['country' => 'US', 'continent' => 'North America', 'group_by' => ['region'], 'count_field' => 'region', 'not_null' => 'visitor.region']));
+        $cities        = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['group_by' => ['city'], 'not_null' => 'visitor.city']));
+        $globalRegions = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['group_by' => ['region'], 'not_null' => 'visitor.region', 'per_page' => 1]));
+        $states        = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['country' => 'US', 'continent' => 'North America', 'group_by' => ['region'], 'not_null' => 'visitor.region']));
 
         $data = [
             'summary'   => [
@@ -44,7 +44,7 @@ class GeographicDataProvider
         // Add country region data, if user country is detected
         $userCountry = Helper::getTimezoneCountry();
         if ($userCountry) {
-            $data['regions'] = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['country' => $userCountry, 'group_by' => ['country', 'region'], 'count_field' => 'region', 'not_null' => 'visitor.region']));
+            $data['regions'] = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['country' => $userCountry, 'group_by' => ['country', 'region'], 'not_null' => 'visitor.region']));
         }
 
         return $data;
