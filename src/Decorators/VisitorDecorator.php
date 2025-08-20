@@ -257,6 +257,7 @@ class VisitorDecorator
     /**
      * Retrieves the online time of the visitor.
      *
+     * @deprecated Since online users aren't tracked real-time, this method gives inaccurate results and shouldn't be used.
      * @return string|null The online time in 'H:i:s' format, or null if not available.
      */
     public function getOnlineTime()
