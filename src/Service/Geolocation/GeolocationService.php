@@ -14,6 +14,7 @@ use WP_STATISTICS\IP;
  *
  * @package   GeoLocationService
  * @version   1.0.0
+ * @since     14.10.1
  * @author    Mostafa
  */
 class GeolocationService
