@@ -47,11 +47,6 @@ class QueueManager
     public function __construct()
     {
         add_action('current_screen', [$this, 'handleDoneNotice']);
-
-        if (!QueueFactory::isMigrationCompleted() && !QueueFactory::needsMigration()) {
-            return;
-        }
-
         add_action('current_screen', [$this, 'handleNotice']);
         add_action('admin_post_' . self::MIGRATION_ACTION, [$this, 'handleQueueMigration']);
     }
@@ -104,7 +99,11 @@ class QueueManager
      */
     public function handleNotice()
     {
-        if (!$this->isValidMigrationContext() || QueueFactory::isMigrationCompleted()) {
+        if (
+            !$this->isValidMigrationContext() ||
+            QueueFactory::isMigrationCompleted() ||
+            !QueueFactory::needsMigration()
+        ) {
             return;
         }
 
@@ -149,7 +148,7 @@ class QueueManager
      */
     public function handleQueueMigration()
     {
-        if (!Request::compare('action', self::MIGRATION_ACTION)) {
+        if (!Request::compare('action', self::MIGRATION_ACTION) || !QueueFactory::needsMigration()) {
             return false;
         }
 

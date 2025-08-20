@@ -2,6 +2,7 @@
 - **Fix:** Prevented wp_statistics_tracker_js_errors option bloat by limiting the maximum number of saved errors and truncating error messages.
 - **Fix:** Fixed `Top Pages` widget sort issue on `Page Insights` report.
 - **Fix:** Region widget issue when country is not detected on `Geographic` page.
+- **Fix:** Prevented false `Queue Migration` notice after updates.
 - **Enhancement:** Refactored the update process and database schema updates to run on the frontend.
 
 = 14.15.3 - 2025-08-18 =
