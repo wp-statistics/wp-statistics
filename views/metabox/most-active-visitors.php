@@ -1,9 +1,9 @@
 <?php
-
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Utils\Url;
 ?>
 <?php if (!empty($data)) : ?>
     <div class="o-table-wrapper">
@@ -68,7 +68,11 @@ use WP_STATISTICS\Menus;
                                     'tooltip' => $firstPage['query'] ? "?{$firstPage['query']}" : ''
                                 ]);
                                 ?>
-                                <span class="wps-campaign-label wps-tooltip" title="Campaign: {{CampaignName}}">CampaignName</span>
+
+                                <?php $campaign = Url::getParam('?' . $firstPage['query'], 'utm_campaign'); ?>
+                                <?php if ($campaign) : ?>
+                                    <span class="wps-campaign-label wps-tooltip" title="<?php echo esc_attr__('Campaign:', 'wp-statistics') . ' ' . esc_attr($campaign); ?>"><?php echo esc_html($campaign); ?></span>
+                                <?php endif; ?>
                             </div>
                         <?php
                         else :

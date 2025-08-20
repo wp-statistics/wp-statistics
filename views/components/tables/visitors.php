@@ -1,9 +1,9 @@
 <?php
-
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Utils\Url;
 
 $linksTarget    = !empty($open_links_in_new_tab) ? '_blank' : '';
 $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics') : esc_html__('Last View', 'wp-statistics')
@@ -85,7 +85,11 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
                                                 'tooltip' => $page['query'] ? "?{$page['query']}" : ''
                                             ]);
                                             ?>
-                                            <span class="wps-campaign-label wps-tooltip" title="Campaign: {{CampaignName}}">CampaignName</span>
+
+                                            <?php $campaign = Url::getParam('?' . $page['query'], 'utm_campaign'); ?>
+                                            <?php if ($campaign) : ?>
+                                                <span class="wps-campaign-label wps-tooltip" title="<?php echo esc_attr__('Campaign:', 'wp-statistics') . ' ' . esc_attr($campaign); ?>"><?php echo esc_html($campaign); ?></span>
+                                            <?php endif; ?>
                                         </div>
                                     <?php
                                     else :
