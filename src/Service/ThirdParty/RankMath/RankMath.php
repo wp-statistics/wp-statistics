@@ -1,6 +1,8 @@
 <?php
 namespace WP_Statistics\Service\ThirdParty\RankMath;
 
+use WP_STATISTICS\DB;
+
 class RankMath
 {
     /**
@@ -29,12 +31,12 @@ class RankMath
         }
 
         // Check if necessary classes exist
-        if (!class_exists('\RankMath\Rest\Rest_Helper') || !class_exists('\RankMath\Helpers\DB')) {
+        if (!class_exists('\RankMath\Rest\Rest_Helper')) {
             return $result;
         }
 
         // Check if the necessary tables are created
-		if (!\RankMath\Helpers\DB::check_table_exists('rank_math_analytics_objects')) {
+		if (!DB::ExistTable('rank_math_analytics_objects')) {
 			return $result;
 		}
 
