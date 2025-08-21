@@ -125,15 +125,21 @@ $hasCompatiblePlugins = !empty($compatiblePlugins);
                         <?php endforeach; ?>
                     </select>
                     <p class="description"><?php esc_html_e("Enable integration with supported consent management plugins, such as WP Consent API and Real Cookie Banner, to ensure WP Statistics respects user privacy preferences. When enabled, WP Statistics will only track data based on the consent settings provided by your active consent management plugin.", 'wp-statistics'); ?></p>
-                    <p class="description"><?php esc_html_e("Note: To use this feature, you must install and activate one of the supported consent management plugins.", 'wp-statistics'); ?></p>
+                    <p class="description">
+                        <?php echo sprintf(
+                            __('WP Consent API is active, but no compatible consent plugin is installed. WP Statistics won’t use consent until you add one. <a href="%s">See compatible plugins</a>.', 'wp-statistics'),
+                            "https://wp-statistics.com/resources/compatible-consent-plugins-with-wp-statistics/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings"
+                        );
+                        ?>
+                    </p>
                     <?php
                     if (!$hasCompatiblePlugins) {
                         echo wp_kses_post(sprintf(
                             '<p class="description"><b>%s</b> %s <a href="%s" target="_blank" rel="noopener">%s</a></p>',
                             esc_html__('⚠️ No compatible consent-management plugin detected.', 'wp-statistics'),
                             esc_html__('Install or activate one so WP Statistics only tracks visitors who have given consent.', 'wp-statistics'),
-                            esc_url('https://wp-statistics.com/resources/compatible-consent-plugins-with-wp-statistics/'),
-                            esc_html__('See compatible plugins →', 'wp-statistics')
+                            esc_url('https://wp-statistics.com/resources/compatible-consent-plugins-with-wp-statistics/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'),
+                            esc_html__('See compatible plugins.', 'wp-statistics')
                         ));
                     }
                     ?>
