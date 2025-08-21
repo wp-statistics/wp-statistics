@@ -15,18 +15,6 @@ use WP_STATISTICS\Menus;
             <th scope="row" colspan="2"><h3><?php esc_html_e('Tracking Options', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr data-id="monitor_online_visitors_tr">
-            <th scope="row">
-                <span class="wps-setting-label"><?php esc_html_e('Monitor Online Visitors', 'wp-statistics'); ?></span>
-            </th>
-
-            <td>
-                <input id="useronline" type="checkbox" value="1" name="wps_useronline" <?php echo WP_STATISTICS\Option::get('useronline') == true ? "checked='checked'" : ''; ?>>
-                <label for="useronline"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Tracks and displays visitors currently online, including their activity duration. Disabling this option stops the online monitoring feature, but visitor tracking remains active.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-
         <tr data-id="track_logged_in_user_activity_tr" data-view="visitors_log_tr">
             <th scope="row">
                 <span class="wps-setting-label">

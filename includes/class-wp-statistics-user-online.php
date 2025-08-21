@@ -10,16 +10,17 @@ class UserOnline
     /**
      * Check Active User Online System
      *
+     * @deprecated Online tracker is enabled by default since v14.16 and this function just toggles visibility of some UI elements.
      * @return mixed
      */
     public static function active()
     {
         /**
-         * Disable/Enable User Online for Custom request
+         * Disable/Enable User Online
          *
          * @example add_filter('wp_statistics_active_user_online', function(){ if( is_page() ) { return false; } });
          */
-        return (has_filter('wp_statistics_active_user_online')) ? apply_filters('wp_statistics_active_user_online', true) : Option::get('useronline', true);
+        return apply_filters('wp_statistics_active_user_online', true);
     }
 
     /**

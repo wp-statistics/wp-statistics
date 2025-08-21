@@ -43,7 +43,6 @@ class Option
             'anonymize_ips'                   => true,
             'hash_ips'                        => true,
             'geoip'                           => true,
-            'useronline'                      => true,
             'pages'                           => true,
             'menu_bar'                        => true,
             'coefficient'                     => Visitor::getCoefficient(),

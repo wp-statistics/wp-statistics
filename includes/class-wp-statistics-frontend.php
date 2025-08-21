@@ -60,13 +60,13 @@ class Frontend
                 'ajaxUrl'      => admin_url('admin-ajax.php'),
                 'hitParams'    => $hitParams,
                 'option'       => [
-                    'userOnline'           => Option::get('useronline'),
                     'dntEnabled'           => Option::get('do_not_track'),
                     'bypassAdBlockers'     => Option::get('bypass_ad_blockers', false),
                     'consentIntegration'   => IntegrationHelper::getIntegrationStatus(),
                     'isPreview'            => is_preview(),
 
-                    // legacy params for backward compatibility (with older versions of DataPlus)
+                    // legacy params for backward compatibility
+                    'userOnline'           => false,
                     'trackAnonymously'     => IntegrationHelper::shouldTrackAnonymously(),
                     'isWpConsentApiActive' => IntegrationHelper::isIntegrationActive('wp_consent_api'),
                     'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
