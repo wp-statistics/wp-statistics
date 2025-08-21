@@ -125,7 +125,7 @@ class GeneralNotices
      */
     private function checkTrackingMode()
     {
-        if (Notice::isNoticeDismissed('deprecate_server_side_tracking')) {
+        if (Notice::isNoticeDismissed('deprecate_server_side_tracking_v14.17')) {
             return;
         }
 
@@ -139,20 +139,18 @@ class GeneralNotices
             return;
         }
 
-        $settingsUrl = Menus::admin_url('settings');
         $noticeText  = sprintf(
             wp_kses(
             /* translators: %s: settings URL */
-                __('<b>WP Statistics Notice:</b> Server Side Tracking is less accurate and will be deprecated in <b>version 15</b>. Please switch to Client Side Tracking for better accuracy. <a href="%s">Update Tracking Settings</a>.', 'wp-statistics'),
+                __('<b>WP Statistics Notice:</b> Server Side Tracking is less accurate and will be deprecated in <b>version 14.17</b>. Please switch to Client Side Tracking for better accuracy. <a href="#" class="wps-option__updater" data-option="use_cache_plugin" data-value="true">Update Tracking Settings</a>.', 'wp-statistics'),
                 [
                     'b' => [],
-                    'a' => ['href' => []],
+                    'a' => ['href' => [], 'class' => [], 'data-option' => [], 'data-value' => []],
                 ]
-            ),
-            esc_url($settingsUrl)
+            )
         );
 
-        Notice::addNotice($noticeText, 'deprecate_server_side_tracking', 'warning');
+        Notice::addNotice($noticeText, 'deprecate_server_side_tracking_v14.17', 'warning');
     }
 
     /**
