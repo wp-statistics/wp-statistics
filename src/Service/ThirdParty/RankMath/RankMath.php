@@ -29,9 +29,14 @@ class RankMath
         }
 
         // Check if necessary classes exist
-        if (!class_exists('\RankMath\Rest\Rest_Helper')) {
+        if (!class_exists('\RankMath\Rest\Rest_Helper') || !class_exists('\RankMath\Helpers\DB')) {
             return $result;
         }
+
+        // Check if the necessary tables are created
+		if (!\RankMath\Helpers\DB::check_table_exists('rank_math_analytics_objects')) {
+			return $result;
+		}
 
         // Build route endpoint
         $route = '/' . \RankMath\Rest\Rest_Helper::BASE . '/an/post/' . $postId;
