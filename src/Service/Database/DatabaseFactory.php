@@ -21,7 +21,7 @@ use WP_Statistics\Service\Database\Operations\Update;
  * and manage different migration types (e.g., schema, data).
  *
  * @package   Database
- * @version   1.0.0
+ * @version   1.4.0
  * @since     14.12.3
  * @author    Hooman
  */
