@@ -16,6 +16,27 @@ class RankMath
     }
 
     /**
+     * Check if the Rank Math pro is active.
+     *
+     * @return bool
+     */
+    public function isProVersion()
+    {
+        return is_plugin_active('seo-by-rank-math-pro/rank-math-pro.php');
+    }
+
+    /**
+     * Retrieves the SEO score for a given post ID from the post meta table.
+     *
+     * @param int $postId
+     * @return int
+     */
+    public function getSeoScore($postId)
+    {
+        return get_post_meta($postId, 'rank_math_seo_score', true) ?? 0;
+    }
+
+    /**
      * Retrieves the post data for a given post ID from the `rank_math_analytics_objects` table.
      *
      * @param int $postId The ID of the post to retrieve data for.
@@ -34,12 +55,6 @@ class RankMath
         if (!class_exists('\RankMath\Rest\Rest_Helper')) {
             return $result;
         }
-
-        // Check if the necessary tables are created
-        global $wpdb;
-		if (!DB::ExistTable($wpdb->prefix . 'rank_math_analytics_objects')) {
-			return $result;
-		}
 
         // Build route endpoint
         $route = '/' . \RankMath\Rest\Rest_Helper::BASE . '/an/post/' . $postId;
