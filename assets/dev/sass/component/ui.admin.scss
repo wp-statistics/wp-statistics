@@ -3233,18 +3233,11 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     }
 
     img {
-      width: 16px;
-      height: 16px;
+      width: 16px!important;
+      height: 16px!important;
       min-width: 16px;
-      object-fit: fill;
-      position: absolute;
-      left: 12px;
-      top: 7px;
-
-      .rtl & {
-        left: unset;
-        right: 12px;
-      }
+      object-fit: scale-down;
+      position: relative;
     }
 
     &:before {
