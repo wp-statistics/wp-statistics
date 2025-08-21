@@ -233,9 +233,9 @@ class VisitorsModel extends BaseModel
         if (!empty($args['referred_visitors'])) {
             $query->whereRaw("
                 AND (
-                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    (visitor.referred != '')
                     OR
-                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != 'direct')
                 )
             ");
         }
@@ -309,9 +309,9 @@ class VisitorsModel extends BaseModel
             ->whereDate('visitor.last_counter', $args['date'])
             ->whereRaw("
                 AND (
-                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    (visitor.referred != '')
                     OR
-                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != 'direct')
                 )
             ")
             ->groupBy(array_merge(['last_counter'], $args['group_by']));
@@ -702,9 +702,9 @@ class VisitorsModel extends BaseModel
         if (!empty($args['referred_visitors'])) {
             $query->whereRaw("
                 AND (
-                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    (visitor.referred != '')
                     OR
-                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != 'direct')
                 )
             ");
         }
@@ -797,9 +797,9 @@ class VisitorsModel extends BaseModel
             ->where('referred', '=', $args['referrer'])
             ->whereRaw("
                 AND (
-                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    (visitor.referred != '')
                     OR
-                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != 'direct')
                 )
             ")
             ->whereDate('visitor.last_counter', $args['date'])
@@ -851,9 +851,9 @@ class VisitorsModel extends BaseModel
             ->whereDate('visitor.last_counter', $args['date'])
             ->whereRaw("
                 AND (
-                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    (visitor.referred != '')
                     OR
-                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != 'direct')
                 )
             ");
 
@@ -1095,9 +1095,9 @@ class VisitorsModel extends BaseModel
         if (!empty($args['referred_visitors'])) {
             $query->whereRaw("
                 AND (
-                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    (visitor.referred != '')
                     OR
-                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != 'direct')
                 )
             ");
         }
@@ -1231,13 +1231,20 @@ class VisitorsModel extends BaseModel
 
         $filteredArgs = array_filter($args);
 
-        $query = Query::select([
-            'COUNT(DISTINCT visitor.ID) AS visitors',
-            'visitor.referred',
-            'visitor.source_channel',
-            'visitor.source_name',
-            'visitor.last_counter'
-        ])
+        $fields = [
+            'visitors'       => 'COUNT(visitor.ID) AS visitors',
+            'referred'       => 'visitor.referred',
+            'source_channel' => 'visitor.source_channel',
+            'source_name'    => 'visitor.source_name',
+            'last_counter'   => 'visitor.last_counter'
+        ];
+
+        // If joined to other tables, add DISTINCT to count unique visitors
+        if (array_intersect(['post_type', 'post_id', 'taxonomy', 'term'], array_keys($filteredArgs))) {
+            $fields['visitors'] = 'COUNT(DISTINCT visitor.ID) AS visitors';
+        }
+
+        $query = Query::select($fields)
             ->from('visitor')
             ->where('visitor.location', '=', $args['country'])
             ->whereDate('visitor.last_counter', $args['date'])
@@ -1248,12 +1255,7 @@ class VisitorsModel extends BaseModel
 
         // If not null is not set, get all referrers including those coming with just UTM without any source
         if (empty($args['not_null'])) {
-            $query->whereRaw("
-                AND (
-                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
-                    OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '')
-                )
-            ");
+            $query->whereRaw("AND ((visitor.referred != '') OR (visitor.source_channel IS NOT NULL))");
         }
 
         // When source_channel is `unassigned`, only get visitors without source_channel
@@ -1335,12 +1337,7 @@ class VisitorsModel extends BaseModel
 
         // If not null is not set, get all referrers including those coming with just UTM without any source
         if (empty($args['not_null'])) {
-            $query->whereRaw("
-                AND (
-                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
-                    OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '')
-                )
-            ");
+            $query->whereRaw("AND ((visitor.referred != '') OR (visitor.source_channel IS NOT NULL))");
         }
 
         if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
@@ -1592,9 +1589,9 @@ class VisitorsModel extends BaseModel
         if (!empty($args['referred_visitors'])) {
             $query->whereRaw("
                 AND (
-                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    (visitor.referred != '')
                     OR
-                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != 'direct')
                 )
             ");
         }
