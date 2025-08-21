@@ -36,7 +36,8 @@ class RankMath
         }
 
         // Check if the necessary tables are created
-		if (!DB::ExistTable('rank_math_analytics_objects')) {
+        global $wpdb;
+		if (!DB::ExistTable($wpdb->prefix . 'rank_math_analytics_objects')) {
 			return $result;
 		}
 
