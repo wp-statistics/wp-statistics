@@ -133,23 +133,23 @@ class ContentAnalyticsDataProvider
 
     public function getSingleResourceData()
     {
-        $views          = $this->viewsModel->countViews($this->args);
-        $prevViews      = $this->viewsModel->countViews(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+        $views     = $this->viewsModel->countViews($this->args);
+        $prevViews = $this->viewsModel->countViews(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $visitors        = $this->visitorsModel->countVisitors($this->args);
-        $prevVisitors    = $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+        $visitors     = $this->visitorsModel->countVisitors($this->args);
+        $prevVisitors = $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
+        $visitorsCountry = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
 
-        $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
-        $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
+        $visitorsSummary = $this->visitorsModel->getVisitorsSummary($this->args);
+        $viewsSummary    = $this->viewsModel->getViewsSummary($this->args);
 
-        $referrersData      = $this->visitorsModel->getReferrers($this->args);
+        $referrersData = $this->visitorsModel->getReferrers($this->args);
 
-        $performanceArgs    = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
-        $performanceData    = [
-            'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, $performanceArgs)),
-            'views'     => $this->viewsModel->countViews(array_merge($this->args, $performanceArgs)),
+        $performanceArgs = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
+        $performanceData = [
+            'visitors' => $this->visitorsModel->countVisitors(array_merge($this->args, $performanceArgs)),
+            'views'    => $this->viewsModel->countViews(array_merge($this->args, $performanceArgs)),
         ];
 
         return [
@@ -227,11 +227,11 @@ class ContentAnalyticsDataProvider
                 ],
                 'bounce_rate' => [
                     'value'  => $bounceRate . '%',
-                    'change' => $bounceRate - $prevBounceRate
+                    'change' => round($bounceRate - $prevBounceRate, 1)
                 ],
                 'exit_rate' => [
                     'value'  => $exitRate . '%',
-                    'change' => $exitRate - $prevExitRate
+                    'change' => round($exitRate - $prevExitRate, 1)
                 ],
                 'comments'  => [
                     'value'  => $comments,

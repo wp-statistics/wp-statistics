@@ -428,10 +428,10 @@ class Admin_Assets
             'views'                        => __('Views', 'wp-statistics'),
             'view'                         => __('View', 'wp-statistics'),
             'waiting'                      => __('Waiting', 'wp-statistics'),
-            'apply'                        => __('Apply'),
-            'reset'                        => __('Reset'),
-            'loading'                      => __('Loading'),
-            'go_to_overview'               => __('Go to Overview'),
+            'apply'                        => __('Apply', 'wp-statistics'),
+            'reset'                        => __('Reset', 'wp-statistics'),
+            'loading'                      => __('Loading', 'wp-statistics'),
+            'go_to_overview'               => __('Go to Overview', 'wp-statistics'),
             'continue_to_next_step'        => __('Continue to Next Step', 'wp-statistics'),
             'action_required'              => __('Action Required', 'wp-statistics'),
             'show_less'                    => __('Show less', 'wp-statistics'),
@@ -473,6 +473,10 @@ class Admin_Assets
         $list['assets_url']          = self::$plugin_url . self::$asset_dir;
         $list['rest_api_nonce']      = wp_create_nonce('wp_rest');
         $list['meta_box_api']        = admin_url('admin-ajax.php?action=wp_statistics_admin_meta_box');
+
+        // Rest-API Export/Import Url
+        $list['export_url'] = rest_url('wp-statistics/v2/export/');
+        $list['import_url'] = rest_url('wp-statistics/v2/import/');
 
         // For developers: WordPress debugging mode.
         $list['wp_debug'] = defined('WP_DEBUG') && WP_DEBUG ? true : false;

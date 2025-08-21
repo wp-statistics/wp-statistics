@@ -3,6 +3,7 @@
 namespace WP_Statistics\Decorators;
 
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
+use WP_STATISTICS\Helper;
 
 class BrowserDecorator
 {
@@ -50,6 +51,6 @@ class BrowserDecorator
      */
     public function getVersion()
     {
-        return $this->visitor->version ?? null;
+        return Helper::getMajorVersionOnly($this->visitor->version) ?? null;
     }
 }

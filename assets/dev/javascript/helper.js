@@ -295,7 +295,7 @@ wps_js.redirect = function (url) {
 /**
  * Create Horizontal Bar Chart
  */
-wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
+wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls, percentages = []) {
 
     // Get Element By ID
     let element = document.getElementById(tag_id);
@@ -323,7 +323,7 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
         blockDiv.classList.add('wps-horizontal-bar');
         for (let i = 0; i < data.length; i++) {
             // Calculate percentage as a float with two decimal places
-            let percentage = total ? ((data[i] / total) * 100) : 0;
+            let percentage = percentages[i] ?? (total ? ((data[i] / total) * 100) : 0);
             // Format the percentage
             let percentageText = percentage % 1 === 0 ? percentage.toFixed(0) : percentage.toFixed(1);
 
@@ -351,7 +351,7 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
             let dataPercentDiv = document.createElement('div');
             dataPercentDiv.classList.add('wps-horizontal-bar__data-percent-container');
             let dataDiv = document.createElement('div');
-            dataDiv.innerHTML = `<span>${wps_js.formatNumber(data[i])}</span><span>${percentageText}%</span>`;
+            dataDiv.innerHTML = `<span title="${data[i]}">${wps_js.formatNumber(data[i])}</span><span>${percentageText}%</span>`;
             dataDiv.classList.add('wps-horizontal-bar__data');
             dataPercentDiv.appendChild(dataDiv);
             itemDiv.appendChild(dataPercentDiv);
@@ -369,8 +369,8 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
     }
 };
 
-window.renderHorizontalBar = (id, label, data, icons) => {
-    wps_js.horizontal_bar(id, label, data, icons);
+window.renderHorizontalBar = (id, label, data, icons, percentages = []) => {
+    wps_js.horizontal_bar(id, label, data, icons, percentages);
 }
 
 /**

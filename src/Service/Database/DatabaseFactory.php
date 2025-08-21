@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Database;
 
 use WP_STATISTICS\Option;
-use WP_Statistics\Service\Database\Migrations\SchemaMigration;
+use WP_Statistics\Service\Database\Migrations\Schema\SchemaMigration;
 use WP_Statistics\Service\Database\Operations\AbstractTableOperation;
 use WP_Statistics\Service\Database\Operations\Create;
 use WP_Statistics\Service\Database\Operations\Drop;
@@ -19,6 +19,11 @@ use WP_Statistics\Service\Database\Operations\Update;
  *
  * This class provides methods to create specific operations (e.g., create, update, drop)
  * and manage different migration types (e.g., schema, data).
+ *
+ * @package   Database
+ * @version   1.0.0
+ * @since     14.12.3
+ * @author    Hooman
  */
 class DatabaseFactory
 {

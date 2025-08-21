@@ -81,9 +81,18 @@ class RemoteRequest
      */
     public function generateCacheKey()
     {
-        return $this->getCacheKey($this->requestUrl . serialize($this->parsedArgs));
+        return wp_json_encode(array_merge(['url' => $this->requestUrl], $this->parsedArgs));
     }
 
+    /**
+     * Clears the cache for the current request.
+     *
+     * This method is useful when you want to make sure that the next request is not served from the cache.
+     */
+    public function clearCache()
+    {
+        $this->clearCachedResult($this->generateCacheKey());
+    }
 
     /**
      * Checks if the given HTTP response code indicates a successful request.

@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Database\Managers;
+namespace WP_Statistics\Service\Database\Migrations\Schema;
 
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Database\DatabaseFactory;
@@ -12,24 +12,14 @@ use WP_Statistics\Service\Database\DatabaseFactory;
  * It ensures that the database structure is always up to date with the current version
  * by applying necessary schema modifications.
  */
-class MigrationHandler
+class SchemaManager
 {
-    /**
-     * Initialize schema migration process.
-     *
-     * @return void
-     */
-    public static function init()
-    {
-        add_action('admin_init', [self::class, 'runSchemaMigrations']);
-    }
-
     /**
      * Execute pending schema migrations if any exist.
      *
      * @return void
      */
-    public static function runSchemaMigrations()
+    public static function init()
     {
         if (self::isMigrationComplete()) {
             return;
