@@ -2,8 +2,6 @@
 
 namespace WP_Statistics\Service\Database\Operations;
 
-use WP_Statistics\Service\Database\DatabaseFactory;
-
 /**
  * Handles inspection of database table structure.
  *
@@ -12,13 +10,6 @@ use WP_Statistics\Service\Database\DatabaseFactory;
  */
 class InspectColumns extends AbstractTableOperation
 {
-    /**
-     * The operation result.
-     *
-     * @var array|null
-     */
-    protected $result;
-
     /**
      * Execute the structure inspection operation.
      *
@@ -31,8 +22,8 @@ class InspectColumns extends AbstractTableOperation
             $this->ensureConnection();
             $this->validateTableName();
             $this->setFullTableName();
+            $this->inspectStructure();
 
-            $this->result = $this->transactionHandler->executeInTransaction([$this, 'inspectStructure']);
             return $this;
         } catch (\Exception $e) {
             throw new \RuntimeException(
@@ -42,47 +33,40 @@ class InspectColumns extends AbstractTableOperation
     }
 
     /**
-     * Structure inspection operation to be executed in transaction.
+     * Structure inspection operation.
      *
-     * @return array Array of column and index information
+     * @return array Array of column information
      * @throws \RuntimeException
      */
     public function inspectStructure()
     {
-        // Check if table exists first
-        $tableExists = DatabaseFactory::table('inspect')
-            ->setName($this->tableName)
-            ->execute()
-            ->getResult();
-
-        if (!$tableExists) {
-            throw new \RuntimeException(
-                sprintf("Table `%s` does not exist", $this->tableName)
-            );
+        if (isset($this->result[$this->fullName])) {
+            return $this->result[$this->fullName];
         }
 
-        // Get columns
         $columns = $this->wpdb->get_results(
-            sprintf("SHOW COLUMNS FROM `%s`", $this->fullName),
+            sprintf('SHOW COLUMNS FROM `%s`', $this->fullName),
             'ARRAY_A'
         );
 
-        if ($columns === false) {
+        if ($columns === null) {
             throw new \RuntimeException(
                 sprintf('MySQL Error while fetching columns: %s', $this->wpdb->last_error)
             );
         }
 
-        return $columns;
+        $this->result[$this->fullName] = $columns;
+
+        return $this->result[$this->fullName];
     }
 
     /**
      * Get the operation result.
      *
-     * @return array|null Array of column and index information or null if not executed
+     * @return array|null Array of column information or null if not executed
      */
     public function getResult()
     {
-        return $this->result;
+        return isset($this->result[$this->fullName]) ? $this->result[$this->fullName] : null;
     }
 } 

@@ -4,6 +4,7 @@
 - **Fix:** Region widget issue when country is not detected on `Geographic` page.
 - **Fix:** Prevented false `Queue Migration` notice after updates.
 - **Enhancement:** Refactored the update process and database schema updates to run on the frontend.
+- **Enhancement:** Optimized the database manager to prevent duplicate queries.
 
 = 14.15.3 - 2025-08-18 =
 - **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.

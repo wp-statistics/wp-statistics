@@ -11,13 +11,6 @@ namespace WP_Statistics\Service\Database\Operations;
 class Inspect extends AbstractTableOperation
 {
     /**
-     * The result of the table inspection query.
-     *
-     * @var mixed
-     */
-    private $result;
-
-    /**
      * Executes the table inspection operation.
      *
      * @return $this
@@ -26,21 +19,39 @@ class Inspect extends AbstractTableOperation
     {
         $this->validateTableName();
         $this->setFullTableName();
-
-        $query = $this->wpdb->prepare("SHOW TABLES LIKE %s", $this->fullName);
-
-        $this->result = $this->wpdb->get_var($query);
+        $this->inspectTable();
 
         return $this;
     }
 
     /**
+     * Determines whether the table exists in the database.
+     *
+     * @return bool True if the table exists; false otherwise.
+     */
+    private function inspectTable()
+    {
+        if (isset($this->result[$this->fullName])) {
+            return $this->result[$this->fullName];
+        }
+
+        $query = $this->wpdb->prepare('SHOW TABLES LIKE %s', $this->fullName);
+        $value = $this->wpdb->get_var($query);
+
+        $exists = !empty($value);
+
+        $this->result[$this->fullName] = $exists;
+
+        return $exists;
+    }
+
+    /**
      * Retrieves the result of the table inspection.
      *
-     * @return mixed The result of the inspection query.
+     * @return bool|null True if table exists, false if not, or null if not executed yet.
      */
     public function getResult()
     {
-        return $this->result;
+        return isset($this->result[$this->fullName]) ? $this->result[$this->fullName] : null;
     }
 }
