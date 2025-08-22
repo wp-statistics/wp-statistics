@@ -2,6 +2,7 @@
 namespace WP_Statistics\Service\ThirdParty\RankMath;
 
 use WP_STATISTICS\DB;
+use WP_Statistics\Utils\Query;
 
 class RankMath
 {
@@ -51,27 +52,21 @@ class RankMath
             return $result;
         }
 
-        // Check if necessary classes exist
-        if (!class_exists('\RankMath\Rest\Rest_Helper')) {
-            return $result;
-        }
+        // Check if rankmath objects table exist
+        global $wpdb;
+		if (!DB::ExistTable($wpdb->prefix . 'rank_math_analytics_objects')) {
+			return $result;
+		}
 
-        // Build route endpoint
-        $route = '/' . \RankMath\Rest\Rest_Helper::BASE . '/an/post/' . $postId;
-
-        $request  = new \WP_REST_Request('GET', $route);
-        $response = rest_do_request($request);
-
-        // Check if response is an error
-        if ($response->is_error() || $response->get_status() !== 200) {
-            return $result;
-        }
-
-        $data = $response->get_data();
+        // Get post by object id from objects table
+        $data = Query::select('*')
+            ->from('rank_math_analytics_objects')
+            ->where('object_id', '=', $postId)
+            ->getRow();
 
         $result = [
-            'page_score' => $data['page_score'] ?? null,
-            'seo_score'  => $data['seo_score'] ?? null
+            'page_score' => $data->page_score ?? null,
+            'seo_score'  => $data->seo_score ?? null
         ];
 
         return $result;
