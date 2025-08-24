@@ -6,7 +6,8 @@ use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\View;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 
-$postType = get_post_type(Request::get('post_id'));
+$postId   = Request::get('post_id');
+$postType = get_post_type($postId);
 ?>
 
 <div class="metabox-holder wps-content-analytics">
@@ -28,28 +29,28 @@ $postType = get_post_type(Request::get('post_id'));
                 'label'   => esc_html__('Entry Page', 'wp-statistics'),
                 'value'   => Helper::formatNumberWithUnit($data['glance']['entry_page']['value']),
                 'change'  => $data['glance']['entry_page']['change'],
-                'tooltip' =>  esc_html__('Number of times this content was the first page visited in a session.', 'wp-statistics') ,
+                'tooltip' => esc_html__('Number of times this content was the first page visited in a session.', 'wp-statistics'),
             ],
             [
-                'label'   => esc_html__('Exit Page', 'wp-statistics'),
-                'value'   => Helper::formatNumberWithUnit($data['glance']['exit_page']['value']),
-                'change'  => $data['glance']['exit_page']['change'],
+                'label'    => esc_html__('Exit Page', 'wp-statistics'),
+                'value'    => Helper::formatNumberWithUnit($data['glance']['exit_page']['value']),
+                'change'   => $data['glance']['exit_page']['change'],
                 'polarity' => 'negative',
-                'tooltip' =>  esc_html__('Number of times this content was the last page viewed before a session ended.', 'wp-statistics') ,
+                'tooltip'  => esc_html__('Number of times this content was the last page viewed before a session ended.', 'wp-statistics'),
             ],
             [
-                'label'   => esc_html__('Bounce Rate', 'wp-statistics'),
-                'value'   => $data['glance']['bounce_rate']['value'],
-                'change'  => $data['glance']['bounce_rate']['change'],
+                'label'    => esc_html__('Bounce Rate', 'wp-statistics'),
+                'value'    => $data['glance']['bounce_rate']['value'],
+                'change'   => $data['glance']['bounce_rate']['change'],
                 'polarity' => 'negative',
-                'tooltip' =>  esc_html__('Percentage of single-page sessions that began and ended on this content.', 'wp-statistics') ,
+                'tooltip'  => esc_html__('Percentage of single-page sessions that began and ended on this content.', 'wp-statistics'),
             ],
             [
-                'label'   => esc_html__('Exit Rate', 'wp-statistics'),
-                'value'   => $data['glance']['exit_rate']['value'],
-                'change'  => $data['glance']['exit_rate']['change'],
+                'label'    => esc_html__('Exit Rate', 'wp-statistics'),
+                'value'    => $data['glance']['exit_rate']['value'],
+                'change'   => $data['glance']['exit_rate']['change'],
                 'polarity' => 'negative',
-                'tooltip' =>  esc_html__('Percentage of total views that ended on this content.', 'wp-statistics') ,
+                'tooltip'  => esc_html__('Percentage of total views that ended on this content.', 'wp-statistics'),
             ]
         ];
 
@@ -70,7 +71,9 @@ $postType = get_post_type(Request::get('post_id'));
             ];
         }
 
-        View::load("components/objects/glance-card", ['metrics' => $metrics , 'two_column' => true]);
+        $metrics = apply_filters('wp_statistics_single_content_analytics_glance_metrics', $metrics, $postId);
+
+        View::load("components/objects/glance-card", ['metrics' => $metrics, 'two_column' => true]);
 
         $operatingSystems = [
             'title'     => esc_html__('Operating Systems', 'wp-statistics'),
@@ -105,9 +108,9 @@ $postType = get_post_type(Request::get('post_id'));
     <div class="postbox-container" id="wps-postbox-container-2">
         <?php
         $performance = [
-            'title'       => esc_html__('Performance', 'wp-statistics'),
-            'type'        => 'single',
-            'data'        => $data['performance']
+            'title' => esc_html__('Performance', 'wp-statistics'),
+            'type'  => 'single',
+            'data'  => $data['performance']
         ];
         View::load("components/charts/performance", $performance);
 
