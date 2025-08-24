@@ -169,7 +169,7 @@ $hasCompatiblePlugins = !empty($compatiblePlugins);
                     <select id="consent_level_integration" name="wps_consent_level_integration">
                         <?php foreach ($options as $value => $label): ?>
                             <option value="<?php echo esc_attr($value); ?>" <?php selected($consentLevelIntegration, $value); ?>>
-                                <?php echo $label; ?>
+                                <?php echo esc_html($label); ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
