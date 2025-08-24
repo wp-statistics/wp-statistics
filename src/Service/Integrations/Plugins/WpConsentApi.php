@@ -16,7 +16,36 @@ class WpConsentApi extends AbstractIntegration
      */
     public function getName()
     {
-        return esc_html__('WP Consent API', 'wp-statistics');
+        return esc_html__('Via WP Consent API', 'wp-statistics');
+    }
+
+    /**
+     * Checks if plugin is activated.
+     *
+     * @return  bool
+     */
+    public function isActive()
+    {
+        return is_plugin_active($this->getPath()) && !empty($this->getCompatiblePlugins());
+    }
+
+    /**
+     * detection notice for "WP Consent API" plugin.
+     */
+    public function detectionNotice()
+    {
+        if (empty(self::getCompatiblePlugins())) return null;
+
+        return [
+            'key'         => 'wp_consent_api_detection_notice',
+            'title'       => esc_html__('Consent integration available', 'wp-statistics'),
+            'description' => esc_html__('We’ve detected a consent plugin that supports WP Consent API. Enable the “WP Consent API integration” in WP Statistics → Settings → Privacy & Data Protection so your analytics respect visitor consent.', 'wp-statistics'),
+        ];
+    }
+
+    public function trackAnonymously()
+    {
+        return Option::get('anonymous_tracking', false) != false;
     }
 
     public function hasConsent()
@@ -89,6 +118,22 @@ class WpConsentApi extends AbstractIntegration
 
         if (is_plugin_active('gdpr-cookie-compliance/moove-gdpr.php')) {
             $plugins['gdpr-cookie-compliance/moove-gdpr.php'] = esc_html__('GDPR Cookie Compliance', 'wp-statistics');
+        }
+
+        if (is_plugin_active('pressidium-cookie-consent/pressidium-cookie-consent.php')) {
+            $plugins['pressidium-cookie-consent/pressidium-cookie-consent.php'] = esc_html__('Pressidium Cookie Consent', 'wp-statistics');
+        }
+
+        if (is_plugin_active('conzent/conzent.php')) {
+            $plugins['conzent/conzent.php'] = esc_html__('Conzent', 'wp-statistics');
+        }
+
+        if (is_plugin_active('consent-studio-wordpress-plugin-stable/plugin.php')) {
+            $plugins['consent-studio-wordpress-plugin-stable/plugin.php'] = esc_html__('Consent Studio', 'wp-statistics');
+        }
+
+        if (is_plugin_active('webtoffee-gdpr-cookie-consent/webtoffee-gdpr-cookie-consent.php')) {
+            $plugins['webtoffee-gdpr-cookie-consent/webtoffee-gdpr-cookie-consent.php'] = esc_html__('GDPR Cookie Consent Plugin – CCPA Ready', 'wp-statistics');
         }
 
         return $plugins;
