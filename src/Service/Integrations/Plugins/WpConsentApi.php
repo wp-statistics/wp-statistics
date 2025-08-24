@@ -29,25 +29,6 @@ class WpConsentApi extends AbstractIntegration
         return is_plugin_active($this->getPath()) && !empty($this->getCompatiblePlugins());
     }
 
-    /**
-     * detection notice for "WP Consent API" plugin.
-     */
-    public function detectionNotice()
-    {
-        if (empty(self::getCompatiblePlugins())) return null;
-
-        return [
-            'key'         => 'wp_consent_api_detection_notice',
-            'title'       => esc_html__('Consent integration available', 'wp-statistics'),
-            'description' => esc_html__('We’ve detected a consent plugin that supports WP Consent API. Enable the “WP Consent API integration” in WP Statistics → Settings → Privacy & Data Protection so your analytics respect visitor consent.', 'wp-statistics'),
-        ];
-    }
-
-    public function trackAnonymously()
-    {
-        return Option::get('anonymous_tracking', false) != false;
-    }
-
     public function hasConsent()
     {
         if (!function_exists('wp_has_consent')) {
