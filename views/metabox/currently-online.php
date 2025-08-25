@@ -27,9 +27,6 @@ use WP_STATISTICS\Menus;
                     <?php esc_html_e('Latest Page', 'wp-statistics'); ?>
                 </th>
                 <th class="wps-pd-l">
-                    <?php esc_html_e('Online For', 'wp-statistics'); ?>
-                </th>
-                <th class="wps-pd-l">
                     <?php esc_html_e('Views', 'wp-statistics'); ?>
                 </th>
             </tr>
@@ -67,8 +64,6 @@ use WP_STATISTICS\Menus;
                             <?php echo Admin_Template::UnknownColumn() ?>
                         <?php endif; ?>
                     </td>
-
-                    <td class="wps-pd-l"><?php echo esc_html($visitor->getOnlineTime()) ?></td>
 
                     <td class="wps-pd-l">
                         <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>"><?php echo esc_html($visitor->getHits()) ?></a>

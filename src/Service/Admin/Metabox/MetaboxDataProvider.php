@@ -111,7 +111,7 @@ class MetaboxDataProvider
     public function getOnlineVisitorsData($args = [])
     {
         return [
-            'visitors' => $this->onlineModel->getOnlineVisitorsData(array_merge($args, ['per_page' => 10])),
+            'visitors' => $this->onlineModel->getOnlineVisitors(array_merge($args, ['per_page' => 10])),
             'total'    => $this->onlineModel->countOnlines($args)
         ];
     }
