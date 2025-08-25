@@ -19,21 +19,21 @@ abstract class AbstractCore
      *
      * @var string
      */
-    protected string $currentVersion;
+    protected $currentVersion;
 
     /**
      * Stores the latest version of the plugin defined by the codebase.
      *
      * @var string
      */
-    protected string $latestVersion;
+    protected $latestVersion;
 
     /**
      * Whether operations are being performed network-wide (multisite network activation).
      *
      * @var bool
      */
-    protected bool $networkWide = false;
+    protected $networkWide = false;
 
     /**
      * WordPress database access object.
