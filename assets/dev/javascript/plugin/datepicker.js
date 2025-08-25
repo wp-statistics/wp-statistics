@@ -165,22 +165,27 @@ jQuery(document).ready(function () {
         }
 
          if (datePickerBtn.length && datePickerElement.length && datePickerForm.length && !datePickerElement.data('daterangepicker')) {
-            datePickerElement.daterangepicker({
-                "autoApply": true,
-                "ranges": ranges,
-                "locale": {
-                    "customRangeLabel": wps_js._('custom_range')
-                },
-                startDate: defaultStartDate,
-                endDate: defaultEndDate,
-                minDate: minDate,
-                isInvalidDate: function(date) {
-                    if (!minDate) return false;
-                    const normalizedDate = normalizeDate(date, validTimezone);
-                    const normalizedMinDate = normalizeDate(minDate, validTimezone);
-                    return normalizedDate.isBefore(normalizedMinDate);
-                }
-            });
+             const datePickerOptions = {
+                 "autoApply": true,
+                 "ranges": ranges,
+                 "locale": {
+                     "customRangeLabel": wps_js._('custom_range')
+                 },
+                 startDate: defaultStartDate,
+                 endDate: defaultEndDate,
+                 isInvalidDate: function (date) {
+                     if (!minDate) return false;
+                     const normalizedDate = normalizeDate(date, validTimezone);
+                     const normalizedMinDate = normalizeDate(minDate, validTimezone);
+                     return normalizedDate.isBefore(normalizedMinDate);
+                 }
+             };
+
+             if (minDate) {
+                 datePickerOptions.minDate = minDate;
+             }
+
+             datePickerElement.daterangepicker(datePickerOptions);
 
             // Hide ranges before createDate
             if (minDate) {

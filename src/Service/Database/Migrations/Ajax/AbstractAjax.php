@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess;
+namespace WP_Statistics\Service\Database\Migrations\Ajax;
 
 use WP_STATISTICS\Option;
 use WP_STATISTICS\User;
@@ -16,7 +16,7 @@ use WP_Statistics\Utils\Request;
  * It maintains a list of registered migrations, handles the retrieval of pending tasks,
  * and ensures proper state tracking to resume operations in case of interruptions.
  */
-abstract class AbstractAjaxBackgroundProcess
+abstract class AbstractAjax
 {
     /**
      * Number of records processed per batch.
@@ -120,7 +120,7 @@ abstract class AbstractAjaxBackgroundProcess
     {
         $completedMigrations = Option::getOptionGroup('ajax_background_process', 'jobs', []);
 
-        $pendingMigrations = array_diff(array_keys(AjaxBackgroundProcessFactory::$migrations), $completedMigrations);
+        $pendingMigrations = array_diff(array_keys(AjaxFactory::$migrations), $completedMigrations);
 
         if (empty($pendingMigrations)) {
             return null;
@@ -129,7 +129,7 @@ abstract class AbstractAjaxBackgroundProcess
         $nextMigrationKey = reset($pendingMigrations);
 
         self::$currentProcessKey = $nextMigrationKey;
-        self::$currentProcess    = AjaxBackgroundProcessFactory::$migrations[$nextMigrationKey];
+        self::$currentProcess    = AjaxFactory::$migrations[$nextMigrationKey];
 
         if (!class_exists(self::$currentProcess)) {
             return null;
@@ -161,7 +161,7 @@ abstract class AbstractAjaxBackgroundProcess
             $this->cachedProcessAttempts = Option::getOptionGroup('ajax_background_process', 'attempts', []);
         }
 
-        return isset($this->cachedProcessAttempts[$key]) ? (int) $this->cachedProcessAttempts[$key] : 0;
+        return isset($this->cachedProcessAttempts[$key]) ? (int)$this->cachedProcessAttempts[$key] : 0;
     }
 
     /**
@@ -170,13 +170,13 @@ abstract class AbstractAjaxBackgroundProcess
      * This allows the background process to persist the number of attempts between executions,
      * ensuring the process can detect excessive retries and exit gracefully.
      *
-     * @param string $key   The unique key to associate with the attempt count.
-     * @param int    $count The number of attempts to store.
+     * @param string $key The unique key to associate with the attempt count.
+     * @param int $count The number of attempts to store.
      * @return void
      */
     protected function saveAttempts($key, $count)
     {
-        $meta = Option::getOptionGroup('ajax_background_process', 'attempts', []);
+        $meta       = Option::getOptionGroup('ajax_background_process', 'attempts', []);
         $meta[$key] = $count;
 
         Option::saveOptionGroup('attempts', $meta, 'ajax_background_process');
@@ -192,7 +192,7 @@ abstract class AbstractAjaxBackgroundProcess
      */
     protected function trackAttempts()
     {
-        $key = self::$currentProcessKey;
+        $key     = self::$currentProcessKey;
         $current = $this->getCachedAttempts($key);
         $current++;
 
@@ -209,10 +209,10 @@ abstract class AbstractAjaxBackgroundProcess
     public static function getMigrations($key = null)
     {
         if ($key === null) {
-            return AjaxBackgroundProcessFactory::$migrations;
+            return AjaxFactory::$migrations;
         }
 
-        return AjaxBackgroundProcessFactory::$migrations[$key] ?? null;
+        return AjaxFactory::$migrations[$key] ?? null;
     }
 
     /**
@@ -365,7 +365,7 @@ abstract class AbstractAjaxBackgroundProcess
     {
         $completedMigrations = Option::getOptionGroup('ajax_background_process', 'jobs', []);
 
-        $completedMigrationKey = array_search($migrationClassName, AjaxBackgroundProcessFactory::$migrations, true);
+        $completedMigrationKey = array_search($migrationClassName, AjaxFactory::$migrations, true);
 
         if ($completedMigrationKey !== false) {
             $completedMigrations[] = $completedMigrationKey;

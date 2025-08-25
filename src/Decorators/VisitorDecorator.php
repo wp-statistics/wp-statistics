@@ -155,7 +155,7 @@ class VisitorDecorator
      */
     public function isLoggedInUser()
     {
-        return !empty($this->visitor->user_id);
+        return $this->getUser() !== null;
     }
 
     /**
@@ -166,7 +166,11 @@ class VisitorDecorator
     public function getUser()
     {
         if ($this->getUserId()) {
-            return new UserDecorator($this->getUserId());
+            $user = new UserDecorator($this->getUserId());
+
+            if ($user->exists()) {
+                return $user;
+            }
         }
 
         return null;

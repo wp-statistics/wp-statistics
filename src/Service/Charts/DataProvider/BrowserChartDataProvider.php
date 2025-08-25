@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Service\Charts\DataProvider;
 
-use WP_Statistics\Decorators\VisitorDecorator;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
@@ -19,12 +18,22 @@ class BrowserChartDataProvider extends AbstractChartDataProvider
         parent::__construct($args);
 
         $this->args = array_merge($this->args, [
-            'fields' => ['visitor.agent']
+            'fields'   => ['agent' => 'visitor.agent', 'visitors' => 'COUNT(visitor.ID) as visitors'],
+            'group_by' => 'visitor.agent',
+            'order_by' => 'visitors',
+            'decorate' => false,
+            'page'     => false,
+            'per_page' => false
         ]);
 
-        // Get all results
-        $this->args['page']     = false;
-        $this->args['per_page'] = false;
+        // If filter is applied, get distinct visitors to avoid data duplication
+        if ($this->isFilterApplied()) {
+            $this->args['fields']['visitors'] = 'COUNT(DISTINCT visitor.ID) as visitors';
+        }
+
+        if (empty($this->args['limit'])) {
+            $this->args['limit'] = 5;
+        }
 
         $this->visitorsModel = new VisitorsModel();
     }
@@ -34,7 +43,12 @@ class BrowserChartDataProvider extends AbstractChartDataProvider
     {
         $this->initChartData();
 
-        $data = $this->visitorsModel->getVisitorsData($this->args);
+        if (!empty($this->args['referred_visitors'])) {
+            $data = $this->visitorsModel->getReferredVisitors($this->args);
+        } else {
+            $data = $this->visitorsModel->getVisitorsData($this->args);
+        }
+
         $data = $this->parseData($data);
 
         $this->setChartLabels($data['labels']);
@@ -50,35 +64,22 @@ class BrowserChartDataProvider extends AbstractChartDataProvider
 
         if (!empty($data)) {
             foreach ($data as $item) {
-                /** @var VisitorDecorator $item */
-                $agent = $item->getBrowser()->getRaw();
+                if (empty($item->agent)) continue;
 
-                // Browser data
-                if (!empty($agent)) {
-                    $agents = array_column($parsedData, 'label');
-
-                    if (!in_array($agent, $agents)) {
-                        $parsedData[] = [
-                            'label'    => $agent,
-                            'icon'     => DeviceHelper::getBrowserLogo($agent),
-                            'visitors' => 1
-                        ];
-                    } else {
-                        $index = array_search($agent, $agents);
-                        $parsedData[$index]['visitors']++;
-                    }
-                }
+                $parsedData[] = [
+                    'label'    => $item->agent,
+                    'icon'     => DeviceHelper::getBrowserLogo($item->agent),
+                    'visitors' => $item->visitors
+                ];
             }
 
-            // Sort data by visitors
-            usort($parsedData, function ($a, $b) {
-                return $b['visitors'] - $a['visitors'];
-            });
+            // Limit the number of items. If limit is 5, limit items to 4 + other
+            $limit = $this->args['limit'] - 1;
 
-            if (count($parsedData) > 4) {
+            if (count($parsedData) > $limit) {
                 // Get top 4 results, and others
-                $topData    = array_slice($parsedData, 0, 4);
-                $otherData  = array_slice($parsedData, 4);
+                $topData    = array_slice($parsedData, 0, $limit);
+                $otherData  = array_slice($parsedData, $limit);
 
                 // Show the rest of the results as others, and sum up the visitors
                 $otherItem    = [

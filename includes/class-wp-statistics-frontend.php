@@ -83,7 +83,15 @@ class Frontend
                 $jsArgs['isConsoleVerbose'] = true;
             }
 
-            Assets::script('tracker', 'js/tracker.js', [], $jsArgs, true, Option::get('bypass_ad_blockers', false));
+
+            // Add tracker.js dependencies
+            $dependencies = [];
+            $integration = IntegrationHelper::getActiveIntegration();
+            if ($integration) {
+                $dependencies = $integration->getJsHandles();
+            }
+
+            Assets::script('tracker', 'js/tracker.js', $dependencies, $jsArgs, true, Option::get('bypass_ad_blockers', false));
         }
 
         // Load Chart.js library

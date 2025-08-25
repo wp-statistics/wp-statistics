@@ -15,9 +15,10 @@ trait BarChartResponseTrait
     protected function initChartData()
     {
         $this->chartData = [
-            'data'      => [],
-            'labels'    => [],
-            'icons'     => []
+            'data'        => [],
+            'labels'      => [],
+            'icons'       => [],
+            'percentages' => [],
         ];
     }
 
@@ -58,5 +59,16 @@ trait BarChartResponseTrait
     protected function getChartData()
     {
         return $this->chartData;
+    }
+
+    /**
+     * Sets the chart percentages.
+     *
+     * @param array $percentages The chart percentages.
+     * @return void
+     */
+    protected function setChartPercentages($percentages)
+    {
+        $this->chartData['percentages'] = $percentages;
     }
 }
