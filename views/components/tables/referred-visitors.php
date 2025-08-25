@@ -63,7 +63,9 @@ use WP_Statistics\Utils\Url;
                             <td class="wps-pd-l">
                                 <?php $page = $visitor->getFirstPage(); ?>
 
-                                <?php if (!empty($page)) :
+                                <?php if (!empty($page)) :?>
+                                <div class="wps-entry-page">
+                                    <?php
                                     View::load("components/objects/internal-link", [
                                         'url'       => $page['report'],
                                         'title'     => $page['title'],
@@ -73,8 +75,9 @@ use WP_Statistics\Utils\Url;
                                     $campaign = Url::getParam('?' . $page['query'], 'utm_campaign');
                                     if ($campaign) :
                                         ?><span class="wps-campaign-label wps-tooltip" title="<?php echo esc_attr__('Campaign:', 'wp-statistics') . ' ' . esc_attr($campaign); ?>"><?php echo esc_html($campaign); ?></span><?php
-                                    endif;
-                                else : ?>
+                                    endif; ?>
+                                </div>
+                                <?php else :  ?>
                                     <?php echo Admin_Template::UnknownColumn() ?>
                                 <?php endif; ?>
                             </td>

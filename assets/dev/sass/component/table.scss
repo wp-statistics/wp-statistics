@@ -407,6 +407,11 @@ td .wps-tooltip-icon.info {
           display: flex;
           flex-direction: column;
           gap: 3px;
+
+          .wps-ellipsis-parent.wps-internal-link .wps-tooltip i{
+            margin-top: 1px!important;
+          }
+
           .wps-referral-label , .wps-campaign-label{
             background: #00000005;
             padding:2px;
