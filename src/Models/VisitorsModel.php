@@ -543,7 +543,7 @@ class VisitorsModel extends BaseModel
             $data = $this->getVisitorsHits(array_merge($args, ['ignore_date' => true, 'historical' => true]));
 
             $summary['total'] = [
-                'label'     => $period['label'],
+                'label'     => esc_html__('Total', 'wp-statistics'),
                 'visitors'  => $data['visitors'],
                 'hits'      => $data['hits'],
             ];
