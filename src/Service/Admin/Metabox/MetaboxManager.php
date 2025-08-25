@@ -2,9 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\Metabox;
 
-use WP_STATISTICS\Install;
 use WP_Screen;
-
+use WP_Statistics\Core\CoreFactory;
 
 class MetaboxManager
 {
@@ -46,7 +45,7 @@ class MetaboxManager
             return;
         }
 
-        if (!Install::isFresh() && get_user_meta($userId, $hiddenMetaboxesKey, true)) {
+        if (!CoreFactory::isFresh() && get_user_meta($userId, $hiddenMetaboxesKey, true)) {
             return;
         }
 

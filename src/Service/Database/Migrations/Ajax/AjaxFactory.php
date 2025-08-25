@@ -3,7 +3,6 @@
 namespace WP_Statistics\Service\Database\Migrations\Ajax;
 
 use WP_Statistics\Core\CoreFactory;
-use WP_STATISTICS\Install;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Database\Migrations\Ajax\Jobs\VisitorColumnsMigrator;
 
