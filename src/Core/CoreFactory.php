@@ -2,6 +2,9 @@
 
 namespace WP_Statistics\Core;
 
+use WP_Statistics\Core\Operations\Activator;
+use WP_Statistics\Core\Operations\Loader;
+use WP_Statistics\Core\Operations\Uninstaller;
 use WP_Statistics\Core\Operations\Updater;
 
 /**
@@ -12,9 +15,9 @@ use WP_Statistics\Core\Operations\Updater;
 class CoreFactory
 {
     /**
-     * Creates an instance of the Updater class.
+     * Create and return the updater service.
      *
-     * @return Updater
+     * @return Updater Updater service instance.
      */
     public static function updater()
     {
@@ -22,9 +25,40 @@ class CoreFactory
     }
 
     /**
-     * Determines if the plugin is marked as freshly installed.
+     * Create and return the activator service.
      *
-     * @return bool.
+     * @param bool $networkWide Whether activation is network‑wide on multisite.
+     * @return Activator Activator service instance.
+     */
+    public static function activator($networkWide)
+    {
+        return new Activator($networkWide);
+    }
+
+    /**
+     * Create and return the loader service.
+     *
+     * @return Loader Loader service instance.
+     */
+    public static function loader()
+    {
+        return new Loader();
+    }
+
+    /**
+     * Create and return the uninstaller service.
+     *
+     * @return Uninstaller Uninstaller service instance.
+     */
+    public static function uninstaller()
+    {
+        return new Uninstaller();
+    }
+
+    /**
+     * Check whether the plugin is marked as a fresh install.
+     *
+     * @return bool True if the fresh-install flag is set, false otherwise.
      */
     public static function isFresh()
     {
