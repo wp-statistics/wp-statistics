@@ -2,10 +2,10 @@
 Contributors: veronalabs, mostafa.s1990, kashani, GregRoss
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
-Requires at least: 5.0
+Requires at least: 6.6
 Tested up to: 6.8
-Stable tag: 14.15.3
-Requires PHP: 7.2
+Stable tag: 14.16
+Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
