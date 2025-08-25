@@ -321,6 +321,13 @@ class Updater extends AbstractCore
         }
 
         /**
+         * Remove wp_statistics_referrerspam_hook from schedule
+         */
+        if (version_compare($this->latestVersion, '14.16', '>=')) {
+            Event::unschedule('wp_statistics_referrerspam_hook');
+        }
+
+        /**
          * Update consent integration to WP Consent API for backward compatibility
          */
         $integration          = Option::get('consent_integration');
