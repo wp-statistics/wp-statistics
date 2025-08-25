@@ -15,6 +15,13 @@ use WP_Statistics\Service\Database\AbstractDatabaseOperation;
 abstract class AbstractTableOperation extends AbstractDatabaseOperation
 {
     /**
+     * The operation result buffer for this instance (per-request).
+     *
+     * @var array
+     */
+    protected $result = [];
+
+    /**
      * Sets the name of the table for the operation.
      *
      * @param string $name The name of the table.
@@ -27,12 +34,35 @@ abstract class AbstractTableOperation extends AbstractDatabaseOperation
     }
 
     /**
+     * Clear per-instance memoized results for this operation.
+     *
+     * @return $this
+     */
+    public function updateCache()
+    {
+        if (empty($this->result)) {
+            return $this;
+        }
+
+        $this->setFullTableName();
+
+        if (!isset($this->result[$this->fullName])) {
+            return $this;
+        }
+
+        unset($this->result[$this->fullName]);
+
+        return $this;
+    }
+
+    /**
      * Sets a runtime error based on the migration status details.
      *
-     * @throws RuntimeException If the migration status is 'failed'.
      * @return void
+     * @throws RuntimeException If the migration status is 'failed'.
      */
-    public function setRunTimeError() {
+    public function setRunTimeError()
+    {
         $details = Option::getOptionGroup('db', 'migration_status_detail', null);
 
         if (empty($details['status'])) {

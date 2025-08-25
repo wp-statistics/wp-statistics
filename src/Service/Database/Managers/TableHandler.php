@@ -2,10 +2,9 @@
 
 namespace WP_Statistics\Service\Database\Managers;
 
-use WP_STATISTICS\Install;
+use WP_Statistics\Core\CoreFactory;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Database\DatabaseFactory;
-use WP_Statistics\Service\Database\Migrations\Queue\QueueFactory;
 use WP_Statistics\Service\Database\Schema\Manager;
 
 
@@ -53,7 +52,7 @@ class TableHandler
 
         Option::saveOptionGroup('check', false, 'db');
 
-        if (Install::isFresh()) {
+        if (CoreFactory::isFresh()) {
             Option::saveOptionGroup('migrated', true, 'db');
             Option::saveOptionGroup('version', WP_STATISTICS_VERSION, 'db');
             Option::saveOptionGroup('is_done', true, 'ajax_background_process');

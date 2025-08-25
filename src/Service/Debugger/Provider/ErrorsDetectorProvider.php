@@ -52,8 +52,8 @@ class ErrorsDetectorProvider extends AbstractDebuggerProvider
         $count       = count($currentLogs);
 
         if ($count >= 10) {
-            $firstKey = array_key_first($currentLogs);
-            Option::deleteOptionGroup($firstKey, self::ERROR_LOG_OPTION);
+            $currentLogs = array_slice($currentLogs, -9, null, true);
+            Option::updateGroupOptions(self::ERROR_LOG_OPTION, $currentLogs);
         }
 
         $index = 0;
@@ -62,14 +62,24 @@ class ErrorsDetectorProvider extends AbstractDebuggerProvider
             ++$index;
         }
 
+        $errorMessage     = !empty($error['message']) ? $error['message'] : '';
+        $maxMessageLength = apply_filters('wp_statistics_tracker_debugger_log_message_max_length', 1000);
+
+        if (strlen($errorMessage) > $maxMessageLength) {
+            $truncatedMessage = substr($errorMessage, 0, $maxMessageLength);
+            $truncatedMessage .= '...';
+
+            $errorMessage = $truncatedMessage;
+        }
+
         Option::saveOptionGroup(
             $index,
             [
-                'date' => date('Y-m-d H:i:s'),
-                'name' => $errorName,
-                'message' => $error['message'],
-                'file' => $error['file'],
-                'line' => $error['line'],
+                'date'    => date('Y-m-d H:i:s'),
+                'name'    => $errorName,
+                'message' => $errorMessage,
+                'file'    => $error['file'],
+                'line'    => $error['line'],
             ],
             self::ERROR_LOG_OPTION
         );

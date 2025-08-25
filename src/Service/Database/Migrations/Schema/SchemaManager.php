@@ -15,21 +15,11 @@ use WP_Statistics\Service\Database\DatabaseFactory;
 class SchemaManager
 {
     /**
-     * Initialize schema migration process.
-     *
-     * @return void
-     */
-    public static function init()
-    {
-        add_action('admin_init', [self::class, 'runSchemaMigrations']);
-    }
-
-    /**
      * Execute pending schema migrations if any exist.
      *
      * @return void
      */
-    public static function runSchemaMigrations()
+    public static function init()
     {
         if (self::isMigrationComplete()) {
             return;

@@ -6,6 +6,17 @@ use Exception;
 use WP_Error;
 use WP_STATISTICS\IP;
 
+/**
+ * GeolocationService Class
+ *
+ * This service class handles geolocation data, providing methods to fetch location data
+ * based on IP addresses or other identifying information.
+ *
+ * @package   GeoLocationService
+ * @version   1.0.0
+ * @since     14.10.1
+ * @author    Mostafa
+ */
 class GeolocationService
 {
     /**

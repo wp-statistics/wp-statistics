@@ -1170,6 +1170,10 @@ body .o-table-wrapper table.wps-new-table.wps-recent-views-table tbody tr td
   margin-bottom: 16px;
 }
 
+.u-wps-required{
+  color: red;
+}
+
 @media screen and (max-width: 782px) {
   .wps-wrap .postbox .handlediv {
     margin-top: 0;

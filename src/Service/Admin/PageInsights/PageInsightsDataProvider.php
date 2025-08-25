@@ -26,7 +26,7 @@ class PageInsightsDataProvider
 
     public function getOverviewData()
     {
-        $topData        = $this->postsModel->getPostsReportData(['order_by' => 'visitors', 'per_page' => 5]);
+        $topData        = $this->postsModel->getPostsReportData(['order_by' => 'views', 'per_page' => 5]);
         $recentData     = $this->postsModel->getPostsReportData(['order_by' => 'date', 'per_page' => 5]);
         $notFoundData   = $this->postsModel->get404Data(['per_page' => 5]);
         $authorsData    = $this->authorsModel->getAuthorsPagesData(['order_by' => 'page_views', 'per_page' => 5]);

@@ -940,16 +940,9 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
               }
 
               img {
-                width: 14px;
-                min-width: 14px;
-                height: 14px;
-                left: 0;
-                top: 1px;
-
-                .rtl & {
-                  left: unset;
-                  right: 0;
-                }
+                width: 14px!important;
+                min-width: 14px!important;
+                height: 14px!important;
               }
 
               .rtl & {
@@ -3233,18 +3226,11 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     }
 
     img {
-      width: 16px;
-      height: 16px;
+      width: 16px!important;
+      height: 16px!important;
       min-width: 16px;
-      object-fit: fill;
-      position: absolute;
-      left: 12px;
-      top: 7px;
-
-      .rtl & {
-        left: unset;
-        right: 12px;
-      }
+      object-fit: scale-down;
+      position: relative;
     }
 
     &:before {
@@ -3479,17 +3465,6 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
           .rtl & {
             padding-left: 10px;
            }
-
-          img {
-            left: 10px;
-            top: 13px;
-
-            .rtl & {
-              left: unset;
-              right: 10px;
-              top: 13px;
-            }
-          }
 
           &.wps-marketing-campaign {
             &__success {

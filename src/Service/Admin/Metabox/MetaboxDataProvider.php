@@ -36,15 +36,14 @@ class MetaboxDataProvider
 
     public function getTrafficSummaryData($args = [])
     {
-        $visitors = $this->visitorsModel->getVisitorsSummary($args);
-        $views    = $this->visitorsModel->getHitsSummary($args);
+        $data = $this->visitorsModel->getVisitorsHitsSummary($args);
 
         $data = [
             'online'   => $this->onlineModel->countOnlines($args),
-            'visitors' => array_values(wp_list_pluck($visitors, 'visitors')),
-            'hits'     => array_values(wp_list_pluck($views, 'hits')),
-            'labels'   => array_values(wp_list_pluck($views, 'label')),
-            'keys'     => array_keys($views),
+            'visitors' => array_values(wp_list_pluck($data, 'visitors')),
+            'hits'     => array_values(wp_list_pluck($data, 'hits')),
+            'labels'   => array_values(wp_list_pluck($data, 'label')),
+            'keys'     => array_keys($data),
         ];
 
         return $data;
@@ -59,10 +58,12 @@ class MetaboxDataProvider
      */
     public function getTrafficOverviewData($args = [])
     {
+        $data = $this->visitorsModel->getVisitorsHitsSummary($args);
+
         $data = [
-            'online'         => $this->onlineModel->countOnlines($args),
-            'visitors'       => $this->visitorsModel->getVisitorsSummary($args),
-            'hits'           => $this->visitorsModel->getHitsSummary($args),
+            'online'   => $this->onlineModel->countOnlines($args),
+            'visitors' => $data,
+            'hits'     => $data
         ];
 
         return $data;

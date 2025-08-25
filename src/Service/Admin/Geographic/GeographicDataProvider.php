@@ -24,25 +24,30 @@ class GeographicDataProvider
     {
         $args = array_merge($this->args, ['per_page' => 5, 'page' => 1]);
 
-        $countries      = $this->visitorsModel->getVisitorsGeoData($args);
-        $cities         = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['group_by' => ['city'], 'not_null' => 'visitor.city', 'count_field' => 'city']));
-        $countryRegions = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['country' => Helper::getTimezoneCountry(), 'group_by' => ['country', 'region'], 'count_field' => 'region', 'not_null' => 'visitor.region']));
-        $globalRegions  = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['group_by' => ['region'], 'count_field' => 'region', 'not_null' => 'visitor.region', 'per_page' => 1]));
-        $states         = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['country' => 'US', 'continent' => 'North America', 'group_by' => ['region'], 'count_field' => 'region', 'not_null' => 'visitor.region']));
+        $countries     = $this->visitorsModel->getVisitorsGeoData($args);
+        $cities        = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['group_by' => ['city'], 'not_null' => 'visitor.city']));
+        $globalRegions = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['group_by' => ['region'], 'not_null' => 'visitor.region', 'per_page' => 1]));
+        $states        = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['country' => 'US', 'continent' => 'North America', 'group_by' => ['region'], 'not_null' => 'visitor.region']));
 
-        $summary   = [
-            'country'   => !empty($countries[0]->country) ? Country::getName($countries[0]->country) : '',
-            'region'    => $globalRegions[0]->region ?? '',
-            'city'      => $cities[0]->city ?? '',
-        ];
-
-        return [
-            'summary'   => $summary,
+        $data = [
+            'summary'   => [
+                'country'   => !empty($countries[0]->country) ? Country::getName($countries[0]->country) : '',
+                'region'    => $globalRegions[0]->region ?? '',
+                'city'      => $cities[0]->city ?? '',
+            ],
             'countries' => $countries,
             'cities'    => $cities,
-            'regions'   => $countryRegions,
             'states'    => $states,
         ];
+
+
+        // Add country region data, if user country is detected
+        $userCountry = Helper::getTimezoneCountry();
+        if ($userCountry) {
+            $data['regions'] = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['country' => $userCountry, 'group_by' => ['country', 'region'], 'not_null' => 'visitor.region']));
+        }
+
+        return $data;
     }
 
     public function getOverviewChartData()

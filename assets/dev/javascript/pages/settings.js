@@ -144,6 +144,46 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
     }
 
+
+    class GSCConnectButton {
+        constructor() {
+            this.clientIdInput = $('#gsc-client-id');
+            this.clientSecretInput = $('#gsc-client-secret');
+            this.connectBtn = $('#wps-gsc-connect-btn');
+            this.tooltipWrapper = this.connectBtn.closest('.wps-tooltip');
+
+            if (!this.clientIdInput.length || !this.clientSecretInput.length || !this.connectBtn.length || !this.tooltipWrapper.length) {
+                return;
+            }
+
+            this.initTooltip();
+            this.bindEvents();
+            this.toggleButtonState();
+        }
+
+        initTooltip() {
+            this.tooltipWrapper.tooltipster({
+                theme: 'tooltipster-shadow',
+                contentCloning: true
+            });
+        }
+
+        toggleButtonState() {
+            const hasClientId = this.clientIdInput.val().trim() !== '';
+            const hasClientSecret = this.clientSecretInput.val().trim() !== '';
+
+            if (!(hasClientId && hasClientSecret)) {
+                this.connectBtn.attr('disabled', 'disabled').addClass('is-disabled');
+                this.tooltipWrapper.tooltipster('content', this.tooltipWrapper.data('disable-tooltip'));
+            }
+        }
+
+        bindEvents() {
+            this.clientIdInput.on('input', () => this.toggleButtonState());
+            this.clientSecretInput.on('input', () => this.toggleButtonState());
+        }
+    }
+
     $(document).ready(function () {
         let isProgrammaticChange = false
         const checkbox = $('#wps_settings\\[wps_schedule_dbmaint\\]');
@@ -175,12 +215,15 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
 
         new ShowIfEnabled();
+        new GSCConnectButton();
+
+
         const searchConsoleSite = document.getElementById('wps_addon_settings[marketing][site]');
         if (searchConsoleSite) {
             let notice = document.createElement("div");
             notice.className = "notice notice-error wp-statistics-notice";
             const dir = jQuery('body').hasClass('rtl') ? 'rtl' : 'ltr';
-            const $select = jQuery('.wps-addon-settings--marketing select').select2({
+            const $select = jQuery('.wps-addon-settings--marketing select.wps-marketing-site').select2({
                 ajax: {
                     url: wps_js.global.admin_url + 'admin-ajax.php',
                     type: 'POST',
@@ -237,5 +280,17 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 $select.val(data.id).trigger('change');
             });
         }
+
+        document.querySelectorAll('.c-password-field').forEach(function (wrapper) {
+            const input = wrapper.querySelector('.js-password-toggle');
+            const btn = wrapper.querySelector('.c-password-field__btn');
+            btn.addEventListener('click', function () {
+                const isPassword = input.type === 'password';
+                input.type = isPassword ? 'text' : 'password';
+                btn.classList.toggle('show', isPassword);
+            });
+        });
     });
+
+
 }

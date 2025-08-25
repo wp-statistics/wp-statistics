@@ -4,6 +4,11 @@ namespace WP_Statistics\Service\Logger;
 
 /**
  * Handles interaction with a logger provider.
+ *
+ * @package   LoggerService
+ * @version   1.0.0
+ * @since     14.11.2
+ * @author    Hooman
  */
 class LoggerService
 {
