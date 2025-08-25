@@ -20,12 +20,22 @@ class DeviceChartDataProvider extends AbstractChartDataProvider
         parent::__construct($args);
 
         $this->args = array_merge($this->args, [
-            'fields' => ['visitor.device']
+            'fields'   => ['device' => 'visitor.device', 'visitors' => 'COUNT(visitor.ID) as visitors'],
+            'group_by' => 'visitor.device',
+            'order_by' => 'visitors',
+            'decorate' => false,
+            'page'     => false,
+            'per_page' => false
         ]);
 
-        // Get all results
-        $this->args['page']     = false;
-        $this->args['per_page'] = false;
+        // If filter is applied, get distinct visitors to avoid data duplication
+        if ($this->isFilterApplied()) {
+            $this->args['fields']['visitors'] = 'COUNT(DISTINCT visitor.ID) as visitors';
+        }
+
+        if (empty($this->args['limit'])) {
+            $this->args['limit'] = 5;
+        }
 
         $this->visitorsModel = new VisitorsModel();
     }
@@ -35,7 +45,12 @@ class DeviceChartDataProvider extends AbstractChartDataProvider
     {
         $this->initChartData();
 
-        $data = $this->visitorsModel->getVisitorsData($this->args);
+        if (!empty($this->args['referred_visitors'])) {
+            $data = $this->visitorsModel->getReferredVisitors($this->args);
+        } else {
+            $data = $this->visitorsModel->getVisitorsData($this->args);
+        }
+
         $data = $this->parseData($data);
 
         $this->setChartLabels($data['labels']);
@@ -51,33 +66,22 @@ class DeviceChartDataProvider extends AbstractChartDataProvider
 
         if (!empty($data)) {
             foreach ($data as $item) {
-                $device = $item->getDevice()->getType();
+                if (empty($item->device)) continue;
 
-                if (!empty($device)) {
-                    $devices = array_column($parsedData, 'label');
-
-                    if (!in_array($device, $devices)) {
-                        $parsedData[] = [
-                            'label'    => $device,
-                            'icon'     => DeviceHelper::getDeviceLogo($device),
-                            'visitors' => 1
-                        ];
-                    } else {
-                        $index = array_search($device, $devices);
-                        $parsedData[$index]['visitors']++;
-                    }
-                }
+                $parsedData[] = [
+                    'label'    => ucfirst($item->device),
+                    'icon'     => DeviceHelper::getDeviceLogo($item->device),
+                    'visitors' => $item->visitors
+                ];
             }
 
-            // Sort data by visitors
-            usort($parsedData, function ($a, $b) {
-                return $b['visitors'] - $a['visitors'];
-            });
+            // Limit the number of items. If limit is 5, limit items to 4 + other
+            $limit = $this->args['limit'] - 1;
 
-            if (count($parsedData) > 4) {
+            if (count($parsedData) > $limit) {
                 // Get top 4 results, and others
-                $topData    = array_slice($parsedData, 0, 4);
-                $otherData  = array_slice($parsedData, 4);
+                $topData    = array_slice($parsedData, 0, $limit);
+                $otherData  = array_slice($parsedData, $limit);
 
                 // Show the rest of the results as others, and sum up the visitors
                 $otherItem    = [

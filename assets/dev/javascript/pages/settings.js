@@ -31,6 +31,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     let conditions = 0;
                     let satisfied = 0;
 
+                    const isOrCondition = element.classList.contains('js-wps-show_if_or');
+
                     classListArray.forEach(className => {
                         if (className.includes('_enabled') || className.includes('_disabled')) {
                             conditions++;
@@ -43,7 +45,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                                     } else if (!checkbox.checked && className.includes('_disabled')) {
                                         satisfied++;
                                     }
-                                } else {
                                 }
                             }
                         } else if (className.includes('_equal_')) {
@@ -60,14 +61,30 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         }
                     });
 
-                    if (conditions > 0 && satisfied === conditions) {
-                        this.toggleDisplay(element);
-                    } else {
-                        element.style.display = 'none';
-                        const checkboxInside = element.querySelector('input[type="checkbox"]');
-                        if (checkboxInside) {
-                            checkboxInside.checked = false;
+                    if (conditions > 0) {
+                        if (isOrCondition) {
+                            if (satisfied > 0) {
+                                this.toggleDisplay(element);
+                            } else {
+                                element.style.display = 'none';
+                                const checkboxInside = element.querySelector('input[type="checkbox"]');
+                                if (checkboxInside) {
+                                    checkboxInside.checked = false;
+                                }
+                            }
+                        } else {
+                            if (satisfied === conditions) {
+                                this.toggleDisplay(element);
+                            } else {
+                                element.style.display = 'none';
+                                const checkboxInside = element.querySelector('input[type="checkbox"]');
+                                if (checkboxInside) {
+                                    checkboxInside.checked = false;
+                                }
+                            }
                         }
+                    } else {
+                        this.toggleDisplay(element);
                     }
                 };
 
@@ -107,7 +124,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             const classes = element.className.split(' ');
             for (const className of classes) {
                 if (className.startsWith('js-wps-show_if_')) {
-                    return className.replace('js-wps-show_if_', '').replace('_enabled', '').replace('_disabled', '');
+                    return className.replace('js-wps-show_if_', '').replace('_enabled', '').replace('_disabled', '').replace('_equal_', '_');
                 }
             }
             return null;
@@ -124,6 +141,46 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 }
             }
             return {id, value};
+        }
+    }
+
+
+    class GSCConnectButton {
+        constructor() {
+            this.clientIdInput = $('#gsc-client-id');
+            this.clientSecretInput = $('#gsc-client-secret');
+            this.connectBtn = $('#wps-gsc-connect-btn');
+            this.tooltipWrapper = this.connectBtn.closest('.wps-tooltip');
+
+            if (!this.clientIdInput.length || !this.clientSecretInput.length || !this.connectBtn.length || !this.tooltipWrapper.length) {
+                return;
+            }
+
+            this.initTooltip();
+            this.bindEvents();
+            this.toggleButtonState();
+        }
+
+        initTooltip() {
+            this.tooltipWrapper.tooltipster({
+                theme: 'tooltipster-shadow',
+                contentCloning: true
+            });
+        }
+
+        toggleButtonState() {
+            const hasClientId = this.clientIdInput.val().trim() !== '';
+            const hasClientSecret = this.clientSecretInput.val().trim() !== '';
+
+            if (!(hasClientId && hasClientSecret)) {
+                this.connectBtn.attr('disabled', 'disabled').addClass('is-disabled');
+                this.tooltipWrapper.tooltipster('content', this.tooltipWrapper.data('disable-tooltip'));
+            }
+        }
+
+        bindEvents() {
+            this.clientIdInput.on('input', () => this.toggleButtonState());
+            this.clientSecretInput.on('input', () => this.toggleButtonState());
         }
     }
 
@@ -158,12 +215,15 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
 
         new ShowIfEnabled();
+        new GSCConnectButton();
+
+
         const searchConsoleSite = document.getElementById('wps_addon_settings[marketing][site]');
         if (searchConsoleSite) {
             let notice = document.createElement("div");
             notice.className = "notice notice-error wp-statistics-notice";
             const dir = jQuery('body').hasClass('rtl') ? 'rtl' : 'ltr';
-            const $select = jQuery('.wps-addon-settings--marketing select').select2({
+            const $select = jQuery('.wps-addon-settings--marketing select.wps-marketing-site').select2({
                 ajax: {
                     url: wps_js.global.admin_url + 'admin-ajax.php',
                     type: 'POST',
@@ -206,7 +266,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         }
                     },
                     error: function (xhr, status, error) {
-                         return {results: []};
+                        return {results: []};
                     },
                     cache: true
                 },
@@ -220,5 +280,17 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 $select.val(data.id).trigger('change');
             });
         }
+
+        document.querySelectorAll('.c-password-field').forEach(function (wrapper) {
+            const input = wrapper.querySelector('.js-password-toggle');
+            const btn = wrapper.querySelector('.c-password-field__btn');
+            btn.addEventListener('click', function () {
+                const isPassword = input.type === 'password';
+                input.type = isPassword ? 'text' : 'password';
+                btn.classList.toggle('show', isPassword);
+            });
+        });
     });
+
+
 }
