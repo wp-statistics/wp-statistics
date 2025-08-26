@@ -19,7 +19,7 @@ use WP_STATISTICS\User;
  * Provides methods to handle license keys and ensure proper functionality of premium features.
  *
  * @package   LicenseManagement
- * @version   1.0.0
+ * @version   1.0.1
  * @since     14.0
  * @author    Foad
  */
