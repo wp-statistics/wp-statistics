@@ -302,15 +302,11 @@ class AnonymizedUsageDataProvider
      */
     public static function getTablesStats()
     {
-        $userOnlineTable = DB::table('useronline');
         $rawTableRows    = DB::getTableRows();
         $tableRows       = [];
         $prefix          = DB::prefix();
 
         foreach ($rawTableRows as $k => $v) {
-            if ($k === $userOnlineTable) {
-                continue;
-            }
             $k             = str_replace($prefix, '', $k);
             $tableRows[$k] = $v['rows'];
         }

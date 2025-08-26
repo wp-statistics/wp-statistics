@@ -253,7 +253,6 @@ class Install
 
         TableHandler::createAllTables();
 
-        $userOnlineTable      = DB::table('useronline');
         $pagesTable           = DB::table('pages');
         $visitorTable         = DB::table('visitor');
         $historicalTable      = DB::table('historical');
@@ -279,16 +278,6 @@ class Install
         $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'source_name'");
         if ($result == 0) {
             $wpdb->query("ALTER TABLE {$visitorTable} ADD `source_name` VARCHAR(100) NULL;");
-        }
-
-        /**
-         * Add visitor id column to user online table
-         *
-         * @version 14.11
-         */
-        $result = $wpdb->query("SHOW COLUMNS FROM {$userOnlineTable} LIKE 'visitor_id'");
-        if ($result == 0) {
-            $wpdb->query("ALTER TABLE {$userOnlineTable} ADD `visitor_id` bigint(20) NOT NULL;");
         }
 
         /**
@@ -319,36 +308,6 @@ class Install
         $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'continent'");
         if ($result == 0) {
             $wpdb->query("ALTER TABLE {$visitorTable} ADD `continent` VARCHAR(50) NULL;");
-        }
-
-        /**
-         * Add online user city
-         *
-         * @version 14.5.2
-         */
-        $result = $wpdb->query("SHOW COLUMNS FROM {$userOnlineTable} LIKE 'city'");
-        if ($result == 0) {
-            $wpdb->query("ALTER TABLE {$userOnlineTable} ADD `city` VARCHAR(100) NULL;");
-        }
-
-        /**
-         * Add online user region
-         *
-         * @version 14.7.0
-         */
-        $result = $wpdb->query("SHOW COLUMNS FROM {$userOnlineTable} LIKE 'region'");
-        if ($result == 0) {
-            $wpdb->query("ALTER TABLE {$userOnlineTable} ADD `region` VARCHAR(100) NULL;");
-        }
-
-        /**
-         * Add online user continent
-         *
-         * @version 14.7.0
-         */
-        $result = $wpdb->query("SHOW COLUMNS FROM {$userOnlineTable} LIKE 'continent'");
-        if ($result == 0) {
-            $wpdb->query("ALTER TABLE {$userOnlineTable} ADD `continent` VARCHAR(50) NULL;");
         }
 
         /**
@@ -392,10 +351,6 @@ class Install
             $wpdb->query("ALTER TABLE `" . DB::table('exclusions') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
         }
 
-        if (!DB::isColumnType('useronline', 'ID', 'bigint(20)') && !DB::isColumnType('useronline', 'ID', 'bigint')) {
-            $wpdb->query("ALTER TABLE {$userOnlineTable} CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
-        }
-
         /**
          * Change Charset All Table To New WordPress Collate
          * Reset Overview Order Meta Box View
@@ -426,24 +381,6 @@ class Install
 
         if (DB::ExistTable($searchTable)) {
             $wpdb->query("DROP TABLE `$searchTable`");
-        }
-
-        /**
-         * Added new Fields to user_online Table
-         *
-         * @version 12.6.1
-         */
-        if (DB::ExistTable($userOnlineTable)) {
-            $result = $wpdb->query("SHOW COLUMNS FROM `" . $userOnlineTable . "` LIKE 'user_id'");
-            if ($result == 0) {
-                $wpdb->query("ALTER TABLE `" . $userOnlineTable . "` ADD `user_id` BIGINT(48) NOT NULL AFTER `location`, ADD `page_id` BIGINT(48) NOT NULL AFTER `user_id`, ADD `type` VARCHAR(100) NOT NULL AFTER `page_id`;");
-            }
-
-            // Add index ip
-            $result = $wpdb->query("SHOW INDEX FROM `" . $userOnlineTable . "` WHERE Key_name = 'ip'");
-            if (!$result) {
-                $wpdb->query("ALTER TABLE `" . $userOnlineTable . "` ADD index (ip)");
-            }
         }
 
         /**
