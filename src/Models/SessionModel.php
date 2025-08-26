@@ -5,7 +5,6 @@ namespace WP_Statistics\Models;
 use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\DateTime;
-use WP_STATISTICS\DB;
 use WP_Statistics\Utils\Query;
 
 /**
@@ -125,7 +124,7 @@ class SessionModel extends BaseModel
      * } $args Optional. Date filter.
      * @return int Unique‑visitor total.
      */
-    public function getByTime($args = [])
+    public function countByTime($args = [])
     {
         $args = $this->parseArgs($args, [
             'date' => '',
@@ -182,7 +181,8 @@ class SessionModel extends BaseModel
 
         $query = Query::select(['COUNT(DISTINCT IFNULL(sessions.visitor_id, sessions.ID)) AS total_visitors'])
             ->from('sessions')
-            ->whereDate('sessions.started_at', $args['date'])
+            ->where('sessions.started_at', '>=', $args['date']['from'] . ' 00:00:00')
+            ->where('sessions.started_at', '<=', $args['date']['to'] . ' 23:59:59')
             ->where('sessions.user_id', '=', $args['user_id'])
             ->where('sessions.ip', 'LIKE', "%{$args['ip']}%");
 
@@ -348,7 +348,8 @@ class SessionModel extends BaseModel
 
         $query = Query::select(['SUM(sessions.total_views) AS total_hits'])
             ->from('sessions')
-            ->whereDate('sessions.started_at', $args['date'])
+            ->where('sessions.started_at', '>=', $args['date']['from'] . ' 00:00:00')
+            ->where('sessions.started_at', '<=', $args['date']['to'] . ' 23:59:59')
             ->where('sessions.user_id', '=', $args['user_id'])
             ->where('sessions.ip', 'LIKE', "%{$args['ip']}%");
 
@@ -670,5 +671,59 @@ class SessionModel extends BaseModel
             ->where('DATE(sessions.started_at)', '=', $targetDate);
 
         return $query->getRow();
+    }
+
+    /**
+     * List session insights (entry/exit pages, device/OS/browser, country, referrer) for a date range.
+     *
+     * @param array{
+     *     date?: array{from:string,to:string},
+     *     order_by?: string,
+     *     order?: 'ASC'|'DESC',
+     *     page?: int,
+     *     per_page?: int
+     * } $args Optional. Date range, sorting and pagination.
+     * @return array<array<string,mixed>> Array of session insight rows.
+     */
+    public function getInsights($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'     => '',
+            'order_by' => 'sessions.started_at',
+            'order'    => 'DESC',
+            'page'     => 1,
+            'per_page' => 25,
+        ]);
+
+        $uriSub = Query::select(['ID', 'uri'])
+            ->from('resource_uris')
+            ->getQuery();
+
+        $query = Query::select([
+            'sessions.ID',
+            'sessions.total_views',
+            'entry_uri.uri AS entry_page',
+            'exit_uri.uri  AS exit_page',
+            // lookups
+            'countries.name                 AS country',
+            'device_browsers.name          AS browser',
+            'device_browser_versions.version AS browser_version',
+            'device_oss.name               AS os',
+            'referrers.domain              AS referrer_channel',
+        ])
+            ->from('sessions')
+            ->joinQuery($uriSub, ['entry_uri.ID', 'sessions.initial_view_id'], 'entry_uri', 'LEFT')
+            ->joinQuery($uriSub, ['exit_uri.ID', 'sessions.last_view_id'], 'exit_uri', 'LEFT')
+            ->join('countries', ['countries.ID', 'sessions.country_id'], null, 'LEFT')
+            ->join('device_browsers', ['device_browsers.ID', 'sessions.device_browser_id'], null, 'LEFT')
+            ->join('device_browser_versions', ['device_browser_versions.ID', 'sessions.device_browser_version_id'], null, 'LEFT')
+            ->join('device_oss', ['device_oss.ID', 'sessions.device_os_id'], null, 'LEFT')
+            ->join('referrers', ['referrers.ID', 'sessions.referrer_id'], null, 'LEFT')
+            ->where('sessions.started_at', '>=', $args['date']['from'] . ' 00:00:00')
+            ->where('sessions.started_at', '<=', $args['date']['to'] . ' 23:59:59')
+            ->orderBy($args['order_by'], $args['order'])
+            ->perPage($args['page'], $args['per_page']);
+
+        return $query->getAll();
     }
 }
