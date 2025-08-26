@@ -17,29 +17,22 @@ use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsDataProvider;
 class TabsView extends BaseTabView
 {
     private $isTrackLoggedInUsersEnabled;
-    private $isOnlineUsersEnabled;
-
     protected $defaultTab = 'overview';
     protected $tabs = [
         'overview',
         'visitors',
         'views',
         'search-terms',
-        'top-visitors'
+        'top-visitors',
+        'online'
     ];
 
     public function __construct()
     {
-        $this->isTrackLoggedInUsersEnabled  = Option::get('visitors_log') ? true : false;
-        $this->isOnlineUsersEnabled         = UserOnline::active();
-
+        $this->isTrackLoggedInUsersEnabled = Option::get('visitors_log') ? true : false;
 
         if ($this->isTrackLoggedInUsersEnabled) {
             $this->tabs[] = 'logged-in-users';
-        }
-
-        if ($this->isOnlineUsersEnabled) {
-            $this->tabs[] = 'online';
         }
 
         $this->dataProvider = new VisitorInsightsDataProvider([
@@ -128,7 +121,6 @@ class TabsView extends BaseTabView
                     'link'   => Menus::admin_url('visitors', ['tab' => 'online']),
                     'title'  => esc_html__('Online Visitors', 'wp-statistics'),
                     'class'  => $this->isTab('online') ? 'current wps-tab-link__online-visitors' : 'wps-tab-link__online-visitors',
-                    'hidden' => !$this->isOnlineUsersEnabled
                 ],
                 [
                     'link'  => Menus::admin_url('visitors', ['tab' => 'top-visitors']),
@@ -172,7 +164,7 @@ class TabsView extends BaseTabView
             $args['tabs'] = $tabs;
         }
 
-        if ($this->isOnlineUsersEnabled && $this->isTab('online')) {
+        if ($this->isTab('online')) {
             $args['hasDateRang']        = false;
             $args['real_time_button']   = true;
         }

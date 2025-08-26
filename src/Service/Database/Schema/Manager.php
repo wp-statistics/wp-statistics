@@ -16,33 +16,6 @@ class Manager
      * @var array
      */
     private static $tablesSchema = [
-        'useronline'            => [
-            'columns'     => [
-                'ID'         => 'bigint(20) NOT NULL AUTO_INCREMENT',
-                'ip'         => 'varchar(60) NOT NULL',
-                'created'    => 'int(11)',
-                'timestamp'  => 'int(10) NOT NULL',
-                'date'       => 'datetime NOT NULL',
-                'visitor_id' => 'bigint(20) NOT NULL',
-
-                // Keep for backward compatibility
-                'referred'   => 'text CHARACTER SET utf8 NOT NULL',
-                'agent'      => 'varchar(255) NOT NULL',
-                'platform'   => 'varchar(255)',
-                'version'    => 'varchar(255)',
-                'location'   => 'varchar(10)',
-                'city'       => 'varchar(100)',
-                'region'     => 'varchar(100)',
-                'continent'  => 'varchar(50)',
-                'user_id'    => 'BIGINT(48) NOT NULL',
-                'page_id'    => 'BIGINT(48) NOT NULL',
-                'type'       => 'VARCHAR(100) NOT NULL',
-            ],
-            'constraints' => [
-                'ID' => 'PRIMARY KEY (ID)',
-                'ip' => 'KEY ip (ip)'
-            ],
-        ],
         'pages'                 => [
             'columns'     => [
                 'page_id' => 'BIGINT(20) NOT NULL AUTO_INCREMENT',
