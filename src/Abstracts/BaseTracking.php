@@ -1,10 +1,10 @@
 <?php
 
-namespace WP_STATISTICS\Abstracts;
+namespace WP_Statistics\Abstracts;
 
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Components\DateTime;
-use WP_STATISTICS\Service\Tracking\Core\Exclusion;
+use WP_Statistics\Service\Tracking\Core\Exclusion;
 use Exception;
 
 /**

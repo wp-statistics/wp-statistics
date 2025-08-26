@@ -5,9 +5,9 @@ namespace WP_Statistics\Service\Tracking;
 use Exception;
 use WP_Statistics\Abstracts\BaseTrackerController;
 use WP_Statistics\Globals\Option;
-use WP_STATISTICS\Service\Tracking\Controllers\AjaxBasedTracking;
-use WP_STATISTICS\Service\Tracking\Controllers\RestApiTracking;
-use WP_STATISTICS\Service\Tracking\Controllers\ServerSideTracking;
+use WP_Statistics\Service\Tracking\Controllers\AjaxBasedTracking;
+use WP_Statistics\Service\Tracking\Controllers\RestApiTracking;
+use WP_Statistics\Service\Tracking\Controllers\ServerSideTracking;
 
 /**
  * Factory class responsible for creating and managing tracking controller instances.

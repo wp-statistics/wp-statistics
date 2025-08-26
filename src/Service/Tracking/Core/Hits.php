@@ -1,9 +1,9 @@
 <?php
 
-namespace WP_STATISTICS\Service\Tracking\Core;
+namespace WP_Statistics\Service\Tracking\Core;
 
 use Exception;
-use WP_STATISTICS\Abstracts\BaseTracking;
+use WP_Statistics\Abstracts\BaseTracking;
 use WP_Statistics\Utils\Route;
 use WP_Statistics\Entity\EntityFactory;
 use WP_Statistics\Globals\Option;

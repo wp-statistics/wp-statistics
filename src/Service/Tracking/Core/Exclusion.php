@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_STATISTICS\Service\Tracking\Core;
+namespace WP_Statistics\Service\Tracking\Core;
 
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Utils\Environment;

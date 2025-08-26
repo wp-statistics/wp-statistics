@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Tracking;
 
-use WP_STATISTICS\Service\Tracking\Core\Hits;
+use WP_Statistics\Service\Tracking\Core\Hits;
 
 /**
  * Factory for creating instances of tracking-related services.

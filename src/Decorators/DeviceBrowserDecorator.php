@@ -3,6 +3,7 @@
 namespace WP_Statistics\Decorators;
 
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
+use WP_Statistics\Utils\Validator;
 
 /**
  * Decorator for a record from the 'device_browsers' table.
@@ -67,6 +68,10 @@ class DeviceBrowserDecorator
      */
     public function getRaw()
     {
-        return \WP_STATISTICS\Admin_Template::unknownToNotSet($this->getName()) ?? null;
+        if (!Validator::isUnknown($this->getName())) {
+            return $this->getName();
+        }
+
+        return esc_html__('(not set)', 'wp-statistics');
     }
 }

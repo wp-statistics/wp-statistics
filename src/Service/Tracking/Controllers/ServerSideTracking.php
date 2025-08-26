@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_STATISTICS\Service\Tracking\Controllers;
+namespace WP_Statistics\Service\Tracking\Controllers;
 
 use WP_Statistics\Abstracts\BaseTrackerController;
 use WP_STATISTICS\Option;

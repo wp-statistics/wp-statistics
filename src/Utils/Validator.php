@@ -19,7 +19,6 @@ class Validator
      * malicious input such as SQL‑injection or XSS attempts.
      *
      * @return array Array of regex patterns.
-     * @since  15.0.0
      */
     public static function getThreatPatterns()
     {
@@ -70,12 +69,34 @@ class Validator
      * @param int $max Maximum accepted length.
      *
      * @return bool True when the length is between $min and $max, inclusive.
-     * @since  15.0.0
      */
     public static function isLengthInRange($string, $min, $max)
     {
         $len = strlen($string);
 
         return $len >= $min && $len <= $max;
+    }
+
+    /**
+     * Determines whether a given value represents an "unknown" state.
+     *
+     * This method considers the value unknown if it is empty, equals the string
+     * "Unknown", or matches the translated string "Unknown" in the
+     * 'wp-statistics' text domain.
+     *
+     * @param mixed $value The value to evaluate.
+     * @return bool True if the value is considered unknown, false otherwise.
+     */
+    public static function isUnknown($value)
+    {
+        if (
+            empty($value) ||
+            $value === 'Unknown' ||
+            $value === __('Unknown', 'wp-statistics')
+        ) {
+            return true;
+        }
+
+        return false;
     }
 }

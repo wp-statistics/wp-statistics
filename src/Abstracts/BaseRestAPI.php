@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_STATISTICS\Abstracts;
+namespace WP_Statistics\Abstracts;
 
 use WP_REST_Request;
 use WP_REST_Server;

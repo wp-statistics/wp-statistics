@@ -3,6 +3,7 @@
 namespace WP_Statistics\Decorators;
 
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
+use WP_Statistics\Utils\Validator;
 
 /**
  * Decorator for a record from the 'device_oss' table.
@@ -58,7 +59,7 @@ class DeviceOsDecorator
      */
     public function getModel()
     {
-        if (!\WP_STATISTICS\Admin_Template::isUnknown($this->getName())) {
+        if (!Validator::isUnknown($this->getName())) {
             return $this->getName();
         }
 
