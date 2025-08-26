@@ -173,10 +173,16 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 return;
             }
 
-            const description = modal.querySelector('.wps-alert__danger span');
-            if (description) {
-                description.textContent = newValue === 0 ? 'Forever' : newValue;
-            }
+            const description = modal.querySelector('.wps-modal__description span');
+            const descriptionAlert = modal.querySelector('.wps-alert__danger span');
+
+            const text = newValue === 0
+                ? wps_js._('forever')
+                : `${newValue} ${wps_js._('days')}`;
+
+            [description, descriptionAlert].forEach(el => {
+                if (el) el.textContent = text;
+            });
 
             modal.classList.add('wps-modal--open');
 

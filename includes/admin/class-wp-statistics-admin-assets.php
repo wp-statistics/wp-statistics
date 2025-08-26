@@ -440,6 +440,8 @@ class Admin_Assets
             'copied'                       => __('Copied!', 'wp-statistics'),
             'settings'                     => __('SETTINGS', 'wp-statistics'),
             'premium_addons'               => __('PREMIUM ADD-ONS', 'wp-statistics'),
+            'forever'                      => __('Forever', 'wp-statistics'),
+            'days'                         => __('days', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 

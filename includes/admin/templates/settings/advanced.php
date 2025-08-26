@@ -447,12 +447,12 @@ add_thickbox();
                 ?>
                 <div class="wps-input-group">
                     <select id="wps_settings[wps_schedule_dbmaint_days_select]" name="wps_schedule_dbmaint_days_select" class="wps-input-group__field">
-                        <option value="30" <?php selected($selectedOption, 30); ?>><?php esc_html_e('Keep data for 30 days', 'wp-statistics'); ?></option>
-                        <option value="60" <?php selected($selectedOption, 60); ?>><?php esc_html_e('Keep data for 60 days', 'wp-statistics'); ?></option>
-                        <option value="90" <?php selected($selectedOption, 90); ?>><?php esc_html_e('Keep data for 90 days', 'wp-statistics'); ?></option>
-                        <option value="180" <?php selected($selectedOption, 180); ?>><?php esc_html_e('Keep data for 180 days', 'wp-statistics'); ?></option>
-                        <option value="365" <?php selected($selectedOption, 365); ?>><?php esc_html_e('Keep data for 1 year', 'wp-statistics'); ?></option>
-                        <option value="730" <?php selected($selectedOption, 730); ?>><?php esc_html_e('Keep data for 2 years', 'wp-statistics'); ?></option>
+                        <option value="30" <?php selected($selectedOption, 30); ?>><?php esc_html_e('Keep details for 30 days', 'wp-statistics'); ?></option>
+                        <option value="60" <?php selected($selectedOption, 60); ?>><?php esc_html_e('Keep details for 60 days', 'wp-statistics'); ?></option>
+                        <option value="90" <?php selected($selectedOption, 90); ?>><?php esc_html_e('Keep details for 90 days', 'wp-statistics'); ?></option>
+                        <option value="180" <?php selected($selectedOption, 180); ?>><?php esc_html_e('Keep details for 180 days', 'wp-statistics'); ?></option>
+                        <option value="365" <?php selected($selectedOption, 365); ?>><?php esc_html_e('Keep details for 1 year', 'wp-statistics'); ?></option>
+                        <option value="730" <?php selected($selectedOption, 730); ?>><?php esc_html_e('Keep details for 2 years', 'wp-statistics'); ?></option>
                         <option value="0" <?php selected($selectedOption, 0); ?>><?php esc_html_e('Keep data forever', 'wp-statistics'); ?></option>
                         <option value="custom" <?php selected($selectedOption, 'custom'); ?>><?php esc_html_e('Custom...', 'wp-statistics'); ?></option>
                     </select>
@@ -466,7 +466,18 @@ add_thickbox();
                     </div>
                 </div>
                 <input type="hidden" id="wps_schedule_dbmaint_days" name="wps_schedule_dbmaint_days" value="<?php echo esc_attr($storedDays); ?>">
-                <p class="description"><?php echo esc_html__('Choose how long to keep detailed data before it\'s automatically aggregated. Aggregation stores the number of visits and views per page while deleting other detailed data, helping to optimize your database. Learn more about data aggregation.', 'wp-statistics'); ?></p>
+                <p class="description">
+                    <?php
+                    echo sprintf(
+                        esc_html__(
+                            'Reduce database size and speed up reports. Each night at 00:00 (your WordPress timezone), data older than the period below is aggregated: we keep total Visitors and Views for the whole site and for each page, and delete the detailed rows. This cannot be undone. All-time reports still show Visitors/Views. %s',
+                            'wp-statistics'
+                        ),
+                        '<a href="' . esc_url( WP_STATISTICS_SITE_URL . '/resources/aggregation-and-data-retention/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings' ) . '" target="_blank">' . esc_html__( 'Learn more in the Aggregation guide', 'wp-statistics' ) . '</a>'
+                    );
+                    ?>
+                </p>
+
             </td>
         </tr>
         </tbody>
