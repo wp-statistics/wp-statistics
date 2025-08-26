@@ -63,9 +63,11 @@ use WP_Statistics\Decorators\VisitorDecorator;
                         <span class="wps-visitor__information__incognito-img"></span>
                     </a>
 
-                    <a class="wps-visitor__information__incognito-text" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>">
-                        <?php echo esc_html($visitor->getIP()); ?>
-                    </a>
+                    <?php if (!Option::get('hash_ips')) : ?>
+                        <a class="wps-visitor__information__incognito-text" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>">
+                            <?php echo esc_html($visitor->getIP()); ?>
+                        </a>
+                    <?php endif; ?>
                 </div>
             </li>
         <?php endif; ?>
