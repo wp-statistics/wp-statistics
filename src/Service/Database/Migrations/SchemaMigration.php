@@ -50,10 +50,14 @@ class SchemaMigration extends AbstractMigrationOperation
         // '14.13.5' => [
         //     'dropDuplicateColumnsFromUserOnline'
         // ]
-        '14.15' => [
+        '14.15'   => [
             'dropVisitTable',
             'addUserIdToEvents'
-        ]
+        ],
+        '15.0.0'  => [
+            'addResourceUriIdAndSessionIdToEvents',
+            'addSessionIdEventNameIndexToEvents',
+        ],
     ];
 
     /**
@@ -143,6 +147,53 @@ class SchemaMigration extends AbstractMigrationOperation
                 ])
                 ->execute();
         } catch (Exception $e) {
+            $this->setErrorStatus($e->getMessage());
+        }
+    }
+
+    /**
+     * Updates the 'events' table to add new columns: 'resource_uri_id' and 'session_id'.
+     *
+     * @return void
+     * @since 15.0.0
+     */
+    public function addResourceUriIdAndSessionIdToEvents()
+    {
+        $this->ensureConnection();
+
+        try {
+            DatabaseFactory::table('update')
+                ->setName('events')
+                ->setArgs([
+                    'add' => [
+                        'resource_uri_id' => 'BIGINT(20) UNSIGNED DEFAULT NULL',
+                        'session_id'      => 'BIGINT(20) UNSIGNED DEFAULT NULL',
+                    ]
+                ])
+                ->execute();
+        } catch (Exception $e) {
+            $this->setErrorStatus($e->getMessage());
+        }
+    }
+
+    /**
+     * Adds composite index on (session_id, event_name) to the 'events' table for fast lookups (e.g., conversions).
+     *
+     * @return void
+     * @since 15.0.0
+     */
+    public function addSessionIdEventNameIndexToEvents()
+    {
+        $this->ensureConnection();
+
+        try {
+            DatabaseFactory::table('repair')
+                ->setName('events')
+                ->setArgs([
+                    'indexDefinition' => 'KEY `session_id_event_name` (`session_id`,`event_name`)',
+                ])
+                ->execute();
+        } catch (\Throwable $e) {
             $this->setErrorStatus($e->getMessage());
         }
     }

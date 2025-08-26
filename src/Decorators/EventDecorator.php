@@ -3,7 +3,7 @@
 namespace WP_Statistics\Decorators;
 
 use WP_Statistics\Components\DateTime;
-use WP_Statistics\Decorators\ResourceDecorator;
+use WP_Statistics\Decorators\PostDecorator;
 use WP_Statistics\Decorators\UserDecorator;
 use WP_Statistics\Models\VisitorsModel;
 
@@ -35,7 +35,7 @@ class EventDecorator
 
     public function getPage()
     {
-        return new ResourceDecorator($this->event->page_id);
+        return new PostDecorator($this->event->page_id);
     }
 
     public function getUser()

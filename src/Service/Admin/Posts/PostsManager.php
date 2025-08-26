@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\Posts;
 
+use WP_Statistics\Components\Addons;
 use WP_Statistics\Components\Assets;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
@@ -220,7 +221,7 @@ class PostsManager
         $dataProvider->setTo(date('Y-m-d'));
 
         // Fill `$dailyHits` based on MiniChart's `metric` option
-        $dailyHits = Helper::checkMiniChartOption('metric', 'views', 'visitors') ? $dataProvider->getDailyViews() : $dataProvider->getDailyVisitors();
+        $dailyHits = Addons::optionMatches('mini-chart', 'metric', 'views', 'visitors') ? $dataProvider->getDailyViews() : $dataProvider->getDailyVisitors();
 
         // Fill `$chartData` with real stats
         foreach ($dailyHits as $hit) {

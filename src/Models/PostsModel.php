@@ -486,4 +486,38 @@ class PostsModel extends BaseModel
 
         return $result;
     }
+
+    /**
+     * Retrieve a single post record.
+     *
+     * Returns one row from the `posts` table that matches the given criteria.
+     * By default it returns the latest published post of type `post`.
+     *
+     * @param array $args {
+     *     Optional. Query parameters.
+     * @type string $post_type Post‑type slug. Default 'post'.
+     * @type string $order_by Column used for ordering. Default 'post_date'.
+     * @type string $order Sort direction ('ASC' or 'DESC'). Default 'DESC'.
+     * }
+     * @return object|null The matched post row, or null if none found.
+     * @since 15.0.0
+     */
+    public function getPost($args)
+    {
+        $args = $this->parseArgs($args, [
+            'post_type' => 'post',
+            'order_by'  => 'post_date',
+            'order'     => 'DESC',
+        ]);
+
+        $result = Query::select('*')
+            ->from('posts')
+            ->where('post_type', '=', $args['post_type'])
+            ->orderBy($args['order_by'], $args['order'])
+            ->perPage(1, 1)
+            ->allowCaching()
+            ->getRow();
+
+        return $result;
+    }
 }

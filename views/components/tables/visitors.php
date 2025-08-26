@@ -47,13 +47,37 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
 
                 <tbody>
                     <?php foreach ($data as $visitor) : ?>
-                        <?php /** @var VisitorDecorator $visitor */ ?>
+                        <?php
+                            if ($visitor instanceof VisitorDecorator) {
+                                $initialViewDate = $visitor->getPageView();
+                                $lastViewdate    = $visitor->getLastView();
+
+                                $countryCode = $visitor->getLocation()->getCountryCode();
+                                $countryName = $visitor->getLocation()->getCountryName();
+                                $countryFlag = $visitor->getLocation()->getCountryFlag();
+                                $region      = $visitor->getLocation()->getRegion();
+                                $city        = $visitor->getLocation()->getCity();
+
+                                $hits = $visitor->getHits();
+                            } else {
+                                $initialViewDate = $visitor->getInitialView()->getViewedAt();
+                                $lastViewdate    = $visitor->getLastView()->getViewedAt();
+
+                                $countryCode = $visitor->getCountry()->getCode();
+                                $countryName = $visitor->getCountry()->getName();
+                                $countryFlag = $visitor->getCountry()->getFlag();
+                                $region      = $visitor->getCity()->getRegionName();
+                                $city        = $visitor->getCity()->getName();
+
+                                $hits = $visitor->getViews();
+                            } 
+                        ?>
                         <tr>
                             <td class="wps-pd-l">
                                 <?php if (!empty($single_post)) : ?>
-                                    <?php echo esc_html($visitor->getPageView()); ?>
+                                    <?php echo esc_html($initialViewDate); ?>
                                 <?php else : ?>
-                                    <?php echo esc_html($visitor->getLastView()); ?>
+                                    <?php echo esc_html($lastViewdate); ?>
                                 <?php endif; ?>
                             </td>
 
@@ -74,7 +98,17 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
                             <?php if (empty($hide_entry_page_column)) : ?>
                                 <td class="wps-pd-l">
                                     <?php
-                                    $page = $visitor->getFirstPage();
+                                    if ($visitor instanceof VisitorDecorator) {
+                                        $initialResource      = $visitor->getFirstPage();
+                                        $initialResourceLink  = $initialResource['link'];
+                                        $initialResourceTitle = $initialResource['title'];
+                                        $initialesourceQuery  = $initialResource['query'] ? "?{$initialResource['query']}" : '';
+                                    } else {
+                                        $initialResource      = $visitor->getInitialView()->getResource();
+                                        $initialResourceLink  = $initialResource->getUrl();
+                                        $initialResourceTitle = $initialResource->getTitle();
+                                        $initialesourceQuery  = $visitor->getParameter($initialResource->getId())->getFull();
+                                    }
 
                                     if (!empty($page)) :
                                         View::load("components/objects/internal-link", [
@@ -92,7 +126,15 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
                             <?php if (empty($hide_latest_page_column)) : ?>
                                 <td class="wps-pd-l">
                                     <?php
-                                    $page = $visitor->getLastPage();
+                                   if ($visitor instanceof VisitorDecorator) {
+                                        $lastResource      = $visitor->getLastPage();
+                                        $lastResourceLink  = $lastResource['link'];
+                                        $lastResourceTitle = $lastResource['title'];
+                                    } else {
+                                        $lastResource      = $visitor->getLastView()->getResource();
+                                        $lastResourceLink  = $lastResource->getUrl();
+                                        $lastResourceTitle = $lastResource->getTitle();
+                                    }
 
                                     if (!empty($page)) :
                                         View::load("components/objects/internal-link", [
@@ -107,7 +149,17 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
                             <?php endif; ?>
 
                             <td class="wps-pd-l">
-                                <a target="<?php echo esc_attr($linksTarget); ?>" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>"><?php echo esc_html($visitor->getHits()) ?></a>
+                                <a
+                                    target="<?php echo esc_attr($linksTarget); ?>"
+                                    href="<?php echo esc_url(Menus::admin_url(
+                                        'visitors', [
+                                            'type' => 'single-visitor',
+                                            'visitor_id' => $visitor->getId()
+                                        ]
+                                    )) ?>"
+                                >
+                                    <?php echo esc_html($hits) ?>
+                                </a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

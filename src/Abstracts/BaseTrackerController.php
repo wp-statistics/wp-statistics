@@ -1,0 +1,71 @@
+<?php
+
+namespace WP_Statistics\Abstracts;
+
+use Exception;
+use WP_Statistics\Service\Tracking\TrackerHelper;
+use WP_Statistics\Utils\Signature;
+
+/**
+ * Abstract base class for WP Statistics tracking implementations.
+ * Implements request signature validation and defines the structure
+ * for tracking endpoint registration and routing.
+ *
+ * @since 15.0.0
+ */
+abstract class BaseTrackerController
+{
+    /**
+     * REST API endpoint slug for recording page hits.
+     * Used to register the /hit endpoint that handles tracking page views.
+     *
+     * @var string
+     */
+    protected const ENDPOINT_HIT = 'hit';
+
+    /**
+     * Namespace for tracking endpoints.
+     *
+     * @since 15.0.0
+     * @var string
+     */
+    protected $namespace = 'wp-statistics/v2';
+
+    /**
+     * Validate request signature for tracking authenticity.
+     *
+     * @throws Exception Invalid signature results in 403 status code
+     * @since 15.0.0
+     */
+    protected function checkSignature()
+    {
+        if (!TrackerHelper::isSignatureEnabled()) {
+            return;
+        }
+
+        $signature = !empty($_REQUEST['signature']) ? sanitize_text_field($_REQUEST['signature']) : '';
+        $payload   = [
+            !empty($_REQUEST['resource_type']) ? sanitize_text_field($_REQUEST['resource_type']) : '',
+            !empty($_REQUEST['resource_id']) ? (int)sanitize_text_field($_REQUEST['resource_id']) : 0,
+        ];
+
+        if (!Signature::check($payload, $signature)) {
+            throw new Exception(__('Invalid signature', 'wp-statistics'), 403);
+        }
+    }
+
+    /**
+     * Register tracking endpoints.
+     *
+     * @since 15.0.0
+     */
+    abstract public function register();
+
+    /**
+     * Get tracking endpoint route.
+     *
+     * @return string|null Tracking endpoint route
+     * @since 15.0.0
+     */
+    abstract public function getRoute();
+}
