@@ -5,6 +5,7 @@
 - **Fix:** Prevented false `Queue Migration` notice after updates.
 - **Enhancement:** Refactored the update process and database schema updates to run on the frontend.
 - **Enhancement:** Optimized the database manager to prevent duplicate queries.
+- **Enhancement:** Refactored the install/uninstall codebase into separate classes for activation, load, and uninstall.
 
 = 14.15.3 - 2025-08-18 =
 - **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.
