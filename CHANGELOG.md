@@ -9,6 +9,14 @@
 - **Enhancement:** Randomized the execution time of the GeoIP update event to reduce simultaneous load on jsdelivr.
 - **Enhancement:** Improve performance of visitor migration.
 
+= 14.15.3 - 2025-08-18 =
+- **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.
+- **Fix:** Correct redirect URL after clicking 'Start Migration'.
+- **Fix:** Fixed Author Analytics filter issue.
+- **Enhancement:** Added LiteSpeed Cache detection for improved cache-related warning notifications.
+- **Enhancement:** Randomized the execution time of the GeoIP update event to reduce simultaneous load on jsdelivr.
+- **Enhancement:** Improve performance of visitor migration.
+
 = 14.15.2 - 2025-08-10 =
 - **New:** Added compatibility with the `Borlabs Cookie` plugin.
 - **New:** License keys can now be set via `wp-config.php` using constants like `WP_STATISTICS_LICENSE` and are automatically validated on init.
