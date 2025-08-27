@@ -46,9 +46,15 @@ use WP_Statistics\Decorators\VisitorDecorator;
 
         <li class="wps-visitor__information">
             <div>
-                <a aria-label="visitor information" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>">
-                    <span class="wps-visitor__information__incognito-img"></span>
-                </a>
+                <?php if ($visitor->isLoggedInUser()) : ?>
+                    <a aria-label="Visitor Information" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])); ?>">
+                        <span class="wps-visitor__information__user-img"></span>
+                    </a>
+                <?php else : ?>
+                    <a aria-label="visitor information" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>">
+                        <span class="wps-visitor__information__incognito-img"></span>
+                    </a>
+                <?php endif; ?>
 
                 <?php if (!Option::get('hash_ips') || Option::get('visitors_log')) : ?>
                     <?php if ($visitor->isLoggedInUser()) : ?>
