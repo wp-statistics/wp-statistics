@@ -8,6 +8,7 @@ use WP_Statistics\Components\Event;
 use WP_Statistics\Components\SystemCleaner;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Option;
+use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
 use WP_Statistics\Service\Database\Managers\TableHandler;
 use WP_Statistics\Service\Database\Migrations\Schema\SchemaManager;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
@@ -55,6 +56,7 @@ class Updater extends AbstractCore
         $this->updateVersion();
 
         SchemaManager::init();
+        SchemaMaintainer::repair(true);
     }
 
     /**
