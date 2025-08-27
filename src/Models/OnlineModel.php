@@ -79,6 +79,7 @@ class OnlineModel extends BaseModel
             'per_page'      => '',
             'order_by'      => 'last_view',
             'order'         => 'DESC',
+            'decorate'      => true
         ]);
 
         $query = Query::select('*')
@@ -90,8 +91,11 @@ class OnlineModel extends BaseModel
             ->where('last_page', '=', $args['page_id'])
             ->whereDate('last_view', $this->timeframe)
             ->perPage($args['page'], $args['per_page'])
-            ->orderBy($args['order_by'], $args['order'])
-            ->decorate(VisitorDecorator::class);
+            ->orderBy($args['order_by'], $args['order']);
+
+        if ($args['decorate'] === true) {
+            $query->decorate(VisitorDecorator::class);
+        }
 
         if ($args['logged_in'] === true) {
             $query->where('visitor.user_id', '!=', 0);
