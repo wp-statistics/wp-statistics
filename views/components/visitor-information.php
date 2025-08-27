@@ -46,7 +46,7 @@ use WP_Statistics\Decorators\VisitorDecorator;
 
         <li class="wps-visitor__information">
             <div>
-                <?php if ($visitor->isLoggedInUser()) : ?>
+                <?php if ($visitor->isLoggedInUser() && Option::get('visitors_log')) : ?>
                     <a aria-label="Visitor Information" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])); ?>">
                         <span class="wps-visitor__information__user-img"></span>
                     </a>
@@ -57,7 +57,7 @@ use WP_Statistics\Decorators\VisitorDecorator;
                 <?php endif; ?>
 
                 <?php if (!Option::get('hash_ips') || Option::get('visitors_log')) : ?>
-                    <?php if ($visitor->isLoggedInUser()) : ?>
+                    <?php if ($visitor->isLoggedInUser() && Option::get('visitors_log')) : ?>
                         <a class="wps-visitor__information__user-text wps-tooltip" title="<?php echo esc_html($visitor->getUser()->getEmail()) ?> (<?php echo esc_html($visitor->getUser()->getRole()) ?>)" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])); ?>">
                             <span title="<?php echo esc_html($visitor->getUser()->getDisplayName()) ?>"><?php echo esc_html($visitor->getUser()->getDisplayName()) ?></span>
                             <span>#<?php echo esc_html($visitor->getUser()->getId()) ?></span>
