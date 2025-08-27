@@ -6,18 +6,24 @@ use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_Statistics\Utils\Query;
+use WP_STATISTICS\Visitor;
 
 class OnlineModel extends BaseModel
 {
-    /**
-     * Timeframe in which visitors are counted as online. Default: 5 minutes.
-     */
-    protected $onlineTimeframe;
+    protected $timeframe;
 
-    public function __construct()
+    /**
+     * @param array $args
+     *      - timeframe: int Timeframe in minutes. Default: 5 minutes.
+     */
+    public function __construct($args = [])
     {
-        $this->onlineTimeframe = [
-            'from' => DateTime::get('-5 min', 'Y-m-d H:i:s'),
+        $args = wp_parse_args($args, [
+            'timeframe' => 5
+        ]);
+
+        $this->timeframe = [
+            'from' => DateTime::get('-' . $args['timeframe'] . ' min', 'Y-m-d H:i:s'),
             'to'   => DateTime::get('now', 'Y-m-d H:i:s')
         ];
     }
@@ -40,7 +46,7 @@ class OnlineModel extends BaseModel
             ->where('platform', '=', $args['platform'])
             ->where('agent', '=', $args['agent'])
             ->where('last_page', '=', $args['page_id'])
-            ->whereDate('last_view', $this->onlineTimeframe);
+            ->whereDate('last_view', $this->timeframe);
 
         if ($args['logged_in'] === true) {
             $query->where('visitor.user_id', '!=', 0);
@@ -82,7 +88,7 @@ class OnlineModel extends BaseModel
             ->where('platform', '=', $args['platform'])
             ->where('agent', '=', $args['agent'])
             ->where('last_page', '=', $args['page_id'])
-            ->whereDate('last_view', $this->onlineTimeframe)
+            ->whereDate('last_view', $this->timeframe)
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
             ->decorate(VisitorDecorator::class);
@@ -101,5 +107,20 @@ class OnlineModel extends BaseModel
         $result = $query->getAll();
 
         return $result ? $result : [];
+    }
+
+    public function getActivePages($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            // ...
+        ]);
+
+        $result = Query::select(['page_id', 'COUNT(DISTINCT visitor_id) as visitors', 'COUNT(*) as views'])
+            ->from('visitor_relationships')
+            ->whereDate('date', $this->timeframe)
+            ->groupBy('page_id')
+            ->getAll();
+
+        return $result ?? [];
     }
 }
