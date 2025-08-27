@@ -26,7 +26,7 @@ class WpConsentApi extends AbstractIntegration
      */
     public function isActive()
     {
-        return is_plugin_active($this->getPath()) && !empty($this->getCompatiblePlugins());
+        return is_plugin_active($this->getPath());
     }
 
     public function hasConsent()

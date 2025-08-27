@@ -125,17 +125,20 @@ $hasCompatiblePlugins = !empty($compatiblePlugins);
                         <option value="" <?php selected(WP_STATISTICS\Option::get('consent_integration')); ?>><?php esc_html_e('None', 'wp-statistics'); ?></option>
 
                         <?php foreach (IntegrationHelper::getAllIntegrations() as $integration) : ?>
+                        <?php var_dump($integration); ?>
                             <option <?php disabled(!$integration->isSelectable()) ?> value="<?php echo esc_attr($integration->getKey()); ?>" <?php selected(WP_STATISTICS\Option::get('consent_integration'), $integration->getKey()); ?>><?php echo esc_html($integration->getName()); ?></option>
                         <?php endforeach; ?>
                     </select>
                     <p class="description"><?php esc_html_e("Enable integration with supported consent management plugins, such as WP Consent API and Real Cookie Banner, to ensure WP Statistics respects user privacy preferences. When enabled, WP Statistics will only track data based on the consent settings provided by your active consent management plugin.", 'wp-statistics'); ?></p>
-                    <p class="description">
-                        <?php echo sprintf(
-                            __('WP Consent API is active, but no compatible consent plugin is installed. WP Statistics won’t use consent until you add one. <a href="%s">See compatible plugins</a>.', 'wp-statistics'),
-                            "https://wp-statistics.com/resources/compatible-consent-plugins-with-wp-statistics/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings"
-                        );
-                        ?>
-                    </p>
+                    <?php if (WP_STATISTICS\Option::get('consent_integration') === 'wp_consent_api' && !$hasCompatiblePlugins) : ?>
+                        <p class="description">
+                            <?php echo sprintf(
+                                __('WP Consent API is active, but no compatible consent plugin is installed. WP Statistics won’t use consent until you add one. <a href="%s">See compatible plugins</a>.', 'wp-statistics'),
+                                "https://wp-statistics.com/resources/compatible-consent-plugins-with-wp-statistics/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings"
+                            );
+                            ?>
+                        </p>
+                    <?php endif; ?>
                     <?php
                     if (!$hasCompatiblePlugins) {
                         echo wp_kses_post(sprintf(
