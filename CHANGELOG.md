@@ -3,9 +3,11 @@
 - **Fix:** Fixed `Top Pages` widget sort issue on `Page Insights` report.
 - **Fix:** Region widget issue when country is not detected on `Geographic` page.
 - **Fix:** Prevented false `Queue Migration` notice after updates.
+- **Fix:** Corrected Filter Modal Reset button redirect.
 - **Enhancement:** Refactored the update process and database schema updates to run on the frontend.
 - **Enhancement:** Optimized the database manager to prevent duplicate queries.
-- **Enhancement:** Show visitors IP only if `Hash IP addresses` option is disabled.
+- **Enhancement:** Adjust Visitor Info display logic
+- **Enhancement:** Refactored the install/uninstall codebase into separate classes for activation, load, and uninstall.
 
 = 14.15.3 - 2025-08-18 =
 - **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.
