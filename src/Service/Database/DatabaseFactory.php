@@ -21,7 +21,7 @@ use WP_Statistics\Service\Database\Operations\Update;
  * and manage different migration types (e.g., schema, data).
  *
  * @package   Database
- * @version   1.0.0
+ * @version   1.4.0
  * @since     14.12.3
  * @author    Hooman
  */
@@ -53,6 +53,13 @@ class DatabaseFactory
     ];
 
     /**
+     * Cache of instantiated table operation.
+     *
+     * @var array<string, AbstractTableOperation>
+     */
+    private static $operationInstance = [];
+
+    /**
      * Create an instance of a specific table operation.
      *
      * @param string $operation The name of the operation (e.g., 'create', 'drop').
@@ -62,6 +69,10 @@ class DatabaseFactory
     public static function table($operation)
     {
         $operation = strtolower($operation);
+
+        if (!empty(self::$operationInstance[$operation])) {
+            return self::$operationInstance[$operation];
+        }
 
         if (!isset(self::$operations[$operation])) {
             throw new \InvalidArgumentException("Invalid operation: {$operation}");
@@ -73,7 +84,9 @@ class DatabaseFactory
             throw new \InvalidArgumentException("Class not exist: {$providerClass}");
         }
 
-        return new $providerClass();
+        self::$operationInstance[$operation] = new $providerClass();
+
+        return self::$operationInstance[$operation];
     }
 
     /**

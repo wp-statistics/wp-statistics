@@ -13,13 +13,6 @@ use RuntimeException;
 class Select extends AbstractTableOperation
 {
     /**
-     * Stores the result of the executed query.
-     *
-     * @var array|null
-     */
-    private $result;
-
-    /**
      * Output format (ARRAY_A, ARRAY_N, OBJECT).
      *
      * @var string
