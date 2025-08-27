@@ -517,7 +517,9 @@ FilterModal.prototype.onResetFilterClick = function (e) {
     const url = new URL(window.location.href);
 
     this.fieldTypes.forEach((param) => {
-        url.searchParams.delete(param);
+        if (param !== 'tab') {
+            url.searchParams.delete(param);
+        }
     });
 
     window.location.href = url.toString();

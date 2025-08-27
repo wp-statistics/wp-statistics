@@ -3,6 +3,7 @@
 - **Fix:** Fixed `Top Pages` widget sort issue on `Page Insights` report.
 - **Fix:** Region widget issue when country is not detected on `Geographic` page.
 - **Fix:** Prevented false `Queue Migration` notice after updates.
+- **Fix:** Corrected Filter Modal Reset button redirect.
 - **Enhancement:** Refactored the update process and database schema updates to run on the frontend.
 - **Enhancement:** Optimized the database manager to prevent duplicate queries.
 - **Enhancement:** Refactored the install/uninstall codebase into separate classes for activation, load, and uninstall.
