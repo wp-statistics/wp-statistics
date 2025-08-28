@@ -51,43 +51,6 @@ class optimization_page extends Singleton
             return;
         }
 
-        // Update All GEO IP Country
-        if (isset($_POST['update_location_action']) && intval($_POST['update_location_action']) == 1) {
-            $method   = Option::get('geoip_location_detection_method', 'maxmind');
-            $provider = MaxmindGeoIPProvider::class;
-
-            if ('dbip' === $method) {
-                $provider = DbIpProvider::class;
-            }
-
-            // First download/update the GeoIP database
-            GeolocationFactory::downloadDatabase($provider);
-
-            // Update GeoIP data for visitors with incomplete information
-            BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
-
-            // Show Notice
-            Notice::addFlashNotice(__('GeoIP update for incomplete visitors initiated successfully.', 'wp-statistics'), 'success');
-        }
-
-        // Update source channel data
-        if (isset($_POST['update_source_channels_action']) && intval($_POST['update_source_channels_action']) == 1) {
-
-            // Update source channel data for visitors with incomplete information
-            BackgroundProcessFactory::batchUpdateSourceChannelForVisitors();
-
-            // Show Notice
-            Notice::addFlashNotice(__('Source channel update for visitors initiated successfully.', 'wp-statistics'), 'success');
-        }
-
-        // Check Hash IP Update
-        if (isset($_POST['update_ips_action']) && intval($_POST['update_ips_action']) == 1) {
-            $result = IP::Update_HashIP_Visitor();
-
-            // Show Notice
-            Notice::addFlashNotice(sprintf(__('Successfully anonymized <b>%d</b> IP addresses using hash values.', 'wp-statistics'), $result), 'success');
-        }
-
         // Update Historical Value
         if (isset($_POST['submit'], $_POST['historical-submit']) and intval($_POST['historical-submit']) == 1) {
             $historical_table = DB::table('historical');
@@ -114,19 +77,6 @@ class optimization_page extends Singleton
 
             // Show Notice
             Notice::addFlashNotice(__('Historical Data Successfully Updated.', "wp-statistics"), "success");
-        }
-
-        // Repair Schema Issues
-        if (Request::has('repair_schema_action')) {
-            $schemaRepairResult = SchemaMaintainer::repair();
-            $databaseStatus     = $schemaRepairResult['status'] ?? null;
-
-            // Show Notice
-            if ($databaseStatus === 'success') {
-                Notice::addFlashNotice(__('Database schema issues have been successfully repaired.', 'wp-statistics'), 'success');
-            } else {
-                Notice::addFlashNotice(__('Failed to repair database schema. Please try again.', 'wp-statistics'), 'error');
-            }
         }
     }
 }
