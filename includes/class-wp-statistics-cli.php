@@ -4,6 +4,7 @@ namespace WP_STATISTICS;
 
 use Exception;
 use WP_Statistics\Service\Analytics\VisitorProfile;
+use WP_Statistics\Service\Database\Managers\TableHandler;
 
 /**
  * WP Statistics
@@ -215,8 +216,9 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
     {
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-install.php';
-        global $wpdb;
-        Install::create_table(false);
+
+        TableHandler::createAllTables();
+
         \WP_CLI::Success('Reinitialized WP Statistics Database!');
     }
 
