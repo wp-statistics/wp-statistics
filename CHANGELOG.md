@@ -1,5 +1,6 @@
 = 14.16 - 2025-**-** =
 - **Enhancement:** Updated PHP requirement to v7.4 and WordPress requires to v6.6
+- **Enhancement:** responsiveness by converting "Optimize Page" events on the Plugin Maintenance tab to asynchronous AJAX requests.
 
 = 14.15.3 - 2025-08-18 =
 - **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.
