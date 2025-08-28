@@ -310,12 +310,31 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
         });
     }
 
+    wps_js.handleGoogleSearchButton = function(key, link, title) {
+        const $container = jQuery(`#${key}`);
+        const $actionButtons = $container.find('.handle-actions button:first');
+        const $googleLink = $container.find('.wps-google-link');
+        if ($googleLink.length) $googleLink.remove();
+        const linkAttributes = {
+            href: link,
+            class: title ?'wps-tooltip handlediv wps-google-link' :'handlediv wps-google-link',
+            target: '_blank',
+            ...(title && { title })
+        };
+        const $newLink = jQuery('<a>', linkAttributes)
+            .append('<span class="wps_search-console_icon"></span>')
+            .insertBefore($actionButtons);
+    };
+
     wps_js.handleMetaBoxRender = function (response, metaBoxKey) {
         const keyName = metaBoxKey.replace(/-/g, '_');
         if (typeof wps_js[`render_${keyName}`] === 'function') {
             wps_js[`render_${keyName}`](response, metaBoxKey);
             wps_js.handelReloadButton(metaBoxKey);
-            wps_js.handelMetaBoxFooter(metaBoxKey, response);
+            if(response?.options?.google_icon_url){
+                wps_js.handleGoogleSearchButton(metaBoxKey , response.options?.google_icon_url , response.options?.google_icon_tooltip );
+            }
+             wps_js.handelMetaBoxFooter(metaBoxKey, response);
         }
     };
 

@@ -76,13 +76,22 @@ class Frontend
                 ],
                 'jsCheckTime'           => apply_filters('wp_statistics_js_check_time_interval', 60000),
                 'isLegacyEventLoaded'   => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded
+                'customEventAjaxUrl'    => add_query_arg(['action' => 'wp_statistics_custom_event', 'nonce' => wp_create_nonce('wp_statistics_custom_event')], admin_url('admin-ajax.php')),
             );
 
             if (defined('WP_DEBUG') && WP_DEBUG) {
                 $jsArgs['isConsoleVerbose'] = true;
             }
 
-            Assets::script('tracker', 'js/tracker.js', [], $jsArgs, true, Option::get('bypass_ad_blockers', false));
+
+            // Add tracker.js dependencies
+            $dependencies = [];
+            $integration = IntegrationHelper::getActiveIntegration();
+            if ($integration) {
+                $dependencies = $integration->getJsHandles();
+            }
+
+            Assets::script('tracker', 'js/tracker.js', $dependencies, $jsArgs, true, Option::get('bypass_ad_blockers', false));
         }
 
         // Load Chart.js library

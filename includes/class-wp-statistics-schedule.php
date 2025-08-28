@@ -60,13 +60,7 @@ class Schedule
                 wp_unschedule_event(wp_next_scheduled('wp_statistics_dbmaint_hook'), 'wp_statistics_dbmaint_hook');
             }
 
-            // Add the add visit table row schedule if it does exist and it should.
-            if (!wp_next_scheduled('wp_statistics_add_visit_hook')) {
-                wp_schedule_event(time(), 'daily', 'wp_statistics_add_visit_hook');
-            }
-
             //After construct
-            add_action('wp_statistics_add_visit_hook', array($this, 'add_visit_event'));
             add_action('wp_statistics_dbmaint_hook', array($this, 'dbmaint_event'));
         }
 
@@ -102,7 +96,7 @@ class Schedule
 
         // Add the GeoIP update schedule if it doesn't exist and it should be.
         if (!wp_next_scheduled('wp_statistics_geoip_hook') && Option::get('schedule_geoip')) {
-            wp_schedule_event(self::getSchedules()['monthly']['next_schedule'], 'monthly', 'wp_statistics_geoip_hook');
+            wp_schedule_event(self::getSchedules()['random_monthly']['next_schedule'], 'random_monthly', 'wp_statistics_geoip_hook');
         }
 
         // Remove the GeoIP update schedule if it does exist and it should shouldn't.
@@ -146,9 +140,11 @@ class Schedule
      */
     public static function getSchedules()
     {
-        $timestamp = time();
-        $timezone  = wp_timezone();
-        $datetime  = new \DateTime('@' . $timestamp);
+        $randomHour   = wp_rand(0, 23);
+        $randomMinute = wp_rand(0, 59);
+        $timestamp    = time();
+        $timezone     = wp_timezone();
+        $datetime     = new \DateTime('@' . $timestamp);
         $datetime->setTimezone($timezone);
 
         // Determine the day name based on the start of the week setting
@@ -167,37 +163,48 @@ class Schedule
         $biweekly->modify("next {$start_day_name} +1 week")->setTime(8, 0);
 
         // Monthly schedule
-        $monthly = clone $datetime;
+        $monthly      = clone $datetime;
         $monthly->modify('first day of next month')->setTime(8, 0);
 
+        // Random monthly schedule
+        $randomMonthly      = clone $datetime;
+        $randomMonthly->modify('first day of next month')->setTime($randomHour, $randomMinute);
+
         $schedules = [
-            'daily'    => [
+            'daily'          => [
                 'interval'      => DAY_IN_SECONDS,
                 'display'       => __('Daily', 'wp-statistics'),
                 'start'         => wp_date('Y-m-d', strtotime("-1 day")),
                 'end'           => wp_date('Y-m-d', strtotime("-1 day")),
                 'next_schedule' => $daily->getTimestamp()
             ],
-            'weekly'   => [
+            'weekly'         => [
                 'interval'      => WEEK_IN_SECONDS,
                 'display'       => __('Weekly', 'wp-statistics'),
                 'start'         => wp_date('Y-m-d', strtotime("-7 days")),
                 'end'           => wp_date('Y-m-d', strtotime("-1 day")),
                 'next_schedule' => $weekly->getTimestamp()
             ],
-            'biweekly' => [
+            'biweekly'       => [
                 'interval'      => 2 * WEEK_IN_SECONDS,
                 'display'       => __('Bi-Weekly', 'wp-statistics'),
                 'start'         => wp_date('Y-m-d', strtotime("-14 days")),
                 'end'           => wp_date('Y-m-d', strtotime("-1 day")),
                 'next_schedule' => $biweekly->getTimestamp()
             ],
-            'monthly'  => [
+            'monthly'        => [
                 'interval'      => MONTH_IN_SECONDS,
                 'display'       => __('Monthly', 'wp-statistics'),
                 'start'         => wp_date('Y-m-d', strtotime('First day of previous month')),
                 'end'           => wp_date('Y-m-d', strtotime('Last day of previous month')),
                 'next_schedule' => $monthly->getTimestamp()
+            ],
+            'random_monthly' => [
+                'interval'      => MONTH_IN_SECONDS,
+                'display'       => __('Monthly - Random Time', 'wp-statistics'),
+                'start'         => wp_date('Y-m-d', strtotime('First day of previous month')),
+                'end'           => wp_date('Y-m-d', strtotime('Last day of previous month')),
+                'next_schedule' => $randomMonthly->getTimestamp()
             ]
         ];
 
@@ -236,37 +243,6 @@ class Schedule
     public static function getNextScheduledTime($event)
     {
         return wp_next_scheduled($event);
-    }
-
-    /**
-     * adds a record for tomorrow to the visit table to avoid a race condition.
-     */
-    public function add_visit_event()
-    {
-        global $wpdb;
-
-        $date = TimeZone::getCurrentDate('Y-m-d', '+1');
-
-        // check if the record already exists
-        $exists = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM `" . DB::table('visit') . "` WHERE `last_counter` = %s", $date));
-        if ($exists > 0) {
-            return;
-        }
-
-        //Insert
-        $insert = $wpdb->insert(
-            DB::table('visit'),
-            array(
-                'last_visit'   => TimeZone::getCurrentDate('Y-m-d H:i:s', '+1'),
-                'last_counter' => TimeZone::getCurrentDate('Y-m-d', '+1'),
-                'visit'        => 0,
-            )
-        );
-        if (!$insert) {
-            if (!empty($wpdb->last_error)) {
-                \WP_Statistics::log($wpdb->last_error, 'warning');
-            }
-        }
     }
 
     /**

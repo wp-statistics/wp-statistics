@@ -19,25 +19,6 @@ class WpConsentApi extends AbstractIntegration
         return esc_html__('WP Consent API', 'wp-statistics');
     }
 
-    /**
-     * detection notice for "WP Consent API" plugin.
-     */
-    public function detectionNotice()
-    {
-        if (empty(self::getCompatiblePlugins())) return null;
-
-        return [
-            'key'           => 'wp_consent_api_detection_notice',
-            'title'         => esc_html__('Consent integration available', 'wp-statistics'),
-            'description'   => esc_html__('We’ve detected a consent plugin that supports WP Consent API. Enable the “WP Consent API integration” in WP Statistics → Settings → Privacy & Data Protection so your analytics respect visitor consent.', 'wp-statistics'),
-        ];
-    }
-
-    public function trackAnonymously()
-    {
-        return Option::get('anonymous_tracking', false) != false;
-    }
-
     public function hasConsent()
     {
         if (!function_exists('wp_has_consent')) {
@@ -90,6 +71,10 @@ class WpConsentApi extends AbstractIntegration
             $plugins['complianz-gdpr/complianz-gpdr.php'] = esc_html__('Complianz', 'wp-statistics');
         }
 
+        if (is_plugin_active('complianz-gdpr-premium/complianz-gpdr-premium.php')) {
+            $plugins['complianz-gdpr-premium/complianz-gpdr-premium.php'] = esc_html__('Complianz Premium', 'wp-statistics');
+        }
+
         if (is_plugin_active('cookiebot/cookiebot.php')) {
             $plugins['cookiebot/cookiebot.php'] = esc_html__('Cookiebot', 'wp-statistics');
         }
@@ -107,5 +92,16 @@ class WpConsentApi extends AbstractIntegration
         }
 
         return $plugins;
+    }
+
+    /**
+     * Return an array of js handles for this integration.
+     * The result will be used as dependencies for the tracker js file
+     *
+     * @return  array
+     */
+    public function getJsHandles()
+    {
+        return ['wp-consent-api'];
     }
 }

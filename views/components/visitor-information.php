@@ -24,7 +24,7 @@ use WP_Statistics\Decorators\VisitorDecorator;
         </li>
         <li class="wps-visitor__information">
             <div class="wps-tooltip" title="<?php echo esc_attr($visitor->getOs()->getName()) ?>">
-                <a href="<?php echo esc_url(Menus::admin_url('visitors', ['platform' => $visitor->getOs()->getName()])) ?>">
+                <a href="<?php echo esc_url(Menus::admin_url('visitors', ['tab' => 'visitors','platform' => $visitor->getOs()->getName()])) ?>">
                     <img src="<?php echo esc_url($visitor->getOs()->getLogo()) ?>" alt="<?php echo esc_attr($visitor->getOs()->getName()) ?>" width="15" height="15">
                 </a>
             </div>
@@ -38,7 +38,7 @@ use WP_Statistics\Decorators\VisitorDecorator;
 
         <li class="wps-visitor__information">
             <div class="wps-tooltip" title="<?php echo $visitor->getBrowser()->getName() !== __('(not set)', 'wp-statistics') ? esc_attr("{$visitor->getBrowser()->getName()} v{$visitor->getBrowser()->getVersion()}") : $visitor->getBrowser()->getName(); ?>">
-                <a href="<?php echo esc_url(Menus::admin_url('visitors', ['agent' => $visitor->getBrowser()->getRaw()])) ?>">
+                <a href="<?php echo esc_url(Menus::admin_url('visitors', ['tab' => 'visitors','agent' => $visitor->getBrowser()->getRaw()])) ?>">
                     <img src="<?php echo esc_url($visitor->getBrowser()->getLogo()) ?>" alt="<?php echo esc_attr($visitor->getBrowser()->getName()) ?>" width="15" height="15">
                 </a>
             </div>

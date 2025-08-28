@@ -13,6 +13,7 @@ class PluginHelper
      */
     public static $plugins = [
         'wp-statistics-data-plus'          => 'Data Plus',
+        'wp-statistics-marketing'          => 'Marketing',
         'wp-statistics-mini-chart'         => 'Mini Chart',
         'wp-statistics-advanced-reporting' => 'Advanced Reporting',
         'wp-statistics-realtime-stats'     => 'Real-Time Stats',

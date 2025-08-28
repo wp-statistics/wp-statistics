@@ -61,7 +61,8 @@ class GeographicPage extends MultiViewPage
 
             $message = sprintf(
                 __('Detected visitors without location data. Please <a href="%s">click here</a> to update the geographic data in the background. This is necessary for accurate analytics.', 'wp-statistics'),
-                esc_url($actionUrl)
+                esc_url($actionUrl),
+                '' // compatibility with old translations
             );
 
             Notice::addNotice($message, 'update_unknown_visitor_geoip');

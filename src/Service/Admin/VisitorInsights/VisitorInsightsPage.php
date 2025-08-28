@@ -30,7 +30,8 @@ class VisitorInsightsPage extends MultiViewPage
         $this->disableScreenOption();
     }
 
-    protected function setFilters() {
+    protected function setFilters()
+    {
         $userId          = Request::get('user_id', '');
         $authorInfo      = get_userdata($userId);
         $userPlaceholder = ! empty($authorInfo) ? $authorInfo->display_name . ' #' . $authorInfo->ID : esc_html__('All', 'wp-statistics');
@@ -43,6 +44,12 @@ class VisitorInsightsPage extends MultiViewPage
                 'name'  => 'page',
                 'attributes' => [
                     'value' => Menus::get_page_slug('visitors')
+                ]
+            ])
+            ->hidden('tabName', [
+                'name'  => 'tab',
+                'attributes' => [
+                    'value' => Request::get('tab')
                 ]
             ])
             ->select('browsers', [
@@ -110,7 +117,7 @@ class VisitorInsightsPage extends MultiViewPage
                 ],
             ])
             ->get();
-        
+
         return $this->filters;
     }
 }

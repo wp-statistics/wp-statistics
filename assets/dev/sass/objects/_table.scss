@@ -719,6 +719,10 @@
               align-self: flex-end;
               line-height :unset;
 
+              .rtl &{
+                direction: ltr;
+              }
+
               &__success {
                 color: #196140;
               }
@@ -749,6 +753,7 @@
                 position: relative;
                 display: inline-block;
                 padding: 0;
+                cursor: default;
 
                 &:before {
                   content: "";

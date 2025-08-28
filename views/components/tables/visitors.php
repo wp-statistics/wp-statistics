@@ -1,9 +1,9 @@
 <?php
-
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Utils\Url;
 
 $linksTarget    = !empty($open_links_in_new_tab) ? '_blank' : '';
 $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics') : esc_html__('Last View', 'wp-statistics')
@@ -76,12 +76,22 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
                                     <?php
                                     $page = $visitor->getFirstPage();
 
-                                    if (!empty($page)) :
-                                        View::load("components/objects/internal-link", [
-                                            'url'       => $page['report'],
-                                            'title'     => $page['title'],
-                                            'tooltip'   => $page['query'] ? "?{$page['query']}" : ''
-                                        ]);
+                                    if (!empty($page)) :?>
+                                        <div class="wps-entry-page">
+                                            <?php
+                                            View::load("components/objects/internal-link", [
+                                                'url'     => $page['report'],
+                                                'title'   => $page['title'],
+                                                'tooltip' => $page['query'] ? "?{$page['query']}" : ''
+                                            ]);
+                                            ?>
+
+                                            <?php $campaign = Url::getParam('?' . $page['query'], 'utm_campaign'); ?>
+                                            <?php if ($campaign) : ?>
+                                                <span class="wps-campaign-label wps-tooltip" title="<?php echo esc_attr__('Campaign:', 'wp-statistics') . ' ' . esc_attr($campaign); ?>"><?php echo esc_html($campaign); ?></span>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php
                                     else :
                                         echo Admin_Template::UnknownColumn();
                                     endif;

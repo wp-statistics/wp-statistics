@@ -9,6 +9,7 @@ use WP_STATISTICS\Admin_Assets;
 use WP_STATISTICS\UserOnline;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
+use WP_STATISTICS\Helper;
 use WP_Statistics\Abstracts\BaseTabView;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsDataProvider;
@@ -18,10 +19,12 @@ class TabsView extends BaseTabView
     private $isTrackLoggedInUsersEnabled;
     private $isOnlineUsersEnabled;
 
-    protected $defaultTab = 'visitors';
+    protected $defaultTab = 'overview';
     protected $tabs = [
+        'overview',
         'visitors',
         'views',
+        'search-terms',
         'top-visitors'
     ];
 
@@ -52,9 +55,16 @@ class TabsView extends BaseTabView
         parent::__construct();
     }
 
+    public function getOverviewData()
+    {
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Visitors_Object', $this->dataProvider->getOverviewChartsData());
+
+        return $this->dataProvider->getOverviewData();
+    }
+
     public function getViewsData()
     {
-        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Visitors_Object', $this->dataProvider->getChartsData());
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Visitors_Object', $this->dataProvider->getViewsChartsData());
 
         return $this->dataProvider->getViewsData();
     }
@@ -100,6 +110,11 @@ class TabsView extends BaseTabView
             ]),
             'tabs'       => [
                 [
+                    'link'  => Menus::admin_url('visitors', ['tab' => 'overview']),
+                    'title' => esc_html__('Overview', 'wp-statistics'),
+                    'class' => $this->isTab('overview') ? 'current' : '',
+                ],
+                [
                     'link'  => Menus::admin_url('visitors', ['tab' => 'visitors']),
                     'title' => esc_html__('Visitors', 'wp-statistics'),
                     'class' => $this->isTab('visitors') ? 'current' : '',
@@ -126,9 +141,36 @@ class TabsView extends BaseTabView
                     'tooltip' => esc_html__('Track engagement from logged-in users.', 'wp-statistics'),
                     'class'   => $this->isTab('logged-in-users') ? 'current' : '',
                     'hidden'  => !$this->isTrackLoggedInUsersEnabled
+                ],
+                [
+                    'id'        => 'search_terms',
+                    'link'      => Menus::admin_url('visitors', ['tab' => 'search-terms']),
+                    'title'     => esc_html__('Search Terms', 'wp-statistics'),
+                    'class'     => $this->isTab('search-terms') ? 'current' : '',
+                    'tooltip'   => esc_html__('To view this report, you need to have the Data Plus add-on.', 'wp-statistics'),
+                    'locked'    => !Helper::isAddOnActive('data-plus')
                 ]
             ]
         ];
+
+        // If Data Plus is active, relocate array items
+        if (Helper::isAddOnActive('data-plus')) {
+            $tabs = $args['tabs'];
+
+            $searchTerms = null;
+
+            foreach ($tabs as $key => $tab) {
+                if (!isset($tab['id'])) continue;
+
+                if ($tab['id'] === 'search_terms') {
+                    $searchTerms = $key;
+                }
+            }
+
+            $tabs = Helper::relocateArrayItems($tabs, $searchTerms, 3);
+
+            $args['tabs'] = $tabs;
+        }
 
         if ($this->isOnlineUsersEnabled && $this->isTab('online')) {
             $args['hasDateRang']        = false;
@@ -145,6 +187,7 @@ class TabsView extends BaseTabView
 
         Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
         View::load("pages/visitor-insights/$currentTab", $args);
+        do_action("wp_statistics_{$this->getCurrentPage()}_{$this->getCurrentTab()}_template", $args);
         Admin_Template::get_template(['layout/postbox.hide', 'layout/footer'], $args);
     }
 

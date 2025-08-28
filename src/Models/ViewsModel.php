@@ -166,7 +166,7 @@ class ViewsModel extends BaseModel
                 'visitor.ip',
                 'visitor.platform',
                 'visitor.agent',
-                'CAST(`visitor`.`version` AS SIGNED) as version',
+                'version',
                 'visitor.model',
                 'visitor.device',
                 'visitor.region',
@@ -312,6 +312,9 @@ class ViewsModel extends BaseModel
             'resource_id'   => '',
             'resource_type' => '',
             'date'          => '',
+            'group_by'      => 'id',
+            'not_null'      => '',
+            'order_by'      => 'views',
             'page'          => 1,
             'per_page'      => 10
         ]);
@@ -344,11 +347,50 @@ class ViewsModel extends BaseModel
                 ->where('id', '=', $args['resource_id'])
                 ->where('type', 'IN', $args['resource_type'])
                 ->whereDate('date', $args['date'])
+                ->whereNotNull($args['not_null'])
+                ->orderBy($args['order_by'])
                 ->perPage($args['page'], $args['per_page'])
-                ->groupBy('id')
+                ->groupBy($args['group_by'])
                 ->getAll();
         }
 
         return $results;
+    }
+
+    public function getPageRecord($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'fields'        => '*',
+            'page_id'       => '',
+            'ignore_date'   => true
+        ]);
+
+        $result = Query::select('*')
+            ->from('pages')
+            ->where('page_id', '=', $args['page_id'])
+            ->allowCaching()
+            ->getRow();
+
+        return $result;
+    }
+
+    public function countPagesRecords($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'resource_id'   => '',
+            'resource_type' => '',
+            'date'          => '',
+            'not_null'      => '',
+        ]);
+
+        $result = Query::select('COUNT(*)')
+            ->from('pages')
+            ->where('id', '=', $args['resource_id'])
+            ->where('type', 'IN', $args['resource_type'])
+            ->whereDate('date', $args['date'])
+            ->whereNotNull($args['not_null'])
+            ->getVar();
+
+        return $result;
     }
 }

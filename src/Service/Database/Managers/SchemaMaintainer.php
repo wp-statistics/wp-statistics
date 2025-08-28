@@ -43,8 +43,8 @@ class SchemaMaintainer
                     ->setName($tableName)
                     ->execute();
 
-                 $schema = Manager::getSchemaForTable($tableName);
-               
+                $schema = Manager::getSchemaForTable($tableName);
+
                 if (!$schema) {
                     continue;
                 }
@@ -148,10 +148,17 @@ class SchemaMaintainer
                                 'indexDefinition' => $issue['indexDefinition']
                             ])
                             ->execute();
+
+                        DatabaseFactory::table('inspect_columns')
+                            ->setName($issue['table'])
+                            ->updateCache();
                     }
 
                     if ($issue['type'] === 'table_missing') {
                         TableHandler::createTable($issue['table'], $issue['schema']);
+                        DatabaseFactory::table('inspect')
+                            ->setName($issue['table'])
+                            ->updateCache();
                     }
 
                     $results['fixed'][] = $issue;

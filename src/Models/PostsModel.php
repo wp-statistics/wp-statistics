@@ -197,13 +197,6 @@ class PostsModel extends BaseModel
             'url'           => ''
         ]);
 
-        $commentsQuery = Query::select(['comment_post_ID', 'COUNT(comment_ID) AS total_comments'])
-            ->from('comments')
-            ->where('comment_type', '=', 'comment')
-            ->whereDate('comment_date', $args['date'])
-            ->groupBy('comment_post_ID')
-            ->getQuery();
-
         $visitorsQuery = Query::select(['pages.id as post_id', 'COUNT(DISTINCT visitor_relationships.visitor_id) AS visitors'])
             ->from('visitor_relationships')
             ->join('pages', ['pages.page_id', 'visitor_relationships.page_id'])
@@ -227,7 +220,6 @@ class PostsModel extends BaseModel
             'posts.post_date AS date',
             'COALESCE(pages.views, 0) AS views',
             'COALESCE(visitors.visitors, 0) AS visitors',
-            'COALESCE(comments.total_comments, 0) AS comments'
         ];
 
         if (WordCountService::isActive()) {
@@ -236,7 +228,6 @@ class PostsModel extends BaseModel
 
         $query = Query::select($fields)
             ->from('posts')
-            ->joinQuery($commentsQuery, ['posts.ID', 'comments.comment_post_ID'], 'comments', 'LEFT')
             ->joinQuery($viewsQuery, ['posts.ID', 'pages.id'], 'pages')
             ->joinQuery($visitorsQuery, ['posts.ID', 'visitors.post_id'], 'visitors', 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
@@ -311,6 +302,53 @@ class PostsModel extends BaseModel
         $result = $query->getAll();
 
         return $result;
+    }
+
+    public function getPostsVisitorsData($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'          => '',
+            'resource_type' => Helper::get_list_post_type(),
+            'post_type'     => Helper::get_list_post_type(),
+            'order_by'      => 'visitors',
+            'order'         => 'DESC',
+            'page'          => 1,
+            'per_page'      => 10,
+            'author_id'     => '',
+            'event_name'    => '',
+            'post_ids'      => []
+        ]);
+
+        $visitorsQuery = Query::select(['pages.id as post_id', 'COUNT(DISTINCT visitor_relationships.visitor_id) AS visitors'])
+            ->from('visitor_relationships')
+            ->join('pages', ['pages.page_id', 'visitor_relationships.page_id'])
+            ->where('type', 'IN', $args['resource_type'])
+            ->whereDate('visitor_relationships.date', $args['date'])
+            ->groupBy('pages.id')
+            ->getQuery();
+
+        $query = Query::select([
+            'posts.ID AS post_id',
+            'posts.post_title AS title',
+            'COALESCE(visitors.visitors, 0) AS visitors',
+        ])
+            ->from('posts')
+            ->joinQuery($visitorsQuery, ['posts.ID', 'visitors.post_id'], 'visitors', 'LEFT')
+            ->where('posts.ID', 'IN', $args['post_ids'])
+            ->where('post_type', 'IN', $args['post_type'])
+            ->where('post_status', '=', 'publish')
+            ->where('posts.post_author', '=', $args['author_id'])
+            ->groupBy('posts.ID')
+            ->orderBy($args['order_by'], $args['order'])
+            ->perPage($args['page'], $args['per_page']);
+
+        if (!empty($args['event_name'])) {
+            $query
+                ->join('events', ['events.page_id', 'posts.ID'])
+                ->where('event_name', 'IN', $args['event_name']);
+        }
+
+        return $query->getAll();
     }
 
     public function getPostsCommentsData($args = [])

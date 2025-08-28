@@ -30,6 +30,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     let conditions = 0;
                     let satisfied = 0;
 
+                    const isOrCondition = element.classList.contains('js-wps-show_if_or');
+
                     classListArray.forEach(className => {
                         if (className.includes('_enabled') || className.includes('_disabled')) {
                             conditions++;
@@ -58,69 +60,158 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         }
                     });
 
-                    if (conditions > 0 && satisfied === conditions) {
-                        this.toggleDisplay(element);
-                    } else {
-                        element.style.display = 'none';
-                        const checkboxInside = element.querySelector('input[type="checkbox"]');
-                        if (checkboxInside) {
-                            checkboxInside.checked = false;
-                        }
-                    }
-                };
-
-                toggleElement();
-
-                classListArray.forEach(className => {
-                    if (className.includes('_enabled') || className.includes('_disabled')) {
-                        const id = this.extractId(element);
-                        const checkbox = document.querySelector(`#wps_settings\\[${id}\\]`);
-                        if (checkbox) {
-                            checkbox.addEventListener('change', toggleElement);
-                        }
-                    } else if (className.includes('_equal_')) {
-                        const {id} = this.extractIdAndValue(className);
-                        if (id) {
-                            const item = document.querySelector(`#wps_settings\\[${id}\\]`);
-                            if (item) {
-                                if ($(item).hasClass('select2-hidden-accessible')) {
-                                    $(item).on('select2:select', toggleElement);
-                                } else if (item.type === 'select-one') {
-                                    item.addEventListener('change', toggleElement);
+                    if (conditions > 0) {
+                        if (isOrCondition) {
+                            if (satisfied > 0) {
+                                this.toggleDisplay(element);
+                            } else {
+                                element.style.display = 'none';
+                                const checkboxInside = element.querySelector('input[type="checkbox"]');
+                                if (checkboxInside) {
+                                    checkboxInside.checked = false;
+                                }
+                            }
+                        } else {
+                            if (satisfied === conditions) {
+                                this.toggleDisplay(element);
+                            } else {
+                                element.style.display = 'none';
+                                const checkboxInside = element.querySelector('input[type="checkbox"]');
+                                if (checkboxInside) {
+                                    checkboxInside.checked = false;
                                 }
                             }
                         }
+                    } else {
+                        this.toggleDisplay(element);
+                        if (conditions > 0) {
+                            if (isOrCondition) {
+                                if (satisfied > 0) {
+                                    this.toggleDisplay(element);
+                                } else {
+                                    element.style.display = 'none';
+                                    const checkboxInside = element.querySelector('input[type="checkbox"]');
+                                    if (checkboxInside) {
+                                        checkboxInside.checked = false;
+                                    }
+                                }
+                            } else {
+                                if (satisfied === conditions) {
+                                    this.toggleDisplay(element);
+                                } else {
+                                    element.style.display = 'none';
+                                    const checkboxInside = element.querySelector('input[type="checkbox"]');
+                                    if (checkboxInside) {
+                                        checkboxInside.checked = false;
+                                    }
+                                }
+                            }
+                        } else {
+                            this.toggleDisplay(element);
+                        }
                     }
-                });
+                    ;
+
+                    toggleElement();
+
+                    classListArray.forEach(className => {
+                        if (className.includes('_enabled') || className.includes('_disabled')) {
+                            const id = this.extractId(element);
+                            const checkbox = document.querySelector(`#wps_settings\\[${id}\\]`);
+
+                            if (checkbox) {
+                                checkbox.addEventListener('change', toggleElement);
+                            }
+                        } else if (className.includes('_equal_')) {
+                            const {id} = this.extractIdAndValue(className);
+                            if (id) {
+                                const item = document.querySelector(`#wps_settings\\[${id}\\]`);
+                                if (item) {
+                                    if ($(item).hasClass('select2-hidden-accessible')) {
+                                        $(item).on('select2:select', toggleElement);
+                                    } else if (item.type === 'select-one') {
+                                        item.addEventListener('change', toggleElement);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            )
+                ;
+            }
+
+
+            toggleDisplay(element)
+            {
+                const displayType = element.tagName.toLowerCase() === 'tr' ? 'table-row' : 'table-cell';
+                element.style.display = displayType;
+            }
+
+            extractId(element)
+            {
+                const classes = element.className.split(' ');
+                for (const className of classes) {
+                    if (className.startsWith('js-wps-show_if_')) {
+                        return className.replace('js-wps-show_if_', '').replace('_enabled', '').replace('_disabled', '').replace('_equal_', '_');
+                    }
+                }
+                return null;
+            }
+
+            extractIdAndValue(className)
+            {
+                let id, value;
+                if (className.startsWith('js-wps-show_if_')) {
+                    const parts = className.split('_');
+                    const indexOfEqual = parts.indexOf('equal');
+                    if (indexOfEqual !== -1 && indexOfEqual > 2 && indexOfEqual < parts.length - 1) {
+                        id = parts.slice(2, indexOfEqual).join('_');
+                        value = parts.slice(indexOfEqual + 1).join('_');
+                    }
+                }
+                return {id, value};
+            }
+        }
+
+
+        class
+        GSCConnectButton {
+        constructor() {
+            this.clientIdInput = $('#gsc-client-id');
+            this.clientSecretInput = $('#gsc-client-secret');
+            this.connectBtn = $('#wps-gsc-connect-btn');
+            this.tooltipWrapper = this.connectBtn.closest('.wps-tooltip');
+
+            if (!this.clientIdInput.length || !this.clientSecretInput.length || !this.connectBtn.length || !this.tooltipWrapper.length) {
+                return;
+            }
+
+            this.initTooltip();
+            this.bindEvents();
+            this.toggleButtonState();
+        }
+
+        initTooltip() {
+            this.tooltipWrapper.tooltipster({
+                theme: 'tooltipster-shadow',
+                contentCloning: true
             });
         }
 
-        toggleDisplay(element) {
-            const displayType = element.tagName.toLowerCase() === 'tr' ? 'table-row' : 'table-cell';
-            element.style.display = displayType;
+        toggleButtonState() {
+            const hasClientId = this.clientIdInput.val().trim() !== '';
+            const hasClientSecret = this.clientSecretInput.val().trim() !== '';
+
+            if (!(hasClientId && hasClientSecret)) {
+                this.connectBtn.attr('disabled', 'disabled').addClass('is-disabled');
+                this.tooltipWrapper.tooltipster('content', this.tooltipWrapper.data('disable-tooltip'));
+            }
         }
 
-        extractId(element) {
-            const classes = element.className.split(' ');
-            for (const className of classes) {
-                if (className.startsWith('js-wps-show_if_')) {
-                    return className.replace('js-wps-show_if_', '').replace('_enabled', '').replace('_disabled', '');
-                }
-            }
-            return null;
-        }
-
-        extractIdAndValue(className) {
-            let id, value;
-            if (className.startsWith('js-wps-show_if_')) {
-                const parts = className.split('_');
-                const indexOfEqual = parts.indexOf('equal');
-                if (indexOfEqual !== -1 && indexOfEqual > 2 && indexOfEqual < parts.length - 1) {
-                    id = parts.slice(2, indexOfEqual).join('_');
-                    value = parts.slice(indexOfEqual + 1).join('_');
-                }
-            }
-            return {id, value};
+        bindEvents() {
+            this.clientIdInput.on('input', () => this.toggleButtonState());
+            this.clientSecretInput.on('input', () => this.toggleButtonState());
         }
     }
 
@@ -193,7 +284,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     updateHiddenInput(newValue);
                     initialRetention = newValue;
                     callback(true);
-                }, { once: true });
+                }, {once: true});
             }
 
             const closeButton = modal.querySelector('button[data-action="closeModal"]');
@@ -202,7 +293,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     modal.classList.remove('wps-modal--open');
                     revertToInitialState();
                     callback(false);
-                }, { once: true });
+                }, {once: true});
             }
 
             const overlay = modal.querySelector('.wps-modal__overlay');
@@ -211,7 +302,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     modal.classList.remove('wps-modal--open');
                     revertToInitialState();
                     callback(false);
-                }, { once: true });
+                }, {once: true});
             }
         }
 
