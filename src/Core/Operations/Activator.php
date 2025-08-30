@@ -4,6 +4,7 @@ namespace WP_Statistics\Core\Operations;
 
 use WP_Statistics\Core\AbstractCore;
 use WP_STATISTICS\Option;
+use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
 use WP_Statistics\Service\Database\Managers\TableHandler;
 
 /**
@@ -55,6 +56,7 @@ class Activator extends AbstractCore
         $this->markBackgroundProcessAsInitiated();
         $this->createOptions();
         $this->updateVersion();
+        SchemaMaintainer::repair(true);
     }
 
     private function createOptions()

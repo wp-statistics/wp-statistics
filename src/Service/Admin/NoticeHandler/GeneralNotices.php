@@ -334,6 +334,10 @@ class GeneralNotices
      */
     private function checkDbSchemaIssue()
     {
+        if (!Menus::in_plugin_page()) {
+            return;
+        }
+
         $schemaCheckResult = SchemaMaintainer::check();
         $databaseStatus    = $schemaCheckResult['status'] ?? null;
 

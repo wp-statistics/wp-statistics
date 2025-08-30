@@ -8,6 +8,7 @@
 - **Enhancement:** Optimized the database manager to prevent duplicate queries.
 - **Enhancement:** Adjust Visitor Info display logic
 - **Enhancement:** Refactored the install/uninstall codebase into separate classes for activation, load, and uninstall.
+- **Enhancement:** Optimized schema health check to run daily on dashboard and after activation or updates.
 
 = 14.15.3 - 2025-08-18 =
 - **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.
