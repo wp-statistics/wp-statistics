@@ -16,7 +16,17 @@ class WpConsentApi extends AbstractIntegration
      */
     public function getName()
     {
-        return esc_html__('WP Consent API', 'wp-statistics');
+        return esc_html__('Via WP Consent API', 'wp-statistics');
+    }
+
+    /**
+     * Return the consent level required for the integration to work.
+     *
+     * @return  string  The consent level
+     */
+    public function getConsentLevel()
+    {
+        return Option::get('consent_level_integration', 'functional');
     }
 
     public function hasConsent()
@@ -25,9 +35,9 @@ class WpConsentApi extends AbstractIntegration
             return true;
         }
 
-        $consentLevel = Option::get('consent_level_integration', 'disabled');
+        $consentLevel = $this->getConsentLevel();
 
-        return ($consentLevel === 'disabled') ? true : wp_has_consent($consentLevel);
+        return wp_has_consent($consentLevel);
     }
 
     /**
@@ -49,7 +59,7 @@ class WpConsentApi extends AbstractIntegration
     {
         return [
             'has_consent'       => $this->hasConsent(),
-            'consent_level'     => Option::get('consent_level_integration', 'disabled'),
+            'consent_level'     => $this->getConsentLevel(),
             'track_anonymously' => $this->trackAnonymously()
         ];
     }
@@ -59,7 +69,7 @@ class WpConsentApi extends AbstractIntegration
      *
      * @return array
      */
-    public static function getCompatiblePlugins()
+    public function getCompatiblePlugins()
     {
         $plugins = [];
 

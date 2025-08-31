@@ -323,7 +323,7 @@ class Updater extends AbstractCore
          * Update consent integration to WP Consent API for backward compatibility
          */
         $integration          = Option::get('consent_integration');
-        $consentLevel         = Option::get('consent_level_integration', 'disabled');
+        $consentLevel         = Option::get('consent_level_integration', 'functional');
         $isWpConsentApiActive = IntegrationHelper::getIntegration('wp_consent_api')->isActive();
 
         if ($isWpConsentApiActive && empty($integration) && $consentLevel !== 'disabled') {

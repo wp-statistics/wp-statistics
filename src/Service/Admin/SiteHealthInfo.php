@@ -184,10 +184,15 @@ class SiteHealthInfo
                 'value' => Option::get('hash_ips') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::get('hash_ips') ? 'Enabled' : 'Disabled',
             ],
+            'consentIntegration'      => [
+                'label' => esc_html__('Consent Integration', 'wp-statistics'),
+                'value' => Option::get('consent_integration'),
+                'debug' => Option::get('consent_integration'),
+            ],
             'wpConsentLevelIntegration'      => [
                 'label' => esc_html__('WP Consent Level Integration', 'wp-statistics'),
-                'value' => Option::get('consent_level_integration') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::get('consent_level_integration') ? 'Enabled' : 'Disabled',
+                'value' => Option::get('consent_level_integration'),
+                'debug' => Option::get('consent_level_integration'),
             ],
             'anonymousTracking'              => [
                 'label' => esc_html__('Anonymous Tracking', 'wp-statistics'),
