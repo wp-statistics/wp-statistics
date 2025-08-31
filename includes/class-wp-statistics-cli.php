@@ -214,9 +214,6 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
      */
     public function reinitialize($args, $assoc_args)
     {
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-install.php';
-
         TableHandler::createAllTables();
 
         \WP_CLI::Success('Reinitialized WP Statistics Database!');
