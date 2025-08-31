@@ -4,6 +4,7 @@
 - **Fix:** Region widget issue when country is not detected on `Geographic` page.
 - **Fix:** Prevented false `Queue Migration` notice after updates.
 - **Fix:** Corrected Filter Modal Reset button redirect.
+- **Fix:** Fixed visitor journey issue not recording recurring visits to the same page.
 - **Enhancement:** Refactored the update process and database schema updates to run on the frontend.
 - **Enhancement:** Optimized the database manager to prevent duplicate queries.
 - **Enhancement:** Adjust Visitor Info display logic
