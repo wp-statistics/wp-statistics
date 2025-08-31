@@ -188,7 +188,7 @@ class Manager
             'columns'     => [
                 'ID'         => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
                 'hash'       => 'varchar(128)',
-                'created_at' => 'datetime',
+                'created_at' => 'datetime NOT NULL',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
