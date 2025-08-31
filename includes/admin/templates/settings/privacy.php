@@ -1,7 +1,11 @@
 <?php
-
+use WP_STATISTICS\Option;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 
+$isWpConsentApiActive    = IntegrationHelper::getIntegration('wp_consent_api')->isActive();
+$compatiblePlugins       = IntegrationHelper::getIntegration('wp_consent_api')->getCompatiblePlugins();
+$consentIntegration      = Option::get('consent_integration');
+$consentLevelIntegration = Option::get('consent_level_integration');
 ?>
 
     <script type="text/javascript">
@@ -120,15 +124,29 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
 
                 <td>
                     <select id="consent_integration" name="wps_consent_integration" <?php disabled(IntegrationHelper::isIntegrationActive('borlabs_cookie')) ?>>
-                        <option value="" <?php selected(WP_STATISTICS\Option::get('consent_integration')); ?>><?php esc_html_e('None', 'wp-statistics'); ?></option>
+                        <option value="" <?php selected($consentIntegration); ?>><?php esc_html_e('None', 'wp-statistics'); ?></option>
 
-                        <?php foreach (IntegrationHelper::getAllIntegrations() as $integration) : ?>
-                            <option <?php disabled(!$integration->isSelectable()) ?> value="<?php echo esc_attr($integration->getKey()); ?>" <?php selected(WP_STATISTICS\Option::get('consent_integration'), $integration->getKey()); ?>><?php echo esc_html($integration->getName()); ?></option>
+                        <?php foreach (IntegrationHelper::getAllIntegrations() as $integration) :
+                            $key          = $integration->getKey();
+                            $name         = $integration->getName();
+                            $isSelectable = $integration->isSelectable();
+
+                            // Modify WP Consent API option title
+                            if ($key === 'wp_consent_api') {
+                                $name = esc_html__('Via WP Consent API', 'wp-statistics');
+                            }
+                        ?>
+                            <option <?php disabled(!$isSelectable) ?> value="<?php echo esc_attr($key); ?>" <?php selected($consentIntegration, $integration->getKey()); ?>><?php echo esc_html($name); ?></option>
                         <?php endforeach; ?>
                     </select>
                     <p class="description"><?php esc_html_e("Enable integration with supported consent management plugins, such as WP Consent API and Real Cookie Banner, to ensure WP Statistics respects user privacy preferences. When enabled, WP Statistics will only track data based on the consent settings provided by your active consent management plugin.", 'wp-statistics'); ?></p>
-                    <p class="description"><?php esc_html_e("Note: To use this feature, you must install and activate one of the supported consent management plugins.", 'wp-statistics'); ?></p>
-                    <p class="description"><?php _e("For step-by-step setup, refer to our <a target='_blank' href='https://wp-statistics.com/resources/integrating-wp-statistics-with-consent-management-plugins/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'>detailed guide</a>.", 'wp-statistics'); ?></p>
+
+                    <?php if ($isWpConsentApiActive && empty($compatiblePlugins)) : ?>
+                        <p class="description"><?php _e("WP Consent API is active, but no compatible consent plugin is installed. WP Statistics won’t use consent until you add one. <a target='_blank' href='https://wp-statistics.com/resources/integrating-wp-statistics-with-consent-management-plugins/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'>See compatible plugins</a>.", 'wp-statistics'); ?></p>
+                    <?php else : ?>
+                        <p class="description"><?php esc_html_e("Note: To use this feature, you must install and activate one of the supported consent management plugins.", 'wp-statistics'); ?></p>
+                        <p class="description"><?php _e("For step-by-step setup, refer to our <a target='_blank' href='https://wp-statistics.com/resources/integrating-wp-statistics-with-consent-management-plugins/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'>detailed guide</a>.", 'wp-statistics'); ?></p>
+                    <?php endif; ?>
                 </td>
             </tr>
 
@@ -138,17 +156,23 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
                 </th>
 
                 <td>
+                    <?php
+                        $consentLevels = [
+                            'functional'           => esc_html__('Functional', 'wp-statistics'),
+                            'statistics-anonymous' => esc_html__('Statistics-Anonymous', 'wp-statistics'),
+                            'statistics'           => esc_html__('Statistics', 'wp-statistics'),
+                            'marketing'            => esc_html__('Marketing', 'wp-statistics'),
+                        ];
+                    ?>
+
                     <select id="consent_level_integration" name="wps_consent_level_integration">
-                        <option value="functional" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'functional'); ?>><?php esc_html_e('Functional', 'wp-statistics'); ?></option>
-                        <option value="statistics-anonymous" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'statistics-anonymous'); ?>><?php esc_html_e('Statistics-Anonymous', 'wp-statistics'); ?></option>
-                        <option value="statistics" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'statistics'); ?>><?php esc_html_e('Statistics', 'wp-statistics'); ?></option>
-                        <option value="marketing" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'marketing'); ?>><?php esc_html_e('Marketing', 'wp-statistics'); ?></option>
+                        <?php foreach ($consentLevels as $key => $value) : ?>
+                            <option value="<?php echo esc_attr($key) ?>" <?php selected($consentLevelIntegration, $key); ?>><?php echo esc_html($value); ?></option>
+                        <?php endforeach; ?>
                     </select>
                     <p class="description"><?php esc_html_e("When using WP Consent API, select the consent category that WP Statistics should track. Only visitors who have consented to the selected category will be tracked.", 'wp-statistics'); ?></p>
 
                     <?php
-                    $compatiblePlugins = IntegrationHelper::getIntegration('wp_consent_api')->getCompatiblePlugins();
-
                     if (empty($compatiblePlugins)) {
                         echo wp_kses_post(
                             sprintf(

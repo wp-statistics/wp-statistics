@@ -10,13 +10,23 @@ class WpConsentApi extends AbstractIntegration
     protected $path = 'wp-consent-api/wp-consent-api.php';
 
     /**
+     * Check if integration option is selectable
+     *
+     * @return bool
+     */
+    public function isSelectable()
+    {
+        return $this->isActive() && !empty($this->getCompatiblePlugins());
+    }
+
+    /**
      * Returns the name of the integration.
      *
      * @return  string
      */
     public function getName()
     {
-        return esc_html__('Via WP Consent API', 'wp-statistics');
+        return esc_html__('WP Consent API', 'wp-statistics');
     }
 
     /**
@@ -46,6 +56,12 @@ class WpConsentApi extends AbstractIntegration
      */
     public function register()
     {
+        // If no compatible plugin found, deactivate the integration and return early
+        if (empty($this->getCompatiblePlugins())) {
+            Option::update('consent_integration', '');
+            return;
+        }
+
         $plugin = plugin_basename(WP_STATISTICS_MAIN_FILE);
         add_filter("wp_consent_api_registered_{$plugin}", '__return_true');
     }
