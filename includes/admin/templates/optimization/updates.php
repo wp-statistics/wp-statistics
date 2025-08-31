@@ -101,12 +101,7 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
 
 <div class="wrap wps-wrap wps-wrap__setting-form">
     <div class="postbox">
-        <?php
-        $agree_message = ($databaseStatus === 'success')
-            ? __('Are you sure you want to repair the schema issues?', 'wp-statistics')
-            : __('Are you sure you want to re-check Schema?', 'wp-statistics');
-        ?>
-        <form class="wps-submit-agree" data-agree="<?php echo esc_attr($agree_message); ?>" action="<?php echo esc_url(admin_url('admin.php?page=wps_optimization_page&tab=updates')) ?>" id="wps_database_schema_form" method="post">
+        <form class="wps-submit-agree" data-agree="<?php esc_html_e('Are you sure you want to repair the schema issues?', 'wp-statistics'); ?>" action="<?php echo esc_url(admin_url('admin.php?page=wps_optimization_page&tab=updates')) ?>" id="wps_database_schema_form" method="post">
             <?php wp_nonce_field('wps_optimization_nonce'); ?>
             <table class="form-table">
                 <tbody>
@@ -120,7 +115,7 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
                     </th>
                     <td>
                         <?php if ($databaseStatus === 'success'): ?>
-                            <button id="repair-schema-submit-button" class="button button-primary js-openModal-setting-confirmation wps-mt-0" type="button" name="recheck-schema-submit"><?php esc_html_e('Re-check Schema', 'wp-statistics'); ?></button>
+                            <button id="repair-schema-submit-button" class="button button-primary wps-mt-0" type="submit" name="recheck-schema-submit"><?php esc_html_e('Re-check Schema', 'wp-statistics'); ?></button>
                             <div class="wps-alert wps-alert__success wps-mt-0">
                                 <?php esc_html_e('Database schema is healthy.', 'wp-statistics'); ?>
                             </div>
