@@ -281,6 +281,7 @@ class Install
                                 dataType: "json",
                                 cache: false,
                                 data: {
+                                    '_wpnonce': '<?php echo esc_js(wp_create_nonce('update_post_type')); ?>',
                                     'action': 'wp_statistics_update_post_type_db',
                                     'number_all': <?php echo esc_html(self::get_require_number_update()); ?>
                                 },
@@ -347,6 +348,9 @@ class Install
         # Add Admin Ajax Process
         add_action('wp_ajax_wp_statistics_update_post_type_db', function () {
             global $wpdb;
+
+            # Check nonce
+            check_ajax_referer('update_post_type');
 
             # Create Default Obj
             $return = array('process_status' => 'complete', 'number_process' => 0, 'percentage' => 0);
