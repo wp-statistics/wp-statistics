@@ -134,7 +134,7 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
 
             <tr id="wps-consent-categories">
                 <th scope="row">
-                    <label for="consent_level_integration"><?php esc_html_e('Consent Categories', 'wp-statistics'); ?></label>
+                    <label for="consent_level_integration"><?php esc_html_e('Consent Category', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
@@ -145,7 +145,7 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
                         <option value="statistics" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'statistics'); ?>><?php esc_html_e('Statistics', 'wp-statistics'); ?></option>
                         <option value="marketing" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'marketing'); ?>><?php esc_html_e('Marketing', 'wp-statistics'); ?></option>
                     </select>
-                    <p class="description"><?php esc_html_e("When using WP Consent API, select the consent categories that WP Statistics should track. Only visitors who have consented to the selected categories will be tracked.", 'wp-statistics'); ?></p>
+                    <p class="description"><?php esc_html_e("When using WP Consent API, select the consent category that WP Statistics should track. Only visitors who have consented to the selected category will be tracked.", 'wp-statistics'); ?></p>
 
                     <?php
                     $compatiblePlugins = IntegrationHelper::getIntegration('wp_consent_api')->getCompatiblePlugins();
@@ -187,7 +187,7 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
                     <p class="description">
                         <?php _e('More Information: Learn more about configuring WP Consent API and the available categories in our <a target="_blank" href="https://wp-statistics.com/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings">WP Consent API documentation</a>.', 'wp-statistics'); ?>
                         <br/>
-                        <?php _e('Note: Selecting the correct categories ensures compliance with privacy laws and demonstrates respect for user preferences.', 'wp-statistics'); ?>
+                        <?php esc_html_e('Note: Selecting the correct category ensures compliance with privacy laws and demonstrates respect for user preferences.', 'wp-statistics'); ?>
                     </p>
                 </td>
             </tr>
