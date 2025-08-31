@@ -91,6 +91,22 @@ class WpConsentApi extends AbstractIntegration
             $plugins['gdpr-cookie-compliance/moove-gdpr.php'] = esc_html__('GDPR Cookie Compliance', 'wp-statistics');
         }
 
+        if (is_plugin_active('pressidium-cookie-consent/pressidium-cookie-consent.php')) {
+            $plugins['pressidium-cookie-consent/pressidium-cookie-consent.php'] = esc_html__('Pressidium Cookie Consent', 'wp-statistics');
+        }
+
+        if (is_plugin_active('conzent/conzent.php')) {
+            $plugins['conzent/conzent.php'] = esc_html__('Conzent', 'wp-statistics');
+        }
+
+        if (is_plugin_active('consent-studio-wordpress-plugin-stable/plugin.php')) {
+            $plugins['consent-studio-wordpress-plugin-stable/plugin.php'] = esc_html__('Consent Studio', 'wp-statistics');
+        }
+
+        if (is_plugin_active('webtoffee-gdpr-cookie-consent/webtoffee-gdpr-cookie-consent.php')) {
+            $plugins['webtoffee-gdpr-cookie-consent/webtoffee-gdpr-cookie-consent.php'] = esc_html__('GDPR Cookie Consent Plugin – CCPA Ready', 'wp-statistics');
+        }
+
         return $plugins;
     }
 
