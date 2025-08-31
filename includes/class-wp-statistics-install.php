@@ -356,7 +356,7 @@ class Install
             $return = array('process_status' => 'complete', 'number_process' => 0, 'percentage' => 0);
 
             # Check is Ajax WordPress
-            if (defined('DOING_AJAX') && DOING_AJAX) {
+            if (defined('DOING_AJAX') && DOING_AJAX && User::Access('manage')) {
 
                 # Check Status Of Process
                 if (self::is_require_update_page() === true) {
