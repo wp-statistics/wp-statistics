@@ -420,6 +420,35 @@ class DateRange
         ];
     }
 
+
+    /**
+     * Get all dates within a specific range.
+     *
+     * @param array|string $range The date range, containing 'from' and 'to' keys, or a period name.
+     * @return array An array of dates, each date represented as a Y-m-d string.
+     */
+    public static function getDatesInRange($range)
+    {
+        $dates = [];
+
+        $range = self::resolveDate($range);
+
+        if (!is_array($range)) {
+            return [];
+        }
+
+        $from = strtotime($range['from']);
+        $to   = strtotime($range['to']);
+
+        while ($from <= $to) {
+            $dates[] = date('Y-m-d', $from);
+
+            $from += DAY_IN_SECONDS;
+        }
+
+        return $dates;
+    }
+
     /**
      * Compare two dates.
      *
@@ -481,7 +510,7 @@ class DateRange
      * @param mixed $date A date string, array, or period name.
      * @return array|bool An array containing 'from' and 'to' date strings. False if the date is invalid.
      */
-    private static function resolveDate($date)
+    public static function resolveDate($date)
     {
         // If date is an array
         if (is_array($date)) {
@@ -490,6 +519,7 @@ class DateRange
             }
 
             if (count($date) == 2) {
+                $date = array_values($date);
                 return ['from' => $date[0], 'to' => $date[1]];
             }
         }

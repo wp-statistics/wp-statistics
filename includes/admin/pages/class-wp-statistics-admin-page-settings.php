@@ -139,6 +139,21 @@ class settings_page extends Singleton
         if (isset($_GET['reset_settings'])) {
             Notice::addFlashNotice(__("All Settings Have Been Reset to Default.", "wp-statistics"), "success");
         }
+
+        // Import Settings
+        if (Request::has('import')) {
+            $importStatus = Request::get('import');
+
+            switch ($importStatus) {
+                case 'success':
+                    Notice::addFlashNotice(esc_html__('Settings successfully imported.', 'wp-statistics'), 'success');
+                    break;
+
+                case 'failed':
+                    Notice::addFlashNotice(esc_html__('Settings could not be imported!', 'wp-statistics'), 'error');
+                    break;
+            }
+        }
     }
 
     /**

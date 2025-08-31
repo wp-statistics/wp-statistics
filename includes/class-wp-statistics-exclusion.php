@@ -135,7 +135,7 @@ class Exclusion
     public static function exclusion_ajax()
     {
         // White list actions
-        if (Helper::isBypassAdBlockersRequest() || Request::compare('action', 'wp_statistics_event')) {
+        if (Helper::isBypassAdBlockersRequest() || Request::compare('action', 'wp_statistics_event') || Request::compare('action', 'wp_statistics_custom_event')) {
             return false;
         }
 
@@ -350,7 +350,7 @@ class Exclusion
             // Remove Query From Url
             $url = Helper::RemoveQueryStringUrl($_SERVER['SERVER_NAME'] . $requestUri);
 
-            if (!Helper::isBypassAdBlockersRequest() && !Request::compare('action', 'wp_statistics_event') && stripos($url, 'wp-admin') !== false) {
+            if (!Helper::isBypassAdBlockersRequest() && !Request::compare('action', 'wp_statistics_event') && !Request::compare('action', 'wp_statistics_custom_event') && stripos($url, 'wp-admin') !== false) {
                 return true;
             }
         }
@@ -448,13 +448,15 @@ class Exclusion
         $robots = apply_filters('wp_statistics_exclusion_robots', $robots);
 
         // Check to see if we match any of the robots.
-        foreach ($robots as $robot) {
-            $robot = trim($robot);
+        if(is_array($robots) && !empty($robots)) {
+            foreach ($robots as $robot) {
+                $robot = trim($robot);
 
-            // If the match case is less than 4 characters long, it might match too much so don't execute it.
-            if (strlen($robot) > 3) {
-                if (stripos($rawUserAgent, $robot) !== false) {
-                    return true;
+                // If the match case is less than 4 characters long, it might match too much so don't execute it.
+                if (strlen($robot) > 3) {
+                    if (stripos($rawUserAgent, $robot) !== false) {
+                        return true;
+                    }
                 }
             }
         }

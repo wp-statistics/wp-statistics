@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
     const consentIntegration = WP_Statistics_Tracker_Object.option.consentIntegration.name;
 
-    // If there's no consent integration
-    if (!consentIntegration) {
+    // If there's no consent integration, or borlabs cookie integration is enabled
+    if (!consentIntegration || consentIntegration === 'borlabs_cookie') {
         WpStatisticsUserTracker.init();
         WpStatisticsEventTracker.init();
     }

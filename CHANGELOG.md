@@ -1,6 +1,60 @@
-= 14.14.x - 2025-x-x =
-- **Enhancement:** Combined notification and marketing campaign cron jobs into a single daily scheduled event to optimize scheduling.
-- **Enhancement:** Default dashboard now displays only the “Traffic Overview” widget for a cleaner initial experience.
+= 14.15.x - 2025-xx-xx =
+- **Fix:** Prevented wp_statistics_tracker_js_errors option bloat by limiting the maximum number of saved errors and truncating error messages.
+- **Fix:** Fixed `Top Pages` widget sort issue on `Page Insights` report.
+- **Fix:** Region widget issue when country is not detected on `Geographic` page.
+- **Fix:** Prevented false `Queue Migration` notice after updates.
+- **Fix:** Corrected Filter Modal Reset button redirect.
+- **Enhancement:** Refactored the update process and database schema updates to run on the frontend.
+- **Enhancement:** Optimized the database manager to prevent duplicate queries.
+- **Enhancement:** Adjust Visitor Info display logic
+- **Enhancement:** Refactored the install/uninstall codebase into separate classes for activation, load, and uninstall.
+
+= 14.15.3 - 2025-08-18 =
+- **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.
+- **Fix:** Correct redirect URL after clicking 'Start Migration'.
+- **Fix:** Fixed Author Analytics filter issue.
+- **Enhancement:** Added LiteSpeed Cache detection for improved cache-related warning notifications.
+- **Enhancement:** Randomized the execution time of the GeoIP update event to reduce simultaneous load on jsdelivr.
+- **Enhancement:** Improve performance of visitor migration.
+
+= 14.15.2 - 2025-08-10 =
+- **New:** Added compatibility with the `Borlabs Cookie` plugin.
+- **New:** License keys can now be set via `wp-config.php` using constants like `WP_STATISTICS_LICENSE` and are automatically validated on init.
+- **Enhancement:** Visitor data now stores only the major browser version to improve performance and reduce query load.
+- **Enhancement:** Refactored advanced reporting to reduce redundant queries and improve performance.
+- **Enhancement:** Replaced the legacy Robot List with the Device-Detector `isBot` check and renamed the bot detection field.
+- **Fix:** Fixed filter issues on the Visitors and Referred Visitors pages.
+- **Fix:** Adjusted access control for specific plugin actions.
+- **Fix:** Fixed display issues on the single-visitor page when `user_id` is missing.
+- **Fix:** Updated the Top Countries widget to calculate percentages based on all visitors.
+
+= 14.15.1 - 2025-07-29 =
+- **Enhancement:** Numbers in Overview widgets are now abbreviated (e.g., 10k), with full values shown on hover.
+- **Enhancement:** Made integration JS files dependencies of `tracker.js` to avoid cache-related issues.
+- **Enhancement:** Display a notice when a caching plugin is active.
+- **Fix:** Fixed an issue with transient cache duration settings.
+- **Fix:** Corrected color display for period-over-period comparison metrics.
+
+= 14.15 - 2025-07-22 =
+- **New:** Added an `Overview` report for Visitor Insight.
+- **New:** Added an `Overview` report for Page Insights.
+- **New:** Added a `Device Overview` report.
+- **Enhancement:** Improved migration performance by running schema updates synchronously and removing background processes.
+- **Enhancement:** Improved the `Views` report under Visitor Insight.
+- **Enhancement:** Unset the `Consent Integration` setting when integration is deactivated.
+- **Enhancement:** Added country name to flag tooltip in Visitor Info.
+- **Enhancement:** Added unread notification badge to the Help Center menu.
+- **Enhancement:** Merged notification and campaign cron jobs into a single daily schedule.
+- **Enhancement:** Dashboard now shows only the "Traffic Overview" widget by default for a cleaner start.
+- **Enhancement:** Optimized `getTrafficOverviewData` for fewer queries and faster widget loading.
+- **Enhancement:** Skipped GeoIP database download in local environments to speed up setup.
+- **Enhancement:** Removed unused `comments` join from Page Insights query to improve performance.
+- **Enhancement:** Improved "Back" button functionality across pages to return to the previous view accurately.
+- **Enhancement:** Improved warning message for missing consent-management plugin.
+- **Fix:** Fixed report URL issues for custom post types.
+- **Fix:** Resolved zero page view issues for non-'category' taxonomy filters.
+- **Fix:** Fixed incorrect tracking of WooCommerce My Account sub-pages.
+- **Fix:** Prevented `number_format()` warning when value is null in PHP 8.4.5.
 
 = 14.14.1 - 2025-06-29 =
 - **New:** Added a Database Schema tool to check and repair database structure in the Optimization page.
@@ -10,10 +64,11 @@
 - **Enhancement:** Improved the "Views" section in the Visitor Insight report.
 - **Enhancement:** Deprecated the Matomo Referrer Spam Blacklist option (to be removed in v14.16).
 - **Fix:** Fixed accessibility (A11y) issues.
-- **Fix:** Resolved zero page views for non-'category' taxonomy filters.
+- **Fix:** Resolved Zero Page views for non-'category' taxonomy filters.
 - **Fix:** Anonymous data opt-in notice now appears 7 days after plugin activation.
 - **Fix:** Fixed incorrect page titles for WooCommerce My Account sub-pages.
 - **Fix:** Normalized the taxonomy `type` field for `tax_` prefixes.
+- **Enhancement:** Deprecated legacy Robot List bot detection and renamed the `Robot List` field to `Custom Bot Exclusions`.
 
 = 14.14 - 2025-06-01 =
 - **New:** Added a Help page inside the plugin to guide users.

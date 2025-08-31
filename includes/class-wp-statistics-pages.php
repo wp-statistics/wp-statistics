@@ -438,6 +438,10 @@ class Pages
                             'post_type' => get_post_type($page_id)
                         )
                     );
+
+                    if ($page_id) {
+                        $arg['report'] = Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $page_id]);
+                    }
                     break;
             }
         }

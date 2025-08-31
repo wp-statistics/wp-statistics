@@ -5,6 +5,7 @@ namespace WP_STATISTICS;
 use Exception;
 use WP_STATISTICS;
 use ErrorException;
+use WP_Statistics\Components\DateRange;
 use WP_Statistics\Models\PostsModel;
 use WP_Statistics_Mail;
 use WP_Statistics\Utils\Request;
@@ -190,6 +191,16 @@ class Helper
             $use = array('status' => true, 'plugin' => __('WP-Optimize', 'wp-statistics'), 'debug' => 'WP-Optimize');
         }
 
+        /* Speed Optimizer */
+        if (class_exists('\SiteGround_Optimizer\Loader\Loader')) {
+            $use = array('status' => true, 'plugin' => esc_html__('Speed Optimizer', 'wp-statistics'), 'debug' => 'Speed Optimizer');
+        }
+
+        /** LiteSpeed Cache */
+        if (defined('LSCWP_V')) {
+            $use = array('status' => true, 'plugin' => __('LiteSpeed Cache', 'wp-statistics'), 'debug' => 'LiteSpeed Cache');
+        }
+
         return apply_filters('wp_statistics_cache_status', $use);
     }
 
@@ -228,26 +239,6 @@ class Helper
         }
 
         return $baseurl;
-    }
-
-    /**
-     * Get Robots List
-     *
-     * @param string $type
-     * @return array|bool|string
-     */
-    public static function get_robots_list($type = 'list')
-    {
-        # Set Default
-        $list = array();
-
-        # Load From file
-        include WP_STATISTICS_DIR . "includes/defines/robots-list.php";
-        if (isset($wps_robots_list_array)) {
-            $list = $wps_robots_list_array;
-        }
-
-        return ($type == "array" ? $list : implode("\n", $list));
     }
 
     /**
@@ -1424,6 +1415,37 @@ class Helper
     }
 
     /**
+     * Extracts the major version from a version string.
+     *
+     * If the version string starts with a dot (e.g. ".NK") meaning
+     * no major version is present, the entire input string is returned.
+     * If the input is empty or not a string, returns null.
+     *
+     * Examples:
+     * - "1.2.3" => "1"
+     * - ".NK"   => ".NK"
+     * - ""      => null
+     * - null    => null
+     *
+     * @param string|null $version Version string to extract from.
+     * @return string|null Major version or full input if no major version, or null if invalid.
+     */
+    public static function getMajorVersionOnly($version)
+    {
+        if(empty($version)) {
+            return null;
+        }
+
+        $parts = explode('.', $version);
+
+        if ($parts[0] === '') {
+            return $version;
+        }
+
+        return $parts[0];
+    }
+
+    /**
      * Do not track browser detection
      *
      * @return bool
@@ -1571,10 +1593,10 @@ class Helper
      *
      * @param int|float $dividend The number to be divided.
      * @param int|float $divisor The number to divide by.
-     * @param int $precision The number of decimal places to round the result to. Default is 2.
+     * @param int $precision The number of decimal places to round the result to. Default is 1.
      * @return float The result of the division, rounded to the specified precision. Returns 0 if the divisor is 0.
      */
-    public static function divideNumbers($dividend, $divisor, $precision = 2)
+    public static function divideNumbers($dividend, $divisor, $precision = 1)
     {
         if ($divisor == 0) {
             return 0;
@@ -2004,13 +2026,6 @@ class Helper
             ],
         ]);
 
-        $timestamp = !empty($_SERVER['HTTP_X_WPS_TS']) ? (int) base64_decode($_SERVER['HTTP_X_WPS_TS']) : false;
-
-        // Check if the request was sent no more than 10 seconds ago
-        if (!$timestamp || time() - $timestamp > 10) {
-            $isValid = false;
-        }
-
         if (!$isValid) {
             /**
              * Trigger action after validating the hit request parameters.
@@ -2152,7 +2167,7 @@ class Helper
             return 0;
         }
 
-        return round(($number / $totalNumber) * 100, 2);
+        return round(($number / $totalNumber) * 100, 1);
     }
 
     /**
@@ -2229,5 +2244,22 @@ class Helper
         array_splice($array, $targetIndex, 0, $itemsToRelocate);
 
         return $array;
+    }
+
+    public static function getNoDataMessage($date = '')
+    {
+        if (empty($date)) {
+            $date = DateRange::get()['to'];
+        }
+
+        $isFutureDate = DateTime::isTodayOrFutureDate($date);
+
+        $message = esc_html__('No data found for this date range.', 'wp-statistics');
+
+        if ($isFutureDate) {
+            $message = esc_html__('Data coming soon!', 'wp-statistics');
+        }
+
+        return $message;
     }
 }

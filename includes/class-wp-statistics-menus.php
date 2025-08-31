@@ -302,6 +302,13 @@ class Menus
         return reset($currentPage);
     }
 
+    public static function isPluginPage($page)
+    {
+        $pattern = str_replace("[slug]", '[a-z0-9_-]+', self::$admin_menu_slug);
+
+        return preg_match('/^' . $pattern . '$/i', $page);
+    }
+
 }
 
 new Menus;
