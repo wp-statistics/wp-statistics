@@ -1,14 +1,15 @@
-= 14.16 - 2025-**-** =
-- **Enhancement:** Updated PHP requirement to v7.4 and WordPress requires to v6.6
+= 14.15.x - 2025-xx-xx =
+- **Fix:** Prevented wp_statistics_tracker_js_errors option bloat by limiting the maximum number of saved errors and truncating error messages.
+- **Fix:** Fixed `Top Pages` widget sort issue on `Page Insights` report.
+- **Fix:** Region widget issue when country is not detected on `Geographic` page.
+- **Fix:** Prevented false `Queue Migration` notice after updates.
+- **Fix:** Corrected Filter Modal Reset button redirect.
+- **Fix:** Fixed visitor journey issue not recording recurring visits to the same page.
+- **Enhancement:** Refactored the update process and database schema updates to run on the frontend.
+- **Enhancement:** Optimized the database manager to prevent duplicate queries.
+- **Enhancement:** Adjust Visitor Info display logic
+- **Enhancement:** Refactored the install/uninstall codebase into separate classes for activation, load, and uninstall.
 - **Enhancement:** Improved responsiveness by converting "Optimize Page" events on the Plugin Maintenance tab to asynchronous AJAX requests.
-
-= 14.15.3 - 2025-08-18 =
-- **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.
-- **Fix:** Correct redirect URL after clicking 'Start Migration'.
-- **Fix:** Fixed Author Analytics filter issue.
-- **Enhancement:** Added LiteSpeed Cache detection for improved cache-related warning notifications.
-- **Enhancement:** Randomized the execution time of the GeoIP update event to reduce simultaneous load on jsdelivr.
-- **Enhancement:** Improve performance of visitor migration.
 
 = 14.15.3 - 2025-08-18 =
 - **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.
