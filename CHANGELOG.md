@@ -3,10 +3,14 @@
 - **Fix:** Fixed `Top Pages` widget sort issue on `Page Insights` report.
 - **Fix:** Region widget issue when country is not detected on `Geographic` page.
 - **Fix:** Prevented false `Queue Migration` notice after updates.
+- **Fix:** Corrected Filter Modal Reset button redirect.
+- **Fix:** Fixed visitor journey issue not recording recurring visits to the same page.
 - **Enhancement:** Refactored the update process and database schema updates to run on the frontend.
 - **Enhancement:** Optimized the database manager to prevent duplicate queries.
+- **Enhancement:** Adjust Visitor Info display logic
 - **Enhancement:** Refactored the install/uninstall codebase into separate classes for activation, load, and uninstall.
 - **Enhancement:** Optimized schema health check to run daily on dashboard and after activation or updates.
+- **Enhancement:** Improved responsiveness by converting "Optimize Page" events on the Plugin Maintenance tab to asynchronous AJAX requests.
 
 = 14.15.3 - 2025-08-18 =
 - **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.

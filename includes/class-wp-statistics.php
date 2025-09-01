@@ -195,6 +195,7 @@ final class WP_Statistics
             $adminManager     = new \WP_Statistics\Service\Admin\AdminManager();
             $contentAnalytics = new ContentAnalyticsManager();
 
+            require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-install.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-ajax.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-dashboard.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-export.php';

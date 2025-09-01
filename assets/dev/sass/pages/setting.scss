@@ -2111,7 +2111,7 @@
               .select2-selection__choice {
                 background-color: #E9E9FF;
                 border-color: #BCC2CD;
-                color: #0C0C0D
+                color: #0C0C0D;
               }
             }
 
@@ -2120,6 +2120,26 @@
                 color: #0C0C0D;
               }
             }
+
+          }
+
+          .select2-selection__choice__remove{
+            position: relative;
+            border: none;
+            padding: 0;
+          }
+
+          .select2-selection--multiple .select2-search--inline{
+            float: none;
+            display: inline-block;
+          }
+
+          textarea.select2-search__field{
+            width: 0.75em;
+            line-height: 21px;
+            height: 21px;
+            border: none !important;
+            padding: 0 !important;
           }
 
           .select2-selection__rendered {
@@ -2129,6 +2149,8 @@
             line-height: 20px;
             margin: 0;
             padding: 0;
+            min-height: 21px;
+            width: auto;
           }
 
           .select2-selection__arrow {
