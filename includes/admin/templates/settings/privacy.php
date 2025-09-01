@@ -136,7 +136,7 @@ $consentLevelIntegration = Option::get('consent_level_integration');
                                 $name = esc_html__('Via WP Consent API', 'wp-statistics');
                             }
                         ?>
-                            <option <?php disabled(!$isSelectable) ?> value="<?php echo esc_attr($key); ?>" <?php selected($consentIntegration, $integration->getKey()); ?>><?php echo esc_html($name); ?></option>
+                            <option <?php disabled(!$isSelectable) ?> value="<?php echo esc_attr($key); ?>" <?php selected($consentIntegration, $key); ?>><?php echo esc_html($name); ?></option>
                         <?php endforeach; ?>
                     </select>
                     <p class="description"><?php esc_html_e("Enable integration with supported consent management plugins, such as WP Consent API and Real Cookie Banner, to ensure WP Statistics respects user privacy preferences. When enabled, WP Statistics will only track data based on the consent settings provided by your active consent management plugin.", 'wp-statistics'); ?></p>

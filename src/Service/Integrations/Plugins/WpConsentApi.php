@@ -20,6 +20,16 @@ class WpConsentApi extends AbstractIntegration
     }
 
     /**
+     * Checks if the notice should be shown
+     *
+     * @return bool true if at least one of the compatible plugins is active, false otherwise
+     */
+    public function showNotice()
+    {
+        return $this->isActive() && !empty($this->getCompatiblePlugins());
+    }
+
+    /**
      * Returns the name of the integration.
      *
      * @return  string
@@ -56,8 +66,13 @@ class WpConsentApi extends AbstractIntegration
      */
     public function register()
     {
+        $integration = Option::get('consent_integration');
+
+        // If any other consent integration is active, return
+        if (!empty($integration) && $integration !== $this->getKey()) return;
+
         // If no compatible plugin found, deactivate the integration and return early
-        if (empty($this->getCompatiblePlugins())) {
+        if ($integration === $this->getKey() && empty($this->getCompatiblePlugins())) {
             Option::update('consent_integration', '');
             return;
         }
