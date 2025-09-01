@@ -124,7 +124,7 @@ $consentLevelIntegration = Option::get('consent_level_integration');
 
                 <td>
                     <select id="consent_integration" name="wps_consent_integration" <?php disabled(IntegrationHelper::isIntegrationActive('borlabs_cookie')) ?>>
-                        <option value="" <?php selected($consentIntegration); ?>><?php esc_html_e('None', 'wp-statistics'); ?></option>
+                        <option value="" <?php selected($consentIntegration, ''); ?>><?php esc_html_e('None', 'wp-statistics'); ?></option>
 
                         <?php foreach (IntegrationHelper::getAllIntegrations() as $integration) :
                             $key          = $integration->getKey();
