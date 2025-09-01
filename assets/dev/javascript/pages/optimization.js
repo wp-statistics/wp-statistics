@@ -4,25 +4,25 @@ jQuery(document).ready(function () {
             buttonId: '#populate-submit-button',
             resultId: '#populate-submit-result',
             action: 'wp_statistics_update_country_data',
-            confirmMessage: wps_js.global.confirm_refresh_country
+            confirmMessage: wps_js._('confirm_refresh_country')
         },
         {
             buttonId: '#populate-source-channel-submit',
             resultId: '#populate-source-channel-result',
             action: 'wp_statistics_update_source_channel',
-            confirmMessage: wps_js.global.confirm_update_channel
+            confirmMessage: wps_js._('confirm_update_channel')
         },
         {
             buttonId: '#hash-ips-submit',
             resultId: '#hash-ips-result',
             action: 'wp_statistics_hash_ips',
-            confirmMessage: wps_js.global.confirm_hash_ips
+            confirmMessage: wps_js._('confirm_hash_ips')
         },
         {
             buttonId: '#repair-schema-submit-button',
             resultId: '#repair-schema-result',
             action: 'wp_statistics_repair_schema',
-            confirmMessage: wps_js.global.confirm_repair_schema
+            confirmMessage: wps_js._('confirm_repair_schema')
         }
     ];
 
@@ -75,7 +75,7 @@ jQuery(document).ready(function () {
                 };
 
                 jQuery.ajax({
-                    url: ajaxurl,
+                    url: wps_js.global.ajax_url,
                     type: 'post',
                     data: data
                 })
