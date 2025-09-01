@@ -451,7 +451,11 @@ class Admin_Assets
             'required_error'               => __('This field is required', 'wp-statistics'),
             'validate_error'               => __('Must not contain spaces, #, or .', 'wp-statistics'),
             'machine_validate_error'       => __('Please use lowercase letters, numbers, underscores, or dashes only. No spaces allowed.', 'wp-statistics'),
-            'start_of_week'                => get_option('start_of_week', 0)
+            'start_of_week'                => get_option('start_of_week', 0),
+            'confirm_refresh_country'      => __('Are you sure you want to refresh country data?', 'wp-statistics'),
+            'confirm_update_channel'       => __('Are you sure you want to update and correct any unidentified source channels in the database?', 'wp-statistics'),
+            'confirm_hash_ips'             => __('This will replace all IP addresses in the database with hash values and cannot be undone, are you sure?', 'wp-statistics'),
+            'confirm_repair_schema'        => __('Are you sure you want to repair the schema issues?', 'wp-statistics'),
         );
 
         $list['active_post_type'] = Helper::getPostTypeName(Request::get('pt', 'post'));
