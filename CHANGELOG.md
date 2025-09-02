@@ -11,6 +11,7 @@
 - **Enhancement:** Refactored the install/uninstall codebase into separate classes for activation, load, and uninstall.
 - **Enhancement:** Optimized schema health check to run daily on dashboard and after activation or updates.
 - **Enhancement:** Improved responsiveness by converting "Optimize Page" events on the Plugin Maintenance tab to asynchronous AJAX requests.
+- **Enhancement:** Renamed WP-CLI command `wp statistics reinitialize` to `wp statistics create_tables` for clarity.
 
 = 14.15.3 - 2025-08-18 =
 - **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.
