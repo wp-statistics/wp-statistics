@@ -1,6 +1,6 @@
 = 14.16 - 2025-**-** =
 - **Enhancement:** Updated PHP requirement to v7.4 and WordPress requires to v6.6
-- **Fix:** Fixed fatal error when running `wp statistics reinitialize` in the CLI.
+- **Enhancement:** Renamed WP-CLI command `wp statistics reinitialize` to `wp statistics create_tables` for clarity.
 
 = 14.15.3 - 2025-08-18 =
 - **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.
