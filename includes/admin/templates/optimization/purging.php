@@ -321,7 +321,7 @@
                         <?php esc_html_e('Choose which event to remove from the database. Once deleted, the data cannot be recovered. To stop recording this data in the future, please disable the event.', 'wp-statistics'); ?><br>
                     </p>
 
-                    <button id="event-data-cleanup-submit" class="button button-primary" type="submit" name="event_data_cleanup_submit"><?php esc_html_e('Delete Data', 'wp-statistics'); ?></button>
+                    <button id="event-data-cleanup-submit" class="wps-button wps-button--danger-outline js-openModal-setting-confirmation" type="submit" name="event_data_cleanup_submit"><?php esc_html_e('Delete Data', 'wp-statistics'); ?></button>
                     <div id="event-data-cleanup-result"></div>
                 </td>
             </tr>
