@@ -23,6 +23,13 @@ use WP_Statistics;
 class SchemaMaintainer
 {
     /**
+     * Cache key used to store the result of a successful schema check.
+     *
+     * @var string
+     */
+    private const SCHEMA_CHECK_SUCCESS = 'wp_statistics_schema_check_success';
+
+    /**
      * Inspects database tables and returns any structural issues found
      *
      * @return array Schema inspection results
@@ -34,6 +41,10 @@ class SchemaMaintainer
             'issues' => [],
             'errors' => []
         ];
+
+        if (get_transient(self::SCHEMA_CHECK_SUCCESS)) {
+            return $results;
+        }
 
         try {
             $tableNames = Manager::getAllTableNames();
@@ -114,16 +125,25 @@ class SchemaMaintainer
             WP_Statistics::log($e->getMessage());
         }
 
+        if ($results['status'] === 'success') {
+            set_transient(self::SCHEMA_CHECK_SUCCESS, 1, 24 * HOUR_IN_SECONDS);
+        }
+
         return $results;
     }
 
     /**
-     * Repairs any identified schema issues in the database tables
+     * Repairs any identified schema issues in the database tables.
      *
-     * @return array Repair operation results
+     * @param bool $clearCache Clear the cached schema-check transient before repairing.
+     * @return array Repair operation results.
      */
-    public static function repair()
+    public static function repair($clearCache = false)
     {
+        if ($clearCache) {
+            delete_transient(self::SCHEMA_CHECK_SUCCESS);
+        }
+
         $results = [
             'status' => 'success',
             'fixed'  => [],
