@@ -1,17 +1,16 @@
-= 14.15.4 - 2025-09-xx =
-- **Fix:** Prevented wp_statistics_tracker_js_errors option bloat by limiting the maximum number of saved errors and truncating error messages.
-- **Fix:** Fixed `Top Pages` widget sort issue on `Page Insights` report.
-- **Fix:** Region widget issue when country is not detected on `Geographic` page.
-- **Fix:** Prevented false `Queue Migration` notice after updates.
-- **Fix:** Corrected Filter Modal Reset button redirect.
-- **Fix:** Fixed visitor journey issue not recording recurring visits to the same page.
+= 14.15.4 - 2025-09-02 =
 - **Enhancement:** Refactored the update process and database schema updates to run on the frontend.
-- **Enhancement:** Optimized the database manager to prevent duplicate queries.
-- **Enhancement:** Adjust Visitor Info display logic
-- **Enhancement:** Refactored the install/uninstall codebase into separate classes for activation, load, and uninstall.
-- **Enhancement:** Optimized schema health check to run daily on dashboard and after activation or updates.
-- **Enhancement:** Improved responsiveness by converting "Optimize Page" events on the Plugin Maintenance tab to asynchronous AJAX requests.
-- **Enhancement:** Renamed WP-CLI command `wp statistics reinitialize` to `wp statistics create_tables` for clarity.
+- **Enhancement:** Optimized the database manager to avoid duplicate queries.
+- **Enhancement:** Improved Visitor Info display logic.
+- **Enhancement:** Refactored install/uninstall code into separate classes for activation, load, and uninstall.
+- **Enhancement:** Optimized schema health checks to run daily on the dashboard and after activation or updates.
+- **Enhancement:** Improved responsiveness by converting "Optimize Page" actions in the Plugin Maintenance tab into asynchronous AJAX requests.
+- **Fix:** Prevented `wp_statistics_tracker_js_errors` option bloat by limiting stored errors and truncating error messages.
+- **Fix:** Fixed sorting issue in the `Top Pages` widget on the Page Insights report.
+- **Fix:** Fixed Region widget issue when a country is not detected on the Geographic page.
+- **Fix:** Prevented false "Queue Migration" notices after updates.
+- **Fix:** Corrected the Filter Modal Reset button redirect.
+- **Fix:** Fixed Visitor Journey not recording repeat visits to the same page.
 - **Enhancement:** Restructured WP Statistics CLI for improved maintainability.
 
 = 14.15.3 - 2025-08-18 =
