@@ -274,6 +274,19 @@ class Option
         return $options;
     }
 
+    public static function updateAddonOption($option, $value, $addon_name)
+    {
+        $options = self::getAddonOptions($addon_name);
+
+        if (!is_array($options)) {
+            $options = [];
+        }
+
+        $options[$option] = $value;
+
+        self::saveByAddon($options, $addon_name);
+    }
+
     public static function getByAddon($option_name, $addon_name = '', $default = null)
     {
         $setting_name = "wpstatistics_{$addon_name}_settings";
@@ -364,6 +377,17 @@ class Option
 
         // Write the array to the database.
         add_option($settingName, $options);
+    }
+
+    public static function updateGroupOptions($group, $options)
+    {
+        $settingName = "wp_statistics_{$group}";
+
+        if (!is_array($options)) {
+            $options = [];
+        }
+
+        update_option($settingName, $options);
     }
 
     public static function deleteOptionGroup($key, $group)

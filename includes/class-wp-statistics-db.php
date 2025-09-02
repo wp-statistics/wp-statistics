@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Service\Database\DatabaseFactory;
+
 class DB
 {
     /**
@@ -144,7 +146,11 @@ class DB
             $table_name = self::getTableName($tbl);
 
             if ($export == "all") {
-                if (self::ExistTable($table_name)) {
+                $inspect = DatabaseFactory::table('inspect')
+                    ->setName($tbl)
+                    ->execute();
+                
+                if ($inspect->getResult()) {
                     $list[$tbl] = $table_name;
                 }
             } else {

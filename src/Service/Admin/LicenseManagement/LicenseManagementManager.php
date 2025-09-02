@@ -4,14 +4,25 @@ namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 use Exception;
 use WP_Statistics;
-use WP_STATISTICS\User;
-use WP_STATISTICS\Option;
 use WP_Statistics\Exception\LicenseException;
-use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginActions;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginUpdater;
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_STATISTICS\User;
 
+/**
+ * LicenseManagementManager Class
+ *
+ * Manages the activation and validation of licenses for WP Statistics add-ons.
+ * Provides methods to handle license keys and ensure proper functionality of premium features.
+ *
+ * @package   LicenseManagement
+ * @version   1.0.1
+ * @since     14.0
+ * @author    Foad
+ */
 class LicenseManagementManager
 {
     /** @var ApiCommunicator */
@@ -107,13 +118,13 @@ class LicenseManagementManager
     {
         $storedLicenses = LicenseHelper::getLicenses();
 
-        if (!empty($storedLicenses)) {
-            foreach ($storedLicenses as $licenseKey => $licenseData) {
-                foreach ($licenseData['products'] as $productSlug) {
-                    // Avoid duplicate handling for the same product
-                    if (!in_array($productSlug, $this->handledPlugins)) {
-                        $this->initPluginUpdaterIfValid($productSlug, $licenseKey);
-                    }
+        if (empty($storedLicenses)) return;
+
+        foreach ($storedLicenses as $licenseKey => $licenseData) {
+            foreach ($licenseData['products'] as $productSlug) {
+                // Avoid duplicate handling for the same product
+                if (!in_array($productSlug, $this->handledPlugins)) {
+                    $this->initPluginUpdaterIfValid($productSlug, $licenseKey);
                 }
             }
         }
@@ -154,7 +165,14 @@ class LicenseManagementManager
      */
     public function showPluginActivationNotice()
     {
+        global $pagenow;
+
         $plugins = $this->pluginHandler->getInstalledPlugins();
+
+        // Return early on the plugins page, or if the plugins array is empty
+        if (empty($plugins) || $pagenow != 'plugins.php') {
+            return;
+        }
 
         foreach ($plugins as $plugin) {
             if (!LicenseHelper::isPluginLicenseValid($plugin['TextDomain'])) {
@@ -162,6 +180,9 @@ class LicenseManagementManager
                 $pluginUpdater->handleLicenseNotice();
             }
         }
+
+        // Force a check for updates (prevents showing update notice for plugins without a valid license)
+        delete_site_transient('update_plugins');
     }
 
     /**

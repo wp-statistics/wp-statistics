@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Database\Migrations\Ajax;
 
-use WP_STATISTICS\Install;
+use WP_Statistics\Core\CoreFactory;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Database\Migrations\Ajax\Jobs\VisitorColumnsMigrator;
 
@@ -50,7 +50,7 @@ class AjaxFactory
             return;
         }
 
-        if (Install::isFresh()) {
+        if (CoreFactory::isFresh()) {
             $jobs = array_keys(self::$migrations);
 
             Option::saveOptionGroup('jobs', $jobs, 'ajax_background_process');

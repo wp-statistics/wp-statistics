@@ -1,3 +1,17 @@
+= 14.15.4 - 2025-09-02 =
+- **Enhancement:** Refactored the update process and database schema updates to run on the frontend.
+- **Enhancement:** Optimized the database manager to avoid duplicate queries.
+- **Enhancement:** Improved Visitor Info display logic.
+- **Enhancement:** Refactored install/uninstall code into separate classes for activation, load, and uninstall.
+- **Enhancement:** Optimized schema health checks to run daily on the dashboard and after activation or updates.
+- **Enhancement:** Improved responsiveness by converting "Optimize Page" actions in the Plugin Maintenance tab into asynchronous AJAX requests.
+- **Fix:** Prevented `wp_statistics_tracker_js_errors` option bloat by limiting stored errors and truncating error messages.
+- **Fix:** Fixed sorting issue in the `Top Pages` widget on the Page Insights report.
+- **Fix:** Fixed Region widget issue when a country is not detected on the Geographic page.
+- **Fix:** Prevented false "Queue Migration" notices after updates.
+- **Fix:** Corrected the Filter Modal Reset button redirect.
+- **Fix:** Fixed Visitor Journey not recording repeat visits to the same page.
+
 = 14.15.3 - 2025-08-18 =
 - **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.
 - **Fix:** Correct redirect URL after clicking 'Start Migration'.

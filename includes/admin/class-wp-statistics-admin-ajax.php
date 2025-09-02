@@ -9,6 +9,9 @@ use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Geolocation\Provider\DbIpProvider;
 use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;
 use WP_Statistics\Utils\Request;
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory;
+use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
+use Exception;
 
 class Ajax
 {
@@ -105,7 +108,27 @@ class Ajax
                 'class'  => $this,
                 'action' => 'delete_word_count_data',
                 'public' => false
-            ]
+            ],
+            [
+                'class'  => $this,
+                'action' => 'update_country_data',
+                'public' => false,
+            ],
+            [
+                'class'  => $this,
+                'action' => 'update_source_channel',
+                'public' => false,
+            ],
+            [
+                'class'  => $this,
+                'action' => 'hash_ips',
+                'public' => false,
+            ],
+            [
+                'class'  => $this,
+                'action' => 'repair_schema',
+                'public' => false,
+            ],
         ];
 
         $list = apply_filters('wp_statistics_ajax_list', $list);
@@ -668,6 +691,113 @@ class Ajax
             wp_send_json_success(['message' => esc_html__('Notice dismissed.', 'wp-statistics')]);
         } else {
             wp_send_json_error(['message' => esc_html__('Invalid Notice ID.', 'wp-statistics')]);
+        }
+
+        exit;
+    }
+
+    /**
+     * Handles the AJAX request to update GeoIP country data.
+     *
+     * @return void
+     */
+    public function update_country_data_action_callback()
+    {
+        try {
+            if (Request::isFrom('ajax') && User::Access('manage')) {
+                check_ajax_referer('wp_rest', 'wps_nonce');
+
+                $method   = Option::get('geoip_location_detection_method', 'maxmind');
+                $provider = MaxmindGeoIPProvider::class;
+
+                if ('dbip' === $method) {
+                    $provider = DbIpProvider::class;
+                }
+
+                // First download/update the GeoIP database
+                GeolocationFactory::downloadDatabase($provider);
+
+                // Update GeoIP data for visitors with incomplete information
+                BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
+
+                wp_send_json_success(['message' => esc_html__('GeoIP update successfully.', 'wp-statistics')]);
+            }
+        } catch (Exception $e) {
+            wp_send_json_error(['message' => sprintf(esc_html__('GeoIP update failed: %s', 'wp-statistics'), $e->getMessage())]);
+        }
+
+        exit;
+    }
+
+    /**
+     * Handles AJAX requests to update the source channel data for visitors.
+     *
+     * @return void
+     */
+    public function update_source_channel_action_callback()
+    {
+        try {
+            if (Request::isFrom('ajax') && User::Access('manage')) {
+                check_ajax_referer('wp_rest', 'wps_nonce');
+
+                // Update source channel data for visitors with incomplete information
+                BackgroundProcessFactory::batchUpdateSourceChannelForVisitors();
+
+                wp_send_json_success(['message' => esc_html__('Source channel update successfully.', 'wp-statistics')]);
+            }
+        } catch (Exception $e) {
+            wp_send_json_error(['message' => sprintf(esc_html__('Source channel update failed: %s', 'wp-statistics'), $e->getMessage())]);
+        }
+
+        exit;
+    }
+
+    /**
+     * Handles AJAX requests to anonymize IP addresses of visitors.
+     *
+     * @return void
+     */
+    public function hash_ips_action_callback()
+    {
+        try {
+            if (Request::isFrom('ajax') && User::Access('manage')) {
+                check_ajax_referer('wp_rest', 'wps_nonce');
+
+                $result = IP::Update_HashIP_Visitor();
+
+                wp_send_json_success(['message' => sprintf(esc_html__('Successfully anonymized `%d` IP addresses using hash values.', 'wp-statistics'), $result)]);
+            }
+        } catch (Exception $e) {
+            wp_send_json_error(['message' => sprintf(esc_html__('IP anonymization failed: %s', 'wp-statistics'), $e->getMessage())]);
+        }
+
+        exit;
+    }
+
+    /**
+     * Handles AJAX requests to repair database schema issues for WP Statistics.
+     *
+     * @return void
+     */
+    public function repair_schema_action_callback()
+    {
+        try {
+            if (Request::isFrom('ajax') && User::Access('manage')) {
+                check_ajax_referer('wp_rest', 'wps_nonce');
+
+                $schemaRepairResult = SchemaMaintainer::repair();
+                $databaseStatus     = $schemaRepairResult['status'] ?? null;
+
+                if ($databaseStatus === 'success') {
+                    wp_send_json_success(['message' => esc_html__('Database schema issues have been successfully repaired.', 'wp-statistics')]);
+
+                } else {
+                    wp_send_json_error(['message' => esc_html__('Failed to repair database schema. Please try again.', 'wp-statistics')]);
+                }
+
+            }
+        } catch (Exception $e) {
+            wp_send_json_error(['message' => sprintf(esc_html__('Failed to repair database schema: %s', 'wp-statistics'), $e->getMessage())]);
         }
 
         exit;

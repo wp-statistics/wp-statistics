@@ -19,8 +19,22 @@ class OsChartDataProvider extends AbstractChartDataProvider
         parent::__construct($args);
 
         $this->args = array_merge($this->args, [
-            'fields' => ['visitor.platform']
+            'fields'   => ['platform' => 'visitor.platform', 'visitors' => 'COUNT(visitor.ID) as visitors'],
+            'group_by' => 'visitor.platform',
+            'order_by' => 'visitors',
+            'decorate' => false,
+            'page'     => false,
+            'per_page' => false
         ]);
+
+        // If filter is applied, get distinct visitors to avoid data duplication
+        if ($this->isFilterApplied()) {
+            $this->args['fields']['visitors'] = 'COUNT(DISTINCT visitor.ID) as visitors';
+        }
+
+        if (empty($this->args['limit'])) {
+            $this->args['limit'] = 5;
+        }
 
         $this->visitorsModel = new VisitorsModel();
     }
@@ -30,7 +44,12 @@ class OsChartDataProvider extends AbstractChartDataProvider
     {
         $this->initChartData();
 
-        $data = $this->visitorsModel->getVisitorsData($this->args);
+        if (!empty($this->args['referred_visitors'])) {
+            $data = $this->visitorsModel->getReferredVisitors($this->args);
+        } else {
+            $data = $this->visitorsModel->getVisitorsData($this->args);
+        }
+
         $data = $this->parseData($data);
 
         $this->setChartLabels($data['labels']);
@@ -46,33 +65,22 @@ class OsChartDataProvider extends AbstractChartDataProvider
 
         if (!empty($data)) {
             foreach ($data as $item) {
-                $platform = $item->getOs()->getName();
+                if (empty($item->platform)) continue;
 
-                if (!empty($platform)) {
-                    $platforms = array_column($parsedData, 'label');
-
-                    if (!in_array($platform, $platforms)) {
-                        $parsedData[] = [
-                            'label'    => $platform,
-                            'icon'     => DeviceHelper::getPlatformLogo($platform),
-                            'visitors' => 1
-                        ];
-                    } else {
-                        $index = array_search($platform, $platforms);
-                        $parsedData[$index]['visitors']++;
-                    }
-                }
+                $parsedData[] = [
+                    'label'    => $item->platform,
+                    'icon'     => DeviceHelper::getPlatformLogo($item->platform),
+                    'visitors' => $item->visitors
+                ];
             }
 
-            // Sort data by visitors
-            usort($parsedData, function ($a, $b) {
-                return $b['visitors'] - $a['visitors'];
-            });
+            // Limit the number of items. If limit is 5, limit items to 4 + other
+            $limit = $this->args['limit'] - 1;
 
-            if (count($parsedData) > 4) {
+            if (count($parsedData) > $limit) {
                 // Get top 4 results, and others
-                $topData    = array_slice($parsedData, 0, 4);
-                $otherData  = array_slice($parsedData, 4);
+                $topData    = array_slice($parsedData, 0, $limit);
+                $otherData  = array_slice($parsedData, $limit);
 
                 // Show the rest of the results as others, and sum up the visitors
                 $otherItem    = [

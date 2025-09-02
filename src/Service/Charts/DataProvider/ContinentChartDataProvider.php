@@ -19,7 +19,6 @@ class ContinentChartDataProvider extends AbstractChartDataProvider
 
         $this->args = array_merge($this->args, [
             'not_null'  => 'continent',
-            'fields'    => ['COUNT(DISTINCT visitor.ID) as visitors', 'visitor.continent as continent'],
             'order_by'  => 'visitors',
             'group_by'  => 'continent',
             'page'      => 1,
