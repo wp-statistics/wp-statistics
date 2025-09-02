@@ -150,17 +150,6 @@ class TabsView extends BaseTabView
                         'locked'       => true,
                         'tooltip'      => esc_html__('To view this report, you need to have Marketing add-on.', 'wp-statistics'),
                         'lockedTarget' => 'wp-statistics-marketing'
-                    ],
-                    [
-                        'link'               => Menus::admin_url('referrals', ['tab' => 'google-search']),
-                        'title'              => esc_html__('Google Search', 'wp-statistics'),
-                        'class'              => $this->isTab('google-search') ? 'current' : '',
-                        'lastUpdated'        => true,
-                        'lastUpdatedTooltip' => esc_html__('We fetch data from Google Search Console once daily to keep things running smoothly without extra load. The numbers you see are based on the latest update at the time shown.', 'wp-statistics'),
-                        'locked'             => true,
-                        'hidden'             => !Option::getByAddon('gsc_report', 'marketing', '1') && !Option::getByAddon('site', 'marketing'),
-                        'tooltip'            => esc_html__('To view this report, you need to have Marketing add-on.', 'wp-statistics'),
-                        'lockedTarget'       => 'wp-statistics-marketing'
                     ]
                 ]
             ];
