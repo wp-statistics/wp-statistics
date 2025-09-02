@@ -4,6 +4,7 @@ namespace WP_STATISTICS;
 
 use Exception;
 use WP_Statistics\Service\Analytics\VisitorProfile;
+use WP_Statistics\Service\Database\Managers\TableHandler;
 
 /**
  * WP Statistics
@@ -200,24 +201,22 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
     }
 
     /**
-     * Reinitialize
+     * Create all database tables if they do not already exist.
      *
      * ## OPTIONS
      * ---
      * ## EXAMPLES
      *
-     *      # Reinitialize WP Statistics plugin
-     *      $ wp statistics reinitialize
+     *      # Create missing database tables
+     *      $ wp statistics create_tables
      *
      * @throws Exception
      */
-    public function reinitialize($args, $assoc_args)
+    public function create_tables($args, $assoc_args)
     {
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-install.php';
-        global $wpdb;
-        Install::create_table(false);
-        \WP_CLI::Success('Reinitialized WP Statistics Database!');
+        TableHandler::createAllTables();
+
+        \WP_CLI::success('All WP Statistics tables created (if not already existing).');
     }
 
     /**
