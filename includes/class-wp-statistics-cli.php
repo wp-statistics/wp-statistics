@@ -201,22 +201,22 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
     }
 
     /**
-     * Reinitialize
+     * Create all database tables if they do not already exist.
      *
      * ## OPTIONS
      * ---
      * ## EXAMPLES
      *
-     *      # Reinitialize WP Statistics plugin
-     *      $ wp statistics reinitialize
+     *      # Create missing database tables
+     *      $ wp statistics create_tables
      *
      * @throws Exception
      */
-    public function reinitialize($args, $assoc_args)
+    public function create_tables($args, $assoc_args)
     {
         TableHandler::createAllTables();
 
-        \WP_CLI::Success('Reinitialized WP Statistics Database!');
+        \WP_CLI::success('All WP Statistics tables created (if not already existing).');
     }
 
     /**
