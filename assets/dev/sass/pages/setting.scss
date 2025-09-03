@@ -2641,7 +2641,7 @@
     right: unset;
   }
 }
-#setting-confirmation .wps-modal__content{
+#setting-confirmation .wps-modal__content , #enable-automatic-data-deletion .wps-modal__content{
   h2{
     padding: 0;
     font-weight: 500;
@@ -2649,12 +2649,12 @@
     line-height: 25px;
   }
   .wps-modal__description{
-    font-weight: 500;
+    font-weight: 400;
     font-size: 15px;
   }
-  .wps-alert__danger{
-    text-transform: uppercase;
-    margin-top: -6px!important;
+  .wps-alert__danger {
+    margin-top: -6px !important;
+    font-weight: 400;
   }
 }
 
