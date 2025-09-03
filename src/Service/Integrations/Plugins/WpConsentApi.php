@@ -26,7 +26,7 @@ class WpConsentApi extends AbstractIntegration
      */
     public function showNotice()
     {
-        return $this->isActive() && !empty($this->getCompatiblePlugins());
+        return $this->isActive() && (empty($this->getCompatiblePlugins()) || $this->getConsentLevel() === 'disabled');
     }
 
     /**
