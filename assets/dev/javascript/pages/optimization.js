@@ -24,6 +24,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 result: '#repair-schema-result',
                 action: 'wp_statistics_repair_schema',
                 messageKey: 'confirm_repair_schema'
+            },
+            {
+                button: '#re-check-schema-submit-button',
+                result: '#re-check-schema-result',
+                action: 'wp_statistics_repair_schema',
+                skipModal: true
             }
         ],
 

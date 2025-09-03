@@ -101,9 +101,9 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
                 </th>
                 <td>
                     <?php if ($databaseStatus === 'success'): ?>
-                        <div class="wps-alert wps-alert__success wps-mt-0">
-                            <?php esc_html_e('Database schema is healthy.', 'wp-statistics'); ?>
-                        </div>
+                        <button id="re-check-schema-submit-button" class="button wps-button wps-button--primary wps-mt-0" type="button" name="database-schema-re-check-submit"><?php esc_html_e('Re-check Schema', 'wp-statistics'); ?></button>
+                        <p class="description"><?php esc_html_e('Database schema is healthy. Click to run the schema check again.', 'wp-statistics'); ?></p>
+                        <div id="re-check-schema-result" class="wps-mt-12"></div>
                     <?php else: ?>
                         <button id="repair-schema-submit-button" class="wps-button wps-button--danger-outline wps-mt-0" type="button" name="database-schema-issues-submit"><?php esc_html_e('Repair Schema Issues', 'wp-statistics'); ?></button>
                         <p class="description"><?php esc_html_e('Checks the integrity of the WP Statistics database tables and automatically applies any required fixes to keep your analytics accurate.', 'wp-statistics'); ?></p>
