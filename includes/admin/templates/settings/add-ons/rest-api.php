@@ -63,7 +63,7 @@ if ($isRestApiActive && !$isLicenseValid) {
                 <td>
                     <div class="wps-input-group wps-input-group__action">
                         <input type="text" name="wps_addon_settings[rest_api][token_auth]" id="wps_addon_settings[rest_api][token_auth]" class="regular-text wps-input-group__field" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('token_auth', 'rest_api')) ?>"/>
-                        <button type="button" id="copy-text" class="button has-icon wps-input-group__label wps-input-group__copy"  style="margin: 0; "><?php esc_html_e('Copy', 'wp-statistics'); ?></button>
+                        <button type="button"  class="button has-icon wps-input-group__label wps-input-group__copy"  style="margin: 0; "><?php esc_html_e('Copy', 'wp-statistics'); ?></button>
                     </div>
                     <p class="description"><?php esc_html_e('Enter your unique token here to secure and authorize API requests.', 'wp-statistics'); ?></p>
                 </td>
@@ -75,6 +75,6 @@ if ($isRestApiActive && !$isLicenseValid) {
 
 <?php
 if ($isRestApiActive) {
-    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='rest-api-settings'"));
+    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('id' => 'rest_api_submit', 'OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='rest-api-settings'"));
 }
 ?>

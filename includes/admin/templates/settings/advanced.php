@@ -210,7 +210,7 @@ add_thickbox();
             <td>
                 <div class="wps-input-group wps-input-group__action">
                     <input id="geoip_license_key" class="wps-input-group__field" type="text" size="30" name="wps_geoip_license_key" value="<?php echo esc_attr(WP_STATISTICS\Option::get('geoip_license_key')); ?>">
-                    <button type="button" id="copy-text" class="button has-icon wps-input-group__label wps-input-group__copy" style="margin: 0; "><?php esc_html_e('Copy', 'wp-statistics'); ?></button>
+                    <button type="button" class="button has-icon wps-input-group__label wps-input-group__copy" style="margin: 0; "><?php esc_html_e('Copy', 'wp-statistics'); ?></button>
                 </div>
                 <p class="description">
                     <?php
@@ -241,7 +241,7 @@ add_thickbox();
             <td>
                 <div class="wps-input-group wps-input-group__action">
                     <input id="geoip_dbip_license_key_option" type="text" size="30" name="wps_geoip_dbip_license_key_option" class="regular-text wps-input-group__field" value="<?php echo esc_attr(WP_STATISTICS\Option::get('geoip_dbip_license_key_option', '')); ?>">
-                    <button type="button" id="copy-text" class="button has-icon wps-input-group__label wps-input-group__copy" style="margin: 0; "><?php esc_html_e('Copy', 'wp-statistics'); ?></button>
+                    <button type="button" class="button has-icon wps-input-group__label wps-input-group__copy" style="margin: 0; "><?php esc_html_e('Copy', 'wp-statistics'); ?></button>
                 </div>
                 <p class="description">
                     <?php
@@ -566,4 +566,4 @@ Modal::render('enable-automatic-data-deletion');
     </table>
 </div>
 
-<?php submit_button(esc_html__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='advanced-settings'")); ?>
+<?php submit_button(esc_html__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('id' => 'advanced_submit', 'OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='advanced-settings'")); ?>
