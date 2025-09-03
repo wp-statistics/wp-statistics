@@ -389,11 +389,11 @@ class Updater extends AbstractCore
             }
         }
 
-        if (!Option::get('schedule_dbmaint') && version_compare($this->currentVersion, '14.14.2', '<')) {
+        if (!Option::get('schedule_dbmaint') && version_compare($this->currentVersion, '14.15.5', '<')) {
             Option::update('schedule_dbmaint_days', '0');
         }
 
-        if (Option::get('schedule_dbmaint') && version_compare($this->currentVersion, '14.14.2', '<')) {
+        if (Option::get('schedule_dbmaint') && version_compare($this->currentVersion, '14.15.5', '<')) {
             Event::reschedule('wp_statistics_dbmaint_hook', 'daily', DateTime::get('tomorrow midnight', 'U'));
         }
     }
