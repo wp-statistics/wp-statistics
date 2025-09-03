@@ -1,5 +1,6 @@
 = 14.15.x - 2025-xx-xx =
 - **Fix:** Corrected incorrect “Queue Migration” completion notice after plugin updates.
+- **Enhancement:** Added "Recheck Schema" button on the optimization page to recheck database health via AJAX.
 
 = 14.15.4 - 2025-09-02 =
 - **Enhancement:** Refactored the update process and database schema updates to run on the frontend.
