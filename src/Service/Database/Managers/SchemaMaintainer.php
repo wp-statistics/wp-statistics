@@ -34,8 +34,10 @@ class SchemaMaintainer
      *
      * @return array Schema inspection results
      */
-    public static function check()
+    public static function check($forceRecheck = false)
     {
+        self::clearCache($forceRecheck);
+
         $results = [
             'status' => 'success',
             'issues' => [],
@@ -135,14 +137,12 @@ class SchemaMaintainer
     /**
      * Repairs any identified schema issues in the database tables.
      *
-     * @param bool $clearCache Clear the cached schema-check transient before repairing.
+     * @param bool $forceRecheck Clear the cached schema-check transient before repairing.
      * @return array Repair operation results.
      */
-    public static function repair($clearCache = false)
+    public static function repair($forceRecheck = false)
     {
-        if ($clearCache) {
-            delete_transient(self::SCHEMA_CHECK_SUCCESS);
-        }
+        self::clearCache($forceRecheck);
 
         $results = [
             'status' => 'success',
@@ -205,5 +205,20 @@ class SchemaMaintainer
         }
 
         return $results;
+    }
+
+    /**
+     * Clears the cached schema check transient if forced.
+     *
+     * @param bool $forceRecheck Whether to forcefully clear the schema-check cache.
+     * @return void
+     */
+    private static function clearCache($forceRecheck = false)
+    {
+        if (!$forceRecheck) {
+            return;
+        }
+
+        delete_transient(self::SCHEMA_CHECK_SUCCESS);
     }
 }
