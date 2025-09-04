@@ -52,6 +52,30 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             const $modal = $('#setting-confirmation');
             const $ok = $modal.find('button[data-action="resolve"]');
 
+            const parseMessage = (response, defaultMsg = wps_js._('operation_completed')) => {
+                try {
+                    const parsed = typeof response === 'string' ? JSON.parse(response) : response;
+                    return parsed.success && parsed.data?.message
+                        ? parsed.data.message
+                        : parsed.data
+                            ? JSON.stringify(parsed.data)
+                            : parsed.message || defaultMsg;
+                } catch {
+                    return typeof response === 'string' ? response : JSON.stringify(response);
+                }
+            };
+
+            const parseErrorMessage = (jqXHR, textStatus, errorThrown) => {
+                try {
+                    const parsed = JSON.parse(jqXHR.responseText);
+                    return parsed.data?.message
+                        ? parsed.data.message
+                        : parsed.message || JSON.stringify(parsed);
+                } catch {
+                    return jqXHR.responseText || `${textStatus}: ${errorThrown}`;
+                }
+            };
+
             $button.addClass('wps-loading-button');
 
             jQuery.ajax({
@@ -63,38 +87,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 }
             })
                 .done(function (response) {
-                    let msg = '';
-                    try {
-                        const parsed = typeof response === 'string' ? JSON.parse(response) : response;
-                        if (parsed.success && parsed.data && parsed.data.message) {
-                            msg = parsed.data.message;
-                        } else if (parsed.data) {
-                            msg = JSON.stringify(parsed.data);
-                        } else if (parsed.message) {
-                            msg = parsed.message;
-                        } else {
-                            msg = wps_js._('operation_completed');
-                        }
-                    } catch (e) {
-                        msg = response;
-                    }
-                    $result.html('<div class="wps-alert wps-alert__success"><p>' + msg + '</p></div>');
+                    const msg = parseMessage(response);
+                    $result.html(`<div class="wps-alert wps-alert__success"><p>${msg}</p></div>`);
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    let msg = '';
-                    try {
-                        const parsed = JSON.parse(jqXHR.responseText);
-                        if (parsed.data && parsed.data.message) {
-                            msg = parsed.data.message;
-                        } else if (parsed.message) {
-                            msg = parsed.message;
-                        } else {
-                            msg = JSON.stringify(parsed);
-                        }
-                    } catch (e) {
-                        msg = jqXHR.responseText || textStatus + ': ' + errorThrown;
-                    }
-                    $result.html('<div class="wps-alert wps-alert__danger"><p>' + msg + '</p></div>');
+                    const msg = parseErrorMessage(jqXHR, textStatus, errorThrown);
+                    $result.html(`<div class="wps-alert wps-alert__danger"><p>${msg}</p></div>`);
                 })
                 .always(function () {
                     $button.removeClass('wps-loading-button');
