@@ -60,7 +60,7 @@ class Option
             'update_geoip'                    => true,
             'privacy_audit'                   => true,
             'store_ua'                        => false,
-            'consent_level_integration'       => 'disabled',
+            'consent_level_integration'       => 'functional',
             'anonymous_tracking'              => false,
             'do_not_track'                    => false,
             'exclude_administrator'           => true,

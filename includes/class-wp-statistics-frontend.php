@@ -72,7 +72,7 @@ class Frontend
                     // legacy params for backward compatibility (with older versions of DataPlus)
                     'trackAnonymously'     => IntegrationHelper::shouldTrackAnonymously(),
                     'isWpConsentApiActive' => IntegrationHelper::isIntegrationActive('wp_consent_api'),
-                    'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
+                    'consentLevel'         => Option::get('consent_level_integration', 'functional'),
                 ],
                 'jsCheckTime'           => apply_filters('wp_statistics_js_check_time_interval', 60000),
                 'isLegacyEventLoaded'   => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded

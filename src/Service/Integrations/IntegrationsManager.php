@@ -11,8 +11,7 @@ class IntegrationsManager
      */
     public function __construct()
     {
-        $this->registerIntegrations();
-
+        add_action('init', [$this, 'registerIntegrations']);
         add_action('update_option_active_plugins', [$this, 'unsetIntegrationUponDeactivation'], 10, 2);
     }
 
@@ -20,7 +19,7 @@ class IntegrationsManager
      * Registers all integrations.
      * @return  void
      */
-    private function registerIntegrations()
+    public function registerIntegrations()
     {
         $integrations = IntegrationHelper::getAllIntegrations();
 

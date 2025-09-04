@@ -47,6 +47,16 @@ abstract class AbstractIntegration
     }
 
     /**
+     * Determine if the integration's notice should be shown to the user.
+     *
+     * @return bool
+     */
+    public function showNotice()
+    {
+        return $this->isActive();
+    }
+
+    /**
      * Get integration status
      * @return array
      */
