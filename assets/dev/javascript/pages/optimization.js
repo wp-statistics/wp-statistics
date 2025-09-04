@@ -28,7 +28,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             {
                 button: '#re-check-schema-submit-button',
                 result: '#re-check-schema-result',
-                action: 'wp_statistics_repair_schema',
+                action: 'wp_statistics_re_check_schema',
                 skipModal: true
             }
         ],

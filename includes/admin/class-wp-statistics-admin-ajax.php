@@ -129,6 +129,11 @@ class Ajax
                 'action' => 'repair_schema',
                 'public' => false,
             ],
+            [
+                'class'  => $this,
+                'action' => 're_check_schema',
+                'public' => false,
+            ],
         ];
 
         $list = apply_filters('wp_statistics_ajax_list', $list);
@@ -815,6 +820,33 @@ class Ajax
             }
         } catch (Exception $e) {
             wp_send_json_error(['message' => sprintf(esc_html__('Failed to repair database schema: %s', 'wp-statistics'), $e->getMessage())]);
+        }
+
+        exit;
+    }
+
+    /**
+     * Callback function to check the database schema via AJAX.
+     *
+     * @return void
+     */
+    public function re_check_schema_action_callback()
+    {
+        $this->checkAccess();
+
+        try {
+            $schemaCheckResult = SchemaMaintainer::check(true);
+            $databaseStatus    = $schemaCheckResult['status'] ?? null;
+
+            if ($databaseStatus === 'success') {
+                wp_send_json_success(['message' => esc_html__('The database was checked and no issues were found.', 'wp-statistics')]);
+            } else {
+                wp_send_json_error([
+                    'message' => esc_html__('Database issues were detected. Please refresh the page to see the "Repair Schema Issues" option.', 'wp-statistics')
+                ]);
+            }
+        } catch (Exception $e) {
+            wp_send_json_error(['message' => sprintf(esc_html__('An error occurred while checking the database: %s', 'wp-statistics'), $e->getMessage())]);
         }
 
         exit;
