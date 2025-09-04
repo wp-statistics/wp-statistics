@@ -46,6 +46,7 @@ class OnlineModel extends BaseModel
             ->where('platform', '=', $args['platform'])
             ->where('agent', '=', $args['agent'])
             ->where('last_page', '=', $args['page_id'])
+            ->where('last_counter', '=', DateTime::get())
             ->whereDate('last_view', $this->timeframe);
 
         if ($args['logged_in'] === true) {
@@ -89,6 +90,7 @@ class OnlineModel extends BaseModel
             ->where('platform', '=', $args['platform'])
             ->where('agent', '=', $args['agent'])
             ->where('last_page', '=', $args['page_id'])
+            ->where('last_counter', '=', DateTime::get())
             ->whereDate('last_view', $this->timeframe)
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order']);
