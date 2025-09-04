@@ -177,13 +177,18 @@ class Ajax
     {
         if (!Request::isFrom('ajax') || !User::Access($requiredPermission)) {
             wp_send_json_error([
-                'message' => esc_html__('Unauthorized', 'wp-statistics')
+                'message' => esc_html__('Unauthorized.', 'wp-statistics')
             ]);
 
             exit;
         }
 
-        check_ajax_referer($nonceAction, $nonceName);
+        $nonceValid = check_ajax_referer($nonceAction, $nonceName, false);
+        if (!$nonceValid) {
+            wp_send_json_error([
+                'message' => esc_html__('Invalid nonce.', 'wp-statistics')
+            ]);
+        }
     }
 
     /**
@@ -758,8 +763,6 @@ class Ajax
         } catch (Exception $e) {
             wp_send_json_error(['message' => sprintf(esc_html__('GeoIP update failed: %s', 'wp-statistics'), $e->getMessage())]);
         }
-
-        exit;
     }
 
     /**
@@ -778,8 +781,6 @@ class Ajax
         } catch (Exception $e) {
             wp_send_json_error(['message' => sprintf(esc_html__('Source channel update failed: %s', 'wp-statistics'), $e->getMessage())]);
         }
-
-        exit;
     }
 
     /**
@@ -798,8 +799,6 @@ class Ajax
         } catch (Exception $e) {
             wp_send_json_error(['message' => sprintf(esc_html__('IP anonymization failed: %s', 'wp-statistics'), $e->getMessage())]);
         }
-
-        exit;
     }
 
     /**
@@ -821,8 +820,6 @@ class Ajax
         } catch (Exception $e) {
             wp_send_json_error(['message' => sprintf(esc_html__('Failed to repair database schema: %s', 'wp-statistics'), $e->getMessage())]);
         }
-
-        exit;
     }
 
     /**
@@ -848,8 +845,6 @@ class Ajax
         } catch (Exception $e) {
             wp_send_json_error(['message' => sprintf(esc_html__('An error occurred while checking the database: %s', 'wp-statistics'), $e->getMessage())]);
         }
-
-        exit;
     }
 }
 
