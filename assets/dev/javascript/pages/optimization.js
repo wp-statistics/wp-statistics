@@ -55,11 +55,20 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             const parseMessage = (response, defaultMsg = wps_js._('operation_completed')) => {
                 try {
                     const parsed = typeof response === 'string' ? JSON.parse(response) : response;
-                    return parsed.success && parsed.data?.message
-                        ? parsed.data.message
-                        : parsed.data
-                            ? JSON.stringify(parsed.data)
-                            : parsed.message || defaultMsg;
+
+                    if (parsed?.data?.message) {
+                        return parsed.data.message;
+                    }
+
+                    if (parsed?.message) {
+                        return parsed.message;
+                    }
+
+                    if (parsed?.data) {
+                        return JSON.stringify(parsed.data);
+                    }
+
+                    return defaultMsg;
                 } catch {
                     return typeof response === 'string' ? response : JSON.stringify(response);
                 }
@@ -88,7 +97,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             })
                 .done(function (response) {
                     const msg = parseMessage(response);
-                    $result.html(`<div class="wps-alert wps-alert__success"><p>${msg}</p></div>`);
+                    if (response.success) {
+                        $result.html(`<div class="wps-alert wps-alert__success"><p>${msg}</p></div>`);
+                    } else {
+                        $result.html(`<div class="wps-alert wps-alert__danger"><p>${msg}</p></div>`);
+                    }
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
                     const msg = parseErrorMessage(jqXHR, textStatus, errorThrown);
