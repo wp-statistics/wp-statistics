@@ -5,11 +5,13 @@ namespace WP_Statistics\Models;
 use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Decorators\VisitorDecorator;
+use WP_Statistics\Traits\WpCacheTrait;
 use WP_Statistics\Utils\Query;
-use WP_STATISTICS\Visitor;
 
 class OnlineModel extends BaseModel
 {
+    use WpCacheTrait;
+
     protected $timeframe;
 
     /**
@@ -60,7 +62,11 @@ class OnlineModel extends BaseModel
                 ->where('pages.id', '=', $args['resource_id']);
         }
 
-        $result = $query->getVar();
+        $cacheKey = 'count_online_' . md5(json_encode(array_filter($args)));
+
+        $result = $this->getCachedData($cacheKey, function () use ($query) {
+            return $query->getVar();
+        }, 5);
 
         return $result ? $result : 0;
     }
