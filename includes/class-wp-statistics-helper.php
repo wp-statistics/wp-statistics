@@ -1956,6 +1956,9 @@ class Helper
             '/[\'"\(](?:\s|%20)*DROP\b/i',                      // ' " ( DROP
             '/[\'"\(](?:\s|%20)*ALTER\b/i',                     // ' " ( ALTER
 
+            // Oracle injection
+            '/DBMS_PIPE\.(RECEIVE_MESSAGE|SEND_MESSAGE)/i',
+
             // SQL comment injection
             '/[\'"\(](?:\s|%20)*--(?:\s|%20)*/i',               // ' " ( --
             '/[\'"\(](?:\s|%20)*#(?:\s|%20)*/i',                // ' " ( #
