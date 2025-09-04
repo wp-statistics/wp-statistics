@@ -4,6 +4,7 @@ namespace WP_Statistics\Core\Operations;
 
 use WP_Statistics\Core\AbstractCore;
 use WP_Statistics\Components\AssetNameObfuscator;
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\Event;
 use WP_Statistics\Components\SystemCleaner;
 use WP_STATISTICS\DB;
@@ -388,6 +389,14 @@ class Updater extends AbstractCore
             if (!empty($updatedExcludedUrls)) {
                 Option::update('excluded_urls', implode("\n", $updatedExcludedUrls));
             }
+        }
+
+        if (!Option::get('schedule_dbmaint') && version_compare($this->currentVersion, '14.15.5', '<')) {
+            Option::update('schedule_dbmaint_days', '0');
+        }
+
+        if (Option::get('schedule_dbmaint') && version_compare($this->currentVersion, '14.15.5', '<')) {
+            Event::reschedule('wp_statistics_dbmaint_hook', 'daily', DateTime::get('tomorrow midnight', 'U'));
         }
     }
 

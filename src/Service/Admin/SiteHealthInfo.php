@@ -304,11 +304,6 @@ class SiteHealthInfo
                 'value' => Option::get('ip_method') ? Option::get('ip_method') : __('Not Set', 'wp-statistics'),
                 'debug' => Option::get('ip_method') ? Option::get('ip_method') : 'Not Set',
             ],
-            'automaticCleanup'               => [
-                'label' => esc_html__('Automatic Cleanup', 'wp-statistics'),
-                'value' => Option::get('schedule_dbmaint') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::get('schedule_dbmaint') ? 'Enabled' : 'Disabled',
-            ],
             'purgeDataOlderThan'             => [
                 'label' => esc_html__('Purge Data Older Than', 'wp-statistics'),
                 'value' => Option::get('schedule_dbmaint_days') ? Option::get('schedule_dbmaint_days') : __('Not Set', 'wp-statistics'),

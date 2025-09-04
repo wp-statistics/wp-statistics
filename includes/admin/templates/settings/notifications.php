@@ -162,4 +162,4 @@ use WP_STATISTICS\Schedule;
     </table>
 </div>
 
-<?php submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='notifications-settings'")); ?>
+<?php submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('id' => 'notification_submit','OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='notifications-settings'")); ?>
