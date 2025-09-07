@@ -163,7 +163,7 @@ class Admin_Assets
         //        }
 
         // Load Select2
-        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages') || Menus::in_page('settings') || Menus::in_page('optimization')  || Menus::in_page('goals')) {
+        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages') || Menus::in_page('settings') || Menus::in_page('optimization') || Menus::in_page('goals')) {
             wp_enqueue_style(self::$prefix . '-select2', self::url('select2/select2.min.css'), array(), '4.0.9');
         }
 
@@ -450,6 +450,9 @@ class Admin_Assets
             'last_updated'                 => __('Last updated:', 'wp-statistics'),
             'unassigned'                   => __('Unassigned', 'wp-statistics'),
             'select_page'                  => __('Select page', 'wp-statistics'),
+            'daily'                        => __('Daily', 'wp-statistics'),
+            'weekly'                       => __('Weekly', 'wp-statistics'),
+            'monthly'                      => __('Monthly', 'wp-statistics'),
             'required_error'               => __('This field is required', 'wp-statistics'),
             'validate_error'               => __('Must not contain spaces, #, or .', 'wp-statistics'),
             'machine_validate_error'       => __('Please use lowercase letters, numbers, underscores, or dashes only. No spaces allowed.', 'wp-statistics'),
