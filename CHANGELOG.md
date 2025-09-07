@@ -1,3 +1,7 @@
+= 14.15.x - 2025-xx-xx =
+- **Enhancement:** Fixed console warnings that appeared on Chromium-based browsers on the settings page.
+- **Fix:** Corrected incorrect “Queue Migration” completion notice after plugin updates.
+
 = 14.15.4 - 2025-09-02 =
 - **Enhancement:** Refactored the update process and database schema updates to run on the frontend.
 - **Enhancement:** Optimized the database manager to avoid duplicate queries.

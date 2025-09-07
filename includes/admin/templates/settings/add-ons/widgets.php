@@ -84,6 +84,6 @@ if ($isWidgetsActive && !$isLicenseValid) {
 
 <?php
 if ($isWidgetsActive) {
-    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='widgets-settings'"));
+    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('id' => 'widgets_submit', 'OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='widgets-settings'"));
 }
 ?>

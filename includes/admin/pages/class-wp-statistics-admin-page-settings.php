@@ -250,7 +250,6 @@ class settings_page extends Singleton
     public static function save_maintenance_option($wp_statistics_options)
     {
         $wps_option_list = array(
-            'wps_schedule_dbmaint',
             'wps_schedule_dbmaint_days',
         );
         foreach ($wps_option_list as $option) {
