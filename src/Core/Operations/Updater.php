@@ -330,6 +330,9 @@ class Updater extends AbstractCore
             Option::update('consent_integration', 'wp_consent_api');
         }
 
+        /**
+         * Unset consent integration if consent level is disabled
+         */
         if ($integration === 'wp_consent_api' && $consentLevel === 'disabled') {
             Option::update('consent_integration', '');
             Option::update('consent_level_integration', 'functional');
