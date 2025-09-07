@@ -129,10 +129,6 @@ class GeneralNotices
             return;
         }
 
-        if (!Menus::in_plugin_page()) {
-            return;
-        }
-
         $trackingMode = Option::get('use_cache_plugin');
 
         if ($trackingMode) {
