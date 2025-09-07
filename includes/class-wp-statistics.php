@@ -36,7 +36,7 @@ use WP_Statistics\Service\Database\Migrations\Schema\SchemaManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
 use WP_Statistics\Service\CustomEvent\CustomEventManager;
 use WP_Statistics\Service\Admin\ExportImport\ExportImportManager;
-use WP_Statistics\CLI\CLI;
+use WP_Statistics\CLI\CliCommands;
 
 defined('ABSPATH') || exit;
 
@@ -253,7 +253,7 @@ final class WP_Statistics
 
         // WP-CLI Class.
         if (defined('WP_CLI') && WP_CLI) {
-            \WP_CLI::add_command('statistics', CLI::class);
+            \WP_CLI::add_command('statistics', CliCommands::class);
         }
 
         // Template functions.

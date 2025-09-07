@@ -5,16 +5,31 @@ namespace WP_Statistics\CLI;
 use Exception;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Database\Managers\TableHandler;
-use WP_Statistics\Models\VisitorsModel;
-use WP_Statistics\Models\OnlineModel;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Hits;
 
 /**
  * WP Statistics CLI Command
  */
-class CLI
+class CliCommands
 {
+    /**
+     * Data provider instance for CLI commands.
+     *
+     * @var CliCommandsDataProvider
+     */
+    protected $dataProvider;
+
+    /**
+     * Constructor.
+     *
+     * Initializes the CLI commands.
+     */
+    public function __construct()
+    {
+        $this->dataProvider = new CliCommandsDataProvider();
+    }
+
     /**
      * Show summary of statistics.
      *
@@ -35,36 +50,26 @@ class CLI
      * @alias overview
      * @throws Exception
      */
-    function summary($args, $assoc_args)
+    public function summary($args, $assocArgs)
     {
-        $visitorsModel = new VisitorsModel();
-        $onlineModel   = new OnlineModel();
-
-        $usersOnline = Helper::formatNumberWithUnit($onlineModel->countOnlines(), 1);
+        $data        = $this->dataProvider->getSummaryData();
+        $usersOnline = Helper::formatNumberWithUnit($data['online'], 1);
 
         \WP_CLI::line("Users Online: " . $usersOnline);
 
-        $args = [
-            'ignore_post_type' => true,
-            'include_total'    => true,
-            'exclude'          => ['last_week', 'last_month', '7days', '30days', '90days', '6months'],
-        ];
-
-        $data = $visitorsModel->getVisitorsHitsSummary($args);
-
         $items = [];
-        foreach ($data as $key => $info) {
+        foreach ($data['labels'] as $i => $label) {
             $items[] = [
-                'Time'     => $info['label'],
-                'Visitors' => Helper::formatNumberWithUnit($info['visitors'], 1),
-                'Views'    => Helper::formatNumberWithUnit($info['hits'], 1),
+                'Time'     => $label,
+                'Visitors' => Helper::formatNumberWithUnit($data['visitors'][$i], 1),
+                'Views'    => Helper::formatNumberWithUnit($data['hits'][$i], 1),
             ];
         }
 
         \WP_CLI\Utils\format_items(
-            \WP_CLI\Utils\get_flag_value($assoc_args, 'format', 'table'),
+            \WP_CLI\Utils\get_flag_value($assocArgs, 'format', 'table'),
             $items,
-            array('Time', 'Visitors', 'Views')
+            ['Time', 'Visitors', 'Views']
         );
     }
 
@@ -90,12 +95,10 @@ class CLI
      *
      * @throws Exception
      */
-    public function online($args, $assoc_args)
+    public function online($args, $assocArgs)
     {
-        $number      = \WP_CLI\Utils\get_flag_value($assoc_args, 'number', 15);
-        $onlineModel = new OnlineModel();
-
-        $lists = $onlineModel->getOnlineVisitorsData(['page' => 1, 'per_page' => $number]);
+        $number = \WP_CLI\Utils\get_flag_value($assocArgs, 'number', 15);
+        $lists  = $this->dataProvider->getOnlineData(['per_page' => $number]);
 
         if (empty($lists)) {
             \WP_CLI::error("There are no users online.");
@@ -117,7 +120,7 @@ class CLI
         }
 
         \WP_CLI\Utils\format_items(
-            \WP_CLI\Utils\get_flag_value($assoc_args, 'format', 'table'),
+            \WP_CLI\Utils\get_flag_value($assocArgs, 'format', 'table'),
             $items,
             $columns
         );
@@ -146,18 +149,17 @@ class CLI
      * @alias visitor
      * @throws Exception
      */
-    public function visitors($args, $assoc_args)
+    public function visitors($args, $assocArgs)
     {
-        $number       = \WP_CLI\Utils\get_flag_value($assoc_args, 'number', 15);
-        $visitorModel = new VisitorsModel();
-        $lists        = $visitorModel->getVisitorsData(['page' => 1, 'per_page' => $number]);
+        $number = \WP_CLI\Utils\get_flag_value($assocArgs, 'number', 15);
+        $lists  = $this->dataProvider->getVisitorsData(['per_page' => $number]);
 
         if (empty($lists)) {
             \WP_CLI::error("There are no visitors.");
         }
 
-        $columns = array('IP', 'Last View', 'Browser', 'Referrer', 'Operating System', 'User ID', 'Country');
-        $items   = array();
+        $columns = ['IP', 'Last View', 'Browser', 'Referrer', 'Operating System', 'User ID', 'Country'];
+        $items   = [];
 
         foreach ($lists as $row) {
             $items[] = [
@@ -172,7 +174,7 @@ class CLI
         }
 
         \WP_CLI\Utils\format_items(
-            \WP_CLI\Utils\get_flag_value($assoc_args, 'format', 'table'),
+            \WP_CLI\Utils\get_flag_value($assocArgs, 'format', 'table'),
             $items,
             $columns
         );
@@ -183,7 +185,7 @@ class CLI
      *
      * @throws Exception
      */
-    public function create_tables($args, $assoc_args)
+    public function create_tables($args, $assocArgs)
     {
         TableHandler::createAllTables();
         \WP_CLI::success('All WP Statistics tables created (if not already existing).');
@@ -203,7 +205,7 @@ class CLI
      *
      * @throws Exception
      */
-    public function record($args, $assoc_args)
+    public function record($args, $assocArgs)
     {
         $visitorProfile = new VisitorProfile();
         $visitorProfile->__set('currentPageType', [
@@ -221,20 +223,20 @@ class CLI
         ];
 
         foreach ($map as $arg => $property) {
-            if (!empty($assoc_args[$arg])) {
-                $visitorProfile->__set($property, $assoc_args[$arg]);
+            if (!empty($assocArgs[$arg])) {
+                $visitorProfile->__set($property, $assocArgs[$arg]);
             }
         }
 
         // Override server variables
-        if (!empty($assoc_args['ip'])) {
-            $_SERVER['REMOTE_ADDR'] = $assoc_args['ip'];
+        if (!empty($assocArgs['ip'])) {
+            $_SERVER['REMOTE_ADDR'] = $assocArgs['ip'];
         }
-        if (!empty($assoc_args['user_agent'])) {
-            $_SERVER['HTTP_USER_AGENT'] = $assoc_args['user_agent'];
+        if (!empty($assocArgs['user_agent'])) {
+            $_SERVER['HTTP_USER_AGENT'] = $assocArgs['user_agent'];
         }
 
-        if (!empty($assoc_args['request_uri'])) {
+        if (!empty($assocArgs['request_uri'])) {
             add_filter('wp_statistics_page_uri', function () use ($visitorProfile) {
                 return $visitorProfile->getRequestUri();
             });
