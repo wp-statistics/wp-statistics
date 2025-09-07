@@ -330,6 +330,11 @@ class Updater extends AbstractCore
             Option::update('consent_integration', 'wp_consent_api');
         }
 
+        if ($integration === 'wp_consent_api' && $consentLevel === 'disabled') {
+            Option::update('consent_integration', '');
+            Option::update('consent_level_integration', 'functional');
+        }
+
         /**
          * Removes duplicate entries from the visitor_relationships table.
          *

@@ -25,8 +25,7 @@ class QueueMigration extends BaseMigrationOperation
      * @var array<string, string> Array mapping step names to method names
      */
     protected $migrationSteps = [
-        'updateRobotListSetting'    => 'updateRobotListSetting',
-        'updateConsentLevelSetting' => 'updateConsentLevelSetting',
+        'updateRobotListSetting' => 'updateRobotListSetting'
     ];
 
     /**
@@ -63,22 +62,6 @@ class QueueMigration extends BaseMigrationOperation
             $customRobotList = array_diff($robotArray, $defaultRobots);
 
             Option::update('robotlist', implode("\n", $customRobotList));
-        }
-    }
-
-    /**
-     * Unset the 'consent_integration' option if the consent level is set to 'disabled'.
-     *
-     * @return void
-     */
-    public function updateConsentLevelSetting()
-    {
-        $consentIntegration = Option::get('consent_integration');
-        $consentLevel       = Option::get('consent_level_integration');
-
-        if ($consentIntegration === 'wp_consent_api' && $consentLevel === 'disabled') {
-            Option::update('consent_integration', '');
-            Option::update('consent_level_integration', 'functional');
         }
     }
 }
