@@ -1,4 +1,5 @@
 = 14.15.x - 2025-xx-xx =
+- **Enhancement:** Fixed console warnings that appeared on Chromium-based browsers on the settings page.
 - **Fix:** Corrected incorrect “Queue Migration” completion notice after plugin updates.
 - **Enhancement:** Added "Recheck Schema" button on the optimization page to recheck database health via AJAX.
 

@@ -440,6 +440,8 @@ class Admin_Assets
             'copied'                       => __('Copied!', 'wp-statistics'),
             'settings'                     => __('SETTINGS', 'wp-statistics'),
             'premium_addons'               => __('PREMIUM ADD-ONS', 'wp-statistics'),
+            'forever'                      => __('Forever', 'wp-statistics'),
+            'days'                         => __('days', 'wp-statistics'),
             'clicks'                       => __('Clicks', 'wp-statistics'),
             'impressions'                  => __('Impressions', 'wp-statistics'),
             'prev'                         => __('Prev', 'wp-statistics'),

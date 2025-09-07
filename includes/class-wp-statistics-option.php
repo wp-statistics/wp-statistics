@@ -70,7 +70,6 @@ class Option
             'exclude_loginpage'               => true,
             'exclude_404s'                    => false,
             'exclude_feeds'                   => true,
-            'schedule_dbmaint'                => true,
             'schedule_dbmaint_days'           => '180',
             'charts_previous_period'          => true,
             'attribution_model'               => 'first-touch',
