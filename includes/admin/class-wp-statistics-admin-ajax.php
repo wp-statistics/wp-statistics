@@ -179,8 +179,6 @@ class Ajax
             wp_send_json_error([
                 'message' => esc_html__('Unauthorized.', 'wp-statistics')
             ]);
-
-            exit;
         }
 
         $nonceValid = check_ajax_referer($nonceAction, $nonceName, false);
@@ -817,6 +815,8 @@ class Ajax
             if ($databaseStatus === 'success') {
                 wp_send_json_success(['message' => esc_html__('Database schema issues have been successfully repaired.', 'wp-statistics')]);
             }
+
+            wp_send_json_error(['message' => esc_html__('Failed to repair database schema!', 'wp-statistics')]);
         } catch (Exception $e) {
             wp_send_json_error(['message' => sprintf(esc_html__('Failed to repair database schema: %s', 'wp-statistics'), $e->getMessage())]);
         }
@@ -837,11 +837,11 @@ class Ajax
 
             if ($databaseStatus === 'success') {
                 wp_send_json_success(['message' => esc_html__('The database was checked and no issues were found.', 'wp-statistics')]);
-            } else {
-                wp_send_json_error([
-                    'message' => esc_html__('Database issues were detected. Please refresh the page to see the "Repair Schema Issues" option.', 'wp-statistics')
-                ]);
             }
+
+            wp_send_json_error([
+                'message' => esc_html__('Database issues were detected. Please refresh the page to see the "Repair Schema Issues" button.', 'wp-statistics')
+            ]);
         } catch (Exception $e) {
             wp_send_json_error(['message' => sprintf(esc_html__('An error occurred while checking the database: %s', 'wp-statistics'), $e->getMessage())]);
         }

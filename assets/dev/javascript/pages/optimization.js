@@ -28,12 +28,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             {
                 button: '#re-check-schema-submit-button',
                 result: '#re-check-schema-result',
-                action: 'wp_statistics_re_check_schema',
-                skipModal: true
+                action: 'wp_statistics_re_check_schema'
             }
         ],
 
-        showModal: function (message = 'Are you sure?', onConfirm) {
+        showModal: function (message = wps_js._('are_you_sure'), onConfirm) {
             const $modal = $('#setting-confirmation');
             if (!$modal.length) return console.error('Modal not found.');
 
@@ -114,13 +113,13 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 });
         },
 
-        initMaintenanceAction: function ({button, result, action, messageKey, skipModal}) {
+        initMaintenanceAction: function ({button, result, action, messageKey}) {
             const $btn = $(button);
             const $res = $(result);
 
             $btn.off('click').on('click', e => {
                 e.preventDefault();
-                if (skipModal) {
+                if (!messageKey) {
                     this.ajaxAction(action, $res, $btn);
                 } else {
                     const msg = wps_js._(messageKey);

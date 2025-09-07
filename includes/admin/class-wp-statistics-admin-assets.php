@@ -457,6 +457,7 @@ class Admin_Assets
             'confirm_hash_ips'             => __('This will replace all IP addresses in the database with hash values and cannot be undone, are you sure?', 'wp-statistics'),
             'confirm_repair_schema'        => __('Are you sure you want to repair the schema issues?', 'wp-statistics'),
             'operation_completed'          => __('Operation completed.', 'wp-statistics'),
+            'are_you_sure'                 => __('Are you sure?', 'wp-statistics'),
         );
 
         $list['active_post_type'] = Helper::getPostTypeName(Request::get('pt', 'post'));
