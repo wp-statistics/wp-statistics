@@ -5,7 +5,7 @@ namespace WP_Statistics\CLI;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Models\OnlineModel;
 
-class CliCommandsDataProvider
+class CliDataProvider
 {
     /**
      * Visitor model instance.
@@ -22,7 +22,7 @@ class CliCommandsDataProvider
     protected $onlineModel;
 
     /**
-     * CliCommandsDataProvider constructor.
+     * CliDataProvider constructor.
      *
      * Initializes model instances for visitors and online data.
      */

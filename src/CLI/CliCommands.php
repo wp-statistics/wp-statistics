@@ -16,7 +16,7 @@ class CliCommands
     /**
      * Data provider instance for CLI commands.
      *
-     * @var CliCommandsDataProvider
+     * @var CliDataProvider
      */
     protected $dataProvider;
 
@@ -27,7 +27,7 @@ class CliCommands
      */
     public function __construct()
     {
-        $this->dataProvider = new CliCommandsDataProvider();
+        $this->dataProvider = new CliDataProvider();
     }
 
     /**
