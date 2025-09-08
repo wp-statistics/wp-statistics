@@ -111,12 +111,12 @@ class DateTime
      *
      * @param string|int $date The date string to format. If numeric, it is treated as a Unix timestamp.
      * @param array $args {
-     *     @type bool $include_time Whether to include the time in the formatted string. Default false.
-     *     @type bool $exclude_year Whether to exclude the year from the formatted string. Default false.
-     *     @type bool $short_month Whether to use a short month name (e.g. 'Jan' instead of 'January'). Default false.
-     *     @type string $separator The separator to use between date and time. Default ' '.
-     *     @type string $date_format The format string to use for the date. Default is the WordPress option 'date_format'.
-     *     @type string $time_format The format string to use for the time. Default is the WordPress option 'time_format'.
+     * @type bool $include_time Whether to include the time in the formatted string. Default false.
+     * @type bool $exclude_year Whether to exclude the year from the formatted string. Default false.
+     * @type bool $short_month Whether to use a short month name (e.g. 'Jan' instead of 'January'). Default false.
+     * @type string $separator The separator to use between date and time. Default ' '.
+     * @type string $date_format The format string to use for the date. Default is the WordPress option 'date_format'.
+     * @type string $time_format The format string to use for the time. Default is the WordPress option 'time_format'.
      * }
      *
      * @return string The formatted datetime string.
@@ -126,12 +126,12 @@ class DateTime
     public static function format($date, $args = [])
     {
         $args = wp_parse_args($args, [
-            'include_time'  => false,
-            'exclude_year'  => false,
-            'short_month'   => false,
-            'separator'     => ' ',
-            'date_format'   => self::getDateFormat(),
-            'time_format'   => self::getTimeFormat()
+            'include_time' => false,
+            'exclude_year' => false,
+            'short_month'  => false,
+            'separator'    => ' ',
+            'date_format'  => self::getDateFormat(),
+            'time_format'  => self::getTimeFormat()
         ]);
 
         // If the date is numeric, treat it as a Unix timestamp
@@ -195,5 +195,26 @@ class DateTime
         $inputDate = date('Y-m-d', strtotime($date));
 
         return ($inputDate >= $today);
+    }
+
+    /**
+     * Create a DatePeriod between two dates.
+     *
+     * @param string $from Start date (Y-m-d or any string accepted by \DateTime)
+     * @param string $to End date (Y-m-d or any string accepted by \DateTime)
+     * @param string $interval Interval spec (e.g. 'P1D' for daily, 'P7D' for weekly)
+     *
+     * @return \DatePeriod
+     *
+     * @throws \Exception       If $from or $to is not a valid date/time string.
+     * @throws \Exception       If $interval is not a valid interval specification.
+     */
+    public static function getPeriod($from, $to, $interval = 'P1D')
+    {
+        $start = new \DateTime($from, self::getTimezone());
+        $end   = (new \DateTime($to, self::getTimezone()))->modify('+1 day'); // include end date
+        $step  = new \DateInterval($interval);
+
+        return new \DatePeriod($start, $step, $end);
     }
 }
