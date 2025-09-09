@@ -3,7 +3,7 @@
 - **Fix:** Corrected incorrect “Queue Migration” completion notice after plugin updates.
 - **Enhancement:** Add date range validation on report pages.
 - **Enhancement:** Improve compare style and number formatting in "At a Glance" widgets.
-- **Security:** Removed `wp_statistics_data_export_base_query` and `wp_statistics_data_export_query` filters.
+- **Dev:** Removed `wp_statistics_data_export_base_query` and `wp_statistics_data_export_query` filters.
 
 = 14.15.4 - 2025-09-02 =
 - **Enhancement:** Refactored the update process and database schema updates to run on the frontend.
