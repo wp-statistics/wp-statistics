@@ -3,6 +3,7 @@
 - **Fix:** Corrected incorrect “Queue Migration” completion notice after plugin updates.
 - **Enhancement:** Add date range validation on report pages.
 - **Enhancement:** Improve compare style and number formatting in "At a Glance" widgets.
+- **Security:** Removed `wp_statistics_data_export_base_query` and `wp_statistics_data_export_query` filters.
 
 = 14.15.4 - 2025-09-02 =
 - **Enhancement:** Refactored the update process and database schema updates to run on the frontend.
@@ -592,7 +593,7 @@ v14.3.5 - 17.01.2024
 * Improvement: Remove storing the filter data in browser local storage
 * Improvement: Change date format to international date system
 * Improvement: Refactor IP Anonymization Logic to Use `wp_privacy_anonymize_ip()` Function to make more compatible with GDPR
-* Development: Added filter for `wp_statistics_pages_countries_args`
+* Development: Added filters `wp_statistics_pages_countries_args`, `wp_statistics_data_export_base_query` and `wp_statistics_data_export_query`
 * Fixes: Compatibility WhichBrowser with PHP v8.3
 
 v14.3.4 - 30.12.2023
