@@ -2265,4 +2265,19 @@ class Helper
 
         return $message;
     }
+
+    /**
+     * Return available schedules for report delivery.
+     *
+     * @return array
+     */
+    public static function getReportSchedules()
+    {
+        $schedules = Schedule::getSchedules();
+
+        // Filter out non-report schedules
+        $schedules = self::filterArrayByKeys($schedules, ['daily', 'weekly', 'biweekly', 'monthly']);
+
+        return $schedules;
+    }
 }
