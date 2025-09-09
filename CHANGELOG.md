@@ -592,7 +592,7 @@ v14.3.5 - 17.01.2024
 * Improvement: Remove storing the filter data in browser local storage
 * Improvement: Change date format to international date system
 * Improvement: Refactor IP Anonymization Logic to Use `wp_privacy_anonymize_ip()` Function to make more compatible with GDPR
-* Development: Added filters `wp_statistics_pages_countries_args`
+* Development: Added filter for `wp_statistics_pages_countries_args`
 * Fixes: Compatibility WhichBrowser with PHP v8.3
 
 v14.3.4 - 30.12.2023
