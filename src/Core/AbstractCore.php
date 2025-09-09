@@ -123,7 +123,7 @@ abstract class AbstractCore
      */
     protected function isUpdated()
     {
-        $this->currentVersion = get_option('wp_statistics_plugin_version');
+        $this->currentVersion = get_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
 
         return $this->currentVersion != $this->latestVersion;
     }
