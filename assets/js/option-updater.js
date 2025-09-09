@@ -1,4 +1,9 @@
 jQuery(document).ready(function () {
+
+    if (typeof wps_js === 'undefined' || !wps_js.global || !wps_js.global.rest_api_nonce || !wps_js.global.admin_url) {
+        return;
+    }
+
     jQuery(document).on('click', "a.wps-option__updater", function (e) {
         e.preventDefault();
 

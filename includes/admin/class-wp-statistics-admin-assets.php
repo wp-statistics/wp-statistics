@@ -185,6 +185,8 @@ class Admin_Assets
         // Get Current Screen ID
         $screen_id = Helper::get_screen_id();
 
+        Assets::script(self::$prefix . '-option-updater', 'js/option-updater.js', [], [], true);
+
         // Load Chart.js library
         if (apply_filters('wp_statistics_enqueue_chartjs', false)) {
             Assets::script('chart.js', 'js/chartjs/chart.umd.min.js', [], [], true, false, null, '4.4.4');
