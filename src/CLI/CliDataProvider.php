@@ -46,7 +46,7 @@ class CliDataProvider
             'include_total'    => true,
             'exclude'          => ['last_week', 'last_month', '7days', '30days', '90days', '6months']
         ]));
-        
+
         return [
             'visitors' => array_values(wp_list_pluck($data, 'visitors')),
             'hits'     => array_values(wp_list_pluck($data, 'hits')),
@@ -76,6 +76,6 @@ class CliDataProvider
      */
     public function getVisitorsData($args = [])
     {
-        return $this->visitorsModel->getVisitorsData(array_merge($args, ['page' => 1]));
+        return $this->visitorsModel->getVisitorsData(array_merge($args, ['ignore_date' => true, 'page' => 1]));
     }
 }

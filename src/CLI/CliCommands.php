@@ -196,49 +196,48 @@ class CliCommands
      *
      * ## OPTIONS
      *
-     * [--url=<url>]
      * [--ip=<ip>]
      * [--user_agent=<user_agent>]
      * [--referrer=<referrer>]
      * [--user_id=<user_id>]
      * [--request_uri=<request_uri>]
+     * [--page_type=<page_type>]
+     * [--page_id=<page_id>]
      *
      * @throws Exception
      */
     public function record($args, $assocArgs)
     {
         $visitorProfile = new VisitorProfile();
-        $visitorProfile->__set('currentPageType', [
-            'type'         => 'post',
-            'id'           => 1,
-            'search_query' => ''
-        ]);
 
-        // Map CLI args to VisitorProfile
-        $map = [
-            'url'         => 'referrer',
-            'referrer'    => 'referrer',
-            'user_id'     => 'userId',
-            'request_uri' => 'requestUri',
-        ];
+        add_filter('wp_statistics_current_page', function ($currentPage) use ($assocArgs) {
+            return [
+                'type'         => $assocArgs['page_type'] ?? 'post',
+                'id'           => (int)($assocArgs['page_id'] ?? 1),
+                'search_query' => ''
+            ];
+        });
 
-        foreach ($map as $arg => $property) {
-            if (!empty($assocArgs[$arg])) {
-                $visitorProfile->__set($property, $assocArgs[$arg]);
-            }
-        }
-
-        // Override server variables
         if (!empty($assocArgs['ip'])) {
             $_SERVER['REMOTE_ADDR'] = $assocArgs['ip'];
         }
+
         if (!empty($assocArgs['user_agent'])) {
             $_SERVER['HTTP_USER_AGENT'] = $assocArgs['user_agent'];
         }
 
+        if (!empty($assocArgs['referrer'])) {
+            $_SERVER['HTTP_REFERER'] = $assocArgs['referrer'];
+        }
+
         if (!empty($assocArgs['request_uri'])) {
-            add_filter('wp_statistics_page_uri', function () use ($visitorProfile) {
-                return $visitorProfile->getRequestUri();
+            $_SERVER['REQUEST_URI'] = $assocArgs['request_uri'];
+        }
+
+        if (!empty($assocArgs['user_id'])) {
+            $userId = (int)$assocArgs['user_id'];
+            add_filter('wp_statistics_user_id', function () use ($userId) {
+                return $userId;
             });
         }
 
