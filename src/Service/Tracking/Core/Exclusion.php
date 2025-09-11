@@ -43,6 +43,13 @@ class Exclusion extends Singleton
     private static $excludedUrlPatterns = null;
 
     /**
+     * Cached result of the last exclusion check to prevent redundant processing.
+     *
+     * @var array{exclusion_match: bool, exclusion_reason: string}|null
+     */
+    private static $exclusionResult = null;
+
+    /**
      * Returns the default exclusion map with reasons and corresponding check methods.
      *
      * @return array<string, array<string, string>> Associative array of exclusion keys to message and method.
@@ -158,7 +165,11 @@ class Exclusion extends Singleton
      */
     public static function check($visitorProfile)
     {
-        $exclude = [
+        if (! empty(self::$exclusionResult)) {
+            return self::$exclusionResult;
+        }
+
+        self::$exclusionResult = [
             'exclusion_match'  => false,
             'exclusion_reason' => ''
         ];
@@ -181,7 +192,7 @@ class Exclusion extends Singleton
             }
 
             if (self::$method($visitorProfile)) {
-                return apply_filters(
+                self::$exclusionResult = apply_filters(
                     'wp_statistics_exclusion',
                     [
                         'exclusion_match'  => true,
@@ -189,10 +200,14 @@ class Exclusion extends Singleton
                     ],
                     $visitorProfile
                 );
+
+                return self::$exclusionResult;
             }
         }
 
-        return apply_filters('wp_statistics_exclusion', $exclude, $visitorProfile);
+        self::$exclusionResult = apply_filters('wp_statistics_exclusion', self::$exclusionResult, $visitorProfile);
+
+        return self::$exclusionResult;
     }
 
     /**
