@@ -103,11 +103,11 @@ class ResourceDecorator
      *
      * Returns the type of resource (e.g., post type or 'user').
      *
-     * @return string|null The resource type, or null if not available
+     * @return string The resource type, or empty string if not available
      */
     public function getType()
     {
-        return $this->identifier->resource->record->resource_type ?? null;
+        return $this->identifier->resource->record->resource_type ?? '';
     }
 
     /**

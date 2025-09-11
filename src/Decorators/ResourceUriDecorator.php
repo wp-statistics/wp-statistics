@@ -42,7 +42,7 @@ class ResourceUriDecorator
      */
     public function getId()
     {
-        return empty($this->identifier->resourceUri->record->ID) ? null : (int)$this->identifier->resourceUri->record->ID;
+        return empty($this->identifier->resourceUri->record->ID) ? 0 : (int)$this->identifier->resourceUri->record->ID;
     }
 
     /**
