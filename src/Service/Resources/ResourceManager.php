@@ -2,15 +2,17 @@
 
 namespace WP_Statistics\Service\Resources;
 
+use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Resources\Identifications\ResourceIdentifier;
 use WP_Statistics\Service\Resources\Identifications\ResourceUriIdentifier;
+use WP_Statistics\Service\Tracking\Core\Exclusion;
 
 /**
  * ResourceManager Class
  *
- * Manages resource identification and URL handling.
+ * Manages resource identification and uri handling.
  * This class serves as a factory and coordinator for resource-related operations,
- * determining the appropriate resource type and URL based on provided records.
+ * determining the appropriate resource type and uri based on provided records.
  *
  * @package WP_Statistics\Service\Resources
  * @since 15.0.0
@@ -25,7 +27,7 @@ class ResourceManager
     public $resource = null;
 
     /**
-     * Resource URL identifier instance
+     * Resource uri identifier instance
      *
      * @var ResourceUriIdentifier|null
      */
@@ -42,6 +44,12 @@ class ResourceManager
      */
     public function __construct($record = null)
     {
+        $exclusionResult = Exclusion::check(new VisitorProfile());
+
+        if (! empty($exclusionResult['exclusion_match'])) {
+            return;
+        }
+
         if (empty($record)) {
             $this->resolveResource();
             return;
@@ -52,7 +60,7 @@ class ResourceManager
             return;
         }
 
-        if (!empty($record->url)) {
+        if (!empty($record->uri)) {
             $this->resourceUri = new ResourceUriIdentifier($record);
             return;
         }

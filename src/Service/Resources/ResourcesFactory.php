@@ -41,22 +41,22 @@ class ResourcesFactory
     }
 
     /**
-     * Retrieves a resource by its URL.
+     * Retrieves a resource by its uri.
      *
-     * This method searches the 'resources' table for a resource that matches the provided URL,
+     * This method searches the 'resources' table for a resource that matches the provided uri,
      * and wraps the resulting resource record in a ResourceDecorator if a match is found.
      *
-     * @param string $resourceUri The URL of the resource.
+     * @param string $resourceUri The uri of the resource.
      *
      * @return ResourceDecorator|null A decorator for the resource record, or null if not found.
      */
-    public static function getByUrl($resourceUri)
+    public static function getByUri($resourceUri)
     {
         if (empty($resourceUri)) {
             return null;
         }
 
-        $resourceUriRecord = RecordFactory::resourceUri()->get(['url' => $resourceUri]);
+        $resourceUriRecord = RecordFactory::resourceUri()->get(['uri' => $resourceUri]);
 
         if (empty($resourceUriRecord->resource_id)) {
             return null;
@@ -70,15 +70,15 @@ class ResourcesFactory
     }
 
     /**
-     * Retrieves a resource by its URL ID.
+     * Retrieves a resource by its uri ID.
      *
-     * This method searches the 'url' table for a resource URL that matches the provided URL ID,
+     * This method searches the 'uri' table for a resource uri that matches the provided uri ID,
      * and wraps the resulting resource record in a ResourceDecorator if a match is found.
      *
-     * @param int $resourceUriId The ID of the resource URL.
+     * @param int $resourceUriId The ID of the resource uri.
      * @return ResourceDecorator|null A decorator for the resource record, or null if not found.
      */
-    public static function getByUrlId($resourceUriId)
+    public static function getByUriId($resourceUriId)
     {
         $record = RecordFactory::resourceUri()->get(['ID' => $resourceUriId]);
 
@@ -86,7 +86,7 @@ class ResourcesFactory
     }
 
     /**
-     * Retrieves the current resource based on the current URL or context.
+     * Retrieves the current resource based on the current uri or context.
      *
      * This method creates a ResourceDecorator without a specific identifier,
      * allowing it to determine the resource context from the current request.
@@ -99,12 +99,12 @@ class ResourcesFactory
     }
 
     /**
-     * Retrieves the current resource URL based on the current request.
+     * Retrieves the current resource uri based on the current request.
      *
      * This method creates a ResourceUriDecorator without a specific identifier,
-     * allowing it to determine the resource URL context from the current request.
+     * allowing it to determine the resource uri context from the current request.
      *
-     * @return ResourceUriDecorator A decorator representing the current resource URL.
+     * @return ResourceUriDecorator A decorator representing the current resource uri.
      */
     public static function getCurrentResourceUri()
     {

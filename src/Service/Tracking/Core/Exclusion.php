@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Tracking\Core;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Utils\Environment;
 use WP_Statistics\Components\Ip;
+use WP_Statistics\Components\Singleton;
 use WP_Statistics\Globals\Option;
 use WP_Statistics\Utils\Route;
 use WP_Statistics\Service\Analytics\VisitorProfile;
@@ -18,7 +19,7 @@ use WP_Statistics\Utils\QueryParams;
  *
  * Handles visitor exclusion logic for tracking purposes.
  */
-class Exclusion
+class Exclusion extends Singleton
 {
     /**
      * Cached exclusion map to avoid re-building on each call.

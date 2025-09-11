@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Resources\Core;
 
+use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Utils\Route;
 use WP_Statistics\Utils\Url;
 
@@ -73,6 +74,13 @@ class ResourceDetector
     private $resourceMeta = null;
 
     /**
+     * The resource record.
+     *
+     * @var object|null
+     */
+    public $record = null;
+
+    /**
      * Constructor.
      *
      * If explicit resource ID and/or resource type values are provided, they override
@@ -96,6 +104,15 @@ class ResourceDetector
 
         if (!empty($resourceType)) {
             $this->resourceType = $resourceType;
+        }
+
+        $this->record = RecordFactory::resource()->get([
+            'resource_id'   => $this->resourceId,
+            'resource_type' => $this->resourceType,
+        ]);
+
+        if (! empty($this->record)) {
+            return;
         }
 
         $excludedTypes = [

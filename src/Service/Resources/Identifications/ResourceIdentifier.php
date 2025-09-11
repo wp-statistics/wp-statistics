@@ -75,13 +75,13 @@ class ResourceIdentifier
      * - A **resource record object**: an object already stored in the resources table (i.e. it contains properties like
      *   `resource_type` and `resource_id`), in which case its `ID` is used as the row identifier.
      * - A **raw object**: for example, a WP_Post, WP_User, or any other object that contains an `ID` (and possibly a `post_type`).
-     *   In this case, the resource URL is generated (using `get_the_permalink()` for WP_Post objects), and the object's
+     *   In this case, and the object's
      *   ID and type (e.g. `post_type`) are extracted for later insertion.
      * - A **record ID**: an integer representing the primary key of a resource record.
      *
      * Depending on the input type, the method extracts and sets the appropriate internal properties:
      * - For a resource record object, it stores the object in `$this->resource` and extracts its row ID.
-     * - For a raw object, it extracts the resource URL, resource ID, and resource type.
+     * - For a raw object, it extracts resource ID, and resource type.
      * - For a record ID, it simply assigns that value to `$this->rowId`.
      *
      * @param mixed $record Either a resource record object, a raw object (e.g. WP_Post, WP_User), or a record ID (int).
@@ -152,13 +152,9 @@ class ResourceIdentifier
         if (empty($this->detector)) {
             $this->detector = new ResourceDetector($this->resourceId, $this->resourceType);
         }
-
-        $this->record = $this->getRecord()->get([
-            'resource_id'   => $this->detector->getResourceId(),
-            'resource_type' => $this->detector->getResourceType(),
-        ]);
-
-        if (!empty($this->record)) {
+        
+        if (!empty($this->detector->record)) {
+            $this->record = $this->detector->record;
             return;
         }
 

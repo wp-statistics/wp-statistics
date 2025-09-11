@@ -108,6 +108,6 @@ class ViewDecorator
             return new ResourceDecorator(null);
         }
 
-        return ResourcesFactory::getByUrlId($this->view->resource_uri_id);
+        return ResourcesFactory::getByUriId($this->view->resource_uri_id);
     }
 }
