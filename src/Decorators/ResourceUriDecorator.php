@@ -38,7 +38,7 @@ class ResourceUriDecorator
     /**
      * Get the record ID.
      *
-     * @return int|null
+     * @return int The primary key ID from the resource_uris table or 0 if not set.
      */
     public function getId()
     {
