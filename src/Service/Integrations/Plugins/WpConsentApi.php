@@ -22,7 +22,7 @@ class WpConsentApi extends AbstractIntegration
     /**
      * Checks if the notice should be shown
      *
-     * @return bool true if at least one of the compatible plugins is active, false otherwise
+     * @return bool true
      */
     public function showNotice()
     {
