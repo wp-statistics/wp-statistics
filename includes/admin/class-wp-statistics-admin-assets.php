@@ -185,6 +185,13 @@ class Admin_Assets
         // Get Current Screen ID
         $screen_id = Helper::get_screen_id();
 
+        if (Menus::in_plugin_page() || in_array($screen_id, ['dashboard'])) {
+            Assets::script('option-updater', 'js/option-updater.js', [], [
+                'admin_url' => admin_url(),
+                'nonce'     => wp_create_nonce('wp_rest')
+            ], true);
+        }
+
         // Load Chart.js library
         if (apply_filters('wp_statistics_enqueue_chartjs', false)) {
             Assets::script('chart.js', 'js/chartjs/chart.umd.min.js', [], [], true, false, null, '4.4.4');
