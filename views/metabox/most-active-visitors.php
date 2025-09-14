@@ -1,9 +1,9 @@
 <?php
-
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Utils\Url;
 ?>
 <?php if (!empty($data)) : ?>
     <div class="o-table-wrapper">
@@ -59,12 +59,22 @@ use WP_STATISTICS\Menus;
                         <?php
                         $firstPage = $visitor->getFirstPage();
 
-                        if (!empty($firstPage)) :
-                            View::load("components/objects/internal-link", [
-                                'url'       => $firstPage['report'],
-                                'title'     => $firstPage['title'],
-                                'tooltip'   => $firstPage['query'] ? "?{$firstPage['query']}" : ''
-                            ]);
+                        if (!empty($firstPage)) :?>
+                            <div class="wps-entry-page">
+                                <?php
+                                View::load("components/objects/internal-link", [
+                                    'url'     => $firstPage['report'],
+                                    'title'   => $firstPage['title'],
+                                    'tooltip' => $firstPage['query'] ? "?{$firstPage['query']}" : ''
+                                ]);
+                                ?>
+
+                                <?php $campaign = Url::getParam('?' . $firstPage['query'], 'utm_campaign'); ?>
+                                <?php if ($campaign) : ?>
+                                    <span class="wps-campaign-label wps-tooltip" title="<?php echo esc_attr__('Campaign:', 'wp-statistics') . ' ' . esc_attr($campaign); ?>"><?php echo esc_html($campaign); ?></span>
+                                <?php endif; ?>
+                            </div>
+                        <?php
                         else :
                             echo Admin_Template::UnknownColumn();
                         endif;

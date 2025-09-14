@@ -84,12 +84,12 @@ final class WP_Statistics
         /**
          * Install And Upgrade plugin
          */
-        register_activation_hook(WP_STATISTICS_MAIN_FILE, array('WP_Statistics', 'install'));
+        register_activation_hook(WP_STATISTICS_MAIN_FILE, [$this, 'activator']);
 
         /**
          * Remove plugin data
          */
-        register_uninstall_hook(WP_STATISTICS_MAIN_FILE, ['WP_Statistics', 'uninstall']);
+        register_uninstall_hook(WP_STATISTICS_MAIN_FILE, [self::class, 'uninstaller']);
 
         /**
          * wp-statistics loaded
@@ -190,6 +190,7 @@ final class WP_Statistics
 
         // Admin classes
         if (is_admin()) {
+            CoreFactory::loader();
 
             $adminManager     = new \WP_Statistics\Service\Admin\AdminManager();
             $contentAnalytics = new ContentAnalyticsManager();
@@ -365,30 +366,31 @@ final class WP_Statistics
     }
 
     /**
-     * Create tables on plugin activation
+     * Plugin activation callback.
      *
-     * @param object $network_wide
+     * Called by WordPress via register_activation_hook() when the plugin is activated.
+     * Defers to CoreFactory::activator() to perform the actual activation tasks.
+     *
+     * @param bool $networkWide Whether the plugin is being activated network-wide on multisite.
+     * @return void
      */
-    public static function install($network_wide)
+    public function activator($networkWide) 
     {
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-install.php';
-        $installer = new \WP_STATISTICS\Install();
-        $installer->install($network_wide);
+        require_once WP_STATISTICS_DIR . 'vendor/autoload.php';
+        CoreFactory::activator($networkWide);
     }
 
     /**
-     * Manage task on plugin deactivation
+     * Plugin uninstall callback.
+     *
+     * Called by WordPress via register_uninstall_hook() when the plugin is uninstalled.
+     * Performs final cleanup by delegating to CoreFactory::uninstaller().
      *
      * @return void
      */
-    public static function uninstall()
+    public static function uninstaller() 
     {
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-option.php';
-        require_once WP_STATISTICS_DIR . 'src/Components/AssetNameObfuscator.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-uninstall.php';
-
-        new \WP_STATISTICS\Uninstall();
+        require_once WP_STATISTICS_DIR . 'vendor/autoload.php';
+        CoreFactory::uninstaller();
     }
 }

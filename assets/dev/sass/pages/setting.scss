@@ -2107,11 +2107,16 @@
 
             &--multiple {
               height: unset;
+              display: flex;
+              align-items: center;
+              flex-wrap: wrap;
 
               .select2-selection__choice {
                 background-color: #E9E9FF;
                 border-color: #BCC2CD;
-                color: #0C0C0D
+                color: #0C0C0D;
+                display: flex;
+                align-items: center;
               }
             }
 
@@ -2120,6 +2125,43 @@
                 color: #0C0C0D;
               }
             }
+
+          }
+
+          .select2-selection__choice__remove{
+            position: relative;
+            border: none;
+            padding: 0;
+            height: 100%;
+
+            span{
+              display: inline-block;
+              height: 100%;
+              margin-top: 1px;
+            }
+
+            &:hover , &:focus{
+              background: transparent!important;
+              cursor: pointer;
+            }
+          }
+
+          .select2-selection--multiple .select2-search--inline{
+            float: none;
+            display: inline-block;
+            line-height: 21px;
+            height: 19px;
+            margin-top: 5px;
+            margin-right: 5px;
+            margin-left: 5px;
+          }
+
+          textarea.select2-search__field{
+            width: 0.75em;
+            border: none !important;
+            padding: 0 !important;
+            height: 100%;
+            line-height: 16px;
           }
 
           .select2-selection__rendered {
@@ -2129,6 +2171,8 @@
             line-height: 20px;
             margin: 0;
             padding: 0;
+            min-height: 21px;
+            width: auto;
           }
 
           .select2-selection__arrow {
@@ -2597,7 +2641,7 @@
     right: unset;
   }
 }
-#setting-confirmation .wps-modal__content{
+#setting-confirmation .wps-modal__content , #enable-automatic-data-deletion .wps-modal__content{
   h2{
     padding: 0;
     font-weight: 500;
@@ -2605,12 +2649,12 @@
     line-height: 25px;
   }
   .wps-modal__description{
-    font-weight: 500;
+    font-weight: 400;
     font-size: 15px;
   }
-  .wps-alert__danger{
-    text-transform: uppercase;
-    margin-top: -6px!important;
+  .wps-alert__danger {
+    margin-top: -6px !important;
+    font-weight: 400;
   }
 }
 
