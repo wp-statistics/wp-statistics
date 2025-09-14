@@ -33,10 +33,11 @@
     border-top: 0;
   }
 }
-#wp-statistics-visitors-map__container{
+#wp-statistics-visitors-map__container:not(:has(.o-wrap--no-data)){
   height: 300px;
   width: 100%;
 }
+
 .wps-map-info{
   display: flex;
   gap: 4px;

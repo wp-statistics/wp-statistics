@@ -1,3 +1,19 @@
+const allValuesZero = (data) => {
+    if (!data || data.length === 0) return true;
+    return data.every(value => value === 0 || value === null || value === undefined || value === '0');
+};
+
+const allDatasetsZero = (currentDatasets, previousDatasets = null) => {
+    const currentAllZero = !currentDatasets || currentDatasets.length === 0 ||
+        currentDatasets.every(dataset => allValuesZero(dataset.data));
+
+    if (!previousDatasets || previousDatasets.length === 0) {
+        return currentAllZero;
+    }
+    const previousAllZero = previousDatasets.every(dataset => allValuesZero(dataset.data));
+    return currentAllZero && previousAllZero;
+};
+
 wps_js.hex_to_rgba = function (hex, opacity) {
     const defaultColor = '#3288D7';
     if (typeof hex !== 'string' || hex[0] !== '#' || (hex.length !== 7 && hex.length !== 4)) {
@@ -608,6 +624,24 @@ const updateIntervalDropdown = (tag_id, availableIntervals, selectedUnitTime) =>
 }
 
 wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line') {
+
+    if (allDatasetsZero(data.data.datasets, data.previousData?.datasets)) {
+        const chartElement = document.getElementById(tag_id);
+        const parentElement = chartElement.parentElement;
+
+        parentElement.innerHTML = wps_js.no_results();
+        parentElement.classList.add('wps-no-result');
+
+        const oWrap = parentElement.closest('.o-wrap');
+        const unitTimeChart = oWrap.querySelector('.wps-unit-time-chart');
+        const chartInfo = oWrap.querySelector('.wps-postbox-chart--info');
+
+        if (unitTimeChart) unitTimeChart.style.display = 'none';
+        if (chartInfo) chartInfo.style.display = 'none';
+
+        return null;
+    }
+
     sortTotal(data.data.datasets);
     const realdata = deepCopy(data);
     const phpDateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
@@ -1124,14 +1158,26 @@ window.renderWPSLineChart = function (chartId, data, newOptions) {
         const placeholder = wps_js.rectangle_placeholder();
         parentElement.append(placeholder);
 
-        if (!data?.data?.datasets || data.data.datasets.length === 0) {
+        const hasAllZeroData = allDatasetsZero(data?.data?.datasets, data?.previousData?.datasets);
+        const hasNoData = !data?.data?.datasets || data.data.datasets.length === 0;
+
+        if (hasNoData || hasAllZeroData) {
             parentElement.html(wps_js.no_results());
+            parentElement.addClass('wps-no-result');
             jQuery('.wps-ph-item').remove();
+
+            const oWrap = parentElement.closest('.o-wrap');
+            const unitTimeChart = oWrap.querySelector('.wps-unit-time-chart');
+            const chartInfo = oWrap.querySelector('.wps-postbox-chart--info');
+
+            if (unitTimeChart) unitTimeChart.style.display = 'none';
+            if (chartInfo) chartInfo.style.display = 'none';
+
         } else {
             wps_js.new_line_chart(data, chartId, newOptions);
             jQuery('.wps-ph-item').remove();
             jQuery('.wps-postbox-chart--data').removeClass('c-chart__wps-skeleton--legend');
-            parentElement.removeClass('c-chart__wps-skeleton');
+            parentElement.removeClass('c-chart__wps-skeleton wps-no-result');
         }
     }
 }
