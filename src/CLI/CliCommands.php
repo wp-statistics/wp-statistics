@@ -201,8 +201,8 @@ class CliCommands
      * [--referrer=<referrer>]
      * [--user_id=<user_id>]
      * [--request_uri=<request_uri>]
-     * [--page_type=<page_type>]
-     * [--page_id=<page_id>]
+     * [--resource_type=<resource_type>]
+     * [--resource_id=<resource_id>]
      *
      * @throws Exception
      */
@@ -212,8 +212,8 @@ class CliCommands
 
         add_filter('wp_statistics_current_page', function ($currentPage) use ($assocArgs) {
             return [
-                'type'         => $assocArgs['page_type'] ?? 'post',
-                'id'           => (int)($assocArgs['page_id'] ?? 1),
+                'type'         => $assocArgs['resource_type'] ?? 'post',
+                'id'           => (int)($assocArgs['resource_id'] ?? 1),
                 'search_query' => ''
             ];
         });
