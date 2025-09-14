@@ -195,7 +195,7 @@ class ResourceDetector
         }
 
         if (is_author()) {
-            $data['type'] = 'author';
+            $data['type'] = 'author_archive';
             $data['id']   = get_queried_object_id();
             return $data;
         }

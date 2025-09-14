@@ -4,6 +4,11 @@ namespace WP_STATISTICS;
 
 use WP_Statistics\Utils\Request;
 
+/**
+ * DEPRECATED: This class is not supported anymore. Please do not use it in your code.
+ *
+ * @deprecated since 15.0.0
+ */
 class Menus
 {
     /**
@@ -218,16 +223,6 @@ class Menus
     public static function get_action_menu_slug($page_slug)
     {
         return str_ireplace("[slug]", self::get_page_slug($page_slug), self::$load_admin_slug);
-    }
-
-    /**
-     * Menu constructor.
-     */
-    public function __construct()
-    {
-
-        # Load WP Statistics Admin Menu
-        add_action('admin_menu', array($this, 'wp_admin_menu'));
     }
 
     /**
