@@ -125,7 +125,7 @@ class GeneralNotices
      */
     private function checkTrackingMode()
     {
-        if (Notice::isNoticeDismissed('deprecate_server_side_tracking_v14.17')) {
+        if (Notice::isNoticeDismissed('deprecate_server_side_tracking_14.17')) {
             return;
         }
 
@@ -137,11 +137,11 @@ class GeneralNotices
 
         $noticeText = sprintf(
             __('<b>WP Statistics:</b> Server-Side tracking is deprecated. Please switch to Client-Side for better accuracy. <br> <a href="%1$s">Go to Tracking Settings</a> · <a href="%2$s" target="_blank">Read the Deprecation Guide</a>', 'wp-statistics'),
-            esc_url(Menus::admin_url('settings')),
+            esc_url(Menus::admin_url('settings', ['row' => 'tracking_method_tr'])),
             esc_url('https://wp-statistics.com/resources/deprecating-server-side-tracking/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings')
         );
 
-        Notice::addNotice($noticeText, 'deprecate_server_side_tracking_v14.17', 'warning');
+        Notice::addNotice($noticeText, 'deprecate_server_side_tracking_14.17', 'warning');
     }
 
     /**
