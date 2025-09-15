@@ -20,6 +20,7 @@
 - **Fix:** Prevented false "Queue Migration" notices after updates.
 - **Fix:** Corrected the Filter Modal Reset button redirect.
 - **Fix:** Fixed Visitor Journey not recording repeat visits to the same page.
+- **Enhancement:** Restructured WP Statistics CLI for improved maintainability.
 
 = 14.15.3 - 2025-08-18 =
 - **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.
