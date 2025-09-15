@@ -97,7 +97,7 @@ class Menu
      * @param string $page Page key to check for
      * @return bool True if on the specified admin page
      */
-    public static function isOnPage(string $page)
+    public static function isOnPage($page)
     {
         global $pagenow;
         return (is_admin() && $pagenow === 'admin.php' && isset($_REQUEST['page']) && $_REQUEST['page'] === self::buildPageSlug($page));
