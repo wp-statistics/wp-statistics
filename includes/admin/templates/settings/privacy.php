@@ -142,7 +142,9 @@ $consentLevelIntegration = Option::get('consent_level_integration');
                     <p class="description"><?php esc_html_e("Enable integration with supported consent management plugins, such as WP Consent API and Real Cookie Banner, to ensure WP Statistics respects user privacy preferences. When enabled, WP Statistics will only track data based on the consent settings provided by your active consent management plugin.", 'wp-statistics'); ?></p>
 
                     <?php if ($isWpConsentApiActive && empty($compatiblePlugins)) : ?>
-                        <p class="description"><?php _e("WP Consent API is active, but no compatible consent plugin is installed. WP Statistics won’t use consent until you add one. <a target='_blank' href='https://wp-statistics.com/resources/integrating-wp-statistics-with-consent-management-plugins/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'>See compatible plugins</a>.", 'wp-statistics'); ?></p>
+                        <p class="description">
+                            <b><?php _e("⚠️ WP Consent API is active, but no compatible consent plugin is installed. WP Statistics won’t use consent until you add one. <a target='_blank' href='https://wp-statistics.com/resources/integrating-wp-statistics-with-consent-management-plugins/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'>See compatible plugins</a>.", 'wp-statistics'); ?></b>
+                        </p>
                     <?php else : ?>
                         <p class="description"><?php esc_html_e("Note: To use this feature, you must install and activate one of the supported consent management plugins.", 'wp-statistics'); ?></p>
                         <p class="description"><?php _e("For step-by-step setup, refer to our <a target='_blank' href='https://wp-statistics.com/resources/integrating-wp-statistics-with-consent-management-plugins/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'>detailed guide</a>.", 'wp-statistics'); ?></p>
@@ -170,32 +172,8 @@ $consentLevelIntegration = Option::get('consent_level_integration');
                             <option value="<?php echo esc_attr($key) ?>" <?php selected($consentLevelIntegration, $key); ?>><?php echo esc_html($value); ?></option>
                         <?php endforeach; ?>
                     </select>
-                    <p class="description"><?php esc_html_e("When using WP Consent API, select the consent category that WP Statistics should track. Only visitors who have consented to the selected category will be tracked.", 'wp-statistics'); ?></p>
 
-                    <?php
-                    if (empty($compatiblePlugins)) {
-                        echo wp_kses_post(
-                            sprintf(
-                                '<p class="description"><b>%s</b> %s <a href="%s" target="_blank" rel="noopener">%s</a></p>',
-                                esc_html__('⚠️ No compatible consent-management plugin detected.', 'wp-statistics'),
-                                esc_html__('Install or activate one so WP Statistics only tracks visitors who have given consent.', 'wp-statistics'),
-                                esc_url('https://wp-statistics.com/resources/compatible-consent-plugins-with-wp-statistics/'),
-                                esc_html__('See compatible plugins →', 'wp-statistics')
-                            )
-                        );
-                    } else {
-                        ?>
-                        <p class="description">
-                            <?php
-                            echo sprintf(
-                                __('<b>Plugin Found:</b> A recognized consent management plugin is active: %s. WP Statistics will comply with the user’s consent settings provided by this plugin.', 'wp-statistics'),
-                                implode(', ', $compatiblePlugins)
-                            );
-                            ?>
-                        </p>
-                        <?php
-                    }
-                    ?>
+                    <p class="description"><?php esc_html_e("When using WP Consent API, select the consent category that WP Statistics should track. Only visitors who have consented to the selected category will be tracked.", 'wp-statistics'); ?></p>
 
                     <?php if (\WP_STATISTICS\Option::get('privacy_audit', false)) : ?>
                         <p class="description">
