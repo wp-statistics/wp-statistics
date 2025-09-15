@@ -231,7 +231,8 @@ class CliCommands
         }
 
         if (!empty($assocArgs['request_uri'])) {
-            $_SERVER['REQUEST_URI'] = $assocArgs['request_uri'];
+            $uri                    = trim($assocArgs['request_uri'], '/');
+            $_SERVER['REQUEST_URI'] = '/' . $uri . '/';
         }
 
         if (!empty($assocArgs['user_id'])) {
