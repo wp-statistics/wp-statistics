@@ -7,6 +7,7 @@
 - **Dev:** Removed `wp_statistics_data_export_base_query` and `wp_statistics_data_export_query` filters.
 - **Fix:** Resolved an issue with fresh installs during plugin activation.
 - **Enhancement:** Limited queue and AJAX migrations (and their notices) to the ` Minimum Role to Manage Settings`.
+- **Enhancement:** Refactored the migration codebase for better structure, readability, and maintainability.
 
 = 14.15.4 - 2025-09-02 =
 - **Enhancement:** Refactored the update process and database schema updates to run on the frontend.

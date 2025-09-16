@@ -2,11 +2,10 @@
 
 namespace WP_Statistics\Service\Database\Migrations\Queue;
 
-use WP_STATISTICS\Menus;
+use WP_Statistics\Abstracts\BaseMigrationManager;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Database\DatabaseHelper;
-use WP_STATISTICS\User;
 use WP_Statistics\Utils\Request;
 
 /**
@@ -16,7 +15,7 @@ use WP_Statistics\Utils\Request;
  * This class provides a comprehensive queue migration system with automatic execution,
  * user notifications, and proper security handling.
  */
-class QueueManager
+class QueueManager extends BaseMigrationManager
 {
     /**
      * The action slug used for manually triggering the queue migration.
@@ -149,21 +148,17 @@ class QueueManager
      */
     public function handleQueueMigration()
     {
-        if (!User::checkUserCapability(Option::get('manage_capability', 'manage_options'))) {
-            wp_die(
-                __('You do not have sufficient permissions to run the queue migration process.', 'wp-statistics'),
-                __('Permission Denied', 'wp-statistics'),
-                [
-                    'response' => 403
-                ]
-            );
-        }
+        check_admin_referer(self::MIGRATION_NONCE, 'nonce');
 
-        if (!Request::compare('action', self::MIGRATION_ACTION) || !QueueFactory::needsMigration()) {
+        if (!Request::compare('action', self::MIGRATION_ACTION)) {
             return false;
         }
 
-        check_admin_referer(self::MIGRATION_NONCE, 'nonce');
+        $this->verifyMigrationPermission();
+
+        if (!QueueFactory::needsMigration()) {
+            return false;
+        }
 
         $this->executeAllMigrations();
 
@@ -209,28 +204,6 @@ class QueueManager
 
         wp_redirect(esc_url_raw($redirectUrl));
         exit;
-    }
-
-    /**
-     * Validates whether the current admin page and user have access to handle migration-related functionality.
-     *
-     * This method performs security checks to ensure that:
-     * - The current user has the 'manage_options' capability
-     * - The current page is a WP Statistics plugin page
-     *
-     * @return bool True if the context is valid for migration operations, false otherwise
-     */
-    private function isValidMigrationContext()
-    {
-        if (!User::checkUserCapability(Option::get('manage_capability', 'manage_options'))) {
-            return false;
-        }
-
-        if (Menus::in_plugin_page()) {
-            return true;
-        }
-
-        return false;
     }
 }
 
