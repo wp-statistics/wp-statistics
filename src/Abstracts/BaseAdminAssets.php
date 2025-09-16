@@ -127,12 +127,19 @@ abstract class BaseAdminAssets
     /**
      * Get asset URL
      *
-     * @param string $file_name File name
+     * @param string $fileName File name
      * @return string Asset URL
      */
-    protected function getUrl($file_name)
+    protected function getUrl($fileName)
     {
-        return $this->pluginUrl . $this->assetDir . '/' . $file_name;
+        $relative = trailingslashit($this->assetDir) . ltrim($fileName, '/');
+        $filePath = wp_normalize_path(trailingslashit(WP_STATISTICS_DIR) . $relative);
+
+        if (file_exists($filePath)) {
+            return trailingslashit($this->pluginUrl) . $relative;
+        }
+
+        return '';
     }
 
     /**
