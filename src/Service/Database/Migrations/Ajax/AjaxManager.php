@@ -213,11 +213,11 @@ class AjaxManager extends BaseMigrationManager
     {
         check_admin_referer(self::MIGRATION_NONCE, 'nonce');
 
-        $this->verifyMigrationPermission();
-
         if (!Request::compare('action', self::MIGRATION_ACTION)) {
             return false;
         }
+
+        $this->verifyMigrationPermission();
 
         Option::saveOptionGroup('status', 'progress', 'ajax_background_process');
 

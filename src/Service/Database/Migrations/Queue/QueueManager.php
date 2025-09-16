@@ -150,9 +150,13 @@ class QueueManager extends BaseMigrationManager
     {
         check_admin_referer(self::MIGRATION_NONCE, 'nonce');
 
+        if (!Request::compare('action', self::MIGRATION_ACTION)) {
+            return false;
+        }
+
         $this->verifyMigrationPermission();
 
-        if (!Request::compare('action', self::MIGRATION_ACTION) || !QueueFactory::needsMigration()) {
+        if (!QueueFactory::needsMigration()) {
             return false;
         }
 
