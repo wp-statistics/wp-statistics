@@ -1,3 +1,62 @@
+const isJalali = wps_js?.global?.options?.use_jalali_date === 1;
+const startOfWeek = parseInt(wps_js._('start_of_week'));
+ if (isJalali) {
+    moment.locale('fa', {
+        months: 'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split('_'),
+        monthsShort: 'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split('_'),
+        weekdays: 'یک‌شنبه_دوشنبه_سه‌شنبه_چهارشنبه_پنج‌شنبه_جمعه_شنبه'.split('_'),
+        weekdaysShort: 'یک‌شنبه_دوشنبه_سه‌شنبه_چهارشنبه_پنج‌شنبه_جمعه_شنبه'.split('_'),
+        week: {
+            dow: startOfWeek,
+            doy: 12
+        }
+    });
+}
+
+function convertToEnglishNumbers(input) {
+    if (input == null) return '';
+
+    const map = {
+        '۰': '0', '۱': '1', '۲': '2', '۳': '3', '۴': '4',
+        '۵': '5', '۶': '6', '۷': '7', '۸': '8', '۹': '9',
+        '٠': '0', '١': '1', '٢': '2', '٣': '3', '٤': '4',
+        '٥': '5', '٦': '6', '٧': '7', '٨': '8', '٩': '9',
+    };
+
+    return String(input).replace(/[۰-۹٠-٩]/g, d => map[d] || d);
+}
+
+const getMoment = (date) => {
+    if (!date) {
+        return moment.invalid();
+    }
+    try {
+        const normalizedDate = convertToEnglishNumbers(date);
+        if (isJalali) {
+             const m = moment(normalizedDate, 'jYYYY-jMM-jDD');
+            if (m.isValid()) return m;
+
+            const m2 = moment(normalizedDate, 'jYYYY/jMM/jDD');
+            if (m2.isValid()) return m2;
+
+             const m3 = moment(normalizedDate, 'YYYY-MM-DD');
+            if (m3.isValid()) {
+                 return moment.from(m3, 'en', 'YYYY-MM-DD');
+            }
+        } else {
+            const m = moment(normalizedDate, 'YYYY-MM-DD');
+            if (m.isValid()) return m;
+
+            const m2 = moment(normalizedDate, 'YYYY/MM/DD');
+            if (m2.isValid()) return m2;
+        }
+
+        return moment.invalid();
+    } catch (error) {
+        return moment.invalid();
+    }
+};
+
 wps_js.hex_to_rgba = function (hex, opacity) {
     const defaultColor = '#3288D7';
     if (typeof hex !== 'string' || hex[0] !== '#' || (hex.length !== 7 && hex.length !== 4)) {
@@ -34,12 +93,24 @@ const wpsBuildTicks = (scale) => {
         scale.options.ticks.stepSize = 1;
     }
 }
-
-const chartColors = {
-    'total': '#27A765', 'views': '#7362BF', 'visitors': '#3288D7', 'user-visitors': '#3288D7', 'anonymous-visitors': '#7362BF', 'published': '#8AC3D0','published-contents': '#8AC3D0', 'published-products': '#8AC3D0',
-    'published-pages': '#8AC3D0', 'published-posts': '#8AC3D0', 'posts': '#8AC3D0' , downloads: '#3288D7', 'clicks': '#3288D7', 'impressions': '#7362BF', 'Other1': '#3288D7', 'Other2': '#7362BF', 'Other3': '#8AC3D0'
+const dayFormat = (date, momentDateFormat) => {
+    if (!date || !momentDateFormat) return '';
+    let cleanFormat = momentDateFormat
+        .replace(/\/YYYY|YYYY\/|YYYY|-YYYY|YYYY-|\bYYYY\b/g, '')
+        .replace(/\/YY|YY\/|YY|-YY|YY-|\bYY\b/g, '')
+        .replace(/,\s*$/g, '')
+        .replace(/^\s*,/g, '')
+        .replace(/[\/\-]\s*$/g, '')
+        .replace(/^\s*[\/\-]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    return date.format(cleanFormat || 'DD MMMM');
 };
 
+const chartColors = {
+    'total': '#27A765', 'views': '#7362BF', 'visitors': '#3288D7', 'user-visitors': '#3288D7', 'anonymous-visitors': '#7362BF', 'published': '#8AC3D0', 'published-contents': '#8AC3D0', 'published-products': '#8AC3D0',
+    'published-pages': '#8AC3D0', 'published-posts': '#8AC3D0', 'posts': '#8AC3D0', downloads: '#3288D7', 'clicks': '#3288D7', 'impressions': '#7362BF', 'Other1': '#3288D7', 'Other2': '#7362BF', 'Other3': '#8AC3D0'
+};
 const chartTensionValues = [0.1, 0.3, 0.5, 0.7];
 
 const getOrCreateTooltip = (chart) => {
@@ -109,16 +180,12 @@ const externalTooltipHandler = (context, data, dateLabels, prevDateLabels, month
         let innerHtml = `<div>`;
         const phpDateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
         let momentDateFormat = phpToMomentFormat(phpDateFormat);
-        momentDateFormat = momentDateFormat
-            .replace(/\/YYYY|YYYY/g, '')
-            .replace(/,\s*$/, '')
-            .replace(/^\s*,/, '')
-            .trim();
+        momentDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
         titleLines.forEach(title => {
             if (unitTime === 'day') {
                 const label = (data.data) ? data.data.labels[dataIndex] : data.labels[dataIndex];
-                const {date, day} = label; // Ensure `date` and `day` are correctly extracted
-                innerHtml += `<div class="chart-title">${moment(date).format(momentDateFormat)} (${day})</div>`;
+                const date = getMoment(label.date);
+                innerHtml += `<div class="chart-title">${dayFormat(getMoment(label.date), momentDateFormat)} (${date.format(isJalali ? 'dd' : 'ddd')})</div>`;
             } else if (unitTime === 'month') {
                 innerHtml += `<div class="chart-title">${monthTooltip[dataIndex]}</div>`;
             } else {
@@ -153,7 +220,8 @@ const externalTooltipHandler = (context, data, dateLabels, prevDateLabels, month
                     if (unitTime === 'day') {
                         const prevLabelObj = prevFullLabels && prevFullLabels[dataIndex];
                         if (prevLabelObj) {
-                            previousLabel = `${moment(prevLabelObj.date).format(momentDateFormat)} (${prevLabelObj.day})`;
+                            const prevDate = getMoment(prevLabelObj.date);
+                            previousLabel = `${getMoment(prevLabelObj.date).format(momentDateFormat)} (${prevDate.format(isJalali ? 'dd' : 'ddd')})`;
                         } else {
                             previousLabel = prevDateLabels[dataIndex] || 'N/A';
                         }
@@ -222,6 +290,9 @@ const phpToMomentFormat = (phpFormat) => {
 }
 
 const formatDateRange = (startDate, endDate, unit, momentDateFormat, isInsideDashboardWidgets) => {
+    if (!startDate.isValid() || !endDate.isValid()) {
+        return 'Invalid Date';
+    }
 
     const baseFormat = momentDateFormat
         .replace(/\/YYYY|YYYY/g, '')
@@ -234,25 +305,36 @@ const formatDateRange = (startDate, endDate, unit, momentDateFormat, isInsideDas
         .trim();
 
     if (unit === 'month') {
-        const monthFormat = cleanFormat
-            .replace(/\s*D/g, '')
-            .replace(/YYYY|YY/g, '')
-            .replace(/\/YY|YY/g, '')
+        const monthFormat = momentDateFormat
+            .replace(/\/YYYY|YYYY\/|YYYY|-YYYY|YYYY-|\bYYYY\b/g, '')
+            .replace(/\/YY|YY\/|YY|-YY|YY-|\bYY\b/g, '')
+            .replace(/,\s*$/g, '')
+            .replace(/^\s*,/g, '')
+            .replace(/[\/\-]\s*$/g, '')
+            .replace(/^\s*[\/\-]/g, '')
+            .replace(/\s+/g, ' ')
             .trim();
-        return moment(startDate).format(monthFormat);
+        return startDate.format(monthFormat);
     } else {
-        return `${moment(startDate).format(cleanFormat)} to ${moment(endDate).format(cleanFormat)}`;
+        return `${startDate.format(cleanFormat)} ${wps_js._('to_range')} ${endDate.format(cleanFormat)}`;
     }
 }
 
 const setMonthDateRange = (startDate, endDate, momentDateFormat) => {
-    const startDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
-    return `${moment(startDate).format(startDateFormat)} to ${moment(endDate).format(startDateFormat)}`;
+    const cleanFormat = momentDateFormat
+        .replace(/\/YYYY|YYYY\/|YYYY|-YYYY|YYYY-|\bYYYY\b/g, '')
+        .replace(/\/YY|YY\/|YY|-YY|YY-|\bYY\b/g, '')
+        .replace(/,\s*$/g, '')
+        .replace(/^\s*,/g, '')
+        .replace(/[\/\-]\s*$/g, '')
+        .replace(/^\s*[\/\-]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    return `${getMoment(startDate).format(cleanFormat)} ${wps_js._('to_range')} ${getMoment(endDate).format(cleanFormat)}`;
 }
 
 const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboardWidgets) => {
     if (!labels || !labels.length || !datasets || !datasets.length) {
-        console.error("Invalid input: labels or datasets are empty.");
         return {
             aggregatedLabels: [],
             aggregatedData: datasets ? datasets.map(() => []) : [],
@@ -263,11 +345,15 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
     const now = moment();
     if (unit === 'day') {
         labels.forEach(label => {
-            const date = moment(label.date);
-            isIncompletePeriod.push(date.isSameOrAfter(now, 'day'));
+            const date = getMoment(label.date);
+            isIncompletePeriod.push(date.isValid() ? date.isSameOrAfter(now, 'day') : false);
         });
+
         return {
-            aggregatedLabels: labels.map(label => label.formatted_date),
+            aggregatedLabels: labels.map(label => {
+                const date = getMoment(label.date);
+                return date.isValid() ? dayFormat(date, momentDateFormat) : '';
+            }),
             aggregatedData: datasets.map(dataset => dataset.data),
             monthTooltipTitle: [],
             isIncompletePeriod
@@ -277,10 +363,11 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
     const aggregatedLabels = [];
     const aggregatedData = datasets.map(() => []);
     const monthTooltipTitle = [];
-    const groupedData = {};
 
     if (unit === 'week') {
-        if (wps_js._('start_of_week')) {
+         const weekGroups = {};
+
+        if (wps_js._('start_of_week') && !isJalali) {
             moment.updateLocale('en', {
                 week: {
                     dow: parseInt(wps_js._('start_of_week'))
@@ -288,110 +375,109 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
             });
         }
 
-        const startDate = moment(labels[0].date);
-        const endDate = moment(labels[labels.length - 1].date);
-
-        // Create an array of all weeks between start and end date
-        const weeks = [];
-        let currentWeekStart = startDate.clone();
-
-        while (currentWeekStart.isSameOrBefore(endDate)) {
-            let nextWeekStart = currentWeekStart.clone().startOf('week').add(1, 'week');
-            let weekEnd = nextWeekStart.clone().subtract(1, 'day');
-
-            // For the last week, if it would go beyond endDate, adjust it
-            if (weekEnd.isAfter(endDate)) {
-                weekEnd = endDate.clone();
-            }
-
-            weeks.push({
-                start: currentWeekStart.clone(),
-                end: weekEnd,
-                key: currentWeekStart.format('YYYY-[W]WW'),
-                data: new Array(datasets.length).fill(0)
-            });
-
-            // Move to next week's start
-            currentWeekStart = nextWeekStart;
-        }
 
         labels.forEach((label, i) => {
-            if (label.date) { // Check if label.date is valid
-                const date = moment(label.date);
-                for (let week of weeks) {
-                    if (date.isBetween(week.start, week.end, 'day', '[]')) {
-                        datasets.forEach((dataset, datasetIndex) => {
-                            week.data[datasetIndex] += dataset.data[i] || 0;
-                        });
-                        break;
+            if (label && label.date) {
+                const date = getMoment(label.date);
+                if (date.isValid()) {
+                    let weekKey;
+
+                    if (isJalali) {
+                         const year = date.jYear();
+                        const weekNumber = Math.ceil(date.jDayOfYear() / 7);
+                        weekKey = `${year}-W${weekNumber}`;
+                    } else {
+                         weekKey = date.format('YYYY-[W]WW');
+                    }
+
+                    if (!weekGroups[weekKey]) {
+                        weekGroups[weekKey] = {
+                            indices: [],
+                            startDate: date.clone(),
+                            endDate: date.clone()
+                        };
+                    }
+
+                    weekGroups[weekKey].indices.push(i);
+                    if (date.isBefore(weekGroups[weekKey].startDate)) {
+                        weekGroups[weekKey].startDate = date.clone();
+                    }
+                    if (date.isAfter(weekGroups[weekKey].endDate)) {
+                        weekGroups[weekKey].endDate = date.clone();
                     }
                 }
             }
         });
 
-        // Build the output arrays
-        weeks.forEach(week => {
-            const label = formatDateRange(week.start, week.end, unit, momentDateFormat, isInsideDashboardWidgets);
-            aggregatedLabels.push(label);
-            monthTooltipTitle.push(setMonthDateRange(week.start, week.end, momentDateFormat));
-            week.data.forEach((total, datasetIndex) => {
-                if (!aggregatedData[datasetIndex]) {
-                    aggregatedData[datasetIndex] = [];
-                }
-                aggregatedData[datasetIndex].push(total);
-            });
-        });
+         const sortedWeeks = Object.values(weekGroups).sort((a, b) =>
+            a.startDate - b.startDate
+        );
 
-        weeks.forEach(week => {
-            const isIncomplete = week.end.isSameOrAfter(moment(), 'day');
+        sortedWeeks.forEach(week => {
+            const label = formatDateRange(week.startDate, week.endDate, unit, momentDateFormat, isInsideDashboardWidgets);
+            aggregatedLabels.push(label);
+            monthTooltipTitle.push(setMonthDateRange(week.startDate, week.endDate, momentDateFormat));
+
+            datasets.forEach((dataset, idx) => {
+                const total = week.indices.reduce((sum, i) => sum + (dataset.data[i] || 0), 0);
+                aggregatedData[idx].push(total);
+            });
+
+            const isIncomplete = week.endDate.isSameOrAfter(now, 'day');
             isIncompletePeriod.push(isIncomplete);
         });
     } else if (unit === 'month') {
-        const startDate = moment(labels[0].date);
-        const endDate = moment(labels[labels.length - 1].date);
-        let currentDate = startDate.clone();
-        while (currentDate.isSameOrBefore(endDate, 'month')) {
-            const monthKey = currentDate.format('YYYY-MM');
-            if (!groupedData[monthKey]) {
-                groupedData[monthKey] = {
-                    startDate: currentDate.clone().startOf('month'),
-                    endDate: currentDate.clone().endOf('month'),
-                    indices: [],
-                };
-            }
-            currentDate.add(1, 'month');
-        }
+         const monthGroups = {};
+
         labels.forEach((label, i) => {
-            if (label.date) {
-                const date = moment(label.date);
-                const monthKey = date.format('YYYY-MM');
-                if (groupedData[monthKey]) {
-                    groupedData[monthKey].indices.push(i);
+            if (label && label.date) {
+                const date = getMoment(label.date);
+                if (date.isValid()) {
+                    let monthKey;
+
+                    if (isJalali) {
+                        monthKey = date.format('jYYYY-jMM');
+                    } else {
+                        monthKey = date.format('YYYY-MM');
+                    }
+
+                    if (!monthGroups[monthKey]) {
+                        monthGroups[monthKey] = {
+                            indices: [],
+                            startDate: date.clone(),
+                            endDate: date.clone(),
+                            firstDay: date.clone().startOf(isJalali ? 'jMonth' : 'month'),
+                            lastDay: date.clone().endOf(isJalali ? 'jMonth' : 'month')
+
+                        };
+                    }
+
+                    monthGroups[monthKey].indices.push(i);
+                    if (date.isBefore(monthGroups[monthKey].startDate)) {
+                        monthGroups[monthKey].startDate = date.clone();
+                    }
+                    if (date.isAfter(monthGroups[monthKey].endDate)) {
+                        monthGroups[monthKey].endDate = date.clone();
+                    }
                 }
             }
         });
 
-        Object.keys(groupedData).forEach(monthKey => {
-            const {startDate, endDate, indices} = groupedData[monthKey];
-            const actualStartDate = moment.max(startDate, moment(labels[0].date));
-            const actualEndDate = moment.min(endDate, moment(labels[labels.length - 1].date));
-            if (!actualStartDate.isValid() || !actualEndDate.isValid()) {
-                console.error(`Invalid date range for monthKey ${monthKey}`);
-                return;
-            }
-            if (indices.length > 0) {
-                const label = formatDateRange(actualStartDate, actualEndDate, unit, momentDateFormat, isInsideDashboardWidgets);
-                aggregatedLabels.push(label);
-                datasets.forEach((dataset, idx) => {
-                    const total = indices.reduce((sum, i) => sum + (dataset.data[i] || 0), 0);
-                    aggregatedData[idx].push(total);
-                });
-                monthTooltipTitle.push(setMonthDateRange(actualStartDate, actualEndDate, momentDateFormat));
-            }
-        });
+         const sortedMonths = Object.values(monthGroups).sort((a, b) =>
+            a.startDate - b.startDate
+        );
 
-        Object.keys(groupedData).forEach(monthKey => {
-            const isIncomplete = groupedData[monthKey].endDate.isSameOrAfter(moment(), 'day');
+        sortedMonths.forEach(month => {
+            const label = formatDateRange(month.startDate, month.endDate, unit, momentDateFormat, isInsideDashboardWidgets);
+            aggregatedLabels.push(label);
+            monthTooltipTitle.push(setMonthDateRange(month.firstDay, month.lastDay, momentDateFormat));
+
+            datasets.forEach((dataset, idx) => {
+                const total = month.indices.reduce((sum, i) => sum + (dataset.data[i] || 0), 0);
+                aggregatedData[idx].push(total);
+            });
+
+            const isIncomplete = month.endDate.isSameOrAfter(now, 'day');
             isIncompletePeriod.push(isIncomplete);
         });
     }
@@ -400,11 +486,10 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
 }
 
 const sortTotal = (datasets) => {
-    // Store original indices before sorting
     datasets.forEach((dataset, index) => {
         dataset.originalIndex = index;
     });
-    
+
     datasets.sort((a, b) => {
         if (a.slug === 'total') return -1;
         if (b.slug === 'total') return 1;
@@ -549,25 +634,27 @@ const getDisplayTextForUnitTime = (unitTime, tag_id) => {
             return option.textContent.trim();
         }
     }
-    return unitTime.charAt(0).toUpperCase() + unitTime.slice(1); // Fallback to capitalized unitTime
+    return unitTime.charAt(0).toUpperCase() + unitTime.slice(1);
 }
 
 // Function to determine available intervals based on date range
 const getAvailableIntervals = (startDate, endDate) => {
-    if (!moment(startDate).isValid() || !moment(endDate).isValid()) {
+    if (!startDate.isValid() || !endDate.isValid()) {
         return ['day'];
     }
-    // Swap dates if endDate is before startDate
-    if (moment(endDate).isBefore(moment(startDate))) {
-        [startDate, endDate] = [endDate, startDate];
-    }
-    const duration = moment(endDate).diff(moment(startDate), 'days') + 1;
-    const intervals = [];
-    if (duration >= 1) intervals.push('day');
-    if (duration >= 8) intervals.push('week');
-    if (duration >= 31) intervals.push('month');
-    return intervals;
-}
+
+    const [start, end] = startDate.isBefore(endDate)
+        ? [startDate, endDate]
+        : [endDate, startDate];
+
+    const duration = end.diff(start, 'days') + 1;
+    return [
+        ...(duration >= 1 ? ['day'] : []),
+        ...(duration >= 8 ? ['week'] : []),
+        ...(duration >= 31 ? ['month'] : []),
+    ];
+};
+
 
 // Function to select a valid interval
 const selectValidInterval = (currentUnitTime, availableIntervals) => {
@@ -586,9 +673,9 @@ const updateIntervalDropdown = (tag_id, availableIntervals, selectedUnitTime) =>
     }
     optionsContainer.innerHTML = '';
     const allOptions = [
-        { value: 'day', text: wps_js._('daily') || 'Daily' },
-        { value: 'week', text: wps_js._('weekly') || 'Weekly' },
-        { value: 'month', text: wps_js._('monthly') || 'Monthly' }
+        {value: 'day', text: wps_js._('daily') || 'Daily'},
+        {value: 'week', text: wps_js._('weekly') || 'Weekly'},
+        {value: 'month', text: wps_js._('monthly') || 'Monthly'}
     ];
     allOptions.forEach(opt => {
         if (availableIntervals.includes(opt.value)) {
@@ -615,15 +702,12 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
     const isInsideDashboardWidgets = document.getElementById(tag_id).closest('#dashboard-widgets') !== null;
 
     // Calculate date range and determine available intervals
-    const startDate = moment(data.data.labels[0]?.date);
-    const endDate = moment(data.data.labels[data.data.labels.length - 1]?.date);
-    if (!startDate.isValid() || !endDate.isValid()) {
-        console.error("Invalid start or end date:", startDate, endDate);
-    }
+    const startDate = getMoment(data.data.labels[0]?.date);
+    const endDate = getMoment(data.data.labels[data.data.labels.length - 1]?.date);
     const availableIntervals = getAvailableIntervals(startDate, endDate);
 
     // Determine the initial unitTime
-    const length = data.data.labels.map(dateObj => dateObj.formatted_date).length;
+    const length = data.data.labels.map(dateObj => dateObj.date).length;
     const threshold = type === 'performance' ? 30 : 60;
     let unitTime = length <= threshold ? 'day' : length <= 180 ? 'week' : 'month';
     unitTime = selectValidInterval(unitTime, availableIntervals);
@@ -684,12 +768,9 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
         }
     }
 
-    function updateChart(unitTime, newStartDate = startDate, newEndDate = endDate) {
-        // Recalculate available intervals based on new date range
+    const updateChart = (unitTime, newStartDate = startDate, newEndDate = endDate) => {
         const availableIntervals = getAvailableIntervals(newStartDate, newEndDate);
         unitTime = selectValidInterval(unitTime, availableIntervals);
-
-        // Update dropdown options
         updateIntervalDropdown(tag_id, availableIntervals, unitTime);
 
         const displayText = getDisplayTextForUnitTime(unitTime, tag_id);
@@ -699,7 +780,6 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
         if (previousPeriodElement) {
             previousPeriodElement.classList.remove('wps-line-through');
         }
-
         const select = document.querySelector(`#${tag_id}`).closest('.o-wrap').querySelector('.js-unitTimeSelect');
         if (select) {
             const selectedItem = select.querySelector('.wps-unit-time-chart__selected-item');
@@ -1107,8 +1187,8 @@ document.body.addEventListener('change', function (event) {
         const startDateInput = datePicker.querySelector('.wps-date-picker__start');
         const endDateInput = datePicker.querySelector('.wps-date-picker__end');
         if (!startDateInput || !endDateInput) return;
-        const startDate = moment(startDateInput.value);
-        const endDate = moment(endDateInput.value);
+        const startDate = getMoment(startDateInput.value);
+        const endDate = getMoment(endDateInput.value);
         if (!startDate.isValid() || !endDate.isValid()) {
             return;
         }

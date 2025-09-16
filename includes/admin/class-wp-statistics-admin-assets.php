@@ -242,6 +242,8 @@ class Admin_Assets
             (in_array($hook, ['post.php', 'edit.php']) && !Option::get('disable_editor')) ||
             (in_array($hook, ['post.php', 'edit.php']) && Helper::isAddOnActive('data-plus') && Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1')
         ) {
+            wp_enqueue_script(self::$prefix . '-moment', self::url('datepicker/moment.min.js'), array(), "2.30.2", ['in_footer' => true]);
+            wp_enqueue_script(self::$prefix . '-jalali-moment', self::url('chartjs/jalali-moment.js'), array(self::$prefix . '-moment'), "2.29.1", ['in_footer' => true]);
             wp_enqueue_script(self::$prefix, self::url('admin.min.js'), array('jquery'), self::version(), ['in_footer' => true]);
             wp_localize_script(self::$prefix, 'wps_global', self::wps_global($hook));
         }
@@ -259,7 +261,6 @@ class Admin_Assets
 
         // Add RangeDatePicker
         if (Menus::in_plugin_page() || Menus::in_page('pages') || in_array($screen_id, array('dashboard'))) {
-            wp_enqueue_script(self::$prefix . '-moment', self::url('datepicker/moment.min.js'), array(), "2.30.2", ['in_footer' => true]);
             wp_enqueue_script(self::$prefix . '-daterangepicker', self::url('datepicker/daterangepicker.min.js'), array(), "1.13.2", ['in_footer' => true]);
         }
 
@@ -278,20 +279,24 @@ class Admin_Assets
     {
         global $post;
 
+        $settings = get_option('wpp_settings', []);
+
+
         //Global Option
         $list['options'] = array(
-            'rtl'            => (is_rtl() ? 1 : 0),
-            'user_online'    => (Option::get('useronline') ? 1 : 0),
-            'visitors'       => 1,
-            'visits'         => 1,
-            'geo_ip'         => 1,
-            'geo_city'       => 1,
-            'overview_page'  => (Menus::in_page('overview') ? 1 : 0),
-            'gutenberg'      => (Helper::is_gutenberg() ? 1 : 0),
-            'more_btn'       => (apply_filters('wp_statistics_meta_box_more_button', true) ? 1 : 0),
-            'wp_date_format' => Helper::getDefaultDateFormat(),
-            'track_users'    => Option::get('visitors_log') ? 1 : 0,
-            'wp_timezone'    => DateTime::getTimezone()->getName()
+            'rtl'             => (is_rtl() ? 1 : 0),
+            'user_online'     => (Option::get('useronline') ? 1 : 0),
+            'visitors'        => 1,
+            'visits'          => 1,
+            'geo_ip'          => 1,
+            'geo_city'        => 1,
+            'overview_page'   => (Menus::in_page('overview') ? 1 : 0),
+            'gutenberg'       => (Helper::is_gutenberg() ? 1 : 0),
+            'more_btn'        => (apply_filters('wp_statistics_meta_box_more_button', true) ? 1 : 0),
+            'wp_date_format'  => Helper::getDefaultDateFormat(),
+            'use_jalali_date' => (isset($settings['persian_date']) && $settings['persian_date'] === 'enable') ? 1 : 0,
+            'track_users'     => Option::get('visitors_log') ? 1 : 0,
+            'wp_timezone'     => DateTime::getTimezone()->getName()
         );
 
 
@@ -453,6 +458,7 @@ class Admin_Assets
             'impressions'                  => __('Impressions', 'wp-statistics'),
             'prev'                         => __('Prev', 'wp-statistics'),
             'next'                         => __('Next', 'wp-statistics'),
+            'to_range'                     => __('to', 'wp-statistics'),
             'loading_error'                => __('Oops, something went wrong while loading statistics.', 'wp-statistics'),
             'last_updated'                 => __('Last updated:', 'wp-statistics'),
             'unassigned'                   => __('Unassigned', 'wp-statistics'),
