@@ -1,12 +1,19 @@
 jQuery(document).ready(function () {
+
+    if (typeof WP_Statistics_Option_Updater_Object === 'undefined' || !WP_Statistics_Option_Updater_Object) {
+        return;
+    }
+
     jQuery(document).on('click', "a.wps-option__updater", function (e) {
+        const wps_object = WP_Statistics_Option_Updater_Object;
+
         e.preventDefault();
 
         let $this = jQuery(this);
         let option = $this.data('option');
         let value = $this.data('value');
         let params = {
-            'wps_nonce': wps_js.global.rest_api_nonce,
+            'wps_nonce': wps_object.nonce,
             'action': 'wp_statistics_option_updater',
             'option': option,
             'value': value
@@ -15,7 +22,7 @@ jQuery(document).ready(function () {
         $this.css('cursor', 'progress');
 
         jQuery.ajax({
-            url: wps_js.global.admin_url + 'admin-ajax.php',
+            url: wps_object.admin_url + 'admin-ajax.php',
             type: 'GET',
             dataType: 'json',
             data: params,

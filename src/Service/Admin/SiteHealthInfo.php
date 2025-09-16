@@ -61,6 +61,7 @@ class SiteHealthInfo
         $locationDetectionMethod = Option::get('geoip_location_detection_method', 'maxmind');
         $isMaxmindLocationMethod = 'maxmind' === $locationDetectionMethod;
         $requiredHeaderExists    = CloudflareGeolocationProvider::isAvailable();
+        $consentIntegration      = Option::get('consent_integration');
 
         $currentMethod = [
             'title' => __('Cloudflare IP Geolocation', 'wp-statistics'),
@@ -183,21 +184,6 @@ class SiteHealthInfo
                 'label' => esc_html__('Hash IP Addresses', 'wp-statistics'),
                 'value' => Option::get('hash_ips') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::get('hash_ips') ? 'Enabled' : 'Disabled',
-            ],
-            'wpConsentLevelIntegration'      => [
-                'label' => esc_html__('WP Consent Level Integration', 'wp-statistics'),
-                'value' => Option::get('consent_level_integration') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::get('consent_level_integration') ? 'Enabled' : 'Disabled',
-            ],
-            'anonymousTracking'              => [
-                'label' => esc_html__('Anonymous Tracking', 'wp-statistics'),
-                'value' => Option::get('anonymous_tracking') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::get('anonymous_tracking') ? 'Enabled' : 'Disabled',
-            ],
-            'doNotTrack'                     => [
-                'label' => esc_html__('Do Not Track (DNT)', 'wp-statistics'),
-                'value' => Option::get('do_not_track') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::get('do_not_track') ? 'Enabled' : 'Disabled',
             ],
             'viewStatsInEditor'              => [
                 'label' => esc_html__('View Stats in Editor', 'wp-statistics'),
@@ -334,6 +320,34 @@ class SiteHealthInfo
                 'value' => class_exists('PharData') ? __('Installed', 'wp-statistics') : __('Not Installed', 'wp-statistics'),
                 'debug' => class_exists('PharData') ? 'Installed' : 'Not Installed',
             ],
+        ];
+
+        $settings['consentIntegration'] = [
+            'label' => esc_html__('Consent Integration', 'wp-statistics'),
+            'value' => !empty($consentIntegration) ? $consentIntegration : esc_html__('None', 'wp-statistics'),
+            'debug' => !empty($consentIntegration) ? $consentIntegration : 'None',
+        ];
+
+        if ($consentIntegration === 'wp_consent_api') {
+            $settings['wpConsentLevelIntegration'] = [
+                'label' => esc_html__('WP Consent Level Integration', 'wp-statistics'),
+                'value' => Option::get('consent_level_integration'),
+                'debug' => Option::get('consent_level_integration')
+            ];
+        }
+
+        if (in_array($consentIntegration, ['wp_consent_api', 'borlabs_cookie'])) {
+            $settings['anonymousTracking'] = [
+                'label' => esc_html__('Anonymous Tracking', 'wp-statistics'),
+                'value' => Option::get('anonymous_tracking') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                'debug' => Option::get('anonymous_tracking') ? 'Enabled' : 'Disabled',
+            ];
+        }
+
+        $settings['doNotTrack'] = [
+            'label' => esc_html__('Do Not Track (DNT)', 'wp-statistics'),
+            'value' => Option::get('do_not_track') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+            'debug' => Option::get('do_not_track') ? 'Enabled' : 'Disabled',
         ];
 
         return $settings;

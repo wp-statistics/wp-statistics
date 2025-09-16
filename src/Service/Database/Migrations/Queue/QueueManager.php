@@ -6,6 +6,7 @@ use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Database\DatabaseHelper;
+use WP_STATISTICS\User;
 use WP_Statistics\Utils\Request;
 
 /**
@@ -148,6 +149,16 @@ class QueueManager
      */
     public function handleQueueMigration()
     {
+        if (!User::checkUserCapability(Option::get('manage_capability', 'manage_options'))) {
+            wp_die(
+                __('You do not have sufficient permissions to run the queue migration process.', 'wp-statistics'),
+                __('Permission Denied', 'wp-statistics'),
+                [
+                    'response' => 403
+                ]
+            );
+        }
+
         if (!Request::compare('action', self::MIGRATION_ACTION) || !QueueFactory::needsMigration()) {
             return false;
         }
@@ -211,7 +222,7 @@ class QueueManager
      */
     private function isValidMigrationContext()
     {
-        if (!current_user_can('manage_options')) {
+        if (!User::checkUserCapability(Option::get('manage_capability', 'manage_options'))) {
             return false;
         }
 

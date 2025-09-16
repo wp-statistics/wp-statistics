@@ -23,6 +23,8 @@ return array(
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\IncompleteGeoIpUpdater' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/IncompleteGeoIpUpdater.php',
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\SourceChannelUpdater' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/SourceChannelUpdater.php',
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\TableOperationProcess' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/TableOperationProcess.php',
+    'WP_Statistics\\CLI\\CliCommands' => $baseDir . '/src/CLI/CliCommands.php',
+    'WP_Statistics\\CLI\\CliDataProvider' => $baseDir . '/src/CLI/CliDataProvider.php',
     'WP_Statistics\\Components\\Ajax' => $baseDir . '/src/Components/Ajax.php',
     'WP_Statistics\\Components\\AssetNameObfuscator' => $baseDir . '/src/Components/AssetNameObfuscator.php',
     'WP_Statistics\\Components\\Assets' => $baseDir . '/src/Components/Assets.php',
