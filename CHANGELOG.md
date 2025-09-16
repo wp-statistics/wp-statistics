@@ -3,6 +3,7 @@
 - **Fix:** Corrected incorrect “Queue Migration” completion notice after plugin updates.
 - **Enhancement:** Add date range validation on report pages.
 - **Enhancement:** Improve compare style and number formatting in "At a Glance" widgets.
+- **Enhancement:** Update chart component to display a message for empty datasets.
 - **Dev:** Removed `wp_statistics_data_export_base_query` and `wp_statistics_data_export_query` filters.
 - **Fix:** Resolved an issue with fresh installs during plugin activation.
 - **Enhancement:** Limited queue and AJAX migrations (and their notices) to the ` Minimum Role to Manage Settings`.

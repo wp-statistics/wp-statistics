@@ -467,6 +467,8 @@ class Admin_Assets
             'confirm_refresh_country'      => __('Are you sure you want to refresh country data?', 'wp-statistics'),
             'confirm_update_channel'       => __('Are you sure you want to update and correct any unidentified source channels in the database?', 'wp-statistics'),
             'confirm_hash_ips'             => __('This will replace all IP addresses in the database with hash values and cannot be undone, are you sure?', 'wp-statistics'),
+            'no_data_this_range'           => __('No data found for this date range.', 'wp-statistics'),
+            'coming_soon'                  => __('Data coming soon!', 'wp-statistics'),
             'confirm_repair_schema'        => __('Are you sure you want to repair the schema issues?', 'wp-statistics'),
         );
 

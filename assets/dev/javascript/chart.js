@@ -608,6 +608,23 @@ const updateIntervalDropdown = (tag_id, availableIntervals, selectedUnitTime) =>
 }
 
 wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line') {
+
+    if (wps_js.allDatasetsZero(data.data.datasets, data.previousData?.datasets)) {
+        const chartElement = document.getElementById(tag_id);
+        if (!chartElement) return null;
+
+        const parentElement = chartElement.parentElement;
+        if (!parentElement) return null;
+
+        const wrap = parentElement.closest('.o-wrap');
+        const chartData = wrap?.querySelector('.wps-postbox-chart--data');
+
+        parentElement.innerHTML = wps_js.no_results();
+        parentElement.classList.add('wps-no-result');
+        if (chartData) chartData.style.display = 'none';
+        return null;
+    }
+
     sortTotal(data.data.datasets);
     const realdata = deepCopy(data);
     const phpDateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
@@ -1119,19 +1136,31 @@ document.body.addEventListener('change', function (event) {
 
 window.renderWPSLineChart = function (chartId, data, newOptions) {
     const chartItem = document.getElementById(chartId);
-    if (chartItem) {
-        const parentElement = jQuery(`#${chartId}`).parent();
-        const placeholder = wps_js.rectangle_placeholder();
-        parentElement.append(placeholder);
+    if (!chartItem) return;
 
-        if (!data?.data?.datasets || data.data.datasets.length === 0) {
-            parentElement.html(wps_js.no_results());
-            jQuery('.wps-ph-item').remove();
-        } else {
-            wps_js.new_line_chart(data, chartId, newOptions);
-            jQuery('.wps-ph-item').remove();
-            jQuery('.wps-postbox-chart--data').removeClass('c-chart__wps-skeleton--legend');
-            parentElement.removeClass('c-chart__wps-skeleton');
-        }
+    const parentElement = chartItem.parentElement;
+    if (!parentElement) return;
+
+    const placeholder = wps_js.rectangle_placeholder();
+    parentElement.innerHTML += placeholder;
+
+    const hasAllZeroData = wps_js.allDatasetsZero(data?.data?.datasets, data?.previousData?.datasets);
+    const hasNoData = !data?.data?.datasets || data.data.datasets.length === 0;
+
+    if (hasNoData || hasAllZeroData) {
+        const wrap = parentElement.closest('.o-wrap');
+        const chartData = wrap?.querySelector('.wps-postbox-chart--data');
+
+        parentElement.innerHTML = wps_js.no_results();
+        parentElement.classList.add('wps-no-result');
+        document.querySelectorAll('.wps-ph-item').forEach(el => el.remove());
+
+        if (chartData) chartData.style.display = 'none';
+    } else {
+        wps_js.new_line_chart(data, chartId, newOptions);
+        document.querySelectorAll('.wps-ph-item').forEach(el => el.remove());
+        document.querySelectorAll('.wps-postbox-chart--data')
+            .forEach(el => el.classList.remove('c-chart__wps-skeleton--legend'));
+        parentElement.classList.remove('c-chart__wps-skeleton', 'wps-no-result');
     }
 }

@@ -4092,6 +4092,10 @@ span.wps_search-console_icon {
   background-size: 100%;
 }
 
+.wps-no-result{
+  height: auto!important;
+}
+
 .wps-wrap .wps-loading {
   background-color: #e0e0e0;
   background-image: linear-gradient(90deg, rgba(224, 224, 224, 0.6) 0%, rgba(245, 245, 245, 0.8) 50%, rgba(224, 224, 224, 0.6) 100%);
