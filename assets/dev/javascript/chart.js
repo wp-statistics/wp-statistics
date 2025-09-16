@@ -321,6 +321,10 @@ const formatDateRange = (startDate, endDate, unit, momentDateFormat, isInsideDas
 }
 
 const setMonthDateRange = (startDate, endDate, momentDateFormat) => {
+    if (!startDate.isValid() || !endDate.isValid()) {
+        return 'Invalid Date';
+    }
+
     const cleanFormat = momentDateFormat
         .replace(/\/YYYY|YYYY\/|YYYY|-YYYY|YYYY-|\bYYYY\b/g, '')
         .replace(/\/YY|YY\/|YY|-YY|YY-|\bYY\b/g, '')
@@ -330,7 +334,8 @@ const setMonthDateRange = (startDate, endDate, momentDateFormat) => {
         .replace(/^\s*[\/\-]/g, '')
         .replace(/\s+/g, ' ')
         .trim();
-    return `${getMoment(startDate).format(cleanFormat)} ${wps_js._('to_range')} ${getMoment(endDate).format(cleanFormat)}`;
+
+    return `${startDate.format(cleanFormat)} ${wps_js._('to_range')} ${endDate.format(cleanFormat)}`;
 }
 
 const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboardWidgets) => {
@@ -442,6 +447,15 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
                     }
 
                     if (!monthGroups[monthKey]) {
+                        let firstDay, lastDay;
+
+                        if (isJalali) {
+                            firstDay = date.clone().startOf('jMonth');
+                            lastDay = date.clone().endOf('jMonth');
+                        } else {
+                            firstDay = date.clone().startOf('month');
+                            lastDay = date.clone().endOf('month');
+                        }
                         monthGroups[monthKey] = {
                             indices: [],
                             startDate: date.clone(),
