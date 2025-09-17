@@ -184,8 +184,8 @@ const externalTooltipHandler = (context, data, dateLabels, prevDateLabels, month
         titleLines.forEach(title => {
             if (unitTime === 'day') {
                 const label = (data.data) ? data.data.labels[dataIndex] : data.labels[dataIndex];
-                const date = getMoment(label.date);
-                innerHtml += `<div class="chart-title">${dayFormat(getMoment(label.date), momentDateFormat)} (${date.format(isJalali ? 'dd' : 'ddd')})</div>`;
+                const date = getMoment(label);
+                innerHtml += `<div class="chart-title">${dayFormat(getMoment(label), momentDateFormat)} (${date.format(isJalali ? 'dd' : 'ddd')})</div>`;
             } else if (unitTime === 'month') {
                 innerHtml += `<div class="chart-title">${monthTooltip[dataIndex]}</div>`;
             } else {
@@ -220,8 +220,8 @@ const externalTooltipHandler = (context, data, dateLabels, prevDateLabels, month
                     if (unitTime === 'day') {
                         const prevLabelObj = prevFullLabels && prevFullLabels[dataIndex];
                         if (prevLabelObj) {
-                            const prevDate = getMoment(prevLabelObj.date);
-                            previousLabel = `${getMoment(prevLabelObj.date).format(momentDateFormat)} (${prevDate.format(isJalali ? 'dd' : 'ddd')})`;
+                            const prevDate = getMoment(prevLabelObj);
+                            previousLabel = `${getMoment(prevLabelObj).format(momentDateFormat)} (${prevDate.format(isJalali ? 'dd' : 'ddd')})`;
                         } else {
                             previousLabel = prevDateLabels[dataIndex] || 'N/A';
                         }
@@ -350,13 +350,13 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
     const now = moment();
     if (unit === 'day') {
         labels.forEach(label => {
-            const date = getMoment(label.date);
+            const date = getMoment(label);
             isIncompletePeriod.push(date.isValid() ? date.isSameOrAfter(now, 'day') : false);
         });
 
         return {
             aggregatedLabels: labels.map(label => {
-                const date = getMoment(label.date);
+                const date = getMoment(label);
                 return date.isValid() ? dayFormat(date, momentDateFormat) : '';
             }),
             aggregatedData: datasets.map(dataset => dataset.data),
@@ -382,8 +382,8 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
 
 
         labels.forEach((label, i) => {
-            if (label && label.date) {
-                const date = getMoment(label.date);
+            if (label) {
+                const date = getMoment(label);
                 if (date.isValid()) {
                     let weekKey;
 
@@ -435,8 +435,8 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
          const monthGroups = {};
 
         labels.forEach((label, i) => {
-            if (label && label.date) {
-                const date = getMoment(label.date);
+            if (label) {
+                const date = getMoment(label);
                 if (date.isValid()) {
                     let monthKey;
 
@@ -716,12 +716,12 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
     const isInsideDashboardWidgets = document.getElementById(tag_id).closest('#dashboard-widgets') !== null;
 
     // Calculate date range and determine available intervals
-    const startDate = getMoment(data.data.labels[0]?.date);
-    const endDate = getMoment(data.data.labels[data.data.labels.length - 1]?.date);
+    const startDate = getMoment(data.data.labels[0]);
+    const endDate = getMoment(data.data.labels[data.data.labels.length - 1]);
     const availableIntervals = getAvailableIntervals(startDate, endDate);
 
     // Determine the initial unitTime
-    const length = data.data.labels.map(dateObj => dateObj.date).length;
+    const length = data.data.labels.length;
     const threshold = type === 'performance' ? 30 : 60;
     let unitTime = length <= threshold ? 'day' : length <= 180 ? 'week' : 'month';
     unitTime = selectValidInterval(unitTime, availableIntervals);
