@@ -129,6 +129,11 @@ class Ajax
                 'action' => 'repair_schema',
                 'public' => false,
             ],
+            [
+                'class'  => $this,
+                'action' => 're_check_schema',
+                'public' => false,
+            ],
         ];
 
         $list = apply_filters('wp_statistics_ajax_list', $list);
@@ -140,7 +145,7 @@ class Ajax
             $isPublic = isset($item['public']) && $item['public'] == true ? true : false;
 
             // If callback exists in the class, register the action
-            if (! empty($class) && method_exists($class, $callback)) {
+            if (!empty($class) && method_exists($class, $callback)) {
                 add_action('wp_ajax_wp_statistics_' . $action, [$class, $callback]);
 
                 // Register the AJAX callback publicly
@@ -148,6 +153,39 @@ class Ajax
                     add_action('wp_ajax_nopriv_wp_statistics_' . $action, [$class, $callback]);
                 }
             }
+        }
+    }
+
+    /**
+     * Checks if the current request is allowed to perform this action.
+     *
+     * This method ensures that:
+     * 1. The request is an AJAX request.
+     * 2. The user has the required access permission (passed as $requiredPermission).
+     * 3. The AJAX nonce is valid.
+     *
+     * If any of these checks fail, it immediately returns a JSON error response
+     * and exits the script.
+     *
+     * @param string $requiredPermission The capability required to access this action (default: 'manage').
+     * @param string $nonceAction Optional. The nonce action to verify (default: 'wp_rest').
+     * @param string $nonceName Optional. The nonce field name (default: 'wps_nonce').
+     *
+     * @return void
+     */
+    private function checkAccess($requiredPermission = 'manage', $nonceAction = 'wp_rest', $nonceName = 'wps_nonce')
+    {
+        if (!Request::isFrom('ajax') || !User::Access($requiredPermission)) {
+            wp_send_json_error([
+                'message' => esc_html__('Unauthorized.', 'wp-statistics')
+            ]);
+        }
+
+        $nonceValid = check_ajax_referer($nonceAction, $nonceName, false);
+        if (!$nonceValid) {
+            wp_send_json_error([
+                'message' => esc_html__('Invalid nonce.', 'wp-statistics')
+            ]);
         }
     }
 
@@ -412,7 +450,7 @@ class Ajax
 
             if ($eventName) {
                 $eventsModel = new EventsModel();
-                $result = $eventsModel->deleteEvents(['event_name' => $eventName]);
+                $result      = $eventsModel->deleteEvents(['event_name' => $eventName]);
 
                 if ($result) {
                     esc_html_e('Successfully removed event data from \'events\' table.', 'wp-statistics');
@@ -560,13 +598,13 @@ class Ajax
 
             check_ajax_referer('wp_rest', 'wps_nonce');
 
-            $paged          = Request::get('paged', 1, 'number');
-            $postType       = Request::get('post_type', array_values(Helper::get_list_post_type()));
-            $authorId       = Request::get('author_id', '', 'number');
-            $search         = Request::get('search', '');
-            $page           = Request::get('page');
-            $selectedPost   = Request::get('post_id', false, 'number');
-            $hideAllOption  = Request::get('hide_all_option', false);
+            $paged         = Request::get('paged', 1, 'number');
+            $postType      = Request::get('post_type', array_values(Helper::get_list_post_type()));
+            $authorId      = Request::get('author_id', '', 'number');
+            $search        = Request::get('search', '');
+            $page          = Request::get('page');
+            $selectedPost  = Request::get('post_id', false, 'number');
+            $hideAllOption = Request::get('hide_all_option', false);
 
             if (!$page) {
                 wp_send_json([
@@ -703,30 +741,26 @@ class Ajax
      */
     public function update_country_data_action_callback()
     {
+        $this->checkAccess();
+
         try {
-            if (Request::isFrom('ajax') && User::Access('manage')) {
-                check_ajax_referer('wp_rest', 'wps_nonce');
+            $method   = Option::get('geoip_location_detection_method', 'maxmind');
+            $provider = MaxmindGeoIPProvider::class;
 
-                $method   = Option::get('geoip_location_detection_method', 'maxmind');
-                $provider = MaxmindGeoIPProvider::class;
-
-                if ('dbip' === $method) {
-                    $provider = DbIpProvider::class;
-                }
-
-                // First download/update the GeoIP database
-                GeolocationFactory::downloadDatabase($provider);
-
-                // Update GeoIP data for visitors with incomplete information
-                BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
-
-                wp_send_json_success(['message' => esc_html__('GeoIP update successfully.', 'wp-statistics')]);
+            if ('dbip' === $method) {
+                $provider = DbIpProvider::class;
             }
+
+            // First download/update the GeoIP database
+            GeolocationFactory::downloadDatabase($provider);
+
+            // Update GeoIP data for visitors with incomplete information
+            BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
+
+            wp_send_json_success(['message' => esc_html__('GeoIP update successfully.', 'wp-statistics')]);
         } catch (Exception $e) {
             wp_send_json_error(['message' => sprintf(esc_html__('GeoIP update failed: %s', 'wp-statistics'), $e->getMessage())]);
         }
-
-        exit;
     }
 
     /**
@@ -736,20 +770,15 @@ class Ajax
      */
     public function update_source_channel_action_callback()
     {
+        $this->checkAccess();
+
         try {
-            if (Request::isFrom('ajax') && User::Access('manage')) {
-                check_ajax_referer('wp_rest', 'wps_nonce');
+            BackgroundProcessFactory::batchUpdateSourceChannelForVisitors();
 
-                // Update source channel data for visitors with incomplete information
-                BackgroundProcessFactory::batchUpdateSourceChannelForVisitors();
-
-                wp_send_json_success(['message' => esc_html__('Source channel update successfully.', 'wp-statistics')]);
-            }
+            wp_send_json_success(['message' => esc_html__('Source channel update successfully.', 'wp-statistics')]);
         } catch (Exception $e) {
             wp_send_json_error(['message' => sprintf(esc_html__('Source channel update failed: %s', 'wp-statistics'), $e->getMessage())]);
         }
-
-        exit;
     }
 
     /**
@@ -759,19 +788,15 @@ class Ajax
      */
     public function hash_ips_action_callback()
     {
+        $this->checkAccess();
+
         try {
-            if (Request::isFrom('ajax') && User::Access('manage')) {
-                check_ajax_referer('wp_rest', 'wps_nonce');
+            $result = IP::Update_HashIP_Visitor();
 
-                $result = IP::Update_HashIP_Visitor();
-
-                wp_send_json_success(['message' => sprintf(esc_html__('Successfully anonymized `%d` IP addresses using hash values.', 'wp-statistics'), $result)]);
-            }
+            wp_send_json_success(['message' => sprintf(esc_html__('Successfully anonymized `%d` IP addresses using hash values.', 'wp-statistics'), $result)]);
         } catch (Exception $e) {
             wp_send_json_error(['message' => sprintf(esc_html__('IP anonymization failed: %s', 'wp-statistics'), $e->getMessage())]);
         }
-
-        exit;
     }
 
     /**
@@ -781,26 +806,45 @@ class Ajax
      */
     public function repair_schema_action_callback()
     {
+        $this->checkAccess();
+
         try {
-            if (Request::isFrom('ajax') && User::Access('manage')) {
-                check_ajax_referer('wp_rest', 'wps_nonce');
+            $schemaRepairResult = SchemaMaintainer::repair();
+            $databaseStatus     = $schemaRepairResult['status'] ?? null;
 
-                $schemaRepairResult = SchemaMaintainer::repair();
-                $databaseStatus     = $schemaRepairResult['status'] ?? null;
-
-                if ($databaseStatus === 'success') {
-                    wp_send_json_success(['message' => esc_html__('Database schema issues have been successfully repaired.', 'wp-statistics')]);
-
-                } else {
-                    wp_send_json_error(['message' => esc_html__('Failed to repair database schema. Please try again.', 'wp-statistics')]);
-                }
-
+            if ($databaseStatus === 'success') {
+                wp_send_json_success(['message' => esc_html__('Database schema issues have been successfully repaired.', 'wp-statistics')]);
             }
+
+            wp_send_json_error(['message' => esc_html__('Failed to repair database schema!', 'wp-statistics')]);
         } catch (Exception $e) {
             wp_send_json_error(['message' => sprintf(esc_html__('Failed to repair database schema: %s', 'wp-statistics'), $e->getMessage())]);
         }
+    }
 
-        exit;
+    /**
+     * Callback function to check the database schema via AJAX.
+     *
+     * @return void
+     */
+    public function re_check_schema_action_callback()
+    {
+        $this->checkAccess();
+
+        try {
+            $schemaCheckResult = SchemaMaintainer::check(true);
+            $databaseStatus    = $schemaCheckResult['status'] ?? null;
+
+            if ($databaseStatus === 'success') {
+                wp_send_json_success(['message' => esc_html__('The database was checked and no issues were found.', 'wp-statistics')]);
+            }
+
+            wp_send_json_error([
+                'message' => esc_html__('Database issues were detected. Please refresh the page to see the "Repair Schema Issues" button.', 'wp-statistics')
+            ]);
+        } catch (Exception $e) {
+            wp_send_json_error(['message' => sprintf(esc_html__('An error occurred while checking the database: %s', 'wp-statistics'), $e->getMessage())]);
+        }
     }
 }
 

@@ -470,6 +470,8 @@ class Admin_Assets
             'no_data_this_range'           => __('No data found for this date range.', 'wp-statistics'),
             'coming_soon'                  => __('Data coming soon!', 'wp-statistics'),
             'confirm_repair_schema'        => __('Are you sure you want to repair the schema issues?', 'wp-statistics'),
+            'operation_completed'          => __('Operation completed.', 'wp-statistics'),
+            'are_you_sure'                 => __('Are you sure?', 'wp-statistics'),
         );
 
         $list['active_post_type'] = Helper::getPostTypeName(Request::get('pt', 'post'));
