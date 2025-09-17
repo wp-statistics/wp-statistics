@@ -30,6 +30,9 @@ class OptimizationPage extends BasePage
         Admin_Template::get_template(['layout/header', 'optimization', 'layout/footer'], $args);
     }
 
+    /**
+     * @todo Refactor this function to store data via AJAX
+     */
     public function processForms()
     {
         if (!Menus::in_page('optimization')) {
