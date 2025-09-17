@@ -1,6 +1,13 @@
 = 14.15.x - 2025-xx-xx =
 - **Enhancement:** Fixed console warnings that appeared on Chromium-based browsers on the settings page.
 - **Fix:** Corrected incorrect “Queue Migration” completion notice after plugin updates.
+- **Enhancement:** Add date range validation on report pages.
+- **Enhancement:** Improve compare style and number formatting in "At a Glance" widgets.
+- **Enhancement:** Update chart component to display a message for empty datasets.
+- **Dev:** Removed `wp_statistics_data_export_base_query` and `wp_statistics_data_export_query` filters.
+- **Fix:** Resolved an issue with fresh installs during plugin activation.
+- **Enhancement:** Limited queue and AJAX migrations (and their notices) to the ` Minimum Role to Manage Settings`.
+- **Enhancement:** Refactored the migration codebase for better structure, readability, and maintainability.
 - **Enhancement:** Added "Recheck Schema" button on the optimization page to recheck database health via AJAX.
 
 = 14.15.4 - 2025-09-02 =
