@@ -124,12 +124,10 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
 
         $parsedData = [];
         foreach ($dates as $date) {
-            $parsedData['labels'][]     = [
-                'date'              => date_i18n('Y-m-d', strtotime($date)),
-            ];
-            $parsedData['visitors'][]   = isset($visitors[$date]) ? intval($visitors[$date]) : 0;
-            $parsedData['views'][]      = isset($views[$date]) ? intval($views[$date]) : 0;
-            $parsedData['posts'][]      = isset($posts[$date]) ? intval($posts[$date]) : 0;
+            $parsedData['labels'][]   = date_i18n('Y-m-d', strtotime($date));
+            $parsedData['visitors'][] = isset($visitors[$date]) ? intval($visitors[$date]) : 0;
+            $parsedData['views'][]    = isset($views[$date]) ? intval($views[$date]) : 0;
+            $parsedData['posts'][]    = isset($posts[$date]) ? intval($posts[$date]) : 0;
         }
 
         return $parsedData;
