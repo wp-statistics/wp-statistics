@@ -37,6 +37,7 @@ use WP_Statistics\Service\Integrations\IntegrationsManager;
 use WP_Statistics\Service\CustomEvent\CustomEventManager;
 use WP_Statistics\Service\Admin\ExportImport\ExportImportManager;
 use WP_Statistics\CLI\CliCommands;
+use WP_Statistics\Service\Admin\Optimization\OptimizationManager;
 
 defined('ABSPATH') || exit;
 
@@ -208,7 +209,6 @@ final class WP_Statistics
 
             // Admin Pages List
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-settings.php';
-            require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-optimization.php';
 
             $analytics           = new AnalyticsManager();
             $authorAnalytics     = new AuthorAnalyticsManager();
@@ -225,6 +225,8 @@ final class WP_Statistics
             $overviewManager     = new OverviewManager();
             $metaboxManager      = new MetaboxManager();
             $exclusionsManager   = new ExclusionsManager();
+            $optimizationManager = new OptimizationManager();
+
             new FilterManager();
             new DatabaseMigrationAjaxManager();
             new DatabaseMigrationQueueManager();
@@ -375,7 +377,7 @@ final class WP_Statistics
      * @param bool $networkWide Whether the plugin is being activated network-wide on multisite.
      * @return void
      */
-    public function activator($networkWide) 
+    public function activator($networkWide)
     {
         require_once WP_STATISTICS_DIR . 'vendor/autoload.php';
         CoreFactory::activator($networkWide);
@@ -389,7 +391,7 @@ final class WP_Statistics
      *
      * @return void
      */
-    public static function uninstaller() 
+    public static function uninstaller()
     {
         require_once WP_STATISTICS_DIR . 'vendor/autoload.php';
         CoreFactory::uninstaller();

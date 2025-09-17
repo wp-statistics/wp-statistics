@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'WP_Statistics\\Abstracts\\BaseMetabox' => $baseDir . '/src/Abstracts/BaseMetabox.php',
+    'WP_Statistics\\Abstracts\\BaseMigrationManager' => $baseDir . '/src/Abstracts/BaseMigrationManager.php',
     'WP_Statistics\\Abstracts\\BaseMigrationOperation' => $baseDir . '/src/Abstracts/BaseMigrationOperation.php',
     'WP_Statistics\\Abstracts\\BaseModel' => $baseDir . '/src/Abstracts/BaseModel.php',
     'WP_Statistics\\Abstracts\\BasePage' => $baseDir . '/src/Abstracts/BasePage.php',
@@ -244,6 +245,8 @@ return array(
     'WP_Statistics\\Service\\Admin\\Notification\\NotificationFetcher' => $baseDir . '/src/Service/Admin/Notification/NotificationFetcher.php',
     'WP_Statistics\\Service\\Admin\\Notification\\NotificationManager' => $baseDir . '/src/Service/Admin/Notification/NotificationManager.php',
     'WP_Statistics\\Service\\Admin\\Notification\\NotificationProcessor' => $baseDir . '/src/Service/Admin/Notification/NotificationProcessor.php',
+    'WP_Statistics\\Service\\Admin\\Optimization\\OptimizationManager' => $baseDir . '/src/Service/Admin/Optimization/OptimizationManager.php',
+    'WP_Statistics\\Service\\Admin\\Optimization\\OptimizationPage' => $baseDir . '/src/Service/Admin/Optimization/OptimizationPage.php',
     'WP_Statistics\\Service\\Admin\\Overview\\OverviewManager' => $baseDir . '/src/Service/Admin/Overview/OverviewManager.php',
     'WP_Statistics\\Service\\Admin\\Overview\\OverviewPage' => $baseDir . '/src/Service/Admin/Overview/OverviewPage.php',
     'WP_Statistics\\Service\\Admin\\PageInsights\\PageInsightsDataProvider' => $baseDir . '/src/Service/Admin/PageInsights/PageInsightsDataProvider.php',

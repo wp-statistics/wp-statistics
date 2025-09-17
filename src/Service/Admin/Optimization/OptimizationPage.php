@@ -1,49 +1,46 @@
 <?php
+namespace WP_Statistics\Service\Admin\Optimization;
 
-namespace WP_STATISTICS;
-
-use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory;
-use WP_Statistics\Components\Singleton;
+use WP_Statistics\Abstracts\BasePage;
+use WP_STATISTICS\Admin_Template;
+use WP_STATISTICS\DB;
+use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
-use WP_Statistics\Service\Geolocation\GeolocationFactory;
-use WP_Statistics\Service\Geolocation\Provider\DbIpProvider;
-use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;
-use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
-use WP_Statistics\Utils\Request;
+use WP_STATISTICS\User;
 
-class optimization_page extends Singleton
+class OptimizationPage extends BasePage
 {
+    protected $pageSlug = 'optimization';
 
     public function __construct()
     {
-        // Optimize and Repair Database MySQL
-        add_action('admin_init', array($this, 'processForms'));
+        parent::__construct();
+
+        add_action('admin_init', [$this, 'processForms']);
     }
 
-    /**
-     * This function displays the HTML for the settings page.
-     */
-    public static function view()
+    public function view()
     {
+        $args = [
+            'class'  => 'wp-statistics-settings',
+            'title'  => esc_html__('Optimization', 'wp-statistics'),
+            'tables' => DB::getTableRows(),
+        ];
 
-        // Add Class inf
-        $args['class'] = 'wp-statistics-settings';
-        $args['title'] = __('Optimization', 'wp-statistics');
-
-        // Get List Table
-        $args['list_table'] = DB::table('all');
-        $args['result']     = DB::getTableRows();
-
-        Admin_Template::get_template(array('layout/header', 'optimization', 'layout/footer'), $args);
+        Admin_Template::get_template(['layout/header', 'optimization', 'layout/footer'], $args);
     }
 
     public function processForms()
     {
+        if (!Menus::in_page('optimization')) {
+            return;
+        }
+
         global $wpdb;
 
         // Check Access Level
-        if (Menus::in_page('optimization') and !User::Access('manage')) {
-            wp_die(__('You do not have sufficient permissions to access this page.')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        if (!User::Access('manage')) {
+            wp_die(esc_html__('You do not have sufficient permissions to access this page.'));
         }
 
         // Check Wp Nonce and Require Field
@@ -75,10 +72,7 @@ class optimization_page extends Singleton
                 }
             }
 
-            // Show Notice
-            Notice::addFlashNotice(__('Historical Data Successfully Updated.', "wp-statistics"), "success");
+            Notice::addFlashNotice(esc_html__('Historical Data Successfully Updated.', "wp-statistics"), "success");
         }
     }
 }
-
-optimization_page::instance();
