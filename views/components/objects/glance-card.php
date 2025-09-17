@@ -41,9 +41,10 @@
                                     $is_good_change = ($is_negative_polarity && $metric['change'] < 0) || (!$is_negative_polarity && $metric['change'] > 0);
                                     $color_class = $is_good_change ? 'wps-glance-positive' : 'wps-glance-negative';
                                 }
+                                $change_value = number_format(abs((float) $metric['change']), 1);
                                 ?>
                                 <span class="wps-at-a-glance-change <?php echo esc_attr($arrow_class . ' ' . $color_class); ?>">
-                                    <?php echo esc_html(($metric['change'] > 0 ? '+' : '') . $metric['change'] . '%'); ?>
+                                    <?php echo $change_value  . '%'; ?>
                                 </span>
                             <?php endif; ?>
                         </span>

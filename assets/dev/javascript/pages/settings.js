@@ -29,7 +29,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 const toggleElement = () => {
                     let conditions = 0;
                     let satisfied = 0;
-
                     const isOrCondition = element.classList.contains('js-wps-show_if_or');
 
                     classListArray.forEach(className => {
@@ -93,6 +92,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     if (className.includes('_enabled') || className.includes('_disabled')) {
                         const id = this.extractId(element);
                         const checkbox = document.querySelector(`#wps_settings\\[${id}\\]`);
+
                         if (checkbox) {
                             checkbox.addEventListener('change', toggleElement);
                         }
@@ -142,7 +142,77 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
     }
 
+
+    class GSCConnectButton {
+        constructor() {
+            this.clientIdInput = $('#gsc-client-id');
+            this.clientSecretInput = $('#gsc-client-secret');
+            this.connectBtn = $('#wps-gsc-connect-btn');
+            this.tooltipWrapper = this.connectBtn.closest('.wps-tooltip');
+
+            if (!this.clientIdInput.length || !this.clientSecretInput.length || !this.connectBtn.length || !this.tooltipWrapper.length) {
+                return;
+            }
+
+            this.initTooltip();
+            this.bindEvents();
+            this.toggleButtonState();
+        }
+
+        initTooltip() {
+            this.tooltipWrapper.tooltipster({
+                theme: 'tooltipster-shadow',
+                contentCloning: true
+            });
+        }
+
+        toggleButtonState() {
+            const hasClientId = this.clientIdInput.val().trim() !== '';
+            const hasClientSecret = this.clientSecretInput.val().trim() !== '';
+
+            if (!(hasClientId && hasClientSecret)) {
+                this.connectBtn.attr('disabled', 'disabled').addClass('is-disabled');
+                this.tooltipWrapper.tooltipster('content', this.tooltipWrapper.data('disable-tooltip'));
+            }
+        }
+
+        bindEvents() {
+            this.clientIdInput.on('input', () => this.toggleButtonState());
+            this.clientSecretInput.on('input', () => this.toggleButtonState());
+        }
+    }
+
     $(document).ready(function () {
+        let isProgrammaticChange = false
+        const checkbox = $('#wps_settings\\[wps_schedule_dbmaint\\]');
+        checkbox.on('change', function () {
+            if (this.checked && !isProgrammaticChange) {
+                const modalId = 'setting-confirmation';
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.classList.add('wps-modal--open');
+
+                    const primaryButton = modal.querySelector('button[data-action="enable"]');
+                    if (primaryButton) {
+                        primaryButton.addEventListener('click', function () {
+                            modal.classList.remove('wps-modal--open');
+                        }, {once: true});
+                    }
+
+                    const closeButton = modal.querySelector('button[data-action="closeModal"]');
+                    if (closeButton) {
+                        closeButton.addEventListener('click', function () {
+                            checkbox.prop('checked', false);
+                            modal.classList.remove('wps-modal--open');
+                            new ShowIfEnabled();
+                        }, {once: true});
+                    }
+                }
+            }
+        });
+
+
+
         // Handle retention period change
         const retentionSelect = $('#wps_settings\\[wps_schedule_dbmaint_days_select\\]');
         const customRetentionInput = $('#wps_schedule_dbmaint_days_custom');
@@ -296,7 +366,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         new ShowIfEnabled();
         new GSCConnectButton();
-
 
         const searchConsoleSite = document.getElementById('wps_addon_settings[marketing][site]');
         if (searchConsoleSite) {

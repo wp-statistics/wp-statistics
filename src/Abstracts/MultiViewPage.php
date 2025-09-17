@@ -39,6 +39,8 @@ abstract class MultiViewPage extends BasePage
     public function view()
     {
         try {
+            $this->validateDateRange();
+
             // Get all views
             $views = $this->getViews();
 

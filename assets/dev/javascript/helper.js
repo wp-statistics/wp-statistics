@@ -61,7 +61,7 @@ wps_js.formatNumber = function (num, fixed = 0) {
     return e;
 }
 
-wps_js.vectorMap = function (data){
+wps_js.vectorMap = function (data) {
     let pin = Array();
     let colors = {};
     if (data?.codes?.length > 0) {
@@ -305,9 +305,9 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls, percentages =
         let nextSibling = element.nextSibling;
         parent.removeChild(element);
         if (!Array.isArray(data) && typeof data === 'object' && data !== null) {
-             data = Object.values(data);
+            data = Object.values(data);
         } else if (!Array.isArray(data)) {
-             data = [];
+            data = [];
         }
         data = data?.map(Number);
 
@@ -315,9 +315,9 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls, percentages =
         if (Array.isArray(data)) {
             total = data.reduce((sum, item) => sum + item, 0);
         } else if (typeof data === 'object' && data !== null) {
-             total = Object.values(data).reduce((sum, item) => sum + item, 0);
+            total = Object.values(data).reduce((sum, item) => sum + item, 0);
         } else {
-             total = 0;
+            total = 0;
         }
         let blockDiv = document.createElement('div');
         blockDiv.classList.add('wps-horizontal-bar');
@@ -516,6 +516,41 @@ wps_js.no_results = function () {
     return '<div class="o-wrap o-wrap--no-data wps-center">' + wps_js._('no_result') + '</div>';
 };
 
+wps_js.isTodayOrFutureDate = function (dateString) {
+    if (!dateString) return false;
+    const today = new Date();
+    const target = new Date(dateString);
+    return target >= new Date(today.getFullYear(), today.getMonth(), today.getDate());
+}
+
+wps_js.placeholder_txt = function (noDataMessage) {
+    const randomIndex = Math.floor(Math.random() * 4) + 1;
+    const src = `${wps_js.global.assets_url}/images/no-data/vector-${randomIndex}.svg`;
+    return `
+        <div class="wps--no-data__container" aria-live="polite">
+            <img class="wps--no-data__image" src="${src}" role="presentation" alt="Illustration for ${noDataMessage}">
+            <p class="${src ? 'wps--no-data__text' : 'o-wrap o-wrap--no-data wps-center'}">
+                ${noDataMessage}
+            </p>
+        </div>
+    `;
+};
+
+wps_js.allValuesZero = function (data) {
+    if (!data || data.length === 0) return true;
+    return data.every(value => value === 0 || value === null || value === undefined || value === '0');
+};
+
+wps_js.allDatasetsZero = function (currentDatasets, previousDatasets = null) {
+    const currentAllZero = !currentDatasets || currentDatasets.length === 0 ||
+        currentDatasets.every(dataset => wps_js.allValuesZero(dataset.data));
+
+    if (!previousDatasets || previousDatasets.length === 0) {
+        return currentAllZero;
+    }
+    const previousAllZero = previousDatasets.every(dataset => wps_js.allValuesZero(dataset.data));
+    return currentAllZero && previousAllZero;
+};
 
 // Head filters drop down
 jQuery(document).ready(function () {
@@ -526,7 +561,7 @@ jQuery(document).ready(function () {
         dropdown.addEventListener("click", function (event) {
             var dropdownContent = dropdown.querySelector(".dropdown-content");
             if (dropdownContent) {
-                if(!event.target.classList.contains('disabled')){
+                if (!event.target.classList.contains('disabled')) {
                     dropdownContent.classList.toggle("show");
                 }
             }
