@@ -577,7 +577,7 @@ class SessionModel extends BaseModel
             'COUNT(DISTINCT entrance_sessions.session_id) AS sessions',
             'COUNT(views.ID) AS views',
             'SUM(sessions.duration) AS total_duration',
-            'ROUND(COUNT(DISTINCT bounce_sessions.session_id) / NULLIF(COUNT(DISTINCT entrance_sessions.session_id), 0), 4) AS bounce',
+            'COALESCE(ROUND(COUNT(DISTINCT bounce_sessions.session_id) / NULLIF(COUNT(DISTINCT entrance_sessions.session_id), 0), 4), 0) AS bounces',
         ])
             ->from('sessions')
             ->join('visitors', ['visitors.ID', 'sessions.visitor_id'])

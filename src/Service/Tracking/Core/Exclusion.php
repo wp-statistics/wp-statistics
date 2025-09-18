@@ -302,7 +302,7 @@ class Exclusion extends Singleton
      */
     public static function exclusion404($visitorProfile)
     {
-        if (!empty(self::$options['exclude_404s'])) {
+        if (empty(self::$options['exclude_404s'])) {
             return false;
         }
 
