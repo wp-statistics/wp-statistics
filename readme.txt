@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.8
-Stable tag: 14.15.4
+Stable tag: 14.15.5
 Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -146,6 +146,18 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.15.5 - 2025-09-21 =
+- **Enhancement:** Added date range validation on report pages.
+- **Enhancement:** Improved compare style and number formatting in "At a Glance" widgets.
+- **Enhancement:** Updated chart component to show a message when no data is available.
+- **Enhancement:** Limited queue and AJAX migrations (and their notices) to the "Minimum Role to Manage Settings."
+- **Enhancement:** Refactored the migration codebase for better structure, readability, and maintainability.
+- **Enhancement:** Added a "Recheck Schema" button on the optimization page to recheck database health via AJAX.
+- **Fix:** Fixed console warnings on Chromium-based browsers on the settings page.
+- **Fix:** Fixed incorrect "Queue Migration" completion notice after plugin updates.
+- **Fix:** Resolved activation issues on fresh installs.
+- **Dev:** Removed the `wp_statistics_data_export_base_query` and `wp_statistics_data_export_query` filters.
+
 = 14.15.4 - 2025-09-02 =
 - **Enhancement:** Refactored the update process and database schema updates to run on the frontend.
 - **Enhancement:** Optimized the database manager to avoid duplicate queries.

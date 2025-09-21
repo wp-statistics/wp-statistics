@@ -549,41 +549,107 @@ const getDisplayTextForUnitTime = (unitTime, tag_id) => {
             return option.textContent.trim();
         }
     }
-    return unitTime;
+    return unitTime.charAt(0).toUpperCase() + unitTime.slice(1); // Fallback to capitalized unitTime
+}
+
+// Function to determine available intervals based on date range
+const getAvailableIntervals = (startDate, endDate) => {
+    if (!moment(startDate).isValid() || !moment(endDate).isValid()) {
+        return ['day'];
+    }
+    // Swap dates if endDate is before startDate
+    if (moment(endDate).isBefore(moment(startDate))) {
+        [startDate, endDate] = [endDate, startDate];
+    }
+    const duration = moment(endDate).diff(moment(startDate), 'days') + 1;
+    const intervals = [];
+    if (duration >= 1) intervals.push('day');
+    if (duration >= 8) intervals.push('week');
+    if (duration >= 31) intervals.push('month');
+    return intervals;
+}
+
+// Function to select a valid interval
+const selectValidInterval = (currentUnitTime, availableIntervals) => {
+    return availableIntervals.includes(currentUnitTime) ? currentUnitTime : availableIntervals[0] || 'day';
+}
+
+// Function to update dropdown options
+const updateIntervalDropdown = (tag_id, availableIntervals, selectedUnitTime) => {
+    const select = document.querySelector(`#${tag_id}`).closest('.o-wrap').querySelector('.js-unitTimeSelect');
+    if (!select) {
+        return;
+    }
+    const optionsContainer = select.querySelector('.wps-unit-time-chart__dropdown');
+    if (!optionsContainer) {
+        return;
+    }
+    optionsContainer.innerHTML = '';
+    const allOptions = [
+        { value: 'day', text: wps_js._('daily') || 'Daily' },
+        { value: 'week', text: wps_js._('weekly') || 'Weekly' },
+        { value: 'month', text: wps_js._('monthly') || 'Monthly' }
+    ];
+    allOptions.forEach(opt => {
+        if (availableIntervals.includes(opt.value)) {
+            const option = document.createElement('div');
+            option.className = 'wps-unit-time-chart__option';
+            option.setAttribute('data-value', opt.value);
+            option.textContent = opt.text;
+            if (opt.value === selectedUnitTime) option.classList.add('selected');
+            optionsContainer.appendChild(option);
+        }
+    });
+    const selectedItem = select.querySelector('.wps-unit-time-chart__selected-item');
+    if (selectedItem) {
+        const selectedOption = allOptions.find(opt => opt.value === selectedUnitTime);
+        selectedItem.textContent = selectedOption ? selectedOption.text : 'Daily';
+    }
 }
 
 wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line') {
+
+    if (wps_js.allDatasetsZero(data.data.datasets, data.previousData?.datasets)) {
+        const chartElement = document.getElementById(tag_id);
+        if (!chartElement) return null;
+
+        const parentElement = chartElement.parentElement;
+        if (!parentElement) return null;
+
+        const wrap = parentElement.closest('.o-wrap');
+        const chartData = wrap?.querySelector('.wps-postbox-chart--data');
+
+        parentElement.innerHTML = wps_js.no_results();
+        parentElement.classList.add('wps-no-result');
+        if (chartData) chartData.style.display = 'none';
+        return null;
+    }
+
     sortTotal(data.data.datasets);
     const realdata = deepCopy(data);
     const phpDateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
     let momentDateFormat = phpToMomentFormat(phpDateFormat);
     const isInsideDashboardWidgets = document.getElementById(tag_id).closest('#dashboard-widgets') !== null;
+
+    // Calculate date range and determine available intervals
+    const startDate = moment(data.data.labels[0]?.date);
+    const endDate = moment(data.data.labels[data.data.labels.length - 1]?.date);
+    if (!startDate.isValid() || !endDate.isValid()) {
+        console.error("Invalid start or end date:", startDate, endDate);
+    }
+    const availableIntervals = getAvailableIntervals(startDate, endDate);
+
     // Determine the initial unitTime
     const length = data.data.labels.map(dateObj => dateObj.formatted_date).length;
-
     const threshold = type === 'performance' ? 30 : 60;
     let unitTime = length <= threshold ? 'day' : length <= 180 ? 'week' : 'month';
+    unitTime = selectValidInterval(unitTime, availableIntervals);
 
     const datasets = [];
-
-    // Check if there is only one data point
     const isSingleDataPoint = data.data.labels.length === 1;
 
-    const select = document.querySelector(`#${tag_id}`).closest('.o-wrap').querySelector('.js-unitTimeSelect');
-    if (select) {
-        const selectedItem = select.querySelector('.wps-unit-time-chart__selected-item');
-        if (selectedItem) {
-            selectedItem.textContent = getDisplayTextForUnitTime(unitTime, tag_id);
-        }
-        const options = select.querySelectorAll('.wps-unit-time-chart__option');
-        options.forEach(opt => {
-            if (opt.getAttribute('data-value') === unitTime) {
-                opt.classList.add('selected');
-            } else {
-                opt.classList.remove('selected');
-            }
-        });
-    }
+    // Update dropdown options
+    updateIntervalDropdown(tag_id, availableIntervals, unitTime);
 
     const day = aggregateData(realdata.data.labels, realdata.data.datasets, 'day', momentDateFormat, isInsideDashboardWidgets);
     const week = aggregateData(realdata.data.labels, realdata.data.datasets, 'week', momentDateFormat, isInsideDashboardWidgets);
@@ -635,7 +701,14 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
         }
     }
 
-    function updateChart(unitTime) {
+    function updateChart(unitTime, newStartDate = startDate, newEndDate = endDate) {
+        // Recalculate available intervals based on new date range
+        const availableIntervals = getAvailableIntervals(newStartDate, newEndDate);
+        unitTime = selectValidInterval(unitTime, availableIntervals);
+
+        // Update dropdown options
+        updateIntervalDropdown(tag_id, availableIntervals, unitTime);
+
         const displayText = getDisplayTextForUnitTime(unitTime, tag_id);
         const chartElement = document.getElementById(tag_id);
         const chartContainer = chartElement.parentElement.parentElement.querySelector('.wps-postbox-chart--data');
@@ -1040,21 +1113,54 @@ document.body.addEventListener('click', function (event) {
     }
 });
 
-window.renderWPSLineChart = function (chartId, data ,newOptions) {
-    const chartItem = document.getElementById(chartId);
-    if (chartItem) {
-        const parentElement = jQuery(`#${chartId}`).parent();
-        const placeholder = wps_js.rectangle_placeholder();
-        parentElement.append(placeholder);
-
-        if (!data?.data?.datasets || data.data.datasets.length === 0) {
-            parentElement.html(wps_js.no_results());
-            jQuery('.wps-ph-item').remove();
-        } else {
-            wps_js.new_line_chart(data, chartId, newOptions);
-            jQuery('.wps-ph-item').remove();
-            jQuery('.wps-postbox-chart--data').removeClass('c-chart__wps-skeleton--legend');
-            parentElement.removeClass('c-chart__wps-skeleton');
+document.body.addEventListener('change', function (event) {
+    const datePicker = event.target.closest('.wps-date-picker');
+    if (datePicker) {
+        const chartContainer = datePicker.closest('.o-wrap').querySelector('.wps-postbox-chart--container');
+        if (!chartContainer) return;
+        const canvas = chartContainer.querySelector('canvas');
+        const canvas_id = canvas.getAttribute('id');
+        if (!chartInstances[canvas_id]) return;
+        const startDateInput = datePicker.querySelector('.wps-date-picker__start');
+        const endDateInput = datePicker.querySelector('.wps-date-picker__end');
+        if (!startDateInput || !endDateInput) return;
+        const startDate = moment(startDateInput.value);
+        const endDate = moment(endDateInput.value);
+        if (!startDate.isValid() || !endDate.isValid()) {
+            return;
         }
+        const currentUnitTime = chartInstances[canvas_id].chart.options.plugins.tooltip.unitTime;
+        chartInstances[canvas_id].updateChart(currentUnitTime, startDate, endDate);
+    }
+});
+
+window.renderWPSLineChart = function (chartId, data, newOptions) {
+    const chartItem = document.getElementById(chartId);
+    if (!chartItem) return;
+
+    const parentElement = chartItem.parentElement;
+    if (!parentElement) return;
+
+    const placeholder = wps_js.rectangle_placeholder();
+    parentElement.innerHTML += placeholder;
+
+    const hasAllZeroData = wps_js.allDatasetsZero(data?.data?.datasets, data?.previousData?.datasets);
+    const hasNoData = !data?.data?.datasets || data.data.datasets.length === 0;
+
+    if (hasNoData || hasAllZeroData) {
+        const wrap = parentElement.closest('.o-wrap');
+        const chartData = wrap?.querySelector('.wps-postbox-chart--data');
+
+        parentElement.innerHTML = wps_js.no_results();
+        parentElement.classList.add('wps-no-result');
+        document.querySelectorAll('.wps-ph-item').forEach(el => el.remove());
+
+        if (chartData) chartData.style.display = 'none';
+    } else {
+        wps_js.new_line_chart(data, chartId, newOptions);
+        document.querySelectorAll('.wps-ph-item').forEach(el => el.remove());
+        document.querySelectorAll('.wps-postbox-chart--data')
+            .forEach(el => el.classList.remove('c-chart__wps-skeleton--legend'));
+        parentElement.classList.remove('c-chart__wps-skeleton', 'wps-no-result');
     }
 }

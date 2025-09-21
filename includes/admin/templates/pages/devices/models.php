@@ -28,8 +28,8 @@ use WP_STATISTICS\Helper;
                                     <?php foreach ($data['visitors'] as $item) : ?>
                                         <tr>
                                             <td class="wps-pd-l">
-                                                <span title="<?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->model); ?>" class="wps-model-name">
-                                                    <?php echo self::isUnknown($item->model) ? esc_html__('Unknown', 'wp-statistics') : $item->model; ?>
+                                                <span title="<?php echo esc_attr(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->model)); ?>" class="wps-model-name">
+                                                    <?php echo self::isUnknown($item->model) ? esc_html__('Unknown', 'wp-statistics') : esc_html($item->model); ?>
                                                 </span>
                                             </td>
                                             <td class="wps-pd-l">

@@ -2,8 +2,8 @@
 
 namespace WP_Statistics\Service\Database\Migrations\Ajax;
 
+use WP_Statistics\Abstracts\BaseMigrationManager;
 use WP_STATISTICS\Admin_Assets;
-use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Database\DatabaseHelper;
@@ -18,7 +18,7 @@ use WP_Statistics\Utils\Request;
  * - Managing the AJAX request lifecycle for triggering and running migrations.
  * - Ensuring migrations are executed sequentially and their status is tracked persistently.
  */
-class AjaxManager
+class AjaxManager extends BaseMigrationManager
 {
     /**
      * The action slug used for manually triggering the background migration.
@@ -211,11 +211,13 @@ class AjaxManager
      */
     public function handleAjaxMigration()
     {
+        check_admin_referer(self::MIGRATION_NONCE, 'nonce');
+
         if (!Request::compare('action', self::MIGRATION_ACTION)) {
             return false;
         }
 
-        check_admin_referer(self::MIGRATION_NONCE, 'nonce');
+        $this->verifyMigrationPermission();
 
         Option::saveOptionGroup('status', 'progress', 'ajax_background_process');
 
@@ -237,26 +239,5 @@ class AjaxManager
 
         wp_redirect(esc_url_raw($redirectUrl));
         exit;
-    }
-
-    /**
-     * Validates whether the current admin page and user have access to handle migration-related functionality.
-     *
-     * Checks if the user has sufficient permissions and if the current page belongs to the plugin's pages.
-     * Used to control when migration notices and background processes should be active.
-     *
-     * @return bool
-     */
-    private function isValidMigrationContext()
-    {
-        if (!current_user_can('manage_options')) {
-            return false;
-        }
-
-        if (Menus::in_plugin_page()) {
-            return true;
-        }
-
-        return false;
     }
 }

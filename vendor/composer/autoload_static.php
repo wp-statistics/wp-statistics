@@ -27,6 +27,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'WP_Statistics\\Abstracts\\BaseMetabox' => __DIR__ . '/../..' . '/src/Abstracts/BaseMetabox.php',
+        'WP_Statistics\\Abstracts\\BaseMigrationManager' => __DIR__ . '/../..' . '/src/Abstracts/BaseMigrationManager.php',
         'WP_Statistics\\Abstracts\\BaseMigrationOperation' => __DIR__ . '/../..' . '/src/Abstracts/BaseMigrationOperation.php',
         'WP_Statistics\\Abstracts\\BaseModel' => __DIR__ . '/../..' . '/src/Abstracts/BaseModel.php',
         'WP_Statistics\\Abstracts\\BasePage' => __DIR__ . '/../..' . '/src/Abstracts/BasePage.php',
@@ -42,6 +43,8 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\IncompleteGeoIpUpdater' => __DIR__ . '/../..' . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/IncompleteGeoIpUpdater.php',
         'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\SourceChannelUpdater' => __DIR__ . '/../..' . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/SourceChannelUpdater.php',
         'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\TableOperationProcess' => __DIR__ . '/../..' . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/TableOperationProcess.php',
+        'WP_Statistics\\CLI\\CliCommands' => __DIR__ . '/../..' . '/src/CLI/CliCommands.php',
+        'WP_Statistics\\CLI\\CliDataProvider' => __DIR__ . '/../..' . '/src/CLI/CliDataProvider.php',
         'WP_Statistics\\Components\\Ajax' => __DIR__ . '/../..' . '/src/Components/Ajax.php',
         'WP_Statistics\\Components\\AssetNameObfuscator' => __DIR__ . '/../..' . '/src/Components/AssetNameObfuscator.php',
         'WP_Statistics\\Components\\Assets' => __DIR__ . '/../..' . '/src/Components/Assets.php',

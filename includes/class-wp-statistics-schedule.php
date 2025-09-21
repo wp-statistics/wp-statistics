@@ -51,12 +51,12 @@ class Schedule
             }
 
             // Add the database maintenance schedule if it doesn't exist and it should be.
-            if (!wp_next_scheduled('wp_statistics_dbmaint_hook') && Option::get('schedule_dbmaint')) {
-                wp_schedule_event(time(), 'daily', 'wp_statistics_dbmaint_hook');
+            if (!wp_next_scheduled('wp_statistics_dbmaint_hook') && Option::get('schedule_dbmaint_days') != 0) {
+                wp_schedule_event(DateTime::get('tomorrow midnight', 'U'), 'daily', 'wp_statistics_dbmaint_hook');
             }
 
             // Remove the database maintenance schedule if it does exist and it shouldn't.
-            if (wp_next_scheduled('wp_statistics_dbmaint_hook') && (!Option::get('schedule_dbmaint'))) {
+            if (wp_next_scheduled('wp_statistics_dbmaint_hook') && Option::get('schedule_dbmaint_days') == 0) {
                 wp_unschedule_event(wp_next_scheduled('wp_statistics_dbmaint_hook'), 'wp_statistics_dbmaint_hook');
             }
 

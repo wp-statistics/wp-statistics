@@ -163,7 +163,7 @@ class Admin_Assets
         //        }
 
         // Load Select2
-        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages') || Menus::in_page('settings') || Menus::in_page('optimization')  || Menus::in_page('goals')) {
+        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || Menus::in_page('pages') || Menus::in_page('settings') || Menus::in_page('optimization') || Menus::in_page('goals')) {
             wp_enqueue_style(self::$prefix . '-select2', self::url('select2/select2.min.css'), array(), '4.0.9');
         }
 
@@ -184,6 +184,13 @@ class Admin_Assets
 
         // Get Current Screen ID
         $screen_id = Helper::get_screen_id();
+
+        if (Menus::in_plugin_page() || in_array($screen_id, ['dashboard'])) {
+            Assets::script('option-updater', 'js/option-updater.js', [], [
+                'admin_url' => admin_url(),
+                'nonce'     => wp_create_nonce('wp_rest')
+            ], true);
+        }
 
         // Load Chart.js library
         if (apply_filters('wp_statistics_enqueue_chartjs', false)) {
@@ -440,6 +447,8 @@ class Admin_Assets
             'copied'                       => __('Copied!', 'wp-statistics'),
             'settings'                     => __('SETTINGS', 'wp-statistics'),
             'premium_addons'               => __('PREMIUM ADD-ONS', 'wp-statistics'),
+            'forever'                      => __('Forever', 'wp-statistics'),
+            'days'                         => __('days', 'wp-statistics'),
             'clicks'                       => __('Clicks', 'wp-statistics'),
             'impressions'                  => __('Impressions', 'wp-statistics'),
             'prev'                         => __('Prev', 'wp-statistics'),
@@ -448,6 +457,9 @@ class Admin_Assets
             'last_updated'                 => __('Last updated:', 'wp-statistics'),
             'unassigned'                   => __('Unassigned', 'wp-statistics'),
             'select_page'                  => __('Select page', 'wp-statistics'),
+            'daily'                        => __('Daily', 'wp-statistics'),
+            'weekly'                       => __('Weekly', 'wp-statistics'),
+            'monthly'                      => __('Monthly', 'wp-statistics'),
             'required_error'               => __('This field is required', 'wp-statistics'),
             'validate_error'               => __('Must not contain spaces, #, or .', 'wp-statistics'),
             'machine_validate_error'       => __('Please use lowercase letters, numbers, underscores, or dashes only. No spaces allowed.', 'wp-statistics'),
@@ -455,7 +467,11 @@ class Admin_Assets
             'confirm_refresh_country'      => __('Are you sure you want to refresh country data?', 'wp-statistics'),
             'confirm_update_channel'       => __('Are you sure you want to update and correct any unidentified source channels in the database?', 'wp-statistics'),
             'confirm_hash_ips'             => __('This will replace all IP addresses in the database with hash values and cannot be undone, are you sure?', 'wp-statistics'),
+            'no_data_this_range'           => __('No data found for this date range.', 'wp-statistics'),
+            'coming_soon'                  => __('Data coming soon!', 'wp-statistics'),
             'confirm_repair_schema'        => __('Are you sure you want to repair the schema issues?', 'wp-statistics'),
+            'operation_completed'          => __('Operation completed.', 'wp-statistics'),
+            'are_you_sure'                 => __('Are you sure?', 'wp-statistics'),
         );
 
         $list['active_post_type'] = Helper::getPostTypeName(Request::get('pt', 'post'));
