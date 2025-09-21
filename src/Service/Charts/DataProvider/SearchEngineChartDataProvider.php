@@ -126,9 +126,7 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
     {
         $labels = array_map(
             function ($date) {
-                return [
-                    'date'              => date_i18n('Y-m-d', strtotime($date)),
-                ];
+                return date('Y-m-d', strtotime($date));
             },
             $dateRange
         );

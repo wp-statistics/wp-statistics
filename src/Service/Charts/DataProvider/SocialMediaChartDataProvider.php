@@ -127,7 +127,7 @@ class SocialMediaChartDataProvider extends AbstractChartDataProvider
         $labels = array_map(
             function ($date) {
                 return [
-                    'date'              => date_i18n('Y-m-d', strtotime($date)),
+                    'date' => date('Y-m-d', strtotime($date)),
                 ];
             },
             $dateRange

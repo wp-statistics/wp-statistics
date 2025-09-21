@@ -1,59 +1,63 @@
-const isJalali = wps_js?.global?.options?.use_jalali_date === 1;
-const startOfWeek = parseInt(wps_js._('start_of_week'));
- if (isJalali) {
-    moment.locale('fa', {
-        months: 'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split('_'),
-        monthsShort: 'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split('_'),
-        weekdays: 'یک‌شنبه_دوشنبه_سه‌شنبه_چهارشنبه_پنج‌شنبه_جمعه_شنبه'.split('_'),
-        weekdaysShort: 'یک‌شنبه_دوشنبه_سه‌شنبه_چهارشنبه_پنج‌شنبه_جمعه_شنبه'.split('_'),
-        week: {
-            dow: startOfWeek,
-            doy: 12
-        }
-    });
+let currentHtmlLang = document.documentElement.lang;
+const wpOptions = wps_js.global['options'] || {};
+const wpFormat = wpOptions.wp_date_format || 'F j, Y';
+const formatWithoutYear = wpFormat.replace(/Y/g, '').replace(/y/g, '').trim();
+const dateCache = new Map();
+
+const isValidDate = (date) => {
+    return date instanceof Date && !isNaN(date);
 }
 
-function convertToEnglishNumbers(input) {
-    if (input == null) return '';
+const formatNumChart = (value) => {
+    return wps_js.formatNumber(value);
+}
 
-    const map = {
-        '۰': '0', '۱': '1', '۲': '2', '۳': '3', '۴': '4',
-        '۵': '5', '۶': '6', '۷': '7', '۸': '8', '۹': '9',
-        '٠': '0', '١': '1', '٢': '2', '٣': '3', '٤': '4',
-        '٥': '5', '٦': '6', '٧': '7', '٨': '8', '٩': '9',
+const phpToIntlDateTimeFormatOptions = (phpFormat) => {
+    const options = {};
+    const formatMap = {
+        'F': {month: 'long'},
+        'M': {month: 'short'},
+        'm': {month: '2-digit'},
+        'n': {month: 'numeric'},
+        'j': {day: 'numeric'},
+        'd': {day: '2-digit'},
+        'Y': {year: 'numeric'},
+        'y': {year: '2-digit'},
+        'l': {weekday: 'long'},
+        'D': {weekday: 'short'}
     };
 
-    return String(input).replace(/[۰-۹٠-٩]/g, d => map[d] || d);
-}
+    for (const char of phpFormat) {
+        if (formatMap[char]) {
+            Object.assign(options, formatMap[char]);
+        }
+    }
+
+    return options;
+};
 
 const getMoment = (date) => {
     if (!date) {
-        return moment.invalid();
+        return new Date(NaN);
+    }
+    if (dateCache.has(date)) {
+        const cachedDate = dateCache.get(date);
+        return cachedDate;
     }
     try {
-        const normalizedDate = convertToEnglishNumbers(date);
-        if (isJalali) {
-             const m = moment(normalizedDate, 'jYYYY-jMM-jDD');
-            if (m.isValid()) return m;
-
-            const m2 = moment(normalizedDate, 'jYYYY/jMM/jDD');
-            if (m2.isValid()) return m2;
-
-             const m3 = moment(normalizedDate, 'YYYY-MM-DD');
-            if (m3.isValid()) {
-                 return moment.from(m3, 'en', 'YYYY-MM-DD');
-            }
+        let parsedDate;
+        if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+            parsedDate = new Date(date);
+        } else if (/^\d{4}\/\d{2}\/\d{2}$/.test(date)) {
+            parsedDate = new Date(date.replace(/\//g, '-'));
         } else {
-            const m = moment(normalizedDate, 'YYYY-MM-DD');
-            if (m.isValid()) return m;
-
-            const m2 = moment(normalizedDate, 'YYYY/MM/DD');
-            if (m2.isValid()) return m2;
+            return new Date(NaN);
         }
-
-        return moment.invalid();
+        const result = isNaN(parsedDate) ? new Date(NaN) : parsedDate;
+        dateCache.set(date, result);
+        return result;
     } catch (error) {
-        return moment.invalid();
+        return new Date(NaN);
     }
 };
 
@@ -79,9 +83,8 @@ wps_js.rgba_to_hex = function (r, g, b, a) {
     let hex_a = Math.round(a * 255).toString(16).padStart(2, '0');
     return `#${hex_r}${hex_g}${hex_b}${hex_a}`;
 }
-const formatNumChart = (value) => {
-    return wps_js.formatNumber(value);
-}
+
+
 const wpsBuildTicks = (scale) => {
     const ticks = scale.getTicks();
     if (ticks.length > scale.options.ticks.maxTicksLimit) {
@@ -93,28 +96,76 @@ const wpsBuildTicks = (scale) => {
         scale.options.ticks.stepSize = 1;
     }
 }
-const dayFormat = (date, momentDateFormat) => {
-    if (!date || !momentDateFormat) return '';
-    let cleanFormat = momentDateFormat
-        .replace(/\/YYYY|YYYY\/|YYYY|-YYYY|YYYY-|\bYYYY\b/g, '')
-        .replace(/\/YY|YY\/|YY|-YY|YY-|\bYY\b/g, '')
-        .replace(/,\s*$/g, '')
-        .replace(/^\s*,/g, '')
-        .replace(/[\/\-]\s*$/g, '')
-        .replace(/^\s*[\/\-]/g, '')
-        .replace(/\s+/g, ' ')
-        .trim();
-    return date.format(cleanFormat || 'DD MMMM');
+
+const formatLocalizedDate = (date, options = {}, overrideDefaults = false) => {
+    if (!isValidDate(date)) return '';
+    let locale = wpOptions.wp_lang ? wpOptions.wp_lang.replace('_', '-') : document.documentElement.lang || 'en-US';
+    const timeZone = wpOptions.wp_timezone || undefined;
+    let formatOptions;
+
+    if (overrideDefaults) {
+        formatOptions = {...options};
+        if (timeZone) formatOptions.timeZone = timeZone;
+    } else {
+        const defaultOptions = phpToIntlDateTimeFormatOptions(wpOptions.wp_date_format || 'F j, Y');
+        delete defaultOptions.year;
+        formatOptions = {...defaultOptions, ...options};
+        if (timeZone) formatOptions.timeZone = timeZone;
+    }
+
+    try {
+        formatOptions.calendar = (locale === 'fa-IR') ? 'persian' : 'gregory';
+        return new Intl.DateTimeFormat(locale, formatOptions).format(date);
+    } catch (error) {
+        return new Intl.DateTimeFormat('en-US', {...formatOptions, calendar: 'gregory'}).format(date);
+    }
+};
+
+const dayFormat = (date) => {
+    if (!isValidDate(date)) return '';
+    const options = phpToIntlDateTimeFormatOptions(formatWithoutYear);
+    if (options.month === 'long') options.month = 'short';
+    return formatLocalizedDate(date, options);
+}
+
+const dayFormatForTooltip = (date) => {
+    if (!isValidDate(date)) return '';
+    const options = phpToIntlDateTimeFormatOptions(formatWithoutYear);
+    if (options.month === 'long') options.month = 'short';
+    const formattedDate = formatLocalizedDate(date, options, true);
+    const weekday = formatLocalizedDate(date, {weekday: 'short'}, true);
+    return `${formattedDate} (${weekday})`;
+}
+const updateMomentLocale = () => {
+    const wpOptions = wps_js.global['options'] || {};
+    const htmlLang = document.documentElement.lang;
+    let targetLocale = wpOptions.wp_lang || htmlLang || 'en-US';
+    try {
+        const supportedLocales = Intl.DateTimeFormat.supportedLocalesOf([targetLocale]);
+        if (supportedLocales.length === 0) {
+            targetLocale = 'en-US';
+        }
+    } catch (error) {
+        targetLocale = 'en-US';
+    }
+
+    Object.values(chartInstances).forEach(instance => {
+        if (instance.chart) {
+            instance.chart.update();
+        }
+    });
+    return targetLocale;
 };
 
 const chartColors = {
     'total': '#27A765', 'views': '#7362BF', 'visitors': '#3288D7', 'user-visitors': '#3288D7', 'anonymous-visitors': '#7362BF', 'published': '#8AC3D0', 'published-contents': '#8AC3D0', 'published-products': '#8AC3D0',
     'published-pages': '#8AC3D0', 'published-posts': '#8AC3D0', 'posts': '#8AC3D0', downloads: '#3288D7', 'clicks': '#3288D7', 'impressions': '#7362BF', 'Other1': '#3288D7', 'Other2': '#7362BF', 'Other3': '#8AC3D0'
-};
+}
+
 const chartTensionValues = [0.1, 0.3, 0.5, 0.7];
 
 const getOrCreateTooltip = (chart) => {
-    let tooltipEl = chart.canvas.parentNode.querySelector('div');
+    let tooltipEl = chart.canvas.parentNode.querySelector('div.wps-chart-tooltip');
     if (!tooltipEl) {
         tooltipEl = document.createElement('div');
         tooltipEl.classList.add('wps-chart-tooltip');
@@ -122,13 +173,19 @@ const getOrCreateTooltip = (chart) => {
         tooltipEl.style.pointerEvents = 'none';
         tooltipEl.style.position = 'absolute';
         tooltipEl.style.transition = 'all .1s ease';
+        const wpOptions = wps_js.global['options'] || {};
+        const textDirection = wpOptions.textDirection || 'ltr';
+        tooltipEl.style.direction = textDirection;
+        tooltipEl.style.textAlign = textDirection === 'rtl' ? 'right' : 'left';
         const table = document.createElement('table');
         table.style.margin = '0px';
+        table.style.direction = textDirection;
         tooltipEl.appendChild(table);
         chart.canvas.parentNode.appendChild(tooltipEl);
     }
     return tooltipEl;
 };
+
 
 wps_js.setTooltipPosition = function (tooltipEl, chart, tooltip) {
     const {
@@ -169,6 +226,7 @@ const externalTooltipHandler = (context, data, dateLabels, prevDateLabels, month
     const {chart, tooltip} = context;
     const unitTime = chart.options.plugins.tooltip.unitTime;
     const tooltipEl = getOrCreateTooltip(chart);
+
     if (tooltip.opacity === 0) {
         tooltipEl.style.opacity = 0;
         return;
@@ -178,14 +236,11 @@ const externalTooltipHandler = (context, data, dateLabels, prevDateLabels, month
         const dataIndex = tooltip.dataPoints[0].dataIndex;
         const datasets = chart.data.datasets;
         let innerHtml = `<div>`;
-        const phpDateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
-        let momentDateFormat = phpToMomentFormat(phpDateFormat);
-        momentDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
+
         titleLines.forEach(title => {
             if (unitTime === 'day') {
                 const label = (data.data) ? data.data.labels[dataIndex] : data.labels[dataIndex];
-                const date = getMoment(label);
-                innerHtml += `<div class="chart-title">${dayFormat(getMoment(label), momentDateFormat)} (${date.format(isJalali ? 'dd' : 'ddd')})</div>`;
+                innerHtml += `<div class="chart-title">${dayFormatForTooltip(getMoment(label))}</div>`;
             } else if (unitTime === 'month') {
                 innerHtml += `<div class="chart-title">${monthTooltip[dataIndex]}</div>`;
             } else {
@@ -220,8 +275,7 @@ const externalTooltipHandler = (context, data, dateLabels, prevDateLabels, month
                     if (unitTime === 'day') {
                         const prevLabelObj = prevFullLabels && prevFullLabels[dataIndex];
                         if (prevLabelObj) {
-                            const prevDate = getMoment(prevLabelObj);
-                            previousLabel = `${getMoment(prevLabelObj).format(momentDateFormat)} (${prevDate.format(isJalali ? 'dd' : 'ddd')})`;
+                            previousLabel = dayFormatForTooltip(getMoment(prevLabelObj));
                         } else {
                             previousLabel = prevDateLabels[dataIndex] || 'N/A';
                         }
@@ -232,7 +286,7 @@ const externalTooltipHandler = (context, data, dateLabels, prevDateLabels, month
                     }
 
                     if (previousLabel === undefined) {
-                        previousLabel = 'N/A'; // Fallback for undefined labels
+                        previousLabel = 'N/A';
                     }
                     innerHtml += `
                     <div class="previous-data">
@@ -241,7 +295,9 @@ const externalTooltipHandler = (context, data, dateLabels, prevDateLabels, month
                                 <span class="previous-data__color" style="background-color: ${dataset.hoverPointBackgroundColor};"></span>
                                 <span class="previous-data__color" style="background-color: ${dataset.hoverPointBackgroundColor};"></span>
                             </span>
+                            <span class="previous-data__value">
                             ${previousLabel}
+                            </span>
                         </div>
                         <span class="previous-data__value"> ${previousValue.toLocaleString()}</span>
                     </div>`;
@@ -254,6 +310,7 @@ const externalTooltipHandler = (context, data, dateLabels, prevDateLabels, month
         wps_js.setTooltipPosition(tooltipEl, chart, tooltip);
     }
 };
+
 
 // Custom plugin definition
 const drawVerticalLinePlugin = {
@@ -289,79 +346,73 @@ const phpToMomentFormat = (phpFormat) => {
     return phpFormat.replace(/([a-zA-Z])/g, (match) => formatMap[match] || match);
 }
 
-const formatDateRange = (startDate, endDate, unit, momentDateFormat, isInsideDashboardWidgets) => {
-    if (!startDate.isValid() || !endDate.isValid()) {
-        return 'Invalid Date';
-    }
+const formatDateRange = (startDate, endDate, unit) => {
+    if (!isValidDate(startDate) || !isValidDate(endDate)) return 'Invalid Date';
 
-    const baseFormat = momentDateFormat
-        .replace(/\/YYYY|YYYY/g, '')
-        .replace(/\/YY|YY/g, '')
-        .replace(/[,/\s-]/g, ' ')
-        .trim();
-    const cleanFormat = baseFormat
-        .replace(/MM|MMM/g, 'MMM')
-        .replace(/DD|D/g, 'D')
-        .trim();
+    const wpOptions = wps_js.global['options'] || {};
+    const wpFormat = wpOptions.wp_date_format || 'F j, Y';
+    const formatWithoutYear = wpFormat.replace(/Y/g, '').replace(/y/g, '').trim();
 
-    if (unit === 'month') {
-        const monthFormat = momentDateFormat
-            .replace(/\/YYYY|YYYY\/|YYYY|-YYYY|YYYY-|\bYYYY\b/g, '')
-            .replace(/\/YY|YY\/|YY|-YY|YY-|\bYY\b/g, '')
-            .replace(/,\s*$/g, '')
-            .replace(/^\s*,/g, '')
-            .replace(/[\/\-]\s*$/g, '')
-            .replace(/^\s*[\/\-]/g, '')
-            .replace(/\s+/g, ' ')
-            .trim();
-        return startDate.format(monthFormat);
+    if (unit === 'month' || unit === 'week') {
+        const shortMonthFormat = phpToIntlDateTimeFormatOptions(formatWithoutYear);
+        shortMonthFormat.month = 'short';
+        const startFormatted = formatLocalizedDate(startDate, shortMonthFormat);
+        const endFormatted = formatLocalizedDate(endDate, shortMonthFormat);
+        return `${startFormatted} ${wps_js._('to_range')} ${endFormatted}`;
     } else {
-        return `${startDate.format(cleanFormat)} ${wps_js._('to_range')} ${endDate.format(cleanFormat)}`;
+        const startFormatted = formatLocalizedDate(startDate, phpToIntlDateTimeFormatOptions(formatWithoutYear));
+        const endFormatted = formatLocalizedDate(endDate, phpToIntlDateTimeFormatOptions(formatWithoutYear));
+        return `${startFormatted} ${wps_js._('to_range')} ${endFormatted}`;
     }
-}
+};
 
-const setMonthDateRange = (startDate, endDate, momentDateFormat) => {
-    if (!startDate.isValid() || !endDate.isValid()) {
-        return 'Invalid Date';
-    }
+const setMonthDateRange = (startDate, endDate) => {
+    if (!isValidDate(startDate) || !isValidDate(endDate)) return 'Invalid Date';
+    const wpOptions = wps_js.global['options'] || {};
+    const wpFormat = wpOptions.wp_date_format || 'F j, Y';
+    const formatWithoutYear = wpFormat.replace(/Y/g, '').replace(/y/g, '').trim();
+    const shortMonthFormat = phpToIntlDateTimeFormatOptions(formatWithoutYear);
+    shortMonthFormat.month = 'short';
+    const startFormatted = formatLocalizedDate(startDate, shortMonthFormat);
+    const endFormatted = formatLocalizedDate(endDate, shortMonthFormat);
+    return `${startFormatted} ${wps_js._('to_range')} ${endFormatted}`;
+};
 
-    const cleanFormat = momentDateFormat
-        .replace(/\/YYYY|YYYY\/|YYYY|-YYYY|YYYY-|\bYYYY\b/g, '')
-        .replace(/\/YY|YY\/|YY|-YY|YY-|\bYY\b/g, '')
-        .replace(/,\s*$/g, '')
-        .replace(/^\s*,/g, '')
-        .replace(/[\/\-]\s*$/g, '')
-        .replace(/^\s*[\/\-]/g, '')
-        .replace(/\s+/g, ' ')
-        .trim();
-
-    return `${startDate.format(cleanFormat)} ${wps_js._('to_range')} ${endDate.format(cleanFormat)}`;
-}
-
-const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboardWidgets) => {
+const aggregateData = (labels, datasets, unit) => {
     if (!labels || !labels.length || !datasets || !datasets.length) {
         return {
             aggregatedLabels: [],
             aggregatedData: datasets ? datasets.map(() => []) : [],
             monthTooltipTitle: [],
+            isIncompletePeriod: []
         };
     }
     const isIncompletePeriod = [];
-    const now = moment();
-    if (unit === 'day') {
-        labels.forEach(label => {
-            const date = getMoment(label);
-            isIncompletePeriod.push(date.isValid() ? date.isSameOrAfter(now, 'day') : false);
-        });
+    const now = new Date();
+    const parsedDates = new Map();
 
+    const getCachedMoment = (label) => {
+        if (!parsedDates.has(label)) {
+            parsedDates.set(label, getMoment(label));
+        }
+        return parsedDates.get(label);
+    };
+
+    if (unit === 'day') {
         return {
             aggregatedLabels: labels.map(label => {
-                const date = getMoment(label);
-                return date.isValid() ? dayFormat(date, momentDateFormat) : '';
+                const date = getCachedMoment(label);
+                return isValidDate(date) ? dayFormat(date) : '';
             }),
             aggregatedData: datasets.map(dataset => dataset.data),
-            monthTooltipTitle: [],
-            isIncompletePeriod
+            monthTooltipTitle: labels.map(label => {
+                const date = getCachedMoment(label);
+                return isValidDate(date) ? dayFormatForTooltip(date) : '';
+            }),
+            isIncompletePeriod: labels.map(label => {
+                const date = getCachedMoment(label);
+                return isValidDate(date) ? date >= now : false;
+            })
         };
     }
 
@@ -370,135 +421,92 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
     const monthTooltipTitle = [];
 
     if (unit === 'week') {
-         const weekGroups = {};
-
-        if (wps_js._('start_of_week') && !isJalali) {
-            moment.updateLocale('en', {
-                week: {
-                    dow: parseInt(wps_js._('start_of_week'))
-                }
-            });
-        }
-
+        const weekGroups = {};
+        const startOfWeek = parseInt(wps_js._('start_of_week')) || 0;
 
         labels.forEach((label, i) => {
             if (label) {
-                const date = getMoment(label);
-                if (date.isValid()) {
-                    let weekKey;
-
-                    if (isJalali) {
-                         const year = date.jYear();
-                        const weekNumber = Math.ceil(date.jDayOfYear() / 7);
-                        weekKey = `${year}-W${weekNumber}`;
-                    } else {
-                         weekKey = date.format('YYYY-[W]WW');
-                    }
+                const date = getCachedMoment(label);
+                if (isValidDate(date)) {
+                    const firstDayOfWeek = new Date(date);
+                    firstDayOfWeek.setDate(date.getDate() - ((date.getDay() - startOfWeek + 7) % 7));
+                    const weekKey = `${date.getFullYear()}-W${Math.ceil((firstDayOfWeek.getDate() + ((7 - firstDayOfWeek.getDay() + startOfWeek) % 7)) / 7)}`;
 
                     if (!weekGroups[weekKey]) {
                         weekGroups[weekKey] = {
                             indices: [],
-                            startDate: date.clone(),
-                            endDate: date.clone()
+                            startDate: new Date(date),
+                            endDate: new Date(date)
                         };
                     }
-
                     weekGroups[weekKey].indices.push(i);
-                    if (date.isBefore(weekGroups[weekKey].startDate)) {
-                        weekGroups[weekKey].startDate = date.clone();
+                    if (date < weekGroups[weekKey].startDate) {
+                        weekGroups[weekKey].startDate = new Date(date);
                     }
-                    if (date.isAfter(weekGroups[weekKey].endDate)) {
-                        weekGroups[weekKey].endDate = date.clone();
+                    if (date > weekGroups[weekKey].endDate) {
+                        weekGroups[weekKey].endDate = new Date(date);
                     }
                 }
             }
         });
 
-         const sortedWeeks = Object.values(weekGroups).sort((a, b) =>
-            a.startDate - b.startDate
-        );
+        const sortedWeeks = Object.values(weekGroups).sort((a, b) => a.startDate - b.startDate);
 
         sortedWeeks.forEach(week => {
-            const label = formatDateRange(week.startDate, week.endDate, unit, momentDateFormat, isInsideDashboardWidgets);
-            aggregatedLabels.push(label);
-            monthTooltipTitle.push(setMonthDateRange(week.startDate, week.endDate, momentDateFormat));
-
+            aggregatedLabels.push(formatDateRange(week.startDate, week.endDate, unit));
+            monthTooltipTitle.push(setMonthDateRange(week.startDate, week.endDate));
             datasets.forEach((dataset, idx) => {
                 const total = week.indices.reduce((sum, i) => sum + (dataset.data[i] || 0), 0);
                 aggregatedData[idx].push(total);
-            });
-
-            const isIncomplete = week.endDate.isSameOrAfter(now, 'day');
+            })
+            const isIncomplete = week.endDate >= now;
             isIncompletePeriod.push(isIncomplete);
         });
     } else if (unit === 'month') {
-         const monthGroups = {};
-
+        const monthGroups = {};
         labels.forEach((label, i) => {
             if (label) {
-                const date = getMoment(label);
-                if (date.isValid()) {
-                    let monthKey;
-
-                    if (isJalali) {
-                        monthKey = date.format('jYYYY-jMM');
-                    } else {
-                        monthKey = date.format('YYYY-MM');
-                    }
-
+                const date = getCachedMoment(label);
+                if (isValidDate(date)) {
+                    const monthKey = `${date.getFullYear()}-${date.getMonth() + 1}`;
                     if (!monthGroups[monthKey]) {
-                        let firstDay, lastDay;
-
-                        if (isJalali) {
-                            firstDay = date.clone().startOf('jMonth');
-                            lastDay = date.clone().endOf('jMonth');
-                        } else {
-                            firstDay = date.clone().startOf('month');
-                            lastDay = date.clone().endOf('month');
-                        }
+                        const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+                        const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
                         monthGroups[monthKey] = {
                             indices: [],
-                            startDate: date.clone(),
-                            endDate: date.clone(),
-                            firstDay: date.clone().startOf(isJalali ? 'jMonth' : 'month'),
-                            lastDay: date.clone().endOf(isJalali ? 'jMonth' : 'month')
-
-                        };
+                            startDate: new Date(date),
+                            endDate: new Date(date),
+                            firstDay,
+                            lastDay
+                        }
                     }
-
                     monthGroups[monthKey].indices.push(i);
-                    if (date.isBefore(monthGroups[monthKey].startDate)) {
-                        monthGroups[monthKey].startDate = date.clone();
+                    if (date < monthGroups[monthKey].startDate) {
+                        monthGroups[monthKey].startDate = new Date(date);
                     }
-                    if (date.isAfter(monthGroups[monthKey].endDate)) {
-                        monthGroups[monthKey].endDate = date.clone();
+                    if (date > monthGroups[monthKey].endDate) {
+                        monthGroups[monthKey].endDate = new Date(date);
                     }
                 }
             }
-        });
+        })
 
-         const sortedMonths = Object.values(monthGroups).sort((a, b) =>
-            a.startDate - b.startDate
-        );
-
+        const sortedMonths = Object.values(monthGroups).sort((a, b) => a.startDate - b.startDate);
         sortedMonths.forEach(month => {
-            const label = formatDateRange(month.startDate, month.endDate, unit, momentDateFormat, isInsideDashboardWidgets);
-            aggregatedLabels.push(label);
-            monthTooltipTitle.push(setMonthDateRange(month.firstDay, month.lastDay, momentDateFormat));
-
+            const monthLabel = formatLocalizedDate(month.startDate, {month: 'short'}, true);
+            aggregatedLabels.push(monthLabel);
+            monthTooltipTitle.push(setMonthDateRange(month.startDate, month.lastDay));
             datasets.forEach((dataset, idx) => {
                 const total = month.indices.reduce((sum, i) => sum + (dataset.data[i] || 0), 0);
                 aggregatedData[idx].push(total);
             });
-
-            const isIncomplete = month.endDate.isSameOrAfter(now, 'day');
+            const isIncomplete = month.endDate >= now;
             isIncompletePeriod.push(isIncomplete);
         });
     }
 
     return {aggregatedLabels, aggregatedData, monthTooltipTitle, isIncompletePeriod};
-}
-
+};
 const sortTotal = (datasets) => {
     datasets.forEach((dataset, index) => {
         dataset.originalIndex = index;
@@ -516,9 +524,13 @@ const sortTotal = (datasets) => {
 const updateLegend = (lineChart, datasets, tag_id, data) => {
     const chartElement = document.getElementById(tag_id);
     const legendContainer = chartElement.parentElement.parentElement.querySelector('.wps-postbox-chart--items');
+    const wpOptions = wps_js.global['options'] || {};
+    const textDirection = wpOptions.textDirection || 'ltr';
 
     if (legendContainer) {
         legendContainer.innerHTML = '';
+        legendContainer.style.direction = textDirection;
+        legendContainer.style.textAlign = textDirection === 'rtl' ? 'right' : 'left';
         const previousPeriod = chartElement.parentElement.parentElement.querySelector('.wps-postbox-chart--previousPeriod');
         if (previousPeriod) {
             let foundPrevious = datasets.some(dataset => dataset.label.includes('(Previous)'));
@@ -653,22 +665,19 @@ const getDisplayTextForUnitTime = (unitTime, tag_id) => {
 
 // Function to determine available intervals based on date range
 const getAvailableIntervals = (startDate, endDate) => {
-    if (!startDate.isValid() || !endDate.isValid()) {
+    if (!isValidDate(startDate) || !isValidDate(endDate)) {
         return ['day'];
     }
 
-    const [start, end] = startDate.isBefore(endDate)
-        ? [startDate, endDate]
-        : [endDate, startDate];
+    const [start, end] = startDate < endDate ? [startDate, endDate] : [endDate, startDate];
 
-    const duration = end.diff(start, 'days') + 1;
+    const duration = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
     return [
         ...(duration >= 1 ? ['day'] : []),
         ...(duration >= 8 ? ['week'] : []),
         ...(duration >= 31 ? ['month'] : []),
     ];
 };
-
 
 // Function to select a valid interval
 const selectValidInterval = (currentUnitTime, availableIntervals) => {
@@ -708,11 +717,21 @@ const updateIntervalDropdown = (tag_id, availableIntervals, selectedUnitTime) =>
     }
 }
 
+const observeLangChanges = () => {
+    setInterval(() => {
+        const newLang = document.documentElement.lang;
+        if (newLang !== currentHtmlLang) {
+            currentHtmlLang = newLang;
+            updateMomentLocale();
+        }
+    }, 1000);
+};
+observeLangChanges();
+
 wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line') {
     sortTotal(data.data.datasets);
+    updateMomentLocale();
     const realdata = deepCopy(data);
-    const phpDateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
-    let momentDateFormat = phpToMomentFormat(phpDateFormat);
     const isInsideDashboardWidgets = document.getElementById(tag_id).closest('#dashboard-widgets') !== null;
 
     // Calculate date range and determine available intervals
@@ -732,18 +751,18 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
     // Update dropdown options
     updateIntervalDropdown(tag_id, availableIntervals, unitTime);
 
-    const day = aggregateData(realdata.data.labels, realdata.data.datasets, 'day', momentDateFormat, isInsideDashboardWidgets);
-    const week = aggregateData(realdata.data.labels, realdata.data.datasets, 'week', momentDateFormat, isInsideDashboardWidgets);
-    const month = aggregateData(realdata.data.labels, realdata.data.datasets, 'month', momentDateFormat, isInsideDashboardWidgets);
+    const day = aggregateData(realdata.data.labels, realdata.data.datasets, 'day');
+    const week = aggregateData(realdata.data.labels, realdata.data.datasets, 'week');
+    const month = aggregateData(realdata.data.labels, realdata.data.datasets, 'month');
 
     const prevDay = realdata?.previousData
-        ? aggregateData(realdata.previousData.labels, realdata.previousData.datasets, 'day', momentDateFormat, isInsideDashboardWidgets)
+        ? aggregateData(realdata.previousData.labels, realdata.previousData.datasets, 'day')
         : null;
     const prevWeek = realdata.previousData
-        ? aggregateData(realdata.previousData.labels, realdata.previousData.datasets, 'week', momentDateFormat, isInsideDashboardWidgets)
+        ? aggregateData(realdata.previousData.labels, realdata.previousData.datasets, 'week')
         : null;
     const prevMonth = realdata.previousData
-        ? aggregateData(realdata.previousData.labels, realdata.previousData.datasets, 'month', momentDateFormat, isInsideDashboardWidgets)
+        ? aggregateData(realdata.previousData.labels, realdata.previousData.datasets, 'month')
         : null;
 
     // Initialize dateLabels based on the selected unitTime
@@ -753,7 +772,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
             ? week.aggregatedLabels
             : month.aggregatedLabels;
 
-// Initialize monthTooltip and prevMonthTooltip
+    // Initialize monthTooltip and prevMonthTooltip
     let monthTooltip = unitTime === 'day'
         ? day.monthTooltipTitle
         : unitTime === 'week'
@@ -783,6 +802,10 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
     }
 
     const updateChart = (unitTime, newStartDate = startDate, newEndDate = endDate) => {
+        if (!isValidDate(newStartDate) || !isValidDate(newEndDate)) {
+            return;
+        }
+
         const availableIntervals = getAvailableIntervals(newStartDate, newEndDate);
         unitTime = selectValidInterval(unitTime, availableIntervals);
         updateIntervalDropdown(tag_id, availableIntervals, unitTime);
@@ -801,6 +824,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 selectedItem.textContent = displayText;
             }
         }
+
         let aggregatedData, prevAggregatedData;
         switch (unitTime) {
             case 'day':
@@ -822,15 +846,12 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
 
         dateLabels = aggregatedData.aggregatedLabels;
         monthTooltip = aggregatedData.monthTooltipTitle;
-
         prevDateLabels = prevAggregatedData ? prevAggregatedData.aggregatedLabels : [];
         prevMonthTooltip = prevAggregatedData ? prevAggregatedData.monthTooltipTitle : [];
 
-        // If prevDateLabels is empty, fill it with "N/A" for each month
         if (prevDateLabels.length === 0 && dateLabels.length > 0) {
             prevDateLabels = Array(dateLabels.length).fill("N/A");
         }
-
         const datasets = data.data.datasets.map((dataset, idx) => {
             let color = chartColors[data.data.datasets[idx].slug] || chartColors[`Other${data.data.datasets[idx].originalIndex + 1}`];
             let tension = chartTensionValues[idx % chartTensionValues.length];
@@ -1069,7 +1090,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                     fontWeight: 'lighter',
                     padding: 8,
                     lineHeight: 15,
-                    callback: renderFormatNum,
+                    callback: formatNumChart,
                 },
                 afterBuildTicks: wpsBuildTicks,
                 border: {color: 'transparent', width: 0},
@@ -1098,7 +1119,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 fontWeight: 'lighter',
                 padding: 8,
                 lineHeight: 15,
-                callback: renderFormatNum,
+                callback: formatNumChart,
             },
             afterBuildTicks: wpsBuildTicks,
             title: {
@@ -1121,7 +1142,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 fontWeight: 'lighter',
                 padding: 8,
                 lineHeight: 15,
-                callback: renderFormatNum,
+                callback: formatNumChart,
             },
             position: 'right',
             grid: {display: true, borderDash: [5, 5], tickColor: '#EEEFF1', color: '#EEEFF1'},
@@ -1203,7 +1224,7 @@ document.body.addEventListener('change', function (event) {
         if (!startDateInput || !endDateInput) return;
         const startDate = getMoment(startDateInput.value);
         const endDate = getMoment(endDateInput.value);
-        if (!startDate.isValid() || !endDate.isValid()) {
+        if (!isValidDate(startDate) || !isValidDate(endDate)) {
             return;
         }
         const currentUnitTime = chartInstances[canvas_id].chart.options.plugins.tooltip.unitTime;

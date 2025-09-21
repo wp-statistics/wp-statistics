@@ -80,7 +80,7 @@ class UsersTrafficChartDataProvider extends AbstractChartDataProvider
 
         $parsedData = [];
         foreach ($dates as $date) {
-            $parsedData['labels'][]    = date_i18n('Y-m-d', strtotime($date));
+            $parsedData['labels'][]    = date('Y-m-d', strtotime($date));
             $parsedData['users'][]     = isset($loggedIn[$date]) ? intval($loggedIn[$date]) : 0;
             $parsedData['anonymous'][] = isset($anonymous[$date]) ? intval($anonymous[$date]) : 0;
         }

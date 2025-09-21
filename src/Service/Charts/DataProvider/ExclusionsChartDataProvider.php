@@ -47,9 +47,7 @@ class ExclusionsChartDataProvider extends AbstractChartDataProvider
         // Set chart labels
         $this->setChartLabels(array_map(
             function ($date) {
-                return [
-                    'date'              =>DateTime::format($date, ['date_format' => 'Y-m-d']),
-                ];
+                return date('Y-m-d', strtotime($date));
             },
             $periodDates
         ));

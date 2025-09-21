@@ -76,9 +76,7 @@ class EventActivityChartDataProvider extends AbstractChartDataProvider
             'events' => []
         ];
         foreach ($dates as $date) {
-            $parsedData['labels'][] = [
-                'date'              => date_i18n('Y-m-d', strtotime($date)),
-            ];
+            $parsedData['labels'][] =  date('Y-m-d', strtotime($date));
             $parsedData['events'][] = isset($events[$date]) ? intval($events[$date]) : 0;
         }
 
