@@ -29,51 +29,51 @@ class Ajax
          * List Of Setup Ajax request in WordPress
          */
         $list = [
-            [
-                'class'  => $this,
-                'action' => 'clear_user_agent_strings',
-                'public' => false
-            ],
-            [
-                'class'  => $this,
-                'action' => 'query_params_cleanup',
-                'public' => false
-            ],
-            [
-                'class'  => $this,
-                'action' => 'event_data_cleanup',
-                'public' => false
-            ],
-            [
-                'class'  => $this,
-                'action' => 'delete_agents',
-                'public' => false
-            ],
-            [
-                'class'  => $this,
-                'action' => 'delete_platforms',
-                'public' => false
-            ],
-            [
-                'class'  => $this,
-                'action' => 'delete_ip',
-                'public' => false
-            ],
-            [
-                'class'  => $this,
-                'action' => 'delete_user_ids',
-                'public' => false
-            ],
-            [
-                'class'  => $this,
-                'action' => 'purge_data',
-                'public' => false
-            ],
-            [
-                'class'  => $this,
-                'action' => 'purge_visitor_hits',
-                'public' => false
-            ],
+            // [
+            //     'class'  => $this,
+            //     'action' => 'clear_user_agent_strings',
+            //     'public' => false
+            // ],
+            // [
+            //     'class'  => $this,
+            //     'action' => 'query_params_cleanup',
+            //     'public' => false
+            // ],
+            // [
+            //     'class'  => $this,
+            //     'action' => 'event_data_cleanup',
+            //     'public' => false
+            // ],
+            // [
+            //     'class'  => $this,
+            //     'action' => 'delete_agents',
+            //     'public' => false
+            // ],
+            // [
+            //     'class'  => $this,
+            //     'action' => 'delete_platforms',
+            //     'public' => false
+            // ],
+            // [
+            //     'class'  => $this,
+            //     'action' => 'delete_ip',
+            //     'public' => false
+            // ],
+            // [
+            //     'class'  => $this,
+            //     'action' => 'delete_user_ids',
+            //     'public' => false
+            // ],
+            // [
+            //     'class'  => $this,
+            //     'action' => 'purge_data',
+            //     'public' => false
+            // ],
+            // [
+            //     'class'  => $this,
+            //     'action' => 'purge_visitor_hits',
+            //     'public' => false
+            // ],
             [
                 'class'  => $this,
                 'action' => 'update_geoip_database',
@@ -104,11 +104,11 @@ class Ajax
                 'action' => 'dismiss_notices',
                 'public' => false
             ],
-            [
-                'class'  => $this,
-                'action' => 'delete_word_count_data',
-                'public' => false
-            ],
+            // [
+            //     'class'  => $this,
+            //     'action' => 'delete_word_count_data',
+            //     'public' => false
+            // ],
             [
                 'class'  => $this,
                 'action' => 'update_country_data',
@@ -313,6 +313,8 @@ class Ajax
 
             // Delete user ids
             $result = $wpdb->query("UPDATE `" . DB::table('visitor') . "` SET `user_id` = 0");
+
+
 
             if ($result) {
                 esc_html_e('Successfully deleted User ID data.', 'wp-statistics');

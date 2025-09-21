@@ -9,6 +9,7 @@ class OptimizationManager
     public function __construct()
     {
         add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);
+        add_filter('admin_init', [$this, 'registerAjaxCallbacks']);
     }
 
     /**
@@ -30,5 +31,12 @@ class OptimizationManager
         ];
 
         return $items;
+    }
+
+    public function registerAjaxCallbacks()
+    {
+
+        $optimizationActions = new OptimizationActions();
+        $optimizationActions->register();
     }
 }
