@@ -9,6 +9,9 @@ use WP_Statistics\Service\Geolocation\Provider\DbIpProvider;
 use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;
 use WP_Statistics\Utils\Request;
 
+/**
+ * @deprecated Use WP_Statistics\AjaxHandler\AjaxManager instead for global AJAX callbacks.
+ */
 class Ajax
 {
     public function __construct()
@@ -57,7 +60,11 @@ class Ajax
             ]
         ];
 
-        $list = apply_filters('wp_statistics_ajax_list', $list);
+        /**
+         * @deprecated: wp_statistics_ajax_list hook was deprecated since v14.16.
+         * Use AjaxManager class instead to define global AJAX callbacks.
+        */
+        $list = apply_filters_deprecated('wp_statistics_ajax_list', [$list], '14.16', 'wp_statistics_ajax_callbacks');
 
         foreach ($list as $item) {
             $class    = $item['class'];
