@@ -38,6 +38,7 @@ use WP_Statistics\Service\CustomEvent\CustomEventManager;
 use WP_Statistics\Service\Admin\ExportImport\ExportImportManager;
 use WP_Statistics\CLI\CliCommands;
 use WP_Statistics\Service\Admin\Optimization\OptimizationManager;
+use WP_Statistics\Globals\AjaxManager;
 
 defined('ABSPATH') || exit;
 
@@ -235,6 +236,7 @@ final class WP_Statistics
         $hooksManager       = new HooksManager();
         $customEventManager = new CustomEventManager();
         $cronEventManager   = new CronEventManager();
+        $ajaxManager        = new AjaxManager();
 
         // WordPress ShortCode and Widget
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-shortcode.php';
