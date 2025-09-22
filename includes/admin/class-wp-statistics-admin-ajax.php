@@ -64,7 +64,7 @@ class Ajax
          * @deprecated: wp_statistics_ajax_list hook was deprecated since v14.16.
          * Use AjaxManager class instead to define global AJAX callbacks.
         */
-        $list = apply_filters_deprecated('wp_statistics_ajax_list', [$list], '14.16', 'wp_statistics_ajax_callbacks');
+        $list = apply_filters('wp_statistics_ajax_list', $list);
 
         foreach ($list as $item) {
             $class    = $item['class'];
