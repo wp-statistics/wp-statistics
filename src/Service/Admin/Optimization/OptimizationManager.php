@@ -35,7 +35,6 @@ class OptimizationManager
 
     public function registerAjaxCallbacks()
     {
-
         $optimizationActions = new OptimizationActions();
         $optimizationActions->register();
     }

@@ -6,9 +6,11 @@ use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFact
 use WP_Statistics\Components\Ajax;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\IP;
+use WP_STATISTICS\Menus;
 use WP_Statistics\Models\EventsModel;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Purge;
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Geolocation\Provider\DbIpProvider;
@@ -23,16 +25,20 @@ class OptimizationActions
 
     public function register()
     {
-        Ajax::register('purge_old_data', [$this, 'purgeOldData'], false);
-        Ajax::register('purge_visitors_by_hits', [$this, 'purgeVisitorsByHits'], false);
-        Ajax::register('purge_visitors_by_ip', [$this, 'purgeVisitorsByIp'], false);
-        Ajax::register('purge_visitors_by_browser', [$this, 'purgeVisitorsByBrowser'], false);
-        Ajax::register('purge_visitors_by_platform', [$this, 'purgeVisitorsByPlatform'], false);
-        Ajax::register('clear_user_ids', [$this, 'clearUserIds'], false);
-        Ajax::register('clear_ua_strings', [$this, 'clearUAStrings'], false);
-        Ajax::register('delete_word_count_data', [$this, 'deleteWordCountData'], false);
-        Ajax::register('query_params_cleanup', [$this, 'cleanUpQueryParams'], false);
-        Ajax::register('event_data_cleanup', [$this, 'cleanUpEventData'], false);
+        if (Menus::in_page('optimization')) {
+            Ajax::register('purge_old_data', [$this, 'purgeOldData'], false);
+            Ajax::register('purge_visitors_by_hits', [$this, 'purgeVisitorsByHits'], false);
+            Ajax::register('purge_visitors_by_ip', [$this, 'purgeVisitorsByIp'], false);
+            Ajax::register('purge_visitors_by_browser', [$this, 'purgeVisitorsByBrowser'], false);
+            Ajax::register('purge_visitors_by_platform', [$this, 'purgeVisitorsByPlatform'], false);
+            Ajax::register('clear_user_ids', [$this, 'clearUserIds'], false);
+            Ajax::register('clear_ua_strings', [$this, 'clearUAStrings'], false);
+            Ajax::register('delete_word_count_data', [$this, 'deleteWordCountData'], false);
+            Ajax::register('query_params_cleanup', [$this, 'cleanUpQueryParams'], false);
+            Ajax::register('event_data_cleanup', [$this, 'cleanUpEventData'], false);
+            Ajax::register('handle_historical_setting_form', [$this, 'handleHistoricalSettingForm'], false);
+        }
+
         Ajax::register('update_country_data', [$this, 'updateCountryData'], false);
         Ajax::register('update_source_channel_data', [$this, 'updateSourceChannelData'], false);
         Ajax::register('hash_ips', [$this, 'hashIps'], false);
@@ -438,6 +444,51 @@ class OptimizationActions
             Ajax::success(esc_html__('Database schema issues have been successfully repaired.', 'wp-statistics'));
         } catch (Exception $e) {
             Ajax::error(sprintf(esc_html__('Failed to repair database schema: %s', 'wp-statistics'), $e->getMessage()), null, $e->getCode());
+        }
+    }
+
+    /**
+     * Handles AJAX requests to save historical data settings.
+     */
+    public function handleHistoricalSettingForm()
+    {
+        try {
+            $this->verifyAjaxRequest();
+            $this->checkAdminReferrer('wps_optimization');
+            $this->checkCapability('manage');
+
+            $visitors = Request::get('visitors', 0);
+            $visits   = Request::get('visits', 0);
+
+            // Update historical visitors
+            $result = Query::update('historical')
+                ->set(['value' => $visitors])
+                ->where('category', '=','visitors')
+                ->execute();
+
+            if ($result === 0) {
+                Query::insert('historical')
+                    ->set(['value' => $visitors, 'category' => 'visitors', 'page_id' => -1, 'uri' => '-1'])
+                    ->execute();
+            }
+
+            // Update historical visits
+            $result = Query::update('historical')
+                ->set(['value' => $visits])
+                ->where('category', '=','visits')
+                ->execute();
+
+            if ($result === 0) {
+                Query::insert('historical')
+                    ->set(['value' => $visits, 'category' => 'visits', 'page_id' => -2, 'uri' => '-2'])
+                    ->execute();
+            }
+
+            Notice::addFlashNotice(esc_html__('Historical Data Successfully Updated.', "wp-statistics"), "success");
+            Ajax::success();
+        } catch (Exception $e) {
+            Notice::addFlashNotice($e->getMessage(), "error");
+            Ajax::error($e->getMessage(), null, $e->getCode());
         }
     }
 }

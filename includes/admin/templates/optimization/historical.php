@@ -4,8 +4,32 @@ $historical_visitors = WP_STATISTICS\Historical::get('visitors');
 
 // Get the historical number of visits to the site
 $historical_visits = WP_STATISTICS\Historical::get('visits');
-
 ?>
+
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        $('#historical-submit').click(function(e) {
+            e.preventDefault();
+
+            $('#historical-submit').addClass('wps-loading-button');
+
+            $.ajax({
+                url: '<?php echo esc_url(admin_url('admin-ajax.php')); ?>',
+                type: 'POST',
+                data: {
+                    action: 'wp_statistics_handle_historical_setting_form',
+                    _wpnonce: '<?php echo esc_js(wp_create_nonce('wps_optimization')); ?>',
+                    visitors: $('#wps_historical_visitors').val(),
+                    visits: $('#wps_historical_visits').val()
+                },
+                complete: function(res) {
+                    location.reload();
+                }
+            });
+        });
+    });
+</script>
+
 <div class="wrap wps-wrap">
     <h2 class="wps-settings-box__title">
         <span><?php esc_html_e('Historical Data', 'wp-statistics'); ?></span>
