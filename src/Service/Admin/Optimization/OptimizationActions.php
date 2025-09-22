@@ -56,8 +56,6 @@ class OptimizationActions
     public function purgeVisitorsByHits()
     {
         try {
-            global $wpdb;
-
             $this->verifyAjaxRequest();
             $this->checkAdminReferrer('wp_rest', 'wps_nonce');
             $this->checkCapability('manage');
@@ -73,6 +71,7 @@ class OptimizationActions
                 ->execute();
 
             if ($result === false) {
+                global $wpdb;
                 throw new Exception($wpdb->last_error, 500);
             }
 
@@ -88,8 +87,6 @@ class OptimizationActions
     public function purgeVisitorsByIp()
     {
         try {
-            global $wpdb;
-
             $this->verifyAjaxRequest();
             $this->checkAdminReferrer('wp_rest', 'wps_nonce');
             $this->checkCapability('manage');
@@ -105,6 +102,7 @@ class OptimizationActions
                 ->execute();
 
             if ($result === false) {
+                global $wpdb;
                 throw new Exception($wpdb->last_error, 500);
             }
 
@@ -120,8 +118,6 @@ class OptimizationActions
     public function purgeVisitorsByBrowser()
     {
         try {
-            global $wpdb;
-
             $this->verifyAjaxRequest();
             $this->checkAdminReferrer('wp_rest', 'wps_nonce');
             $this->checkCapability('manage');
@@ -137,6 +133,7 @@ class OptimizationActions
                 ->execute();
 
             if ($result === false) {
+                global $wpdb;
                 throw new Exception($wpdb->last_error, 500);
             }
 
@@ -152,8 +149,6 @@ class OptimizationActions
     public function purgeVisitorsByPlatform()
     {
         try {
-            global $wpdb;
-
             $this->verifyAjaxRequest();
             $this->checkAdminReferrer('wp_rest', 'wps_nonce');
             $this->checkCapability('manage');
@@ -169,6 +164,7 @@ class OptimizationActions
                 ->execute();
 
             if ($result === false) {
+                global $wpdb;
                 throw new Exception($wpdb->last_error, 500);
             }
 
@@ -184,15 +180,16 @@ class OptimizationActions
     public function clearUserIds()
     {
         try {
-            global $wpdb;
-
             $this->verifyAjaxRequest();
             $this->checkAdminReferrer('wp_rest', 'wps_nonce');
             $this->checkCapability('manage');
 
-            $result = $wpdb->query("UPDATE `" . DB::table('visitor') . "` SET `user_id` = 0");
+            $result = Query::update('visitor')
+                ->set(['user_id' => 0])
+                ->execute();
 
             if ($result === false) {
+                global $wpdb;
                 throw new Exception($wpdb->last_error, 500);
             }
 
@@ -208,15 +205,16 @@ class OptimizationActions
     public function clearUAStrings()
     {
         try {
-            global $wpdb;
-
             $this->verifyAjaxRequest();
             $this->checkAdminReferrer('wp_rest', 'wps_nonce');
             $this->checkCapability('manage');
 
-            $result = $wpdb->query("UPDATE `" . DB::table('visitor') . "` SET `UAString` = NULL");
+            $result = Query::update('visitor')
+                ->set(['UAString' => null])
+                ->execute();
 
             if ($result === false) {
+                global $wpdb;
                 throw new Exception($wpdb->last_error, 500);
             }
 
@@ -232,16 +230,18 @@ class OptimizationActions
     public function deleteWordCountData()
     {
         try {
-            global $wpdb;
-
             $this->verifyAjaxRequest();
             $this->checkAdminReferrer('wp_rest', 'wps_nonce');
             $this->checkCapability('manage');
 
-            $result = $wpdb->query("DELETE FROM `" . $wpdb->postmeta . "` WHERE `meta_key` = 'wp_statistics_words_count'");
             Option::deleteOptionGroup('word_count_process_initiated', 'jobs');
 
+            $result = Query::delete('postmeta')
+                ->where('meta_key', '=', 'wp_statistics_words_count')
+                ->execute();
+
             if ($result === false) {
+                global $wpdb;
                 throw new Exception($wpdb->last_error, 500);
             }
 
@@ -257,8 +257,6 @@ class OptimizationActions
     public function cleanUpQueryParams()
     {
         try {
-            global $wpdb;
-
             $this->verifyAjaxRequest();
             $this->checkAdminReferrer('wp_rest', 'wps_nonce');
             $this->checkCapability('manage');
@@ -267,16 +265,18 @@ class OptimizationActions
             $allowedQueryParams = Helper::get_query_params_allow_list();
 
             // Get all rows from pages table
-            $pages = $wpdb->get_results("SELECT * FROM `" . DB::table('pages') . "`");
+            $pages = Query::select('*')
+                ->from('pages')
+                ->where('uri', 'LIKE', '%?%')
+                ->getAll();
 
             if ($pages) {
                 // Update query strings based on allow list
                 foreach ($pages as $page) {
-                    $wpdb->update(
-                        DB::table('pages'),
-                        ['uri' => Helper::FilterQueryStringUrl($page->uri, $allowedQueryParams)],
-                        ['page_id' => $page->page_id]
-                    );
+                    Query::update('pages')
+                        ->set(['uri' => Helper::FilterQueryStringUrl($page->uri, $allowedQueryParams)])
+                        ->where('page_id', '=', $page->page_id)
+                        ->execute();
                 }
             }
 
@@ -292,8 +292,6 @@ class OptimizationActions
     public function cleanUpEventData()
     {
         try {
-            global $wpdb;
-
             $this->verifyAjaxRequest();
             $this->checkAdminReferrer('wp_rest', 'wps_nonce');
             $this->checkCapability('manage');
@@ -308,6 +306,7 @@ class OptimizationActions
             $result      = $eventsModel->deleteEvents(['event_name' => $eventName]);
 
             if ($result === false) {
+                global $wpdb;
                 throw new Exception($wpdb->last_error, 500);
             }
 
