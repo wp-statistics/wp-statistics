@@ -87,7 +87,8 @@
                                 })
                                 .fail(function (jqXHR, wpsTextStatus, wpsErrorThrown) {
                                     // Display the raw response for debugging
-                                    const errorMessage = jqXHR.responseText || wpsTextStatus + ': ' + wpsErrorThrown;
+                                    const response = JSON.parse(jqXHR.responseText);
+                                    const errorMessage = response ? response.message : wpsTextStatus + ': ' + wpsErrorThrown;
                                     wpsResult.html('<div class="wps-alert wps-alert__danger"><p>' + errorMessage + '</p></div>');
                                 })
                                 .always(function () {
