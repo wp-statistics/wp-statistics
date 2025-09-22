@@ -111,7 +111,7 @@
                 buttonId: '#purge-data-submit',
                 selectId: '#purge-data',
                 resultId: '#purge-data-result',
-                action: 'wp_statistics_purge_data',
+                action: 'wp_statistics_purge_old_data',
                 dataKey: 'purge-days',
                 validateValue: (wpsValue) => parseInt(wpsValue) >= 30,
                 callback: () => $('#wps_historical_purge').show()

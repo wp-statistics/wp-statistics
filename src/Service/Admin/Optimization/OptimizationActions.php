@@ -23,7 +23,7 @@ class OptimizationActions
 
     public function register()
     {
-        Ajax::register('purge_data', [$this, 'purgeOldData'], false);
+        Ajax::register('purge_old_data', [$this, 'purgeOldData'], false);
         Ajax::register('purge_visitors_by_hits', [$this, 'purgeVisitorsByHits'], false);
         Ajax::register('purge_visitors_by_ip', [$this, 'purgeVisitorsByIp'], false);
         Ajax::register('purge_visitors_by_browser', [$this, 'purgeVisitorsByBrowser'], false);
