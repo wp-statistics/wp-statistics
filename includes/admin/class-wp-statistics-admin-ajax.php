@@ -109,31 +109,31 @@ class Ajax
             //     'action' => 'delete_word_count_data',
             //     'public' => false
             // ],
-            [
-                'class'  => $this,
-                'action' => 'update_country_data',
-                'public' => false,
-            ],
-            [
-                'class'  => $this,
-                'action' => 'update_source_channel',
-                'public' => false,
-            ],
-            [
-                'class'  => $this,
-                'action' => 'hash_ips',
-                'public' => false,
-            ],
-            [
-                'class'  => $this,
-                'action' => 'repair_schema',
-                'public' => false,
-            ],
-            [
-                'class'  => $this,
-                'action' => 're_check_schema',
-                'public' => false,
-            ],
+            // [
+            //     'class'  => $this,
+            //     'action' => 'update_country_data',
+            //     'public' => false,
+            // ],
+            // [
+            //     'class'  => $this,
+            //     'action' => 'update_source_channel',
+            //     'public' => false,
+            // ],
+            // [
+            //     'class'  => $this,
+            //     'action' => 'hash_ips',
+            //     'public' => false,
+            // ],
+            // [
+            //     'class'  => $this,
+            //     'action' => 'repair_schema',
+            //     'public' => false,
+            // ],
+            // [
+            //     'class'  => $this,
+            //     'action' => 're_check_schema',
+            //     'public' => false,
+            // ],
         ];
 
         $list = apply_filters('wp_statistics_ajax_list', $list);

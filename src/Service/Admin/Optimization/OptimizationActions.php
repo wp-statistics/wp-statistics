@@ -2,12 +2,17 @@
 namespace WP_Statistics\Service\Admin\Optimization;
 
 use Exception;
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory;
 use WP_Statistics\Components\Ajax;
-use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\IP;
 use WP_Statistics\Models\EventsModel;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Purge;
+use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Service\Geolocation\Provider\DbIpProvider;
+use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;
 use WP_Statistics\Traits\AjaxUtilityTrait;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Utils\Request;
@@ -28,6 +33,11 @@ class OptimizationActions
         Ajax::register('delete_word_count_data', [$this, 'deleteWordCountData'], false);
         Ajax::register('query_params_cleanup', [$this, 'cleanUpQueryParams'], false);
         Ajax::register('event_data_cleanup', [$this, 'cleanUpEventData'], false);
+        Ajax::register('update_country_data', [$this, 'updateCountryData'], false);
+        Ajax::register('update_source_channel_data', [$this, 'updateSourceChannelData'], false);
+        Ajax::register('hash_ips', [$this, 'hashIps'], false);
+        Ajax::register('recheck_schema', [$this, 'recheckSchema'], false);
+        Ajax::register('repair_schema', [$this, 'repairSchema'], false);
     }
 
     /**
@@ -313,6 +323,121 @@ class OptimizationActions
             Ajax::success(esc_html__('Successfully removed event data from `events` table.', 'wp-statistics'));
         } catch (Exception $e) {
             Ajax::error($e->getMessage(), null, $e->getCode());
+        }
+    }
+
+    /**
+     * Update GeoIP data for visitors with incomplete information.
+     */
+    public function updateCountryData()
+    {
+        try {
+            $this->verifyAjaxRequest();
+            $this->checkAdminReferrer('wp_rest', 'wps_nonce');
+            $this->checkCapability('manage');
+
+            $providerMap = [
+                'maxmind' => MaxmindGeoIPProvider::class,
+                'dbip'    => DbIpProvider::class
+            ];
+
+            $method   = Option::get('geoip_location_detection_method', 'maxmind');
+            $method   = false;
+
+            $provider = $providerMap[$method] ?? $providerMap['maxmind'];
+
+            // First download/update the GeoIP database
+            GeolocationFactory::downloadDatabase($provider);
+
+            // Update GeoIP data for visitors with incomplete information
+            BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
+
+            Ajax::success(esc_html__('GeoIP update successfully.', 'wp-statistics'));
+        } catch (Exception $e) {
+            Ajax::error(sprintf(esc_html__('GeoIP update failed: %s', 'wp-statistics'), $e->getMessage()), null, $e->getCode());
+        }
+    }
+
+    /**
+     * Handles AJAX requests to update the source channel data for visitors.
+     */
+    public function updateSourceChannelData()
+    {
+        try {
+            $this->verifyAjaxRequest();
+            $this->checkAdminReferrer('wp_rest', 'wps_nonce');
+            $this->checkCapability('manage');
+
+            BackgroundProcessFactory::batchUpdateSourceChannelForVisitors();
+
+            Ajax::success(esc_html__('Source channel update successfully.', 'wp-statistics'));
+        } catch (Exception $e) {
+            Ajax::error(sprintf(esc_html__('Source channel update failed: %s', 'wp-statistics'), $e->getMessage()), null, $e->getCode());
+        }
+    }
+
+
+    /**
+     * Handles AJAX requests to anonymize IP addresses of visitors.
+     */
+    public function hashIps()
+    {
+        try {
+            $this->verifyAjaxRequest();
+            $this->checkAdminReferrer('wp_rest', 'wps_nonce');
+            $this->checkCapability('manage');
+
+            $result = IP::Update_HashIP_Visitor();
+
+            Ajax::success(sprintf(esc_html__('Successfully anonymized `%d` IP addresses using hash values.', 'wp-statistics'), $result));
+        } catch (Exception $e) {
+            Ajax::error(sprintf(esc_html__('IP anonymization failed: %s', 'wp-statistics'), $e->getMessage()), null, $e->getCode());
+        }
+    }
+
+    /**
+     * Callback function to check the database schema via AJAX.
+     */
+    public function recheckSchema()
+    {
+        try {
+            $this->verifyAjaxRequest();
+            $this->checkAdminReferrer('wp_rest', 'wps_nonce');
+            $this->checkCapability('manage');
+
+            $schemaCheckResult = SchemaMaintainer::check(true);
+            $databaseStatus    = $schemaCheckResult['status'] ?? null;
+
+            if ($databaseStatus !== 'success') {
+                throw new Exception(esc_html__('Database issues were detected. Please refresh the page to see the "Repair Schema Issues" button.', 'wp-statistics'));
+            }
+
+            Ajax::success(esc_html__('The database was checked and no issues were found.', 'wp-statistics'));
+        } catch (Exception $e) {
+            Ajax::error(sprintf(esc_html__('An error occurred while checking the database: %s', 'wp-statistics'), $e->getMessage()), null, $e->getCode());
+        }
+    }
+
+    /**
+     * Handles AJAX requests to repair database schema issues
+     */
+    public function repairSchema()
+    {
+        try {
+            $this->verifyAjaxRequest();
+            $this->checkAdminReferrer('wp_rest', 'wps_nonce');
+            $this->checkCapability('manage');
+
+            $schemaRepairResult = SchemaMaintainer::repair();
+            $databaseStatus     = $schemaRepairResult['status'] ?? null;
+
+            if ($databaseStatus !== 'success') {
+                throw new Exception(esc_html__('Database schema issues have been successfully repaired.', 'wp-statistics'));
+            }
+
+            Ajax::success(esc_html__('Database schema issues have been successfully repaired.', 'wp-statistics'));
+        } catch (Exception $e) {
+            Ajax::error(sprintf(esc_html__('Failed to repair database schema: %s', 'wp-statistics'), $e->getMessage()), null, $e->getCode());
         }
     }
 }
