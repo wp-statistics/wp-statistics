@@ -25,20 +25,17 @@ class OptimizationActions
 
     public function register()
     {
-        if (Menus::in_page('optimization')) {
-            Ajax::register('purge_old_data', [$this, 'purgeOldData'], false);
-            Ajax::register('purge_visitors_by_hits', [$this, 'purgeVisitorsByHits'], false);
-            Ajax::register('purge_visitors_by_ip', [$this, 'purgeVisitorsByIp'], false);
-            Ajax::register('purge_visitors_by_browser', [$this, 'purgeVisitorsByBrowser'], false);
-            Ajax::register('purge_visitors_by_platform', [$this, 'purgeVisitorsByPlatform'], false);
-            Ajax::register('clear_user_ids', [$this, 'clearUserIds'], false);
-            Ajax::register('clear_ua_strings', [$this, 'clearUAStrings'], false);
-            Ajax::register('delete_word_count_data', [$this, 'deleteWordCountData'], false);
-            Ajax::register('query_params_cleanup', [$this, 'cleanUpQueryParams'], false);
-            Ajax::register('event_data_cleanup', [$this, 'cleanUpEventData'], false);
-            Ajax::register('handle_historical_setting_form', [$this, 'handleHistoricalSettingForm'], false);
-        }
-
+        Ajax::register('purge_old_data', [$this, 'purgeOldData'], false);
+        Ajax::register('purge_visitors_by_hits', [$this, 'purgeVisitorsByHits'], false);
+        Ajax::register('purge_visitors_by_ip', [$this, 'purgeVisitorsByIp'], false);
+        Ajax::register('purge_visitors_by_browser', [$this, 'purgeVisitorsByBrowser'], false);
+        Ajax::register('purge_visitors_by_platform', [$this, 'purgeVisitorsByPlatform'], false);
+        Ajax::register('clear_user_ids', [$this, 'clearUserIds'], false);
+        Ajax::register('clear_ua_strings', [$this, 'clearUAStrings'], false);
+        Ajax::register('delete_word_count_data', [$this, 'deleteWordCountData'], false);
+        Ajax::register('query_params_cleanup', [$this, 'cleanUpQueryParams'], false);
+        Ajax::register('event_data_cleanup', [$this, 'cleanUpEventData'], false);
+        Ajax::register('handle_historical_setting_form', [$this, 'handleHistoricalSettingForm'], false);
         Ajax::register('update_country_data', [$this, 'updateCountryData'], false);
         Ajax::register('update_source_channel_data', [$this, 'updateSourceChannelData'], false);
         Ajax::register('hash_ips', [$this, 'hashIps'], false);
@@ -457,8 +454,8 @@ class OptimizationActions
             $this->checkAdminReferrer('wps_optimization');
             $this->checkCapability('manage');
 
-            $visitors = Request::get('visitors', 0);
-            $visits   = Request::get('visits', 0);
+            $visitors = Request::get('visitors', 0, 'number');
+            $visits   = Request::get('visitors', 0, 'number');
 
             // Update historical visitors
             $result = Query::update('historical')
