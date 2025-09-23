@@ -126,9 +126,7 @@ class SourceCategoryChartDataProvider extends AbstractChartDataProvider
     {
         $labels = array_map(
             function ($date) {
-                return [
-                    'date' => date('Y-m-d', strtotime($date)),
-                ];
+                return date('Y-m-d', strtotime($date));
             },
             $dateRange
         );
