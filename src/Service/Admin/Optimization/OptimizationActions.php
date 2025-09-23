@@ -6,7 +6,6 @@ use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFact
 use WP_Statistics\Components\Ajax;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\IP;
-use WP_STATISTICS\Menus;
 use WP_Statistics\Models\EventsModel;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Purge;
@@ -106,8 +105,7 @@ class OptimizationActions
 
             // Throw error on failure
             if ($result === false) {
-                global $wpdb;
-                throw new Exception($wpdb->last_error, 500);
+                throw new Exception('Something went wrong on the server. Please try again in a few minutes or contact support.', 500);
             }
 
             Ajax::success(sprintf(esc_html__('%s Records Successfully Purged.', 'wp-statistics'), "<code>$result</code>"));
@@ -131,8 +129,7 @@ class OptimizationActions
                 ->execute();
 
             if ($result === false) {
-                global $wpdb;
-                throw new Exception($wpdb->last_error, 500);
+                throw new Exception('Something went wrong on the server. Please try again in a few minutes or contact support.', 500);
             }
 
             Ajax::success(esc_html__('Successfully deleted User ID data.', 'wp-statistics'));
@@ -156,8 +153,7 @@ class OptimizationActions
                 ->execute();
 
             if ($result === false) {
-                global $wpdb;
-                throw new Exception($wpdb->last_error, 500);
+                throw new Exception('Something went wrong on the server. Please try again in a few minutes or contact support.', 500);
             }
 
             Ajax::success(esc_html__('Successfully deleted user agent strings data.', 'wp-statistics'));
@@ -183,8 +179,7 @@ class OptimizationActions
                 ->execute();
 
             if ($result === false) {
-                global $wpdb;
-                throw new Exception($wpdb->last_error, 500);
+                throw new Exception('Something went wrong on the server. Please try again in a few minutes or contact support.', 500);
             }
 
             Ajax::success(esc_html__('Successfully deleted word count data.', 'wp-statistics'));
@@ -248,8 +243,7 @@ class OptimizationActions
             $result      = $eventsModel->deleteEvents(['event_name' => $eventName]);
 
             if ($result === false) {
-                global $wpdb;
-                throw new Exception($wpdb->last_error, 500);
+                throw new Exception('Something went wrong on the server. Please try again in a few minutes or contact support.', 500);
             }
 
             Ajax::success(esc_html__('Successfully removed event data from `events` table.', 'wp-statistics'));
