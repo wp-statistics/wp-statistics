@@ -278,9 +278,6 @@ class Admin_Assets
     {
         global $post;
 
-        $settings = get_option('wpp_settings', []);
-
-
         //Global Option
         $list['options'] = array(
             'rtl'            => (is_rtl() ? 1 : 0),
