@@ -295,7 +295,7 @@ class Admin_Assets
             'wp_date_format' => Helper::getDefaultDateFormat(),
             'track_users'    => Option::get('visitors_log') ? 1 : 0,
             'wp_timezone'    => DateTime::getTimezone()->getName(),
-            'wp_lang'        => get_locale(),
+            'wp_lang'        => get_user_locale(),
             'textDirection'  => 'ltr',
         );
 
