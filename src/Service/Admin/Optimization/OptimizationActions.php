@@ -26,10 +26,7 @@ class OptimizationActions
     public function register()
     {
         Ajax::register('purge_old_data', [$this, 'purgeOldData'], false);
-        Ajax::register('purge_visitors_by_hits', [$this, 'purgeVisitorsByHits'], false);
-        Ajax::register('purge_visitors_by_ip', [$this, 'purgeVisitorsByIp'], false);
-        Ajax::register('purge_visitors_by_browser', [$this, 'purgeVisitorsByBrowser'], false);
-        Ajax::register('purge_visitors_by_platform', [$this, 'purgeVisitorsByPlatform'], false);
+        Ajax::register('purge_visitors', [$this, 'purgeVisitors'], false);
         Ajax::register('clear_user_ids', [$this, 'clearUserIds'], false);
         Ajax::register('clear_ua_strings', [$this, 'clearUAStrings'], false);
         Ajax::register('delete_word_count_data', [$this, 'deleteWordCountData'], false);
@@ -64,124 +61,56 @@ class OptimizationActions
     }
 
     /**
-     * Setup an AJAX action to purge visitors by hits.
+     * Setup an AJAX action to purge visitors.
      */
-    public function purgeVisitorsByHits()
+    public function purgeVisitors()
     {
         try {
             $this->verifyAjaxRequest();
             $this->checkAdminReferrer('wp_rest', 'wps_nonce');
             $this->checkCapability('manage');
 
-            $hits = Request::get('purge-hits', 10, 'number');
+            $hits     = Request::get('purge-hits');
+            $ip       = Request::get('ip-address');
+            $browser  = Request::get('agent-name');
+            $platform = Request::get('platform-name');
 
-            if ($hits < 10) {
-                throw new Exception(esc_html__('View count must be 10 or more! Please enter a valid number and try again.', 'wp-statistics'), 400);
+            // Throw error if all fields are empty
+            if (!$hits && !$ip && !$browser && !$platform) {
+                throw new Exception(esc_html__('Please select at least one field to purge.', 'wp-statistics'), 400);
             }
 
-            $result = Query::delete('visitor')
-                ->where('hits', '>', $hits)
-                ->execute();
+            // Purge visitors by hits
+            if ($hits !== false) {
+                if (!is_numeric($hits) || $hits < 10) {
+                    throw new Exception(esc_html__('View count must be 10 or more! Please enter a valid number and try again.', 'wp-statistics'), 400);
+                }
 
+                $result = Query::delete('visitor')->where('hits', '>', $hits)->execute();
+            }
+
+            // Purge visitors by IP
+            if ($ip !== false) {
+                $result = Query::delete('visitor')->where('ip', '=', $ip)->execute();
+            }
+
+            // Purge visitors by browser
+            if ($browser !== false) {
+                $result = Query::delete('visitor')->where('agent', '=', $browser)->execute();
+            }
+
+            // Purge visitors by platform
+            if ($platform !== false) {
+                $result = Query::delete('visitor')->where('platform', '=', $platform)->execute();
+            }
+
+            // Throw error on failure
             if ($result === false) {
                 global $wpdb;
                 throw new Exception($wpdb->last_error, 500);
             }
 
             Ajax::success(sprintf(esc_html__('%s Records Successfully Purged.', 'wp-statistics'), "<code>$result</code>"));
-        } catch (Exception $e) {
-            Ajax::error($e->getMessage(), null, $e->getCode());
-        }
-    }
-
-    /**
-     * Setup an AJAX action to purge visitors by IP.
-     */
-    public function purgeVisitorsByIp()
-    {
-        try {
-            $this->verifyAjaxRequest();
-            $this->checkAdminReferrer('wp_rest', 'wps_nonce');
-            $this->checkCapability('manage');
-
-            $ip = Request::get('ip-address');
-
-            if (empty($ip)) {
-                throw new Exception(esc_html__('Invalid IP address provided! Please enter a valid IP and try again.', 'wp-statistics'), 400);
-            }
-
-            $result = Query::delete('visitor')
-                ->where('ip', '=', $ip)
-                ->execute();
-
-            if ($result === false) {
-                global $wpdb;
-                throw new Exception($wpdb->last_error, 500);
-            }
-
-            Ajax::success(sprintf(esc_html__('Successfully deleted %s IP data.', 'wp-statistics'), "<code>$ip</code>"));
-        } catch (Exception $e) {
-            Ajax::error($e->getMessage(), null, $e->getCode());
-        }
-    }
-
-    /**
-     * Setup an AJAX action to purge visitors by browser.
-     */
-    public function purgeVisitorsByBrowser()
-    {
-        try {
-            $this->verifyAjaxRequest();
-            $this->checkAdminReferrer('wp_rest', 'wps_nonce');
-            $this->checkCapability('manage');
-
-            $browser = Request::get('agent-name');
-
-            if (empty($browser)) {
-                throw new Exception(esc_html__('Invalid agent name provided! Please enter a valid agent and try again.', 'wp-statistics'), 400);
-            }
-
-            $result = Query::delete('visitor')
-                ->where('agent', '=', $browser)
-                ->execute();
-
-            if ($result === false) {
-                global $wpdb;
-                throw new Exception($wpdb->last_error, 500);
-            }
-
-            Ajax::success(sprintf(esc_html__('Successfully deleted %s agent data.', 'wp-statistics'), "<code>$browser</code>"));
-        } catch (Exception $e) {
-            Ajax::error($e->getMessage(), null, $e->getCode());
-        }
-    }
-
-    /**
-     * Setup an AJAX action to purge visitors by platform.
-     */
-    public function purgeVisitorsByPlatform()
-    {
-        try {
-            $this->verifyAjaxRequest();
-            $this->checkAdminReferrer('wp_rest', 'wps_nonce');
-            $this->checkCapability('manage');
-
-            $platform = Request::get('platform-name');
-
-            if (empty($platform)) {
-                throw new Exception(esc_html__('Invalid platform name provided! Please enter a valid platform and try again.', 'wp-statistics'), 400);
-            }
-
-            $result = Query::delete('visitor')
-                ->where('platform', '=', $platform)
-                ->execute();
-
-            if ($result === false) {
-                global $wpdb;
-                throw new Exception($wpdb->last_error, 500);
-            }
-
-            Ajax::success(sprintf(esc_html__('Successfully deleted %s platform data.', 'wp-statistics'), "<code>$platform</code>"));
         } catch (Exception $e) {
             Ajax::error($e->getMessage(), null, $e->getCode());
         }

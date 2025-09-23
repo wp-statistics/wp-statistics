@@ -121,7 +121,7 @@
                 buttonId: '#purge-visitor-hits-submit',
                 selectId: '#purge-visitor-hits',
                 resultId: '#purge-visitor-hits-result',
-                action: 'wp_statistics_purge_visitors_by_hits',
+                action: 'wp_statistics_purge_visitors',
                 dataKey: 'purge-hits',
                 validateValue: (wpsValue) => parseInt(wpsValue) >= 10
             },
@@ -129,7 +129,7 @@
                 buttonId: '#delete-agents-submit',
                 selectId: '#delete-agent',
                 resultId: '#delete-agents-result',
-                action: 'wp_statistics_purge_visitors_by_browser',
+                action: 'wp_statistics_purge_visitors',
                 dataKey: 'agent-name',
                 callback: (wpsValue) => {
                     const wpsAid = wpsValue.replace(/[^a-zA-Z]/g, "");
@@ -140,7 +140,7 @@
                 buttonId: '#delete-platforms-submit',
                 selectId: '#delete-platform',
                 resultId: '#delete-platforms-result',
-                action: 'wp_statistics_purge_visitors_by_platform',
+                action: 'wp_statistics_purge_visitors',
                 dataKey: 'platform-name',
                 callback: (wpsValue) => {
                     const wpsPid = wpsValue.replace(/[^a-zA-Z]/g, "");
@@ -151,7 +151,7 @@
                 buttonId: '#delete-ip-submit',
                 selectId: '#delete-ip',
                 resultId: '#delete-ip-result',
-                action: 'wp_statistics_purge_visitors_by_ip',
+                action: 'wp_statistics_purge_visitors',
                 dataKey: 'ip-address',
                 validateValue: (wpsValue) => /^(\d{1,3}\.){3}\d{1,3}$/.test(wpsValue),
                 callback: () => $('#delete-ip').val('')
