@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\DashboardBootstrap;
 
 use WP_Statistics\Service\Admin\Assets\AdminAssetsFactory;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\MigrationPageController;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\SettingsController;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Requests\AjaxManager;
 
 /**
@@ -66,6 +67,7 @@ class DashboardManager
     {
         $this->controllers = [
             'migration' => new MigrationPageController(),
+            'settings' => new SettingsController()
         ];
     }
 
