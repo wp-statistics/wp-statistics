@@ -36,6 +36,7 @@ use WP_Statistics\Service\Database\Migrations\Schema\SchemaManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
 use WP_Statistics\Service\CustomEvent\CustomEventManager;
 use WP_Statistics\Service\Admin\ExportImport\ExportImportManager;
+use WP_Statistics\Service\Summary\SummaryManager;
 
 defined('ABSPATH') || exit;
 
@@ -231,6 +232,7 @@ final class WP_Statistics
         $hooksManager       = new HooksManager();
         $customEventManager = new CustomEventManager();
         $cronEventManager   = new CronEventManager();
+        $summaryManager     = new SummaryManager();
 
         // WordPress ShortCode and Widget
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-shortcode.php';
