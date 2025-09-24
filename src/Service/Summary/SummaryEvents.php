@@ -14,7 +14,7 @@ class SummaryEvents
         * Start recording summary data from tomorrow onward, and continue daily.
         * This prevents partial data from being recorded for today, ensuring summaries only include complete days.
         */
-        $timestamp = DateTime::get('midnight +2 days', 'U');
+        $timestamp = DateTime::get('midnight +1 days', 'U');
 
         Event::schedule('wp_statistics_record_summary_totals_data', $timestamp, 'daily', [$this, 'recordSummaryTotalsData']);
     }
