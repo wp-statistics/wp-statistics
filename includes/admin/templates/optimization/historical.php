@@ -65,7 +65,7 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
                         <label for="wps_historical_visits"><?php esc_html_e('Historical Total Site Views', 'wp-statistics'); ?></label>
                     </th>
                     <td>
-                        <input type="text" size="10" value="<?php echo esc_attr($historical_visits); ?>" id="wps_historical_visits" name="wps_historical_visits">
+                        <input type="number" min="0" size="10" value="<?php echo esc_attr($historical_visits); ?>" id="wps_historical_visits" name="wps_historical_visits">
                         <p class="description"><?php echo sprintf(__('Enter the total number of site visits (including repeat visits) from its start until now. If your previous tool indicated 20,000 total site visits before moving to WP Statistics, input that number. This allows for a seamless integration of past site visit data. Currently set to %s.', 'wp-statistics'), esc_html(number_format_i18n($historical_visits))); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></p>
                     </td>
                 </tr>

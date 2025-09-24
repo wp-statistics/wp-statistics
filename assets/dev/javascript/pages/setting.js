@@ -213,54 +213,61 @@ window.onload = function () {
         });
     }
 
-    const historicalInput = document.getElementById('wps_historical_visitors');
+
+    const historicalInputs = document.querySelectorAll('[data-id^="historical_total_"] input[type="number"]');
     const historicalSubmitButton = document.getElementById('historical-submit');
 
-    if (historicalInput && historicalSubmitButton) {
+
+    if (historicalInputs.length === 2 && historicalSubmitButton) {
         function validateInput(value) {
             return /^\d+$/.test(value);
         }
 
         function updateInputState() {
-            const value = historicalInput.value;
-            if (!validateInput(value)) {
-                historicalInput.classList.add('invalid');
-                historicalSubmitButton.disabled = true;
-            } else {
-                historicalInput.classList.remove('invalid');
-                historicalSubmitButton.disabled = false;
-            }
+            let allValid = true;
+            historicalInputs.forEach(input => {
+                const value = input.value;
+                if (!validateInput(value)) {
+                    input.classList.add('invalid');
+                    allValid = false;
+                } else {
+                    input.classList.remove('invalid');
+                }
+            });
+            historicalSubmitButton.disabled = !allValid;
         }
 
-        historicalInput.addEventListener('input', updateInputState);
+        historicalInputs.forEach(input => {
+            input.addEventListener('input', updateInputState);
 
-        historicalInput.addEventListener('keydown', function(e) {
-            const invalidKeys = ['+', '-', 'e', 'E'];
-            if (invalidKeys.includes(e.key)) {
+            input.addEventListener('keydown', function(e) {
+                const invalidKeys = ['+', '-', 'e', 'E', '.'];
+                if (invalidKeys.includes(e.key)) {
+                    e.preventDefault();
+                }
+            });
+
+            input.addEventListener('paste', function(e) {
+                const pastedData = e.clipboardData.getData('text');
+                if (!validateInput(pastedData)) {
+                    e.preventDefault();
+                    input.classList.add('invalid');
+                    historicalSubmitButton.disabled = true;
+                }
+            });
+
+            input.addEventListener('drop', function(e) {
                 e.preventDefault();
-            }
-        });
+                const droppedData = e.dataTransfer.getData('text');
+                if (validateInput(droppedData)) {
+                    input.value = droppedData;
+                }
+                updateInputState();
+            });
 
-        historicalInput.addEventListener('paste', function(e) {
-            const pastedData = e.clipboardData.getData('text');
-            if (!validateInput(pastedData)) {
+            input.addEventListener('dragover', function(e) {
                 e.preventDefault();
-                historicalInput.classList.add('invalid');
-                historicalSubmitButton.disabled = true;
-            }
-        });
-
-        historicalInput.addEventListener('drop', function(e) {
-            e.preventDefault();
-            const droppedData = e.dataTransfer.getData('text');
-            if (validateInput(droppedData)) {
-                historicalInput.value = droppedData;
-            }
-            updateInputState();
-        });
-
-        historicalInput.addEventListener('dragover', function(e) {
-            e.preventDefault();
+            });
         });
 
         updateInputState();
