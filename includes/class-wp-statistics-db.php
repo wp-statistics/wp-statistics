@@ -21,6 +21,7 @@ class DB
         'pages',
         'historical',
         'visitor_relationships',
+        'summary_totals',
 
         /**
          * Data Plus Table
@@ -89,6 +90,7 @@ class DB
             'pages'                 => __('This table logs the number of views each page on your website receives. Each row represents the data for a specific page.', 'wp-statistics'),
             'historical'            => __('This table stores historical data about views and visitors over time. It\'s useful for tracking trends and patterns in your website\'s traffic.', 'wp-statistics'),
             'visitor_relationships' => __('This table captures the relationships between visitors and the content they interact with, helping you understand user behavior and preferences.', 'wp-statistics'),
+            'summary_totals'        => __('This table stores daily summary data of views and visitors.', 'wp-statistics'),
 
             /**
              * Data Plus Table
@@ -149,7 +151,7 @@ class DB
                 $inspect = DatabaseFactory::table('inspect')
                     ->setName($tbl)
                     ->execute();
-                
+
                 if ($inspect->getResult()) {
                     $list[$tbl] = $table_name;
                 }
