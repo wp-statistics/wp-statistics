@@ -69,7 +69,7 @@ trait AjaxUtilityTrait
         $adminUrl = strtolower(admin_url());
 		$referer  = strtolower(wp_get_referer());
 
-        if (!wp_verify_nonce($nonce, $action) || !str_starts_with($referer, $adminUrl)) {
+        if (!wp_verify_nonce($nonce, $action) || strpos($referer, $adminUrl) !== 0) {
             throw new Exception(esc_html__('The request does not come from the admin dashboard or is invalid.', 'wp-statistics'), 403);
         }
     }
