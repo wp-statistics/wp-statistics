@@ -55,7 +55,7 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
                         <label for="wps_historical_visitors"><?php esc_html_e('Historical Total Visitors', 'wp-statistics'); ?></label>
                     </th>
                     <td>
-                        <input type="text" size="10" value="<?php echo esc_attr($historical_visitors); ?>" id="wps_historical_visitors" name="wps_historical_visitors">
+                        <input type="number" min="0" size="10" value="<?php echo esc_attr($historical_visitors); ?>" id="wps_historical_visitors" name="wps_historical_visitors">
                         <p class="description"><?php echo sprintf(__('Enter the accumulated count of unique visitors to your site from its inception up to now. For example, if you\'ve transitioned from another tracking tool and it reported 5,000 unique visitors up to the point of switching, input that figure here. This ensures your statistics reflect the entire history of your website\'s traffic. Currently set to %s.', 'wp-statistics'), esc_html(number_format_i18n($historical_visitors))); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></p>
                     </td>
                 </tr>

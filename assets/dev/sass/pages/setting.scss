@@ -5,6 +5,24 @@
 #poststuff.wps-wrap__settings {
   padding: 0;
 
+  #wps_historical_visitors::-webkit-inner-spin-button,
+  #wps_historical_visitors::-webkit-outer-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0;
+  }
+  #wps_historical_visitors {
+    -moz-appearance: textfield !important;
+  }
+
+  input[type="number"] {
+    -webkit-appearance: none!important;
+    -moz-appearance: textfield!important;
+
+    &.invalid{
+      border: 1px solid #d5201c!important;
+    }
+  }
+
   .wps-settings-side {
     &__title {
       color: #565759;
