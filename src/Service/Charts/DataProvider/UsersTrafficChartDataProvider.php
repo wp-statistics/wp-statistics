@@ -82,7 +82,7 @@ class UsersTrafficChartDataProvider extends AbstractChartDataProvider
         foreach ($dates as $date) {
             $parsedData['labels'][]   = [
                 'formatted_date'    => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
-                'date'              => date_i18n('Y-m-d', strtotime($date)),
+                'date'              => date('Y-m-d', strtotime($date)),
                 'day'               => date_i18n('D', strtotime($date))
             ];
             $parsedData['users'][]  = isset($loggedIn[$date]) ? intval($loggedIn[$date]) : 0;
