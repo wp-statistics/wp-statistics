@@ -107,22 +107,12 @@ const externalTooltipHandler = (context, data, dateLabels, prevDateLabels, month
         const dataIndex = tooltip.dataPoints[0].dataIndex;
         const datasets = chart.data.datasets;
         let innerHtml = `<div>`;
-        const phpDateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
-        let momentDateFormat = phpToMomentFormat(phpDateFormat);
-        momentDateFormat = momentDateFormat
-            .replace(/\/YYYY|YYYY/g, '')
-            .replace(/,\s*$/, '')
-            .replace(/^\s*,/, '')
-            .trim();
-        titleLines.forEach(title => {
+        titleLines.forEach(() => {
             if (unitTime === 'day') {
                 const label = (data.data) ? data.data.labels[dataIndex] : data.labels[dataIndex];
-                const {date, day} = label; // Ensure `date` and `day` are correctly extracted
-                innerHtml += `<div class="chart-title">${moment(date).format(momentDateFormat)} (${day})</div>`;
-            } else if (unitTime === 'month') {
-                innerHtml += `<div class="chart-title">${monthTooltip[dataIndex]}</div>`;
+                innerHtml += `<div class="chart-title">${label.formatted_date} (${label.day})</div>`;
             } else {
-                innerHtml += `<div class="chart-title">${dateLabels[dataIndex]}</div>`;
+                innerHtml += `<div class="chart-title">${monthTooltip[dataIndex]}</div>`;
             }
         });
 
@@ -153,7 +143,7 @@ const externalTooltipHandler = (context, data, dateLabels, prevDateLabels, month
                     if (unitTime === 'day') {
                         const prevLabelObj = prevFullLabels && prevFullLabels[dataIndex];
                         if (prevLabelObj) {
-                            previousLabel = `${moment(prevLabelObj.date).format(momentDateFormat)} (${prevLabelObj.day})`;
+                            previousLabel = `${prevLabelObj.formatted_date} (${prevLabelObj.day})`;
                         } else {
                             previousLabel = prevDateLabels[dataIndex] || 'N/A';
                         }
@@ -241,18 +231,17 @@ const formatDateRange = (startDate, endDate, unit, momentDateFormat, isInsideDas
             .trim();
         return moment(startDate).format(monthFormat);
     } else {
-        return `${moment(startDate).format(cleanFormat)} to ${moment(endDate).format(cleanFormat)}`;
+        return `${moment(startDate).format(cleanFormat)} ${wps_js._('to_range')} ${moment(endDate).format(cleanFormat)}`;
     }
 }
 
 const setMonthDateRange = (startDate, endDate, momentDateFormat) => {
     const startDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
-    return `${moment(startDate).format(startDateFormat)} to ${moment(endDate).format(startDateFormat)}`;
+    return `${moment(startDate).format(startDateFormat)} ${wps_js._('to_range')} ${moment(endDate).format(startDateFormat)}`;
 }
 
 const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboardWidgets) => {
     if (!labels || !labels.length || !datasets || !datasets.length) {
-        console.error("Invalid input: labels or datasets are empty.");
         return {
             aggregatedLabels: [],
             aggregatedData: datasets ? datasets.map(() => []) : [],
@@ -261,22 +250,24 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
     }
     const isIncompletePeriod = [];
     const now = moment();
+    const aggregatedLabels = [];
+    const aggregatedData = datasets.map(() => []);
+    const monthTooltipTitle = [];
+
+
     if (unit === 'day') {
         labels.forEach(label => {
             const date = moment(label.date);
             isIncompletePeriod.push(date.isSameOrAfter(now, 'day'));
         });
         return {
-            aggregatedLabels: labels.map(label => label.formatted_date),
+            aggregatedLabels: labels.map(label => label.formatted_date || 'N/A'),
             aggregatedData: datasets.map(dataset => dataset.data),
-            monthTooltipTitle: [],
+            monthTooltipTitle: labels.map(label => label.formatted_date || 'N/A'),
             isIncompletePeriod
         };
     }
 
-    const aggregatedLabels = [];
-    const aggregatedData = datasets.map(() => []);
-    const monthTooltipTitle = [];
     const groupedData = {};
 
     if (unit === 'week') {
@@ -331,9 +322,21 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
 
         // Build the output arrays
         weeks.forEach(week => {
-            const label = formatDateRange(week.start, week.end, unit, momentDateFormat, isInsideDashboardWidgets);
+            const startLabel = labels.find((label, j) => moment(label.date).isSame(week.start, 'day'));
+            const endLabel = labels.find((label, j) => moment(label.date).isSame(week.end, 'day'));
+            let label, tooltipLabel;
+
+            if (startLabel && endLabel) {
+                label = `${startLabel.formatted_date} ${wps_js._('to_range')} ${endLabel.formatted_date}`;
+                tooltipLabel = `${startLabel.formatted_date} ${wps_js._('to_range')} ${endLabel.formatted_date}`;
+            } else {
+                label = formatDateRange(week.start, week.end, unit, momentDateFormat, isInsideDashboardWidgets);
+                tooltipLabel = label;
+            }
+
             aggregatedLabels.push(label);
-            monthTooltipTitle.push(setMonthDateRange(week.start, week.end, momentDateFormat));
+            monthTooltipTitle.push(tooltipLabel);
+
             week.data.forEach((total, datasetIndex) => {
                 if (!aggregatedData[datasetIndex]) {
                     aggregatedData[datasetIndex] = [];
@@ -376,24 +379,30 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
             const actualStartDate = moment.max(startDate, moment(labels[0].date));
             const actualEndDate = moment.min(endDate, moment(labels[labels.length - 1].date));
             if (!actualStartDate.isValid() || !actualEndDate.isValid()) {
-                console.error(`Invalid date range for monthKey ${monthKey}`);
                 return;
             }
             if (indices.length > 0) {
-                const label = formatDateRange(actualStartDate, actualEndDate, unit, momentDateFormat, isInsideDashboardWidgets);
+                const startLabel = labels.find(label => moment(label.date).isSame(actualStartDate, 'day'));
+                const endLabel = labels.find(label => moment(label.date).isSame(actualEndDate, 'day'));
+                let label, tooltipLabel;
+                if (startLabel && endLabel) {
+                    label = startLabel.month_i18n || formatDateRange(actualStartDate, actualEndDate, unit, momentDateFormat, isInsideDashboardWidgets);
+                    tooltipLabel = `${startLabel.formatted_date} ${wps_js._('to_range')} ${endLabel.formatted_date}`;
+                } else {
+                    label = formatDateRange(actualStartDate, actualEndDate, unit, momentDateFormat, isInsideDashboardWidgets);
+                    tooltipLabel = label;
+                }
                 aggregatedLabels.push(label);
+                monthTooltipTitle.push(tooltipLabel);
                 datasets.forEach((dataset, idx) => {
                     const total = indices.reduce((sum, i) => sum + (dataset.data[i] || 0), 0);
                     aggregatedData[idx].push(total);
                 });
-                monthTooltipTitle.push(setMonthDateRange(actualStartDate, actualEndDate, momentDateFormat));
             }
-        });
-
-        Object.keys(groupedData).forEach(monthKey => {
             const isIncomplete = groupedData[monthKey].endDate.isSameOrAfter(moment(), 'day');
             isIncompletePeriod.push(isIncomplete);
         });
+
     }
 
     return {aggregatedLabels, aggregatedData, monthTooltipTitle, isIncompletePeriod};
@@ -666,16 +675,12 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
         : null;
 
     // Initialize dateLabels based on the selected unitTime
-    let dateLabels = unitTime === 'day'
-        ? day.aggregatedLabels
-        : unitTime === 'week'
+    let dateLabels = unitTime === 'week'
             ? week.aggregatedLabels
             : month.aggregatedLabels;
 
 // Initialize monthTooltip and prevMonthTooltip
-    let monthTooltip = unitTime === 'day'
-        ? day.monthTooltipTitle
-        : unitTime === 'week'
+    let monthTooltip =  unitTime === 'week'
             ? week.monthTooltipTitle
             : month.monthTooltipTitle;
 
