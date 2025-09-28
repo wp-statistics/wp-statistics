@@ -105,10 +105,10 @@ class OptimizationActions
 
             // Throw error on failure
             if ($result === false) {
-                throw new Exception('Something went wrong on the server. Please try again in a few minutes or contact support.', 500);
+                throw new Exception('Could not purge visitors. Please try again.', 500);
             }
 
-            Ajax::success(sprintf(esc_html__('%s Records Successfully Purged.', 'wp-statistics'), "<code>$result</code>"));
+            Ajax::success(sprintf(esc_html__('Removed %s visitors.', 'wp-statistics'), "<code>$result</code>"));
         } catch (Exception $e) {
             Ajax::error($e->getMessage(), null, $e->getCode());
         }
@@ -129,10 +129,10 @@ class OptimizationActions
                 ->execute();
 
             if ($result === false) {
-                throw new Exception('Something went wrong on the server. Please try again in a few minutes or contact support.', 500);
+                throw new Exception('Could not remove user IDs. Please try again.', 500);
             }
 
-            Ajax::success(esc_html__('Successfully deleted User ID data.', 'wp-statistics'));
+            Ajax::success(esc_html__('User IDs removed.', 'wp-statistics'));
         } catch (Exception $e) {
             Ajax::error($e->getMessage(), null, $e->getCode());
         }
@@ -153,10 +153,10 @@ class OptimizationActions
                 ->execute();
 
             if ($result === false) {
-                throw new Exception('Something went wrong on the server. Please try again in a few minutes or contact support.', 500);
+                throw new Exception('Could not remove user agent strings. Please try again.', 500);
             }
 
-            Ajax::success(esc_html__('Successfully deleted user agent strings data.', 'wp-statistics'));
+            Ajax::success(esc_html__('User agent strings removed.', 'wp-statistics'));
         } catch (Exception $e) {
             Ajax::error($e->getMessage(), null, $e->getCode());
         }
@@ -179,10 +179,10 @@ class OptimizationActions
                 ->execute();
 
             if ($result === false) {
-                throw new Exception('Something went wrong on the server. Please try again in a few minutes or contact support.', 500);
+                throw new Exception('Could not clear word count data. Please try again.', 500);
             }
 
-            Ajax::success(esc_html__('Successfully deleted word count data.', 'wp-statistics'));
+            Ajax::success(esc_html__('Word count data cleared.', 'wp-statistics'));
         } catch (Exception $e) {
             Ajax::error($e->getMessage(), null, $e->getCode());
         }
@@ -217,7 +217,7 @@ class OptimizationActions
                 }
             }
 
-            Ajax::success(esc_html__('Successfully removed query string parameter data from `pages` table.', 'wp-statistics'));
+            Ajax::success(esc_html__('Cleaned up query parameters in saved URLs.', 'wp-statistics'));
         } catch (Exception $e) {
             Ajax::error($e->getMessage(), null, $e->getCode());
         }
@@ -236,17 +236,17 @@ class OptimizationActions
             $eventName = Request::get('event_name');
 
             if (!$eventName) {
-                throw new Exception(esc_html__('Please enter a valid event name and try again.', 'wp-statistics'), 400);
+                throw new Exception(esc_html__('Enter a valid event name.', 'wp-statistics'), 400);
             }
 
             $eventsModel = new EventsModel();
             $result      = $eventsModel->deleteEvents(['event_name' => $eventName]);
 
             if ($result === false) {
-                throw new Exception('Something went wrong on the server. Please try again in a few minutes or contact support.', 500);
+                throw new Exception('Could not remove event data. Please try again.', 500);
             }
 
-            Ajax::success(esc_html__('Successfully removed event data from `events` table.', 'wp-statistics'));
+            Ajax::success(sprintf(esc_html__('Event data removed for %s', 'wp-statistics'), "<code>$eventName</code>"));
         } catch (Exception $e) {
             Ajax::error($e->getMessage(), null, $e->getCode());
         }
@@ -278,7 +278,7 @@ class OptimizationActions
             // Update GeoIP data for visitors with incomplete information
             BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
 
-            Ajax::success(esc_html__('GeoIP update successfully.', 'wp-statistics'));
+            Ajax::success(esc_html__('GeoIP update started.', 'wp-statistics'));
         } catch (Exception $e) {
             Ajax::error(sprintf(esc_html__('GeoIP update failed: %s', 'wp-statistics'), $e->getMessage()), null, $e->getCode());
         }
@@ -296,7 +296,7 @@ class OptimizationActions
 
             BackgroundProcessFactory::batchUpdateSourceChannelForVisitors();
 
-            Ajax::success(esc_html__('Source channel update successfully.', 'wp-statistics'));
+            Ajax::success(esc_html__('Source channel update started.', 'wp-statistics'));
         } catch (Exception $e) {
             Ajax::error(sprintf(esc_html__('Source channel update failed: %s', 'wp-statistics'), $e->getMessage()), null, $e->getCode());
         }
@@ -315,7 +315,7 @@ class OptimizationActions
 
             $result = IP::Update_HashIP_Visitor();
 
-            Ajax::success(sprintf(esc_html__('Successfully anonymized `%d` IP addresses using hash values.', 'wp-statistics'), $result));
+            Ajax::success(sprintf(esc_html__('Anonymized `%d` IP addresses.', 'wp-statistics'), $result));
         } catch (Exception $e) {
             Ajax::error(sprintf(esc_html__('IP anonymization failed: %s', 'wp-statistics'), $e->getMessage()), null, $e->getCode());
         }
@@ -335,12 +335,12 @@ class OptimizationActions
             $databaseStatus    = $schemaCheckResult['status'] ?? null;
 
             if ($databaseStatus !== 'success') {
-                throw new Exception(esc_html__('Database issues were detected. Please refresh the page to see the "Repair Schema Issues" button.', 'wp-statistics'));
+                throw new Exception(esc_html__('Database issues were found. Refresh this page to show the `Repair` button.', 'wp-statistics'));
             }
 
-            Ajax::success(esc_html__('The database was checked and no issues were found.', 'wp-statistics'));
+            Ajax::success(esc_html__('Database looks good. No issues found.', 'wp-statistics'));
         } catch (Exception $e) {
-            Ajax::error(sprintf(esc_html__('An error occurred while checking the database: %s', 'wp-statistics'), $e->getMessage()), null, $e->getCode());
+            Ajax::error($e->getMessage(), null, $e->getCode());
         }
     }
 
@@ -358,10 +358,10 @@ class OptimizationActions
             $databaseStatus     = $schemaRepairResult['status'] ?? null;
 
             if ($databaseStatus !== 'success') {
-                throw new Exception(esc_html__('Database schema issues have been successfully repaired.', 'wp-statistics'));
+                throw new Exception(esc_html__('Could not repair the database. Please try again.', 'wp-statistics'));
             }
 
-            Ajax::success(esc_html__('Database schema issues have been successfully repaired.', 'wp-statistics'));
+            Ajax::success(esc_html__('Database schema issues were repaired.', 'wp-statistics'));
         } catch (Exception $e) {
             Ajax::error(sprintf(esc_html__('Failed to repair database schema: %s', 'wp-statistics'), $e->getMessage()), null, $e->getCode());
         }
