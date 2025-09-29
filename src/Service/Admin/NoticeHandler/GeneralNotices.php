@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\NoticeHandler;
 
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory;
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\SummaryTotalsDataMigrationProcess;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\IP;
 use WP_STATISTICS\User;
@@ -33,7 +35,8 @@ class GeneralNotices
         'memoryLimitCheck',
         'emailReportSchedule',
         'checkCloudflareGeolocatin',
-        'checkDbSchemaIssue'
+        'checkDbSchemaIssue',
+        'summaryTotalsMigration'
     ];
 
     /**
@@ -325,6 +328,28 @@ class GeneralNotices
             'cloudflare_geolocation',
             'info'
         );
+    }
+
+    public function summaryTotalsMigration()
+    {
+        if (Notice::isNoticeDismissed('summary_totals_migration_notice')) {
+            return;
+        }
+
+        /**
+         * @var SummaryTotalsDataMigrationProcess $summaryProcess
+         */
+        $summaryProcess = WP_Statistics()->getBackgroundProcess('summary_totals_data_migration');
+        if ($summaryProcess->is_initiated()) {
+            return;
+        }
+
+        $message = sprintf(
+            __('We’ve added summary table in this version. To ensure accurate reports, please initiate the background data process <a href="%s">by clicking here</a>.', 'wp-statistics'),
+            esc_url('#')
+        );
+
+        Notice::addNotice($message, 'summary_totals_migration_notice', 'info');
     }
 
     /**

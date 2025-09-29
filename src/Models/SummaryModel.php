@@ -13,12 +13,28 @@ class SummaryModel extends BaseModel
             'date' => ''
         ]);
 
-        $result = Query::select(['SUM(visitors)', 'SUM(views)'])
+        $result = Query::select(['COALESCE(SUM(visitors), 0) as visitors', 'COALESCE(SUM(views), 0) as views'])
             ->from('summary_totals')
             ->whereDate('date', $args['date'])
             ->getRow();
 
         return $result;
+    }
+
+    public function recordExists($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'id'   => '',
+            'date' => ''
+        ]);
+
+        $result = Query::select('COUNT(*) as count')
+            ->from('summary_totals')
+            ->where('date', '=', $args['date'])
+            ->where('id', '=', $args['id'])
+            ->getVar();
+
+        return (bool) $result;
     }
 
     public function insert($args)

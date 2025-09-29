@@ -4,6 +4,7 @@ use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\CalculatePostWor
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\GeolocationDatabaseDownloadProcess;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\IncompleteGeoIpUpdater;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\SourceChannelUpdater;
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\SummaryTotalsDataMigrationProcess;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\TableOperationProcess;
 use WP_Statistics\Core\CoreFactory;
 use WP_Statistics\Service\Admin\AnonymizedUsageData\AnonymizedUsageDataManager;
@@ -273,6 +274,7 @@ final class WP_Statistics
         $this->registerBackgroundProcess(GeolocationDatabaseDownloadProcess::class, 'geolocation_database_download');
         $this->registerBackgroundProcess(SourceChannelUpdater::class, 'update_visitors_source_channel');
         $this->registerBackgroundProcess(TableOperationProcess::class, 'table_operations_process');
+        $this->registerBackgroundProcess(SummaryTotalsDataMigrationProcess::class, 'summary_totals_data_migration');
     }
 
     /**

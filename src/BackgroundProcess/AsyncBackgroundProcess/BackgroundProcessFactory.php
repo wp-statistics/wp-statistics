@@ -127,5 +127,51 @@ class BackgroundProcessFactory
         $updateIncompleteVisitorsSourceChannels->save()->dispatch();
     }
 
-    // Add other static methods for different background processes as needed
+    /**
+     * Insert summary totals data based on visitors table.
+     *
+     * @return void
+     */
+    public static function batchInsertSummaryTotalsData()
+    {
+        @ini_set('memory_limit', '-1');
+
+        $summaryTotalsDataUpdaterProcess = WP_Statistics()->getBackgroundProcess('summary_totals_data_migration');
+
+        if ($summaryTotalsDataUpdaterProcess->is_active()) {
+            return;
+        }
+
+        $visitorModel      = new VisitorsModel();
+        $visitorsHitsData = $visitorModel->countDailyVisitors([
+            'date' => [
+                'from' => date('Y-m-d', 0),
+                'to'   => date('Y-m-d', strtotime('yesterday'))
+            ],
+            'include_hits' => true
+        ]);
+
+        $batchData = [];
+
+        // Push each row to the batch, in the format of [date, visitors, hits]
+        foreach ($visitorsHitsData as $row) {
+            $batchData[] = [$row->date, $row->visitors, $row->hits];
+        }
+
+        // Define the batch size
+        $batchSize = 100;
+
+        $batches = array_chunk($batchData, $batchSize);
+
+        // Push each batch to the queue
+        foreach ($batches as $batch) {
+            $summaryTotalsDataUpdaterProcess->push_to_queue(['data' => $batch]);
+        }
+
+        // Initiate the process
+        Option::saveOptionGroup('summary_totals_data_migration_initiated', true, 'jobs');
+
+        // Save the queue and dispatch it
+        $summaryTotalsDataUpdaterProcess->save()->dispatch();
+    }
 }
