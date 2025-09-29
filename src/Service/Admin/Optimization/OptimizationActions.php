@@ -5,6 +5,7 @@ use Exception;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory;
 use WP_Statistics\Components\Ajax;
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\Historical;
 use WP_STATISTICS\IP;
 use WP_Statistics\Models\EventsModel;
 use WP_STATISTICS\Option;
@@ -378,30 +379,39 @@ class OptimizationActions
             $this->checkCapability('manage');
 
             $visitors = Request::get('visitors', 0, 'number');
-            $visits   = Request::get('visitors', 0, 'number');
+            $visits   = Request::get('visits', 0, 'number');
+
+            $storedVisitors = Historical::get('visitors');
+            $storedVisits   = Historical::get('visits');
 
             // Update historical visitors
-            $result = Query::update('historical')
-                ->set(['value' => $visitors])
-                ->where('category', '=','visitors')
-                ->execute();
-
-            if ($result === 0) {
-                Query::insert('historical')
-                    ->set(['value' => $visitors, 'category' => 'visitors', 'page_id' => -1, 'uri' => '-1'])
+            if ($visitors != $storedVisitors) {
+                $result = Query::update('historical')
+                    ->set(['value' => $visitors])
+                    ->where('category', '=','visitors')
                     ->execute();
+
+                // If no record to update, insert it
+                if (!$result) {
+                    Query::insert('historical')
+                        ->set(['value' => $visitors, 'category' => 'visitors', 'page_id' => -1, 'uri' => '-1'])
+                        ->execute();
+                }
             }
 
             // Update historical visits
-            $result = Query::update('historical')
-                ->set(['value' => $visits])
-                ->where('category', '=','visits')
-                ->execute();
-
-            if ($result === 0) {
-                Query::insert('historical')
-                    ->set(['value' => $visits, 'category' => 'visits', 'page_id' => -2, 'uri' => '-2'])
+            if ($visits != $storedVisits) {
+                $result = Query::update('historical')
+                    ->set(['value' => $visits])
+                    ->where('category', '=','visits')
                     ->execute();
+
+                // If no record to update, insert it
+                if (!$result) {
+                    Query::insert('historical')
+                        ->set(['value' => $visits, 'category' => 'visits', 'page_id' => -2, 'uri' => '-2'])
+                        ->execute();
+                }
             }
 
             Notice::addFlashNotice(esc_html__('Historical Data Successfully Updated.', "wp-statistics"), "success");
