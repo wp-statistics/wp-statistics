@@ -375,6 +375,7 @@ class DateTime
      * @param string $format  UTC datetime format to return. Default 'Y-m-d H:i:s'.
      *
      * @return array{startUtc:string,endUtc:string,labelDate:string}
+     * @since 15.0.0
      */
     public static function getUtcRangeForLocalDate($date = 'yesterday', $format = 'Y-m-d H:i:s')
     {
