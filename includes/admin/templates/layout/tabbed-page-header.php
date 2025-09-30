@@ -55,7 +55,6 @@ View::load('components/objects/share-anonymous-notice');
     $active_tab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : '';
     if (isset($datepicker)): ?>
         <form class="wps-search-date wps-today-datepicker" method="get">
-
             <div>
                 <input type="hidden" name="page" value="<?php echo esc_attr($pageName); ?>">
                 <input type="hidden" name="tab" id="active-tab-input" value="<?php echo esc_attr($active_tab); ?>">
@@ -65,6 +64,9 @@ View::load('components/objects/share-anonymous-notice');
     <?php endif ?>
     <?php if (isset($hasDateRang) || isset($filters) || isset($lastUpdated)) : ?>
         <div class="wps-head-filters">
+            <?php
+            View::load("components/objects/export-button");
+            ?>
             <?php
             if (!empty($hasDateRang)) {
                 include 'date.range.php';
