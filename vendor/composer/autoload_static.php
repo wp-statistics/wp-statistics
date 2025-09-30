@@ -52,6 +52,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\IncompleteGeoIpUpdater' => __DIR__ . '/../..' . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/IncompleteGeoIpUpdater.php',
         'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\SourceChannelUpdater' => __DIR__ . '/../..' . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/SourceChannelUpdater.php',
         'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\TableOperationProcess' => __DIR__ . '/../..' . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/TableOperationProcess.php',
+        'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\UpdateResourceCacheFields' => __DIR__ . '/../..' . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/UpdateResourceCacheFields.php',
         'WP_Statistics\\Components\\Addons' => __DIR__ . '/../..' . '/src/Components/Addons.php',
         'WP_Statistics\\Components\\Ajax' => __DIR__ . '/../..' . '/src/Components/Ajax.php',
         'WP_Statistics\\Components\\AssetNameObfuscator' => __DIR__ . '/../..' . '/src/Components/AssetNameObfuscator.php',
