@@ -1,44 +1,45 @@
-<form action="<?php echo esc_url(admin_url('admin.php')); ?>" method="get" class="wps-inline" id="jquery-datepicker">
-    <?php
-    if (isset($select_box)) {
-        ?>
-        <br/>
-        <?php echo esc_attr($select_box['title']); ?>:&nbsp;<select name="<?php echo esc_attr($select_box['name']); ?>" id="<?php echo esc_attr($select_box['name']); ?>">
-            <?php
-            foreach ($select_box['list'] as $value => $name) {
-                $selected = ((isset($select_box['active']) and $select_box['active'] == $value) ? ' selected' : '');
-                ?>
-                <option value="<?php echo esc_attr($value); ?>"<?php echo esc_attr($selected); ?>><?php echo esc_attr($name); ?></option>
-                <?php
-            }
-            ?>
-        </select><input type="submit" value="<?php esc_html_e('Select', 'wp-statistics'); ?>" class="button-primary btn-danger wps-btn-inline"><br/>
-        <?php
-    }
-    ?>
-
-    <!-- Set Page name To Form -->
-    <input name="page" type="hidden" value="<?php echo esc_attr($pageName); ?>">
-
-    <!-- Set Custom Input -->
-    <?php
-    if (isset($custom_get)) {
-        foreach ($custom_get as $key => $val) {
-            if (empty($val)) continue;
-
-            ?><input name="<?php echo esc_attr($key); ?>" type="hidden" value="<?php echo esc_attr($val); ?>"><?php
-        }
-    }
-    ?>
-    <?php if (!empty($DateRang['from'])) { ?>
-        <input type="hidden" name="<?php echo esc_attr(\WP_STATISTICS\Admin_Template::$request_from_date); ?>" id="date-from" value="<?php echo esc_attr($DateRang['from']); ?>">
-    <?php } ?>
-    <?php if (!empty($DateRang['to'])) { ?>
-        <input type="hidden" name="<?php echo esc_attr(\WP_STATISTICS\Admin_Template::$request_to_date); ?>" id="date-to" value="<?php echo esc_attr($DateRang['to']); ?>">
-    <?php } ?>
-</form>
 
 <div class="c-pages-date-range">
+    <form action="<?php echo esc_url(admin_url('admin.php')); ?>" method="get" class="wps-inline" id="jquery-datepicker">
+        <?php
+        if (isset($select_box)) {
+            ?>
+            <br/>
+            <?php echo esc_attr($select_box['title']); ?>:&nbsp;<select name="<?php echo esc_attr($select_box['name']); ?>" id="<?php echo esc_attr($select_box['name']); ?>">
+                <?php
+                foreach ($select_box['list'] as $value => $name) {
+                    $selected = ((isset($select_box['active']) and $select_box['active'] == $value) ? ' selected' : '');
+                    ?>
+                    <option value="<?php echo esc_attr($value); ?>"<?php echo esc_attr($selected); ?>><?php echo esc_attr($name); ?></option>
+                    <?php
+                }
+                ?>
+            </select><input type="submit" value="<?php esc_html_e('Select', 'wp-statistics'); ?>" class="button-primary btn-danger wps-btn-inline"><br/>
+            <?php
+        }
+        ?>
+
+        <!-- Set Page name To Form -->
+        <input name="page" type="hidden" value="<?php echo esc_attr($pageName); ?>">
+
+        <!-- Set Custom Input -->
+        <?php
+        if (isset($custom_get)) {
+            foreach ($custom_get as $key => $val) {
+                if (empty($val)) continue;
+
+                ?><input name="<?php echo esc_attr($key); ?>" type="hidden" value="<?php echo esc_attr($val); ?>"><?php
+            }
+        }
+        ?>
+        <?php if (!empty($DateRang['from'])) { ?>
+            <input type="hidden" name="<?php echo esc_attr(\WP_STATISTICS\Admin_Template::$request_from_date); ?>" id="date-from" value="<?php echo esc_attr($DateRang['from']); ?>">
+        <?php } ?>
+        <?php if (!empty($DateRang['to'])) { ?>
+            <input type="hidden" name="<?php echo esc_attr(\WP_STATISTICS\Admin_Template::$request_to_date); ?>" id="date-to" value="<?php echo esc_attr($DateRang['to']); ?>">
+        <?php } ?>
+    </form>
+
     <div class="c-footer__filter js-pages-date-range-picker">
         <div class="c-footer__filter__btn-group">
             <?php if (isset($hasDateRang)): ?>

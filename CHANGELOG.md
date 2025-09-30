@@ -1,4 +1,5 @@
 = 14.16 - 2025-**-** =
+- **New:** Added an Export button to all report pages.
 - **Enhancement:** Updated PHP requirement to v7.4 and WordPress requires to v6.6
 
 = 14.15.3 - 2025-08-18 =
