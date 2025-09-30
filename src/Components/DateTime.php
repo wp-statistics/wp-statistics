@@ -365,4 +365,44 @@ class DateTime
         }
         return false;
     }
+
+    /**
+     * Build a site's‑local calendar "day" window and return the UTC boundaries (DST‑safe).
+     *
+     * @param string|int|array|\DateTimeInterface $date  Human string like 'yesterday'/'2025-09-30',
+     *                                                   a unix timestamp, a DateTimeInterface, or
+     *                                                   an array with key 'from'.
+     * @param string $format  UTC datetime format to return. Default 'Y-m-d H:i:s'.
+     *
+     * @return array{startUtc:string,endUtc:string,labelDate:string}
+     */
+    public static function getUtcRangeForLocalDate($date = 'yesterday', $format = 'Y-m-d H:i:s')
+    {
+        // Resolve the site's timezone (same as wp_timezone()).
+        $timeZone = self::getTimezone();
+
+        // Normalize input into a DateTimeImmutable in the site's timezone.
+        if ($date instanceof \DateTimeInterface) {
+            $localDay = (new \DateTimeImmutable('@' . $date->getTimestamp()))->setTimezone($timeZone);
+        } elseif (is_array($date)) {
+            $seed = $date['from'] ?? 'yesterday';
+            $localDay = new \DateTimeImmutable(is_numeric($seed) ? ('@' . $seed) : $seed, $timeZone);
+        } else {
+            $localDay = new \DateTimeImmutable(is_numeric($date) ? ('@' . $date) : $date, $timeZone);
+        }
+
+        // Local midnight boundaries for the target day (DST-safe).
+        $localStart = $localDay->setTime(0, 0);
+        $localEnd   = $localStart->modify('+1 day');
+
+        $startUtc  = $localStart->setTimezone(new \DateTimeZone('UTC'))->format($format);
+        $endUtc    = $localEnd  ->setTimezone(new \DateTimeZone('UTC'))->format($format);
+        $labelDate = $localStart->format('Y-m-d');
+
+        return [
+            'startUtc'  => $startUtc,
+            'endUtc'    => $endUtc,
+            'labelDate' => $labelDate,
+        ];
+    }
 }
