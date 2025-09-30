@@ -667,7 +667,7 @@ class SessionModel extends BaseModel
             ->getQuery();
 
         $query = Query::select([
-            "'{$labelDate}' AS date",           // constant local date label
+            "'{$labelDate}' AS date",
             'COUNT(DISTINCT visitors.hash) AS visitors',
             'COUNT(DISTINCT sessions.ID) AS sessions',
             'COUNT(views.ID) AS views',
