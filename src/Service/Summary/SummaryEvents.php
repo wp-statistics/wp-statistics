@@ -10,8 +10,8 @@ class SummaryEvents
 {
     public function __construct()
     {
-        add_action('update_option_timezone_string', 'rescheduleSummaryEvent', 10, 2);
-        add_action('update_option_gmt_offset', 'rescheduleSummaryEvent', 10, 2);
+        add_action('update_option_timezone_string', [$this, 'rescheduleSummaryEvent'], 10, 2);
+        add_action('update_option_gmt_offset', [$this, 'rescheduleSummaryEvent'], 10, 2);
     }
 
     public function register()
