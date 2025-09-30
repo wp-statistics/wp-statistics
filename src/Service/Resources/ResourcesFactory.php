@@ -126,4 +126,16 @@ class ResourcesFactory
     {
         return new ResourceDecorator($post);
     }
+
+    /**
+     * Counts the total number of resources in the database.
+     *
+     * This method queries the 'resources' table and returns the total count of resource records.
+     *
+     * @return int The total number of resources.
+     */
+    public static function countResources($postsOnly = false)
+    {
+        return RecordFactory::resource()->countAll($postsOnly);
+    }
 }

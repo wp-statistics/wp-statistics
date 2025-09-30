@@ -154,8 +154,7 @@ class ResourceMigrator extends AbstractAjaxBackgroundProcess
                         'resource_id'        => $page['id'],
                         'resource_type'      => $resourceType,
                         'resource_url'       => $resourceUrl,
-                        'cached_author_id'   => $resourceAuthor['id'],
-                        'cached_author_name' => $resourceAuthor['name'],
+                        'cached_author_id'   => $resourceAuthor,
                         'cached_date'        => $resourceDate,
                         'cached_terms'       => $resourceTerms,
                     ],
@@ -261,32 +260,23 @@ class ResourceMigrator extends AbstractAjaxBackgroundProcess
      *
      * @param int $id The resource ID (post ID).
      * @param string $type The resource type.
-     * @return array An associative array with keys 'id' and 'name' for the author.
+     * @return int|null The author ID, or null if not existed.
      */
     private function getResourceAuthor($id, $type)
     {
-        $data = [
-            'id'   => '',
-            'name' => '',
-        ];
+        $authorId = null;
 
         if (!post_type_exists($type)) {
-            return $data;
+            return $authorId;
         }
 
         $authorId = get_post_field('post_author', $id);
 
         if (empty($authorId)) {
-            return $data;
+            return null;
         }
 
-        $author     = get_userdata($authorId);
-        $authorName = $author ? $author->display_name : '';
-
-        return [
-            'id'   => $authorId,
-            'name' => $authorName,
-        ];
+        return $authorId;
     }
 
     /**

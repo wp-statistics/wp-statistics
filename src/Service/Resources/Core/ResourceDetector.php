@@ -53,18 +53,25 @@ class ResourceDetector
     private $cachedAuthorId = null;
 
     /**
-     * The display name of the resource's author.
-     *
-     * @var string|null
-     */
-    private $cachedAuthorName = null;
-
-    /**
      * The resource's publish date.
      *
      * @var string|null
      */
     private $cachedDate = null;
+
+    /**
+     * The resource's language.
+     *
+     * @var string|null
+     */
+    private $language = null;
+
+    /**
+     * Indicates if the resource has been deleted.
+     *
+     * @var int 0|1
+     */
+    private $isDeleted = 0;
 
     /**
      * Any additional metadata related to the resource.
@@ -88,31 +95,28 @@ class ResourceDetector
      * Then, if the resource type is not one of the excluded types, additional details
      * (such as taxonomies, publish date, title, and author details) are gathered.
      *
-     * @param int $resourceId Optional. Specific resource ID to use.
-     * @param string $resourceType Optional. Specific resource type (e.g., 'post', 'page') to use.
+     * @param int|null $resourceId Optional. Specific resource ID to use.
+     * @param string   $resourceType Optional. Specific resource type (e.g., 'post', 'page') to use.
      */
-    public function __construct($resourceId = 0, $resourceType = '')
+    public function __construct($resourceId = null, $resourceType = '')
     {
-        $resourceData = $this->getResourceData();
+        $this->resourceId   = $resourceId;
+        $this->resourceType = $resourceType;
 
-        $this->resourceId   = !empty($resourceData['id']) ? (int)$resourceData['id'] : 0;
-        $this->resourceType = !empty($resourceData['type']) ? (string)$resourceData['type'] : null;
+        if (empty($resourceId) && empty($resourceType)) {
+            $resourceData = $this->getResourceData();
 
-        if (!empty($resourceId)) {
-            $this->resourceId = $resourceId;
-        }
+            $this->resourceId   = !empty($resourceData['id']) ? (int)$resourceData['id'] : 0;
+            $this->resourceType = !empty($resourceData['type']) ? (string)$resourceData['type'] : null;
 
-        if (!empty($resourceType)) {
-            $this->resourceType = $resourceType;
-        }
-
-        $this->record = RecordFactory::resource()->get([
-            'resource_id'   => $this->resourceId,
-            'resource_type' => $this->resourceType,
-        ]);
-
-        if (! empty($this->record)) {
-            return;
+            $this->record = RecordFactory::resource()->get([
+                'resource_id'   => $this->resourceId,
+                'resource_type' => $this->resourceType,
+            ]);
+    
+            if (!empty($this->record)) {
+                return;
+            }
         }
 
         $excludedTypes = [
@@ -134,6 +138,7 @@ class ResourceDetector
             $this->setResourceMetaData();
             $this->setTitle();
             $this->setAuthorDetails();
+            $this->setPostStatus();
         }
     }
 
@@ -289,7 +294,7 @@ class ResourceDetector
     }
 
     /**
-     * Retrieves author info from post_author and sets the ID and display name.
+     * Retrieves author info from post_author and sets the ID.
      *
      * @return void
      */
@@ -305,14 +310,7 @@ class ResourceDetector
             return;
         }
 
-        $authorName = get_the_author_meta('display_name', $authorId);
-
-        if (empty($authorName)) {
-            $authorName = null;
-        }
-
-        $this->cachedAuthorId   = (int)$authorId;
-        $this->cachedAuthorName = $authorName;
+        $this->cachedAuthorId = (int)$authorId;
     }
 
     /**
@@ -399,6 +397,27 @@ class ResourceDetector
     }
 
     /**
+     * Sets the resource status.
+     *
+     * @return void
+     */
+    private function setPostStatus()
+    {
+        if (!$this->resourceId) {
+            return;
+        }
+
+        $postStatus = get_post($this->resourceId);
+
+        if (empty($postStatus)) {
+            $this->isDeleted = 1;
+            return;
+        }
+
+        $this->isDeleted = 0;
+    }
+
+    /**
      * Gets the associated resource ID.
      *
      * @return int|null
@@ -449,16 +468,6 @@ class ResourceDetector
     }
 
     /**
-     * Returns the resource's author name.
-     *
-     * @return string|null
-     */
-    public function getCachedAuthorName()
-    {
-        return $this->cachedAuthorName;
-    }
-
-    /**
      * Returns the publish date (post_date) for this resource.
      *
      * @return string|null
@@ -476,5 +485,25 @@ class ResourceDetector
     public function getResourceMeta()
     {
         return $this->resourceMeta;
+    }
+
+    /**
+     * Returns the resource's language.
+     *
+     * @return string|null
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    /**
+     * Returns whether the resource has been deleted.
+     *
+     * @return int 0|1
+     */
+    public function getIsDeleted()
+    {
+        return $this->isDeleted;
     }
 }
