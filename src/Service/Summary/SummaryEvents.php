@@ -22,7 +22,7 @@ class SummaryEvents
         */
         $timestamp = DateTime::get('midnight +1 days', 'U');
 
-        Event::schedule('wp_statistics_record_summary_totals_data', $timestamp, 'daily', [$this, 'recordSummaryTotalsData']);
+        Event::schedule('wp_statistics_record_daily_summary', $timestamp, 'daily', [$this, 'recordSummaryTotalsData']);
     }
 
 
@@ -51,6 +51,6 @@ class SummaryEvents
     public function rescheduleSummaryEvent()
     {
         $timestamp = DateTime::get('midnight +1 days', 'U');
-        Event::reschedule('wp_statistics_record_summary_totals_data', 'daily', $timestamp);
+        Event::reschedule('wp_statistics_record_daily_summary', 'daily', $timestamp);
     }
 }
