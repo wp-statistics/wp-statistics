@@ -274,11 +274,6 @@ class SiteHealthInfo
                 'value' => Option::get('excluded_urls') ? __('Set', 'wp-statistics') : __('Not Set', 'wp-statistics'),
                 'debug' => Option::get('excluded_urls') ? 'Set' : 'Not Set',
             ],
-            'matomoReferrerSpamBlacklist'    => [
-                'label' => esc_html__('Matomo Referrer Spam Blacklist', 'wp-statistics'),
-                'value' => Option::get('referrerspam') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::get('referrerspam') ? 'Enabled' : 'Disabled',
-            ],
             'logRecordExclusions'            => [
                 'label' => esc_html__('Log Record Exclusions', 'wp-statistics'),
                 'value' => Option::get('record_exclusions') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),

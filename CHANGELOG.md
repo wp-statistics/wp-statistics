@@ -1,3 +1,14 @@
+= 14.16 - 2025-**-** =
+- **Enhancement:** Updated PHP requirement to v7.4 and WordPress requires to v6.6
+
+= 14.15.3 - 2025-08-18 =
+- **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.
+- **Fix:** Correct redirect URL after clicking 'Start Migration'.
+- **Fix:** Fixed Author Analytics filter issue.
+- **Enhancement:** Added LiteSpeed Cache detection for improved cache-related warning notifications.
+- **Enhancement:** Randomized the execution time of the GeoIP update event to reduce simultaneous load on jsdelivr.
+- **Enhancement:** Improve performance of visitor migration.
+
 = 14.15.3 - 2025-08-18 =
 - **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.
 - **Fix:** Correct redirect URL after clicking 'Start Migration'.

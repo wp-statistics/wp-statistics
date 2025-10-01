@@ -20,22 +20,20 @@ class MapChartDataProvider extends AbstractChartDataProvider
     {
         parent::__construct($args);
 
+        $this->args = array_merge($this->args, [
+            'not_null' => 'location',
+            'page'     => false,
+            'per_page' => false
+        ]);
+
         $this->visitorsModel = new VisitorsModel();
     }
 
     public function getData()
     {
-        $args = array_merge($this->args, [
-            'fields'   => [
-                'visitor.location as country',
-                'COUNT(*) as visitors'
-            ],
-            'order_by' => [],
-        ]);
-
         $this->initChartData();
 
-        $data       = $this->visitorsModel->getVisitorsGeoData($args);
+        $data       = $this->visitorsModel->getVisitorsGeoData($this->args);
         $parsedData = $this->parseData($data);
 
         $labels  = wp_list_pluck($parsedData, 'label');

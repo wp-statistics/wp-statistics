@@ -5,6 +5,7 @@ use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\GeolocationDatab
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\IncompleteGeoIpUpdater;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\SourceChannelUpdater;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\TableOperationProcess;
+use WP_Statistics\Core\CoreFactory;
 use WP_Statistics\Service\Admin\AnonymizedUsageData\AnonymizedUsageDataManager;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsManager;
 use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsManager;
@@ -126,7 +127,6 @@ final class WP_Statistics
              * Setup background process.
              */
             $this->initializeBackgroundProcess();
-            SchemaManager::init();
 
         } catch (Exception $e) {
             self::log($e->getMessage());
@@ -185,6 +185,8 @@ final class WP_Statistics
         $notificationManager        = new NotificationManager();
         $MarketingCampaignManager   = new MarketingCampaignManager();
         $exportImportManager        = new ExportImportManager();
+
+        CoreFactory::updater();
 
         // Admin classes
         if (is_admin()) {
