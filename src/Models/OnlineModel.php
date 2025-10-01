@@ -82,7 +82,7 @@ class OnlineModel extends BaseModel
 
         $result = $this->getCachedData($cacheKey, function () use ($query) {
             return $query->getVar();
-        }, 5);
+        }, 3);
 
         return $result ? $result : 0;
     }
