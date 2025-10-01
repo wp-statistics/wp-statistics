@@ -25,7 +25,8 @@ class QueueMigration extends BaseMigrationOperation
      * @var array<string, string> Array mapping step names to method names
      */
     protected $migrationSteps = [
-        'updateRobotListSetting' => 'updateRobotListSetting'
+        'updateRobotListSetting' => 'updateRobotListSetting',
+        'updateRealTimeInterval' => 'updateRealTimeInterval'
     ];
 
     /**
@@ -62,6 +63,19 @@ class QueueMigration extends BaseMigrationOperation
             $customRobotList = array_diff($robotArray, $defaultRobots);
 
             Option::update('robotlist', implode("\n", $customRobotList));
+        }
+    }
+
+    /**
+     * Updates the real-time interval if it is less than 30 seconds.
+     */
+    public function updateRealTimeInterval()
+    {
+        $options = Option::getAddonOptions('realtime_stats');
+
+        if (Helper::isAddOnActive('realtime-stats') && !empty($options['interval_time']) && $options['interval_time'] < 30) {
+            $options['interval_time'] = 30;
+            Option::saveByAddon($options, 'realtime_stats');
         }
     }
 }
