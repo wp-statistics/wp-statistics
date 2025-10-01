@@ -20,6 +20,16 @@ class OnlineModel extends BaseModel
      */
     public function __construct($args = [])
     {
+        $this->setArgs($args);
+    }
+
+    /**
+     * Set the arguments for the OnlineModel.
+     *
+     * @return void
+     */
+    public function setArgs($args = [])
+    {
         $args = wp_parse_args($args, [
             'timeframe' => 5
         ]);
@@ -30,6 +40,12 @@ class OnlineModel extends BaseModel
         ];
     }
 
+
+    /**
+     * Get the number of online visitors.
+     *
+     * @return int
+     */
     public function countOnlines($args = [])
     {
         $args = $this->parseArgs($args, [
@@ -71,6 +87,12 @@ class OnlineModel extends BaseModel
         return $result ? $result : 0;
     }
 
+    /**
+     * Returns online visitors.
+     *
+     * @param array $args Arguments to include in query (e.g. `date`, etc.).
+     * @return array
+     */
     public function getOnlineVisitors($args = [])
     {
         $args = $this->parseArgs($args, [
@@ -121,18 +143,54 @@ class OnlineModel extends BaseModel
         return $result ? $result : [];
     }
 
+    /**
+     * Returns a list of active pages with their respective visitors and views.
+     *
+     * @param array $args Arguments to include in query (e.g. `date`, etc.).
+     *
+     * @return array
+     */
     public function getActivePages($args = [])
     {
         $args = $this->parseArgs($args, [
             // ...
         ]);
 
-        $result = Query::select(['page_id', 'COUNT(DISTINCT visitor_id) as visitors', 'COUNT(*) as views'])
-            ->from('visitor_relationships')
-            ->whereDate('date', $this->timeframe)
-            ->groupBy('page_id')
+        $result = Query::select(['pages.page_id', 'COUNT(DISTINCT visitor_id) as visitors', 'COUNT(*) as views'])
+            ->from('pages')
+            ->join('visitor_relationships', ['visitor_relationships.page_id', 'pages.page_id'])
+            ->whereDate('pages.date', 'today')
+            ->whereDate('visitor_relationships.date', $this->timeframe)
+            ->groupBy('pages.page_id')
             ->getAll();
 
         return $result ?? [];
+    }
+
+    /**
+     * Returns the number of visitors per minute
+     *
+     * @param array $args Arguments to include in query (e.g. `date`, etc.).
+     *
+     * @return array
+     */
+    public function getVisitorsPerMinute($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            // ...
+        ]);
+
+        $result = Query::select([
+                "DATE_FORMAT(visitor_relationships.date, '%%H:%%i') AS time",
+                'COUNT(DISTINCT visitor_id) as visitors'
+            ])
+            ->from('pages')
+            ->join('visitor_relationships', ['visitor_relationships.page_id', 'pages.page_id'])
+            ->whereDate('pages.date', 'today')
+            ->whereDate('visitor_relationships.date', $this->timeframe)
+            ->groupBy('time')
+            ->getAll();
+
+        return $result;
     }
 }
