@@ -52,6 +52,10 @@ class OptimizationActions
 
             $purgeDays = Request::get('purge-days', 0, 'number');
 
+            if ($purgeDays < 30) {
+                throw new Exception(esc_html__('The number of days to purge must be at least 30.', 'wp-statistics'), 400);
+            }
+
             $result = Purge::purge_data($purgeDays);
 
             Ajax::success($result);
@@ -91,6 +95,10 @@ class OptimizationActions
 
             // Purge visitors by IP
             if ($ip !== false) {
+                if (!filter_var($ip, FILTER_VALIDATE_IP)) {
+                    throw new Exception(esc_html__('Invalid IP address! Please enter a valid IP address and try again.', 'wp-statistics'), 400);
+                }
+
                 $result = Query::delete('visitor')->where('ip', '=', $ip)->execute();
             }
 

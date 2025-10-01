@@ -114,7 +114,6 @@
                 resultId: '#purge-data-result',
                 action: 'wp_statistics_purge_old_data',
                 dataKey: 'purge-days',
-                validateValue: (wpsValue) => parseInt(wpsValue) >= 30,
                 callback: () => $('#wps_historical_purge').show()
             },
             {
@@ -123,7 +122,6 @@
                 resultId: '#purge-visitor-hits-result',
                 action: 'wp_statistics_purge_visitors',
                 dataKey: 'purge-hits',
-                validateValue: (wpsValue) => parseInt(wpsValue) >= 10
             },
             {
                 buttonId: '#delete-agents-submit',
@@ -153,7 +151,6 @@
                 resultId: '#delete-ip-result',
                 action: 'wp_statistics_purge_visitors',
                 dataKey: 'ip-address',
-                validateValue: (wpsValue) => /^(\d{1,3}\.){3}\d{1,3}$/.test(wpsValue),
                 callback: () => $('#delete-ip').val('')
             },
             {
