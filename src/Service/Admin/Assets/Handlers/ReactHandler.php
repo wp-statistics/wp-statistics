@@ -24,10 +24,10 @@ class ReactHandler extends BaseAdminAssets
     public function __construct()
     {
         $this->setContext('react');
-        $this->setAssetDir('assets/dist/react');
+        $this->setAssetDir('frontend/dist');
 
-        add_action('admin_enqueue_scripts', [$this, 'adminStyles'], 999);
-        add_action('admin_enqueue_scripts', [$this, 'adminScripts'], 999);
+        add_action('admin_enqueue_scripts', [$this, 'adminStyles'], 10);
+        add_action('admin_enqueue_scripts', [$this, 'adminScripts'], 10);
     }
 
     /**
@@ -39,6 +39,9 @@ class ReactHandler extends BaseAdminAssets
     {
         // Get Current Screen ID
         $screenId = Route::getScreenId();
+
+        // Load React Admin CSS on all WP Statistics pages for now
+        $this->enqueueDistAssets('css');
     }
 
     /**
@@ -52,11 +55,8 @@ class ReactHandler extends BaseAdminAssets
         // Get Current Screen ID
         $screenId = Route::getScreenId();
 
-        // Load React Admin JS
-        if ($screenId === 'admin_page_wps_data-migration_page') {
-            wp_enqueue_script($this->getAssetHandle(), $this->getUrl('migration.js'), [], $this->getVersion(), true);
-            wp_localize_script($this->getAssetHandle(), 'wps_react', $this->getLocalizedData($hook));
-        }
+        // Load React Admin JS on all WP Statistics pages for now
+        $this->enqueueDistAssets('js', $hook);
     }
 
     /**
@@ -70,5 +70,61 @@ class ReactHandler extends BaseAdminAssets
         $list = [];
 
         return apply_filters('wp_statistics_react_localized_data', $list);
+    }
+
+    /**
+     * Enqueue all assets from dist folder
+     *
+     * @param string $type Asset type ('css' or 'js')
+     * @param string|null $hook Current admin page hook (for JS localization)
+     * @return void
+     */
+    protected function enqueueDistAssets($type, $hook = null)
+    {
+        $distPath = trailingslashit(WP_STATISTICS_DIR) . trailingslashit($this->getAssetDir()) . 'assets';
+        $pattern = trailingslashit($distPath) . '*.' . $type;
+        $files = glob($pattern);
+
+        if (empty($files)) {
+            // Add HTML comment for debugging
+            add_action('admin_head', function() use ($pattern, $type) {
+                echo "<!-- WP Statistics React: No $type files found in pattern: $pattern -->\n";
+            });
+            return;
+        }
+
+        // Add HTML comment for debugging
+        add_action('admin_head', function() use ($files, $type) {
+            echo "<!-- WP Statistics React: Found " . count($files) . " $type file(s): " . implode(', ', array_map('basename', $files)) . " -->\n";
+        });
+
+        $index = 0;
+        foreach ($files as $file) {
+            $filename = basename($file);
+            $handle = $this->getAssetHandle() . '-' . $index;
+            $url = $this->getUrl('assets/' . $filename);
+
+            // Debug URL
+            add_action('admin_head', function() use ($filename, $url, $handle) {
+                echo "<!-- WP Statistics React: File: $filename, Handle: $handle, URL: " . ($url ?: 'EMPTY') . " -->\n";
+            });
+
+            if (empty($url)) {
+                continue;
+            }
+
+            if ($type === 'css') {
+                wp_enqueue_style($handle, $url, [], $this->getVersion());
+            } else {
+                wp_enqueue_script($handle, $url, [], $this->getVersion(), true);
+
+                // Localize only the first script
+                if ($index === 0 && $hook !== null) {
+                    wp_localize_script($handle, 'wps_react', $this->getLocalizedData($hook));
+                }
+            }
+
+            $index++;
+        }
     }
 }

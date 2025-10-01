@@ -7,9 +7,10 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   build: {
-    rolldownOptions: {
+    emptyOutDir: true,
+    rollupOptions: {
       input: {
-        main: resolve(__dirname, 'src/main.tsx'),
+        settings: resolve(__dirname, 'src/main.tsx'),
       }
     }
   }
