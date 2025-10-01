@@ -11,6 +11,8 @@ use WP_Statistics\Utils\Request;
 
 /**
  * @deprecated Use WP_Statistics\AjaxHandler\AjaxManager instead for global AJAX callbacks.
+ *
+ * @todo Refactor this class and move ajax action to their services or global AjaxManager file
  */
 class Ajax
 {
