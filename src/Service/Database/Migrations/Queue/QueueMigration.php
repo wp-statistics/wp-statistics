@@ -71,9 +71,11 @@ class QueueMigration extends BaseMigrationOperation
      */
     public function updateRealTimeInterval()
     {
+        if (!Helper::isAddOnActive('realtime-stats')) return;
+
         $options = Option::getAddonOptions('realtime_stats');
 
-        if (Helper::isAddOnActive('realtime-stats') && !empty($options['interval_time']) && $options['interval_time'] < 30) {
+        if (!empty($options['interval_time']) && $options['interval_time'] < 30) {
             $options['interval_time'] = 30;
             Option::saveByAddon($options, 'realtime_stats');
         }
