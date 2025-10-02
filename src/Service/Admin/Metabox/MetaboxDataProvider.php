@@ -113,7 +113,7 @@ class MetaboxDataProvider
     {
         return [
             'visitors' => $this->onlineModel->getOnlineVisitors(array_merge($args, [
-                'order'    => 'last_view',
+                'order_by' => 'last_view',
                 'per_page' => 10
             ])),
             'total'    => $this->onlineModel->countOnlines($args)
