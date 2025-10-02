@@ -5,13 +5,15 @@ import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  build: {
-    emptyOutDir: true,
-    rollupOptions: {
-      input: {
-        settings: resolve(__dirname, 'src/main.tsx'),
-      }
+    plugins: [react()],
+    base: './',
+    build: {
+        manifest: true,
+        emptyOutDir: true,
+        rollupOptions: {
+                input: {
+                    settings: resolve(__dirname, 'src/main.tsx'),
+            }
+        }
     }
-  }
 })
