@@ -219,7 +219,7 @@ class Install
 
         return $links;
     }
-    
+
     public static function init_page_type_updater()
     {
 

@@ -36,6 +36,16 @@ class UserDecorator
     }
 
     /**
+     * Get the visitor's username.
+     *
+     * @return string|null
+     */
+    public function getUsername()
+    {
+        return $this->user->user_login ?? null;
+    }
+
+    /**
      * Retrieves the display name of the visitor.
      *
      * @return string|null The name of the visitor, or null if not available.

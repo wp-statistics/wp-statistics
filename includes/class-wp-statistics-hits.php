@@ -182,38 +182,9 @@ class Hits extends Singleton
             Visitor::save_visitors_relationships($pageId, $visitorId);
         }
 
-        /**
-         * Record User Online with the visitor request in the same time.
-         */
-        self::recordOnline($visitorProfile);
-
         self::errorListener();
-
 
         return $exclusion;
-    }
-
-    /**
-     * Record the user online standalone
-     *
-     * @throws Exception
-     */
-    public static function recordOnline($visitorProfile = null)
-    {
-        if (!UserOnline::active()) {
-            return;
-        }
-
-        if (!$visitorProfile) {
-            $visitorProfile = new VisitorProfile();
-        }
-
-        if ($visitorProfile->getVisitorId() === 0) {
-            return;
-        }
-
-        UserOnline::record($visitorProfile);
-        self::errorListener();
     }
 
     /**
