@@ -1,14 +1,18 @@
-= 14.15.x - 2025-xx-xx =
-- **Enhancement:** Fixed console warnings that appeared on Chromium-based browsers on the settings page.
-- **Fix:** Corrected incorrect “Queue Migration” completion notice after plugin updates.
-- **Enhancement:** Add date range validation on report pages.
-- **Enhancement:** Improve compare style and number formatting in "At a Glance" widgets.
-- **Enhancement:** Update chart component to display a message for empty datasets.
-- **Dev:** Removed `wp_statistics_data_export_base_query` and `wp_statistics_data_export_query` filters.
-- **Fix:** Resolved an issue with fresh installs during plugin activation.
-- **Enhancement:** Limited queue and AJAX migrations (and their notices) to the ` Minimum Role to Manage Settings`.
+= 14.15.6 - 2025-xx-xx =
+- **Fix:** Fixed unknown location link issue in visitor information.
+- **Fix:** Resolved issue with non-Gregorian dates in charts.
+
+= 14.15.5 - 2025-09-21 =
+- **Enhancement:** Added date range validation on report pages.
+- **Enhancement:** Improved compare style and number formatting in "At a Glance" widgets.
+- **Enhancement:** Updated chart component to show a message when no data is available.
+- **Enhancement:** Limited queue and AJAX migrations (and their notices) to the "Minimum Role to Manage Settings."
 - **Enhancement:** Refactored the migration codebase for better structure, readability, and maintainability.
-- **Enhancement:** Added "Recheck Schema" button on the optimization page to recheck database health via AJAX.
+- **Enhancement:** Added a "Recheck Schema" button on the optimization page to recheck database health via AJAX.
+- **Fix:** Fixed console warnings on Chromium-based browsers on the settings page.
+- **Fix:** Fixed incorrect "Queue Migration" completion notice after plugin updates.
+- **Fix:** Resolved activation issues on fresh installs.
+- **Dev:** Removed the `wp_statistics_data_export_base_query` and `wp_statistics_data_export_query` filters.
 
 = 14.15.4 - 2025-09-02 =
 - **Enhancement:** Refactored the update process and database schema updates to run on the frontend.

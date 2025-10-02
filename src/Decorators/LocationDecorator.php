@@ -36,11 +36,11 @@ class LocationDecorator
     /**
      * Retrieves the country code of the visitor.
      *
-     * @return string|null The country code, or null if not available.
+     * @return string The country code, or unknown if not available.
      */
     public function getCountryCode()
     {
-        return $this->visitor->location ?? null;
+        return $this->visitor->location ?? Country::$unknown_location;
     }
 
     /**
