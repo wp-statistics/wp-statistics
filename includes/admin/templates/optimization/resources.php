@@ -33,7 +33,7 @@
             </tr>
 
             <?php
-            foreach ($result as $table_name => $data) {
+            foreach ($tables as $table_name => $data) {
                 ?>
                 <tr data-id="<?php echo 'number_of_rows_in_the_' . esc_attr($table_name).'_tr'; ?>">
                     <th scope="row">

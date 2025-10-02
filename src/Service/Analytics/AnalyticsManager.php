@@ -16,6 +16,8 @@ class AnalyticsManager
     /**
      * Registers AJAX actions.
      *
+     * @todo Register ajax using Ajax::register() and send response in a standard format using Ajax::success() or Ajax::error()
+     *
      * @param array $list
      *
      * @return  array

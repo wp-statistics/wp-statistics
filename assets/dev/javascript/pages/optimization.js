@@ -10,7 +10,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             {
                 button: '#populate-source-channel-submit',
                 result: '#populate-source-channel-result',
-                action: 'wp_statistics_update_source_channel',
+                action: 'wp_statistics_update_source_channel_data',
                 messageKey: 'confirm_update_channel'
             },
             {
@@ -28,7 +28,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             {
                 button: '#re-check-schema-submit-button',
                 result: '#re-check-schema-result',
-                action: 'wp_statistics_re_check_schema'
+                action: 'wp_statistics_recheck_schema'
             }
         ],
 

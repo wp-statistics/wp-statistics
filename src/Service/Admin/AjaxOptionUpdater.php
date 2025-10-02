@@ -8,6 +8,9 @@ use WP_STATISTICS\Option;
 use Exception;
 use WP_STATISTICS\User;
 
+/**
+ * @todo Send responses in a standard format using Ajax::success() or Ajax::error()
+ */
 class AjaxOptionUpdater
 {
     /**
