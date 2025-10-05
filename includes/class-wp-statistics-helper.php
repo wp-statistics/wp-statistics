@@ -1956,6 +1956,9 @@ class Helper
             '/[\'"\(](?:\s|%20)*DROP\b/i',                      // ' " ( DROP
             '/[\'"\(](?:\s|%20)*ALTER\b/i',                     // ' " ( ALTER
 
+            // Oracle injection
+            '/DBMS_PIPE\.(RECEIVE_MESSAGE|SEND_MESSAGE)/i',
+
             // SQL comment injection
             '/[\'"\(](?:\s|%20)*--(?:\s|%20)*/i',               // ' " ( --
             '/[\'"\(](?:\s|%20)*#(?:\s|%20)*/i',                // ' " ( #
@@ -2261,5 +2264,20 @@ class Helper
         }
 
         return $message;
+    }
+
+    /**
+     * Return available schedules for report delivery.
+     *
+     * @return array
+     */
+    public static function getReportSchedules()
+    {
+        $schedules = Schedule::getSchedules();
+
+        // Filter out non-report schedules
+        $schedules = self::filterArrayByKeys($schedules, ['daily', 'weekly', 'biweekly', 'monthly']);
+
+        return $schedules;
     }
 }

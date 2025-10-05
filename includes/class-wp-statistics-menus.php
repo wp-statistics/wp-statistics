@@ -155,21 +155,13 @@ class Menus
          *
          */
         $list = array(
-            'settings'     => array(
+            'settings' => array(
                 'sub'      => 'overview',
                 'title'    => __('Settings', 'wp-statistics'),
                 'cap'      => $manage_cap,
                 'page_url' => 'settings',
                 'method'   => 'settings',
                 'priority' => 100,
-            ),
-            'optimize'     => array(
-                'sub'      => 'overview',
-                'title'    => __('Optimization', 'wp-statistics'),
-                'cap'      => $manage_cap,
-                'page_url' => 'optimization',
-                'method'   => 'optimization',
-                'priority' => 110,
             )
         );
 

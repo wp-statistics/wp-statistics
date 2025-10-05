@@ -1,7 +1,7 @@
 {
   "name": "wp-statistics",
   "version": "1.0.0",
-  "description": "The Most Popular Privacy-Friendly Analytics Plugin",
+  "description": "Simple, privacy-friendly Google Analytics alternative",
   "main": "",
   "scripts": {
     "build": "wp-scripts build --webpack-copy-php --webpack-src-dir=assets/dev/blocks --output-path=assets/blocks",

@@ -8,6 +8,9 @@ use WP_Statistics\Components\Ajax;
 use WP_STATISTICS\Exclusion;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 
+/**
+ * @todo Send responses in a standard format using Ajax::success() or Ajax::error()
+ */
 class CustomEventActions
 {
     public function register()

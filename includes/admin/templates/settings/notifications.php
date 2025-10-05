@@ -1,8 +1,7 @@
 <?php
-
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Schedule;
-
 ?>
 <h2 class="wps-settings-box__title">
     <span><?php esc_html_e('Email Reports', 'wp-statistics'); ?></span>
@@ -58,7 +57,7 @@ use WP_STATISTICS\Schedule;
                 <select name="wps_time_report" id="time-report">
                     <option value="0" <?php selected(Option::get('time_report'), '0'); ?>><?php esc_html_e('Disable', 'wp-statistics'); ?></option>
                     <?php
-                    foreach (Schedule::getSchedules() as $key => $value) {
+                    foreach (Helper::getReportSchedules() as $key => $value) {
                         echo '<option value="' . esc_attr($key) . '" ' . selected(Option::get('time_report'), $key) . '>' . esc_attr($value['display']) . '</option>';
                     }
                     ?>
@@ -162,4 +161,4 @@ use WP_STATISTICS\Schedule;
     </table>
 </div>
 
-<?php submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='notifications-settings'")); ?>
+<?php submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('id' => 'notification_submit','OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='notifications-settings'")); ?>

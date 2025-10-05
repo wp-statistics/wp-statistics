@@ -158,7 +158,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                 <td>
                     <div class="c-password-field">
                         <?php $gscClientSecret = Option::getByAddon('gsc_client_secret', 'marketing'); ?>
-                        <input type="password" size="3" class="js-password-toggle" id="gsc-client-secret" name="wps_addon_settings[marketing][gsc_client_secret]" value="<?php echo esc_attr($gscClientSecret); ?>">
+                        <input type="password" autocomplete="off" size="3" class="js-password-toggle" id="gsc-client-secret" name="wps_addon_settings[marketing][gsc_client_secret]" value="<?php echo esc_attr($gscClientSecret); ?>">
                         <button type="button" class="c-password-field__btn" aria-label="Toggle password visibility">
                             <span class="icon-eye"></span>
                         </button>
@@ -176,7 +176,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                 <td>
                     <div class="wps-input-group wps-input-group__action">
                         <input readonly type="text" id="gsc-auth-redirect-url" class="regular-text wps-input-group__field" value="<?php echo esc_url($redirectUrl); ?>"/>
-                        <button type="button" id="copy-text" class="button has-icon wps-input-group__label wps-input-group__copy"  style="margin: 0; "><?php esc_html_e('Copy', 'wp-statistics'); ?></button>
+                        <button type="button" class="button has-icon wps-input-group__label wps-input-group__copy"  style="margin: 0; "><?php esc_html_e('Copy', 'wp-statistics'); ?></button>
                     </div>
                      <p class="description">
                         <?php echo esc_html__('URL to register under “Authorized redirect URIs” in your OAuth client.', 'wp-statistics'); ?>
@@ -324,6 +324,6 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
     </div>
 <?php
 if ($isMarketingActive) {
-    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='marketing-settings'"));
+    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('id' => 'marketing_submit', 'OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='marketing-settings'"));
 }
 ?>

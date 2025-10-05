@@ -23,17 +23,30 @@ use WP_Statistics;
 class SchemaMaintainer
 {
     /**
+     * Cache key used to store the result of a successful schema check.
+     *
+     * @var string
+     */
+    private const SCHEMA_CHECK_SUCCESS = 'wp_statistics_schema_check_success';
+
+    /**
      * Inspects database tables and returns any structural issues found
      *
      * @return array Schema inspection results
      */
-    public static function check()
+    public static function check($forceRecheck = false)
     {
+        self::clearCache($forceRecheck);
+
         $results = [
             'status' => 'success',
             'issues' => [],
             'errors' => []
         ];
+
+        if (get_transient(self::SCHEMA_CHECK_SUCCESS)) {
+            return $results;
+        }
 
         try {
             $tableNames = Manager::getAllTableNames();
@@ -114,16 +127,23 @@ class SchemaMaintainer
             WP_Statistics::log($e->getMessage());
         }
 
+        if ($results['status'] === 'success') {
+            set_transient(self::SCHEMA_CHECK_SUCCESS, 1, 24 * HOUR_IN_SECONDS);
+        }
+
         return $results;
     }
 
     /**
-     * Repairs any identified schema issues in the database tables
+     * Repairs any identified schema issues in the database tables.
      *
-     * @return array Repair operation results
+     * @param bool $forceRecheck Clear the cached schema-check transient before repairing.
+     * @return array Repair operation results.
      */
-    public static function repair()
+    public static function repair($forceRecheck = false)
     {
+        self::clearCache($forceRecheck);
+
         $results = [
             'status' => 'success',
             'fixed'  => [],
@@ -185,5 +205,20 @@ class SchemaMaintainer
         }
 
         return $results;
+    }
+
+    /**
+     * Clears the cached schema check transient if forced.
+     *
+     * @param bool $forceRecheck Whether to forcefully clear the schema-check cache.
+     * @return void
+     */
+    private static function clearCache($forceRecheck = false)
+    {
+        if (!$forceRecheck) {
+            return;
+        }
+
+        delete_transient(self::SCHEMA_CHECK_SUCCESS);
     }
 }

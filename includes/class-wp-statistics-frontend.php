@@ -69,7 +69,7 @@ class Frontend
                     'userOnline'           => false,
                     'trackAnonymously'     => IntegrationHelper::shouldTrackAnonymously(),
                     'isWpConsentApiActive' => IntegrationHelper::isIntegrationActive('wp_consent_api'),
-                    'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
+                    'consentLevel'         => Option::get('consent_level_integration', 'functional'),
                 ],
                 'isLegacyEventLoaded'   => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded
                 'customEventAjaxUrl'    => add_query_arg(['action' => 'wp_statistics_custom_event', 'nonce' => wp_create_nonce('wp_statistics_custom_event')], admin_url('admin-ajax.php')),
