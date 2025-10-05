@@ -153,7 +153,8 @@ class OnlineModel extends BaseModel
     public function getActivePages($args = [])
     {
         $args = $this->parseArgs($args, [
-            // ...
+            'order_by' => 'visitors',
+            'order'    => 'DESC'
         ]);
 
         $result = Query::select(['pages.page_id', 'COUNT(DISTINCT visitor_id) as visitors', 'COUNT(*) as views'])
@@ -162,6 +163,7 @@ class OnlineModel extends BaseModel
             ->whereDate('pages.date', 'today')
             ->whereDate('visitor_relationships.date', $this->timeframe)
             ->groupBy('pages.page_id')
+            ->orderBy($args['order_by'], $args['order'])
             ->getAll();
 
         return $result ?? [];
