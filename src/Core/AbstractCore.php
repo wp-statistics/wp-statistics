@@ -19,23 +19,50 @@ abstract class AbstractCore
      *
      * @var string
      */
-    protected string $currentVersion;
+    protected $currentVersion;
 
     /**
      * Stores the latest version of the plugin defined by the codebase.
      *
      * @var string
      */
-    protected string $latestVersion;
+    protected $latestVersion;
+
+    /**
+     * Whether operations are being performed network-wide (multisite network activation).
+     *
+     * @var bool
+     */
+    protected $networkWide = false;
+
+    /**
+     * WordPress database access object.
+     *
+     * @var \wpdb
+     */
+    protected $wpdb;
 
     /**
      * AbstractCore constructor.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($networkWide = false)
     {
         $this->latestVersion = WP_STATISTICS_VERSION;
+        $this->networkWide   = (bool)$networkWide;
+
+        $this->setWpdb();
+    }
+
+    /**
+     * Initialize the wpdb property from the global $wpdb.
+     */
+    private function setWpdb()
+    {
+        global $wpdb;
+
+        $this->wpdb = $wpdb;
     }
 
     /**
@@ -68,18 +95,6 @@ abstract class AbstractCore
     }
 
     /**
-     * Load WordPress dbDelta Function.
-     *
-     * @return void
-     */
-    protected function loadDbDelta()
-    {
-        if (!function_exists('dbDelta')) {
-            require(ABSPATH . 'wp-admin/includes/upgrade.php');
-        }
-    }
-
-    /**
      * Checks whether the plugin is a fresh installation.
      *
      * @return void
@@ -108,7 +123,7 @@ abstract class AbstractCore
      */
     protected function isUpdated()
     {
-        $this->currentVersion = get_option('wp_statistics_plugin_version');
+        $this->currentVersion = get_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
 
         return $this->currentVersion != $this->latestVersion;
     }

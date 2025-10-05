@@ -64,6 +64,7 @@ class TableHandler
         Option::saveOptionGroup('is_done', null, 'ajax_background_process');
         Option::saveOptionGroup('status', null, 'ajax_background_process');
         Option::saveOptionGroup('completed', false, 'queue_background_process');
+        Option::saveOptionGroup('status', null, 'queue_background_process');
 
         $dismissedNotices = get_option('wp_statistics_dismissed_notices', []);
 

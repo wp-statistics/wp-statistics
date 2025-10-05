@@ -24,7 +24,7 @@
 
             wpsButton.on('click', function (e) {
                 e.preventDefault();
-                const title= this.getAttribute('data-agree') ;
+                const title = this.getAttribute('data-agree');
                 const wpsResult = $(resultId);
 
                 // Get value if select exists
@@ -38,7 +38,7 @@
                 const modalId = 'setting-confirmation';
                 const modal = document.getElementById(modalId);
                 if (modal) {
-                     const message = title || wpsConfig.defaultMessage;
+                    const message = title || wpsConfig.defaultMessage;
                     const modalDescription = modal.querySelector('.wps-modal__description');
                     if (modalDescription) {
                         modalDescription.textContent = message;
@@ -87,7 +87,8 @@
                                 })
                                 .fail(function (jqXHR, wpsTextStatus, wpsErrorThrown) {
                                     // Display the raw response for debugging
-                                    const errorMessage = jqXHR.responseText || wpsTextStatus + ': ' + wpsErrorThrown;
+                                    const response = JSON.parse(jqXHR.responseText);
+                                    const errorMessage = response ? response.message : wpsTextStatus + ': ' + wpsErrorThrown;
                                     wpsResult.html('<div class="wps-alert wps-alert__danger"><p>' + errorMessage + '</p></div>');
                                 })
                                 .always(function () {
@@ -111,24 +112,22 @@
                 buttonId: '#purge-data-submit',
                 selectId: '#purge-data',
                 resultId: '#purge-data-result',
-                action: 'wp_statistics_purge_data',
+                action: 'wp_statistics_purge_old_data',
                 dataKey: 'purge-days',
-                validateValue: (wpsValue) => parseInt(wpsValue) >= 30,
                 callback: () => $('#wps_historical_purge').show()
             },
             {
                 buttonId: '#purge-visitor-hits-submit',
                 selectId: '#purge-visitor-hits',
                 resultId: '#purge-visitor-hits-result',
-                action: 'wp_statistics_purge_visitor_hits',
+                action: 'wp_statistics_purge_visitors',
                 dataKey: 'purge-hits',
-                validateValue: (wpsValue) => parseInt(wpsValue) >= 10
             },
             {
                 buttonId: '#delete-agents-submit',
                 selectId: '#delete-agent',
                 resultId: '#delete-agents-result',
-                action: 'wp_statistics_delete_agents',
+                action: 'wp_statistics_purge_visitors',
                 dataKey: 'agent-name',
                 callback: (wpsValue) => {
                     const wpsAid = wpsValue.replace(/[^a-zA-Z]/g, "");
@@ -139,7 +138,7 @@
                 buttonId: '#delete-platforms-submit',
                 selectId: '#delete-platform',
                 resultId: '#delete-platforms-result',
-                action: 'wp_statistics_delete_platforms',
+                action: 'wp_statistics_purge_visitors',
                 dataKey: 'platform-name',
                 callback: (wpsValue) => {
                     const wpsPid = wpsValue.replace(/[^a-zA-Z]/g, "");
@@ -150,20 +149,19 @@
                 buttonId: '#delete-ip-submit',
                 selectId: '#delete-ip',
                 resultId: '#delete-ip-result',
-                action: 'wp_statistics_delete_ip',
+                action: 'wp_statistics_purge_visitors',
                 dataKey: 'ip-address',
-                validateValue: (wpsValue) => /^(\d{1,3}\.){3}\d{1,3}$/.test(wpsValue),
                 callback: () => $('#delete-ip').val('')
             },
             {
                 buttonId: '#delete-user-ids-submit',
                 resultId: '#delete-user-ids-result',
-                action: 'wp_statistics_delete_user_ids'
+                action: 'wp_statistics_clear_user_ids'
             },
             {
                 buttonId: '#clear-user-agent-strings-submit',
                 resultId: '#clear-user-agent-strings-result',
-                action: 'wp_statistics_clear_user_agent_strings'
+                action: 'wp_statistics_clear_ua_strings'
             },
             {
                 buttonId: '#delete-word-count-data-submit',
@@ -190,43 +188,6 @@
             classes: wpsConfig.classes,
             nonce: wpsConfig.nonce
         }));
-
-        // Handle form submissions with modal confirmation
-        const wpsForms = document.querySelectorAll('.wps-submit-agree');
-        if (wpsForms.length > 0) {
-            wpsForms.forEach(function (wpsForm) {
-                const wpsSubmitButton = wpsForm.querySelector('button[class*="js-openModal-"]');
-                if (wpsSubmitButton) {
-                    wpsSubmitButton.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        const modalId = 'setting-confirmation';
-                        const modal = document.getElementById(modalId);
-                        if (modal) {
-                            const message = wpsForm.getAttribute('data-agree') || wpsConfig.defaultMessage;
-                            const modalDescription = modal.querySelector('.wps-modal__description');
-                            if (modalDescription) {
-                                modalDescription.textContent = message;
-                            }
-                            modal.classList.add('wps-modal--open');
-                            const primaryButton = modal.querySelector('button[data-action="resolve"]');
-                            if (primaryButton) {
-                                const newPrimaryButton = primaryButton.cloneNode(true);
-                                primaryButton.parentNode.replaceChild(newPrimaryButton, primaryButton);
-                                newPrimaryButton.addEventListener('click', function () {
-                                    wpsSubmitButton.classList.add(wpsConfig.classes.loading);
-                                    this.classList.add(wpsConfig.classes.loading);
-                                    wpsForm.submit();
-                                    modal.classList.remove('wps-modal--open');
-                                });
-                            }
-                        } else {
-                            console.error(`Modal with ID "${modalId}" not found.`);
-                        }
-                    });
-                }
-            });
-        }
-
     });
 </script>
 <h2 class="wps-settings-box__title">
@@ -254,7 +215,7 @@
                     <p class="description"><?php echo esc_html__('Erase User Stats Older Than Specified Days.', 'wp-statistics') . ' ' . esc_html__('Minimum Age for Deletion: 30 Days.', 'wp-statistics'); ?></p>
                     <button id="purge-data-submit" class="js-openModal-setting-confirmation wps-mt-12 wps-button wps-button--danger-outline" aria-label="<?php esc_attr_e('Purge data older than specified days', 'wp-statistics'); ?>"
                             data-agree="<?php esc_html_e('Are you sure you want to permanently delete this data?', 'wp-statistics'); ?>" type="button" name="purge-data-submit"><?php esc_html_e('Start Purging Now', 'wp-statistics'); ?></button>
-                     <div id="purge-data-result" class="wps-mt-12"></div>
+                    <div id="purge-data-result" class="wps-mt-12"></div>
                 </td>
             </tr>
 
@@ -315,7 +276,7 @@
                     <button id="delete-word-count-data-submit" class="js-openModal-setting-confirmation wps-button  wps-button--danger-outline wps-mt-0" type="submit" name="delete_word_count_data_submit"><?php esc_html_e('Clear Word Count Data Now', 'wp-statistics'); ?></button>
                     <div class="description">
                         <?php esc_html_e('Permanently deletes all stored word count data from the database.', 'wp-statistics'); ?><br>
-                         <div class="wps-alert wps-alert__danger"><?php esc_html_e('This action is irreversible.', 'wp-statistics'); ?></div>
+                        <div class="wps-alert wps-alert__danger"><?php esc_html_e('This action is irreversible.', 'wp-statistics'); ?></div>
                     </div>
                     <div id="delete-word-count-data-result"></div>
                 </td>
@@ -343,8 +304,8 @@
                 </th>
                 <td>
                     <?php
-                        $eventsModel = new WP_Statistics\Models\EventsModel();
-                        $events      = $eventsModel->getEvents(['fields' => 'DISTINCT event_name', 'per_page' => false]);
+                    $eventsModel = new WP_Statistics\Models\EventsModel();
+                    $events      = $eventsModel->getEvents(['fields' => 'DISTINCT event_name', 'per_page' => false, 'ignore_date' => true]);
                     ?>
                     <select dir="ltr" id="event-name" name="event_name">
                         <option value=""><?php esc_html_e('Select an Option', 'wp-statistics'); ?></option>
@@ -358,7 +319,7 @@
                         <?php esc_html_e('Choose which event to remove from the database. Once deleted, the data cannot be recovered. To stop recording this data in the future, please disable the event.', 'wp-statistics'); ?><br>
                     </p>
 
-                    <button id="event-data-cleanup-submit" class="button button-primary" type="submit" name="event_data_cleanup_submit"><?php esc_html_e('Delete Data', 'wp-statistics'); ?></button>
+                    <button id="event-data-cleanup-submit" class="wps-button wps-button--danger-outline js-openModal-setting-confirmation" type="submit" name="event_data_cleanup_submit"><?php esc_html_e('Delete Data', 'wp-statistics'); ?></button>
                     <div id="event-data-cleanup-result"></div>
                 </td>
             </tr>

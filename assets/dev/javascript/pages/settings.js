@@ -16,7 +16,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
     }
 
-
     class ShowIfEnabled {
         constructor() {
             this.initialize();
@@ -30,7 +29,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 const toggleElement = () => {
                     let conditions = 0;
                     let satisfied = 0;
-
                     const isOrCondition = element.classList.contains('js-wps-show_if_or');
 
                     classListArray.forEach(className => {
@@ -214,9 +212,160 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         });
 
 
+
+        // Handle retention period change
+        const retentionSelect = $('#wps_settings\\[wps_schedule_dbmaint_days_select\\]');
+        const customRetentionInput = $('#wps_schedule_dbmaint_days_custom');
+        const hiddenRetentionInput = $('#wps_schedule_dbmaint_days');
+        const presets = [0, 30, 60, 90, 180, 365, 730];
+        let initialRetention = parseInt(hiddenRetentionInput.val()) || 0;
+        let isProcessingChange = false;
+
+        function getNewValue() {
+            const selectValue = retentionSelect.val();
+            let newValue;
+
+            if (selectValue === 'custom') {
+                newValue = parseInt(customRetentionInput.val());
+                if (isNaN(newValue) || newValue < 30 || newValue > 3650) {
+                    newValue = initialRetention;
+                    customRetentionInput.val(newValue);
+                }
+            } else {
+                newValue = parseInt(selectValue);
+            }
+            return newValue;
+        }
+
+        function updateHiddenInput(newValue) {
+            hiddenRetentionInput.val(newValue);
+        }
+
+        function revertToInitialState() {
+            updateHiddenInput(initialRetention);
+            if (presets.includes(initialRetention)) {
+                retentionSelect.val(initialRetention.toString()).trigger('change.select2');
+                customRetentionInput.val('');
+            } else {
+                retentionSelect.val('custom').trigger('change.select2');
+                customRetentionInput.val(initialRetention);
+            }
+            new ShowIfEnabled();
+        }
+
+        function showRetentionConfirmationModal(newValue, callback) {
+            const modalId = 'enable-automatic-data-deletion';
+            const modal = document.getElementById(modalId);
+            if (!modal) {
+                callback(true);
+                return;
+            }
+
+            const description = modal.querySelector('.wps-modal__description span');
+            const descriptionAlert = modal.querySelector('.wps-alert__danger span');
+
+            const text = newValue === 0
+                ? wps_js._('forever')
+                : `${newValue} ${wps_js._('days')}`;
+
+            [description, descriptionAlert].forEach(el => {
+                if (el) el.textContent = text;
+            });
+
+            modal.classList.add('wps-modal--open');
+
+            const primaryButton = modal.querySelector('button[data-action="enable"]');
+            if (primaryButton) {
+                primaryButton.addEventListener('click', function handler() {
+                    modal.classList.remove('wps-modal--open');
+                    updateHiddenInput(newValue);
+                    initialRetention = newValue;
+                    callback(true);
+                }, { once: true });
+            }
+
+            const closeButton = modal.querySelector('button[data-action="closeModal"]');
+            if (closeButton) {
+                closeButton.addEventListener('click', function handler() {
+                    modal.classList.remove('wps-modal--open');
+                    revertToInitialState();
+                    callback(false);
+                }, { once: true });
+            }
+
+            const overlay = modal.querySelector('.wps-modal__overlay');
+            if (overlay) {
+                overlay.addEventListener('click', function handler() {
+                    modal.classList.remove('wps-modal--open');
+                    revertToInitialState();
+                    callback(false);
+                }, { once: true });
+            }
+        }
+
+        retentionSelect.on('change', function () {
+            if (isProcessingChange) {
+                return;
+            }
+            isProcessingChange = true;
+
+            if (retentionSelect.val() === 'custom' && !customRetentionInput.val()) {
+                customRetentionInput.val(initialRetention || 30);
+            }
+
+            const newValue = getNewValue();
+            if ((initialRetention === 0 && newValue !== 0) || (newValue !== 0 && initialRetention !== 0 && newValue < initialRetention)) {
+                showRetentionConfirmationModal(newValue, function (confirmed) {
+                    if (!confirmed) {
+                        revertToInitialState();
+                    }
+                    isProcessingChange = false;
+                });
+            } else {
+                updateHiddenInput(newValue);
+                initialRetention = newValue;
+                isProcessingChange = false;
+            }
+        });
+
+        customRetentionInput.on('change', function () {
+            if (isProcessingChange || retentionSelect.val() !== 'custom') {
+                isProcessingChange = false;
+                return;
+            }
+            isProcessingChange = true;
+
+            const newValue = getNewValue();
+            if ((initialRetention === 0 && newValue !== 0) || (newValue !== 0 && initialRetention !== 0 && newValue < initialRetention)) {
+                showRetentionConfirmationModal(newValue, function (confirmed) {
+                    if (!confirmed) {
+                        revertToInitialState();
+                    }
+                    isProcessingChange = false;
+                });
+            } else {
+                updateHiddenInput(newValue);
+                initialRetention = newValue;
+                isProcessingChange = false;
+            }
+        });
+
+        retentionSelect.on('select2:select', function () {
+            if (!isProcessingChange) {
+                retentionSelect.trigger('change');
+            }
+        });
+
+        if (presets.includes(initialRetention)) {
+            retentionSelect.val(initialRetention.toString()).trigger('change.select2');
+            customRetentionInput.val('');
+        } else {
+            retentionSelect.val('custom').trigger('change.select2');
+            customRetentionInput.val(initialRetention);
+        }
+
         new ShowIfEnabled();
         new GSCConnectButton();
-
 
         const searchConsoleSite = document.getElementById('wps_addon_settings[marketing][site]');
         if (searchConsoleSite) {
@@ -291,6 +440,4 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         });
     });
-
-
 }

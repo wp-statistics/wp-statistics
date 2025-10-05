@@ -1,9 +1,8 @@
 <?php
-
 use WP_STATISTICS\Option;
-use WP_STATISTICS\Schedule;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
+use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
 $isLicenseValid             = LicenseHelper::isPluginLicenseValid('wp-statistics-advanced-reporting');
@@ -75,7 +74,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                     <select id="wps_addon_settings[advanced_reporting][email_stats_time_range]" name="wps_addon_settings[advanced_reporting][email_stats_time_range]">
                         <option value="0" <?php selected(Option::get('time_report'), '0'); ?>><?php esc_html_e('Disable', 'wp-statistics'); ?></option>
                         <?php
-                        foreach (Schedule::getSchedules() as $key => $value) {
+                        foreach (Helper::getReportSchedules() as $key => $value) {
                             echo '<option value="' . esc_attr($key) . '" ' . selected(Option::get('time_report'), $key, false) . '>' . esc_attr($value['display']) . '</option>';
                         }
                         ?>
@@ -392,6 +391,6 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
 
 <?php
 if ($isAdvancedReportingActive) {
-    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='advanced-reporting-settings'"));
+    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('id' => 'advance_submit','OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='advanced-reporting-settings'"));
 }
 ?>

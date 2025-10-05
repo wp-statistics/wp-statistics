@@ -4,16 +4,22 @@ namespace WP_Statistics\Core\Operations;
 
 use WP_Statistics\Core\AbstractCore;
 use WP_Statistics\Components\AssetNameObfuscator;
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\Event;
 use WP_Statistics\Components\SystemCleaner;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Option;
+use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
 use WP_Statistics\Service\Database\Managers\TableHandler;
 use WP_Statistics\Service\Database\Migrations\Schema\SchemaManager;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 
 /**
- * Performs version checks and runs database migrations and cleanup tasks during updates.
+ * Handles update-time migrations and cleanup.
+ *
+ * Runs on init when a version change is detected; ensures tables exist, executes
+ * legacy migrations, updates the stored version, and bootstraps the schema manager.
+ * Also adjusts schedules, options, and cached data as needed.
  *
  * @package WP_Statistics\Core\Operations
  */
@@ -24,10 +30,9 @@ class Updater extends AbstractCore
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($networkWide = false)
     {
-        parent::__construct();
-
+        parent::__construct($networkWide);
         add_action('init', [$this, 'execute']);
     }
 
@@ -52,6 +57,7 @@ class Updater extends AbstractCore
         $this->updateVersion();
 
         SchemaManager::init();
+        SchemaMaintainer::repair(true);
     }
 
     /**
@@ -61,10 +67,6 @@ class Updater extends AbstractCore
      */
     private function legacyMigrations()
     {
-        global $wpdb;
-
-        $this->loadDbDelta();
-
         $userOnlineTable = DB::table('useronline');
         $pagesTable      = DB::table('pages');
         $visitorTable    = DB::table('visitor');
@@ -76,9 +78,9 @@ class Updater extends AbstractCore
          *
          * @version 14.11
          */
-        $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'source_channel'");
+        $result = $this->wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'source_channel'");
         if ($result == 0) {
-            $wpdb->query("ALTER TABLE {$visitorTable} ADD `source_channel` VARCHAR(50) NULL;");
+            $this->wpdb->query("ALTER TABLE {$visitorTable} ADD `source_channel` VARCHAR(50) NULL;");
         }
 
         /**
@@ -86,9 +88,9 @@ class Updater extends AbstractCore
          *
          * @version 14.11
          */
-        $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'source_name'");
+        $result = $this->wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'source_name'");
         if ($result == 0) {
-            $wpdb->query("ALTER TABLE {$visitorTable} ADD `source_name` VARCHAR(100) NULL;");
+            $this->wpdb->query("ALTER TABLE {$visitorTable} ADD `source_name` VARCHAR(100) NULL;");
         }
 
         /**
@@ -96,9 +98,9 @@ class Updater extends AbstractCore
          *
          * @version 14.11
          */
-        $result = $wpdb->query("SHOW COLUMNS FROM {$userOnlineTable} LIKE 'visitor_id'");
+        $result = $this->wpdb->query("SHOW COLUMNS FROM {$userOnlineTable} LIKE 'visitor_id'");
         if ($result == 0) {
-            $wpdb->query("ALTER TABLE {$userOnlineTable} ADD `visitor_id` bigint(20) NOT NULL;");
+            $this->wpdb->query("ALTER TABLE {$userOnlineTable} ADD `visitor_id` bigint(20) NOT NULL;");
         }
 
         /**
@@ -106,9 +108,9 @@ class Updater extends AbstractCore
          *
          * @version 14.5.2
          */
-        $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'city'");
+        $result = $this->wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'city'");
         if ($result == 0) {
-            $wpdb->query("ALTER TABLE {$visitorTable} ADD `city` VARCHAR(100) NULL;");
+            $this->wpdb->query("ALTER TABLE {$visitorTable} ADD `city` VARCHAR(100) NULL;");
         }
 
         /**
@@ -116,9 +118,9 @@ class Updater extends AbstractCore
          *
          * @version 14.7.0
          */
-        $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'region'");
+        $result = $this->wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'region'");
         if ($result == 0) {
-            $wpdb->query("ALTER TABLE {$visitorTable} ADD `region` VARCHAR(100) NULL;");
+            $this->wpdb->query("ALTER TABLE {$visitorTable} ADD `region` VARCHAR(100) NULL;");
         }
 
         /**
@@ -126,9 +128,9 @@ class Updater extends AbstractCore
          *
          * @version 14.7.0
          */
-        $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'continent'");
+        $result = $this->wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'continent'");
         if ($result == 0) {
-            $wpdb->query("ALTER TABLE {$visitorTable} ADD `continent` VARCHAR(50) NULL;");
+            $this->wpdb->query("ALTER TABLE {$visitorTable} ADD `continent` VARCHAR(50) NULL;");
         }
 
         /**
@@ -136,9 +138,9 @@ class Updater extends AbstractCore
          *
          * @version 13.2.4
          */
-        $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'device'");
+        $result = $this->wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'device'");
         if ($result == 0) {
-            $wpdb->query("ALTER TABLE {$visitorTable} ADD `device` VARCHAR(180) NULL AFTER `version`, ADD INDEX `device` (`device`);");
+            $this->wpdb->query("ALTER TABLE {$visitorTable} ADD `device` VARCHAR(180) NULL AFTER `version`, ADD INDEX `device` (`device`);");
         }
 
         /**
@@ -146,9 +148,9 @@ class Updater extends AbstractCore
          *
          * @version 13.2.4
          */
-        $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'model'");
+        $result = $this->wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'model'");
         if ($result == 0) {
-            $wpdb->query("ALTER TABLE {$visitorTable} ADD `model` VARCHAR(180) NULL AFTER `device`, ADD INDEX `model` (`model`);");
+            $this->wpdb->query("ALTER TABLE {$visitorTable} ADD `model` VARCHAR(180) NULL AFTER `device`, ADD INDEX `model` (`model`);");
         }
 
         /**
@@ -164,16 +166,16 @@ class Updater extends AbstractCore
          * - section Deprecation and Removal Notes
          */
         if (!DB::isColumnType('visitor', 'ID', 'bigint(20)') && !DB::isColumnType('visitor', 'ID', 'bigint')) {
-            $wpdb->query("ALTER TABLE {$visitorTable} CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
+            $this->wpdb->query("ALTER TABLE {$visitorTable} CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
         }
 
         if (!DB::isColumnType('exclusions', 'ID', 'bigint(20)') && !DB::isColumnType('exclusions', 'ID', 'bigint')) {
 
-            $wpdb->query("ALTER TABLE `" . DB::table('exclusions') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
+            $this->wpdb->query("ALTER TABLE `" . DB::table('exclusions') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
         }
 
         if (!DB::isColumnType('useronline', 'ID', 'bigint(20)') && !DB::isColumnType('useronline', 'ID', 'bigint')) {
-            $wpdb->query("ALTER TABLE {$userOnlineTable} CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
+            $this->wpdb->query("ALTER TABLE {$userOnlineTable} CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
         }
 
         /**
@@ -188,24 +190,24 @@ class Updater extends AbstractCore
         foreach ($list_table as $k => $name) {
             $tbl_info = DB::getTableInformation($name);
 
-            if (!empty($tbl_info['Collation']) && !empty($wpdb->collate) && $tbl_info['Collation'] != $wpdb->collate) {
-                $wpdb->query(
-                    $wpdb->prepare("ALTER TABLE `" . $name . "` DEFAULT CHARSET=%s COLLATE %s ROW_FORMAT = COMPACT;", $wpdb->charset, $wpdb->collate)
+            if (!empty($tbl_info['Collation']) && !empty($this->wpdb->collate) && $tbl_info['Collation'] != $this->wpdb->collate) {
+                $this->wpdb->query(
+                    $this->wpdb->prepare("ALTER TABLE `" . $name . "` DEFAULT CHARSET=%s COLLATE %s ROW_FORMAT = COMPACT;", $this->wpdb->charset, $this->wpdb->collate)
                 );
             }
         }
 
         if (version_compare($this->currentVersion, '13.0', '<=')) {
-            $wpdb->query("DELETE FROM `" . $wpdb->usermeta . "` WHERE `meta_key` = 'meta-box-order_toplevel_page_wps_overview_page'");
+            $this->wpdb->query("DELETE FROM `" . $this->wpdb->usermeta . "` WHERE `meta_key` = 'meta-box-order_toplevel_page_wps_overview_page'");
         }
 
-        $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'user_id'");
+        $result = $this->wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'user_id'");
         if ($result == 0) {
-            $wpdb->query("ALTER TABLE `" . $visitorTable . "` ADD `user_id` BIGINT(48) NOT NULL AFTER `location`");
+            $this->wpdb->query("ALTER TABLE `" . $visitorTable . "` ADD `user_id` BIGINT(48) NOT NULL AFTER `location`");
         }
 
         if (DB::ExistTable($searchTable)) {
-            $wpdb->query("DROP TABLE `$searchTable`");
+            $this->wpdb->query("DROP TABLE `$searchTable`");
         }
 
         /**
@@ -215,9 +217,9 @@ class Updater extends AbstractCore
          */
         if (DB::ExistTable($userOnlineTable)) {
             // Add index ip.
-            $result = $wpdb->query("SHOW INDEX FROM `" . $userOnlineTable . "` WHERE Key_name = 'ip'");
+            $result = $this->wpdb->query("SHOW INDEX FROM `" . $userOnlineTable . "` WHERE Key_name = 'ip'");
             if (!$result) {
-                $wpdb->query("ALTER TABLE `" . $userOnlineTable . "` ADD index (ip)");
+                $this->wpdb->query("ALTER TABLE `" . $userOnlineTable . "` ADD index (ip)");
             }
         }
 
@@ -228,11 +230,11 @@ class Updater extends AbstractCore
          *
          */
         if (DB::ExistTable($historicalTable)) {
-            $result = $wpdb->query("SHOW INDEX FROM `" . $historicalTable . "` WHERE Key_name = 'page_id'");
+            $result = $this->wpdb->query("SHOW INDEX FROM `" . $historicalTable . "` WHERE Key_name = 'page_id'");
 
             // Remove index
             if ($result) {
-                $wpdb->query("DROP INDEX `page_id` ON " . $historicalTable);
+                $this->wpdb->query("DROP INDEX `page_id` ON " . $historicalTable);
             }
         }
 
@@ -242,9 +244,9 @@ class Updater extends AbstractCore
          * @version 12.5.3
          */
         if (DB::ExistTable($pagesTable)) {
-            $result = $wpdb->query("SHOW COLUMNS FROM `" . $pagesTable . "` LIKE 'page_id'");
+            $result = $this->wpdb->query("SHOW COLUMNS FROM `" . $pagesTable . "` LIKE 'page_id'");
             if ($result == 0) {
-                $wpdb->query("ALTER TABLE `" . $pagesTable . "` ADD `page_id` BIGINT(20) NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`page_id`);");
+                $this->wpdb->query("ALTER TABLE `" . $pagesTable . "` ADD `page_id` BIGINT(20) NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`page_id`);");
             }
         }
 
@@ -255,20 +257,20 @@ class Updater extends AbstractCore
          * @version 6.0
          */
         if (DB::ExistTable($visitorTable)) {
-            $result = $wpdb->query("SHOW INDEX FROM `" . $visitorTable . "` WHERE Key_name = 'date_ip'");
+            $result = $this->wpdb->query("SHOW INDEX FROM `" . $visitorTable . "` WHERE Key_name = 'date_ip'");
             if ($result > 1) {
-                $wpdb->query("DROP INDEX `date_ip` ON " . $visitorTable);
+                $this->wpdb->query("DROP INDEX `date_ip` ON " . $visitorTable);
             }
 
-            $result = $wpdb->query("SHOW COLUMNS FROM `" . $visitorTable . "` LIKE 'AString'");
+            $result = $this->wpdb->query("SHOW COLUMNS FROM `" . $visitorTable . "` LIKE 'AString'");
             if ($result > 0) {
-                $wpdb->query("ALTER TABLE `" . $visitorTable . "` DROP `AString`");
+                $this->wpdb->query("ALTER TABLE `" . $visitorTable . "` DROP `AString`");
             }
 
             // Add index ip
-            $result = $wpdb->query("SHOW INDEX FROM `" . $visitorTable . "` WHERE Key_name = 'ip'");
+            $result = $this->wpdb->query("SHOW INDEX FROM `" . $visitorTable . "` WHERE Key_name = 'ip'");
             if (!$result) {
-                $wpdb->query("ALTER TABLE `" . $visitorTable . "` ADD index (ip)");
+                $this->wpdb->query("ALTER TABLE `" . $visitorTable . "` ADD index (ip)");
             }
         }
 
@@ -331,11 +333,19 @@ class Updater extends AbstractCore
          * Update consent integration to WP Consent API for backward compatibility
          */
         $integration          = Option::get('consent_integration');
-        $consentLevel         = Option::get('consent_level_integration', 'disabled');
+        $consentLevel         = Option::get('consent_level_integration', 'functional');
         $isWpConsentApiActive = IntegrationHelper::getIntegration('wp_consent_api')->isActive();
 
         if ($isWpConsentApiActive && empty($integration) && $consentLevel !== 'disabled') {
             Option::update('consent_integration', 'wp_consent_api');
+        }
+
+        /**
+         * Unset consent integration if consent level is disabled
+         */
+        if ($integration === 'wp_consent_api' && $consentLevel === 'disabled') {
+            Option::update('consent_integration', '');
+            Option::update('consent_level_integration', 'functional');
         }
 
         /**
@@ -394,6 +404,14 @@ class Updater extends AbstractCore
             if (!empty($updatedExcludedUrls)) {
                 Option::update('excluded_urls', implode("\n", $updatedExcludedUrls));
             }
+        }
+
+        if (!Option::get('schedule_dbmaint') && version_compare($this->currentVersion, '14.15.5', '<')) {
+            Option::update('schedule_dbmaint_days', '0');
+        }
+
+        if (Option::get('schedule_dbmaint') && version_compare($this->currentVersion, '14.15.5', '<')) {
+            Event::reschedule('wp_statistics_dbmaint_hook', 'daily', DateTime::get('tomorrow midnight', 'U'));
         }
     }
 

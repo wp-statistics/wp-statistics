@@ -403,11 +403,16 @@ td .wps-tooltip-icon.info {
     tr{
       td{
         vertical-align: middle;
-        .wps-referral-link{
+        .wps-referral-link , .wps-entry-page{
           display: flex;
           flex-direction: column;
           gap: 3px;
-          .wps-referral-label{
+
+          .wps-ellipsis-parent.wps-internal-link .wps-tooltip i{
+            margin-top: 1px!important;
+          }
+
+          .wps-referral-label , .wps-campaign-label{
             background: #00000005;
             padding:2px;
             border-radius:2px;

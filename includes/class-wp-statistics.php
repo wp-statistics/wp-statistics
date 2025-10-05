@@ -36,6 +36,9 @@ use WP_Statistics\Service\Database\Migrations\Schema\SchemaManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
 use WP_Statistics\Service\CustomEvent\CustomEventManager;
 use WP_Statistics\Service\Admin\ExportImport\ExportImportManager;
+use WP_Statistics\CLI\CliCommands;
+use WP_Statistics\Service\Admin\Optimization\OptimizationManager;
+use WP_Statistics\Globals\AjaxManager;
 
 defined('ABSPATH') || exit;
 
@@ -84,12 +87,12 @@ final class WP_Statistics
         /**
          * Install And Upgrade plugin
          */
-        register_activation_hook(WP_STATISTICS_MAIN_FILE, array('WP_Statistics', 'install'));
+        register_activation_hook(WP_STATISTICS_MAIN_FILE, [$this, 'activator']);
 
         /**
          * Remove plugin data
          */
-        register_uninstall_hook(WP_STATISTICS_MAIN_FILE, ['WP_Statistics', 'uninstall']);
+        register_uninstall_hook(WP_STATISTICS_MAIN_FILE, [self::class, 'uninstaller']);
 
         /**
          * wp-statistics loaded
@@ -190,6 +193,7 @@ final class WP_Statistics
 
         // Admin classes
         if (is_admin()) {
+            CoreFactory::loader();
 
             $adminManager     = new \WP_Statistics\Service\Admin\AdminManager();
             $contentAnalytics = new ContentAnalyticsManager();
@@ -206,7 +210,6 @@ final class WP_Statistics
 
             // Admin Pages List
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-settings.php';
-            require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-optimization.php';
 
             $analytics           = new AnalyticsManager();
             $authorAnalytics     = new AuthorAnalyticsManager();
@@ -223,6 +226,8 @@ final class WP_Statistics
             $overviewManager     = new OverviewManager();
             $metaboxManager      = new MetaboxManager();
             $exclusionsManager   = new ExclusionsManager();
+            $optimizationManager = new OptimizationManager();
+
             new FilterManager();
             new DatabaseMigrationAjaxManager();
             new DatabaseMigrationQueueManager();
@@ -231,6 +236,7 @@ final class WP_Statistics
         $hooksManager       = new HooksManager();
         $customEventManager = new CustomEventManager();
         $cronEventManager   = new CronEventManager();
+        $ajaxManager        = new AjaxManager();
 
         // WordPress ShortCode and Widget
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-shortcode.php';
@@ -251,7 +257,7 @@ final class WP_Statistics
 
         // WP-CLI Class.
         if (defined('WP_CLI') && WP_CLI) {
-            require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-cli.php';
+            \WP_CLI::add_command('statistics', CliCommands::class);
         }
 
         // Template functions.
@@ -365,30 +371,31 @@ final class WP_Statistics
     }
 
     /**
-     * Create tables on plugin activation
+     * Plugin activation callback.
      *
-     * @param object $network_wide
+     * Called by WordPress via register_activation_hook() when the plugin is activated.
+     * Defers to CoreFactory::activator() to perform the actual activation tasks.
+     *
+     * @param bool $networkWide Whether the plugin is being activated network-wide on multisite.
+     * @return void
      */
-    public static function install($network_wide)
+    public function activator($networkWide)
     {
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-install.php';
-        $installer = new \WP_STATISTICS\Install();
-        $installer->install($network_wide);
+        require_once WP_STATISTICS_DIR . 'vendor/autoload.php';
+        CoreFactory::activator($networkWide);
     }
 
     /**
-     * Manage task on plugin deactivation
+     * Plugin uninstall callback.
+     *
+     * Called by WordPress via register_uninstall_hook() when the plugin is uninstalled.
+     * Performs final cleanup by delegating to CoreFactory::uninstaller().
      *
      * @return void
      */
-    public static function uninstall()
+    public static function uninstaller()
     {
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-option.php';
-        require_once WP_STATISTICS_DIR . 'src/Components/AssetNameObfuscator.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-uninstall.php';
-
-        new \WP_STATISTICS\Uninstall();
+        require_once WP_STATISTICS_DIR . 'vendor/autoload.php';
+        CoreFactory::uninstaller();
     }
 }

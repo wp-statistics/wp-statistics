@@ -3,7 +3,7 @@
 [![WP compatibility](https://plugintests.com/plugins/wporg/wp-statistics/wp-badge.svg)](https://plugintests.com/plugins/wporg/wp-statistics/latest)
 [![PHP compatibility](https://plugintests.com/plugins/wporg/wp-statistics/php-badge.svg)](https://plugintests.com/plugins/wporg/wp-statistics/latest)
 
-# WP Statistics - The Most Popular Privacy-Friendly Analytics Plugin for WordPress
+# WP Statistics – Simple, privacy-friendly Google Analytics alternative
 
 ## Requirements
 - Requires at least: 5.0
@@ -15,7 +15,6 @@
 - License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 ## Description
-### WP Statistics: THE #1 WORDPRESS ANALYTICS PLUGIN
 Discover GDPR-compliant analytics with [WP Statistics](https://wp-statistics.com/?utm_source=wporg&utm_medium=link&utm_campaign=website), the top choice for WordPress users seeking an alternative to Google Analytics. No external accounts, unlimited visitor tracking, and full data ownership—all stored directly in your WordPress database.
 
 [Checkout Demo](https://wp-statistics.com/demo) | [View Screenshots](https://wordpress.org/plugins/wp-statistics#screenshots)

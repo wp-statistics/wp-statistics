@@ -15,6 +15,10 @@
     flex-direction: column;
     gap: 20px;
 
+  .wps--no-data__image{
+    display: none!important;
+  }
+
   @keyframes pulse-animation {
     0% {
       transform: scale(0.75);

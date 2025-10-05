@@ -5,6 +5,9 @@ namespace WP_Statistics\Service\Admin\Notification;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\Ajax;
 
+/**
+ * @todo Send responses in a standard format using Ajax::success() or Ajax::error()
+ */
 class NotificationActions
 {
     /**
