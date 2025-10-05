@@ -116,7 +116,7 @@
   }
 }
 
-#wps-statistics-root {
+#wp-statistics-root {
   @apply relative w-full;
   @apply border-border outline-ring/50;
   @apply bg-background text-foreground;

@@ -6,7 +6,7 @@ import { createRoot } from 'react-dom/client'
 import { App } from './app'
 
 // Render the app
-const rootElement = document.getElementById('wps-statistics-root')!
+const rootElement = document.getElementById('wp-statistics-root')!
 
 if (rootElement) {
   const root = createRoot(rootElement)

@@ -17,6 +17,20 @@ use WP_Statistics\Utils\Route;
 class ReactHandler extends BaseAdminAssets
 {
     /**
+     * Manifest main JS file path
+     * 
+     * @var string
+     */
+    private $manifestMainJs = '';
+
+    /**
+     * Manifest main CSS file paths
+     * 
+     * @var array
+     */
+    private $manifestMainCss = [];
+
+    /**
      * Initialize the React assets manager
      *
      * @return void
@@ -40,8 +54,19 @@ class ReactHandler extends BaseAdminAssets
         // Get Current Screen ID
         $screenId = Route::getScreenId();
 
-        // Load React Admin CSS on all WP Statistics pages for now
-        $this->enqueueDistAssets('css');
+        if ('admin_page_wp-statistics-root' !== $screenId) {
+            return;
+        }
+
+        $this->loadManifest();
+
+        if (empty($this->manifestMainCss)) {
+            return;
+        }
+
+        foreach ($this->manifestMainCss as $index => $cssFile) {
+            wp_enqueue_style($this->getAssetHandle() . '-' . $index, $this->getUrl($cssFile), [], $this->getVersion());
+        }
     }
 
     /**
@@ -55,8 +80,18 @@ class ReactHandler extends BaseAdminAssets
         // Get Current Screen ID
         $screenId = Route::getScreenId();
 
-        // Load React Admin JS on all WP Statistics pages for now
-        $this->enqueueDistAssets('js', $hook);
+        if ('admin_page_wp-statistics-root' !== $screenId) {
+            return;
+        }
+
+        $this->loadManifest();
+
+        if (empty($this->manifestMainJs)) {
+            return;
+        }
+
+        wp_enqueue_script_module($this->getAssetHandle(), $this->getUrl($this->manifestMainJs), [], $this->getVersion(), true);
+        wp_localize_script($this->getAssetHandle(), 'wps_react', $this->getLocalizedData($hook));
     }
 
     /**
@@ -72,56 +107,26 @@ class ReactHandler extends BaseAdminAssets
         return apply_filters('wp_statistics_react_localized_data', $list);
     }
 
-    /**
-     * Enqueue all assets from dist folder
-     *
-     * @param string $type Asset type ('css' or 'js')
-     * @param string|null $hook Current admin page hook (for JS localization)
-     * @return void
-     */
-    protected function enqueueDistAssets($type, $hook = null)
+    private function loadManifest()
     {
-        $distPath = trailingslashit(WP_STATISTICS_DIR) . trailingslashit($this->getAssetDir()) . 'assets';
-        $pattern  = trailingslashit($distPath) . '*.' . $type;
-        $files = glob($pattern);
-
-        $index = 0;
-        foreach ($files as $file) {
-            $filename = basename($file);
-            $handle = $this->getAssetHandle() . '-' . $index;
-            $url = $this->getUrl('assets/' . $filename);
-
-            // Debug URL
-            add_action('admin_head', function() use ($filename, $url, $handle) {
-                echo "<!-- WP Statistics React: File: $filename, Handle: $handle, URL: " . ($url ?: 'EMPTY') . " -->\n";
-            });
-
-            if (empty($url)) {
-                continue;
-            }
-
-            if ($type === 'css') {
-                wp_enqueue_style($handle, $url, [], $this->getVersion());
-            } else {
-                wp_enqueue_script($handle, $url, [], $this->getVersion(), null, true);
-
-
-                // Localize only the first script
-                if ($index === 0 && $hook !== null) {
-                    wp_localize_script($handle, 'wps_react', $this->getLocalizedData($hook));
-                }
-            }
-
-            $index++;
+        if (!empty($this->manifestMainJs) && !empty($this->manifestMainCss)) {
+            return;
         }
 
-          add_filter('script_loader_tag', function($tag, $handle, $src) {
-            if (strpos($handle, 'wp-statistics-admin') === 0) {
-                        return str_replace('<script ', '<script type="module" ', $tag);
-                    }
-                    return $tag;
-                
+        $manifestPath = $this->getUrl('.vite/manifest.json');
 
-            }, 10, 3);
+        if (empty($manifestPath)) {
+           return;
+        }
+
+        $manifestContent = file_get_contents($manifestPath);
+        $decodedContent  = json_decode($manifestContent, true);
+
+        if (empty($decodedContent['src/main.tsx'])) {
+            return;
+        }
+
+        $this->manifestMainJs  = $decodedContent['src/main.tsx']['file'] ?? '';
+        $this->manifestMainCss = $decodedContent['src/main.tsx']['css'] ?? [];
     }
 }

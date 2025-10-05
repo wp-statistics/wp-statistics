@@ -18,6 +18,7 @@ export default defineConfig({
   base: './',
   build: {
     emptyOutDir: true,
+    manifest: true,
     rollupOptions: {
       input: {
         settings: resolve(__dirname, 'src/main.tsx'),

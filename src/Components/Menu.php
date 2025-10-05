@@ -49,6 +49,13 @@ class Menu
     private const LOAD_ADMIN_SLUG_TEMPLATE = 'toplevel_page_[slug]';
 
     /**
+     * Template for the React-based admin-page slug.
+     * 
+     * @var string
+     */
+    private const ADMIN_REACT_SLUG_TEMPLATE = 'wp-statistics-[slug]';
+
+    /**
      * Return an associative array with the generated admin-page slugs keyed by
      * their logical name.
      *
@@ -71,6 +78,10 @@ class Menu
      */
     public static function buildPageSlug(string $pageSlug)
     {
+        if ('root' === $pageSlug) {
+            return str_ireplace('[slug]', $pageSlug, self::ADMIN_REACT_SLUG_TEMPLATE);
+        }
+
         return str_ireplace('[slug]', $pageSlug, self::ADMIN_MENU_SLUG_TEMPLATE);
     }
 
