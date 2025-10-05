@@ -119,8 +119,8 @@ class SettingPage extends BasePage
             'pageName' => Menu::buildPageSlug($this->getPageIndex()),
         ];
 
-        Admin_Template::get_template(['layout/header', 'layout/title'], $args);
+        // Admin_Template::get_template(['layout/header', 'layout/title'], $args);
         View::load(['pages/settings/settings'], $args);
-        Admin_Template::get_template(['layout/footer'], $args);
+        // Admin_Template::get_template(['layout/footer'], $args);
     }
 }

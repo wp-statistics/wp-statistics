@@ -1,1 +1,1 @@
-<div id="wps-settings-page" class="postbox-container"></div>
+<div id="wps-statistics-root" class="postbox-container"></div>

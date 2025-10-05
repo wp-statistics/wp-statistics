@@ -1,0 +1,36 @@
+# Build output
+dist/
+build/
+public/
+legacy/
+
+# Dependencies
+node_modules/
+
+# Cache
+.cache/
+.eslintcache
+
+# Test coverage
+coverage/
+
+# Environment files
+.env*
+!.env.example
+
+# Log files
+*.log
+
+# Editor directories
+.idea/
+.vscode/
+
+# System files
+.DS_Store
+Thumbs.db 
+
+package-lock.json
+pnpm-lock.yaml
+
+.storybook
+routeTree.gen.ts

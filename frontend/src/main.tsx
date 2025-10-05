@@ -1,10 +1,18 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import './globals.css'
 
-createRoot(document.getElementById('wps-settings-page')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+
+import { App } from './app'
+
+// Render the app
+const rootElement = document.getElementById('wps-statistics-root')!
+
+if (rootElement) {
+  const root = createRoot(rootElement)
+  root.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  )
+}
