@@ -5,6 +5,24 @@
 #poststuff.wps-wrap__settings {
   padding: 0;
 
+  [data-id^="historical_total_"] input[type="number"]::-webkit-inner-spin-button,
+  [data-id^="historical_total_"] input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0;
+  }
+  [data-id^="historical_total_"] input[type="number"] {
+    -moz-appearance: textfield !important;
+  }
+
+  input[type="number"] {
+    -webkit-appearance: none!important;
+    -moz-appearance: textfield!important;
+
+    &.invalid{
+      border: 1px solid #d5201c!important;
+    }
+  }
+
   .wps-settings-side {
     &__title {
       color: #565759;
@@ -2641,7 +2659,7 @@
     right: unset;
   }
 }
-#setting-confirmation .wps-modal__content{
+#setting-confirmation .wps-modal__content , #enable-automatic-data-deletion .wps-modal__content{
   h2{
     padding: 0;
     font-weight: 500;
@@ -2649,12 +2667,12 @@
     line-height: 25px;
   }
   .wps-modal__description{
-    font-weight: 500;
+    font-weight: 400;
     font-size: 15px;
   }
-  .wps-alert__danger{
-    text-transform: uppercase;
-    margin-top: -6px!important;
+  .wps-alert__danger {
+    margin-top: -6px !important;
+    font-weight: 400;
   }
 }
 

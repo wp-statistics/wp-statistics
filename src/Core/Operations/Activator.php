@@ -55,10 +55,33 @@ class Activator extends AbstractCore
 
         $this->markBackgroundProcessAsInitiated();
         $this->createOptions();
-        $this->updateVersion();
+        $this->initializeVersion();
         SchemaMaintainer::repair(true);
     }
 
+    /**
+     * Ensures the plugin version is stored in the database.
+     *
+     * If the version option does not already exist, this method will
+     * initialize it by calling updateVersion().
+     *
+     * @return void
+     */
+    private function initializeVersion() {
+        $version = get_option('wp_statistics_plugin_version');
+
+        if (!empty($version)) {
+            return;
+        }
+
+        $this->updateVersion();
+    }
+
+    /**
+     * Creates the default options if they do not already exist.
+     *
+     * @return bool
+     */
     private function createOptions()
     {
         $existedOption = get_option(Option::$opt_name);
