@@ -640,6 +640,15 @@
       margin-bottom: 12px !important;
     }
 
+    .c-live__status {
+      margin-right: 0 !important;
+      margin-left: 11px !important;
+
+      .rtl &{
+        margin-right: 12 !important;
+       }
+    }
+
     .handle-actions.hide-if-no-js {
       display: flex;
       align-items: center;
