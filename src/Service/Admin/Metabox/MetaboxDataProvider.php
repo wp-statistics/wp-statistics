@@ -85,8 +85,8 @@ class MetaboxDataProvider
         ];
 
         $data = [
-            'online' => $this->onlineModel->countOnlines($args),
-            'summary'   => $summary
+            'online'  => $this->onlineModel->countOnlines($args),
+            'summary' => $summary
         ];
 
         return $data;
