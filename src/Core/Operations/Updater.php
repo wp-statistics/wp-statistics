@@ -69,8 +69,6 @@ class Updater extends AbstractCore
     {
         global $wpdb;
 
-        $this->loadDbDelta();
-
         $pagesTable      = DB::table('pages');
         $visitorTable    = DB::table('visitor');
         $historicalTable = DB::table('historical');
