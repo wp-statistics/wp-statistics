@@ -33,25 +33,8 @@ class TrafficOverview extends BaseMetabox
             'exclude'          => ['this_week', 'last_week', 'this_month', 'last_month', '90days', '6months'],
         ];
 
-        $chartData = $this->dataProvider->getTrafficChartData(array_merge($args, ['date' => DateRange::get('15days'), 'prev_data' => true]));
+        $chartData = $this->dataProvider->getTrafficChartData(array_merge($args, ['date' => DateRange::get('7days', true)]));
         $data      = $this->dataProvider->getTrafficOverviewData($args);
-
-        // Merge chart data with template data
-        $data = array_merge($data, [
-            'total' => [
-                'visitors' => [
-                    'current' => array_sum($chartData['data']['datasets'][0]['data']),
-                    'prev'    => array_sum($chartData['previousData']['datasets'][0]['data'])
-                ],
-                'views'    => [
-                    'current' => array_sum($chartData['data']['datasets'][1]['data']),
-                    'prev'    => array_sum($chartData['previousData']['datasets'][1]['data'])
-                ]
-            ]
-        ]);
-
-        // Prevent previous data from being sent to the js
-        unset($chartData['previousData']);
 
         $output = View::load('metabox/traffic-overview', ['data' => $data], true);
 
