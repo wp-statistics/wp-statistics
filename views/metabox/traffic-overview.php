@@ -5,10 +5,10 @@ use WP_STATISTICS\Option;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
 
-$visitors     = $data['summary']['7days']['current']['visitors'];
-$prevVisitors = $data['summary']['7days']['prev']['visitors'];
-$views        = $data['summary']['7days']['current']['hits'];
-$prevViews    = $data['summary']['7days']['prev']['hits'];
+$visitors     = $data['summary']['7days']['data']['current']['visitors'];
+$prevVisitors = $data['summary']['7days']['data']['prev']['visitors'];
+$views        = $data['summary']['7days']['data']['current']['hits'];
+$prevViews    = $data['summary']['7days']['data']['prev']['hits'];
 $userOnline   = new \WP_STATISTICS\UserOnline();
 ?>
 
@@ -91,7 +91,12 @@ $userOnline   = new \WP_STATISTICS\UserOnline();
             </thead>
 
             <tbody>
-                <?php foreach ($data['summary'] as $key => $item) : ?>
+                <?php foreach ($data['summary'] as $key => $item) :
+                    $currentVisitors = $item['data']['current']['visitors'];
+                    $prevVisitors    = $item['data']['prev']['visitors'] ?? null;
+                    $currentHits     = $item['data']['current']['hits'];
+                    $prevHits        = $item['data']['prev']['hits'] ?? null;
+                ?>
                     <tr>
                         <td>
                             <?php echo esc_html($item['label']); ?>
@@ -103,11 +108,11 @@ $userOnline   = new \WP_STATISTICS\UserOnline();
 
                         <td>
                             <div>
-                                <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get($key, !empty($item['today_excluded'])))) ?>"><span class="quickstats-values" title="<?php echo esc_attr($item['current']['visitors']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($item['current']['visitors'], 1)) ?></span></a>
+                                <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get($key, !empty($item['today_excluded'])))) ?>"><span class="quickstats-values" title="<?php echo esc_attr($currentVisitors); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($currentVisitors, 1)) ?></span></a>
 
-                                <?php if (isset($item['current']['visitors']) && isset($item['prev']['visitors'])) : ?>
-                                    <div class="diffs__change <?php echo ($item['current']['visitors'] > $item['prev']['visitors']) ? 'plus' : 'minus' ?>">
-                                        <span class="diffs__change__direction"><?php echo esc_html(Helper::calculatePercentageChange($item['prev']['visitors'], $item['current']['visitors'])) ?>%</span>
+                                <?php if (isset($currentVisitors) && isset($prevVisitors)) : ?>
+                                    <div class="diffs__change <?php echo ($currentVisitors > $prevVisitors) ? 'plus' : 'minus' ?>">
+                                        <span class="diffs__change__direction"><?php echo esc_html(Helper::calculatePercentageChange($prevVisitors, $currentVisitors)) ?>%</span>
                                     </div>
                                 <?php endif; ?>
                             </div>
@@ -115,11 +120,11 @@ $userOnline   = new \WP_STATISTICS\UserOnline();
 
                         <td>
                             <div>
-                                <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get($key, !empty($item['today_excluded'])))) ?>"><span class="quickstats-values" title="<?php echo esc_attr($item['current']['hits']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($item['current']['hits'], 1)) ?></span></a>
+                                <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get($key, !empty($item['today_excluded'])))) ?>"><span class="quickstats-values" title="<?php echo esc_attr($currentHits); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($currentHits, 1)) ?></span></a>
 
-                                <?php if (isset($item['current']['hits']) && isset($item['prev']['hits'])) : ?>
-                                    <div class="diffs__change <?php echo ($item['current']['hits'] > $item['prev']['hits']) ? 'plus' : 'minus' ?>">
-                                        <span class="diffs__change__direction"><?php echo esc_html(Helper::calculatePercentageChange($item['prev']['hits'], $item['current']['hits'])) ?>%</span>
+                                <?php if (isset($currentHits) && isset($prevHits)) : ?>
+                                    <div class="diffs__change <?php echo ($currentHits > $prevHits) ? 'plus' : 'minus' ?>">
+                                        <span class="diffs__change__direction"><?php echo esc_html(Helper::calculatePercentageChange($prevHits, $currentHits)) ?>%</span>
                                     </div>
                                 <?php endif; ?>
                             </div>

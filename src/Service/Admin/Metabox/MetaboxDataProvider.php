@@ -61,26 +61,34 @@ class MetaboxDataProvider
         $summary = [
             'today' => [
                 'label'   => esc_html__('Today', 'wp-statistics'),
-                'current' => $this->visitorsModel->getVisitorsHits(['date' => 'today'])
+                'data' => [
+                    'current' => $this->visitorsModel->getVisitorsHits(['date' => 'today'])
+                ]
             ],
             'yesterday' => [
-                'label'   => esc_html__('Yesterday', 'wp-statistics'),
-                'current' => $this->visitorsModel->getVisitorsHits(['date' => 'yesterday']),
-                'prev'    => $this->visitorsModel->getVisitorsHits(['date' => DateRange::getPrevPeriod('yesterday')])
+                'label' => esc_html__('Yesterday', 'wp-statistics'),
+                'data'  => [
+                    'current' => $this->visitorsModel->getVisitorsHits(['date' => 'yesterday']),
+                    'prev'    => $this->visitorsModel->getVisitorsHits(['date' => DateRange::getPrevPeriod('yesterday')])
+                ]
             ],
             '7days' => [
                 'label'          => esc_html__('Last 7 days', 'wp-statistics'),
                 'tooltip'        => esc_html__('Totals from the last 7 complete days (excludes today).', 'wp-statistics'),
                 'today_excluded' => true,
-                'current'        => $this->visitorsModel->getVisitorsHits(['date' => DateRange::get('7days', true)]),
-                'prev'           => $this->visitorsModel->getVisitorsHits(['date' => DateRange::getPrevPeriod('7days', true)])
+                'data'           => [
+                    'current' => $this->visitorsModel->getVisitorsHits(['date' => DateRange::get('7days', true)]),
+                    'prev'    => $this->visitorsModel->getVisitorsHits(['date' => DateRange::getPrevPeriod('7days', true)])
+                ]
             ],
             '28days' => [
                 'label'          => esc_html__('Last 28 days', 'wp-statistics'),
                 'tooltip'        => esc_html__('Totals from the last 28 complete days (excludes today).', 'wp-statistics'),
                 'today_excluded' => true,
-                'current'        => $this->visitorsModel->getVisitorsHits(['date' => DateRange::get('28days', true)]),
-                'prev'           => $this->visitorsModel->getVisitorsHits(['date' => DateRange::getPrevPeriod('28days', true)])
+                'data'           => [
+                    'current' => $this->visitorsModel->getVisitorsHits(['date' => DateRange::get('28days', true)]),
+                    'prev'    => $this->visitorsModel->getVisitorsHits(['date' => DateRange::getPrevPeriod('28days', true)])
+                ]
             ]
         ];
 
