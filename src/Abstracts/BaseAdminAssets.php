@@ -128,12 +128,17 @@ abstract class BaseAdminAssets
      * Get asset URL
      *
      * @param string $fileName File name
+     * @param bool   $relativePath If true, return the relative file path instead of URL
      * @return string Asset URL
      */
-    protected function getUrl($fileName)
+    protected function getUrl($fileName, $relativePath = false)
     {
         $relative = trailingslashit($this->assetDir) . ltrim($fileName, '/');
         $filePath = wp_normalize_path(trailingslashit(WP_STATISTICS_DIR) . $relative);
+
+        if ($relativePath) {
+            return $filePath;
+        }
 
         if (file_exists($filePath)) {
             return trailingslashit($this->pluginUrl) . $relative;
