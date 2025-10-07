@@ -10,7 +10,8 @@ use WP_Statistics\Utils\Request;
 $pageKey = Menus::getCurrentPage();
 $pageKey = $pageKey['page_url'];
 
-$currentTab = Helper::findInArray($tabs, 'id', Request::get('tab', $tabs[0]['id']));
+$defaultTab = $tabs[0]['id'] ?? '';
+$currentTab = Helper::findInArray($tabs, 'id', Request::get('tab', $defaultTab));
 
 View::load('components/objects/share-anonymous-notice');
 ?>
