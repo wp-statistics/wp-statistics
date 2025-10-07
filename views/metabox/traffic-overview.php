@@ -48,7 +48,7 @@ $userOnline   = new \WP_STATISTICS\UserOnline();
                                 <span><?php echo esc_html(Helper::formatNumberWithUnit($visitors, 1)) ?></span>
                                 <span class="current-data-percent diffs__change <?php echo ($visitors > $prevVisitors) ? 'plus' : 'minus' ?>">
                                     <span class="diffs__change__direction">
-                                        <?php echo esc_html(Helper::calculatePercentageChange($prevVisitors, $visitors)) ?>%
+                                        <?php echo esc_html(Helper::calculatePercentageChange($prevVisitors, $visitors, 1, true)) ?>%
                                     </span>
                                 </span>
                             </div>
@@ -61,7 +61,7 @@ $userOnline   = new \WP_STATISTICS\UserOnline();
                                 <span><?php echo esc_html(Helper::formatNumberWithUnit($views, 1)) ?></span>
                                 <span class="current-data-percent diffs__change <?php echo ($views > $prevViews) ? 'plus' : 'minus' ?>">
                                     <span class="diffs__change__direction">
-                                        <?php echo esc_html(Helper::calculatePercentageChange($prevViews, $views)) ?>%
+                                        <?php echo esc_html(Helper::calculatePercentageChange($prevViews, $views, 1, true)) ?>%
                                     </span>
                                 </span>
                             </div>
@@ -112,7 +112,7 @@ $userOnline   = new \WP_STATISTICS\UserOnline();
 
                                 <?php if (isset($currentVisitors) && isset($prevVisitors)) : ?>
                                     <div class="diffs__change <?php echo ($currentVisitors > $prevVisitors) ? 'plus' : 'minus' ?>">
-                                        <span class="diffs__change__direction"><?php echo esc_html(Helper::calculatePercentageChange($prevVisitors, $currentVisitors)) ?>%</span>
+                                        <span class="diffs__change__direction"><?php echo esc_html(Helper::calculatePercentageChange($prevVisitors, $currentVisitors, 1, true)) ?>%</span>
                                     </div>
                                 <?php endif; ?>
                             </div>
@@ -124,7 +124,7 @@ $userOnline   = new \WP_STATISTICS\UserOnline();
 
                                 <?php if (isset($currentHits) && isset($prevHits)) : ?>
                                     <div class="diffs__change <?php echo ($currentHits > $prevHits) ? 'plus' : 'minus' ?>">
-                                        <span class="diffs__change__direction"><?php echo esc_html(Helper::calculatePercentageChange($prevHits, $currentHits)) ?>%</span>
+                                        <span class="diffs__change__direction"><?php echo esc_html(Helper::calculatePercentageChange($prevHits, $currentHits, 1, true)) ?>%</span>
                                     </div>
                                 <?php endif; ?>
                             </div>
