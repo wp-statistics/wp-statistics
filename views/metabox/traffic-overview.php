@@ -111,7 +111,7 @@ $userOnline   = new \WP_STATISTICS\UserOnline();
                                 <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get($key, !empty($item['today_excluded'])))) ?>"><span class="quickstats-values" title="<?php echo esc_attr($currentVisitors); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($currentVisitors, 1)) ?></span></a>
 
                                 <?php if (isset($currentVisitors) && isset($prevVisitors)) : ?>
-                                    <div class="diffs__change <?php echo ($currentVisitors > $prevVisitors) ? 'plus' : 'minus' ?>">
+                                    <div class="diffs__change <?php echo $currentVisitors > $prevVisitors ? 'plus' : ''; ?> <?php echo $currentVisitors < $prevVisitors ? 'minus' : ''; ?>">
                                         <span class="diffs__change__direction"><?php echo esc_html(Helper::calculatePercentageChange($prevVisitors, $currentVisitors, 1, true)) ?>%</span>
                                     </div>
                                 <?php endif; ?>
@@ -123,8 +123,8 @@ $userOnline   = new \WP_STATISTICS\UserOnline();
                                 <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get($key, !empty($item['today_excluded'])))) ?>"><span class="quickstats-values" title="<?php echo esc_attr($currentHits); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($currentHits, 1)) ?></span></a>
 
                                 <?php if (isset($currentHits) && isset($prevHits)) : ?>
-                                    <div class="diffs__change <?php echo ($currentHits > $prevHits) ? 'plus' : 'minus' ?>">
-                                        <span class="diffs__change__direction"><?php echo esc_html(Helper::calculatePercentageChange($prevHits, $currentHits, 1, true)) ?>%</span>
+                                    <div class="diffs__change <?php echo $currentHits > $prevHits ? 'plus' : ''; ?> <?php echo $currentHits < $prevHits ? 'minus' : ''; ?>">
+                                         <span class="diffs__change__direction"><?php echo esc_html(Helper::calculatePercentageChange($prevHits, $currentHits, 1, true)) ?>%</span>
                                     </div>
                                 <?php endif; ?>
                             </div>
