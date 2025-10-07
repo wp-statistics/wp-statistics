@@ -7,6 +7,7 @@ use WP_Statistics\Components\View;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsDataProvider;
+use WP_Statistics\Service\Admin\ExportImport\ExportTypes;
 use WP_Statistics\Utils\Request;
 
 class CategoryReportView extends BaseView
@@ -85,6 +86,7 @@ class CategoryReportView extends BaseView
             'backTitle'             => $parentPage['title'],
             'filters'               => ['post-types','author', 'taxonomy'],
             'lockCustomPostTypes'   => true,
+            'export'                => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE],
             'paged'                 => Admin_Template::getCurrentPaged(),
             'data'                  => $this->getData()
         ];
