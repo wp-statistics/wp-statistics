@@ -2262,4 +2262,24 @@ class Helper
 
         return $message;
     }
+
+    /**
+     * Finds an item in an array that matches the given key and value.
+     *
+     * @param array $array The array to search in
+     * @param string $key The key to search for
+     * @param mixed $value The value to search for
+     *
+     * @return array|null The found item, or null if not found
+     */
+    public static function findInArray($array, $key, $value)
+    {
+        foreach ($array as $item) {
+            if (isset($item[$key]) && $item[$key] === $value) {
+                return $item;
+            }
+        }
+
+        return null;
+    }
 }

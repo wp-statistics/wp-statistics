@@ -78,15 +78,13 @@ if (isset($backUrl, $backTitle, $_SERVER['HTTP_REFERER'])) {
         <?php endif ?>
     <?php endif; ?>
 
-
-
-
-
-    <?php if (isset($hasDateRang) || isset($filters) || isset($searchBoxTitle) || isset($filter)): ?>
+    <?php if (isset($hasDateRang) || isset($filters) || isset($searchBoxTitle) || isset($filter) || isset($export)): ?>
         <div class="<?php echo (Menus::in_page('content-analytics') || Menus::in_page('category-analytics') || Menus::in_page('author-analytics') || Menus::in_page('download_tracker') || Menus::in_page('link_tracker')) && (Request::compare('type', 'single') || Request::compare('type', 'single-author')) ? 'wps-head-filters wps-head-filters--custom' : 'wps-head-filters' ?>">
 
             <?php
-            View::load("components/objects/export-button");
+                if (!empty($export) && is_array($export)) {
+                    View::load("components/objects/export-button", ['types' => $export]);
+                }
             ?>
 
             <?php if (isset($Datepicker)): ?>

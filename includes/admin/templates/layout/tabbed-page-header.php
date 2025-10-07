@@ -5,9 +5,12 @@ use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Url;
 use WP_Statistics\Components\View;
 use WP_Statistics\Marketing\Services\Auth\AuthHelper;
+use WP_Statistics\Utils\Request;
 
 $pageKey = Menus::getCurrentPage();
 $pageKey = $pageKey['page_url'];
+
+$currentTab = Helper::findInArray($tabs, 'id', Request::get('tab'));
 
 View::load('components/objects/share-anonymous-notice');
 ?>
@@ -62,12 +65,14 @@ View::load('components/objects/share-anonymous-notice');
             </div>
         </form>
     <?php endif ?>
-    <?php if (isset($hasDateRang) || isset($filters) || isset($lastUpdated)) : ?>
+    <?php if (isset($hasDateRang) || isset($filters) || isset($lastUpdated) || isset($currentTab['export'])) : ?>
         <div class="wps-head-filters">
             <?php
-            View::load("components/objects/export-button");
-            ?>
-            <?php
+
+            if (!empty($currentTab['export']) && is_array($currentTab['export'])) {
+                View::load("components/objects/export-button", ['types' => $currentTab['export']]);
+            }
+
             if (!empty($hasDateRang)) {
                 include 'date.range.php';
             }
