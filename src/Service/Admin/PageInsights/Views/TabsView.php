@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Admin\PageInsights\Views;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
+use WP_Statistics\Service\Admin\ExportImport\ExportTypes;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
@@ -114,49 +115,61 @@ class TabsView extends BaseTabView
             ]),
             'tabs'          => [
                 [
+                    'id'      => 'overview',
                     'link'    => Menus::admin_url('pages', ['tab' => 'overview']),
                     'title'   => esc_html__('Overview', 'wp-statistics'),
                     'class'   => $this->isTab('overview') ? 'current' : '',
+                    'export'  => [ExportTypes::PDF_PAGE]
                 ],
                 [
+                    'id'      => 'top',
                     'link'    => Menus::admin_url('pages', ['tab' => 'top']),
                     'title'   => esc_html__('Top Pages', 'wp-statistics'),
                     'tooltip' => esc_html__('Shows visitor stats, views and word count for each content.', 'wp-statistics'),
                     'class'   => $this->isTab('top') ? 'current' : '',
+                    'export'  => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                 ],
                 [
+                    'id'      => 'category',
                     'link'    => Menus::admin_url('pages', ['tab' => 'category']),
                     'title'   => esc_html__('Category Pages', 'wp-statistics'),
                     'tooltip' => esc_html__('Shows the page views for category pages related to the selected taxonomy.', 'wp-statistics'),
                     'class'   => $this->isTab('category') ? 'current' : '',
+                    'export'  => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                 ],
                 [
+                    'id'      => 'author',
                     'link'    => Menus::admin_url('pages', ['tab' => 'author']),
                     'title'   => esc_html__('Author Pages', 'wp-statistics'),
                     'tooltip' => esc_html__('View performance metrics for individual authors\' pages.', 'wp-statistics'),
                     'class'   => $this->isTab('author') ? 'current' : '',
+                    'export'  => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                 ],
                 [
+                    'id'        => '404',
                     'link'      => Menus::admin_url('pages', ['tab' => '404']),
                     'title'     => esc_html__('404 Pages', 'wp-statistics'),
                     'class'     => $this->isTab('404') ? 'current' : '',
                     'tooltip'   => esc_html__('View URLs that led visitors to 404 errors.', 'wp-statistics'),
+                    'export'    => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                 ],
                 [
-                    'id'      => 'entry_pages',
+                    'id'      => 'entry-pages',
                     'link'    => Menus::admin_url('pages', ['tab' => 'entry-pages']),
                     'title'   => esc_html__('Entry Pages', 'wp-statistics'),
                     'tooltip' => esc_html__('To view this report, you need to have the Data Plus add-on.', 'wp-statistics'),
                     'class'   => $this->isTab('entry-pages') ? 'current' : '',
-                    'locked'  => !Helper::isAddOnActive('data-plus')
+                    'locked'  => !Helper::isAddOnActive('data-plus'),
+                    'export'  => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                 ],
                 [
-                    'id'        => 'exit_pages',
+                    'id'        => 'exit-pages',
                     'link'      => Menus::admin_url('pages', ['tab' => 'exit-pages']),
                     'title'     => esc_html__('Exit Pages', 'wp-statistics'),
                     'tooltip'   => esc_html__('To view this report, you need to have the Data Plus add-on.', 'wp-statistics'),
                     'class'     => $this->isTab('exit-pages') ? 'current' : '',
-                    'locked'    => !Helper::isAddOnActive('data-plus')
+                    'locked'    => !Helper::isAddOnActive('data-plus'),
+                    'export'    => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                 ],
             ]
         ];
@@ -168,8 +181,8 @@ class TabsView extends BaseTabView
             $entryPage = $exitPage = null;
 
             foreach ($tabs as $key => $tab) {
-                if (isset($tab['id']) && $tab['id'] === 'entry_pages') $entryPage = $key;
-                if (isset($tab['id']) && $tab['id'] === 'exit_pages') $exitPage = $key;
+                if (isset($tab['id']) && $tab['id'] === 'entry-pages') $entryPage = $key;
+                if (isset($tab['id']) && $tab['id'] === 'exit-pages') $exitPage = $key;
             }
 
             // Relocate array items when Data Plus is active
