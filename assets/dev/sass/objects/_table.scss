@@ -641,9 +641,7 @@
     }
 
     .c-live__status {
-      margin-right: 0 !important;
-      margin-left: 11px !important;
-
+      margin-right: 13px !important;
       .rtl &{
         margin-right: 12 !important;
        }
@@ -674,11 +672,17 @@
       }
     }
 
-    .wps-postbox-chart--data .wps-postbox-chart--item > span {
-      font-size: 12px;
-      font-weight: 500;
-      line-height: 15;
-      color: #444F5C;
+    .wps-postbox-chart--data .wps-postbox-chart--item {
+
+      width:50%;
+
+      & > span {
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 15;
+        color: #444F5C;
+        text-transform: uppercase
+      }
     }
 
     .wps-postbox-chart--data {
@@ -1035,7 +1039,6 @@
 
     .o-wrap {
       padding: 12px;
-
       .wps-postbox-chart--title {
         display: flex;
         justify-content: space-between;
@@ -1051,7 +1054,8 @@
       }
 
       .wps-postbox-chart--data {
-        padding: 12px;
+        padding-right: 12px;
+        padding-left: 12px;
         gap: 16px;
         border: 1px solid #EEEFF1;
         border-radius: 8px;
@@ -1065,6 +1069,47 @@
           justify-content: space-between;
           width: 100%;
           gap: 16px;
+
+          .wps-postbox-chart--item{
+            padding-top:12px;
+            padding-bottom:12px;
+            &:first-child{
+              border-right: 1px solid #EEEFF1;
+
+              .rtl &{
+                border-right: none;
+                border-left: 1px solid #EEEFF1;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    thead tr{
+      th:last-child{
+        text-align:right;
+        padding-right: 12px !important;
+
+        .rtl &{
+          text-align:left;
+          padding-left: 12px !important;
+        }
+      }
+    }
+
+    tbody {
+       tr {
+        td {
+          &:nth-child(2), &:nth-child(3) {
+            a span {
+              color: #0C0C0D !important
+            }
+          }
+
+          &:nth-child(3) div{
+            justify-content: flex-end;
+          }
         }
       }
     }
