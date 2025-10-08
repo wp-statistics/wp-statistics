@@ -384,7 +384,6 @@ class settings_page extends Singleton
     public static function save_general_option($wp_statistics_options)
     {
         $wps_option_list = array(
-            'wps_useronline',
             'wps_visits',
             'wps_visitors',
             'wps_visitors_log',

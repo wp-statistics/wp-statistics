@@ -281,7 +281,7 @@ class Admin_Assets
         //Global Option
         $list['options'] = array(
             'rtl'            => (is_rtl() ? 1 : 0),
-            'user_online'    => (Option::get('useronline') ? 1 : 0),
+            'user_online'    => 1,
             'visitors'       => 1,
             'visits'         => 1,
             'geo_ip'         => 1,
