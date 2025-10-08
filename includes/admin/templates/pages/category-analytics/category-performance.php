@@ -1,85 +1,90 @@
 <?php
+
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Components\View;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
+
 ?>
 
 <div class="metabox-holder wps-category-analytics">
     <div class="postbox-container" id="wps-postbox-container-1">
         <?php
-            $metrics = [
-                [
-                    'label'  => esc_html__('Published Contents', 'wp-statistics'),
-                    'value'  => Helper::formatNumberWithUnit($data['glance']['posts']['value']),
-                    'change' => $data['glance']['posts']['change']
-                ],
-                [
-                    'label'  => esc_html__('Visitors', 'wp-statistics'),
-                    'value'  => Helper::formatNumberWithUnit($data['glance']['visitors']['value']),
-                    'change' => $data['glance']['visitors']['change']
-                ],
-                [
-                    'label'  => esc_html__('Views', 'wp-statistics'),
-                    'value'  => Helper::formatNumberWithUnit($data['glance']['views']['value']),
-                    'change' => $data['glance']['views']['change']
-                ]
-            ];
+        $metrics = [
+            [
+                'label'  => esc_html__('Published Contents', 'wp-statistics'),
+                'value'  => Helper::formatNumberWithUnit($data['glance']['posts']['value']),
+                'change' => $data['glance']['posts']['change']
+            ],
+            [
+                'label'  => esc_html__('Visitors', 'wp-statistics'),
+                'value'  => Helper::formatNumberWithUnit($data['glance']['visitors']['value']),
+                'change' => $data['glance']['visitors']['change']
+            ],
+            [
+                'label'  => esc_html__('Views', 'wp-statistics'),
+                'value'  => Helper::formatNumberWithUnit($data['glance']['views']['value']),
+                'change' => $data['glance']['views']['change']
+            ]
+        ];
 
-            if (WordCountService::isActive()) {
-                $metrics[] = [
-                    'label'  => esc_html__('Words', 'wp-statistics'),
-                    'value'  => Helper::formatNumberWithUnit($data['glance']['words']['value']),
-                ];
-
-                $metrics[] = [
-                    'label'  => esc_html__('Avg. words per content', 'wp-statistics'),
-                    'value'  => Helper::formatNumberWithUnit($data['glance']['words_avg']['value']),
-                ];
-            }
-
+        if (WordCountService::isActive()) {
             $metrics[] = [
-                'label'  => esc_html__('Comments', 'wp-statistics'),
-                'value'  => Helper::formatNumberWithUnit($data['glance']['comments']['value']),
-                'change' => $data['glance']['comments']['change']
+                'label' => esc_html__('Words', 'wp-statistics'),
+                'value' => Helper::formatNumberWithUnit($data['glance']['words']['value']),
             ];
 
             $metrics[] = [
-                'label'  => esc_html__('Avg. comments per content', 'wp-statistics'),
-                'value'  => Helper::formatNumberWithUnit($data['glance']['comments_avg']['value']),
-                'change' => $data['glance']['comments_avg']['change']
+                'label' => esc_html__('Avg. words per content', 'wp-statistics'),
+                'value' => Helper::formatNumberWithUnit($data['glance']['words_avg']['value']),
             ];
+        }
 
-            View::load("components/objects/glance-card", ['metrics' => $metrics]);
+        $metrics[] = [
+            'label'  => esc_html__('Comments', 'wp-statistics'),
+            'value'  => Helper::formatNumberWithUnit($data['glance']['comments']['value']),
+            'change' => $data['glance']['comments']['change']
+        ];
 
-            $operatingSystems = [
-                'title'     => esc_html__('Operating Systems', 'wp-statistics'),
-                'tooltip'   => esc_html__('Distribution of visitors by their operating systems.', 'wp-statistics'),
-                'unique_id' => 'category_operating_systems'
-            ];
-            View::load("components/charts/horizontal-bar", $operatingSystems);
+        $metrics[] = [
+            'label'  => esc_html__('Avg. comments per content', 'wp-statistics'),
+            'value'  => Helper::formatNumberWithUnit($data['glance']['comments_avg']['value']),
+            'change' => $data['glance']['comments_avg']['change']
+        ];
 
-            $browsers = [
-                'title'     => esc_html__('Browsers', 'wp-statistics'),
-                'tooltip'   => esc_html__('Distribution of visitors by their web browsers.', 'wp-statistics'),
-                'unique_id' => 'category_browsers'
-            ];
-            View::load("components/charts/horizontal-bar", $browsers);
+        View::load("components/objects/glance-card", ['metrics' => $metrics]);
 
-            $deviceModels = [
-                'title'     => esc_html__('Device Models', 'wp-statistics'),
-                'tooltip'   => esc_html__('Distribution of visitors by their device models.', 'wp-statistics'),
-                'unique_id' => 'category_device_models'
-            ];
-            View::load("components/charts/horizontal-bar", $deviceModels);
+        View::load("components/traffic-summary", ['data' => $data]);
 
 
-            $deviceUsage = [
-                'title'     => esc_html__('Device Usage', 'wp-statistics'),
-                'tooltip'   => esc_html__('Distribution of visitors by their device types.', 'wp-statistics'),
-                'unique_id' => 'category_device_usage'
-            ];
-            View::load("components/charts/horizontal-bar", $deviceUsage);
+        $operatingSystems = [
+            'title'     => esc_html__('Operating Systems', 'wp-statistics'),
+            'tooltip'   => esc_html__('Distribution of visitors by their operating systems.', 'wp-statistics'),
+            'unique_id' => 'category_operating_systems'
+        ];
+        View::load("components/charts/horizontal-bar", $operatingSystems);
+
+        $browsers = [
+            'title'     => esc_html__('Browsers', 'wp-statistics'),
+            'tooltip'   => esc_html__('Distribution of visitors by their web browsers.', 'wp-statistics'),
+            'unique_id' => 'category_browsers'
+        ];
+        View::load("components/charts/horizontal-bar", $browsers);
+
+        $deviceModels = [
+            'title'     => esc_html__('Device Models', 'wp-statistics'),
+            'tooltip'   => esc_html__('Distribution of visitors by their device models.', 'wp-statistics'),
+            'unique_id' => 'category_device_models'
+        ];
+        View::load("components/charts/horizontal-bar", $deviceModels);
+
+
+        $deviceUsage = [
+            'title'     => esc_html__('Device Usage', 'wp-statistics'),
+            'tooltip'   => esc_html__('Distribution of visitors by their device types.', 'wp-statistics'),
+            'unique_id' => 'category_device_usage'
+        ];
+        View::load("components/charts/horizontal-bar", $deviceUsage);
         ?>
     </div>
 

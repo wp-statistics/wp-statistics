@@ -58,6 +58,8 @@ $postTypePlural   = Helper::getPostTypeName($postType);
 
             View::load("components/objects/glance-card", ['metrics' => $metrics]);
 
+            View::load("components/traffic-summary", ['data' => $data]);
+
             $categories = [
                 'title'      => esc_html__('Top Categories', 'wp-statistics'),
                 'tooltip'    => sprintf(esc_html__('The most popular categories by number of published %s.', 'wp-statistics'), strtolower($postTypePlural)),

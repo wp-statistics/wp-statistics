@@ -735,51 +735,7 @@
       }
     }
 
-    .diffs__change {
-      display: flex;
-      align-items: center;
-      gap: 4px;
 
-      .diffs__change__direction {
-        padding: 2px 4px;
-        border-radius: 2px;
-        display: inline-flex;
-        gap: 4px;
-        position: relative;
-        align-items: center;
-        font-size: 12px !important;
-        color: #56585A;
-        background: #A9AAAE1A;
-      }
-
-      &.minus .diffs__change__direction {
-        color: #D54037;
-        background: #D540370D;
-
-        &:before {
-          content: '';
-          width: 6px;
-          min-width: 6px;
-          height: 3px;
-          display: inline-flex;
-          background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNiIgaGVpZ2h0PSI0IiB2aWV3Qm94PSIwIDAgNiA0IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMC4xMzY2NjIgMS4wNTE0N0wxLjUxMjgzIDIuNDI3NjNMMi4zNTMxIDMuMjcyMTlDMi43MDg5MyAzLjYyODAyIDMuMjg3NjkgMy42MjgwMiAzLjY0MzUyIDMuMjcyMTlMNS44NjQyNSAxLjA1MTQ2QzYuMTU1NzcgMC43NTk5NDEgNS45NDU3IDAuMjYyNjM1IDUuNTM4NDMgMC4yNjI2MzZMMy4xMzMzNiAwLjI2MjYzNkwwLjQ2MjQ4MyAwLjI2MjYzNkMwLjA1MDkxOTcgMC4yNjI2MzYgLTAuMTU0ODYyIDAuNzU5OTQxIDAuMTM2NjYyIDEuMDUxNDdaIiBmaWxsPSIjRDU0MDM3Ii8+Cjwvc3ZnPgo=) center center no-repeat;
-        }
-      }
-
-      &.plus .diffs__change__direction {
-        color: #196140;
-        background: #1961400D;
-
-        &:before {
-          content: '';
-          width: 6px;
-          min-width: 6px;
-          height: 3px;
-          display: inline-flex;
-          background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNiIgaGVpZ2h0PSI0IiB2aWV3Qm94PSIwIDAgNiA0IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNNS44NjMzNCAyLjY3ODExTDQuNDg3MTcgMS40MTgwNkwzLjY0NjkgMC42NDQ3NDhDMy4yOTEwNyAwLjMxODkzOCAyLjcxMjMxIDAuMzE4OTM4IDIuMzU2NDggMC42NDQ3NDhMMC4xMzU3NTMgMi42NzgxMUMtMC4xNTU3NzEgMi45NDUwNCAwLjA1NDI5NzcgMy40MDAzOSAwLjQ2MTU3NCAzLjQwMDM5SDIuODY2NjRINS41Mzc1MkM1Ljk0OTA4IDMuNDAwMzkgNi4xNTQ4NiAyLjk0NTA0IDUuODYzMzQgMi42NzgxMVoiIGZpbGw9IiMxOTYxNDAiLz4KPC9zdmc+Cg==) center center no-repeat;
-        }
-      }
-    }
 
     .o-wrap {
       border: 1px solid #EEEFF1;

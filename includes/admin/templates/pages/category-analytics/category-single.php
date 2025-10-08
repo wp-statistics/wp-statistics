@@ -52,6 +52,8 @@ use WP_Statistics\Service\Admin\Posts\WordCountService;
 
             View::load("components/objects/glance-card", ['metrics' => $metrics]);
 
+            View::load("components/traffic-summary", ['data' => $data]);
+
             $operatingSystems = [
                 'title'     => esc_html__('Operating Systems', 'wp-statistics'),
                 'tooltip'   => esc_html__('Distribution of visitors by their operating systems.', 'wp-statistics'),

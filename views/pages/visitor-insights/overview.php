@@ -32,51 +32,10 @@ $isTrackLoggedInUsersEnabled = Option::get('visitors_log');
 
         View::load("components/objects/glance-card", ['metrics' => $metrics, 'two_column' => true]);
         ?>
-        <div class="wps-card">
-            <div class="wps-card__title">
-                <h2><?php esc_html_e('Traffic Summary', 'wp-statistics') ?></h2>
-            </div>
-            <div class="wps-meta-traffic-summary">
-                <div class="c-live">
-                    <div>
-                        <span class="c-live__status"></span>
-                        <span class="c-live__title"><?php esc_html_e('Online Users', 'wp-statistics') ?></span>
-                    </div>
-                    <div class="c-live__online">
-                        <span class="c-live__online--value"><?php echo esc_html(number_format_i18n($data['summary']['online'])) ?></span>
-                        <a class="c-live__value" href="<?php echo esc_url(Menus::admin_url('visitors', ['tab' => 'online'])) ?>"><span class="c-live__online--arrow"></span></a>
-                    </div>
-                </div>
-                <div class="o-table-wrapper">
-                    <table width="100%" class="o-table o-table--wps-summary-stats">
-                        <thead>
-                        <tr>
-                            <th width="50%"><?php esc_html_e('Time', 'wp-statistics') ?></th>
-                            <th><?php esc_html_e('Visitors', 'wp-statistics') ?></th>
-                            <th><?php esc_html_e('Views', 'wp-statistics') ?></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td><b><?php esc_html_e('Today', 'wp-statistics') ?></b></td>
-                            <td><a href="<?php echo esc_url(Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('today')))); ?>"><span class="quickstats-values"><?php echo esc_html(number_format_i18n($data['summary']['visitors']['today'])); ?></span></a></td>
-                            <td><a href="<?php echo esc_url(Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('today')))); ?>"><span class="quickstats-values"><?php echo esc_html(number_format_i18n($data['summary']['views']['today'])); ?></span></a></td>
-                        </tr>
-                        <tr>
-                            <td><b><?php esc_html_e('Yesterday', 'wp-statistics') ?></b></td>
-                            <td><a href="<?php echo esc_url(Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('yesterday')))); ?>"><span class="quickstats-values"><?php echo esc_html(number_format_i18n($data['summary']['visitors']['yesterday'])); ?></span></a></td>
-                            <td><a href="<?php echo esc_url(Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('yesterday')))); ?>"><span class="quickstats-values"><?php echo esc_html(number_format_i18n($data['summary']['views']['yesterday'])); ?></span></a></td>
-                        </tr>
-                        <tr>
-                            <td><b><?php esc_html_e('7-Day Avg', 'wp-statistics') ?></b></td>
-                            <td><a href="<?php echo esc_url(Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('7days', true)))); ?>"><span class="quickstats-values"><?php echo esc_html(ceil(Helper::divideNumbers($data['summary']['visitors']['7days'], 7, 1))); ?></span></a></td>
-                            <td><a href="<?php echo esc_url(Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('7days', true)))); ?>"><span class="quickstats-values"><?php echo esc_html(ceil(Helper::divideNumbers($data['summary']['views']['7days'], 7, 1))); ?></span></a></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+
+        <?php
+        View::load("components/traffic-summary", ['data'=>$data]);
+        ?>
 
         <?php
         if ($isTrackLoggedInUsersEnabled) {
