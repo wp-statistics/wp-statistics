@@ -145,11 +145,6 @@ class SiteHealthInfo
             /**
              * Plugin configuration settings.
              */
-            'monitorOnlineVisitors'          => [
-                'label' => esc_html__('Monitor Online Visitors', 'wp-statistics'),
-                'value' => Option::get('useronline') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::get('useronline') ? 'Enabled' : 'Disabled',
-            ],
             'trackLoggedInUserActivity'      => [
                 'label' => esc_html__('Track Logged-In User Activity', 'wp-statistics'),
                 'value' => Option::get('visitors_log') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
