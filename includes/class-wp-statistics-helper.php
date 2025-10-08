@@ -1850,10 +1850,12 @@ class Helper
      *
      * @param int|float $firstNumber
      * @param int|float $secondNumber
+     * @param int $decimals
+     * @param bool $abs
      *
      * @return  float
      */
-    public static function calculatePercentageChange($firstNumber, $secondNumber, $decimals = 2)
+    public static function calculatePercentageChange($firstNumber, $secondNumber, $decimals = 2, $abs = false)
     {
         $firstNumber  = intval($firstNumber);
         $secondNumber = intval($secondNumber);
@@ -1876,7 +1878,9 @@ class Helper
         $result *= 100;
         $result *= $multiply;
 
-        return round($result, $decimals);
+        $result = round($result, $decimals);
+
+        return $abs ? abs($result) : $result;
     }
 
     /**
