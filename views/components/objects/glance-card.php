@@ -1,3 +1,7 @@
+<?php
+use WP_STATISTICS\Helper;
+?>
+
 <div class="wps-card">
     <div class="wps-card__title">
         <h2><?php esc_html_e('At a Glance', 'wp-statistics'); ?></h2>
@@ -5,8 +9,10 @@
     <div class="inside">
         <div class="wps-at-a-glance <?php echo isset($two_column) && $two_column ? 'wps-at-a-glance__two-col' : ''; ?>">
             <?php if (!empty($metrics) && is_array($metrics)): ?>
-                <?php foreach ($metrics as $metric): ?>
-                    <div class="wps-at-a-glance-item">
+                <?php foreach ($metrics as $metric) : ?>
+                    <?php $rawValue = str_replace('%', '', $metric['value'] ?? $metric['link-href']); ?>
+
+                    <div class="wps-at-a-glance-item" data-id="<?php echo esc_attr($metric['id']); ?>" data-value="<?php echo esc_attr($rawValue); ?>">
                         <!-- Metric Label -->
                         <span class="wps-at-a-glance-label" title="<?php echo esc_html($metric['label'] ?? ''); ?>">
                                <?php if (!empty($metric['icon'])): ?>
@@ -39,9 +45,10 @@
                                 </span>
 
                             <?php elseif (isset($metric['value'])): ?>
-                                <span title="<?php echo esc_html($metric['value'] ?? 'No data'); ?>">
+                                <?php $value = !empty($metric['format_number']) ? Helper::formatNumberWithUnit($metric['value']) : $metric['value']; ?>
+                                <span title="<?php echo esc_attr($value); ?>">
                                     <?php if ($metric['value']): ?>
-                                        <?php echo esc_html($metric['value']); ?>
+                                        <?php echo esc_html($value); ?>
                                     <?php else: ?>
                                         -
                                     <?php endif; ?>
