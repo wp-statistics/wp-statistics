@@ -25,59 +25,6 @@ jQuery(document).ready(function () {
      if (targetElement && noticeElement) {
          targetElement.parentNode.insertBefore(noticeElement, targetElement.nextSibling);
     }
-
-    const exportBtn = document.querySelector(".wps-premium-btn__export");
-    const exportDropdown = document.querySelector(".wps-export-dropdown");
-    const overlay = document.createElement("div");
-
-    if(exportDropdown){
-        overlay.className = "export-overlay";
-        document.body.appendChild(overlay);
-
-        exportBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            exportDropdown.classList.toggle("active");
-            overlay.classList.toggle("active");
-            exportBtn.parentElement.classList.toggle("drop-down-open");
-        });
-
-        overlay.addEventListener("click", () => {
-            exportDropdown.classList.remove("active");
-            overlay.classList.remove("active");
-            exportBtn.parentElement.classList.remove("drop-down-open");
-        });
-
-        exportDropdown.querySelectorAll("a").forEach(link => {
-            link.addEventListener("click", async (e) => {
-                e.preventDefault();
-
-                const url = link.dataset.url;
-                const originalHTML = link.innerHTML;
-                link.classList.add("loading");
-                link.innerHTML = `<span class="spinner"></span> Preparing your file…`;
-
-                try {
-                    const res = await fetch(link.dataset.url);
-                    const {download_url} = await res.json();
-                    const a = document.createElement("a");
-                    a.href = download_url;
-                    a.download = "";
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-
-                } catch (err) {
-                    console.error(err)
-                } finally {
-                    link.innerHTML = originalHTML;
-                    exportDropdown.classList.remove("active");
-                    overlay.classList.remove("active");
-                    link.classList.remove("loading");
-                    exportBtn.parentElement.classList.remove("drop-down-open");
-                }
-            });
-        });
-    }
 });
 
 
