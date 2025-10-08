@@ -68,6 +68,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'WP_Statistics\\Abstracts\\BaseBackgroundProcess' => __DIR__ . '/../..' . '/src/Abstracts/BaseBackgroundProcess.php',
         'WP_Statistics\\Abstracts\\BaseMetabox' => __DIR__ . '/../..' . '/src/Abstracts/BaseMetabox.php',
         'WP_Statistics\\Abstracts\\BaseMigrationManager' => __DIR__ . '/../..' . '/src/Abstracts/BaseMigrationManager.php',
         'WP_Statistics\\Abstracts\\BaseMigrationOperation' => __DIR__ . '/../..' . '/src/Abstracts/BaseMigrationOperation.php',
@@ -404,6 +405,10 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Database\\Migrations\\Ajax\\AjaxFactory' => __DIR__ . '/../..' . '/src/Service/Database/Migrations/Ajax/AjaxFactory.php',
         'WP_Statistics\\Service\\Database\\Migrations\\Ajax\\AjaxManager' => __DIR__ . '/../..' . '/src/Service/Database/Migrations/Ajax/AjaxManager.php',
         'WP_Statistics\\Service\\Database\\Migrations\\Ajax\\Jobs\\VisitorColumnsMigrator' => __DIR__ . '/../..' . '/src/Service/Database/Migrations/Ajax/Jobs/VisitorColumnsMigrator.php',
+        'WP_Statistics\\Service\\Database\\Migrations\\BackgroundProcess\\BackgroundProcessFactory' => __DIR__ . '/../..' . '/src/Service/Database/Migrations/BackgroundProcess/BackgroundProcessFactory.php',
+        'WP_Statistics\\Service\\Database\\Migrations\\BackgroundProcess\\BackgroundProcessManager' => __DIR__ . '/../..' . '/src/Service/Database/Migrations/BackgroundProcess/BackgroundProcessManager.php',
+        'WP_Statistics\\Service\\Database\\Migrations\\BackgroundProcess\\Jobs\\CalculatePostWordsCount' => __DIR__ . '/../..' . '/src/Service/Database/Migrations/BackgroundProcess/Jobs/CalculatePostWordsCount.php',
+        'WP_Statistics\\Service\\Database\\Migrations\\BackgroundProcess\\Jobs\\VisitorColumnsMigrator' => __DIR__ . '/../..' . '/src/Service/Database/Migrations/BackgroundProcess/Jobs/VisitorColumnsMigrator.php',
         'WP_Statistics\\Service\\Database\\Migrations\\Queue\\QueueFactory' => __DIR__ . '/../..' . '/src/Service/Database/Migrations/Queue/QueueFactory.php',
         'WP_Statistics\\Service\\Database\\Migrations\\Queue\\QueueManager' => __DIR__ . '/../..' . '/src/Service/Database/Migrations/Queue/QueueManager.php',
         'WP_Statistics\\Service\\Database\\Migrations\\Queue\\QueueMigration' => __DIR__ . '/../..' . '/src/Service/Database/Migrations/Queue/QueueMigration.php',
@@ -447,6 +452,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Logger\\Provider\\FileProvider' => __DIR__ . '/../..' . '/src/Service/Logger/Provider/FileProvider.php',
         'WP_Statistics\\Service\\Logger\\Provider\\TrackerProvider' => __DIR__ . '/../..' . '/src/Service/Logger/Provider/TrackerProvider.php',
         'WP_Statistics\\Traits\\ErrorLoggerTrait' => __DIR__ . '/../..' . '/src/Traits/ErrorLoggerTrait.php',
+        'WP_Statistics\\Traits\\MigrationAccess' => __DIR__ . '/../..' . '/src/Traits/MigrationAccess.php',
         'WP_Statistics\\Traits\\ObjectCacheTrait' => __DIR__ . '/../..' . '/src/Traits/ObjectCacheTrait.php',
         'WP_Statistics\\Traits\\TransientCacheTrait' => __DIR__ . '/../..' . '/src/Traits/TransientCacheTrait.php',
         'WP_Statistics\\Utils\\Env' => __DIR__ . '/../..' . '/src/Utils/Env.php',

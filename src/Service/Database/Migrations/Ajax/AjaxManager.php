@@ -78,7 +78,7 @@ class AjaxManager extends BaseMigrationManager
      */
     public function handleDoneNotice()
     {
-        if (!$this->isValidMigrationContext()) {
+        if (!$this->isValidContext()) {
             return;
         }
 
@@ -113,7 +113,7 @@ class AjaxManager extends BaseMigrationManager
      */
     public function handleNotice()
     {
-        if (!$this->isValidMigrationContext()) {
+        if (!$this->isValidContext()) {
             return;
         }
 
@@ -177,7 +177,7 @@ class AjaxManager extends BaseMigrationManager
      */
     public function registerScript()
     {
-        if (!$this->isValidMigrationContext()) {
+        if (!$this->isValidContext()) {
             return;
         }
 

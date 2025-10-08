@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'WP_Statistics\\Abstracts\\BaseBackgroundProcess' => $baseDir . '/src/Abstracts/BaseBackgroundProcess.php',
     'WP_Statistics\\Abstracts\\BaseMetabox' => $baseDir . '/src/Abstracts/BaseMetabox.php',
     'WP_Statistics\\Abstracts\\BaseMigrationManager' => $baseDir . '/src/Abstracts/BaseMigrationManager.php',
     'WP_Statistics\\Abstracts\\BaseMigrationOperation' => $baseDir . '/src/Abstracts/BaseMigrationOperation.php',
@@ -343,6 +344,10 @@ return array(
     'WP_Statistics\\Service\\Database\\Migrations\\Ajax\\AjaxFactory' => $baseDir . '/src/Service/Database/Migrations/Ajax/AjaxFactory.php',
     'WP_Statistics\\Service\\Database\\Migrations\\Ajax\\AjaxManager' => $baseDir . '/src/Service/Database/Migrations/Ajax/AjaxManager.php',
     'WP_Statistics\\Service\\Database\\Migrations\\Ajax\\Jobs\\VisitorColumnsMigrator' => $baseDir . '/src/Service/Database/Migrations/Ajax/Jobs/VisitorColumnsMigrator.php',
+    'WP_Statistics\\Service\\Database\\Migrations\\BackgroundProcess\\BackgroundProcessFactory' => $baseDir . '/src/Service/Database/Migrations/BackgroundProcess/BackgroundProcessFactory.php',
+    'WP_Statistics\\Service\\Database\\Migrations\\BackgroundProcess\\BackgroundProcessManager' => $baseDir . '/src/Service/Database/Migrations/BackgroundProcess/BackgroundProcessManager.php',
+    'WP_Statistics\\Service\\Database\\Migrations\\BackgroundProcess\\Jobs\\CalculatePostWordsCount' => $baseDir . '/src/Service/Database/Migrations/BackgroundProcess/Jobs/CalculatePostWordsCount.php',
+    'WP_Statistics\\Service\\Database\\Migrations\\BackgroundProcess\\Jobs\\VisitorColumnsMigrator' => $baseDir . '/src/Service/Database/Migrations/BackgroundProcess/Jobs/VisitorColumnsMigrator.php',
     'WP_Statistics\\Service\\Database\\Migrations\\Queue\\QueueFactory' => $baseDir . '/src/Service/Database/Migrations/Queue/QueueFactory.php',
     'WP_Statistics\\Service\\Database\\Migrations\\Queue\\QueueManager' => $baseDir . '/src/Service/Database/Migrations/Queue/QueueManager.php',
     'WP_Statistics\\Service\\Database\\Migrations\\Queue\\QueueMigration' => $baseDir . '/src/Service/Database/Migrations/Queue/QueueMigration.php',
@@ -386,6 +391,7 @@ return array(
     'WP_Statistics\\Service\\Logger\\Provider\\FileProvider' => $baseDir . '/src/Service/Logger/Provider/FileProvider.php',
     'WP_Statistics\\Service\\Logger\\Provider\\TrackerProvider' => $baseDir . '/src/Service/Logger/Provider/TrackerProvider.php',
     'WP_Statistics\\Traits\\ErrorLoggerTrait' => $baseDir . '/src/Traits/ErrorLoggerTrait.php',
+    'WP_Statistics\\Traits\\MigrationAccess' => $baseDir . '/src/Traits/MigrationAccess.php',
     'WP_Statistics\\Traits\\ObjectCacheTrait' => $baseDir . '/src/Traits/ObjectCacheTrait.php',
     'WP_Statistics\\Traits\\TransientCacheTrait' => $baseDir . '/src/Traits/TransientCacheTrait.php',
     'WP_Statistics\\Utils\\Env' => $baseDir . '/src/Utils/Env.php',

@@ -4,6 +4,7 @@ namespace WP_Statistics\Abstracts;
 
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
+use WP_Statistics\Traits\MigrationAccess;
 use WP_STATISTICS\User;
 
 /**
@@ -14,27 +15,7 @@ use WP_STATISTICS\User;
  */
 abstract class BaseMigrationManager
 {
-    /**
-     * Validates whether the current admin page and user have access to handle migration-related functionality.
-     *
-     * This method performs security checks to ensure that:
-     * - The current user has the sufficient perimissions
-     * - The current page is a WP Statistics plugin page
-     *
-     * @return bool True if the context is valid for migration operations, false otherwise
-     */
-    protected function isValidMigrationContext()
-    {
-        if (!User::checkUserCapability(Option::get('manage_capability', 'manage_options'))) {
-            return false;
-        }
-
-        if (Menus::in_plugin_page()) {
-            return true;
-        }
-
-        return false;
-    }
+    use MigrationAccess;
 
     /**
      * Ensures the current user has permission to run migration-related operations.
