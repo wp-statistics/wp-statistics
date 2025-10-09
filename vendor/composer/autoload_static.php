@@ -263,7 +263,6 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\Requests\\AjaxManager' => __DIR__ . '/../..' . '/src/Service/Admin/DashboardBootstrap/Requests/AjaxManager.php',
         'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\Views\\MigrationPage' => __DIR__ . '/../..' . '/src/Service/Admin/DashboardBootstrap/Views/MigrationPage.php',
         'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\Views\\Root' => __DIR__ . '/../..' . '/src/Service/Admin/DashboardBootstrap/Views/Root.php',
-        'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\Views\\SettingPage' => __DIR__ . '/../..' . '/src/Service/Admin/DashboardBootstrap/Views/SettingPage.php',
         'WP_Statistics\\Service\\Admin\\Devices\\DevicesDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/Devices/DevicesDataProvider.php',
         'WP_Statistics\\Service\\Admin\\Devices\\DevicesManager' => __DIR__ . '/../..' . '/src/Service/Admin/Devices/DevicesManager.php',
         'WP_Statistics\\Service\\Admin\\Devices\\DevicesPage' => __DIR__ . '/../..' . '/src/Service/Admin/Devices/DevicesPage.php',

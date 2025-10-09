@@ -244,7 +244,6 @@ return array(
     'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\Requests\\AjaxManager' => $baseDir . '/src/Service/Admin/DashboardBootstrap/Requests/AjaxManager.php',
     'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\Views\\MigrationPage' => $baseDir . '/src/Service/Admin/DashboardBootstrap/Views/MigrationPage.php',
     'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\Views\\Root' => $baseDir . '/src/Service/Admin/DashboardBootstrap/Views/Root.php',
-    'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\Views\\SettingPage' => $baseDir . '/src/Service/Admin/DashboardBootstrap/Views/SettingPage.php',
     'WP_Statistics\\Service\\Admin\\Devices\\DevicesDataProvider' => $baseDir . '/src/Service/Admin/Devices/DevicesDataProvider.php',
     'WP_Statistics\\Service\\Admin\\Devices\\DevicesManager' => $baseDir . '/src/Service/Admin/Devices/DevicesManager.php',
     'WP_Statistics\\Service\\Admin\\Devices\\DevicesPage' => $baseDir . '/src/Service/Admin/Devices/DevicesPage.php',
