@@ -6,7 +6,7 @@ import react from '@vitejs/plugin-react'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [
     tanstackRouter({
       target: 'react',
@@ -19,9 +19,11 @@ export default defineConfig({
   build: {
     emptyOutDir: true,
     manifest: true,
+    minify: mode === 'production',
+    sourcemap: mode === 'development' ? true : false,
     rollupOptions: {
       input: {
-        settings: resolve(__dirname, 'src/main.tsx'),
+        main: resolve(__dirname, 'src/main.tsx'),
       },
     },
   },
@@ -30,4 +32,9 @@ export default defineConfig({
       '@': resolve(__dirname, './src'),
     },
   },
-})
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'lucide-react'],
+    exclude: ['@wordpress/element'],
+    force: false,
+  },
+}))
