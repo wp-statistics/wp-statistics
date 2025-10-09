@@ -15,50 +15,66 @@ $postTypeNamePlural     = Helper::getPostTypeName($postType);
         <?php
             $metrics = [
                 [
-                    'label'  => sprintf(esc_html__('Published %s', 'wp-statistics'), $postTypeNamePlural),
-                    'value'  => Helper::formatNumberWithUnit($data['glance']['posts']['value']),
-                    'change' => $data['glance']['posts']['change']
+                    'id'            => "published_$postType",
+                    'label'         => sprintf(esc_html__('Published %s', 'wp-statistics'), $postTypeNamePlural),
+                    'value'         => $data['glance']['posts']['value'],
+                    'change'        => $data['glance']['posts']['change'],
+                    'format_number' => true,
                 ],
                 [
-                    'label'  => esc_html__('Active Authors', 'wp-statistics'),
-                    'value'  => Helper::formatNumberWithUnit($data['glance']['authors']['value']),
-                    'change' => $data['glance']['authors']['change']
+                    'id'            => 'active_authors',
+                    'label'         => esc_html__('Active Authors', 'wp-statistics'),
+                    'value'         => $data['glance']['authors']['value'],
+                    'change'        => $data['glance']['authors']['change'],
+                    'format_number' => true
                 ],
                 [
-                    'label'  => esc_html__('Visitors', 'wp-statistics'),
-                    'value'  => Helper::formatNumberWithUnit($data['glance']['visitors']['value']),
-                    'change' => $data['glance']['visitors']['change']
+                    'id'            => 'visitors',
+                    'label'         => esc_html__('Visitors', 'wp-statistics'),
+                    'value'         => $data['glance']['visitors']['value'],
+                    'change'        => $data['glance']['visitors']['change'],
+                    'format_number' => true
                 ],
                 [
-                    'label'  => esc_html__('Views', 'wp-statistics'),
-                    'value'  => Helper::formatNumberWithUnit($data['glance']['views']['value']),
-                    'change' => $data['glance']['views']['change']
+                    'id'            => 'views',
+                    'label'         => esc_html__('Views', 'wp-statistics'),
+                    'value'         => $data['glance']['views']['value'],
+                    'change'        => $data['glance']['views']['change'],
+                    'format_number' => true
                 ]
             ];
 
             if (WordCountService::isActive()) {
                 $metrics[] = [
-                    'label'  => esc_html__('Words', 'wp-statistics'),
-                    'value'  => Helper::formatNumberWithUnit($data['glance']['words']['value']),
+                    'id'            => 'words',
+                    'label'         => esc_html__('Words', 'wp-statistics'),
+                    'value'         => $data['glance']['words']['value'],
+                    'format_number' => true
                 ];
 
                 $metrics[] = [
-                    'label'  => sprintf(esc_html__('Avg. words per %s', 'wp-statistics'), $postTypeNamePlural),
-                    'value'  => Helper::formatNumberWithUnit($data['glance']['words_avg']['value']),
+                    'id'            => 'words_avg',
+                    'label'         => sprintf(esc_html__('Avg. words per %s', 'wp-statistics'), $postTypeNamePlural),
+                    'value'         => $data['glance']['words_avg']['value'],
+                    'format_number' => true
                 ];
             }
 
             if (post_type_supports($postType, 'comments')) {
                 $metrics[] = [
-                    'label'  => esc_html__('Comments', 'wp-statistics'),
-                    'value'  => Helper::formatNumberWithUnit($data['glance']['comments']['value']),
-                    'change' => $data['glance']['comments']['change']
+                    'id'            => 'comments',
+                    'label'         => esc_html__('Comments', 'wp-statistics'),
+                    'value'         => $data['glance']['comments']['value'],
+                    'change'        => $data['glance']['comments']['change'],
+                    'format_number' => true
                 ];
 
                 $metrics[] = [
-                    'label'  => sprintf(esc_html__('Avg. comments per %s', 'wp-statistics'), $postTypeNamePlural),
-                    'value'  => Helper::formatNumberWithUnit($data['glance']['comments_avg']['value']),
-                    'change' => $data['glance']['comments_avg']['change']
+                    'id'            => 'comments_avg',
+                    'label'         => sprintf(esc_html__('Avg. comments per %s', 'wp-statistics'), $postTypeNamePlural),
+                    'value'         => $data['glance']['comments_avg']['value'],
+                    'change'        => $data['glance']['comments_avg']['change'],
+                    'format_number' => true
                 ];
             }
 
