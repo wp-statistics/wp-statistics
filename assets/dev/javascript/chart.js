@@ -539,7 +539,7 @@ const updateLegend = (lineChart, datasets, tag_id, data) => {
 
 const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));
 
-window.wpsCharts = {};
+window.wpsCharts = [];
 const chartInstances = {};
 
 const getDisplayTextForUnitTime = (unitTime, tag_id) => {
@@ -995,7 +995,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
     updateChart(unitTime);
     chartInstances[tag_id] = {chart: lineChart, updateChart: updateChart};
 
-    window.wpsCharts[tag_id] = lineChart;
+    window.wpsCharts.push(lineChart);
 
     return chartInstances[tag_id];
 };
