@@ -10,7 +10,7 @@ use WP_STATISTICS\Helper;
         <div class="wps-at-a-glance <?php echo isset($two_column) && $two_column ? 'wps-at-a-glance__two-col' : ''; ?>">
             <?php if (!empty($metrics) && is_array($metrics)): ?>
                 <?php foreach ($metrics as $metric) : ?>
-                    <?php $rawValue = str_replace('%', '', $metric['value'] ?? $metric['link-href']); ?>
+                    <?php $rawValue = isset($metric['value']) ? str_replace('%', '', $metric['value']) : $metric['link-href']; ?>
 
                     <div class="wps-at-a-glance-item" data-id="<?php echo esc_attr($metric['id']); ?>" data-value="<?php echo esc_attr($rawValue); ?>">
                         <!-- Metric Label -->
