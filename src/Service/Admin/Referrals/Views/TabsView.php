@@ -179,7 +179,7 @@ class TabsView extends BaseTabView
                         'hidden'             => !Option::getByAddon('gsc_report', 'marketing', '1') && !Option::getByAddon('site', 'marketing'),
                         'tooltip'            => esc_html__('To view this report, you need to have Marketing add-on.', 'wp-statistics'),
                         'lockedTarget'       => 'wp-statistics-marketing',
-                        'export'             => [ExportTypes::CSV_METRICS, ExportTypes::PDF_PAGE]
+                        'export'             => [ExportTypes::PDF_PAGE]
                     ]
                 ]
             ];
