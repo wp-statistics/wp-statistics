@@ -114,7 +114,7 @@ class Root extends BasePage
     {
         $args = [
             'title'    => $this->getPageTitle(),
-            'tooltip'  => esc_html__(" "),
+            'tooltip'  => '',
             'pageName' => Menu::buildPageSlug($this->getPageIndex()),
         ];
 
