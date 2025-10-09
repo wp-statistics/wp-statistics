@@ -12,9 +12,21 @@ $timezoneCountry = Country::getName(Helper::getTimezoneCountry());
 
         <?php
             View::load("components/objects/glance-card", ['metrics' => [
-                ['label' => esc_html__('Top Country', 'wp-statistics'), 'value' => $data['summary']['country']],
-                ['label' => esc_html__('Top Region', 'wp-statistics'), 'value' => $data['summary']['region']],
-                ['label' => esc_html__('Top City', 'wp-statistics'), 'value' => $data['summary']['city']],
+                [
+                    'id'    => 'top_country',
+                    'label' => esc_html__('Top Country', 'wp-statistics'),
+                    'value' => $data['summary']['country'],
+                ],
+                [
+                    'id'    => 'top_region',
+                    'label' => esc_html__('Top Region', 'wp-statistics'),
+                    'value' => $data['summary']['region']
+                ],
+                [
+                    'id'    => 'top_city',
+                    'label' => esc_html__('Top City', 'wp-statistics'),
+                    'value' => $data['summary']['city']
+                ],
             ]]);
 
             if (isset($data['regions'])) {
