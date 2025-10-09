@@ -16,29 +16,38 @@ $postType = get_post_type($postId);
 
         $metrics = [
             [
-                'label'  => esc_html__('Visitors', 'wp-statistics'),
-                'value'  => Helper::formatNumberWithUnit($data['glance']['visitors']['value']),
-                'change' => $data['glance']['visitors']['change']
+                'id'            => 'visitors',
+                'label'         => esc_html__('Visitors', 'wp-statistics'),
+                'value'         => $data['glance']['visitors']['value'],
+                'change'        => $data['glance']['visitors']['change'],
+                'format_number' => true
             ],
             [
-                'label'  => esc_html__('Views', 'wp-statistics'),
-                'value'  => Helper::formatNumberWithUnit($data['glance']['views']['value']),
-                'change' => $data['glance']['views']['change']
+                'id'            => 'views',
+                'label'         => esc_html__('Views', 'wp-statistics'),
+                'value'         => $data['glance']['views']['value'],
+                'change'        => $data['glance']['views']['change'],
+                'format_number' => true
             ],
             [
-                'label'   => esc_html__('Entry Page', 'wp-statistics'),
-                'value'   => Helper::formatNumberWithUnit($data['glance']['entry_page']['value']),
-                'change'  => $data['glance']['entry_page']['change'],
-                'tooltip' => esc_html__('Number of times this content was the first page visited in a session.', 'wp-statistics'),
+                'id'            => 'entry_page',
+                'label'         => esc_html__('Entry Page', 'wp-statistics'),
+                'value'         => $data['glance']['entry_page']['value'],
+                'change'        => $data['glance']['entry_page']['change'],
+                'tooltip'       => esc_html__('Number of times this content was the first page visited in a session.', 'wp-statistics'),
+                'format_number' => true
             ],
             [
-                'label'    => esc_html__('Exit Page', 'wp-statistics'),
-                'value'    => Helper::formatNumberWithUnit($data['glance']['exit_page']['value']),
-                'change'   => $data['glance']['exit_page']['change'],
-                'polarity' => 'negative',
-                'tooltip'  => esc_html__('Number of times this content was the last page viewed before a session ended.', 'wp-statistics'),
+                'id'            => 'exit_page',
+                'label'         => esc_html__('Exit Page', 'wp-statistics'),
+                'value'         => $data['glance']['exit_page']['value'],
+                'change'        => $data['glance']['exit_page']['change'],
+                'polarity'      => 'negative',
+                'tooltip'       => esc_html__('Number of times this content was the last page viewed before a session ended.', 'wp-statistics'),
+                'format_number' => true
             ],
             [
+                'id'       => 'bounce_rate',
                 'label'    => esc_html__('Bounce Rate', 'wp-statistics'),
                 'value'    => $data['glance']['bounce_rate']['value'],
                 'change'   => $data['glance']['bounce_rate']['change'],
@@ -46,6 +55,7 @@ $postType = get_post_type($postId);
                 'tooltip'  => esc_html__('Percentage of single-page sessions that began and ended on this content.', 'wp-statistics'),
             ],
             [
+                'id'       => 'exit_rate',
                 'label'    => esc_html__('Exit Rate', 'wp-statistics'),
                 'value'    => $data['glance']['exit_rate']['value'],
                 'change'   => $data['glance']['exit_rate']['change'],
@@ -56,18 +66,22 @@ $postType = get_post_type($postId);
 
         if (WordCountService::isActive()) {
             $metrics[] = [
-                'label'   => esc_html__('Words', 'wp-statistics'),
-                'value'   => Helper::formatNumberWithUnit($data['glance']['words']['value']),
-                'tooltip' => sprintf(esc_html__('Total number of words in this %s.', 'wp-statistics'), strtolower($postType)),
+                'id'            => 'words',
+                'label'         => esc_html__('Words', 'wp-statistics'),
+                'value'         => Helper::formatNumberWithUnit($data['glance']['words']['value']),
+                'tooltip'       => sprintf(esc_html__('Total number of words in this %s.', 'wp-statistics'), strtolower($postType)),
+                'format_number' => true
             ];
         }
 
         if (post_type_supports($postType, 'comments')) {
             $metrics[] = [
-                'label'   => esc_html__('Comments', 'wp-statistics'),
-                'value'   => Helper::formatNumberWithUnit($data['glance']['comments']['value']),
-                'change'  => $data['glance']['comments']['change'],
-                'tooltip' => sprintf(esc_html__('Approved comments on this %s.', 'wp-statistics'), strtolower($postType)),
+                'id'            => 'comments',
+                'label'         => esc_html__('Comments', 'wp-statistics'),
+                'value'         => $data['glance']['comments']['value'],
+                'change'        => $data['glance']['comments']['change'],
+                'tooltip'       => sprintf(esc_html__('Approved comments on this %s.', 'wp-statistics'), strtolower($postType)),
+                'format_number' => true
             ];
         }
 
