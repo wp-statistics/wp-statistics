@@ -404,7 +404,7 @@ const sortTotal = (datasets) => {
     datasets.forEach((dataset, index) => {
         dataset.originalIndex = index;
     });
-    
+
     datasets.sort((a, b) => {
         if (a.slug === 'total') return -1;
         if (b.slug === 'total') return 1;
@@ -539,6 +539,7 @@ const updateLegend = (lineChart, datasets, tag_id, data) => {
 
 const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));
 
+window.wpsCharts = {};
 const chartInstances = {};
 
 const getDisplayTextForUnitTime = (unitTime, tag_id) => {
@@ -993,6 +994,8 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
 
     updateChart(unitTime);
     chartInstances[tag_id] = {chart: lineChart, updateChart: updateChart};
+
+    window.wpsCharts[tag_id] = lineChart;
 
     return chartInstances[tag_id];
 };
