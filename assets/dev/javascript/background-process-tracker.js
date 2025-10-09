@@ -5,8 +5,15 @@ const WPStatisticsAjaxBackgroundProcessTracker = {
     precentElement: null,
     timer: null,
     isActive: true,
+    currentProcess: null,
 
     init: function () {
+        this.currentProcess = Wp_Statistics_Async_Background_Process_Data.current_process;
+
+        if (! this.currentProcess) {
+            return;
+        }
+        
         this.migrationNotice = jQuery('#wp-statistics-async-background-process-notice');
         this.bindEvents();
     },
@@ -35,19 +42,22 @@ const WPStatisticsAjaxBackgroundProcessTracker = {
             return;
         }
 
+        const self = this;
+
         jQuery.ajax({
             url: Wp_Statistics_Async_Background_Process_Data.ajax_url,
-            method: 'GET',
+            method: 'POST',
             data: {
                 action: 'wp_statistics_async_background_process',
                 wps_nonce: Wp_Statistics_Async_Background_Process_Data.rest_api_nonce,
+                current_process: self.currentProcess
             },
             success: function (response) {
                 if (response.data.completed) {
                         WPStatisticsAjaxBackgroundProcessTracker.markAsCompleted();
                     } else {
                         WPStatisticsAjaxBackgroundProcessTracker.updatePercent(response.data.percentage);
-                        WPStatisticsAjaxBackgroundProcessTracker.updateProcessed(response.data.percentage);
+                        WPStatisticsAjaxBackgroundProcessTracker.updateProcessed(response.data.processed);
                     }
             },
             error: function (xhr, status, error) {

@@ -2,8 +2,10 @@
 
 namespace WP_Statistics\Abstracts;
 
+use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Database\Migrations\BackgroundProcess\BackgroundProcessFactory;
 use WP_Statistics\Traits\MigrationAccess;
 use WP_STATISTICS\WP_Background_Process;
 
@@ -49,11 +51,12 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
     /**
      * Check if the process has been initiated.
      *
+     * @param bool $status Whether the job is marked as initiated. Default true.
      * @return string
      */
-    protected function setInitiated()
+    public function setInitiated($status = true)
     {
-        Option::saveOptionGroup($this->initiatedKey, true, 'jobs');
+        Option::saveOptionGroup($this->initiatedKey, $status, 'jobs');
     }
 
     /**
@@ -61,9 +64,19 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
      *
      * @return bool
      */
-    protected function isInitiated()
+    public function isInitiated()
     {
         return Option::getOptionGroup('jobs', $this->initiatedKey, false);
+    }
+
+    /**
+     * Get the option key used to store the "initiated" flag for this job.
+     *
+     * @return string Option key name for the initiated status.
+     */
+    public function getInitiatedKey()
+    {
+        return $this->initiatedKey;
     }
 
     /**
@@ -90,7 +103,7 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
     /**
      * Set the total number of items to process.
      *
-     * @param array $items The items to count.
+     * @param array $items The items to count or count of the items.
      * @return void
      */
     protected function setTotal($items)
@@ -101,7 +114,7 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
             return;
         }
 
-        $total = count($items);
+        $total = is_array($items) ? count($items) : $items;
         Option::saveOptionGroup($this->totalOptionKey, $total, 'jobs');
     }
 
@@ -164,6 +177,34 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
         }
 
         return (int) Option::getOptionGroup('jobs', $this->processedOptionKey, 0);
+    }
+
+    /**
+     * Build the admin-post URL to trigger this background process from the current admin page.
+     *
+     * @param bool $force Whether to include the `force` flag to allow restart. Default false.
+     * @return string Fully formed admin-post URL, or an empty string when the current page URL is unavailable.
+     */
+    public function getActionUrl($force = false)
+    {
+        $currentPage = Menus::getCurrentPage();
+
+        if (empty($currentPage['page_url'])) {
+            return '';
+        }
+
+        $actionUrl = add_query_arg(
+            [
+                'action'   => BackgroundProcessFactory::getActionName(),
+                'job_key'  => $this->action,
+                'nonce'    => BackgroundProcessFactory::getActionNonce(),
+                'redirect' => $currentPage['page_url'],
+                'force'    => $force
+            ],
+            admin_url('admin-post.php')
+        );
+
+        return $actionUrl;
     }
 
     /**

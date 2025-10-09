@@ -4,9 +4,8 @@ namespace WP_Statistics\Service\Database\Migrations\BackgroundProcess;
 
 use WP_Statistics\Abstracts\BaseMigrationManager;
 use WP_STATISTICS\Admin_Assets;
+use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
-use WP_Statistics\Service\Database\Migrations\BackgroundProcess\Jobs\CalculatePostWordsCount;
-use WP_Statistics\Service\Database\Migrations\BackgroundProcess\Jobs\VisitorColumnsMigrator;
 use WP_STATISTICS\User;
 use WP_Statistics\Utils\Request;
 
@@ -43,14 +42,14 @@ class BackgroundProcessManager extends BaseMigrationManager
      *
      * @var string
      */
-    private const MIGRATION_ACTION = 'run_async_background_process';
+    public const BACKGROUND_PROCESS_ACTION = 'run_async_background_process';
 
     /**
      * The nonce name used to secure the manual migration action.
      *
      * @var string
      */
-    private const MIGRATION_NONCE = 'run_ajax_background_process_nonce';
+    public const BACKGROUND_PROCESS_NONCE = 'run_ajax_background_process_nonce';
 
     /**
      * Class constructor.
@@ -60,9 +59,11 @@ class BackgroundProcessManager extends BaseMigrationManager
     public function __construct()
     {
         $this->initializeBackgroundProcess();
+
         add_action('admin_init', [$this, 'showProgressNotices']);
         add_action('admin_enqueue_scripts', [$this, 'registerScript']);
         add_filter('wp_statistics_ajax_list', [$this, 'addAjax']);
+        add_action('admin_post_' . self::BACKGROUND_PROCESS_ACTION, [$this, 'handleBackgroundProcessAction']);
     }
 
     /**
@@ -111,6 +112,16 @@ class BackgroundProcessManager extends BaseMigrationManager
     }
 
     /**
+     * Get all registered background migration processes.
+     *
+     * @return array
+     */
+    public function getAllBackgroundProcesses()
+    {
+        return $this->backgroundProcesses;
+    }
+
+    /**
      * Show progress notices for each registered background process.
      * Displays a notice like: "Calculate Post Words Count: 34% complete (34/100)."
      * Only shows while a process is active and has a non-zero total.
@@ -147,7 +158,7 @@ class BackgroundProcessManager extends BaseMigrationManager
                 continue;
             }
 
-            $percent = (int) floor(($processed / $total) * 100);
+            $percent = empty($processed) ? 0 : (int) floor(($processed / $total) * 100);
             if ($percent >= 100) {
                 $percent = 99;
             } elseif ($percent < 0) {
@@ -191,9 +202,10 @@ class BackgroundProcessManager extends BaseMigrationManager
             'wp-statistics-async-background-process',
             'Wp_Statistics_Async_Background_Process_Data',
             [
-                'rest_api_nonce' => wp_create_nonce('wp_rest'),
-                'ajax_url'       => admin_url('admin-ajax.php'),
-                'interval'       => apply_filters('wp_statistics_async_background_process_ajax_interval', 5000),
+                'rest_api_nonce'  => wp_create_nonce('wp_rest'),
+                'ajax_url'        => admin_url('admin-ajax.php'),
+                'interval'        => apply_filters('wp_statistics_async_background_process_ajax_interval', 5000),
+                'current_process' => $this->currentProcess
             ]
         );
     }
@@ -229,6 +241,10 @@ class BackgroundProcessManager extends BaseMigrationManager
                 'message' => esc_html__('Unauthorized request or insufficient permissions.', 'wp-statistics')
             ]);
         }
+        
+        $this->currentProcess = Request::get('current_process');
+
+        $currentJob = $this->getBackgroundProcess($this->currentProcess);
 
         if (empty($this->currentProcess)) {
             wp_send_json_success([
@@ -236,12 +252,76 @@ class BackgroundProcessManager extends BaseMigrationManager
             ]);
         }
 
-        $total     = $this->getBackgroundProcess($this->currentProcess)->getTotal();
-        $processed = $this->getBackgroundProcess($this->currentProcess)->getProcessed();
+        if (BackgroundProcessFactory::isProcessDone($this->currentProcess)) {
+            wp_send_json_success([
+                'completed' => true,
+            ]);
+        }
 
+        $total     = $currentJob->getTotal();
+        $processed = $currentJob->getProcessed();
+        
         wp_send_json_success([
-            'percentage' => (int) floor(($processed / $total) * 100),
-            'processed'  => $this->getBackgroundProcess($this->currentProcess)->getProcessed(),
+            'percentage' => empty($processed) ? 0 : (int) floor(($processed / $total) * 100),
+            'processed'  => $currentJob->getProcessed(),
         ]);
+    }
+
+    /**
+     * Admin handler for manually triggering a background migration.
+     *
+     * Hook: `admin_post_` . self::BACKGROUND_PROCESS_ACTION
+     * Steps: verify nonce, check capability, get job via `job_key`,
+     * optionally reset when `force=1`, run `$job->process()`, then redirect
+     * to `Menus::admin_url($redirect)`.
+     *
+     * Params: `job_key` (string), `redirect` (string), `force` (bool), `nonce` (string).
+     *
+     * @return void
+     */
+    public function handleBackgroundProcessAction()
+    {
+        check_admin_referer(self::BACKGROUND_PROCESS_NONCE, 'nonce');
+
+        if (!Request::compare('action', self::BACKGROUND_PROCESS_ACTION)) {
+            return false;
+        }
+
+        $this->verifyMigrationPermission();
+
+        $jobKey   = Request::get('job_key');
+        $isForced = Request::get('force', false, 'bool');
+        $redirect = Request::get('redirect');
+
+        $job = $this->getBackgroundProcess($jobKey);
+
+        if (empty($job)) {
+            wp_die(
+                __('Background job not found.', 'wp-statistics'),
+                __('Job not found', 'wp-statistics'),
+                [
+                    'response' => 404,
+                ]
+            );
+        }
+
+        if ($isForced) {
+            $job->setInitiated(false);
+        }
+
+        if ($job->isInitiated()) {
+            wp_die(
+                __('This background job has already been started.', 'wp-statistics'),
+                __('Job already running', 'wp-statistics'),
+                [
+                    'response' => 409,
+                ]
+            );
+        }
+
+        $job->process();
+
+        wp_redirect(Menus::admin_url($redirect));
+        exit;
     }
 }

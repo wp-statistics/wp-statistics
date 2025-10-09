@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Abstracts;
 
-use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Traits\MigrationAccess;
 use WP_STATISTICS\User;
