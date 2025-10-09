@@ -84,6 +84,8 @@ class ReactHandler extends BaseAdminAssets
             return;
         }
 
+        remove_all_actions('admin_notices');
+
         $this->loadManifest();
 
         if (empty($this->manifestMainJs)) {
