@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Admin\DashboardBootstrap;
 
 use WP_Statistics\Service\Admin\Assets\AdminAssetsFactory;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\MigrationPageController;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\SettingsController;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\RootController;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Requests\AjaxManager;
 
 /**
@@ -66,8 +66,8 @@ class DashboardManager
     private function initControllers()
     {
         $this->controllers = [
+            'root' => new RootController(),
             'migration' => new MigrationPageController(),
-            'settings' => new SettingsController()
         ];
     }
 

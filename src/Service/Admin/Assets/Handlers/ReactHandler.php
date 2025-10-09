@@ -17,6 +17,20 @@ use WP_Statistics\Utils\Route;
 class ReactHandler extends BaseAdminAssets
 {
     /**
+     * Manifest main JS file path
+     * 
+     * @var string
+     */
+    private $manifestMainJs = '';
+
+    /**
+     * Manifest main CSS file paths
+     * 
+     * @var array
+     */
+    private $manifestMainCss = [];
+
+    /**
      * Initialize the React assets manager
      *
      * @return void
@@ -24,10 +38,10 @@ class ReactHandler extends BaseAdminAssets
     public function __construct()
     {
         $this->setContext('react');
-        $this->setAssetDir('assets/dist/react');
+        $this->setAssetDir('frontend/dist');
 
-        add_action('admin_enqueue_scripts', [$this, 'adminStyles'], 999);
-        add_action('admin_enqueue_scripts', [$this, 'adminScripts'], 999);
+        add_action('admin_enqueue_scripts', [$this, 'adminStyles'], 10);
+        add_action('admin_enqueue_scripts', [$this, 'adminScripts'], 10);
     }
 
     /**
@@ -39,6 +53,20 @@ class ReactHandler extends BaseAdminAssets
     {
         // Get Current Screen ID
         $screenId = Route::getScreenId();
+
+        if ('admin_page_wp-statistics-root' !== $screenId) {
+            return;
+        }
+
+        $this->loadManifest();
+
+        if (empty($this->manifestMainCss)) {
+            return;
+        }
+
+        foreach ($this->manifestMainCss as $index => $cssFile) {
+            wp_enqueue_style($this->getAssetHandle() . '-' . $index, $this->getUrl($cssFile), [], $this->getVersion());
+        }
     }
 
     /**
@@ -52,11 +80,20 @@ class ReactHandler extends BaseAdminAssets
         // Get Current Screen ID
         $screenId = Route::getScreenId();
 
-        // Load React Admin JS
-        if ($screenId === 'admin_page_wps_data-migration_page') {
-            wp_enqueue_script($this->getAssetHandle(), $this->getUrl('migration.js'), [], $this->getVersion(), true);
-            wp_localize_script($this->getAssetHandle(), 'wps_react', $this->getLocalizedData($hook));
+        if ('admin_page_wp-statistics-root' !== $screenId) {
+            return;
         }
+
+        remove_all_actions('admin_notices');
+
+        $this->loadManifest();
+
+        if (empty($this->manifestMainJs)) {
+            return;
+        }
+
+        wp_enqueue_script_module($this->getAssetHandle(), $this->getUrl($this->manifestMainJs), [], $this->getVersion(), true);
+        wp_localize_script($this->getAssetHandle(), 'wps_react', $this->getLocalizedData($hook));
     }
 
     /**
@@ -70,5 +107,28 @@ class ReactHandler extends BaseAdminAssets
         $list = [];
 
         return apply_filters('wp_statistics_react_localized_data', $list);
+    }
+
+    private function loadManifest()
+    {
+        if (!empty($this->manifestMainJs) && !empty($this->manifestMainCss)) {
+            return;
+        }
+
+        $manifestPath = $this->getUrl('.vite/manifest.json', true);
+
+        if (empty($manifestPath) || !file_exists($manifestPath)) {
+           return;
+        }
+
+        $manifestContent = file_get_contents($manifestPath);
+        $decodedContent  = json_decode($manifestContent, true);
+
+        if (empty($decodedContent['src/main.tsx'])) {
+            return;
+        }
+
+        $this->manifestMainJs  = $decodedContent['src/main.tsx']['file'] ?? '';
+        $this->manifestMainCss = $decodedContent['src/main.tsx']['css'] ?? [];
     }
 }

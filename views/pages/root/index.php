@@ -1,0 +1,1 @@
+<div id="wp-statistics-root" class="postbox-container"></div>
