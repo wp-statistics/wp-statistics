@@ -9,8 +9,17 @@ use WP_STATISTICS\Helper;
     <div class="inside">
         <div class="wps-at-a-glance <?php echo isset($two_column) && $two_column ? 'wps-at-a-glance__two-col' : ''; ?>">
             <?php if (!empty($metrics) && is_array($metrics)): ?>
-                <?php foreach ($metrics as $metric) : ?>
-                    <?php $rawValue = isset($metric['value']) ? str_replace('%', '', $metric['value']) : $metric['link-href']; ?>
+                <?php foreach ($metrics as $metric) :
+                    $rawValue = '';
+
+                    if (isset($metric['value'])) {
+                        $rawValue = str_replace('%', '', $metric['value']);
+                    } else if (isset($metric['score'])) {
+                        $rawValue = $metric['score'];
+                    } else if ($metric['link-href']) {
+                        $rawValue = $metric['link-href'];
+                    }
+                ?>
 
                     <div class="wps-at-a-glance-item" data-id="<?php echo esc_attr($metric['id']); ?>" data-value="<?php echo esc_attr($rawValue); ?>">
                         <!-- Metric Label -->
