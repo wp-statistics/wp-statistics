@@ -115,7 +115,7 @@ class ReactHandler extends BaseAdminAssets
 
         $manifestPath = $this->getUrl('.vite/manifest.json', true);
 
-        if (empty($manifestPath)) {
+        if (empty($manifestPath) || !file_exists($manifestPath)) {
            return;
         }
 
