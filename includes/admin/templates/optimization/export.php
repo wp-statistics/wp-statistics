@@ -56,7 +56,8 @@
 
                     <td>
                         <input id="export-headers" type="checkbox" value="1" name="export-headers">
-                        <p class="description"><?php esc_html_e('Include column names in the first row.', 'wp-statistics'); ?></p>
+                        <label for="export-headers"><?php esc_html_e('Include column names in the first row', 'wp-statistics'); ?></label>
+                        <p class="description"><?php esc_html_e('Include column names at the top of the exported file.', 'wp-statistics'); ?></p>
                         <div class="wps-alert wps-alert__info">
                             <div class="wps-g-0">
                                 <b><?php esc_html_e('Privacy Notice for Data Export', 'wp-statistics') ?></b>
