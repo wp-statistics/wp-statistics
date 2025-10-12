@@ -6,6 +6,8 @@ use WP_Statistics\Abstracts\BaseMigrationManager;
 use WP_STATISTICS\Admin_Assets;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Database\Migrations\BackgroundProcess\Jobs\CalculatePostWordsCount;
+use WP_Statistics\Service\Database\Migrations\BackgroundProcess\Jobs\VisitorColumnsMigrator;
 use WP_STATISTICS\User;
 use WP_Statistics\Utils\Request;
 
@@ -28,7 +30,18 @@ class BackgroundProcessManager extends BaseMigrationManager
      * 
      * @var array<string, string>
      */
-    private $backgroundProcesses = [];
+    private $backgroundProcesses = [
+        'visitor_columns_migrator' => VisitorColumnsMigrator::class,
+    ];
+
+    /**
+     * List of available data migration keys.
+     * 
+     * @var array<string> Array of migration keys.
+     */
+    private $dataMirations = [
+        'visitor_columns_migrator',
+    ];
 
     /**
      * The key of the currently running background process.
@@ -92,7 +105,7 @@ class BackgroundProcessManager extends BaseMigrationManager
      */
     private function registerBackgroundProcess($className, $processKey)
     {
-        if (!class_exists($className)) {
+        if (!class_exists($className) && ! empty($this->backgroundProcess[$processKey])) {
             return;
         }
 
@@ -122,6 +135,16 @@ class BackgroundProcessManager extends BaseMigrationManager
     }
 
     /**
+     * Get the list of available data migrations (keys).
+     * 
+     * @return array
+     */
+    public function getAllDataMirations()
+    {
+        return $this->dataMirations;
+    }
+
+    /**
      * Show progress notices for each registered background process.
      * Displays a notice like: "Calculate Post Words Count: 34% complete (34/100)."
      * Only shows while a process is active and has a non-zero total.
@@ -143,7 +166,7 @@ class BackgroundProcessManager extends BaseMigrationManager
                 $instance->inititalNotice();
             }
 
-            $isProcessing = method_exists($instance, 'is_processing') ? (bool) $instance->is_processing() : false;
+            $isProcessing = method_exists($instance, 'is_active') ? (bool) $instance->is_active() : false;
 
             if(!$isProcessing) {
                 continue;
@@ -165,17 +188,19 @@ class BackgroundProcessManager extends BaseMigrationManager
                 $percent = 0;
             }
 
-            $label = ucwords(str_replace('_', ' ', (string) $key));
+            $label = $instance->getJobTitle();
 
+            /* translators: 1: job title, 2: percent complete, 3: processed count, 4: total count, 5: appended background-running note */
             $message = sprintf(
-                '<div id="wp-statistics-async-background-process-notice">%s: <span class="percentage">%d%%</span> complete (<span class="processed">%d</span>/%d).</div>',
-                $label,
-                $percent,
-                $processed,
-                $total
+                __('<div id="wp-statistics-async-background-process-notice">%1$s: <span class="percentage">%2$d%%</span> complete (<span class="processed">%3$d</span>/%4$d).<br/> %5$s</div>', 'wp-statistics'),
+                esc_html($label),
+                (int) $percent,
+                (int) $processed,
+                (int) $total,
+                esc_html__('You can continue using the plugin. The process runs safely in the background.', 'wp-statistics')
             );
 
-            Notice::addNotice($message, 'info');
+            Notice::addNotice($message, 'info', false);
         }
     }
 
@@ -292,6 +317,7 @@ class BackgroundProcessManager extends BaseMigrationManager
         $jobKey   = Request::get('job_key');
         $isForced = Request::get('force', false, 'bool');
         $redirect = Request::get('redirect');
+        $tab      = Request::get('tab');
 
         $job = $this->getBackgroundProcess($jobKey);
 
@@ -306,6 +332,7 @@ class BackgroundProcessManager extends BaseMigrationManager
         }
 
         if ($isForced) {
+            $job->stopProcess();
             $job->setInitiated(false);
         }
 
@@ -321,7 +348,13 @@ class BackgroundProcessManager extends BaseMigrationManager
 
         $job->process();
 
-        wp_redirect(Menus::admin_url($redirect));
+        $adminUrlargs = [];
+
+        if (! empty($tab)) {
+            $adminUrlargs['tab'] = $tab;
+        }
+
+        wp_redirect(Menus::admin_url($redirect, $adminUrlargs));
         exit;
     }
 }

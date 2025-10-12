@@ -62,7 +62,7 @@ class BackgroundProcessFactory
             return;
         }
 
-        return $job->isInitiated() && !$job->is_processing();
+        return $job->isInitiated() && !$job->is_active();
     }
 
     /**
@@ -73,6 +73,16 @@ class BackgroundProcessFactory
     public static function getAllJobs()
     {
         return (new BackgroundProcessManager())->getAllBackgroundProcesses();
+    }
+
+    /**
+     * Get all available data migrations (distinct from background jobs list).
+     *
+     * @return array
+     */
+    public static function getAllMigrations()
+    {
+        return (new BackgroundProcessManager())->getAllDataMirations();
     }
 
     /**

@@ -7,6 +7,7 @@ use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Database\Migrations\BackgroundProcess\BackgroundProcessFactory;
 use WP_Statistics\Traits\MigrationAccess;
+use WP_Statistics\Utils\Request;
 use WP_STATISTICS\WP_Background_Process;
 
 /**
@@ -47,6 +48,62 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
      * @var int
      */
     protected $processedOptionKey = '';
+
+    /**
+     * Human‑readable job title (source string; not translated here).
+     *
+     * @var string
+     */
+    protected $jobTitle = '';
+
+    /**
+     * Short job description for admin UI.
+     * 
+     * @var string
+     */
+    protected $jobDescription = '';
+
+    /**
+     * Set the human‑readable job title (source string; not translated here).
+     * 
+     * @param string $title Source title for this background job.
+     * @return void
+     */
+    protected function setJobTitle($title)
+    {
+        $this->jobTitle = $title;
+    }
+
+    /**
+     * Get the human‑readable job title (source string; not translated here).
+     *
+     * @return string Source job title string.
+     */
+    public function getJobTitle()
+    {
+        return $this->jobTitle;
+    }
+
+    /**
+     * Set the short job description (source string; not translated here).
+     *
+     * @param string $description Source description for this job.
+     * @return void
+     */
+    protected function setJobDescription($description)
+    {
+        $this->jobDescription = $description;
+    }
+
+    /**
+     * Get the short job description (source string; not translated here).
+     *
+     * @return string Source job description string.
+     */
+    public function getJobDescription()
+    {
+        return $this->jobDescription;
+    }
 
     /**
      * Check if the process has been initiated.
@@ -193,14 +250,22 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
             return '';
         }
 
+        $tab = Request::get('tab');
+
+        $args = [
+            'action'   => BackgroundProcessFactory::getActionName(),
+            'job_key'  => $this->action,
+            'nonce'    => BackgroundProcessFactory::getActionNonce(),
+            'redirect' => $currentPage['page_url'],
+            'force'    => $force
+        ];
+
+        if (! empty($tab)) {
+            $args['tab'] = $tab;
+        }
+
         $actionUrl = add_query_arg(
-            [
-                'action'   => BackgroundProcessFactory::getActionName(),
-                'job_key'  => $this->action,
-                'nonce'    => BackgroundProcessFactory::getActionNonce(),
-                'redirect' => $currentPage['page_url'],
-                'force'    => $force
-            ],
+            $args,
             admin_url('admin-post.php')
         );
 
