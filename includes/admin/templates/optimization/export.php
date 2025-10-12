@@ -51,8 +51,8 @@
 
                 <tr data-id="add_header_row_tr">
                     <th scope="row">
-                        <label for="export-headers"><?php esc_html_e('Add Header Row', 'wp-statistics'); ?></label>
-                    </th>
+                        <span class="wps-setting-label"><?php esc_html_e('Add Header Row', 'wp-statistics'); ?></span>
+                     </th>
 
                     <td>
                         <input id="export-headers" type="checkbox" value="1" name="export-headers">
@@ -68,6 +68,7 @@
                 </tr>
                 <tr>
                     <th scope="2">
+                        <span class="screen-reader-text">Export action</span>
                         <?php
                         $button_text    = esc_html__('Begin Export', 'wp-statistics');
                         $button_classes = 'wps-button wps-button--primary';
