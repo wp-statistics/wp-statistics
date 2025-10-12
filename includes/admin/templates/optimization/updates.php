@@ -185,9 +185,10 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
                             </th>
                             <td>
                                 <a
-                                    class="button wps-button wps-button--primary wps-mt-0 <?php echo ! empty($isProcessing) ? 'disabled' : ''; ?>"
-                                    title="<?php echo esc_html($label) ?>"
-                                    href="<?php echo esc_url($jobInstance->getActionUrl(true)); ?>"
+                                    class="button wps-button wps-button--primary wps-mt-0 <?php echo !empty($isProcessing) ? 'disabled' : ''; ?>"
+                                    title="<?php echo esc_html($label); ?>"
+                                    href="<?php echo !empty($isProcessing) ? '#' : esc_url($jobInstance->getActionUrl(true)); ?>"
+                                    aria-disabled="<?php echo !empty($isProcessing) ? 'true' : 'false'; ?>"
                                 >
                                     <?php esc_html_e('Run Migration', 'wp-statistics'); ?>
                                 </a>
