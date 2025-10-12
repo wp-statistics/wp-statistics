@@ -113,6 +113,9 @@ View::load('components/objects/share-anonymous-notice');
                         <span class="wps-tooltip wps-tooltip--coming_soon" title="<?php echo esc_html__('Coming soon', 'wp-statistics') ?>"><?php echo esc_html($tab['title']); ?> <i class="wps-tooltip-icon coming-soon"></i></span>
                     <?php elseif (!empty($tab['locked'])) : ?>
                         <a data-target="<?php echo isset($tab['lockedTarget']) ?  esc_attr($tab['lockedTarget'])  : "wp-statistics-data-plus"?>"  class="js-wps-openPremiumModal wps-locked">
+                            <?php if (isset($tab['icon'])): ?>
+                                <span class="wps-tab-icon"><?php echo $tab['icon']; ?></span>
+                            <?php endif; ?>
                             <?php echo esc_html($tab['title']); ?>
                             <?php if (!empty($tab['tooltip'])) : ?>
                                 <span class="wps-tooltip" title="<?php echo esc_attr($tab['tooltip']) ?>"><i class="wps-tooltip-icon info"></i></span>
@@ -125,6 +128,9 @@ View::load('components/objects/share-anonymous-notice');
                         </a>
                     <?php else: ?>
                         <a href="<?php echo esc_attr($tab['link']); ?>">
+                            <?php if (isset($tab['icon'])): ?>
+                                <span class="wps-tab-icon"><?php echo $tab['icon']; ?></span>
+                            <?php endif; ?>
                             <?php echo esc_html($tab['title']); ?>
                             <?php if (!empty($tab['tooltip'])) : ?>
                                 <span class="wps-tooltip" title="<?php echo esc_attr($tab['tooltip']); ?>"><i class="wps-tooltip-icon info"></i></span>

@@ -2923,6 +2923,17 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 }
 
+.wps-tab-icon{
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+
+  .rtl &{
+    margin-right: 0;
+    margin-left: 4px;
+  }
+}
+
 .wps-tabs {
   margin: 20px 0 0;
   gap: 10px;
