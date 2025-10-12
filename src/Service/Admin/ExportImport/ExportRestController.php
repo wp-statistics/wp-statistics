@@ -15,8 +15,8 @@ class ExportRestController extends BaseRestAPI
      */
     public function __construct()
     {
-        parent::__construct();
         $this->endpoint = 'export/(?P<driver>[a-zA-Z0-9-_]+)';
+        parent::__construct();
     }
 
     /**
