@@ -9,6 +9,8 @@ use WP_Statistics\Service\Database\DatabaseFactory;
 class VisitorColumnsMigrator extends BaseBackgroundProcess
 {
     /**
+     * Background-process action slug for this job.
+     *
      * @var string
      */
     protected $action = 'visitor_columns_migrator';
