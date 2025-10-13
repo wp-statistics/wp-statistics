@@ -192,6 +192,7 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
                                 >
                                     <?php esc_html_e('Run Migration', 'wp-statistics'); ?>
                                 </a>
+                                <p class="description"><?php echo esc_html($jobInstance->getJobDescription()); ?></p>
                             </td>
                         </tr>
                         <?php
