@@ -135,6 +135,11 @@ View::load('components/objects/share-anonymous-notice');
                             <?php if (!empty($tab['tooltip'])) : ?>
                                 <span class="wps-tooltip" title="<?php echo esc_attr($tab['tooltip']); ?>"><i class="wps-tooltip-icon info"></i></span>
                             <?php endif; ?>
+                            <?php if (!empty($tab['infoModal'])) : ?>
+                                <span class="wps-info-trigger" data-info="<?php echo esc_attr($tab['infoModal']); ?>">
+                                    <i class="wps-tooltip-icon info"></i>
+                                </span>
+                            <?php endif; ?>
                         </a>
                     <?php endif; ?>
                 </li>
@@ -142,5 +147,6 @@ View::load('components/objects/share-anonymous-notice');
         </ul>
     <?php } ?>
 </div>
+<div id="globalModalContainer"></div>
 <div class="wps-wrap__main">
     <div class="wp-header-end"></div>
