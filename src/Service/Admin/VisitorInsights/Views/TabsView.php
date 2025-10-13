@@ -37,13 +37,14 @@ class TabsView extends BaseTabView
         }
 
         $this->dataProvider = new VisitorInsightsDataProvider([
-            'country'           => Request::get('location', ''),
-            'agent'             => Request::get('agent', ''),
-            'platform'          => Request::get('platform', ''),
-            'user_id'           => Request::get('user_id', ''),
-            'ip'                => Request::get('ip', ''),
-            'referrer'          => Request::get('referrer', ''),
-            'source_channel'    => Request::get('source_channel', ''),
+            'user_role'      => Request::get('role', ''),
+            'country'        => Request::get('location', ''),
+            'agent'          => Request::get('agent', ''),
+            'platform'       => Request::get('platform', ''),
+            'user_id'        => Request::get('user_id', ''),
+            'ip'             => Request::get('ip', ''),
+            'referrer'       => Request::get('referrer', ''),
+            'source_channel' => Request::get('source_channel', ''),
         ]);
 
         parent::__construct();
