@@ -198,7 +198,7 @@ class VisitorColumnsMigrator extends BaseBackgroundProcess
             esc_html__('Read More', 'wp-statistics')
         );
 
-        Notice::addNotice($message, 'start_ajax_background_process', 'warning', false);
+        Notice::addNotice($message, 'start_visitor_background_process', 'warning', false);
     }
 
     /**
