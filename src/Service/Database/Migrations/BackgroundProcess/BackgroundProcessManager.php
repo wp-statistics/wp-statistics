@@ -166,9 +166,9 @@ class BackgroundProcessManager extends BaseMigrationManager
                 $instance->inititalNotice();
             }
 
-            $isProcessing = method_exists($instance, 'is_active') ? (bool) $instance->is_active() : false;
+            $isActive = method_exists($instance, 'is_active') ? (bool) $instance->is_active() : false;
 
-            if(!$isProcessing) {
+            if(!$isActive) {
                 continue;
             }
 
