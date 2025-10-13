@@ -4,7 +4,7 @@ namespace WP_STATISTICS;
 
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Url;
-use WP_Statistics\Models\ViewsModel;  
+use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
@@ -426,7 +426,7 @@ class Visitor
     public static function get_page_by_id($page_id)
     {
         // Default Params
-        $params = ['id' => '', 'link' => '', 'title' => '', 'query' => '', 'report' => '', 'sub_page' => ''];
+        $params = ['id' => '', 'link' => '', 'full_url' => '', 'title' => '', 'query' => '', 'report' => '', 'sub_page' => ''];
 
         $viewsModel = new ViewsModel();
         $item       = $viewsModel->getPageRecord(['page_id' => $page_id]);
@@ -439,6 +439,8 @@ class Visitor
             $dbUri              = trim(Url::getPath(home_url($item['uri'])), '/');
             $params             = Pages::get_page_info($item['id'], $item['type'], $item['uri']);
             $linkWithParams     = !empty($item['uri']) ? home_url() . $item['uri'] : '';
+
+            $params['full_url'] = $linkWithParams;
             $params['query']    = Url::getParams($linkWithParams);
             $params['id']       = $item['id'];
 
