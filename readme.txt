@@ -1,4 +1,4 @@
-=== WP Statistics - The Most Popular Privacy-Friendly Analytics Plugin ===
+=== WP Statistics – Simple, privacy-friendly Google Analytics alternative ===
 Contributors: veronalabs, mostafa.s1990, kashani, GregRoss
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
@@ -12,7 +12,6 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Get website traffic insights with GDPR/CCPA compliant, privacy-friendly analytics. Includes visitor data, stunning graphs, and no data sharing.
 
 == Description ==
-= WP Statistics: THE #1 WORDPRESS ANALYTICS PLUGIN =
 Discover GDPR-compliant analytics with [WP Statistics](https://wp-statistics.com/?utm_source=wporg&utm_medium=link&utm_campaign=website), the top choice for WordPress users seeking an alternative to Google Analytics. No external accounts, unlimited visitor tracking, and full data ownership—all stored directly in your WordPress database.
 
 [Checkout Demo](https://wp-statistics.com/demo) | [View Screenshots](#screenshots)
@@ -147,6 +146,32 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.15.5 - 2025-09-21 =
+- **Enhancement:** Added date range validation on report pages.
+- **Enhancement:** Improved compare style and number formatting in "At a Glance" widgets.
+- **Enhancement:** Updated chart component to show a message when no data is available.
+- **Enhancement:** Limited queue and AJAX migrations (and their notices) to the "Minimum Role to Manage Settings."
+- **Enhancement:** Refactored the migration codebase for better structure, readability, and maintainability.
+- **Enhancement:** Added a "Recheck Schema" button on the optimization page to recheck database health via AJAX.
+- **Fix:** Fixed console warnings on Chromium-based browsers on the settings page.
+- **Fix:** Fixed incorrect "Queue Migration" completion notice after plugin updates.
+- **Fix:** Resolved activation issues on fresh installs.
+- **Dev:** Removed the `wp_statistics_data_export_base_query` and `wp_statistics_data_export_query` filters.
+
+= 14.15.4 - 2025-09-02 =
+- **Enhancement:** Refactored the update process and database schema updates to run on the frontend.
+- **Enhancement:** Optimized the database manager to avoid duplicate queries.
+- **Enhancement:** Improved Visitor Info display logic.
+- **Enhancement:** Refactored install/uninstall code into separate classes for activation, load, and uninstall.
+- **Enhancement:** Optimized schema health checks to run daily on the dashboard and after activation or updates.
+- **Enhancement:** Improved responsiveness by converting "Optimize Page" actions in the Plugin Maintenance tab into asynchronous AJAX requests.
+- **Fix:** Prevented `wp_statistics_tracker_js_errors` option bloat by limiting stored errors and truncating error messages.
+- **Fix:** Fixed sorting issue in the `Top Pages` widget on the Page Insights report.
+- **Fix:** Fixed Region widget issue when a country is not detected on the Geographic page.
+- **Fix:** Prevented false "Queue Migration" notices after updates.
+- **Fix:** Corrected the Filter Modal Reset button redirect.
+- **Fix:** Fixed Visitor Journey not recording repeat visits to the same page.
+
 = 14.15.3 - 2025-08-18 =
 - **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.
 - **Fix:** Correct redirect URL after clicking 'Start Migration'.

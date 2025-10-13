@@ -34,29 +34,6 @@ class AnalyticsController
     }
 
     /**
-     * Keeps user online when "Bypass Ad Blockers" is enabled.
-     *
-     * @return  void
-     */
-    public function online_check_action_callback()
-    {
-        if (!Helper::is_request('ajax')) {
-            return;
-        }
-
-        try {
-            $this->checkSignature();
-            Helper::validateHitRequest();
-
-            Hits::recordOnline();
-            wp_send_json(['status' => true]);
-
-        } catch (Exception $e) {
-            wp_send_json(['status' => false, 'data' => $e->getMessage()], $e->getCode());
-        }
-    }
-
-    /**
      * @return void
      * @doc https://wp-statistics.com/resources/managing-request-signatures/
      * @throws Exception

@@ -262,12 +262,16 @@ class VisitorDecorator
     /**
      * Retrieves the online time of the visitor.
      *
+     * @deprecated Since online users aren't tracked real-time, this method gives inaccurate results and shouldn't be used.
      * @return string|null The online time in 'H:i:s' format, or null if not available.
      */
     public function getOnlineTime()
     {
-        if (isset($this->visitor->timestamp) && isset($this->visitor->created)) {
-            return date_i18n('H:i:s', $this->visitor->timestamp - $this->visitor->created);
+        if (isset($this->visitor->last_view)) {
+            $lastActivity = strtotime($this->visitor->last_view);
+            $now          = strtotime(DateTime::get('now', 'Y-m-d H:i:s'));
+
+            return date_i18n('H:i:s', $now - $lastActivity);
         }
 
         return null;

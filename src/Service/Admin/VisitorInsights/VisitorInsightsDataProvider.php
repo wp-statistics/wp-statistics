@@ -164,9 +164,7 @@ class VisitorInsightsDataProvider
     public function getOnlineVisitorsData()
     {
         return [
-            'data'  => $this->onlineModel->getOnlineVisitorsData(array_merge($this->args, [
-                'order_by'  => 'date',
-                'order'     => 'DESC',
+            'data'  => $this->onlineModel->getOnlineVisitors(array_merge($this->args, [
                 'page'      => Admin_Template::getCurrentPaged(),
                 'per_page'  => Admin_Template::$item_per_page
             ])),

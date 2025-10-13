@@ -4,23 +4,13 @@ namespace WP_STATISTICS;
 
 use WP_Statistics\Service\Database\Managers\TableHandler;
 
+/**
+ * DEPRECATED: This class is not supported anymore. Please do not use it in your code.
+ *
+ * @deprecated This class is deprecated. Use Core operations instead.
+ */
 class Install
 {
-
-    public function __construct()
-    {
-
-        // Create or Remove WordPress DB Table in Multi Site
-        add_action('wpmu_new_blog', array($this, 'add_table_on_create_blog'), 10, 1);
-        add_filter('wpmu_drop_tables', array($this, 'remove_table_on_delete_blog'));
-
-        // Change Plugin Action link in Plugin.php admin
-        add_filter('plugin_row_meta', array($this, 'add_meta_links'), 10, 2);
-
-        // Page Type Updater @since 12.6
-        Install::init_page_type_updater();
-    }
-
     /**
      * Install
      *
@@ -219,7 +209,7 @@ class Install
 
         return $links;
     }
-    
+
     public static function init_page_type_updater()
     {
 
@@ -269,6 +259,7 @@ class Install
                                 dataType: "json",
                                 cache: false,
                                 data: {
+                                    '_wpnonce': '<?php echo esc_js(wp_create_nonce('update_post_type')); ?>',
                                     'action': 'wp_statistics_update_post_type_db',
                                     'number_all': <?php echo esc_html(self::get_require_number_update()); ?>
                                 },
@@ -336,11 +327,14 @@ class Install
         add_action('wp_ajax_wp_statistics_update_post_type_db', function () {
             global $wpdb;
 
+            # Check nonce
+            check_ajax_referer('update_post_type');
+
             # Create Default Obj
             $return = array('process_status' => 'complete', 'number_process' => 0, 'percentage' => 0);
 
             # Check is Ajax WordPress
-            if (defined('DOING_AJAX') && DOING_AJAX) {
+            if (defined('DOING_AJAX') && DOING_AJAX && User::Access('manage')) {
 
                 # Check Status Of Process
                 if (self::is_require_update_page() === true) {

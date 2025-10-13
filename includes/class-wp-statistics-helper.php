@@ -1850,10 +1850,12 @@ class Helper
      *
      * @param int|float $firstNumber
      * @param int|float $secondNumber
+     * @param int $decimals
+     * @param bool $abs
      *
      * @return  float
      */
-    public static function calculatePercentageChange($firstNumber, $secondNumber, $decimals = 2)
+    public static function calculatePercentageChange($firstNumber, $secondNumber, $decimals = 2, $abs = false)
     {
         $firstNumber  = intval($firstNumber);
         $secondNumber = intval($secondNumber);
@@ -1876,7 +1878,9 @@ class Helper
         $result *= 100;
         $result *= $multiply;
 
-        return round($result, $decimals);
+        $result = round($result, $decimals);
+
+        return $abs ? abs($result) : $result;
     }
 
     /**
@@ -1955,6 +1959,9 @@ class Helper
             '/[\'"\(](?:\s|%20)*SELECT\b/i',                    // ' " ( SELECT
             '/[\'"\(](?:\s|%20)*DROP\b/i',                      // ' " ( DROP
             '/[\'"\(](?:\s|%20)*ALTER\b/i',                     // ' " ( ALTER
+
+            // Oracle injection
+            '/DBMS_PIPE\.(RECEIVE_MESSAGE|SEND_MESSAGE)/i',
 
             // SQL comment injection
             '/[\'"\(](?:\s|%20)*--(?:\s|%20)*/i',               // ' " ( --
@@ -2261,6 +2268,21 @@ class Helper
         }
 
         return $message;
+    }
+
+    /**
+     * Return available schedules for report delivery.
+     *
+     * @return array
+     */
+    public static function getReportSchedules()
+    {
+        $schedules = Schedule::getSchedules();
+
+        // Filter out non-report schedules
+        $schedules = self::filterArrayByKeys($schedules, ['daily', 'weekly', 'biweekly', 'monthly']);
+
+        return $schedules;
     }
 
     /**

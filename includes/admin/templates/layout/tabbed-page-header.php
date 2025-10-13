@@ -137,6 +137,13 @@ View::load('components/objects/share-anonymous-notice');
                             <?php if (!empty($tab['tooltip'])) : ?>
                                 <span class="wps-tooltip" title="<?php echo esc_attr($tab['tooltip']); ?>"><i class="wps-tooltip-icon info"></i></span>
                             <?php endif; ?>
+
+                            <?php if (strpos($tab['class'], 'wps-tab-link__online-visitors') !== false) : ?>
+                                <span class="wps-dot wps-tooltip" title="<?php esc_html_e('Unique visitors who viewed a page in the last 5 minutes', 'wp-statistics'); ?>">
+                                   <span class="screen-reader-text"><?php esc_html_e('Unique visitors who viewed a page in the last 5 minutes', 'wp-statistics'); ?></span>
+                                </span>
+                            <?php endif; ?>
+
                         </a>
                     <?php endif; ?>
                 </li>

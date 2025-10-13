@@ -8,6 +8,10 @@ $baseDir = dirname($vendorDir);
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'WP_Statistics\\Abstracts\\BaseMetabox' => $baseDir . '/src/Abstracts/BaseMetabox.php',
+<<<<<<< HEAD
+=======
+    'WP_Statistics\\Abstracts\\BaseMigrationManager' => $baseDir . '/src/Abstracts/BaseMigrationManager.php',
+>>>>>>> release-14.16
     'WP_Statistics\\Abstracts\\BaseMigrationOperation' => $baseDir . '/src/Abstracts/BaseMigrationOperation.php',
     'WP_Statistics\\Abstracts\\BaseModel' => $baseDir . '/src/Abstracts/BaseModel.php',
     'WP_Statistics\\Abstracts\\BasePage' => $baseDir . '/src/Abstracts/BasePage.php',
@@ -23,6 +27,11 @@ return array(
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\IncompleteGeoIpUpdater' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/IncompleteGeoIpUpdater.php',
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\SourceChannelUpdater' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/SourceChannelUpdater.php',
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\TableOperationProcess' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/TableOperationProcess.php',
+<<<<<<< HEAD
+=======
+    'WP_Statistics\\CLI\\CliCommands' => $baseDir . '/src/CLI/CliCommands.php',
+    'WP_Statistics\\CLI\\CliDataProvider' => $baseDir . '/src/CLI/CliDataProvider.php',
+>>>>>>> release-14.16
     'WP_Statistics\\Components\\Ajax' => $baseDir . '/src/Components/Ajax.php',
     'WP_Statistics\\Components\\AssetNameObfuscator' => $baseDir . '/src/Components/AssetNameObfuscator.php',
     'WP_Statistics\\Components\\Assets' => $baseDir . '/src/Components/Assets.php',
@@ -36,6 +45,12 @@ return array(
     'WP_Statistics\\Components\\View' => $baseDir . '/src/Components/View.php',
     'WP_Statistics\\Core\\AbstractCore' => $baseDir . '/src/Core/AbstractCore.php',
     'WP_Statistics\\Core\\CoreFactory' => $baseDir . '/src/Core/CoreFactory.php',
+<<<<<<< HEAD
+=======
+    'WP_Statistics\\Core\\Operations\\Activator' => $baseDir . '/src/Core/Operations/Activator.php',
+    'WP_Statistics\\Core\\Operations\\Loader' => $baseDir . '/src/Core/Operations/Loader.php',
+    'WP_Statistics\\Core\\Operations\\Uninstaller' => $baseDir . '/src/Core/Operations/Uninstaller.php',
+>>>>>>> release-14.16
     'WP_Statistics\\Core\\Operations\\Updater' => $baseDir . '/src/Core/Operations/Updater.php',
     'WP_Statistics\\Decorators\\BrowserDecorator' => $baseDir . '/src/Decorators/BrowserDecorator.php',
     'WP_Statistics\\Decorators\\DeviceDecorator' => $baseDir . '/src/Decorators/DeviceDecorator.php',
@@ -133,6 +148,10 @@ return array(
     'WP_Statistics\\Exception\\LicenseException' => $baseDir . '/src/Exception/LicenseException.php',
     'WP_Statistics\\Exception\\LogException' => $baseDir . '/src/Exception/LogException.php',
     'WP_Statistics\\Exception\\SystemErrorException' => $baseDir . '/src/Exception/SystemErrorException.php',
+<<<<<<< HEAD
+=======
+    'WP_Statistics\\Globals\\AjaxManager' => $baseDir . '/src/Globals/AjaxManager.php',
+>>>>>>> release-14.16
     'WP_Statistics\\Models\\AuthorsModel' => $baseDir . '/src/Models/AuthorsModel.php',
     'WP_Statistics\\Models\\EventsModel' => $baseDir . '/src/Models/EventsModel.php',
     'WP_Statistics\\Models\\ExclusionsModel' => $baseDir . '/src/Models/ExclusionsModel.php',
@@ -177,7 +196,10 @@ return array(
     'WP_Statistics\\Service\\Admin\\ExportImport\\ExportImportHandler' => $baseDir . '/src/Service/Admin/ExportImport/ExportImportHandler.php',
     'WP_Statistics\\Service\\Admin\\ExportImport\\ExportImportManager' => $baseDir . '/src/Service/Admin/ExportImport/ExportImportManager.php',
     'WP_Statistics\\Service\\Admin\\ExportImport\\ExportRestController' => $baseDir . '/src/Service/Admin/ExportImport/ExportRestController.php',
+<<<<<<< HEAD
     'WP_Statistics\\Service\\Admin\\ExportImport\\ExportTypes' => $baseDir . '/src/Service/Admin/ExportImport/ExportTypes.php',
+=======
+>>>>>>> release-14.16
     'WP_Statistics\\Service\\Admin\\ExportImport\\ImportRestController' => $baseDir . '/src/Service/Admin/ExportImport/ImportRestController.php',
     'WP_Statistics\\Service\\Admin\\ExportImport\\Interfaces\\ExportDriverInterface' => $baseDir . '/src/Service/Admin/ExportImport/Interfaces/ExportDriverInterface.php',
     'WP_Statistics\\Service\\Admin\\ExportImport\\Interfaces\\ImportDriverInterface' => $baseDir . '/src/Service/Admin/ExportImport/Interfaces/ImportDriverInterface.php',
@@ -240,6 +262,12 @@ return array(
     'WP_Statistics\\Service\\Admin\\Notification\\NotificationFetcher' => $baseDir . '/src/Service/Admin/Notification/NotificationFetcher.php',
     'WP_Statistics\\Service\\Admin\\Notification\\NotificationManager' => $baseDir . '/src/Service/Admin/Notification/NotificationManager.php',
     'WP_Statistics\\Service\\Admin\\Notification\\NotificationProcessor' => $baseDir . '/src/Service/Admin/Notification/NotificationProcessor.php',
+<<<<<<< HEAD
+=======
+    'WP_Statistics\\Service\\Admin\\Optimization\\OptimizationActions' => $baseDir . '/src/Service/Admin/Optimization/OptimizationActions.php',
+    'WP_Statistics\\Service\\Admin\\Optimization\\OptimizationManager' => $baseDir . '/src/Service/Admin/Optimization/OptimizationManager.php',
+    'WP_Statistics\\Service\\Admin\\Optimization\\OptimizationPage' => $baseDir . '/src/Service/Admin/Optimization/OptimizationPage.php',
+>>>>>>> release-14.16
     'WP_Statistics\\Service\\Admin\\Overview\\OverviewManager' => $baseDir . '/src/Service/Admin/Overview/OverviewManager.php',
     'WP_Statistics\\Service\\Admin\\Overview\\OverviewPage' => $baseDir . '/src/Service/Admin/Overview/OverviewPage.php',
     'WP_Statistics\\Service\\Admin\\PageInsights\\PageInsightsDataProvider' => $baseDir . '/src/Service/Admin/PageInsights/PageInsightsDataProvider.php',
@@ -380,9 +408,17 @@ return array(
     'WP_Statistics\\Service\\Logger\\Provider\\TrackerProvider' => $baseDir . '/src/Service/Logger/Provider/TrackerProvider.php',
     'WP_Statistics\\Service\\ThirdParty\\RankMath\\RankMath' => $baseDir . '/src/Service/ThirdParty/RankMath/RankMath.php',
     'WP_Statistics\\Service\\ThirdParty\\ThirdPartyServices' => $baseDir . '/src/Service/ThirdParty/ThirdPartyServices.php',
+<<<<<<< HEAD
     'WP_Statistics\\Traits\\ErrorLoggerTrait' => $baseDir . '/src/Traits/ErrorLoggerTrait.php',
     'WP_Statistics\\Traits\\ObjectCacheTrait' => $baseDir . '/src/Traits/ObjectCacheTrait.php',
     'WP_Statistics\\Traits\\TransientCacheTrait' => $baseDir . '/src/Traits/TransientCacheTrait.php',
+=======
+    'WP_Statistics\\Traits\\AjaxUtilityTrait' => $baseDir . '/src/Traits/AjaxUtilityTrait.php',
+    'WP_Statistics\\Traits\\ErrorLoggerTrait' => $baseDir . '/src/Traits/ErrorLoggerTrait.php',
+    'WP_Statistics\\Traits\\ObjectCacheTrait' => $baseDir . '/src/Traits/ObjectCacheTrait.php',
+    'WP_Statistics\\Traits\\TransientCacheTrait' => $baseDir . '/src/Traits/TransientCacheTrait.php',
+    'WP_Statistics\\Traits\\WpCacheTrait' => $baseDir . '/src/Traits/WpCacheTrait.php',
+>>>>>>> release-14.16
     'WP_Statistics\\Utils\\Env' => $baseDir . '/src/Utils/Env.php',
     'WP_Statistics\\Utils\\Query' => $baseDir . '/src/Utils/Query.php',
     'WP_Statistics\\Utils\\Request' => $baseDir . '/src/Utils/Request.php',

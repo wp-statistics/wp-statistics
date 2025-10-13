@@ -36,7 +36,7 @@ function wp_statistics_enableTab(tab_id) {
 
 
 function createMobileDropdown() {
-     if (document.readyState === 'loading') {
+    if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initializeDropdownWithRetry);
     } else {
         initializeDropdownWithRetry();
@@ -46,14 +46,15 @@ function createMobileDropdown() {
         let retryCount = 0;
         const maxRetries = 10;
         const retryInterval = 500;
-         function tryInitializeDropdown() {
+
+        function tryInitializeDropdown() {
             const menu = document.querySelector('.wps-optionsMenu');
             if (menu) {
-                 initializeDropdown();
+                initializeDropdown();
             } else {
                 retryCount++;
                 if (retryCount < maxRetries) {
-                     setTimeout(tryInitializeDropdown, retryInterval);
+                    setTimeout(tryInitializeDropdown, retryInterval);
                 } else {
                     const wrapper = document.createElement('div');
                     wrapper.classList.add('wps-setting-select-wrapper');
@@ -158,7 +159,7 @@ function createMobileDropdown() {
             });
 
             menu.querySelectorAll('a[data-tab]').forEach(item => {
-                observer.observe(item, { attributes: true });
+                observer.observe(item, {attributes: true});
             });
         }
 
@@ -178,6 +179,7 @@ function navigateToTab(tab) {
         selectedItem.classList.add('current');
     }
 }
+
 jQuery(document).ready(function () {
     createMobileDropdown();
 });
@@ -211,6 +213,65 @@ window.onload = function () {
         });
     }
 
+
+    const historicalInputs = document.querySelectorAll('[data-id^="historical_total_"] input[type="number"]');
+    const historicalSubmitButton = document.getElementById('historical-submit');
+
+
+    if (historicalInputs.length === 2 && historicalSubmitButton) {
+        function validateInput(value) {
+            return /^\d+$/.test(value);
+        }
+
+        function updateInputState() {
+            let allValid = true;
+            historicalInputs.forEach(input => {
+                const value = input.value;
+                if (!validateInput(value)) {
+                    input.classList.add('invalid');
+                    allValid = false;
+                } else {
+                    input.classList.remove('invalid');
+                }
+            });
+            historicalSubmitButton.disabled = !allValid;
+        }
+
+        historicalInputs.forEach(input => {
+            input.addEventListener('input', updateInputState);
+
+            input.addEventListener('keydown', function(e) {
+                const invalidKeys = ['+', '-', 'e', 'E', '.'];
+                if (invalidKeys.includes(e.key)) {
+                    e.preventDefault();
+                }
+            });
+
+            input.addEventListener('paste', function(e) {
+                const pastedData = e.clipboardData.getData('text');
+                if (!validateInput(pastedData)) {
+                    e.preventDefault();
+                    input.classList.add('invalid');
+                    historicalSubmitButton.disabled = true;
+                }
+            });
+
+            input.addEventListener('drop', function(e) {
+                e.preventDefault();
+                const droppedData = e.dataTransfer.getData('text');
+                if (validateInput(droppedData)) {
+                    input.value = droppedData;
+                }
+                updateInputState();
+            });
+
+            input.addEventListener('dragover', function(e) {
+                e.preventDefault();
+            });
+        });
+
+        updateInputState();
+    }
 };
 /**
  * Check has setting page
