@@ -27,14 +27,18 @@ abstract class UnlockedTabView
      */
     public function getExportData($data, $args)
     {
-        return $this->getData($args);
+        return $this->getData();
     }
 
     /**
      * Returns the data for the unlocked tab
+     *
+     * This method is defined without parameters for backward compatibility,
+     * but subclasses may optionally accept an `$args` array to customize data retrieval.
+     *
      * @return array
      */
-    public function getData($args = [])
+    public function getData()
     {
         return [];
     }
