@@ -37,6 +37,10 @@ class TabsView extends BaseTabView
             $args['post_type'] = Request::get('pt', 'post');
         }
 
+        if (Request::has('order_by')) {
+            $args['order_by'] = Request::get('order_by');
+        }
+
         $this->dataProvider = new PageInsightsDataProvider($args);
     }
 
