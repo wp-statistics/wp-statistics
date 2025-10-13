@@ -200,7 +200,7 @@ class BackgroundProcessManager extends BaseMigrationManager
                 esc_html__('You can continue using the plugin. The process runs safely in the background.', 'wp-statistics')
             );
 
-            Notice::addNotice($message, 'info', false);
+            Notice::addNotice($message, $instance->getInitiatedKey(),'info', false);
         }
     }
 
