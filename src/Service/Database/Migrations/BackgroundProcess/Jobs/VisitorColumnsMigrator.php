@@ -175,7 +175,7 @@ class VisitorColumnsMigrator extends BaseBackgroundProcess
      * @param bool $force Whether to include the `force` flag to restart the job. Default false.
      * @return void
      */
-    public function inititalNotice($force = false) 
+    public function initialNotice($force = false) 
     {
         if ($this->isInitiated() || $this->is_active()) {
             return;

@@ -64,8 +64,9 @@ class TableHandler
         Option::saveOptionGroup('status', null, 'queue_background_process');
 
         $ajaxMigrationOption = Option::getOptionGroup('ajax_background_process', 'jobs', []);
+        $ajaxIsDone          = Option::getOptionGroup('ajax_background_process', 'is_done', false);
 
-        if (in_array('visitor_columns_migrate', $ajaxMigrationOption, true)) {
+        if ($ajaxIsDone || in_array('visitor_columns_migrate', $ajaxMigrationOption, true)) {
             Option::saveOptionGroup('visitor_columns_migrator_initiated', true, 'jobs');
         }
 
