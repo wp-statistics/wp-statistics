@@ -69,10 +69,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'WP_Statistics\\Abstracts\\BaseMetabox' => __DIR__ . '/../..' . '/src/Abstracts/BaseMetabox.php',
-<<<<<<< HEAD
-=======
         'WP_Statistics\\Abstracts\\BaseMigrationManager' => __DIR__ . '/../..' . '/src/Abstracts/BaseMigrationManager.php',
->>>>>>> release-14.16
         'WP_Statistics\\Abstracts\\BaseMigrationOperation' => __DIR__ . '/../..' . '/src/Abstracts/BaseMigrationOperation.php',
         'WP_Statistics\\Abstracts\\BaseModel' => __DIR__ . '/../..' . '/src/Abstracts/BaseModel.php',
         'WP_Statistics\\Abstracts\\BasePage' => __DIR__ . '/../..' . '/src/Abstracts/BasePage.php',
@@ -88,11 +85,8 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\IncompleteGeoIpUpdater' => __DIR__ . '/../..' . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/IncompleteGeoIpUpdater.php',
         'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\SourceChannelUpdater' => __DIR__ . '/../..' . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/SourceChannelUpdater.php',
         'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\TableOperationProcess' => __DIR__ . '/../..' . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/TableOperationProcess.php',
-<<<<<<< HEAD
-=======
         'WP_Statistics\\CLI\\CliCommands' => __DIR__ . '/../..' . '/src/CLI/CliCommands.php',
         'WP_Statistics\\CLI\\CliDataProvider' => __DIR__ . '/../..' . '/src/CLI/CliDataProvider.php',
->>>>>>> release-14.16
         'WP_Statistics\\Components\\Ajax' => __DIR__ . '/../..' . '/src/Components/Ajax.php',
         'WP_Statistics\\Components\\AssetNameObfuscator' => __DIR__ . '/../..' . '/src/Components/AssetNameObfuscator.php',
         'WP_Statistics\\Components\\Assets' => __DIR__ . '/../..' . '/src/Components/Assets.php',
@@ -106,12 +100,9 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Components\\View' => __DIR__ . '/../..' . '/src/Components/View.php',
         'WP_Statistics\\Core\\AbstractCore' => __DIR__ . '/../..' . '/src/Core/AbstractCore.php',
         'WP_Statistics\\Core\\CoreFactory' => __DIR__ . '/../..' . '/src/Core/CoreFactory.php',
-<<<<<<< HEAD
-=======
         'WP_Statistics\\Core\\Operations\\Activator' => __DIR__ . '/../..' . '/src/Core/Operations/Activator.php',
         'WP_Statistics\\Core\\Operations\\Loader' => __DIR__ . '/../..' . '/src/Core/Operations/Loader.php',
         'WP_Statistics\\Core\\Operations\\Uninstaller' => __DIR__ . '/../..' . '/src/Core/Operations/Uninstaller.php',
->>>>>>> release-14.16
         'WP_Statistics\\Core\\Operations\\Updater' => __DIR__ . '/../..' . '/src/Core/Operations/Updater.php',
         'WP_Statistics\\Decorators\\BrowserDecorator' => __DIR__ . '/../..' . '/src/Decorators/BrowserDecorator.php',
         'WP_Statistics\\Decorators\\DeviceDecorator' => __DIR__ . '/../..' . '/src/Decorators/DeviceDecorator.php',
@@ -209,10 +200,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Exception\\LicenseException' => __DIR__ . '/../..' . '/src/Exception/LicenseException.php',
         'WP_Statistics\\Exception\\LogException' => __DIR__ . '/../..' . '/src/Exception/LogException.php',
         'WP_Statistics\\Exception\\SystemErrorException' => __DIR__ . '/../..' . '/src/Exception/SystemErrorException.php',
-<<<<<<< HEAD
-=======
         'WP_Statistics\\Globals\\AjaxManager' => __DIR__ . '/../..' . '/src/Globals/AjaxManager.php',
->>>>>>> release-14.16
         'WP_Statistics\\Models\\AuthorsModel' => __DIR__ . '/../..' . '/src/Models/AuthorsModel.php',
         'WP_Statistics\\Models\\EventsModel' => __DIR__ . '/../..' . '/src/Models/EventsModel.php',
         'WP_Statistics\\Models\\ExclusionsModel' => __DIR__ . '/../..' . '/src/Models/ExclusionsModel.php',
@@ -257,10 +245,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Admin\\ExportImport\\ExportImportHandler' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImport/ExportImportHandler.php',
         'WP_Statistics\\Service\\Admin\\ExportImport\\ExportImportManager' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImport/ExportImportManager.php',
         'WP_Statistics\\Service\\Admin\\ExportImport\\ExportRestController' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImport/ExportRestController.php',
-<<<<<<< HEAD
         'WP_Statistics\\Service\\Admin\\ExportImport\\ExportTypes' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImport/ExportTypes.php',
-=======
->>>>>>> release-14.16
         'WP_Statistics\\Service\\Admin\\ExportImport\\ImportRestController' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImport/ImportRestController.php',
         'WP_Statistics\\Service\\Admin\\ExportImport\\Interfaces\\ExportDriverInterface' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImport/Interfaces/ExportDriverInterface.php',
         'WP_Statistics\\Service\\Admin\\ExportImport\\Interfaces\\ImportDriverInterface' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImport/Interfaces/ImportDriverInterface.php',
@@ -323,12 +308,9 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Admin\\Notification\\NotificationFetcher' => __DIR__ . '/../..' . '/src/Service/Admin/Notification/NotificationFetcher.php',
         'WP_Statistics\\Service\\Admin\\Notification\\NotificationManager' => __DIR__ . '/../..' . '/src/Service/Admin/Notification/NotificationManager.php',
         'WP_Statistics\\Service\\Admin\\Notification\\NotificationProcessor' => __DIR__ . '/../..' . '/src/Service/Admin/Notification/NotificationProcessor.php',
-<<<<<<< HEAD
-=======
         'WP_Statistics\\Service\\Admin\\Optimization\\OptimizationActions' => __DIR__ . '/../..' . '/src/Service/Admin/Optimization/OptimizationActions.php',
         'WP_Statistics\\Service\\Admin\\Optimization\\OptimizationManager' => __DIR__ . '/../..' . '/src/Service/Admin/Optimization/OptimizationManager.php',
         'WP_Statistics\\Service\\Admin\\Optimization\\OptimizationPage' => __DIR__ . '/../..' . '/src/Service/Admin/Optimization/OptimizationPage.php',
->>>>>>> release-14.16
         'WP_Statistics\\Service\\Admin\\Overview\\OverviewManager' => __DIR__ . '/../..' . '/src/Service/Admin/Overview/OverviewManager.php',
         'WP_Statistics\\Service\\Admin\\Overview\\OverviewPage' => __DIR__ . '/../..' . '/src/Service/Admin/Overview/OverviewPage.php',
         'WP_Statistics\\Service\\Admin\\PageInsights\\PageInsightsDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/PageInsights/PageInsightsDataProvider.php',
@@ -469,17 +451,11 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Logger\\Provider\\TrackerProvider' => __DIR__ . '/../..' . '/src/Service/Logger/Provider/TrackerProvider.php',
         'WP_Statistics\\Service\\ThirdParty\\RankMath\\RankMath' => __DIR__ . '/../..' . '/src/Service/ThirdParty/RankMath/RankMath.php',
         'WP_Statistics\\Service\\ThirdParty\\ThirdPartyServices' => __DIR__ . '/../..' . '/src/Service/ThirdParty/ThirdPartyServices.php',
-<<<<<<< HEAD
-        'WP_Statistics\\Traits\\ErrorLoggerTrait' => __DIR__ . '/../..' . '/src/Traits/ErrorLoggerTrait.php',
-        'WP_Statistics\\Traits\\ObjectCacheTrait' => __DIR__ . '/../..' . '/src/Traits/ObjectCacheTrait.php',
-        'WP_Statistics\\Traits\\TransientCacheTrait' => __DIR__ . '/../..' . '/src/Traits/TransientCacheTrait.php',
-=======
         'WP_Statistics\\Traits\\AjaxUtilityTrait' => __DIR__ . '/../..' . '/src/Traits/AjaxUtilityTrait.php',
         'WP_Statistics\\Traits\\ErrorLoggerTrait' => __DIR__ . '/../..' . '/src/Traits/ErrorLoggerTrait.php',
         'WP_Statistics\\Traits\\ObjectCacheTrait' => __DIR__ . '/../..' . '/src/Traits/ObjectCacheTrait.php',
         'WP_Statistics\\Traits\\TransientCacheTrait' => __DIR__ . '/../..' . '/src/Traits/TransientCacheTrait.php',
         'WP_Statistics\\Traits\\WpCacheTrait' => __DIR__ . '/../..' . '/src/Traits/WpCacheTrait.php',
->>>>>>> release-14.16
         'WP_Statistics\\Utils\\Env' => __DIR__ . '/../..' . '/src/Utils/Env.php',
         'WP_Statistics\\Utils\\Query' => __DIR__ . '/../..' . '/src/Utils/Query.php',
         'WP_Statistics\\Utils\\Request' => __DIR__ . '/../..' . '/src/Utils/Request.php',
