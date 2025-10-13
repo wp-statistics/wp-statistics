@@ -177,7 +177,7 @@ class VisitorColumnsMigrator extends BaseBackgroundProcess
      */
     public function inititalNotice($force = false) 
     {
-        if (!$this->isValidContext() || $this->isInitiated() || $this->is_active()) {
+        if ($this->isInitiated() || $this->is_active()) {
             return;
         }
 
