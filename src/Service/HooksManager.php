@@ -4,15 +4,52 @@ namespace WP_Statistics\Service;
 
 use WP_STATISTICS\Menus;
 use WP_Statistics\Components\AssetNameObfuscator;
+use WP_Statistics\Globals\Context;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
 class HooksManager
 {
     public function __construct()
     {
+        add_action('admin_init', [$this, 'setWpsPage']);
         add_filter('kses_allowed_protocols', [$this, 'updateAllowedProtocols']);
         add_filter('plugin_action_links_' . plugin_basename(WP_STATISTICS_MAIN_FILE), [$this, 'addActionLinks']);
         add_filter('plugins_loaded', [$this, 'serveObfuscatedAsset'], PHP_INT_MAX);
+    }
+
+    /**
+     * Sets the current page, view and tab in the context.
+     *
+     * @return void
+     */
+    public function setWpsPage()
+    {
+        $wpsPage = ['slug' => null, 'view' => null, 'tab' => null];
+
+        $page      = Menus::getCurrentPage();
+        $className = $page['callback'];
+
+        if (class_exists($className)) {
+            $class = $className::instance();
+
+            if (method_exists($class, 'getPageSlug')) {
+                $wpsPage['slug'] = $class->getPageSlug();
+            }
+
+            if (method_exists($class, 'getCurrentView')) {
+                $wpsPage['view'] = $class->getCurrentView();
+            }
+
+            if (method_exists($class, 'getCurrentViewClass')) {
+                $view = $class->getCurrentViewClass();
+
+                if (method_exists($view, 'getCurrentTab')) {
+                    $wpsPage['tab'] = $view->getCurrentTab();
+                }
+            }
+
+            Context::add('wps_page', $wpsPage);
+        }
     }
 
     /**

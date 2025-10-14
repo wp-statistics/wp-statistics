@@ -6,6 +6,7 @@ use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\DateTime;
+use WP_Statistics\Globals\Context;
 use WP_Statistics\Service\Admin\Metabox\MetaboxHelper;
 
 class Admin_Assets
@@ -503,6 +504,8 @@ class Admin_Assets
         $list['wp_debug'] = defined('WP_DEBUG') && WP_DEBUG ? true : false;
 
         $list['meta_boxes'] = MetaboxHelper::getScreenMetaboxes();
+
+        $list['wps_page'] = Context::get('wps_page');
 
         /**
          * Filter: wp_statistics_admin_assets
