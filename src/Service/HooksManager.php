@@ -27,7 +27,7 @@ class HooksManager
         $wpsPage = ['slug' => null, 'view' => null, 'tab' => null];
 
         $page      = Menus::getCurrentPage();
-        $className = $page['callback'];
+        $className = $page['callback'] ?? '';
 
         if (class_exists($className)) {
             $class = $className::instance();
