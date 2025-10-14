@@ -73,6 +73,6 @@ class ReportsExportHandler
             return $data['data'];
         }
 
-        return [];
+        return $data;
     }
 }
