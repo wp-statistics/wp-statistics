@@ -188,6 +188,8 @@ class BackgroundProcessManager extends BaseMigrationManager
                 $percent = 0;
             }
 
+            $instance->localizeJobTexts();
+
             $label = $instance->getJobTitle();
 
             /* translators: 1: job title, 2: percent complete, 3: processed count, 4: total count, 5: appended background-running note */

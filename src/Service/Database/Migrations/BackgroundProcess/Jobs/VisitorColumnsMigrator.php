@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Database\Migrations\BackgroundProcess\Jobs;
 
 use WP_Statistics\Abstracts\BaseBackgroundProcess;
+use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Database\DatabaseFactory;
 
@@ -47,11 +48,8 @@ class VisitorColumnsMigrator extends BaseBackgroundProcess
      */
     public function localizeJobTexts()
     {        
-        $title       = esc_html__('Migrate Visitor Data Columns', 'wp-statistics');
-        $description = esc_html__('Adjusts and updates visitor-related database columns to the latest WP Statistics format. Run this migration after upgrading from older versions to ensure your visitor data remains accurate and compatible.', 'wp-statistics');
-
-        $this->setJobTitle($title);
-        $this->setJobDescription($description);
+        $this->setJobTitle(esc_html__('Migrate Visitor Data Columns', 'wp-statistics'));
+        $this->setJobDescription(esc_html__('Adjusts and updates visitor-related database columns to the latest WP Statistics format. Run this migration after upgrading from older versions to ensure your visitor data remains accurate and compatible.', 'wp-statistics'));
     }
 
     /**
@@ -178,6 +176,14 @@ class VisitorColumnsMigrator extends BaseBackgroundProcess
     public function initialNotice($force = false) 
     {
         if ($this->isInitiated() || $this->is_active()) {
+            return;
+        }
+
+        $ajaxMigrationOption = Option::getOptionGroup('ajax_background_process', 'jobs', []);
+        $ajaxIsDone          = Option::getOptionGroup('ajax_background_process', 'is_done', false);
+
+        if ($ajaxIsDone || in_array('visitor_columns_migrate', $ajaxMigrationOption, true)) {
+            Option::saveOptionGroup($this->getInitiatedKey(), true, 'jobs');
             return;
         }
 
