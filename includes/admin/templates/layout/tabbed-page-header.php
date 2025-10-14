@@ -4,14 +4,14 @@ use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Url;
 use WP_Statistics\Components\View;
+use WP_Statistics\Globals\Context;
 use WP_Statistics\Marketing\Services\Auth\AuthHelper;
-use WP_Statistics\Utils\Request;
 
-$pageKey = Menus::getCurrentPage();
-$pageKey = $pageKey['page_url'];
+$currentPage = Context::get('wps_page');
 
-$defaultTab = $tabs[0]['id'] ?? '';
-$currentTab = Helper::findInArray($tabs, 'id', Request::get('tab', $defaultTab));
+$pageKey    = $currentPage['slug'];
+$currentTab = $currentPage['tab'] ?? '';
+$currentTab = Helper::findInArray($tabs, 'id', $currentTab);
 
 View::load('components/objects/share-anonymous-notice');
 ?>
