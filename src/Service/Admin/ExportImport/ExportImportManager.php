@@ -2,40 +2,33 @@
 
 namespace WP_Statistics\Service\Admin\ExportImport;
 
+use WP_Statistics\Service\Admin\ExportImport\Reports\ReportsExportHandler;
+
 class ExportImportManager
 {
-    /**
-     * ExportImportManager constructor.
-     *
-     * Hooks the REST API initialization action to register export/import REST routes.
-     */
     public function __construct()
     {
-        $this->createExportRestController();
-        $this->createImportRestController();
+        add_action('init', [$this, 'registerRestControllers']);
+        add_action('rest_api_init', [$this, 'initExportHandlers'], 5);
     }
 
     /**
-     * Create and return an instance of the export REST controller.
+     * Register an instance of the export/import REST controllers.
      *
-     * This controller handles the /export endpoint for exporting plugin settings.
-     *
-     * @return ExportRestController
+     * This controller handles the /import and /export endpoint
      */
-    public function createExportRestController()
+    public function registerRestControllers()
     {
-        return new ExportRestController();
+        $exportRestController = new ExportRestController();
+        $importRestController = new ImportRestController();
     }
 
     /**
-     * Create and return an instance of the import REST controller.
-     *
-     * This controller handles the /import endpoint for importing plugin settings.
-     *
-     * @return ImportRestController
+     * Initializes the reports export handler.
      */
-    public function createImportRestController()
+    public function initExportHandlers()
     {
-        return new ImportRestController();
+        $reportsExportHandler = new ReportsExportHandler();
+        $reportsExportHandler->init();
     }
 }
