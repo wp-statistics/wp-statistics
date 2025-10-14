@@ -90,27 +90,6 @@ class ReportsExportDataTransformer
         return $result;
     }
 
-    public static function transformPagesData($pages)
-    {
-        $result = [];
-
-        foreach ($pages as $item) {
-            $page = Visitor::get_page_by_id($item->page_id);
-
-            $row = [];
-
-            $row['post_id']        = $page['id'];
-            $row['title']          = $page['title'];
-            $row['visitors']       = $item->visitors;
-            $row['published_data'] = $item->post_date;
-            $row['url']            = $page['full_url'];
-
-            $result[] = $row;
-        }
-
-        return $result;
-    }
-
     public static function transformCategoriesData($categories)
     {
         $result = [];
