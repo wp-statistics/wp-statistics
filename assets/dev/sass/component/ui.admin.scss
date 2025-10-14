@@ -4387,7 +4387,7 @@ span.wps_search-console_icon {
 .wps-head-filters.drop-down-open {
   z-index: 3;
 
-  .c-pages-date-range, .wps-dropdown {
+  .c-pages-date-range, .wps-dropdown , .wps-modal-filter , .wps-last-updated{
     pointer-events: none;
     opacity: .5;
     filter: blur(2px);
