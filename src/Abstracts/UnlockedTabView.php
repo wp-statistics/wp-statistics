@@ -12,7 +12,7 @@ abstract class UnlockedTabView
         add_filter("wp_statistics_{$this->page}_{$this->tab}_tooltip", [$this, 'getTooltip']);
         add_action("wp_statistics_{$this->page}_{$this->tab}_template", [$this, 'view']);
         add_action("wp_statistics_{$this->page}_{$this->tab}_data", [$this, 'getData']);
-        add_filter("wp_statistics_{$this->page}_{$this->tab}_export_data", [$this, 'getExportData'], 10, 2);
+        add_filter("wp_statistics_{$this->page}_{$this->tab}_export_report_data", [$this, 'getExportData'], 10, 2);
     }
 
     /**
