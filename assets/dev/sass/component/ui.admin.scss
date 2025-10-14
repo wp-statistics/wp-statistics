@@ -2740,7 +2740,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 
   #visitors-filter, #referral-filter,
   #wps-modal-filter {
-    background: transparent;
+    background: #fff;
     border: 1px solid #DADCE0;
     padding: 4px 21px;
     margin-top: 0 !important;
@@ -4387,7 +4387,7 @@ span.wps_search-console_icon {
 .wps-head-filters.drop-down-open {
   z-index: 3;
 
-  .c-pages-date-range, .wps-dropdown {
+  .c-pages-date-range, .wps-dropdown , .wps-modal-filter , .wps-last-updated{
     pointer-events: none;
     opacity: .5;
     filter: blur(2px);
