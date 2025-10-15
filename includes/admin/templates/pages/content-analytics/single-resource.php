@@ -9,18 +9,14 @@ use WP_Statistics\Components\View;
 
         $metrics = [
             [
-                'id'            => 'visitors',
-                'label'         => esc_html__('Visitors', 'wp-statistics'),
-                'value'         => $data['glance']['visitors']['value'],
-                'change'        => $data['glance']['visitors']['change'],
-                'format_number' => true
+                'label'  => esc_html__('Visitors', 'wp-statistics'),
+                'value'  => Helper::formatNumberWithUnit($data['glance']['visitors']['value']),
+                'change' => $data['glance']['visitors']['change']
             ],
             [
-                'id'            => 'views',
-                'label'         => esc_html__('Views', 'wp-statistics'),
-                'value'         => $data['glance']['views']['value'],
-                'change'        => $data['glance']['views']['change'],
-                'format_number' => true
+                'label'  => esc_html__('Views', 'wp-statistics'),
+                'value'  => Helper::formatNumberWithUnit($data['glance']['views']['value']),
+                'change' => $data['glance']['views']['change']
             ],
         ];
         View::load("components/objects/glance-card", ['metrics' => $metrics , 'two_column' => true]);

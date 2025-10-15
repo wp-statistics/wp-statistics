@@ -52,7 +52,7 @@ class TabsView extends BaseTabView
                 'link'    => Menus::admin_url('content-analytics', ['tab' => $postType]),
                 'title'   => Helper::getPostTypeName($postType),
                 'class'   => $this->isTab($postType) ? 'current' : '',
-                'export'  => [ExportTypes::CSV_METRICS, ExportTypes::PDF_PAGE]
+                'export'  => [ExportTypes::PDF_PAGE]
             ];
 
             if ($this->isLockedTab($postType)) {
