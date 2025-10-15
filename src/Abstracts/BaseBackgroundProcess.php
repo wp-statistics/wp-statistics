@@ -23,28 +23,28 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
 
     /**
      * Prefix for the process.
-     * 
+     *
      * @var string
      */
     protected $prefix = 'wp_statistics';
 
     /**
      * Initiated key for option storage.
-     * 
+     *
      * @var string
      */
     protected $initiatedKey = '';
 
     /**
      * Total number of items to process.
-     * 
+     *
      * @var string
      */
     protected $totalOptionKey = '';
 
     /**
      * Number of processed items.
-     * 
+     *
      * @var int
      */
     protected $processedOptionKey = '';
@@ -58,14 +58,14 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
 
     /**
      * Short job description for admin UI.
-     * 
+     *
      * @var string
      */
     protected $jobDescription = '';
 
     /**
      * Set the human‑readable job title (source string; not translated here).
-     * 
+     *
      * @param string $title Source title for this background job.
      * @return void
      */
@@ -167,7 +167,7 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
     {
         $total = $this->getTotal();
 
-        if (! empty($total) || empty($items)) {
+        if (!empty($total) || empty($items)) {
             return;
         }
 
@@ -190,20 +190,20 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
         $processedCount   = 0;
         $alreadyProcessed = $this->getProcessed();
 
-        $processedCount = (int) $alreadyProcessed + intval(count($processed));
+        $processedCount = (int)$alreadyProcessed + intval(count($processed));
 
         Option::saveOptionGroup($this->processedOptionKey, $processedCount, 'jobs');
     }
 
     /**
      * Clear the total and processed counts.
-     * 
+     *
      * @return void
      */
     protected function clearTotalAndProcessed()
     {
         $this->setTotalAndProcessed();
-        
+
         Option::deleteOptionGroup($this->totalOptionKey, 'jobs');
         Option::deleteOptionGroup($this->processedOptionKey, 'jobs');
     }
@@ -219,7 +219,7 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
             $this->setTotalAndProcessed();
         }
 
-        return (int) Option::getOptionGroup('jobs', $this->totalOptionKey, 0);
+        return (int)Option::getOptionGroup('jobs', $this->totalOptionKey, 0);
     }
 
     /**
@@ -233,7 +233,7 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
             $this->setTotalAndProcessed();
         }
 
-        return (int) Option::getOptionGroup('jobs', $this->processedOptionKey, 0);
+        return (int)Option::getOptionGroup('jobs', $this->processedOptionKey, 0);
     }
 
     /**
@@ -260,7 +260,7 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
             'force'    => $force
         ];
 
-        if (! empty($tab)) {
+        if (!empty($tab)) {
             $args['tab'] = $tab;
         }
 

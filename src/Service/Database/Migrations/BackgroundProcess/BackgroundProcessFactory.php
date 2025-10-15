@@ -7,16 +7,16 @@ use WP_STATISTICS\Option;
 
 /**
  * Factory class to get background process instances.
- * 
+ *
  * @package WP_Statistics\Service\Database\Migrations\BackgroundProcess
  */
 class BackgroundProcessFactory
 {
     /**
      * Get a background process instance by its key.
-     * 
+     *
      * @param string $processKey The key identifying the background process.
-     * 
+     *
      * @return object|null The background process instance or null if not found.
      */
     public static function getBackgroundProcess($processKey)
@@ -94,14 +94,14 @@ class BackgroundProcessFactory
     {
         Option::deleteOptionGroup('data_migration_process_started', 'jobs');
 
-        if (! CoreFactory::isFresh()) {
+        if (!CoreFactory::isFresh()) {
             return;
         }
 
         $jobs = self::getAllJobs();
 
-        foreach( $jobs as $key => $job ) {
-            if (! class_exists($job)) {
+        foreach ($jobs as $key => $job) {
+            if (!class_exists($job)) {
                 continue;
             }
 
