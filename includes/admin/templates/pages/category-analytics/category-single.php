@@ -10,58 +10,44 @@ use WP_Statistics\Service\Admin\Posts\WordCountService;
         <?php
             $metrics = [
                 [
-                    'id'            => 'published_contents',
-                    'label'         => esc_html__('Published Contents', 'wp-statistics'),
-                    'value'         => $data['glance']['posts']['value'],
-                    'change'        => $data['glance']['posts']['change'],
-                    'format_number' => true
+                    'label'  => esc_html__('Published Contents', 'wp-statistics'),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['posts']['value']),
+                    'change' => $data['glance']['posts']['change']
                 ],
                 [
-                    'id'            => 'visitors',
-                    'label'         => esc_html__('Visitors', 'wp-statistics'),
-                    'value'         => $data['glance']['visitors']['value'],
-                    'change'        => $data['glance']['visitors']['change'],
-                    'format_number' => true
+                    'label'  => esc_html__('Visitors', 'wp-statistics'),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['visitors']['value']),
+                    'change' => $data['glance']['visitors']['change']
                 ],
                 [
-                    'id'            => 'views',
-                    'label'         => esc_html__('Views', 'wp-statistics'),
-                    'value'         => $data['glance']['views']['value'],
-                    'change'        => $data['glance']['views']['change'],
-                    'format_number' => true
+                    'label'  => esc_html__('Views', 'wp-statistics'),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['views']['value']),
+                    'change' => $data['glance']['views']['change']
                 ]
             ];
 
             if (WordCountService::isActive()) {
                 $metrics[] = [
-                    'id'            => 'words',
-                    'label'         => esc_html__('Words', 'wp-statistics'),
-                    'value'         => $data['glance']['words']['value'],
-                    'format_number' => true
+                    'label'  => esc_html__('Words', 'wp-statistics'),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['words']['value']),
                 ];
 
                 $metrics[] = [
-                    'id'            => 'words_avg',
-                    'label'         => esc_html__('Avg. words per content', 'wp-statistics'),
-                    'value'         => $data['glance']['words_avg']['value'],
-                    'format_number' => true
+                    'label'  => esc_html__('Avg. words per content', 'wp-statistics'),
+                    'value'  => Helper::formatNumberWithUnit($data['glance']['words_avg']['value']),
                 ];
             }
 
             $metrics[] = [
-                'id'            => 'comments',
-                'label'         => esc_html__('Comments', 'wp-statistics'),
-                'value'         => $data['glance']['comments']['value'],
-                'change'        => $data['glance']['comments']['change'],
-                'format_number' => true
+                'label'  => esc_html__('Comments', 'wp-statistics'),
+                'value'  => Helper::formatNumberWithUnit($data['glance']['comments']['value']),
+                'change' => $data['glance']['comments']['change']
             ];
 
             $metrics[] = [
-                'id'            => 'comments_avg',
-                'label'         => esc_html__('Avg. comments per content', 'wp-statistics'),
-                'value'         => $data['glance']['comments_avg']['value'],
-                'change'        => $data['glance']['comments_avg']['change'],
-                'format_number' => true
+                'label'  => esc_html__('Avg. comments per content', 'wp-statistics'),
+                'value'  => Helper::formatNumberWithUnit($data['glance']['comments_avg']['value']),
+                'change' => $data['glance']['comments_avg']['change']
             ];
 
             View::load("components/objects/glance-card", ['metrics' => $metrics]);
