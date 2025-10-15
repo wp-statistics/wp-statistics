@@ -23,6 +23,7 @@ class SingleBrowserView extends BaseView
         }
 
         $this->dataProvider = new DevicesDataProvider([
+            'browser'  => $this->browser,
             'per_page' => 10,
             'page'     => Admin_Template::getCurrentPaged()
         ]);
@@ -30,7 +31,7 @@ class SingleBrowserView extends BaseView
 
     public function getData()
     {
-        return $this->dataProvider->getSingleBrowserData($this->browser);
+        return $this->dataProvider->getSingleBrowserData();
     }
 
     public function render()
