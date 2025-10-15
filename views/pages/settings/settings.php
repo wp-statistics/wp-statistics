@@ -1,1 +1,0 @@
-<div id="wps-settings-page" class="postbox-container"></div>

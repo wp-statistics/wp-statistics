@@ -3,20 +3,19 @@
 namespace WP_Statistics\Service\Admin\DashboardBootstrap\Views;
 
 use WP_Statistics\Abstracts\BasePage;
-use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\Menu;
 use WP_Statistics\Components\View;
 
 /**
- * Handles rendering and data setup for the settings page.
+ * Handles rendering and data setup for the Dashboard Root admin page.
  *
- * This class defines the structure, data, and view logic for the "Settings" page
+ * This class defines the structure, data, and view logic for the dashboard "Root" page
  * within the WP Statistics admin interface. It extends the base page controller and
  * integrates with the React-based dashboard interface.
- * 
+ *
  * @since 15.0.0
  */
-class SettingPage extends BasePage
+class Root extends BasePage
 {
     /**
      * Slug identifier for the admin page.
@@ -25,7 +24,7 @@ class SettingPage extends BasePage
      *
      * @var string
      */
-    protected $pageSlug = 'new-settings';
+    protected $pageSlug = 'root';
 
     /**
      * The page title.
@@ -39,7 +38,7 @@ class SettingPage extends BasePage
      *
      * @var string
      */
-    protected $pageIndex = 'new_settings';
+    protected $pageIndex = 'root';
 
     /**
      * Constructor.
@@ -60,7 +59,7 @@ class SettingPage extends BasePage
      */
     private function setPageTitle()
     {
-        $this->pageTitle = esc_html__('Settings', 'wp-statistics');
+        $this->pageTitle = '';
     }
 
     /**
@@ -104,23 +103,21 @@ class SettingPage extends BasePage
     }
 
     /**
-     * Renders the settings page in the WordPress admin.
+     * Renders the Dashboard Root page in the WordPress admin.
      *
      * This method:
-     * - Localizes data for the React frontend.
+     * - Prepares data to be localized for the React frontend.
      * - Loads the standard WP Statistics admin header and footer.
-     * - Loads the page-specific view content.
+     * - Loads the Root page view content.
      */
     public function view()
     {
         $args = [
             'title'    => $this->getPageTitle(),
-            'tooltip'  => esc_html__(" "),
+            'tooltip'  => '',
             'pageName' => Menu::buildPageSlug($this->getPageIndex()),
         ];
 
-        Admin_Template::get_template(['layout/header', 'layout/title'], $args);
-        View::load(['pages/settings/settings'], $args);
-        Admin_Template::get_template(['layout/footer'], $args);
+        View::load(['pages/root/index'], $args);
     }
 }
