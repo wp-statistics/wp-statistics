@@ -1,8 +1,8 @@
 <?php
 namespace WP_Statistics\Globals;
 
-class Context {
-
+class Context
+{
     /**
      * Store all context data
      *
