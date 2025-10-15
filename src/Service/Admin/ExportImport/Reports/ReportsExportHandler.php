@@ -1,6 +1,7 @@
 <?php
 namespace WP_Statistics\Service\Admin\ExportImport\Reports;
 
+use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsDataProvider;
 use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsDataProvider;
 use WP_Statistics\Service\Admin\PageInsights\PageInsightsDataProvider;
 use WP_Statistics\Service\Admin\Referrals\ReferralsDataProvider;
@@ -14,6 +15,7 @@ class ReportsExportHandler
         add_filter('wp_statistics_pages_report_export_data', [$this, 'getPagesReportExportData'], 10, 3);
         add_filter('wp_statistics_referrals_report_export_data', [$this, 'getReferralsReportExportData'], 10, 3);
         add_filter('wp_statistics_category-analytics_report_export_data', [$this, 'getCategoryAnalyticsReportExportData'], 10, 3);
+        add_filter('wp_statistics_author-analytics_report_export_data', [$this, 'getAuthorAnalyticsReportExportData'], 10, 3);
     }
 
     public function getVisitorsReportExportData($data, $args, $report)
@@ -124,6 +126,22 @@ class ReportsExportHandler
 
         if ($report === 'report') {
             return $dataProvider->getCategoryReportData()['terms'];
+        }
+
+        return $data;
+    }
+
+    public function getAuthorAnalyticsReportExportData($data, $args, $report)
+    {
+        $args = wp_parse_args($args, [
+            'post_type' => 'post'
+        ]);
+
+        $dataProvider = new AuthorAnalyticsDataProvider($args);
+
+        if ($report === 'authors') {
+            $data = $dataProvider->getAuthorsReportData()['authors'];
+            return ReportsExportDataTransformer::transformAuthorsData($data);
         }
 
         return $data;
