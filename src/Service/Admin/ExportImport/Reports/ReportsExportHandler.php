@@ -3,6 +3,7 @@ namespace WP_Statistics\Service\Admin\ExportImport\Reports;
 
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsDataProvider;
 use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsDataProvider;
+use WP_Statistics\Service\Admin\Devices\DevicesDataProvider;
 use WP_Statistics\Service\Admin\Geographic\GeographicDataProvider;
 use WP_Statistics\Service\Admin\PageInsights\PageInsightsDataProvider;
 use WP_Statistics\Service\Admin\Referrals\ReferralsDataProvider;
@@ -18,6 +19,7 @@ class ReportsExportHandler
         add_filter('wp_statistics_category-analytics_report_export_data', [$this, 'getCategoryAnalyticsReportExportData'], 10, 3);
         add_filter('wp_statistics_author-analytics_report_export_data', [$this, 'getAuthorAnalyticsReportExportData'], 10, 3);
         add_filter('wp_statistics_geographic_report_export_data', [$this, 'getGeographicReportExportData'], 10, 3);
+        add_filter('wp_statistics_devices_report_export_data', [$this, 'getDevicesReportExportData'], 10, 3);
     }
 
     public function getVisitorsReportExportData($data, $args, $report)
@@ -180,6 +182,42 @@ class ReportsExportHandler
         if ($report === 'us') {
             $data = $dataProvider->getUsData()['states'];
             return ReportsExportDataTransformer::transformGeoData('region', $data);
+        }
+
+        return $data;
+    }
+
+    public function getDevicesReportExportData($data, $args, $report)
+    {
+        $args = wp_parse_args($args, [
+            // ...
+        ]);
+
+        $dataProvider = new DevicesDataProvider($args);
+
+        if ($report === 'browsers') {
+            $data = $dataProvider->getBrowsersData();
+            return ReportsExportDataTransformer::transformDeviceData('browser', $data);
+        }
+
+        if ($report === 'platforms') {
+            $data = $dataProvider->getPlatformsData();
+            return ReportsExportDataTransformer::transformDeviceData('os', $data);
+        }
+
+        if ($report === 'models') {
+            $data = $dataProvider->getModelsData();
+            return ReportsExportDataTransformer::transformDeviceData('model', $data);
+        }
+
+        if ($report === 'categories') {
+            $data = $dataProvider->getCategoriesData();
+            return ReportsExportDataTransformer::transformDeviceData('device', $data);
+        }
+
+        if ($report === 'single-browser') {
+            $data = $dataProvider->getSingleBrowserData();
+            return ReportsExportDataTransformer::transformDeviceData('single-browser', $data);
         }
 
         return $data;

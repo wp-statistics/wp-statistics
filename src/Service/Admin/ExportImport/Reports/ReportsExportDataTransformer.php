@@ -226,4 +226,41 @@ class ReportsExportDataTransformer
 
         return $result;
     }
+
+    public static function transformDeviceData($type, $data)
+    {
+        $result = [];
+
+        foreach ($data['visitors'] as $item) {
+
+            $row = [];
+
+            if ($type == 'browser') {
+                $row['browser'] = $item->agent;
+            }
+
+            if ($type == 'single-browser') {
+                $row['version'] = $item->casted_version;
+            }
+
+            if ($type == 'os') {
+                $row['os'] = $item->platform;
+            }
+
+            if ($type == 'model') {
+                $row['os'] = $item->model;
+            }
+
+            if ($type == 'device') {
+                $row['os'] = ucfirst($item->device);
+            }
+
+            $row['visitors'] = $item->visitors;
+            $row['share_pct'] = Helper::calculatePercentage($item->visitors, $data['visits']);
+
+            $result[] = $row;
+        }
+
+        return $result;
+    }
 }
