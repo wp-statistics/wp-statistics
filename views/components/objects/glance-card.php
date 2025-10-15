@@ -60,7 +60,7 @@
                                 }
                                 ?>
                                 <span class="wps-at-a-glance-change <?php echo esc_attr($arrow_class . ' ' . $color_class); ?>">
-                                    <?php echo esc_html(($metric['change'] > 0 ? '+' : '') . $metric['change'] . '%'); ?>
+                                    <?php echo esc_html($change_value) . '%'; ?>
                                 </span>
                             <?php endif; ?>
                         </span>
