@@ -30,15 +30,14 @@ use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsManager;
 use WP_Statistics\Service\Analytics\AnalyticsManager;
 use WP_Statistics\Service\HooksManager;
 use WP_Statistics\Service\CronEventManager;
-use WP_Statistics\Service\Database\Migrations\Ajax\AjaxManager as DatabaseMigrationAjaxManager;
 use WP_Statistics\Service\Database\Migrations\Queue\QueueManager as DatabaseMigrationQueueManager;
-use WP_Statistics\Service\Database\Migrations\Schema\SchemaManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
 use WP_Statistics\Service\CustomEvent\CustomEventManager;
 use WP_Statistics\Service\Admin\ExportImport\ExportImportManager;
 use WP_Statistics\CLI\CliCommands;
 use WP_Statistics\Service\Admin\Optimization\OptimizationManager;
 use WP_Statistics\Globals\AjaxManager;
+use WP_Statistics\Service\Database\Migrations\BackgroundProcess\BackgroundProcessManager;
 
 defined('ABSPATH') || exit;
 
@@ -126,6 +125,7 @@ final class WP_Statistics
                 $postsManager = new PostsManager();
             });
 
+            new BackgroundProcessManager();
             /**
              * Setup background process.
              */
@@ -229,7 +229,6 @@ final class WP_Statistics
             $optimizationManager = new OptimizationManager();
 
             new FilterManager();
-            new DatabaseMigrationAjaxManager();
             new DatabaseMigrationQueueManager();
         }
 

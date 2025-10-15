@@ -1616,6 +1616,10 @@
       cursor: pointer;
       box-shadow: none !important;
 
+      &:disabled , &.disabled{
+        pointer-events: none;
+       }
+
       &.wps-loading-button {
         border-color: transparent !important;
         color: transparent !important;
@@ -1653,7 +1657,7 @@
         }
 
         &:disabled, &.disabled {
-          background: #C6C9FB
+          background: #c6c9fb!important
         }
 
         &.wps-loading-button {

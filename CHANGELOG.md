@@ -1,6 +1,8 @@
 = 14.15.6 - 2025-xx-xx =
 - **Fix:** Fixed unknown location link issue in visitor information.
 - **Fix:** Resolved issue with non-Gregorian dates in charts.
+- **New:** Introduced a refactored background-process migration type and removed the legacy AJAX migrations.
+- **Enhancement:** Converted the Visitor Columns migrator to a background process and added a progress notice plus a "Data Migrations" section in Optimization page. 
 
 = 14.15.5 - 2025-09-21 =
 - **Enhancement:** Added date range validation on report pages.

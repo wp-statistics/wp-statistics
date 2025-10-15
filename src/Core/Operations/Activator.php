@@ -108,6 +108,7 @@ class Activator extends AbstractCore
         Option::saveOptionGroup('schema_migration_process_started', true, 'jobs');
         Option::saveOptionGroup('table_operations_process_initiated', true, 'jobs');
         Option::saveOptionGroup('word_count_process_initiated', true, 'jobs');
+        Option::saveOptionGroup('visitor_columns_migrator_initiated', true, 'jobs');
     }
 
     /**
