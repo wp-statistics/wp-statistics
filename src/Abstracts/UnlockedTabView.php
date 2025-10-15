@@ -23,9 +23,6 @@ abstract class UnlockedTabView
     /**
      * Returns the data for the unlocked tab
      *
-     * This method is defined without parameters for backward compatibility,
-     * but subclasses may optionally accept an `$args` array to customize data retrieval.
-     *
      * @return array
      */
     public function getData()
