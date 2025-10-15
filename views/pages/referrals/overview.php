@@ -12,35 +12,28 @@ use WP_STATISTICS\Menus;
         <?php
             $metrics = [
                 [
-                    'id'            => 'referred_visitors',
-                    'label'         => esc_html__('Referred Visitors', 'wp-statistics'),
-                    'value'         => $data['summary']['visitors']['value'],
-                    'change'        => $data['summary']['visitors']['change'],
-                    'format_number' => true
+                    'label'  => esc_html__('Referred Visitors', 'wp-statistics'),
+                    'value'  => Helper::formatNumberWithUnit($data['summary']['visitors']['value']),
+                    'change' => $data['summary']['visitors']['change']
                 ],
                 [
-                    'id'         => 'top_referrer',
                     'label'      => esc_html__('Top Referrer', 'wp-statistics'),
                     'link-href'  => !empty($data['summary']['referrer']) ? esc_url($data['summary']['referrer']) : null,
                     'link-title' => $data['summary']['referrer'] ?? null
                 ],
                 [
-                    'id'    => 'top_country',
                     'label' => esc_html__('Top Country', 'wp-statistics'),
                     'value' => $data['summary']['country'] ?? null
                 ],
                 [
-                    'id'    => 'top_browser',
                     'label' => esc_html__('Top Browser', 'wp-statistics'),
                     'value' => $data['summary']['browser'] ?? null
                 ],
                 [
-                    'id'    => 'top_search_engine',
                     'label' => esc_html__('Top Search Engine', 'wp-statistics'),
                     'value' => $data['summary']['search_engine'] ?? null
                 ],
                 [
-                    'id'    => 'top_social_media',
                     'label' => esc_html__('Top Social Media', 'wp-statistics'),
                     'value' => $data['summary']['social_media'] ?? null
                 ]
