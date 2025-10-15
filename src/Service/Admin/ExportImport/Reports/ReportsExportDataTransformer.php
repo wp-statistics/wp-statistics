@@ -1,8 +1,8 @@
 <?php
 namespace WP_Statistics\Service\Admin\ExportImport\Reports;
 
+use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
-use WP_STATISTICS\Visitor;
 
 class ReportsExportDataTransformer
 {
@@ -123,6 +123,44 @@ class ReportsExportDataTransformer
             $row['views']       = $author->page_views;
             $row['total_posts'] = $author->total_posts;
             $row['page']        = get_author_posts_url($author->id);
+
+            $result[] = $row;
+        }
+
+        return $result;
+    }
+
+    public static function transformReferrersData($referrers)
+    {
+        $result = [];
+
+        foreach ($referrers as $referrer) {
+            /** @var \WP_Statistics\Decorators\ReferralDecorator $referrer */
+
+            $row = [];
+
+            $row['domain']      = $referrer->getRawReferrer();
+            $row['source_name'] = $referrer->getSourceName();
+            $row['referrals']   = $referrer->getTotalReferrals();
+
+            $result[] = $row;
+        }
+
+        return $result;
+    }
+
+    public static function transformSourceCategoriesData($data)
+    {
+        $result = [];
+
+        foreach ($data['categories'] as $referrer) {
+            /** @var \WP_Statistics\Decorators\ReferralDecorator $referrer */
+
+            $row = [];
+
+            $row['source_channel'] = $referrer->getSourceChannel();
+            $row['referrals']      = $referrer->getTotalReferrals();
+            $row['share_pct']      = Helper::calculatePercentage($referrer->getTotalReferrals(), $data['total']);
 
             $result[] = $row;
         }

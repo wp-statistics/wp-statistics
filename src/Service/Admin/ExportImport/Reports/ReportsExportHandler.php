@@ -1,9 +1,9 @@
 <?php
 namespace WP_Statistics\Service\Admin\ExportImport\Reports;
 
-use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsDataProvider;
 use WP_Statistics\Service\Admin\PageInsights\PageInsightsDataProvider;
+use WP_Statistics\Service\Admin\Referrals\ReferralsDataProvider;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsDataProvider;
 
 class ReportsExportHandler
@@ -12,6 +12,7 @@ class ReportsExportHandler
     {
         add_filter('wp_statistics_visitors_report_export_data', [$this, 'getVisitorsReportExportData'], 10, 3);
         add_filter('wp_statistics_pages_report_export_data', [$this, 'getPagesReportExportData'], 10, 3);
+        add_filter('wp_statistics_referrals_report_export_data', [$this, 'getReferralsReportExportData'], 10, 3);
         add_filter('wp_statistics_category-analytics_report_export_data', [$this, 'getCategoryAnalyticsReportExportData'], 10, 3);
     }
 
@@ -74,6 +75,38 @@ class ReportsExportHandler
         if ($report === '404') {
             $data = $dataProvider->get404Data();
             return $data['data'];
+        }
+
+        return $data;
+    }
+
+    public function getReferralsReportExportData($data, $args, $report)
+    {
+        $dataProvider = new ReferralsDataProvider($args);
+
+        if ($report === 'referred-visitors') {
+            $data = $dataProvider->getReferredVisitors()['visitors'];
+            return ReportsExportDataTransformer::transformVisitorsData($data);
+        }
+
+        if ($report === 'referrers') {
+            $data = $dataProvider->getReferrers()['referrers'];
+            return ReportsExportDataTransformer::transformReferrersData($data);
+        }
+
+        if ($report === 'search-engines') {
+            $data = $dataProvider->getSearchEngineReferrals()['referrers'];
+            return ReportsExportDataTransformer::transformReferrersData($data);
+        }
+
+        if ($report === 'social-media') {
+            $data = $dataProvider->getSocialMediaReferrals()['referrers'];
+            return ReportsExportDataTransformer::transformReferrersData($data);
+        }
+
+        if ($report === 'source-categories') {
+            $data = $dataProvider->getSourceCategories();
+            return ReportsExportDataTransformer::transformSourceCategoriesData($data);
         }
 
         return $data;
