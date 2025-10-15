@@ -37,7 +37,7 @@ $isAdvancedReportingActive = WP_STATISTICS\Helper::isAddOnActive('advanced-repor
                     '<i>At a glance</i>'
                 );
                 ?>
-                <li class="wps-tooltip" title="<?php echo $tooltip ?>">
+                <li class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>">
                     <a href="#" class="disabled" id="wps-export-metrics-csv">
                         <span>
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
