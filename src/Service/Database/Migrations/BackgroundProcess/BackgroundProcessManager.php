@@ -234,10 +234,11 @@ class BackgroundProcessManager extends BaseMigrationManager
             'wp-statistics-async-background-process',
             'Wp_Statistics_Async_Background_Process_Data',
             [
-                'rest_api_nonce'  => wp_create_nonce('wp_rest'),
-                'ajax_url'        => admin_url('admin-ajax.php'),
-                'interval'        => apply_filters('wp_statistics_async_background_process_ajax_interval', 5000),
-                'current_process' => $this->currentProcess
+                'rest_api_nonce'    => wp_create_nonce('wp_rest'),
+                'ajax_url'          => admin_url('admin-ajax.php'),
+                'interval'          => apply_filters('wp_statistics_async_background_process_ajax_interval', 5000),
+                'current_process'   => $this->currentProcess,
+                'completed_message' => esc_html__('WP Statistics: Background process completed successfully.', 'wp-statistics')
             ]
         );
     }
