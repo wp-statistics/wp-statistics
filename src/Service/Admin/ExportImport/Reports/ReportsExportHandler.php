@@ -1,6 +1,8 @@
 <?php
 namespace WP_Statistics\Service\Admin\ExportImport\Reports;
 
+use WP_STATISTICS\Helper;
+use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsDataProvider;
 use WP_Statistics\Service\Admin\PageInsights\PageInsightsDataProvider;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsDataProvider;
 
@@ -10,6 +12,7 @@ class ReportsExportHandler
     {
         add_filter('wp_statistics_visitors_report_export_data', [$this, 'getVisitorsReportExportData'], 10, 3);
         add_filter('wp_statistics_pages_report_export_data', [$this, 'getPagesReportExportData'], 10, 3);
+        add_filter('wp_statistics_category-analytics_report_export_data', [$this, 'getCategoryAnalyticsReportExportData'], 10, 3);
     }
 
     public function getVisitorsReportExportData($data, $args, $report)
@@ -71,6 +74,23 @@ class ReportsExportHandler
         if ($report === '404') {
             $data = $dataProvider->get404Data();
             return $data['data'];
+        }
+
+        return $data;
+    }
+
+    public function getCategoryAnalyticsReportExportData($data, $args, $report)
+    {
+        $args = wp_parse_args($args, [
+            'taxonomy'  => 'category',
+            'order_by'  => 'views',
+            'order'     => 'DESC',
+        ]);
+
+        $dataProvider = new CategoryAnalyticsDataProvider($args);
+
+        if ($report === 'report') {
+            return $dataProvider->getCategoryReportData()['terms'];
         }
 
         return $data;
