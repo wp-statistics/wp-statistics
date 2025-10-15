@@ -1,6 +1,7 @@
 <?php
 namespace WP_Statistics\Service\Admin\ExportImport\Reports;
 
+use WP_STATISTICS\Country;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 
@@ -189,6 +190,36 @@ class ReportsExportDataTransformer
             $row['source_channel'] = $referrer->getSourceChannel();
             $row['referrals']      = $referrer->getTotalReferrals();
             $row['share_pct']      = Helper::calculatePercentage($referrer->getTotalReferrals(), $data['total']);
+
+            $result[] = $row;
+        }
+
+        return $result;
+    }
+
+    public static function transformGeoData($type, $data)
+    {
+        $result = [];
+
+        foreach ($data as $item) {
+
+            $row = [];
+
+            if (in_array($type, ['country', 'city'])) {
+                $row['country_code'] = $item->country;
+                $row['country_name'] = $item->country ? Country::getName($item->country) : esc_html__('not set', 'wp-statistics');
+            }
+
+            if (in_array($type, ['region', 'city'])) {
+                $row['region'] = $item->region;
+            }
+
+            if ($type == 'city') {
+                $row['city']   = $item->city;
+            }
+
+            $row['visitors'] = $item->visitors;
+            $row['views']    = $item->views;
 
             $result[] = $row;
         }
