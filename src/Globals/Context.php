@@ -1,6 +1,11 @@
 <?php
 namespace WP_Statistics\Globals;
 
+/**
+ * The Context class is a utility for managing a global context using key-value pairs.
+ * It allows you to add, update, retrieve, and remove data from a centralized context array.
+ * This can be useful for maintaining state or configuration data that needs to be accessed globally.
+ */
 class Context
 {
     /**
