@@ -12,7 +12,6 @@ abstract class UnlockedTabView
         add_filter("wp_statistics_{$this->page}_{$this->tab}_tooltip", [$this, 'getTooltip']);
         add_action("wp_statistics_{$this->page}_{$this->tab}_template", [$this, 'view']);
         add_action("wp_statistics_{$this->page}_{$this->tab}_data", [$this, 'getData']);
-        add_filter("wp_statistics_{$this->page}_{$this->tab}_report_export_data", [$this, 'getExportData'], 10, 2);
     }
 
     /**
@@ -20,15 +19,6 @@ abstract class UnlockedTabView
      * @return string
      */
     abstract public function getTooltip();
-
-    /**
-     * Returns the data for the export
-     * @return array
-     */
-    public function getExportData($data, $args)
-    {
-        return $this->getData();
-    }
 
     /**
      * Returns the data for the unlocked tab

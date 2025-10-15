@@ -8,11 +8,11 @@ class ReportsExportHandler
 {
     public function init()
     {
-        add_filter('wp_statistics_visitors_report_export_data', [$this, 'getVisitorsReportExportData'], 10, 4);
-        add_filter('wp_statistics_pagess_report_export_data', [$this, 'getPagesReportExportData'], 10, 4);
+        add_filter('wp_statistics_visitors_report_export_data', [$this, 'getVisitorsReportExportData'], 10, 3);
+        add_filter('wp_statistics_pages_report_export_data', [$this, 'getPagesReportExportData'], 10, 3);
     }
 
-    public function getVisitorsReportExportData($data, $args, $page, $report)
+    public function getVisitorsReportExportData($data, $args, $report)
     {
         $dataProvider = new VisitorInsightsDataProvider($args);
 
@@ -44,7 +44,7 @@ class ReportsExportHandler
         return $data;
     }
 
-    protected function getPagesReportExportData($data, $args, $page, $report)
+    public function getPagesReportExportData($data, $args, $report)
     {
         $args = wp_parse_args($args, [
             'order'     => 'DESC',
