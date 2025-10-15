@@ -1,7 +1,3 @@
-<?php
-use WP_STATISTICS\Helper;
-?>
-
 <div class="wps-card">
     <div class="wps-card__title">
         <h2><?php esc_html_e('At a Glance', 'wp-statistics'); ?></h2>
@@ -9,19 +5,8 @@ use WP_STATISTICS\Helper;
     <div class="inside">
         <div class="wps-at-a-glance <?php echo isset($two_column) && $two_column ? 'wps-at-a-glance__two-col' : ''; ?>">
             <?php if (!empty($metrics) && is_array($metrics)): ?>
-                <?php foreach ($metrics as $metric) :
-                    $rawValue = '';
-
-                    if (isset($metric['value'])) {
-                        $rawValue = str_replace('%', '', $metric['value']);
-                    } else if (isset($metric['score'])) {
-                        $rawValue = $metric['score'];
-                    } else if ($metric['link-href']) {
-                        $rawValue = $metric['link-href'];
-                    }
-                ?>
-
-                    <div class="wps-at-a-glance-item" data-id="<?php echo esc_attr($metric['id']); ?>" data-value="<?php echo esc_attr($rawValue); ?>">
+                <?php foreach ($metrics as $metric): ?>
+                    <div class="wps-at-a-glance-item">
                         <!-- Metric Label -->
                         <span class="wps-at-a-glance-label" title="<?php echo esc_html($metric['label'] ?? ''); ?>">
                                <?php if (!empty($metric['icon'])): ?>
@@ -54,10 +39,9 @@ use WP_STATISTICS\Helper;
                                 </span>
 
                             <?php elseif (isset($metric['value'])): ?>
-                                <?php $value = !empty($metric['format_number']) ? Helper::formatNumberWithUnit($metric['value']) : $metric['value']; ?>
-                                <span title="<?php echo esc_attr($value); ?>">
+                                <span title="<?php echo esc_html($metric['value'] ?? 'No data'); ?>">
                                     <?php if ($metric['value']): ?>
-                                        <?php echo esc_html($value); ?>
+                                        <?php echo esc_html($metric['value']); ?>
                                     <?php else: ?>
                                         -
                                     <?php endif; ?>
@@ -74,10 +58,9 @@ use WP_STATISTICS\Helper;
                                     $is_good_change = ($is_negative_polarity && $metric['change'] < 0) || (!$is_negative_polarity && $metric['change'] > 0);
                                     $color_class = $is_good_change ? 'wps-glance-positive' : 'wps-glance-negative';
                                 }
-                                $change_value = number_format(abs((float) $metric['change']), 1);
                                 ?>
                                 <span class="wps-at-a-glance-change <?php echo esc_attr($arrow_class . ' ' . $color_class); ?>">
-                                    <?php echo $change_value  . '%'; ?>
+                                    <?php echo esc_html(($metric['change'] > 0 ? '+' : '') . $metric['change'] . '%'); ?>
                                 </span>
                             <?php endif; ?>
                         </span>
