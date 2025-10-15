@@ -9,7 +9,7 @@ class ExportImportManager
     public function __construct()
     {
         add_action('init', [$this, 'registerRestControllers']);
-        add_action('rest_api_init', [$this, 'initExportHandlers'], 5);
+        add_action('rest_api_init', [$this, 'initExportHandlers']);
     }
 
     /**
