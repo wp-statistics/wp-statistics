@@ -98,16 +98,29 @@ class ReportsExportDataTransformer
     {
         $result = [];
 
-        $categories = array_values($categories)[0] ?? [];
-
         foreach ($categories as $term) {
             $row = [];
 
+            $term = (array) $term;
+
             $row['term_id']     = $term['term_id'];
             $row['term_title']  = $term['term_name'];
+            $row['total_posts'] = $term['posts_count'] ?? $term['posts'] ?? '';
             $row['views']       = $term['views'];
-            $row['total_posts'] = $term['posts_count'];
-            $row['url']         = get_term_link(intval($term['term_id']));
+
+            if (isset($term['avg_views'])) {
+                $row['views_avg'] = intval($term['avg_views']);
+            }
+
+            if (isset($term['words'])) {
+                $row['words'] = $term['words'];
+            }
+
+            if (isset($term['avg_words'])) {
+                $row['words_avg'] = intval($term['avg_words']);
+            }
+
+            $row['url'] = get_term_link(intval($term['term_id']));
 
             $result[] = $row;
         }

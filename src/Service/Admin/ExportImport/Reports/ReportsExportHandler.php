@@ -70,7 +70,8 @@ class ReportsExportHandler
 
         if ($report === 'category') {
             $data = $dataProvider->getCategoryData();
-            return ReportsExportDataTransformer::transformCategoriesData($data['categories']);
+            $data = array_values($data['categories'])[0] ?? [];
+            return ReportsExportDataTransformer::transformCategoriesData($data);
         }
 
         if ($report === 'author') {
@@ -129,7 +130,8 @@ class ReportsExportHandler
         $dataProvider = new CategoryAnalyticsDataProvider($args);
 
         if ($report === 'report') {
-            return $dataProvider->getCategoryReportData()['terms'];
+            $data = $dataProvider->getCategoryReportData()['terms'];
+            return ReportsExportDataTransformer::transformCategoriesData($data);
         }
 
         return $data;
