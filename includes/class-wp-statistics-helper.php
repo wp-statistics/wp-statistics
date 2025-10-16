@@ -2304,4 +2304,23 @@ class Helper
 
         return null;
     }
+
+    /**
+     * Maps array keys based on a provided mapping array.
+     *
+     * @param array $array The arguments array to transform.
+     * @param array $keyMap The mapping array where keys are old keys and values are new keys.
+     * @return array The transformed arguments array.
+     */
+    public static function mapArrayKeys($array, $keyMap)
+    {
+        foreach ($keyMap as $oldKey => $newKey) {
+            if (isset($array[$oldKey])) {
+                $array[$newKey] = $array[$oldKey];
+                unset($array[$oldKey]);
+            }
+        }
+
+        return $array;
+    }
 }
