@@ -16,8 +16,8 @@ class ReportsExportDataTransformer
             $row = [];
 
             $row['ID']             = $visitor->getId();
+            $row['hash_ip']        = $visitor->isHashedIP() ? $visitor->getRawIP() : '';
             $row['ip']             = !$visitor->isHashedIP() ? $visitor->getRawIP() : '';
-            $row['hashed_ip']      = $visitor->isHashedIP() ? $visitor->getRawIP() : '';
             $row['user_id']        = $visitor->getUserId();
             $row['country']        = $visitor->getLocation()->getCountryName();
             $row['region']         = $visitor->getLocation()->getRegion();
@@ -48,8 +48,9 @@ class ReportsExportDataTransformer
             $row = [];
 
             $row['ID']             = $visitor->getId();
+            $row['view_time']      = $visitor->getLastView(true);
+            $row['hash_ip']        = $visitor->isHashedIP() ? $visitor->getRawIP() : '';
             $row['ip']             = !$visitor->isHashedIP() ? $visitor->getRawIP() : '';
-            $row['hashed_ip']      = $visitor->isHashedIP() ? $visitor->getRawIP() : '';
             $row['user_id']        = $visitor->getUserId();
             $row['country']        = $visitor->getLocation()->getCountryName();
             $row['region']         = $visitor->getLocation()->getRegion();
@@ -59,7 +60,6 @@ class ReportsExportDataTransformer
             $row['browser']        = $visitor->getBrowser()->getName();
             $row['referrer']       = $visitor->getReferral()->getRawReferrer();
             $row['source_channel'] = $visitor->getReferral()->getSourceChannel();
-            $row['view_time']      = $visitor->getLastView(true);
             $row['page']           = $visitor->getLastPage()['link'] ?? '';
             $row['total_views']    = $visitor->getHits(true);
 
