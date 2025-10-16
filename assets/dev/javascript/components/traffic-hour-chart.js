@@ -227,7 +227,7 @@ wps_js.TrafficHourCharts=function(data){
         options: defaultOptions
     });
 
-    window.wpsCharts[ctx_line.canvas.id] = lineChart;
+    window.wpsCharts.push(lineChart);
 
     const updateLegends = function () {
         const chartElement = document.getElementById('hourly-usage-chart');
