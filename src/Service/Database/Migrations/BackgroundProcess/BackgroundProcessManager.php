@@ -56,6 +56,13 @@ class BackgroundProcessManager extends BaseMigrationManager
     private $currentProcess = '';
 
     /**
+     * Success message for the currently active background job.
+     *
+     * @var string
+     */
+    private $successNotice = '';
+
+    /**
      * The action slug used for manually triggering the background migration.
      *
      * @var string
@@ -193,7 +200,7 @@ class BackgroundProcessManager extends BaseMigrationManager
                 $percent = 0;
             }
 
-            $instance->localizeJobTexts();
+            $this->successNotice = $instance->getSuccessNotice();
 
             $label = $instance->getJobTitle();
 
@@ -234,11 +241,12 @@ class BackgroundProcessManager extends BaseMigrationManager
             'wp-statistics-async-background-process',
             'Wp_Statistics_Async_Background_Process_Data',
             [
-                'rest_api_nonce'    => wp_create_nonce('wp_rest'),
-                'ajax_url'          => admin_url('admin-ajax.php'),
-                'interval'          => apply_filters('wp_statistics_async_background_process_ajax_interval', 5000),
-                'current_process'   => $this->currentProcess,
-                'completed_message' => esc_html__('WP Statistics: Background process completed successfully.', 'wp-statistics')
+                'rest_api_nonce'        => wp_create_nonce('wp_rest'),
+                'ajax_url'              => admin_url('admin-ajax.php'),
+                'interval'              => apply_filters('wp_statistics_async_background_process_ajax_interval', 5000),
+                'current_process'       => $this->currentProcess,
+                'completed_message'     => esc_html__('WP Statistics: Background process completed successfully.', 'wp-statistics'),
+                'job_completed_message' => $this->successNotice
             ]
         );
     }

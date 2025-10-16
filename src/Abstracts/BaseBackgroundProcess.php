@@ -64,6 +64,13 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
     protected $jobDescription = '';
 
     /**
+     * Success notice message to display in the admin UI when the job finishes.
+     *
+     * @var string
+     */
+    protected $successNotice = '';
+
+    /**
      * Set the human‑readable job title (source string; not translated here).
      *
      * @param string $title Source title for this background job.
@@ -140,10 +147,21 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
      * Set a success notice to be displayed to the user.
      *
      * @param string $message The success message to display.
+     * @return void
      */
     protected function setSuccessNotice($message)
     {
-        Notice::addFlashNotice($message);
+        $this->successNotice = $message;
+    }
+
+    /**
+     * Get the success notice message for this background job.
+     * 
+     * @return string Success notice text.
+     */
+    public function getSuccessNotice()
+    {
+        return $this->successNotice;
     }
 
     /**

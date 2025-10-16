@@ -50,6 +50,7 @@ class CalculatePostWordsCount extends BaseBackgroundProcess
      */
     public function localizeJobTexts()
     {
+        $this->setSuccessNotice(esc_html__('Word count processed successfully.', 'wp-statistics'));
         $this->setJobTitle(esc_html__('Recalculate Post Word Counts', 'wp-statistics'));
         $this->setJobDescription(esc_html__('Updates the total word count for all contents across your site. This data is used in Content and Author Analytics reports. Run this if you’ve recently edited or added many contents and want the latest word counts reflected.', 'wp-statistics'));
     }
@@ -93,7 +94,6 @@ class CalculatePostWordsCount extends BaseBackgroundProcess
         parent::complete();
 
         $this->clearTotalAndProcessed();
-        $this->setSuccessNotice(esc_html__('Word count processed successfully.', 'wp-statistics'));
     }
 
     /**

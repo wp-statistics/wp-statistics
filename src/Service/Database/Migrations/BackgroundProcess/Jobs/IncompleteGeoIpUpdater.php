@@ -45,6 +45,7 @@ class IncompleteGeoIpUpdater extends BaseBackgroundProcess
      */
     public function localizeJobTexts()
     {
+        $this->setSuccessNotice(esc_html__('GeoIP update for incomplete visitors processed successfully.', 'wp-statistics'));
         $this->setJobTitle(esc_html__('Update GeoIP for visitors without location data', 'wp-statistics'));
     }
 
@@ -100,7 +101,6 @@ class IncompleteGeoIpUpdater extends BaseBackgroundProcess
         parent::complete();
 
         $this->clearTotalAndProcessed();
-        $this->setSuccessNotice(esc_html__('GeoIP update for incomplete visitors processed successfully.', 'wp-statistics'));
     }
 
     /**

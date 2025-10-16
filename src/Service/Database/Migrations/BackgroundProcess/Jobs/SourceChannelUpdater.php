@@ -26,6 +26,29 @@ class SourceChannelUpdater extends BaseBackgroundProcess
     protected $initiatedKey = 'update_source_channel_process_initiated';
 
     /**
+     * Constructor to initialize the background process.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        add_action('admin_init', [$this, 'localizeJobTexts']);
+    }
+
+    /**
+     * Localize the job's title and description for display in the admin UI.
+     *
+     * @return void
+     */
+    public function localizeJobTexts()
+    {
+        $this->setSuccessNotice(esc_html__('Source channel update for visitors processed successfully.', 'wp-statistics'));
+        $this->setJobTitle(esc_html__('Update incomplete source channels', 'wp-statistics'));
+    }
+
+    /**
      * Perform task with queued item.
      *
      * @param mixed $item Queue item to iterate over.
@@ -70,19 +93,6 @@ class SourceChannelUpdater extends BaseBackgroundProcess
         parent::complete();
 
         $this->clearTotalAndProcessed();
-        $this->setSuccessNotice(esc_html__('Source channel update for visitors processed successfully.', 'wp-statistics'));
-
-        add_action('admin_init', [$this, 'localizeJobTexts']);
-    }
-
-    /**
-     * Localize the job's title and description for display in the admin UI.
-     *
-     * @return void
-     */
-    public function localizeJobTexts()
-    {
-        $this->setJobTitle(esc_html__('Update incomplete source channels', 'wp-statistics'));
     }
 
     /**

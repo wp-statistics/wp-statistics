@@ -48,6 +48,7 @@ class VisitorColumnsMigrator extends BaseBackgroundProcess
      */
     public function localizeJobTexts()
     {
+        $this->setSuccessNotice(esc_html__('The visitor data migration was processed successfully.', 'wp-statistics'));
         $this->setJobTitle(esc_html__('Migrate Visitor Data Columns', 'wp-statistics'));
         $this->setJobDescription(esc_html__('Adjusts and updates visitor-related database columns to the latest WP Statistics format. Run this migration after upgrading from older versions to ensure your visitor data remains accurate and compatible.', 'wp-statistics'));
     }
