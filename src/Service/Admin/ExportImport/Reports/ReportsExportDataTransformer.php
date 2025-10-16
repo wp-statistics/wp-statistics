@@ -122,9 +122,9 @@ class ReportsExportDataTransformer
         foreach ($authors as $author) {
             $row = [];
 
-            $row['author_id']   = $author->id;
-            $row['author_name'] = $author->name;
-            $row['total_posts'] = $author->total_posts;
+            $row['author_id']      = $author->id;
+            $row['author_name']    = $author->name;
+            $row['total_contents'] = $author->total_posts;
 
             if (isset($author->page_views)) {
                 $row['page_views'] = $author->page_views;
@@ -143,18 +143,18 @@ class ReportsExportDataTransformer
             }
 
             if (isset($author->average_comments)) {
-                $row['comments_avg'] = $author->average_comments;
+                $row['comments_avg'] = intval($author->average_comments);
             }
 
             if (isset($author->average_views)) {
-                $row['views_avg'] = $author->average_views;
+                $row['views_avg'] = intval($author->average_views);
             }
 
             if (isset($author->average_words)) {
-                $row['words_avg'] = $author->average_words;
+                $row['words_avg'] = intval($author->average_words);
             }
 
-            $row['page'] = get_author_posts_url($author->id);
+            $row['url'] = get_author_posts_url($author->id);
 
             $result[] = $row;
         }
