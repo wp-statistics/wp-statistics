@@ -3,6 +3,7 @@
 - **Fix:** Resolved issue with non-Gregorian dates in charts.
 - **New:** Introduced a refactored background-process migration type and removed the legacy AJAX migrations.
 - **Enhancement:** Converted the Visitor Columns migrator to a background process and added a progress notice plus a "Data Migrations" section in Optimization page. 
+- **Enhancement:** Refactored background-process jobs for stability and maintainability.
 
 = 14.15.5 - 2025-09-21 =
 - **Enhancement:** Added date range validation on report pages.

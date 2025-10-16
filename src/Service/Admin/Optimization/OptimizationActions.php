@@ -2,7 +2,6 @@
 namespace WP_Statistics\Service\Admin\Optimization;
 
 use Exception;
-use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory;
 use WP_Statistics\Components\Ajax;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Historical;
@@ -12,6 +11,7 @@ use WP_STATISTICS\Option;
 use WP_STATISTICS\Purge;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
+use WP_Statistics\Service\Database\Migrations\BackgroundProcess\BackgroundProcessFactory;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Geolocation\Provider\DbIpProvider;
 use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;
@@ -285,7 +285,7 @@ class OptimizationActions
             GeolocationFactory::downloadDatabase($provider);
 
             // Update GeoIP data for visitors with incomplete information
-            BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
+            BackgroundProcessFactory::getBackgroundProcess('update_unknown_visitor_geoip')->process();
 
             Ajax::success(esc_html__('GeoIP update started.', 'wp-statistics'));
         } catch (Exception $e) {
@@ -303,7 +303,7 @@ class OptimizationActions
             $this->checkAdminReferrer('wp_rest', 'wps_nonce');
             $this->checkCapability('manage');
 
-            BackgroundProcessFactory::batchUpdateSourceChannelForVisitors();
+            BackgroundProcessFactory::getBackgroundProcess('update_visitors_source_channel')->process();
 
             Ajax::success(esc_html__('Source channel update started.', 'wp-statistics'));
         } catch (Exception $e) {

@@ -7,36 +7,41 @@ use WP_STATISTICS\Admin_Assets;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Database\Migrations\BackgroundProcess\Jobs\CalculatePostWordsCount;
+use WP_Statistics\Service\Database\Migrations\BackgroundProcess\Jobs\IncompleteGeoIpUpdater;
+use WP_Statistics\Service\Database\Migrations\BackgroundProcess\Jobs\SourceChannelUpdater;
 use WP_Statistics\Service\Database\Migrations\BackgroundProcess\Jobs\VisitorColumnsMigrator;
 use WP_STATISTICS\User;
 use WP_Statistics\Utils\Request;
 
 /**
  * Class BackgroundProcessManager
- * 
+ *
  * Manages background processes for database migrations.
  */
 class BackgroundProcessManager extends BaseMigrationManager
 {
     /**
      * The background process instances.
-     * 
+     *
      * @var array<string, object>
      */
     private $backgroundProcess = [];
 
     /**
      * List of background process classes to be registered.
-     * 
+     *
      * @var array<string, string>
      */
     private $backgroundProcesses = [
-        'visitor_columns_migrator' => VisitorColumnsMigrator::class,
+        'visitor_columns_migrator'       => VisitorColumnsMigrator::class,
+        'calculate_post_words_count'     => CalculatePostWordsCount::class,
+        'update_unknown_visitor_geoip'   => IncompleteGeoIpUpdater::class,
+        'update_visitors_source_channel' => SourceChannelUpdater::class
     ];
 
     /**
      * List of available data migration keys.
-     * 
+     *
      * @var array<string> Array of migration keys.
      */
     private $dataMirations = [
@@ -45,10 +50,17 @@ class BackgroundProcessManager extends BaseMigrationManager
 
     /**
      * The key of the currently running background process.
-     * 
+     *
      * @var string
      */
     private $currentProcess = '';
+
+    /**
+     * Success message for the currently active background job.
+     *
+     * @var string
+     */
+    private $successNotice = '';
 
     /**
      * The action slug used for manually triggering the background migration.
@@ -66,7 +78,7 @@ class BackgroundProcessManager extends BaseMigrationManager
 
     /**
      * Class constructor.
-     * 
+     *
      * Initializes background processes and attaches necessary WordPress hooks.
      */
     public function __construct()
@@ -81,12 +93,12 @@ class BackgroundProcessManager extends BaseMigrationManager
 
     /**
      * Initialize and register background processes.
-     * 
+     *
      * @return void
      */
     private function initializeBackgroundProcess()
     {
-        if (! empty($this->backgroundProcess) || empty($this->backgroundProcesses)) {
+        if (!empty($this->backgroundProcess) || empty($this->backgroundProcesses)) {
             return;
         }
 
@@ -94,18 +106,18 @@ class BackgroundProcessManager extends BaseMigrationManager
             $this->registerBackgroundProcess($className, $key);
         }
     }
-    
+
     /**
      * Register a background process by its class name and key.
-     * 
+     *
      * @param string $className The class name of the background process.
      * @param string $processKey The key to identify the background process.
-     * 
+     *
      * @return void
      */
     private function registerBackgroundProcess($className, $processKey)
     {
-        if (!class_exists($className) && ! empty($this->backgroundProcess[$processKey])) {
+        if (!class_exists($className) && !empty($this->backgroundProcess[$processKey])) {
             return;
         }
 
@@ -114,9 +126,9 @@ class BackgroundProcessManager extends BaseMigrationManager
 
     /**
      * Get a background process instance by its key.
-     * 
+     *
      * @param string $processKey The key of the background process.
-     * 
+     *
      * @return object|null The background process instance or null if not found.
      */
     public function getBackgroundProcess($processKey)
@@ -136,7 +148,7 @@ class BackgroundProcessManager extends BaseMigrationManager
 
     /**
      * Get the list of available data migrations (keys).
-     * 
+     *
      * @return array
      */
     public function getAllDataMirations()
@@ -166,9 +178,9 @@ class BackgroundProcessManager extends BaseMigrationManager
                 $instance->initialNotice();
             }
 
-            $isActive = method_exists($instance, 'is_active') ? (bool) $instance->is_active() : false;
+            $isActive = method_exists($instance, 'is_active') ? (bool)$instance->is_active() : false;
 
-            if(!$isActive) {
+            if (!$isActive) {
                 continue;
             }
 
@@ -181,14 +193,14 @@ class BackgroundProcessManager extends BaseMigrationManager
                 continue;
             }
 
-            $percent = empty($processed) ? 0 : (int) floor(($processed / $total) * 100);
+            $percent = empty($processed) ? 0 : (int)floor(($processed / $total) * 100);
             if ($percent >= 100) {
                 $percent = 99;
             } elseif ($percent < 0) {
                 $percent = 0;
             }
 
-            $instance->localizeJobTexts();
+            $this->successNotice = $instance->getSuccessNotice();
 
             $label = $instance->getJobTitle();
 
@@ -196,13 +208,13 @@ class BackgroundProcessManager extends BaseMigrationManager
             $message = sprintf(
                 __('<div id="wp-statistics-async-background-process-notice">%1$s: <span class="percentage">%2$d%%</span> complete (<span class="processed">%3$d</span>/%4$d).<br/> %5$s</div>', 'wp-statistics'),
                 esc_html($label),
-                (int) $percent,
-                (int) $processed,
-                (int) $total,
+                (int)$percent,
+                (int)$processed,
+                (int)$total,
                 esc_html__('You can continue using the plugin. The process runs safely in the background.', 'wp-statistics')
             );
 
-            Notice::addNotice($message, $instance->getInitiatedKey(),'info', false);
+            Notice::addNotice($message, $instance->getInitiatedKey(), 'info', false);
         }
     }
 
@@ -229,10 +241,12 @@ class BackgroundProcessManager extends BaseMigrationManager
             'wp-statistics-async-background-process',
             'Wp_Statistics_Async_Background_Process_Data',
             [
-                'rest_api_nonce'  => wp_create_nonce('wp_rest'),
-                'ajax_url'        => admin_url('admin-ajax.php'),
-                'interval'        => apply_filters('wp_statistics_async_background_process_ajax_interval', 5000),
-                'current_process' => $this->currentProcess
+                'rest_api_nonce'        => wp_create_nonce('wp_rest'),
+                'ajax_url'              => admin_url('admin-ajax.php'),
+                'interval'              => apply_filters('wp_statistics_async_background_process_ajax_interval', 5000),
+                'current_process'       => $this->currentProcess,
+                'completed_message'     => esc_html__('WP Statistics: Background process completed successfully.', 'wp-statistics'),
+                'job_completed_message' => $this->successNotice
             ]
         );
     }
@@ -256,7 +270,7 @@ class BackgroundProcessManager extends BaseMigrationManager
 
     /**
      * Handles the AJAX request for the background process.
-     * 
+     *
      * @return void
      */
     public function async_background_process_action_callback()
@@ -268,7 +282,7 @@ class BackgroundProcessManager extends BaseMigrationManager
                 'message' => esc_html__('Unauthorized request or insufficient permissions.', 'wp-statistics')
             ]);
         }
-        
+
         $this->currentProcess = Request::get('current_process');
 
         $currentJob = $this->getBackgroundProcess($this->currentProcess);
@@ -287,9 +301,9 @@ class BackgroundProcessManager extends BaseMigrationManager
 
         $total     = $currentJob->getTotal();
         $processed = $currentJob->getProcessed();
-        
+
         wp_send_json_success([
-            'percentage' => empty($processed) ? 0 : (int) floor(($processed / $total) * 100),
+            'percentage' => empty($processed) ? 0 : (int)floor(($processed / $total) * 100),
             'processed'  => $currentJob->getProcessed(),
         ]);
     }
@@ -352,7 +366,7 @@ class BackgroundProcessManager extends BaseMigrationManager
 
         $adminUrlargs = [];
 
-        if (! empty($tab)) {
+        if (!empty($tab)) {
             $adminUrlargs['tab'] = $tab;
         }
 

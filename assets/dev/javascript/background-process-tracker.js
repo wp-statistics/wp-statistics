@@ -70,8 +70,14 @@ const WPStatisticsAjaxBackgroundProcessTracker = {
         if (this.migrationNotice.length) {
             this.migrationNotice.closest('.notice').removeClass('notice-info').addClass('notice-success');
 
+            let message = Wp_Statistics_Async_Background_Process_Data.completed_message;
+
+            if (Wp_Statistics_Async_Background_Process_Data?.job_completed_message) {
+                message = Wp_Statistics_Async_Background_Process_Data.job_completed_message;
+            }
+
             this.migrationNotice.html(`
-                <p><strong>WP Statistics: Background process completed successfully.</strong></p>
+                <p><strong>${message}</strong></p>
             `);
         }
 

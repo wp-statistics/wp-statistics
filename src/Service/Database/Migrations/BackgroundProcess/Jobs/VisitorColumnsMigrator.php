@@ -18,7 +18,7 @@ class VisitorColumnsMigrator extends BaseBackgroundProcess
 
     /**
      * Initiated key for option storage.
-     * 
+     *
      * @var string
      */
     protected $initiatedKey = 'visitor_columns_migrator_initiated';
@@ -47,7 +47,8 @@ class VisitorColumnsMigrator extends BaseBackgroundProcess
      * @return void
      */
     public function localizeJobTexts()
-    {        
+    {
+        $this->setSuccessNotice(esc_html__('The visitor data migration was processed successfully.', 'wp-statistics'));
         $this->setJobTitle(esc_html__('Migrate Visitor Data Columns', 'wp-statistics'));
         $this->setJobDescription(esc_html__('Adjusts and updates visitor-related database columns to the latest WP Statistics format. Run this migration after upgrading from older versions to ensure your visitor data remains accurate and compatible.', 'wp-statistics'));
     }
@@ -66,12 +67,12 @@ class VisitorColumnsMigrator extends BaseBackgroundProcess
      */
     protected function task($item)
     {
-        if (! is_array($item)) {
+        if (!is_array($item)) {
             return false;
         }
 
-        $offset = isset($item['offset']) ? (int) $item['offset'] : 0;
-        $limit  = isset($item['limit'])  ? (int) $item['limit']  : $this->batchSize;
+        $offset = isset($item['offset']) ? (int)$item['offset'] : 0;
+        $limit  = isset($item['limit']) ? (int)$item['limit'] : $this->batchSize;
 
         $processedIds = [];
 
@@ -106,7 +107,7 @@ class VisitorColumnsMigrator extends BaseBackgroundProcess
             $minId     = $row['min_id'];
             $maxId     = $row['max_id'];
 
-           $firstPage = DatabaseFactory::table('select')
+            $firstPage = DatabaseFactory::table('select')
                 ->setName('visitor_relationships')
                 ->setArgs([
                     'columns' => ['page_id', 'date'],
@@ -144,7 +145,7 @@ class VisitorColumnsMigrator extends BaseBackgroundProcess
             }
         }
 
-        if (! empty($processedIds)) {
+        if (!empty($processedIds)) {
             $this->setProcessed($processedIds);
         }
 
@@ -173,7 +174,7 @@ class VisitorColumnsMigrator extends BaseBackgroundProcess
      * @param bool $force Whether to include the `force` flag to restart the job. Default false.
      * @return void
      */
-    public function initialNotice($force = false) 
+    public function initialNotice($force = false)
     {
         if ($this->isInitiated() || $this->is_active()) {
             return;
@@ -209,7 +210,7 @@ class VisitorColumnsMigrator extends BaseBackgroundProcess
 
     /**
      * Initiate the background process to calculate word counts for posts.
-     * 
+     *
      * @return void
      */
     public function process()
@@ -219,7 +220,7 @@ class VisitorColumnsMigrator extends BaseBackgroundProcess
         }
 
         $this->clearTotalAndProcessed();
-        
+
         $result = DatabaseFactory::table('select')
             ->setName('visitor_relationships AS vr')
             ->setArgs([
@@ -236,12 +237,12 @@ class VisitorColumnsMigrator extends BaseBackgroundProcess
             ->execute()
             ->getResult();
 
-        $totalCount = ! empty($result[0]['total']) ? $result[0]['total'] : 0;
+        $totalCount = !empty($result[0]['total']) ? $result[0]['total'] : 0;
 
         $this->setTotal($totalCount);
 
         $flushEvery = 500;
-        $queued = 0;
+        $queued     = 0;
 
         for ($offset = 0; $offset < $totalCount; $offset += $this->batchSize) {
             $this->push_to_queue([
