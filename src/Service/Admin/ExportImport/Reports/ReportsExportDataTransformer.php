@@ -107,7 +107,7 @@ class ReportsExportDataTransformer
             $row['term_title']  = $term['term_name'];
             $row['views']       = $term['views'];
             $row['total_posts'] = $term['posts_count'];
-            $row['page']        = get_term_link(intval($term['term_id']));
+            $row['url']         = get_term_link(intval($term['term_id']));
 
             $result[] = $row;
         }
