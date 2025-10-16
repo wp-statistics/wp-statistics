@@ -47,19 +47,20 @@ class ReportsExportDataTransformer
             /** @var \WP_Statistics\Decorators\VisitorDecorator $visitor */
             $row = [];
 
-            $row['view_time']      = $visitor->getLastView(true);
+            $row['ID']             = $visitor->getId();
+            $row['ip']             = !$visitor->isHashedIP() ? $visitor->getRawIP() : '';
+            $row['hashed_ip']      = $visitor->isHashedIP() ? $visitor->getRawIP() : '';
+            $row['user_id']        = $visitor->getUserId();
             $row['country']        = $visitor->getLocation()->getCountryName();
             $row['region']         = $visitor->getLocation()->getRegion();
             $row['city']           = $visitor->getLocation()->getCity();
             $row['os']             = $visitor->getOs()->getName();
             $row['device_type']    = $visitor->getDevice()->getType();
             $row['browser']        = $visitor->getBrowser()->getName();
-            $row['ip']             = !$visitor->isHashedIP() ? $visitor->getRawIP() : '';
-            $row['hashed_ip']      = $visitor->isHashedIP() ? $visitor->getRawIP() : '';
-            $row['user_id']        = $visitor->getUserId();
             $row['referrer']       = $visitor->getReferral()->getRawReferrer();
             $row['source_channel'] = $visitor->getReferral()->getSourceChannel();
-            $row['exit_page']      = $visitor->getLastPage()['full_url'] ?? '';
+            $row['view_time']      = $visitor->getLastView(true);
+            $row['page']           = $visitor->getLastPage()['link'] ?? '';
             $row['total_views']    = $visitor->getHits(true);
 
             $result[] = $row;

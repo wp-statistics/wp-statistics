@@ -33,7 +33,7 @@ class ReportsExportHandler
 
         if ($report === 'views') {
             $data = $dataProvider->getViewsData();
-            return ReportsExportDataTransformer::transformVisitorsData($data['data']);
+            return ReportsExportDataTransformer::transformViewsData($data['data']);
         }
 
         if ($report === 'online') {
