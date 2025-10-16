@@ -199,7 +199,7 @@ class VisitorDecorator
     public function getFirstView($raw = false)
     {
         if ($raw) {
-            return $this->visitor->first_view;
+            return $this->visitor->first_view ?? null;
         }
 
         return !empty($this->visitor->first_view) ? DateTime::format($this->visitor->first_view, [
