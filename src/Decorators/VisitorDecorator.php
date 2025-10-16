@@ -196,8 +196,12 @@ class VisitorDecorator
      *
      * @return int|null The time of the first view, or null if not available.
      */
-    public function getFirstView()
+    public function getFirstView($raw = false)
     {
+        if ($raw) {
+            return $this->visitor->first_view;
+        }
+
         return !empty($this->visitor->first_view) ? DateTime::format($this->visitor->first_view, [
             'include_time' => true,
             'exclude_year' => true,
