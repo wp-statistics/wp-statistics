@@ -18,7 +18,7 @@ class CategoryReportView extends BaseView
         $args = [
             'author_id' => Request::get('author_id', '', 'number'),
             'post_type' => Request::get('pt', ''),
-            'taxonomy'  => Request::get('tx', 'category'),
+            'taxonomy'  => Request::get('tx', ''),
             'order_by'  => Request::get('order_by', 'views'),
             'order'     => Request::get('order', 'DESC'),
         ];

@@ -121,12 +121,6 @@ class ReportsExportHandler
 
     public function getCategoryAnalyticsReportExportData($data, $args, $report)
     {
-        $args = wp_parse_args($args, [
-            'taxonomy'  => 'category',
-            'order_by'  => 'views',
-            'order'     => 'DESC',
-        ]);
-
         $dataProvider = new CategoryAnalyticsDataProvider($args);
 
         if ($report === 'report') {
