@@ -41,9 +41,10 @@ class PageInsightsDataProvider
 
     public function getTopData()
     {
-        $args = array_merge($this->args, [
-            'order_by'              => Request::get('order_by', 'visitors'),
-            'filter_by_view_date'   => true
+        $args = wp_parse_args($this->args, [
+            'order_by'            => 'visitors',
+            'order'               => 'DESC',
+            'filter_by_view_date' => true
         ]);
 
         unset($args['taxonomy']);
@@ -65,13 +66,15 @@ class PageInsightsDataProvider
     public function getCategoryData()
     {
         $args = wp_parse_args($this->args, [
+            'taxonomy'          => 'category',
             'order_by'          => 'views',
+            'order'             => 'DESC',
             'count_total_posts' => true
         ]);
 
         return [
             'categories'  => $this->taxonomyModel->getTaxonomiesData($args),
-            'total'       => $this->taxonomyModel->countTerms($this->args)
+            'total'       => $this->taxonomyModel->countTerms($args)
         ];
     }
 
@@ -79,6 +82,7 @@ class PageInsightsDataProvider
     {
         $args = wp_parse_args($this->args, [
             'order_by' => 'page_views',
+            'order'    => 'DESC'
         ]);
 
         $authors = $this->authorsModel->getAuthorsPagesData($args);
