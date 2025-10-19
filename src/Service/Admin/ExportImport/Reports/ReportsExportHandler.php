@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\ExportImport\Reports;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsDataProvider;
 use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsDataProvider;
 use WP_Statistics\Service\Admin\Devices\DevicesDataProvider;
+use WP_Statistics\Service\Admin\Exclusions\ExclusionsDataProvider;
 use WP_Statistics\Service\Admin\Geographic\GeographicDataProvider;
 use WP_Statistics\Service\Admin\PageInsights\PageInsightsDataProvider;
 use WP_Statistics\Service\Admin\Referrals\ReferralsDataProvider;
@@ -20,6 +21,7 @@ class ReportsExportHandler
         add_filter('wp_statistics_author-analytics_report_export_data', [$this, 'getAuthorAnalyticsReportExportData'], 10, 3);
         add_filter('wp_statistics_geographic_report_export_data', [$this, 'getGeographicReportExportData'], 10, 3);
         add_filter('wp_statistics_devices_report_export_data', [$this, 'getDevicesReportExportData'], 10, 3);
+        add_filter('wp_statistics_exclusions_report_export_data', [$this, 'getExclusionsReportExportData'], 10, 3);
     }
 
     public function getVisitorsReportExportData($data, $args, $report)
@@ -204,5 +206,12 @@ class ReportsExportHandler
         }
 
         return $data;
+    }
+
+    public function getExclusionsReportExportData($data, $args, $report)
+    {
+        $dataProvider = new ExclusionsDataProvider($args);
+        $data = $dataProvider->getExclusionsData();
+        return ReportsExportDataTransformer::transformExclusionsData($data['data'], $data['total']);
     }
 }

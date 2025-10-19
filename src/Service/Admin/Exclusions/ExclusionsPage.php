@@ -6,6 +6,7 @@ use WP_STATISTICS\Menus;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BasePage;
 use WP_STATISTICS\Admin_Assets;
+use WP_Statistics\Service\Admin\ExportImport\ExportTypes;
 
 class ExclusionsPage extends BasePage
 {
@@ -39,6 +40,7 @@ class ExclusionsPage extends BasePage
             'pageName'      => Menus::get_page_slug('exclusions'),
             'DateRang'      => Admin_Template::DateRange(),
             'hasDateRang'   => true,
+            'export'        => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE],
             'data'          => $this->getData()
         ];
 
