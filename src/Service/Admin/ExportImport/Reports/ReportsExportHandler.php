@@ -56,11 +56,6 @@ class ReportsExportHandler
 
     public function getPagesReportExportData($data, $args, $report)
     {
-        $args = wp_parse_args($args, [
-            'order'     => 'DESC',
-            'taxonomy'  => 'category'
-        ]);
-
         $dataProvider = new PageInsightsDataProvider($args);
 
         if ($report === 'top') {
@@ -133,10 +128,6 @@ class ReportsExportHandler
 
     public function getAuthorAnalyticsReportExportData($data, $args, $report)
     {
-        $args = wp_parse_args($args, [
-            'post_type' => 'post'
-        ]);
-
         $dataProvider = new AuthorAnalyticsDataProvider($args);
 
         if ($report === 'authors') {
@@ -149,10 +140,6 @@ class ReportsExportHandler
 
     public function getGeographicReportExportData($data, $args, $report)
     {
-        $args = wp_parse_args($args, [
-            // ...
-        ]);
-
         $dataProvider = new GeographicDataProvider($args);
 
         if ($report === 'countries') {
