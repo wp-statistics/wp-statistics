@@ -279,4 +279,22 @@ class ReportsExportDataTransformer
 
         return $result;
     }
+
+    public static function transformExclusionsData($data, $total)
+    {
+        $result = [];
+
+        foreach ($data as $item) {
+            $row = [];
+
+            $row['type']  = $item->reason;
+            $row['count'] = $item->count;
+
+            $row['share_pct'] = Helper::calculatePercentage($item->count, $total);
+
+            $result[] = $row;
+        }
+
+        return $result;
+    }
 }
