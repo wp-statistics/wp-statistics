@@ -46,7 +46,7 @@ class ExportRestController extends BaseRestAPI
      */
     public function permissionCallback(WP_REST_Request $request)
     {
-        if (!User::Access('manage')) {
+        if (!User::Access('read')) {
             return new WP_Error(
                 'rest_forbidden',
                 esc_html__('Sorry, you are not authorized to export settings.', 'wp-statistics'),
