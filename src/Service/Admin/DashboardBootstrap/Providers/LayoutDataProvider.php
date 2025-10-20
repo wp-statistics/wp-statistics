@@ -5,22 +5,23 @@ namespace WP_Statistics\Service\Admin\DashboardBootstrap\Providers;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\LocalizeDataProviderInterface;
 
 /**
- * Provider for sidebar navigation data.
+ * Provider for layout configuration data.
  *
- * This provider is responsible for preparing and delivering sidebar
- * navigation items to the React dashboard application.
+ * This provider is responsible for preparing and delivering layout
+ * structure data to the React dashboard application, including sidebar
+ * navigation items and other layout components.
  *
  * @since 15.0.0
  */
 class LayoutDataProvider implements LocalizeDataProviderInterface
 {
     /**
-     * Get sidebar navigation data.
+     * Get layout configuration data.
      *
-     * Returns an array of sidebar menu items with their configuration
-     * including slug, icon, and localized label.
+     * Returns an array of layout configuration including sidebar menu items
+     * with their configuration such as slug, icon, and localized label.
      *
-     * @return array Array of sidebar menu items
+     * @return array Array of layout configuration data
      */
     public function getData()
     {
@@ -81,20 +82,20 @@ class LayoutDataProvider implements LocalizeDataProviderInterface
         ];
 
         /**
-         * Filter sidebar items before sending to React.
+         * Filter layout data before sending to React.
          *
-         * Allows other components to add, remove, or modify sidebar items.
+         * Allows other components to add, remove, or modify layout configuration.
          *
-         * @param array $items Array of sidebar menu items
+         * @param array $items Array of layout configuration data
          * @since 15.0.0
          */
-        return apply_filters('wp_statistics_dashboard_sidebar_items', $items);
+        return apply_filters('wp_statistics_dashboard_layout_data', $items);
     }
 
     /**
      * Get the localize data key.
      *
-     * @return string The key 'sidebar' for sidebar data
+     * @return string The key 'layout' for layout configuration data
      */
     public function getKey()
     {
