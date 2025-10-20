@@ -14,7 +14,7 @@ use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\LocalizeDataProvide
  * Usage:
  * ```
  * $manager = new LocalizeDataManager();
- * $manager->registerProvider(new SidebarDataProvider());
+ * $manager->registerProvider(new LayoutDataProvider());
  * $manager->registerProvider(new UserInfoProvider());
  * $manager->init();
  * ```

@@ -7,7 +7,7 @@ use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\MigrationPageCont
 use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\RootController;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Managers\LocalizeDataManager;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\GlobalDataProvider;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\SidebarDataProvider;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\LayoutDataProvider;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Requests\AjaxManager;
 
 /**
@@ -118,7 +118,7 @@ class DashboardManager
 
         // Register data providers
         $this->localizeDataManager
-            ->registerProvider(new SidebarDataProvider())
+            ->registerProvider(new LayoutDataProvider())
             ->registerProvider(new GlobalDataProvider())
             ->init();
     }

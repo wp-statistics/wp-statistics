@@ -66,8 +66,6 @@ class AjaxManager
                 continue;
             }
 
-            $controller->initFilters();
-
             $actions = $controller->getActions();
             foreach ($actions as $action) {
                 $this->registerAction($name, $action, $controller);

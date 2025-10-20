@@ -18,14 +18,14 @@ class ReactHandler extends BaseAdminAssets
 {
     /**
      * Manifest main JS file path
-     * 
+     *
      * @var string
      */
     private $manifestMainJs = '';
 
     /**
      * Manifest main CSS file paths
-     * 
+     *
      * @var array
      */
     private $manifestMainCss = [];
@@ -98,10 +98,10 @@ class ReactHandler extends BaseAdminAssets
 
     /**
      * Print localized data for React
-     * 
+     *
      * Since wp_localize_script doesn't work with wp_enqueue_script_module,
      * we need to print the data directly to window object before the module loads.
-     * 
+     *
      * @param string $hook Current admin page hook
      *
      * @return void
@@ -112,11 +112,11 @@ class ReactHandler extends BaseAdminAssets
 
         if (is_array($l10n)) {
             foreach ($l10n as $key => $value) {
-                if (! is_scalar($value)) {
+                if (!is_scalar($value)) {
                     continue;
                 }
 
-                $l10n[$key] = html_entity_decode((string) $value, ENT_QUOTES, 'UTF-8');
+                $l10n[$key] = html_entity_decode((string)$value, ENT_QUOTES, 'UTF-8');
             }
         }
 
@@ -135,6 +135,8 @@ class ReactHandler extends BaseAdminAssets
     {
         $list = [];
 
+        error_log(print_r(apply_filters('wp_statistics_react_localized_data', $list), true));
+
         return apply_filters('wp_statistics_react_localized_data', $list);
     }
 
@@ -147,7 +149,7 @@ class ReactHandler extends BaseAdminAssets
         $manifestPath = $this->getUrl('.vite/manifest.json', true);
 
         if (empty($manifestPath) || !file_exists($manifestPath)) {
-           return;
+            return;
         }
 
         $manifestContent = file_get_contents($manifestPath);

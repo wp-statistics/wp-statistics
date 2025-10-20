@@ -25,6 +25,8 @@ class GlobalDataProvider implements LocalizeDataProviderInterface
     {
         $data = [
             'isPremium' => LicenseHelper::isPremiumLicenseAvailable(),
+            'ajaxUrl'   => admin_url('admin-ajax.php'),
+            'nonce'     => wp_create_nonce('wp_statistics_dashboard_nonce')
         ];
 
         /**
