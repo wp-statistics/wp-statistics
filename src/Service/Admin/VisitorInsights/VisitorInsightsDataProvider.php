@@ -190,12 +190,21 @@ class VisitorInsightsDataProvider
 
     public function getVisitorData()
     {
-        $visitorInfo    = $this->visitorsModel->getVisitorData($this->args);
-        $visitorJourney = $this->visitorsModel->getVisitorJourney($this->args);
+        $visitor  = $this->visitorsModel->getVisitorData($this->args);
+        $journey  = $this->visitorsModel->getVisitorJourney($this->args);
+        $sessions = [];
+
+        if (!$visitor->isAnonymous()) {
+            $args = $visitor->getUserId() ? ['user_id' => $visitor->getUserId()] : ['ip' => $visitor->getIP()];
+            $args['exclude_ids'] = [$visitor->getId()];
+
+            $sessions = $this->visitorsModel->getVisitorsData($args);
+        }
 
         return [
-            'visitor'           => $visitorInfo,
-            'visitor_journey'   => $visitorJourney
+            'visitor'  => $visitor,
+            'journey'  => $journey,
+            'sessions' => $sessions
         ];
     }
 

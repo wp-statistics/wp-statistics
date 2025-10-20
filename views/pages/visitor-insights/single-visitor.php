@@ -29,17 +29,33 @@ $visitor = $data['visitor'];
     <div class="postbox-container postbox-container--second-col" >
         <div class="wps-card wps-card wps-card--table">
             <div class="wps-card__title">
-                <h2><?php esc_html_e('Recent Views', 'wp-statistics'); ?></h2>
+                <h2><?php esc_html_e('Views Timeline', 'wp-statistics'); ?></h2>
             </div>
             <div class="wps-card--table__body">
                 <?php
                 $args = [
-                    'data'       => $data['visitor_journey'],
+                    'data'       => $data['journey'],
                     'pagination' => $pagination ?? null
                 ];
                 View::load("components/tables/recent-views", $args);
                 ?>
             </div>
         </div>
+
+        <?php if (!empty($data['sessions'])) : ?>
+            <div class="wps-card wps-card wps-card--table">
+                <div class="wps-card__title">
+                    <h2><?php esc_html_e('Other Visits', 'wp-statistics'); ?></h2>
+                </div>
+                <div class="wps-card--table__body">
+                    <?php
+                    $args = [
+                        'data' => $data['sessions'],
+                    ];
+                    View::load("components/tables/visitors", $args);
+                    ?>
+                </div>
+            </div>
+        <?php endif; ?>
     </div>
 </div>
