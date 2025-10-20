@@ -33,7 +33,8 @@ $isAdvancedReportingActive = WP_STATISTICS\Helper::isAddOnActive('advanced-repor
 
                 <?php
                 $tooltip = sprintf(
-                    __('Export %s metrics to CSV. Shows metrics per day for your selected time range.', 'wp-statistics'),
+                    __('%s: Export %s metrics to CSV. Shows metrics per day for your selected time range.', 'wp-statistics'),
+                    '<b>Coming soon</b>',
                     '<i>At a glance</i>'
                 );
                 ?>
