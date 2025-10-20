@@ -171,7 +171,13 @@ if (!window.WpStatisticsEventTracker) {
                 if (!this.linkTracker) return false;
 
                 // If target link is internal, skip tracking
-                if (targetUrl.toLowerCase().includes(window.location.host)) return false;
+                // Compare hostnames instead of substring matching to avoid false positives from query strings
+                try {
+                    const targetHost = new URL(targetUrl).host;
+                    if (targetHost === window.location.host) return false;
+                } catch (e) {
+                    // If URL parsing fails, fall back to allowing tracking (non-http schemes may be handled server-side)
+                }
             }
 
             // If it's a download event
