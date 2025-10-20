@@ -90,8 +90,8 @@ abstract class BaseDashboardController
     public function addDashboardLocalizedData($data)
     {
         if (function_exists('wp_create_nonce')) {
-            $data['dashboardNonce'] = wp_create_nonce($this->nonceKey);
-            $data['ajaxUrl']        = admin_url( 'admin-ajax.php' );
+            $data['nonce']   = wp_create_nonce($this->nonceKey);
+            $data['ajaxUrl'] = admin_url('admin-ajax.php');
         }
 
         return $data;

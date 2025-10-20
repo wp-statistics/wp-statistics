@@ -93,7 +93,36 @@ class ReactHandler extends BaseAdminAssets
         }
 
         wp_enqueue_script_module($this->getAssetHandle(), $this->getUrl($this->manifestMainJs), [], $this->getVersion(), true);
-        wp_localize_script($this->getAssetHandle(), 'wps_react', $this->getLocalizedData($hook));
+        $this->printLocalizedData($hook);
+    }
+
+    /**
+     * Print localized data for React
+     * 
+     * Since wp_localize_script doesn't work with wp_enqueue_script_module,
+     * we need to print the data directly to window object before the module loads.
+     * 
+     * @param string $hook Current admin page hook
+     *
+     * @return void
+     */
+    public function printLocalizedData($hook)
+    {
+        $l10n = $this->getLocalizedData($hook);
+
+        if (is_array($l10n)) {
+            foreach ($l10n as $key => $value) {
+                if (! is_scalar($value)) {
+                    continue;
+                }
+
+                $l10n[$key] = html_entity_decode((string) $value, ENT_QUOTES, 'UTF-8');
+            }
+        }
+
+        $script = sprintf('var wps_react = %s;', wp_json_encode($l10n));
+
+        wp_print_inline_script_tag($script);
     }
 
     /**

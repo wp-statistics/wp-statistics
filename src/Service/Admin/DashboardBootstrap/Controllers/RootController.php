@@ -8,8 +8,10 @@ use WP_Statistics\Service\Admin\DashboardBootstrap\Views\Root;
 /**
  * Controller for handling the Dashboard Root page.
  *
- * RootController wires the dashboard "Root" view
- * to the admin bootstrap and extends the base dashboard controller.
+ * This controller is responsible for wiring the dashboard "Root" view
+ * to the admin bootstrap. It extends the base dashboard controller
+ * and keeps the controller layer simple by delegating data handling
+ * to dedicated providers through the LocalizeDataManager.
  *
  * @since 15.0.0
  */
