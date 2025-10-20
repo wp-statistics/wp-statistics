@@ -135,8 +135,6 @@ class ReactHandler extends BaseAdminAssets
     {
         $list = [];
 
-        error_log(print_r(apply_filters('wp_statistics_react_localized_data', $list), true));
-
         return apply_filters('wp_statistics_react_localized_data', $list);
     }
 
