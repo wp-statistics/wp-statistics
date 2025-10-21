@@ -195,8 +195,16 @@ class VisitorInsightsDataProvider
         $sessions = [];
 
         if (!$visitor->isAnonymous()) {
-            $args = $visitor->getUserId() ? ['user_id' => $visitor->getUserId()] : ['ip' => $visitor->getIP()];
-            $args['exclude_ids'] = [$visitor->getId()];
+            $args = [
+                'ignore_date' => true,
+                'exclude_ids' => [$visitor->getId()]
+            ];
+
+            if (!empty($visitor->getUser())) {
+                $args['user_id'] = $visitor->getUserId();
+            } else {
+                $args['ip'] = $visitor->getIP();
+            }
 
             $sessions = $this->visitorsModel->getVisitorsData($args);
         }
