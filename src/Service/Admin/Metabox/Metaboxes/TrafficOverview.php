@@ -28,7 +28,7 @@ class TrafficOverview extends BaseMetabox
     public function getData()
     {
         $chartData = $this->dataProvider->getTrafficChartData(['date' => DateRange::get('7days', true)]);
-        $data      = $this->dataProvider->getTrafficOverviewData();
+        $data      = $this->dataProvider->getTrafficOverviewData(['include_hits' => true]);
 
         $output = View::load('metabox/traffic-overview', ['data' => $data], true);
 

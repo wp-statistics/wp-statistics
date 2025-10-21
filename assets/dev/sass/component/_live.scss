@@ -37,7 +37,8 @@
       background: #A9AAAE1A;
     }
 
-    &.minus .diffs__change__direction {
+    &.minus .diffs__change__direction,
+    &.down .diffs__change__direction {
       color: #D54037;
       background: #D540370D;
 
@@ -51,7 +52,8 @@
       }
     }
 
-    &.plus .diffs__change__direction {
+    &.plus .diffs__change__direction,
+    &.up .diffs__change__direction {
       color: #196140;
       background: #1961400D;
 
