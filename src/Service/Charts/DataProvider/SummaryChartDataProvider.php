@@ -2,6 +2,7 @@
 namespace WP_Statistics\Service\Charts\DataProvider;
 
 use WP_Statistics\Components\DateRange;
+use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
@@ -19,6 +20,11 @@ class SummaryChartDataProvider extends AbstractChartDataProvider
         $this->viewsModel    = new ViewsModel();
     }
 
+    /**
+     * Retrieves visitors data for the summary widget.
+     *
+     * @return array
+     */
     public function getVisitorsData()
     {
         $periods = $this->getPeriods();
@@ -40,12 +46,23 @@ class SummaryChartDataProvider extends AbstractChartDataProvider
                     : $this->visitorsModel->countVisitors($args);
 
                 $periods[$key]['data']['prev'] = $prevVisitors;
+
+                $periods[$key]['data']['trend']['visitors'] = $this->calculateTrend($visitors['visitors'], $prevVisitors['visitors']);
+
+                if (!empty($args['include_hits'])) {
+                    $periods[$key]['data']['trend']['hits'] = $this->calculateTrend($visitors['hits'], $prevVisitors['hits']);
+                }
             }
         }
 
         return $periods;
     }
 
+    /**
+     * Retrieves views data for the summary widget.
+     *
+     * @return array
+     */
     public function getViewsData()
     {
         $periods = $this->getPeriods();
@@ -62,6 +79,8 @@ class SummaryChartDataProvider extends AbstractChartDataProvider
 
                 $prevViews = $this->viewsModel->countViews($args);
 
+                $periods[$key]['data']['trend'] = $this->calculateTrend($views, $prevViews);
+
                 $periods[$key]['data']['prev'] = $prevViews;
             }
         }
@@ -69,6 +88,11 @@ class SummaryChartDataProvider extends AbstractChartDataProvider
         return $periods;
     }
 
+    /**
+     * Get the time periods for the summary widget data.
+     *
+     * @return array
+     */
     protected function getPeriods()
     {
         $periods =  [
@@ -108,5 +132,32 @@ class SummaryChartDataProvider extends AbstractChartDataProvider
         }
 
         return $periods;
+    }
+
+    /**
+     * Calculate the trend between current and previous values.
+     *
+     * @param int $current
+     * @param int $previous
+     * @return array
+     */
+    protected function calculateTrend($current, $previous)
+    {
+        $difference = $current - $previous;
+        $percentage = Helper::calculatePercentageChange($previous, $current, 1, true);
+
+        if ($difference > 0) {
+            $direction = 'up';
+        } elseif ($difference < 0) {
+            $direction = 'down';
+        } else {
+            $direction = 'neutral';
+        }
+
+        return [
+            'direction'  => $direction,
+            'difference' => $difference,
+            'percentage' => $percentage
+        ];
     }
 }
