@@ -131,7 +131,7 @@ class VisitorDecorator
      */
     public function isAnonymous()
     {
-        return !$this->getUserId() && ($this->isHashedIP() || $this->isIpAnonymized());
+        return empty($this->getUser()) && ($this->isHashedIP() || $this->isIpAnonymized());
     }
 
     /**
