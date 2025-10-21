@@ -131,6 +131,15 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                 'step_title'  => esc_html__('Connect your site’s stats anywhere.', 'wp-statistics'),
             ];
             View::load("components/modals/introduce-premium/step-content", $data);
+
+
+            $data = [
+                'description' => 'text',
+                'step_name'   => 'wp-statistics-ai-insights',
+                'step'        => 'AI Insights',
+                'step_title'  => esc_html__('AI Insights.', 'wp-statistics'),
+            ];
+            View::load("components/modals/introduce-premium/step-content", $data);
             ?>
         </div>
         <div class="wps-premium-step__sidebar">
