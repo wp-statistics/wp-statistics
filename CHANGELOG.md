@@ -2,6 +2,7 @@
 - **Fix:** Fixed unknown location link issue in visitor information.
 - **Fix:** Resolved issue with non-Gregorian dates in charts.
 - **New:** Introduced a refactored background-process migration type and removed the legacy AJAX migrations.
+- **Fix** Fix Whatsapp outbound tracking link not work
 - **Enhancement:** Converted the Visitor Columns migrator to a background process and added a progress notice plus a "Data Migrations" section in Optimization page. 
 - **Enhancement:** Refactored background-process jobs for stability and maintainability.
 - **Fix:** Corrected the label displayed for the selected filter on the Link Tracker page.
