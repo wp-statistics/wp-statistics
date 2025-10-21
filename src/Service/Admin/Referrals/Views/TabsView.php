@@ -157,7 +157,7 @@ class TabsView extends BaseTabView
                         'title'        => esc_html__('AI/LLM', 'wp-statistics'),
                         'class'        => $this->isTab('ai') ? 'current' : '',
                         'locked'       => true,
-                        'tooltip'      => esc_html__('To view this report, you need to have Marketing add-on.', 'wp-statistics'),
+                        'tooltip'      => esc_html__('To view this report, you need to have AI Insights add-on.', 'wp-statistics'),
                         'lockedTarget' => 'wp-statistics-ai-insights'
                     ]
                 ]
