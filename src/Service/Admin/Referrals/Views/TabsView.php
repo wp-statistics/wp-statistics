@@ -22,7 +22,8 @@ class TabsView extends BaseTabView
         'referrers',
         'search-engines',
         'campaigns',
-        'utm-performance'
+        'utm-performance',
+        'ai',
     ];
 
     public function __construct()
@@ -150,6 +151,14 @@ class TabsView extends BaseTabView
                         'locked'       => true,
                         'tooltip'      => esc_html__('To view this report, you need to have Marketing add-on.', 'wp-statistics'),
                         'lockedTarget' => 'wp-statistics-marketing'
+                    ],
+                    [
+                        'link'         => Menus::admin_url('referrals', ['tab' => 'ai']),
+                        'title'        => esc_html__('AI/LLM', 'wp-statistics'),
+                        'class'        => $this->isTab('ai') ? 'current' : '',
+                        'locked'       => true,
+                        'tooltip'      => esc_html__('To view this report, you need to have Marketing add-on.', 'wp-statistics'),
+                        'lockedTarget' => 'wp-statistics-ai-insights'
                     ]
                 ]
             ];
