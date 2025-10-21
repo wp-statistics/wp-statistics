@@ -226,6 +226,9 @@ class ViewsModel extends BaseModel
         return $result;
     }
 
+    /**
+     * @deprecated Use TrafficSummaryChartDataProvider instead.
+     */
     public function getViewsSummary($args = [])
     {
         $summary = [
