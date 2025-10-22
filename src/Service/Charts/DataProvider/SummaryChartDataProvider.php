@@ -23,6 +23,7 @@ class SummaryChartDataProvider extends AbstractChartDataProvider
     /**
      * Retrieves visitors data for the summary widget.
      * Data includes current, previous and trend information.
+     * @note: if 'include_hits' is set in args, hits data will also be included.
      *
      * @return array
      */
