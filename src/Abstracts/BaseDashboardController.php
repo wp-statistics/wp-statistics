@@ -19,13 +19,6 @@ namespace WP_Statistics\Abstracts;
 abstract class BaseDashboardController
 {
     /**
-     * The sub page for the dashboard.
-     *
-     * @var string
-     */
-    protected $subPage = 'settings';
-
-    /**
      * The page view.
      *
      * @var string|null
@@ -57,7 +50,7 @@ abstract class BaseDashboardController
         $view = new $this->pageView();
 
         $items[$view->getPageIndex()] = [
-            'sub'      => $this->subPage,
+            'sub'      => '',
             'title'    => $view->getPageTitle(),
             'page_url' => $view->getPageSlug(),
             'callback' => $this->pageView,

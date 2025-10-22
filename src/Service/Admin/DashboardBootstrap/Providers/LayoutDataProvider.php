@@ -26,58 +26,72 @@ class LayoutDataProvider implements LocalizeDataProviderInterface
     public function getData()
     {
         $items['sidebar'] = [
-            'overview'           => [
+            'overview'          => [
                 'icon'  => 'overview',
                 'label' => esc_html__('General', 'wp-statistics'),
+                'slug'  => 'overview'
             ],
-            'visitor-insights'   => [
+            'visitorInsights'   => [
                 'icon'  => 'visitor-insights',
-                'label' => esc_html__('Visitor Insights', 'wp-statistics')
+                'label' => esc_html__('Visitor Insights', 'wp-statistics'),
+                'slug'  => 'visitor-insights'
             ],
-            'page-analytics'     => [
+            'pageAnalytics'     => [
                 'icon'  => 'page-analytics',
-                'label' => esc_html__('Page Insights', 'wp-statistics')
+                'label' => esc_html__('Page Insights', 'wp-statistics'),
+                'slug'  => 'page-analytics'
             ],
-            'referrals'          => [
-                'icon'      => 'referrals',
-                'label'     => esc_html__('Referrals', 'wp-statistics'),
-                'sub-pages' => [
-                    'referred-visitors' => [
-                        'label' => esc_html__('Referred Visitors', 'wp-statistics')
+            'referrals'         => [
+                'icon'     => 'referrals',
+                'label'    => esc_html__('Referrals', 'wp-statistics'),
+                'slug'     => 'referrals',
+                'subPages' => [
+                    'referredVisitors' => [
+                        'label' => esc_html__('Referred Visitors', 'wp-statistics'),
+                        'slug'  => 'referred-visitors'
                     ],
-                    'referrers'         => [
-                        'label' => esc_html__('Referrers', 'wp-statistics')
+                    'referrers'        => [
+                        'label' => esc_html__('Referrers', 'wp-statistics'),
+                        'slug'  => 'referrers'
                     ],
-                    'search-engines'    => [
-                        'label' => esc_html__('Search Engines', 'wp-statistics')
+                    'searchEngines'    => [
+                        'label' => esc_html__('Search Engines', 'wp-statistics'),
+                        'slug'  => 'search-engines'
                     ],
-                    'social-media'      => [
-                        'label' => esc_html__('Social Media', 'wp-statistics')
+                    'socialMedia'      => [
+                        'label' => esc_html__('Social Media', 'wp-statistics'),
+                        'slug'  => 'social-media'
                     ],
-                    'source-categories' => [
-                        'label' => esc_html__('Source Categories', 'wp-statistics')
+                    'sourceCategories' => [
+                        'label' => esc_html__('Source Categories', 'wp-statistics'),
+                        'slug'  => 'source-categories'
                     ]
                 ]
             ],
-            'category-analytics' => [
+            'categoryAnalytics' => [
                 'icon'  => 'category-analytics',
-                'label' => esc_html__('Content Analytics', 'wp-statistics')
+                'label' => esc_html__('Content Analytics', 'wp-statistics'),
+                'slug'  => 'category-analytics'
             ],
-            'author-analytics'   => [
+            'authorAnalytics'   => [
                 'icon'  => 'author-analytics',
-                'label' => esc_html__('Author Analytics', 'wp-statistics')
+                'label' => esc_html__('Author Analytics', 'wp-statistics'),
+                'slug'  => 'author-analytics'
             ],
-            'category-analytics' => [
+            'categoryAnalytics' => [
                 'icon'  => 'category-analytics',
-                'label' => esc_html__('Category Analytics', 'wp-statistics')
+                'label' => esc_html__('Category Analytics', 'wp-statistics'),
+                'slug'  => 'category-analytics'
             ],
-            'geographic'         => [
+            'geographic'        => [
                 'icon'  => 'geographic',
-                'label' => esc_html__('Geographics', 'wp-statistics')
+                'label' => esc_html__('Geographics', 'wp-statistics'),
+                'slug'  => 'geographic'
             ],
-            'devices'            => [
+            'devices'           => [
                 'icon'  => 'devices',
-                'label' => esc_html__('Devices', 'wp-statistics')
+                'label' => esc_html__('Devices', 'wp-statistics'),
+                'slug'  => 'devices'
             ]
         ];
 
