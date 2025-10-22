@@ -27,11 +27,11 @@ class SummaryChartDataProvider extends AbstractChartDataProvider
      */
     public function getData()
     {
-        $data = [];
-
         $periods = $this->getPeriods();
 
         foreach ($periods as $key => $period) {
+            $data = [];
+
             $args = array_merge($this->args, ['date' => $period['date']]);
 
             // Fetch current data
