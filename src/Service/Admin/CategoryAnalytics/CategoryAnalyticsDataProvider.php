@@ -64,8 +64,7 @@ class CategoryAnalyticsDataProvider
         $avgComments     = Helper::divideNumbers($comments, $posts);
         $prevAvgComments = Helper::divideNumbers($prevComments, $prevPosts);
 
-        $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
-        $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
+        $summary = ChartDataProviderFactory::summaryChart($this->args)->getData();
 
         $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
         $referrersData      = $this->visitorsModel->getReferrers($this->args);
@@ -111,7 +110,7 @@ class CategoryAnalyticsDataProvider
             'performance'       => $performanceData,
             'referrers'         => $referrersData,
             'visitors_country'  => $visitorsCountry,
-            'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary)
+            'summary'           => $summary
         ];
 
         if (WordCountService::isActive()) {
@@ -141,8 +140,7 @@ class CategoryAnalyticsDataProvider
         $avgComments     = Helper::divideNumbers($comments, $posts);
         $prevAvgComments = Helper::divideNumbers($prevComments, $prevPosts);
 
-        $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
-        $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
+        $summary = ChartDataProviderFactory::summaryChart($this->args)->getData();
 
         $topPublishingAuthors = $this->authorModel->getAuthorsByPostPublishes($this->args);
         $topViewingAuthors    = $this->authorModel->getTopViewingAuthors($this->args);
@@ -197,7 +195,7 @@ class CategoryAnalyticsDataProvider
                 ]
             ],
             'performance'       => $performanceData,
-            'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
+            'summary'           => $summary,
             'posts'             => [
                 'top_viewing'   => $topPostsByView,
                 'top_commented' => $topPostsByComment,
