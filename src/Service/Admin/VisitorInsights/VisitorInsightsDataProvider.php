@@ -38,7 +38,7 @@ class VisitorInsightsDataProvider
     {
         $overviewChartData = $this->getOverviewChartsData();
 
-        $summary = ChartDataProviderFactory::summaryChart(array_merge($this->args, ['include_hits' => true]))->getVisitorsData();
+        $summary = ChartDataProviderFactory::summaryChart()->getData();
         $online  = $this->onlineModel->countOnlines();
 
         $visitors       = $this->visitorsModel->countVisitors();

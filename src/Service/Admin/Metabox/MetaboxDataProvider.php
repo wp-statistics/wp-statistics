@@ -38,7 +38,7 @@ class MetaboxDataProvider
     {
         $data = [
             'online'  => $this->onlineModel->countOnlines($args),
-            'summary' => ChartDataProviderFactory::summaryChart($args)->getVisitorsData()
+            'summary' => ChartDataProviderFactory::summaryChart()->getData()
         ];
 
         return $data;
@@ -55,7 +55,7 @@ class MetaboxDataProvider
     {
         $data = [
             'online'  => $this->onlineModel->countOnlines($args),
-            'summary' => ChartDataProviderFactory::summaryChart($args)->getVisitorsData()
+            'summary' => ChartDataProviderFactory::summaryChart()->getData()
         ];
 
         return $data;

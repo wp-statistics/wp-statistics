@@ -21,75 +21,65 @@ class SummaryChartDataProvider extends AbstractChartDataProvider
     }
 
     /**
-     * Retrieves visitors data for the summary widget.
-     * Data includes current, previous and trend information.
-     * @note: if 'include_hits' is set in args, hits data will also be included.
+     * Retrieves data for the summary widget.
      *
      * @return array
      */
-    public function getVisitorsData()
+    public function getData()
     {
+        $data = [];
+
         $periods = $this->getPeriods();
 
         foreach ($periods as $key => $period) {
             $args = array_merge($this->args, ['date' => $period['date']]);
 
-            $visitors = !empty($args['include_hits'])
-                ? $this->visitorsModel->getVisitorsHits($args)
-                : $this->visitorsModel->countVisitors($args);
-
-            $periods[$key]['data']['current'] = $visitors;
+            // Fetch current data
+            $data['current'] = $this->fetchData($args);
 
             if (!empty($period['comparison'])) {
                 $args['date'] = DateRange::getPrevPeriod($period['date']);
 
-                $prevVisitors = !empty($args['include_hits'])
-                    ? $this->visitorsModel->getVisitorsHits($args)
-                    : $this->visitorsModel->countVisitors($args);
+                // Fetch previous data
+                $data['prev'] = $this->fetchData($args);
 
-                $periods[$key]['data']['prev'] = $prevVisitors;
-
-                if (!empty($args['include_hits'])) {
-                    $periods[$key]['data']['trend']['visitors'] = $this->calculateTrend($visitors['visitors'], $prevVisitors['visitors']);
-                    $periods[$key]['data']['trend']['hits'] = $this->calculateTrend($visitors['hits'], $prevVisitors['hits']);
-                } else {
-                    $periods[$key]['data']['trend'] = $this->calculateTrend($visitors, $prevVisitors);
-                }
+                // Calculate trends
+                $data['trend'] = [
+                    'visitors' => $this->calculateTrend($data['current']['visitors'], $data['prev']['visitors']),
+                    'views'    => $this->calculateTrend($data['current']['views'], $data['prev']['views'])
+                ];
             }
+
+            $periods[$key]['data'] = $data;
         }
 
         return $periods;
     }
 
     /**
-     * Retrieves views data for the summary widget.
-     * Data includes current, previous and trend information.
+     * Fetch data for a specific period.
+     * Uses separate queries when filters are applied, combined query otherwise.
      *
+     * @param array $args
      * @return array
      */
-    public function getViewsData()
+    protected function fetchData($args)
     {
-        $periods = $this->getPeriods();
+        $result = ['visitors' => 0, 'views' => 0];
 
-        foreach ($periods as $key => $period) {
-            $args = array_merge($this->args, ['date' => $period['date']]);
+        if ($this->isFilterApplied()) {
+            // Get visitors and views separately when filtering
+            $result['visitors'] = $this->visitorsModel->countVisitors($args);
+            $result['views']    = $this->viewsModel->countViews($args);
+        } else {
+            // Get visitors and hits combined for better performance
+            $data = $this->visitorsModel->getVisitorsHits($args);
 
-            $views = $this->viewsModel->countViews($args);
-
-            $periods[$key]['data']['current'] = $views;
-
-            if (!empty($period['comparison'])) {
-                $args['date'] = DateRange::getPrevPeriod($period['date']);
-
-                $prevViews = $this->viewsModel->countViews($args);
-
-                $periods[$key]['data']['trend'] = $this->calculateTrend($views, $prevViews);
-
-                $periods[$key]['data']['prev'] = $prevViews;
-            }
+            $result['visitors'] = $data['visitors'];
+            $result['views']    = $data['hits'];
         }
 
-        return $periods;
+        return $result;
     }
 
     /**

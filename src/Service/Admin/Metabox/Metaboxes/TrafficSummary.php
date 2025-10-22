@@ -27,11 +27,7 @@ class TrafficSummary extends BaseMetabox
 
     public function getData()
     {
-        $args = [
-            'include_hits' => true
-        ];
-
-        $data = $this->dataProvider->getTrafficSummaryData($args);
+        $data = $this->dataProvider->getTrafficSummaryData();
 
         $output = View::load('metabox/traffic-summary', ['data' => $data], true);
 

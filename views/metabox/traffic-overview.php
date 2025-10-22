@@ -55,10 +55,10 @@ $userOnline = new \WP_STATISTICS\UserOnline();
                         <span><span class="wps-postbox-chart--item--color"></span><?php esc_html_e('Views', 'wp-statistics'); ?></span>
                         <div>
                             <div class="current-data">
-                                <span><?php echo esc_html(Helper::formatNumberWithUnit($chartData['current']['hits'], 1)) ?></span>
-                                <span class="current-data-percent diffs__change <?php echo esc_attr($chartData['trend']['hits']['direction']); ?>">
+                                <span><?php echo esc_html(Helper::formatNumberWithUnit($chartData['current']['views'], 1)) ?></span>
+                                <span class="current-data-percent diffs__change <?php echo esc_attr($chartData['trend']['views']['direction']); ?>">
                                     <span class="diffs__change__direction">
-                                        <?php echo esc_html($chartData['trend']['hits']['percentage']) ?>%
+                                        <?php echo esc_html($chartData['trend']['views']['percentage']) ?>%
                                     </span>
                                 </span>
                             </div>
@@ -114,11 +114,11 @@ $userOnline = new \WP_STATISTICS\UserOnline();
 
                         <td>
                             <div>
-                                <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], $item['date'])) ?>"><span class="quickstats-values" title="<?php echo esc_attr($data['current']['hits']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($data['current']['hits'], 1)) ?></span></a>
+                                <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], $item['date'])) ?>"><span class="quickstats-values" title="<?php echo esc_attr($data['current']['views']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($data['current']['views'], 1)) ?></span></a>
 
                                 <?php if ($item['comparison']) : ?>
-                                    <div class="diffs__change <?php echo esc_attr($data['trend']['hits']['direction']); ?>">
-                                         <span class="diffs__change__direction"><?php echo esc_html($data['trend']['hits']['percentage']) ?>%</span>
+                                    <div class="diffs__change <?php echo esc_attr($data['trend']['views']['direction']); ?>">
+                                         <span class="diffs__change__direction"><?php echo esc_html($data['trend']['views']['percentage']) ?>%</span>
                                     </div>
                                 <?php endif; ?>
                             </div>
