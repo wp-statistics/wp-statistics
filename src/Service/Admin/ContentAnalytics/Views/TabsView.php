@@ -20,7 +20,8 @@ class TabsView extends BaseTabView
     public function __construct()
     {
         $this->dataProvider = new ContentAnalyticsDataProvider([
-            'post_type' => Request::get('tab', 'post')
+            'post_type'        => Request::get('tab', 'post'),
+            'ignore_post_type' => true
         ]);
 
         $this->tabs = Helper::getPostTypes();

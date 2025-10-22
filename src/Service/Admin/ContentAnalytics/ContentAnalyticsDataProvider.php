@@ -63,8 +63,8 @@ class ContentAnalyticsDataProvider
         $visitors     = $this->visitorsModel->countVisitors($mappedArgs);
         $prevVisitors = $this->visitorsModel->countVisitors(array_merge($mappedArgs, ['date' => DateRange::getPrevPeriod()]));
 
-        $views     = $this->viewsModel->countViews(array_merge($mappedArgs, ['ignore_post_type' => true]));
-        $prevViews = $this->viewsModel->countViews(array_merge($mappedArgs, ['date' => DateRange::getPrevPeriod(), 'ignore_post_type' => true]));
+        $views     = $this->viewsModel->countViews($mappedArgs);
+        $prevViews = $this->viewsModel->countViews(array_merge($mappedArgs, ['date' => DateRange::getPrevPeriod()]));
 
         $comments        = $this->postsModel->countComments($this->args);
         $prevComments    = $this->postsModel->countComments(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
@@ -73,7 +73,7 @@ class ContentAnalyticsDataProvider
 
         $visitorsCountry = $this->visitorsModel->getVisitorsGeoData(array_merge($mappedArgs, ['per_page' => 10]));
 
-        $summary = ChartDataProviderFactory::summaryChart(array_merge($mappedArgs, ['ignore_post_type' => true]))->getData();
+        $summary = ChartDataProviderFactory::summaryChart($mappedArgs)->getData();
 
         $referrersData = $this->visitorsModel->getReferrers($mappedArgs);
 
@@ -170,8 +170,8 @@ class ContentAnalyticsDataProvider
             'post_id' => 'resource_id'
         ]);
 
-        $views     = $this->viewsModel->countViews(array_merge($mappedArgs, ['ignore_post_type' => true]));
-        $prevViews = $this->viewsModel->countViews(array_merge($mappedArgs, ['date' => DateRange::getPrevPeriod(), 'ignore_post_type' => true]));
+        $views     = $this->viewsModel->countViews($mappedArgs);
+        $prevViews = $this->viewsModel->countViews(array_merge($mappedArgs, ['date' => DateRange::getPrevPeriod()]));
 
         $visitors        = $this->visitorsModel->countVisitors($mappedArgs);
         $prevVisitors    = $this->visitorsModel->countVisitors(array_merge($mappedArgs, ['date' => DateRange::getPrevPeriod()]));
