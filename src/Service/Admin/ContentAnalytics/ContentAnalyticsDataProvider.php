@@ -64,8 +64,7 @@ class ContentAnalyticsDataProvider
 
         $visitorsCountry = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
 
-        $visitorsSummary = $this->visitorsModel->getVisitorsSummary($this->args);
-        $viewsSummary    = $this->viewsModel->getViewsSummary($this->args);
+        $summary = ChartDataProviderFactory::summaryChart($this->args)->getData();
 
         $referrersData   = $this->visitorsModel->getReferrers($this->args);
         $performanceData = [
@@ -103,8 +102,8 @@ class ContentAnalyticsDataProvider
                     'change' => Helper::calculatePercentageChange($prevAvgComments, $avgComments)
                 ]
             ],
+            'summary'           => $summary,
             'taxonomies'        => $taxonomies,
-            'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
             'visitors_country'  => $visitorsCountry,
             'performance'       => $performanceData,
             'referrers'         => $referrersData,
@@ -141,8 +140,7 @@ class ContentAnalyticsDataProvider
 
         $visitorsCountry = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
 
-        $visitorsSummary = $this->visitorsModel->getVisitorsSummary($this->args);
-        $viewsSummary    = $this->viewsModel->getViewsSummary($this->args);
+        $summary = ChartDataProviderFactory::summaryChart(array_merge($this->args, ['include_total' => true]))->getData();
 
         $referrersData = $this->visitorsModel->getReferrers($this->args);
 
@@ -154,7 +152,7 @@ class ContentAnalyticsDataProvider
 
         return [
             'visitors_country'  => $visitorsCountry,
-            'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
+            'summary'           => $summary,
             'performance'       => $performanceData,
             'referrers'         => $referrersData,
             'glance'            => [
@@ -172,13 +170,11 @@ class ContentAnalyticsDataProvider
 
     public function getSinglePostData()
     {
-        $views          = $this->viewsModel->countViews($this->args);
-        $prevViews      = $this->viewsModel->countViews(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
-        $viewsSummary   = $this->viewsModel->getViewsSummary($this->args);
+        $views     = $this->viewsModel->countViews($this->args);
+        $prevViews = $this->viewsModel->countViews(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
         $visitors        = $this->visitorsModel->countVisitors($this->args);
         $prevVisitors    = $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
-        $visitorsSummary = $this->visitorsModel->getVisitorsSummary($this->args);
         $visitorsCountry = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
 
         $entryPages     = $this->visitorsModel->countEntryPageVisitors(array_merge($this->args, ['resource_id' => $this->args['post_id']]));
@@ -203,9 +199,11 @@ class ContentAnalyticsDataProvider
             'views'     => $this->viewsModel->countViews(array_merge($this->args, $performanceArgs)),
         ];
 
+        $summary = ChartDataProviderFactory::summaryChart(array_merge($this->args, ['include_total' => true]))->getData();
+
         $result = [
             'visitors_country'  => $visitorsCountry,
-            'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
+            'summary'           => $summary,
             'performance'       => $performanceData,
             'referrers'         => $referrersData,
             'glance'            => [
