@@ -9,6 +9,7 @@ use WP_STATISTICS\Menus;
     </div>
     <div class="wps-meta-traffic-summary">
 
+    <?php if (isset($data['online'])) : ?>
         <div class="c-live">
             <div>
                 <span class="c-live__status"></span>
@@ -19,6 +20,7 @@ use WP_STATISTICS\Menus;
                 <a class="c-live__value" href="<?php echo Menus::admin_url('visitors', ['tab' => 'online']) ?>" aria-label="<?php esc_attr_e('View online visitors', 'wp-statistics'); ?>"><span class="c-live__online--arrow"></span></a>
             </div>
         </div>
+    <?php endif; ?>
 
         <div class="o-table-wrapper">
             <table width="100%" class="o-table o-table--wps-summary-stats">
