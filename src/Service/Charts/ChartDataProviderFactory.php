@@ -253,7 +253,7 @@ class ChartDataProviderFactory
      * @param array $args
      * @return SummaryChartDataProvider
      */
-    public static function summaryChart($args)
+    public static function summaryChart($args = [])
     {
         return new SummaryChartDataProvider($args);
     }

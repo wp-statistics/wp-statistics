@@ -32,7 +32,7 @@ class SummaryChartDataProvider extends AbstractChartDataProvider
         $periods = $this->getPeriods();
 
         foreach ($periods as $key => $period) {
-            $args = array_merge(['date' => $period['date']], $this->args);
+            $args = array_merge($this->args, ['date' => $period['date']]);
 
             $visitors = !empty($args['include_hits'])
                 ? $this->visitorsModel->getVisitorsHits($args)
@@ -49,10 +49,11 @@ class SummaryChartDataProvider extends AbstractChartDataProvider
 
                 $periods[$key]['data']['prev'] = $prevVisitors;
 
-                $periods[$key]['data']['trend']['visitors'] = $this->calculateTrend($visitors['visitors'], $prevVisitors['visitors']);
-
                 if (!empty($args['include_hits'])) {
+                    $periods[$key]['data']['trend']['visitors'] = $this->calculateTrend($visitors['visitors'], $prevVisitors['visitors']);
                     $periods[$key]['data']['trend']['hits'] = $this->calculateTrend($visitors['hits'], $prevVisitors['hits']);
+                } else {
+                    $periods[$key]['data']['trend'] = $this->calculateTrend($visitors, $prevVisitors);
                 }
             }
         }
@@ -71,7 +72,7 @@ class SummaryChartDataProvider extends AbstractChartDataProvider
         $periods = $this->getPeriods();
 
         foreach ($periods as $key => $period) {
-            $args = array_merge(['date' => $period['date']], $this->args);
+            $args = array_merge($this->args, ['date' => $period['date']]);
 
             $views = $this->viewsModel->countViews($args);
 
