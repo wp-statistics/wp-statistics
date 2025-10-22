@@ -1,11 +1,6 @@
 <?php
-
-use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
-use WP_STATISTICS\Option;
-use WP_Statistics\Utils\Url;
-
 ?>
 
 <div class="wps-card">
@@ -14,18 +9,16 @@ use WP_Statistics\Utils\Url;
     </div>
     <div class="wps-meta-traffic-summary">
 
-        <?php if ( ! empty( $data['online'] ) ) : ?>
-            <div class="c-live">
-                <div>
-                    <span class="c-live__status"></span>
-                    <span class="c-live__title"><?php esc_html_e('Online Users', 'wp-statistics') ?></span>
-                </div>
-                <div class="c-live__online">
-                    <span class="c-live__online--value"><?php echo esc_html($data['online']) ?></span>
-                    <a class="c-live__value" href="<?php echo Menus::admin_url('visitors', ['tab' => 'online']) ?>" aria-label="<?php esc_attr_e('View online visitors', 'wp-statistics'); ?>"><span class="c-live__online--arrow"></span></a>
-                </div>
+        <div class="c-live">
+            <div>
+                <span class="c-live__status"></span>
+                <span class="c-live__title"><?php esc_html_e('Online Users', 'wp-statistics') ?></span>
             </div>
-        <?php endif ?>
+            <div class="c-live__online">
+                <span class="c-live__online--value"><?php echo esc_html($data['online']) ?></span>
+                <a class="c-live__value" href="<?php echo Menus::admin_url('visitors', ['tab' => 'online']) ?>" aria-label="<?php esc_attr_e('View online visitors', 'wp-statistics'); ?>"><span class="c-live__online--arrow"></span></a>
+            </div>
+        </div>
 
         <div class="o-table-wrapper">
             <table width="100%" class="o-table o-table--wps-summary-stats">
@@ -37,11 +30,8 @@ use WP_Statistics\Utils\Url;
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($data['summary'] as $key => $item) :
-                    $currentVisitors = $item['data']['current']['visitors'];
-                    $prevVisitors = $item['data']['prev']['visitors'] ?? null;
-                    $currentHits = $item['data']['current']['hits'];
-                    $prevHits = $item['data']['prev']['hits'] ?? null;
+                    <?php foreach ($data['summary'] as $key => $item) :
+                        $data = $item['data'];
                     ?>
                     <tr>
                         <td>
@@ -54,26 +44,27 @@ use WP_Statistics\Utils\Url;
 
                         <td>
                             <div>
-                                <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get($key, !empty($item['today_excluded'])))) ?>"><span class="quickstats-values" title="<?php echo esc_attr($currentVisitors); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($currentVisitors, 1)) ?></span></a>
-                                <?php if (isset($currentVisitors) && isset($prevVisitors)) : ?>
-                                    <div class="diffs__change <?php echo $currentVisitors > $prevVisitors ? 'plus' : ''; ?> <?php echo $currentVisitors < $prevVisitors ? 'minus' : ''; ?>">
-                                        <span class="diffs__change__direction"><?php echo esc_html(Helper::calculatePercentageChange($prevVisitors, $currentVisitors, 1, true)) ?>%</span>
+                                <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], $item['date'])) ?>"><span class="quickstats-values" title="<?php echo esc_attr($data['current']['visitors']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($data['current']['visitors'], 1)) ?></span></a>
+                                <?php if ($item['comparison']) : ?>
+                                    <div class="diffs__change <?php echo esc_attr($data['trend']['visitors']['direction']); ?>">
+                                        <span class="diffs__change__direction"><?php echo esc_html($data['trend']['visitors']['percentage']) ?>%</span>
                                     </div>
                                 <?php endif; ?>
                             </div>
                         </td>
                         <td>
                             <div>
-                                <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get($key, !empty($item['today_excluded'])))) ?>"><span class="quickstats-values" title="<?php echo esc_attr($currentHits); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($currentHits, 1)) ?></span></a>
-                                <?php if (isset($currentHits) && isset($prevHits)) : ?>
-                                    <div class="diffs__change <?php echo $currentHits > $prevHits ? 'plus' : ''; ?> <?php echo $currentHits < $prevHits ? 'minus' : ''; ?>">
-                                        <span class="diffs__change__direction"><?php echo esc_html(Helper::calculatePercentageChange($prevHits, $currentHits, 1, true)) ?>%</span>
+                                <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], $item['date'])) ?>"><span class="quickstats-values" title="<?php echo esc_attr($data['current']['hits']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($data['current']['hits'], 1)) ?></span></a>
+                                <?php if ($item['comparison']) : ?>
+                                    <div class="diffs__change <?php echo esc_attr($data['trend']['hits']['direction']); ?>">
+                                        <span class="diffs__change__direction"><?php echo esc_html($data['trend']['hits']['percentage']) ?>%</span>
                                     </div>
                                 <?php endif; ?>
                             </div>
                         </td>
                     </tr>
                 <?php endforeach; ?>
+                </tbody>
             </table>
         </div>
     </div>

@@ -38,6 +38,9 @@ class VisitorInsightsDataProvider
     {
         $overviewChartData = $this->getOverviewChartsData();
 
+        $summary = ChartDataProviderFactory::summaryChart(array_merge($this->args, ['include_hits' => true]))->getVisitorsData();
+        $online  = $this->onlineModel->countOnlines();
+
         $visitors       = $this->visitorsModel->countVisitors();
         $prevVisitors   = $this->visitorsModel->countVisitors(['date' => DateRange::getPrevPeriod()]);
         $views          = $this->visitorsModel->countHits();
@@ -72,23 +75,10 @@ class VisitorInsightsDataProvider
             ];
         }
 
-        $summary = [
-            'online'    => $this->onlineModel->countOnlines(),
-            'visitors'  => [
-                'today'     => $this->visitorsModel->countVisitors(['date' => DateRange::get('today')]),
-                'yesterday' => $this->visitorsModel->countVisitors(['date' => DateRange::get('yesterday')]),
-                '7days'     => $this->visitorsModel->countVisitors(['date' => DateRange::get('7days', true)]),
-            ],
-            'views'     => [
-                'today'     => $this->visitorsModel->countHits(['date' => DateRange::get('today')]),
-                'yesterday' => $this->visitorsModel->countHits(['date' => DateRange::get('yesterday')]),
-                '7days'     => $this->visitorsModel->countHits(['date' => DateRange::get('7days', true)]),
-            ],
-        ];
-
         return [
             'glance'        => $glance,
             'summary'       => $summary,
+            'online'        => $online,
             'referrers'     => $referrers,
             'entry_pages'   => $entryPages,
             'map_chart'     => $overviewChartData['map'],
