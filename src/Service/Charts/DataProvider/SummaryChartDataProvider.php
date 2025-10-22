@@ -22,6 +22,7 @@ class SummaryChartDataProvider extends AbstractChartDataProvider
 
     /**
      * Retrieves visitors data for the summary widget.
+     * Data includes current, previous and trend information.
      *
      * @return array
      */
@@ -60,6 +61,7 @@ class SummaryChartDataProvider extends AbstractChartDataProvider
 
     /**
      * Retrieves views data for the summary widget.
+     * Data includes current, previous and trend information.
      *
      * @return array
      */
