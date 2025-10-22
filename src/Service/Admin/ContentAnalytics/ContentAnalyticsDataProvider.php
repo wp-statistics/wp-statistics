@@ -31,9 +31,14 @@ class ContentAnalyticsDataProvider
 
     public function getChartsData()
     {
-        $performanceDataProvider    = ChartDataProviderFactory::performanceChart($this->args);
-        $searchEngineDataProvider   = ChartDataProviderFactory::searchEngineChart(array_merge($this->args, ['source_channel' => ['search', 'paid_search']]));
-        $platformDataProvider       = ChartDataProviderFactory::platformCharts($this->args);
+        $args = Helper::mapArrayKeys($this->args, [
+            'post_id'   => 'resource_id',
+            'post_type' => 'resource_type'
+        ]);
+
+        $performanceDataProvider  = ChartDataProviderFactory::performanceChart($args);
+        $searchEngineDataProvider = ChartDataProviderFactory::searchEngineChart(array_merge($args, ['source_channel' => ['search', 'paid_search']]));
+        $platformDataProvider     = ChartDataProviderFactory::platformCharts($args);
 
         return [
             'post_type'                 => Helper::getPostTypeName(Request::get('tab', 'post')),
@@ -48,30 +53,29 @@ class ContentAnalyticsDataProvider
 
     public function getPostTypeData()
     {
+        $mappedArgs = Helper::mapArrayKeys($this->args, [
+            'post_type' => 'resource_type'
+        ]);
+
         $posts     = $this->postsModel->countPosts($this->args);
         $prevPosts = $this->postsModel->countPosts(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $visitors     = $this->visitorsModel->countVisitors($this->args);
-        $prevVisitors = $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+        $visitors     = $this->visitorsModel->countVisitors($mappedArgs);
+        $prevVisitors = $this->visitorsModel->countVisitors(array_merge($mappedArgs, ['date' => DateRange::getPrevPeriod()]));
 
-        $views     = $this->viewsModel->countViews($this->args);
-        $prevViews = $this->viewsModel->countViews(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+        $views     = $this->viewsModel->countViews(array_merge($mappedArgs, ['ignore_post_type' => true]));
+        $prevViews = $this->viewsModel->countViews(array_merge($mappedArgs, ['date' => DateRange::getPrevPeriod(), 'ignore_post_type' => true]));
 
         $comments        = $this->postsModel->countComments($this->args);
         $prevComments    = $this->postsModel->countComments(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
         $avgComments     = Helper::divideNumbers($comments, $posts);
         $prevAvgComments = Helper::divideNumbers($prevComments, $prevPosts);
 
-        $visitorsCountry = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
+        $visitorsCountry = $this->visitorsModel->getVisitorsGeoData(array_merge($mappedArgs, ['per_page' => 10]));
 
-        $summary = ChartDataProviderFactory::summaryChart($this->args)->getData();
+        $summary = ChartDataProviderFactory::summaryChart(array_merge($mappedArgs, ['ignore_post_type' => true]))->getData();
 
-        $referrersData   = $this->visitorsModel->getReferrers($this->args);
-        $performanceData = [
-            'posts'     => $this->postsModel->countPosts($this->args),
-            'visitors'  => $this->visitorsModel->countVisitors($this->args),
-            'views'     => $this->viewsModel->countViews($this->args),
-        ];
+        $referrersData = $this->visitorsModel->getReferrers($mappedArgs);
 
         $topPostsByView     = $this->postsModel->getPostsViewsData($this->args);
         $topPostsByComment  = $this->postsModel->getPostsCommentsData($this->args);
@@ -105,7 +109,6 @@ class ContentAnalyticsDataProvider
             'summary'           => $summary,
             'taxonomies'        => $taxonomies,
             'visitors_country'  => $visitorsCountry,
-            'performance'       => $performanceData,
             'referrers'         => $referrersData,
             'posts'             => [
                 'top_viewing'   => $topPostsByView,
@@ -144,16 +147,9 @@ class ContentAnalyticsDataProvider
 
         $referrersData = $this->visitorsModel->getReferrers($this->args);
 
-        $performanceArgs = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
-        $performanceData = [
-            'visitors' => $this->visitorsModel->countVisitors(array_merge($this->args, $performanceArgs)),
-            'views'    => $this->viewsModel->countViews(array_merge($this->args, $performanceArgs)),
-        ];
-
         return [
             'visitors_country'  => $visitorsCountry,
             'summary'           => $summary,
-            'performance'       => $performanceData,
             'referrers'         => $referrersData,
             'glance'            => [
                 'views'     => [
@@ -170,41 +166,38 @@ class ContentAnalyticsDataProvider
 
     public function getSinglePostData()
     {
-        $views     = $this->viewsModel->countViews($this->args);
-        $prevViews = $this->viewsModel->countViews(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
+        $mappedArgs = Helper::mapArrayKeys($this->args, [
+            'post_id' => 'resource_id'
+        ]);
 
-        $visitors        = $this->visitorsModel->countVisitors($this->args);
-        $prevVisitors    = $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
-        $visitorsCountry = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
+        $views     = $this->viewsModel->countViews(array_merge($mappedArgs, ['ignore_post_type' => true]));
+        $prevViews = $this->viewsModel->countViews(array_merge($mappedArgs, ['date' => DateRange::getPrevPeriod(), 'ignore_post_type' => true]));
 
-        $entryPages     = $this->visitorsModel->countEntryPageVisitors(array_merge($this->args, ['resource_id' => $this->args['post_id']]));
-        $prevEntryPages = $this->visitorsModel->countEntryPageVisitors(array_merge($this->args, ['resource_id' => $this->args['post_id'], 'date' => DateRange::getPrevPeriod()]));
+        $visitors        = $this->visitorsModel->countVisitors($mappedArgs);
+        $prevVisitors    = $this->visitorsModel->countVisitors(array_merge($mappedArgs, ['date' => DateRange::getPrevPeriod()]));
+        $visitorsCountry = $this->visitorsModel->getVisitorsGeoData(array_merge($mappedArgs, ['per_page' => 10]));
 
-        $exitPages     = $this->visitorsModel->countExitPageVisitors(array_merge($this->args, ['resource_id' => $this->args['post_id']]));
-        $prevExitPages = $this->visitorsModel->countExitPageVisitors(array_merge($this->args, ['resource_id' => $this->args['post_id'], 'date' => DateRange::getPrevPeriod()]));
+        $entryPages     = $this->visitorsModel->countEntryPageVisitors($mappedArgs);
+        $prevEntryPages = $this->visitorsModel->countEntryPageVisitors(array_merge($mappedArgs, ['date' => DateRange::getPrevPeriod()]));
+
+        $exitPages     = $this->visitorsModel->countExitPageVisitors($mappedArgs);
+        $prevExitPages = $this->visitorsModel->countExitPageVisitors(array_merge($mappedArgs, ['date' => DateRange::getPrevPeriod()]));
         $exitRate      = Helper::calculatePercentage($exitPages, $visitors);
         $prevExitRate  = Helper::calculatePercentage($prevExitPages, $prevVisitors);
 
-        $bounceRate     = $this->visitorsModel->getBounceRate(array_merge($this->args, ['resource_id' => $this->args['post_id']]));
-        $prevBounceRate = $this->visitorsModel->getBounceRate(array_merge($this->args, ['resource_id' => $this->args['post_id'], 'date' => DateRange::getPrevPeriod()]));
+        $bounceRate     = $this->visitorsModel->getBounceRate($mappedArgs);
+        $prevBounceRate = $this->visitorsModel->getBounceRate(array_merge($mappedArgs, ['date' => DateRange::getPrevPeriod()]));
 
         $comments       = $this->postsModel->countComments($this->args);
         $prevComments   = $this->postsModel->countComments(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
 
-        $referrersData = $this->visitorsModel->getReferrers($this->args);
+        $referrersData = $this->visitorsModel->getReferrers($mappedArgs);
 
-        $performanceArgs = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
-        $performanceData = [
-            'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, $performanceArgs)),
-            'views'     => $this->viewsModel->countViews(array_merge($this->args, $performanceArgs)),
-        ];
-
-        $summary = ChartDataProviderFactory::summaryChart(array_merge($this->args, ['include_total' => true]))->getData();
+        $summary = ChartDataProviderFactory::summaryChart(array_merge($mappedArgs, ['include_total' => true, 'ignore_post_type' => true]))->getData();
 
         $result = [
             'visitors_country'  => $visitorsCountry,
             'summary'           => $summary,
-            'performance'       => $performanceData,
             'referrers'         => $referrersData,
             'glance'            => [
                 'views'     => [

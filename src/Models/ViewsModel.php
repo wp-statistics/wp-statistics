@@ -14,6 +14,7 @@ class ViewsModel extends BaseModel
     {
         $args = $this->parseArgs($args, [
             'post_type'         => Helper::get_list_post_type(),
+            'resource_id'       => '',
             'resource_type'     => '',
             'date'              => '',
             'author_id'         => '',
@@ -26,6 +27,7 @@ class ViewsModel extends BaseModel
 
         $viewsQuery = Query::select(['id', 'date', 'SUM(count) AS count'])
             ->from('pages')
+            ->where('pages.id', '=', $args['resource_id'])
             ->where('pages.type', 'IN', $args['resource_type'])
             ->whereDate('date', $args['date'])
             ->groupBy('id')

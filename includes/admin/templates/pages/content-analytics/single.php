@@ -111,8 +111,7 @@ $postType = get_post_type($postId);
         <?php
         $performance = [
             'title' => esc_html__('Performance', 'wp-statistics'),
-            'type'  => 'single',
-            'data'  => $data['performance']
+            'type'  => 'single'
         ];
         View::load("components/charts/performance", $performance);
 

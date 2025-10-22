@@ -102,7 +102,6 @@ $postTypePlural   = Helper::getPostTypeName($postType);
             $performance = [
                 'title' => esc_html__('Performance', 'wp-statistics'),
                 'type'  => 'post-type',
-                'data'  => $data['performance']
             ];
             View::load("components/charts/performance", $performance);
 

@@ -56,9 +56,8 @@ use WP_Statistics\Components\View;
     <div class="postbox-container" id="wps-postbox-container-2">
         <?php
         $traffic = [
-            'title'       => esc_html__('Traffic Trends', 'wp-statistics'),
-            'type'        => 'single',
-            'data'        => $data['performance']
+            'title' => esc_html__('Traffic Trends', 'wp-statistics'),
+            'type'  => 'single'
         ];
         View::load("components/charts/performance", $traffic);
 
