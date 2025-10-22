@@ -229,7 +229,7 @@ class ViewsModel extends BaseModel
     }
 
     /**
-     * @deprecated Use TrafficSummaryChartDataProvider instead.
+     * @deprecated Use SummaryChartDataProvider instead.
      */
     public function getViewsSummary($args = [])
     {

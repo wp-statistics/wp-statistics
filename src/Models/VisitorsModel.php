@@ -424,7 +424,7 @@ class VisitorsModel extends BaseModel
     }
 
     /**
-     * @deprecated Use TrafficSummaryChartDataProvider instead.
+     * @deprecated Use SummaryChartDataProvider instead.
      */
     public function getVisitorsSummary($args = [])
     {
@@ -468,7 +468,7 @@ class VisitorsModel extends BaseModel
     }
 
     /**
-     * @deprecated Use TrafficSummaryChartDataProvider instead.
+     * @deprecated Use SummaryChartDataProvider instead.
      */
     public function getHitsSummary($args = [])
     {
@@ -512,7 +512,7 @@ class VisitorsModel extends BaseModel
     }
 
     /**
-     * @deprecated Use TrafficSummaryChartDataProvider instead.
+     * @deprecated Use SummaryChartDataProvider instead.
      */
     public function getVisitorsHitsSummary($args = [])
     {
