@@ -3,6 +3,8 @@
 namespace WP_Statistics\Service\Resources\Core;
 
 use WP_Statistics\Service\Resources\ResourcesFactory;
+use WP_Statistics\Utils\PostType;
+use WP_Statistics\Utils\Query;
 
 /**
  * ResourceSynchronizer Class
@@ -34,13 +36,12 @@ class ResourceSynchronizer
     {
         add_action('wp_after_insert_post', [$this, 'addOrUpdateResource'], 10, 2);
         add_action('delete_post', [$this, 'setResourceAsDeleted'], 10, 2);
-
+        add_action('delete_user', [$this, 'reassignResourceAuhtor'], 10, 2);
+        add_action('delete_term', [$this, 'removeResourceTerm'], 10, 5);
+        
         /**
-         * @todo: We have to remove them from here and move them to the admin page of the resources.
+         * @todo: we need implementation to check the resource by background process and also on single content page.
          */
-        add_action('profile_update', [$this, 'updateResourceAuthor']);
-        add_action('delete_term', [$this, 'removeResourceTerm'], 10, 3);
-        add_action('delete_user', [$this, 'reassignResourceAuhtor'], 10, 3);
     }
 
     /**
@@ -83,6 +84,7 @@ class ResourceSynchronizer
             return;
         }
 
+        
         $this->setResourcesIdentifier($postId, $post->post_type);
 
         if (empty($this->resource)) {
@@ -105,7 +107,7 @@ class ResourceSynchronizer
      * the cached resource data including title, author, terms, and date.
      *
      * @param int $postId The ID of the post
-     * @param \WP_Post $post The post object
+     * @param \WP_Post|null $post The post object or null to fetch it
      *
      * @return void
      */
@@ -135,7 +137,6 @@ class ResourceSynchronizer
         $this->resource->getRecord()->update([
             'cached_title'       => $post->post_title,
             'cached_author_id'   => $post->post_author,
-            'cached_author_name' => $this->getAuthorName($post->post_author),
             'cached_terms'       => $this->getTerms($postId),
             'cached_date'        => get_post_field('post_date', $postId)
         ]);
@@ -186,43 +187,6 @@ class ResourceSynchronizer
     }
 
     /**
-     * Retrieves the display name for a given author ID.
-     *
-     * Fetches user data from WordPress and returns the display name.
-     * If the author ID is empty or the user doesn't exist, returns an empty string.
-     *
-     * @param int $authorId The ID of the author
-     *
-     * @return string|null The author's display name, empty string if not found, or null if no author ID provided
-     */
-    public function getAuthorName($authorId)
-    {
-        if (empty($authorId)) {
-            return;
-        }
-
-        $authorInfo = get_userdata($authorId);
-
-        return !empty($authorInfo) ? $authorInfo->display_name : '';
-    }
-
-    /**
-     * Updates the resource author information when a user profile is updated.
-     *
-     * This method is triggered when a WordPress user profile is updated.
-     * It should update all resource records that reference the updated user.
-     *
-     * @param int $userId The ID of the user whose profile was updated
-     *
-     * @return void
-     * @todo It should be decided whether this should be handled as a background process,
-     *       or directly query and update the table.
-     */
-    public function updateResourceAuthor($userId)
-    {
-    }
-
-    /**
      * Updates resource term information when a term is deleted.
      *
      * This method is triggered when a WordPress taxonomy term is deleted.
@@ -231,13 +195,40 @@ class ResourceSynchronizer
      * @param int $termId The ID of the term that was removed
      * @param int $termTaxonomyId The term taxonomy ID
      * @param string $taxonomy The taxonomy slug
+     * @param \WP_Term $deletedTerm The deleted term object
+     * @param int|int[] $objectIds The IDs of objects (posts) that
      *
      * @return void
-     * @todo It should be decided whether this should be handled as a background process,
-     *       or directly query and update the table.
      */
-    public function removeResourceTerm($termId, $termTaxonomyId, $taxonomy)
+    public function removeResourceTerm($termId, $termTaxonomyId, $taxonomy, $deletedTerm, $objectIds)
     {
+        if (empty($objectIds)) {
+            return;
+        }
+
+        $affectedIds = array_values(array_filter(array_map('intval', (array) $objectIds)));
+        if (empty($affectedIds)) {
+            return;
+        }
+
+        $derivedQuery = Query::select([
+                'term_relationships.object_id',
+                "GROUP_CONCAT(DISTINCT terms.term_id ORDER BY terms.term_id SEPARATOR ', ') AS term_ids"
+            ])
+            ->from('term_relationships')
+            ->join('term_taxonomy', ['term_taxonomy.term_taxonomy_id', 'term_relationships.term_taxonomy_id'])
+            ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+            ->where('term_relationships.object_id', 'IN', $affectedIds)
+            ->groupBy('term_relationships.object_id')
+            ->getQuery();
+
+        Query::update('resources')
+            ->joinQuery($derivedQuery, ['resources.resource_id', 'x.object_id'], 'x', 'LEFT')
+            ->setRaw('resources.cached_terms', "IFNULL(x.term_ids, '')")
+            ->where('resources.is_deleted', '=', 0)
+            ->where('resources.resource_id', 'IN', $affectedIds)
+            ->where('resources.resource_type', 'IN', PostType::getQueryableTypes())
+            ->execute();
     }
 
     /**
@@ -248,13 +239,16 @@ class ResourceSynchronizer
      *
      * @param int $userId The ID of the user being deleted
      * @param int $reassignId The new user ID to reassign the posts to
-     * @param object $user The deleted user object
      *
      * @return void
-     * @todo It should be decided whether this should be handled as a background process,
-     *       or directly query and update the table.
      */
-    public function reassignResourceAuhtor($userId, $reassignId, $user)
+    public function reassignResourceAuhtor($userId, $reassignId)
     {
+        Query::update('resources')
+            ->set([
+                'cached_author_id' => $reassignId,
+            ])
+            ->where('cached_author_id', '=', $userId)
+            ->execute();
     }
 }

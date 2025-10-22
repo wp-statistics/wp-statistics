@@ -40,7 +40,6 @@ class Manager
                 'cached_title'       => 'text',
                 'cached_terms'       => 'text',
                 'cached_author_id'   => 'bigint(20) UNSIGNED DEFAULT NULL',
-                'cached_author_name' => 'varchar(250)',
                 'cached_date'        => 'datetime',
                 'resource_meta'      => 'text',
                 'language'           => 'varchar(32) DEFAULT NULL',

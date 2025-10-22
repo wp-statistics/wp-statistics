@@ -35,6 +35,7 @@ return array(
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\IncompleteGeoIpUpdater' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/IncompleteGeoIpUpdater.php',
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\SourceChannelUpdater' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/SourceChannelUpdater.php',
     'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\TableOperationProcess' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/TableOperationProcess.php',
+    'WP_Statistics\\BackgroundProcess\\AsyncBackgroundProcess\\Jobs\\UpdateResourceCacheFields' => $baseDir . '/src/BackgroundProcess/AsyncBackgroundProcess/Jobs/UpdateResourceCacheFields.php',
     'WP_Statistics\\Components\\Addons' => $baseDir . '/src/Components/Addons.php',
     'WP_Statistics\\Components\\Ajax' => $baseDir . '/src/Components/Ajax.php',
     'WP_Statistics\\Components\\AssetNameObfuscator' => $baseDir . '/src/Components/AssetNameObfuscator.php',

@@ -4,6 +4,7 @@ namespace WP_Statistics\Abstracts;
 
 use WP_Statistics;
 use WP_STATISTICS\DB;
+use WP_Statistics\Utils\PostType;
 use WP_Statistics\Utils\Query;
 
 /**
@@ -235,5 +236,23 @@ abstract class BaseRecord
         if ($deleted === false) {
             WP_Statistics::log('Failed to delete record from ' . $this->tableName . ' with ID ' . $this->record->ID . ': ' . $wpdb->last_error);
         }
+    }
+
+    /**
+     * Counts all records in the table.
+     *
+     * @param bool $postsOnly If true, only counts records of post resource types.
+     * @return int The total number of records.
+     */
+    public function countAll($postsOnly = false)
+    {
+        $query = Query::select('COUNT(*)')
+            ->from($this->tableName);
+
+        if ($postsOnly) {
+            $query->where('resource_type', 'IN', PostType::getQueryableTypes());
+        }
+
+        return (int) $query->getVar();
     }
 }

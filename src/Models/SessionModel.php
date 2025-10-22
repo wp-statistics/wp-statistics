@@ -521,8 +521,12 @@ class SessionModel extends BaseModel
     public function getDailySummary($args = [])
     {
         $args = $this->parseArgs($args, [
+            'date' => 'yesterday',
             'resource_uri_id' => null,
         ]);
+
+        $dateRange = DateTime::getUtcRangeForLocalDate($args['date']);
+        $labelDate = $dateRange['labelDate'];
 
         $oneViewSub = Query::select([
             'session_id',
@@ -571,13 +575,13 @@ class SessionModel extends BaseModel
         $entrancesSub = $entrancesSub->getQuery();
 
         $query = Query::select([
-            "DATE(sessions.started_at) AS date",
+            "'{$labelDate}' AS date",
             "COALESCE(views.resource_uri_id, '') AS resource",
             'COUNT(DISTINCT visitors.hash) AS visitors',
             'COUNT(DISTINCT entrance_sessions.session_id) AS sessions',
             'COUNT(views.ID) AS views',
             'SUM(sessions.duration) AS total_duration',
-            'ROUND(COUNT(DISTINCT bounce_sessions.session_id) / NULLIF(COUNT(DISTINCT entrance_sessions.session_id), 0), 4) AS bounce',
+            'COALESCE(ROUND(COUNT(DISTINCT bounce_sessions.session_id) / NULLIF(COUNT(DISTINCT entrance_sessions.session_id), 0), 4), 0) AS bounces',
         ])
             ->from('sessions')
             ->join('visitors', ['visitors.ID', 'sessions.visitor_id'])
@@ -605,12 +609,15 @@ class SessionModel extends BaseModel
             'date' => 'yesterday',
         ]);
 
-        $targetDate = DateTime::getUtc('Y-m-d', $args['date']);
+        $dateRange = DateTime::getUtcRangeForLocalDate($args['date']);
+        $startUtc  = $dateRange['startUtc'];
+        $endUtc    = $dateRange['endUtc'];
 
         $rows = Query::select("DISTINCT COALESCE(views.resource_uri_id, '') AS resource_uri_id")
             ->from('sessions')
             ->join('views', ['views.session_id', 'sessions.ID'], null, 'LEFT')
-            ->where('DATE(sessions.started_at)', '=', $targetDate)
+            ->where('sessions.started_at', '>=', $startUtc)
+            ->where('sessions.started_at', '<',  $endUtc)
             ->orderBy('resource_uri_id')
             ->getAll();
 
@@ -638,7 +645,10 @@ class SessionModel extends BaseModel
             'date' => 'yesterday',
         ]);
 
-        $targetDate = DateTime::getUtc('Y-m-d', $args['date']);
+        $dateRange = DateTime::getUtcRangeForLocalDate($args['date']);
+        $startUtc  = $dateRange['startUtc'];
+        $endUtc    = $dateRange['endUtc'];
+        $labelDate = $dateRange['labelDate'];
 
         $oneResSub = Query::select([
             'session_id',
@@ -657,7 +667,7 @@ class SessionModel extends BaseModel
             ->getQuery();
 
         $query = Query::select([
-            "DATE(sessions.started_at) AS date",
+            "'{$labelDate}' AS date",
             'COUNT(DISTINCT visitors.hash) AS visitors',
             'COUNT(DISTINCT sessions.ID) AS sessions',
             'COUNT(views.ID) AS views',
@@ -668,7 +678,8 @@ class SessionModel extends BaseModel
             ->join('visitors', ['visitors.ID', 'sessions.visitor_id'])
             ->join('views', ['views.session_id', 'sessions.ID'], null, 'LEFT')
             ->joinQuery($bounceSessionsSub, ['b.session_id', 'sessions.ID'], 'b', 'LEFT')
-            ->where('DATE(sessions.started_at)', '=', $targetDate);
+            ->where('sessions.started_at', '>=', $startUtc)
+            ->where('sessions.started_at', '<',  $endUtc);
 
         return $query->getRow();
     }

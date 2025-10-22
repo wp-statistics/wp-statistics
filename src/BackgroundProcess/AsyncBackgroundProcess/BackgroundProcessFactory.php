@@ -7,6 +7,7 @@ use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Models\SessionModel;
+use WP_Statistics\Service\Resources\ResourcesFactory;
 
 class BackgroundProcessFactory
 {
@@ -179,6 +180,52 @@ class BackgroundProcessFactory
 
         $calculateDailySummaryTotal->push_to_queue(['is_total' => true]);
         $calculateDailySummaryTotal->save()->dispatch();
+    }
+
+    /**
+     * Update cache fields for all resources using memory-efficient batching.
+     *
+     * This method uses cursor-based pagination to process resources in batches
+     * without loading all IDs into memory at once, preventing memory limit issues
+     * when dealing with large resource tables.
+     *
+     * @return void
+     */
+    public static function updateResourceCacheFields()
+    {
+        $updateResource = WP_Statistics()->getBackgroundProcess('update_resouce_cache_fields');
+
+        if ($updateResource->is_active()) {
+            return;
+        }
+
+        $totalResourcesCount = ResourcesFactory::countResources(true);
+
+        if ($totalResourcesCount === 0) {
+            Option::saveOptionGroup('update_resouce_cache_fields_initiated', true, 'jobs');
+            return;
+        }
+
+        $batchSize  = 500;
+        $totalPages = (int) ceil($totalResourcesCount / $batchSize);
+        $flushEvery = 200;
+
+        for ($page = 0; $page < $totalPages; $page++) {
+            $offset = $page * $batchSize;
+
+            $updateResource->push_to_queue([
+                'offset' => $offset,
+                'limit'  => $batchSize,
+            ]);
+
+            if ($page > 0 && $page % $flushEvery === 0) {
+                $updateResource->save();
+            }
+        }
+
+        Option::saveOptionGroup('update_resouce_cache_fields_initiated', true, 'jobs');
+
+        $updateResource->save()->dispatch();
     }
 
     // Add other static methods for different background processes as needed

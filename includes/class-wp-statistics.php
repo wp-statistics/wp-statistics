@@ -9,6 +9,7 @@ use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\GeolocationDatab
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\IncompleteGeoIpUpdater;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\SourceChannelUpdater;
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\TableOperationProcess;
+use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\UpdateResourceCacheFields;
 use WP_Statistics\Service\Admin\AnonymizedUsageData\AnonymizedUsageDataManager;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsManager;
 use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsManager;
@@ -272,6 +273,7 @@ final class WP_Statistics
         $this->registerBackgroundProcess(TableOperationProcess::class, 'table_operations_process');
         $this->registerBackgroundProcess(CalculateDailySummary::class, 'calculate_daily_summary');
         $this->registerBackgroundProcess(CalculateDailySummaryTotal::class, 'calculate_daily_summary_total');
+        $this->registerBackgroundProcess(UpdateResourceCacheFields::class, 'update_resouce_cache_fields');
     }
 
     /**

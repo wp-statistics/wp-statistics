@@ -135,18 +135,6 @@ class ResourceDecorator
     }
 
     /**
-     * Gets the cached author name for the resource.
-     *
-     * Returns the cached author display name for this resource.
-     *
-     * @return string|null The cached author name, or 0 if not available
-     */
-    public function getCachedAuthorName()
-    {
-        return $this->identifier->resource->record->cached_author_name ?? 0;
-    }
-
-    /**
      * Gets the cached date of the resource.
      *
      * Returns the cached creation/publication date for this resource.

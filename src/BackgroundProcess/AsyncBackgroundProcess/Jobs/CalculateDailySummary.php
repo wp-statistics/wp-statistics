@@ -49,7 +49,17 @@ class CalculateDailySummary extends WP_Background_Process
                 'resource_uri_id' => $id
             ]);
 
-            if (empty($row)) {
+
+            if (empty($row) || empty($row->date)) {
+                continue;
+            }
+
+            $isExist = RecordFactory::summary()->get([
+                'date'            => $row->date,
+                'resource_uri_id' => $row->resource
+            ]);
+
+            if (!empty($isExist)) {
                 continue;
             }
 

@@ -95,7 +95,13 @@ class Query
 
         if ($this->operation === 'update') {
             foreach ($values as $field => $value) {
-                $column = '`' . str_replace('`', '``', $field) . '`';
+                // Support qualified names like table.column → `table`.`column`
+                if (strpos($field, '.') !== false) {
+                    list($tbl, $col) = explode('.', $field, 2);
+                    $column = '`' . str_replace('`', '``', $tbl) . '`.`' . str_replace('`', '``', $col) . '`';
+                } else {
+                    $column = '`' . str_replace('`', '``', $field) . '`';
+                }
 
                 if (is_string($value)) {
                     $this->setClauses[]      = "$column = %s";
@@ -131,6 +137,30 @@ class Query
             $this->setClauses['values']      = $placeholders;
         }
 
+        return $this;
+    }
+
+    /**
+     * Set a raw SQL expression for a column (update only)
+     *
+     * @param string $field Column name, may be qualified (table.column)
+     * @param string $expression Raw SQL expression placed on the right side of '='
+     * @return $this
+     */
+    public function setRaw($field, $expression)
+    {
+        if ($this->operation !== 'update') {
+            return $this;
+        }
+
+        if (strpos($field, '.') !== false) {
+            list($tbl, $col) = explode('.', $field, 2);
+            $column = '`' . str_replace('`', '``', $tbl) . '`.`' . str_replace('`', '``', $col) . '`';
+        } else {
+            $column = '`' . str_replace('`', '``', $field) . '`';
+        }
+
+        $this->setClauses[] = "$column = $expression";
         return $this;
     }
 
@@ -743,6 +773,17 @@ class Query
     protected function updateQuery()
     {
         $query = "UPDATE $this->table";
+
+        // Alias base table in UPDATE for join compatibility
+        if (!empty($this->table)) {
+            $query .= ' AS ' . $this->removeTablePrefix($this->table);
+        }
+
+        // Append JOIN clauses if present (allow UPDATE ... JOIN ...)
+        $joinClauses = array_filter($this->joinClauses);
+        if (!empty($joinClauses)) {
+            $query .= ' ' . implode(' ', $joinClauses);
+        }
 
         if (!empty($this->setClauses)) {
             $query .= ' SET ' . implode(', ', $this->setClauses);

@@ -40,8 +40,16 @@ class CalculateDailySummaryTotal extends WP_Background_Process
         $sessionModel = new SessionModel();
 
         $row = $sessionModel->getDailySummaryTotal();
+        
+        if (empty($row) || empty($row->date)) {
+            return false;
+        }
 
-        if (empty($row)) {
+        $isExist = RecordFactory::summaryTotals()->get([
+            'date' => $row->date
+        ]);
+
+        if (!empty($isExist)) {
             return false;
         }
 

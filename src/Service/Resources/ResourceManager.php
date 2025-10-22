@@ -46,7 +46,7 @@ class ResourceManager
     {
         $exclusionResult = Exclusion::check(new VisitorProfile());
 
-        if (! empty($exclusionResult['exclusion_match'])) {
+        if (!is_admin() && ! empty($exclusionResult['exclusion_match'])) {
             return;
         }
 

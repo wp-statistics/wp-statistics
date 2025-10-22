@@ -164,7 +164,6 @@ class ResourceIdentifier
             'cached_title'       => $this->detector->getCachedTitle(),
             'cached_terms'       => $this->detector->getCachedTerms(),
             'cached_author_id'   => $this->detector->getCachedAuthorId(),
-            'cached_author_name' => $this->detector->getCachedAuthorName(),
             'cached_date'        => $this->detector->getCachedDate(),
             'resource_meta'      => $this->detector->getResourceMeta(),
         ]);

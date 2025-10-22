@@ -128,6 +128,7 @@ class Install
         Option::saveOptionGroup('update_source_channel_process_initiated', true, 'jobs');
         Option::saveOptionGroup('table_operations_process_initiated', true, 'jobs');
         Option::saveOptionGroup('word_count_process_initiated', true, 'jobs');
+        Option::saveOptionGroup('update_resouce_cache_fields_initiated', true, 'jobs');
     }
 
     public static function delete_duplicate_data()
