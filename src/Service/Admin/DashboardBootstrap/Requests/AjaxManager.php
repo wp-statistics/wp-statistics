@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\DashboardBootstrap\Requests;
 
 use WP_Statistics\Abstracts\BaseDashboardController;
 use WP_Statistics\Components\Ajax;
+use WP_Statistics\Utils\User;
 
 /**
  * Manages AJAX request handling for the WP Statistics dashboard.
@@ -56,6 +57,9 @@ class AjaxManager
      * AJAX actions with WordPress. Each action is registered with proper
      * security checks and error handling.
      *
+     * Actions are grouped by page name: ['page_name' => ['action1', 'action2']]
+     * The final action name will be: controller_page_action
+     *
      * @return void
      * @todo: the controller should be loaded based on page slug after frontend is ready.
      */
@@ -67,8 +71,14 @@ class AjaxManager
             }
 
             $actions = $controller->getActions();
-            foreach ($actions as $action) {
-                $this->registerAction($name, $action, $controller);
+
+            // Handle grouped actions: ['page_name' => ['action1', 'action2']]
+            foreach ($actions as $pageName => $pageActions) {
+                $pageController = $controller->getPageObject($pageName);
+
+                foreach ($pageActions as $action) {
+                    $this->registerAction($name, $action, $pageController, $controller, $pageName);
+                }
             }
         }
     }
@@ -77,29 +87,52 @@ class AjaxManager
      * Register a single AJAX action for a controller.
      *
      * Sets up the WordPress AJAX action with:
-     * - Proper action name prefixing
+     * - Proper action name prefixing (controller_page_action)
      * - Nonce verification for security
      * - Error handling and JSON response formatting
      * - Method existence verification
+     * - Mapping from snake_case action names to camelCase method names
      *
      * @param string $controllerName The name of the controller
-     * @param string $action The action name to register
+     * @param string $action The action name to register (snake_case)
+     * @param PageActionInterface $pageController The page controller instance
      * @param BaseDashboardController $controller The controller instance
+     * @param string $pageName Page name for the action
      * @return void
      */
-    private function registerAction($controllerName, $action, $controller)
+    private function registerAction($controllerName, $action, $pageController, $controller, $pageName)
     {
-        $actionName = "{$controllerName}_{$action}";
+        // Build action name: controller_page_action
+        $actionName = "{$controllerName}_{$pageName}_{$action}";
 
-        Ajax::register($actionName, function () use ($action, $controller) {
-            check_ajax_referer('wp_statistics_dashboard_nonce', 'nonce');
+        // Get the actual method name from the controller (camelCase)
+        $method = method_exists($controller, 'getMethodForAction') 
+            ? $controller->getMethodForAction($action) 
+            : $action;
+
+        Ajax::register($actionName, function () use ($method, $pageController) {
+            $nonce = $_SERVER['HTTP_X_WP_NONCE'] ?? '';
+            
+            if (! wp_verify_nonce($nonce, 'wp_statistics_dashboard_nonce')) {
+                wp_send_json_error([
+                    'code'    => 'bad_nonce',
+                    'message' => __('Security check failed. Please refresh the page and try again.', 'wp-statistics')
+                ], 403 );
+            }
+
+            if (! User::hasAccess()) {
+                wp_send_json_error([
+                    'code'    => 'forbidden',
+                    'message' => __('You do not have permission to perform this action.', 'wp-statistics'),
+                ], 403);
+            }
 
             try {
-                if (!method_exists($controller, $action)) {
+                if (!$method || !method_exists($pageController, $method)) {
                     throw new \Exception("Action method not found");
                 }
 
-                $response = $controller->$action();
+                $response = $pageController->$method();
                 wp_send_json_success($response);
             } catch (\Exception $e) {
                 wp_send_json_error([

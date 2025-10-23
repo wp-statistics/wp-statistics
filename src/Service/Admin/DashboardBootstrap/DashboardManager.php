@@ -3,8 +3,7 @@
 namespace WP_Statistics\Service\Admin\DashboardBootstrap;
 
 use WP_Statistics\Service\Admin\Assets\AdminAssetsFactory;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\MigrationPageController;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\RootController;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\RootController;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Managers\LocalizeDataManager;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\GlobalDataProvider;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\LayoutDataProvider;
@@ -14,7 +13,7 @@ use WP_Statistics\Service\Admin\DashboardBootstrap\Requests\AjaxManager;
  * Manages the initialization and coordination of the WP Statistics dashboard components.
  *
  * This class serves as the main entry point for the dashboard functionality, responsible for:
- * - Initializing dashboard controllers (e.g., RootController, MigrationPageController)
+ * - Initializing dashboard controllers (e.g., RootController)
  * - Setting up AJAX request handling through AjaxManager
  * - Managing localized data providers for React components
  * - Loading required React assets for the dashboard UI
@@ -75,15 +74,13 @@ class DashboardManager
      *
      * Creates instances of all required dashboard controllers. Currently includes:
      * - RootController: Handles the main dashboard page
-     * - MigrationPageController: Handles database migration functionality
      *
      * Controllers are kept simple and delegate data handling to dedicated providers.
      */
     private function initControllers()
     {
         $this->controllers = [
-            'root'      => new RootController(),
-            'migration' => new MigrationPageController(),
+            'root' => new RootController(),
         ];
     }
 
@@ -116,7 +113,6 @@ class DashboardManager
     {
         $this->localizeDataManager = new LocalizeDataManager();
 
-        // Register data providers
         $this->localizeDataManager
             ->registerProvider(new LayoutDataProvider())
             ->registerProvider(new GlobalDataProvider())

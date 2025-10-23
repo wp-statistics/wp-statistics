@@ -67,6 +67,7 @@ class Manager
                 'KEY resource_uri_id (resource_uri_id)',
                 'KEY next_view_id (next_view_id)',
                 'KEY viewed_at_resource (viewed_at, resource_uri_id)',
+                'KEY viewed_at_session_id (viewed_at, session_id)',
             ],
         ],
         'countries'               => [
@@ -235,6 +236,7 @@ class Manager
                 'KEY started_at_device_browser_id (started_at, device_browser_id)',
                 'KEY started_at_device_type_id (started_at, device_type_id)',
                 'KEY started_at_country_id (started_at, country_id)',
+                'KEY started_at_device_os_id (started_at, device_os_id)',
             ],
         ],
         'reports'                 => [

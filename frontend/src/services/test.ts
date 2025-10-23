@@ -13,7 +13,7 @@ export const testQueryOptions = () => {
     queryFn: () =>
       clientRequest.get<TestResponse>('', {
         params: {
-          action: 'wp_statistics_root_test_request',
+          action: 'wp_statistics_root_overview_get_visitors_count',
         },
       }),
   })
