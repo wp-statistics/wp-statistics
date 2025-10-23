@@ -3,12 +3,10 @@ use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
-
-$userOnline = new \WP_STATISTICS\UserOnline();
 ?>
 
 <div class="wps-meta-traffic-summary">
-    <?php if ($userOnline::active()) : ?>
+    <?php if (isset($data['online'])) : ?>
         <div class="c-live">
             <div>
                 <span class="c-live__status"></span>

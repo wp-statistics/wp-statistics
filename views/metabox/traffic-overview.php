@@ -5,13 +5,11 @@ use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
 
 $chartData = $data['summary']['7days']['data'];
-
-$userOnline = new \WP_STATISTICS\UserOnline();
 ?>
 
 <div class="wps-meta-traffic-summary">
 
-    <?php if ($userOnline::active()) : ?>
+    <?php if (isset($data['online'])) : ?>
         <div class="c-live">
             <div>
                 <span class="c-live__status"></span>
