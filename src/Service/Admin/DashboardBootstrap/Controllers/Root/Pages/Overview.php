@@ -264,11 +264,4 @@ class Overview implements PageActionInterface
             ]
         ]);
     }
-
-    public function getTopVisitors()
-    {
-        $countryModel = new CountryModel();
-        $dateTo   = date('Y-m-d'); // Today
-        $dateFrom = date('Y-m-d', strtotime('-30 days'));
-    }
 }
