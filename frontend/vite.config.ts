@@ -7,6 +7,7 @@ import { tanstackRouter } from '@tanstack/router-plugin/vite'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
+  base: './',
   plugins: [
     tanstackRouter({
       target: 'react',
@@ -15,7 +16,6 @@ export default defineConfig(({ mode }) => ({
     react(),
     tailwindcss(),
   ],
-  base: './',
   build: {
     emptyOutDir: true,
     manifest: true,
@@ -30,6 +30,14 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
+      '@components': resolve(__dirname, './src/components'),
+      '@hooks': resolve(__dirname, './src/hooks'),
+      '@lib': resolve(__dirname, './src/lib'),
+      '@services': resolve(__dirname, './src/services'),
+      '@types': resolve(__dirname, './src/types'),
+      '@stores': resolve(__dirname, './src/stores'),
+      '@pages': resolve(__dirname, './src/pages'),
+      '@routes': resolve(__dirname, './src/routes'),
     },
   },
   optimizeDeps: {
