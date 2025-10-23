@@ -1,9 +1,9 @@
 import { resolve } from 'node:path'
 
 import tailwindcss from '@tailwindcss/vite'
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
+import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -41,7 +41,7 @@ export default defineConfig(({ mode }) => ({
     },
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'lucide-react'],
+    include: ['react', 'react-dom', 'lucide-react', 'axios', '@tanstack/react-query'],
     exclude: ['@wordpress/element'],
     force: false,
   },
