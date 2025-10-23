@@ -34,6 +34,21 @@ class RootController extends BaseDashboardController
      */
     public function getActions()
     {
-        return [];
+        return [
+            'test_request'
+        ];
+    }
+
+    public function test_request()
+    {
+        $response = [
+            'success' => true,
+            'message' => 'Test request received successfully!',
+            'data'    => [
+                'timestamp' => current_time('mysql'),
+            ]
+        ];
+
+        return $response;
     }
 }
