@@ -94,7 +94,7 @@ $chartData = $data['summary']['7days']['data'];
                             <?php echo esc_html($item['label']); ?>
 
                             <?php if (isset($item['tooltip'])) : ?>
-                                <span class="wps-tooltip" title="<?php echo esc_html($item['tooltip']); ?>"><i class="wps-tooltip-icon info"></i></span>
+                                <span class="wps-tooltip" title="<?php echo esc_attr($item['tooltip']); ?>"><i class="wps-tooltip-icon info"></i></span>
                             <?php endif; ?>
                         </td>
 
@@ -102,7 +102,7 @@ $chartData = $data['summary']['7days']['data'];
                             <div>
                                 <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], $item['date'])) ?>"><span class="quickstats-values" title="<?php echo esc_attr($data['current']['visitors']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($data['current']['visitors'], 1)) ?></span></a>
 
-                                <?php if ($item['comparison']) : ?>
+                                <?php if (!empty($item['comparison'])) : ?>
                                     <div class="diffs__change <?php echo esc_attr($data['trend']['visitors']['direction']); ?>">
                                         <span class="diffs__change__direction"><?php echo esc_html($data['trend']['visitors']['percentage']) ?>%</span>
                                     </div>
@@ -114,7 +114,7 @@ $chartData = $data['summary']['7days']['data'];
                             <div>
                                 <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], $item['date'])) ?>"><span class="quickstats-values" title="<?php echo esc_attr($data['current']['views']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($data['current']['views'], 1)) ?></span></a>
 
-                                <?php if ($item['comparison']) : ?>
+                                <?php if (!empty($item['comparison'])) : ?>
                                     <div class="diffs__change <?php echo esc_attr($data['trend']['views']['direction']); ?>">
                                          <span class="diffs__change__direction"><?php echo esc_html($data['trend']['views']['percentage']) ?>%</span>
                                     </div>
