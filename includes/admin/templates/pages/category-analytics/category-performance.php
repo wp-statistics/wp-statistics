@@ -94,7 +94,6 @@ use WP_Statistics\Service\Admin\Posts\WordCountService;
             'title'       => esc_html__('Performance', 'wp-statistics'),
             'type'        => 'category',
             'description' => esc_html__('Last 15 Days', 'wp-statistics'),
-            'data'        => $data['performance']
         ];
         View::load("components/charts/performance", $performance);
 

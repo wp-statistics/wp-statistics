@@ -87,9 +87,8 @@ use WP_Statistics\Service\Admin\Posts\WordCountService;
     <div class="postbox-container" id="wps-postbox-container-2">
         <?php
         $performance = [
-            'title'       => esc_html__('Performance', 'wp-statistics'),
-            'type'        => 'categorySingle',
-            'data'        => $data['performance']
+            'title' => esc_html__('Performance', 'wp-statistics'),
+            'type'  => 'categorySingle',
         ];
         View::load("components/charts/performance", $performance);
 
