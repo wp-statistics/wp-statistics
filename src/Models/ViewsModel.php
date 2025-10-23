@@ -13,36 +13,40 @@ class ViewsModel extends BaseModel
     public function countViews($args = [])
     {
         $args = $this->parseArgs($args, [
-            'post_type'         => Helper::get_list_post_type(),
             'resource_id'       => '',
             'resource_type'     => '',
             'date'              => '',
             'author_id'         => '',
-            'post_id'           => '',
             'query_param'       => '',
             'taxonomy'          => '',
             'term'              => '',
-            'ignore_post_type'  => false
+
+            // Keep for backward-compatibility
+            'post_type'         => Helper::get_list_post_type(),
+            'post_id'           => '',
         ]);
 
-        $viewsQuery = Query::select(['id', 'date', 'SUM(count) AS count'])
+        // Map post_id to resource_id for backward compatibility
+        if (!empty($args['post_id'])) {
+            $args['resource_id'] = $args['post_id'];
+        }
+
+        // Map post_type to resource_type for backward compatibility
+        if (empty($args['resource_type'])) {
+            $args['resource_type'] = $args['post_type'];
+        }
+
+        $query = Query::select('SUM(pages.count) as total_views')
             ->from('pages')
             ->where('pages.id', '=', $args['resource_id'])
             ->where('pages.type', 'IN', $args['resource_type'])
-            ->whereDate('date', $args['date'])
-            ->groupBy('id')
             ->where('pages.uri', '=', $args['query_param'])
-            ->getQuery();
+            ->whereDate('date', $args['date']);
 
-        $query = Query::select('SUM(pages.count) as total_views')
-            ->fromQuery($viewsQuery, 'pages');
-
-        if (!empty($args['author_id']) || !empty($args['post_id']) || !empty($args['taxonomy']) || !empty($args['term']) || (!empty($args['post_type']) && !$args['ignore_post_type'])) {
+        if (!empty($args['author_id']) || !empty($args['taxonomy']) || !empty($args['term'])) {
             $query
                 ->join('posts', ['pages.id', 'posts.ID'])
-                ->where('post_type', 'IN', $args['post_type'])
-                ->where('post_author', '=', $args['author_id'])
-                ->where('posts.ID', '=', $args['post_id']);
+                ->where('post_author', '=', $args['author_id']);
 
             if (!empty($args['taxonomy']) || !empty($args['term'])) {
                 $taxQuery = Query::select(['DISTINCT object_id'])
@@ -106,17 +110,28 @@ class ViewsModel extends BaseModel
     public function countDailyViews($args = [])
     {
         $args = $this->parseArgs($args, [
-            'post_type'         => Helper::get_list_post_type(),
-            'ignore_post_type'  => false,
             'resource_type'     => '',
             'resource_id'       => '',
             'date'              => '',
             'author_id'         => '',
-            'post_id'           => '',
             'query_param'       => '',
             'taxonomy'          => '',
             'term'              => '',
+
+            // Keep for backward-compatibility
+            'post_id'           => '',
+            'post_type'         => Helper::get_list_post_type(),
         ]);
+
+        // Map post_id to resource_id for backward compatibility
+        if (!empty($args['post_id'])) {
+            $args['resource_id'] = $args['post_id'];
+        }
+
+        // Map post_type to resource_type for backward compatibility
+        if (empty($args['resource_type'])) {
+            $args['resource_type'] = $args['post_type'];
+        }
 
         $query = Query::select([
             'SUM(pages.count) as views',
@@ -129,7 +144,7 @@ class ViewsModel extends BaseModel
             ->whereDate('pages.date', $args['date'])
             ->groupBy('pages.date');
 
-        if (empty($args['resource_id']) && (!empty($args['author_id']) || !empty($args['post_id']) || !empty($args['taxonomy']) || !empty($args['term']) || (!empty($args['post_type']) && !$args['ignore_post_type']))) {
+        if (!empty($args['author_id']) || !empty($args['taxonomy']) || !empty($args['term'])) {
             $query
                 ->join('posts', ['pages.id', 'posts.ID'])
                 ->where('post_author', '=', $args['author_id'])

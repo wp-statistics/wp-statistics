@@ -193,7 +193,7 @@ class ContentAnalyticsDataProvider
 
         $referrersData = $this->visitorsModel->getReferrers($mappedArgs);
 
-        $summary = ChartDataProviderFactory::summaryChart(array_merge($mappedArgs, ['include_total' => true, 'ignore_post_type' => true]))->getData();
+        $summary = ChartDataProviderFactory::summaryChart(array_merge($mappedArgs, ['include_total' => true]))->getData();
 
         $result = [
             'visitors_country'  => $visitorsCountry,

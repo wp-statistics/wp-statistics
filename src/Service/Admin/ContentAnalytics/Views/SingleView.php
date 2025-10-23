@@ -31,10 +31,9 @@ class SingleView extends BaseView
         }
 
         $this->dataProvider = new ContentAnalyticsDataProvider([
-            'post_id'          => $this->postId,
-            'resource_type'    => Helper::getPostTypes(),
-            'ignore_post_type' => true,
-            'query_param'      => Helper::isAddOnActive('data-plus') ? Request::get('qp', '', 'number') : ''
+            'post_id'       => $this->postId,
+            'resource_type' => Helper::getPostTypes(),
+            'query_param'   => Helper::isAddOnActive('data-plus') ? Request::get('qp', '', 'number') : ''
         ]);
     }
 
