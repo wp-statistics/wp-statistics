@@ -92,7 +92,7 @@ class ReactHandler extends BaseAdminAssets
             return;
         }
 
-        wp_enqueue_script_module($this->getAssetHandle(), $this->getUrl($this->manifestMainJs), [], $this->getVersion(), true);
+        wp_enqueue_script_module($this->getAssetHandle(), $this->getUrl($this->manifestMainJs), [], null);
         $this->printLocalizedData($hook);
     }
 
