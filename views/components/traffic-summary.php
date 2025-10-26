@@ -40,7 +40,7 @@ use WP_STATISTICS\Menus;
                             <?php echo esc_html($item['label']); ?>
 
                             <?php if (isset($item['tooltip'])) : ?>
-                                <span class="wps-tooltip" title="<?php echo esc_html($item['tooltip']); ?>"><i class="wps-tooltip-icon info"></i></span>
+                                <span class="wps-tooltip" title="<?php echo esc_attr($item['tooltip']); ?>"><i class="wps-tooltip-icon info"></i></span>
                             <?php endif; ?>
                         </td>
 
