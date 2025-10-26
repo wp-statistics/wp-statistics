@@ -1,18 +1,23 @@
-import { Button } from '@/components/ui/button'
+import { getVisitorCountQueryOptions } from '@/services/get-visitor-count'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
-import React from 'react'
 
-const Index = () => {
-  const [state, setState] = React.useState(0)
+export const Route = createFileRoute('/')({
+  loader: ({ context }) => context.queryClient.ensureQueryData(getVisitorCountQueryOptions()),
+  component: Index,
+})
+
+function Index() {
+  const {
+    data: { data: result },
+  } = useSuspenseQuery(getVisitorCountQueryOptions())
 
   return (
     <div className="p-2">
-      <h3>Welcome Home!</h3>
-      <Button onClick={() => setState((prev) => prev + 1)}>Click Me {state}</Button>
+      <div className="text-3xl font-bold underline">Hello world!</div>
+      <p>Current: {result.data.current}</p>
+      <p>Percentage: {result.data.precentage}</p>
+      <p>Previous: {result.data.previous}</p>
     </div>
   )
 }
-
-export const Route = createFileRoute('/')({
-  component: Index,
-})
