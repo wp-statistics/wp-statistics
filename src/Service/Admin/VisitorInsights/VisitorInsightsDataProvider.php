@@ -201,7 +201,6 @@ class VisitorInsightsDataProvider
     {
         return [
             'data'  => $this->visitorsModel->getVisitorsData(array_merge($this->args, [
-                'user_role' => Request::get('role', ''),
                 'logged_in' => true,
                 'order_by'  => 'visitor.ID',
                 'order'     => 'DESC',

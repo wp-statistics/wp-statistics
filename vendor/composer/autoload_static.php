@@ -245,6 +245,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Admin\\ExportImport\\ExportImportHandler' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImport/ExportImportHandler.php',
         'WP_Statistics\\Service\\Admin\\ExportImport\\ExportImportManager' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImport/ExportImportManager.php',
         'WP_Statistics\\Service\\Admin\\ExportImport\\ExportRestController' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImport/ExportRestController.php',
+        'WP_Statistics\\Service\\Admin\\ExportImport\\ExportTypes' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImport/ExportTypes.php',
         'WP_Statistics\\Service\\Admin\\ExportImport\\ImportRestController' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImport/ImportRestController.php',
         'WP_Statistics\\Service\\Admin\\ExportImport\\Interfaces\\ExportDriverInterface' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImport/Interfaces/ExportDriverInterface.php',
         'WP_Statistics\\Service\\Admin\\ExportImport\\Interfaces\\ImportDriverInterface' => __DIR__ . '/../..' . '/src/Service/Admin/ExportImport/Interfaces/ImportDriverInterface.php',

@@ -106,8 +106,12 @@ class AuthorAnalyticsDataProvider
 
     public function getAuthorsReportData()
     {
-        $authors = $this->authorModel->getAuthorsReportData($this->args);
-        $total   = $this->authorModel->countAuthors($this->args);
+        $args = wp_parse_args($this->args, [
+            'post_type' => 'post'
+        ]);
+
+        $authors = $this->authorModel->getAuthorsReportData($args);
+        $total   = $this->authorModel->countAuthors($args);
 
         return [
             'authors'   => $authors,

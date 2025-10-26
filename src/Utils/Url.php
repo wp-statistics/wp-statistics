@@ -61,6 +61,8 @@ class Url
      * @return string The formatted URL.
      */
     public static function formatUrl($url) {
+        if (empty($url)) return '';
+
         // Remove trailing slash
         $url = rtrim($url, '/');
 

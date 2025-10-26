@@ -184,6 +184,7 @@ return array(
     'WP_Statistics\\Service\\Admin\\ExportImport\\ExportImportHandler' => $baseDir . '/src/Service/Admin/ExportImport/ExportImportHandler.php',
     'WP_Statistics\\Service\\Admin\\ExportImport\\ExportImportManager' => $baseDir . '/src/Service/Admin/ExportImport/ExportImportManager.php',
     'WP_Statistics\\Service\\Admin\\ExportImport\\ExportRestController' => $baseDir . '/src/Service/Admin/ExportImport/ExportRestController.php',
+    'WP_Statistics\\Service\\Admin\\ExportImport\\ExportTypes' => $baseDir . '/src/Service/Admin/ExportImport/ExportTypes.php',
     'WP_Statistics\\Service\\Admin\\ExportImport\\ImportRestController' => $baseDir . '/src/Service/Admin/ExportImport/ImportRestController.php',
     'WP_Statistics\\Service\\Admin\\ExportImport\\Interfaces\\ExportDriverInterface' => $baseDir . '/src/Service/Admin/ExportImport/Interfaces/ExportDriverInterface.php',
     'WP_Statistics\\Service\\Admin\\ExportImport\\Interfaces\\ImportDriverInterface' => $baseDir . '/src/Service/Admin/ExportImport/Interfaces/ImportDriverInterface.php',

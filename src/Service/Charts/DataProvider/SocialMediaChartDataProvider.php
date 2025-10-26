@@ -21,11 +21,17 @@ class SocialMediaChartDataProvider extends AbstractChartDataProvider
 
         // Set default values
         $this->args = array_merge($args, [
-            'source_channel'    => ['social', 'paid_social'],
-            'group_by'          => ['source_name', 'last_counter'],
-            'per_page'          => false,
-            'not_null'          => false
+            'group_by' => ['source_name', 'last_counter'],
+            'per_page' => false,
+            'not_null' => false
         ]);
+
+        $channels = ['social', 'paid_social'];
+
+        // If source_channel is empty or is not valid, set it to ['social', 'paid_social']
+        if (empty($this->args['source_channel']) || !in_array($this->args['source_channel'], $channels)) {
+            $this->args['source_channel'] = $channels;
+        }
 
         $this->visitorsModel = new VisitorsModel();
     }

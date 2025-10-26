@@ -127,35 +127,37 @@ class ReferralsDataProvider
 
     public function getSearchEngineReferrals()
     {
+        $args = wp_parse_args(array_filter($this->args), [
+            'source_channel' => ['search', 'paid_search'],
+        ]);
+
         return [
-            'referrers' => $this->visitorsModel->getReferrers(array_merge($this->args, [
-                'source_channel'    => Request::get('source_channel', ['search', 'paid_search']),
-                'decorate'          => true,
-                'group_by'          => ['visitor.referred', 'visitor.source_channel']
+            'referrers' => $this->visitorsModel->getReferrers(array_merge($args, [
+                'decorate' => true,
+                'group_by' => ['visitor.referred', 'visitor.source_channel']
             ])),
-            'total'     => $this->visitorsModel->countReferrers(array_merge($this->args, ['source_channel' => Request::get('source_channel', ['search', 'paid_search'])]))
+            'total'     => $this->visitorsModel->countReferrers($args)
         ];
     }
 
     public function getSocialMediaReferrals()
     {
+        $args = wp_parse_args(array_filter($this->args), [
+            'source_channel' => ['social', 'paid_social']
+        ]);
+
         return [
-            'referrers' => $this->visitorsModel->getReferrers(array_merge($this->args, [
-                'source_channel'    => Request::get('source_channel', ['social', 'paid_social']),
-                'decorate'          => true,
-                'group_by'          => ['visitor.referred', 'visitor.source_channel']
+            'referrers' => $this->visitorsModel->getReferrers(array_merge($args, [
+                'decorate' => true,
+                'group_by' => ['visitor.referred', 'visitor.source_channel']
             ])),
-            'total'     => $this->visitorsModel->countReferrers(array_merge($this->args, ['source_channel' => Request::get('source_channel', ['social', 'paid_social'])]))
+            'total'     => $this->visitorsModel->countReferrers($args)
         ];
     }
 
     public function getSearchEnginesChartsData()
     {
-        $args = [
-            'source_channel' => Request::get('source_channel', ['search', 'paid_search'])
-        ];
-
-        $searchEngineChart = ChartDataProviderFactory::searchEngineChart(array_merge($this->args, $args));
+        $searchEngineChart = ChartDataProviderFactory::searchEngineChart($this->args);
 
         return [
             'search_engine_chart_data' => $searchEngineChart->getData()
@@ -164,11 +166,7 @@ class ReferralsDataProvider
 
     public function getSocialMediaChartsData()
     {
-        $args = [
-            'source_channel' => Request::get('source_channel', ['social', 'paid_social'])
-        ];
-
-        $socialMediaChart = ChartDataProviderFactory::socialMediaChart(array_merge($this->args, $args));
+        $socialMediaChart = ChartDataProviderFactory::socialMediaChart($this->args);
 
         return [
             'social_media_chart_data' => $socialMediaChart->getData()

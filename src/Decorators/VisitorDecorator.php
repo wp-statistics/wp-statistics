@@ -117,11 +117,16 @@ class VisitorDecorator
     /**
      * Get the number of hits the visitor has made.
      *
+     * @param $raw
      * @return int|null
      */
-    public function getHits()
+    public function getHits($raw = false)
     {
-        return $this->visitor->hits ? number_format_i18n(intval($this->visitor->hits)) : 0;
+        if (!isset($this->visitor->hits)) return 0;
+
+        $hits = intval($this->visitor->hits);
+
+        return $raw ? $hits : number_format_i18n($hits);
     }
 
     /**
@@ -191,8 +196,12 @@ class VisitorDecorator
      *
      * @return int|null The time of the first view, or null if not available.
      */
-    public function getFirstView()
+    public function getFirstView($raw = false)
     {
+        if ($raw) {
+            return $this->visitor->first_view ?? null;
+        }
+
         return !empty($this->visitor->first_view) ? DateTime::format($this->visitor->first_view, [
             'include_time' => true,
             'exclude_year' => true,

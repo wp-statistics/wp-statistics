@@ -29,6 +29,11 @@ abstract class BasePage extends Singleton
         add_filter('screen_options_show_screen', '__return_false');
     }
 
+    public function getPageSlug()
+    {
+        return $this->pageSlug;
+    }
+
     public function render()
     {
     }

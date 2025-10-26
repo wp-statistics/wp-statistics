@@ -218,8 +218,13 @@ class CategoryAnalyticsDataProvider
 
     public function getCategoryReportData()
     {
+        $args = wp_parse_args($this->args, [
+            'order_by' => 'views',
+            'order'    => 'DESC',
+        ]);
+
         return [
-            'terms' => $this->taxonomyModel->getTermsReportData($this->args)
+            'terms' => $this->taxonomyModel->getTermsReportData($args)
         ];
     }
 }
