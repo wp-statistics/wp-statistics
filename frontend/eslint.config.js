@@ -5,6 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 import pluginRouter from '@tanstack/eslint-plugin-router'
+import pluginQuery from '@tanstack/eslint-plugin-query'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import unusedImports from 'eslint-plugin-unused-imports'
 
@@ -19,10 +20,16 @@ export default defineConfig([
       reactRefresh.configs.vite,
     ],
     plugins: {
+      '@tanstack/query': pluginQuery,
       'simple-import-sort': simpleImportSort,
       'unused-imports': unusedImports,
     },
     rules: {
+      // TanStack Query rules
+      '@tanstack/query/exhaustive-deps': 'error',
+      '@tanstack/query/no-rest-destructuring': 'warn',
+      '@tanstack/query/stable-query-client': 'error',
+
       // Simple import sort rules
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
@@ -48,4 +55,5 @@ export default defineConfig([
     },
   },
   ...pluginRouter.configs['flat/recommended'],
+  ...pluginQuery.configs['flat/recommended'],
 ])

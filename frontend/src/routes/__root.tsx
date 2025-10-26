@@ -1,4 +1,5 @@
 import { createRootRouteWithContext, Link, Outlet } from '@tanstack/react-router'
+import { Loader2 } from 'lucide-react'
 
 const RootLayout = () => (
   <div>
@@ -18,4 +19,6 @@ const RootLayout = () => (
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootLayout,
+  errorComponent: ({ error }) => <div>{error.message}</div>,
+  pendingComponent: () => <Loader2 className="animate-spin" />,
 })

@@ -39,6 +39,7 @@ export default defineConfig(({ mode }) => ({
       '@pages': resolve(__dirname, './src/pages'),
       '@routes': resolve(__dirname, './src/routes'),
     },
+    dedupe: ['react', 'react-dom'],
   },
   optimizeDeps: {
     include: ['react', 'react-dom', 'lucide-react', 'axios', '@tanstack/react-query'],
