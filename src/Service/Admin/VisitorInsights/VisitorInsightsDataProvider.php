@@ -197,7 +197,9 @@ class VisitorInsightsDataProvider
         if (!$visitor->isAnonymous()) {
             $args = [
                 'ignore_date' => true,
-                'exclude_ids' => [$visitor->getId()]
+                'exclude_ids' => [$visitor->getId()],
+                'page'        => 1,
+                'per_page'    => 100,
             ];
 
             if (!empty($visitor->getUser())) {
