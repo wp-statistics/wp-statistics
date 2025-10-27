@@ -27,22 +27,22 @@ class LayoutDataProvider implements LocalizeDataProviderInterface
     {
         $items['sidebar'] = [
             'overview'          => [
-                'icon'  => 'overview',
+                'icon'  => 'Gauge',
                 'label' => esc_html__('General', 'wp-statistics'),
                 'slug'  => 'overview'
             ],
             'visitorInsights'   => [
-                'icon'  => 'visitor-insights',
+                'icon'  => 'User',
                 'label' => esc_html__('Visitor Insights', 'wp-statistics'),
                 'slug'  => 'visitor-insights'
             ],
             'pageAnalytics'     => [
-                'icon'  => 'page-analytics',
+                'icon'  => 'File',
                 'label' => esc_html__('Page Insights', 'wp-statistics'),
                 'slug'  => 'page-analytics'
             ],
             'referrals'         => [
-                'icon'     => 'referrals',
+                'icon'     => 'RefreshCw',
                 'label'    => esc_html__('Referrals', 'wp-statistics'),
                 'slug'     => 'referrals',
                 'subPages' => [
@@ -69,27 +69,27 @@ class LayoutDataProvider implements LocalizeDataProviderInterface
                 ]
             ],
             'categoryAnalytics' => [
-                'icon'  => 'category-analytics',
+                'icon'  => 'FileChartColumn',
                 'label' => esc_html__('Content Analytics', 'wp-statistics'),
                 'slug'  => 'category-analytics'
             ],
             'authorAnalytics'   => [
-                'icon'  => 'author-analytics',
+                'icon'  => 'FileUser',
                 'label' => esc_html__('Author Analytics', 'wp-statistics'),
                 'slug'  => 'author-analytics'
             ],
             'categoryAnalytics' => [
-                'icon'  => 'category-analytics',
+                'icon'  => 'SquareChartGantt',
                 'label' => esc_html__('Category Analytics', 'wp-statistics'),
                 'slug'  => 'category-analytics'
             ],
             'geographic'        => [
-                'icon'  => 'geographic',
+                'icon'  => 'Earth',
                 'label' => esc_html__('Geographics', 'wp-statistics'),
                 'slug'  => 'geographic'
             ],
             'devices'           => [
-                'icon'  => 'devices',
+                'icon'  => 'MonitorSmartphone',
                 'label' => esc_html__('Devices', 'wp-statistics'),
                 'slug'  => 'devices'
             ]
