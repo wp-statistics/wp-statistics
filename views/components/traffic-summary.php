@@ -17,7 +17,7 @@ use WP_STATISTICS\Menus;
             </div>
             <div class="c-live__online">
                 <span class="c-live__online--value"><?php echo esc_html($data['online']) ?></span>
-                <a class="c-live__value" href="<?php echo Menus::admin_url('visitors', ['tab' => 'online']) ?>" aria-label="<?php esc_attr_e('View online visitors', 'wp-statistics'); ?>"><span class="c-live__online--arrow"></span></a>
+                <a class="c-live__value" href="<?php echo esc_url(Menus::admin_url('visitors', ['tab' => 'online'])) ?>" aria-label="<?php esc_attr_e('View online visitors', 'wp-statistics'); ?>"><span class="c-live__online--arrow"></span></a>
             </div>
         </div>
     <?php endif; ?>
