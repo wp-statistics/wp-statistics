@@ -1,12 +1,13 @@
 = 14.15.6 - 2025-xx-xx =
 - **Fix:** Fixed unknown location link issue in visitor information.
 - **Fix:** Resolved issue with non-Gregorian dates in charts.
+- **Fix** Fix external link detection for proper outbound tracking.
+- **Fix:** Corrected the label displayed for the selected filter on the Link Tracker page.
 - **New:** Introduced a refactored background-process migration type and removed the legacy AJAX migrations.
 - **New:** Updated Single Visitor page to show `Other Visits` section.
-- **Enhancement:** Converted the Visitor Columns migrator to a background process and added a progress notice plus a "Data Migrations" section in Optimization page.
+- **Enhancement:** Converted the Visitor Columns migrator to a background process and added a progress notice plus a "Data Migrations" section in Optimization page. 
 - **Enhancement:** Refactored background-process jobs for stability and maintainability.
-- **Fix:** Corrected the label displayed for the selected filter on the Link Tracker page.
-
+- 
 = 14.15.5 - 2025-09-21 =
 - **Enhancement:** Added date range validation on report pages.
 - **Enhancement:** Improved compare style and number formatting in "At a Glance" widgets.
