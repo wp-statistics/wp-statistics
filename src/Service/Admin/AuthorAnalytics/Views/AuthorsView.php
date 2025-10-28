@@ -8,6 +8,7 @@ use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsDataProvider;
+use WP_Statistics\Service\Admin\ExportImport\ExportTypes;
 use WP_Statistics\Utils\Request;
 
 class AuthorsView extends BaseView
@@ -73,6 +74,7 @@ class AuthorsView extends BaseView
             'filters'     => ['post-type'],
             'backUrl'     => Menus::admin_url('author-analytics'),
             'backTitle'   => esc_html__('Authors Performance', 'wp-statistics'),
+            'export'      => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE],
             'data'        => $data['authors'],
             'paged'       => Admin_Template::getCurrentPaged(),
         ];

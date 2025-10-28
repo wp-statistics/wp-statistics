@@ -1,13 +1,42 @@
 = 14.16 - 2025-**-** =
+- **New:** Added an Export button to all report pages.
 - **Enhancement:** Updated PHP requirement to v7.4 and WordPress requires to v6.6
 
-= 14.15.3 - 2025-08-18 =
-- **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.
-- **Fix:** Correct redirect URL after clicking 'Start Migration'.
-- **Fix:** Fixed Author Analytics filter issue.
-- **Enhancement:** Added LiteSpeed Cache detection for improved cache-related warning notifications.
-- **Enhancement:** Randomized the execution time of the GeoIP update event to reduce simultaneous load on jsdelivr.
-- **Enhancement:** Improve performance of visitor migration.
+= 14.15.6 - 2025-xx-xx =
+- **Fix:** Fixed unknown location link issue in visitor information.
+- **Fix:** Resolved issue with non-Gregorian dates in charts.
+- **New:** Introduced a refactored background-process migration type and removed the legacy AJAX migrations.
+- **Fix** Fix external link detection for proper outbound tracking.
+- **Enhancement:** Converted the Visitor Columns migrator to a background process and added a progress notice plus a "Data Migrations" section in Optimization page. 
+- **Enhancement:** Refactored background-process jobs for stability and maintainability.
+- **Fix:** Corrected the label displayed for the selected filter on the Link Tracker page.
+
+= 14.15.5 - 2025-09-21 =
+- **Enhancement:** Added date range validation on report pages.
+- **Enhancement:** Improved compare style and number formatting in "At a Glance" widgets.
+- **Enhancement:** Updated chart component to show a message when no data is available.
+- **Enhancement:** Limited queue and AJAX migrations (and their notices) to the "Minimum Role to Manage Settings."
+- **Enhancement:** Refactored the migration codebase for better structure, readability, and maintainability.
+- **Enhancement:** Added a "Recheck Schema" button on the optimization page to recheck database health via AJAX.
+- **Fix:** Fixed console warnings on Chromium-based browsers on the settings page.
+- **Fix:** Fixed incorrect "Queue Migration" completion notice after plugin updates.
+- **Fix:** Resolved activation issues on fresh installs.
+- **Dev:** Removed the `wp_statistics_data_export_base_query` and `wp_statistics_data_export_query` filters.
+
+= 14.15.4 - 2025-09-02 =
+- **Enhancement:** Refactored the update process and database schema updates to run on the frontend.
+- **Enhancement:** Optimized the database manager to avoid duplicate queries.
+- **Enhancement:** Improved Visitor Info display logic.
+- **Enhancement:** Refactored install/uninstall code into separate classes for activation, load, and uninstall.
+- **Enhancement:** Optimized schema health checks to run daily on the dashboard and after activation or updates.
+- **Enhancement:** Improved responsiveness by converting "Optimize Page" actions in the Plugin Maintenance tab into asynchronous AJAX requests.
+- **Fix:** Prevented `wp_statistics_tracker_js_errors` option bloat by limiting stored errors and truncating error messages.
+- **Fix:** Fixed sorting issue in the `Top Pages` widget on the Page Insights report.
+- **Fix:** Fixed Region widget issue when a country is not detected on the Geographic page.
+- **Fix:** Prevented false "Queue Migration" notices after updates.
+- **Fix:** Corrected the Filter Modal Reset button redirect.
+- **Fix:** Fixed Visitor Journey not recording repeat visits to the same page.
+- **Enhancement:** Restructured WP Statistics CLI for improved maintainability.
 
 = 14.15.3 - 2025-08-18 =
 - **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.

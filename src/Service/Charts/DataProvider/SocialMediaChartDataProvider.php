@@ -21,11 +21,17 @@ class SocialMediaChartDataProvider extends AbstractChartDataProvider
 
         // Set default values
         $this->args = array_merge($args, [
-            'source_channel'    => ['social', 'paid_social'],
-            'group_by'          => ['source_name', 'last_counter'],
-            'per_page'          => false,
-            'not_null'          => false
+            'group_by' => ['source_name', 'last_counter'],
+            'per_page' => false,
+            'not_null' => false
         ]);
+
+        $channels = ['social', 'paid_social'];
+
+        // If source_channel is empty or is not valid, set it to ['social', 'paid_social']
+        if (empty($this->args['source_channel']) || !in_array($this->args['source_channel'], $channels)) {
+            $this->args['source_channel'] = $channels;
+        }
 
         $this->visitorsModel = new VisitorsModel();
     }
@@ -127,9 +133,10 @@ class SocialMediaChartDataProvider extends AbstractChartDataProvider
         $labels = array_map(
             function ($date) {
                 return [
-                    'formatted_date'    => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
-                    'date'              => date_i18n('Y-m-d', strtotime($date)),
-                    'day'               => date_i18n('D', strtotime($date))
+                    'formatted_date' => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
+                    'date'           => date('Y-m-d', strtotime($date)),
+                    'month_i18n'     => date_i18n('F', strtotime($date)),
+                    'day'            => date_i18n('D', strtotime($date))
                 ];
             },
             $dateRange

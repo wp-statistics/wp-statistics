@@ -1,8 +1,8 @@
-.wps-card{
+.wps-card {
   .wps-meta-traffic-summary {
     margin-top: 16px;
 
-    .c-live{
+    .c-live {
       margin-right: -24px;
       margin-left: -24px;
     }
@@ -11,9 +11,65 @@
 
 
 .wps-meta-traffic-summary {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .wps--no-data__image{
+    display: none!important;
+  }
+
+  tbody {
+    tr {
+
+      th{
+        background: #FAFAFB;
+        border-bottom: 1px solid #EEEFF1;
+        font-weight: 500;
+        font-size: 12px;
+        color:#56585A
+      }
+
+      &:nth-child(even) td{
+        background-color:#fff!important
+      }
+
+      &:last-child td{
+        border-bottom:none!important
+      }
+
+      td {
+        border-bottom: 1px solid #EEEFF1;
+
+        .wps-tooltip-icon.info{
+          width: 10px;
+          height: 10px;
+          background-image : url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iMTEiIHZpZXdCb3g9IjAgMCAxMiAxMSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTYgMy4yMTI4OVY2LjAyNTM5IiBzdHJva2U9IiM1NjU3NTkiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8Y2lyY2xlIGN4PSI2IiBjeT0iNy40MzE2NCIgcj0iMC40Njg3NSIgZmlsbD0iIzU2NTc1OSIvPgo8cGF0aCBkPSJNMTAuNTkzOCA1LjQwMDM5QzEwLjU5MzggMi44NjMzMyA4LjUzNzA2IDAuODA2NjQxIDYgMC44MDY2NDFDMy40NjI5NCAwLjgwNjY0MSAxLjQwNjI1IDIuODYzMzMgMS40MDYyNSA1LjQwMDM5QzEuNDA2MjUgNy45Mzc0NSAzLjQ2Mjk0IDkuOTk0MTQgNiA5Ljk5NDE0QzguNTM3MDYgOS45OTQxNCAxMC41OTM4IDcuOTM3NDUgMTAuNTkzOCA1LjQwMDM5WiIgc3Ryb2tlPSIjNTY1NzU5IiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiLz4KPC9zdmc+Cg==")
+        }
+
+        &:first-child {
+          color: #0C0C0D;
+          font-weight: 400;
+          font-size: 12px;
+        }
+
+        &:nth-child(2), &:nth-child(3) {
+          div {
+            display: flex;
+            justify-content: flex-start;
+            gap: 8px;
+          }
+
+          a span {
+            font-weight: 400;
+            font-size: 16px;
+          }
+        }
+
+      }
+    }
+  }
+
 
   @keyframes pulse-animation {
     0% {
@@ -68,7 +124,7 @@
       height: 5.92px;
       margin-right: 11px;
 
-      .rtl &{
+      .rtl & {
         margin-left: 11px;
         margin-right: 0;
       }

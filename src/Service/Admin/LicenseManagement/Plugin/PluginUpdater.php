@@ -117,9 +117,6 @@ class PluginUpdater
     {
         // Don't request update info if the license key is not provided
         if (empty($this->licenseKey)) {
-            // If license is empty, force a check for updates by removing update_plugins transient
-            delete_site_transient('update_plugins');
-
             return false;
         }
 
@@ -201,33 +198,29 @@ class PluginUpdater
      */
     public function showLicenseNotice($pluginFile, $pluginData)
     {
-        // Check if the license key is missing or the request failed
-        if (!$this->requestUpdateInfo()) {
+        // Get the columns for this table so we can calculate the colspan attribute.
+        $screen  = get_current_screen();
+        $columns = get_column_headers($screen);
 
-            // Get the columns for this table so we can calculate the colspan attribute.
-            $screen  = get_current_screen();
-            $columns = get_column_headers($screen);
+        // If something went wrong with retrieving the columns, default to 3 for colspan.
+        $colspan = !is_countable($columns) ? 3 : count($columns);
 
-            // If something went wrong with retrieving the columns, default to 3 for colspan.
-            $colspan = !is_countable($columns) ? 3 : count($columns);
+        $isActive = is_plugin_active($this->pluginFilePath);
 
-            $isActive = is_plugin_active($this->pluginFilePath);
-
-            // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
-            ?>
-            <tr class='license-error-tr plugin-update-tr update <?php echo $isActive ? 'active' : ''; ?>' data-plugin='<?php echo esc_attr($this->pluginFilePath); ?>' data-plugin-row-type='feature-incomp-warn'>
-                <td colspan='<?php echo esc_attr($colspan); ?>' class='plugin-update'>
-                    <div class='notice inline notice-warning notice-alt'>
-                        <p>
-                            <?php echo sprintf(__('Automatic updates are disabled for the <b>%s</b>.', 'wp-statistics'), esc_attr($pluginData['Name'])); ?>
-                            <?php echo sprintf(__('To unlock automatic updates and access new features and security improvements, please <a href="%s">activate your license</a>.', 'wp-statistics'), Menus::admin_url('plugins', ['tab' => 'add-license'])); ?>
-                        </p>
-                    </div>
-                </td>
-            </tr>
-            <?php
-            // phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
-        }
+        // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
+        ?>
+        <tr class='license-error-tr plugin-update-tr update <?php echo $isActive ? 'active' : ''; ?>' data-plugin='<?php echo esc_attr($this->pluginFilePath); ?>' data-plugin-row-type='feature-incomp-warn'>
+            <td colspan='<?php echo esc_attr($colspan); ?>' class='plugin-update'>
+                <div class='notice inline notice-warning notice-alt'>
+                    <p>
+                        <?php echo sprintf(__('Automatic updates are disabled for the <b>%s</b>.', 'wp-statistics'), esc_attr($pluginData['Name'])); ?>
+                        <?php echo sprintf(__('To unlock automatic updates and access new features and security improvements, please <a href="%s">activate your license</a>.', 'wp-statistics'), Menus::admin_url('plugins', ['tab' => 'add-license'])); ?>
+                    </p>
+                </div>
+            </td>
+        </tr>
+        <?php
+        // phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
     }
 
     /**

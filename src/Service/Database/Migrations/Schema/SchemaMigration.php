@@ -48,15 +48,13 @@ class SchemaMigration extends BaseMigrationOperation
         '14.12.6' => [
             'addFirstAndLastPageToVisitors',
         ],
-        // '14.13.5' => [
-        //     'dropDuplicateColumnsFromUserOnline'
-        // ]
         '14.15' => [
             'dropVisitTable',
             'addUserIdToEvents'
         ],
         '14.16' => [
-            'createSummaryTotalsTable'
+            'createSummaryTotalsTable',
+            'dropOnlineTable'
         ]
     ];
 
@@ -98,30 +96,15 @@ class SchemaMigration extends BaseMigrationOperation
     }
 
     /**
-     * Removes duplicate columns from the 'user_online' table.
+     * Drop the 'user_online' table.
      *
      * @return void
      */
-    public function dropDuplicateColumnsFromUserOnline()
+    public function dropOnlineTable()
     {
         try {
-            DatabaseFactory::table('update')
+            DatabaseFactory::table('drop')
                 ->setName('useronline')
-                ->setArgs([
-                    'drop' => [
-                        'referred',
-                        'agent',
-                        'platform',
-                        'version',
-                        'user_id',
-                        'page_id',
-                        'type',
-                        'location',
-                        'city',
-                        'region',
-                        'continent'
-                    ]
-                ])
                 ->execute();
         } catch (Exception $e) {
             $this->setErrorStatus($e->getMessage());

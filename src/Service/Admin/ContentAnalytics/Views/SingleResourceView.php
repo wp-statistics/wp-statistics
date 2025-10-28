@@ -9,6 +9,7 @@ use WP_Statistics\Abstracts\BaseView;
 use WP_Statistics\Exception\SystemErrorException;
 use WP_Statistics\Service\Admin\ContentAnalytics\ContentAnalyticsDataProvider;
 use WP_STATISTICS\Admin_Assets;
+use WP_Statistics\Service\Admin\ExportImport\ExportTypes;
 
 class SingleResourceView extends BaseView
 {
@@ -47,7 +48,8 @@ class SingleResourceView extends BaseView
             'DateRang'      => Admin_Template::DateRange(),
             'hasDateRang'   => true,
             'data'          => $this->getData(),
-            'allTimeOption' => true
+            'allTimeOption' => true,
+            'export'        => [ExportTypes::CSV_METRICS, ExportTypes::PDF_PAGE]
         ];
 
         Admin_Template::get_template(['layout/header', 'layout/title', "pages/content-analytics/single-resource", 'layout/footer'], $args);

@@ -1850,10 +1850,12 @@ class Helper
      *
      * @param int|float $firstNumber
      * @param int|float $secondNumber
+     * @param int $decimals
+     * @param bool $abs
      *
      * @return  float
      */
-    public static function calculatePercentageChange($firstNumber, $secondNumber, $decimals = 2)
+    public static function calculatePercentageChange($firstNumber, $secondNumber, $decimals = 2, $abs = false)
     {
         $firstNumber  = intval($firstNumber);
         $secondNumber = intval($secondNumber);
@@ -1876,7 +1878,9 @@ class Helper
         $result *= 100;
         $result *= $multiply;
 
-        return round($result, $decimals);
+        $result = round($result, $decimals);
+
+        return $abs ? abs($result) : $result;
     }
 
     /**
@@ -1955,6 +1959,9 @@ class Helper
             '/[\'"\(](?:\s|%20)*SELECT\b/i',                    // ' " ( SELECT
             '/[\'"\(](?:\s|%20)*DROP\b/i',                      // ' " ( DROP
             '/[\'"\(](?:\s|%20)*ALTER\b/i',                     // ' " ( ALTER
+
+            // Oracle injection
+            '/DBMS_PIPE\.(RECEIVE_MESSAGE|SEND_MESSAGE)/i',
 
             // SQL comment injection
             '/[\'"\(](?:\s|%20)*--(?:\s|%20)*/i',               // ' " ( --
@@ -2261,5 +2268,59 @@ class Helper
         }
 
         return $message;
+    }
+
+    /**
+     * Return available schedules for report delivery.
+     *
+     * @return array
+     */
+    public static function getReportSchedules()
+    {
+        $schedules = Schedule::getSchedules();
+
+        // Filter out non-report schedules
+        $schedules = self::filterArrayByKeys($schedules, ['daily', 'weekly', 'biweekly', 'monthly']);
+
+        return $schedules;
+    }
+
+    /**
+     * Finds an item in an array that matches the given key and value.
+     *
+     * @param array $array The array to search in
+     * @param string $key The key to search for
+     * @param mixed $value The value to search for
+     *
+     * @return array|null The found item, or null if not found
+     */
+    public static function findInArray($array, $key, $value)
+    {
+        foreach ($array as $item) {
+            if (isset($item[$key]) && $item[$key] === $value) {
+                return $item;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Maps array keys based on a provided mapping array.
+     *
+     * @param array $array The arguments array to transform.
+     * @param array $keyMap The mapping array where keys are old keys and values are new keys.
+     * @return array The transformed arguments array.
+     */
+    public static function mapArrayKeys($array, $keyMap)
+    {
+        foreach ($keyMap as $oldKey => $newKey) {
+            if (isset($array[$oldKey])) {
+                $array[$newKey] = $array[$oldKey];
+                unset($array[$oldKey]);
+            }
+        }
+
+        return $array;
     }
 }
