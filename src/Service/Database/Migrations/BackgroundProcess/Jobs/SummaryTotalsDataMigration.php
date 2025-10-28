@@ -140,7 +140,8 @@ class SummaryTotalsDataMigration extends BaseBackgroundProcess
                 'from' => date('Y-m-d', 0),
                 'to'   => date('Y-m-d', strtotime('yesterday'))
             ],
-            'include_hits' => true
+            'include_hits' => true,
+            'bypass_cache' => true
         ]);
 
         $this->setTotal($data);
