@@ -66,10 +66,10 @@ $chartData = $data['summary']['7days']['data'];
             </div>
         </div>
         <div class="wps-postbox-chart--container">
-            <p class="screen-reader-text">
+            <p id="wp-statistics-quickstats-widget-chart-title" class="screen-reader-text">
                 <?php echo esc_html__('Traffic overview chart', 'wp-statistics') ?>
             </p>
-            <canvas id="wp-statistics-quickstats-widget-chart" aria-labelledby="Traffic overview chart" role="img" height="166"></canvas>
+            <canvas id="wp-statistics-quickstats-widget-chart" aria-labelledby="wp-statistics-quickstats-widget-chart-title" role="img" height="166"></canvas>
         </div>
     </div>
 
