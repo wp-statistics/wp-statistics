@@ -242,7 +242,7 @@ class Admin_Assets
             (in_array($hook, ['post.php', 'edit.php']) && !Option::get('disable_editor')) ||
             (in_array($hook, ['post.php', 'edit.php']) && Helper::isAddOnActive('data-plus') && Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1')
         ) {
-            wp_enqueue_script(self::$prefix, self::url('admin.min.js'), array('jquery'), self::version(), ['in_footer' => true]);
+            wp_enqueue_script(self::$prefix, self::url('admin.min.js'), array('jquery','chart.js'), self::version(), ['in_footer' => true]);
             wp_localize_script(self::$prefix, 'wps_global', self::wps_global($hook));
         }
 
