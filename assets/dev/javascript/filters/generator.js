@@ -61,6 +61,7 @@ FilterGenerator.prototype.createLabel = function (label, name) {
  * @param {string} config.label - Label of the select.
  * @param {string} config.classes - CSS classes for the select.
  * @param {Object} config.attributes - Additional attributes for the select.
+ * @param {Object} config.placeholder - Additional placeholder for the select.
  * @param {string} panel - Additional panel condition for the select.
  * @returns {HTMLElement} - The created `<select>` element.
  */
@@ -96,7 +97,7 @@ FilterGenerator.prototype.createSelect = function ({name, label, classes = '', a
     }
 
     this.container.appendChild(wrapper);
-    this.enableSearchableSelect(select, name, attributes, panel, panelId);
+    this.enableSearchableSelect(select, name, attributes, panel, panelId, placeholder);
 
     if (typeof jQuery !== 'undefined' && jQuery.fn.select2 && !panel && !attributes['data-searchable']) {
         jQuery(select).select2({
@@ -117,8 +118,9 @@ FilterGenerator.prototype.createSelect = function ({name, label, classes = '', a
  * @param {Object} attributes - Additional attributes, including `data-searchable`.
  * @param {boolean} panel - (Optional) Flag indicating if the select element is part of a filter panel.
  * @param {string} panelId - (Optional) The ID of the filter panel container used to scope the dropdown UI.
+ * @param {string} [placeholder=''] - (Optional) Placeholder text to display when no option is selected.
  */
-FilterGenerator.prototype.enableSearchableSelect = function (select, name, attributes, panel, panelId) {
+FilterGenerator.prototype.enableSearchableSelect = function (select, name, attributes, panel, panelId, placeholder = '') {
     if (!attributes['data-searchable'] || typeof jQuery === 'undefined' || !jQuery.fn.select2) {
         return;
     }
@@ -194,7 +196,7 @@ FilterGenerator.prototype.enableSearchableSelect = function (select, name, attri
         },
         minimumInputLength: 1,
         allowClear: true,
-        placeholder: wps_js._('all'),
+        placeholder: placeholder || wps_js._('all'),
         ...panelParams
     });
 
