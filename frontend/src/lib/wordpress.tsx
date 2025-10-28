@@ -34,4 +34,8 @@ export class WordPress {
       'X-WP-Nonce': this.getNonce(),
     }
   }
+
+  public getSidebarConfig() {
+    return this.data.layout.sidebar
+  }
 }

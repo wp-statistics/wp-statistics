@@ -8,54 +8,295 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from '@tanstack/react-router'
+
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
+const VisitorInsightsLazyRouteImport = createFileRoute('/visitor-insights')()
+const PageAnalyticsLazyRouteImport = createFileRoute('/page-analytics')()
+const OverviewLazyRouteImport = createFileRoute('/overview')()
+const GeographicLazyRouteImport = createFileRoute('/geographic')()
+const DevicesLazyRouteImport = createFileRoute('/devices')()
+const CategoryAnalyticsLazyRouteImport = createFileRoute(
+  '/category-analytics',
+)()
+const AuthorAnalyticsLazyRouteImport = createFileRoute('/author-analytics')()
+const referralsSourceCategoriesLazyRouteImport = createFileRoute(
+  '/(referrals)/source-categories',
+)()
+const referralsSocialMediaLazyRouteImport = createFileRoute(
+  '/(referrals)/social-media',
+)()
+const referralsSearchEnginesLazyRouteImport = createFileRoute(
+  '/(referrals)/search-engines',
+)()
+const referralsReferrersLazyRouteImport = createFileRoute(
+  '/(referrals)/referrers',
+)()
+const referralsReferredVisitorsLazyRouteImport = createFileRoute(
+  '/(referrals)/referred-visitors',
+)()
+
+const VisitorInsightsLazyRoute = VisitorInsightsLazyRouteImport.update({
+  id: '/visitor-insights',
+  path: '/visitor-insights',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any).lazy(() =>
+  import('./routes/visitor-insights.lazy').then((d) => d.Route),
+)
+const PageAnalyticsLazyRoute = PageAnalyticsLazyRouteImport.update({
+  id: '/page-analytics',
+  path: '/page-analytics',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/page-analytics.lazy').then((d) => d.Route),
+)
+const OverviewLazyRoute = OverviewLazyRouteImport.update({
+  id: '/overview',
+  path: '/overview',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/overview.lazy').then((d) => d.Route))
+const GeographicLazyRoute = GeographicLazyRouteImport.update({
+  id: '/geographic',
+  path: '/geographic',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/geographic.lazy').then((d) => d.Route))
+const DevicesLazyRoute = DevicesLazyRouteImport.update({
+  id: '/devices',
+  path: '/devices',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/devices.lazy').then((d) => d.Route))
+const CategoryAnalyticsLazyRoute = CategoryAnalyticsLazyRouteImport.update({
+  id: '/category-analytics',
+  path: '/category-analytics',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/category-analytics.lazy').then((d) => d.Route),
+)
+const AuthorAnalyticsLazyRoute = AuthorAnalyticsLazyRouteImport.update({
+  id: '/author-analytics',
+  path: '/author-analytics',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/author-analytics.lazy').then((d) => d.Route),
+)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const referralsSourceCategoriesLazyRoute =
+  referralsSourceCategoriesLazyRouteImport
+    .update({
+      id: '/(referrals)/source-categories',
+      path: '/source-categories',
+      getParentRoute: () => rootRouteImport,
+    } as any)
+    .lazy(() =>
+      import('./routes/(referrals)/source-categories.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const referralsSocialMediaLazyRoute = referralsSocialMediaLazyRouteImport
+  .update({
+    id: '/(referrals)/social-media',
+    path: '/social-media',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(referrals)/social-media.lazy').then((d) => d.Route),
+  )
+const referralsSearchEnginesLazyRoute = referralsSearchEnginesLazyRouteImport
+  .update({
+    id: '/(referrals)/search-engines',
+    path: '/search-engines',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(referrals)/search-engines.lazy').then((d) => d.Route),
+  )
+const referralsReferrersLazyRoute = referralsReferrersLazyRouteImport
+  .update({
+    id: '/(referrals)/referrers',
+    path: '/referrers',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(referrals)/referrers.lazy').then((d) => d.Route),
+  )
+const referralsReferredVisitorsLazyRoute =
+  referralsReferredVisitorsLazyRouteImport
+    .update({
+      id: '/(referrals)/referred-visitors',
+      path: '/referred-visitors',
+      getParentRoute: () => rootRouteImport,
+    } as any)
+    .lazy(() =>
+      import('./routes/(referrals)/referred-visitors.lazy').then(
+        (d) => d.Route,
+      ),
+    )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/author-analytics': typeof AuthorAnalyticsLazyRoute
+  '/category-analytics': typeof CategoryAnalyticsLazyRoute
+  '/devices': typeof DevicesLazyRoute
+  '/geographic': typeof GeographicLazyRoute
+  '/overview': typeof OverviewLazyRoute
+  '/page-analytics': typeof PageAnalyticsLazyRoute
+  '/visitor-insights': typeof VisitorInsightsLazyRoute
+  '/referred-visitors': typeof referralsReferredVisitorsLazyRoute
+  '/referrers': typeof referralsReferrersLazyRoute
+  '/search-engines': typeof referralsSearchEnginesLazyRoute
+  '/social-media': typeof referralsSocialMediaLazyRoute
+  '/source-categories': typeof referralsSourceCategoriesLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/author-analytics': typeof AuthorAnalyticsLazyRoute
+  '/category-analytics': typeof CategoryAnalyticsLazyRoute
+  '/devices': typeof DevicesLazyRoute
+  '/geographic': typeof GeographicLazyRoute
+  '/overview': typeof OverviewLazyRoute
+  '/page-analytics': typeof PageAnalyticsLazyRoute
+  '/visitor-insights': typeof VisitorInsightsLazyRoute
+  '/referred-visitors': typeof referralsReferredVisitorsLazyRoute
+  '/referrers': typeof referralsReferrersLazyRoute
+  '/search-engines': typeof referralsSearchEnginesLazyRoute
+  '/social-media': typeof referralsSocialMediaLazyRoute
+  '/source-categories': typeof referralsSourceCategoriesLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/author-analytics': typeof AuthorAnalyticsLazyRoute
+  '/category-analytics': typeof CategoryAnalyticsLazyRoute
+  '/devices': typeof DevicesLazyRoute
+  '/geographic': typeof GeographicLazyRoute
+  '/overview': typeof OverviewLazyRoute
+  '/page-analytics': typeof PageAnalyticsLazyRoute
+  '/visitor-insights': typeof VisitorInsightsLazyRoute
+  '/(referrals)/referred-visitors': typeof referralsReferredVisitorsLazyRoute
+  '/(referrals)/referrers': typeof referralsReferrersLazyRoute
+  '/(referrals)/search-engines': typeof referralsSearchEnginesLazyRoute
+  '/(referrals)/social-media': typeof referralsSocialMediaLazyRoute
+  '/(referrals)/source-categories': typeof referralsSourceCategoriesLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about'
+  fullPaths:
+    | '/'
+    | '/author-analytics'
+    | '/category-analytics'
+    | '/devices'
+    | '/geographic'
+    | '/overview'
+    | '/page-analytics'
+    | '/visitor-insights'
+    | '/referred-visitors'
+    | '/referrers'
+    | '/search-engines'
+    | '/social-media'
+    | '/source-categories'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about'
-  id: '__root__' | '/' | '/about'
+  to:
+    | '/'
+    | '/author-analytics'
+    | '/category-analytics'
+    | '/devices'
+    | '/geographic'
+    | '/overview'
+    | '/page-analytics'
+    | '/visitor-insights'
+    | '/referred-visitors'
+    | '/referrers'
+    | '/search-engines'
+    | '/social-media'
+    | '/source-categories'
+  id:
+    | '__root__'
+    | '/'
+    | '/author-analytics'
+    | '/category-analytics'
+    | '/devices'
+    | '/geographic'
+    | '/overview'
+    | '/page-analytics'
+    | '/visitor-insights'
+    | '/(referrals)/referred-visitors'
+    | '/(referrals)/referrers'
+    | '/(referrals)/search-engines'
+    | '/(referrals)/social-media'
+    | '/(referrals)/source-categories'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
+  AuthorAnalyticsLazyRoute: typeof AuthorAnalyticsLazyRoute
+  CategoryAnalyticsLazyRoute: typeof CategoryAnalyticsLazyRoute
+  DevicesLazyRoute: typeof DevicesLazyRoute
+  GeographicLazyRoute: typeof GeographicLazyRoute
+  OverviewLazyRoute: typeof OverviewLazyRoute
+  PageAnalyticsLazyRoute: typeof PageAnalyticsLazyRoute
+  VisitorInsightsLazyRoute: typeof VisitorInsightsLazyRoute
+  referralsReferredVisitorsLazyRoute: typeof referralsReferredVisitorsLazyRoute
+  referralsReferrersLazyRoute: typeof referralsReferrersLazyRoute
+  referralsSearchEnginesLazyRoute: typeof referralsSearchEnginesLazyRoute
+  referralsSocialMediaLazyRoute: typeof referralsSocialMediaLazyRoute
+  referralsSourceCategoriesLazyRoute: typeof referralsSourceCategoriesLazyRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
+    '/visitor-insights': {
+      id: '/visitor-insights'
+      path: '/visitor-insights'
+      fullPath: '/visitor-insights'
+      preLoaderRoute: typeof VisitorInsightsLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/page-analytics': {
+      id: '/page-analytics'
+      path: '/page-analytics'
+      fullPath: '/page-analytics'
+      preLoaderRoute: typeof PageAnalyticsLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/overview': {
+      id: '/overview'
+      path: '/overview'
+      fullPath: '/overview'
+      preLoaderRoute: typeof OverviewLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/geographic': {
+      id: '/geographic'
+      path: '/geographic'
+      fullPath: '/geographic'
+      preLoaderRoute: typeof GeographicLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/devices': {
+      id: '/devices'
+      path: '/devices'
+      fullPath: '/devices'
+      preLoaderRoute: typeof DevicesLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/category-analytics': {
+      id: '/category-analytics'
+      path: '/category-analytics'
+      fullPath: '/category-analytics'
+      preLoaderRoute: typeof CategoryAnalyticsLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/author-analytics': {
+      id: '/author-analytics'
+      path: '/author-analytics'
+      fullPath: '/author-analytics'
+      preLoaderRoute: typeof AuthorAnalyticsLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -65,12 +306,58 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(referrals)/source-categories': {
+      id: '/(referrals)/source-categories'
+      path: '/source-categories'
+      fullPath: '/source-categories'
+      preLoaderRoute: typeof referralsSourceCategoriesLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(referrals)/social-media': {
+      id: '/(referrals)/social-media'
+      path: '/social-media'
+      fullPath: '/social-media'
+      preLoaderRoute: typeof referralsSocialMediaLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(referrals)/search-engines': {
+      id: '/(referrals)/search-engines'
+      path: '/search-engines'
+      fullPath: '/search-engines'
+      preLoaderRoute: typeof referralsSearchEnginesLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(referrals)/referrers': {
+      id: '/(referrals)/referrers'
+      path: '/referrers'
+      fullPath: '/referrers'
+      preLoaderRoute: typeof referralsReferrersLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(referrals)/referred-visitors': {
+      id: '/(referrals)/referred-visitors'
+      path: '/referred-visitors'
+      fullPath: '/referred-visitors'
+      preLoaderRoute: typeof referralsReferredVisitorsLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
+  AuthorAnalyticsLazyRoute: AuthorAnalyticsLazyRoute,
+  CategoryAnalyticsLazyRoute: CategoryAnalyticsLazyRoute,
+  DevicesLazyRoute: DevicesLazyRoute,
+  GeographicLazyRoute: GeographicLazyRoute,
+  OverviewLazyRoute: OverviewLazyRoute,
+  PageAnalyticsLazyRoute: PageAnalyticsLazyRoute,
+  VisitorInsightsLazyRoute: VisitorInsightsLazyRoute,
+  referralsReferredVisitorsLazyRoute: referralsReferredVisitorsLazyRoute,
+  referralsReferrersLazyRoute: referralsReferrersLazyRoute,
+  referralsSearchEnginesLazyRoute: referralsSearchEnginesLazyRoute,
+  referralsSocialMediaLazyRoute: referralsSocialMediaLazyRoute,
+  referralsSourceCategoriesLazyRoute: referralsSourceCategoriesLazyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -39,6 +39,7 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-header: var(--header);
 }
 
 :root {
@@ -74,6 +75,7 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --header: hsla(217, 19%, 27%, 1);
 }
 
 .dark {
@@ -108,6 +110,7 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --header: hsla(217, 19%, 27%, 1);
 }
 
 @layer base {
@@ -116,8 +119,16 @@
   }
 }
 
+#wpcontent {
+  @apply ps-0;
+}
+
+#wpbody-content {
+  @apply pb-12;
+}
+
 #wp-statistics-root {
-  @apply relative w-full;
+  @apply relative h-auto w-full;
   @apply border-border outline-ring/50;
   @apply bg-background text-foreground;
 }
