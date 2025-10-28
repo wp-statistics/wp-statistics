@@ -51,4 +51,23 @@ class SummaryModel extends BaseModel
 
         return $result;
     }
+
+    public function update($args)
+    {
+        if (empty($args['date'])) {
+            return false;
+        }
+
+        $data = [
+            'visitors' => $args['visitors'] ?? 0,
+            'views'    => $args['views'] ?? 0
+        ];
+
+        $result = Query::update('summary_totals')
+            ->set($data)
+            ->where('date', '=', $args['date'])
+            ->execute();
+
+        return $result;
+    }
 }

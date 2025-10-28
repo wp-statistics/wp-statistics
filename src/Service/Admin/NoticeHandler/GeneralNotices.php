@@ -35,8 +35,7 @@ class GeneralNotices
         'memoryLimitCheck',
         'emailReportSchedule',
         'checkCloudflareGeolocatin',
-        'checkDbSchemaIssue',
-        'summaryTotalsMigration'
+        'checkDbSchemaIssue'
     ];
 
     /**
@@ -317,28 +316,6 @@ class GeneralNotices
             'cloudflare_geolocation',
             'info'
         );
-    }
-
-    public function summaryTotalsMigration()
-    {
-        if (Notice::isNoticeDismissed('summary_totals_migration_notice')) {
-            return;
-        }
-
-        /**
-         * @var SummaryTotalsDataMigrationProcess $summaryProcess
-         */
-        $summaryProcess = WP_Statistics()->getBackgroundProcess('summary_totals_data_migration');
-        if ($summaryProcess->is_initiated()) {
-            return;
-        }
-
-        $message = sprintf(
-            __('We’ve added summary table in this version. To ensure accurate reports, please initiate the background data process <a href="%s">by clicking here</a>.', 'wp-statistics'),
-            esc_url('#')
-        );
-
-        Notice::addNotice($message, 'summary_totals_migration_notice', 'info');
     }
 
     /**
