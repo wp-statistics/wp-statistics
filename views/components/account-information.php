@@ -9,9 +9,9 @@ use WP_Statistics\Decorators\UserDecorator;
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('Username', 'wp-statistics'); ?></span>
         <div>
-            <a href="<?php echo get_edit_user_link($user->getId()); ?>" class="wps-visitor__username">
-                <img src="<?php echo WP_STATISTICS_URL . 'assets/images/user-icon.svg' ?>" width="19" height="19" alt="<?php echo sprintf('%s (#%s)', $user->getDisplayName(), $user->getId()); ?>">
-                <span class="wps-link-color"><?php echo sprintf('%s (#%s)', $user->getDisplayName(), $user->getId()); ?></span>
+            <a href="<?php echo esc_url(get_edit_user_link($user->getId())); ?>" class="wps-visitor__username">
+                <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/user-icon.svg'); ?>" width="19" height="19" alt="<?php echo esc_attr(sprintf('%s (#%s)', $user->getDisplayName(), $user->getId())); ?>">
+                <span class="wps-link-color"><?php echo esc_html(sprintf('%s (#%s)', $user->getDisplayName(), $user->getId())); ?></span>
             </a>
         </div>
     </div>
