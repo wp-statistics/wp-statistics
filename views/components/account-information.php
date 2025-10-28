@@ -11,7 +11,7 @@ use WP_Statistics\Decorators\UserDecorator;
         <div>
             <a href="<?php echo get_edit_user_link($user->getId()); ?>" class="wps-visitor__username">
                 <img src="<?php echo WP_STATISTICS_URL . 'assets/images/user-icon.svg' ?>" width="19" height="19" alt="<?php echo sprintf('%s (#%s)', $user->getDisplayName(), $user->getId()); ?>">
-                <span><?php echo sprintf('%s (#%s)', $user->getDisplayName(), $user->getId()); ?></span>
+                <span class="wps-link-color"><?php echo sprintf('%s (#%s)', $user->getDisplayName(), $user->getId()); ?></span>
             </a>
         </div>
     </div>
@@ -20,7 +20,7 @@ use WP_Statistics\Decorators\UserDecorator;
         <span><?php esc_html_e('Email address', 'wp-statistics'); ?></span>
         <div>
             <a href="mailto:<?php echo esc_attr($user->getEmail()); ?>" title="<?php echo esc_attr($user->getEmail()); ?>">
-                <span><?php echo esc_html($user->getEmail()); ?></span>
+                <span class="wps-link-color"><?php echo esc_html($user->getEmail()); ?></span>
             </a>
         </div>
     </div>
