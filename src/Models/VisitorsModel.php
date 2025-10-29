@@ -423,6 +423,9 @@ class VisitorsModel extends BaseModel
         return $result ? $result : [];
     }
 
+    /**
+     * @deprecated Use SummaryChartDataProvider instead.
+     */
     public function getVisitorsSummary($args = [])
     {
         $periods = [
@@ -464,6 +467,9 @@ class VisitorsModel extends BaseModel
         return $summary;
     }
 
+    /**
+     * @deprecated Use SummaryChartDataProvider instead.
+     */
     public function getHitsSummary($args = [])
     {
         $periods = [
@@ -505,6 +511,9 @@ class VisitorsModel extends BaseModel
         return $summary;
     }
 
+    /**
+     * @deprecated Use SummaryChartDataProvider instead.
+     */
     public function getVisitorsHitsSummary($args = [])
     {
         $periods = [

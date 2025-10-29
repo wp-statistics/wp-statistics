@@ -27,9 +27,8 @@ class SingleResourceView extends BaseView
         }
 
         $this->dataProvider = new ContentAnalyticsDataProvider([
-            'query_param'       => $this->resourceUri,
-            'ignore_post_type'  => true,
-            'hide_post'         => true
+            'query_param' => $this->resourceUri,
+            'hide_post'   => true
         ]);
     }
 

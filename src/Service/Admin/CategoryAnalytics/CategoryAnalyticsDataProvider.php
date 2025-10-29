@@ -64,17 +64,10 @@ class CategoryAnalyticsDataProvider
         $avgComments     = Helper::divideNumbers($comments, $posts);
         $prevAvgComments = Helper::divideNumbers($prevComments, $prevPosts);
 
-        $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
-        $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
+        $summary = ChartDataProviderFactory::summaryChart($this->args)->getData();
 
         $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
         $referrersData      = $this->visitorsModel->getReferrers($this->args);
-
-        $performanceData    = [
-            'posts'     => $this->postsModel->countPosts($this->args),
-            'visitors'  => $this->visitorsModel->countVisitors($this->args),
-            'views'     => $this->viewsModel->countViews($this->args),
-        ];
 
         $topViewingPosts    = $this->postsModel->getPostsViewsData($this->args);
         $recentPostsData    = $this->postsModel->getPostsViewsData(array_merge($this->args, ['order_by' => 'post_date', 'show_no_views' => true]));
@@ -108,10 +101,9 @@ class CategoryAnalyticsDataProvider
                 'recent'        => $recentPostsData,
                 'top_commented' => $topCommentedPosts
             ],
-            'performance'       => $performanceData,
             'referrers'         => $referrersData,
             'visitors_country'  => $visitorsCountry,
-            'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary)
+            'summary'           => $summary
         ];
 
         if (WordCountService::isActive()) {
@@ -141,20 +133,13 @@ class CategoryAnalyticsDataProvider
         $avgComments     = Helper::divideNumbers($comments, $posts);
         $prevAvgComments = Helper::divideNumbers($prevComments, $prevPosts);
 
-        $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
-        $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
+        $summary = ChartDataProviderFactory::summaryChart($this->args)->getData();
 
         $topPublishingAuthors = $this->authorModel->getAuthorsByPostPublishes($this->args);
         $topViewingAuthors    = $this->authorModel->getTopViewingAuthors($this->args);
 
         $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
         $referrersData      = $this->visitorsModel->getReferrers($this->args);
-
-        $performanceData = [
-            'posts'     => $this->postsModel->countPosts($this->args),
-            'visitors'  => $this->visitorsModel->countVisitors($this->args),
-            'views'     => $this->viewsModel->countViews($this->args),
-        ];
 
         $topPostsByView     = $this->postsModel->getPostsViewsData($this->args);
         $topPostsByComment  = $this->postsModel->getPostsCommentsData($this->args);
@@ -196,8 +181,7 @@ class CategoryAnalyticsDataProvider
                     'change' => Helper::calculatePercentageChange($prevAvgComments, $avgComments)
                 ]
             ],
-            'performance'       => $performanceData,
-            'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
+            'summary'           => $summary,
             'posts'             => [
                 'top_viewing'   => $topPostsByView,
                 'top_commented' => $topPostsByComment,
