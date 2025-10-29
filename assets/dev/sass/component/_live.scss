@@ -84,6 +84,11 @@
     tbody tr td{
       box-sizing: border-box;
       line-height: 22px;
+
+      &:nth-child(2){
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+      }
     }
 
     tbody , thead {
