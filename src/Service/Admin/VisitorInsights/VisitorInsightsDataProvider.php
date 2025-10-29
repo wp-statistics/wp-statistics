@@ -199,7 +199,7 @@ class VisitorInsightsDataProvider
                 'ignore_date' => true,
                 'exclude_ids' => [$visitor->getId()],
                 'page'        => 1,
-                'per_page'    => 100,
+                'per_page'    => 50
             ];
 
             if (!empty($visitor->getUser())) {
