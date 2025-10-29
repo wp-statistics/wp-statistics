@@ -199,7 +199,10 @@ class AuthorAnalyticsDataProvider
                 'top_comments' => $topPostsByComment,
             ],
             'visitors_country' => $visitorsCountry,
-            'taxonomies'       => $taxonomies
+            'taxonomies'       => $taxonomies,
+
+            // Keep for backward-compatibility with older versions of DataPlus
+            'visit_summary'   => []
         ];
 
         if (WordCountService::isActive()) {
