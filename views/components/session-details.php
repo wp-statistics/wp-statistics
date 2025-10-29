@@ -12,7 +12,7 @@ use WP_Statistics\Components\View;
     <div class="wps-visitor__visitors-detail--row">
         <?php if ($visitor->isHashedIP()) : ?>
             <span>
-                <?php esc_html_e('Daily Visitor Hash', 'wp-statistics'); ?>
+                <?php esc_html_e('Visitor Hash', 'wp-statistics'); ?>
             </span>
         <?php else : ?>
             <span>
