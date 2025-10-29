@@ -22,7 +22,7 @@ class TrafficSummary extends BaseMetabox
 
     public function getDescription()
     {
-        return esc_html__('A quick overview of your website\'s visitor statistics.', 'wp-statistics');
+        return '';
     }
 
     public function getData()
