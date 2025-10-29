@@ -128,8 +128,8 @@ class ViewsModel extends BaseModel
             $args['resource_id'] = $args['post_id'];
         }
 
-        // Map post_type to resource_type for backward compatibility
-        if (empty($args['resource_type'])) {
+        // Map post_type to resource_type for backward compatibility (only if query_param is not set, since it's unique)
+        if (empty($args['resource_type']) && empty($args['query_param'])) {
             $args['resource_type'] = $args['post_type'];
         }
 
