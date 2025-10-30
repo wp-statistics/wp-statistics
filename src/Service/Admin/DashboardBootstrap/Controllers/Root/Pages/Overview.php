@@ -2,11 +2,14 @@
 
 namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages;
 
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Models\CountryModel;
 use WP_Statistics\Models\DeviceType;
 use WP_Statistics\Models\OsModel;
+use WP_Statistics\Models\SessionModel;
 use WP_Statistics\Models\SummaryModel;
 use WP_Statistics\Models\SummaryTotalModel;
+use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\PageActionInterface;
 
 /**
@@ -44,14 +47,17 @@ class Overview implements PageActionInterface
             'get_entry_reosurces' => 'getEntryReosurces',
             'get_top_devices' => 'getTopDevices',
             'get_top_oss' => 'getTopOss',
-            'get_to_countries' => 'getTopCountries'
+            'get_to_countries' => 'getTopCountries',
+            'get_top_visitors' => 'getTopVisitors',
+            'get_global_distribution' => 'getGlobalDistribution',
+            'get_hourly_traffic' => 'getHourlyTraffic'
         ];
     }
 
     /**
-     * Get overview statistics.
+     * Get Visitor statistics.
      *
-     * Handles AJAX request to fetch overview statistics data
+     * Handles AJAX request to fetch visitor statistics data
      * for the dashboard overview page.
      *
      * @return array Response data
@@ -59,6 +65,7 @@ class Overview implements PageActionInterface
     public function getVisitorsCount()
     {
         $summaryTotalModel = new SummaryTotalModel();
+        $visitorsModel     = new VisitorsModel();
 
         // Calculate date range for last 30 days (current period)
         $dateTo   = date('Y-m-d'); // Today
@@ -67,6 +74,16 @@ class Overview implements PageActionInterface
         // Calculate date range for previous 30 days (31 to 60 days ago)
         $prevDateTo   = date('Y-m-d', strtotime('-31 days')); // 31 days ago
         $prevDateFrom = date('Y-m-d', strtotime('-60 days')); // 60 days ago
+
+        $result = 0;
+
+        if (DateTime::isTodayOrFutureDate($dateTo)) {
+            $result += $visitorsModel->count();
+        }
+
+        if (DateTime::isTodayOrFutureDate($dateFrom)) {
+            $result += $visitorsModel->count();
+        }
 
         $result = $summaryTotalModel->getVisitorsCount([
             'date' => [
@@ -82,7 +99,6 @@ class Overview implements PageActionInterface
             ]
         ]);
 
-        // Calculate percentage change
         $changePercentage = $prevResult > 0 
             ? round((($result - $prevResult) / $prevResult) * 100, 2) 
             : 0;
@@ -211,14 +227,12 @@ class Overview implements PageActionInterface
         $dateTo   = date('Y-m-d'); // Today
         $dateFrom = date('Y-m-d', strtotime('-30 days'));
 
-        $results = $deviceModel->getTop([
+        return $deviceModel->getTop([
             'date' => [
                 'from' => $dateFrom, 
                 'to'   => $dateTo
             ]
         ]);
-
-        return $results;
     }
 
     /**
@@ -263,5 +277,86 @@ class Overview implements PageActionInterface
                 'to'   => $dateTo
             ]
         ]);
+    }
+
+    /**
+     * Get top visitors.
+     *
+     * Handles AJAX request to fetch top visitors (by views)
+     * for the dashboard overview page.
+     *
+     * @return array Response data
+     */
+    public function getTopVisitors()
+    {
+        $visitorModel = new VisitorsModel();
+        $dateTo   = date('Y-m-d'); // Today
+        $dateFrom = date('Y-m-d', strtotime('-30 days'));
+
+        return $visitorModel->getTop([
+            'date' => [
+                'from' => $dateFrom, 
+                'to'   => $dateTo
+            ]
+        ]);
+    }
+
+    /**
+     * Get global visitor distribution.
+     *
+     * Handles AJAX request to fetch global visitor distribution by country
+     * for the dashboard overview page.
+     *
+     * @return array Response data
+     */
+    public function getGlobalDistribution()
+    {
+        $visitorModel = new VisitorsModel();
+        $dateTo   = date('Y-m-d'); // Today
+        $dateFrom = date('Y-m-d', strtotime('-30 days'));
+        
+        return $visitorModel->getGlobalDistribution([
+            'date' => [
+                'from' => $dateFrom, 
+                'to'   => $dateTo
+            ]
+        ]);
+    }
+
+    /**
+     * Get hourly traffic.
+     *
+     * Handles AJAX request to fetch hourly traffic by date.
+     * for the dashboard overview page.
+     *
+     * @return array Response data
+     */
+    public function getHourlyTraffic()
+    {
+        $visitorModel = new VisitorsModel();
+        $dateTo   = date('Y-m-d'); // Today
+        $dateFrom = date('Y-m-d', strtotime('-30 days'));
+                
+        return $visitorModel->getHourlyTraffic([
+            'date' => [
+                'from' => $dateFrom, 
+                'to'   => $dateTo
+            ]
+        ]);;
+    }
+
+    /**
+     * Get currently online visitors.
+     *
+     * Handles AJAX request to get online visitors.
+     * for the dashboard overview page.
+     *
+     * @return array Response data
+     */
+    public function getOnlineVisitors()
+    {
+        $sessionModel = new SessionModel();
+
+        return $sessionModel->countOnlineUsers();
     }
 }

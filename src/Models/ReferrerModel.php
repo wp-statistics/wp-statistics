@@ -6,32 +6,31 @@ use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Utils\Query;
 
 /**
- * Model class for performing database operations related to countries.
+ * Model class for performing database operations related to referrers.
  *
  * Provides methods to query and aggregate metrics by country.
  *
  * @since 15.0.0
  */
-class CountryModel extends BaseModel
+class ReferrerModel extends BaseModel
 {
     /**
-     * Get top countries by views within a date range.
+     * Get top referrer by views within a date range.
      *
-     * Uses sessions with SUM(total_views) grouped by country. Defaults to the last
+     * Uses sessions with SUM(total_views) grouped by referrer. Defaults to the last
      * 30 days (inclusive). Results are ordered by total views descending.
      *
      * @param array $args {
      *   @type array{from:string,to:string} $date  Date range (Y-m-d).
      *   @type int                           $limit Number of rows to return. Default 4.
      * }
-     * @return array<string, array{views:int}> Country-name keyed totals
+     * @return array<string, array{views:int}> referrer-domain keyed totals
      */
     public function getTop($args = [])
     {
         $args = $this->parseArgs($args, [
             'fields' => [
-                'countries.ID AS country_id',
-                'countries.name AS country',
+                'referrers.domain',
                 'SUM(sessions.total_views) AS views',
             ],
             'date' => [
@@ -46,15 +45,16 @@ class CountryModel extends BaseModel
 
         $rows = Query::select($args['fields'])
             ->from('sessions')
-            ->join('countries', ['sessions.country_id', 'countries.ID'])
+            ->join('referrers', ['sessions.referrer_id', 'referrers.ID'])
             ->where('sessions.started_at', '>=', $from)
             ->where('sessions.started_at', '<',  $to)
-            ->groupBy('countries.ID, countries.name')
+            ->groupBy('referrers.ID, referrers.name')
             ->orderBy('views', 'DESC')
             ->perPage(1, (int) $args['limit'])
             ->allowCaching()
             ->getAll();
-        
+
+
         return $rows;
     }
 }

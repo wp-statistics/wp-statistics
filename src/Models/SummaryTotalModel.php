@@ -66,6 +66,42 @@ class SummaryTotalModel extends BaseModel
     }
 
     /**
+     * Get total fields within a date range.
+     *
+     * Sums the fields like`views` column from the `summary_totals` table between
+     * `date[from]` and `date[to]`. Defaults to today if no range is provided.
+     *
+     * @param array $args {
+     *   @type array{from:string,to:string} $date Date range (Y-m-d).
+     * }
+     * @return int Total views in the range
+     */
+    public function getFieldsCount($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'fields' => [
+                'SUM(views) as views',
+                'SUM(sessions) as sessions',
+                'SUM(visitors) as visitors',
+            ],
+            'date' => DateRange::get('today')
+        ]);
+
+        $query = Query::select($args['fields'])
+            ->from('summary_totals')
+            ->where('date', '>=', $args['date']['from'])
+            ->where('date', '<=', $args['date']['to']); 
+            
+        $result = $query->getAll();
+
+        if (! empty($result[0])) {
+            return $result[0];
+        }
+
+        return new \stdClass();
+    }
+
+    /**
      * Get daily traffic (views & visitors) for a date range.
      *
      * Returns one row per day ordered by date ascending. Defaults to the last

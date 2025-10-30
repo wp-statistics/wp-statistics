@@ -4,7 +4,15 @@ namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root;
 
 use WP_Statistics\Abstracts\BaseDashboardController;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\PageActionInterface;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages\AuthorAnalytics;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages\CategoryAnalytics;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages\ContentAnalytics;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages\Devices;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages\Geographics;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages\Overview;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages\PageInsights;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages\Referrals;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages\VisitorInsights;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Views\Root;
 
 /**
@@ -59,7 +67,14 @@ class RootController extends BaseDashboardController
     {
         $pages = [
             new Overview(),
-            // Add more page handlers here as needed
+            new VisitorInsights(),
+            new PageInsights(),
+            new Referrals(),
+            new ContentAnalytics(),
+            new AuthorAnalytics(),
+            new CategoryAnalytics(),
+            new Geographics(),
+            new Devices()
         ];
 
         foreach ($pages as $page) {
