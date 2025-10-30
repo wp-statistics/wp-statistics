@@ -114,7 +114,7 @@ class SummaryTotalsDataMigration extends BaseBackgroundProcess
         $actionUrl = $this->getActionUrl($force);
 
         $message = sprintf(
-            __('We’ve introduced a new summary table in this version. To ensure accurate reports, please initiate the data migration <a href="%s">by clicking here</a>.', 'wp-statistics'),
+            __('We’ve introduced a new summary table. To ensure accurate reports, please initiate the data migration <a href="%s">by clicking here</a>.', 'wp-statistics'),
             esc_url($actionUrl)
         );
 
