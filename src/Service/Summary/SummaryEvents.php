@@ -34,14 +34,19 @@ class SummaryEvents
         $summaryModel  = new SummaryModel();
         $visitorsModel = new VisitorsModel();
 
-        $data = $visitorsModel->getVisitorsHits([
-            'date' => 'yesterday'
-        ]);
+        $date = DateTime::get('yesterday', 'Y-m-d');
+
+        // Check if record already exists, return
+        if ($summaryModel->recordExists(['date' => $date])) {
+            return;
+        }
+
+        $data = $visitorsModel->getVisitorsHits(['date' => 'yesterday']);
 
         $summaryModel->insert([
             'visitors' => $data['visitors'],
             'views'    => $data['hits'],
-            'date'     => DateTime::get('yesterday', 'Y-m-d')
+            'date'     => $date
         ]);
     }
 
