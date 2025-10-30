@@ -24,14 +24,12 @@ class SummaryModel extends BaseModel
     public function recordExists($args = [])
     {
         $args = $this->parseArgs($args, [
-            'id'   => '',
             'date' => ''
         ]);
 
         $result = Query::select('COUNT(*) as count')
             ->from('summary_totals')
             ->where('date', '=', $args['date'])
-            ->where('id', '=', $args['id'])
             ->getVar();
 
         return (bool) $result;
