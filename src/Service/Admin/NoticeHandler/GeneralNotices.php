@@ -2,8 +2,6 @@
 
 namespace WP_Statistics\Service\Admin\NoticeHandler;
 
-use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory;
-use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\SummaryTotalsDataMigrationProcess;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\IP;
 use WP_STATISTICS\User;
