@@ -42,8 +42,8 @@ class SummaryTotalsDataMigration extends BaseBackgroundProcess
     public function localizeJobTexts()
     {
         $this->setSuccessNotice(esc_html__('Summary data migration processed successfully.', 'wp-statistics'));
-        $this->setJobTitle(esc_html__('Summary Data Migration', 'wp-statistics'));
-        $this->setJobDescription(esc_html__('Migrates historical visitor and view data to the new summary table for improved performance and reporting accuracy.', 'wp-statistics'));
+        $this->setJobTitle(esc_html__('Refresh Summary Totals', 'wp-statistics'));
+        $this->setJobDescription(esc_html__('This recalculate daily totals from your current data. Days without detail will stay unchanged.', 'wp-statistics'));
     }
 
     /**
