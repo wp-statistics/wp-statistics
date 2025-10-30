@@ -177,7 +177,8 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
 
                         $isProcessing = $jobInstance->is_processing();
 
-                        $label = $jobInstance->getJobTitle();
+                        $label    = $jobInstance->getJobTitle();
+                        $btnLabel = $jobInstance->getJobBtnTitle();
                         ?>
                          <tr data-id="wps_database_schema_form">
                             <th scope="row">
@@ -190,7 +191,7 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
                                     href="<?php echo !empty($isProcessing) ? '#' : esc_url($jobInstance->getActionUrl(true)); ?>"
                                     aria-disabled="<?php echo !empty($isProcessing) ? 'true' : 'false'; ?>"
                                 >
-                                    <?php esc_html_e('Run Migration', 'wp-statistics'); ?>
+                                    <?php echo !empty($btnLabel) ? esc_html($btnLabel) : esc_html__('Run Migration', 'wp-statistics'); ?>
                                 </a>
                                 <p class="description"><?php echo esc_html($jobInstance->getJobDescription()); ?></p>
                             </td>
@@ -198,7 +199,7 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
                         <?php
                     }
                 ?>
-                
+
             </tbody>
         </table>
     </div>

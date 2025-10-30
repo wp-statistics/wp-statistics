@@ -64,6 +64,13 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
     protected $jobDescription = '';
 
     /**
+     * Short button title for admin UI.
+     *
+     * @var string
+     */
+    protected $jobBtnTitle = '';
+
+    /**
      * Success notice message to display in the admin UI when the job finishes.
      *
      * @var string
@@ -113,6 +120,27 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
     }
 
     /**
+     * Set the short button title
+     *
+     * @param string $jobBtnTitle
+     * @return void
+     */
+    protected function setJobBtnTitle($jobBtnTitle)
+    {
+        $this->jobBtnTitle = $jobBtnTitle;
+    }
+
+    /**
+     * Get the short button title
+     *
+     * @return string
+     */
+    public function getJobBtnTitle()
+    {
+        return $this->jobBtnTitle;
+    }
+
+    /**
      * Check if the process has been initiated.
      *
      * @param bool $status Whether the job is marked as initiated. Default true.
@@ -156,7 +184,7 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
 
     /**
      * Get the success notice message for this background job.
-     * 
+     *
      * @return string Success notice text.
      */
     public function getSuccessNotice()
