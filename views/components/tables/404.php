@@ -1,5 +1,6 @@
 <?php
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
 
 $order = Request::get('order', 'desc');
@@ -26,7 +27,7 @@ $order = Request::get('order', 'desc');
                     <?php foreach ($data['data'] as $item) : ?>
                         <tr>
                             <td class="wps-pd-l">
-                                <span title="<?php echo esc_html($item->uri) ?>"><?php echo esc_html($item->uri) ?></span>
+                                <a href="<?php echo esc_url(Menus::admin_url('content-analytics', ['type' => 'single-resource', 'uri' => urlencode($item->uri)])) ?>" title="<?php echo esc_html($item->uri) ?>"><?php echo esc_html($item->uri) ?></a>
                             </td>
 
                             <td class="wps-pd-l"><?php echo esc_html($item->views) ?></td>
