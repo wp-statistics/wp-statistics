@@ -130,6 +130,7 @@ if (!window.WpStatisticsUserTracker) {
 
         // Send Request to REST API to Show User Is Online
         sendOnlineUserRequest: async function () {
+            return;
             if (!this.hitRequestSuccessful) {
                 return; // Stop if hit request was not successful
             }
