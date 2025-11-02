@@ -180,14 +180,16 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
                         $label                = $jobInstance->getJobTitle();
                         $btnLabel             = $jobInstance->getJobBtnTitle();
                         $requiresConfirmation = $jobInstance->isConfirmationRequired() ? '1' : '0';
+                        $uniqueId = 'wps_migration_' . sanitize_key($key);
+
                         ?>
-                         <tr data-id="wps_database_schema_form">
+                         <tr data-id="<?php echo esc_attr($uniqueId); ?>" class="wps-migration-row">
                             <th scope="row">
                                 <span class="wps-setting-label"><?php echo esc_html($label) ?></span>
                             </th>
                             <td>
                                 <a
-                                    class="button wps-button wps-button--primary wps-mt-0 <?php echo !empty($isProcessing) ? 'disabled' : ''; ?>"
+                                    class="button wps-button wps-button--primary wps-mt-0 wps-migration-btn <?php echo !empty($isProcessing) ? 'disabled' : ''; ?>"
                                     title="<?php echo esc_html($label); ?>"
                                     href="<?php echo !empty($isProcessing) ? '#' : esc_url($jobInstance->getActionUrl(true)); ?>"
                                     aria-disabled="<?php echo !empty($isProcessing) ? 'true' : 'false'; ?>"
