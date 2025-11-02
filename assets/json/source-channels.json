@@ -6759,20 +6759,6 @@
         ]
       },
       {
-        "name": "ChatGPT",
-        "identifier": "chatgpt",
-        "domains": [
-          "chatgpt.com"
-        ]
-      },
-      {
-        "name": "Perplexity",
-        "identifier": "perplexity",
-        "domains": [
-          "perplexity.ai"
-        ]
-      },
-      {
         "name": "360",
         "identifier": "360",
         "domains": [
@@ -6917,6 +6903,91 @@
         "identifier": "brave",
         "domains": [
           "search.brave.com"
+        ]
+      }
+    ],
+    "rules": []
+  },
+
+  {
+    "type": "search",
+    "description": "Organic traffic from AI/LLM",
+    "channels": [
+      {
+        "name": "ChatGPT",
+        "identifier": "chatgpt",
+        "domains": [
+          "chatgpt.com"
+        ]
+      },
+      {
+        "name": "Perplexity",
+        "identifier": "perplexity",
+        "domains": [
+          "perplexity.ai"
+        ]
+      },
+      {
+        "name": "Gemini",
+        "identifier": "gemini",
+        "domains": [
+          "gemini.google.com"
+        ]
+      },
+      {
+        "name": "Copilot",
+        "identifier": "copilot",
+        "domains": [
+          "copilot.microsoft.com"
+        ]
+      },
+      {
+        "name": "OpenAI",
+        "identifier": "openai",
+        "domains": [
+          "openai.com"
+        ]
+      },
+      {
+        "name": "Claude",
+        "identifier": "claude",
+        "domains": [
+          "claude.ai"
+        ]
+      },
+      {
+        "name": "WriteSonic",
+        "identifier": "writesonic",
+        "domains": [
+          "writesonic.com"
+        ]
+      },
+      {
+        "name": "Copy.ai",
+        "identifier": "copy.ai",
+        "domains": [
+          "copy.ai"
+        ]
+      },
+      {
+        "name": "DeepSeek",
+        "identifier": "deepseek",
+        "domains": [
+          "deepseek.com"
+        ]
+      },
+      {
+        "name": "Hugging Face",
+        "identifier": "huggingface",
+        "domains": [
+          "huggingface.co"
+        ]
+      },
+      {
+        "name": "Bard",
+        "identifier": "bard",
+        "domains": [
+          "bard.google.com"
         ]
       }
     ],
