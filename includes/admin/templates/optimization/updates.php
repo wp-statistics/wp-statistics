@@ -180,10 +180,8 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
                         $label                = $jobInstance->getJobTitle();
                         $btnLabel             = $jobInstance->getJobBtnTitle();
                         $requiresConfirmation = $jobInstance->isConfirmationRequired() ? '1' : '0';
-                        $uniqueId = 'wps_migration_' . sanitize_key($key);
-
                         ?>
-                         <tr data-id="<?php echo esc_attr($uniqueId); ?>" class="wps-migration-row">
+                         <tr data-id="<?php echo esc_attr("wps_migration_$key"); ?>" class="wps-migration-row">
                             <th scope="row">
                                 <span class="wps-setting-label"><?php echo esc_html($label) ?></span>
                             </th>
