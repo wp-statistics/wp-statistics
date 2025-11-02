@@ -6,6 +6,7 @@ use WP_Statistics\Service\Admin\Assets\AdminAssetsFactory;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\RootController;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Managers\LocalizeDataManager;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\GlobalDataProvider;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\HeaderDataProvider;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\LayoutDataProvider;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Requests\AjaxManager;
 
@@ -116,6 +117,7 @@ class DashboardManager
         $this->localizeDataManager
             ->registerProvider(new LayoutDataProvider())
             ->registerProvider(new GlobalDataProvider())
+            ->registerProvider(new HeaderDataProvider())
             ->init();
     }
 }

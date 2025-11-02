@@ -260,6 +260,7 @@ return array(
     'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\DashboardManager' => $baseDir . '/src/Service/Admin/DashboardBootstrap/DashboardManager.php',
     'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\Managers\\LocalizeDataManager' => $baseDir . '/src/Service/Admin/DashboardBootstrap/Managers/LocalizeDataManager.php',
     'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\Providers\\GlobalDataProvider' => $baseDir . '/src/Service/Admin/DashboardBootstrap/Providers/GlobalDataProvider.php',
+    'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\Providers\\HeaderDataProvider' => $baseDir . '/src/Service/Admin/DashboardBootstrap/Providers/HeaderDataProvider.php',
     'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\Providers\\LayoutDataProvider' => $baseDir . '/src/Service/Admin/DashboardBootstrap/Providers/LayoutDataProvider.php',
     'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\Requests\\AjaxManager' => $baseDir . '/src/Service/Admin/DashboardBootstrap/Requests/AjaxManager.php',
     'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\Views\\MigrationPage' => $baseDir . '/src/Service/Admin/DashboardBootstrap/Views/MigrationPage.php',

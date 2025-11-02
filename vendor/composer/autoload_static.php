@@ -279,6 +279,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\DashboardManager' => __DIR__ . '/../..' . '/src/Service/Admin/DashboardBootstrap/DashboardManager.php',
         'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\Managers\\LocalizeDataManager' => __DIR__ . '/../..' . '/src/Service/Admin/DashboardBootstrap/Managers/LocalizeDataManager.php',
         'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\Providers\\GlobalDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/DashboardBootstrap/Providers/GlobalDataProvider.php',
+        'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\Providers\\HeaderDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/DashboardBootstrap/Providers/HeaderDataProvider.php',
         'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\Providers\\LayoutDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/DashboardBootstrap/Providers/LayoutDataProvider.php',
         'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\Requests\\AjaxManager' => __DIR__ . '/../..' . '/src/Service/Admin/DashboardBootstrap/Requests/AjaxManager.php',
         'WP_Statistics\\Service\\Admin\\DashboardBootstrap\\Views\\MigrationPage' => __DIR__ . '/../..' . '/src/Service/Admin/DashboardBootstrap/Views/MigrationPage.php',
