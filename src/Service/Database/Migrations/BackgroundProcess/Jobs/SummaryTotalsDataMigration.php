@@ -23,6 +23,13 @@ class SummaryTotalsDataMigration extends BaseBackgroundProcess
     protected $initiatedKey = 'summary_totals_data_migration_initiated';
 
     /**
+     * Whether this job requires user confirmation before starting.
+     *
+     * @var bool
+     */
+    protected $confirmation = true;
+
+    /**
      * Constructor to initialize the background process.
      *
      * @return void

@@ -78,6 +78,13 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
     protected $successNotice = '';
 
     /**
+    * Whether this job requires user confirmation before starting.
+    *
+    * @var bool
+    */
+    protected $confirmation = false;
+
+    /**
      * Set the human‑readable job title (source string; not translated here).
      *
      * @param string $title Source title for this background job.
@@ -138,6 +145,16 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
     public function getJobBtnTitle()
     {
         return $this->jobBtnTitle;
+    }
+
+    /**
+     * Checks if user confirmation is required before running the background process.
+     *
+     * @return bool True if confirmation is required, false otherwise.
+     */
+    public function isConfirmationRequired()
+    {
+        return $this->confirmation;
     }
 
     /**

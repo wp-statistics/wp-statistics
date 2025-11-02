@@ -177,8 +177,9 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
 
                         $isProcessing = $jobInstance->is_processing();
 
-                        $label    = $jobInstance->getJobTitle();
-                        $btnLabel = $jobInstance->getJobBtnTitle();
+                        $label                = $jobInstance->getJobTitle();
+                        $btnLabel             = $jobInstance->getJobBtnTitle();
+                        $requiresConfirmation = $jobInstance->isConfirmationRequired() ? '1' : '0';
                         ?>
                          <tr data-id="wps_database_schema_form">
                             <th scope="row">
@@ -190,6 +191,7 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
                                     title="<?php echo esc_html($label); ?>"
                                     href="<?php echo !empty($isProcessing) ? '#' : esc_url($jobInstance->getActionUrl(true)); ?>"
                                     aria-disabled="<?php echo !empty($isProcessing) ? 'true' : 'false'; ?>"
+                                    data-confirmation="<?php echo esc_attr($requiresConfirmation); ?>"
                                 >
                                     <?php echo !empty($btnLabel) ? esc_html($btnLabel) : esc_html__('Run Migration', 'wp-statistics'); ?>
                                 </a>
