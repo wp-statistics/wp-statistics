@@ -5,6 +5,8 @@ import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
+import postcssImportantPlugin from './postcss-important-plugin.js'
+
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
   base: './',
@@ -16,6 +18,11 @@ export default defineConfig(({ mode }) => ({
     react(),
     tailwindcss(),
   ],
+  css: {
+    postcss: {
+      plugins: [postcssImportantPlugin()],
+    },
+  },
   build: {
     emptyOutDir: true,
     manifest: true,
