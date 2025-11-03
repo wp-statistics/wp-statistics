@@ -134,10 +134,13 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
 
 
             $data = [
-                'description' => 'text',
+                'description' => sprintf(
+                    __('<p>Discover how visitors reach your site with the power of AI. See traffic from ChatGPT, Perplexity, and other AI tools, connect Google Search Console for new keyword opportunities, and get simple tips. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
+                    esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-ai-insights/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
+                ),
                 'step_name'   => 'wp-statistics-ai-insights',
                 'step'        => 'AI Insights',
-                'step_title'  => esc_html__('AI Insights.', 'wp-statistics'),
+                'step_title'  => esc_html__('AI Insights – Predict, Explain, and Optimize Your Traffic', 'wp-statistics'),
             ];
             View::load("components/modals/introduce-premium/step-content", $data);
             ?>
