@@ -1,0 +1,133 @@
+{
+  "index.react.html": {
+    "file": "assets/main-CgFeQg2e.js",
+    "name": "main",
+    "src": "index.react.html",
+    "isEntry": true,
+    "dynamicImports": [
+      "src/routes/visitor-insights.lazy.tsx",
+      "src/routes/page-analytics.lazy.tsx",
+      "src/routes/overview.lazy.tsx",
+      "src/routes/geographic.lazy.tsx",
+      "src/routes/devices.lazy.tsx",
+      "src/routes/category-analytics.lazy.tsx",
+      "src/routes/author-analytics.lazy.tsx",
+      "src/routes/(referrals)/source-categories.lazy.tsx",
+      "src/routes/(referrals)/social-media.lazy.tsx",
+      "src/routes/(referrals)/search-engines.lazy.tsx",
+      "src/routes/(referrals)/referrers.lazy.tsx",
+      "src/routes/(referrals)/referred-visitors.lazy.tsx"
+    ],
+    "css": [
+      "assets/main-BG2BZmwY.css"
+    ]
+  },
+  "src/routes/(referrals)/referred-visitors.lazy.tsx": {
+    "file": "assets/referred-visitors.lazy-DcWU3YsX.js",
+    "name": "referred-visitors.lazy",
+    "src": "src/routes/(referrals)/referred-visitors.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.react.html"
+    ]
+  },
+  "src/routes/(referrals)/referrers.lazy.tsx": {
+    "file": "assets/referrers.lazy-B-_fPSnz.js",
+    "name": "referrers.lazy",
+    "src": "src/routes/(referrals)/referrers.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.react.html"
+    ]
+  },
+  "src/routes/(referrals)/search-engines.lazy.tsx": {
+    "file": "assets/search-engines.lazy-D66xUL8m.js",
+    "name": "search-engines.lazy",
+    "src": "src/routes/(referrals)/search-engines.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.react.html"
+    ]
+  },
+  "src/routes/(referrals)/social-media.lazy.tsx": {
+    "file": "assets/social-media.lazy-CzKU24mw.js",
+    "name": "social-media.lazy",
+    "src": "src/routes/(referrals)/social-media.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.react.html"
+    ]
+  },
+  "src/routes/(referrals)/source-categories.lazy.tsx": {
+    "file": "assets/source-categories.lazy-BoK9ZJc8.js",
+    "name": "source-categories.lazy",
+    "src": "src/routes/(referrals)/source-categories.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.react.html"
+    ]
+  },
+  "src/routes/author-analytics.lazy.tsx": {
+    "file": "assets/author-analytics.lazy-CDGjUx4K.js",
+    "name": "author-analytics.lazy",
+    "src": "src/routes/author-analytics.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.react.html"
+    ]
+  },
+  "src/routes/category-analytics.lazy.tsx": {
+    "file": "assets/category-analytics.lazy-Dma4YanV.js",
+    "name": "category-analytics.lazy",
+    "src": "src/routes/category-analytics.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.react.html"
+    ]
+  },
+  "src/routes/devices.lazy.tsx": {
+    "file": "assets/devices.lazy-D1OXXxIy.js",
+    "name": "devices.lazy",
+    "src": "src/routes/devices.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.react.html"
+    ]
+  },
+  "src/routes/geographic.lazy.tsx": {
+    "file": "assets/geographic.lazy-DAMuYN3M.js",
+    "name": "geographic.lazy",
+    "src": "src/routes/geographic.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.react.html"
+    ]
+  },
+  "src/routes/overview.lazy.tsx": {
+    "file": "assets/overview.lazy-Md5QpuCI.js",
+    "name": "overview.lazy",
+    "src": "src/routes/overview.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.react.html"
+    ]
+  },
+  "src/routes/page-analytics.lazy.tsx": {
+    "file": "assets/page-analytics.lazy-Bd5rn0xC.js",
+    "name": "page-analytics.lazy",
+    "src": "src/routes/page-analytics.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.react.html"
+    ]
+  },
+  "src/routes/visitor-insights.lazy.tsx": {
+    "file": "assets/visitor-insights.lazy-C-IlXC4H.js",
+    "name": "visitor-insights.lazy",
+    "src": "src/routes/visitor-insights.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.react.html"
+    ]
+  }
+}

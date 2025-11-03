@@ -10,7 +10,7 @@ import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import unusedImports from 'eslint-plugin-unused-imports'
 
 export default defineConfig([
-  globalIgnores(['dist', 'build']),
+  globalIgnores(['dist', 'build', '**/routeTree.gen.ts']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
@@ -34,9 +34,20 @@ export default defineConfig([
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
 
-      // Unused imports rules
-      'unused-imports/no-unused-imports': 'error',
-      'unused-imports/no-unused-vars': [
+      // Unused imports rules - Disabled due to ESLint 9 compatibility issues
+      // 'unused-imports/no-unused-imports': 'error',
+      // 'unused-imports/no-unused-vars': [
+      //   'warn',
+      //   {
+      //     vars: 'all',
+      //     varsIgnorePattern: '^_',
+      //     args: 'after-used',
+      //     argsIgnorePattern: '^_',
+      //   },
+      // ],
+
+      // Use TypeScript's unused vars rule instead
+      '@typescript-eslint/no-unused-vars': [
         'warn',
         {
           vars: 'all',
@@ -45,9 +56,6 @@ export default defineConfig([
           argsIgnorePattern: '^_',
         },
       ],
-
-      // Turn off the base rule as it can report incorrect errors
-      '@typescript-eslint/no-unused-vars': 'off',
     },
     languageOptions: {
       ecmaVersion: 2020,
