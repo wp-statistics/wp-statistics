@@ -131,6 +131,7 @@ class SiteHealthInfo
             'geoIpDatabaseSize'              => [
                 'label' => esc_html__('GeoIP Database Size', 'wp-statistics'),
                 'value' => $geoIpProvider->getDatabaseSize(),
+                'debug' => number_format($geoIpProvider->getDatabaseSize(false) / 1048576) . ' MB',
             ],
             'geoIpDatabaseType'              => [
                 'label' => esc_html__('GeoIP Database Type', 'wp-statistics'),
