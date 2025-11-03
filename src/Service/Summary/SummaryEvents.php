@@ -8,12 +8,9 @@ use WP_Statistics\Models\VisitorsModel;
 
 class SummaryEvents
 {
-    public function __construct()
-    {
-        add_action('update_option_timezone_string', [$this, 'rescheduleSummaryEvent'], 10, 2);
-        add_action('update_option_gmt_offset', [$this, 'rescheduleSummaryEvent'], 10, 2);
-    }
-
+    /**
+     * Register the `record_summary_totals_data` event to run daily
+     */
     public function register()
     {
         /*
@@ -21,10 +18,17 @@ class SummaryEvents
         * This prevents partial data from being recorded for today, ensuring summaries only include complete days.
         */
         $timestamp = DateTime::get('midnight +1 days', 'U');
-
         Event::schedule('wp_statistics_record_daily_summary', $timestamp, 'daily', [$this, 'recordSummaryTotalsData']);
     }
 
+    /**
+     * Reschedules `record_summary_totals_data` event when timezone or GMT offset is updated
+     */
+    public function reschedule()
+    {
+        $timestamp = DateTime::get('midnight +1 days', 'U');
+        Event::reschedule('wp_statistics_record_daily_summary', 'daily', $timestamp);
+    }
 
     /**
      * Record summary data for yesterday.
@@ -48,14 +52,5 @@ class SummaryEvents
             'views'    => $data['hits'],
             'date'     => $date
         ]);
-    }
-
-    /**
-     * Reschedules `record_summary_totals_data` event when timezone or GMT offset is updated
-     */
-    public function rescheduleSummaryEvent()
-    {
-        $timestamp = DateTime::get('midnight +1 days', 'U');
-        Event::reschedule('wp_statistics_record_daily_summary', 'daily', $timestamp);
     }
 }
