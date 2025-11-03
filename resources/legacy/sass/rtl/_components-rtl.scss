@@ -1,0 +1,28 @@
+#wp-statistics-summary-widget,
+.wps-wrap {
+  .c-live {
+
+    .c-live__status {
+      margin-right: 0 !important;
+      margin-left: 11px !important;
+    }
+
+    .c-live__title {
+      margin-right: 0 !important;
+      margin-left: 14px !important;
+    }
+  }
+}
+
+.wps-head-filters #wps-modal-filter.wp-modal-filter--active:after,
+.wps-head-filters #wps-modal-filter:after {
+  transform: rotate(180deg);
+}
+
+
+#TB_ajaxContent {
+.daterangepicker .ranges li{
+  direction: rtl;
+  text-align: right;
+}
+}

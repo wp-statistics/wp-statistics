@@ -1,0 +1,71 @@
+.o-wrap {
+  padding: 12px 32px;
+
+  &.wps-p-0{
+    padding: 0;
+  }
+}
+
+.o-wrap--no-data {
+  padding: 13px 24px 0 !important;
+}
+
+#overview-widgets .o-wrap--no-data, #overview-widgets .wps-wrap--no-content {
+  padding: 0 24px !important;
+}
+
+.wps-wrap--no-content {
+  padding: 13px 24px 0 !important;
+}
+
+.rtl {
+  .o-wrap--no-data {
+    padding: 32px !important;
+    text-align: center;
+
+    p {
+      margin: 0 !important;
+    }
+  }
+}
+
+#overview-widgets {
+  .o-wrap {
+    padding: 12px 24px !important;
+    padding-top: 0 !important;
+
+    .wps-postbox-chart--data {
+      margin-top: 0 !important;
+    }
+  }
+
+  .o-table.wps-new-table {
+    margin-top: 0;
+
+  }
+
+  #wp_statistics_ttop_referring_metabox {
+    tr td .wps-link-arrow{
+      max-width: 200px;
+    }
+  }
+
+  #wp-statistics-referring-widget  , #wp-statistics-countries-widget {
+    .o-table.wps-new-table td.wps-middle-vertical a {
+      color: #404bf2 !important;
+      font-weight: 500;
+    }
+  }
+
+  #wp-statistics-countries-widget {
+    .wps-country-flag .wps-ellipsis-text {
+      max-width: 400px;
+    }
+  }
+
+  .wps-postbox-chart--container canvas {
+    min-height: 199px!important;
+    height: 199px!important;
+  }
+
+}
