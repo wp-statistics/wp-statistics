@@ -27,7 +27,7 @@ $order = Request::get('order', 'desc');
                     <?php foreach ($data['data'] as $item) : ?>
                         <tr>
                             <td class="wps-pd-l">
-                                <a href="<?php echo esc_url(Menus::admin_url('content-analytics', ['type' => 'single-resource', 'uri' => urlencode($item->uri)])) ?>" title="<?php echo esc_html($item->uri) ?>"><?php echo esc_html($item->uri) ?></a>
+                                <a href="<?php echo esc_url(Menus::admin_url('content-analytics', ['type' => 'single-resource', 'uri' => urlencode($item->uri)])) ?>"><?php echo esc_html($item->uri) ?></a>
                             </td>
 
                             <td class="wps-pd-l"><?php echo esc_html($item->views) ?></td>
