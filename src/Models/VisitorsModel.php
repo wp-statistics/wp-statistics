@@ -1562,12 +1562,14 @@ class VisitorsModel extends BaseModel
             'order_by'          => 'visitors',
             'order'             => 'DESC',
             'source_channel'    => '',
+            'source_name'       => '',
             'not_null'          => '',
             'referred_visitors' => false
         ]);
 
         $query = Query::select([
             'COUNT(visitor.ID) as visitors',
+            'pages.count as views',
             'pages.id as post_id',
             'pages.page_id',
             'posts.post_title',
@@ -1577,6 +1579,7 @@ class VisitorsModel extends BaseModel
             ->join('pages', ['visitor.first_page', 'pages.page_id'])
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
             ->where('visitor.source_channel', 'IN', $args['source_channel'])
+            ->where('visitor.source_name', 'IN', $args['source_name'])
             ->where('pages.type', 'IN', $args['resource_type'])
             ->where('pages.uri', '=', $args['uri'])
             ->where('posts.post_author', '=', $args['author_id'])
