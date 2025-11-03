@@ -102,6 +102,8 @@ abstract class BaseRecord
             }
         }
 
+        $query->allowCaching();
+
         return $query->getRow();
     }
 
