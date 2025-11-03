@@ -107,7 +107,10 @@ class Hits extends BaseTracking
             return;
         }
 
+        $resourceUri = Request::get('resourceUri', '');
+
         $visitorProfile->setResourceUriId($resourceUriId);
+        $visitorProfile->setResourceUri($resourceUri);
 
         EntityFactory::visitor($visitorProfile)
             ->record();

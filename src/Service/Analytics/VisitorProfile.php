@@ -54,6 +54,13 @@ class VisitorProfile
     private const META_RESOURCE_URI_ID = 'resource_uri_id';
 
     /**
+     * Resource record ID.
+     *
+     * @var string
+     */
+    private const META_RESOURCE_URI = 'resource_uri';
+
+    /**
      * Referrer record ID.
      *
      * @var string
@@ -205,6 +212,27 @@ class VisitorProfile
     public function getResourceUriId()
     {
         return (int)$this->getMeta(self::META_RESOURCE_URI_ID, 0);
+    }
+
+    /**
+     * Store the Resource URI into internal metadata.
+     *
+     * @param string $uri Resource URI.
+     * @return void
+     */
+    public function setResourceUri($uri)
+    {
+        $this->setMeta(self::META_RESOURCE_URI, base64_decode($uri));
+    }
+
+    /**
+     * Retrieve the Resource URI from internal metadata.
+     *
+     * @return string Resource URI, or empty string if not set.
+     */
+    public function getResourceUri()
+    {
+        return $this->getMeta(self::META_RESOURCE_URI, '');
     }
 
     /**

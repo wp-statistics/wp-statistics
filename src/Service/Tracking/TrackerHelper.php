@@ -8,6 +8,7 @@ use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Resources\ResourcesFactory;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Signature;
+use WP_Statistics\Utils\Validator;
 
 /**
  * Helper methods that are used exclusively by the tracking subsystem.
@@ -56,6 +57,13 @@ final class TrackerHelper
                 'type'     => 'number',
                 'required' => true,
                 'nullable' => false
+            ],
+            'resourceUri'    => [
+                'required'        => true,
+                'nullable'        => true,
+                'type'            => 'string',
+                'encoding'        => 'base64',
+                'invalid_pattern' => Validator::getThreatPatterns()
             ],
             'resource_type'    => [
                 'type'     => 'string',

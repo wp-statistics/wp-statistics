@@ -56,12 +56,12 @@ class ResourceUriDecorator
     }
 
     /**
-     * Get the URL.
+     * Get the URI.
      *
      * @return string|null
      */
-    public function getUrl()
+    public function getUri()
     {
-        return empty($this->identifier->resourceUri->record->url) ? null : (string)$this->identifier->resourceUri->record->url;
+        return empty($this->identifier->resourceUri->record->uri) ? null : (string)$this->identifier->resourceUri->record->uri;
     }
 }
