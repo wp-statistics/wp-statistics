@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
-import { readFileSync, writeFileSync, mkdirSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync, statSync } from 'fs';
+import { join } from 'path';
 import { globSync } from 'glob';
 
 // Custom plugin to wrap JS in jQuery ready
@@ -170,6 +171,39 @@ function inlineChartScripts() {
   };
 }
 
+// Custom plugin to clean output directory but preserve images
+function cleanOutputDir() {
+  return {
+    name: 'clean-output-dir',
+    buildStart() {
+      const outDir = resolve(__dirname, 'public/legacy');
+      const imagesDir = join(outDir, 'images');
+
+      try {
+        // Remove everything except images directory
+        const items = readdirSync(outDir);
+        items.forEach(item => {
+          if (item !== 'images') {
+            const itemPath = join(outDir, item);
+            const stat = statSync(itemPath);
+            if (stat.isDirectory()) {
+              rmSync(itemPath, { recursive: true, force: true });
+            } else {
+              rmSync(itemPath, { force: true });
+            }
+          }
+        });
+        console.log('✓ Cleaned output directory (preserved images)');
+      } catch (e) {
+        // Directory might not exist yet, that's ok
+        if (e.code !== 'ENOENT') {
+          console.warn('Warning during cleanup:', e.message);
+        }
+      }
+    }
+  };
+}
+
 // Custom plugin to minify and copy JSON files
 function copyJsonAssets() {
   return {
@@ -198,6 +232,7 @@ export default defineConfig({
   publicDir: false,
 
   plugins: [
+    cleanOutputDir(),
     jQueryReadyWrapper(),
     inlineAdminSources(),
     inlineBackgroundProcess(),
@@ -209,7 +244,7 @@ export default defineConfig({
 
   build: {
     outDir: resolve(__dirname, 'public/legacy'),
-    emptyOutDir: true,
+    emptyOutDir: false, // We handle cleanup with cleanOutputDir plugin
     minify: 'terser',
 
     terserOptions: {
@@ -313,6 +348,7 @@ export default defineConfig({
       '@assets/js/jqvmap': resolve(__dirname, 'resources/legacy/vendor/jqvmap'),
       '@assets/css/datepicker': resolve(__dirname, 'resources/legacy/vendor/datepicker/css'),
       '@assets/css/jqvmap': resolve(__dirname, 'resources/legacy/vendor/jqvmap/css'),
+      '@assets/images': resolve(__dirname, 'public/legacy/images'),
     }
   }
 });
