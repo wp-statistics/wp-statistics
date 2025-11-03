@@ -89,6 +89,9 @@ importers:
       react-dom:
         specifier: ^19.1.1
         version: 19.2.0(react@19.2.0)
+      select2:
+        specifier: 4.1.0-rc.0
+        version: 4.1.0-rc.0
       tailwind-merge:
         specifier: ^3.3.1
         version: 3.3.1
@@ -7982,6 +7985,9 @@ packages:
 
   select-hose@2.0.0:
     resolution: {integrity: sha512-mEugaLK+YfkijB4fx0e6kImuJdCIt2LxCRcbEYPqRGCs4F2ogyfZU5IAZRdjCP8JPq2AtdNoC/Dux63d9Kiryg==}
+
+  select2@4.1.0-rc.0:
+    resolution: {integrity: sha512-Hr9TdhyHCZUtwznEH2CBf7967mEM0idtJ5nMtjvk3Up5tPukOLXbHUNmh10oRfeNIhj+3GD3niu+g6sVK+gK0A==}
 
   selfsigned@2.4.1:
     resolution: {integrity: sha512-th5B4L2U+eGLq1TVh7zNRGBapioSORUeymIydxgFpwww9d2qyKvtuPU2jJuHvYAwwqi2Y596QBL3eEqcPEYL8Q==}
@@ -18315,6 +18321,8 @@ snapshots:
       ajv-keywords: 5.1.0(ajv@8.17.1)
 
   select-hose@2.0.0: {}
+
+  select2@4.1.0-rc.0: {}
 
   selfsigned@2.4.1:
     dependencies:

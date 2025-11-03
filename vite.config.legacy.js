@@ -241,6 +241,15 @@ export default defineConfig({
         // Chart matrix
         'js/chartjs/chart-matrix.min': resolve(__dirname, 'resources/legacy/entries/chart-matrix.js'),
 
+        // Select2
+        'js/select2.min': resolve(__dirname, 'resources/legacy/entries/select2.js'),
+
+        // Datepicker
+        'js/datepicker.min': resolve(__dirname, 'resources/legacy/entries/datepicker.js'),
+
+        // JQVMap
+        'js/jqvmap.min': resolve(__dirname, 'resources/legacy/entries/jqvmap.js'),
+
         // Styles
         'css/admin.min': resolve(__dirname, 'resources/legacy/sass/admin.scss'),
         'css/rtl.min': resolve(__dirname, 'resources/legacy/sass/rtl.scss'),
@@ -257,6 +266,16 @@ export default defineConfig({
             const name = assetInfo.name.replace('.css', '');
             if (name.includes('admin') || name.includes('rtl') || name.includes('frontend')) {
               return name + '.min.css';
+            }
+            // For vendor libraries from js entries, output as css/{library}.min.css
+            if (name.includes('select2')) {
+              return 'css/select2.min.css';
+            }
+            if (name.includes('datepicker') || name.includes('daterangepicker') || name.includes('customize')) {
+              return 'css/datepicker.min.css';
+            }
+            if (name.includes('jqvmap')) {
+              return 'css/jqvmap.min.css';
             }
             return '[name][extname]';
           }
@@ -290,6 +309,10 @@ export default defineConfig({
     alias: {
       '@': resolve(__dirname, 'resources/legacy'),
       '@assets/json/source-channels.json': resolve(__dirname, 'resources/legacy/json/source-channels.json'),
+      '@assets/js/datepicker': resolve(__dirname, 'resources/legacy/vendor/datepicker'),
+      '@assets/js/jqvmap': resolve(__dirname, 'resources/legacy/vendor/jqvmap'),
+      '@assets/css/datepicker': resolve(__dirname, 'resources/legacy/vendor/datepicker/css'),
+      '@assets/css/jqvmap': resolve(__dirname, 'resources/legacy/vendor/jqvmap/css'),
     }
   }
 });
