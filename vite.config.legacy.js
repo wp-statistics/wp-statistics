@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
-import { readFileSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { globSync } from 'glob';
 
 // Custom plugin to wrap JS in jQuery ready
@@ -170,6 +170,29 @@ function inlineChartScripts() {
   };
 }
 
+// Custom plugin to minify and copy JSON files
+function copyJsonAssets() {
+  return {
+    name: 'copy-json-assets',
+    writeBundle() {
+      const sourceFile = resolve(__dirname, 'resources/legacy/json/source-channels.json');
+      const destDir = resolve(__dirname, 'public/legacy/json');
+      const destFile = resolve(destDir, 'source-channels.json');
+
+      try {
+        mkdirSync(destDir, { recursive: true });
+        // Read, minify, and write JSON
+        const jsonContent = readFileSync(sourceFile, 'utf-8');
+        const minified = JSON.stringify(JSON.parse(jsonContent));
+        writeFileSync(destFile, minified);
+        console.log('✓ Minified and copied source-channels.json to public/legacy/json/');
+      } catch (e) {
+        console.error('Failed to minify source-channels.json:', e);
+      }
+    }
+  };
+}
+
 export default defineConfig({
   root: resolve(__dirname, 'resources/legacy'),
   publicDir: false,
@@ -181,6 +204,7 @@ export default defineConfig({
     inlineTinyMCE(),
     inlineTrackerScripts(),
     inlineChartScripts(),
+    copyJsonAssets(),
   ],
 
   build: {
@@ -238,13 +262,10 @@ export default defineConfig({
           }
           return 'assets/[name][extname]';
         },
-
-        // Ensure proper code format
-        compact: true,
-        generatedCode: {
-          constBindings: false,
-        },
       },
+
+      // External dependencies (available globally in WordPress)
+      external: ['jquery'],
     },
 
     target: 'es2020', // Support optional chaining and other modern features
@@ -268,6 +289,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, 'resources/legacy'),
+      '@assets/json/source-channels.json': resolve(__dirname, 'resources/legacy/json/source-channels.json'),
     }
   }
 });
