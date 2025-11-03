@@ -5,9 +5,10 @@
 - **Fix:** Corrected the label displayed for the selected filter on the Link Tracker page.
 - **New:** Introduced a refactored background-process migration type and removed the legacy AJAX migrations.
 - **New:** Updated Single Visitor page to show `Other Visits` section.
-- **Enhancement:** Converted the Visitor Columns migrator to a background process and added a progress notice plus a "Data Migrations" section in Optimization page. 
+- **Enhancement:** Converted the Visitor Columns migrator to a background process and added a progress notice plus a "Data Migrations" section in Optimization page.
 - **Enhancement:** Refactored background-process jobs for stability and maintainability.
-- 
+- **Enhancement:** Link 404 report items to the `Single Resource` page.
+-
 = 14.15.5 - 2025-09-21 =
 - **Enhancement:** Added date range validation on report pages.
 - **Enhancement:** Improved compare style and number formatting in "At a Glance" widgets.
