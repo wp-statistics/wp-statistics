@@ -17,7 +17,9 @@
     "lint:react": "eslint resources/react/src --config eslint.config.react.js",
     "lint:react:fix": "eslint resources/react/src --config eslint.config.react.js --fix",
     "format:react": "prettier --write \"resources/react/**/*.{ts,tsx,js,jsx,json,css,scss,md}\" --config .prettierrc",
-    "format:react:check": "prettier --check \"resources/react/**/*.{ts,tsx,js,jsx,json,css,scss,md}\" --config .prettierrc"
+    "format:react:check": "prettier --check \"resources/react/**/*.{ts,tsx,js,jsx,json,css,scss,md}\" --config .prettierrc",
+    "storybook": "storybook dev -p 6006",
+    "build:storybook": "storybook build"
   },
   "dependencies": {
     "@babel/core": "^7.24.7",
@@ -54,6 +56,8 @@
   "devDependencies": {
     "@babel/preset-env": "^7.24.4",
     "@eslint/js": "^9.36.0",
+    "@storybook/react": "^10.0.3",
+    "@storybook/react-vite": "^10.0.3",
     "@tanstack/eslint-plugin-query": "^5.91.2",
     "@tanstack/eslint-plugin-router": "^1.133.19",
     "@tanstack/router-plugin": "^1.132.37",
@@ -80,6 +84,7 @@
     "sass-embedded": "^1.83.0",
     "sass-migrator": "^2.4.2",
     "shadcn": "^3.4.2",
+    "storybook": "^10.0.3",
     "terser": "^5.37.0",
     "tw-animate-css": "^1.4.0",
     "typescript": "~5.8.3",
