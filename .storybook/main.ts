@@ -1,13 +1,14 @@
 import type { StorybookConfig } from '@storybook/react-vite'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
+import tailwindcss from '@tailwindcss/vite'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = resolve(__filename, '..')
 
 const config: StorybookConfig = {
   stories: ['../resources/react/src/**/*.mdx', '../resources/react/src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
-  addons: ['@storybook/addon-essentials', '@storybook/addon-interactions'],
+  addons: [],
   framework: {
     name: '@storybook/react-vite',
     options: {},
@@ -16,6 +17,7 @@ const config: StorybookConfig = {
     // Merge custom Vite configuration
     return {
       ...config,
+      plugins: [...(config.plugins || []), tailwindcss()],
       resolve: {
         ...config.resolve,
         alias: {
