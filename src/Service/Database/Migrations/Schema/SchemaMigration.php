@@ -53,7 +53,6 @@ class SchemaMigration extends BaseMigrationOperation
             'addUserIdToEvents'
         ],
         '14.16' => [
-            'createSummaryTotalsTable',
             'dropOnlineTable'
         ]
     ];
@@ -126,35 +125,6 @@ class SchemaMigration extends BaseMigrationOperation
                 ->setArgs([
                     'add' => [
                         'user_id' => 'bigint(20) UNSIGNED DEFAULT NULL',
-                    ]
-                ])
-                ->execute();
-        } catch (Exception $e) {
-            $this->setErrorStatus($e->getMessage());
-        }
-    }
-
-    /**
-     * Adds a new table 'summary_totals' to store summary totals.
-     *
-     * @return void
-     */
-    public function createSummaryTotalsTable()
-    {
-        $this->ensureConnection();
-
-        try {
-            DatabaseFactory::table('create')
-                ->setName('summary_totals')
-                ->setArgs([
-                    'columns'     => [
-                        'ID'         => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
-                        'date'       => 'date NOT NULL UNIQUE',
-                        'visitors'   => 'bigint(20) UNSIGNED NOT NULL',
-                        'views'      => 'bigint(20) UNSIGNED NOT NULL'
-                    ],
-                    'constraints' => [
-                        'PRIMARY KEY (ID)',
                     ]
                 ])
                 ->execute();
