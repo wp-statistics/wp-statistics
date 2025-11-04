@@ -68,7 +68,7 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
      *
      * @var string
      */
-    protected $jobBtnTitle = '';
+    protected $jobButtonTitle = '';
 
     /**
      * Success notice message to display in the admin UI when the job finishes.
@@ -129,12 +129,12 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
     /**
      * Set the short button title
      *
-     * @param string $jobBtnTitle
+     * @param string $jobButtonTitle
      * @return void
      */
-    protected function setJobBtnTitle($jobBtnTitle)
+    protected function setJobButtonTitle($jobButtonTitle)
     {
-        $this->jobBtnTitle = $jobBtnTitle;
+        $this->jobButtonTitle = $jobButtonTitle;
     }
 
     /**
@@ -142,9 +142,9 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
      *
      * @return string
      */
-    public function getJobBtnTitle()
+    public function getJobButtonTitle()
     {
-        return $this->jobBtnTitle;
+        return $this->jobButtonTitle;
     }
 
     /**

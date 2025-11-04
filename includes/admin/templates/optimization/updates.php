@@ -178,7 +178,7 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
                         $isProcessing = $jobInstance->is_processing();
 
                         $label                = $jobInstance->getJobTitle();
-                        $btnLabel             = $jobInstance->getJobBtnTitle();
+                        $btnLabel             = $jobInstance->getJobButtonTitle();
                         $requiresConfirmation = $jobInstance->isConfirmationRequired() ? '1' : '0';
                         ?>
                          <tr data-id="<?php echo esc_attr("wps_migration_$key"); ?>" class="wps-migration-row">

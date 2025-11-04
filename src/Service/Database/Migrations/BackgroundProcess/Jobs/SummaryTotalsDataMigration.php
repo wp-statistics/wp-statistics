@@ -51,7 +51,7 @@ class SummaryTotalsDataMigration extends BaseBackgroundProcess
         $this->setSuccessNotice(esc_html__('Summary data migration processed successfully.', 'wp-statistics'));
         $this->setJobTitle(esc_html__('Refresh Summary Totals', 'wp-statistics'));
         $this->setJobDescription(esc_html__('This recalculate daily totals from your current data. Days without detail will stay unchanged.', 'wp-statistics'));
-        $this->setJobBtnTitle(esc_html__('Refresh Totals', 'wp-statistics'));
+        $this->setJobButtonTitle(esc_html__('Refresh Totals', 'wp-statistics'));
     }
 
     /**
