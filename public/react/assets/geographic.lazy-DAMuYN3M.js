@@ -1,1 +1,0 @@
-import{S as e,i as t,n}from"./main-CgFeQg2e.js";var r=e(t());const i=n(`/geographic`)({component:a});function a(){return(0,r.jsx)(`div`,{children:`Hello "/geographic"!`})}export{i as Route};

@@ -40,7 +40,7 @@ export default defineConfig(({ mode }) => {
       sourcemap: mode === 'development' ? true : false,
       rollupOptions: {
         input: {
-          main: resolve(reactRoot, 'index.react.html'),
+          main: resolve(reactRoot, 'src/main.tsx'),
         },
       },
     },

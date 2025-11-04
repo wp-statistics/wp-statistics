@@ -1,8 +1,8 @@
 {
-  "index.react.html": {
-    "file": "assets/main-CgFeQg2e.js",
+  "src/main.tsx": {
+    "file": "assets/main-DG4g-23g.js",
     "name": "main",
-    "src": "index.react.html",
+    "src": "src/main.tsx",
     "isEntry": true,
     "dynamicImports": [
       "src/routes/visitor-insights.lazy.tsx",
@@ -23,111 +23,111 @@
     ]
   },
   "src/routes/(referrals)/referred-visitors.lazy.tsx": {
-    "file": "assets/referred-visitors.lazy-DcWU3YsX.js",
+    "file": "assets/referred-visitors.lazy-CZE6MUvJ.js",
     "name": "referred-visitors.lazy",
     "src": "src/routes/(referrals)/referred-visitors.lazy.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "index.react.html"
+      "src/main.tsx"
     ]
   },
   "src/routes/(referrals)/referrers.lazy.tsx": {
-    "file": "assets/referrers.lazy-B-_fPSnz.js",
+    "file": "assets/referrers.lazy-UCDXa1hC.js",
     "name": "referrers.lazy",
     "src": "src/routes/(referrals)/referrers.lazy.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "index.react.html"
+      "src/main.tsx"
     ]
   },
   "src/routes/(referrals)/search-engines.lazy.tsx": {
-    "file": "assets/search-engines.lazy-D66xUL8m.js",
+    "file": "assets/search-engines.lazy-DyfPfxdZ.js",
     "name": "search-engines.lazy",
     "src": "src/routes/(referrals)/search-engines.lazy.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "index.react.html"
+      "src/main.tsx"
     ]
   },
   "src/routes/(referrals)/social-media.lazy.tsx": {
-    "file": "assets/social-media.lazy-CzKU24mw.js",
+    "file": "assets/social-media.lazy-ChtFxXLI.js",
     "name": "social-media.lazy",
     "src": "src/routes/(referrals)/social-media.lazy.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "index.react.html"
+      "src/main.tsx"
     ]
   },
   "src/routes/(referrals)/source-categories.lazy.tsx": {
-    "file": "assets/source-categories.lazy-BoK9ZJc8.js",
+    "file": "assets/source-categories.lazy-B_cgxw17.js",
     "name": "source-categories.lazy",
     "src": "src/routes/(referrals)/source-categories.lazy.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "index.react.html"
+      "src/main.tsx"
     ]
   },
   "src/routes/author-analytics.lazy.tsx": {
-    "file": "assets/author-analytics.lazy-CDGjUx4K.js",
+    "file": "assets/author-analytics.lazy-BNLZqpP7.js",
     "name": "author-analytics.lazy",
     "src": "src/routes/author-analytics.lazy.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "index.react.html"
+      "src/main.tsx"
     ]
   },
   "src/routes/category-analytics.lazy.tsx": {
-    "file": "assets/category-analytics.lazy-Dma4YanV.js",
+    "file": "assets/category-analytics.lazy-Bva07w_O.js",
     "name": "category-analytics.lazy",
     "src": "src/routes/category-analytics.lazy.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "index.react.html"
+      "src/main.tsx"
     ]
   },
   "src/routes/devices.lazy.tsx": {
-    "file": "assets/devices.lazy-D1OXXxIy.js",
+    "file": "assets/devices.lazy-6BesLoa2.js",
     "name": "devices.lazy",
     "src": "src/routes/devices.lazy.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "index.react.html"
+      "src/main.tsx"
     ]
   },
   "src/routes/geographic.lazy.tsx": {
-    "file": "assets/geographic.lazy-DAMuYN3M.js",
+    "file": "assets/geographic.lazy-BV_dQ2zZ.js",
     "name": "geographic.lazy",
     "src": "src/routes/geographic.lazy.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "index.react.html"
+      "src/main.tsx"
     ]
   },
   "src/routes/overview.lazy.tsx": {
-    "file": "assets/overview.lazy-Md5QpuCI.js",
+    "file": "assets/overview.lazy-CB-144j_.js",
     "name": "overview.lazy",
     "src": "src/routes/overview.lazy.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "index.react.html"
+      "src/main.tsx"
     ]
   },
   "src/routes/page-analytics.lazy.tsx": {
-    "file": "assets/page-analytics.lazy-Bd5rn0xC.js",
+    "file": "assets/page-analytics.lazy-CkUUHUr3.js",
     "name": "page-analytics.lazy",
     "src": "src/routes/page-analytics.lazy.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "index.react.html"
+      "src/main.tsx"
     ]
   },
   "src/routes/visitor-insights.lazy.tsx": {
-    "file": "assets/visitor-insights.lazy-C-IlXC4H.js",
+    "file": "assets/visitor-insights.lazy-BAvR-bE9.js",
     "name": "visitor-insights.lazy",
     "src": "src/routes/visitor-insights.lazy.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "index.react.html"
+      "src/main.tsx"
     ]
   }
 }
