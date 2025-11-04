@@ -57,7 +57,6 @@ class SchemaMigration extends AbstractMigrationOperation
         '15.0.0'  => [
             'addResourceUriIdAndSessionIdToEvents',
             'addSessionIdEventNameIndexToEvents',
-            'addResourceUriIdToGoals'
         ],
     ];
 
@@ -195,38 +194,6 @@ class SchemaMigration extends AbstractMigrationOperation
                 ])
                 ->execute();
         } catch (\Throwable $e) {
-            $this->setErrorStatus($e->getMessage());
-        }
-    }
-
-    /**
-     * Adds `resource_uri_id` column to the 'goals' table.
-     * 
-     * @return void
-     * @since 15.0.0
-     */
-    public function addResourceUriIdToGoals()
-    {
-        $this->ensureConnection();
-
-        try {
-            $inspect = DatabaseFactory::table('inspect')
-                ->setName('goals')
-                ->execute();
-
-            if (!$inspect) {
-                return;
-            }
-
-            DatabaseFactory::table('update')
-                ->setName('goals')
-                ->setArgs([
-                    'add' => [
-                        'resource_uri_id' => 'BIGINT(20) UNSIGNED DEFAULT NULL',
-                    ]
-                ])
-                ->execute();
-        } catch (Exception $e) {
             $this->setErrorStatus($e->getMessage());
         }
     }
