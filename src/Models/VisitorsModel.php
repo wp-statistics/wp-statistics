@@ -1056,6 +1056,7 @@ class VisitorsModel extends BaseModel
             'taxonomy'              => '',
             'term'                  => '',
             'page'                  => 1,
+            'source_name'           => '',
             'source_channel'        => '',
             'group_by'              => 'visitor.location',
             'event_name'            => '',
@@ -1081,6 +1082,7 @@ class VisitorsModel extends BaseModel
         $query = Query::select($args['fields'])
             ->from('visitor')
             ->where('visitor.location', 'IN', $args['country'])
+            ->where('visitor.source_name', 'IN', $args['source_name'])
             ->where('visitor.city', 'IN', $args['city'])
             ->where('visitor.region', 'IN', $args['region'])
             ->where('visitor.continent', 'IN', $args['continent'])
