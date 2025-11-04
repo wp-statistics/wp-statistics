@@ -134,8 +134,7 @@ class ReferralsPage extends MultiViewPage
                 'label'      => esc_html__('LLM', 'wp-statistics'),
                 'panel'      => true,
                 'attributes' => [
-                    'data-type'    => 'source_name',
-                    'data-default' => $sourceName
+                    'data-type' => 'source_name',
                 ],
                 'predefined' => $this->getLlmSourceNames()
             ])
