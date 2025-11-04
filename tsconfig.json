@@ -1,6 +1,5 @@
 {
-  "files": [],
-  "references": [{ "path": "./tsconfig.react.app.json" }, { "path": "./tsconfig.react.node.json" }],
+  "extends": "./tsconfig.react.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
