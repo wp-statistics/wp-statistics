@@ -1211,6 +1211,7 @@ class VisitorsModel extends BaseModel
             'date'           => '',
             'post_type'      => '',
             'source_channel' => '',
+            'source_name'    => '',
             'post_id'        => '',
             'country'        => '',
             'query_param'    => '',
@@ -1247,6 +1248,7 @@ class VisitorsModel extends BaseModel
         $query = Query::select($fields)
             ->from('visitor')
             ->where('visitor.location', '=', $args['country'])
+            ->where('visitor.source_name', 'IN', $args['source_name'])
             ->whereDate('visitor.last_counter', $args['date'])
             ->whereNotNull($args['not_null'])
             ->groupBy($args['group_by'])
