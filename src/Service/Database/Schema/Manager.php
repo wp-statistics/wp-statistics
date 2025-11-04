@@ -263,7 +263,6 @@ class Manager
                 'views'           => 'bigint(20) UNSIGNED NOT NULL',
                 'total_duration'  => 'int(11) UNSIGNED NOT NULL DEFAULT 0',
                 'bounces'         => 'bigint(20) UNSIGNED NOT NULL DEFAULT 0',
-                'conversions'     => 'bigint(20) UNSIGNED NOT NULL DEFAULT 0',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
@@ -280,7 +279,6 @@ class Manager
                 'views'          => 'bigint(20) UNSIGNED NOT NULL',
                 'total_duration' => 'int(11) UNSIGNED NOT NULL DEFAULT 0',
                 'bounces'        => 'bigint(20) UNSIGNED NOT NULL DEFAULT 0',
-                'conversions'    => 'bigint(20) UNSIGNED NOT NULL DEFAULT 0',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
