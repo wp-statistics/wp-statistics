@@ -7,6 +7,7 @@ use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFact
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\SourceChannelUpdater;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
+use WP_Statistics\Service\Analytics\Referrals\SourceNames;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Admin\FilterHandler\FilterGenerator;
@@ -112,7 +113,41 @@ class ReferralsPage extends MultiViewPage
                 ->get();
     }
 
+    protected function setLlmTabFilter()
+    {
+        $sourceName = Request::get('source_name', '');
+
+        $this->filters = FilterGenerator::create()
+            ->hidden('pageName', [
+                'name' => 'page',
+                'attributes' => [
+                    'value' => Menus::get_page_slug('referrals')
+                ]
+            ])
+            ->hidden('tabName', [
+                'name'  => 'tab',
+                'attributes' => [
+                    'value' => Request::get('tab')
+                ]
+            ])
+            ->dropdown('source_name', [
+                'label'      => esc_html__('LLM', 'wp-statistics'),
+                'panel'      => true,
+                'attributes' => [
+                    'data-type'    => 'source_name',
+                    'data-default' => $sourceName
+                ],
+                'predefined' => $this->getLlmSourceNames()
+            ])
+            ->get();
+    }
+
     protected function setFilters() {
+        // LLM tab filter
+        if (Request::compare('tab', 'llm')) {
+            return $this->setLlmTabFilter();
+        }
+
         // Campaigns tab filter
         if (Request::compare('tab', 'campaigns') || Request::compare('type', 'single-campaign')) {
             return $this->setCampaignsFilter();
@@ -265,6 +300,31 @@ class ReferralsPage extends MultiViewPage
             'args'           => $args,
             'baseUrl'        => $baseUrl,
             'selectedOption' => Request::get('source_channel'),
+        ];
+    }
+
+    /**
+     * Retrieves filtered llm sources and generates corresponding data.
+     *
+     * @return array
+     */
+    private function getLlmSourceNames()
+    {
+        $sources = SourceNames::getLlmSources();
+        $baseUrl = htmlspecialchars_decode(esc_url(remove_query_arg(['source_name'])));
+
+        foreach ($sources as $key => $source) {
+            $args[] = [
+                'slug' => esc_attr($key),
+                'name' => esc_html($source),
+                'url'  => add_query_arg(['source_name' => $key]),
+            ];
+        }
+
+        return [
+            'args'           => $args,
+            'baseUrl'        => $baseUrl,
+            'selectedOption' => Request::get('source_name'),
         ];
     }
 

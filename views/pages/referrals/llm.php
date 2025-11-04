@@ -1,7 +1,7 @@
 <?php
 use WP_Statistics\Components\View;
 
-$isLocked = apply_filters('wp_statistics_referrals_ai_locked', true);
+$isLocked = apply_filters('wp_statistics_referrals_llm_locked', true);
 
 if ($isLocked) {
     $args = [

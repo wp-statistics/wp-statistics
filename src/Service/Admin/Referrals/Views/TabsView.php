@@ -23,7 +23,7 @@ class TabsView extends BaseTabView
         'search-engines',
         'campaigns',
         'utm-performance',
-        'ai',
+        'llm',
     ];
 
     public function __construct()
@@ -153,9 +153,9 @@ class TabsView extends BaseTabView
                         'lockedTarget' => 'wp-statistics-marketing'
                     ],
                     [
-                        'link'         => Menus::admin_url('referrals', ['tab' => 'ai']),
+                        'link'         => Menus::admin_url('referrals', ['tab' => 'llm']),
                         'title'        => esc_html__('AI/LLM', 'wp-statistics'),
-                        'class'        => $this->isTab('ai') ? 'current' : '',
+                        'class'        => $this->isTab('llm') ? 'current' : '',
                         'locked'       => true,
                         'tooltip'      => esc_html__('To view this report, you need to have AI Insights add-on.', 'wp-statistics'),
                         'lockedTarget' => 'wp-statistics-ai-insights'
@@ -196,6 +196,11 @@ class TabsView extends BaseTabView
             // Add social channels filter if tab is it's social media tab
             if ($this->isTab('social-media')) {
                 $args['filters'] = ['social-channels'];
+            }
+
+            // Add LLM filter if tab is it's LLM tab
+            if ($this->isTab('llm')) {
+                $args['filters'] = ['llm-sources'];
             }
 
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
