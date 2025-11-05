@@ -173,7 +173,7 @@ class IP
         $userAgent = UserAgent::getHttpUserAgent();
 
         $hash          = hash('sha256', $dailySalt['salt'] . $ip . $userAgent);
-        $truncatedHash = substr( self::$hash_ip_prefix . $hash, 0, 46); 
+        $truncatedHash = substr( self::$hash_ip_prefix . $hash, 0, 46);
 
         // Hash the combination of daily salt, IP, and user agent to create a unique identifier.
         // This hash is then prefixed and filtered for potential modification before being returned.
@@ -418,8 +418,40 @@ class IP
     public static function getCloudflareIp(): string
     {
         $ip = $_SERVER['HTTP_CF_CONNECTING_IP'] ?? '';
-    
+
         return IP::check_sanitize_ip($ip) ? $ip : '';
     }
-    
+
+    /**
+     * Checks if the given IP address (IPv4 or IPv6) is anonymized.
+     *
+     * For IPv4: checks if the last octet is zero (e.g., 192.168.1.0)
+     * For IPv6: checks if the last 64 bits are zero (e.g., 2001:db8:85a3:1234::)
+     *
+     * @param string $ip The IP address to check.
+     * @return bool True if the IP is anonymized, false otherwise.
+     */
+    public static function isIpAnonymized($ip)
+    {
+        // Check IPv4 anonymization
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+            $octets = explode('.', $ip);
+            return count($octets) === 4 && intval($octets[3]) === 0;
+        }
+
+        // Check IPv6 anonymization
+        // WordPress anonymizes IPv6 by zeroing the last 64 bits using netmask ffff:ffff:ffff:ffff:0000:0000:0000:0000
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+            // Convert to binary and check if last 64 bits are zero
+            $binary = inet_pton($ip);
+
+            if ($binary === false) return false;
+
+            // Check if the last 8 bytes (64 bits) are all zeros
+            $lastBytes = substr($binary, 8);
+            return $lastBytes === str_repeat("\0", 8);
+        }
+
+        return false;
+    }
 }

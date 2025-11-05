@@ -62,7 +62,7 @@ class QueueManager extends BaseMigrationManager
      */
     public function handleDoneNotice()
     {
-        if (!$this->isValidMigrationContext() || QueueFactory::isMigrationCompleted()) {
+        if (!$this->isValidContext() || QueueFactory::isMigrationCompleted()) {
             return;
         }
 
@@ -100,7 +100,7 @@ class QueueManager extends BaseMigrationManager
     public function handleNotice()
     {
         if (
-            !$this->isValidMigrationContext() ||
+            !$this->isValidContext() ||
             QueueFactory::isMigrationCompleted() ||
             !QueueFactory::needsMigration()
         ) {

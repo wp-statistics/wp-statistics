@@ -64,7 +64,7 @@ class Ajax
     /**
      * Sends a JSON response back to an Ajax request, indicating failure.
      *
-     * @param string|null $message Optional. The message to send back to the client.
+     * @param string $message The message to send back to the client.
      * @param mixed|null $data Optional. The data to send back to the client.
      * @param int|null $code Optional. The HTTP status code to output. Default 400.
      */

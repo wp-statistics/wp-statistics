@@ -1,10 +1,5 @@
 <?php
 
-use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\CalculatePostWordsCount;
-use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\GeolocationDatabaseDownloadProcess;
-use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\IncompleteGeoIpUpdater;
-use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\SourceChannelUpdater;
-use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs\TableOperationProcess;
 use WP_Statistics\Core\CoreFactory;
 use WP_Statistics\Service\Admin\AnonymizedUsageData\AnonymizedUsageDataManager;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsManager;
@@ -30,15 +25,14 @@ use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsManager;
 use WP_Statistics\Service\Analytics\AnalyticsManager;
 use WP_Statistics\Service\HooksManager;
 use WP_Statistics\Service\CronEventManager;
-use WP_Statistics\Service\Database\Migrations\Ajax\AjaxManager as DatabaseMigrationAjaxManager;
 use WP_Statistics\Service\Database\Migrations\Queue\QueueManager as DatabaseMigrationQueueManager;
-use WP_Statistics\Service\Database\Migrations\Schema\SchemaManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
 use WP_Statistics\Service\CustomEvent\CustomEventManager;
 use WP_Statistics\Service\Admin\ExportImport\ExportImportManager;
 use WP_Statistics\CLI\CliCommands;
 use WP_Statistics\Service\Admin\Optimization\OptimizationManager;
 use WP_Statistics\Globals\AjaxManager;
+use WP_Statistics\Service\Database\Migrations\BackgroundProcess\BackgroundProcessManager;
 
 defined('ABSPATH') || exit;
 
@@ -55,11 +49,6 @@ final class WP_Statistics
      * @var WP_Statistics
      */
     protected static $_instance = null;
-
-    /**
-     * @var $backgroundProcess
-     */
-    private $backgroundProcess;
 
     /**
      * Main WP Statistics Instance.
@@ -125,12 +114,6 @@ final class WP_Statistics
             add_action('init', function () {
                 $postsManager = new PostsManager();
             });
-
-            /**
-             * Setup background process.
-             */
-            $this->initializeBackgroundProcess();
-
         } catch (Exception $e) {
             self::log($e->getMessage());
         }
@@ -191,6 +174,8 @@ final class WP_Statistics
 
         CoreFactory::updater();
 
+        new BackgroundProcessManager();
+
         // Admin classes
         if (is_admin()) {
             CoreFactory::loader();
@@ -229,7 +214,6 @@ final class WP_Statistics
             $optimizationManager = new OptimizationManager();
 
             new FilterManager();
-            new DatabaseMigrationAjaxManager();
             new DatabaseMigrationQueueManager();
         }
 
@@ -265,41 +249,6 @@ final class WP_Statistics
 
         // Include functions
         require_once WP_STATISTICS_DIR . 'functions.php';
-    }
-
-    /**
-     * Set up background processes.
-     */
-    private function initializeBackgroundProcess()
-    {
-        $this->registerBackgroundProcess(CalculatePostWordsCount::class, 'calculate_post_words_count');
-        $this->registerBackgroundProcess(IncompleteGeoIpUpdater::class, 'update_unknown_visitor_geoip');
-        $this->registerBackgroundProcess(GeolocationDatabaseDownloadProcess::class, 'geolocation_database_download');
-        $this->registerBackgroundProcess(SourceChannelUpdater::class, 'update_visitors_source_channel');
-        $this->registerBackgroundProcess(TableOperationProcess::class, 'table_operations_process');
-    }
-
-    /**
-     * Initialize a background process if the class exists.
-     *
-     * @param string $className The name of the background process class.
-     * @param string $processKey The key to store the background process in the array.
-     */
-    private function registerBackgroundProcess($className, $processKey)
-    {
-        if (class_exists($className)) {
-            $this->backgroundProcess[$processKey] = new $className();
-        }
-    }
-
-    /**
-     * Get the registered background processes.
-     *
-     * @return WP_Background_Process
-     */
-    public function getBackgroundProcess($processKey)
-    {
-        return $this->backgroundProcess[$processKey];
     }
 
     private function create_upload_directory()
