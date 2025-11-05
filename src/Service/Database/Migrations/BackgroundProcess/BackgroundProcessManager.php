@@ -117,7 +117,7 @@ class BackgroundProcessManager extends BaseMigrationManager
      */
     private function registerBackgroundProcess($className, $processKey)
     {
-        if (!class_exists($className) && !empty($this->backgroundProcess[$processKey])) {
+        if (!class_exists($className) || !empty($this->backgroundProcess[$processKey])) {
             return;
         }
 
