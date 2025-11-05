@@ -283,7 +283,7 @@ class BackgroundProcessManager extends BaseMigrationManager
             ]);
         }
 
-        $this->currentProcess = Request::get('current_process');
+        $this->currentProcess = Request::get('current_process', '');
 
         $currentJob = $this->getBackgroundProcess($this->currentProcess);
 
