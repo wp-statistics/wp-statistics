@@ -110,6 +110,7 @@ class Hits extends BaseTracking
 
         $resourceUri = Request::get('resourceUri', '');
 
+        $visitorProfile->setResourceUriId($resourceUriId);
         $visitorProfile->setResourceUri($resourceUri);
         $visitorProfile->setResourceId($resourceId);
 
