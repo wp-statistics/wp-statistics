@@ -185,7 +185,7 @@ final class TrackerHelper
 
         $params = [
             'resource_type' => $resource->getType(),
-            'resource_id'   => $resource->getResourceId(),
+            'resource_id'   => $resource->getId(),
         ];
 
         // Append request signature when the feature is active.

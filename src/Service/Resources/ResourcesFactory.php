@@ -41,6 +41,27 @@ class ResourcesFactory
     }
 
     /**
+     * Retrieve a resource by its record ID (primary key in the `resources` table).
+     *
+     * Unlike {@see getByResourceId()}, which searches by the logical `resource_id` plus a
+     * `resource_type`, this method looks up the row by the table's primary key (`resources.ID`).
+     * If a matching record is found, it is wrapped in a {@see ResourceDecorator} for a
+     * consistent API; otherwise `null` is returned.
+     *
+     * @param int $resourceId The record ID (value of `resources.ID`).
+     * @return ResourceDecorator|null A decorator for the resource record, or null if not found.
+     * @since 15.0.0
+     */
+    public static function getResourceById($resourceId)
+    {
+        $record = RecordFactory::resource()->get([
+            'ID' => $resourceId,
+        ]);
+
+        return !empty($record) ? new ResourceDecorator($record) : null;
+    }
+
+    /**
      * Retrieves a resource by its uri.
      *
      * This method searches the 'resources' table for a resource that matches the provided uri,
