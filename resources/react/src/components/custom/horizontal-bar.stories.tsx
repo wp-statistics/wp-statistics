@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { HorizontalBar } from './horinzontal-bar'
+import { HorizontalBar } from './horizontal-bar'
 
 const meta = {
   title: 'Custom/HorizontalBar',

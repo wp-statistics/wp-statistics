@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils'
 import { ChevronUp, ChevronDown } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
-interface HorizontalBarProps {
+export interface HorizontalBarProps {
   icon: React.ReactNode
   label: string
   value: string | number
