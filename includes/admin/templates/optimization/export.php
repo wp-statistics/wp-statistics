@@ -67,7 +67,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="2">
+                    <th colspan="2">
                         <span class="screen-reader-text">Export action</span>
                         <?php
                         $button_text    = esc_html__('Begin Export', 'wp-statistics');
