@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
-import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync, statSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync, statSync, cpSync, existsSync } from 'fs';
 import { join } from 'path';
 import { globSync } from 'glob';
 
@@ -177,7 +177,6 @@ function cleanOutputDir() {
     name: 'clean-output-dir',
     buildStart() {
       const outDir = resolve(__dirname, 'public/legacy');
-      const imagesDir = join(outDir, 'images');
 
       try {
         // Remove everything except images directory
@@ -199,6 +198,73 @@ function cleanOutputDir() {
         if (e.code !== 'ENOENT') {
           console.warn('Warning during cleanup:', e.message);
         }
+      }
+    }
+  };
+}
+
+// Custom plugin to copy assets structure (exact copy)
+function copyAssetsStructure() {
+  return {
+    name: 'copy-assets-structure',
+    writeBundle() {
+      const assetsJsDir = resolve(__dirname, 'assets/js');
+      const assetsCssDir = resolve(__dirname, 'assets/css');
+      const publicJsDir = resolve(__dirname, 'public/legacy/js');
+      const publicCssDir = resolve(__dirname, 'public/legacy/css');
+
+      try {
+        // Copy all items from assets/js to public/legacy/js
+        if (existsSync(assetsJsDir)) {
+          const items = readdirSync(assetsJsDir);
+          items.forEach(item => {
+            if (item === '.DS_Store') return;
+
+            const sourcePath = join(assetsJsDir, item);
+            const destPath = join(publicJsDir, item);
+            const stat = statSync(sourcePath);
+
+            if (stat.isDirectory()) {
+              // Copy entire directory
+              mkdirSync(destPath, { recursive: true });
+              cpSync(sourcePath, destPath, { recursive: true });
+            } else if (stat.isFile()) {
+              // Skip bundled files that we generate
+              const bundledFiles = ['admin.min.js', 'background-process.min.js', 'tinymce.min.js'];
+              if (!bundledFiles.includes(item)) {
+                cpSync(sourcePath, destPath);
+              }
+            }
+          });
+        }
+
+        // Copy all items from assets/css to public/legacy/css
+        if (existsSync(assetsCssDir)) {
+          const items = readdirSync(assetsCssDir);
+          items.forEach(item => {
+            if (item === '.DS_Store') return;
+
+            const sourcePath = join(assetsCssDir, item);
+            const destPath = join(publicCssDir, item);
+            const stat = statSync(sourcePath);
+
+            if (stat.isDirectory()) {
+              // Copy entire directory
+              mkdirSync(destPath, { recursive: true });
+              cpSync(sourcePath, destPath, { recursive: true });
+            } else if (stat.isFile()) {
+              // Skip bundled files that we generate
+              const bundledFiles = ['admin.min.css', 'rtl.min.css', 'frontend.min.css', 'mail.min.css'];
+              if (!bundledFiles.includes(item)) {
+                cpSync(sourcePath, destPath);
+              }
+            }
+          });
+        }
+
+        console.log('✓ Copied assets structure (exact copy)');
+      } catch (e) {
+        console.error('Failed to copy assets structure:', e.message);
       }
     }
   };
@@ -238,7 +304,8 @@ export default defineConfig({
     inlineBackgroundProcess(),
     inlineTinyMCE(),
     inlineTrackerScripts(),
-    inlineChartScripts(),
+    // inlineChartScripts() - Not needed, Chart.js files copied from assets/js/chartjs/
+    copyAssetsStructure(),
     copyJsonAssets(),
   ],
 
@@ -273,44 +340,23 @@ export default defineConfig({
         // Mini chart (minified)
         'js/mini-chart.min': resolve(__dirname, 'resources/legacy/entries/mini-chart.js'),
 
-        // Chart matrix
-        'js/chartjs/chart-matrix.min': resolve(__dirname, 'resources/legacy/entries/chart-matrix.js'),
-
-        // Select2
-        'js/select2.min': resolve(__dirname, 'resources/legacy/entries/select2.js'),
-
-        // Datepicker
-        'js/datepicker.min': resolve(__dirname, 'resources/legacy/entries/datepicker.js'),
-
-        // JQVMap
-        'js/jqvmap.min': resolve(__dirname, 'resources/legacy/entries/jqvmap.js'),
+        // Note: chart-matrix.min.js and Chart.js library files are copied from assets/js/chartjs/ as-is
 
         // Styles
         'css/admin.min': resolve(__dirname, 'resources/legacy/sass/admin.scss'),
         'css/rtl.min': resolve(__dirname, 'resources/legacy/sass/rtl.scss'),
         'css/frontend.min': resolve(__dirname, 'resources/legacy/sass/frontend.scss'),
+        'css/mail.min': resolve(__dirname, 'resources/legacy/sass/mail.scss'),
       },
 
       output: {
         entryFileNames: '[name].js',
-        chunkFileNames: '[name].js',
+        chunkFileNames: 'js/[name].js',
         assetFileNames: (assetInfo) => {
           if (assetInfo.name && assetInfo.name.endsWith('.css')) {
-            // Extract the base name from the asset
-            // For 'css/admin.css' from input 'css/admin.min', we want 'css/admin.min.css'
             const name = assetInfo.name.replace('.css', '');
-            if (name.includes('admin') || name.includes('rtl') || name.includes('frontend')) {
+            if (name.includes('admin') || name.includes('rtl') || name.includes('frontend') || name.includes('mail')) {
               return name + '.min.css';
-            }
-            // For vendor libraries from js entries, output as css/{library}.min.css
-            if (name.includes('select2')) {
-              return 'css/select2.min.css';
-            }
-            if (name.includes('datepicker') || name.includes('daterangepicker') || name.includes('customize')) {
-              return 'css/datepicker.min.css';
-            }
-            if (name.includes('jqvmap')) {
-              return 'css/jqvmap.min.css';
             }
             return '[name][extname]';
           }
@@ -318,8 +364,22 @@ export default defineConfig({
         },
       },
 
-      // External dependencies (available globally in WordPress)
-      external: ['jquery'],
+      // External dependencies (available globally in WordPress or loaded separately)
+      external: [
+        'jquery',
+        'chart.js',
+        'chartjs-adapter-date-fns',
+        'chartjs-chart-matrix',
+        /^chart\.js/,  // Match any chart.js imports
+      ],
+
+      // Prevent code splitting by disabling chunk optimization
+      preserveEntrySignatures: 'strict',
+    },
+
+    // Disable build optimization that creates shared chunks
+    commonjsOptions: {
+      transformMixedEsModules: true,
     },
 
     target: 'es2020', // Support optional chaining and other modern features
@@ -344,10 +404,6 @@ export default defineConfig({
     alias: {
       '@': resolve(__dirname, 'resources/legacy'),
       '@assets/json/source-channels.json': resolve(__dirname, 'resources/legacy/json/source-channels.json'),
-      '@assets/js/datepicker': resolve(__dirname, 'resources/legacy/vendor/datepicker'),
-      '@assets/js/jqvmap': resolve(__dirname, 'resources/legacy/vendor/jqvmap'),
-      '@assets/css/datepicker': resolve(__dirname, 'resources/legacy/vendor/datepicker/css'),
-      '@assets/css/jqvmap': resolve(__dirname, 'resources/legacy/vendor/jqvmap/css'),
       '@assets/images': resolve(__dirname, 'public/legacy/images'),
     }
   }
