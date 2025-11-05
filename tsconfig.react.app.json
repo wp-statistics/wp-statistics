@@ -24,7 +24,15 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     "paths": {
-      "@/*": ["./resources/react/src/*"]
+      "@/*": ["./resources/react/src/*"],
+      "@components/*": ["./resources/react/src/components/*"],
+      "@hooks/*": ["./resources/react/src/hooks/*"],
+      "@lib/*": ["./resources/react/src/lib/*"],
+      "@services/*": ["./resources/react/src/services/*"],
+      "@types/*": ["./resources/react/src/types/*"],
+      "@stores/*": ["./resources/react/src/stores/*"],
+      "@pages/*": ["./resources/react/src/pages/*"],
+      "@routes/*": ["./resources/react/src/routes/*"]
     }
   },
   "include": ["resources/react/src"]
