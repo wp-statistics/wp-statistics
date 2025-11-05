@@ -176,7 +176,7 @@ final class WP_Statistics
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-referred.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-search-engine.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-exclusion.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-hits.php';
+        // require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-hits.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-privacy-exporter.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-privacy-erasers.php';
 

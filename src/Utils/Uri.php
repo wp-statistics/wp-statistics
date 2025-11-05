@@ -140,7 +140,11 @@ class Uri
     public static function getByVisitor($visitorProfile)
     {
         $resourceType = $visitorProfile->getCurrentPageType();
-        $resourceUri  = self::get();
+        $resourceUri  = $visitorProfile->getResourceUri();
+
+        if (empty($resourceUri)) {
+            $resourceUri = self::get();
+        }
 
         if ($resourceType['type'] === "loginpage") {
             $resourceUri = QueryParams::getFilterParams($resourceUri);

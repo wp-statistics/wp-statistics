@@ -57,6 +57,7 @@ class Manager
                 'ID'              => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
                 'session_id'      => 'bigint(20) UNSIGNED NOT NULL',
                 'resource_uri_id' => 'bigint(20) UNSIGNED NOT NULL',
+                'resource_id'      => 'bigint(20) UNSIGNED DEFAULT NULL',
                 'viewed_at'       => 'datetime NOT NULL',
                 'next_view_id'    => 'bigint(20) UNSIGNED DEFAULT NULL',
                 'duration'        => 'int(11) UNSIGNED DEFAULT NULL',
@@ -65,6 +66,8 @@ class Manager
                 'PRIMARY KEY (ID)',
                 'KEY session_id (session_id)',
                 'KEY resource_uri_id (resource_uri_id)',
+                'KEY resource_id (resource_id)',
+                'KEY viewed_at_resource_id (viewed_at, resource_id)',
                 'KEY next_view_id (next_view_id)',
                 'KEY viewed_at_resource (viewed_at, resource_uri_id)',
                 'KEY viewed_at_session_id (viewed_at, session_id)',
@@ -259,7 +262,6 @@ class Manager
                 'views'           => 'bigint(20) UNSIGNED NOT NULL',
                 'total_duration'  => 'int(11) UNSIGNED NOT NULL DEFAULT 0',
                 'bounces'         => 'bigint(20) UNSIGNED NOT NULL DEFAULT 0',
-                'conversions'     => 'bigint(20) UNSIGNED NOT NULL DEFAULT 0',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
@@ -276,7 +278,6 @@ class Manager
                 'views'          => 'bigint(20) UNSIGNED NOT NULL',
                 'total_duration' => 'int(11) UNSIGNED NOT NULL DEFAULT 0',
                 'bounces'        => 'bigint(20) UNSIGNED NOT NULL DEFAULT 0',
-                'conversions'    => 'bigint(20) UNSIGNED NOT NULL DEFAULT 0',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',

@@ -50,6 +50,7 @@ class View extends BaseEntity
             'viewed_at'       => $now,
             'next_view_id'    => null,
             'duration'        => $this->profile->getDuration(),
+            'resource_id'     => $this->profile->getResourceId(),
         ];
 
         $newViewId = (int)RecordFactory::view()->insert($data);

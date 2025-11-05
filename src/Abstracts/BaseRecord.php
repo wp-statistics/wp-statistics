@@ -87,7 +87,7 @@ abstract class BaseRecord
      * @param array $args The query parameters.
      * @return object|null The record if found, or null otherwise.
      */
-    public function get($args)
+    public function get($args, $hasCaching = false)
     {
         $args = $this->parseArgs($args, []);
 
@@ -100,6 +100,10 @@ abstract class BaseRecord
             } elseif (!empty($value)) {
                 $query->where($key, '=', $value);
             }
+        }
+
+        if ($hasCaching) {
+            $query->allowCaching();
         }
 
         return $query->getRow();

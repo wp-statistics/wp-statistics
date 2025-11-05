@@ -98,16 +98,30 @@ class ViewDecorator
     }
 
     /**
-     * Get the resource associated with this view.
+     * Get the logical resource ID linked to this view (value of `views.resource_id`).
      *
-     * @return ResourceDecorator|null
+     * @return int|null The resource ID or null if not available.
+     * @since 15.0.0
+     */
+    public function getResourceId()
+    {
+       return isset($this->view->resource_id) ? (int)$this->view->resource_id : null;
+    }
+
+    /**
+     * Resolve and return the resource object for this view.
+     *
+     * @return ResourceDecorator|null The decorated resource, or null if unavailable.
+     * @since 15.0.0
      */
     public function getResource()
     {
-        if (empty($this->view->resource_uri_id)) {
-            return new ResourceDecorator(null);
+        $resourceId = $this->getResourceId();
+
+        if (empty($resourceId)) {
+            return null;
         }
 
-        return ResourcesFactory::getByUriId($this->view->resource_uri_id);
+        return ResourcesFactory::getResourceById($resourceId);
     }
 }

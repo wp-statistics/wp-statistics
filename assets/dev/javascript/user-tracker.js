@@ -98,6 +98,7 @@ if (!window.WpStatisticsUserTracker) {
                 const params = new URLSearchParams({
                     ...WP_Statistics_Tracker_Object.hitParams,
                     resourceUriId: WP_Statistics_Tracker_Object ? .resourceUriId,
+                    resourceUri: this.getPathAndQueryString(),
                     referred: this.getReferred(), // Use the getReferred method
                     page_uri: this.getPathAndQueryString(), // Use the correct key for the path and query string (Base64 encoded)
                     timezone: visitorLocaleInfo.timezone,
@@ -130,6 +131,7 @@ if (!window.WpStatisticsUserTracker) {
 
         // Send Request to REST API to Show User Is Online
         sendOnlineUserRequest: async function () {
+            return;
             if (!this.hitRequestSuccessful) {
                 return; // Stop if hit request was not successful
             }

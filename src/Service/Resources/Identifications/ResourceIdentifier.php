@@ -122,7 +122,7 @@ class ResourceIdentifier
             return;
         }
 
-        $this->record = $this->getRecord()->get(['ID' => $this->rowId]);
+        $this->record = $this->getRecord()->get(['ID' => $this->rowId], true);
     }
 
     /**
@@ -172,6 +172,6 @@ class ResourceIdentifier
             return;
         }
 
-        $this->record = $this->getRecord()->get(['ID' => $insertId]);
+        $this->record = $this->getRecord()->get(['ID' => $insertId], true);
     }
 }

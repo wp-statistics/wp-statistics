@@ -136,7 +136,7 @@ class ResourceUriIdentifier
             return;
         }
 
-        $this->record = $this->getRecord()->get(['ID' => $this->rowId]);
+        $this->record = $this->getRecord()->get(['ID' => $this->rowId], true);
     }
 
     /**
@@ -161,7 +161,7 @@ class ResourceUriIdentifier
         $this->record = RecordFactory::resourceUri()->get([
             'resource_id' => $this->resourceId,
             'uri'         => $this->uri,
-        ]);
+        ], true);
 
         if (!empty($this->record)) {
             return;
@@ -172,6 +172,6 @@ class ResourceUriIdentifier
             'uri'         => $this->uri,
         ]);
 
-        $this->record = $this->getRecord()->get(['ID' => $rowId]);
+        $this->record = $this->getRecord()->get(['ID' => $rowId], true);
     }
 }

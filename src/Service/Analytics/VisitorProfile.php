@@ -47,11 +47,25 @@ class VisitorProfile
     private const META_VIEW_ID = 'view_id';
 
     /**
-     * Resource record ID.
+     * Resource uri record ID.
      *
      * @var string
      */
     private const META_RESOURCE_URI_ID = 'resource_uri_id';
+
+    /**
+     * Resource record uri.
+     *
+     * @var string
+     */
+    private const META_RESOURCE_URI = 'resource_uri';
+
+    /**
+     * Resource record ID.
+     *
+     * @var string
+     */
+    private const META_RESOURCE_ID = 'resource_id';
 
     /**
      * Referrer record ID.
@@ -187,9 +201,9 @@ class VisitorProfile
     }
 
     /**
-     * Store the Resource record ID into internal metadata.
+     * Store the Resource uri record ID into internal metadata.
      *
-     * @param int $id Resource record ID.
+     * @param int $id Resource uri record ID.
      * @return void
      */
     public function setResourceUriId($id)
@@ -198,13 +212,55 @@ class VisitorProfile
     }
 
     /**
-     * Retrieve the Resource record ID from internal metadata.
+     * Retrieve the Resource uri record ID from internal metadata.
      *
-     * @return int Resource ID, or 0 if not set.
+     * @return int Resource uri ID, or 0 if not set.
      */
     public function getResourceUriId()
     {
         return (int)$this->getMeta(self::META_RESOURCE_URI_ID, 0);
+    }
+    
+    /**
+     * Store the Resource record ID into internal metadata.
+     *
+     * @param int $id Resource record ID.
+     * @return void
+     */
+    public function setResourceId($id)
+    {
+        $this->setMeta(self::META_RESOURCE_ID, $id);
+    }
+
+    /**
+     * Retrieve the Resource record ID from internal metadata.
+     *
+     * @return int Resource ID, or 0 if not set.
+     */
+    public function getResourceId()
+    {
+        return (int)$this->getMeta(self::META_RESOURCE_ID, 0);
+    }
+
+    /**
+     * Store the Resource URI into internal metadata.
+     *
+     * @param string $uri Resource URI.
+     * @return void
+     */
+    public function setResourceUri($uri)
+    {
+        $this->setMeta(self::META_RESOURCE_URI, base64_decode($uri));
+    }
+
+    /**
+     * Retrieve the Resource URI from internal metadata.
+     *
+     * @return string Resource URI, or empty string if not set.
+     */
+    public function getResourceUri()
+    {
+        return $this->getMeta(self::META_RESOURCE_URI, '');
     }
 
     /**
