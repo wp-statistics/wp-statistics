@@ -113,18 +113,20 @@ class VisitorsModel extends BaseModel
     public function countHits($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'      => '',
-            'agent'     => '',
-            'platform'  => '',
-            'country'   => '',
-            'user_id'   => '',
-            'ip'        => '',
-            'logged_in' => false,
-            'user_role' => ''
+            'date'        => '',
+            'agent'       => '',
+            'platform'    => '',
+            'country'     => '',
+            'user_id'     => '',
+            'ip'          => '',
+            'logged_in'   => false,
+            'user_role'   => '',
+            'source_name' => '',
         ]);
 
         $query = Query::select('SUM(visitor.hits) as total_visitors')
             ->from('visitor')
+            ->where('source_name', 'IN', $args['source_name'])
             ->where('agent', '=', $args['agent'])
             ->where('location', '=', $args['country'])
             ->where('platform', '=', $args['platform'])
