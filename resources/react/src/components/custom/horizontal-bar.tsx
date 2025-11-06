@@ -1,6 +1,7 @@
-import { cn } from '@/lib/utils'
-import { ChevronUp, ChevronDown } from 'lucide-react'
+import { ChevronDown, ChevronUp } from 'lucide-react'
+
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { cn } from '@/lib/utils'
 
 export interface HorizontalBarProps {
   icon: React.ReactNode

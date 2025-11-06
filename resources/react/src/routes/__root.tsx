@@ -1,7 +1,8 @@
+import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
+
 import { AppSidebar } from '@/components/app-sidebar'
 import { Header } from '@/components/header'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
-import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
 
 const RootLayout = () => (
   <>

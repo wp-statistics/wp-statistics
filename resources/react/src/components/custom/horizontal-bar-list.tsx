@@ -1,7 +1,9 @@
-import { HorizontalBar } from './horizontal-bar'
 import { ChevronRight } from 'lucide-react'
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
+
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+
+import { HorizontalBar } from './horizontal-bar'
 
 interface HorizontalBarItem {
   icon: React.ReactNode

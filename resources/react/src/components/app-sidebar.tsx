@@ -1,10 +1,10 @@
-import * as LucideIcons from 'lucide-react'
+import { useLocation } from '@tanstack/react-router'
 import type { LucideIcon } from 'lucide-react'
+import * as LucideIcons from 'lucide-react'
 
 import { NavMain } from '@/components/nav-main'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarTrigger } from '@/components/ui/sidebar'
 import { WordPress } from '@/lib/wordpress'
-import { useLocation } from '@tanstack/react-router'
 
 // Map icon names from the config to actual Lucide icon components
 const getIconComponent = (iconName: string): LucideIcon => {

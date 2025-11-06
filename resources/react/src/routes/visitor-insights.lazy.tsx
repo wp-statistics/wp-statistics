@@ -1,6 +1,7 @@
-import { createLazyFileRoute } from '@tanstack/react-router'
-import { getVisitorCountQueryOptions } from '@/services/get-visitor-count'
 import { useSuspenseQuery } from '@tanstack/react-query'
+import { createLazyFileRoute } from '@tanstack/react-router'
+
+import { getVisitorCountQueryOptions } from '@/services/get-visitor-count'
 
 export const Route = createLazyFileRoute('/visitor-insights')({
   component: RouteComponent,

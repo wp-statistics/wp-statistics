@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+
 import { HorizontalBar } from './horizontal-bar'
 
 const meta = {

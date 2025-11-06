@@ -24,6 +24,14 @@ export default defineConfig([
       'simple-import-sort': simpleImportSort,
       'unused-imports': unusedImports,
     },
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+      parserOptions: {
+        project: './tsconfig.react.app.json',
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
     rules: {
       // TanStack Query rules
       '@tanstack/query/exhaustive-deps': 'error',
@@ -56,10 +64,6 @@ export default defineConfig([
           argsIgnorePattern: '^_',
         },
       ],
-    },
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
     },
   },
   ...pluginRouter.configs['flat/recommended'],
