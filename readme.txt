@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.8
-Stable tag: 14.15.5
+Stable tag: 14.15.6
 Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -146,6 +146,16 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.15.6 - 2025-11-09 =
+- **New:** Introduced a refactored background-process migration system and removed legacy AJAX migrations.
+- **New:** Updated the Single Visitor page and added an "Other Visits" section.
+- **Enhancement:** Converted the Visitor Columns migrator into a background process, added a progress notice, and introduced a "Data Migrations" section on the Optimization page.
+- **Enhancement:** Linked 404 report items directly to the Single Resource page.
+- **Fix:** Fixed unknown location link issue in Visitor Information.
+- **Fix:** Resolved chart display issues with non-Gregorian dates.
+- **Fix:** Fixed external link detection for accurate outbound tracking.
+- **Fix:** Corrected the label displayed for selected filters on the Link Tracker page.
+
 = 14.15.5 - 2025-09-21 =
 - **Enhancement:** Added date range validation on report pages.
 - **Enhancement:** Improved compare style and number formatting in "At a Glance" widgets.
