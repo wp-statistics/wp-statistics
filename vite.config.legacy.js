@@ -124,9 +124,9 @@ function inlineTrackerScripts() {
     load(id) {
       if (id === 'virtual:tracker') {
         const files = [
-          './resources/legacy/javascript/user-tracker.js',
-          './resources/legacy/javascript/event-tracker.js',
-          './resources/legacy/javascript/tracker.js',
+          './resources/frontend/js/user-tracker.js',
+          './resources/frontend/js/event-tracker.js',
+          './resources/frontend/js/tracker.js',
         ];
         const code = files.map(file => {
           try {
@@ -171,7 +171,7 @@ function inlineChartScripts() {
   };
 }
 
-// Custom plugin to clean output directory but preserve images
+// Custom plugin to clean output directory (images are at public/images, not touched)
 function cleanOutputDir() {
   return {
     name: 'clean-output-dir',
@@ -179,20 +179,18 @@ function cleanOutputDir() {
       const outDir = resolve(__dirname, 'public/legacy');
 
       try {
-        // Remove everything except images directory
+        // Remove everything in public/legacy directory
         const items = readdirSync(outDir);
         items.forEach(item => {
-          if (item !== 'images') {
-            const itemPath = join(outDir, item);
-            const stat = statSync(itemPath);
-            if (stat.isDirectory()) {
-              rmSync(itemPath, { recursive: true, force: true });
-            } else {
-              rmSync(itemPath, { force: true });
-            }
+          const itemPath = join(outDir, item);
+          const stat = statSync(itemPath);
+          if (stat.isDirectory()) {
+            rmSync(itemPath, { recursive: true, force: true });
+          } else {
+            rmSync(itemPath, { force: true });
           }
         });
-        console.log('✓ Cleaned output directory (preserved images)');
+        console.log('✓ Cleaned output directory');
       } catch (e) {
         // Directory might not exist yet, that's ok
         if (e.code !== 'ENOENT') {
@@ -275,8 +273,8 @@ function copyJsonAssets() {
   return {
     name: 'copy-json-assets',
     writeBundle() {
-      const sourceFile = resolve(__dirname, 'resources/legacy/json/source-channels.json');
-      const destDir = resolve(__dirname, 'public/legacy/json');
+      const sourceFile = resolve(__dirname, 'resources/json/source-channels.json');
+      const destDir = resolve(__dirname, 'public/json');
       const destFile = resolve(destDir, 'source-channels.json');
 
       try {
@@ -285,9 +283,41 @@ function copyJsonAssets() {
         const jsonContent = readFileSync(sourceFile, 'utf-8');
         const minified = JSON.stringify(JSON.parse(jsonContent));
         writeFileSync(destFile, minified);
-        console.log('✓ Minified and copied source-channels.json to public/legacy/json/');
+        console.log('✓ Minified and copied source-channels.json to public/json/');
       } catch (e) {
         console.error('Failed to minify source-channels.json:', e);
+      }
+    }
+  };
+}
+
+// Custom plugin to move frontend assets to public/frontend
+function moveFrontendAssets() {
+  return {
+    name: 'move-frontend-assets',
+    writeBundle() {
+      const sourceDir = resolve(__dirname, 'public/legacy/js');
+      const frontendDir = resolve(__dirname, 'public/frontend/js');
+
+      try {
+        // Create frontend directory
+        mkdirSync(frontendDir, { recursive: true });
+
+        // Move tracker files from legacy to frontend
+        const trackerFiles = ['tracker.min.js', 'tracker.js'];
+        trackerFiles.forEach(file => {
+          const sourcePath = join(sourceDir, file);
+          const destPath = join(frontendDir, file);
+
+          if (existsSync(sourcePath)) {
+            cpSync(sourcePath, destPath);
+            rmSync(sourcePath, { force: true });
+          }
+        });
+
+        console.log('✓ Moved frontend assets to public/frontend/');
+      } catch (e) {
+        console.error('Failed to move frontend assets:', e.message);
       }
     }
   };
@@ -307,6 +337,7 @@ export default defineConfig({
     // inlineChartScripts() - Not needed, Chart.js files copied from assets/js/chartjs/
     copyAssetsStructure(),
     copyJsonAssets(),
+    moveFrontendAssets(),
   ],
 
   build: {
@@ -334,8 +365,8 @@ export default defineConfig({
         // TinyMCE
         'js/tinymce.min': resolve(__dirname, 'resources/legacy/entries/tinymce.js'),
 
-        // Tracker (minified)
-        'js/tracker.min': resolve(__dirname, 'resources/legacy/entries/tracker.js'),
+        // Tracker (minified) - will be moved to public/frontend/js/ by moveFrontendAssets plugin
+        'js/tracker.min': resolve(__dirname, 'resources/frontend/entries/tracker.js'),
 
         // Mini chart (minified)
         'js/mini-chart.min': resolve(__dirname, 'resources/legacy/entries/mini-chart.js'),
@@ -403,8 +434,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, 'resources/legacy'),
-      '@assets/json/source-channels.json': resolve(__dirname, 'resources/legacy/json/source-channels.json'),
-      '@assets/images': resolve(__dirname, 'public/legacy/images'),
+      '@assets/json/source-channels.json': resolve(__dirname, 'resources/json/source-channels.json'),
+      '@assets/images': resolve(__dirname, 'public/images'),
     }
   }
 });
