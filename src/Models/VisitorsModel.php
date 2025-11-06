@@ -1577,6 +1577,7 @@ class VisitorsModel extends BaseModel
 
         $query = Query::select([
             'COUNT(visitor.ID) as visitors',
+            'SUM(visitor.hits) as hits',
             'pages.count as views',
             'pages.id as post_id',
             'pages.page_id',
