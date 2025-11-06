@@ -21,11 +21,12 @@ export function HorizontalBar({
   tooltipTitle,
   tooltipSubtitle,
 }: HorizontalBarProps) {
-  const percentageNum = typeof percentage === 'string' ? parseFloat(percentage) : percentage
+  const rawPercentage = typeof percentage === 'string' ? parseFloat(percentage) : percentage
+  const safePercentage = Number.isFinite(rawPercentage) ? Math.min(Math.max(rawPercentage, 0), 100) : 0
 
   const content = (
     <div className={cn('relative p-2 bg-white rounded-sm overflow-hidden w-full')}>
-      <div className="absolute inset-0 transition-all bg-[#F2F0FF]" style={{ width: `${percentageNum}%` }} />
+      <div className="absolute inset-0 transition-all bg-[#F2F0FF]" style={{ width: `${safePercentage}%` }} />
 
       <div className="relative flex items-center justify-between gap-4 text-sm">
         <div className="flex items-center gap-2 leading-0">
