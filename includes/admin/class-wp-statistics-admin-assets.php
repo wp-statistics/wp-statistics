@@ -6,6 +6,7 @@ use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\DateTime;
+use WP_Statistics\Service\Admin\Assets\AdminAssetsFactory;
 use WP_Statistics\Service\Admin\Metabox\MetaboxHelper;
 
 class Admin_Assets
@@ -51,9 +52,11 @@ class Admin_Assets
      */
     public function __construct()
     {
-        add_action('admin_enqueue_scripts', array($this, 'admin_styles'), 999);
-        add_action('admin_enqueue_scripts', array($this, 'admin_scripts'), 999);
-        add_filter('wp_statistics_enqueue_chartjs', [$this, 'shouldEnqueueChartJs']);
+        AdminAssetsFactory::Legacy();
+
+        // add_action('admin_enqueue_scripts', array($this, 'admin_styles'), 999);
+        // add_action('admin_enqueue_scripts', array($this, 'admin_scripts'), 999);
+        // add_filter('wp_statistics_enqueue_chartjs', [$this, 'shouldEnqueueChartJs']);
     }
 
 

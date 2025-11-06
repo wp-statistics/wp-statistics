@@ -50,11 +50,11 @@ class LegacyHandler extends BaseAdminAssets
         $screenId = Route::getScreenId();
 
         // Load Admin Css
-        wp_enqueue_style($this->getAssetHandle(), $this->getUrl('admin.min.css'), [], $this->getVersion());
+        wp_enqueue_style($this->getAssetHandle(), $this->getUrl('css/admin.min.css'), [], $this->getVersion());
 
         // Load Rtl Version Css
         if (is_rtl()) {
-            wp_enqueue_style($this->getAssetHandle('rtl'), $this->getUrl('rtl.min.css'), [], $this->getVersion());
+            wp_enqueue_style($this->getAssetHandle('rtl'), $this->getUrl('css/rtl.min.css'), [], $this->getVersion());
         }
 
         //Load Jquery VMap Css
@@ -63,18 +63,18 @@ class LegacyHandler extends BaseAdminAssets
             Menu::isOnPage('pages') ||
             (in_array($screenId, ['dashboard']) && !Option::getValue('disable_dashboard'))
         ) {
-            wp_enqueue_style($this->getAssetHandle('jqvmap'), $this->getUrl('jqvmap/jqvmap.min.css'), [], '1.5.1');
+            wp_enqueue_style($this->getAssetHandle('jqvmap'), $this->getUrl('css/jqvmap/jqvmap.min.css'), [], '1.5.1');
         }
 
         // Load Select2
         if (Menu::isOnPage('visitors') || Menu::isOnPage('referrals') || Menu::isOnPage('link_tracker') || Menu::isOnPage('download_tracker') || Menu::isOnPage('pages')) {
-            wp_enqueue_style($this->getAssetHandle('select2'), $this->getUrl('select2/select2.min.css'), [], '4.0.9');
+            wp_enqueue_style($this->getAssetHandle('select2'), $this->getUrl('css/select2/select2.min.css'), [], '4.0.9');
         }
 
         // Load RangeDatePicker
         if (Menu::isInPluginPage() || Menu::isOnPage('pages') || in_array($screenId, ['dashboard'])) {
-            wp_enqueue_style($this->getAssetHandle('daterangepicker'), $this->getUrl('datepicker/daterangepicker.css'), [], '1.0.0');
-            wp_enqueue_style($this->getAssetHandle('customize'), $this->getUrl('datepicker/customize.css'), [], '1.0.0');
+            wp_enqueue_style($this->getAssetHandle('daterangepicker'), $this->getUrl('css/datepicker/daterangepicker.css'), [], '1.0.0');
+            wp_enqueue_style($this->getAssetHandle('customize'), $this->getUrl('css/datepicker/customize.css'), [], '1.0.0');
         }
     }
 
@@ -100,18 +100,18 @@ class LegacyHandler extends BaseAdminAssets
         }
 
         if (Menu::isOnPage('author-analytics')) {
-            wp_enqueue_script($this->getAssetHandle('chart-matrix'), $this->getUrl('chartjs/chart-matrix.min.js'), [], '2.0.8', true);
+            wp_enqueue_script($this->getAssetHandle('chart-matrix'), $this->getUrl('js/chartjs/chart-matrix.min.js'), [], '2.0.8', true);
         }
 
         // Load Jquery VMap Js Library
         if (Menu::isOnPage('overview') || Menu::isOnPage('pages') || (in_array($screenId, ['dashboard']) && !Option::getValue('disable_dashboard'))) {
-            wp_enqueue_script($this->getAssetHandle('jqvmap'), $this->getUrl('jqvmap/jquery.vmap.min.js'), ['jquery'], "1.5.1", true);
-            wp_enqueue_script($this->getAssetHandle('jqvmap-world'), $this->getUrl('jqvmap/jquery.vmap.world.min.js'), ['jquery'], "1.5.1", true);
+            wp_enqueue_script($this->getAssetHandle('jqvmap'), $this->getUrl('js/jqvmap/jquery.vmap.min.js'), ['jquery'], "1.5.1", true);
+            wp_enqueue_script($this->getAssetHandle('jqvmap-world'), $this->getUrl('js/jqvmap/jquery.vmap.world.min.js'), ['jquery'], "1.5.1", true);
         }
 
         // Load Select2
         if (Menu::isOnPage('visitors') || Menu::isOnPage('referrals') || Menu::isOnPage('link_tracker') || Menu::isOnPage('download_tracker') || Menu::isOnPage('pages')) {
-            wp_enqueue_script($this->getAssetHandle('select2'), $this->getUrl('select2/select2.full.min.js'), ['jquery'], "4.1.0", true);
+            wp_enqueue_script($this->getAssetHandle('select2'), $this->getUrl('js/select2/select2.full.min.js'), ['jquery'], "4.1.0", true);
         }
 
         // Load WordPress PostBox Script
@@ -132,13 +132,13 @@ class LegacyHandler extends BaseAdminAssets
             (in_array($hook, ['post.php', 'edit.php']) && !Option::getValue('disable_editor')) ||
             (in_array($hook, ['post.php', 'edit.php']) && Addons::isActive('data-plus') && Option::getAddonValue('latest_visitors_metabox', 'data_plus', '1') === '1')
         ) {
-            wp_enqueue_script($this->getAssetHandle(), $this->getUrl('admin.min.js'), ['jquery'], $this->getVersion(), true);
+            wp_enqueue_script($this->getAssetHandle(), $this->getUrl('js/admin.min.js'), ['jquery'], $this->getVersion(), true);
             wp_localize_script($this->getAssetHandle(), 'wps_global', $this->getLocalizedData($hook));
         }
 
         // Load TinyMCE for Widget Page
         if (in_array($screenId, ['widgets'])) {
-            wp_enqueue_script($this->getAssetHandle('button-widget'), $this->getUrl('tinymce.min.js'), ['jquery'], "3.2.5", true);
+            wp_enqueue_script($this->getAssetHandle('button-widget'), $this->getUrl('js/tinymce.min.js'), ['jquery'], "3.2.5", true);
         }
 
         // Add Thick box
@@ -149,12 +149,12 @@ class LegacyHandler extends BaseAdminAssets
 
         // Add RangeDatePicker
         if (Menu::isInPluginPage() || Menu::isOnPage('pages') || in_array($screenId, ['dashboard'])) {
-            wp_enqueue_script($this->getAssetHandle('moment'), $this->getUrl('datepicker/moment.min.js'), [], "2.30.2", true);
-            wp_enqueue_script($this->getAssetHandle('daterangepicker'), $this->getUrl('datepicker/daterangepicker.min.js'), [], "1.13.2", true);
+            wp_enqueue_script($this->getAssetHandle('moment'), $this->getUrl('js/datepicker/moment.min.js'), [], "2.30.2", true);
+            wp_enqueue_script($this->getAssetHandle('daterangepicker'), $this->getUrl('js/datepicker/daterangepicker.min.js'), [], "1.13.2", true);
         }
 
         if (Menu::isOnPage('pages')) {
-            wp_enqueue_script($this->getAssetHandle('datepicker'), $this->getUrl('datepicker/datepicker.js'), [], $this->getVersion(), true);
+            wp_enqueue_script($this->getAssetHandle('datepicker'), $this->getUrl('js/datepicker/datepicker.js'), [], $this->getVersion(), true);
         }
     }
 
