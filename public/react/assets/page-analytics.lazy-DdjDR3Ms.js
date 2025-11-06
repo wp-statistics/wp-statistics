@@ -1,0 +1,1 @@
+import{S as e,i as t,n}from"./main-MfmMGCAE.js";var r=e(t());const i=n(`/page-analytics`)({component:a});function a(){return(0,r.jsx)(`div`,{children:`Hello "/page-analytics"!`})}export{i as Route};

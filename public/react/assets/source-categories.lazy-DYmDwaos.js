@@ -1,0 +1,1 @@
+import{S as e,i as t,n}from"./main-MfmMGCAE.js";var r=e(t());const i=n(`/(referrals)/source-categories`)({component:a});function a(){return(0,r.jsx)(`div`,{children:`Hello "/(referrals)/source-categories"!`})}export{i as Route};
