@@ -296,18 +296,47 @@ function moveFrontendAssets() {
   return {
     name: 'move-frontend-assets',
     writeBundle() {
-      const sourceDir = resolve(__dirname, 'public/legacy/js');
-      const frontendDir = resolve(__dirname, 'public/frontend/js');
+      const sourceJsDir = resolve(__dirname, 'public/legacy/js');
+      const sourceCssDir = resolve(__dirname, 'public/legacy/css');
+      const frontendJsDir = resolve(__dirname, 'public/frontend/js');
+      const frontendCssDir = resolve(__dirname, 'public/frontend/css');
 
       try {
-        // Create frontend directory
-        mkdirSync(frontendDir, { recursive: true });
+        // Create frontend directories
+        mkdirSync(frontendJsDir, { recursive: true });
+        mkdirSync(frontendCssDir, { recursive: true });
 
-        // Move tracker files from legacy to frontend
-        const trackerFiles = ['tracker.min.js', 'tracker.js'];
-        trackerFiles.forEach(file => {
-          const sourcePath = join(sourceDir, file);
-          const destPath = join(frontendDir, file);
+        // Move frontend JS files from legacy to frontend
+        const jsFiles = ['tracker.min.js', 'tracker.js', 'mini-chart.js'];
+        jsFiles.forEach(file => {
+          const sourcePath = join(sourceJsDir, file);
+          const destPath = join(frontendJsDir, file);
+
+          if (existsSync(sourcePath)) {
+            cpSync(sourcePath, destPath);
+            rmSync(sourcePath, { force: true });
+          }
+        });
+
+        // Copy only chart.umd.min.js from chartjs directory to frontend/js/chartjs/ (others stay in legacy)
+        const chartjsSourceDir = join(sourceJsDir, 'chartjs');
+        if (existsSync(chartjsSourceDir)) {
+          const frontendChartjsDir = join(frontendJsDir, 'chartjs');
+          mkdirSync(frontendChartjsDir, { recursive: true });
+
+          const chartUmdMinPath = join(chartjsSourceDir, 'chart.umd.min.js');
+          const chartUmdMinDest = join(frontendChartjsDir, 'chart.umd.min.js');
+
+          if (existsSync(chartUmdMinPath)) {
+            cpSync(chartUmdMinPath, chartUmdMinDest);
+          }
+        }
+
+        // Move frontend CSS files from legacy to frontend
+        const cssFiles = ['frontend.min.css'];
+        cssFiles.forEach(file => {
+          const sourcePath = join(sourceCssDir, file);
+          const destPath = join(frontendCssDir, file);
 
           if (existsSync(sourcePath)) {
             cpSync(sourcePath, destPath);
