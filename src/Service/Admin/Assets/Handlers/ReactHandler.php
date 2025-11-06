@@ -38,7 +38,7 @@ class ReactHandler extends BaseAdminAssets
     public function __construct()
     {
         $this->setContext('react');
-        $this->setAssetDir('frontend/dist');
+        $this->setAssetDir('public/react');
 
         add_action('admin_enqueue_scripts', [$this, 'adminStyles'], 10);
         add_action('admin_enqueue_scripts', [$this, 'adminScripts'], 10);
