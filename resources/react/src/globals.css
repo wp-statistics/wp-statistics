@@ -141,3 +141,38 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* reset style */
+
+/* Reset margins and padding for common elements */
+#wp-statistics-root p,
+#wp-statistics-root h1,
+#wp-statistics-root h2,
+#wp-statistics-root h3,
+#wp-statistics-root h4,
+#wp-statistics-root h5,
+#wp-statistics-root h6,
+#wp-statistics-root ul,
+#wp-statistics-root ol,
+#wp-statistics-root li {
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove link underlines */
+#wp-statistics-root a {
+  text-decoration: none;
+  color: inherit;
+}
+
+#wp-statistics-root a:hover {
+  text-decoration: underline;
+}
+
+/* Remove default list styling */
+#wp-statistics-root ul,
+#wp-statistics-root ol {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}

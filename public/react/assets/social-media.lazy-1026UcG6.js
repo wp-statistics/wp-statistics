@@ -1,0 +1,1 @@
+import{C as e,a as t,r as n}from"./main-Crsb5kah.js";var r=e(t());const i=n(`/(referrals)/social-media`)({component:a});function a(){return(0,r.jsx)(`div`,{children:`Hello "/(referrals)/social-media"!`})}export{i as Route};

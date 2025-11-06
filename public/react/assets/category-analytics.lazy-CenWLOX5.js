@@ -1,0 +1,1 @@
+import{C as e,a as t,r as n}from"./main-Crsb5kah.js";var r=e(t());const i=n(`/category-analytics`)({component:a});function a(){return(0,r.jsx)(`div`,{children:`Hello "/category-analytics"!`})}export{i as Route};
