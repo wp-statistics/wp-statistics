@@ -7,11 +7,11 @@ class SourceNames
     {
         return [
             'chatgpt'     => esc_html__('ChatGPT', 'wp-statistics'),
-            'perplexity'  => esc_html__('Perplexity', 'wp-statistics'),
+            'claude'      => esc_html__('Claude', 'wp-statistics'),
             'gemini'      => esc_html__('Gemini', 'wp-statistics'),
+            'perplexity'  => esc_html__('Perplexity', 'wp-statistics'),
             'copilot'     => esc_html__('Copilot', 'wp-statistics'),
             'openai'      => esc_html__('OpenAI', 'wp-statistics'),
-            'claude'      => esc_html__('Claude', 'wp-statistics'),
             'writesonic'  => esc_html__('WriteSonic', 'wp-statistics'),
             'copy.ai'     => esc_html__('Copy.ai', 'wp-statistics'),
             'deepseek'    => esc_html__('DeepSeek', 'wp-statistics'),
