@@ -6,6 +6,7 @@ use WP_Statistics\Core\AbstractCore;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
 use WP_Statistics\Service\Database\Managers\TableHandler;
+use WP_Statistics\Service\Database\Migrations\BackgroundProcess\BackgroundProcessFactory;
 
 /**
  * Handles plugin activation tasks.
@@ -53,7 +54,7 @@ class Activator extends AbstractCore
             TableHandler::createAllTables();
         }
 
-        $this->markBackgroundProcessAsInitiated();
+        BackgroundProcessFactory::markBackgroundProcessesAsInitiated();
         $this->createOptions();
         $this->initializeVersion();
         SchemaMaintainer::repair(true);
@@ -91,26 +92,6 @@ class Activator extends AbstractCore
     }
 
     /**
-     * Checks background processes during a fresh installation.
-     *
-     * @return void
-     */
-    private function markBackgroundProcessAsInitiated()
-    {
-        Option::deleteOptionGroup('data_migration_process_started', 'jobs');
-
-        if ($this->isUpdated()) {
-            return;
-        }
-
-        Option::saveOptionGroup('update_source_channel_process_initiated', true, 'jobs');
-        Option::saveOptionGroup('update_geoip_process_initiated', true, 'jobs');
-        Option::saveOptionGroup('schema_migration_process_started', true, 'jobs');
-        Option::saveOptionGroup('table_operations_process_initiated', true, 'jobs');
-        Option::saveOptionGroup('word_count_process_initiated', true, 'jobs');
-    }
-
-    /**
      * Load core plugin classes required during activation.
      *
      * We include them explicitly here because activation runs in a minimal context and some
@@ -124,5 +105,7 @@ class Activator extends AbstractCore
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-option.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-helper.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-visitor.php';
+        require_once WP_STATISTICS_DIR . 'includes/libraries/wp-background-processing/wp-async-request.php';
+        require_once WP_STATISTICS_DIR . 'includes/libraries/wp-background-processing/wp-background-process.php';
     }
 }

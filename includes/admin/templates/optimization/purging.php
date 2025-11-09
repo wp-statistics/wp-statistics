@@ -87,7 +87,19 @@
                                 })
                                 .fail(function (jqXHR, wpsTextStatus, wpsErrorThrown) {
                                     // Display the raw response for debugging
-                                    const errorMessage = jqXHR.responseText || wpsTextStatus + ': ' + wpsErrorThrown;
+                                    let errorMessage = wpsTextStatus + ': ' + wpsErrorThrown;
+                                    try {
+                                        const response = JSON.parse(jqXHR && jqXHR.responseText ? jqXHR.responseText : '{}');
+                                        if (response && response.message) {
+                                            errorMessage = response.message;
+                                        } else if (response && response.data) {
+                                            errorMessage = response.data;
+                                        }
+                                    } catch (parseError) {
+                                        if (jqXHR && jqXHR.responseText) {
+                                            errorMessage = jqXHR.responseText;
+                                        }
+                                    }
                                     wpsResult.html('<div class="wps-alert wps-alert__danger"><p>' + errorMessage + '</p></div>');
                                 })
                                 .always(function () {
@@ -111,24 +123,22 @@
                 buttonId: '#purge-data-submit',
                 selectId: '#purge-data',
                 resultId: '#purge-data-result',
-                action: 'wp_statistics_purge_data',
+                action: 'wp_statistics_purge_old_data',
                 dataKey: 'purge-days',
-                validateValue: (wpsValue) => parseInt(wpsValue) >= 30,
                 callback: () => $('#wps_historical_purge').show()
             },
             {
                 buttonId: '#purge-visitor-hits-submit',
                 selectId: '#purge-visitor-hits',
                 resultId: '#purge-visitor-hits-result',
-                action: 'wp_statistics_purge_visitor_hits',
+                action: 'wp_statistics_purge_visitors',
                 dataKey: 'purge-hits',
-                validateValue: (wpsValue) => parseInt(wpsValue) >= 10
             },
             {
                 buttonId: '#delete-agents-submit',
                 selectId: '#delete-agent',
                 resultId: '#delete-agents-result',
-                action: 'wp_statistics_delete_agents',
+                action: 'wp_statistics_purge_visitors',
                 dataKey: 'agent-name',
                 callback: (wpsValue) => {
                     const wpsAid = wpsValue.replace(/[^a-zA-Z]/g, "");
@@ -139,7 +149,7 @@
                 buttonId: '#delete-platforms-submit',
                 selectId: '#delete-platform',
                 resultId: '#delete-platforms-result',
-                action: 'wp_statistics_delete_platforms',
+                action: 'wp_statistics_purge_visitors',
                 dataKey: 'platform-name',
                 callback: (wpsValue) => {
                     const wpsPid = wpsValue.replace(/[^a-zA-Z]/g, "");
@@ -150,20 +160,19 @@
                 buttonId: '#delete-ip-submit',
                 selectId: '#delete-ip',
                 resultId: '#delete-ip-result',
-                action: 'wp_statistics_delete_ip',
+                action: 'wp_statistics_purge_visitors',
                 dataKey: 'ip-address',
-                validateValue: (wpsValue) => /^(\d{1,3}\.){3}\d{1,3}$/.test(wpsValue),
                 callback: () => $('#delete-ip').val('')
             },
             {
                 buttonId: '#delete-user-ids-submit',
                 resultId: '#delete-user-ids-result',
-                action: 'wp_statistics_delete_user_ids'
+                action: 'wp_statistics_clear_user_ids'
             },
             {
                 buttonId: '#clear-user-agent-strings-submit',
                 resultId: '#clear-user-agent-strings-result',
-                action: 'wp_statistics_clear_user_agent_strings'
+                action: 'wp_statistics_clear_ua_strings'
             },
             {
                 buttonId: '#delete-word-count-data-submit',
@@ -307,7 +316,7 @@
                 <td>
                     <?php
                     $eventsModel = new WP_Statistics\Models\EventsModel();
-                    $events      = $eventsModel->getEvents(['fields' => 'DISTINCT event_name', 'per_page' => false]);
+                    $events      = $eventsModel->getEvents(['fields' => 'DISTINCT event_name', 'per_page' => false, 'ignore_date' => true]);
                     ?>
                     <select dir="ltr" id="event-name" name="event_name">
                         <option value=""><?php esc_html_e('Select an Option', 'wp-statistics'); ?></option>

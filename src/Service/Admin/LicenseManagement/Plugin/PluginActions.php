@@ -9,6 +9,9 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 use WP_STATISTICS\User;
 
+/**
+ * @todo Register ajax using Ajax::register() and send response in a standard format using Ajax::success() or Ajax::error()
+ */
 class PluginActions
 {
     private $apiCommunicator;

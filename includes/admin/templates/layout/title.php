@@ -8,7 +8,10 @@ use WP_Statistics\Components\View;
 View::load('components/objects/share-anonymous-notice');
 
 if (isset($backUrl, $backTitle, $_SERVER['HTTP_REFERER'])) {
-    $backUrl   = esc_url_raw($_SERVER['HTTP_REFERER']);
+    if (empty($forceBackUrl)) { // if back url is not forced, get it from server
+        $backUrl = esc_url_raw($_SERVER['HTTP_REFERER']);
+    }
+
     $backTitle = esc_html__('Back to Previous Page', 'wp-statistics');
 }
 ?>

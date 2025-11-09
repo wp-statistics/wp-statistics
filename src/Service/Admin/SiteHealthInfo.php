@@ -126,20 +126,23 @@ class SiteHealthInfo
             ],
             'geoIpDatabaseLastUpdated'       => [
                 'label' => esc_html__('GeoIP Database Last Updated', 'wp-statistics'),
-                'value' => $geoIpProvider->getLastDatabaseFileUpdated(),
+                'value' => $geoIpProvider->getLastDatabaseFileUpdated() ?: esc_html__('Not Set', 'wp-statistics'),
+                'debug' => $geoIpProvider->getLastDatabaseFileUpdated() ?: 'Not Set',
             ],
             'geoIpDatabaseSize'              => [
                 'label' => esc_html__('GeoIP Database Size', 'wp-statistics'),
-                'value' => $geoIpProvider->getDatabaseSize(),
+                'value' => $geoIpProvider->getDatabaseSize() ?? esc_html__('Not Set', 'wp-statistics'),
+                'debug' => $geoIpProvider->isDatabaseExist() ? number_format($geoIpProvider->getDatabaseSize(false) / 1048576, 2) . ' MB': 'Not Set',
             ],
             'geoIpDatabaseType'              => [
                 'label' => esc_html__('GeoIP Database Type', 'wp-statistics'),
-                'value' => $geoIpProvider->getDatabaseType(),
+                'value' => $geoIpProvider->getDatabaseType() ?: esc_html__('Not Set', 'wp-statistics'),
+                'debug' => $geoIpProvider->getDatabaseType() ?: 'Not Set',
             ],
             'geoIpDatabaseValidation'        => [
                 'label' => esc_html__('GeoIP Database Validation', 'wp-statistics'),
                 'value' => is_wp_error($geoIpProviderValidity) ? esc_html__('No', 'wp-statistics') : esc_html__('Yes', 'wp-statistics'),
-                'debug' => is_wp_error($geoIpProviderValidity) ? $geoIpProviderValidity->get_error_message() : 'Yes',
+                'debug' => is_wp_error($geoIpProviderValidity) ? $geoIpProviderValidity->get_error_code() : 'Yes',
             ],
 
             /**

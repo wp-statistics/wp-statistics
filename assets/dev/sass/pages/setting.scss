@@ -5,6 +5,24 @@
 #poststuff.wps-wrap__settings {
   padding: 0;
 
+  [data-id^="historical_total_"] input[type="number"]::-webkit-inner-spin-button,
+  [data-id^="historical_total_"] input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0;
+  }
+  [data-id^="historical_total_"] input[type="number"] {
+    -moz-appearance: textfield !important;
+  }
+
+  input[type="number"] {
+    -webkit-appearance: none!important;
+    -moz-appearance: textfield!important;
+
+    &.invalid{
+      border: 1px solid #d5201c!important;
+    }
+  }
+
   .wps-settings-side {
     &__title {
       color: #565759;
@@ -1598,6 +1616,10 @@
       cursor: pointer;
       box-shadow: none !important;
 
+      &:disabled , &.disabled{
+        pointer-events: none;
+       }
+
       &.wps-loading-button {
         border-color: transparent !important;
         color: transparent !important;
@@ -1635,7 +1657,7 @@
         }
 
         &:disabled, &.disabled {
-          background: #C6C9FB
+          background: #c6c9fb!important
         }
 
         &.wps-loading-button {

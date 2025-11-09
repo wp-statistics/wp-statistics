@@ -2,9 +2,9 @@
 
 namespace WP_Statistics\Service\Geolocation;
 
-use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory;
 use WP_Statistics\Helper;
 use WP_STATISTICS\Option;
+use WP_Statistics\Service\Database\Migrations\BackgroundProcess\BackgroundProcessFactory;
 
 abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
 {
@@ -197,7 +197,7 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
     protected function batchUpdateIncompleteGeoIp()
     {
         if (Option::get('auto_pop')) {
-            BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
+            BackgroundProcessFactory::getBackgroundProcess('update_unknown_visitor_geoip')->process();
         }
     }
 

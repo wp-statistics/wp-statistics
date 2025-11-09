@@ -387,14 +387,28 @@ td .wps-tooltip-icon.info {
   }
 
   &--404{
+    table-layout: fixed;
+
+    thead tr th:last-child{
+      width: 100px;
+      max-width: 100px;
+      box-sizing: border-box;
+    }
+
     tbody{
       tr{
-        td:first-child span{
+        td:first-child span ,td:first-child a{
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          max-width: 900px;
+          max-width: 100%;
           display: block;
+        }
+
+        td:last-child{
+          width: 100px;
+          max-width: 100px;
+          box-sizing: border-box;
         }
       }
     }

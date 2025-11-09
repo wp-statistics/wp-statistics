@@ -1,12 +1,22 @@
+= 14.15.6 - 2025-11-09 =
+- **New:** Introduced a refactored background-process migration system and removed legacy AJAX migrations.
+- **New:** Updated the Single Visitor page and added an "Other Visits" section.
+- **Enhancement:** Converted the Visitor Columns migrator into a background process, added a progress notice, and introduced a "Data Migrations" section on the Optimization page.
+- **Enhancement:** Linked 404 report items directly to the Single Resource page.
+- **Fix:** Fixed unknown location link issue in Visitor Information.
+- **Fix:** Resolved chart display issues with non-Gregorian dates.
+- **Fix:** Fixed external link detection for accurate outbound tracking.
+- **Fix:** Corrected the label displayed for selected filters on the Link Tracker page.
+
 = 14.15.5 - 2025-09-21 =
 - **Enhancement:** Added date range validation on report pages.
-- **Enhancement:** Improved compare style and number formatting in "At a Glance" widgets.  
+- **Enhancement:** Improved compare style and number formatting in "At a Glance" widgets.
 - **Enhancement:** Updated chart component to show a message when no data is available.
-- **Enhancement:** Limited queue and AJAX migrations (and their notices) to the "Minimum Role to Manage Settings."  
+- **Enhancement:** Limited queue and AJAX migrations (and their notices) to the "Minimum Role to Manage Settings."
 - **Enhancement:** Refactored the migration codebase for better structure, readability, and maintainability.
-- **Enhancement:** Added a "Recheck Schema" button on the optimization page to recheck database health via AJAX.  
+- **Enhancement:** Added a "Recheck Schema" button on the optimization page to recheck database health via AJAX.
 - **Fix:** Fixed console warnings on Chromium-based browsers on the settings page.
-- **Fix:** Fixed incorrect "Queue Migration" completion notice after plugin updates.  
+- **Fix:** Fixed incorrect "Queue Migration" completion notice after plugin updates.
 - **Fix:** Resolved activation issues on fresh installs.
 - **Dev:** Removed the `wp_statistics_data_export_base_query` and `wp_statistics_data_export_query` filters.
 
