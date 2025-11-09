@@ -32,7 +32,7 @@ $isInstalled    = $pluginHandler->isPluginInstalled($addon_slug);
             <?php echo esc_html($page_title); ?>
         </div>
         <div class="wps-lock-page__description">
-            <?php echo esc_html($description); ?>
+            <?php echo wp_kses_post($description) ?>
         </div>
 
         <?php if (!empty($page_second_title) || !empty($second_description)): ?>
@@ -40,7 +40,7 @@ $isInstalled    = $pluginHandler->isPluginInstalled($addon_slug);
                 <?php if (!empty($page_second_title)) echo esc_html($page_second_title); ?>
             </div>
             <div class="wps-lock-page__description">
-                <?php if (!empty($second_description)) echo esc_html($second_description); ?>
+                <?php if (!empty($second_description)) echo wp_kses_post($second_description); ?>
             </div>
         <?php endif; ?>
 
