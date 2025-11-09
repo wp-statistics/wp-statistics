@@ -1,8 +1,8 @@
-import { defineConfig } from 'vite';
-import { resolve } from 'path';
-import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync, statSync, cpSync, existsSync } from 'fs';
-import { join } from 'path';
-import { globSync } from 'glob';
+import { defineConfig } from 'vite'
+import { resolve } from 'path'
+import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync, statSync, cpSync, existsSync } from 'fs'
+import { join } from 'path'
+import { globSync } from 'glob'
 
 // Custom plugin to wrap JS in jQuery ready
 function jQueryReadyWrapper() {
@@ -11,14 +11,14 @@ function jQueryReadyWrapper() {
     generateBundle(options, bundle) {
       for (const fileName in bundle) {
         if (bundle[fileName].type === 'chunk' && fileName.endsWith('.js')) {
-          const chunk = bundle[fileName];
+          const chunk = bundle[fileName]
           if (fileName.includes('admin.min.js') || fileName.includes('background-process.min.js')) {
-            chunk.code = `jQuery(document).ready(function ($) {${chunk.code}});`;
+            chunk.code = `jQuery(document).ready(function ($) {${chunk.code}});`
           }
         }
       }
-    }
-  };
+    },
+  }
 }
 
 // Custom plugin to inline source files for admin bundle
@@ -27,7 +27,7 @@ function inlineAdminSources() {
     name: 'inline-admin-sources',
     resolveId(id) {
       if (id === 'virtual:admin-bundle') {
-        return id;
+        return id
       }
     },
     load(id) {
@@ -46,22 +46,49 @@ function inlineAdminSources() {
           './resources/legacy/javascript/pages/*.js',
           './resources/legacy/javascript/run.js',
           './resources/legacy/javascript/image-upload.js',
-        ];
+        ]
 
-        const resolvedFiles = files.flatMap(pattern => globSync(pattern));
-        const code = resolvedFiles.map(file => {
-          try {
-            return readFileSync(file, 'utf-8');
-          } catch (e) {
-            console.warn(`Could not read file: ${file}`);
-            return '';
-          }
-        }).join('\n');
+        const resolvedFiles = files.flatMap((pattern) => globSync(pattern))
+        const code = resolvedFiles
+          .map((file) => {
+            try {
+              let content = readFileSync(file, 'utf-8')
 
-        return code;
+              // Patch UMD wrappers to prevent require('jquery') errors
+              if (file.includes('tooltipster.bundle.js') || file.includes('ajaxq.js')) {
+                content = content.replace(
+                  /module\.exports\s*=\s*factory\(require\(['"]jquery['"]\)\);?/g,
+                  'factory(jQuery);'
+                )
+              }
+
+              // Patch UMD wrappers to prevent require('chart.js') errors
+              if (file.includes('chartjs-adapter-date-fns.bundle.min.js')) {
+                content = content.replace(
+                  /e\(require\("chart\.js"\)\)/g,
+                  'e((t="undefined"!=typeof globalThis?globalThis:t||self).Chart)'
+                )
+              }
+
+              if (file.includes('chartjs-chart-matrix.min.js')) {
+                content = content.replace(
+                  /e\(exports,\s*require\("chart\.js"\),\s*require\("chart\.js\/helpers"\)\)/g,
+                  'e((t = "undefined" != typeof globalThis ? globalThis : t || self)["chartjs-chart-matrix"] = {}, t.Chart, t.Chart.helpers)'
+                )
+              }
+
+              return content
+            } catch (e) {
+              console.warn(`Could not read file: ${file}`)
+              return ''
+            }
+          })
+          .join('\n')
+
+        return code
       }
-    }
-  };
+    },
+  }
 }
 
 // Custom plugin for background process
@@ -70,20 +97,20 @@ function inlineBackgroundProcess() {
     name: 'inline-background-process',
     resolveId(id) {
       if (id === 'virtual:background-process') {
-        return id;
+        return id
       }
     },
     load(id) {
       if (id === 'virtual:background-process') {
         try {
-          return readFileSync('./resources/legacy/javascript/background-process.js', 'utf-8');
+          return readFileSync('./resources/legacy/javascript/background-process.js', 'utf-8')
         } catch (e) {
-          console.warn('Could not read background-process.js');
-          return '';
+          console.warn('Could not read background-process.js')
+          return ''
         }
       }
-    }
-  };
+    },
+  }
 }
 
 // Custom plugin for TinyMCE
@@ -92,24 +119,26 @@ function inlineTinyMCE() {
     name: 'inline-tinymce',
     resolveId(id) {
       if (id === 'virtual:tinymce') {
-        return id;
+        return id
       }
     },
     load(id) {
       if (id === 'virtual:tinymce') {
-        const files = globSync('./resources/legacy/javascript/Tinymce/*.js');
-        const code = files.map(file => {
-          try {
-            return readFileSync(file, 'utf-8');
-          } catch (e) {
-            console.warn(`Could not read file: ${file}`);
-            return '';
-          }
-        }).join('\n');
-        return code;
+        const files = globSync('./resources/legacy/javascript/Tinymce/*.js')
+        const code = files
+          .map((file) => {
+            try {
+              return readFileSync(file, 'utf-8')
+            } catch (e) {
+              console.warn(`Could not read file: ${file}`)
+              return ''
+            }
+          })
+          .join('\n')
+        return code
       }
-    }
-  };
+    },
+  }
 }
 
 // Custom plugin for tracker scripts
@@ -118,7 +147,7 @@ function inlineTrackerScripts() {
     name: 'inline-tracker',
     resolveId(id) {
       if (id === 'virtual:tracker') {
-        return id;
+        return id
       }
     },
     load(id) {
@@ -127,19 +156,21 @@ function inlineTrackerScripts() {
           './resources/frontend/js/user-tracker.js',
           './resources/frontend/js/event-tracker.js',
           './resources/frontend/js/tracker.js',
-        ];
-        const code = files.map(file => {
-          try {
-            return readFileSync(file, 'utf-8');
-          } catch (e) {
-            console.warn(`Could not read file: ${file}`);
-            return '';
-          }
-        }).join('\n');
-        return code;
+        ]
+        const code = files
+          .map((file) => {
+            try {
+              return readFileSync(file, 'utf-8')
+            } catch (e) {
+              console.warn(`Could not read file: ${file}`)
+              return ''
+            }
+          })
+          .join('\n')
+        return code
       }
-    }
-  };
+    },
+  }
 }
 
 // Custom plugin for chart scripts
@@ -148,27 +179,29 @@ function inlineChartScripts() {
     name: 'inline-chart-scripts',
     resolveId(id) {
       if (id === 'virtual:chart-matrix') {
-        return id;
+        return id
       }
     },
     load(id) {
       if (id === 'virtual:chart-matrix') {
         const files = [
           './resources/legacy/javascript/plugin/chartjs-adapter-date-fns.bundle.min.js',
-          './resources/legacy/javascript/plugin/chartjs-chart-matrix.min.js'
-        ];
-        const code = files.map(file => {
-          try {
-            return readFileSync(file, 'utf-8');
-          } catch (e) {
-            console.warn(`Could not read file: ${file}`);
-            return '';
-          }
-        }).join('\n');
-        return code;
+          './resources/legacy/javascript/plugin/chartjs-chart-matrix.min.js',
+        ]
+        const code = files
+          .map((file) => {
+            try {
+              return readFileSync(file, 'utf-8')
+            } catch (e) {
+              console.warn(`Could not read file: ${file}`)
+              return ''
+            }
+          })
+          .join('\n')
+        return code
       }
-    }
-  };
+    },
+  }
 }
 
 // Custom plugin to clean output directory (images are at public/images, not touched)
@@ -176,29 +209,29 @@ function cleanOutputDir() {
   return {
     name: 'clean-output-dir',
     buildStart() {
-      const outDir = resolve(__dirname, 'public/legacy');
+      const outDir = resolve(__dirname, 'public/legacy')
 
       try {
         // Remove everything in public/legacy directory
-        const items = readdirSync(outDir);
-        items.forEach(item => {
-          const itemPath = join(outDir, item);
-          const stat = statSync(itemPath);
+        const items = readdirSync(outDir)
+        items.forEach((item) => {
+          const itemPath = join(outDir, item)
+          const stat = statSync(itemPath)
           if (stat.isDirectory()) {
-            rmSync(itemPath, { recursive: true, force: true });
+            rmSync(itemPath, { recursive: true, force: true })
           } else {
-            rmSync(itemPath, { force: true });
+            rmSync(itemPath, { force: true })
           }
-        });
-        console.log('✓ Cleaned output directory');
+        })
+        console.log('✓ Cleaned output directory')
       } catch (e) {
         // Directory might not exist yet, that's ok
         if (e.code !== 'ENOENT') {
-          console.warn('Warning during cleanup:', e.message);
+          console.warn('Warning during cleanup:', e.message)
         }
       }
-    }
-  };
+    },
+  }
 }
 
 // Custom plugin to copy assets structure (exact copy)
@@ -206,66 +239,66 @@ function copyAssetsStructure() {
   return {
     name: 'copy-assets-structure',
     writeBundle() {
-      const assetsJsDir = resolve(__dirname, 'assets/js');
-      const assetsCssDir = resolve(__dirname, 'assets/css');
-      const publicJsDir = resolve(__dirname, 'public/legacy/js');
-      const publicCssDir = resolve(__dirname, 'public/legacy/css');
+      const assetsJsDir = resolve(__dirname, 'assets/js')
+      const assetsCssDir = resolve(__dirname, 'assets/css')
+      const publicJsDir = resolve(__dirname, 'public/legacy/js')
+      const publicCssDir = resolve(__dirname, 'public/legacy/css')
 
       try {
         // Copy all items from assets/js to public/legacy/js
         if (existsSync(assetsJsDir)) {
-          const items = readdirSync(assetsJsDir);
-          items.forEach(item => {
-            if (item === '.DS_Store') return;
+          const items = readdirSync(assetsJsDir)
+          items.forEach((item) => {
+            if (item === '.DS_Store') return
 
-            const sourcePath = join(assetsJsDir, item);
-            const destPath = join(publicJsDir, item);
-            const stat = statSync(sourcePath);
+            const sourcePath = join(assetsJsDir, item)
+            const destPath = join(publicJsDir, item)
+            const stat = statSync(sourcePath)
 
             if (stat.isDirectory()) {
               // Copy entire directory
-              mkdirSync(destPath, { recursive: true });
-              cpSync(sourcePath, destPath, { recursive: true });
+              mkdirSync(destPath, { recursive: true })
+              cpSync(sourcePath, destPath, { recursive: true })
             } else if (stat.isFile()) {
               // Skip bundled files that we generate
-              const bundledFiles = ['admin.min.js', 'background-process.min.js', 'tinymce.min.js'];
+              const bundledFiles = ['admin.min.js', 'background-process.min.js', 'tinymce.min.js']
               if (!bundledFiles.includes(item)) {
-                cpSync(sourcePath, destPath);
+                cpSync(sourcePath, destPath)
               }
             }
-          });
+          })
         }
 
         // Copy all items from assets/css to public/legacy/css
         if (existsSync(assetsCssDir)) {
-          const items = readdirSync(assetsCssDir);
-          items.forEach(item => {
-            if (item === '.DS_Store') return;
+          const items = readdirSync(assetsCssDir)
+          items.forEach((item) => {
+            if (item === '.DS_Store') return
 
-            const sourcePath = join(assetsCssDir, item);
-            const destPath = join(publicCssDir, item);
-            const stat = statSync(sourcePath);
+            const sourcePath = join(assetsCssDir, item)
+            const destPath = join(publicCssDir, item)
+            const stat = statSync(sourcePath)
 
             if (stat.isDirectory()) {
               // Copy entire directory
-              mkdirSync(destPath, { recursive: true });
-              cpSync(sourcePath, destPath, { recursive: true });
+              mkdirSync(destPath, { recursive: true })
+              cpSync(sourcePath, destPath, { recursive: true })
             } else if (stat.isFile()) {
               // Skip bundled files that we generate
-              const bundledFiles = ['admin.min.css', 'rtl.min.css', 'frontend.min.css', 'mail.min.css'];
+              const bundledFiles = ['admin.min.css', 'rtl.min.css', 'frontend.min.css', 'mail.min.css']
               if (!bundledFiles.includes(item)) {
-                cpSync(sourcePath, destPath);
+                cpSync(sourcePath, destPath)
               }
             }
-          });
+          })
         }
 
-        console.log('✓ Copied assets structure (exact copy)');
+        console.log('✓ Copied assets structure (exact copy)')
       } catch (e) {
-        console.error('Failed to copy assets structure:', e.message);
+        console.error('Failed to copy assets structure:', e.message)
       }
-    }
-  };
+    },
+  }
 }
 
 // Custom plugin to minify and copy JSON files
@@ -273,22 +306,22 @@ function copyJsonAssets() {
   return {
     name: 'copy-json-assets',
     writeBundle() {
-      const sourceFile = resolve(__dirname, 'resources/json/source-channels.json');
-      const destDir = resolve(__dirname, 'public/json');
-      const destFile = resolve(destDir, 'source-channels.json');
+      const sourceFile = resolve(__dirname, 'resources/json/source-channels.json')
+      const destDir = resolve(__dirname, 'public/json')
+      const destFile = resolve(destDir, 'source-channels.json')
 
       try {
-        mkdirSync(destDir, { recursive: true });
+        mkdirSync(destDir, { recursive: true })
         // Read, minify, and write JSON
-        const jsonContent = readFileSync(sourceFile, 'utf-8');
-        const minified = JSON.stringify(JSON.parse(jsonContent));
-        writeFileSync(destFile, minified);
-        console.log('✓ Minified and copied source-channels.json to public/json/');
+        const jsonContent = readFileSync(sourceFile, 'utf-8')
+        const minified = JSON.stringify(JSON.parse(jsonContent))
+        writeFileSync(destFile, minified)
+        console.log('✓ Minified and copied source-channels.json to public/json/')
       } catch (e) {
-        console.error('Failed to minify source-channels.json:', e);
+        console.error('Failed to minify source-channels.json:', e)
       }
-    }
-  };
+    },
+  }
 }
 
 // Custom plugin to move frontend assets to public/frontend
@@ -296,60 +329,60 @@ function moveFrontendAssets() {
   return {
     name: 'move-frontend-assets',
     writeBundle() {
-      const sourceJsDir = resolve(__dirname, 'public/legacy/js');
-      const sourceCssDir = resolve(__dirname, 'public/legacy/css');
-      const frontendJsDir = resolve(__dirname, 'public/frontend/js');
-      const frontendCssDir = resolve(__dirname, 'public/frontend/css');
+      const sourceJsDir = resolve(__dirname, 'public/legacy/js')
+      const sourceCssDir = resolve(__dirname, 'public/legacy/css')
+      const frontendJsDir = resolve(__dirname, 'public/frontend/js')
+      const frontendCssDir = resolve(__dirname, 'public/frontend/css')
 
       try {
         // Create frontend directories
-        mkdirSync(frontendJsDir, { recursive: true });
-        mkdirSync(frontendCssDir, { recursive: true });
+        mkdirSync(frontendJsDir, { recursive: true })
+        mkdirSync(frontendCssDir, { recursive: true })
 
         // Move frontend JS files from legacy to frontend
-        const jsFiles = ['tracker.min.js', 'tracker.js', 'mini-chart.js'];
-        jsFiles.forEach(file => {
-          const sourcePath = join(sourceJsDir, file);
-          const destPath = join(frontendJsDir, file);
+        const jsFiles = ['tracker.min.js', 'tracker.js', 'mini-chart.js']
+        jsFiles.forEach((file) => {
+          const sourcePath = join(sourceJsDir, file)
+          const destPath = join(frontendJsDir, file)
 
           if (existsSync(sourcePath)) {
-            cpSync(sourcePath, destPath);
-            rmSync(sourcePath, { force: true });
+            cpSync(sourcePath, destPath)
+            rmSync(sourcePath, { force: true })
           }
-        });
+        })
 
         // Copy only chart.umd.min.js from chartjs directory to frontend/js/chartjs/ (others stay in legacy)
-        const chartjsSourceDir = join(sourceJsDir, 'chartjs');
+        const chartjsSourceDir = join(sourceJsDir, 'chartjs')
         if (existsSync(chartjsSourceDir)) {
-          const frontendChartjsDir = join(frontendJsDir, 'chartjs');
-          mkdirSync(frontendChartjsDir, { recursive: true });
+          const frontendChartjsDir = join(frontendJsDir, 'chartjs')
+          mkdirSync(frontendChartjsDir, { recursive: true })
 
-          const chartUmdMinPath = join(chartjsSourceDir, 'chart.umd.min.js');
-          const chartUmdMinDest = join(frontendChartjsDir, 'chart.umd.min.js');
+          const chartUmdMinPath = join(chartjsSourceDir, 'chart.umd.min.js')
+          const chartUmdMinDest = join(frontendChartjsDir, 'chart.umd.min.js')
 
           if (existsSync(chartUmdMinPath)) {
-            cpSync(chartUmdMinPath, chartUmdMinDest);
+            cpSync(chartUmdMinPath, chartUmdMinDest)
           }
         }
 
         // Move frontend CSS files from legacy to frontend
-        const cssFiles = ['frontend.min.css'];
-        cssFiles.forEach(file => {
-          const sourcePath = join(sourceCssDir, file);
-          const destPath = join(frontendCssDir, file);
+        const cssFiles = ['frontend.min.css']
+        cssFiles.forEach((file) => {
+          const sourcePath = join(sourceCssDir, file)
+          const destPath = join(frontendCssDir, file)
 
           if (existsSync(sourcePath)) {
-            cpSync(sourcePath, destPath);
-            rmSync(sourcePath, { force: true });
+            cpSync(sourcePath, destPath)
+            rmSync(sourcePath, { force: true })
           }
-        });
+        })
 
-        console.log('✓ Moved frontend assets to public/frontend/');
+        console.log('✓ Moved frontend assets to public/frontend/')
       } catch (e) {
-        console.error('Failed to move frontend assets:', e.message);
+        console.error('Failed to move frontend assets:', e.message)
       }
-    }
-  };
+    },
+  }
 }
 
 export default defineConfig({
@@ -414,13 +447,13 @@ export default defineConfig({
         chunkFileNames: 'js/[name].js',
         assetFileNames: (assetInfo) => {
           if (assetInfo.name && assetInfo.name.endsWith('.css')) {
-            const name = assetInfo.name.replace('.css', '');
+            const name = assetInfo.name.replace('.css', '')
             if (name.includes('admin') || name.includes('rtl') || name.includes('frontend') || name.includes('mail')) {
-              return name + '.min.css';
+              return name + '.min.css'
             }
-            return '[name][extname]';
+            return '[name][extname]'
           }
-          return 'assets/[name][extname]';
+          return 'assets/[name][extname]'
         },
       },
 
@@ -430,7 +463,7 @@ export default defineConfig({
         'chart.js',
         'chartjs-adapter-date-fns',
         'chartjs-chart-matrix',
-        /^chart\.js/,  // Match any chart.js imports
+        /^chart\.js/, // Match any chart.js imports
       ],
 
       // Prevent code splitting by disabling chunk optimization
@@ -453,11 +486,11 @@ export default defineConfig({
         api: 'modern-compiler',
         // Only silence @import warnings for RTL files that require nested imports
         silenceDeprecations: ['import'],
-      }
+      },
     },
     lightningcss: {
       minify: true,
-    }
+    },
   },
 
   resolve: {
@@ -465,6 +498,6 @@ export default defineConfig({
       '@': resolve(__dirname, 'resources/legacy'),
       '@assets/json/source-channels.json': resolve(__dirname, 'resources/json/source-channels.json'),
       '@assets/images': resolve(__dirname, 'public/images'),
-    }
-  }
-});
+    },
+  },
+})
