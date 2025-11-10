@@ -2,6 +2,7 @@
 namespace WP_Statistics\Service\Database\Migrations\BackgroundProcess\Jobs;
 
 use WP_Statistics\Abstracts\BaseBackgroundProcess;
+use WP_Statistics\Components\DateRange;
 use WP_Statistics\Models\SummaryModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
@@ -142,24 +143,41 @@ class SummaryTotalsDataMigration extends BaseBackgroundProcess
 
         @ini_set('memory_limit', '-1');
 
+        $dateRange = [
+            'from' => date('Y-m-d', 0),
+            'to'   => date('Y-m-d', strtotime('yesterday'))
+        ];
+
         $visitorModel = new VisitorsModel();
-        $data         = $visitorModel->countDailyVisitors([
-            'date' => [
-                'from' => date('Y-m-d', 0),
-                'to'   => date('Y-m-d', strtotime('yesterday'))
-            ],
+        $rawData      = $visitorModel->countDailyVisitors([
+            'date'         => $dateRange,
             'include_hits' => true,
             'bypass_cache' => true
         ]);
 
-        $this->setTotal($data);
+        if (empty($rawData)) {
+            $this->setInitiated();
+            return;
+        }
 
+        // Set date as object key for easy lookup
+        $rawData = array_column($rawData, null, 'date');
+
+        // Set start date based on the first available record
+        $dateRange['from'] = array_key_first($rawData);
+
+        // Get all dates within the range
+        $dates     = DateRange::getDatesInRange($dateRange);
         $batchData = [];
 
-        // Push each row to the batch, in the format of [date, visitors, hits]
-        foreach ($data as $row) {
+        foreach ($dates as $date) {
+            // Get the row data for the current date, or default to zeros
+            $row = $rawData[$date] ?? (object) ['date' => $date, 'visitors' => 0, 'hits' => 0];
+
             $batchData[] = [$row->date, $row->visitors, $row->hits];
         }
+
+        $this->setTotal($batchData);
 
         // Define the batch size
         $batchSize = 100;
