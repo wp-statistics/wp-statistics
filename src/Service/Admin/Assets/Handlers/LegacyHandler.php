@@ -166,6 +166,8 @@ class LegacyHandler extends BaseAdminAssets
      */
     protected function getLocalizedData($hook)
     {
+        global $post;
+
         $list = parent::getLocalizedData($hook);
 
         //Global Option
@@ -183,6 +185,28 @@ class LegacyHandler extends BaseAdminAssets
             'wp_timezone'    => (new DateTime())->getTimezone()->getName()
         ]);
 
+        // WordPress Current Page
+        $list['page'] = [
+            'file' => $hook,
+            'ID'   => (isset($post) ? $post->ID : 0)
+        ];
+
+        // WordPress Admin Page request Params
+        if (isset($_GET)) {
+            foreach ($_GET as $key => $value) {
+                if ($key == "page") {
+                    $slug  = Menu::getPageKeyFromSlug(esc_html($value));
+                    $value = isset($slug[0]) ? $slug[0] : $value;
+                }
+                if (!is_array($value)) {
+                    $list['request_params'][esc_html($key)] = esc_html($value);
+                } else {
+                    $value = array_map('esc_html', $value);
+                    $list['request_params'][esc_html($key)] = $value;
+                }
+            }
+        }
+
         //Global i18n
         $list['i18n'] = $this->getI18nStrings();
 
@@ -199,6 +223,11 @@ class LegacyHandler extends BaseAdminAssets
         // Rest-API Meta Box Url
         $list['stats_report_option'] = Option::getValue('time_report') == '0' ? false : true;
         $list['setting_url']         = Menu::getAdminUrl('settings');
+        $list['admin_url']           = admin_url();
+        $list['ajax_url']            = admin_url('admin-ajax.php');
+        $list['assets_url']          = WP_STATISTICS_URL . 'assets/';
+        $list['rest_api_nonce']      = wp_create_nonce('wp_rest');
+        $list['meta_box_api']        = admin_url('admin-ajax.php?action=wp_statistics_admin_meta_box');
         $list['meta_boxes']          = MetaboxHelper::getScreenMetaboxes();
 
         return apply_filters('wp_statistics_admin_localized_data', $list);
