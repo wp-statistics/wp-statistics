@@ -308,7 +308,7 @@ function copyJsonAssets() {
     writeBundle() {
       const sourceFile = resolve(__dirname, 'resources/json/source-channels.json')
       const destDir = resolve(__dirname, 'public/json')
-      const destFile = resolve(destDir, 'source-channels.json')
+      const destFile = resolve(destDir, 'source-channels.min.json')
 
       try {
         mkdirSync(destDir, { recursive: true })
@@ -316,7 +316,7 @@ function copyJsonAssets() {
         const jsonContent = readFileSync(sourceFile, 'utf-8')
         const minified = JSON.stringify(JSON.parse(jsonContent))
         writeFileSync(destFile, minified)
-        console.log('✓ Minified and copied source-channels.json to public/json/')
+        console.log('✓ Minified and copied source-channels.json to public/json/source-channels.min.json')
       } catch (e) {
         console.error('Failed to minify source-channels.json:', e)
       }
