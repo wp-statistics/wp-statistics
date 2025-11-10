@@ -1,0 +1,1 @@
+import{A as e,f as t,u as n}from"./main-W1eEX2tH.js";var r=e(t());const i=n(`/(referrals)/referred-visitors`)({component:a});function a(){return(0,r.jsx)(`div`,{children:`Hello "/(referrals)/referred-visitors"!`})}export{i as Route};

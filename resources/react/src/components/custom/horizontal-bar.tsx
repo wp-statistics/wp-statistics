@@ -4,13 +4,14 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { cn } from '@/lib/utils'
 
 export interface HorizontalBarProps {
-  icon: React.ReactNode
+  icon?: React.ReactNode
   label: string
   value: string | number
   percentage: string | number
   isNegative?: boolean
   tooltipTitle?: string
   tooltipSubtitle?: string
+  isFirst?: boolean
 }
 
 export function HorizontalBar({
@@ -21,6 +22,7 @@ export function HorizontalBar({
   isNegative = false,
   tooltipTitle,
   tooltipSubtitle,
+  isFirst = false,
 }: HorizontalBarProps) {
   const rawPercentage = typeof percentage === 'string' ? parseFloat(percentage) : percentage
   const safePercentage = Number.isFinite(rawPercentage) ? Math.min(Math.max(rawPercentage, 0), 100) : 0
@@ -31,17 +33,19 @@ export function HorizontalBar({
 
       <div className="relative flex items-center justify-between gap-4 text-sm">
         <div className="flex items-center gap-2 leading-0">
-          <span className="text-2xl leading-0">{icon}</span>
+          {icon && <span className="text-2xl leading-0">{icon}</span>}
           <span>{label}</span>
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="text-sm text-gray-600">{value}</span>
+          <span className={cn('text-neutral-500 text-sm', isFirst ? 'font-medium' : 'font-light')}>{value}</span>
           <div className="flex items-center">
             <span className={cn('text-neutral-500', isNegative ? 'text-[#D54037]' : 'text-[#196140]')}>
               {isNegative ? <ChevronDown size={16} /> : <ChevronUp size={16} />}
             </span>
-            <span className={cn('font-medium', isNegative ? 'text-[#D54037]' : 'text-[#196140]')}>{percentage}%</span>
+            <span className={cn('font-medium text-xs', isNegative ? 'text-[#D54037]' : 'text-[#196140]')}>
+              {percentage}%
+            </span>
           </div>
         </div>
       </div>
