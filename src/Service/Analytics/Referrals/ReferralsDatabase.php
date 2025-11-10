@@ -15,7 +15,7 @@ class ReferralsDatabase
      */
     protected function getFilePath()
     {
-        return WP_STATISTICS_DIR . 'assets/json/' . $this->databaseFileName;
+        return WP_STATISTICS_DIR . 'public/json/' . $this->databaseFileName;
     }
 
     /**
