@@ -3,15 +3,15 @@
 namespace WP_Statistics\Abstracts;
 
 /**
- * Admin Assets Abstract Class
+ * Assets Abstract Class
  *
- * Base class for managing WordPress admin assets (CSS/JS) in WP Statistics plugin.
+ * Base class for managing assets in WP Statistics plugin.
  * Provides common functionality for loading and enqueuing styles and scripts.
  *
  * @package WP_STATISTICS\Abstracts
  * @since   15.0.0
  */
-abstract class BaseAdminAssets
+abstract class BaseAssets
 {
     /**
      * Asset handle name prefix
@@ -77,6 +77,16 @@ abstract class BaseAdminAssets
     }
 
     /**
+     * get the plugin URL
+     *
+     * @return string Plugin URL
+     */
+    protected function getPluginUrl()
+    {
+        return $this->pluginUrl;
+    }
+
+    /**
      * Set the asset context and handle
      *
      * @param string $context Asset context (e.g., 'react', 'admin', 'dashboard')
@@ -86,6 +96,27 @@ abstract class BaseAdminAssets
     {
         $this->context     = $context;
         $this->assetHandle = $this->prefix . '-' . $context;
+    }
+
+    /**
+     * Set the asset handle prefix
+     *
+     * @param string $prefix Asset handle prefix
+     * @return void
+     */
+    protected function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
+    }
+
+    /**
+     * Get the asset handle prefix
+     *
+     * @return string The asset handle prefix
+     */
+    public function getPrefix()
+    {
+        return $this->prefix;
     }
 
     /**
@@ -185,17 +216,17 @@ abstract class BaseAdminAssets
     abstract public function __construct();
 
     /**
-     * Register and enqueue admin styles
+     * Register and enqueue styles.
      *
      * @return void
      */
-    abstract public function adminStyles();
+    abstract public function styles();
 
     /**
-     * Register and enqueue admin scripts
+     * Register and enqueue scripts.
      *
-     * @param string $hook Current admin page hook
+     * @param string $hook Current admin page hook (optional)
      * @return void
      */
-    abstract public function adminScripts($hook);
+    abstract public function scripts($hook = '');
 }

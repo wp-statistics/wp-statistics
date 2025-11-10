@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\DashboardBootstrap;
 
-use WP_Statistics\Service\Admin\Assets\AdminAssetsFactory;
+use WP_Statistics\Service\Assets\AssetsFactory;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\RootController;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Managers\LocalizeDataManager;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\GlobalDataProvider;
@@ -67,7 +67,7 @@ class DashboardManager
         $this->initAjax();
         $this->initLocalizeData();
 
-        AdminAssetsFactory::React();
+        AssetsFactory::React();
     }
 
     /**

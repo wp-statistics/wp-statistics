@@ -1,8 +1,8 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Assets\Handlers;
+namespace WP_Statistics\Service\Assets\Handlers;
 
-use WP_Statistics\Abstracts\BaseAdminAssets;
+use WP_Statistics\Abstracts\BaseAssets;
 use WP_Statistics\Utils\Route;
 
 /**
@@ -11,10 +11,10 @@ use WP_Statistics\Utils\Route;
  * Handles WordPress admin React assets (CSS/JS) in WP Statistics plugin.
  * Manages loading and enqueuing of React-specific styles and scripts.
  *
- * @package WP_STATISTICS\Service\Admin\Assets
+ * @package WP_STATISTICS\Service\Assets
  * @since   15.0.0
  */
-class ReactHandler extends BaseAdminAssets
+class ReactHandler extends BaseAssets
 {
     /**
      * Manifest main JS file path
@@ -40,8 +40,8 @@ class ReactHandler extends BaseAdminAssets
         $this->setContext('react');
         $this->setAssetDir('public/react');
 
-        add_action('admin_enqueue_scripts', [$this, 'adminStyles'], 10);
-        add_action('admin_enqueue_scripts', [$this, 'adminScripts'], 10);
+        add_action('admin_enqueue_scripts', [$this, 'styles'], 10);
+        add_action('admin_enqueue_scripts', [$this, 'scripts'], 10);
     }
 
     /**
@@ -49,7 +49,7 @@ class ReactHandler extends BaseAdminAssets
      *
      * @return void
      */
-    public function adminStyles()
+    public function styles()
     {
         // Get Current Screen ID
         $screenId = Route::getScreenId();
@@ -75,7 +75,7 @@ class ReactHandler extends BaseAdminAssets
      * @param string $hook Current admin page hook
      * @return void
      */
-    public function adminScripts($hook)
+    public function scripts($hook = '')
     {
         // Get Current Screen ID
         $screenId = Route::getScreenId();

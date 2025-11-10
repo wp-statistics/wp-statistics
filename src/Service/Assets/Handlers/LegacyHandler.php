@@ -1,14 +1,15 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Assets\Handlers;
+namespace WP_Statistics\Service\Assets\Handlers;
 
-use WP_Statistics\Abstracts\BaseAdminAssets;
+use WP_Statistics\Abstracts\BaseAssets;
 use WP_Statistics\Components\Addons;
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\Menu;
 use WP_Statistics\Globals\Option;
+use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\Metabox\MetaboxHelper;
 use WP_Statistics\Utils\Post;
 use WP_Statistics\Utils\PostType;
@@ -21,10 +22,10 @@ use WP_Statistics\Utils\Route;
  * Handles WordPress admin legacy assets (CSS/JS) in WP Statistics plugin.
  * Manages loading and enqueuing of styles and scripts for the admin interface.
  *
- * @package WP_STATISTICS\Service\Admin\Assets
+ * @package WP_STATISTICS\Service\Assets
  * @since   15.0.0
  */
-class LegacyHandler extends BaseAdminAssets
+class LegacyHandler extends BaseAssets
 {
     /**
      * Initialize the assets manager
@@ -34,8 +35,8 @@ class LegacyHandler extends BaseAdminAssets
     public function __construct()
     {
         $this->setContext('legacy');
-        add_action('admin_enqueue_scripts', [$this, 'adminStyles'], 999);
-        add_action('admin_enqueue_scripts', [$this, 'adminScripts'], 999);
+        add_action('admin_enqueue_scripts', [$this, 'styles'], 999);
+        add_action('admin_enqueue_scripts', [$this, 'scripts'], 999);
         add_filter('wp_statistics_enqueue_chartjs', [$this, 'shouldEnqueueChartJs']);
     }
 
@@ -44,7 +45,7 @@ class LegacyHandler extends BaseAdminAssets
      *
      * @return void
      */
-    public function adminStyles()
+    public function styles()
     {
         // Get Current Screen ID
         $screenId = Route::getScreenId();
@@ -61,13 +62,24 @@ class LegacyHandler extends BaseAdminAssets
         if (
             Menu::isOnPage('overview') ||
             Menu::isOnPage('pages') ||
+            Menu::isOnPage('geographic') ||
+            Menu::isOnPage('visitors') ||
             (in_array($screenId, ['dashboard']) && !Option::getValue('disable_dashboard'))
         ) {
             wp_enqueue_style($this->getAssetHandle('jqvmap'), $this->getUrl('css/jqvmap/jqvmap.min.css'), [], '1.5.1');
         }
 
         // Load Select2
-        if (Menu::isOnPage('visitors') || Menu::isOnPage('referrals') || Menu::isOnPage('link_tracker') || Menu::isOnPage('download_tracker') || Menu::isOnPage('pages')) {
+        if (
+            Menu::isOnPage('visitors') ||
+            Menu::isOnPage('referrals') ||
+            Menu::isOnPage('link_tracker') ||
+            Menu::isOnPage('download_tracker') ||
+            Menu::isOnPage('pages') ||
+            Menu::isOnPage('goals') ||
+            Menu::isOnPage('optimization') ||
+            Menu::isOnPage('settings')
+        ) {
             wp_enqueue_style($this->getAssetHandle('select2'), $this->getUrl('css/select2/select2.min.css'), [], '4.0.9');
         }
 
@@ -84,7 +96,7 @@ class LegacyHandler extends BaseAdminAssets
      * @param string $hook Current admin page hook
      * @return void
      */
-    public function adminScripts($hook)
+    public function scripts($hook = '')
     {
         // Get Current Screen ID
         $screenId = Route::getScreenId();
@@ -104,14 +116,23 @@ class LegacyHandler extends BaseAdminAssets
         }
 
         // Load Jquery VMap Js Library
-        if (Menu::isOnPage('overview') || Menu::isOnPage('pages') || (in_array($screenId, ['dashboard']) && !Option::getValue('disable_dashboard'))) {
-            wp_enqueue_script($this->getAssetHandle('jqvmap'), $this->getUrl('js/jqvmap/jquery.vmap.min.js'), ['jquery'], "1.5.1", true);
-            wp_enqueue_script($this->getAssetHandle('jqvmap-world'), $this->getUrl('js/jqvmap/jquery.vmap.world.min.js'), ['jquery'], "1.5.1", true);
+        if (Menu::isOnPage('overview') || Menu::isOnPage('pages') || Menu::isOnPage('geographic') || Menu::isOnPage('visitors') || (in_array($screenId, ['dashboard']) && !Option::getValue('disable_dashboard'))) {
+            wp_enqueue_script($this->getAssetHandle('jqvmap'), $this->getUrl('js/jqvmap/jquery.vmap.min.js'), ['jquery'], "1.5.1", ['in_footer' => true]);
+            wp_enqueue_script($this->getAssetHandle('jqvmap-world'), $this->getUrl('js/jqvmap/jquery.vmap.world.min.js'), ['jquery'], "1.5.1", ['in_footer' => true]);
         }
 
         // Load Select2
-        if (Menu::isOnPage('visitors') || Menu::isOnPage('referrals') || Menu::isOnPage('link_tracker') || Menu::isOnPage('download_tracker') || Menu::isOnPage('pages')) {
-            wp_enqueue_script($this->getAssetHandle('select2'), $this->getUrl('js/select2/select2.full.min.js'), ['jquery'], "4.1.0", true);
+        if (
+            Menu::isOnPage('visitors') ||
+            Menu::isOnPage('referrals') ||
+            Menu::isOnPage('link_tracker') ||
+            Menu::isOnPage('download_tracker') ||
+            Menu::isOnPage('pages') || 
+            Menu::isOnPage('goals') || 
+            Menu::isOnPage('optimization') ||
+            Menu::isOnPage('settings')
+        ) {
+            wp_enqueue_script($this->getAssetHandle('select2'), $this->getUrl('js/select2/select2.full.min.js'), ['jquery'], "4.1.0", ['in_footer' => true]);
         }
 
         // Load WordPress PostBox Script
@@ -132,13 +153,13 @@ class LegacyHandler extends BaseAdminAssets
             (in_array($hook, ['post.php', 'edit.php']) && !Option::getValue('disable_editor')) ||
             (in_array($hook, ['post.php', 'edit.php']) && Addons::isActive('data-plus') && Option::getAddonValue('latest_visitors_metabox', 'data_plus', '1') === '1')
         ) {
-            wp_enqueue_script($this->getAssetHandle(), $this->getUrl('js/admin.min.js'), ['jquery'], $this->getVersion(), true);
+            wp_enqueue_script($this->getAssetHandle(), $this->getUrl('js/admin.min.js'), ['jquery'], $this->getVersion(), ['in_footer' => true]);
             wp_localize_script($this->getAssetHandle(), 'wps_global', $this->getLocalizedData($hook));
         }
 
         // Load TinyMCE for Widget Page
         if (in_array($screenId, ['widgets'])) {
-            wp_enqueue_script($this->getAssetHandle('button-widget'), $this->getUrl('js/tinymce.min.js'), ['jquery'], "3.2.5", true);
+            wp_enqueue_script($this->getAssetHandle('button-widget'), $this->getUrl('js/tinymce.min.js'), ['jquery'], "3.2.5", ['in_footer' => true]);
         }
 
         // Add Thick box
@@ -149,12 +170,12 @@ class LegacyHandler extends BaseAdminAssets
 
         // Add RangeDatePicker
         if (Menu::isInPluginPage() || Menu::isOnPage('pages') || in_array($screenId, ['dashboard'])) {
-            wp_enqueue_script($this->getAssetHandle('moment'), $this->getUrl('js/datepicker/moment.min.js'), [], "2.30.2", true);
-            wp_enqueue_script($this->getAssetHandle('daterangepicker'), $this->getUrl('js/datepicker/daterangepicker.min.js'), [], "1.13.2", true);
+            wp_enqueue_script($this->getAssetHandle('moment'), $this->getUrl('js/datepicker/moment.min.js'), [], "2.30.2", ['in_footer' => true]);
+            wp_enqueue_script($this->getAssetHandle('daterangepicker'), $this->getUrl('js/datepicker/daterangepicker.min.js'), [], "1.13.2", ['in_footer' => true]);
         }
 
         if (Menu::isOnPage('pages')) {
-            wp_enqueue_script($this->getAssetHandle('datepicker'), $this->getUrl('js/datepicker/datepicker.js'), [], $this->getVersion(), true);
+            wp_enqueue_script($this->getAssetHandle('datepicker'), $this->getUrl('js/datepicker/datepicker.js'), [], $this->getVersion(), ['in_footer' => true]);
         }
     }
 
@@ -183,6 +204,28 @@ class LegacyHandler extends BaseAdminAssets
             'wp_timezone'    => (new DateTime())->getTimezone()->getName()
         ]);
 
+        $list['page'] = array(
+            'file' => $hook,
+            'ID'   => (isset($post) ? $post->ID : 0)
+        );
+
+        if (isset($_GET)) {
+            foreach ($_GET as $key => $value) {
+                if ($key == "page") {
+                    $slug  = Menus::getPageKeyFromSlug(esc_html($value));
+                    $value = $slug[0];
+                }
+                if (!is_array($value)) {
+                    $list['request_params'][esc_html($key)] = esc_html($value);
+                } else {
+                    // Ensure each value in the array is escaped properly
+                    $value = array_map('esc_html', $value);
+                    // Assign the entire escaped array to the request_params array
+                    $list['request_params'][esc_html($key)] = $value;
+                }
+            }
+        }
+
         //Global i18n
         $list['i18n'] = $this->getI18nStrings();
 
@@ -200,6 +243,13 @@ class LegacyHandler extends BaseAdminAssets
         $list['stats_report_option'] = Option::getValue('time_report') == '0' ? false : true;
         $list['setting_url']         = Menu::getAdminUrl('settings');
         $list['meta_boxes']          = MetaboxHelper::getScreenMetaboxes();
+        $list['admin_url']           = admin_url();
+        $list['ajax_url']            = admin_url('admin-ajax.php');
+        $list['assets_url']          = $this->getPluginUrl() . '/' . $this->getAssetDir() . '/';
+        $list['rest_api_nonce']      = wp_create_nonce('wp_rest');
+        $list['meta_box_api']        = admin_url('admin-ajax.php?action=wp_statistics_admin_meta_box');
+
+        $list['wp_debug'] = defined('WP_DEBUG') && WP_DEBUG ? true : false;
 
         return apply_filters('wp_statistics_admin_localized_data', $list);
     }

@@ -47,8 +47,6 @@ class OsModel extends BaseModel
             ->allowCaching()
             ->getAll();
 
-        error_log(print_r($rows, true));
-
         return $rows;
     }
 }
