@@ -1,9 +1,10 @@
 <?php
 namespace WP_Statistics\Service\Summary;
 
-use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\Event;
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Models\SummaryModel;
+use WP_Statistics\Components\DateRange;
 use WP_Statistics\Models\VisitorsModel;
 
 class SummaryEvents
@@ -38,19 +39,34 @@ class SummaryEvents
         $summaryModel  = new SummaryModel();
         $visitorsModel = new VisitorsModel();
 
-        $date = DateTime::get('yesterday', 'Y-m-d');
+        $lastRecord     = $summaryModel->getLastRecord();
+        $lastRecordDate = $lastRecord->date ?? null;
 
-        // Check if record already exists, return
-        if ($summaryModel->recordExists(['date' => $date])) {
-            return;
+        $twoDaysAgo = DateTime::get('-2 days');
+        $yesterday  = DateTime::get('yesterday');
+
+        // Set missing date to yesterday by default
+        $missingDates = [$yesterday];
+
+        // If last record is older than two days ago, get all missing dates up to yesterday
+        if ($lastRecordDate && DateRange::compare($lastRecordDate, '<', $twoDaysAgo)) {
+            $missingDates = DateRange::getDatesInRange([$lastRecordDate, $yesterday]);
         }
 
-        $data = $visitorsModel->getVisitorsHits(['date' => 'yesterday']);
+        // Insert missing records for each date
+        foreach ($missingDates as $date) {
+            // Check if record already exists, return
+            if ($summaryModel->recordExists(['date' => $date])) {
+                continue;
+            }
 
-        $summaryModel->insert([
-            'visitors' => $data['visitors'],
-            'views'    => $data['hits'],
-            'date'     => $date
-        ]);
+            $data = $visitorsModel->getVisitorsHits(['date' => ['from' => $date, 'to' => $date]]);
+
+            $summaryModel->insert([
+                'visitors' => $data['visitors'],
+                'views'    => $data['hits'],
+                'date'     => $date
+            ]);
+        }
     }
 }

@@ -21,6 +21,17 @@ class SummaryModel extends BaseModel
         return $result;
     }
 
+    public function getLastRecord()
+    {
+        $result = Query::select(['date', 'visitors', 'views'])
+            ->from('summary_totals')
+            ->orderBy('date', 'DESC')
+            ->perPage(1, 1)
+            ->getRow();
+
+        return $result;
+    }
+
     public function recordExists($args = [])
     {
         $args = $this->parseArgs($args, [
