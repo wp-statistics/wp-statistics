@@ -34,7 +34,7 @@ class LegacyHandler extends BaseAssets
      */
     public function __construct()
     {
-        $this->setContext('legacy');
+        $this->setContext('legacy', true);
         add_action('admin_enqueue_scripts', [$this, 'styles'], 999);
         add_action('admin_enqueue_scripts', [$this, 'scripts'], 999);
         add_filter('wp_statistics_enqueue_chartjs', [$this, 'shouldEnqueueChartJs']);

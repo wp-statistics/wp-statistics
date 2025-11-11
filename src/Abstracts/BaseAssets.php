@@ -90,12 +90,19 @@ abstract class BaseAssets
      * Set the asset context and handle
      *
      * @param string $context Asset context (e.g., 'react', 'admin', 'dashboard')
+     * @param bool   $isLegacy Whether to use legacy handle naming
      * @return void
      */
-    protected function setContext($context)
+    protected function setContext($context, $isLegacy = false)
     {
         $this->context     = $context;
-        $this->assetHandle = $this->prefix . '-' . $context;
+
+        if (! $isLegacy) {
+            $this->assetHandle = $this->prefix . '-' . $context;
+            return;
+        }
+
+        $this->assetHandle = $this->prefix;
     }
 
     /**
