@@ -4,6 +4,7 @@ import { createLazyFileRoute } from '@tanstack/react-router'
 import { getVisitorCountQueryOptions } from '@/services/get-visitor-count'
 import { Card, CardHeader, CardTitle } from '@/components/ui/card'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
+import { __ } from '@wordpress/i18n'
 
 export const Route = createLazyFileRoute('/visitor-insights')({
   component: RouteComponent,
@@ -285,7 +286,7 @@ function RouteComponent() {
     <div className="p-2 grid gap-6">
       <h1 className="text-2xl font-medium text-neutral-700">Visitor insights</h1>
       <div className="grid gap-3 grid-cols-12">
-        <div className="col-span-12">Statistics Section</div>
+        <div className="col-span-12">{__('Statistics Section', 'wp-statistics')}</div>
 
         <Card className="col-span-12">
           <CardHeader>
