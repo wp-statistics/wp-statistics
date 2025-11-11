@@ -37,7 +37,7 @@ export function NavMain({
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton
                       tooltip={item.title}
-                      className="text-[hsl(217,19%,27%)] hover:bg-[hsl(248,100%,97%)] hover:text-[hsl(259,100%,50%)] data-[state=open]:bg-[hsl(248,100%,97%)] data-[state=open]:text-[hsl(259,100%,50%)]"
+                      className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                     >
                       <item.icon />
                       <span>{item.title}</span>
@@ -50,7 +50,7 @@ export function NavMain({
                         <SidebarMenuSubItem key={subItem.title}>
                           <SidebarMenuSubButton
                             asChild
-                            className="text-[hsl(217,19%,27%)] hover:bg-transparent hover:text-[hsl(217,19%,27%)] hover:underline"
+                            className="text-sidebar-foreground hover:bg-transparent hover:text-sidebar-foreground hover:underline"
                           >
                             <Link to={subItem.url as any}>
                               <span>{subItem.title}</span>
@@ -66,7 +66,7 @@ export function NavMain({
                   asChild
                   isActive={item.isActive}
                   tooltip={item.title}
-                  className="text-[hsl(217,19%,27%)] hover:bg-[hsl(248,100%,97%)] hover:text-[hsl(259,100%,50%)] data-[active=true]:bg-[hsl(248,100%,97%)] data-[active=true]:text-[hsl(259,100%,50%)]"
+                  className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground"
                 >
                   <Link to={item.url as any}>
                     <item.icon />
