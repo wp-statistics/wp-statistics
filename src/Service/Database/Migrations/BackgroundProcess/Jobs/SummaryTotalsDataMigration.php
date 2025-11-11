@@ -141,6 +141,8 @@ class SummaryTotalsDataMigration extends BaseBackgroundProcess
             return;
         }
 
+        $this->clearTotalAndProcessed();
+
         @ini_set('memory_limit', '-1');
 
         $dateRange = [
