@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url'
 
 import tailwindcss from '@tailwindcss/vite'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
+import { wpI18n } from './vite-plugin-wp-i18n.js'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
@@ -26,6 +27,7 @@ export default defineConfig(({ mode }) => {
       }),
       react(),
       tailwindcss(),
+      wpI18n({ textDomain: 'wp-statistics' }),
     ],
     css: {
       postcss: {
