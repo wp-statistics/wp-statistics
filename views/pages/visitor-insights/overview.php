@@ -40,7 +40,7 @@ $isTrackLoggedInUsersEnabled = Option::get('visitors_log');
                 <div class="c-live">
                     <div>
                         <span class="c-live__status"></span>
-                        <span class="c-live__title"><?php esc_html_e('Online Users', 'wp-statistics') ?></span>
+                        <span class="c-live__title"><?php esc_html_e('Online Visitors', 'wp-statistics') ?></span>
                     </div>
                     <div class="c-live__online">
                         <span class="c-live__online--value"><?php echo esc_html(number_format_i18n($data['summary']['online'])) ?></span>
