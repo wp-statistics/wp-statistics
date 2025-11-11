@@ -8,7 +8,7 @@ export const getVisitorCountQueryOptions = () => {
     queryFn: () =>
       clientRequest.get<VisitorCountResponse>('', {
         params: {
-          action: 'wp_statistics_root_overview_get_visitors_count',
+          action: 'wp_statistics_root_visitor_insight_get_top_countries',
         },
       }),
   })

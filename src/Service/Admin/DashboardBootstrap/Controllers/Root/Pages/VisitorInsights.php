@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages;
 
-use stdClass;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Models\CountryModel;
 use WP_Statistics\Models\ReferrerModel;
@@ -10,7 +9,6 @@ use WP_Statistics\Models\SummaryTotalModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\PageActionInterface;
-use WP_Statistics\Utils\Query;
 
 /**
  * Visitor Insight page action handler.
@@ -43,6 +41,7 @@ class VisitorInsights implements PageActionInterface
         return [
             'get_overview_data' => 'getOverviewData',
             'get_most_active_visitors' => 'getMostActiveVisitors',
+            'get_top_countries' => 'getTopCountries',
         ];
     }
 
@@ -167,6 +166,32 @@ class VisitorInsights implements PageActionInterface
             'date' => [
                 'from' => $dateFrom, 
                 'to'   => $dateTo
+            ]
+        ]);
+    }
+
+    /**
+     * Get top countries by views.
+     *
+     * @return array
+     */
+    public function getTopCountries()
+    {
+        $countryModel = new CountryModel();
+        $dateTo   = date('Y-m-d'); // Today
+        $dateFrom = date('Y-m-d', strtotime('-30 days'));
+
+        $prevDateTo   = date('Y-m-d', strtotime('-31 days')); // 31 days ago
+        $prevDateFrom = date('Y-m-d', strtotime('-60 days')); // 60 days ago
+
+        return $countryModel->getTop([
+            'date' => [
+                'from' => $dateFrom,
+                'to'   => $dateTo
+            ],
+            'previous_date' => [
+                'from' => $prevDateFrom,
+                'to'   => $prevDateTo
             ]
         ]);
     }
