@@ -2,7 +2,8 @@ import { queryOptions } from '@tanstack/react-query'
 
 import { clientRequest } from '@/lib/client-request'
 
-export const getVisitorCountQueryOptions = () => {
+// for testing purposes
+export const getTestDataQueryOptions = () => {
   return queryOptions({
     queryKey: ['test'],
     queryFn: () =>

@@ -1,0 +1,1 @@
+import{A as e,f as t,u as n}from"./main-1SuN0c9c.js";var r=e(t());const i=n(`/overview`)({component:a});function a(){return(0,r.jsx)(`div`,{children:`Hello "/overview"!`})}export{i as Route};

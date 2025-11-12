@@ -41,7 +41,7 @@ export function HorizontalBar({
           <span className={cn('text-neutral-500 text-sm', isFirst ? 'font-medium' : 'font-light')}>{value}</span>
           <div className="flex items-center">
             <span className={cn('text-neutral-500', isNegative ? 'text-[#D54037]' : 'text-[#196140]')}>
-              {isNegative ? <ChevronDown size={16} /> : <ChevronUp size={16} />}
+              {isNegative ? <ChevronDown size={16} strokeWidth={3} /> : <ChevronUp size={16} strokeWidth={3} />}
             </span>
             <span className={cn('font-medium text-xs', isNegative ? 'text-[#D54037]' : 'text-[#196140]')}>
               {percentage}%
@@ -71,7 +71,7 @@ export function HorizontalBar({
               <div className="text-neutral-700">{tooltipSubtitle}</div>
               <div className="flex items-center font-medium">
                 <span className={cn(isNegative ? 'text-[#D54037]' : 'text-[#196140]')}>
-                  {isNegative ? <ChevronDown size={16} /> : <ChevronUp size={16} />}
+                  {isNegative ? <ChevronDown size={16} strokeWidth={3} /> : <ChevronUp size={16} strokeWidth={3} />}
                 </span>
                 <span className={cn(isNegative ? 'text-[#D54037]' : 'text-[#196140]')}>{percentage}%</span>
               </div>

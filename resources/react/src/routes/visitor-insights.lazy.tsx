@@ -1,75 +1,23 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 
-import { getVisitorCountQueryOptions } from '@/services/get-visitor-count'
 import { Card, CardHeader, CardTitle } from '@/components/ui/card'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { __ } from '@wordpress/i18n'
+import { getVisitorInsightTopCountriesQueryOptions } from '@/services/visitor-insight/get-top-countries'
+import { WordPress } from '@/lib/wordpress'
 
 export const Route = createLazyFileRoute('/visitor-insights')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const wp = WordPress.getInstance()
+  const pluginUrl = wp.getPluginUrl()
+
   const {
     data: { data: result },
-  } = useSuspenseQuery(getVisitorCountQueryOptions())
-  console.log(result)
-
-  const topCountriesData = {
-    title: 'Top Countries',
-    items: [
-      {
-        icon: '🇫🇷',
-        label: 'France',
-        value: '17K',
-        percentage: '8.3',
-        isNegative: false,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '17,000 visitors from France',
-      },
-      {
-        icon: '🇬🇧',
-        label: 'United Kingdom',
-        value: '7K',
-        percentage: '45',
-        isNegative: false,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '7,000 visitors from United Kingdom',
-      },
-      {
-        icon: '🇳🇱',
-        label: 'Netherlands',
-        value: '5K',
-        percentage: '34',
-        isNegative: false,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '5,000 visitors from Netherlands',
-      },
-      {
-        icon: '🇩🇪',
-        label: 'Germany',
-        value: '2K',
-        percentage: '20',
-        isNegative: false,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '2,000 visitors from Germany',
-      },
-      {
-        icon: '🇬🇪',
-        label: 'Georgia',
-        value: '1K',
-        percentage: '15',
-        isNegative: true,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '1,000 visitors from Georgia',
-      },
-    ],
-    link: {
-      title: 'View Countries',
-      action: () => console.log('View all countries'),
-    },
-  }
+  } = useSuspenseQuery(getVisitorInsightTopCountriesQueryOptions())
 
   const deviceTypeData = {
     title: 'Device Type',
@@ -312,9 +260,31 @@ function RouteComponent() {
 
         <div className="col-span-4">
           <HorizontalBarList
-            title={topCountriesData.title}
-            items={topCountriesData.items}
-            link={topCountriesData.link}
+            title={__('Top Countries', 'wp-statistics')}
+            items={result.data.map((item) => {
+              const currentValue = Number(item.value)
+              const previousValue = Number(item.previous_value)
+
+              const percentageChange =
+                previousValue > 0 ? (((currentValue - previousValue) / previousValue) * 100).toFixed(1) : '0'
+              const isNegative = currentValue < previousValue
+
+              return {
+                icon: (
+                  <img src={`${pluginUrl}public/images/flags/${item.icon}.svg`} alt={item.label} className="w-4 h-3" />
+                ),
+                label: item.label,
+                value: item.value.toLocaleString(),
+                percentage: Math.abs(parseFloat(percentageChange)).toString(),
+                isNegative,
+                tooltipTitle: 'November 2025',
+                tooltipSubtitle: `${__('Previous Data: ', 'wp-statistics')} ${item.previous_value}`,
+              }
+            })}
+            link={{
+              title: __('View Countries', 'wp-statistics'),
+              action: () => console.log('View all countries'),
+            }}
           />
         </div>
 

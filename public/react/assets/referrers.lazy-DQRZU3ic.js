@@ -1,1 +1,0 @@
-import{A as e,f as t,u as n}from"./main-gbwXv4hZ.js";var r=e(t());const i=n(`/(referrals)/referrers`)({component:a});function a(){return(0,r.jsx)(`div`,{children:`Hello "/(referrals)/referrers"!`})}export{i as Route};

@@ -60,14 +60,14 @@ class VisitorInsights implements PageActionInterface
         // Calculate date range for previous 30 days (31 to 60 days ago)
         $prevDateTo   = date('Y-m-d', strtotime('-31 days')); // 31 days ago
         $prevDateFrom = date('Y-m-d', strtotime('-60 days')); // 60 days ago
-        
+
         $result = $summaryTotalModel->getFieldsCount([
             'fields' => [
                 'SUM(views) as views',
                 'SUM(visitors) as visitors',
             ],
             'date' => [
-                'from' => $dateFrom, 
+                'from' => $dateFrom,
                 'to'   => $dateTo
             ]
         ]);
@@ -88,7 +88,7 @@ class VisitorInsights implements PageActionInterface
                 'SUM(visitors) as visitors',
             ],
             'date' => [
-                'from' => $prevDateFrom, 
+                'from' => $prevDateFrom,
                 'to'   => $prevDateTo
             ]
         ]);
@@ -101,20 +101,20 @@ class VisitorInsights implements PageActionInterface
         $previousViews    = ! empty($prevResult->views) ? $prevResult->views : 0;
 
         if ($currentVisitors > 0) {
-            $visitorsChangePercentage = $previousVisitors > 0 
-                ? round((($currentVisitors - $previousVisitors) / $previousVisitors) * 100, 2) 
+            $visitorsChangePercentage = $previousVisitors > 0
+                ? round((($currentVisitors - $previousVisitors) / $previousVisitors) * 100, 2)
                 : 0;
         }
 
         if ($currentViews > 0) {
-            $viewsChangePercentage = $previousViews > 0 
-                ? round((($currentViews - $previousViews) / $previousViews) * 100, 2) 
+            $viewsChangePercentage = $previousViews > 0
+                ? round((($currentViews - $previousViews) / $previousViews) * 100, 2)
                 : 0;
         }
-        
+
         $topCountry = $countryModel->getTop([
             'date' => [
-                'from' => $dateFrom, 
+                'from' => $dateFrom,
                 'to'   => $dateTo
             ],
             'limit' => 1
@@ -122,7 +122,7 @@ class VisitorInsights implements PageActionInterface
 
         $topReferrer = $referrerModel->getTop([
             'date' => [
-                'from' => $dateFrom, 
+                'from' => $dateFrom,
                 'to'   => $dateTo
             ],
             'limit' => 1
@@ -161,10 +161,10 @@ class VisitorInsights implements PageActionInterface
         // Calculate date range for last 30 days
         $dateTo   = date('Y-m-d 23:59:59');
         $dateFrom = date('Y-m-d 00:00:00', strtotime('-30 days'));
-        
+
         return $visitorsModel->getMostActiveVisitors([
             'date' => [
-                'from' => $dateFrom, 
+                'from' => $dateFrom,
                 'to'   => $dateTo
             ]
         ]);
@@ -179,7 +179,7 @@ class VisitorInsights implements PageActionInterface
     {
         $countryModel = new CountryModel();
         $dateTo   = date('Y-m-d'); // Today
-        $dateFrom = date('Y-m-d', strtotime('-30 days'));
+        $dateFrom = date('Y-m-d', strtotime('-100 days'));
 
         $prevDateTo   = date('Y-m-d', strtotime('-31 days')); // 31 days ago
         $prevDateFrom = date('Y-m-d', strtotime('-60 days')); // 60 days ago

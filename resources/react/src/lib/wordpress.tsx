@@ -28,6 +28,10 @@ export class WordPress {
     return this.data.globals.isPremium
   }
 
+  public getPluginUrl(): string {
+    return this.data.globals.pluginUrl
+  }
+
   public getHeaders(): HeadersInit {
     return {
       'Content-Type': 'application/json',

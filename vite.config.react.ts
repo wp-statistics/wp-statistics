@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => {
   return {
     base: './',
     root: reactRoot,
-    publicDir: resolve(reactRoot, 'public'),
+    publicDir: false,
     plugins: [
       tanstackRouter({
         target: 'react',

@@ -21,6 +21,7 @@ declare global {
       isPremium: null | boolean
       ajaxUrl: string
       nonce: string
+      pluginUrl: string
     }
   }
 }
