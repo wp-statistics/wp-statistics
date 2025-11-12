@@ -123,11 +123,17 @@ class SummaryTotalsDataMigration extends BaseBackgroundProcess
         $actionUrl = $this->getActionUrl($force);
 
         $message = sprintf(
-            __('We’ve introduced a new summary table. To ensure accurate reports, please initiate the data migration <a href="%s">by clicking here</a>.', 'wp-statistics'),
-            esc_url($actionUrl)
+            '<div id="wp-statistics-queue-process-notice">
+                <p><strong>%1$s:</strong> %2$s</p>
+                <p><a href="%3$s" id="start-queue-migration-btn" class="button-primary">%4$s</a></p>
+            </div>',
+            esc_html__('We’ve introduced a new summary table', 'wp-statistics'),
+            __('Run this quick migration to ensure your reports stay accurate.', 'wp-statistics'),
+            esc_url($actionUrl),
+            esc_html__('Start Migration', 'wp-statistics')
         );
 
-        Notice::addNotice($message, "{$this->action}_notice", 'info', false);
+        Notice::addNotice($message, "{$this->action}_notice", 'warning', false);
     }
 
     /**
