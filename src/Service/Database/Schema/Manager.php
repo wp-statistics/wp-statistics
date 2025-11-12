@@ -129,6 +129,17 @@ class Manager
                 'page_id'    => 'KEY page_id (page_id)',
             ],
         ],
+        'summary_totals'        => [
+            'columns'     => [
+                'ID'         => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'date'       => 'date NOT NULL UNIQUE',
+                'visitors'   => 'bigint(20) UNSIGNED NOT NULL',
+                'views'      => 'bigint(20) UNSIGNED NOT NULL'
+            ],
+            'constraints' => [
+                'PRIMARY KEY (ID)',
+            ]
+        ],
     ];
 
     /**
