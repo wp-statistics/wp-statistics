@@ -4,6 +4,8 @@ namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages;
 
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Models\CountryModel;
+use WP_Statistics\Models\DeviceType;
+use WP_Statistics\Models\OsModel;
 use WP_Statistics\Models\ReferrerModel;
 use WP_Statistics\Models\SummaryTotalModel;
 use WP_Statistics\Models\ViewsModel;
@@ -42,6 +44,8 @@ class VisitorInsights implements PageActionInterface
             'get_overview_data' => 'getOverviewData',
             'get_most_active_visitors' => 'getMostActiveVisitors',
             'get_top_countries' => 'getTopCountries',
+            'get_top_devices' => 'getTopDevices',
+            'get_top_oss' => 'getTopOss',
         ];
     }
 
@@ -187,6 +191,64 @@ class VisitorInsights implements PageActionInterface
         return $countryModel->getTop([
             'date' => [
                 'from' => $dateFrom,
+                'to'   => $dateTo
+            ],
+            'previous_date' => [
+                'from' => $prevDateFrom,
+                'to'   => $prevDateTo
+            ]
+        ]);
+    }
+
+    /**
+     * Get top device types.
+     *
+     * Handles AJAX request to fetch top device types (by views)
+     * for the dashboard overview page.
+     *
+     * @return array Response data
+     */
+    public function getTopDevices()
+    {
+        $deviceModel = new DeviceType();
+        $dateTo   = date('Y-m-d'); // Today
+        $dateFrom = date('Y-m-d', strtotime('-100 days'));
+
+        $prevDateTo   = date('Y-m-d', strtotime('-101 days'));
+        $prevDateFrom = date('Y-m-d', strtotime('-200 days'));
+
+       return $deviceModel->getTop([
+            'date' => [
+                'from' => $dateFrom, 
+                'to'   => $dateTo
+            ],
+            'previous_date' => [
+                'from' => $prevDateFrom,
+                'to'   => $prevDateTo
+            ]
+        ]);
+    }
+
+    /**
+     * Get top operating systems.
+     *
+     * Handles AJAX request to fetch top operating systems (by views)
+     * for the dashboard overview page.
+     *
+     * @return array Response data
+     */
+    public function getTopOss()
+    {
+        $osModel  = new OsModel();
+        $dateTo   = date('Y-m-d'); // Today
+        $dateFrom = date('Y-m-d', strtotime('-100 days'));
+
+        $prevDateTo   = date('Y-m-d', strtotime('-101 days'));
+        $prevDateFrom = date('Y-m-d', strtotime('-200 days'));
+
+        return $osModel->getTop([
+            'date' => [
+                'from' => $dateFrom, 
                 'to'   => $dateTo
             ],
             'previous_date' => [

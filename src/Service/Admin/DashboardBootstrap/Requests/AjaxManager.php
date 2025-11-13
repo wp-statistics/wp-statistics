@@ -133,7 +133,8 @@ class AjaxManager
                 }
 
                 $response = $pageController->$method();
-                wp_send_json_success($response);
+
+                wp_send_json_success(['items' => $response]);
             } catch (\Exception $e) {
                 wp_send_json_error([
                     'message' => $e->getMessage()
