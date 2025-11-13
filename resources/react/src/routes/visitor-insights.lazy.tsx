@@ -1,10 +1,11 @@
-import { useSuspenseQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 
 import { Card, CardHeader, CardTitle } from '@/components/ui/card'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { __ } from '@wordpress/i18n'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { getVisitorInsightTopCountriesQueryOptions } from '@/services/visitor-insight/get-top-countries'
+import { getVisitorInsightDevicesTypeQueryOptions } from '@/services/visitor-insight/get-devices-type'
 import { WordPress } from '@/lib/wordpress'
 
 export const Route = createLazyFileRoute('/visitor-insights')({
@@ -16,54 +17,12 @@ function RouteComponent() {
   const pluginUrl = wp.getPluginUrl()
 
   const {
-    data: { data: result },
+    data: { data: topCountries },
   } = useSuspenseQuery(getVisitorInsightTopCountriesQueryOptions())
 
-  const deviceTypeData = {
-    title: 'Device Type',
-    items: [
-      {
-        icon: '�',
-        label: 'PC',
-        value: '17K',
-        percentage: '8.3',
-        isNegative: false,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '17,000 visitors from PC',
-      },
-      {
-        icon: '📱',
-        label: 'Tablet',
-        value: '7K',
-        percentage: '45',
-        isNegative: false,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '7,000 visitors from Tablet',
-      },
-      {
-        icon: '�',
-        label: 'Mobile',
-        value: '5K',
-        percentage: '34',
-        isNegative: false,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '5,000 visitors from Mobile',
-      },
-      {
-        icon: '🔧',
-        label: 'Other',
-        value: '1K',
-        percentage: '15',
-        isNegative: true,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '1,000 visitors from Other devices',
-      },
-    ],
-    link: {
-      title: 'View Device Types',
-      action: () => console.log('View all device types'),
-    },
-  }
+  const {
+    data: { data: devicesType },
+  } = useSuspenseQuery(getVisitorInsightDevicesTypeQueryOptions())
 
   const operatingSystemsData = {
     title: 'Operating Systems',
@@ -261,7 +220,7 @@ function RouteComponent() {
         <div className="col-span-4">
           <HorizontalBarList
             title={__('Top Countries', 'wp-statistics')}
-            items={result.data.map((item) => {
+            items={topCountries.data.items.map((item) => {
               const currentValue = Number(item.value)
               const previousValue = Number(item.previous_value)
 
@@ -289,7 +248,33 @@ function RouteComponent() {
         </div>
 
         <div className="col-span-4">
-          <HorizontalBarList title={deviceTypeData.title} items={deviceTypeData.items} link={deviceTypeData.link} />
+          <HorizontalBarList
+            title={__('Device Type', 'wp-statistics')}
+            items={devicesType.data.items.map((item) => {
+              const currentValue = Number(item.value)
+              const previousValue = Number(item.previous_value)
+
+              const percentageChange =
+                previousValue > 0 ? (((currentValue - previousValue) / previousValue) * 100).toFixed(1) : '0'
+              const isNegative = currentValue < previousValue
+
+              return {
+                icon: (
+                  <img src={`${pluginUrl}public/images/device/${item.icon}.svg`} alt={item.label} className="w-4 h-3" />
+                ),
+                label: item.label,
+                value: item.value.toLocaleString(),
+                percentage: Math.abs(parseFloat(percentageChange)).toString(),
+                isNegative,
+                tooltipTitle: 'November 2025',
+                tooltipSubtitle: `${__('Previous Data: ', 'wp-statistics')} ${item.previous_value}`,
+              }
+            })}
+            link={{
+              title: __('View Device Types', 'wp-statistics'),
+              action: () => console.log('View all device types'),
+            }}
+          />
         </div>
 
         <div className="col-span-4">

@@ -4,7 +4,7 @@ import { clientRequest } from '@/lib/client-request'
 
 export const getVisitorInsightTopCountriesQueryOptions = () => {
   return queryOptions({
-    queryKey: ['top-countries'],
+    queryKey: ['vi-top-countries'],
     queryFn: () =>
       clientRequest.get<TopCountriesResponse>('', {
         params: {

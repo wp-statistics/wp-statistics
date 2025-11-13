@@ -1,11 +1,25 @@
 interface TopCountriesResponse {
   success: true
   data: {
-    icon: string
-    label: string
-    value: number
-    previous_value: number
-  }[]
+    items: {
+      icon: string
+      label: string
+      value: number
+      previous_value: number
+    }[]
+  }
+}
+
+interface DevicesTypeResponse {
+  success: true
+  data: {
+    items: {
+      icon: string
+      label: string
+      value: number
+      previous_value: number
+    }[]
+  }
 }
 
 interface TopCountriesItem {
