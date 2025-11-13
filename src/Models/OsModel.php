@@ -15,15 +15,14 @@ use WP_Statistics\Utils\Query;
 class OsModel extends BaseModel
 {
     /**
-     * Get top operating systems by total views within a date range.
+     * Get all operating systems by total views within a date range.
      *
      * Default range is the last 30 days (inclusive). Results are ordered by
-     * total views descending. Control the number of rows via `limit`.
+     * total views descending. Returns all operating systems without limit.
      *
      * Accepted arguments:
      * - 'date' => ['from' => 'Y-m-d', 'to' => 'Y-m-d']
      * - 'previous_date' => ['from' => 'Y-m-d', 'to' => 'Y-m-d'] (optional, for comparison)
-     * - 'limit' => int (optional, default: 5)
      *
      * If 'previous_date' is provided, the query is calculated in a single pass using
      * conditional aggregation and each row will include a `previous_value` key.
@@ -50,7 +49,6 @@ class OsModel extends BaseModel
                 'to'   => date('Y-m-d'),
             ],
             'previous_date' => null,
-            'limit' => 5,
         ]);
 
         $from = $args['date']['from'] . ' 00:00:00';
@@ -61,56 +59,38 @@ class OsModel extends BaseModel
             $prevFrom = $args['previous_date']['from'] . ' 00:00:00';
             $prevTo   = $args['previous_date']['to']   . ' 23:59:59';
 
-            // Determine the overall time window that covers both periods.
+            // Determine the overall time window
             $rangeFrom = (strtotime($prevFrom) < strtotime($from)) ? $prevFrom : $from;
             $rangeTo   = (strtotime($prevTo)   > strtotime($to))   ? $prevTo   : $to;
 
-            // Subquery: count views per session for both periods combined
-            $subSql = Query::select([
-                    'session_id',
-                    "SUM(CASE WHEN viewed_at >= '{$from}' AND viewed_at <= '{$to}' THEN 1 ELSE 0 END) AS current_cnt",
-                    "SUM(CASE WHEN viewed_at >= '{$prevFrom}' AND viewed_at <= '{$prevTo}' THEN 1 ELSE 0 END) AS previous_cnt",
-                ])
-                ->from('views')
-                ->where('viewed_at', '>=', $rangeFrom)
-                ->where('viewed_at', '<=', $rangeTo)
-                ->groupBy('session_id')
-                ->getQuery();
-
+            // Use sessions table directly with conditional aggregation for better performance
             return Query::select([
                     'device_oss.name AS icon',
                     'device_oss.name AS label',
-                    'SUM(v.current_cnt) AS value',
-                    'SUM(v.previous_cnt) AS previous_value',
+                    "CAST(SUM(CASE WHEN sessions.started_at >= '{$from}' AND sessions.started_at <= '{$to}' THEN sessions.total_views ELSE 0 END) AS UNSIGNED) AS value",
+                    "CAST(SUM(CASE WHEN sessions.started_at >= '{$prevFrom}' AND sessions.started_at <= '{$prevTo}' THEN sessions.total_views ELSE 0 END) AS UNSIGNED) AS previous_value",
                 ])
-                ->fromQuery($subSql, 'v')
-                ->join('sessions', ['v.session_id', 'sessions.ID'])
+                ->from('sessions')
                 ->join('device_oss', ['sessions.device_os_id', 'device_oss.ID'])
+                ->where('sessions.started_at', '>=', $rangeFrom)
+                ->where('sessions.started_at', '<=', $rangeTo)
                 ->groupBy('device_oss.name')
                 ->orderBy('value', 'DESC')
-                ->perPage(1, (int) $args['limit'])
                 ->allowCaching()
                 ->getAll();
         }
 
         // Original behaviour: only current period
-        $subSql = Query::select(['session_id', 'COUNT(*) AS cnt'])
-            ->from('views')
-            ->where('viewed_at', '>=', $from)
-            ->where('viewed_at', '<', $to)
-            ->groupBy('session_id')
-            ->getQuery();
-
         return Query::select([
                 'device_oss.name AS os',
-                'SUM(v.cnt) AS views',
+                'SUM(sessions.total_views) AS views',
             ])
-            ->fromQuery($subSql, 'v')
-            ->join('sessions', ['v.session_id', 'sessions.ID'])
+            ->from('sessions')
             ->join('device_oss', ['sessions.device_os_id', 'device_oss.ID'])
+            ->where('sessions.started_at', '>=', $from)
+            ->where('sessions.started_at', '<', $to)
             ->groupBy('device_oss.name')
             ->orderBy('views', 'DESC')
-            ->perPage(1, (int) $args['limit'])
             ->allowCaching()
             ->getAll();
     }

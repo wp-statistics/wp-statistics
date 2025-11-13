@@ -217,16 +217,41 @@ class VisitorInsights implements PageActionInterface
         $prevDateTo   = date('Y-m-d', strtotime('-101 days'));
         $prevDateFrom = date('Y-m-d', strtotime('-200 days'));
 
-       return $deviceModel->getTop([
+        $allDevices = $deviceModel->getTop([
             'date' => [
-                'from' => $dateFrom, 
+                'from' => $dateFrom,
                 'to'   => $dateTo
             ],
             'previous_date' => [
                 'from' => $prevDateFrom,
                 'to'   => $prevDateTo
-            ]
+            ],
         ]);
+
+        // If total devices <= 4, return all without "Other"
+        if (count($allDevices) <= 4) {
+            return $allDevices;
+        }
+
+        // Get top 4 and aggregate the rest as "Other"
+        $topDevices = array_slice($allDevices, 0, 4);
+        $otherDevices = array_slice($allDevices, 4);
+
+        // Calculate "Other" totals using array functions
+        $otherValue = array_sum(array_column($otherDevices, 'value'));
+        $otherPreviousValue = array_sum(array_column($otherDevices, 'previous_value'));
+
+        // Add "Other" only if it has values
+        if ($otherValue > 0 || $otherPreviousValue > 0) {
+            $topDevices[] = [
+                'icon' => 'other',
+                'label' => esc_html__('Other', 'wp-statistics'),
+                'value' => $otherValue,
+                'previous_value' => $otherPreviousValue,
+            ];
+        }
+
+        return $topDevices;
     }
 
     /**
@@ -246,9 +271,9 @@ class VisitorInsights implements PageActionInterface
         $prevDateTo   = date('Y-m-d', strtotime('-101 days'));
         $prevDateFrom = date('Y-m-d', strtotime('-200 days'));
 
-        return $osModel->getTop([
+        $allOss = $osModel->getTop([
             'date' => [
-                'from' => $dateFrom, 
+                'from' => $dateFrom,
                 'to'   => $dateTo
             ],
             'previous_date' => [
@@ -256,5 +281,30 @@ class VisitorInsights implements PageActionInterface
                 'to'   => $prevDateTo
             ]
         ]);
+
+        // If total operating systems <= 4, return all without "Other"
+        if (count($allOss) <= 4) {
+            return $allOss;
+        }
+
+        // Get top 4 and aggregate the rest as "Other"
+        $topOss = array_slice($allOss, 0, 4);
+        $otherOss = array_slice($allOss, 4);
+
+        // Calculate "Other" totals using array functions
+        $otherValue = array_sum(array_column($otherOss, 'value'));
+        $otherPreviousValue = array_sum(array_column($otherOss, 'previous_value'));
+
+        // Add "Other" only if it has values
+        if ($otherValue > 0 || $otherPreviousValue > 0) {
+            $topOss[] = [
+                'icon' => 'other',
+                'label' => esc_html__('Other', 'wp-statistics'),
+                'value' => $otherValue,
+                'previous_value' => $otherPreviousValue,
+            ];
+        }
+
+        return $topOss;
     }
 }
