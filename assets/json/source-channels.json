@@ -6945,7 +6945,8 @@
         "name": "OpenAI",
         "identifier": "openai",
         "domains": [
-          "openai.com"
+          "openai.com",
+          "*.openai.com"
         ]
       },
       {
