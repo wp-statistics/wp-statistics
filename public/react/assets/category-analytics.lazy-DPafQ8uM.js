@@ -1,0 +1,1 @@
+import{A as e,f as t,u as n}from"./main-AC8amG0y.js";var r=e(t());const i=n(`/category-analytics`)({component:a});function a(){return(0,r.jsx)(`div`,{children:`Hello "/category-analytics"!`})}export{i as Route};

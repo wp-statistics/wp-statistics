@@ -7,6 +7,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { getVisitorInsightTopCountriesQueryOptions } from '@/services/visitor-insight/get-top-countries'
 import { getVisitorInsightDevicesTypeQueryOptions } from '@/services/visitor-insight/get-devices-type'
 import { WordPress } from '@/lib/wordpress'
+import { getVisitorInsightOSSQueryOptions } from '@/services/visitor-insight/get-oss'
 
 export const Route = createLazyFileRoute('/visitor-insights')({
   component: RouteComponent,
@@ -24,60 +25,9 @@ function RouteComponent() {
     data: { data: devicesType },
   } = useSuspenseQuery(getVisitorInsightDevicesTypeQueryOptions())
 
-  const operatingSystemsData = {
-    title: 'Operating Systems',
-    items: [
-      {
-        icon: '🍎',
-        label: 'Mac',
-        value: '5K',
-        percentage: '34',
-        isNegative: false,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '5,000 visitors from Mac',
-      },
-      {
-        icon: '🪟',
-        label: 'Windows',
-        value: '5K',
-        percentage: '34',
-        isNegative: false,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '5,000 visitors from Windows',
-      },
-      {
-        icon: '🤖',
-        label: 'Android',
-        value: '5K',
-        percentage: '34',
-        isNegative: false,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '5,000 visitors from Android',
-      },
-      {
-        icon: '🐧',
-        label: 'GNU/Linux',
-        value: '5K',
-        percentage: '34',
-        isNegative: false,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '5,000 visitors from GNU/Linux',
-      },
-      {
-        icon: '🔧',
-        label: 'Other',
-        value: '1K',
-        percentage: '15',
-        isNegative: true,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '1,000 visitors from Other OS',
-      },
-    ],
-    link: {
-      title: 'View Operating Systems',
-      action: () => console.log('View all operating systems'),
-    },
-  }
+  const {
+    data: { data: oss },
+  } = useSuspenseQuery(getVisitorInsightOSSQueryOptions())
 
   const topEntryPagesData = {
     title: 'Top Entry Pages',
@@ -279,9 +229,35 @@ function RouteComponent() {
 
         <div className="col-span-4">
           <HorizontalBarList
-            title={operatingSystemsData.title}
-            items={operatingSystemsData.items}
-            link={operatingSystemsData.link}
+            title={__('Operating Systems', 'wp-statistics')}
+            items={oss.data.items.map((item) => {
+              const currentValue = Number(item.value)
+              const previousValue = Number(item.previous_value)
+
+              const percentageChange =
+                previousValue > 0 ? (((currentValue - previousValue) / previousValue) * 100).toFixed(1) : '0'
+              const isNegative = currentValue < previousValue
+
+              return {
+                icon: (
+                  <img
+                    src={`${pluginUrl}public/images/operating-system/${item.icon}.svg`}
+                    alt={item.label}
+                    className="w-4 h-3"
+                  />
+                ),
+                label: item.label,
+                value: item.value.toLocaleString(),
+                percentage: Math.abs(parseFloat(percentageChange)).toString(),
+                isNegative,
+                tooltipTitle: 'November 2025',
+                tooltipSubtitle: `${__('Previous Data: ', 'wp-statistics')} ${item.previous_value}`,
+              }
+            })}
+            link={{
+              title: __('View Operating Systems', 'wp-statistics'),
+              action: () => console.log('View all operating systems'),
+            }}
           />
         </div>
 
