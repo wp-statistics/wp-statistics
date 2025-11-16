@@ -6,14 +6,12 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 
 class TranslationManager
 {
-    /**
-     * GlotPress base URL
-     */
-    const BASE_URL = 'https://translations.veronalabs.com/projects/wp-statistics/';
+    protected const BASE_URL = 'https://translations.veronalabs.com/projects/wp-statistics/';
 
     protected $pluginHandler;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->pluginHandler = new PluginHandler();
 
         // Download translations when site/user locale changes
@@ -30,7 +28,8 @@ class TranslationManager
      *
      * @return array
      */
-    protected function getActiveAddons() {
+    protected function getActiveAddons()
+    {
         $activeAddons = [];
 
         foreach (PluginHelper::$plugins as $slug => $title) {
@@ -48,7 +47,8 @@ class TranslationManager
      * @param string $oldLocale Old locale
      * @param string $newLocale New locale
      */
-    public function onLocaleChange($oldLocale, $newLocale) {
+    public function onLocaleChange($oldLocale, $newLocale)
+    {
         if ($oldLocale === $newLocale || empty($newLocale)) {
             return;
         }
@@ -67,7 +67,8 @@ class TranslationManager
      * @param string $metaKey   Meta key
      * @param mixed  $metaValue Meta value
      */
-    public function onUserLocaleChange($metaId, $userId, $metaKey, $metaValue) {
+    public function onUserLocaleChange($metaId, $userId, $metaKey, $metaValue)
+    {
         if ($metaKey !== 'locale') {
             return;
         }
@@ -82,7 +83,8 @@ class TranslationManager
      *
      * @param string $plugin Plugin path
      */
-    public function onPluginActivated($plugin) {
+    public function onPluginActivated($plugin)
+    {
         // Check if activated plugin is one of our known add-ons
         foreach (PluginHelper::$plugins as $slug => $title) {
             $pluginFile = $this->pluginHandler->getPluginFile($slug);
@@ -100,7 +102,8 @@ class TranslationManager
      * @param \WP_Upgrader $upgrader
      * @param array        $options
      */
-    public function onPluginUpdated($upgrader, $options) {
+    public function onPluginUpdated($upgrader, $options)
+    {
         if ($options['type'] !== 'plugin' || $options['action'] !== 'update') {
             return;
         }
@@ -217,5 +220,22 @@ class TranslationManager
         $locale = strtolower($locale);
 
         return $locale;
+    }
+
+    /**
+     * Check if translation files exist for an add-on and locale
+     *
+     * @param string $addon  Add-on slug
+     * @param string $locale Locale
+     *
+     * @return bool
+     */
+    protected function doesTranslationExist($addon, $locale)
+    {
+        $locale = $this->normalizeLocale($locale);
+        $moFile = $this->getLanguageDir($addon) . $locale . '.mo';
+        $poFile = $this->getLanguageDir($addon) . $locale . '.po';
+
+        return file_exists($moFile) && file_exists($poFile);
     }
 }
