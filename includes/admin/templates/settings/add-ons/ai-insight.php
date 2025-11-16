@@ -8,7 +8,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 $isLicenseValid    = LicenseHelper::isPluginLicenseValid('wp-statistics-ai-insights');
-$isAiInsightActive = Helper::isAddOnActive('ai-insight');
+$isAiInsightActive = Helper::isAddOnActive('ai-insights');
 
 ?>
 <h2 class="wps-settings-box__title">
