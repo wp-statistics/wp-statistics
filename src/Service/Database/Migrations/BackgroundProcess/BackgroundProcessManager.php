@@ -9,6 +9,7 @@ use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Database\Migrations\BackgroundProcess\Jobs\CalculatePostWordsCount;
 use WP_Statistics\Service\Database\Migrations\BackgroundProcess\Jobs\IncompleteGeoIpUpdater;
 use WP_Statistics\Service\Database\Migrations\BackgroundProcess\Jobs\SourceChannelUpdater;
+use WP_Statistics\Service\Database\Migrations\BackgroundProcess\Jobs\SummaryTotalsDataMigration;
 use WP_Statistics\Service\Database\Migrations\BackgroundProcess\Jobs\VisitorColumnsMigrator;
 use WP_STATISTICS\User;
 use WP_Statistics\Utils\Request;
@@ -36,7 +37,8 @@ class BackgroundProcessManager extends BaseMigrationManager
         'visitor_columns_migrator'       => VisitorColumnsMigrator::class,
         'calculate_post_words_count'     => CalculatePostWordsCount::class,
         'update_unknown_visitor_geoip'   => IncompleteGeoIpUpdater::class,
-        'update_visitors_source_channel' => SourceChannelUpdater::class
+        'update_visitors_source_channel' => SourceChannelUpdater::class,
+        'summary_totals_data_migration'  => SummaryTotalsDataMigration::class,
     ];
 
     /**
@@ -46,6 +48,7 @@ class BackgroundProcessManager extends BaseMigrationManager
      */
     private $dataMirations = [
         'visitor_columns_migrator',
+        'summary_totals_data_migration'
     ];
 
     /**
