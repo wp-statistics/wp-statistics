@@ -33,6 +33,7 @@ use WP_Statistics\CLI\CliCommands;
 use WP_Statistics\Service\Admin\Optimization\OptimizationManager;
 use WP_Statistics\Globals\AjaxManager;
 use WP_Statistics\Service\Database\Migrations\BackgroundProcess\BackgroundProcessManager;
+use WP_Statistics\Service\Translation\TranslationManager;
 
 defined('ABSPATH') || exit;
 
@@ -165,6 +166,7 @@ final class WP_Statistics
         // Ajax area
         require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-template.php';
 
+        $translationManager         = new TranslationManager();
         $referrals                  = new ReferralsManager();
         $userOnline                 = new \WP_STATISTICS\UserOnline();
         $anonymizedUsageDataManager = new AnonymizedUsageDataManager();
