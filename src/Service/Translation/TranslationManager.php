@@ -129,8 +129,6 @@ class TranslationManager
     {
         if (empty($locale)) return;
 
-        $locale = $this->normalizeLocale($locale);
-
         // Download .mo file
         $this->downloadTranslationFile($addon, $locale, 'mo');
 
@@ -167,7 +165,7 @@ class TranslationManager
                 wp_mkdir_p($languagesDir);
             }
 
-            $file = trailingslashit($languagesDir) . $locale . $format;
+            $file = trailingslashit($languagesDir) . $addon . '-' . $locale . '.' . $format;
 
             // Save the file and log error if it fails
             if (file_put_contents($file, $content) === false) {
@@ -199,7 +197,13 @@ class TranslationManager
      */
     protected function getDownloadUrl($addon, $locale, $format)
     {
-        return sprintf('%s%s/%s/default/export-translations?format=%s', self::BASE_URL, $addon, $locale, $format);
+        return sprintf(
+            '%s%s/%s/default/export-translations?format=%s',
+            self::BASE_URL,
+            $addon,
+            $this->normalizeLocale($locale),
+            $format
+        );
     }
 
     /**
