@@ -15,12 +15,54 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         array (
             'WP_Statistics\\' => 14,
         ),
+        'M' => 
+        array (
+            'MaxMind\\WebService\\' => 19,
+            'MaxMind\\Exception\\' => 18,
+            'MaxMind\\Db\\' => 11,
+        ),
+        'G' => 
+        array (
+            'GeoIp2\\' => 7,
+        ),
+        'D' => 
+        array (
+            'DeviceDetector\\' => 15,
+        ),
+        'C' => 
+        array (
+            'Composer\\CaBundle\\' => 18,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'WP_Statistics\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'MaxMind\\WebService\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/WebService',
+        ),
+        'MaxMind\\Exception\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/Exception',
+        ),
+        'MaxMind\\Db\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind-db/reader/src/MaxMind/Db',
+        ),
+        'GeoIp2\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/geoip2/geoip2/src',
+        ),
+        'DeviceDetector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/matomo/device-detector',
+        ),
+        'Composer\\CaBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
         ),
     );
 
@@ -402,6 +444,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Logger\\LoggerServiceProviderInterface' => __DIR__ . '/../..' . '/src/Service/Logger/LoggerServiceProviderInterface.php',
         'WP_Statistics\\Service\\Logger\\Provider\\FileProvider' => __DIR__ . '/../..' . '/src/Service/Logger/Provider/FileProvider.php',
         'WP_Statistics\\Service\\Logger\\Provider\\TrackerProvider' => __DIR__ . '/../..' . '/src/Service/Logger/Provider/TrackerProvider.php',
+        'WP_Statistics\\Service\\Translation\\TranslationManager' => __DIR__ . '/../..' . '/src/Service/Translation/TranslationManager.php',
         'WP_Statistics\\Traits\\AjaxUtilityTrait' => __DIR__ . '/../..' . '/src/Traits/AjaxUtilityTrait.php',
         'WP_Statistics\\Traits\\ErrorLoggerTrait' => __DIR__ . '/../..' . '/src/Traits/ErrorLoggerTrait.php',
         'WP_Statistics\\Traits\\MigrationAccess' => __DIR__ . '/../..' . '/src/Traits/MigrationAccess.php',

@@ -383,6 +383,7 @@ return array(
     'WP_Statistics\\Service\\Logger\\LoggerServiceProviderInterface' => $baseDir . '/src/Service/Logger/LoggerServiceProviderInterface.php',
     'WP_Statistics\\Service\\Logger\\Provider\\FileProvider' => $baseDir . '/src/Service/Logger/Provider/FileProvider.php',
     'WP_Statistics\\Service\\Logger\\Provider\\TrackerProvider' => $baseDir . '/src/Service/Logger/Provider/TrackerProvider.php',
+    'WP_Statistics\\Service\\Translation\\TranslationManager' => $baseDir . '/src/Service/Translation/TranslationManager.php',
     'WP_Statistics\\Traits\\AjaxUtilityTrait' => $baseDir . '/src/Traits/AjaxUtilityTrait.php',
     'WP_Statistics\\Traits\\ErrorLoggerTrait' => $baseDir . '/src/Traits/ErrorLoggerTrait.php',
     'WP_Statistics\\Traits\\MigrationAccess' => $baseDir . '/src/Traits/MigrationAccess.php',
