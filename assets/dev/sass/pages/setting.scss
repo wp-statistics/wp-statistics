@@ -1108,12 +1108,24 @@
         align-items: center;
       }
 
+
+
       div:first-child {
         @media (max-width: 680px) {
           flex-direction: column;
           align-items: flex-start;
           gap: 5px;
           margin-bottom: 10px;
+        }
+
+      }
+
+      div.wps-status div:first-child {
+        @media (max-width: 680px) {
+          flex-direction: row;
+          align-items: center;
+          gap: 5px;
+          margin-bottom: 0;
         }
       }
     }
@@ -2497,7 +2509,6 @@
       border: 1px solid #F9595980;
       background: #FFF2F2;
       color: #852929;
-      font-weight: 500;
 
       &:before {
         background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUiIGhlaWdodD0iMTUiIHZpZXdCb3g9IjAgMCAxNSAxNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTcuMzUgMTQuN0MzLjI5MDcxIDE0LjcgMCAxMS40MDkzIDAgNy4zNUMwIDMuMjkwNzEgMy4yOTA3MSAwIDcuMzUgMEMxMS40MDkzIDAgMTQuNyAzLjI5MDcxIDE0LjcgNy4zNUMxNC43IDExLjQwOTMgMTEuNDA5MyAxNC43IDcuMzUgMTQuN1pNNi42MTUgOS41NTVWMTEuMDI1SDguMDg1VjkuNTU1SDYuNjE1Wk02LjYxNSAzLjY3NVY4LjA4NUg4LjA4NVYzLjY3NUg2LjYxNVoiIGZpbGw9IiNGOTU5NTkiLz4KPC9zdmc+Cg==") no-repeat center center;
