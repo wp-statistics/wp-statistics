@@ -1,0 +1,176 @@
+<?php
+
+use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Components\View;
+use WP_STATISTICS\Helper;
+use WP_STATISTICS\Option;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+
+$isLicenseValid    = LicenseHelper::isPluginLicenseValid('wp-statistics-ai-insights');
+$isAiInsightActive = Helper::isAddOnActive('ai-insight');
+
+?>
+<h2 class="wps-settings-box__title">
+    <span><?php esc_html_e('AI Insight', 'wp-statistics'); ?></span>
+</h2>
+<?php
+if (!$isAiInsightActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
+    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-ai-insights/?utm_source=wp-statistics&utm_medium=link&utm_campaign=ai-insight'),
+     'addon_title'        => __('AI Insight Add-on', 'wp-statistics'),
+     'addon_modal_target' => 'wp-statistics-ai-insights',
+     'addon_description'  => __('', 'wp-statistics'),
+     'addon_features'     => [],
+     'addon_info'         => __('', 'wp-statistics'),
+    ], true);
+
+
+if ($isAiInsightActive && !$isLicenseValid) {
+    View::load("components/lock-sections/notice-inactive-license-addon");
+}
+
+$infoNotice = __('Automatic sync is disabled. Your AI Insights reports will not update until you manually sync GSC data.</span>', 'wp-statistics');
+Notice::renderNotice($infoNotice, 'disable_auto_sync_notice', 'info', false);
+
+
+$errorNotice = __('Failed to sync GSC data: [error message]. Please try again or check your GSC connection in Marketing add-on settings.', 'wp-statistics');
+Notice::renderNotice($errorNotice, 'disable_auto_sync_notice', 'error', false);
+
+
+$successNotice = __('Successfully synced [count] GSC records. All AI Insights reports have been updated.</span>', 'wp-statistics');
+Notice::renderNotice($successNotice, 'disable_auto_sync_notice', 'success', true);
+
+
+?>
+<div class="postbox">
+    <table class="form-table <?php echo !$isAiInsightActive ? 'form-table--preview' : '' ?>">
+        <tbody>
+        <tr class="wps-settings-box_head">
+            <th scope="row" colspan="2">
+                <h3><?php esc_html_e('GSC Data Sync', 'wp-statistics'); ?></h3>
+            </th>
+        </tr>
+
+        <tr>
+            <th colspan="2" scope="row">
+                <p class="description"><?php esc_html_e('AI Insights syncs Google Search Console data into custom tables for faster analysis. Configure automatic sync frequency or manually trigger a sync to refresh your data.', 'wp-statistics'); ?></p>
+            </th>
+        </tr>
+
+        <tr data-id="enable_auto_sync_tr">
+            <th scope="row">
+                <span class="wps-setting-label"><?php esc_html_e('Enable Automatic Sync', 'wp-statistics'); ?></span>
+            </th>
+
+            <td>
+                <input type="hidden" name="wps_settings[ai_insight_auto_sync]" value="1"/>
+                <input id="wps_settings[ai_insight_auto_sync]" type="checkbox" value="1" name="wps_settings[ai_insight_auto_sync]" <?php checked(Option::getByAddon('auto_sync', 'ai_insight', '1'), '1'); ?>>
+                <label for="wps_settings[ai_insight_auto_sync]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                <p class="description"><?php esc_html_e('Automatically sync Google Search Console data on a scheduled basis. When disabled, data must be synced manually.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+        <tr data-id="sync_frequency_tr">
+            <th scope="row">
+                <label for="sync_frequency"><?php esc_html_e('Sync Frequency', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <select id="sync_frequency" name="sync_frequency">
+                    <option value="daily" <?php selected(WP_STATISTICS\Option::get('sync_frequency', 'daily'), 'daily'); ?>>
+                        <?php esc_html_e('Daily', 'wp-statistics'); ?>
+                    </option>
+                    <option value="two-days" <?php selected(WP_STATISTICS\Option::get('sync_frequency'), 'two-days'); ?>>
+                        <?php esc_html_e('Every 2 Days', 'wp-statistics'); ?>
+                    </option>
+                </select>
+                <p class="description"><?php _e('How often GSC data should be synced automatically.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+        <tr id="sync_now_tr" data-id="sync_now_tr">
+            <th scope="row">
+                <span class="wps-setting-label"><?php esc_html_e('Sync Now', 'wp-statistics'); ?></span>
+            </th>
+
+            <td>
+                <div>
+                    <button type="submit" name="sync_GSC" aria-label="<?php esc_html_e('Manually trigger an immediate sync of GSC data', 'wp-statistics'); ?>"
+                            class="wps-button wps-button--default">
+                        <?php esc_html_e('Sync Now', 'wp-statistics'); ?>
+                    </button>
+                    <button type="submit" name="sync_GSC" aria-label="<?php esc_html_e('Manually trigger an immediate sync of GSC data', 'wp-statistics'); ?>"
+                            class="wps-button wps-loading-button wps-button--default">
+                        <?php esc_html_e('Syncing...', 'wp-statistics'); ?>
+                    </button>
+                </div>
+
+                <p class="description"><?php esc_html_e('Manually trigger an immediate sync of GSC data. This fetches the latest available data from Google Search Console and updates all AI Insights reports.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+
+        <tr data-id="last_sync_tr">
+            <th scope="row">
+                <span class="wps-setting-label"><?php esc_html_e('Last Sync', 'wp-statistics'); ?></span>
+            </th>
+            <td>
+                <input type="text" title="Jan 12, 2025 at 3:00 PM" value="2 hours ago" aria-label="<?php esc_html_e('Last Sync', 'wp-statistics'); ?>" readonly class="wps-tooltip regular-text"/>
+                <p class="description">
+                    <?php esc_html_e('Timestamp of the most recent successful sync.', 'wp-statistics'); ?>
+                </p>
+            </td>
+        </tr>
+
+        <tr data-id="next_scheduled_sync_tr" class="js-wps-show_if_ai_insight_auto_sync_enabled">
+            <th scope="row">
+                <span class="wps-setting-label"><?php esc_html_e('Next Scheduled Sync', 'wp-statistics'); ?></span>
+            </th>
+            <td>
+                <input type="text" title="Jan 13, 2025 at 2:00 AM" value="In 10 hours" aria-label="<?php esc_html_e('Next Scheduled Sync', 'wp-statistics'); ?>" readonly class="wps-tooltip regular-text"/>
+                <p class="description">
+                    <?php esc_html_e('When the next automatic sync will occur.', 'wp-statistics'); ?>
+                </p>
+            </td>
+        </tr>
+
+        <tr data-id="sync_status_tr">
+            <th scope="row">
+                <span class="wps-setting-label"><?php esc_html_e('Sync Status', 'wp-statistics'); ?></span>
+            </th>
+            <td>
+                <div class="alert alert-success"><span><?php esc_html_e('Sync completed successfully', 'wp-statistics'); ?></span></div>
+                <div class="alert alert-danger"><span><?php esc_html_e('Last sync failed', 'wp-statistics'); ?></span></div>
+                <div class="alert alert-loading"><span><?php esc_html_e('Syncing GSC data...', 'wp-statistics'); ?></span></div>
+                <div class="alert alert-primary"><span><?php esc_html_e('No recent sync activity', 'wp-statistics'); ?></span></div>
+
+                <p class="description">
+                    <?php esc_html_e('Current state of the sync operation.', 'wp-statistics'); ?>
+                </p>
+            </td>
+        </tr>
+
+        <tr data-id="records_synced_tr">
+            <th scope="row">
+                <span class="wps-setting-label"><?php esc_html_e('Records Synced', 'wp-statistics'); ?></span>
+            </th>
+            <td>
+                <input type="text" value="15,234 <?php esc_html_e('records', 'wp-statistics'); ?>" aria-label="<?php esc_html_e('Records Synced', 'wp-statistics'); ?>" readonly class="regular-text"/>
+                <p class="description">
+                    <?php esc_html_e('Total number of GSC records currently stored in the database.', 'wp-statistics'); ?>
+                </p>
+            </td>
+        </tr>
+
+        <tr data-id="database_table_tr">
+            <th scope="row">
+                <span class="wps-setting-label"><?php esc_html_e('Database Table Size', 'wp-statistics'); ?></span>
+            </th>
+            <td>
+                <input type="text" value="12.4 MB" aria-label="<?php esc_html_e('Database Table Size', 'wp-statistics'); ?>" readonly class="regular-text"/>
+                <p class="description">
+                    <?php esc_html_e('Total disk space used by AI Insights custom tables.', 'wp-statistics'); ?>
+                </p>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>

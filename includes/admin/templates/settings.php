@@ -64,6 +64,10 @@ View::load('components/objects/share-anonymous-notice');
                         <div id="widgets-settings" class="tab-content">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/add-ons/widgets.php'; ?>
                         </div>
+                        <div id="ai-insight" class="tab-content">
+                            <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/add-ons/ai-insight.php'; ?>
+                        </div>
+
                     <?php } ?>
                 </div><!-- container -->
                  <input type="hidden" name="tab" id="wps_current_tab" value=""/>
