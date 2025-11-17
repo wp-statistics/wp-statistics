@@ -19,9 +19,15 @@ if (!$isAiInsightActive) echo Admin_Template::get_template('layout/partials/addo
     ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-ai-insights/?utm_source=wp-statistics&utm_medium=link&utm_campaign=ai-insight'),
      'addon_title'        => __('AI Insight Add-on', 'wp-statistics'),
      'addon_modal_target' => 'wp-statistics-ai-insights',
-     'addon_description'  => __('', 'wp-statistics'),
-     'addon_features'     => [],
-     'addon_info'         => __('', 'wp-statistics'),
+     'addon_campaign'     => 'settings',
+     'addon_description'  => __('The settings on this page are part of the AI Insights add-on, which helps you identify SEO opportunities and optimize your website\'s search performance with actionable recommendations.', 'wp-statistics'),
+     'addon_features'     => [
+         __('Discover keywords in striking distance of ranking #1.', 'wp-statistics'),
+         __('Improve click-through rates with optimization recommendations.', 'wp-statistics'),
+         __('Identify trending content and spot performance changes early.', 'wp-statistics'),
+         __('Track traffic from AI tools like ChatGPT and Perplexity.', 'wp-statistics'),
+     ],
+     'addon_info'         => __('Unlock SEO growth opportunities and actionable insights with the AI Insights add-on', 'wp-statistics'),
     ], true);
 
 
