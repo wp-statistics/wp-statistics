@@ -133,22 +133,32 @@ class TranslationManager
      */
     protected function downloadAddonTranslation($addon, $locale = null)
     {
-        if (empty($locale)) return;
+        if (empty($locale)) {
+            return;
+        }
 
-        // Download .mo file
-        $this->downloadTranslationFile($addon, $locale, 'mo');
+        if ($this->doesTranslationExist($addon, $locale)) {
+            return;
+        }
 
-        // Download .po file
-        // $this->downloadTranslationFile($addon, $locale, 'po');
+        // Try to download the locale
+        $result = $this->downloadTranslationFile($addon, $locale, 'mo');
+
+        // If download failed and locale has a region code, try with base locale (e.g., fa_IR -> fa)
+        if (!$result && preg_match('/^([a-z]{2,3})_[A-Z]{2}$/', $locale, $matches)) {
+            $baseLocale = $matches[1];
+            $this->downloadAddonTranslation($addon, $baseLocale);
+        }
     }
 
     /**
      * Download translation file
      *
-     * @param string      $addon        Add-on slug
-     * @param string      $locale       Locale
-     * @param string      $format       File format (.mo or .po)
-     * @param string      $languagesDir Directory to save the file
+     * @param string $addon  Add-on slug
+     * @param string $locale Locale
+     * @param string $format File format (.mo or .po)
+     *
+     * @return bool True if download was successful, false otherwise
      */
     protected function downloadTranslationFile($addon, $locale, $format)
     {
@@ -157,27 +167,30 @@ class TranslationManager
         $response = wp_remote_get($url);
 
         if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200) {
-            WP_Statistics()->log("Download failed for `$addon` ($locale) translation.", 'error');
-            return;
+            return false;
         }
 
         $content = wp_remote_retrieve_body($response);
 
-        if (!empty($content)) {
-            $languagesDir = $this->getLanguageDir($addon);
-
-            // Create languages directory if it doesn't exist
-            if (!file_exists($languagesDir)) {
-                wp_mkdir_p($languagesDir);
-            }
-
-            $file = trailingslashit($languagesDir) . $addon . '-' . $locale . '.' . $format;
-
-            // Save the file and log error if it fails
-            if (file_put_contents($file, $content) === false) {
-                WP_Statistics()->log("Failed to create translation files for `$addon`.", 'error');
-            }
+        if (empty($content)) {
+            return false;
         }
+
+        $languagesDir = $this->getLanguageDir($addon);
+
+        // Create languages directory if it doesn't exist
+        if (!file_exists($languagesDir)) {
+            wp_mkdir_p($languagesDir);
+        }
+
+        $file = trailingslashit($languagesDir) . $addon . '-' . $locale . '.' . $format;
+
+        // Save the file and log error if it fails
+        if (file_put_contents($file, $content) === false) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -235,11 +248,9 @@ class TranslationManager
      */
     protected function doesTranslationExist($addon, $locale)
     {
-        $locale = $this->normalizeLocale($locale);
         $moFile = $this->getLanguageDir($addon) . $locale . '.mo';
-        $poFile = $this->getLanguageDir($addon) . $locale . '.po';
 
-        return file_exists($moFile) && file_exists($poFile);
+        return file_exists($moFile);
     }
 
     /**
