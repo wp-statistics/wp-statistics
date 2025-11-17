@@ -12,7 +12,7 @@ class TranslationHelper
      * @param string $locale Locale
      * @param bool   $force  Whether to force download even if translation exists
      */
-    public static function downloadAddonTranslation($addon, $locale = null, $force = false)
+    public static function downloadAddonTranslation($addon, $locale, $force = false)
     {
         if (empty($locale)) {
             return;
