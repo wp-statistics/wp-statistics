@@ -165,14 +165,10 @@ class TranslationManager
         $url = $this->getDownloadUrl($addon, $locale, $format);
 
         $response = wp_remote_get($url);
+        $content  = wp_remote_retrieve_body($response);
 
-        if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200) {
-            return false;
-        }
-
-        $content = wp_remote_retrieve_body($response);
-
-        if (empty($content)) {
+        // Check for errors
+        if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200 || empty($content)) {
             return false;
         }
 
@@ -220,22 +216,9 @@ class TranslationManager
             '%s%s/%s/default/export-translations?format=%s',
             self::BASE_URL,
             $addon,
-            $this->normalizeLocale($locale),
+            $locale = str_replace('_', '-', strtolower($locale)),
             $format
         );
-    }
-
-    /**
-     * Normalize locale string
-     * @param string $locale
-     * @return string
-     */
-    protected function normalizeLocale($locale)
-    {
-        $locale = str_replace('_', '-', $locale);
-        $locale = strtolower($locale);
-
-        return $locale;
     }
 
     /**
