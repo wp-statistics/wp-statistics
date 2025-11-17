@@ -18,6 +18,7 @@ class TranslationHelper
             return;
         }
 
+        // If translation already exists skip download, unless it's forced
         if (!$force && self::doesTranslationExist($addon, $locale)) {
             return;
         }
@@ -62,7 +63,7 @@ class TranslationHelper
 
         $file = trailingslashit($languagesDir) . $addon . '-' . $locale . '.' . $format;
 
-        // Save the file and log error if it fails
+        // Save the file and return false if it fails
         if (file_put_contents($file, $content) === false) {
             return false;
         }
