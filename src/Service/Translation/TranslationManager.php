@@ -21,6 +21,9 @@ class TranslationManager
         // Download translations when add-ons are activated/updated
         add_action('activated_plugin', [$this, 'onPluginActivated']);
         add_action('upgrader_process_complete', [$this, 'onPluginUpdated'], 10, 2);
+
+        // Add fallback mechanism for translations
+        add_filter('load_textdomain_mofile', [$this, 'fallbackTranslation'], 10, 2);
     }
 
     /**
@@ -136,7 +139,7 @@ class TranslationManager
         $this->downloadTranslationFile($addon, $locale, 'mo');
 
         // Download .po file
-        $this->downloadTranslationFile($addon, $locale, 'po');
+        // $this->downloadTranslationFile($addon, $locale, 'po');
     }
 
     /**
@@ -237,5 +240,38 @@ class TranslationManager
         $poFile = $this->getLanguageDir($addon) . $locale . '.po';
 
         return file_exists($moFile) && file_exists($poFile);
+    }
+
+    /**
+     * Fallback mechanism for translations
+     * If fa_IR file doesn't exist for add-ons, try to load fa
+     *
+     * @param string $mofile Path to .mo file
+     * @param string $domain Text domain
+     *
+     * @return string Modified path to .mo file
+     */
+    public function fallbackTranslation($mofile, $domain)
+    {
+        // Check if this is one of our add-ons
+        if (!array_key_exists($domain, PluginHelper::$plugins)) {
+            return $mofile;
+        }
+
+        // If the file exists, no fallback needed
+        if (file_exists($mofile)) {
+            return $mofile;
+        }
+
+        // Try fallback to base language (e.g., fa_IR -> fa, es_ES -> es, fil_PH -> fil)
+        if (preg_match('/(.+)-([a-z]{2,3})_[A-Z]{2}\.mo$/', $mofile, $matches)) {
+            $fallbackFile = $matches[1] . '-' . $matches[2] . '.mo';
+
+            if (file_exists($fallbackFile)) {
+                return $fallbackFile;
+            }
+        }
+
+        return $mofile;
     }
 }
