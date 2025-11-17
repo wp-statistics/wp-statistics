@@ -1,1 +1,0 @@
-import{A as e,f as t,u as n}from"./main-AC8amG0y.js";var r=e(t());const i=n(`/(referrals)/source-categories`)({component:a});function a(){return(0,r.jsx)(`div`,{children:`Hello "/(referrals)/source-categories"!`})}export{i as Route};

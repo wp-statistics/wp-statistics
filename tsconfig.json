@@ -1,4 +1,12 @@
 {
   "files": [],
-  "references": [{ "path": "./tsconfig.react.app.json" }, { "path": "./tsconfig.react.node.json" }]
+  "references": [{ "path": "./tsconfig.react.app.json" }, { "path": "./tsconfig.react.node.json" }],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["./resources/react/src/components/*"],
+      "@hooks/*": ["./resources/react/src/hooks/*"],
+      "@lib/*": ["./resources/react/src/lib/*"]
+    }
+  }
 }

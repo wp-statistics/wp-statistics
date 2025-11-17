@@ -4,7 +4,7 @@
   "rsc": false,
   "tsx": true,
   "tailwind": {
-    "config": "",
+    "config": "tailwind.config.js",
     "css": "resources/react/src/globals.css",
     "baseColor": "neutral",
     "cssVariables": true,
@@ -17,6 +17,5 @@
     "ui": "@components/ui",
     "lib": "@lib",
     "hooks": "@hooks"
-  },
-  "registries": {}
+  }
 }
