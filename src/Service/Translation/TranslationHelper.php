@@ -98,7 +98,7 @@ class TranslationHelper
             '%s%s/%s/default/export-translations?format=%s',
             self::BASE_URL,
             $addon,
-            $locale = str_replace('_', '-', strtolower($locale)),
+            str_replace('_', '-', strtolower($locale)),
             $format
         );
     }
