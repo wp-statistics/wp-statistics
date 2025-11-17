@@ -239,30 +239,17 @@ class HistoricalModel
      */
     public function isPostInAllTimeRange($args)
     {
-        if (empty($args['post_id']) || empty($args['date'])) {
+        $id = $args['resource_id'] ?? $args['post_id'] ?? null;
+
+        if (empty($id) || empty($args['date']['from']) || empty($args['date']['to'])) {
             return false;
         }
 
-        $date = $args['date'];
+        $from = $args['date']['from'];
+        $to   = $args['date']['to'];
 
-        if (empty($date['from']) || empty($date['to'])) {
-            return false;
-        }
-
-        $from = trim($date['from']);
-        $to   = trim($date['to']);
-
-        if (!DateTime::isValidDate($from) || !DateTime::isValidDate($to)) {
-            return false;
-        }
-
-        $postCreationDate = get_post_time(DateTime::$defaultDateFormat, false, $args['post_id'], false);
-
-        if (empty($postCreationDate) || !DateTime::isValidDate($postCreationDate)) {
-            return false;
-        }
-
-        $today = DateTime::get('now', DateTime::$defaultDateFormat);
+        $postCreationDate = get_post_time(DateTime::$defaultDateFormat, false, $id);
+        $today            = DateTime::get();
 
         return ($from === $postCreationDate && $to === $today);
     }
