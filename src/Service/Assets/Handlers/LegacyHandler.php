@@ -103,7 +103,7 @@ class LegacyHandler extends BaseAssets
 
         // Load Chart.js library
         if (apply_filters('wp_statistics_enqueue_chartjs', false)) {
-            Assets::script('chart.js', 'js/chartjs/chart.umd.min.js', [], [], true, false, null, '4.4.4');
+            Assets::script('chart.js', 'js/chartjs/chart.umd.min.js', [], [], true, false, null, '4.4.4', '', true, true);
         }
 
         // Load mini-chart
