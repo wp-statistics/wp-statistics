@@ -1,3 +1,6 @@
+= 14.15.x - 2025-xx-xx =
+- **New:** Automatic translation downloads when add-ons are activated or updated.
+
 = 14.15.6 - 2025-11-09 =
 - **New:** Introduced a refactored background-process migration system and removed legacy AJAX migrations.
 - **New:** Updated the Single Visitor page and added an "Other Visits" section.
