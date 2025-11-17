@@ -12,9 +12,6 @@ $isInstalled    = $pluginHandler->isPluginInstalled($addon_slug);
 
 
 <div class="wps-wrap__main wps-lock-page__main">
-    <?php if (!isset($header_end)): ?>
-        <div class="wp-header-end"></div>
-    <?php endif; ?>
     <div class="wps-lock-page wps-lock-page--container">
         <?php
         if (!$hasLicense && $isInstalled) :
