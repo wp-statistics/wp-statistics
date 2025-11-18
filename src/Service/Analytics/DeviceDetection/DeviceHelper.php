@@ -49,13 +49,13 @@ class DeviceHelper
     public static function getBrowserLogo(string $browser)
     {
         $browser  = str_replace(' ', '_', strtolower($browser));
-        $logoPath = "assets/images/browser/{$browser}.svg";
+        $logoPath = "public/images/browser/{$browser}.svg";
 
         if (file_exists(WP_STATISTICS_DIR . $logoPath)) {
             return esc_url(WP_STATISTICS_URL . $logoPath);
         }
 
-        return esc_url(WP_STATISTICS_URL . 'assets/images/browser/unknown.svg');
+        return esc_url(WP_STATISTICS_URL . 'public/images/browser/unknown.svg');
     }
 
     /**
@@ -67,13 +67,13 @@ class DeviceHelper
     public static function getPlatformLogo(string $platform)
     {
         $platform = str_replace([' ', '/'], '_', sanitize_text_field(strtolower($platform)));
-        $logoPath = "assets/images/operating-system/{$platform}.svg";
+        $logoPath = "public/images/operating-system/{$platform}.svg";
 
         if (file_exists(WP_STATISTICS_DIR . $logoPath)) {
             return esc_url(WP_STATISTICS_URL . $logoPath);
         }
 
-        return esc_url(WP_STATISTICS_URL . 'assets/images/operating-system/unknown.svg');
+        return esc_url(WP_STATISTICS_URL . 'public/images/operating-system/unknown.svg');
     }
 
     /**
@@ -85,12 +85,12 @@ class DeviceHelper
     public static function getDeviceLogo($device)
     {
         $device = str_replace([' ', '/'], '_', sanitize_text_field(strtolower($device)));
-        $logoPath = "assets/images/device/{$device}.svg";
+        $logoPath = "public/images/device/{$device}.svg";
 
         if (file_exists(WP_STATISTICS_DIR . $logoPath)) {
             return esc_url(WP_STATISTICS_URL . $logoPath);
         }
 
-        return esc_url(WP_STATISTICS_URL . 'assets/images/device/unknown.svg');
+        return esc_url(WP_STATISTICS_URL . 'public/images/device/unknown.svg');
     }
 }

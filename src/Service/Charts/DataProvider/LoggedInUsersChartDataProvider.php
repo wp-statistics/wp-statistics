@@ -45,12 +45,12 @@ class LoggedInUsersChartDataProvider extends AbstractChartDataProvider
         $data = [
             [
                 'label' => esc_html__('User Visitors', 'wp-statistics'),
-                'icon'  => WP_STATISTICS_URL . 'assets/images/user-visitor.svg',
+                'icon'  => WP_STATISTICS_URL . 'public/images/user-visitor.svg',
                 'value' => $loggedInData
             ],
             [
                 'label' => esc_html__('Anonymous Visitors', 'wp-statistics'),
-                'icon'  => WP_STATISTICS_URL . 'assets/images/anonymous.svg',
+                'icon'  => WP_STATISTICS_URL . 'public/images/anonymous.svg',
                 'value' => $anonymousData
             ]
         ];

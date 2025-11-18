@@ -8,7 +8,7 @@ $taxonomy = Request::get('tx', 'category');
 if ($showLockedPage) :
     View::load("components/locked-page", [
         'campaign' => 'pages',
-        'src'      => 'assets/images/locked/category-pages.jpg',
+        'src'      => 'public/images/locked/category-pages.jpg',
     ]);
 else: ?>
     <div class="postbox-container wps-postbox-full">

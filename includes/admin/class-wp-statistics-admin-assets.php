@@ -30,7 +30,7 @@ class Admin_Assets
      *
      * @var string
      */
-    public static $asset_dir = 'assets';
+    public static $asset_dir = 'public/legacy';
 
     /**
      * Basic Of Plugin Url in WordPress
@@ -195,7 +195,7 @@ class Admin_Assets
 
         // Load mini-chart
         if (Helper::isAdminBarShowing()) {
-            Assets::script('mini-chart', 'js/mini-chart.js', [], [], true);
+            Assets::script('mini-chart', 'js/mini-chart.min.js', [], [], true, false, null, '', '', true);
         }
 
         if (Menus::in_page('author-analytics')) {

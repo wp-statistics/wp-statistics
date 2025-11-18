@@ -40,7 +40,7 @@ class OperatingSystems extends BaseMetabox
 
         $data = array_merge($this->dataProvider->getOsChartData($args), [
             'tag_id' => 'wps-most-used-operating-systems',
-            'url'    => WP_STATISTICS_URL . 'assets/images/no-data/vector-2.svg'
+            'url'    => WP_STATISTICS_URL . 'public/images/no-data/vector-2.svg'
         ]);
 
         $output = View::load('metabox/horizontal-bar', ['data' => $data, 'filters' => $args, 'isTodayOrFutureDate' => $isTodayOrFutureDate], true);

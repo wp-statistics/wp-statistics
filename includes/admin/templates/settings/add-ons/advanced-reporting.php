@@ -220,7 +220,7 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
 
                 <?php
                 $custom_header_logo = WP_STATISTICS\Option::getByAddon('custom_header_logo', 'advanced_reporting');
-                $default_logo_url   = WP_STATISTICS_URL . 'assets/images/logo-statistics-header-blue.png';
+                $default_logo_url   = WP_STATISTICS_URL . 'public/images/logo-statistics-header-blue.png';
                 $header_logo_url    = !empty($custom_header_logo) ? $custom_header_logo : $default_logo_url;
                 $display_clear      = !empty($custom_header_logo) ? "" : "display: none;";
 
