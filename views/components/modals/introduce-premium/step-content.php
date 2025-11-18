@@ -22,7 +22,7 @@ if ( $step_name !== 'first-step'){
         </span>
     </div>
     <?php if ( $step_name !== 'first-step') : ?>
-        <img class="wps-premium-step__image v-image-lazy" width="509" height="291" data-src="<?php echo WP_STATISTICS_URL . 'assets/images/premium-modal/' . esc_attr($step_name) . '.png'; ?>" alt="<?php echo esc_attr($step_name); ?>">
+        <img class="wps-premium-step__image v-image-lazy" width="509" height="291" data-src="<?php echo WP_STATISTICS_URL . 'public/images/premium-modal/' . esc_attr($step_name) . '.png'; ?>" alt="<?php echo esc_attr($step_name); ?>">
         <?php if ($hasLicense && !$isActive) : ?>
             <div class="wps-premium-step__notice">
                 <div>

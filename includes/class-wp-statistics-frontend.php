@@ -88,8 +88,8 @@ class Frontend
 
         // Load Chart.js library
         if (Helper::isAdminBarShowing()) {
-            Assets::script('chart.js', 'js/chartjs/chart.umd.min.js', [], [], true, false, null, '4.4.4');
-            Assets::script('mini-chart', 'js/mini-chart.js', [], [], true);
+            Assets::script('chart.js', 'js/chartjs/chart.umd.min.js', [], [], true, false, null, '4.4.4', '', true);
+            Assets::script('mini-chart', 'js/mini-chart.min.js', [], [], true, false, null, '', '', true);
             Assets::style('front', 'css/frontend.min.css');
         }
     }

@@ -234,68 +234,54 @@ function cleanOutputDir() {
   }
 }
 
-// Custom plugin to copy assets structure (exact copy)
-function copyAssetsStructure() {
+// Custom plugin to copy vendor files from resources/legacy/vendor
+function copyVendorFiles() {
   return {
-    name: 'copy-assets-structure',
+    name: 'copy-vendor-files',
     writeBundle() {
-      const assetsJsDir = resolve(__dirname, 'assets/js')
-      const assetsCssDir = resolve(__dirname, 'assets/css')
+      const vendorDir = resolve(__dirname, 'resources/legacy/vendor')
       const publicJsDir = resolve(__dirname, 'public/legacy/js')
       const publicCssDir = resolve(__dirname, 'public/legacy/css')
 
       try {
-        // Copy all items from assets/js to public/legacy/js
-        if (existsSync(assetsJsDir)) {
-          const items = readdirSync(assetsJsDir)
-          items.forEach((item) => {
-            if (item === '.DS_Store') return
-
-            const sourcePath = join(assetsJsDir, item)
-            const destPath = join(publicJsDir, item)
-            const stat = statSync(sourcePath)
-
-            if (stat.isDirectory()) {
-              // Copy entire directory
-              mkdirSync(destPath, { recursive: true })
-              cpSync(sourcePath, destPath, { recursive: true })
-            } else if (stat.isFile()) {
-              // Skip bundled files that we generate
-              const bundledFiles = ['admin.min.js', 'background-process.min.js', 'tinymce.min.js']
-              if (!bundledFiles.includes(item)) {
-                cpSync(sourcePath, destPath)
-              }
-            }
-          })
+        if (!existsSync(vendorDir)) {
+          console.warn('Vendor directory not found:', vendorDir)
+          return
         }
 
-        // Copy all items from assets/css to public/legacy/css
-        if (existsSync(assetsCssDir)) {
-          const items = readdirSync(assetsCssDir)
-          items.forEach((item) => {
-            if (item === '.DS_Store') return
+        const items = readdirSync(vendorDir)
+        items.forEach((item) => {
+          if (item === '.DS_Store') return
 
-            const sourcePath = join(assetsCssDir, item)
+          const sourcePath = join(vendorDir, item)
+          const stat = statSync(sourcePath)
+
+          if (!stat.isDirectory()) return
+
+          // Determine if this is a CSS or JS vendor library and copy accordingly
+          // Check if directory contains .css files
+          const files = readdirSync(sourcePath)
+          const hasCss = files.some(f => f.endsWith('.css'))
+          const hasJs = files.some(f => f.endsWith('.js'))
+
+          if (hasCss || (!hasJs && !hasCss)) {
+            // Copy to CSS directory
             const destPath = join(publicCssDir, item)
-            const stat = statSync(sourcePath)
+            mkdirSync(destPath, { recursive: true })
+            cpSync(sourcePath, destPath, { recursive: true })
+          }
 
-            if (stat.isDirectory()) {
-              // Copy entire directory
-              mkdirSync(destPath, { recursive: true })
-              cpSync(sourcePath, destPath, { recursive: true })
-            } else if (stat.isFile()) {
-              // Skip bundled files that we generate
-              const bundledFiles = ['admin.min.css', 'rtl.min.css', 'frontend.min.css', 'mail.min.css']
-              if (!bundledFiles.includes(item)) {
-                cpSync(sourcePath, destPath)
-              }
-            }
-          })
-        }
+          if (hasJs || item === 'chartjs') {
+            // Copy to JS directory (chartjs is always JS even though it might have both)
+            const destPath = join(publicJsDir, item)
+            mkdirSync(destPath, { recursive: true })
+            cpSync(sourcePath, destPath, { recursive: true })
+          }
+        })
 
-        console.log('✓ Copied assets structure (exact copy)')
+        console.log('✓ Copied vendor files from resources/legacy/vendor')
       } catch (e) {
-        console.error('Failed to copy assets structure:', e.message)
+        console.error('Failed to copy vendor files:', e.message)
       }
     },
   }
@@ -340,7 +326,7 @@ function moveFrontendAssets() {
         mkdirSync(frontendCssDir, { recursive: true })
 
         // Move frontend JS files from legacy to frontend
-        const jsFiles = ['tracker.min.js', 'tracker.js', 'mini-chart.js']
+        const jsFiles = ['tracker.min.js', 'tracker.js', 'mini-chart.min.js']
         jsFiles.forEach((file) => {
           const sourcePath = join(sourceJsDir, file)
           const destPath = join(frontendJsDir, file)
@@ -396,8 +382,8 @@ export default defineConfig({
     inlineBackgroundProcess(),
     inlineTinyMCE(),
     inlineTrackerScripts(),
-    // inlineChartScripts() - Not needed, Chart.js files copied from assets/js/chartjs/
-    copyAssetsStructure(),
+    // inlineChartScripts() - Not needed, Chart.js files copied from resources/legacy/vendor/chartjs/
+    copyVendorFiles(),
     copyJsonAssets(),
     moveFrontendAssets(),
   ],
@@ -433,7 +419,7 @@ export default defineConfig({
         // Mini chart (minified)
         'js/mini-chart.min': resolve(__dirname, 'resources/legacy/entries/mini-chart.js'),
 
-        // Note: chart-matrix.min.js and Chart.js library files are copied from assets/js/chartjs/ as-is
+        // Note: chart-matrix.min.js and Chart.js library files are copied from resources/legacy/vendor/chartjs/ as-is
 
         // Styles
         'css/admin.min': resolve(__dirname, 'resources/legacy/sass/admin.scss'),
@@ -453,7 +439,7 @@ export default defineConfig({
             }
             return '[name][extname]'
           }
-          return 'assets/[name][extname]'
+          return '[name][extname]'
         },
       },
 

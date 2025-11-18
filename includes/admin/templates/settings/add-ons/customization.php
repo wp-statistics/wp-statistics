@@ -117,7 +117,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
 
                 <?php
                 $custom_header_logo = esc_attr(stripslashes(WP_STATISTICS\Option::getByAddon('wps_modify_banner', 'customization')));
-                $default_logo_url   = WP_STATISTICS_URL . 'assets/images/logo-statistics-header-blue.png';
+                $default_logo_url   = WP_STATISTICS_URL . 'public/images/logo-statistics-header-blue.png';
                 $header_logo_url    = !empty($custom_header_logo) ? $custom_header_logo : $default_logo_url;
                 $display_clear      = !empty($custom_header_logo) ? "" : "display: none;";
 

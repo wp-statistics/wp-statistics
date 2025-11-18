@@ -19,7 +19,7 @@ $trackerStatus      = $tracker->getTrackerStatus();
 <div class="postbox-container wps-postbox-tracker__container">
     <div class="wps-postbox-tracker__box">
         <div class="wps-postbox-tracker__info">
-            <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/tracker/debug.svg') ?>" alt="Tracker diagnostics tool" width="52" height="52">
+            <img src="<?php echo esc_url(WP_STATISTICS_URL . 'public/images/tracker/debug.svg') ?>" alt="Tracker diagnostics tool" width="52" height="52">
             <div>
                 <h3><?php esc_html_e('Tracker.js Diagnostics Tool', 'wp-statistics'); ?></h3>
                 <p><?php esc_html_e('Use this tool to identify and resolve issues affecting tracker.js. Below, you\'ll find diagnostics results, real-time data, and suggestions to ensure your visitor tracking is functioning properly.', 'wp-statistics'); ?></p>
