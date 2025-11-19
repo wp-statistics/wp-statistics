@@ -117,4 +117,122 @@ class TranslationHelper
 
         return file_exists($moFile);
     }
+
+    /**
+     * Download all translations for an add-on in bulk (ZIP format)
+     *
+     * @param string $addon Add-on slug
+     * @param bool   $force Whether to force download even if translations exist
+     *
+     * @return bool|WP_Error True if download was successful, WP_Error otherwise
+     */
+    public static function downloadBulkTranslations($addon, $force = false)
+    {
+        $languagesDir = self::getLanguageDir($addon);
+
+        // Create languages directory if it doesn't exist
+        if (!file_exists($languagesDir)) {
+            wp_mkdir_p($languagesDir);
+        }
+
+        // Get bulk export URL
+        $url = self::getBulkExportUrl($addon);
+
+        // Download the ZIP file
+        $response = wp_remote_get($url, ['timeout' => 60]);
+
+        // Check for errors
+        if (is_wp_error($response)) {
+            return new \WP_Error('download_failed', sprintf(__('Failed to download translations: %s', 'wp-statistics'), $response->get_error_message()));
+        }
+
+        $responseCode = wp_remote_retrieve_response_code($response);
+        if ($responseCode !== 200) {
+            return new \WP_Error('download_failed', sprintf(__('Failed to download translations: HTTP %d', 'wp-statistics'), $responseCode));
+        }
+
+        $content = wp_remote_retrieve_body($response);
+        if (empty($content)) {
+            return new \WP_Error('download_failed', __('Failed to download translations: Empty response', 'wp-statistics'));
+        }
+
+        // Save ZIP file temporarily
+        $tmpFile = trailingslashit($languagesDir) . $addon . '-translations.zip';
+        if (file_put_contents($tmpFile, $content) === false) {
+            return new \WP_Error('save_failed', __('Failed to save translation archive', 'wp-statistics'));
+        }
+
+        // Extract the ZIP file
+        $extractResult = self::extractTranslationArchive($tmpFile, $languagesDir);
+
+        // Clean up temporary ZIP file
+        if (file_exists($tmpFile)) {
+            @unlink($tmpFile);
+        }
+
+        return $extractResult;
+    }
+
+    /**
+     * Extract translation ZIP archive
+     *
+     * @param string $zipFile Path to ZIP file
+     * @param string $destination Destination directory
+     *
+     * @return bool|WP_Error True if extraction was successful, WP_Error otherwise
+     */
+    protected static function extractTranslationArchive($zipFile, $destination)
+    {
+        // Check if ZIP extension is available
+        if (!class_exists('ZipArchive')) {
+            return new \WP_Error('zip_not_available', __('Failed to extract translations: ZIP extension not available', 'wp-statistics'));
+        }
+
+        $zip = new \ZipArchive();
+        $result = $zip->open($zipFile);
+
+        if ($result !== true) {
+            return new \WP_Error('zip_open_failed', sprintf(__('Failed to extract translations: Cannot open archive (error code: %d)', 'wp-statistics'), $result));
+        }
+
+        // Extract only .mo and .po files
+        $extracted = false;
+        for ($i = 0; $i < $zip->numFiles; $i++) {
+            $filename = $zip->getNameIndex($i);
+            
+            // Only extract .mo and .po files
+            if (preg_match('/\.(mo|po)$/i', $filename)) {
+                $fileContent = $zip->getFromIndex($i);
+                if ($fileContent !== false) {
+                    $targetPath = trailingslashit($destination) . basename($filename);
+                    if (file_put_contents($targetPath, $fileContent) !== false) {
+                        $extracted = true;
+                    }
+                }
+            }
+        }
+
+        $zip->close();
+
+        if (!$extracted) {
+            return new \WP_Error('no_translations_extracted', __('Failed to extract translations: No translation files found in archive', 'wp-statistics'));
+        }
+
+        return true;
+    }
+
+    /**
+     * Get bulk export URL for downloading all translations
+     *
+     * @param string $addon Add-on slug
+     *
+     * @return string
+     */
+    public static function getBulkExportUrl($addon)
+    {
+        return sprintf(
+            'https://translations.veronalabs.com/bulk-export/%s/?format=mo',
+            $addon
+        );
+    }
 }
