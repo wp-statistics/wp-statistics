@@ -249,4 +249,87 @@ class CliCommands
             \WP_CLI::error(sprintf('Exclusion matched: %s', $e->getMessage()));
         }
     }
+
+    /**
+     * Download translations for an add-on.
+     *
+     * ## OPTIONS
+     *
+     * <addon>
+     * : The add-on slug to download translations for.
+     *
+     * [--bulk]
+     * : Download all translations in bulk (ZIP format) instead of individual locale.
+     *
+     * [--locale=<locale>]
+     * : Download translations for a specific locale (e.g., fa_IR, es_ES).
+     * Only used when --bulk is not specified.
+     *
+     * [--force]
+     * : Force download even if translations already exist.
+     *
+     * ## EXAMPLES
+     *
+     *     # Download all translations for data-plus add-on in bulk
+     *     wp statistics download-translations wp-statistics-data-plus --bulk
+     *
+     *     # Download Persian translations for data-plus add-on
+     *     wp statistics download-translations wp-statistics-data-plus --locale=fa_IR
+     *
+     * @throws Exception
+     */
+    public function download_translations($args, $assocArgs)
+    {
+        if (empty($args[0])) {
+            \WP_CLI::error('Please provide an add-on slug.');
+            return;
+        }
+
+        $addon = $args[0];
+        $bulk  = \WP_CLI\Utils\get_flag_value($assocArgs, 'bulk', false);
+        $force = \WP_CLI\Utils\get_flag_value($assocArgs, 'force', false);
+
+        // Import the TranslationHelper class
+        $translationHelper = '\WP_Statistics\Service\Translation\TranslationHelper';
+
+        if (!class_exists($translationHelper)) {
+            \WP_CLI::error('TranslationHelper class not found.');
+            return;
+        }
+
+        if ($bulk) {
+            // Download all translations in bulk
+            \WP_CLI::line(sprintf('Downloading bulk translations for %s...', $addon));
+            
+            $result = call_user_func([$translationHelper, 'downloadBulkTranslations'], $addon, $force);
+            
+            if (is_wp_error($result)) {
+                \WP_CLI::error($result->get_error_message());
+                return;
+            }
+            
+            \WP_CLI::success(sprintf('Successfully downloaded and extracted translations for %s', $addon));
+        } else {
+            // Download for specific locale
+            $locale = \WP_CLI\Utils\get_flag_value($assocArgs, 'locale', get_locale());
+            
+            if (empty($locale)) {
+                \WP_CLI::error('Please provide a locale using --locale or ensure WordPress locale is set.');
+                return;
+            }
+            
+            \WP_CLI::line(sprintf('Downloading %s translations for %s...', $locale, $addon));
+            
+            call_user_func([$translationHelper, 'downloadAddonTranslation'], $addon, $locale, $force);
+            
+            // Check if translation was downloaded successfully
+            $exists = call_user_func([$translationHelper, 'doesTranslationExist'], $addon, $locale);
+            
+            if ($exists) {
+                \WP_CLI::success(sprintf('Successfully downloaded %s translations for %s', $locale, $addon));
+            } else {
+                \WP_CLI::warning(sprintf('Translation download may have failed for %s locale of %s', $locale, $addon));
+            }
+        }
+    }
 }
