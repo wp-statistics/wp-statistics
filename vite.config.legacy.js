@@ -234,68 +234,86 @@ function cleanOutputDir() {
   }
 }
 
-// Custom plugin to copy assets structure (exact copy)
-function copyAssetsStructure() {
+// Custom plugin to copy vendor files from resources/legacy/vendor
+// Properly separates JS and CSS files into their respective directories
+function copyVendorFiles() {
   return {
-    name: 'copy-assets-structure',
+    name: 'copy-vendor-files',
     writeBundle() {
-      const assetsJsDir = resolve(__dirname, 'assets/js')
-      const assetsCssDir = resolve(__dirname, 'assets/css')
+      const vendorDir = resolve(__dirname, 'resources/legacy/vendor')
       const publicJsDir = resolve(__dirname, 'public/legacy/js')
       const publicCssDir = resolve(__dirname, 'public/legacy/css')
 
       try {
-        // Copy all items from assets/js to public/legacy/js
-        if (existsSync(assetsJsDir)) {
-          const items = readdirSync(assetsJsDir)
+        if (!existsSync(vendorDir)) {
+          console.warn('Vendor directory not found:', vendorDir)
+          return
+        }
+
+        const copyFilesRecursively = (sourceDir, destJsDir, destCssDir, relativePath = '') => {
+          const items = readdirSync(sourceDir)
+
           items.forEach((item) => {
             if (item === '.DS_Store') return
 
-            const sourcePath = join(assetsJsDir, item)
-            const destPath = join(publicJsDir, item)
+            const sourcePath = join(sourceDir, item)
             const stat = statSync(sourcePath)
 
             if (stat.isDirectory()) {
-              // Copy entire directory
-              mkdirSync(destPath, { recursive: true })
-              cpSync(sourcePath, destPath, { recursive: true })
-            } else if (stat.isFile()) {
-              // Skip bundled files that we generate
-              const bundledFiles = ['admin.min.js', 'background-process.min.js', 'tinymce.min.js']
-              if (!bundledFiles.includes(item)) {
+              // Recursively process subdirectories
+              copyFilesRecursively(
+                sourcePath,
+                destJsDir,
+                destCssDir,
+                join(relativePath, item)
+              )
+            } else {
+              // Copy files based on extension
+              const ext = item.substring(item.lastIndexOf('.'))
+
+              if (ext === '.js') {
+                // Copy JS files to js directory
+                const destPath = join(destJsDir, relativePath, item)
+                mkdirSync(join(destJsDir, relativePath), { recursive: true })
                 cpSync(sourcePath, destPath)
+              } else if (ext === '.css') {
+                // Copy CSS files to css directory
+                const destPath = join(destCssDir, relativePath, item)
+                mkdirSync(join(destCssDir, relativePath), { recursive: true })
+                cpSync(sourcePath, destPath)
+              } else {
+                // Copy other files (images, fonts, etc.) to both directories
+                // This preserves directory structure for assets that might be referenced by both
+                const destJsPath = join(destJsDir, relativePath, item)
+                const destCssPath = join(destCssDir, relativePath, item)
+                mkdirSync(join(destJsDir, relativePath), { recursive: true })
+                mkdirSync(join(destCssDir, relativePath), { recursive: true })
+                cpSync(sourcePath, destJsPath)
+                cpSync(sourcePath, destCssPath)
               }
             }
           })
         }
 
-        // Copy all items from assets/css to public/legacy/css
-        if (existsSync(assetsCssDir)) {
-          const items = readdirSync(assetsCssDir)
-          items.forEach((item) => {
-            if (item === '.DS_Store') return
+        const items = readdirSync(vendorDir)
+        items.forEach((item) => {
+          if (item === '.DS_Store') return
 
-            const sourcePath = join(assetsCssDir, item)
-            const destPath = join(publicCssDir, item)
-            const stat = statSync(sourcePath)
+          const sourcePath = join(vendorDir, item)
+          const stat = statSync(sourcePath)
 
-            if (stat.isDirectory()) {
-              // Copy entire directory
-              mkdirSync(destPath, { recursive: true })
-              cpSync(sourcePath, destPath, { recursive: true })
-            } else if (stat.isFile()) {
-              // Skip bundled files that we generate
-              const bundledFiles = ['admin.min.css', 'rtl.min.css', 'frontend.min.css', 'mail.min.css']
-              if (!bundledFiles.includes(item)) {
-                cpSync(sourcePath, destPath)
-              }
-            }
-          })
-        }
+          if (stat.isDirectory()) {
+            const destJsPath = join(publicJsDir, item)
+            const destCssPath = join(publicCssDir, item)
 
-        console.log('✓ Copied assets structure (exact copy)')
+            // Process each vendor directory
+            copyFilesRecursively(sourcePath, destJsPath, destCssPath)
+          }
+        })
+
+        console.log('✓ Copied vendor files from resources/legacy/vendor (JS and CSS properly separated)')
       } catch (e) {
-        console.error('Failed to copy assets structure:', e.message)
+        console.error('Failed to copy vendor files:', e.message)
       }
     },
   }
@@ -324,6 +342,37 @@ function copyJsonAssets() {
   }
 }
 
+// Custom plugin to copy image assets from resources/images to public/images
+function copyImageAssets() {
+  return {
+    name: 'copy-image-assets',
+    buildStart() {
+      const sourceDir = resolve(__dirname, 'resources/images')
+      const destDir = resolve(__dirname, 'public/images')
+
+      try {
+        if (!existsSync(sourceDir)) {
+          console.warn('Resources images directory not found:', sourceDir)
+          return
+        }
+
+        // Remove existing public/images directory
+        if (existsSync(destDir)) {
+          rmSync(destDir, { recursive: true, force: true })
+        }
+
+        // Copy all images from resources to public
+        mkdirSync(destDir, { recursive: true })
+        cpSync(sourceDir, destDir, { recursive: true })
+
+        console.log('✓ Copied image assets from resources/images to public/images')
+      } catch (e) {
+        console.error('Failed to copy image assets:', e.message)
+      }
+    },
+  }
+}
+
 // Custom plugin to move frontend assets to public/frontend
 function moveFrontendAssets() {
   return {
@@ -340,7 +389,7 @@ function moveFrontendAssets() {
         mkdirSync(frontendCssDir, { recursive: true })
 
         // Move frontend JS files from legacy to frontend
-        const jsFiles = ['tracker.min.js', 'tracker.js', 'mini-chart.js']
+        const jsFiles = ['tracker.min.js', 'tracker.js', 'mini-chart.min.js']
         jsFiles.forEach((file) => {
           const sourcePath = join(sourceJsDir, file)
           const destPath = join(frontendJsDir, file)
@@ -391,13 +440,14 @@ export default defineConfig({
 
   plugins: [
     cleanOutputDir(),
+    copyImageAssets(),
     jQueryReadyWrapper(),
     inlineAdminSources(),
     inlineBackgroundProcess(),
     inlineTinyMCE(),
     inlineTrackerScripts(),
-    // inlineChartScripts() - Not needed, Chart.js files copied from assets/js/chartjs/
-    copyAssetsStructure(),
+    // inlineChartScripts() - Not needed, Chart.js files copied from resources/legacy/vendor/chartjs/
+    copyVendorFiles(),
     copyJsonAssets(),
     moveFrontendAssets(),
   ],
@@ -433,7 +483,7 @@ export default defineConfig({
         // Mini chart (minified)
         'js/mini-chart.min': resolve(__dirname, 'resources/legacy/entries/mini-chart.js'),
 
-        // Note: chart-matrix.min.js and Chart.js library files are copied from assets/js/chartjs/ as-is
+        // Note: chart-matrix.min.js and Chart.js library files are copied from resources/legacy/vendor/chartjs/ as-is
 
         // Styles
         'css/admin.min': resolve(__dirname, 'resources/legacy/sass/admin.scss'),
@@ -453,7 +503,7 @@ export default defineConfig({
             }
             return '[name][extname]'
           }
-          return 'assets/[name][extname]'
+          return '[name][extname]'
         },
       },
 

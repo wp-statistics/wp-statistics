@@ -355,7 +355,7 @@ class Country
             $code = self::$unknownCountryCode;
         }
 
-        return WP_STATISTICS_URL . 'assets/images/flags/' . strtolower($code) . '.svg';
+        return WP_STATISTICS_URL . 'public/images/flags/' . strtolower($code) . '.svg';
     }
 
     /**

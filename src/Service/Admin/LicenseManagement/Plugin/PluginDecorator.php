@@ -73,7 +73,7 @@ class PluginDecorator
      */
     public function getIcon()
     {
-        $iconPath = "assets/images/add-ons/{$this->getSlug()}.svg";
+        $iconPath = "public/images/add-ons/{$this->getSlug()}.svg";
         if (file_exists(WP_STATISTICS_DIR . $iconPath)) {
             return esc_url(WP_STATISTICS_URL . $iconPath);
         }
