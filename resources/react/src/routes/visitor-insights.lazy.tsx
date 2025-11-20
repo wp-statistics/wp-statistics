@@ -11,6 +11,8 @@ import { getVisitorInsightDevicesTypeQueryOptions } from '@/services/visitor-ins
 import { WordPress } from '@/lib/wordpress'
 import { getVisitorInsightOSSQueryOptions } from '@/services/visitor-insight/get-oss'
 import { LineChart } from '@/components/custom/line-chart'
+import { GlobalMap } from '@/components/custom/global-map'
+import type { GlobalMapData } from '@/components/custom/global-map'
 
 export const Route = createLazyFileRoute('/visitor-insights')({
   component: RouteComponent,
@@ -41,7 +43,7 @@ function RouteComponent() {
     const weekendFactor = dayOfWeek === 0 || dayOfWeek === 6 ? 0.7 : 1.0
 
     // Base values with gradual upward trend
-    const trendFactor = 1 + (i / 100)
+    const trendFactor = 1 + i / 100
 
     // Add some randomness and weekly patterns
     const noise = Math.random() * 0.4 - 0.2
@@ -54,10 +56,10 @@ function RouteComponent() {
 
     return {
       date: date.toISOString(),
-      visitors: Math.round((visitorsBase * weekendFactor * trendFactor) * 10) / 10,
-      visitorsPrevious: Math.round((visitorsPrevBase * weekendFactor * 0.95) * 10) / 10,
-      views: Math.round((viewsBase * weekendFactor * trendFactor) * 10) / 10,
-      viewsPrevious: Math.round((viewsPrevBase * weekendFactor * 0.9) * 10) / 10,
+      visitors: Math.round(visitorsBase * weekendFactor * trendFactor * 10) / 10,
+      visitorsPrevious: Math.round(visitorsPrevBase * weekendFactor * 0.95 * 10) / 10,
+      views: Math.round(viewsBase * weekendFactor * trendFactor * 10) / 10,
+      viewsPrevious: Math.round(viewsPrevBase * weekendFactor * 0.9 * 10) / 10,
     }
   })
 
@@ -79,6 +81,32 @@ function RouteComponent() {
       previousValue: '2.9k',
     },
   ]
+
+  // Global Visitor Distribution data
+  const globalMapData: GlobalMapData = {
+    countries: [
+      { code: 'US', name: 'United States', flag: '🇺🇸', visitors: 25000 },
+      { code: 'FR', name: 'France', flag: '🇫🇷', visitors: 23000 },
+      { code: 'GB', name: 'United Kingdom', flag: '🇬🇧', visitors: 18000 },
+      { code: 'DE', name: 'Germany', flag: '🇩🇪', visitors: 15000 },
+      { code: 'CA', name: 'Canada', flag: '🇨🇦', visitors: 12000 },
+      { code: 'AU', name: 'Australia', flag: '🇦🇺', visitors: 10000 },
+      { code: 'JP', name: 'Japan', flag: '🇯🇵', visitors: 9000 },
+      { code: 'IN', name: 'India', flag: '🇮🇳', visitors: 8000 },
+      { code: 'BR', name: 'Brazil', flag: '🇧🇷', visitors: 7000 },
+      { code: 'IT', name: 'Italy', flag: '🇮🇹', visitors: 6500 },
+      { code: 'ES', name: 'Spain', flag: '🇪🇸', visitors: 6000 },
+      { code: 'MX', name: 'Mexico', flag: '🇲🇽', visitors: 5500 },
+      { code: 'NL', name: 'Netherlands', flag: '🇳🇱', visitors: 5000 },
+      { code: 'SE', name: 'Sweden', flag: '🇸🇪', visitors: 4500 },
+      { code: 'CH', name: 'Switzerland', flag: '🇨🇭', visitors: 4000 },
+      { code: 'BE', name: 'Belgium', flag: '🇧🇪', visitors: 3500 },
+      { code: 'PL', name: 'Poland', flag: '🇵🇱', visitors: 3000 },
+      { code: 'AT', name: 'Austria', flag: '🇦🇹', visitors: 2500 },
+      { code: 'NO', name: 'Norway', flag: '🇳🇴', visitors: 2000 },
+      { code: 'DK', name: 'Denmark', flag: '🇩🇰', visitors: 1800 },
+    ],
+  }
 
   return (
     <div className="p-2 grid gap-6">
@@ -230,11 +258,18 @@ function RouteComponent() {
           </CardHeader>
         </Card>
 
-        <Card className="col-span-6">
-          <CardHeader>
-            <CardTitle>Global Visitor Distribution</CardTitle>
-          </CardHeader>
-        </Card>
+        <div className="col-span-6">
+          <GlobalMap
+            data={globalMapData}
+            metric="Visitors"
+            showZoomControls={true}
+            showLegend={true}
+            showTimePeriod={true}
+            timePeriod="Last 30 days"
+            onTimePeriodChange={(period) => console.log('Time period changed:', period)}
+            title={__('Global Visitor Distribution', 'wp-statistics')}
+          />
+        </div>
       </div>
     </div>
   )

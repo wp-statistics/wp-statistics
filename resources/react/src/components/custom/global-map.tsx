@@ -2,7 +2,7 @@ import { useMemo, useRef, useState } from 'react'
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps'
 import { Minus, Plus } from 'lucide-react'
 
-import { Card, CardContent } from '@components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/card'
 import { Button } from '@components/ui/button'
 import { cn } from '@lib/utils'
 
@@ -43,6 +43,7 @@ const indigoScale = [
 ]
 
 export function GlobalMap({
+  title,
   data,
   metric = 'Visitors',
   showZoomControls = true,
@@ -150,7 +151,12 @@ export function GlobalMap({
 
   return (
     <Card className={cn('h-full flex flex-col', className)}>
-      <CardContent className="flex-1 flex flex-col p-6">
+      {title && (
+        <CardHeader>
+          <CardTitle>{title}</CardTitle>
+        </CardHeader>
+      )}
+      <CardContent className="flex-1 flex flex-col">
         <div
           ref={containerRef}
           className="flex-1 relative bg-muted/10 rounded-lg overflow-hidden"
@@ -301,7 +307,9 @@ export function GlobalMap({
                     <div key={i} className="flex-1" style={{ backgroundColor: color }} />
                   ))}
                 </div>
-                <span className="text-sm text-muted-foreground">{maxVisitors > 0 ? `${(maxVisitors / 1000).toFixed(0)}k` : '0'}</span>
+                <span className="text-sm text-muted-foreground">
+                  {maxVisitors > 0 ? `${(maxVisitors / 1000).toFixed(0)}k` : '0'}
+                </span>
               </div>
             )}
           </div>
