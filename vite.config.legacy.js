@@ -235,6 +235,7 @@ function cleanOutputDir() {
 }
 
 // Custom plugin to copy vendor files from resources/legacy/vendor
+// Properly separates JS and CSS files into their respective directories
 function copyVendorFiles() {
   return {
     name: 'copy-vendor-files',
@@ -249,6 +250,51 @@ function copyVendorFiles() {
           return
         }
 
+        const copyFilesRecursively = (sourceDir, destJsDir, destCssDir, relativePath = '') => {
+          const items = readdirSync(sourceDir)
+
+          items.forEach((item) => {
+            if (item === '.DS_Store') return
+
+            const sourcePath = join(sourceDir, item)
+            const stat = statSync(sourcePath)
+
+            if (stat.isDirectory()) {
+              // Recursively process subdirectories
+              copyFilesRecursively(
+                sourcePath,
+                destJsDir,
+                destCssDir,
+                join(relativePath, item)
+              )
+            } else {
+              // Copy files based on extension
+              const ext = item.substring(item.lastIndexOf('.'))
+
+              if (ext === '.js') {
+                // Copy JS files to js directory
+                const destPath = join(destJsDir, relativePath, item)
+                mkdirSync(join(destJsDir, relativePath), { recursive: true })
+                cpSync(sourcePath, destPath)
+              } else if (ext === '.css') {
+                // Copy CSS files to css directory
+                const destPath = join(destCssDir, relativePath, item)
+                mkdirSync(join(destCssDir, relativePath), { recursive: true })
+                cpSync(sourcePath, destPath)
+              } else {
+                // Copy other files (images, fonts, etc.) to both directories
+                // This preserves directory structure for assets that might be referenced by both
+                const destJsPath = join(destJsDir, relativePath, item)
+                const destCssPath = join(destCssDir, relativePath, item)
+                mkdirSync(join(destJsDir, relativePath), { recursive: true })
+                mkdirSync(join(destCssDir, relativePath), { recursive: true })
+                cpSync(sourcePath, destJsPath)
+                cpSync(sourcePath, destCssPath)
+              }
+            }
+          })
+        }
+
         const items = readdirSync(vendorDir)
         items.forEach((item) => {
           if (item === '.DS_Store') return
@@ -256,30 +302,16 @@ function copyVendorFiles() {
           const sourcePath = join(vendorDir, item)
           const stat = statSync(sourcePath)
 
-          if (!stat.isDirectory()) return
+          if (stat.isDirectory()) {
+            const destJsPath = join(publicJsDir, item)
+            const destCssPath = join(publicCssDir, item)
 
-          // Determine if this is a CSS or JS vendor library and copy accordingly
-          // Check if directory contains .css files
-          const files = readdirSync(sourcePath)
-          const hasCss = files.some(f => f.endsWith('.css'))
-          const hasJs = files.some(f => f.endsWith('.js'))
-
-          if (hasCss || (!hasJs && !hasCss)) {
-            // Copy to CSS directory
-            const destPath = join(publicCssDir, item)
-            mkdirSync(destPath, { recursive: true })
-            cpSync(sourcePath, destPath, { recursive: true })
-          }
-
-          if (hasJs || item === 'chartjs') {
-            // Copy to JS directory (chartjs is always JS even though it might have both)
-            const destPath = join(publicJsDir, item)
-            mkdirSync(destPath, { recursive: true })
-            cpSync(sourcePath, destPath, { recursive: true })
+            // Process each vendor directory
+            copyFilesRecursively(sourcePath, destJsPath, destCssPath)
           }
         })
 
-        console.log('✓ Copied vendor files from resources/legacy/vendor')
+        console.log('✓ Copied vendor files from resources/legacy/vendor (JS and CSS properly separated)')
       } catch (e) {
         console.error('Failed to copy vendor files:', e.message)
       }
@@ -305,6 +337,37 @@ function copyJsonAssets() {
         console.log('✓ Minified and copied source-channels.json to public/json/source-channels.min.json')
       } catch (e) {
         console.error('Failed to minify source-channels.json:', e)
+      }
+    },
+  }
+}
+
+// Custom plugin to copy image assets from resources/images to public/images
+function copyImageAssets() {
+  return {
+    name: 'copy-image-assets',
+    buildStart() {
+      const sourceDir = resolve(__dirname, 'resources/images')
+      const destDir = resolve(__dirname, 'public/images')
+
+      try {
+        if (!existsSync(sourceDir)) {
+          console.warn('Resources images directory not found:', sourceDir)
+          return
+        }
+
+        // Remove existing public/images directory
+        if (existsSync(destDir)) {
+          rmSync(destDir, { recursive: true, force: true })
+        }
+
+        // Copy all images from resources to public
+        mkdirSync(destDir, { recursive: true })
+        cpSync(sourceDir, destDir, { recursive: true })
+
+        console.log('✓ Copied image assets from resources/images to public/images')
+      } catch (e) {
+        console.error('Failed to copy image assets:', e.message)
       }
     },
   }
@@ -377,6 +440,7 @@ export default defineConfig({
 
   plugins: [
     cleanOutputDir(),
+    copyImageAssets(),
     jQueryReadyWrapper(),
     inlineAdminSources(),
     inlineBackgroundProcess(),
