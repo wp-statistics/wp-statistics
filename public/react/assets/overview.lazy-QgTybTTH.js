@@ -1,1 +1,0 @@
-import{A as e,f as t,u as n}from"./main-DjqSPGn7.js";var r=e(t());const i=n(`/overview`)({component:a});function a(){return(0,r.jsx)(`div`,{children:`Hello "/overview"!`})}export{i as Route};
