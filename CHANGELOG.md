@@ -1,3 +1,6 @@
+= 14.15.x - 2025-x-x =
+- **Fix:** Fixed an issue where historical data was not included in single-content/single-resource reports.
+
 = 14.15.6 - 2025-11-09 =
 - **New:** Introduced a refactored background-process migration system and removed legacy AJAX migrations.
 - **New:** Updated the Single Visitor page and added an "Other Visits" section.
