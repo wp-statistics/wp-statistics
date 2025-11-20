@@ -1,6 +1,9 @@
 = 14.16 - 2025-**-** =
 - **New:** Added an Export button to all report pages.
+- **New:** Added a new `Summary Totals` table to store daily aggregated data.
 - **Enhancement:** Updated PHP requirement to v7.4 and WordPress requires to v6.6
+- **Enhancement:** Redesigned Summary widgets across all report pages.
+- **Enhancement:** Optimized database queries and improved overall performance.
 
 = 14.15.6 - 2025-11-09 =
 - **New:** Introduced a refactored background-process migration system and removed legacy AJAX migrations.
