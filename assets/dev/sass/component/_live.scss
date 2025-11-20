@@ -87,7 +87,7 @@
 
       &:nth-child(2){
         padding-left: 12px !important;
-        padding-right: 12px !important;
+        padding-right: 0 !important;
       }
     }
 
@@ -96,6 +96,7 @@
         td ,th {
           &:first-child {
             padding-left: 24px !important;
+            white-space: nowrap;
 
             .rtl & {
               padding-left: 12px !important;
@@ -105,6 +106,7 @@
 
           &:last-child {
             padding-right: 24px !important;
+            padding-left: 12px !important;
 
             .rtl & {
               padding-left: 24px !important;
