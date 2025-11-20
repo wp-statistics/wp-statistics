@@ -108,7 +108,7 @@ class LegacyHandler extends BaseAssets
 
         // Load mini-chart
         if (Route::isAdminBarShowing()) {
-            Assets::script('mini-chart', 'js/mini-chart.js', [], [], true);
+            Assets::script('mini-chart', 'js/mini-chart.min.js', [], [], true, false, null, '', '', true);
         }
 
         if (Menu::isOnPage('author-analytics')) {

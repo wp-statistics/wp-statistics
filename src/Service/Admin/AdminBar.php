@@ -502,7 +502,7 @@ class AdminBar
     {
         return sprintf(
             '<img src="%s"/><div><span class="wps-admin-bar__chart__unlock-button">%s</span><button>%s</button></div>',
-            esc_url(WP_STATISTICS_URL . 'assets/images/mini-chart-lock.png'),
+            esc_url(WP_STATISTICS_URL . 'public/images/mini-chart-lock.png'),
             __('Unlock the Full Power of WP Statistics', 'wp-statistics'),
             __('Learn More', 'wp-statistics')
         );
@@ -521,7 +521,7 @@ class AdminBar
     {
         return sprintf(
             '<img src="%s"/><a href="%s" target="_blank"><span class="wps-admin-bar__chart__unlock-button">%s</span></a>',
-            esc_url(WP_STATISTICS_URL . 'assets/images/mini-chart-logo.svg'),
+            esc_url(WP_STATISTICS_URL . 'public/images/mini-chart-logo.svg'),
             esc_url($footerLink),
             __('Explore Details', 'wp-statistics')
         );

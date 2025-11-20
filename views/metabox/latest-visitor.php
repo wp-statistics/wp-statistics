@@ -106,7 +106,7 @@ use WP_STATISTICS\Menus;
 <?php else : ?>
     <?php
     View::load("components/objects/no-data", [
-        'url'   => WP_STATISTICS_URL . 'assets/images/no-data/vector-2.svg',
+        'url'   => WP_STATISTICS_URL . 'public/images/no-data/vector-2.svg',
         'title' => __('Data coming soon!', 'wp-statistics')
     ]);
     ?>

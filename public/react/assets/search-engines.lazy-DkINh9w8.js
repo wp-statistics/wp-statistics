@@ -1,1 +1,0 @@
-import{A as e,f as t,u as n}from"./main-CcaXwWId.js";var r=e(t());const i=n(`/(referrals)/search-engines`)({component:a});function a(){return(0,r.jsx)(`div`,{children:`Hello "/(referrals)/search-engines"!`})}export{i as Route};
