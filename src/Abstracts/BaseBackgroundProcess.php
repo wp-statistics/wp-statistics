@@ -161,7 +161,7 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
      * Check if the process has been initiated.
      *
      * @param bool $status Whether the job is marked as initiated. Default true.
-     * @return string
+     * @return void
      */
     public function setInitiated($status = true)
     {
@@ -309,7 +309,7 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
     {
         $currentPage = Menus::getCurrentPage();
 
-        if (empty($currentPage['page_url'])) {
+        if (empty($currentPage) || empty($currentPage['page_url'])) {
             return '';
         }
 

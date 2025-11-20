@@ -1,5 +1,5 @@
 const WPStatisticsAjaxBackgroundProcessTracker = {
-    intervalMs: Wp_Statistics_Async_Background_Process_Data.interval || 5000,
+    intervalMs: (typeof Wp_Statistics_Async_Background_Process_Data !== 'undefined' && Wp_Statistics_Async_Background_Process_Data.interval) || 5000,
     migrationNotice: null,
     processedElement: null,
     precentElement: null,
@@ -8,6 +8,11 @@ const WPStatisticsAjaxBackgroundProcessTracker = {
     currentProcess: null,
 
     init: function () {
+        if (typeof Wp_Statistics_Async_Background_Process_Data === 'undefined') {
+            console.error('Wp_Statistics_Async_Background_Process_Data is not defined');
+            return;
+        }
+
         this.currentProcess = Wp_Statistics_Async_Background_Process_Data.current_process;
 
         if (! this.currentProcess) {

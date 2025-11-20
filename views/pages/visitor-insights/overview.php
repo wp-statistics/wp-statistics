@@ -33,9 +33,7 @@ $isTrackLoggedInUsersEnabled = Option::get('visitors_log');
         View::load("components/objects/glance-card", ['metrics' => $metrics, 'two_column' => true]);
         ?>
 
-        <?php
-        View::load("components/traffic-summary", ['data'=>$data]);
-        ?>
+        <?php View::load("components/traffic-summary", ['data' => $data]); ?>
 
         <?php
         if ($isTrackLoggedInUsersEnabled) {

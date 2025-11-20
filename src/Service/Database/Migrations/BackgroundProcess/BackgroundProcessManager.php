@@ -120,7 +120,7 @@ class BackgroundProcessManager extends BaseMigrationManager
      */
     private function registerBackgroundProcess($className, $processKey)
     {
-        if (!class_exists($className) && !empty($this->backgroundProcess[$processKey])) {
+        if (!class_exists($className) || !empty($this->backgroundProcess[$processKey])) {
             return;
         }
 
@@ -286,7 +286,7 @@ class BackgroundProcessManager extends BaseMigrationManager
             ]);
         }
 
-        $this->currentProcess = Request::get('current_process');
+        $this->currentProcess = Request::get('current_process', '');
 
         $currentJob = $this->getBackgroundProcess($this->currentProcess);
 

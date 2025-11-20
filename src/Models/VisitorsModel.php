@@ -650,7 +650,8 @@ class VisitorsModel extends BaseModel
             'utm_campaign'          => '',
             'source_name'           => '',
             'group_by'              => 'visitor.ID',
-            'decorate'              => true
+            'decorate'              => true,
+            'exclude_ids'           => []
         ]);
 
         // Set default fields
@@ -694,6 +695,7 @@ class VisitorsModel extends BaseModel
             ->where('visitor.location', '=', $args['country'])
             ->where('visitor.source_channel', 'IN', $args['source_channel'])
             ->where('visitor.source_name', 'IN', $args['source_name'])
+            ->where('visitor.ID', 'NOT IN', $args['exclude_ids'])
             ->whereNotNull($args['not_null'])
             ->whereDate($args['date_field'], $args['date'])
             ->perPage($args['page'], $args['per_page'])

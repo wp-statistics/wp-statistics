@@ -23,11 +23,11 @@ use WP_Statistics\Components\View;
 
                     <tbody>
                     <?php foreach ($data as $view) :
-                        $page = Visitor::get_page_by_id($view->page_id);
+                        $page  = Visitor::get_page_by_id($view->page_id);
                         $title = !empty($page['sub_page']) ? $page['title'] . ' (' . $page['sub_page'] . ')' : $page['title'];
                         ?>
                         <tr>
-                            <td class="wps-pd-l"><?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(true), strtotime($view->date))); ?></td>
+                            <td class="wps-pd-l"><?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(true, true, false, ', '), strtotime($view->date))); ?></td>
                             <td class="wps-pd-l start">
                                 <?php
                                 View::load("components/objects/internal-link", ['url' => $page['report'], 'title' => $title]);
