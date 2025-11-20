@@ -202,7 +202,8 @@ class VisitorsModel extends BaseModel
             'user_role'         => '',
             'source_channel'    => '',
             'not_null'          => '',
-            'referred_visitors' => false
+            'referred_visitors' => false,
+            'bypass_cache'      => false
         ]);
 
         $filteredArgs = array_filter($args);
@@ -281,6 +282,10 @@ class VisitorsModel extends BaseModel
                 $query
                     ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
             }
+        }
+
+        if (!empty($args['bypass_cache'])) {
+            $query->allowCaching(false);
         }
 
         $result = $query->getAll();
@@ -423,6 +428,9 @@ class VisitorsModel extends BaseModel
         return $result ? $result : [];
     }
 
+    /**
+     * @deprecated Use SummaryChartDataProvider instead.
+     */
     public function getVisitorsSummary($args = [])
     {
         $periods = [
@@ -464,6 +472,9 @@ class VisitorsModel extends BaseModel
         return $summary;
     }
 
+    /**
+     * @deprecated Use SummaryChartDataProvider instead.
+     */
     public function getHitsSummary($args = [])
     {
         $periods = [
@@ -505,6 +516,9 @@ class VisitorsModel extends BaseModel
         return $summary;
     }
 
+    /**
+     * @deprecated Use SummaryChartDataProvider instead.
+     */
     public function getVisitorsHitsSummary($args = [])
     {
         $periods = [

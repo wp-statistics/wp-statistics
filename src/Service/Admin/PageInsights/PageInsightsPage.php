@@ -52,8 +52,16 @@ class PageInsightsPage extends MultiViewPage
                     'data-type' => 'taxonomy',
                     'data-source' => 'getTaxonomies',
                 ],
-            ])
-            ->select('userWithposts', [
+            ]);
+
+            if (Request::compare('tab', 'entry-pages')) {
+                $this->filters->select('sourceChannel', [
+                    'name'  => 'source_channel',
+                    'label' => esc_html__('Source Category', 'wp-statistics'),
+                ]);
+            }
+
+            $this->filters = $this->filters->select('userWithposts', [
                 'name' => 'author_id',
                 'placeholder' => $authorPlaceholder,
                 'label' => esc_html__('Author', 'wp-statistics'),

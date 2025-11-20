@@ -32,7 +32,6 @@ class Exclusion
             'self referral'   => __('Self Referral', 'wp-statistics'),
             'login page'      => __('Login Page', 'wp-statistics'),
             'admin page'      => __('Admin Page', 'wp-statistics'),
-            'referrer_spam'   => __('Referrer Spam', 'wp-statistics'),
             'feed'            => __('Feed', 'wp-statistics'),
             '404'             => __('404', 'wp-statistics'),
             'excluded url'    => __('Excluded URL', 'wp-statistics'),
@@ -276,35 +275,6 @@ class Exclusion
                         if (strtolower($url) == strtolower($requestUri)) {
                             return true;
                         }
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Detect if Referrer Spam.
-     * @param $visitorProfile VisitorProfile
-     */
-    public static function exclusion_referrer_spam($visitorProfile)
-    {
-        // Check to see if we're excluding referrer spam.
-        if (!empty(self::$options['referrerspam'])) {
-            $referrer = $visitorProfile->getReferrer();
-
-            // Pull the referrer spam list from the database.
-            $referrer_spam_list = explode("\n", self::$options['referrerspamlist'] ?? '');
-
-            // Check to see if we match any of the robots.
-            foreach ($referrer_spam_list as $item) {
-                $item = trim($item);
-
-                // If the match case is less than 4 characters long, it might match too much so don't execute it.
-                if (strlen($item) > 3) {
-                    if (stripos($referrer, $item) !== false) {
-                        return true;
                     }
                 }
             }

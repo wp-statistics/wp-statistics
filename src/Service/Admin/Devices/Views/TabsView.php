@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\Devices\Views;
 
 use WP_STATISTICS\Menus;
+use WP_Statistics\Service\Admin\ExportImport\ExportTypes;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
@@ -98,33 +99,44 @@ class TabsView extends BaseTabView
             'viewMoreUrlArgs' => ['type' => 'single-' . rtrim($currentTab, 's'), 'from' => Request::get('from'), 'to' => Request::get('to')],
             'tabs'            => [
                 [
+                    'id'          => 'overview',
                     'link'        => Menus::admin_url('devices', ['tab' => 'overview']),
                     'title'       => esc_html__('Overview', 'wp-statistics'),
                     'class'       => $this->isTab('overview') ? 'current' : '',
+                    'export'      => [ExportTypes::PDF_PAGE]
                 ],
                 [
+                    'id'          => 'browsers',
                     'link'        => Menus::admin_url('devices', ['tab' => 'browsers']),
                     'title'       => esc_html__('Browsers', 'wp-statistics'),
                     'tooltip'     => esc_html__('Displays the different web browsers used by your visitors.', 'wp-statistics'),
                     'class'       => $this->isTab('browsers') ? 'current' : '',
+                    'export'      => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                 ],
                 [
+                    'id'          => 'platforms',
                     'link'        => Menus::admin_url('devices', ['tab' => 'platforms']),
                     'title'       => esc_html__('Operating Systems', 'wp-statistics'),
                     'tooltip'     => esc_html__('Shows the operating systems your visitors are using.', 'wp-statistics'),
                     'class'       => $this->isTab('platforms') ? 'current' : '',
+                    'export'      => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                 ],
                 [
+                    'id'          => 'models',
                     'link'        => Menus::admin_url('devices', ['tab' => 'models']),
                     'title'       => esc_html__('Device Models', 'wp-statistics'),
                     'tooltip'     => esc_html__('Provides data on the specific models of devices used by your visitors.', 'wp-statistics'),
                     'class'       => $this->isTab('models') ? 'current' : '',
+                    'export'      => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
+
                 ],
                 [
+                    'id'          => 'categories',
                     'link'        => Menus::admin_url('devices', ['tab' => 'categories']),
                     'title'       => esc_html__('Device Categories', 'wp-statistics'),
                     'tooltip'     => esc_html__('Displays visitor distribution across various device categories.', 'wp-statistics'),
                     'class'       => $this->isTab('categories') ? 'current' : '',
+                    'export'      => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                 ]
             ],
         ];

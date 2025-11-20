@@ -10,6 +10,7 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
 use WP_Statistics\Service\Admin\ContentAnalytics\ContentAnalyticsDataProvider;
+use WP_Statistics\Service\Admin\ExportImport\ExportTypes;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Utils\Request;
 
@@ -20,7 +21,7 @@ class TabsView extends BaseTabView
     public function __construct()
     {
         $this->dataProvider = new ContentAnalyticsDataProvider([
-            'post_type' => Request::get('tab', 'post')
+            'post_type' => Request::get('tab', 'post'),
         ]);
 
         $this->tabs = Helper::getPostTypes();
@@ -47,9 +48,11 @@ class TabsView extends BaseTabView
 
         foreach (Helper::getPostTypes() as $postType) {
             $tab = [
+                'id'      => $postType,
                 'link'    => Menus::admin_url('content-analytics', ['tab' => $postType]),
                 'title'   => Helper::getPostTypeName($postType),
-                'class'   => $this->isTab($postType) ? 'current' : ''
+                'class'   => $this->isTab($postType) ? 'current' : '',
+                'export'  => [ExportTypes::CSV_METRICS, ExportTypes::PDF_PAGE]
             ];
 
             if ($this->isLockedTab($postType)) {

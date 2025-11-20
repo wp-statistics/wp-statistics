@@ -67,7 +67,8 @@ class Updater extends AbstractCore
      */
     private function legacyMigrations()
     {
-        $userOnlineTable = DB::table('useronline');
+        global $wpdb;
+
         $pagesTable      = DB::table('pages');
         $visitorTable    = DB::table('visitor');
         $historicalTable = DB::table('historical');
@@ -91,16 +92,6 @@ class Updater extends AbstractCore
         $result = $this->wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'source_name'");
         if ($result == 0) {
             $this->wpdb->query("ALTER TABLE {$visitorTable} ADD `source_name` VARCHAR(100) NULL;");
-        }
-
-        /**
-         * Add visitor id column to user online table
-         *
-         * @version 14.11
-         */
-        $result = $this->wpdb->query("SHOW COLUMNS FROM {$userOnlineTable} LIKE 'visitor_id'");
-        if ($result == 0) {
-            $this->wpdb->query("ALTER TABLE {$userOnlineTable} ADD `visitor_id` bigint(20) NOT NULL;");
         }
 
         /**
@@ -174,10 +165,6 @@ class Updater extends AbstractCore
             $this->wpdb->query("ALTER TABLE `" . DB::table('exclusions') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
         }
 
-        if (!DB::isColumnType('useronline', 'ID', 'bigint(20)') && !DB::isColumnType('useronline', 'ID', 'bigint')) {
-            $this->wpdb->query("ALTER TABLE {$userOnlineTable} CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
-        }
-
         /**
          * Change Charset All Table To New WordPress Collate
          * Reset Overview Order Meta Box View
@@ -208,19 +195,6 @@ class Updater extends AbstractCore
 
         if (DB::ExistTable($searchTable)) {
             $this->wpdb->query("DROP TABLE `$searchTable`");
-        }
-
-        /**
-         * Added new Fields to user_online Table
-         *
-         * @version 12.6.1
-         */
-        if (DB::ExistTable($userOnlineTable)) {
-            // Add index ip.
-            $result = $this->wpdb->query("SHOW INDEX FROM `" . $userOnlineTable . "` WHERE Key_name = 'ip'");
-            if (!$result) {
-                $this->wpdb->query("ALTER TABLE `" . $userOnlineTable . "` ADD index (ip)");
-            }
         }
 
         /**
@@ -320,6 +294,13 @@ class Updater extends AbstractCore
          */
         if (version_compare($this->latestVersion, '14.15.1', '>=')) {
             SystemCleaner::clearAllTransients();
+        }
+
+        /**
+         * Remove wp_statistics_referrerspam_hook from schedule
+         */
+        if (version_compare($this->latestVersion, '14.16', '>=')) {
+            Event::unschedule('wp_statistics_referrerspam_hook');
         }
 
         /**

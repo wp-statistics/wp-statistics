@@ -52,6 +52,8 @@ use WP_Statistics\Service\Admin\Posts\WordCountService;
 
             View::load("components/objects/glance-card", ['metrics' => $metrics]);
 
+            View::load("components/traffic-summary", ['data' => $data]);
+
             $operatingSystems = [
                 'title'     => esc_html__('Operating Systems', 'wp-statistics'),
                 'tooltip'   => esc_html__('Distribution of visitors by their operating systems.', 'wp-statistics'),
@@ -85,9 +87,8 @@ use WP_Statistics\Service\Admin\Posts\WordCountService;
     <div class="postbox-container" id="wps-postbox-container-2">
         <?php
         $performance = [
-            'title'       => esc_html__('Performance', 'wp-statistics'),
-            'type'        => 'categorySingle',
-            'data'        => $data['performance']
+            'title' => esc_html__('Performance', 'wp-statistics'),
+            'type'  => 'categorySingle',
         ];
         View::load("components/charts/performance", $performance);
 
@@ -97,13 +98,6 @@ use WP_Statistics\Service\Admin\Posts\WordCountService;
             'data'    => $data['posts']
         ];
         Admin_Template::get_template(['layout/category-analytics/top-picks'], $topPick);
-
-        $summary = [
-            'title'   => esc_html__('Summary', 'wp-statistics'),
-            'tooltip' => esc_html__('Summary of views and visitors over various time periods, including today, yesterday, the last 7 days, and the last 30 days.', 'wp-statistics'),
-            'data'    => $data['visits_summary']
-        ];
-        View::load("components/tables/summary", $summary);
 
         $topCountries = [
             'tooltip' => esc_html__('The countries from which the most visitors are coming.', 'wp-statistics'),

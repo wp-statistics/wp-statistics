@@ -4,8 +4,8 @@ namespace WP_Statistics\Abstracts;
 
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Components\DateRange;
-use WP_STATISTICS\Helper;
 use WP_Statistics\Models\HistoricalModel;
+use WP_STATISTICS\Option;
 
 abstract class BaseModel
 {
@@ -41,6 +41,7 @@ abstract class BaseModel
         $args = $this->parseResourceTypeArg($args);
         $args = $this->parseDateArg($args);
         $args = $this->parseUtmParams($args);
+        $args = $this->parsePerPage($args);
 
         return apply_filters('wp_statistics_data_{child-method-name}_args', $args);
     }
@@ -137,6 +138,17 @@ abstract class BaseModel
     {
         if (empty($args['date']) && empty($args['ignore_date'])) {
             $args['date'] = DateRange::get();
+        }
+
+        return $args;
+    }
+
+    private function parsePerPage($args)
+    {
+        // On export, ignore default per_page and get data based on the advanced reporting option
+        if (!empty($args['export'])) {
+            $args['page']     = 1;
+            $args['per_page'] = Option::getByAddon('table_csv_export_row_limit', 'advanced_reporting', 100);
         }
 
         return $args;

@@ -7,6 +7,7 @@ use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Utils\Request;
 use Exception;
 use WP_STATISTICS\Admin_Assets;
+use WP_Statistics\Globals\Context;
 
 abstract class MultiViewPage extends BasePage
 {
@@ -23,7 +24,7 @@ abstract class MultiViewPage extends BasePage
         return apply_filters('wp_statistics_' . str_replace('-', '_', $this->pageSlug) . '_filters', $this->filters);
     }
 
-    protected function getCurrentView()
+    public function getCurrentView()
     {
         $views       = $this->getViews();
         $currentView = $this->defaultView;
@@ -34,6 +35,19 @@ abstract class MultiViewPage extends BasePage
         }
 
         return $currentView;
+    }
+
+    public function getCurrentViewClass()
+    {
+        $views       = $this->getViews();
+        $currentView = $this->defaultView;
+        $pageType    = Request::get('type', false);
+
+        if ($pageType && array_key_exists($pageType, $views)) {
+            $currentView = $pageType;
+        }
+
+        return new $views[$currentView];
     }
 
     public function view()
@@ -68,7 +82,7 @@ abstract class MultiViewPage extends BasePage
             }
 
             // Instantiate the view class and render content
-            $view = new $views[$currentView];
+            $view = $this->getCurrentViewClass();
             $view->render();
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');

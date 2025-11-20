@@ -21,11 +21,17 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
 
         // Set default values
         $this->args = array_merge($args, [
-            'source_channel'    => ['search', 'paid_search'],
-            'group_by'          => ['source_name', 'last_counter'],
-            'per_page'          => false,
-            'not_null'          => false
+            'group_by' => ['source_name', 'last_counter'],
+            'per_page' => false,
+            'not_null' => false
         ]);
+
+        $channels = ['search', 'paid_search'];
+
+        // If source_channel is empty or is not valid, set it to ['search', 'paid_search']
+        if (empty($this->args['source_channel']) || !in_array($this->args['source_channel'], $channels)) {
+            $this->args['source_channel'] = $channels;
+        }
 
         $this->visitorsModel = new VisitorsModel();
     }

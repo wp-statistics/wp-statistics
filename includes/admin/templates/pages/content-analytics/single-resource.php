@@ -21,6 +21,8 @@ use WP_Statistics\Components\View;
         ];
         View::load("components/objects/glance-card", ['metrics' => $metrics , 'two_column' => true]);
 
+        View::load("components/traffic-summary", ['data' => $data]);
+
         $operatingSystems = [
             'title'     => esc_html__('Operating Systems', 'wp-statistics'),
             'tooltip'   => esc_html__('Distribution of visitors by their operating systems.', 'wp-statistics'),
@@ -54,18 +56,10 @@ use WP_Statistics\Components\View;
     <div class="postbox-container" id="wps-postbox-container-2">
         <?php
         $traffic = [
-            'title'       => esc_html__('Traffic Trends', 'wp-statistics'),
-            'type'        => 'single',
-            'data'        => $data['performance']
+            'title' => esc_html__('Traffic Trends', 'wp-statistics'),
+            'type'  => 'single'
         ];
         View::load("components/charts/performance", $traffic);
-
-        $summary = [
-            'title'   => esc_html__('Summary', 'wp-statistics'),
-            'tooltip' => esc_html__('From today to last year, a breakdown of visitors and views.', 'wp-statistics'),
-            'data'    => $data['visits_summary']
-        ];
-        View::load("components/tables/summary", $summary);
 
         $topCountries = [
             'tooltip' => esc_html__('The countries from which the most visitors are coming.', 'wp-statistics'),

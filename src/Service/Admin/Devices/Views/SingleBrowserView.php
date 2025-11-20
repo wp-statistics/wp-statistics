@@ -7,6 +7,7 @@ use WP_STATISTICS\Menus;
 use WP_Statistics\Abstracts\BaseView;
 use WP_Statistics\Exception\SystemErrorException;
 use WP_Statistics\Service\Admin\Devices\DevicesDataProvider;
+use WP_Statistics\Service\Admin\ExportImport\ExportTypes;
 use WP_Statistics\Utils\Request;
 
 class SingleBrowserView extends BaseView
@@ -22,6 +23,7 @@ class SingleBrowserView extends BaseView
         }
 
         $this->dataProvider = new DevicesDataProvider([
+            'browser'  => $this->browser,
             'per_page' => 10,
             'page'     => Admin_Template::getCurrentPaged()
         ]);
@@ -29,7 +31,7 @@ class SingleBrowserView extends BaseView
 
     public function getData()
     {
-        return $this->dataProvider->getSingleBrowserData($this->browser);
+        return $this->dataProvider->getSingleBrowserData();
     }
 
     public function render()
@@ -44,6 +46,7 @@ class SingleBrowserView extends BaseView
             'paged'         => Admin_Template::getCurrentPaged(),
             'DateRang'      => Admin_Template::DateRange(),
             'hasDateRang'   => true,
+            'export'        => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE],
             'custom_get'    => ['type' => 'single-browser', 'browser' => $this->browser],
             'data'          => $this->getData()
         ];

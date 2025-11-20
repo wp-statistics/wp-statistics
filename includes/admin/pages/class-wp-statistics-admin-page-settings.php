@@ -105,19 +105,6 @@ class settings_page extends Singleton
             // Get tab name for redirect to the current tab
             $tab = isset($_POST['tab']) && $_POST['tab'] ? sanitize_text_field($_POST['tab']) : 'general-settings';
 
-            // Update Referrer Spam
-            if (isset($_POST['update-referrer-spam'])) {
-                $status = Referred::download_referrer_spam();
-                if (is_bool($status)) {
-                    if ($status === false) {
-                        Notice::addFlashNotice(__("Error Encountered While Updating Spam Referrer Blacklist.", "wp-statistics"), "error");
-                    } else {
-                        Notice::addFlashNotice(__("Spam Referrer Blacklist Successfully Updated.", "wp-statistics"), "success");
-                    }
-                    self::$redirectAfterSave = false;
-                }
-            }
-
             if (self::$redirectAfterSave) {
                 // Redirect User To Save Setting
                 wp_redirect(add_query_arg(array(
@@ -277,8 +264,6 @@ class settings_page extends Singleton
             'wps_schedule_geoip',
             'wps_auto_pop',
             'wps_private_country_code',
-            'wps_referrerspam',
-            'wps_schedule_referrerspam',
             'wps_share_anonymous_data',
         );
 
@@ -295,14 +280,6 @@ class settings_page extends Singleton
 
         foreach ($wps_option_list as $option) {
             $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) ? $_POST[$option] : '');
-        }
-
-        // Check Update Referrer Spam List
-        if (isset($_POST['wps_referrerspam'])) {
-            $status = Referred::download_referrer_spam();
-            if (is_bool($status) and $status === false) {
-                $wp_statistics_options['referrerspam'] = '';
-            }
         }
 
         return $wp_statistics_options;
@@ -407,7 +384,6 @@ class settings_page extends Singleton
     public static function save_general_option($wp_statistics_options)
     {
         $wps_option_list = array(
-            'wps_useronline',
             'wps_visits',
             'wps_visitors',
             'wps_visitors_log',

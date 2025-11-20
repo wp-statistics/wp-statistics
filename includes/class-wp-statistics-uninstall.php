@@ -71,7 +71,6 @@ class Uninstall
         if (function_exists('wp_clear_scheduled_hook')) {
             wp_clear_scheduled_hook('wp_statistics_geoip_hook');
             wp_clear_scheduled_hook('wp_statistics_report_hook');
-            wp_clear_scheduled_hook('wp_statistics_referrerspam_hook');
             wp_clear_scheduled_hook('wp_statistics_dbmaint_hook');
             wp_clear_scheduled_hook('wp_statistics_dbmaint_visitor_hook');
             wp_clear_scheduled_hook('wp_statistics_add_visit_hook');

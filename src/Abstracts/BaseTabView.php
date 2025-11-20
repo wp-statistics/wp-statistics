@@ -26,7 +26,7 @@ abstract class BaseTabView extends BaseView
      * @param string $tab The current tab.
      * @return string The current tab.
      */
-    protected function getCurrentTab()
+    public function getCurrentTab()
     {
         return Request::get('tab', $this->defaultTab);
     }

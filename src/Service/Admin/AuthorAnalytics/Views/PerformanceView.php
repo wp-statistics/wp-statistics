@@ -9,7 +9,7 @@ use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsDataProvider;
-use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Admin\ExportImport\ExportTypes;
 use WP_Statistics\Utils\Request;
 
 class PerformanceView extends BaseView
@@ -42,6 +42,7 @@ class PerformanceView extends BaseView
             'pageName'    => Menus::get_page_slug('author-analytics'),
             'paged'       => Admin_Template::getCurrentPaged(),
             'custom_get'  => ['pt' => Request::get('pt', 'post')],
+            'export'      => [ExportTypes::CSV_METRICS, ExportTypes::PDF_PAGE],
             'DateRang'    => Admin_Template::DateRange(),
             'hasDateRang' => true,
             'filters'     => ['post-type'],

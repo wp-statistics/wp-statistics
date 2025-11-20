@@ -55,6 +55,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 return new Promise((resolve, reject) => {
                     const img = new Image();
                     img.src = url;
+                    img.crossOrigin = "Anonymous";
                     img.onload = () => resolve(img);
                     img.onerror = () => resolve(null);
                 });

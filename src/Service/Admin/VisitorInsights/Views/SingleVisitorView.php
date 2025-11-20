@@ -8,6 +8,7 @@ use WP_Statistics\Components\View;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_Statistics\Exception\SystemErrorException;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Service\Admin\ExportImport\ExportTypes;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsDataProvider;
 use WP_Statistics\Utils\Request;
 
@@ -67,6 +68,7 @@ class SingleVisitorView extends BaseView
             'backUrl'        => Menus::admin_url('visitors'),
             'backTitle'      => esc_html__('Visitor Insights', 'wp-statistics'),
             'searchBoxTitle' => esc_html__('IP, Hash, Username, or Email', 'wp-statistics'),
+            'export'         => [ExportTypes::PDF_PAGE],
             'data'           => $visitorData
         ];
         Admin_Template::get_template(['layout/header', 'layout/title'], $args);

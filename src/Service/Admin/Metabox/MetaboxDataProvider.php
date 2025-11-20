@@ -36,14 +36,9 @@ class MetaboxDataProvider
 
     public function getTrafficSummaryData($args = [])
     {
-        $data = $this->visitorsModel->getVisitorsHitsSummary($args);
-
         $data = [
-            'online'   => $this->onlineModel->countOnlines($args),
-            'visitors' => array_values(wp_list_pluck($data, 'visitors')),
-            'hits'     => array_values(wp_list_pluck($data, 'hits')),
-            'labels'   => array_values(wp_list_pluck($data, 'label')),
-            'keys'     => array_keys($data),
+            'online'  => $this->onlineModel->countOnlines($args),
+            'summary' => ChartDataProviderFactory::summaryChart()->getData()
         ];
 
         return $data;
@@ -58,12 +53,9 @@ class MetaboxDataProvider
      */
     public function getTrafficOverviewData($args = [])
     {
-        $data = $this->visitorsModel->getVisitorsHitsSummary($args);
-
         $data = [
-            'online'   => $this->onlineModel->countOnlines($args),
-            'visitors' => $data,
-            'hits'     => $data
+            'online'  => $this->onlineModel->countOnlines($args),
+            'summary' => ChartDataProviderFactory::summaryChart()->getData()
         ];
 
         return $data;
@@ -112,7 +104,10 @@ class MetaboxDataProvider
     public function getOnlineVisitorsData($args = [])
     {
         return [
-            'visitors' => $this->onlineModel->getOnlineVisitorsData(array_merge($args, ['per_page' => 10])),
+            'visitors' => $this->onlineModel->getOnlineVisitors(array_merge($args, [
+                'order_by' => 'last_view',
+                'per_page' => 10
+            ])),
             'total'    => $this->onlineModel->countOnlines($args)
         ];
     }

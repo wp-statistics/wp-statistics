@@ -267,12 +267,14 @@ if (wpsSelect2.length) {
 wps_js.tooltip = function () {
     jQuery('.wps-tooltip').tooltipster({
         theme: 'tooltipster-shadow',
-        contentCloning: true
+        contentCloning: true,
+        contentAsHTML: true
     });
 
     jQuery('body').on('mouseenter touchstart', '.wps-tooltip:not(.tooltipstered)', function () {
         $(this).tooltipster({
-            theme: 'tooltipster-shadow'
+            theme: 'tooltipster-shadow',
+            contentAsHTML: true
         }).tooltipster('open');
     });
 };

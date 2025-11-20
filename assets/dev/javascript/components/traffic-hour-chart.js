@@ -65,7 +65,7 @@ wps_js.TrafficHourCharts=function(data){
                                     <span class="previous-data__color" style="background-color:${wps_js.hex_to_rgba(colorValues[index], 0.5)};"></span>
                                     <span class="previous-data__color" style="background-color: ${wps_js.hex_to_rgba(colorValues[index], 0.5)}"></span>
                                  </span>
-                                 ${prevLabel} 
+                                 ${prevLabel}
                             </div>
                             <span class="current-data__value">${value.toLocaleString()}</span>
                         </div>`;
@@ -226,6 +226,8 @@ wps_js.TrafficHourCharts=function(data){
         },
         options: defaultOptions
     });
+
+    window.wpsCharts.push(lineChart);
 
     const updateLegends = function () {
         const chartElement = document.getElementById('hourly-usage-chart');

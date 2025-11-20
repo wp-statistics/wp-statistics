@@ -79,7 +79,7 @@ class TabsView extends BaseTabView
      *
      * @return string
      */
-    protected function getCurrentTab()
+    public function getCurrentTab()
     {
         $currentTab = Request::get('tab', $this->defaultTab);
 

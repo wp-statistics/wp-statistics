@@ -28,9 +28,6 @@ $disableMenuArray = [
     'optimize'           => __('Optimization', 'wp-statistics'),
     'exclusions'         => __('Exclusions', 'wp-statistics'),
 ];
-if (empty(Option::get('useronline'))) {
-    unset($disableMenuArray['online']);
-}
 if (!Helper::isAddOnActive('data-plus') || Option::getByAddon('link_tracker', 'data_plus', '1') !== '1') {
     unset($disableMenuArray['link_tracker']);
 }

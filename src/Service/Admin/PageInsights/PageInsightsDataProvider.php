@@ -41,9 +41,10 @@ class PageInsightsDataProvider
 
     public function getTopData()
     {
-        $args = array_merge($this->args, [
-            'order_by'              => Request::get('order_by', 'visitors'),
-            'filter_by_view_date'   => true
+        $args = wp_parse_args($this->args, [
+            'order_by'            => 'visitors',
+            'order'               => 'DESC',
+            'filter_by_view_date' => true
         ]);
 
         unset($args['taxonomy']);
@@ -64,20 +65,27 @@ class PageInsightsDataProvider
 
     public function getCategoryData()
     {
-        $args = array_merge($this->args, [
-            'order_by'          => Request::get('order_by', 'views'),
+        $args = wp_parse_args($this->args, [
+            'taxonomy'          => 'category',
+            'order_by'          => 'views',
+            'order'             => 'DESC',
             'count_total_posts' => true
         ]);
 
         return [
             'categories'  => $this->taxonomyModel->getTaxonomiesData($args),
-            'total'       => $this->taxonomyModel->countTerms($this->args)
+            'total'       => $this->taxonomyModel->countTerms($args)
         ];
     }
 
     public function getAuthorsData()
     {
-        $authors = $this->authorsModel->getAuthorsPagesData(array_merge($this->args, ['order_by' => Request::get('order_by', 'page_views')]));
+        $args = wp_parse_args($this->args, [
+            'order_by' => 'page_views',
+            'order'    => 'DESC'
+        ]);
+
+        $authors = $this->authorsModel->getAuthorsPagesData($args);
         $total   = $this->authorsModel->countAuthors(array_merge($this->args, ['ignore_date' => true]));
 
         return [

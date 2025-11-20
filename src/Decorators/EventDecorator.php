@@ -18,9 +18,9 @@ class EventDecorator
         $this->eventData = json_decode($this->event->event_data, true);
     }
 
-    public function getDate()
+    public function getDate($raw = false)
     {
-        return DateTime::format($this->event->date, ['include_time' => true]);
+        return $raw ? $this->event->date : DateTime::format($this->event->date, ['include_time' => true]);
     }
 
     public function getName()

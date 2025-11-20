@@ -397,6 +397,7 @@ body .o-table-wrapper table.wps-new-table {
 
       .wps-pages-image, .wps-table-ellipsis--name svg, .wps-avatar {
         width: 27px;
+        min-width: 27px;
         height: 27px;
         border-radius: 2px;
         margin-right: 8px;
@@ -428,6 +429,7 @@ body .o-table-wrapper table.wps-new-table {
 
       .wps-pages-image, .wps-table-ellipsis--name svg, .wps-avatar {
         width: 27px;
+        min-width: 27px;
         height: 27px;
         border-radius: 2px;
         margin-right: 8px;
@@ -574,6 +576,7 @@ body .o-table-wrapper table.wps-new-table {
           img {
             width: 13px;
             height: 13px;
+            cursor: pointer;
 
             &.flag{
               width: 16px;
