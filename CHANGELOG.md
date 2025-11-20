@@ -4,6 +4,7 @@
 - **Enhancement:** Updated PHP requirement to v7.4 and WordPress requires to v6.6
 - **Enhancement:** Redesigned Summary widgets across all report pages.
 - **Enhancement:** Optimized database queries and improved overall performance.
+- **Enhancement:** Improved online tracking system and removed heartbeat online requests for better performance and reduced server load.
 
 = 14.15.6 - 2025-11-09 =
 - **New:** Introduced a refactored background-process migration system and removed legacy AJAX migrations.
