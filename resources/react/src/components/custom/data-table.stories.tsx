@@ -4,7 +4,7 @@ import type { VisitorData } from './data-table-example-columns'
 import { exampleColumns, exampleData } from './data-table-example-columns'
 
 const meta = {
-  title: 'Components/DataTable',
+  title: 'Custom/DataTable',
   component: DataTable<VisitorData, unknown>,
   parameters: {
     layout: 'padded',

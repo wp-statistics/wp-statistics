@@ -41,7 +41,7 @@ const sampleMetrics: LineChartMetric[] = [
 ]
 
 const meta = {
-  title: 'Components/LineChart',
+  title: 'Custom/LineChart',
   component: LineChart,
   parameters: {
     layout: 'padded',

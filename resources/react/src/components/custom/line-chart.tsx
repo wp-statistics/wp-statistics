@@ -161,7 +161,7 @@ export function LineChart({
       </CardHeader>
       <CardContent className="">
         <ChartContainer config={chartConfig} className="h-[250px] w-full">
-          <RechartsLineChart data={data} margin={{}}>
+          <RechartsLineChart data={data} margin={{ right: -20 }}>
             <CartesianGrid vertical={false} horizontal={true} stroke="#e5e7eb" strokeDasharray="0" />
             <XAxis
               dataKey="date"
@@ -185,6 +185,10 @@ export function LineChart({
               tickMargin={8}
               tickCount={8}
               tick={{ fill: '#9ca3af', fontSize: 12 }}
+              alignmentBaseline="after-edge"
+              padding={{
+                bottom: 20,
+              }}
             />
             <ChartTooltip
               content={({ active, payload, label }) => {

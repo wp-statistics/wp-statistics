@@ -10,6 +10,7 @@ import { getVisitorInsightTopCountriesQueryOptions } from '@/services/visitor-in
 import { getVisitorInsightDevicesTypeQueryOptions } from '@/services/visitor-insight/get-devices-type'
 import { WordPress } from '@/lib/wordpress'
 import { getVisitorInsightOSSQueryOptions } from '@/services/visitor-insight/get-oss'
+import { LineChart } from '@/components/custom/line-chart'
 
 export const Route = createLazyFileRoute('/visitor-insights')({
   component: RouteComponent,
@@ -31,17 +32,70 @@ function RouteComponent() {
     data: { data: oss },
   } = useSuspenseQuery(getVisitorInsightOSSQueryOptions())
 
+  // Generate fake data for Traffic Trends (April 1-30)
+  const trafficTrendsData = Array.from({ length: 30 }, (_, i) => {
+    const date = new Date(2024, 3, i + 1) // April 2024
+    const dayOfWeek = date.getDay()
+
+    // Weekend dip pattern (lower traffic on weekends)
+    const weekendFactor = dayOfWeek === 0 || dayOfWeek === 6 ? 0.7 : 1.0
+
+    // Base values with gradual upward trend
+    const trendFactor = 1 + (i / 100)
+
+    // Add some randomness and weekly patterns
+    const noise = Math.random() * 0.4 - 0.2
+    const weeklyPattern = Math.sin(i / 3.5) * 0.3
+
+    const visitorsBase = 2.2 + weeklyPattern + noise
+    const visitorsPrevBase = 1.8 + weeklyPattern * 0.8 + noise * 0.8
+    const viewsBase = 3.2 + weeklyPattern * 1.2 + noise
+    const viewsPrevBase = 2.8 + weeklyPattern + noise * 0.8
+
+    return {
+      date: date.toISOString(),
+      visitors: Math.round((visitorsBase * weekendFactor * trendFactor) * 10) / 10,
+      visitorsPrevious: Math.round((visitorsPrevBase * weekendFactor * 0.95) * 10) / 10,
+      views: Math.round((viewsBase * weekendFactor * trendFactor) * 10) / 10,
+      viewsPrevious: Math.round((viewsPrevBase * weekendFactor * 0.9) * 10) / 10,
+    }
+  })
+
+  const trafficTrendsMetrics = [
+    {
+      key: 'visitors',
+      label: 'Visitors',
+      color: 'var(--chart-1)',
+      enabled: true,
+      value: '2.3k',
+      previousValue: '1.8k',
+    },
+    {
+      key: 'views',
+      label: 'Views',
+      color: 'var(--chart-5)',
+      enabled: true,
+      value: '3.4k',
+      previousValue: '2.9k',
+    },
+  ]
+
   return (
     <div className="p-2 grid gap-6">
       <h1 className="text-2xl font-medium text-neutral-700">Visitor insights</h1>
       <div className="grid gap-3 grid-cols-12">
         <div className="col-span-12">{__('Statistics Section', 'wp-statistics')}</div>
 
-        <Card className="col-span-12">
-          <CardHeader>
-            <CardTitle>Traffic Trends</CardTitle>
-          </CardHeader>
-        </Card>
+        <div className="col-span-12">
+          <LineChart
+            title="Traffic Trends"
+            data={trafficTrendsData}
+            metrics={trafficTrendsMetrics}
+            showPreviousPeriod={true}
+            timeframe="Daily"
+            onTimeframeChange={(timeframe) => console.log('Timeframe changed:', timeframe)}
+          />
+        </div>
 
         <div className="col-span-6">
           <Card>
