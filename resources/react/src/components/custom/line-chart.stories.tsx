@@ -28,11 +28,15 @@ const sampleMetrics: LineChartMetric[] = [
     key: 'visitors',
     label: 'Visitors',
     enabled: true,
+    value: '668K',
+    previousValue: '590K',
   },
   {
     key: 'views',
     label: 'Views',
     enabled: true,
+    value: '705K',
+    previousValue: '690K',
   },
 ]
 
@@ -52,10 +56,6 @@ const meta = {
       control: 'boolean',
       description: 'Show/hide previous period comparison',
     },
-    showLegend: {
-      control: 'boolean',
-      description: 'Show/hide legend',
-    },
     timeframe: {
       control: 'select',
       options: ['Daily', 'Weekly', 'Monthly'],
@@ -71,6 +71,7 @@ export const Default: Story = {
   args: {
     data: generateChartData(),
     metrics: sampleMetrics,
+    onTimeframeChange: (timeframe) => console.log('Timeframe changed to:', timeframe),
   },
 }
 
@@ -79,6 +80,7 @@ export const WithTitle: Story = {
     data: generateChartData(),
     metrics: sampleMetrics,
     title: 'Traffic Trends',
+    onTimeframeChange: (timeframe) => console.log('Timeframe changed to:', timeframe),
   },
 }
 
@@ -88,6 +90,7 @@ export const WithoutPreviousPeriod: Story = {
     metrics: sampleMetrics,
     title: 'Traffic Trends',
     showPreviousPeriod: false,
+    onTimeframeChange: (timeframe) => console.log('Timeframe changed to:', timeframe),
   },
 }
 
@@ -96,7 +99,7 @@ export const WithoutLegend: Story = {
     data: generateChartData(),
     metrics: sampleMetrics,
     title: 'Traffic Trends',
-    showLegend: false,
+    onTimeframeChange: (timeframe) => console.log('Timeframe changed to:', timeframe),
   },
 }
 
@@ -106,6 +109,7 @@ export const WeeklyView: Story = {
     metrics: sampleMetrics,
     title: 'Traffic Trends',
     timeframe: 'Weekly',
+    onTimeframeChange: (timeframe) => console.log('Timeframe changed to:', timeframe),
   },
 }
 
@@ -115,6 +119,7 @@ export const MonthlyView: Story = {
     metrics: sampleMetrics,
     title: 'Traffic Trends',
     timeframe: 'Monthly',
+    onTimeframeChange: (timeframe) => console.log('Timeframe changed to:', timeframe),
   },
 }
 
@@ -128,12 +133,13 @@ export const MultipleMetrics: Story = {
       bounceRatePrevious: Math.floor(Math.random() * 20 + 25),
     })),
     metrics: [
-      { key: 'visitors', label: 'Visitors' },
-      { key: 'views', label: 'Views' },
-      { key: 'pageviews', label: 'Page Views' },
-      { key: 'bounceRate', label: 'Bounce Rate' },
+      { key: 'visitors', label: 'Visitors', value: '668K', previousValue: '590K' },
+      { key: 'views', label: 'Views', value: '705K', previousValue: '690K' },
+      { key: 'pageviews', label: 'Page Views', value: '1.2M', previousValue: '1.1M' },
+      { key: 'bounceRate', label: 'Bounce Rate', value: '45%', previousValue: '48%' },
     ],
     title: 'Complete Analytics',
+    onTimeframeChange: (timeframe) => console.log('Timeframe changed to:', timeframe),
   },
 }
 
@@ -141,9 +147,10 @@ export const CustomColors: Story = {
   args: {
     data: generateChartData(),
     metrics: [
-      { key: 'visitors', label: 'Visitors', color: '#3B82F6' },
-      { key: 'views', label: 'Views', color: '#10B981' },
+      { key: 'visitors', label: 'Visitors', color: '#3B82F6', value: '668K', previousValue: '590K' },
+      { key: 'views', label: 'Views', color: '#10B981', value: '705K', previousValue: '690K' },
     ],
     title: 'Traffic Trends',
+    onTimeframeChange: (timeframe) => console.log('Timeframe changed to:', timeframe),
   },
 }
