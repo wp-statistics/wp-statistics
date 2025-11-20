@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 
 import { HorizontalBar } from './horizontal-bar'
+import { __ } from '@wordpress/i18n'
 
 interface HorizontalBarItem {
   icon?: React.ReactNode
@@ -62,7 +63,7 @@ export function HorizontalBarList({ title, items, link }: HorizontalBarListProps
             onClick={link.action}
             variant="link"
           >
-            {link.title || 'View Entry Pages'}
+            {link.title || __('View Entry Pages')}
             <ChevronRight className="w-3 h-4 ms-0" />
           </Button>
         </CardFooter>

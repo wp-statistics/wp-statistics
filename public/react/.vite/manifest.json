@@ -1,0 +1,133 @@
+{
+  "src/main.tsx": {
+    "file": "assets/main-kBnWGBUM.js",
+    "name": "main",
+    "src": "src/main.tsx",
+    "isEntry": true,
+    "dynamicImports": [
+      "src/routes/visitor-insights.lazy.tsx",
+      "src/routes/page-analytics.lazy.tsx",
+      "src/routes/overview.lazy.tsx",
+      "src/routes/geographic.lazy.tsx",
+      "src/routes/devices.lazy.tsx",
+      "src/routes/category-analytics.lazy.tsx",
+      "src/routes/author-analytics.lazy.tsx",
+      "src/routes/(referrals)/source-categories.lazy.tsx",
+      "src/routes/(referrals)/social-media.lazy.tsx",
+      "src/routes/(referrals)/search-engines.lazy.tsx",
+      "src/routes/(referrals)/referrers.lazy.tsx",
+      "src/routes/(referrals)/referred-visitors.lazy.tsx"
+    ],
+    "css": [
+      "assets/main-Piw8qqNQ.css"
+    ]
+  },
+  "src/routes/(referrals)/referred-visitors.lazy.tsx": {
+    "file": "assets/referred-visitors.lazy-BGn1fSVR.js",
+    "name": "referred-visitors.lazy",
+    "src": "src/routes/(referrals)/referred-visitors.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx"
+    ]
+  },
+  "src/routes/(referrals)/referrers.lazy.tsx": {
+    "file": "assets/referrers.lazy-ByNlRXA4.js",
+    "name": "referrers.lazy",
+    "src": "src/routes/(referrals)/referrers.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx"
+    ]
+  },
+  "src/routes/(referrals)/search-engines.lazy.tsx": {
+    "file": "assets/search-engines.lazy-CTaIL_7U.js",
+    "name": "search-engines.lazy",
+    "src": "src/routes/(referrals)/search-engines.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx"
+    ]
+  },
+  "src/routes/(referrals)/social-media.lazy.tsx": {
+    "file": "assets/social-media.lazy-bHL3SocQ.js",
+    "name": "social-media.lazy",
+    "src": "src/routes/(referrals)/social-media.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx"
+    ]
+  },
+  "src/routes/(referrals)/source-categories.lazy.tsx": {
+    "file": "assets/source-categories.lazy-CTycsSRI.js",
+    "name": "source-categories.lazy",
+    "src": "src/routes/(referrals)/source-categories.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx"
+    ]
+  },
+  "src/routes/author-analytics.lazy.tsx": {
+    "file": "assets/author-analytics.lazy-xPgy2iCI.js",
+    "name": "author-analytics.lazy",
+    "src": "src/routes/author-analytics.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx"
+    ]
+  },
+  "src/routes/category-analytics.lazy.tsx": {
+    "file": "assets/category-analytics.lazy-dhcGJSnS.js",
+    "name": "category-analytics.lazy",
+    "src": "src/routes/category-analytics.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx"
+    ]
+  },
+  "src/routes/devices.lazy.tsx": {
+    "file": "assets/devices.lazy-CRqPgBf2.js",
+    "name": "devices.lazy",
+    "src": "src/routes/devices.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx"
+    ]
+  },
+  "src/routes/geographic.lazy.tsx": {
+    "file": "assets/geographic.lazy-BZRvMW2A.js",
+    "name": "geographic.lazy",
+    "src": "src/routes/geographic.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx"
+    ]
+  },
+  "src/routes/overview.lazy.tsx": {
+    "file": "assets/overview.lazy-HKStycNy.js",
+    "name": "overview.lazy",
+    "src": "src/routes/overview.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx"
+    ]
+  },
+  "src/routes/page-analytics.lazy.tsx": {
+    "file": "assets/page-analytics.lazy-C2RB_fOj.js",
+    "name": "page-analytics.lazy",
+    "src": "src/routes/page-analytics.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx"
+    ]
+  },
+  "src/routes/visitor-insights.lazy.tsx": {
+    "file": "assets/visitor-insights.lazy-BgSemC0B.js",
+    "name": "visitor-insights.lazy",
+    "src": "src/routes/visitor-insights.lazy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx"
+    ]
+  }
+}

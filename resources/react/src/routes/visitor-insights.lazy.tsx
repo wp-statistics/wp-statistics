@@ -1,7 +1,9 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
-import { Card, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
+import { ChevronRight } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import { __ } from '@wordpress/i18n'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { getVisitorInsightTopCountriesQueryOptions } from '@/services/visitor-insight/get-top-countries'
@@ -29,116 +31,6 @@ function RouteComponent() {
     data: { data: oss },
   } = useSuspenseQuery(getVisitorInsightOSSQueryOptions())
 
-  const topEntryPagesData = {
-    title: 'Top Entry Pages',
-    items: [
-      {
-        icon: '🇫🇷',
-        label: 'France',
-        value: '17K',
-        percentage: '8.3',
-        isNegative: false,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '17,000 visitors from France',
-      },
-      {
-        icon: '🇬🇧',
-        label: 'United Kingdom',
-        value: '7K',
-        percentage: '45',
-        isNegative: false,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '7,000 visitors from United Kingdom',
-      },
-      {
-        icon: '🇳🇱',
-        label: 'Netherlands',
-        value: '5K',
-        percentage: '34',
-        isNegative: false,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '5,000 visitors from Netherlands',
-      },
-      {
-        icon: '🇩🇪',
-        label: 'Germany',
-        value: '2K',
-        percentage: '20',
-        isNegative: false,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '2,000 visitors from Germany',
-      },
-      {
-        icon: '🇬🇪',
-        label: 'Georgia',
-        value: '1K',
-        percentage: '15',
-        isNegative: true,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '1,000 visitors from Georgia',
-      },
-    ],
-    link: {
-      title: 'View Entry Pages',
-      action: () => console.log('View all entry pages'),
-    },
-  }
-
-  const topReferrersData = {
-    title: 'Top Referrers',
-    items: [
-      {
-        icon: '🇫🇷',
-        label: 'France',
-        value: '17K',
-        percentage: '8.3',
-        isNegative: false,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '17,000 visitors from France',
-      },
-      {
-        icon: '🇬🇧',
-        label: 'United Kingdom',
-        value: '7K',
-        percentage: '45',
-        isNegative: false,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '7,000 visitors from United Kingdom',
-      },
-      {
-        icon: '🇳🇱',
-        label: 'Netherlands',
-        value: '5K',
-        percentage: '34',
-        isNegative: false,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '5,000 visitors from Netherlands',
-      },
-      {
-        icon: '🇩🇪',
-        label: 'Germany',
-        value: '2K',
-        percentage: '20',
-        isNegative: false,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '2,000 visitors from Germany',
-      },
-      {
-        icon: '🇬🇪',
-        label: 'Georgia',
-        value: '1K',
-        percentage: '15',
-        isNegative: true,
-        tooltipTitle: 'November 2025',
-        tooltipSubtitle: '1,000 visitors from Georgia',
-      },
-    ],
-    link: {
-      title: 'View Referees',
-      action: () => console.log('View all referrers'),
-    },
-  }
-
   return (
     <div className="p-2 grid gap-6">
       <h1 className="text-2xl font-medium text-neutral-700">Visitor insights</h1>
@@ -152,19 +44,19 @@ function RouteComponent() {
         </Card>
 
         <div className="col-span-6">
-          <HorizontalBarList
-            title={topEntryPagesData.title}
-            items={topEntryPagesData.items}
-            link={topEntryPagesData.link}
-          />
+          <Card>
+            <CardHeader>
+              <CardTitle>Top Entry Pages</CardTitle>
+            </CardHeader>
+          </Card>
         </div>
 
         <div className="col-span-6">
-          <HorizontalBarList
-            title={topReferrersData.title}
-            items={topReferrersData.items}
-            link={topReferrersData.link}
-          />
+          <Card>
+            <CardHeader>
+              <CardTitle>Top Referrers</CardTitle>
+            </CardHeader>
+          </Card>
         </div>
 
         <div className="col-span-4">
@@ -265,6 +157,17 @@ function RouteComponent() {
           <CardHeader>
             <CardTitle>Top Visitors</CardTitle>
           </CardHeader>
+          <CardContent></CardContent>
+          <CardFooter>
+            <Button
+              className="ml-auto gap-1 items-center font-normal hover:no-underline text-xs text-neutral-600"
+              onClick={() => {}}
+              variant="link"
+            >
+              {__('View Visitors')}
+              <ChevronRight className="w-3 h-4 ms-0" />
+            </Button>
+          </CardFooter>
         </Card>
 
         <Card className="col-span-6">
