@@ -251,6 +251,6 @@ class HistoricalModel
         $postCreationDate = get_post_time(DateTime::$defaultDateFormat, false, $id);
         $today            = DateTime::get();
 
-        return ($from === $postCreationDate && $to === $today);
+        return ($from <= $postCreationDate && $to === $today);
     }
 }
