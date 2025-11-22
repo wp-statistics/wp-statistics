@@ -1,10 +1,5 @@
 import * as React from 'react'
-import type {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-} from '@tanstack/react-table'
+import type { ColumnDef, ColumnFiltersState, SortingState, VisibilityState } from '@tanstack/react-table'
 import {
   flexRender,
   getCoreRowModel,
@@ -13,16 +8,11 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { MoreVertical } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react'
 
 import { Button } from '@components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@components/ui/dropdown-menu'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@components/ui/table'
+import { DataTableColumnToggle } from './data-table-column-toggle'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -43,9 +33,7 @@ export function DataTable<TData, TValue>({
   showColumnManagement = true,
   showPagination = true,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>(
-    defaultSort ? [{ id: defaultSort, desc: true }] : []
-  )
+  const [sorting, setSorting] = React.useState<SortingState>(defaultSort ? [{ id: defaultSort, desc: true }] : [])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
@@ -74,7 +62,6 @@ export function DataTable<TData, TValue>({
     },
   })
 
-
   return (
     <div className="w-full">
       {title && (
@@ -96,30 +83,7 @@ export function DataTable<TData, TValue>({
                 })}
                 {showColumnManagement && (
                   <TableHead className="h-12 w-12 bg-white">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                          <MoreVertical className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-[200px]">
-                        {table
-                          .getAllColumns()
-                          .filter((column) => column.getCanHide())
-                          .map((column) => {
-                            return (
-                              <DropdownMenuCheckboxItem
-                                key={column.id}
-                                className="capitalize"
-                                checked={column.getIsVisible()}
-                                onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                              >
-                                {column.id}
-                              </DropdownMenuCheckboxItem>
-                            )
-                          })}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                    <DataTableColumnToggle table={table} />
                   </TableHead>
                 )}
               </TableRow>
@@ -150,66 +114,64 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
       {showPagination && (
-        <div className="flex items-center justify-center gap-2 py-4 bg-muted/10 border-t">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-            className="text-sm"
-          >
-            Prev
-          </Button>
-          <div className="flex items-center gap-1">
-            <Button
-              variant={table.getState().pagination.pageIndex === 0 ? 'default' : 'ghost'}
-              size="sm"
-              onClick={() => table.setPageIndex(0)}
-              className="h-8 w-8 p-0"
-            >
-              1
-            </Button>
-            {table.getPageCount() > 1 && (
-              <Button
-                variant={table.getState().pagination.pageIndex === 1 ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => table.setPageIndex(1)}
-                className="h-8 w-8 p-0"
-              >
-                2
-              </Button>
-            )}
-            {table.getPageCount() > 2 && (
-              <Button
-                variant={table.getState().pagination.pageIndex === 2 ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => table.setPageIndex(2)}
-                className="h-8 w-8 p-0"
-              >
-                3
-              </Button>
-            )}
-            {table.getPageCount() > 4 && <span className="px-2 text-muted-foreground">...</span>}
-            {table.getPageCount() > 3 && (
-              <Button
-                variant={table.getState().pagination.pageIndex === table.getPageCount() - 1 ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-                className="h-8 w-8 p-0"
-              >
-                {table.getPageCount()}
-              </Button>
+        <div className="flex items-center justify-between px-4 py-4 bg-muted/10 border-t">
+          <div className="text-sm text-muted-foreground">
+            {table.getFilteredRowModel().rows.length > 0 ? (
+              <>
+                {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}-
+                {Math.min(
+                  (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
+                  table.getFilteredRowModel().rows.length
+                )}{' '}
+                of {table.getFilteredRowModel().rows.length} Rows
+              </>
+            ) : (
+              '0 Rows'
             )}
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-            className="text-sm"
-          >
-            Next
-          </Button>
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-muted-foreground">
+              Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+            </span>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => table.setPageIndex(0)}
+                disabled={!table.getCanPreviousPage()}
+                className="h-10 w-10 rounded-lg border-gray-200"
+              >
+                <ChevronsLeft className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+                className="h-10 w-10 rounded-lg border-gray-200"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+                className="h-10 w-10 rounded-lg border-gray-200"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+                disabled={!table.getCanNextPage()}
+                className="h-10 w-10 rounded-lg border-gray-200"
+              >
+                <ChevronsRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
         </div>
       )}
     </div>

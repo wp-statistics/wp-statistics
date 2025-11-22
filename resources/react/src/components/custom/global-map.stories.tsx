@@ -41,7 +41,7 @@ const sampleData: GlobalMapData = {
 }
 
 const meta = {
-  title: 'Components/GlobalMap',
+  title: 'Custom/GlobalMap',
   component: GlobalMap,
   parameters: {
     layout: 'padded',

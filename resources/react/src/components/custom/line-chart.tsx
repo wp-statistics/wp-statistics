@@ -3,14 +3,7 @@ import { CartesianGrid, Line, LineChart as RechartsLineChart, XAxis, YAxis } fro
 
 import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/card'
 import type { ChartConfig } from '@components/ui/chart'
-import {
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  ChartTooltip,
-  ChartTooltipContent,
-} from '@components/ui/chart'
-import { Button } from '@components/ui/button'
+import { ChartContainer, ChartTooltip } from '@components/ui/chart'
 
 export interface LineChartDataPoint {
   date: string
@@ -22,6 +15,8 @@ export interface LineChartMetric {
   label: string
   color?: string
   enabled?: boolean
+  value?: string | number
+  previousValue?: string | number
 }
 
 export interface LineChartProps {
@@ -29,7 +24,6 @@ export interface LineChartProps {
   metrics: LineChartMetric[]
   title?: string
   showPreviousPeriod?: boolean
-  showLegend?: boolean
   timeframe?: 'Daily' | 'Weekly' | 'Monthly'
   onTimeframeChange?: (timeframe: 'Daily' | 'Weekly' | 'Monthly') => void
   className?: string
@@ -40,7 +34,6 @@ export function LineChart({
   metrics,
   title,
   showPreviousPeriod = true,
-  showLegend = true,
   timeframe = 'Daily',
   onTimeframeChange,
   className,
@@ -82,54 +75,94 @@ export function LineChart({
   return (
     <Card className={className}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-        <div className="flex items-center gap-4">
-          {title && <CardTitle className="text-base font-medium">{title}</CardTitle>}
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground">Visitors</span>
-            <span className="text-lg font-semibold">5</span>
-            <span className="text-sm text-blue-600">↓ 4</span>
-            <span className="text-sm text-muted-foreground ml-4">Views</span>
-            <span className="text-lg font-semibold">15</span>
-            <span className="text-sm text-blue-600">↔ 2</span>
+        <div className="flex flex-col gap-4 w-full">
+          {title && <CardTitle>{title}</CardTitle>}
+          <div className="flex items-center justify-between gap-4 w-full">
+            <div className="flex items-center gap-6">
+              {metrics.map((metric, index) => {
+                const color = metric.color || defaultColors[index % defaultColors.length]
+                return (
+                  <div key={metric.key} className="flex flex-col gap-1">
+                    <span className="text-xs italic text-muted-foreground leading-none">{metric.label}</span>
+                    <div className="flex items-baseline gap-2">
+                      {metric.value && (
+                        <div className="flex items-center gap-1.5">
+                          <svg width="12" height="3" className="shrink-0">
+                            <line x1="0" y1="1.5" x2="12" y2="1.5" style={{ stroke: color }} strokeWidth="3" />
+                          </svg>
+                          <span className="text-sm font-medium leading-none">{metric.value}</span>
+                        </div>
+                      )}
+                      {metric.previousValue && (
+                        <div className="flex items-center gap-1.5">
+                          <svg width="12" height="3" className="shrink-0 opacity-50">
+                            <line
+                              x1="0"
+                              y1="1.5"
+                              x2="12"
+                              y2="1.5"
+                              style={{ stroke: color }}
+                              strokeWidth="3"
+                              strokeDasharray="3 2"
+                            />
+                          </svg>
+                          <span className="text-sm text-muted-foreground leading-none">{metric.previousValue}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+            <div className="flex items-center gap-3">
+              {showPreviousPeriod && (
+                <button
+                  onClick={togglePreviousPeriod}
+                  className="flex items-center gap-1.5 text-sm italic text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                >
+                  <svg width="12" height="3" className="shrink-0 opacity-50">
+                    <line
+                      x1="0"
+                      y1="1.5"
+                      x2="12"
+                      y2="1.5"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      strokeDasharray="3 2"
+                    />
+                  </svg>
+                  <span>Previous period</span>
+                </button>
+              )}
+              {onTimeframeChange && (
+                <div className="relative">
+                  <select
+                    value={timeframe}
+                    onChange={(e) => onTimeframeChange(e.target.value as 'Daily' | 'Weekly' | 'Monthly')}
+                    className="appearance-none h-10 rounded-lg border border-input bg-background pl-4 pr-10 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ring cursor-pointer"
+                  >
+                    <option value="Daily">Daily</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="Monthly">Monthly</option>
+                  </select>
+                  <svg
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none text-muted-foreground"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          {showPreviousPeriod && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={togglePreviousPeriod}
-              className="h-8 text-xs text-muted-foreground hover:text-foreground"
-              data-active={previousPeriodVisible}
-            >
-              -- Previous period
-            </Button>
-          )}
-          {onTimeframeChange && (
-            <select
-              value={timeframe}
-              onChange={(e) => onTimeframeChange(e.target.value as 'Daily' | 'Weekly' | 'Monthly')}
-              className="h-8 rounded-md border border-input bg-background px-3 py-1 text-sm"
-            >
-              <option value="Daily">Daily</option>
-              <option value="Weekly">Weekly</option>
-              <option value="Monthly">Monthly</option>
-            </select>
-          )}
-        </div>
       </CardHeader>
-      <CardContent className="px-2 pb-4 pt-0 sm:px-6">
+      <CardContent className="">
         <ChartContainer config={chartConfig} className="h-[250px] w-full">
-          <RechartsLineChart
-            data={data}
-            margin={{
-              left: 12,
-              right: 12,
-              top: 12,
-              bottom: 12,
-            }}
-          >
-            <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="#e5e7eb" />
+          <RechartsLineChart data={data} margin={{ right: -20 }}>
+            <CartesianGrid vertical={false} horizontal={true} stroke="#e5e7eb" strokeDasharray="0" />
             <XAxis
               dataKey="date"
               tickLine={false}
@@ -146,40 +179,93 @@ export function LineChart({
               }}
             />
             <YAxis
+              orientation="right"
               tickLine={false}
               axisLine={false}
               tickMargin={8}
               tickCount={8}
               tick={{ fill: '#9ca3af', fontSize: 12 }}
+              alignmentBaseline="after-edge"
+              padding={{
+                bottom: 20,
+              }}
             />
             <ChartTooltip
-              content={
-                <ChartTooltipContent
-                  className="w-[180px]"
-                  labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                    })
-                  }}
-                />
-              }
-            />
-            {showLegend && (
-              <ChartLegend
-                content={<ChartLegendContent />}
-                onClick={(data) => {
-                  if (data.dataKey) {
-                    const key = data.dataKey.toString().replace('Previous', '')
-                    setVisibleMetrics((prev) => ({
-                      ...prev,
-                      [key]: !prev[key],
-                    }))
+              content={({ active, payload, label }) => {
+                if (!active || !payload || !payload.length) return null
+
+                const date = new Date(label)
+                const formattedDate = date.toLocaleDateString('en-US', {
+                  day: 'numeric',
+                  month: 'short',
+                })
+                const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' })
+
+                // Group payload by metric (current + previous together)
+                const groupedData: any[] = []
+                metrics.forEach((metric) => {
+                  const currentEntry = payload.find((p: any) => p.dataKey === metric.key)
+                  const previousEntry = payload.find((p: any) => p.dataKey === `${metric.key}Previous`)
+
+                  if (currentEntry) {
+                    groupedData.push(currentEntry)
                   }
-                }}
-              />
-            )}
+                  if (previousEntry) {
+                    groupedData.push(previousEntry)
+                  }
+                })
+
+                // Calculate previous period date
+                const currentDate = new Date(label)
+                const previousDate = new Date(currentDate)
+                previousDate.setDate(previousDate.getDate() - 7)
+                const prevFormatted = previousDate.toLocaleDateString('en-US', {
+                  day: 'numeric',
+                  month: 'short',
+                })
+                const prevDayOfWeek = previousDate.toLocaleDateString('en-US', { weekday: 'short' })
+
+                return (
+                  <div className="rounded-lg border bg-background p-3 shadow-md">
+                    <div className="mb-3 text-sm leading-normal italic font-normal">
+                      {formattedDate} ({dayOfWeek})
+                    </div>
+                    <div className="space-y-2">
+                      {groupedData.map((entry: any) => {
+                        const isPrevious = entry.dataKey.includes('Previous')
+                        const baseKey = entry.dataKey.replace('Previous', '')
+                        const baseMetric = metrics.find((m) => m.key === baseKey)
+
+                        if (!baseMetric) return null
+
+                        const color = baseMetric.color || entry.color
+                        const displayLabel = isPrevious ? `${prevFormatted} (${prevDayOfWeek})` : baseMetric.label
+
+                        return (
+                          <div key={entry.dataKey} className="flex items-center justify-between gap-6">
+                            <div className="flex items-center gap-2 text-sm italic">
+                              <svg width="12" height="3" className={isPrevious ? 'shrink-0 opacity-50' : 'shrink-0'}>
+                                <line
+                                  x1="0"
+                                  y1="1.5"
+                                  x2="12"
+                                  y2="1.5"
+                                  style={{ stroke: color }}
+                                  strokeWidth="3"
+                                  strokeDasharray={isPrevious ? '3 2' : '0'}
+                                />
+                              </svg>
+                              <span className="font-normal text-muted-foreground">{displayLabel}</span>
+                            </div>
+                            <span className="font-semibold text-card-foreground">{entry.value}</span>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )
+              }}
+            />
             {metrics.map((metric, index) => {
               if (!visibleMetrics[metric.key]) return null
               const color = metric.color || defaultColors[index % defaultColors.length]
