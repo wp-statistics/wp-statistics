@@ -36,7 +36,8 @@ class DB
          * Marketing Tables
          */
         'campaigns',
-        'goals'
+        'goals',
+        'gsc_queries'
     );
 
     /**
@@ -149,7 +150,7 @@ class DB
                 $inspect = DatabaseFactory::table('inspect')
                     ->setName($tbl)
                     ->execute();
-                
+
                 if ($inspect->getResult()) {
                     $list[$tbl] = $table_name;
                 }
