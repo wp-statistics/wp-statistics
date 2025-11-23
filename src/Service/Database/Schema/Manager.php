@@ -159,6 +159,20 @@ class Manager
     ];
 
     /**
+     * Retrieve tables schema.
+     *
+     * @return array The schema definitions for all database tables.
+     */
+    public static function getTablesSchema()
+    {
+        /**
+         * @hook wp_statistics_tables_schema
+         * Internal hook to add additional tables schema via add-ons.
+         */
+        return apply_filters('wp_statistics_tables_schema', self::$tablesSchema);
+    }
+
+    /**
      * Retrieve the fully defined schema (columns and constraints) for a specific table.
      *
      * @param string $tableName The name of the table.
@@ -166,7 +180,8 @@ class Manager
      */
     public static function getSchemaForTable(string $tableName)
     {
-        return self::$tablesSchema[$tableName] ?? null;
+        $tables = self::getTablesSchema();
+        return $tables[$tableName] ?? null;
     }
 
     /**
@@ -176,6 +191,7 @@ class Manager
      */
     public static function getAllTableNames()
     {
-        return array_keys(self::$tablesSchema);
+        $tables = self::getTablesSchema();
+        return array_keys($tables);
     }
 }
