@@ -6,6 +6,7 @@ use WP_Statistics\Components\DateTime;
 use WP_Statistics\Utils\Query;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Url;
+use WP_Statistics\Utils\Request;
 
 class HistoricalModel
 {
@@ -239,7 +240,12 @@ class HistoricalModel
      */
     public function isPostInAllTimeRange($args)
     {
-        $id = $args['resource_id'] ?? $args['post_id'] ?? null;
+        $id  = $args['resource_id'] ?? $args['post_id'] ?? null;
+        $uri = Request::get('uri', '', 'raw');
+        
+        if (empty($id) && empty($uri)) {
+            return false;
+        }
 
         if (empty($args['date']['from']) || empty($args['date']['to'])) {
             return false;
