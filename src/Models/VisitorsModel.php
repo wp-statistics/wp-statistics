@@ -1853,7 +1853,7 @@ class VisitorsModel extends BaseModel
         }
 
         $query = Query::select([
-                'countries.name AS country',
+                'countries.name AS name',
                 'countries.code AS code',
                 'COUNT(DISTINCT sessions.visitor_id) AS visitors',
             ])

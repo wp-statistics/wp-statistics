@@ -46,6 +46,7 @@ class VisitorInsights implements PageActionInterface
             'get_top_countries' => 'getTopCountries',
             'get_top_devices' => 'getTopDevices',
             'get_top_oss' => 'getTopOss',
+            'get_global_distribution' => 'getGlobalDistribution'
         ];
     }
 
@@ -306,5 +307,27 @@ class VisitorInsights implements PageActionInterface
         }
 
         return $topOss;
+    }
+
+    /**
+     * Get global visitor distribution.
+     *
+     * Handles AJAX request to fetch global visitor distribution by country
+     * for the dashboard visitor insights page.
+     *
+     * @return array Response data
+     */
+    public function getGlobalDistribution()
+    {
+        $visitorModel = new VisitorsModel();
+        $dateTo   = date('Y-m-d'); // Today
+        $dateFrom = date('Y-m-d', strtotime('-200 days'));
+        
+        return $visitorModel->getGlobalDistribution([
+            'date' => [
+                'from' => $dateFrom, 
+                'to'   => $dateTo
+            ]
+        ]);
     }
 }
