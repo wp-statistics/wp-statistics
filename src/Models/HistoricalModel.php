@@ -241,14 +241,14 @@ class HistoricalModel
     {
         $id = $args['resource_id'] ?? $args['post_id'] ?? null;
 
-        if (empty($id) || empty($args['date']['from']) || empty($args['date']['to'])) {
+        if (empty($args['date']['from']) || empty($args['date']['to'])) {
             return false;
         }
 
         $from = $args['date']['from'];
         $to   = $args['date']['to'];
 
-        $postCreationDate = get_post_time(DateTime::$defaultDateFormat, false, $id);
+        $postCreationDate = get_post_time(DateTime::$defaultDateFormat, false, $id) ?: Helper::getInitialPostDate();
         $today            = DateTime::get();
 
         return ($from <= $postCreationDate && $to === $today);
