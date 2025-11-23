@@ -33,11 +33,8 @@ node_modules
 package-lock.json
 
 # Build Folders
-/public/legacy
-/public/react
-/public/frontend
-/public/json
-/public/images
+public/*
+!public/.gitkeep
 
 # VSCode IDE
 .vscode/*
