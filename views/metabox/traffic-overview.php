@@ -13,7 +13,7 @@ $chartData = $data['summary']['7days']['data'];
         <div class="c-live">
             <div>
                 <span class="c-live__status"></span>
-                <span class="c-live__title"><?php esc_html_e('Online Users', 'wp-statistics'); ?></span>
+                <span class="c-live__title"><?php esc_html_e('Online Visitors', 'wp-statistics'); ?></span>
             </div>
             <div class="c-live__online">
                 <span class="c-live__online--value"><?php echo esc_html($data['online']) ?></span>
