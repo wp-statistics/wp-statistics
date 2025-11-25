@@ -1,4 +1,4 @@
-= 14.16 - 2025-**-** =
+= 14.16 - 2025-11-30 =
 - **New:** Added an Export button to all report pages.
 - **New:** Added a new `Summary Totals` table to store daily aggregated data.
 - **Enhancement:** Updated PHP requirement to v7.4 and WordPress requires to v6.6
