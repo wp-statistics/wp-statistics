@@ -3,13 +3,14 @@
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
-use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 $isLicenseValid    = LicenseHelper::isPluginLicenseValid('wp-statistics-ai-insights');
 $isAiInsightActive = Helper::isAddOnActive('ai-insights');
 
+$syncStatus = apply_filters('wp_statistics_gsc_sync_status', '');
 ?>
 <h2 class="wps-settings-box__title">
     <span><?php esc_html_e('AI Insight', 'wp-statistics'); ?></span>
@@ -46,10 +47,15 @@ if ($isAiInsightActive && !$isLicenseValid) {
                         <h3><?php esc_html_e('GSC Data Sync', 'wp-statistics'); ?></h3>
                     </div>
                     <div class="wps-status">
-                        <div class="alert alert-success"><span><?php esc_html_e('Sync completed successfully', 'wp-statistics'); ?></span></div>
-                        <div class="alert alert-danger"><span><?php esc_html_e('Last sync failed', 'wp-statistics'); ?></span></div>
-                        <div class="alert alert-loading"><span><?php esc_html_e('Syncing GSC data...', 'wp-statistics'); ?></span></div>
-                        <div class="alert alert-primary"><span><?php esc_html_e('No recent sync activity', 'wp-statistics'); ?></span></div>
+                        <?php if ($syncStatus === 'success') : ?>
+                            <div class="alert alert-success"><span><?php esc_html_e('Sync completed successfully', 'wp-statistics'); ?></span></div>
+                        <?php elseif ($syncStatus === 'error') : ?>
+                            <div class="alert alert-danger"><span><?php esc_html_e('Last sync failed', 'wp-statistics'); ?></span></div>
+                        <?php elseif ($syncStatus === 'in-progress') : ?>
+                            <div class="alert alert-loading"><span><?php esc_html_e('Syncing GSC data...', 'wp-statistics'); ?></span></div>
+                        <?php else : ?>
+                            <div class="alert alert-primary"><span><?php esc_html_e('No recent sync activity', 'wp-statistics'); ?></span></div>
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -86,27 +92,29 @@ if ($isAiInsightActive && !$isLicenseValid) {
             </th>
 
             <td>
-                <input type="hidden" name="wps_settings[ai_insight_auto_sync]" value="1"/>
-                <input id="wps_settings[ai_insight_auto_sync]" type="checkbox" value="1" name="wps_settings[ai_insight_auto_sync]" <?php checked(Option::getByAddon('auto_sync', 'ai_insight', '1'), '1'); ?>>
-                <label for="wps_settings[ai_insight_auto_sync]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                <input type="hidden" name="wps_addon_settings[ai_insights][gsc_auto_sync]" value="1"/>
+                <input id="wps_addon_settings[ai_insights][gsc_auto_sync]" type="checkbox" value="1" name="wps_addon_settings[ai_insights][gsc_auto_sync]" <?php checked(Option::getByAddon('gsc_auto_sync', 'ai_insights', '1'), '1'); ?>>
+                <label for="wps_addon_settings[ai_insights][gsc_auto_sync]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('Automatically sync Google Search Console data on a scheduled basis. When disabled, data must be synced manually.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
         <tr data-id="sync_frequency_tr">
+            <?php $syncFrequency = Option::getByAddon('sync_frequency', 'ai_insights'); ?>
+
             <th scope="row">
                 <label for="sync_frequency"><?php esc_html_e('Sync Frequency', 'wp-statistics'); ?></label>
             </th>
             <td>
-                <select id="sync_frequency" name="sync_frequency">
-                    <option value="daily" <?php selected(WP_STATISTICS\Option::get('sync_frequency', 'daily'), 'daily'); ?>>
+                <select id="sync_frequency" name="wps_addon_settings[ai_insights][sync_frequency]">
+                    <option value="daily" <?php selected($syncFrequency, 'daily'); ?>>
                         <?php esc_html_e('Daily', 'wp-statistics'); ?>
                     </option>
-                    <option value="two-days" <?php selected(WP_STATISTICS\Option::get('sync_frequency'), 'two-days'); ?>>
+                    <option value="two_days" <?php selected($syncFrequency, 'two_days'); ?>>
                         <?php esc_html_e('Every 2 Days', 'wp-statistics'); ?>
                     </option>
                 </select>
-                <p class="description"><?php _e('How often GSC data should be synced automatically.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('How often GSC data should be synced automatically.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
@@ -117,13 +125,16 @@ if ($isAiInsightActive && !$isLicenseValid) {
 
             <td>
                 <div>
-                    <button type="submit" name="sync_GSC" aria-label="<?php esc_html_e('Manually trigger an immediate sync of GSC data', 'wp-statistics'); ?>" class="wps-button wps-button--default">
-                        <?php esc_html_e('Sync Now', 'wp-statistics'); ?>
-                    </button>
+                    <?php if ($syncStatus === 'in-progress') : ?>
+                        <a aria-label="<?php esc_attr_e('Syncing GSC data', 'wp-statistics'); ?>" class="wps-button wps-loading-button wps-button--default">
+                            <?php esc_html_e('Syncing...', 'wp-statistics'); ?>
+                        </a>
+                    <?php else : ?>
+                        <a href="<?php echo esc_url(Menus::admin_url('settings', ['tab' => 'ai-insights', 'action' => 'wp_statistics_init_gsc_sync', 'nonce' => wp_create_nonce('wp_statistics_init_gsc_sync')])); ?>" aria-label="<?php esc_attr_e('Manually trigger an immediate sync of GSC data', 'wp-statistics'); ?>" class="wps-button wps-button--default">
+                            <?php esc_html_e('Sync Now', 'wp-statistics'); ?>
+                        </a>
+                    <?php endif; ?>
 
-                    <button type="submit" name="sync_GSC" aria-label="<?php esc_html_e('Manually trigger an immediate sync of GSC data', 'wp-statistics'); ?>" class="wps-button wps-loading-button wps-button--default">
-                        <?php esc_html_e('Syncing...', 'wp-statistics'); ?>
-                    </button>
                 </div>
 
                 <p class="description"><?php esc_html_e('Manually trigger an immediate sync of GSC data. This fetches the latest available data from Google Search Console and updates all AI Insights reports.', 'wp-statistics'); ?></p>
@@ -181,3 +192,9 @@ if ($isAiInsightActive && !$isLicenseValid) {
         </tbody>
     </table>
 </div>
+
+<?php
+if ($isAiInsightActive) {
+    submit_button(esc_html__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', false, ['id' => 'ai_insights_submit', 'OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='ai-insights-settings'"]);
+}
+?>
