@@ -46,7 +46,7 @@
 
 :root {
   --radius: 0.625rem;
-  --primary: oklch(0.314 0.122 276.809);
+  --primary: oklch(51.058% 0.23015 276.976);
   --accent: oklch(0.968 0.007 247.896);
   --background: oklch(1 0 0);
   --border: oklch(0.929 0.013 255.508);

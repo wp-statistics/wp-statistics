@@ -4,6 +4,7 @@ import { CartesianGrid, Line, LineChart as RechartsLineChart, XAxis, YAxis } fro
 import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/card'
 import type { ChartConfig } from '@components/ui/chart'
 import { ChartContainer, ChartTooltip } from '@components/ui/chart'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
 
 export interface LineChartDataPoint {
   date: string
@@ -135,25 +136,16 @@ export function LineChart({
                 </button>
               )}
               {onTimeframeChange && (
-                <div className="relative">
-                  <select
-                    value={timeframe}
-                    onChange={(e) => onTimeframeChange(e.target.value as 'Daily' | 'Weekly' | 'Monthly')}
-                    className="appearance-none h-10 rounded-lg border border-input bg-background pl-4 pr-10 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ring cursor-pointer"
-                  >
-                    <option value="Daily">Daily</option>
-                    <option value="Weekly">Weekly</option>
-                    <option value="Monthly">Monthly</option>
-                  </select>
-                  <svg
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none text-muted-foreground"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
+                <Select value={timeframe} onValueChange={onTimeframeChange}>
+                  <SelectTrigger className="w-[120px] h-10 font-medium">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Daily">Daily</SelectItem>
+                    <SelectItem value="Weekly">Weekly</SelectItem>
+                    <SelectItem value="Monthly">Monthly</SelectItem>
+                  </SelectContent>
+                </Select>
               )}
             </div>
           </div>
@@ -161,21 +153,33 @@ export function LineChart({
       </CardHeader>
       <CardContent className="">
         <ChartContainer config={chartConfig} className="h-[250px] w-full">
-          <RechartsLineChart data={data} margin={{ right: -20 }}>
+          <RechartsLineChart data={data} margin={{ left: 24 }}>
             <CartesianGrid vertical={false} horizontal={true} stroke="#e5e7eb" strokeDasharray="0" />
             <XAxis
               dataKey="date"
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              minTickGap={32}
+              minTickGap={timeframe === 'Monthly' ? 0 : 32}
+              interval={timeframe === 'Monthly' ? 0 : 'preserveStartEnd'}
               tick={{ fill: '#9ca3af', fontSize: 12 }}
               tickFormatter={(value) => {
                 const date = new Date(value)
-                return date.toLocaleDateString('en-US', {
-                  month: 'short',
-                  day: 'numeric',
-                })
+                if (timeframe === 'Monthly') {
+                  return date.toLocaleDateString('en-US', {
+                    month: 'long',
+                  })
+                } else if (timeframe === 'Weekly') {
+                  // Format as "Month Day to Month Day"
+                  const endDate = new Date(date)
+                  endDate.setDate(endDate.getDate() + 6)
+                  return `${date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} to ${endDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}`
+                } else {
+                  return date.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                  })
+                }
               }}
             />
             <YAxis
@@ -195,11 +199,43 @@ export function LineChart({
                 if (!active || !payload || !payload.length) return null
 
                 const date = new Date(label)
-                const formattedDate = date.toLocaleDateString('en-US', {
-                  day: 'numeric',
-                  month: 'short',
-                })
-                const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' })
+                let formattedDate: string
+                let dayOfWeek: string
+
+                if (timeframe === 'Monthly') {
+                  formattedDate = date.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                  })
+                  const endDate = new Date(date)
+                  endDate.setMonth(endDate.getMonth() + 1)
+                  endDate.setDate(0) // Last day of the month
+                  const endFormatted = endDate.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                  })
+                  dayOfWeek = ''
+                  formattedDate = `${formattedDate} to ${endFormatted}`
+                } else if (timeframe === 'Weekly') {
+                  formattedDate = date.toLocaleDateString('en-US', {
+                    month: 'long',
+                    day: 'numeric',
+                  })
+                  const endDate = new Date(date)
+                  endDate.setDate(endDate.getDate() + 6)
+                  const endFormatted = endDate.toLocaleDateString('en-US', {
+                    month: 'long',
+                    day: 'numeric',
+                  })
+                  dayOfWeek = ''
+                  formattedDate = `${formattedDate} to ${endFormatted}`
+                } else {
+                  formattedDate = date.toLocaleDateString('en-US', {
+                    day: 'numeric',
+                    month: 'short',
+                  })
+                  dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' })
+                }
 
                 // Group payload by metric (current + previous together)
                 const groupedData: any[] = []
@@ -218,17 +254,51 @@ export function LineChart({
                 // Calculate previous period date
                 const currentDate = new Date(label)
                 const previousDate = new Date(currentDate)
-                previousDate.setDate(previousDate.getDate() - 7)
-                const prevFormatted = previousDate.toLocaleDateString('en-US', {
-                  day: 'numeric',
-                  month: 'short',
-                })
-                const prevDayOfWeek = previousDate.toLocaleDateString('en-US', { weekday: 'short' })
+                let prevFormatted: string
+                let prevDayOfWeek: string
+
+                if (timeframe === 'Monthly') {
+                  previousDate.setMonth(previousDate.getMonth() - 1)
+                  prevFormatted = previousDate.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                  })
+                  const prevEndDate = new Date(previousDate)
+                  prevEndDate.setMonth(prevEndDate.getMonth() + 1)
+                  prevEndDate.setDate(0)
+                  const prevEndFormatted = prevEndDate.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                  })
+                  prevFormatted = `${prevFormatted} To ${prevEndFormatted}`
+                  prevDayOfWeek = ''
+                } else if (timeframe === 'Weekly') {
+                  previousDate.setDate(previousDate.getDate() - 35) // Go back 5 weeks
+                  prevFormatted = previousDate.toLocaleDateString('en-US', {
+                    month: 'long',
+                    day: 'numeric',
+                  })
+                  const prevEndDate = new Date(previousDate)
+                  prevEndDate.setDate(prevEndDate.getDate() + 6)
+                  const prevEndFormatted = prevEndDate.toLocaleDateString('en-US', {
+                    month: 'long',
+                    day: 'numeric',
+                  })
+                  prevFormatted = `${prevFormatted} To ${prevEndFormatted}`
+                  prevDayOfWeek = ''
+                } else {
+                  previousDate.setDate(previousDate.getDate() - 30)
+                  prevFormatted = previousDate.toLocaleDateString('en-US', {
+                    day: 'numeric',
+                    month: 'short',
+                  })
+                  prevDayOfWeek = previousDate.toLocaleDateString('en-US', { weekday: 'short' })
+                }
 
                 return (
                   <div className="rounded-lg border bg-background p-3 shadow-md">
                     <div className="mb-3 text-sm leading-normal italic font-normal">
-                      {formattedDate} ({dayOfWeek})
+                      {dayOfWeek ? `${formattedDate} (${dayOfWeek})` : formattedDate}
                     </div>
                     <div className="space-y-2">
                       {groupedData.map((entry: any) => {
@@ -239,7 +309,11 @@ export function LineChart({
                         if (!baseMetric) return null
 
                         const color = baseMetric.color || entry.color
-                        const displayLabel = isPrevious ? `${prevFormatted} (${prevDayOfWeek})` : baseMetric.label
+                        const displayLabel = isPrevious
+                          ? prevDayOfWeek
+                            ? `${prevFormatted} (${prevDayOfWeek})`
+                            : prevFormatted
+                          : baseMetric.label
 
                         return (
                           <div key={entry.dataKey} className="flex items-center justify-between gap-6">
