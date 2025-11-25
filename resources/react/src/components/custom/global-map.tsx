@@ -23,9 +23,7 @@ export interface GlobalMapProps {
   metric?: string
   showZoomControls?: boolean
   showLegend?: boolean
-  showTimePeriod?: boolean
-  timePeriod?: string
-  onTimePeriodChange?: (period: string) => void
+  pluginUrl?: string
   className?: string
 }
 
@@ -48,9 +46,7 @@ export function GlobalMap({
   metric = 'Visitors',
   showZoomControls = true,
   showLegend = true,
-  showTimePeriod = true,
-  timePeriod = 'Last 30 days',
-  onTimePeriodChange,
+  pluginUrl = '',
   className,
 }: GlobalMapProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -125,7 +121,17 @@ export function GlobalMap({
     return (
       <div className="text-sm">
         <div className="flex items-center gap-2 mb-2">
-          {countryData.flag && <span className="text-base">{countryData.flag}</span>}
+          {countryData.code && (
+            <img
+              src={
+                pluginUrl
+                  ? `${pluginUrl}public/images/flags/${countryData.code.toLowerCase()}.svg`
+                  : `public/images/flags/${countryData.code.toLowerCase()}.svg`
+              }
+              alt={countryData.name}
+              className="w-4 h-3"
+            />
+          )}
           <div className="font-semibold">{countryData.name}</div>
         </div>
         <div className="text-xs">
@@ -312,22 +318,6 @@ export function GlobalMap({
                 </span>
               </div>
             )}
-          </div>
-        )}
-
-        {/* Time Period Selector */}
-        {showTimePeriod && (
-          <div className="mt-4 flex items-center justify-start">
-            <select
-              value={timePeriod}
-              onChange={(e) => onTimePeriodChange?.(e.target.value)}
-              className="text-sm text-muted-foreground bg-transparent border-0 focus:ring-0 cursor-pointer"
-            >
-              <option value="Last 7 days">Last 7 days</option>
-              <option value="Last 30 days">Last 30 days</option>
-              <option value="Last 90 days">Last 90 days</option>
-              <option value="Last 12 months">Last 12 months</option>
-            </select>
           </div>
         )}
       </CardContent>
