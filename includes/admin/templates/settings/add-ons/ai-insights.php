@@ -74,12 +74,6 @@ if ($isAiInsightActive && !$isLicenseValid) {
             </th>
         </tr>
 
-        <tr>
-            <th colspan="2" scope="row">
-                <div class="wps-alert wps-alert__danger"><?php esc_html_e('Failed to sync GSC data: [error message]. Please try again or check your GSC connection in Marketing add-on settings.', 'wp-statistics'); ?></div>
-            </th>
-        </tr>
-
         <tr class="js-wps-show_if_ai_insight_auto_sync_disabled">
             <th colspan="2" scope="row">
                 <div class="wps-alert wps-alert__info"><?php esc_html_e('Automatic sync is disabled. Your AI Insights reports will not update until you manually sync GSC data.', 'wp-statistics'); ?></div>
@@ -130,7 +124,7 @@ if ($isAiInsightActive && !$isLicenseValid) {
                             <?php esc_html_e('Syncing...', 'wp-statistics'); ?>
                         </a>
                     <?php else : ?>
-                        <a href="<?php echo esc_url(Menus::admin_url('settings', ['tab' => 'ai-insights', 'action' => 'wp_statistics_init_gsc_sync', 'nonce' => wp_create_nonce('wp_statistics_init_gsc_sync')])); ?>" aria-label="<?php esc_attr_e('Manually trigger an immediate sync of GSC data', 'wp-statistics'); ?>" class="wps-button wps-button--default">
+                        <a href="<?php echo esc_url(Menus::admin_url('settings', ['tab' => 'ai-insights-settings', 'action' => 'wp_statistics_init_gsc_sync', 'nonce' => wp_create_nonce('wp_statistics_init_gsc_sync')])); ?>" aria-label="<?php esc_attr_e('Manually trigger an immediate sync of GSC data', 'wp-statistics'); ?>" class="wps-button wps-button--default">
                             <?php esc_html_e('Sync Now', 'wp-statistics'); ?>
                         </a>
                     <?php endif; ?>
