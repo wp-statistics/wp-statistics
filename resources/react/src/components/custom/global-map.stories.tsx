@@ -2,38 +2,38 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { GlobalMap } from './global-map'
 import type { CountryData, GlobalMapData } from './global-map'
 
-// Sample data matching the screenshot
+// Sample data - flags will be loaded from server when pluginUrl is provided
 const sampleCountries: CountryData[] = [
-  { code: 'US', name: 'United States', flag: '🇺🇸', visitors: 25000 },
-  { code: 'FR', name: 'France', flag: '🇫🇷', visitors: 23000 },
-  { code: 'GB', name: 'United Kingdom', flag: '🇬🇧', visitors: 18000 },
-  { code: 'DE', name: 'Germany', flag: '🇩🇪', visitors: 15000 },
-  { code: 'CA', name: 'Canada', flag: '🇨🇦', visitors: 12000 },
-  { code: 'AU', name: 'Australia', flag: '🇦🇺', visitors: 10000 },
-  { code: 'JP', name: 'Japan', flag: '🇯🇵', visitors: 9000 },
-  { code: 'IN', name: 'India', flag: '🇮🇳', visitors: 8000 },
-  { code: 'BR', name: 'Brazil', flag: '🇧🇷', visitors: 7000 },
-  { code: 'IT', name: 'Italy', flag: '🇮🇹', visitors: 6500 },
-  { code: 'ES', name: 'Spain', flag: '🇪🇸', visitors: 6000 },
-  { code: 'MX', name: 'Mexico', flag: '🇲🇽', visitors: 5500 },
-  { code: 'NL', name: 'Netherlands', flag: '🇳🇱', visitors: 5000 },
-  { code: 'SE', name: 'Sweden', flag: '🇸🇪', visitors: 4500 },
-  { code: 'CH', name: 'Switzerland', flag: '🇨🇭', visitors: 4000 },
-  { code: 'BE', name: 'Belgium', flag: '🇧🇪', visitors: 3500 },
-  { code: 'PL', name: 'Poland', flag: '🇵🇱', visitors: 3000 },
-  { code: 'AT', name: 'Austria', flag: '🇦🇹', visitors: 2500 },
-  { code: 'NO', name: 'Norway', flag: '🇳🇴', visitors: 2000 },
-  { code: 'DK', name: 'Denmark', flag: '🇩🇰', visitors: 1800 },
-  { code: 'FI', name: 'Finland', flag: '🇫🇮', visitors: 1500 },
-  { code: 'IE', name: 'Ireland', flag: '🇮🇪', visitors: 1200 },
-  { code: 'PT', name: 'Portugal', flag: '🇵🇹', visitors: 1000 },
-  { code: 'GR', name: 'Greece', flag: '🇬🇷', visitors: 900 },
-  { code: 'CZ', name: 'Czech Republic', flag: '🇨🇿', visitors: 800 },
-  { code: 'RO', name: 'Romania', flag: '🇷🇴', visitors: 700 },
-  { code: 'HU', name: 'Hungary', flag: '🇭🇺', visitors: 600 },
-  { code: 'NZ', name: 'New Zealand', flag: '🇳🇿', visitors: 500 },
-  { code: 'SG', name: 'Singapore', flag: '🇸🇬', visitors: 450 },
-  { code: 'ZA', name: 'South Africa', flag: '🇿🇦', visitors: 400 },
+  { code: 'US', name: 'United States', visitors: 25000 },
+  { code: 'FR', name: 'France', visitors: 23000 },
+  { code: 'GB', name: 'United Kingdom', visitors: 18000 },
+  { code: 'DE', name: 'Germany', visitors: 15000 },
+  { code: 'CA', name: 'Canada', visitors: 12000 },
+  { code: 'AU', name: 'Australia', visitors: 10000 },
+  { code: 'JP', name: 'Japan', visitors: 9000 },
+  { code: 'IN', name: 'India', visitors: 8000 },
+  { code: 'BR', name: 'Brazil', visitors: 7000 },
+  { code: 'IT', name: 'Italy', visitors: 6500 },
+  { code: 'ES', name: 'Spain', visitors: 6000 },
+  { code: 'MX', name: 'Mexico', visitors: 5500 },
+  { code: 'NL', name: 'Netherlands', visitors: 5000 },
+  { code: 'SE', name: 'Sweden', visitors: 4500 },
+  { code: 'CH', name: 'Switzerland', visitors: 4000 },
+  { code: 'BE', name: 'Belgium', visitors: 3500 },
+  { code: 'PL', name: 'Poland', visitors: 3000 },
+  { code: 'AT', name: 'Austria', visitors: 2500 },
+  { code: 'NO', name: 'Norway', visitors: 2000 },
+  { code: 'DK', name: 'Denmark', visitors: 1800 },
+  { code: 'FI', name: 'Finland', visitors: 1500 },
+  { code: 'IE', name: 'Ireland', visitors: 1200 },
+  { code: 'PT', name: 'Portugal', visitors: 1000 },
+  { code: 'GR', name: 'Greece', visitors: 900 },
+  { code: 'CZ', name: 'Czech Republic', visitors: 800 },
+  { code: 'RO', name: 'Romania', visitors: 700 },
+  { code: 'HU', name: 'Hungary', visitors: 600 },
+  { code: 'NZ', name: 'New Zealand', visitors: 500 },
+  { code: 'SG', name: 'Singapore', visitors: 450 },
+  { code: 'ZA', name: 'South Africa', visitors: 400 },
 ]
 
 const sampleData: GlobalMapData = {
@@ -64,14 +64,9 @@ const meta = {
       control: 'boolean',
       description: 'Show/hide color scale legend',
     },
-    showTimePeriod: {
-      control: 'boolean',
-      description: 'Show/hide time period selector',
-    },
-    timePeriod: {
-      control: 'select',
-      options: ['Last 7 days', 'Last 30 days', 'Last 90 days', 'Last 12 months'],
-      description: 'Selected time period',
+    pluginUrl: {
+      control: 'text',
+      description: 'Base URL for flag images',
     },
   },
 } satisfies Meta<typeof GlobalMap>
@@ -114,33 +109,11 @@ export const WithoutLegend: Story = {
   },
 }
 
-export const WithoutTimePeriod: Story = {
-  args: {
-    data: sampleData,
-    showTimePeriod: false,
-  },
-}
-
-export const Last7Days: Story = {
-  args: {
-    data: sampleData,
-    timePeriod: 'Last 7 days',
-  },
-}
-
-export const Last12Months: Story = {
-  args: {
-    data: sampleData,
-    timePeriod: 'Last 12 months',
-  },
-}
-
 export const MinimalConfiguration: Story = {
   args: {
     data: sampleData,
     showZoomControls: false,
     showLegend: false,
-    showTimePeriod: false,
   },
 }
 
@@ -151,8 +124,6 @@ export const FullFeatured: Story = {
     metric: 'Visitors',
     showZoomControls: true,
     showLegend: true,
-    showTimePeriod: true,
-    timePeriod: 'Last 30 days',
   },
 }
 
@@ -167,9 +138,9 @@ export const LimitedData: Story = {
   args: {
     data: {
       countries: [
-        { code: 'US', name: 'United States', flag: '🇺🇸', visitors: 15000 },
-        { code: 'FR', name: 'France', flag: '🇫🇷', visitors: 8000 },
-        { code: 'GB', name: 'United Kingdom', flag: '🇬🇧', visitors: 5000 },
+        { code: 'US', name: 'United States', visitors: 15000 },
+        { code: 'FR', name: 'France', visitors: 8000 },
+        { code: 'GB', name: 'United Kingdom', visitors: 5000 },
       ],
     },
     title: 'Top 3 Countries',
