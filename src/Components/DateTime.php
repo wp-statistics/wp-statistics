@@ -107,6 +107,19 @@ class DateTime
     }
 
     /**
+     * Add a given number of days to a date.
+     *
+     * @param string|int $date The date string to add to.
+     * @param int $days The number of days to add.
+     * @param string $format The format to use for the returned date string. Default 'Y-m-d'.
+     * @return string The date string with the specified number of days added.
+     */
+    public static function add($date, $days, $format = 'Y-m-d')
+    {
+        return date($format, strtotime("+$days day", strtotime($date)));
+    }
+
+    /**
      * Formats a given date string according to WordPress settings and provided arguments.
      *
      * @param string|int $date The date string to format. If numeric, it is treated as a Unix timestamp.
