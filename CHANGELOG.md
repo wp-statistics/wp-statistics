@@ -1,3 +1,6 @@
+= 14.x.x - 2025-x-x =
+- **Fix:** Improved compatibility with Bedrock when WP Statistics is placed in mu-plugins by fixing asset hashing and obfuscated tracker path resolution.
+
 = 14.15.6 - 2025-11-09 =
 - **New:** Introduced a refactored background-process migration system and removed legacy AJAX migrations.
 - **New:** Updated the Single Visitor page and added an "Other Visits" section.
