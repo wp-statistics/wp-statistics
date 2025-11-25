@@ -117,12 +117,11 @@ if ($isAiInsightActive && !$isLicenseValid) {
 
             <td>
                 <div>
-                    <button type="submit" name="sync_GSC" aria-label="<?php esc_html_e('Manually trigger an immediate sync of GSC data', 'wp-statistics'); ?>"
-                            class="wps-button wps-button--default">
+                    <button type="submit" name="sync_GSC" aria-label="<?php esc_html_e('Manually trigger an immediate sync of GSC data', 'wp-statistics'); ?>" class="wps-button wps-button--default">
                         <?php esc_html_e('Sync Now', 'wp-statistics'); ?>
                     </button>
-                    <button type="submit" name="sync_GSC" aria-label="<?php esc_html_e('Manually trigger an immediate sync of GSC data', 'wp-statistics'); ?>"
-                            class="wps-button wps-loading-button wps-button--default">
+
+                    <button type="submit" name="sync_GSC" aria-label="<?php esc_html_e('Manually trigger an immediate sync of GSC data', 'wp-statistics'); ?>" class="wps-button wps-loading-button wps-button--default">
                         <?php esc_html_e('Syncing...', 'wp-statistics'); ?>
                     </button>
                 </div>
