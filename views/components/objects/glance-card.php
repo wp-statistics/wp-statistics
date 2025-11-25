@@ -9,7 +9,17 @@
                     <div class="wps-at-a-glance-item">
                         <!-- Metric Label -->
                         <span class="wps-at-a-glance-label" title="<?php echo esc_html($metric['label'] ?? ''); ?>">
-                            <?php echo esc_html($metric['label'] ?? ''); ?>
+                               <?php if (!empty($metric['icon'])): ?>
+                                   <i class="wps-at-a-glance-icon <?php echo esc_attr($metric['icon']); ?>" aria-hidden="true" aria-label="<?php echo esc_attr($metric['label']); ?>"></i>
+                               <?php endif; ?>
+                            <?php if (!empty($metric['link-href'])): ?>
+                                <a href="<?php echo esc_url($metric['link-href']); ?>"
+                                   title="<?php echo esc_attr($metric['label']); ?>">
+                                    <?php echo esc_html($metric['label'] ?? ''); ?>
+                                </a>
+                            <?php else: ?>
+                                <?php echo esc_html($metric['label'] ?? ''); ?>
+                            <?php endif; ?>
                             <?php if (!empty($metric['tooltip'])): ?>
                                 <span class="wps-tooltip" title="<?php echo esc_html($metric['tooltip']); ?>">
                                     <i class="wps-tooltip-icon info"></i>
@@ -21,6 +31,13 @@
                                 <a href="<?php echo esc_url($metric['link-href']); ?>" title="<?php echo esc_html($metric['link-title'] ?? 'View Details'); ?>" target="_blank" class="wps-external-link">
                                     <?php echo esc_html($metric['link-title'] ?? 'View Details'); ?>
                                 </a>
+
+
+                            <?php elseif (isset($metric['score'])): ?>
+                                <span title="<?php echo esc_html($metric['score']); ?>" class="wps-at-a-glance-score">
+                                    <?php echo esc_html($metric['score']); ?><span> /100</span>
+                                </span>
+
                             <?php elseif (isset($metric['value'])): ?>
                                 <span title="<?php echo esc_html($metric['value'] ?? 'No data'); ?>">
                                     <?php if ($metric['value']): ?>
@@ -41,10 +58,10 @@
                                     $is_good_change = ($is_negative_polarity && $metric['change'] < 0) || (!$is_negative_polarity && $metric['change'] > 0);
                                     $color_class = $is_good_change ? 'wps-glance-positive' : 'wps-glance-negative';
                                 }
-                                $change_value = number_format(abs((float) $metric['change']), 1);
+                                $changeValue = number_format(abs((float) $metric['change']), 1);
                                 ?>
                                 <span class="wps-at-a-glance-change <?php echo esc_attr($arrow_class . ' ' . $color_class); ?>">
-                                    <?php echo $change_value  . '%'; ?>
+                                    <?php echo esc_html($changeValue) . '%'; ?>
                                 </span>
                             <?php endif; ?>
                         </span>

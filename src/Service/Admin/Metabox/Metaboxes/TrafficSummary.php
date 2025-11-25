@@ -22,17 +22,12 @@ class TrafficSummary extends BaseMetabox
 
     public function getDescription()
     {
-        return esc_html__('A quick overview of your website\'s visitor statistics.', 'wp-statistics');
+        return '';
     }
 
     public function getData()
     {
-        $args = [
-            'ignore_post_type'  => true,
-            'include_total'     => true
-        ];
-
-        $data = $this->dataProvider->getTrafficSummaryData($args);
+        $data = $this->dataProvider->getTrafficSummaryData();
 
         $output = View::load('metabox/traffic-summary', ['data' => $data], true);
 

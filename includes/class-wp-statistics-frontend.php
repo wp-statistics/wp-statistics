@@ -46,12 +46,10 @@ class Frontend
                 // AJAX params
                 $requestUrl   = get_site_url();
                 $hitParams    = array_merge($params, ['action' => 'wp_statistics_hit_record']);
-                $onlineParams = array_merge($params, ['action' => 'wp_statistics_online_check']);
             } else {
                 // REST params
                 $requestUrl   = get_rest_url(null, RestAPI::$namespace);
                 $hitParams    = array_merge($params, ['endpoint' => Api\v2\Hit::$endpoint]);
-                $onlineParams = array_merge($params, ['endpoint' => Api\v2\CheckUserOnline::$endpoint]);
             }
 
             /**
@@ -61,22 +59,24 @@ class Frontend
                 'requestUrl'   => $requestUrl,
                 'ajaxUrl'      => admin_url('admin-ajax.php'),
                 'hitParams'    => $hitParams,
-                'onlineParams' => $onlineParams,
                 'option'       => [
-                    'userOnline'           => Option::get('useronline'),
                     'dntEnabled'           => Option::get('do_not_track'),
                     'bypassAdBlockers'     => Option::get('bypass_ad_blockers', false),
                     'consentIntegration'   => IntegrationHelper::getIntegrationStatus(),
                     'isPreview'            => is_preview(),
 
-                    // legacy params for backward compatibility (with older versions of DataPlus)
+                    // legacy params for backward compatibility
+                    'userOnline'           => false,
                     'trackAnonymously'     => IntegrationHelper::shouldTrackAnonymously(),
                     'isWpConsentApiActive' => IntegrationHelper::isIntegrationActive('wp_consent_api'),
                     'consentLevel'         => Option::get('consent_level_integration', 'functional'),
                 ],
-                'jsCheckTime'           => apply_filters('wp_statistics_js_check_time_interval', 60000),
                 'isLegacyEventLoaded'   => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded
                 'customEventAjaxUrl'    => add_query_arg(['action' => 'wp_statistics_custom_event', 'nonce' => wp_create_nonce('wp_statistics_custom_event')], admin_url('admin-ajax.php')),
+
+                // Legacy params for backward compatibility with cached JS files after upgrade
+                'onlineParams' => array_merge($params, ['action' => 'wp_statistics_online_check']),
+                'jsCheckTime'  => apply_filters('wp_statistics_js_check_time_interval', 60000),
             );
 
             if (defined('WP_DEBUG') && WP_DEBUG) {
