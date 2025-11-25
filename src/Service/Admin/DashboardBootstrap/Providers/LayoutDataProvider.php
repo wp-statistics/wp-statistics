@@ -32,9 +32,39 @@ class LayoutDataProvider implements LocalizeDataProviderInterface
                 'slug'  => 'overview'
             ],
             'visitorInsights'   => [
-                'icon'  => 'User',
-                'label' => esc_html__('Visitor Insights', 'wp-statistics'),
-                'slug'  => 'visitor-insights'
+                'icon'     => 'User',
+                'label'    => esc_html__('Visitor Insights', 'wp-statistics'),
+                'slug'     => 'visitor-insights',
+                'subPages' => [
+                    'visitorsOverview' => [
+                        'label' => esc_html__('Visitors Overview', 'wp-statistics'),
+                        'slug'  => 'visitors-overview'
+                    ],
+                    'visitors'         => [
+                        'label' => esc_html__('Visitors', 'wp-statistics'),
+                        'slug'  => 'visitors'
+                    ],
+                    'views'            => [
+                        'label' => esc_html__('Views', 'wp-statistics'),
+                        'slug'  => 'views'
+                    ],
+                    'onlineVisitors'   => [
+                        'label' => esc_html__('Online Visitors', 'wp-statistics'),
+                        'slug'  => 'online-visitors'
+                    ],
+                    'topVisitors'      => [
+                        'label' => esc_html__('Top Visitors', 'wp-statistics'),
+                        'slug'  => 'top-visitors'
+                    ],
+                    'loggedInUsers'    => [
+                        'label' => esc_html__('Logged-in Users', 'wp-statistics'),
+                        'slug'  => 'logged-in-users'
+                    ],
+                    'searchTerms'      => [
+                        'label' => esc_html__('Search Terms', 'wp-statistics'),
+                        'slug'  => 'search-terms'
+                    ]
+                ]
             ],
             'pageAnalytics'     => [
                 'icon'  => 'File',

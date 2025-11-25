@@ -22,6 +22,27 @@ const CategoryAnalyticsLazyRouteImport = createFileRoute(
   '/category-analytics',
 )()
 const AuthorAnalyticsLazyRouteImport = createFileRoute('/author-analytics')()
+const visitorInsightsVisitorsOverviewLazyRouteImport = createFileRoute(
+  '/(visitor-insights)/visitors-overview',
+)()
+const visitorInsightsVisitorsLazyRouteImport = createFileRoute(
+  '/(visitor-insights)/visitors',
+)()
+const visitorInsightsViewsLazyRouteImport = createFileRoute(
+  '/(visitor-insights)/views',
+)()
+const visitorInsightsTopVisitorsLazyRouteImport = createFileRoute(
+  '/(visitor-insights)/top-visitors',
+)()
+const visitorInsightsSearchTermsLazyRouteImport = createFileRoute(
+  '/(visitor-insights)/search-terms',
+)()
+const visitorInsightsOnlineVisitorsLazyRouteImport = createFileRoute(
+  '/(visitor-insights)/online-visitors',
+)()
+const visitorInsightsLoggedInUsersLazyRouteImport = createFileRoute(
+  '/(visitor-insights)/logged-in-users',
+)()
 const referralsSourceCategoriesLazyRouteImport = createFileRoute(
   '/(referrals)/source-categories',
 )()
@@ -86,6 +107,84 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const visitorInsightsVisitorsOverviewLazyRoute =
+  visitorInsightsVisitorsOverviewLazyRouteImport
+    .update({
+      id: '/(visitor-insights)/visitors-overview',
+      path: '/visitors-overview',
+      getParentRoute: () => rootRouteImport,
+    } as any)
+    .lazy(() =>
+      import('./routes/(visitor-insights)/visitors-overview.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const visitorInsightsVisitorsLazyRoute = visitorInsightsVisitorsLazyRouteImport
+  .update({
+    id: '/(visitor-insights)/visitors',
+    path: '/visitors',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(visitor-insights)/visitors.lazy').then((d) => d.Route),
+  )
+const visitorInsightsViewsLazyRoute = visitorInsightsViewsLazyRouteImport
+  .update({
+    id: '/(visitor-insights)/views',
+    path: '/views',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(visitor-insights)/views.lazy').then((d) => d.Route),
+  )
+const visitorInsightsTopVisitorsLazyRoute =
+  visitorInsightsTopVisitorsLazyRouteImport
+    .update({
+      id: '/(visitor-insights)/top-visitors',
+      path: '/top-visitors',
+      getParentRoute: () => rootRouteImport,
+    } as any)
+    .lazy(() =>
+      import('./routes/(visitor-insights)/top-visitors.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const visitorInsightsSearchTermsLazyRoute =
+  visitorInsightsSearchTermsLazyRouteImport
+    .update({
+      id: '/(visitor-insights)/search-terms',
+      path: '/search-terms',
+      getParentRoute: () => rootRouteImport,
+    } as any)
+    .lazy(() =>
+      import('./routes/(visitor-insights)/search-terms.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const visitorInsightsOnlineVisitorsLazyRoute =
+  visitorInsightsOnlineVisitorsLazyRouteImport
+    .update({
+      id: '/(visitor-insights)/online-visitors',
+      path: '/online-visitors',
+      getParentRoute: () => rootRouteImport,
+    } as any)
+    .lazy(() =>
+      import('./routes/(visitor-insights)/online-visitors.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const visitorInsightsLoggedInUsersLazyRoute =
+  visitorInsightsLoggedInUsersLazyRouteImport
+    .update({
+      id: '/(visitor-insights)/logged-in-users',
+      path: '/logged-in-users',
+      getParentRoute: () => rootRouteImport,
+    } as any)
+    .lazy(() =>
+      import('./routes/(visitor-insights)/logged-in-users.lazy').then(
+        (d) => d.Route,
+      ),
+    )
 const referralsSourceCategoriesLazyRoute =
   referralsSourceCategoriesLazyRouteImport
     .update({
@@ -152,6 +251,13 @@ export interface FileRoutesByFullPath {
   '/search-engines': typeof referralsSearchEnginesLazyRoute
   '/social-media': typeof referralsSocialMediaLazyRoute
   '/source-categories': typeof referralsSourceCategoriesLazyRoute
+  '/logged-in-users': typeof visitorInsightsLoggedInUsersLazyRoute
+  '/online-visitors': typeof visitorInsightsOnlineVisitorsLazyRoute
+  '/search-terms': typeof visitorInsightsSearchTermsLazyRoute
+  '/top-visitors': typeof visitorInsightsTopVisitorsLazyRoute
+  '/views': typeof visitorInsightsViewsLazyRoute
+  '/visitors': typeof visitorInsightsVisitorsLazyRoute
+  '/visitors-overview': typeof visitorInsightsVisitorsOverviewLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -167,6 +273,13 @@ export interface FileRoutesByTo {
   '/search-engines': typeof referralsSearchEnginesLazyRoute
   '/social-media': typeof referralsSocialMediaLazyRoute
   '/source-categories': typeof referralsSourceCategoriesLazyRoute
+  '/logged-in-users': typeof visitorInsightsLoggedInUsersLazyRoute
+  '/online-visitors': typeof visitorInsightsOnlineVisitorsLazyRoute
+  '/search-terms': typeof visitorInsightsSearchTermsLazyRoute
+  '/top-visitors': typeof visitorInsightsTopVisitorsLazyRoute
+  '/views': typeof visitorInsightsViewsLazyRoute
+  '/visitors': typeof visitorInsightsVisitorsLazyRoute
+  '/visitors-overview': typeof visitorInsightsVisitorsOverviewLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -183,6 +296,13 @@ export interface FileRoutesById {
   '/(referrals)/search-engines': typeof referralsSearchEnginesLazyRoute
   '/(referrals)/social-media': typeof referralsSocialMediaLazyRoute
   '/(referrals)/source-categories': typeof referralsSourceCategoriesLazyRoute
+  '/(visitor-insights)/logged-in-users': typeof visitorInsightsLoggedInUsersLazyRoute
+  '/(visitor-insights)/online-visitors': typeof visitorInsightsOnlineVisitorsLazyRoute
+  '/(visitor-insights)/search-terms': typeof visitorInsightsSearchTermsLazyRoute
+  '/(visitor-insights)/top-visitors': typeof visitorInsightsTopVisitorsLazyRoute
+  '/(visitor-insights)/views': typeof visitorInsightsViewsLazyRoute
+  '/(visitor-insights)/visitors': typeof visitorInsightsVisitorsLazyRoute
+  '/(visitor-insights)/visitors-overview': typeof visitorInsightsVisitorsOverviewLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -200,6 +320,13 @@ export interface FileRouteTypes {
     | '/search-engines'
     | '/social-media'
     | '/source-categories'
+    | '/logged-in-users'
+    | '/online-visitors'
+    | '/search-terms'
+    | '/top-visitors'
+    | '/views'
+    | '/visitors'
+    | '/visitors-overview'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -215,6 +342,13 @@ export interface FileRouteTypes {
     | '/search-engines'
     | '/social-media'
     | '/source-categories'
+    | '/logged-in-users'
+    | '/online-visitors'
+    | '/search-terms'
+    | '/top-visitors'
+    | '/views'
+    | '/visitors'
+    | '/visitors-overview'
   id:
     | '__root__'
     | '/'
@@ -230,6 +364,13 @@ export interface FileRouteTypes {
     | '/(referrals)/search-engines'
     | '/(referrals)/social-media'
     | '/(referrals)/source-categories'
+    | '/(visitor-insights)/logged-in-users'
+    | '/(visitor-insights)/online-visitors'
+    | '/(visitor-insights)/search-terms'
+    | '/(visitor-insights)/top-visitors'
+    | '/(visitor-insights)/views'
+    | '/(visitor-insights)/visitors'
+    | '/(visitor-insights)/visitors-overview'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -246,6 +387,13 @@ export interface RootRouteChildren {
   referralsSearchEnginesLazyRoute: typeof referralsSearchEnginesLazyRoute
   referralsSocialMediaLazyRoute: typeof referralsSocialMediaLazyRoute
   referralsSourceCategoriesLazyRoute: typeof referralsSourceCategoriesLazyRoute
+  visitorInsightsLoggedInUsersLazyRoute: typeof visitorInsightsLoggedInUsersLazyRoute
+  visitorInsightsOnlineVisitorsLazyRoute: typeof visitorInsightsOnlineVisitorsLazyRoute
+  visitorInsightsSearchTermsLazyRoute: typeof visitorInsightsSearchTermsLazyRoute
+  visitorInsightsTopVisitorsLazyRoute: typeof visitorInsightsTopVisitorsLazyRoute
+  visitorInsightsViewsLazyRoute: typeof visitorInsightsViewsLazyRoute
+  visitorInsightsVisitorsLazyRoute: typeof visitorInsightsVisitorsLazyRoute
+  visitorInsightsVisitorsOverviewLazyRoute: typeof visitorInsightsVisitorsOverviewLazyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -306,6 +454,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(visitor-insights)/visitors-overview': {
+      id: '/(visitor-insights)/visitors-overview'
+      path: '/visitors-overview'
+      fullPath: '/visitors-overview'
+      preLoaderRoute: typeof visitorInsightsVisitorsOverviewLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(visitor-insights)/visitors': {
+      id: '/(visitor-insights)/visitors'
+      path: '/visitors'
+      fullPath: '/visitors'
+      preLoaderRoute: typeof visitorInsightsVisitorsLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(visitor-insights)/views': {
+      id: '/(visitor-insights)/views'
+      path: '/views'
+      fullPath: '/views'
+      preLoaderRoute: typeof visitorInsightsViewsLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(visitor-insights)/top-visitors': {
+      id: '/(visitor-insights)/top-visitors'
+      path: '/top-visitors'
+      fullPath: '/top-visitors'
+      preLoaderRoute: typeof visitorInsightsTopVisitorsLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(visitor-insights)/search-terms': {
+      id: '/(visitor-insights)/search-terms'
+      path: '/search-terms'
+      fullPath: '/search-terms'
+      preLoaderRoute: typeof visitorInsightsSearchTermsLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(visitor-insights)/online-visitors': {
+      id: '/(visitor-insights)/online-visitors'
+      path: '/online-visitors'
+      fullPath: '/online-visitors'
+      preLoaderRoute: typeof visitorInsightsOnlineVisitorsLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(visitor-insights)/logged-in-users': {
+      id: '/(visitor-insights)/logged-in-users'
+      path: '/logged-in-users'
+      fullPath: '/logged-in-users'
+      preLoaderRoute: typeof visitorInsightsLoggedInUsersLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(referrals)/source-categories': {
       id: '/(referrals)/source-categories'
       path: '/source-categories'
@@ -358,6 +555,15 @@ const rootRouteChildren: RootRouteChildren = {
   referralsSearchEnginesLazyRoute: referralsSearchEnginesLazyRoute,
   referralsSocialMediaLazyRoute: referralsSocialMediaLazyRoute,
   referralsSourceCategoriesLazyRoute: referralsSourceCategoriesLazyRoute,
+  visitorInsightsLoggedInUsersLazyRoute: visitorInsightsLoggedInUsersLazyRoute,
+  visitorInsightsOnlineVisitorsLazyRoute:
+    visitorInsightsOnlineVisitorsLazyRoute,
+  visitorInsightsSearchTermsLazyRoute: visitorInsightsSearchTermsLazyRoute,
+  visitorInsightsTopVisitorsLazyRoute: visitorInsightsTopVisitorsLazyRoute,
+  visitorInsightsViewsLazyRoute: visitorInsightsViewsLazyRoute,
+  visitorInsightsVisitorsLazyRoute: visitorInsightsVisitorsLazyRoute,
+  visitorInsightsVisitorsOverviewLazyRoute:
+    visitorInsightsVisitorsOverviewLazyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
