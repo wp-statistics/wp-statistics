@@ -43,7 +43,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavMain items={navItems} />
       </SidebarContent>
-      <SidebarFooter className="sticky bottom-0 border-t border-border">
+      <SidebarFooter className="sticky bottom-0 border-t border-border bg-sidebar">
         <SidebarTrigger className="ms-auto" />
       </SidebarFooter>
     </Sidebar>
