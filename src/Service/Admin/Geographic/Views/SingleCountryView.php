@@ -2,6 +2,7 @@
 namespace WP_Statistics\Service\Admin\Geographic\Views;
 
 use WP_STATISTICS\Menus;
+use WP_Statistics\Service\Admin\ExportImport\ExportTypes;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseView;
@@ -30,7 +31,8 @@ class SingleCountryView extends BaseView
             'more_title'        => esc_html__('Learn More', 'wp-statistics'),
             'premium_btn_title' => esc_html__('Go Premium for Complete Geographic Reports', 'wp-statistics'),
             'images'            => ['geographic-single.png'],
-            'description'       => esc_html__('Discover your traffic on a country-by-country basis. Discover how visitors from each region, city, and country interact with your site. Know where your audience comes from, what devices they use, and how they found you.', 'wp-statistics')
+            'description'       => esc_html__('Discover your traffic on a country-by-country basis. Discover how visitors from each region, city, and country interact with your site. Know where your audience comes from, what devices they use, and how they found you.', 'wp-statistics'),
+            'export'            => [ExportTypes::CSV_METRICS, ExportTypes::PDF_PAGE]
         ];
 
         Admin_Template::get_template(['layout/header']);

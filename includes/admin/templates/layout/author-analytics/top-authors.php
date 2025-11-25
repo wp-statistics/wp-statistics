@@ -27,7 +27,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
     <div class="wps-flex-container">
         <div class="wps-flex-half">
             <div class="wps-tabs">
-                <input type="radio" name="tabs" id="author-views" checked="checked">
+                <input type="radio" name="tabs" id="author-views" checked>
                 <label for="author-views"><?php esc_html_e('Views', 'wp-statistics') ?></label>
                 <div class="wps-tabs__content">
                     <?php

@@ -17,9 +17,6 @@ use WP_STATISTICS\Menus;
                             <span class="wps-order"><?php esc_html_e('Last View', 'wp-statistics'); ?></span>
                         </th>
                         <th scope="col" class="wps-pd-l">
-                            <span><?php esc_html_e('Online For', 'wp-statistics'); ?></span>
-                        </th>
-                        <th scope="col" class="wps-pd-l">
                             <?php esc_html_e('Visitor Information', 'wp-statistics'); ?>
                         </th>
                         <th scope="col" class="wps-pd-l">
@@ -36,8 +33,6 @@ use WP_STATISTICS\Menus;
                     <?php /** @var VisitorDecorator $visitor */ ?>
                         <tr>
                             <td class="wps-pd-l"><?php echo esc_html($visitor->getLastView()); ?></td>
-
-                            <td class="wps-pd-l"><?php echo esc_html($visitor->getOnlineTime()); ?></td>
 
                             <td class="wps-pd-l">
                                 <?php
