@@ -76,6 +76,13 @@ class Ip
     public static string $hashIpPrefix = '#hash#';
 
     /**
+     * Cached IP method for the current request.
+     *
+     * @var string|null
+     */
+    private static $cachedIpMethod = null;
+
+    /**
      * Returns all available detection headers.
      *
      * @return array
@@ -83,9 +90,10 @@ class Ip
     public static function getDetectionHeaders()
     {
         $headers = self::$ipMethodsServer;
+        $method  = self::getMethod();
 
-        if (isset($_SERVER[self::getMethod()])) {
-            $headers[] = self::getMethod();
+        if (isset($_SERVER[$method])) {
+            $headers[] = $method;
         }
 
         return array_unique($headers);
@@ -207,7 +215,7 @@ class Ip
      * and a daily rotating salt for privacy protection.
      *
      * @param string|null $ip Optional. The IP address to hash. If null, uses current user IP.
-     * @return string The hashed IP address with prefix.
+     * @return string The hashed IP address without prefix (40 characters).
      */
     public static function hash($ip = null)
     {
@@ -219,7 +227,8 @@ class Ip
         $userAgent = UserAgent::getHttpUserAgent();
 
         $hash          = hash('sha256', $salt . $ip . $userAgent);
-        $truncatedHash = substr(self::$hashIpPrefix . $hash, 0, 46);
+        $truncatedHash = substr($hash, 0, 40);
+
 
         /**
          * Filters the hashed IP address.
@@ -405,13 +414,20 @@ class Ip
      */
     public static function getMethod()
     {
+        // Return cached value if available for this request
+        if (self::$cachedIpMethod !== null) {
+            return self::$cachedIpMethod;
+        }
+
         $ipMethod = Option::getValue('ip_method', self::$defaultIpMethod);
 
-        if (!in_array($ipMethod, self::getDetectionHeaders(), true)) {
+        if (!in_array($ipMethod, self::$ipMethodsServer, true) && $ipMethod !== self::$defaultIpMethod) {
             Option::updateValue('ip_method', self::$defaultIpMethod);
+            self::$cachedIpMethod = self::$defaultIpMethod;
             return self::$defaultIpMethod;
         }
 
+        self::$cachedIpMethod = $ipMethod;
         return $ipMethod;
     }
 

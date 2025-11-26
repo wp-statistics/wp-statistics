@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Analytics;
 
+use WP_Statistics\Components\Ip as ComponentsIp;
 use WP_STATISTICS\IP;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Traits\ObjectCacheTrait;
@@ -592,6 +593,22 @@ class VisitorProfile
     {
         return $this->getCachedData('processedIPForStorage', function () {
             return IP::getStoreIP();
+        });
+    }
+
+    /**
+     * Get the hashed IP address for storage in the visitor table.
+     *
+     * Returns a pure SHA-256 hash (40 characters) without any prefix.
+     * The hash is generated using a daily rotating salt combined with
+     * the visitor's IP address and user agent for privacy protection.
+     *
+     * @return string The hashed IP address without prefix.
+     */
+    public function getHashedIPForStorage()
+    {
+        return $this->getCachedData('hashedIPForStorage', function () {
+            return ComponentsIp::hash();
         });
     }
 

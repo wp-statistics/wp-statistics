@@ -32,7 +32,7 @@ class Visitor extends BaseEntity
             return $this;
         }
 
-        $hash = $this->profile->getProcessedIPForStorage();
+        $hash = $this->profile->getHashedIPForStorage();
 
         if (empty($hash)) {
             return $this;
