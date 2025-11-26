@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps-wrap__main">
     <div class="wp-header-end"></div>
 

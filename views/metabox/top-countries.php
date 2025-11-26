@@ -1,5 +1,7 @@
 <?php
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Country;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Components\View;

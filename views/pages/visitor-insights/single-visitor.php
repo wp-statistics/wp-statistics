@@ -1,5 +1,7 @@
 <?php
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Option;
 use WP_Statistics\Components\View;
 use WP_Statistics\Decorators\VisitorDecorator;

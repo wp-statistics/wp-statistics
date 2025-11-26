@@ -1,8 +1,12 @@
 <?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
+
 ?>
 
 <div class="wps-meta-traffic-summary">
@@ -29,7 +33,7 @@ use WP_STATISTICS\Helper;
             </thead>
             <tbody>
             <?php foreach ($data['summary'] as $key => $item) :
-                    $itemData = $item['data'];
+                $itemData = $item['data'];
                 ?>
                 <tr>
                     <td>

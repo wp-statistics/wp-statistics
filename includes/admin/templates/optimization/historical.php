@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <?php
 // Get the historical number of visitors to the site
 $historical_visitors = WP_STATISTICS\Historical::get('visitors');

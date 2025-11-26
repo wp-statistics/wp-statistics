@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps--no-data__container" aria-live="polite">
     <?php if(isset($url)):?>
     <img class="wps--no-data__image" src="<?php echo esc_url($url) ?>" role="presentation" alt="<?php echo esc_attr(sprintf(__('Illustration for %s', 'wp-statistics'), $title)) ?>">

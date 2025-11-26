@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps-card">
     <div class="wps-card__title">
         <h2><?php esc_html_e('At a Glance', 'wp-statistics'); ?></h2>

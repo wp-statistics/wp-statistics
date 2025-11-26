@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps-notification-sidebar__card <?php echo esc_attr($notification->backgroundColor()); ?> wps-notification-<?php echo esc_attr($notification->getID()) ?>">
     <?php if ($notification->getIcon()): ?>
         <div class="wps-notification-sidebar__card-icon">

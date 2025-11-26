@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps-privacy-audit__head">
     <span class="wps-privacy-audit__status-icon"></span>
     <div class="wps-privacy-audit__status-title">

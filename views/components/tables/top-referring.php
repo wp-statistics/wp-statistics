@@ -1,6 +1,10 @@
 <?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Referred;
+
 ?>
 
 <div class="wps-card">
@@ -43,7 +47,7 @@ use WP_STATISTICS\Referred;
             </div>
         <?php else : ?>
             <div class="o-wrap o-wrap--no-data wps-center">
-                <?php esc_html_e('No recent data available.', 'wp-statistics')   ?>
+                <?php esc_html_e('No recent data available.', 'wp-statistics') ?>
             </div>
         <?php endif; ?>
     </div>

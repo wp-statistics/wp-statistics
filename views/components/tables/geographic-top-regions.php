@@ -1,6 +1,10 @@
 <?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
+
 ?>
 
 <div class="wps-card">
@@ -14,28 +18,28 @@ use WP_STATISTICS\Menus;
             <div class="o-table-wrapper">
                 <table width="100%" class="o-table wps-new-table">
                     <thead>
-                        <tr>
-                            <th class="wps-pd-l">
-                                <?php echo esc_html($top_title); ?>
-                            </th>
-                            <th class="wps-pd-l">
+                    <tr>
+                        <th class="wps-pd-l">
+                            <?php echo esc_html($top_title); ?>
+                        </th>
+                        <th class="wps-pd-l">
                                 <span class="wps-order">
                                     <?php esc_html_e('Visitors', 'wp-statistics') ?>
                                 </span>
-                            </th>
-                        </tr>
+                        </th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($data as $item) : ?>
-                            <tr>
-                                <td class="wps-pd-l">
-                                    <?php echo esc_html($item->region); ?>
-                                </td>
-                                <td class="wps-pd-l">
-                                    <?php echo esc_html(number_format_i18n($item->visitors)) ?>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
+                    <?php foreach ($data as $item) : ?>
+                        <tr>
+                            <td class="wps-pd-l">
+                                <?php echo esc_html($item->region); ?>
+                            </td>
+                            <td class="wps-pd-l">
+                                <?php echo esc_html(number_format_i18n($item->visitors)) ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>

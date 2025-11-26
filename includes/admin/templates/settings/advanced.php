@@ -1,5 +1,7 @@
 <?php
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\Event;
 use WP_STATISTICS\Option;

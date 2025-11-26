@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps-audit-cards wps-privacy-unpassed loading">
     <h2 class="wps-audit-cards__title wps-audit-cards__title--dark">
         <?php esc_html_e('Action Required', 'wp-statistics'); ?>

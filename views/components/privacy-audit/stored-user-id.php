@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps-mb-16"><?php echo esc_html__('Our system has found that User IDs have previously been recorded in your database, which may have occurred while the “Record User Page Visits” feature was active. To ensure the privacy and security of your users, we recommend removing these User IDs from your database.') ?></div>
 <div class="wps-audit-card__suggestion wps-mb-16">
     <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('How to Remove User IDs?', 'wp-statistics') ?></div>

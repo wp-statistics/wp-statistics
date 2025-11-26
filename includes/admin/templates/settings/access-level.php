@@ -1,5 +1,6 @@
 <?php
-//Get List Roles WordPress
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use WP_STATISTICS\User;
 
@@ -116,4 +117,4 @@ global $wp_roles;
         </table>
     </div>
 
-<?php submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('id' => 'access_submit','OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='access-settings'")); ?>
+<?php submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('id' => 'access_submit', 'OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='access-settings'")); ?>

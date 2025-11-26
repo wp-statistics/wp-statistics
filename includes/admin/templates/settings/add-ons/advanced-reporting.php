@@ -1,12 +1,15 @@
 <?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
-$isLicenseValid             = LicenseHelper::isPluginLicenseValid('wp-statistics-advanced-reporting');
-$isAdvancedReportingActive  = WP_STATISTICS\Helper::isAddOnActive('advanced-reporting');
+$isLicenseValid            = LicenseHelper::isPluginLicenseValid('wp-statistics-advanced-reporting');
+$isAdvancedReportingActive = WP_STATISTICS\Helper::isAddOnActive('advanced-reporting');
 global $wp_version;
 ?>
 
@@ -368,20 +371,20 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
     <div class="postbox">
         <table class="form-table <?php echo !$isAdvancedReportingActive ? 'form-table--preview' : '' ?>">
             <tbody>
-                <tr class="wps-settings-box_head">
-                    <th scope="row" colspan="2"><h3><?php esc_html_e('Export', 'wp-statistics'); ?></h3></th>
-                </tr>
+            <tr class="wps-settings-box_head">
+                <th scope="row" colspan="2"><h3><?php esc_html_e('Export', 'wp-statistics'); ?></h3></th>
+            </tr>
 
-                <tr data-id="table_csv_export_row_limit_tr">
-                    <th scope="row">
-                        <span class="wps-setting-label"><?php esc_html_e('Maximum Rows per CSV Export', 'wp-statistics'); ?></span>
-                    </th>
+            <tr data-id="table_csv_export_row_limit_tr">
+                <th scope="row">
+                    <span class="wps-setting-label"><?php esc_html_e('Maximum Rows per CSV Export', 'wp-statistics'); ?></span>
+                </th>
 
-                    <td>
-                        <input type="number" min="0" name="wps_addon_settings[advanced_reporting][table_csv_export_row_limit]" id="wps_addon_settings[advanced_reporting][table_csv_export_row_limit]" class="regular-text" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('table_csv_export_row_limit', 'advanced_reporting', 100)) ?>"/>
-                        <p class="description"><?php esc_html_e('Set the maximum number of rows to include when exporting table data to CSV. The export includes the most recent rows within the selected time range, following the current table sort order.', 'wp-statistics'); ?></p>
-                    </td>
-                </tr>
+                <td>
+                    <input type="number" min="0" name="wps_addon_settings[advanced_reporting][table_csv_export_row_limit]" id="wps_addon_settings[advanced_reporting][table_csv_export_row_limit]" class="regular-text" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('table_csv_export_row_limit', 'advanced_reporting', 100)) ?>"/>
+                    <p class="description"><?php esc_html_e('Set the maximum number of rows to include when exporting table data to CSV. The export includes the most recent rows within the selected time range, following the current table sort order.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>
@@ -401,9 +404,9 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 <td>
                     <div class="wps-input-group wps-input-group__action">
                         <input id="wps_addon_settings[advanced_reporting][email_preview_content]" name="wps_addon_settings[advanced_reporting][email_preview_content]" type="text" class="regular-text wps-input-group__field wps-input-group__field--small" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('email_preview_content', 'advanced_reporting')) ?>"/>
-                        <input type="submit" name="submit-preview" id="submit-preview" value="Send" onclick="var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='advanced-reporting-settings'" class="button wps-input-group__label"  style="margin: 0; "/>
+                        <input type="submit" name="submit-preview" id="submit-preview" value="Send" onclick="var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='advanced-reporting-settings'" class="button wps-input-group__label" style="margin: 0; "/>
                     </div>
-                     <p class="description"><?php esc_html_e('Enter an email to send a preview.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php esc_html_e('Enter an email to send a preview.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
             </tbody>
@@ -412,6 +415,6 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
 
 <?php
 if ($isAdvancedReportingActive) {
-    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('id' => 'advance_submit','OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='advanced-reporting-settings'"));
+    submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('id' => 'advance_submit', 'OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='advanced-reporting-settings'"));
 }
 ?>
