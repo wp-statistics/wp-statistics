@@ -1,19 +1,20 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 import * as React from 'react'
 
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
-import { ChevronRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { __ } from '@wordpress/i18n'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { getVisitorInsightTopCountriesQueryOptions } from '@/services/visitor-insight/get-top-countries'
-import { getVisitorInsightDevicesTypeQueryOptions } from '@/services/visitor-insight/get-devices-type'
-import { WordPress } from '@/lib/wordpress'
-import { getVisitorInsightOSSQueryOptions } from '@/services/visitor-insight/get-oss'
-import { LineChart } from '@/components/custom/line-chart'
-import { GlobalMap } from '@/components/custom/global-map'
 import type { GlobalMapData } from '@/components/custom/global-map'
+import { GlobalMap } from '@/components/custom/global-map'
+import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
+import { LineChart } from '@/components/custom/line-chart'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { WordPress } from '@/lib/wordpress'
+import { getVisitorInsightDevicesTypeQueryOptions } from '@/services/visitor-insight/get-devices-type'
+import { getVisitorInsightGlobalVisitorDistributionQueryOptions } from '@/services/visitor-insight/get-global-visitor-distribution'
+import { getVisitorInsightOSSQueryOptions } from '@/services/visitor-insight/get-oss'
+import { getVisitorInsightTopCountriesQueryOptions } from '@/services/visitor-insight/get-top-countries'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { __ } from '@wordpress/i18n'
+import { ChevronRight } from 'lucide-react'
 
 export const Route = createLazyFileRoute('/(visitor-insights)/visitors-overview')({
   component: RouteComponent,
@@ -34,6 +35,10 @@ function RouteComponent() {
   const {
     data: { data: oss },
   } = useSuspenseQuery(getVisitorInsightOSSQueryOptions())
+
+  const {
+    data: { data: globalVisitorDistribution },
+  } = useSuspenseQuery(getVisitorInsightGlobalVisitorDistributionQueryOptions())
 
   const [timeframe, setTimeframe] = React.useState<'Daily' | 'Weekly' | 'Monthly'>('Daily')
 
@@ -137,35 +142,19 @@ function RouteComponent() {
     },
   ]
 
-  // Global Visitor Distribution data
   const globalMapData: GlobalMapData = {
-    countries: [
-      { code: 'US', name: 'United States', flag: '🇺🇸', visitors: 25000 },
-      { code: 'FR', name: 'France', flag: '🇫🇷', visitors: 23000 },
-      { code: 'GB', name: 'United Kingdom', flag: '🇬🇧', visitors: 18000 },
-      { code: 'DE', name: 'Germany', flag: '🇩🇪', visitors: 15000 },
-      { code: 'CA', name: 'Canada', flag: '🇨🇦', visitors: 12000 },
-      { code: 'AU', name: 'Australia', flag: '🇦🇺', visitors: 10000 },
-      { code: 'JP', name: 'Japan', flag: '🇯🇵', visitors: 9000 },
-      { code: 'IN', name: 'India', flag: '🇮🇳', visitors: 8000 },
-      { code: 'BR', name: 'Brazil', flag: '🇧🇷', visitors: 7000 },
-      { code: 'IT', name: 'Italy', flag: '🇮🇹', visitors: 6500 },
-      { code: 'ES', name: 'Spain', flag: '🇪🇸', visitors: 6000 },
-      { code: 'MX', name: 'Mexico', flag: '🇲🇽', visitors: 5500 },
-      { code: 'NL', name: 'Netherlands', flag: '🇳🇱', visitors: 5000 },
-      { code: 'SE', name: 'Sweden', flag: '🇸🇪', visitors: 4500 },
-      { code: 'CH', name: 'Switzerland', flag: '🇨🇭', visitors: 4000 },
-      { code: 'BE', name: 'Belgium', flag: '🇧🇪', visitors: 3500 },
-      { code: 'PL', name: 'Poland', flag: '🇵🇱', visitors: 3000 },
-      { code: 'AT', name: 'Austria', flag: '🇦🇹', visitors: 2500 },
-      { code: 'NO', name: 'Norway', flag: '🇳🇴', visitors: 2000 },
-      { code: 'DK', name: 'Denmark', flag: '🇩🇰', visitors: 1800 },
-    ],
+    countries: globalVisitorDistribution.data.items
+      .filter((item) => item.code && item.name && item.visitors)
+      .map((item) => ({
+        code: item.code.toLowerCase(),
+        name: item.name,
+        visitors: Number(item.visitors),
+      })),
   }
 
   return (
     <div className="p-2 grid gap-6">
-      <h1 className="text-2xl font-medium text-neutral-700">Visitors Overview</h1>
+      <h1 className="text-2xl font-medium text-neutral-700">Visitor insights</h1>
       <div className="grid gap-3 grid-cols-12">
         <div className="col-span-12">{__('Statistics Section', 'wp-statistics')}</div>
 
@@ -319,9 +308,7 @@ function RouteComponent() {
             metric="Visitors"
             showZoomControls={true}
             showLegend={true}
-            showTimePeriod={true}
-            timePeriod="Last 30 days"
-            onTimePeriodChange={(period) => console.log('Time period changed:', period)}
+            pluginUrl={pluginUrl}
             title={__('Global Visitor Distribution', 'wp-statistics')}
           />
         </div>

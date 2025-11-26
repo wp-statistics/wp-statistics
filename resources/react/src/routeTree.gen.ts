@@ -13,7 +13,6 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 
-const VisitorInsightsLazyRouteImport = createFileRoute('/visitor-insights')()
 const PageAnalyticsLazyRouteImport = createFileRoute('/page-analytics')()
 const OverviewLazyRouteImport = createFileRoute('/overview')()
 const GeographicLazyRouteImport = createFileRoute('/geographic')()
@@ -59,13 +58,6 @@ const referralsReferredVisitorsLazyRouteImport = createFileRoute(
   '/(referrals)/referred-visitors',
 )()
 
-const VisitorInsightsLazyRoute = VisitorInsightsLazyRouteImport.update({
-  id: '/visitor-insights',
-  path: '/visitor-insights',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() =>
-  import('./routes/visitor-insights.lazy').then((d) => d.Route),
-)
 const PageAnalyticsLazyRoute = PageAnalyticsLazyRouteImport.update({
   id: '/page-analytics',
   path: '/page-analytics',
@@ -245,7 +237,6 @@ export interface FileRoutesByFullPath {
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
   '/page-analytics': typeof PageAnalyticsLazyRoute
-  '/visitor-insights': typeof VisitorInsightsLazyRoute
   '/referred-visitors': typeof referralsReferredVisitorsLazyRoute
   '/referrers': typeof referralsReferrersLazyRoute
   '/search-engines': typeof referralsSearchEnginesLazyRoute
@@ -267,7 +258,6 @@ export interface FileRoutesByTo {
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
   '/page-analytics': typeof PageAnalyticsLazyRoute
-  '/visitor-insights': typeof VisitorInsightsLazyRoute
   '/referred-visitors': typeof referralsReferredVisitorsLazyRoute
   '/referrers': typeof referralsReferrersLazyRoute
   '/search-engines': typeof referralsSearchEnginesLazyRoute
@@ -290,7 +280,6 @@ export interface FileRoutesById {
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
   '/page-analytics': typeof PageAnalyticsLazyRoute
-  '/visitor-insights': typeof VisitorInsightsLazyRoute
   '/(referrals)/referred-visitors': typeof referralsReferredVisitorsLazyRoute
   '/(referrals)/referrers': typeof referralsReferrersLazyRoute
   '/(referrals)/search-engines': typeof referralsSearchEnginesLazyRoute
@@ -314,7 +303,6 @@ export interface FileRouteTypes {
     | '/geographic'
     | '/overview'
     | '/page-analytics'
-    | '/visitor-insights'
     | '/referred-visitors'
     | '/referrers'
     | '/search-engines'
@@ -336,7 +324,6 @@ export interface FileRouteTypes {
     | '/geographic'
     | '/overview'
     | '/page-analytics'
-    | '/visitor-insights'
     | '/referred-visitors'
     | '/referrers'
     | '/search-engines'
@@ -358,7 +345,6 @@ export interface FileRouteTypes {
     | '/geographic'
     | '/overview'
     | '/page-analytics'
-    | '/visitor-insights'
     | '/(referrals)/referred-visitors'
     | '/(referrals)/referrers'
     | '/(referrals)/search-engines'
@@ -381,7 +367,6 @@ export interface RootRouteChildren {
   GeographicLazyRoute: typeof GeographicLazyRoute
   OverviewLazyRoute: typeof OverviewLazyRoute
   PageAnalyticsLazyRoute: typeof PageAnalyticsLazyRoute
-  VisitorInsightsLazyRoute: typeof VisitorInsightsLazyRoute
   referralsReferredVisitorsLazyRoute: typeof referralsReferredVisitorsLazyRoute
   referralsReferrersLazyRoute: typeof referralsReferrersLazyRoute
   referralsSearchEnginesLazyRoute: typeof referralsSearchEnginesLazyRoute
@@ -398,13 +383,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/visitor-insights': {
-      id: '/visitor-insights'
-      path: '/visitor-insights'
-      fullPath: '/visitor-insights'
-      preLoaderRoute: typeof VisitorInsightsLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/page-analytics': {
       id: '/page-analytics'
       path: '/page-analytics'
@@ -549,7 +527,6 @@ const rootRouteChildren: RootRouteChildren = {
   GeographicLazyRoute: GeographicLazyRoute,
   OverviewLazyRoute: OverviewLazyRoute,
   PageAnalyticsLazyRoute: PageAnalyticsLazyRoute,
-  VisitorInsightsLazyRoute: VisitorInsightsLazyRoute,
   referralsReferredVisitorsLazyRoute: referralsReferredVisitorsLazyRoute,
   referralsReferrersLazyRoute: referralsReferrersLazyRoute,
   referralsSearchEnginesLazyRoute: referralsSearchEnginesLazyRoute,

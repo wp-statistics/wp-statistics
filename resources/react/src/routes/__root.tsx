@@ -11,7 +11,7 @@ const RootLayout = () => (
       <div className="flex flex-1 relative min-h-[calc(100vh-var(--header-height,0px))]">
         <AppSidebar />
         <SidebarInset className="flex-1">
-          <div className="flex flex-1 flex-col gap-4 p-4">
+          <div className="flex flex-1 flex-col gap-4 p-4 bg-neutral-100">
             <Outlet />
           </div>
         </SidebarInset>
