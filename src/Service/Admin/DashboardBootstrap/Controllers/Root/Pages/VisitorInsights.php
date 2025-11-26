@@ -11,6 +11,7 @@ use WP_Statistics\Models\SummaryTotalModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\PageActionInterface;
+use WP_Statistics\Utils\Request;
 
 /**
  * Visitor Insight page action handler.
@@ -46,7 +47,8 @@ class VisitorInsights implements PageActionInterface
             'get_top_countries' => 'getTopCountries',
             'get_top_devices' => 'getTopDevices',
             'get_top_oss' => 'getTopOss',
-            'get_global_distribution' => 'getGlobalDistribution'
+            'get_global_distribution' => 'getGlobalDistribution',
+            'get_traffic_trends' => 'getTrafficTrends',
         ];
     }
 
@@ -329,5 +331,51 @@ class VisitorInsights implements PageActionInterface
                 'to'   => $dateTo
             ]
         ]);
+    }
+
+    /**
+     * Get daily traffic trends (date & views & visitors).
+     *
+     * @return array Array of objects with date, views, visitors, viewsPrevious, visitorsPrevious
+     */
+    public function getTrafficTrends()
+    {
+        $summaryTotalModel = new SummaryTotalModel();
+
+        $range = Request::get('range', 'daily');
+        $hasPreviousData = Request::get('hasPreviousData', true);
+
+        $dateTo   = date('Y-m-d'); // Today
+        $dateFrom = date('Y-m-d', strtotime('-30 days'));
+
+        $prevDateTo   = date('Y-m-d', strtotime('-31 days'));
+        $prevDateFrom = date('Y-m-d', strtotime('-60 days'));
+
+        $params = [
+            'date' => [
+                'from' => $dateFrom,
+                'to'   => $dateTo
+            ],
+            'range' => $range
+        ];
+
+        if ($hasPreviousData) {
+            $params['previous_date'] = [
+                'from' => $prevDateFrom,
+                'to'   => $prevDateTo
+            ];
+        }
+
+        $results = $summaryTotalModel->getTrafficInRange($params);
+
+       return array_map(function($row) {
+            return [
+                'date' => $row->date,
+                'visitors' => (int)$row->visitors,
+                'visitorsPrevious' => isset($row->visitorsPrevious) ? (int)$row->visitorsPrevious : 0,
+                'views' => (int)$row->views,
+                'viewsPrevious' => isset($row->viewsPrevious) ? (int)$row->viewsPrevious : 0,
+            ];
+        }, $results);
     }
 }
