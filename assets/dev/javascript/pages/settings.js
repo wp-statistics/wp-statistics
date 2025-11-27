@@ -34,8 +34,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     classListArray.forEach(className => {
                         if (className.includes('_enabled') || className.includes('_disabled')) {
                             conditions++;
-                            const id = this.extractId(element);
-                            const checkbox = document.querySelector(`#${id}`) || document.querySelector(`#wps_settings\\[${id}\\]`);
+                            const id = this.extractId(className);
+                            const checkbox = this.findCheckbox(id);
                             if (checkbox) {
                                 if (checkbox.type === 'checkbox') {
                                     if (checkbox.checked && className.includes('_enabled')) {
@@ -90,8 +90,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
                 classListArray.forEach(className => {
                     if (className.includes('_enabled') || className.includes('_disabled')) {
-                        const id = this.extractId(element);
-                        const checkbox = document.querySelector(`#wps_settings\\[${id}\\]`);
+                        const id = this.extractId(className);
+                        const checkbox = this.findCheckbox(id);
 
                         if (checkbox) {
                             checkbox.addEventListener('change', toggleElement);
@@ -118,12 +118,34 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             element.style.display = displayType;
         }
 
-        extractId(element) {
-            const classes = element.className.split(' ');
-            for (const className of classes) {
-                if (className.startsWith('js-wps-show_if_')) {
-                    return className.replace('js-wps-show_if_', '').replace('_enabled', '').replace('_disabled', '').replace('_equal_', '_');
-                }
+        extractId(className) {
+            if (className.startsWith('js-wps-show_if_')) {
+                let id = className.replace('js-wps-show_if_', '');
+                id = id.replace(/_enabled$/, '').replace(/_disabled$/, '');
+                return id;
+            }
+            return null;
+        }
+
+        findCheckbox(id) {
+            let checkbox = document.querySelector(`#${id}`);
+            if (checkbox) return checkbox;
+
+            checkbox = document.querySelector(`#wps_settings\\[${id}\\]`);
+            if (checkbox) return checkbox;
+
+            const parts = id.split('_');
+
+            if (parts.length >= 3) {
+                const addonPart1 = parts[0];
+                const addonPart2 = parts[1];
+                const addonName = addonPart1 + '_' + addonPart2 + 's';
+
+                const fieldParts = parts.slice(2);
+                const fieldName = 'gsc_' + fieldParts.join('_');
+
+                checkbox = document.querySelector(`#wps_addon_settings\\[${addonName}\\]\\[${fieldName}\\]`);
+                if (checkbox) return checkbox;
             }
             return null;
         }
@@ -281,7 +303,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     updateHiddenInput(newValue);
                     initialRetention = newValue;
                     callback(true);
-                }, { once: true });
+                }, {once: true});
             }
 
             const closeButton = modal.querySelector('button[data-action="closeModal"]');
@@ -290,7 +312,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     modal.classList.remove('wps-modal--open');
                     revertToInitialState();
                     callback(false);
-                }, { once: true });
+                }, {once: true});
             }
 
             const overlay = modal.querySelector('.wps-modal__overlay');
@@ -299,7 +321,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     modal.classList.remove('wps-modal--open');
                     revertToInitialState();
                     callback(false);
-                }, { once: true });
+                }, {once: true});
             }
         }
 
