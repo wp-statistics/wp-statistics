@@ -1,8 +1,10 @@
 <?php
 
 use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
+use WP_Statistics\Marketing\Models\SearchConsoleModel;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
@@ -10,11 +12,18 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 $isLicenseValid    = LicenseHelper::isPluginLicenseValid('wp-statistics-ai-insights');
 $isAiInsightActive = Helper::isAddOnActive('ai-insights');
 
-$syncStatus = apply_filters('wp_statistics_gsc_sync_status', '');
+$settingsData = apply_filters('wp_statistics_ai_insights_settings_data', []);
+
+$syncStatus   = $settingsData['sync_status'] ?? '';
+$lastSyncTime = $settingsData['last_sync_timestamp'] ?? null;
+$gscRecords   = $settingsData['records_synced'] ?? 0;
+$tableSize    = $settingsData['table_size'] ?? 0;
 ?>
+
 <h2 class="wps-settings-box__title">
     <span><?php esc_html_e('AI Insight', 'wp-statistics'); ?></span>
 </h2>
+
 <?php
 if (!$isAiInsightActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
     ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-ai-insights/?utm_source=wp-statistics&utm_medium=link&utm_campaign=ai-insight'),
@@ -140,7 +149,7 @@ if ($isAiInsightActive && !$isLicenseValid) {
                 <span class="wps-setting-label"><?php esc_html_e('Last Sync', 'wp-statistics'); ?></span>
             </th>
             <td>
-                <input type="text" title="Jan 12, 2025 at 3:00 PM" value="2 hours ago" aria-label="<?php esc_html_e('Last Sync', 'wp-statistics'); ?>" readonly class="wps-tooltip regular-text"/>
+                <input type="text" title="<?php echo esc_attr(DateTime::format($lastSyncTime, ['include_time' => true])) ?>" value="<?php echo esc_attr(human_time_diff($lastSyncTime)); ?>" aria-label="<?php esc_html_e('Last Sync', 'wp-statistics'); ?>" readonly class="wps-tooltip regular-text"/>
                 <p class="description">
                     <?php esc_html_e('Timestamp of the most recent successful sync.', 'wp-statistics'); ?>
                 </p>
@@ -164,7 +173,7 @@ if ($isAiInsightActive && !$isLicenseValid) {
                 <span class="wps-setting-label"><?php esc_html_e('Records Synced', 'wp-statistics'); ?></span>
             </th>
             <td>
-                <input type="text" value="15,234 <?php esc_html_e('records', 'wp-statistics'); ?>" aria-label="<?php esc_html_e('Records Synced', 'wp-statistics'); ?>" readonly class="regular-text"/>
+                <input type="text" value="<?php echo esc_attr(number_format_i18n($gscRecords)); ?>" aria-label="<?php esc_html_e('Records Synced', 'wp-statistics'); ?>" readonly class="regular-text"/>
                 <p class="description">
                     <?php esc_html_e('Total number of GSC records currently stored in the database.', 'wp-statistics'); ?>
                 </p>
@@ -176,7 +185,7 @@ if ($isAiInsightActive && !$isLicenseValid) {
                 <span class="wps-setting-label"><?php esc_html_e('Database Table Size', 'wp-statistics'); ?></span>
             </th>
             <td>
-                <input type="text" value="12.4 MB" aria-label="<?php esc_html_e('Database Table Size', 'wp-statistics'); ?>" readonly class="regular-text"/>
+                <input type="text" value="<?php echo sprintf(esc_attr__('%s MB', 'wp-statistics'), $tableSize); ?>" aria-label="<?php esc_attr_e('Database Table Size', 'wp-statistics'); ?>" readonly class="regular-text"/>
                 <p class="description">
                     <?php esc_html_e('Total disk space used by AI Insights custom tables.', 'wp-statistics'); ?>
                 </p>

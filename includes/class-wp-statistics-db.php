@@ -284,4 +284,24 @@ class DB
 
         return false;
     }
+
+    /**
+     * Get Table Size in MB
+     *
+     * @param string $table_name
+     * @return float Table size in megabytes
+     */
+    public static function getTableSize($table)
+    {
+        global $wpdb;
+
+        $query = $wpdb->prepare(
+            "SELECT ROUND(((data_length + index_length) / 1024 / 1024), 2) AS size_mb FROM information_schema.TABLES WHERE table_schema = %s AND table_name = %s",
+            DB_NAME, self::getTableName($table)
+        );
+
+        $result = $wpdb->get_var($query);
+
+        return $result ? (float) $result : 0;
+    }
 }
