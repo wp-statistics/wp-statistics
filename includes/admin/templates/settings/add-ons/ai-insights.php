@@ -86,7 +86,7 @@ if ($isAiInsightActive && !$isLicenseValid) {
             </th>
 
             <td>
-                <input type="hidden" name="wps_addon_settings[ai_insights][gsc_auto_sync]" value="1"/>
+                <input type="hidden" name="wps_addon_settings[ai_insights][gsc_auto_sync]" value="0"/>
                 <input id="wps_addon_settings[ai_insights][gsc_auto_sync]" type="checkbox" value="1" name="wps_addon_settings[ai_insights][gsc_auto_sync]" <?php checked(Option::getByAddon('gsc_auto_sync', 'ai_insights', '1'), '1'); ?>>
                 <label for="wps_addon_settings[ai_insights][gsc_auto_sync]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('Automatically sync Google Search Console data on a scheduled basis. When disabled, data must be synced manually.', 'wp-statistics'); ?></p>
