@@ -112,7 +112,7 @@ class ResourceDetector
             $this->record = RecordFactory::resource()->get([
                 'resource_id'   => $this->resourceId,
                 'resource_type' => $this->resourceType,
-            ], true);
+            ], false);
     
             if (!empty($this->record)) {
                 return;
