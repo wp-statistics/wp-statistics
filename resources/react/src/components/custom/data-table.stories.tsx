@@ -31,6 +31,10 @@ const meta = {
       control: 'boolean',
       description: 'Show/hide pagination controls',
     },
+    fullReportLink: {
+      control: 'object',
+      description: 'Link to full report (boolean for default, object for custom text/url)',
+    },
   },
 } satisfies Meta<typeof DataTable<VisitorData, unknown>>
 
@@ -44,19 +48,10 @@ export const Default: Story = {
   },
 }
 
-export const WithTitle: Story = {
-  args: {
-    columns: exampleColumns,
-    data: exampleData,
-    title: 'Top Visitors',
-  },
-}
-
 export const WithDefaultSort: Story = {
   args: {
     columns: exampleColumns,
     data: exampleData,
-    title: 'Top Visitors',
     defaultSort: 'totalViews',
   },
 }
@@ -65,7 +60,6 @@ export const CustomRowLimit: Story = {
   args: {
     columns: exampleColumns,
     data: exampleData,
-    title: 'Top Visitors',
     rowLimit: 5,
   },
 }
@@ -74,7 +68,6 @@ export const WithoutColumnManagement: Story = {
   args: {
     columns: exampleColumns,
     data: exampleData,
-    title: 'Top Visitors',
     showColumnManagement: false,
   },
 }
@@ -83,7 +76,6 @@ export const WithoutPagination: Story = {
   args: {
     columns: exampleColumns,
     data: exampleData,
-    title: 'Top Visitors',
     showPagination: false,
   },
 }
@@ -92,7 +84,6 @@ export const EmptyState: Story = {
   args: {
     columns: exampleColumns,
     data: [],
-    title: 'No Data Example',
   },
 }
 
@@ -109,10 +100,59 @@ export const FullFeatured: Story = {
   args: {
     columns: exampleColumns,
     data: exampleData,
-    title: 'Visitor Analytics Dashboard',
     defaultSort: 'totalViews',
     rowLimit: 10,
     showColumnManagement: true,
     showPagination: true,
+  },
+}
+
+export const WithFullReportLinkCustom: Story = {
+  args: {
+    columns: exampleColumns,
+    data: exampleData,
+    fullReportLink: {
+      text: 'View Complete Analytics Report',
+      action: () => {},
+    },
+  },
+}
+
+export const FullFeaturedWithReportLink: Story = {
+  args: {
+    columns: exampleColumns,
+    data: exampleData,
+    defaultSort: 'totalViews',
+    rowLimit: 10,
+    showColumnManagement: true,
+    showPagination: true,
+    fullReportLink: {
+      text: 'See All Visitors',
+      action: () => {},
+    },
+  },
+}
+
+export const WithTitle: Story = {
+  args: {
+    columns: exampleColumns,
+    data: exampleData,
+    title: 'Visitor Analytics',
+  },
+}
+
+export const WithTitleAndFullFeatures: Story = {
+  args: {
+    columns: exampleColumns,
+    data: exampleData,
+    title: 'Top Visitors Report',
+    defaultSort: 'totalViews',
+    rowLimit: 10,
+    showColumnManagement: true,
+    showPagination: true,
+    fullReportLink: {
+      text: 'View Complete Report',
+      action: () => {},
+    },
   },
 }

@@ -53,7 +53,7 @@ export const exampleColumns: ColumnDef<VisitorData>[] = [
       return (
         <div>
           <div className="font-medium text-sm">{referrer.domain}</div>
-          <div className="text-xs text-muted-foreground uppercase">{referrer.traffic}</div>
+          <div className="text-[9px] text-[#636363] uppercase">{referrer.traffic}</div>
         </div>
       )
     },
@@ -68,7 +68,7 @@ export const exampleColumns: ColumnDef<VisitorData>[] = [
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Info className="h-3 w-3 text-muted-foreground cursor-help" />
+                <Info className="h-3 w-3 text-muted-foreground cursor-help shrink-0" />
               </TooltipTrigger>
               <TooltipContent>
                 <p>The first page visited in this session</p>
@@ -89,7 +89,7 @@ export const exampleColumns: ColumnDef<VisitorData>[] = [
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Info className="h-3 w-3 text-muted-foreground cursor-help" />
+                <Info className="h-3 w-3 text-muted-foreground cursor-help shrink-0" />
               </TooltipTrigger>
               <TooltipContent>
                 <p>The last page visited in this session</p>
