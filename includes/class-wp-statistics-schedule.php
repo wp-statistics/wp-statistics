@@ -178,6 +178,13 @@ class Schedule
                 'end'           => wp_date('Y-m-d', strtotime("-1 day")),
                 'next_schedule' => $daily->getTimestamp()
             ],
+            'two_days'       => [
+                'interval'      => DAY_IN_SECONDS * 2,
+                'display'       => esc_html__('Every Two Days', 'wp-statistics'),
+                'start'         => wp_date('Y-m-d', strtotime("-2 days")),
+                'end'           => wp_date('Y-m-d', strtotime("-1 day")),
+                'next_schedule' => DateTime::get('tomorrow midnight', 'U')
+            ],
             'weekly'         => [
                 'interval'      => WEEK_IN_SECONDS,
                 'display'       => __('Weekly', 'wp-statistics'),
