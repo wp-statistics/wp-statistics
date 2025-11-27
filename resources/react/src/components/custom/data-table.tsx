@@ -85,16 +85,13 @@ export function DataTable<TData, TValue>({
             <TableRow key={headerGroup.id} className="border-0 bg-white hover:bg-white">
               {headerGroup.headers.map((header, index) => {
                 return (
-                  <TableHead
-                    key={header.id}
-                    className={cn('h-12 bg-white text-sm text-card-foreground', index === 0 ? 'pl-6' : '')}
-                  >
+                  <TableHead key={header.id} className={cn('h-12', index === 0 ? 'pl-6' : '')}>
                     {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 )
               })}
               {showColumnManagement && (
-                <TableHead className="h-12 w-12 bg-white text-sm text-card-foreground pr-6">
+                <TableHead className="h-12 w-12 pr-6">
                   <DataTableColumnToggle table={table} />
                 </TableHead>
               )}
@@ -116,7 +113,6 @@ export function DataTable<TData, TValue>({
                   <TableCell
                     key={cell.id}
                     className={cn(
-                      'text-sm text-card-foreground',
                       cellIndex === 0 ? 'pl-6' : '',
                       cellIndex === row.getVisibleCells().length - 1 && !showColumnManagement ? 'pr-6' : ''
                     )}
@@ -249,11 +245,7 @@ export function DataTable<TData, TValue>({
                   }}
                   className="w-16 h-10 px-2 text-sm border border-input rounded-md text-center"
                 />
-                <Button
-                  variant="outline"
-                  onClick={() => {}}
-                  className="h-10 px-4 rounded-md"
-                >
+                <Button variant="outline" onClick={() => {}} className="h-10 px-4 rounded-md">
                   Go
                 </Button>
               </div>

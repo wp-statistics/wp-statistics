@@ -1,5 +1,5 @@
 import type { ColumnDef } from '@tanstack/react-table'
-import { DataTableColumnHeader } from './data-table-column-header'
+import { DataTableColumnHeaderSortable } from './data-table-column-header-sortable'
 import { Info } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@components/ui/tooltip'
 
@@ -21,7 +21,7 @@ export type VisitorData = {
 export const exampleColumns: ColumnDef<VisitorData>[] = [
   {
     accessorKey: 'totalViews',
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Total Views" />,
+    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Total Views" />,
     cell: ({ row }) => {
       return <div className="font-medium">{row.getValue('totalViews')}</div>
     },

@@ -1,19 +1,19 @@
 import type { Column } from '@tanstack/react-table'
-import { ArrowDown, ArrowUp, ChevronDown, ChevronsUpDown, ChevronUp } from 'lucide-react'
+import { ChevronDown, ChevronsUpDown, ChevronUp } from 'lucide-react'
 
 import { Button } from '@components/ui/button'
 import { cn } from '@lib/utils'
 
-interface DataTableColumnHeaderProps<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {
+interface DataTableColumnHeaderSortableProps<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>
   title: string
 }
 
-export function DataTableColumnHeader<TData, TValue>({
+export function DataTableColumnHeaderSortable<TData, TValue>({
   column,
   title,
   className,
-}: DataTableColumnHeaderProps<TData, TValue>) {
+}: DataTableColumnHeaderSortableProps<TData, TValue>) {
   const isRightAlign = className?.includes('text-right')
 
   if (!column.getCanSort()) {
@@ -25,7 +25,7 @@ export function DataTableColumnHeader<TData, TValue>({
       <Button
         variant="ghost"
         size="sm"
-        className={cn('-ml-3 h-8 hover:bg-inherit', isRightAlign && 'ml-0 -mr-3')}
+        className={cn('-ml-3 h-8 hover:bg-inherit font-normal text-sm text-foreground', isRightAlign && 'ml-0 -mr-3')}
         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       >
         <span>{title}</span>
