@@ -16,6 +16,7 @@ $settingsData = apply_filters('wp_statistics_ai_insights_settings_data', []);
 
 $syncStatus   = $settingsData['sync_status'] ?? '';
 $lastSyncTime = $settingsData['last_sync_timestamp'] ?? null;
+$nextSyncTime = $settingsData['next_sync_timestamp'] ?? null;
 $gscRecords   = $settingsData['records_synced'] ?? 0;
 $tableSize    = $settingsData['table_size'] ?? 0;
 ?>
@@ -149,7 +150,7 @@ if ($isAiInsightActive && !$isLicenseValid) {
                 <span class="wps-setting-label"><?php esc_html_e('Last Sync', 'wp-statistics'); ?></span>
             </th>
             <td>
-                <input type="text" title="<?php echo esc_attr(DateTime::format($lastSyncTime, ['include_time' => true])) ?>" value="<?php echo esc_attr(human_time_diff($lastSyncTime)); ?>" aria-label="<?php esc_html_e('Last Sync', 'wp-statistics'); ?>" readonly class="wps-tooltip regular-text"/>
+                <input type="text" title="<?php echo $lastSyncTime ? esc_attr(DateTime::format($lastSyncTime, ['include_time' => true])) : esc_attr__('N/A', 'wp-statistics'); ?>" value="<?php echo $lastSyncTime ? esc_attr(human_time_diff($lastSyncTime)) : esc_attr__('N/A', 'wp-statistics'); ?>" aria-label="<?php esc_attr_e('Last Sync', 'wp-statistics'); ?>" readonly class="wps-tooltip regular-text"/>
                 <p class="description">
                     <?php esc_html_e('Timestamp of the most recent successful sync.', 'wp-statistics'); ?>
                 </p>
@@ -161,7 +162,7 @@ if ($isAiInsightActive && !$isLicenseValid) {
                 <span class="wps-setting-label"><?php esc_html_e('Next Scheduled Sync', 'wp-statistics'); ?></span>
             </th>
             <td>
-                <input type="text" title="Jan 13, 2025 at 2:00 AM" value="In 10 hours" aria-label="<?php esc_html_e('Next Scheduled Sync', 'wp-statistics'); ?>" readonly class="wps-tooltip regular-text"/>
+                <input type="text" title="<?php echo $nextSyncTime ? esc_attr(DateTime::format($nextSyncTime, ['include_time' => true])) : esc_attr__('N/A', 'wp-statistics'); ?>" value="<?php echo $nextSyncTime ? esc_attr(human_time_diff($nextSyncTime)) : esc_attr__('N/A', 'wp-statistics'); ?>" aria-label="<?php esc_attr_e('Next Scheduled Sync', 'wp-statistics'); ?>" readonly class="wps-tooltip regular-text"/>
                 <p class="description">
                     <?php esc_html_e('When the next automatic sync will occur.', 'wp-statistics'); ?>
                 </p>
