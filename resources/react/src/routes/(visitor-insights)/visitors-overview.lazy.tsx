@@ -6,8 +6,6 @@ import { GlobalMap } from '@/components/custom/global-map'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { WordPress } from '@/lib/wordpress'
 import { getVisitorInsightDevicesTypeQueryOptions } from '@/services/visitor-insight/get-devices-type'
 import { getVisitorInsightGlobalVisitorDistributionQueryOptions } from '@/services/visitor-insight/get-global-visitor-distribution'
@@ -15,7 +13,8 @@ import { getVisitorInsightOSSQueryOptions } from '@/services/visitor-insight/get
 import { getVisitorInsightTopCountriesQueryOptions } from '@/services/visitor-insight/get-top-countries'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { __ } from '@wordpress/i18n'
-import { ChevronRight } from 'lucide-react'
+import { OverviewTopVisitors } from './-components/overview/overview-top-visitors'
+import { Card, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const Route = createLazyFileRoute('/(visitor-insights)/visitors-overview')({
   component: RouteComponent,
@@ -378,22 +377,9 @@ function RouteComponent() {
           />
         </div>
 
-        <Card className="col-span-12">
-          <CardHeader>
-            <CardTitle>Top Visitors</CardTitle>
-          </CardHeader>
-          <CardContent></CardContent>
-          <CardFooter>
-            <Button
-              className="ml-auto gap-1 items-center font-normal hover:no-underline text-xs text-neutral-600"
-              onClick={() => {}}
-              variant="link"
-            >
-              {__('View Visitors')}
-              <ChevronRight className="w-3 h-4 ms-0" />
-            </Button>
-          </CardFooter>
-        </Card>
+        <div className="col-span-12">
+          <OverviewTopVisitors />
+        </div>
 
         <Card className="col-span-6">
           <CardHeader>
