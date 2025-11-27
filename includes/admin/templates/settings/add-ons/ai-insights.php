@@ -93,7 +93,7 @@ if ($isAiInsightActive && !$isLicenseValid) {
             </td>
         </tr>
 
-        <tr data-id="sync_frequency_tr">
+        <tr data-id="sync_frequency_tr" class="js-wps-show_if_ai_insight_auto_sync_enabled">
             <?php $syncFrequency = Option::getByAddon('sync_frequency', 'ai_insights'); ?>
 
             <th scope="row">
