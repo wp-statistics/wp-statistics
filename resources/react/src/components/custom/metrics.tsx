@@ -108,7 +108,9 @@ function MetricCard({
           <Badge
             className={cn(
               'flex items-center py-0.5 px-1 rounded gap-1 shadow-none',
-              isNegative ? 'bg-red-50 text-red-800' : 'bg-emerald-50 text-emerald-800'
+              isNegative
+                ? 'bg-red-50 text-red-800 hover:bg-red-50'
+                : 'bg-emerald-50 text-emerald-800 hover:bg-emerald-50'
             )}
           >
             {isNegative ? <ChevronDown size={16} strokeWidth={3} /> : <ChevronUp size={16} strokeWidth={3} />}
