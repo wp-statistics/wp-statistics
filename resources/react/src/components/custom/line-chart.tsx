@@ -25,8 +25,8 @@ export interface LineChartProps {
   metrics: LineChartMetric[]
   title?: string
   showPreviousPeriod?: boolean
-  timeframe?: 'Daily' | 'Weekly' | 'Monthly'
-  onTimeframeChange?: (timeframe: 'Daily' | 'Weekly' | 'Monthly') => void
+  timeframe?: 'daily' | 'weekly' | 'monthly'
+  onTimeframeChange?: (timeframe: 'daily' | 'weekly' | 'monthly') => void
   className?: string
 }
 
@@ -35,16 +35,16 @@ export function LineChart({
   metrics,
   title,
   showPreviousPeriod = true,
-  timeframe = 'Daily',
+  timeframe = 'daily',
   onTimeframeChange,
   className,
 }: LineChartProps) {
-  const [previousPeriodVisible, setPreviousPeriodVisible] = React.useState(showPreviousPeriod)
-  const [visibleMetrics, setVisibleMetrics] = React.useState<Record<string, boolean>>(
+  const [visibleMetrics, setVisibleMetrics] = React.useState<Record<string, boolean>>(() =>
     metrics.reduce(
       (acc, metric) => ({
         ...acc,
         [metric.key]: metric.enabled !== false,
+        [`${metric.key}Previous`]: showPreviousPeriod,
       }),
       {}
     )
@@ -69,9 +69,61 @@ export function LineChart({
     }
   }, {} as ChartConfig)
 
-  const togglePreviousPeriod = () => {
-    setPreviousPeriodVisible(!previousPeriodVisible)
+  const toggleMetric = (metricKey: string) => {
+    setVisibleMetrics((prev) => ({
+      ...prev,
+      [metricKey]: !prev[metricKey],
+    }))
   }
+
+  const toggleAllPreviousPeriod = () => {
+    setVisibleMetrics((prev) => {
+      const newState = { ...prev }
+      const anyPreviousVisible = metrics.some((metric) => prev[`${metric.key}Previous`])
+
+      metrics.forEach((metric) => {
+        newState[`${metric.key}Previous`] = !anyPreviousVisible
+      })
+
+      return newState
+    })
+  }
+
+  const isAnyPreviousVisible = metrics.some((metric) => visibleMetrics[`${metric.key}Previous`])
+
+  // Memoize current period lines to prevent unnecessary re-renders
+  const currentLines = React.useMemo(
+    () =>
+      metrics.map((metric, index) => {
+        if (!visibleMetrics[metric.key]) return null
+        const color = metric.color || defaultColors[index % defaultColors.length]
+        return <Line key={metric.key} type="monotone" dataKey={metric.key} stroke={color} strokeWidth={2} dot={false} />
+      }),
+    [metrics, visibleMetrics, defaultColors]
+  )
+
+  // Memoize previous period lines to prevent unnecessary re-renders
+  const previousLines = React.useMemo(
+    () =>
+      metrics.map((metric, index) => {
+        const previousKey = `${metric.key}Previous`
+        if (!visibleMetrics[previousKey]) return null
+        const color = metric.color || defaultColors[index % defaultColors.length]
+        return (
+          <Line
+            key={previousKey}
+            type="monotone"
+            dataKey={previousKey}
+            stroke={color}
+            strokeWidth={2}
+            strokeDasharray="5 5"
+            dot={false}
+            opacity={0.5}
+          />
+        )
+      }),
+    [metrics, visibleMetrics, defaultColors]
+  )
 
   return (
     <Card className={className}>
@@ -82,20 +134,32 @@ export function LineChart({
             <div className="flex items-center gap-6">
               {metrics.map((metric, index) => {
                 const color = metric.color || defaultColors[index % defaultColors.length]
+                const isCurrentVisible = visibleMetrics[metric.key]
+                const isPreviousVisible = visibleMetrics[`${metric.key}Previous`]
                 return (
                   <div key={metric.key} className="flex flex-col gap-1">
                     <span className="text-xs italic text-muted-foreground leading-none">{metric.label}</span>
                     <div className="flex items-baseline gap-2">
                       {metric.value && (
-                        <div className="flex items-center gap-1.5">
+                        <button
+                          onClick={() => toggleMetric(metric.key)}
+                          className={`flex items-center gap-1.5 cursor-pointer transition-opacity ${!isCurrentVisible ? 'opacity-50' : ''}`}
+                        >
                           <svg width="12" height="3" className="shrink-0">
                             <line x1="0" y1="1.5" x2="12" y2="1.5" style={{ stroke: color }} strokeWidth="3" />
                           </svg>
-                          <span className="text-sm font-medium leading-none">{metric.value}</span>
-                        </div>
+                          <span
+                            className={`text-sm font-medium leading-none ${!isCurrentVisible ? 'line-through' : ''}`}
+                          >
+                            {metric.value}
+                          </span>
+                        </button>
                       )}
                       {metric.previousValue && (
-                        <div className="flex items-center gap-1.5">
+                        <button
+                          onClick={() => toggleMetric(`${metric.key}Previous`)}
+                          className={`flex items-center gap-1.5 cursor-pointer transition-opacity ${!isPreviousVisible ? 'opacity-50' : ''}`}
+                        >
                           <svg width="12" height="3" className="shrink-0 opacity-50">
                             <line
                               x1="0"
@@ -107,8 +171,12 @@ export function LineChart({
                               strokeDasharray="3 2"
                             />
                           </svg>
-                          <span className="text-sm text-muted-foreground leading-none">{metric.previousValue}</span>
-                        </div>
+                          <span
+                            className={`text-sm text-muted-foreground leading-none ${!isPreviousVisible ? 'line-through' : ''}`}
+                          >
+                            {metric.previousValue}
+                          </span>
+                        </button>
                       )}
                     </div>
                   </div>
@@ -118,8 +186,8 @@ export function LineChart({
             <div className="flex items-center gap-3">
               {showPreviousPeriod && (
                 <button
-                  onClick={togglePreviousPeriod}
-                  className="flex items-center gap-1.5 text-sm italic text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                  onClick={toggleAllPreviousPeriod}
+                  className={`flex items-center gap-1.5 text-sm italic text-muted-foreground transition-colors cursor-pointer ${!isAnyPreviousVisible ? 'opacity-50' : ''}`}
                 >
                   <svg width="12" height="3" className="shrink-0 opacity-50">
                     <line
@@ -132,7 +200,7 @@ export function LineChart({
                       strokeDasharray="3 2"
                     />
                   </svg>
-                  <span>Previous period</span>
+                  <span className={!isAnyPreviousVisible ? 'line-through' : ''}>Previous period</span>
                 </button>
               )}
               {onTimeframeChange && (
@@ -141,9 +209,9 @@ export function LineChart({
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Daily">Daily</SelectItem>
-                    <SelectItem value="Weekly">Weekly</SelectItem>
-                    <SelectItem value="Monthly">Monthly</SelectItem>
+                    <SelectItem value="daily">Daily</SelectItem>
+                    <SelectItem value="weekly">Weekly</SelectItem>
+                    <SelectItem value="monthly">Monthly</SelectItem>
                   </SelectContent>
                 </Select>
               )}
@@ -160,12 +228,12 @@ export function LineChart({
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              minTickGap={timeframe === 'Monthly' ? 0 : 32}
-              interval={timeframe === 'Monthly' ? 0 : 'preserveStartEnd'}
+              minTickGap={timeframe === 'monthly' ? 0 : 32}
+              interval={timeframe === 'monthly' ? 0 : 'preserveStartEnd'}
               tick={{ fill: '#9ca3af', fontSize: 12 }}
               tickFormatter={(value) => {
                 const date = new Date(value)
-                if (timeframe === 'Monthly') {
+                if (timeframe === 'monthly') {
                   return date.toLocaleDateString('en-US', {
                     month: 'long',
                   })
@@ -202,7 +270,7 @@ export function LineChart({
                 let formattedDate: string
                 let dayOfWeek: string
 
-                if (timeframe === 'Monthly') {
+                if (timeframe === 'monthly') {
                   formattedDate = date.toLocaleDateString('en-US', {
                     month: 'short',
                     day: 'numeric',
@@ -257,7 +325,7 @@ export function LineChart({
                 let prevFormatted: string
                 let prevDayOfWeek: string
 
-                if (timeframe === 'Monthly') {
+                if (timeframe === 'monthly') {
                   previousDate.setMonth(previousDate.getMonth() - 1)
                   prevFormatted = previousDate.toLocaleDateString('en-US', {
                     month: 'short',
@@ -340,38 +408,8 @@ export function LineChart({
                 )
               }}
             />
-            {metrics.map((metric, index) => {
-              if (!visibleMetrics[metric.key]) return null
-              const color = metric.color || defaultColors[index % defaultColors.length]
-              return (
-                <Line
-                  key={metric.key}
-                  type="monotone"
-                  dataKey={metric.key}
-                  stroke={color}
-                  strokeWidth={2}
-                  dot={false}
-                />
-              )
-            })}
-            {previousPeriodVisible &&
-              metrics.map((metric, index) => {
-                if (!visibleMetrics[metric.key]) return null
-                const previousKey = `${metric.key}Previous`
-                const color = metric.color || defaultColors[index % defaultColors.length]
-                return (
-                  <Line
-                    key={previousKey}
-                    type="monotone"
-                    dataKey={previousKey}
-                    stroke={color}
-                    strokeWidth={2}
-                    strokeDasharray="5 5"
-                    dot={false}
-                    opacity={0.5}
-                  />
-                )
-              })}
+            {currentLines}
+            {previousLines}
           </RechartsLineChart>
         </ChartContainer>
       </CardContent>

@@ -15,6 +15,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { __ } from '@wordpress/i18n'
 import { OverviewTopVisitors } from './-components/overview/overview-top-visitors'
 import { Card, CardHeader, CardTitle } from '@/components/ui/card'
+import { getVisitorInsightTrafficTrendsQueryOptions } from '@/services/visitor-insight/get-traffic-trends'
 
 export const Route = createLazyFileRoute('/(visitor-insights)/visitors-overview')({
   component: RouteComponent,
@@ -23,6 +24,8 @@ export const Route = createLazyFileRoute('/(visitor-insights)/visitors-overview'
 function RouteComponent() {
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
+
+  const [timeframe, setTimeframe] = React.useState<'daily' | 'weekly' | 'monthly'>('daily')
 
   const {
     data: { data: topCountries },
@@ -40,78 +43,11 @@ function RouteComponent() {
     data: { data: globalVisitorDistribution },
   } = useSuspenseQuery(getVisitorInsightGlobalVisitorDistributionQueryOptions())
 
-  const [timeframe, setTimeframe] = React.useState<'Daily' | 'Weekly' | 'Monthly'>('Daily')
+  const {
+    data: { data: trafficTrends },
+  } = useSuspenseQuery(getVisitorInsightTrafficTrendsQueryOptions({ range: timeframe }))
 
-  // Generate fake data based on timeframe
-  const generateTrafficData = (timeframe: 'Daily' | 'Weekly' | 'Monthly') => {
-    if (timeframe === 'Daily') {
-      // Daily data: Oct 27 - Nov 25 (30 days)
-      return Array.from({ length: 30 }, (_, i) => {
-        const date = new Date(2024, 9, 27 + i) // Oct 27 = month 9, day 27
-        const dayOfWeek = date.getDay()
-
-        // Weekend dip pattern (lower traffic on weekends)
-        const weekendFactor = dayOfWeek === 0 || dayOfWeek === 6 ? 0.7 : 1.0
-
-        // Base values with gradual upward trend
-        const trendFactor = 1 + i / 100
-
-        // Add some randomness and weekly patterns
-        const noise = Math.random() * 0.4 - 0.2
-        const weeklyPattern = Math.sin(i / 3.5) * 0.3
-
-        const visitorsBase = 2.2 + weeklyPattern + noise
-        const visitorsPrevBase = 1.8 + weeklyPattern * 0.8 + noise * 0.8
-        const viewsBase = 3.2 + weeklyPattern * 1.2 + noise
-        const viewsPrevBase = 2.8 + weeklyPattern + noise * 0.8
-
-        return {
-          date: date.toISOString(),
-          visitors: Math.round(visitorsBase * weekendFactor * trendFactor * 10) / 10,
-          visitorsPrevious: Math.round(visitorsPrevBase * weekendFactor * 0.95 * 10) / 10,
-          views: Math.round(viewsBase * weekendFactor * trendFactor * 10) / 10,
-          viewsPrevious: Math.round(viewsPrevBase * weekendFactor * 0.9 * 10) / 10,
-        }
-      })
-    } else if (timeframe === 'Weekly') {
-      // Weekly data: 5 weeks from Oct 27 to Nov 25
-      const weeks = [
-        { start: new Date(2024, 9, 27), visitors: 14.5, views: 21.3 }, // Oct 27 - Nov 2
-        { start: new Date(2024, 10, 3), visitors: 15.8, views: 23.1 }, // Nov 3 - Nov 9
-        { start: new Date(2024, 10, 10), visitors: 16.2, views: 24.5 }, // Nov 10 - Nov 16
-        { start: new Date(2024, 10, 17), visitors: 14.9, views: 22.8 }, // Nov 17 - Nov 23
-        { start: new Date(2024, 10, 24), visitors: 15.4, views: 23.9 }, // Nov 24 - Nov 25
-      ]
-
-      return weeks.map((week) => ({
-        date: week.start.toISOString(),
-        visitors: week.visitors,
-        visitorsPrevious: Math.round((week.visitors * 0.85 + Math.random() * 0.5) * 10) / 10,
-        views: week.views,
-        viewsPrevious: Math.round((week.views * 0.87 + Math.random() * 0.8) * 10) / 10,
-      }))
-    } else {
-      // Monthly data: October and November
-      return [
-        {
-          date: new Date(2024, 9, 1).toISOString(), // October
-          visitors: 58.3,
-          visitorsPrevious: 49.7,
-          views: 89.6,
-          viewsPrevious: 75.2,
-        },
-        {
-          date: new Date(2024, 10, 1).toISOString(), // November
-          visitors: 76.8,
-          visitorsPrevious: 58.3,
-          views: 115.6,
-          viewsPrevious: 89.6,
-        },
-      ]
-    }
-  }
-
-  const trafficTrendsData = generateTrafficData(timeframe)
+  const trafficTrendsData = trafficTrends.data.items
 
   // Calculate totals for current and previous period
   const totalVisitors = trafficTrendsData.reduce((sum, item) => sum + (item.visitors || 0), 0)
