@@ -1,6 +1,7 @@
-= 14.16 - 2025-11-30 =
+= 14.16 - 2025-11-** =
 - **New:** Added an Export button to all report pages.
 - **New:** Added a new `Summary Totals` table to store daily aggregated data.
+- **Enhancement:** Tested up to v6.9
 - **Enhancement:** Updated PHP requirement to v7.4 and WordPress requires to v6.6
 - **Enhancement:** Redesigned Summary widgets across all report pages.
 - **Enhancement:** Optimized database queries and improved overall performance.
