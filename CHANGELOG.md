@@ -1,4 +1,4 @@
-= 14.16 - 2025-11-** =
+= 14.16 - 2025-12-01 =
 - **New:** Added an Export button to all report pages.
 - **New:** Added a new `Summary Totals` table to store daily aggregated data.
 - **Enhancement:** Tested up to v6.9
