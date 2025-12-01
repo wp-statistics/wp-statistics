@@ -9,9 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-11-25T10:52:18+00:00\n"
+"POT-Creation-Date: 2025-12-01T06:50:06+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.11.0\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wp-statistics\n"
 
 #. Plugin Name of the plugin
@@ -84,6 +84,7 @@ msgid "All"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-ajax.php:283
+#, php-format
 msgid "Visitor (#%s)"
 msgstr ""
 
@@ -1270,6 +1271,7 @@ msgid "The time request is invalid."
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-template.php:187
+#, php-format
 msgid "Page %1$s of %2$s"
 msgstr ""
 
@@ -1419,6 +1421,7 @@ msgstr ""
 
 #. translators: %s: Count of non-compliance items.
 #: includes/admin/templates/emails/layout.php:51
+#, php-format
 msgid "There are %d items that need to be addressed to ensure compliance with privacy laws."
 msgstr ""
 
@@ -1530,6 +1533,7 @@ msgid "Menu"
 msgstr ""
 
 #: includes/admin/templates/layout/addon-header-steps.php:33
+#, php-format
 msgid "Step %s completed"
 msgstr ""
 
@@ -1550,6 +1554,7 @@ msgid "More"
 msgstr ""
 
 #: includes/admin/templates/layout/author-analytics/top-authors.php:46
+#, php-format
 msgid "%s views"
 msgstr ""
 
@@ -1560,32 +1565,39 @@ msgid "Publishing"
 msgstr ""
 
 #: includes/admin/templates/layout/author-analytics/top-authors.php:76
+#, php-format
 msgid "%s published"
 msgstr ""
 
 #: includes/admin/templates/layout/author-analytics/top-authors.php:94
 #: includes/admin/templates/pages/author-analytics/authors-report.php:56
+#, php-format
 msgid "Views/Per %s"
 msgstr ""
 
 #: includes/admin/templates/layout/author-analytics/top-authors.php:109
+#, php-format
 msgid "views/%s"
 msgstr ""
 
 #: includes/admin/templates/layout/author-analytics/top-authors.php:125
 #: includes/admin/templates/pages/author-analytics/authors-report.php:51
+#, php-format
 msgid "Comments/Per %s"
 msgstr ""
 
 #: includes/admin/templates/layout/author-analytics/top-authors.php:140
+#, php-format
 msgid "comments/%s"
 msgstr ""
 
 #: includes/admin/templates/layout/author-analytics/top-authors.php:157
+#, php-format
 msgid "Words/Per %s"
 msgstr ""
 
 #: includes/admin/templates/layout/author-analytics/top-authors.php:172
+#, php-format
 msgid "words/%s"
 msgstr ""
 
@@ -1642,10 +1654,12 @@ msgid "See all contents"
 msgstr ""
 
 #: includes/admin/templates/layout/content-analytics/top-categories.php:38
+#, php-format
 msgid "published %s"
 msgstr ""
 
 #: includes/admin/templates/layout/content-analytics/top-picks.php:109
+#, php-format
 msgid "See all %s"
 msgstr ""
 
@@ -2100,6 +2114,7 @@ msgid "Historical Total Visitors"
 msgstr ""
 
 #: includes/admin/templates/optimization/historical.php:59
+#, php-format
 msgid "Enter the accumulated count of unique visitors to your site from its inception up to now. For example, if you've transitioned from another tracking tool and it reported 5,000 unique visitors up to the point of switching, input that figure here. This ensures your statistics reflect the entire history of your website's traffic. Currently set to %s."
 msgstr ""
 
@@ -2108,6 +2123,7 @@ msgid "Historical Total Site Views"
 msgstr ""
 
 #: includes/admin/templates/optimization/historical.php:69
+#, php-format
 msgid "Enter the total number of site visits (including repeat visits) from its start until now. If your previous tool indicated 20,000 total site visits before moving to WP Statistics, input that number. This allows for a seamless integration of past site visit data. Currently set to %s."
 msgstr ""
 
@@ -2298,6 +2314,7 @@ msgid "This is the maximum amount of memory PHP can use on your server. Increasi
 msgstr ""
 
 #: includes/admin/templates/optimization/resources.php:40
+#, php-format
 msgid "Number of rows in the %s"
 msgstr ""
 
@@ -2411,6 +2428,7 @@ msgstr ""
 #: includes/admin/templates/pages/content-analytics/post-type.php:18
 #: src/Service/Charts/DataProvider/AuthorsPostViewsChartDataProvider.php:58
 #: src/Service/Charts/DataProvider/PerformanceChartDataProvider.php:80
+#, php-format
 msgid "Published %s"
 msgstr ""
 
@@ -2431,6 +2449,7 @@ msgstr ""
 
 #: includes/admin/templates/pages/author-analytics/authors-performance.php:46
 #: includes/admin/templates/pages/content-analytics/post-type.php:40
+#, php-format
 msgid "Avg. words per %s"
 msgstr ""
 
@@ -2445,6 +2464,7 @@ msgstr ""
 
 #: includes/admin/templates/pages/author-analytics/authors-performance.php:59
 #: includes/admin/templates/pages/content-analytics/post-type.php:53
+#, php-format
 msgid "Avg. comments per %s"
 msgstr ""
 
@@ -2453,6 +2473,7 @@ msgid "Publishing Overview"
 msgstr ""
 
 #: includes/admin/templates/pages/author-analytics/authors-performance.php:74
+#, php-format
 msgid "This heatmap displays the publishing activity of authors over the past 12 months. Darker squares represent more published %s."
 msgstr ""
 
@@ -2466,24 +2487,29 @@ msgid "Top Authors"
 msgstr ""
 
 #: includes/admin/templates/pages/author-analytics/authors-performance.php:83
+#, php-format
 msgid "This section ranks authors based on various performance metrics such as views, publishing frequency, comments per %1$s, and average words per %1$s. Use the tabs to switch between different metrics to see how each author is performing."
 msgstr ""
 
 #: includes/admin/templates/pages/author-analytics/authors-performance.php:90
 #: src/Service/Charts/DataProvider/AuthorsPostViewsChartDataProvider.php:57
+#, php-format
 msgid "Views/Published %s"
 msgstr ""
 
 #: includes/admin/templates/pages/author-analytics/authors-performance.php:92
+#, php-format
 msgid "This scatter plot shows the relationship between the number of %1$s published by an author and the number of views those %1$s have received. Each point represents an author."
 msgstr ""
 
 #: includes/admin/templates/pages/author-analytics/authors-report.php:27
 #: src/Service/Charts/DataProvider/AuthorsPostViewsChartDataProvider.php:59
+#, php-format
 msgid "%s Views"
 msgstr ""
 
 #: includes/admin/templates/pages/author-analytics/authors-report.php:63
+#, php-format
 msgid "Words/%s"
 msgstr ""
 
@@ -2624,6 +2650,7 @@ msgstr ""
 #: includes/admin/templates/pages/category.php:8
 #: includes/admin/templates/pages/category.php:27
 #: includes/admin/templates/pages/category.php:76
+#, php-format
 msgid "Toggle panel: %s"
 msgstr ""
 
@@ -2650,14 +2677,17 @@ msgid "All Time Views"
 msgstr ""
 
 #: includes/admin/templates/pages/content-analytics/post-type.php:65
+#, php-format
 msgid "The most popular categories by number of published %s."
 msgstr ""
 
 #: includes/admin/templates/pages/content-analytics/post-type.php:109
+#, php-format
 msgid "Top %s"
 msgstr ""
 
 #: includes/admin/templates/pages/content-analytics/post-type.php:110
+#, php-format
 msgid "Displays the most popular, most commented, and most recent  %s in the selected period."
 msgstr ""
 
@@ -2718,10 +2748,12 @@ msgid "Percentage of total views that ended on this content."
 msgstr ""
 
 #: includes/admin/templates/pages/content-analytics/single.php:61
+#, php-format
 msgid "Total number of words in this %s."
 msgstr ""
 
 #: includes/admin/templates/pages/content-analytics/single.php:70
+#, php-format
 msgid "Approved comments on this %s."
 msgstr ""
 
@@ -2895,6 +2927,7 @@ msgid "State"
 msgstr ""
 
 #: includes/admin/templates/pages/help-center.php:21
+#, php-format
 msgid "You have %s notification"
 msgid_plural "You have %s notifications"
 msgstr[0] ""
@@ -2905,6 +2938,7 @@ msgid "How can we help you?"
 msgstr ""
 
 #: includes/admin/templates/pages/help-center.php:31
+#, php-format
 msgid "Please review the %1$sdocumentation%2$s first. If you still can’t find the answer, open a %3$ssupport ticket%4$s and we will be happy to answer your questions and assist you with any problems."
 msgstr ""
 
@@ -3079,6 +3113,7 @@ msgid "Mark as Resolved"
 msgstr ""
 
 #: includes/admin/templates/pages/privacy-audit.php:17
+#, php-format
 msgid "When you resolve this item, be sure to update your website’s privacy policy accordingly. You can find a helper message that matches your setup in <b>WP Admin > Settings > Privacy > </b> <a href=\"%s\">Privacy Guide</a>. Keeping the policy accurate supports compliance and transparency for your users."
 msgstr ""
 
@@ -3105,6 +3140,7 @@ msgid "Select the least privileged user role allowed to change WP Statistics set
 msgstr ""
 
 #: includes/admin/templates/settings/access-level.php:108
+#, php-format
 msgid "For a deeper understanding of user roles and capabilities in WordPress, you can refer to the <a target=_blank href=\"%s\">WordPress Roles and Capabilities</a> page."
 msgstr ""
 
@@ -3117,6 +3153,7 @@ msgid "<ul><li><code>manage_network</code> corresponds to the Super Admin role i
 msgstr ""
 
 #: includes/admin/templates/settings/access-level.php:111
+#, php-format
 msgid "If your needs go beyond the default capabilities and roles, or you wish for a more granular control, consider using the <a href=\"%s\" target=_blank> Capability Manager Enhanced </a> plugin for a robust solution."
 msgstr ""
 
@@ -3131,7 +3168,7 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/widgets.php:87
 #: includes/admin/templates/settings/advanced.php:569
 #: includes/admin/templates/settings/display.php:150
-#: includes/admin/templates/settings/exclusions.php:234
+#: includes/admin/templates/settings/exclusions.php:216
 #: includes/admin/templates/settings/general.php:132
 #: includes/admin/templates/settings/notifications.php:164
 #: includes/admin/templates/settings/privacy.php:224
@@ -3245,7 +3282,7 @@ msgstr ""
 #: includes/admin/templates/settings/display.php:92
 #: includes/admin/templates/settings/display.php:104
 #: includes/admin/templates/settings/display.php:126
-#: includes/admin/templates/settings/exclusions.php:226
+#: includes/admin/templates/settings/exclusions.php:208
 #: includes/admin/templates/settings/general.php:31
 #: includes/admin/templates/settings/general.php:51
 #: includes/admin/templates/settings/general.php:113
@@ -3641,10 +3678,12 @@ msgid "Marketing Add-On"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/marketing.php:24
+#, php-format
 msgid "The settings on this page are part of the %s add-on, which upgrades WP Statistics from simple analytics to a full-fledged growth dashboard."
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/marketing.php:29
+#, php-format
 msgid "Pull %s keywords and traffic for every page without leaving WordPress."
 msgstr ""
 
@@ -3657,6 +3696,7 @@ msgid "Google Search Console"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/marketing.php:33
+#, php-format
 msgid "Track %s and instantly see which channels bring the best visitors."
 msgstr ""
 
@@ -3665,6 +3705,7 @@ msgid "campaigns & UTM links"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/marketing.php:37
+#, php-format
 msgid "%s on buttons, links, and other elements with a quick toggle."
 msgstr ""
 
@@ -3673,6 +3714,7 @@ msgid "Record click events"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/marketing.php:41
+#, php-format
 msgid "Create unlimited %s for custom interactions or funnels."
 msgstr ""
 
@@ -3681,6 +3723,7 @@ msgid "code-based events "
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/marketing.php:45
+#, php-format
 msgid "Set %s and watch progress toward your targets in real-time."
 msgstr ""
 
@@ -4174,6 +4217,7 @@ msgstr ""
 
 #. translators: %s: Link to learn about detection method
 #: includes/admin/templates/settings/advanced.php:184
+#, php-format
 msgid "Select the method to detect location data for visitors. You can choose between MaxMind GeoIP, Cloudflare Geolocation, and DB-IP. MaxMind and DB-IP provide database-based geolocation, while Cloudflare Geolocation relies on IP headers from Cloudflare. For optimal performance, we recommend using Cloudflare Geolocation if your site is on Cloudflare. %s"
 msgstr ""
 
@@ -4204,6 +4248,7 @@ msgid "GeoIP License Key"
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:220
+#, php-format
 msgid "Enter your <strong>MaxMind license key</strong> to enable the <strong>premium MaxMind GeoIP database</strong>, which provides more precise location data. The plugin uses the free database by default. %s"
 msgstr ""
 
@@ -4216,6 +4261,7 @@ msgid "DB-IP License Key"
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:251
+#, php-format
 msgid "Enter your DB-IP license key to enable the premium DB-IP database, replacing the free version with a more detailed dataset.<br /> The premium DB-IP database is <strong>1.1GB</strong> in size. Make sure your server has enough storage space before enabling it, as the plugin downloads and stores this database. %s"
 msgstr ""
 
@@ -4332,6 +4378,7 @@ msgid "Custom data retention period in days"
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:465
+#, php-format
 msgid "Reduce database size and speed up reports. Each night at 00:00 (your WordPress timezone), data older than the period below is aggregated: we keep total Visitors and Views for the whole site and for each page, and delete the detailed rows. This cannot be undone. All-time reports still show Visitors/Views. %s"
 msgstr ""
 
@@ -4357,6 +4404,7 @@ msgid "Share Anonymous Data"
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:512
+#, php-format
 msgid "Sends non-personal, anonymized data to help us improve WP Statistics. No personal or identifying information is collected or shared. %s"
 msgstr ""
 
@@ -4524,6 +4572,7 @@ msgstr ""
 
 #. translators: %s: User role name
 #: includes/admin/templates/settings/exclusions.php:34
+#, php-format
 msgid "Exclude data collection for users with the %s role."
 msgstr ""
 
@@ -4537,6 +4586,7 @@ msgid "Excluded IP Address List"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:54
+#, php-format
 msgid "Specify the IP addresses you want to exclude. Enter one IP address or range per line. For IPv4 addresses, both <code>192.168.0.0/24</code> and <code>192.168.0.0/255.255.255.0</code> formats are acceptable. To specify an IP address, use a subnet value of 32 or <code>255.255.255.255</code>. For IPv6 addresses, use the <code>fc00::/7</code> format. For detailed instructions, see our <a href=\"%1$s\" target=\"_blank\">IP Exclusions Documentation</a>."
 msgstr ""
 
@@ -4549,6 +4599,7 @@ msgid "Custom Bot Exclusions"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:83
+#, php-format
 msgid "WP Statistics already filters common crawlers. Add any extra user-agent snippets you’d like treated as bots—one per line (leave blank if none). See the <a href=\"%s\" target=\"_blank\">Robot Exclusions guide</a> for details."
 msgstr ""
 
@@ -4624,6 +4675,7 @@ msgstr ""
 
 #. translators: %s: Link to documentation.
 #: includes/admin/templates/settings/exclusions.php:167
+#, php-format
 msgid "<b>Note</b>: Once added, traffic from matching URLs will stop being tracked. For more detailed information, <a href=\"%s\" target=\"_blank\">click here</a>."
 msgstr ""
 
@@ -4644,27 +4696,15 @@ msgid "Control which URL query parameters are retained in your statistics. The d
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:201
-msgid "Host Exclusions"
-msgstr ""
-
-#: includes/admin/templates/settings/exclusions.php:205
-msgid "Excluded Hosts"
-msgstr ""
-
-#: includes/admin/templates/settings/exclusions.php:208
-msgid "Provide host names to exclude. Relies on cached IP, not live DNS lookup."
-msgstr ""
-
-#: includes/admin/templates/settings/exclusions.php:219
 msgid "General Exclusions"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:223
+#: includes/admin/templates/settings/exclusions.php:205
 #: src/Service/Admin/SiteHealthInfo.php:267
 msgid "Log Record Exclusions"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:227
+#: includes/admin/templates/settings/exclusions.php:209
 msgid "Maintain a log of all excluded visits for insight into exclusions."
 msgstr ""
 
@@ -4783,6 +4823,7 @@ msgid "Automated Report Delivery"
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:46
+#, php-format
 msgid "Your next report is scheduled to be sent on <b>%s at %s</b>."
 msgstr ""
 
@@ -4805,6 +4846,7 @@ msgid "SMS"
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:83
+#, php-format
 msgid "Select your preferred method for receiving reports: via email or SMS. (Note: SMS notifications only include the Custom Report. For full reports, please choose email. SMS notifications are sent using the %s Plugin to the Admin Mobile Number)."
 msgstr ""
 
@@ -4968,6 +5010,7 @@ msgstr ""
 
 #. translators: %s: Consent option.
 #: includes/admin/templates/settings/privacy.php:182
+#, php-format
 msgid "Recommended Category: <b>%s</b>"
 msgstr ""
 
@@ -5166,6 +5209,7 @@ msgstr ""
 
 #: includes/class-wp-statistics-admin-bar.php:145
 #: includes/class-wp-statistics-admin-bar.php:151
+#, php-format
 msgid "was %s last day"
 msgstr ""
 
@@ -5211,10 +5255,12 @@ msgid "<b>(Add-on Advanced Reporting)</b> This table stores the messages that ar
 msgstr ""
 
 #: includes/class-wp-statistics-db.php:186
+#, php-format
 msgid "Data from the %s Table Successfully Deleted."
 msgstr ""
 
 #: includes/class-wp-statistics-db.php:190
+#, php-format
 msgid "Error: %s Table Not Cleared!"
 msgstr ""
 
@@ -5285,6 +5331,7 @@ msgid "Pre-flight Request"
 msgstr ""
 
 #: includes/class-wp-statistics-frontend.php:144
+#, php-format
 msgid "Views: %s"
 msgstr ""
 
@@ -5334,6 +5381,7 @@ msgstr ""
 
 #. translators: 1: Report start date - 2: Report end date.
 #: includes/class-wp-statistics-helper.php:841
+#, php-format
 msgid "%s - %s"
 msgstr ""
 
@@ -5362,6 +5410,7 @@ msgid "Optimize Your Content Strategy"
 msgstr ""
 
 #: includes/class-wp-statistics-helper.php:1718
+#, php-format
 msgid "For maximum accuracy, enable the cache compatibility mode on your website and check your filtering settings. By following these steps, traffic data becomes more accurate. <div style=\"margin-top: 16px\">For more details, read <a href=\"%1$s\" style=\"color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none\" target=\"_blank\">%2$s <img width=\"6.67\" height=\"10.91\" style=\"margin-"
 msgstr ""
 
@@ -5463,6 +5512,7 @@ msgid "Item processed"
 msgstr ""
 
 #: includes/class-wp-statistics-pages.php:380
+#, php-format
 msgid "Home Page: %s"
 msgstr ""
 
@@ -5475,11 +5525,13 @@ msgid "Search Page"
 msgstr ""
 
 #: includes/class-wp-statistics-pages.php:413
+#, php-format
 msgid "404 not found (%s)"
 msgstr ""
 
 #: includes/class-wp-statistics-pages.php:421
 #: includes/class-wp-statistics-pages.php:424
+#, php-format
 msgid "Post Archive: %s"
 msgstr ""
 
@@ -5488,6 +5540,7 @@ msgid "Post Archive"
 msgstr ""
 
 #: includes/class-wp-statistics-privacy-erasers.php:38
+#, php-format
 msgid "Visitor data deleted for %s."
 msgstr ""
 
@@ -5496,6 +5549,7 @@ msgid "Statistics Data"
 msgstr ""
 
 #: includes/class-wp-statistics-privacy-exporter.php:48
+#, php-format
 msgid "Visitor's data for user ID #%s"
 msgstr ""
 
@@ -5503,6 +5557,7 @@ msgstr ""
 #: includes/class-wp-statistics-purge.php:85
 #: includes/class-wp-statistics-purge.php:98
 #: includes/class-wp-statistics-purge.php:164
+#, php-format
 msgid "Data from %1$s Older Than %2$s Days Successfully Purged."
 msgstr ""
 
@@ -5510,6 +5565,7 @@ msgstr ""
 #: includes/class-wp-statistics-purge.php:87
 #: includes/class-wp-statistics-purge.php:100
 #: includes/class-wp-statistics-purge.php:166
+#, php-format
 msgid "No Records to Purge from %s!"
 msgstr ""
 
@@ -5518,6 +5574,7 @@ msgid "Please select a value over 30 days."
 msgstr ""
 
 #: includes/class-wp-statistics-purge.php:204
+#, php-format
 msgid "%s Records Successfully Purged."
 msgstr ""
 
@@ -5547,10 +5604,12 @@ msgid "Your WP Statistics Report"
 msgstr ""
 
 #: includes/class-wp-statistics-schedule.php:262
+#, php-format
 msgid "for %s"
 msgstr ""
 
 #: includes/class-wp-statistics-schedule.php:264
+#, php-format
 msgid "for %s to %s"
 msgstr ""
 
@@ -5665,6 +5724,7 @@ msgstr ""
 
 #. translators: 1: number of hours, 2: number of minutes
 #: includes/class-wp-statistics-timezone.php:353
+#, php-format
 msgid "%1$d hour %2$d minute ago"
 msgid_plural "%1$d hours %2$d minutes ago"
 msgstr[0] ""
@@ -5672,6 +5732,7 @@ msgstr[1] ""
 
 #. translators: %d: number of hours
 #: includes/class-wp-statistics-timezone.php:368
+#, php-format
 msgid "%d hour ago"
 msgid_plural "%d hours ago"
 msgstr[0] ""
@@ -5679,6 +5740,7 @@ msgstr[1] ""
 
 #. translators: %d: number of minutes
 #: includes/class-wp-statistics-timezone.php:381
+#, php-format
 msgid "%d minute ago"
 msgid_plural "%d minutes ago"
 msgstr[0] ""
@@ -5747,6 +5809,7 @@ msgid "Choose a Specific Search Engine Type"
 msgstr ""
 
 #: includes/class-wp-statistics.php:264
+#, php-format
 msgid "Unable to create the required upload directory at <code>%s</code>. Please check that the web server has write permissions for the parent directory. Alternatively, you can manually create the directory yourself. Please keep in mind that the GeoIP database may not work correctly if the directory structure is not properly set up."
 msgstr ""
 
@@ -5784,6 +5847,7 @@ msgid "View is not valid."
 msgstr ""
 
 #: src/Abstracts/MultiViewPage.php:74
+#, php-format
 msgid "render method is not defined within %s class."
 msgstr ""
 
@@ -5804,6 +5868,7 @@ msgid "Failed to decrypt token"
 msgstr ""
 
 #: src/Components/RemoteRequest.php:162
+#, php-format
 msgid "Failed to get success response. URL: %s, Method: %s, Status Code: %s"
 msgstr ""
 
@@ -5812,14 +5877,17 @@ msgid "ago"
 msgstr ""
 
 #: src/Exception/LogException.php:20
+#, php-format
 msgid "Exception occurred: [Code %d] %s at %s:%d"
 msgstr ""
 
 #: src/Exception/SystemErrorException.php:11
+#, php-format
 msgid "System error: %s"
 msgstr ""
 
 #: src/Service/Admin/AdminManager.php:55
+#, php-format
 msgid "Please rate <strong>WP Statistics</strong> <a href=\"%s\" aria-label=\"%s\" title=\"%s\" target=\"_blank\">★★★★★ %s</a> to help us spread the word. Thank you!"
 msgstr ""
 
@@ -5848,6 +5916,7 @@ msgid "Every 2 Months"
 msgstr ""
 
 #: src/Service/Admin/AuthorAnalytics/AuthorAnalyticsPage.php:95
+#, php-format
 msgid "This post type doesn’t support authors, affecting the accuracy of author performance data. To fix this, please enable author support for this post type. <a href=\"%s\" target=\"_blank\">Learn more</a>."
 msgstr ""
 
@@ -5878,6 +5947,7 @@ msgid "Authors Performance"
 msgstr ""
 
 #: src/Service/Admin/CategoryAnalytics/CategoryAnalyticsPage.php:76
+#, php-format
 msgid "The post type of this category doesn’t support authors, affecting the accuracy of category performance data. To fix this, please enable author support for this post type. <a href=\"%s\" target=\"_blank\">Learn more</a>."
 msgstr ""
 
@@ -5986,6 +6056,7 @@ msgstr ""
 
 #. translators: %s: Browser/OS/Model/etc. name.
 #: src/Service/Admin/Devices/Views/SingleBrowserView.php:41
+#, php-format
 msgid "%s Report"
 msgstr ""
 
@@ -6014,6 +6085,7 @@ msgid "Track and analyze the logs of excluded traffic based on your Filtering & 
 msgstr ""
 
 #: src/Service/Admin/ExportImport/ExportImportHandler.php:36
+#, php-format
 msgid "Invalid driver: %s"
 msgstr ""
 
@@ -6094,6 +6166,7 @@ msgid "Displays visitor counts categorized by states within the USA."
 msgstr ""
 
 #: src/Service/Admin/Geographic/Views/TabsView.php:137
+#, php-format
 msgid "Regions of %s"
 msgstr ""
 
@@ -6102,15 +6175,18 @@ msgid "Displays visitor statistics for regions within your website’s country, 
 msgstr ""
 
 #: src/Service/Admin/HelpCenter/HelpCenterManager.php:31
+#, php-format
 msgid "%s plugin notifications"
 msgstr ""
 
 #: src/Service/Admin/LicenseManagement/ApiCommunicator.php:29
+#, php-format
 msgid "No products were found. The API returned an empty response from the following URL: %s"
 msgstr ""
 
 #. translators: %s: Error message.
 #: src/Service/Admin/LicenseManagement/ApiCommunicator.php:36
+#, php-format
 msgid "Unable to retrieve product list from the remote server, %s. Please check the remote server connection or your remote work configuration."
 msgstr ""
 
@@ -6127,6 +6203,7 @@ msgid "Unknown error!"
 msgstr ""
 
 #: src/Service/Admin/LicenseManagement/ApiCommunicator.php:128
+#, php-format
 msgid "The license is not related to the requested Add-on <b>%s</b>."
 msgstr ""
 
@@ -6135,6 +6212,7 @@ msgid "Upgrade To Premium"
 msgstr ""
 
 #: src/Service/Admin/LicenseManagement/LicenseHelper.php:259
+#, php-format
 msgid "License: %s/%s"
 msgstr ""
 
@@ -6143,15 +6221,18 @@ msgid "Upgrade"
 msgstr ""
 
 #: src/Service/Admin/LicenseManagement/LicenseManagementManager.php:87
+#, php-format
 msgid "Failed to validate license: %s"
 msgstr ""
 
 #: src/Service/Admin/LicenseManagement/LicenseManagementManager.php:149
+#, php-format
 msgid "Plugin data not found for: %s"
 msgstr ""
 
 #. translators: 1: Add-on slug - 2: Error message.
 #: src/Service/Admin/LicenseManagement/LicenseMigration.php:132
+#, php-format
 msgid "Failed to migrate license for %s: %s"
 msgstr ""
 
@@ -6224,11 +6305,13 @@ msgstr ""
 
 #. translators: %s: Error message.
 #: src/Service/Admin/LicenseManagement/Plugin/PluginHandler.php:39
+#, php-format
 msgid "Failed to download the plugin: %s"
 msgstr ""
 
 #. translators: %s: Error message.
 #: src/Service/Admin/LicenseManagement/Plugin/PluginHandler.php:51
+#, php-format
 msgid "Failed to install the plugin: %s"
 msgstr ""
 
@@ -6244,14 +6327,17 @@ msgstr ""
 
 #. translators: %s: Error message.
 #: src/Service/Admin/LicenseManagement/Plugin/PluginHandler.php:115
+#, php-format
 msgid "Failed to activate the plugin: %s"
 msgstr ""
 
 #: src/Service/Admin/LicenseManagement/Plugin/PluginUpdater.php:216
+#, php-format
 msgid "Automatic updates are disabled for the <b>%s</b>."
 msgstr ""
 
 #: src/Service/Admin/LicenseManagement/Plugin/PluginUpdater.php:217
+#, php-format
 msgid "To unlock automatic updates and access new features and security improvements, please <a href=\"%s\">activate your license</a>."
 msgstr ""
 
@@ -6320,6 +6406,7 @@ msgid "Install Add-on"
 msgstr ""
 
 #: src/Service/Admin/MarketingCampaign/MarketingCampaignFetcher.php:64
+#, php-format
 msgid "No marketing campaign were found. The API returned an empty response from the following URL: %s"
 msgstr ""
 
@@ -6468,15 +6555,18 @@ msgid "Traffic Summary"
 msgstr ""
 
 #: src/Service/Admin/NoticeHandler/GeneralNotices.php:112
+#, php-format
 msgid "<b>WP Statistics Notice:</b> The cache plugin %1$s is detected, please make sure the <code>%2$s</code> file is excluded from file optimization and caching, <a target=\"_blank\" href=\"%3$s\">Click here</a> for more info."
 msgstr ""
 
 #: src/Service/Admin/NoticeHandler/GeneralNotices.php:139
+#, php-format
 msgid "<b>WP Statistics:</b> Server-Side tracking is deprecated. Please switch to Client-Side for better accuracy. <br> <a href=\"%1$s\">Go to Tracking Settings</a> · <a href=\"%2$s\" target=\"_blank\">Read the Deprecation Guide</a>"
 msgstr ""
 
 #. translators: %1$s: Settings URL, %2$s: Optimization URL, %3$s: Documentation URL
 #: src/Service/Admin/NoticeHandler/GeneralNotices.php:178
+#, php-format
 msgid "<b>WP Statistics Notice (Database Maintenance Recommended):</b> Your database has accumulated many records, which could slow down your site. To improve performance, go to <a href=\"%1$s\">Settings → Data Management</a> to enable the option that stops recording old visitor data, and visit the <a href=\"%2$s\">Optimization page</a> to clean up your database. This process only removes detailed old visitor logs but retains aggregated data. Your other data and overall statistics will remain unchanged. For more details, <a href=\"%3$s\" target=\"_blank\">click here</a>."
 msgstr ""
 
@@ -6485,6 +6575,7 @@ msgid "Your server memory limit is too low. Please contact your hosting provider
 msgstr ""
 
 #: src/Service/Admin/NoticeHandler/GeneralNotices.php:252
+#, php-format
 msgid "Please update your email report schedule due to new changes in our latest release: <a href=\"%1$s\">Update Settings</a>."
 msgstr ""
 
@@ -6501,6 +6592,7 @@ msgid "Enable this option"
 msgstr ""
 
 #: src/Service/Admin/NoticeHandler/GeneralNotices.php:339
+#, php-format
 msgid "<b>WP Statistics:</b> Your database needs a quick update. <a href=\"%1$s\">Run the Database Maintenance tool</a> to keep your stats accurate."
 msgstr ""
 
@@ -6521,6 +6613,7 @@ msgid "Notifications status has not been updated."
 msgstr ""
 
 #: src/Service/Admin/Notification/NotificationFetcher.php:56
+#, php-format
 msgid "No notifications were found. The API returned an empty response from the following URL: %s"
 msgstr ""
 
@@ -6541,6 +6634,7 @@ msgid "Invalid IP address! Please enter a valid IP address and try again."
 msgstr ""
 
 #: src/Service/Admin/Optimization/OptimizationActions.php:120
+#, php-format
 msgid "Removed %s visitors."
 msgstr ""
 
@@ -6565,6 +6659,7 @@ msgid "Enter a valid event name."
 msgstr ""
 
 #: src/Service/Admin/Optimization/OptimizationActions.php:258
+#, php-format
 msgid "Event data removed for %s"
 msgstr ""
 
@@ -6573,6 +6668,7 @@ msgid "GeoIP update started."
 msgstr ""
 
 #: src/Service/Admin/Optimization/OptimizationActions.php:292
+#, php-format
 msgid "GeoIP update failed: %s"
 msgstr ""
 
@@ -6581,14 +6677,17 @@ msgid "Source channel update started."
 msgstr ""
 
 #: src/Service/Admin/Optimization/OptimizationActions.php:310
+#, php-format
 msgid "Source channel update failed: %s"
 msgstr ""
 
 #: src/Service/Admin/Optimization/OptimizationActions.php:327
+#, php-format
 msgid "Anonymized `%d` IP addresses."
 msgstr ""
 
 #: src/Service/Admin/Optimization/OptimizationActions.php:329
+#, php-format
 msgid "IP anonymization failed: %s"
 msgstr ""
 
@@ -6609,6 +6708,7 @@ msgid "Database schema issues were repaired."
 msgstr ""
 
 #: src/Service/Admin/Optimization/OptimizationActions.php:375
+#, php-format
 msgid "Failed to repair database schema: %s"
 msgstr ""
 
@@ -6797,6 +6897,7 @@ msgid "Mentioning Required"
 msgstr ""
 
 #: src/Service/Admin/PrivacyAudit/Faqs/RequireMention.php:32
+#, php-format
 msgid "Your current WP Statistics setup records data that can be considered personal. You should add WP Statistics to your privacy policy and explain what data is collected, why it is collected, and how it is stored. A helper text that matches your configuration is available in <b>WP Admin > Settings > Privacy > </b> <a href=\"%s\">Privacy Guide</a> and can be copied into your policy. For tips on reducing data collection, see the <b>Privacy Audit</b> section of this page."
 msgstr ""
 
@@ -6813,6 +6914,7 @@ msgid "<p>This means that the data resides on the same server as your website, f
 msgstr ""
 
 #: src/Service/Admin/PrivacyAudit/PrivacyAuditController.php:94
+#, php-format
 msgid "<p>The settings in your WP Statistics account comply with the privacy regulations. Visit the <a target=\"_blank\" href=\"%s\">%s<span aria-hidden=\"true\" class=\"dashicons dashicons-external\"></span></a> to learn more about best practices.</p>"
 msgstr ""
 
@@ -6822,6 +6924,7 @@ msgid "Privacy Audit page"
 msgstr ""
 
 #: src/Service/Admin/PrivacyAudit/PrivacyAuditController.php:104
+#, php-format
 msgid "<p>Your WP Statistics settings do not meet the necessary privacy standards. Immediate adjustments are required to ensure compliance and protect user data. Please review and update your settings as recommended on the <a target=\"_blank\" href=\"%s\">%s<span aria-hidden=\"true\" class=\"dashicons dashicons-external\"></span></a>.</p>"
 msgstr ""
 
@@ -6902,6 +7005,7 @@ msgid "Detect Active Cache Plugin"
 msgstr ""
 
 #: src/Service/Admin/SiteHealthInfo.php:92
+#, php-format
 msgid "Enabled (%s)"
 msgstr ""
 
@@ -7116,6 +7220,7 @@ msgid "Visitor does not exist."
 msgstr ""
 
 #: src/Service/Admin/VisitorInsights/Views/SingleVisitorView.php:46
+#, php-format
 msgid "Visitor Report - %s: %s"
 msgstr ""
 
@@ -7331,10 +7436,12 @@ msgid "The event data is not valid."
 msgstr ""
 
 #: src/Service/CustomEvent/CustomEventDataParser.php:75
+#, php-format
 msgid "The value for the key \"%s\" in the event data is an array. Only strings, numbers and booleans are allowed."
 msgstr ""
 
 #: src/Service/Database/Migrations/BackgroundProcess/BackgroundProcessManager.php:212
+#, php-format
 msgid "<div id=\"wp-statistics-async-background-process-notice\">%1$s: <span class=\"percentage\">%2$d%%</span> complete (<span class=\"processed\">%3$d</span>/%4$d).<br/> %5$s</div>"
 msgstr ""
 
@@ -7379,6 +7486,7 @@ msgid "Updates the total word count for all contents across your site. This data
 msgstr ""
 
 #: src/Service/Database/Migrations/BackgroundProcess/Jobs/CalculatePostWordsCount.php:122
+#, php-format
 msgid "Please <a href=\"%s\">click here</a> to process the word count in the background. This is necessary for accurate analytics."
 msgstr ""
 
@@ -7391,6 +7499,7 @@ msgid "Update GeoIP for visitors without location data"
 msgstr ""
 
 #: src/Service/Database/Migrations/BackgroundProcess/Jobs/IncompleteGeoIpUpdater.php:124
+#, php-format
 msgid "Detected visitors without location data. Please <a href=\"%s\">click here</a> to update the geographic data in the background. This is necessary for accurate analytics."
 msgstr ""
 
@@ -7407,6 +7516,7 @@ msgid "Update incomplete source channels"
 msgstr ""
 
 #: src/Service/Database/Migrations/BackgroundProcess/Jobs/SourceChannelUpdater.php:116
+#, php-format
 msgid "We’ve updated the referral structure in this version. To ensure accurate reports, please initiate the background data process <a href=\"%s\">by clicking here</a>."
 msgstr ""
 
@@ -7490,11 +7600,13 @@ msgstr ""
 
 #: src/Service/Geolocation/Provider/DbIpProvider.php:147
 #: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:139
+#, php-format
 msgid "Unexpected HTTP status code %1$d while downloading GeoIP database from: %2$s"
 msgstr ""
 
 #: src/Service/Geolocation/Provider/DbIpProvider.php:151
 #: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:143
+#, php-format
 msgid "Error downloading GeoIP database from: %1$s - %2$s"
 msgstr ""
 
@@ -7520,11 +7632,13 @@ msgstr ""
 
 #: src/Service/Geolocation/Provider/DbIpProvider.php:232
 #: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:274
+#, php-format
 msgid "Failed to initialize GeoIP reader or invalid database file. Please remove the existing database file at %s and let the plugin redownload it."
 msgstr ""
 
 #: src/Service/Geolocation/Provider/DbIpProvider.php:240
 #: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:281
+#, php-format
 msgid "Unexpected database type %s"
 msgstr ""
 
@@ -7553,6 +7667,7 @@ msgid "WP Statistics - Consent Plugin Detected"
 msgstr ""
 
 #: src/Service/Integrations/IntegrationHelper.php:160
+#, php-format
 msgid "We’ve detected <b>%s</b> on your site. To ensure WP Statistics respects visitor consent preferences, you can enable integration with this plugin."
 msgstr ""
 
@@ -7641,6 +7756,7 @@ msgid "iubenda Cookie Consent"
 msgstr ""
 
 #: src/Service/Logger/Provider/TrackerProvider.php:33
+#, php-format
 msgid "%1$s at %2$s"
 msgstr ""
 
@@ -7678,6 +7794,7 @@ msgid "Invalid join clause"
 msgstr ""
 
 #: src/Utils/Query.php:664
+#, php-format
 msgid "%s method is not defined."
 msgstr ""
 
@@ -7803,6 +7920,7 @@ msgid "Email to Author"
 msgstr ""
 
 #: views/components/headers/post-type.php:18
+#, php-format
 msgid "%s thumbnail"
 msgstr ""
 
@@ -7827,6 +7945,7 @@ msgid "Notice:"
 msgstr ""
 
 #: views/components/lock-sections/notice-inactive-license-addon.php:7
+#, php-format
 msgid "This add-on does not have an active license, which means it cannot receive updates, including important security updates. For uninterrupted access to updates and to keep your site secure, we strongly recommend activating a license. <a href=\"%s\" aria-label=\"click here for WP Statistics Add-Ons\">Activate your license here</a>."
 msgstr ""
 
@@ -7836,6 +7955,7 @@ msgstr ""
 
 #: views/components/lock-sections/setting-active-licensed-addon.php:7
 #: views/components/modals/introduce-premium/step-content.php:29
+#, php-format
 msgid "Your license includes the %s, but it’s not installed yet. Go to the Add-ons page to install and activate it, so you can start using all its features."
 msgstr ""
 
@@ -7862,22 +7982,26 @@ msgstr ""
 
 #. translators: 1: Start date - 2: To date - 3: Views count - 4: Visitors count.
 #: views/components/meta-box/post-summary.php:24
+#, php-format
 msgid "Over the past week (<b>%s - %s</b>), this post has been <b>viewed %s times by %s visitors</b>"
 msgstr ""
 
 #. translators: 1: Referrer link - 2: Referrer name - 3: Referrer count.
 #: views/components/meta-box/post-summary.php:35
 #: views/components/meta-box/post-summary.php:56
+#, php-format
 msgid ", with '<a href=\"%s\" target=\"_blank\" rel=\"noreferrer nofollow\">%s</a>' leading with <b>%s referrals</b>"
 msgstr ""
 
 #. translators: 1: Views count - 2: Visitors count.
 #: views/components/meta-box/post-summary.php:47
+#, php-format
 msgid "In total, this post has been <b>viewed %s times by %s visitors</b>"
 msgstr ""
 
 #. translators: %s: Content analytics link.
 #: views/components/meta-box/post-summary.php:65
+#, php-format
 msgid ". For more detailed insights, visit the <b><a href=\"%s\" target=\"_blank\">analytics section</a></b>."
 msgstr ""
 
@@ -7892,10 +8016,12 @@ msgid "Confirm aggregation change"
 msgstr ""
 
 #: views/components/modals/enable-automatic-data-deletion/enable-automatic-data-deletion-modal.php:12
+#, php-format
 msgid "You are lowering the retention period to %s. At the next cleanup, data older than this will be aggregated to keep only <b>Visitors</b> and <b>Views</b> for the site and for each page. All other detailed rows will be permanently deleted. This cannot be undone. Consider backing up your database."
 msgstr ""
 
 #: views/components/modals/enable-automatic-data-deletion/enable-automatic-data-deletion-modal.php:22
+#, php-format
 msgid "Data older than %s days will be aggregated at the next cleanup. Detailed logs will be removed."
 msgstr ""
 
@@ -7904,6 +8030,7 @@ msgid "I understand"
 msgstr ""
 
 #: views/components/modals/introduce-premium/step-content.php:38
+#, php-format
 msgid "This add-on does <b>not have an active license</b>, which means it cannot receive updates, including important security updates. For uninterrupted access to updates and to keep your site secure, we strongly recommend activating a license. Activate your license <a href=\"%s\">here</a>."
 msgstr ""
 
@@ -7913,13 +8040,13 @@ msgstr ""
 
 #: views/components/modals/introduce-premium/step-details.php:23
 msgid ""
-"<p>Get access to all advanced features in one package. With WP Statistics Premium, you can explore powerful add-ons that enhance your analytics experience and provide deeper insights into your site’s performance.</p>\r\n"
+"<p>Get access to all advanced features in one package. With WP Statistics Premium, you can explore powerful add-ons that enhance your analytics experience and provide deeper insights into your site’s performance.</p>\n"
 "            <p>Curious about what each feature offers?</p><p>Simply click on any add-on to learn more and see how WP Statistics Premium can power your site’s growth.</p>"
 msgstr ""
 
 #: views/components/modals/introduce-premium/step-details.php:26
 msgid ""
-"<p><b>Thank you for supporting us by being a Premium user! Since you previously had the Bundle, you now have access to all the Premium features. There’s nothing more you need to do—just enjoy the full range of advanced tools and insights.</b></p>\r\n"
+"<p><b>Thank you for supporting us by being a Premium user! Since you previously had the Bundle, you now have access to all the Premium features. There’s nothing more you need to do—just enjoy the full range of advanced tools and insights.</b></p>\n"
 "            <p>We truly appreciate your continued support. With your help, we’re able to keep improving and providing even better analytics for your site.</p>"
 msgstr ""
 
@@ -7940,6 +8067,7 @@ msgid "Unlock WP Statistics Premium."
 msgstr ""
 
 #: views/components/modals/introduce-premium/step-details.php:49
+#, php-format
 msgid "<p>Data Plus supercharges WP Statistics by unlocking advanced analytics features. Get deeper insights into your site's performance with tools that help you understand visitor behavior, optimize your content, and track engagement like never before. <a target=\"_blank\" href=\"%s\">Learn more</a></p>"
 msgstr ""
 
@@ -7948,6 +8076,7 @@ msgid "See more data."
 msgstr ""
 
 #: views/components/modals/introduce-premium/step-details.php:60
+#, php-format
 msgid "<p>Take your marketing strategy to the next level with the Marketing Add-on. Track your campaign performance with detailed UTM reports, connect to Google Search Console for in-depth traffic analysis, and set conversion goals to measure success—all directly within WP Statistics. Optimize your campaigns, monitor search traffic, and drive results effortlessly. <a target=\"_blank\" href=\"%s\">Learn more</a></p>"
 msgstr ""
 
@@ -7956,6 +8085,7 @@ msgid "Set goals, measure conversions, and optimize your reach for real results.
 msgstr ""
 
 #: views/components/modals/introduce-premium/step-details.php:71
+#, php-format
 msgid "<p>Mini Chart gives you quick insights into how your posts, pages, and products are performing by displaying small, customizable charts directly in your admin panel. Track views and engagement at a glance and customize chart types and colors to match your preferences. Analyze content performance easily and stay on top of key metrics with minimal time. <a target=\"_blank\" href=\"%s\">Learn more</a></p>"
 msgstr ""
 
@@ -7964,6 +8094,7 @@ msgid "View real‐time metrics at a glance."
 msgstr ""
 
 #: views/components/modals/introduce-premium/step-details.php:82
+#, php-format
 msgid "<p>Advanced Reporting keeps you informed by sending detailed performance reports directly to your inbox. Gain insights into your website’s traffic, views, and key metrics through customizable email reports. Schedule updates to receive data as often as you like, ensuring you always stay up-to-date on your website's performance with clear, graphical insights. <a target=\"_blank\" href=\"%s\">Learn more</a></p>"
 msgstr ""
 
@@ -7972,6 +8103,7 @@ msgid "Schedule detailed email reports."
 msgstr ""
 
 #: views/components/modals/introduce-premium/step-details.php:93
+#, php-format
 msgid "<p>You can monitor your website's traffic in real-time with the Real-Time add-on. Watch live data flow in, track online users, and analyze their activity without page refreshes. Stay connected with real-time insights to make informed decisions about your site’s performance, right when it matters most. <a target=\"_blank\" href=\"%s\">Learn more</a></p>"
 msgstr ""
 
@@ -7980,6 +8112,7 @@ msgid "See who’s on your site right now and watch engagement as it happens."
 msgstr ""
 
 #: views/components/modals/introduce-premium/step-details.php:104
+#, php-format
 msgid "<p>Advanced Widgets improve your website by providing a flexible way to showcase key statistical insights. Whether through Gutenberg blocks or theme widgets, this add-on makes it easy to present vital stats like traffic, top pages, and browsers to your visitors, offering a richer, data-driven user experience. <a target=\"_blank\" href=\"%s\">Learn more</a></p>"
 msgstr ""
 
@@ -7988,6 +8121,7 @@ msgid "Display detailed stats anywhere you want on your website."
 msgstr ""
 
 #: views/components/modals/introduce-premium/step-details.php:115
+#, php-format
 msgid "<p>The Customization add-on is designed to help you white-label key areas of your dashboard. Easily replace the WP Statistics branding with your own, giving you full control over how the plugin looks and feels. Create a fully branded experience by customizing menus, headers, and even the Overview page with your own widgets. <a target=\"_blank\" href=\"%s\">Learn more</a></p>"
 msgstr ""
 
@@ -7996,6 +8130,7 @@ msgid "Tailor everything from layout to branding to suit your style."
 msgstr ""
 
 #: views/components/modals/introduce-premium/step-details.php:126
+#, php-format
 msgid "<p>Unlock powerful integration options with the Rest API add-on. This feature enables access to your website’s statistics through WordPress REST API endpoints, allowing seamless data retrieval for external applications, custom dashboards, and automation tools. <a target=\"_blank\" href=\"%s\">Learn more</a></p>"
 msgstr ""
 
@@ -8056,6 +8191,7 @@ msgid "Expired or Invalid License"
 msgstr ""
 
 #: views/components/notices/expired-license.php:7
+#, php-format
 msgid "Your WP Statistics license %s has expired or isn’t valid. Without a valid license, we can’t ensure security or compatibility updates. <br> <a href=\"%s\" target=\"_blank\">Renew</a> or update your license to keep everything running smoothly. <br> Need help? <a target=\"_blank\" href=\"%s\">Contact Support</a>"
 msgstr ""
 
@@ -8093,6 +8229,7 @@ msgid "You’ve installed the following add-ons, but we couldn’t find valid li
 msgstr ""
 
 #: views/components/notices/no-license-for-addons.php:17
+#, php-format
 msgid "Without valid licenses, these add-ons won’t receive critical updates or new features. <br> Please add a valid license to ensure ongoing compatibility and support. <br> Have questions? <a href=\"%s\" target=\"_blank\">Contact Support</a>"
 msgstr ""
 
@@ -8101,6 +8238,7 @@ msgid "No WP Statistics License Detected"
 msgstr ""
 
 #: views/components/notices/no-license.php:7
+#, php-format
 msgid "You haven’t registered a WP Statistics license yet. Having a valid license unlocks premium add-ons and features. <a href=\"%s\" target=\"_blank\">Purchase</a> or <a href=\"%s\">add a license</a> now to get started!."
 msgstr ""
 
@@ -8109,6 +8247,7 @@ msgid "Upgrade to WP Statistics Premium"
 msgstr ""
 
 #: views/components/notices/upgrade-to-premium.php:7
+#, php-format
 msgid "Want more powerful analytics? Upgrade to our Premium license to unlock advanced add-ons, enhanced features, and priority support. <br> <a href=\"%s\" target=\"_blank\">Upgrade Now</a> or <a href=\"%s\" target=\"_blank\">Learn More</a>. <br> Have questions? <a href=\"%s\" target=\"_blank\">Contact Support</a>"
 msgstr ""
 
@@ -8118,6 +8257,7 @@ msgstr ""
 
 #. translators: %s: notification tab name
 #: views/components/notification/no-data.php:17
+#, php-format
 msgid "No notifications in your %s."
 msgstr ""
 
@@ -8158,6 +8298,7 @@ msgid "Preparing your file…"
 msgstr ""
 
 #: views/components/objects/export-button.php:36
+#, php-format
 msgid "%s: Export %s metrics to CSV. Shows metrics per day for your selected time range."
 msgstr ""
 
@@ -8186,6 +8327,7 @@ msgid "Search Console"
 msgstr ""
 
 #: views/components/objects/no-data.php:3
+#, php-format
 msgid "Illustration for %s"
 msgstr ""
 
@@ -8356,6 +8498,7 @@ msgid "Need Help?"
 msgstr ""
 
 #: views/components/privacy-audit/recommend-consent-info.php:29
+#, php-format
 msgid "<p>Learn %s with your preferred consent management solution. Explore the %s to find the right fit for your site.</p>"
 msgstr ""
 
@@ -8377,6 +8520,7 @@ msgid "With PII collection enabled, integrating a consent plugin is essential to
 msgstr ""
 
 #: views/components/privacy-audit/recommend-consent-unpassed.php:29
+#, php-format
 msgid "<p>Check out our %s for instructions on configuring a compatible plugin. You can also explore various third-party solutions to ensure compliance and a smooth integration. Browse our list of %s to find the best fit for your site.</p>"
 msgstr ""
 
@@ -8397,6 +8541,7 @@ msgid "What’s Next?"
 msgstr ""
 
 #: views/components/privacy-audit/recommend-consent.php:13
+#, php-format
 msgid "Ensure your consent preferences are aligned with your settings and stay up to date with supported plugins. Check the %s to explore options or confirm your integration."
 msgstr ""
 
@@ -8484,11 +8629,11 @@ msgstr ""
 
 #: views/components/privacy-audit/stored-user-id.php:5
 msgid ""
-"<ol>\r\n"
-"                <li>Go to the <b>Optimization</b> tab in the WP Statistics settings.</li>\r\n"
-"                <li>Click on <b>Data Cleanup</b>.</li>\r\n"
-"                <li>Select <b>Remove User IDs</b> to start the removal process.</li>\r\n"
-"            </ol>\r\n"
+"<ol>\n"
+"                <li>Go to the <b>Optimization</b> tab in the WP Statistics settings.</li>\n"
+"                <li>Click on <b>Data Cleanup</b>.</li>\n"
+"                <li>Select <b>Remove User IDs</b> to start the removal process.</li>\n"
+"            </ol>\n"
 "            <p>Initiating this process will delete all previously stored User IDs, further securing user data and aligning your site with best privacy practices.</p>"
 msgstr ""
 
@@ -8507,11 +8652,11 @@ msgstr ""
 
 #: views/components/privacy-audit/unhashed-ip.php:5
 msgid ""
-"<ol>\r\n"
-"                <li>Go to the <b>Optimization</b> section.</li>\r\n"
-"                <li>Select <b>Plugin Maintenance</b>.</li>\r\n"
-"                <li>Choose <b>Convert IP Addresses to Hash</b> to start the conversion process.</li>\r\n"
-"            </ol>\r\n"
+"<ol>\n"
+"                <li>Go to the <b>Optimization</b> section.</li>\n"
+"                <li>Select <b>Plugin Maintenance</b>.</li>\n"
+"                <li>Choose <b>Convert IP Addresses to Hash</b> to start the conversion process.</li>\n"
+"            </ol>\n"
 "            <p>This step will transform all existing raw IP addresses in your database into hashed formats, significantly improving user privacy and your website’s compliance with data protection regulations.</p>"
 msgstr ""
 
@@ -8575,6 +8720,7 @@ msgid "View Author Page"
 msgstr ""
 
 #: views/components/tables/category-pages.php:21
+#, php-format
 msgid "%s Page Views"
 msgstr ""
 
@@ -8593,6 +8739,7 @@ msgid "View Category Page"
 msgstr ""
 
 #: views/components/tables/category-pages.php:47
+#, php-format
 msgid "View %s Page"
 msgstr ""
 
@@ -8768,6 +8915,7 @@ msgstr ""
 
 #. translators: 1: Link to DataPlus add-on - 2: Name of the add-on.
 #: views/metabox/pages-visitors-preview.php:5
+#, php-format
 msgid "Latest Visitors is included in <a href=\"%s\" target=\"_blank\">%s</a>"
 msgstr ""
 
@@ -9023,6 +9171,7 @@ msgid "Oops! We couldn't find your tracker.js file. This means it might be missi
 msgstr ""
 
 #: views/pages/tracker-debugger/tracker-debugger.php:45
+#, php-format
 msgid "Please ensure that the tracker.js file exists in the correct directory. Refer to our <a href=\"%s\" target=\"_blank\" rel=\"noopener\">documentation</a> for guidance."
 msgstr ""
 
@@ -9052,6 +9201,7 @@ msgid "Hit recording is not responding as expected."
 msgstr ""
 
 #: views/pages/tracker-debugger/tracker-debugger.php:77
+#, php-format
 msgid "Please check your security plugins, firewall settings, or any third-party services that might be affecting the request. You may need to review your configuration or whitelist the endpoint. For more information, please visit our %1$s."
 msgstr ""
 
@@ -9077,6 +9227,7 @@ msgid "Your site respects visitors' browser settings to not track their web acti
 msgstr ""
 
 #: views/pages/tracker-debugger/tracker-debugger.php:105
+#, php-format
 msgid "For more details, visit our DNT feature <a href=\"%s\" target=\"_blank\" rel=\"noopener\">documentation</a>."
 msgstr ""
 
@@ -9102,6 +9253,7 @@ msgid "Tracker.js will not run until visitors provide consent. This may result i
 msgstr ""
 
 #: views/pages/tracker-debugger/tracker-debugger.php:131
+#, php-format
 msgid "Consider enabling \"Anonymous Tracking\" to track all visitors anonymously. Learn more in our <a target=\"_blank\" href=\"%s\">Consent Integration guide</a>."
 msgstr ""
 
@@ -9208,6 +9360,7 @@ msgstr ""
 
 #: views/pages/tracker-debugger/tracker-debugger.php:295
 #: views/pages/tracker-debugger/tracker-debugger.php:308
+#, php-format
 msgid "Review these filters in Settings > Filtering & Exceptions. Update if necessary. <a target=\"_blank\" href=\"%s\">Learn more</a>."
 msgstr ""
 
@@ -9253,6 +9406,7 @@ msgid "Need More Help?"
 msgstr ""
 
 #: views/pages/tracker-debugger/tracker-debugger.php:423
+#, php-format
 msgid "If tracker.js is still not working, visit our <a target=\"_blank\" href=\"%s\">troubleshooting guide</a> for detailed steps or <a target=\"_blank\" href=\"%s\">contact our support team</a> for assistance."
 msgstr ""
 
