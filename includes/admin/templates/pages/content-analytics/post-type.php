@@ -58,6 +58,8 @@ $postTypePlural   = Helper::getPostTypeName($postType);
 
             View::load("components/objects/glance-card", ['metrics' => $metrics]);
 
+            View::load("components/traffic-summary", ['data' => $data]);
+
             $categories = [
                 'title'      => esc_html__('Top Categories', 'wp-statistics'),
                 'tooltip'    => sprintf(esc_html__('The most popular categories by number of published %s.', 'wp-statistics'), strtolower($postTypePlural)),
@@ -100,7 +102,6 @@ $postTypePlural   = Helper::getPostTypeName($postType);
             $performance = [
                 'title' => esc_html__('Performance', 'wp-statistics'),
                 'type'  => 'post-type',
-                'data'  => $data['performance']
             ];
             View::load("components/charts/performance", $performance);
 
@@ -110,13 +111,6 @@ $postTypePlural   = Helper::getPostTypeName($postType);
                 'data'    => $data['posts']
             ];
             Admin_Template::get_template(['layout/content-analytics/top-picks'], $topPages);
-
-            $summary = [
-                'title'   => esc_html__('Summary', 'wp-statistics'),
-                'tooltip' => esc_html__('From today to last year, a breakdown of visitors and views.', 'wp-statistics'),
-                'data'    => $data['visits_summary']
-            ];
-            View::load("components/tables/summary", $summary);
 
             $topCountries = [
                 'tooltip' => esc_html__('The countries from which the most visitors are coming.', 'wp-statistics'),

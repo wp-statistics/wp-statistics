@@ -64,11 +64,25 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
     protected $jobDescription = '';
 
     /**
+     * Short button title for admin UI.
+     *
+     * @var string
+     */
+    protected $jobButtonTitle = '';
+
+    /**
      * Success notice message to display in the admin UI when the job finishes.
      *
      * @var string
      */
     protected $successNotice = '';
+
+    /**
+    * Whether this job requires user confirmation before starting.
+    *
+    * @var bool
+    */
+    protected $confirmation = false;
 
     /**
      * Set the human‑readable job title (source string; not translated here).
@@ -110,6 +124,37 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
     public function getJobDescription()
     {
         return $this->jobDescription;
+    }
+
+    /**
+     * Set the short button title
+     *
+     * @param string $jobButtonTitle
+     * @return void
+     */
+    protected function setJobButtonTitle($jobButtonTitle)
+    {
+        $this->jobButtonTitle = $jobButtonTitle;
+    }
+
+    /**
+     * Get the short button title
+     *
+     * @return string
+     */
+    public function getJobButtonTitle()
+    {
+        return $this->jobButtonTitle;
+    }
+
+    /**
+     * Checks if user confirmation is required before running the background process.
+     *
+     * @return bool True if confirmation is required, false otherwise.
+     */
+    public function isConfirmationRequired()
+    {
+        return $this->confirmation;
     }
 
     /**
@@ -156,7 +201,7 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
 
     /**
      * Get the success notice message for this background job.
-     * 
+     *
      * @return string Success notice text.
      */
     public function getSuccessNotice()

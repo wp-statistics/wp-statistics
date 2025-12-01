@@ -8,6 +8,7 @@ use WP_Statistics\Components\View;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Admin_Assets;
+use WP_Statistics\Service\Admin\ExportImport\ExportTypes;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
@@ -83,9 +84,11 @@ class TabsView extends BaseTabView
 
         foreach ($this->tabs as $taxonomy) {
             $tab = [
+                'id'    => $taxonomy,
                 'link'  => Menus::admin_url('category-analytics', ['tab' => $taxonomy]),
                 'title' => ucwords(Helper::getTaxonomyName($taxonomy)),
-                'class' => $this->isTab($taxonomy) ? 'current' : ''
+                'class' => $this->isTab($taxonomy) ? 'current' : '',
+                'export'=> [ExportTypes::CSV_METRICS, ExportTypes::PDF_PAGE]
             ];
 
             if ($this->isLockedTab($taxonomy)) {

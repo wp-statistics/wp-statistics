@@ -148,11 +148,6 @@ class SiteHealthInfo
             /**
              * Plugin configuration settings.
              */
-            'monitorOnlineVisitors'          => [
-                'label' => esc_html__('Monitor Online Visitors', 'wp-statistics'),
-                'value' => Option::get('useronline') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::get('useronline') ? 'Enabled' : 'Disabled',
-            ],
             'trackLoggedInUserActivity'      => [
                 'label' => esc_html__('Track Logged-In User Activity', 'wp-statistics'),
                 'value' => Option::get('visitors_log') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
@@ -267,11 +262,6 @@ class SiteHealthInfo
                 'label' => esc_html__('Excluded URLs', 'wp-statistics'),
                 'value' => Option::get('excluded_urls') ? __('Set', 'wp-statistics') : __('Not Set', 'wp-statistics'),
                 'debug' => Option::get('excluded_urls') ? 'Set' : 'Not Set',
-            ],
-            'matomoReferrerSpamBlacklist'    => [
-                'label' => esc_html__('Matomo Referrer Spam Blacklist', 'wp-statistics'),
-                'value' => Option::get('referrerspam') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::get('referrerspam') ? 'Enabled' : 'Disabled',
             ],
             'logRecordExclusions'            => [
                 'label' => esc_html__('Log Record Exclusions', 'wp-statistics'),

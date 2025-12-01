@@ -210,18 +210,6 @@ class Install
         return $links;
     }
 
-    /**
-     * Update WordPress Page Type for older wp-statistics Version
-     *
-     * @since 12.6
-     *
-     * -- List Methods ---
-     * init_page_type_updater        -> define WordPress Hook
-     * get_require_number_update     -> Get number of rows that require update page type
-     * is_require_update_page        -> Check Wp-statistics require update page table
-     * get_page_type_by_obj          -> Get Page Type by information
-     * @todo, this legacy functionality should move to Background Processing
-     */
     public static function init_page_type_updater()
     {
 

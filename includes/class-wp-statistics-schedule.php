@@ -6,7 +6,6 @@ use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\Event;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
-use WP_Statistics\Service\Analytics\Referrals\ReferralsDatabase;
 use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseMigration;
@@ -39,17 +38,6 @@ class Schedule
     public function maybe_schedule_hooks()
     {
         if (!Request::isFrom('admin')) {
-
-            // Add the referrerspam update schedule if it doesn't exist and it should be.
-            if (!wp_next_scheduled('wp_statistics_referrerspam_hook') && Option::get('schedule_referrerspam')) {
-                wp_schedule_event(time(), 'weekly', 'wp_statistics_referrerspam_hook');
-            }
-
-            // Remove the referrerspam update schedule if it does exist and it should shouldn't.
-            if (wp_next_scheduled('wp_statistics_referrerspam_hook') && !Option::get('schedule_referrerspam')) {
-                wp_unschedule_event(wp_next_scheduled('wp_statistics_referrerspam_hook'), 'wp_statistics_referrerspam_hook');
-            }
-
             // Add the database maintenance schedule if it doesn't exist and it should be.
             if (!wp_next_scheduled('wp_statistics_dbmaint_hook') && Option::get('schedule_dbmaint_days') != 0) {
                 wp_schedule_event(DateTime::get('tomorrow midnight', 'U'), 'daily', 'wp_statistics_dbmaint_hook');

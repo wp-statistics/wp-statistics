@@ -2,10 +2,10 @@
 Contributors: veronalabs, mostafa.s1990, kashani, GregRoss
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
-Requires at least: 5.0
-Tested up to: 6.8
-Stable tag: 14.15.6
-Requires PHP: 7.2
+Requires at least: 6.6
+Tested up to: 6.9
+Stable tag: 14.16
+Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -146,6 +146,16 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.16 - 2025-12-01 =
+- **New:** Added an Export button to all report pages.
+- **New:** Added a new `Summary Totals` table to store daily aggregated data.
+- **Enhancement:** Tested up to v6.9
+- **Enhancement:** Updated PHP requirement to v7.4 and WordPress requires to v6.6
+- **Enhancement:** Redesigned Summary widgets across all report pages.
+- **Enhancement:** Optimized database queries and improved overall performance.
+- **Enhancement:** Improved online tracking system and removed heartbeat online requests for better performance and reduced server load.
+- **Deprecation:** Removed the `Matomo Referrer Spam Blacklist` options from the settings.
+
 = 14.15.6 - 2025-11-09 =
 - **New:** Introduced a refactored background-process migration system and removed legacy AJAX migrations.
 - **New:** Updated the Single Visitor page and added an "Other Visits" section.
