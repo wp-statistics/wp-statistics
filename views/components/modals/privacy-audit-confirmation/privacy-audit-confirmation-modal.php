@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div id="privacy-audit-confirmation" class="wps-modal wps-modal--confirmation" role="dialog" aria-labelledby="confirmation-modal-title" >
     <div class="wps-modal__overlay"></div>
     <div class="wps-modal__content">

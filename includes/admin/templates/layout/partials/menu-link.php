@@ -1,4 +1,7 @@
 <?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 $class = '';
 if (isset($_GET['page'])) {
     $full_slug = $_GET['page'];

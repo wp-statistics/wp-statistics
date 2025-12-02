@@ -4,7 +4,7 @@ namespace WP_STATISTICS;
 
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Url;
-use WP_Statistics\Models\ViewsModel;  
+use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;

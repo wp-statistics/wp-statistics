@@ -13,6 +13,7 @@ use WP_Statistics\Abstracts\BaseView;
 use WP_Statistics\Exception\SystemErrorException;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsDataProvider;
+use WP_Statistics\Service\Admin\ExportImport\ExportTypes;
 
 class SingleView extends BaseView
 {
@@ -79,6 +80,7 @@ class SingleView extends BaseView
             'backTitle'     => esc_html__('Category Analytics', 'wp-statistics'),
             'DateRang'      => Admin_Template::DateRange(),
             'hasDateRang'   => true,
+            'export'        => [ExportTypes::CSV_METRICS, ExportTypes::PDF_PAGE],
             'data'          => $this->getData()
         ];
 

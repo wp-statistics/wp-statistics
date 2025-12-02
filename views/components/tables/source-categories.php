@@ -1,4 +1,7 @@
 <?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 $source_colors = [
     '#4285F4',
     '#9C27B0',

@@ -50,7 +50,7 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
 
         $visitors   = $this->visitorsModel->countDailyVisitors($this->args);
         $views      = $this->viewsModel->countDailyViews($this->args);
-        $posts      = empty($this->args['post_id']) && empty($this->args['hide_post']) ? $this->postsModel->countDailyPosts($this->args) : []; // On single post view, no need to count posts
+        $posts      = $this->shouldGetPostData() ? $this->postsModel->countDailyPosts($this->args) : []; // On single post view, no need to count posts
 
         $parsedData = $this->parseData($currentDates, [
             'visitors'  => $visitors,
@@ -74,7 +74,7 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
         );
 
         // On single post view and single resource, no need to count posts
-        if (empty($this->args['post_id']) && empty($this->args['hide_post'])) {
+        if ($this->shouldGetPostData()) {
             $this->addChartDataset(
                 sprintf(
                     esc_html__('Published %s', 'wp-statistics'),
@@ -136,5 +136,14 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
         }
 
         return $parsedData;
+    }
+
+    /*
+     * Returns a boolean value indicating that whether we should get post data or not
+     * If post_id, resource_id, or hide_post is passed, returns false.
+    */
+    protected function shouldGetPostData()
+    {
+        return empty($this->args['post_id']) && empty($this->args['resource_id']) && empty($this->args['hide_post']);
     }
 }

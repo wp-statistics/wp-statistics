@@ -1,5 +1,9 @@
-<?php 
+<?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Admin_Template;
+
 ?>
 
 <div class="postbox-container wps-postbox-full">
@@ -11,34 +15,34 @@ use WP_STATISTICS\Admin_Template;
                         <div class="o-table-wrapper">
                             <table width="100%" class="o-table wps-new-table">
                                 <thead>
-                                    <tr>
-                                        <th scope="col" class="wps-pd-l">
-                                            <?php esc_html_e('Region', 'wp-statistics') ?>
-                                        </th>
-                                        <th scope="col" class="wps-pd-l">
-                                            <?php esc_html_e('Visitors', 'wp-statistics') ?>
-                                        </th>
-                                        <th scope="col" class="wps-pd-l">
-                                            <?php esc_html_e('Views', 'wp-statistics') ?>
-                                        </th>
-                                    </tr>
+                                <tr>
+                                    <th scope="col" class="wps-pd-l">
+                                        <?php esc_html_e('Region', 'wp-statistics') ?>
+                                    </th>
+                                    <th scope="col" class="wps-pd-l">
+                                        <?php esc_html_e('Visitors', 'wp-statistics') ?>
+                                    </th>
+                                    <th scope="col" class="wps-pd-l">
+                                        <?php esc_html_e('Views', 'wp-statistics') ?>
+                                    </th>
+                                </tr>
                                 </thead>
-    
+
                                 <tbody>
 
-                                    <?php foreach ($data['regions'] as $item) : ?>
-                                        <tr>
-                                            <td class="wps-pd-l">
-                                                <?php echo esc_html(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->region)) ?>
-                                            </td>
-                                            <td class="wps-pd-l">
-                                                <?php echo esc_html(number_format($item->visitors)) ?>
-                                            </td>
-                                            <td class="wps-pd-l">
-                                                <?php echo esc_html(number_format($item->views)) ?>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
+                                <?php foreach ($data['regions'] as $item) : ?>
+                                    <tr>
+                                        <td class="wps-pd-l">
+                                            <?php echo esc_html(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->region)) ?>
+                                        </td>
+                                        <td class="wps-pd-l">
+                                            <?php echo esc_html(number_format($item->visitors)) ?>
+                                        </td>
+                                        <td class="wps-pd-l">
+                                            <?php echo esc_html(number_format($item->views)) ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>

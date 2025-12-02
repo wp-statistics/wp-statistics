@@ -22,6 +22,7 @@ abstract class UnlockedTabView
 
     /**
      * Returns the data for the unlocked tab
+     *
      * @return array
      */
     public function getData()

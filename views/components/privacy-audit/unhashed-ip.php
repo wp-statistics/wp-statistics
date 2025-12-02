@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps-mb-16"><?php echo esc_html__('Our system has identified that raw IP addresses are stored in your database, likely due to the “Hash IP Addresses” feature being disabled in the past. To enhance data protection and align with privacy best practices, converting these IP addresses to a hashed format is strongly recommended.') ?></div>
 <div class="wps-audit-card__suggestion wps-mb-16">
     <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('How to Convert IP Addresses to Hash?', 'wp-statistics') ?></div>

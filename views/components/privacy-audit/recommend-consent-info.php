@@ -1,4 +1,7 @@
 <?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 
 $notices = IntegrationHelper::getDetectionNotice();

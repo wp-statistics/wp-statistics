@@ -1,5 +1,7 @@
 <?php
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Service\Admin\ModalHandler\Modal;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;

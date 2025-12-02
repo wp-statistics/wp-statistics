@@ -1,5 +1,15 @@
-= 14.15.x - 2025-x-x =
+= 14.16.x - 2025-x-x =
 - **Fix:** Fixed an issue where historical data was not included in single-content/single-resource reports.
+- 
+= 14.16 - 2025-12-01 =
+- **New:** Added an **Export** button to all report pages (requires the Advanced Reporting add-on).
+- **New:** Introduced a new `Summary Totals` table to store daily aggregated data, improving performance.
+- **Enhancement:** Tested up to WordPress v6.9.
+- **Enhancement:** Updated minimum PHP requirement to v7.4 and WordPress requirement to v6.6.
+- **Enhancement:** Redesigned Summary widgets across all report pages for a cleaner and more consistent look.
+- **Enhancement:** Optimized database queries and improved overall performance.
+- **Enhancement:** Improved the online tracking system by removing heartbeat requests, reducing server load and improving performance.
+- **Deprecation:** Removed the **Matomo Referrer Spam Blacklist** option from the settings.
 
 = 14.15.6 - 2025-11-09 =
 - **New:** Introduced a refactored background-process migration system and removed legacy AJAX migrations.

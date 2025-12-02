@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="o-wrap">
     <div id="wp-statistics-visitors-map__container">
         <div id="wp-statistics-visitors-map"></div>

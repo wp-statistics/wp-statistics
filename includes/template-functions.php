@@ -4,6 +4,7 @@ use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\DateTime;
 use WP_STATISTICS\Country;
 use WP_STATISTICS\IP;
+use WP_Statistics\Models\OnlineModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Pages;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
@@ -81,13 +82,12 @@ function wp_statistics_get_user_location($ip = false)
 /**
  * Get Current Users online
  *
+ * @deprecated This function has been deprecated. Use OnlineModel class instead.
  * @param array $options
  * @return mixed
  */
 function wp_statistics_useronline($options = array())
 {
-    global $wpdb;
-
     //Check Parameter
     $defaults = array(
         /**
@@ -157,52 +157,22 @@ function wp_statistics_useronline($options = array())
     // Parse incoming $args into an array and merge it with $defaults
     $arg = wp_parse_args($options, $defaults);
 
-    //Basic SQL
-    $type_request = ($arg['return'] == "all" ? '*' : 'COUNT(*)');
-    $sql          = "SELECT {$type_request} FROM " . WP_STATISTICS\DB::table('useronline') . " as useronline JOIN " . WP_STATISTICS\DB::table('visitor') . " as visitor ON useronline.visitor_id = visitor.ID";
+    // Map legacy args to new args
+    $mappedArgs = [
+        'page_id'       => !empty($arg['ID']) ? $arg['ID'] : null,
+        'platform'      => $arg['platform'] != 'all' ? $arg['platform'] : null,
+        'agent'         => $arg['agent'] != 'all' ? $arg['agent'] : null,
+        'country'       => $arg['location'] != 'all' ? $arg['location'] : null,
+        'logged_in'     => $arg['logged_users']
+    ];
 
-    //Check Where Condition
-    $where = [];
+    $onlineModel = new OnlineModel();
 
-    //Check Type of Page
-    if ($arg['type'] != "all") {
-        $where[] = "`visitor`.`last_page` = " . $arg['ID'];
+    if ($arg['return'] == "count") {
+        return $onlineModel->countOnlines($mappedArgs);
     }
 
-    //Check Custom user
-    if ($arg['logged_users'] === true) {
-        $where[] = "`user_id` > 0";
-    }
-
-    //Check Location
-    if ($arg['location'] != "all") {
-        $ISOCountryCode = Country::getList();
-        if (array_key_exists($arg['location'], $ISOCountryCode)) {
-            $where[] = "`location` = '" . $arg['location'] . "'";
-        }
-    }
-
-    //Check User Agent
-    if ($arg['agent'] != "all") {
-        $where[] = "`agent` = '" . $arg['agent'] . "'";
-    }
-
-    //Check User Platform
-    if ($arg['platform'] != "all") {
-        $where[] = "`platform` = '" . $arg['platform'] . "'";
-    }
-
-    //Push Conditions to SQL
-    if (!empty($where)) {
-        $sql .= ' WHERE ' . implode(' AND ', $where);
-    }
-
-    if($arg['return'] == "count") {
-        return $wpdb->get_var($sql) ?? 0; // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-    }
-
-    //Return Number od user Online
-    return $wpdb->get_results($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+    return $onlineModel->getOnlineVisitors($mappedArgs);
 }
 
 /**

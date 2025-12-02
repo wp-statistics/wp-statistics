@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps-help__card">
     <div class="wps-help__card-icon">
         <?php echo wp_kses(

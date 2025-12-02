@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps-help__cta">
     <div>
         <h2 class="wps-help__cta-title">

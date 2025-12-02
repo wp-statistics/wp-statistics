@@ -65,16 +65,21 @@ class AnonymizedUsageDataProvider
     {
         global $wpdb;
 
-        if (empty($wpdb->is_mysql) || empty($wpdb->use_mysqli) || empty($wpdb->dbh)) {
+        if (empty($wpdb) || empty($wpdb->is_mysql)) {
             return null;
         }
 
-        $serverInfo = mysqli_get_server_info($wpdb->dbh);
-        if (!$serverInfo) {
+        if (method_exists($wpdb, 'db_version')) {
+            $version = $wpdb->db_version();
+        } else {
             return null;
         }
 
-        return preg_match('/\d+\.\d+/', $serverInfo, $matches) ? $matches[0] : '';
+        if (empty($version)) {
+            return null;
+        }
+
+        return preg_match('/\d+\.\d+/', $version, $matches) ? $matches[0] : '';
     }
 
     /**
@@ -86,17 +91,31 @@ class AnonymizedUsageDataProvider
     {
         global $wpdb;
 
-        if (empty($wpdb->is_mysql) || empty($wpdb->use_mysqli)) {
+        if (empty($wpdb) || empty($wpdb->is_mysql)) {
             return null;
         }
 
-        $serverInfo = mysqli_get_server_info($wpdb->dbh);
+        if (!method_exists($wpdb, 'db_server_info')) {
+            return null;
+        }
+
+        $serverInfo = $wpdb->db_server_info();
 
         if (!$serverInfo) {
             return null;
         }
 
-        return str_contains($serverInfo, 'MariaDB') ? 'MariaDB' : (str_contains($serverInfo, 'MySQL') ? 'MySQL' : 'Unknown');
+        $serverInfoLower = strtolower($serverInfo);
+
+        if (strpos($serverInfoLower, 'mariadb') !== false) {
+            return 'MariaDB';
+        }
+
+        if (strpos($serverInfoLower, 'mysql') !== false) {
+            return 'MySQL';
+        }
+
+        return 'Unknown';
     }
 
     /**
@@ -302,15 +321,11 @@ class AnonymizedUsageDataProvider
      */
     public static function getTablesStats()
     {
-        $userOnlineTable = DB::table('useronline');
-        $rawTableRows    = DB::getTableRows();
-        $tableRows       = [];
-        $prefix          = DB::prefix();
+        $rawTableRows = DB::getTableRows();
+        $tableRows    = [];
+        $prefix       = DB::prefix();
 
         foreach ($rawTableRows as $k => $v) {
-            if ($k === $userOnlineTable) {
-                continue;
-            }
             $k             = str_replace($prefix, '', $k);
             $tableRows[$k] = $v['rows'];
         }

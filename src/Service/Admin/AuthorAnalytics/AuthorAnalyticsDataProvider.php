@@ -106,8 +106,12 @@ class AuthorAnalyticsDataProvider
 
     public function getAuthorsReportData()
     {
-        $authors = $this->authorModel->getAuthorsReportData($this->args);
-        $total   = $this->authorModel->countAuthors($this->args);
+        $args = wp_parse_args($this->args, [
+            'post_type' => 'post'
+        ]);
+
+        $authors = $this->authorModel->getAuthorsReportData($args);
+        $total   = $this->authorModel->countAuthors($args);
 
         return [
             'authors'   => $authors,
@@ -166,10 +170,9 @@ class AuthorAnalyticsDataProvider
         $topPostsByView    = $this->postsModel->getPostsViewsData($this->args);
         $topPostsByComment = $this->postsModel->getPostsCommentsData($this->args);
 
-        $visitorsSummary = $this->visitorsModel->getVisitorsSummary($this->args);
-        $viewsSummary    = $this->viewsModel->getViewsSummary($this->args);
-
         $visitorsCountry = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
+
+        $summary = ChartDataProviderFactory::summaryChart($this->args)->getData();
 
         $data = [
             'glance' => [
@@ -194,13 +197,16 @@ class AuthorAnalyticsDataProvider
                     'change' => Helper::calculatePercentageChange($prevAvgComments, $avgComments)
                 ]
             ],
-            'posts' => [
+            'summary'          => $summary,
+            'posts'            => [
                 'top_views'    => $topPostsByView,
                 'top_comments' => $topPostsByComment,
             ],
-            'visit_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
             'visitors_country' => $visitorsCountry,
-            'taxonomies'       => $taxonomies
+            'taxonomies'       => $taxonomies,
+
+            // Keep for backward-compatibility with older versions of DataPlus
+            'visit_summary'   => []
         ];
 
         if (WordCountService::isActive()) {

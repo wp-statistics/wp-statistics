@@ -33,6 +33,7 @@ use WP_Statistics\CLI\CliCommands;
 use WP_Statistics\Service\Admin\Optimization\OptimizationManager;
 use WP_Statistics\Globals\AjaxManager;
 use WP_Statistics\Service\Database\Migrations\BackgroundProcess\BackgroundProcessManager;
+use WP_Statistics\Service\Summary\SummaryManager;
 
 defined('ABSPATH') || exit;
 
@@ -221,6 +222,7 @@ final class WP_Statistics
         $customEventManager = new CustomEventManager();
         $cronEventManager   = new CronEventManager();
         $ajaxManager        = new AjaxManager();
+        $summaryManager     = new SummaryManager();
 
         // WordPress ShortCode and Widget
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-shortcode.php';
@@ -229,7 +231,6 @@ final class WP_Statistics
         // Rest-Api
         require_once WP_STATISTICS_DIR . 'includes/api/v2/class-wp-statistics-api-hit.php';
         require_once WP_STATISTICS_DIR . 'includes/api/v2/class-wp-statistics-api-meta-box.php';
-        require_once WP_STATISTICS_DIR . 'includes/api/v2/class-wp-statistics-api-online.php';
 
         // WordPress Cron
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-schedule.php';

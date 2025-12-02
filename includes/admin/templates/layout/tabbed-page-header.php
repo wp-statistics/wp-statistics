@@ -1,13 +1,20 @@
 <?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Url;
 use WP_Statistics\Components\View;
+use WP_Statistics\Globals\Context;
 use WP_Statistics\Marketing\Services\Auth\AuthHelper;
 
-$pageKey = Menus::getCurrentPage();
-$pageKey = $pageKey['page_url'];
+$currentPage = Context::get('wps_page');
+
+$pageKey    = $currentPage['slug'];
+$currentTab = $currentPage['tab'] ?? '';
+$currentTab = Helper::findInArray($tabs, 'id', $currentTab);
 
 View::load('components/objects/share-anonymous-notice');
 ?>
@@ -26,28 +33,6 @@ View::load('components/objects/share-anonymous-notice');
 
     <?php do_action('wp_statistics_after_admin_page_title'); ?>
 
-    <?php if (isset($real_time_button)): ?>
-        <?php
-        $is_realtime_active = Helper::isAddOnActive('realtime-stats');
-        if ($is_realtime_active): ?>
-            <a class="wps-realtime-btn" href="<?php echo esc_url(admin_url('admin.php?page=wp_statistics_realtime_stats')) ?>" title="<?php echo esc_html_e('Real-time stats are available! Click here to view', 'wp-statistics') ?>">
-                <?php esc_html_e('Realtime', 'wp-statistics'); ?>
-            </a>
-        <?php else: ?>
-            <button class="wps-realtime-btn disabled wps-tooltip-premium">
-                <?php esc_html_e('Realtime', 'wp-statistics'); ?>
-                <span class="wps-tooltip_templates tooltip-premium tooltip-premium--bottom tooltip-premium--right">
-                    <span id="tooltip_realtime">
-                        <a data-target="wp-statistics-realtime-stats" class="js-wps-openPremiumModal"><?php esc_html_e('Learn More', 'wp-statistics'); ?></a>
-                        <span>
-                            <?php esc_html_e('Premium Feature', 'wp-statistics'); ?>
-                        </span>
-                    </span>
-                </span>
-            </button>
-        <?php endif ?>
-    <?php endif; ?>
-
 
     <div class="wp-clearfix"></div>
 
@@ -55,7 +40,6 @@ View::load('components/objects/share-anonymous-notice');
     $active_tab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : '';
     if (isset($datepicker)): ?>
         <form class="wps-search-date wps-today-datepicker" method="get">
-
             <div>
                 <input type="hidden" name="page" value="<?php echo esc_attr($pageName); ?>">
                 <input type="hidden" name="tab" id="active-tab-input" value="<?php echo esc_attr($active_tab); ?>">
@@ -63,9 +47,35 @@ View::load('components/objects/share-anonymous-notice');
             </div>
         </form>
     <?php endif ?>
-    <?php if (isset($hasDateRang) || isset($filters) || isset($lastUpdated)) : ?>
+    <?php if (isset($hasDateRang) || isset($filters) || isset($lastUpdated) || isset($currentTab['export'])) : ?>
         <div class="wps-head-filters">
+
             <?php
+            if (!empty($currentTab['export']) && is_array($currentTab['export'])) {
+                View::load("components/objects/export-button", ['types' => $currentTab['export']]);
+            }
+
+            if (isset($real_time_button)):
+                $is_realtime_active = Helper::isAddOnActive('realtime-stats');
+                if ($is_realtime_active): ?>
+                    <a class="wps-realtime-btn" href="<?php echo esc_url(admin_url('admin.php?page=wp_statistics_realtime_stats')) ?>" title="<?php echo esc_html_e('Real-time stats are available! Click here to view', 'wp-statistics') ?>">
+                        <?php esc_html_e('Realtime', 'wp-statistics'); ?>
+                    </a>
+                <?php else: ?>
+                    <button class="wps-realtime-btn disabled wps-tooltip-premium">
+                        <?php esc_html_e('Realtime', 'wp-statistics'); ?>
+                        <span class="wps-tooltip_templates tooltip-premium tooltip-premium--bottom tooltip-premium--right">
+                        <span id="tooltip_realtime">
+                            <a data-target="wp-statistics-realtime-stats" class="js-wps-openPremiumModal"><?php esc_html_e('Learn More', 'wp-statistics'); ?></a>
+                            <span>
+                                <?php esc_html_e('Premium Feature', 'wp-statistics'); ?>
+                            </span>
+                        </span>
+                    </span>
+                    </button>
+                <?php endif;
+            endif;
+
             if (!empty($hasDateRang)) {
                 include 'date.range.php';
             }
@@ -106,13 +116,13 @@ View::load('components/objects/share-anonymous-notice');
                 $tab['hidden']  = apply_filters("wp_statistics_{$pageKey}_{$tabKey}_hidden", $tab['hidden'] ?? false);
 
                 if (!empty($tab['hidden'])) continue;
-            ?>
+                ?>
 
                 <li class="wps-tab-link <?php echo esc_attr($tab['class']); ?>">
                     <?php if (isset($tab['coming_soon'])): ?>
                         <span class="wps-tooltip wps-tooltip--coming_soon" title="<?php echo esc_html__('Coming soon', 'wp-statistics') ?>"><?php echo esc_html($tab['title']); ?> <i class="wps-tooltip-icon coming-soon"></i></span>
                     <?php elseif (!empty($tab['locked'])) : ?>
-                        <a data-target="<?php echo isset($tab['lockedTarget']) ?  esc_attr($tab['lockedTarget'])  : "wp-statistics-data-plus"?>"  class="js-wps-openPremiumModal wps-locked">
+                        <a data-target="<?php echo isset($tab['lockedTarget']) ? esc_attr($tab['lockedTarget']) : "wp-statistics-data-plus" ?>" class="js-wps-openPremiumModal wps-locked">
                             <?php echo esc_html($tab['title']); ?>
                             <?php if (!empty($tab['tooltip'])) : ?>
                                 <span class="wps-tooltip" title="<?php echo esc_attr($tab['tooltip']) ?>"><i class="wps-tooltip-icon info"></i></span>
@@ -129,6 +139,13 @@ View::load('components/objects/share-anonymous-notice');
                             <?php if (!empty($tab['tooltip'])) : ?>
                                 <span class="wps-tooltip" title="<?php echo esc_attr($tab['tooltip']); ?>"><i class="wps-tooltip-icon info"></i></span>
                             <?php endif; ?>
+
+                            <?php if (strpos($tab['class'], 'wps-tab-link__online-visitors') !== false) : ?>
+                                <span class="wps-dot wps-tooltip" title="<?php esc_html_e('Unique visitors who viewed a page in the last 5 minutes', 'wp-statistics'); ?>">
+                                   <span class="screen-reader-text"><?php esc_html_e('Unique visitors who viewed a page in the last 5 minutes', 'wp-statistics'); ?></span>
+                                </span>
+                            <?php endif; ?>
+
                         </a>
                     <?php endif; ?>
                 </li>
