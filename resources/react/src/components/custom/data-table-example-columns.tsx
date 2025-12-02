@@ -23,7 +23,7 @@ export const exampleColumns: ColumnDef<VisitorData>[] = [
     accessorKey: 'totalViews',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Total Views" />,
     cell: ({ row }) => {
-      return <div className="font-medium">{row.getValue('totalViews')}</div>
+      return <div>{row.getValue('totalViews')}</div>
     },
   },
   {
@@ -40,7 +40,7 @@ export const exampleColumns: ColumnDef<VisitorData>[] = [
               </span>
             ))}
           </div>
-          <span className="text-sm text-muted-foreground">{visitorInfo.id}</span>
+          <span>{visitorInfo.id}</span>
         </div>
       )
     },
@@ -52,7 +52,7 @@ export const exampleColumns: ColumnDef<VisitorData>[] = [
       const referrer = row.getValue('referrer') as VisitorData['referrer']
       return (
         <div>
-          <div className="font-medium text-sm">{referrer.domain}</div>
+          <div>{referrer.domain}</div>
           <div className="text-[9px] text-[#636363] uppercase">{referrer.traffic}</div>
         </div>
       )
@@ -68,7 +68,7 @@ export const exampleColumns: ColumnDef<VisitorData>[] = [
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Info className="h-3 w-3 text-muted-foreground cursor-help shrink-0" />
+                <Info className="h-3 w-3 text-[#636363] cursor-help shrink-0" />
               </TooltipTrigger>
               <TooltipContent>
                 <p>The first page visited in this session</p>
@@ -89,7 +89,7 @@ export const exampleColumns: ColumnDef<VisitorData>[] = [
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Info className="h-3 w-3 text-muted-foreground cursor-help shrink-0" />
+                <Info className="h-3 w-3 text-[#636363] cursor-help shrink-0" />
               </TooltipTrigger>
               <TooltipContent>
                 <p>The last page visited in this session</p>
