@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps-notice-settings wps-notice-settings--warning">
     <div>
         <p class="wps-notice-settings__title"> <?php esc_html_e('Notice:', 'wp-statistics')?></p>

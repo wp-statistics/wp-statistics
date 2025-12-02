@@ -1,4 +1,4 @@
-
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="c-pages-date-range">
     <form action="<?php echo esc_url(admin_url('admin.php')); ?>" method="get" class="wps-inline" id="jquery-datepicker">
         <?php

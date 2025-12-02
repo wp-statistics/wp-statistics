@@ -1,6 +1,10 @@
 <?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
+
 ?>
 
 <div class="postbox-container wps-postbox-full">
@@ -24,32 +28,32 @@ use WP_STATISTICS\Helper;
                     <div class="o-table-wrapper">
                         <table width="100%" class="o-table wps-new-table wps-new-table--referrers">
                             <thead>
-                                <tr>
-                                    <th scope="col" class="wps-pd-l">
-                                        <span><?php esc_html_e('Type', 'wp-statistics') ?></span>
-                                    </th>
-                                    <th scope="col" class="wps-pd-l start">
-                                        <span class="wps-order"><?php esc_html_e('Exclusions', 'wp-statistics') ?></span>
-                                    </th>
-                                    <th scope="col" class="wps-pd-l">
-                                        <span class="screen-reader-text"><?php esc_html_e('View excluded percentage', 'wp-statistics'); ?></span>
-                                    </th>
-                                </tr>
+                            <tr>
+                                <th scope="col" class="wps-pd-l">
+                                    <span><?php esc_html_e('Type', 'wp-statistics') ?></span>
+                                </th>
+                                <th scope="col" class="wps-pd-l start">
+                                    <span class="wps-order"><?php esc_html_e('Exclusions', 'wp-statistics') ?></span>
+                                </th>
+                                <th scope="col" class="wps-pd-l">
+                                    <span class="screen-reader-text"><?php esc_html_e('View excluded percentage', 'wp-statistics'); ?></span>
+                                </th>
+                            </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($data['data'] as $item) : ?>
-                                    <tr>
-                                        <td class="wps-pd-l">
-                                            <b><?php echo esc_html(ucwords($item->reason)) ?></b>
-                                        </td>
-                                        <td class="wps-pd-l start">
-                                            <?php echo esc_html(number_format_i18n($item->count)); ?>
-                                        </td>
-                                        <td class="wps-pd-l">
-                                            <?php echo esc_html(Helper::calculatePercentage($item->count, $data['total']) . '%') ?>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
+                            <?php foreach ($data['data'] as $item) : ?>
+                                <tr>
+                                    <td class="wps-pd-l">
+                                        <b><?php echo esc_html(ucwords($item->reason)) ?></b>
+                                    </td>
+                                    <td class="wps-pd-l start">
+                                        <?php echo esc_html(number_format_i18n($item->count)); ?>
+                                    </td>
+                                    <td class="wps-pd-l">
+                                        <?php echo esc_html(Helper::calculatePercentage($item->count, $data['total']) . '%') ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
