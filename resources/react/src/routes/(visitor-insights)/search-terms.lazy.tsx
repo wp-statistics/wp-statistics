@@ -1,6 +1,7 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { DataTable } from '@components/custom/data-table'
 import type { ColumnDef } from '@tanstack/react-table'
+import { __ } from '@wordpress/i18n'
 
 export const Route = createLazyFileRoute('/(visitor-insights)/search-terms')({
   component: RouteComponent,
@@ -10,7 +11,6 @@ type SearchTermData = {
   searchTerm: string
   searches: number
 }
-
 const columns: ColumnDef<SearchTermData>[] = [
   {
     accessorKey: 'searchTerm',
@@ -137,7 +137,8 @@ const fakeData: SearchTermData[] = [
 
 function RouteComponent() {
   return (
-    <div className="max-w-full">
+    <div>
+      <h1 className="text-2xl font-medium text-neutral-700 mb-6">{__('Search Terms', 'wp-statistics')}</h1>
       <DataTable
         columns={columns}
         data={fakeData}

@@ -35,6 +35,10 @@ const meta = {
       control: 'object',
       description: 'Link to full report (boolean for default, object for custom text/url)',
     },
+    hiddenColumns: {
+      control: 'object',
+      description: 'Array of column IDs to hide by default (users can toggle them via column management)',
+    },
   },
 } satisfies Meta<typeof DataTable<VisitorData, unknown>>
 
@@ -154,5 +158,14 @@ export const WithTitleAndFullFeatures: Story = {
       text: 'View Complete Report',
       action: () => {},
     },
+  },
+}
+
+export const WithHiddenColumns: Story = {
+  args: {
+    columns: exampleColumns,
+    data: exampleData,
+    showColumnManagement: true,
+    hiddenColumns: ['entryPage', 'exitPage'],
   },
 }

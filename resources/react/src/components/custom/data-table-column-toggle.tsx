@@ -74,6 +74,7 @@ interface DataTableColumnToggleProps<TData> {
 
 export function DataTableColumnToggle<TData>({ table }: DataTableColumnToggleProps<TData>) {
   const columns = table.getAllColumns().filter((column) => column.getCanHide())
+  const isRTL = document.dir === 'rtl' || document.documentElement.dir === 'rtl'
 
   const [columnOrder, setColumnOrder] = React.useState<ColumnItem[]>(
     columns.map((column) => ({
@@ -133,7 +134,7 @@ export function DataTableColumnToggle<TData>({ table }: DataTableColumnTogglePro
           <MoreVertical className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[240px]">
+      <DropdownMenuContent align={isRTL ? 'start' : 'end'} className="w-[240px]">
         <div className="px-1 py-1">
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
             <SortableContext items={columnOrder.map((item) => item.id)} strategy={verticalListSortingStrategy}>

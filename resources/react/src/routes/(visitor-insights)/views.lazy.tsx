@@ -5,6 +5,8 @@ import type { ColumnDef } from '@tanstack/react-table'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@components/ui/tooltip'
 import { Info } from 'lucide-react'
 import { Badge } from '@components/ui/badge'
+import { WordPress } from '@/lib/wordpress'
+import { __ } from '@wordpress/i18n'
 
 export const Route = createLazyFileRoute('/(visitor-insights)/views')({
   component: RouteComponent,
@@ -13,7 +15,7 @@ export const Route = createLazyFileRoute('/(visitor-insights)/views')({
 type ViewData = {
   lastVisit: string
   visitorInfo: {
-    country: { flag: string; name: string; region: string; city: string }
+    country: { code: string; name: string; region: string; city: string }
     os: { icon: string; name: string }
     browser: { icon: string; name: string; version: string }
     user?: { username: string; id: number; email: string; role: string }
@@ -38,7 +40,7 @@ type ViewData = {
   totalViews: number
 }
 
-const columns: ColumnDef<ViewData>[] = [
+const createColumns = (pluginUrl: string): ColumnDef<ViewData>[] => [
   {
     accessorKey: 'lastVisit',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
@@ -70,7 +72,13 @@ const columns: ColumnDef<ViewData>[] = [
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <span className="cursor-pointer">{visitorInfo.country.flag}</span>
+                <button className="cursor-pointer flex items-center">
+                  <img
+                    src={`https://flagcdn.com/w20/${visitorInfo.country.code}.png`}
+                    alt={visitorInfo.country.name}
+                    className="w-5 h-4 object-cover rounded-sm"
+                  />
+                </button>
               </TooltipTrigger>
               <TooltipContent>
                 <p>
@@ -83,7 +91,13 @@ const columns: ColumnDef<ViewData>[] = [
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <span className="cursor-pointer">{visitorInfo.os.icon}</span>
+                <button className="cursor-pointer flex items-center">
+                  <img
+                    src={`${pluginUrl}public/images/operating-system/${visitorInfo.os.icon}.svg`}
+                    alt={visitorInfo.os.name}
+                    className="w-4 h-4 object-contain"
+                  />
+                </button>
               </TooltipTrigger>
               <TooltipContent>
                 <p>{visitorInfo.os.name}</p>
@@ -94,7 +108,13 @@ const columns: ColumnDef<ViewData>[] = [
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <span className="cursor-pointer">{visitorInfo.browser.icon}</span>
+                <button className="cursor-pointer flex items-center">
+                  <img
+                    src={`${pluginUrl}public/images/browser/${visitorInfo.browser.icon}.svg`}
+                    alt={visitorInfo.browser.name}
+                    className="w-4 h-4 object-contain"
+                  />
+                </button>
               </TooltipTrigger>
               <TooltipContent>
                 <p>
@@ -265,9 +285,9 @@ const fakeData: ViewData[] = [
   {
     lastVisit: '2025-01-27T14:23:15',
     visitorInfo: {
-      country: { flag: '🇺🇸', name: 'United States', region: 'California', city: 'San Francisco' },
-      os: { icon: '🪟', name: 'Windows 11' },
-      browser: { icon: '🌐', name: 'Google Chrome', version: '120' },
+      country: { code: 'us', name: 'United States', region: 'California', city: 'San Francisco' },
+      os: { icon: 'windows', name: 'Windows 11' },
+      browser: { icon: 'chrome', name: 'Google Chrome', version: '120' },
       user: { username: 'john_doe', id: 123, email: 'john@example.com', role: 'Administrator' },
       identifier: '192.168.1.1',
     },
@@ -290,9 +310,9 @@ const fakeData: ViewData[] = [
   {
     lastVisit: '2025-01-27T14:20:42',
     visitorInfo: {
-      country: { flag: '🇬🇧', name: 'United Kingdom', region: 'England', city: 'London' },
-      os: { icon: '🍎', name: 'macOS Sonoma' },
-      browser: { icon: '🧭', name: 'Safari', version: '17' },
+      country: { code: 'gb', name: 'United Kingdom', region: 'England', city: 'London' },
+      os: { icon: 'mac_os', name: 'macOS Sonoma' },
+      browser: { icon: 'safari', name: 'Safari', version: '17' },
       identifier: 'a3f5c9',
     },
     page: {
@@ -316,9 +336,9 @@ const fakeData: ViewData[] = [
   {
     lastVisit: '2025-01-27T14:18:30',
     visitorInfo: {
-      country: { flag: '🇩🇪', name: 'Germany', region: 'Bavaria', city: 'Munich' },
-      os: { icon: '🐧', name: 'Ubuntu 22.04' },
-      browser: { icon: '🦊', name: 'Firefox', version: '121' },
+      country: { code: 'de', name: 'Germany', region: 'Bavaria', city: 'Munich' },
+      os: { icon: 'linux', name: 'Ubuntu 22.04' },
+      browser: { icon: 'firefox', name: 'Firefox', version: '121' },
       identifier: '10.0.0.45',
     },
     page: {
@@ -340,9 +360,9 @@ const fakeData: ViewData[] = [
   {
     lastVisit: '2025-01-27T14:15:18',
     visitorInfo: {
-      country: { flag: '🇫🇷', name: 'France', region: 'Île-de-France', city: 'Paris' },
-      os: { icon: '🪟', name: 'Windows 10' },
-      browser: { icon: '🌊', name: 'Edge', version: '120' },
+      country: { code: 'fr', name: 'France', region: 'Île-de-France', city: 'Paris' },
+      os: { icon: 'windows', name: 'Windows 10' },
+      browser: { icon: 'edge', name: 'Edge', version: '120' },
       user: { username: 'marie_claire', id: 456, email: 'marie@example.fr', role: 'Editor' },
       identifier: '172.16.0.1',
     },
@@ -363,9 +383,9 @@ const fakeData: ViewData[] = [
   {
     lastVisit: '2025-01-27T14:12:05',
     visitorInfo: {
-      country: { flag: '🇨🇦', name: 'Canada', region: 'Ontario', city: 'Toronto' },
-      os: { icon: '📱', name: 'iOS 17' },
-      browser: { icon: '🧭', name: 'Safari', version: '17' },
+      country: { code: 'ca', name: 'Canada', region: 'Ontario', city: 'Toronto' },
+      os: { icon: 'ios', name: 'iOS 17' },
+      browser: { icon: 'safari', name: 'Safari', version: '17' },
       identifier: 'b7e2d1',
     },
     page: {
@@ -389,9 +409,9 @@ const fakeData: ViewData[] = [
   {
     lastVisit: '2025-01-27T14:08:52',
     visitorInfo: {
-      country: { flag: '🇦🇺', name: 'Australia', region: 'New South Wales', city: 'Sydney' },
-      os: { icon: '🪟', name: 'Windows 11' },
-      browser: { icon: '🌐', name: 'Google Chrome', version: '120' },
+      country: { code: 'au', name: 'Australia', region: 'New South Wales', city: 'Sydney' },
+      os: { icon: 'windows', name: 'Windows 11' },
+      browser: { icon: 'chrome', name: 'Google Chrome', version: '120' },
       identifier: '203.0.113.5',
     },
     page: {
@@ -413,9 +433,9 @@ const fakeData: ViewData[] = [
   {
     lastVisit: '2025-01-27T14:05:33',
     visitorInfo: {
-      country: { flag: '🇮🇳', name: 'India', region: 'Maharashtra', city: 'Mumbai' },
-      os: { icon: '🤖', name: 'Android 14' },
-      browser: { icon: '🌐', name: 'Google Chrome', version: '120' },
+      country: { code: 'in', name: 'India', region: 'Maharashtra', city: 'Mumbai' },
+      os: { icon: 'android', name: 'Android 14' },
+      browser: { icon: 'chrome', name: 'Google Chrome', version: '120' },
       user: { username: 'admin', id: 1, email: 'admin@site.com', role: 'Administrator' },
       identifier: '198.51.100.10',
     },
@@ -438,9 +458,9 @@ const fakeData: ViewData[] = [
   {
     lastVisit: '2025-01-27T14:02:19',
     visitorInfo: {
-      country: { flag: '🇯🇵', name: 'Japan', region: 'Tokyo', city: 'Tokyo' },
-      os: { icon: '🍎', name: 'macOS Ventura' },
-      browser: { icon: '🦊', name: 'Firefox', version: '121' },
+      country: { code: 'jp', name: 'Japan', region: 'Tokyo', city: 'Tokyo' },
+      os: { icon: 'mac_os', name: 'macOS Ventura' },
+      browser: { icon: 'firefox', name: 'Firefox', version: '121' },
       identifier: 'f9a8c4',
     },
     page: {
@@ -463,9 +483,9 @@ const fakeData: ViewData[] = [
   {
     lastVisit: '2025-01-27T13:58:47',
     visitorInfo: {
-      country: { flag: '🇧🇷', name: 'Brazil', region: 'São Paulo', city: 'São Paulo' },
-      os: { icon: '📱', name: 'Android 13' },
-      browser: { icon: '🌐', name: 'Google Chrome', version: '119' },
+      country: { code: 'br', name: 'Brazil', region: 'São Paulo', city: 'São Paulo' },
+      os: { icon: 'android', name: 'Android 13' },
+      browser: { icon: 'chrome', name: 'Google Chrome', version: '119' },
       identifier: '192.0.2.15',
     },
     page: {
@@ -487,9 +507,9 @@ const fakeData: ViewData[] = [
   {
     lastVisit: '2025-01-27T13:55:12',
     visitorInfo: {
-      country: { flag: '🇰🇷', name: 'South Korea', region: 'Seoul', city: 'Seoul' },
-      os: { icon: '🪟', name: 'Windows 11' },
-      browser: { icon: '🌊', name: 'Edge', version: '120' },
+      country: { code: 'kr', name: 'South Korea', region: 'Seoul', city: 'Seoul' },
+      os: { icon: 'windows', name: 'Windows 11' },
+      browser: { icon: 'edge', name: 'Edge', version: '120' },
       user: { username: 'kim_subscriber', id: 789, email: 'kim@example.kr', role: 'Subscriber' },
       identifier: '203.0.113.20',
     },
@@ -513,13 +533,18 @@ const fakeData: ViewData[] = [
 ]
 
 function RouteComponent() {
+  const wp = WordPress.getInstance()
+  const pluginUrl = wp.getPluginUrl()
+  const columns = createColumns(pluginUrl)
+
   return (
-    <div className="max-w-full">
+    <div className="min-w-0">
+      <h1 className="text-2xl font-medium text-neutral-700 mb-6">{__('Views', 'wp-statistics')}</h1>
       <DataTable
         columns={columns}
         data={fakeData}
         defaultSort="lastVisit"
-        rowLimit={25}
+        rowLimit={50}
         showColumnManagement={true}
         showPagination={true}
       />

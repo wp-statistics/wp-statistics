@@ -31,6 +31,7 @@ interface DataTableProps<TData, TValue> {
   showColumnManagement?: boolean
   showPagination?: boolean
   fullReportLink?: FullReportLink
+  hiddenColumns?: string[]
 }
 
 export function DataTable<TData, TValue>({
@@ -42,10 +43,13 @@ export function DataTable<TData, TValue>({
   showColumnManagement = true,
   showPagination = true,
   fullReportLink,
+  hiddenColumns = [],
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>(defaultSort ? [{ id: defaultSort, desc: true }] : [])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>(
+    hiddenColumns.reduce((acc, col) => ({ ...acc, [col]: false }), {})
+  )
   const [rowSelection, setRowSelection] = React.useState({})
 
   const table = useReactTable({
@@ -73,68 +77,70 @@ export function DataTable<TData, TValue>({
   })
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden min-w-0">
       {title && (
         <CardHeader className="pb-0">
           <CardTitle className="">{title}</CardTitle>
         </CardHeader>
       )}
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id} className="border-0 bg-white hover:bg-white">
-              {headerGroup.headers.map((header, index) => {
-                return (
-                  <TableHead key={header.id} className={cn('h-12', index === 0 ? 'pl-6' : '')}>
-                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+      <div className="overflow-x-auto min-w-0">
+        <Table className="min-w-max">
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id} className="border-0 bg-white hover:bg-white">
+                {headerGroup.headers.map((header, index) => {
+                  return (
+                    <TableHead key={header.id} className={cn('h-12', index === 0 ? 'pl-6' : '')}>
+                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                    </TableHead>
+                  )
+                })}
+                {showColumnManagement && (
+                  <TableHead className="h-12 w-12 pr-6">
+                    <DataTableColumnToggle table={table} />
                   </TableHead>
-                )
-              })}
-              {showColumnManagement && (
-                <TableHead className="h-12 w-12 pr-6">
-                  <DataTableColumnToggle table={table} />
-                </TableHead>
-              )}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row, rowIndex) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && 'selected'}
-                className={cn(
-                  'border-0',
-                  rowIndex % 2 === 0 ? 'bg-white hover:bg-slate-100' : 'bg-slate-50 hover:bg-slate-100'
                 )}
-              >
-                {row.getVisibleCells().map((cell, cellIndex) => (
-                  <TableCell
-                    key={cell.id}
-                    className={cn(
-                      cellIndex === 0 ? 'pl-6' : '',
-                      cellIndex === row.getVisibleCells().length - 1 && !showColumnManagement ? 'pr-6' : ''
-                    )}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-                {showColumnManagement && <TableCell className="w-12 pr-6" />}
               </TableRow>
-            ))
-          ) : (
-            <TableRow className="border-0">
-              <TableCell
-                colSpan={columns.length + (showColumnManagement ? 1 : 0)}
-                className="h-24 text-center text-sm text-card-foreground pl-6"
-              >
-                No data available
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row, rowIndex) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && 'selected'}
+                  className={cn(
+                    'border-0',
+                    rowIndex % 2 === 0 ? 'bg-white hover:bg-slate-100' : 'bg-slate-50 hover:bg-slate-100'
+                  )}
+                >
+                  {row.getVisibleCells().map((cell, cellIndex) => (
+                    <TableCell
+                      key={cell.id}
+                      className={cn(
+                        cellIndex === 0 ? 'pl-6' : '',
+                        cellIndex === row.getVisibleCells().length - 1 && !showColumnManagement ? 'pr-6' : ''
+                      )}
+                    >
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                  {showColumnManagement && <TableCell className="w-12 pr-6" />}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow className="border-0">
+                <TableCell
+                  colSpan={columns.length + (showColumnManagement ? 1 : 0)}
+                  className="h-24 text-center text-sm text-card-foreground pl-6"
+                >
+                  No data available
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
       <CardFooter className="flex flex-col items-stretch">
         {showPagination && (
           <div className="flex items-center justify-between flex-wrap gap-4">

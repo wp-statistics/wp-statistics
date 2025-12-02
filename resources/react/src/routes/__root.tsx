@@ -8,12 +8,10 @@ const RootLayout = () => (
   <>
     <Header />
     <SidebarProvider>
-      <div className="flex flex-1 relative min-h-[calc(100vh-var(--header-height,0px))]">
+      <div className="flex flex-1 relative min-h-[calc(100vh-var(--header-height,0px))] overflow-hidden">
         <AppSidebar />
-        <SidebarInset className="flex-1">
-          <div className="flex flex-1 flex-col gap-4 p-4 bg-neutral-100">
-            <Outlet />
-          </div>
+        <SidebarInset className="overflow-x-auto">
+          <Outlet />
         </SidebarInset>
       </div>
     </SidebarProvider>
