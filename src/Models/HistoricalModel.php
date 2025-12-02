@@ -2,9 +2,11 @@
 
 namespace WP_Statistics\Models;
 
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Utils\Query;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Url;
+use WP_Statistics\Utils\Request;
 
 class HistoricalModel
 {
@@ -29,7 +31,7 @@ class HistoricalModel
      * by checking for the presence of either 'historical' or 'ignore_date'
      * keys. If any additional keys are non-empty, the method returns null.
      *
-     * @param array $args     Associative array of arguments to parse. Must include
+     * @param array $args Associative array of arguments to parse. Must include
      *                        either 'historical' or 'ignore_date' as a key.
      * @param array $defaults Optional. Default values to merge with the provided arguments.
      *                        Defaults to an empty array.
@@ -43,15 +45,15 @@ class HistoricalModel
             return null;
         }
 
-        $args           = wp_parse_args($args, $defaults);
-        $allowedArgs    = ['ignore_post_type', 'ignore_date', 'historical', 'include_total', 'exclude', 'date_field'];
+        $args        = wp_parse_args($args, $defaults);
+        $allowedArgs = ['ignore_post_type', 'ignore_date', 'historical', 'include_total', 'exclude', 'date_field'];
 
         foreach ($args as $key => $value) {
             if (in_array($key, $allowedArgs, true)) {
                 continue;
             }
 
-            if (! empty($value)) {
+            if (!empty($value)) {
                 return null;
             }
         }
@@ -78,7 +80,7 @@ class HistoricalModel
         $args['resource_id'] = $this->getResourceId($args);
         $args['uri']         = $this->getResourceUri($args);
 
-        if (! empty($args['uri']) && ! empty($args['resource_id'])) {
+        if (!empty($args['uri']) && !empty($args['resource_id'])) {
             $args['category'] = 'uri';
         }
 
@@ -91,9 +93,9 @@ class HistoricalModel
      * @param array $args {
      *     Arguments containing resource ID.
      *
-     *     @type int $post_id    Optional. Post ID to retrieve.
-     *     @type int $term       Optional. Term ID to retrieve.
-     *     @type int $author_id  Optional. Author ID to retrieve.
+     * @type int $post_id Optional. Post ID to retrieve.
+     * @type int $term Optional. Term ID to retrieve.
+     * @type int $author_id Optional. Author ID to retrieve.
      * }
      *
      * @return int|null The ID of the first found resource, or null if no resource ID specified
@@ -133,16 +135,16 @@ class HistoricalModel
      * @param array $args {
      *     Arguments for determining the resource URI.
      *
-     *     @type int    $post_id    Optional. Post ID to get its URI.
-     *     @type int    $term       Optional. Term ID to get its URI.
-     *     @type string $taxonomy   Required if $term is set. The taxonomy name.
-     *     @type int    $author_id  Optional. Author ID to get their archive URI.
+     * @type int $post_id Optional. Post ID to get its URI.
+     * @type int $term Optional. Term ID to get its URI.
+     * @type string $taxonomy Required if $term is set. The taxonomy name.
+     * @type int $author_id Optional. Author ID to get their archive URI.
      * }
      * @return string|null Relative path to the resource, or null if no valid resource specified
      */
     public function getResourceUri($args)
     {
-        if (! empty($args['uri'])) {
+        if (!empty($args['uri'])) {
             return $args['uri'];
         }
 
@@ -168,7 +170,7 @@ class HistoricalModel
      * @param array $args {
      *     Optional. An array of arguments for filtering historical visitor data.
      *
-     *     @type bool $ignore_date  Whether to ignore date constraints when counting visitors.
+     * @type bool $ignore_date Whether to ignore date constraints when counting visitors.
      *                             Default false. When false, returns 0.
      * }
      * @return int Total number of historical visitors.
@@ -195,15 +197,20 @@ class HistoricalModel
      * @param array $args {
      *     Arguments for retrieving views.
      *
-     *     @type string $type        Optional. Type of view count to retrieve ('uri' for specific URI views).
-     *     @type int    $post_id     Optional. Post ID to get views for.
-     *     @type string $uri         Optional. URI to get views for.
-     *     @type bool   $ignore_date Optional. Whether to ignore date in URI comparison.
+     * @type string $type Optional. Type of view count to retrieve ('uri' for specific URI views).
+     * @type int $post_id Optional. Post ID to get views for.
+     * @type string $uri Optional. URI to get views for.
+     * @type bool $ignore_date Optional. Whether to ignore date in URI comparison.
      * }
      * @return int Total number of historical views.
      */
     public function getViews($args)
     {
+        if ($this->isPostInAllTimeRange($args)) {
+            $args['ignore_date'] = true;
+            $args['historical']  = true;
+        }
+
         $args = $this->parseViewsArgs($args, [
             'resource_id' => '',
             'uri'         => '',
@@ -222,5 +229,34 @@ class HistoricalModel
             ->getVar();
 
         return $result ?? 0;
+    }
+
+    /**
+     * Determines whether the given date range represents an "All Time" range for a specific post.
+     *
+     * @param array $args
+     *
+     * @return bool True if the date range matches the "All Time" range for the post, false otherwise.
+     */
+    public function isPostInAllTimeRange($args)
+    {
+        $id  = $args['resource_id'] ?? $args['post_id'] ?? null;
+        $uri = Request::get('uri', '', 'raw');
+        
+        if (empty($id) && empty($uri)) {
+            return false;
+        }
+
+        if (empty($args['date']['from']) || empty($args['date']['to'])) {
+            return false;
+        }
+
+        $from = $args['date']['from'];
+        $to   = $args['date']['to'];
+
+        $postCreationDate = get_post_time(DateTime::$defaultDateFormat, false, $id) ?: Helper::getInitialPostDate();
+        $today            = DateTime::get();
+
+        return ($from <= $postCreationDate && $to === $today);
     }
 }

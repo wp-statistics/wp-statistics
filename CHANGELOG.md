@@ -1,3 +1,6 @@
+= 14.16.x - 2025-x-x =
+- **Fix:** Fixed an issue where historical data was not included in single-content/single-resource reports.
+- 
 = 14.16 - 2025-12-01 =
 - **New:** Added an **Export** button to all report pages (requires the Advanced Reporting add-on).
 - **New:** Introduced a new `Summary Totals` table to store daily aggregated data, improving performance.
