@@ -1,19 +1,22 @@
 <?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Url;
 
-$linksTarget    = !empty($open_links_in_new_tab) ? '_blank' : '';
-$viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics') : esc_html__('Last View', 'wp-statistics')
+$linksTarget = !empty($open_links_in_new_tab) ? '_blank' : '';
+$viewTitle   = !empty($single_post) ? esc_html__('Page View', 'wp-statistics') : esc_html__('Last View', 'wp-statistics')
 ?>
 
-<div class="inside">
-    <?php if (!empty($data)) : ?>
-        <div class="o-table-wrapper">
-            <table width="100%" class="o-table wps-new-table">
-                <thead>
+    <div class="inside">
+        <?php if (!empty($data)) : ?>
+            <div class="o-table-wrapper">
+                <table width="100%" class="o-table wps-new-table">
+                    <thead>
                     <tr>
                         <th scope="col" class="wps-pd-l">
                             <span class="wps-order"><?php echo esc_html($viewTitle); ?></span>
@@ -43,9 +46,9 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
                             <span class="wps-tooltip" title="<?php echo esc_html__('Total views for a single day. Privacy rules assign users a new ID daily, so visits on different days are counted separately.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></span>
                         </th>
                     </tr>
-                </thead>
+                    </thead>
 
-                <tbody>
+                    <tbody>
                     <?php foreach ($data as $visitor) : ?>
                         <?php /** @var VisitorDecorator $visitor */ ?>
                         <tr>
@@ -63,11 +66,11 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
 
                             <td class="wps-pd-l">
                                 <?php
-                                    View::load("components/objects/referrer-link", [
-                                        'label' => $visitor->getReferral()->getSourceChannel(),
-                                        'url'   => $visitor->getReferral()->getReferrer() ,
-                                        'title' => $visitor->getReferral()->getRawReferrer()
-                                    ]);
+                                View::load("components/objects/referrer-link", [
+                                    'label' => $visitor->getReferral()->getSourceChannel(),
+                                    'url'   => $visitor->getReferral()->getReferrer(),
+                                    'title' => $visitor->getReferral()->getRawReferrer()
+                                ]);
                                 ?>
                             </td>
 
@@ -106,8 +109,8 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
 
                                     if (!empty($page)) :
                                         View::load("components/objects/internal-link", [
-                                            'url'       => $page['report'],
-                                            'title'     => $page['title'],
+                                            'url'   => $page['report'],
+                                            'title' => $page['title'],
                                         ]);
                                     else :
                                         echo Admin_Template::UnknownColumn();
@@ -121,14 +124,14 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
                             </td>
                         </tr>
                     <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    <?php else : ?>
-        <div class="o-wrap o-wrap--no-data wps-center">
-            <?php esc_html_e('No recent data available.', 'wp-statistics') ?>
-        </div>
-    <?php endif; ?>
-</div>
+                    </tbody>
+                </table>
+            </div>
+        <?php else : ?>
+            <div class="o-wrap o-wrap--no-data wps-center">
+                <?php esc_html_e('No recent data available.', 'wp-statistics') ?>
+            </div>
+        <?php endif; ?>
+    </div>
 <?php echo isset($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 ?>

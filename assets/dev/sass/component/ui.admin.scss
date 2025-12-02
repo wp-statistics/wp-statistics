@@ -4223,14 +4223,19 @@ span.wps_search-console_icon {
 .export-overlay {
   position: fixed;
   inset: 0;
-  backdrop-filter: blur(2px);
-  background: rgba(0, 0, 0, 0.2);
   display: none;
   z-index: 2;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  background: rgba(0, 0, 0, .25);
 }
 
 .export-overlay.active {
   display: block;
+}
+
+body:has(.export-overlay.active) #wpadminbar {
+  z-index: 1;
 }
 
 .wps-export-dropdown {

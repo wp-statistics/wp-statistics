@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="metabox-holder" id="overview-widgets">
     <div class="postbox-container" id="wps-postbox-container-1">
         <?php do_meta_boxes($overview_page_slug, 'side', ''); ?>

@@ -1,4 +1,7 @@
 <?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 
@@ -127,15 +130,15 @@ $consentLevelIntegration = Option::get('consent_level_integration');
                         <option value="" <?php selected($consentIntegration, ''); ?>><?php esc_html_e('None', 'wp-statistics'); ?></option>
 
                         <?php foreach (IntegrationHelper::getAllIntegrations() as $integration) :
-                            $key          = $integration->getKey();
-                            $name         = $integration->getName();
+                            $key = $integration->getKey();
+                            $name = $integration->getName();
                             $isSelectable = $integration->isSelectable();
 
                             // Modify WP Consent API option title
                             if ($key === 'wp_consent_api') {
                                 $name = esc_html__('Via WP Consent API', 'wp-statistics');
                             }
-                        ?>
+                            ?>
                             <option <?php disabled(!$isSelectable) ?> value="<?php echo esc_attr($key); ?>" <?php selected($consentIntegration, $key); ?>><?php echo esc_html($name); ?></option>
                         <?php endforeach; ?>
                     </select>
@@ -159,12 +162,12 @@ $consentLevelIntegration = Option::get('consent_level_integration');
 
                 <td>
                     <?php
-                        $consentLevels = [
-                            'functional'           => esc_html__('Functional', 'wp-statistics'),
-                            'statistics-anonymous' => esc_html__('Statistics-Anonymous', 'wp-statistics'),
-                            'statistics'           => esc_html__('Statistics', 'wp-statistics'),
-                            'marketing'            => esc_html__('Marketing', 'wp-statistics'),
-                        ];
+                    $consentLevels = [
+                        'functional'           => esc_html__('Functional', 'wp-statistics'),
+                        'statistics-anonymous' => esc_html__('Statistics-Anonymous', 'wp-statistics'),
+                        'statistics'           => esc_html__('Statistics', 'wp-statistics'),
+                        'marketing'            => esc_html__('Marketing', 'wp-statistics'),
+                    ];
                     ?>
 
                     <select id="consent_level_integration" name="wps_consent_level_integration">

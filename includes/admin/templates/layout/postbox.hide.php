@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <script type="text/javascript">
     jQuery(document).ready(function ($) {
         $(".postbox :not(.postbox-toggle) button.handlediv").click(function () {

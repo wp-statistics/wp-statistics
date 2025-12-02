@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps-premium-feature__head">
     <h1>
         <?php esc_html_e('You Have Access to This Add-on!', 'wp-statistics')?>

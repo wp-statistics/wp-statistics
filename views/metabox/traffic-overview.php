@@ -1,4 +1,7 @@
 <?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Components\View;
@@ -13,7 +16,7 @@ $chartData = $data['summary']['7days']['data'];
         <div class="c-live">
             <div>
                 <span class="c-live__status"></span>
-                <span class="c-live__title"><?php esc_html_e('Online Users', 'wp-statistics'); ?></span>
+                <span class="c-live__title"><?php esc_html_e('Online Visitors', 'wp-statistics'); ?></span>
             </div>
             <div class="c-live__online">
                 <span class="c-live__online--value"><?php echo esc_html($data['online']) ?></span>
@@ -76,53 +79,53 @@ $chartData = $data['summary']['7days']['data'];
     <div class="o-table-wrapper">
         <table width="100%" class="o-table o-table--wps-summary-stats">
             <thead>
-                <tr>
-                    <th width="50%" scope="col">
-                        <span class="screen-reader-text"><?php esc_html_e('Date range', 'wp-statistics'); ?></span>
-                    </th>
-                    <th scope="col"><?php esc_html_e('Visitors', 'wp-statistics'); ?></th>
-                    <th scope="col"><?php esc_html_e('Views', 'wp-statistics'); ?></th>
-                </tr>
+            <tr>
+                <th width="50%" scope="col">
+                    <span class="screen-reader-text"><?php esc_html_e('Date range', 'wp-statistics'); ?></span>
+                </th>
+                <th scope="col"><?php esc_html_e('Visitors', 'wp-statistics'); ?></th>
+                <th scope="col"><?php esc_html_e('Views', 'wp-statistics'); ?></th>
+            </tr>
             </thead>
 
             <tbody>
-                <?php foreach ($data['summary'] as $key => $item) :
-                    $itemData = $item['data'];
+            <?php foreach ($data['summary'] as $key => $item) :
+                $itemData = $item['data'];
                 ?>
-                    <tr>
-                        <td>
-                            <?php echo esc_html($item['label']); ?>
+                <tr>
+                    <td>
+                        <?php echo esc_html($item['label']); ?>
 
-                            <?php if (isset($item['tooltip'])) : ?>
-                                <span class="wps-tooltip" title="<?php echo esc_attr($item['tooltip']); ?>"><i class="wps-tooltip-icon info"></i></span>
+                        <?php if (isset($item['tooltip'])) : ?>
+                            <span class="wps-tooltip" title="<?php echo esc_attr($item['tooltip']); ?>"><i class="wps-tooltip-icon info"></i></span>
+                        <?php endif; ?>
+                    </td>
+
+                    <td>
+                        <div>
+                            <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], $item['date'])) ?>"><span class="quickstats-values" title="<?php echo esc_attr($itemData['current']['visitors']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($itemData['current']['visitors'], 1)) ?></span></a>
+
+                            <?php if (!empty($item['comparison'])) : ?>
+                                <div class="diffs__change <?php echo esc_attr($itemData['trend']['visitors']['direction']); ?>">
+                                    <span class="diffs__change__direction"><?php echo esc_html($itemData['trend']['visitors']['percentage']) ?>%</span>
+                                </div>
                             <?php endif; ?>
-                        </td>
+                        </div>
+                    </td>
 
-                        <td>
-                            <div>
-                                <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], $item['date'])) ?>"><span class="quickstats-values" title="<?php echo esc_attr($itemData['current']['visitors']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($itemData['current']['visitors'], 1)) ?></span></a>
+                    <td>
+                        <div>
+                            <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], $item['date'])) ?>"><span class="quickstats-values" title="<?php echo esc_attr($itemData['current']['views']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($itemData['current']['views'], 1)) ?></span></a>
 
-                                <?php if (!empty($item['comparison'])) : ?>
-                                    <div class="diffs__change <?php echo esc_attr($itemData['trend']['visitors']['direction']); ?>">
-                                        <span class="diffs__change__direction"><?php echo esc_html($itemData['trend']['visitors']['percentage']) ?>%</span>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div>
-                                <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], $item['date'])) ?>"><span class="quickstats-values" title="<?php echo esc_attr($itemData['current']['views']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($itemData['current']['views'], 1)) ?></span></a>
-
-                                <?php if (!empty($item['comparison'])) : ?>
-                                    <div class="diffs__change <?php echo esc_attr($itemData['trend']['views']['direction']); ?>">
-                                         <span class="diffs__change__direction"><?php echo esc_html($itemData['trend']['views']['percentage']) ?>%</span>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
+                            <?php if (!empty($item['comparison'])) : ?>
+                                <div class="diffs__change <?php echo esc_attr($itemData['trend']['views']['direction']); ?>">
+                                    <span class="diffs__change__direction"><?php echo esc_html($itemData['trend']['views']['percentage']) ?>%</span>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
             </tbody>
         </table>
     </div>

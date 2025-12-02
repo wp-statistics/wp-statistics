@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps-premium-box-feature">
     <div class="wps-premium-box-feature__head">
         <h1>

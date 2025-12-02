@@ -1,6 +1,10 @@
 <?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Helper;
 use WP_Statistics\Components\View;
+
 ?>
 
 <div class="metabox-holder wps-content-analytics">
@@ -19,7 +23,7 @@ use WP_Statistics\Components\View;
                 'change' => $data['glance']['views']['change']
             ],
         ];
-        View::load("components/objects/glance-card", ['metrics' => $metrics , 'two_column' => true]);
+        View::load("components/objects/glance-card", ['metrics' => $metrics, 'two_column' => true]);
 
         View::load("components/traffic-summary", ['data' => $data]);
 
