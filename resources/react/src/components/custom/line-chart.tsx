@@ -237,7 +237,7 @@ export function LineChart({
                   return date.toLocaleDateString('en-US', {
                     month: 'long',
                   })
-                } else if (timeframe === 'Weekly') {
+                } else if (timeframe === 'weekly') {
                   // Format as "Month Day to Month Day"
                   const endDate = new Date(date)
                   endDate.setDate(endDate.getDate() + 6)
@@ -284,7 +284,7 @@ export function LineChart({
                   })
                   dayOfWeek = ''
                   formattedDate = `${formattedDate} to ${endFormatted}`
-                } else if (timeframe === 'Weekly') {
+                } else if (timeframe === 'weekly') {
                   formattedDate = date.toLocaleDateString('en-US', {
                     month: 'long',
                     day: 'numeric',
@@ -340,7 +340,7 @@ export function LineChart({
                   })
                   prevFormatted = `${prevFormatted} To ${prevEndFormatted}`
                   prevDayOfWeek = ''
-                } else if (timeframe === 'Weekly') {
+                } else if (timeframe === 'weekly') {
                   previousDate.setDate(previousDate.getDate() - 35) // Go back 5 weeks
                   prevFormatted = previousDate.toLocaleDateString('en-US', {
                     month: 'long',
