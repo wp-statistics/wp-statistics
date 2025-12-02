@@ -81,12 +81,12 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
 
             $data = [
                 'description' => sprintf(
-                    __('<p>Advanced Reporting keeps you informed by sending detailed performance reports directly to your inbox. Gain insights into your website’s traffic, views, and key metrics through customizable email reports. Schedule updates to receive data as often as you like, ensuring you always stay up-to-date on your website\'s performance with clear, graphical insights. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
+                    __('<p>Advanced Reporting keeps you informed by sending detailed performance reports directly to your inbox. Gain insights into your website\'s traffic, views, and key metrics through customizable email reports. Schedule updates to receive data as often as you like, and export your data to CSV or PDF for offline analysis and sharing. Stay up-to-date on your website\'s performance with clear, graphical insights. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-advanced-reporting',
                 'step'        => 'Advanced Reporting',
-                'step_title'  => esc_html__('Schedule detailed email reports.', 'wp-statistics'),
+                'step_title'  => esc_html__('Schedule reports and export to CSV & PDF.', 'wp-statistics'),
             ];
             View::load("components/modals/introduce-premium/step-content", $data);
 
