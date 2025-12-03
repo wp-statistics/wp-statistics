@@ -146,6 +146,7 @@ function RouteComponent() {
         rowLimit={20}
         showColumnManagement={false}
         showPagination={true}
+        emptyStateMessage={__('No data available for the selected period', 'wp-statistics')}
       />
     </div>
   )

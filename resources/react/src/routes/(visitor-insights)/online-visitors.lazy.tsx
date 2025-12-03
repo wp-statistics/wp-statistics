@@ -405,6 +405,7 @@ function RouteComponent() {
         rowLimit={50}
         showColumnManagement={true}
         showPagination={true}
+        emptyStateMessage={__('No visitors are currently online', 'wp-statistics')}
       />
     </div>
   )

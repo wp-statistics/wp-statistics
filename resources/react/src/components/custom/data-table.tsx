@@ -32,6 +32,7 @@ interface DataTableProps<TData, TValue> {
   showPagination?: boolean
   fullReportLink?: FullReportLink
   hiddenColumns?: string[]
+  emptyStateMessage?: string
 }
 
 export function DataTable<TData, TValue>({
@@ -44,6 +45,7 @@ export function DataTable<TData, TValue>({
   showPagination = true,
   fullReportLink,
   hiddenColumns = [],
+  emptyStateMessage = __('No data available', 'wp-statistics'),
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>(defaultSort ? [{ id: defaultSort, desc: true }] : [])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
@@ -134,7 +136,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length + (showColumnManagement ? 1 : 0)}
                   className="h-24 text-center text-sm text-card-foreground pl-6"
                 >
-                  No data available
+                  {emptyStateMessage}
                 </TableCell>
               </TableRow>
             )}

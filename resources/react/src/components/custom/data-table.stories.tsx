@@ -39,6 +39,10 @@ const meta = {
       control: 'object',
       description: 'Array of column IDs to hide by default (users can toggle them via column management)',
     },
+    emptyStateMessage: {
+      control: 'text',
+      description: 'Custom message to display when the table has no data',
+    },
   },
 } satisfies Meta<typeof DataTable<VisitorData, unknown>>
 
@@ -88,6 +92,14 @@ export const EmptyState: Story = {
   args: {
     columns: exampleColumns,
     data: [],
+  },
+}
+
+export const EmptyStateWithCustomMessage: Story = {
+  args: {
+    columns: exampleColumns,
+    data: [],
+    emptyStateMessage: 'No visitors found matching your criteria',
   },
 }
 

@@ -547,6 +547,7 @@ function RouteComponent() {
         rowLimit={50}
         showColumnManagement={true}
         showPagination={true}
+        emptyStateMessage={__('No views found for the selected period', 'wp-statistics')}
       />
     </div>
   )

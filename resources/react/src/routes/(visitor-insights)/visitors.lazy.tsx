@@ -546,6 +546,7 @@ function RouteComponent() {
         showColumnManagement={true}
         showPagination={true}
         hiddenColumns={['viewsPerSession', 'bounceRate', 'visitorStatus']}
+        emptyStateMessage={__('No visitors found for the selected period', 'wp-statistics')}
       />
     </div>
   )

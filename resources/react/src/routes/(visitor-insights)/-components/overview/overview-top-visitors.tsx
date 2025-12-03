@@ -1,7 +1,7 @@
 import { DataTable } from '@/components/custom/data-table'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { Link } from '@tanstack/react-router'
+import { Link, useRouter } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { Info } from 'lucide-react'
@@ -278,6 +278,7 @@ const topVisitorsData: TopVisitorData[] = [
 export const OverviewTopVisitors = () => {
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
+  const router = useRouter()
 
   const columns: ColumnDef<TopVisitorData>[] = [
     {
@@ -510,7 +511,12 @@ export const OverviewTopVisitors = () => {
       showColumnManagement={false}
       fullReportLink={{
         text: __('View All Top Visitors'),
-        action: () => {},
+        action: () => {
+          router.navigate({
+            from: '/visitors-overview',
+            to: '/top-visitors',
+          })
+        },
       }}
     />
   )
