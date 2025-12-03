@@ -150,7 +150,7 @@ if ($isAiInsightActive && !$isLicenseValid) {
                 <span class="wps-setting-label"><?php esc_html_e('Last Sync', 'wp-statistics'); ?></span>
             </th>
             <td>
-                <input type="text" title="<?php echo $lastSyncTime ? esc_attr(DateTime::format($lastSyncTime, ['include_time' => true])) : esc_attr__('N/A', 'wp-statistics'); ?>" value="<?php echo $lastSyncTime ? esc_attr(human_time_diff($lastSyncTime)) : esc_attr__('N/A', 'wp-statistics'); ?>" aria-label="<?php esc_attr_e('Last Sync', 'wp-statistics'); ?>" readonly class="wps-tooltip regular-text"/>
+                <input type="text" title="<?php echo $lastSyncTime ? esc_attr(DateTime::format($lastSyncTime, ['include_time' => true])) : esc_attr__('Never', 'wp-statistics'); ?>" value="<?php echo $lastSyncTime ? esc_attr(human_time_diff($lastSyncTime)) : esc_attr__('Never', 'wp-statistics'); ?>" aria-label="<?php esc_attr_e('Last Sync', 'wp-statistics'); ?>" readonly class="wps-tooltip regular-text"/>
                 <p class="description">
                     <?php esc_html_e('Timestamp of the most recent successful sync.', 'wp-statistics'); ?>
                 </p>
@@ -162,7 +162,7 @@ if ($isAiInsightActive && !$isLicenseValid) {
                 <span class="wps-setting-label"><?php esc_html_e('Next Scheduled Sync', 'wp-statistics'); ?></span>
             </th>
             <td>
-                <input type="text" title="<?php echo $nextSyncTime ? esc_attr(DateTime::format($nextSyncTime, ['include_time' => true])) : esc_attr__('N/A', 'wp-statistics'); ?>" value="<?php echo $nextSyncTime ? esc_attr(human_time_diff($nextSyncTime)) : esc_attr__('N/A', 'wp-statistics'); ?>" aria-label="<?php esc_attr_e('Next Scheduled Sync', 'wp-statistics'); ?>" readonly class="wps-tooltip regular-text"/>
+                <input type="text" title="<?php echo $nextSyncTime ? esc_attr(DateTime::format($nextSyncTime, ['include_time' => true])) : esc_attr__('Never', 'wp-statistics'); ?>" value="<?php echo $nextSyncTime ? esc_attr(human_time_diff($nextSyncTime)) : esc_attr__('Never', 'wp-statistics'); ?>" aria-label="<?php esc_attr_e('Next Scheduled Sync', 'wp-statistics'); ?>" readonly class="wps-tooltip regular-text"/>
                 <p class="description">
                     <?php esc_html_e('When the next automatic sync will occur.', 'wp-statistics'); ?>
                 </p>
@@ -174,7 +174,7 @@ if ($isAiInsightActive && !$isLicenseValid) {
                 <span class="wps-setting-label"><?php esc_html_e('Records Synced', 'wp-statistics'); ?></span>
             </th>
             <td>
-                <input type="text" value="<?php echo esc_attr(number_format_i18n($gscRecords)); ?>" aria-label="<?php esc_html_e('Records Synced', 'wp-statistics'); ?>" readonly class="regular-text"/>
+                <input type="text" value="<?php echo sprintf(esc_attr__('%s records'), number_format_i18n($gscRecords)); ?>" aria-label="<?php esc_html_e('Records Synced', 'wp-statistics'); ?>" readonly class="regular-text"/>
                 <p class="description">
                     <?php esc_html_e('Total number of GSC records currently stored in the database.', 'wp-statistics'); ?>
                 </p>
