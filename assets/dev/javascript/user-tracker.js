@@ -13,8 +13,14 @@ if (!window.WpStatisticsUserTracker) {
         // Prevent init() from running more than once
         hasTrackerInitializedOnce: false,
 
+        // Prevent trackUrlChange() from running more than once
+        hasUrlChangeTrackerInitialized: false,
+
         // Flag to track hit request status
         hitRequestSuccessful: true,
+
+        // Flag to detect if barba.js is being used
+        barbaInitialized: false,
 
         init: function () {
             if (this.hasTrackerInitializedOnce) {
@@ -32,7 +38,11 @@ if (!window.WpStatisticsUserTracker) {
                 this.checkHitRequestConditions();
             }
 
-            this.trackUrlChange();
+            this.initBarbaSupport();
+
+            if (!this.barbaInitialized) {
+                this.trackUrlChange();
+            }
         },
 
         // Method to Base64 encode a string using modern approach
@@ -111,24 +121,163 @@ if (!window.WpStatisticsUserTracker) {
             return requestUrl;
         },
 
-        // Function to update the WP_Statistics_Tracker_Object when URL changes
-        updateTrackerObject: function () {
-            const scriptTag = document.getElementById("wp-statistics-tracker-js-extra");
+        // Extract WP_Statistics_Tracker_Object from HTML string
+        extractTrackerObjectFromHTML: function (html) {
+            try {
+                const match = html.match(/var\s+WP_Statistics_Tracker_Object\s*=\s*(\{[\s\S]*?\});/);
+                if (match && match[1]) {
+                    return JSON.parse(match[1]);
+                }
+            } catch (error) {
+                console.error("WP Statistics: Error extracting WP_Statistics_Tracker_Object from HTML", error);
+            }
+            return null;
+        },
 
-            if (scriptTag) {
+        // Flag to prevent History API hooks from firing during barba transitions
+        barbaTransitioning: false,
+
+        // Initialize barba.js support if barba is detected
+        initBarbaSupport: function () {
+            const self = this;
+
+            // Check if barba.js is loaded
+            if (typeof barba === 'undefined') {
+                return;
+            }
+
+            if (this.barbaInitialized) {
+                return;
+            }
+
+            this.barbaInitialized = true;
+            console.log('WP Statistics: Barba.js detected, initializing support');
+
+            // Hook into barba.js lifecycle - use beforeEnter to get data before DOM update
+            barba.hooks.beforeEnter(async (data) => {
+                console.log('WP Statistics: Barba beforeEnter hook fired');
+                self.barbaTransitioning = true;
+                self.lastUrl = window.location.href; // Update immediately to block History API handler
+
+                let newData = null;
+
+                // Try to get HTML from barba's transition data first
+                if (data && data.next && data.next.html) {
+                    console.log('WP Statistics: Extracting from barba data.next.html');
+                    newData = self.extractTrackerObjectFromHTML(data.next.html);
+                }
+
+                // If that didn't work, fetch the current URL ourselves
+                if (!newData) {
+                    console.log('WP Statistics: Fetching current URL to get tracker data:', window.location.href);
+                    try {
+                        const response = await fetch(window.location.href);
+                        const html = await response.text();
+                        newData = self.extractTrackerObjectFromHTML(html);
+                    } catch (e) {
+                        console.error('WP Statistics: Error fetching page data', e);
+                    }
+                }
+
+                console.log('WP Statistics: New data:', newData);
+                console.log('WP Statistics: Current data:', WP_Statistics_Tracker_Object);
+
+                // Only send hit if we actually got new data that's different
+                if (newData && JSON.stringify(newData.hitParams) !== JSON.stringify(WP_Statistics_Tracker_Object.hitParams)) {
+                    console.log('WP Statistics: Data changed, updating and sending hit');
+                    WP_Statistics_Tracker_Object = newData;
+                    self.checkHitRequestConditions();
+                } else {
+                    console.log('WP Statistics: No new data found or data unchanged, skipping hit request');
+                }
+
+                // Keep flag set for a bit longer to ensure History API events are blocked
+                setTimeout(function () {
+                    self.barbaTransitioning = false;
+                    console.log('WP Statistics: Barba transition complete, flag reset');
+                }, 200);
+            });
+        },
+
+        // Function to update the WP_Statistics_Tracker_Object when URL changes
+        updateTrackerObject: function (callback) {
+            const self = this;
+            let callbackCalled = false;
+            let attempts = 0;
+            const maxAttempts = 20; // Maximum 2 seconds (20 * 100ms)
+
+            // Function to attempt to parse and update the tracker object
+            const tryUpdate = function () {
+                // Re-query the script tag each time (it may be replaced by Interactivity API)
+                const scriptTag = document.getElementById("wp-statistics-tracker-js-extra");
+
+                if (!scriptTag) {
+                    attempts++;
+                    if (attempts < maxAttempts) {
+                        setTimeout(tryUpdate, 100);
+                    } else if (!callbackCalled && callback) {
+                        callbackCalled = true;
+                        callback();
+                    }
+                    return;
+                }
+
                 try {
                     const match = scriptTag.innerHTML.match(/var\s+WP_Statistics_Tracker_Object\s*=\s*(\{[\s\S]*?\});/);
                     if (match && match[1]) {
-                        WP_Statistics_Tracker_Object = JSON.parse(match[1]);
+                        const newData = JSON.parse(match[1]);
+
+                        // Check if data has actually changed by comparing a key property
+                        // Use page_id or any unique identifier from hitParams
+                        const dataChanged = !WP_Statistics_Tracker_Object.hitParams ||
+                            JSON.stringify(WP_Statistics_Tracker_Object.hitParams) !== JSON.stringify(newData.hitParams);
+
+                        if (dataChanged) {
+                            WP_Statistics_Tracker_Object = newData;
+                            if (!callbackCalled && callback) {
+                                callbackCalled = true;
+                                callback();
+                            }
+                        } else {
+                            // Data hasn't changed yet, try again
+                            attempts++;
+                            if (attempts < maxAttempts) {
+                                setTimeout(tryUpdate, 100);
+                            } else if (!callbackCalled && callback) {
+                                callbackCalled = true;
+                                callback();
+                            }
+                        }
+                    } else {
+                        attempts++;
+                        if (attempts < maxAttempts) {
+                            setTimeout(tryUpdate, 100);
+                        } else if (!callbackCalled && callback) {
+                            callbackCalled = true;
+                            callback();
+                        }
                     }
                 } catch (error) {
                     console.error("WP Statistics: Error parsing WP_Statistics_Tracker_Object", error);
+                    if (!callbackCalled && callback) {
+                        callbackCalled = true;
+                        callback();
+                    }
                 }
-            }
+            };
+
+            // Start trying to update with a small initial delay to let DOM settle
+            setTimeout(tryUpdate, 50);
         },
 
         // Detect URL changes caused by History API (pushState, replaceState) or browser navigation
         trackUrlChange: function () {
+            // Only set up History API wrappers once
+            if (this.hasUrlChangeTrackerInitialized) {
+                return;
+            }
+            this.hasUrlChangeTrackerInitialized = true;
+
             const self = this;
 
             window.removeEventListener('popstate', self.handleUrlChange);
@@ -150,11 +299,23 @@ if (!window.WpStatisticsUserTracker) {
 
         // Handles URL changes in an SPA environment.
         handleUrlChange: function () {
+            const self = this;
+
+            console.log('WP Statistics: handleUrlChange called, barbaTransitioning:', this.barbaTransitioning);
+
+            // Skip if barba.js is handling the transition
+            if (this.barbaTransitioning) {
+                console.log('WP Statistics: Skipping handleUrlChange - barba is handling it');
+                return;
+            }
+
             if (window.location.href !== this.lastUrl) {
+                console.log('WP Statistics: URL changed from', this.lastUrl, 'to', window.location.href);
                 this.lastUrl = window.location.href;
-                this.updateTrackerObject();
-                this.hasTrackerInitializedOnce = false;
-                this.init();
+                this.updateTrackerObject(function () {
+                    // Don't re-initialize, just send the hit request
+                    self.checkHitRequestConditions();
+                });
             }
         }
     };
