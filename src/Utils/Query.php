@@ -27,6 +27,7 @@ class Query
     private $whereClauses = [];
     private $rawWhereClause = [];
     private $valuesToPrepare = [];
+    private $ignoreErrors = false;
     private $allowCaching = false;
     private $decorator;
 
@@ -134,6 +135,41 @@ class Query
         return $this;
     }
 
+    /**
+     * Sets multiple rows for bulk insert operations.
+     *
+     * @param array $columns Column names with their placeholder types, e.g., ['date' => '%s', 'clicks' => '%d', 'ctr' => '%f']
+     * @param array $values  Array of rows, each row is an array of values
+     *
+     * @return $this
+     */
+    public function setMany($columns, $values)
+    {
+        if (empty($columns) || empty($values) || $this->operation !== 'insert') {
+            return $this;
+        }
+
+        $this->valuesToPrepare       = array_merge(...$values);
+        $this->setClauses['columns'] = array_keys($columns);
+        $this->setClauses['values']  = array_fill(0, count($values), '(' . implode(', ', $columns) . ')');
+        $this->setClauses['bulk']    = true;
+
+        return $this;
+    }
+
+    /**
+     * Sets the query to ignore duplicate key errors (INSERT IGNORE).
+     *
+     * @param bool $ignore
+     *
+     * @return $this
+     */
+    public function ignoreErrors($ignore = true)
+    {
+        $this->ignoreErrors = $ignore;
+
+        return $this;
+    }
 
     private function getTable($table)
     {
@@ -782,11 +818,16 @@ class Query
 
     protected function insertQuery()
     {
-        $query = "INSERT INTO $this->table";
+        $query = $this->ignoreErrors ? "INSERT IGNORE INTO $this->table" : "INSERT INTO $this->table";
 
         if (!empty($this->setClauses)) {
-            $query .= ' (' . implode(', ', $this->setClauses['identifiers']) . ') ';
-            $query .= ' VALUES (' . implode( ', ', $this->setClauses['values'] ) . ') ';
+            if (!empty($this->setClauses['bulk'])) {
+                $query .= ' (`' . implode('`, `', $this->setClauses['columns']) . '`)';
+                $query .= ' VALUES ' . implode(', ', $this->setClauses['values']);
+            } else {
+                $query .= ' (' . implode(', ', $this->setClauses['identifiers']) . ')';
+                $query .= ' VALUES (' . implode(', ', $this->setClauses['values']) . ')';
+            }
         }
 
         return $query;
