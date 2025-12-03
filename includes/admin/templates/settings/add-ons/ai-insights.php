@@ -46,6 +46,18 @@ if ($isAiInsightActive && !$isLicenseValid) {
     View::load("components/lock-sections/notice-inactive-license-addon");
 }
 
+if ($gscRecords === 0 && $syncStatus === 'success') {
+    // Add notice: "No GSC data available yet. Your site may be new or not receiving search traffic. Check back in a few days."
+}
+
+if ($syncStatus === 'error') {
+    // Add notice: "Failed to sync GSC data. Please try again or check your GSC connection in Marketing add-on settings."
+}
+
+if ($syncStatus === 'not-initiated') {
+    // Add notice: "No Google Search Console data has been synced yet. Sync now to populate AI Insights reports and start seeing your SEO performance data."
+}
+
 ?>
 <div class="postbox">
     <table class="form-table <?php echo !$isAiInsightActive ? 'form-table--preview' : '' ?>">
@@ -134,7 +146,7 @@ if ($isAiInsightActive && !$isLicenseValid) {
                             <?php esc_html_e('Syncing...', 'wp-statistics'); ?>
                         </a>
                     <?php else : ?>
-                        <a href="<?php echo esc_url(Menus::admin_url('settings', ['tab' => 'ai-insights-settings', 'action' => 'wp_statistics_init_gsc_sync', 'nonce' => wp_create_nonce('wp_statistics_init_gsc_sync')])); ?>" aria-label="<?php esc_attr_e('Manually trigger an immediate sync of GSC data', 'wp-statistics'); ?>" class="wps-button wps-button--default">
+                        <a data-last-sync="<?php echo esc_attr($lastSyncTime); ?>" href="<?php echo esc_url(Menus::admin_url('settings', ['tab' => 'ai-insights-settings', 'action' => 'wp_statistics_init_gsc_sync', 'nonce' => wp_create_nonce('wp_statistics_init_gsc_sync')])); ?>" aria-label="<?php esc_attr_e('Manually trigger an immediate sync of GSC data', 'wp-statistics'); ?>" class="wps-button wps-button--default">
                             <?php esc_html_e('Sync Now', 'wp-statistics'); ?>
                         </a>
                     <?php endif; ?>
