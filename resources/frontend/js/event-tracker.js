@@ -31,9 +31,8 @@ if (!window.WpStatisticsEventTracker) {
     },
 
     // Handles preparing and sending marketing custom events to the server
+    // Always uses batch queue for reliable delivery
     handleCustomEvent: function (eventName, eventData = {}) {
-        const ajaxUrl = WP_Statistics_Tracker_Object.customEventAjaxUrl;
-
         // Add timestamp
         eventData.timestamp = Date.now();
 
@@ -47,7 +46,14 @@ if (!window.WpStatisticsEventTracker) {
             event_data: JSON.stringify(eventData)
         };
 
-        this.sendEventData(data, ajaxUrl);
+        // Always use batch queue for custom events
+        if (window.WpStatisticsBatchQueue) {
+            WpStatisticsBatchQueue.add('custom_event', data);
+        } else {
+            // Fallback to direct AJAX if batch queue not available
+            const ajaxUrl = WP_Statistics_Tracker_Object.customEventAjaxUrl;
+            this.sendEventData(data, ajaxUrl);
+        }
     },
 
     // Captures custom click events from Marketing

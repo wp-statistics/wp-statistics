@@ -6,6 +6,7 @@ use Exception;
 use WP_Statistics\Abstracts\BaseTrackerController;
 use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Tracking\Controllers\AjaxBasedTracking;
+use WP_Statistics\Service\Tracking\Controllers\BatchTracking;
 use WP_Statistics\Service\Tracking\Controllers\RestApiTracking;
 use WP_Statistics\Service\Tracking\Controllers\ServerSideTracking;
 
@@ -41,6 +42,8 @@ class TrackerControllerFactory
             } else {
                 $controller = new RestApiTracking();
             }
+
+            new BatchTracking();
         } else {
             $controller = new ServerSideTracking();
         }

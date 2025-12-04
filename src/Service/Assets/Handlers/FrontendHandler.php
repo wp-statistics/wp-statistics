@@ -98,7 +98,7 @@ class FrontendHandler extends BaseAssets
                 $dependencies = $integration->getJsHandles();
             }
 
-            Assets::script('tracker', 'js/tracker.js', $dependencies, $jsArgs, true, Option::getValue('bypass_ad_blockers', false), null, '', '', true);
+            Assets::script('tracker', 'js/tracker.min.js', $dependencies, $jsArgs, true, Option::getValue('bypass_ad_blockers', false), null, '', '', true);
         }
 
         if (Route::isAdminBarShowing()) {

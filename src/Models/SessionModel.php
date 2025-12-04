@@ -89,6 +89,34 @@ class SessionModel extends BaseModel
     }
 
     /**
+     * Return the still‑active (or recently ended) session for the given visitor hash.
+     *
+     * A session qualifies as *active* when its `ended_at` timestamp is within
+     * the last 30 minutes.
+     *
+     * @param string $visitorHash The visitor hash identifier.
+     * @return object|null The matching session row or `null` if not found.
+     * @since 15.0.0
+     */
+    public function getActiveSessionByHash($visitorHash)
+    {
+        if (empty($visitorHash)) {
+            return null;
+        }
+
+        $thirtyMinutesAgo = DateTime::getUtc('Y-m-d H:i:s', '-30 minutes');
+
+        return Query::select('sessions.*')
+            ->from('sessions')
+            ->join('visitors', ['sessions.visitor_id', 'visitors.ID'])
+            ->where('visitors.hash', '=', $visitorHash)
+            ->where('sessions.ended_at', '>=', $thirtyMinutesAgo)
+            ->orderBy('sessions.ID', 'DESC')
+            ->perPage(1)
+            ->getRow();
+    }
+
+    /**
      * Retrieve sessions whose last activity occurred in the past five minutes.
      *
      * @return array<array<string,mixed>> Array of session rows.

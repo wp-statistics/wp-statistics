@@ -124,9 +124,11 @@ class AjaxBasedTracking extends BaseTrackerController
             TrackerHelper::validateHitRequest();
 
             TrackingFactory::hits()->record();
-            wp_send_json(['status' => true]);
+            wp_send_json([
+                'status' => true
+            ]);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             wp_send_json(['status' => false, 'data' => $e->getMessage()], $e->getCode());
         }
     }

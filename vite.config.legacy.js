@@ -153,6 +153,8 @@ function inlineTrackerScripts() {
     load(id) {
       if (id === 'virtual:tracker') {
         const files = [
+          './resources/frontend/js/engagement-tracker.js',
+          './resources/frontend/js/batch-queue.js',
           './resources/frontend/js/user-tracker.js',
           './resources/frontend/js/event-tracker.js',
           './resources/frontend/js/tracker.js',
@@ -399,6 +401,13 @@ function moveFrontendAssets() {
             rmSync(sourcePath, { force: true })
           }
         })
+
+        // Also copy tracker.min.js to assets/js/tracker.js for backward compatibility
+        const trackerSource = join(frontendJsDir, 'tracker.min.js')
+        const trackerDest = resolve(__dirname, 'assets/js/tracker.js')
+        if (existsSync(trackerSource)) {
+          cpSync(trackerSource, trackerDest)
+        }
 
         // Copy only chart.umd.min.js from chartjs directory to frontend/js/chartjs/ (others stay in legacy)
         const chartjsSourceDir = join(sourceJsDir, 'chartjs')

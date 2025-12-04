@@ -1,6 +1,6 @@
 if (!window.WpStatisticsUserTracker) {
     window.WpStatisticsUserTracker = {
-        // User online interval id
+        // User online interval id (legacy - kept for backward compatibility)
         userOnlineIntervalId: null,
 
         // Track URL changes for AJAX in Gutenberg SPA mode using History API
@@ -10,7 +10,7 @@ if (!window.WpStatisticsUserTracker) {
         originalPushState: history.pushState,
         originalReplaceState: history.replaceState,
 
-        // Check user activity every x seconds
+        // Check user activity every x seconds (legacy)
         checkTime: WP_Statistics_Tracker_Object.jsCheckTime,
 
         // Check DoNotTrack Settings on User Browser
@@ -21,6 +21,9 @@ if (!window.WpStatisticsUserTracker) {
 
         // Flag to track hit request status
         hitRequestSuccessful: true,
+
+        // Whether to use new engagement tracking
+        useEngagementTracking: true,
 
         init: function () {
             if (this.hasTrackerInitializedOnce) {
@@ -35,14 +38,60 @@ if (!window.WpStatisticsUserTracker) {
             if (typeof WP_Statistics_Tracker_Object == "undefined") {
                 console.error('WP Statistics: Variable WP_Statistics_Tracker_Object not found. Ensure /wp-content/plugins/wp-statistics/public/frontend/js/tracker.js is either excluded from cache settings or not dequeued by any plugin. Clear your cache if necessary.');
             } else {
+                // Send initial hit request (engagement tracking will be initialized after hit succeeds)
+                // Session ID will be set from the hit response
                 this.checkHitRequestConditions();
-
                 if (WP_Statistics_Tracker_Object.option.userOnline) {
                     this.keepUserOnline();
                 }
             }
 
             this.trackUrlChange();
+        },
+
+        /**
+         * Initialize the new engagement tracking system
+         */
+        initEngagementTracking: function() {
+            // Initialize batch queue
+            if (window.WpStatisticsBatchQueue) {
+                WpStatisticsBatchQueue.init({
+                    batchEndpoint: this.getRequestUrl('batch'),
+                    ajaxUrl: WP_Statistics_Tracker_Object.ajaxUrl,
+                    bypassAdBlockers: WP_Statistics_Tracker_Object.option.bypassAdBlockers,
+                    maxQueueSize: 10,
+                    flushInterval: 30000, // 30 seconds
+                    // Pass engagement data getter (session is identified server-side)
+                    getSessionData: function() {
+                        return {
+                            engagement_time: window.WpStatisticsEngagementTracker
+                                ? WpStatisticsEngagementTracker.getTotalEngagementTime()
+                                : 0
+                        };
+                    }
+                });
+            }
+
+            // Initialize engagement tracker (no callbacks needed - data is fetched on flush)
+            if (window.WpStatisticsEngagementTracker) {
+                WpStatisticsEngagementTracker.init({
+                    activityTimeout: 30 * 1000 // 30 seconds
+                    // No onEngagementChange or onEngagementPulse callbacks
+                    // Engagement data is pulled when batch queue flushes
+                });
+            }
+        },
+
+        /**
+         * Get common parameters for all requests
+         */
+        getCommonParams: function() {
+            return {
+                ...WP_Statistics_Tracker_Object.onlineParams,
+                signature: WP_Statistics_Tracker_Object.hitParams?.signature,
+                referred: this.getReferred(),
+                page_uri: this.getPathAndQueryString()
+            };
         },
 
         // Method to Base64 encode a string using modern approach
@@ -94,12 +143,12 @@ if (!window.WpStatisticsUserTracker) {
                     languageName = (new Intl.DisplayNames(['en'], { type: 'language' })).of(languageCode);
 
                 visitorLocaleInfo.languageFullName = languageName;
-    
+
                 const params = new URLSearchParams({
                     ...WP_Statistics_Tracker_Object.hitParams,
                     resourceUriId: WP_Statistics_Tracker_Object?.resourceUriId,
-                    referred: this.getReferred(), // Use the getReferred method
-                    page_uri: this.getPathAndQueryString(), // Use the correct key for the path and query string (Base64 encoded)
+                    referred: this.getReferred(),
+                    page_uri: this.getPathAndQueryString(),
                     timezone: visitorLocaleInfo.timezone,
                     language: visitorLocaleInfo.language,
                     languageFullName: visitorLocaleInfo.languageFullName,
@@ -116,6 +165,11 @@ if (!window.WpStatisticsUserTracker) {
                         if (xhr.status === 200) {
                             const responseData = JSON.parse(xhr.responseText);
                             this.hitRequestSuccessful = responseData.status !== false;
+
+                            // Initialize engagement tracking after hit request succeeds
+                            if (this.hitRequestSuccessful) {
+                                this.initEngagementTracking();
+                            }
                         } else {
                             this.hitRequestSuccessful = false;
                             console.warn('WP Statistics: Hit request failed with status ' + xhr.status);
@@ -128,18 +182,18 @@ if (!window.WpStatisticsUserTracker) {
             }
         },
 
-        // Send Request to REST API to Show User Is Online
+        // Send Request to REST API to Show User Is Online (legacy method)
         sendOnlineUserRequest: async function () {
             if (!this.hitRequestSuccessful) {
-                return; // Stop if hit request was not successful
+                return;
             }
 
             try {
                 let requestUrl = this.getRequestUrl('online');
                 const params = new URLSearchParams({
                     ...WP_Statistics_Tracker_Object.onlineParams,
-                    referred: this.getReferred(), // Use the getReferred method
-                    page_uri: this.getPathAndQueryString() // Use the correct key for the path and query string (Base64 encoded)
+                    referred: this.getReferred(),
+                    page_uri: this.getPathAndQueryString()
                 }).toString();
 
                 const xhr = new XMLHttpRequest();
@@ -151,12 +205,12 @@ if (!window.WpStatisticsUserTracker) {
             }
         },
 
-        // Execute Send Online User Request Function Every n Sec
+        // Execute Send Online User Request Function Every n Sec (legacy method)
         keepUserOnline: function () {
             let userActivityTimeout;
 
             if (!WP_Statistics_Tracker_Object.option.userOnline) {
-                return; // Stop if userOnline option is false
+                return;
             }
 
             // Clear any existing interval to avoid duplicates
@@ -198,6 +252,8 @@ if (!window.WpStatisticsUserTracker) {
                     requestUrl += WP_Statistics_Tracker_Object.hitParams.endpoint;
                 } else if (type === 'online') {
                     requestUrl += WP_Statistics_Tracker_Object.onlineParams.endpoint;
+                } else if (type === 'batch') {
+                    requestUrl += 'batch'; // New batch endpoint
                 }
             }
 
@@ -246,6 +302,22 @@ if (!window.WpStatisticsUserTracker) {
             if (window.location.href !== this.lastUrl) {
                 this.lastUrl = window.location.href;
                 this.updateTrackerObject();
+
+                // Flush current engagement data before navigating
+                if (window.WpStatisticsBatchQueue) {
+                    WpStatisticsBatchQueue.flush('spa_navigation');
+                }
+
+                // Reset engagement tracking for new page
+                if (window.WpStatisticsEngagementTracker && this.useEngagementTracking) {
+                    WpStatisticsEngagementTracker.reset();
+                }
+
+                // Clear batch queue state for new page
+                if (window.WpStatisticsBatchQueue) {
+                    WpStatisticsBatchQueue.clear();
+                }
+
                 this.hasTrackerInitializedOnce = false;
                 this.init();
             }
