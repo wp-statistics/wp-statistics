@@ -10,7 +10,7 @@
  * - Automatic flush on page exit (visibilitychange, pagehide)
  * - Periodic flush as backup
  * - Falls back to XHR/fetch if sendBeacon fails
- * - Respects ad-blocker bypass settings
+ * - Always uses AJAX endpoint for better compatibility
  */
 if (!window.WpStatisticsBatchQueue) {
     window.WpStatisticsBatchQueue = {
@@ -30,9 +30,7 @@ if (!window.WpStatisticsBatchQueue) {
         minFlushInterval: 3000, // Minimum 3 seconds between flushes (like Plausible)
 
         // Endpoints
-        batchEndpoint: null,
         ajaxUrl: null,
-        bypassAdBlockers: false,
 
         // Session data getter (returns session_id and engagement_time)
         getSessionData: null,
@@ -47,11 +45,7 @@ if (!window.WpStatisticsBatchQueue) {
             // Apply options
             if (options.maxQueueSize) this.maxQueueSize = options.maxQueueSize;
             if (options.flushInterval) this.flushInterval = options.flushInterval;
-            if (options.batchEndpoint) this.batchEndpoint = options.batchEndpoint;
             if (options.ajaxUrl) this.ajaxUrl = options.ajaxUrl;
-            if (typeof options.bypassAdBlockers !== 'undefined') {
-                this.bypassAdBlockers = options.bypassAdBlockers;
-            }
             if (options.getSessionData) {
                 this.getSessionData = options.getSessionData;
             }
@@ -132,7 +126,7 @@ if (!window.WpStatisticsBatchQueue) {
          * Send data using sendBeacon
          */
         sendBeacon: function(payload) {
-            const url = this.getEndpointUrl();
+            const url = this.ajaxUrl;
             const data = JSON.stringify(payload);
 
             // Check payload size
@@ -143,16 +137,10 @@ if (!window.WpStatisticsBatchQueue) {
 
             // Try sendBeacon first
             if (navigator.sendBeacon) {
-                let body;
-                if (this.bypassAdBlockers) {
-                    // For AJAX, use FormData
-                    body = new FormData();
-                    body.append('action', 'wp_statistics_batch');
-                    body.append('batch_data', data);
-                } else {
-                    // For REST API, use JSON blob
-                    body = new Blob([data], { type: 'application/json' });
-                }
+                // Always use FormData for AJAX endpoint
+                const body = new FormData();
+                body.append('action', 'wp_statistics_batch');
+                body.append('batch_data', data);
 
                 const success = navigator.sendBeacon(url, body);
 
@@ -170,31 +158,16 @@ if (!window.WpStatisticsBatchQueue) {
          */
         sendFetchKeepalive: function(url, jsonData) {
             try {
-                let fetchOptions;
+                // Always use FormData for AJAX endpoint
+                const formData = new FormData();
+                formData.append('action', 'wp_statistics_batch');
+                formData.append('batch_data', jsonData);
 
-                if (this.bypassAdBlockers) {
-                    // For AJAX, use FormData
-                    const formData = new FormData();
-                    formData.append('action', 'wp_statistics_batch');
-                    formData.append('batch_data', jsonData);
-                    fetchOptions = {
-                        method: 'POST',
-                        body: formData,
-                        keepalive: true
-                    };
-                } else {
-                    // For REST API, use JSON
-                    fetchOptions = {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: jsonData,
-                        keepalive: true
-                    };
-                }
-
-                fetch(url, fetchOptions).catch(function(error) {
+                fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    keepalive: true
+                }).catch(function(error) {
                 });
             } catch (error) {
             }
@@ -220,17 +193,6 @@ if (!window.WpStatisticsBatchQueue) {
             }
         },
 
-        /**
-         * Get the appropriate endpoint URL
-         */
-        getEndpointUrl: function() {
-            if (this.bypassAdBlockers && this.ajaxUrl) {
-                // Use AJAX endpoint to bypass ad blockers
-                // Action is added in the request body, not URL
-                return this.ajaxUrl;
-            }
-            return this.batchEndpoint;
-        },
 
         /**
          * Start periodic flush interval

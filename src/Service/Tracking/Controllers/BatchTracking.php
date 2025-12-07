@@ -61,7 +61,7 @@ class BatchTracking extends BaseTrackerController
     }
 
     /**
-     * Register REST API and AJAX endpoints for batch tracking.
+     * Register AJAX endpoint for batch tracking.
      *
      * @return void
      * @since 15.0.0
@@ -72,15 +72,8 @@ class BatchTracking extends BaseTrackerController
             return;
         }
 
-        // Register REST API route (when ad blocker bypass is disabled)
-        if (!Option::getValue('bypass_ad_blockers', false)) {
-            add_action('rest_api_init', [$this, 'registerRoutes']);
-        }
-
-        // Register AJAX callback (when ad blocker bypass is enabled)
-        if (Option::getValue('bypass_ad_blockers', false)) {
-            add_filter('wp_statistics_ajax_list', [$this, 'registerAjaxCallbacks']);
-        }
+        // Always register AJAX callback for batch tracking
+        add_filter('wp_statistics_ajax_list', [$this, 'registerAjaxCallbacks']);
     }
 
     /**

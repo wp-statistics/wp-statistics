@@ -53,12 +53,10 @@ if (!window.WpStatisticsUserTracker) {
          * Initialize the new engagement tracking system
          */
         initEngagementTracking: function() {
-            // Initialize batch queue
+            // Initialize batch queue (always uses AJAX endpoint)
             if (window.WpStatisticsBatchQueue) {
                 WpStatisticsBatchQueue.init({
-                    batchEndpoint: this.getRequestUrl('batch'),
                     ajaxUrl: WP_Statistics_Tracker_Object.ajaxUrl,
-                    bypassAdBlockers: WP_Statistics_Tracker_Object.option.bypassAdBlockers,
                     maxQueueSize: 10,
                     flushInterval: 30000, // 30 seconds
                     // Pass engagement data getter (session is identified server-side)
