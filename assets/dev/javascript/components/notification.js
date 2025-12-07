@@ -81,10 +81,16 @@ jQuery(document).ready(function () {
         let activeCards = jQuery('.wps-notification-sidebar__tab-pane--active .wps-notification-sidebar__card:not(.wps-notification-sidebar__no-card)');
         let noCardMessages = jQuery('.wps-notification-sidebar__tab-pane--active .wps-notification-sidebar__no-card');
         let noCardMessage = noCardMessages.first();
+
+        const activeTab = document.querySelector(".wps-notification-sidebar__tab--active");
+        const isInboxTab = activeTab && activeTab.dataset.tab === "tab-1";
+
         if (activeCards.length === 0) {
             noCardMessage.css('display', 'flex');
-            helpNotification.hide();
-            notificationsHasItems.removeClass('wps-notifications--has-items');
+            if (isInboxTab) {
+                helpNotification.hide();
+                notificationsHasItems.removeClass('wps-notifications--has-items');
+            }
         } else {
             noCardMessage.hide();
         }
