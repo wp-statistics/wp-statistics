@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <a class="wps-tabs-item" href="<?php echo esc_url($href) ?>">
     <div class="wps-content-tabs__item--image">
         <span>#<?php echo esc_html($counter); ?></span>

@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wrap wps-wrap">
     <h2 class="wps-settings-box__title">
         <span><?php esc_html_e('Data Export', 'wp-statistics'); ?></span>
@@ -67,7 +68,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="2">
+                    <th colspan="2">
                         <span class="screen-reader-text">Export action</span>
                         <?php
                         $button_text    = esc_html__('Begin Export', 'wp-statistics');

@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps-adminFooter">
     <?php if (apply_filters('wp_statistics_enable_footer_logo', true)) { ?>
         <a href="https://veronalabs.com/?utm_source=wp-statistics&utm_medium=link&utm_campaign=footer-logo" target="_blank" aria-label="VeronaLabs homepage">

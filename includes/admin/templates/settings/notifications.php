@@ -1,7 +1,11 @@
 <?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Schedule;
+
 ?>
 <h2 class="wps-settings-box__title">
     <span><?php esc_html_e('Email Reports', 'wp-statistics'); ?></span>
@@ -39,7 +43,7 @@ use WP_STATISTICS\Schedule;
             <th scope="row" class="wps-sm-pb-0">
                 <h3><?php esc_html_e('Automated Report Delivery', 'wp-statistics'); ?></h3>
             </th>
-            <td  class="wps-sm-pt-0">
+            <td class="wps-sm-pt-0">
                 <div>
                     <?php $next_scheduled_time = Schedule::getNextScheduledTime('wp_statistics_report_hook') ?>
                     <?php if ($next_scheduled_time) : ?>
@@ -136,17 +140,17 @@ use WP_STATISTICS\Schedule;
         </tr>
 
         <tr data-id="enhanced_visual_report_tr">
-        <?php if (Option::get('privacy_audit')) : ?>
-            <tr>
-                <th scope="row">
-                    <span class="wps-setting-label"><?php esc_html_e('Privacy Audit issues', 'wp-statistics'); ?></span>
-                </th>
-                <td>
-                    <input id="wps_show_privacy_issues_in_report" type="checkbox" name="wps_show_privacy_issues_in_report" <?php echo WP_STATISTICS\Option::get('show_privacy_issues_in_report') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'>
-                    <label for="wps_show_privacy_issues_in_report"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php esc_html_e('Include open audit issues in each report email.', 'wp-statistics'); ?></p>
-                </td>
-            </tr>
+            <?php if (Option::get('privacy_audit')) : ?>
+        <tr>
+            <th scope="row">
+                <span class="wps-setting-label"><?php esc_html_e('Privacy Audit issues', 'wp-statistics'); ?></span>
+            </th>
+            <td>
+                <input id="wps_show_privacy_issues_in_report" type="checkbox" name="wps_show_privacy_issues_in_report" <?php echo WP_STATISTICS\Option::get('show_privacy_issues_in_report') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'>
+                <label for="wps_show_privacy_issues_in_report"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                <p class="description"><?php esc_html_e('Include open audit issues in each report email.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
         <?php endif; ?>
 
         <tr>
@@ -161,4 +165,4 @@ use WP_STATISTICS\Schedule;
     </table>
 </div>
 
-<?php submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('id' => 'notification_submit','OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='notifications-settings'")); ?>
+<?php submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('id' => 'notification_submit', 'OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='notifications-settings'")); ?>

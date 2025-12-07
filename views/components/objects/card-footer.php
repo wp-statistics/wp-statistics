@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="c-footer">
     <div class="c-footer__filter"></div>
     <div class="c-footer__more">

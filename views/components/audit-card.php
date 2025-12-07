@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps-audit-card wps-audit-card--<?php echo esc_html($status)?>">
     <div class="wps-audit-card__header">
         <div class="wps-audit-card__top">

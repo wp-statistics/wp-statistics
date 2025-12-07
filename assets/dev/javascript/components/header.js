@@ -22,10 +22,8 @@ jQuery(document).ready(function () {
 
     const targetElement = document.querySelector('.wp-header-end');
     const noticeElement = document.querySelector('.notice.notice-warning.update-nag');
-    // Check if both targetElement and noticeElement exist
-    if (targetElement && noticeElement) {
-        // Move the notice element after the target element
-        targetElement.parentNode.insertBefore(noticeElement, targetElement.nextSibling);
+     if (targetElement && noticeElement) {
+         targetElement.parentNode.insertBefore(noticeElement, targetElement.nextSibling);
     }
 
         document.addEventListener('click', function (e) {

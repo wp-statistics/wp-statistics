@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="o-wrap wps-about-widget wps-about-widget__premium">
     <div class="wps-about-widget__close">
         <a href="<?php echo esc_url(add_query_arg([

@@ -64,12 +64,17 @@ class PostsModel extends BaseModel
     public function countDailyPosts($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'      => '',
-            'post_type' => '',
-            'author_id' => '',
-            'taxonomy'  => '',
-            'term'      => ''
+            'date'          => '',
+            'post_type'     => '',
+            'resource_type' => '',
+            'author_id'     => '',
+            'taxonomy'      => '',
+            'term'          => ''
         ]);
+
+        if ($args['resource_type']) {
+            $args['post_type'] = $args['resource_type'];
+        }
 
         $query = Query::select('COUNT(*) as posts, Date(post_date) as date')
             ->from('posts')

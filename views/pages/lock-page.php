@@ -1,5 +1,7 @@
 <?php
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Components\View;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
@@ -12,9 +14,6 @@ $isInstalled    = $pluginHandler->isPluginInstalled($addon_slug);
 
 
 <div class="wps-wrap__main wps-lock-page__main">
-    <?php if (!isset($header_end)): ?>
-        <div class="wp-header-end"></div>
-    <?php endif; ?>
     <div class="wps-lock-page wps-lock-page--container">
         <?php
         if (!$hasLicense && $isInstalled) :

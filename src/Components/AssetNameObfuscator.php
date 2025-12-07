@@ -73,15 +73,23 @@ class AssetNameObfuscator
      */
     public function __construct($file = null)
     {
-        // Handle slashes
         $this->inputFileDir = !empty($file) ? wp_normalize_path($file) : '';
-        $this->pluginsRoot  = wp_normalize_path(WP_PLUGIN_DIR . DIRECTORY_SEPARATOR);
 
-        if (stripos($this->inputFileDir, $this->pluginsRoot) === false) {
+        if (defined('WP_STATISTICS_MAIN_FILE')) {
+            $this->pluginsRoot = wp_normalize_path(plugin_dir_path(WP_STATISTICS_MAIN_FILE));
+        } elseif (defined('WP_STATISTICS_DIR')) {
+            $this->pluginsRoot = wp_normalize_path(WP_STATISTICS_DIR . DIRECTORY_SEPARATOR);
+        } else {
+            $this->pluginsRoot = wp_normalize_path(WP_PLUGIN_DIR . DIRECTORY_SEPARATOR);
+        }
+
+        if ($this->inputFileDir && !is_file($this->inputFileDir)) {
             $this->inputFileDir = path_join($this->pluginsRoot, $this->inputFileDir);
         }
 
-        if (!is_file($this->inputFileDir)) return;
+        if (!$this->inputFileDir || !is_file($this->inputFileDir)) {
+            return;
+        }
 
         $this->initializeVariables();
         $this->obfuscateFileName();
@@ -316,7 +324,7 @@ class AssetNameObfuscator
         if (!empty($hashedAssetsArray)) {
             foreach ($hashedAssetsArray as $originalPath => $info) {
                 if (isset($info['dir']) && basename($info['dir']) === $hashedFileName) {
-                    return WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $originalPath;
+                    return $info['dir'];
                 }
             }
         }

@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps-unit-time-chart">
     <div class="wps-custom-select js-unitTimeSelect">
         <span class="wps-unit-time-chart__selected-item"></span>

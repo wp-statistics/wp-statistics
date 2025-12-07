@@ -1,5 +1,7 @@
 <?php
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Components\View;
 
 $isLocked = apply_filters('wp_statistics_pages_exit-pages_locked', true);
