@@ -1,4 +1,7 @@
 <?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 $is_rtl = is_rtl();
 $text_align = $is_rtl ? 'right' : 'left';
 $dir = $is_rtl ? 'rtl' : 'ltr';

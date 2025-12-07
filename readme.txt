@@ -2,10 +2,10 @@
 Contributors: veronalabs, mostafa.s1990, kashani, GregRoss
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
-Requires at least: 5.0
-Tested up to: 6.8
-Stable tag: 14.15.5
-Requires PHP: 7.2
+Requires at least: 6.6
+Tested up to: 6.9
+Stable tag: 14.16
+Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -146,78 +146,15 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.15.5 - 2025-09-21 =
-- **Enhancement:** Added date range validation on report pages.
-- **Enhancement:** Improved compare style and number formatting in "At a Glance" widgets.
-- **Enhancement:** Updated chart component to show a message when no data is available.
-- **Enhancement:** Limited queue and AJAX migrations (and their notices) to the "Minimum Role to Manage Settings."
-- **Enhancement:** Refactored the migration codebase for better structure, readability, and maintainability.
-- **Enhancement:** Added a "Recheck Schema" button on the optimization page to recheck database health via AJAX.
-- **Fix:** Fixed console warnings on Chromium-based browsers on the settings page.
-- **Fix:** Fixed incorrect "Queue Migration" completion notice after plugin updates.
-- **Fix:** Resolved activation issues on fresh installs.
-- **Dev:** Removed the `wp_statistics_data_export_base_query` and `wp_statistics_data_export_query` filters.
-
-= 14.15.4 - 2025-09-02 =
-- **Enhancement:** Refactored the update process and database schema updates to run on the frontend.
-- **Enhancement:** Optimized the database manager to avoid duplicate queries.
-- **Enhancement:** Improved Visitor Info display logic.
-- **Enhancement:** Refactored install/uninstall code into separate classes for activation, load, and uninstall.
-- **Enhancement:** Optimized schema health checks to run daily on the dashboard and after activation or updates.
-- **Enhancement:** Improved responsiveness by converting "Optimize Page" actions in the Plugin Maintenance tab into asynchronous AJAX requests.
-- **Fix:** Prevented `wp_statistics_tracker_js_errors` option bloat by limiting stored errors and truncating error messages.
-- **Fix:** Fixed sorting issue in the `Top Pages` widget on the Page Insights report.
-- **Fix:** Fixed Region widget issue when a country is not detected on the Geographic page.
-- **Fix:** Prevented false "Queue Migration" notices after updates.
-- **Fix:** Corrected the Filter Modal Reset button redirect.
-- **Fix:** Fixed Visitor Journey not recording repeat visits to the same page.
-
-= 14.15.3 - 2025-08-18 =
-- **Fix:** Fixed a warning by validating geographic location codes are strings or integers before use.
-- **Fix:** Correct redirect URL after clicking 'Start Migration'.
-- **Fix:** Fixed Author Analytics filter issue.
-- **Enhancement:** Added LiteSpeed Cache detection for improved cache-related warning notifications.
-- **Enhancement:** Randomized the execution time of the GeoIP update event to reduce simultaneous load on jsdelivr.
-- **Enhancement:** Improve performance of visitor migration.
-
-= 14.15.2 - 2025-08-10 =
-- **New:** Added compatibility with the `Borlabs Cookie` plugin.
-- **New:** License keys can now be set via `wp-config.php` using constants like `WP_STATISTICS_LICENSE` and are automatically validated on init.
-- **Enhancement:** Visitor data now stores only the major browser version to improve performance and reduce query load.
-- **Enhancement:** Refactored advanced reporting to reduce redundant queries and improve performance.
-- **Enhancement:** Replaced the legacy Robot List with the Device-Detector `isBot` check and renamed the bot detection field.
-- **Fix:** Fixed filter issues on the Visitors and Referred Visitors pages.
-- **Fix:** Adjusted access control for specific plugin actions.
-- **Fix:** Fixed display issues on the single-visitor page when `user_id` is missing.
-- **Fix:** Updated the Top Countries widget to calculate percentages based on all visitors.
-
-= 14.15.1 - 2025-07-29 =
-- **Enhancement:** Numbers in Overview widgets are now abbreviated (e.g., 10k), with full values shown on hover.
-- **Enhancement:** Made integration JS files dependencies of `tracker.js` to avoid cache-related issues.
-- **Enhancement:** Display a notice when a caching plugin is active.
-- **Fix:** Fixed an issue with transient cache duration settings.
-- **Fix:** Corrected color display for period-over-period comparison metrics.
-
-= 14.15 - 2025-07-22 =
-- **New:** Added an `Overview` report for Visitor Insight.
-- **New:** Added an `Overview` report for Page Insights.
-- **New:** Added a `Device Overview` report.
-- **Enhancement:** Improved migration performance by running schema updates synchronously and removing background processes.
-- **Enhancement:** Improved the `Views` report under Visitor Insight.
-- **Enhancement:** Unset the `Consent Integration` setting when integration is deactivated.
-- **Enhancement:** Added country name to flag tooltip in Visitor Info.
-- **Enhancement:** Added unread notification badge to the Help Center menu.
-- **Enhancement:** Merged notification and campaign cron jobs into a single daily schedule.
-- **Enhancement:** Dashboard now shows only the "Traffic Overview" widget by default for a cleaner start.
-- **Enhancement:** Optimized `getTrafficOverviewData` for fewer queries and faster widget loading.
-- **Enhancement:** Skipped GeoIP database download in local environments to speed up setup.
-- **Enhancement:** Removed unused `comments` join from Page Insights query to improve performance.
-- **Enhancement:** Improved "Back" button functionality across pages to return to the previous view accurately.
-- **Enhancement:** Improved warning message for missing consent-management plugin.
-- **Fix:** Fixed report URL issues for custom post types.
-- **Fix:** Resolved zero page view issues for non-'category' taxonomy filters.
-- **Fix:** Fixed incorrect tracking of WooCommerce My Account sub-pages.
-- **Fix:** Prevented `number_format()` warning when value is null in PHP 8.4.5.
+= 14.16 - 2025-12-01 =
+- **New:** Added an **Export** button to all report pages (requires the Advanced Reporting add-on).
+- **New:** Introduced a new `Summary Totals` table to store daily aggregated data, improving performance.
+- **Enhancement:** Tested up to WordPress v6.9.
+- **Enhancement:** Updated minimum PHP requirement to v7.4 and WordPress requirement to v6.6.
+- **Enhancement:** Redesigned Summary widgets across all report pages for a cleaner and more consistent look.
+- **Enhancement:** Optimized database queries and improved overall performance.
+- **Enhancement:** Improved the online tracking system by removing heartbeat requests, reducing server load and improving performance.
+- **Deprecation:** Removed the **Matomo Referrer Spam Blacklist** option from the settings.
 
 For more information about the major update, please [visit our release post](https://wp-statistics.com/release/wp-statistics-v14-15/) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 

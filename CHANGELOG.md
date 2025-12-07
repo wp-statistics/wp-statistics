@@ -1,14 +1,29 @@
-= 14.15.6 - 2025-xx-xx =
-- **Fix:** Fixed unknown location link issue in visitor information.
-- **Fix:** Resolved issue with non-Gregorian dates in charts.
-- **Fix** Fix external link detection for proper outbound tracking.
-- **Fix:** Corrected the label displayed for the selected filter on the Link Tracker page.
-- **New:** Introduced a refactored background-process migration type and removed the legacy AJAX migrations.
-- **New:** Updated Single Visitor page to show `Other Visits` section.
-- **Enhancement:** Converted the Visitor Columns migrator to a background process and added a progress notice plus a "Data Migrations" section in Optimization page.
-- **Enhancement:** Refactored background-process jobs for stability and maintainability.
-- **Enhancement:** Link 404 report items to the `Single Resource` page.
--
+= 14.16.x - 2025-x-x =
+- **Fix:** Fixed an issue where historical data was not included in single-content/single-resource reports.
+- **Fix:** Improved compatibility with Bedrock when WP Statistics is placed in mu-plugins by fixing asset hashing and obfuscated tracker path resolution.
+- **Dev:** Added `wp_statistics_register_background_jobs` filter to allow add-ons to register custom background processes.
+- **Dev:** Added `wp_statistics_register_data_migrations` filter to allow add-ons to register custom data migration keys.
+
+= 14.16 - 2025-12-01 =
+- **New:** Added an **Export** button to all report pages (requires the Advanced Reporting add-on).
+- **New:** Introduced a new `Summary Totals` table to store daily aggregated data, improving performance.
+- **Enhancement:** Tested up to WordPress v6.9.
+- **Enhancement:** Updated minimum PHP requirement to v7.4 and WordPress requirement to v6.6.
+- **Enhancement:** Redesigned Summary widgets across all report pages for a cleaner and more consistent look.
+- **Enhancement:** Optimized database queries and improved overall performance.
+- **Enhancement:** Improved the online tracking system by removing heartbeat requests, reducing server load and improving performance.
+- **Deprecation:** Removed the **Matomo Referrer Spam Blacklist** option from the settings.
+
+= 14.15.6 - 2025-11-09 =
+- **New:** Introduced a refactored background-process migration system and removed legacy AJAX migrations.
+- **New:** Updated the Single Visitor page and added an "Other Visits" section.
+- **Enhancement:** Converted the Visitor Columns migrator into a background process, added a progress notice, and introduced a "Data Migrations" section on the Optimization page.
+- **Enhancement:** Linked 404 report items directly to the Single Resource page.
+- **Fix:** Fixed unknown location link issue in Visitor Information.
+- **Fix:** Resolved chart display issues with non-Gregorian dates.
+- **Fix:** Fixed external link detection for accurate outbound tracking.
+- **Fix:** Corrected the label displayed for selected filters on the Link Tracker page.
+
 = 14.15.5 - 2025-09-21 =
 - **Enhancement:** Added date range validation on report pages.
 - **Enhancement:** Improved compare style and number formatting in "At a Glance" widgets.

@@ -1,5 +1,9 @@
 <?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Country;
+
 ?>
 
 <div class="wps-card">
@@ -32,7 +36,7 @@ use WP_STATISTICS\Country;
                     <?php foreach ($data as $item) : ?>
                         <tr>
                             <td class="wps-pd-l">
-                                <div >
+                                <div>
                                     <img class="wps-flag" src="<?php echo esc_url(Country::flag($item->country)) ?>" alt="<?php echo esc_attr(Country::getName($item->country)) ?>">
                                     <?php echo esc_html(Country::getName($item->country)); ?>
                                 </div>

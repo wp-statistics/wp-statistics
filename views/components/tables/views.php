@@ -1,8 +1,12 @@
 <?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Menus;
+
 ?>
     <div class="inside">
         <?php if (!empty($data)) : ?>
@@ -58,16 +62,16 @@ use WP_STATISTICS\Menus;
 
                             <td class="wps-pd-l">
                                 <?php
-                                    $page = $visitor->getLastPage();
+                                $page = $visitor->getLastPage();
 
-                                    if (!empty($page)) :
-                                        View::load("components/objects/internal-link", [
-                                            'url'       => $page['report'],
-                                            'title'     => $page['title'],
-                                        ]);
-                                    else :
-                                        echo Admin_Template::UnknownColumn();
-                                    endif;
+                                if (!empty($page)) :
+                                    View::load("components/objects/internal-link", [
+                                        'url'   => $page['report'],
+                                        'title' => $page['title'],
+                                    ]);
+                                else :
+                                    echo Admin_Template::UnknownColumn();
+                                endif;
                                 ?>
                             </td>
                         </tr>

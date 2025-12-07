@@ -1,5 +1,7 @@
 <?php
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
@@ -80,17 +82,24 @@ if (isset($backUrl, $backTitle, $_SERVER['HTTP_REFERER'])) {
             </button>
         <?php endif ?>
     <?php endif; ?>
-    <?php if (isset($Datepicker)): ?>
-        <form class="wps-search-date wps-today-datepicker" method="get">
-            <div>
-                <input type="hidden" name="page" value="<?php echo esc_attr($pageName); ?>">
-                <input class="wps-search-date__input wps-js-calendar-field" id="search-date-input" type="text" size="18" name="day" data-wps-date-picker="day" readonly value="<?php echo esc_attr($day); ?>" autocomplete="off" placeholder="YYYY-MM-DD" required>
-            </div>
-        </form>
-    <?php endif ?>
 
-    <?php if (isset($hasDateRang) || isset($filters) || isset($searchBoxTitle) || isset($filter)): ?>
+    <?php if (isset($hasDateRang) || isset($filters) || isset($searchBoxTitle) || isset($filter) || isset($export)): ?>
         <div class="<?php echo (Menus::in_page('content-analytics') || Menus::in_page('category-analytics') || Menus::in_page('author-analytics') || Menus::in_page('download_tracker') || Menus::in_page('link_tracker')) && (Request::compare('type', 'single') || Request::compare('type', 'single-author')) ? 'wps-head-filters wps-head-filters--custom' : 'wps-head-filters' ?>">
+
+            <?php
+                if (!empty($export) && is_array($export)) {
+                    View::load("components/objects/export-button", ['types' => $export]);
+                }
+            ?>
+
+            <?php if (isset($Datepicker)): ?>
+                <form class="wps-search-date wps-today-datepicker" method="get">
+                    <div>
+                        <input type="hidden" name="page" value="<?php echo esc_attr($pageName); ?>">
+                        <input class="wps-search-date__input wps-js-calendar-field" id="search-date-input" type="text" size="18" name="day" data-wps-date-picker="day" readonly value="<?php echo esc_attr($day); ?>" autocomplete="off" placeholder="YYYY-MM-DD" required>
+                    </div>
+                </form>
+            <?php endif ?>
             <?php
             if (!empty($hasDateRang)) {
                 include 'date.range.php';

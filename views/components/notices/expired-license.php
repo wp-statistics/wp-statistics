@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps-notice wps-notice--danger">
     <div>
         <p class="wps-notice__title"><?php esc_html_e('Expired or Invalid License', 'wp-statistics'); ?></p>

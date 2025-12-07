@@ -156,12 +156,12 @@ class DevicesDataProvider
      *
      * @return  array
      */
-    public function getSingleBrowserData($selectedBrowser)
+    public function getSingleBrowserData()
     {
         $args = array_merge($this->args, [
             'field'     => 'agent',
             'where_col' => 'agent',
-            'where_val' => esc_sql($selectedBrowser),
+            'where_val' => esc_sql($this->args['browser']),
         ]);
 
         return [

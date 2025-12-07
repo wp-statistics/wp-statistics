@@ -1,9 +1,13 @@
 <?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Url;
+
 ?>
 <?php if (!empty($data)) : ?>
     <div class="o-table-wrapper">
@@ -88,8 +92,8 @@ use WP_Statistics\Utils\Url;
 
                         if (!empty($lastPage)) :
                             View::load("components/objects/internal-link", [
-                                'url'       => $lastPage['report'],
-                                'title'     => $lastPage['title'],
+                                'url'   => $lastPage['report'],
+                                'title' => $lastPage['title'],
                             ]);
                         else :
                             echo Admin_Template::UnknownColumn();

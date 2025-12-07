@@ -7,6 +7,7 @@ use WP_Statistics\Components\View;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Admin_Assets;
 use WP_STATISTICS\Option;
+use WP_Statistics\Service\Admin\ExportImport\ExportTypes;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
@@ -107,58 +108,76 @@ class TabsView extends BaseTabView
                 ]),
                 'tabs'        => [
                     [
-                        'link'  => Menus::admin_url('referrals', ['tab' => 'overview']),
-                        'title' => esc_html__('Overview', 'wp-statistics'),
-                        'class' => $this->isTab('overview') ? 'current' : '',
+                        'id'     => 'overview',
+                        'link'   => Menus::admin_url('referrals', ['tab' => 'overview']),
+                        'title'  => esc_html__('Overview', 'wp-statistics'),
+                        'class'  => $this->isTab('overview') ? 'current' : '',
+                        'export' => [ExportTypes::CSV_METRICS, ExportTypes::PDF_PAGE]
                     ],
                     [
-                        'link'  => Menus::admin_url('referrals', ['tab' => 'referred-visitors']),
-                        'title' => esc_html__('Referred Visitors', 'wp-statistics'),
-                        'class' => $this->isTab('referred-visitors') ? 'current' : '',
+                        'id'     => 'referred-visitors',
+                        'link'   => Menus::admin_url('referrals', ['tab' => 'referred-visitors']),
+                        'title'  => esc_html__('Referred Visitors', 'wp-statistics'),
+                        'class'  => $this->isTab('referred-visitors') ? 'current' : '',
+                        'export' => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                     ],
                     [
-                        'link'  => Menus::admin_url('referrals', ['tab' => 'referrers']),
-                        'title' => esc_html__('Referrers', 'wp-statistics'),
-                        'class' => $this->isTab('referrers') ? 'current' : '',
+                        'id'     => 'referrers',
+                        'link'   => Menus::admin_url('referrals', ['tab' => 'referrers']),
+                        'title'  => esc_html__('Referrers', 'wp-statistics'),
+                        'class'  => $this->isTab('referrers') ? 'current' : '',
+                        'export' => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                     ],
                     [
-                        'link'  => Menus::admin_url('referrals', ['tab' => 'search-engines']),
-                        'title' => esc_html__('Search Engines', 'wp-statistics'),
-                        'class' => $this->isTab('search-engines') ? 'current' : '',
+                        'id'     => 'search-engines',
+                        'link'   => Menus::admin_url('referrals', ['tab' => 'search-engines']),
+                        'title'  => esc_html__('Search Engines', 'wp-statistics'),
+                        'class'  => $this->isTab('search-engines') ? 'current' : '',
+                        'export' => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                     ],
                     [
-                        'link'  => Menus::admin_url('referrals', ['tab' => 'social-media']),
-                        'title' => esc_html__('Social Media', 'wp-statistics'),
-                        'class' => $this->isTab('social-media') ? 'current' : '',
+                        'id'     => 'social-media',
+                        'link'   => Menus::admin_url('referrals', ['tab' => 'social-media']),
+                        'title'  => esc_html__('Social Media', 'wp-statistics'),
+                        'class'  => $this->isTab('social-media') ? 'current' : '',
+                        'export' => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                     ],
                     [
-                        'link'  => Menus::admin_url('referrals', ['tab' => 'source-categories']),
-                        'title' => esc_html__('Source Categories', 'wp-statistics'),
-                        'class' => $this->isTab('source-categories') ? 'current' : '',
+                        'id'     => 'source-categories',
+                        'link'   => Menus::admin_url('referrals', ['tab' => 'source-categories']),
+                        'title'  => esc_html__('Source Categories', 'wp-statistics'),
+                        'class'  => $this->isTab('source-categories') ? 'current' : '',
+                        'export' => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                     ],
                     [
+                        'id'           => 'campaigns',
                         'link'         => Menus::admin_url('referrals', ['tab' => 'campaigns']),
                         'title'        => esc_html__('Campaigns', 'wp-statistics'),
                         'class'        => $this->isTab('campaigns') ? 'current' : '',
                         'locked'       => true,
                         'tooltip'      => esc_html__('To view this report, you need to have Marketing add-on.', 'wp-statistics'),
-                        'lockedTarget' => 'wp-statistics-marketing'
+                        'lockedTarget' => 'wp-statistics-marketing',
+                        'export'       => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                     ],
                     [
+                        'id'           => 'utm-performance',
                         'link'         => Menus::admin_url('referrals', ['tab' => 'utm-performance']),
                         'title'        => esc_html__('UTM Performance', 'wp-statistics'),
                         'class'        => $this->isTab('utm-performance') ? 'current' : '',
                         'locked'       => true,
                         'tooltip'      => esc_html__('To view this report, you need to have Marketing add-on.', 'wp-statistics'),
-                        'lockedTarget' => 'wp-statistics-marketing'
+                        'lockedTarget' => 'wp-statistics-marketing',
+                        'export'       => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                     ],
                     [
+                        'id'           => 'llm',
                         'link'         => Menus::admin_url('referrals', ['tab' => 'llm']),
                         'title'        => esc_html__('AI/LLM', 'wp-statistics'),
                         'class'        => $this->isTab('llm') ? 'current' : '',
                         'locked'       => true,
                         'tooltip'      => esc_html__('To view this report, you need to have AI Insights add-on.', 'wp-statistics'),
-                        'lockedTarget' => 'wp-statistics-ai-insights'
+                        'lockedTarget' => 'wp-statistics-ai-insights',
+                        'export'       => [ExportTypes::PDF_PAGE]
                     ]
                 ]
             ];

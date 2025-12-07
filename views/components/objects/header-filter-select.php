@@ -2,6 +2,8 @@
 
 use WP_STATISTICS\Helper;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 $id = 'wps-filter-' . $type;
 ?>
 

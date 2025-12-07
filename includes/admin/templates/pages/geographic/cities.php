@@ -1,6 +1,10 @@
 <?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Country;
 use WP_STATISTICS\Admin_Template;
+
 ?>
 
 <div class="postbox-container wps-postbox-full">
@@ -12,55 +16,55 @@ use WP_STATISTICS\Admin_Template;
                         <div class="o-table-wrapper">
                             <table width="100%" class="o-table wps-new-table">
                                 <thead>
-                                    <tr>
-                                        <th scope="col" class="wps-pd-l">
-                                            <?php esc_html_e('City', 'wp-statistics') ?>
-                                        </th>
-                                        <th scope="col" class="wps-pd-l">
-                                            <?php esc_html_e('Region', 'wp-statistics') ?>
-                                        </th>
-                                        <th scope="col" class="wps-pd-l">
-                                            <?php esc_html_e('Country', 'wp-statistics') ?>
-                                        </th>
-                                        <th scope="col" class="wps-pd-l" style="width: 15%">
-                                            <?php esc_html_e('Visitors', 'wp-statistics') ?>
-                                        </th>
-                                        <th scope="col" class="wps-pd-l" style="width: 15%">
-                                            <?php esc_html_e('Views', 'wp-statistics') ?>
-                                        </th>
-                                    </tr>
+                                <tr>
+                                    <th scope="col" class="wps-pd-l">
+                                        <?php esc_html_e('City', 'wp-statistics') ?>
+                                    </th>
+                                    <th scope="col" class="wps-pd-l">
+                                        <?php esc_html_e('Region', 'wp-statistics') ?>
+                                    </th>
+                                    <th scope="col" class="wps-pd-l">
+                                        <?php esc_html_e('Country', 'wp-statistics') ?>
+                                    </th>
+                                    <th scope="col" class="wps-pd-l" style="width: 15%">
+                                        <?php esc_html_e('Visitors', 'wp-statistics') ?>
+                                    </th>
+                                    <th scope="col" class="wps-pd-l" style="width: 15%">
+                                        <?php esc_html_e('Views', 'wp-statistics') ?>
+                                    </th>
+                                </tr>
                                 </thead>
 
                                 <tbody>
-                                    <?php foreach ($data['cities'] as $item) : ?>
-                                        <tr>
-                                            <td class="wps-pd-l">
-                                                <?php echo esc_html(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->city)) ?>
-                                            </td>
-                                            <td class="wps-pd-l">
-                                                <?php echo $item->region ? esc_html(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->region)) : Admin_Template::UnknownColumn() ?>
-                                            </td>
-                                            <td class="wps-pd-l">
-                                                <?php if (\WP_STATISTICS\Admin_Template::isUnknown($item->city)) : ?>
-                                                    <span title="<?php esc_attr_e('(not set)', 'wp-statistics') ?>" class="wps-country-name">
+                                <?php foreach ($data['cities'] as $item) : ?>
+                                    <tr>
+                                        <td class="wps-pd-l">
+                                            <?php echo esc_html(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->city)) ?>
+                                        </td>
+                                        <td class="wps-pd-l">
+                                            <?php echo $item->region ? esc_html(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->region)) : Admin_Template::UnknownColumn() ?>
+                                        </td>
+                                        <td class="wps-pd-l">
+                                            <?php if (\WP_STATISTICS\Admin_Template::isUnknown($item->city)) : ?>
+                                                <span title="<?php esc_attr_e('(not set)', 'wp-statistics') ?>" class="wps-country-name">
                                                         <img alt="<?php esc_attr_e('(not set)', 'wp-statistics') ?>" src="<?php echo esc_url(Country::flag(Country::$unknown_location)) ?>" class="log-tools wps-flag"/>
                                                         <?php esc_html_e('(not set)', 'wp-statistics') ?>
                                                     </span>
-                                                <?php else : ?>
-                                                    <span title="<?php echo esc_attr(Country::getName($item->country)) ?>" class="wps-country-name">
+                                            <?php else : ?>
+                                                <span title="<?php echo esc_attr(Country::getName($item->country)) ?>" class="wps-country-name">
                                                         <img alt="<?php echo esc_attr(Country::getName($item->country)) ?>" src="<?php echo esc_url(Country::flag($item->country)) ?>" class="log-tools wps-flag"/>
                                                         <?php echo esc_html(Country::getName($item->country)) ?>
                                                     </span>
-                                                <?php endif; ?>
-                                            </td>
-                                            <td class="wps-pd-l">
-                                                <?php echo esc_html(number_format($item->visitors)) ?>
-                                            </td>
-                                            <td class="wps-pd-l">
-                                                <?php echo esc_html(number_format($item->views)) ?>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td class="wps-pd-l">
+                                            <?php echo esc_html(number_format($item->visitors)) ?>
+                                        </td>
+                                        <td class="wps-pd-l">
+                                            <?php echo esc_html(number_format($item->views)) ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>

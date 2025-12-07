@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wrap wps-wrap">
     <h2 class="wps-settings-box__title">
         <span><?php esc_html_e('Overview & Info', 'wp-statistics'); ?></span>

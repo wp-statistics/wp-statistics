@@ -225,10 +225,7 @@ class FilterManager
      * @return array
      */
     public function sourceChannel() {
-        $channels   = SourceChannels::getList();
-        unset($channels['direct']);
-
-        return $channels;
+        return SourceChannels::getList();
     }
 
     public function getUser($search) {

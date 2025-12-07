@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <script type="text/javascript">
     jQuery(document).ready(function ($) {
         const wpsConfig = {
@@ -87,8 +88,19 @@
                                 })
                                 .fail(function (jqXHR, wpsTextStatus, wpsErrorThrown) {
                                     // Display the raw response for debugging
-                                    const response = JSON.parse(jqXHR.responseText);
-                                    const errorMessage = response ? response.message : wpsTextStatus + ': ' + wpsErrorThrown;
+                                    let errorMessage = wpsTextStatus + ': ' + wpsErrorThrown;
+                                    try {
+                                        const response = JSON.parse(jqXHR && jqXHR.responseText ? jqXHR.responseText : '{}');
+                                        if (response && response.message) {
+                                            errorMessage = response.message;
+                                        } else if (response && response.data) {
+                                            errorMessage = response.data;
+                                        }
+                                    } catch (parseError) {
+                                        if (jqXHR && jqXHR.responseText) {
+                                            errorMessage = jqXHR.responseText;
+                                        }
+                                    }
                                     wpsResult.html('<div class="wps-alert wps-alert__danger"><p>' + errorMessage + '</p></div>');
                                 })
                                 .always(function () {

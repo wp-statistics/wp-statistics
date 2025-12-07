@@ -261,7 +261,7 @@ class LicenseHelper
             count(PluginHelper::$plugins)
         );
         return sprintf(
-            '<a href="%s" class="wps-license-status wps-license-status--valid"><span>%s</span> <span>%s</span></a>',
+            '<a href="%s" target="_blank" class="wps-license-status wps-license-status--valid"><span>%s</span> <span>%s</span></a>',
             $baseUrl,
             $licenseText,
             esc_html__('Upgrade', 'wp-statistics')

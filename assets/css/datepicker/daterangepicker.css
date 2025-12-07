@@ -385,13 +385,7 @@
     background-color: var(--color-drp-fg-primary);
     color: var(--color-drp-bg);
 }
-@media(min-width: 1122px){
-    body:not(.rtl) .daterangepicker.opensright.c-footer__filters__custom-date-input:not(.modal-input),
-    body:not(.rtl) .daterangepicker.opensright.wps-search-date__input:not(.modal-input){
-        right: 31px!important;
-        left: auto !important;
-    }
-}
+
 
 /*  Larger Screen Styling */
 @media (min-width: 564px) {

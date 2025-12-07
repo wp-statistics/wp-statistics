@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps-mb-16"><?php echo esc_html__('This setting ensures that the IP addresses of your visitors are anonymized by masking the last segment of their IP addresses before any processing or storage occurs. This significantly reduces the risk of personally identifying your users through their IP addresses.', 'wp-statistics') ?></div>
 <div class="wps-audit-card__suggestion wps-mb-16">
     <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('How It Works?', 'wp-statistics') ?></div>

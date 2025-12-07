@@ -1,5 +1,9 @@
 <?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Components\View;
+
 ?>
 
 <div class="postbox-container wps-postbox-full">
@@ -7,10 +11,10 @@ use WP_Statistics\Components\View;
         <div class="meta-box-sortables">
             <div class="postbox">
                 <?php
-                    View::load("components/tables/author-pages", [
-                        'data'       => $data['authors'],
-                        'pagination' => $pagination
-                    ]);
+                View::load("components/tables/author-pages", [
+                    'data'       => $data['authors'],
+                    'pagination' => $pagination
+                ]);
                 ?>
             </div>
         </div>

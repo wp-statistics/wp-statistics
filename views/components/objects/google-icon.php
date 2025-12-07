@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <a href="<?= isset($link) ? esc_url($link) : '' ?>"
    target="_blank"
    class="<?= isset($title) || isset($tooltip) ? 'wps-tooltip' : '' ?>"

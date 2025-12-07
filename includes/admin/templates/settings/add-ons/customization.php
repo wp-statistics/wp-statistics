@@ -1,5 +1,7 @@
 <?php
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Admin_Template;
@@ -28,9 +30,6 @@ $disableMenuArray = [
     'optimize'           => __('Optimization', 'wp-statistics'),
     'exclusions'         => __('Exclusions', 'wp-statistics'),
 ];
-if (empty(Option::get('useronline'))) {
-    unset($disableMenuArray['online']);
-}
 if (!Helper::isAddOnActive('data-plus') || Option::getByAddon('link_tracker', 'data_plus', '1') !== '1') {
     unset($disableMenuArray['link_tracker']);
 }
