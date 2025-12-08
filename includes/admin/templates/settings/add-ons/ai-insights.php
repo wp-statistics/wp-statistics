@@ -80,9 +80,7 @@ if ($isAiInsightActive && !$isLicenseValid) {
             </th>
         </tr>
 
-        <?php
-        if ($isAiInsightActive && !$isMarketingActive) :
-            ?>
+        <?php if ($isAiInsightActive && !$isMarketingActive) : ?>
             <tr>
                 <th colspan="2" scope="row">
                     <div class="wps-alert wps-alert__danger">
@@ -131,12 +129,6 @@ if ($isAiInsightActive && !$isLicenseValid) {
                 </th>
             </tr>
         <?php endif; ?>
-
-        <tr>
-            <th colspan="2" scope="row">
-                <div class="wps-alert wps-alert__success"><?php esc_html_e('Successfully synced [count] GSC records. All AI Insights reports have been updated.', 'wp-statistics'); ?></div>
-            </th>
-        </tr>
 
         <tr class="js-wps-show_if_ai_insight_auto_sync_disabled">
             <th colspan="2" scope="row">
