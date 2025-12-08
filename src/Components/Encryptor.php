@@ -2,6 +2,7 @@
 namespace WP_Statistics\Components;
 
 use WP_Statistics;
+use WP_Statistics\Utils\Env;
 
 class Encryptor
 {
@@ -89,8 +90,10 @@ class Encryptor
         $plain  = sodium_crypto_secretbox_open($cipher, $nonce, self::key());
 
         if ($plain === false) {
-            WP_Statistics::log(esc_html__('Failed to decrypt token', 'wp-statistics'), 'error');
-            return false;
+            if (Env::isProduction()) {
+                WP_Statistics::log(esc_html__('Failed to decrypt token', 'wp-statistics'), 'error');
+                return false;
+            }
         }
 
         return $plain;

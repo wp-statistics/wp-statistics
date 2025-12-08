@@ -58,4 +58,24 @@ class Env
 
         return false;
     }
+
+    /**
+     * Determine whether the current WordPress environment is production.
+     *
+     * Examples of environment types returned by WordPress:
+     * - 'production'
+     * - 'staging'
+     * - 'development'
+     * - 'local'
+     *
+     * @return bool True if environment is production, false otherwise.
+     */
+    public static function isProduction(): bool
+    {
+        if (function_exists('wp_get_environment_type')) {
+            return wp_get_environment_type() === 'production';
+        }
+
+        return true;
+    }
 }
