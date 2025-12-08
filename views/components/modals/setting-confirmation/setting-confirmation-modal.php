@@ -1,5 +1,6 @@
-<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
-<div id="setting-confirmation" class="wps-modal wps-modal--confirmation <?php echo esc_html($class); ?>" role="dialog"
+<?php if (!defined('ABSPATH')) exit; ?>
+
+<div id="setting-confirmation" class="wps-modal wps-modal--confirmation <?php echo isset($class) ? esc_attr($class) : ''; ?>" role="dialog"
      aria-labelledby="confirmation-modal-title" >
     <div class="wps-modal__overlay"></div>
     <div class="wps-modal__content">
