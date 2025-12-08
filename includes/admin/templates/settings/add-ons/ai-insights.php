@@ -12,6 +12,9 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 $isLicenseValid    = LicenseHelper::isPluginLicenseValid('wp-statistics-ai-insights');
 $isAiInsightActive = Helper::isAddOnActive('ai-insights');
 
+$isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', false);
+$gscProperty     = Option::getByAddon('site', 'marketing');
+
 $settingsData = apply_filters('wp_statistics_ai_insights_settings_data', []);
 
 $syncStatus   = $settingsData['sync_status'] ?? '';
@@ -58,6 +61,10 @@ if ($syncStatus === 'not-initiated') {
     // Add notice: "No Google Search Console data has been synced yet. Sync now to populate AI Insights reports and start seeing your SEO performance data."
 }
 
+if (!$gscProperty || !$isAuthenticated) {
+    // Add notice: "Google Search Console is not connected. Connect GSC in Marketing add-on settings to enable data sync."
+}
+
 ?>
 <div class="postbox">
     <table class="form-table <?php echo !$isAiInsightActive ? 'form-table--preview' : '' ?>">
@@ -80,7 +87,6 @@ if ($syncStatus === 'not-initiated') {
                         <?php endif; ?>
                     </div>
                 </div>
-
             </th>
         </tr>
 
@@ -146,7 +152,7 @@ if ($syncStatus === 'not-initiated') {
                             <?php esc_html_e('Syncing...', 'wp-statistics'); ?>
                         </a>
                     <?php else : ?>
-                        <a data-last-sync="<?php echo esc_attr($lastSyncTime); ?>" href="<?php echo esc_url(Menus::admin_url('settings', ['tab' => 'ai-insights-settings', 'action' => 'wp_statistics_init_gsc_sync', 'nonce' => wp_create_nonce('wp_statistics_init_gsc_sync')])); ?>" aria-label="<?php esc_attr_e('Manually trigger an immediate sync of GSC data', 'wp-statistics'); ?>" class="wps-button wps-button--default">
+                        <a data-last-sync="<?php echo esc_attr($lastSyncTime); ?>" href="<?php echo esc_url(Menus::admin_url('settings', ['tab' => 'ai-insights-settings', 'action' => 'wp_statistics_init_gsc_sync', 'nonce' => wp_create_nonce('wp_statistics_init_gsc_sync')])); ?>" aria-label="<?php esc_attr_e('Manually trigger an immediate sync of GSC data', 'wp-statistics'); ?>" class="wps-button wps-button--default <?php echo !$gscProperty || !$isAuthenticated ? esc_attr('disabled') : ''; ?>">
                             <?php esc_html_e('Sync Now', 'wp-statistics'); ?>
                         </a>
                     <?php endif; ?>
