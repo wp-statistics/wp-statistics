@@ -1686,6 +1686,11 @@
         pointer-events: none;
       }
 
+      &:disabled.wps-tooltip, &.disabled.wps-tooltip {
+        pointer-events: auto;
+        cursor: default;
+      }
+
       &.wps-loading-button {
         border-color: transparent !important;
         color: transparent !important;

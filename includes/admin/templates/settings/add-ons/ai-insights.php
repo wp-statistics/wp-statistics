@@ -152,7 +152,11 @@ if (!$gscProperty || !$isAuthenticated) {
                             <?php esc_html_e('Syncing...', 'wp-statistics'); ?>
                         </a>
                     <?php else : ?>
-                        <a data-last-sync="<?php echo esc_attr($lastSyncTime); ?>" href="<?php echo esc_url(Menus::admin_url('settings', ['tab' => 'ai-insights-settings', 'action' => 'wp_statistics_init_gsc_sync', 'nonce' => wp_create_nonce('wp_statistics_init_gsc_sync')])); ?>" aria-label="<?php esc_attr_e('Manually trigger an immediate sync of GSC data', 'wp-statistics'); ?>" class="wps-button wps-button--default <?php echo !$gscProperty || !$isAuthenticated ? esc_attr('disabled') : ''; ?>">
+                        <a data-last-sync="<?php echo esc_attr($lastSyncTime); ?>"
+                            <?php if (!$gscProperty || !$isAuthenticated) : ?>
+                                title="<?php esc_attr_e('Please authenticate and select a property first', 'wp-statistics'); ?>"
+                            <?php endif; ?>>
+                           href="<?php echo esc_url(Menus::admin_url('settings', ['tab' => 'ai-insights-settings', 'action' => 'wp_statistics_init_gsc_sync', 'nonce' => wp_create_nonce('wp_statistics_init_gsc_sync')])); ?>" aria-label="<?php esc_attr_e('Manually trigger an immediate sync of GSC data', 'wp-statistics'); ?>" class="wps-button wps-button--default <?php echo !$gscProperty || !$isAuthenticated ? esc_attr('wps-tooltip disabled') : ''; ?>">
                             <?php esc_html_e('Sync Now', 'wp-statistics'); ?>
                         </a>
                     <?php endif; ?>
