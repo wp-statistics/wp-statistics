@@ -4,7 +4,6 @@ use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Marketing\Models\SearchConsoleModel;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
