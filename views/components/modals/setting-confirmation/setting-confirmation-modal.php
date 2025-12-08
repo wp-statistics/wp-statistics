@@ -1,5 +1,6 @@
 <?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
-<div id="setting-confirmation" class="wps-modal wps-modal--confirmation" role="dialog" aria-labelledby="confirmation-modal-title" >
+<div id="setting-confirmation" class="wps-modal wps-modal--confirmation <?php echo esc_html($class); ?>" role="dialog"
+     aria-labelledby="confirmation-modal-title" >
     <div class="wps-modal__overlay"></div>
     <div class="wps-modal__content">
         <button class="wps-modal__close"  type="button" aria-label="<?php esc_attr_e('Close modal', 'wp-statistics'); ?>"></button>

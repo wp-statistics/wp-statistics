@@ -16,6 +16,7 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
 $gscProperty     = Option::getByAddon('site', 'marketing');
 
 $settingsData = apply_filters('wp_statistics_ai_insights_settings_data', []);
+$isMarketingActive = Helper::isAddOnActive('marketing');
 
 $syncStatus   = $settingsData['sync_status'] ?? '';
 $lastSyncTime = $settingsData['last_sync_timestamp'] ?? null;
@@ -48,24 +49,8 @@ if (!$isAiInsightActive) echo Admin_Template::get_template('layout/partials/addo
 if ($isAiInsightActive && !$isLicenseValid) {
     View::load("components/lock-sections/notice-inactive-license-addon");
 }
-
-if ($gscRecords === 0 && $syncStatus === 'success') {
-    // Add notice: "No GSC data available yet. Your site may be new or not receiving search traffic. Check back in a few days."
-}
-
-if ($syncStatus === 'error') {
-    // Add notice: "Failed to sync GSC data. Please try again or check your GSC connection in Marketing add-on settings."
-}
-
-if ($syncStatus === 'not-initiated') {
-    // Add notice: "No Google Search Console data has been synced yet. Sync now to populate AI Insights reports and start seeing your SEO performance data."
-}
-
-if (!$gscProperty || !$isAuthenticated) {
-    // Add notice: "Google Search Console is not connected. Connect GSC in Marketing add-on settings to enable data sync."
-}
-
 ?>
+
 <div class="postbox">
     <table class="form-table <?php echo !$isAiInsightActive ? 'form-table--preview' : '' ?>">
         <tbody>
@@ -96,6 +81,58 @@ if (!$gscProperty || !$isAuthenticated) {
             </th>
         </tr>
 
+        <?php
+        if ($isAiInsightActive && !$isMarketingActive) :
+            ?>
+            <tr>
+                <th colspan="2" scope="row">
+                    <div class="wps-alert wps-alert__danger">
+                        <?php esc_html_e('AI Insights requires the Marketing add-on to be active. Please activate Marketing to access these settings.', 'wp-statistics'); ?>
+                    </div>
+                </th>
+            </tr>
+        <?php endif; ?>
+
+        <?php if ($gscRecords === 0 && $syncStatus === 'success') : ?>
+            <tr>
+                <th colspan="2" scope="row">
+                    <div class="wps-alert wps-alert__info">
+                        <?php esc_html_e('No GSC data available yet. Your site may be new or not receiving search traffic. Check back in a few days.', 'wp-statistics'); ?>
+                    </div>
+                </th>
+            </tr>
+        <?php endif; ?>
+
+        <?php if ($syncStatus === 'error') : ?>
+            <tr>
+                <th colspan="2" scope="row">
+                    <div class="wps-alert wps-alert__danger">
+                        <?php esc_html_e('Failed to sync GSC data. Please try again or check your GSC connection in Marketing add-on settings.', 'wp-statistics'); ?>
+                    </div>
+                </th>
+            </tr>
+        <?php endif; ?>
+
+        <?php if ($syncStatus === 'not-initiated') : ?>
+            <tr>
+                <th colspan="2" scope="row">
+                    <div class="wps-alert wps-alert__info">
+                        <?php esc_html_e('No Google Search Console data has been synced yet. Sync now to populate AI Insights reports and start seeing your SEO performance data.', 'wp-statistics'); ?>
+                    </div>
+                </th>
+            </tr>
+        <?php endif; ?>
+
+        <?php if (!$gscProperty || !$isAuthenticated) : ?>
+            <tr>
+                <th colspan="2" scope="row">
+                    <div class="wps-alert wps-alert__warning">
+                        <?php esc_html_e('Google Search Console is not connected. Connect GSC in Marketing add-on settings to enable data sync.', 'wp-statistics'); ?>
+                    </div>
+                </th>
+            </tr>
+        <?php endif; ?>
+
         <tr>
             <th colspan="2" scope="row">
                 <div class="wps-alert wps-alert__success"><?php esc_html_e('Successfully synced [count] GSC records. All AI Insights reports have been updated.', 'wp-statistics'); ?></div>
@@ -115,7 +152,10 @@ if (!$gscProperty || !$isAuthenticated) {
 
             <td>
                 <input type="hidden" name="wps_addon_settings[ai_insights][gsc_auto_sync]" value="0"/>
-                <input id="wps_addon_settings[ai_insights][gsc_auto_sync]" type="checkbox" value="1" name="wps_addon_settings[ai_insights][gsc_auto_sync]" <?php checked(Option::getByAddon('gsc_auto_sync', 'ai_insights', '1'), '1'); ?>>
+                <input id="wps_addon_settings[ai_insights][gsc_auto_sync]" type="checkbox"
+                       value="1" name="wps_addon_settings[ai_insights][gsc_auto_sync]"
+                    <?php echo (!$gscProperty || !$isAuthenticated) ? 'disabled' : ''; ?>
+                    <?php checked(Option::getByAddon('gsc_auto_sync', 'ai_insights', '1'), '1'); ?>>
                 <label for="wps_addon_settings[ai_insights][gsc_auto_sync]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('Automatically sync Google Search Console data on a scheduled basis. When disabled, data must be synced manually.', 'wp-statistics'); ?></p>
             </td>
@@ -151,12 +191,20 @@ if (!$gscProperty || !$isAuthenticated) {
                         <a aria-label="<?php esc_attr_e('Syncing GSC data', 'wp-statistics'); ?>" class="wps-button wps-loading-button wps-button--default">
                             <?php esc_html_e('Syncing...', 'wp-statistics'); ?>
                         </a>
+                    <?php elseif ($syncStatus === 'error') : ?>
+                        <a href="<?php echo esc_url(Menus::admin_url('settings', ['tab' => 'ai-insights-settings', 'action' => 'wp_statistics_retry_gsc_sync', 'nonce' => wp_create_nonce('wp_statistics_retry_gsc_sync')])); ?>"
+                           aria-label="<?php esc_attr_e('Retry failed sync', 'wp-statistics'); ?>"
+                           class="wps-button wps-button--default">
+                            <?php esc_html_e('Retry', 'wp-statistics'); ?>
+                        </a>
                     <?php else : ?>
                         <a data-last-sync="<?php echo esc_attr($lastSyncTime); ?>"
                             <?php if (!$gscProperty || !$isAuthenticated) : ?>
                                 title="<?php esc_attr_e('Connect GSC first', 'wp-statistics'); ?>"
                             <?php endif; ?>
-                           href="<?php echo esc_url(Menus::admin_url('settings', ['tab' => 'ai-insights-settings', 'action' => 'wp_statistics_init_gsc_sync', 'nonce' => wp_create_nonce('wp_statistics_init_gsc_sync')])); ?>" aria-label="<?php esc_attr_e('Manually trigger an immediate sync of GSC data', 'wp-statistics'); ?>" class="wps-button wps-button--default <?php echo !$gscProperty || !$isAuthenticated ? esc_attr('wps-tooltip disabled') : ''; ?>">
+                           href="<?php echo esc_url(Menus::admin_url('settings', ['tab' => 'ai-insights-settings', 'action' => 'wp_statistics_init_gsc_sync', 'nonce' => wp_create_nonce('wp_statistics_init_gsc_sync')])); ?>"
+                           aria-label="<?php esc_attr_e('Manually trigger an immediate sync of GSC data', 'wp-statistics'); ?>"
+                           class="wps-button wps-button--default <?php echo !$gscProperty || !$isAuthenticated ? esc_attr('wps-tooltip disabled') : ''; ?>">
                             <?php esc_html_e('Sync Now', 'wp-statistics'); ?>
                         </a>
                     <?php endif; ?>
@@ -222,4 +270,19 @@ if (!$gscProperty || !$isAuthenticated) {
 if ($isAiInsightActive) {
     submit_button(esc_html__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', false, ['id' => 'ai_insights_submit', 'OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='ai-insights-settings'"]);
 }
+
+// GSC Sync Confirmation Modal
+View::load('components/modals/setting-confirmation/setting-confirmation-modal', [
+    'title'               => __('Sync Data Again?', 'wp-statistics'),
+    'description'         => __('GSC data was synced recently. Syncing again may not retrieve new data. Do you want to continue anyway?', 'wp-statistics'),
+    'primaryButtonText'   => __('Sync Anyway', 'wp-statistics'),
+    'secondaryButtonText' => __('Cancel', 'wp-statistics'),
+    'primaryButtonStyle'  => 'primary',
+    'secondaryButtonStyle'=> 'cancel',
+    'class'               => 'wps-modal--sync-data',
+    'actions'             => [
+        'primary'   => 'confirmSync',
+        'secondary' => 'closeModal'
+    ]
+]);
 ?>

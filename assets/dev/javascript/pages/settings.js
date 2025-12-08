@@ -461,5 +461,35 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 btn.classList.toggle('show', isPassword);
             });
         });
+
+        // GSC Sync confirmation - only show modal if last sync was < 30 minutes ago
+        const syncButton = document.querySelector('a[data-last-sync]');
+        if (syncButton) {
+            syncButton.addEventListener('click', function(e) {
+                const lastSync = parseInt(this.getAttribute('data-last-sync'));
+                const now = Math.floor(Date.now() / 1000);
+                const timeDiff = now - lastSync;
+
+                console.log(timeDiff)
+
+                if (lastSync && timeDiff < 1800) {
+                    e.preventDefault();
+                    const syncUrl = this.href;
+                    const modal = document.querySelector('.wps-modal--sync-data');
+
+                    if (modal) {
+                        modal.classList.add('wps-modal--open');
+
+                        const confirmButton = modal.querySelector('button[data-action="confirmSync"]');
+                        if (confirmButton) {
+                            confirmButton.addEventListener('click', function() {
+                                window.location.href = syncUrl;
+                            }, {once: true});
+                        }
+                    }
+                }
+            });
+        }
+
     });
 }
