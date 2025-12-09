@@ -456,16 +456,18 @@ class WebsitePerformanceDataProvider
     /**
      * Returns percentage change between current and previous period's visitors.
      *
-     * @return int
+     * @return int|null Returns null if no previous period data available
      */
     public function getPercentageChangeVisitors()
     {
         if (!$this->shouldCalculatePercentageChanges()) {
-            return 0;
+            return null;
         }
 
-        if (!is_numeric($this->getCache('percentageChangeVisitors'))) {
-            $this->setCache('percentageChangeVisitors', intval(Helper::calculatePercentageChange($this->getPreviousPeriodVisitors(), $this->getCurrentPeriodVisitors())));
+        $cached = $this->getCache('percentageChangeVisitors');
+        if ($cached === null) {
+            $change = Helper::calculatePercentageChange($this->getPreviousPeriodVisitors(), $this->getCurrentPeriodVisitors());
+            $this->setCache('percentageChangeVisitors', $change === null ? null : intval($change));
         }
 
         return $this->getCache('percentageChangeVisitors');
@@ -474,16 +476,18 @@ class WebsitePerformanceDataProvider
     /**
      * Returns percentage change between current and previous period's views.
      *
-     * @return int
+     * @return int|null Returns null if no previous period data available
      */
     public function getPercentageChangeViews()
     {
         if (!$this->shouldCalculatePercentageChanges()) {
-            return 0;
+            return null;
         }
 
-        if (!is_numeric($this->getCache('percentageChangeViews'))) {
-            $this->setCache('percentageChangeViews', intval(Helper::calculatePercentageChange($this->getPreviousPeriodViews(), $this->getCurrentPeriodViews())));
+        $cached = $this->getCache('percentageChangeViews');
+        if ($cached === null) {
+            $change = Helper::calculatePercentageChange($this->getPreviousPeriodViews(), $this->getCurrentPeriodViews());
+            $this->setCache('percentageChangeViews', $change === null ? null : intval($change));
         }
 
         return $this->getCache('percentageChangeViews');
@@ -492,16 +496,18 @@ class WebsitePerformanceDataProvider
     /**
      * Returns percentage change between current and previous period's referrals.
      *
-     * @return int
+     * @return int|null Returns null if no previous period data available
      */
     public function getPercentageChangeReferrals()
     {
         if (!$this->shouldCalculatePercentageChanges()) {
-            return 0;
+            return null;
         }
 
-        if (!is_numeric($this->getCache('percentageChangeReferrals'))) {
-            $this->setCache('percentageChangeReferrals', intval(Helper::calculatePercentageChange($this->getPreviousPeriodReferralsCount(), $this->getCurrentPeriodReferralsCount())));
+        $cached = $this->getCache('percentageChangeReferrals');
+        if ($cached === null) {
+            $change = Helper::calculatePercentageChange($this->getPreviousPeriodReferralsCount(), $this->getCurrentPeriodReferralsCount());
+            $this->setCache('percentageChangeReferrals', $change === null ? null : intval($change));
         }
 
         return $this->getCache('percentageChangeReferrals');
@@ -510,16 +516,18 @@ class WebsitePerformanceDataProvider
     /**
      * Returns percentage change between current and previous period's contents.
      *
-     * @return int
+     * @return int|null Returns null if no previous period data available
      */
     public function getPercentageChangeContents()
     {
         if (!$this->shouldCalculatePercentageChanges()) {
-            return 0;
+            return null;
         }
 
-        if (!is_numeric($this->getCache('percentageChangeContents'))) {
-            $this->setCache('percentageChangeContents', intval(Helper::calculatePercentageChange($this->getPreviousPeriodContents(), $this->getCurrentPeriodContents())));
+        $cached = $this->getCache('percentageChangeContents');
+        if ($cached === null) {
+            $change = Helper::calculatePercentageChange($this->getPreviousPeriodContents(), $this->getCurrentPeriodContents());
+            $this->setCache('percentageChangeContents', $change === null ? null : intval($change));
         }
 
         return $this->getCache('percentageChangeContents');

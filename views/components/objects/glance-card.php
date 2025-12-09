@@ -50,7 +50,7 @@
                             <?php else: ?>
                                 <span>-</span>
                             <?php endif; ?>
-                            <?php if (isset($metric['change']) && (!empty($metric['link-title']) || !empty($metric['value']))): ?>
+                            <?php if (isset($metric['change']) && $metric['change'] !== null && (!empty($metric['link-title']) || !empty($metric['value']))): ?>
                                 <?php
                                 $arrow_class = $metric['change'] > 0 ? 'wps-glance-up' : ($metric['change'] < 0 ? 'wps-glance-down' : '');
                                 $color_class = '';
