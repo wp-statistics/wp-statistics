@@ -112,28 +112,28 @@ class QueryExecutor implements QueryExecutorInterface
      */
     private function buildSql(QueryInterface $query): array
     {
-        $select      = [];
-        $joins       = [];
-        $where       = [];
-        $params      = [];
-        $groupBy     = [];
+        $select             = [];
+        $joins              = [];
+        $where              = [];
+        $params             = [];
+        $groupByExpressions = [];
 
-        $sources     = $query->getSources();
-        $groupBy  = $query->getGroupBy();
-        $filters     = $query->getFilters();
-        $dateFrom    = $query->getDateFrom();
-        $dateTo      = $query->getDateTo();
-        $orderBy     = $query->getOrderBy() ?? ($sources[0] ?? null);
-        $order       = $query->getOrder();
-        $perPage     = $query->getPerPage();
-        $offset      = $query->getOffset();
+        $sources      = $query->getSources();
+        $groupByNames = $query->getGroupBy();
+        $filters      = $query->getFilters();
+        $dateFrom     = $query->getDateFrom();
+        $dateTo       = $query->getDateTo();
+        $orderBy      = $query->getOrderBy() ?? ($sources[0] ?? null);
+        $order        = $query->getOrder();
+        $perPage      = $query->getPerPage();
+        $offset       = $query->getOffset();
 
         // Determine primary table
-        $primaryTable = $this->determinePrimaryTable($sources, $groupBy, $filters);
+        $primaryTable = $this->determinePrimaryTable($sources, $groupByNames, $filters);
         $from         = $this->getFullTableName($primaryTable) . ' AS ' . $primaryTable;
 
         // Add group by columns and joins
-        foreach ($groupBy as $groupByName) {
+        foreach ($groupByNames as $groupByName) {
             $groupByItem = $this->groupByRegistry->get($groupByName);
             if (!$groupByItem) {
                 continue;
@@ -143,7 +143,7 @@ class QueryExecutor implements QueryExecutorInterface
             $joins   = array_merge($joins, $this->normalizeJoins($groupByItem->getJoins()));
 
             if ($groupByItem->getGroupBy()) {
-                $groupBy[] = $groupByItem->getGroupBy();
+                $groupByExpressions[] = $groupByItem->getGroupBy();
             }
 
             if ($groupByItem->getFilter()) {
@@ -181,10 +181,10 @@ class QueryExecutor implements QueryExecutorInterface
         }
 
         // Build main SQL
-        $sql = $this->assembleSql($select, $from, $joins, $where, $groupBy, $orderBy, $order, $perPage, $offset);
+        $sql = $this->assembleSql($select, $from, $joins, $where, $groupByExpressions, $orderBy, $order, $perPage, $offset);
 
         // Build count SQL
-        $countSql = $this->assembleCountSql($from, $joins, $where, $groupBy);
+        $countSql = $this->assembleCountSql($from, $joins, $where, $groupByExpressions);
 
         return [
             'sql'       => $sql,
