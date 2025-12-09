@@ -186,4 +186,31 @@ class TaxonomyModel extends BaseModel
 
         return $result;
     }
+
+    public function getTermsReportDataCount($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'       => '',
+            'taxonomy'   => '',
+            'author_id'  => '',
+            'post_type'  => Helper::getDefaultPostTypes(),
+            'date_field' => 'pages.date'
+        ]);
+
+        $result = Query::select([
+            'COUNT(DISTINCT terms.term_id)'
+        ])
+            ->from('posts')
+            ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+            ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+            ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+            ->join('pages', ['pages.id', 'posts.ID'])
+            ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+            ->where('posts.post_type', 'IN', $args['post_type'])
+            ->where('posts.post_author', '=', $args['author_id'])
+            ->whereDate($args['date_field'], $args['date'])
+            ->getVar();
+
+        return $result;
+    }
 }
