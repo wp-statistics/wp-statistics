@@ -209,7 +209,7 @@ class CategoryAnalyticsDataProvider
 
         return [
             'terms' => $this->taxonomyModel->getTermsReportData($args),
-            'total' => $this->taxonomyModel->countTerms($args),
+            'total' => $this->taxonomyModel->getTermsReportDataCount($args),
         ];
     }
 }
