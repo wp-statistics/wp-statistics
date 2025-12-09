@@ -34,17 +34,17 @@ class CategoryAnalyticsDataProvider
 
     public function getChartsData()
     {
-        $performanceDataProvider    = ChartDataProviderFactory::performanceChart($this->args);
-        $searchEngineDataProvider   = ChartDataProviderFactory::searchEngineChart($this->args);
-        $platformDataProvider       = ChartDataProviderFactory::platformCharts($this->args);
+        $performanceDataProvider  = ChartDataProviderFactory::performanceChart($this->args);
+        $searchEngineDataProvider = ChartDataProviderFactory::searchEngineChart($this->args);
+        $platformDataProvider     = ChartDataProviderFactory::platformCharts($this->args);
 
         return [
-            'performance_chart_data'    => $performanceDataProvider->getData(),
-            'search_engine_chart_data'  => $searchEngineDataProvider->getData(),
-            'os_chart_data'             => $platformDataProvider->getOsData(),
-            'browser_chart_data'        => $platformDataProvider->getBrowserData(),
-            'device_chart_data'         => $platformDataProvider->getDeviceData(),
-            'model_chart_data'          => $platformDataProvider->getModelData()
+            'performance_chart_data'   => $performanceDataProvider->getData(),
+            'search_engine_chart_data' => $searchEngineDataProvider->getData(),
+            'os_chart_data'            => $platformDataProvider->getOsData(),
+            'browser_chart_data'       => $platformDataProvider->getBrowserData(),
+            'device_chart_data'        => $platformDataProvider->getDeviceData(),
+            'model_chart_data'         => $platformDataProvider->getModelData()
         ];
     }
 
@@ -66,28 +66,28 @@ class CategoryAnalyticsDataProvider
 
         $summary = ChartDataProviderFactory::summaryChart($this->args)->getData();
 
-        $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
-        $referrersData      = $this->visitorsModel->getReferrers($this->args);
+        $visitorsCountry = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
+        $referrersData   = $this->visitorsModel->getReferrers($this->args);
 
-        $topViewingPosts    = $this->postsModel->getPostsViewsData($this->args);
-        $recentPostsData    = $this->postsModel->getPostsViewsData(array_merge($this->args, ['order_by' => 'post_date', 'show_no_views' => true]));
-        $topCommentedPosts  = $this->postsModel->getPostsCommentsData($this->args);
+        $topViewingPosts   = $this->postsModel->getPostsViewsData($this->args);
+        $recentPostsData   = $this->postsModel->getPostsViewsData(array_merge($this->args, ['order_by' => 'post_date', 'show_no_views' => true]));
+        $topCommentedPosts = $this->postsModel->getPostsCommentsData($this->args);
 
         $result = [
-            'glance' => [
-                'posts' => [
+            'glance'           => [
+                'posts'        => [
                     'value'  => $posts,
                     'change' => Helper::calculatePercentageChange($prevPosts, $posts)
                 ],
-                'visitors' => [
+                'visitors'     => [
                     'value'  => $visitors,
                     'change' => Helper::calculatePercentageChange($prevVisitors, $visitors)
                 ],
-                'views' => [
+                'views'        => [
                     'value'  => $views,
                     'change' => Helper::calculatePercentageChange($prevViews, $views)
                 ],
-                'comments'  => [
+                'comments'     => [
                     'value'  => $comments,
                     'change' => Helper::calculatePercentageChange($prevComments, $comments)
                 ],
@@ -96,14 +96,14 @@ class CategoryAnalyticsDataProvider
                     'change' => Helper::calculatePercentageChange($prevAvgComments, $avgComments)
                 ]
             ],
-            'posts'             => [
+            'posts'            => [
                 'top_viewing'   => $topViewingPosts,
                 'recent'        => $recentPostsData,
                 'top_commented' => $topCommentedPosts
             ],
-            'referrers'         => $referrersData,
-            'visitors_country'  => $visitorsCountry,
-            'summary'           => $summary
+            'referrers'        => $referrersData,
+            'visitors_country' => $visitorsCountry,
+            'summary'          => $summary
         ];
 
         if (WordCountService::isActive()) {
@@ -138,41 +138,41 @@ class CategoryAnalyticsDataProvider
         $topPublishingAuthors = $this->authorModel->getAuthorsByPostPublishes($this->args);
         $topViewingAuthors    = $this->authorModel->getTopViewingAuthors($this->args);
 
-        $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
-        $referrersData      = $this->visitorsModel->getReferrers($this->args);
+        $visitorsCountry = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
+        $referrersData   = $this->visitorsModel->getReferrers($this->args);
 
-        $topPostsByView     = $this->postsModel->getPostsViewsData($this->args);
-        $topPostsByComment  = $this->postsModel->getPostsCommentsData($this->args);
-        $recentPostsData    = $this->postsModel->getPostsViewsData(array_merge($this->args, ['order_by' => 'post_date', 'show_no_views' => true]));
+        $topPostsByView    = $this->postsModel->getPostsViewsData($this->args);
+        $topPostsByComment = $this->postsModel->getPostsCommentsData($this->args);
+        $recentPostsData   = $this->postsModel->getPostsViewsData(array_merge($this->args, ['order_by' => 'post_date', 'show_no_views' => true]));
 
         $topViewingCategories    = $this->taxonomyModel->getTermsData($this->args);
         $topPublishingCategories = $this->taxonomyModel->getTermsData(array_merge($this->args, ['order_by' => 'posts', 'date_field' => 'posts.post_date']));
 
         $result = [
-            'visitors_country'  => $visitorsCountry,
-            'referrers'         => $referrersData,
-            'authors'           => [
+            'visitors_country' => $visitorsCountry,
+            'referrers'        => $referrersData,
+            'authors'          => [
                 'publishing' => $topPublishingAuthors,
                 'viewing'    => $topViewingAuthors
             ],
-            'categories'        => [
+            'categories'       => [
                 'publishing' => $topPublishingCategories,
                 'viewing'    => $topViewingCategories
             ],
-            'glance' => [
-                'posts' => [
+            'glance'           => [
+                'posts'        => [
                     'value'  => $posts,
                     'change' => Helper::calculatePercentageChange($prevPosts, $posts)
                 ],
-                'visitors' => [
+                'visitors'     => [
                     'value'  => $visitors,
                     'change' => Helper::calculatePercentageChange($prevVisitors, $visitors)
                 ],
-                'views' => [
+                'views'        => [
                     'value'  => $views,
                     'change' => Helper::calculatePercentageChange($prevViews, $views)
                 ],
-                'comments'  => [
+                'comments'     => [
                     'value'  => $comments,
                     'change' => Helper::calculatePercentageChange($prevComments, $comments)
                 ],
@@ -181,8 +181,8 @@ class CategoryAnalyticsDataProvider
                     'change' => Helper::calculatePercentageChange($prevAvgComments, $avgComments)
                 ]
             ],
-            'summary'           => $summary,
-            'posts'             => [
+            'summary'          => $summary,
+            'posts'            => [
                 'top_viewing'   => $topPostsByView,
                 'top_commented' => $topPostsByComment,
                 'recent'        => $recentPostsData
@@ -208,7 +208,8 @@ class CategoryAnalyticsDataProvider
         ]);
 
         return [
-            'terms' => $this->taxonomyModel->getTermsReportData($args)
+            'terms' => $this->taxonomyModel->getTermsReportData($args),
+            'total' => $this->taxonomyModel->getTermsReportDataCount($args),
         ];
     }
 }
