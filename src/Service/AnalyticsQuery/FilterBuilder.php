@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\AnalyticsQuery;
 
+use WP_Statistics\Service\Admin\DashboardBootstrap\Registry\FilterRegistry;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidFilterException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidOperatorException;
 
@@ -9,165 +10,12 @@ use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidOperatorException;
  * Builds SQL WHERE clauses from filter objects.
  *
  * Converts frontend filter requests into safe SQL conditions.
- * All filter columns are whitelisted to prevent SQL injection.
+ * Uses FilterRegistry for filter definitions to prevent SQL injection.
  *
  * @since 15.0.0
  */
 class FilterBuilder
 {
-    /**
-     * Allowed filter definitions.
-     *
-     * Each filter has:
-     * - column: SQL column expression
-     * - type: Data type for sanitization (string, integer, boolean, float)
-     * - join: Optional join required for this filter
-     *
-     * @var array
-     */
-    private static $allowedFilters = [
-        'country' => [
-            'column' => 'countries.code',
-            'type'   => 'string',
-            'join'   => [
-                'table' => 'countries',
-                'alias' => 'countries',
-                'on'    => 'sessions.country_id = countries.ID',
-            ],
-        ],
-        'country_id' => [
-            'column' => 'sessions.country_id',
-            'type'   => 'integer',
-        ],
-        'city' => [
-            'column' => 'cities.city_name',
-            'type'   => 'string',
-            'join'   => [
-                'table' => 'cities',
-                'alias' => 'cities',
-                'on'    => 'sessions.city_id = cities.ID',
-            ],
-        ],
-        'browser' => [
-            'column' => 'device_browsers.name',
-            'type'   => 'string',
-            'join'   => [
-                'table' => 'device_browsers',
-                'alias' => 'device_browsers',
-                'on'    => 'sessions.device_browser_id = device_browsers.ID',
-            ],
-        ],
-        'os' => [
-            'column' => 'device_oss.name',
-            'type'   => 'string',
-            'join'   => [
-                'table' => 'device_oss',
-                'alias' => 'device_oss',
-                'on'    => 'sessions.device_os_id = device_oss.ID',
-            ],
-        ],
-        'device_type' => [
-            'column' => 'device_types.name',
-            'type'   => 'string',
-            'join'   => [
-                'table' => 'device_types',
-                'alias' => 'device_types',
-                'on'    => 'sessions.device_type_id = device_types.ID',
-            ],
-        ],
-        'referrer' => [
-            'column' => 'referrers.domain',
-            'type'   => 'string',
-            'join'   => [
-                'table' => 'referrers',
-                'alias' => 'referrers',
-                'on'    => 'sessions.referrer_id = referrers.ID',
-            ],
-        ],
-        'referrer_type' => [
-            'column' => 'referrers.channel',
-            'type'   => 'string',
-            'join'   => [
-                'table' => 'referrers',
-                'alias' => 'referrers',
-                'on'    => 'sessions.referrer_id = referrers.ID',
-            ],
-        ],
-        'post_type' => [
-            'column'   => 'resources.resource_type',
-            'type'     => 'string',
-            'join'     => [
-                [
-                    'table' => 'resource_uris',
-                    'alias' => 'resource_uris',
-                    'on'    => 'views.resource_uri_id = resource_uris.ID',
-                ],
-                [
-                    'table' => 'resources',
-                    'alias' => 'resources',
-                    'on'    => 'resource_uris.resource_id = resources.ID',
-                ],
-            ],
-            'requires' => 'views',
-        ],
-        'author_id' => [
-            'column'   => 'resources.cached_author_id',
-            'type'     => 'integer',
-            'join'     => [
-                [
-                    'table' => 'resource_uris',
-                    'alias' => 'resource_uris',
-                    'on'    => 'views.resource_uri_id = resource_uris.ID',
-                ],
-                [
-                    'table' => 'resources',
-                    'alias' => 'resources',
-                    'on'    => 'resource_uris.resource_id = resources.ID',
-                ],
-            ],
-            'requires' => 'views',
-        ],
-        'user_id' => [
-            'column' => 'sessions.user_id',
-            'type'   => 'integer',
-        ],
-        'logged_in' => [
-            'column' => 'sessions.user_id',
-            'type'   => 'boolean',
-        ],
-        'page' => [
-            'column'   => 'resource_uris.uri',
-            'type'     => 'string',
-            'join'     => [
-                'table' => 'resource_uris',
-                'alias' => 'resource_uris',
-                'on'    => 'views.resource_uri_id = resource_uris.ID',
-            ],
-            'requires' => 'views',
-        ],
-        'resource_id' => [
-            'column'   => 'views.resource_id',
-            'type'     => 'integer',
-            'requires' => 'views',
-        ],
-        'language' => [
-            'column' => 'languages.code',
-            'type'   => 'string',
-            'join'   => [
-                'table' => 'languages',
-                'alias' => 'languages',
-                'on'    => 'sessions.language_id = languages.ID',
-            ],
-        ],
-        'visitor_id' => [
-            'column' => 'sessions.visitor_id',
-            'type'   => 'integer',
-        ],
-        'session_id' => [
-            'column' => 'sessions.ID',
-            'type'   => 'integer',
-        ],
-    ];
 
     /**
      * Build WHERE clauses from filters.
@@ -179,28 +27,30 @@ class FilterBuilder
      */
     public static function build(array $filters): array
     {
+        $registry   = FilterRegistry::getInstance();
         $conditions = [];
         $params     = [];
         $joins      = [];
 
         foreach ($filters as $key => $value) {
-            if (!isset(self::$allowedFilters[$key])) {
+            if (!$registry->has($key)) {
                 throw new InvalidFilterException($key);
             }
 
-            $config = self::$allowedFilters[$key];
-            $column = $config['column'];
+            $filter = $registry->get($key);
+            $column = $filter->getColumn();
+            $type   = $filter->getType();
 
             // Collect required joins
-            if (isset($config['join'])) {
-                $filterJoins = isset($config['join']['table']) ? [$config['join']] : $config['join'];
+            $filterJoins = $filter->getJoins();
+            if ($filterJoins !== null) {
                 foreach ($filterJoins as $join) {
                     $joins[$join['alias']] = $join;
                 }
             }
 
             // Handle boolean special case (logged_in)
-            if ($config['type'] === 'boolean') {
+            if ($type === 'boolean') {
                 if ($value) {
                     $conditions[] = "$column IS NOT NULL";
                 } else {
@@ -211,7 +61,7 @@ class FilterBuilder
 
             // Handle operator syntax: { "contains": "google" }
             if (is_array($value) && !isset($value[0])) {
-                $result       = self::buildOperatorCondition($column, $value, $config['type']);
+                $result       = self::buildOperatorCondition($column, $value, $type);
                 $conditions[] = $result['condition'];
                 if ($result['params'] !== null) {
                     if (is_array($result['params'])) {
@@ -226,11 +76,11 @@ class FilterBuilder
                     $placeholders = implode(',', array_fill(0, count($value), '%s'));
                     $conditions[] = "$column IN ($placeholders)";
                     foreach ($value as $v) {
-                        $params[] = self::sanitize($v, $config['type']);
+                        $params[] = self::sanitize($v, $type);
                     }
                 } else {
                     $conditions[] = "$column = %s";
-                    $params[]     = self::sanitize($value, $config['type']);
+                    $params[]     = self::sanitize($value, $type);
                 }
             }
         }
@@ -370,7 +220,7 @@ class FilterBuilder
      */
     public static function isAllowed(string $key): bool
     {
-        return isset(self::$allowedFilters[$key]);
+        return FilterRegistry::getInstance()->has($key);
     }
 
     /**
@@ -381,7 +231,8 @@ class FilterBuilder
      */
     public static function getConfig(string $key): ?array
     {
-        return self::$allowedFilters[$key] ?? null;
+        $filter = FilterRegistry::getInstance()->get($key);
+        return $filter ? $filter->toArray() : null;
     }
 
     /**
@@ -392,11 +243,7 @@ class FilterBuilder
      */
     public static function getRequirement(string $key): ?string
     {
-        if (!isset(self::$allowedFilters[$key])) {
-            return null;
-        }
-
-        return self::$allowedFilters[$key]['requires'] ?? null;
+        return FilterRegistry::getInstance()->getRequirement($key);
     }
 
     /**
@@ -407,12 +254,6 @@ class FilterBuilder
      */
     public static function requiresViewsTable(array $filters): bool
     {
-        foreach (array_keys($filters) as $key) {
-            if (self::getRequirement($key) === 'views') {
-                return true;
-            }
-        }
-
-        return false;
+        return FilterRegistry::getInstance()->requiresViewsTable(array_keys($filters));
     }
 }
