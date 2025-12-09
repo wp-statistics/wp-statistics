@@ -32,7 +32,7 @@ class BackgroundProcessFactory
      */
     public static function getBackgroundProcess($processKey)
     {
-        return (new BackgroundProcessManager())->getBackgroundProcess($processKey);
+        return BackgroundProcessManager::instance()->getBackgroundProcess($processKey);
     }
 
     /**
@@ -83,7 +83,7 @@ class BackgroundProcessFactory
      */
     public static function getAllJobs()
     {
-        return (new BackgroundProcessManager())->getAllBackgroundProcesses();
+        return BackgroundProcessManager::instance()->getAllBackgroundProcesses();
     }
 
     /**
@@ -93,7 +93,7 @@ class BackgroundProcessFactory
      */
     public static function getAllMigrations()
     {
-        return (new BackgroundProcessManager())->getAllDataMigrations();
+        return BackgroundProcessManager::instance()->getAllDataMigrations();
     }
 
     /**

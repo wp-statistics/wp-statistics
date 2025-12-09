@@ -37,6 +37,13 @@ use WP_Statistics\Utils\Request;
 class BackgroundProcessManager extends BaseMigrationManager
 {
     /**
+     * Singleton instance.
+     *
+     * @var BackgroundProcessManager|null
+     */
+    private static $instance = null;
+
+    /**
      * Filter hook name for registering background jobs.
      *
      * @var string
@@ -123,16 +130,27 @@ class BackgroundProcessManager extends BaseMigrationManager
     public const BACKGROUND_PROCESS_NONCE = 'run_ajax_background_process_nonce';
 
     /**
+     * Get singleton instance.
+     *
+     * @return BackgroundProcessManager
+     */
+    public static function instance()
+    {
+        if (is_null(self::$instance)) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
+
+    /**
      * Class constructor.
      *
      * Initializes background processes and attaches necessary WordPress hooks.
      */
     public function __construct()
     {
-        $this->initializeBackgroundProcess();
-
-        add_action('admin_init', [$this, 'showProgressNotices']);
-        add_action('admin_enqueue_scripts', [$this, 'registerScript']);
+        add_action('init', [$this, 'initializeBackgroundProcess']);
         add_filter('wp_statistics_ajax_list', [$this, 'addAjax']);
         add_action('admin_post_' . self::BACKGROUND_PROCESS_ACTION, [$this, 'handleBackgroundProcessAction']);
     }
@@ -145,7 +163,7 @@ class BackgroundProcessManager extends BaseMigrationManager
      *
      * @return void
      */
-    private function initializeBackgroundProcess()
+    public function initializeBackgroundProcess()
     {
         if (!empty($this->backgroundProcess)) {
             return;
@@ -161,6 +179,11 @@ class BackgroundProcessManager extends BaseMigrationManager
         foreach ($this->backgroundProcesses as $key => $className) {
             $this->registerBackgroundProcess($className, $key);
         }
+
+        // Register admin hooks after background processes are initialized
+        // This ensures job titles are set before showProgressNotices runs
+        add_action('admin_init', [$this, 'showProgressNotices']);
+        add_action('admin_enqueue_scripts', [$this, 'registerScript']);
     }
 
     /**
