@@ -8,6 +8,7 @@ use WP_Statistics\Service\Admin\DashboardBootstrap\Managers\LocalizeDataManager;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\GlobalDataProvider;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\HeaderDataProvider;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\LayoutDataProvider;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\FiltersProvider;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Requests\AjaxManager;
 
 /**
@@ -118,6 +119,7 @@ class DashboardManager
             ->registerProvider(new LayoutDataProvider())
             ->registerProvider(new GlobalDataProvider())
             ->registerProvider(new HeaderDataProvider())
+            ->registerProvider(new FiltersProvider())
             ->init();
     }
 }

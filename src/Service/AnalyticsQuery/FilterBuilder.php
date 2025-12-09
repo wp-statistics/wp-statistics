@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\AnalyticsQuery;
 
-use WP_Statistics\Service\Admin\DashboardBootstrap\Registry\FilterRegistry;
+use WP_Statistics\Service\AnalyticsQuery\Registry\FilterRegistry;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidFilterException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidOperatorException;
 
