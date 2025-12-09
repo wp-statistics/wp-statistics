@@ -18,7 +18,10 @@ abstract class UnlockedTabView
      * Returns the tooltip for the unlocked tab
      * @return string
      */
-    abstract public function getTooltip();
+    public function getTooltip()
+    {
+        return '';
+    }
 
     /**
      * Returns the data for the unlocked tab
