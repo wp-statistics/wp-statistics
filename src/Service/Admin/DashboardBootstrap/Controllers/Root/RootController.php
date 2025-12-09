@@ -74,7 +74,7 @@ class RootController extends BaseDashboardController
             new AuthorAnalytics(),
             new CategoryAnalytics(),
             new Geographics(),
-            new Devices()
+            new Devices(),
         ];
 
         foreach ($pages as $page) {
