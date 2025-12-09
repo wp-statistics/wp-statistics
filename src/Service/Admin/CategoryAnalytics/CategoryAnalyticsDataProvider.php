@@ -76,24 +76,34 @@ class CategoryAnalyticsDataProvider
         $result = [
             'glance'           => [
                 'posts'        => [
-                    'value'  => $posts,
-                    'change' => Helper::calculatePercentageChange($prevPosts, $posts)
+                    'value'         => $posts,
+                    'change'        => Helper::calculatePercentageChange($prevPosts, $posts),
+                    'current_value' => $posts,
+                    'prev_value'    => $prevPosts
                 ],
                 'visitors'     => [
-                    'value'  => $visitors,
-                    'change' => Helper::calculatePercentageChange($prevVisitors, $visitors)
+                    'value'         => $visitors,
+                    'change'        => Helper::calculatePercentageChange($prevVisitors, $visitors),
+                    'current_value' => $visitors,
+                    'prev_value'    => $prevVisitors
                 ],
                 'views'        => [
-                    'value'  => $views,
-                    'change' => Helper::calculatePercentageChange($prevViews, $views)
+                    'value'         => $views,
+                    'change'        => Helper::calculatePercentageChange($prevViews, $views),
+                    'current_value' => $views,
+                    'prev_value'    => $prevViews
                 ],
                 'comments'     => [
-                    'value'  => $comments,
-                    'change' => Helper::calculatePercentageChange($prevComments, $comments)
+                    'value'         => $comments,
+                    'change'        => Helper::calculatePercentageChange($prevComments, $comments),
+                    'current_value' => $comments,
+                    'prev_value'    => $prevComments
                 ],
                 'comments_avg' => [
-                    'value'  => $avgComments,
-                    'change' => Helper::calculatePercentageChange($prevAvgComments, $avgComments)
+                    'value'         => $avgComments,
+                    'change'        => Helper::calculatePercentageChange($prevAvgComments, $avgComments),
+                    'current_value' => $avgComments,
+                    'prev_value'    => $prevAvgComments
                 ]
             ],
             'posts'            => [

@@ -14,9 +14,11 @@ use WP_STATISTICS\Menus;
         <?php
             $metrics = [
                 [
-                    'label'  => esc_html__('Referred Visitors', 'wp-statistics'),
-                    'value'  => Helper::formatNumberWithUnit($data['summary']['visitors']['value']),
-                    'change' => $data['summary']['visitors']['change']
+                    'label'         => esc_html__('Referred Visitors', 'wp-statistics'),
+                    'value'         => Helper::formatNumberWithUnit($data['summary']['visitors']['value']),
+                    'change'        => $data['summary']['visitors']['change'],
+                    'current_value' => $data['summary']['visitors']['current_value'] ?? $data['summary']['visitors']['value'],
+                    'prev_value'    => $data['summary']['visitors']['prev_value'] ?? ''
                 ],
                 [
                     'label'      => esc_html__('Top Referrer', 'wp-statistics'),

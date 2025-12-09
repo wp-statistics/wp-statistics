@@ -1,4 +1,34 @@
-<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
+<?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
+use WP_Statistics\Components\DateRange;
+
+// Get current and previous period for tooltip
+$currentPeriod = DateRange::get();
+$prevPeriod    = DateRange::getPrevPeriod();
+
+/**
+ * Format date for display in tooltip
+ */
+if (!function_exists('wps_format_period_date')) {
+    function wps_format_period_date($date) {
+        return date_i18n(get_option('date_format'), strtotime($date));
+    }
+}
+
+$currentPeriodText = sprintf(
+    '%s – %s',
+    wps_format_period_date($currentPeriod['from']),
+    wps_format_period_date($currentPeriod['to'])
+);
+
+$prevPeriodText = sprintf(
+    '%s – %s',
+    wps_format_period_date($prevPeriod['from']),
+    wps_format_period_date($prevPeriod['to'])
+);
+?>
 <div class="wps-card">
     <div class="wps-card__title">
         <h2><?php esc_html_e('At a Glance', 'wp-statistics'); ?></h2>
@@ -40,28 +70,67 @@
                                 </span>
 
                             <?php elseif (isset($metric['value'])): ?>
+                                <?php
+                                // Show 0 instead of "-" when value exists but is zero
+                                // Keep "-" only when metric is not applicable (indicated by 'not_applicable' key)
+                                $displayValue = $metric['value'];
+                                $showDash = isset($metric['not_applicable']) && $metric['not_applicable'];
+                                ?>
                                 <span title="<?php echo esc_html($metric['value'] ?? 'No data'); ?>">
-                                    <?php if ($metric['value']): ?>
-                                        <?php echo esc_html($metric['value']); ?>
+                                    <?php if ($showDash): ?>
+                                        –
                                     <?php else: ?>
-                                        -
+                                        <?php echo esc_html($displayValue); ?>
                                     <?php endif; ?>
                                 </span>
                             <?php else: ?>
-                                <span>-</span>
+                                <span>–</span>
                             <?php endif; ?>
-                            <?php if (isset($metric['change']) && (!empty($metric['link-title']) || !empty($metric['value']))): ?>
-                                <?php
+                            <?php
+                            // Only show change indicator if:
+                            // 1. change is set
+                            // 2. change is not zero (hide for cleaner UI)
+                            // 3. there's a link-title or value present
+                            $hasChange = isset($metric['change']) && $metric['change'] != 0;
+                            $hasValue  = !empty($metric['link-title']) || isset($metric['value']);
+                            if ($hasChange && $hasValue):
                                 $arrow_class = $metric['change'] > 0 ? 'wps-glance-up' : ($metric['change'] < 0 ? 'wps-glance-down' : '');
-                                $color_class = '';
-                                if ($metric['change'] != 0) {
-                                    $is_negative_polarity = isset($metric['polarity']) && $metric['polarity'] === 'negative';
-                                    $is_good_change = ($is_negative_polarity && $metric['change'] < 0) || (!$is_negative_polarity && $metric['change'] > 0);
-                                    $color_class = $is_good_change ? 'wps-glance-positive' : 'wps-glance-negative';
+                                $is_negative_polarity = isset($metric['polarity']) && $metric['polarity'] === 'negative';
+                                $is_good_change = ($is_negative_polarity && $metric['change'] < 0) || (!$is_negative_polarity && $metric['change'] > 0);
+                                $color_class = $is_good_change ? 'wps-glance-positive' : 'wps-glance-negative';
+
+                                // Format change value - remove unnecessary decimals
+                                $changeValue = abs((float) $metric['change']);
+                                $changeValue = (floor($changeValue) == $changeValue) ? (int) $changeValue : number_format($changeValue, 1);
+
+                                // Build tooltip with exact numbers and periods
+                                $currentValue = isset($metric['current_value']) ? $metric['current_value'] : (isset($metric['value']) ? $metric['value'] : '');
+                                $prevValue    = isset($metric['prev_value']) ? $metric['prev_value'] : '';
+
+                                $tooltipParts = [];
+                                if ($currentValue !== '' && $prevValue !== '') {
+                                    $tooltipParts[] = sprintf(
+                                        /* translators: %1$s: current value, %2$s: current period dates */
+                                        esc_html__('Current: %1$s (%2$s)', 'wp-statistics'),
+                                        $currentValue,
+                                        $currentPeriodText
+                                    );
+                                    $tooltipParts[] = sprintf(
+                                        /* translators: %1$s: previous value, %2$s: previous period dates */
+                                        esc_html__('Previous: %1$s (%2$s)', 'wp-statistics'),
+                                        $prevValue,
+                                        $prevPeriodText
+                                    );
+                                } else {
+                                    $tooltipParts[] = sprintf(
+                                        /* translators: %s: previous period dates */
+                                        esc_html__('Compared to %s', 'wp-statistics'),
+                                        $prevPeriodText
+                                    );
                                 }
-                                $changeValue = number_format(abs((float) $metric['change']), 1);
+                                $changeTooltip = implode(' | ', $tooltipParts);
                                 ?>
-                                <span class="wps-at-a-glance-change <?php echo esc_attr($arrow_class . ' ' . $color_class); ?>">
+                                <span class="wps-at-a-glance-change <?php echo esc_attr($arrow_class . ' ' . $color_class); ?>" title="<?php echo esc_attr($changeTooltip); ?>">
                                     <?php echo esc_html($changeValue) . '%'; ?>
                                 </span>
                             <?php endif; ?>

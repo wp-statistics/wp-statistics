@@ -18,24 +18,32 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
         <?php
         $metrics = [
             [
-                'label'  => sprintf(esc_html__('Published %s', 'wp-statistics'), $postTypeNamePlural),
-                'value'  => Helper::formatNumberWithUnit($data['glance']['posts']['value']),
-                'change' => $data['glance']['posts']['change']
+                'label'         => sprintf(esc_html__('Published %s', 'wp-statistics'), $postTypeNamePlural),
+                'value'         => Helper::formatNumberWithUnit($data['glance']['posts']['value']),
+                'change'        => $data['glance']['posts']['change'],
+                'current_value' => $data['glance']['posts']['current_value'] ?? $data['glance']['posts']['value'],
+                'prev_value'    => $data['glance']['posts']['prev_value'] ?? ''
             ],
             [
-                'label'  => esc_html__('Active Authors', 'wp-statistics'),
-                'value'  => Helper::formatNumberWithUnit($data['glance']['authors']['value']),
-                'change' => $data['glance']['authors']['change']
+                'label'         => esc_html__('Active Authors', 'wp-statistics'),
+                'value'         => Helper::formatNumberWithUnit($data['glance']['authors']['value']),
+                'change'        => $data['glance']['authors']['change'],
+                'current_value' => $data['glance']['authors']['current_value'] ?? $data['glance']['authors']['value'],
+                'prev_value'    => $data['glance']['authors']['prev_value'] ?? ''
             ],
             [
-                'label'  => esc_html__('Visitors', 'wp-statistics'),
-                'value'  => Helper::formatNumberWithUnit($data['glance']['visitors']['value']),
-                'change' => $data['glance']['visitors']['change']
+                'label'         => esc_html__('Visitors', 'wp-statistics'),
+                'value'         => Helper::formatNumberWithUnit($data['glance']['visitors']['value']),
+                'change'        => $data['glance']['visitors']['change'],
+                'current_value' => $data['glance']['visitors']['current_value'] ?? $data['glance']['visitors']['value'],
+                'prev_value'    => $data['glance']['visitors']['prev_value'] ?? ''
             ],
             [
-                'label'  => esc_html__('Views', 'wp-statistics'),
-                'value'  => Helper::formatNumberWithUnit($data['glance']['views']['value']),
-                'change' => $data['glance']['views']['change']
+                'label'         => esc_html__('Views', 'wp-statistics'),
+                'value'         => Helper::formatNumberWithUnit($data['glance']['views']['value']),
+                'change'        => $data['glance']['views']['change'],
+                'current_value' => $data['glance']['views']['current_value'] ?? $data['glance']['views']['value'],
+                'prev_value'    => $data['glance']['views']['prev_value'] ?? ''
             ]
         ];
 
@@ -53,15 +61,19 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
 
         if (post_type_supports($postType, 'comments')) {
             $metrics[] = [
-                'label'  => esc_html__('Comments', 'wp-statistics'),
-                'value'  => Helper::formatNumberWithUnit($data['glance']['comments']['value']),
-                'change' => $data['glance']['comments']['change']
+                'label'         => esc_html__('Comments', 'wp-statistics'),
+                'value'         => Helper::formatNumberWithUnit($data['glance']['comments']['value']),
+                'change'        => $data['glance']['comments']['change'],
+                'current_value' => $data['glance']['comments']['current_value'] ?? $data['glance']['comments']['value'],
+                'prev_value'    => $data['glance']['comments']['prev_value'] ?? ''
             ];
 
             $metrics[] = [
-                'label'  => sprintf(esc_html__('Avg. comments per %s', 'wp-statistics'), $postTypeNamePlural),
-                'value'  => Helper::formatNumberWithUnit($data['glance']['comments_avg']['value']),
-                'change' => $data['glance']['comments_avg']['change']
+                'label'         => sprintf(esc_html__('Avg. comments per %s', 'wp-statistics'), $postTypeNamePlural),
+                'value'         => Helper::formatNumberWithUnit($data['glance']['comments_avg']['value']),
+                'change'        => $data['glance']['comments_avg']['change'],
+                'current_value' => $data['glance']['comments_avg']['current_value'] ?? $data['glance']['comments_avg']['value'],
+                'prev_value'    => $data['glance']['comments_avg']['prev_value'] ?? ''
             ];
         }
 

@@ -86,24 +86,34 @@ class ContentAnalyticsDataProvider
         $result = [
             'glance' => [
                 'posts' => [
-                    'value'  => $posts,
-                    'change' => Helper::calculatePercentageChange($prevPosts, $posts)
+                    'value'         => $posts,
+                    'change'        => Helper::calculatePercentageChange($prevPosts, $posts),
+                    'current_value' => $posts,
+                    'prev_value'    => $prevPosts
                 ],
                 'views' => [
-                    'value'  => $views,
-                    'change' => Helper::calculatePercentageChange($prevViews, $views)
+                    'value'         => $views,
+                    'change'        => Helper::calculatePercentageChange($prevViews, $views),
+                    'current_value' => $views,
+                    'prev_value'    => $prevViews
                 ],
                 'visitors' => [
-                    'value'  => $visitors,
-                    'change' => Helper::calculatePercentageChange($prevVisitors, $visitors)
+                    'value'         => $visitors,
+                    'change'        => Helper::calculatePercentageChange($prevVisitors, $visitors),
+                    'current_value' => $visitors,
+                    'prev_value'    => $prevVisitors
                 ],
                 'comments' => [
-                    'value'  => $comments,
-                    'change' => Helper::calculatePercentageChange($prevComments, $comments),
+                    'value'         => $comments,
+                    'change'        => Helper::calculatePercentageChange($prevComments, $comments),
+                    'current_value' => $comments,
+                    'prev_value'    => $prevComments
                 ],
                 'comments_avg' => [
-                    'value'  => Helper::divideNumbers($comments, $posts),
-                    'change' => Helper::calculatePercentageChange($prevAvgComments, $avgComments)
+                    'value'         => Helper::divideNumbers($comments, $posts),
+                    'change'        => Helper::calculatePercentageChange($prevAvgComments, $avgComments),
+                    'current_value' => $avgComments,
+                    'prev_value'    => $prevAvgComments
                 ]
             ],
             'summary'           => $summary,
@@ -153,12 +163,16 @@ class ContentAnalyticsDataProvider
             'referrers'         => $referrersData,
             'glance'            => [
                 'views'     => [
-                    'value'  => $views,
-                    'change' => Helper::calculatePercentageChange($prevViews, $views)
+                    'value'         => $views,
+                    'change'        => Helper::calculatePercentageChange($prevViews, $views),
+                    'current_value' => $views,
+                    'prev_value'    => $prevViews
                 ],
                 'visitors'  => [
-                    'value'  => $visitors,
-                    'change' => Helper::calculatePercentageChange($prevVisitors, $visitors)
+                    'value'         => $visitors,
+                    'change'        => Helper::calculatePercentageChange($prevVisitors, $visitors),
+                    'current_value' => $visitors,
+                    'prev_value'    => $prevVisitors
                 ]
             ]
         ];
@@ -182,11 +196,19 @@ class ContentAnalyticsDataProvider
 
         $exitPages     = $this->visitorsModel->countExitPageVisitors($mappedArgs);
         $prevExitPages = $this->visitorsModel->countExitPageVisitors(array_merge($mappedArgs, ['date' => DateRange::getPrevPeriod()]));
-        $exitRate      = Helper::calculatePercentage($exitPages, $visitors);
-        $prevExitRate  = Helper::calculatePercentage($prevExitPages, $prevVisitors);
+
+        // Exit rate: If visitors = 0, mark as not applicable
+        $exitRateNotApplicable     = ($visitors == 0);
+        $prevExitRateNotApplicable = ($prevVisitors == 0);
+        $exitRate                  = $exitRateNotApplicable ? 0 : Helper::calculatePercentage($exitPages, $visitors);
+        $prevExitRate              = $prevExitRateNotApplicable ? 0 : Helper::calculatePercentage($prevExitPages, $prevVisitors);
 
         $bounceRate     = $this->visitorsModel->getBounceRate($mappedArgs);
         $prevBounceRate = $this->visitorsModel->getBounceRate(array_merge($mappedArgs, ['date' => DateRange::getPrevPeriod()]));
+
+        // Bounce rate: If visitors = 0, mark as not applicable
+        $bounceRateNotApplicable     = ($visitors == 0);
+        $prevBounceRateNotApplicable = ($prevVisitors == 0);
 
         $comments       = $this->postsModel->countComments($this->args);
         $prevComments   = $this->postsModel->countComments(array_merge($this->args, ['date' => DateRange::getPrevPeriod()]));
@@ -195,38 +217,58 @@ class ContentAnalyticsDataProvider
 
         $summary = ChartDataProviderFactory::summaryChart(array_merge($mappedArgs, ['include_total' => true]))->getData();
 
+        // Format bounce/exit rate values - remove unnecessary decimals
+        $bounceRateFormatted = $bounceRateNotApplicable ? '–' : (floor($bounceRate) == $bounceRate ? (int) $bounceRate : $bounceRate) . '%';
+        $exitRateFormatted   = $exitRateNotApplicable ? '–' : (floor($exitRate) == $exitRate ? (int) $exitRate : $exitRate) . '%';
+
         $result = [
             'visitors_country'  => $visitorsCountry,
             'summary'           => $summary,
             'referrers'         => $referrersData,
             'glance'            => [
                 'views'     => [
-                    'value'  => $views,
-                    'change' => Helper::calculatePercentageChange($prevViews, $views)
+                    'value'         => $views,
+                    'change'        => Helper::calculatePercentageChange($prevViews, $views),
+                    'current_value' => $views,
+                    'prev_value'    => $prevViews
                 ],
                 'visitors'  => [
-                    'value'  => $visitors,
-                    'change' => Helper::calculatePercentageChange($prevVisitors, $visitors)
+                    'value'         => $visitors,
+                    'change'        => Helper::calculatePercentageChange($prevVisitors, $visitors),
+                    'current_value' => $visitors,
+                    'prev_value'    => $prevVisitors
                 ],
                 'entry_page' => [
-                    'value'  => $entryPages,
-                    'change' => Helper::calculatePercentageChange($prevEntryPages, $entryPages)
+                    'value'         => $entryPages,
+                    'change'        => Helper::calculatePercentageChange($prevEntryPages, $entryPages),
+                    'current_value' => $entryPages,
+                    'prev_value'    => $prevEntryPages
                 ],
                 'exit_page' => [
-                    'value'  => $exitPages,
-                    'change' => Helper::calculatePercentageChange($prevExitPages, $exitPages)
+                    'value'         => $exitPages,
+                    'change'        => Helper::calculatePercentageChange($prevExitPages, $exitPages),
+                    'current_value' => $exitPages,
+                    'prev_value'    => $prevExitPages
                 ],
                 'bounce_rate' => [
-                    'value'  => $bounceRate . '%',
-                    'change' => round($bounceRate - $prevBounceRate, 1)
+                    'value'          => $bounceRateFormatted,
+                    'change'         => ($bounceRateNotApplicable && $prevBounceRateNotApplicable) ? 0 : round($bounceRate - $prevBounceRate, 1),
+                    'not_applicable' => $bounceRateNotApplicable,
+                    'current_value'  => $bounceRateNotApplicable ? '–' : $bounceRate . '%',
+                    'prev_value'     => $prevBounceRateNotApplicable ? '–' : $prevBounceRate . '%'
                 ],
                 'exit_rate' => [
-                    'value'  => $exitRate . '%',
-                    'change' => round($exitRate - $prevExitRate, 1)
+                    'value'          => $exitRateFormatted,
+                    'change'         => ($exitRateNotApplicable && $prevExitRateNotApplicable) ? 0 : round($exitRate - $prevExitRate, 1),
+                    'not_applicable' => $exitRateNotApplicable,
+                    'current_value'  => $exitRateNotApplicable ? '–' : $exitRate . '%',
+                    'prev_value'     => $prevExitRateNotApplicable ? '–' : $prevExitRate . '%'
                 ],
                 'comments'  => [
-                    'value'  => $comments,
-                    'change' => Helper::calculatePercentageChange($prevComments, $comments),
+                    'value'         => $comments,
+                    'change'        => Helper::calculatePercentageChange($prevComments, $comments),
+                    'current_value' => $comments,
+                    'prev_value'    => $prevComments
                 ]
             ]
         ];

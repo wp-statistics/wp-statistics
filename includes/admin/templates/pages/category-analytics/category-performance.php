@@ -14,19 +14,25 @@ use WP_Statistics\Service\Admin\Posts\WordCountService;
         <?php
         $metrics = [
             [
-                'label'  => esc_html__('Published Contents', 'wp-statistics'),
-                'value'  => Helper::formatNumberWithUnit($data['glance']['posts']['value']),
-                'change' => $data['glance']['posts']['change']
+                'label'         => esc_html__('Published Contents', 'wp-statistics'),
+                'value'         => Helper::formatNumberWithUnit($data['glance']['posts']['value']),
+                'change'        => $data['glance']['posts']['change'],
+                'current_value' => $data['glance']['posts']['current_value'] ?? $data['glance']['posts']['value'],
+                'prev_value'    => $data['glance']['posts']['prev_value'] ?? ''
             ],
             [
-                'label'  => esc_html__('Visitors', 'wp-statistics'),
-                'value'  => Helper::formatNumberWithUnit($data['glance']['visitors']['value']),
-                'change' => $data['glance']['visitors']['change']
+                'label'         => esc_html__('Visitors', 'wp-statistics'),
+                'value'         => Helper::formatNumberWithUnit($data['glance']['visitors']['value']),
+                'change'        => $data['glance']['visitors']['change'],
+                'current_value' => $data['glance']['visitors']['current_value'] ?? $data['glance']['visitors']['value'],
+                'prev_value'    => $data['glance']['visitors']['prev_value'] ?? ''
             ],
             [
-                'label'  => esc_html__('Views', 'wp-statistics'),
-                'value'  => Helper::formatNumberWithUnit($data['glance']['views']['value']),
-                'change' => $data['glance']['views']['change']
+                'label'         => esc_html__('Views', 'wp-statistics'),
+                'value'         => Helper::formatNumberWithUnit($data['glance']['views']['value']),
+                'change'        => $data['glance']['views']['change'],
+                'current_value' => $data['glance']['views']['current_value'] ?? $data['glance']['views']['value'],
+                'prev_value'    => $data['glance']['views']['prev_value'] ?? ''
             ]
         ];
 
@@ -43,15 +49,19 @@ use WP_Statistics\Service\Admin\Posts\WordCountService;
         }
 
         $metrics[] = [
-            'label'  => esc_html__('Comments', 'wp-statistics'),
-            'value'  => Helper::formatNumberWithUnit($data['glance']['comments']['value']),
-            'change' => $data['glance']['comments']['change']
+            'label'         => esc_html__('Comments', 'wp-statistics'),
+            'value'         => Helper::formatNumberWithUnit($data['glance']['comments']['value']),
+            'change'        => $data['glance']['comments']['change'],
+            'current_value' => $data['glance']['comments']['current_value'] ?? $data['glance']['comments']['value'],
+            'prev_value'    => $data['glance']['comments']['prev_value'] ?? ''
         ];
 
         $metrics[] = [
-            'label'  => esc_html__('Avg. comments per content', 'wp-statistics'),
-            'value'  => Helper::formatNumberWithUnit($data['glance']['comments_avg']['value']),
-            'change' => $data['glance']['comments_avg']['change']
+            'label'         => esc_html__('Avg. comments per content', 'wp-statistics'),
+            'value'         => Helper::formatNumberWithUnit($data['glance']['comments_avg']['value']),
+            'change'        => $data['glance']['comments_avg']['change'],
+            'current_value' => $data['glance']['comments_avg']['current_value'] ?? $data['glance']['comments_avg']['value'],
+            'prev_value'    => $data['glance']['comments_avg']['prev_value'] ?? ''
         ];
 
         View::load("components/objects/glance-card", ['metrics' => $metrics]);

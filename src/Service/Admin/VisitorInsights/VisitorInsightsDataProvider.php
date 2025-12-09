@@ -55,14 +55,21 @@ class VisitorInsightsDataProvider
         $topVisitors    = $this->visitorsModel->getVisitorsData(['order_by' => 'hits', 'order' => 'DESC', 'page' => 1, 'per_page' => 5]);
         $entryPages     = $this->visitorsModel->getEntryPages(['per_page' => 5]);
 
+        // Format logged-in share - remove unnecessary decimals
+        $loggedInShareFormatted = (floor($loggedInShare) == $loggedInShare) ? (int) $loggedInShare : $loggedInShare;
+
         $glance = [
             'visitors'  => [
-                'value'     => $visitors,
-                'change'    => Helper::calculatePercentageChange($prevVisitors, $visitors)
+                'value'         => $visitors,
+                'change'        => Helper::calculatePercentageChange($prevVisitors, $visitors),
+                'current_value' => $visitors,
+                'prev_value'    => $prevVisitors
             ],
             'views'     => [
-                'value'     => $views,
-                'change'    => Helper::calculatePercentageChange($prevViews, $views)
+                'value'         => $views,
+                'change'        => Helper::calculatePercentageChange($prevViews, $views),
+                'current_value' => $views,
+                'prev_value'    => $prevViews
             ],
             'country'   => $overviewChartData['countries']['labels'][0] ?? '',
             'referrer'  => isset($referrers[0]) ? $referrers[0]->getRawReferrer() : '',
@@ -70,8 +77,10 @@ class VisitorInsightsDataProvider
 
         if ($this->isTrackLoggedInUsersEnabled) {
             $glance['logged_in'] = [
-                'value'     => $loggedInShare . '%',
-                'change'    => $loggedInShare - $prevLoggedInShare
+                'value'         => $loggedInShareFormatted . '%',
+                'change'        => round($loggedInShare - $prevLoggedInShare, 1),
+                'current_value' => $loggedInShareFormatted . '%',
+                'prev_value'    => ((floor($prevLoggedInShare) == $prevLoggedInShare) ? (int) $prevLoggedInShare : $prevLoggedInShare) . '%'
             ];
         }
 

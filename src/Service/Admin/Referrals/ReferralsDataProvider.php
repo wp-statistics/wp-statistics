@@ -48,8 +48,10 @@ class ReferralsDataProvider
         return [
             'summary'      => [
                 'visitors'      => [
-                    'value'     => $visitors,
-                    'change'    => Helper::calculatePercentageChange($prevVisitors, $visitors),
+                    'value'         => $visitors,
+                    'change'        => Helper::calculatePercentageChange($prevVisitors, $visitors),
+                    'current_value' => $visitors,
+                    'prev_value'    => $prevVisitors
                 ],
                 'referrer'      => $referrer,
                 'browser'       => $browser,

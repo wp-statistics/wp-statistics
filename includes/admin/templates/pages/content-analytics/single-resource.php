@@ -13,14 +13,18 @@ use WP_Statistics\Components\View;
 
         $metrics = [
             [
-                'label'  => esc_html__('Visitors', 'wp-statistics'),
-                'value'  => Helper::formatNumberWithUnit($data['glance']['visitors']['value']),
-                'change' => $data['glance']['visitors']['change']
+                'label'         => esc_html__('Visitors', 'wp-statistics'),
+                'value'         => Helper::formatNumberWithUnit($data['glance']['visitors']['value']),
+                'change'        => $data['glance']['visitors']['change'],
+                'current_value' => $data['glance']['visitors']['current_value'] ?? $data['glance']['visitors']['value'],
+                'prev_value'    => $data['glance']['visitors']['prev_value'] ?? ''
             ],
             [
-                'label'  => esc_html__('Views', 'wp-statistics'),
-                'value'  => Helper::formatNumberWithUnit($data['glance']['views']['value']),
-                'change' => $data['glance']['views']['change']
+                'label'         => esc_html__('Views', 'wp-statistics'),
+                'value'         => Helper::formatNumberWithUnit($data['glance']['views']['value']),
+                'change'        => $data['glance']['views']['change'],
+                'current_value' => $data['glance']['views']['current_value'] ?? $data['glance']['views']['value'],
+                'prev_value'    => $data['glance']['views']['prev_value'] ?? ''
             ],
         ];
         View::load("components/objects/glance-card", ['metrics' => $metrics, 'two_column' => true]);

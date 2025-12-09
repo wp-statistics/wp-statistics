@@ -1540,6 +1540,8 @@ class Helper
     /**
      * Formats a number into a string with appropriate units (K, M, B, T).
      *
+     * Removes unnecessary decimals (e.g., shows 50 instead of 50.0).
+     *
      * @param int|float $number The number to be formatted.
      * @param int $precision The number of decimal places to round the result to for numbers without units. Default is 0.
      * @return int|float|string Returns the original (or rounded) number if less than 1000, or a formatted string with a unit for numbers 1000 or greater.
@@ -1553,7 +1555,8 @@ class Helper
         if ($number < 1000) {
             $precision = empty($precision) ? 2 : $precision;
             $rounded = round($number, $precision);
-            return (floor($rounded) == $rounded) ? (int)$rounded : $rounded;
+            // Remove unnecessary decimals: show 50 instead of 50.0
+            return (floor($rounded) == $rounded) ? (int)$rounded : rtrim(rtrim(number_format($rounded, $precision, '.', ''), '0'), '.');
         }
 
         $originalNumber = $number;
@@ -1569,7 +1572,7 @@ class Helper
         $factor = ($originalNumber < 10000) ? 100 : 10;
         $number = floor($number * $factor) / $factor;
 
-        // Remove trailing decimals
+        // Remove trailing decimals: show 1K instead of 1.0K
         $formatted = (floor($number) == $number) ? (int)$number : rtrim(rtrim(number_format($number, 2, '.', ''), '0'), '.');
 
         return $formatted . $unit;

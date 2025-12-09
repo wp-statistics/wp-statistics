@@ -20,14 +20,32 @@ $isTrackLoggedInUsersEnabled = Option::get('visitors_log');
 
         <?php
         $metrics = [
-            ['label' => esc_html__('Visitors', 'wp-statistics'), 'value' => Helper::formatNumberWithUnit($data['glance']['visitors']['value']), 'change' => $data['glance']['visitors']['change']],
-            ['label' => esc_html__('Views', 'wp-statistics'), 'value' => Helper::formatNumberWithUnit($data['glance']['views']['value']), 'change' => $data['glance']['views']['change']],
+            [
+                'label'         => esc_html__('Visitors', 'wp-statistics'),
+                'value'         => Helper::formatNumberWithUnit($data['glance']['visitors']['value']),
+                'change'        => $data['glance']['visitors']['change'],
+                'current_value' => $data['glance']['visitors']['current_value'] ?? $data['glance']['visitors']['value'],
+                'prev_value'    => $data['glance']['visitors']['prev_value'] ?? ''
+            ],
+            [
+                'label'         => esc_html__('Views', 'wp-statistics'),
+                'value'         => Helper::formatNumberWithUnit($data['glance']['views']['value']),
+                'change'        => $data['glance']['views']['change'],
+                'current_value' => $data['glance']['views']['current_value'] ?? $data['glance']['views']['value'],
+                'prev_value'    => $data['glance']['views']['prev_value'] ?? ''
+            ],
             ['label' => esc_html__('Top Country', 'wp-statistics'), 'value' => $data['glance']['country']],
             ['label' => esc_html__('Top Referrer', 'wp-statistics'), 'link-title' => $data['glance']['referrer'], 'link-href' => Url::formatUrl($data['glance']['referrer'])],
         ];
 
         if ($isTrackLoggedInUsersEnabled) {
-            $metrics[] = ['label' => esc_html__('Logged-in Share', 'wp-statistics'), 'value' => $data['glance']['logged_in']['value'], 'change' => $data['glance']['logged_in']['change']];
+            $metrics[] = [
+                'label'         => esc_html__('Logged-in Share', 'wp-statistics'),
+                'value'         => $data['glance']['logged_in']['value'],
+                'change'        => $data['glance']['logged_in']['change'],
+                'current_value' => $data['glance']['logged_in']['current_value'] ?? $data['glance']['logged_in']['value'],
+                'prev_value'    => $data['glance']['logged_in']['prev_value'] ?? ''
+            ];
         }
 
         $metrics = apply_filters('wp_statistics_visitors_overview_glance_metrics', $metrics);

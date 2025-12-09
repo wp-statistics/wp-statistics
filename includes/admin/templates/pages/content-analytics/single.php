@@ -18,41 +18,55 @@ $postType = get_post_type($postId);
 
         $metrics = [
             [
-                'label'  => esc_html__('Visitors', 'wp-statistics'),
-                'value'  => Helper::formatNumberWithUnit($data['glance']['visitors']['value']),
-                'change' => $data['glance']['visitors']['change']
+                'label'         => esc_html__('Visitors', 'wp-statistics'),
+                'value'         => Helper::formatNumberWithUnit($data['glance']['visitors']['value']),
+                'change'        => $data['glance']['visitors']['change'],
+                'current_value' => $data['glance']['visitors']['current_value'] ?? $data['glance']['visitors']['value'],
+                'prev_value'    => $data['glance']['visitors']['prev_value'] ?? ''
             ],
             [
-                'label'  => esc_html__('Views', 'wp-statistics'),
-                'value'  => Helper::formatNumberWithUnit($data['glance']['views']['value']),
-                'change' => $data['glance']['views']['change']
+                'label'         => esc_html__('Views', 'wp-statistics'),
+                'value'         => Helper::formatNumberWithUnit($data['glance']['views']['value']),
+                'change'        => $data['glance']['views']['change'],
+                'current_value' => $data['glance']['views']['current_value'] ?? $data['glance']['views']['value'],
+                'prev_value'    => $data['glance']['views']['prev_value'] ?? ''
             ],
             [
-                'label'   => esc_html__('Entry Page', 'wp-statistics'),
-                'value'   => Helper::formatNumberWithUnit($data['glance']['entry_page']['value']),
-                'change'  => $data['glance']['entry_page']['change'],
-                'tooltip' => esc_html__('Number of times this content was the first page visited in a session.', 'wp-statistics'),
+                'label'         => esc_html__('Entry Page', 'wp-statistics'),
+                'value'         => Helper::formatNumberWithUnit($data['glance']['entry_page']['value']),
+                'change'        => $data['glance']['entry_page']['change'],
+                'tooltip'       => esc_html__('Number of times this content was the first page visited in a session.', 'wp-statistics'),
+                'current_value' => $data['glance']['entry_page']['current_value'] ?? $data['glance']['entry_page']['value'],
+                'prev_value'    => $data['glance']['entry_page']['prev_value'] ?? ''
             ],
             [
-                'label'    => esc_html__('Exit Page', 'wp-statistics'),
-                'value'    => Helper::formatNumberWithUnit($data['glance']['exit_page']['value']),
-                'change'   => $data['glance']['exit_page']['change'],
-                'polarity' => 'negative',
-                'tooltip'  => esc_html__('Number of times this content was the last page viewed before a session ended.', 'wp-statistics'),
+                'label'         => esc_html__('Exit Page', 'wp-statistics'),
+                'value'         => Helper::formatNumberWithUnit($data['glance']['exit_page']['value']),
+                'change'        => $data['glance']['exit_page']['change'],
+                'polarity'      => 'negative',
+                'tooltip'       => esc_html__('Number of times this content was the last page viewed before a session ended.', 'wp-statistics'),
+                'current_value' => $data['glance']['exit_page']['current_value'] ?? $data['glance']['exit_page']['value'],
+                'prev_value'    => $data['glance']['exit_page']['prev_value'] ?? ''
             ],
             [
-                'label'    => esc_html__('Bounce Rate', 'wp-statistics'),
-                'value'    => $data['glance']['bounce_rate']['value'],
-                'change'   => $data['glance']['bounce_rate']['change'],
-                'polarity' => 'negative',
-                'tooltip'  => esc_html__('Percentage of single-page sessions that began and ended on this content.', 'wp-statistics'),
+                'label'          => esc_html__('Bounce Rate', 'wp-statistics'),
+                'value'          => $data['glance']['bounce_rate']['value'],
+                'change'         => $data['glance']['bounce_rate']['change'],
+                'polarity'       => 'negative',
+                'tooltip'        => esc_html__('Percentage of single-page sessions that began and ended on this content.', 'wp-statistics'),
+                'not_applicable' => $data['glance']['bounce_rate']['not_applicable'] ?? false,
+                'current_value'  => $data['glance']['bounce_rate']['current_value'] ?? $data['glance']['bounce_rate']['value'],
+                'prev_value'     => $data['glance']['bounce_rate']['prev_value'] ?? ''
             ],
             [
-                'label'    => esc_html__('Exit Rate', 'wp-statistics'),
-                'value'    => $data['glance']['exit_rate']['value'],
-                'change'   => $data['glance']['exit_rate']['change'],
-                'polarity' => 'negative',
-                'tooltip'  => esc_html__('Percentage of total views that ended on this content.', 'wp-statistics'),
+                'label'          => esc_html__('Exit Rate', 'wp-statistics'),
+                'value'          => $data['glance']['exit_rate']['value'],
+                'change'         => $data['glance']['exit_rate']['change'],
+                'polarity'       => 'negative',
+                'tooltip'        => esc_html__('Percentage of total views that ended on this content.', 'wp-statistics'),
+                'not_applicable' => $data['glance']['exit_rate']['not_applicable'] ?? false,
+                'current_value'  => $data['glance']['exit_rate']['current_value'] ?? $data['glance']['exit_rate']['value'],
+                'prev_value'     => $data['glance']['exit_rate']['prev_value'] ?? ''
             ]
         ];
 
@@ -66,10 +80,12 @@ $postType = get_post_type($postId);
 
         if (post_type_supports($postType, 'comments')) {
             $metrics[] = [
-                'label'   => esc_html__('Comments', 'wp-statistics'),
-                'value'   => Helper::formatNumberWithUnit($data['glance']['comments']['value']),
-                'change'  => $data['glance']['comments']['change'],
-                'tooltip' => sprintf(esc_html__('Approved comments on this %s.', 'wp-statistics'), strtolower($postType)),
+                'label'         => esc_html__('Comments', 'wp-statistics'),
+                'value'         => Helper::formatNumberWithUnit($data['glance']['comments']['value']),
+                'change'        => $data['glance']['comments']['change'],
+                'tooltip'       => sprintf(esc_html__('Approved comments on this %s.', 'wp-statistics'), strtolower($postType)),
+                'current_value' => $data['glance']['comments']['current_value'] ?? $data['glance']['comments']['value'],
+                'prev_value'    => $data['glance']['comments']['prev_value'] ?? ''
             ];
         }
 
