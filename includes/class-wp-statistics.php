@@ -175,7 +175,7 @@ final class WP_Statistics
 
         CoreFactory::updater();
 
-        new BackgroundProcessManager();
+        BackgroundProcessManager::instance();
 
         // Admin classes
         if (is_admin()) {
