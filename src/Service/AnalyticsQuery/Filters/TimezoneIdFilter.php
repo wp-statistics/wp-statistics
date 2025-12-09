@@ -13,4 +13,12 @@ class TimezoneIdFilter extends AbstractFilter
     protected $column             = 'sessions.timezone_id';
     protected $type               = 'integer';
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in'];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabel(): string
+    {
+        return esc_html__('Timezone ID', 'wp-statistics');
+    }
 }

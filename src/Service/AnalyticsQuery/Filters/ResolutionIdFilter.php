@@ -13,4 +13,12 @@ class ResolutionIdFilter extends AbstractFilter
     protected $column             = 'sessions.resolution_id';
     protected $type               = 'integer';
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in'];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabel(): string
+    {
+        return esc_html__('Resolution ID', 'wp-statistics');
+    }
 }

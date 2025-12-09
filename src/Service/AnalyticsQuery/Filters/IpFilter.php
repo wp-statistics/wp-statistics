@@ -13,4 +13,12 @@ class IpFilter extends AbstractFilter
     protected $column             = 'sessions.ip';
     protected $type               = 'string';
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in', 'contains', 'starts_with', 'ends_with'];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabel(): string
+    {
+        return esc_html__('IP Address', 'wp-statistics');
+    }
 }

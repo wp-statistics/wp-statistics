@@ -13,4 +13,12 @@ class UserIdFilter extends AbstractFilter
     protected $column             = 'sessions.user_id';
     protected $type               = 'integer';
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in', 'gt', 'gte', 'lt', 'lte'];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabel(): string
+    {
+        return esc_html__('User ID', 'wp-statistics');
+    }
 }

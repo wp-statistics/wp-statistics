@@ -13,4 +13,12 @@ class CountryIdFilter extends AbstractFilter
     protected $column             = 'sessions.country_id';
     protected $type               = 'integer';
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in', 'gt', 'gte', 'lt', 'lte'];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabel(): string
+    {
+        return esc_html__('Country ID', 'wp-statistics');
+    }
 }

@@ -13,4 +13,12 @@ class SessionIdFilter extends AbstractFilter
     protected $column             = 'sessions.ID';
     protected $type               = 'integer';
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in', 'gt', 'gte', 'lt', 'lte'];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabel(): string
+    {
+        return esc_html__('Session ID', 'wp-statistics');
+    }
 }

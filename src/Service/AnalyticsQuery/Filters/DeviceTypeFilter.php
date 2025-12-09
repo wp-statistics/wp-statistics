@@ -17,4 +17,28 @@ class DeviceTypeFilter extends AbstractFilter
         'alias' => 'device_types',
         'on'    => 'sessions.device_type_id = device_types.ID',
     ];
+
+    protected $inputType = 'dropdown';
+    protected $options   = [
+        ['value' => 'desktop', 'label' => 'Desktop'],
+        ['value' => 'mobile', 'label' => 'Mobile'],
+        ['value' => 'tablet', 'label' => 'Tablet'],
+    ];
+    protected $supportedOperators = ['is', 'is_not'];
+    protected $pages              = [
+        'visitors-overview',
+        'visitors',
+        'online-visitors',
+        'top-visitors',
+        'views',
+        'geographic',
+    ];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabel(): string
+    {
+        return esc_html__('Device Type', 'wp-statistics');
+    }
 }

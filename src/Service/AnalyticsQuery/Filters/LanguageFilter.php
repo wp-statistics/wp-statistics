@@ -17,4 +17,12 @@ class LanguageFilter extends AbstractFilter
         'alias' => 'languages',
         'on'    => 'sessions.language_id = languages.ID',
     ];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabel(): string
+    {
+        return esc_html__('Language', 'wp-statistics');
+    }
 }

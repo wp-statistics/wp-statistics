@@ -26,4 +26,12 @@ class AuthorIdFilter extends AbstractFilter
             'on'    => 'resource_uris.resource_id = resources.ID',
         ],
     ];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabel(): string
+    {
+        return esc_html__('Author ID', 'wp-statistics');
+    }
 }

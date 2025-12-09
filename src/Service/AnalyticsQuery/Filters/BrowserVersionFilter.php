@@ -18,4 +18,12 @@ class BrowserVersionFilter extends AbstractFilter
         'on'    => 'sessions.device_browser_version_id = device_browser_versions.ID',
     ];
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in', 'contains', 'starts_with', 'ends_with'];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabel(): string
+    {
+        return esc_html__('Browser Version', 'wp-statistics');
+    }
 }

@@ -13,4 +13,12 @@ class ReferrerIdFilter extends AbstractFilter
     protected $column             = 'sessions.referrer_id';
     protected $type               = 'integer';
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in'];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabel(): string
+    {
+        return esc_html__('Referrer ID', 'wp-statistics');
+    }
 }

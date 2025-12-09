@@ -18,4 +18,12 @@ class PageFilter extends AbstractFilter
         'alias' => 'resource_uris',
         'on'    => 'views.resource_uri_id = resource_uris.ID',
     ];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabel(): string
+    {
+        return esc_html__('Page', 'wp-statistics');
+    }
 }

@@ -17,4 +17,12 @@ class ReferrerTypeFilter extends AbstractFilter
         'alias' => 'referrers',
         'on'    => 'sessions.referrer_id = referrers.ID',
     ];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabel(): string
+    {
+        return esc_html__('Referrer Type', 'wp-statistics');
+    }
 }

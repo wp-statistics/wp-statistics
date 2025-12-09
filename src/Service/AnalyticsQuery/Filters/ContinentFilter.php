@@ -18,4 +18,12 @@ class ContinentFilter extends AbstractFilter
         'on'    => 'sessions.country_id = countries.ID',
     ];
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in'];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabel(): string
+    {
+        return esc_html__('Continent', 'wp-statistics');
+    }
 }

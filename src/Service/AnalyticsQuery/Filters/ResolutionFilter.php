@@ -18,4 +18,12 @@ class ResolutionFilter extends AbstractFilter
         'on'    => 'sessions.resolution_id = resolutions.ID',
     ];
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in'];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabel(): string
+    {
+        return esc_html__('Resolution', 'wp-statistics');
+    }
 }

@@ -13,4 +13,12 @@ class VisitorIdFilter extends AbstractFilter
     protected $column             = 'sessions.visitor_id';
     protected $type               = 'integer';
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in', 'gt', 'gte', 'lt', 'lte'];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabel(): string
+    {
+        return esc_html__('Visitor ID', 'wp-statistics');
+    }
 }

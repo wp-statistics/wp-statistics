@@ -18,4 +18,12 @@ class RegionFilter extends AbstractFilter
         'on'    => 'sessions.city_id = cities.ID',
     ];
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in', 'contains', 'starts_with', 'ends_with'];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabel(): string
+    {
+        return esc_html__('Region', 'wp-statistics');
+    }
 }

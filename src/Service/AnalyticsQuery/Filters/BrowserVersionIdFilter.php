@@ -13,4 +13,12 @@ class BrowserVersionIdFilter extends AbstractFilter
     protected $column             = 'sessions.device_browser_version_id';
     protected $type               = 'integer';
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in'];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabel(): string
+    {
+        return esc_html__('Browser Version ID', 'wp-statistics');
+    }
 }

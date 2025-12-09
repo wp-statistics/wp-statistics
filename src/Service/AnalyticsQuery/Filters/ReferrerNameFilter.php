@@ -18,4 +18,12 @@ class ReferrerNameFilter extends AbstractFilter
         'on'    => 'sessions.referrer_id = referrers.ID',
     ];
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in', 'contains', 'starts_with', 'ends_with'];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabel(): string
+    {
+        return esc_html__('Referrer Name', 'wp-statistics');
+    }
 }

@@ -14,4 +14,12 @@ class ResourceIdFilter extends AbstractFilter
     protected $type               = 'integer';
     protected $requirement        = 'views';
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in', 'gt', 'gte', 'lt', 'lte'];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabel(): string
+    {
+        return esc_html__('Resource ID', 'wp-statistics');
+    }
 }

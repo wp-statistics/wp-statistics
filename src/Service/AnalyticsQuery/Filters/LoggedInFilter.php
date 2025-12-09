@@ -12,5 +12,23 @@ class LoggedInFilter extends AbstractFilter
     protected $name               = 'logged_in';
     protected $column             = 'sessions.user_id';
     protected $type               = 'boolean';
-    protected $supportedOperators = ['is', 'is_not'];
+    protected $supportedOperators = ['is'];
+
+    protected $inputType = 'dropdown';
+    protected $options   = [
+        ['value' => '1', 'label' => 'Logged-in'],
+        ['value' => '0', 'label' => 'Anonymous'],
+    ];
+    protected $pages = [
+        'visitors-overview',
+        'visitors',
+    ];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabel(): string
+    {
+        return esc_html__('Login Status', 'wp-statistics');
+    }
 }

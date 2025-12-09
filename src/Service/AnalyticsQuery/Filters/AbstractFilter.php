@@ -46,12 +46,6 @@ abstract class AbstractFilter implements FilterInterface
      */
     protected $requirement = null;
 
-    /**
-     * Human-readable label.
-     *
-     * @var string
-     */
-    protected $label;
 
     /**
      * Supported operators.
@@ -62,6 +56,30 @@ abstract class AbstractFilter implements FilterInterface
         'is', 'is_not', 'in', 'not_in',
         'contains', 'starts_with', 'ends_with'
     ];
+
+    /**
+     * Input type for the filter UI.
+     * Options: 'text', 'dropdown', 'searchable', 'multi-select', 'date', 'number', 'boolean'
+     *
+     * @var string
+     */
+    protected $inputType = 'text';
+
+    /**
+     * Static options for dropdown/multi-select filters.
+     * Format: [['value' => 'key', 'label' => 'Label'], ...]
+     *
+     * @var array|null
+     */
+    protected $options = null;
+
+    /**
+     * Pages where this filter is available.
+     * Example: ['visitors-overview', 'visitors', 'views']
+     *
+     * @var array
+     */
+    protected $pages = [];
 
     /**
      * {@inheritdoc}
@@ -121,11 +139,64 @@ abstract class AbstractFilter implements FilterInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Get the human-readable label for the filter.
+     * Each filter must implement this with proper translation.
+     *
+     * @return string
      */
-    public function getLabel(): string
+    abstract public function getLabel(): string;
+
+    /**
+     * Get the input type for UI rendering.
+     *
+     * @return string
+     */
+    public function getInputType(): string
     {
-        return $this->label ?? ucfirst(str_replace('_', ' ', $this->name));
+        return $this->inputType;
+    }
+
+    /**
+     * Get static options for dropdown/multi-select filters.
+     *
+     * @return array|null
+     */
+    public function getOptions(): ?array
+    {
+        return $this->options;
+    }
+
+    /**
+     * Get the pages where this filter is available.
+     *
+     * @return array
+     */
+    public function getPages(): array
+    {
+        return $this->pages;
+    }
+
+    /**
+     * Check if this filter is searchable (requires AJAX).
+     *
+     * @return bool
+     */
+    public function isSearchable(): bool
+    {
+        return $this->inputType === 'searchable';
+    }
+
+    /**
+     * Get options for searchable filters via AJAX.
+     * Override this method in subclasses that need searchable options.
+     *
+     * @param string $search Search term.
+     * @param int    $limit  Maximum results.
+     * @return array Array of options with 'value' and 'label'.
+     */
+    public function searchOptions(string $search = '', int $limit = 20): array
+    {
+        return [];
     }
 
     /**
@@ -139,6 +210,8 @@ abstract class AbstractFilter implements FilterInterface
             'type'               => $this->getType(),
             'label'              => $this->getLabel(),
             'supportedOperators' => $this->getSupportedOperators(),
+            'inputType'          => $this->getInputType(),
+            'pages'              => $this->getPages(),
         ];
 
         if ($this->getJoins() !== null) {
@@ -147,6 +220,10 @@ abstract class AbstractFilter implements FilterInterface
 
         if ($this->getRequirement() !== null) {
             $data['requirement'] = $this->getRequirement();
+        }
+
+        if ($this->getOptions() !== null) {
+            $data['options'] = $this->getOptions();
         }
 
         return $data;
