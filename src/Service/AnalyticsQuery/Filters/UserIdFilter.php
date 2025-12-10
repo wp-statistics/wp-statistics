@@ -14,7 +14,7 @@ class UserIdFilter extends AbstractFilter
     protected $type               = 'integer';
     protected $inputType          = 'number';
     protected $supportedOperators = ['is', 'is_not', 'is_null'];
-    protected $pages              = ['visitors'];
+    protected $groups             = ['visitors'];
 
     /**
      * {@inheritdoc}

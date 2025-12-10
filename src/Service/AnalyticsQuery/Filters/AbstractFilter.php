@@ -74,12 +74,12 @@ abstract class AbstractFilter implements FilterInterface
     protected $options = null;
 
     /**
-     * Pages where this filter is available.
+     * Groups where this filter is available.
      * Example: ['visitors-overview', 'visitors', 'views']
      *
      * @var array
      */
-    protected $pages = [];
+    protected $groups = [];
 
     /**
      * {@inheritdoc}
@@ -167,13 +167,13 @@ abstract class AbstractFilter implements FilterInterface
     }
 
     /**
-     * Get the pages where this filter is available.
+     * Get the groups where this filter is available.
      *
      * @return array
      */
-    public function getPages(): array
+    public function getGroups(): array
     {
-        return $this->pages;
+        return $this->groups;
     }
 
     /**
@@ -211,7 +211,7 @@ abstract class AbstractFilter implements FilterInterface
             'label'              => $this->getLabel(),
             'supportedOperators' => $this->getSupportedOperators(),
             'inputType'          => $this->getInputType(),
-            'pages'              => $this->getPages(),
+            'groups'             => $this->getGroups(),
         ];
 
         if ($this->getJoins() !== null) {

@@ -14,7 +14,7 @@ class IpFilter extends AbstractFilter
     protected $type               = 'string';
     protected $inputType          = 'text';
     protected $supportedOperators = ['is', 'is_not', 'contains'];
-    protected $pages              = ['visitors'];
+    protected $groups             = ['visitors'];
 
     /**
      * {@inheritdoc}

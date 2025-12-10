@@ -15,11 +15,7 @@ class LoggedInFilter extends AbstractFilter
     protected $supportedOperators = ['is'];
 
     protected $inputType = 'dropdown';
-    protected $options   = [
-        ['value' => '1', 'label' => 'Logged-in'],
-        ['value' => '0', 'label' => 'Anonymous'],
-    ];
-    protected $pages = ['visitors'];
+    protected $groups    = ['visitors'];
 
     /**
      * {@inheritdoc}
@@ -27,5 +23,16 @@ class LoggedInFilter extends AbstractFilter
     public function getLabel(): string
     {
         return esc_html__('Login Status', 'wp-statistics');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOptions(): ?array
+    {
+        return [
+            ['value' => '1', 'label' => esc_html__('Logged-in', 'wp-statistics')],
+            ['value' => '0', 'label' => esc_html__('Anonymous', 'wp-statistics')],
+        ];
     }
 }

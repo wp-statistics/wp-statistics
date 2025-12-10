@@ -20,15 +20,7 @@ class ReferrerChannelFilter extends AbstractFilter
     protected $supportedOperators = ['is', 'is_not'];
 
     protected $inputType = 'dropdown';
-    protected $options   = [
-        ['value' => 'direct', 'label' => 'Direct'],
-        ['value' => 'search', 'label' => 'Search'],
-        ['value' => 'social', 'label' => 'Social'],
-        ['value' => 'referral', 'label' => 'Referral'],
-        ['value' => 'email', 'label' => 'Email'],
-        ['value' => 'paid', 'label' => 'Paid'],
-    ];
-    protected $pages = ['visitors'];
+    protected $groups    = ['visitors'];
 
     /**
      * {@inheritdoc}
@@ -36,5 +28,20 @@ class ReferrerChannelFilter extends AbstractFilter
     public function getLabel(): string
     {
         return esc_html__('Traffic Channel', 'wp-statistics');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOptions(): ?array
+    {
+        return [
+            ['value' => 'direct', 'label' => esc_html__('Direct', 'wp-statistics')],
+            ['value' => 'search', 'label' => esc_html__('Search', 'wp-statistics')],
+            ['value' => 'social', 'label' => esc_html__('Social', 'wp-statistics')],
+            ['value' => 'referral', 'label' => esc_html__('Referral', 'wp-statistics')],
+            ['value' => 'email', 'label' => esc_html__('Email', 'wp-statistics')],
+            ['value' => 'paid', 'label' => esc_html__('Paid', 'wp-statistics')],
+        ];
     }
 }

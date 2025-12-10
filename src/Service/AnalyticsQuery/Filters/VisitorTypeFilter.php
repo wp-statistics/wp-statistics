@@ -14,11 +14,7 @@ class VisitorTypeFilter extends AbstractFilter
     protected $type               = 'string';
     protected $inputType          = 'dropdown';
     protected $supportedOperators = ['is'];
-    protected $options            = [
-        ['value' => 'new', 'label' => 'New'],
-        ['value' => 'returning', 'label' => 'Returning'],
-    ];
-    protected $pages = ['visitors'];
+    protected $groups             = ['visitors'];
 
     /**
      * {@inheritdoc}
@@ -26,5 +22,16 @@ class VisitorTypeFilter extends AbstractFilter
     public function getLabel(): string
     {
         return esc_html__('Visitor Type', 'wp-statistics');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOptions(): ?array
+    {
+        return [
+            ['value' => 'new', 'label' => esc_html__('New', 'wp-statistics')],
+            ['value' => 'returning', 'label' => esc_html__('Returning', 'wp-statistics')],
+        ];
     }
 }

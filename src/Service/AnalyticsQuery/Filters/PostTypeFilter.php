@@ -28,7 +28,7 @@ class PostTypeFilter extends AbstractFilter
 
     protected $inputType          = 'dropdown';
     protected $supportedOperators = ['is', 'is_not'];
-    protected $pages              = [
+    protected $groups             = [
         'views',
     ];
 

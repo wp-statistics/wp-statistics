@@ -20,7 +20,7 @@ class UserRoleFilter extends AbstractFilter
 
     protected $inputType          = 'dropdown';
     protected $supportedOperators = ['is', 'is_not'];
-    protected $pages              = ['visitors'];
+    protected $groups             = ['visitors'];
 
     /**
      * {@inheritdoc}

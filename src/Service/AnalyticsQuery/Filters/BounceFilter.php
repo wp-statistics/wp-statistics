@@ -14,11 +14,7 @@ class BounceFilter extends AbstractFilter
     protected $type               = 'boolean';
     protected $inputType          = 'dropdown';
     protected $supportedOperators = ['is'];
-    protected $options            = [
-        ['value' => '1', 'label' => 'Yes'],
-        ['value' => '0', 'label' => 'No'],
-    ];
-    protected $pages = ['visitors'];
+    protected $groups             = ['visitors'];
 
     /**
      * {@inheritdoc}
@@ -26,5 +22,16 @@ class BounceFilter extends AbstractFilter
     public function getLabel(): string
     {
         return esc_html__('Bounce', 'wp-statistics');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOptions(): ?array
+    {
+        return [
+            ['value' => '1', 'label' => esc_html__('Yes', 'wp-statistics')],
+            ['value' => '0', 'label' => esc_html__('No', 'wp-statistics')],
+        ];
     }
 }

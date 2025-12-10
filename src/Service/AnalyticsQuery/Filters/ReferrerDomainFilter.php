@@ -20,7 +20,7 @@ class ReferrerDomainFilter extends AbstractFilter
     protected $supportedOperators = ['is', 'is_not', 'contains'];
 
     protected $inputType = 'searchable';
-    protected $pages     = ['visitors'];
+    protected $groups    = ['visitors'];
 
     /**
      * {@inheritdoc}

@@ -14,7 +14,7 @@ class ViewsPerSessionFilter extends AbstractFilter
     protected $type               = 'integer';
     protected $inputType          = 'number';
     protected $supportedOperators = ['is', 'gt', 'lt'];
-    protected $pages              = ['visitors'];
+    protected $groups             = ['visitors'];
 
     /**
      * {@inheritdoc}

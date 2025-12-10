@@ -14,7 +14,7 @@ class FirstSeenFilter extends AbstractFilter
     protected $type               = 'date';
     protected $inputType          = 'date';
     protected $supportedOperators = ['between', 'before', 'after'];
-    protected $pages              = ['visitors'];
+    protected $groups             = ['visitors'];
 
     /**
      * {@inheritdoc}

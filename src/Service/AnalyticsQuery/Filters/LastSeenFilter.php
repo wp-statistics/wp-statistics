@@ -14,7 +14,7 @@ class LastSeenFilter extends AbstractFilter
     protected $type               = 'date';
     protected $inputType          = 'date';
     protected $supportedOperators = ['in_the_last', 'between', 'before', 'after'];
-    protected $pages              = ['visitors'];
+    protected $groups             = ['visitors'];
 
     /**
      * {@inheritdoc}

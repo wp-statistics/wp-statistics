@@ -14,7 +14,7 @@ class TotalSessionsFilter extends AbstractFilter
     protected $type               = 'integer';
     protected $inputType          = 'number';
     protected $supportedOperators = ['gt', 'lt', 'between'];
-    protected $pages              = ['visitors'];
+    protected $groups             = ['visitors'];
 
     /**
      * {@inheritdoc}

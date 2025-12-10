@@ -73,11 +73,11 @@ interface FilterInterface
     public function getOptions(): ?array;
 
     /**
-     * Get the pages where this filter is available.
+     * Get the groups where this filter is available.
      *
      * @return array
      */
-    public function getPages(): array;
+    public function getGroups(): array;
 
     /**
      * Check if this filter is searchable (requires AJAX).

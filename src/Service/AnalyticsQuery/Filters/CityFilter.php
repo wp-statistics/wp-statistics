@@ -20,7 +20,7 @@ class CityFilter extends AbstractFilter
 
     protected $inputType          = 'searchable';
     protected $supportedOperators = ['is', 'is_not'];
-    protected $pages              = ['visitors'];
+    protected $groups             = ['visitors'];
 
     /**
      * {@inheritdoc}
