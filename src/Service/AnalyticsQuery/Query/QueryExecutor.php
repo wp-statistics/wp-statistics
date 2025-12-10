@@ -132,6 +132,11 @@ class QueryExecutor implements QueryExecutorInterface
         $primaryTable = $this->determinePrimaryTable($sources, $groupByNames, $filters);
         $from         = $this->getFullTableName($primaryTable) . ' AS ' . $primaryTable;
 
+        // Add session join if needed for views table (must come before group by joins)
+        if ($primaryTable === 'views') {
+            $joins = $this->addSessionJoinForViews($joins);
+        }
+
         // Add group by columns and joins
         foreach ($groupByNames as $groupByName) {
             $groupByItem = $this->groupByRegistry->get($groupByName);
@@ -163,13 +168,8 @@ class QueryExecutor implements QueryExecutorInterface
         if ($dateFrom && $dateTo) {
             $dateColumn = $this->getDateColumn($primaryTable);
             $where[]    = "$dateColumn BETWEEN %s AND %s";
-            $params[]   = $dateFrom . ' 00:00:00';
-            $params[]   = $dateTo . ' 23:59:59';
-        }
-
-        // Add session join if needed for views table (must come before filter joins)
-        if ($primaryTable === 'views') {
-            $joins = $this->addSessionJoinForViews($joins);
+            $params[]   = $this->formatDateTimeStart($dateFrom);
+            $params[]   = $this->formatDateTimeEnd($dateTo);
         }
 
         // Add custom filters
@@ -227,17 +227,17 @@ class QueryExecutor implements QueryExecutorInterface
             }
         }
 
+        // Add session join if needed for views table (must come before filter joins)
+        if ($primaryTable === 'views') {
+            $joins = $this->addSessionJoinForViews($joins);
+        }
+
         // Add date range filter
         if ($dateFrom && $dateTo) {
             $dateColumn = $this->getDateColumn($primaryTable);
             $where[]    = "$dateColumn BETWEEN %s AND %s";
-            $params[]   = $dateFrom . ' 00:00:00';
-            $params[]   = $dateTo . ' 23:59:59';
-        }
-
-        // Add session join if needed for views table (must come before filter joins)
-        if ($primaryTable === 'views') {
-            $joins = $this->addSessionJoinForViews($joins);
+            $params[]   = $this->formatDateTimeStart($dateFrom);
+            $params[]   = $this->formatDateTimeEnd($dateTo);
         }
 
         // Add custom filters
@@ -474,5 +474,37 @@ class QueryExecutor implements QueryExecutorInterface
         }
 
         return $sql;
+    }
+
+    /**
+     * Format date/datetime for start of range.
+     *
+     * @param string $date Date or datetime string.
+     * @return string Formatted datetime.
+     */
+    private function formatDateTimeStart(string $date): string
+    {
+        // If already has time component, use as-is
+        if (preg_match('/\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}/', $date)) {
+            return $date;
+        }
+        // Otherwise add start of day time
+        return $date . ' 00:00:00';
+    }
+
+    /**
+     * Format date/datetime for end of range.
+     *
+     * @param string $date Date or datetime string.
+     * @return string Formatted datetime.
+     */
+    private function formatDateTimeEnd(string $date): string
+    {
+        // If already has time component, use as-is
+        if (preg_match('/\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}/', $date)) {
+            return $date;
+        }
+        // Otherwise add end of day time
+        return $date . ' 23:59:59';
     }
 }
