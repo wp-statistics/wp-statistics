@@ -63,7 +63,7 @@ if ($isAiInsightActive && !$isLicenseValid) {
                         <?php if ($syncStatus === 'success') : ?>
                             <div class="alert alert-success"><span><?php esc_html_e('Sync completed successfully', 'wp-statistics'); ?></span></div>
                         <?php elseif ($syncStatus === 'error') : ?>
-                            <a href="<?php echo esc_url(Menus::admin_url('settings', ['tab' => 'ai-insights-settings', 'action' => 'wp_statistics_retry_gsc_sync', 'nonce' => wp_create_nonce('wp_statistics_retry_gsc_sync')])); ?>"
+                            <a href="<?php echo esc_url(Menus::admin_url('settings', ['tab' => 'ai-insights-settings', 'action' => 'wp_statistics_init_gsc_sync', 'nonce' => wp_create_nonce('wp_statistics_init_gsc_sync')])); ?>"
                                aria-label="<?php esc_attr_e('Retry failed sync', 'wp-statistics'); ?>" style="text-decoration: underline">
                                 <?php esc_html_e('Retry', 'wp-statistics'); ?>
                             </a>
