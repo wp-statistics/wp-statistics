@@ -60,7 +60,6 @@ class AnonymizedUsageDataManager
             'domain'            => AnonymizedUsageDataProvider::getHomeUrl(),
             'wordpress_version' => AnonymizedUsageDataProvider::getWordPressVersion(),
             'php_version'       => AnonymizedUsageDataProvider::getPhpVersion() ?? 'not available',
-            'php_configuration' => AnonymizedUsageDataProvider::getPhpConfiguration(),
             'plugin_version'    => AnonymizedUsageDataProvider::getPluginVersion(),
             'database_version'  => AnonymizedUsageDataProvider::getDatabaseVersion() ?? 'not available',
             'server_info'       => AnonymizedUsageDataProvider::getServerInfo(),
