@@ -9,18 +9,35 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class CityFilter extends AbstractFilter
 {
-    protected $name   = 'city';
+    /** @var string Filter identifier for API requests: filters[city]=... */
+    protected $name = 'city';
+
+    /** @var string SQL column: city name from cities lookup table (e.g., New York, London, Tokyo) */
     protected $column = 'cities.city_name';
-    protected $type   = 'string';
-    protected $joins  = [
+
+    /** @var string Data type: string for city name matching */
+    protected $type = 'string';
+
+    /**
+     * Required JOIN: sessions -> cities.
+     * Links session's city ID to the city details lookup table.
+     *
+     * @var array
+     */
+    protected $joins = [
         'table' => 'cities',
         'alias' => 'cities',
         'on'    => 'sessions.city_id = cities.ID',
     ];
 
-    protected $inputType          = 'searchable';
+    /** @var string UI component: searchable autocomplete for large city list */
+    protected $inputType = 'searchable';
+
+    /** @var array Supported operators: exact match and exclusion */
     protected $supportedOperators = ['is', 'is_not'];
-    protected $groups             = ['visitors'];
+
+    /** @var array Available on: visitors page for geographic analysis */
+    protected $groups = ['visitors'];
 
     /**
      * {@inheritdoc}

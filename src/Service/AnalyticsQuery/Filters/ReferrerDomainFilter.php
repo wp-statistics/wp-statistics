@@ -9,18 +9,35 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class ReferrerDomainFilter extends AbstractFilter
 {
-    protected $name   = 'referrer_domain';
+    /** @var string Filter identifier for API requests: filters[referrer_domain]=... */
+    protected $name = 'referrer_domain';
+
+    /** @var string SQL column: referring domain from referrers table (e.g., google.com, twitter.com) */
     protected $column = 'referrers.domain';
-    protected $type   = 'string';
-    protected $joins  = [
+
+    /** @var string Data type: string for domain matching */
+    protected $type = 'string';
+
+    /**
+     * Required JOIN: sessions -> referrers.
+     * Links session's referrer ID to the referrer domain lookup table.
+     *
+     * @var array
+     */
+    protected $joins = [
         'table' => 'referrers',
         'alias' => 'referrers',
         'on'    => 'sessions.referrer_id = referrers.ID',
     ];
+
+    /** @var array Supported operators: exact match, exclusion, and partial domain matching */
     protected $supportedOperators = ['is', 'is_not', 'contains'];
 
+    /** @var string UI component: searchable autocomplete for domain list */
     protected $inputType = 'searchable';
-    protected $groups    = ['visitors'];
+
+    /** @var array Available on: visitors page for referrer analysis */
+    protected $groups = ['visitors'];
 
     /**
      * {@inheritdoc}

@@ -9,18 +9,35 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class ResolutionFilter extends AbstractFilter
 {
-    protected $name   = 'resolution';
+    /** @var string Filter identifier for API requests: filters[resolution]=... */
+    protected $name = 'resolution';
+
+    /** @var string SQL column: computed resolution string (e.g., 1920x1080, 1366x768) via CONCAT */
     protected $column = 'CONCAT(resolutions.width, \'x\', resolutions.height)';
-    protected $type   = 'string';
-    protected $joins  = [
+
+    /** @var string Data type: string for resolution matching */
+    protected $type = 'string';
+
+    /**
+     * Required JOIN: sessions -> resolutions.
+     * Links session's resolution ID to the screen resolution lookup table.
+     *
+     * @var array
+     */
+    protected $joins = [
         'table' => 'resolutions',
         'alias' => 'resolutions',
         'on'    => 'sessions.resolution_id = resolutions.ID',
     ];
 
-    protected $inputType          = 'searchable';
+    /** @var string UI component: searchable autocomplete for resolution list */
+    protected $inputType = 'searchable';
+
+    /** @var array Supported operators: exact match and exclusion */
     protected $supportedOperators = ['is', 'is_not'];
-    protected $groups             = ['visitors'];
+
+    /** @var array Available on: visitors page for device analysis */
+    protected $groups = ['visitors'];
 
     /**
      * {@inheritdoc}

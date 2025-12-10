@@ -9,18 +9,35 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class UserRoleFilter extends AbstractFilter
 {
-    protected $name   = 'user_role';
+    /** @var string Filter identifier for API requests: filters[user_role]=... */
+    protected $name = 'user_role';
+
+    /** @var string SQL column: WordPress user role from users table (e.g., administrator, editor, subscriber) */
     protected $column = 'users.role';
-    protected $type   = 'string';
-    protected $joins  = [
+
+    /** @var string Data type: string for role name matching */
+    protected $type = 'string';
+
+    /**
+     * Required JOIN: sessions -> users.
+     * Links session's user ID to the WordPress users table for role lookup.
+     *
+     * @var array
+     */
+    protected $joins = [
         'table' => 'users',
         'alias' => 'users',
         'on'    => 'sessions.user_id = users.ID',
     ];
 
-    protected $inputType          = 'dropdown';
+    /** @var string UI component: dropdown with dynamic WordPress roles */
+    protected $inputType = 'dropdown';
+
+    /** @var array Supported operators: exact match and exclusion */
     protected $supportedOperators = ['is', 'is_not'];
-    protected $groups             = ['visitors'];
+
+    /** @var array Available on: visitors page for user segmentation */
+    protected $groups = ['visitors'];
 
     /**
      * {@inheritdoc}

@@ -9,12 +9,23 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class TotalSessionsFilter extends AbstractFilter
 {
-    protected $name               = 'total_sessions';
-    protected $column             = 'visitors.sessions_count';
-    protected $type               = 'integer';
-    protected $inputType          = 'number';
+    /** @var string Filter identifier for API requests: filters[total_sessions]=... */
+    protected $name = 'total_sessions';
+
+    /** @var string SQL column: total session count for the visitor from visitors table */
+    protected $column = 'visitors.sessions_count';
+
+    /** @var string Data type: integer for session count comparisons */
+    protected $type = 'integer';
+
+    /** @var string UI component: number input for session count entry */
+    protected $inputType = 'number';
+
+    /** @var array Supported operators: greater than, less than, and range */
     protected $supportedOperators = ['gt', 'lt', 'between'];
-    protected $groups             = ['visitors'];
+
+    /** @var array Available on: visitors page for visitor engagement analysis */
+    protected $groups = ['visitors'];
 
     /**
      * {@inheritdoc}

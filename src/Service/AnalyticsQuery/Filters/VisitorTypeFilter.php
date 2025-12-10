@@ -9,12 +9,23 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class VisitorTypeFilter extends AbstractFilter
 {
-    protected $name               = 'visitor_type';
-    protected $column             = 'visitors.is_new';
-    protected $type               = 'string';
-    protected $inputType          = 'dropdown';
+    /** @var string Filter identifier for API requests: filters[visitor_type]=... */
+    protected $name = 'visitor_type';
+
+    /** @var string SQL column: new visitor flag from visitors table (determines new vs returning) */
+    protected $column = 'visitors.is_new';
+
+    /** @var string Data type: string for visitor type matching (new/returning) */
+    protected $type = 'string';
+
+    /** @var string UI component: dropdown with New/Returning options */
+    protected $inputType = 'dropdown';
+
+    /** @var array Supported operators: exact match only for visitor type selection */
     protected $supportedOperators = ['is'];
-    protected $groups             = ['visitors'];
+
+    /** @var array Available on: visitors page for visitor segmentation */
+    protected $groups = ['visitors'];
 
     /**
      * {@inheritdoc}

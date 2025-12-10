@@ -9,18 +9,35 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class ReferrerChannelFilter extends AbstractFilter
 {
-    protected $name   = 'referrer_channel';
+    /** @var string Filter identifier for API requests: filters[referrer_channel]=... */
+    protected $name = 'referrer_channel';
+
+    /** @var string SQL column: traffic channel type from referrers table (direct, search, social, etc.) */
     protected $column = 'referrers.channel';
-    protected $type   = 'string';
-    protected $joins  = [
+
+    /** @var string Data type: string for channel matching */
+    protected $type = 'string';
+
+    /**
+     * Required JOIN: sessions -> referrers.
+     * Links session's referrer ID to get the traffic channel classification.
+     *
+     * @var array
+     */
+    protected $joins = [
         'table' => 'referrers',
         'alias' => 'referrers',
         'on'    => 'sessions.referrer_id = referrers.ID',
     ];
+
+    /** @var array Supported operators: exact match and exclusion */
     protected $supportedOperators = ['is', 'is_not'];
 
+    /** @var string UI component: dropdown with predefined traffic channels */
     protected $inputType = 'dropdown';
-    protected $groups    = ['visitors'];
+
+    /** @var array Available on: visitors page for traffic source analysis */
+    protected $groups = ['visitors'];
 
     /**
      * {@inheritdoc}

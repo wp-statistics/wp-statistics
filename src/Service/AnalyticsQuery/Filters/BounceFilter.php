@@ -9,12 +9,23 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class BounceFilter extends AbstractFilter
 {
-    protected $name               = 'bounce';
-    protected $column             = 'sessions.is_bounce';
-    protected $type               = 'boolean';
-    protected $inputType          = 'dropdown';
+    /** @var string Filter identifier for API requests: filters[bounce]=... */
+    protected $name = 'bounce';
+
+    /** @var string SQL column: boolean flag indicating if session was a single-page visit */
+    protected $column = 'sessions.is_bounce';
+
+    /** @var string Data type: boolean (1=bounced, 0=engaged) */
+    protected $type = 'boolean';
+
+    /** @var string UI component: dropdown with Yes/No options */
+    protected $inputType = 'dropdown';
+
+    /** @var array Supported operators: exact match only for boolean values */
     protected $supportedOperators = ['is'];
-    protected $groups             = ['visitors'];
+
+    /** @var array Available on: visitors page for analyzing engagement */
+    protected $groups = ['visitors'];
 
     /**
      * {@inheritdoc}

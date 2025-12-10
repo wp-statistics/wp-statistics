@@ -9,18 +9,35 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class LanguageFilter extends AbstractFilter
 {
-    protected $name   = 'language';
+    /** @var string Filter identifier for API requests: filters[language]=... */
+    protected $name = 'language';
+
+    /** @var string SQL column: language code from languages table (e.g., en, fr, de, es) */
     protected $column = 'languages.code';
-    protected $type   = 'string';
-    protected $joins  = [
+
+    /** @var string Data type: string for language code matching */
+    protected $type = 'string';
+
+    /**
+     * Required JOIN: sessions -> languages.
+     * Links session's language ID to the language details lookup table.
+     *
+     * @var array
+     */
+    protected $joins = [
         'table' => 'languages',
         'alias' => 'languages',
         'on'    => 'sessions.language_id = languages.ID',
     ];
 
-    protected $inputType          = 'searchable';
+    /** @var string UI component: searchable autocomplete with language names and codes */
+    protected $inputType = 'searchable';
+
+    /** @var array Supported operators: exact match and exclusion */
     protected $supportedOperators = ['is', 'is_not'];
-    protected $groups             = ['visitors'];
+
+    /** @var array Available on: visitors page for localization analysis */
+    protected $groups = ['visitors'];
 
     /**
      * {@inheritdoc}

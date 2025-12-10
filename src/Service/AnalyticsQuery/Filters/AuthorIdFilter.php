@@ -9,12 +9,28 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class AuthorIdFilter extends AbstractFilter
 {
-    protected $name               = 'author_id';
-    protected $column             = 'resources.cached_author_id';
-    protected $type               = 'integer';
-    protected $requirement        = 'views';
+    /** @var string Filter identifier for API requests: filters[author_id]=... */
+    protected $name = 'author_id';
+
+    /** @var string SQL column: cached WordPress author ID from resources table */
+    protected $column = 'resources.cached_author_id';
+
+    /** @var string Data type: integer for WordPress user IDs */
+    protected $type = 'integer';
+
+    /** @var string Required base table: needs views table to access resource data */
+    protected $requirement = 'views';
+
+    /** @var array Supported operators: exact match, exclusion, set membership, and numeric comparisons */
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in', 'gt', 'gte', 'lt', 'lte'];
-    protected $joins              = [
+
+    /**
+     * Required JOINs: views -> resource_uris -> resources chain.
+     * Needed to access the cached_author_id stored in the resources table.
+     *
+     * @var array
+     */
+    protected $joins = [
         [
             'table' => 'resource_uris',
             'alias' => 'resource_uris',

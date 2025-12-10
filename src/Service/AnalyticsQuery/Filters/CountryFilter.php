@@ -9,18 +9,35 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class CountryFilter extends AbstractFilter
 {
-    protected $name   = 'country';
+    /** @var string Filter identifier for API requests: filters[country]=... */
+    protected $name = 'country';
+
+    /** @var string SQL column: ISO country code from countries table (e.g., US, GB, DE, FR) */
     protected $column = 'countries.code';
-    protected $type   = 'string';
-    protected $joins  = [
+
+    /** @var string Data type: string for country code matching */
+    protected $type = 'string';
+
+    /**
+     * Required JOIN: sessions -> countries.
+     * Links session's country ID to the country details lookup table.
+     *
+     * @var array
+     */
+    protected $joins = [
         'table' => 'countries',
         'alias' => 'countries',
         'on'    => 'sessions.country_id = countries.ID',
     ];
 
-    protected $inputType          = 'searchable';
+    /** @var string UI component: searchable autocomplete with country names and codes */
+    protected $inputType = 'searchable';
+
+    /** @var array Supported operators: exact match and exclusion */
     protected $supportedOperators = ['is', 'is_not'];
-    protected $groups             = ['visitors'];
+
+    /** @var array Available on: visitors page for geographic analysis */
+    protected $groups = ['visitors'];
 
     /**
      * {@inheritdoc}

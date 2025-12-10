@@ -9,9 +9,16 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class SessionIdFilter extends AbstractFilter
 {
-    protected $name               = 'session_id';
-    protected $column             = 'sessions.ID';
-    protected $type               = 'integer';
+    /** @var string Filter identifier for API requests: filters[session_id]=... */
+    protected $name = 'session_id';
+
+    /** @var string SQL column: primary key ID of sessions table */
+    protected $column = 'sessions.ID';
+
+    /** @var string Data type: integer for session ID matching */
+    protected $type = 'integer';
+
+    /** @var array Supported operators: exact match, exclusion, set membership, and numeric comparisons */
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in', 'gt', 'gte', 'lt', 'lte'];
 
     /**

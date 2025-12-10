@@ -9,9 +9,16 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class TimezoneIdFilter extends AbstractFilter
 {
-    protected $name               = 'timezone_id';
-    protected $column             = 'sessions.timezone_id';
-    protected $type               = 'integer';
+    /** @var string Filter identifier for API requests: filters[timezone_id]=... */
+    protected $name = 'timezone_id';
+
+    /** @var string SQL column: foreign key ID to timezones table (for programmatic filtering) */
+    protected $column = 'sessions.timezone_id';
+
+    /** @var string Data type: integer for database ID matching */
+    protected $type = 'integer';
+
+    /** @var array Supported operators: exact match, exclusion, and set membership */
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in'];
 
     /**

@@ -9,9 +9,16 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class BrowserVersionIdFilter extends AbstractFilter
 {
-    protected $name               = 'browser_version_id';
-    protected $column             = 'sessions.device_browser_version_id';
-    protected $type               = 'integer';
+    /** @var string Filter identifier for API requests: filters[browser_version_id]=... */
+    protected $name = 'browser_version_id';
+
+    /** @var string SQL column: foreign key ID to device_browser_versions table (for programmatic filtering) */
+    protected $column = 'sessions.device_browser_version_id';
+
+    /** @var string Data type: integer for database ID matching */
+    protected $type = 'integer';
+
+    /** @var array Supported operators: exact match, exclusion, and set membership */
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in'];
 
     /**
