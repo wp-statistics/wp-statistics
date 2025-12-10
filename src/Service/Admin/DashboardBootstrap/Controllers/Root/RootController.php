@@ -4,15 +4,15 @@ namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root;
 
 use WP_Statistics\Abstracts\BaseDashboardController;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\PageActionInterface;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages\AuthorAnalytics;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages\CategoryAnalytics;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages\ContentAnalytics;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages\Devices;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages\Geographics;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages\Overview;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages\PageInsights;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages\Referrals;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages\VisitorInsights;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\DataSources\AuthorAnalytics;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\DataSources\CategoryAnalytics;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\DataSources\ContentAnalytics;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\DataSources\Devices;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\DataSources\Geographics;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\DataSources\Overview;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\DataSources\PageInsights;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\DataSources\Referrals;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\DataSources\VisitorInsights;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Views\Root;
 
 /**

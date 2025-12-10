@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages;
+namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\DataSources;
 
 use WP_Statistics\Service\Admin\DashboardBootstrap\Abstracts\AbstractAnalyticsPage;
 

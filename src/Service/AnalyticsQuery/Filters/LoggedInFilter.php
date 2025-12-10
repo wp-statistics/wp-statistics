@@ -19,10 +19,7 @@ class LoggedInFilter extends AbstractFilter
         ['value' => '1', 'label' => 'Logged-in'],
         ['value' => '0', 'label' => 'Anonymous'],
     ];
-    protected $pages = [
-        'visitors-overview',
-        'visitors',
-    ];
+    protected $pages = ['visitors'];
 
     /**
      * {@inheritdoc}

@@ -28,13 +28,7 @@ class ReferrerChannelFilter extends AbstractFilter
         ['value' => 'email', 'label' => 'Email'],
         ['value' => 'paid', 'label' => 'Paid'],
     ];
-    protected $pages = [
-        'visitors-overview',
-        'visitors',
-        'views',
-        'geographic',
-        'referrers',
-    ];
+    protected $pages = ['visitors'];
 
     /**
      * {@inheritdoc}

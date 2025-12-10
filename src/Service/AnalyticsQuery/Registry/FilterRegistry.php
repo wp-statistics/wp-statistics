@@ -33,6 +33,15 @@ use WP_Statistics\Service\AnalyticsQuery\Filters\TimezoneFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\TimezoneIdFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\VisitorIdFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\SessionIdFilter;
+use WP_Statistics\Service\AnalyticsQuery\Filters\UserRoleFilter;
+use WP_Statistics\Service\AnalyticsQuery\Filters\VisitorTypeFilter;
+use WP_Statistics\Service\AnalyticsQuery\Filters\SessionDurationFilter;
+use WP_Statistics\Service\AnalyticsQuery\Filters\ViewsPerSessionFilter;
+use WP_Statistics\Service\AnalyticsQuery\Filters\TotalViewsFilter;
+use WP_Statistics\Service\AnalyticsQuery\Filters\TotalSessionsFilter;
+use WP_Statistics\Service\AnalyticsQuery\Filters\FirstSeenFilter;
+use WP_Statistics\Service\AnalyticsQuery\Filters\LastSeenFilter;
+use WP_Statistics\Service\AnalyticsQuery\Filters\BounceFilter;
 
 /**
  * Registry for analytics query filters.
@@ -121,6 +130,15 @@ class FilterRegistry
             new VisitorIdFilter(),
             new SessionIdFilter(),
             new IpFilter(),
+            new UserRoleFilter(),
+            new VisitorTypeFilter(),
+            new SessionDurationFilter(),
+            new ViewsPerSessionFilter(),
+            new TotalViewsFilter(),
+            new TotalSessionsFilter(),
+            new FirstSeenFilter(),
+            new LastSeenFilter(),
+            new BounceFilter(),
 
             // User preference filters
             new LanguageFilter(),

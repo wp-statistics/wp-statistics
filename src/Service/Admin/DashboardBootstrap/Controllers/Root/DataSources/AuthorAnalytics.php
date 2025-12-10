@@ -1,20 +1,20 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages;
+namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\DataSources;
 
 
 use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\PageActionInterface;
 
 /**
- * Category Analytics page action handler.
+ * Author Analytics page action handler.
  *
- * This class manages all AJAX actions specific to the Category Analytics page.
+ * This class manages all AJAX actions specific to the Author Analytics page.
  * Each action method should be named after the action and will be
  * automatically callable through WordPress AJAX.
  *
  * @since 15.0.0
  */
-class CategoryAnalytics implements PageActionInterface
+class AuthorAnalytics implements PageActionInterface
 {
     /**
      * Get the page name.
@@ -23,11 +23,11 @@ class CategoryAnalytics implements PageActionInterface
      */
     public function getPageName()
     {
-        return 'category_analytics';
+        return 'author_analytics';
     }
 
     /**
-     * Register AJAX actions for the Category Analytics page.
+     * Register AJAX actions for the Author Analytics page.
      *
      * @return array<string, string> Mapping of action names to method names
      */

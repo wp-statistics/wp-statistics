@@ -1,20 +1,20 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Pages;
+namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\DataSources;
 
 
 use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\PageActionInterface;
 
 /**
- * Content Analytics page action handler.
+ * Devices page action handler.
  *
- * This class manages all AJAX actions specific to the Content Analytics page.
+ * This class manages all AJAX actions specific to the Devices page.
  * Each action method should be named after the action and will be
  * automatically callable through WordPress AJAX.
  *
  * @since 15.0.0
  */
-class ContentAnalytics implements PageActionInterface
+class Devices implements PageActionInterface
 {
     /**
      * Get the page name.
@@ -23,11 +23,11 @@ class ContentAnalytics implements PageActionInterface
      */
     public function getPageName()
     {
-        return 'content_analytics';
+        return 'devices';
     }
 
     /**
-     * Register AJAX actions for the Content Analytics page.
+     * Register AJAX actions for the Devices page.
      *
      * @return array<string, string> Mapping of action names to method names
      */

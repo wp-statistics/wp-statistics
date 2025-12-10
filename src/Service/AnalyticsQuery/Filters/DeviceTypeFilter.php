@@ -25,14 +25,7 @@ class DeviceTypeFilter extends AbstractFilter
         ['value' => 'tablet', 'label' => 'Tablet'],
     ];
     protected $supportedOperators = ['is', 'is_not'];
-    protected $pages              = [
-        'visitors-overview',
-        'visitors',
-        'online-visitors',
-        'top-visitors',
-        'views',
-        'geographic',
-    ];
+    protected $pages              = ['visitors'];
 
     /**
      * {@inheritdoc}

@@ -12,7 +12,9 @@ class UserIdFilter extends AbstractFilter
     protected $name               = 'user_id';
     protected $column             = 'sessions.user_id';
     protected $type               = 'integer';
-    protected $supportedOperators = ['is', 'is_not', 'in', 'not_in', 'gt', 'gte', 'lt', 'lte'];
+    protected $inputType          = 'number';
+    protected $supportedOperators = ['is', 'is_not', 'is_null'];
+    protected $pages              = ['visitors'];
 
     /**
      * {@inheritdoc}

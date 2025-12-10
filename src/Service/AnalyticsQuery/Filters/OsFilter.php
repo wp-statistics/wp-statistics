@@ -20,16 +20,7 @@ class OsFilter extends AbstractFilter
 
     protected $inputType          = 'searchable';
     protected $supportedOperators = ['is', 'is_not'];
-    protected $pages              = [
-        'visitors-overview',
-        'visitors',
-        'online-visitors',
-        'top-visitors',
-        'views',
-        'geographic',
-        'search-engines',
-        'social-media',
-    ];
+    protected $pages              = ['visitors'];
 
     /**
      * {@inheritdoc}

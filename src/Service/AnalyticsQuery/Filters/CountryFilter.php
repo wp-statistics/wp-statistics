@@ -20,15 +20,7 @@ class CountryFilter extends AbstractFilter
 
     protected $inputType          = 'searchable';
     protected $supportedOperators = ['is', 'is_not'];
-    protected $pages              = [
-        'visitors-overview',
-        'visitors',
-        'top-visitors',
-        'views',
-        'referrers',
-        'search-engines',
-        'social-media',
-    ];
+    protected $pages              = ['visitors'];
 
     /**
      * {@inheritdoc}

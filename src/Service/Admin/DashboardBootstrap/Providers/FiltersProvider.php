@@ -48,6 +48,7 @@ class FiltersProvider implements LocalizeDataProviderInterface
         return [
             'is'          => ['label' => __('Is', 'wp-statistics'), 'type' => 'single'],
             'is_not'      => ['label' => __('Is not', 'wp-statistics'), 'type' => 'single'],
+            'is_null'     => ['label' => __('Is empty', 'wp-statistics'), 'type' => 'single'],
             'in'          => ['label' => __('Is one of', 'wp-statistics'), 'type' => 'multiple'],
             'not_in'      => ['label' => __('Is not one of', 'wp-statistics'), 'type' => 'multiple'],
             'contains'    => ['label' => __('Contains', 'wp-statistics'), 'type' => 'single'],
@@ -57,6 +58,10 @@ class FiltersProvider implements LocalizeDataProviderInterface
             'gte'         => ['label' => __('Greater than or equal', 'wp-statistics'), 'type' => 'single'],
             'lt'          => ['label' => __('Less than', 'wp-statistics'), 'type' => 'single'],
             'lte'         => ['label' => __('Less than or equal', 'wp-statistics'), 'type' => 'single'],
+            'between'     => ['label' => __('Between', 'wp-statistics'), 'type' => 'range'],
+            'before'      => ['label' => __('Before', 'wp-statistics'), 'type' => 'single'],
+            'after'       => ['label' => __('After', 'wp-statistics'), 'type' => 'single'],
+            'in_the_last' => ['label' => __('In the last', 'wp-statistics'), 'type' => 'single'],
         ];
     }
 
