@@ -187,12 +187,6 @@ if ($isAiInsightActive && !$isLicenseValid) {
                         <a aria-label="<?php esc_attr_e('Syncing GSC data', 'wp-statistics'); ?>" class="wps-button wps-loading-button wps-button--default">
                             <?php esc_html_e('Syncing...', 'wp-statistics'); ?>
                         </a>
-                    <?php elseif ($syncStatus === 'error') : ?>
-                        <a href="<?php echo esc_url(Menus::admin_url('settings', ['tab' => 'ai-insights-settings', 'action' => 'wp_statistics_retry_gsc_sync', 'nonce' => wp_create_nonce('wp_statistics_retry_gsc_sync')])); ?>"
-                           aria-label="<?php esc_attr_e('Retry failed sync', 'wp-statistics'); ?>"
-                           class="wps-button wps-button--default">
-                            <?php esc_html_e('Retry', 'wp-statistics'); ?>
-                        </a>
                     <?php else : ?>
                         <a data-last-sync="<?php echo esc_attr($lastSyncTime); ?>"
                             <?php if (!$gscProperty || !$isAuthenticated) : ?>
