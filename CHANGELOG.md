@@ -3,7 +3,8 @@
 - **Fix:** Improved compatibility with Bedrock when WP Statistics is placed in mu-plugins by fixing asset hashing and obfuscated tracker path resolution.
 - **Dev:** Added `wp_statistics_register_background_jobs` filter to allow add-ons to register custom background processes.
 - **Dev:** Added `wp_statistics_register_data_migrations` filter to allow add-ons to register custom data migration keys.
-- **Enhancement:** Added pagination support for Category Analytics.
+- **Enhancement:** Added pagination support for Category Analytics
+- **Enhancement:** Added PHP environment configuration values (memory_limit, max_execution_time, post_max_size, upload_max_filesize) to anonymous usage data.
 - **Fix:** Prevent infinite or extremely large percentage values when no previous analytics data exists.
 
 = 14.16 - 2025-12-01 =
