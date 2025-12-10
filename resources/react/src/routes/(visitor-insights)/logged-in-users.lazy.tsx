@@ -64,9 +64,9 @@ const createColumns = (pluginUrl: string): ColumnDef<LoggedInUser>[] => [
               <TooltipTrigger asChild>
                 <button className="flex items-center">
                   <img
-                    src={`https://flagcdn.com/w20/${user.countryCode}.png`}
+                    src={`${pluginUrl}public/images/flags/${user.countryCode}.svg`}
                     alt={user.country}
-                    className="w-5 h-4 object-cover rounded-sm"
+                    className="w-5 h-5 object-contain"
                   />
                 </button>
               </TooltipTrigger>

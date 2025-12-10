@@ -56,9 +56,9 @@ const createColumns = (pluginUrl: string): ColumnDef<OnlineVisitor>[] => [
               <TooltipTrigger asChild>
                 <button className="flex items-center">
                   <img
-                    src={`https://flagcdn.com/w20/${visitor.countryCode}.png`}
+                    src={`${pluginUrl}public/images/flags/${visitor.countryCode}.svg`}
                     alt={visitor.country}
-                    className="w-5 h-4 object-cover rounded-sm"
+                    className="w-5 h-5 object-contain"
                   />
                 </button>
               </TooltipTrigger>
@@ -140,7 +140,7 @@ const createColumns = (pluginUrl: string): ColumnDef<OnlineVisitor>[] => [
       const secs = seconds % 60
       const formatted = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
 
-      return <span className="font-mono">{formatted}</span>
+      return <span>{formatted}</span>
     },
   },
   {

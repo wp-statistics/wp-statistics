@@ -74,9 +74,9 @@ const createColumns = (pluginUrl: string): ColumnDef<ViewData>[] => [
               <TooltipTrigger asChild>
                 <button className="cursor-pointer flex items-center">
                   <img
-                    src={`https://flagcdn.com/w20/${visitorInfo.country.code}.png`}
+                    src={`${pluginUrl}public/images/flags/${visitorInfo.country.code}.svg`}
                     alt={visitorInfo.country.name}
-                    className="w-5 h-4 object-cover rounded-sm"
+                    className="w-5 h-5 object-contain"
                   />
                 </button>
               </TooltipTrigger>

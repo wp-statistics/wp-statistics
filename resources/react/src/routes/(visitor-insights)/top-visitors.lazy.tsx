@@ -83,9 +83,9 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
               <TooltipTrigger asChild>
                 <button className="flex items-center">
                   <img
-                    src={`https://flagcdn.com/w20/${visitor.countryCode}.png`}
+                    src={`${pluginUrl}public/images/flags/${visitor.countryCode}.svg`}
                     alt={visitor.country}
-                    className="w-5 h-4 object-cover rounded-sm"
+                    className="w-5 h-5 object-contain"
                   />
                 </button>
               </TooltipTrigger>
@@ -318,7 +318,7 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <span className="cursor-pointer pr-4 font-mono">{formatted}</span>
+                <span className="cursor-pointer pr-4">{formatted}</span>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Average session duration: {formatted}</p>

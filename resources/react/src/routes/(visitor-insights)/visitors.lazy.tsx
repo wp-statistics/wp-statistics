@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 import { DataTable } from '@/components/custom/data-table'
@@ -6,6 +7,7 @@ import { __ } from '@wordpress/i18n'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Info } from 'lucide-react'
 import { WordPress } from '@/lib/wordpress'
+import { FilterBar, type Filter } from '@/components/custom/filter-bar'
 
 export const Route = createLazyFileRoute('/(visitor-insights)/visitors')({
   component: RouteComponent,
@@ -82,9 +84,9 @@ const createColumns = (pluginUrl: string): ColumnDef<Visitor>[] => [
               <TooltipTrigger asChild>
                 <button className="flex items-center">
                   <img
-                    src={`https://flagcdn.com/w20/${visitor.countryCode}.png`}
+                    src={`${pluginUrl}public/images/flags/${visitor.countryCode}.svg`}
                     alt={visitor.country}
-                    className="w-5 h-4 object-cover rounded-sm"
+                    className="w-5 h-5 object-contain"
                   />
                 </button>
               </TooltipTrigger>
@@ -317,7 +319,7 @@ const createColumns = (pluginUrl: string): ColumnDef<Visitor>[] => [
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <span className="cursor-pointer pr-4 font-mono">{formatted}</span>
+                <span className="cursor-pointer pr-4">{formatted}</span>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Average session duration: {formatted}</p>
@@ -530,14 +532,41 @@ const generateFakeData = (): Visitor[] => {
   return visitors.sort((a, b) => b.lastVisit.getTime() - a.lastVisit.getTime())
 }
 
+// Initial fake filter data matching the screenshot
+const initialFilters: Filter[] = [
+  { id: 'visitor-growth', label: 'Visitor Growth', operator: '<', value: 2 },
+  { id: 'views', label: 'Views', operator: '<', value: 10 },
+  { id: 'exits', label: 'Exits', operator: '=', value: 5 },
+  { id: 'bounce-rate', label: 'Bounce Rate', operator: '>', value: 4 },
+  { id: 'url', label: 'URL', operator: 'Contains', value: 2 },
+]
+
 function RouteComponent() {
+  const [filters, setFilters] = useState<Filter[]>(initialFilters)
   const fakeData = generateFakeData()
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
 
+  const handleRemoveFilter = (filterId: string) => {
+    setFilters((prev) => prev.filter((f) => f.id !== filterId))
+  }
+
   return (
     <div className="min-w-0">
       <h1 className="text-2xl font-medium text-neutral-700 mb-6">{__('Visitors', 'wp-statistics')}</h1>
+
+      {/* Filter Bar */}
+      <FilterBar
+        filters={filters}
+        onRemoveFilter={handleRemoveFilter}
+        icon={
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white border border-gray-200">
+            <span className="text-lg font-bold">V</span>
+          </div>
+        }
+        className="mb-6"
+      />
+
       <DataTable
         columns={createColumns(pluginUrl)}
         data={fakeData}

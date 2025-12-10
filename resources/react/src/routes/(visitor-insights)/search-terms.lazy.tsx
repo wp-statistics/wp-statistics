@@ -18,7 +18,7 @@ const columns: ColumnDef<SearchTermData>[] = [
     cell: ({ row }) => {
       const searchTerm = row.getValue('searchTerm') as string
       const displayTerm = searchTerm.length > 50 ? `${searchTerm.substring(0, 50)}…` : searchTerm
-      return <div className="max-w-md">{displayTerm}</div>
+      return <div className="max-w-md min-h-7 align-middle flex items-center">{displayTerm}</div>
     },
   },
   {

@@ -42,6 +42,7 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   --color-header: var(--header);
+  --color-chip: var(--chip);
 }
 
 :root {
@@ -55,7 +56,7 @@
   --destructive: oklch(0.577 0.215 27.325);
   --accent-foreground: oklch(0.208 0.04 265.755);
   --foreground: oklch(0.129 0.041 264.695);
-  --input: oklch(0.929 0.013 255.508);
+  --input: rgb(203, 213, 225);
   --muted: oklch(0.968 0.007 247.896);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
@@ -84,6 +85,8 @@
   --font-mono: Roboto Mono, monospace;
   --header: oklch(0.32 0.02 250);
   --header-premium: oklch(0.2 0.1 282);
+
+  --chip: rgba(226, 232, 240, 1);
 }
 
 .dark {
@@ -123,6 +126,8 @@
 
   --header: oklch(0.32 0.02 250);
   --header-premium: oklch(0.2 0.1 282);
+
+  --chip: rgba(226, 232, 240, 1);
 }
 
 @layer base {
