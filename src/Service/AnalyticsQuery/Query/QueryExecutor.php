@@ -123,7 +123,7 @@ class QueryExecutor implements QueryExecutorInterface
         $filters      = $query->getFilters();
         $dateFrom     = $query->getDateFrom();
         $dateTo       = $query->getDateTo();
-        $orderBy      = $query->getOrderBy() ?? ($sources[0] ?? null);
+        $orderBy      = $this->validateOrderBy($query->getOrderBy(), $sources, $groupByNames);
         $order        = $query->getOrder();
         $perPage      = $query->getPerPage();
         $offset       = $query->getOffset();
@@ -266,6 +266,50 @@ class QueryExecutor implements QueryExecutorInterface
             'sql'    => $sql,
             'params' => $params,
         ];
+    }
+
+    /**
+     * Validate and resolve the ORDER BY field.
+     *
+     * Ensures the order_by value is a valid source name or group_by column.
+     * If invalid, falls back to the first source or null.
+     *
+     * @param string|null $orderBy      Requested order_by value.
+     * @param array       $sources      Available source names (used as column aliases).
+     * @param array       $groupByNames Available group_by names.
+     * @return string|null Valid order_by value or null.
+     */
+    private function validateOrderBy(?string $orderBy, array $sources, array $groupByNames): ?string
+    {
+        // If no order_by specified, default to first source
+        if ($orderBy === null) {
+            return $sources[0] ?? null;
+        }
+
+        // Check if order_by is a valid source name (these become column aliases)
+        if (in_array($orderBy, $sources, true)) {
+            return $orderBy;
+        }
+
+        // Check if order_by is a valid group_by column
+        foreach ($groupByNames as $groupByName) {
+            $groupByItem = $this->groupByRegistry->get($groupByName);
+            if ($groupByItem) {
+                // Get the group by column to check if it matches
+                $selectColumns = $groupByItem->getSelectColumns();
+                foreach ($selectColumns as $selectColumn) {
+                    // Extract alias from "expression AS alias" format
+                    if (preg_match('/\s+AS\s+(\w+)$/i', $selectColumn, $matches)) {
+                        if ($matches[1] === $orderBy) {
+                            return $orderBy;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Invalid order_by, fall back to first source
+        return $sources[0] ?? null;
     }
 
     /**
