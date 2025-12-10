@@ -1859,9 +1859,7 @@ class Helper
     {
         $firstNumber  = intval($firstNumber);
         $secondNumber = intval($secondNumber);
-
-        // Return null if there's no previous period data to compare against
-        // This prevents displaying infinite or misleading percentage changes
+        
         if ($firstNumber == 0) {
             return null;
         }
