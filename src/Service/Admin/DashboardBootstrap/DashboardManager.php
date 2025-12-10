@@ -2,13 +2,17 @@
 
 namespace WP_Statistics\Service\Admin\DashboardBootstrap;
 
+use WP_Statistics\Components\Ajax;
 use WP_Statistics\Service\Assets\AssetsFactory;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\RootController;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Managers\LocalizeDataManager;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\GlobalDataProvider;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\HeaderDataProvider;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\LayoutDataProvider;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\FiltersProvider;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Requests\AjaxManager;
+use WP_Statistics\Service\AnalyticsQuery\Registry\FilterRegistry;
+use WP_Statistics\Utils\User;
 
 /**
  * Manages the initialization and coordination of the WP Statistics dashboard components.
@@ -65,6 +69,7 @@ class DashboardManager
     {
         $this->initControllers();
         $this->initAjax();
+        $this->initGlobalAjax();
         $this->initLocalizeData();
 
         AssetsFactory::React();
@@ -99,6 +104,99 @@ class DashboardManager
     }
 
     /**
+     * Initialize global AJAX actions.
+     *
+     * Registers AJAX actions that are not page-specific and available globally
+     * across all dashboard pages.
+     *
+     * @return void
+     */
+    private function initGlobalAjax()
+    {
+        // Global filter options endpoint - available for all pages with filters
+        Ajax::register('get_filter_options', function () {
+            $nonce = $_SERVER['HTTP_X_WP_NONCE'] ?? '';
+
+            if (!wp_verify_nonce($nonce, 'wp_statistics_dashboard_nonce')) {
+                wp_send_json_error([
+                    'code'    => 'bad_nonce',
+                    'message' => __('Security check failed. Please refresh the page and try again.', 'wp-statistics')
+                ], 403);
+            }
+
+            if (!User::hasAccess()) {
+                wp_send_json_error([
+                    'code'    => 'forbidden',
+                    'message' => __('You do not have permission to perform this action.', 'wp-statistics'),
+                ], 403);
+            }
+
+            try {
+                $response = $this->handleGetFilterOptions();
+                wp_send_json_success($response);
+            } catch (\Exception $e) {
+                wp_send_json_error([
+                    'message' => $e->getMessage()
+                ]);
+            }
+        }, false);
+    }
+
+    /**
+     * Handle get filter options request.
+     *
+     * @return array Filter options response
+     */
+    private function handleGetFilterOptions()
+    {
+        $filterName = isset($_POST['filter']) ? sanitize_text_field($_POST['filter']) : '';
+        $search     = isset($_POST['search']) ? sanitize_text_field($_POST['search']) : '';
+        $limit      = isset($_POST['limit']) ? absint($_POST['limit']) : 20;
+
+        if (empty($filterName)) {
+            return [
+                'success' => false,
+                'error'   => [
+                    'code'    => 'missing_filter',
+                    'message' => __('Filter name is required.', 'wp-statistics'),
+                ],
+            ];
+        }
+
+        $registry = FilterRegistry::getInstance();
+
+        if (!$registry->has($filterName)) {
+            return [
+                'success' => false,
+                'error'   => [
+                    'code'    => 'invalid_filter',
+                    'message' => __('Invalid filter name.', 'wp-statistics'),
+                ],
+            ];
+        }
+
+        $filter = $registry->get($filterName);
+
+        // Check if filter is searchable
+        if (!$filter->isSearchable()) {
+            // For non-searchable filters, return static options
+            $options = $filter->getOptions();
+            return [
+                'success' => true,
+                'options' => $options ?: [],
+            ];
+        }
+
+        // Get searchable options
+        $options = $filter->searchOptions($search, $limit);
+
+        return [
+            'success' => true,
+            'options' => $options,
+        ];
+    }
+
+    /**
      * Initialize localized data providers.
      *
      * Sets up the LocalizeDataManager and registers all data providers
@@ -118,6 +216,7 @@ class DashboardManager
             ->registerProvider(new LayoutDataProvider())
             ->registerProvider(new GlobalDataProvider())
             ->registerProvider(new HeaderDataProvider())
+            ->registerProvider(new FiltersProvider())
             ->init();
     }
 }
