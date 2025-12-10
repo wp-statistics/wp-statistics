@@ -539,16 +539,21 @@ function RouteComponent() {
 
   return (
     <div className="min-w-0">
-      <h1 className="text-2xl font-medium text-neutral-700 mb-6">{__('Views', 'wp-statistics')}</h1>
-      <DataTable
-        columns={columns}
-        data={fakeData}
-        defaultSort="lastVisit"
-        rowLimit={50}
-        showColumnManagement={true}
-        showPagination={true}
-        emptyStateMessage={__('No views found for the selected period', 'wp-statistics')}
-      />
+      <div className="flex items-center justify-between p-4 bg-white border-b border-input">
+        <h1 className="text-2xl font-medium text-neutral-700">{__('Views', 'wp-statistics')}</h1>
+      </div>
+
+      <div className="p-4">
+        <DataTable
+          columns={columns}
+          data={fakeData}
+          defaultSort="lastVisit"
+          rowLimit={50}
+          showColumnManagement={true}
+          showPagination={true}
+          emptyStateMessage={__('No views found for the selected period', 'wp-statistics')}
+        />
+      </div>
     </div>
   )
 }

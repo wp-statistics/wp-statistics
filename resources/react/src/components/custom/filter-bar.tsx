@@ -26,7 +26,7 @@ function FilterBar({ filters, onRemoveFilter, className }: FilterBarProps) {
   return (
     <div className={cn('flex flex-wrap items-center gap-2', className)}>
       <div className="shrink-0">
-        <Funnel className="stroke-muted-foreground fill-muted-foreground" />
+        <Funnel className="stroke-muted-foreground fill-muted-foreground w-5 h-5" />
       </div>
       {filters.map((filter) => (
         <FilterChip

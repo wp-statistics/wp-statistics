@@ -137,17 +137,22 @@ const fakeData: SearchTermData[] = [
 
 function RouteComponent() {
   return (
-    <div>
-      <h1 className="text-2xl font-medium text-neutral-700 mb-6">{__('Search Terms', 'wp-statistics')}</h1>
-      <DataTable
-        columns={columns}
-        data={fakeData}
-        defaultSort="searches"
-        rowLimit={20}
-        showColumnManagement={false}
-        showPagination={true}
-        emptyStateMessage={__('No data available for the selected period', 'wp-statistics')}
-      />
+    <div className="min-w-0">
+      <div className="flex items-center justify-between p-4 bg-white border-b border-input">
+        <h1 className="text-2xl font-medium text-neutral-700">{__('Search Terms', 'wp-statistics')}</h1>
+      </div>
+
+      <div className="p-4">
+        <DataTable
+          columns={columns}
+          data={fakeData}
+          defaultSort="searches"
+          rowLimit={20}
+          showColumnManagement={false}
+          showPagination={true}
+          emptyStateMessage={__('No data available for the selected period', 'wp-statistics')}
+        />
+      </div>
     </div>
   )
 }

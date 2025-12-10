@@ -395,18 +395,22 @@ function RouteComponent() {
   const fakeVisitors = generateFakeOnlineVisitors()
 
   return (
-    <div className="min-w-0 grid gap-6">
-      <h1 className="text-2xl font-medium text-neutral-700">{__('Online Visitors', 'wp-statistics')}</h1>
+    <div className="min-w-0">
+      <div className="flex items-center justify-between p-4 bg-white border-b border-input">
+        <h1 className="text-2xl font-medium text-neutral-700">{__('Online Visitors', 'wp-statistics')}</h1>
+      </div>
 
-      <DataTable
-        columns={createColumns(pluginUrl)}
-        data={fakeVisitors}
-        defaultSort="lastVisit"
-        rowLimit={50}
-        showColumnManagement={true}
-        showPagination={true}
-        emptyStateMessage={__('No visitors are currently online', 'wp-statistics')}
-      />
+      <div className="p-4">
+        <DataTable
+          columns={createColumns(pluginUrl)}
+          data={fakeVisitors}
+          defaultSort="lastVisit"
+          rowLimit={50}
+          showColumnManagement={true}
+          showPagination={true}
+          emptyStateMessage={__('No visitors are currently online', 'wp-statistics')}
+        />
+      </div>
     </div>
   )
 }

@@ -7,6 +7,7 @@ import { __ } from '@wordpress/i18n'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Info } from 'lucide-react'
 import { WordPress } from '@/lib/wordpress'
+import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { FilterBar, type Filter } from '@/components/custom/filter-bar'
 
 export const Route = createLazyFileRoute('/(visitor-insights)/visitors')({
@@ -532,51 +533,88 @@ const generateFakeData = (): Visitor[] => {
   return visitors.sort((a, b) => b.lastVisit.getTime() - a.lastVisit.getTime())
 }
 
-// Initial fake filter data matching the screenshot
-const initialFilters: Filter[] = [
-  { id: 'visitor-growth', label: 'Visitor Growth', operator: '<', value: 2 },
-  { id: 'views', label: 'Views', operator: '<', value: 10 },
-  { id: 'exits', label: 'Exits', operator: '=', value: 5 },
-  { id: 'bounce-rate', label: 'Bounce Rate', operator: '>', value: 4 },
-  { id: 'url', label: 'URL', operator: 'Contains', value: 2 },
+// Filter fields configuration for the visitors page
+const filterFields: FilterField[] = [
+  {
+    id: 'visitors',
+    label: 'Visitors',
+    operators: ['greater_than', 'less_than', 'equal_to'],
+    type: 'number',
+  },
+  {
+    id: 'exits',
+    label: 'Exits',
+    operators: ['greater_than', 'less_than', 'equal_to'],
+    type: 'number',
+  },
+  {
+    id: 'bounce-rate',
+    label: 'Bounce Rate',
+    operators: ['greater_than', 'less_than', 'equal_to'],
+    type: 'number',
+  },
+  {
+    id: 'url',
+    label: 'URL',
+    operators: ['contains', 'equal_to'],
+    type: 'text',
+  },
+  {
+    id: 'author',
+    label: 'Author',
+    operators: ['is', 'equal_to'],
+    type: 'select',
+    options: [
+      { value: 'admin', label: 'Admin' },
+      { value: 'editor', label: 'Editor' },
+      { value: 'author', label: 'Author' },
+    ],
+  },
+]
+
+// Initial fake applied filters
+const initialAppliedFilters: Filter[] = [
+  { id: 'visitors-1', label: 'Visitors', operator: '>', value: 1 },
+  { id: 'exits-2', label: 'Exits', operator: '=', value: 5 },
+  { id: 'bounce-rate-3', label: 'Bounce Rate', operator: '>', value: 4 },
+  { id: 'url-4', label: 'URL', operator: 'Contains', value: 2 },
 ]
 
 function RouteComponent() {
-  const [filters, setFilters] = useState<Filter[]>(initialFilters)
+  const [appliedFilters, setAppliedFilters] = useState<Filter[]>(initialAppliedFilters)
   const fakeData = generateFakeData()
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
 
   const handleRemoveFilter = (filterId: string) => {
-    setFilters((prev) => prev.filter((f) => f.id !== filterId))
+    setAppliedFilters((prev) => prev.filter((f) => f.id !== filterId))
   }
 
   return (
     <div className="min-w-0">
-      <h1 className="text-2xl font-medium text-neutral-700 mb-6">{__('Visitors', 'wp-statistics')}</h1>
+      {/* Header row with title and filter button */}
+      <div className="flex items-center justify-between p-4 bg-white border-b border-input">
+        <h1 className="text-2xl font-medium text-neutral-700">{__('Visitors', 'wp-statistics')}</h1>
+        <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={setAppliedFilters} />
+      </div>
 
-      {/* Filter Bar */}
-      <FilterBar
-        filters={filters}
-        onRemoveFilter={handleRemoveFilter}
-        icon={
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white border border-gray-200">
-            <span className="text-lg font-bold">V</span>
-          </div>
-        }
-        className="mb-6"
-      />
+      <div className="p-4">
+        {/* Applied filters row (separate from button) */}
+        {appliedFilters.length > 0 && (
+          <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-4" />
+        )}
 
-      <DataTable
-        columns={createColumns(pluginUrl)}
-        data={fakeData}
-        defaultSort="lastVisit"
-        rowLimit={50}
-        showColumnManagement={true}
-        showPagination={true}
-        hiddenColumns={['viewsPerSession', 'bounceRate', 'visitorStatus']}
-        emptyStateMessage={__('No visitors found for the selected period', 'wp-statistics')}
-      />
+        <DataTable
+          columns={createColumns(pluginUrl)}
+          data={fakeData}
+          defaultSort="lastVisit"
+          rowLimit={50}
+          showColumnManagement={true}
+          showPagination={true}
+          hiddenColumns={['viewsPerSession', 'bounceRate', 'visitorStatus']}
+          emptyStateMessage={__('No visitors found for the selected period', 'wp-statistics')}
+        />
+      </div>
     </div>
   )
 }
