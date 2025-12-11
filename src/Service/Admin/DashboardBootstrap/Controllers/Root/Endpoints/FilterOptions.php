@@ -8,11 +8,10 @@ use WP_Statistics\Service\AnalyticsQuery\Registry\FilterRegistry;
 /**
  * Filter Options endpoint handler.
  *
- * This is a GLOBAL endpoint that provides searchable filter options
- * for the dashboard filters. It handles both static and dynamic
- * (searchable) filter options.
+ * Provides searchable filter options for the dashboard filters.
+ * Handles both static and dynamic (searchable) filter options.
  *
- * Registered globally via AjaxManager::registerGlobalEndpoint() as
+ * Registered via AjaxManager::registerGlobalEndpoint() as
  * 'wp_statistics_get_filter_options' AJAX action.
  *
  * @since 15.0.0
@@ -43,19 +42,6 @@ class FilterOptions implements PageActionInterface
     public function getEndpointName()
     {
         return 'get_filter_options';
-    }
-
-    /**
-     * Register actions for this handler.
-     *
-     * This handler is registered globally via AjaxManager::registerGlobalEndpoint()
-     * rather than through the per-page action system. Returns empty array.
-     *
-     * @return array<string, string> Action to method mapping
-     */
-    public function registerActions()
-    {
-        return [];
     }
 
     /**

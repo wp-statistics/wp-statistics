@@ -104,7 +104,6 @@ class DashboardManager
     private function initAjax()
     {
         $this->ajax = (new AjaxManager())
-            ->init($this->controllers)
             ->registerGlobalEndpoint(new AnalyticsQuery())
             ->registerGlobalEndpoint(new FilterOptions());
     }

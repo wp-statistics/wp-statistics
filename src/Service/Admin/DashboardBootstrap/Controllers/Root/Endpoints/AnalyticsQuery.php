@@ -23,27 +23,11 @@ class AnalyticsQuery extends AbstractAnalyticsPage
     /**
      * Get the endpoint identifier.
      *
-     * Note: This is a global endpoint, not tied to any specific page.
-     * The identifier is used for building the AJAX action name.
-     *
      * @return string The endpoint identifier
      */
     public function getEndpointName()
     {
         return 'analytics';
-    }
-
-    /**
-     * Register actions for this handler.
-     *
-     * Note: This handler is registered globally via DashboardManager::initGlobalAjax()
-     * rather than through the per-page action system. Returns empty array.
-     *
-     * @return array<string, string> Action to method mapping
-     */
-    public function registerActions()
-    {
-        return [];
     }
 
     /**
