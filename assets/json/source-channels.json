@@ -6945,6 +6945,27 @@
 
   {
     "type": "referral",
+    "description": "Google Discover traffic",
+    "channels": [
+      {
+        "name": "Google Discover",
+        "identifier": "google_discover",
+        "domains": [
+          "com.google.android.googlequicksearchbox",
+          "com.google.android.apps.genie.geniewidget",
+          "discover.google.com",
+          "googleapis.com",
+          "google_discover",
+          "googlediscover",
+          "discover"
+        ]
+      }
+    ],
+    "rules": []
+  },
+
+  {
+    "type": "referral",
     "description": "Referral traffic",
     "channels": [
       {
