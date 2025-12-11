@@ -17,7 +17,7 @@ use WP_Statistics\Service\AnalyticsQuery\Filters\ReferrerChannelFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\ReferrerDomainFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\ReferrerNameFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\PostTypeFilter;
-use WP_Statistics\Service\AnalyticsQuery\Filters\AuthorIdFilter;
+use WP_Statistics\Service\AnalyticsQuery\Filters\AuthorFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\UserIdFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\LoggedInFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\PageFilter;
@@ -109,7 +109,7 @@ class FilterRegistry
 
             // Content filters
             new PostTypeFilter(),
-            new AuthorIdFilter(),
+            new AuthorFilter(),
             new PageFilter(),
             new ResourceIdFilter(),
 
