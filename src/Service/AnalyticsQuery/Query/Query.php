@@ -92,19 +92,37 @@ class Query implements QueryInterface
     private $dateColumn;
 
     /**
+     * Whether to aggregate remaining items as "Other".
+     * When true, shows per_page - 1 items with data + 1 "Other" row.
+     *
+     * @var bool
+     */
+    private $aggregateOthers;
+
+    /**
+     * Original per_page value when aggregate_others is enabled.
+     * Used to determine the final output count after aggregation.
+     *
+     * @var int|null
+     */
+    private $originalPerPage;
+
+    /**
      * Constructor.
      *
-     * @param array       $sources    Sources to retrieve.
-     * @param array       $groupBy    Group by to group by.
-     * @param array       $filters    Filters to apply.
-     * @param string|null $dateFrom   Start date.
-     * @param string|null $dateTo     End date.
-     * @param string|null $orderBy    ORDER BY field.
-     * @param string      $order      ORDER direction.
-     * @param int         $page       Page number.
-     * @param int         $perPage    Items per page.
-     * @param bool        $compare    Whether comparison is enabled.
-     * @param string|null $dateColumn Custom date column for filtering.
+     * @param array       $sources         Sources to retrieve.
+     * @param array       $groupBy         Group by to group by.
+     * @param array       $filters         Filters to apply.
+     * @param string|null $dateFrom        Start date.
+     * @param string|null $dateTo          End date.
+     * @param string|null $orderBy         ORDER BY field.
+     * @param string      $order           ORDER direction.
+     * @param int         $page            Page number.
+     * @param int         $perPage         Items per page.
+     * @param bool        $compare         Whether comparison is enabled.
+     * @param string|null $dateColumn       Custom date column for filtering.
+     * @param bool        $aggregateOthers  Whether to aggregate remaining items as "Other".
+     * @param int|null    $originalPerPage  Original per_page when aggregate_others is enabled.
      */
     public function __construct(
         array $sources = [],
@@ -117,19 +135,23 @@ class Query implements QueryInterface
         int $page = 1,
         int $perPage = 10,
         bool $compare = false,
-        ?string $dateColumn = null
+        ?string $dateColumn = null,
+        bool $aggregateOthers = false,
+        ?int $originalPerPage = null
     ) {
-        $this->sources    = $sources;
-        $this->groupBy    = $groupBy;
-        $this->filters    = $filters;
-        $this->dateFrom   = $dateFrom;
-        $this->dateTo     = $dateTo;
-        $this->orderBy    = $orderBy;
-        $this->order      = strtoupper($order) === 'ASC' ? 'ASC' : 'DESC';
-        $this->page       = max(1, $page);
-        $this->perPage    = min(100, max(1, $perPage));
-        $this->compare    = $compare;
-        $this->dateColumn = $dateColumn;
+        $this->sources         = $sources;
+        $this->groupBy         = $groupBy;
+        $this->filters         = $filters;
+        $this->dateFrom        = $dateFrom;
+        $this->dateTo          = $dateTo;
+        $this->orderBy         = $orderBy;
+        $this->order           = strtoupper($order) === 'ASC' ? 'ASC' : 'DESC';
+        $this->page            = max(1, $page);
+        $this->perPage         = min(1000, max(1, $perPage)); // Allow up to 1000 for aggregation
+        $this->compare         = $compare;
+        $this->dateColumn      = $dateColumn;
+        $this->aggregateOthers = $aggregateOthers;
+        $this->originalPerPage = $originalPerPage;
     }
 
     /**
@@ -223,6 +245,38 @@ class Query implements QueryInterface
     }
 
     /**
+     * Check if aggregation is enabled.
+     *
+     * @return bool
+     */
+    public function hasAggregateOthers(): bool
+    {
+        return $this->aggregateOthers;
+    }
+
+    /**
+     * Get the original per_page value for aggregation output.
+     *
+     * @return int|null
+     */
+    public function getOriginalPerPage(): ?int
+    {
+        return $this->originalPerPage;
+    }
+
+    /**
+     * Get the aggregation limit (final output count).
+     *
+     * Returns the original per_page if set, otherwise the current per_page.
+     *
+     * @return int
+     */
+    public function getAggregationLimit(): int
+    {
+        return $this->originalPerPage ?? $this->perPage;
+    }
+
+    /**
      * Get the LIMIT offset.
      *
      * @return int
@@ -238,17 +292,19 @@ class Query implements QueryInterface
     public function toArray(): array
     {
         return [
-            'sources'     => $this->sources,
-            'group_by'    => $this->groupBy,
-            'filters'     => $this->filters,
-            'date_from'   => $this->dateFrom,
-            'date_to'     => $this->dateTo,
-            'date_column' => $this->dateColumn,
-            'order_by'    => $this->orderBy,
-            'order'       => $this->order,
-            'page'        => $this->page,
-            'per_page'    => $this->perPage,
-            'compare'     => $this->compare,
+            'sources'            => $this->sources,
+            'group_by'           => $this->groupBy,
+            'filters'            => $this->filters,
+            'date_from'          => $this->dateFrom,
+            'date_to'            => $this->dateTo,
+            'date_column'        => $this->dateColumn,
+            'order_by'           => $this->orderBy,
+            'order'              => $this->order,
+            'page'               => $this->page,
+            'per_page'           => $this->perPage,
+            'compare'            => $this->compare,
+            'aggregate_others'   => $this->aggregateOthers,
+            '_original_per_page' => $this->originalPerPage,
         ];
     }
 
@@ -272,7 +328,9 @@ class Query implements QueryInterface
             $this->page,
             $this->perPage,
             $this->compare,
-            $this->dateColumn
+            $this->dateColumn,
+            $this->aggregateOthers,
+            $this->originalPerPage
         );
     }
 
@@ -294,7 +352,9 @@ class Query implements QueryInterface
             $this->page,
             $this->perPage,
             false,
-            $this->dateColumn
+            $this->dateColumn,
+            $this->aggregateOthers,
+            $this->originalPerPage
         );
     }
 
@@ -317,7 +377,9 @@ class Query implements QueryInterface
             $data['page'] ?? 1,
             $data['per_page'] ?? 10,
             $data['compare'] ?? false,
-            $data['date_column'] ?? null
+            $data['date_column'] ?? null,
+            !empty($data['aggregate_others']),
+            isset($data['_original_per_page']) ? (int) $data['_original_per_page'] : null
         );
     }
 }

@@ -176,7 +176,7 @@ class AnalyticsQueryHandler
 
             try {
                 $result            = $this->handle($queryData);
-                $results[$queryId] = $result['data'];
+                $results[$queryId] = $result;
             } catch (\Exception $e) {
                 $errors[$queryId] = [
                     'code'    => $this->getErrorCode($e),
@@ -337,6 +337,13 @@ class AnalyticsQueryHandler
 
         // Normalize filters from frontend array format to key-value format
         $request['filters'] = $this->normalizeFilters($request['filters']);
+
+        // When aggregate_others is enabled, we need to fetch more rows to aggregate
+        // Store the original per_page for final output, but fetch more initially
+        if (!empty($request['aggregate_others'])) {
+            $request['_original_per_page'] = $request['per_page'];
+            $request['per_page'] = 1000; // Fetch enough rows to aggregate
+        }
 
         return $request;
     }
@@ -542,6 +549,12 @@ class AnalyticsQueryHandler
         $perPage   = $query->getPerPage();
         $page      = $query->getPage();
         $totalRows = $result['total'] ?? 0;
+        $rows      = $result['rows'] ?? [];
+
+        // Handle aggregate_others: show top N-1 items + "Other" row
+        if ($query->hasAggregateOthers() && !empty($groupBy) && count($rows) > 0) {
+            $rows = $this->aggregateOthersRows($rows, $query);
+        }
 
         $response = [
             'success' => true,
@@ -557,7 +570,7 @@ class AnalyticsQueryHandler
 
         // Add rows if group by are present
         if (!empty($groupBy)) {
-            $response['data']['rows']       = $result['rows'];
+            $response['data']['rows']       = $rows;
             $response['meta']['page']       = $page;
             $response['meta']['per_page']   = $perPage;
             $response['meta']['total_pages'] = ceil($totalRows / $perPage);
@@ -573,6 +586,68 @@ class AnalyticsQueryHandler
         }
 
         return $response;
+    }
+
+    /**
+     * Aggregate rows beyond top N into an "Other" row.
+     *
+     * When aggregate_others is true, shows per_page - 1 items with data
+     * and aggregates all remaining rows into a single "Other" row.
+     *
+     * @param array $rows  Result rows.
+     * @param Query $query Query object.
+     * @return array Rows with "Other" aggregation.
+     */
+    private function aggregateOthersRows(array $rows, Query $query): array
+    {
+        $limit   = $query->getAggregationLimit(); // Use original per_page as the final output count
+        $sources = $query->getSources();
+        $groupBy = $query->getGroupBy();
+
+        // If we have fewer or equal rows than the limit, no aggregation needed
+        if (count($rows) <= $limit) {
+            return $rows;
+        }
+
+        // Take first N-1 rows
+        $topRows    = array_slice($rows, 0, $limit - 1);
+        $otherRows  = array_slice($rows, $limit - 1);
+
+        // Build "Other" row by summing source values
+        $otherRow = [];
+
+        // Set group by field(s) to "Other"
+        foreach ($groupBy as $groupByItem) {
+            $groupByObj = $this->groupByRegistry->get($groupByItem);
+            $alias      = $groupByObj ? $groupByObj->getAlias() : $groupByItem;
+            $otherRow[$alias] = __('Other', 'wp-statistics');
+        }
+
+        // Sum up source values
+        foreach ($sources as $source) {
+            $otherRow[$source] = 0;
+            foreach ($otherRows as $row) {
+                $otherRow[$source] += (float) ($row[$source] ?? 0);
+            }
+        }
+
+        // Handle comparison data if present
+        if (isset($otherRows[0]['previous'])) {
+            $otherRow['previous'] = [];
+            foreach ($sources as $source) {
+                $otherRow['previous'][$source] = 0;
+                foreach ($otherRows as $row) {
+                    $otherRow['previous'][$source] += (float) ($row['previous'][$source] ?? 0);
+                }
+            }
+        }
+
+        // Mark as aggregated
+        $otherRow['is_other'] = true;
+
+        $topRows[] = $otherRow;
+
+        return $topRows;
     }
 
     /**

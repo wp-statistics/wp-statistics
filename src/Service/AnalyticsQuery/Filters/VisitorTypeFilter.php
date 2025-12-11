@@ -15,8 +15,8 @@ class VisitorTypeFilter extends AbstractFilter
     /** @var string SQL column: new visitor flag from visitors table (determines new vs returning) */
     protected $column = 'visitors.is_new';
 
-    /** @var string Data type: string for visitor type matching (new/returning) */
-    protected $type = 'string';
+    /** @var string Data type: integer for boolean flag (1=new, 0=returning) */
+    protected $type = 'integer';
 
     /** @var string UI component: dropdown with New/Returning options */
     protected $inputType = 'dropdown';
@@ -26,6 +26,17 @@ class VisitorTypeFilter extends AbstractFilter
 
     /** @var array Available on: visitors page for visitor segmentation */
     protected $groups = ['visitors'];
+
+    /** @var string Required base table: needs sessions table to join visitors */
+    protected $requirement = 'sessions';
+
+    /** @var array JOIN configuration to visitors table */
+    protected $joins = [
+        'table' => 'visitors',
+        'alias' => 'visitors',
+        'on'    => 'sessions.visitor_id = visitors.ID',
+        'type'  => 'LEFT',
+    ];
 
     /**
      * {@inheritdoc}
@@ -41,8 +52,8 @@ class VisitorTypeFilter extends AbstractFilter
     public function getOptions(): ?array
     {
         return [
-            ['value' => 'new', 'label' => esc_html__('New', 'wp-statistics')],
-            ['value' => 'returning', 'label' => esc_html__('Returning', 'wp-statistics')],
+            ['value' => 1, 'label' => esc_html__('New', 'wp-statistics')],
+            ['value' => 0, 'label' => esc_html__('Returning', 'wp-statistics')],
         ];
     }
 }
