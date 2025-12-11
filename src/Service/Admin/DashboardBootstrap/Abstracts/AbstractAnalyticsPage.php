@@ -9,20 +9,43 @@ use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidGroupByException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidDateRangeException;
 
 /**
- * Abstract base class for pages that use the AnalyticsQuery.
+ * Abstract base class for handlers that use the AnalyticsQuery.
  *
  * Provides common functionality for handling analytics queries from React widgets.
+ * Can be used for both:
+ * - Page-specific action handlers (registered per-page)
+ * - Global endpoint handlers (registered application-wide)
  *
  * @since 15.0.0
  */
 abstract class AbstractAnalyticsPage implements PageActionInterface
 {
     /**
+     * WordPress plugin prefix for AJAX actions.
+     */
+    protected const PREFIX = 'wp_statistics';
+
+    /**
      * Analytics query handler instance.
      *
      * @var AnalyticsQueryHandler|null
      */
     private $queryHandler = null;
+
+    /**
+     * Get the full AJAX action name.
+     *
+     * Builds the action name dynamically from prefix + endpoint name.
+     * This is the single source of truth for the action name used throughout
+     * the application (backend registration and frontend requests).
+     *
+     * @return string The full AJAX action name (e.g., 'wp_statistics_analytics')
+     */
+    public static function getActionName()
+    {
+        $instance = new static();
+        return static::PREFIX . '_' . $instance->getEndpointName();
+    }
 
     /**
      * Get or create the analytics query handler.

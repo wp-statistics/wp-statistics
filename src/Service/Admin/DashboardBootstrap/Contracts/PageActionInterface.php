@@ -3,25 +3,28 @@
 namespace WP_Statistics\Service\Admin\DashboardBootstrap\Contracts;
 
 /**
- * Interface for page action handlers.
+ * Interface for page action handlers and global endpoint handlers.
  *
- * Each page in the Root dashboard should implement this interface to define
- * its specific AJAX actions and page name. This approach keeps actions organized
- * by page and maintains single responsibility principle.
+ * This interface can be implemented by:
+ * - Page-specific action handlers (organized by page)
+ * - Global endpoint handlers (application-wide endpoints)
+ *
+ * This approach keeps actions organized and maintains single responsibility principle.
  *
  * @since 15.0.0
  */
 interface PageActionInterface
 {
     /**
-     * Get the page name.
+     * Get the endpoint/handler name.
      *
-     * Returns a unique identifier for this page that will be used as the key
-     * in the page handlers array.
+     * Returns a unique identifier for this handler. Can represent:
+     * - A page name for page-specific handlers (e.g., 'overview', 'traffic')
+     * - An endpoint name for global handlers (e.g., 'analytics', 'export')
      *
-     * @return string The page name (e.g., 'overview', 'traffic', 'reports')
+     * @return string The handler identifier
      */
-    public function getPageName();
+    public function getEndpointName();
 
     /**
      * Register AJAX actions for this page.

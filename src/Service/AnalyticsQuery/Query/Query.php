@@ -85,6 +85,13 @@ class Query implements QueryInterface
     private $compare;
 
     /**
+     * Custom date column for filtering.
+     *
+     * @var string|null
+     */
+    private $dateColumn;
+
+    /**
      * Constructor.
      *
      * @param array       $sources    Sources to retrieve.
@@ -97,6 +104,7 @@ class Query implements QueryInterface
      * @param int         $page       Page number.
      * @param int         $perPage    Items per page.
      * @param bool        $compare    Whether comparison is enabled.
+     * @param string|null $dateColumn Custom date column for filtering.
      */
     public function __construct(
         array $sources = [],
@@ -108,7 +116,8 @@ class Query implements QueryInterface
         string $order = 'DESC',
         int $page = 1,
         int $perPage = 10,
-        bool $compare = false
+        bool $compare = false,
+        ?string $dateColumn = null
     ) {
         $this->sources    = $sources;
         $this->groupBy    = $groupBy;
@@ -120,6 +129,7 @@ class Query implements QueryInterface
         $this->page       = max(1, $page);
         $this->perPage    = min(100, max(1, $perPage));
         $this->compare    = $compare;
+        $this->dateColumn = $dateColumn;
     }
 
     /**
@@ -203,6 +213,16 @@ class Query implements QueryInterface
     }
 
     /**
+     * Get custom date column for filtering.
+     *
+     * @return string|null
+     */
+    public function getDateColumn(): ?string
+    {
+        return $this->dateColumn;
+    }
+
+    /**
      * Get the LIMIT offset.
      *
      * @return int
@@ -218,16 +238,17 @@ class Query implements QueryInterface
     public function toArray(): array
     {
         return [
-            'sources'    => $this->sources,
-            'group_by'   => $this->groupBy,
-            'filters'    => $this->filters,
-            'date_from'  => $this->dateFrom,
-            'date_to'    => $this->dateTo,
-            'order_by'   => $this->orderBy,
-            'order'      => $this->order,
-            'page'       => $this->page,
-            'per_page'   => $this->perPage,
-            'compare'    => $this->compare,
+            'sources'     => $this->sources,
+            'group_by'    => $this->groupBy,
+            'filters'     => $this->filters,
+            'date_from'   => $this->dateFrom,
+            'date_to'     => $this->dateTo,
+            'date_column' => $this->dateColumn,
+            'order_by'    => $this->orderBy,
+            'order'       => $this->order,
+            'page'        => $this->page,
+            'per_page'    => $this->perPage,
+            'compare'     => $this->compare,
         ];
     }
 
@@ -250,7 +271,8 @@ class Query implements QueryInterface
             $this->order,
             $this->page,
             $this->perPage,
-            $this->compare
+            $this->compare,
+            $this->dateColumn
         );
     }
 
@@ -271,7 +293,8 @@ class Query implements QueryInterface
             $this->order,
             $this->page,
             $this->perPage,
-            false
+            false,
+            $this->dateColumn
         );
     }
 
@@ -293,7 +316,8 @@ class Query implements QueryInterface
             $data['order'] ?? 'DESC',
             $data['page'] ?? 1,
             $data['per_page'] ?? 10,
-            $data['compare'] ?? false
+            $data['compare'] ?? false,
+            $data['date_column'] ?? null
         );
     }
 }

@@ -1,0 +1,84 @@
+<?php
+
+namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Endpoints;
+
+use WP_Statistics\Service\Admin\DashboardBootstrap\Abstracts\AbstractAnalyticsPage;
+
+/**
+ * Unified Analytics Query endpoint handler.
+ *
+ * This is a GLOBAL endpoint (not page-specific) that handles all analytics data requests
+ * for the entire application. It replaces the multiple per-page action handlers with a
+ * single unified endpoint using the sources + group_by approach.
+ *
+ * Registered globally in DashboardManager::registerAnalyticsQueryEndpoint() as
+ * 'wp_statistics_analytics' AJAX action.
+ *
+ * Supports both single queries and batch queries for efficient dashboard loading.
+ *
+ * @since 15.0.0
+ */
+class AnalyticsQuery extends AbstractAnalyticsPage
+{
+    /**
+     * Get the endpoint identifier.
+     *
+     * Note: This is a global endpoint, not tied to any specific page.
+     * The identifier is used for building the AJAX action name.
+     *
+     * @return string The endpoint identifier
+     */
+    public function getEndpointName()
+    {
+        return 'analytics';
+    }
+
+    /**
+     * Register actions for this handler.
+     *
+     * Note: This handler is registered globally via DashboardManager::initGlobalAjax()
+     * rather than through the per-page action system. Returns empty array.
+     *
+     * @return array<string, string> Action to method mapping
+     */
+    public function registerActions()
+    {
+        return [];
+    }
+
+    /**
+     * Handle analytics query request.
+     *
+     * Processes both single queries and batch queries through the unified
+     * AnalyticsQueryHandler. The request format supports:
+     *
+     * Single query:
+     * {
+     *   "sources": ["visitors", "views"],
+     *   "group_by": ["date"],
+     *   "date_from": "2024-11-01",
+     *   "date_to": "2024-11-30",
+     *   "compare": true,
+     *   "filters": {},
+     *   "page": 1,
+     *   "per_page": 10
+     * }
+     *
+     * Batch query:
+     * {
+     *   "date_from": "2024-11-01",
+     *   "date_to": "2024-11-30",
+     *   "filters": {},
+     *   "queries": [
+     *     { "id": "trends", "sources": ["visitors"], "group_by": ["date"] },
+     *     { "id": "countries", "sources": ["visitors"], "group_by": ["country"] }
+     *   ]
+     * }
+     *
+     * @return array Query result data
+     */
+    public function handleQuery()
+    {
+        return $this->executeQueryFromRequest();
+    }
+}

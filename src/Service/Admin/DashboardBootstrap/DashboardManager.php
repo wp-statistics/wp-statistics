@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Admin\DashboardBootstrap;
 use WP_Statistics\Components\Ajax;
 use WP_Statistics\Service\Assets\AssetsFactory;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\RootController;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Endpoints\AnalyticsQuery;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Managers\LocalizeDataManager;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\GlobalDataProvider;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\HeaderDataProvider;
@@ -106,12 +107,78 @@ class DashboardManager
     /**
      * Initialize global AJAX actions.
      *
-     * Registers AJAX actions that are not page-specific and available globally
-     * across all dashboard pages.
+     * Registers global AJAX endpoints available across all dashboard pages:
+     * - wp_statistics_analytics: Unified analytics query endpoint (replaces all page-specific actions)
+     * - get_filter_options: Filter options search endpoint
+     *
+     * All analytics data requests now use the unified wp_statistics_analytics endpoint
+     * with the sources + group_by approach. This supports both single queries and
+     * batch queries for efficient dashboard loading.
+     *
+     * @see AnalyticsQuery::handleQuery() for implementation
+     * @see wp-statistics-redesign-docs for API documentation
      *
      * @return void
      */
     private function initGlobalAjax()
+    {
+        $this->registerAnalyticsQueryEndpoint();
+        $this->registerFilterOptionsEndpoint();
+    }
+
+    /**
+     * Register the unified analytics query endpoint.
+     *
+     * This single endpoint handles all analytics data requests using
+     * the sources + group_by approach. Supports both single and batch queries.
+     *
+     * @return void
+     */
+    private function registerAnalyticsQueryEndpoint()
+    {
+        Ajax::register(AnalyticsQuery::getActionName(), function () {
+            $nonce = $_SERVER['HTTP_X_WP_NONCE'] ?? '';
+
+            if (!wp_verify_nonce($nonce, 'wp_statistics_dashboard_nonce')) {
+                wp_send_json_error([
+                    'code'    => 'bad_nonce',
+                    'message' => __('Security check failed. Please refresh the page and try again.', 'wp-statistics')
+                ], 403);
+            }
+
+            if (!User::hasAccess()) {
+                wp_send_json_error([
+                    'code'    => 'forbidden',
+                    'message' => __('You do not have permission to perform this action.', 'wp-statistics'),
+                ], 403);
+            }
+
+            try {
+                $handler  = new AnalyticsQuery();
+                $response = $handler->handleQuery();
+
+                if (isset($response['success']) && $response['success'] === false) {
+                    wp_send_json_error($response['error'] ?? $response);
+                } else {
+                    wp_send_json($response);
+                }
+            } catch (\Exception $e) {
+                wp_send_json_error([
+                    'code'    => 'server_error',
+                    'message' => __('An unexpected error occurred.', 'wp-statistics')
+                ]);
+            }
+        }, false);
+    }
+
+    /**
+     * Register the filter options endpoint.
+     *
+     * Provides searchable filter options for the dashboard filters.
+     *
+     * @return void
+     */
+    private function registerFilterOptionsEndpoint()
     {
         // Global filter options endpoint - available for all pages with filters
         Ajax::register('get_filter_options', function () {
