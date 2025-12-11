@@ -461,21 +461,26 @@ class AnalyticsQueryHandler
      */
     private function executeQuery(Query $query): array
     {
-        $groupBy = $query->getGroupBy();
-        $sources = $query->getSources();
+        $groupBy    = $query->getGroupBy();
+        $sources    = $query->getSources();
+        $showTotals = $query->showTotals();
 
         // Execute main query
         $result = $this->executor->execute($query);
 
-        // If group by are present and no rows returned, totals should be empty
-        if (!empty($groupBy) && empty($result['rows'])) {
-            $totals = [];
-            foreach ($sources as $source) {
-                $totals[$source] = 0;
+        // Only calculate totals if requested
+        $totals = null;
+        if ($showTotals) {
+            // If group by are present and no rows returned, totals should be empty
+            if (!empty($groupBy) && empty($result['rows'])) {
+                $totals = [];
+                foreach ($sources as $source) {
+                    $totals[$source] = 0;
+                }
+            } else {
+                // Get totals
+                $totals = $this->executor->executeTotals($query);
             }
-        } else {
-            // Get totals
-            $totals = $this->executor->executeTotals($query);
         }
 
         return [
@@ -494,8 +499,9 @@ class AnalyticsQueryHandler
      */
     private function addComparison(Query $query, array $result): array
     {
-        $sources = $query->getSources();
-        $groupBy = $query->getGroupBy();
+        $sources    = $query->getSources();
+        $groupBy    = $query->getGroupBy();
+        $showTotals = $query->showTotals();
 
         // Calculate previous period
         $previousPeriod = $this->comparisonHandler->calculatePreviousPeriod(
@@ -523,11 +529,13 @@ class AnalyticsQueryHandler
             );
         }
 
-        // Merge comparison into totals
-        $result['totals'] = $this->comparisonHandler->mergeTotals(
-            $result['totals'],
-            $prevResult['totals']
-        );
+        // Merge comparison into totals (only if totals are requested)
+        if ($showTotals && $result['totals'] !== null) {
+            $result['totals'] = $this->comparisonHandler->mergeTotals(
+                $result['totals'],
+                $prevResult['totals']
+            );
+        }
 
         // Add comparison period info
         $result['compare_from'] = $previousPeriod['from'];
@@ -545,11 +553,12 @@ class AnalyticsQueryHandler
      */
     private function buildResponse(Query $query, array $result): array
     {
-        $groupBy   = $query->getGroupBy();
-        $perPage   = $query->getPerPage();
-        $page      = $query->getPage();
-        $totalRows = $result['total'] ?? 0;
-        $rows      = $result['rows'] ?? [];
+        $groupBy    = $query->getGroupBy();
+        $perPage    = $query->getPerPage();
+        $page       = $query->getPage();
+        $totalRows  = $result['total'] ?? 0;
+        $rows       = $result['rows'] ?? [];
+        $showTotals = $query->showTotals();
 
         // Handle aggregate_others: show top N-1 items + "Other" row
         if ($query->hasAggregateOthers() && !empty($groupBy) && count($rows) > 0) {
@@ -576,8 +585,10 @@ class AnalyticsQueryHandler
             $response['meta']['total_pages'] = ceil($totalRows / $perPage);
         }
 
-        // Add totals
-        $response['data']['totals'] = $result['totals'];
+        // Add totals only if requested
+        if ($showTotals && $result['totals'] !== null) {
+            $response['data']['totals'] = $result['totals'];
+        }
 
         // Add comparison info if present
         if (isset($result['compare_from'])) {

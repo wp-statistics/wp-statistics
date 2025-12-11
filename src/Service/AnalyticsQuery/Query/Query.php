@@ -108,6 +108,13 @@ class Query implements QueryInterface
     private $originalPerPage;
 
     /**
+     * Whether to include totals in the response.
+     *
+     * @var bool
+     */
+    private $showTotals;
+
+    /**
      * Constructor.
      *
      * @param array       $sources         Sources to retrieve.
@@ -123,6 +130,7 @@ class Query implements QueryInterface
      * @param string|null $dateColumn       Custom date column for filtering.
      * @param bool        $aggregateOthers  Whether to aggregate remaining items as "Other".
      * @param int|null    $originalPerPage  Original per_page when aggregate_others is enabled.
+     * @param bool        $showTotals       Whether to include totals in the response.
      */
     public function __construct(
         array $sources = [],
@@ -137,7 +145,8 @@ class Query implements QueryInterface
         bool $compare = false,
         ?string $dateColumn = null,
         bool $aggregateOthers = false,
-        ?int $originalPerPage = null
+        ?int $originalPerPage = null,
+        bool $showTotals = true
     ) {
         $this->sources         = $sources;
         $this->groupBy         = $groupBy;
@@ -152,6 +161,7 @@ class Query implements QueryInterface
         $this->dateColumn      = $dateColumn;
         $this->aggregateOthers = $aggregateOthers;
         $this->originalPerPage = $originalPerPage;
+        $this->showTotals      = $showTotals;
     }
 
     /**
@@ -287,6 +297,16 @@ class Query implements QueryInterface
     }
 
     /**
+     * Check if totals should be included in the response.
+     *
+     * @return bool
+     */
+    public function showTotals(): bool
+    {
+        return $this->showTotals;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function toArray(): array
@@ -305,6 +325,7 @@ class Query implements QueryInterface
             'compare'            => $this->compare,
             'aggregate_others'   => $this->aggregateOthers,
             '_original_per_page' => $this->originalPerPage,
+            'show_totals'        => $this->showTotals,
         ];
     }
 
@@ -330,7 +351,8 @@ class Query implements QueryInterface
             $this->compare,
             $this->dateColumn,
             $this->aggregateOthers,
-            $this->originalPerPage
+            $this->originalPerPage,
+            $this->showTotals
         );
     }
 
@@ -354,7 +376,8 @@ class Query implements QueryInterface
             false,
             $this->dateColumn,
             $this->aggregateOthers,
-            $this->originalPerPage
+            $this->originalPerPage,
+            $this->showTotals
         );
     }
 
@@ -379,7 +402,8 @@ class Query implements QueryInterface
             $data['compare'] ?? false,
             $data['date_column'] ?? null,
             !empty($data['aggregate_others']),
-            isset($data['_original_per_page']) ? (int) $data['_original_per_page'] : null
+            isset($data['_original_per_page']) ? (int) $data['_original_per_page'] : null,
+            $data['show_totals'] ?? true
         );
     }
 }

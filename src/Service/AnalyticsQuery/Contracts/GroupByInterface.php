@@ -33,9 +33,10 @@ interface GroupByInterface
     /**
      * Get SELECT columns including extra columns.
      *
+     * @param string $attribution Attribution model ('first_touch' or 'last_touch').
      * @return array
      */
-    public function getSelectColumns(): array;
+    public function getSelectColumns(string $attribution = 'first_touch'): array;
 
     /**
      * Get JOIN configurations.

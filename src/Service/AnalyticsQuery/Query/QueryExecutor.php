@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\AnalyticsQuery\Query;
 
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\AnalyticsQuery\Contracts\QueryInterface;
 use WP_Statistics\Service\AnalyticsQuery\Contracts\QueryExecutorInterface;
 use WP_Statistics\Service\AnalyticsQuery\Registry\SourceRegistry;
@@ -127,6 +128,7 @@ class QueryExecutor implements QueryExecutorInterface
         $order        = $query->getOrder();
         $perPage      = $query->getPerPage();
         $offset       = $query->getOffset();
+        $attribution  = Option::getValue('attribution_model', 'first_touch');
 
         // Determine primary table
         $primaryTable = $this->determinePrimaryTable($sources, $groupByNames, $filters);
@@ -144,7 +146,7 @@ class QueryExecutor implements QueryExecutorInterface
                 continue;
             }
 
-            $select  = array_merge($select, $groupByItem->getSelectColumns());
+            $select  = array_merge($select, $groupByItem->getSelectColumns($attribution));
             $joins   = array_merge($joins, $this->normalizeJoins($groupByItem->getJoins()));
 
             if ($groupByItem->getGroupBy()) {
