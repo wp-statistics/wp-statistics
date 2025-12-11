@@ -402,4 +402,29 @@ abstract class AbstractFilter implements FilterInterface
 
         return $data;
     }
+
+    /**
+     * Convert filter to array for frontend consumption.
+     *
+     * Excludes backend-only fields like column, joins, type, and requirement.
+     * Only includes what the React frontend needs to render the filter UI.
+     *
+     * @return array
+     */
+    public function toFrontendArray(): array
+    {
+        $data = [
+            'name'               => $this->getName(),
+            'label'              => $this->getLabel(),
+            'supportedOperators' => $this->getSupportedOperators(),
+            'inputType'          => $this->getInputType(),
+            'groups'             => $this->getGroups(),
+        ];
+
+        if ($this->getOptions() !== null) {
+            $data['options'] = $this->getOptions();
+        }
+
+        return $data;
+    }
 }

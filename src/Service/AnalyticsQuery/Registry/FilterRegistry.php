@@ -4,18 +4,15 @@ namespace WP_Statistics\Service\AnalyticsQuery\Registry;
 
 use WP_Statistics\Service\AnalyticsQuery\Contracts\FilterInterface;
 use WP_Statistics\Service\AnalyticsQuery\Filters\CountryFilter;
-use WP_Statistics\Service\AnalyticsQuery\Filters\CountryIdFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\CityFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\ContinentFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\RegionFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\BrowserFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\BrowserVersionFilter;
-use WP_Statistics\Service\AnalyticsQuery\Filters\BrowserVersionIdFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\OsFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\DeviceTypeFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\ReferrerFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\ReferrerTypeFilter;
-use WP_Statistics\Service\AnalyticsQuery\Filters\ReferrerIdFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\ReferrerChannelFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\ReferrerDomainFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\ReferrerNameFilter;
@@ -28,11 +25,7 @@ use WP_Statistics\Service\AnalyticsQuery\Filters\ResourceIdFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\LanguageFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\IpFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\ResolutionFilter;
-use WP_Statistics\Service\AnalyticsQuery\Filters\ResolutionIdFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\TimezoneFilter;
-use WP_Statistics\Service\AnalyticsQuery\Filters\TimezoneIdFilter;
-use WP_Statistics\Service\AnalyticsQuery\Filters\VisitorIdFilter;
-use WP_Statistics\Service\AnalyticsQuery\Filters\SessionIdFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\UserRoleFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\VisitorTypeFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\SessionDurationFilter;
@@ -96,7 +89,6 @@ class FilterRegistry
         $defaults = [
             // Geographic filters
             new CountryFilter(),
-            new CountryIdFilter(),
             new ContinentFilter(),
             new CityFilter(),
             new RegionFilter(),
@@ -104,16 +96,13 @@ class FilterRegistry
             // Device filters
             new BrowserFilter(),
             new BrowserVersionFilter(),
-            new BrowserVersionIdFilter(),
             new OsFilter(),
             new DeviceTypeFilter(),
             new ResolutionFilter(),
-            new ResolutionIdFilter(),
 
             // Referrer filters
             new ReferrerFilter(),
             new ReferrerTypeFilter(),
-            new ReferrerIdFilter(),
             new ReferrerChannelFilter(),
             new ReferrerDomainFilter(),
             new ReferrerNameFilter(),
@@ -127,8 +116,6 @@ class FilterRegistry
             // Visitor/session filters
             new UserIdFilter(),
             new LoggedInFilter(),
-            new VisitorIdFilter(),
-            new SessionIdFilter(),
             new IpFilter(),
             new UserRoleFilter(),
             new VisitorTypeFilter(),
@@ -143,7 +130,6 @@ class FilterRegistry
             // User preference filters
             new LanguageFilter(),
             new TimezoneFilter(),
-            new TimezoneIdFilter(),
         ];
 
         foreach ($defaults as $filter) {
@@ -206,7 +192,7 @@ class FilterRegistry
     /**
      * Get all filters as configuration array.
      *
-     * Useful for serialization and sending to React frontend.
+     * Includes all filter data including backend-only fields.
      *
      * @return array
      */
@@ -215,6 +201,23 @@ class FilterRegistry
         $result = [];
         foreach ($this->filters as $name => $filter) {
             $result[$name] = $filter->toArray();
+        }
+        return $result;
+    }
+
+    /**
+     * Get all filters for frontend consumption.
+     *
+     * Excludes backend-only fields (column, joins, type, requirement).
+     * Only includes what React needs to render the filter UI.
+     *
+     * @return array
+     */
+    public function getAllForFrontend(): array
+    {
+        $result = [];
+        foreach ($this->filters as $name => $filter) {
+            $result[$name] = $filter->toFrontendArray();
         }
         return $result;
     }

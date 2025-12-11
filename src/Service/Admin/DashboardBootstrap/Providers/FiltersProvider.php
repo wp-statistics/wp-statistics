@@ -25,7 +25,7 @@ class FiltersProvider implements LocalizeDataProviderInterface
         $registry = FilterRegistry::getInstance();
 
         $data = [
-            'available' => $registry->getAllAsArray(),
+            'fields'    => $registry->getAllForFrontend(),
             'operators' => $this->getOperatorDefinitions(),
         ];
 
