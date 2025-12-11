@@ -50,9 +50,18 @@ use WP_STATISTICS\Menus;
                         <td>
                             <div>
                                 <span class="quickstats-values" title="<?php echo esc_attr($itemData['current']['visitors']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($itemData['current']['visitors'], 1)) ?></span>
-                                <?php if (!empty($item['comparison'])) : ?>
-                                    <div class="diffs__change <?php echo esc_attr($itemData['trend']['visitors']['direction']); ?>">
-                                        <span class="diffs__change__direction"><?php echo esc_html($itemData['trend']['visitors']['percentage']) ?>%</span>
+                                <?php if (!empty($item['comparison']) && $itemData['trend']['visitors']['percentage'] != 0) : ?>
+                                    <?php
+                                    $visitorsTooltip = sprintf(
+                                        '%s → %s (%s)',
+                                        number_format_i18n($itemData['prev']['visitors']),
+                                        number_format_i18n($itemData['current']['visitors']),
+                                        esc_html__('vs previous period', 'wp-statistics')
+                                    );
+                                    $visitorsPercentage = rtrim(rtrim(number_format((float)$itemData['trend']['visitors']['percentage'], 1), '0'), '.');
+                                    ?>
+                                    <div class="diffs__change <?php echo esc_attr($itemData['trend']['visitors']['direction']); ?> wps-tooltip" title="<?php echo esc_attr($visitorsTooltip); ?>">
+                                        <span class="diffs__change__direction"><?php echo esc_html($visitorsPercentage); ?>%</span>
                                     </div>
                                 <?php endif; ?>
                             </div>
@@ -61,9 +70,18 @@ use WP_STATISTICS\Menus;
                             <div>
                                 <span class="quickstats-values" title="<?php echo esc_attr($itemData['current']['views']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($itemData['current']['views'], 1)) ?></span>
 
-                                <?php if (!empty($item['comparison'])) : ?>
-                                    <div class="diffs__change <?php echo esc_attr($itemData['trend']['views']['direction']); ?>">
-                                        <span class="diffs__change__direction"><?php echo esc_html($itemData['trend']['views']['percentage']) ?>%</span>
+                                <?php if (!empty($item['comparison']) && $itemData['trend']['views']['percentage'] != 0) : ?>
+                                    <?php
+                                    $viewsTooltip = sprintf(
+                                        '%s → %s (%s)',
+                                        number_format_i18n($itemData['prev']['views']),
+                                        number_format_i18n($itemData['current']['views']),
+                                        esc_html__('vs previous period', 'wp-statistics')
+                                    );
+                                    $viewsPercentage = rtrim(rtrim(number_format((float)$itemData['trend']['views']['percentage'], 1), '0'), '.');
+                                    ?>
+                                    <div class="diffs__change <?php echo esc_attr($itemData['trend']['views']['direction']); ?> wps-tooltip" title="<?php echo esc_attr($viewsTooltip); ?>">
+                                        <span class="diffs__change__direction"><?php echo esc_html($viewsPercentage); ?>%</span>
                                     </div>
                                 <?php endif; ?>
                             </div>

@@ -189,12 +189,18 @@ class GeographicDataProvider
         return [
             'glance'     => [
                 'visitors' => [
-                    'value'  => $visitors,
-                    'change' => Helper::calculatePercentageChange($prevVisitors, $visitors)
+                    'value'         => $visitors,
+                    'change'        => Helper::calculatePercentageChange($prevVisitors, $visitors),
+                    'prev_value'    => number_format_i18n($prevVisitors),
+                    'current_value' => number_format_i18n($visitors),
+                    'period'        => esc_html__('vs previous period', 'wp-statistics')
                 ],
                 'views'    => [
-                    'value'  => $views,
-                    'change' => Helper::calculatePercentageChange($prevViews, $views)
+                    'value'         => $views,
+                    'change'        => Helper::calculatePercentageChange($prevViews, $views),
+                    'prev_value'    => number_format_i18n($prevViews),
+                    'current_value' => number_format_i18n($views),
+                    'period'        => esc_html__('vs previous period', 'wp-statistics')
                 ],
                 'region' => [
                     'value' => !empty($regions) ? $regions[0]->region : ''

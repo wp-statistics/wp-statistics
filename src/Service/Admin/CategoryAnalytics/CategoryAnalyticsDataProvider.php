@@ -76,24 +76,39 @@ class CategoryAnalyticsDataProvider
         $result = [
             'glance'           => [
                 'posts'        => [
-                    'value'  => $posts,
-                    'change' => Helper::calculatePercentageChange($prevPosts, $posts)
+                    'value'         => $posts,
+                    'change'        => Helper::calculatePercentageChange($prevPosts, $posts),
+                    'prev_value'    => number_format_i18n($prevPosts),
+                    'current_value' => number_format_i18n($posts),
+                    'period'        => esc_html__('vs previous period', 'wp-statistics')
                 ],
                 'visitors'     => [
-                    'value'  => $visitors,
-                    'change' => Helper::calculatePercentageChange($prevVisitors, $visitors)
+                    'value'         => $visitors,
+                    'change'        => Helper::calculatePercentageChange($prevVisitors, $visitors),
+                    'prev_value'    => number_format_i18n($prevVisitors),
+                    'current_value' => number_format_i18n($visitors),
+                    'period'        => esc_html__('vs previous period', 'wp-statistics')
                 ],
                 'views'        => [
-                    'value'  => $views,
-                    'change' => Helper::calculatePercentageChange($prevViews, $views)
+                    'value'         => $views,
+                    'change'        => Helper::calculatePercentageChange($prevViews, $views),
+                    'prev_value'    => number_format_i18n($prevViews),
+                    'current_value' => number_format_i18n($views),
+                    'period'        => esc_html__('vs previous period', 'wp-statistics')
                 ],
                 'comments'     => [
-                    'value'  => $comments,
-                    'change' => Helper::calculatePercentageChange($prevComments, $comments)
+                    'value'         => $comments,
+                    'change'        => Helper::calculatePercentageChange($prevComments, $comments),
+                    'prev_value'    => number_format_i18n($prevComments),
+                    'current_value' => number_format_i18n($comments),
+                    'period'        => esc_html__('vs previous period', 'wp-statistics')
                 ],
                 'comments_avg' => [
-                    'value'  => $avgComments,
-                    'change' => Helper::calculatePercentageChange($prevAvgComments, $avgComments)
+                    'value'         => $avgComments,
+                    'change'        => Helper::calculatePercentageChange($prevAvgComments, $avgComments),
+                    'prev_value'    => $prevAvgComments,
+                    'current_value' => $avgComments,
+                    'period'        => esc_html__('vs previous period', 'wp-statistics')
                 ]
             ],
             'posts'            => [
@@ -161,24 +176,39 @@ class CategoryAnalyticsDataProvider
             ],
             'glance'           => [
                 'posts'        => [
-                    'value'  => $posts,
-                    'change' => Helper::calculatePercentageChange($prevPosts, $posts)
+                    'value'         => $posts,
+                    'change'        => Helper::calculatePercentageChange($prevPosts, $posts),
+                    'prev_value'    => number_format_i18n($prevPosts),
+                    'current_value' => number_format_i18n($posts),
+                    'period'        => esc_html__('vs previous period', 'wp-statistics')
                 ],
                 'visitors'     => [
-                    'value'  => $visitors,
-                    'change' => Helper::calculatePercentageChange($prevVisitors, $visitors)
+                    'value'         => $visitors,
+                    'change'        => Helper::calculatePercentageChange($prevVisitors, $visitors),
+                    'prev_value'    => number_format_i18n($prevVisitors),
+                    'current_value' => number_format_i18n($visitors),
+                    'period'        => esc_html__('vs previous period', 'wp-statistics')
                 ],
                 'views'        => [
-                    'value'  => $views,
-                    'change' => Helper::calculatePercentageChange($prevViews, $views)
+                    'value'         => $views,
+                    'change'        => Helper::calculatePercentageChange($prevViews, $views),
+                    'prev_value'    => number_format_i18n($prevViews),
+                    'current_value' => number_format_i18n($views),
+                    'period'        => esc_html__('vs previous period', 'wp-statistics')
                 ],
                 'comments'     => [
-                    'value'  => $comments,
-                    'change' => Helper::calculatePercentageChange($prevComments, $comments)
+                    'value'         => $comments,
+                    'change'        => Helper::calculatePercentageChange($prevComments, $comments),
+                    'prev_value'    => number_format_i18n($prevComments),
+                    'current_value' => number_format_i18n($comments),
+                    'period'        => esc_html__('vs previous period', 'wp-statistics')
                 ],
                 'comments_avg' => [
-                    'value'  => $avgComments,
-                    'change' => Helper::calculatePercentageChange($prevAvgComments, $avgComments)
+                    'value'         => $avgComments,
+                    'change'        => Helper::calculatePercentageChange($prevAvgComments, $avgComments),
+                    'prev_value'    => $prevAvgComments,
+                    'current_value' => $avgComments,
+                    'period'        => esc_html__('vs previous period', 'wp-statistics')
                 ]
             ],
             'summary'          => $summary,

@@ -39,29 +39,43 @@
                                     <?php echo esc_html($metric['score']); ?><span> /100</span>
                                 </span>
 
-                            <?php elseif (isset($metric['value'])): ?>
-                                <span title="<?php echo esc_html($metric['value'] ?? 'No data'); ?>">
-                                    <?php if ($metric['value']): ?>
-                                        <?php echo esc_html($metric['value']); ?>
+                            <?php elseif (isset($metric['value']) || isset($metric['not_applicable'])): ?>
+                                <?php $metricValue = $metric['value'] ?? null; ?>
+                                <span title="<?php echo esc_html($metricValue !== '' && $metricValue !== null ? $metricValue : __('No data', 'wp-statistics')); ?>">
+                                    <?php if (isset($metric['not_applicable']) && $metric['not_applicable']): ?>
+                                        –
+                                    <?php elseif ($metricValue === '' || $metricValue === null): ?>
+                                        –
+                                    <?php elseif ($metricValue === 0 || $metricValue === '0'): ?>
+                                        0
                                     <?php else: ?>
-                                        -
+                                        <?php echo esc_html($metricValue); ?>
                                     <?php endif; ?>
                                 </span>
                             <?php else: ?>
-                                <span>-</span>
+                                <span>–</span>
                             <?php endif; ?>
-                            <?php if (isset($metric['change']) && (!empty($metric['link-title']) || !empty($metric['value']))): ?>
+                            <?php if (isset($metric['change']) && $metric['change'] != 0 && (!empty($metric['link-title']) || isset($metric['value']))): ?>
                                 <?php
-                                $arrow_class = $metric['change'] > 0 ? 'wps-glance-up' : ($metric['change'] < 0 ? 'wps-glance-down' : '');
-                                $color_class = '';
-                                if ($metric['change'] != 0) {
-                                    $is_negative_polarity = isset($metric['polarity']) && $metric['polarity'] === 'negative';
-                                    $is_good_change = ($is_negative_polarity && $metric['change'] < 0) || (!$is_negative_polarity && $metric['change'] > 0);
-                                    $color_class = $is_good_change ? 'wps-glance-positive' : 'wps-glance-negative';
+                                $arrow_class = $metric['change'] > 0 ? 'wps-glance-up' : 'wps-glance-down';
+                                $is_negative_polarity = isset($metric['polarity']) && $metric['polarity'] === 'negative';
+                                $is_good_change = ($is_negative_polarity && $metric['change'] < 0) || (!$is_negative_polarity && $metric['change'] > 0);
+                                $color_class = $is_good_change ? 'wps-glance-positive' : 'wps-glance-negative';
+                                $changeValue = rtrim(rtrim(number_format(abs((float) $metric['change']), 1), '0'), '.');
+
+                                // Build tooltip for comparison
+                                $tooltip = '';
+                                if (isset($metric['prev_value']) && isset($metric['current_value'])) {
+                                    $tooltip = sprintf(
+                                        '%s → %s (%s)',
+                                        esc_html($metric['prev_value']),
+                                        esc_html($metric['current_value']),
+                                        esc_html($metric['period'] ?? __('vs previous period', 'wp-statistics'))
+                                    );
                                 }
-                                $changeValue = number_format(abs((float) $metric['change']), 1);
                                 ?>
-                                <span class="wps-at-a-glance-change <?php echo esc_attr($arrow_class . ' ' . $color_class); ?>">
+                                <span class="wps-at-a-glance-change <?php echo esc_attr($arrow_class . ' ' . $color_class); ?><?php echo !empty($tooltip) ? ' wps-tooltip' : ''; ?>"
+                                      <?php if (!empty($tooltip)): ?>title="<?php echo esc_attr($tooltip); ?>"<?php endif; ?>>
                                     <?php echo esc_html($changeValue) . '%'; ?>
                                 </span>
                             <?php endif; ?>

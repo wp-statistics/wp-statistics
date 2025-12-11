@@ -57,12 +57,18 @@ class VisitorInsightsDataProvider
 
         $glance = [
             'visitors'  => [
-                'value'     => $visitors,
-                'change'    => Helper::calculatePercentageChange($prevVisitors, $visitors)
+                'value'         => $visitors,
+                'change'        => Helper::calculatePercentageChange($prevVisitors, $visitors),
+                'prev_value'    => number_format_i18n($prevVisitors),
+                'current_value' => number_format_i18n($visitors),
+                'period'        => esc_html__('vs previous period', 'wp-statistics')
             ],
             'views'     => [
-                'value'     => $views,
-                'change'    => Helper::calculatePercentageChange($prevViews, $views)
+                'value'         => $views,
+                'change'        => Helper::calculatePercentageChange($prevViews, $views),
+                'prev_value'    => number_format_i18n($prevViews),
+                'current_value' => number_format_i18n($views),
+                'period'        => esc_html__('vs previous period', 'wp-statistics')
             ],
             'country'   => $overviewChartData['countries']['labels'][0] ?? '',
             'referrer'  => isset($referrers[0]) ? $referrers[0]->getRawReferrer() : '',
@@ -70,8 +76,11 @@ class VisitorInsightsDataProvider
 
         if ($this->isTrackLoggedInUsersEnabled) {
             $glance['logged_in'] = [
-                'value'     => $loggedInShare . '%',
-                'change'    => $loggedInShare - $prevLoggedInShare
+                'value'         => $loggedInShare . '%',
+                'change'        => round($loggedInShare - $prevLoggedInShare, 1),
+                'prev_value'    => $prevLoggedInShare . '%',
+                'current_value' => $loggedInShare . '%',
+                'period'        => esc_html__('vs previous period', 'wp-statistics')
             ];
         }
 
