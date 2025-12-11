@@ -464,8 +464,7 @@ class WebsitePerformanceDataProvider
             return null;
         }
 
-        $cached = $this->getCache('percentageChangeVisitors');
-        if ($cached === null) {
+        if (!$this->isCacheSet('percentageChangeVisitors')) {
             $change = Helper::calculatePercentageChange($this->getPreviousPeriodVisitors(), $this->getCurrentPeriodVisitors());
             $this->setCache('percentageChangeVisitors', $change === null ? null : intval($change));
         }
@@ -484,8 +483,7 @@ class WebsitePerformanceDataProvider
             return null;
         }
 
-        $cached = $this->getCache('percentageChangeViews');
-        if ($cached === null) {
+        if (!$this->isCacheSet('percentageChangeViews')) {
             $change = Helper::calculatePercentageChange($this->getPreviousPeriodViews(), $this->getCurrentPeriodViews());
             $this->setCache('percentageChangeViews', $change === null ? null : intval($change));
         }
@@ -504,8 +502,7 @@ class WebsitePerformanceDataProvider
             return null;
         }
 
-        $cached = $this->getCache('percentageChangeReferrals');
-        if ($cached === null) {
+        if (!$this->isCacheSet('percentageChangeReferrals')) {
             $change = Helper::calculatePercentageChange($this->getPreviousPeriodReferralsCount(), $this->getCurrentPeriodReferralsCount());
             $this->setCache('percentageChangeReferrals', $change === null ? null : intval($change));
         }
@@ -524,8 +521,7 @@ class WebsitePerformanceDataProvider
             return null;
         }
 
-        $cached = $this->getCache('percentageChangeContents');
-        if ($cached === null) {
+        if (!$this->isCacheSet('percentageChangeContents')) {
             $change = Helper::calculatePercentageChange($this->getPreviousPeriodContents(), $this->getCurrentPeriodContents());
             $this->setCache('percentageChangeContents', $change === null ? null : intval($change));
         }
