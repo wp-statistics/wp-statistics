@@ -9,20 +9,31 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class CountryFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[country]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[country]=...
+     */
     protected $name = 'country';
 
-    /** @var string SQL column: ISO country code from countries table (e.g., US, GB, DE, FR) */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: countries.code
+     */
     protected $column = 'countries.code';
 
-    /** @var string Data type: string for country code matching */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: string
+     */
     protected $type = 'string';
 
     /**
-     * Required JOIN: sessions -> countries.
-     * Links session's country ID to the country details lookup table.
+     * Required JOINs to access the column.
      *
-     * @var array
+     * @var array JOIN: sessions -> countries
      */
     protected $joins = [
         'table' => 'countries',
@@ -30,13 +41,25 @@ class CountryFilter extends AbstractFilter
         'on'    => 'sessions.country_id = countries.ID',
     ];
 
-    /** @var string UI component: searchable autocomplete with country names and codes */
+    /**
+     * UI input component type.
+     *
+     * @var string Input type: searchable
+     */
     protected $inputType = 'searchable';
 
-    /** @var array Supported operators: exact match and exclusion */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is, is_not
+     */
     protected $supportedOperators = ['is', 'is_not'];
 
-    /** @var array Available on: visitors page for geographic analysis */
+    /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors
+     */
     protected $groups = ['visitors'];
 
     /**

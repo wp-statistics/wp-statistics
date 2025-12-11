@@ -9,28 +9,60 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class VisitorTypeFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[visitor_type]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[visitor_type]=...
+     */
     protected $name = 'visitor_type';
 
-    /** @var string SQL column: new visitor flag from visitors table (determines new vs returning) */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: visitors.is_new
+     */
     protected $column = 'visitors.is_new';
 
-    /** @var string Data type: integer for boolean flag (1=new, 0=returning) */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: integer (1=new, 0=returning)
+     */
     protected $type = 'integer';
 
-    /** @var string UI component: dropdown with New/Returning options */
+    /**
+     * UI input component type.
+     *
+     * @var string Input type: dropdown
+     */
     protected $inputType = 'dropdown';
 
-    /** @var array Supported operators: exact match only for visitor type selection */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is
+     */
     protected $supportedOperators = ['is'];
 
-    /** @var array Available on: visitors page for visitor segmentation */
+    /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors
+     */
     protected $groups = ['visitors'];
 
-    /** @var string Required base table: needs sessions table to join visitors */
+    /**
+     * Required base table to enable this filter.
+     *
+     * @var string|null Table name: sessions
+     */
     protected $requirement = 'sessions';
 
-    /** @var array JOIN configuration to visitors table */
+    /**
+     * Required JOINs to access the column.
+     *
+     * @var array JOIN: sessions -> visitors
+     */
     protected $joins = [
         'table' => 'visitors',
         'alias' => 'visitors',

@@ -9,22 +9,46 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class FirstSeenFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[first_seen]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[first_seen]=...
+     */
     protected $name = 'first_seen';
 
-    /** @var string SQL column: timestamp of visitor's first recorded visit */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: visitors.first_hit
+     */
     protected $column = 'visitors.first_hit';
 
-    /** @var string Data type: date for date range filtering */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: date
+     */
     protected $type = 'date';
 
-    /** @var string UI component: date picker for date selection */
+    /**
+     * UI input component type.
+     *
+     * @var string Input type: date
+     */
     protected $inputType = 'date';
 
-    /** @var array Supported operators: date range, before date, after date */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: between, before, after
+     */
     protected $supportedOperators = ['between', 'before', 'after'];
 
-    /** @var array Available on: visitors page for cohort analysis */
+    /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors
+     */
     protected $groups = ['visitors'];
 
     /**

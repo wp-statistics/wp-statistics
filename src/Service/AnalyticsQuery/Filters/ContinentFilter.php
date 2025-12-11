@@ -9,20 +9,31 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class ContinentFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[continent]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[continent]=...
+     */
     protected $name = 'continent';
 
-    /** @var string SQL column: continent code from countries table (e.g., NA, EU, AS, AF, OC, SA, AN) */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: countries.continent_code
+     */
     protected $column = 'countries.continent_code';
 
-    /** @var string Data type: string for continent code matching */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: string
+     */
     protected $type = 'string';
 
     /**
-     * Required JOIN: sessions -> countries.
-     * Links session's country ID to get the continent code.
+     * Required JOINs to access the column.
      *
-     * @var array
+     * @var array JOIN: sessions -> countries
      */
     protected $joins = [
         'table' => 'countries',
@@ -30,7 +41,11 @@ class ContinentFilter extends AbstractFilter
         'on'    => 'sessions.country_id = countries.ID',
     ];
 
-    /** @var array Supported operators: exact match, exclusion, and set membership */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is, is_not, in, not_in
+     */
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in'];
 
     /**

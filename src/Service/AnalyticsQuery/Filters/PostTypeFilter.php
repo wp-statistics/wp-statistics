@@ -9,23 +9,38 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class PostTypeFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[post_type]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[post_type]=...
+     */
     protected $name = 'post_type';
 
-    /** @var string SQL column: WordPress post type from resources table (e.g., post, page, product) */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: resources.resource_type
+     */
     protected $column = 'resources.resource_type';
 
-    /** @var string Data type: string for post type matching */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: string
+     */
     protected $type = 'string';
 
-    /** @var string Required base table: needs views table to access resource data */
+    /**
+     * Required base table to enable this filter.
+     *
+     * @var string|null Table name: views
+     */
     protected $requirement = 'views';
 
     /**
-     * Required JOINs: views -> resource_uris -> resources chain.
-     * Needed to access the post type stored in the resources table.
+     * Required JOINs to access the column.
      *
-     * @var array
+     * @var array JOIN chain: views -> resource_uris -> resources
      */
     protected $joins = [
         [
@@ -40,13 +55,25 @@ class PostTypeFilter extends AbstractFilter
         ],
     ];
 
-    /** @var string UI component: dropdown with dynamic WordPress post types */
+    /**
+     * UI input component type.
+     *
+     * @var string Input type: dropdown
+     */
     protected $inputType = 'dropdown';
 
-    /** @var array Supported operators: exact match and exclusion */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is, is_not
+     */
     protected $supportedOperators = ['is', 'is_not'];
 
-    /** @var array Available on: views page for content type analysis */
+    /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: views
+     */
     protected $groups = [
         'views',
     ];

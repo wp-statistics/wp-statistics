@@ -9,22 +9,46 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class LastSeenFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[last_seen]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[last_seen]=...
+     */
     protected $name = 'last_seen';
 
-    /** @var string SQL column: timestamp of visitor's most recent activity */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: visitors.last_hit
+     */
     protected $column = 'visitors.last_hit';
 
-    /** @var string Data type: date for date range filtering */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: date
+     */
     protected $type = 'date';
 
-    /** @var string UI component: date picker for date selection */
+    /**
+     * UI input component type.
+     *
+     * @var string Input type: date
+     */
     protected $inputType = 'date';
 
-    /** @var array Supported operators: relative time (in_the_last), date range, before/after */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: in_the_last, between, before, after
+     */
     protected $supportedOperators = ['in_the_last', 'between', 'before', 'after'];
 
-    /** @var array Available on: visitors page for activity recency analysis */
+    /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors
+     */
     protected $groups = ['visitors'];
 
     /**

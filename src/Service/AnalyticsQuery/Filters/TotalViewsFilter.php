@@ -9,22 +9,46 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class TotalViewsFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[total_views]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[total_views]=...
+     */
     protected $name = 'total_views';
 
-    /** @var string SQL column: total page view count for the visitor from visitors table */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: visitors.views_count
+     */
     protected $column = 'visitors.views_count';
 
-    /** @var string Data type: integer for view count comparisons */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: integer
+     */
     protected $type = 'integer';
 
-    /** @var string UI component: number input for view count entry */
+    /**
+     * UI input component type.
+     *
+     * @var string Input type: number
+     */
     protected $inputType = 'number';
 
-    /** @var array Supported operators: greater than, less than, and range */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: gt, lt, between
+     */
     protected $supportedOperators = ['gt', 'lt', 'between'];
 
-    /** @var array Available on: visitors page for visitor engagement analysis */
+    /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors
+     */
     protected $groups = ['visitors'];
 
     /**

@@ -9,19 +9,39 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class ResourceIdFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[resource_id]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[resource_id]=...
+     */
     protected $name = 'resource_id';
 
-    /** @var string SQL column: WordPress post/resource ID from views table */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: views.resource_id
+     */
     protected $column = 'views.resource_id';
 
-    /** @var string Data type: integer for WordPress post ID matching */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: integer (WordPress post ID)
+     */
     protected $type = 'integer';
 
-    /** @var string Required base table: needs views table to access resource IDs */
+    /**
+     * Required base table to enable this filter.
+     *
+     * @var string|null Table name: views
+     */
     protected $requirement = 'views';
 
-    /** @var array Supported operators: exact match, exclusion, set membership, and numeric comparisons */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is, is_not, in, not_in, gt, gte, lt, lte
+     */
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in', 'gt', 'gte', 'lt', 'lte'];
 
     /**

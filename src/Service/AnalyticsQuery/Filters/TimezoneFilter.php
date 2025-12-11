@@ -9,20 +9,31 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class TimezoneFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[timezone]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[timezone]=...
+     */
     protected $name = 'timezone';
 
-    /** @var string SQL column: timezone name from timezones table (e.g., America/New_York, Europe/London) */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: timezones.name
+     */
     protected $column = 'timezones.name';
 
-    /** @var string Data type: string for timezone name matching */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: string
+     */
     protected $type = 'string';
 
     /**
-     * Required JOIN: sessions -> timezones.
-     * Links session's timezone ID to the timezone details lookup table.
+     * Required JOINs to access the column.
      *
-     * @var array
+     * @var array JOIN: sessions -> timezones
      */
     protected $joins = [
         'table' => 'timezones',
@@ -30,13 +41,25 @@ class TimezoneFilter extends AbstractFilter
         'on'    => 'sessions.timezone_id = timezones.ID',
     ];
 
-    /** @var string UI component: searchable autocomplete for timezone list */
+    /**
+     * UI input component type.
+     *
+     * @var string Input type: searchable
+     */
     protected $inputType = 'searchable';
 
-    /** @var array Supported operators: exact match and exclusion */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is, is_not
+     */
     protected $supportedOperators = ['is', 'is_not'];
 
-    /** @var array Available on: visitors page for geographic/temporal analysis */
+    /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors
+     */
     protected $groups = ['visitors'];
 
     /**

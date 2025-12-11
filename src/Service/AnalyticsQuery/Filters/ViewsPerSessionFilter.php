@@ -9,22 +9,46 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class ViewsPerSessionFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[views_per_session]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[views_per_session]=...
+     */
     protected $name = 'views_per_session';
 
-    /** @var string SQL column: page count per session from sessions table */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: sessions.pages_count
+     */
     protected $column = 'sessions.pages_count';
 
-    /** @var string Data type: integer for page count comparisons */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: integer
+     */
     protected $type = 'integer';
 
-    /** @var string UI component: number input for views count entry */
+    /**
+     * UI input component type.
+     *
+     * @var string Input type: number
+     */
     protected $inputType = 'number';
 
-    /** @var array Supported operators: exact match, greater than, and less than */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is, gt, lt
+     */
     protected $supportedOperators = ['is', 'gt', 'lt'];
 
-    /** @var array Available on: visitors page for engagement analysis */
+    /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors
+     */
     protected $groups = ['visitors'];
 
     /**

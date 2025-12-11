@@ -9,22 +9,46 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class SessionDurationFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[session_duration]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[session_duration]=...
+     */
     protected $name = 'session_duration';
 
-    /** @var string SQL column: session duration in seconds from sessions table */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: sessions.duration
+     */
     protected $column = 'sessions.duration';
 
-    /** @var string Data type: integer for duration comparison in seconds */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: integer (seconds)
+     */
     protected $type = 'integer';
 
-    /** @var string UI component: number input for duration entry in seconds */
+    /**
+     * UI input component type.
+     *
+     * @var string Input type: number
+     */
     protected $inputType = 'number';
 
-    /** @var array Supported operators: greater than, less than, and range */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: gt, lt, between
+     */
     protected $supportedOperators = ['gt', 'lt', 'between'];
 
-    /** @var array Available on: visitors page for engagement analysis */
+    /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors
+     */
     protected $groups = ['visitors'];
 
     /**

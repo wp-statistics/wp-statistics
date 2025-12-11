@@ -9,22 +9,46 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class IpFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[ip]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[ip]=...
+     */
     protected $name = 'ip';
 
-    /** @var string SQL column: visitor IP address or anonymized hash from sessions table */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: sessions.ip
+     */
     protected $column = 'sessions.ip';
 
-    /** @var string Data type: string for IP address or hash matching */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: string
+     */
     protected $type = 'string';
 
-    /** @var string UI component: text input for free-form IP/hash entry */
+    /**
+     * UI input component type.
+     *
+     * @var string Input type: text
+     */
     protected $inputType = 'text';
 
-    /** @var array Supported operators: exact match, exclusion, and partial matching */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is, is_not, contains
+     */
     protected $supportedOperators = ['is', 'is_not', 'contains'];
 
-    /** @var array Available on: visitors page for visitor identification */
+    /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors
+     */
     protected $groups = ['visitors'];
 
     /**

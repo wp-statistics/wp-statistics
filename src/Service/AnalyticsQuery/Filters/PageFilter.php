@@ -9,23 +9,38 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class PageFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[page]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[page]=...
+     */
     protected $name = 'page';
 
-    /** @var string SQL column: page URI/path from resource_uris table (e.g., /about, /contact) */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: resource_uris.uri
+     */
     protected $column = 'resource_uris.uri';
 
-    /** @var string Data type: string for URI matching */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: string
+     */
     protected $type = 'string';
 
-    /** @var string Required base table: needs views table to access page URIs */
+    /**
+     * Required base table to enable this filter.
+     *
+     * @var string|null Table name: views
+     */
     protected $requirement = 'views';
 
     /**
-     * Required JOIN: views -> resource_uris.
-     * Links view's resource URI ID to the URI path lookup table.
+     * Required JOINs to access the column.
      *
-     * @var array
+     * @var array JOIN: views -> resource_uris
      */
     protected $joins = [
         'table' => 'resource_uris',

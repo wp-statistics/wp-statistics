@@ -9,20 +9,31 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class BrowserVersionFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[browser_version]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[browser_version]=...
+     */
     protected $name = 'browser_version';
 
-    /** @var string SQL column: version string from device_browser_versions table (e.g., 120.0.0, 119.0) */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: device_browser_versions.version
+     */
     protected $column = 'device_browser_versions.version';
 
-    /** @var string Data type: string for version matching and partial searches */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: string
+     */
     protected $type = 'string';
 
     /**
-     * Required JOIN: sessions -> device_browser_versions.
-     * Links session's browser version ID to the version lookup table.
+     * Required JOINs to access the column.
      *
-     * @var array
+     * @var array JOIN: sessions -> device_browser_versions
      */
     protected $joins = [
         'table' => 'device_browser_versions',
@@ -30,7 +41,11 @@ class BrowserVersionFilter extends AbstractFilter
         'on'    => 'sessions.device_browser_version_id = device_browser_versions.ID',
     ];
 
-    /** @var array Supported operators: exact match, exclusion, set membership, and partial text matching */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is, is_not, in, not_in, contains, starts_with, ends_with
+     */
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in', 'contains', 'starts_with', 'ends_with'];
 
     /**

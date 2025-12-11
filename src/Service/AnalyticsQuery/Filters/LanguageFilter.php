@@ -9,20 +9,31 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class LanguageFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[language]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[language]=...
+     */
     protected $name = 'language';
 
-    /** @var string SQL column: language code from languages table (e.g., en, fr, de, es) */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: languages.code
+     */
     protected $column = 'languages.code';
 
-    /** @var string Data type: string for language code matching */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: string
+     */
     protected $type = 'string';
 
     /**
-     * Required JOIN: sessions -> languages.
-     * Links session's language ID to the language details lookup table.
+     * Required JOINs to access the column.
      *
-     * @var array
+     * @var array JOIN: sessions -> languages
      */
     protected $joins = [
         'table' => 'languages',
@@ -30,13 +41,25 @@ class LanguageFilter extends AbstractFilter
         'on'    => 'sessions.language_id = languages.ID',
     ];
 
-    /** @var string UI component: searchable autocomplete with language names and codes */
+    /**
+     * UI input component type.
+     *
+     * @var string Input type: searchable
+     */
     protected $inputType = 'searchable';
 
-    /** @var array Supported operators: exact match and exclusion */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is, is_not
+     */
     protected $supportedOperators = ['is', 'is_not'];
 
-    /** @var array Available on: visitors page for localization analysis */
+    /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors
+     */
     protected $groups = ['visitors'];
 
     /**

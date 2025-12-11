@@ -9,20 +9,31 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class ReferrerFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[referrer]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[referrer]=...
+     */
     protected $name = 'referrer';
 
-    /** @var string SQL column: referrer domain from referrers table (e.g., google.com, facebook.com) */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: referrers.domain
+     */
     protected $column = 'referrers.domain';
 
-    /** @var string Data type: string for domain matching */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: string
+     */
     protected $type = 'string';
 
     /**
-     * Required JOIN: sessions -> referrers.
-     * Links session's referrer ID to the referrer details lookup table.
+     * Required JOINs to access the column.
      *
-     * @var array
+     * @var array JOIN: sessions -> referrers
      */
     protected $joins = [
         'table' => 'referrers',
@@ -30,13 +41,25 @@ class ReferrerFilter extends AbstractFilter
         'on'    => 'sessions.referrer_id = referrers.ID',
     ];
 
-    /** @var string UI component: searchable autocomplete with referrer domains */
+    /**
+     * UI input component type.
+     *
+     * @var string Input type: searchable
+     */
     protected $inputType = 'searchable';
 
-    /** @var array Supported operators: exact match, exclusion, and pattern matching */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is, is_not, contains
+     */
     protected $supportedOperators = ['is', 'is_not', 'contains'];
 
-    /** @var array Available on: visitors page for referrer analysis */
+    /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors
+     */
     protected $groups = ['visitors'];
 
     /**

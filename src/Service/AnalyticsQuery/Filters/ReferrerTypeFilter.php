@@ -9,20 +9,31 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class ReferrerTypeFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[referrer_type]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[referrer_type]=...
+     */
     protected $name = 'referrer_type';
 
-    /** @var string SQL column: traffic channel/type from referrers table (alias for channel field) */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: referrers.channel
+     */
     protected $column = 'referrers.channel';
 
-    /** @var string Data type: string for channel type matching */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: string
+     */
     protected $type = 'string';
 
     /**
-     * Required JOIN: sessions -> referrers.
-     * Links session's referrer ID to get the traffic type classification.
+     * Required JOINs to access the column.
      *
-     * @var array
+     * @var array JOIN: sessions -> referrers
      */
     protected $joins = [
         'table' => 'referrers',

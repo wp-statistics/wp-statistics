@@ -9,20 +9,31 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class BrowserFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[browser]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[browser]=...
+     */
     protected $name = 'browser';
 
-    /** @var string SQL column: browser name from device_browsers lookup table (e.g., Chrome, Firefox, Safari) */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: device_browsers.name
+     */
     protected $column = 'device_browsers.name';
 
-    /** @var string Data type: string for browser name matching */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: string
+     */
     protected $type = 'string';
 
     /**
-     * Required JOIN: sessions -> device_browsers.
-     * Links session's browser ID to the browser name lookup table.
+     * Required JOINs to access the column.
      *
-     * @var array
+     * @var array JOIN: sessions -> device_browsers
      */
     protected $joins = [
         'table' => 'device_browsers',
@@ -30,13 +41,25 @@ class BrowserFilter extends AbstractFilter
         'on'    => 'sessions.device_browser_id = device_browsers.ID',
     ];
 
-    /** @var string UI component: searchable autocomplete for large browser list */
+    /**
+     * UI input component type.
+     *
+     * @var string Input type: searchable
+     */
     protected $inputType = 'searchable';
 
-    /** @var array Supported operators: exact match and exclusion */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is, is_not
+     */
     protected $supportedOperators = ['is', 'is_not'];
 
-    /** @var array Available on: visitors page for device analysis */
+    /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors
+     */
     protected $groups = ['visitors'];
 
     /**

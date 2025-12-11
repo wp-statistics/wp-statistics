@@ -9,20 +9,31 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class ReferrerChannelFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[referrer_channel]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[referrer_channel]=...
+     */
     protected $name = 'referrer_channel';
 
-    /** @var string SQL column: traffic channel type from referrers table (direct, search, social, etc.) */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: referrers.channel
+     */
     protected $column = 'referrers.channel';
 
-    /** @var string Data type: string for channel matching */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: string
+     */
     protected $type = 'string';
 
     /**
-     * Required JOIN: sessions -> referrers.
-     * Links session's referrer ID to get the traffic channel classification.
+     * Required JOINs to access the column.
      *
-     * @var array
+     * @var array JOIN: sessions -> referrers
      */
     protected $joins = [
         'table' => 'referrers',
@@ -30,13 +41,25 @@ class ReferrerChannelFilter extends AbstractFilter
         'on'    => 'sessions.referrer_id = referrers.ID',
     ];
 
-    /** @var array Supported operators: exact match and exclusion */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is, is_not
+     */
     protected $supportedOperators = ['is', 'is_not'];
 
-    /** @var string UI component: dropdown with predefined traffic channels */
+    /**
+     * UI input component type.
+     *
+     * @var string Input type: dropdown
+     */
     protected $inputType = 'dropdown';
 
-    /** @var array Available on: visitors page for traffic source analysis */
+    /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors
+     */
     protected $groups = ['visitors'];
 
     /**

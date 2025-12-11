@@ -9,20 +9,31 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class UserRoleFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[user_role]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[user_role]=...
+     */
     protected $name = 'user_role';
 
-    /** @var string SQL column: WordPress user role from users table (e.g., administrator, editor, subscriber) */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: users.role
+     */
     protected $column = 'users.role';
 
-    /** @var string Data type: string for role name matching */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: string
+     */
     protected $type = 'string';
 
     /**
-     * Required JOIN: sessions -> users.
-     * Links session's user ID to the WordPress users table for role lookup.
+     * Required JOINs to access the column.
      *
-     * @var array
+     * @var array JOIN: sessions -> users
      */
     protected $joins = [
         'table' => 'users',
@@ -30,13 +41,25 @@ class UserRoleFilter extends AbstractFilter
         'on'    => 'sessions.user_id = users.ID',
     ];
 
-    /** @var string UI component: dropdown with dynamic WordPress roles */
+    /**
+     * UI input component type.
+     *
+     * @var string Input type: dropdown
+     */
     protected $inputType = 'dropdown';
 
-    /** @var array Supported operators: exact match and exclusion */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is, is_not
+     */
     protected $supportedOperators = ['is', 'is_not'];
 
-    /** @var array Available on: visitors page for user segmentation */
+    /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors
+     */
     protected $groups = ['visitors'];
 
     /**

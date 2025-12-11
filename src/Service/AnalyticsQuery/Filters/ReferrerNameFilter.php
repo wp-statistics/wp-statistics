@@ -9,20 +9,31 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class ReferrerNameFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[referrer_name]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[referrer_name]=...
+     */
     protected $name = 'referrer_name';
 
-    /** @var string SQL column: referrer display name from referrers table (e.g., Google, Facebook, Twitter) */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: referrers.name
+     */
     protected $column = 'referrers.name';
 
-    /** @var string Data type: string for referrer name matching */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: string
+     */
     protected $type = 'string';
 
     /**
-     * Required JOIN: sessions -> referrers.
-     * Links session's referrer ID to the referrer name lookup table.
+     * Required JOINs to access the column.
      *
-     * @var array
+     * @var array JOIN: sessions -> referrers
      */
     protected $joins = [
         'table' => 'referrers',
@@ -30,7 +41,11 @@ class ReferrerNameFilter extends AbstractFilter
         'on'    => 'sessions.referrer_id = referrers.ID',
     ];
 
-    /** @var array Supported operators: exact match, exclusion, set membership, and partial text matching */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is, is_not, in, not_in, contains, starts_with, ends_with
+     */
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in', 'contains', 'starts_with', 'ends_with'];
 
     /**

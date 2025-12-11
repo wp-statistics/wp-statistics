@@ -9,22 +9,46 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class UserIdFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[user_id]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[user_id]=...
+     */
     protected $name = 'user_id';
 
-    /** @var string SQL column: WordPress user ID from sessions table (NULL for anonymous visitors) */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: sessions.user_id
+     */
     protected $column = 'sessions.user_id';
 
-    /** @var string Data type: integer for WordPress user ID matching */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: integer (WordPress user ID)
+     */
     protected $type = 'integer';
 
-    /** @var string UI component: number input for user ID entry */
+    /**
+     * UI input component type.
+     *
+     * @var string Input type: number
+     */
     protected $inputType = 'number';
 
-    /** @var array Supported operators: exact match, exclusion, and null check */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is, is_not, is_null
+     */
     protected $supportedOperators = ['is', 'is_not', 'is_null'];
 
-    /** @var array Available on: visitors page for user tracking */
+    /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors
+     */
     protected $groups = ['visitors'];
 
     /**

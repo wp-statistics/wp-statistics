@@ -9,20 +9,31 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class CityFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[city]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[city]=...
+     */
     protected $name = 'city';
 
-    /** @var string SQL column: city name from cities lookup table (e.g., New York, London, Tokyo) */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: cities.city_name
+     */
     protected $column = 'cities.city_name';
 
-    /** @var string Data type: string for city name matching */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: string
+     */
     protected $type = 'string';
 
     /**
-     * Required JOIN: sessions -> cities.
-     * Links session's city ID to the city details lookup table.
+     * Required JOINs to access the column.
      *
-     * @var array
+     * @var array JOIN: sessions -> cities
      */
     protected $joins = [
         'table' => 'cities',
@@ -30,13 +41,25 @@ class CityFilter extends AbstractFilter
         'on'    => 'sessions.city_id = cities.ID',
     ];
 
-    /** @var string UI component: searchable autocomplete for large city list */
+    /**
+     * UI input component type.
+     *
+     * @var string Input type: searchable
+     */
     protected $inputType = 'searchable';
 
-    /** @var array Supported operators: exact match and exclusion */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is, is_not
+     */
     protected $supportedOperators = ['is', 'is_not'];
 
-    /** @var array Available on: visitors page for geographic analysis */
+    /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors
+     */
     protected $groups = ['visitors'];
 
     /**

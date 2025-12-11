@@ -9,20 +9,31 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class OsFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[os]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[os]=...
+     */
     protected $name = 'os';
 
-    /** @var string SQL column: OS name from device_oss table (e.g., Windows, macOS, Linux, iOS, Android) */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: device_oss.name
+     */
     protected $column = 'device_oss.name';
 
-    /** @var string Data type: string for operating system name matching */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: string
+     */
     protected $type = 'string';
 
     /**
-     * Required JOIN: sessions -> device_oss.
-     * Links session's OS ID to the operating system lookup table.
+     * Required JOINs to access the column.
      *
-     * @var array
+     * @var array JOIN: sessions -> device_oss
      */
     protected $joins = [
         'table' => 'device_oss',
@@ -30,13 +41,25 @@ class OsFilter extends AbstractFilter
         'on'    => 'sessions.device_os_id = device_oss.ID',
     ];
 
-    /** @var string UI component: searchable autocomplete for OS name list */
+    /**
+     * UI input component type.
+     *
+     * @var string Input type: searchable
+     */
     protected $inputType = 'searchable';
 
-    /** @var array Supported operators: exact match and exclusion */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is, is_not
+     */
     protected $supportedOperators = ['is', 'is_not'];
 
-    /** @var array Available on: visitors page for device analysis */
+    /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors
+     */
     protected $groups = ['visitors'];
 
     /**

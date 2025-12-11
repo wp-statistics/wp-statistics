@@ -9,20 +9,31 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class RegionFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[region]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[region]=...
+     */
     protected $name = 'region';
 
-    /** @var string SQL column: region/state name from cities table (e.g., California, Texas, Bayern) */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: cities.region_name
+     */
     protected $column = 'cities.region_name';
 
-    /** @var string Data type: string for region name matching */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: string
+     */
     protected $type = 'string';
 
     /**
-     * Required JOIN: sessions -> cities.
-     * Links session's city ID to get the region name from the cities table.
+     * Required JOINs to access the column.
      *
-     * @var array
+     * @var array JOIN: sessions -> cities
      */
     protected $joins = [
         'table' => 'cities',
@@ -30,13 +41,25 @@ class RegionFilter extends AbstractFilter
         'on'    => 'sessions.city_id = cities.ID',
     ];
 
-    /** @var string UI component: searchable autocomplete for region list */
+    /**
+     * UI input component type.
+     *
+     * @var string Input type: searchable
+     */
     protected $inputType = 'searchable';
 
-    /** @var array Supported operators: exact match and exclusion */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is, is_not
+     */
     protected $supportedOperators = ['is', 'is_not'];
 
-    /** @var array Available on: visitors page for geographic analysis */
+    /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors
+     */
     protected $groups = ['visitors'];
 
     /**

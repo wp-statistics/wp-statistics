@@ -9,20 +9,31 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class DeviceTypeFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[device_type]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[device_type]=...
+     */
     protected $name = 'device_type';
 
-    /** @var string SQL column: device type name from device_types table (desktop, mobile, tablet) */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: device_types.name
+     */
     protected $column = 'device_types.name';
 
-    /** @var string Data type: string for device type matching */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: string
+     */
     protected $type = 'string';
 
     /**
-     * Required JOIN: sessions -> device_types.
-     * Links session's device type ID to the device type lookup table.
+     * Required JOINs to access the column.
      *
-     * @var array
+     * @var array JOIN: sessions -> device_types
      */
     protected $joins = [
         'table' => 'device_types',
@@ -30,13 +41,25 @@ class DeviceTypeFilter extends AbstractFilter
         'on'    => 'sessions.device_type_id = device_types.ID',
     ];
 
-    /** @var string UI component: dropdown with predefined device types */
+    /**
+     * UI input component type.
+     *
+     * @var string Input type: dropdown
+     */
     protected $inputType = 'dropdown';
 
-    /** @var array Supported operators: exact match and exclusion */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is, is_not
+     */
     protected $supportedOperators = ['is', 'is_not'];
 
-    /** @var array Available on: visitors page for device analysis */
+    /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors
+     */
     protected $groups = ['visitors'];
 
     /**

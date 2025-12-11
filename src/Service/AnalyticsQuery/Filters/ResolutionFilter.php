@@ -9,20 +9,31 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class ResolutionFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[resolution]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[resolution]=...
+     */
     protected $name = 'resolution';
 
-    /** @var string SQL column: computed resolution string (e.g., 1920x1080, 1366x768) via CONCAT */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column expression: CONCAT(resolutions.width, 'x', resolutions.height)
+     */
     protected $column = 'CONCAT(resolutions.width, \'x\', resolutions.height)';
 
-    /** @var string Data type: string for resolution matching */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: string
+     */
     protected $type = 'string';
 
     /**
-     * Required JOIN: sessions -> resolutions.
-     * Links session's resolution ID to the screen resolution lookup table.
+     * Required JOINs to access the column.
      *
-     * @var array
+     * @var array JOIN: sessions -> resolutions
      */
     protected $joins = [
         'table' => 'resolutions',
@@ -30,13 +41,25 @@ class ResolutionFilter extends AbstractFilter
         'on'    => 'sessions.resolution_id = resolutions.ID',
     ];
 
-    /** @var string UI component: searchable autocomplete for resolution list */
+    /**
+     * UI input component type.
+     *
+     * @var string Input type: searchable
+     */
     protected $inputType = 'searchable';
 
-    /** @var array Supported operators: exact match and exclusion */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is, is_not
+     */
     protected $supportedOperators = ['is', 'is_not'];
 
-    /** @var array Available on: visitors page for device analysis */
+    /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors
+     */
     protected $groups = ['visitors'];
 
     /**

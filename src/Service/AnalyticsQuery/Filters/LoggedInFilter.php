@@ -9,22 +9,46 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
  */
 class LoggedInFilter extends AbstractFilter
 {
-    /** @var string Filter identifier for API requests: filters[logged_in]=... */
+    /**
+     * Filter key for API requests.
+     *
+     * @var string Filter identifier: filters[logged_in]=...
+     */
     protected $name = 'logged_in';
 
-    /** @var string SQL column: user_id presence indicates logged-in status (NULL=anonymous) */
+    /**
+     * SQL column for WHERE clause.
+     *
+     * @var string Column path: sessions.user_id
+     */
     protected $column = 'sessions.user_id';
 
-    /** @var string Data type: boolean (converts to NULL check in SQL) */
+    /**
+     * Value type for sanitization.
+     *
+     * @var string Data type: boolean
+     */
     protected $type = 'boolean';
 
-    /** @var array Supported operators: exact match only for login status */
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is
+     */
     protected $supportedOperators = ['is'];
 
-    /** @var string UI component: dropdown with Logged-in/Anonymous options */
+    /**
+     * UI input component type.
+     *
+     * @var string Input type: dropdown
+     */
     protected $inputType = 'dropdown';
 
-    /** @var array Available on: visitors page for user authentication analysis */
+    /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors
+     */
     protected $groups = ['visitors'];
 
     /**
