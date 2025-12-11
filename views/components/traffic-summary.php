@@ -58,9 +58,10 @@ use WP_STATISTICS\Menus;
                                         number_format_i18n($itemData['current']['visitors']),
                                         esc_html__('vs previous period', 'wp-statistics')
                                     );
+                                    $visitorsPercentage = rtrim(rtrim(number_format((float)$itemData['trend']['visitors']['percentage'], 1), '0'), '.');
                                     ?>
                                     <div class="diffs__change <?php echo esc_attr($itemData['trend']['visitors']['direction']); ?> wps-tooltip" title="<?php echo esc_attr($visitorsTooltip); ?>">
-                                        <span class="diffs__change__direction"><?php echo esc_html(rtrim(rtrim($itemData['trend']['visitors']['percentage'], '0'), '.')) ?>%</span>
+                                        <span class="diffs__change__direction"><?php echo esc_html($visitorsPercentage); ?>%</span>
                                     </div>
                                 <?php endif; ?>
                             </div>
@@ -77,9 +78,10 @@ use WP_STATISTICS\Menus;
                                         number_format_i18n($itemData['current']['views']),
                                         esc_html__('vs previous period', 'wp-statistics')
                                     );
+                                    $viewsPercentage = rtrim(rtrim(number_format((float)$itemData['trend']['views']['percentage'], 1), '0'), '.');
                                     ?>
                                     <div class="diffs__change <?php echo esc_attr($itemData['trend']['views']['direction']); ?> wps-tooltip" title="<?php echo esc_attr($viewsTooltip); ?>">
-                                        <span class="diffs__change__direction"><?php echo esc_html(rtrim(rtrim($itemData['trend']['views']['percentage'], '0'), '.')) ?>%</span>
+                                        <span class="diffs__change__direction"><?php echo esc_html($viewsPercentage); ?>%</span>
                                     </div>
                                 <?php endif; ?>
                             </div>

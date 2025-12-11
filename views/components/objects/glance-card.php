@@ -40,11 +40,16 @@
                                 </span>
 
                             <?php elseif (isset($metric['value']) || isset($metric['not_applicable'])): ?>
-                                <span title="<?php echo esc_html($metric['value'] ?? 'No data'); ?>">
+                                <?php $metricValue = $metric['value'] ?? null; ?>
+                                <span title="<?php echo esc_html($metricValue !== '' && $metricValue !== null ? $metricValue : __('No data', 'wp-statistics')); ?>">
                                     <?php if (isset($metric['not_applicable']) && $metric['not_applicable']): ?>
                                         –
+                                    <?php elseif ($metricValue === '' || $metricValue === null): ?>
+                                        –
+                                    <?php elseif ($metricValue === 0 || $metricValue === '0'): ?>
+                                        0
                                     <?php else: ?>
-                                        <?php echo esc_html($metric['value'] ?? 0); ?>
+                                        <?php echo esc_html($metricValue); ?>
                                     <?php endif; ?>
                                 </span>
                             <?php else: ?>
