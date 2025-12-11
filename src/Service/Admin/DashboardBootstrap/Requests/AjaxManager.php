@@ -66,7 +66,11 @@ class AjaxManager
      * Register a global endpoint.
      *
      * Global endpoints are available across all dashboard pages and are
-     * registered with the action name from the endpoint's getActionName() method.
+     * registered with the action name: wp_statistics_{endpointName}
+     *
+     * Note: Ajax::register() automatically prepends 'wp_statistics_' to the action,
+     * so we only pass the endpoint name here (e.g., 'analytics' becomes
+     * 'wp_ajax_wp_statistics_analytics').
      *
      * @param PageActionInterface $endpoint The endpoint handler
      * @param string $handlerMethod The method to call on the endpoint (default: 'handleQuery')
@@ -74,8 +78,7 @@ class AjaxManager
      */
     public function registerGlobalEndpoint(PageActionInterface $endpoint, string $handlerMethod = 'handleQuery')
     {
-        $endpointClass = get_class($endpoint);
-        $actionName    = $endpointClass::getActionName();
+        $actionName = $endpoint->getEndpointName();
 
         Ajax::register($actionName, function () use ($endpoint, $handlerMethod) {
             $nonce = $_SERVER['HTTP_X_WP_NONCE'] ?? '';
