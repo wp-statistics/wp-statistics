@@ -88,8 +88,9 @@ abstract class AbstractAnalyticsPage implements PageActionInterface
                 $dateFrom      = $query['date_from'] ?? null;
                 $dateTo        = $query['date_to'] ?? null;
                 $globalFilters = $query['filters'] ?? [];
+                $globalCompare = $query['compare'] ?? false;
 
-                return $this->getQueryHandler()->handleBatch($batchQueries, $dateFrom, $dateTo, $globalFilters);
+                return $this->getQueryHandler()->handleBatch($batchQueries, $dateFrom, $dateTo, $globalFilters, $globalCompare);
             }
 
             // Single query

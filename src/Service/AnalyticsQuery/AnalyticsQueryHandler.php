@@ -121,18 +121,21 @@ class AnalyticsQueryHandler
      * Supports global parameters that apply to all queries:
      * - date_from/date_to: Inherited unless query provides both
      * - filters: Merged with query-specific filters (query values override)
+     * - compare: Applied to queries that don't explicitly set it
      *
-     * @param array       $queries       Array of queries with 'id' field.
-     * @param string|null $dateFrom      Global date_from (queries can override).
-     * @param string|null $dateTo        Global date_to (queries can override).
-     * @param array       $globalFilters Global filters (merged with query filters).
+     * @param array       $queries        Array of queries with 'id' field.
+     * @param string|null $dateFrom       Global date_from (queries can override).
+     * @param string|null $dateTo         Global date_to (queries can override).
+     * @param array       $globalFilters  Global filters (merged with query filters).
+     * @param bool        $globalCompare  Global compare flag (queries can override).
      * @return array Response with results keyed by query ID.
      */
     public function handleBatch(
         array $queries,
         ?string $dateFrom = null,
         ?string $dateTo = null,
-        array $globalFilters = []
+        array $globalFilters = [],
+        bool $globalCompare = false
     ): array {
         $results = [];
         $errors  = [];
@@ -172,6 +175,11 @@ class AnalyticsQueryHandler
 
             if (!empty($normalizedGlobalFilters) || !empty($normalizedQueryFilters)) {
                 $queryData['filters'] = array_merge($normalizedGlobalFilters, $normalizedQueryFilters);
+            }
+
+            // Apply global compare if query doesn't override
+            if (!isset($queryData['compare']) && $globalCompare) {
+                $queryData['compare'] = true;
             }
 
             try {
