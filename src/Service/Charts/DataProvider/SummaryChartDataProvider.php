@@ -32,11 +32,10 @@ class SummaryChartDataProvider extends AbstractChartDataProvider
         foreach ($periods as $key => $period) {
             $data = [];
 
-            $args    = array_merge($this->args, ['date' => $period['date']]);
-            $isTotal = ($key === 'total');
+            $args = array_merge($this->args, ['date' => $period['date']]);
 
             // Fetch current data
-            $data['current'] = $this->fetchData($args, $isTotal);
+            $data['current'] = $this->fetchData($args);
 
             if (!empty($period['comparison'])) {
                 $args['date'] = DateRange::getPrevPeriod($period['date']);
@@ -62,18 +61,11 @@ class SummaryChartDataProvider extends AbstractChartDataProvider
      * Uses separate queries when filters are applied, combined query otherwise.
      *
      * @param array $args
-     * @param bool  $isTotal Whether this is for the total/all-time period
      * @return array
      */
-    protected function fetchData($args, $isTotal = false)
+    protected function fetchData($args)
     {
         $result = ['visitors' => 0, 'views' => 0];
-
-        // Add flags for total period to include historical data
-        if ($isTotal) {
-            $args['ignore_date'] = true;
-            $args['historical']  = true;
-        }
 
         if ($this->isFilterApplied()) {
             // Get visitors and views separately when filtering
