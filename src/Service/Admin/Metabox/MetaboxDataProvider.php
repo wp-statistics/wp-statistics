@@ -36,23 +36,9 @@ class MetaboxDataProvider
 
     public function getTrafficSummaryData($args = [])
     {
-        $summary = ChartDataProviderFactory::summaryChart()->getData();
-
-        $summary['total'] = [
-            'label'      => esc_html__('Total', 'wp-statistics'),
-            'tooltip'    => null,
-            'comparison' => false,
-            'date'       => DateRange::get('total'),
-            'data'       => [
-                'current' => $this->visitorsModel->getVisitorsHits(['ignore_date' => true, 'historical' => true])
-            ]
-        ];
-        $summary['total']['data']['current']['views'] = $summary['total']['data']['current']['hits'];
-        unset($summary['total']['data']['current']['hits']);
-
         $data = [
             'online'  => $this->onlineModel->countOnlines($args),
-            'summary' => $summary
+            'summary' => ChartDataProviderFactory::summaryChart(['include_total' => true])->getData()
         ];
 
         return $data;
@@ -67,23 +53,9 @@ class MetaboxDataProvider
      */
     public function getTrafficOverviewData($args = [])
     {
-        $summary = ChartDataProviderFactory::summaryChart()->getData();
-
-        $summary['total'] = [
-            'label'      => esc_html__('Total', 'wp-statistics'),
-            'tooltip'    => null,
-            'comparison' => false,
-            'date'       => DateRange::get('total'),
-            'data'       => [
-                'current' => $this->visitorsModel->getVisitorsHits(['ignore_date' => true, 'historical' => true])
-            ]
-        ];
-        $summary['total']['data']['current']['views'] = $summary['total']['data']['current']['hits'];
-        unset($summary['total']['data']['current']['hits']);
-
         $data = [
             'online'  => $this->onlineModel->countOnlines($args),
-            'summary' => $summary
+            'summary' => ChartDataProviderFactory::summaryChart(['include_total' => true])->getData()
         ];
 
         return $data;
