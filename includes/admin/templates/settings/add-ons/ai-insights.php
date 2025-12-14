@@ -80,7 +80,7 @@ if ($isAiInsightActive && !$isLicenseValid) {
 
         <tr>
             <th colspan="2" scope="row">
-                <p class="description"><?php esc_html_e('AI Insights syncs Google Search Console data into custom tables for faster analysis. Configure automatic sync frequency or manually trigger a sync to refresh your data.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('AI Insights syncs Google Search Console data into custom tables for faster analysis. Enable automatic daily sync or manually trigger a sync to refresh your data.', 'wp-statistics'); ?></p>
             </th>
         </tr>
 
@@ -108,7 +108,7 @@ if ($isAiInsightActive && !$isLicenseValid) {
             <tr>
                 <th colspan="2" scope="row">
                     <div class="wps-alert wps-alert__danger">
-                        <?php esc_html_e('Failed to sync GSC data. Please try again or check your GSC connection in Marketing add-on settings.', 'wp-statistics'); ?>
+                        <?php esc_html_e('Failed to sync Google Search Console data. Please try again or check your connection in Marketing add-on settings.', 'wp-statistics'); ?>
                     </div>
                 </th>
             </tr>
@@ -118,7 +118,7 @@ if ($isAiInsightActive && !$isLicenseValid) {
             <tr>
                 <th colspan="2" scope="row">
                     <div class="wps-alert wps-alert__info">
-                        <?php esc_html_e('No Google Search Console data has been synced yet. Sync now to populate AI Insights reports and start seeing your SEO performance data.', 'wp-statistics'); ?>
+                        <?php esc_html_e('No Google Search Console data has been synced yet. Click Sync Now to populate AI Insights reports and start seeing your SEO performance data.', 'wp-statistics'); ?>
                     </div>
                 </th>
             </tr>
@@ -136,7 +136,7 @@ if ($isAiInsightActive && !$isLicenseValid) {
 
         <tr class="js-wps-show_if_ai_insight_auto_sync_disabled">
             <th colspan="2" scope="row">
-                <div class="wps-alert wps-alert__info"><?php esc_html_e('Automatic sync is disabled. Your AI Insights reports will not update until you manually sync GSC data.', 'wp-statistics'); ?></div>
+                <div class="wps-alert wps-alert__info"><?php esc_html_e('Automatic sync is disabled. Your AI Insights reports will not update until you manually sync Google Search Console data.', 'wp-statistics'); ?></div>
             </th>
         </tr>
 
@@ -158,25 +158,6 @@ if ($isAiInsightActive && !$isLicenseValid) {
                     <?php checked(Option::getByAddon('gsc_auto_sync', 'ai_insights', '1'), '1'); ?>>
                 <label for="wps_addon_settings[ai_insights][gsc_auto_sync]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('Automatically sync Google Search Console data on a scheduled basis. When disabled, data must be synced manually.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-
-        <tr data-id="gsc_sync_frequency_tr" class="js-wps-show_if_ai_insight_auto_sync_enabled">
-            <?php $syncFrequency = Option::getByAddon('gsc_sync_frequency', 'ai_insights'); ?>
-
-            <th scope="row">
-                <label for="gsc_sync_frequency"><?php esc_html_e('Sync Frequency', 'wp-statistics'); ?></label>
-            </th>
-            <td>
-                <select id="gsc_sync_frequency" name="wps_addon_settings[ai_insights][gsc_sync_frequency]">
-                    <option value="daily" <?php selected($syncFrequency, 'daily'); ?>>
-                        <?php esc_html_e('Daily', 'wp-statistics'); ?>
-                    </option>
-                    <option value="two_days" <?php selected($syncFrequency, 'two_days'); ?>>
-                        <?php esc_html_e('Every 2 Days', 'wp-statistics'); ?>
-                    </option>
-                </select>
-                <p class="description"><?php esc_html_e('How often GSC data should be synced automatically.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
