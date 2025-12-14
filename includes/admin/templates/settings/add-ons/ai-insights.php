@@ -94,37 +94,37 @@ if ($isAiInsightActive && !$isLicenseValid) {
             </tr>
         <?php endif; ?>
 
-        <?php if ($gscRecords === 0 && $syncStatus === 'success') : ?>
-            <tr>
-                <th colspan="2" scope="row">
-                    <div class="wps-alert wps-alert__info">
-                        <?php esc_html_e('No GSC data available yet. Your site may be new or not receiving search traffic. Check back in a few days.', 'wp-statistics'); ?>
-                    </div>
-                </th>
-            </tr>
-        <?php endif; ?>
+        <?php if ($gscProperty && $isAuthenticated) : ?>
+            <?php if ($gscRecords === 0 && $syncStatus === 'success') : ?>
+                <tr>
+                    <th colspan="2" scope="row">
+                        <div class="wps-alert wps-alert__info">
+                            <?php esc_html_e('No GSC data available yet. Your site may be new or not receiving search traffic. Check back in a few days.', 'wp-statistics'); ?>
+                        </div>
+                    </th>
+                </tr>
+            <?php endif; ?>
 
-        <?php if ($syncStatus === 'error') : ?>
-            <tr>
-                <th colspan="2" scope="row">
-                    <div class="wps-alert wps-alert__danger">
-                        <?php esc_html_e('Failed to sync Google Search Console data. Please try again or check your connection in Marketing add-on settings.', 'wp-statistics'); ?>
-                    </div>
-                </th>
-            </tr>
-        <?php endif; ?>
+            <?php if ($syncStatus === 'error') : ?>
+                <tr>
+                    <th colspan="2" scope="row">
+                        <div class="wps-alert wps-alert__danger">
+                            <?php esc_html_e('Failed to sync Google Search Console data. Please try again or check your connection in Marketing add-on settings.', 'wp-statistics'); ?>
+                        </div>
+                    </th>
+                </tr>
+            <?php endif; ?>
 
-        <?php if ($syncStatus === 'not-initiated') : ?>
-            <tr>
-                <th colspan="2" scope="row">
-                    <div class="wps-alert wps-alert__info">
-                        <?php esc_html_e('No Google Search Console data has been synced yet. Click Sync Now to populate AI Insights reports and start seeing your SEO performance data.', 'wp-statistics'); ?>
-                    </div>
-                </th>
-            </tr>
-        <?php endif; ?>
-
-        <?php if (!$gscProperty || !$isAuthenticated) : ?>
+            <?php if ($syncStatus === 'not-initiated') : ?>
+                <tr>
+                    <th colspan="2" scope="row">
+                        <div class="wps-alert wps-alert__info">
+                            <?php esc_html_e('No Google Search Console data has been synced yet. Click Sync Now to populate AI Insights reports and start seeing your SEO performance data.', 'wp-statistics'); ?>
+                        </div>
+                    </th>
+                </tr>
+            <?php endif; ?>
+        <?php else : ?>
             <tr>
                 <th colspan="2" scope="row">
                     <div class="wps-alert wps-alert__warning">
