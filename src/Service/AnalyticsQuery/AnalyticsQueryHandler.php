@@ -8,6 +8,11 @@ use WP_Statistics\Service\AnalyticsQuery\Registry\SourceRegistry;
 use WP_Statistics\Service\AnalyticsQuery\Registry\GroupByRegistry;
 use WP_Statistics\Service\AnalyticsQuery\Cache\CacheManager;
 use WP_Statistics\Service\AnalyticsQuery\Comparison\ComparisonHandler;
+use WP_Statistics\Service\AnalyticsQuery\Contracts\FormatterInterface;
+use WP_Statistics\Service\AnalyticsQuery\Formatters\StandardFormatter;
+use WP_Statistics\Service\AnalyticsQuery\Formatters\FlatFormatter;
+use WP_Statistics\Service\AnalyticsQuery\Formatters\ChartFormatter;
+use WP_Statistics\Service\AnalyticsQuery\Formatters\ExportFormatter;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidSourceException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidGroupByException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidDateRangeException;
@@ -58,6 +63,13 @@ class AnalyticsQueryHandler
     private $groupByRegistry;
 
     /**
+     * Response formatters indexed by format name.
+     *
+     * @var FormatterInterface[]
+     */
+    private $formatters = [];
+
+    /**
      * Constructor.
      *
      * @param bool $enableCache Whether to enable caching.
@@ -69,6 +81,39 @@ class AnalyticsQueryHandler
         $this->executor          = new QueryExecutor($this->sourceRegistry, $this->groupByRegistry);
         $this->cacheManager      = new CacheManager($enableCache);
         $this->comparisonHandler = new ComparisonHandler();
+
+        // Initialize formatters
+        $this->initializeFormatters();
+    }
+
+    /**
+     * Initialize response formatters.
+     *
+     * @return void
+     */
+    private function initializeFormatters(): void
+    {
+        $formatters = [
+            new StandardFormatter($this->cacheManager),
+            new FlatFormatter($this->cacheManager),
+            new ChartFormatter($this->cacheManager),
+            new ExportFormatter($this->cacheManager),
+        ];
+
+        foreach ($formatters as $formatter) {
+            $this->formatters[$formatter->getName()] = $formatter;
+        }
+    }
+
+    /**
+     * Get formatter by name.
+     *
+     * @param string $format Format name.
+     * @return FormatterInterface
+     */
+    private function getFormatter(string $format): FormatterInterface
+    {
+        return $this->formatters[$format] ?? $this->formatters['standard'];
     }
 
     /**
@@ -555,56 +600,27 @@ class AnalyticsQueryHandler
     /**
      * Build the final response structure.
      *
+     * Delegates to the appropriate formatter based on the query's format setting.
+     *
      * @param Query $query  Query object.
      * @param array $result Query results.
      * @return array Response structure.
      */
     private function buildResponse(Query $query, array $result): array
     {
-        $groupBy    = $query->getGroupBy();
-        $perPage    = $query->getPerPage();
-        $page       = $query->getPage();
-        $totalRows  = $result['total'] ?? 0;
-        $rows       = $result['rows'] ?? [];
-        $showTotals = $query->showTotals();
+        $groupBy = $query->getGroupBy();
+        $rows    = $result['rows'] ?? [];
 
         // Handle aggregate_others: show top N-1 items + "Other" row
+        // This is applied before formatting since it modifies the data structure
         if ($query->hasAggregateOthers() && !empty($groupBy) && count($rows) > 0) {
-            $rows = $this->aggregateOthersRows($rows, $query);
+            $result['rows'] = $this->aggregateOthersRows($rows, $query);
         }
 
-        $response = [
-            'success' => true,
-            'data'    => [],
-            'meta'    => [
-                'date_from'  => $query->getDateFrom(),
-                'date_to'    => $query->getDateTo(),
-                'total_rows' => $totalRows,
-                'cached'     => false,
-                'cache_ttl'  => $this->cacheManager->getTTL($query->toArray()),
-            ],
-        ];
+        // Get the appropriate formatter and format the response
+        $formatter = $this->getFormatter($query->getFormat());
 
-        // Add rows if group by are present
-        if (!empty($groupBy)) {
-            $response['data']['rows']       = $rows;
-            $response['meta']['page']       = $page;
-            $response['meta']['per_page']   = $perPage;
-            $response['meta']['total_pages'] = ceil($totalRows / $perPage);
-        }
-
-        // Add totals only if requested
-        if ($showTotals && $result['totals'] !== null) {
-            $response['data']['totals'] = $result['totals'];
-        }
-
-        // Add comparison info if present
-        if (isset($result['compare_from'])) {
-            $response['meta']['compare_from'] = $result['compare_from'];
-            $response['meta']['compare_to']   = $result['compare_to'];
-        }
-
-        return $response;
+        return $formatter->format($query, $result);
     }
 
     /**
@@ -762,5 +778,15 @@ class AnalyticsQueryHandler
     public function getGroupByRegistry(): GroupByRegistry
     {
         return $this->groupByRegistry;
+    }
+
+    /**
+     * Get available response formats.
+     *
+     * @return array List of available format names.
+     */
+    public function getAvailableFormats(): array
+    {
+        return array_keys($this->formatters);
     }
 }

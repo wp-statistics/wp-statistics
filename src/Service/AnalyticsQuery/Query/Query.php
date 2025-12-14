@@ -115,6 +115,15 @@ class Query implements QueryInterface
     private $showTotals;
 
     /**
+     * Response format type.
+     *
+     * Supported formats: 'standard', 'flat', 'chart', 'export'.
+     *
+     * @var string
+     */
+    private $format;
+
+    /**
      * Constructor.
      *
      * @param array       $sources         Sources to retrieve.
@@ -131,6 +140,7 @@ class Query implements QueryInterface
      * @param bool        $aggregateOthers  Whether to aggregate remaining items as "Other".
      * @param int|null    $originalPerPage  Original per_page when aggregate_others is enabled.
      * @param bool        $showTotals       Whether to include totals in the response.
+     * @param string      $format           Response format type (standard, flat, chart, export).
      */
     public function __construct(
         array $sources = [],
@@ -146,7 +156,8 @@ class Query implements QueryInterface
         ?string $dateColumn = null,
         bool $aggregateOthers = false,
         ?int $originalPerPage = null,
-        bool $showTotals = true
+        bool $showTotals = true,
+        string $format = 'standard'
     ) {
         $this->sources         = $sources;
         $this->groupBy         = $groupBy;
@@ -162,6 +173,20 @@ class Query implements QueryInterface
         $this->aggregateOthers = $aggregateOthers;
         $this->originalPerPage = $originalPerPage;
         $this->showTotals      = $showTotals;
+        $this->format          = $this->normalizeFormat($format);
+    }
+
+    /**
+     * Normalize format value to a supported format.
+     *
+     * @param string $format Format value.
+     * @return string Normalized format (defaults to 'standard' if invalid).
+     */
+    private function normalizeFormat(string $format): string
+    {
+        $validFormats = ['standard', 'flat', 'chart', 'export'];
+
+        return in_array($format, $validFormats, true) ? $format : 'standard';
     }
 
     /**
@@ -307,6 +332,16 @@ class Query implements QueryInterface
     }
 
     /**
+     * Get the response format type.
+     *
+     * @return string Format type (standard, flat, chart, export).
+     */
+    public function getFormat(): string
+    {
+        return $this->format;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function toArray(): array
@@ -326,6 +361,7 @@ class Query implements QueryInterface
             'aggregate_others'   => $this->aggregateOthers,
             '_original_per_page' => $this->originalPerPage,
             'show_totals'        => $this->showTotals,
+            'format'             => $this->format,
         ];
     }
 
@@ -352,7 +388,8 @@ class Query implements QueryInterface
             $this->dateColumn,
             $this->aggregateOthers,
             $this->originalPerPage,
-            $this->showTotals
+            $this->showTotals,
+            $this->format
         );
     }
 
@@ -377,7 +414,8 @@ class Query implements QueryInterface
             $this->dateColumn,
             $this->aggregateOthers,
             $this->originalPerPage,
-            $this->showTotals
+            $this->showTotals,
+            $this->format
         );
     }
 
@@ -403,7 +441,8 @@ class Query implements QueryInterface
             $data['date_column'] ?? null,
             !empty($data['aggregate_others']),
             isset($data['_original_per_page']) ? (int) $data['_original_per_page'] : null,
-            $data['show_totals'] ?? true
+            $data['show_totals'] ?? true,
+            $data['format'] ?? 'standard'
         );
     }
 }
