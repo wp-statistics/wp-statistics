@@ -26,11 +26,6 @@ class LayoutDataProvider implements LocalizeDataProviderInterface
     public function getData()
     {
         $items['sidebar'] = [
-            'overview'          => [
-                'icon'  => 'Gauge',
-                'label' => esc_html__('General', 'wp-statistics'),
-                'slug'  => 'overview'
-            ],
             'visitorInsights'   => [
                 'icon'     => 'User',
                 'label'    => esc_html__('Visitor Insights', 'wp-statistics'),
@@ -66,52 +61,94 @@ class LayoutDataProvider implements LocalizeDataProviderInterface
                     ]
                 ]
             ],
-            'pageAnalytics'     => [
-                'icon'  => 'File',
-                'label' => esc_html__('Page Insights', 'wp-statistics'),
-                'slug'  => 'page-analytics'
+            'pageInsights'      => [
+                'icon'     => 'File',
+                'label'    => esc_html__('Page Insights', 'wp-statistics'),
+                'slug'     => 'page-insights',
+                'subPages' => [
+                    'overview'      => [
+                        'label' => esc_html__('Overview', 'wp-statistics'),
+                        'slug'  => 'page-insights-overview'
+                    ],
+                    'topPages'      => [
+                        'label' => esc_html__('Top Pages', 'wp-statistics'),
+                        'slug'  => 'top-pages'
+                    ],
+                    'entryPages'    => [
+                        'label' => esc_html__('Entry Pages', 'wp-statistics'),
+                        'slug'  => 'entry-pages'
+                    ],
+                    'exitPages'     => [
+                        'label' => esc_html__('Exit Pages', 'wp-statistics'),
+                        'slug'  => 'exit-pages'
+                    ],
+                    'categoryPages' => [
+                        'label' => esc_html__('Category Pages', 'wp-statistics'),
+                        'slug'  => 'category-pages'
+                    ],
+                    'authorPages'   => [
+                        'label' => esc_html__('Author Pages', 'wp-statistics'),
+                        'slug'  => 'author-pages'
+                    ],
+                    'pages404'      => [
+                        'label' => esc_html__('404 Pages', 'wp-statistics'),
+                        'slug'  => '404-pages'
+                    ]
+                ]
+            ],
+            'contentAnalytics'  => [
+                'icon'     => 'FileChartColumn',
+                'label'    => esc_html__('Content Analytics', 'wp-statistics'),
+                'slug'     => 'content-analytics',
+                'subPages' => [
+                    'content'    => [
+                        'label' => esc_html__('Content', 'wp-statistics'),
+                        'slug'  => 'content'
+                    ],
+                    'authors'    => [
+                        'label' => esc_html__('Authors', 'wp-statistics'),
+                        'slug'  => 'authors'
+                    ],
+                    'categories' => [
+                        'label' => esc_html__('Categories', 'wp-statistics'),
+                        'slug'  => 'categories'
+                    ]
+                ]
             ],
             'referrals'         => [
                 'icon'     => 'RefreshCw',
                 'label'    => esc_html__('Referrals', 'wp-statistics'),
                 'slug'     => 'referrals',
                 'subPages' => [
-                    'referredVisitors' => [
+                    'referralsOverview' => [
+                        'label' => esc_html__('Referrals Overview', 'wp-statistics'),
+                        'slug'  => 'referrals-overview'
+                    ],
+                    'referredVisitors'  => [
                         'label' => esc_html__('Referred Visitors', 'wp-statistics'),
                         'slug'  => 'referred-visitors'
                     ],
-                    'referrers'        => [
+                    'referrers'         => [
                         'label' => esc_html__('Referrers', 'wp-statistics'),
                         'slug'  => 'referrers'
                     ],
-                    'searchEngines'    => [
+                    'searchEngines'     => [
                         'label' => esc_html__('Search Engines', 'wp-statistics'),
                         'slug'  => 'search-engines'
                     ],
-                    'socialMedia'      => [
+                    'socialMedia'       => [
                         'label' => esc_html__('Social Media', 'wp-statistics'),
                         'slug'  => 'social-media'
                     ],
-                    'sourceCategories' => [
+                    'sourceCategories'  => [
                         'label' => esc_html__('Source Categories', 'wp-statistics'),
                         'slug'  => 'source-categories'
+                    ],
+                    'campaigns'         => [
+                        'label' => esc_html__('Campaigns', 'wp-statistics'),
+                        'slug'  => 'campaigns'
                     ]
                 ]
-            ],
-            'categoryAnalytics' => [
-                'icon'  => 'FileChartColumn',
-                'label' => esc_html__('Content Analytics', 'wp-statistics'),
-                'slug'  => 'category-analytics'
-            ],
-            'authorAnalytics'   => [
-                'icon'  => 'FileUser',
-                'label' => esc_html__('Author Analytics', 'wp-statistics'),
-                'slug'  => 'author-analytics'
-            ],
-            'categoryAnalytics' => [
-                'icon'  => 'SquareChartGantt',
-                'label' => esc_html__('Category Analytics', 'wp-statistics'),
-                'slug'  => 'category-analytics'
             ],
             'geographic'        => [
                 'icon'  => 'Earth',
