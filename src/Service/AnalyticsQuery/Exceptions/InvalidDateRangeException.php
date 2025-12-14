@@ -15,7 +15,7 @@ class InvalidDateRangeException extends \InvalidArgumentException
     public function __construct(string $message = '')
     {
         parent::__construct(
-            $message ?: __('Invalid date range format. Expected YYYY-MM-DD format.', 'wp-statistics')
+            $message ?: __('Invalid date range format.', 'wp-statistics')
         );
     }
 }

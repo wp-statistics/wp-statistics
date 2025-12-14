@@ -16,6 +16,7 @@ use WP_Statistics\Service\AnalyticsQuery\Formatters\ExportFormatter;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidSourceException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidGroupByException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidDateRangeException;
+use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidFormatException;
 
 /**
  * Facade for analytics query operations.
@@ -274,6 +275,14 @@ class AnalyticsQueryHandler
         foreach ($groupBy as $groupByItem) {
             if (!$this->groupByRegistry->has($groupByItem)) {
                 throw new InvalidGroupByException($groupByItem);
+            }
+        }
+
+        // Validate format
+        if (isset($request['format'])) {
+            $validFormats = ['standard', 'flat', 'chart', 'export'];
+            if (!in_array($request['format'], $validFormats, true)) {
+                throw new InvalidFormatException($request['format']);
             }
         }
 
@@ -703,6 +712,10 @@ class AnalyticsQueryHandler
 
         if ($e instanceof InvalidDateRangeException) {
             return 'invalid_date_range';
+        }
+
+        if ($e instanceof InvalidFormatException) {
+            return 'invalid_format';
         }
 
         return 'server_error';

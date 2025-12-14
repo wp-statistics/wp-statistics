@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\AnalyticsQuery\Query;
 
 use WP_Statistics\Service\AnalyticsQuery\Contracts\QueryInterface;
+use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidFormatException;
 
 /**
  * Immutable query object.
@@ -186,7 +187,11 @@ class Query implements QueryInterface
     {
         $validFormats = ['standard', 'flat', 'chart', 'export'];
 
-        return in_array($format, $validFormats, true) ? $format : 'standard';
+        if (!in_array($format, $validFormats, true)) {
+            throw new InvalidFormatException($format);
+        }
+
+        return $format;
     }
 
     /**

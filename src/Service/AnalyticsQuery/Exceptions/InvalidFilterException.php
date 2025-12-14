@@ -16,6 +16,7 @@ class InvalidFilterException extends \InvalidArgumentException
     {
         parent::__construct(
             sprintf(
+                /* translators: %s: Invalid filter name */
                 __('Invalid filter: "%s".', 'wp-statistics'),
                 $filter
             )

@@ -7,6 +7,7 @@ use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidSourceException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidGroupByException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidDateRangeException;
+use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidFormatException;
 
 /**
  * Abstract base class for handlers that use the AnalyticsQuery.
@@ -116,6 +117,14 @@ abstract class AbstractAnalyticsPage implements PageActionInterface
                 'success' => false,
                 'error'   => [
                     'code'    => 'invalid_date_range',
+                    'message' => $e->getMessage(),
+                ],
+            ];
+        } catch (InvalidFormatException $e) {
+            return [
+                'success' => false,
+                'error'   => [
+                    'code'    => 'invalid_format',
                     'message' => $e->getMessage(),
                 ],
             ];

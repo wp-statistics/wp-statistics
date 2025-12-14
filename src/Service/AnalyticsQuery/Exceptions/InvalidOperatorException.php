@@ -16,7 +16,8 @@ class InvalidOperatorException extends \InvalidArgumentException
     {
         parent::__construct(
             sprintf(
-                __('Invalid operator: "%s". Valid operators: is, is_not, in, not_in, contains, starts_with, ends_with, gt, gte, lt, lte', 'wp-statistics'),
+                /* translators: %s: Invalid operator name */
+                __('Invalid operator: "%s".', 'wp-statistics'),
                 $operator
             )
         );

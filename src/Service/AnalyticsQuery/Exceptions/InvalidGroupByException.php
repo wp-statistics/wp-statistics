@@ -2,8 +2,6 @@
 
 namespace WP_Statistics\Service\AnalyticsQuery\Exceptions;
 
-use WP_Statistics\Service\AnalyticsQuery\Registry\GroupByRegistry;
-
 /**
  * Exception thrown when an invalid group by is requested.
  *
@@ -16,13 +14,11 @@ class InvalidGroupByException extends \InvalidArgumentException
      */
     public function __construct(string $groupBy)
     {
-        $registry = GroupByRegistry::getInstance();
         parent::__construct(
             sprintf(
-                /* translators: 1: Invalid group by name, 2: List of valid group by */
-                __('Unknown group_by: "%1$s". Valid group_by: %2$s', 'wp-statistics'),
-                $groupBy,
-                implode(', ', $registry->getAll())
+                /* translators: %s: Invalid group by name */
+                __('Unknown group_by: "%s".', 'wp-statistics'),
+                $groupBy
             )
         );
     }
