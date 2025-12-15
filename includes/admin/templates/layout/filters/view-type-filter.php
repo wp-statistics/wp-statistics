@@ -5,7 +5,7 @@ use WP_Statistics\Components\View;
 
 $args = [
     'title' => esc_html__('View by', 'wp-statistics'),
-    'type'  => 'view_by'
+    'type'  => 'view_type'
 ];
 
 View::load("components/objects/header-filter-select", $args);
