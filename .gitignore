@@ -35,6 +35,7 @@ package-lock.json
 # Build Folders
 public/*
 !public/.gitkeep
+storybook-static/
 
 # VSCode IDE
 .vscode/*
