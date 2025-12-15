@@ -4,6 +4,7 @@ namespace WP_STATISTICS;
 
 use Exception;
 use WP_Statistics\Components\Singleton;
+use WP_Statistics\Service\Analytics\UrlResolver;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Traits\ErrorLoggerTrait;
@@ -58,18 +59,41 @@ class Hits extends Singleton
     /**
      * Set Current Page
      *
+     * Resolves page type and ID from URL for accurate SPA tracking.
+     * Prioritizes server-side URL resolution over client-provided values
+     * to fix stale data issues in Single Page Applications.
+     *
      * @param $current_page
      * @return array
      */
     public function set_current_page($current_page)
     {
+        // Decode page_uri from request
+        $pageUri = isset($this->rest_hits->page_uri)
+            ? base64_decode($this->rest_hits->page_uri)
+            : '';
 
-        if (isset($this->rest_hits->source_type) and isset($this->rest_hits->source_id)) {
-            return array(
+        // Resolve from URL first (fixes SPA tracking issue)
+        if (!empty($pageUri)) {
+            $resolved = UrlResolver::resolve($pageUri);
+            if ($resolved['type'] !== 'unknown') {
+                return [
+                    'type'         => esc_sql($resolved['type']),
+                    'id'           => esc_sql($resolved['id']),
+                    'search_query' => $resolved['search_query'] ?? ''
+                ];
+            }
+        }
+
+        // Fallback to client-provided values (backwards compatibility)
+        if (isset($this->rest_hits->source_type) && isset($this->rest_hits->source_id)) {
+            return [
                 'type'         => esc_sql($this->rest_hits->source_type),
                 'id'           => esc_sql($this->rest_hits->source_id),
-                'search_query' => isset($this->rest_hits->search_query) ? base64_decode($this->rest_hits->search_query) : ''
-            );
+                'search_query' => isset($this->rest_hits->search_query)
+                    ? base64_decode($this->rest_hits->search_query)
+                    : ''
+            ];
         }
 
         return $current_page;
