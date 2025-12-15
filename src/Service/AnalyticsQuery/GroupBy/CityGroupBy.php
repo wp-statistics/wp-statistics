@@ -11,10 +11,14 @@ class CityGroupBy extends AbstractGroupBy
 {
     protected $name         = 'city';
     protected $column       = 'cities.city_name';
-    protected $alias        = 'city';
+    protected $alias        = 'city_name';
     protected $extraColumns = [
+        'cities.ID AS city_id',
+        'cities.region_code AS city_region_code',
+        'cities.region_name AS city_region_name',
+        'cities.country_id AS city_country_id',
         'countries.code AS country_code',
-        'cities.region_name AS region',
+        'countries.name AS country_name',
     ];
     protected $joins        = [
         [

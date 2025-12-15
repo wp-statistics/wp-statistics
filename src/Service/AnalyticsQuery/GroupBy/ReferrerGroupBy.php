@@ -11,9 +11,10 @@ class ReferrerGroupBy extends AbstractGroupBy
 {
     protected $name         = 'referrer';
     protected $column       = 'referrers.domain';
-    protected $alias        = 'referrer';
+    protected $alias        = 'referrer_domain';
     protected $extraColumns = [
-        'referrers.channel AS referrer_type',
+        'referrers.ID AS referrer_id',
+        'referrers.channel AS referrer_channel',
         'referrers.name AS referrer_name',
     ];
     protected $joins        = [

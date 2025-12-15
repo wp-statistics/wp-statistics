@@ -17,6 +17,7 @@ use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidSourceException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidGroupByException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidDateRangeException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidFormatException;
+use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidColumnException;
 
 /**
  * Facade for analytics query operations.
@@ -286,6 +287,11 @@ class AnalyticsQueryHandler
             }
         }
 
+        // Validate columns if provided
+        if (!empty($request['columns'])) {
+            $this->validateColumns($request['columns'], $sources, $groupBy);
+        }
+
         // Validate date range format
         $dateFrom = $request['date_from'] ?? null;
         $dateTo   = $request['date_to'] ?? null;
@@ -516,6 +522,149 @@ class AnalyticsQueryHandler
     }
 
     /**
+     * Validate columns against available sources and group_by fields.
+     *
+     * @param array $columns  Columns to validate.
+     * @param array $sources  Valid sources.
+     * @param array $groupBy  Valid group by fields.
+     * @throws InvalidColumnException
+     */
+    private function validateColumns(array $columns, array $sources, array $groupBy): void
+    {
+        // Build list of valid column names (sources + group_by aliases + extra column aliases)
+        $validColumns = $sources;
+
+        foreach ($groupBy as $groupByName) {
+            $groupByObj = $this->groupByRegistry->get($groupByName);
+            if ($groupByObj) {
+                $validColumns[] = $groupByObj->getAlias();
+                // Also include extra column aliases (e.g., country_code from country group_by)
+                $validColumns = array_merge($validColumns, $groupByObj->getExtraColumnAliases());
+            } else {
+                $validColumns[] = $groupByName;
+            }
+        }
+
+        // Check each requested column
+        foreach ($columns as $column) {
+            if (!in_array($column, $validColumns, true)) {
+                throw new InvalidColumnException($column);
+            }
+        }
+    }
+
+    /**
+     * Filter result data to only include specified columns.
+     *
+     * @param array $result  Query result with rows, totals, etc.
+     * @param Query $query   Query object.
+     * @return array Filtered result.
+     */
+    private function filterColumns(array $result, Query $query): array
+    {
+        if (!$query->hasColumns()) {
+            return $result;
+        }
+
+        $columns = $query->getColumns();
+
+        // Filter rows
+        if (!empty($result['rows'])) {
+            $result['rows'] = $this->filterRowColumns($result['rows'], $columns, $query);
+        }
+
+        // Filter totals
+        if (isset($result['totals']) && $result['totals'] !== null) {
+            $result['totals'] = $this->filterTotalsColumns($result['totals'], $columns, $query);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Filter rows to only include specified columns in the specified order.
+     *
+     * @param array $rows    Result rows.
+     * @param array $columns Columns to include.
+     * @param Query $query   Query object.
+     * @return array Filtered rows with columns in the specified order.
+     */
+    private function filterRowColumns(array $rows, array $columns, Query $query): array
+    {
+        $filteredRows = [];
+
+        foreach ($rows as $row) {
+            $filteredRow = [];
+
+            // Add columns in the order specified
+            foreach ($columns as $column) {
+                if (array_key_exists($column, $row)) {
+                    $filteredRow[$column] = $row[$column];
+                }
+            }
+
+            // Handle comparison data if present
+            if (isset($row['previous'])) {
+                $filteredPrevious = [];
+                foreach ($columns as $column) {
+                    // Only include source columns in previous (not group_by)
+                    if (array_key_exists($column, $row['previous'])) {
+                        $filteredPrevious[$column] = $row['previous'][$column];
+                    }
+                }
+                if (!empty($filteredPrevious)) {
+                    $filteredRow['previous'] = $filteredPrevious;
+                }
+            }
+
+            // Preserve is_other flag if present
+            if (isset($row['is_other'])) {
+                $filteredRow['is_other'] = $row['is_other'];
+            }
+
+            $filteredRows[] = $filteredRow;
+        }
+
+        return $filteredRows;
+    }
+
+    /**
+     * Filter totals to only include specified columns.
+     *
+     * @param array $totals  Totals data.
+     * @param array $columns Columns to include.
+     * @param Query $query   Query object.
+     * @return array Filtered totals.
+     */
+    private function filterTotalsColumns(array $totals, array $columns, Query $query): array
+    {
+        $sources = $query->getSources();
+        $filteredTotals = [];
+
+        foreach ($columns as $column) {
+            // Only include source columns in totals (group_by columns don't appear in totals)
+            if (in_array($column, $sources, true) && array_key_exists($column, $totals)) {
+                $filteredTotals[$column] = $totals[$column];
+            }
+        }
+
+        // Handle comparison data in totals if present
+        if (isset($totals['previous'])) {
+            $filteredPrevious = [];
+            foreach ($columns as $column) {
+                if (in_array($column, $sources, true) && array_key_exists($column, $totals['previous'])) {
+                    $filteredPrevious[$column] = $totals['previous'][$column];
+                }
+            }
+            if (!empty($filteredPrevious)) {
+                $filteredTotals['previous'] = $filteredPrevious;
+            }
+        }
+
+        return $filteredTotals;
+    }
+
+    /**
      * Execute the analytics query.
      *
      * @param Query $query Query object.
@@ -626,6 +775,11 @@ class AnalyticsQueryHandler
             $result['rows'] = $this->aggregateOthersRows($rows, $query);
         }
 
+        // Apply column filtering if columns parameter is specified
+        // This filters both rows and totals to only include specified columns
+        // and reorders columns according to the columns array order
+        $result = $this->filterColumns($result, $query);
+
         // Get the appropriate formatter and format the response
         $formatter = $this->getFormatter($query->getFormat());
 
@@ -716,6 +870,10 @@ class AnalyticsQueryHandler
 
         if ($e instanceof InvalidFormatException) {
             return 'invalid_format';
+        }
+
+        if ($e instanceof InvalidColumnException) {
+            return 'invalid_column';
         }
 
         return 'server_error';

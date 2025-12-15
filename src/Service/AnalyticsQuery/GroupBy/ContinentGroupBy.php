@@ -11,7 +11,7 @@ class ContinentGroupBy extends AbstractGroupBy
 {
     protected $name         = 'continent';
     protected $column       = 'countries.continent';
-    protected $alias        = 'continent';
+    protected $alias        = 'continent_name';
     protected $extraColumns = [
         'countries.continent_code AS continent_code',
     ];

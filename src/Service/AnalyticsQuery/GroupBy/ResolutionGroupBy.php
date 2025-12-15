@@ -9,14 +9,19 @@ namespace WP_Statistics\Service\AnalyticsQuery\GroupBy;
  */
 class ResolutionGroupBy extends AbstractGroupBy
 {
-    protected $name    = 'resolution';
-    protected $column  = "CONCAT(resolutions.width, 'x', resolutions.height)";
-    protected $alias   = 'resolution';
-    protected $joins   = [
+    protected $name         = 'resolution';
+    protected $column       = "CONCAT(resolutions.width, 'x', resolutions.height)";
+    protected $alias        = 'resolution';
+    protected $extraColumns = [
+        'resolutions.ID AS resolution_id',
+        'resolutions.width AS resolution_width',
+        'resolutions.height AS resolution_height',
+    ];
+    protected $joins        = [
         'table' => 'resolutions',
         'alias' => 'resolutions',
         'on'    => 'sessions.resolution_id = resolutions.ID',
         'type'  => 'INNER',
     ];
-    protected $groupBy = 'resolutions.ID';
+    protected $groupBy      = 'resolutions.ID';
 }

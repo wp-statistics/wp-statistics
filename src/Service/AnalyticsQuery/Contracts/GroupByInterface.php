@@ -39,6 +39,13 @@ interface GroupByInterface
     public function getSelectColumns(string $attribution = 'first_touch'): array;
 
     /**
+     * Get aliases of extra columns.
+     *
+     * @return array Array of extra column aliases.
+     */
+    public function getExtraColumnAliases(): array;
+
+    /**
      * Get JOIN configurations.
      *
      * @return array

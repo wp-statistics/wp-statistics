@@ -9,14 +9,17 @@ namespace WP_Statistics\Service\AnalyticsQuery\GroupBy;
  */
 class OsGroupBy extends AbstractGroupBy
 {
-    protected $name    = 'os';
-    protected $column  = 'device_oss.name';
-    protected $alias   = 'os';
-    protected $joins   = [
+    protected $name         = 'os';
+    protected $column       = 'device_oss.name';
+    protected $alias        = 'os_name';
+    protected $extraColumns = [
+        'device_oss.ID AS os_id',
+    ];
+    protected $joins        = [
         'table' => 'device_oss',
         'alias' => 'device_oss',
         'on'    => 'sessions.device_os_id = device_oss.ID',
         'type'  => 'INNER',
     ];
-    protected $groupBy = 'device_oss.ID';
+    protected $groupBy      = 'device_oss.ID';
 }

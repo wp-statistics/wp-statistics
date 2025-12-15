@@ -109,6 +109,27 @@ abstract class AbstractGroupBy implements GroupByInterface
     }
 
     /**
+     * Get aliases of extra columns.
+     *
+     * Parses extraColumns like "countries.code AS country_code" to extract "country_code".
+     *
+     * @return array Array of extra column aliases.
+     */
+    public function getExtraColumnAliases(): array
+    {
+        $aliases = [];
+
+        foreach ($this->extraColumns as $extraColumn) {
+            // Match "... AS alias" pattern (case-insensitive)
+            if (preg_match('/\sAS\s+(\w+)$/i', $extraColumn, $matches)) {
+                $aliases[] = $matches[1];
+            }
+        }
+
+        return $aliases;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getJoins(): array

@@ -11,9 +11,11 @@ class BrowserGroupBy extends AbstractGroupBy
 {
     protected $name         = 'browser';
     protected $column       = 'device_browsers.name';
-    protected $alias        = 'browser';
+    protected $alias        = 'browser_name';
     protected $extraColumns = [
+        'device_browsers.ID AS browser_id',
         'device_browser_versions.version AS browser_version',
+        'device_browser_versions.ID AS browser_version_id',
     ];
     protected $joins        = [
         [

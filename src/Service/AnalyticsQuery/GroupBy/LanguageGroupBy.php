@@ -11,9 +11,11 @@ class LanguageGroupBy extends AbstractGroupBy
 {
     protected $name         = 'language';
     protected $column       = 'languages.name';
-    protected $alias        = 'language';
+    protected $alias        = 'language_name';
     protected $extraColumns = [
+        'languages.ID AS language_id',
         'languages.code AS language_code',
+        'languages.region AS language_region',
     ];
     protected $joins        = [
         'table' => 'languages',

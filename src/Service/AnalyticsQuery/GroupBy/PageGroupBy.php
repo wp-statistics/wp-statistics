@@ -11,11 +11,13 @@ class PageGroupBy extends AbstractGroupBy
 {
     protected $name         = 'page';
     protected $column       = 'resource_uris.uri';
-    protected $alias        = 'page';
+    protected $alias        = 'page_uri';
     protected $extraColumns = [
+        'resource_uris.ID AS page_uri_id',
+        'resources.ID AS resource_id',
         'resources.cached_title AS page_title',
-        'resources.resource_id AS post_id',
-        'resources.resource_type AS post_type',
+        'resources.resource_id AS page_wp_id',
+        'resources.resource_type AS page_type',
     ];
     protected $joins        = [
         [

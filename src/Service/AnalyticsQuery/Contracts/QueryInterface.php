@@ -80,6 +80,20 @@ interface QueryInterface
     public function hasComparison(): bool;
 
     /**
+     * Get columns to include in the response.
+     *
+     * @return array|null
+     */
+    public function getColumns(): ?array;
+
+    /**
+     * Check if column filtering is enabled.
+     *
+     * @return bool
+     */
+    public function hasColumns(): bool;
+
+    /**
      * Convert to array.
      *
      * @return array

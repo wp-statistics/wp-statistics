@@ -125,6 +125,16 @@ class Query implements QueryInterface
     private $format;
 
     /**
+     * Columns to include in the response.
+     *
+     * When set, only these columns are returned in the response.
+     * Also defines the display order of columns.
+     *
+     * @var array|null
+     */
+    private $columns;
+
+    /**
      * Constructor.
      *
      * @param array       $sources         Sources to retrieve.
@@ -142,6 +152,7 @@ class Query implements QueryInterface
      * @param int|null    $originalPerPage  Original per_page when aggregate_others is enabled.
      * @param bool        $showTotals       Whether to include totals in the response.
      * @param string      $format           Response format type (standard, flat, chart, export).
+     * @param array|null  $columns          Columns to include in the response.
      */
     public function __construct(
         array $sources = [],
@@ -158,7 +169,8 @@ class Query implements QueryInterface
         bool $aggregateOthers = false,
         ?int $originalPerPage = null,
         bool $showTotals = true,
-        string $format = 'standard'
+        string $format = 'standard',
+        ?array $columns = null
     ) {
         $this->sources         = $sources;
         $this->groupBy         = $groupBy;
@@ -175,6 +187,7 @@ class Query implements QueryInterface
         $this->originalPerPage = $originalPerPage;
         $this->showTotals      = $showTotals;
         $this->format          = $this->normalizeFormat($format);
+        $this->columns         = $columns;
     }
 
     /**
@@ -347,6 +360,26 @@ class Query implements QueryInterface
     }
 
     /**
+     * Get columns to include in the response.
+     *
+     * @return array|null Columns array, or null if all columns should be returned.
+     */
+    public function getColumns(): ?array
+    {
+        return $this->columns;
+    }
+
+    /**
+     * Check if column filtering is enabled.
+     *
+     * @return bool
+     */
+    public function hasColumns(): bool
+    {
+        return $this->columns !== null && !empty($this->columns);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function toArray(): array
@@ -367,6 +400,7 @@ class Query implements QueryInterface
             '_original_per_page' => $this->originalPerPage,
             'show_totals'        => $this->showTotals,
             'format'             => $this->format,
+            'columns'            => $this->columns,
         ];
     }
 
@@ -394,7 +428,8 @@ class Query implements QueryInterface
             $this->aggregateOthers,
             $this->originalPerPage,
             $this->showTotals,
-            $this->format
+            $this->format,
+            $this->columns
         );
     }
 
@@ -420,7 +455,8 @@ class Query implements QueryInterface
             $this->aggregateOthers,
             $this->originalPerPage,
             $this->showTotals,
-            $this->format
+            $this->format,
+            $this->columns
         );
     }
 
@@ -447,7 +483,8 @@ class Query implements QueryInterface
             !empty($data['aggregate_others']),
             isset($data['_original_per_page']) ? (int) $data['_original_per_page'] : null,
             $data['show_totals'] ?? true,
-            $data['format'] ?? 'standard'
+            $data['format'] ?? 'standard',
+            $data['columns'] ?? null
         );
     }
 }
