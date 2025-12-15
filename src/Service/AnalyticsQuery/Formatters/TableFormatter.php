@@ -5,21 +5,21 @@ namespace WP_Statistics\Service\AnalyticsQuery\Formatters;
 use WP_Statistics\Service\AnalyticsQuery\Query\Query;
 
 /**
- * Standard response formatter.
+ * Table response formatter.
  *
- * Produces the default response structure with data.rows, data.totals, and meta.
- * This format maintains backward compatibility with existing API consumers.
+ * Produces a structured response format optimized for data tables, grids, and complex widgets.
+ * Returns data with rows, totals, and comprehensive metadata in a nested structure.
  *
  * @since 15.0.0
  */
-class StandardFormatter extends AbstractFormatter
+class TableFormatter extends AbstractFormatter
 {
     /**
      * {@inheritdoc}
      */
     public function getName(): string
     {
-        return 'standard';
+        return 'table';
     }
 
     /**

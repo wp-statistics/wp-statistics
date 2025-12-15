@@ -9,7 +9,7 @@ use WP_Statistics\Service\AnalyticsQuery\Registry\GroupByRegistry;
 use WP_Statistics\Service\AnalyticsQuery\Cache\CacheManager;
 use WP_Statistics\Service\AnalyticsQuery\Comparison\ComparisonHandler;
 use WP_Statistics\Service\AnalyticsQuery\Contracts\FormatterInterface;
-use WP_Statistics\Service\AnalyticsQuery\Formatters\StandardFormatter;
+use WP_Statistics\Service\AnalyticsQuery\Formatters\TableFormatter;
 use WP_Statistics\Service\AnalyticsQuery\Formatters\FlatFormatter;
 use WP_Statistics\Service\AnalyticsQuery\Formatters\ChartFormatter;
 use WP_Statistics\Service\AnalyticsQuery\Formatters\ExportFormatter;
@@ -96,7 +96,7 @@ class AnalyticsQueryHandler
     private function initializeFormatters(): void
     {
         $formatters = [
-            new StandardFormatter($this->cacheManager),
+            new TableFormatter($this->cacheManager),
             new FlatFormatter($this->cacheManager),
             new ChartFormatter($this->cacheManager),
             new ExportFormatter($this->cacheManager),
@@ -115,7 +115,7 @@ class AnalyticsQueryHandler
      */
     private function getFormatter(string $format): FormatterInterface
     {
-        return $this->formatters[$format] ?? $this->formatters['standard'];
+        return $this->formatters[$format] ?? $this->formatters['table'];
     }
 
     /**
@@ -281,7 +281,7 @@ class AnalyticsQueryHandler
 
         // Validate format
         if (isset($request['format'])) {
-            $validFormats = ['standard', 'flat', 'chart', 'export'];
+            $validFormats = ['table', 'flat', 'chart', 'export'];
             if (!in_array($request['format'], $validFormats, true)) {
                 throw new InvalidFormatException($request['format']);
             }

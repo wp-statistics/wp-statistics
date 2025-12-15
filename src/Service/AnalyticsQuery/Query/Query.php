@@ -118,7 +118,7 @@ class Query implements QueryInterface
     /**
      * Response format type.
      *
-     * Supported formats: 'standard', 'flat', 'chart', 'export'.
+     * Supported formats: 'table', 'flat', 'chart', 'export'.
      *
      * @var string
      */
@@ -151,7 +151,7 @@ class Query implements QueryInterface
      * @param bool        $aggregateOthers  Whether to aggregate remaining items as "Other".
      * @param int|null    $originalPerPage  Original per_page when aggregate_others is enabled.
      * @param bool        $showTotals       Whether to include totals in the response.
-     * @param string      $format           Response format type (standard, flat, chart, export).
+     * @param string      $format           Response format type (table, flat, chart, export).
      * @param array|null  $columns          Columns to include in the response.
      */
     public function __construct(
@@ -169,7 +169,7 @@ class Query implements QueryInterface
         bool $aggregateOthers = false,
         ?int $originalPerPage = null,
         bool $showTotals = true,
-        string $format = 'standard',
+        string $format = 'table',
         ?array $columns = null
     ) {
         $this->sources         = $sources;
@@ -194,11 +194,11 @@ class Query implements QueryInterface
      * Normalize format value to a supported format.
      *
      * @param string $format Format value.
-     * @return string Normalized format (defaults to 'standard' if invalid).
+     * @return string Normalized format (defaults to 'table' if invalid).
      */
     private function normalizeFormat(string $format): string
     {
-        $validFormats = ['standard', 'flat', 'chart', 'export'];
+        $validFormats = ['table', 'flat', 'chart', 'export'];
 
         if (!in_array($format, $validFormats, true)) {
             throw new InvalidFormatException($format);
@@ -352,7 +352,7 @@ class Query implements QueryInterface
     /**
      * Get the response format type.
      *
-     * @return string Format type (standard, flat, chart, export).
+     * @return string Format type (table, flat, chart, export).
      */
     public function getFormat(): string
     {
@@ -483,7 +483,7 @@ class Query implements QueryInterface
             !empty($data['aggregate_others']),
             isset($data['_original_per_page']) ? (int) $data['_original_per_page'] : null,
             $data['show_totals'] ?? true,
-            $data['format'] ?? 'standard',
+            $data['format'] ?? 'table',
             $data['columns'] ?? null
         );
     }

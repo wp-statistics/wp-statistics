@@ -3,7 +3,7 @@
 namespace WP_Statistics\Tests;
 
 use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
-use WP_Statistics\Service\AnalyticsQuery\Formatters\StandardFormatter;
+use WP_Statistics\Service\AnalyticsQuery\Formatters\TableFormatter;
 use WP_Statistics\Service\AnalyticsQuery\Formatters\FlatFormatter;
 use WP_Statistics\Service\AnalyticsQuery\Formatters\ChartFormatter;
 use WP_Statistics\Service\AnalyticsQuery\Formatters\ExportFormatter;
@@ -53,12 +53,12 @@ class Test_AnalyticsQueryFormatters extends WP_UnitTestCase
     }
 
     /**
-     * Ensure standard formatter returns rows, totals, and pagination meta.
+     * Ensure table formatter returns rows, totals, and pagination meta.
      */
-    public function test_standard_formatter_structure()
+    public function test_table_formatter_structure()
     {
-        $formatter = new StandardFormatter();
-        $query     = $this->makeQuery(['visitors', 'views'], ['date'], false, 'standard');
+        $formatter = new TableFormatter();
+        $query     = $this->makeQuery(['visitors', 'views'], ['date'], false, 'table');
 
         $rows = [
             ['date' => '2024-11-01', 'visitors' => 100, 'views' => 250],
@@ -79,9 +79,9 @@ class Test_AnalyticsQueryFormatters extends WP_UnitTestCase
     }
 
     /**
-     * Ensure queries default to standard format when none is provided.
+     * Ensure queries default to table format when none is provided.
      */
-    public function test_default_format_is_standard_when_omitted()
+    public function test_default_format_is_table_when_omitted()
     {
         $query = Query::fromArray([
             'sources'  => ['visitors'],
@@ -89,7 +89,7 @@ class Test_AnalyticsQueryFormatters extends WP_UnitTestCase
             // no format key
         ]);
 
-        $this->assertSame('standard', $query->getFormat());
+        $this->assertSame('table', $query->getFormat());
     }
 
     /**
