@@ -5,6 +5,7 @@
 - **Dev:** Added `wp_statistics_register_data_migrations` filter to allow add-ons to register custom data migration keys.
 - **Enhancement:** Added pagination support for Category Analytics
 - **Enhancement:** Added PHP environment configuration values (memory_limit, max_execution_time, post_max_size, upload_max_filesize) to anonymous usage data.
+- **Dev:** Added `wp_statistics_resolve_page_from_uri` filter to allow custom page resolution from URL for SPA tracking.
 
 = 14.16 - 2025-12-01 =
 - **New:** Added an **Export** button to all report pages (requires the Advanced Reporting add-on).
