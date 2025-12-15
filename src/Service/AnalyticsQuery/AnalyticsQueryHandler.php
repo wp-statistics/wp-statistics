@@ -18,6 +18,7 @@ use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidGroupByException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidDateRangeException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidFormatException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidColumnException;
+use WP_Statistics\Service\Admin\UserPreferences\UserPreferencesManager;
 
 /**
  * Facade for analytics query operations.
@@ -129,6 +130,9 @@ class AnalyticsQueryHandler
      */
     public function handle(array $request): array
     {
+        // Extract context for user preferences (before normalizing)
+        $context = $request['context'] ?? null;
+
         // Validate the request
         $this->validate($request);
 
@@ -156,6 +160,9 @@ class AnalyticsQueryHandler
         // Build response
         $response = $this->buildResponse($query, $result);
 
+        // Add user preferences to response meta if context is provided
+        $response = $this->addUserPreferences($response, $context);
+
         // Cache the result
         $this->cacheManager->set($request, $response);
 
@@ -169,12 +176,14 @@ class AnalyticsQueryHandler
      * - date_from/date_to: Inherited unless query provides both
      * - filters: Merged with query-specific filters (query values override)
      * - compare: Applied to queries that don't explicitly set it
+     * - page_context: If provided, loads page preferences and skips hidden widgets
      *
      * @param array       $queries        Array of queries with 'id' field.
      * @param string|null $dateFrom       Global date_from (queries can override).
      * @param string|null $dateTo         Global date_to (queries can override).
      * @param array       $globalFilters  Global filters (merged with query filters).
      * @param bool        $globalCompare  Global compare flag (queries can override).
+     * @param string|null $pageContext    Page context for widget visibility preferences.
      * @return array Response with results keyed by query ID.
      */
     public function handleBatch(
@@ -182,10 +191,12 @@ class AnalyticsQueryHandler
         ?string $dateFrom = null,
         ?string $dateTo = null,
         array $globalFilters = [],
-        bool $globalCompare = false
+        bool $globalCompare = false,
+        ?string $pageContext = null
     ): array {
-        $results = [];
-        $errors  = [];
+        $results        = [];
+        $errors         = [];
+        $skippedQueries = [];
 
         // Validate batch limits
         if (count($queries) > 20) {
@@ -198,11 +209,33 @@ class AnalyticsQueryHandler
             ];
         }
 
+        // If page_context is provided, fetch page preferences to check widget visibility
+        $pagePreferences = null;
+        $visibleWidgets  = null;
+        if (!empty($pageContext)) {
+            $preferencesManager = new UserPreferencesManager();
+            $pagePreferences    = $preferencesManager->get($pageContext);
+            // If user has saved visible widgets preference, use it to filter queries
+            if (!empty($pagePreferences['visibleWidgets'])) {
+                $visibleWidgets = $pagePreferences['visibleWidgets'];
+            }
+        }
+
         foreach ($queries as $queryData) {
             // Query must have an ID
             $queryId = $queryData['id'] ?? null;
             if (empty($queryId)) {
                 continue;
+            }
+
+            // Skip queries for hidden widgets (but never skip preference queries)
+            // Queries ending with '_prefs' are always executed as they fetch preferences
+            $isPrefsQuery = substr($queryId, -6) === '_prefs';
+            if ($visibleWidgets !== null && !$isPrefsQuery) {
+                if (!in_array($queryId, $visibleWidgets, true)) {
+                    $skippedQueries[] = $queryId;
+                    continue;
+                }
             }
 
             // Apply global dates if query doesn't override both
@@ -240,11 +273,25 @@ class AnalyticsQueryHandler
             }
         }
 
-        return [
+        $response = [
             'success' => empty($errors) || !empty($results),
             'items'   => $results,
             'errors'  => $errors,
         ];
+
+        // Include skipped queries in the response for debugging/transparency
+        if (!empty($skippedQueries)) {
+            $response['skipped'] = $skippedQueries;
+        }
+
+        // Include page preferences in meta for the frontend to use
+        if ($pagePreferences !== null) {
+            $response['meta'] = [
+                'preferences' => $pagePreferences,
+            ];
+        }
+
+        return $response;
     }
 
     /**
@@ -959,5 +1006,38 @@ class AnalyticsQueryHandler
     public function getAvailableFormats(): array
     {
         return array_keys($this->formatters);
+    }
+
+    /**
+     * Add user preferences to response metadata.
+     *
+     * If a context is provided, looks up user preferences for that context
+     * and adds them to the response meta.preferences field.
+     *
+     * @param array       $response Response array from formatter.
+     * @param string|null $context  Context identifier for preferences lookup.
+     * @return array Response with preferences added to meta.
+     */
+    private function addUserPreferences(array $response, ?string $context): array
+    {
+        // Always add preferences key to meta, even if null
+        if (!isset($response['meta'])) {
+            $response['meta'] = [];
+        }
+
+        // If no context provided, preferences is null
+        if (empty($context)) {
+            $response['meta']['preferences'] = null;
+            return $response;
+        }
+
+        // Look up user preferences for this context
+        $preferencesManager = new UserPreferencesManager();
+        $preferences = $preferencesManager->get($context);
+
+        // Add preferences to meta (null if not found)
+        $response['meta']['preferences'] = $preferences;
+
+        return $response;
     }
 }

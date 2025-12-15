@@ -6,6 +6,7 @@ use WP_Statistics\Service\Assets\AssetsFactory;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\RootController;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Endpoints\AnalyticsQuery;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Endpoints\FilterOptions;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Endpoints\UserPreferences;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Managers\LocalizeDataManager;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\GlobalDataProvider;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\HeaderDataProvider;
@@ -98,6 +99,7 @@ class DashboardManager
      * Global endpoints:
      * - wp_statistics_analytics: Unified analytics query endpoint
      * - wp_statistics_get_filter_options: Filter options search endpoint
+     * - wp_statistics_user_preferences: User preferences save/reset endpoint
      *
      * @return void
      */
@@ -105,7 +107,8 @@ class DashboardManager
     {
         $this->ajax = (new AjaxManager())
             ->registerGlobalEndpoint(new AnalyticsQuery())
-            ->registerGlobalEndpoint(new FilterOptions());
+            ->registerGlobalEndpoint(new FilterOptions())
+            ->registerGlobalEndpoint(new UserPreferences());
     }
 
     /**

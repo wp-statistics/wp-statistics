@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\DashboardBootstrap\Providers;
 
 use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\LocalizeDataProviderInterface;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Endpoints\AnalyticsQuery;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Endpoints\UserPreferences;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
 /**
@@ -25,11 +26,12 @@ class GlobalDataProvider implements LocalizeDataProviderInterface
     public function getData()
     {
         $data = [
-            'isPremium'       => LicenseHelper::isPremiumLicenseAvailable(),
-            'ajaxUrl'         => admin_url('admin-ajax.php'),
-            'nonce'           => wp_create_nonce('wp_statistics_dashboard_nonce'),
-            'pluginUrl'       => WP_STATISTICS_URL,
-            'analyticsAction' => AnalyticsQuery::getActionName(),
+            'isPremium'             => LicenseHelper::isPremiumLicenseAvailable(),
+            'ajaxUrl'               => admin_url('admin-ajax.php'),
+            'nonce'                 => wp_create_nonce('wp_statistics_dashboard_nonce'),
+            'pluginUrl'             => WP_STATISTICS_URL,
+            'analyticsAction'       => AnalyticsQuery::getActionName(),
+            'userPreferencesAction' => UserPreferences::getActionName(),
         ];
 
         /**
