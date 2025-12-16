@@ -13,6 +13,9 @@ if (!window.WpStatisticsUserTracker) {
         // Prevent init() from running more than once
         hasTrackerInitializedOnce: false,
 
+        // Prevent trackUrlChange() from running more than once
+        hasUrlChangeTrackerInitialized: false,
+
         // Flag to track hit request status
         hitRequestSuccessful: true,
 
@@ -112,23 +115,82 @@ if (!window.WpStatisticsUserTracker) {
         },
 
         // Function to update the WP_Statistics_Tracker_Object when URL changes
-        updateTrackerObject: function () {
-            const scriptTag = document.getElementById("wp-statistics-tracker-js-extra");
+        // Uses polling to handle delayed DOM updates in SPAs
+        updateTrackerObject: function (callback) {
+            let callbackCalled = false;
+            let attempts = 0;
+            const maxAttempts = 20; // Maximum 2 seconds (20 * 100ms)
 
-            if (scriptTag) {
+            const tryUpdate = function () {
+                // Re-query the script tag each time (it may be replaced by Interactivity API)
+                const scriptTag = document.getElementById("wp-statistics-tracker-js-extra");
+
+                if (!scriptTag) {
+                    attempts++;
+                    if (attempts < maxAttempts) {
+                        setTimeout(tryUpdate, 100);
+                    } else if (!callbackCalled && callback) {
+                        callbackCalled = true;
+                        callback();
+                    }
+                    return;
+                }
+
                 try {
                     const match = scriptTag.innerHTML.match(/var\s+WP_Statistics_Tracker_Object\s*=\s*(\{[\s\S]*?\});/);
                     if (match && match[1]) {
-                        WP_Statistics_Tracker_Object = JSON.parse(match[1]);
+                        const newData = JSON.parse(match[1]);
+
+                        // Check if data has actually changed
+                        const dataChanged = !WP_Statistics_Tracker_Object.hitParams ||
+                            JSON.stringify(WP_Statistics_Tracker_Object.hitParams) !== JSON.stringify(newData.hitParams);
+
+                        if (dataChanged) {
+                            WP_Statistics_Tracker_Object = newData;
+                            if (!callbackCalled && callback) {
+                                callbackCalled = true;
+                                callback();
+                            }
+                        } else {
+                            // Data hasn't changed yet, try again
+                            attempts++;
+                            if (attempts < maxAttempts) {
+                                setTimeout(tryUpdate, 100);
+                            } else if (!callbackCalled && callback) {
+                                callbackCalled = true;
+                                callback();
+                            }
+                        }
+                    } else {
+                        attempts++;
+                        if (attempts < maxAttempts) {
+                            setTimeout(tryUpdate, 100);
+                        } else if (!callbackCalled && callback) {
+                            callbackCalled = true;
+                            callback();
+                        }
                     }
                 } catch (error) {
                     console.error("WP Statistics: Error parsing WP_Statistics_Tracker_Object", error);
+                    if (!callbackCalled && callback) {
+                        callbackCalled = true;
+                        callback();
+                    }
                 }
-            }
+            };
+
+            // Start trying to update with a small initial delay to let DOM settle
+            setTimeout(tryUpdate, 50);
         },
 
         // Detect URL changes caused by History API (pushState, replaceState) or browser navigation
         trackUrlChange: function () {
+            // Only set up History API wrappers once
+            if (this.hasUrlChangeTrackerInitialized) {
+                return;
+            }
+            this.hasUrlChangeTrackerInitialized = true;
+
             const self = this;
 
             window.removeEventListener('popstate', self.handleUrlChange);
@@ -148,13 +210,15 @@ if (!window.WpStatisticsUserTracker) {
             });
         },
 
-        // Handles URL changes in an SPA environment.
+        // Handles URL changes in an SPA environment (WordPress Interactivity API, etc.)
         handleUrlChange: function () {
+            const self = this;
+
             if (window.location.href !== this.lastUrl) {
                 this.lastUrl = window.location.href;
-                this.updateTrackerObject();
-                this.hasTrackerInitializedOnce = false;
-                this.init();
+                this.updateTrackerObject(function () {
+                    self.checkHitRequestConditions();
+                });
             }
         }
     };

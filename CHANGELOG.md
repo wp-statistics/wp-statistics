@@ -1,6 +1,7 @@
 = 14.16.x - 2025-x-x =
 - **Fix:** Fixed an issue where historical data was not included in single-content/single-resource reports.
 - **Fix:** Improved compatibility with Bedrock when WP Statistics is placed in mu-plugins by fixing asset hashing and obfuscated tracker path resolution.
+- **Fix:** Fixed an issue where the Page ID was not correctly updated during Interactivity API navigation and barba.js transitions.
 - **Dev:** Added `wp_statistics_register_background_jobs` filter to allow add-ons to register custom background processes.
 - **Dev:** Added `wp_statistics_register_data_migrations` filter to allow add-ons to register custom data migration keys.
 - **Enhancement:** Added pagination support for Category Analytics
