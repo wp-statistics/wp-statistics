@@ -18,9 +18,38 @@ use WP_Statistics\Utils\Request;
  * Class BackgroundProcessManager
  *
  * Manages background processes for database migrations.
+ *
+ * ## Extensibility
+ *
+ * Add-ons can register custom background processes using the `wp_statistics_register_background_jobs` filter:
+ *
+ * ```php
+ * add_filter('wp_statistics_register_background_jobs', function ($jobs) {
+ *     $jobs['my_custom_job'] = \MyAddon\BackgroundJobs\MyCustomJob::class;
+ *     return $jobs;
+ * });
+ * ```
+ *
+ * Custom job classes must extend `WP_Statistics\Abstracts\BaseBackgroundProcess`.
+ *
+ * @see \WP_Statistics\Abstracts\BaseBackgroundProcess
  */
 class BackgroundProcessManager extends BaseMigrationManager
 {
+    /**
+     * Filter hook name for registering background jobs.
+     *
+     * @var string
+     */
+    public const REGISTER_JOBS_FILTER = 'wp_statistics_register_background_jobs';
+
+    /**
+     * Filter hook name for registering data migrations.
+     *
+     * @var string
+     */
+    public const REGISTER_DATA_MIGRATIONS_FILTER = 'wp_statistics_register_data_migrations';
+
     /**
      * The background process instances.
      *
@@ -33,7 +62,14 @@ class BackgroundProcessManager extends BaseMigrationManager
      *
      * @var array<string, string>
      */
-    private $backgroundProcesses = [
+    private $backgroundProcesses = [];
+
+    /**
+     * Core background process classes (always registered).
+     *
+     * @var array<string, string>
+     */
+    private $coreBackgroundProcesses = [
         'visitor_columns_migrator'       => VisitorColumnsMigrator::class,
         'calculate_post_words_count'     => CalculatePostWordsCount::class,
         'update_unknown_visitor_geoip'   => IncompleteGeoIpUpdater::class,
@@ -46,7 +82,14 @@ class BackgroundProcessManager extends BaseMigrationManager
      *
      * @var array<string> Array of migration keys.
      */
-    private $dataMirations = [
+    private $dataMigrations = [];
+
+    /**
+     * Core data migration keys (always registered).
+     *
+     * @var array<string> Array of core migration keys.
+     */
+    private $coreDataMigrations = [
         'visitor_columns_migrator',
         'summary_totals_data_migration'
     ];
@@ -97,17 +140,128 @@ class BackgroundProcessManager extends BaseMigrationManager
     /**
      * Initialize and register background processes.
      *
+     * Merges core background processes with any additional processes registered
+     * via the `wp_statistics_register_background_jobs` filter.
+     *
      * @return void
      */
     private function initializeBackgroundProcess()
     {
-        if (!empty($this->backgroundProcess) || empty($this->backgroundProcesses)) {
+        if (!empty($this->backgroundProcess)) {
+            return;
+        }
+
+        $this->backgroundProcesses = $this->getRegisteredBackgroundProcesses();
+        $this->dataMigrations      = $this->getRegisteredDataMigrations();
+
+        if (empty($this->backgroundProcesses)) {
             return;
         }
 
         foreach ($this->backgroundProcesses as $key => $className) {
             $this->registerBackgroundProcess($className, $key);
         }
+    }
+
+    /**
+     * Get all registered background processes (core + add-on).
+     *
+     * Applies the `wp_statistics_register_background_jobs` filter to allow
+     * add-ons to register their own background processes.
+     *
+     * @return array<string, string> Array of process key => class name.
+     */
+    private function getRegisteredBackgroundProcesses()
+    {
+        /**
+         * Filter to register custom background processes.
+         *
+         * Add-ons can use this filter to register their own background processes.
+         * Each process must extend `WP_Statistics\Abstracts\BaseBackgroundProcess`.
+         *
+         * @since 14.17
+         *
+         * @param array<string, string> $jobs Array of job key => fully qualified class name.
+         *
+         * @example
+         * ```php
+         * add_filter('wp_statistics_register_background_jobs', function ($jobs) {
+         *     $jobs['my_addon_sync_job'] = \Addon\Jobs\SyncDataJob::class;
+         *     return $jobs;
+         * });
+         * ```
+         */
+        $allJobs = apply_filters(self::REGISTER_JOBS_FILTER, $this->coreBackgroundProcesses);
+
+        return $this->validateBackgroundProcesses($allJobs);
+    }
+
+    /**
+     * Get all registered data migrations (core + add-on).
+     *
+     * Applies the `wp_statistics_register_data_migrations` filter to allow
+     * add-ons to register their data migration keys.
+     *
+     * @return array<string> Array of data migration keys.
+     */
+    private function getRegisteredDataMigrations()
+    {
+        /**
+         * Filter to register custom data migrations.
+         *
+         * Add-ons can use this filter to register their own data migration keys.
+         * These keys should correspond to background process keys that handle data migrations.
+         *
+         * @since 14.17
+         *
+         * @param array<string> $migrations Array of data migration keys.
+         *
+         * @example
+         * ```php
+         * add_filter('wp_statistics_register_data_migrations', function ($migrations) {
+         *     $migrations[] = 'my_addon_data_migration';
+         *     return $migrations;
+         * });
+         * ```
+         */
+        $allMigrations = apply_filters(self::REGISTER_DATA_MIGRATIONS_FILTER, $this->coreDataMigrations);
+
+        return array_unique(array_filter($allMigrations, 'is_string'));
+    }
+
+    /**
+     * Validate registered background processes.
+     *
+     * Ensures all registered classes exist and extend BaseBackgroundProcess.
+     *
+     * @param array $jobs Array of job key => class name.
+     * @return array<string, string> Validated array of jobs.
+     */
+    private function validateBackgroundProcesses($jobs)
+    {
+        if (!is_array($jobs)) {
+            return $this->coreBackgroundProcesses;
+        }
+
+        $validated = [];
+
+        foreach ($jobs as $key => $className) {
+            if (!is_string($key) || empty($key)) {
+                continue;
+            }
+
+            if (!is_string($className) || !class_exists($className)) {
+                continue;
+            }
+
+            if (!is_subclass_of($className, \WP_Statistics\Abstracts\BaseBackgroundProcess::class)) {
+                continue;
+            }
+
+            $validated[$key] = $className;
+        }
+
+        return $validated;
     }
 
     /**
@@ -154,9 +308,24 @@ class BackgroundProcessManager extends BaseMigrationManager
      *
      * @return array
      */
+    public function getAllDataMigrations()
+    {
+        if (empty($this->dataMigrations)) {
+            $this->dataMigrations = $this->getRegisteredDataMigrations();
+        }
+
+        return $this->dataMigrations;
+    }
+
+    /**
+     * Get the list of available data migrations (keys).
+     *
+     * @deprecated 14.17 Use getAllDataMigrations() instead.
+     * @return array
+     */
     public function getAllDataMirations()
     {
-        return $this->dataMirations;
+        return $this->getAllDataMigrations();
     }
 
     /**

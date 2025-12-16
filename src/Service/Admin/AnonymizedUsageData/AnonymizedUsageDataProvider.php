@@ -150,8 +150,12 @@ class AnonymizedUsageDataProvider
     public static function getServerInfo()
     {
         return [
-            'webserver'     => self::getServerSoftware(),
-            'database_type' => self::getDatabaseType(),
+            'webserver'           => self::getServerSoftware(),
+            'database_type'       => self::getDatabaseType(),
+            'memory_limit'        => ini_get('memory_limit') ?: 'not available',
+            'max_execution_time'  => ini_get('max_execution_time') ?: 'not available',
+            'post_max_size'       => ini_get('post_max_size') ?: 'not available',
+            'upload_max_filesize' => ini_get('upload_max_filesize') ?: 'not available',
         ];
     }
 
