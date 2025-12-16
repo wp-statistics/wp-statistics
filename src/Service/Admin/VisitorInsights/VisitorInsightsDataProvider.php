@@ -38,7 +38,7 @@ class VisitorInsightsDataProvider
     {
         $overviewChartData = $this->getOverviewChartsData();
 
-        $summary = ChartDataProviderFactory::summaryChart()->getData();
+        $summary = ChartDataProviderFactory::summaryChart(['include_total' => true])->getData();
         $online  = $this->onlineModel->countOnlines();
 
         $visitors       = $this->visitorsModel->countVisitors();
@@ -69,9 +69,11 @@ class VisitorInsightsDataProvider
         ];
 
         if ($this->isTrackLoggedInUsersEnabled) {
+            // Only show change if we have previous visitor data to calculate share from
+            $loggedInChange = ($prevVisitors == 0) ? null : ($loggedInShare - $prevLoggedInShare);
             $glance['logged_in'] = [
                 'value'     => $loggedInShare . '%',
-                'change'    => $loggedInShare - $prevLoggedInShare
+                'change'    => $loggedInChange
             ];
         }
 

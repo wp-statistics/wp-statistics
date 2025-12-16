@@ -34,6 +34,13 @@ class SummaryChartDataProvider extends AbstractChartDataProvider
 
             $args = array_merge($this->args, ['date' => $period['date']]);
 
+            // For total period, include historical data
+            if ($key === 'total') {
+                unset($args['date']);
+                $args['ignore_date'] = true;
+                $args['historical']  = true;
+            }
+
             // Fetch current data
             $data['current'] = $this->fetchData($args);
 
