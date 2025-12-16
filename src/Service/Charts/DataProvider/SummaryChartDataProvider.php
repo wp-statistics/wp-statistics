@@ -36,6 +36,7 @@ class SummaryChartDataProvider extends AbstractChartDataProvider
 
             // For total period, include historical data
             if ($key === 'total') {
+                unset($args['date']);
                 $args['ignore_date'] = true;
                 $args['historical']  = true;
             }
