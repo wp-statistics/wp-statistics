@@ -6,6 +6,7 @@
 - **Enhancement:** Added pagination support for Category Analytics
 - **Enhancement:** Added PHP environment configuration values (memory_limit, max_execution_time, post_max_size, upload_max_filesize) to anonymous usage data.
 - **New:** Added "Total" row to the Traffic Summary widget showing all-time Visitors and Views (includes legacy historical data).
+- **Fix:** Prevent infinite or extremely large percentage values when no previous analytics data exists.
 
 = 14.16 - 2025-12-01 =
 - **New:** Added an **Export** button to all report pages (requires the Advanced Reporting add-on).
