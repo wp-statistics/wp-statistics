@@ -120,6 +120,22 @@ class DateTime
     }
 
     /**
+     * Calculate the difference in days between two dates.
+     *
+     * @param string|int $date1 The first date string.
+     * @param string|int $date2 The second date string.
+     * @return int The difference in days between the two dates.
+     */
+    public static function difference($date1, $date2)
+    {
+        $datetime1 = new \DateTime($date1, self::getTimezone());
+        $datetime2 = new \DateTime($date2, self::getTimezone());
+        $interval  = $datetime1->diff($datetime2);
+
+        return (int) $interval->format('%a');
+    }
+
+    /**
      * Formats a given date string according to WordPress settings and provided arguments.
      *
      * @param string|int $date The date string to format. If numeric, it is treated as a Unix timestamp.
