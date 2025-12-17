@@ -8,11 +8,15 @@ const __dirname = resolve(__filename, '..')
 
 const config: StorybookConfig = {
   stories: ['../resources/react/src/**/*.mdx', '../resources/react/src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
-  addons: [],
+  addons: [
+    '@storybook/addon-a11y',
+    'storybook-addon-rtl',
+  ],
   framework: {
     name: '@storybook/react-vite',
     options: {},
   },
+  staticDirs: ['./public'],
   viteFinal: async (config) => {
     // Merge custom Vite configuration
     return {
