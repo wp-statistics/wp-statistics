@@ -42,4 +42,21 @@ export class WordPress {
   public getSidebarConfig() {
     return this.data.layout.sidebar
   }
+
+  public getFilters() {
+    return this.data.filters
+  }
+
+  public getFilterFields() {
+    return this.data.filters.fields
+  }
+
+  public getFilterOperators() {
+    return this.data.filters.operators
+  }
+
+  public getFilterFieldsByGroup(group: FilterGroup): FilterFields[keyof FilterFields][] {
+    const fields = this.data.filters.fields
+    return Object.values(fields).filter((field) => field.groups.includes(group))
+  }
 }

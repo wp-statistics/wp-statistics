@@ -19,8 +19,8 @@ function FilterPanel({ filters, fields, onFiltersChange, onApply }: FilterPanelP
     const defaultField = fields[0]
     const newFilter: FilterRowData = {
       id: generateFilterId(),
-      fieldId: defaultField?.id || '',
-      operator: defaultField?.operators[0] || 'equal_to',
+      fieldName: defaultField?.name || ('country' as FilterFieldName),
+      operator: defaultField?.supportedOperators[0] || 'is',
       value: '',
     }
     onFiltersChange([...filters, newFilter])

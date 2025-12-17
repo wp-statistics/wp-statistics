@@ -3,12 +3,7 @@ import { Filter, ChevronRight } from 'lucide-react'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Button } from '@/components/ui/button'
 import { FilterPanel, generateFilterId } from '@/components/custom/filter-panel'
-import {
-  operatorLabels,
-  type FilterField,
-  type FilterRowData,
-  type FilterOperator,
-} from '@/components/custom/filter-row'
+import { getOperatorLabel, type FilterField, type FilterRowData } from '@/components/custom/filter-row'
 import type { Filter as AppliedFilter } from '@/components/custom/filter-bar'
 import { __ } from '@wordpress/i18n'
 import { cn } from '@/lib/utils'
@@ -20,14 +15,17 @@ export interface FilterButtonProps {
   className?: string
 }
 
-// Map internal operator to display operator
-const operatorDisplayMap: Record<FilterOperator, string> = {
-  greater_than: '>',
-  less_than: '<',
-  equal_to: '=',
-  not_equal: '!=',
-  contains: 'Contains',
-  is: 'Is',
+// Get display string for operator
+const getOperatorDisplay = (operator: FilterOperator): string => {
+  const displayMap: Partial<Record<FilterOperator, string>> = {
+    gt: '>',
+    gte: '>=',
+    lt: '<',
+    lte: '<=',
+    is: '=',
+    is_not: '!=',
+  }
+  return displayMap[operator] ?? getOperatorLabel(operator)
 }
 
 function FilterButton({ fields, appliedFilters, onApplyFilters, className }: FilterButtonProps) {
@@ -41,16 +39,12 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className }: Fil
       const converted: FilterRowData[] = appliedFilters.map((af) => {
         // Find the field that matches this filter's label
         const field = fields.find((f) => f.label === af.label)
-        const fieldId = field?.id || af.label.toLowerCase().replace(/\s+/g, '-')
-
-        // Find the operator key from the display value
-        const operatorEntry = Object.entries(operatorDisplayMap).find(([, display]) => display === af.operator)
-        const operatorKey = (operatorEntry?.[0] as FilterOperator) || 'equal_to'
+        const fieldName = field?.name || (af.label.toLowerCase().replace(/\s+/g, '_') as FilterFieldName)
 
         return {
           id: af.id,
-          fieldId,
-          operator: operatorKey,
+          fieldName,
+          operator: af.operator as FilterOperator,
           value: String(af.value),
         }
       })
@@ -64,12 +58,12 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className }: Fil
     const newAppliedFilters: AppliedFilter[] = pendingFilters
       .filter((f) => f.value !== '') // Only include filters with values
       .map((f) => {
-        const field = fields.find((field) => field.id === f.fieldId)
+        const field = fields.find((field) => field.name === f.fieldName)
         return {
-          id: `${f.fieldId}-${f.id}`,
-          label: field?.label || f.fieldId,
-          operator: operatorDisplayMap[f.operator] as AppliedFilter['operator'],
-          value: f.value,
+          id: `${f.fieldName}-${f.id}`,
+          label: field?.label || f.fieldName,
+          operator: getOperatorDisplay(f.operator),
+          value: typeof f.value === 'string' ? f.value : String(f.value),
         }
       })
 
@@ -106,5 +100,5 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className }: Fil
   )
 }
 
-export { FilterButton, generateFilterId, operatorDisplayMap, operatorLabels }
+export { FilterButton, generateFilterId, getOperatorDisplay, getOperatorLabel }
 export type { FilterField, FilterRowData, FilterOperator }

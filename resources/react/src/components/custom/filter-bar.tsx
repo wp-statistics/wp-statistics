@@ -3,12 +3,10 @@ import { FilterChip } from '@/components/custom/filter-chip'
 import { cn } from '@/lib/utils'
 import { Funnel } from 'lucide-react'
 
-export type FilterOperator = '<' | '>' | '=' | '!=' | '<=' | '>=' | 'Contains' | 'Starts with' | 'Ends with'
-
 export interface Filter {
   id: string
   label: string
-  operator: FilterOperator
+  operator: string
   value: string | number
 }
 

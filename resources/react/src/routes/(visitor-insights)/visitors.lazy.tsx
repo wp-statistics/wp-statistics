@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 import { DataTable } from '@/components/custom/data-table'
@@ -533,58 +533,16 @@ const generateFakeData = (): Visitor[] => {
   return visitors.sort((a, b) => b.lastVisit.getTime() - a.lastVisit.getTime())
 }
 
-// Filter fields configuration for the visitors page
-const filterFields: FilterField[] = [
-  {
-    id: 'visitors',
-    label: 'Visitors',
-    operators: ['greater_than', 'less_than', 'equal_to'],
-    type: 'number',
-  },
-  {
-    id: 'exits',
-    label: 'Exits',
-    operators: ['greater_than', 'less_than', 'equal_to'],
-    type: 'number',
-  },
-  {
-    id: 'bounce-rate',
-    label: 'Bounce Rate',
-    operators: ['greater_than', 'less_than', 'equal_to'],
-    type: 'number',
-  },
-  {
-    id: 'url',
-    label: 'URL',
-    operators: ['contains', 'equal_to'],
-    type: 'text',
-  },
-  {
-    id: 'author',
-    label: 'Author',
-    operators: ['is', 'equal_to'],
-    type: 'select',
-    options: [
-      { value: 'admin', label: 'Admin' },
-      { value: 'editor', label: 'Editor' },
-      { value: 'author', label: 'Author' },
-    ],
-  },
-]
-
-// Initial fake applied filters
-const initialAppliedFilters: Filter[] = [
-  { id: 'visitors-1', label: 'Visitors', operator: '>', value: 1 },
-  { id: 'exits-2', label: 'Exits', operator: '=', value: 5 },
-  { id: 'bounce-rate-3', label: 'Bounce Rate', operator: '>', value: 4 },
-  { id: 'url-4', label: 'URL', operator: 'Contains', value: 2 },
-]
-
 function RouteComponent() {
-  const [appliedFilters, setAppliedFilters] = useState<Filter[]>(initialAppliedFilters)
+  const [appliedFilters, setAppliedFilters] = useState<Filter[]>([])
   const fakeData = generateFakeData()
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
+
+  // Get filter fields for 'visitors' group from localized data
+  const filterFields = useMemo<FilterField[]>(() => {
+    return wp.getFilterFieldsByGroup('visitors') as FilterField[]
+  }, [])
 
   const handleRemoveFilter = (filterId: string) => {
     setAppliedFilters((prev) => prev.filter((f) => f.id !== filterId))
