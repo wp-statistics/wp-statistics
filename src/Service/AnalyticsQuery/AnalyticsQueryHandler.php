@@ -133,6 +133,11 @@ class AnalyticsQueryHandler
         // Extract context for user preferences (before normalizing)
         $context = $request['context'] ?? null;
 
+        // Apply user preferences if context is provided
+        if (!empty($context)) {
+            $request = $this->applyUserPreferences($request, $context);
+        }
+
         // Validate the request
         $this->validate($request);
 
@@ -1088,6 +1093,34 @@ class AnalyticsQueryHandler
     public function getAvailableFormats(): array
     {
         return array_keys($this->formatters);
+    }
+
+    /**
+     * Apply user preferences to request before execution.
+     *
+     * Loads saved user preferences for the given context and applies them to the request.
+     * Currently supports:
+     * - columns: Filters which columns to include in the response
+     *
+     * @param array  $request Request array.
+     * @param string $context Context identifier for preferences lookup.
+     * @return array Request with preferences applied.
+     */
+    private function applyUserPreferences(array $request, string $context): array
+    {
+        $preferencesManager = new UserPreferencesManager();
+        $preferences = $preferencesManager->get($context);
+
+        if (empty($preferences)) {
+            return $request;
+        }
+
+        // Apply columns preference if not already specified in request
+        if (!empty($preferences['columns']) && !isset($request['columns'])) {
+            $request['columns'] = $preferences['columns'];
+        }
+
+        return $request;
     }
 
     /**
