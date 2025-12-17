@@ -14,4 +14,12 @@ class PagesPerSessionSource extends AbstractSource
     protected $table      = 'sessions';
     protected $type       = 'float';
     protected $format     = 'number';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsSummaryTable(): bool
+    {
+        return true;
+    }
 }

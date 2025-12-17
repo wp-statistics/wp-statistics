@@ -135,6 +135,17 @@ class Query implements QueryInterface
     private $columns;
 
     /**
+     * Whether a count query is needed for pagination.
+     *
+     * When false, skips the COUNT query to improve performance.
+     * Defaults to true for backward compatibility.
+     *
+     * @var bool
+     */
+    private $needsCount;
+
+
+    /**
      * Constructor.
      *
      * @param array       $sources         Sources to retrieve.
@@ -153,6 +164,7 @@ class Query implements QueryInterface
      * @param bool        $showTotals       Whether to include totals in the response.
      * @param string      $format           Response format type (table, flat, chart, export).
      * @param array|null  $columns          Columns to include in the response.
+     * @param bool        $needsCount       Whether a count query is needed for pagination.
      */
     public function __construct(
         array $sources = [],
@@ -170,24 +182,26 @@ class Query implements QueryInterface
         ?int $originalPerPage = null,
         bool $showTotals = true,
         string $format = 'table',
-        ?array $columns = null
+        ?array $columns = null,
+        bool $needsCount = true
     ) {
-        $this->sources         = $sources;
-        $this->groupBy         = $groupBy;
-        $this->filters         = $filters;
-        $this->dateFrom        = $dateFrom;
-        $this->dateTo          = $dateTo;
-        $this->orderBy         = $orderBy;
-        $this->order           = strtoupper($order) === 'ASC' ? 'ASC' : 'DESC';
-        $this->page            = max(1, $page);
-        $this->perPage         = min(1000, max(1, $perPage)); // Allow up to 1000 for aggregation
-        $this->compare         = $compare;
-        $this->dateColumn      = $dateColumn;
-        $this->aggregateOthers = $aggregateOthers;
-        $this->originalPerPage = $originalPerPage;
-        $this->showTotals      = $showTotals;
-        $this->format          = $this->normalizeFormat($format);
-        $this->columns         = $columns;
+        $this->sources          = $sources;
+        $this->groupBy          = $groupBy;
+        $this->filters          = $filters;
+        $this->dateFrom         = $dateFrom;
+        $this->dateTo           = $dateTo;
+        $this->orderBy          = $orderBy;
+        $this->order            = strtoupper($order) === 'ASC' ? 'ASC' : 'DESC';
+        $this->page             = max(1, $page);
+        $this->perPage          = min(1000, max(1, $perPage)); // Allow up to 1000 for aggregation
+        $this->compare          = $compare;
+        $this->dateColumn       = $dateColumn;
+        $this->aggregateOthers  = $aggregateOthers;
+        $this->originalPerPage  = $originalPerPage;
+        $this->showTotals       = $showTotals;
+        $this->format           = $this->normalizeFormat($format);
+        $this->columns          = $columns;
+        $this->needsCount       = $needsCount;
     }
 
     /**
@@ -380,6 +394,16 @@ class Query implements QueryInterface
     }
 
     /**
+     * Check if a count query is needed for pagination.
+     *
+     * @return bool
+     */
+    public function needsCount(): bool
+    {
+        return $this->needsCount;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function toArray(): array
@@ -401,6 +425,7 @@ class Query implements QueryInterface
             'show_totals'        => $this->showTotals,
             'format'             => $this->format,
             'columns'            => $this->columns,
+            'needs_count'        => $this->needsCount,
         ];
     }
 
@@ -429,7 +454,8 @@ class Query implements QueryInterface
             $this->originalPerPage,
             $this->showTotals,
             $this->format,
-            $this->columns
+            $this->columns,
+            $this->needsCount
         );
     }
 
@@ -454,9 +480,10 @@ class Query implements QueryInterface
             $this->dateColumn,
             $this->aggregateOthers,
             $this->originalPerPage,
-            $this->showTotals,
+            $this->showTotals,  // Keep same showTotals setting
             $this->format,
-            $this->columns
+            $this->columns,
+            false  // Previous period queries don't need count
         );
     }
 
@@ -468,23 +495,36 @@ class Query implements QueryInterface
      */
     public static function fromArray(array $data): self
     {
+        // Determine if count query is needed based on format and groupBy
+        $needsCount = $data['needs_count'] ?? true;
+
+        // Skip count for flat format queries (single value, no pagination)
+        if (($data['format'] ?? 'table') === 'flat') {
+            $needsCount = false;
+        }
+
+        // If no group_by, we don't need pagination (single row result)
+        $groupBy = $data['group_by'] ?? [];
+        $defaultPerPage = empty($groupBy) ? null : 10;
+
         return new self(
             $data['sources'] ?? [],
-            $data['group_by'] ?? [],
+            $groupBy,
             $data['filters'] ?? [],
             $data['date_from'] ?? null,
             $data['date_to'] ?? null,
             $data['order_by'] ?? null,
             $data['order'] ?? 'DESC',
             $data['page'] ?? 1,
-            $data['per_page'] ?? 10,
+            $data['per_page'] ?? $defaultPerPage,
             $data['compare'] ?? false,
             $data['date_column'] ?? null,
             !empty($data['aggregate_others']),
             isset($data['_original_per_page']) ? (int) $data['_original_per_page'] : null,
             $data['show_totals'] ?? true,
             $data['format'] ?? 'table',
-            $data['columns'] ?? null
+            $data['columns'] ?? null,
+            $needsCount
         );
     }
 }

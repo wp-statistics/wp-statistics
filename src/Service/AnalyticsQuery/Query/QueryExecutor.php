@@ -64,6 +64,23 @@ class QueryExecutor implements QueryExecutorInterface
      */
     public function execute(QueryInterface $query): array
     {
+        // Check if we can use summary tables for optimization
+        if ($this->canUseSummaryTable($query)) {
+            return $this->executeFromSummaryTable($query);
+        }
+
+        // Fallback to raw tables (current implementation)
+        return $this->executeFromRawTables($query);
+    }
+
+    /**
+     * Execute query from raw tables (original implementation).
+     *
+     * @param QueryInterface $query The query object.
+     * @return array
+     */
+    private function executeFromRawTables(QueryInterface $query): array
+    {
         $sql = $this->buildSql($query);
 
         // Prepare and execute main query
@@ -74,18 +91,376 @@ class QueryExecutor implements QueryExecutorInterface
 
         $rows = $this->wpdb->get_results($preparedSql, ARRAY_A);
 
-        // Get total count for pagination
-        $countSql = $sql['count_sql'];
-        if (!empty($sql['params'])) {
-            $countSql = $this->wpdb->prepare($sql['count_sql'], $sql['params']);
-        }
+        // Only execute count query if needed
+        $total = 0;
+        if ($query->needsCount()) {
+            $countSql = $sql['count_sql'];
+            if (!empty($sql['params'])) {
+                $countSql = $this->wpdb->prepare($sql['count_sql'], $sql['params']);
+            }
 
-        $total = (int) $this->wpdb->get_var($countSql);
+            $total = (int) $this->wpdb->get_var($countSql);
+        } else {
+            // For flat queries or when count not needed, use row count
+            $total = count($rows);
+        }
 
         return [
             'rows'  => $rows ?: [],
             'total' => $total,
         ];
+    }
+
+    /**
+     * Check if query can use summary tables.
+     *
+     * @param QueryInterface $query The query object.
+     * @return bool
+     */
+    private function canUseSummaryTable(QueryInterface $query): bool
+    {
+        $sources  = $query->getSources();
+        $groupBy  = $query->getGroupBy();
+        $filters  = $query->getFilters();
+
+        // Check if all sources support summary tables
+        foreach ($sources as $sourceName) {
+            $source = $this->sourceRegistry->get($sourceName);
+
+            // If source doesn't exist or doesn't support summary tables, can't use summary
+            if (!$source || !$source->supportsSummaryTable()) {
+                return false;
+            }
+        }
+
+        // Check if grouping is date-based only (or no grouping)
+        if (!empty($groupBy)) {
+            $allowedGroupBy = ['date', 'week', 'month'];
+            if (!in_array($groupBy[0], $allowedGroupBy, true)) {
+                return false;
+            }
+        }
+
+        // Summary tables contain only aggregated data by date
+        // Any filtering requires querying raw tables with dimensional data
+        if (!empty($filters)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Execute query using summary tables with hybrid approach for today's data.
+     *
+     * @param QueryInterface $query The query object.
+     * @return array
+     */
+    private function executeFromSummaryTable(QueryInterface $query): array
+    {
+        $dateTo   = $query->getDateTo();
+        $dateFrom = $query->getDateFrom();
+        $today    = date('Y-m-d');
+        $yesterday = date('Y-m-d', strtotime('-1 day'));
+
+        // Note: System constraint - to_date max is today (cannot be future)
+
+        // Scenario 1: Date range is entirely historical (to_date < today)
+        if ($dateTo < $today) {
+            return $this->executeFromSummaryTableOnly($query);
+        }
+
+        // Scenario 2: to_date == today - use HYBRID approach
+        if ($dateTo === $today) {
+            return $this->executeHybridQuery($query, $dateFrom, $yesterday, $today);
+        }
+
+        // Fallback (shouldn't happen due to system constraint, but safe)
+        return $this->executeFromRawTables($query);
+    }
+
+    /**
+     * Execute query from summary tables only (historical data).
+     *
+     * @param QueryInterface $query The query object.
+     * @return array
+     */
+    private function executeFromSummaryTableOnly(QueryInterface $query): array
+    {
+        $groupBy = $query->getGroupBy();
+
+        // Determine which table to use
+        $tableName = empty($groupBy) ? 'summary_totals' : 'summary';
+
+        // Build SQL for summary table
+        $sql = $this->buildSummaryTableSql($query, $tableName);
+
+        // Prepare and execute
+        $preparedSql = $sql['sql'];
+        if (!empty($sql['params'])) {
+            $preparedSql = $this->wpdb->prepare($sql['sql'], $sql['params']);
+        }
+
+        $rows = $this->wpdb->get_results($preparedSql, ARRAY_A);
+
+        // Add calculated metrics if needed
+        $rows = $this->addCalculatedMetrics($rows, $query->getSources());
+
+        // Handle week/month aggregation if needed
+        if (!empty($groupBy) && in_array($groupBy[0], ['week', 'month'], true)) {
+            $rows = $this->aggregateToTimeframe($rows, $groupBy[0]);
+        }
+
+        return [
+            'rows'  => $rows ?: [],
+            'total' => count($rows),
+        ];
+    }
+
+    /**
+     * Execute hybrid query (summary tables for historical + raw for today).
+     *
+     * @param QueryInterface $query          The query object.
+     * @param string         $dateFrom       Original date from.
+     * @param string         $historicalTo   Yesterday (last date in summary).
+     * @param string         $today          Today's date.
+     * @return array
+     */
+    private function executeHybridQuery(QueryInterface $query, string $dateFrom, string $historicalTo, string $today): array
+    {
+        $groupBy = $query->getGroupBy();
+        $rows    = [];
+
+        // Part 1: Query summary tables for historical data (from_date to yesterday)
+        if ($dateFrom <= $historicalTo) {
+            // Create query with modified date range (historical only - up to yesterday)
+            $historicalQuery = $query->withDateRange($dateFrom, $historicalTo);
+
+            $tableName = empty($groupBy) ? 'summary_totals' : 'summary';
+            $sql = $this->buildSummaryTableSql($historicalQuery, $tableName);
+
+            $preparedSql = $sql['sql'];
+            if (!empty($sql['params'])) {
+                $preparedSql = $this->wpdb->prepare($sql['sql'], $sql['params']);
+            }
+
+            $historicalRows = $this->wpdb->get_results($preparedSql, ARRAY_A);
+            $rows = array_merge($rows, $historicalRows);
+        }
+
+        // Part 2: Query raw tables for today's data only
+        $todayQuery = $query->withDateRange($today, $today);
+
+        $todayResult = $this->executeFromRawTables($todayQuery);
+        $rows = array_merge($rows, $todayResult['rows']);
+
+        // Part 3: Post-process all results
+        $rows = $this->addCalculatedMetrics($rows, $query->getSources());
+
+        // Handle week/month aggregation if needed
+        if (!empty($groupBy) && in_array($groupBy[0], ['week', 'month'], true)) {
+            $rows = $this->aggregateToTimeframe($rows, $groupBy[0]);
+        }
+
+        return [
+            'rows'  => $rows ?: [],
+            'total' => count($rows),
+        ];
+    }
+
+    /**
+     * Build SQL for summary table query.
+     *
+     * @param QueryInterface $query     The query object.
+     * @param string         $tableName Table name (summary or summary_totals).
+     * @return array ['sql' => string, 'params' => array]
+     */
+    private function buildSummaryTableSql(QueryInterface $query, string $tableName): array
+    {
+        $sources  = $query->getSources();
+        $groupBy  = $query->getGroupBy();
+        $dateFrom = $query->getDateFrom();
+        $dateTo   = $query->getDateTo();
+        $orderBy  = $query->getOrderBy() ?: $sources[0] ?? 'visitors';
+        $order    = $query->getOrder();
+        $page     = $query->getPage();
+        $perPage  = $query->getPerPage();
+        $offset   = ($page - 1) * $perPage;
+
+        $select = [];
+        $params = [];
+
+        // Add group by column if needed
+        if (!empty($groupBy) && $groupBy[0] === 'date') {
+            $select[] = 'date';
+        }
+
+        // Map sources to summary table columns
+        $sourceMapping = [
+            'visitors'            => 'SUM(visitors) AS visitors',
+            'views'               => 'SUM(views) AS views',
+            'sessions'            => 'SUM(sessions) AS sessions',
+            'bounce_rate'         => 'ROUND(SUM(bounces) / NULLIF(SUM(sessions), 0) * 100, 2) AS bounce_rate',
+            'avg_session_duration' => 'ROUND(SUM(total_duration) / NULLIF(SUM(sessions), 0), 2) AS avg_session_duration',
+            'total_duration'      => 'SUM(total_duration) AS total_duration',
+        ];
+
+        foreach ($sources as $source) {
+            if (isset($sourceMapping[$source])) {
+                $select[] = $sourceMapping[$source];
+            }
+            // pages_per_session and avg_time_on_page will be calculated after query
+        }
+
+        // Build SQL
+        $sql = "SELECT\n    " . implode(",\n    ", $select);
+        $sql .= "\nFROM " . $this->getFullTableName($tableName);
+
+        // Add date range filter
+        if ($dateFrom && $dateTo) {
+            $sql .= "\nWHERE date >= %s AND date <= %s";
+            $params[] = $dateFrom;
+            $params[] = $dateTo;
+        }
+
+        // Add GROUP BY if needed
+        if (!empty($groupBy) && $groupBy[0] === 'date') {
+            $sql .= "\nGROUP BY date";
+        }
+
+        // Add ORDER BY
+        if ($orderBy) {
+            $sql .= "\nORDER BY $orderBy $order";
+        }
+
+        // Add LIMIT and OFFSET
+        $sql .= "\nLIMIT $perPage OFFSET $offset";
+
+        return [
+            'sql'    => $sql,
+            'params' => $params,
+        ];
+    }
+
+    /**
+     * Add calculated metrics to results.
+     *
+     * @param array $rows    Result rows.
+     * @param array $sources Requested sources.
+     * @return array
+     */
+    private function addCalculatedMetrics(array $rows, array $sources): array
+    {
+        $needsPagesPerSession = in_array('pages_per_session', $sources, true);
+        $needsAvgTimeOnPage   = in_array('avg_time_on_page', $sources, true);
+
+        if (!$needsPagesPerSession && !$needsAvgTimeOnPage) {
+            return $rows;
+        }
+
+        foreach ($rows as &$row) {
+            if ($needsPagesPerSession) {
+                $sessions = isset($row['sessions']) ? (int) $row['sessions'] : 0;
+                $views    = isset($row['views']) ? (int) $row['views'] : 0;
+                $row['pages_per_session'] = $sessions > 0 ? round($views / $sessions, 2) : 0;
+            }
+
+            if ($needsAvgTimeOnPage) {
+                $views        = isset($row['views']) ? (int) $row['views'] : 0;
+                $totalDuration = isset($row['total_duration']) ? (int) $row['total_duration'] : 0;
+                $row['avg_time_on_page'] = $views > 0 ? round($totalDuration / $views, 2) : 0;
+            }
+        }
+
+        return $rows;
+    }
+
+    /**
+     * Aggregate daily results to week/month timeframe.
+     *
+     * @param array  $rows      Daily result rows.
+     * @param string $timeframe 'week' or 'month'.
+     * @return array
+     */
+    private function aggregateToTimeframe(array $rows, string $timeframe): array
+    {
+        if (empty($rows)) {
+            return $rows;
+        }
+
+        $aggregated = [];
+
+        foreach ($rows as $row) {
+            $date = $row['date'] ?? null;
+            if (!$date) {
+                continue;
+            }
+
+            // Determine the key for aggregation
+            if ($timeframe === 'week') {
+                // Get week number and year
+                $key = date('Y-W', strtotime($date));
+            } elseif ($timeframe === 'month') {
+                // Get year-month
+                $key = date('Y-m', strtotime($date));
+            } else {
+                continue;
+            }
+
+            // Initialize if not exists
+            if (!isset($aggregated[$key])) {
+                $aggregated[$key] = [
+                    'date'                => $date, // Use first date in period
+                    'visitors'            => 0,
+                    'views'               => 0,
+                    'sessions'            => 0,
+                    'bounces'             => 0,
+                    'total_duration'      => 0,
+                ];
+            }
+
+            // Aggregate values
+            $aggregated[$key]['visitors']       += (int) ($row['visitors'] ?? 0);
+            $aggregated[$key]['views']          += (int) ($row['views'] ?? 0);
+            $aggregated[$key]['sessions']       += (int) ($row['sessions'] ?? 0);
+            $aggregated[$key]['total_duration'] += (int) ($row['total_duration'] ?? 0);
+        }
+
+        // Recalculate derived metrics
+        foreach ($aggregated as &$row) {
+            $sessions = $row['sessions'];
+            $views    = $row['views'];
+
+            // Recalculate bounce_rate if sessions exist
+            if ($sessions > 0 && isset($row['bounces'])) {
+                $row['bounce_rate'] = round($row['bounces'] / $sessions * 100, 2);
+            } else {
+                $row['bounce_rate'] = 0;
+            }
+
+            // Recalculate avg_session_duration
+            if ($sessions > 0) {
+                $row['avg_session_duration'] = round($row['total_duration'] / $sessions, 2);
+            } else {
+                $row['avg_session_duration'] = 0;
+            }
+
+            // Recalculate pages_per_session if needed
+            if ($sessions > 0) {
+                $row['pages_per_session'] = round($views / $sessions, 2);
+            } else {
+                $row['pages_per_session'] = 0;
+            }
+
+            // Recalculate avg_time_on_page if needed
+            if ($views > 0) {
+                $row['avg_time_on_page'] = round($row['total_duration'] / $views, 2);
+            } else {
+                $row['avg_time_on_page'] = 0;
+            }
+        }
+
+        return array_values($aggregated);
     }
 
     /**
@@ -126,8 +501,9 @@ class QueryExecutor implements QueryExecutorInterface
         $dateTo       = $query->getDateTo();
         $orderBy      = $this->validateOrderBy($query->getOrderBy(), $sources, $groupByNames);
         $order        = $query->getOrder();
+        $page         = $query->getPage();
         $perPage      = $query->getPerPage();
-        $offset       = $query->getOffset();
+        $offset       = ($page - 1) * $perPage;
         $attribution  = Option::getValue('attribution_model', 'first_touch');
 
         // Determine primary table
@@ -135,7 +511,8 @@ class QueryExecutor implements QueryExecutorInterface
         $from         = $this->getFullTableName($primaryTable) . ' AS ' . $primaryTable;
 
         // Add session join if needed for views table (must come before group by joins)
-        if ($primaryTable === 'views') {
+        // Only add if sources or groupBy actually need session data
+        if ($primaryTable === 'views' && $this->needsSessionJoin($sources, $groupByNames)) {
             $joins = $this->addSessionJoinForViews($joins);
         }
 
@@ -169,7 +546,8 @@ class QueryExecutor implements QueryExecutorInterface
         // Add date range filter
         if ($dateFrom && $dateTo) {
             $dateColumn = $this->getDateColumn($primaryTable);
-            $where[]    = "$dateColumn BETWEEN %s AND %s";
+            $where[]    = "$dateColumn >= %s";
+            $where[]    = "$dateColumn <= %s";
             $params[]   = $this->formatDateTimeStart($dateFrom);
             $params[]   = $this->formatDateTimeEnd($dateTo);
         }
@@ -230,14 +608,16 @@ class QueryExecutor implements QueryExecutorInterface
         }
 
         // Add session join if needed for views table (must come before filter joins)
-        if ($primaryTable === 'views') {
+        // Only add if sources actually need session data
+        if ($primaryTable === 'views' && $this->needsSessionJoin($sources, [])) {
             $joins = $this->addSessionJoinForViews($joins);
         }
 
         // Add date range filter
         if ($dateFrom && $dateTo) {
             $dateColumn = $this->getDateColumn($primaryTable);
-            $where[]    = "$dateColumn BETWEEN %s AND %s";
+            $where[]    = "$dateColumn >= %s";
+            $where[]    = "$dateColumn <= %s";
             $params[]   = $this->formatDateTimeStart($dateFrom);
             $params[]   = $this->formatDateTimeEnd($dateTo);
         }
@@ -421,6 +801,44 @@ class QueryExecutor implements QueryExecutorInterface
     }
 
     /**
+     * Check if session join is needed for views query.
+     *
+     * @param array $sources    Source names.
+     * @param array $groupByNames Group by names.
+     * @return bool
+     */
+    private function needsSessionJoin(array $sources, array $groupByNames): bool
+    {
+        // Check if any source requires sessions table
+        $sessionDependentSources = ['visitors', 'sessions', 'bounce_rate', 'avg_session_duration',
+                                     'pages_per_session', 'total_duration'];
+
+        foreach ($sources as $sourceName) {
+            if (in_array($sourceName, $sessionDependentSources, true)) {
+                return true;
+            }
+
+            $source = $this->sourceRegistry->get($sourceName);
+            if ($source && $source->getTable() === 'sessions') {
+                return true;
+            }
+        }
+
+        // Check if any groupBy requires sessions table or visitor data
+        $sessionDependentGroupBy = ['date', 'month', 'week', 'hour', 'country', 'city', 'continent',
+                                     'browser', 'os', 'device_type', 'language', 'resolution',
+                                     'referrer', 'visitor'];
+
+        foreach ($groupByNames as $groupByName) {
+            if (in_array($groupByName, $sessionDependentGroupBy, true)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Add session join for views table.
      *
      * @param array $joins Existing joins.
@@ -433,7 +851,7 @@ class QueryExecutor implements QueryExecutorInterface
                 'table' => $this->getFullTableName('sessions'),
                 'alias' => 'sessions',
                 'on'    => 'views.session_id = sessions.ID',
-                'type'  => 'LEFT',
+                'type'  => 'INNER',
             ];
         }
         return $joins;

@@ -234,6 +234,9 @@ class Manager
                 'KEY idx_started_country (started_at, country_id, total_views)',
                 'KEY idx_started_device_combo (started_at, device_type_id, device_os_id)',
                 'KEY idx_started_browser (started_at, device_browser_id)',
+                'KEY idx_started_city (started_at, city_id)',
+                'KEY idx_started_os (started_at, device_os_id)',
+                'KEY idx_started_referrer (started_at, referrer_id)',
             ],
         ],
         'reports'                 => [

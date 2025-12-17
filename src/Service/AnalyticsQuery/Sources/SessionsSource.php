@@ -14,4 +14,12 @@ class SessionsSource extends AbstractSource
     protected $table      = 'sessions';
     protected $type       = 'integer';
     protected $format     = 'number';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsSummaryTable(): bool
+    {
+        return true;
+    }
 }

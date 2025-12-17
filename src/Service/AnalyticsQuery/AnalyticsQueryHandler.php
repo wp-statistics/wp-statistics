@@ -250,11 +250,14 @@ class AnalyticsQueryHandler
             }
 
             // Normalize and merge global filters with query filters (query values override)
-            $normalizedGlobalFilters = $this->normalizeFilters($globalFilters);
-            $normalizedQueryFilters  = $this->normalizeFilters($queryData['filters'] ?? []);
+            // Skip filters for preference queries (they only fetch metadata, not actual data)
+            if (!$isPrefsQuery) {
+                $normalizedGlobalFilters = $this->normalizeFilters($globalFilters);
+                $normalizedQueryFilters  = $this->normalizeFilters($queryData['filters'] ?? []);
 
-            if (!empty($normalizedGlobalFilters) || !empty($normalizedQueryFilters)) {
-                $queryData['filters'] = array_merge($normalizedGlobalFilters, $normalizedQueryFilters);
+                if (!empty($normalizedGlobalFilters) || !empty($normalizedQueryFilters)) {
+                    $queryData['filters'] = array_merge($normalizedGlobalFilters, $normalizedQueryFilters);
+                }
             }
 
             // Apply global compare if query doesn't override
@@ -617,7 +620,7 @@ class AnalyticsQueryHandler
 
         // Filter rows
         if (!empty($result['rows'])) {
-            $result['rows'] = $this->filterRowColumns($result['rows'], $columns, $query);
+            $result['rows'] = $this->filterRowColumns($result['rows'], $columns);
         }
 
         // Filter totals
@@ -633,10 +636,9 @@ class AnalyticsQueryHandler
      *
      * @param array $rows    Result rows.
      * @param array $columns Columns to include.
-     * @param Query $query   Query object.
      * @return array Filtered rows with columns in the specified order.
      */
-    private function filterRowColumns(array $rows, array $columns, Query $query): array
+    private function filterRowColumns(array $rows, array $columns): array
     {
         $filteredRows = [];
 
@@ -719,6 +721,17 @@ class AnalyticsQueryHandler
      */
     private function executeQuery(Query $query): array
     {
+        return $this->executeQueryDirect($query);
+    }
+
+    /**
+     * Execute the analytics query directly from raw tables.
+     *
+     * @param Query $query Query object.
+     * @return array Query results.
+     */
+    private function executeQueryDirect(Query $query): array
+    {
         $groupBy    = $query->getGroupBy();
         $sources    = $query->getSources();
         $showTotals = $query->showTotals();
@@ -736,8 +749,15 @@ class AnalyticsQueryHandler
                     $totals[$source] = 0;
                 }
             } else {
-                // Get totals
-                $totals = $this->executor->executeTotals($query);
+                // Try to calculate totals from rows when possible (no separate query needed)
+                $canCalculateFromRows = $this->canCalculateTotalsFromRows($query, $result);
+
+                if ($canCalculateFromRows) {
+                    $totals = $this->calculateTotalsFromRows($result['rows'], $sources);
+                } else {
+                    // Execute separate totals query
+                    $totals = $this->executor->executeTotals($query);
+                }
             }
         }
 
@@ -746,6 +766,68 @@ class AnalyticsQueryHandler
             'totals' => $totals,
             'total'  => $result['total'],
         ];
+    }
+
+    /**
+     * Check if totals can be calculated from rows instead of a separate query.
+     *
+     * @param Query $query  Query object.
+     * @param array $result Query result with rows.
+     * @return bool True if totals can be calculated from rows.
+     */
+    private function canCalculateTotalsFromRows(Query $query, array $result): bool
+    {
+        // No GROUP BY means single row result, can use it directly
+        if (empty($query->getGroupBy())) {
+            return true;
+        }
+
+        // If we have all rows (no pagination or fetched all), we can sum them
+        $rows = $result['rows'];
+        $total = $result['total'];
+
+        // We have all the data if row count equals total count
+        return count($rows) >= $total;
+    }
+
+    /**
+     * Calculate totals from query rows.
+     *
+     * Sums up source values from all rows to get totals.
+     *
+     * @param array $rows    Query result rows.
+     * @param array $sources Source names.
+     * @return array Totals array with source names as keys.
+     */
+    private function calculateTotalsFromRows(array $rows, array $sources): array
+    {
+        $totals = [];
+
+        // Initialize totals
+        foreach ($sources as $source) {
+            $totals[$source] = 0;
+        }
+
+        // Sum up values from all rows
+        foreach ($rows as $row) {
+            foreach ($sources as $source) {
+                if (isset($row[$source])) {
+                    $totals[$source] += (float) $row[$source];
+                }
+            }
+        }
+
+        // Round totals to appropriate precision
+        foreach ($sources as $source) {
+            $sourceObj = $this->sourceRegistry->get($source);
+            if ($sourceObj && $sourceObj->getType() === 'integer') {
+                $totals[$source] = (int) round($totals[$source]);
+            } else {
+                $totals[$source] = round($totals[$source], 1);
+            }
+        }
+
+        return $totals;
     }
 
     /**

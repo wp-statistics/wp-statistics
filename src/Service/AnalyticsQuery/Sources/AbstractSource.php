@@ -108,4 +108,16 @@ abstract class AbstractSource implements SourceInterface
     {
         return $this->requirement;
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * Default implementation returns false for safety.
+     * Only sources that can use summary tables (visitors, views, sessions, etc.)
+     * should override this method to return true.
+     */
+    public function supportsSummaryTable(): bool
+    {
+        return false;
+    }
 }

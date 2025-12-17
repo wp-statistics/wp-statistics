@@ -14,4 +14,12 @@ class BounceRateSource extends AbstractSource
     protected $table      = 'sessions';
     protected $type       = 'float';
     protected $format     = 'percent';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsSummaryTable(): bool
+    {
+        return true;
+    }
 }

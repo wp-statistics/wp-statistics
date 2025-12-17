@@ -57,4 +57,15 @@ interface SourceInterface
      * @return string|null
      */
     public function getRequirement(): ?string;
+
+    /**
+     * Check if this source can use summary tables.
+     *
+     * Sources that can be retrieved from pre-aggregated summary tables
+     * should return true. Dimensional sources (country, device, etc.)
+     * should return false.
+     *
+     * @return bool
+     */
+    public function supportsSummaryTable(): bool;
 }

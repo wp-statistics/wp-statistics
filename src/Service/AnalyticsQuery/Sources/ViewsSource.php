@@ -14,4 +14,12 @@ class ViewsSource extends AbstractSource
     protected $table      = 'views';
     protected $type       = 'integer';
     protected $format     = 'number';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsSummaryTable(): bool
+    {
+        return true;
+    }
 }

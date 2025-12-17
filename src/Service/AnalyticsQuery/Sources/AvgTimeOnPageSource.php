@@ -14,4 +14,12 @@ class AvgTimeOnPageSource extends AbstractSource
     protected $table      = 'views';
     protected $type       = 'integer';
     protected $format     = 'duration';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsSummaryTable(): bool
+    {
+        return true;
+    }
 }
