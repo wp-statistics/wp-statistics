@@ -175,11 +175,11 @@ const createColumns = (pluginUrl: string): ColumnDef<OnlineVisitor>[] => [
     cell: ({ row }) => {
       const views = row.original.totalViews
       return (
-        <div className="text-right">
+        <div className="text-right pr-4">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <span className="cursor-pointer pr-4">{views.toLocaleString()}</span>
+                <span className="cursor-pointer">{views.toLocaleString()}</span>
               </TooltipTrigger>
               <TooltipContent>
                 <p>{views.toLocaleString()} Page Views in current session</p>
@@ -199,7 +199,7 @@ const createColumns = (pluginUrl: string): ColumnDef<OnlineVisitor>[] => [
         visitor.entryPageTitle.length > 35 ? `${visitor.entryPageTitle.substring(0, 35)}...` : visitor.entryPageTitle
 
       return (
-        <div className="max-w-md">
+        <div className="max-w-md inline-flex items-start">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -227,7 +227,7 @@ const createColumns = (pluginUrl: string): ColumnDef<OnlineVisitor>[] => [
     cell: ({ row }) => {
       const visitor = row.original
       return (
-        <div className="flex flex-col items-start gap-1">
+        <div className="inline-flex flex-col items-start gap-1">
           {visitor.referrerDomain && (
             <TooltipProvider>
               <Tooltip>

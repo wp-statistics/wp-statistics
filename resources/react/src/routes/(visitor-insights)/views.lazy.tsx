@@ -165,7 +165,7 @@ const createColumns = (pluginUrl: string): ColumnDef<ViewData>[] => [
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className="cursor-pointer max-w-md">{displayTitle}</div>
+              <div className="cursor-pointer max-w-md inline-flex">{displayTitle}</div>
             </TooltipTrigger>
             <TooltipContent>
               <p>{page.url}</p>
@@ -189,7 +189,7 @@ const createColumns = (pluginUrl: string): ColumnDef<ViewData>[] => [
         return `${domain.substring(0, maxLength)}…${suffix}`
       }
       return (
-        <div>
+        <div className="inline-flex flex-col items-start">
           {referrer.domain && (
             <TooltipProvider>
               <Tooltip>
@@ -223,7 +223,7 @@ const createColumns = (pluginUrl: string): ColumnDef<ViewData>[] => [
       const entryPage = row.getValue('entryPage') as ViewData['entryPage']
       const displayTitle = entryPage.title.length > 35 ? `${entryPage.title.substring(0, 35)}…` : entryPage.title
       return (
-        <div className="max-w-md">
+        <div className="max-w-md inline-flex flex-col items-start">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -264,11 +264,11 @@ const createColumns = (pluginUrl: string): ColumnDef<ViewData>[] => [
       const totalViews = row.getValue('totalViews') as number
       const formattedViews = totalViews.toLocaleString()
       return (
-        <div className="text-right">
+        <div className="text-right pr-4">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <span className="cursor-pointer pr-4">{formattedViews}</span>
+                <span className="cursor-pointer">{formattedViews}</span>
               </TooltipTrigger>
               <TooltipContent>
                 <p>{formattedViews} Page Views from this visitor in selected period</p>

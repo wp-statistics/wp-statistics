@@ -1,7 +1,6 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 import { DataTable } from '@/components/custom/data-table'
-import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Info } from 'lucide-react'
@@ -201,7 +200,7 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
         visitor.entryPageTitle.length > 35 ? `${visitor.entryPageTitle.substring(0, 35)}...` : visitor.entryPageTitle
 
       return (
-        <div className="max-w-md">
+        <div className="max-w-md inline-flex flex-col items-start">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -244,7 +243,7 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
         visitor.exitPageTitle.length > 35 ? `${visitor.exitPageTitle.substring(0, 35)}...` : visitor.exitPageTitle
 
       return (
-        <div className="max-w-md">
+        <div className="max-w-md inline-flex flex-col items-start">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -265,11 +264,11 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
     cell: ({ row }) => {
       const views = row.original.totalViews
       return (
-        <div className="text-right">
+        <div className="text-right pr-4">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <span className="cursor-pointer pr-4">{views.toLocaleString()}</span>
+                <span className="cursor-pointer">{views.toLocaleString()}</span>
               </TooltipTrigger>
               <TooltipContent>
                 <p>{views.toLocaleString()} Page Views from this visitor in selected period</p>
@@ -286,11 +285,11 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
     cell: ({ row }) => {
       const sessions = row.original.totalSessions
       return (
-        <div className="text-right">
+        <div className="text-right pr-4">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <span className="cursor-pointer pr-4">{sessions.toLocaleString()}</span>
+                <span className="cursor-pointer">{sessions.toLocaleString()}</span>
               </TooltipTrigger>
               <TooltipContent>
                 <p>
@@ -314,11 +313,11 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
       const formatted = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
 
       return (
-        <div className="text-right">
+        <div className="text-right pr-4">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <span className="cursor-pointer pr-4">{formatted}</span>
+                <span className="cursor-pointer">{formatted}</span>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Average session duration: {formatted}</p>
@@ -336,11 +335,11 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
     cell: ({ row }) => {
       const value = row.original.viewsPerSession
       return (
-        <div className="text-right">
+        <div className="text-right pr-4">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <span className="cursor-pointer pr-4">{value.toFixed(1)}</span>
+                <span className="cursor-pointer">{value.toFixed(1)}</span>
               </TooltipTrigger>
               <TooltipContent>
                 <p>{value.toFixed(1)} average page views per session</p>
@@ -358,11 +357,11 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
     cell: ({ row }) => {
       const rate = row.original.bounceRate
       return (
-        <div className="text-right">
+        <div className="text-right pr-4">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <span className="cursor-pointer pr-4">{rate}%</span>
+                <span className="cursor-pointer">{rate}%</span>
               </TooltipTrigger>
               <TooltipContent>
                 <p>{rate}% of sessions viewed only one page</p>
@@ -390,11 +389,9 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <div>
-                <Badge variant={isNew ? 'default' : 'secondary'} className="text-xs font-normal capitalize">
-                  {visitor.visitorStatus}
-                </Badge>
-              </div>
+              <Badge variant={isNew ? 'default' : 'secondary'} className="text-xs font-normal capitalize">
+                {visitor.visitorStatus}
+              </Badge>
             </TooltipTrigger>
             <TooltipContent>
               <p>{isNew ? `First visit: ${firstVisitDate}` : `Returning visitor since ${firstVisitDate}`}</p>
