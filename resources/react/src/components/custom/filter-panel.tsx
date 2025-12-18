@@ -1,6 +1,6 @@
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { FilterRow, type FilterField, type FilterRowData } from '@/components/custom/filter-row'
+import { FilterRow, getOperatorType, type FilterField, type FilterRowData, type FilterValue } from '@/components/custom/filter-row'
 import { __ } from '@wordpress/i18n'
 
 export interface FilterPanelProps {
@@ -14,14 +14,27 @@ function generateFilterId(): string {
   return `filter-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
 }
 
+// Get initial value based on operator type
+function getInitialValue(operator: FilterOperator): FilterValue {
+  const operatorType = getOperatorType(operator)
+  if (operatorType === 'range') {
+    return { min: '', max: '' }
+  }
+  if (operatorType === 'multiple') {
+    return []
+  }
+  return ''
+}
+
 function FilterPanel({ filters, fields, onFiltersChange, onApply }: FilterPanelProps) {
   const handleAddFilter = () => {
     const defaultField = fields[0]
+    const defaultOperator = defaultField?.supportedOperators[0] || 'is'
     const newFilter: FilterRowData = {
       id: generateFilterId(),
       fieldName: defaultField?.name || ('country' as FilterFieldName),
-      operator: defaultField?.supportedOperators[0] || 'is',
-      value: '',
+      operator: defaultOperator,
+      value: getInitialValue(defaultOperator),
     }
     onFiltersChange([...filters, newFilter])
   }

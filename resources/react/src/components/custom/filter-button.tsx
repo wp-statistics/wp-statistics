@@ -3,7 +3,18 @@ import { Filter, ChevronRight } from 'lucide-react'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Button } from '@/components/ui/button'
 import { FilterPanel, generateFilterId } from '@/components/custom/filter-panel'
-import { getOperatorLabel, type FilterField, type FilterRowData } from '@/components/custom/filter-row'
+import {
+  getOperatorLabel,
+  getOperatorType,
+  isRangeValue,
+  getSingleValue,
+  getArrayValue,
+  getRangeValue,
+  type FilterField,
+  type FilterRowData,
+  type FilterValue,
+  type RangeValue,
+} from '@/components/custom/filter-row'
 import type { Filter as AppliedFilter } from '@/components/custom/filter-bar'
 import { __ } from '@wordpress/i18n'
 import { cn } from '@/lib/utils'
@@ -24,8 +35,43 @@ const getOperatorDisplay = (operator: FilterOperator): string => {
     lte: '<=',
     is: '=',
     is_not: '!=',
+    between: __('between', 'wp-statistics'),
+    in: __('in', 'wp-statistics'),
+    not_in: __('not in', 'wp-statistics'),
   }
   return displayMap[operator] ?? getOperatorLabel(operator)
+}
+
+// Format value for display in filter chip
+const formatValueForDisplay = (value: FilterValue, operator: FilterOperator): string => {
+  const operatorType = getOperatorType(operator)
+
+  if (operatorType === 'range' && isRangeValue(value)) {
+    return `${value.min} - ${value.max}`
+  }
+
+  if (operatorType === 'multiple' && Array.isArray(value)) {
+    return value.join(', ')
+  }
+
+  return getSingleValue(value)
+}
+
+// Check if filter has a valid value
+const hasValidValue = (value: FilterValue, operator: FilterOperator): boolean => {
+  const operatorType = getOperatorType(operator)
+
+  if (operatorType === 'range') {
+    const range = getRangeValue(value)
+    return range.min !== '' || range.max !== ''
+  }
+
+  if (operatorType === 'multiple') {
+    const arr = getArrayValue(value)
+    return arr.length > 0
+  }
+
+  return getSingleValue(value) !== ''
 }
 
 function FilterButton({ fields, appliedFilters, onApplyFilters, className }: FilterButtonProps) {
@@ -56,14 +102,14 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className }: Fil
   const handleApply = () => {
     // Convert pending filters to applied filters
     const newAppliedFilters: AppliedFilter[] = pendingFilters
-      .filter((f) => f.value !== '') // Only include filters with values
+      .filter((f) => hasValidValue(f.value, f.operator))
       .map((f) => {
         const field = fields.find((field) => field.name === f.fieldName)
         return {
           id: `${f.fieldName}-${f.id}`,
           label: field?.label || f.fieldName,
           operator: getOperatorDisplay(f.operator),
-          value: typeof f.value === 'string' ? f.value : String(f.value),
+          value: formatValueForDisplay(f.value, f.operator),
         }
       })
 
@@ -100,5 +146,5 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className }: Fil
   )
 }
 
-export { FilterButton, generateFilterId, getOperatorDisplay, getOperatorLabel }
-export type { FilterField, FilterRowData, FilterOperator }
+export { FilterButton, generateFilterId, getOperatorDisplay, getOperatorLabel, formatValueForDisplay, hasValidValue }
+export type { FilterField, FilterRowData, FilterValue, RangeValue }
