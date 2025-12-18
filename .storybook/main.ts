@@ -16,7 +16,10 @@ const config: StorybookConfig = {
     name: '@storybook/react-vite',
     options: {},
   },
-  staticDirs: ['./public'],
+  staticDirs: [
+    './public',
+    { from: '../resources/images', to: '/public/images' },
+  ],
   viteFinal: async (config) => {
     // Merge custom Vite configuration
     return {
