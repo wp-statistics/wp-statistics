@@ -750,11 +750,16 @@ class QueryExecutor implements QueryExecutorInterface
     /**
      * Get full table name with prefix.
      *
-     * @param string $table Short table name.
+     * @param string $table Short table name or full WordPress core table name.
      * @return string
      */
     private function getFullTableName(string $table): string
     {
+        // If table already has WordPress prefix (e.g., wp_users), don't add statistics prefix
+        if (strpos($table, $this->wpdb->prefix) === 0) {
+            return $table;
+        }
+
         return $this->tablePrefix . $table;
     }
 

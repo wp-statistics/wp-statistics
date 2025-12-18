@@ -41,6 +41,9 @@ class VisitorGroupBy extends AbstractGroupBy
      * Other joins (countries, cities, etc.) are done via subqueries
      * to support proper attribution.
      *
+     * Entry/exit page joins are added dynamically in getJoins() method
+     * to support efficient attribution-based lookups.
+     *
      * @var array
      */
     protected $joins = [
@@ -58,6 +61,20 @@ class VisitorGroupBy extends AbstractGroupBy
      * @var string
      */
     private $tablePrefix;
+
+    /**
+     * Requested columns cache for join optimization.
+     *
+     * @var array
+     */
+    private $requestedColumnsCache = [];
+
+    /**
+     * Attribution model cache.
+     *
+     * @var string
+     */
+    private $attributionCache = 'first_touch';
 
     /**
      * Constructor.
@@ -112,168 +129,267 @@ class VisitorGroupBy extends AbstractGroupBy
         $resourceUrisTable   = $this->tablePrefix . 'resource_uris';
         $resourcesTable      = $this->tablePrefix . 'resources';
 
+        // Cache for join generation
+        $this->requestedColumnsCache = $requestedColumns;
+        $this->attributionCache = $attribution;
+
         $columns = [];
+        $order = $orderDirection; // ASC or DESC
+
+        // OPTIMIZED: Use GROUP_CONCAT + SUBSTRING_INDEX instead of correlated subqueries
+        // This is MUCH faster because it eliminates per-row subqueries
 
         // User info from attributed session
         if ($includeAll || in_array('user_id', $requestedColumns, true)) {
-            $columns[] = $this->buildSubquery(
-                "s.user_id",
-                $sessionsTable,
-                $orderDirection
-            ) . ' AS user_id';
+            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT sessions.user_id ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS user_id";
         }
 
         if ($includeAll || in_array('user_login', $requestedColumns, true)) {
-            global $wpdb;
-            $usersTable = $wpdb->users;
-            $columns[] = $this->buildSubquery(
-                "u.user_login",
-                $sessionsTable,
-                $orderDirection,
-                "LEFT JOIN {$usersTable} u ON s.user_id = u.ID"
-            ) . ' AS user_login';
+            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT attr_user.user_login ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS user_login";
         }
 
         if ($includeAll || in_array('ip_address', $requestedColumns, true)) {
-            $columns[] = $this->buildSubquery(
-                "s.ip",
-                $sessionsTable,
-                $orderDirection
-            ) . ' AS ip_address';
+            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT sessions.ip ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS ip_address";
         }
 
         // Country from attributed session
         if ($includeAll || in_array('country_code', $requestedColumns, true)) {
-            $columns[] = $this->buildSubquery(
-                "c.code",
-                $sessionsTable,
-                $orderDirection,
-                "LEFT JOIN {$countriesTable} c ON s.country_id = c.ID"
-            ) . ' AS country_code';
+            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT attr_country.code ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS country_code";
         }
 
         if ($includeAll || in_array('country_name', $requestedColumns, true)) {
-            $columns[] = $this->buildSubquery(
-                "c.name",
-                $sessionsTable,
-                $orderDirection,
-                "LEFT JOIN {$countriesTable} c ON s.country_id = c.ID"
-            ) . ' AS country_name';
+            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT attr_country.name ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS country_name";
         }
 
         // City/Region from attributed session
         if ($includeAll || in_array('city_name', $requestedColumns, true)) {
-            $columns[] = $this->buildSubquery(
-                "ct.city_name",
-                $sessionsTable,
-                $orderDirection,
-                "LEFT JOIN {$citiesTable} ct ON s.city_id = ct.ID"
-            ) . ' AS city_name';
+            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT attr_city.city_name ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS city_name";
         }
 
         if ($includeAll || in_array('region_name', $requestedColumns, true)) {
-            $columns[] = $this->buildSubquery(
-                "ct.region_name",
-                $sessionsTable,
-                $orderDirection,
-                "LEFT JOIN {$citiesTable} ct ON s.city_id = ct.ID"
-            ) . ' AS region_name';
+            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT attr_city.region_name ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS region_name";
         }
 
         // Device info from attributed session
         if ($includeAll || in_array('device_type_name', $requestedColumns, true)) {
-            $columns[] = $this->buildSubquery(
-                "dt.name",
-                $sessionsTable,
-                $orderDirection,
-                "LEFT JOIN {$deviceTypesTable} dt ON s.device_type_id = dt.ID"
-            ) . ' AS device_type_name';
+            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT attr_device_type.name ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS device_type_name";
         }
 
         if ($includeAll || in_array('os_name', $requestedColumns, true)) {
-            $columns[] = $this->buildSubquery(
-                "dos.name",
-                $sessionsTable,
-                $orderDirection,
-                "LEFT JOIN {$deviceOssTable} dos ON s.device_os_id = dos.ID"
-            ) . ' AS os_name';
+            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT attr_os.name ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS os_name";
         }
 
         if ($includeAll || in_array('browser_name', $requestedColumns, true)) {
-            $columns[] = $this->buildSubquery(
-                "db.name",
-                $sessionsTable,
-                $orderDirection,
-                "LEFT JOIN {$deviceBrowsersTable} db ON s.device_browser_id = db.ID"
-            ) . ' AS browser_name';
+            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT attr_browser.name ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS browser_name";
         }
 
         // Referrer info from attributed session
         if ($includeAll || in_array('referrer_domain', $requestedColumns, true)) {
-            $columns[] = $this->buildSubquery(
-                "r.domain",
-                $sessionsTable,
-                $orderDirection,
-                "LEFT JOIN {$referrersTable} r ON s.referrer_id = r.ID"
-            ) . ' AS referrer_domain';
+            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT attr_referrer.domain ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS referrer_domain";
         }
 
         if ($includeAll || in_array('referrer_channel', $requestedColumns, true)) {
-            $columns[] = $this->buildSubquery(
-                "r.channel",
-                $sessionsTable,
-                $orderDirection,
-                "LEFT JOIN {$referrersTable} r ON s.referrer_id = r.ID"
-            ) . ' AS referrer_channel';
+            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT attr_referrer.channel ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS referrer_channel";
         }
 
-        // Entry page (first page in session) - optimized with single subquery for both fields
+        // Entry/Exit pages - optimized using MIN/MAX with GROUP BY instead of subqueries
+        // This is MUCH faster because it uses indexed lookups instead of correlated subqueries
+
+        // Determine if we need entry/exit page columns
         $needsEntryPage = $includeAll || in_array('entry_page', $requestedColumns, true) || in_array('entry_page_title', $requestedColumns, true);
-
-        if ($needsEntryPage) {
-            // Use single subquery to get entry page data (uri and title together for efficiency)
-            $columns[] = $this->buildSubquery(
-                "ru_entry.uri",
-                $sessionsTable,
-                $orderDirection,
-                "LEFT JOIN {$viewsTable} v_entry ON s.initial_view_id = v_entry.ID
-        LEFT JOIN {$resourceUrisTable} ru_entry ON v_entry.resource_uri_id = ru_entry.ID"
-            ) . ' AS entry_page';
-
-            $columns[] = $this->buildSubquery(
-                "res_entry.cached_title",
-                $sessionsTable,
-                $orderDirection,
-                "LEFT JOIN {$viewsTable} v_entry ON s.initial_view_id = v_entry.ID
-        LEFT JOIN {$resourceUrisTable} ru_entry ON v_entry.resource_uri_id = ru_entry.ID
-        LEFT JOIN {$resourcesTable} res_entry ON ru_entry.resource_id = res_entry.ID"
-            ) . ' AS entry_page_title';
-        }
-
-        // Exit page (last page in session) - optimized with single subquery for both fields
         $needsExitPage = $includeAll || in_array('exit_page', $requestedColumns, true) || in_array('exit_page_title', $requestedColumns, true);
 
-        if ($needsExitPage) {
-            // Use single subquery to get exit page data (uri and title together for efficiency)
-            $columns[] = $this->buildSubquery(
-                "ru_exit.uri",
-                $sessionsTable,
-                $orderDirection,
-                "LEFT JOIN {$viewsTable} v_exit ON s.last_view_id = v_exit.ID
-        LEFT JOIN {$resourceUrisTable} ru_exit ON v_exit.resource_uri_id = ru_exit.ID"
-            ) . ' AS exit_page';
+        if ($needsEntryPage || $needsExitPage) {
+            // Cache for join generation
+            $this->requestedColumnsCache = $requestedColumns;
+            $this->attributionCache = $attribution;
 
-            $columns[] = $this->buildSubquery(
-                "res_exit.cached_title",
-                $sessionsTable,
-                $orderDirection,
-                "LEFT JOIN {$viewsTable} v_exit ON s.last_view_id = v_exit.ID
-        LEFT JOIN {$resourceUrisTable} ru_exit ON v_exit.resource_uri_id = ru_exit.ID
-        LEFT JOIN {$resourcesTable} res_exit ON ru_exit.resource_id = res_exit.ID"
-            ) . ' AS exit_page_title';
+            // We'll use aggregate functions on the joined data
+            // The joins will be added in getJoins() method
+
+            if ($needsEntryPage) {
+                // Get entry page from attributed session using GROUP_CONCAT + SUBSTRING_INDEX
+                // This gets the entry page from the first/last session by started_at (much faster than subquery!)
+                $order = $attribution === 'last_touch' ? 'DESC' : 'ASC';
+
+                if ($includeAll || in_array('entry_page', $requestedColumns, true)) {
+                    $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(entry_page_uri.uri ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS entry_page";
+                }
+
+                if ($includeAll || in_array('entry_page_title', $requestedColumns, true)) {
+                    $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(entry_page_resource.cached_title ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS entry_page_title";
+                }
+            }
+
+            if ($needsExitPage) {
+                // Get exit page from attributed session using GROUP_CONCAT + SUBSTRING_INDEX
+                $order = $attribution === 'last_touch' ? 'DESC' : 'ASC';
+
+                if ($includeAll || in_array('exit_page', $requestedColumns, true)) {
+                    $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(exit_page_uri.uri ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS exit_page";
+                }
+
+                if ($includeAll || in_array('exit_page_title', $requestedColumns, true)) {
+                    $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(exit_page_resource.cached_title ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS exit_page_title";
+                }
+            }
         }
 
         return $columns;
+    }
+
+    /**
+     * Get joins with dynamic entry/exit page joins.
+     *
+     * Override parent to add conditional joins for entry/exit page lookups
+     * when those columns are requested.
+     *
+     * @return array Array of join configurations.
+     */
+    public function getJoins(): array
+    {
+        $joins = $this->joins;
+
+        // Check what columns were requested
+        $requestedColumns = $this->requestedColumnsCache;
+        $includeAll = empty($requestedColumns);
+
+        // Add attributed session data joins (for country, browser, OS, referrer, user, etc.)
+        // These replace correlated subqueries for MUCH better performance
+
+        // User joins
+        if ($includeAll || in_array('user_login', $requestedColumns, true)) {
+            global $wpdb;
+            $joins[] = [
+                'table' => $wpdb->users,
+                'alias' => 'attr_user',
+                'on'    => 'sessions.user_id = attr_user.ID',
+                'type'  => 'LEFT',
+            ];
+        }
+
+        // Country joins
+        if ($includeAll || in_array('country_code', $requestedColumns, true) || in_array('country_name', $requestedColumns, true)) {
+            $joins[] = [
+                'table' => 'countries',
+                'alias' => 'attr_country',
+                'on'    => 'sessions.country_id = attr_country.ID',
+                'type'  => 'LEFT',
+            ];
+        }
+
+        // City joins
+        if ($includeAll || in_array('city_name', $requestedColumns, true) || in_array('region_name', $requestedColumns, true)) {
+            $joins[] = [
+                'table' => 'cities',
+                'alias' => 'attr_city',
+                'on'    => 'sessions.city_id = attr_city.ID',
+                'type'  => 'LEFT',
+            ];
+        }
+
+        // Device type joins
+        if ($includeAll || in_array('device_type_name', $requestedColumns, true)) {
+            $joins[] = [
+                'table' => 'device_types',
+                'alias' => 'attr_device_type',
+                'on'    => 'sessions.device_type_id = attr_device_type.ID',
+                'type'  => 'LEFT',
+            ];
+        }
+
+        // OS joins
+        if ($includeAll || in_array('os_name', $requestedColumns, true)) {
+            $joins[] = [
+                'table' => 'device_oss',
+                'alias' => 'attr_os',
+                'on'    => 'sessions.device_os_id = attr_os.ID',
+                'type'  => 'LEFT',
+            ];
+        }
+
+        // Browser joins
+        if ($includeAll || in_array('browser_name', $requestedColumns, true)) {
+            $joins[] = [
+                'table' => 'device_browsers',
+                'alias' => 'attr_browser',
+                'on'    => 'sessions.device_browser_id = attr_browser.ID',
+                'type'  => 'LEFT',
+            ];
+        }
+
+        // Referrer joins
+        if ($includeAll || in_array('referrer_domain', $requestedColumns, true) || in_array('referrer_channel', $requestedColumns, true)) {
+            $joins[] = [
+                'table' => 'referrers',
+                'alias' => 'attr_referrer',
+                'on'    => 'sessions.referrer_id = attr_referrer.ID',
+                'type'  => 'LEFT',
+            ];
+        }
+
+        // Entry/exit page joins
+        $needsEntryPage = $includeAll ||
+            in_array('entry_page', $requestedColumns, true) ||
+            in_array('entry_page_title', $requestedColumns, true);
+
+        $needsExitPage = $includeAll ||
+            in_array('exit_page', $requestedColumns, true) ||
+            in_array('exit_page_title', $requestedColumns, true);
+
+        // Add entry page joins if needed
+        if ($needsEntryPage) {
+            $joins[] = [
+                'table' => 'views',
+                'alias' => 'entry_page_view',
+                'on'    => 'sessions.initial_view_id = entry_page_view.ID',
+                'type'  => 'LEFT',
+            ];
+
+            $joins[] = [
+                'table' => 'resource_uris',
+                'alias' => 'entry_page_uri',
+                'on'    => 'entry_page_view.resource_uri_id = entry_page_uri.ID',
+                'type'  => 'LEFT',
+            ];
+
+            if ($includeAll || in_array('entry_page_title', $requestedColumns, true)) {
+                $joins[] = [
+                    'table' => 'resources',
+                    'alias' => 'entry_page_resource',
+                    'on'    => 'entry_page_uri.resource_id = entry_page_resource.ID',
+                    'type'  => 'LEFT',
+                ];
+            }
+        }
+
+        // Add exit page joins if needed
+        if ($needsExitPage) {
+            $joins[] = [
+                'table' => 'views',
+                'alias' => 'exit_page_view',
+                'on'    => 'sessions.last_view_id = exit_page_view.ID',
+                'type'  => 'LEFT',
+            ];
+
+            $joins[] = [
+                'table' => 'resource_uris',
+                'alias' => 'exit_page_uri',
+                'on'    => 'exit_page_view.resource_uri_id = exit_page_uri.ID',
+                'type'  => 'LEFT',
+            ];
+
+            if ($includeAll || in_array('exit_page_title', $requestedColumns, true)) {
+                $joins[] = [
+                    'table' => 'resources',
+                    'alias' => 'exit_page_resource',
+                    'on'    => 'exit_page_uri.resource_id = exit_page_resource.ID',
+                    'type'  => 'LEFT',
+                ];
+            }
+        }
+
+        return $joins;
     }
 
     /**
