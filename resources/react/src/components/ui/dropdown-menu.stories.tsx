@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { expect, userEvent, within } from '@storybook/test'
 import { Cloud, CreditCard, Github, Keyboard, LifeBuoy, LogOut, Mail, MessageSquare, Plus, PlusCircle, Settings, User, UserPlus, Users } from 'lucide-react'
 
 import { Button } from './button'
@@ -71,6 +72,28 @@ export const Default: Story = {
       </DropdownMenuContent>
     </DropdownMenu>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const trigger = canvas.getByRole('button', { name: /open menu/i })
+
+    await expect(trigger).toBeInTheDocument()
+
+    // Open the dropdown
+    await userEvent.click(trigger)
+
+    // Wait for menu to appear and check items
+    const profileItem = await within(document.body).findByText('Profile')
+    await expect(profileItem).toBeInTheDocument()
+
+    const billingItem = within(document.body).getByText('Billing')
+    await expect(billingItem).toBeInTheDocument()
+
+    const logoutItem = within(document.body).getByText('Log out')
+    await expect(logoutItem).toBeInTheDocument()
+
+    // Close the dropdown by pressing Escape
+    await userEvent.keyboard('{Escape}')
+  },
 }
 
 export const WithSubMenu: Story = {

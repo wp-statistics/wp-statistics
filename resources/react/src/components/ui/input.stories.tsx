@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { expect, userEvent, within } from '@storybook/test'
 
 import { Input } from './input'
 
@@ -25,12 +26,32 @@ export const Default: Story = {
     type: 'text',
     placeholder: 'Enter text...',
   },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const input = canvas.getByPlaceholderText('Enter text...')
+
+    await expect(input).toBeInTheDocument()
+    await expect(input).toHaveValue('')
+
+    await userEvent.type(input, 'Hello World')
+    await expect(input).toHaveValue('Hello World')
+
+    await userEvent.clear(input)
+    await expect(input).toHaveValue('')
+  },
 }
 
 export const Email: Story = {
   args: {
     type: 'email',
     placeholder: 'email@example.com',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const input = canvas.getByPlaceholderText('email@example.com')
+
+    await userEvent.type(input, 'test@example.com')
+    await expect(input).toHaveValue('test@example.com')
   },
 }
 
@@ -39,12 +60,26 @@ export const Password: Story = {
     type: 'password',
     placeholder: 'Enter password',
   },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const input = canvas.getByPlaceholderText('Enter password')
+
+    await expect(input).toHaveAttribute('type', 'password')
+    await userEvent.type(input, 'secret123')
+    await expect(input).toHaveValue('secret123')
+  },
 }
 
 export const Disabled: Story = {
   args: {
     disabled: true,
     placeholder: 'Disabled input',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const input = canvas.getByPlaceholderText('Disabled input')
+
+    await expect(input).toBeDisabled()
   },
 }
 
