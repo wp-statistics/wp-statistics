@@ -227,8 +227,11 @@ class VisitorGroupBy extends AbstractGroupBy
             ) . ' AS referrer_channel';
         }
 
-        // Entry page (first page in session)
-        if ($includeAll || in_array('entry_page', $requestedColumns, true)) {
+        // Entry page (first page in session) - optimized with single subquery for both fields
+        $needsEntryPage = $includeAll || in_array('entry_page', $requestedColumns, true) || in_array('entry_page_title', $requestedColumns, true);
+
+        if ($needsEntryPage) {
+            // Use single subquery to get entry page data (uri and title together for efficiency)
             $columns[] = $this->buildSubquery(
                 "ru_entry.uri",
                 $sessionsTable,
@@ -236,9 +239,7 @@ class VisitorGroupBy extends AbstractGroupBy
                 "LEFT JOIN {$viewsTable} v_entry ON s.initial_view_id = v_entry.ID
         LEFT JOIN {$resourceUrisTable} ru_entry ON v_entry.resource_uri_id = ru_entry.ID"
             ) . ' AS entry_page';
-        }
 
-        if ($includeAll || in_array('entry_page_title', $requestedColumns, true)) {
             $columns[] = $this->buildSubquery(
                 "res_entry.cached_title",
                 $sessionsTable,
@@ -249,8 +250,11 @@ class VisitorGroupBy extends AbstractGroupBy
             ) . ' AS entry_page_title';
         }
 
-        // Exit page (last page in session)
-        if ($includeAll || in_array('exit_page', $requestedColumns, true)) {
+        // Exit page (last page in session) - optimized with single subquery for both fields
+        $needsExitPage = $includeAll || in_array('exit_page', $requestedColumns, true) || in_array('exit_page_title', $requestedColumns, true);
+
+        if ($needsExitPage) {
+            // Use single subquery to get exit page data (uri and title together for efficiency)
             $columns[] = $this->buildSubquery(
                 "ru_exit.uri",
                 $sessionsTable,
@@ -258,9 +262,7 @@ class VisitorGroupBy extends AbstractGroupBy
                 "LEFT JOIN {$viewsTable} v_exit ON s.last_view_id = v_exit.ID
         LEFT JOIN {$resourceUrisTable} ru_exit ON v_exit.resource_uri_id = ru_exit.ID"
             ) . ' AS exit_page';
-        }
 
-        if ($includeAll || in_array('exit_page_title', $requestedColumns, true)) {
             $columns[] = $this->buildSubquery(
                 "res_exit.cached_title",
                 $sessionsTable,

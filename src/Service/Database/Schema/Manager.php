@@ -228,6 +228,8 @@ class Manager
                 'KEY country_id (country_id)',
                 'KEY city_id (city_id)',
                 'KEY referrer_id (referrer_id)',
+                'KEY initial_view_id (initial_view_id)',
+                'KEY last_view_id (last_view_id)',
                 'KEY idx_started_at_id (started_at, ID)',
                 'KEY idx_started_visitor (started_at, visitor_id)',
                 'KEY idx_user_started (user_id, started_at)',
