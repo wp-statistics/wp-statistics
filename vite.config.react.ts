@@ -1,16 +1,29 @@
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { cpSync, rmSync } from 'node:fs'
 
 import tailwindcss from '@tailwindcss/vite'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import { wpI18n } from './vite-plugin-wp-i18n.js'
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
 
 import postcssImportantPlugin from './postcss-important-plugin.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
+
+function copyImagesPlugin(): Plugin {
+  return {
+    name: 'copy-images',
+    writeBundle() {
+      const src = resolve(__dirname, 'resources/images')
+      const dest = resolve(__dirname, 'public/images')
+      rmSync(dest, { recursive: true, force: true })
+      cpSync(src, dest, { recursive: true })
+    },
+  }
+}
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
@@ -28,6 +41,7 @@ export default defineConfig(({ mode }) => {
       react(),
       tailwindcss(),
       wpI18n({ textDomain: 'wp-statistics' }),
+      copyImagesPlugin(),
     ],
     css: {
       postcss: {

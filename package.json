@@ -5,8 +5,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "npm run build:legacy && npm run build:react && npm run copy:images",
-    "copy:images": "rm -rf public/images && cp -r resources/images public/images",
+    "build": "npm run build:legacy && npm run build:react",
     "build:legacy": "vite build --config vite.config.legacy.js",
     "build:react": "vite build --config vite.config.react.ts",
     "start": "npm run dev",
