@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { expect, fn, userEvent, within } from '@storybook/test'
 
 import { FilterChip } from './filter-chip'
 
@@ -16,7 +17,7 @@ const meta = {
     },
   },
   args: {
-    onRemove: () => {},
+    onRemove: fn(),
   },
 } satisfies Meta<typeof FilterChip>
 
@@ -28,6 +29,19 @@ export const Default: Story = {
     label: 'Views',
     operator: '<',
     value: 10,
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement)
+
+    // Verify the chip displays correct content
+    await expect(canvas.getByText('Views')).toBeInTheDocument()
+    await expect(canvas.getByText('<')).toBeInTheDocument()
+    await expect(canvas.getByText('10')).toBeInTheDocument()
+
+    // Find and click the remove button
+    const removeButton = canvas.getByRole('button')
+    await userEvent.click(removeButton)
+    await expect(args.onRemove).toHaveBeenCalledTimes(1)
   },
 }
 

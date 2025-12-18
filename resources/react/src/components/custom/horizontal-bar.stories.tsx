@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { expect, within } from '@storybook/test'
 
 import { HorizontalBar } from './horizontal-bar'
 
@@ -33,6 +34,14 @@ export const Default: Story = {
     value: '1K',
     percentage: '15',
     isNegative: true,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Verify bar displays correct content
+    await expect(canvas.getByText('Georgia')).toBeInTheDocument()
+    await expect(canvas.getByText('1K')).toBeInTheDocument()
+    await expect(canvas.getByText('15%')).toBeInTheDocument()
   },
 }
 

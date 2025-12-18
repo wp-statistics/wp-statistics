@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { expect, fn, userEvent, within } from '@storybook/test'
 
 import { FilterBar } from './filter-bar'
 
@@ -10,7 +11,7 @@ const meta = {
   },
   tags: ['autodocs'],
   args: {
-    onRemoveFilter: () => {},
+    onRemoveFilter: fn(),
   },
 } satisfies Meta<typeof FilterBar>
 
@@ -26,6 +27,19 @@ export const Default: Story = {
       { id: 'bounce-rate', label: 'Bounce Rate', operator: '>', value: 4 },
       { id: 'url', label: 'URL', operator: 'Contains', value: 2 },
     ],
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement)
+
+    // Verify filters are displayed
+    await expect(canvas.getByText('Visitor Growth')).toBeInTheDocument()
+    await expect(canvas.getByText('Views')).toBeInTheDocument()
+    await expect(canvas.getByText('Exits')).toBeInTheDocument()
+
+    // Click remove on first filter
+    const removeButtons = canvas.getAllByRole('button')
+    await userEvent.click(removeButtons[0])
+    await expect(args.onRemoveFilter).toHaveBeenCalledWith('visitor-growth')
   },
 }
 

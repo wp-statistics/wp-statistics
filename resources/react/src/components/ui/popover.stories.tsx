@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { expect, userEvent, within } from '@storybook/test'
 
 import { Button } from './button'
 import { Input } from './input'
@@ -58,6 +59,22 @@ export const Default: Story = {
       </PopoverContent>
     </Popover>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const trigger = canvas.getByRole('button', { name: /open popover/i })
+
+    await expect(trigger).toBeInTheDocument()
+
+    // Open the popover
+    await userEvent.click(trigger)
+
+    // Verify popover content is visible
+    const title = await within(document.body).findByText('Dimensions')
+    await expect(title).toBeInTheDocument()
+
+    // Close by clicking outside or pressing Escape
+    await userEvent.keyboard('{Escape}')
+  },
 }
 
 export const Simple: Story = {

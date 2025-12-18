@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { expect, within } from '@storybook/test'
 
 import { HorizontalBarList } from './horizontal-bar-list'
 
@@ -65,6 +66,20 @@ export const Default: Story = {
       title: 'View Referees',
       action: () => {},
     },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Verify title is displayed
+    await expect(canvas.getByText('Top Referrers')).toBeInTheDocument()
+
+    // Verify items are displayed
+    await expect(canvas.getByText('France')).toBeInTheDocument()
+    await expect(canvas.getByText('United Kingdom')).toBeInTheDocument()
+    await expect(canvas.getByText('Germany')).toBeInTheDocument()
+
+    // Verify link is displayed
+    await expect(canvas.getByText('View Referees')).toBeInTheDocument()
   },
 }
 
