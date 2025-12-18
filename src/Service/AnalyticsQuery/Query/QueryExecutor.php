@@ -505,6 +505,7 @@ class QueryExecutor implements QueryExecutorInterface
         $perPage      = $query->getPerPage();
         $offset       = ($page - 1) * $perPage;
         $attribution  = Option::getValue('attribution_model', 'first_touch');
+        $requestedColumns = $query->getColumns() ?: [];
 
         // Determine primary table
         $primaryTable = $this->determinePrimaryTable($sources, $groupByNames, $filters);
@@ -516,14 +517,14 @@ class QueryExecutor implements QueryExecutorInterface
             $joins = $this->addSessionJoinForViews($joins);
         }
 
-        // Add group by columns and joins
+        // Add group by columns and joins (pass requested columns for optimization)
         foreach ($groupByNames as $groupByName) {
             $groupByItem = $this->groupByRegistry->get($groupByName);
             if (!$groupByItem) {
                 continue;
             }
 
-            $select  = array_merge($select, $groupByItem->getSelectColumns($attribution));
+            $select  = array_merge($select, $groupByItem->getSelectColumns($attribution, $requestedColumns));
             $joins   = array_merge($joins, $this->normalizeJoins($groupByItem->getJoins()));
 
             if ($groupByItem->getGroupBy()) {
@@ -677,8 +678,8 @@ class QueryExecutor implements QueryExecutorInterface
         foreach ($groupByNames as $groupByName) {
             $groupByItem = $this->groupByRegistry->get($groupByName);
             if ($groupByItem) {
-                // Get the group by column to check if it matches
-                $selectColumns = $groupByItem->getSelectColumns();
+                // Get the group by column to check if it matches (pass empty array to get all)
+                $selectColumns = $groupByItem->getSelectColumns('first_touch', []);
                 foreach ($selectColumns as $selectColumn) {
                     // Extract alias from "expression AS alias" format
                     if (preg_match('/\s+AS\s+(\w+)$/i', $selectColumn, $matches)) {

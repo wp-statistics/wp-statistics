@@ -101,11 +101,28 @@ abstract class AbstractGroupBy implements GroupByInterface
     /**
      * {@inheritdoc}
      */
-    public function getSelectColumns(string $attribution = 'first_touch'): array
+    public function getSelectColumns(string $attribution = 'first_touch', array $requestedColumns = []): array
     {
         $columns = [$this->column . ' AS ' . $this->alias];
 
-        return array_merge($columns, $this->extraColumns);
+        // If no specific columns requested, include all extra columns (backward compatibility)
+        if (empty($requestedColumns)) {
+            return array_merge($columns, $this->extraColumns);
+        }
+
+        // Filter extra columns to only include those requested
+        $filteredExtras = [];
+        foreach ($this->extraColumns as $extraColumn) {
+            // Extract alias from "... AS alias" pattern
+            if (preg_match('/\sAS\s+(\w+)$/i', $extraColumn, $matches)) {
+                $alias = $matches[1];
+                if (in_array($alias, $requestedColumns, true)) {
+                    $filteredExtras[] = $extraColumn;
+                }
+            }
+        }
+
+        return array_merge($columns, $filteredExtras);
     }
 
     /**

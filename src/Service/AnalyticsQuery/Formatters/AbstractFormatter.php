@@ -153,6 +153,7 @@ abstract class AbstractFormatter implements FormatterInterface
             'avg_session_duration' => __('Avg. Session Duration', 'wp-statistics'),
             'avg_time_on_page'     => __('Avg. Time on Page', 'wp-statistics'),
             'pages_per_session'    => __('Pages per Session', 'wp-statistics'),
+            'visitor_status'       => __('Visitor Status', 'wp-statistics'),
             'total_duration'       => __('Total Duration', 'wp-statistics'),
         ];
 

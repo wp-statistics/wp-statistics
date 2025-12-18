@@ -71,16 +71,17 @@ class VisitorGroupBy extends AbstractGroupBy
     /**
      * Get SELECT columns with attribution support.
      *
-     * @param string $attribution Attribution model ('first_touch' or 'last_touch').
+     * @param string $attribution      Attribution model ('first_touch' or 'last_touch').
+     * @param array  $requestedColumns Optional list of requested column aliases to filter which columns to include.
      * @return array
      */
-    public function getSelectColumns(string $attribution = 'first_touch'): array
+    public function getSelectColumns(string $attribution = 'first_touch', array $requestedColumns = []): array
     {
         $columns = [$this->column . ' AS ' . $this->alias];
         $columns = array_merge($columns, $this->baseExtraColumns);
 
-        // Add attribution-aware session-level columns
-        $columns = array_merge($columns, $this->getAttributedColumns($attribution));
+        // Add attribution-aware session-level columns (conditionally if columns are requested)
+        $columns = array_merge($columns, $this->getAttributedColumns($attribution, $requestedColumns));
 
         return $columns;
     }
@@ -89,102 +90,221 @@ class VisitorGroupBy extends AbstractGroupBy
      * Get attribution-aware columns for session-level data.
      *
      * Uses subqueries to get data from the correct session based on attribution model.
+     * Only includes columns that are in the requested list (for performance optimization).
      *
-     * @param string $attribution Attribution model.
+     * @param string $attribution      Attribution model.
+     * @param array  $requestedColumns List of requested column aliases. Empty = include all.
      * @return array
      */
-    private function getAttributedColumns(string $attribution): array
+    private function getAttributedColumns(string $attribution, array $requestedColumns = []): array
     {
         $orderDirection = $attribution === 'last_touch' ? 'DESC' : 'ASC';
+        $includeAll = empty($requestedColumns);
 
-        $sessionsTable      = $this->tablePrefix . 'sessions';
-        $countriesTable     = $this->tablePrefix . 'countries';
-        $citiesTable        = $this->tablePrefix . 'cities';
-        $deviceTypesTable   = $this->tablePrefix . 'device_types';
-        $deviceOssTable     = $this->tablePrefix . 'device_oss';
+        $sessionsTable       = $this->tablePrefix . 'sessions';
+        $countriesTable      = $this->tablePrefix . 'countries';
+        $citiesTable         = $this->tablePrefix . 'cities';
+        $deviceTypesTable    = $this->tablePrefix . 'device_types';
+        $deviceOssTable      = $this->tablePrefix . 'device_oss';
         $deviceBrowsersTable = $this->tablePrefix . 'device_browsers';
-        $referrersTable     = $this->tablePrefix . 'referrers';
+        $referrersTable      = $this->tablePrefix . 'referrers';
+        $viewsTable          = $this->tablePrefix . 'views';
+        $resourceUrisTable   = $this->tablePrefix . 'resource_uris';
+        $resourcesTable      = $this->tablePrefix . 'resources';
 
-        return [
-            // User/IP from attributed session
-            $this->buildSubquery(
+        $columns = [];
+
+        // User info from attributed session
+        if ($includeAll || in_array('user_id', $requestedColumns, true)) {
+            $columns[] = $this->buildSubquery(
                 "s.user_id",
                 $sessionsTable,
                 $orderDirection
-            ) . ' AS user_id',
+            ) . ' AS user_id';
+        }
 
-            $this->buildSubquery(
+        if ($includeAll || in_array('user_login', $requestedColumns, true)) {
+            global $wpdb;
+            $usersTable = $wpdb->users;
+            $columns[] = $this->buildSubquery(
+                "u.user_login",
+                $sessionsTable,
+                $orderDirection,
+                "LEFT JOIN {$usersTable} u ON s.user_id = u.ID"
+            ) . ' AS user_login';
+        }
+
+        if ($includeAll || in_array('ip_address', $requestedColumns, true)) {
+            $columns[] = $this->buildSubquery(
                 "s.ip",
                 $sessionsTable,
                 $orderDirection
-            ) . ' AS ip_address',
+            ) . ' AS ip_address';
+        }
 
-            // Country from attributed session
-            $this->buildSubquery(
+        // Country from attributed session
+        if ($includeAll || in_array('country_code', $requestedColumns, true)) {
+            $columns[] = $this->buildSubquery(
                 "c.code",
                 $sessionsTable,
                 $orderDirection,
                 "LEFT JOIN {$countriesTable} c ON s.country_id = c.ID"
-            ) . ' AS country_code',
+            ) . ' AS country_code';
+        }
 
-            $this->buildSubquery(
+        if ($includeAll || in_array('country_name', $requestedColumns, true)) {
+            $columns[] = $this->buildSubquery(
                 "c.name",
                 $sessionsTable,
                 $orderDirection,
                 "LEFT JOIN {$countriesTable} c ON s.country_id = c.ID"
-            ) . ' AS country_name',
+            ) . ' AS country_name';
+        }
 
-            // City/Region from attributed session
-            $this->buildSubquery(
+        // City/Region from attributed session
+        if ($includeAll || in_array('city_name', $requestedColumns, true)) {
+            $columns[] = $this->buildSubquery(
                 "ct.city_name",
                 $sessionsTable,
                 $orderDirection,
                 "LEFT JOIN {$citiesTable} ct ON s.city_id = ct.ID"
-            ) . ' AS city',
+            ) . ' AS city_name';
+        }
 
-            $this->buildSubquery(
+        if ($includeAll || in_array('region_name', $requestedColumns, true)) {
+            $columns[] = $this->buildSubquery(
                 "ct.region_name",
                 $sessionsTable,
                 $orderDirection,
                 "LEFT JOIN {$citiesTable} ct ON s.city_id = ct.ID"
-            ) . ' AS region',
+            ) . ' AS region_name';
+        }
 
-            // Device info from attributed session
-            $this->buildSubquery(
+        // Device info from attributed session
+        if ($includeAll || in_array('device_type_name', $requestedColumns, true)) {
+            $columns[] = $this->buildSubquery(
                 "dt.name",
                 $sessionsTable,
                 $orderDirection,
                 "LEFT JOIN {$deviceTypesTable} dt ON s.device_type_id = dt.ID"
-            ) . ' AS device_type',
+            ) . ' AS device_type_name';
+        }
 
-            $this->buildSubquery(
+        if ($includeAll || in_array('os_name', $requestedColumns, true)) {
+            $columns[] = $this->buildSubquery(
                 "dos.name",
                 $sessionsTable,
                 $orderDirection,
                 "LEFT JOIN {$deviceOssTable} dos ON s.device_os_id = dos.ID"
-            ) . ' AS os',
+            ) . ' AS os_name';
+        }
 
-            $this->buildSubquery(
+        if ($includeAll || in_array('browser_name', $requestedColumns, true)) {
+            $columns[] = $this->buildSubquery(
                 "db.name",
                 $sessionsTable,
                 $orderDirection,
                 "LEFT JOIN {$deviceBrowsersTable} db ON s.device_browser_id = db.ID"
-            ) . ' AS browser',
+            ) . ' AS browser_name';
+        }
 
-            // Referrer info from attributed session
-            $this->buildSubquery(
+        // Referrer info from attributed session
+        if ($includeAll || in_array('referrer_domain', $requestedColumns, true)) {
+            $columns[] = $this->buildSubquery(
                 "r.domain",
                 $sessionsTable,
                 $orderDirection,
                 "LEFT JOIN {$referrersTable} r ON s.referrer_id = r.ID"
-            ) . ' AS referrer',
+            ) . ' AS referrer_domain';
+        }
 
-            $this->buildSubquery(
+        if ($includeAll || in_array('referrer_channel', $requestedColumns, true)) {
+            $columns[] = $this->buildSubquery(
                 "r.channel",
                 $sessionsTable,
                 $orderDirection,
                 "LEFT JOIN {$referrersTable} r ON s.referrer_id = r.ID"
-            ) . ' AS referrer_channel',
+            ) . ' AS referrer_channel';
+        }
+
+        // Entry page (first page in session)
+        if ($includeAll || in_array('entry_page', $requestedColumns, true)) {
+            $columns[] = $this->buildSubquery(
+                "ru_entry.uri",
+                $sessionsTable,
+                $orderDirection,
+                "LEFT JOIN {$viewsTable} v_entry ON s.initial_view_id = v_entry.ID
+        LEFT JOIN {$resourceUrisTable} ru_entry ON v_entry.resource_uri_id = ru_entry.ID"
+            ) . ' AS entry_page';
+        }
+
+        if ($includeAll || in_array('entry_page_title', $requestedColumns, true)) {
+            $columns[] = $this->buildSubquery(
+                "res_entry.cached_title",
+                $sessionsTable,
+                $orderDirection,
+                "LEFT JOIN {$viewsTable} v_entry ON s.initial_view_id = v_entry.ID
+        LEFT JOIN {$resourceUrisTable} ru_entry ON v_entry.resource_uri_id = ru_entry.ID
+        LEFT JOIN {$resourcesTable} res_entry ON ru_entry.resource_id = res_entry.ID"
+            ) . ' AS entry_page_title';
+        }
+
+        // Exit page (last page in session)
+        if ($includeAll || in_array('exit_page', $requestedColumns, true)) {
+            $columns[] = $this->buildSubquery(
+                "ru_exit.uri",
+                $sessionsTable,
+                $orderDirection,
+                "LEFT JOIN {$viewsTable} v_exit ON s.last_view_id = v_exit.ID
+        LEFT JOIN {$resourceUrisTable} ru_exit ON v_exit.resource_uri_id = ru_exit.ID"
+            ) . ' AS exit_page';
+        }
+
+        if ($includeAll || in_array('exit_page_title', $requestedColumns, true)) {
+            $columns[] = $this->buildSubquery(
+                "res_exit.cached_title",
+                $sessionsTable,
+                $orderDirection,
+                "LEFT JOIN {$viewsTable} v_exit ON s.last_view_id = v_exit.ID
+        LEFT JOIN {$resourceUrisTable} ru_exit ON v_exit.resource_uri_id = ru_exit.ID
+        LEFT JOIN {$resourcesTable} res_exit ON ru_exit.resource_id = res_exit.ID"
+            ) . ' AS exit_page_title';
+        }
+
+        return $columns;
+    }
+
+    /**
+     * Get aliases of extra columns for validation.
+     *
+     * Override parent to include all dynamically generated column aliases
+     * from both base columns and attributed columns.
+     *
+     * @return array Array of extra column aliases.
+     */
+    public function getExtraColumnAliases(): array
+    {
+        return [
+            'visitor_hash',
+            'last_visit',
+            'total_sessions',
+            'total_views',
+            'user_id',
+            'user_login',
+            'ip_address',
+            'country_code',
+            'country_name',
+            'city_name',
+            'region_name',
+            'device_type_name',
+            'os_name',
+            'browser_name',
+            'referrer_domain',
+            'referrer_channel',
+            'entry_page',
+            'entry_page_title',
+            'exit_page',
+            'exit_page_title',
         ];
     }
 
