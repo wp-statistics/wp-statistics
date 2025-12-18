@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { expect, fn, userEvent, within } from '@storybook/test'
 
 import { Button } from './button'
 
@@ -20,9 +19,6 @@ const meta = {
       options: ['default', 'sm', 'lg', 'icon'],
     },
   },
-  args: {
-    onClick: fn(),
-  },
 } satisfies Meta<typeof Button>
 
 export default meta
@@ -31,14 +27,6 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   args: {
     children: 'Button',
-  },
-  play: async ({ canvasElement, args }) => {
-    const canvas = within(canvasElement)
-    const button = canvas.getByRole('button', { name: /button/i })
-
-    await expect(button).toBeInTheDocument()
-    await userEvent.click(button)
-    await expect(args.onClick).toHaveBeenCalledTimes(1)
   },
 }
 

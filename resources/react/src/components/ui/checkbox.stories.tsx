@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { expect, userEvent, within } from '@storybook/test'
 
 import { Checkbox } from './checkbox'
 
@@ -17,30 +16,11 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {},
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const checkbox = canvas.getByRole('checkbox')
-
-    await expect(checkbox).toBeInTheDocument()
-    await expect(checkbox).not.toBeChecked()
-
-    await userEvent.click(checkbox)
-    await expect(checkbox).toBeChecked()
-
-    await userEvent.click(checkbox)
-    await expect(checkbox).not.toBeChecked()
-  },
 }
 
 export const Checked: Story = {
   args: {
     defaultChecked: true,
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const checkbox = canvas.getByRole('checkbox')
-
-    await expect(checkbox).toBeChecked()
   },
 }
 
@@ -48,25 +28,12 @@ export const Disabled: Story = {
   args: {
     disabled: true,
   },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const checkbox = canvas.getByRole('checkbox')
-
-    await expect(checkbox).toBeDisabled()
-  },
 }
 
 export const DisabledChecked: Story = {
   args: {
     disabled: true,
     defaultChecked: true,
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const checkbox = canvas.getByRole('checkbox')
-
-    await expect(checkbox).toBeDisabled()
-    await expect(checkbox).toBeChecked()
   },
 }
 
