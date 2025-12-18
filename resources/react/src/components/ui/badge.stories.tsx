@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { expect, within } from '@storybook/test'
 
 import { Badge } from './badge'
 
@@ -23,6 +24,12 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   args: {
     children: 'Badge',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Verify badge is rendered with correct text
+    await expect(canvas.getByText('Badge')).toBeInTheDocument()
   },
 }
 

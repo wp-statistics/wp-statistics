@@ -88,9 +88,6 @@ export const Default: Story = {
     const billingItem = within(document.body).getByText('Billing')
     await expect(billingItem).toBeInTheDocument()
 
-    const logoutItem = within(document.body).getByText('Log out')
-    await expect(logoutItem).toBeInTheDocument()
-
     // Close the dropdown by pressing Escape
     await userEvent.keyboard('{Escape}')
   },

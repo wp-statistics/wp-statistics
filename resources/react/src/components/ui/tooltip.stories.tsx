@@ -33,7 +33,7 @@ export const Default: Story = {
 
     await expect(trigger).toBeInTheDocument()
 
-    // Hover over the trigger
+    // Hover over the trigger to show tooltip
     await userEvent.hover(trigger)
 
     // Wait for tooltip to appear

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { expect, userEvent, within } from '@storybook/test'
 import { DataTable } from './data-table'
 import type { VisitorData } from './data-table-example-columns'
 import { exampleColumns, exampleData } from './data-table-example-columns'
@@ -53,6 +54,21 @@ export const Default: Story = {
   args: {
     columns: exampleColumns,
     data: exampleData,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Verify table is rendered
+    const table = canvas.getByRole('table')
+    await expect(table).toBeInTheDocument()
+
+    // Verify column headers exist
+    await expect(canvas.getByText('Visitor')).toBeInTheDocument()
+    await expect(canvas.getByText('Total Views')).toBeInTheDocument()
+
+    // Verify data rows exist
+    const rows = canvas.getAllByRole('row')
+    await expect(rows.length).toBeGreaterThan(1) // Header + data rows
   },
 }
 

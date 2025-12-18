@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { expect, userEvent, within } from '@storybook/test'
 import { Metrics } from './metrics'
 import type { MetricItem } from './metrics'
 
@@ -113,6 +114,18 @@ export const Default: Story = {
   args: {
     metrics: sampleMetrics.slice(0, 6),
     columns: 3,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Verify metrics are displayed
+    await expect(canvas.getByText('Visitors')).toBeInTheDocument()
+    await expect(canvas.getByText('3,202')).toBeInTheDocument()
+    await expect(canvas.getByText('Views')).toBeInTheDocument()
+    await expect(canvas.getByText('3,940')).toBeInTheDocument()
+
+    // Verify percentage indicators exist
+    await expect(canvas.getByText('1.2%')).toBeInTheDocument()
   },
 }
 
