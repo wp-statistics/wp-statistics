@@ -1,9 +1,10 @@
 import type { Preview } from '@storybook/react'
 import { withRTLSupport } from './decorators/with-rtl-support'
+import { withQueryClient } from './decorators/with-query-client'
 import '../resources/react/src/globals.css'
 
 const preview: Preview = {
-  decorators: [withRTLSupport],
+  decorators: [withQueryClient, withRTLSupport],
   parameters: {
     controls: {
       matchers: {

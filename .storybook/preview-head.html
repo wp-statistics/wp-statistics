@@ -1,0 +1,24 @@
+<script>
+  // Mock WordPress global object before any modules load
+  // This prevents "wps_react not available" errors in Storybook
+  window.wps_react = {
+    globals: {
+      nonce: 'storybook-mock-nonce',
+      ajaxUrl: 'https://wordpress.test/wp-admin/admin-ajax.php',
+      pluginUrl: 'https://wordpress.test/wp-content/plugins/wp-statistics/',
+      isPremium: false,
+      restUrl: 'https://wordpress.test/wp-json/',
+      restNonce: 'storybook-mock-rest-nonce',
+    },
+    layout: {
+      sidebar: {
+        items: [],
+      },
+    },
+    filters: {
+      fields: {},
+      operators: {},
+    },
+    config: {},
+  };
+</script>
