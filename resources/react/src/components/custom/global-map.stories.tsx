@@ -366,3 +366,40 @@ export const USRegionalView: Story = {
     },
   },
 }
+
+/**
+ * Dynamic Zoom Feature
+ * Demonstrates how the map automatically calculates optimal zoom levels based on country size
+ */
+export const DynamicZoom: Story = {
+  args: {
+    data: {
+      countries: [
+        { code: 'RU', name: 'Russia', visitors: 15000 },
+        { code: 'CN', name: 'China', visitors: 12000 },
+        { code: 'IR', name: 'Iran', visitors: 11000 },
+        { code: 'NL', name: 'Netherlands', visitors: 5000 },
+        { code: 'SG', name: 'Singapore', visitors: 450 },
+      ],
+    },
+    title: 'Dynamic Zoom Demonstration',
+    enableCityDrilldown: true,
+    enableMetricToggle: false,
+    showZoomControls: true,
+    showLegend: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Click on different countries to see how the map automatically adjusts zoom levels based on geographic size. The component uses `calculateZoomForBounds` to analyze each country\'s bounding box dimensions and apply appropriate zoom:\n\n' +
+          '- **Russia** (very large, >60° dimension): Zooms to 3.5x - shows the entire country without filling viewport\n' +
+          '- **China** (large, 40-60° dimension): Zooms to 4.5x - balanced view of the country\n' +
+          '- **Iran** (medium, 25-40° dimension): Zooms to 6x - comfortable regional view\n' +
+          '- **Netherlands** (small, 10-25° dimension): Zooms to 8x - detailed view without over-zooming\n' +
+          '- **Singapore** (very small, <5° dimension): Zooms to 14x - maximum detail for tiny countries\n\n' +
+          'This dynamic approach eliminates the need for hardcoded country IDs and ensures every country displays at an optimal zoom level, preventing issues like countries filling the entire viewport or being too zoomed out.',
+      },
+    },
+  },
+}

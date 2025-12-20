@@ -214,22 +214,22 @@ export const getCountryZoomLevel = (countryCode: string): number => {
 
   // Very large countries - lower zoom
   const largecountries = ['RU', 'CA', 'US', 'CN', 'BR', 'AU', 'IN', 'AR', 'KZ']
-  if (largecountries.includes(code)) return 3
+  if (largecountries.includes(code)) return 4
 
   // Medium countries - medium zoom
   const mediumCountries = ['MX', 'SA', 'DZ', 'CD', 'LY', 'IR', 'MN', 'PE', 'TD', 'NG']
-  if (mediumCountries.includes(code)) return 4
+  if (mediumCountries.includes(code)) return 6
 
   // Small countries - higher zoom
   const smallCountries = ['GB', 'DE', 'FR', 'IT', 'ES', 'PL', 'UA', 'TR', 'TH', 'JP', 'VN']
-  if (smallCountries.includes(code)) return 5
+  if (smallCountries.includes(code)) return 8
 
   // Very small countries - highest zoom
   const verySmallCountries = ['SG', 'HK', 'LU', 'MT', 'MV', 'VA', 'MC', 'LI']
-  if (verySmallCountries.includes(code)) return 7
+  if (verySmallCountries.includes(code)) return 12
 
   // Default zoom for countries not explicitly listed
-  return 4
+  return 6
 }
 
 /**
