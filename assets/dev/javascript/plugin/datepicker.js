@@ -70,8 +70,123 @@ jQuery(document).ready(function () {
         }
 
         const localTime = getLocalTime();
-        // Define ranges with translated labels as keys
-        let ranges = {
+
+        // Check for GSC custom date picker configuration (from wp_statistics_admin_assets filter)
+        const gscConfig = (wps_js.global && wps_js.global.gsc_date_picker_config) ? wps_js.global.gsc_date_picker_config : null;
+        const gscMeta = (wps_js.global && wps_js.global.gsc_meta) ? wps_js.global.gsc_meta : null;
+
+        // Debug GSC config
+        console.log('wps_js.global:', wps_js.global);
+        console.log('GSC Config:', gscConfig);
+        console.log('GSC Meta (date range):', gscMeta);
+
+        // Map period keys to their translated labels and date calculations
+        const rangeDefinitions = {
+            'today': {
+                label: wps_js._('str_today'),
+                dates: [
+                    normalizeDate(localTime.clone(), validTimezone),
+                    normalizeDate(localTime.clone(), validTimezone)
+                ]
+            },
+            'yesterday': {
+                label: wps_js._('str_yesterday'),
+                dates: [
+                    normalizeDate(localTime.clone().subtract(1, 'days'), validTimezone),
+                    normalizeDate(localTime.clone().subtract(1, 'days'), validTimezone)
+                ]
+            },
+            'this_week': {
+                label: wps_js._('str_this_week'),
+                dates: [
+                    normalizeDate(localTime.clone().startOf('week'), validTimezone),
+                    normalizeDate(localTime.clone().endOf('week'), validTimezone)
+                ]
+            },
+            'last_week': {
+                label: wps_js._('str_last_week'),
+                dates: [
+                    normalizeDate(localTime.clone().subtract(1, 'week').startOf('week'), validTimezone),
+                    normalizeDate(localTime.clone().subtract(1, 'week').endOf('week'), validTimezone)
+                ]
+            },
+            'this_month': {
+                label: wps_js._('str_this_month'),
+                dates: [
+                    normalizeDate(localTime.clone().startOf('month'), validTimezone),
+                    normalizeDate(localTime.clone().endOf('month'), validTimezone)
+                ]
+            },
+            'last_month': {
+                label: wps_js._('str_last_month'),
+                dates: [
+                    normalizeDate(localTime.clone().subtract(1, 'month').startOf('month'), validTimezone),
+                    normalizeDate(localTime.clone().subtract(1, 'month').endOf('month'), validTimezone)
+                ]
+            },
+            '7days': {
+                label: wps_js._('str_7days'),
+                dates: [
+                    normalizeDate(localTime.clone().subtract(6, 'days'), validTimezone),
+                    normalizeDate(localTime.clone(), validTimezone)
+                ]
+            },
+            '14days': {
+                label: wps_js._('str_14days'),
+                dates: [
+                    normalizeDate(localTime.clone().subtract(13, 'days'), validTimezone),
+                    normalizeDate(localTime.clone(), validTimezone)
+                ]
+            },
+            '28days': {
+                label: wps_js._('str_28days'),
+                dates: [
+                    normalizeDate(localTime.clone().subtract(27, 'days'), validTimezone),
+                    normalizeDate(localTime.clone(), validTimezone)
+                ]
+            },
+            '30days': {
+                label: wps_js._('str_30days'),
+                dates: [
+                    normalizeDate(localTime.clone().subtract(29, 'days'), validTimezone),
+                    normalizeDate(localTime.clone(), validTimezone)
+                ]
+            },
+            '90days': {
+                label: wps_js._('str_90days'),
+                dates: [
+                    normalizeDate(localTime.clone().subtract(89, 'days'), validTimezone),
+                    normalizeDate(localTime.clone(), validTimezone)
+                ]
+            },
+            '6months': {
+                label: wps_js._('str_6months'),
+                dates: [
+                    normalizeDate(localTime.clone().subtract(6, 'months'), validTimezone),
+                    normalizeDate(localTime.clone(), validTimezone)
+                ]
+            },
+            'this_year': {
+                label: wps_js._('str_year'),
+                dates: [
+                    normalizeDate(localTime.clone().startOf('year'), validTimezone),
+                    normalizeDate(localTime.clone().endOf('year'), validTimezone)
+                ]
+            }
+        };
+
+        // Build ranges based on GSC config or use default ranges
+        let ranges = {};
+        if (gscConfig && gscConfig.ranges && Array.isArray(gscConfig.ranges)) {
+            // Use only the specified ranges for GSC tabs
+            gscConfig.ranges.forEach(function(rangeKey) {
+                if (rangeDefinitions[rangeKey]) {
+                    ranges[rangeDefinitions[rangeKey].label] = rangeDefinitions[rangeKey].dates;
+                }
+            });
+        } else {
+            // Default ranges
+            ranges = {
             [wps_js._('str_today')]: [
                 normalizeDate(localTime.clone(), validTimezone),
                 normalizeDate(localTime.clone(), validTimezone)
@@ -120,7 +235,8 @@ jQuery(document).ready(function () {
                 normalizeDate(localTime.clone().startOf('year'), validTimezone),
                 normalizeDate(localTime.clone().endOf('year'), validTimezone)
             ]
-        };
+            };
+        }
 
         function hasTypeParameter() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -171,6 +287,24 @@ jQuery(document).ready(function () {
         let defaultStartDate = moment(wps_js.global.user_date_range.from).format(DATE_FORMAT);
         let defaultEndDate = moment(wps_js.global.user_date_range.to).format(DATE_FORMAT);
 
+        // For GSC tabs, check if current date range is valid, otherwise use 28 days default
+        if (gscConfig && gscConfig.ranges) {
+            const currentFrom = moment(defaultStartDate);
+            const currentTo = moment(defaultEndDate);
+            const daysDiff = currentTo.diff(currentFrom, 'days') + 1;
+
+            // Check if current range matches one of the allowed GSC ranges (7, 14, 28, 90 days)
+            const allowedDays = [7, 14, 28, 90];
+            const isValidRange = allowedDays.includes(daysDiff) && currentTo.isSame(localTime.clone().startOf('day'), 'day');
+
+            if (!isValidRange) {
+                // Reset to 28 days (default)
+                defaultStartDate = normalizeDate(localTime.clone().subtract(27, 'days'), validTimezone).format(DATE_FORMAT);
+                defaultEndDate = normalizeDate(localTime.clone(), validTimezone).format(DATE_FORMAT);
+                console.log('GSC: Date range reset to 28 days default');
+            }
+        }
+
         let minDate = null;
         if (createDate) {
             const parsedDate = moment(createDate, [momentDateFormat, 'YYYY-MM-DD', 'YYYY/MM/DD', 'YYYY-MM-DD HH:mm:ss'], true);
@@ -199,11 +333,26 @@ jQuery(document).ready(function () {
                 }
             };
 
+            // For GSC tabs, disable custom range and only show predefined ranges
+            if (gscConfig) {
+                datePickerOptions.showCustomRangeLabel = false;
+                datePickerOptions.alwaysShowCalendars = false;
+            }
+
             if (minDate) {
                 datePickerOptions.minDate = minDate;
             }
 
             datePickerElement.daterangepicker(datePickerOptions);
+
+            // Add GSC-specific class to daterangepicker for custom styling
+            if (gscConfig) {
+                const picker = datePickerElement.data('daterangepicker');
+                if (picker && picker.container) {
+                    picker.container.addClass('wps-gsc-datepicker');
+                    picker.container.find('.ranges ul').addClass('wps-gsc-ranges');
+                }
+            }
 
             // Hide ranges before createDate
             if (minDate) {
@@ -306,6 +455,40 @@ jQuery(document).ready(function () {
                 datePickerElement.data('daterangepicker').container.find('.ranges li.active').removeClass('active');
                 datePickerElement.data('daterangepicker').container.find('.ranges li[data-range-key="' + defaultRange + '"]').addClass('active');
             });
+        }
+
+        // For GSC tabs, override display with actual GSC date range and add tooltip (must run last)
+        if (gscMeta && gscMeta.from && gscMeta.to) {
+            const gscFromDate = moment(gscMeta.from);
+            const gscToDate = moment(gscMeta.to);
+
+            let gscRangeText;
+            if (gscFromDate.year() === gscToDate.year()) {
+                const startFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
+                gscRangeText = `${gscFromDate.format(startFormat)} - ${gscToDate.format(momentDateFormat)}`;
+            } else {
+                gscRangeText = `${gscFromDate.format(momentDateFormat)} - ${gscToDate.format(momentDateFormat)}`;
+            }
+
+            // Calculate which range label to show based on days difference
+            const daysDiff = gscToDate.diff(gscFromDate, 'days') + 1;
+            let rangeLabel = '';
+            if (daysDiff === 7) rangeLabel = wps_js._('str_7days');
+            else if (daysDiff === 14) rangeLabel = wps_js._('str_14days');
+            else if (daysDiff === 28) rangeLabel = wps_js._('str_28days');
+            else if (daysDiff === 90) rangeLabel = wps_js._('str_90days');
+
+            const displayText = rangeLabel
+                ? `<span class="wps-date-range">${rangeLabel}</span>${gscRangeText}`
+                : gscRangeText;
+
+            datePickerBtn.find('span').html(displayText);
+            datePickerBtn.addClass('custom-range');
+
+            // Add tooltip with GSC delay info
+            const tooltipText = wps_js._('gsc_data_delay_info').replace('%s', gscToDate.format(momentDateFormat));
+            datePickerBtn.attr('title', tooltipText);
+            datePickerBtn.addClass('wps-tooltip');
         }
 
         datePickerElement.on('show.daterangepicker', function (ev, picker) {

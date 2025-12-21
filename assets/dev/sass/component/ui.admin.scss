@@ -3622,6 +3622,10 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     line-height: 28px !important;
   }
 
+  .daterangepicker .ranges ul.wps-gsc-ranges li:last-child:before{
+    display: none!important;
+  }
+
   .daterangepicker td.active, .daterangepicker td.active:hover, .daterangepicker td.in-range:hover {
     border-radius: 50%;
   }

@@ -376,6 +376,7 @@ class Admin_Assets
             'str_this_month'               => __('This month', 'wp-statistics'),
             'str_last_month'               => __('Last month', 'wp-statistics'),
             'str_7days'                    => __('Last 7 days', 'wp-statistics'),
+            'str_14days'                   => __('Last 14 days', 'wp-statistics'),
             'str_28days'                   => __('Last 28 days', 'wp-statistics'),
             'str_30days'                   => __('Last 30 days', 'wp-statistics'),
             'str_90days'                   => __('Last 90 days', 'wp-statistics'),
@@ -474,6 +475,7 @@ class Admin_Assets
             'operation_completed'          => __('Operation completed.', 'wp-statistics'),
             'to_range'                     => __('to', 'wp-statistics'),
             'are_you_sure'                 => __('Are you sure?', 'wp-statistics'),
+            'gsc_data_delay_info'          => __('Showing data through %s. Google Search Console data has a 2-3 day delay.', 'wp-statistics'),
         );
 
         $list['active_post_type'] = Helper::getPostTypeName(Request::get('pt', 'post'));
