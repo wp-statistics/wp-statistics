@@ -1,5 +1,4 @@
 <?php
-
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\View;
@@ -8,15 +7,15 @@ use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
-$isLicenseValid    = LicenseHelper::isPluginLicenseValid('wp-statistics-ai-insights');
+$isLicenseValid = LicenseHelper::isPluginLicenseValid('wp-statistics-ai-insights');
+
 $isAiInsightActive = Helper::isAddOnActive('ai-insights');
+$isMarketingActive = Helper::isAddOnActive('marketing');
 
 $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', false);
 $gscProperty     = Option::getByAddon('site', 'marketing');
 
 $settingsData = apply_filters('wp_statistics_ai_insights_settings_data', []);
-$isMarketingActive = Helper::isAddOnActive('marketing');
-
 $autoSync     = Option::getByAddon('gsc_auto_sync', 'ai_insights', true);
 $syncStatus   = $settingsData['sync_status'] ?? '';
 $lastSyncTime = $settingsData['last_sync_timestamp'] ?? null;
@@ -61,6 +60,7 @@ if ($isAiInsightActive && !$isLicenseValid) {
                     <div>
                         <h3><?php esc_html_e('GSC Data Sync', 'wp-statistics'); ?></h3>
                     </div>
+
                     <div class="wps-status">
                         <?php if ($syncStatus === 'success') : ?>
                             <div class="alert alert-success"><span><?php esc_html_e('Sync completed successfully', 'wp-statistics'); ?></span></div>
@@ -205,7 +205,7 @@ if ($isAiInsightActive && !$isLicenseValid) {
             </td>
         </tr>
 
-        <?php if ($autoSync) : ?>
+        <?php if ($autoSync && $isAuthenticated && $gscProperty) : ?>
             <tr data-id="next_scheduled_sync_tr">
                 <th scope="row">
                     <span class="wps-setting-label"><?php esc_html_e('Next Scheduled Sync', 'wp-statistics'); ?></span>
