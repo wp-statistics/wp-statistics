@@ -10,7 +10,6 @@ const config: StorybookConfig = {
   stories: ['../resources/react/src/**/*.mdx', '../resources/react/src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   addons: [
     '@storybook/addon-a11y',
-    '@storybook/addon-interactions',
     'storybook-addon-rtl',
   ],
   framework: {

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { expect, userEvent, within } from '@storybook/test'
+import { expect, within } from 'storybook/test'
 import { DataTable } from './data-table'
 import type { VisitorData } from './data-table-example-columns'
 import { exampleColumns, exampleData } from './data-table-example-columns'
