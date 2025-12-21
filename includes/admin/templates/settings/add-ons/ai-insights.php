@@ -25,23 +25,23 @@ $tableSize    = $settingsData['table_size'] ?? 0;
 ?>
 
 <h2 class="wps-settings-box__title">
-    <span><?php esc_html_e('AI Insight', 'wp-statistics'); ?></span>
+    <span><?php esc_html_e('AI Insights', 'wp-statistics'); ?></span>
 </h2>
 
 <?php
 if (!$isAiInsightActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
     ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-ai-insights/?utm_source=wp-statistics&utm_medium=link&utm_campaign=ai-insight'),
-     'addon_title'        => __('AI Insight Add-on', 'wp-statistics'),
+     'addon_title'        => esc_html__('AI Insights Add-on', 'wp-statistics'),
      'addon_modal_target' => 'wp-statistics-ai-insights',
      'addon_campaign'     => 'settings',
-     'addon_description'  => __('The settings on this page are part of the AI Insights add-on, which helps you identify SEO opportunities and optimize your website\'s search performance with actionable recommendations.', 'wp-statistics'),
+     'addon_description'  => esc_html__('The settings on this page are part of the AI Insights add-on, which helps you identify SEO opportunities and optimize your website\'s search performance with actionable recommendations.', 'wp-statistics'),
      'addon_features'     => [
-         __('Discover keywords in striking distance of ranking #1.', 'wp-statistics'),
-         __('Improve click-through rates with optimization recommendations.', 'wp-statistics'),
-         __('Identify trending content and spot performance changes early.', 'wp-statistics'),
-         __('Track traffic from AI tools like ChatGPT and Perplexity.', 'wp-statistics'),
+        esc_html__('Discover keywords in striking distance of ranking #1.', 'wp-statistics'),
+        esc_html__('Improve click-through rates with optimization recommendations.', 'wp-statistics'),
+        esc_html__('Identify trending content and spot performance changes early.', 'wp-statistics'),
+        esc_html__('Track traffic from AI tools like ChatGPT and Perplexity.', 'wp-statistics'),
      ],
-     'addon_info'         => __('Unlock SEO growth opportunities and actionable insights with the AI Insights add-on', 'wp-statistics'),
+     'addon_info'         => esc_html__('Unlock SEO growth opportunities and actionable insights with the AI Insights add-on.', 'wp-statistics'),
     ], true);
 
 
