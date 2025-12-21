@@ -19,16 +19,16 @@ class DeviceTypeFilter extends AbstractFilter
     /**
      * SQL column for WHERE clause.
      *
-     * @var string Column path: device_types.name
+     * @var string Column path: device_types.ID
      */
-    protected $column = 'device_types.name';
+    protected $column = 'device_types.ID';
 
     /**
      * Value type for sanitization.
      *
-     * @var string Data type: string
+     * @var string Data type: integer
      */
-    protected $type = 'string';
+    protected $type = 'integer';
 
     /**
      * Required JOINs to access the column.
@@ -75,10 +75,11 @@ class DeviceTypeFilter extends AbstractFilter
      */
     public function getOptions(): ?array
     {
-        return [
-            ['value' => 'desktop', 'label' => esc_html__('Desktop', 'wp-statistics')],
-            ['value' => 'mobile', 'label' => esc_html__('Mobile', 'wp-statistics')],
-            ['value' => 'tablet', 'label' => esc_html__('Tablet', 'wp-statistics')],
-        ];
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'statistics_device_types';
+        $results = $wpdb->get_results("SELECT ID as value, name as label FROM {$table} ORDER BY name ASC", ARRAY_A);
+
+        return $results ?: [];
     }
 }

@@ -19,16 +19,16 @@ class CountryFilter extends AbstractFilter
     /**
      * SQL column for WHERE clause.
      *
-     * @var string Column path: countries.code
+     * @var string Column path: countries.ID
      */
-    protected $column = 'countries.code';
+    protected $column = 'countries.ID';
 
     /**
      * Value type for sanitization.
      *
-     * @var string Data type: string
+     * @var string Data type: integer
      */
-    protected $type = 'string';
+    protected $type = 'integer';
 
     /**
      * Required JOINs to access the column.
@@ -83,7 +83,7 @@ class CountryFilter extends AbstractFilter
 
         $table = $wpdb->prefix . 'statistics_countries';
 
-        $sql = "SELECT code as value, name as label FROM {$table}";
+        $sql = "SELECT ID as value, name as label FROM {$table}";
 
         if (!empty($search)) {
             $sql .= $wpdb->prepare(" WHERE name LIKE %s OR code LIKE %s", '%' . $wpdb->esc_like($search) . '%', '%' . $wpdb->esc_like($search) . '%');

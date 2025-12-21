@@ -19,16 +19,16 @@ class ResolutionFilter extends AbstractFilter
     /**
      * SQL column for WHERE clause.
      *
-     * @var string Column expression: CONCAT(resolutions.width, 'x', resolutions.height)
+     * @var string Column path: resolutions.ID
      */
-    protected $column = 'CONCAT(resolutions.width, \'x\', resolutions.height)';
+    protected $column = 'resolutions.ID';
 
     /**
      * Value type for sanitization.
      *
-     * @var string Data type: string
+     * @var string Data type: integer
      */
-    protected $type = 'string';
+    protected $type = 'integer';
 
     /**
      * Required JOINs to access the column.
@@ -83,7 +83,7 @@ class ResolutionFilter extends AbstractFilter
 
         $table = $wpdb->prefix . 'statistics_resolutions';
 
-        $sql = "SELECT CONCAT(width, 'x', height) as value, CONCAT(width, 'x', height) as label FROM {$table}";
+        $sql = "SELECT ID as value, CONCAT(width, 'x', height) as label FROM {$table}";
 
         if (!empty($search)) {
             $sql .= $wpdb->prepare(" WHERE CONCAT(width, 'x', height) LIKE %s", '%' . $wpdb->esc_like($search) . '%');

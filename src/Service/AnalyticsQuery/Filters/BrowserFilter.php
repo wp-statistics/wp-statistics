@@ -19,16 +19,16 @@ class BrowserFilter extends AbstractFilter
     /**
      * SQL column for WHERE clause.
      *
-     * @var string Column path: device_browsers.name
+     * @var string Column path: device_browsers.ID
      */
-    protected $column = 'device_browsers.name';
+    protected $column = 'device_browsers.ID';
 
     /**
      * Value type for sanitization.
      *
-     * @var string Data type: string
+     * @var string Data type: integer
      */
-    protected $type = 'string';
+    protected $type = 'integer';
 
     /**
      * Required JOINs to access the column.
@@ -83,7 +83,7 @@ class BrowserFilter extends AbstractFilter
 
         $table = $wpdb->prefix . 'statistics_device_browsers';
 
-        $sql = "SELECT name as value, name as label FROM {$table}";
+        $sql = "SELECT ID as value, name as label FROM {$table}";
 
         if (!empty($search)) {
             $sql .= $wpdb->prepare(" WHERE name LIKE %s", '%' . $wpdb->esc_like($search) . '%');

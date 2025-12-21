@@ -19,16 +19,16 @@ class TimezoneFilter extends AbstractFilter
     /**
      * SQL column for WHERE clause.
      *
-     * @var string Column path: timezones.name
+     * @var string Column path: timezones.ID
      */
-    protected $column = 'timezones.name';
+    protected $column = 'timezones.ID';
 
     /**
      * Value type for sanitization.
      *
-     * @var string Data type: string
+     * @var string Data type: integer
      */
-    protected $type = 'string';
+    protected $type = 'integer';
 
     /**
      * Required JOINs to access the column.
@@ -83,7 +83,7 @@ class TimezoneFilter extends AbstractFilter
 
         $table = $wpdb->prefix . 'statistics_timezones';
 
-        $sql = "SELECT name as value, name as label FROM {$table}";
+        $sql = "SELECT ID as value, name as label FROM {$table}";
 
         if (!empty($search)) {
             $sql .= $wpdb->prepare(" WHERE name LIKE %s", '%' . $wpdb->esc_like($search) . '%');
