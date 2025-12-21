@@ -113,6 +113,7 @@ const FilterButtonWrapper = ({
   )
 }
 
+
 const meta = {
   title: 'Custom/FilterButton',
   component: FilterButton,
@@ -315,6 +316,40 @@ export const TextFieldsOnly: Story = {
         groups: ['visitors'] as FilterGroup[],
       },
     ],
+    appliedFilters: [],
+  },
+}
+
+const searchableFields: FilterField[] = [
+  {
+    name: 'country' as FilterFieldName,
+    label: 'Country',
+    inputType: 'searchable' as FilterInputType,
+    supportedOperators: ['is', 'is_not', 'in', 'not_in'] as FilterOperator[],
+    groups: ['visitors'] as FilterGroup[],
+  },
+  {
+    name: 'browser' as FilterFieldName,
+    label: 'Browser',
+    inputType: 'searchable' as FilterInputType,
+    supportedOperators: ['is', 'is_not', 'in', 'not_in'] as FilterOperator[],
+    groups: ['visitors'] as FilterGroup[],
+  },
+  {
+    name: 'os' as FilterFieldName,
+    label: 'Operating System',
+    inputType: 'searchable' as FilterInputType,
+    supportedOperators: ['is', 'is_not', 'in', 'not_in'] as FilterOperator[],
+    groups: ['visitors'] as FilterGroup[],
+  },
+]
+
+export const SearchableFields: Story = {
+  render: (args) => (
+    <FilterButtonWrapper fields={searchableFields} onApplyFilters={args.onApplyFilters} />
+  ),
+  args: {
+    fields: searchableFields,
     appliedFilters: [],
   },
 }

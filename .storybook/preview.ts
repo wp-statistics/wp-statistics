@@ -3,6 +3,22 @@ import { withRTLSupport } from './decorators/with-rtl-support'
 import { withQueryClient } from './decorators/with-query-client'
 import '../resources/react/src/globals.css'
 
+// Initialize MSW
+const initMSW = async () => {
+  if (typeof window !== 'undefined') {
+    const { worker } = await import('./mocks/browser')
+    await worker.start({
+      onUnhandledRequest: 'bypass',
+      serviceWorker: {
+        url: './mockServiceWorker.js',
+      },
+    })
+  }
+}
+
+// Start MSW before rendering stories
+initMSW()
+
 const preview: Preview = {
   decorators: [withQueryClient, withRTLSupport],
   parameters: {

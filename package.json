@@ -97,6 +97,7 @@
     "glob": "^11.0.0",
     "globals": "^16.4.0",
     "lightningcss": "^1.28.3",
+    "msw": "^2.12.4",
     "playwright": "^1.57.0",
     "postcss": "^8.5.6",
     "postcss-loader": "^8.1.1",
@@ -119,5 +120,10 @@
     "overrides": {
       "vite": "npm:rolldown-vite@7.1.12"
     }
+  },
+  "msw": {
+    "workerDirectory": [
+      ".storybook/public"
+    ]
   }
 }
