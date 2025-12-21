@@ -239,6 +239,7 @@ class Manager
                 'KEY idx_started_city (started_at, city_id)',
                 'KEY idx_started_os (started_at, device_os_id)',
                 'KEY idx_started_referrer (started_at, referrer_id)',
+                'KEY idx_analytics_visitor_date (started_at, visitor_id, total_views)',
             ],
         ],
         'reports'                 => [

@@ -134,66 +134,68 @@ class VisitorGroupBy extends AbstractGroupBy
         $this->attributionCache = $attribution;
 
         $columns = [];
-        $order = $orderDirection; // ASC or DESC
 
-        // OPTIMIZED: Use GROUP_CONCAT + SUBSTRING_INDEX instead of correlated subqueries
-        // This is MUCH faster because it eliminates per-row subqueries
+        // OPTIMIZED: Use MIN/MAX + CONCAT trick instead of GROUP_CONCAT
+        // This is MUCH faster because MIN/MAX only tracks one value, not building huge strings
+        // For first_touch: MIN(CONCAT(date, value)) gives earliest
+        // For last_touch: MAX(CONCAT(date, value)) gives latest
+        $aggFunc = $attribution === 'last_touch' ? 'MAX' : 'MIN';
 
         // User info from attributed session
         if ($includeAll || in_array('user_id', $requestedColumns, true)) {
-            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT sessions.user_id ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS user_id";
+            $columns[] = "SUBSTRING_INDEX({$aggFunc}(CONCAT(sessions.started_at, '||', sessions.user_id)), '||', -1) AS user_id";
         }
 
         if ($includeAll || in_array('user_login', $requestedColumns, true)) {
-            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT attr_user.user_login ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS user_login";
+            $columns[] = "SUBSTRING_INDEX({$aggFunc}(CONCAT(sessions.started_at, '||', attr_user.user_login)), '||', -1) AS user_login";
         }
 
         if ($includeAll || in_array('ip_address', $requestedColumns, true)) {
-            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT sessions.ip ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS ip_address";
+            $columns[] = "SUBSTRING_INDEX({$aggFunc}(CONCAT(sessions.started_at, '||', sessions.ip)), '||', -1) AS ip_address";
         }
 
         // Country from attributed session
         if ($includeAll || in_array('country_code', $requestedColumns, true)) {
-            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT attr_country.code ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS country_code";
+            $columns[] = "SUBSTRING_INDEX({$aggFunc}(CONCAT(sessions.started_at, '||', attr_country.code)), '||', -1) AS country_code";
         }
 
         if ($includeAll || in_array('country_name', $requestedColumns, true)) {
-            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT attr_country.name ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS country_name";
+            $columns[] = "SUBSTRING_INDEX({$aggFunc}(CONCAT(sessions.started_at, '||', attr_country.name)), '||', -1) AS country_name";
         }
 
         // City/Region from attributed session
         if ($includeAll || in_array('city_name', $requestedColumns, true)) {
-            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT attr_city.city_name ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS city_name";
+            $columns[] = "SUBSTRING_INDEX({$aggFunc}(CONCAT(sessions.started_at, '||', attr_city.city_name)), '||', -1) AS city_name";
         }
 
         if ($includeAll || in_array('region_name', $requestedColumns, true)) {
-            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT attr_city.region_name ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS region_name";
+            $columns[] = "SUBSTRING_INDEX({$aggFunc}(CONCAT(sessions.started_at, '||', attr_city.region_name)), '||', -1) AS region_name";
         }
 
         // Device info from attributed session
         if ($includeAll || in_array('device_type_name', $requestedColumns, true)) {
-            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT attr_device_type.name ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS device_type_name";
+            $columns[] = "SUBSTRING_INDEX({$aggFunc}(CONCAT(sessions.started_at, '||', attr_device_type.name)), '||', -1) AS device_type_name";
         }
 
         if ($includeAll || in_array('os_name', $requestedColumns, true)) {
-            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT attr_os.name ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS os_name";
+            $columns[] = "SUBSTRING_INDEX({$aggFunc}(CONCAT(sessions.started_at, '||', attr_os.name)), '||', -1) AS os_name";
         }
 
         if ($includeAll || in_array('browser_name', $requestedColumns, true)) {
-            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT attr_browser.name ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS browser_name";
+            $columns[] = "SUBSTRING_INDEX({$aggFunc}(CONCAT(sessions.started_at, '||', attr_browser.name)), '||', -1) AS browser_name";
         }
 
         // Referrer info from attributed session
         if ($includeAll || in_array('referrer_domain', $requestedColumns, true)) {
-            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT attr_referrer.domain ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS referrer_domain";
+            $columns[] = "SUBSTRING_INDEX({$aggFunc}(CONCAT(sessions.started_at, '||', attr_referrer.domain)), '||', -1) AS referrer_domain";
         }
 
         if ($includeAll || in_array('referrer_channel', $requestedColumns, true)) {
-            $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT attr_referrer.channel ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS referrer_channel";
+            $columns[] = "SUBSTRING_INDEX({$aggFunc}(CONCAT(sessions.started_at, '||', attr_referrer.channel)), '||', -1) AS referrer_channel";
         }
 
-        // Entry/Exit pages - optimized using MIN/MAX with GROUP BY instead of subqueries
-        // This is MUCH faster because it uses indexed lookups instead of correlated subqueries
+        // Entry/Exit pages - optimized using MIN/MAX + CONCAT trick
+        // This is MUCH faster because MIN/MAX only tracks one value, not building huge strings
 
         // Determine if we need entry/exit page columns
         $needsEntryPage = $includeAll || in_array('entry_page', $requestedColumns, true) || in_array('entry_page_title', $requestedColumns, true);
@@ -208,29 +210,27 @@ class VisitorGroupBy extends AbstractGroupBy
             // The joins will be added in getJoins() method
 
             if ($needsEntryPage) {
-                // Get entry page from attributed session using GROUP_CONCAT + SUBSTRING_INDEX
-                // This gets the entry page from the first/last session by started_at (much faster than subquery!)
-                $order = $attribution === 'last_touch' ? 'DESC' : 'ASC';
+                // Get entry page from attributed session using MIN/MAX + CONCAT
+                // For first_touch: MIN gives earliest, for last_touch: MAX gives latest
 
                 if ($includeAll || in_array('entry_page', $requestedColumns, true)) {
-                    $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(entry_page_uri.uri ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS entry_page";
+                    $columns[] = "SUBSTRING_INDEX({$aggFunc}(CONCAT(sessions.started_at, '||', entry_page_uri.uri)), '||', -1) AS entry_page";
                 }
 
                 if ($includeAll || in_array('entry_page_title', $requestedColumns, true)) {
-                    $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(entry_page_resource.cached_title ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS entry_page_title";
+                    $columns[] = "SUBSTRING_INDEX({$aggFunc}(CONCAT(sessions.started_at, '||', entry_page_resource.cached_title)), '||', -1) AS entry_page_title";
                 }
             }
 
             if ($needsExitPage) {
-                // Get exit page from attributed session using GROUP_CONCAT + SUBSTRING_INDEX
-                $order = $attribution === 'last_touch' ? 'DESC' : 'ASC';
+                // Get exit page from attributed session using MIN/MAX + CONCAT
 
                 if ($includeAll || in_array('exit_page', $requestedColumns, true)) {
-                    $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(exit_page_uri.uri ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS exit_page";
+                    $columns[] = "SUBSTRING_INDEX({$aggFunc}(CONCAT(sessions.started_at, '||', exit_page_uri.uri)), '||', -1) AS exit_page";
                 }
 
                 if ($includeAll || in_array('exit_page_title', $requestedColumns, true)) {
-                    $columns[] = "SUBSTRING_INDEX(GROUP_CONCAT(exit_page_resource.cached_title ORDER BY sessions.started_at {$order} SEPARATOR '||'), '||', 1) AS exit_page_title";
+                    $columns[] = "SUBSTRING_INDEX({$aggFunc}(CONCAT(sessions.started_at, '||', exit_page_resource.cached_title)), '||', -1) AS exit_page_title";
                 }
             }
         }
