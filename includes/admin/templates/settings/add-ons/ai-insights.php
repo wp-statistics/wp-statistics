@@ -17,6 +17,7 @@ $gscProperty     = Option::getByAddon('site', 'marketing');
 $settingsData = apply_filters('wp_statistics_ai_insights_settings_data', []);
 $isMarketingActive = Helper::isAddOnActive('marketing');
 
+$autoSync     = Option::getByAddon('gsc_auto_sync', 'ai_insights', true);
 $syncStatus   = $settingsData['sync_status'] ?? '';
 $lastSyncTime = $settingsData['last_sync_timestamp'] ?? null;
 $nextSyncTime = $settingsData['next_sync_timestamp'] ?? null;
@@ -115,6 +116,14 @@ if ($isAiInsightActive && !$isLicenseValid) {
                 </tr>
             <?php endif; ?>
 
+            <?php if (!$autoSync) : ?>
+                <tr>
+                    <th colspan="2" scope="row">
+                        <div class="wps-alert wps-alert__info"><?php esc_html_e('Automatic sync is disabled. Your AI Insights reports will not update until you manually sync Google Search Console data.', 'wp-statistics'); ?></div>
+                    </th>
+                </tr>
+            <?php endif; ?>
+
             <?php if ($syncStatus === 'not-initiated') : ?>
                 <tr>
                     <th colspan="2" scope="row">
@@ -134,12 +143,6 @@ if ($isAiInsightActive && !$isLicenseValid) {
             </tr>
         <?php endif; ?>
 
-        <tr class="js-wps-show_if_ai_insight_auto_sync_disabled">
-            <th colspan="2" scope="row">
-                <div class="wps-alert wps-alert__info"><?php esc_html_e('Automatic sync is disabled. Your AI Insights reports will not update until you manually sync Google Search Console data.', 'wp-statistics'); ?></div>
-            </th>
-        </tr>
-
         <tr data-id="enable_auto_sync_tr">
             <th scope="row">
                 <span class="wps-setting-label"><?php esc_html_e('Enable Automatic Sync', 'wp-statistics'); ?></span>
@@ -155,7 +158,7 @@ if ($isAiInsightActive && !$isLicenseValid) {
                         title="<?php esc_attr_e('Connect GSC first', 'wp-statistics'); ?>"
                         class="wps-tooltip"
                     <?php endif; ?>
-                    <?php checked(Option::getByAddon('gsc_auto_sync', 'ai_insights', '1'), '1'); ?>>
+                    <?php checked($autoSync); ?>>
                 <label for="wps_addon_settings[ai_insights][gsc_auto_sync]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('Automatically sync Google Search Console data on a scheduled basis. When disabled, data must be synced manually.', 'wp-statistics'); ?></p>
             </td>
