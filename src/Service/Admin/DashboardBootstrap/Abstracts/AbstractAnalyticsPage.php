@@ -8,6 +8,7 @@ use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidSourceException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidGroupByException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidDateRangeException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidFormatException;
+use WP_Statistics\Utils\Request;
 
 /**
  * Abstract base class for handlers that use the AnalyticsQuery.
@@ -149,42 +150,41 @@ abstract class AbstractAnalyticsPage implements PageActionInterface
      */
     protected function getQueryFromRequest(): ?array
     {
-        // Check for JSON body
-        $rawBody = file_get_contents('php://input');
-        if (!empty($rawBody)) {
-            $decoded = json_decode($rawBody, true);
-            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                return $decoded;
-            }
-        }
+        $data = Request::getRequestData();
 
-        // Check for form data 'query' parameter
-        if (isset($_POST['query'])) {
-            $queryParam = wp_unslash($_POST['query']);
-            if (is_string($queryParam)) {
-                $decoded = json_decode($queryParam, true);
-                if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                    return $decoded;
+        // If data is not empty, return it directly (handles JSON body)
+        if (!empty($data)) {
+            // Check for form data 'query' parameter (legacy support)
+            if (isset($data['query'])) {
+                $queryParam = wp_unslash($data['query']);
+                if (is_string($queryParam)) {
+                    $decoded = json_decode($queryParam, true);
+                    if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                        return $decoded;
+                    }
+                } elseif (is_array($queryParam)) {
+                    return $queryParam;
                 }
-            } elseif (is_array($queryParam)) {
-                return $queryParam;
             }
-        }
 
-        // Check for direct POST parameters
-        if (!empty($_POST['sources'])) {
-            return [
-                'sources'   => isset($_POST['sources']) ? (array) $_POST['sources'] : [],
-                'group_by'  => isset($_POST['group_by']) ? (array) $_POST['group_by'] : [],
-                'filters'   => isset($_POST['filters']) ? (array) $_POST['filters'] : [],
-                'date_from' => isset($_POST['date_from']) ? sanitize_text_field($_POST['date_from']) : null,
-                'date_to'   => isset($_POST['date_to']) ? sanitize_text_field($_POST['date_to']) : null,
-                'compare'   => isset($_POST['compare']) && $_POST['compare'] === 'true',
-                'page'      => isset($_POST['page']) ? (int) $_POST['page'] : 1,
-                'per_page'  => isset($_POST['per_page']) ? (int) $_POST['per_page'] : 10,
-                'order_by'  => isset($_POST['order_by']) ? sanitize_text_field($_POST['order_by']) : null,
-                'order'     => isset($_POST['order']) ? strtoupper(sanitize_text_field($_POST['order'])) : 'DESC',
-            ];
+            // Check for direct POST parameters
+            if (!empty($data['sources'])) {
+                return [
+                    'sources'   => isset($data['sources']) ? (array) $data['sources'] : [],
+                    'group_by'  => isset($data['group_by']) ? (array) $data['group_by'] : [],
+                    'filters'   => isset($data['filters']) ? (array) $data['filters'] : [],
+                    'date_from' => isset($data['date_from']) ? sanitize_text_field($data['date_from']) : null,
+                    'date_to'   => isset($data['date_to']) ? sanitize_text_field($data['date_to']) : null,
+                    'compare'   => isset($data['compare']) && $data['compare'] === 'true',
+                    'page'      => isset($data['page']) ? (int) $data['page'] : 1,
+                    'per_page'  => isset($data['per_page']) ? (int) $data['per_page'] : 10,
+                    'order_by'  => isset($data['order_by']) ? sanitize_text_field($data['order_by']) : null,
+                    'order'     => isset($data['order']) ? strtoupper(sanitize_text_field($data['order'])) : 'DESC',
+                ];
+            }
+
+            // Return the data as-is if it's a valid array (JSON request)
+            return $data;
         }
 
         return null;

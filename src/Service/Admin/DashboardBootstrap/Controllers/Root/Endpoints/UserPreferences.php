@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Endpoi
 
 use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\PageActionInterface;
 use WP_Statistics\Service\Admin\UserPreferences\UserPreferencesManager;
+use WP_Statistics\Utils\Request as RequestUtil;
 
 /**
  * User Preferences endpoint handler.
@@ -196,25 +197,23 @@ class UserPreferences implements PageActionInterface
      */
     private function getRequestData(): ?array
     {
-        // Check for JSON body
-        $rawBody = file_get_contents('php://input');
-        if (!empty($rawBody)) {
-            $decoded = json_decode($rawBody, true);
-            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                return $decoded;
-            }
+        $requestData = RequestUtil::getRequestData();
+
+        // If we have JSON data, return it as-is
+        if (!empty($requestData) && isset($requestData['action_type'])) {
+            return $requestData;
         }
 
-        // Check for form data
-        if (!empty($_POST)) {
+        // Check for form data (legacy support)
+        if (!empty($requestData)) {
             $data = [
-                'action_type' => isset($_POST['action_type']) ? sanitize_text_field(wp_unslash($_POST['action_type'])) : '',
-                'context'     => isset($_POST['context']) ? sanitize_text_field(wp_unslash($_POST['context'])) : '',
+                'action_type' => isset($requestData['action_type']) ? sanitize_text_field(wp_unslash($requestData['action_type'])) : '',
+                'context'     => isset($requestData['context']) ? sanitize_text_field(wp_unslash($requestData['context'])) : '',
             ];
 
             // Handle 'data' parameter - can be JSON string or array
-            if (isset($_POST['data'])) {
-                $postData = wp_unslash($_POST['data']);
+            if (isset($requestData['data'])) {
+                $postData = wp_unslash($requestData['data']);
                 if (is_string($postData)) {
                     $decoded = json_decode($postData, true);
                     if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {

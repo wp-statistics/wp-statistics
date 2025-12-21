@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Endpoi
 
 use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\PageActionInterface;
 use WP_Statistics\Service\AnalyticsQuery\Registry\FilterRegistry;
+use WP_Statistics\Utils\Request;
 
 /**
  * Filter Options endpoint handler.
@@ -59,9 +60,11 @@ class FilterOptions implements PageActionInterface
      */
     public function handleQuery()
     {
-        $filterName = isset($_POST['filter']) ? sanitize_text_field($_POST['filter']) : '';
-        $search     = isset($_POST['search']) ? sanitize_text_field($_POST['search']) : '';
-        $limit      = isset($_POST['limit']) ? absint($_POST['limit']) : 20;
+        $data = Request::getRequestData();
+
+        $filterName = isset($data['filter']) ? sanitize_text_field($data['filter']) : '';
+        $search     = isset($data['search']) ? sanitize_text_field($data['search']) : '';
+        $limit      = isset($data['limit']) ? absint($data['limit']) : 20;
 
         if (empty($filterName)) {
             return [
