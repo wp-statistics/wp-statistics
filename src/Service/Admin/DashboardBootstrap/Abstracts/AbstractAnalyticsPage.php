@@ -170,16 +170,20 @@ abstract class AbstractAnalyticsPage implements PageActionInterface
             // Check for direct POST parameters
             if (!empty($data['sources'])) {
                 return [
-                    'sources'   => isset($data['sources']) ? (array) $data['sources'] : [],
-                    'group_by'  => isset($data['group_by']) ? (array) $data['group_by'] : [],
-                    'filters'   => isset($data['filters']) ? (array) $data['filters'] : [],
-                    'date_from' => isset($data['date_from']) ? sanitize_text_field($data['date_from']) : null,
-                    'date_to'   => isset($data['date_to']) ? sanitize_text_field($data['date_to']) : null,
-                    'compare'   => isset($data['compare']) && $data['compare'] === 'true',
-                    'page'      => isset($data['page']) ? (int) $data['page'] : 1,
-                    'per_page'  => isset($data['per_page']) ? (int) $data['per_page'] : 10,
-                    'order_by'  => isset($data['order_by']) ? sanitize_text_field($data['order_by']) : null,
-                    'order'     => isset($data['order']) ? strtoupper(sanitize_text_field($data['order'])) : 'DESC',
+                    'sources'      => isset($data['sources']) ? (array) $data['sources'] : [],
+                    'group_by'     => isset($data['group_by']) ? (array) $data['group_by'] : [],
+                    'filters'      => isset($data['filters']) ? (array) $data['filters'] : [],
+                    'date_from'    => isset($data['date_from']) ? sanitize_text_field($data['date_from']) : null,
+                    'date_to'      => isset($data['date_to']) ? sanitize_text_field($data['date_to']) : null,
+                    'compare'      => isset($data['compare']) && $data['compare'] === 'true',
+                    'page'         => isset($data['page']) ? (int) $data['page'] : 1,
+                    'per_page'     => isset($data['per_page']) ? (int) $data['per_page'] : 10,
+                    'order_by'     => isset($data['order_by']) ? sanitize_text_field($data['order_by']) : null,
+                    'order'        => isset($data['order']) ? strtoupper(sanitize_text_field($data['order'])) : 'DESC',
+                    'columns'      => isset($data['columns']) ? (array) $data['columns'] : [],
+                    'format'       => isset($data['format']) ? sanitize_text_field($data['format']) : 'table',
+                    'show_totals'  => isset($data['show_totals']) ? (bool) $data['show_totals'] : false,
+                    'context'      => isset($data['context']) ? sanitize_text_field($data['context']) : null,
                 ];
             }
 

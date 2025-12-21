@@ -95,10 +95,51 @@ class VisitorGroupBy extends AbstractGroupBy
     public function getSelectColumns(string $attribution = 'first_touch', array $requestedColumns = []): array
     {
         $columns = [$this->column . ' AS ' . $this->alias];
-        $columns = array_merge($columns, $this->baseExtraColumns);
+
+        // Add base extra columns conditionally based on requested columns
+        $columns = array_merge($columns, $this->getBaseExtraColumns($requestedColumns));
 
         // Add attribution-aware session-level columns (conditionally if columns are requested)
         $columns = array_merge($columns, $this->getAttributedColumns($attribution, $requestedColumns));
+
+        return $columns;
+    }
+
+    /**
+     * Get base extra columns conditionally based on requested columns.
+     *
+     * @param array $requestedColumns List of requested column aliases. Empty = include all.
+     * @return array
+     */
+    private function getBaseExtraColumns(array $requestedColumns = []): array
+    {
+        $includeAll = empty($requestedColumns);
+        $columns = [];
+
+        // visitor_hash
+        if ($includeAll || in_array('visitor_hash', $requestedColumns, true)) {
+            $columns[] = 'visitors.hash AS visitor_hash';
+        }
+
+        // first_visit
+        if ($includeAll || in_array('first_visit', $requestedColumns, true)) {
+            $columns[] = 'MIN(sessions.started_at) AS first_visit';
+        }
+
+        // last_visit
+        if ($includeAll || in_array('last_visit', $requestedColumns, true)) {
+            $columns[] = 'MAX(sessions.started_at) AS last_visit';
+        }
+
+        // total_sessions
+        if ($includeAll || in_array('total_sessions', $requestedColumns, true)) {
+            $columns[] = 'COUNT(DISTINCT sessions.ID) AS total_sessions';
+        }
+
+        // total_views
+        if ($includeAll || in_array('total_views', $requestedColumns, true)) {
+            $columns[] = 'SUM(sessions.total_views) AS total_views';
+        }
 
         return $columns;
     }
