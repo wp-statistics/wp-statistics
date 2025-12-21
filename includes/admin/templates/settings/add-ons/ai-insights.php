@@ -205,17 +205,19 @@ if ($isAiInsightActive && !$isLicenseValid) {
             </td>
         </tr>
 
-        <tr data-id="next_scheduled_sync_tr" class="js-wps-show_if_ai_insight_auto_sync_enabled">
-            <th scope="row">
-                <span class="wps-setting-label"><?php esc_html_e('Next Scheduled Sync', 'wp-statistics'); ?></span>
-            </th>
-            <td>
-                <input type="text" title="<?php echo $nextSyncTime ? esc_attr(DateTime::format($nextSyncTime, ['include_time' => true])) : esc_attr__('Never', 'wp-statistics'); ?>" value="<?php echo $nextSyncTime ? esc_attr__('In ', 'wp-statistics') . human_time_diff($nextSyncTime) : esc_attr__('Never', 'wp-statistics'); ?>" aria-label="<?php esc_attr_e('Next Scheduled Sync', 'wp-statistics'); ?>" readonly class="wps-tooltip regular-text"/>
-                <p class="description">
-                    <?php esc_html_e('When the next automatic sync will occur.', 'wp-statistics'); ?>
-                </p>
-            </td>
-        </tr>
+        <?php if ($autoSync) : ?>
+            <tr data-id="next_scheduled_sync_tr">
+                <th scope="row">
+                    <span class="wps-setting-label"><?php esc_html_e('Next Scheduled Sync', 'wp-statistics'); ?></span>
+                </th>
+                <td>
+                    <input type="text" title="<?php echo $nextSyncTime ? esc_attr(DateTime::format($nextSyncTime, ['include_time' => true])) : esc_attr__('Never', 'wp-statistics'); ?>" value="<?php echo $nextSyncTime ? esc_attr__('In ', 'wp-statistics') . human_time_diff($nextSyncTime) : esc_attr__('Never', 'wp-statistics'); ?>" aria-label="<?php esc_attr_e('Next Scheduled Sync', 'wp-statistics'); ?>" readonly class="wps-tooltip regular-text"/>
+                    <p class="description">
+                        <?php esc_html_e('When the next automatic sync will occur.', 'wp-statistics'); ?>
+                    </p>
+                </td>
+            </tr>
+        <?php endif; ?>
 
         <tr data-id="records_synced_tr">
             <th scope="row">
