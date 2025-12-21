@@ -6,8 +6,11 @@ import { Funnel } from 'lucide-react'
 export interface Filter {
   id: string
   label: string
-  operator: string
-  value: string | number
+  operator: string // Display operator (e.g., "=", "!=")
+  rawOperator?: string // Actual operator for API (e.g., "is", "is_not")
+  value: string | number // Display value (labels for searchable filters)
+  rawValue?: string | string[] // Actual value for API (e.g., "5" instead of "Firefox")
+  valueLabels?: Record<string, string> // Maps rawValue to display label
 }
 
 export interface FilterBarProps {

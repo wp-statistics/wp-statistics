@@ -43,18 +43,25 @@ const getOperatorDisplay = (operator: FilterOperator): string => {
 }
 
 // Format value for display in filter chip
-const formatValueForDisplay = (value: FilterValue, operator: FilterOperator): string => {
+const formatValueForDisplay = (
+  value: FilterValue,
+  operator: FilterOperator,
+  valueLabels?: Record<string, string>
+): string => {
   const operatorType = getOperatorType(operator)
+
+  // Helper to get display label for a value
+  const getDisplayLabel = (val: string) => valueLabels?.[val] || val
 
   if (operatorType === 'range' && isRangeValue(value)) {
     return `${value.min} - ${value.max}`
   }
 
   if (operatorType === 'multiple' && Array.isArray(value)) {
-    return value.join(', ')
+    return value.map(getDisplayLabel).join(', ')
   }
 
-  return getSingleValue(value)
+  return getDisplayLabel(getSingleValue(value))
 }
 
 // Check if filter has a valid value
@@ -87,11 +94,34 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className }: Fil
         const field = fields.find((f) => f.label === af.label)
         const fieldName = field?.name || (af.label.toLowerCase().replace(/\s+/g, '_') as FilterFieldName)
 
+        // Use rawValue if available, otherwise fall back to display value
+        const value = af.rawValue !== undefined ? af.rawValue : String(af.value)
+        // Use rawOperator if available, otherwise fall back to display operator
+        const operator = (af.rawOperator || af.operator) as FilterOperator
+
+        // Try to restore valueLabels from field options if not available
+        let valueLabels = af.valueLabels
+        if (!valueLabels && field?.options) {
+          const rawVal = typeof value === 'string' ? value : Array.isArray(value) ? value : String(value)
+          const values = Array.isArray(rawVal) ? rawVal : [rawVal]
+          valueLabels = {}
+          for (const val of values) {
+            const option = field.options.find((o) => String(o.value) === val)
+            if (option) {
+              valueLabels[val] = option.label
+            }
+          }
+          if (Object.keys(valueLabels).length === 0) {
+            valueLabels = undefined
+          }
+        }
+
         return {
           id: af.id,
           fieldName,
-          operator: af.operator as FilterOperator,
-          value: String(af.value),
+          operator,
+          value,
+          valueLabels,
         }
       })
       setPendingFilters(converted.length > 0 ? converted : [])
@@ -105,11 +135,33 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className }: Fil
       .filter((f) => hasValidValue(f.value, f.operator))
       .map((f) => {
         const field = fields.find((field) => field.name === f.fieldName)
+        // Get raw value (actual value for API)
+        const rawValue = Array.isArray(f.value) ? f.value : getSingleValue(f.value)
+
+        // Try to get labels from field options if valueLabels is not set
+        let valueLabels = f.valueLabels
+        if (!valueLabels && field?.options) {
+          const values = Array.isArray(rawValue) ? rawValue : [rawValue]
+          valueLabels = {}
+          for (const val of values) {
+            const option = field.options.find((o) => String(o.value) === val)
+            if (option) {
+              valueLabels[val] = option.label
+            }
+          }
+          if (Object.keys(valueLabels).length === 0) {
+            valueLabels = undefined
+          }
+        }
+
         return {
           id: `${f.fieldName}-${f.id}`,
           label: field?.label || f.fieldName,
           operator: getOperatorDisplay(f.operator),
-          value: formatValueForDisplay(f.value, f.operator),
+          rawOperator: f.operator,
+          value: formatValueForDisplay(f.value, f.operator, valueLabels),
+          rawValue,
+          valueLabels,
         }
       })
 

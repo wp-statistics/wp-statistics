@@ -33,6 +33,7 @@ export interface FilterRowData {
   fieldName: FilterFieldName
   operator: FilterOperator
   value: FilterValue
+  valueLabels?: Record<string, string> // Maps value to label for searchable filters
 }
 
 export interface FilterRowProps {
@@ -101,7 +102,7 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
   })
 
   const searchOptions = useMemo(() => {
-    return searchResults?.data?.data?.options ?? []
+    return searchResults?.data?.options ?? []
   }, [searchResults])
 
   const handleFieldChange = (fieldName: string) => {
@@ -117,7 +118,7 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
       initialValue = []
     }
 
-    onUpdate({ ...filter, fieldName: fieldName as FilterFieldName, operator: newOperator, value: initialValue })
+    onUpdate({ ...filter, fieldName: fieldName as FilterFieldName, operator: newOperator, value: initialValue, valueLabels: undefined })
     setSearchTerm('')
   }
 
@@ -127,6 +128,7 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
 
     // Reset value when operator type changes
     let newValue: FilterValue = filter.value
+    let newValueLabels = filter.valueLabels
     if (newOperatorType !== currentOperatorType) {
       if (newOperatorType === 'range') {
         newValue = { min: '', max: '' }
@@ -135,13 +137,18 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
       } else {
         newValue = ''
       }
+      newValueLabels = undefined
     }
 
-    onUpdate({ ...filter, operator: operator as FilterOperator, value: newValue })
+    onUpdate({ ...filter, operator: operator as FilterOperator, value: newValue, valueLabels: newValueLabels })
   }
 
-  const handleSingleValueChange = (value: string) => {
-    onUpdate({ ...filter, value })
+  const handleSingleValueChange = (value: string, label?: string) => {
+    if (label) {
+      onUpdate({ ...filter, value, valueLabels: { [value]: label } })
+    } else {
+      onUpdate({ ...filter, value })
+    }
   }
 
   const handleRangeValueChange = (field: 'min' | 'max', value: string) => {
@@ -158,11 +165,34 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
     }
   }
 
-  const handleSearchableSelect = (value: string) => {
+  const handleSearchableSelect = (value: string, label: string) => {
+    const currentLabels = filter.valueLabels || {}
+
     if (operatorType === 'multiple') {
-      handleMultipleValueChange(value)
+      const currentValues = getArrayValue(filter.value)
+      if (currentValues.includes(value)) {
+        // Remove value and its label
+        const newLabels = { ...currentLabels }
+        delete newLabels[value]
+        onUpdate({
+          ...filter,
+          value: currentValues.filter((v) => v !== value),
+          valueLabels: newLabels
+        })
+      } else {
+        // Add value and its label
+        onUpdate({
+          ...filter,
+          value: [...currentValues, value],
+          valueLabels: { ...currentLabels, [value]: label }
+        })
+      }
     } else {
-      handleSingleValueChange(value)
+      onUpdate({
+        ...filter,
+        value,
+        valueLabels: { [value]: label }
+      })
     }
     setSearchTerm('')
   }
@@ -196,14 +226,29 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
   // Render searchable input with dropdown
   const renderSearchableInput = () => {
     const currentValue = operatorType === 'multiple' ? getArrayValue(filter.value) : getSingleValue(filter.value)
+    const valueLabels = filter.valueLabels || {}
+
+    // Helper to get display label for a value
+    const getDisplayLabel = (val: string) => valueLabels[val] || val
+
+    // For single select, show the selected label in input when not searching
+    const singleSelectedLabel = operatorType !== 'multiple' && typeof currentValue === 'string' && currentValue
+      ? getDisplayLabel(currentValue)
+      : ''
 
     return (
-      <div className="relative w-[200px]">
+      <div className="relative min-w-[150px] flex-1">
         <div className="relative">
           <Input
             type="text"
-            value={searchTerm}
+            value={searchTerm || singleSelectedLabel}
             onChange={(e) => setSearchTerm(e.target.value)}
+            onFocus={() => {
+              // Clear input to allow searching when focused (only for single select with existing value)
+              if (singleSelectedLabel && !searchTerm) {
+                setSearchTerm('')
+              }
+            }}
             placeholder={operatorType === 'multiple' ? __('Search & select...', 'wp-statistics') : __('Search...', 'wp-statistics')}
             className="w-full pr-8"
           />
@@ -220,23 +265,16 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
                 key={val}
                 className="inline-flex items-center gap-1 rounded bg-primary/10 px-2 py-0.5 text-xs"
               >
-                {val}
+                {getDisplayLabel(val)}
                 <button
                   type="button"
-                  onClick={() => handleMultipleValueChange(val)}
+                  onClick={() => handleSearchableSelect(val, getDisplayLabel(val))}
                   className="hover:text-destructive"
                 >
                   ×
                 </button>
               </span>
             ))}
-          </div>
-        )}
-
-        {/* Display single selected value */}
-        {operatorType !== 'multiple' && typeof currentValue === 'string' && currentValue && !searchTerm && (
-          <div className="mt-1 text-xs text-muted-foreground">
-            {__('Selected:', 'wp-statistics')} {currentValue}
           </div>
         )}
 
@@ -247,7 +285,7 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
               <button
                 key={option.value}
                 type="button"
-                onClick={() => handleSearchableSelect(option.value)}
+                onClick={() => handleSearchableSelect(option.value, option.label)}
                 className="flex w-full items-center rounded-sm px-2 py-1.5 text-sm hover:bg-accent hover:text-accent-foreground"
               >
                 {operatorType === 'multiple' && Array.isArray(currentValue) && (
@@ -279,7 +317,7 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
           value={getSingleValue(filter.value)}
           onChange={(e) => handleSingleValueChange(e.target.value)}
           placeholder={__('Value', 'wp-statistics')}
-          className="w-[160px]"
+          className="min-w-[150px] flex-1"
         />
       )
     }
@@ -296,16 +334,20 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
 
     // Handle based on input type
     switch (selectedField.inputType) {
-      case 'dropdown':
+      case 'dropdown': {
+        const handleDropdownChange = (value: string) => {
+          const option = selectedField.options?.find((o) => String(o.value) === value)
+          handleSingleValueChange(value, option?.label)
+        }
         return (
           <Select
             value={getSingleValue(filter.value)}
-            onValueChange={handleSingleValueChange}
+            onValueChange={handleDropdownChange}
           >
-            <SelectTrigger className="w-[160px]">
+            <SelectTrigger className="min-w-[150px] flex-1">
               <SelectValue placeholder={__('Select value', 'wp-statistics')} />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="max-h-[200px] overflow-y-auto">
               {selectedField.options?.map((option) => (
                 <SelectItem key={String(option.value)} value={String(option.value)}>
                   {option.label}
@@ -314,6 +356,7 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
             </SelectContent>
           </Select>
         )
+      }
       case 'number':
         return (
           <Input
@@ -321,7 +364,7 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
             value={getSingleValue(filter.value)}
             onChange={(e) => handleSingleValueChange(e.target.value)}
             placeholder={__('Value', 'wp-statistics')}
-            className="w-[160px]"
+            className="min-w-[150px] flex-1"
           />
         )
       case 'date':
@@ -331,7 +374,7 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
             value={getSingleValue(filter.value)}
             onChange={(e) => handleSingleValueChange(e.target.value)}
             placeholder={__('Select date', 'wp-statistics')}
-            className="w-[160px]"
+            className="min-w-[150px] flex-1"
           />
         )
       case 'text':
@@ -342,7 +385,7 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
             value={getSingleValue(filter.value)}
             onChange={(e) => handleSingleValueChange(e.target.value)}
             placeholder={__('Value', 'wp-statistics')}
-            className="w-[160px]"
+            className="min-w-[150px] flex-1"
           />
         )
     }
@@ -352,10 +395,10 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
     <div className="flex items-center gap-2">
       {/* Field Select */}
       <Select value={filter.fieldName} onValueChange={handleFieldChange}>
-        <SelectTrigger className="w-[140px]">
+        <SelectTrigger className="min-w-[120px] flex-1">
           <SelectValue placeholder={__('Select field', 'wp-statistics')} />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="max-h-[200px] overflow-y-auto">
           {fields.map((field) => (
             <SelectItem key={field.name} value={field.name}>
               {field.label}
@@ -366,10 +409,10 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
 
       {/* Operator Select */}
       <Select value={filter.operator} onValueChange={handleOperatorChange}>
-        <SelectTrigger className="w-[140px]">
+        <SelectTrigger className="min-w-[120px] flex-1">
           <SelectValue placeholder={__('Select operator', 'wp-statistics')} />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="max-h-[200px] overflow-y-auto">
           {availableOperators.map((op) => (
             <SelectItem key={op} value={op}>
               {getOperatorLabel(op)}

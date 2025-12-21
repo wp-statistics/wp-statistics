@@ -10,10 +10,7 @@ export interface FilterOptionItem {
 
 export interface FilterOptionsResponse {
   success: boolean
-  data: {
-    success: boolean
-    options: FilterOptionItem[]
-  }
+  options: FilterOptionItem[]
 }
 
 // Request parameters for filter options
