@@ -3,7 +3,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
-import { useCallback,useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import { getToday } from '@/lib/utils'
 import type { SearchTerm as APISearchTerm } from '@/services/visitor-insight/get-search-terms'

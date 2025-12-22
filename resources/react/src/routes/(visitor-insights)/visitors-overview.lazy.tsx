@@ -1,9 +1,9 @@
-import { useQuery,useSuspenseQuery } from '@tanstack/react-query'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
-import { useMemo,useState } from 'react'
+import { useMemo, useState } from 'react'
 
-import { type Filter,FilterBar } from '@/components/custom/filter-bar'
+import { type Filter, FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import type { GlobalMapData } from '@/components/custom/global-map'
 import { GlobalMap } from '@/components/custom/global-map'
@@ -280,157 +280,165 @@ function RouteComponent() {
         )}
 
         <div className="grid gap-3 grid-cols-12">
-        <div className="col-span-12">
-          <Metrics metrics={metricsData} columns={3} />
-        </div>
+          <div className="col-span-12">
+            <Metrics metrics={metricsData} columns={3} />
+          </div>
 
-        <div className="col-span-12">
-          <LineChart
-            title="Traffic Trends"
-            data={trafficTrendsData}
-            metrics={trafficTrendsMetrics}
-            showPreviousPeriod={true}
-            timeframe={timeframe}
-            onTimeframeChange={setTimeframe}
-          />
-        </div>
+          <div className="col-span-12">
+            <LineChart
+              title="Traffic Trends"
+              data={trafficTrendsData}
+              metrics={trafficTrendsMetrics}
+              showPreviousPeriod={true}
+              timeframe={timeframe}
+              onTimeframeChange={setTimeframe}
+            />
+          </div>
 
-        <div className="col-span-6">
-          <Card>
+          <div className="col-span-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Top Entry Pages</CardTitle>
+              </CardHeader>
+            </Card>
+          </div>
+
+          <div className="col-span-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Top Referrers</CardTitle>
+              </CardHeader>
+            </Card>
+          </div>
+
+          <div className="col-span-4">
+            <HorizontalBarList
+              title={__('Top Countries', 'wp-statistics')}
+              items={topCountries.data.items.map((item) => {
+                const currentValue = Number(item.value)
+                const previousValue = Number(item.previous_value)
+
+                const percentageChange =
+                  previousValue > 0 ? (((currentValue - previousValue) / previousValue) * 100).toFixed(1) : '0'
+                const isNegative = currentValue < previousValue
+
+                return {
+                  icon: (
+                    <img
+                      src={`${pluginUrl}public/images/flags/${item.icon || '000'}.svg`}
+                      alt={item.label}
+                      className="w-4 h-3"
+                    />
+                  ),
+                  label: item.label,
+                  value: item.value.toLocaleString(),
+                  percentage: Math.abs(parseFloat(percentageChange)).toString(),
+                  isNegative,
+                  tooltipTitle: 'November 2025',
+                  tooltipSubtitle: `${__('Previous Data: ', 'wp-statistics')} ${item.previous_value}`,
+                }
+              })}
+              link={{
+                title: __('View Countries', 'wp-statistics'),
+                action: () => console.log('View all countries'),
+              }}
+            />
+          </div>
+
+          <div className="col-span-4">
+            <HorizontalBarList
+              title={__('Device Type', 'wp-statistics')}
+              items={devicesType.data.items.map((item) => {
+                const currentValue = Number(item.value)
+                const previousValue = Number(item.previous_value)
+
+                const percentageChange =
+                  previousValue > 0 ? (((currentValue - previousValue) / previousValue) * 100).toFixed(1) : '0'
+                const isNegative = currentValue < previousValue
+
+                return {
+                  icon: (
+                    <img
+                      src={`${pluginUrl}public/images/device/${item.icon}.svg`}
+                      alt={item.label}
+                      className="w-4 h-3"
+                    />
+                  ),
+                  label: item.label,
+                  value: item.value.toLocaleString(),
+                  percentage: Math.abs(parseFloat(percentageChange)).toString(),
+                  isNegative,
+                  tooltipTitle: 'November 2025',
+                  tooltipSubtitle: `${__('Previous Data: ', 'wp-statistics')} ${item.previous_value}`,
+                }
+              })}
+              link={{
+                title: __('View Device Types', 'wp-statistics'),
+                action: () => console.log('View all device types'),
+              }}
+            />
+          </div>
+
+          <div className="col-span-4">
+            <HorizontalBarList
+              title={__('Operating Systems', 'wp-statistics')}
+              items={oss.data.items.map((item) => {
+                const currentValue = Number(item.value)
+                const previousValue = Number(item.previous_value)
+
+                const percentageChange =
+                  previousValue > 0 ? (((currentValue - previousValue) / previousValue) * 100).toFixed(1) : '0'
+                const isNegative = currentValue < previousValue
+
+                return {
+                  icon: (
+                    <img
+                      src={`${pluginUrl}public/images/operating-system/${item.icon}.svg`}
+                      alt={item.label}
+                      className="w-4 h-3"
+                    />
+                  ),
+                  label: item.label,
+                  value: item.value.toLocaleString(),
+                  percentage: Math.abs(parseFloat(percentageChange)).toString(),
+                  isNegative,
+                  tooltipTitle: 'November 2025',
+                  tooltipSubtitle: `${__('Previous Data: ', 'wp-statistics')} ${item.previous_value}`,
+                }
+              })}
+              link={{
+                title: __('View Operating Systems', 'wp-statistics'),
+                action: () => console.log('View all operating systems'),
+              }}
+            />
+          </div>
+
+          <div className="col-span-12">
+            <OverviewTopVisitors />
+          </div>
+
+          <Card className="col-span-6">
             <CardHeader>
-              <CardTitle>Top Entry Pages</CardTitle>
+              <CardTitle>Traffic by Hour</CardTitle>
             </CardHeader>
           </Card>
-        </div>
 
-        <div className="col-span-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Top Referrers</CardTitle>
-            </CardHeader>
-          </Card>
-        </div>
-
-        <div className="col-span-4">
-          <HorizontalBarList
-            title={__('Top Countries', 'wp-statistics')}
-            items={topCountries.data.items.map((item) => {
-              const currentValue = Number(item.value)
-              const previousValue = Number(item.previous_value)
-
-              const percentageChange =
-                previousValue > 0 ? (((currentValue - previousValue) / previousValue) * 100).toFixed(1) : '0'
-              const isNegative = currentValue < previousValue
-
-              return {
-                icon: (
-                  <img src={`${pluginUrl}public/images/flags/${item.icon || '000'}.svg`} alt={item.label} className="w-4 h-3" />
-                ),
-                label: item.label,
-                value: item.value.toLocaleString(),
-                percentage: Math.abs(parseFloat(percentageChange)).toString(),
-                isNegative,
-                tooltipTitle: 'November 2025',
-                tooltipSubtitle: `${__('Previous Data: ', 'wp-statistics')} ${item.previous_value}`,
-              }
-            })}
-            link={{
-              title: __('View Countries', 'wp-statistics'),
-              action: () => console.log('View all countries'),
-            }}
-          />
-        </div>
-
-        <div className="col-span-4">
-          <HorizontalBarList
-            title={__('Device Type', 'wp-statistics')}
-            items={devicesType.data.items.map((item) => {
-              const currentValue = Number(item.value)
-              const previousValue = Number(item.previous_value)
-
-              const percentageChange =
-                previousValue > 0 ? (((currentValue - previousValue) / previousValue) * 100).toFixed(1) : '0'
-              const isNegative = currentValue < previousValue
-
-              return {
-                icon: (
-                  <img src={`${pluginUrl}public/images/device/${item.icon}.svg`} alt={item.label} className="w-4 h-3" />
-                ),
-                label: item.label,
-                value: item.value.toLocaleString(),
-                percentage: Math.abs(parseFloat(percentageChange)).toString(),
-                isNegative,
-                tooltipTitle: 'November 2025',
-                tooltipSubtitle: `${__('Previous Data: ', 'wp-statistics')} ${item.previous_value}`,
-              }
-            })}
-            link={{
-              title: __('View Device Types', 'wp-statistics'),
-              action: () => console.log('View all device types'),
-            }}
-          />
-        </div>
-
-        <div className="col-span-4">
-          <HorizontalBarList
-            title={__('Operating Systems', 'wp-statistics')}
-            items={oss.data.items.map((item) => {
-              const currentValue = Number(item.value)
-              const previousValue = Number(item.previous_value)
-
-              const percentageChange =
-                previousValue > 0 ? (((currentValue - previousValue) / previousValue) * 100).toFixed(1) : '0'
-              const isNegative = currentValue < previousValue
-
-              return {
-                icon: (
-                  <img
-                    src={`${pluginUrl}public/images/operating-system/${item.icon}.svg`}
-                    alt={item.label}
-                    className="w-4 h-3"
-                  />
-                ),
-                label: item.label,
-                value: item.value.toLocaleString(),
-                percentage: Math.abs(parseFloat(percentageChange)).toString(),
-                isNegative,
-                tooltipTitle: 'November 2025',
-                tooltipSubtitle: `${__('Previous Data: ', 'wp-statistics')} ${item.previous_value}`,
-              }
-            })}
-            link={{
-              title: __('View Operating Systems', 'wp-statistics'),
-              action: () => console.log('View all operating systems'),
-            }}
-          />
-        </div>
-
-        <div className="col-span-12">
-          <OverviewTopVisitors />
-        </div>
-
-        <Card className="col-span-6">
-          <CardHeader>
-            <CardTitle>Traffic by Hour</CardTitle>
-          </CardHeader>
-        </Card>
-
-        <div className="col-span-6">
-          <GlobalMap
-            data={globalMapData}
-            metric="Visitors"
-            showZoomControls={true}
-            showLegend={true}
-            pluginUrl={pluginUrl}
-            title={__('Global Visitor Distribution', 'wp-statistics')}
-            enableCityDrilldown={true}
-            enableMetricToggle={true}
-            availableMetrics={[
-              { value: 'visitors', label: 'Visitors' },
-              { value: 'views', label: 'Views' },
-            ]}
-          />
-        </div>
+          <div className="col-span-6">
+            <GlobalMap
+              data={globalMapData}
+              metric="Visitors"
+              showZoomControls={true}
+              showLegend={true}
+              pluginUrl={pluginUrl}
+              title={__('Global Visitor Distribution', 'wp-statistics')}
+              enableCityDrilldown={true}
+              enableMetricToggle={true}
+              availableMetrics={[
+                { value: 'visitors', label: 'Visitors' },
+                { value: 'views', label: 'Views' },
+              ]}
+            />
+          </div>
         </div>
       </div>
     </div>

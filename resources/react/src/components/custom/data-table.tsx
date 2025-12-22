@@ -149,7 +149,12 @@ export function DataTable<TData, TValue>({
           </div>
         </CardHeader>
       )}
-      <div className={cn('overflow-x-auto min-w-0 relative', isFetching && 'opacity-50 pointer-events-none transition-opacity')}>
+      <div
+        className={cn(
+          'overflow-x-auto min-w-0 relative',
+          isFetching && 'opacity-50 pointer-events-none transition-opacity'
+        )}
+      >
         {isFetching && (
           <div className="absolute inset-0 flex items-center justify-center z-10 bg-white/30">
             <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
@@ -217,7 +222,8 @@ export function DataTable<TData, TValue>({
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div className="text-sm text-card-foreground">
               {(() => {
-                const rowCount = manualPagination && totalRows !== undefined ? totalRows : table.getFilteredRowModel().rows.length
+                const rowCount =
+                  manualPagination && totalRows !== undefined ? totalRows : table.getFilteredRowModel().rows.length
                 if (rowCount > 0) {
                   const start = table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1
                   const end = Math.min(

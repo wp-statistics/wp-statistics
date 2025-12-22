@@ -10,12 +10,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from './breadcrumb'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from './dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './dropdown-menu'
 
 const meta = {
   title: 'UI/Breadcrumb',

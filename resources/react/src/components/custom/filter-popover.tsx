@@ -1,11 +1,16 @@
 import { __ } from '@wordpress/i18n'
-import { ChevronRight,Filter } from 'lucide-react'
+import { ChevronRight, Filter } from 'lucide-react'
 import { useState } from 'react'
 
 import type { Filter as AppliedFilter } from '@/components/custom/filter-bar'
 import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterPanel, generateFilterId } from '@/components/custom/filter-panel'
-import { type FilterField, type FilterOperator,type FilterRowData, operatorLabels } from '@/components/custom/filter-row'
+import {
+  type FilterField,
+  type FilterOperator,
+  type FilterRowData,
+  operatorLabels,
+} from '@/components/custom/filter-row'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
@@ -103,13 +108,11 @@ function FilterPopover({ fields, appliedFilters, onApplyFilters, className }: Fi
         </Popover>
 
         {/* Applied Filters Bar */}
-        {appliedFilters.length > 0 && (
-          <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveAppliedFilter} />
-        )}
+        {appliedFilters.length > 0 && <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveAppliedFilter} />}
       </div>
     </div>
   )
 }
 
 export { FilterPopover, generateFilterId, operatorDisplayMap, operatorLabels }
-export type { FilterField, FilterOperator,FilterRowData }
+export type { FilterField, FilterOperator, FilterRowData }

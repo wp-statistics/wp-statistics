@@ -239,7 +239,8 @@ export const DisabledInteractivity: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Map with interactivity disabled. Countries can still be hovered for tooltips, but clicking does nothing.',
+        story:
+          'Map with interactivity disabled. Countries can still be hovered for tooltips, but clicking does nothing.',
       },
     },
   },
@@ -317,9 +318,7 @@ export const CountriesOnlyView: Story = {
 export const CountryCitiesView: Story = {
   args: {
     data: {
-      countries: [
-        { code: 'IR', name: 'Iran', visitors: 11000 },
-      ],
+      countries: [{ code: 'IR', name: 'Iran', visitors: 11000 }],
     },
     title: 'Iran - Regional View',
     enableCityDrilldown: true,
@@ -344,9 +343,7 @@ export const CountryCitiesView: Story = {
 export const USRegionalView: Story = {
   args: {
     data: {
-      countries: [
-        { code: 'US', name: 'United States', visitors: 25000 },
-      ],
+      countries: [{ code: 'US', name: 'United States', visitors: 25000 }],
     },
     title: 'United States - State View',
     enableCityDrilldown: true,
@@ -393,7 +390,7 @@ export const DynamicZoom: Story = {
     docs: {
       description: {
         story:
-          'Click on different countries to see how the map automatically adjusts zoom levels based on geographic size. The component uses `calculateZoomForBounds` to analyze each country\'s bounding box dimensions and apply appropriate zoom:\n\n' +
+          "Click on different countries to see how the map automatically adjusts zoom levels based on geographic size. The component uses `calculateZoomForBounds` to analyze each country's bounding box dimensions and apply appropriate zoom:\n\n" +
           '- **Russia** (very large, >60° dimension): Zooms to 3.5x - shows the entire country without filling viewport\n' +
           '- **China** (large, 40-60° dimension): Zooms to 4.5x - balanced view of the country\n' +
           '- **Iran** (medium, 25-40° dimension): Zooms to 6x - comfortable regional view\n' +

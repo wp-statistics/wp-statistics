@@ -28,10 +28,7 @@ export interface CityPolygonCollection {
  * @param countryCode - Country code for adjusting region size
  * @returns GeoJSON FeatureCollection of city polygons
  */
-export function generateCityPolygons(
-  cities: CityData[],
-  countryCode?: string
-): CityPolygonCollection {
+export function generateCityPolygons(cities: CityData[], countryCode?: string): CityPolygonCollection {
   // Validate input
   if (!cities || cities.length === 0) {
     return {
@@ -55,7 +52,24 @@ export function generateCityPolygons(
 function generateCircularBuffers(cities: CityData[], countryCode?: string): CityPolygonCollection {
   // Adjust radius based on country size - use VERY small values for point-like markers
   const smallCountries = ['NL', 'BE', 'CH', 'AT', 'LU', 'SG', 'HK', 'IL', 'LB', 'AE', 'KW', 'QA', 'BH']
-  const mediumCountries = ['GB', 'DE', 'FR', 'IT', 'ES', 'PL', 'JP', 'KR', 'TH', 'VN', 'MY', 'PH', 'IR', 'TR', 'EG', 'PK']
+  const mediumCountries = [
+    'GB',
+    'DE',
+    'FR',
+    'IT',
+    'ES',
+    'PL',
+    'JP',
+    'KR',
+    'TH',
+    'VN',
+    'MY',
+    'PH',
+    'IR',
+    'TR',
+    'EG',
+    'PK',
+  ]
   const largeCountries = ['US', 'CA', 'RU', 'CN', 'BR', 'AU', 'IN', 'AR', 'KZ', 'SA', 'MX']
 
   let baseRadius = 0.15 // Default radius in degrees (~17km) - small point-like markers
@@ -118,12 +132,5 @@ export function hasValidCoordinates(city: CityData): boolean {
   const [lon, lat] = city.coordinates
 
   // Check if coordinates are numbers and within valid ranges
-  return (
-    typeof lon === 'number' &&
-    typeof lat === 'number' &&
-    lon >= -180 &&
-    lon <= 180 &&
-    lat >= -90 &&
-    lat <= 90
-  )
+  return typeof lon === 'number' && typeof lat === 'number' && lon >= -180 && lon <= 180 && lat >= -90 && lat <= 90
 }

@@ -6,7 +6,7 @@ import { getCountryCenter, getCountryZoomLevel } from '@lib/country-centers'
 import { cn } from '@lib/utils'
 import { getCitiesDataQueryOptions } from '@services/geographic/get-cities-data'
 import { useQuery } from '@tanstack/react-query'
-import { ArrowLeft, Loader2,Minus, Plus } from 'lucide-react'
+import { ArrowLeft, Loader2, Minus, Plus } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps'
 
@@ -39,7 +39,6 @@ export interface GlobalMapProps {
   dateFrom?: string
   dateTo?: string
 }
-
 
 export function GlobalMap({
   title,
@@ -123,7 +122,11 @@ export function GlobalMap({
   // Fetch city data when a country is selected and animation is complete
   const shouldFetchCities = !!selectedCountry && enableCityDrilldown && !isAnimating
 
-  const { data: citiesData, isLoading: citiesLoading, isError: citiesError } = useQuery({
+  const {
+    data: citiesData,
+    isLoading: citiesLoading,
+    isError: citiesError,
+  } = useQuery({
     ...getCitiesDataQueryOptions({
       countryCode: selectedCountry?.code || '',
       metric: selectedMetric,
@@ -217,9 +220,7 @@ export function GlobalMap({
           {metricLabel}: <span className="font-semibold">{metricValue.toLocaleString()}</span>
         </div>
         {enableCityDrilldown && viewMode === 'countries' && (
-          <div className="text-xs text-muted-foreground mt-2 pt-2 border-t border-border">
-            Click to view cities
-          </div>
+          <div className="text-xs text-muted-foreground mt-2 pt-2 border-t border-border">Click to view cities</div>
         )}
       </div>
     )
@@ -246,8 +247,10 @@ export function GlobalMap({
   const calculateZoomForBounds = useCallback((geo: any): number => {
     try {
       // Get the bounding box of the geometry
-      let minLon = Infinity, maxLon = -Infinity
-      let minLat = Infinity, maxLat = -Infinity
+      let minLon = Infinity,
+        maxLon = -Infinity
+      let minLat = Infinity,
+        maxLat = -Infinity
 
       const processCoordinates = (coords: any) => {
         if (typeof coords[0] === 'number') {
@@ -275,13 +278,13 @@ export function GlobalMap({
 
       // Calculate zoom based on dimension (adjust these values for better fit)
       // Larger countries have bigger dimensions, so they need less zoom
-      if (maxDimension > 60) return 3.5  // Very large countries (Russia, Canada, USA, China)
-      if (maxDimension > 40) return 4.5  // Large countries (Brazil, Australia)
-      if (maxDimension > 25) return 6    // Medium-large (Iran, Algeria, Saudi Arabia)
-      if (maxDimension > 15) return 7.5  // Medium (France, Spain, Turkey)
-      if (maxDimension > 8) return 9     // Small (UK, Germany, Japan)
-      if (maxDimension > 4) return 11    // Very small (Netherlands, Belgium)
-      return 14                          // Tiny (Singapore, Luxembourg)
+      if (maxDimension > 60) return 3.5 // Very large countries (Russia, Canada, USA, China)
+      if (maxDimension > 40) return 4.5 // Large countries (Brazil, Australia)
+      if (maxDimension > 25) return 6 // Medium-large (Iran, Algeria, Saudi Arabia)
+      if (maxDimension > 15) return 7.5 // Medium (France, Spain, Turkey)
+      if (maxDimension > 8) return 9 // Small (UK, Germany, Japan)
+      if (maxDimension > 4) return 11 // Very small (Netherlands, Belgium)
+      return 14 // Tiny (Singapore, Luxembourg)
     } catch (error) {
       console.warn('Error calculating zoom for country bounds:', error)
       return 6 // Default fallback
@@ -325,11 +328,12 @@ export function GlobalMap({
   const realCityItems = citiesData?.data?.data?.items || []
 
   // Use real API data if available, otherwise fallback to FAKE_CITY_DATA for demonstration
-  const cityItems = realCityItems.length > 0
-    ? realCityItems
-    : (selectedCountry && FAKE_CITY_DATA[selectedCountry.code.toUpperCase()]
+  const cityItems =
+    realCityItems.length > 0
+      ? realCityItems
+      : selectedCountry && FAKE_CITY_DATA[selectedCountry.code.toUpperCase()]
         ? FAKE_CITY_DATA[selectedCountry.code.toUpperCase()]
-        : [])
+        : []
 
   // Filter cities with coordinates
   const citiesWithCoords = useMemo(
@@ -345,8 +349,7 @@ export function GlobalMap({
 
   // Cities without coordinates (for fallback list)
   const citiesWithoutCoords = useMemo(
-    () =>
-      cityItems.filter((city) => !getCityCoordinates(city.city_name, city.country_code)),
+    () => cityItems.filter((city) => !getCityCoordinates(city.city_name, city.country_code)),
     [cityItems]
   )
 
@@ -371,7 +374,9 @@ export function GlobalMap({
   )
 
   // Helper to match province name from GeoJSON to our region data
-  const getRegionMatch = (provinceName: string): { name: string; visitors: number; views: number; cities: string[] } | null => {
+  const getRegionMatch = (
+    provinceName: string
+  ): { name: string; visitors: number; views: number; cities: string[] } | null => {
     // Direct match
     if (regionData.has(provinceName)) {
       return regionData.get(provinceName)!
@@ -382,15 +387,20 @@ export function GlobalMap({
         return value
       }
       // Partial match (province name might be longer)
-      if (provinceName.toLowerCase().includes(key.toLowerCase()) ||
-          key.toLowerCase().includes(provinceName.toLowerCase())) {
+      if (
+        provinceName.toLowerCase().includes(key.toLowerCase()) ||
+        key.toLowerCase().includes(provinceName.toLowerCase())
+      ) {
         return value
       }
     }
     return null
   }
 
-  const makeRegionTooltip = (provinceName: string, region: { name: string; visitors: number; views: number; cities: string[] } | null) => {
+  const makeRegionTooltip = (
+    provinceName: string,
+    region: { name: string; visitors: number; views: number; cities: string[] } | null
+  ) => {
     const value = region ? region[selectedMetric] : 0
     const percentage = (value / totalRegionValue) * 100
 
@@ -403,17 +413,14 @@ export function GlobalMap({
             <span className="text-muted-foreground uppercase">{selectedMetric}</span>
             <span className="font-semibold">{(value || 0).toLocaleString()}</span>
           </div>
-          <div className="text-xs text-muted-foreground">
-            {percentage.toFixed(1)}% of total
-          </div>
+          <div className="text-xs text-muted-foreground">{percentage.toFixed(1)}% of total</div>
         </div>
       </div>
     )
   }
 
   const makeCityTooltip = (city: (typeof citiesWithCoords)[0]) => {
-    const totalCountryValue =
-      cityItems.reduce((sum, c) => sum + (c[selectedMetric] || 0), 0) || 1
+    const totalCountryValue = cityItems.reduce((sum, c) => sum + (c[selectedMetric] || 0), 0) || 1
     const percentage = ((city[selectedMetric] || 0) / totalCountryValue) * 100
 
     return (
@@ -497,12 +504,7 @@ export function GlobalMap({
           {/* Back Button with Country Flag */}
           {viewMode === 'cities' && selectedCountry && (
             <div className="absolute left-4 bottom-4 z-10">
-              <Button
-                variant="outline"
-                size="sm"
-                className="bg-white shadow-sm gap-2"
-                onClick={handleBackToWorld}
-              >
+              <Button variant="outline" size="sm" className="bg-white shadow-sm gap-2" onClick={handleBackToWorld}>
                 <ArrowLeft className="h-4 w-4" />
                 <img
                   src={
@@ -527,7 +529,6 @@ export function GlobalMap({
               </div>
             </div>
           )}
-
 
           {/* No Cities Available */}
           {viewMode === 'cities' && !citiesLoading && !citiesError && cityItems.length === 0 && (
@@ -562,7 +563,10 @@ export function GlobalMap({
               zoom={position.zoom}
               center={position.coordinates as [number, number]}
               onMoveEnd={handleMoveEnd}
-              translateExtent={[[-Infinity, -Infinity], [Infinity, Infinity]]}
+              translateExtent={[
+                [-Infinity, -Infinity],
+                [Infinity, Infinity],
+              ]}
               filterZoomEvent={(evt) => !evt.ctrlKey}
             >
               <Geographies geography={MAP_URLS.countries}>
@@ -645,10 +649,16 @@ export function GlobalMap({
                                 pointerEvents: isInteractive ? 'all' : 'none',
                               },
                               hover: {
-                                fill: isInteractive ? (visitors == null ? '#d1d5db' : '#4338ca') : (viewMode === 'cities' ? '#e5e7eb' : fill),
+                                fill: isInteractive
+                                  ? visitors == null
+                                    ? '#d1d5db'
+                                    : '#4338ca'
+                                  : viewMode === 'cities'
+                                    ? '#e5e7eb'
+                                    : fill,
                                 outline: 'none',
                                 cursor: isInteractive && enableCityDrilldown && countryData ? 'pointer' : 'default',
-                                strokeWidth: isInteractive ? 1 : (viewMode === 'cities' ? 0.3 : 0.5),
+                                strokeWidth: isInteractive ? 1 : viewMode === 'cities' ? 0.3 : 0.5,
                               },
                               pressed: { outline: 'none' },
                             }}
@@ -673,8 +683,11 @@ export function GlobalMap({
                         const isoA2 = (geo.properties.iso_a2 || geo.properties.ISO_A2 || '').toUpperCase()
                         const adm0A3 = (geo.properties.adm0_a3 || geo.properties.ADM0_A3 || '').toUpperCase()
                         const selectedCode = selectedCountry.code.toUpperCase()
-                        return isoA2 === selectedCode || adm0A3 === selectedCode ||
-                               (selectedCode === 'IR' && (isoA2 === 'IR' || adm0A3 === 'IRN'))
+                        return (
+                          isoA2 === selectedCode ||
+                          adm0A3 === selectedCode ||
+                          (selectedCode === 'IR' && (isoA2 === 'IR' || adm0A3 === 'IRN'))
+                        )
                       })
                       .map((geo) => {
                         const provinceName = geo.properties.name || geo.properties.NAME || 'Unknown'
@@ -737,31 +750,28 @@ export function GlobalMap({
           </ComposableMap>
 
           {/* Fallback: Cities without coordinates */}
-          {viewMode === 'cities' &&
-            !citiesLoading &&
-            !citiesError &&
-            citiesWithoutCoords.length > 0 && (
-              <div className="absolute right-4 top-20 w-72 max-h-96 overflow-auto bg-white shadow-lg rounded-lg p-4 z-10">
-                <h3 className="font-semibold text-sm mb-3">
-                  Cities in {selectedCountry?.name}
-                  <span className="text-xs text-muted-foreground font-normal ml-2">
-                    ({citiesWithoutCoords.length} without map coordinates)
-                  </span>
-                </h3>
-                <div className="space-y-2">
-                  {citiesWithoutCoords.map((city) => (
-                    <div key={city.city_id} className="py-2 border-b last:border-0">
-                      <div className="font-medium text-sm">{city.city_name}</div>
-                      <div className="text-xs text-muted-foreground">{city.city_region_name}</div>
-                      <div className="text-xs mt-1 flex gap-3">
-                        <span>Visitors: {(city.visitors || 0).toLocaleString()}</span>
-                        <span>Views: {(city.views || 0).toLocaleString()}</span>
-                      </div>
+          {viewMode === 'cities' && !citiesLoading && !citiesError && citiesWithoutCoords.length > 0 && (
+            <div className="absolute right-4 top-20 w-72 max-h-96 overflow-auto bg-white shadow-lg rounded-lg p-4 z-10">
+              <h3 className="font-semibold text-sm mb-3">
+                Cities in {selectedCountry?.name}
+                <span className="text-xs text-muted-foreground font-normal ml-2">
+                  ({citiesWithoutCoords.length} without map coordinates)
+                </span>
+              </h3>
+              <div className="space-y-2">
+                {citiesWithoutCoords.map((city) => (
+                  <div key={city.city_id} className="py-2 border-b last:border-0">
+                    <div className="font-medium text-sm">{city.city_name}</div>
+                    <div className="text-xs text-muted-foreground">{city.city_region_name}</div>
+                    <div className="text-xs mt-1 flex gap-3">
+                      <span>Visitors: {(city.visitors || 0).toLocaleString()}</span>
+                      <span>Views: {(city.views || 0).toLocaleString()}</span>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
-            )}
+            </div>
+          )}
 
           {/* Tooltip */}
           {tooltip.visible && (
@@ -785,11 +795,17 @@ export function GlobalMap({
               // Region legend - show data/no data colors
               <div className="flex items-center gap-6">
                 <div className="flex items-center gap-2">
-                  <div className="w-4 h-3 rounded-sm" style={{ backgroundColor: '#f3f4f6', border: '1px solid #9ca3af' }}></div>
+                  <div
+                    className="w-4 h-3 rounded-sm"
+                    style={{ backgroundColor: '#f3f4f6', border: '1px solid #9ca3af' }}
+                  ></div>
                   <span className="text-xs text-muted-foreground">No data</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-4 h-3 rounded-sm" style={{ backgroundColor: '#c7d2fe', border: '1px solid #9ca3af' }}></div>
+                  <div
+                    className="w-4 h-3 rounded-sm"
+                    style={{ backgroundColor: '#c7d2fe', border: '1px solid #9ca3af' }}
+                  ></div>
                   <span className="text-xs text-muted-foreground">Has {selectedMetric}</span>
                 </div>
               </div>

@@ -112,12 +112,7 @@ declare global {
       []
     >
     os: BaseFilterField<'os', ['is', 'is_not'], 'searchable', ['visitors']>
-    device_type: FilterFieldWithOptions<
-      'device_type',
-      ['is', 'is_not'],
-      ['visitors'],
-      'desktop' | 'mobile' | 'tablet'
-    >
+    device_type: FilterFieldWithOptions<'device_type', ['is', 'is_not'], ['visitors'], 'desktop' | 'mobile' | 'tablet'>
     resolution: BaseFilterField<'resolution', ['is', 'is_not'], 'searchable', ['visitors']>
     referrer: BaseFilterField<'referrer', ['is', 'is_not', 'contains'], 'searchable', ['visitors']>
     referrer_type: BaseFilterField<
@@ -132,37 +127,17 @@ declare global {
       ['visitors'],
       'direct' | 'search' | 'social' | 'referral' | 'email' | 'paid'
     >
-    referrer_domain: BaseFilterField<
-      'referrer_domain',
-      ['is', 'is_not', 'contains'],
-      'searchable',
-      ['visitors']
-    >
+    referrer_domain: BaseFilterField<'referrer_domain', ['is', 'is_not', 'contains'], 'searchable', ['visitors']>
     referrer_name: BaseFilterField<
       'referrer_name',
       ['is', 'is_not', 'in', 'not_in', 'contains', 'starts_with', 'ends_with'],
       'text',
       []
     >
-    post_type: FilterFieldWithOptions<
-      'post_type',
-      ['is', 'is_not'],
-      ['views'],
-      'post' | 'page' | 'attachment'
-    >
+    post_type: FilterFieldWithOptions<'post_type', ['is', 'is_not'], ['views'], 'post' | 'page' | 'attachment'>
     author: BaseFilterField<'author', ['is', 'is_not'], 'searchable', ['views']>
-    page: BaseFilterField<
-      'page',
-      ['is', 'is_not', 'in', 'not_in', 'contains', 'starts_with', 'ends_with'],
-      'text',
-      []
-    >
-    resource_id: BaseFilterField<
-      'resource_id',
-      ['is', 'is_not', 'in', 'not_in', 'gt', 'gte', 'lt', 'lte'],
-      'text',
-      []
-    >
+    page: BaseFilterField<'page', ['is', 'is_not', 'in', 'not_in', 'contains', 'starts_with', 'ends_with'], 'text', []>
+    resource_id: BaseFilterField<'resource_id', ['is', 'is_not', 'in', 'not_in', 'gt', 'gte', 'lt', 'lte'], 'text', []>
     user_id: BaseFilterField<'user_id', ['is', 'is_not', 'is_null'], 'number', ['visitors']>
     logged_in: FilterFieldWithOptions<'logged_in', ['is'], ['visitors'], '1' | '0'>
     ip: BaseFilterField<'ip', ['is', 'is_not', 'contains'], 'text', ['visitors']>
@@ -173,32 +148,12 @@ declare global {
       'administrator' | 'editor' | 'author' | 'contributor' | 'subscriber' | 'customer' | 'shop_manager'
     >
     visitor_type: FilterFieldWithOptions<'visitor_type', ['is'], ['visitors'], 1 | 0>
-    session_duration: BaseFilterField<
-      'session_duration',
-      ['gt', 'lt', 'between'],
-      'number',
-      ['visitors']
-    >
-    views_per_session: BaseFilterField<
-      'views_per_session',
-      ['is', 'gt', 'lt'],
-      'number',
-      ['visitors']
-    >
+    session_duration: BaseFilterField<'session_duration', ['gt', 'lt', 'between'], 'number', ['visitors']>
+    views_per_session: BaseFilterField<'views_per_session', ['is', 'gt', 'lt'], 'number', ['visitors']>
     total_views: BaseFilterField<'total_views', ['gt', 'lt', 'between'], 'number', ['visitors']>
-    total_sessions: BaseFilterField<
-      'total_sessions',
-      ['gt', 'lt', 'between'],
-      'number',
-      ['visitors']
-    >
+    total_sessions: BaseFilterField<'total_sessions', ['gt', 'lt', 'between'], 'number', ['visitors']>
     first_seen: BaseFilterField<'first_seen', ['between', 'before', 'after'], 'date', ['visitors']>
-    last_seen: BaseFilterField<
-      'last_seen',
-      ['in_the_last', 'between', 'before', 'after'],
-      'date',
-      ['visitors']
-    >
+    last_seen: BaseFilterField<'last_seen', ['in_the_last', 'between', 'before', 'after'], 'date', ['visitors']>
     bounce: FilterFieldWithOptions<'bounce', ['is'], ['visitors'], '1' | '0'>
     language: BaseFilterField<'language', ['is', 'is_not'], 'searchable', ['visitors']>
     timezone: BaseFilterField<'timezone', ['is', 'is_not'], 'searchable', ['visitors']>

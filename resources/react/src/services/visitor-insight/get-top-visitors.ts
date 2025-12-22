@@ -2,32 +2,39 @@ import { queryOptions } from '@tanstack/react-query'
 
 import { clientRequest } from '@/lib/client-request'
 
-export interface ViewRecord {
+export interface TopVisitorRecord {
   visitor_id: number
   visitor_hash: string
-  ip_address: string
-  last_visit: string
-  total_views: number
-  total_sessions: number
-  country_code: string
-  country_name: string
-  region_name: string
-  city_name: string
-  os_name: string
-  browser_name: string
-  device_type_name: string
+  ip_address: string | null
   user_id: number | null
   user_login: string | null
+  total_views: number
+  total_sessions: number
+  last_visit: string
+  first_visit: string
+  bounce_rate: number | null
+  avg_session_duration: number | null
+  pages_per_session: number | null
+  visitor_status: 'new' | 'returning' | null
+  country_code: string | null
+  country_name: string | null
+  region_name: string | null
+  city_name: string | null
+  os_name: string | null
+  browser_name: string | null
+  device_type_name: string | null
   referrer_domain: string | null
-  referrer_channel: string
-  entry_page: string
-  entry_page_title: string
+  referrer_channel: string | null
+  entry_page: string | null
+  entry_page_title: string | null
+  exit_page: string | null
+  exit_page_title: string | null
 }
 
-export interface GetViewsResponse {
+export interface GetTopVisitorsResponse {
   success: boolean
   data: {
-    rows: ViewRecord[]
+    rows: TopVisitorRecord[]
     total: number
     totals?: {
       visitors: number
@@ -42,75 +49,64 @@ export interface GetViewsResponse {
   }
 }
 
-// API filter value types
-export type ApiFilterValue =
-  | string
-  | number
-  | boolean
-  | { is: string | number | boolean }
-  | { is_not: string | number }
-  | { in: (string | number)[] }
-  | { not_in: (string | number)[] }
-  | { contains: string }
-  | { starts_with: string }
-  | { gt: number }
-  | { gte: number }
-  | { lt: number }
-  | { lte: number }
-  | { between: [number, number] }
-
-export type ApiFilters = Record<string, ApiFilterValue>
-
-export interface GetViewsParams {
+export interface GetTopVisitorsParams {
   page: number
   per_page: number
   order_by: string
   order: 'asc' | 'desc'
   date_from: string
   date_to: string
-  filters?: ApiFilters
 }
 
 // Map frontend column names to API column names
 const columnMapping: Record<string, string> = {
-  visitorInfo: 'visitor_id',
   lastVisit: 'last_visit',
-  page: 'entry_page',
-  referrer: 'referrer_domain',
-  entryPage: 'entry_page',
+  visitorInfo: 'visitor_id',
   totalViews: 'total_views',
+  totalSessions: 'total_sessions',
+  sessionDuration: 'avg_session_duration',
+  viewsPerSession: 'pages_per_session',
+  bounceRate: 'bounce_rate',
+  entryPage: 'entry_page',
+  exitPage: 'exit_page',
+  referrer: 'referrer_domain',
+  visitorStatus: 'visitor_status',
+  firstVisit: 'first_visit',
 }
 
-export const getViewsQueryOptions = ({
+export const getTopVisitorsQueryOptions = ({
   page,
   per_page,
   order_by,
   order,
   date_from,
   date_to,
-  filters,
-}: GetViewsParams) => {
+}: GetTopVisitorsParams) => {
   // Map frontend column name to API column name
   const apiOrderBy = columnMapping[order_by] || order_by
 
-  // Create a stable string representation of filters for queryKey
-  const filtersKey = filters ? JSON.stringify(filters) : ''
-
   return queryOptions({
-    queryKey: ['views', page, per_page, apiOrderBy, order, date_from, date_to, filtersKey],
+    queryKey: ['top-visitors', page, per_page, apiOrderBy, order, date_from, date_to],
     queryFn: () =>
-      clientRequest.post<GetViewsResponse>(
+      clientRequest.post<GetTopVisitorsResponse>(
         '',
         {
-          sources: ['visitors'],
+          sources: ['avg_session_duration', 'bounce_rate', 'pages_per_session', 'visitor_status'],
           group_by: ['visitor'],
           columns: [
             'visitor_id',
             'visitor_hash',
             'ip_address',
-            'last_visit',
+            'user_id',
+            'user_login',
             'total_views',
             'total_sessions',
+            'last_visit',
+            'first_visit',
+            'bounce_rate',
+            'avg_session_duration',
+            'pages_per_session',
+            'visitor_status',
             'country_code',
             'country_name',
             'region_name',
@@ -118,12 +114,12 @@ export const getViewsQueryOptions = ({
             'os_name',
             'browser_name',
             'device_type_name',
-            'user_id',
-            'user_login',
             'referrer_domain',
             'referrer_channel',
             'entry_page',
             'entry_page_title',
+            'exit_page',
+            'exit_page_title',
           ],
           date_from,
           date_to,
@@ -132,9 +128,7 @@ export const getViewsQueryOptions = ({
           order_by: apiOrderBy,
           order: order.toUpperCase(),
           format: 'table',
-          context: 'views_page_table',
           show_totals: false,
-          ...(filters && Object.keys(filters).length > 0 && { filters }),
         },
         {
           params: {

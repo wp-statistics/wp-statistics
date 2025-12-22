@@ -506,9 +506,7 @@ function RouteComponent() {
 
       <div className="p-4 grid gap-6">
         {/* Applied filters row (separate from button) */}
-        {appliedFilters.length > 0 && (
-          <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} />
-        )}
+        {appliedFilters.length > 0 && <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} />}
 
         <LineChart
           title={__('Traffic Trends', 'wp-statistics')}

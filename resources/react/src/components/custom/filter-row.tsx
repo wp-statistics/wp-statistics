@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { __ } from '@wordpress/i18n'
-import { Loader2,Trash2 } from 'lucide-react'
-import { useEffect, useMemo,useState } from 'react'
+import { Loader2, Trash2 } from 'lucide-react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -119,7 +119,13 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
       initialValue = []
     }
 
-    onUpdate({ ...filter, fieldName: fieldName as FilterFieldName, operator: newOperator, value: initialValue, valueLabels: undefined })
+    onUpdate({
+      ...filter,
+      fieldName: fieldName as FilterFieldName,
+      operator: newOperator,
+      value: initialValue,
+      valueLabels: undefined,
+    })
     setSearchTerm('')
   }
 
@@ -178,21 +184,21 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
         onUpdate({
           ...filter,
           value: currentValues.filter((v) => v !== value),
-          valueLabels: newLabels
+          valueLabels: newLabels,
         })
       } else {
         // Add value and its label
         onUpdate({
           ...filter,
           value: [...currentValues, value],
-          valueLabels: { ...currentLabels, [value]: label }
+          valueLabels: { ...currentLabels, [value]: label },
         })
       }
     } else {
       onUpdate({
         ...filter,
         value,
-        valueLabels: { [value]: label }
+        valueLabels: { [value]: label },
       })
     }
     setSearchTerm('')
@@ -201,7 +207,8 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
   // Render range input (two inputs for min/max)
   const renderRangeInput = () => {
     const rangeValue = getRangeValue(filter.value)
-    const inputType = selectedField?.inputType === 'number' ? 'number' : selectedField?.inputType === 'date' ? 'date' : 'text'
+    const inputType =
+      selectedField?.inputType === 'number' ? 'number' : selectedField?.inputType === 'date' ? 'date' : 'text'
 
     return (
       <div className="flex items-center gap-1">
@@ -233,9 +240,10 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
     const getDisplayLabel = (val: string) => valueLabels[val] || val
 
     // For single select, show the selected label in input when not searching
-    const singleSelectedLabel = operatorType !== 'multiple' && typeof currentValue === 'string' && currentValue
-      ? getDisplayLabel(currentValue)
-      : ''
+    const singleSelectedLabel =
+      operatorType !== 'multiple' && typeof currentValue === 'string' && currentValue
+        ? getDisplayLabel(currentValue)
+        : ''
 
     return (
       <div className="relative min-w-[150px] flex-1">
@@ -250,7 +258,9 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
                 setSearchTerm('')
               }
             }}
-            placeholder={operatorType === 'multiple' ? __('Search & select...', 'wp-statistics') : __('Search...', 'wp-statistics')}
+            placeholder={
+              operatorType === 'multiple' ? __('Search & select...', 'wp-statistics') : __('Search...', 'wp-statistics')
+            }
             className="w-full pr-8"
           />
           {isSearching && (
@@ -262,10 +272,7 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
         {operatorType === 'multiple' && Array.isArray(currentValue) && currentValue.length > 0 && (
           <div className="mt-1 flex flex-wrap gap-1">
             {currentValue.map((val) => (
-              <span
-                key={val}
-                className="inline-flex items-center gap-1 rounded bg-primary/10 px-2 py-0.5 text-xs"
-              >
+              <span key={val} className="inline-flex items-center gap-1 rounded bg-primary/10 px-2 py-0.5 text-xs">
                 {getDisplayLabel(val)}
                 <button
                   type="button"
@@ -290,9 +297,7 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
                 className="flex w-full items-center rounded-sm px-2 py-1.5 text-sm hover:bg-accent hover:text-accent-foreground"
               >
                 {operatorType === 'multiple' && Array.isArray(currentValue) && (
-                  <span className="mr-2">
-                    {currentValue.includes(option.value) ? '✓' : '○'}
-                  </span>
+                  <span className="mr-2">{currentValue.includes(option.value) ? '✓' : '○'}</span>
                 )}
                 {option.label}
               </button>
@@ -341,10 +346,7 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
           handleSingleValueChange(value, option?.label)
         }
         return (
-          <Select
-            value={getSingleValue(filter.value)}
-            onValueChange={handleDropdownChange}
-          >
+          <Select value={getSingleValue(filter.value)} onValueChange={handleDropdownChange}>
             <SelectTrigger className="min-w-[150px] flex-1">
               <SelectValue placeholder={__('Select value', 'wp-statistics')} />
             </SelectTrigger>
@@ -433,4 +435,4 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
   )
 }
 
-export { FilterRow, getArrayValue, getOperatorLabel, getOperatorType, getRangeValue,getSingleValue, isRangeValue }
+export { FilterRow, getArrayValue, getOperatorLabel, getOperatorType, getRangeValue, getSingleValue, isRangeValue }

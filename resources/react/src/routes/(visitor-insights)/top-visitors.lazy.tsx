@@ -1,15 +1,22 @@
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import type { ColumnDef } from '@tanstack/react-table'
+import type { ColumnDef, SortingState } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { Info } from 'lucide-react'
-import { useMemo,useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
-import { type Filter,FilterBar } from '@/components/custom/filter-bar'
+import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
+import { type Filter, FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { getToday } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
+import type { TopVisitorRecord } from '@/services/visitor-insight/get-top-visitors'
+import { getTopVisitorsQueryOptions } from '@/services/visitor-insight/get-top-visitors'
+
+const PER_PAGE = 50
 
 export const Route = createLazyFileRoute('/(visitor-insights)/top-visitors')({
   component: RouteComponent,
@@ -49,10 +56,76 @@ interface TopVisitor {
   firstVisit: Date
 }
 
+// Transform API response to component interface
+const transformTopVisitorData = (record: TopVisitorRecord): TopVisitor => {
+  // Determine identifier (IP or hash)
+  const identifier = record.ip_address || record.visitor_hash || 'Unknown'
+
+  // Parse entry page for query string
+  const entryPageUrl = record.entry_page || '/'
+  const hasQueryString = entryPageUrl.includes('?')
+  const queryString = hasQueryString ? entryPageUrl.split('?')[1] : undefined
+
+  // Extract UTM campaign if present
+  let utmCampaign: string | undefined
+  if (queryString) {
+    const params = new URLSearchParams(queryString)
+    utmCampaign = params.get('utm_campaign') || undefined
+  }
+
+  return {
+    id: `visitor-${record.visitor_id}`,
+    lastVisit: new Date(record.last_visit),
+    country: record.country_name || 'Unknown',
+    countryCode: (record.country_code || '000').toLowerCase(),
+    region: record.region_name || '',
+    city: record.city_name || '',
+    os: (record.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_'),
+    browser: (record.browser_name || 'unknown').toLowerCase(),
+    browserVersion: '',
+    userId: record.user_id ? String(record.user_id) : undefined,
+    username: record.user_login || undefined,
+    email: undefined,
+    userRole: undefined,
+    ipAddress: record.ip_address || undefined,
+    hash: record.visitor_hash || undefined,
+    referrerDomain: record.referrer_domain || undefined,
+    referrerCategory: formatReferrerChannel(record.referrer_channel),
+    entryPage: entryPageUrl.split('?')[0] || '/',
+    entryPageTitle: record.entry_page_title || record.entry_page || 'Unknown',
+    entryPageHasQuery: hasQueryString,
+    entryPageQueryString: hasQueryString ? `?${queryString}` : undefined,
+    utmCampaign,
+    exitPage: record.exit_page || '/',
+    exitPageTitle: record.exit_page_title || record.exit_page || 'Unknown',
+    totalViews: record.total_views || 0,
+    totalSessions: record.total_sessions || 0,
+    sessionDuration: Math.round(record.avg_session_duration || 0),
+    viewsPerSession: record.pages_per_session || 0,
+    bounceRate: Math.round(record.bounce_rate || 0),
+    visitorStatus: record.visitor_status || 'returning',
+    firstVisit: new Date(record.first_visit || record.last_visit),
+  }
+}
+
+// Format referrer channel for display
+const formatReferrerChannel = (channel: string | null | undefined): string => {
+  if (!channel) return 'DIRECT TRAFFIC'
+  const channelMap: Record<string, string> = {
+    direct: 'DIRECT TRAFFIC',
+    search: 'SEARCH',
+    social: 'SOCIAL',
+    referral: 'REFERRAL',
+    email: 'EMAIL',
+    paid: 'PAID',
+  }
+  return channelMap[channel.toLowerCase()] || channel.toUpperCase()
+}
+
 const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
   {
     accessorKey: 'lastVisit',
-    header: 'Last Visit',
+    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
     cell: ({ row }) => {
       const date = row.original.lastVisit
       const formatted = date.toLocaleDateString('en-US', {
@@ -264,7 +337,7 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
   },
   {
     accessorKey: 'totalViews',
-    header: 'Total Views',
+    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Total Views" />,
     cell: ({ row }) => {
       const views = row.original.totalViews
       return (
@@ -285,7 +358,7 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
   },
   {
     accessorKey: 'totalSessions',
-    header: 'Total Sessions',
+    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Total Sessions" />,
     cell: ({ row }) => {
       const sessions = row.original.totalSessions
       return (
@@ -308,7 +381,7 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
   },
   {
     accessorKey: 'sessionDuration',
-    header: 'Session Duration',
+    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Session Duration" />,
     cell: ({ row }) => {
       const seconds = row.original.sessionDuration
       const hours = Math.floor(seconds / 3600)
@@ -334,7 +407,7 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
   },
   {
     accessorKey: 'viewsPerSession',
-    header: 'Views Per Session',
+    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Views Per Session" />,
     enableHiding: true,
     cell: ({ row }) => {
       const value = row.original.viewsPerSession
@@ -356,7 +429,7 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
   },
   {
     accessorKey: 'bounceRate',
-    header: 'Bounce Rate',
+    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Bounce Rate" />,
     enableHiding: true,
     cell: ({ row }) => {
       const rate = row.original.bounceRate
@@ -407,142 +480,82 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
   },
 ]
 
-// Generate fake top visitor data (visitors with Total Views > 5)
-const generateFakeTopVisitors = (): TopVisitor[] => {
-  const countries = [
-    { name: 'United States', code: 'us', region: 'California', city: 'San Francisco' },
-    { name: 'United Kingdom', code: 'gb', region: 'England', city: 'London' },
-    { name: 'Canada', code: 'ca', region: 'Ontario', city: 'Toronto' },
-    { name: 'Germany', code: 'de', region: 'Bavaria', city: 'Munich' },
-    { name: 'France', code: 'fr', region: 'Île-de-France', city: 'Paris' },
-    { name: 'Japan', code: 'jp', region: 'Tokyo', city: 'Tokyo' },
-    { name: 'Australia', code: 'au', region: 'New South Wales', city: 'Sydney' },
-    { name: 'Brazil', code: 'br', region: 'São Paulo', city: 'São Paulo' },
-  ]
-
-  const browsers = [
-    { name: 'chrome', version: '120' },
-    { name: 'firefox', version: '121' },
-    { name: 'safari', version: '17' },
-    { name: 'edge', version: '120' },
-  ]
-
-  const operatingSystems = ['windows', 'mac_os', 'linux', 'android', 'ios']
-
-  const referrers = [
-    { domain: 'google.com', category: 'SEARCH' },
-    { domain: 'facebook.com', category: 'SOCIAL' },
-    { domain: 'twitter.com', category: 'SOCIAL' },
-    { domain: 'linkedin.com', category: 'SOCIAL' },
-    { domain: null, category: 'DIRECT TRAFFIC' },
-    { domain: 'example.com', category: 'REFERRAL' },
-  ]
-
-  const pages = [
-    { path: '/', title: 'Home' },
-    { path: '/blog', title: 'Blog' },
-    { path: '/about', title: 'About Us' },
-    { path: '/contact', title: 'Contact' },
-    { path: '/products', title: 'Products' },
-    { path: '/services', title: 'Our Services' },
-    { path: '/blog/how-to-improve-website-performance', title: 'How to Improve Your Website Performance' },
-    { path: '/blog/best-practices-for-seo', title: 'Best Practices for SEO in 2025' },
-  ]
-
-  const users = [
-    { id: '1', username: 'admin', email: 'admin@example.com', role: 'Administrator' },
-    { id: '2', username: 'editor', email: 'editor@example.com', role: 'Editor' },
-    null,
-    null,
-    null,
-    null,
-  ]
-
-  const visitors: TopVisitor[] = []
-
-  for (let i = 0; i < 75; i++) {
-    const country = countries[Math.floor(Math.random() * countries.length)]
-    const browser = browsers[Math.floor(Math.random() * browsers.length)]
-    const os = operatingSystems[Math.floor(Math.random() * operatingSystems.length)]
-    const referrer = referrers[Math.floor(Math.random() * referrers.length)]
-    const entryPageData = pages[Math.floor(Math.random() * pages.length)]
-    const exitPageData = pages[Math.floor(Math.random() * pages.length)]
-    const user = users[Math.floor(Math.random() * users.length)]
-
-    // Top visitors have Total Views > 5, so generate between 6 and 100 views
-    const totalViews = Math.floor(Math.random() * 95) + 6
-    const totalSessions = Math.floor(Math.random() * 20) + 1
-    const sessionDuration = Math.floor(Math.random() * 3600) + 60
-    const viewsPerSession = parseFloat((totalViews / totalSessions).toFixed(1))
-    const singlePageSessions = Math.floor(Math.random() * totalSessions)
-    const bounceRate = Math.round((singlePageSessions / totalSessions) * 100)
-
-    const lastVisit = new Date()
-    lastVisit.setHours(lastVisit.getHours() - Math.floor(Math.random() * 72))
-
-    const firstVisit = new Date(lastVisit)
-    const visitorStatus = Math.random() > 0.2 ? 'returning' : 'new'
-    if (visitorStatus === 'returning') {
-      firstVisit.setDate(firstVisit.getDate() - Math.floor(Math.random() * 180))
-    }
-
-    const hasQueryString = Math.random() > 0.7
-    const hasCampaign = Math.random() > 0.8
-
-    visitors.push({
-      id: `visitor-${i + 1}`,
-      lastVisit,
-      country: country.name,
-      countryCode: country.code,
-      region: country.region,
-      city: country.city,
-      os,
-      browser: browser.name,
-      browserVersion: browser.version,
-      userId: user?.id,
-      username: user?.username,
-      email: user?.email,
-      userRole: user?.role,
-      ipAddress: user ? undefined : `192.168.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`,
-      hash: user ? undefined : `abc${Math.random().toString(36).substring(2, 8)}`,
-      referrerDomain: referrer.domain || undefined,
-      referrerCategory: referrer.category,
-      entryPage: entryPageData.path,
-      entryPageTitle: entryPageData.title,
-      entryPageHasQuery: hasQueryString,
-      entryPageQueryString: hasQueryString ? '?utm_source=google&utm_medium=cpc' : undefined,
-      utmCampaign: hasCampaign ? 'Summer Sale 2025' : undefined,
-      exitPage: exitPageData.path,
-      exitPageTitle: exitPageData.title,
-      totalViews,
-      totalSessions,
-      sessionDuration,
-      viewsPerSession,
-      bounceRate,
-      visitorStatus,
-      firstVisit,
-    })
-  }
-
-  // Sort by totalViews descending (default for Top Visitors)
-  return visitors.sort((a, b) => b.totalViews - a.totalViews)
-}
-
 function RouteComponent() {
   const [appliedFilters, setAppliedFilters] = useState<Filter[]>([])
+  const [page, setPage] = useState(1)
+  const [sorting, setSorting] = useState<SortingState>([{ id: 'totalViews', desc: true }])
+
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
+  const columns = createColumns(pluginUrl)
+
+  // Get date range (one year period)
+  // Temporary will replace with date picker
+  const today = getToday()
+  const oneYearAgo = (() => {
+    const date = new Date()
+    date.setFullYear(date.getFullYear() - 1)
+    return date.toISOString().split('T')[0]
+  })()
+
+  // Determine sort parameters from sorting state
+  const orderBy = sorting.length > 0 ? sorting[0].id : 'totalViews'
+  const order = sorting.length > 0 && sorting[0].desc ? 'desc' : 'asc'
+
+  // Fetch data from API
+  const {
+    data: response,
+    isFetching,
+    isError,
+    error,
+  } = useQuery({
+    ...getTopVisitorsQueryOptions({
+      page,
+      per_page: PER_PAGE,
+      order_by: orderBy,
+      order: order as 'asc' | 'desc',
+      date_from: oneYearAgo,
+      date_to: today,
+    }),
+    placeholderData: keepPreviousData,
+  })
+
+  // Transform API data to component interface
+  const tableData = useMemo(() => {
+    if (!response?.data?.data?.rows) return []
+    return response.data.data.rows.map(transformTopVisitorData)
+  }, [response])
+
+  // Get pagination info
+  const totalRows = response?.data?.data?.total ?? response?.data?.total ?? 0
+  const totalPages = response?.data?.meta?.total_pages || Math.ceil(totalRows / PER_PAGE) || 1
+
+  // Handle sorting changes
+  const handleSortingChange = useCallback((newSorting: SortingState) => {
+    setSorting(newSorting)
+    setPage(1) // Reset to first page when sorting changes
+  }, [])
+
+  // Handle page changes
+  const handlePageChange = useCallback((newPage: number) => {
+    setPage(newPage)
+  }, [])
 
   // Get filter fields for 'top_visitors' group from localized data
   const filterFields = useMemo<FilterField[]>(() => {
     return wp.getFilterFieldsByGroup('top_visitors') as FilterField[]
-  }, [])
+  }, [wp])
 
   const handleRemoveFilter = (filterId: string) => {
     setAppliedFilters((prev) => prev.filter((f) => f.id !== filterId))
+    setPage(1) // Reset to first page when filters change
   }
 
-  const fakeVisitors = generateFakeTopVisitors()
+  // Handle filter application with page reset
+  const handleApplyFilters = useCallback((filters: Filter[]) => {
+    setAppliedFilters(filters)
+    setPage(1) // Reset to first page when filters change
+  }, [])
 
   return (
     <div className="min-w-0">
@@ -550,7 +563,7 @@ function RouteComponent() {
       <div className="flex items-center justify-between p-4 bg-white border-b border-input">
         <h1 className="text-2xl font-medium text-neutral-700">{__('Top Visitors', 'wp-statistics')}</h1>
         {filterFields.length > 0 && (
-          <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={setAppliedFilters} />
+          <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={handleApplyFilters} />
         )}
       </div>
 
@@ -560,16 +573,31 @@ function RouteComponent() {
           <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-4" />
         )}
 
-        <DataTable
-          columns={createColumns(pluginUrl)}
-          data={fakeVisitors}
-          defaultSort="lastVisit"
-          rowLimit={50}
-          showColumnManagement={true}
-          showPagination={true}
-          hiddenColumns={['viewsPerSession', 'bounceRate', 'visitorStatus']}
-          emptyStateMessage={__('No visitors found for the selected period', 'wp-statistics')}
-        />
+        {isError ? (
+          <div className="p-4 text-center">
+            <p className="text-red-500">{__('Failed to load top visitors', 'wp-statistics')}</p>
+            <p className="text-sm text-muted-foreground">{error?.message}</p>
+          </div>
+        ) : (
+          <DataTable
+            columns={columns}
+            data={tableData}
+            sorting={sorting}
+            onSortingChange={handleSortingChange}
+            manualSorting={true}
+            manualPagination={true}
+            pageCount={totalPages}
+            page={page}
+            onPageChange={handlePageChange}
+            totalRows={totalRows}
+            rowLimit={PER_PAGE}
+            showColumnManagement={true}
+            showPagination={true}
+            isFetching={isFetching}
+            hiddenColumns={['viewsPerSession', 'bounceRate', 'visitorStatus']}
+            emptyStateMessage={__('No visitors found for the selected period', 'wp-statistics')}
+          />
+        )}
       </div>
     </div>
   )

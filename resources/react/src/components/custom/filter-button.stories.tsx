@@ -113,7 +113,6 @@ const FilterButtonWrapper = ({
   )
 }
 
-
 const meta = {
   title: 'Custom/FilterButton',
   component: FilterButton,
@@ -345,9 +344,7 @@ const searchableFields: FilterField[] = [
 ]
 
 export const SearchableFields: Story = {
-  render: (args) => (
-    <FilterButtonWrapper fields={searchableFields} onApplyFilters={args.onApplyFilters} />
-  ),
+  render: (args) => <FilterButtonWrapper fields={searchableFields} onApplyFilters={args.onApplyFilters} />,
   args: {
     fields: searchableFields,
     appliedFilters: [],

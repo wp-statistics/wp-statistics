@@ -3,7 +3,7 @@ import { createLazyFileRoute } from '@tanstack/react-router'
 import type { ColumnDef, SortingState } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { Info } from 'lucide-react'
-import { useCallback,useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'

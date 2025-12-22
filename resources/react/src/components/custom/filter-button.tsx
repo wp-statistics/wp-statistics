@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n'
-import { ChevronRight,Filter } from 'lucide-react'
+import { ChevronRight, Filter } from 'lucide-react'
 import { useState } from 'react'
 
 import type { Filter as AppliedFilter } from '@/components/custom/filter-bar'

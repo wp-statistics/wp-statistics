@@ -57,7 +57,9 @@ function NavMenuItem({
               <SidebarMenuButton
                 tooltip={item.title}
                 className={`cursor-pointer [&]:!bg-transparent [&]:hover:!bg-transparent [&]:active:!bg-transparent [&]:focus:!bg-transparent [&]:focus-visible:!ring-0 pe-8 ${
-                  isSubmenuActive ? '[&]:!text-white [&]:hover:!text-white [&]:active:!text-white [&]:focus:!text-white' : '[&]:!text-sidebar-foreground [&]:hover:!text-sidebar-foreground [&]:active:!text-sidebar-foreground [&]:focus:!text-sidebar-foreground'
+                  isSubmenuActive
+                    ? '[&]:!text-white [&]:hover:!text-white [&]:active:!text-white [&]:focus:!text-white'
+                    : '[&]:!text-sidebar-foreground [&]:hover:!text-sidebar-foreground [&]:active:!text-sidebar-foreground [&]:focus:!text-sidebar-foreground'
                 }`}
                 onClick={handleMenuClick}
               >
@@ -65,9 +67,13 @@ function NavMenuItem({
                 <span>{item.title}</span>
               </SidebarMenuButton>
               <CollapsibleTrigger asChild>
-                <button className={`cursor-pointer absolute end-2 top-1/2 -translate-y-1/2 p-1 rounded z-10 group-data-[collapsible=icon]:hidden ${
-                  isSubmenuActive ? '!text-white hover:!text-white' : '[&]:!text-sidebar-foreground hover:!text-sidebar-foreground'
-                }`}>
+                <button
+                  className={`cursor-pointer absolute end-2 top-1/2 -translate-y-1/2 p-1 rounded z-10 group-data-[collapsible=icon]:hidden ${
+                    isSubmenuActive
+                      ? '!text-white hover:!text-white'
+                      : '[&]:!text-sidebar-foreground hover:!text-sidebar-foreground'
+                  }`}
+                >
                   <ChevronRight className="h-4 w-4 transition-transform duration-200 rtl:-scale-x-100 group-data-[state=open]/collapsible:rotate-90" />
                 </button>
               </CollapsibleTrigger>

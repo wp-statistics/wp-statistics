@@ -168,7 +168,7 @@ const CITY_COORDINATES: CityCoordinatesMap = {
 
   // Poland
   'Warsaw|PL': [21.0122, 52.2297],
-  'Krakow|PL': [19.9450, 50.0647],
+  'Krakow|PL': [19.945, 50.0647],
 
   // Sweden
   'Stockholm|SE': [18.0686, 59.3293],
@@ -270,10 +270,7 @@ const CITY_COORDINATES: CityCoordinatesMap = {
  * @param countryCode - The ISO country code
  * @returns [longitude, latitude] or null if not found
  */
-export const getCityCoordinates = (
-  cityName: string,
-  countryCode: string
-): [number, number] | null => {
+export const getCityCoordinates = (cityName: string, countryCode: string): [number, number] | null => {
   // Normalize the city name (remove extra spaces, convert to title case)
   const normalizedCity = cityName.trim()
 

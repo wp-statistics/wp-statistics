@@ -249,15 +249,14 @@ export const ServerSideSorting: Story = {
       if (typeof aVal === 'number' && typeof bVal === 'number') {
         return desc ? bVal - aVal : aVal - bVal
       }
-      return desc
-        ? String(bVal).localeCompare(String(aVal))
-        : String(aVal).localeCompare(String(bVal))
+      return desc ? String(bVal).localeCompare(String(aVal)) : String(aVal).localeCompare(String(bVal))
     })
 
     return (
       <div>
         <div className="mb-4 p-4 bg-slate-100 rounded text-sm">
-          <strong>Current Sort:</strong> {sorting.length > 0 ? `${sorting[0].id} (${sorting[0].desc ? 'DESC' : 'ASC'})` : 'None'}
+          <strong>Current Sort:</strong>{' '}
+          {sorting.length > 0 ? `${sorting[0].id} (${sorting[0].desc ? 'DESC' : 'ASC'})` : 'None'}
         </div>
         <DataTable
           columns={exampleColumns}
@@ -329,9 +328,7 @@ export const ServerSideSortingAndPagination: Story = {
       if (typeof aVal === 'number' && typeof bVal === 'number') {
         return desc ? bVal - aVal : aVal - bVal
       }
-      return desc
-        ? String(bVal).localeCompare(String(aVal))
-        : String(aVal).localeCompare(String(bVal))
+      return desc ? String(bVal).localeCompare(String(aVal)) : String(aVal).localeCompare(String(bVal))
     })
 
     // Then paginate
@@ -341,7 +338,8 @@ export const ServerSideSortingAndPagination: Story = {
       <div>
         <div className="mb-4 p-4 bg-slate-100 rounded text-sm space-y-1">
           <div>
-            <strong>Current Sort:</strong> {sorting.length > 0 ? `${sorting[0].id} (${sorting[0].desc ? 'DESC' : 'ASC'})` : 'None'}
+            <strong>Current Sort:</strong>{' '}
+            {sorting.length > 0 ? `${sorting[0].id} (${sorting[0].desc ? 'DESC' : 'ASC'})` : 'None'}
           </div>
           <div>
             <strong>Current Page:</strong> {page} of {pageCount} | <strong>Total Rows:</strong> {totalRows}
