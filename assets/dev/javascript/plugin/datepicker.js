@@ -75,12 +75,7 @@ jQuery(document).ready(function () {
         const gsc = (wps_js.global && wps_js.global.gsc) ? wps_js.global.gsc : null;
         const gscConfig = gsc ? gsc.date_picker_config : null;
         const gscMeta = gsc ? gsc.date : null;
-        const gscMetaKey = gsc ? gsc.meta_key : null;
-        
-        // Get gsc_meta for date_meta
-        const gscMetaData = (wps_js.global && wps_js.global.gsc_meta) ? wps_js.global.gsc_meta : null;
-        const gscDateMeta = gscMetaData ? gscMetaData.date_meta : null;
-
+        const gscDateMeta = gsc ? gsc.date_meta : null;
 
         // Map period keys to their translated labels and date calculations
         const rangeDefinitions = {
