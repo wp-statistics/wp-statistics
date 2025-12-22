@@ -81,6 +81,15 @@ class Query
         return $instance;
     }
 
+    public static function truncate($table)
+    {
+        $instance            = new self();
+        $instance->operation = 'truncate';
+        $instance->table     = $instance->getTable($table);
+
+        return $instance;
+    }
+
     public static function union($queries)
     {
         $instance            = new self();
@@ -831,6 +840,11 @@ class Query
         }
 
         return $query;
+    }
+
+    protected function truncateQuery()
+    {
+        return "TRUNCATE TABLE $this->table";
     }
 
     protected function unionQuery()

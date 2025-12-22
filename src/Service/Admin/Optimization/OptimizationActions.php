@@ -3,6 +3,7 @@ namespace WP_Statistics\Service\Admin\Optimization;
 
 use Exception;
 use WP_Statistics\Components\Ajax;
+use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Historical;
 use WP_STATISTICS\IP;
@@ -38,6 +39,7 @@ class OptimizationActions
         Ajax::register('hash_ips', [$this, 'hashIps'], false);
         Ajax::register('recheck_schema', [$this, 'recheckSchema'], false);
         Ajax::register('repair_schema', [$this, 'repairSchema'], false);
+        Ajax::register('delete_table_data', [$this, 'deleteTableData'], false);
     }
 
     /**
@@ -426,6 +428,39 @@ class OptimizationActions
             Ajax::success();
         } catch (Exception $e) {
             Notice::addFlashNotice($e->getMessage(), "error");
+            Ajax::error($e->getMessage(), null, $e->getCode());
+        }
+    }
+
+    /**
+     * Delete all data from a specified WP Statistics table.
+     * @note BE CAREFUL using this function as it will permanently delete all data from the specified table.
+     */
+    public function deleteTableData()
+    {
+        try {
+            $this->verifyAjaxRequest();
+            $this->checkAdminReferrer('wp_rest', 'wps_nonce');
+            $this->checkCapability('manage');
+
+            $tableName = Request::get('table');
+
+            if (!$tableName) {
+                throw new Exception(esc_html__('Table name is required.', 'wp-statistics'), 400);
+            }
+
+            if (!in_array($tableName, DB::$db_table)) {
+                throw new Exception(esc_html__('Invalid table name.', 'wp-statistics'), 400);
+            }
+
+            $result = Query::truncate($tableName)->execute();
+
+            if ($result === false) {
+                throw new Exception(sprintf(esc_html__('Could not delete data from table %s. Please try again.', 'wp-statistics'), $tableName), 500);
+            }
+
+            Ajax::success(sprintf(esc_html__('All data deleted from table: %s', 'wp-statistics'), "<code>$tableName</code>"));
+        } catch (Exception $e) {
             Ajax::error($e->getMessage(), null, $e->getCode());
         }
     }
