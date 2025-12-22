@@ -1,5 +1,5 @@
-import { queryOptions } from '@tanstack/react-query'
 import { clientRequest } from '@lib/client-request'
+import { queryOptions } from '@tanstack/react-query'
 
 export interface GetCitiesDataParams {
   countryCode: string

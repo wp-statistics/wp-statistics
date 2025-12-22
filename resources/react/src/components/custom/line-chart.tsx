@@ -1,10 +1,9 @@
-import * as React from 'react'
-import { CartesianGrid, Line, LineChart as RechartsLineChart, XAxis, YAxis } from 'recharts'
-
 import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/card'
 import type { ChartConfig } from '@components/ui/chart'
 import { ChartContainer, ChartTooltip } from '@components/ui/chart'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
+import * as React from 'react'
+import { CartesianGrid, Line, LineChart as RechartsLineChart, XAxis, YAxis } from 'recharts'
 
 export interface LineChartDataPoint {
   date: string

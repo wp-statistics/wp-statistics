@@ -1,11 +1,15 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
+import { __ } from '@wordpress/i18n'
+import { Info } from 'lucide-react'
+import { useMemo,useState } from 'react'
+
 import { DataTable } from '@/components/custom/data-table'
+import { type Filter,FilterBar } from '@/components/custom/filter-bar'
+import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { Info } from 'lucide-react'
 import { WordPress } from '@/lib/wordpress'
-import { __ } from '@wordpress/i18n'
 
 export const Route = createLazyFileRoute('/(visitor-insights)/top-visitors')({
   component: RouteComponent,
@@ -82,7 +86,7 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
               <TooltipTrigger asChild>
                 <button className="flex items-center">
                   <img
-                    src={`${pluginUrl}public/images/flags/${visitor.countryCode}.svg`}
+                    src={`${pluginUrl}public/images/flags/${visitor.countryCode || '000'}.svg`}
                     alt={visitor.country}
                     className="w-5 h-5 object-contain"
                   />
@@ -525,18 +529,37 @@ const generateFakeTopVisitors = (): TopVisitor[] => {
 }
 
 function RouteComponent() {
+  const [appliedFilters, setAppliedFilters] = useState<Filter[]>([])
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
+
+  // Get filter fields for 'top_visitors' group from localized data
+  const filterFields = useMemo<FilterField[]>(() => {
+    return wp.getFilterFieldsByGroup('top_visitors') as FilterField[]
+  }, [])
+
+  const handleRemoveFilter = (filterId: string) => {
+    setAppliedFilters((prev) => prev.filter((f) => f.id !== filterId))
+  }
 
   const fakeVisitors = generateFakeTopVisitors()
 
   return (
     <div className="min-w-0">
+      {/* Header row with title and filter button */}
       <div className="flex items-center justify-between p-4 bg-white border-b border-input">
         <h1 className="text-2xl font-medium text-neutral-700">{__('Top Visitors', 'wp-statistics')}</h1>
+        {filterFields.length > 0 && (
+          <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={setAppliedFilters} />
+        )}
       </div>
 
       <div className="p-4">
+        {/* Applied filters row (separate from button) */}
+        {appliedFilters.length > 0 && (
+          <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-4" />
+        )}
+
         <DataTable
           columns={createColumns(pluginUrl)}
           data={fakeVisitors}

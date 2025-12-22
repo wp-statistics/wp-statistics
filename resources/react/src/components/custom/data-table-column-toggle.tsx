@@ -1,13 +1,14 @@
-import * as React from 'react'
-import type { Table } from '@tanstack/react-table'
+import { Button } from '@components/ui/button'
+import { Checkbox } from '@components/ui/checkbox'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@components/ui/dropdown-menu'
 import {
-  DndContext,
   closestCenter,
+  DndContext,
+  type DragEndEvent,
   KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
-  type DragEndEvent,
 } from '@dnd-kit/core'
 import {
   arrayMove,
@@ -17,11 +18,9 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import type { Table } from '@tanstack/react-table'
 import { GripVertical, MoreVertical } from 'lucide-react'
-
-import { Button } from '@components/ui/button'
-import { Checkbox } from '@components/ui/checkbox'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@components/ui/dropdown-menu'
+import * as React from 'react'
 
 interface ColumnItem {
   id: string

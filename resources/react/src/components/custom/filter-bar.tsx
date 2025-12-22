@@ -1,7 +1,8 @@
+import { Funnel } from 'lucide-react'
 import * as React from 'react'
+
 import { FilterChip } from '@/components/custom/filter-chip'
 import { cn } from '@/lib/utils'
-import { Funnel } from 'lucide-react'
 
 export interface Filter {
   id: string

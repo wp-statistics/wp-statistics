@@ -2,10 +2,9 @@ import { queryOptions } from '@tanstack/react-query'
 
 import { clientRequest } from '@/lib/client-request'
 
-export interface OnlineVisitor {
+export interface LoggedInUser {
   visitor_id: number
   visitor_hash: string
-  ip_address: string
   last_visit: string
   total_views: number
   total_sessions: number
@@ -16,18 +15,19 @@ export interface OnlineVisitor {
   os_name: string
   browser_name: string
   device_type_name: string
-  user_id: number | null
-  user_login: string | null
+  user_id: number
+  user_login: string
+  ip_address: string
   referrer_domain: string | null
   referrer_channel: string
   entry_page: string
-  visitors?: number
+  entry_page_title: string
 }
 
-export interface GetOnlineVisitorsResponse {
+export interface GetLoggedInUsersResponse {
   success: boolean
   data: {
-    rows: OnlineVisitor[]
+    rows: LoggedInUser[]
     total: number
     totals?: {
       visitors: number
@@ -42,58 +42,47 @@ export interface GetOnlineVisitorsResponse {
   }
 }
 
-export interface GetOnlineVisitorsParams {
-  page?: number
-  per_page?: number
-  order_by?: string
-  order?: 'asc' | 'desc'
-  // Time range in minutes (default 5 minutes for "online" visitors)
-  timeRangeMinutes?: number
+export interface GetLoggedInUsersParams {
+  page: number
+  per_page: number
+  order_by: string
+  order: 'asc' | 'desc'
+  date_from: string
+  date_to: string
 }
 
 // Map frontend column names to API column names
 const columnMapping: Record<string, string> = {
   visitorInfo: 'visitor_id',
-  onlineFor: 'total_sessions',
-  page: 'entry_page',
-  totalViews: 'total_views',
-  entryPage: 'entry_page',
-  referrer: 'referrer_domain',
   lastVisit: 'last_visit',
+  page: 'entry_page',
+  referrer: 'referrer_domain',
+  entryPage: 'entry_page',
+  totalViews: 'total_views',
 }
 
-export const getOnlineVisitorsQueryOptions = ({
-  page = 1,
-  per_page = 50,
-  order_by = 'lastVisit',
-  order = 'desc',
-  timeRangeMinutes = 5,
-}: GetOnlineVisitorsParams = {}) => {
-  // Calculate date range for "online" visitors (last N minutes)
-  const now = new Date()
-  const dateFrom = new Date(now.getTime() - timeRangeMinutes * 60 * 1000)
-  const dateTo = now
-
-  // Format dates to ISO string (YYYY-MM-DDTHH:mm:ss)
-  const formatDate = (date: Date) => {
-    return date.toISOString().slice(0, 19)
-  }
-
+export const getLoggedInUsersQueryOptions = ({
+  page,
+  per_page,
+  order_by,
+  order,
+  date_from,
+  date_to,
+}: GetLoggedInUsersParams) => {
   // Map frontend column name to API column name
   const apiOrderBy = columnMapping[order_by] || order_by
 
   return queryOptions({
-    queryKey: ['online-visitors', page, per_page, order_by, order, timeRangeMinutes],
+    queryKey: ['logged-in-users', page, per_page, order_by, order, date_from, date_to],
     queryFn: () =>
-      clientRequest.post<GetOnlineVisitorsResponse>(
+      clientRequest.post<GetLoggedInUsersResponse>(
         '',
         {
           sources: ['visitors'],
-          group_by: ['online_visitor'],
+          group_by: ['visitor'],
           columns: [
             'visitor_id',
             'visitor_hash',
-            'ip_address',
             'last_visit',
             'total_views',
             'total_sessions',
@@ -106,17 +95,25 @@ export const getOnlineVisitorsQueryOptions = ({
             'device_type_name',
             'user_id',
             'user_login',
+            'ip_address',
             'referrer_domain',
             'referrer_channel',
             'entry_page',
+            'entry_page_title',
           ],
-          date_from: formatDate(dateFrom),
-          date_to: formatDate(dateTo),
+          filters: {
+            logged_in: {
+              is: '1',
+            },
+          },
+          date_from,
+          date_to,
           page,
           per_page,
           order_by: apiOrderBy,
           order: order.toUpperCase(),
           format: 'table',
+          context: 'logged_in_users_page_table',
         },
         {
           params: {
@@ -124,8 +121,6 @@ export const getOnlineVisitorsQueryOptions = ({
           },
         }
       ),
-    staleTime: 15 * 1000, // 15 seconds
-    refetchOnWindowFocus: true,
-    refetchInterval: 30 * 1000,
+    staleTime: 5 * 60 * 1000, // 5 minutes
   })
 }

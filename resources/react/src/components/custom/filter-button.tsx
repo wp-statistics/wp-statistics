@@ -1,22 +1,23 @@
+import { __ } from '@wordpress/i18n'
+import { ChevronRight,Filter } from 'lucide-react'
 import { useState } from 'react'
-import { Filter, ChevronRight } from 'lucide-react'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Button } from '@/components/ui/button'
+
+import type { Filter as AppliedFilter } from '@/components/custom/filter-bar'
 import { FilterPanel, generateFilterId } from '@/components/custom/filter-panel'
 import {
-  getOperatorLabel,
-  getOperatorType,
-  isRangeValue,
-  getSingleValue,
-  getArrayValue,
-  getRangeValue,
   type FilterField,
   type FilterRowData,
   type FilterValue,
+  getArrayValue,
+  getOperatorLabel,
+  getOperatorType,
+  getRangeValue,
+  getSingleValue,
+  isRangeValue,
   type RangeValue,
 } from '@/components/custom/filter-row'
-import type { Filter as AppliedFilter } from '@/components/custom/filter-bar'
-import { __ } from '@wordpress/i18n'
+import { Button } from '@/components/ui/button'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
 
 export interface FilterButtonProps {
@@ -198,5 +199,5 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className }: Fil
   )
 }
 
-export { FilterButton, generateFilterId, getOperatorDisplay, getOperatorLabel, formatValueForDisplay, hasValidValue }
+export { FilterButton, formatValueForDisplay, generateFilterId, getOperatorDisplay, getOperatorLabel, hasValidValue }
 export type { FilterField, FilterRowData, FilterValue, RangeValue }

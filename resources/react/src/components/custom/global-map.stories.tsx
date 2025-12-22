@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { GlobalMap } from './global-map'
+
 import type { CountryData, GlobalMapData } from './global-map'
+import { GlobalMap } from './global-map'
 
 // Sample data - flags will be loaded from server when pluginUrl is provided
 const sampleCountries: CountryData[] = [

@@ -1,8 +1,7 @@
-import type { Column } from '@tanstack/react-table'
-import { ChevronDown, ChevronsUpDown, ChevronUp } from 'lucide-react'
-
 import { Button } from '@components/ui/button'
 import { cn } from '@lib/utils'
+import type { Column } from '@tanstack/react-table'
+import { ChevronDown, ChevronsUpDown, ChevronUp } from 'lucide-react'
 
 interface DataTableColumnHeaderSortableProps<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>

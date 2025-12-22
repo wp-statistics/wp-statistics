@@ -1,16 +1,17 @@
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import type { ColumnDef, SortingState } from '@tanstack/react-table'
+import { __ } from '@wordpress/i18n'
+import { Info } from 'lucide-react'
+import { useCallback,useState } from 'react'
+
 import { DataTable } from '@/components/custom/data-table'
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { Info, Loader2 } from 'lucide-react'
 import { WordPress } from '@/lib/wordpress'
-import { __ } from '@wordpress/i18n'
-import { useQuery } from '@tanstack/react-query'
-import { getOnlineVisitorsQueryOptions } from '@/services/visitor-insight/get-online-visitors'
 import type { OnlineVisitor as APIOnlineVisitor } from '@/services/visitor-insight/get-online-visitors'
-import { useState, useCallback } from 'react'
+import { getOnlineVisitorsQueryOptions } from '@/services/visitor-insight/get-online-visitors'
 
 export const Route = createLazyFileRoute('/(visitor-insights)/online-visitors')({
   component: RouteComponent,
@@ -67,7 +68,7 @@ const transformVisitorData = (apiVisitor: APIOnlineVisitor): OnlineVisitor => {
   return {
     id: `visitor-${apiVisitor.visitor_id}`,
     country: apiVisitor.country_name || 'Unknown',
-    countryCode: (apiVisitor.country_code || 'xx').toLowerCase(),
+    countryCode: (apiVisitor.country_code || '000').toLowerCase(),
     region: apiVisitor.region_name || '',
     city: apiVisitor.city_name || '',
     os: (apiVisitor.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_'),
@@ -123,7 +124,7 @@ const createColumns = (pluginUrl: string): ColumnDef<OnlineVisitor>[] => [
               <TooltipTrigger asChild>
                 <button className="flex items-center">
                   <img
-                    src={`${pluginUrl}public/images/flags/${visitor.countryCode}.svg`}
+                    src={`${pluginUrl}public/images/flags/${visitor.countryCode || '000'}.svg`}
                     alt={visitor.country}
                     className="w-5 h-5 object-contain"
                   />
@@ -364,22 +365,22 @@ function RouteComponent() {
 
   const {
     data: response,
-    isLoading,
     isError,
     error,
     isFetching,
-  } = useQuery(
-    getOnlineVisitorsQueryOptions({
+  } = useQuery({
+    ...getOnlineVisitorsQueryOptions({
       page,
       per_page: PER_PAGE,
       order_by: orderBy,
       order: order as 'asc' | 'desc',
-    })
-  )
+    }),
+    placeholderData: keepPreviousData,
+  })
 
   // Transform API data to component format
   const visitors = response?.data?.data?.rows?.map(transformVisitorData) || []
-  const total = response?.data?.data?.total || 0
+  const total = response?.data?.data?.total ?? response?.data?.total ?? 0
   const totalPages = Math.ceil(total / PER_PAGE)
 
   // Handle sorting change
@@ -393,35 +394,6 @@ function RouteComponent() {
     setPage(newPage)
   }, [])
 
-  // Loading state (only show full loader on initial load)
-  if (isLoading) {
-    return (
-      <div className="min-w-0">
-        <div className="flex items-center justify-between p-4 bg-white border-b border-input">
-          <h1 className="text-2xl font-medium text-neutral-700">{__('Online Visitors', 'wp-statistics')}</h1>
-        </div>
-        <div className="flex items-center justify-center p-8">
-          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-        </div>
-      </div>
-    )
-  }
-
-  // Error state
-  if (isError) {
-    return (
-      <div className="min-w-0">
-        <div className="flex items-center justify-between p-4 bg-white border-b border-input">
-          <h1 className="text-2xl font-medium text-neutral-700">{__('Online Visitors', 'wp-statistics')}</h1>
-        </div>
-        <div className="p-4 text-center">
-          <p className="text-red-500">{__('Failed to load online visitors', 'wp-statistics')}</p>
-          <p className="text-sm text-muted-foreground">{error?.message}</p>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="min-w-0">
       <div className="flex items-center justify-between p-4 bg-white border-b border-input">
@@ -429,22 +401,30 @@ function RouteComponent() {
       </div>
 
       <div className="p-4">
-        <DataTable
-          columns={createColumns(pluginUrl)}
-          data={visitors}
-          sorting={sorting}
-          onSortingChange={handleSortingChange}
-          manualSorting={true}
-          manualPagination={true}
-          pageCount={totalPages}
-          page={page}
-          onPageChange={handlePageChange}
-          totalRows={total}
-          rowLimit={PER_PAGE}
-          showColumnManagement={true}
-          showPagination={true}
-          emptyStateMessage={__('No visitors are currently online', 'wp-statistics')}
-        />
+        {isError ? (
+          <div className="p-4 text-center">
+            <p className="text-red-500">{__('Failed to load online visitors', 'wp-statistics')}</p>
+            <p className="text-sm text-muted-foreground">{error?.message}</p>
+          </div>
+        ) : (
+          <DataTable
+            columns={createColumns(pluginUrl)}
+            data={visitors}
+            sorting={sorting}
+            onSortingChange={handleSortingChange}
+            manualSorting={true}
+            manualPagination={true}
+            pageCount={totalPages}
+            page={page}
+            onPageChange={handlePageChange}
+            totalRows={total}
+            rowLimit={PER_PAGE}
+            showColumnManagement={true}
+            showPagination={true}
+            isFetching={isFetching}
+            emptyStateMessage={__('No visitors are currently online', 'wp-statistics')}
+          />
+        )}
       </div>
     </div>
   )

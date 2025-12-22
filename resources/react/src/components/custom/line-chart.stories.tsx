@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { LineChart } from './line-chart'
+
 import type { LineChartDataPoint, LineChartMetric } from './line-chart'
+import { LineChart } from './line-chart'
 
 // Generate sample data for demonstration
 const generateChartData = (): LineChartDataPoint[] => {

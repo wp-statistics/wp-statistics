@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { expect, userEvent, within } from 'storybook/test'
-import { Metrics } from './metrics'
+
 import type { MetricItem } from './metrics'
+import { Metrics } from './metrics'
 
 // Google Analytics Icon component for demo
 const GoogleIcon = () => (

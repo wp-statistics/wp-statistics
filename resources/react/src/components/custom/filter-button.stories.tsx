@@ -1,9 +1,9 @@
-import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
+import { useState } from 'react'
 import { fn } from 'storybook/test'
 
-import { FilterButton, type FilterField } from './filter-button'
 import type { Filter } from './filter-bar'
+import { FilterButton, type FilterField } from './filter-button'
 
 // Mock filter fields that match the FilterField interface
 const mockFilterFields: FilterField[] = [

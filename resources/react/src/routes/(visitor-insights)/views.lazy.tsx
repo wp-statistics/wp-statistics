@@ -1,12 +1,80 @@
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute, Link } from '@tanstack/react-router'
-import { DataTable } from '@components/custom/data-table'
-import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
-import type { ColumnDef } from '@tanstack/react-table'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@components/ui/tooltip'
-import { Info } from 'lucide-react'
-import { Badge } from '@components/ui/badge'
-import { WordPress } from '@/lib/wordpress'
+import type { ColumnDef, SortingState } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
+import { Info } from 'lucide-react'
+import { useCallback, useMemo, useState } from 'react'
+
+import { DataTable } from '@/components/custom/data-table'
+import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
+import { type Filter, FilterBar } from '@/components/custom/filter-bar'
+import { FilterButton, type FilterField } from '@/components/custom/filter-button'
+import { Badge } from '@/components/ui/badge'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { getToday } from '@/lib/utils'
+import { WordPress } from '@/lib/wordpress'
+import type { ApiFilters, ViewRecord } from '@/services/visitor-insight/get-views'
+import { getViewsQueryOptions } from '@/services/visitor-insight/get-views'
+
+const PER_PAGE = 20
+
+// Convert UI filters to API filter format
+const convertFiltersToApiFormat = (filters: Filter[]): ApiFilters => {
+  const apiFilters: ApiFilters = {}
+
+  for (const filter of filters) {
+    // Extract field name from filter id (e.g., "country-123" -> "country")
+    const fieldName = filter.id.split('-')[0]
+    const rawOperator = filter.rawOperator || filter.operator
+    const value = filter.rawValue !== undefined ? filter.rawValue : filter.value
+
+    // Handle different operator types
+    switch (rawOperator) {
+      case 'is':
+      case '=':
+        // Simple equality - can use direct value or { is: value }
+        apiFilters[fieldName] = Array.isArray(value) ? value[0] : value
+        break
+      case 'is_not':
+      case '!=':
+        apiFilters[fieldName] = { is_not: Array.isArray(value) ? value[0] : value }
+        break
+      case 'in':
+        apiFilters[fieldName] = { in: Array.isArray(value) ? value : [value] }
+        break
+      case 'not_in':
+        apiFilters[fieldName] = { not_in: Array.isArray(value) ? value : [value] }
+        break
+      case 'contains':
+        apiFilters[fieldName] = { contains: String(value) }
+        break
+      case 'starts_with':
+        apiFilters[fieldName] = { starts_with: String(value) }
+        break
+      case 'gt':
+      case '>':
+        apiFilters[fieldName] = { gt: Number(value) }
+        break
+      case 'gte':
+      case '>=':
+        apiFilters[fieldName] = { gte: Number(value) }
+        break
+      case 'lt':
+      case '<':
+        apiFilters[fieldName] = { lt: Number(value) }
+        break
+      case 'lte':
+      case '<=':
+        apiFilters[fieldName] = { lte: Number(value) }
+        break
+      default:
+        // Default to direct value assignment
+        apiFilters[fieldName] = Array.isArray(value) ? value[0] : value
+    }
+  }
+
+  return apiFilters
+}
 
 export const Route = createLazyFileRoute('/(visitor-insights)/views')({
   component: RouteComponent,
@@ -74,7 +142,7 @@ const createColumns = (pluginUrl: string): ColumnDef<ViewData>[] => [
               <TooltipTrigger asChild>
                 <button className="cursor-pointer flex items-center">
                   <img
-                    src={`${pluginUrl}public/images/flags/${visitorInfo.country.code}.svg`}
+                    src={`${pluginUrl}public/images/flags/${visitorInfo.country.code || '000'}.svg`}
                     alt={visitorInfo.country.name}
                     className="w-5 h-5 object-contain"
                   />
@@ -281,278 +349,190 @@ const createColumns = (pluginUrl: string): ColumnDef<ViewData>[] => [
   },
 ]
 
-const fakeData: ViewData[] = [
-  {
-    lastVisit: '2025-01-27T14:23:15',
+// Transform API data to component interface
+const transformViewData = (record: ViewRecord): ViewData => {
+  // Determine identifier (IP or hash)
+  const identifier = record.ip_address || record.visitor_hash || 'Unknown'
+
+  // Parse entry page for query string
+  const entryPageUrl = record.entry_page || '/'
+  const hasQueryString = entryPageUrl.includes('?')
+  const queryString = hasQueryString ? entryPageUrl.split('?')[1] : undefined
+
+  // Extract UTM campaign if present
+  let utmCampaign: string | undefined
+  if (queryString) {
+    const params = new URLSearchParams(queryString)
+    utmCampaign = params.get('utm_campaign') || undefined
+  }
+
+  return {
+    lastVisit: record.last_visit,
     visitorInfo: {
-      country: { code: 'us', name: 'United States', region: 'California', city: 'San Francisco' },
-      os: { icon: 'windows', name: 'Windows 11' },
-      browser: { icon: 'chrome', name: 'Google Chrome', version: '120' },
-      user: { username: 'john_doe', id: 123, email: 'john@example.com', role: 'Administrator' },
-      identifier: '192.168.1.1',
+      country: {
+        code: record.country_code?.toLowerCase() || '000',
+        name: record.country_name || 'Unknown',
+        region: record.region_name || '',
+        city: record.city_name || '',
+      },
+      os: {
+        icon: record.os_name?.toLowerCase().replace(/\s+/g, '_') || 'unknown',
+        name: record.os_name || 'Unknown',
+      },
+      browser: {
+        icon: record.browser_name?.toLowerCase().replace(/\s+/g, '_') || 'unknown',
+        name: record.browser_name || 'Unknown',
+        version: '',
+      },
+      user: record.user_id
+        ? {
+            username: record.user_login || 'user',
+            id: record.user_id,
+            email: '',
+            role: '',
+          }
+        : undefined,
+      identifier,
     },
     page: {
-      title: 'Getting Started with WordPress',
-      url: '/blog/getting-started-with-wordpress',
+      title: record.entry_page_title || record.entry_page || 'Unknown',
+      url: record.entry_page || '/',
     },
     referrer: {
-      domain: 'google.com',
-      fullUrl: 'https://google.com/search?q=wordpress',
-      category: 'ORGANIC SEARCH',
+      domain: record.referrer_domain || undefined,
+      fullUrl: record.referrer_domain ? `https://${record.referrer_domain}` : undefined,
+      category: record.referrer_channel?.toUpperCase() || 'DIRECT TRAFFIC',
     },
     entryPage: {
-      title: 'Home',
-      url: '/',
-      hasQueryString: false,
+      title: record.entry_page_title || record.entry_page || 'Unknown',
+      url: entryPageUrl,
+      hasQueryString,
+      queryString: hasQueryString ? `?${queryString}` : undefined,
+      utmCampaign,
     },
-    totalViews: 1234,
-  },
-  {
-    lastVisit: '2025-01-27T14:20:42',
-    visitorInfo: {
-      country: { code: 'gb', name: 'United Kingdom', region: 'England', city: 'London' },
-      os: { icon: 'mac_os', name: 'macOS Sonoma' },
-      browser: { icon: 'safari', name: 'Safari', version: '17' },
-      identifier: 'a3f5c9',
-    },
-    page: {
-      title: 'WP Statistics Pro - Premium Analytics',
-      url: '/products/wp-statistics-pro',
-    },
-    referrer: {
-      domain: 'twitter.com',
-      fullUrl: 'https://twitter.com/some-user/status/123456',
-      category: 'SOCIAL MEDIA',
-    },
-    entryPage: {
-      title: 'Special Offer Landing Page',
-      url: '/special-offer',
-      hasQueryString: true,
-      queryString: '?utm_source=twitter&utm_medium=social&utm_campaign=spring-sale',
-      utmCampaign: 'Spring Sale 2025',
-    },
-    totalViews: 23,
-  },
-  {
-    lastVisit: '2025-01-27T14:18:30',
-    visitorInfo: {
-      country: { code: 'de', name: 'Germany', region: 'Bavaria', city: 'Munich' },
-      os: { icon: 'linux', name: 'Ubuntu 22.04' },
-      browser: { icon: 'firefox', name: 'Firefox', version: '121' },
-      identifier: '10.0.0.45',
-    },
-    page: {
-      title: 'API Reference Documentation',
-      url: '/documentation/api-reference',
-    },
-    referrer: {
-      domain: 'github.com',
-      fullUrl: 'https://github.com/wp-statistics/wp-statistics',
-      category: 'REFERRAL TRAFFIC',
-    },
-    entryPage: {
-      title: 'Documentation Overview',
-      url: '/documentation',
-      hasQueryString: false,
-    },
-    totalViews: 147,
-  },
-  {
-    lastVisit: '2025-01-27T14:15:18',
-    visitorInfo: {
-      country: { code: 'fr', name: 'France', region: 'Île-de-France', city: 'Paris' },
-      os: { icon: 'windows', name: 'Windows 10' },
-      browser: { icon: 'edge', name: 'Edge', version: '120' },
-      user: { username: 'marie_claire', id: 456, email: 'marie@example.fr', role: 'Editor' },
-      identifier: '172.16.0.1',
-    },
-    page: {
-      title: 'WordPress Performance Optimization Tips and Best Practices Guide',
-      url: '/blog/wordpress-performance-tips',
-    },
-    referrer: {
-      category: 'DIRECT TRAFFIC',
-    },
-    entryPage: {
-      title: 'Blog Homepage',
-      url: '/blog',
-      hasQueryString: false,
-    },
-    totalViews: 5,
-  },
-  {
-    lastVisit: '2025-01-27T14:12:05',
-    visitorInfo: {
-      country: { code: 'ca', name: 'Canada', region: 'Ontario', city: 'Toronto' },
-      os: { icon: 'ios', name: 'iOS 17' },
-      browser: { icon: 'safari', name: 'Safari', version: '17' },
-      identifier: 'b7e2d1',
-    },
-    page: {
-      title: 'Pricing Plans',
-      url: '/pricing',
-    },
-    referrer: {
-      domain: 'bing.com',
-      fullUrl: 'https://bing.com/search?q=wp+statistics+pricing',
-      category: 'ORGANIC SEARCH',
-    },
-    entryPage: {
-      title: 'Pricing Plans',
-      url: '/pricing',
-      hasQueryString: true,
-      queryString: '?ref=email&discount=SAVE20',
-      utmCampaign: 'Email Newsletter Discount',
-    },
-    totalViews: 89,
-  },
-  {
-    lastVisit: '2025-01-27T14:08:52',
-    visitorInfo: {
-      country: { code: 'au', name: 'Australia', region: 'New South Wales', city: 'Sydney' },
-      os: { icon: 'windows', name: 'Windows 11' },
-      browser: { icon: 'chrome', name: 'Google Chrome', version: '120' },
-      identifier: '203.0.113.5',
-    },
-    page: {
-      title: 'SEO Best Practices for WordPress',
-      url: '/blog/seo-best-practices',
-    },
-    referrer: {
-      domain: 'linkedin.com',
-      fullUrl: 'https://linkedin.com/in/some-profile',
-      category: 'SOCIAL MEDIA',
-    },
-    entryPage: {
-      title: 'Home',
-      url: '/',
-      hasQueryString: false,
-    },
-    totalViews: 456,
-  },
-  {
-    lastVisit: '2025-01-27T14:05:33',
-    visitorInfo: {
-      country: { code: 'in', name: 'India', region: 'Maharashtra', city: 'Mumbai' },
-      os: { icon: 'android', name: 'Android 14' },
-      browser: { icon: 'chrome', name: 'Google Chrome', version: '120' },
-      user: { username: 'admin', id: 1, email: 'admin@site.com', role: 'Administrator' },
-      identifier: '198.51.100.10',
-    },
-    page: {
-      title: 'Contact Support',
-      url: '/support/contact',
-    },
-    referrer: {
-      domain: 'wordpress.org',
-      fullUrl: 'https://wordpress.org/plugins/wp-statistics/',
-      category: 'REFERRAL TRAFFIC',
-    },
-    entryPage: {
-      title: 'Support Center',
-      url: '/support',
-      hasQueryString: false,
-    },
-    totalViews: 12567,
-  },
-  {
-    lastVisit: '2025-01-27T14:02:19',
-    visitorInfo: {
-      country: { code: 'jp', name: 'Japan', region: 'Tokyo', city: 'Tokyo' },
-      os: { icon: 'mac_os', name: 'macOS Ventura' },
-      browser: { icon: 'firefox', name: 'Firefox', version: '121' },
-      identifier: 'f9a8c4',
-    },
-    page: {
-      title: 'Features Overview',
-      url: '/features',
-    },
-    referrer: {
-      domain: 'duckduckgo.com',
-      fullUrl: 'https://duckduckgo.com/?q=wordpress+analytics',
-      category: 'ORGANIC SEARCH',
-    },
-    entryPage: {
-      title: 'Features Comparison',
-      url: '/features/compare',
-      hasQueryString: true,
-      queryString: '?plan=pro&billing=annual',
-    },
-    totalViews: 342,
-  },
-  {
-    lastVisit: '2025-01-27T13:58:47',
-    visitorInfo: {
-      country: { code: 'br', name: 'Brazil', region: 'São Paulo', city: 'São Paulo' },
-      os: { icon: 'android', name: 'Android 13' },
-      browser: { icon: 'chrome', name: 'Google Chrome', version: '119' },
-      identifier: '192.0.2.15',
-    },
-    page: {
-      title: 'Complete WordPress Security Guide',
-      url: '/blog/wordpress-security-guide',
-    },
-    referrer: {
-      domain: 'facebook.com',
-      fullUrl: 'https://facebook.com/groups/wordpress',
-      category: 'SOCIAL MEDIA',
-    },
-    entryPage: {
-      title: 'Security Best Practices',
-      url: '/security',
-      hasQueryString: false,
-    },
-    totalViews: 78,
-  },
-  {
-    lastVisit: '2025-01-27T13:55:12',
-    visitorInfo: {
-      country: { code: 'kr', name: 'South Korea', region: 'Seoul', city: 'Seoul' },
-      os: { icon: 'windows', name: 'Windows 11' },
-      browser: { icon: 'edge', name: 'Edge', version: '120' },
-      user: { username: 'kim_subscriber', id: 789, email: 'kim@example.kr', role: 'Subscriber' },
-      identifier: '203.0.113.20',
-    },
-    page: {
-      title: 'Download WP Statistics',
-      url: '/download',
-    },
-    referrer: {
-      domain: 'google.co.kr',
-      fullUrl: 'https://google.co.kr/search?q=wp+statistics+download',
-      category: 'ORGANIC SEARCH',
-    },
-    entryPage: {
-      title: 'Download Page',
-      url: '/download',
-      hasQueryString: true,
-      queryString: '?version=14.0&lang=ko',
-    },
-    totalViews: 2,
-  },
-]
+    totalViews: record.total_views || 0,
+  }
+}
 
 function RouteComponent() {
+  const [appliedFilters, setAppliedFilters] = useState<Filter[]>([])
+  const [page, setPage] = useState(1)
+  const [sorting, setSorting] = useState<SortingState>([{ id: 'lastVisit', desc: true }])
+
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
   const columns = createColumns(pluginUrl)
 
+  // Get date range (three month period)
+  // Temporary will replace with date picker
+  const today = getToday()
+  const threeMonthsAgo = (() => {
+    const date = new Date()
+    date.setMonth(date.getMonth() - 3)
+    return date.toISOString().split('T')[0]
+  })()
+
+  // Determine sort parameters from sorting state
+  const orderBy = sorting.length > 0 ? sorting[0].id : 'lastVisit'
+  const order = sorting.length > 0 && sorting[0].desc ? 'desc' : 'asc'
+
+  // Convert UI filters to API format
+  const apiFilters = useMemo(() => convertFiltersToApiFormat(appliedFilters), [appliedFilters])
+
+  // Fetch data from API
+  const {
+    data: response,
+    isFetching,
+    isError,
+  } = useQuery({
+    ...getViewsQueryOptions({
+      page,
+      per_page: PER_PAGE,
+      order_by: orderBy,
+      order: order as 'asc' | 'desc',
+      date_from: threeMonthsAgo,
+      date_to: today,
+      filters: apiFilters,
+    }),
+    placeholderData: keepPreviousData,
+  })
+
+  // Transform API data to component interface
+  const tableData = useMemo(() => {
+    if (!response?.data?.data?.rows) return []
+    return response.data.data.rows.map(transformViewData)
+  }, [response])
+
+  // Get pagination info
+  const totalRows = response?.data?.data?.total ?? response?.data?.total ?? 0
+  const totalPages = response?.data?.meta?.total_pages || Math.ceil(totalRows / PER_PAGE) || 1
+
+  // Handle sorting changes
+  const handleSortingChange = useCallback((newSorting: SortingState) => {
+    setSorting(newSorting)
+    setPage(1) // Reset to first page when sorting changes
+  }, [])
+
+  // Handle page changes
+  const handlePageChange = useCallback((newPage: number) => {
+    setPage(newPage)
+  }, [])
+
+  // Get filter fields for 'views' group from localized data
+  const filterFields = useMemo<FilterField[]>(() => {
+    return wp.getFilterFieldsByGroup('views') as FilterField[]
+  }, [wp])
+
+  const handleRemoveFilter = (filterId: string) => {
+    setAppliedFilters((prev) => prev.filter((f) => f.id !== filterId))
+    setPage(1) // Reset to first page when filters change
+  }
+
+  // Handle filter application with page reset
+  const handleApplyFilters = useCallback((filters: Filter[]) => {
+    setAppliedFilters(filters)
+    setPage(1) // Reset to first page when filters change
+  }, [])
+
   return (
     <div className="min-w-0">
+      {/* Header row with title and filter button */}
       <div className="flex items-center justify-between p-4 bg-white border-b border-input">
         <h1 className="text-2xl font-medium text-neutral-700">{__('Views', 'wp-statistics')}</h1>
+        {filterFields.length > 0 && (
+          <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={handleApplyFilters} />
+        )}
       </div>
 
       <div className="p-4">
-        <DataTable
-          columns={columns}
-          data={fakeData}
-          defaultSort="lastVisit"
-          rowLimit={50}
-          showColumnManagement={true}
-          showPagination={true}
-          emptyStateMessage={__('No views found for the selected period', 'wp-statistics')}
-        />
+        {/* Applied filters row (separate from button) */}
+        {appliedFilters.length > 0 && (
+          <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-4" />
+        )}
+
+        {isError ? (
+          <div className="p-4 text-center text-destructive">
+            {__('Failed to load views data. Please try again.', 'wp-statistics')}
+          </div>
+        ) : (
+          <DataTable
+            columns={columns}
+            data={tableData}
+            sorting={sorting}
+            onSortingChange={handleSortingChange}
+            manualSorting={true}
+            manualPagination={true}
+            pageCount={totalPages}
+            page={page}
+            onPageChange={handlePageChange}
+            totalRows={totalRows}
+            rowLimit={PER_PAGE}
+            showColumnManagement={true}
+            showPagination={true}
+            isFetching={isFetching}
+            emptyStateMessage={__('No views found for the selected period', 'wp-statistics')}
+          />
+        )}
       </div>
     </div>
   )

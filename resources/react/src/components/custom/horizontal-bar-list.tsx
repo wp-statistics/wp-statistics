@@ -1,10 +1,10 @@
+import { __ } from '@wordpress/i18n'
 import { ChevronRight } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 
 import { HorizontalBar } from './horizontal-bar'
-import { __ } from '@wordpress/i18n'
 
 interface HorizontalBarItem {
   icon?: React.ReactNode

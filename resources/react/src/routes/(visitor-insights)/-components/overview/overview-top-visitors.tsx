@@ -1,10 +1,11 @@
-import { DataTable } from '@/components/custom/data-table'
-import { Badge } from '@/components/ui/badge'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Link, useRouter } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { Info } from 'lucide-react'
+
+import { DataTable } from '@/components/custom/data-table'
+import { Badge } from '@/components/ui/badge'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { WordPress } from '@/lib/wordpress'
 
 type TopVisitorData = {
@@ -293,7 +294,7 @@ export const OverviewTopVisitors = () => {
                 <TooltipTrigger asChild>
                   <button className="cursor-pointer flex items-center">
                     <img
-                      src={`${pluginUrl}public/images/flags/${visitorInfo.country.code}.svg`}
+                      src={`${pluginUrl}public/images/flags/${visitorInfo.country.code || '000'}.svg`}
                       alt={visitorInfo.country.name}
                       className="w-5 h-5 object-contain"
                     />

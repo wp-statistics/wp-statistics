@@ -1,14 +1,15 @@
-import { useState, useMemo } from 'react'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
-import { DataTable } from '@/components/custom/data-table'
-import { Badge } from '@/components/ui/badge'
 import { __ } from '@wordpress/i18n'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Info } from 'lucide-react'
-import { WordPress } from '@/lib/wordpress'
+import { useMemo,useState } from 'react'
+
+import { DataTable } from '@/components/custom/data-table'
+import { type Filter,FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
-import { FilterBar, type Filter } from '@/components/custom/filter-bar'
+import { Badge } from '@/components/ui/badge'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { WordPress } from '@/lib/wordpress'
 
 export const Route = createLazyFileRoute('/(visitor-insights)/visitors')({
   component: RouteComponent,
@@ -85,7 +86,7 @@ const createColumns = (pluginUrl: string): ColumnDef<Visitor>[] => [
               <TooltipTrigger asChild>
                 <button className="flex items-center">
                   <img
-                    src={`${pluginUrl}public/images/flags/${visitor.countryCode}.svg`}
+                    src={`${pluginUrl}public/images/flags/${visitor.countryCode || '000'}.svg`}
                     alt={visitor.country}
                     className="w-5 h-5 object-contain"
                   />
@@ -551,7 +552,9 @@ function RouteComponent() {
       {/* Header row with title and filter button */}
       <div className="flex items-center justify-between p-4 bg-white border-b border-input">
         <h1 className="text-2xl font-medium text-neutral-700">{__('Visitors', 'wp-statistics')}</h1>
-        <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={setAppliedFilters} />
+        {filterFields.length > 0 && (
+          <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={setAppliedFilters} />
+        )}
       </div>
 
       <div className="p-4">

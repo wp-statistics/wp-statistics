@@ -1,14 +1,17 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
-import * as React from 'react'
+import { __ } from '@wordpress/i18n'
+import { Info } from 'lucide-react'
+import { useMemo, useState } from 'react'
+
 import { DataTable } from '@/components/custom/data-table'
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
+import { type Filter, FilterBar } from '@/components/custom/filter-bar'
+import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { LineChart } from '@/components/custom/line-chart'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { Info } from 'lucide-react'
 import { WordPress } from '@/lib/wordpress'
-import { __ } from '@wordpress/i18n'
 
 export const Route = createLazyFileRoute('/(visitor-insights)/logged-in-users')({
   component: RouteComponent,
@@ -64,7 +67,7 @@ const createColumns = (pluginUrl: string): ColumnDef<LoggedInUser>[] => [
               <TooltipTrigger asChild>
                 <button className="flex items-center">
                   <img
-                    src={`${pluginUrl}public/images/flags/${user.countryCode}.svg`}
+                    src={`${pluginUrl}public/images/flags/${user.countryCode || '000'}.svg`}
                     alt={user.country}
                     className="w-5 h-5 object-contain"
                   />
@@ -436,13 +439,23 @@ const generateTrafficTrendsData = (timeframe: 'daily' | 'weekly' | 'monthly'): T
 }
 
 function RouteComponent() {
+  const [appliedFilters, setAppliedFilters] = useState<Filter[]>([])
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
 
-  const [timeframe, setTimeframe] = React.useState<'daily' | 'weekly' | 'monthly'>('daily')
+  const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
+
+  // Get filter fields for 'logged_in_users' group from localized data
+  const filterFields = useMemo<FilterField[]>(() => {
+    return wp.getFilterFieldsByGroup('logged_in_users') as FilterField[]
+  }, [wp])
+
+  const handleRemoveFilter = (filterId: string) => {
+    setAppliedFilters((prev) => prev.filter((f) => f.id !== filterId))
+  }
 
   const fakeUsers = generateFakeUsers()
-  const trafficTrendsData = React.useMemo(() => generateTrafficTrendsData(timeframe), [timeframe])
+  const trafficTrendsData = useMemo(() => generateTrafficTrendsData(timeframe), [timeframe])
 
   // Calculate totals for current and previous period
   const totalUserVisitors = trafficTrendsData.reduce((sum, item) => sum + item.userVisitors, 0)
@@ -483,11 +496,20 @@ function RouteComponent() {
 
   return (
     <div className="min-w-0">
+      {/* Header row with title and filter button */}
       <div className="flex items-center justify-between p-4 bg-white border-b border-input">
-        <h1 className="text-2xl font-medium text-neutral-700">{__('Latest Views', 'wp-statistics')}</h1>
+        <h1 className="text-2xl font-medium text-neutral-700">{__('Logged-in Users', 'wp-statistics')}</h1>
+        {filterFields.length > 0 && (
+          <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={setAppliedFilters} />
+        )}
       </div>
 
       <div className="p-4 grid gap-6">
+        {/* Applied filters row (separate from button) */}
+        {appliedFilters.length > 0 && (
+          <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} />
+        )}
+
         <LineChart
           title={__('Traffic Trends', 'wp-statistics')}
           data={trafficTrendsData}

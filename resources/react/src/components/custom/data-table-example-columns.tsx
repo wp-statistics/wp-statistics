@@ -1,7 +1,8 @@
-import type { ColumnDef } from '@tanstack/react-table'
-import { DataTableColumnHeaderSortable } from './data-table-column-header-sortable'
-import { Info } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@components/ui/tooltip'
+import type { ColumnDef } from '@tanstack/react-table'
+import { Info } from 'lucide-react'
+
+import { DataTableColumnHeaderSortable } from './data-table-column-header-sortable'
 
 // Example visitor data type based on the screenshot
 export type VisitorData = {

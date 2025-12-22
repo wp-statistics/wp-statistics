@@ -1,7 +1,8 @@
-import { Plus } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { FilterRow, getOperatorType, type FilterField, type FilterRowData, type FilterValue } from '@/components/custom/filter-row'
 import { __ } from '@wordpress/i18n'
+import { Plus } from 'lucide-react'
+
+import { type FilterField, FilterRow, type FilterRowData, type FilterValue,getOperatorType } from '@/components/custom/filter-row'
+import { Button } from '@/components/ui/button'
 
 export interface FilterPanelProps {
   filters: FilterRowData[]

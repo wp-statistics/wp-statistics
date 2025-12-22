@@ -1,16 +1,16 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps'
-import { Minus, Plus, ArrowLeft, Loader2 } from 'lucide-react'
-import { useQuery } from '@tanstack/react-query'
-
-import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/card'
 import { Button } from '@components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/card'
 import { Tabs, TabsList, TabsTrigger } from '@components/ui/tabs'
-import { cn } from '@lib/utils'
-import { getCitiesDataQueryOptions } from '@services/geographic/get-cities-data'
 import { getCityCoordinates } from '@lib/city-coordinates'
 import { getCountryCenter, getCountryZoomLevel } from '@lib/country-centers'
-import { FAKE_CITY_DATA, COLOR_SCALE, MAP_URLS } from '@/constants/map-data'
+import { cn } from '@lib/utils'
+import { getCitiesDataQueryOptions } from '@services/geographic/get-cities-data'
+import { useQuery } from '@tanstack/react-query'
+import { ArrowLeft, Loader2,Minus, Plus } from 'lucide-react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps'
+
+import { COLOR_SCALE, FAKE_CITY_DATA, MAP_URLS } from '@/constants/map-data'
 import type { MapViewMode, MetricOption } from '@/types/geographic'
 
 export interface CountryData {

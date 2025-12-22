@@ -1,21 +1,24 @@
+import { useQuery,useSuspenseQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import * as React from 'react'
+import { __ } from '@wordpress/i18n'
+import { useMemo,useState } from 'react'
 
+import { type Filter,FilterBar } from '@/components/custom/filter-bar'
+import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import type { GlobalMapData } from '@/components/custom/global-map'
 import { GlobalMap } from '@/components/custom/global-map'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
+import { Card, CardHeader, CardTitle } from '@/components/ui/card'
 import { WordPress } from '@/lib/wordpress'
 import { getVisitorInsightDevicesTypeQueryOptions } from '@/services/visitor-insight/get-devices-type'
 import { getVisitorInsightGlobalVisitorDistributionQueryOptions } from '@/services/visitor-insight/get-global-visitor-distribution'
 import { getVisitorInsightOSSQueryOptions } from '@/services/visitor-insight/get-oss'
 import { getVisitorInsightTopCountriesQueryOptions } from '@/services/visitor-insight/get-top-countries'
-import { useSuspenseQuery, useQuery } from '@tanstack/react-query'
-import { __ } from '@wordpress/i18n'
-import { OverviewTopVisitors } from './-components/overview/overview-top-visitors'
-import { Card, CardHeader, CardTitle } from '@/components/ui/card'
 import { getVisitorInsightTrafficTrendsQueryOptions } from '@/services/visitor-insight/get-traffic-trends'
+
+import { OverviewTopVisitors } from './-components/overview/overview-top-visitors'
 
 export const Route = createLazyFileRoute('/(visitor-insights)/visitors-overview')({
   component: RouteComponent,
@@ -28,10 +31,20 @@ export const Route = createLazyFileRoute('/(visitor-insights)/visitors-overview'
 })
 
 function RouteComponent() {
+  const [appliedFilters, setAppliedFilters] = useState<Filter[]>([])
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
 
-  const [timeframe, setTimeframe] = React.useState<'daily' | 'weekly' | 'monthly'>('daily')
+  const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
+
+  // Get filter fields for 'visitors_overview' group from localized data
+  const filterFields = useMemo<FilterField[]>(() => {
+    return wp.getFilterFieldsByGroup('visitors_overview') as FilterField[]
+  }, [])
+
+  const handleRemoveFilter = (filterId: string) => {
+    setAppliedFilters((prev) => prev.filter((f) => f.id !== filterId))
+  }
 
   // Use useQuery with fallbacks for potentially failing endpoints
   const { data: topCountriesResponse } = useQuery({
@@ -251,9 +264,22 @@ function RouteComponent() {
   // fake data for metrics - end
 
   return (
-    <div className="p-2 grid gap-6">
-      <h1 className="text-2xl font-medium text-neutral-700">Visitor insights</h1>
-      <div className="grid gap-3 grid-cols-12">
+    <div className="min-w-0">
+      {/* Header row with title and filter button */}
+      <div className="flex items-center justify-between p-4 bg-white border-b border-input">
+        <h1 className="text-2xl font-medium text-neutral-700">{__('Visitor Insights', 'wp-statistics')}</h1>
+        {filterFields.length > 0 && (
+          <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={setAppliedFilters} />
+        )}
+      </div>
+
+      <div className="p-4">
+        {/* Applied filters row (separate from button) */}
+        {appliedFilters.length > 0 && (
+          <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-4" />
+        )}
+
+        <div className="grid gap-3 grid-cols-12">
         <div className="col-span-12">
           <Metrics metrics={metricsData} columns={3} />
         </div>
@@ -298,7 +324,7 @@ function RouteComponent() {
 
               return {
                 icon: (
-                  <img src={`${pluginUrl}public/images/flags/${item.icon}.svg`} alt={item.label} className="w-4 h-3" />
+                  <img src={`${pluginUrl}public/images/flags/${item.icon || '000'}.svg`} alt={item.label} className="w-4 h-3" />
                 ),
                 label: item.label,
                 value: item.value.toLocaleString(),
@@ -404,6 +430,7 @@ function RouteComponent() {
               { value: 'views', label: 'Views' },
             ]}
           />
+        </div>
         </div>
       </div>
     </div>

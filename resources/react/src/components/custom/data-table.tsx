@@ -1,4 +1,6 @@
-import * as React from 'react'
+import { Button } from '@components/ui/button'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@components/ui/table'
+import { cn } from '@lib/utils'
 import type { ColumnDef, ColumnFiltersState, SortingState, VisibilityState } from '@tanstack/react-table'
 import {
   flexRender,
@@ -8,14 +10,12 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react'
-
-import { Button } from '@components/ui/button'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@components/ui/table'
-import { DataTableColumnToggle } from './data-table-column-toggle'
 import { __ } from '@wordpress/i18n'
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Loader2 } from 'lucide-react'
+import * as React from 'react'
+
 import { Card, CardFooter, CardHeader, CardTitle } from '../ui/card'
-import { cn } from '@lib/utils'
+import { DataTableColumnToggle } from './data-table-column-toggle'
 
 interface FullReportLink {
   text: string
@@ -43,6 +43,8 @@ interface DataTableProps<TData, TValue> {
   page?: number
   onPageChange?: (page: number) => void
   totalRows?: number
+  // Loading state for server-side data fetching
+  isFetching?: boolean
 }
 
 export function DataTable<TData, TValue>({
@@ -66,6 +68,8 @@ export function DataTable<TData, TValue>({
   page: externalPage,
   onPageChange,
   totalRows,
+  // Loading state
+  isFetching = false,
 }: DataTableProps<TData, TValue>) {
   const [internalSorting, setInternalSorting] = React.useState<SortingState>(
     defaultSort ? [{ id: defaultSort, desc: true }] : []
@@ -139,10 +143,18 @@ export function DataTable<TData, TValue>({
     <Card className="overflow-hidden min-w-0">
       {title && (
         <CardHeader className="pb-0">
-          <CardTitle className="">{title}</CardTitle>
+          <div className="flex items-center gap-2">
+            <CardTitle className="">{title}</CardTitle>
+            {isFetching && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
+          </div>
         </CardHeader>
       )}
-      <div className="overflow-x-auto min-w-0">
+      <div className={cn('overflow-x-auto min-w-0 relative', isFetching && 'opacity-50 pointer-events-none transition-opacity')}>
+        {isFetching && (
+          <div className="absolute inset-0 flex items-center justify-center z-10 bg-white/30">
+            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+          </div>
+        )}
         <Table className="min-w-max">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -193,7 +205,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length + (showColumnManagement ? 1 : 0)}
                   className="h-24 text-center text-sm text-card-foreground pl-6"
                 >
-                  {emptyStateMessage}
+                  {isFetching ? null : emptyStateMessage}
                 </TableCell>
               </TableRow>
             )}

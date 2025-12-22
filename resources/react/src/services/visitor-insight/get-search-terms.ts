@@ -1,4 +1,5 @@
 import { queryOptions } from '@tanstack/react-query'
+
 import { clientRequest } from '@/lib/client-request'
 
 export interface SearchTerm {
