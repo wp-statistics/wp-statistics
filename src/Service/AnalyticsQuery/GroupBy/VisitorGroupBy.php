@@ -111,7 +111,7 @@ class VisitorGroupBy extends AbstractGroupBy
      * @param array $requestedColumns List of requested column aliases. Empty = include all.
      * @return array
      */
-    private function getBaseExtraColumns(array $requestedColumns = []): array
+    protected function getBaseExtraColumns(array $requestedColumns = []): array
     {
         $includeAll = empty($requestedColumns);
         $columns = [];

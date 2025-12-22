@@ -546,7 +546,7 @@ class QueryExecutor implements QueryExecutorInterface
 
         // Add date range filter
         if ($dateFrom && $dateTo) {
-            $dateColumn = $this->getDateColumn($primaryTable);
+            $dateColumn = $this->getDateColumn($primaryTable, $groupByNames);
             $where[]    = "$dateColumn >= %s";
             $where[]    = "$dateColumn <= %s";
             $params[]   = $this->formatDateTimeStart($dateFrom);
@@ -766,11 +766,19 @@ class QueryExecutor implements QueryExecutorInterface
     /**
      * Get date column for a table.
      *
+     * Special handling for online_visitor groupBy which needs to filter by ended_at.
+     *
      * @param string $table Table name.
+     * @param array  $groupByNames GroupBy names for context-specific column selection.
      * @return string
      */
-    private function getDateColumn(string $table): string
+    private function getDateColumn(string $table, array $groupByNames = []): string
     {
+        // Special case: online_visitor groupBy uses ended_at for date filtering
+        if (in_array('online_visitor', $groupByNames, true)) {
+            return 'sessions.ended_at';
+        }
+
         switch ($table) {
             case 'sessions':
                 return 'sessions.started_at';

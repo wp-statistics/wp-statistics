@@ -16,6 +16,7 @@ use WP_Statistics\Service\AnalyticsQuery\GroupBy\DeviceTypeGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\ReferrerGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\PageGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\VisitorGroupBy;
+use WP_Statistics\Service\AnalyticsQuery\GroupBy\OnlineVisitorGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\ContinentGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\LanguageGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\ResolutionGroupBy;
@@ -83,6 +84,7 @@ class GroupByRegistry implements RegistryInterface
             new ReferrerGroupBy(),
             new PageGroupBy(),
             new VisitorGroupBy(),
+            new OnlineVisitorGroupBy(),
             new ContinentGroupBy(),
             new LanguageGroupBy(),
             new ResolutionGroupBy(),

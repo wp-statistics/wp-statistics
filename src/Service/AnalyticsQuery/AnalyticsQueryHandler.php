@@ -354,7 +354,7 @@ class AnalyticsQueryHandler
         if ($dateFrom && !$this->isValidDate($dateFrom)) {
             throw new InvalidDateRangeException(
                 sprintf(
-                    __('Invalid date_from format: %s. Expected YYYY-MM-DD, YYYY-MM-DD HH:mm:ss, or YYYY-MM-DDTHH:mm:ss.', 'wp-statistics'),
+                    __('Invalid date_from format: %s. Expected YYYY-MM-DD, YYYY-MM-DD HH:mm:ss, YYYY-MM-DDTHH:mm:ss, or YYYY-MM-DD HH:mm:ssZ.', 'wp-statistics'),
                     $dateFrom
                 )
             );
@@ -363,7 +363,7 @@ class AnalyticsQueryHandler
         if ($dateTo && !$this->isValidDate($dateTo)) {
             throw new InvalidDateRangeException(
                 sprintf(
-                    __('Invalid date_to format: %s. Expected YYYY-MM-DD, YYYY-MM-DD HH:mm:ss, or YYYY-MM-DDTHH:mm:ss.', 'wp-statistics'),
+                    __('Invalid date_to format: %s. Expected YYYY-MM-DD, YYYY-MM-DD HH:mm:ss, YYYY-MM-DDTHH:mm:ss, or YYYY-MM-DD HH:mm:ssZ.', 'wp-statistics'),
                     $dateTo
                 )
             );
@@ -388,6 +388,8 @@ class AnalyticsQueryHandler
      * - Date only: YYYY-MM-DD
      * - With space: YYYY-MM-DD HH:mm:ss (24-hour format)
      * - ISO 8601: YYYY-MM-DDTHH:mm:ss (JavaScript-friendly with T separator)
+     * - UTC format: YYYY-MM-DD HH:mm:ssZ or YYYY-MM-DDTHH:mm:ssZ
+     * - With timezone: YYYY-MM-DD HH:mm:ss+00:00 or YYYY-MM-DDTHH:mm:ss+00:00
      *
      * @param string $date Date/time string.
      * @return bool
@@ -409,6 +411,21 @@ class AnalyticsQueryHandler
         // Try ISO 8601 format: YYYY-MM-DDTHH:mm:ss
         $d = \DateTime::createFromFormat('Y-m-d\TH:i:s', $date);
         if ($d && $d->format('Y-m-d\TH:i:s') === $date) {
+            return true;
+        }
+
+        // Try UTC format with Z: YYYY-MM-DD HH:mm:ssZ
+        if (preg_match('/^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}Z$/', $date)) {
+            return true;
+        }
+
+        // Try ISO 8601 UTC format with Z: YYYY-MM-DDTHH:mm:ssZ
+        if (preg_match('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/', $date)) {
+            return true;
+        }
+
+        // Try format with timezone offset: YYYY-MM-DD HH:mm:ss+00:00 or YYYY-MM-DDTHH:mm:ss+00:00
+        if (preg_match('/^\d{4}-\d{2}-\d{2}[\sT]\d{2}:\d{2}:\d{2}[\+\-]\d{2}:\d{2}$/', $date)) {
             return true;
         }
 
@@ -476,21 +493,31 @@ class AnalyticsQueryHandler
      *
      * If only date is provided (YYYY-MM-DD), adds default time 00:00:00.
      * ISO 8601 format (with T) is converted to space format.
+     * Preserves UTC indicator 'Z' or timezone offset for proper conversion.
      *
      * @param string $date Date/time string.
-     * @return string Normalized datetime (YYYY-MM-DD HH:mm:ss).
+     * @return string Normalized datetime (YYYY-MM-DD HH:mm:ss or YYYY-MM-DD HH:mm:ssZ).
      */
     private function normalizeDateFrom(string $date): string
     {
+        // Preserve UTC indicator or timezone offset
+        $hasUtcIndicator = preg_match('/(Z|[\+\-]\d{2}:\d{2})$/', $date, $matches);
+        $utcSuffix = $hasUtcIndicator ? $matches[1] : '';
+
+        // Remove UTC indicator temporarily for processing
+        if ($hasUtcIndicator) {
+            $date = preg_replace('/(Z|[\+\-]\d{2}:\d{2})$/', '', $date);
+        }
+
         // Replace T with space for ISO 8601 format
         $date = str_replace('T', ' ', $date);
 
         // If only date provided, add default start time
         if (strlen($date) === 10) {
-            return $date . ' 00:00:00';
+            return $date . ' 00:00:00' . $utcSuffix;
         }
 
-        return $date;
+        return $date . $utcSuffix;
     }
 
     /**
@@ -498,21 +525,31 @@ class AnalyticsQueryHandler
      *
      * If only date is provided (YYYY-MM-DD), adds default time 23:59:59.
      * ISO 8601 format (with T) is converted to space format.
+     * Preserves UTC indicator 'Z' or timezone offset for proper conversion.
      *
      * @param string $date Date/time string.
-     * @return string Normalized datetime (YYYY-MM-DD HH:mm:ss).
+     * @return string Normalized datetime (YYYY-MM-DD HH:mm:ss or YYYY-MM-DD HH:mm:ssZ).
      */
     private function normalizeDateTo(string $date): string
     {
+        // Preserve UTC indicator or timezone offset
+        $hasUtcIndicator = preg_match('/(Z|[\+\-]\d{2}:\d{2})$/', $date, $matches);
+        $utcSuffix = $hasUtcIndicator ? $matches[1] : '';
+
+        // Remove UTC indicator temporarily for processing
+        if ($hasUtcIndicator) {
+            $date = preg_replace('/(Z|[\+\-]\d{2}:\d{2})$/', '', $date);
+        }
+
         // Replace T with space for ISO 8601 format
         $date = str_replace('T', ' ', $date);
 
         // If only date provided, add default end time
         if (strlen($date) === 10) {
-            return $date . ' 23:59:59';
+            return $date . ' 23:59:59' . $utcSuffix;
         }
 
-        return $date;
+        return $date . $utcSuffix;
     }
 
     /**
