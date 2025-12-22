@@ -76,6 +76,7 @@ jQuery(document).ready(function () {
         const gscConfig = gsc ? gsc.date_picker_config : null;
         const gscDateRange = gsc ? gsc.date_range : null;
         const gscDateMeta = gsc ? gsc.date_meta : null;
+        const gscSelectedRange = gscConfig ? gscConfig.value : null; // The original range key (e.g., '90days')
 
         // Map period keys to their translated labels and date calculations
         const rangeDefinitions = {
@@ -280,12 +281,25 @@ jQuery(document).ready(function () {
         const createDate = datePickerBtn.attr('data-date-create') ? datePickerBtn.attr('data-date-create') : null;
         let momentDateFormat = phpToMomentFormat(phpDateFormat);
         const DATE_FORMAT = 'YYYY-MM-DD';
+        
         // Default dates for the date picker
-        let defaultStartDate = moment(wps_js.global.user_date_range.from).format(DATE_FORMAT);
-        let defaultEndDate = moment(wps_js.global.user_date_range.to).format(DATE_FORMAT);
+        let defaultStartDate, defaultEndDate;
+        
+        // For GSC tabs, use the selected range key from backend (e.g., '90days')
+        if (gscSelectedRange && rangeDefinitions[gscSelectedRange]) {
+            defaultStartDate = rangeDefinitions[gscSelectedRange].dates[0].format(DATE_FORMAT);
+            defaultEndDate = rangeDefinitions[gscSelectedRange].dates[1].format(DATE_FORMAT);
+        } else if (gscDateRange && gscDateRange.from && gscDateRange.to) {
+            defaultStartDate = moment(gscDateRange.from).format(DATE_FORMAT);
+            defaultEndDate = moment(gscDateRange.to).format(DATE_FORMAT);
+        } else {
+            // Normal pages: use user_date_range
+            defaultStartDate = moment(wps_js.global.user_date_range.from).format(DATE_FORMAT);
+            defaultEndDate = moment(wps_js.global.user_date_range.to).format(DATE_FORMAT);
+        }
 
         // For GSC tabs, check if current date range is valid, otherwise use 28 days default
-        if (gscConfig && gscConfig.ranges) {
+        if (gscConfig && gscConfig.ranges && !gscSelectedRange) {
             const currentFrom = moment(defaultStartDate);
             const currentTo = moment(defaultEndDate);
             const daysDiff = currentTo.diff(currentFrom, 'days') + 1;
