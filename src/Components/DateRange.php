@@ -33,9 +33,14 @@ class DateRange
      * Stores the given date range in the user's meta data.
      *
      * @param array $range An array containing 'from' and 'to' date strings.
+     * @param string $metaKey The meta key to store the date range under. Defaults to USER_DATE_RANGE_META_KEY.
      */
-    public static function store($range)
+    public static function store($range, $metaKey = null)
     {
+        if (!$metaKey) {
+            $metaKey = self::USER_DATE_RANGE_META_KEY;
+        }
+
         $period  = '';
         $periods = self::getPeriods();
 
@@ -57,18 +62,23 @@ class DateRange
             $period = $range;
         }
 
-        User::saveMeta(self::USER_DATE_RANGE_META_KEY, $period);
+        User::saveMeta($metaKey, $period);
     }
 
     /**
      * Retrieves the period stored in the user's meta data, or from request object.
      *
+     * @param string|null $metaKey The meta key to retrieve the date range from. Defaults to USER_DATE_RANGE_META_KEY.
      * @return string|array Could be a period name like '30days' or an array containing 'from' and 'to' date strings.
      */
-    public static function retrieve()
+    public static function retrieve($metaKey = null)
     {
+        if (!$metaKey) {
+            $metaKey = self::USER_DATE_RANGE_META_KEY;
+        }
+
         $result  = [];
-        $period  = User::getMeta(self::USER_DATE_RANGE_META_KEY, true);
+        $period  = User::getMeta($metaKey, true);
 
         if (!self::validate($period)) {
             $period = self::$defaultPeriod;

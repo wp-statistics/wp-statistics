@@ -297,8 +297,10 @@ class Ajax
         if (Helper::is_request('ajax')) {
             check_ajax_referer('wp_rest', 'wps_nonce');
 
-            $date = Request::get('date', [], 'array');
-            DateRange::store($date);
+            $date    = Request::get('date', [], 'array');
+            $metaKey = Request::get('meta_key', null);
+
+            DateRange::store($date, $metaKey);
 
             wp_send_json_success(['message' => esc_html__('Date range has been stored successfully.', 'wp-statistics')]);
 
