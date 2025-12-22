@@ -13,6 +13,7 @@ use WP_Statistics\Service\AnalyticsQuery\Sources\PagesPerSessionSource;
 use WP_Statistics\Service\AnalyticsQuery\Sources\AvgTimeOnPageSource;
 use WP_Statistics\Service\AnalyticsQuery\Sources\TotalDurationSource;
 use WP_Statistics\Service\AnalyticsQuery\Sources\VisitorStatusSource;
+use WP_Statistics\Service\AnalyticsQuery\Sources\SearchesSource;
 
 /**
  * Registry for analytics sources.
@@ -74,6 +75,7 @@ class SourceRegistry implements RegistryInterface
             new AvgTimeOnPageSource(),
             new TotalDurationSource(),
             new VisitorStatusSource(),
+            new SearchesSource(),
         ];
 
         foreach ($defaults as $source) {

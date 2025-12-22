@@ -20,6 +20,7 @@ use WP_Statistics\Service\AnalyticsQuery\GroupBy\OnlineVisitorGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\ContinentGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\LanguageGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\ResolutionGroupBy;
+use WP_Statistics\Service\AnalyticsQuery\GroupBy\SearchTermGroupBy;
 
 /**
  * Registry for analytics group by.
@@ -88,6 +89,7 @@ class GroupByRegistry implements RegistryInterface
             new ContinentGroupBy(),
             new LanguageGroupBy(),
             new ResolutionGroupBy(),
+            new SearchTermGroupBy(),
         ];
 
         foreach ($defaults as $groupByItem) {
