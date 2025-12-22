@@ -1,12 +1,16 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
-import type { ColumnDef } from '@tanstack/react-table'
+import type { ColumnDef, SortingState } from '@tanstack/react-table'
 import { DataTable } from '@/components/custom/data-table'
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { Info } from 'lucide-react'
+import { Info, Loader2 } from 'lucide-react'
 import { WordPress } from '@/lib/wordpress'
 import { __ } from '@wordpress/i18n'
+import { useQuery } from '@tanstack/react-query'
+import { getOnlineVisitorsQueryOptions } from '@/services/visitor-insight/get-online-visitors'
+import type { OnlineVisitor as APIOnlineVisitor } from '@/services/visitor-insight/get-online-visitors'
+import { useState, useCallback } from 'react'
 
 export const Route = createLazyFileRoute('/(visitor-insights)/online-visitors')({
   component: RouteComponent,
@@ -38,6 +42,69 @@ interface OnlineVisitor {
   referrerDomain?: string
   referrerCategory: string
   lastVisit: Date
+}
+
+// Transform API response to component interface
+const transformVisitorData = (apiVisitor: APIOnlineVisitor): OnlineVisitor => {
+  const lastVisitDate = new Date(apiVisitor.last_visit)
+  // Calculate online duration based on total_sessions (approximate)
+  const onlineForSeconds = Math.max(0, apiVisitor.total_sessions * 60) // Rough estimate
+
+  // Extract query string from entry page if present
+  const entryPageUrl = apiVisitor.entry_page || ''
+  const hasQuery = entryPageUrl.includes('?')
+  const queryString = hasQuery ? entryPageUrl.split('?')[1] : undefined
+  const entryPagePath = hasQuery ? entryPageUrl.split('?')[0] : entryPageUrl
+
+  // Extract page title from entry page path
+  const getPageTitle = (path: string): string => {
+    if (!path || path === '/') return 'Home'
+    const segments = path.split('/').filter(Boolean)
+    const lastSegment = segments[segments.length - 1] || ''
+    return lastSegment.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+  }
+
+  return {
+    id: `visitor-${apiVisitor.visitor_id}`,
+    country: apiVisitor.country_name || 'Unknown',
+    countryCode: (apiVisitor.country_code || 'xx').toLowerCase(),
+    region: apiVisitor.region_name || '',
+    city: apiVisitor.city_name || '',
+    os: (apiVisitor.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_'),
+    browser: (apiVisitor.browser_name || 'unknown').toLowerCase(),
+    browserVersion: '',
+    userId: apiVisitor.user_id ? String(apiVisitor.user_id) : undefined,
+    username: apiVisitor.user_login || undefined,
+    email: undefined,
+    userRole: undefined,
+    ipAddress: apiVisitor.ip_address || undefined,
+    hash: apiVisitor.visitor_hash || undefined,
+    onlineFor: onlineForSeconds,
+    page: entryPagePath || '/',
+    pageTitle: getPageTitle(entryPagePath),
+    totalViews: apiVisitor.total_views || 0,
+    entryPage: entryPagePath || '/',
+    entryPageTitle: getPageTitle(entryPagePath),
+    entryPageHasQuery: hasQuery,
+    entryPageQueryString: queryString ? `?${queryString}` : undefined,
+    referrerDomain: apiVisitor.referrer_domain || undefined,
+    referrerCategory: formatReferrerChannel(apiVisitor.referrer_channel),
+    lastVisit: lastVisitDate,
+  }
+}
+
+// Format referrer channel for display
+const formatReferrerChannel = (channel: string | null | undefined): string => {
+  if (!channel) return 'DIRECT TRAFFIC'
+  const channelMap: Record<string, string> = {
+    direct: 'DIRECT TRAFFIC',
+    search: 'SEARCH',
+    social: 'SOCIAL',
+    referral: 'REFERRAL',
+    email: 'EMAIL',
+    paid: 'PAID',
+  }
+  return channelMap[channel.toLowerCase()] || channel.toUpperCase()
 }
 
 const createColumns = (pluginUrl: string): ColumnDef<OnlineVisitor>[] => [
@@ -279,120 +346,81 @@ const createColumns = (pluginUrl: string): ColumnDef<OnlineVisitor>[] => [
   },
 ]
 
-// Generate fake online visitor data
-const generateFakeOnlineVisitors = (): OnlineVisitor[] => {
-  const countries = [
-    { name: 'United States', code: 'us', region: 'California', city: 'San Francisco' },
-    { name: 'United Kingdom', code: 'gb', region: 'England', city: 'London' },
-    { name: 'Canada', code: 'ca', region: 'Ontario', city: 'Toronto' },
-    { name: 'Germany', code: 'de', region: 'Bavaria', city: 'Munich' },
-    { name: 'France', code: 'fr', region: 'Île-de-France', city: 'Paris' },
-    { name: 'Japan', code: 'jp', region: 'Tokyo', city: 'Tokyo' },
-    { name: 'Australia', code: 'au', region: 'New South Wales', city: 'Sydney' },
-    { name: 'Brazil', code: 'br', region: 'São Paulo', city: 'São Paulo' },
-  ]
-
-  const browsers = [
-    { name: 'chrome', version: '120' },
-    { name: 'firefox', version: '121' },
-    { name: 'safari', version: '17' },
-    { name: 'edge', version: '120' },
-  ]
-
-  const operatingSystems = ['windows', 'mac_os', 'linux', 'android', 'ios']
-
-  const referrers = [
-    { domain: 'google.com', category: 'SEARCH' },
-    { domain: 'facebook.com', category: 'SOCIAL' },
-    { domain: 'twitter.com', category: 'SOCIAL' },
-    { domain: 'linkedin.com', category: 'SOCIAL' },
-    { domain: null, category: 'DIRECT TRAFFIC' },
-    { domain: 'example.com', category: 'REFERRAL' },
-  ]
-
-  const pages = [
-    { path: '/', title: 'Home' },
-    { path: '/blog', title: 'Blog' },
-    { path: '/about', title: 'About Us' },
-    { path: '/contact', title: 'Contact' },
-    { path: '/products', title: 'Products' },
-    { path: '/services', title: 'Our Services' },
-    { path: '/dashboard', title: 'User Dashboard' },
-    { path: '/settings', title: 'Account Settings' },
-    { path: '/blog/how-to-improve-website-performance', title: 'How to Improve Your Website Performance' },
-    { path: '/blog/best-practices-for-seo', title: 'Best Practices for SEO in 2025' },
-  ]
-
-  const users = [
-    { id: '1', username: 'admin', email: 'admin@example.com', role: 'Administrator' },
-    { id: '2', username: 'editor', email: 'editor@example.com', role: 'Editor' },
-    null,
-    null,
-    null,
-    null,
-  ]
-
-  const onlineVisitors: OnlineVisitor[] = []
-
-  // Generate 15-25 online visitors (realistic for "last 5 minutes" filter)
-  const visitorCount = Math.floor(Math.random() * 11) + 15
-
-  for (let i = 0; i < visitorCount; i++) {
-    const country = countries[Math.floor(Math.random() * countries.length)]
-    const browser = browsers[Math.floor(Math.random() * browsers.length)]
-    const os = operatingSystems[Math.floor(Math.random() * operatingSystems.length)]
-    const referrer = referrers[Math.floor(Math.random() * referrers.length)]
-    const entryPageData = pages[Math.floor(Math.random() * pages.length)]
-    const currentPageData = pages[Math.floor(Math.random() * pages.length)]
-    const user = users[Math.floor(Math.random() * users.length)]
-
-    // Online for: between 1 second and 30 minutes (realistic for online visitors)
-    const onlineFor = Math.floor(Math.random() * 1800) + 1
-    const totalViews = Math.floor(Math.random() * 15) + 1
-
-    // Last visit within last 5 minutes
-    const lastVisit = new Date()
-    lastVisit.setSeconds(lastVisit.getSeconds() - Math.floor(Math.random() * 300))
-
-    const hasQueryString = Math.random() > 0.7
-
-    onlineVisitors.push({
-      id: `visitor-${i + 1}`,
-      country: country.name,
-      countryCode: country.code,
-      region: country.region,
-      city: country.city,
-      os,
-      browser: browser.name,
-      browserVersion: browser.version,
-      userId: user?.id,
-      username: user?.username,
-      email: user?.email,
-      userRole: user?.role,
-      ipAddress: user ? undefined : `192.168.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`,
-      hash: user ? undefined : `abc${Math.random().toString(36).substring(2, 8)}`,
-      onlineFor,
-      page: currentPageData.path,
-      pageTitle: currentPageData.title,
-      totalViews,
-      entryPage: entryPageData.path,
-      entryPageTitle: entryPageData.title,
-      entryPageHasQuery: hasQueryString,
-      entryPageQueryString: hasQueryString ? '?utm_source=google&utm_medium=cpc' : undefined,
-      referrerDomain: referrer.domain || undefined,
-      referrerCategory: referrer.category,
-      lastVisit,
-    })
-  }
-
-  return onlineVisitors.sort((a, b) => b.lastVisit.getTime() - a.lastVisit.getTime())
-}
+const PER_PAGE = 50
 
 function RouteComponent() {
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
 
-  const fakeVisitors = generateFakeOnlineVisitors()
+  // Pagination state
+  const [page, setPage] = useState(1)
+
+  // Sorting state
+  const [sorting, setSorting] = useState<SortingState>([{ id: 'lastVisit', desc: true }])
+
+  // Extract sort parameters from sorting state
+  const orderBy = sorting.length > 0 ? sorting[0].id : 'lastVisit'
+  const order = sorting.length > 0 && sorting[0].desc ? 'desc' : 'asc'
+
+  const {
+    data: response,
+    isLoading,
+    isError,
+    error,
+    isFetching,
+  } = useQuery(
+    getOnlineVisitorsQueryOptions({
+      page,
+      per_page: PER_PAGE,
+      order_by: orderBy,
+      order: order as 'asc' | 'desc',
+    })
+  )
+
+  // Transform API data to component format
+  const visitors = response?.data?.data?.rows?.map(transformVisitorData) || []
+  const total = response?.data?.data?.total || 0
+  const totalPages = Math.ceil(total / PER_PAGE)
+
+  // Handle sorting change
+  const handleSortingChange = useCallback((newSorting: SortingState) => {
+    setSorting(newSorting)
+    setPage(1) // Reset to first page when sorting changes
+  }, [])
+
+  // Handle page change
+  const handlePageChange = useCallback((newPage: number) => {
+    setPage(newPage)
+  }, [])
+
+  // Loading state (only show full loader on initial load)
+  if (isLoading) {
+    return (
+      <div className="min-w-0">
+        <div className="flex items-center justify-between p-4 bg-white border-b border-input">
+          <h1 className="text-2xl font-medium text-neutral-700">{__('Online Visitors', 'wp-statistics')}</h1>
+        </div>
+        <div className="flex items-center justify-center p-8">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        </div>
+      </div>
+    )
+  }
+
+  // Error state
+  if (isError) {
+    return (
+      <div className="min-w-0">
+        <div className="flex items-center justify-between p-4 bg-white border-b border-input">
+          <h1 className="text-2xl font-medium text-neutral-700">{__('Online Visitors', 'wp-statistics')}</h1>
+        </div>
+        <div className="p-4 text-center">
+          <p className="text-red-500">{__('Failed to load online visitors', 'wp-statistics')}</p>
+          <p className="text-sm text-muted-foreground">{error?.message}</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-w-0">
@@ -403,9 +431,16 @@ function RouteComponent() {
       <div className="p-4">
         <DataTable
           columns={createColumns(pluginUrl)}
-          data={fakeVisitors}
-          defaultSort="lastVisit"
-          rowLimit={50}
+          data={visitors}
+          sorting={sorting}
+          onSortingChange={handleSortingChange}
+          manualSorting={true}
+          manualPagination={true}
+          pageCount={totalPages}
+          page={page}
+          onPageChange={handlePageChange}
+          totalRows={total}
+          rowLimit={PER_PAGE}
           showColumnManagement={true}
           showPagination={true}
           emptyStateMessage={__('No visitors are currently online', 'wp-statistics')}

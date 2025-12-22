@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { expect, within } from 'storybook/test'
+import { useState } from 'react'
+import type { SortingState } from '@tanstack/react-table'
 import { DataTable } from './data-table'
 import type { VisitorData } from './data-table-example-columns'
 import { exampleColumns, exampleData } from './data-table-example-columns'
@@ -18,7 +20,7 @@ const meta = {
     },
     defaultSort: {
       control: 'text',
-      description: 'Column ID to sort by default',
+      description: 'Column ID to sort by default (for client-side sorting)',
     },
     rowLimit: {
       control: 'number',
@@ -43,6 +45,40 @@ const meta = {
     emptyStateMessage: {
       control: 'text',
       description: 'Custom message to display when the table has no data',
+    },
+    // Server-side sorting props
+    sorting: {
+      control: 'object',
+      description: 'External sorting state for server-side sorting',
+    },
+    onSortingChange: {
+      action: 'sortingChanged',
+      description: 'Callback when sorting changes (for server-side sorting)',
+    },
+    manualSorting: {
+      control: 'boolean',
+      description: 'Enable server-side sorting (disables client-side sorting)',
+    },
+    // Server-side pagination props
+    manualPagination: {
+      control: 'boolean',
+      description: 'Enable server-side pagination (disables client-side pagination)',
+    },
+    pageCount: {
+      control: 'number',
+      description: 'Total number of pages (required for server-side pagination)',
+    },
+    page: {
+      control: 'number',
+      description: 'Current page (1-indexed, for server-side pagination)',
+    },
+    onPageChange: {
+      action: 'pageChanged',
+      description: 'Callback when page changes (for server-side pagination)',
+    },
+    totalRows: {
+      control: 'number',
+      description: 'Total number of rows across all pages (for server-side pagination display)',
     },
   },
 } satisfies Meta<typeof DataTable<VisitorData, unknown>>
@@ -195,5 +231,137 @@ export const WithHiddenColumns: Story = {
     data: exampleData,
     showColumnManagement: true,
     hiddenColumns: ['entryPage', 'exitPage'],
+  },
+}
+
+// Server-side sorting story with render function for state management
+export const ServerSideSorting: Story = {
+  render: function ServerSideSortingStory() {
+    const [sorting, setSorting] = useState<SortingState>([{ id: 'totalViews', desc: true }])
+
+    // Simulate server-side sorted data
+    const sortedData = [...exampleData].sort((a, b) => {
+      if (sorting.length === 0) return 0
+      const { id, desc } = sorting[0]
+      const aVal = a[id as keyof VisitorData]
+      const bVal = b[id as keyof VisitorData]
+      if (typeof aVal === 'number' && typeof bVal === 'number') {
+        return desc ? bVal - aVal : aVal - bVal
+      }
+      return desc
+        ? String(bVal).localeCompare(String(aVal))
+        : String(aVal).localeCompare(String(bVal))
+    })
+
+    return (
+      <div>
+        <div className="mb-4 p-4 bg-slate-100 rounded text-sm">
+          <strong>Current Sort:</strong> {sorting.length > 0 ? `${sorting[0].id} (${sorting[0].desc ? 'DESC' : 'ASC'})` : 'None'}
+        </div>
+        <DataTable
+          columns={exampleColumns}
+          data={sortedData}
+          sorting={sorting}
+          onSortingChange={setSorting}
+          manualSorting={true}
+          showPagination={true}
+          rowLimit={10}
+        />
+      </div>
+    )
+  },
+}
+
+// Server-side pagination story with render function for state management
+export const ServerSidePagination: Story = {
+  render: function ServerSidePaginationStory() {
+    const [page, setPage] = useState(1)
+    const perPage = 5
+    const totalRows = exampleData.length
+    const pageCount = Math.ceil(totalRows / perPage)
+
+    // Simulate server-side paginated data
+    const paginatedData = exampleData.slice((page - 1) * perPage, page * perPage)
+
+    return (
+      <div>
+        <div className="mb-4 p-4 bg-slate-100 rounded text-sm">
+          <strong>Current Page:</strong> {page} of {pageCount} | <strong>Total Rows:</strong> {totalRows}
+        </div>
+        <DataTable
+          columns={exampleColumns}
+          data={paginatedData}
+          manualPagination={true}
+          pageCount={pageCount}
+          page={page}
+          onPageChange={setPage}
+          totalRows={totalRows}
+          rowLimit={perPage}
+          showPagination={true}
+        />
+      </div>
+    )
+  },
+}
+
+// Combined server-side sorting and pagination
+export const ServerSideSortingAndPagination: Story = {
+  render: function ServerSideSortingAndPaginationStory() {
+    const [sorting, setSorting] = useState<SortingState>([{ id: 'totalViews', desc: true }])
+    const [page, setPage] = useState(1)
+    const perPage = 5
+    const totalRows = exampleData.length
+    const pageCount = Math.ceil(totalRows / perPage)
+
+    // Handle sorting change - reset to page 1
+    const handleSortingChange = (newSorting: SortingState) => {
+      setSorting(newSorting)
+      setPage(1)
+    }
+
+    // Simulate server-side sorted data
+    const sortedData = [...exampleData].sort((a, b) => {
+      if (sorting.length === 0) return 0
+      const { id, desc } = sorting[0]
+      const aVal = a[id as keyof VisitorData]
+      const bVal = b[id as keyof VisitorData]
+      if (typeof aVal === 'number' && typeof bVal === 'number') {
+        return desc ? bVal - aVal : aVal - bVal
+      }
+      return desc
+        ? String(bVal).localeCompare(String(aVal))
+        : String(aVal).localeCompare(String(bVal))
+    })
+
+    // Then paginate
+    const paginatedData = sortedData.slice((page - 1) * perPage, page * perPage)
+
+    return (
+      <div>
+        <div className="mb-4 p-4 bg-slate-100 rounded text-sm space-y-1">
+          <div>
+            <strong>Current Sort:</strong> {sorting.length > 0 ? `${sorting[0].id} (${sorting[0].desc ? 'DESC' : 'ASC'})` : 'None'}
+          </div>
+          <div>
+            <strong>Current Page:</strong> {page} of {pageCount} | <strong>Total Rows:</strong> {totalRows}
+          </div>
+        </div>
+        <DataTable
+          columns={exampleColumns}
+          data={paginatedData}
+          sorting={sorting}
+          onSortingChange={handleSortingChange}
+          manualSorting={true}
+          manualPagination={true}
+          pageCount={pageCount}
+          page={page}
+          onPageChange={setPage}
+          totalRows={totalRows}
+          rowLimit={perPage}
+          showPagination={true}
+          showColumnManagement={true}
+        />
+      </div>
+    )
   },
 }

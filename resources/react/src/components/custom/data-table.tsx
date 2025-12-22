@@ -33,6 +33,16 @@ interface DataTableProps<TData, TValue> {
   fullReportLink?: FullReportLink
   hiddenColumns?: string[]
   emptyStateMessage?: string
+  // Server-side sorting props
+  sorting?: SortingState
+  onSortingChange?: (sorting: SortingState) => void
+  manualSorting?: boolean
+  // Server-side pagination props
+  manualPagination?: boolean
+  pageCount?: number
+  page?: number
+  onPageChange?: (page: number) => void
+  totalRows?: number
 }
 
 export function DataTable<TData, TValue>({
@@ -46,25 +56,58 @@ export function DataTable<TData, TValue>({
   fullReportLink,
   hiddenColumns = [],
   emptyStateMessage = __('No data available', 'wp-statistics'),
+  // Server-side sorting
+  sorting: externalSorting,
+  onSortingChange: externalOnSortingChange,
+  manualSorting = false,
+  // Server-side pagination
+  manualPagination = false,
+  pageCount: externalPageCount,
+  page: externalPage,
+  onPageChange,
+  totalRows,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>(defaultSort ? [{ id: defaultSort, desc: true }] : [])
+  const [internalSorting, setInternalSorting] = React.useState<SortingState>(
+    defaultSort ? [{ id: defaultSort, desc: true }] : []
+  )
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>(
     hiddenColumns.reduce((acc, col) => ({ ...acc, [col]: false }), {})
   )
   const [rowSelection, setRowSelection] = React.useState({})
 
+  // Use external sorting if provided, otherwise use internal
+  const sorting = externalSorting ?? internalSorting
+  const handleSortingChange = React.useCallback(
+    (updaterOrValue: SortingState | ((old: SortingState) => SortingState)) => {
+      const newValue = typeof updaterOrValue === 'function' ? updaterOrValue(sorting) : updaterOrValue
+      if (externalOnSortingChange) {
+        externalOnSortingChange(newValue)
+      } else {
+        setInternalSorting(newValue)
+      }
+    },
+    [sorting, externalOnSortingChange]
+  )
+
+  // For manual pagination, track internal page index
+  const [internalPageIndex, setInternalPageIndex] = React.useState(0)
+  const pageIndex = manualPagination && externalPage !== undefined ? externalPage - 1 : internalPageIndex
+
   const table = useReactTable({
     data,
     columns,
-    onSortingChange: setSorting,
+    onSortingChange: handleSortingChange,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: manualPagination ? undefined : getPaginationRowModel(),
+    getSortedRowModel: manualSorting ? undefined : getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    manualSorting,
+    manualPagination,
+    pageCount: manualPagination ? externalPageCount : undefined,
     initialState: {
       pagination: {
         pageSize: rowLimit,
@@ -75,7 +118,21 @@ export function DataTable<TData, TValue>({
       columnFilters,
       columnVisibility,
       rowSelection,
+      pagination: {
+        pageIndex,
+        pageSize: rowLimit,
+      },
     },
+    onPaginationChange: manualPagination
+      ? (updater) => {
+          const newState = typeof updater === 'function' ? updater({ pageIndex, pageSize: rowLimit }) : updater
+          if (onPageChange && newState.pageIndex !== pageIndex) {
+            onPageChange(newState.pageIndex + 1)
+          } else {
+            setInternalPageIndex(newState.pageIndex)
+          }
+        }
+      : undefined,
   })
 
   return (
@@ -147,18 +204,18 @@ export function DataTable<TData, TValue>({
         {showPagination && (
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div className="text-sm text-card-foreground">
-              {table.getFilteredRowModel().rows.length > 0 ? (
-                <>
-                  {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}-
-                  {Math.min(
+              {(() => {
+                const rowCount = manualPagination && totalRows !== undefined ? totalRows : table.getFilteredRowModel().rows.length
+                if (rowCount > 0) {
+                  const start = table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1
+                  const end = Math.min(
                     (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
-                    table.getFilteredRowModel().rows.length
-                  )}{' '}
-                  of {table.getFilteredRowModel().rows.length} Items
-                </>
-              ) : (
-                '0 Items'
-              )}
+                    rowCount
+                  )
+                  return `${start}-${end} of ${rowCount} Items`
+                }
+                return '0 Items'
+              })()}
             </div>
             <div className="flex items-center gap-2">
               <Button
