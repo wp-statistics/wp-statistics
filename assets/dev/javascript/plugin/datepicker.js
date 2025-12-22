@@ -72,13 +72,15 @@ jQuery(document).ready(function () {
         const localTime = getLocalTime();
 
         // Check for GSC custom date picker configuration (from wp_statistics_admin_assets filter)
-        const gscConfig = (wps_js.global && wps_js.global.gsc_date_picker_config) ? wps_js.global.gsc_date_picker_config : null;
-        const gscMeta = (wps_js.global && wps_js.global.gsc_meta) ? wps_js.global.gsc_meta : null;
+        const gsc = (wps_js.global && wps_js.global.gsc) ? wps_js.global.gsc : null;
+        const gscConfig = gsc ? gsc.date_picker_config : null;
+        const gscMeta = gsc ? gsc.date : null;
+        const gscMetaKey = gsc ? gsc.meta_key : null;
+        
+        // Get gsc_meta for date_meta
+        const gscMetaData = (wps_js.global && wps_js.global.gsc_meta) ? wps_js.global.gsc_meta : null;
+        const gscDateMeta = gscMetaData ? gscMetaData.date_meta : null;
 
-        // Debug GSC config
-        console.log('wps_js.global:', wps_js.global);
-        console.log('GSC Config:', gscConfig);
-        console.log('GSC Meta (date range):', gscMeta);
 
         // Map period keys to their translated labels and date calculations
         const rangeDefinitions = {
@@ -301,8 +303,7 @@ jQuery(document).ready(function () {
                 // Reset to 28 days (default)
                 defaultStartDate = normalizeDate(localTime.clone().subtract(27, 'days'), validTimezone).format(DATE_FORMAT);
                 defaultEndDate = normalizeDate(localTime.clone(), validTimezone).format(DATE_FORMAT);
-                console.log('GSC: Date range reset to 28 days default');
-            }
+             }
         }
 
         let minDate = null;
@@ -509,17 +510,24 @@ jQuery(document).ready(function () {
             const selectedRange = datePickerElement.data('daterangepicker').chosenLabel;
             datePickerBtn.find('span').html(selectedRange);
             if (selectedRange !== 'All time') {
+                const ajaxData = {
+                    wps_nonce: wps_js.global.rest_api_nonce,
+                    action: 'wp_statistics_store_date_range',
+                    date: {
+                        from: startDate,
+                        to: endDate
+                    }
+                };
+
+                // Add meta_key for GSC pages - use date_meta as meta_key
+                if (gscDateMeta) {
+                    ajaxData.meta_key = gscDateMeta;
+                }
+
                 jQuery.ajax({
                     url: wps_js.global.ajax_url,
                     method: 'POST',
-                    data: {
-                        wps_nonce: wps_js.global.rest_api_nonce,
-                        action: 'wp_statistics_store_date_range',
-                        date: {
-                            from: startDate,
-                            to: endDate
-                        }
-                    },
+                    data: ajaxData,
                     beforeSend: function () {
                         datePickerBtn.addClass('wps-disabled');
                     },
