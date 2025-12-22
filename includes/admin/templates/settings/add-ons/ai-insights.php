@@ -82,7 +82,7 @@ if ($isAiInsightActive && !$isLicenseValid) {
 
         <tr>
             <th colspan="2" scope="row">
-                <p class="description"><?php esc_html_e('AI Insights syncs Google Search Console data into custom tables for faster analysis. Enable automatic daily sync or manually trigger a sync to refresh your data.', 'wp-statistics'); ?></p>
+                <p class="description wps-setting-section-description"><?php esc_html_e('AI Insights syncs Google Search Console data into custom tables for faster analysis. Enable automatic daily sync or manually trigger a sync to refresh your data.', 'wp-statistics'); ?></p>
             </th>
         </tr>
 

@@ -1351,6 +1351,7 @@
 }
 
 .wps-wrap__settings, .wps-wrap .wps-optimizationBox {
+
   .select2-container--default .select2-selection--multiple .select2-selection__rendered li {
     line-height: 21px;
     margin-bottom: 0;
@@ -1379,7 +1380,6 @@
       opacity: .5;
     }
   }
-
 
   .wps-setting-select-wrapper {
     position: relative;
@@ -2568,6 +2568,12 @@
       margin-top: 5px;
     }
   }
+}
+
+p.wps-setting-section-description{
+  color: #56585a;
+  font-weight: 400 !important;
+  font-size: 13px !important;
 }
 
 #mini-chart-settings .wp-picker-container {

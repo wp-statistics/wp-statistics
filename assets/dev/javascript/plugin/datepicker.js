@@ -74,7 +74,7 @@ jQuery(document).ready(function () {
         // Check for GSC custom date picker configuration (from wp_statistics_admin_assets filter)
         const gsc = (wps_js.global && wps_js.global.gsc) ? wps_js.global.gsc : null;
         const gscConfig = gsc ? gsc.date_picker_config : null;
-        const gscMeta = gsc ? gsc.date : null;
+        const gscDateRange = gsc ? gsc.date_range : null;
         const gscDateMeta = gsc ? gsc.date_meta : null;
 
         // Map period keys to their translated labels and date calculations
@@ -454,9 +454,9 @@ jQuery(document).ready(function () {
         }
 
         // For GSC tabs, override display with actual GSC date range and add tooltip (must run last)
-        if (gscMeta && gscMeta.from && gscMeta.to) {
-            const gscFromDate = moment(gscMeta.from);
-            const gscToDate = moment(gscMeta.to);
+        if (gscDateRange && gscDateRange.from && gscDateRange.to) {
+            const gscFromDate = moment(gscDateRange.from);
+            const gscToDate = moment(gscDateRange.to);
 
             let gscRangeText;
             if (gscFromDate.year() === gscToDate.year()) {
