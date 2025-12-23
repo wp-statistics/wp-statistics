@@ -44,6 +44,12 @@
   opacity: 50%;
 }
 
+.wps-field-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
 .wps-wrap.wp-statistics-settings {
 
   .wp-statistics-notice {
@@ -2568,12 +2574,6 @@
       margin-top: 5px;
     }
   }
-}
-
-p.wps-setting-section-description{
-  color: #56585a;
-  font-weight: 400 !important;
-  font-size: 13px !important;
 }
 
 #mini-chart-settings .wp-picker-container {
