@@ -4,7 +4,7 @@ import { clientRequest } from '@/lib/client-request'
 
 export interface SearchTerm {
   search_term: string
-  views: number
+  searches: string
 }
 
 export interface GetSearchTermsResponse {

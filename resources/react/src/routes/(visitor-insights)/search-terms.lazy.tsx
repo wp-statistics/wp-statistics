@@ -22,7 +22,7 @@ type SearchTermData = {
 const transformSearchTermData = (apiSearchTerm: APISearchTerm): SearchTermData => {
   return {
     searchTerm: apiSearchTerm.search_term || '',
-    searches: apiSearchTerm.views || 0,
+    searches: parseInt(apiSearchTerm.searches, 10) || 0,
   }
 }
 
@@ -38,7 +38,7 @@ const columns: ColumnDef<SearchTermData>[] = [
   },
   {
     accessorKey: 'searches',
-    header: 'Searches',
+    header: () => <div className="text-right pr-4">Searches</div>,
     cell: ({ row }) => {
       const searches = row.getValue('searches') as number
       const formattedSearches = searches.toLocaleString()
@@ -47,7 +47,7 @@ const columns: ColumnDef<SearchTermData>[] = [
   },
 ]
 
-const PER_PAGE = 20
+const PER_PAGE = 50
 
 function RouteComponent() {
   const [page, setPage] = useState(1)
