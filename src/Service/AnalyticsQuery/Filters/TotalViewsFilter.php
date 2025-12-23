@@ -19,9 +19,16 @@ class TotalViewsFilter extends AbstractFilter
     /**
      * SQL column for WHERE clause.
      *
-     * @var string Column path: visitors.views_count
+     * @var string Column path: sessions.total_views
      */
-    protected $column = 'visitors.views_count';
+    protected $column = 'sessions.total_views';
+
+    /**
+     * Required base table for this filter.
+     *
+     * @var string Requires sessions table to be joined.
+     */
+    protected $requirement = 'sessions';
 
     /**
      * Value type for sanitization.
