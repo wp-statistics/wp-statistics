@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
 import { useMemo, useState } from 'react'
@@ -57,7 +57,7 @@ function RouteComponent() {
   }, [])
 
   // Batch query for all overview data
-  const { data: batchResponse, isLoading } = useQuery({
+  const { data: batchResponse, isLoading, isFetching } = useQuery({
     ...getVisitorOverviewQueryOptions({
       dateFrom: dateRange.dateFrom,
       dateTo: dateRange.dateTo,
@@ -65,7 +65,13 @@ function RouteComponent() {
       compare: true,
     }),
     retry: false,
+    placeholderData: keepPreviousData, // Keep showing old data while fetching new data
   })
+
+  // Only show skeleton on initial load (no data yet), not on refetches
+  const showSkeleton = isLoading && !batchResponse
+  // Show loading indicator on chart when refetching (e.g., timeframe change)
+  const isChartRefetching = isFetching && !isLoading
 
   // Extract data from batch response
   // Batch API returns: { success, items: { metrics, traffic_trends, ... } }
@@ -282,7 +288,7 @@ function RouteComponent() {
           <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-4" />
         )}
 
-        {isLoading ? (
+        {showSkeleton ? (
           <div className="grid gap-3 grid-cols-12">
             {/* Metrics skeleton */}
             <div className="col-span-12">
@@ -343,6 +349,7 @@ function RouteComponent() {
                 showPreviousPeriod={true}
                 timeframe={timeframe}
                 onTimeframeChange={setTimeframe}
+                loading={isChartRefetching}
               />
             </div>
 
