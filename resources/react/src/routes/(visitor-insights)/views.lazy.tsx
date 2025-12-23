@@ -16,7 +16,7 @@ import { WordPress } from '@/lib/wordpress'
 import type { ApiFilters, ViewRecord } from '@/services/visitor-insight/get-views'
 import { getViewsQueryOptions } from '@/services/visitor-insight/get-views'
 
-const PER_PAGE = 20
+const PER_PAGE = 50
 
 // Convert UI filters to API filter format
 const convertFiltersToApiFormat = (filters: Filter[]): ApiFilters => {
