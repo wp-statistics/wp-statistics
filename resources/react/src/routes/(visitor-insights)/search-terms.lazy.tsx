@@ -47,7 +47,7 @@ const columns: ColumnDef<SearchTermData>[] = [
   },
 ]
 
-const PER_PAGE = 50
+const PER_PAGE = 20
 
 function RouteComponent() {
   const [page, setPage] = useState(1)

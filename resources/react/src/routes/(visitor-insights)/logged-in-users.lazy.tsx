@@ -1,8 +1,9 @@
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import type { ColumnDef } from '@tanstack/react-table'
+import type { ColumnDef, SortingState } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { Info } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
@@ -11,7 +12,16 @@ import { FilterButton, type FilterField } from '@/components/custom/filter-butto
 import { LineChart } from '@/components/custom/line-chart'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { getToday } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
+import type { LoggedInUser as LoggedInUserRecord } from '@/services/visitor-insight/get-logged-in-users'
+import { getLoggedInUsersQueryOptions } from '@/services/visitor-insight/get-logged-in-users'
+import {
+  getAnonymousVisitorsTrafficTrendsQueryOptions,
+  getLoggedInUsersTrafficTrendsQueryOptions,
+} from '@/services/visitor-insight/get-logged-in-users-traffic-trends'
+
+const PER_PAGE = 50
 
 export const Route = createLazyFileRoute('/(visitor-insights)/logged-in-users')({
   component: RouteComponent,
@@ -49,6 +59,53 @@ interface TrafficTrendItem {
   anonymousVisitors: number
   anonymousVisitorsPrevious: number
   [key: string]: string | number
+}
+
+// Format referrer channel for display
+const formatReferrerChannel = (channel: string | null | undefined): string => {
+  if (!channel) return 'DIRECT TRAFFIC'
+  const channelMap: Record<string, string> = {
+    direct: 'DIRECT TRAFFIC',
+    search: 'SEARCH',
+    social: 'SOCIAL',
+    referral: 'REFERRAL',
+    email: 'EMAIL',
+    paid: 'PAID',
+  }
+  return channelMap[channel.toLowerCase()] || channel.toUpperCase()
+}
+
+// Transform API response to component interface
+const transformLoggedInUserData = (record: LoggedInUserRecord): LoggedInUser => {
+  // Parse entry page for query string
+  const entryPageUrl = record.entry_page || '/'
+  const hasQueryString = entryPageUrl.includes('?')
+  const queryString = hasQueryString ? entryPageUrl.split('?')[1] : undefined
+
+  return {
+    id: `user-${record.visitor_id}`,
+    lastVisit: new Date(record.last_visit),
+    country: record.country_name || 'Unknown',
+    countryCode: (record.country_code || '000').toLowerCase(),
+    region: record.region_name || '',
+    city: record.city_name || '',
+    os: (record.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_'),
+    browser: (record.browser_name || 'unknown').toLowerCase(),
+    browserVersion: '',
+    userId: String(record.user_id),
+    username: record.user_login || 'user',
+    email: '',
+    userRole: '',
+    referrerDomain: record.referrer_domain || undefined,
+    referrerCategory: formatReferrerChannel(record.referrer_channel),
+    entryPage: entryPageUrl.split('?')[0] || '/',
+    entryPageTitle: record.entry_page_title || record.entry_page || 'Unknown',
+    entryPageHasQuery: hasQueryString,
+    entryPageQueryString: hasQueryString ? `?${queryString}` : undefined,
+    page: record.entry_page || '/',
+    pageTitle: record.entry_page_title || record.entry_page || 'Unknown',
+    totalViews: record.total_views || 0,
+  }
 }
 
 const createColumns = (pluginUrl: string): ColumnDef<LoggedInUser>[] => [
@@ -126,8 +183,8 @@ const createColumns = (pluginUrl: string): ColumnDef<LoggedInUser>[] => [
                 </Badge>
               </TooltipTrigger>
               <TooltipContent>
-                <p>{user.email}</p>
-                <p className="text-xs text-muted-foreground">{user.userRole}</p>
+                <p>{user.email || 'No email'}</p>
+                <p className="text-xs text-muted-foreground">{user.userRole || 'User'}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -270,194 +327,168 @@ const createColumns = (pluginUrl: string): ColumnDef<LoggedInUser>[] => [
   },
 ]
 
-// Generate fake logged-in user data
-const generateFakeUsers = (): LoggedInUser[] => {
-  const countries = [
-    { name: 'United States', code: 'us', region: 'California', city: 'San Francisco' },
-    { name: 'United Kingdom', code: 'gb', region: 'England', city: 'London' },
-    { name: 'Canada', code: 'ca', region: 'Ontario', city: 'Toronto' },
-    { name: 'Germany', code: 'de', region: 'Bavaria', city: 'Munich' },
-    { name: 'France', code: 'fr', region: 'Île-de-France', city: 'Paris' },
-    { name: 'Japan', code: 'jp', region: 'Tokyo', city: 'Tokyo' },
-    { name: 'Australia', code: 'au', region: 'New South Wales', city: 'Sydney' },
-    { name: 'Brazil', code: 'br', region: 'São Paulo', city: 'São Paulo' },
-  ]
-
-  const browsers = [
-    { name: 'chrome', version: '120' },
-    { name: 'firefox', version: '121' },
-    { name: 'safari', version: '17' },
-    { name: 'edge', version: '120' },
-  ]
-
-  const operatingSystems = ['windows', 'mac_os', 'linux', 'android', 'ios']
-
-  const referrers = [
-    { domain: 'google.com', category: 'SEARCH' },
-    { domain: 'facebook.com', category: 'SOCIAL' },
-    { domain: 'twitter.com', category: 'SOCIAL' },
-    { domain: 'linkedin.com', category: 'SOCIAL' },
-    { domain: null, category: 'DIRECT TRAFFIC' },
-    { domain: 'example.com', category: 'REFERRAL' },
-  ]
-
-  const pages = [
-    { path: '/', title: 'Home' },
-    { path: '/blog', title: 'Blog' },
-    { path: '/about', title: 'About Us' },
-    { path: '/contact', title: 'Contact' },
-    { path: '/products', title: 'Products' },
-    { path: '/services', title: 'Our Services' },
-    { path: '/dashboard', title: 'User Dashboard' },
-    { path: '/settings', title: 'Account Settings' },
-    { path: '/blog/how-to-improve-website-performance', title: 'How to Improve Your Website Performance' },
-    { path: '/blog/best-practices-for-seo', title: 'Best Practices for SEO in 2025' },
-  ]
-
-  const users = [
-    { id: '1', username: 'admin', email: 'admin@example.com', role: 'Administrator' },
-    { id: '2', username: 'editor', email: 'editor@example.com', role: 'Editor' },
-    { id: '3', username: 'author', email: 'author@example.com', role: 'Author' },
-    { id: '4', username: 'contributor', email: 'contributor@example.com', role: 'Contributor' },
-    { id: '5', username: 'subscriber', email: 'subscriber@example.com', role: 'Subscriber' },
-    { id: '6', username: 'johndoe', email: 'john.doe@example.com', role: 'Subscriber' },
-    { id: '7', username: 'janedoe', email: 'jane.doe@example.com', role: 'Editor' },
-    { id: '8', username: 'mikebrown', email: 'mike.brown@example.com', role: 'Author' },
-  ]
-
-  const loggedInUsers: LoggedInUser[] = []
-
-  for (let i = 0; i < 40; i++) {
-    const country = countries[Math.floor(Math.random() * countries.length)]
-    const browser = browsers[Math.floor(Math.random() * browsers.length)]
-    const os = operatingSystems[Math.floor(Math.random() * operatingSystems.length)]
-    const referrer = referrers[Math.floor(Math.random() * referrers.length)]
-    const entryPageData = pages[Math.floor(Math.random() * pages.length)]
-    const pageData = pages[Math.floor(Math.random() * pages.length)]
-    const user = users[Math.floor(Math.random() * users.length)]
-
-    const totalViews = Math.floor(Math.random() * 50) + 1
-
-    const lastVisit = new Date()
-    lastVisit.setHours(lastVisit.getHours() - Math.floor(Math.random() * 72))
-
-    const hasQueryString = Math.random() > 0.7
-
-    loggedInUsers.push({
-      id: `user-${i + 1}`,
-      lastVisit,
-      country: country.name,
-      countryCode: country.code,
-      region: country.region,
-      city: country.city,
-      os,
-      browser: browser.name,
-      browserVersion: browser.version,
-      userId: user.id,
-      username: user.username,
-      email: user.email,
-      userRole: user.role,
-      referrerDomain: referrer.domain || undefined,
-      referrerCategory: referrer.category,
-      entryPage: entryPageData.path,
-      entryPageTitle: entryPageData.title,
-      entryPageHasQuery: hasQueryString,
-      entryPageQueryString: hasQueryString ? '?utm_source=google&utm_medium=cpc' : undefined,
-      page: pageData.path,
-      pageTitle: pageData.title,
-      totalViews,
-    })
+// Determine group_by based on timeframe
+const getGroupBy = (timeframe: 'daily' | 'weekly' | 'monthly'): 'date' | 'week' | 'month' => {
+  switch (timeframe) {
+    case 'weekly':
+      return 'week'
+    case 'monthly':
+      return 'month'
+    default:
+      return 'date'
   }
-
-  return loggedInUsers.sort((a, b) => b.lastVisit.getTime() - a.lastVisit.getTime())
 }
 
-// Generate fake traffic trends data based on timeframe
-const generateTrafficTrendsData = (timeframe: 'daily' | 'weekly' | 'monthly'): TrafficTrendItem[] => {
-  const data: TrafficTrendItem[] = []
-  const now = new Date()
-
-  if (timeframe === 'monthly') {
-    // Generate 12 months of data
-    for (let i = 11; i >= 0; i--) {
-      const date = new Date(now.getFullYear(), now.getMonth() - i, 1)
-
-      const userVisitors = Math.floor(Math.random() * 1500) + 500
-      const userVisitorsPrevious = Math.floor(Math.random() * 1500) + 500
-      const anonymousVisitors = Math.floor(Math.random() * 5000) + 2000
-      const anonymousVisitorsPrevious = Math.floor(Math.random() * 5000) + 2000
-
-      data.push({
-        date: date.toISOString().split('T')[0],
-        userVisitors,
-        userVisitorsPrevious,
-        anonymousVisitors,
-        anonymousVisitorsPrevious,
-      })
-    }
-  } else if (timeframe === 'weekly') {
-    // Generate 8 weeks of data
-    for (let i = 7; i >= 0; i--) {
-      const date = new Date(now)
-      date.setDate(date.getDate() - i * 7)
-
-      const userVisitors = Math.floor(Math.random() * 500) + 200
-      const userVisitorsPrevious = Math.floor(Math.random() * 500) + 200
-      const anonymousVisitors = Math.floor(Math.random() * 2000) + 800
-      const anonymousVisitorsPrevious = Math.floor(Math.random() * 2000) + 800
-
-      data.push({
-        date: date.toISOString().split('T')[0],
-        userVisitors,
-        userVisitorsPrevious,
-        anonymousVisitors,
-        anonymousVisitorsPrevious,
-      })
-    }
-  } else {
-    // Daily: Generate 30 days of data
-    for (let i = 29; i >= 0; i--) {
-      const date = new Date(now)
-      date.setDate(date.getDate() - i)
-
-      const userVisitors = Math.floor(Math.random() * 150) + 50
-      const userVisitorsPrevious = Math.floor(Math.random() * 150) + 50
-      const anonymousVisitors = Math.floor(Math.random() * 500) + 200
-      const anonymousVisitorsPrevious = Math.floor(Math.random() * 500) + 200
-
-      data.push({
-        date: date.toISOString().split('T')[0],
-        userVisitors,
-        userVisitorsPrevious,
-        anonymousVisitors,
-        anonymousVisitorsPrevious,
-      })
-    }
-  }
-
-  return data
-}
+// Default filter for logged-in users (Login Status = Logged-in)
+const DEFAULT_FILTERS: Filter[] = [
+  {
+    id: 'logged_in-logged_in-filter-default',
+    label: 'Login Status',
+    operator: 'is',
+    rawOperator: 'is',
+    value: 'Logged-in',
+    rawValue: '1',
+  },
+]
 
 function RouteComponent() {
-  const [appliedFilters, setAppliedFilters] = useState<Filter[]>([])
-  const wp = WordPress.getInstance()
-  const pluginUrl = wp.getPluginUrl()
-
+  const [appliedFilters, setAppliedFilters] = useState<Filter[]>(DEFAULT_FILTERS)
+  const [page, setPage] = useState(1)
+  const [sorting, setSorting] = useState<SortingState>([{ id: 'lastVisit', desc: true }])
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
 
-  // Get filter fields for 'logged_in_users' group from localized data
-  const filterFields = useMemo<FilterField[]>(() => {
-    return wp.getFilterFieldsByGroup('logged_in_users') as FilterField[]
-  }, [wp])
+  const wp = WordPress.getInstance()
+  const pluginUrl = wp.getPluginUrl()
+  const columns = createColumns(pluginUrl)
 
-  const handleRemoveFilter = (filterId: string) => {
-    setAppliedFilters((prev) => prev.filter((f) => f.id !== filterId))
-  }
+  // Get date range for table (fixed 3 month period)
+  const today = getToday()
+  const tableDateFrom = useMemo(() => {
+    const date = new Date()
+    date.setMonth(date.getMonth() - 3)
+    return date.toISOString().split('T')[0]
+  }, [])
 
-  const fakeUsers = generateFakeUsers()
-  const trafficTrendsData = useMemo(() => generateTrafficTrendsData(timeframe), [timeframe])
+  // Get date range for chart (varies by timeframe)
+  const chartDateFrom = useMemo(() => {
+    const date = new Date()
+    if (timeframe === 'monthly') {
+      date.setFullYear(date.getFullYear() - 1)
+    } else if (timeframe === 'weekly') {
+      date.setDate(date.getDate() - 8 * 7) // 8 weeks
+    } else {
+      date.setDate(date.getDate() - 30) // 30 days
+    }
+    return date.toISOString().split('T')[0]
+  }, [timeframe])
 
-  // Calculate totals for current and previous period
+  // Determine sort parameters from sorting state
+  const orderBy = sorting.length > 0 ? sorting[0].id : 'lastVisit'
+  const order = sorting.length > 0 && sorting[0].desc ? 'desc' : 'asc'
+
+  // Fetch logged-in users data (uses fixed table date range)
+  const {
+    data: usersResponse,
+    isFetching: isUsersFetching,
+    isError: isUsersError,
+    error: usersError,
+  } = useQuery({
+    ...getLoggedInUsersQueryOptions({
+      page,
+      per_page: PER_PAGE,
+      order_by: orderBy,
+      order: order as 'asc' | 'desc',
+      date_from: tableDateFrom,
+      date_to: today,
+      filters: appliedFilters,
+    }),
+    placeholderData: keepPreviousData,
+  })
+
+  // Fetch logged-in users traffic trends (uses chart date range based on timeframe)
+  const { data: loggedInTrendsResponse, isFetching: isLoggedInTrendsFetching } = useQuery({
+    ...getLoggedInUsersTrafficTrendsQueryOptions({
+      date_from: chartDateFrom,
+      date_to: today,
+      group_by: getGroupBy(timeframe),
+      filters: appliedFilters,
+    }),
+  })
+
+  // Fetch anonymous visitors traffic trends (uses chart date range based on timeframe)
+  const { data: anonymousTrendsResponse, isFetching: isAnonymousTrendsFetching } = useQuery({
+    ...getAnonymousVisitorsTrafficTrendsQueryOptions({
+      date_from: chartDateFrom,
+      date_to: today,
+      group_by: getGroupBy(timeframe),
+      filters: appliedFilters,
+    }),
+  })
+
+  // Transform users data
+  const tableData = useMemo(() => {
+    if (!usersResponse?.data?.data?.rows) return []
+    return usersResponse.data.data.rows.map(transformLoggedInUserData)
+  }, [usersResponse])
+
+  // Get pagination info
+  const totalRows = usersResponse?.data?.meta?.total_pages
+    ? usersResponse.data.meta.total_pages * PER_PAGE
+    : tableData.length
+  const totalPages = usersResponse?.data?.meta?.total_pages || Math.ceil(totalRows / PER_PAGE) || 1
+
+  // Combine traffic trends data
+  const trafficTrendsData = useMemo<TrafficTrendItem[]>(() => {
+    const loggedInData = loggedInTrendsResponse?.data?.data?.rows || []
+    const anonymousData = anonymousTrendsResponse?.data?.data?.rows || []
+
+    // Create a map of dates to combine data
+    const dateMap = new Map<string, TrafficTrendItem>()
+
+    // Get the date key based on timeframe
+    const getDateKey = (item: { date?: string; week?: string; month?: string }) => {
+      return item.date || item.week || item.month || ''
+    }
+
+    // Process logged-in users data
+    for (const item of loggedInData) {
+      const dateKey = getDateKey(item)
+      if (!dateKey) continue
+
+      const existing = dateMap.get(dateKey) || {
+        date: dateKey,
+        userVisitors: 0,
+        userVisitorsPrevious: 0,
+        anonymousVisitors: 0,
+        anonymousVisitorsPrevious: 0,
+      }
+      existing.userVisitors = Number(item.visitors) || 0
+      existing.userVisitorsPrevious = Number(item.previous?.visitors) || 0
+      dateMap.set(dateKey, existing)
+    }
+
+    // Process anonymous visitors data
+    for (const item of anonymousData) {
+      const dateKey = getDateKey(item)
+      if (!dateKey) continue
+
+      const existing = dateMap.get(dateKey) || {
+        date: dateKey,
+        userVisitors: 0,
+        userVisitorsPrevious: 0,
+        anonymousVisitors: 0,
+        anonymousVisitorsPrevious: 0,
+      }
+      existing.anonymousVisitors = Number(item.visitors) || 0
+      existing.anonymousVisitorsPrevious = Number(item.previous?.visitors) || 0
+      dateMap.set(dateKey, existing)
+    }
+
+    // Convert map to array and sort by date
+    return Array.from(dateMap.values()).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+  }, [loggedInTrendsResponse, anonymousTrendsResponse])
+
+  // Calculate totals for metrics
   const totalUserVisitors = trafficTrendsData.reduce((sum, item) => sum + item.userVisitors, 0)
   const totalUserVisitorsPrevious = trafficTrendsData.reduce((sum, item) => sum + item.userVisitorsPrevious, 0)
   const totalAnonymousVisitors = trafficTrendsData.reduce((sum, item) => sum + item.anonymousVisitors, 0)
@@ -469,7 +500,7 @@ function RouteComponent() {
   const trafficTrendsMetrics = [
     {
       key: 'userVisitors',
-      label: 'User Visitors',
+      label: __('User Visitors', 'wp-statistics'),
       color: 'var(--chart-1)',
       enabled: true,
       value: totalUserVisitors >= 1000 ? `${(totalUserVisitors / 1000).toFixed(1)}k` : totalUserVisitors.toString(),
@@ -480,7 +511,7 @@ function RouteComponent() {
     },
     {
       key: 'anonymousVisitors',
-      label: 'Anonymous Visitors',
+      label: __('Anonymous Visitors', 'wp-statistics'),
       color: 'var(--chart-4)',
       enabled: true,
       value:
@@ -494,13 +525,42 @@ function RouteComponent() {
     },
   ]
 
+  // Get filter fields for 'visitors' group from localized data
+  const filterFields = useMemo<FilterField[]>(() => {
+    return wp.getFilterFieldsByGroup('visitors') as FilterField[]
+  }, [wp])
+
+  // Handle sorting changes
+  const handleSortingChange = useCallback((newSorting: SortingState) => {
+    setSorting(newSorting)
+    setPage(1) // Reset to first page when sorting changes
+  }, [])
+
+  // Handle page changes
+  const handlePageChange = useCallback((newPage: number) => {
+    setPage(newPage)
+  }, [])
+
+  const handleRemoveFilter = (filterId: string) => {
+    setAppliedFilters((prev) => prev.filter((f) => f.id !== filterId))
+    setPage(1) // Reset to first page when filters change
+  }
+
+  // Handle filter application with page reset
+  const handleApplyFilters = useCallback((filters: Filter[]) => {
+    setAppliedFilters(filters)
+    setPage(1) // Reset to first page when filters change
+  }, [])
+
+  const isChartLoading = isLoggedInTrendsFetching || isAnonymousTrendsFetching
+
   return (
     <div className="min-w-0">
       {/* Header row with title and filter button */}
       <div className="flex items-center justify-between p-4 bg-white border-b border-input">
         <h1 className="text-2xl font-medium text-neutral-700">{__('Logged-in Users', 'wp-statistics')}</h1>
         {filterFields.length > 0 && (
-          <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={setAppliedFilters} />
+          <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={handleApplyFilters} />
         )}
       </div>
 
@@ -515,18 +575,34 @@ function RouteComponent() {
           showPreviousPeriod={true}
           timeframe={timeframe}
           onTimeframeChange={setTimeframe}
+          isLoading={isChartLoading}
         />
 
-        <DataTable
-          title={__('Latest Views', 'wp-statistics')}
-          columns={createColumns(pluginUrl)}
-          data={fakeUsers}
-          defaultSort="lastVisit"
-          rowLimit={50}
-          showColumnManagement={true}
-          showPagination={true}
-          emptyStateMessage={__('No views found for the selected period', 'wp-statistics')}
-        />
+        {isUsersError ? (
+          <div className="p-4 text-center">
+            <p className="text-red-500">{__('Failed to load logged-in users', 'wp-statistics')}</p>
+            <p className="text-sm text-muted-foreground">{usersError?.message}</p>
+          </div>
+        ) : (
+          <DataTable
+            title={__('Latest Views', 'wp-statistics')}
+            columns={columns}
+            data={tableData}
+            sorting={sorting}
+            onSortingChange={handleSortingChange}
+            manualSorting={true}
+            manualPagination={true}
+            pageCount={totalPages}
+            page={page}
+            onPageChange={handlePageChange}
+            totalRows={totalRows}
+            rowLimit={PER_PAGE}
+            showColumnManagement={true}
+            showPagination={true}
+            isFetching={isUsersFetching}
+            emptyStateMessage={__('No logged-in users found for the selected period', 'wp-statistics')}
+          />
+        )}
       </div>
     </div>
   )

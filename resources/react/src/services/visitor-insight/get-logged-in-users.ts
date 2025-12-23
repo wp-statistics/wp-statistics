@@ -1,5 +1,6 @@
 import { queryOptions } from '@tanstack/react-query'
 
+import type { Filter } from '@/components/custom/filter-bar'
 import { clientRequest } from '@/lib/client-request'
 
 export interface LoggedInUser {
@@ -42,6 +43,9 @@ export interface GetLoggedInUsersResponse {
   }
 }
 
+// API filter format: { filter_key: { operator: value } }
+export type ApiFilters = Record<string, Record<string, string | string[]>>
+
 export interface GetLoggedInUsersParams {
   page: number
   per_page: number
@@ -49,6 +53,42 @@ export interface GetLoggedInUsersParams {
   order: 'asc' | 'desc'
   date_from: string
   date_to: string
+  filters?: Filter[]
+}
+
+// Extract the field name from filter ID
+// Filter IDs are in format: "os-os-filter-1766484171552-9509610" where the first segment is the field name
+const extractFilterKey = (filterId: string): string => {
+  // Split by hyphen and take the first segment (the actual field name)
+  return filterId.split('-')[0]
+}
+
+// Transform UI filters to API format
+// UI: { id, label, operator, rawOperator, value, rawValue }
+// API: { filter_key: { operator: value } }
+const transformFiltersToApi = (filters: Filter[]): ApiFilters => {
+  const apiFilters: ApiFilters = {}
+
+  for (const filter of filters) {
+    // Extract the field name from the filter id (e.g., 'os' from 'os-os-filter-...')
+    const filterKey = extractFilterKey(filter.id)
+    // Use rawOperator if available, otherwise fall back to operator
+    const operator = filter.rawOperator || filter.operator
+    // Use rawValue if available, otherwise fall back to value
+    // Convert number to string since API expects string | string[]
+    const rawValue = filter.rawValue ?? filter.value
+    const value: string | string[] = Array.isArray(rawValue)
+      ? rawValue
+      : typeof rawValue === 'number'
+        ? String(rawValue)
+        : rawValue
+
+    apiFilters[filterKey] = {
+      [operator]: value,
+    }
+  }
+
+  return apiFilters
 }
 
 // Map frontend column names to API column names
@@ -68,12 +108,15 @@ export const getLoggedInUsersQueryOptions = ({
   order,
   date_from,
   date_to,
+  filters = [],
 }: GetLoggedInUsersParams) => {
   // Map frontend column name to API column name
   const apiOrderBy = columnMapping[order_by] || order_by
+  // Transform UI filters to API format
+  const apiFilters = transformFiltersToApi(filters)
 
   return queryOptions({
-    queryKey: ['logged-in-users', page, per_page, order_by, order, date_from, date_to],
+    queryKey: ['logged-in-users', page, per_page, order_by, order, date_from, date_to, apiFilters],
     queryFn: () =>
       clientRequest.post<GetLoggedInUsersResponse>(
         '',
@@ -101,11 +144,7 @@ export const getLoggedInUsersQueryOptions = ({
             'entry_page',
             'entry_page_title',
           ],
-          filters: {
-            logged_in: {
-              is: '1',
-            },
-          },
+          ...(Object.keys(apiFilters).length > 0 && { filters: apiFilters }),
           date_from,
           date_to,
           page,

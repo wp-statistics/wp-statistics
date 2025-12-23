@@ -16,7 +16,7 @@ import { WordPress } from '@/lib/wordpress'
 import type { TopVisitorRecord } from '@/services/visitor-insight/get-top-visitors'
 import { getTopVisitorsQueryOptions } from '@/services/visitor-insight/get-top-visitors'
 
-const PER_PAGE = 50
+const PER_PAGE = 20
 
 export const Route = createLazyFileRoute('/(visitor-insights)/top-visitors')({
   component: RouteComponent,
@@ -481,19 +481,19 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
 ]
 
 // Default filter for Total Views > 5
-// const DEFAULT_FILTERS: Filter[] = [
-//   {
-//     id: 'total_views-total_views-filter-default',
-//     label: 'Total Views',
-//     operator: '>',
-//     rawOperator: 'gt',
-//     value: '5',
-//     rawValue: '5',
-//   },
-// ]
+const DEFAULT_FILTERS: Filter[] = [
+  {
+    id: 'total_views-total_views-filter-default',
+    label: 'Total Views',
+    operator: '>',
+    rawOperator: 'gt',
+    value: '5',
+    rawValue: '5',
+  },
+]
 
 function RouteComponent() {
-  const [appliedFilters, setAppliedFilters] = useState<Filter[]>([])
+  const [appliedFilters, setAppliedFilters] = useState<Filter[]>(DEFAULT_FILTERS)
   const [page, setPage] = useState(1)
   const [sorting, setSorting] = useState<SortingState>([{ id: 'totalViews', desc: true }])
 
