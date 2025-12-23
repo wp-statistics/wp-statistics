@@ -463,8 +463,8 @@ function RouteComponent() {
     return response.data.data.rows.map(transformViewData)
   }, [response])
 
-  // Get pagination info
-  const totalRows = response?.data?.data?.total ?? response?.data?.total ?? 0
+  // Get pagination info from meta
+  const totalRows = response?.data?.meta?.total_rows ?? 0
   const totalPages = response?.data?.meta?.total_pages || Math.ceil(totalRows / PER_PAGE) || 1
 
   // Handle sorting changes

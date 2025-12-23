@@ -380,8 +380,8 @@ function RouteComponent() {
 
   // Transform API data to component format
   const visitors = response?.data?.data?.rows?.map(transformVisitorData) || []
-  const total = response?.data?.data?.total ?? response?.data?.total ?? 0
-  const totalPages = Math.ceil(total / PER_PAGE)
+  const total = response?.data?.meta?.total_rows ?? 0
+  const totalPages = response?.data?.meta?.total_pages || Math.ceil(total / PER_PAGE) || 1
 
   // Handle sorting change
   const handleSortingChange = useCallback((newSorting: SortingState) => {

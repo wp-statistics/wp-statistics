@@ -22,6 +22,7 @@ export interface GetSearchTermsResponse {
     page: number
     per_page: number
     total_pages: number
+    total_rows: number
   }
 }
 

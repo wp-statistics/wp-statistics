@@ -98,6 +98,9 @@ export function DataTable<TData, TValue>({
   const [internalPageIndex, setInternalPageIndex] = React.useState(0)
   const pageIndex = manualPagination && externalPage !== undefined ? externalPage - 1 : internalPageIndex
 
+  // Local state for page input (only applies on "Go" button click)
+  const [pageInputValue, setPageInputValue] = React.useState<string>('')
+
   const table = useReactTable({
     data,
     columns,
@@ -222,17 +225,32 @@ export function DataTable<TData, TValue>({
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div className="text-sm text-card-foreground">
               {(() => {
-                const rowCount =
-                  manualPagination && totalRows !== undefined ? totalRows : table.getFilteredRowModel().rows.length
-                if (rowCount > 0) {
-                  const start = table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1
-                  const end = Math.min(
-                    (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
-                    rowCount
-                  )
-                  return `${start}-${end} of ${rowCount} Items`
+                const pageIndex = table.getState().pagination.pageIndex
+                const pageSize = table.getState().pagination.pageSize
+                const dataLength = data.length
+
+                if (manualPagination) {
+                  // For server-side pagination, totalRows MUST be provided from API
+                  // It represents the total count across all pages
+                  const total = typeof totalRows === 'number' ? totalRows : 0
+
+                  if (total > 0 || dataLength > 0) {
+                    const start = pageIndex * pageSize + 1
+                    const end = pageIndex * pageSize + dataLength
+                    const displayTotal = total > 0 ? total : end
+                    return `${start}-${end} ${__('of', 'wp-statistics')} ${displayTotal.toLocaleString()} ${__('Items', 'wp-statistics')}`
+                  }
+                  return `0 ${__('Items', 'wp-statistics')}`
                 }
-                return '0 Items'
+
+                // Client-side pagination
+                const rowCount = table.getFilteredRowModel().rows.length
+                if (rowCount > 0) {
+                  const start = pageIndex * pageSize + 1
+                  const end = Math.min((pageIndex + 1) * pageSize, rowCount)
+                  return `${start}-${end} ${__('of', 'wp-statistics')} ${rowCount.toLocaleString()} ${__('Items', 'wp-statistics')}`
+                }
+                return `0 ${__('Items', 'wp-statistics')}`
               })()}
             </div>
             <div className="flex items-center gap-2">
@@ -316,20 +334,35 @@ export function DataTable<TData, TValue>({
                 <ChevronsRight className="h-4 w-4" />
               </Button>
               <div className="flex items-center gap-2 ml-2">
-                <span className="text-sm text-card-foreground">Page:</span>
+                <span className="text-sm text-card-foreground">{__('Page:', 'wp-statistics')}</span>
                 <input
                   type="number"
                   min="1"
                   max={table.getPageCount()}
-                  value={table.getState().pagination.pageIndex + 1}
-                  onChange={(e) => {
-                    const page = e.target.value ? Number(e.target.value) - 1 : 0
-                    table.setPageIndex(page)
+                  value={pageInputValue}
+                  placeholder={String(table.getState().pagination.pageIndex + 1)}
+                  onChange={(e) => setPageInputValue(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      const page = pageInputValue ? Number(pageInputValue) - 1 : 0
+                      const maxPage = table.getPageCount() - 1
+                      table.setPageIndex(Math.min(Math.max(0, page), maxPage))
+                      setPageInputValue('')
+                    }
                   }}
                   className="w-16 h-10 px-2 text-sm border border-input rounded-md text-center"
                 />
-                <Button variant="outline" onClick={() => {}} className="h-10 px-4 rounded-md">
-                  Go
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    const page = pageInputValue ? Number(pageInputValue) - 1 : 0
+                    const maxPage = table.getPageCount() - 1
+                    table.setPageIndex(Math.min(Math.max(0, page), maxPage))
+                    setPageInputValue('')
+                  }}
+                  className="h-10 px-4 rounded-md"
+                >
+                  {__('Go', 'wp-statistics')}
                 </Button>
               </div>
             </div>

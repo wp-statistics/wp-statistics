@@ -46,6 +46,7 @@ export interface GetTopVisitorsResponse {
     page: number
     per_page: number
     total_pages: number
+    total_rows: number
   }
 }
 
@@ -102,7 +103,6 @@ export const getTopVisitorsQueryOptions = ({
             'total_views',
             'total_sessions',
             'last_visit',
-            'first_visit',
             'bounce_rate',
             'avg_session_duration',
             'pages_per_session',
