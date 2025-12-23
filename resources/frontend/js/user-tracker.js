@@ -146,6 +146,7 @@ if (!window.WpStatisticsUserTracker) {
                     ...WP_Statistics_Tracker_Object.hitParams,
                     resourceUriId: WP_Statistics_Tracker_Object?.resourceUriId,
                     referred: this.getReferred(),
+                    resourceUri: this.getPathAndQueryString(),
                     page_uri: this.getPathAndQueryString(),
                     timezone: visitorLocaleInfo.timezone,
                     language: visitorLocaleInfo.language,
