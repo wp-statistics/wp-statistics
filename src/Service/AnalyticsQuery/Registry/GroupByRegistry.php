@@ -10,6 +10,7 @@ use WP_Statistics\Service\AnalyticsQuery\GroupBy\MonthGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\HourGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\CountryGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\CityGroupBy;
+use WP_Statistics\Service\AnalyticsQuery\GroupBy\RegionGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\BrowserGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\OsGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\DeviceTypeGroupBy;
@@ -79,6 +80,7 @@ class GroupByRegistry implements RegistryInterface
             new HourGroupBy(),
             new CountryGroupBy(),
             new CityGroupBy(),
+            new RegionGroupBy(),
             new BrowserGroupBy(),
             new OsGroupBy(),
             new DeviceTypeGroupBy(),

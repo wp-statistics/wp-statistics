@@ -2,8 +2,6 @@
 
 namespace WP_Statistics\Service\AnalyticsQuery\GroupBy;
 
-use WP_Statistics\Service\AnalyticsQuery\Schema\TableColumns;
-
 /**
  * Country group by - groups by country.
  *
@@ -19,12 +17,15 @@ class CountryGroupBy extends AbstractGroupBy
         'countries.code AS country_code',
         'countries.continent_code AS country_continent_code',
         'countries.continent AS country_continent',
+        'SUM(sessions.total_views) AS total_views',
     ];
     protected $joins        = [
-        'table' => 'countries',
-        'alias' => 'countries',
-        'on'    => 'sessions.country_id = countries.ID',
-        'type'  => 'INNER',
+        [
+            'table' => 'countries',
+            'alias' => 'countries',
+            'on'    => 'sessions.country_id = countries.ID',
+            'type'  => 'INNER',
+        ],
     ];
     protected $groupBy      = 'countries.ID';
 }
