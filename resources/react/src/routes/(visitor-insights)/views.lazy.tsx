@@ -13,68 +13,10 @@ import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { getToday } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
-import type { ApiFilters, ViewRecord } from '@/services/visitor-insight/get-views'
+import type { ViewRecord } from '@/services/visitor-insight/get-views'
 import { getViewsQueryOptions } from '@/services/visitor-insight/get-views'
 
 const PER_PAGE = 50
-
-// Convert UI filters to API filter format
-const convertFiltersToApiFormat = (filters: Filter[]): ApiFilters => {
-  const apiFilters: ApiFilters = {}
-
-  for (const filter of filters) {
-    // Extract field name from filter id (e.g., "country-123" -> "country")
-    const fieldName = filter.id.split('-')[0]
-    const rawOperator = filter.rawOperator || filter.operator
-    const value = filter.rawValue !== undefined ? filter.rawValue : filter.value
-
-    // Handle different operator types
-    switch (rawOperator) {
-      case 'is':
-      case '=':
-        // Simple equality - can use direct value or { is: value }
-        apiFilters[fieldName] = Array.isArray(value) ? value[0] : value
-        break
-      case 'is_not':
-      case '!=':
-        apiFilters[fieldName] = { is_not: Array.isArray(value) ? value[0] : value }
-        break
-      case 'in':
-        apiFilters[fieldName] = { in: Array.isArray(value) ? value : [value] }
-        break
-      case 'not_in':
-        apiFilters[fieldName] = { not_in: Array.isArray(value) ? value : [value] }
-        break
-      case 'contains':
-        apiFilters[fieldName] = { contains: String(value) }
-        break
-      case 'starts_with':
-        apiFilters[fieldName] = { starts_with: String(value) }
-        break
-      case 'gt':
-      case '>':
-        apiFilters[fieldName] = { gt: Number(value) }
-        break
-      case 'gte':
-      case '>=':
-        apiFilters[fieldName] = { gte: Number(value) }
-        break
-      case 'lt':
-      case '<':
-        apiFilters[fieldName] = { lt: Number(value) }
-        break
-      case 'lte':
-      case '<=':
-        apiFilters[fieldName] = { lte: Number(value) }
-        break
-      default:
-        // Default to direct value assignment
-        apiFilters[fieldName] = Array.isArray(value) ? value[0] : value
-    }
-  }
-
-  return apiFilters
-}
 
 export const Route = createLazyFileRoute('/(visitor-insights)/views')({
   component: RouteComponent,
@@ -436,9 +378,6 @@ function RouteComponent() {
   const orderBy = sorting.length > 0 ? sorting[0].id : 'lastVisit'
   const order = sorting.length > 0 && sorting[0].desc ? 'desc' : 'asc'
 
-  // Convert UI filters to API format
-  const apiFilters = useMemo(() => convertFiltersToApiFormat(appliedFilters), [appliedFilters])
-
   // Fetch data from API
   const {
     data: response,
@@ -452,7 +391,7 @@ function RouteComponent() {
       order: order as 'asc' | 'desc',
       date_from: threeMonthsAgo,
       date_to: today,
-      filters: apiFilters,
+      filters: appliedFilters,
     }),
     placeholderData: keepPreviousData,
   })

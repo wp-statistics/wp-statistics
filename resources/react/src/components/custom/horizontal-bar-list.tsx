@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n'
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, Loader2 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
@@ -23,9 +23,10 @@ interface HorizontalBarListProps {
     title?: string
     action(): void
   }
+  loading?: boolean
 }
 
-export function HorizontalBarList({ title, items, link }: HorizontalBarListProps) {
+export function HorizontalBarList({ title, items, link, loading = false }: HorizontalBarListProps) {
   return (
     <Card className="h-full">
       <CardHeader>
@@ -33,7 +34,11 @@ export function HorizontalBarList({ title, items, link }: HorizontalBarListProps
       </CardHeader>
 
       <CardContent className="flex-1">
-        {items.length === 0 ? (
+        {loading ? (
+          <div className="flex h-32 flex-1 flex-col items-center justify-center">
+            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+          </div>
+        ) : items.length === 0 ? (
           <div className="flex h-full flex-1 flex-col items-center justify-center text-center">
             <p className="text-sm text-neutral-500">No data available for the selected period</p>
           </div>

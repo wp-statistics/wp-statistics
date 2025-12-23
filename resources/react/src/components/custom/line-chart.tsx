@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/card'
 import type { ChartConfig } from '@components/ui/chart'
 import { ChartContainer, ChartTooltip } from '@components/ui/chart'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
+import { Loader2 } from 'lucide-react'
 import * as React from 'react'
 import { CartesianGrid, Line, LineChart as RechartsLineChart, XAxis, YAxis } from 'recharts'
 
@@ -27,6 +28,7 @@ export interface LineChartProps {
   timeframe?: 'daily' | 'weekly' | 'monthly'
   onTimeframeChange?: (timeframe: 'daily' | 'weekly' | 'monthly') => void
   className?: string
+  loading?: boolean
 }
 
 export function LineChart({
@@ -37,6 +39,7 @@ export function LineChart({
   timeframe = 'daily',
   onTimeframeChange,
   className,
+  loading = false,
 }: LineChartProps) {
   const [visibleMetrics, setVisibleMetrics] = React.useState<Record<string, boolean>>(() =>
     metrics.reduce(
@@ -219,7 +222,12 @@ export function LineChart({
         </div>
       </CardHeader>
       <CardContent className="">
-        <ChartContainer config={chartConfig} className="h-[250px] w-full">
+        {loading ? (
+          <div className="flex h-[250px] items-center justify-center">
+            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+          </div>
+        ) : (
+          <ChartContainer config={chartConfig} className="h-[250px] w-full">
           <RechartsLineChart data={data} margin={{ left: 24 }}>
             <CartesianGrid vertical={false} horizontal={true} stroke="#e5e7eb" strokeDasharray="0" />
             <XAxis
@@ -411,6 +419,7 @@ export function LineChart({
             {previousLines}
           </RechartsLineChart>
         </ChartContainer>
+        )}
       </CardContent>
     </Card>
   )
