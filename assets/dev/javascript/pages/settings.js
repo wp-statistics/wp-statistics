@@ -446,9 +446,69 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 minimumResultsForSearch: Infinity,
             });
 
+            // Store initial site value for comparison
+            const initialSite = $select.data('initial-site') || '';
+            let pendingNewSite = null;
+
             $select.on('select2:select', function (e) {
                 const data = e.params.data;
-                $select.val(data.id).trigger('change');
+                const newSite = data.id;
+                const modal = document.querySelector('.wps-modal--gsc-site-change');
+
+                // Show confirmation only if both old and new sites are non-empty (site change, not initial selection)
+                if (initialSite && newSite && initialSite !== newSite && modal) {
+                    pendingNewSite = newSite;
+                    modal.classList.add('wps-modal--open');
+
+                    const confirmButton = modal.querySelector('button[data-action="confirmGscSiteChange"]');
+                    const cancelButton = modal.querySelector('button[data-action="cancelGscSiteChange"]');
+                    const closeButton = modal.querySelector('.wps-modal__close');
+                    const overlay = modal.querySelector('.wps-modal__overlay');
+
+                    const closeModal = function() {
+                        modal.classList.remove('wps-modal--open');
+                    };
+
+                    const revertSelection = function() {
+                        closeModal();
+                        // Revert to initial site
+                        $select.val(initialSite).trigger('change.select2');
+                        pendingNewSite = null;
+                    };
+
+                    const confirmChange = function() {
+                        closeModal();
+                        // Set the delete flag
+                        const deleteInput = document.getElementById('wps_delete_gsc_data');
+                        if (deleteInput) {
+                            deleteInput.value = '1';
+                        }
+                        // Apply the new selection
+                        $select.val(pendingNewSite).trigger('change');
+                        pendingNewSite = null;
+                        
+                        // Submit the form
+                        const submitButton = document.getElementById('marketing_submit');
+                        if (submitButton) {
+                            submitButton.click();
+                        }
+                    };
+
+                    if (confirmButton) {
+                        confirmButton.addEventListener('click', confirmChange, {once: true});
+                    }
+                    if (cancelButton) {
+                        cancelButton.addEventListener('click', revertSelection, {once: true});
+                    }
+                    if (closeButton) {
+                        closeButton.addEventListener('click', revertSelection, {once: true});
+                    }
+                    if (overlay) {
+                        overlay.addEventListener('click', revertSelection, {once: true});
+                    }
+                } else {
+                    $select.val(data.id).trigger('change');
+                }
             });
         }
 

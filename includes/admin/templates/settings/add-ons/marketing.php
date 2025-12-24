@@ -107,11 +107,14 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     <?php
                     $gscReport = Option::getByAddon('gsc_report', 'marketing', '1');
                     $site      = Option::getByAddon('site', 'marketing');
+                    $isDisabled = !empty($site);
                     ?>
                     <input type="hidden" name="wps_addon_settings[marketing][gsc_report]" value="0"/>
                     <input id="wps_addon_settings[marketing][gsc_report]"
                            name="wps_addon_settings[marketing][gsc_report]" type="checkbox"
-                           value="1" <?php disabled(!empty($site)); ?> <?php checked($gscReport || $site); ?>>
+                           class="<?php echo $isDisabled ? 'disabled' : ''; ?>"
+                           value="1" <?php checked($gscReport || $site); ?>
+                           onclick="if(this.classList.contains('disabled')) { event.preventDefault(); return false; }">
                     <label for="wps_addon_settings[marketing][gsc_report]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                     <p class="description"><?php esc_html_e('Display the Google Search Console report tab when no Google property is connected.', 'wp-statistics'); ?></p>
                 </td>
@@ -269,13 +272,14 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
                     <td class="wps_addon_settings__site">
                         <?php $selectedSite = Option::getByAddon('site', 'marketing'); ?>
 
-                        <select dir="ltr" class="wps-marketing-site" id="wps_addon_settings[marketing][site]" name="wps_addon_settings[marketing][site]">
+                        <select dir="ltr" class="wps-marketing-site" id="wps_addon_settings[marketing][site]" name="wps_addon_settings[marketing][site]" data-initial-site="<?php echo esc_attr($selectedSite); ?>">
                             <?php if (!empty($selectedSite)) : ?>
                                 <option selected value="<?php echo esc_attr($selectedSite) ?>"><?php echo esc_html(str_replace('sc-domain:', '', $selectedSite)); ?></option>
                             <?php else : ?>
                                 <option disabled selected value=""><?php esc_html_e('Select site', 'wp-statistics'); ?></option>
                             <?php endif; ?>
                         </select>
+                        <input type="hidden" id="wps_delete_gsc_data" name="wps_addon_settings[marketing][delete_gsc_data]" value="0" />
                     </td>
                 </tr>
                 <tr class="js-wps-show_if_gsc-connection-method_equal_middleware">
@@ -327,5 +331,22 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
 <?php
 if ($isMarketingActive) {
     submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('id' => 'marketing_submit', 'OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='marketing-settings'"));
+}
+
+// GSC Site Change Confirmation Modal
+if ($isAuthenticated && !empty($selectedSite)) {
+    View::load('components/modals/setting-confirmation/setting-confirmation-modal', [
+        'title'               => __('Change GSC Site?', 'wp-statistics'),
+        'description'         => __('The Google Search Console data in the database belongs to a different site. Changing the GSC site will clear all synced Search Console data. Do you want to continue?', 'wp-statistics'),
+        'primaryButtonText'   => __('Continue', 'wp-statistics'),
+        'secondaryButtonText' => __('Cancel', 'wp-statistics'),
+        'primaryButtonStyle'  => 'danger',
+        'secondaryButtonStyle'=> 'cancel',
+        'class'               => 'wps-modal--gsc-site-change',
+        'actions'             => [
+            'primary'   => 'confirmGscSiteChange',
+            'secondary' => 'cancelGscSiteChange'
+        ]
+    ]);
 }
 ?>
