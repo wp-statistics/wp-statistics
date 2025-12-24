@@ -8,7 +8,7 @@ import { DataTable } from '@/components/custom/data-table'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { WordPress } from '@/lib/wordpress'
-import type { TopVisitorsData } from '@/services/visitor-insight/get-visitors-overview-batch'
+import type { TopVisitorsData } from '@/services/visitor-insight/get-visitors-overview'
 
 type TopVisitorData = {
   visitorInfo: {
@@ -91,9 +91,7 @@ export const OverviewTopVisitors = ({ data }: OverviewTopVisitorsProps) => {
         title: visitor.entry_page_title || visitor.entry_page || 'Home',
         url: visitor.entry_page || '/',
         hasQueryString: (visitor.entry_page || '').includes('?'),
-        queryString: (visitor.entry_page || '').includes('?')
-          ? (visitor.entry_page || '').split('?')[1]
-          : undefined,
+        queryString: (visitor.entry_page || '').includes('?') ? (visitor.entry_page || '').split('?')[1] : undefined,
       },
       exitPage: {
         title: visitor.exit_page_title || visitor.exit_page || 'Home',

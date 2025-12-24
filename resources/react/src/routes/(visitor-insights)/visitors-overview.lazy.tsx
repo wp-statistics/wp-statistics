@@ -18,6 +18,7 @@ import { WordPress } from '@/lib/wordpress'
 import { getVisitorInsightGlobalVisitorDistributionQueryOptions } from '@/services/visitor-insight/get-global-visitor-distribution'
 import { getVisitorOverviewQueryOptions } from '@/services/visitor-insight/get-visitor-overview'
 
+import { OverviewTopEntryPages } from './-components/overview/overview-top-entry-pages'
 import { OverviewTopVisitors } from './-components/overview/overview-top-visitors'
 
 export const Route = createLazyFileRoute('/(visitor-insights)/visitors-overview')({
@@ -515,28 +516,7 @@ function RouteComponent() {
             </div>
 
             <div className="col-span-6">
-              <HorizontalBarList
-                title={__('Top Pages', 'wp-statistics')}
-                items={topEntryPagesData.map((item) => {
-                  // API returns values as strings, convert to numbers
-                  const currentValue = Number(item.visitors) || 0
-                  const previousValue = Number(item.previous?.visitors) || 0
-                  const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
-
-                  return {
-                    label: item.page_title || item.page_uri || __('Unknown', 'wp-statistics'),
-                    value: currentValue.toLocaleString(),
-                    percentage,
-                    isNegative,
-                    tooltipTitle: item.page_title || item.page_uri || '',
-                    tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                  }
-                })}
-                link={{
-                  title: __('View Pages', 'wp-statistics'),
-                  action: () => console.log('View all pages'),
-                }}
-              />
+              <OverviewTopEntryPages data={topEntryPagesData} />
             </div>
 
             <div className="col-span-6">

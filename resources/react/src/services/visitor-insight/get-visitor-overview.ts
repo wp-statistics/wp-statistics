@@ -137,16 +137,12 @@ export interface TopVisitorRow {
 }
 
 export interface TopEntryPageRow {
-  page_uri: string
-  page_uri_id: string
-  resource_id: string
-  page_title: string | null
-  page_wp_id: string
+  page_uri: 'string'
+  page_title: string
   page_type: string
+  views: string
   visitors: string
-  previous?: {
-    visitors: number
-  }
+  bounce_rate: string
 }
 
 export interface TopReferrerRow {
@@ -414,14 +410,15 @@ export const getVisitorOverviewQueryOptions = ({
             // Top Pages: Table format with comparison (no columns - let API auto-select)
             {
               id: 'top_entry_pages',
-              sources: ['visitors'],
+              sources: ['views', 'visitors', 'avg_time_on_page', 'bounce_rate'],
               group_by: ['page'],
               per_page: 5,
-              order_by: 'visitors',
+              order_by: 'views',
               order: 'DESC',
               format: 'table',
               show_totals: false,
               compare: false,
+              columns: ['page_uri', 'page_title', 'page_type', 'views', 'visitors', 'bounce_rate'],
             },
             // Top Referrers: Table format with comparison
             {

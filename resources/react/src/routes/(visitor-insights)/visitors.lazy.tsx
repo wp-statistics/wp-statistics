@@ -57,7 +57,6 @@ interface Visitor {
   viewsPerSession: number
   bounceRate: number
   visitorStatus: 'new' | 'returning'
-  firstVisit: Date
 }
 
 // Transform API response to component interface
@@ -137,9 +136,7 @@ const urlFiltersToFilters = (
     let displayValue = Array.isArray(urlFilter.value) ? urlFilter.value.join(', ') : urlFilter.value
     if (field?.options) {
       const values = Array.isArray(urlFilter.value) ? urlFilter.value : [urlFilter.value]
-      const labels = values
-        .map((v) => field.options?.find((o) => String(o.value) === v)?.label || v)
-        .join(', ')
+      const labels = values.map((v) => field.options?.find((o) => String(o.value) === v)?.label || v).join(', ')
       displayValue = labels
     }
 
@@ -600,14 +597,11 @@ function RouteComponent() {
     })
   }, [appliedFilters, page, navigate, urlPage])
 
-  const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange }) => {
-      setDateRange(values.range)
-      setCompareDateRange(values.rangeCompare)
-      setPage(1) // Reset to first page when date range changes
-    },
-    []
-  )
+  const handleDateRangeUpdate = useCallback((values: { range: DateRange; rangeCompare?: DateRange }) => {
+    setDateRange(values.range)
+    setCompareDateRange(values.rangeCompare)
+    setPage(1) // Reset to first page when date range changes
+  }, [])
 
   // Determine sort parameters from sorting state
   const orderBy = sorting.length > 0 ? sorting[0].id : 'lastVisit'
