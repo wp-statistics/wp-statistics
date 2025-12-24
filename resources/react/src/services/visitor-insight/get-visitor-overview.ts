@@ -175,6 +175,10 @@ export interface TableQueryResult<T> {
     total_pages?: number
     total_rows?: number
     preferences?: Record<string, unknown> | null
+    cached: boolean
+    cache_ttl: number
+    compare_from?: string
+    compare_to?: string
   }
 }
 
@@ -346,30 +350,33 @@ export const getVisitorOverviewQueryOptions = ({
               order: 'DESC',
               format: 'table',
               show_totals: false,
+              compare: true,
             },
             // Device Type: Table format with comparison
             {
               id: 'device_type',
               sources: ['visitors'],
               group_by: ['device_type'],
-              columns: ['device_type_name', 'visitors'],
+              columns: ['device_type_name', 'device_type_id', 'visitors'],
               per_page: 5,
               order_by: 'visitors',
               order: 'DESC',
               format: 'table',
               show_totals: false,
+              compare: true,
             },
             // Operating Systems: Table format with comparison
             {
               id: 'operating_systems',
               sources: ['visitors'],
               group_by: ['os'],
-              columns: ['os_name', 'visitors'],
+              columns: ['os_name', 'os_id', 'visitors'],
               per_page: 5,
               order_by: 'visitors',
               order: 'DESC',
               format: 'table',
               show_totals: false,
+              compare: true,
             },
             // Top Visitors: Table format (no comparison needed)
             {
@@ -414,6 +421,7 @@ export const getVisitorOverviewQueryOptions = ({
               order: 'DESC',
               format: 'table',
               show_totals: false,
+              compare: false,
             },
             // Top Referrers: Table format with comparison
             {
@@ -426,6 +434,7 @@ export const getVisitorOverviewQueryOptions = ({
               order: 'DESC',
               format: 'table',
               show_totals: false,
+              compare: false,
             },
           ],
         },

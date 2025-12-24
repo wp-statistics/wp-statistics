@@ -521,15 +521,12 @@ function RouteComponent() {
                   // API returns values as strings, convert to numbers
                   const currentValue = Number(item.visitors) || 0
                   const previousValue = Number(item.previous?.visitors) || 0
-
-                  const percentageChange =
-                    previousValue > 0 ? (((currentValue - previousValue) / previousValue) * 100).toFixed(1) : '0'
-                  const isNegative = currentValue < previousValue
+                  const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
 
                   return {
                     label: item.page_title || item.page_uri || __('Unknown', 'wp-statistics'),
                     value: currentValue.toLocaleString(),
-                    percentage: Math.abs(parseFloat(percentageChange)).toString(),
+                    percentage,
                     isNegative,
                     tooltipTitle: item.page_title || item.page_uri || '',
                     tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
@@ -549,10 +546,7 @@ function RouteComponent() {
                   // API returns values as strings, convert to numbers
                   const currentValue = Number(item.visitors) || 0
                   const previousValue = Number(item.previous?.visitors) || 0
-
-                  const percentageChange =
-                    previousValue > 0 ? (((currentValue - previousValue) / previousValue) * 100).toFixed(1) : '0'
-                  const isNegative = currentValue < previousValue
+                  const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
 
                   // Display referrer name or domain, fallback to channel
                   const displayName =
@@ -561,7 +555,7 @@ function RouteComponent() {
                   return {
                     label: displayName,
                     value: currentValue.toLocaleString(),
-                    percentage: Math.abs(parseFloat(percentageChange)).toString(),
+                    percentage,
                     isNegative,
                     tooltipTitle: displayName,
                     tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
@@ -581,10 +575,7 @@ function RouteComponent() {
                   // API returns values as strings, convert to numbers
                   const currentValue = Number(item.visitors) || 0
                   const previousValue = Number(item.previous?.visitors) || 0
-
-                  const percentageChange =
-                    previousValue > 0 ? (((currentValue - previousValue) / previousValue) * 100).toFixed(1) : '0'
-                  const isNegative = currentValue < previousValue
+                  const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
 
                   return {
                     icon: (
@@ -596,7 +587,7 @@ function RouteComponent() {
                     ),
                     label: item.country_name || __('Unknown', 'wp-statistics'),
                     value: currentValue.toLocaleString(),
-                    percentage: Math.abs(parseFloat(percentageChange)).toString(),
+                    percentage,
                     isNegative,
                     tooltipTitle: item.country_name || '',
                     tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
@@ -616,10 +607,7 @@ function RouteComponent() {
                   // API returns values as strings, convert to numbers
                   const currentValue = Number(item.visitors) || 0
                   const previousValue = Number(item.previous?.visitors) || 0
-
-                  const percentageChange =
-                    previousValue > 0 ? (((currentValue - previousValue) / previousValue) * 100).toFixed(1) : '0'
-                  const isNegative = currentValue < previousValue
+                  const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
 
                   // Map device type to icon name
                   const iconName = (item.device_type_name || 'desktop').toLowerCase()
@@ -634,7 +622,7 @@ function RouteComponent() {
                     ),
                     label: item.device_type_name || __('Unknown', 'wp-statistics'),
                     value: currentValue.toLocaleString(),
-                    percentage: Math.abs(parseFloat(percentageChange)).toString(),
+                    percentage,
                     isNegative,
                     tooltipTitle: item.device_type_name || '',
                     tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
@@ -654,10 +642,7 @@ function RouteComponent() {
                   // API returns values as strings, convert to numbers
                   const currentValue = Number(item.visitors) || 0
                   const previousValue = Number(item.previous?.visitors) || 0
-
-                  const percentageChange =
-                    previousValue > 0 ? (((currentValue - previousValue) / previousValue) * 100).toFixed(1) : '0'
-                  const isNegative = currentValue < previousValue
+                  const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
 
                   // Map OS name to icon name (lowercase, replace spaces with underscores)
                   const iconName = (item.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_')
@@ -672,7 +657,7 @@ function RouteComponent() {
                     ),
                     label: item.os_name || __('Unknown', 'wp-statistics'),
                     value: currentValue.toLocaleString(),
-                    percentage: Math.abs(parseFloat(percentageChange)).toString(),
+                    percentage,
                     isNegative,
                     tooltipTitle: item.os_name || '',
                     tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
