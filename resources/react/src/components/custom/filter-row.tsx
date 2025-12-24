@@ -92,14 +92,14 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 300)
 
-  // Query for searchable filter options
+  // Query for searchable filter options - only fetch when user is typing
   const { data: searchResults, isLoading: isSearching } = useQuery({
     ...getSearchableFilterOptionsQueryOptions({
       filter: filter.fieldName,
       search: debouncedSearchTerm,
       limit: 20,
     }),
-    enabled: selectedField?.inputType === 'searchable' && !!filter.fieldName,
+    enabled: selectedField?.inputType === 'searchable' && !!filter.fieldName && debouncedSearchTerm.length > 0,
   })
 
   const searchOptions = useMemo(() => {
