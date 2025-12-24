@@ -446,70 +446,105 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 minimumResultsForSearch: Infinity,
             });
 
-            // Store initial site value for comparison
-            const initialSite = $select.data('initial-site') || '';
-            let pendingNewSite = null;
+            // Get the synced site from data attribute on select element
+            const syncedSite = $select.data('initial-site') || '';
 
-            $select.on('select2:select', function (e) {
-                const data = e.params.data;
-                const newSite = data.id;
-                const modal = document.querySelector('.wps-modal--gsc-site-change');
+            // Handle form submission
+            const marketingForm = document.querySelector('form');
+            const submitButton = document.getElementById('marketing_submit');
+            
+            if (marketingForm && submitButton) {
+                // Prevent default form submission to check for site change
+                marketingForm.addEventListener('submit', function(e) {
+                    const currentSelectedSite = $select.val();
+                    const modal = document.querySelector('.wps-modal--gsc-site-change');
 
-                // Show confirmation only if both old and new sites are non-empty (site change, not initial selection)
-                if (initialSite && newSite && initialSite !== newSite && modal) {
-                    pendingNewSite = newSite;
-                    modal.classList.add('wps-modal--open');
-
-                    const confirmButton = modal.querySelector('button[data-action="confirmGscSiteChange"]');
-                    const cancelButton = modal.querySelector('button[data-action="cancelGscSiteChange"]');
-                    const closeButton = modal.querySelector('.wps-modal__close');
-                    const overlay = modal.querySelector('.wps-modal__overlay');
-
-                    const closeModal = function() {
-                        modal.classList.remove('wps-modal--open');
-                    };
-
-                    const revertSelection = function() {
-                        closeModal();
-                        // Revert to initial site
-                        $select.val(initialSite).trigger('change.select2');
-                        pendingNewSite = null;
-                    };
-
-                    const confirmChange = function() {
-                        closeModal();
-                        // Set the delete flag
-                        const deleteInput = document.getElementById('wps_delete_gsc_data');
-                        if (deleteInput) {
-                            deleteInput.value = '1';
-                        }
-                        // Apply the new selection
-                        $select.val(pendingNewSite).trigger('change');
-                        pendingNewSite = null;
+                    // Check if site has changed (both not empty and different from synced_site)
+                    if (syncedSite && currentSelectedSite && syncedSite !== currentSelectedSite && modal) {
+                        e.preventDefault();
+                        e.stopPropagation();
                         
-                        // Submit the form
-                        const submitButton = document.getElementById('marketing_submit');
-                        if (submitButton) {
-                            submitButton.click();
-                        }
-                    };
+                        modal.classList.add('wps-modal--open');
+                        const confirmButton = modal.querySelector('button[data-action="confirmGscSiteChange"]');
+                        const cancelButton = modal.querySelector('button[data-action="cancelGscSiteChange"]');
+                        const closeButton = modal.querySelector('.wps-modal__close');
+                        const overlay = modal.querySelector('.wps-modal__overlay');
 
-                    if (confirmButton) {
-                        confirmButton.addEventListener('click', confirmChange, {once: true});
+                        const closeModal = function() {
+                            modal.classList.remove('wps-modal--open');
+                        };
+
+                        const revertSelection = function() {
+                            closeModal();
+                            // Revert to synced site
+                            $select.val(syncedSite).trigger('change.select2');
+                        };
+
+                        const confirmChange = function() {
+                            closeModal();
+                            
+                            // Send request to delete_gsc_sync_data
+                            const deleteUrl = wps_js.global.admin_url + 'admin-ajax.php';
+                            const formData = new FormData();
+                            formData.append('action', 'wp_statistics_delete_gsc_sync_data');
+                            formData.append('wps_nonce', wps_js.global.rest_api_nonce);
+                            
+                            // Show loading state
+                            submitButton.disabled = true;
+                            const originalText = submitButton.textContent;
+                            submitButton.textContent = wps_js.global.loading || 'Loading...';
+                            
+                            fetch(deleteUrl, {
+                                method: 'POST',
+                                body: formData
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                // Check if request was successful
+                                if (data.success) {
+                                    // After delete request completes successfully, submit the form
+                                    const deleteInput = document.getElementById('wps_delete_gsc_data');
+                                    if (deleteInput) {
+                                        deleteInput.value = '1';
+                                    }
+                                    // Use native submit method to avoid conflicts with elements named "submit"
+                                    HTMLFormElement.prototype.submit.call(marketingForm);
+                                } else {
+                                    // If not successful, show error and restore button
+                                    submitButton.disabled = false;
+                                    submitButton.textContent = originalText;
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error deleting GSC data:', error);
+                                // Restore button state on error
+                                submitButton.disabled = false;
+                                submitButton.textContent = originalText;
+                            });
+                        };
+
+                        if (confirmButton) {
+                            confirmButton.removeEventListener('click', confirmChange);
+                            confirmButton.addEventListener('click', confirmChange, {once: true});
+                        }
+                        if (cancelButton) {
+                            cancelButton.removeEventListener('click', revertSelection);
+                            cancelButton.addEventListener('click', revertSelection, {once: true});
+                        }
+                        if (closeButton) {
+                            closeButton.removeEventListener('click', revertSelection);
+                            closeButton.addEventListener('click', revertSelection, {once: true});
+                        }
+                        if (overlay) {
+                            overlay.removeEventListener('click', revertSelection);
+                            overlay.addEventListener('click', revertSelection, {once: true});
+                        }
+                        
+                        return false;
                     }
-                    if (cancelButton) {
-                        cancelButton.addEventListener('click', revertSelection, {once: true});
-                    }
-                    if (closeButton) {
-                        closeButton.addEventListener('click', revertSelection, {once: true});
-                    }
-                    if (overlay) {
-                        overlay.addEventListener('click', revertSelection, {once: true});
-                    }
-                } else {
-                    $select.val(data.id).trigger('change');
-                }
-            });
+                    // If no change, let form submit normally
+                });
+            }
         }
 
         document.querySelectorAll('.c-password-field').forEach(function (wrapper) {
