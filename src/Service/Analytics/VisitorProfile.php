@@ -625,7 +625,7 @@ class VisitorProfile
             }
 
             return (new VisitorsModel())->getByHashAndDate([
-                'hash' => $this->getProcessedIPForStorage()
+                'hash' => $this->getHashedIPForStorage()
             ]);
         });
     }
