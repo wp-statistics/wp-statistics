@@ -15,6 +15,7 @@ export interface FilterPanelProps {
   fields: FilterField[]
   onFiltersChange: (filters: FilterRowData[]) => void
   onApply: () => void
+  onClearAll?: () => void
 }
 
 function generateFilterId(): string {
@@ -33,7 +34,7 @@ function getInitialValue(operator: FilterOperator): FilterValue {
   return ''
 }
 
-function FilterPanel({ filters, fields, onFiltersChange, onApply }: FilterPanelProps) {
+function FilterPanel({ filters, fields, onFiltersChange, onApply, onClearAll }: FilterPanelProps) {
   const handleAddFilter = () => {
     const defaultField = fields[0]
     const defaultOperator = defaultField?.supportedOperators[0] || 'is'
@@ -56,6 +57,10 @@ function FilterPanel({ filters, fields, onFiltersChange, onApply }: FilterPanelP
 
   const handleClearAll = () => {
     onFiltersChange([])
+    // If onClearAll is provided, call it to immediately apply the cleared filters
+    if (onClearAll) {
+      onClearAll()
+    }
   }
 
   return (

@@ -170,6 +170,12 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className }: Fil
     setOpen(false)
   }
 
+  const handleClearAll = () => {
+    // Immediately apply empty filters and close the popover
+    onApplyFilters([])
+    setOpen(false)
+  }
+
   const filterCount = appliedFilters.length
 
   return (
@@ -194,6 +200,7 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className }: Fil
           fields={fields}
           onFiltersChange={setPendingFilters}
           onApply={handleApply}
+          onClearAll={handleClearAll}
         />
       </PopoverContent>
     </Popover>
