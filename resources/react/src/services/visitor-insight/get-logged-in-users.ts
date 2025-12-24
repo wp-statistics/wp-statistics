@@ -53,6 +53,8 @@ export interface GetLoggedInUsersParams {
   order: 'asc' | 'desc'
   date_from: string
   date_to: string
+  previous_date_from?: string
+  previous_date_to?: string
   filters?: Filter[]
 }
 
@@ -108,15 +110,19 @@ export const getLoggedInUsersQueryOptions = ({
   order,
   date_from,
   date_to,
+  previous_date_from,
+  previous_date_to,
   filters = [],
 }: GetLoggedInUsersParams) => {
   // Map frontend column name to API column name
   const apiOrderBy = columnMapping[order_by] || order_by
   // Transform UI filters to API format
   const apiFilters = transformFiltersToApi(filters)
+  // Check if compare dates are provided
+  const hasCompare = previous_date_from && previous_date_to
 
   return queryOptions({
-    queryKey: ['logged-in-users', page, per_page, order_by, order, date_from, date_to, apiFilters],
+    queryKey: ['logged-in-users', page, per_page, order_by, order, date_from, date_to, previous_date_from, previous_date_to, apiFilters],
     queryFn: () =>
       clientRequest.post<GetLoggedInUsersResponse>(
         '',
@@ -147,6 +153,11 @@ export const getLoggedInUsersQueryOptions = ({
           ...(Object.keys(apiFilters).length > 0 && { filters: apiFilters }),
           date_from,
           date_to,
+          compare: hasCompare,
+          ...(hasCompare && {
+            previous_date_from,
+            previous_date_to,
+          }),
           page,
           per_page,
           order_by: apiOrderBy,

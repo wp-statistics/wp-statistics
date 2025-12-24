@@ -54,6 +54,8 @@ export interface GetViewsParams {
   order: 'asc' | 'desc'
   date_from: string
   date_to: string
+  previous_date_from?: string
+  previous_date_to?: string
   filters?: Filter[]
 }
 
@@ -109,15 +111,19 @@ export const getViewsQueryOptions = ({
   order,
   date_from,
   date_to,
+  previous_date_from,
+  previous_date_to,
   filters = [],
 }: GetViewsParams) => {
   // Map frontend column name to API column name
   const apiOrderBy = columnMapping[order_by] || order_by
   // Transform UI filters to API format
   const apiFilters = transformFiltersToApi(filters)
+  // Check if compare dates are provided
+  const hasCompare = previous_date_from && previous_date_to
 
   return queryOptions({
-    queryKey: ['views', page, per_page, apiOrderBy, order, date_from, date_to, apiFilters],
+    queryKey: ['views', page, per_page, apiOrderBy, order, date_from, date_to, previous_date_from, previous_date_to, apiFilters],
     queryFn: () =>
       clientRequest.post<GetViewsResponse>(
         '',
@@ -147,6 +153,11 @@ export const getViewsQueryOptions = ({
           ],
           date_from,
           date_to,
+          compare: hasCompare,
+          ...(hasCompare && {
+            previous_date_from,
+            previous_date_to,
+          }),
           page,
           per_page,
           order_by: apiOrderBy,

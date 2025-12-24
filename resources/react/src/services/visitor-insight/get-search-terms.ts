@@ -31,11 +31,22 @@ export interface GetSearchTermsParams {
   per_page: number
   date_from: string
   date_to: string
+  previous_date_from?: string
+  previous_date_to?: string
 }
 
-export const getSearchTermsQueryOptions = ({ page, per_page, date_from, date_to }: GetSearchTermsParams) => {
+export const getSearchTermsQueryOptions = ({
+  page,
+  per_page,
+  date_from,
+  date_to,
+  previous_date_from,
+  previous_date_to,
+}: GetSearchTermsParams) => {
+  const hasCompare = previous_date_from && previous_date_to
+
   return queryOptions({
-    queryKey: ['search-terms', page, per_page, date_from, date_to],
+    queryKey: ['search-terms', page, per_page, date_from, date_to, previous_date_from, previous_date_to],
     queryFn: () =>
       clientRequest.post<GetSearchTermsResponse>(
         '',
@@ -45,6 +56,11 @@ export const getSearchTermsQueryOptions = ({ page, per_page, date_from, date_to 
           columns: ['search_term', 'searches'],
           date_from,
           date_to,
+          compare: hasCompare,
+          ...(hasCompare && {
+            previous_date_from,
+            previous_date_to,
+          }),
           page,
           per_page,
           order_by: 'searches',

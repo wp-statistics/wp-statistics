@@ -56,10 +56,12 @@ function RouteComponent() {
     from: new Date(),
     to: new Date(),
   })
+  const [compareDateRange, setCompareDateRange] = useState<DateRange | undefined>(undefined)
 
   const handleDateRangeUpdate = useCallback(
     (values: { range: DateRange; rangeCompare?: DateRange }) => {
       setDateRange(values.range)
+      setCompareDateRange(values.rangeCompare)
       setPage(1)
     },
     []
@@ -76,6 +78,10 @@ function RouteComponent() {
       per_page: PER_PAGE,
       date_from: formatDateForAPI(dateRange.from),
       date_to: formatDateForAPI(dateRange.to || dateRange.from),
+      ...(compareDateRange?.from && compareDateRange?.to && {
+        previous_date_from: formatDateForAPI(compareDateRange.from),
+        previous_date_to: formatDateForAPI(compareDateRange.to),
+      }),
     }),
     placeholderData: keepPreviousData,
   })
@@ -98,7 +104,7 @@ function RouteComponent() {
           initialDateFrom={dateRange.from}
           initialDateTo={dateRange.to}
           onUpdate={handleDateRangeUpdate}
-          showCompare={false}
+          showCompare={true}
           align="end"
         />
       </div>

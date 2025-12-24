@@ -178,6 +178,7 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className }: Fil
         <Button
           variant="outline"
           className={cn({ 'border-indigo-200 bg-indigo-50 text-primary': !!filterCount }, className)}
+          size="lg"
         >
           <Filter className="h-4 w-4" />
           {__('Filters', 'wp-statistics')}

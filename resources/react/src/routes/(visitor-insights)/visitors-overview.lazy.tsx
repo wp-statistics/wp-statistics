@@ -1,8 +1,9 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
-import { useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
+import { DateRangePicker, type DateRange } from '@/components/custom/date-range-picker'
 import { type Filter, FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import type { GlobalMapData } from '@/components/custom/global-map'
@@ -12,6 +13,7 @@ import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import { formatDateForAPI } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getVisitorInsightGlobalVisitorDistributionQueryOptions } from '@/services/visitor-insight/get-global-visitor-distribution'
 import { getVisitorOverviewQueryOptions } from '@/services/visitor-insight/get-visitor-overview'
@@ -28,41 +30,115 @@ export const Route = createLazyFileRoute('/(visitor-insights)/visitors-overview'
   ),
 })
 
+// Convert URL filter format to Filter type
+const urlFiltersToFilters = (
+  urlFilters: Array<{ field: string; operator: string; value: string | string[] }> | undefined,
+  filterFields: FilterField[]
+): Filter[] => {
+  if (!urlFilters || !Array.isArray(urlFilters) || urlFilters.length === 0) return []
+
+  return urlFilters.map((urlFilter, index) => {
+    const field = filterFields.find((f) => f.name === urlFilter.field)
+    const label = field?.label || urlFilter.field
+
+    // Get display value from field options if available
+    let displayValue = Array.isArray(urlFilter.value) ? urlFilter.value.join(', ') : urlFilter.value
+    if (field?.options) {
+      const values = Array.isArray(urlFilter.value) ? urlFilter.value : [urlFilter.value]
+      const labels = values.map((v) => field.options?.find((o) => String(o.value) === v)?.label || v).join(', ')
+      displayValue = labels
+    }
+
+    return {
+      id: `${urlFilter.field}-${index}`,
+      label,
+      operator: urlFilter.operator,
+      rawOperator: urlFilter.operator,
+      value: displayValue,
+      rawValue: urlFilter.value,
+    }
+  })
+}
+
+// Convert Filter type to URL filter format
+const filtersToUrlFilters = (
+  filters: Filter[]
+): Array<{ field: string; operator: string; value: string | string[] }> => {
+  return filters.map((filter) => ({
+    field: filter.label.toLowerCase().replace(/\s+/g, '_'),
+    operator: filter.rawOperator || filter.operator,
+    value: filter.rawValue || filter.value,
+  }))
+}
+
 function RouteComponent() {
-  const [appliedFilters, setAppliedFilters] = useState<Filter[]>([])
+  const navigate = useNavigate()
+  const { filters: urlFilters } = Route.useSearch()
+
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
 
+  // Get filter fields for 'visitors' group from localized data
+  const filterFields = useMemo<FilterField[]>(() => {
+    return wp.getFilterFieldsByGroup('visitors') as FilterField[]
+  }, [])
+
+  // Initialize filters from URL or use empty array
+  const [appliedFilters, setAppliedFilters] = useState<Filter[]>(() => {
+    return urlFiltersToFilters(urlFilters, filterFields)
+  })
+
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
 
-  // Get filter fields for 'visitors_overview' group from localized data
-  const filterFields = useMemo<FilterField[]>(() => {
-    return wp.getFilterFieldsByGroup('visitors_overview') as FilterField[]
-  }, [])
+  // Sync filters to URL when they change
+  useEffect(() => {
+    const urlFilterData = filtersToUrlFilters(appliedFilters)
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        filters: urlFilterData.length > 0 ? urlFilterData : undefined,
+      }),
+      replace: true,
+    })
+  }, [appliedFilters, navigate])
 
   const handleRemoveFilter = (filterId: string) => {
     setAppliedFilters((prev) => prev.filter((f) => f.id !== filterId))
   }
 
-  // Calculate date range (last 6 months by default)
-  // Temp dates will replace with date picker
-  const dateRange = useMemo(() => {
-    const now = new Date()
-    const sixMonthsAgo = new Date()
-    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6)
+  // Date range state (default to today)
+  const [dateRange, setDateRange] = useState<DateRange>(() => {
+    const today = new Date()
     return {
-      dateFrom: sixMonthsAgo.toISOString().split('T')[0],
-      dateTo: now.toISOString().split('T')[0],
+      from: today,
+      to: today,
     }
-  }, [])
+  })
+
+  // Compare date range state (off by default)
+  const [compareDateRange, setCompareDateRange] = useState<DateRange | undefined>(undefined)
+
+  const handleDateRangeUpdate = useCallback(
+    (values: { range: DateRange; rangeCompare?: DateRange }) => {
+      setDateRange(values.range)
+      setCompareDateRange(values.rangeCompare)
+    },
+    []
+  )
 
   // Batch query for all overview data
-  const { data: batchResponse, isLoading, isFetching } = useQuery({
+  const {
+    data: batchResponse,
+    isLoading,
+    isFetching,
+  } = useQuery({
     ...getVisitorOverviewQueryOptions({
-      dateFrom: dateRange.dateFrom,
-      dateTo: dateRange.dateTo,
+      dateFrom: formatDateForAPI(dateRange.from),
+      dateTo: formatDateForAPI(dateRange.to || dateRange.from),
+      compareDateFrom: compareDateRange ? formatDateForAPI(compareDateRange.from) : undefined,
+      compareDateTo: compareDateRange ? formatDateForAPI(compareDateRange.to || compareDateRange.from) : undefined,
       timeframe,
-      compare: true,
+      filters: appliedFilters,
     }),
     retry: false,
     placeholderData: keepPreviousData, // Keep showing old data while fetching new data
@@ -274,12 +350,21 @@ function RouteComponent() {
 
   return (
     <div className="min-w-0">
-      {/* Header row with title and filter button */}
+      {/* Header row with title, date picker, and filter button */}
       <div className="flex items-center justify-between p-4 bg-white border-b border-input">
         <h1 className="text-2xl font-medium text-neutral-700">{__('Visitor Insights', 'wp-statistics')}</h1>
-        {filterFields.length > 0 && (
-          <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={setAppliedFilters} />
-        )}
+        <div className="flex items-center gap-2">
+          {filterFields.length > 0 && (
+            <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={setAppliedFilters} />
+          )}
+          <DateRangePicker
+            initialDateFrom={dateRange.from}
+            initialDateTo={dateRange.to}
+            showCompare={true}
+            onUpdate={handleDateRangeUpdate}
+            align="end"
+          />
+        </div>
       </div>
 
       <div className="p-4">

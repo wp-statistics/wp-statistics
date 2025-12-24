@@ -7,11 +7,12 @@ import { useCallback, useMemo, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
+import { DateRangePicker, type DateRange } from '@/components/custom/date-range-picker'
 import { type Filter, FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { getToday } from '@/lib/utils'
+import { formatDateForAPI } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import type { VisitorRecord } from '@/services/visitor-insight/get-visitors'
 import { getVisitorsQueryOptions } from '@/services/visitor-insight/get-visitors'
@@ -485,13 +486,26 @@ function RouteComponent() {
   const pluginUrl = wp.getPluginUrl()
   const columns = createColumns(pluginUrl)
 
-  // Get date range (6 month period)
-  const today = getToday()
-  const sixMonthsAgo = useMemo(() => {
-    const date = new Date()
-    date.setMonth(date.getMonth() - 6)
-    return date.toISOString().split('T')[0]
-  }, [])
+  // Date range state (default to today)
+  const [dateRange, setDateRange] = useState<DateRange>(() => {
+    const today = new Date()
+    return {
+      from: today,
+      to: today,
+    }
+  })
+
+  // Compare date range state (off by default)
+  const [compareDateRange, setCompareDateRange] = useState<DateRange | undefined>(undefined)
+
+  const handleDateRangeUpdate = useCallback(
+    (values: { range: DateRange; rangeCompare?: DateRange }) => {
+      setDateRange(values.range)
+      setCompareDateRange(values.rangeCompare)
+      setPage(1) // Reset to first page when date range changes
+    },
+    []
+  )
 
   // Determine sort parameters from sorting state
   const orderBy = sorting.length > 0 ? sorting[0].id : 'lastVisit'
@@ -509,8 +523,10 @@ function RouteComponent() {
       per_page: PER_PAGE,
       order_by: orderBy,
       order: order as 'asc' | 'desc',
-      date_from: sixMonthsAgo,
-      date_to: today,
+      date_from: formatDateForAPI(dateRange.from),
+      date_to: formatDateForAPI(dateRange.to || dateRange.from),
+      previous_date_from: compareDateRange ? formatDateForAPI(compareDateRange.from) : undefined,
+      previous_date_to: compareDateRange ? formatDateForAPI(compareDateRange.to || compareDateRange.from) : undefined,
       filters: appliedFilters,
     }),
     placeholderData: keepPreviousData,
@@ -555,12 +571,21 @@ function RouteComponent() {
 
   return (
     <div className="min-w-0">
-      {/* Header row with title and filter button */}
+      {/* Header row with title, filter button, and date picker */}
       <div className="flex items-center justify-between p-4 bg-white border-b border-input">
         <h1 className="text-2xl font-medium text-neutral-700">{__('Visitors', 'wp-statistics')}</h1>
-        {filterFields.length > 0 && (
-          <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={handleApplyFilters} />
-        )}
+        <div className="flex items-center gap-2">
+          {filterFields.length > 0 && (
+            <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={handleApplyFilters} />
+          )}
+          <DateRangePicker
+            initialDateFrom={dateRange.from}
+            initialDateTo={dateRange.to}
+            showCompare={true}
+            onUpdate={handleDateRangeUpdate}
+            align="end"
+          />
+        </div>
       </div>
 
       <div className="p-4">

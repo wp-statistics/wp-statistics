@@ -1,6 +1,45 @@
 import { queryOptions } from '@tanstack/react-query'
 
+import type { Filter } from '@/components/custom/filter-bar'
 import { clientRequest } from '@/lib/client-request'
+
+// API filter format: { filter_key: { operator: value } }
+export type ApiFilters = Record<string, Record<string, string | string[]>>
+
+// Extract the field name from filter ID
+// Filter IDs are in format: "os-os-filter-1766484171552-9509610" where the first segment is the field name
+const extractFilterKey = (filterId: string): string => {
+  // Split by hyphen and take the first segment (the actual field name)
+  return filterId.split('-')[0]
+}
+
+// Transform UI filters to API format
+// UI: { id, label, operator, rawOperator, value, rawValue }
+// API: { filter_key: { operator: value } }
+const transformFiltersToApi = (filters: Filter[]): ApiFilters => {
+  const apiFilters: ApiFilters = {}
+
+  for (const filter of filters) {
+    // Extract the field name from the filter id (e.g., 'os' from 'os-os-filter-...')
+    const filterKey = extractFilterKey(filter.id)
+    // Use rawOperator if available, otherwise fall back to operator
+    const operator = filter.rawOperator || filter.operator
+    // Use rawValue if available, otherwise fall back to value
+    // Convert number to string since API expects string | string[]
+    const rawValue = filter.rawValue ?? filter.value
+    const value: string | string[] = Array.isArray(rawValue)
+      ? rawValue
+      : typeof rawValue === 'number'
+        ? String(rawValue)
+        : rawValue
+
+    apiFilters[filterKey] = {
+      [operator]: value,
+    }
+  }
+
+  return apiFilters
+}
 
 // Response types for each query in the batch
 
@@ -158,28 +197,41 @@ export interface VisitorOverviewResponse {
 export interface GetVisitorOverviewParams {
   dateFrom: string
   dateTo: string
+  compareDateFrom?: string
+  compareDateTo?: string
   timeframe?: 'daily' | 'weekly' | 'monthly'
-  compare?: boolean
+  filters?: Filter[]
 }
 
 export const getVisitorOverviewQueryOptions = ({
   dateFrom,
   dateTo,
+  compareDateFrom,
+  compareDateTo,
   timeframe = 'daily',
-  compare = true,
+  filters = [],
 }: GetVisitorOverviewParams) => {
   // Determine the appropriate date group_by based on timeframe
   const dateGroupBy = timeframe === 'monthly' ? 'month' : timeframe === 'weekly' ? 'week' : 'date'
+  // Transform UI filters to API format
+  const apiFilters = transformFiltersToApi(filters)
+  // Check if compare dates are provided
+  const hasCompare = compareDateFrom && compareDateTo
 
   return queryOptions({
-    queryKey: ['visitor-overview', dateFrom, dateTo, timeframe, compare],
+    queryKey: ['visitor-overview', dateFrom, dateTo, compareDateFrom, compareDateTo, timeframe, apiFilters],
     queryFn: () =>
       clientRequest.post<VisitorOverviewResponse>(
         '',
         {
           date_from: dateFrom,
           date_to: dateTo,
-          compare, // Global compare setting - inherited by queries that don't override
+          compare: hasCompare,
+          ...(hasCompare && {
+            previous_date_from: compareDateFrom,
+            previous_date_to: compareDateTo,
+          }),
+          ...(Object.keys(apiFilters).length > 0 && { filters: apiFilters }),
           queries: [
             // Metrics: Flat format for aggregate totals
             {
