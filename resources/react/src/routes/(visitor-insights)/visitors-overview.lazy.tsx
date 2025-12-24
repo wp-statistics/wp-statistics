@@ -1,7 +1,7 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { DateRangePicker, type DateRange } from '@/components/custom/date-range-picker'
 import { type Filter, FilterBar } from '@/components/custom/filter-bar'
@@ -127,6 +127,39 @@ function RouteComponent() {
   // Compare date range state (off by default)
   const [compareDateRange, setCompareDateRange] = useState<DateRange | undefined>(undefined)
 
+  // Track if only timeframe changed (for loading behavior)
+  const [isTimeframeOnlyChange, setIsTimeframeOnlyChange] = useState(false)
+  const prevFiltersRef = useRef<string>(JSON.stringify(appliedFilters))
+  const prevDateRangeRef = useRef<string>(JSON.stringify(dateRange))
+  const prevCompareDateRangeRef = useRef<string>(JSON.stringify(compareDateRange))
+
+  // Detect what changed when data is being fetched
+  useEffect(() => {
+    const currentFilters = JSON.stringify(appliedFilters)
+    const currentDateRange = JSON.stringify(dateRange)
+    const currentCompareDateRange = JSON.stringify(compareDateRange)
+
+    const filtersChanged = currentFilters !== prevFiltersRef.current
+    const dateRangeChanged = currentDateRange !== prevDateRangeRef.current
+    const compareDateRangeChanged = currentCompareDateRange !== prevCompareDateRangeRef.current
+
+    // If filters or dates changed, it's NOT a timeframe-only change
+    if (filtersChanged || dateRangeChanged || compareDateRangeChanged) {
+      setIsTimeframeOnlyChange(false)
+    }
+
+    // Update refs
+    prevFiltersRef.current = currentFilters
+    prevDateRangeRef.current = currentDateRange
+    prevCompareDateRangeRef.current = currentCompareDateRange
+  }, [appliedFilters, dateRange, compareDateRange])
+
+  // Custom timeframe setter that tracks the change type
+  const handleTimeframeChange = useCallback((newTimeframe: 'daily' | 'weekly' | 'monthly') => {
+    setIsTimeframeOnlyChange(true)
+    setTimeframe(newTimeframe)
+  }, [])
+
   const handleDateRangeUpdate = useCallback(
     (values: { range: DateRange; rangeCompare?: DateRange }) => {
       setDateRange(values.range)
@@ -155,14 +188,21 @@ function RouteComponent() {
 
   // Only show skeleton on initial load (no data yet), not on refetches
   const showSkeleton = isLoading && !batchResponse
-  // Show loading indicator on chart when refetching (e.g., timeframe change)
-  const isChartRefetching = isFetching && !isLoading
+  // Show full page loading when filters/dates change (not timeframe-only)
+  const showFullPageLoading = isFetching && !isLoading && !isTimeframeOnlyChange
+  // Show loading indicator on chart only when timeframe changes
+  const isChartRefetching = isFetching && !isLoading && isTimeframeOnlyChange
 
   // Extract data from batch response
   // Batch API returns: { success, items: { metrics, traffic_trends, ... } }
   // axios wraps in { data: responseBody }, so batchResponse.data = API response
   // Metrics uses flat format - totals at top level
   const metricsResponse = batchResponse?.data?.items?.metrics
+  // Context metrics for second row (top country, referrer, search, logged-in)
+  const metricsTopCountry = batchResponse?.data?.items?.metrics_top_country
+  const metricsTopReferrer = batchResponse?.data?.items?.metrics_top_referrer
+  const metricsTopSearch = batchResponse?.data?.items?.metrics_top_search
+  const metricsLoggedIn = batchResponse?.data?.items?.metrics_logged_in
   // Traffic trends uses chart format - labels and datasets at top level
   const trafficTrendsResponse = batchResponse?.data?.items?.traffic_trends
   // Table format queries - each has data.rows structure inside
@@ -277,16 +317,24 @@ function RouteComponent() {
     return num.toLocaleString()
   }
 
-  // Helper function to format duration (seconds to mm:ss)
+  // Helper function to format duration (seconds to HH:MM:SS)
   const formatDuration = (seconds: number) => {
-    const mins = Math.floor(seconds / 60)
+    const hours = Math.floor(seconds / 3600)
+    const mins = Math.floor((seconds % 3600) / 60)
     const secs = Math.floor(seconds % 60)
-    return `${mins}:${secs.toString().padStart(2, '0')}`
+    return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
   }
 
-  // Calculate percentage change
+  // Calculate percentage change: ((Current - Previous) / Previous) × 100
   const calcPercentage = (current: number, previous: number) => {
-    if (previous === 0) return { percentage: '0', isNegative: false }
+    // If both are 0, no change
+    if (previous === 0 && current === 0) {
+      return { percentage: '0', isNegative: false }
+    }
+    // If previous is 0 but current > 0, show 100% increase
+    if (previous === 0) {
+      return { percentage: '100', isNegative: false }
+    }
     const change = ((current - previous) / previous) * 100
     return {
       percentage: Math.abs(change).toFixed(1),
@@ -295,8 +343,9 @@ function RouteComponent() {
   }
 
   // Build metrics from batch response (flat format - totals at top level)
-  // Totals structure: { metric: { current, previous } }
-  // Note: API may return values as strings, so we parse them to numbers
+  // Layout: 4 columns, 2 rows
+  // Row 1 (with comparison): Visitors, Views, Session Duration, Views Per Session
+  // Row 2 (context): Top Country, Top Referrer, Top Search Term, Logged-in Share
   const overviewMetrics = useMemo(() => {
     const totals = metricsResponse?.totals
 
@@ -305,19 +354,27 @@ function RouteComponent() {
     // Extract current and previous values from { current, previous } structure
     const visitors = Number(totals.visitors?.current) || 0
     const views = Number(totals.views?.current) || 0
-    const sessions = Number(totals.sessions?.current) || 0
     const avgSessionDuration = Number(totals.avg_session_duration?.current) || 0
     const pagesPerSession = Number(totals.pages_per_session?.current) || 0
-    const bounceRate = Number(totals.bounce_rate?.current) || 0
 
     const prevVisitors = Number(totals.visitors?.previous) || 0
     const prevViews = Number(totals.views?.previous) || 0
-    const prevSessions = Number(totals.sessions?.previous) || 0
     const prevAvgSessionDuration = Number(totals.avg_session_duration?.previous) || 0
     const prevPagesPerSession = Number(totals.pages_per_session?.previous) || 0
-    const prevBounceRate = Number(totals.bounce_rate?.previous) || 0
+
+    // Context metrics (second row)
+    const topCountryName = metricsTopCountry?.items?.[0]?.country_name
+    const topReferrerName = metricsTopReferrer?.items?.[0]?.referrer_name
+    const topSearchTerm = metricsTopSearch?.items?.[0]?.search_term
+
+    // Calculate logged-in share percentage
+    const loggedInVisitors = Number(metricsLoggedIn?.totals?.visitors?.current) || 0
+    const prevLoggedInVisitors = Number(metricsLoggedIn?.totals?.visitors?.previous) || 0
+    const loggedInShare = visitors > 0 ? (loggedInVisitors / visitors) * 100 : 0
+    const prevLoggedInShare = prevVisitors > 0 ? (prevLoggedInVisitors / prevVisitors) * 100 : 0
 
     return [
+      // Row 1: Numeric metrics with comparison
       {
         label: __('Visitors', 'wp-statistics'),
         value: formatNumber(visitors),
@@ -331,31 +388,41 @@ function RouteComponent() {
         tooltipContent: __('Total page views', 'wp-statistics'),
       },
       {
-        label: __('Sessions', 'wp-statistics'),
-        value: formatNumber(sessions),
-        ...calcPercentage(sessions, prevSessions),
-        tooltipContent: __('Total number of sessions', 'wp-statistics'),
-      },
-      {
-        label: __('Avg. Session Duration', 'wp-statistics'),
+        label: __('Session Duration', 'wp-statistics'),
         value: formatDuration(avgSessionDuration),
         ...calcPercentage(avgSessionDuration, prevAvgSessionDuration),
         tooltipContent: __('Average duration of a user session', 'wp-statistics'),
       },
       {
-        label: __('Pages/Session', 'wp-statistics'),
-        value: pagesPerSession.toFixed(2),
+        label: __('Views/Session', 'wp-statistics'),
+        value: pagesPerSession.toFixed(1),
         ...calcPercentage(pagesPerSession, prevPagesPerSession),
         tooltipContent: __('Average pages viewed per session', 'wp-statistics'),
       },
+      // Row 2: Context metrics (strings use '-' when empty)
       {
-        label: __('Bounce Rate', 'wp-statistics'),
-        value: `${bounceRate.toFixed(1)}%`,
-        ...calcPercentage(bounceRate, prevBounceRate),
-        tooltipContent: __('Percentage of single-page sessions', 'wp-statistics'),
+        label: __('Top Country', 'wp-statistics'),
+        value: topCountryName || '-',
+        tooltipContent: __('Country with the most visitors', 'wp-statistics'),
+      },
+      {
+        label: __('Top Referrer', 'wp-statistics'),
+        value: topReferrerName || '-',
+        tooltipContent: __('Top traffic source', 'wp-statistics'),
+      },
+      {
+        label: __('Top Search Term', 'wp-statistics'),
+        value: topSearchTerm || '-',
+        tooltipContent: __('Most popular search term', 'wp-statistics'),
+      },
+      {
+        label: __('Logged-in Share', 'wp-statistics'),
+        value: `${loggedInShare.toFixed(1)}%`,
+        ...calcPercentage(loggedInShare, prevLoggedInShare),
+        tooltipContent: __('Percentage of logged-in visitors', 'wp-statistics'),
       },
     ]
-  }, [metricsResponse])
+  }, [metricsResponse, metricsTopCountry, metricsTopReferrer, metricsTopSearch, metricsLoggedIn])
 
   return (
     <div className="min-w-0">
@@ -382,14 +449,14 @@ function RouteComponent() {
           <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-4" />
         )}
 
-        {showSkeleton ? (
+        {showSkeleton || showFullPageLoading ? (
           <div className="grid gap-3 grid-cols-12">
-            {/* Metrics skeleton */}
+            {/* Metrics skeleton - 4 columns, 2 rows */}
             <div className="col-span-12">
               <Card>
                 <CardContent className="p-4">
-                  <div className="grid grid-cols-3 gap-4">
-                    {[...Array(6)].map((_, i) => (
+                  <div className="grid grid-cols-4 gap-4">
+                    {[...Array(8)].map((_, i) => (
                       <div key={i} className="space-y-2">
                         <Skeleton className="h-4 w-24" />
                         <Skeleton className="h-8 w-32" />
@@ -432,7 +499,7 @@ function RouteComponent() {
         ) : (
           <div className="grid gap-3 grid-cols-12">
             <div className="col-span-12">
-              <Metrics metrics={overviewMetrics} columns={3} />
+              <Metrics metrics={overviewMetrics} columns={4} />
             </div>
 
             <div className="col-span-12">
@@ -442,7 +509,7 @@ function RouteComponent() {
                 metrics={trafficTrendsMetrics}
                 showPreviousPeriod={true}
                 timeframe={timeframe}
-                onTimeframeChange={setTimeframe}
+                onTimeframeChange={handleTimeframeChange}
                 loading={isChartRefetching}
               />
             </div>

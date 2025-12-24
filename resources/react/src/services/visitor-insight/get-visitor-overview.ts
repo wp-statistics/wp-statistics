@@ -51,9 +51,9 @@ interface MetricValue {
 
 // Flat format response (for metrics query without group_by)
 // Flat format: { success, items: [...], totals: { metric: { current, previous } }, meta: {...} }
-export interface MetricsFlatResponse {
+export interface MetricsResponse {
   success: boolean
-  items: Array<Record<string, unknown>>
+  items: Array<Record<string, string | number>>
   totals: {
     visitors: MetricValue
     views: MetricValue
@@ -62,7 +62,15 @@ export interface MetricsFlatResponse {
     pages_per_session: MetricValue
     bounce_rate: MetricValue
   }
-  meta?: Record<string, unknown>
+  meta: {
+    date_from: string
+    date_to: string
+    cached: boolean
+    cache_ttl: number
+    preferences: unknown
+    compare_from?: string
+    compare_to?: string
+  }
 }
 
 // Chart format response (for traffic trends)
@@ -176,7 +184,29 @@ export interface VisitorOverviewResponse {
   success: boolean
   items: {
     // Flat format - totals at top level
-    metrics?: MetricsFlatResponse
+    metrics?: MetricsResponse
+    metrics_top_country: {
+      success: boolean
+      items: [{ country_name: string; visitors: number }]
+      totals: {}
+    }
+    metrics_top_referrer: {
+      success: boolean
+      items: [{ referrer_name: string; visitors: number }]
+      totals: {}
+    }
+    metrics_top_search: {
+      success: boolean
+      items: [{ search_term: string; searches: number }]
+      totals: {}
+    }
+    metrics_logged_in: {
+      success: boolean
+      items: []
+      totals: {
+        visitors: { current: number; previous: number }
+      }
+    }
     // Chart format - labels and datasets at top level
     traffic_trends?: TrafficTrendsChartResponse
     // Table format - data.rows structure
@@ -236,10 +266,66 @@ export const getVisitorOverviewQueryOptions = ({
             // Metrics: Flat format for aggregate totals
             {
               id: 'metrics',
-              sources: ['visitors', 'views', 'sessions', 'avg_session_duration', 'pages_per_session', 'bounce_rate'],
+              sources: ['visitors', 'views', 'sessions', 'avg_session_duration', 'bounce_rate', 'pages_per_session'],
               group_by: [],
               format: 'flat',
               show_totals: true,
+              compare: true,
+            },
+            // Top Country Query
+            {
+              id: 'metrics_top_country',
+              sources: ['visitors'],
+              group_by: ['country'],
+              columns: ['country_name', 'visitors'],
+              per_page: 1,
+              order_by: 'visitors',
+              order: 'DESC',
+              format: 'flat',
+              show_totals: false,
+              compare: false,
+            },
+            // Top Referrer Query
+            {
+              id: 'metrics_top_referrer',
+              sources: ['visitors'],
+              group_by: ['referrer'],
+              columns: ['referrer_name', 'visitors'],
+              per_page: 1,
+              order_by: 'visitors',
+              order: 'DESC',
+              format: 'flat',
+              show_totals: false,
+              compare: false,
+            },
+            // Top Searche Query
+            {
+              id: 'metrics_top_search',
+              sources: ['searches'],
+              group_by: ['search_term'],
+              columns: ['search_term', 'searches'],
+              per_page: 1,
+              order_by: 'searches',
+              order: 'DESC',
+              format: 'flat',
+              show_totals: false,
+              compare: false,
+            },
+            // Logged-in visistor query
+            {
+              id: 'metrics_logged_in',
+              sources: ['visitors'],
+              group_by: [],
+              filters: [
+                {
+                  key: 'logged_in',
+                  operator: 'is',
+                  value: '1',
+                },
+              ],
+              format: 'flat',
+              show_totals: true,
+              compare: true,
             },
             // Traffic Trends: Chart format for line chart
             {
