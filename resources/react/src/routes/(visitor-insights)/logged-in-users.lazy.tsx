@@ -1,9 +1,9 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
+import { createLazyFileRoute, getRouteApi, useNavigate } from '@tanstack/react-router'
 import type { ColumnDef, SortingState } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { Info } from 'lucide-react'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
@@ -27,6 +27,9 @@ const PER_PAGE = 50
 export const Route = createLazyFileRoute('/(visitor-insights)/logged-in-users')({
   component: RouteComponent,
 })
+
+// Get the route API for accessing validated search params
+const routeApi = getRouteApi('/(visitor-insights)/logged-in-users')
 
 interface LoggedInUser {
   id: string
@@ -373,8 +376,11 @@ const urlFiltersToFilters = (
       displayValue = labels
     }
 
+    // Create filter ID in the expected format: field-field-filter-restored-index
+    const filterId = `${urlFilter.field}-${urlFilter.field}-filter-restored-${index}`
+
     return {
-      id: `${urlFilter.field}-${index}`,
+      id: filterId,
       label,
       operator: urlFilter.operator,
       rawOperator: urlFilter.operator,
@@ -384,12 +390,18 @@ const urlFiltersToFilters = (
   })
 }
 
+// Extract the field name from filter ID
+// Filter IDs are in format: "field_name-field_name-filter-..." or "field_name-index"
+const extractFilterField = (filterId: string): string => {
+  return filterId.split('-')[0]
+}
+
 // Convert Filter type to URL filter format
 const filtersToUrlFilters = (
   filters: Filter[]
 ): Array<{ field: string; operator: string; value: string | string[] }> => {
   return filters.map((filter) => ({
-    field: filter.label.toLowerCase().replace(/\s+/g, '_'),
+    field: extractFilterField(filter.id),
     operator: filter.rawOperator || filter.operator,
     value: filter.rawValue || filter.value,
   }))
@@ -397,10 +409,11 @@ const filtersToUrlFilters = (
 
 function RouteComponent() {
   const navigate = useNavigate()
-  const { filters: urlFilters, page: urlPage } = Route.useSearch()
+  const { filters: urlFilters, page: urlPage } = routeApi.useSearch()
 
   const [sorting, setSorting] = useState<SortingState>([{ id: 'lastVisit', desc: true }])
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
+  const lastSyncedFiltersRef = useRef<string | null>(null)
   const [dateRange, setDateRange] = useState<DateRange>({
     from: new Date(),
     to: new Date(),
@@ -416,13 +429,27 @@ function RouteComponent() {
     return wp.getFilterFieldsByGroup('visitors') as FilterField[]
   }, [wp])
 
-  // Initialize filters from URL or use defaults
-  const [appliedFilters, setAppliedFilters] = useState<Filter[]>(() => {
-    return urlFiltersToFilters(urlFilters, filterFields)
-  })
+  // Initialize filters state with defaults
+  const [appliedFilters, setAppliedFilters] = useState<Filter[]>(DEFAULT_FILTERS)
 
-  // Initialize page from URL or default to 1
-  const [page, setPage] = useState(() => urlPage || 1)
+  // Initialize page state
+  const [page, setPage] = useState(1)
+
+  // Sync filters FROM URL on mount (only once)
+  useEffect(() => {
+    if (lastSyncedFiltersRef.current !== null) return // Already initialized
+
+    // Wait for filterFields to be loaded OR urlFilters to be available
+    // This ensures we don't initialize with empty state before data is ready
+    if (!urlFilters?.length && filterFields.length === 0) return
+
+    const filtersFromUrl = urlFiltersToFilters(urlFilters, filterFields)
+    setAppliedFilters(filtersFromUrl)
+    setPage(urlPage || 1)
+    // Mark as initialized with what the URL actually had (not defaults)
+    // This allows sync-to-URL effect to update URL with defaults if URL was empty
+    lastSyncedFiltersRef.current = JSON.stringify(urlFilters || [])
+  }, [urlFilters, urlPage, filterFields])
 
   const handleDateRangeUpdate = useCallback(
     (values: { range: DateRange; rangeCompare?: DateRange }) => {
@@ -433,9 +460,17 @@ function RouteComponent() {
     []
   )
 
-  // Sync filters to URL when they change
+  // Sync filters TO URL when they change (only after initialization and actual change)
   useEffect(() => {
+    if (lastSyncedFiltersRef.current === null) return // Not initialized yet
+
     const urlFilterData = filtersToUrlFilters(appliedFilters)
+    const serialized = JSON.stringify(urlFilterData)
+
+    // Only sync if actually changed
+    if (serialized === lastSyncedFiltersRef.current && page === (urlPage || 1)) return
+
+    lastSyncedFiltersRef.current = serialized
     navigate({
       search: (prev) => ({
         ...prev,
@@ -444,7 +479,7 @@ function RouteComponent() {
       }),
       replace: true,
     })
-  }, [appliedFilters, page, navigate])
+  }, [appliedFilters, page, navigate, urlPage])
 
   // Get date range for chart (varies by timeframe)
   const chartDateFrom = useMemo(() => {

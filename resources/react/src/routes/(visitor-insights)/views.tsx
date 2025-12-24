@@ -8,14 +8,14 @@ export interface UrlFilter {
 }
 
 // Search params type
-export interface LoggedInUsersSearchParams {
+export interface ViewsSearchParams {
   filters?: UrlFilter[]
   page?: number
 }
 
 // Validate and parse search params
-const validateSearch = (search: Record<string, unknown>): LoggedInUsersSearchParams => {
-  const result: LoggedInUsersSearchParams = {}
+const validateSearch = (search: Record<string, unknown>): ViewsSearchParams => {
+  const result: ViewsSearchParams = {}
 
   // Parse filters - handle both array and JSON string
   let filtersArray: unknown[] | undefined
@@ -68,6 +68,6 @@ const validateSearch = (search: Record<string, unknown>): LoggedInUsersSearchPar
   return result
 }
 
-export const Route = createFileRoute('/(visitor-insights)/logged-in-users')({
+export const Route = createFileRoute('/(visitor-insights)/views')({
   validateSearch,
 })

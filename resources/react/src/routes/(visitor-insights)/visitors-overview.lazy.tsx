@@ -49,8 +49,11 @@ const urlFiltersToFilters = (
       displayValue = labels
     }
 
+    // Create filter ID in the expected format: field-field-filter-restored-index
+    const filterId = `${urlFilter.field}-${urlFilter.field}-filter-restored-${index}`
+
     return {
-      id: `${urlFilter.field}-${index}`,
+      id: filterId,
       label,
       operator: urlFilter.operator,
       rawOperator: urlFilter.operator,
@@ -60,12 +63,18 @@ const urlFiltersToFilters = (
   })
 }
 
+// Extract the field name from filter ID
+// Filter IDs are in format: "field_name-field_name-filter-..." or "field_name-index"
+const extractFilterField = (filterId: string): string => {
+  return filterId.split('-')[0]
+}
+
 // Convert Filter type to URL filter format
 const filtersToUrlFilters = (
   filters: Filter[]
 ): Array<{ field: string; operator: string; value: string | string[] }> => {
   return filters.map((filter) => ({
-    field: filter.label.toLowerCase().replace(/\s+/g, '_'),
+    field: extractFilterField(filter.id),
     operator: filter.rawOperator || filter.operator,
     value: filter.rawValue || filter.value,
   }))

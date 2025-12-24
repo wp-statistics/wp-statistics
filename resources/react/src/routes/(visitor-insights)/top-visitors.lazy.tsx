@@ -1,9 +1,9 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute, getRouteApi, useNavigate } from '@tanstack/react-router'
 import type { ColumnDef, SortingState } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { Info } from 'lucide-react'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
@@ -22,6 +22,9 @@ const PER_PAGE = 20
 export const Route = createLazyFileRoute('/(visitor-insights)/top-visitors')({
   component: RouteComponent,
 })
+
+// Get the route API for accessing validated search params
+const routeApi = getRouteApi('/(visitor-insights)/top-visitors')
 
 interface TopVisitor {
   id: string
@@ -481,6 +484,59 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
   },
 ]
 
+// Convert URL filter format to Filter type
+const urlFiltersToFilters = (
+  urlFilters: Array<{ field: string; operator: string; value: string | string[] }> | undefined,
+  filterFields: FilterField[],
+  defaultFilters: Filter[]
+): Filter[] => {
+  if (!urlFilters || !Array.isArray(urlFilters) || urlFilters.length === 0) return defaultFilters
+
+  return urlFilters.map((urlFilter, index) => {
+    const field = filterFields.find((f) => f.name === urlFilter.field)
+    const label = field?.label || urlFilter.field
+
+    // Get display value from field options if available
+    let displayValue = Array.isArray(urlFilter.value) ? urlFilter.value.join(', ') : urlFilter.value
+    if (field?.options) {
+      const values = Array.isArray(urlFilter.value) ? urlFilter.value : [urlFilter.value]
+      const labels = values
+        .map((v) => field.options?.find((o) => String(o.value) === v)?.label || v)
+        .join(', ')
+      displayValue = labels
+    }
+
+    // Create filter ID in the expected format: field-field-filter-restored-index
+    const filterId = `${urlFilter.field}-${urlFilter.field}-filter-restored-${index}`
+
+    return {
+      id: filterId,
+      label,
+      operator: urlFilter.operator,
+      rawOperator: urlFilter.operator,
+      value: displayValue,
+      rawValue: urlFilter.value,
+    }
+  })
+}
+
+// Extract the field name from filter ID
+// Filter IDs are in format: "field_name-field_name-filter-..." or "field_name-index"
+const extractFilterField = (filterId: string): string => {
+  return filterId.split('-')[0]
+}
+
+// Convert Filter type to URL filter format
+const filtersToUrlFilters = (
+  filters: Filter[]
+): Array<{ field: string; operator: string; value: string | string[] }> => {
+  return filters.map((filter) => ({
+    field: extractFilterField(filter.id),
+    operator: filter.rawOperator || filter.operator,
+    value: filter.rawValue || filter.value,
+  }))
+}
+
 // Default filter for Total Views > 5
 const DEFAULT_FILTERS: Filter[] = [
   {
@@ -494,9 +550,11 @@ const DEFAULT_FILTERS: Filter[] = [
 ]
 
 function RouteComponent() {
-  const [appliedFilters, setAppliedFilters] = useState<Filter[]>(DEFAULT_FILTERS)
-  const [page, setPage] = useState(1)
+  const navigate = useNavigate()
+  const { filters: urlFilters, page: urlPage } = routeApi.useSearch()
+
   const [sorting, setSorting] = useState<SortingState>([{ id: 'totalViews', desc: true }])
+  const lastSyncedFiltersRef = useRef<string | null>(null)
   const [dateRange, setDateRange] = useState<DateRange>({
     from: new Date(),
     to: new Date(),
@@ -506,6 +564,54 @@ function RouteComponent() {
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
   const columns = createColumns(pluginUrl)
+
+  // Get filter fields for 'visitors' group from localized data
+  const filterFields = useMemo<FilterField[]>(() => {
+    return wp.getFilterFieldsByGroup('visitors') as FilterField[]
+  }, [wp])
+
+  // Initialize filters state with defaults
+  const [appliedFilters, setAppliedFilters] = useState<Filter[]>(DEFAULT_FILTERS)
+
+  // Initialize page state
+  const [page, setPage] = useState(1)
+
+  // Sync filters FROM URL on mount (only once)
+  useEffect(() => {
+    if (lastSyncedFiltersRef.current !== null) return // Already initialized
+
+    // Wait for filterFields to be loaded OR urlFilters to be available
+    // This ensures we don't initialize with empty state before data is ready
+    if (!urlFilters?.length && filterFields.length === 0) return
+
+    const filtersFromUrl = urlFiltersToFilters(urlFilters, filterFields, DEFAULT_FILTERS)
+    setAppliedFilters(filtersFromUrl)
+    setPage(urlPage || 1)
+    // Mark as initialized with what the URL actually had (not defaults)
+    // This allows sync-to-URL effect to update URL with defaults if URL was empty
+    lastSyncedFiltersRef.current = JSON.stringify(urlFilters || [])
+  }, [urlFilters, urlPage, filterFields])
+
+  // Sync filters TO URL when they change (only after initialization and actual change)
+  useEffect(() => {
+    if (lastSyncedFiltersRef.current === null) return // Not initialized yet
+
+    const urlFilterData = filtersToUrlFilters(appliedFilters)
+    const serialized = JSON.stringify(urlFilterData)
+
+    // Only sync if actually changed
+    if (serialized === lastSyncedFiltersRef.current && page === (urlPage || 1)) return
+
+    lastSyncedFiltersRef.current = serialized
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        filters: urlFilterData.length > 0 ? urlFilterData : undefined,
+        page: page > 1 ? page : undefined,
+      }),
+      replace: true,
+    })
+  }, [appliedFilters, page, navigate, urlPage])
 
   const handleDateRangeUpdate = useCallback(
     (values: { range: DateRange; rangeCompare?: DateRange }) => {
@@ -563,11 +669,6 @@ function RouteComponent() {
   const handlePageChange = useCallback((newPage: number) => {
     setPage(newPage)
   }, [])
-
-  // Get filter fields for 'visitors' group from localized data
-  const filterFields = useMemo<FilterField[]>(() => {
-    return wp.getFilterFieldsByGroup('visitors') as FilterField[]
-  }, [wp])
 
   const handleRemoveFilter = (filterId: string) => {
     setAppliedFilters((prev) => prev.filter((f) => f.id !== filterId))
