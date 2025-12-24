@@ -190,4 +190,12 @@ abstract class AbstractGroupBy implements GroupByInterface
     {
         return $this->requirement;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function postProcess(array $rows, \wpdb $wpdb): array
+    {
+        return $rows;
+    }
 }

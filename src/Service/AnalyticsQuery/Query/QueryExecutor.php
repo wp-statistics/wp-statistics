@@ -105,10 +105,34 @@ class QueryExecutor implements QueryExecutorInterface
             $total = count($rows);
         }
 
+        // Apply groupBy post-processing
+        $rows = $this->applyGroupByPostProcessing($query, $rows ?: []);
+
         return [
-            'rows'  => $rows ?: [],
+            'rows'  => $rows,
             'total' => $total,
         ];
+    }
+
+    /**
+     * Apply post-processing from groupBy handlers.
+     *
+     * @param QueryInterface $query The query object.
+     * @param array          $rows  Query result rows.
+     * @return array Processed rows.
+     */
+    private function applyGroupByPostProcessing(QueryInterface $query, array $rows): array
+    {
+        $groupByNames = $query->getGroupBy();
+
+        foreach ($groupByNames as $groupByName) {
+            $groupBy = $this->groupByRegistry->get($groupByName);
+            if ($groupBy) {
+                $rows = $groupBy->postProcess($rows, $this->wpdb);
+            }
+        }
+
+        return $rows;
     }
 
     /**

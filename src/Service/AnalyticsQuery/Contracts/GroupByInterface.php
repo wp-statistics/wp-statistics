@@ -80,4 +80,15 @@ interface GroupByInterface
      * @return string|null
      */
     public function getRequirement(): ?string;
+
+    /**
+     * Post-process query results.
+     *
+     * Called after the main query to allow groupBy-specific transformations.
+     *
+     * @param array  $rows  Query result rows.
+     * @param \wpdb  $wpdb  WordPress database instance.
+     * @return array Processed rows.
+     */
+    public function postProcess(array $rows, \wpdb $wpdb): array;
 }
