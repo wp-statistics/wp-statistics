@@ -291,15 +291,17 @@ export const DateRangePicker = ({
     >
       <PopoverTrigger asChild>
         <Button variant="outline">
-          <span>
-            {`${formatDate(range.from, locale)}${range.to != null ? ' - ' + formatDate(range.to, locale) : ''}`}
-          </span>
-          {rangeCompare != null && (
-            <span className="text-xs opacity-60">
-              vs. {formatDate(rangeCompare.from, locale)}
-              {rangeCompare.to != null ? ` - ${formatDate(rangeCompare.to, locale)}` : ''}
+          <div className="flex flex-col items-start text-left">
+            <span>
+              {`${formatDate(range.from, locale)}${range.to != null ? ' - ' + formatDate(range.to, locale) : ''}`}
             </span>
-          )}
+            {rangeCompare != null && (
+              <span className="text-xs text-muted-foreground">
+                vs. {formatDate(rangeCompare.from, locale)}
+                {rangeCompare.to != null ? ` - ${formatDate(rangeCompare.to, locale)}` : ''}
+              </span>
+            )}
+          </div>
           <ChevronDown className="h-4 w-4" />
         </Button>
       </PopoverTrigger>

@@ -1,11 +1,12 @@
 import { DataTable } from '@components/custom/data-table'
+import { DateRangePicker, type DateRange } from '@components/custom/date-range-picker'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useState } from 'react'
 
-import { getToday } from '@/lib/utils'
+import { formatDateForAPI } from '@/lib/utils'
 import type { SearchTerm as APISearchTerm } from '@/services/visitor-insight/get-search-terms'
 import { getSearchTermsQueryOptions } from '@/services/visitor-insight/get-search-terms'
 
@@ -51,13 +52,18 @@ const PER_PAGE = 20
 
 function RouteComponent() {
   const [page, setPage] = useState(1)
+  const [dateRange, setDateRange] = useState<DateRange>({
+    from: new Date(),
+    to: new Date(),
+  })
 
-  // Default date range to last 1 year
-  // Temp date will replace with date picker
-  const today = getToday()
-  const oneYearAgo = new Date()
-  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1)
-  const dateFrom = oneYearAgo.toISOString().split('T')[0]
+  const handleDateRangeUpdate = useCallback(
+    (values: { range: DateRange; rangeCompare?: DateRange }) => {
+      setDateRange(values.range)
+      setPage(1)
+    },
+    []
+  )
 
   const {
     data: response,
@@ -68,8 +74,8 @@ function RouteComponent() {
     ...getSearchTermsQueryOptions({
       page,
       per_page: PER_PAGE,
-      date_from: dateFrom,
-      date_to: today,
+      date_from: formatDateForAPI(dateRange.from),
+      date_to: formatDateForAPI(dateRange.to || dateRange.from),
     }),
     placeholderData: keepPreviousData,
   })
@@ -88,6 +94,13 @@ function RouteComponent() {
     <div className="min-w-0">
       <div className="flex items-center justify-between p-4 bg-white border-b border-input">
         <h1 className="text-2xl font-medium text-neutral-700">{__('Search Terms', 'wp-statistics')}</h1>
+        <DateRangePicker
+          initialDateFrom={dateRange.from}
+          initialDateTo={dateRange.to}
+          onUpdate={handleDateRangeUpdate}
+          showCompare={false}
+          align="end"
+        />
       </div>
 
       <div className="p-4">
