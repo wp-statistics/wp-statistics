@@ -43,7 +43,8 @@ export const getSearchTermsQueryOptions = ({
   previous_date_from,
   previous_date_to,
 }: GetSearchTermsParams) => {
-  const hasCompare = previous_date_from && previous_date_to
+  // Check if compare dates are provided (must be boolean, not the date value)
+  const hasCompare = !!(previous_date_from && previous_date_to)
 
   return queryOptions({
     queryKey: ['search-terms', page, per_page, date_from, date_to, previous_date_from, previous_date_to],

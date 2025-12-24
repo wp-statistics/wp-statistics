@@ -119,8 +119,8 @@ export const getViewsQueryOptions = ({
   const apiOrderBy = columnMapping[order_by] || order_by
   // Transform UI filters to API format
   const apiFilters = transformFiltersToApi(filters)
-  // Check if compare dates are provided
-  const hasCompare = previous_date_from && previous_date_to
+  // Check if compare dates are provided (must be boolean, not the date value)
+  const hasCompare = !!(previous_date_from && previous_date_to)
 
   return queryOptions({
     queryKey: ['views', page, per_page, apiOrderBy, order, date_from, date_to, previous_date_from, previous_date_to, apiFilters],

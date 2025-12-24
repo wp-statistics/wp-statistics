@@ -215,8 +215,8 @@ export const getVisitorOverviewQueryOptions = ({
   const dateGroupBy = timeframe === 'monthly' ? 'month' : timeframe === 'weekly' ? 'week' : 'date'
   // Transform UI filters to API format
   const apiFilters = transformFiltersToApi(filters)
-  // Check if compare dates are provided
-  const hasCompare = compareDateFrom && compareDateTo
+  // Check if compare dates are provided (must be boolean, not the date value)
+  const hasCompare = !!(compareDateFrom && compareDateTo)
 
   return queryOptions({
     queryKey: ['visitor-overview', dateFrom, dateTo, compareDateFrom, compareDateTo, timeframe, apiFilters],
