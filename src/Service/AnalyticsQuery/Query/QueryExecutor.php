@@ -297,19 +297,20 @@ class QueryExecutor implements QueryExecutorInterface
 
         // Map sources to summary table columns
         $sourceMapping = [
-            'visitors'            => 'SUM(visitors) AS visitors',
-            'views'               => 'SUM(views) AS views',
-            'sessions'            => 'SUM(sessions) AS sessions',
-            'bounce_rate'         => 'ROUND(SUM(bounces) / NULLIF(SUM(sessions), 0) * 100, 2) AS bounce_rate',
+            'visitors'             => 'SUM(visitors) AS visitors',
+            'views'                => 'SUM(views) AS views',
+            'sessions'             => 'SUM(sessions) AS sessions',
+            'bounce_rate'          => 'ROUND(SUM(bounces) / NULLIF(SUM(sessions), 0) * 100, 2) AS bounce_rate',
             'avg_session_duration' => 'ROUND(SUM(total_duration) / NULLIF(SUM(sessions), 0), 2) AS avg_session_duration',
-            'total_duration'      => 'SUM(total_duration) AS total_duration',
+            'pages_per_session'    => 'ROUND(SUM(views) / NULLIF(SUM(sessions), 0), 2) AS pages_per_session',
+            'total_duration'       => 'SUM(total_duration) AS total_duration',
         ];
 
         foreach ($sources as $source) {
             if (isset($sourceMapping[$source])) {
                 $select[] = $sourceMapping[$source];
             }
-            // pages_per_session and avg_time_on_page will be calculated after query
+            // avg_time_on_page will be calculated after query if needed
         }
 
         // Build SQL
