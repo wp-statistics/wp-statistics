@@ -305,7 +305,7 @@ export const DateRangePicker = ({
           <ChevronDown className="h-4 w-4" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent align={align} className="w-auto p-0">
+      <PopoverContent align={align} className="w-auto max-h-[var(--radix-popover-content-available-height,calc(100vh-2rem))] overflow-auto p-0">
         <div className="flex p-4">
           <div className="flex">
             <div className="flex flex-col">
@@ -455,7 +455,7 @@ export const DateRangePicker = ({
             </div>
           )}
         </div>
-        <div className="flex justify-end gap-2 border-t p-4">
+        <div className="flex justify-end gap-2 border-t p-4 shrink-0 sticky bottom-0 bg-popover">
           <Button
             onClick={() => {
               setIsOpen(false)
