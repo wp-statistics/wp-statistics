@@ -79,7 +79,7 @@ class Menu
     public static function buildPageSlug(string $pageSlug)
     {
         if ('root' === $pageSlug) {
-            return str_ireplace('[slug]', $pageSlug, self::ADMIN_REACT_SLUG_TEMPLATE);
+            return 'wp-statistics';
         }
 
         return str_ireplace('[slug]', $pageSlug, self::ADMIN_MENU_SLUG_TEMPLATE);

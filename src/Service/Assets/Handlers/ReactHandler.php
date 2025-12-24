@@ -54,7 +54,7 @@ class ReactHandler extends BaseAssets
         // Get Current Screen ID
         $screenId = Route::getScreenId();
 
-        if ('admin_page_wp-statistics-root' !== $screenId) {
+        if ('admin_page_wp-statistics' !== $screenId) {
             return;
         }
 
@@ -80,7 +80,7 @@ class ReactHandler extends BaseAssets
         // Get Current Screen ID
         $screenId = Route::getScreenId();
 
-        if ('admin_page_wp-statistics-root' !== $screenId) {
+        if ('admin_page_wp-statistics' !== $screenId) {
             return;
         }
 
