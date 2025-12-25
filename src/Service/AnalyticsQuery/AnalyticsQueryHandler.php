@@ -179,16 +179,19 @@ class AnalyticsQueryHandler
      *
      * Supports global parameters that apply to all queries:
      * - date_from/date_to: Inherited unless query provides both
+     * - previous_date_from/previous_date_to: Custom comparison period (inherited unless query provides both)
      * - filters: Merged with query-specific filters (query values override)
      * - compare: Applied to queries that don't explicitly set it
      * - page_context: If provided, loads page preferences and skips hidden widgets
      *
-     * @param array       $queries        Array of queries with 'id' field.
-     * @param string|null $dateFrom       Global date_from (queries can override).
-     * @param string|null $dateTo         Global date_to (queries can override).
-     * @param array       $globalFilters  Global filters (merged with query filters).
-     * @param bool        $globalCompare  Global compare flag (queries can override).
-     * @param string|null $pageContext    Page context for widget visibility preferences.
+     * @param array       $queries                Array of queries with 'id' field.
+     * @param string|null $dateFrom               Global date_from (queries can override).
+     * @param string|null $dateTo                 Global date_to (queries can override).
+     * @param array       $globalFilters          Global filters (merged with query filters).
+     * @param bool        $globalCompare          Global compare flag (queries can override).
+     * @param string|null $pageContext            Page context for widget visibility preferences.
+     * @param string|null $globalPreviousDateFrom Global previous_date_from for custom comparison period.
+     * @param string|null $globalPreviousDateTo   Global previous_date_to for custom comparison period.
      * @return array Response with results keyed by query ID.
      */
     public function handleBatch(
@@ -197,7 +200,9 @@ class AnalyticsQueryHandler
         ?string $dateTo = null,
         array $globalFilters = [],
         bool $globalCompare = false,
-        ?string $pageContext = null
+        ?string $pageContext = null,
+        ?string $globalPreviousDateFrom = null,
+        ?string $globalPreviousDateTo = null
     ): array {
         $results        = [];
         $errors         = [];
@@ -251,6 +256,17 @@ class AnalyticsQueryHandler
                 }
                 if ($dateTo !== null) {
                     $queryData['date_to'] = $dateTo;
+                }
+            }
+
+            // Apply global previous dates for comparison if query doesn't override both
+            $hasCustomPreviousDates = isset($queryData['previous_date_from']) && isset($queryData['previous_date_to']);
+            if (!$hasCustomPreviousDates) {
+                if ($globalPreviousDateFrom !== null) {
+                    $queryData['previous_date_from'] = $globalPreviousDateFrom;
+                }
+                if ($globalPreviousDateTo !== null) {
+                    $queryData['previous_date_to'] = $globalPreviousDateTo;
                 }
             }
 
@@ -451,6 +467,15 @@ class AnalyticsQueryHandler
             $request['date_to'] = date('Y-m-d 23:59:59');
         } else {
             $request['date_to'] = $this->normalizeDateTo($request['date_to']);
+        }
+
+        // Normalize custom previous period dates if provided
+        if (!empty($request['previous_date_from'])) {
+            $request['previous_date_from'] = $this->normalizeDateFrom($request['previous_date_from']);
+        }
+
+        if (!empty($request['previous_date_to'])) {
+            $request['previous_date_to'] = $this->normalizeDateTo($request['previous_date_to']);
         }
 
         // Default pagination
@@ -885,11 +910,19 @@ class AnalyticsQueryHandler
         $groupBy    = $query->getGroupBy();
         $showTotals = $query->showTotals();
 
-        // Calculate previous period
-        $previousPeriod = $this->comparisonHandler->calculatePreviousPeriod(
-            $query->getDateFrom(),
-            $query->getDateTo()
-        );
+        // Use custom previous period if provided, otherwise calculate automatically
+        if ($query->hasCustomPreviousPeriod()) {
+            $previousPeriod = [
+                'from' => $query->getPreviousDateFrom(),
+                'to'   => $query->getPreviousDateTo(),
+            ];
+        } else {
+            // Calculate previous period automatically
+            $previousPeriod = $this->comparisonHandler->calculatePreviousPeriod(
+                $query->getDateFrom(),
+                $query->getDateTo()
+            );
+        }
 
         // Create query for previous period
         $prevQuery = $query->withDateRange($previousPeriod['from'], $previousPeriod['to'])

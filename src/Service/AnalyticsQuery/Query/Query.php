@@ -86,6 +86,24 @@ class Query implements QueryInterface
     private $compare;
 
     /**
+     * Custom previous period start date for comparison.
+     *
+     * When set, uses this instead of auto-calculated previous period.
+     *
+     * @var string|null
+     */
+    private $previousDateFrom;
+
+    /**
+     * Custom previous period end date for comparison.
+     *
+     * When set, uses this instead of auto-calculated previous period.
+     *
+     * @var string|null
+     */
+    private $previousDateTo;
+
+    /**
      * Custom date column for filtering.
      *
      * @var string|null
@@ -148,16 +166,18 @@ class Query implements QueryInterface
     /**
      * Constructor.
      *
-     * @param array       $sources         Sources to retrieve.
-     * @param array       $groupBy         Group by to group by.
-     * @param array       $filters         Filters to apply.
-     * @param string|null $dateFrom        Start date.
-     * @param string|null $dateTo          End date.
-     * @param string|null $orderBy         ORDER BY field.
-     * @param string      $order           ORDER direction.
-     * @param int         $page            Page number.
-     * @param int         $perPage         Items per page.
-     * @param bool        $compare         Whether comparison is enabled.
+     * @param array       $sources          Sources to retrieve.
+     * @param array       $groupBy          Group by to group by.
+     * @param array       $filters          Filters to apply.
+     * @param string|null $dateFrom         Start date.
+     * @param string|null $dateTo           End date.
+     * @param string|null $orderBy          ORDER BY field.
+     * @param string      $order            ORDER direction.
+     * @param int         $page             Page number.
+     * @param int         $perPage          Items per page.
+     * @param bool        $compare          Whether comparison is enabled.
+     * @param string|null $previousDateFrom Custom previous period start date.
+     * @param string|null $previousDateTo   Custom previous period end date.
      * @param string|null $dateColumn       Custom date column for filtering.
      * @param bool        $aggregateOthers  Whether to aggregate remaining items as "Other".
      * @param int|null    $originalPerPage  Original per_page when aggregate_others is enabled.
@@ -177,6 +197,8 @@ class Query implements QueryInterface
         int $page = 1,
         int $perPage = 10,
         bool $compare = false,
+        ?string $previousDateFrom = null,
+        ?string $previousDateTo = null,
         ?string $dateColumn = null,
         bool $aggregateOthers = false,
         ?int $originalPerPage = null,
@@ -195,6 +217,8 @@ class Query implements QueryInterface
         $this->page             = max(1, $page);
         $this->perPage          = min(1000, max(1, $perPage)); // Allow up to 1000 for aggregation
         $this->compare          = $compare;
+        $this->previousDateFrom = $previousDateFrom;
+        $this->previousDateTo   = $previousDateTo;
         $this->dateColumn       = $dateColumn;
         $this->aggregateOthers  = $aggregateOthers;
         $this->originalPerPage  = $originalPerPage;
@@ -299,6 +323,36 @@ class Query implements QueryInterface
     public function hasComparison(): bool
     {
         return $this->compare;
+    }
+
+    /**
+     * Get custom previous period start date.
+     *
+     * @return string|null
+     */
+    public function getPreviousDateFrom(): ?string
+    {
+        return $this->previousDateFrom;
+    }
+
+    /**
+     * Get custom previous period end date.
+     *
+     * @return string|null
+     */
+    public function getPreviousDateTo(): ?string
+    {
+        return $this->previousDateTo;
+    }
+
+    /**
+     * Check if custom previous period dates are set.
+     *
+     * @return bool
+     */
+    public function hasCustomPreviousPeriod(): bool
+    {
+        return $this->previousDateFrom !== null && $this->previousDateTo !== null;
     }
 
     /**
@@ -420,6 +474,8 @@ class Query implements QueryInterface
             'page'               => $this->page,
             'per_page'           => $this->perPage,
             'compare'            => $this->compare,
+            'previous_date_from' => $this->previousDateFrom,
+            'previous_date_to'   => $this->previousDateTo,
             'aggregate_others'   => $this->aggregateOthers,
             '_original_per_page' => $this->originalPerPage,
             'show_totals'        => $this->showTotals,
@@ -449,6 +505,8 @@ class Query implements QueryInterface
             $this->page,
             $this->perPage,
             $this->compare,
+            $this->previousDateFrom,
+            $this->previousDateTo,
             $this->dateColumn,
             $this->aggregateOthers,
             $this->originalPerPage,
@@ -477,6 +535,8 @@ class Query implements QueryInterface
             $this->page,
             $this->perPage,
             false,
+            null,  // No previous dates needed when comparison is disabled
+            null,
             $this->dateColumn,
             $this->aggregateOthers,
             $this->originalPerPage,
@@ -518,6 +578,8 @@ class Query implements QueryInterface
             $data['page'] ?? 1,
             $data['per_page'] ?? $defaultPerPage,
             $data['compare'] ?? false,
+            $data['previous_date_from'] ?? null,
+            $data['previous_date_to'] ?? null,
             $data['date_column'] ?? null,
             !empty($data['aggregate_others']),
             isset($data['_original_per_page']) ? (int) $data['_original_per_page'] : null,
