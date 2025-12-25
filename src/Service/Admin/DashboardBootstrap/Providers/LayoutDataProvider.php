@@ -26,6 +26,11 @@ class LayoutDataProvider implements LocalizeDataProviderInterface
     public function getData()
     {
         $items['sidebar'] = [
+            'overview'          => [
+                'icon'  => 'LayoutDashboard',
+                'label' => esc_html__('Overview', 'wp-statistics'),
+                'slug'  => 'overview'
+            ],
             'visitorInsights'   => [
                 'icon'     => 'User',
                 'label'    => esc_html__('Visitor Insights', 'wp-statistics'),
