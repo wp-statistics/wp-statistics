@@ -108,19 +108,15 @@ class ResourceDetector
 
             $this->resourceId   = !empty($resourceData['id']) ? (int)$resourceData['id'] : 0;
             $this->resourceType = !empty($resourceData['type']) ? (string)$resourceData['type'] : null;
-        }
 
-        $singletonTypes = ['search', '404'];
-        if (in_array($this->resourceType, $singletonTypes, true)) {
             $this->record = RecordFactory::resource()->get([
+                'resource_id' => $this->resourceId,
                 'resource_type' => $this->resourceType,
             ], true);
-
+    
             if (!empty($this->record)) {
                 return;
             }
-
-            $this->resourceId = 0;
         }
 
         $excludedTypes = [
