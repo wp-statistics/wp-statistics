@@ -19,9 +19,9 @@ class FirstSeenFilter extends AbstractFilter
     /**
      * SQL column for WHERE clause.
      *
-     * @var string Column path: visitors.first_hit
+     * @var string Column path: visitors.created_at
      */
-    protected $column = 'visitors.first_hit';
+    protected $column = 'visitors.created_at';
 
     /**
      * Value type for sanitization.
@@ -50,6 +50,25 @@ class FirstSeenFilter extends AbstractFilter
      * @var array Groups: visitors
      */
     protected $groups = ['visitors'];
+
+    /**
+     * Required base table to enable this filter.
+     *
+     * @var string|null Table name: sessions
+     */
+    protected $requirement = 'sessions';
+
+    /**
+     * Required JOINs to access the column.
+     *
+     * @var array JOIN: sessions -> visitors
+     */
+    protected $joins = [
+        'table' => 'visitors',
+        'alias' => 'visitors',
+        'on'    => 'sessions.visitor_id = visitors.ID',
+        'type'  => 'LEFT',
+    ];
 
     /**
      * {@inheritdoc}

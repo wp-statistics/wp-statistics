@@ -5,6 +5,9 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
 /**
  * User role filter - filters by WordPress user role.
  *
+ * WordPress stores user roles in wp_usermeta table with meta_key = '{prefix}capabilities'
+ * and meta_value as a serialized array containing the role name.
+ *
  * @since 15.0.0
  */
 class UserRoleFilter extends AbstractFilter
@@ -19,9 +22,9 @@ class UserRoleFilter extends AbstractFilter
     /**
      * SQL column for WHERE clause.
      *
-     * @var string Column path: users.role
+     * @var string Column path: user_role_meta.meta_value
      */
-    protected $column = 'users.role';
+    protected $column = 'user_role_meta.meta_value';
 
     /**
      * Value type for sanitization.
@@ -33,12 +36,12 @@ class UserRoleFilter extends AbstractFilter
     /**
      * Required JOINs to access the column.
      *
-     * @var array JOIN: sessions -> users
+     * @var array JOIN: sessions -> wp_usermeta (WordPress core table)
      */
     protected $joins = [
-        'table' => 'users',
-        'alias' => 'users',
-        'on'    => 'sessions.user_id = users.ID',
+        'table' => 'wp:usermeta',
+        'alias' => 'user_role_meta',
+        'on'    => 'sessions.user_id = user_role_meta.user_id AND user_role_meta.meta_key = \'wp_capabilities\'',
     ];
 
     /**
@@ -51,9 +54,9 @@ class UserRoleFilter extends AbstractFilter
     /**
      * Allowed comparison operators.
      *
-     * @var array Operators: is, is_not
+     * @var array Operators: contains (for role matching in serialized data)
      */
-    protected $supportedOperators = ['is', 'is_not'];
+    protected $supportedOperators = ['contains'];
 
     /**
      * Pages where this filter is available.

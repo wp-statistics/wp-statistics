@@ -5,6 +5,9 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
 /**
  * Visitor type filter - filters by visitor type (new vs returning).
  *
+ * A visitor is considered "new" if they have only 1 session,
+ * and "returning" if they have more than 1 session.
+ *
  * @since 15.0.0
  */
 class VisitorTypeFilter extends AbstractFilter
@@ -19,14 +22,16 @@ class VisitorTypeFilter extends AbstractFilter
     /**
      * SQL column for WHERE clause.
      *
-     * @var string Column path: visitors.is_new
+     * This is overridden by getColumn() to use dynamic table prefix.
+     *
+     * @var string Column path: subquery expression
      */
-    protected $column = 'visitors.is_new';
+    protected $column = '';
 
     /**
      * Value type for sanitization.
      *
-     * @var string Data type: integer (1=new, 0=returning)
+     * @var string Data type: integer (1=returning, 0=new)
      */
     protected $type = 'integer';
 
@@ -71,6 +76,22 @@ class VisitorTypeFilter extends AbstractFilter
     ];
 
     /**
+     * Get the SQL column for WHERE clause.
+     *
+     * Uses a subquery to count sessions for the visitor.
+     * Expression evaluates to 1 for returning visitors (>1 session), 0 for new visitors (1 session)
+     *
+     * @return string
+     */
+    public function getColumn(): string
+    {
+        global $wpdb;
+        $sessionsTable = $wpdb->prefix . 'statistics_sessions';
+        // Returns 1 if visitor has more than 1 session (returning), 0 if exactly 1 session (new)
+        return "(SELECT COUNT(*) FROM `{$sessionsTable}` vs_count WHERE vs_count.visitor_id = visitors.ID) > 1";
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getLabel(): string
@@ -84,8 +105,8 @@ class VisitorTypeFilter extends AbstractFilter
     public function getOptions(): ?array
     {
         return [
-            ['value' => 1, 'label' => esc_html__('New', 'wp-statistics')],
-            ['value' => 0, 'label' => esc_html__('Returning', 'wp-statistics')],
+            ['value' => 0, 'label' => esc_html__('New', 'wp-statistics')],
+            ['value' => 1, 'label' => esc_html__('Returning', 'wp-statistics')],
         ];
     }
 }

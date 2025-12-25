@@ -3,7 +3,10 @@
 namespace WP_Statistics\Service\AnalyticsQuery\Filters;
 
 /**
- * Total sessions filter - filters by total sessions.
+ * Total sessions filter - filters by total number of sessions.
+ *
+ * This filters visitors based on their total session count,
+ * calculated as COUNT of sessions for each visitor.
  *
  * @since 15.0.0
  */
@@ -19,9 +22,11 @@ class TotalSessionsFilter extends AbstractFilter
     /**
      * SQL column for WHERE clause.
      *
-     * @var string Column path: visitors.sessions_count
+     * This is overridden by getColumn() to use dynamic table prefix.
+     *
+     * @var string Column path: subquery for COUNT(sessions)
      */
-    protected $column = 'visitors.sessions_count';
+    protected $column = '';
 
     /**
      * Value type for sanitization.
@@ -50,6 +55,39 @@ class TotalSessionsFilter extends AbstractFilter
      * @var array Groups: visitors
      */
     protected $groups = ['visitors'];
+
+    /**
+     * Required base table to enable this filter.
+     *
+     * @var string|null Table name: sessions
+     */
+    protected $requirement = 'sessions';
+
+    /**
+     * Required JOINs to access the column.
+     *
+     * @var array JOIN: sessions -> visitors
+     */
+    protected $joins = [
+        'table' => 'visitors',
+        'alias' => 'visitors',
+        'on'    => 'sessions.visitor_id = visitors.ID',
+        'type'  => 'LEFT',
+    ];
+
+    /**
+     * Get the SQL column for WHERE clause.
+     *
+     * Uses a subquery to count sessions for the visitor.
+     *
+     * @return string
+     */
+    public function getColumn(): string
+    {
+        global $wpdb;
+        $sessionsTable = $wpdb->prefix . 'statistics_sessions';
+        return "(SELECT COUNT(*) FROM `{$sessionsTable}` ts WHERE ts.visitor_id = visitors.ID)";
+    }
 
     /**
      * {@inheritdoc}

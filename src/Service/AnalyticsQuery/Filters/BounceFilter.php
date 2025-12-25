@@ -5,6 +5,8 @@ namespace WP_Statistics\Service\AnalyticsQuery\Filters;
 /**
  * Bounce filter - filters by bounce status.
  *
+ * A session is considered a "bounce" when total_views = 1.
+ *
  * @since 15.0.0
  */
 class BounceFilter extends AbstractFilter
@@ -19,16 +21,18 @@ class BounceFilter extends AbstractFilter
     /**
      * SQL column for WHERE clause.
      *
-     * @var string Column path: sessions.is_bounce
+     * This is overridden by getColumn() to use dynamic expression.
+     *
+     * @var string Column path: expression for bounce check
      */
-    protected $column = 'sessions.is_bounce';
+    protected $column = '';
 
     /**
      * Value type for sanitization.
      *
-     * @var string Data type: boolean (1=bounced, 0=engaged)
+     * @var string Data type: integer (1=bounced, 0=engaged)
      */
-    protected $type = 'boolean';
+    protected $type = 'integer';
 
     /**
      * UI input component type.
@@ -50,6 +54,27 @@ class BounceFilter extends AbstractFilter
      * @var array Groups: visitors
      */
     protected $groups = ['visitors'];
+
+    /**
+     * Required base table to enable this filter.
+     *
+     * @var string|null Table name: sessions
+     */
+    protected $requirement = 'sessions';
+
+    /**
+     * Get the SQL column for WHERE clause.
+     *
+     * A session is a bounce when total_views = 1.
+     * Returns 1 if bounce (total_views = 1), 0 if not bounce.
+     *
+     * @return string
+     */
+    public function getColumn(): string
+    {
+        // Returns 1 if session has only 1 view (bounce), 0 otherwise
+        return '(sessions.total_views = 1)';
+    }
 
     /**
      * {@inheritdoc}

@@ -775,7 +775,7 @@ class QueryExecutor implements QueryExecutorInterface
     /**
      * Get full table name with prefix.
      *
-     * @param string $table Short table name or full WordPress core table name.
+     * @param string $table Short table name, full WordPress core table name, or wp:tablename for WP core tables.
      * @return string
      */
     private function getFullTableName(string $table): string
@@ -783,6 +783,13 @@ class QueryExecutor implements QueryExecutorInterface
         // If table already has WordPress prefix (e.g., wp_users), don't add statistics prefix
         if (strpos($table, $this->wpdb->prefix) === 0) {
             return $table;
+        }
+
+        // If table starts with "wp:" prefix, use WordPress prefix instead of statistics prefix
+        // e.g., "wp:users" becomes "wp_users" (or whatever the WP prefix is)
+        if (strpos($table, 'wp:') === 0) {
+            $wpTable = substr($table, 3); // Remove "wp:" prefix
+            return $this->wpdb->prefix . $wpTable;
         }
 
         return $this->tablePrefix . $table;
