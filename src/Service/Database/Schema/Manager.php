@@ -57,7 +57,7 @@ class Manager
                 'ID'              => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
                 'session_id'      => 'bigint(20) UNSIGNED NOT NULL',
                 'resource_uri_id' => 'bigint(20) UNSIGNED NOT NULL',
-                'resource_id'      => 'bigint(20) UNSIGNED DEFAULT NULL',
+                'resource_id'     => 'bigint(20) UNSIGNED NOT NULL',
                 'viewed_at'       => 'datetime NOT NULL',
                 'next_view_id'    => 'bigint(20) UNSIGNED DEFAULT NULL',
                 'duration'        => 'int(11) UNSIGNED DEFAULT NULL',

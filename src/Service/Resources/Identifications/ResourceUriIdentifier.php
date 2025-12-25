@@ -161,7 +161,7 @@ class ResourceUriIdentifier
         $this->record = RecordFactory::resourceUri()->get([
             'resource_id' => $this->resourceId,
             'uri'         => $this->uri,
-        ], true);
+        ], false);
 
         if (!empty($this->record)) {
             return;
