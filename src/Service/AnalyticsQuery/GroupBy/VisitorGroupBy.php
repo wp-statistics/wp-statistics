@@ -140,6 +140,7 @@ class VisitorGroupBy extends AbstractGroupBy
     {
         return [
             'visitor_hash',
+            'first_visit',
             'last_visit',
             'total_sessions',
             'total_views',
