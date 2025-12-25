@@ -26,6 +26,7 @@ class Menu
      * @var array<string,string>
      */
     public const PAGES = [
+        'dashboard'          => 'dashboard',
         'overview'           => 'overview',
         'exclusions'         => 'exclusions',
         'referrals'          => 'referrals',
@@ -185,6 +186,13 @@ class Menu
          *
          */
         $list = [
+            'dashboard' => [
+                'sub'      => 'overview',
+                'title'    => __('Dashboard', 'wp-statistics'),
+                'page_url' => 'wp-statistics',
+                'priority' => 1,
+                'is_link'  => true,
+            ],
             'settings' => [
                 'sub'      => 'overview',
                 'title'    => __('Settings', 'wp-statistics'),

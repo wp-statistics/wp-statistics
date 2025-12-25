@@ -120,6 +120,19 @@ class AdminManager
                 $name = $menu['name'];
             }
 
+            // Handle direct link menu items (no callback needed)
+            if (!empty($menu['is_link']) && array_key_exists('sub', $menu)) {
+                $url = admin_url('admin.php?page=' . $menu['page_url']);
+                add_submenu_page(
+                    Menu::buildPageSlug($menu['sub']),
+                    $menu['title'],
+                    $name,
+                    $capability,
+                    $url
+                );
+                continue;
+            }
+
             $baseNamespace = '\WP_STATISTICS\\';
 
             $className = isset($menu['callback']) ? $menu['callback'] : $baseNamespace . $method . '_page';
