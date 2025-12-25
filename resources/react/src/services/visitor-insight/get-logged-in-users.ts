@@ -43,6 +43,9 @@ export interface GetLoggedInUsersResponse {
     page: number
     per_page: number
     total_pages: number
+    preferences?: {
+      columns: string[]
+    }
   }
 }
 
@@ -59,6 +62,7 @@ export interface GetLoggedInUsersParams {
   previous_date_from?: string
   previous_date_to?: string
   filters?: Filter[]
+  context?: string
 }
 
 // Extract the field name from filter ID
@@ -116,6 +120,7 @@ export const getLoggedInUsersQueryOptions = ({
   previous_date_from,
   previous_date_to,
   filters = [],
+  context,
 }: GetLoggedInUsersParams) => {
   // Map frontend column name to API column name
   const apiOrderBy = columnMapping[order_by] || order_by
@@ -125,7 +130,7 @@ export const getLoggedInUsersQueryOptions = ({
   const hasCompare = !!(previous_date_from && previous_date_to)
 
   return queryOptions({
-    queryKey: ['logged-in-users', page, per_page, order_by, order, date_from, date_to, previous_date_from, previous_date_to, apiFilters],
+    queryKey: ['logged-in-users', page, per_page, order_by, order, date_from, date_to, previous_date_from, previous_date_to, apiFilters, context],
     queryFn: () =>
       clientRequest.post<GetLoggedInUsersResponse>(
         '',
@@ -169,7 +174,7 @@ export const getLoggedInUsersQueryOptions = ({
           order_by: apiOrderBy,
           order: order.toUpperCase(),
           format: 'table',
-          context: 'logged_in_users_page_table',
+          ...(context && { context }),
         },
         {
           params: {

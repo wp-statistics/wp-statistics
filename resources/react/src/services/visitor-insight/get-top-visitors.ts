@@ -51,6 +51,9 @@ export interface GetTopVisitorsResponse {
     per_page: number
     total_pages: number
     total_rows: number
+    preferences?: {
+      columns: string[]
+    }
   }
 }
 
@@ -67,6 +70,7 @@ export interface GetTopVisitorsParams {
   previous_date_from?: string
   previous_date_to?: string
   filters?: Filter[]
+  context?: string
 }
 
 // Extract the field name from filter ID
@@ -130,6 +134,7 @@ export const getTopVisitorsQueryOptions = ({
   previous_date_from,
   previous_date_to,
   filters = [],
+  context,
 }: GetTopVisitorsParams) => {
   // Map frontend column name to API column name
   const apiOrderBy = columnMapping[order_by] || order_by
@@ -139,7 +144,7 @@ export const getTopVisitorsQueryOptions = ({
   const hasCompare = !!(previous_date_from && previous_date_to)
 
   return queryOptions({
-    queryKey: ['top-visitors', page, per_page, apiOrderBy, order, date_from, date_to, previous_date_from, previous_date_to, apiFilters],
+    queryKey: ['top-visitors', page, per_page, apiOrderBy, order, date_from, date_to, previous_date_from, previous_date_to, apiFilters, context],
     queryFn: () =>
       clientRequest.post<GetTopVisitorsResponse>(
         '',
@@ -189,6 +194,7 @@ export const getTopVisitorsQueryOptions = ({
           order_by: apiOrderBy,
           order: order.toUpperCase(),
           format: 'table',
+          ...(context && { context }),
           show_totals: false,
           ...(Object.keys(apiFilters).length > 0 && { filters: apiFilters }),
         },

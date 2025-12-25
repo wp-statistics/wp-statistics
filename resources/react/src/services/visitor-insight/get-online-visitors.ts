@@ -43,6 +43,9 @@ export interface GetOnlineVisitorsResponse {
     per_page: number
     total_pages: number
     total_rows: number
+    preferences?: {
+      columns: string[]
+    }
   }
 }
 
@@ -53,6 +56,8 @@ export interface GetOnlineVisitorsParams {
   order?: 'asc' | 'desc'
   // Time range in minutes (default 5 minutes for "online" visitors)
   timeRangeMinutes?: number
+  // Context for user preferences
+  context?: string
 }
 
 // Map frontend column names to API column names
@@ -72,6 +77,7 @@ export const getOnlineVisitorsQueryOptions = ({
   order_by = 'lastVisit',
   order = 'desc',
   timeRangeMinutes = 5,
+  context,
 }: GetOnlineVisitorsParams = {}) => {
   // Calculate date range for "online" visitors (last N minutes)
   const now = new Date()
@@ -87,7 +93,7 @@ export const getOnlineVisitorsQueryOptions = ({
   const apiOrderBy = columnMapping[order_by] || order_by
 
   return queryOptions({
-    queryKey: ['online-visitors', page, per_page, order_by, order, timeRangeMinutes],
+    queryKey: ['online-visitors', page, per_page, order_by, order, timeRangeMinutes, context],
     queryFn: () =>
       clientRequest.post<GetOnlineVisitorsResponse>(
         '',
@@ -124,6 +130,7 @@ export const getOnlineVisitorsQueryOptions = ({
           order_by: apiOrderBy,
           order: order.toUpperCase(),
           format: 'table',
+          ...(context && { context }),
         },
         {
           params: {
