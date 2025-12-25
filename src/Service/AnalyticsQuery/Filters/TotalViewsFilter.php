@@ -3,7 +3,10 @@
 namespace WP_Statistics\Service\AnalyticsQuery\Filters;
 
 /**
- * Total views filter - filters by total page views.
+ * Total views filter - filters by total page views across all sessions.
+ *
+ * This filters visitors based on their total page views,
+ * calculated as SUM(sessions.total_views) across all their sessions.
  *
  * @since 15.0.0
  */
@@ -57,6 +60,18 @@ class TotalViewsFilter extends AbstractFilter
      * @var array Groups: visitors
      */
     protected $groups = ['visitors'];
+
+    /**
+     * Required JOINs to access the column.
+     *
+     * @var array JOIN: sessions -> visitors
+     */
+    protected $joins = [
+        'table' => 'visitors',
+        'alias' => 'visitors',
+        'on'    => 'sessions.visitor_id = visitors.ID',
+        'type'  => 'LEFT',
+    ];
 
     /**
      * {@inheritdoc}
