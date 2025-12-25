@@ -154,6 +154,7 @@ class VisitorGroupBy extends AbstractGroupBy
             'device_type_name',
             'os_name',
             'browser_name',
+            'browser_version',
             'referrer_domain',
             'referrer_channel',
             'entry_page',
@@ -219,6 +220,7 @@ class VisitorGroupBy extends AbstractGroupBy
                 attr_device_type.name AS device_type_name,
                 attr_os.name AS os_name,
                 attr_browser.name AS browser_name,
+                attr_browser_version.version AS browser_version,
                 attr_referrer.domain AS referrer_domain,
                 attr_referrer.channel AS referrer_channel,
                 entry_page_uri.uri AS entry_page,
@@ -232,6 +234,7 @@ class VisitorGroupBy extends AbstractGroupBy
             LEFT JOIN {$tablePrefix}device_types attr_device_type ON sessions.device_type_id = attr_device_type.ID
             LEFT JOIN {$tablePrefix}device_oss attr_os ON sessions.device_os_id = attr_os.ID
             LEFT JOIN {$tablePrefix}device_browsers attr_browser ON sessions.device_browser_id = attr_browser.ID
+            LEFT JOIN {$tablePrefix}device_browser_versions attr_browser_version ON sessions.device_browser_version_id = attr_browser_version.ID
             LEFT JOIN {$tablePrefix}referrers attr_referrer ON sessions.referrer_id = attr_referrer.ID
             LEFT JOIN {$tablePrefix}views entry_view ON sessions.initial_view_id = entry_view.ID
             LEFT JOIN {$tablePrefix}resource_uris entry_page_uri ON entry_view.resource_uri_id = entry_page_uri.ID
@@ -296,6 +299,7 @@ class VisitorGroupBy extends AbstractGroupBy
             'device_type_name' => null,
             'os_name'          => null,
             'browser_name'     => null,
+            'browser_version'  => null,
             'referrer_domain'  => null,
             'referrer_channel' => null,
             'entry_page'       => null,
