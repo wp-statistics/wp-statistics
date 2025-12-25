@@ -45,6 +45,12 @@ interface DataTableProps<TData, TValue> {
   totalRows?: number
   // Loading state for server-side data fetching
   isFetching?: boolean
+  // Column preferences props
+  initialColumnVisibility?: VisibilityState
+  columnOrder?: string[]
+  onColumnVisibilityChange?: (visibility: VisibilityState) => void
+  onColumnOrderChange?: (order: string[]) => void
+  onColumnPreferencesReset?: () => void
 }
 
 export function DataTable<TData, TValue>({
@@ -70,6 +76,12 @@ export function DataTable<TData, TValue>({
   totalRows,
   // Loading state
   isFetching = false,
+  // Column preferences
+  initialColumnVisibility,
+  columnOrder,
+  onColumnVisibilityChange,
+  onColumnOrderChange,
+  onColumnPreferencesReset,
 }: DataTableProps<TData, TValue>) {
   const [internalSorting, setInternalSorting] = React.useState<SortingState>(
     defaultSort ? [{ id: defaultSort, desc: true }] : []
@@ -79,6 +91,15 @@ export function DataTable<TData, TValue>({
     hiddenColumns.reduce((acc, col) => ({ ...acc, [col]: false }), {})
   )
   const [rowSelection, setRowSelection] = React.useState({})
+
+  // Sync initial visibility when it changes (e.g., from API preferences)
+  const hasAppliedInitialVisibility = React.useRef(false)
+  React.useEffect(() => {
+    if (initialColumnVisibility && Object.keys(initialColumnVisibility).length > 0 && !hasAppliedInitialVisibility.current) {
+      setColumnVisibility(initialColumnVisibility)
+      hasAppliedInitialVisibility.current = true
+    }
+  }, [initialColumnVisibility])
 
   // Use external sorting if provided, otherwise use internal
   const sorting = externalSorting ?? internalSorting
@@ -176,7 +197,14 @@ export function DataTable<TData, TValue>({
                 })}
                 {showColumnManagement && (
                   <TableHead className="h-12 w-12 pr-6">
-                    <DataTableColumnToggle table={table} />
+                    <DataTableColumnToggle
+                      table={table}
+                      initialColumnOrder={columnOrder}
+                      defaultHiddenColumns={hiddenColumns}
+                      onColumnVisibilityChange={onColumnVisibilityChange}
+                      onColumnOrderChange={onColumnOrderChange}
+                      onReset={onColumnPreferencesReset}
+                    />
                   </TableHead>
                 )}
               </TableRow>

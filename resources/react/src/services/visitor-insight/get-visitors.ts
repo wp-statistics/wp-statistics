@@ -29,6 +29,7 @@ export interface VisitorRecord {
   pages_per_session: number | null
   bounce_rate: number | null
   visitor_status: 'new' | 'returning' | null
+  first_visit: string | null
 }
 
 export interface GetVisitorsResponse {
@@ -44,6 +45,10 @@ export interface GetVisitorsResponse {
     per_page: number
     total_pages: number
     total_rows: number
+    preferences?: {
+      columns: string[] // Array of visible column IDs in their display order
+      updated_at: string
+    }
   }
 }
 
@@ -60,6 +65,8 @@ export interface GetVisitorsParams {
   previous_date_from?: string
   previous_date_to?: string
   filters?: Filter[]
+  context?: string
+  columns?: string[]
 }
 
 // Extract the field name from filter ID
@@ -97,7 +104,7 @@ const transformFiltersToApi = (filters: Filter[]): ApiFilters => {
   return apiFilters
 }
 
-// Map frontend column names to API column names
+// Map frontend column names to API column names (for sorting)
 const columnMapping: Record<string, string> = {
   lastVisit: 'last_visit',
   visitorInfo: 'visitor_id',
@@ -112,6 +119,79 @@ const columnMapping: Record<string, string> = {
   visitorStatus: 'visitor_status',
 }
 
+// Map each frontend column to its required API columns
+// This includes both the main column and any dependent columns needed for formatting
+const COLUMN_DEPENDENCIES: Record<string, string[]> = {
+  lastVisit: ['last_visit'],
+  visitorInfo: [
+    'visitor_id',
+    'visitor_hash',
+    'ip_address',
+    'user_id',
+    'user_login',
+    'country_code',
+    'country_name',
+    'region_name',
+    'city_name',
+    'os_name',
+    'browser_name',
+    'device_type_name',
+  ],
+  referrer: ['referrer_domain', 'referrer_channel'],
+  entryPage: ['entry_page', 'entry_page_title'],
+  exitPage: ['exit_page', 'exit_page_title'],
+  totalViews: ['total_views'],
+  totalSessions: ['total_sessions'],
+  sessionDuration: ['avg_session_duration'],
+  viewsPerSession: ['pages_per_session'],
+  bounceRate: ['bounce_rate'],
+  visitorStatus: ['visitor_status', 'first_visit'],
+}
+
+// Expand frontend column names to their required API columns
+const expandColumnsToApi = (frontendColumns: string[]): string[] => {
+  const apiColumns = new Set<string>()
+
+  for (const col of frontendColumns) {
+    const deps = COLUMN_DEPENDENCIES[col]
+    if (deps) {
+      deps.forEach((dep) => apiColumns.add(dep))
+    }
+  }
+
+  return Array.from(apiColumns)
+}
+
+// Default columns to fetch when no user preferences are specified
+// Note: first_visit is NOT included here - it will be added via COLUMN_DEPENDENCIES when visitorStatus is visible
+const DEFAULT_COLUMNS = [
+  'visitor_id',
+  'visitor_hash',
+  'ip_address',
+  'user_id',
+  'user_login',
+  'last_visit',
+  'country_code',
+  'country_name',
+  'region_name',
+  'city_name',
+  'os_name',
+  'browser_name',
+  'device_type_name',
+  'referrer_domain',
+  'referrer_channel',
+  'entry_page',
+  'entry_page_title',
+  'exit_page',
+  'exit_page_title',
+  'total_views',
+  'total_sessions',
+  'avg_session_duration',
+  'pages_per_session',
+  'bounce_rate',
+  'visitor_status',
+]
+
 export const getVisitorsQueryOptions = ({
   page,
   per_page,
@@ -122,6 +202,8 @@ export const getVisitorsQueryOptions = ({
   previous_date_from,
   previous_date_to,
   filters = [],
+  context,
+  columns,
 }: GetVisitorsParams) => {
   // Map frontend column name to API column name
   const apiOrderBy = columnMapping[order_by] || order_by
@@ -129,42 +211,32 @@ export const getVisitorsQueryOptions = ({
   const apiFilters = transformFiltersToApi(filters)
   // Check if compare dates are provided (must be boolean, not the date value)
   const hasCompare = !!(previous_date_from && previous_date_to)
+  // Expand frontend columns to API columns, or use defaults
+  // columns param contains frontend names like ['lastVisit', 'visitorInfo', ...]
+  // We need to expand these to API names with their dependencies
+  const apiColumns = columns && columns.length > 0 ? expandColumnsToApi(columns) : DEFAULT_COLUMNS
 
   return queryOptions({
-    queryKey: ['visitors', page, per_page, apiOrderBy, order, date_from, date_to, previous_date_from, previous_date_to, apiFilters],
+    queryKey: [
+      'visitors',
+      page,
+      per_page,
+      apiOrderBy,
+      order,
+      date_from,
+      date_to,
+      previous_date_from,
+      previous_date_to,
+      apiFilters,
+      context,
+    ],
     queryFn: () =>
       clientRequest.post<GetVisitorsResponse>(
         '',
         {
           sources: ['visitors', 'avg_session_duration', 'bounce_rate', 'pages_per_session', 'visitor_status'],
           group_by: ['visitor'],
-          columns: [
-            'visitor_id',
-            'visitor_hash',
-            'ip_address',
-            'user_id',
-            'user_login',
-            'last_visit',
-            'country_code',
-            'country_name',
-            'region_name',
-            'city_name',
-            'os_name',
-            'browser_name',
-            'device_type_name',
-            'referrer_domain',
-            'referrer_channel',
-            'entry_page',
-            'entry_page_title',
-            'exit_page',
-            'exit_page_title',
-            'total_views',
-            'total_sessions',
-            'avg_session_duration',
-            'pages_per_session',
-            'bounce_rate',
-            'visitor_status',
-          ],
+          columns: [...apiColumns, 'first_visit'],
           date_from,
           date_to,
           compare: hasCompare,
@@ -179,6 +251,7 @@ export const getVisitorsQueryOptions = ({
           format: 'table',
           show_totals: false,
           ...(Object.keys(apiFilters).length > 0 && { filters: apiFilters }),
+          ...(context && { context }),
         },
         {
           params: {

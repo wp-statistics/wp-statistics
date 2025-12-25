@@ -18,8 +18,9 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import type { Table } from '@tanstack/react-table'
-import { GripVertical, MoreVertical } from 'lucide-react'
+import type { Table, VisibilityState } from '@tanstack/react-table'
+import { __ } from '@wordpress/i18n'
+import { GripVertical, MoreVertical, RotateCcw } from 'lucide-react'
 import * as React from 'react'
 
 interface ColumnItem {
@@ -69,18 +70,70 @@ function SortableItem({ item, onToggle }: SortableItemProps) {
 
 interface DataTableColumnToggleProps<TData> {
   table: Table<TData>
+  initialColumnOrder?: string[]
+  defaultHiddenColumns?: string[]
+  onColumnVisibilityChange?: (visibility: VisibilityState) => void
+  onColumnOrderChange?: (order: string[]) => void
+  onReset?: () => void
 }
 
-export function DataTableColumnToggle<TData>({ table }: DataTableColumnToggleProps<TData>) {
-  const columns = table.getAllColumns().filter((column) => column.getCanHide())
+export function DataTableColumnToggle<TData>({
+  table,
+  initialColumnOrder,
+  defaultHiddenColumns = [],
+  onColumnVisibilityChange,
+  onColumnOrderChange,
+  onReset,
+}: DataTableColumnToggleProps<TData>) {
   const isRTL = document.dir === 'rtl' || document.documentElement.dir === 'rtl'
 
-  const [columnOrder, setColumnOrder] = React.useState<ColumnItem[]>(
-    columns.map((column) => ({
-      id: column.id,
-      label: column.id,
-      isVisible: column.getIsVisible(),
-    }))
+  // Build column items from table on dropdown open (not on every render)
+  const [columnOrder, setColumnOrder] = React.useState<ColumnItem[]>([])
+  const [isOpen, setIsOpen] = React.useState(false)
+
+  // Build column list when dropdown opens
+  const handleOpenChange = React.useCallback(
+    (open: boolean) => {
+      setIsOpen(open)
+      if (open) {
+        const columns = table.getAllColumns().filter((column) => column.getCanHide())
+
+        let items: ColumnItem[]
+        if (initialColumnOrder && initialColumnOrder.length > 0) {
+          // Use provided order
+          items = []
+          initialColumnOrder.forEach((id) => {
+            const column = columns.find((c) => c.id === id)
+            if (column) {
+              items.push({
+                id: column.id,
+                label: column.id,
+                isVisible: column.getIsVisible(),
+              })
+            }
+          })
+          // Add any columns not in the order at the end
+          columns.forEach((column) => {
+            if (!initialColumnOrder.includes(column.id)) {
+              items.push({
+                id: column.id,
+                label: column.id,
+                isVisible: column.getIsVisible(),
+              })
+            }
+          })
+        } else {
+          // Default order from columns
+          items = columns.map((column) => ({
+            id: column.id,
+            label: column.id,
+            isVisible: column.getIsVisible(),
+          }))
+        }
+        setColumnOrder(items)
+      }
+    },
+    [table, initialColumnOrder]
   )
 
   const sensors = useSensors(
@@ -99,9 +152,15 @@ export function DataTableColumnToggle<TData>({ table }: DataTableColumnTogglePro
         const newIndex = items.findIndex((item) => item.id === over.id)
 
         const newOrder = arrayMove(items, oldIndex, newIndex)
+        const newOrderIds = newOrder.map((item) => item.id)
 
         // Update table column order
-        table.setColumnOrder(newOrder.map((item) => item.id))
+        table.setColumnOrder(newOrderIds)
+
+        // Call persistence callback
+        if (onColumnOrderChange) {
+          onColumnOrderChange(newOrderIds)
+        }
 
         return newOrder
       })
@@ -112,22 +171,65 @@ export function DataTableColumnToggle<TData>({ table }: DataTableColumnTogglePro
     const column = table.getColumn(id)
     if (column) {
       column.toggleVisibility(checked)
-      setColumnOrder((items) => items.map((item) => (item.id === id ? { ...item, isVisible: checked } : item)))
+      setColumnOrder((items) => {
+        const updatedItems = items.map((item) => (item.id === id ? { ...item, isVisible: checked } : item))
+
+        // Call persistence callback with updated visibility state
+        if (onColumnVisibilityChange) {
+          const newVisibility: VisibilityState = {}
+          updatedItems.forEach((item) => {
+            newVisibility[item.id] = item.isVisible
+          })
+          onColumnVisibilityChange(newVisibility)
+        }
+
+        return updatedItems
+      })
     }
   }
 
-  // Sync visibility state when columns change
-  React.useEffect(() => {
-    setColumnOrder((items) =>
-      items.map((item) => {
-        const column = table.getColumn(item.id)
-        return column ? { ...item, isVisible: column.getIsVisible() } : item
+  const handleReset = () => {
+    const columns = table.getAllColumns().filter((column) => column.getCanHide())
+
+    // Reset to default column order
+    const defaultOrder = columns.map((column) => ({
+      id: column.id,
+      label: column.id,
+      isVisible: !defaultHiddenColumns.includes(column.id),
+    }))
+    setColumnOrder(defaultOrder)
+
+    // Reset table column order
+    table.setColumnOrder(defaultOrder.map((item) => item.id))
+
+    // Reset visibility - show all except defaultHiddenColumns
+    columns.forEach((column) => {
+      const shouldBeVisible = !defaultHiddenColumns.includes(column.id)
+      column.toggleVisibility(shouldBeVisible)
+    })
+
+    // Call persistence callback
+    if (onReset) {
+      onReset()
+    }
+
+    // Call visibility change callback with reset state
+    if (onColumnVisibilityChange) {
+      const resetVisibility: VisibilityState = {}
+      defaultOrder.forEach((item) => {
+        resetVisibility[item.id] = item.isVisible
       })
-    )
-  }, [table])
+      onColumnVisibilityChange(resetVisibility)
+    }
+
+    // Call order change callback with reset order
+    if (onColumnOrderChange) {
+      onColumnOrderChange(defaultOrder.map((item) => item.id))
+    }
+  }
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={isOpen} onOpenChange={handleOpenChange}>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
           <MoreVertical className="h-4 w-4" />
@@ -142,6 +244,17 @@ export function DataTableColumnToggle<TData>({ table }: DataTableColumnTogglePro
               ))}
             </SortableContext>
           </DndContext>
+          <div className="border-t mt-2 pt-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="w-full justify-start text-muted-foreground hover:text-foreground"
+              onClick={handleReset}
+            >
+              <RotateCcw className="h-4 w-4 mr-2" />
+              {__('Reset to Default', 'wp-statistics')}
+            </Button>
+          </div>
         </div>
       </DropdownMenuContent>
     </DropdownMenu>

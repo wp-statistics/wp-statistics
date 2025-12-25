@@ -1,6 +1,6 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute, getRouteApi, useNavigate } from '@tanstack/react-router'
-import type { ColumnDef, SortingState } from '@tanstack/react-table'
+import type { ColumnDef, SortingState, VisibilityState } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { Info } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -16,8 +16,16 @@ import { formatDateForAPI } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import type { VisitorRecord } from '@/services/visitor-insight/get-visitors'
 import { getVisitorsQueryOptions } from '@/services/visitor-insight/get-visitors'
+import {
+  computeFullVisibility,
+  createVisibleColumnsArray,
+  parseColumnPreferences,
+  saveUserPreferences,
+} from '@/services/user-preferences'
 
 const PER_PAGE = 25
+const CONTEXT = 'visitors_data_table'
+const DEFAULT_HIDDEN_COLUMNS = ['viewsPerSession', 'bounceRate', 'visitorStatus']
 
 export const Route = createLazyFileRoute('/(visitor-insights)/visitors')({
   component: RouteComponent,
@@ -29,6 +37,7 @@ const routeApi = getRouteApi('/(visitor-insights)/visitors')
 interface Visitor {
   id: string
   lastVisit: Date
+  firstVisit: Date
   country: string
   countryCode: string
   region: string
@@ -76,6 +85,7 @@ const transformVisitorData = (record: VisitorRecord): Visitor => {
   return {
     id: `visitor-${record.visitor_id}`,
     lastVisit: new Date(record.last_visit),
+    firstVisit: record.first_visit ? new Date(record.first_visit) : new Date(record.last_visit),
     country: record.country_name || 'Unknown',
     countryCode: (record.country_code || '000').toLowerCase(),
     region: record.region_name || '',
@@ -98,11 +108,11 @@ const transformVisitorData = (record: VisitorRecord): Visitor => {
     utmCampaign,
     exitPage: record.exit_page || '/',
     exitPageTitle: record.exit_page_title || record.exit_page || 'Unknown',
-    totalViews: record.total_views || 0,
-    totalSessions: record.total_sessions || 0,
-    sessionDuration: Math.round(record.avg_session_duration || 0),
-    viewsPerSession: record.pages_per_session || 0,
-    bounceRate: Math.round(record.bounce_rate || 0),
+    totalViews: Number(record.total_views) || 0,
+    totalSessions: Number(record.total_sessions) || 0,
+    sessionDuration: Math.round(Number(record.avg_session_duration) || 0),
+    viewsPerSession: Number(record.pages_per_session) || 0,
+    bounceRate: Math.round(Number(record.bounce_rate) || 0),
     visitorStatus: record.visitor_status || 'returning',
   }
 }
@@ -538,7 +548,7 @@ function RouteComponent() {
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
-  const columns = createColumns(pluginUrl)
+  const columns = useMemo(() => createColumns(pluginUrl), [pluginUrl])
 
   // Get filter fields for 'visitors' group from localized data
   const filterFields = useMemo<FilterField[]>(() => {
@@ -558,8 +568,13 @@ function RouteComponent() {
     // Parse URL filters - urlFilters comes from validated search params
     const filtersFromUrl = urlFiltersToFilters(urlFilters, filterFields)
 
-    setAppliedFilters(filtersFromUrl)
-    setPage(urlPage || 1)
+    // Only set state if there are actual filters to apply
+    if (filtersFromUrl.length > 0) {
+      setAppliedFilters(filtersFromUrl)
+    }
+    if (urlPage && urlPage > 1) {
+      setPage(urlPage)
+    }
     // Mark as initialized with the current filter state
     lastSyncedFiltersRef.current = JSON.stringify(filtersToUrlFilters(filtersFromUrl))
   }, [urlFilters, urlPage, filterFields])
@@ -624,9 +639,99 @@ function RouteComponent() {
       previous_date_from: compareDateRange ? formatDateForAPI(compareDateRange.from) : undefined,
       previous_date_to: compareDateRange ? formatDateForAPI(compareDateRange.to || compareDateRange.from) : undefined,
       filters: appliedFilters,
+      context: CONTEXT,
     }),
     placeholderData: keepPreviousData,
   })
+
+  // Get all hideable column IDs from the columns definition
+  const allColumnIds = useMemo(() => {
+    return columns.filter((col) => col.enableHiding !== false).map((col) => col.accessorKey as string)
+  }, [columns])
+
+  // Track column order state
+  const [columnOrder, setColumnOrder] = useState<string[]>([])
+
+  // Track if preferences have been applied (to prevent re-computation on subsequent API responses)
+  const hasAppliedPrefs = useRef(false)
+  const computedVisibilityRef = useRef<VisibilityState | null>(null)
+
+  // Compute initial visibility only once when API returns preferences
+  const initialColumnVisibility = useMemo(() => {
+    // If we've already computed visibility, return the cached value
+    if (hasAppliedPrefs.current && computedVisibilityRef.current) {
+      return computedVisibilityRef.current
+    }
+
+    // Wait for API response before computing visibility
+    // This prevents applying defaults before preferences are loaded
+    if (!response?.data) {
+      return {} as VisibilityState
+    }
+
+    const prefs = response.data.meta?.preferences?.columns
+
+    // If no preferences in API response (new user or reset), use defaults
+    if (!prefs || prefs.length === 0) {
+      const defaultVisibility = DEFAULT_HIDDEN_COLUMNS.reduce(
+        (acc, col) => ({ ...acc, [col]: false }),
+        {} as VisibilityState
+      )
+      hasAppliedPrefs.current = true
+      computedVisibilityRef.current = defaultVisibility
+      return defaultVisibility
+    }
+
+    // Parse preferences and compute full visibility
+    const { visibleColumnsSet, columnOrder: newOrder } = parseColumnPreferences(prefs)
+    const visibility = computeFullVisibility(visibleColumnsSet, allColumnIds)
+
+    // Mark as applied and cache the result
+    hasAppliedPrefs.current = true
+    computedVisibilityRef.current = visibility
+
+    // Also set column order from preferences
+    if (newOrder.length > 0) {
+      setColumnOrder(newOrder)
+    }
+
+    return visibility
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [response?.data, allColumnIds])
+
+  // Track current visibility for save operations (updated via callback)
+  const currentVisibilityRef = useRef<VisibilityState>(initialColumnVisibility)
+
+  // Handle column visibility changes (for persistence)
+  const handleColumnVisibilityChange = useCallback(
+    (visibility: VisibilityState) => {
+      currentVisibilityRef.current = visibility
+      const visibleColumns = createVisibleColumnsArray(visibility, columnOrder)
+      saveUserPreferences({ context: CONTEXT, columns: visibleColumns })
+    },
+    [columnOrder]
+  )
+
+  // Handle column order changes
+  const handleColumnOrderChange = useCallback((order: string[]) => {
+    setColumnOrder(order)
+    const visibleColumns = createVisibleColumnsArray(currentVisibilityRef.current, order)
+    saveUserPreferences({ context: CONTEXT, columns: visibleColumns })
+  }, [])
+
+  // Handle reset to default
+  const handleColumnPreferencesReset = useCallback(() => {
+    setColumnOrder([])
+    // Reset visibility to defaults
+    const defaultVisibility = DEFAULT_HIDDEN_COLUMNS.reduce(
+      (acc, col) => ({ ...acc, [col]: false }),
+      {} as VisibilityState
+    )
+    computedVisibilityRef.current = defaultVisibility
+    currentVisibilityRef.current = defaultVisibility
+    // Save reset state to backend (empty array means use defaults)
+    saveUserPreferences({ context: CONTEXT, columns: [] })
+  }, [])
 
   // Transform API data to component interface
   const tableData = useMemo(() => {
@@ -706,7 +811,12 @@ function RouteComponent() {
             showColumnManagement={true}
             showPagination={true}
             isFetching={isFetching}
-            hiddenColumns={['viewsPerSession', 'bounceRate', 'visitorStatus']}
+            hiddenColumns={DEFAULT_HIDDEN_COLUMNS}
+            initialColumnVisibility={initialColumnVisibility}
+            columnOrder={columnOrder.length > 0 ? columnOrder : undefined}
+            onColumnVisibilityChange={handleColumnVisibilityChange}
+            onColumnOrderChange={handleColumnOrderChange}
+            onColumnPreferencesReset={handleColumnPreferencesReset}
             emptyStateMessage={__('No visitors found for the selected period', 'wp-statistics')}
           />
         )}
