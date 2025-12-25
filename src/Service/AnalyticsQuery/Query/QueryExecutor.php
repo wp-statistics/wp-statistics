@@ -537,8 +537,8 @@ class QueryExecutor implements QueryExecutorInterface
         $from         = $this->getFullTableName($primaryTable) . ' AS ' . $primaryTable;
 
         // Add session join if needed for views table (must come before group by joins)
-        // Only add if sources or groupBy actually need session data
-        if ($primaryTable === 'views' && $this->needsSessionJoin($sources, $groupByNames)) {
+        // Only add if sources, groupBy, or filters actually need session data
+        if ($primaryTable === 'views' && $this->needsSessionJoin($sources, $groupByNames, $filters)) {
             $joins = $this->addSessionJoinForViews($joins);
         }
 
@@ -634,8 +634,8 @@ class QueryExecutor implements QueryExecutorInterface
         }
 
         // Add session join if needed for views table (must come before filter joins)
-        // Only add if sources actually need session data
-        if ($primaryTable === 'views' && $this->needsSessionJoin($sources, [])) {
+        // Only add if sources or filters actually need session data
+        if ($primaryTable === 'views' && $this->needsSessionJoin($sources, [], $filters)) {
             $joins = $this->addSessionJoinForViews($joins);
         }
 
@@ -842,11 +842,12 @@ class QueryExecutor implements QueryExecutorInterface
     /**
      * Check if session join is needed for views query.
      *
-     * @param array $sources    Source names.
+     * @param array $sources      Source names.
      * @param array $groupByNames Group by names.
+     * @param array $filters      Filter key-value pairs.
      * @return bool
      */
-    private function needsSessionJoin(array $sources, array $groupByNames): bool
+    private function needsSessionJoin(array $sources, array $groupByNames, array $filters = []): bool
     {
         // Check if any source requires sessions table
         $sessionDependentSources = ['visitors', 'sessions', 'bounce_rate', 'avg_session_duration',
@@ -871,6 +872,25 @@ class QueryExecutor implements QueryExecutorInterface
         foreach ($groupByNames as $groupByName) {
             if (in_array($groupByName, $sessionDependentGroupBy, true)) {
                 return true;
+            }
+        }
+
+        // Check if any filter requires sessions table via its joins
+        foreach (array_keys($filters) as $filterKey) {
+            if (FilterBuilder::isAllowed($filterKey)) {
+                $config = FilterBuilder::getConfig($filterKey);
+                if ($config && isset($config['joins'])) {
+                    foreach ($config['joins'] as $join) {
+                        if (isset($join['on']) && strpos($join['on'], 'sessions.') !== false) {
+                            return true;
+                        }
+                    }
+                }
+                // Also check requirement property
+                $requirement = FilterBuilder::getRequirement($filterKey);
+                if ($requirement === 'sessions') {
+                    return true;
+                }
             }
         }
 
