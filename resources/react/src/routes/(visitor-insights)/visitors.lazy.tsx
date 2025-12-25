@@ -20,6 +20,7 @@ import {
   computeFullVisibility,
   createVisibleColumnsArray,
   parseColumnPreferences,
+  resetUserPreferences,
   saveUserPreferences,
 } from '@/services/user-preferences'
 
@@ -696,6 +697,7 @@ function RouteComponent() {
   // Track if preferences have been applied (to prevent re-computation on subsequent API responses)
   const hasAppliedPrefs = useRef(false)
   const computedVisibilityRef = useRef<VisibilityState | null>(null)
+  const computedColumnOrderRef = useRef<string[] | null>(null)
 
   // Compute initial visibility only once when API returns preferences
   const initialColumnVisibility = useMemo(() => {
@@ -720,6 +722,7 @@ function RouteComponent() {
       )
       hasAppliedPrefs.current = true
       computedVisibilityRef.current = defaultVisibility
+      computedColumnOrderRef.current = []
       return defaultVisibility
     }
 
@@ -730,15 +733,21 @@ function RouteComponent() {
     // Mark as applied and cache the result
     hasAppliedPrefs.current = true
     computedVisibilityRef.current = visibility
-
-    // Also set column order from preferences
-    if (newOrder.length > 0) {
-      setColumnOrder(newOrder)
-    }
+    computedColumnOrderRef.current = newOrder
 
     return visibility
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response?.data, allColumnIds])
+
+  // Sync column order when preferences are computed
+  useEffect(() => {
+    if (hasAppliedPrefs.current) {
+      // Sync column order from preferences
+      if (computedColumnOrderRef.current && computedColumnOrderRef.current.length > 0) {
+        setColumnOrder(computedColumnOrderRef.current)
+      }
+    }
+  }, [initialColumnVisibility])
 
   // Track current visibility for save operations (updated via callback)
   const currentVisibilityRef = useRef<VisibilityState>(initialColumnVisibility)
@@ -770,8 +779,8 @@ function RouteComponent() {
     )
     computedVisibilityRef.current = defaultVisibility
     currentVisibilityRef.current = defaultVisibility
-    // Save reset state to backend (empty array means use defaults)
-    saveUserPreferences({ context: CONTEXT, columns: [] })
+    // Reset preferences on backend
+    resetUserPreferences({ context: CONTEXT })
   }, [])
 
   // Transform API data to component interface

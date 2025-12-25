@@ -32,10 +32,15 @@ interface ColumnItem {
 interface SortableItemProps {
   item: ColumnItem
   onToggle: (id: string, checked: boolean) => void
+  disabled?: boolean
+  isDraggable?: boolean
 }
 
-function SortableItem({ item, onToggle }: SortableItemProps) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id })
+function SortableItem({ item, onToggle, disabled, isDraggable = true }: SortableItemProps) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: item.id,
+    disabled: !isDraggable,
+  })
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -49,18 +54,23 @@ function SortableItem({ item, onToggle }: SortableItemProps) {
       style={style}
       className="flex items-center gap-2 px-2 py-2 hover:bg-accent rounded-sm cursor-default"
     >
-      <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing">
+      <div
+        {...(isDraggable ? attributes : {})}
+        {...(isDraggable ? listeners : {})}
+        className={isDraggable ? 'cursor-grab active:cursor-grabbing' : 'cursor-not-allowed opacity-30'}
+      >
         <GripVertical className="h-4 w-4 text-muted-foreground" />
       </div>
       <Checkbox
         id={item.id}
         checked={item.isVisible}
+        disabled={disabled}
         onCheckedChange={(checked) => onToggle(item.id, checked as boolean)}
       />
       <label
         htmlFor={item.id}
-        className="flex-1 text-sm font-normal capitalize cursor-pointer select-none"
-        onClick={() => onToggle(item.id, !item.isVisible)}
+        className={`flex-1 text-sm font-normal capitalize select-none ${disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
+        onClick={() => !disabled && onToggle(item.id, !item.isVisible)}
       >
         {item.label}
       </label>
@@ -154,13 +164,8 @@ export function DataTableColumnToggle<TData>({
         const newOrder = arrayMove(items, oldIndex, newIndex)
         const newOrderIds = newOrder.map((item) => item.id)
 
-        // Update table column order
+        // Update table column order (this will trigger the table's onColumnOrderChange handler)
         table.setColumnOrder(newOrderIds)
-
-        // Call persistence callback
-        if (onColumnOrderChange) {
-          onColumnOrderChange(newOrderIds)
-        }
 
         return newOrder
       })
@@ -208,23 +213,9 @@ export function DataTableColumnToggle<TData>({
       column.toggleVisibility(shouldBeVisible)
     })
 
-    // Call persistence callback
+    // Call reset callback (handles backend reset separately)
     if (onReset) {
       onReset()
-    }
-
-    // Call visibility change callback with reset state
-    if (onColumnVisibilityChange) {
-      const resetVisibility: VisibilityState = {}
-      defaultOrder.forEach((item) => {
-        resetVisibility[item.id] = item.isVisible
-      })
-      onColumnVisibilityChange(resetVisibility)
-    }
-
-    // Call order change callback with reset order
-    if (onColumnOrderChange) {
-      onColumnOrderChange(defaultOrder.map((item) => item.id))
     }
   }
 
@@ -239,9 +230,18 @@ export function DataTableColumnToggle<TData>({
         <div className="px-1 py-1">
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
             <SortableContext items={columnOrder.map((item) => item.id)} strategy={verticalListSortingStrategy}>
-              {columnOrder.map((item) => (
-                <SortableItem key={item.id} item={item} onToggle={handleToggle} />
-              ))}
+              {(() => {
+                const visibleCount = columnOrder.filter((item) => item.isVisible).length
+                return columnOrder.map((item) => (
+                  <SortableItem
+                    key={item.id}
+                    item={item}
+                    onToggle={handleToggle}
+                    disabled={item.isVisible && visibleCount === 1}
+                    isDraggable={item.isVisible}
+                  />
+                ))
+              })()}
             </SortableContext>
           </DndContext>
           <div className="border-t mt-2 pt-2">

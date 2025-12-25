@@ -19,6 +19,18 @@ let saveTimeout: ReturnType<typeof setTimeout> | null = null
 let pendingPreferences: SaveUserPreferencesParams | null = null
 
 /**
+ * Cancel any pending save operations
+ * Call this before reset to prevent saves from overwriting reset
+ */
+export const cancelPendingSave = () => {
+  if (saveTimeout) {
+    clearTimeout(saveTimeout)
+    saveTimeout = null
+  }
+  pendingPreferences = null
+}
+
+/**
  * Save user preferences to the backend
  * Debounced to avoid excessive API calls (max 1 save per 500ms)
  */
@@ -65,6 +77,37 @@ export const saveUserPreferences = async (params: SaveUserPreferencesParams): Pr
       resolve()
     }, 500)
   })
+}
+
+export interface ResetUserPreferencesParams {
+  context: string
+}
+
+/**
+ * Reset user preferences to defaults
+ */
+export const resetUserPreferences = async (params: ResetUserPreferencesParams): Promise<void> => {
+  // Cancel any pending saves to prevent them from overwriting the reset
+  cancelPendingSave()
+
+  const { context } = params
+
+  try {
+    await clientRequest.post<SaveUserPreferencesResponse>(
+      '',
+      {
+        action_type: 'reset',
+        context,
+      },
+      {
+        params: {
+          action: 'wp_statistics_user_preferences',
+        },
+      }
+    )
+  } catch (error) {
+    console.error('Failed to reset user preferences:', error)
+  }
 }
 
 /**

@@ -91,15 +91,55 @@ export function DataTable<TData, TValue>({
     hiddenColumns.reduce((acc, col) => ({ ...acc, [col]: false }), {})
   )
   const [rowSelection, setRowSelection] = React.useState({})
+  const [internalColumnOrder, setInternalColumnOrder] = React.useState<string[]>([])
+  const internalColumnOrderRef = React.useRef<string[]>([])
 
-  // Sync initial visibility when it changes (e.g., from API preferences)
+  // Sync initial visibility when it changes (e.g., from API preferences or reset)
   const hasAppliedInitialVisibility = React.useRef(false)
+  const prevInitialVisibilityRef = React.useRef<VisibilityState | undefined>(initialColumnVisibility)
   React.useEffect(() => {
-    if (initialColumnVisibility && Object.keys(initialColumnVisibility).length > 0 && !hasAppliedInitialVisibility.current) {
-      setColumnVisibility(initialColumnVisibility)
+    const currentKeys = initialColumnVisibility ? Object.keys(initialColumnVisibility).length : 0
+    const prevKeys = prevInitialVisibilityRef.current ? Object.keys(prevInitialVisibilityRef.current).length : 0
+
+    // Apply initial visibility from preferences (only once)
+    if (currentKeys > 0 && !hasAppliedInitialVisibility.current) {
+      setColumnVisibility(initialColumnVisibility!)
       hasAppliedInitialVisibility.current = true
     }
+    // Handle reset: if visibility changes after being initially applied (e.g., reset to defaults)
+    else if (hasAppliedInitialVisibility.current && currentKeys > 0 && prevKeys > 0 && initialColumnVisibility !== prevInitialVisibilityRef.current) {
+      // Check if this is a reset (visibility changed significantly)
+      const visibilityChanged = JSON.stringify(initialColumnVisibility) !== JSON.stringify(prevInitialVisibilityRef.current)
+      if (visibilityChanged) {
+        setColumnVisibility(initialColumnVisibility!)
+      }
+    }
+    prevInitialVisibilityRef.current = initialColumnVisibility
   }, [initialColumnVisibility])
+
+  // Keep ref in sync with state for use in callbacks
+  React.useEffect(() => {
+    internalColumnOrderRef.current = internalColumnOrder
+  }, [internalColumnOrder])
+
+  // Sync column order when it changes (e.g., from API preferences or reset)
+  const hasAppliedInitialColumnOrder = React.useRef(false)
+  const prevColumnOrderRef = React.useRef<string[] | undefined>(columnOrder)
+  React.useEffect(() => {
+    // Apply initial column order from preferences (only once)
+    if (columnOrder && columnOrder.length > 0 && !hasAppliedInitialColumnOrder.current) {
+      setInternalColumnOrder(columnOrder)
+      internalColumnOrderRef.current = columnOrder
+      hasAppliedInitialColumnOrder.current = true
+    }
+    // Handle reset: if columnOrder prop becomes empty/undefined after being set
+    else if (hasAppliedInitialColumnOrder.current && (!columnOrder || columnOrder.length === 0) && prevColumnOrderRef.current && prevColumnOrderRef.current.length > 0) {
+      setInternalColumnOrder([])
+      internalColumnOrderRef.current = []
+      hasAppliedInitialColumnOrder.current = false
+    }
+    prevColumnOrderRef.current = columnOrder
+  }, [columnOrder])
 
   // Use external sorting if provided, otherwise use internal
   const sorting = externalSorting ?? internalSorting
@@ -122,6 +162,19 @@ export function DataTable<TData, TValue>({
   // Local state for page input (only applies on "Go" button click)
   const [pageInputValue, setPageInputValue] = React.useState<string>('')
 
+  // Handle column order changes from the table
+  const handleColumnOrderChange = React.useCallback(
+    (updaterOrValue: string[] | ((old: string[]) => string[])) => {
+      const newValue = typeof updaterOrValue === 'function' ? updaterOrValue(internalColumnOrderRef.current) : updaterOrValue
+      setInternalColumnOrder(newValue)
+      internalColumnOrderRef.current = newValue
+      if (onColumnOrderChange) {
+        onColumnOrderChange(newValue)
+      }
+    },
+    [onColumnOrderChange]
+  )
+
   const table = useReactTable({
     data,
     columns,
@@ -132,6 +185,7 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: manualSorting ? undefined : getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    onColumnOrderChange: handleColumnOrderChange,
     onRowSelectionChange: setRowSelection,
     manualSorting,
     manualPagination,
@@ -145,6 +199,7 @@ export function DataTable<TData, TValue>({
       sorting,
       columnFilters,
       columnVisibility,
+      columnOrder: internalColumnOrder.length > 0 ? internalColumnOrder : undefined,
       rowSelection,
       pagination: {
         pageIndex,
