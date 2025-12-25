@@ -118,15 +118,18 @@ export interface TopVisitorRow {
   visitor_id: string
   visitor_hash: string
   ip_address: string | null
-  user_id: string | null
+  user_id: number | null
   user_login: string | null
-  total_views: string
+  user_email: string | null
+  user_role: string | null
+  total_views: number
   country_code: string | null
   country_name: string | null
   region_name: string | null
   city_name: string | null
   os_name: string | null
   browser_name: string | null
+  browser_version: string | null
   device_type_name: string | null
   referrer_domain: string | null
   referrer_channel: string | null
@@ -134,6 +137,11 @@ export interface TopVisitorRow {
   entry_page_title: string | null
   exit_page: string | null
   exit_page_title: string | null
+}
+
+// Export type alias for TopVisitorsData (used by overview-top-visitors component)
+export interface TopVisitorsData {
+  rows: TopVisitorRow[]
 }
 
 export interface TopEntryPageRow {
@@ -385,6 +393,8 @@ export const getVisitorOverviewQueryOptions = ({
                 'ip_address',
                 'user_id',
                 'user_login',
+                'user_email',
+                'user_role',
                 'total_views',
                 'country_code',
                 'country_name',
@@ -392,6 +402,7 @@ export const getVisitorOverviewQueryOptions = ({
                 'city_name',
                 'os_name',
                 'browser_name',
+                'browser_version',
                 'device_type_name',
                 'referrer_domain',
                 'referrer_channel',

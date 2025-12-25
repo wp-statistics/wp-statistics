@@ -42,8 +42,10 @@ interface Visitor {
   countryCode: string
   region: string
   city: string
-  os: string
-  browser: string
+  os: string // lowercase with underscores for icon path
+  osName: string // original name for tooltip
+  browser: string // lowercase for icon path
+  browserName: string // original name for tooltip
   browserVersion: string
   userId?: string
   username?: string
@@ -66,6 +68,12 @@ interface Visitor {
   viewsPerSession: number
   bounceRate: number
   visitorStatus: 'new' | 'returning'
+}
+
+interface VisitorInfoColumnConfig {
+  pluginUrl: string
+  trackLoggedInEnabled: boolean
+  hashEnabled: boolean
 }
 
 // Transform API response to component interface
@@ -91,12 +99,14 @@ const transformVisitorData = (record: VisitorRecord): Visitor => {
     region: record.region_name || '',
     city: record.city_name || '',
     os: (record.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_'),
+    osName: record.os_name || 'Unknown',
     browser: (record.browser_name || 'unknown').toLowerCase(),
-    browserVersion: '',
+    browserName: record.browser_name || 'Unknown',
+    browserVersion: record.browser_version || '',
     userId: record.user_id ? String(record.user_id) : undefined,
     username: record.user_login || undefined,
-    email: undefined,
-    userRole: undefined,
+    email: record.user_email || undefined,
+    userRole: record.user_role || undefined,
     ipAddress: record.ip_address || undefined,
     hash: record.visitor_hash || undefined,
     referrerDomain: record.referrer_domain || undefined,
@@ -181,7 +191,7 @@ const filtersToUrlFilters = (
   }))
 }
 
-const createColumns = (pluginUrl: string): ColumnDef<Visitor>[] => [
+const createColumns = (config: VisitorInfoColumnConfig): ColumnDef<Visitor>[] => [
   {
     accessorKey: 'lastVisit',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
@@ -210,6 +220,27 @@ const createColumns = (pluginUrl: string): ColumnDef<Visitor>[] => [
       const visitor = row.original
       const locationText = `${visitor.country}, ${visitor.region}, ${visitor.city}`
 
+      // Determine what to show for identifier based on settings
+      // Show user badge only if: trackLoggedInEnabled AND user_id exists
+      const showUserBadge = config.trackLoggedInEnabled && visitor.userId
+      // Show hash/IP only when user badge is not shown
+      // Format hash display: strip #hash# prefix and show first 6 chars
+      const formatHashDisplay = (value: string): string => {
+        const cleanHash = value.replace(/^#hash#/i, '')
+        return cleanHash.substring(0, 6)
+      }
+      // Determine identifier display based on settings and available data
+      const getIdentifierDisplay = (): string | undefined => {
+        if (config.hashEnabled) {
+          // hashEnabled = true → show first 6 chars of hash
+          if (visitor.hash) return formatHashDisplay(visitor.hash)
+          if (visitor.ipAddress?.startsWith('#hash#')) return formatHashDisplay(visitor.ipAddress)
+        }
+        // hashEnabled = false → show full IP address
+        return visitor.ipAddress
+      }
+      const identifierDisplay = getIdentifierDisplay()
+
       return (
         <div className="flex items-center gap-2">
           {/* Country Flag */}
@@ -218,7 +249,7 @@ const createColumns = (pluginUrl: string): ColumnDef<Visitor>[] => [
               <TooltipTrigger asChild>
                 <button className="flex items-center">
                   <img
-                    src={`${pluginUrl}public/images/flags/${visitor.countryCode || '000'}.svg`}
+                    src={`${config.pluginUrl}public/images/flags/${visitor.countryCode || '000'}.svg`}
                     alt={visitor.country}
                     className="w-5 h-5 object-contain"
                   />
@@ -236,14 +267,14 @@ const createColumns = (pluginUrl: string): ColumnDef<Visitor>[] => [
               <TooltipTrigger asChild>
                 <button className="flex items-center">
                   <img
-                    src={`${pluginUrl}public/images/operating-system/${visitor.os}.svg`}
-                    alt={visitor.os}
+                    src={`${config.pluginUrl}public/images/operating-system/${visitor.os}.svg`}
+                    alt={visitor.osName}
                     className="w-4 h-4 object-contain"
                   />
                 </button>
               </TooltipTrigger>
               <TooltipContent>
-                <p className="capitalize">{visitor.os.replace(/_/g, ' ')}</p>
+                <p>{visitor.osName}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -254,22 +285,22 @@ const createColumns = (pluginUrl: string): ColumnDef<Visitor>[] => [
               <TooltipTrigger asChild>
                 <button className="flex items-center">
                   <img
-                    src={`${pluginUrl}public/images/browser/${visitor.browser}.svg`}
-                    alt={visitor.browser}
+                    src={`${config.pluginUrl}public/images/browser/${visitor.browser}.svg`}
+                    alt={visitor.browserName}
                     className="w-4 h-4 object-contain"
                   />
                 </button>
               </TooltipTrigger>
               <TooltipContent>
-                <p className="capitalize">
-                  {visitor.browser} v{visitor.browserVersion}
+                <p>
+                  {visitor.browserName} {visitor.browserVersion ? `v${visitor.browserVersion}` : ''}
                 </p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
 
-          {/* User Badge or IP/Hash */}
-          {visitor.userId ? (
+          {/* User Badge (only if trackLoggedInEnabled AND user_id exists) */}
+          {showUserBadge ? (
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -278,15 +309,17 @@ const createColumns = (pluginUrl: string): ColumnDef<Visitor>[] => [
                   </Badge>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{visitor.email}</p>
-                  <p className="text-xs text-muted-foreground">{visitor.userRole}</p>
+                  <p>
+                    {visitor.email || ''} {visitor.userRole ? `(${visitor.userRole})` : ''}
+                  </p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
           ) : (
-            <span className="text-xs text-muted-foreground font-mono">
-              {visitor.hash ? visitor.hash.substring(0, 6) : visitor.ipAddress}
-            </span>
+            /* IP or Hash (only when user badge is not shown) */
+            identifierDisplay && (
+              <span className="text-xs text-muted-foreground font-mono">{identifierDisplay}</span>
+            )
           )}
         </div>
       )
@@ -548,7 +581,15 @@ function RouteComponent() {
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
-  const columns = useMemo(() => createColumns(pluginUrl), [pluginUrl])
+  const columns = useMemo(
+    () =>
+      createColumns({
+        pluginUrl,
+        trackLoggedInEnabled: wp.isTrackLoggedInEnabled(),
+        hashEnabled: wp.isHashEnabled(),
+      }),
+    [pluginUrl, wp]
+  )
 
   // Get filter fields for 'visitors' group from localized data
   const filterFields = useMemo<FilterField[]>(() => {

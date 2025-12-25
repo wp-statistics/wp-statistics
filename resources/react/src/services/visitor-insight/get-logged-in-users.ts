@@ -15,9 +15,12 @@ export interface LoggedInUser {
   city_name: string
   os_name: string
   browser_name: string
+  browser_version: string | null
   device_type_name: string
   user_id: number
   user_login: string
+  user_email: string | null
+  user_role: string | null
   ip_address: string
   referrer_domain: string | null
   referrer_channel: string
@@ -141,9 +144,12 @@ export const getLoggedInUsersQueryOptions = ({
             'city_name',
             'os_name',
             'browser_name',
+            'browser_version',
             'device_type_name',
             'user_id',
             'user_login',
+            'user_email',
+            'user_role',
             'ip_address',
             'referrer_domain',
             'referrer_channel',

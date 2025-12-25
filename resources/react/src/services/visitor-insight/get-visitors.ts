@@ -9,6 +9,8 @@ export interface VisitorRecord {
   ip_address: string | null
   user_id: number | null
   user_login: string | null
+  user_email: string | null
+  user_role: string | null
   last_visit: string
   country_code: string | null
   country_name: string | null
@@ -16,6 +18,7 @@ export interface VisitorRecord {
   city_name: string | null
   os_name: string | null
   browser_name: string | null
+  browser_version: string | null
   device_type_name: string | null
   referrer_domain: string | null
   referrer_channel: string | null
@@ -129,12 +132,15 @@ const COLUMN_DEPENDENCIES: Record<string, string[]> = {
     'ip_address',
     'user_id',
     'user_login',
+    'user_email',
+    'user_role',
     'country_code',
     'country_name',
     'region_name',
     'city_name',
     'os_name',
     'browser_name',
+    'browser_version',
     'device_type_name',
   ],
   referrer: ['referrer_domain', 'referrer_channel'],
@@ -170,6 +176,8 @@ const DEFAULT_COLUMNS = [
   'ip_address',
   'user_id',
   'user_login',
+  'user_email',
+  'user_role',
   'last_visit',
   'country_code',
   'country_name',
@@ -177,6 +185,7 @@ const DEFAULT_COLUMNS = [
   'city_name',
   'os_name',
   'browser_name',
+  'browser_version',
   'device_type_name',
   'referrer_domain',
   'referrer_channel',

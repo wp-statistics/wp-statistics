@@ -9,6 +9,8 @@ export interface TopVisitorRecord {
   ip_address: string | null
   user_id: number | null
   user_login: string | null
+  user_email: string | null
+  user_role: string | null
   total_views: number
   total_sessions: number
   last_visit: string
@@ -23,6 +25,7 @@ export interface TopVisitorRecord {
   city_name: string | null
   os_name: string | null
   browser_name: string | null
+  browser_version: string | null
   device_type_name: string | null
   referrer_domain: string | null
   referrer_channel: string | null
@@ -149,9 +152,12 @@ export const getTopVisitorsQueryOptions = ({
             'ip_address',
             'user_id',
             'user_login',
+            'user_email',
+            'user_role',
             'total_views',
             'total_sessions',
             'last_visit',
+            'first_visit',
             'bounce_rate',
             'avg_session_duration',
             'pages_per_session',
@@ -162,6 +168,7 @@ export const getTopVisitorsQueryOptions = ({
             'city_name',
             'os_name',
             'browser_name',
+            'browser_version',
             'device_type_name',
             'referrer_domain',
             'referrer_channel',

@@ -3,7 +3,7 @@ import { createLazyFileRoute } from '@tanstack/react-router'
 import type { ColumnDef, SortingState } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { Info } from 'lucide-react'
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
@@ -23,8 +23,10 @@ interface OnlineVisitor {
   countryCode: string
   region: string
   city: string
-  os: string
-  browser: string
+  os: string // lowercase with underscores for icon path
+  osName: string // original name for tooltip
+  browser: string // lowercase for icon path
+  browserName: string // original name for tooltip
   browserVersion: string
   userId?: string
   username?: string
@@ -43,6 +45,12 @@ interface OnlineVisitor {
   referrerDomain?: string
   referrerCategory: string
   lastVisit: Date
+}
+
+interface VisitorInfoColumnConfig {
+  pluginUrl: string
+  trackLoggedInEnabled: boolean
+  hashEnabled: boolean
 }
 
 // Transform API response to component interface
@@ -72,12 +80,14 @@ const transformVisitorData = (apiVisitor: APIOnlineVisitor): OnlineVisitor => {
     region: apiVisitor.region_name || '',
     city: apiVisitor.city_name || '',
     os: (apiVisitor.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_'),
+    osName: apiVisitor.os_name || 'Unknown',
     browser: (apiVisitor.browser_name || 'unknown').toLowerCase(),
-    browserVersion: '',
+    browserName: apiVisitor.browser_name || 'Unknown',
+    browserVersion: apiVisitor.browser_version || '',
     userId: apiVisitor.user_id ? String(apiVisitor.user_id) : undefined,
     username: apiVisitor.user_login || undefined,
-    email: undefined,
-    userRole: undefined,
+    email: apiVisitor.user_email || undefined,
+    userRole: apiVisitor.user_role || undefined,
     ipAddress: apiVisitor.ip_address || undefined,
     hash: apiVisitor.visitor_hash || undefined,
     onlineFor: onlineForSeconds,
@@ -108,13 +118,34 @@ const formatReferrerChannel = (channel: string | null | undefined): string => {
   return channelMap[channel.toLowerCase()] || channel.toUpperCase()
 }
 
-const createColumns = (pluginUrl: string): ColumnDef<OnlineVisitor>[] => [
+const createColumns = (config: VisitorInfoColumnConfig): ColumnDef<OnlineVisitor>[] => [
   {
     accessorKey: 'visitorInfo',
     header: 'Visitor Info',
     cell: ({ row }) => {
       const visitor = row.original
       const locationText = `${visitor.country}, ${visitor.region}, ${visitor.city}`
+
+      // Determine what to show for identifier based on settings
+      // Show user badge only if: trackLoggedInEnabled AND user_id exists
+      const showUserBadge = config.trackLoggedInEnabled && visitor.userId
+      // Show hash/IP only when user badge is not shown
+      // Format hash display: strip #hash# prefix and show first 6 chars
+      const formatHashDisplay = (value: string): string => {
+        const cleanHash = value.replace(/^#hash#/i, '')
+        return cleanHash.substring(0, 6)
+      }
+      // Determine identifier display based on settings and available data
+      const getIdentifierDisplay = (): string | undefined => {
+        if (config.hashEnabled) {
+          // hashEnabled = true → show first 6 chars of hash
+          if (visitor.hash) return formatHashDisplay(visitor.hash)
+          if (visitor.ipAddress?.startsWith('#hash#')) return formatHashDisplay(visitor.ipAddress)
+        }
+        // hashEnabled = false → show full IP address
+        return visitor.ipAddress
+      }
+      const identifierDisplay = getIdentifierDisplay()
 
       return (
         <div className="flex items-center gap-2">
@@ -124,7 +155,7 @@ const createColumns = (pluginUrl: string): ColumnDef<OnlineVisitor>[] => [
               <TooltipTrigger asChild>
                 <button className="flex items-center">
                   <img
-                    src={`${pluginUrl}public/images/flags/${visitor.countryCode || '000'}.svg`}
+                    src={`${config.pluginUrl}public/images/flags/${visitor.countryCode || '000'}.svg`}
                     alt={visitor.country}
                     className="w-5 h-5 object-contain"
                   />
@@ -142,14 +173,14 @@ const createColumns = (pluginUrl: string): ColumnDef<OnlineVisitor>[] => [
               <TooltipTrigger asChild>
                 <button className="flex items-center">
                   <img
-                    src={`${pluginUrl}public/images/operating-system/${visitor.os}.svg`}
-                    alt={visitor.os}
+                    src={`${config.pluginUrl}public/images/operating-system/${visitor.os}.svg`}
+                    alt={visitor.osName}
                     className="w-4 h-4 object-contain"
                   />
                 </button>
               </TooltipTrigger>
               <TooltipContent>
-                <p className="capitalize">{visitor.os.replace(/_/g, ' ')}</p>
+                <p>{visitor.osName}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -160,22 +191,22 @@ const createColumns = (pluginUrl: string): ColumnDef<OnlineVisitor>[] => [
               <TooltipTrigger asChild>
                 <button className="flex items-center">
                   <img
-                    src={`${pluginUrl}public/images/browser/${visitor.browser}.svg`}
-                    alt={visitor.browser}
+                    src={`${config.pluginUrl}public/images/browser/${visitor.browser}.svg`}
+                    alt={visitor.browserName}
                     className="w-4 h-4 object-contain"
                   />
                 </button>
               </TooltipTrigger>
               <TooltipContent>
-                <p className="capitalize">
-                  {visitor.browser} v{visitor.browserVersion}
+                <p>
+                  {visitor.browserName} {visitor.browserVersion ? `v${visitor.browserVersion}` : ''}
                 </p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
 
-          {/* User Badge or IP/Hash */}
-          {visitor.userId ? (
+          {/* User Badge (only if trackLoggedInEnabled AND user_id exists) */}
+          {showUserBadge ? (
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -184,15 +215,17 @@ const createColumns = (pluginUrl: string): ColumnDef<OnlineVisitor>[] => [
                   </Badge>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{visitor.email}</p>
-                  <p className="text-xs text-muted-foreground">{visitor.userRole}</p>
+                  <p>
+                    {visitor.email || ''} {visitor.userRole ? `(${visitor.userRole})` : ''}
+                  </p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
           ) : (
-            <span className="text-xs text-muted-foreground font-mono">
-              {visitor.hash ? visitor.hash.substring(0, 6) : visitor.ipAddress}
-            </span>
+            /* IP or Hash (only when user badge is not shown) */
+            identifierDisplay && (
+              <span className="text-xs text-muted-foreground font-mono">{identifierDisplay}</span>
+            )
           )}
         </div>
       )
@@ -352,6 +385,15 @@ const PER_PAGE = 50
 function RouteComponent() {
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
+  const columns = useMemo(
+    () =>
+      createColumns({
+        pluginUrl,
+        trackLoggedInEnabled: wp.isTrackLoggedInEnabled(),
+        hashEnabled: wp.isHashEnabled(),
+      }),
+    [pluginUrl, wp]
+  )
 
   // Pagination state
   const [page, setPage] = useState(1)
@@ -408,7 +450,7 @@ function RouteComponent() {
           </div>
         ) : (
           <DataTable
-            columns={createColumns(pluginUrl)}
+            columns={columns}
             data={visitors}
             sorting={sorting}
             onSortingChange={handleSortingChange}

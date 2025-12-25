@@ -33,7 +33,8 @@ type ViewData = {
     os: { icon: string; name: string }
     browser: { icon: string; name: string; version: string }
     user?: { username: string; id: number; email: string; role: string }
-    identifier: string // IP or hash
+    ipAddress?: string
+    hash?: string
   }
   page: {
     title: string
@@ -54,7 +55,13 @@ type ViewData = {
   totalViews: number
 }
 
-const createColumns = (pluginUrl: string): ColumnDef<ViewData>[] => [
+interface VisitorInfoColumnConfig {
+  pluginUrl: string
+  trackLoggedInEnabled: boolean
+  hashEnabled: boolean
+}
+
+const createColumns = (config: VisitorInfoColumnConfig): ColumnDef<ViewData>[] => [
   {
     accessorKey: 'lastVisit',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
@@ -81,14 +88,37 @@ const createColumns = (pluginUrl: string): ColumnDef<ViewData>[] => [
     header: 'Visitor Information',
     cell: ({ row }) => {
       const visitorInfo = row.getValue('visitorInfo') as ViewData['visitorInfo']
+
+      // Determine what to show for identifier based on settings
+      const showUserBadge = config.trackLoggedInEnabled && visitorInfo.user
+
+      // Format hash display: strip #hash# prefix and show first 6 chars
+      const formatHashDisplay = (value: string): string => {
+        const cleanHash = value.replace(/^#hash#/i, '')
+        return cleanHash.substring(0, 6)
+      }
+
+      // Determine identifier display based on settings and available data
+      const getIdentifierDisplay = (): string | undefined => {
+        if (config.hashEnabled) {
+          // hashEnabled = true → show first 6 chars of hash
+          if (visitorInfo.hash) return formatHashDisplay(visitorInfo.hash)
+          if (visitorInfo.ipAddress?.startsWith('#hash#')) return formatHashDisplay(visitorInfo.ipAddress)
+        }
+        // hashEnabled = false → show full IP address
+        return visitorInfo.ipAddress
+      }
+      const identifierDisplay = getIdentifierDisplay()
+
       return (
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
+          {/* Country Flag */}
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <button className="cursor-pointer flex items-center">
                   <img
-                    src={`${pluginUrl}public/images/flags/${visitorInfo.country.code || '000'}.svg`}
+                    src={`${config.pluginUrl}public/images/flags/${visitorInfo.country.code || '000'}.svg`}
                     alt={visitorInfo.country.name}
                     className="w-5 h-5 object-contain"
                   />
@@ -102,12 +132,13 @@ const createColumns = (pluginUrl: string): ColumnDef<ViewData>[] => [
             </Tooltip>
           </TooltipProvider>
 
+          {/* OS Icon */}
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <button className="cursor-pointer flex items-center">
                   <img
-                    src={`${pluginUrl}public/images/operating-system/${visitorInfo.os.icon}.svg`}
+                    src={`${config.pluginUrl}public/images/operating-system/${visitorInfo.os.icon}.svg`}
                     alt={visitorInfo.os.name}
                     className="w-4 h-4 object-contain"
                   />
@@ -119,12 +150,13 @@ const createColumns = (pluginUrl: string): ColumnDef<ViewData>[] => [
             </Tooltip>
           </TooltipProvider>
 
+          {/* Browser Icon */}
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <button className="cursor-pointer flex items-center">
                   <img
-                    src={`${pluginUrl}public/images/browser/${visitorInfo.browser.icon}.svg`}
+                    src={`${config.pluginUrl}public/images/browser/${visitorInfo.browser.icon}.svg`}
                     alt={visitorInfo.browser.name}
                     className="w-4 h-4 object-contain"
                   />
@@ -132,38 +164,33 @@ const createColumns = (pluginUrl: string): ColumnDef<ViewData>[] => [
               </TooltipTrigger>
               <TooltipContent>
                 <p>
-                  {visitorInfo.browser.name} v{visitorInfo.browser.version}
+                  {visitorInfo.browser.name} {visitorInfo.browser.version ? `v${visitorInfo.browser.version}` : ''}
                 </p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
 
-          {visitorInfo.user ? (
+          {/* User Badge (only if trackLoggedInEnabled AND user exists) */}
+          {showUserBadge ? (
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <span className="cursor-pointer">
-                    {visitorInfo.user.username} #{visitorInfo.user.id}
-                  </span>
+                  <Badge variant="secondary" className="text-xs font-normal">
+                    {visitorInfo.user!.username} #{visitorInfo.user!.id}
+                  </Badge>
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>
-                    {visitorInfo.user.email} ({visitorInfo.user.role})
+                    {visitorInfo.user!.email || ''} {visitorInfo.user!.role ? `(${visitorInfo.user!.role})` : ''}
                   </p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
           ) : (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <span className="cursor-pointer">{visitorInfo.identifier}</span>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Single Visitor Report</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            /* IP or Hash (only when user badge is not shown) */
+            identifierDisplay && (
+              <span className="text-xs text-muted-foreground font-mono">{identifierDisplay}</span>
+            )
           )}
         </div>
       )
@@ -349,9 +376,6 @@ const filtersToUrlFilters = (
 
 // Transform API data to component interface
 const transformViewData = (record: ViewRecord): ViewData => {
-  // Determine identifier (IP or hash)
-  const identifier = record.ip_address || record.visitor_hash || 'Unknown'
-
   // Parse entry page for query string
   const entryPageUrl = record.entry_page || '/'
   const hasQueryString = entryPageUrl.includes('?')
@@ -380,17 +404,18 @@ const transformViewData = (record: ViewRecord): ViewData => {
       browser: {
         icon: record.browser_name?.toLowerCase().replace(/\s+/g, '_') || 'unknown',
         name: record.browser_name || 'Unknown',
-        version: '',
+        version: record.browser_version || '',
       },
       user: record.user_id
         ? {
             username: record.user_login || 'user',
             id: record.user_id,
-            email: '',
-            role: '',
+            email: record.user_email || '',
+            role: record.user_role || '',
           }
         : undefined,
-      identifier,
+      ipAddress: record.ip_address || undefined,
+      hash: record.visitor_hash || undefined,
     },
     page: {
       title: record.entry_page_title || record.entry_page || 'Unknown',
@@ -426,7 +451,15 @@ function RouteComponent() {
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
-  const columns = createColumns(pluginUrl)
+  const columns = useMemo(
+    () =>
+      createColumns({
+        pluginUrl,
+        trackLoggedInEnabled: wp.isTrackLoggedInEnabled(),
+        hashEnabled: wp.isHashEnabled(),
+      }),
+    [pluginUrl, wp]
+  )
 
   // Get filter fields for 'views' group from localized data
   const filterFields = useMemo<FilterField[]>(() => {

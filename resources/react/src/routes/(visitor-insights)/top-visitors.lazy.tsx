@@ -17,7 +17,7 @@ import { WordPress } from '@/lib/wordpress'
 import type { TopVisitorRecord } from '@/services/visitor-insight/get-top-visitors'
 import { getTopVisitorsQueryOptions } from '@/services/visitor-insight/get-top-visitors'
 
-const PER_PAGE = 20
+const PER_PAGE = 50
 
 export const Route = createLazyFileRoute('/(visitor-insights)/top-visitors')({
   component: RouteComponent,
@@ -33,8 +33,10 @@ interface TopVisitor {
   countryCode: string
   region: string
   city: string
-  os: string
-  browser: string
+  os: string // lowercase with underscores for icon path
+  osName: string // original name for tooltip
+  browser: string // lowercase for icon path
+  browserName: string // original name for tooltip
   browserVersion: string
   userId?: string
   username?: string
@@ -58,6 +60,12 @@ interface TopVisitor {
   bounceRate: number
   visitorStatus: 'new' | 'returning'
   firstVisit: Date
+}
+
+interface VisitorInfoColumnConfig {
+  pluginUrl: string
+  trackLoggedInEnabled: boolean
+  hashEnabled: boolean
 }
 
 // Transform API response to component interface
@@ -85,12 +93,14 @@ const transformTopVisitorData = (record: TopVisitorRecord): TopVisitor => {
     region: record.region_name || '',
     city: record.city_name || '',
     os: (record.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_'),
+    osName: record.os_name || 'Unknown',
     browser: (record.browser_name || 'unknown').toLowerCase(),
-    browserVersion: '',
+    browserName: record.browser_name || 'Unknown',
+    browserVersion: record.browser_version || '',
     userId: record.user_id ? String(record.user_id) : undefined,
     username: record.user_login || undefined,
-    email: undefined,
-    userRole: undefined,
+    email: record.user_email || undefined,
+    userRole: record.user_role || undefined,
     ipAddress: record.ip_address || undefined,
     hash: record.visitor_hash || undefined,
     referrerDomain: record.referrer_domain || undefined,
@@ -102,11 +112,11 @@ const transformTopVisitorData = (record: TopVisitorRecord): TopVisitor => {
     utmCampaign,
     exitPage: record.exit_page || '/',
     exitPageTitle: record.exit_page_title || record.exit_page || 'Unknown',
-    totalViews: record.total_views || 0,
-    totalSessions: record.total_sessions || 0,
-    sessionDuration: Math.round(record.avg_session_duration || 0),
-    viewsPerSession: record.pages_per_session || 0,
-    bounceRate: Math.round(record.bounce_rate || 0),
+    totalViews: Number(record.total_views) || 0,
+    totalSessions: Number(record.total_sessions) || 0,
+    sessionDuration: Math.round(Number(record.avg_session_duration) || 0),
+    viewsPerSession: Number(record.pages_per_session) || 0,
+    bounceRate: Math.round(Number(record.bounce_rate) || 0),
     visitorStatus: record.visitor_status || 'returning',
     firstVisit: new Date(record.first_visit || record.last_visit),
   }
@@ -126,7 +136,7 @@ const formatReferrerChannel = (channel: string | null | undefined): string => {
   return channelMap[channel.toLowerCase()] || channel.toUpperCase()
 }
 
-const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
+const createColumns = (config: VisitorInfoColumnConfig): ColumnDef<TopVisitor>[] => [
   {
     accessorKey: 'lastVisit',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
@@ -155,6 +165,27 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
       const visitor = row.original
       const locationText = `${visitor.country}, ${visitor.region}, ${visitor.city}`
 
+      // Determine what to show for identifier based on settings
+      // Show user badge only if: trackLoggedInEnabled AND user_id exists
+      const showUserBadge = config.trackLoggedInEnabled && visitor.userId
+      // Show hash/IP only when user badge is not shown
+      // Format hash display: strip #hash# prefix and show first 6 chars
+      const formatHashDisplay = (value: string): string => {
+        const cleanHash = value.replace(/^#hash#/i, '')
+        return cleanHash.substring(0, 6)
+      }
+      // Determine identifier display based on settings and available data
+      const getIdentifierDisplay = (): string | undefined => {
+        if (config.hashEnabled) {
+          // hashEnabled = true → show first 6 chars of hash
+          if (visitor.hash) return formatHashDisplay(visitor.hash)
+          if (visitor.ipAddress?.startsWith('#hash#')) return formatHashDisplay(visitor.ipAddress)
+        }
+        // hashEnabled = false → show full IP address
+        return visitor.ipAddress
+      }
+      const identifierDisplay = getIdentifierDisplay()
+
       return (
         <div className="flex items-center gap-2">
           {/* Country Flag */}
@@ -163,7 +194,7 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
               <TooltipTrigger asChild>
                 <button className="flex items-center">
                   <img
-                    src={`${pluginUrl}public/images/flags/${visitor.countryCode || '000'}.svg`}
+                    src={`${config.pluginUrl}public/images/flags/${visitor.countryCode || '000'}.svg`}
                     alt={visitor.country}
                     className="w-5 h-5 object-contain"
                   />
@@ -181,14 +212,14 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
               <TooltipTrigger asChild>
                 <button className="flex items-center">
                   <img
-                    src={`${pluginUrl}public/images/operating-system/${visitor.os}.svg`}
-                    alt={visitor.os}
+                    src={`${config.pluginUrl}public/images/operating-system/${visitor.os}.svg`}
+                    alt={visitor.osName}
                     className="w-4 h-4 object-contain"
                   />
                 </button>
               </TooltipTrigger>
               <TooltipContent>
-                <p className="capitalize">{visitor.os.replace(/_/g, ' ')}</p>
+                <p>{visitor.osName}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -199,22 +230,22 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
               <TooltipTrigger asChild>
                 <button className="flex items-center">
                   <img
-                    src={`${pluginUrl}public/images/browser/${visitor.browser}.svg`}
-                    alt={visitor.browser}
+                    src={`${config.pluginUrl}public/images/browser/${visitor.browser}.svg`}
+                    alt={visitor.browserName}
                     className="w-4 h-4 object-contain"
                   />
                 </button>
               </TooltipTrigger>
               <TooltipContent>
-                <p className="capitalize">
-                  {visitor.browser} v{visitor.browserVersion}
+                <p>
+                  {visitor.browserName} {visitor.browserVersion ? `v${visitor.browserVersion}` : ''}
                 </p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
 
-          {/* User Badge or IP/Hash */}
-          {visitor.userId ? (
+          {/* User Badge (only if trackLoggedInEnabled AND user_id exists) */}
+          {showUserBadge ? (
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -223,15 +254,17 @@ const createColumns = (pluginUrl: string): ColumnDef<TopVisitor>[] => [
                   </Badge>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{visitor.email}</p>
-                  <p className="text-xs text-muted-foreground">{visitor.userRole}</p>
+                  <p>
+                    {visitor.email || ''} {visitor.userRole ? `(${visitor.userRole})` : ''}
+                  </p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
           ) : (
-            <span className="text-xs text-muted-foreground font-mono">
-              {visitor.hash ? visitor.hash.substring(0, 6) : visitor.ipAddress}
-            </span>
+            /* IP or Hash (only when user badge is not shown) */
+            identifierDisplay && (
+              <span className="text-xs text-muted-foreground font-mono">{identifierDisplay}</span>
+            )
           )}
         </div>
       )
@@ -500,9 +533,7 @@ const urlFiltersToFilters = (
     let displayValue = Array.isArray(urlFilter.value) ? urlFilter.value.join(', ') : urlFilter.value
     if (field?.options) {
       const values = Array.isArray(urlFilter.value) ? urlFilter.value : [urlFilter.value]
-      const labels = values
-        .map((v) => field.options?.find((o) => String(o.value) === v)?.label || v)
-        .join(', ')
+      const labels = values.map((v) => field.options?.find((o) => String(o.value) === v)?.label || v).join(', ')
       displayValue = labels
     }
 
@@ -563,7 +594,15 @@ function RouteComponent() {
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
-  const columns = createColumns(pluginUrl)
+  const columns = useMemo(
+    () =>
+      createColumns({
+        pluginUrl,
+        trackLoggedInEnabled: wp.isTrackLoggedInEnabled(),
+        hashEnabled: wp.isHashEnabled(),
+      }),
+    [pluginUrl, wp]
+  )
 
   // Get filter fields for 'visitors' group from localized data
   const filterFields = useMemo<FilterField[]>(() => {
@@ -613,14 +652,11 @@ function RouteComponent() {
     })
   }, [appliedFilters, page, navigate, urlPage])
 
-  const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange }) => {
-      setDateRange(values.range)
-      setCompareDateRange(values.rangeCompare)
-      setPage(1)
-    },
-    []
-  )
+  const handleDateRangeUpdate = useCallback((values: { range: DateRange; rangeCompare?: DateRange }) => {
+    setDateRange(values.range)
+    setCompareDateRange(values.rangeCompare)
+    setPage(1)
+  }, [])
 
   // Determine sort parameters from sorting state
   const orderBy = sorting.length > 0 ? sorting[0].id : 'totalViews'
@@ -640,10 +676,11 @@ function RouteComponent() {
       order: order as 'asc' | 'desc',
       date_from: formatDateForAPI(dateRange.from),
       date_to: formatDateForAPI(dateRange.to || dateRange.from),
-      ...(compareDateRange?.from && compareDateRange?.to && {
-        previous_date_from: formatDateForAPI(compareDateRange.from),
-        previous_date_to: formatDateForAPI(compareDateRange.to),
-      }),
+      ...(compareDateRange?.from &&
+        compareDateRange?.to && {
+          previous_date_from: formatDateForAPI(compareDateRange.from),
+          previous_date_to: formatDateForAPI(compareDateRange.to),
+        }),
       filters: appliedFilters,
     }),
     placeholderData: keepPreviousData,

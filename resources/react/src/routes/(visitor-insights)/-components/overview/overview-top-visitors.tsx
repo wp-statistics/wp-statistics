@@ -8,7 +8,7 @@ import { DataTable } from '@/components/custom/data-table'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { WordPress } from '@/lib/wordpress'
-import type { TopVisitorsData } from '@/services/visitor-insight/get-visitors-overview'
+import type { TopVisitorsData } from '@/services/visitor-insight/get-visitor-overview'
 
 type TopVisitorData = {
   visitorInfo: {
@@ -16,7 +16,8 @@ type TopVisitorData = {
     os: { icon: string; name: string }
     browser: { icon: string; name: string; version: string }
     user?: { username: string; id: number; email: string; role: string }
-    identifier: string
+    ipAddress?: string
+    hash?: string
   }
   totalViews: number
   referrer: {
@@ -35,6 +36,12 @@ type TopVisitorData = {
     title: string
     url: string
   }
+}
+
+interface VisitorInfoColumnConfig {
+  pluginUrl: string
+  trackLoggedInEnabled: boolean
+  hashEnabled: boolean
 }
 
 interface OverviewTopVisitorsProps {
@@ -67,19 +74,20 @@ export const OverviewTopVisitors = ({ data }: OverviewTopVisitorsProps) => {
         browser: {
           icon: (visitor.browser_name || 'unknown').toLowerCase().replace(/\s+/g, '_'),
           name: visitor.browser_name || 'Unknown',
-          version: '',
+          version: visitor.browser_version || '',
         },
         ...(visitor.user_id && visitor.user_login
           ? {
               user: {
                 username: visitor.user_login,
                 id: visitor.user_id,
-                email: '',
-                role: '',
+                email: visitor.user_email || '',
+                role: visitor.user_role || '',
               },
             }
           : {}),
-        identifier: visitor.ip_address || visitor.visitor_hash || 'Unknown',
+        ipAddress: visitor.ip_address || undefined,
+        hash: visitor.visitor_hash || undefined,
       },
       totalViews: visitor.total_views || 0,
       referrer: {
@@ -100,14 +108,41 @@ export const OverviewTopVisitors = ({ data }: OverviewTopVisitorsProps) => {
     }))
   }, [data])
 
+  // Get settings for visitor info display
+  const trackLoggedInEnabled = wp.isTrackLoggedInEnabled()
+  const hashEnabled = wp.isHashEnabled()
+
   const columns: ColumnDef<TopVisitorData>[] = [
     {
       accessorKey: 'visitorInfo',
       header: 'Visitor Information',
       cell: ({ row }) => {
         const visitorInfo = row.getValue('visitorInfo') as TopVisitorData['visitorInfo']
+
+        // Determine what to show for identifier based on settings
+        const showUserBadge = trackLoggedInEnabled && visitorInfo.user
+
+        // Format hash display: strip #hash# prefix and show first 6 chars
+        const formatHashDisplay = (value: string): string => {
+          const cleanHash = value.replace(/^#hash#/i, '')
+          return cleanHash.substring(0, 6)
+        }
+
+        // Determine identifier display based on settings and available data
+        const getIdentifierDisplay = (): string | undefined => {
+          if (hashEnabled) {
+            // hashEnabled = true → show first 6 chars of hash
+            if (visitorInfo.hash) return formatHashDisplay(visitorInfo.hash)
+            if (visitorInfo.ipAddress?.startsWith('#hash#')) return formatHashDisplay(visitorInfo.ipAddress)
+          }
+          // hashEnabled = false → show full IP address
+          return visitorInfo.ipAddress
+        }
+        const identifierDisplay = getIdentifierDisplay()
+
         return (
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
+            {/* Country Flag */}
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -127,6 +162,7 @@ export const OverviewTopVisitors = ({ data }: OverviewTopVisitorsProps) => {
               </Tooltip>
             </TooltipProvider>
 
+            {/* OS Icon */}
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -144,6 +180,7 @@ export const OverviewTopVisitors = ({ data }: OverviewTopVisitorsProps) => {
               </Tooltip>
             </TooltipProvider>
 
+            {/* Browser Icon */}
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -157,38 +194,33 @@ export const OverviewTopVisitors = ({ data }: OverviewTopVisitorsProps) => {
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>
-                    {visitorInfo.browser.name} v{visitorInfo.browser.version}
+                    {visitorInfo.browser.name} {visitorInfo.browser.version ? `v${visitorInfo.browser.version}` : ''}
                   </p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
 
-            {visitorInfo.user ? (
+            {/* User Badge (only if trackLoggedInEnabled AND user exists) */}
+            {showUserBadge ? (
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className="cursor-pointer">
-                      {visitorInfo.user.username} #{visitorInfo.user.id}
-                    </span>
+                    <Badge variant="secondary" className="text-xs font-normal">
+                      {visitorInfo.user!.username} #{visitorInfo.user!.id}
+                    </Badge>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>
-                      {visitorInfo.user.email} ({visitorInfo.user.role})
+                      {visitorInfo.user!.email || ''} {visitorInfo.user!.role ? `(${visitorInfo.user!.role})` : ''}
                     </p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
             ) : (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <span className="cursor-pointer">{visitorInfo.identifier}</span>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Single Visitor Report</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              /* IP or Hash (only when user badge is not shown) */
+              identifierDisplay && (
+                <span className="text-xs text-muted-foreground font-mono">{identifierDisplay}</span>
+              )
             )}
           </div>
         )

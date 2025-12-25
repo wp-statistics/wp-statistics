@@ -32,6 +32,14 @@ export class WordPress {
     return this.data.globals.pluginUrl
   }
 
+  public isTrackLoggedInEnabled(): boolean {
+    return this.data.globals.trackLoggedInUsers
+  }
+
+  public isHashEnabled(): boolean {
+    return this.data.globals.hashIps
+  }
+
   public getHeaders(): HeadersInit {
     return {
       'Content-Type': 'application/json',

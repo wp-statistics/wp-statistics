@@ -38,8 +38,10 @@ interface LoggedInUser {
   countryCode: string
   region: string
   city: string
-  os: string
-  browser: string
+  os: string // lowercase with underscores for icon path
+  osName: string // original name for tooltip
+  browser: string // lowercase for icon path
+  browserName: string // original name for tooltip
   browserVersion: string
   userId: string
   username: string
@@ -94,12 +96,14 @@ const transformLoggedInUserData = (record: LoggedInUserRecord): LoggedInUser => 
     region: record.region_name || '',
     city: record.city_name || '',
     os: (record.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_'),
+    osName: record.os_name || 'Unknown',
     browser: (record.browser_name || 'unknown').toLowerCase(),
-    browserVersion: '',
+    browserName: record.browser_name || 'Unknown',
+    browserVersion: record.browser_version || '',
     userId: String(record.user_id),
     username: record.user_login || 'user',
-    email: '',
-    userRole: '',
+    email: record.user_email || '',
+    userRole: record.user_role || '',
     referrerDomain: record.referrer_domain || undefined,
     referrerCategory: formatReferrerChannel(record.referrer_channel),
     entryPage: entryPageUrl.split('?')[0] || '/',
@@ -147,13 +151,13 @@ const createColumns = (pluginUrl: string): ColumnDef<LoggedInUser>[] => [
                 <button className="flex items-center">
                   <img
                     src={`${pluginUrl}public/images/operating-system/${user.os}.svg`}
-                    alt={user.os}
+                    alt={user.osName}
                     className="w-4 h-4 object-contain"
                   />
                 </button>
               </TooltipTrigger>
               <TooltipContent>
-                <p className="capitalize">{user.os.replace(/_/g, ' ')}</p>
+                <p>{user.osName}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -165,14 +169,14 @@ const createColumns = (pluginUrl: string): ColumnDef<LoggedInUser>[] => [
                 <button className="flex items-center">
                   <img
                     src={`${pluginUrl}public/images/browser/${user.browser}.svg`}
-                    alt={user.browser}
+                    alt={user.browserName}
                     className="w-4 h-4 object-contain"
                   />
                 </button>
               </TooltipTrigger>
               <TooltipContent>
-                <p className="capitalize">
-                  {user.browser} v{user.browserVersion}
+                <p>
+                  {user.browserName} {user.browserVersion ? `v${user.browserVersion}` : ''}
                 </p>
               </TooltipContent>
             </Tooltip>
@@ -187,8 +191,9 @@ const createColumns = (pluginUrl: string): ColumnDef<LoggedInUser>[] => [
                 </Badge>
               </TooltipTrigger>
               <TooltipContent>
-                <p>{user.email || 'No email'}</p>
-                <p className="text-xs text-muted-foreground">{user.userRole || 'User'}</p>
+                <p>
+                  {user.email || ''} {user.userRole ? `(${user.userRole})` : ''}
+                </p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>

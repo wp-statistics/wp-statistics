@@ -210,6 +210,8 @@ declare global {
       pluginUrl: string
       analyticsAction: 'wp_statistics_analytics'
       userPreferencesAction: 'wp_statistics_user_preferences'
+      trackLoggedInUsers: boolean
+      hashIps: boolean
     }
     header: Record<
       string,
