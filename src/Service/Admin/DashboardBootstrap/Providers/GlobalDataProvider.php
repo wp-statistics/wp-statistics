@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Admin\DashboardBootstrap\Providers;
 use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\LocalizeDataProviderInterface;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Endpoints\AnalyticsQuery;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Endpoints\FilterOptions;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Endpoints\UserPreferences;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
@@ -33,6 +34,7 @@ class GlobalDataProvider implements LocalizeDataProviderInterface
             'pluginUrl'             => WP_STATISTICS_URL,
             'analyticsAction'       => AnalyticsQuery::getActionName(),
             'userPreferencesAction' => UserPreferences::getActionName(),
+            'filterAction'          => FilterOptions::getActionName(),
             'hashIps'               => (bool) Option::getValue('hash_ips', true),
             'trackLoggedInUsers'    => (bool) Option::getValue('visitors_log', false),
         ];
