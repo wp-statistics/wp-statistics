@@ -146,6 +146,8 @@ class VisitorGroupBy extends AbstractGroupBy
             'total_views',
             'user_id',
             'user_login',
+            'user_email',
+            'user_role',
             'ip_address',
             'country_code',
             'country_name',
@@ -212,6 +214,7 @@ class VisitorGroupBy extends AbstractGroupBy
                 sessions.ID AS session_id,
                 sessions.user_id,
                 attr_user.user_login,
+                attr_user.user_email,
                 sessions.ip AS ip_address,
                 attr_country.code AS country_code,
                 attr_country.name AS country_name,
@@ -226,9 +229,11 @@ class VisitorGroupBy extends AbstractGroupBy
                 entry_page_uri.uri AS entry_page,
                 entry_page_resource.cached_title AS entry_page_title,
                 exit_page_uri.uri AS exit_page,
-                exit_page_resource.cached_title AS exit_page_title
+                exit_page_resource.cached_title AS exit_page_title,
+                attr_user_role.meta_value AS user_role_raw
             FROM {$tablePrefix}sessions sessions
             LEFT JOIN {$wpdb->users} attr_user ON sessions.user_id = attr_user.ID
+            LEFT JOIN {$wpdb->usermeta} attr_user_role ON sessions.user_id = attr_user_role.user_id AND attr_user_role.meta_key = '{$wpdb->prefix}capabilities'
             LEFT JOIN {$tablePrefix}countries attr_country ON sessions.country_id = attr_country.ID
             LEFT JOIN {$tablePrefix}cities attr_city ON sessions.city_id = attr_city.ID
             LEFT JOIN {$tablePrefix}device_types attr_device_type ON sessions.device_type_id = attr_device_type.ID
@@ -272,6 +277,15 @@ class VisitorGroupBy extends AbstractGroupBy
             if ($sessionId && isset($sessionAttributes[$sessionId])) {
                 $attrs = $sessionAttributes[$sessionId];
                 unset($attrs['session_id']);
+
+                // Convert serialized capabilities to readable role name
+                if (!empty($attrs['user_role_raw'])) {
+                    $attrs['user_role'] = $this->extractRoleFromCapabilities($attrs['user_role_raw']);
+                } else {
+                    $attrs['user_role'] = null;
+                }
+                unset($attrs['user_role_raw']);
+
                 $row = array_merge($row, $attrs);
             } else {
                 $row = array_merge($row, $this->getEmptySessionAttributes());
@@ -279,6 +293,32 @@ class VisitorGroupBy extends AbstractGroupBy
         }
 
         return $rows;
+    }
+
+    /**
+     * Extract the primary role name from serialized WordPress capabilities.
+     *
+     * @param string $serialized Serialized capabilities string from wp_usermeta.
+     * @return string|null The primary role name, or null if unable to extract.
+     */
+    private function extractRoleFromCapabilities(string $serialized): ?string
+    {
+        $capabilities = @unserialize($serialized);
+
+        if (!is_array($capabilities) || empty($capabilities)) {
+            return null;
+        }
+
+        // Get the first role (primary role)
+        foreach ($capabilities as $role => $enabled) {
+            if ($enabled) {
+                // Convert role slug to readable name using WordPress translate functions
+                $roleNames = \wp_roles()->get_names();
+                return isset($roleNames[$role]) ? \translate_user_role($roleNames[$role]) : ucfirst($role);
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -291,6 +331,8 @@ class VisitorGroupBy extends AbstractGroupBy
         return [
             'user_id'          => null,
             'user_login'       => null,
+            'user_email'       => null,
+            'user_role'        => null,
             'ip_address'       => null,
             'country_code'     => null,
             'country_name'     => null,
