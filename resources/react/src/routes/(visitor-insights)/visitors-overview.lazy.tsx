@@ -6,7 +6,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { DateRangePicker, type DateRange } from '@/components/custom/date-range-picker'
 import { type Filter, FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
-import type { GlobalMapData } from '@/components/custom/global-map'
 import { GlobalMap } from '@/components/custom/global-map'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
@@ -15,7 +14,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { formatDateForAPI } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
-import { getVisitorInsightGlobalVisitorDistributionQueryOptions } from '@/services/visitor-insight/get-global-visitor-distribution'
 import { getVisitorOverviewQueryOptions } from '@/services/visitor-insight/get-visitor-overview'
 
 import { OverviewTopEntryPages } from './-components/overview/overview-top-entry-pages'
@@ -212,13 +210,8 @@ function RouteComponent() {
   const operatingSystemsData = batchResponse?.data?.items?.operating_systems?.data?.rows || []
   const topEntryPagesData = batchResponse?.data?.items?.top_entry_pages?.data?.rows || []
   const topReferrersData = batchResponse?.data?.items?.top_referrers?.data?.rows || []
+  const countriesMapData = batchResponse?.data?.items?.countries_map?.data?.rows || []
 
-  // Global visitor distribution (still separate query as it needs full country list)
-  const { data: globalVisitorDistributionResponse } = useQuery({
-    ...getVisitorInsightGlobalVisitorDistributionQueryOptions(),
-    retry: false,
-  })
-  const globalVisitorDistribution = globalVisitorDistributionResponse?.data || { data: { items: [] } }
 
   // Transform chart format response to data points for LineChart component
   // Chart format: { labels: string[], datasets: [{ key, data, comparison? }] }
@@ -300,16 +293,20 @@ function RouteComponent() {
     },
   ]
 
-  // Transform global visitor distribution data for the map
-  const globalMapData: GlobalMapData = {
-    countries: (globalVisitorDistribution.data.items || [])
-      .filter((item) => item.code && item.name && item.visitors)
-      .map((item) => ({
-        code: item.code.toLowerCase(),
-        name: item.name,
-        visitors: Number(item.visitors),
-      })),
-  }
+  // Transform countries map data for GlobalMap component
+  const globalMapData = useMemo(
+    () => ({
+      countries: countriesMapData
+        .filter((item) => item.country_code && item.country_name)
+        .map((item) => ({
+          code: item.country_code.toLowerCase(),
+          name: item.country_name,
+          visitors: Number(item.visitors) || 0,
+          views: Number(item.views) || 0,
+        })),
+    }),
+    [countriesMapData]
+  )
 
   // Helper function to format numbers
   const formatNumber = (num: number) => {
@@ -663,6 +660,9 @@ function RouteComponent() {
             <div className="col-span-6">
               <GlobalMap
                 data={globalMapData}
+                isLoading={isLoading}
+                dateFrom={formatDateForAPI(dateRange.from)}
+                dateTo={formatDateForAPI(dateRange.to || dateRange.from)}
                 metric="Visitors"
                 showZoomControls={true}
                 showLegend={true}

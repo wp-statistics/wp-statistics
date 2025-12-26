@@ -163,6 +163,13 @@ export interface TopReferrerRow {
   }
 }
 
+export interface CountriesMapRow {
+  country_code: string
+  country_name: string
+  visitors: number | string
+  views: number | string
+}
+
 // Table format response wrapper
 // Table format: { success, data: { rows: [...], totals: {...} }, meta: {...} }
 export interface TableQueryResult<T> {
@@ -224,6 +231,8 @@ export interface VisitorOverviewResponse {
     top_visitors?: TableQueryResult<TopVisitorRow>
     top_entry_pages?: TableQueryResult<TopEntryPageRow>
     top_referrers?: TableQueryResult<TopReferrerRow>
+    // Countries map for GlobalMap component
+    countries_map?: TableQueryResult<CountriesMapRow>
   }
   errors?: Record<string, { code: string; message: string }>
   skipped?: string[]
@@ -442,6 +451,19 @@ export const getVisitorOverviewQueryOptions = ({
               order: 'DESC',
               format: 'table',
               show_totals: false,
+              compare: false,
+            },
+            // Countries Map: All countries with visitors and views for GlobalMap component
+            {
+              id: 'countries_map',
+              sources: ['visitors', 'views'],
+              group_by: ['country'],
+              columns: ['country_code', 'country_name', 'visitors', 'views'],
+              per_page: 250,
+              order_by: 'visitors',
+              order: 'DESC',
+              format: 'table',
+              show_totals: true,
               compare: false,
             },
           ],

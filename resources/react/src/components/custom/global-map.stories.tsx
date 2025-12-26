@@ -172,12 +172,14 @@ export const WithCityDrilldown: Story = {
     title: 'Interactive Map with City Drilldown',
     enableCityDrilldown: true,
     enableMetricToggle: false,
+    dateFrom: '2024-01-01',
+    dateTo: '2024-12-31',
   },
   parameters: {
     docs: {
       description: {
         story:
-          'Click on a country to zoom in and view cities. Note: City data is fetched from API when a country is clicked. In Storybook, the API call will fail, but the interaction behavior can be tested.',
+          'Click on a country to zoom in and view regions. Note: Region data is fetched from API when a country is clicked. In Storybook, the API call will fail, but the interaction behavior can be tested.',
       },
     },
   },
@@ -216,12 +218,14 @@ export const FullyInteractive: Story = {
     ],
     showZoomControls: true,
     showLegend: true,
+    dateFrom: '2024-01-01',
+    dateTo: '2024-12-31',
   },
   parameters: {
     docs: {
       description: {
         story:
-          'Combines all interactive features: city drilldown, metric toggle, zoom controls, and legend. This is the recommended configuration for maximum interactivity.',
+          'Combines all interactive features: region drilldown, metric toggle, zoom controls, and legend. This is the recommended configuration for maximum interactivity.',
       },
     },
   },
@@ -274,6 +278,8 @@ export const WithProvinceView: Story = {
     ],
     showZoomControls: true,
     showLegend: true,
+    dateFrom: '2024-01-01',
+    dateTo: '2024-12-31',
   },
   parameters: {
     docs: {
@@ -329,6 +335,8 @@ export const CountryCitiesView: Story = {
     ],
     showZoomControls: true,
     showLegend: true,
+    dateFrom: '2024-01-01',
+    dateTo: '2024-12-31',
   },
   parameters: {
     docs: {
@@ -354,6 +362,8 @@ export const USRegionalView: Story = {
     ],
     showZoomControls: true,
     showLegend: true,
+    dateFrom: '2024-01-01',
+    dateTo: '2024-12-31',
   },
   parameters: {
     docs: {
@@ -385,6 +395,8 @@ export const DynamicZoom: Story = {
     enableMetricToggle: false,
     showZoomControls: true,
     showLegend: true,
+    dateFrom: '2024-01-01',
+    dateTo: '2024-12-31',
   },
   parameters: {
     docs: {
