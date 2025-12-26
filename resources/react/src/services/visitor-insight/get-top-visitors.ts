@@ -71,6 +71,7 @@ export interface GetTopVisitorsParams {
   previous_date_to?: string
   filters?: Filter[]
   context?: string
+  columns?: string[]
 }
 
 // Extract the field name from filter ID
@@ -124,6 +125,39 @@ const columnMapping: Record<string, string> = {
   firstVisit: 'first_visit',
 }
 
+// Default columns when no specific columns are provided
+const DEFAULT_COLUMNS = [
+  'visitor_id',
+  'visitor_hash',
+  'ip_address',
+  'user_id',
+  'user_login',
+  'user_email',
+  'user_role',
+  'total_views',
+  'total_sessions',
+  'last_visit',
+  'first_visit',
+  'bounce_rate',
+  'avg_session_duration',
+  'pages_per_session',
+  'visitor_status',
+  'country_code',
+  'country_name',
+  'region_name',
+  'city_name',
+  'os_name',
+  'browser_name',
+  'browser_version',
+  'device_type_name',
+  'referrer_domain',
+  'referrer_channel',
+  'entry_page',
+  'entry_page_title',
+  'exit_page',
+  'exit_page_title',
+]
+
 export const getTopVisitorsQueryOptions = ({
   page,
   per_page,
@@ -135,6 +169,7 @@ export const getTopVisitorsQueryOptions = ({
   previous_date_to,
   filters = [],
   context,
+  columns,
 }: GetTopVisitorsParams) => {
   // Map frontend column name to API column name
   const apiOrderBy = columnMapping[order_by] || order_by
@@ -142,46 +177,18 @@ export const getTopVisitorsQueryOptions = ({
   const apiFilters = transformFiltersToApi(filters)
   // Check if compare dates are provided (must be boolean, not the date value)
   const hasCompare = !!(previous_date_from && previous_date_to)
+  // Use provided columns or default to all columns
+  const apiColumns = columns && columns.length > 0 ? columns : DEFAULT_COLUMNS
 
   return queryOptions({
-    queryKey: ['top-visitors', page, per_page, apiOrderBy, order, date_from, date_to, previous_date_from, previous_date_to, apiFilters, context],
+    queryKey: ['top-visitors', page, per_page, apiOrderBy, order, date_from, date_to, previous_date_from, previous_date_to, apiFilters, context, apiColumns],
     queryFn: () =>
       clientRequest.post<GetTopVisitorsResponse>(
         '',
         {
           sources: ['avg_session_duration', 'bounce_rate', 'pages_per_session', 'visitor_status'],
           group_by: ['visitor'],
-          columns: [
-            'visitor_id',
-            'visitor_hash',
-            'ip_address',
-            'user_id',
-            'user_login',
-            'user_email',
-            'user_role',
-            'total_views',
-            'total_sessions',
-            'last_visit',
-            'first_visit',
-            'bounce_rate',
-            'avg_session_duration',
-            'pages_per_session',
-            'visitor_status',
-            'country_code',
-            'country_name',
-            'region_name',
-            'city_name',
-            'os_name',
-            'browser_name',
-            'browser_version',
-            'device_type_name',
-            'referrer_domain',
-            'referrer_channel',
-            'entry_page',
-            'entry_page_title',
-            'exit_page',
-            'exit_page_title',
-          ],
+          columns: apiColumns,
           date_from,
           date_to,
           compare: hasCompare,

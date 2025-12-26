@@ -58,6 +58,8 @@ export interface GetOnlineVisitorsParams {
   timeRangeMinutes?: number
   // Context for user preferences
   context?: string
+  // Dynamic columns for query optimization
+  columns?: string[]
 }
 
 // Map frontend column names to API column names
@@ -71,6 +73,31 @@ const columnMapping: Record<string, string> = {
   lastVisit: 'last_visit',
 }
 
+// Default columns when no specific columns are provided
+const DEFAULT_COLUMNS = [
+  'visitor_id',
+  'visitor_hash',
+  'ip_address',
+  'last_visit',
+  'total_views',
+  'total_sessions',
+  'country_code',
+  'country_name',
+  'region_name',
+  'city_name',
+  'os_name',
+  'browser_name',
+  'browser_version',
+  'device_type_name',
+  'user_id',
+  'user_login',
+  'user_email',
+  'user_role',
+  'referrer_domain',
+  'referrer_channel',
+  'entry_page',
+]
+
 export const getOnlineVisitorsQueryOptions = ({
   page = 1,
   per_page = 50,
@@ -78,6 +105,7 @@ export const getOnlineVisitorsQueryOptions = ({
   order = 'desc',
   timeRangeMinutes = 5,
   context,
+  columns,
 }: GetOnlineVisitorsParams = {}) => {
   // Calculate date range for "online" visitors (last N minutes)
   const now = new Date()
@@ -91,38 +119,18 @@ export const getOnlineVisitorsQueryOptions = ({
 
   // Map frontend column name to API column name
   const apiOrderBy = columnMapping[order_by] || order_by
+  // Use provided columns or default to all columns
+  const apiColumns = columns && columns.length > 0 ? columns : DEFAULT_COLUMNS
 
   return queryOptions({
-    queryKey: ['online-visitors', page, per_page, order_by, order, timeRangeMinutes, context],
+    queryKey: ['online-visitors', page, per_page, order_by, order, timeRangeMinutes, context, apiColumns],
     queryFn: () =>
       clientRequest.post<GetOnlineVisitorsResponse>(
         '',
         {
           sources: ['visitors'],
           group_by: ['online_visitor'],
-          columns: [
-            'visitor_id',
-            'visitor_hash',
-            'ip_address',
-            'last_visit',
-            'total_views',
-            'total_sessions',
-            'country_code',
-            'country_name',
-            'region_name',
-            'city_name',
-            'os_name',
-            'browser_name',
-            'browser_version',
-            'device_type_name',
-            'user_id',
-            'user_login',
-            'user_email',
-            'user_role',
-            'referrer_domain',
-            'referrer_channel',
-            'entry_page',
-          ],
+          columns: apiColumns,
           date_from: formatDate(dateFrom),
           date_to: formatDate(dateTo),
           page,

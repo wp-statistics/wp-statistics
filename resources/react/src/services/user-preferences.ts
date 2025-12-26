@@ -113,17 +113,28 @@ export const resetUserPreferences = async (params: ResetUserPreferencesParams): 
 /**
  * Convert column visibility state and order to array of visible column IDs
  * The array order represents the display order
+ *
+ * @param visibleColumns - The visibility state (columns not in object are considered visible)
+ * @param columnOrder - The column order array (if empty, uses allColumnIds order)
+ * @param allColumnIds - All available column IDs (required to properly determine visible columns)
  */
 export const createVisibleColumnsArray = (
   visibleColumns: Record<string, boolean>,
-  columnOrder: string[]
+  columnOrder: string[],
+  allColumnIds: string[] = []
 ): string[] => {
   // If we have a column order, use it and filter to only visible columns
   if (columnOrder.length > 0) {
     return columnOrder.filter((columnId) => visibleColumns[columnId] !== false)
   }
 
-  // Otherwise, return all visible columns from the visibility state
+  // If we have allColumnIds, use them to determine visible columns
+  // (columns not in visibleColumns are considered visible by default)
+  if (allColumnIds.length > 0) {
+    return allColumnIds.filter((columnId) => visibleColumns[columnId] !== false)
+  }
+
+  // Fallback: return all columns from visibility state that are explicitly true
   return Object.entries(visibleColumns)
     .filter(([, isVisible]) => isVisible)
     .map(([columnId]) => columnId)

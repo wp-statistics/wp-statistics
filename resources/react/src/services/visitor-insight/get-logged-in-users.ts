@@ -63,6 +63,7 @@ export interface GetLoggedInUsersParams {
   previous_date_to?: string
   filters?: Filter[]
   context?: string
+  columns?: string[]
 }
 
 // Extract the field name from filter ID
@@ -110,6 +111,32 @@ const columnMapping: Record<string, string> = {
   totalViews: 'total_views',
 }
 
+// Default columns when no specific columns are provided
+const DEFAULT_COLUMNS = [
+  'visitor_id',
+  'visitor_hash',
+  'last_visit',
+  'total_views',
+  'total_sessions',
+  'country_code',
+  'country_name',
+  'region_name',
+  'city_name',
+  'os_name',
+  'browser_name',
+  'browser_version',
+  'device_type_name',
+  'user_id',
+  'user_login',
+  'user_email',
+  'user_role',
+  'ip_address',
+  'referrer_domain',
+  'referrer_channel',
+  'entry_page',
+  'entry_page_title',
+]
+
 export const getLoggedInUsersQueryOptions = ({
   page,
   per_page,
@@ -121,6 +148,7 @@ export const getLoggedInUsersQueryOptions = ({
   previous_date_to,
   filters = [],
   context,
+  columns,
 }: GetLoggedInUsersParams) => {
   // Map frontend column name to API column name
   const apiOrderBy = columnMapping[order_by] || order_by
@@ -128,39 +156,18 @@ export const getLoggedInUsersQueryOptions = ({
   const apiFilters = transformFiltersToApi(filters)
   // Check if compare dates are provided (must be boolean, not the date value)
   const hasCompare = !!(previous_date_from && previous_date_to)
+  // Use provided columns or default to all columns
+  const apiColumns = columns && columns.length > 0 ? columns : DEFAULT_COLUMNS
 
   return queryOptions({
-    queryKey: ['logged-in-users', page, per_page, order_by, order, date_from, date_to, previous_date_from, previous_date_to, apiFilters, context],
+    queryKey: ['logged-in-users', page, per_page, order_by, order, date_from, date_to, previous_date_from, previous_date_to, apiFilters, context, apiColumns],
     queryFn: () =>
       clientRequest.post<GetLoggedInUsersResponse>(
         '',
         {
           sources: ['visitors'],
           group_by: ['visitor'],
-          columns: [
-            'visitor_id',
-            'visitor_hash',
-            'last_visit',
-            'total_views',
-            'total_sessions',
-            'country_code',
-            'country_name',
-            'region_name',
-            'city_name',
-            'os_name',
-            'browser_name',
-            'browser_version',
-            'device_type_name',
-            'user_id',
-            'user_login',
-            'user_email',
-            'user_role',
-            'ip_address',
-            'referrer_domain',
-            'referrer_channel',
-            'entry_page',
-            'entry_page_title',
-          ],
+          columns: apiColumns,
           ...(Object.keys(apiFilters).length > 0 && { filters: apiFilters }),
           date_from,
           date_to,

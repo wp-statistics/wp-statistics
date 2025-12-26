@@ -122,54 +122,7 @@ const columnMapping: Record<string, string> = {
   visitorStatus: 'visitor_status',
 }
 
-// Map each frontend column to its required API columns
-// This includes both the main column and any dependent columns needed for formatting
-const COLUMN_DEPENDENCIES: Record<string, string[]> = {
-  lastVisit: ['last_visit'],
-  visitorInfo: [
-    'visitor_id',
-    'visitor_hash',
-    'ip_address',
-    'user_id',
-    'user_login',
-    'user_email',
-    'user_role',
-    'country_code',
-    'country_name',
-    'region_name',
-    'city_name',
-    'os_name',
-    'browser_name',
-    'browser_version',
-    'device_type_name',
-  ],
-  referrer: ['referrer_domain', 'referrer_channel'],
-  entryPage: ['entry_page', 'entry_page_title'],
-  exitPage: ['exit_page', 'exit_page_title'],
-  totalViews: ['total_views'],
-  totalSessions: ['total_sessions'],
-  sessionDuration: ['avg_session_duration'],
-  viewsPerSession: ['pages_per_session'],
-  bounceRate: ['bounce_rate'],
-  visitorStatus: ['visitor_status', 'first_visit'],
-}
-
-// Expand frontend column names to their required API columns
-const expandColumnsToApi = (frontendColumns: string[]): string[] => {
-  const apiColumns = new Set<string>()
-
-  for (const col of frontendColumns) {
-    const deps = COLUMN_DEPENDENCIES[col]
-    if (deps) {
-      deps.forEach((dep) => apiColumns.add(dep))
-    }
-  }
-
-  return Array.from(apiColumns)
-}
-
-// Default columns to fetch when no user preferences are specified
-// Note: first_visit is NOT included here - it will be added via COLUMN_DEPENDENCIES when visitorStatus is visible
+// Default columns when no specific columns are provided
 const DEFAULT_COLUMNS = [
   'visitor_id',
   'visitor_hash',
@@ -179,6 +132,7 @@ const DEFAULT_COLUMNS = [
   'user_email',
   'user_role',
   'last_visit',
+  'first_visit',
   'country_code',
   'country_name',
   'region_name',
@@ -220,10 +174,8 @@ export const getVisitorsQueryOptions = ({
   const apiFilters = transformFiltersToApi(filters)
   // Check if compare dates are provided (must be boolean, not the date value)
   const hasCompare = !!(previous_date_from && previous_date_to)
-  // Expand frontend columns to API columns, or use defaults
-  // columns param contains frontend names like ['lastVisit', 'visitorInfo', ...]
-  // We need to expand these to API names with their dependencies
-  const apiColumns = columns && columns.length > 0 ? expandColumnsToApi(columns) : DEFAULT_COLUMNS
+  // Use provided columns or default to all columns
+  const apiColumns = columns && columns.length > 0 ? columns : DEFAULT_COLUMNS
 
   return queryOptions({
     queryKey: [
@@ -238,6 +190,7 @@ export const getVisitorsQueryOptions = ({
       previous_date_to,
       apiFilters,
       context,
+      apiColumns,
     ],
     queryFn: () =>
       clientRequest.post<GetVisitorsResponse>(
@@ -245,7 +198,7 @@ export const getVisitorsQueryOptions = ({
         {
           sources: ['visitors', 'avg_session_duration', 'bounce_rate', 'pages_per_session', 'visitor_status'],
           group_by: ['visitor'],
-          columns: [...apiColumns, 'first_visit'],
+          columns: apiColumns,
           date_from,
           date_to,
           compare: hasCompare,
