@@ -2,7 +2,6 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute, getRouteApi, useNavigate } from '@tanstack/react-router'
 import type { ColumnDef, SortingState, VisibilityState } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
-import { Info } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
@@ -10,6 +9,15 @@ import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-co
 import { DateRangePicker, type DateRange } from '@/components/custom/date-range-picker'
 import { type Filter, FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
+import {
+  EntryPageCell,
+  LastVisitCell,
+  NumericCell,
+  PageCell,
+  ReferrerCell,
+  VisitorInfoCell,
+  type VisitorInfoConfig,
+} from '@/components/data-table-columns'
 import {
   type ColumnConfig,
   clearCachedColumns,
@@ -26,8 +34,6 @@ import {
 } from '@/lib/filter-utils'
 import { parseEntryPage } from '@/lib/url-utils'
 import { LineChart } from '@/components/custom/line-chart'
-import { Badge } from '@/components/ui/badge'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { formatDateForAPI } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import type { LoggedInUser as LoggedInUserRecord } from '@/services/visitor-insight/get-logged-in-users'
@@ -153,223 +159,88 @@ const transformLoggedInUserData = (record: LoggedInUserRecord): LoggedInUser => 
   }
 }
 
-const createColumns = (pluginUrl: string): ColumnDef<LoggedInUser>[] => [
+const createColumns = (config: VisitorInfoConfig): ColumnDef<LoggedInUser>[] => [
   {
     accessorKey: 'visitorInfo',
     header: 'Visitor Info',
     cell: ({ row }) => {
       const user = row.original
-      const locationText = `${user.country}, ${user.region}, ${user.city}`
-
       return (
-        <div className="flex items-center gap-2">
-          {/* Country Flag */}
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button className="flex items-center">
-                  <img
-                    src={`${pluginUrl}public/images/flags/${user.countryCode || '000'}.svg`}
-                    alt={user.country}
-                    className="w-5 h-5 object-contain"
-                  />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{locationText}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          {/* OS Icon */}
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button className="flex items-center">
-                  <img
-                    src={`${pluginUrl}public/images/operating-system/${user.os}.svg`}
-                    alt={user.osName}
-                    className="w-4 h-4 object-contain"
-                  />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{user.osName}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          {/* Browser Icon */}
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button className="flex items-center">
-                  <img
-                    src={`${pluginUrl}public/images/browser/${user.browser}.svg`}
-                    alt={user.browserName}
-                    className="w-4 h-4 object-contain"
-                  />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>
-                  {user.browserName} {user.browserVersion ? `v${user.browserVersion}` : ''}
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          {/* User Badge */}
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Badge variant="secondary" className="text-xs font-normal">
-                  {user.username} #{user.userId}
-                </Badge>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>
-                  {user.email || ''} {user.userRole ? `(${user.userRole})` : ''}
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
+        <VisitorInfoCell
+          data={{
+            country: {
+              code: user.countryCode,
+              name: user.country,
+              region: user.region,
+              city: user.city,
+            },
+            os: { icon: user.os, name: user.osName },
+            browser: { icon: user.browser, name: user.browserName, version: user.browserVersion },
+            user: {
+              id: Number(user.userId),
+              username: user.username,
+              email: user.email,
+              role: user.userRole,
+            },
+          }}
+          config={config}
+        />
       )
     },
   },
   {
     accessorKey: 'lastVisit',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
-    cell: ({ row }) => {
-      const date = row.original.lastVisit
-      const formatted = date.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-      })
-      const time = date.toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true,
-      })
-      return (
-        <div className="whitespace-nowrap">
-          {formatted}, {time}
-        </div>
-      )
-    },
+    cell: ({ row }) => <LastVisitCell date={row.original.lastVisit} />,
   },
   {
     accessorKey: 'page',
     header: 'Page',
-    cell: ({ row }) => {
-      const user = row.original
-      const truncatedTitle = user.pageTitle.length > 35 ? `${user.pageTitle.substring(0, 35)}...` : user.pageTitle
-
-      return (
-        <div className="max-w-md inline-flex">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="cursor-pointer truncate">{truncatedTitle}</span>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{user.page}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-      )
-    },
+    cell: ({ row }) => (
+      <PageCell
+        data={{ title: row.original.pageTitle, url: row.original.page }}
+        maxLength={35}
+      />
+    ),
   },
   {
     accessorKey: 'referrer',
     header: 'Referrer',
-    cell: ({ row }) => {
-      const user = row.original
-      return (
-        <div className="inline-flex flex-col items-start gap-1">
-          {user.referrerDomain && (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <a
-                    href={`https://${user.referrerDomain}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:underline max-w-[200px] truncate block"
-                  >
-                    {user.referrerDomain.length > 25
-                      ? `${user.referrerDomain.substring(0, 22)}...${user.referrerDomain.split('.').pop()}`
-                      : user.referrerDomain}
-                  </a>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>https://{user.referrerDomain}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          )}
-          <Badge variant="outline" className="text-[8px] text-[#636363] uppercase mt-1">
-            {user.referrerCategory}
-          </Badge>
-        </div>
-      )
-    },
+    cell: ({ row }) => (
+      <ReferrerCell
+        data={{
+          domain: row.original.referrerDomain,
+          category: row.original.referrerCategory,
+        }}
+        maxLength={25}
+      />
+    ),
   },
   {
     accessorKey: 'entryPage',
     header: () => 'Entry Page',
     cell: ({ row }) => {
       const user = row.original
-      const truncatedTitle =
-        user.entryPageTitle.length > 35 ? `${user.entryPageTitle.substring(0, 35)}...` : user.entryPageTitle
-
       return (
-        <div className="max-w-md inline-flex items-start">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div className="flex items-center gap-1 cursor-pointer">
-                  <span className="truncate">{truncatedTitle}</span>
-                  {user.entryPageHasQuery && <Info className="h-3 w-3 text-[#636363] shrink-0" />}
-                </div>
-              </TooltipTrigger>
-              <TooltipContent>
-                {user.entryPageHasQuery && user.entryPageQueryString ? (
-                  <p>{user.entryPageQueryString}</p>
-                ) : (
-                  <p>{user.entryPage}</p>
-                )}
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
+        <EntryPageCell
+          data={{
+            title: user.entryPageTitle,
+            url: user.entryPage,
+            hasQueryString: user.entryPageHasQuery,
+            queryString: user.entryPageQueryString,
+          }}
+          maxLength={35}
+        />
       )
     },
   },
   {
     accessorKey: 'totalViews',
     header: ({ column }) => (
-      <DataTableColumnHeaderSortable column={column} title="Total Views" className="text-right" />
+      <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />
     ),
-    cell: ({ row }) => {
-      const views = row.original.totalViews
-      return (
-        <div className="text-right pr-4">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="cursor-pointer">{views.toLocaleString()}</span>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{views.toLocaleString()} Page Views from this user in selected period</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-      )
-    },
+    size: 70,
+    cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
   },
 ]
 
@@ -412,7 +283,15 @@ function RouteComponent() {
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
-  const columns = createColumns(pluginUrl)
+  const columns = useMemo(
+    () =>
+      createColumns({
+        pluginUrl,
+        trackLoggedInEnabled: true, // Always true for logged-in users page
+        hashEnabled: wp.isHashEnabled(),
+      }),
+    [pluginUrl, wp]
+  )
 
   // Get filter fields for 'visitors' group from localized data
   const filterFields = useMemo<FilterField[]>(() => {

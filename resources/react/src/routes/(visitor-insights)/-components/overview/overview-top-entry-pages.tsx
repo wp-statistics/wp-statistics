@@ -132,11 +132,7 @@ export const OverviewTopEntryPages = ({ data }: OverviewTopEntryPagesProps) => {
                   <TooltipTrigger asChild>
                     <p className="text-xs text-muted-foreground truncate cursor-pointer">{utmCampaign}</p>
                   </TooltipTrigger>
-                  <TooltipContent>
-                    <p>
-                      {__('Campaign:', 'wp-statistics')} {utmCampaign}
-                    </p>
-                  </TooltipContent>
+                  <TooltipContent>UTM: {utmCampaign}</TooltipContent>
                 </Tooltip>
               </TooltipProvider>
             )}
@@ -172,9 +168,7 @@ export const OverviewTopEntryPages = ({ data }: OverviewTopEntryPagesProps) => {
                     <ExternalLink className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent>
-                  <p>{__('View Page', 'wp-statistics')}</p>
-                </TooltipContent>
+                <TooltipContent>{__('View page', 'wp-statistics')}</TooltipContent>
               </Tooltip>
             </TooltipProvider>
           </div>
