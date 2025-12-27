@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { __ } from '@wordpress/i18n'
 import { Loader2, Trash2 } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -40,6 +40,7 @@ export interface FilterRowData {
 export interface FilterRowProps {
   filter: FilterRowData
   fields: FilterField[]
+  usedFieldNames?: FilterFieldName[] // Fields already used by other filters (excludes current row)
   onUpdate: (filter: FilterRowData) => void
   onRemove: (id: string) => void
 }
@@ -83,10 +84,16 @@ const getRangeValue = (value: FilterValue): RangeValue => {
   return { min: '', max: '' }
 }
 
-function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
+function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: FilterRowProps) {
   const selectedField = fields.find((f) => f.name === filter.fieldName)
   const availableOperators = selectedField?.supportedOperators || []
   const operatorType = getOperatorType(filter.operator)
+
+  // Filter out fields that are already used by other filters
+  // But always include the current field so it stays visible in the dropdown
+  const availableFields = fields.filter(
+    (field) => field.name === filter.fieldName || !usedFieldNames.includes(field.name)
+  )
 
   // State for searchable input
   const [searchTerm, setSearchTerm] = useState('')
@@ -210,14 +217,17 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
     const inputType =
       selectedField?.inputType === 'number' ? 'number' : selectedField?.inputType === 'date' ? 'date' : 'text'
 
+    // Use wider inputs for date type to show full date (YYYY-MM-DD)
+    const inputClassName = inputType === 'date' ? 'w-36' : 'w-20'
+
     return (
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-2">
         <Input
           type={inputType}
           value={rangeValue.min}
           onChange={(e) => handleRangeValueChange('min', e.target.value)}
           placeholder={__('Min', 'wp-statistics')}
-          className="w-[80px]"
+          className={inputClassName}
         />
         <span className="text-muted-foreground">{__('to', 'wp-statistics')}</span>
         <Input
@@ -225,7 +235,7 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
           value={rangeValue.max}
           onChange={(e) => handleRangeValueChange('max', e.target.value)}
           placeholder={__('Max', 'wp-statistics')}
-          className="w-[80px]"
+          className={inputClassName}
         />
       </div>
     )
@@ -288,13 +298,13 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
 
         {/* Search results dropdown */}
         {searchTerm && searchOptions.length > 0 && (
-          <div className="absolute z-50 mt-1 max-h-[200px] w-full overflow-auto rounded-md border bg-popover p-1 shadow-md">
+          <div className="absolute z-50 mt-1 max-h-[200px] min-w-full w-max overflow-auto rounded-md border bg-popover p-1 shadow-md">
             {searchOptions.map((option) => (
               <button
                 key={option.value}
                 type="button"
                 onClick={() => handleSearchableSelect(option.value, option.label)}
-                className="flex w-full items-center rounded-sm px-2 py-1.5 text-sm hover:bg-accent hover:text-accent-foreground"
+                className="flex w-full items-center whitespace-nowrap rounded-sm px-2 py-1.5 text-sm text-left hover:bg-accent hover:text-accent-foreground"
               >
                 {operatorType === 'multiple' && Array.isArray(currentValue) && (
                   <span className="mr-2">{currentValue.includes(option.value) ? '✓' : '○'}</span>
@@ -402,7 +412,7 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
           <SelectValue placeholder={__('Select field', 'wp-statistics')} />
         </SelectTrigger>
         <SelectContent className="max-h-[200px] overflow-y-auto">
-          {fields.map((field) => (
+          {availableFields.map((field) => (
             <SelectItem key={field.name} value={field.name}>
               {field.label}
             </SelectItem>
@@ -424,8 +434,8 @@ function FilterRow({ filter, fields, onUpdate, onRemove }: FilterRowProps) {
         </SelectContent>
       </Select>
 
-      {/* Value Input */}
-      {renderValueInput()}
+      {/* Value Input - hide for operators that don't need a value (is_null, is_not_null) */}
+      {filter.operator !== 'is_null' && filter.operator !== 'is_not_null' && renderValueInput()}
 
       {/* Remove Button */}
       <Button variant="ghost" size="icon" onClick={() => onRemove(filter.id)} className="shrink-0">

@@ -2,6 +2,7 @@ import { queryOptions } from '@tanstack/react-query'
 
 import type { Filter } from '@/components/custom/filter-bar'
 import { clientRequest } from '@/lib/client-request'
+import { WordPress } from '@/lib/wordpress'
 
 // API filter format: { filter_key: { operator: value } }
 export type ApiFilters = Record<string, Record<string, string | string[]>>
@@ -470,7 +471,7 @@ export const getVisitorOverviewQueryOptions = ({
         },
         {
           params: {
-            action: 'wp_statistics_analytics',
+            action: WordPress.getInstance().getAnalyticsAction(),
           },
         }
       ),

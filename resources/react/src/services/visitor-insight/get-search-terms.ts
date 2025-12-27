@@ -1,6 +1,7 @@
 import { queryOptions } from '@tanstack/react-query'
 
 import { clientRequest } from '@/lib/client-request'
+import { WordPress } from '@/lib/wordpress'
 
 export interface SearchTerm {
   search_term: string
@@ -71,7 +72,7 @@ export const getSearchTermsQueryOptions = ({
         },
         {
           params: {
-            action: 'wp_statistics_analytics',
+            action: WordPress.getInstance().getAnalyticsAction(),
           },
         }
       ),

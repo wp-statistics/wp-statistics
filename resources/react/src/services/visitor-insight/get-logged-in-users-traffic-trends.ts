@@ -2,6 +2,7 @@ import { queryOptions } from '@tanstack/react-query'
 
 import type { Filter } from '@/components/custom/filter-bar'
 import { clientRequest } from '@/lib/client-request'
+import { WordPress } from '@/lib/wordpress'
 
 interface TrafficTrendRow {
   date?: string
@@ -92,7 +93,7 @@ export const getLoggedInUsersTrafficTrendsQueryOptions = ({
         },
         {
           params: {
-            action: 'wp_statistics_analytics',
+            action: WordPress.getInstance().getAnalyticsAction(),
           },
         }
       ),
@@ -137,7 +138,7 @@ export const getAnonymousVisitorsTrafficTrendsQueryOptions = ({
         },
         {
           params: {
-            action: 'wp_statistics_analytics',
+            action: WordPress.getInstance().getAnalyticsAction(),
           },
         }
       ),

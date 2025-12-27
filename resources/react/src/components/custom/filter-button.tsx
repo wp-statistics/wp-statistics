@@ -19,6 +19,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
+import { WordPress } from '@/lib/wordpress'
 
 export interface FilterButtonProps {
   fields: FilterField[]
@@ -27,20 +28,18 @@ export interface FilterButtonProps {
   className?: string
 }
 
-// Get display string for operator
+// Get display string for operator from WordPress localized data
 const getOperatorDisplay = (operator: FilterOperator): string => {
-  const displayMap: Partial<Record<FilterOperator, string>> = {
-    gt: '>',
-    gte: '>=',
-    lt: '<',
-    lte: '<=',
-    is: '=',
-    is_not: '!=',
-    between: __('between', 'wp-statistics'),
-    in: __('in', 'wp-statistics'),
-    not_in: __('not in', 'wp-statistics'),
+  try {
+    const operators = WordPress.getInstance().getFilterOperators()
+    if (operators[operator]?.label) {
+      return operators[operator].label
+    }
+  } catch {
+    // Fallback if WordPress context not available (e.g., in Storybook)
   }
-  return displayMap[operator] ?? getOperatorLabel(operator)
+  // Fallback to getOperatorLabel from filter-row
+  return getOperatorLabel(operator)
 }
 
 // Format value for display in filter chip
@@ -67,6 +66,11 @@ const formatValueForDisplay = (
 
 // Check if filter has a valid value
 const hasValidValue = (value: FilterValue, operator: FilterOperator): boolean => {
+  // Operators that don't require a value are always valid
+  if (operator === 'is_null' || operator === 'is_not_null') {
+    return true
+  }
+
   const operatorType = getOperatorType(operator)
 
   if (operatorType === 'range') {
@@ -77,6 +81,12 @@ const hasValidValue = (value: FilterValue, operator: FilterOperator): boolean =>
   if (operatorType === 'multiple') {
     const arr = getArrayValue(value)
     return arr.length > 0
+  }
+
+  // For 'single' type, handle various value formats
+  if (isRangeValue(value)) {
+    // Value is RangeValue but operator is single - extract min or max
+    return value.min !== '' || value.max !== ''
   }
 
   return getSingleValue(value) !== ''
@@ -95,10 +105,20 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className }: Fil
         const field = fields.find((f) => f.label === af.label)
         const fieldName = field?.name || (af.label.toLowerCase().replace(/\s+/g, '_') as FilterFieldName)
 
-        // Use rawValue if available, otherwise fall back to display value
-        const value = af.rawValue !== undefined ? af.rawValue : String(af.value)
         // Use rawOperator if available, otherwise fall back to display operator
         const operator = (af.rawOperator || af.operator) as FilterOperator
+        const operatorType = getOperatorType(operator)
+
+        // Convert rawValue back to FilterValue based on operator type
+        let value: FilterValue
+        if (operatorType === 'range' && Array.isArray(af.rawValue) && af.rawValue.length === 2) {
+          // Convert [min, max] array back to RangeValue
+          value = { min: af.rawValue[0] || '', max: af.rawValue[1] || '' }
+        } else if (af.rawValue !== undefined) {
+          value = af.rawValue
+        } else {
+          value = String(af.value)
+        }
 
         // Try to restore valueLabels from field options if not available
         let valueLabels = af.valueLabels
@@ -136,8 +156,27 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className }: Fil
       .filter((f) => hasValidValue(f.value, f.operator))
       .map((f) => {
         const field = fields.find((field) => field.name === f.fieldName)
-        // Get raw value (actual value for API)
-        const rawValue = Array.isArray(f.value) ? f.value : getSingleValue(f.value)
+        const operatorType = getOperatorType(f.operator)
+
+        // Get raw value based on operator type for API
+        // - 'range' (between) → [min, max] array
+        // - 'multiple' (in, not_in) → string[]
+        // - 'single' (is, gt, contains, etc.) → string
+        let rawValue: string | string[]
+        if (operatorType === 'range') {
+          const range = getRangeValue(f.value)
+          rawValue = [range.min, range.max]
+        } else if (operatorType === 'multiple') {
+          rawValue = getArrayValue(f.value)
+        } else {
+          // For 'single' type operators, extract the value properly
+          // Handle case where value might be RangeValue (e.g., user switched operators)
+          if (isRangeValue(f.value)) {
+            rawValue = f.value.min || f.value.max || ''
+          } else {
+            rawValue = Array.isArray(f.value) ? f.value[0] || '' : getSingleValue(f.value)
+          }
+        }
 
         // Try to get labels from field options if valueLabels is not set
         let valueLabels = f.valueLabels

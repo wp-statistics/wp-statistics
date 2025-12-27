@@ -17,13 +17,34 @@ export const withWordPressContext: Decorator = (Story) => {
           isPremium: false,
           restUrl: 'https://wordpress.test/wp-json/',
           restNonce: 'storybook-mock-rest-nonce',
+          analyticsAction: 'wp_statistics_analytics',
+          filterAction: 'wp_statistics_get_filter_options',
+          userPreferencesAction: 'wp_statistics_user_preferences',
+          trackLoggedInUsers: true,
+          hashIps: false,
         },
         layout: {
           sidebar: {
             items: [],
           },
         },
-        filters: {},
+        filters: {
+          fields: {},
+          operators: {
+            is: { label: '=', type: 'single' },
+            is_not: { label: '≠', type: 'single' },
+            gt: { label: '>', type: 'single' },
+            gte: { label: '≥', type: 'single' },
+            lt: { label: '<', type: 'single' },
+            lte: { label: '≤', type: 'single' },
+            in: { label: 'in', type: 'multiple' },
+            not_in: { label: 'not in', type: 'multiple' },
+            between: { label: 'between', type: 'range' },
+            contains: { label: 'contains', type: 'single' },
+            starts_with: { label: 'starts with', type: 'single' },
+            ends_with: { label: 'ends with', type: 'single' },
+          },
+        },
         config: {},
       }
     }

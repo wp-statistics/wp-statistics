@@ -9,7 +9,7 @@ import { DataTable } from '@/components/custom/data-table'
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
 import { DateRangePicker, type DateRange } from '@/components/custom/date-range-picker'
 import { type Filter, FilterBar } from '@/components/custom/filter-bar'
-import { FilterButton, type FilterField } from '@/components/custom/filter-button'
+import { FilterButton, type FilterField, getOperatorDisplay } from '@/components/custom/filter-button'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { formatDateForAPI } from '@/lib/utils'
@@ -657,9 +657,17 @@ const createColumns = (config: VisitorInfoColumnConfig): ColumnDef<TopVisitor>[]
   },
 ]
 
+// URL filter format interface
+interface UrlFilter {
+  field: string
+  operator: string
+  value: string | string[]
+  displayValue?: string // Display label for the value (e.g., "Iran" instead of "5")
+}
+
 // Convert URL filter format to Filter type
 const urlFiltersToFilters = (
-  urlFilters: Array<{ field: string; operator: string; value: string | string[] }> | undefined,
+  urlFilters: UrlFilter[] | undefined,
   filterFields: FilterField[],
   defaultFilters: Filter[]
 ): Filter[] => {
@@ -669,12 +677,28 @@ const urlFiltersToFilters = (
     const field = filterFields.find((f) => f.name === urlFilter.field)
     const label = field?.label || urlFilter.field
 
-    // Get display value from field options if available
-    let displayValue = Array.isArray(urlFilter.value) ? urlFilter.value.join(', ') : urlFilter.value
-    if (field?.options) {
+    // Use displayValue from URL if available (preserves labels like "Iran" after refresh)
+    // Otherwise try to get display value from field options
+    let displayValue = urlFilter.displayValue
+    if (!displayValue) {
+      displayValue = Array.isArray(urlFilter.value) ? urlFilter.value.join(', ') : urlFilter.value
+      if (field?.options) {
+        const values = Array.isArray(urlFilter.value) ? urlFilter.value : [urlFilter.value]
+        const labels = values.map((v) => field.options?.find((o) => String(o.value) === v)?.label || v).join(', ')
+        displayValue = labels
+      }
+    }
+
+    // Create valueLabels from displayValue and rawValue for searchable filters
+    // This allows the filter panel to show labels instead of raw values
+    let valueLabels: Record<string, string> | undefined
+    if (displayValue && urlFilter.value) {
       const values = Array.isArray(urlFilter.value) ? urlFilter.value : [urlFilter.value]
-      const labels = values.map((v) => field.options?.find((o) => String(o.value) === v)?.label || v).join(', ')
-      displayValue = labels
+      const displayValues = displayValue.split(', ')
+      valueLabels = {}
+      values.forEach((v, i) => {
+        valueLabels![String(v)] = displayValues[i] || String(v)
+      })
     }
 
     // Create filter ID in the expected format: field-field-filter-restored-index
@@ -683,10 +707,11 @@ const urlFiltersToFilters = (
     return {
       id: filterId,
       label,
-      operator: urlFilter.operator,
+      operator: getOperatorDisplay(urlFilter.operator as FilterOperator),
       rawOperator: urlFilter.operator,
       value: displayValue,
       rawValue: urlFilter.value,
+      valueLabels,
     }
   })
 }
@@ -698,27 +723,29 @@ const extractFilterField = (filterId: string): string => {
 }
 
 // Convert Filter type to URL filter format
-const filtersToUrlFilters = (
-  filters: Filter[]
-): Array<{ field: string; operator: string; value: string | string[] }> => {
+const filtersToUrlFilters = (filters: Filter[]): UrlFilter[] => {
   return filters.map((filter) => ({
     field: extractFilterField(filter.id),
     operator: filter.rawOperator || filter.operator,
     value: filter.rawValue || filter.value,
+    displayValue: String(filter.value), // Preserve display label for page refresh
   }))
 }
 
-// Default filter for Total Views > 5
-const DEFAULT_FILTERS: Filter[] = [
-  {
-    id: 'total_views-total_views-filter-default',
-    label: 'Total Views',
-    operator: '>',
-    rawOperator: 'gt',
-    value: '5',
-    rawValue: '5',
-  },
-]
+// Create default filters with proper operator display labels
+const getDefaultFilters = (filterFields: FilterField[]): Filter[] => {
+  const field = filterFields.find((f) => f.name === 'total_views')
+  return [
+    {
+      id: 'total_views-total_views-filter-default',
+      label: field?.label || 'Total Views',
+      operator: getOperatorDisplay('gt'),
+      rawOperator: 'gt',
+      value: '5',
+      rawValue: '5',
+    },
+  ]
+}
 
 function RouteComponent() {
   const navigate = useNavigate()
@@ -749,8 +776,8 @@ function RouteComponent() {
     return wp.getFilterFieldsByGroup('visitors') as FilterField[]
   }, [wp])
 
-  // Initialize filters state with defaults
-  const [appliedFilters, setAppliedFilters] = useState<Filter[]>(DEFAULT_FILTERS)
+  // Initialize filters state - null until URL sync is complete
+  const [appliedFilters, setAppliedFilters] = useState<Filter[] | null>(null)
 
   // Initialize page state
   const [page, setPage] = useState(1)
@@ -759,11 +786,7 @@ function RouteComponent() {
   useEffect(() => {
     if (lastSyncedFiltersRef.current !== null) return // Already initialized
 
-    // Wait for filterFields to be loaded OR urlFilters to be available
-    // This ensures we don't initialize with empty state before data is ready
-    if (!urlFilters?.length && filterFields.length === 0) return
-
-    const filtersFromUrl = urlFiltersToFilters(urlFilters, filterFields, DEFAULT_FILTERS)
+    const filtersFromUrl = urlFiltersToFilters(urlFilters, filterFields, getDefaultFilters(filterFields))
     setAppliedFilters(filtersFromUrl)
     setPage(urlPage || 1)
     // Mark as initialized with what the URL actually had (not defaults)
@@ -773,7 +796,7 @@ function RouteComponent() {
 
   // Sync filters TO URL when they change (only after initialization and actual change)
   useEffect(() => {
-    if (lastSyncedFiltersRef.current === null) return // Not initialized yet
+    if (lastSyncedFiltersRef.current === null || appliedFilters === null) return // Not initialized yet
 
     const urlFilterData = filtersToUrlFilters(appliedFilters)
     const serialized = JSON.stringify(urlFilterData)
@@ -849,11 +872,12 @@ function RouteComponent() {
           previous_date_from: formatDateForAPI(compareDateRange.from),
           previous_date_to: formatDateForAPI(compareDateRange.to),
         }),
-      filters: appliedFilters,
+      filters: appliedFilters || [],
       context: CONTEXT,
       columns: apiColumns,
     }),
     placeholderData: keepPreviousData,
+    enabled: appliedFilters !== null,
   })
 
   // Compute initial visibility only once when API returns preferences
@@ -992,7 +1016,7 @@ function RouteComponent() {
   }, [])
 
   const handleRemoveFilter = (filterId: string) => {
-    setAppliedFilters((prev) => prev.filter((f) => f.id !== filterId))
+    setAppliedFilters((prev) => (prev ? prev.filter((f) => f.id !== filterId) : []))
     setPage(1) // Reset to first page when filters change
   }
 
@@ -1008,7 +1032,7 @@ function RouteComponent() {
       <div className="flex items-center justify-between p-4 bg-white border-b border-input">
         <h1 className="text-2xl font-medium text-neutral-700">{__('Top Visitors', 'wp-statistics')}</h1>
         <div className="flex items-center gap-2">
-          {filterFields.length > 0 && (
+          {filterFields.length > 0 && appliedFilters !== null && (
             <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={handleApplyFilters} />
           )}
           <DateRangePicker
@@ -1023,7 +1047,7 @@ function RouteComponent() {
 
       <div className="p-4">
         {/* Applied filters row (separate from button) */}
-        {appliedFilters.length > 0 && (
+        {appliedFilters && appliedFilters.length > 0 && (
           <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-4" />
         )}
 
