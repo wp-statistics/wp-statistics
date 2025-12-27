@@ -12,7 +12,7 @@ import { type Filter, FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { formatDateForAPI } from '@/lib/utils'
+import { formatDateForAPI, formatDuration } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import type { TopVisitorRecord } from '@/services/visitor-insight/get-top-visitors'
 import { getTopVisitorsQueryOptions } from '@/services/visitor-insight/get-top-visitors'
@@ -561,10 +561,7 @@ const createColumns = (config: VisitorInfoColumnConfig): ColumnDef<TopVisitor>[]
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Session Duration" />,
     cell: ({ row }) => {
       const seconds = row.original.sessionDuration
-      const hours = Math.floor(seconds / 3600)
-      const minutes = Math.floor((seconds % 3600) / 60)
-      const secs = seconds % 60
-      const formatted = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
+      const formatted = formatDuration(seconds)
 
       return (
         <div className="text-right pr-4">
