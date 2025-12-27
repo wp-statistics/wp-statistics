@@ -39,26 +39,19 @@ export function Metrics({ metrics, columns = 3, className }: MetricsProps) {
     const row = Math.floor(index / columns)
     const col = index % columns
     const isFirstRow = row === 0
-    const isLastRow = row === totalRows - 1
-    const isFirstCol = col === 0
     const isLastCol = col === columns - 1
 
-    // Apply rounded corners only to corner positions
-    // Remove right border for all except last column
-    // Remove bottom border for all except last row
+    // Internal dividers only - outer border comes from Panel wrapper
+    // Right border on all except last column (vertical dividers)
+    // Top border on all except first row (horizontal dividers)
     return cn(
-      'border-t border-l border-neutral-200',
-      isLastCol && 'border-r',
-      isLastRow && 'border-b',
-      isFirstRow && isFirstCol && 'rounded-tl-xl',
-      isFirstRow && isLastCol && 'rounded-tr-xl',
-      isLastRow && isFirstCol && 'rounded-bl-xl',
-      isLastRow && isLastCol && 'rounded-br-xl'
+      !isFirstRow && 'border-t border-neutral-200',
+      !isLastCol && 'border-r border-neutral-200'
     )
   }
 
   return (
-    <div className={cn('grid gap-0 w-full overflow-hidden rounded-xl', gridColsClass, className)}>
+    <div className={cn('grid gap-0 w-full overflow-hidden', gridColsClass, className)}>
       {displayMetrics.map((metric, index) => (
         <MetricCard key={`${metric.label}-${index}`} {...metric} positionClasses={getPositionClasses(index)} />
       ))}

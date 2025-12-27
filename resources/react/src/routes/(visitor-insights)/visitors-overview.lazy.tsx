@@ -11,6 +11,7 @@ import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Panel } from '@/components/ui/panel'
 import { Skeleton } from '@/components/ui/skeleton'
 import { extractFilterField, filtersToUrlFilters, urlFiltersToFilters } from '@/lib/filter-utils'
 import { formatDateForAPI } from '@/lib/utils'
@@ -448,7 +449,9 @@ function RouteComponent() {
         ) : (
           <div className="grid gap-3 grid-cols-12">
             <div className="col-span-12">
-              <Metrics metrics={overviewMetrics} columns={4} />
+              <Panel>
+                <Metrics metrics={overviewMetrics} columns={4} />
+              </Panel>
             </div>
 
             <div className="col-span-12">
