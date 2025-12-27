@@ -30,9 +30,15 @@ export default defineConfig(({ mode }) => {
   const reactRoot = resolve(__dirname, 'resources/react')
 
   return {
-    base: './',
+    base: mode === 'development' ? '/' : './',
     root: reactRoot,
     publicDir: false,
+    server: {
+      port: 5173,
+      strictPort: true,
+      cors: true,
+      origin: 'http://localhost:5173',
+    },
     plugins: [
       tanstackRouter({
         target: 'react',

@@ -17,6 +17,15 @@ use WP_Statistics\Utils\Route;
 class ReactHandler extends BaseAssets
 {
     /**
+     * Vite dev server URL
+     *
+     * Can be overridden via WP_STATISTICS_VITE_DEV_SERVER constant in wp-config.php
+     *
+     * @var string
+     */
+    private const VITE_DEV_SERVER_DEFAULT = 'http://localhost:5173';
+
+    /**
      * Manifest main JS file path
      *
      * @var string
@@ -29,6 +38,28 @@ class ReactHandler extends BaseAssets
      * @var array
      */
     private $manifestMainCss = [];
+
+    /**
+     * Whether Vite dev mode is active
+     *
+     * @var bool|null
+     */
+    private $isDevMode = null;
+
+    /**
+     * Get Vite dev server URL
+     *
+     * Can be customized via WP_STATISTICS_VITE_DEV_SERVER constant.
+     *
+     * @return string
+     */
+    private function getDevServerUrl(): string
+    {
+        if (defined('WP_STATISTICS_VITE_DEV_SERVER')) {
+            return WP_STATISTICS_VITE_DEV_SERVER;
+        }
+        return self::VITE_DEV_SERVER_DEFAULT;
+    }
 
     /**
      * Initialize the React assets manager
@@ -45,6 +76,47 @@ class ReactHandler extends BaseAssets
     }
 
     /**
+     * Check if Vite dev mode is active
+     *
+     * Dev mode is enabled when:
+     * 1. WP_STATISTICS_VITE_DEV constant is defined and true
+     * 2. The Vite dev server is running (responds to requests)
+     *
+     * @return bool
+     */
+    private function isDevMode(): bool
+    {
+        if ($this->isDevMode !== null) {
+            return $this->isDevMode;
+        }
+
+        // Check if dev mode constant is defined
+        if (!defined('WP_STATISTICS_VITE_DEV') || !WP_STATISTICS_VITE_DEV) {
+            $this->isDevMode = false;
+            return false;
+        }
+
+        // Check if Vite dev server is running
+        $this->isDevMode = $this->isViteServerRunning();
+        return $this->isDevMode;
+    }
+
+    /**
+     * Check if Vite dev server is running
+     *
+     * @return bool
+     */
+    private function isViteServerRunning(): bool
+    {
+        $response = wp_remote_get($this->getDevServerUrl() . '/@vite/client', [
+            'timeout'   => 1,
+            'sslverify' => false,
+        ]);
+
+        return !is_wp_error($response) && wp_remote_retrieve_response_code($response) === 200;
+    }
+
+    /**
      * Register and enqueue React admin styles
      *
      * @return void
@@ -55,6 +127,11 @@ class ReactHandler extends BaseAssets
         $screenId = Route::getScreenId();
 
         if ('admin_page_wp-statistics' !== $screenId) {
+            return;
+        }
+
+        // In dev mode, Vite injects CSS via JS - no need to enqueue separately
+        if ($this->isDevMode()) {
             return;
         }
 
@@ -86,6 +163,13 @@ class ReactHandler extends BaseAssets
 
         remove_all_actions('admin_notices');
 
+        // Dev mode: load from Vite dev server with HMR
+        if ($this->isDevMode()) {
+            $this->enqueueDevScripts($hook);
+            return;
+        }
+
+        // Production mode: load from built manifest
         $this->loadManifest();
 
         if (empty($this->manifestMainJs)) {
@@ -94,6 +178,38 @@ class ReactHandler extends BaseAssets
 
         wp_enqueue_script_module($this->getAssetHandle(), $this->getUrl($this->manifestMainJs), [], null);
         $this->printLocalizedData($hook);
+    }
+
+    /**
+     * Enqueue scripts from Vite dev server
+     *
+     * @param string $hook Current admin page hook
+     * @return void
+     */
+    private function enqueueDevScripts($hook)
+    {
+        $this->printLocalizedData($hook);
+
+        $devServer = $this->getDevServerUrl();
+
+        // All Vite scripts must load in <head> for React Fast Refresh to work
+        add_action('admin_head', function () use ($devServer) {
+
+            // 1. React Refresh preamble - must be first
+            echo '<script type="module">
+import RefreshRuntime from "' . esc_url($devServer) . '/@react-refresh"
+RefreshRuntime.injectIntoGlobalHook(window)
+window.$RefreshReg$ = () => {}
+window.$RefreshSig$ = () => (type) => type
+window.__vite_plugin_react_preamble_installed__ = true
+</script>' . "\n";
+
+            // 2. Vite client for HMR
+            echo '<script type="module" src="' . esc_url($devServer . '/@vite/client') . '"></script>' . "\n";
+
+            // 3. Main React entry point
+            echo '<script type="module" src="' . esc_url($devServer . '/src/main.tsx') . '"></script>' . "\n";
+        });
     }
 
     /**
