@@ -1,4 +1,5 @@
 import { clientRequest } from '@lib/client-request'
+import { WordPress } from '@lib/wordpress'
 import { queryOptions } from '@tanstack/react-query'
 
 export interface GetCitiesDataParams {
@@ -38,7 +39,7 @@ export const getCitiesDataQueryOptions = ({
     queryKey: ['geographic', 'cities', countryCode, metric, date_from, date_to],
     queryFn: () =>
       clientRequest.post<GetCitiesDataResponse>('', {
-        action: 'wp_statistics_analytics',
+        action: WordPress.getInstance().getAnalyticsAction(),
         sources: [metric],
         group_by: ['city'],
         filters: {

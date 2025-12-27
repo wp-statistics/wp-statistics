@@ -2,6 +2,7 @@ import { queryOptions } from '@tanstack/react-query'
 
 import type { Filter } from '@/components/custom/filter-bar'
 import { clientRequest } from '@/lib/client-request'
+import { WordPress } from '@/lib/wordpress'
 
 export interface ViewRecord {
   visitor_id: number
@@ -187,7 +188,7 @@ export const getViewsQueryOptions = ({
         },
         {
           params: {
-            action: 'wp_statistics_analytics',
+            action: WordPress.getInstance().getAnalyticsAction(),
           },
         }
       ),

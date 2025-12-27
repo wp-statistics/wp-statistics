@@ -78,9 +78,8 @@ class ReactHandler extends BaseAssets
     /**
      * Check if Vite dev mode is active
      *
-     * Dev mode is enabled when:
-     * 1. WP_STATISTICS_VITE_DEV constant is defined and true
-     * 2. The Vite dev server is running (responds to requests)
+     * Dev mode is auto-enabled when the Vite dev server is running.
+     * Can be explicitly disabled by setting WP_STATISTICS_VITE_DEV to false.
      *
      * @return bool
      */
@@ -90,13 +89,13 @@ class ReactHandler extends BaseAssets
             return $this->isDevMode;
         }
 
-        // Check if dev mode constant is defined
-        if (!defined('WP_STATISTICS_VITE_DEV') || !WP_STATISTICS_VITE_DEV) {
+        // Allow explicit disable via constant
+        if (defined('WP_STATISTICS_VITE_DEV') && !WP_STATISTICS_VITE_DEV) {
             $this->isDevMode = false;
             return false;
         }
 
-        // Check if Vite dev server is running
+        // Auto-detect: Check if Vite dev server is running
         $this->isDevMode = $this->isViteServerRunning();
         return $this->isDevMode;
     }

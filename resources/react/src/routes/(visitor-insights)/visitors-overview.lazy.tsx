@@ -5,14 +5,14 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { DateRangePicker, type DateRange } from '@/components/custom/date-range-picker'
 import { type Filter, FilterBar } from '@/components/custom/filter-bar'
-import { FilterButton, type FilterField } from '@/components/custom/filter-button'
+import { FilterButton, type FilterField, getOperatorDisplay } from '@/components/custom/filter-button'
 import { GlobalMap } from '@/components/custom/global-map'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { formatDateForAPI, formatDuration } from '@/lib/utils'
+import { formatDateForAPI, formatDuration, formatDecimal } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getVisitorOverviewQueryOptions } from '@/services/visitor-insight/get-visitor-overview'
 
@@ -29,9 +29,17 @@ export const Route = createLazyFileRoute('/(visitor-insights)/visitors-overview'
   ),
 })
 
+// URL filter format interface
+interface UrlFilter {
+  field: string
+  operator: string
+  value: string | string[]
+  displayValue?: string // Display label for the value (e.g., "Iran" instead of "5")
+}
+
 // Convert URL filter format to Filter type
 const urlFiltersToFilters = (
-  urlFilters: Array<{ field: string; operator: string; value: string | string[] }> | undefined,
+  urlFilters: UrlFilter[] | undefined,
   filterFields: FilterField[]
 ): Filter[] => {
   if (!urlFilters || !Array.isArray(urlFilters) || urlFilters.length === 0) return []
@@ -40,12 +48,28 @@ const urlFiltersToFilters = (
     const field = filterFields.find((f) => f.name === urlFilter.field)
     const label = field?.label || urlFilter.field
 
-    // Get display value from field options if available
-    let displayValue = Array.isArray(urlFilter.value) ? urlFilter.value.join(', ') : urlFilter.value
-    if (field?.options) {
+    // Use displayValue from URL if available (preserves labels like "Iran" after refresh)
+    // Otherwise try to get display value from field options
+    let displayValue = urlFilter.displayValue
+    if (!displayValue) {
+      displayValue = Array.isArray(urlFilter.value) ? urlFilter.value.join(', ') : urlFilter.value
+      if (field?.options) {
+        const values = Array.isArray(urlFilter.value) ? urlFilter.value : [urlFilter.value]
+        const labels = values.map((v) => field.options?.find((o) => String(o.value) === v)?.label || v).join(', ')
+        displayValue = labels
+      }
+    }
+
+    // Create valueLabels from displayValue and rawValue for searchable filters
+    // This allows the filter panel to show labels instead of raw values
+    let valueLabels: Record<string, string> | undefined
+    if (displayValue && urlFilter.value) {
       const values = Array.isArray(urlFilter.value) ? urlFilter.value : [urlFilter.value]
-      const labels = values.map((v) => field.options?.find((o) => String(o.value) === v)?.label || v).join(', ')
-      displayValue = labels
+      const displayValues = displayValue.split(', ')
+      valueLabels = {}
+      values.forEach((v, i) => {
+        valueLabels![String(v)] = displayValues[i] || String(v)
+      })
     }
 
     // Create filter ID in the expected format: field-field-filter-restored-index
@@ -54,10 +78,11 @@ const urlFiltersToFilters = (
     return {
       id: filterId,
       label,
-      operator: urlFilter.operator,
+      operator: getOperatorDisplay(urlFilter.operator as FilterOperator),
       rawOperator: urlFilter.operator,
       value: displayValue,
       rawValue: urlFilter.value,
+      valueLabels,
     }
   })
 }
@@ -69,13 +94,12 @@ const extractFilterField = (filterId: string): string => {
 }
 
 // Convert Filter type to URL filter format
-const filtersToUrlFilters = (
-  filters: Filter[]
-): Array<{ field: string; operator: string; value: string | string[] }> => {
+const filtersToUrlFilters = (filters: Filter[]): UrlFilter[] => {
   return filters.map((filter) => ({
     field: extractFilterField(filter.id),
     operator: filter.rawOperator || filter.operator,
     value: filter.rawValue || filter.value,
+    displayValue: String(filter.value), // Preserve display label for page refresh
   }))
 }
 
@@ -91,16 +115,31 @@ function RouteComponent() {
     return wp.getFilterFieldsByGroup('visitors') as FilterField[]
   }, [])
 
-  // Initialize filters from URL or use empty array
-  const [appliedFilters, setAppliedFilters] = useState<Filter[]>(() => {
-    return urlFiltersToFilters(urlFilters, filterFields)
-  })
+  // Initialize filters state - null until URL sync is complete
+  const [appliedFilters, setAppliedFilters] = useState<Filter[] | null>(null)
+  const lastSyncedFiltersRef = useRef<string | null>(null)
 
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
 
-  // Sync filters to URL when they change
+  // Sync filters FROM URL on mount (only once)
   useEffect(() => {
+    if (lastSyncedFiltersRef.current !== null) return // Already initialized
+
+    const filtersFromUrl = urlFiltersToFilters(urlFilters, filterFields)
+    setAppliedFilters(filtersFromUrl)
+    lastSyncedFiltersRef.current = JSON.stringify(urlFilters || [])
+  }, [urlFilters, filterFields])
+
+  // Sync filters TO URL when they change (only after initialization)
+  useEffect(() => {
+    if (lastSyncedFiltersRef.current === null || appliedFilters === null) return
+
     const urlFilterData = filtersToUrlFilters(appliedFilters)
+    const serialized = JSON.stringify(urlFilterData)
+
+    if (serialized === lastSyncedFiltersRef.current) return
+
+    lastSyncedFiltersRef.current = serialized
     navigate({
       search: (prev) => ({
         ...prev,
@@ -111,7 +150,7 @@ function RouteComponent() {
   }, [appliedFilters, navigate])
 
   const handleRemoveFilter = (filterId: string) => {
-    setAppliedFilters((prev) => prev.filter((f) => f.id !== filterId))
+    setAppliedFilters((prev) => (prev ? prev.filter((f) => f.id !== filterId) : []))
   }
 
   // Date range state (default to today)
@@ -167,7 +206,7 @@ function RouteComponent() {
     []
   )
 
-  // Batch query for all overview data
+  // Batch query for all overview data (only when filters are initialized)
   const {
     data: batchResponse,
     isLoading,
@@ -179,10 +218,11 @@ function RouteComponent() {
       compareDateFrom: compareDateRange ? formatDateForAPI(compareDateRange.from) : undefined,
       compareDateTo: compareDateRange ? formatDateForAPI(compareDateRange.to || compareDateRange.from) : undefined,
       timeframe,
-      filters: appliedFilters,
+      filters: appliedFilters || [],
     }),
     retry: false,
     placeholderData: keepPreviousData, // Keep showing old data while fetching new data
+    enabled: appliedFilters !== null,
   })
 
   // Only show skeleton on initial load (no data yet), not on refetches
@@ -274,22 +314,25 @@ function RouteComponent() {
       color: 'var(--chart-1)',
       enabled: true,
       value:
-        chartTotals.visitors >= 1000 ? `${(chartTotals.visitors / 1000).toFixed(1)}k` : chartTotals.visitors.toFixed(1),
+        chartTotals.visitors >= 1000
+          ? `${formatDecimal(chartTotals.visitors / 1000)}k`
+          : formatDecimal(chartTotals.visitors),
       previousValue:
         chartTotals.visitorsPrevious >= 1000
-          ? `${(chartTotals.visitorsPrevious / 1000).toFixed(1)}k`
-          : chartTotals.visitorsPrevious.toFixed(1),
+          ? `${formatDecimal(chartTotals.visitorsPrevious / 1000)}k`
+          : formatDecimal(chartTotals.visitorsPrevious),
     },
     {
       key: 'views',
       label: 'Views',
       color: 'var(--chart-4)',
       enabled: true,
-      value: chartTotals.views >= 1000 ? `${(chartTotals.views / 1000).toFixed(1)}k` : chartTotals.views.toFixed(1),
+      value:
+        chartTotals.views >= 1000 ? `${formatDecimal(chartTotals.views / 1000)}k` : formatDecimal(chartTotals.views),
       previousValue:
         chartTotals.viewsPrevious >= 1000
-          ? `${(chartTotals.viewsPrevious / 1000).toFixed(1)}k`
-          : chartTotals.viewsPrevious.toFixed(1),
+          ? `${formatDecimal(chartTotals.viewsPrevious / 1000)}k`
+          : formatDecimal(chartTotals.viewsPrevious),
     },
   ]
 
@@ -310,8 +353,8 @@ function RouteComponent() {
 
   // Helper function to format numbers
   const formatNumber = (num: number) => {
-    if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`
-    if (num >= 1000) return `${(num / 1000).toFixed(1)}k`
+    if (num >= 1000000) return `${formatDecimal(num / 1000000)}M`
+    if (num >= 1000) return `${formatDecimal(num / 1000)}k`
     return num.toLocaleString()
   }
 
@@ -327,7 +370,7 @@ function RouteComponent() {
     }
     const change = ((current - previous) / previous) * 100
     return {
-      percentage: Math.abs(change).toFixed(1),
+      percentage: formatDecimal(Math.abs(change)),
       isNegative: change < 0,
     }
   }
@@ -385,7 +428,7 @@ function RouteComponent() {
       },
       {
         label: __('Views/Session', 'wp-statistics'),
-        value: pagesPerSession.toFixed(1),
+        value: formatDecimal(pagesPerSession),
         ...calcPercentage(pagesPerSession, prevPagesPerSession),
         tooltipContent: __('Average pages viewed per session', 'wp-statistics'),
       },
@@ -407,7 +450,7 @@ function RouteComponent() {
       },
       {
         label: __('Logged-in Share', 'wp-statistics'),
-        value: `${loggedInShare.toFixed(1)}%`,
+        value: `${formatDecimal(loggedInShare)}%`,
         ...calcPercentage(loggedInShare, prevLoggedInShare),
         tooltipContent: __('Percentage of logged-in visitors', 'wp-statistics'),
       },
@@ -420,7 +463,7 @@ function RouteComponent() {
       <div className="flex items-center justify-between p-4 bg-white border-b border-input">
         <h1 className="text-2xl font-medium text-neutral-700">{__('Visitor Insights', 'wp-statistics')}</h1>
         <div className="flex items-center gap-2">
-          {filterFields.length > 0 && (
+          {filterFields.length > 0 && appliedFilters !== null && (
             <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={setAppliedFilters} />
           )}
           <DateRangePicker
@@ -435,7 +478,7 @@ function RouteComponent() {
 
       <div className="p-4">
         {/* Applied filters row (separate from button) */}
-        {appliedFilters.length > 0 && (
+        {appliedFilters && appliedFilters.length > 0 && (
           <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-4" />
         )}
 

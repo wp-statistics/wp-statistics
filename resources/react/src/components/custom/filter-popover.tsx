@@ -7,12 +7,18 @@ import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterPanel, generateFilterId } from '@/components/custom/filter-panel'
 import {
   type FilterField,
-  type FilterOperator,
   type FilterRowData,
-  operatorLabels,
+  type FilterValue,
+  getArrayValue,
+  getOperatorLabel,
+  getOperatorType,
+  getRangeValue,
+  getSingleValue,
+  isRangeValue,
 } from '@/components/custom/filter-row'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { WordPress } from '@/lib/wordpress'
 
 export interface FilterPopoverProps {
   fields: FilterField[]
@@ -21,34 +27,73 @@ export interface FilterPopoverProps {
   className?: string
 }
 
-// Map internal operator to display operator
-const operatorDisplayMap: Record<FilterOperator, string> = {
-  greater_than: '>',
-  less_than: '<',
-  equal_to: '=',
-  not_equal: '!=',
-  contains: 'Contains',
-  is: 'Is',
+// Get operator display label from WordPress localized data
+const getOperatorDisplay = (operator: FilterOperator): string => {
+  try {
+    const operators = WordPress.getInstance().getFilterOperators()
+    if (operators[operator]?.label) {
+      return operators[operator].label
+    }
+  } catch {
+    // Fallback if WordPress context not available (e.g., in Storybook)
+  }
+  return getOperatorLabel(operator)
 }
 
 function FilterPopover({ fields, appliedFilters, onApplyFilters, className }: FilterPopoverProps) {
   const [open, setOpen] = useState(false)
   const [pendingFilters, setPendingFilters] = useState<FilterRowData[]>([])
 
+  // Check if filter has a valid value
+  const hasValidValue = (value: FilterValue, operator: FilterOperator): boolean => {
+    // Operators that don't require a value are always valid
+    if (operator === 'is_null' || operator === 'is_not_null') {
+      return true
+    }
+
+    const operatorType = getOperatorType(operator)
+
+    if (operatorType === 'range') {
+      const range = getRangeValue(value)
+      return range.min !== '' || range.max !== ''
+    }
+
+    if (operatorType === 'multiple') {
+      const arr = getArrayValue(value)
+      return arr.length > 0
+    }
+
+    if (isRangeValue(value)) {
+      return value.min !== '' || value.max !== ''
+    }
+
+    return getSingleValue(value) !== ''
+  }
+
   // Convert applied filters back to FilterRowData when opening
   const handleOpenChange = (isOpen: boolean) => {
     if (isOpen) {
       // Convert applied filters to pending filters
       const converted: FilterRowData[] = appliedFilters.map((af) => {
-        // Find the operator key from the display value
-        const operatorEntry = Object.entries(operatorDisplayMap).find(([, display]) => display === af.operator)
-        const operatorKey = (operatorEntry?.[0] as FilterOperator) || 'equal_to'
+        // Use rawOperator if available, otherwise use 'is' as default
+        const operator = (af.rawOperator || 'is') as FilterOperator
+        const operatorType = getOperatorType(operator)
+
+        // Convert rawValue back to FilterValue based on operator type
+        let value: FilterValue
+        if (operatorType === 'range' && Array.isArray(af.rawValue) && af.rawValue.length === 2) {
+          value = { min: af.rawValue[0] || '', max: af.rawValue[1] || '' }
+        } else if (af.rawValue !== undefined) {
+          value = af.rawValue
+        } else {
+          value = String(af.value)
+        }
 
         return {
           id: af.id,
-          fieldId: af.id.split('-')[0] || af.id,
-          operator: operatorKey,
-          value: String(af.value),
+          fieldName: (af.id.split('-')[0] || af.id) as FilterFieldName,
+          operator,
+          value,
         }
       })
       setPendingFilters(converted.length > 0 ? converted : [])
@@ -59,14 +104,44 @@ function FilterPopover({ fields, appliedFilters, onApplyFilters, className }: Fi
   const handleApply = () => {
     // Convert pending filters to applied filters
     const newAppliedFilters: AppliedFilter[] = pendingFilters
-      .filter((f) => f.value !== '') // Only include filters with values
+      .filter((f) => hasValidValue(f.value, f.operator))
       .map((f) => {
-        const field = fields.find((field) => field.id === f.fieldId)
+        const field = fields.find((field) => field.name === f.fieldName)
+        const operatorType = getOperatorType(f.operator)
+
+        // Get raw value based on operator type for API
+        let rawValue: string | string[]
+        if (operatorType === 'range') {
+          const range = getRangeValue(f.value)
+          rawValue = [range.min, range.max]
+        } else if (operatorType === 'multiple') {
+          rawValue = getArrayValue(f.value)
+        } else {
+          if (isRangeValue(f.value)) {
+            rawValue = f.value.min || f.value.max || ''
+          } else {
+            rawValue = Array.isArray(f.value) ? f.value[0] || '' : getSingleValue(f.value)
+          }
+        }
+
+        // Get display value
+        let displayValue: string
+        if (operatorType === 'range') {
+          const range = getRangeValue(f.value)
+          displayValue = `${range.min} - ${range.max}`
+        } else if (operatorType === 'multiple') {
+          displayValue = getArrayValue(f.value).join(', ')
+        } else {
+          displayValue = getSingleValue(f.value)
+        }
+
         return {
-          id: `${f.fieldId}-${f.id}`,
-          label: field?.label || f.fieldId,
-          operator: operatorDisplayMap[f.operator] as AppliedFilter['operator'],
-          value: f.value,
+          id: `${f.fieldName}-${f.id}`,
+          label: field?.label || f.fieldName,
+          operator: getOperatorDisplay(f.operator),
+          rawOperator: f.operator,
+          value: displayValue,
+          rawValue,
         }
       })
 
@@ -114,5 +189,5 @@ function FilterPopover({ fields, appliedFilters, onApplyFilters, className }: Fi
   )
 }
 
-export { FilterPopover, generateFilterId, operatorDisplayMap, operatorLabels }
-export type { FilterField, FilterOperator, FilterRowData }
+export { FilterPopover, generateFilterId, getOperatorDisplay }
+export type { FilterField, FilterRowData }

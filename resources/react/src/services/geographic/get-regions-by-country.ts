@@ -1,4 +1,5 @@
 import { clientRequest } from '@lib/client-request'
+import { WordPress } from '@lib/wordpress'
 import { queryOptions } from '@tanstack/react-query'
 
 export interface GetRegionsByCountryParams {
@@ -64,7 +65,7 @@ export const getRegionsByCountryQueryOptions = ({
         },
         {
           params: {
-            action: 'wp_statistics_analytics',
+            action: WordPress.getInstance().getAnalyticsAction(),
           },
         }
       ),

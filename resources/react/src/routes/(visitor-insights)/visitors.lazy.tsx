@@ -9,10 +9,10 @@ import { DataTable } from '@/components/custom/data-table'
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
 import { DateRangePicker, type DateRange } from '@/components/custom/date-range-picker'
 import { type Filter, FilterBar } from '@/components/custom/filter-bar'
-import { FilterButton, type FilterField } from '@/components/custom/filter-button'
+import { FilterButton, type FilterField, getOperatorDisplay } from '@/components/custom/filter-button'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { formatDateForAPI, formatDuration } from '@/lib/utils'
+import { formatDateForAPI, formatDuration, formatDecimal } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import type { VisitorRecord } from '@/services/visitor-insight/get-visitors'
 import { getVisitorsQueryOptions } from '@/services/visitor-insight/get-visitors'
@@ -274,9 +274,17 @@ const formatReferrerChannel = (channel: string | null | undefined): string => {
   return channelMap[channel.toLowerCase()] || channel.toUpperCase()
 }
 
+// URL filter format includes displayValue for searchable fields that don't have pre-loaded options
+interface UrlFilter {
+  field: string
+  operator: string
+  value: string | string[]
+  displayValue?: string // Display label for the value (e.g., "Iran" instead of "5")
+}
+
 // Convert URL filter format to Filter type
 const urlFiltersToFilters = (
-  urlFilters: Array<{ field: string; operator: string; value: string | string[] }> | undefined,
+  urlFilters: UrlFilter[] | undefined,
   filterFields: FilterField[]
 ): Filter[] => {
   if (!urlFilters || !Array.isArray(urlFilters) || urlFilters.length === 0) return []
@@ -285,12 +293,28 @@ const urlFiltersToFilters = (
     const field = filterFields.find((f) => f.name === urlFilter.field)
     const label = field?.label || urlFilter.field
 
-    // Get display value from field options if available
-    let displayValue = Array.isArray(urlFilter.value) ? urlFilter.value.join(', ') : urlFilter.value
-    if (field?.options) {
+    // Use displayValue from URL if available (for searchable fields)
+    // Otherwise try to look up from field options, or fall back to raw value
+    let displayValue = urlFilter.displayValue
+    if (!displayValue) {
+      displayValue = Array.isArray(urlFilter.value) ? urlFilter.value.join(', ') : String(urlFilter.value)
+      if (field?.options) {
+        const values = Array.isArray(urlFilter.value) ? urlFilter.value : [urlFilter.value]
+        const labels = values.map((v) => field.options?.find((o) => String(o.value) === String(v))?.label || v).join(', ')
+        displayValue = labels
+      }
+    }
+
+    // Create valueLabels from displayValue and rawValue for searchable filters
+    // This allows the filter panel to show labels instead of raw values
+    let valueLabels: Record<string, string> | undefined
+    if (displayValue && urlFilter.value) {
       const values = Array.isArray(urlFilter.value) ? urlFilter.value : [urlFilter.value]
-      const labels = values.map((v) => field.options?.find((o) => String(o.value) === v)?.label || v).join(', ')
-      displayValue = labels
+      const displayValues = displayValue.split(', ')
+      valueLabels = {}
+      values.forEach((v, i) => {
+        valueLabels![String(v)] = displayValues[i] || String(v)
+      })
     }
 
     // Create filter ID in the expected format: field-field-filter-restored-index
@@ -299,10 +323,11 @@ const urlFiltersToFilters = (
     return {
       id: filterId,
       label,
-      operator: urlFilter.operator,
+      operator: getOperatorDisplay(urlFilter.operator as FilterOperator),
       rawOperator: urlFilter.operator,
       value: displayValue,
       rawValue: urlFilter.value,
+      valueLabels,
     }
   })
 }
@@ -314,13 +339,13 @@ const extractFilterField = (filterId: string): string => {
 }
 
 // Convert Filter type to URL filter format
-const filtersToUrlFilters = (
-  filters: Filter[]
-): Array<{ field: string; operator: string; value: string | string[] }> => {
+const filtersToUrlFilters = (filters: Filter[]): UrlFilter[] => {
   return filters.map((filter) => ({
     field: extractFilterField(filter.id),
     operator: filter.rawOperator || filter.operator,
     value: filter.rawValue || filter.value,
+    // Store display value for searchable fields that don't have pre-loaded options
+    displayValue: String(filter.value),
   }))
 }
 
@@ -638,10 +663,10 @@ const createColumns = (config: VisitorInfoColumnConfig): ColumnDef<Visitor>[] =>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <span className="cursor-pointer">{value.toFixed(1)}</span>
+                <span className="cursor-pointer">{formatDecimal(value)}</span>
               </TooltipTrigger>
               <TooltipContent>
-                <p>{value.toFixed(1)} average page views per session</p>
+                <p>{formatDecimal(value)} average page views per session</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -726,8 +751,8 @@ function RouteComponent() {
     return wp.getFilterFieldsByGroup('visitors') as FilterField[]
   }, [wp])
 
-  // Initialize filters state
-  const [appliedFilters, setAppliedFilters] = useState<Filter[]>([])
+  // Initialize filters state - null until URL sync is complete
+  const [appliedFilters, setAppliedFilters] = useState<Filter[] | null>(null)
 
   // Initialize page state
   const [page, setPage] = useState(1)
@@ -739,10 +764,7 @@ function RouteComponent() {
     // Parse URL filters - urlFilters comes from validated search params
     const filtersFromUrl = urlFiltersToFilters(urlFilters, filterFields)
 
-    // Only set state if there are actual filters to apply
-    if (filtersFromUrl.length > 0) {
-      setAppliedFilters(filtersFromUrl)
-    }
+    setAppliedFilters(filtersFromUrl)
     if (urlPage && urlPage > 1) {
       setPage(urlPage)
     }
@@ -764,7 +786,7 @@ function RouteComponent() {
 
   // Sync filters TO URL when they change (only after initialization and actual change)
   useEffect(() => {
-    if (lastSyncedFiltersRef.current === null) return // Not initialized yet
+    if (lastSyncedFiltersRef.current === null || appliedFilters === null) return // Not initialized yet
 
     const urlFilterData = filtersToUrlFilters(appliedFilters)
     const serialized = JSON.stringify(urlFilterData)
@@ -821,7 +843,7 @@ function RouteComponent() {
   // Stable empty visibility state to avoid creating new objects on each render
   const emptyVisibilityRef = useRef<VisibilityState>({})
 
-  // Fetch data from API
+  // Fetch data from API (only when filters are initialized)
   const {
     data: response,
     isFetching,
@@ -837,11 +859,12 @@ function RouteComponent() {
       date_to: formatDateForAPI(dateRange.to || dateRange.from),
       previous_date_from: compareDateRange ? formatDateForAPI(compareDateRange.from) : undefined,
       previous_date_to: compareDateRange ? formatDateForAPI(compareDateRange.to || compareDateRange.from) : undefined,
-      filters: appliedFilters,
+      filters: appliedFilters || [],
       context: CONTEXT,
       columns: apiColumns,
     }),
     placeholderData: keepPreviousData,
+    enabled: appliedFilters !== null,
   })
 
   // Compute initial visibility only once when API returns preferences
@@ -982,7 +1005,7 @@ function RouteComponent() {
   }, [])
 
   const handleRemoveFilter = (filterId: string) => {
-    setAppliedFilters((prev) => prev.filter((f) => f.id !== filterId))
+    setAppliedFilters((prev) => (prev ? prev.filter((f) => f.id !== filterId) : []))
     setPage(1) // Reset to first page when filters change
   }
 
@@ -998,7 +1021,7 @@ function RouteComponent() {
       <div className="flex items-center justify-between p-4 bg-white border-b border-input">
         <h1 className="text-2xl font-medium text-neutral-700">{__('Visitors', 'wp-statistics')}</h1>
         <div className="flex items-center gap-2">
-          {filterFields.length > 0 && (
+          {filterFields.length > 0 && appliedFilters !== null && (
             <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={handleApplyFilters} />
           )}
           <DateRangePicker
@@ -1013,7 +1036,7 @@ function RouteComponent() {
 
       <div className="p-4">
         {/* Applied filters row (separate from button) */}
-        {appliedFilters.length > 0 && (
+        {appliedFilters && appliedFilters.length > 0 && (
           <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-4" />
         )}
 

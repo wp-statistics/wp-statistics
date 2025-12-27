@@ -32,3 +32,15 @@ export function formatDuration(seconds: number): string {
   }
   return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
 }
+
+/**
+ * Format a number with decimals, removing unnecessary trailing .0
+ * Examples: 100.0 → "100", 17.5 → "17.5", 0.0 → "0"
+ */
+export function formatDecimal(value: number, decimals: number = 1): string {
+  if (!Number.isFinite(value)) {
+    return String(value)
+  }
+  const fixed = value.toFixed(decimals)
+  return fixed.endsWith('.0') ? fixed.slice(0, -2) : fixed
+}
