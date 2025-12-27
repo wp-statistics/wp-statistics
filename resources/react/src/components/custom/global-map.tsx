@@ -2,7 +2,7 @@ import { Button } from '@components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/card'
 import { Tabs, TabsList, TabsTrigger } from '@components/ui/tabs'
 import { getCountryCenter, getCountryZoomLevel } from '@lib/country-centers'
-import { cn } from '@lib/utils'
+import { cn, formatDecimal } from '@lib/utils'
 import { getRegionsByCountryQueryOptions } from '@services/geographic/get-regions-by-country'
 import { useQuery } from '@tanstack/react-query'
 import { ArrowLeft, Loader2, Minus, Plus } from 'lucide-react'
@@ -394,7 +394,7 @@ export function GlobalMap({
             <span className="text-muted-foreground uppercase">{selectedMetric}</span>
             <span className="font-semibold">{(value || 0).toLocaleString()}</span>
           </div>
-          <div className="text-xs text-muted-foreground">{percentage.toFixed(1)}% of total</div>
+          <div className="text-xs text-muted-foreground">{formatDecimal(percentage)}% of total</div>
         </div>
       </div>
     )

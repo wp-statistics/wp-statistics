@@ -13,7 +13,7 @@ import { FilterButton, type FilterField } from '@/components/custom/filter-butto
 import { LineChart } from '@/components/custom/line-chart'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { formatDateForAPI } from '@/lib/utils'
+import { formatDateForAPI, formatDecimal } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import type { LoggedInUser as LoggedInUserRecord } from '@/services/visitor-insight/get-logged-in-users'
 import { getLoggedInUsersQueryOptions } from '@/services/visitor-insight/get-logged-in-users'
@@ -902,10 +902,10 @@ function RouteComponent() {
       label: __('User Visitors', 'wp-statistics'),
       color: 'var(--chart-1)',
       enabled: true,
-      value: totalUserVisitors >= 1000 ? `${(totalUserVisitors / 1000).toFixed(1)}k` : totalUserVisitors.toString(),
+      value: totalUserVisitors >= 1000 ? `${formatDecimal(totalUserVisitors / 1000)}k` : totalUserVisitors.toString(),
       previousValue:
         totalUserVisitorsPrevious >= 1000
-          ? `${(totalUserVisitorsPrevious / 1000).toFixed(1)}k`
+          ? `${formatDecimal(totalUserVisitorsPrevious / 1000)}k`
           : totalUserVisitorsPrevious.toString(),
     },
     {
@@ -915,11 +915,11 @@ function RouteComponent() {
       enabled: true,
       value:
         totalAnonymousVisitors >= 1000
-          ? `${(totalAnonymousVisitors / 1000).toFixed(1)}k`
+          ? `${formatDecimal(totalAnonymousVisitors / 1000)}k`
           : totalAnonymousVisitors.toString(),
       previousValue:
         totalAnonymousVisitorsPrevious >= 1000
-          ? `${(totalAnonymousVisitorsPrevious / 1000).toFixed(1)}k`
+          ? `${formatDecimal(totalAnonymousVisitorsPrevious / 1000)}k`
           : totalAnonymousVisitorsPrevious.toString(),
     },
   ]
