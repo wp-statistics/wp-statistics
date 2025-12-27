@@ -189,7 +189,7 @@ export function LineChart({
               {showPreviousPeriod && (
                 <button
                   onClick={toggleAllPreviousPeriod}
-                  className={`flex items-center gap-1.5 text-sm italic text-muted-foreground transition-colors cursor-pointer ${!isAnyPreviousVisible ? 'opacity-50' : ''}`}
+                  className={`flex items-center gap-1.5 text-xs text-muted-foreground transition-colors cursor-pointer ${!isAnyPreviousVisible ? 'opacity-50' : ''}`}
                 >
                   <svg width="12" height="3" className="shrink-0 opacity-50">
                     <line
@@ -207,7 +207,7 @@ export function LineChart({
               )}
               {onTimeframeChange && (
                 <Select value={timeframe} onValueChange={onTimeframeChange}>
-                  <SelectTrigger className="w-[120px] h-10 font-medium">
+                  <SelectTrigger className="w-[100px] h-8 text-sm font-medium">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -262,12 +262,9 @@ export function LineChart({
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickCount={8}
+              tickCount={5}
+              allowDecimals={false}
               tick={{ fill: '#9ca3af', fontSize: 12 }}
-              alignmentBaseline="after-edge"
-              padding={{
-                bottom: 20,
-              }}
             />
             <ChartTooltip
               content={({ active, payload, label }) => {
