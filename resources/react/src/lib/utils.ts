@@ -18,6 +18,22 @@ export const formatDateForAPI = (date: Date): string => {
 }
 
 /**
+ * Format seconds as duration string
+ * - Shows MM:SS when hours is 0 (e.g., "10:34")
+ * - Shows HH:MM:SS when hours > 0 (e.g., "01:10:34")
+ */
+export function formatDuration(seconds: number): string {
+  const hours = Math.floor(seconds / 3600)
+  const mins = Math.floor((seconds % 3600) / 60)
+  const secs = Math.floor(seconds % 60)
+
+  if (hours === 0) {
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
+  }
+  return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
+}
+
+/**
  * Format a number with decimals, removing unnecessary trailing .0
  * Examples: 100.0 → "100", 17.5 → "17.5", 0.0 → "0"
  */

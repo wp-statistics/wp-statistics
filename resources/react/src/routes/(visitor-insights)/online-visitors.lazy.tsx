@@ -9,6 +9,7 @@ import { DataTable } from '@/components/custom/data-table'
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { formatDuration } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import type { OnlineVisitor as APIOnlineVisitor } from '@/services/visitor-insight/get-online-visitors'
 import { getOnlineVisitorsQueryOptions } from '@/services/visitor-insight/get-online-visitors'
@@ -373,12 +374,7 @@ const createColumns = (config: VisitorInfoColumnConfig): ColumnDef<OnlineVisitor
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Online For" />,
     cell: ({ row }) => {
       const seconds = row.original.onlineFor
-      const hours = Math.floor(seconds / 3600)
-      const minutes = Math.floor((seconds % 3600) / 60)
-      const secs = seconds % 60
-      const formatted = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
-
-      return <span>{formatted}</span>
+      return <span>{formatDuration(seconds)}</span>
     },
   },
   {

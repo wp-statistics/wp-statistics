@@ -12,7 +12,7 @@ import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { formatDateForAPI, formatDecimal } from '@/lib/utils'
+import { formatDateForAPI, formatDuration, formatDecimal } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getVisitorOverviewQueryOptions } from '@/services/visitor-insight/get-visitor-overview'
 
@@ -356,14 +356,6 @@ function RouteComponent() {
     if (num >= 1000000) return `${formatDecimal(num / 1000000)}M`
     if (num >= 1000) return `${formatDecimal(num / 1000)}k`
     return num.toLocaleString()
-  }
-
-  // Helper function to format duration (seconds to HH:MM:SS)
-  const formatDuration = (seconds: number) => {
-    const hours = Math.floor(seconds / 3600)
-    const mins = Math.floor((seconds % 3600) / 60)
-    const secs = Math.floor(seconds % 60)
-    return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
   }
 
   // Calculate percentage change: ((Current - Previous) / Previous) × 100
