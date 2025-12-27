@@ -448,11 +448,7 @@ function RouteComponent() {
         ) : (
           <div className="grid gap-3 grid-cols-12">
             <div className="col-span-12">
-              <Card className="py-0">
-                <CardContent className="p-0">
-                  <Metrics metrics={overviewMetrics} columns={4} />
-                </CardContent>
-              </Card>
+              <Metrics metrics={overviewMetrics} columns={4} />
             </div>
 
             <div className="col-span-12">
