@@ -73,9 +73,11 @@ function MetricCard({
   positionClasses,
 }: MetricCardProps) {
   const hasPercentage = percentage !== undefined && percentage !== null
+  const percentageNum = typeof percentage === 'string' ? parseFloat(percentage) : percentage
+  const isZero = percentageNum === 0
 
   return (
-    <div className={cn('bg-white p-4 flex flex-col gap-3', positionClasses)}>
+    <div className={cn('bg-white p-4 flex flex-col gap-2', positionClasses)}>
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-1.5">
           <span className="text-xs font-medium text-neutral-500 uppercase tracking-wide">{label}</span>
@@ -96,18 +98,20 @@ function MetricCard({
       </div>
 
       <div className="flex items-end gap-2">
-        <div className="text-2xl font-normal text-card-foreground leading-none">{value}</div>
+        <div className="text-2xl font-medium text-card-foreground leading-none">{value}</div>
         {hasPercentage && (
           <Badge
             className={cn(
-              'flex items-center py-0.5 px-1 rounded gap-1 shadow-none',
-              isNegative
-                ? 'bg-red-50 text-red-800 hover:bg-red-50'
-                : 'bg-emerald-50 text-emerald-800 hover:bg-emerald-50'
+              'flex items-center py-0.5 px-1.5 rounded gap-0.5 shadow-none',
+              isZero
+                ? 'bg-neutral-100 text-neutral-500 hover:bg-neutral-100'
+                : isNegative
+                  ? 'bg-red-50 text-red-800 hover:bg-red-50'
+                  : 'bg-emerald-50 text-emerald-800 hover:bg-emerald-50'
             )}
           >
-            {isNegative ? <ChevronDown size={16} strokeWidth={3} /> : <ChevronUp size={16} strokeWidth={3} />}
-            <span className="font-medium text-sm">{percentage}%</span>
+            {!isZero && (isNegative ? <ChevronDown size={14} strokeWidth={2.5} /> : <ChevronUp size={14} strokeWidth={2.5} />)}
+            <span className="font-medium text-xs">{percentage}%</span>
           </Badge>
         )}
       </div>
