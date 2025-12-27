@@ -122,18 +122,12 @@ export const OverviewTopVisitors = ({ data }: OverviewTopVisitorsProps) => {
         // Determine what to show for identifier based on settings
         const showUserBadge = trackLoggedInEnabled && visitorInfo.user
 
-        // Format hash display: strip #hash# prefix and show first 6 chars
-        const formatHashDisplay = (value: string): string => {
-          const cleanHash = value.replace(/^#hash#/i, '')
-          return cleanHash.substring(0, 6)
-        }
-
         // Determine identifier display based on settings and available data
+        // API now returns hash pre-formatted as #xxxxxx
         const getIdentifierDisplay = (): string | undefined => {
           if (hashEnabled) {
-            // hashEnabled = true → show first 6 chars of hash
-            if (visitorInfo.hash) return formatHashDisplay(visitorInfo.hash)
-            if (visitorInfo.ipAddress?.startsWith('#hash#')) return formatHashDisplay(visitorInfo.ipAddress)
+            // hashEnabled = true → show hash (API returns pre-formatted #xxxxxx)
+            if (visitorInfo.hash) return visitorInfo.hash
           }
           // hashEnabled = false → show full IP address
           return visitorInfo.ipAddress

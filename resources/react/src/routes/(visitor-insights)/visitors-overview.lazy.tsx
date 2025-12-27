@@ -12,6 +12,7 @@ import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import { extractFilterField, filtersToUrlFilters, urlFiltersToFilters } from '@/lib/filter-utils'
 import { formatDateForAPI } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getVisitorOverviewQueryOptions } from '@/services/visitor-insight/get-visitor-overview'
@@ -28,56 +29,6 @@ export const Route = createLazyFileRoute('/(visitor-insights)/visitors-overview'
     </div>
   ),
 })
-
-// Convert URL filter format to Filter type
-const urlFiltersToFilters = (
-  urlFilters: Array<{ field: string; operator: string; value: string | string[] }> | undefined,
-  filterFields: FilterField[]
-): Filter[] => {
-  if (!urlFilters || !Array.isArray(urlFilters) || urlFilters.length === 0) return []
-
-  return urlFilters.map((urlFilter, index) => {
-    const field = filterFields.find((f) => f.name === urlFilter.field)
-    const label = field?.label || urlFilter.field
-
-    // Get display value from field options if available
-    let displayValue = Array.isArray(urlFilter.value) ? urlFilter.value.join(', ') : urlFilter.value
-    if (field?.options) {
-      const values = Array.isArray(urlFilter.value) ? urlFilter.value : [urlFilter.value]
-      const labels = values.map((v) => field.options?.find((o) => String(o.value) === v)?.label || v).join(', ')
-      displayValue = labels
-    }
-
-    // Create filter ID in the expected format: field-field-filter-restored-index
-    const filterId = `${urlFilter.field}-${urlFilter.field}-filter-restored-${index}`
-
-    return {
-      id: filterId,
-      label,
-      operator: urlFilter.operator,
-      rawOperator: urlFilter.operator,
-      value: displayValue,
-      rawValue: urlFilter.value,
-    }
-  })
-}
-
-// Extract the field name from filter ID
-// Filter IDs are in format: "field_name-field_name-filter-..." or "field_name-index"
-const extractFilterField = (filterId: string): string => {
-  return filterId.split('-')[0]
-}
-
-// Convert Filter type to URL filter format
-const filtersToUrlFilters = (
-  filters: Filter[]
-): Array<{ field: string; operator: string; value: string | string[] }> => {
-  return filters.map((filter) => ({
-    field: extractFilterField(filter.id),
-    operator: filter.rawOperator || filter.operator,
-    value: filter.rawValue || filter.value,
-  }))
-}
 
 function RouteComponent() {
   const navigate = useNavigate()

@@ -10,6 +10,22 @@ import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-co
 import { DateRangePicker, type DateRange } from '@/components/custom/date-range-picker'
 import { type Filter, FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
+import {
+  type ColumnConfig,
+  clearCachedColumns,
+  computeApiColumns,
+  getCachedApiColumns,
+  getDefaultApiColumns,
+  getVisibleColumnsForSave,
+  setCachedColumns,
+} from '@/lib/column-utils'
+import {
+  extractFilterField,
+  filtersToUrlFilters,
+  formatReferrerChannel,
+  urlFiltersToFilters,
+} from '@/lib/filter-utils'
+import { parseEntryPage } from '@/lib/url-utils'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { formatDateForAPI } from '@/lib/utils'
@@ -27,138 +43,41 @@ const PER_PAGE = 25
 const CONTEXT = 'visitors_data_table'
 const DEFAULT_HIDDEN_COLUMNS = ['viewsPerSession', 'bounceRate', 'visitorStatus']
 
-// Base columns always required for the query (grouping, identification)
-const BASE_COLUMNS = ['visitor_id', 'visitor_hash']
-
-// Column dependencies: UI column → API columns needed for that column to render
-const COLUMN_DEPENDENCIES: Record<string, string[]> = {
-  lastVisit: ['last_visit'],
-  visitorInfo: [
-    'ip_address',
-    'country_code',
-    'country_name',
-    'region_name',
-    'city_name',
-    'os_name',
-    'browser_name',
-    'browser_version',
-    'device_type_name',
-    'user_id',
-    'user_login',
-    'user_email',
-    'user_role',
-  ],
-  referrer: ['referrer_domain', 'referrer_channel'],
-  entryPage: ['entry_page', 'entry_page_title'],
-  exitPage: ['exit_page', 'exit_page_title'],
-  totalViews: ['total_views'],
-  totalSessions: ['total_sessions'],
-  sessionDuration: ['avg_session_duration'],
-  viewsPerSession: ['pages_per_session'],
-  bounceRate: ['bounce_rate'],
-  visitorStatus: ['visitor_status', 'first_visit'],
-}
-
-// Compute API columns based on visible UI columns and current sort column
-// Note: In TanStack Table, columns NOT in visibleColumns are considered visible by default
-const computeApiColumns = (
-  visibleColumns: Record<string, boolean>,
-  allColumnIds: string[],
-  sortColumn?: string
-): string[] => {
-  const apiColumns = new Set<string>(BASE_COLUMNS)
-
-  // For each column, check if it's visible (not explicitly set to false)
-  allColumnIds.forEach((columnId) => {
-    const isVisible = visibleColumns[columnId] !== false // undefined or true = visible
-    if (isVisible && COLUMN_DEPENDENCIES[columnId]) {
-      COLUMN_DEPENDENCIES[columnId].forEach((apiCol) => apiColumns.add(apiCol))
-    }
-  })
-
-  // Always include the sort column's dependencies to ensure ORDER BY works
-  if (sortColumn && COLUMN_DEPENDENCIES[sortColumn]) {
-    COLUMN_DEPENDENCIES[sortColumn].forEach((apiCol) => apiColumns.add(apiCol))
-  }
-
-  return Array.from(apiColumns)
-}
-
-// Get visible columns for saving preferences
-// Respects columnOrder for ordering, but includes ALL visible columns
-const getVisibleColumnsForSave = (
-  visibility: Record<string, boolean>,
-  columnOrder: string[],
-  allColumnIds: string[]
-): string[] => {
-  // Get all visible column IDs (not explicitly set to false)
-  const visibleSet = new Set(allColumnIds.filter((col) => visibility[col] !== false))
-
-  if (columnOrder.length === 0) {
-    // No custom order, return all visible columns in default order
-    return allColumnIds.filter((col) => visibleSet.has(col))
-  }
-
-  // Build result: ordered columns first, then any visible columns not in order
-  const result: string[] = []
-  const addedSet = new Set<string>()
-
-  // First, add columns from columnOrder that are visible
-  for (const col of columnOrder) {
-    if (visibleSet.has(col) && !addedSet.has(col)) {
-      result.push(col)
-      addedSet.add(col)
-    }
-  }
-
-  // Then add any visible columns not yet in result (maintains their relative order from allColumnIds)
-  for (const col of allColumnIds) {
-    if (visibleSet.has(col) && !addedSet.has(col)) {
-      result.push(col)
-      addedSet.add(col)
-    }
-  }
-
-  return result
+// Column configuration for this page
+const COLUMN_CONFIG: ColumnConfig = {
+  baseColumns: ['visitor_id', 'visitor_hash'],
+  columnDependencies: {
+    lastVisit: ['last_visit'],
+    visitorInfo: [
+      'ip_address',
+      'country_code',
+      'country_name',
+      'region_name',
+      'city_name',
+      'os_name',
+      'browser_name',
+      'browser_version',
+      'device_type_name',
+      'user_id',
+      'user_login',
+      'user_email',
+      'user_role',
+    ],
+    referrer: ['referrer_domain', 'referrer_channel'],
+    entryPage: ['entry_page', 'entry_page_title'],
+    exitPage: ['exit_page', 'exit_page_title'],
+    totalViews: ['total_views'],
+    totalSessions: ['total_sessions'],
+    sessionDuration: ['avg_session_duration'],
+    viewsPerSession: ['pages_per_session'],
+    bounceRate: ['bounce_rate'],
+    visitorStatus: ['visitor_status', 'first_visit'],
+  },
+  context: CONTEXT,
 }
 
 // Default columns when no preferences are set (all columns visible)
-const DEFAULT_API_COLUMNS = [
-  ...BASE_COLUMNS,
-  ...Object.values(COLUMN_DEPENDENCIES).flat(),
-].filter((col, index, arr) => arr.indexOf(col) === index)
-
-// LocalStorage key for caching column preferences
-const CACHE_KEY = `wp_statistics_columns_${CONTEXT}`
-
-// Get cached API columns from localStorage
-const getCachedApiColumns = (allColumnIds: string[]): string[] | null => {
-  try {
-    const cached = localStorage.getItem(CACHE_KEY)
-    if (!cached) return null
-    const visibleColumns = JSON.parse(cached) as string[]
-    if (!Array.isArray(visibleColumns) || visibleColumns.length === 0) return null
-    // Convert visible UI columns to API columns
-    const apiColumns = new Set<string>(BASE_COLUMNS)
-    visibleColumns.forEach((columnId) => {
-      if (COLUMN_DEPENDENCIES[columnId]) {
-        COLUMN_DEPENDENCIES[columnId].forEach((apiCol) => apiColumns.add(apiCol))
-      }
-    })
-    return Array.from(apiColumns)
-  } catch {
-    return null
-  }
-}
-
-// Save visible columns to localStorage cache
-const setCachedColumns = (visibleColumns: string[]): void => {
-  try {
-    localStorage.setItem(CACHE_KEY, JSON.stringify(visibleColumns))
-  } catch {
-    // Ignore storage errors
-  }
-}
+const DEFAULT_API_COLUMNS = getDefaultApiColumns(COLUMN_CONFIG)
 
 export const Route = createLazyFileRoute('/(visitor-insights)/visitors')({
   component: RouteComponent,
@@ -211,17 +130,7 @@ interface VisitorInfoColumnConfig {
 
 // Transform API response to component interface
 const transformVisitorData = (record: VisitorRecord): Visitor => {
-  // Parse entry page for query string
-  const entryPageUrl = record.entry_page || '/'
-  const hasQueryString = entryPageUrl.includes('?')
-  const queryString = hasQueryString ? entryPageUrl.split('?')[1] : undefined
-
-  // Extract UTM campaign if present
-  let utmCampaign: string | undefined
-  if (queryString) {
-    const params = new URLSearchParams(queryString)
-    utmCampaign = params.get('utm_campaign') || undefined
-  }
+  const entryPageData = parseEntryPage(record.entry_page, record.entry_page_title)
 
   return {
     id: `visitor-${record.visitor_id}`,
@@ -244,11 +153,11 @@ const transformVisitorData = (record: VisitorRecord): Visitor => {
     hash: record.visitor_hash || undefined,
     referrerDomain: record.referrer_domain || undefined,
     referrerCategory: formatReferrerChannel(record.referrer_channel),
-    entryPage: entryPageUrl.split('?')[0] || '/',
-    entryPageTitle: record.entry_page_title || record.entry_page || 'Unknown',
-    entryPageHasQuery: hasQueryString,
-    entryPageQueryString: hasQueryString ? `?${queryString}` : undefined,
-    utmCampaign,
+    entryPage: entryPageData.path,
+    entryPageTitle: entryPageData.title,
+    entryPageHasQuery: entryPageData.hasQueryString,
+    entryPageQueryString: entryPageData.queryString,
+    utmCampaign: entryPageData.utmCampaign,
     exitPage: record.exit_page || '/',
     exitPageTitle: record.exit_page_title || record.exit_page || 'Unknown',
     totalViews: Number(record.total_views) || 0,
@@ -258,70 +167,6 @@ const transformVisitorData = (record: VisitorRecord): Visitor => {
     bounceRate: Math.round(Number(record.bounce_rate) || 0),
     visitorStatus: record.visitor_status || 'returning',
   }
-}
-
-// Format referrer channel for display
-const formatReferrerChannel = (channel: string | null | undefined): string => {
-  if (!channel) return 'DIRECT TRAFFIC'
-  const channelMap: Record<string, string> = {
-    direct: 'DIRECT TRAFFIC',
-    search: 'SEARCH',
-    social: 'SOCIAL',
-    referral: 'REFERRAL',
-    email: 'EMAIL',
-    paid: 'PAID',
-  }
-  return channelMap[channel.toLowerCase()] || channel.toUpperCase()
-}
-
-// Convert URL filter format to Filter type
-const urlFiltersToFilters = (
-  urlFilters: Array<{ field: string; operator: string; value: string | string[] }> | undefined,
-  filterFields: FilterField[]
-): Filter[] => {
-  if (!urlFilters || !Array.isArray(urlFilters) || urlFilters.length === 0) return []
-
-  return urlFilters.map((urlFilter, index) => {
-    const field = filterFields.find((f) => f.name === urlFilter.field)
-    const label = field?.label || urlFilter.field
-
-    // Get display value from field options if available
-    let displayValue = Array.isArray(urlFilter.value) ? urlFilter.value.join(', ') : urlFilter.value
-    if (field?.options) {
-      const values = Array.isArray(urlFilter.value) ? urlFilter.value : [urlFilter.value]
-      const labels = values.map((v) => field.options?.find((o) => String(o.value) === v)?.label || v).join(', ')
-      displayValue = labels
-    }
-
-    // Create filter ID in the expected format: field-field-filter-restored-index
-    const filterId = `${urlFilter.field}-${urlFilter.field}-filter-restored-${index}`
-
-    return {
-      id: filterId,
-      label,
-      operator: urlFilter.operator,
-      rawOperator: urlFilter.operator,
-      value: displayValue,
-      rawValue: urlFilter.value,
-    }
-  })
-}
-
-// Extract the field name from filter ID
-// Filter IDs are in format: "field_name-field_name-filter-..." or "field_name-index"
-const extractFilterField = (filterId: string): string => {
-  return filterId.split('-')[0]
-}
-
-// Convert Filter type to URL filter format
-const filtersToUrlFilters = (
-  filters: Filter[]
-): Array<{ field: string; operator: string; value: string | string[] }> => {
-  return filters.map((filter) => ({
-    field: extractFilterField(filter.id),
-    operator: filter.rawOperator || filter.operator,
-    value: filter.rawValue || filter.value,
-  }))
 }
 
 const createColumns = (config: VisitorInfoColumnConfig): ColumnDef<Visitor>[] => [
@@ -807,7 +652,7 @@ function RouteComponent() {
   // Track API columns for query optimization (state so changes trigger refetch)
   // Initialize from cache if available, otherwise use all columns
   const [apiColumns, setApiColumns] = useState<string[]>(() => {
-    return getCachedApiColumns(allColumnIds) || DEFAULT_API_COLUMNS
+    return getCachedApiColumns(allColumnIds, COLUMN_CONFIG) || DEFAULT_API_COLUMNS
   })
 
   // Track if preferences have been applied (to prevent re-computation on subsequent API responses)
@@ -918,11 +763,11 @@ function RouteComponent() {
       const visibleColumns = getVisibleColumnsForSave(visibility, columnOrder, allColumnIds)
       saveUserPreferences({ context: CONTEXT, columns: visibleColumns })
       // Cache visible columns in localStorage for next page load
-      setCachedColumns(visibleColumns)
+      setCachedColumns(CONTEXT, visibleColumns)
       // Update API columns for optimized queries (include sort column)
       // Use functional update to avoid unnecessary refetches when columns haven't changed
       const currentSortColumn = sorting.length > 0 ? sorting[0].id : 'lastVisit'
-      const newApiColumns = computeApiColumns(visibility, allColumnIds, currentSortColumn)
+      const newApiColumns = computeApiColumns(visibility, allColumnIds, COLUMN_CONFIG, currentSortColumn)
       setApiColumns((prev) => (arraysEqual(prev, newApiColumns) ? prev : newApiColumns))
     },
     [columnOrder, sorting, allColumnIds, arraysEqual]
@@ -936,7 +781,7 @@ function RouteComponent() {
       const visibleColumns = getVisibleColumnsForSave(currentVisibilityRef.current, order, allColumnIds)
       saveUserPreferences({ context: CONTEXT, columns: visibleColumns })
       // Cache visible columns in localStorage for next page load
-      setCachedColumns(visibleColumns)
+      setCachedColumns(CONTEXT, visibleColumns)
     },
     [allColumnIds]
   )
@@ -956,11 +801,7 @@ function RouteComponent() {
     // Reset preferences on backend
     resetUserPreferences({ context: CONTEXT })
     // Clear localStorage cache
-    try {
-      localStorage.removeItem(CACHE_KEY)
-    } catch {
-      // Ignore storage errors
-    }
+    clearCachedColumns(CONTEXT)
   }, [arraysEqual])
 
   // Transform API data to component interface
