@@ -12,7 +12,7 @@ import { type Filter, FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField, getOperatorDisplay } from '@/components/custom/filter-button'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { formatDateForAPI } from '@/lib/utils'
+import { formatDateForAPI, formatDecimal } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import type { TopVisitorRecord } from '@/services/visitor-insight/get-top-visitors'
 import { getTopVisitorsQueryOptions } from '@/services/visitor-insight/get-top-visitors'
@@ -593,10 +593,10 @@ const createColumns = (config: VisitorInfoColumnConfig): ColumnDef<TopVisitor>[]
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <span className="cursor-pointer">{value.toFixed(1)}</span>
+                <span className="cursor-pointer">{formatDecimal(value)}</span>
               </TooltipTrigger>
               <TooltipContent>
-                <p>{value.toFixed(1)} average page views per session</p>
+                <p>{formatDecimal(value)} average page views per session</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>

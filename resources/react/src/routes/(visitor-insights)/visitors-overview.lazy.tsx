@@ -12,7 +12,7 @@ import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { formatDateForAPI } from '@/lib/utils'
+import { formatDateForAPI, formatDecimal } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getVisitorOverviewQueryOptions } from '@/services/visitor-insight/get-visitor-overview'
 
@@ -314,22 +314,25 @@ function RouteComponent() {
       color: 'var(--chart-1)',
       enabled: true,
       value:
-        chartTotals.visitors >= 1000 ? `${(chartTotals.visitors / 1000).toFixed(1)}k` : chartTotals.visitors.toFixed(1),
+        chartTotals.visitors >= 1000
+          ? `${formatDecimal(chartTotals.visitors / 1000)}k`
+          : formatDecimal(chartTotals.visitors),
       previousValue:
         chartTotals.visitorsPrevious >= 1000
-          ? `${(chartTotals.visitorsPrevious / 1000).toFixed(1)}k`
-          : chartTotals.visitorsPrevious.toFixed(1),
+          ? `${formatDecimal(chartTotals.visitorsPrevious / 1000)}k`
+          : formatDecimal(chartTotals.visitorsPrevious),
     },
     {
       key: 'views',
       label: 'Views',
       color: 'var(--chart-4)',
       enabled: true,
-      value: chartTotals.views >= 1000 ? `${(chartTotals.views / 1000).toFixed(1)}k` : chartTotals.views.toFixed(1),
+      value:
+        chartTotals.views >= 1000 ? `${formatDecimal(chartTotals.views / 1000)}k` : formatDecimal(chartTotals.views),
       previousValue:
         chartTotals.viewsPrevious >= 1000
-          ? `${(chartTotals.viewsPrevious / 1000).toFixed(1)}k`
-          : chartTotals.viewsPrevious.toFixed(1),
+          ? `${formatDecimal(chartTotals.viewsPrevious / 1000)}k`
+          : formatDecimal(chartTotals.viewsPrevious),
     },
   ]
 
@@ -350,8 +353,8 @@ function RouteComponent() {
 
   // Helper function to format numbers
   const formatNumber = (num: number) => {
-    if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`
-    if (num >= 1000) return `${(num / 1000).toFixed(1)}k`
+    if (num >= 1000000) return `${formatDecimal(num / 1000000)}M`
+    if (num >= 1000) return `${formatDecimal(num / 1000)}k`
     return num.toLocaleString()
   }
 
@@ -375,7 +378,7 @@ function RouteComponent() {
     }
     const change = ((current - previous) / previous) * 100
     return {
-      percentage: Math.abs(change).toFixed(1),
+      percentage: formatDecimal(Math.abs(change)),
       isNegative: change < 0,
     }
   }
@@ -433,7 +436,7 @@ function RouteComponent() {
       },
       {
         label: __('Views/Session', 'wp-statistics'),
-        value: pagesPerSession.toFixed(1),
+        value: formatDecimal(pagesPerSession),
         ...calcPercentage(pagesPerSession, prevPagesPerSession),
         tooltipContent: __('Average pages viewed per session', 'wp-statistics'),
       },
@@ -455,7 +458,7 @@ function RouteComponent() {
       },
       {
         label: __('Logged-in Share', 'wp-statistics'),
-        value: `${loggedInShare.toFixed(1)}%`,
+        value: `${formatDecimal(loggedInShare)}%`,
         ...calcPercentage(loggedInShare, prevLoggedInShare),
         tooltipContent: __('Percentage of logged-in visitors', 'wp-statistics'),
       },
