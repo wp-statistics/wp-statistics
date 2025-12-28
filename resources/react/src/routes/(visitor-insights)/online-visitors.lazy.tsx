@@ -122,13 +122,24 @@ const DEFAULT_API_COLUMNS = [
 // LocalStorage key for caching column preferences
 const CACHE_KEY = `wp_statistics_columns_${CONTEXT}`
 
-// Get cached API columns from localStorage
-const getCachedApiColumns = (allColumnIds: string[]): string[] | null => {
+// Get cached visible columns from localStorage
+const getCachedVisibleColumns = (): string[] | null => {
   try {
     const cached = localStorage.getItem(CACHE_KEY)
     if (!cached) return null
     const visibleColumns = JSON.parse(cached) as string[]
     if (!Array.isArray(visibleColumns) || visibleColumns.length === 0) return null
+    return visibleColumns
+  } catch {
+    return null
+  }
+}
+
+// Get cached API columns from localStorage
+const getCachedApiColumns = (allColumnIds: string[]): string[] | null => {
+  try {
+    const visibleColumns = getCachedVisibleColumns()
+    if (!visibleColumns) return null
     // Convert visible UI columns to API columns
     const apiColumns = new Set<string>(BASE_COLUMNS)
     visibleColumns.forEach((columnId) => {
@@ -142,6 +153,23 @@ const getCachedApiColumns = (allColumnIds: string[]): string[] | null => {
   }
 }
 
+// Get cached visibility state from localStorage
+const getCachedVisibility = (allColumnIds: string[]): VisibilityState | null => {
+  try {
+    const visibleColumns = getCachedVisibleColumns()
+    if (!visibleColumns) return null
+    // Build visibility state: columns in cache are visible, others are hidden
+    const visibleSet = new Set(visibleColumns)
+    const visibility: VisibilityState = {}
+    allColumnIds.forEach((col) => {
+      visibility[col] = visibleSet.has(col)
+    })
+    return visibility
+  } catch {
+    return null
+  }
+}
+
 // Save visible columns to localStorage cache
 const setCachedColumns = (visibleColumns: string[]): void => {
   try {
@@ -149,6 +177,11 @@ const setCachedColumns = (visibleColumns: string[]): void => {
   } catch {
     // Ignore storage errors
   }
+}
+
+// Get cached column order from localStorage (same as visible columns order)
+const getCachedColumnOrder = (): string[] => {
+  return getCachedVisibleColumns() || []
 }
 
 export const Route = createLazyFileRoute('/(visitor-insights)/online-visitors')({
@@ -544,7 +577,7 @@ function RouteComponent() {
   }, [columns])
 
   // Track column order state
-  const [columnOrder, setColumnOrder] = useState<string[]>([])
+  const [columnOrder, setColumnOrder] = useState<string[]>(() => getCachedColumnOrder())
 
   // Track API columns for query optimization (state so changes trigger refetch)
   // Initialize from cache if available, otherwise use all columns
@@ -591,8 +624,12 @@ function RouteComponent() {
     }
 
     // Wait for API response before computing visibility
-    // Return stable reference to avoid triggering effects
+    // Use cached visibility from localStorage while waiting
     if (!response?.data) {
+      const cachedVisibility = getCachedVisibility(allColumnIds)
+      if (cachedVisibility) {
+        return cachedVisibility
+      }
       return emptyVisibilityRef.current
     }
 
