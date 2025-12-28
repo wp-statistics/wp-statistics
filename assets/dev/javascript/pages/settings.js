@@ -446,21 +446,19 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 minimumResultsForSearch: Infinity,
             });
 
-            // Get the synced site from global config
-            const syncedSite = (wps_js.global.gsc && wps_js.global.gsc.synced_site) || '';
-
             // Handle form submission
             const marketingForm = document.querySelector('form');
             const submitButton = document.getElementById('marketing_submit');
-            
+
             if (marketingForm && submitButton) {
                 // Prevent default form submission to check for site change
                 marketingForm.addEventListener('submit', function(e) {
                     const currentSelectedSite = $select.val();
+                    const syncedSite = wps_js.global.gsc?.synced_site || '';
                     const modal = document.querySelector('.wps-modal--gsc-site-change');
 
-                    // Check if site has changed (current selection is different from synced site, including when synced site is empty)
-                    if (currentSelectedSite && syncedSite !== currentSelectedSite && modal) {
+                    // Check if site has changed
+                    if (currentSelectedSite && syncedSite && currentSelectedSite !== syncedSite && modal) {
                         e.preventDefault();
                         e.stopPropagation();
                         
@@ -564,8 +562,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 const lastSync = parseInt(this.getAttribute('data-last-sync'));
                 const now = Math.floor(Date.now() / 1000);
                 const timeDiff = now - lastSync;
-
-                console.log(timeDiff)
 
                 if (lastSync && timeDiff < 1800) {
                     e.preventDefault();

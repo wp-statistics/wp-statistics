@@ -334,7 +334,7 @@ if ($isMarketingActive) {
 }
 
 // GSC Site Change Confirmation Modal
-if ($isAuthenticated && !empty($selectedSite)) {
+if ($isAuthenticated) {
     View::load('components/modals/setting-confirmation/setting-confirmation-modal', [
         'title'               => __('Change GSC Site?', 'wp-statistics'),
         'description'         => __('The Google Search Console data in the database belongs to a different site. Changing the GSC site will clear all synced Search Console data. Do you want to continue?', 'wp-statistics'),
