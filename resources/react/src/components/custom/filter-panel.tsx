@@ -7,6 +7,7 @@ import {
   type FilterRowData,
   type FilterValue,
   getOperatorType,
+  hasFilterErrors,
 } from '@/components/custom/filter-row'
 import { Button } from '@/components/ui/button'
 
@@ -35,6 +36,9 @@ function getInitialValue(operator: FilterOperator): FilterValue {
 }
 
 function FilterPanel({ filters, fields, onFiltersChange, onApply, onClearAll }: FilterPanelProps) {
+  // Check if any filters have validation errors
+  const hasErrors = hasFilterErrors(filters, fields)
+
   // Get list of all field names currently used by filters
   const usedFieldNames = filters.map((f) => f.fieldName)
 
@@ -118,7 +122,7 @@ function FilterPanel({ filters, fields, onFiltersChange, onApply, onClearAll }: 
 
       {/* Apply Button */}
       <div className="mt-4">
-        <Button onClick={onApply} className="w-auto">
+        <Button onClick={onApply} className="w-auto" disabled={hasErrors}>
           {__('Apply', 'wp-statistics')}
         </Button>
       </div>

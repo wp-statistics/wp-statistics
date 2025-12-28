@@ -167,8 +167,37 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
 
   const handleRangeValueChange = (field: 'min' | 'max', value: string) => {
     const currentRange = getRangeValue(filter.value)
-    onUpdate({ ...filter, value: { ...currentRange, [field]: value } })
+    const newRange = { ...currentRange, [field]: value }
+    onUpdate({ ...filter, value: newRange })
   }
+
+  // Validate range values and return error message if invalid
+  const getRangeError = (): string | null => {
+    if (operatorType !== 'range') return null
+
+    const range = getRangeValue(filter.value)
+    if (range.min === '' || range.max === '') return null
+
+    const inputType = selectedField?.inputType
+
+    if (inputType === 'date') {
+      const minDate = new Date(range.min)
+      const maxDate = new Date(range.max)
+      if (!isNaN(minDate.getTime()) && !isNaN(maxDate.getTime()) && minDate > maxDate) {
+        return __('Start date must be before end date', 'wp-statistics')
+      }
+    } else if (inputType === 'number') {
+      const minNum = parseFloat(range.min)
+      const maxNum = parseFloat(range.max)
+      if (!isNaN(minNum) && !isNaN(maxNum) && minNum > maxNum) {
+        return __('Min value must be less than max value', 'wp-statistics')
+      }
+    }
+
+    return null
+  }
+
+  const rangeError = getRangeError()
 
   const handleMultipleValueChange = (value: string) => {
     const currentValues = getArrayValue(filter.value)
@@ -219,24 +248,28 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
 
     // Use wider inputs for date type to show full date (YYYY-MM-DD)
     const inputClassName = inputType === 'date' ? 'w-36' : 'w-20'
+    const errorClassName = rangeError ? 'border-destructive focus-visible:ring-destructive' : ''
 
     return (
-      <div className="flex items-center gap-2">
-        <Input
-          type={inputType}
-          value={rangeValue.min}
-          onChange={(e) => handleRangeValueChange('min', e.target.value)}
-          placeholder={__('Min', 'wp-statistics')}
-          className={inputClassName}
-        />
-        <span className="text-muted-foreground">{__('to', 'wp-statistics')}</span>
-        <Input
-          type={inputType}
-          value={rangeValue.max}
-          onChange={(e) => handleRangeValueChange('max', e.target.value)}
-          placeholder={__('Max', 'wp-statistics')}
-          className={inputClassName}
-        />
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center gap-2">
+          <Input
+            type={inputType}
+            value={rangeValue.min}
+            onChange={(e) => handleRangeValueChange('min', e.target.value)}
+            placeholder={__('Min', 'wp-statistics')}
+            className={`${inputClassName} ${errorClassName} grow`}
+          />
+          <span className="text-muted-foreground pt-2">{__('to', 'wp-statistics')}</span>
+          <Input
+            type={inputType}
+            value={rangeValue.max}
+            onChange={(e) => handleRangeValueChange('max', e.target.value)}
+            placeholder={__('Max', 'wp-statistics')}
+            className={`${inputClassName} ${errorClassName} grow`}
+          />
+        </div>
+        {rangeError && <span className="text-xs text-destructive">{rangeError}</span>}
       </div>
     )
   }
@@ -405,7 +438,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
   }
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-start gap-2">
       {/* Field Select */}
       <Select value={filter.fieldName} onValueChange={handleFieldChange}>
         <SelectTrigger className="min-w-[120px] flex-1">
@@ -445,4 +478,47 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
   )
 }
 
-export { FilterRow, getArrayValue, getOperatorLabel, getOperatorType, getRangeValue, getSingleValue, isRangeValue }
+// Validate a filter for range errors (can be used by parent components)
+const validateFilterRange = (filter: FilterRowData, fields: FilterField[]): string | null => {
+  const operatorType = getOperatorType(filter.operator)
+  if (operatorType !== 'range') return null
+
+  const range = getRangeValue(filter.value)
+  if (range.min === '' || range.max === '') return null
+
+  const field = fields.find((f) => f.name === filter.fieldName)
+  const inputType = field?.inputType
+
+  if (inputType === 'date') {
+    const minDate = new Date(range.min)
+    const maxDate = new Date(range.max)
+    if (!isNaN(minDate.getTime()) && !isNaN(maxDate.getTime()) && minDate > maxDate) {
+      return 'date_range_error'
+    }
+  } else if (inputType === 'number') {
+    const minNum = parseFloat(range.min)
+    const maxNum = parseFloat(range.max)
+    if (!isNaN(minNum) && !isNaN(maxNum) && minNum > maxNum) {
+      return 'number_range_error'
+    }
+  }
+
+  return null
+}
+
+// Check if any filters have validation errors
+const hasFilterErrors = (filters: FilterRowData[], fields: FilterField[]): boolean => {
+  return filters.some((filter) => validateFilterRange(filter, fields) !== null)
+}
+
+export {
+  FilterRow,
+  getArrayValue,
+  getOperatorLabel,
+  getOperatorType,
+  getRangeValue,
+  getSingleValue,
+  hasFilterErrors,
+  isRangeValue,
+  validateFilterRange,
+}
