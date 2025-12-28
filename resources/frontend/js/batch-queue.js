@@ -204,7 +204,11 @@ if (!window.WpStatisticsBatchQueue) {
             this.stopPeriodicFlush();
 
             this.flushIntervalId = setInterval(function() {
-                if (self.queue.length > 0) {
+                // Flush if there are queued events OR accumulated engagement time
+                const hasEvents = self.queue.length > 0;
+                const hasEngagement = self.getSessionData && self.getSessionData().engagement_time > 0;
+
+                if (hasEvents || hasEngagement) {
                     self.flush('periodic');
                 }
             }, this.flushInterval);
