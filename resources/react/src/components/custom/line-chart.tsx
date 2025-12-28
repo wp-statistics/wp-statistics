@@ -239,6 +239,29 @@ export function LineChart({
               interval={timeframe === 'monthly' ? 0 : 'preserveStartEnd'}
               tick={{ fill: '#9ca3af', fontSize: 12 }}
               tickFormatter={(value) => {
+                // Handle week format "YYYYWW" (e.g., "202539" = week 39 of 2025)
+                if (timeframe === 'weekly' && /^\d{6}$/.test(value)) {
+                  const year = parseInt(value.substring(0, 4), 10)
+                  const week = parseInt(value.substring(4, 6), 10)
+                  // Get the first day of the year
+                  const firstDayOfYear = new Date(year, 0, 1)
+                  // Calculate days to add: (week - 1) * 7, then adjust to Monday
+                  const dayOfWeek = firstDayOfYear.getDay()
+                  const daysToMonday = dayOfWeek === 0 ? 1 : dayOfWeek === 1 ? 0 : 8 - dayOfWeek
+                  const firstMonday = new Date(year, 0, 1 + daysToMonday)
+                  const startDate = new Date(firstMonday)
+                  startDate.setDate(firstMonday.getDate() + (week - 1) * 7)
+                  const endDate = new Date(startDate)
+                  endDate.setDate(startDate.getDate() + 6)
+                  return `${startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
+                }
+                // Handle month format "YYYYMM" (e.g., "202509" = September 2025)
+                if (timeframe === 'monthly' && /^\d{6}$/.test(value)) {
+                  const year = parseInt(value.substring(0, 4), 10)
+                  const month = parseInt(value.substring(4, 6), 10) - 1
+                  const date = new Date(year, month, 1)
+                  return date.toLocaleDateString('en-US', { month: 'long' })
+                }
                 const date = new Date(value)
                 if (timeframe === 'monthly') {
                   return date.toLocaleDateString('en-US', {
@@ -248,7 +271,7 @@ export function LineChart({
                   // Format as "Month Day to Month Day"
                   const endDate = new Date(date)
                   endDate.setDate(endDate.getDate() + 6)
-                  return `${date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} to ${endDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}`
+                  return `${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
                 } else {
                   return date.toLocaleDateString('en-US', {
                     month: 'short',
@@ -273,43 +296,64 @@ export function LineChart({
               content={({ active, payload, label }) => {
                 if (!active || !payload || !payload.length) return null
 
-                const date = new Date(label)
                 let formattedDate: string
-                let dayOfWeek: string
+                let dayOfWeek: string = ''
 
-                if (timeframe === 'monthly') {
-                  formattedDate = date.toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric',
-                  })
-                  const endDate = new Date(date)
-                  endDate.setMonth(endDate.getMonth() + 1)
-                  endDate.setDate(0) // Last day of the month
-                  const endFormatted = endDate.toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric',
-                  })
-                  dayOfWeek = ''
-                  formattedDate = `${formattedDate} to ${endFormatted}`
-                } else if (timeframe === 'weekly') {
-                  formattedDate = date.toLocaleDateString('en-US', {
-                    month: 'long',
-                    day: 'numeric',
-                  })
-                  const endDate = new Date(date)
-                  endDate.setDate(endDate.getDate() + 6)
-                  const endFormatted = endDate.toLocaleDateString('en-US', {
-                    month: 'long',
-                    day: 'numeric',
-                  })
-                  dayOfWeek = ''
-                  formattedDate = `${formattedDate} to ${endFormatted}`
+                // Handle week format "YYYYWW" (e.g., "202539" = week 39 of 2025)
+                if (timeframe === 'weekly' && /^\d{6}$/.test(label)) {
+                  const year = parseInt(label.substring(0, 4), 10)
+                  const week = parseInt(label.substring(4, 6), 10)
+                  const firstDayOfYear = new Date(year, 0, 1)
+                  const dayOfWeekNum = firstDayOfYear.getDay()
+                  const daysToMonday = dayOfWeekNum === 0 ? 1 : dayOfWeekNum === 1 ? 0 : 8 - dayOfWeekNum
+                  const firstMonday = new Date(year, 0, 1 + daysToMonday)
+                  const startDate = new Date(firstMonday)
+                  startDate.setDate(firstMonday.getDate() + (week - 1) * 7)
+                  const endDate = new Date(startDate)
+                  endDate.setDate(startDate.getDate() + 6)
+                  formattedDate = `${startDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} to ${endDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}`
+                }
+                // Handle month format "YYYYMM" (e.g., "202509" = September 2025)
+                else if (timeframe === 'monthly' && /^\d{6}$/.test(label)) {
+                  const year = parseInt(label.substring(0, 4), 10)
+                  const month = parseInt(label.substring(4, 6), 10) - 1
+                  const startDate = new Date(year, month, 1)
+                  const endDate = new Date(year, month + 1, 0) // Last day of month
+                  formattedDate = `${startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} to ${endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
                 } else {
-                  formattedDate = date.toLocaleDateString('en-US', {
-                    day: 'numeric',
-                    month: 'short',
-                  })
-                  dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' })
+                  const date = new Date(label)
+                  if (timeframe === 'monthly') {
+                    formattedDate = date.toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                    })
+                    const endDate = new Date(date)
+                    endDate.setMonth(endDate.getMonth() + 1)
+                    endDate.setDate(0) // Last day of the month
+                    const endFormatted = endDate.toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                    })
+                    formattedDate = `${formattedDate} to ${endFormatted}`
+                  } else if (timeframe === 'weekly') {
+                    formattedDate = date.toLocaleDateString('en-US', {
+                      month: 'long',
+                      day: 'numeric',
+                    })
+                    const endDate = new Date(date)
+                    endDate.setDate(endDate.getDate() + 6)
+                    const endFormatted = endDate.toLocaleDateString('en-US', {
+                      month: 'long',
+                      day: 'numeric',
+                    })
+                    formattedDate = `${formattedDate} to ${endFormatted}`
+                  } else {
+                    formattedDate = date.toLocaleDateString('en-US', {
+                      day: 'numeric',
+                      month: 'short',
+                    })
+                    dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' })
+                  }
                 }
 
                 // Group payload by metric (current + previous together)
