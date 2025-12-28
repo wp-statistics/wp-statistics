@@ -428,18 +428,18 @@ export const getVisitorOverviewQueryOptions = ({
               show_totals: false,
               compare: false, // Override: No comparison for visitor list
             },
-            // Top Pages: Table format with comparison (no columns - let API auto-select)
+            // Top Entry Pages: Table format with comparison (no columns - let API auto-select)
             {
               id: 'top_entry_pages',
-              sources: ['views', 'visitors', 'avg_time_on_page', 'bounce_rate'],
-              group_by: ['page'],
+              sources: ['visitors'],
+              group_by: ['entry_page'],
+              columns: ['page_uri', 'page_title', 'page_type', 'visitors'],
               per_page: 5,
-              order_by: 'views',
+              order_by: 'visitors',
               order: 'DESC',
               format: 'table',
               show_totals: false,
               compare: false,
-              columns: ['page_uri', 'page_title', 'page_type', 'views', 'visitors', 'bounce_rate'],
             },
             // Top Referrers: Table format with comparison
             {
@@ -452,7 +452,7 @@ export const getVisitorOverviewQueryOptions = ({
               order: 'DESC',
               format: 'table',
               show_totals: false,
-              compare: false,
+              compare: true,
             },
             // Countries Map: All countries with visitors and views for GlobalMap component
             {
