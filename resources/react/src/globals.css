@@ -46,6 +46,8 @@
 }
 
 :root {
+  --wp-admin-bar-height: 32px;
+  --header-height: 56px;
   --radius: 0.625rem;
   --primary: oklch(51.058% 0.23015 276.976);
   --accent: oklch(0.968 0.007 247.896);
@@ -141,7 +143,11 @@
 }
 
 #wpbody-content {
-  @apply pb-12;
+  @apply pb-0;
+}
+
+#wpfooter {
+  @apply hidden;
 }
 
 #wp-statistics-root {
