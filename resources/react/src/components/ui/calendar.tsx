@@ -7,7 +7,7 @@ import { Button, buttonVariants } from '@/components/ui/button'
 
 const calendarResetStyles = `
   #wps-calendar {
-    --rdp-cell-size: 2.25rem;
+    --rdp-cell-size: var(--cell-size, 2.25rem);
   }
   #wps-calendar table {
     border-collapse: collapse !important;
@@ -43,8 +43,8 @@ const calendarResetStyles = `
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    font-size: 0.8rem !important;
-    font-weight: 400 !important;
+    font-size: 0.6875rem !important;
+    font-weight: 500 !important;
     color: hsl(var(--muted-foreground)) !important;
   }
   #wps-calendar .rdp-day {
@@ -62,7 +62,7 @@ const calendarResetStyles = `
   }
   #wps-calendar .rdp-week {
     display: flex !important;
-    margin-top: 0.5rem !important;
+    margin-top: 0.375rem !important;
   }
   #wps-calendar .rdp-day_button {
     width: 100% !important;
@@ -71,7 +71,8 @@ const calendarResetStyles = `
     align-items: center !important;
     justify-content: center !important;
     border-radius: 0.375rem !important;
-    font-size: 0.875rem !important;
+    font-size: 0.75rem !important;
+    font-weight: 500 !important;
   }
   #wps-calendar button {
     all: unset;
@@ -88,17 +89,19 @@ function Calendar({
   buttonVariant = 'ghost',
   formatters,
   components,
+  cellSize = '2.25rem',
   ...props
 }: React.ComponentProps<typeof DayPicker> & {
   buttonVariant?: React.ComponentProps<typeof Button>['variant']
+  cellSize?: string
 }) {
   return (
-    <div id="wps-calendar">
+    <div id="wps-calendar" style={{ '--cell-size': cellSize } as React.CSSProperties}>
       <style dangerouslySetInnerHTML={{ __html: calendarResetStyles }} />
       <DayPicker
       showOutsideDays={showOutsideDays}
       className={cn(
-        'bg-background group/calendar p-3 [--cell-size:2.25rem]',
+        'bg-background group/calendar p-3',
         className
       )}
       captionLayout={captionLayout}
@@ -108,8 +111,8 @@ function Calendar({
       }}
       classNames={{
         root: 'w-fit',
-        months: 'relative flex flex-col gap-4 md:flex-row',
-        month: 'flex w-full flex-col gap-4',
+        months: 'relative flex flex-col gap-3 md:flex-row',
+        month: 'flex w-full flex-col gap-3',
         nav: 'absolute inset-x-0 top-0 flex w-full items-center justify-between gap-1',
         button_previous: cn(
           buttonVariants({ variant: buttonVariant }),
@@ -120,21 +123,21 @@ function Calendar({
           'size-[--cell-size] select-none p-0 aria-disabled:opacity-50'
         ),
         month_caption: 'flex h-[--cell-size] w-full items-center justify-center px-[--cell-size]',
-        dropdowns: 'flex h-[--cell-size] w-full items-center justify-center gap-1.5 text-sm font-medium',
+        dropdowns: 'flex h-[--cell-size] w-full items-center justify-center gap-1.5 text-xs font-medium',
         dropdown_root: 'has-focus:border-ring border-input shadow-xs has-focus:ring-ring/50 has-focus:ring-[3px] relative rounded-md border',
         dropdown: 'bg-popover absolute inset-0 opacity-0',
         caption_label: cn(
           'select-none font-medium',
           captionLayout === 'label'
-            ? 'text-sm'
-            : '[&>svg]:text-muted-foreground flex h-8 items-center gap-1 rounded-md pl-2 pr-1 text-sm [&>svg]:size-3.5'
+            ? 'text-xs'
+            : '[&>svg]:text-muted-foreground flex h-7 items-center gap-1 rounded-md pl-2 pr-1 text-xs [&>svg]:size-3'
         ),
         table: 'w-full border-collapse',
         weekdays: 'flex w-full',
-        weekday: 'text-muted-foreground size-[--cell-size] flex items-center justify-center select-none text-[0.8rem] font-normal',
-        week: 'mt-2 flex w-full',
+        weekday: 'text-muted-foreground size-[--cell-size] flex items-center justify-center select-none text-[11px] font-medium',
+        week: 'mt-1.5 flex w-full',
         week_number_header: 'size-[--cell-size] select-none',
-        week_number: 'text-muted-foreground select-none text-[0.8rem]',
+        week_number: 'text-muted-foreground select-none text-[11px]',
         day: 'group/day relative size-[--cell-size] select-none p-0 text-center',
         range_start: 'bg-accent rounded-l-md',
         range_middle: 'rounded-none',
@@ -151,14 +154,14 @@ function Calendar({
         },
         Chevron: ({ className, orientation, ...props }) => {
           if (orientation === 'left') {
-            return <ChevronLeftIcon className={cn('size-4', className)} {...props} />
+            return <ChevronLeftIcon className={cn('size-3.5', className)} {...props} />
           }
 
           if (orientation === 'right') {
-            return <ChevronRightIcon className={cn('size-4', className)} {...props} />
+            return <ChevronRightIcon className={cn('size-3.5', className)} {...props} />
           }
 
-          return <ChevronDownIcon className={cn('size-4', className)} {...props} />
+          return <ChevronDownIcon className={cn('size-3.5', className)} {...props} />
         },
         DayButton: CalendarDayButton,
         WeekNumber: ({ children, ...props }) => {

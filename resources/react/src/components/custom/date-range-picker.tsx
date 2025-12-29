@@ -1,6 +1,6 @@
 'use client'
 
-import { Check, ChevronDown } from 'lucide-react'
+import { Calendar as CalendarIcon, Check, ChevronDown } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -250,22 +250,6 @@ export const DateRangePicker = ({
     checkPreset()
   }, [range])
 
-  const PresetButton = ({ preset, label, isSelected }: { preset: string; label: string; isSelected: boolean }) => (
-    <Button
-      className={cn(isSelected && 'pointer-events-none')}
-      variant="ghost"
-      size="lg"
-      onClick={() => {
-        setPreset(preset)
-      }}
-    >
-      <span className={cn('pr-2 opacity-0', isSelected && 'opacity-70')}>
-        <Check className="h-4 w-4" />
-      </span>
-      {label}
-    </Button>
-  )
-
   const areRangesEqual = (a?: DateRange, b?: DateRange): boolean => {
     if (!a || !b) return a === b
     return a.from.getTime() === b.from.getTime() && (!a.to || !b.to || a.to.getTime() === b.to.getTime())
@@ -277,6 +261,25 @@ export const DateRangePicker = ({
       openedRangeCompareRef.current = rangeCompare
     }
   }, [isOpen])
+
+  const handleCompareToggle = (checked: boolean) => {
+    if (checked) {
+      if (!range.to) {
+        setRange({
+          from: range.from,
+          to: range.from,
+        })
+      }
+      setRangeCompare({
+        from: new Date(range.from.getFullYear(), range.from.getMonth(), range.from.getDate() - 365),
+        to: range.to
+          ? new Date(range.to.getFullYear() - 1, range.to.getMonth(), range.to.getDate())
+          : new Date(range.from.getFullYear() - 1, range.from.getMonth(), range.from.getDate()),
+      })
+    } else {
+      setRangeCompare(undefined)
+    }
+  }
 
   return (
     <Popover
@@ -290,182 +293,205 @@ export const DateRangePicker = ({
       }}
     >
       <PopoverTrigger asChild>
-        <Button variant="outline" className="h-8">
-          <div className="flex flex-col items-start text-left">
-            <span>
-              {`${formatDate(range.from, locale)}${range.to != null ? ' - ' + formatDate(range.to, locale) : ''}`}
-            </span>
-            {rangeCompare != null && (
-              <span className="text-xs text-muted-foreground">
-                vs. {formatDate(rangeCompare.from, locale)}
-                {rangeCompare.to != null ? ` - ${formatDate(rangeCompare.to, locale)}` : ''}
-              </span>
-            )}
-          </div>
-          <ChevronDown className="h-4 w-4" />
+        <Button variant="outline" className="h-8 text-xs font-medium border-neutral-200 hover:bg-neutral-50">
+          <CalendarIcon className="h-3.5 w-3.5 mr-2 text-neutral-500" />
+          <span className="text-neutral-700">
+            {formatDate(range.from, locale)}
+            {range.to && ` – ${formatDate(range.to, locale)}`}
+          </span>
+          {rangeCompare && (
+            <span className="ml-2 px-1.5 py-0.5 rounded bg-primary/10 text-primary text-[10px] font-medium">vs</span>
+          )}
+          <ChevronDown className="h-3.5 w-3.5 ml-2 text-neutral-400" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent align={align} className="w-auto max-h-[var(--radix-popover-content-available-height,calc(100vh-2rem))] overflow-auto p-0">
-        <div className="flex p-4">
-          <div className="flex">
-            <div className="flex flex-col">
-              <div className="flex flex-col items-center justify-end gap-2 px-3 pb-4 lg:flex-row lg:items-start lg:pb-0">
-                {showCompare && (
-                  <div className="flex items-center space-x-2 py-1 pr-4">
-                    <Switch
-                      defaultChecked={Boolean(rangeCompare)}
-                      onCheckedChange={(checked: boolean) => {
-                        if (checked) {
-                          if (!range.to) {
-                            setRange({
-                              from: range.from,
-                              to: range.from,
-                            })
-                          }
-                          setRangeCompare({
-                            from: new Date(range.from.getFullYear(), range.from.getMonth(), range.from.getDate() - 365),
-                            to: range.to
-                              ? new Date(range.to.getFullYear() - 1, range.to.getMonth(), range.to.getDate())
-                              : new Date(range.from.getFullYear() - 1, range.from.getMonth(), range.from.getDate()),
-                          })
+      <PopoverContent
+        align={align}
+        className="w-auto max-h-[var(--radix-popover-content-available-height,calc(100vh-2rem))] overflow-auto p-0"
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-2 border-b border-neutral-100 bg-neutral-50/50">
+          <span className="text-sm font-semibold text-neutral-700 tracking-tight">Select Date Range</span>
+          {showCompare && (
+            <div className="flex items-center gap-2">
+              <Switch
+                checked={Boolean(rangeCompare)}
+                onCheckedChange={handleCompareToggle}
+                id="compare-mode"
+                className="scale-90"
+              />
+              <Label htmlFor="compare-mode" className="text-xs text-neutral-600 cursor-pointer">
+                Compare
+              </Label>
+            </div>
+          )}
+        </div>
+
+        {/* Body */}
+        <div className="flex">
+          {/* Main content */}
+          <div className="p-4">
+            {/* Date inputs card */}
+            <div className="p-3 rounded-lg bg-neutral-50/70 border border-neutral-100 mb-4">
+              <div className="flex items-center gap-2">
+                <DateInput
+                  value={range.from}
+                  onChange={(date) => {
+                    const toDate = range.to == null || date > range.to ? date : range.to
+                    setRange((prevRange) => ({
+                      ...prevRange,
+                      from: date,
+                      to: toDate,
+                    }))
+                  }}
+                  className="h-8 text-xs border-0 bg-white shadow-sm flex-1"
+                />
+                <span className="text-xs text-neutral-400">to</span>
+                <DateInput
+                  value={range.to}
+                  onChange={(date) => {
+                    const fromDate = date < range.from ? date : range.from
+                    setRange((prevRange) => ({
+                      ...prevRange,
+                      from: fromDate,
+                      to: date,
+                    }))
+                  }}
+                  className="h-8 text-xs border-0 bg-white shadow-sm flex-1"
+                />
+              </div>
+
+              {/* Compare dates */}
+              {rangeCompare != null && (
+                <>
+                  <div className="flex items-center gap-1.5 my-2">
+                    <div className="h-px flex-1 bg-neutral-200" />
+                    <span className="text-[10px] font-medium text-neutral-400 uppercase tracking-wider">vs</span>
+                    <div className="h-px flex-1 bg-neutral-200" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <DateInput
+                      value={rangeCompare?.from}
+                      onChange={(date) => {
+                        if (rangeCompare) {
+                          const compareToDate =
+                            rangeCompare.to == null || date > rangeCompare.to ? date : rangeCompare.to
+                          setRangeCompare((prevRangeCompare) =>
+                            prevRangeCompare
+                              ? {
+                                  ...prevRangeCompare,
+                                  from: date,
+                                  to: compareToDate,
+                                }
+                              : undefined
+                          )
                         } else {
-                          setRangeCompare(undefined)
+                          setRangeCompare({
+                            from: date,
+                            to: new Date(),
+                          })
                         }
                       }}
-                      id="compare-mode"
+                      className="h-8 text-xs border-0 bg-white shadow-sm flex-1"
                     />
-                    <Label htmlFor="compare-mode">Compare</Label>
-                  </div>
-                )}
-                <div className="flex flex-col gap-2">
-                  <div className="flex gap-2">
+                    <span className="text-xs text-neutral-400">to</span>
                     <DateInput
-                      value={range.from}
+                      value={rangeCompare?.to}
                       onChange={(date) => {
-                        const toDate = range.to == null || date > range.to ? date : range.to
-                        setRange((prevRange) => ({
-                          ...prevRange,
-                          from: date,
-                          to: toDate,
-                        }))
+                        if (rangeCompare && rangeCompare.from) {
+                          const compareFromDate = date < rangeCompare.from ? date : rangeCompare.from
+                          setRangeCompare({
+                            ...rangeCompare,
+                            from: compareFromDate,
+                            to: date,
+                          })
+                        }
                       }}
-                    />
-                    <div className="py-1">-</div>
-                    <DateInput
-                      value={range.to}
-                      onChange={(date) => {
-                        const fromDate = date < range.from ? date : range.from
-                        setRange((prevRange) => ({
-                          ...prevRange,
-                          from: fromDate,
-                          to: date,
-                        }))
-                      }}
+                      className="h-8 text-xs border-0 bg-white shadow-sm flex-1"
                     />
                   </div>
-                  {rangeCompare != null && (
-                    <div className="flex gap-2">
-                      <DateInput
-                        value={rangeCompare?.from}
-                        onChange={(date) => {
-                          if (rangeCompare) {
-                            const compareToDate =
-                              rangeCompare.to == null || date > rangeCompare.to ? date : rangeCompare.to
-                            setRangeCompare((prevRangeCompare) =>
-                              prevRangeCompare
-                                ? {
-                                    ...prevRangeCompare,
-                                    from: date,
-                                    to: compareToDate,
-                                  }
-                                : undefined
-                            )
-                          } else {
-                            setRangeCompare({
-                              from: date,
-                              to: new Date(),
-                            })
-                          }
-                        }}
-                      />
-                      <div className="py-1">-</div>
-                      <DateInput
-                        value={rangeCompare?.to}
-                        onChange={(date) => {
-                          if (rangeCompare && rangeCompare.from) {
-                            const compareFromDate = date < rangeCompare.from ? date : rangeCompare.from
-                            setRangeCompare({
-                              ...rangeCompare,
-                              from: compareFromDate,
-                              to: date,
-                            })
-                          }
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>
-              {isSmallScreen && (
-                <Select
-                  defaultValue={selectedPreset}
-                  onValueChange={(value) => {
-                    setPreset(value)
-                  }}
-                >
-                  <SelectTrigger className="mx-auto mb-2 w-[180px]">
-                    <SelectValue placeholder="Select..." />
+                </>
+              )}
+            </div>
+
+            {/* Mobile preset select */}
+            {isSmallScreen && (
+              <div className="mb-4">
+                <Select defaultValue={selectedPreset} onValueChange={(value) => setPreset(value)}>
+                  <SelectTrigger className="h-8 text-xs border-0 bg-neutral-50 shadow-sm">
+                    <SelectValue placeholder="Quick select..." />
                   </SelectTrigger>
                   <SelectContent>
                     {PRESETS.map((preset) => (
-                      <SelectItem key={preset.name} value={preset.name}>
+                      <SelectItem key={preset.name} value={preset.name} className="text-xs">
                         {preset.label}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
-              )}
-              <div>
-                <Calendar
-                  mode="range"
-                  onSelect={(value: { from?: Date; to?: Date } | undefined) => {
-                    if (value?.from != null) {
-                      setRange({ from: value.from, to: value?.to })
-                    }
-                  }}
-                  selected={range}
-                  numberOfMonths={isSmallScreen ? 1 : 2}
-                  defaultMonth={new Date(new Date().setMonth(new Date().getMonth() - (isSmallScreen ? 0 : 1)))}
-                />
               </div>
-            </div>
+            )}
+
+            {/* Calendar */}
+            <Calendar
+              mode="range"
+              onSelect={(value: { from?: Date; to?: Date } | undefined) => {
+                if (value?.from != null) {
+                  setRange({ from: value.from, to: value?.to })
+                }
+              }}
+              selected={range}
+              numberOfMonths={isSmallScreen ? 1 : 2}
+              defaultMonth={new Date(new Date().setMonth(new Date().getMonth() - (isSmallScreen ? 0 : 1)))}
+              cellSize="1.875rem"
+              className="p-2"
+            />
           </div>
+
+          {/* Presets sidebar */}
           {!isSmallScreen && (
-            <div className="flex flex-col items-end gap-1 pb-6 pl-6 pr-2">
-              <div className="flex w-full flex-col items-end gap-1 pb-6 pl-6 pr-2">
+            <div className="w-[140px] p-3 border-l border-neutral-100 bg-neutral-50/30">
+              <span className="text-[10px] font-medium text-neutral-400 uppercase tracking-wider mb-2 block">
+                Quick Select
+              </span>
+              <div className="flex flex-col gap-0.5">
                 {PRESETS.map((preset) => (
-                  <PresetButton
+                  <button
                     key={preset.name}
-                    preset={preset.name}
-                    label={preset.label}
-                    isSelected={selectedPreset === preset.name}
-                  />
+                    type="button"
+                    onClick={() => setPreset(preset.name)}
+                    className={cn(
+                      'px-2.5 py-1.5 text-xs text-left rounded-md transition-colors cursor-pointer',
+                      selectedPreset === preset.name
+                        ? 'bg-primary/10 text-primary font-medium'
+                        : 'text-neutral-600 hover:bg-neutral-100'
+                    )}
+                  >
+                    {selectedPreset === preset.name && <Check className="inline-block h-3 w-3 mr-1.5" />}
+                    {preset.label}
+                  </button>
                 ))}
               </div>
             </div>
           )}
         </div>
-        <div className="flex justify-end gap-2 border-t p-4 shrink-0 sticky bottom-0 bg-popover">
+
+        {/* Footer */}
+        <div className="flex items-center justify-end gap-2 px-4 py-2 border-t border-neutral-100 bg-neutral-50/30 sticky bottom-0">
           <Button
+            variant="ghost"
+            size="sm"
+            className="text-xs"
             onClick={() => {
               setIsOpen(false)
               resetValues()
             }}
-            variant="ghost"
           >
             Cancel
           </Button>
           <Button
+            size="sm"
+            className="text-xs px-4"
             onClick={() => {
               setIsOpen(false)
               if (
@@ -476,7 +502,7 @@ export const DateRangePicker = ({
               }
             }}
           >
-            Update
+            Apply
           </Button>
         </div>
       </PopoverContent>
