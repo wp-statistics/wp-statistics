@@ -47,7 +47,7 @@
 
 :root {
   --wp-admin-bar-height: 32px;
-  --header-height: 56px;
+  --header-height: 64px;
   --radius: 0.625rem;
   --primary: oklch(51.058% 0.23015 276.976);
   --accent: oklch(0.968 0.007 247.896);
