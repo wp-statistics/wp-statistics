@@ -98,8 +98,8 @@ function RouteComponent() {
 
   return (
     <div className="min-w-0">
-      <div className="flex items-center justify-between p-4 bg-white border-b border-input">
-        <h1 className="text-2xl font-medium text-neutral-700">{__('Search Terms', 'wp-statistics')}</h1>
+      <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-input">
+        <h1 className="text-xl font-semibold text-neutral-800">{__('Search Terms', 'wp-statistics')}</h1>
         <DateRangePicker
           initialDateFrom={dateRange.from}
           initialDateTo={dateRange.to}

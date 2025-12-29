@@ -36,7 +36,7 @@ export const exampleColumns: ColumnDef<VisitorData>[] = [
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1">
             {visitorInfo.flags.map((flag, index) => (
-              <span key={index} className="inline-flex items-center h-3 text-[12px] leading-3">
+              <span key={index} className="inline-flex items-center h-3 text-xs leading-3">
                 {flag}
               </span>
             ))}
@@ -54,7 +54,7 @@ export const exampleColumns: ColumnDef<VisitorData>[] = [
       return (
         <div>
           <div>{referrer.domain}</div>
-          <div className="text-[9px] text-[#636363] uppercase">{referrer.traffic}</div>
+          <div className="text-[10px] text-neutral-500 uppercase">{referrer.traffic}</div>
         </div>
       )
     },
@@ -69,7 +69,7 @@ export const exampleColumns: ColumnDef<VisitorData>[] = [
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Info className="h-3 w-3 text-[#636363] cursor-help shrink-0" />
+                <Info className="h-3 w-3 text-neutral-500 cursor-help shrink-0" />
               </TooltipTrigger>
               <TooltipContent>
                 <p>The first page visited in this session</p>
@@ -90,7 +90,7 @@ export const exampleColumns: ColumnDef<VisitorData>[] = [
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Info className="h-3 w-3 text-[#636363] cursor-help shrink-0" />
+                <Info className="h-3 w-3 text-neutral-500 cursor-help shrink-0" />
               </TooltipTrigger>
               <TooltipContent>
                 <p>The last page visited in this session</p>
