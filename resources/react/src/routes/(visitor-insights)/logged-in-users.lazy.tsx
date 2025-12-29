@@ -667,7 +667,7 @@ function RouteComponent() {
         </div>
       </div>
 
-      <div className="p-4 grid gap-6">
+      <div className="p-2 grid gap-2">
         {/* Applied filters row (separate from button) */}
         {appliedFilters && appliedFilters.length > 0 && (
           <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} />

@@ -404,14 +404,14 @@ function RouteComponent() {
         </div>
       </div>
 
-      <div className="p-4">
+      <div className="p-2">
         {/* Applied filters row (separate from button) */}
         {appliedFilters && appliedFilters.length > 0 && (
-          <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-4" />
+          <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-2" />
         )}
 
         {showSkeleton || showFullPageLoading ? (
-          <div className="grid gap-3 grid-cols-12">
+          <div className="grid gap-2 grid-cols-12">
             {/* Metrics skeleton - 4 columns, 2 rows */}
             <div className="col-span-12">
               <Card>
@@ -458,7 +458,7 @@ function RouteComponent() {
             ))}
           </div>
         ) : (
-          <div className="grid gap-3 grid-cols-12">
+          <div className="grid gap-2 grid-cols-12">
             <div className="col-span-12">
               <Panel>
                 <Metrics metrics={overviewMetrics} columns={4} />

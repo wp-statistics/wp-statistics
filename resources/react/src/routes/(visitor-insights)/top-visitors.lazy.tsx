@@ -633,14 +633,14 @@ function RouteComponent() {
         </div>
       </div>
 
-      <div className="p-4">
+      <div className="p-2">
         {/* Applied filters row (separate from button) */}
         {appliedFilters && appliedFilters.length > 0 && (
-          <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-4" />
+          <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-2" />
         )}
 
         {isError ? (
-          <div className="p-4 text-center">
+          <div className="p-2 text-center">
             <p className="text-red-500">{__('Failed to load top visitors', 'wp-statistics')}</p>
             <p className="text-sm text-muted-foreground">{error?.message}</p>
           </div>

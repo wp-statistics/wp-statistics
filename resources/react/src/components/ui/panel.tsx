@@ -42,7 +42,7 @@ function Panel({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="panel"
-      className={cn('bg-card text-card-foreground rounded-xl border shadow-sm overflow-hidden', className)}
+      className={cn('bg-card text-card-foreground rounded-lg border overflow-hidden', className)}
       {...props}
     />
   )

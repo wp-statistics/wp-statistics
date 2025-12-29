@@ -109,9 +109,9 @@ function RouteComponent() {
         />
       </div>
 
-      <div className="p-4">
+      <div className="p-2">
         {isError ? (
-          <div className="p-4 text-center">
+          <div className="p-2 text-center">
             <p className="text-red-500">{__('Failed to load search terms', 'wp-statistics')}</p>
             <p className="text-sm text-muted-foreground">{error?.message}</p>
           </div>

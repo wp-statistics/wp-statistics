@@ -460,9 +460,9 @@ function RouteComponent() {
         <h1 className="text-xl font-semibold text-neutral-800">{__('Online Visitors', 'wp-statistics')}</h1>
       </div>
 
-      <div className="p-4">
+      <div className="p-2">
         {isError ? (
-          <div className="p-4 text-center">
+          <div className="p-2 text-center">
             <p className="text-red-500">{__('Failed to load online visitors', 'wp-statistics')}</p>
             <p className="text-sm text-muted-foreground">{error?.message}</p>
           </div>
