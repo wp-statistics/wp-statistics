@@ -3,7 +3,6 @@
  * Always shows category badge, with optional domain link above it
  */
 
-import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
 import type { ReferrerData } from '../types'
@@ -28,7 +27,7 @@ export function ReferrerCell({ data, maxLength = 22 }: ReferrerCellProps) {
   const { domain, category } = data
 
   return (
-    <div className="flex flex-col items-start">
+    <div className="flex flex-col">
       {domain && (
         <Tooltip>
           <TooltipTrigger asChild>
@@ -36,7 +35,7 @@ export function ReferrerCell({ data, maxLength = 22 }: ReferrerCellProps) {
               href={`https://${domain}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:underline max-w-[180px] truncate block text-xs text-neutral-700"
+              className="hover:underline truncate text-xs text-neutral-700"
             >
               {truncateDomain(domain, maxLength)}
             </a>
@@ -44,9 +43,7 @@ export function ReferrerCell({ data, maxLength = 22 }: ReferrerCellProps) {
           <TooltipContent>{domain}</TooltipContent>
         </Tooltip>
       )}
-      <Badge variant="outline" className="text-[10px] text-neutral-500 uppercase mt-1">
-        {category}
-      </Badge>
+      <span className="text-[10px] text-neutral-400 uppercase">{category}</span>
     </div>
   )
 }
