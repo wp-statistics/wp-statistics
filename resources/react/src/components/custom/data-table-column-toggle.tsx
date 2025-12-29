@@ -1,6 +1,6 @@
 import { Button } from '@components/ui/button'
 import { Checkbox } from '@components/ui/checkbox'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@components/ui/dropdown-menu'
+import { Popover, PopoverContent, PopoverTrigger } from '@components/ui/popover'
 import {
   closestCenter,
   DndContext,
@@ -20,7 +20,7 @@ import {
 import { CSS } from '@dnd-kit/utilities'
 import type { Table, VisibilityState } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
-import { GripVertical, MoreVertical, RotateCcw } from 'lucide-react'
+import { Columns, GripVertical, RotateCcw } from 'lucide-react'
 import * as React from 'react'
 
 interface ColumnItem {
@@ -33,13 +33,11 @@ interface SortableItemProps {
   item: ColumnItem
   onToggle: (id: string, checked: boolean) => void
   disabled?: boolean
-  isDraggable?: boolean
 }
 
-function SortableItem({ item, onToggle, disabled, isDraggable = true }: SortableItemProps) {
+function SortableItem({ item, onToggle, disabled }: SortableItemProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: item.id,
-    disabled: !isDraggable,
   })
 
   const style = {
@@ -49,7 +47,6 @@ function SortableItem({ item, onToggle, disabled, isDraggable = true }: Sortable
   }
 
   const handleRowClick = (e: React.MouseEvent) => {
-    // Don't toggle if clicking on the drag handle or if disabled
     if (disabled) return
     const target = e.target as HTMLElement
     if (target.closest('[data-drag-handle]')) return
@@ -60,26 +57,56 @@ function SortableItem({ item, onToggle, disabled, isDraggable = true }: Sortable
     <div
       ref={setNodeRef}
       style={style}
-      className={`flex items-center gap-2 px-2 py-2 hover:bg-accent rounded-sm ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+      className={`flex items-center gap-2 px-2 py-1.5 hover:bg-accent rounded-sm ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
       onClick={handleRowClick}
     >
       <div
         data-drag-handle
-        {...(isDraggable ? attributes : {})}
-        {...(isDraggable ? listeners : {})}
-        className={isDraggable ? 'cursor-grab active:cursor-grabbing' : 'cursor-not-allowed opacity-30'}
+        {...attributes}
+        {...listeners}
+        className="cursor-grab active:cursor-grabbing"
       >
-        <GripVertical className="h-4 w-4 text-muted-foreground" />
+        <GripVertical className="h-3.5 w-3.5 text-muted-foreground" />
       </div>
       <Checkbox
         checked={item.isVisible}
         disabled={disabled}
         onCheckedChange={(checked) => onToggle(item.id, checked as boolean)}
         onClick={(e) => e.stopPropagation()}
+        className="h-3.5 w-3.5"
       />
       <span
-        className={`flex-1 text-sm font-normal capitalize select-none ${disabled ? 'opacity-50' : ''}`}
+        className={`flex-1 text-xs font-normal capitalize select-none ${disabled ? 'opacity-50' : ''}`}
       >
+        {item.label}
+      </span>
+    </div>
+  )
+}
+
+interface HiddenItemProps {
+  item: ColumnItem
+  onToggle: (id: string, checked: boolean) => void
+}
+
+function HiddenItem({ item, onToggle }: HiddenItemProps) {
+  const handleRowClick = () => {
+    onToggle(item.id, true)
+  }
+
+  return (
+    <div
+      className="flex items-center gap-2 px-2 py-1.5 hover:bg-accent rounded-sm cursor-pointer"
+      onClick={handleRowClick}
+    >
+      <div className="w-3.5" /> {/* Spacer to align with visible items */}
+      <Checkbox
+        checked={false}
+        onCheckedChange={() => onToggle(item.id, true)}
+        onClick={(e) => e.stopPropagation()}
+        className="h-3.5 w-3.5"
+      />
+      <span className="flex-1 text-xs font-normal capitalize select-none text-muted-foreground">
         {item.label}
       </span>
     </div>
@@ -105,11 +132,10 @@ export function DataTableColumnToggle<TData>({
 }: DataTableColumnToggleProps<TData>) {
   const isRTL = document.dir === 'rtl' || document.documentElement.dir === 'rtl'
 
-  // Build column items from table on dropdown open (not on every render)
   const [columnOrder, setColumnOrder] = React.useState<ColumnItem[]>([])
   const [isOpen, setIsOpen] = React.useState(false)
 
-  // Build column list when dropdown opens
+  // Build column list when popover opens
   const handleOpenChange = React.useCallback(
     (open: boolean) => {
       setIsOpen(open)
@@ -118,7 +144,6 @@ export function DataTableColumnToggle<TData>({
 
         let items: ColumnItem[]
         if (initialColumnOrder && initialColumnOrder.length > 0) {
-          // Use provided order
           items = []
           initialColumnOrder.forEach((id) => {
             const column = columns.find((c) => c.id === id)
@@ -130,7 +155,6 @@ export function DataTableColumnToggle<TData>({
               })
             }
           })
-          // Add any columns not in the order at the end
           columns.forEach((column) => {
             if (!initialColumnOrder.includes(column.id)) {
               items.push({
@@ -141,7 +165,6 @@ export function DataTableColumnToggle<TData>({
             }
           })
         } else {
-          // Default order from columns
           items = columns.map((column) => ({
             id: column.id,
             label: column.id,
@@ -166,14 +189,21 @@ export function DataTableColumnToggle<TData>({
 
     if (over && active.id !== over.id) {
       setColumnOrder((items) => {
-        const oldIndex = items.findIndex((item) => item.id === active.id)
-        const newIndex = items.findIndex((item) => item.id === over.id)
+        const visibleItems = items.filter((item) => item.isVisible)
+        const hiddenItems = items.filter((item) => !item.isVisible)
 
-        const newOrder = arrayMove(items, oldIndex, newIndex)
+        const oldIndex = visibleItems.findIndex((item) => item.id === active.id)
+        const newIndex = visibleItems.findIndex((item) => item.id === over.id)
+
+        const newVisibleOrder = arrayMove(visibleItems, oldIndex, newIndex)
+        const newOrder = [...newVisibleOrder, ...hiddenItems]
         const newOrderIds = newOrder.map((item) => item.id)
 
-        // Update table column order (this will trigger the table's onColumnOrderChange handler)
         table.setColumnOrder(newOrderIds)
+
+        if (onColumnOrderChange) {
+          onColumnOrderChange(newOrderIds)
+        }
 
         return newOrder
       })
@@ -187,7 +217,6 @@ export function DataTableColumnToggle<TData>({
       setColumnOrder((items) => {
         const updatedItems = items.map((item) => (item.id === id ? { ...item, isVisible: checked } : item))
 
-        // Call persistence callback with updated visibility state
         if (onColumnVisibilityChange) {
           const newVisibility: VisibilityState = {}
           updatedItems.forEach((item) => {
@@ -204,7 +233,6 @@ export function DataTableColumnToggle<TData>({
   const handleReset = () => {
     const columns = table.getAllColumns().filter((column) => column.getCanHide())
 
-    // Reset to default column order
     const defaultOrder = columns.map((column) => ({
       id: column.id,
       label: column.id,
@@ -212,59 +240,78 @@ export function DataTableColumnToggle<TData>({
     }))
     setColumnOrder(defaultOrder)
 
-    // Reset table column order
     table.setColumnOrder(defaultOrder.map((item) => item.id))
 
-    // Reset visibility - show all except defaultHiddenColumns
     columns.forEach((column) => {
       const shouldBeVisible = !defaultHiddenColumns.includes(column.id)
       column.toggleVisibility(shouldBeVisible)
     })
 
-    // Call reset callback (handles backend reset separately)
     if (onReset) {
       onReset()
     }
   }
 
+  // Separate visible and hidden columns
+  const visibleColumns = columnOrder.filter((item) => item.isVisible)
+  const hiddenColumns = columnOrder.filter((item) => !item.isVisible)
+  const visibleCount = visibleColumns.length
+  const hiddenCount = hiddenColumns.length
+
   return (
-    <DropdownMenu open={isOpen} onOpenChange={handleOpenChange}>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-          <MoreVertical className="h-4 w-4" />
+    <Popover open={isOpen} onOpenChange={handleOpenChange}>
+      <PopoverTrigger asChild>
+        <Button variant="ghost" size="sm" className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground">
+          <Columns className="h-3.5 w-3.5 mr-1.5" />
+          {__('Columns', 'wp-statistics')}
         </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align={isRTL ? 'start' : 'end'} className="w-[240px]">
-        <div className="px-1 py-1">
+      </PopoverTrigger>
+      <PopoverContent align={isRTL ? 'end' : 'start'} className="w-[260px] p-0">
+        {/* Header */}
+        <div className="flex items-center justify-between px-3 py-2 border-b border-neutral-100 bg-neutral-50/50">
+          <span className="text-sm font-medium text-neutral-700">{__('Columns', 'wp-statistics')}</span>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
+            onClick={handleReset}
+          >
+            <RotateCcw className="h-3 w-3 mr-1" />
+            {__('Reset', 'wp-statistics')}
+          </Button>
+        </div>
+
+        {/* Visible Section */}
+        <div className="p-2">
+          <span className="block px-2 pb-1.5 text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
+            {__('Visible', 'wp-statistics')} ({visibleCount})
+          </span>
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-            <SortableContext items={columnOrder.map((item) => item.id)} strategy={verticalListSortingStrategy}>
-              {(() => {
-                const visibleCount = columnOrder.filter((item) => item.isVisible).length
-                return columnOrder.map((item) => (
-                  <SortableItem
-                    key={item.id}
-                    item={item}
-                    onToggle={handleToggle}
-                    disabled={item.isVisible && visibleCount === 1}
-                    isDraggable={item.isVisible}
-                  />
-                ))
-              })()}
+            <SortableContext items={visibleColumns.map((item) => item.id)} strategy={verticalListSortingStrategy}>
+              {visibleColumns.map((item) => (
+                <SortableItem
+                  key={item.id}
+                  item={item}
+                  onToggle={handleToggle}
+                  disabled={visibleCount === 1}
+                />
+              ))}
             </SortableContext>
           </DndContext>
-          <div className="border-t mt-2 pt-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="w-full justify-start text-muted-foreground hover:text-foreground"
-              onClick={handleReset}
-            >
-              <RotateCcw className="h-4 w-4 mr-2" />
-              {__('Reset to Default', 'wp-statistics')}
-            </Button>
-          </div>
         </div>
-      </DropdownMenuContent>
-    </DropdownMenu>
+
+        {/* Hidden Section */}
+        {hiddenCount > 0 && (
+          <div className="p-2 border-t border-neutral-100 bg-neutral-50/30">
+            <span className="block px-2 pb-1.5 text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
+              {__('Hidden', 'wp-statistics')} ({hiddenCount})
+            </span>
+            {hiddenColumns.map((item) => (
+              <HiddenItem key={item.id} item={item} onToggle={handleToggle} />
+            ))}
+          </div>
+        )}
+      </PopoverContent>
+    </Popover>
   )
 }

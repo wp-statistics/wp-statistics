@@ -243,25 +243,13 @@ export function DataTable<TData, TValue>({
                   return (
                     <TableHead
                       key={header.id}
-                      className={cn('h-8', index === 0 ? 'pl-4' : '')}
+                      className={cn('h-8', index === 0 ? 'pl-4' : '', index === headerGroup.headers.length - 1 ? 'pr-4' : '')}
                       style={size ? { width: size, minWidth: size, maxWidth: size } : undefined}
                     >
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   )
                 })}
-                {showColumnManagement && (
-                  <TableHead className="h-8 w-10 pr-4">
-                    <DataTableColumnToggle
-                      table={table}
-                      initialColumnOrder={columnOrder}
-                      defaultHiddenColumns={hiddenColumns}
-                      onColumnVisibilityChange={onColumnVisibilityChange}
-                      onColumnOrderChange={onColumnOrderChange}
-                      onReset={onColumnPreferencesReset}
-                    />
-                  </TableHead>
-                )}
               </TableRow>
             ))}
           </TableHeader>
@@ -281,19 +269,18 @@ export function DataTable<TData, TValue>({
                       key={cell.id}
                       className={cn(
                         cellIndex === 0 ? 'pl-4' : '',
-                        cellIndex === row.getVisibleCells().length - 1 && !showColumnManagement ? 'pr-4' : ''
+                        cellIndex === row.getVisibleCells().length - 1 ? 'pr-4' : ''
                       )}
                     >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
-                  {showColumnManagement && <TableCell className="w-10 pr-4" />}
                 </TableRow>
               ))
             ) : (
               <TableRow className="border-0">
                 <TableCell
-                  colSpan={columns.length + (showColumnManagement ? 1 : 0)}
+                  colSpan={columns.length}
                   className="h-24 text-center text-sm text-neutral-500 pl-4"
                 >
                   {isFetching ? null : emptyStateMessage}
@@ -303,78 +290,99 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {showPagination && (
-        <div className="flex items-center justify-end px-4 py-3">
-          <div className="flex items-center gap-0.5">
-            <Button
-              variant="ghost"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-              className="h-7 px-2 text-xs"
-            >
-              <ChevronLeft className="h-3.5 w-3.5" />
-              Prev
-            </Button>
-            {(() => {
-              const currentPage = table.getState().pagination.pageIndex + 1
-              const totalPages = table.getPageCount()
-              const pages: (number | string)[] = []
-
-              if (totalPages <= 5) {
-                for (let i = 1; i <= totalPages; i++) {
-                  pages.push(i)
-                }
-              } else {
-                pages.push(1)
-                if (currentPage > 3) {
-                  pages.push('...')
-                }
-                const start = Math.max(2, currentPage - 1)
-                const end = Math.min(totalPages - 1, currentPage + 1)
-                for (let i = start; i <= end; i++) {
-                  pages.push(i)
-                }
-                if (currentPage < totalPages - 2) {
-                  pages.push('...')
-                }
-                pages.push(totalPages)
-              }
-
-              return pages.map((page, index) =>
-                typeof page === 'number' ? (
-                  <Button
-                    key={index}
-                    variant={currentPage === page ? 'default' : 'ghost'}
-                    size="icon"
-                    onClick={() => table.setPageIndex(page - 1)}
-                    className="h-7 w-7 text-xs"
-                  >
-                    {page}
-                  </Button>
-                ) : (
-                  <span key={index} className="px-1 text-neutral-400 text-xs">
-                    {page}
-                  </span>
-                )
-              )
-            })()}
-            <Button
-              variant="ghost"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-              className="h-7 px-2 text-xs"
-            >
-              Next
-              <ChevronRight className="h-3.5 w-3.5" />
-            </Button>
+      {(showColumnManagement || showPagination || fullReportLink) && (
+        <PanelFooter className="grid grid-cols-3 items-center">
+          {/* Left: Column toggle */}
+          <div className="justify-self-start">
+            {showColumnManagement && (
+              <DataTableColumnToggle
+                table={table}
+                initialColumnOrder={columnOrder}
+                defaultHiddenColumns={hiddenColumns}
+                onColumnVisibilityChange={onColumnVisibilityChange}
+                onColumnOrderChange={onColumnOrderChange}
+                onReset={onColumnPreferencesReset}
+              />
+            )}
           </div>
-        </div>
-      )}
-      {fullReportLink && (
-        <PanelFooter>
-          <PanelAction onClick={fullReportLink.action}>
-            {fullReportLink.text || __('View Full Report', 'wp-statistics')}
-          </PanelAction>
+
+          {/* Center: Pagination */}
+          <div className="justify-self-center">
+            {showPagination && (
+              <div className="flex items-center gap-0.5">
+                <Button
+                  variant="ghost"
+                  onClick={() => table.previousPage()}
+                  disabled={!table.getCanPreviousPage()}
+                  className="h-7 px-2 text-xs"
+                >
+                  <ChevronLeft className="h-3.5 w-3.5" />
+                  Prev
+                </Button>
+                {(() => {
+                  const currentPage = table.getState().pagination.pageIndex + 1
+                  const totalPages = table.getPageCount()
+                  const pages: (number | string)[] = []
+
+                  if (totalPages <= 5) {
+                    for (let i = 1; i <= totalPages; i++) {
+                      pages.push(i)
+                    }
+                  } else {
+                    pages.push(1)
+                    if (currentPage > 3) {
+                      pages.push('...')
+                    }
+                    const start = Math.max(2, currentPage - 1)
+                    const end = Math.min(totalPages - 1, currentPage + 1)
+                    for (let i = start; i <= end; i++) {
+                      pages.push(i)
+                    }
+                    if (currentPage < totalPages - 2) {
+                      pages.push('...')
+                    }
+                    pages.push(totalPages)
+                  }
+
+                  return pages.map((page, index) =>
+                    typeof page === 'number' ? (
+                      <Button
+                        key={index}
+                        variant={currentPage === page ? 'default' : 'ghost'}
+                        size="icon"
+                        onClick={() => table.setPageIndex(page - 1)}
+                        className="h-7 w-7 text-xs"
+                      >
+                        {page}
+                      </Button>
+                    ) : (
+                      <span key={index} className="px-1 text-neutral-400 text-xs">
+                        {page}
+                      </span>
+                    )
+                  )
+                })()}
+                <Button
+                  variant="ghost"
+                  onClick={() => table.nextPage()}
+                  disabled={!table.getCanNextPage()}
+                  className="h-7 px-2 text-xs"
+                >
+                  Next
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </Button>
+              </div>
+            )}
+          </div>
+
+          {/* Right: Full report link */}
+          <div className="justify-self-end">
+            {fullReportLink && (
+              <PanelAction onClick={fullReportLink.action}>
+                {fullReportLink.text || __('View Full Report', 'wp-statistics')}
+              </PanelAction>
+            )}
+          </div>
         </PanelFooter>
       )}
     </Panel>
