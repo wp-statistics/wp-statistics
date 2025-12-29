@@ -1,5 +1,6 @@
 import { __ } from '@wordpress/i18n'
 import { Plus } from 'lucide-react'
+import { useEffect } from 'react'
 
 import {
   type FilterField,
@@ -17,6 +18,7 @@ export interface FilterPanelProps {
   onFiltersChange: (filters: FilterRowData[]) => void
   onApply: () => void
   onClearAll?: () => void
+  onCancel?: () => void
 }
 
 function generateFilterId(): string {
@@ -35,7 +37,7 @@ function getInitialValue(operator: FilterOperator): FilterValue {
   return ''
 }
 
-function FilterPanel({ filters, fields, onFiltersChange, onApply, onClearAll }: FilterPanelProps) {
+function FilterPanel({ filters, fields, onFiltersChange, onApply, onClearAll, onCancel }: FilterPanelProps) {
   // Check if any filters have validation errors
   const hasErrors = hasFilterErrors(filters, fields)
 
@@ -44,6 +46,21 @@ function FilterPanel({ filters, fields, onFiltersChange, onApply, onClearAll }: 
 
   // Get available fields (not yet used in any filter)
   const availableFields = fields.filter((field) => !usedFieldNames.includes(field.name))
+
+  // Add default empty filter when panel opens with no filters
+  useEffect(() => {
+    if (filters.length === 0 && fields.length > 0) {
+      const defaultField = fields[0]
+      const defaultOperator = defaultField.supportedOperators[0] || 'is'
+      const newFilter: FilterRowData = {
+        id: generateFilterId(),
+        fieldName: defaultField.name,
+        operator: defaultOperator,
+        value: getInitialValue(defaultOperator),
+      }
+      onFiltersChange([newFilter])
+    }
+  }, []) // Only on mount
 
   const handleAddFilter = () => {
     // Don't add filter if no available fields
@@ -83,47 +100,71 @@ function FilterPanel({ filters, fields, onFiltersChange, onApply, onClearAll }: 
   }
 
   return (
-    <div className="w-full min-w-[500px] p-4">
+    <div className="w-full min-w-[520px]">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-base font-medium">{__('Filters', 'wp-statistics')}</h3>
+      <div className="flex items-center justify-between px-4 py-2 border-b border-neutral-100 bg-neutral-50/50">
+        <span className="text-sm font-semibold text-neutral-700 tracking-tight">
+          {__('Filters', 'wp-statistics')}
+        </span>
         {filters.length > 0 && (
-          <Button variant="outline" size="sm" onClick={handleClearAll}>
-            {__('Clear All', 'wp-statistics')}
-          </Button>
+          <button
+            type="button"
+            onClick={handleClearAll}
+            className="text-xs text-neutral-500 hover:text-destructive transition-colors cursor-pointer"
+          >
+            {__('Clear all', 'wp-statistics')}
+          </button>
         )}
       </div>
 
       {/* Filter Rows */}
-      <div className="space-y-3">
-        {filters.map((filter) => (
-          <FilterRow
-            key={filter.id}
-            filter={filter}
-            fields={fields}
-            usedFieldNames={getUsedFieldNamesForRow(filter.id)}
-            onUpdate={handleUpdateFilter}
-            onRemove={handleRemoveFilter}
-          />
-        ))}
+      <div className="px-4 py-3">
+        <div className="space-y-2">
+          {filters.map((filter, index) => (
+            <div key={filter.id} className="relative">
+              {/* Row connector "and" label for multiple filters */}
+              {index > 0 && (
+                <div className="absolute -top-1.5 left-3 text-[10px] font-medium text-neutral-400 uppercase tracking-wider bg-white px-1">
+                  {__('and', 'wp-statistics')}
+                </div>
+              )}
+              <div className={index > 0 ? 'pt-2' : ''}>
+                <FilterRow
+                  filter={filter}
+                  fields={fields}
+                  usedFieldNames={getUsedFieldNamesForRow(filter.id)}
+                  onUpdate={handleUpdateFilter}
+                  onRemove={handleRemoveFilter}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Add condition - only show if there are unused fields available */}
+        {availableFields.length > 0 && (
+          <button
+            type="button"
+            onClick={handleAddFilter}
+            className="flex items-center gap-1.5 mt-3 py-1.5 text-xs font-medium text-neutral-500 hover:text-primary transition-colors group cursor-pointer"
+          >
+            <span className="flex items-center justify-center w-4 h-4 rounded-full border border-dashed border-neutral-300 group-hover:border-primary group-hover:bg-primary/5 transition-all">
+              <Plus className="h-2.5 w-2.5" />
+            </span>
+            {__('Add condition', 'wp-statistics')}
+          </button>
+        )}
       </div>
 
-      {/* Add Another Condition - only show if there are unused fields available */}
-      {availableFields.length > 0 && (
-        <button
-          type="button"
-          onClick={handleAddFilter}
-          className="flex items-center gap-1.5 text-sm text-primary hover:text-primary/80 mt-4 cursor-pointer"
-        >
-          <Plus className="h-4 w-4" />
-          {__('Add another condition', 'wp-statistics')}
-        </button>
-      )}
-
-      {/* Apply Button */}
-      <div className="mt-4">
-        <Button onClick={onApply} className="w-auto" disabled={hasErrors}>
-          {__('Apply', 'wp-statistics')}
+      {/* Footer */}
+      <div className="flex items-center justify-end gap-2 px-4 py-2 border-t border-neutral-100 bg-neutral-50/30">
+        {onCancel && (
+          <Button variant="ghost" size="sm" onClick={onCancel} className="text-xs">
+            {__('Cancel', 'wp-statistics')}
+          </Button>
+        )}
+        <Button size="sm" onClick={onApply} disabled={hasErrors} className="text-xs px-4">
+          {__('Apply filters', 'wp-statistics')}
         </Button>
       </div>
     </div>

@@ -247,99 +247,125 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
       selectedField?.inputType === 'number' ? 'number' : selectedField?.inputType === 'date' ? 'date' : 'text'
 
     // Use wider inputs for date type to show full date (YYYY-MM-DD)
-    const inputClassName = inputType === 'date' ? 'w-36' : 'w-20'
+    const inputClassName = inputType === 'date' ? 'w-32' : 'w-16'
     const errorClassName = rangeError ? 'border-destructive focus-visible:ring-destructive' : ''
 
     return (
       <div className="flex flex-col gap-1">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           <Input
             type={inputType}
             value={rangeValue.min}
             onChange={(e) => handleRangeValueChange('min', e.target.value)}
             placeholder={__('Min', 'wp-statistics')}
-            className={`${inputClassName} ${errorClassName} grow`}
+            className={`h-8 text-xs border-0 bg-white shadow-sm ${inputClassName} ${errorClassName} grow`}
           />
-          <span className="text-muted-foreground pt-2">{__('to', 'wp-statistics')}</span>
+          <span className="text-xs text-neutral-400">{__('to', 'wp-statistics')}</span>
           <Input
             type={inputType}
             value={rangeValue.max}
             onChange={(e) => handleRangeValueChange('max', e.target.value)}
             placeholder={__('Max', 'wp-statistics')}
-            className={`${inputClassName} ${errorClassName} grow`}
+            className={`h-8 text-xs border-0 bg-white shadow-sm ${inputClassName} ${errorClassName} grow`}
           />
         </div>
-        {rangeError && <span className="text-xs text-destructive">{rangeError}</span>}
+        {rangeError && <span className="text-[10px] text-destructive">{rangeError}</span>}
       </div>
     )
   }
 
-  // Render searchable input with dropdown
+  // Render searchable input with dropdown (Select2-style)
   const renderSearchableInput = () => {
     const currentValue = operatorType === 'multiple' ? getArrayValue(filter.value) : getSingleValue(filter.value)
     const valueLabels = filter.valueLabels || {}
+    const isMultiple = operatorType === 'multiple'
+    const hasValues = isMultiple
+      ? Array.isArray(currentValue) && currentValue.length > 0
+      : typeof currentValue === 'string' && currentValue
 
     // Helper to get display label for a value
     const getDisplayLabel = (val: string) => valueLabels[val] || val
 
-    // For single select, show the selected label in input when not searching
-    const singleSelectedLabel =
-      operatorType !== 'multiple' && typeof currentValue === 'string' && currentValue
-        ? getDisplayLabel(currentValue)
-        : ''
+    // Helper to clear single selection
+    const handleClearSingle = () => {
+      onUpdate({ ...filter, value: '', valueLabels: undefined })
+    }
+
+    // Helper to remove a value from multiple selection
+    const handleRemoveValue = (val: string) => {
+      if (isMultiple) {
+        handleSearchableSelect(val, getDisplayLabel(val))
+      } else {
+        handleClearSingle()
+      }
+    }
 
     return (
-      <div className="relative min-w-[150px] flex-1">
-        <div className="relative">
-          <Input
-            type="text"
-            value={searchTerm || singleSelectedLabel}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onFocus={() => {
-              // Clear input to allow searching when focused (only for single select with existing value)
-              if (singleSelectedLabel && !searchTerm) {
-                setSearchTerm('')
-              }
-            }}
-            placeholder={
-              operatorType === 'multiple' ? __('Search & select...', 'wp-statistics') : __('Search...', 'wp-statistics')
-            }
-            className="w-full pr-8"
-          />
+      <div className="relative flex-1">
+        {/* Select2-style container with tags inside */}
+        <div className="flex flex-wrap items-center gap-1 min-h-[32px] px-2 py-1 bg-white rounded-md shadow-sm focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1">
+          {/* Selected tags */}
+          {hasValues && (
+            <>
+              {isMultiple && Array.isArray(currentValue) ? (
+                currentValue.map((val) => (
+                  <span
+                    key={val}
+                    className="inline-flex items-center gap-0.5 rounded bg-primary/10 px-1.5 py-0.5 text-[11px] font-medium text-primary"
+                  >
+                    {getDisplayLabel(val)}
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveValue(val)}
+                      className="hover:text-destructive cursor-pointer"
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))
+              ) : (
+                <span className="inline-flex items-center gap-0.5 rounded bg-primary/10 px-1.5 py-0.5 text-[11px] font-medium text-primary">
+                  {getDisplayLabel(currentValue as string)}
+                  <button
+                    type="button"
+                    onClick={handleClearSingle}
+                    className="hover:text-destructive cursor-pointer"
+                  >
+                    ×
+                  </button>
+                </span>
+              )}
+            </>
+          )}
+
+          {/* Input field - always visible for multiple, hidden when single has value */}
+          {(isMultiple || !hasValues) && (
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder={hasValues ? '' : __('Search...', 'wp-statistics')}
+              className="flex-1 min-w-[60px] h-5 text-xs bg-transparent border-0 outline-none placeholder:text-muted-foreground"
+            />
+          )}
+
+          {/* Loading indicator */}
           {isSearching && (
-            <Loader2 className="absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-muted-foreground" />
+            <Loader2 className="h-3.5 w-3.5 animate-spin text-muted-foreground shrink-0" />
           )}
         </div>
 
-        {/* Display selected values for multiple */}
-        {operatorType === 'multiple' && Array.isArray(currentValue) && currentValue.length > 0 && (
-          <div className="mt-1 flex flex-wrap gap-1">
-            {currentValue.map((val) => (
-              <span key={val} className="inline-flex items-center gap-1 rounded bg-primary/10 px-2 py-0.5 text-xs">
-                {getDisplayLabel(val)}
-                <button
-                  type="button"
-                  onClick={() => handleSearchableSelect(val, getDisplayLabel(val))}
-                  className="hover:text-destructive"
-                >
-                  ×
-                </button>
-              </span>
-            ))}
-          </div>
-        )}
-
         {/* Search results dropdown */}
         {searchTerm && searchOptions.length > 0 && (
-          <div className="absolute z-50 mt-1 max-h-[200px] min-w-full w-max overflow-auto rounded-md border bg-popover p-1 shadow-md">
+          <div className="absolute left-0 z-50 mt-1 max-h-[200px] min-w-[180px] w-full overflow-auto rounded-md border bg-popover p-1 shadow-lg">
             {searchOptions.map((option) => (
               <button
                 key={option.value}
                 type="button"
                 onClick={() => handleSearchableSelect(option.value, option.label)}
-                className="flex w-full items-center whitespace-nowrap rounded-sm px-2 py-1.5 text-sm text-left hover:bg-accent hover:text-accent-foreground"
+                className="flex w-full items-center rounded-sm px-2 py-1.5 text-xs text-left hover:bg-accent hover:text-accent-foreground cursor-pointer"
               >
-                {operatorType === 'multiple' && Array.isArray(currentValue) && (
+                {isMultiple && Array.isArray(currentValue) && (
                   <span className="mr-2">{currentValue.includes(option.value) ? '✓' : '○'}</span>
                 )}
                 {option.label}
@@ -350,7 +376,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
 
         {/* No results message */}
         {searchTerm && !isSearching && searchOptions.length === 0 && (
-          <div className="absolute z-50 mt-1 w-full rounded-md border bg-popover p-2 text-sm text-muted-foreground shadow-md">
+          <div className="absolute left-0 z-50 mt-1 min-w-[180px] w-full rounded-md border bg-popover p-2 text-xs text-muted-foreground shadow-lg">
             {__('No results found', 'wp-statistics')}
           </div>
         )}
@@ -366,7 +392,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
           value={getSingleValue(filter.value)}
           onChange={(e) => handleSingleValueChange(e.target.value)}
           placeholder={__('Value', 'wp-statistics')}
-          className="min-w-[150px] flex-1"
+          className="h-8 text-xs border-0 bg-white shadow-sm min-w-[100px] flex-1"
         />
       )
     }
@@ -390,7 +416,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
         }
         return (
           <Select value={getSingleValue(filter.value)} onValueChange={handleDropdownChange}>
-            <SelectTrigger className="min-w-[150px] flex-1">
+            <SelectTrigger className="h-8 text-xs border-0 bg-white shadow-sm min-w-[100px] flex-1">
               <SelectValue placeholder={__('Select value', 'wp-statistics')} />
             </SelectTrigger>
             <SelectContent className="max-h-[200px] overflow-y-auto">
@@ -410,7 +436,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
             value={getSingleValue(filter.value)}
             onChange={(e) => handleSingleValueChange(e.target.value)}
             placeholder={__('Value', 'wp-statistics')}
-            className="min-w-[150px] flex-1"
+            className="h-8 text-xs border-0 bg-white shadow-sm min-w-[80px] flex-1"
           />
         )
       case 'date':
@@ -420,7 +446,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
             value={getSingleValue(filter.value)}
             onChange={(e) => handleSingleValueChange(e.target.value)}
             placeholder={__('Select date', 'wp-statistics')}
-            className="min-w-[150px] flex-1"
+            className="h-8 text-xs border-0 bg-white shadow-sm min-w-[120px] flex-1"
           />
         )
       case 'text':
@@ -431,18 +457,18 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
             value={getSingleValue(filter.value)}
             onChange={(e) => handleSingleValueChange(e.target.value)}
             placeholder={__('Value', 'wp-statistics')}
-            className="min-w-[150px] flex-1"
+            className="h-8 text-xs border-0 bg-white shadow-sm min-w-[100px] flex-1"
           />
         )
     }
   }
 
   return (
-    <div className="flex items-start gap-2">
+    <div className="flex items-center gap-1.5 p-2 rounded-lg bg-neutral-50/70 border border-neutral-100">
       {/* Field Select */}
       <Select value={filter.fieldName} onValueChange={handleFieldChange}>
-        <SelectTrigger className="min-w-[120px] flex-1">
-          <SelectValue placeholder={__('Select field', 'wp-statistics')} />
+        <SelectTrigger className="h-8 w-[100px] text-xs font-medium border-0 bg-white shadow-sm shrink-0">
+          <SelectValue placeholder={__('Field', 'wp-statistics')} />
         </SelectTrigger>
         <SelectContent className="max-h-[200px] overflow-y-auto">
           {availableFields.map((field) => (
@@ -455,8 +481,8 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
 
       {/* Operator Select */}
       <Select value={filter.operator} onValueChange={handleOperatorChange}>
-        <SelectTrigger className="min-w-[120px] flex-1">
-          <SelectValue placeholder={__('Select operator', 'wp-statistics')} />
+        <SelectTrigger className="h-8 w-[90px] text-xs border-0 bg-white shadow-sm text-neutral-600 shrink-0">
+          <SelectValue placeholder={__('Operator', 'wp-statistics')} />
         </SelectTrigger>
         <SelectContent className="max-h-[200px] overflow-y-auto">
           {availableOperators.map((op) => (
@@ -468,11 +494,18 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
       </Select>
 
       {/* Value Input - hide for operators that don't need a value (is_null, is_not_null) */}
-      {filter.operator !== 'is_null' && filter.operator !== 'is_not_null' && renderValueInput()}
+      {filter.operator !== 'is_null' && filter.operator !== 'is_not_null' && (
+        <div className="flex-1 min-w-0">{renderValueInput()}</div>
+      )}
 
       {/* Remove Button */}
-      <Button variant="ghost" size="icon" onClick={() => onRemove(filter.id)} className="shrink-0">
-        <Trash2 className="h-4 w-4" />
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={() => onRemove(filter.id)}
+        className="h-7 w-7 text-neutral-400 hover:text-destructive hover:bg-destructive/10 shrink-0"
+      >
+        <Trash2 className="h-3.5 w-3.5" />
       </Button>
     </div>
   )

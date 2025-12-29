@@ -95,6 +95,7 @@ const meta = {
   args: {
     onApply: fn(),
     onClearAll: fn(),
+    onCancel: fn(),
   },
 } satisfies Meta<typeof FilterPanel>
 

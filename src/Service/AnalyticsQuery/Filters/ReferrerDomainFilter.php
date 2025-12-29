@@ -44,9 +44,9 @@ class ReferrerDomainFilter extends AbstractFilter
     /**
      * Allowed comparison operators.
      *
-     * @var array Operators: is, is_not, contains
+     * @var array Operators: is, is_not, in, not_in, contains
      */
-    protected $supportedOperators = ['is', 'is_not', 'contains'];
+    protected $supportedOperators = ['is', 'is_not', 'in', 'not_in', 'contains'];
 
     /**
      * UI input component type.

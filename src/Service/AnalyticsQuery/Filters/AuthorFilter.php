@@ -40,9 +40,9 @@ class AuthorFilter extends AbstractFilter
     /**
      * Allowed comparison operators.
      *
-     * @var array Operators: is, is_not
+     * @var array Operators: is, is_not, in, not_in
      */
-    protected $supportedOperators = ['is', 'is_not'];
+    protected $supportedOperators = ['is', 'is_not', 'in', 'not_in'];
 
     /**
      * UI input component type.
