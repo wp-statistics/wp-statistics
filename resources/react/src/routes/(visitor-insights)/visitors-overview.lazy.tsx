@@ -10,7 +10,6 @@ import { GlobalMap } from '@/components/custom/global-map'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Panel } from '@/components/ui/panel'
 import { Skeleton } from '@/components/ui/skeleton'
 import { filtersToUrlFilters, urlFiltersToFilters } from '@/lib/filter-utils'
@@ -412,48 +411,84 @@ function RouteComponent() {
           <div className="grid gap-2 grid-cols-12">
             {/* Metrics skeleton - 4 columns, 2 rows */}
             <div className="col-span-12">
-              <Card>
-                <CardContent className="p-4">
-                  <div className="grid grid-cols-4 gap-4">
-                    {[...Array(8)].map((_, i) => (
-                      <div key={i} className="space-y-2">
-                        <Skeleton className="h-4 w-24" />
-                        <Skeleton className="h-8 w-32" />
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+              <Panel className="p-4">
+                <div className="grid grid-cols-4 gap-4">
+                  {[...Array(8)].map((_, i) => (
+                    <div key={i} className="space-y-2">
+                      <Skeleton className="h-4 w-24" />
+                      <Skeleton className="h-8 w-32" />
+                    </div>
+                  ))}
+                </div>
+              </Panel>
             </div>
             {/* Chart skeleton */}
             <div className="col-span-12">
-              <Card>
-                <CardHeader>
-                  <Skeleton className="h-6 w-32" />
-                </CardHeader>
-                <CardContent>
+              <Panel>
+                <div className="px-4 pt-4 pb-3">
+                  <Skeleton className="h-5 w-32" />
+                </div>
+                <div className="px-4 pb-4">
                   <Skeleton className="h-64 w-full" />
-                </CardContent>
-              </Card>
+                </div>
+              </Panel>
             </div>
-            {/* Lists skeleton */}
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className={i < 2 ? 'col-span-6' : 'col-span-4'}>
-                <Card>
-                  <CardHeader>
+            {/* Top Referrers skeleton - full width */}
+            <div className="col-span-12">
+              <Panel>
+                <div className="px-4 pt-4 pb-3">
+                  <Skeleton className="h-5 w-28" />
+                </div>
+                <div className="px-4 pb-4 space-y-3">
+                  {[...Array(5)].map((_, j) => (
+                    <div key={j} className="flex justify-between items-center">
+                      <Skeleton className="h-4 w-32" />
+                      <Skeleton className="h-4 w-16" />
+                    </div>
+                  ))}
+                </div>
+              </Panel>
+            </div>
+            {/* Three column lists skeleton */}
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="col-span-4">
+                <Panel>
+                  <div className="px-4 pt-4 pb-3">
                     <Skeleton className="h-5 w-28" />
-                  </CardHeader>
-                  <CardContent className="space-y-3">
+                  </div>
+                  <div className="px-4 pb-4 space-y-3">
                     {[...Array(5)].map((_, j) => (
                       <div key={j} className="flex justify-between items-center">
                         <Skeleton className="h-4 w-32" />
                         <Skeleton className="h-4 w-16" />
                       </div>
                     ))}
-                  </CardContent>
-                </Card>
+                  </div>
+                </Panel>
               </div>
             ))}
+            {/* Top Visitors skeleton - full width */}
+            <div className="col-span-12">
+              <Panel>
+                <div className="px-4 pt-4 pb-3">
+                  <Skeleton className="h-5 w-28" />
+                </div>
+                <div className="px-4 pb-4">
+                  <Skeleton className="h-48 w-full" />
+                </div>
+              </Panel>
+            </div>
+            {/* Global Map skeleton - full width */}
+            <div className="col-span-12">
+              <Panel>
+                <div className="px-4 pt-4 pb-3">
+                  <Skeleton className="h-5 w-40" />
+                </div>
+                <div className="px-4 pb-4">
+                  <Skeleton className="h-64 w-full" />
+                </div>
+              </Panel>
+            </div>
           </div>
         ) : (
           <div className="grid gap-2 grid-cols-12">
