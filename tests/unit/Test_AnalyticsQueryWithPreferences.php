@@ -60,11 +60,11 @@ class Test_AnalyticsQueryWithPreferences extends WP_UnitTestCase
      */
     public function test_response_includes_preferences_with_context()
     {
-        // Save some preferences
+        // Save some preferences - columns must match sources + group_by
         $manager = new UserPreferencesManager($this->testUserId);
         $manager->save('visitors_overview', [
-            'columns'      => ['date', 'visitors', 'views'],
-            'column_order' => ['date', 'visitors', 'views'],
+            'columns'      => ['date', 'visitors'],
+            'column_order' => ['date', 'visitors'],
         ]);
 
         // Execute query with context
@@ -81,7 +81,7 @@ class Test_AnalyticsQueryWithPreferences extends WP_UnitTestCase
         $this->assertArrayHasKey('preferences', $response['meta']);
         $this->assertNotNull($response['meta']['preferences']);
         $this->assertArrayHasKey('columns', $response['meta']['preferences']);
-        $this->assertEquals(['date', 'visitors', 'views'], $response['meta']['preferences']['columns']);
+        $this->assertEquals(['date', 'visitors'], $response['meta']['preferences']['columns']);
     }
 
     /**
@@ -150,10 +150,10 @@ class Test_AnalyticsQueryWithPreferences extends WP_UnitTestCase
     public function test_preferences_with_chart_format()
     {
         $manager = new UserPreferencesManager($this->testUserId);
-        $manager->save('traffic_trends', ['columns' => ['date', 'visitors', 'views']]);
+        $manager->save('traffic_trends', ['columns' => ['date', 'visitors']]);
 
         $response = $this->handler->handle([
-            'sources'   => ['visitors', 'views'],
+            'sources'   => ['visitors'],
             'group_by'  => ['date'],
             'date_from' => date('Y-m-d', strtotime('-7 days')),
             'date_to'   => date('Y-m-d'),
@@ -164,7 +164,7 @@ class Test_AnalyticsQueryWithPreferences extends WP_UnitTestCase
         $this->assertTrue($response['success']);
         $this->assertArrayHasKey('meta', $response);
         $this->assertArrayHasKey('preferences', $response['meta']);
-        $this->assertEquals(['date', 'visitors', 'views'], $response['meta']['preferences']['columns']);
+        $this->assertEquals(['date', 'visitors'], $response['meta']['preferences']['columns']);
     }
 
     /**

@@ -199,34 +199,29 @@ class UserPreferences implements PageActionInterface
     {
         $requestData = RequestUtil::getRequestData();
 
-        // If we have JSON data, return it as-is
-        if (!empty($requestData) && isset($requestData['action_type'])) {
-            return $requestData;
+        if (empty($requestData)) {
+            return null;
         }
 
-        // Check for form data (legacy support)
-        if (!empty($requestData)) {
-            $data = [
-                'action_type' => isset($requestData['action_type']) ? sanitize_text_field(wp_unslash($requestData['action_type'])) : '',
-                'context'     => isset($requestData['context']) ? sanitize_text_field(wp_unslash($requestData['context'])) : '',
-            ];
+        // Build normalized request data
+        $data = [
+            'action_type' => isset($requestData['action_type']) ? sanitize_text_field(wp_unslash($requestData['action_type'])) : '',
+            'context'     => isset($requestData['context']) ? sanitize_text_field(wp_unslash($requestData['context'])) : '',
+        ];
 
-            // Handle 'data' parameter - can be JSON string or array
-            if (isset($requestData['data'])) {
-                $postData = wp_unslash($requestData['data']);
-                if (is_string($postData)) {
-                    $decoded = json_decode($postData, true);
-                    if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                        $data['data'] = $decoded;
-                    }
-                } elseif (is_array($postData)) {
-                    $data['data'] = $postData;
+        // Handle 'data' parameter - can be JSON string or array
+        if (isset($requestData['data'])) {
+            $postData = wp_unslash($requestData['data']);
+            if (is_string($postData)) {
+                $decoded = json_decode($postData, true);
+                if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                    $data['data'] = $decoded;
                 }
+            } elseif (is_array($postData)) {
+                $data['data'] = $postData;
             }
-
-            return $data;
         }
 
-        return null;
+        return $data;
     }
 }

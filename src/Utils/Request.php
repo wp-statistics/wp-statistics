@@ -299,6 +299,13 @@ class Request
     }
 
     /**
+     * Cached request data.
+     *
+     * @var array|null
+     */
+    private static $requestDataCache = null;
+
+    /**
      * Get request data from JSON body or POST parameters.
      *
      * Reads the request body and attempts to parse it as JSON first (for React/API requests
@@ -310,11 +317,9 @@ class Request
      */
     public static function getRequestData()
     {
-        static $data = null;
-
         // Return cached data if already read (php://input can only be read once)
-        if ($data !== null) {
-            return $data;
+        if (self::$requestDataCache !== null) {
+            return self::$requestDataCache;
         }
 
         // Read php://input once
@@ -324,13 +329,26 @@ class Request
         if (!empty($rawBody)) {
             $decoded = json_decode($rawBody, true);
             if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                $data = $decoded;
-                return $data;
+                self::$requestDataCache = $decoded;
+                return self::$requestDataCache;
             }
         }
 
         // Fallback to $_POST for form-urlencoded requests
-        $data = $_POST;
-        return $data;
+        self::$requestDataCache = $_POST;
+        return self::$requestDataCache;
+    }
+
+    /**
+     * Reset cached request data.
+     *
+     * Used primarily for testing to clear the static cache
+     * between test methods.
+     *
+     * @return void
+     */
+    public static function resetRequestDataCache(): void
+    {
+        self::$requestDataCache = null;
     }
 }

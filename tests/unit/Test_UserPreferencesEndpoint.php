@@ -4,6 +4,7 @@ namespace WP_Statistics\Tests;
 
 use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Endpoints\UserPreferences;
 use WP_Statistics\Service\Admin\UserPreferences\UserPreferencesManager;
+use WP_Statistics\Utils\Request as RequestUtil;
 use WP_UnitTestCase;
 
 /**
@@ -32,6 +33,12 @@ class Test_UserPreferencesEndpoint extends WP_UnitTestCase
     {
         parent::setUp();
 
+        // Reset the request data cache before each test
+        RequestUtil::resetRequestDataCache();
+
+        // Reset $_POST
+        $_POST = [];
+
         // Create a test user
         $this->testUserId = $this->factory->user->create([
             'role' => 'administrator',
@@ -53,6 +60,9 @@ class Test_UserPreferencesEndpoint extends WP_UnitTestCase
 
         // Reset $_POST
         $_POST = [];
+
+        // Reset the request data cache
+        RequestUtil::resetRequestDataCache();
 
         parent::tearDown();
     }

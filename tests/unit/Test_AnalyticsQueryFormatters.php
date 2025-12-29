@@ -34,21 +34,23 @@ class Test_AnalyticsQueryFormatters extends WP_UnitTestCase
         string $format
     ): Query {
         return new Query(
-            $sources,
-            $groupBy,
-            [],
-            '2024-11-01 00:00:00',
-            '2024-11-03 23:59:59',
-            null,
-            'DESC',
-            1,
-            10,
-            $compare,
-            null,
-            false,
-            null,
-            true,
-            $format
+            $sources,                    // sources
+            $groupBy,                    // groupBy
+            [],                          // filters
+            '2024-11-01 00:00:00',       // dateFrom
+            '2024-11-03 23:59:59',       // dateTo
+            null,                        // orderBy
+            'DESC',                      // order
+            1,                           // page
+            10,                          // perPage
+            $compare,                    // compare
+            null,                        // previousDateFrom
+            null,                        // previousDateTo
+            null,                        // dateColumn
+            true,                        // aggregateOthers
+            null,                        // originalPerPage
+            true,                        // showTotals
+            $format                      // format
         );
     }
 

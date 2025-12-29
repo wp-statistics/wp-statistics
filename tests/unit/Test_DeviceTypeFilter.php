@@ -34,15 +34,15 @@ class Test_DeviceTypeFilter extends WP_UnitTestCase
      */
     public function test_filter_column()
     {
-        $this->assertEquals('device_types.name', $this->filter->getColumn());
+        $this->assertEquals('device_types.ID', $this->filter->getColumn());
     }
 
     /**
-     * Test filter type is string.
+     * Test filter type is integer (uses ID).
      */
     public function test_filter_type()
     {
-        $this->assertEquals('string', $this->filter->getType());
+        $this->assertEquals('integer', $this->filter->getType());
     }
 
     /**
@@ -110,10 +110,24 @@ class Test_DeviceTypeFilter extends WP_UnitTestCase
     }
 
     /**
-     * Test getOptions returns device type options.
+     * Test getOptions returns device type options from database.
      */
     public function test_get_options_returns_device_types()
     {
+        global $wpdb;
+
+        // Create and populate the device_types table
+        $table = $wpdb->prefix . 'statistics_device_types';
+        $wpdb->query("CREATE TABLE IF NOT EXISTS {$table} (
+            ID int(11) NOT NULL AUTO_INCREMENT,
+            name varchar(255) NOT NULL,
+            PRIMARY KEY (ID)
+        )");
+
+        $wpdb->insert($table, ['name' => 'desktop']);
+        $wpdb->insert($table, ['name' => 'mobile']);
+        $wpdb->insert($table, ['name' => 'tablet']);
+
         $options = $this->filter->getOptions();
 
         $this->assertIsArray($options);
@@ -125,35 +139,73 @@ class Test_DeviceTypeFilter extends WP_UnitTestCase
             $this->assertArrayHasKey('label', $option);
         }
 
-        // Check specific values
-        $values = array_column($options, 'value');
-        $this->assertContains('desktop', $values);
-        $this->assertContains('mobile', $values);
-        $this->assertContains('tablet', $values);
+        // Check labels (now fetched from database)
+        $labels = array_column($options, 'label');
+        $this->assertContains('desktop', $labels);
+        $this->assertContains('mobile', $labels);
+        $this->assertContains('tablet', $labels);
+
+        // Cleanup
+        $wpdb->query("TRUNCATE TABLE {$table}");
     }
 
     /**
-     * Test option labels are translatable.
+     * Test option labels are strings when data exists.
      */
     public function test_option_labels_are_translatable()
     {
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'statistics_device_types';
+        $wpdb->query("CREATE TABLE IF NOT EXISTS {$table} (
+            ID int(11) NOT NULL AUTO_INCREMENT,
+            name varchar(255) NOT NULL,
+            PRIMARY KEY (ID)
+        )");
+
+        $wpdb->insert($table, ['name' => 'desktop']);
+
         $options = $this->filter->getOptions();
 
+        $this->assertNotEmpty($options);
         foreach ($options as $option) {
             $this->assertIsString($option['label']);
             $this->assertNotEmpty($option['label']);
         }
+
+        // Cleanup
+        $wpdb->query("TRUNCATE TABLE {$table}");
     }
 
     /**
-     * Test option values match expected device types.
+     * Test option values are integers (IDs from database).
      */
     public function test_option_values()
     {
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'statistics_device_types';
+        $wpdb->query("CREATE TABLE IF NOT EXISTS {$table} (
+            ID int(11) NOT NULL AUTO_INCREMENT,
+            name varchar(255) NOT NULL,
+            PRIMARY KEY (ID)
+        )");
+
+        $wpdb->insert($table, ['name' => 'desktop']);
+        $wpdb->insert($table, ['name' => 'mobile']);
+        $wpdb->insert($table, ['name' => 'tablet']);
+
         $options = $this->filter->getOptions();
         $values = array_column($options, 'value');
 
-        $this->assertEquals(['desktop', 'mobile', 'tablet'], $values);
+        // Values are now IDs (integers as strings from database)
+        $this->assertCount(3, $values);
+        foreach ($values as $value) {
+            $this->assertIsNumeric($value);
+        }
+
+        // Cleanup
+        $wpdb->query("TRUNCATE TABLE {$table}");
     }
 
     /**
@@ -180,11 +232,27 @@ class Test_DeviceTypeFilter extends WP_UnitTestCase
      */
     public function test_to_array_includes_options()
     {
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'statistics_device_types';
+        $wpdb->query("CREATE TABLE IF NOT EXISTS {$table} (
+            ID int(11) NOT NULL AUTO_INCREMENT,
+            name varchar(255) NOT NULL,
+            PRIMARY KEY (ID)
+        )");
+
+        $wpdb->insert($table, ['name' => 'desktop']);
+        $wpdb->insert($table, ['name' => 'mobile']);
+        $wpdb->insert($table, ['name' => 'tablet']);
+
         $array = $this->filter->toArray();
 
         $this->assertArrayHasKey('options', $array);
         $this->assertIsArray($array['options']);
         $this->assertCount(3, $array['options']);
+
+        // Cleanup
+        $wpdb->query("TRUNCATE TABLE {$table}");
     }
 
     /**
@@ -192,11 +260,27 @@ class Test_DeviceTypeFilter extends WP_UnitTestCase
      */
     public function test_to_frontend_array_includes_options()
     {
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'statistics_device_types';
+        $wpdb->query("CREATE TABLE IF NOT EXISTS {$table} (
+            ID int(11) NOT NULL AUTO_INCREMENT,
+            name varchar(255) NOT NULL,
+            PRIMARY KEY (ID)
+        )");
+
+        $wpdb->insert($table, ['name' => 'desktop']);
+        $wpdb->insert($table, ['name' => 'mobile']);
+        $wpdb->insert($table, ['name' => 'tablet']);
+
         $array = $this->filter->toFrontendArray();
 
         $this->assertArrayHasKey('options', $array);
         $this->assertIsArray($array['options']);
         $this->assertCount(3, $array['options']);
+
+        // Cleanup
+        $wpdb->query("TRUNCATE TABLE {$table}");
     }
 
     /**
