@@ -154,9 +154,28 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         },
 
+        // Background Process Manager
+        initBackgroundProcessActions: function () {
+            const self = this;
+
+            // Cancel button click - show confirmation before following link
+            $('.wps-bg-process-cancel').off('click').on('click', function (e) {
+                e.preventDefault();
+
+                const $link = $(this);
+                const href = $link.attr('href');
+                const confirmationMessage = wps_js._('confirm_background_process');
+
+                self.showModal(confirmationMessage, function () {
+                    window.location.href = href;
+                });
+            });
+        },
+
         init: function () {
             this.actions.forEach(a => this.initMaintenanceAction(a));
             this.initMigrationActions();
+            this.initBackgroundProcessActions();
         }
     };
 

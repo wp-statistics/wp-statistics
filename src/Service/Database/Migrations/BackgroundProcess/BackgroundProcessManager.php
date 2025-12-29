@@ -123,6 +123,20 @@ class BackgroundProcessManager extends BaseMigrationManager
     public const BACKGROUND_PROCESS_NONCE = 'run_ajax_background_process_nonce';
 
     /**
+     * The action slug used for retrying a failed background process.
+     *
+     * @var string
+     */
+    public const RETRY_PROCESS_ACTION = 'retry_background_process';
+
+    /**
+     * The action slug used for cancelling a background process.
+     *
+     * @var string
+     */
+    public const CANCEL_PROCESS_ACTION = 'cancel_background_process';
+
+    /**
      * Class constructor.
      *
      * Initializes background processes and attaches necessary WordPress hooks.
@@ -135,6 +149,8 @@ class BackgroundProcessManager extends BaseMigrationManager
         add_action('admin_enqueue_scripts', [$this, 'registerScript']);
         add_filter('wp_statistics_ajax_list', [$this, 'addAjax']);
         add_action('admin_post_' . self::BACKGROUND_PROCESS_ACTION, [$this, 'handleBackgroundProcessAction']);
+        add_action('admin_post_' . self::RETRY_PROCESS_ACTION, [$this, 'handleRetryAction']);
+        add_action('admin_post_' . self::CANCEL_PROCESS_ACTION, [$this, 'handleCancelAction']);
     }
 
     /**
@@ -332,6 +348,7 @@ class BackgroundProcessManager extends BaseMigrationManager
      * Show progress notices for each registered background process.
      * Displays a notice like: "Calculate Post Words Count: 34% complete (34/100)."
      * Only shows while a process is active and has a non-zero total.
+     * Also displays error notices when dispatch fails due to loopback issues.
      *
      * @return void
      */
@@ -348,6 +365,16 @@ class BackgroundProcessManager extends BaseMigrationManager
 
             if (method_exists($instance, 'initialNotice')) {
                 $instance->initialNotice();
+            }
+
+            // Check for dispatch errors (loopback failures).
+            $dispatchError = method_exists($instance, 'get_dispatch_error') ? $instance->get_dispatch_error() : false;
+            $isInitiated   = method_exists($instance, 'isInitiated') ? $instance->isInitiated() : false;
+            $isProcessing  = method_exists($instance, 'is_processing') ? $instance->is_processing() : false;
+
+            if ($dispatchError && $isInitiated && !$isProcessing) {
+                $this->showDispatchErrorNotice($instance, $key, $dispatchError);
+                continue;
             }
 
             $isActive = method_exists($instance, 'is_active') ? (bool)$instance->is_active() : false;
@@ -391,6 +418,41 @@ class BackgroundProcessManager extends BaseMigrationManager
     }
 
     /**
+     * Display an error notice when background process dispatch fails.
+     *
+     * @param object $instance      The background process instance.
+     * @param string $key           The process key.
+     * @param array  $dispatchError The dispatch error data with 'message' and 'time'.
+     *
+     * @return void
+     */
+    private function showDispatchErrorNotice($instance, $key, $dispatchError)
+    {
+        $label    = method_exists($instance, 'getJobTitle') ? $instance->getJobTitle() : $key;
+        $retryUrl = wp_nonce_url(
+            add_query_arg(
+                [
+                    'action'  => self::RETRY_PROCESS_ACTION,
+                    'job_key' => $key,
+                ],
+                admin_url('admin-post.php')
+            ),
+            self::RETRY_PROCESS_ACTION
+        );
+
+        $message = sprintf(
+            /* translators: 1: Job title, 2: Error message, 3: Retry URL, 4: Retry button text */
+            '<p><strong>%1$s:</strong> %2$s</p> <a href="%3$s" class="button-primary">%4$s</a>',
+            esc_html($label),
+            esc_html__('Background process could not start. Your server may be blocking loopback requests.', 'wp-statistics'),
+            esc_url($retryUrl),
+            esc_html__('Retry', 'wp-statistics')
+        );
+
+        Notice::addNotice($message, $key . '_error', 'error', false);
+    }
+
+    /**
      * Registers JavaScript files required for migration execution.
      *
      * @return void
@@ -418,7 +480,8 @@ class BackgroundProcessManager extends BaseMigrationManager
                 'interval'              => apply_filters('wp_statistics_async_background_process_ajax_interval', 5000),
                 'current_process'       => $this->currentProcess,
                 'completed_message'     => esc_html__('WP Statistics: Background process completed successfully.', 'wp-statistics'),
-                'job_completed_message' => $this->successNotice
+                'job_completed_message' => $this->successNotice,
+                'loopback_error_hint'   => esc_html__('Your server may be blocking loopback requests. Check Tools → Site Health for connectivity issues.', 'wp-statistics'),
             ]
         );
     }
@@ -468,6 +531,15 @@ class BackgroundProcessManager extends BaseMigrationManager
         if (BackgroundProcessFactory::isProcessDone($this->currentProcess)) {
             wp_send_json_success([
                 'completed' => true,
+            ]);
+        }
+
+        // Check for dispatch error
+        $dispatchError = method_exists($currentJob, 'get_dispatch_error') ? $currentJob->get_dispatch_error() : false;
+        if ($dispatchError) {
+            wp_send_json_success([
+                'has_error'     => true,
+                'error_message' => $dispatchError['message'] ?? esc_html__('Background process could not start.', 'wp-statistics'),
             ]);
         }
 
@@ -543,6 +615,110 @@ class BackgroundProcessManager extends BaseMigrationManager
         }
 
         wp_redirect(Menus::admin_url($redirect, $adminUrlargs));
+        exit;
+    }
+
+    /**
+     * Handle retry action for failed background processes.
+     *
+     * Clears the dispatch error and attempts to re-dispatch the process.
+     *
+     * @return void
+     */
+    public function handleRetryAction()
+    {
+        check_admin_referer(self::RETRY_PROCESS_ACTION);
+
+        $this->verifyMigrationPermission();
+
+        $jobKey = sanitize_key(Request::get('job_key', ''));
+
+        if (empty($jobKey)) {
+            wp_die(
+                __('Invalid job key.', 'wp-statistics'),
+                __('Invalid request', 'wp-statistics'),
+                ['response' => 400]
+            );
+        }
+
+        $job = $this->getBackgroundProcess($jobKey);
+
+        if (empty($job)) {
+            wp_die(
+                __('Background job not found.', 'wp-statistics'),
+                __('Job not found', 'wp-statistics'),
+                ['response' => 404]
+            );
+        }
+
+        // Clear the dispatch error.
+        if (method_exists($job, 'clear_dispatch_error')) {
+            $job->clear_dispatch_error();
+        }
+
+        // Attempt to dispatch again.
+        $result = $job->dispatch();
+
+        // If dispatch still fails, the error will be stored and shown on next page load.
+        if (is_wp_error($result)) {
+            // Redirect back to referrer so user sees the error notice.
+            wp_safe_redirect(wp_get_referer() ?: admin_url());
+            exit;
+        }
+
+        // Success - redirect back.
+        wp_safe_redirect(wp_get_referer() ?: admin_url());
+        exit;
+    }
+
+    /**
+     * Handle cancel action for background processes.
+     *
+     * Stops the process and clears all related data.
+     *
+     * @return void
+     */
+    public function handleCancelAction()
+    {
+        check_admin_referer(self::CANCEL_PROCESS_ACTION);
+
+        $this->verifyMigrationPermission();
+
+        $jobKey = sanitize_key(Request::get('job_key', ''));
+
+        if (empty($jobKey)) {
+            wp_die(
+                __('Invalid job key.', 'wp-statistics'),
+                __('Invalid request', 'wp-statistics'),
+                ['response' => 400]
+            );
+        }
+
+        $job = $this->getBackgroundProcess($jobKey);
+
+        if (empty($job)) {
+            wp_die(
+                __('Background job not found.', 'wp-statistics'),
+                __('Job not found', 'wp-statistics'),
+                ['response' => 404]
+            );
+        }
+
+        // Stop the process and clear all data.
+        if (method_exists($job, 'stopProcess')) {
+            $job->stopProcess();
+        }
+
+        if (method_exists($job, 'setInitiated')) {
+            $job->setInitiated(false);
+        }
+
+        if (method_exists($job, 'clear_dispatch_error')) {
+            $job->clear_dispatch_error();
+        }
+
+        // Redirect back.
+        wp_safe_redirect(wp_get_referer() ?: admin_url());
         exit;
     }
 }

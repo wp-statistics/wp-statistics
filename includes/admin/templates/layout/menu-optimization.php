@@ -40,4 +40,12 @@
         </svg>
         <span><?php esc_html_e('Historical Data', 'wp-statistics'); ?></span>
     </a>
+
+    <a data-tab="background-processes" class="wps-optionsMenuItem">
+        <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10.5 0C4.7 0 0 4.7 0 10.5C0 16.3 4.7 21 10.5 21C16.3 21 21 16.3 21 10.5C21 4.7 16.3 0 10.5 0ZM10.5 19C5.8 19 2 15.2 2 10.5C2 5.8 5.8 2 10.5 2C15.2 2 19 5.8 19 10.5C19 15.2 15.2 19 10.5 19Z"/>
+            <path d="M11 5H10V11.4L14.7 14.4L15.4 13.3L11 10.6V5Z"/>
+        </svg>
+        <span><?php esc_html_e('Background Processes', 'wp-statistics'); ?></span>
+    </a>
 </div>
