@@ -13,9 +13,45 @@ import {
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar'
 
-function NavMenuItem({
+// Active indicator component
+const ActiveIndicator = React.memo(function ActiveIndicator() {
+  return (
+    <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
+  )
+})
+
+// Sub-menu item component - memoized to prevent re-renders
+const SubMenuItem = React.memo(function SubMenuItem({
+  subItem,
+  isActive,
+}: {
+  subItem: { title: string; url: string }
+  isActive: boolean
+}) {
+  return (
+    <SidebarMenuSubItem>
+      <SidebarMenuSubButton
+        asChild
+        isActive={isActive}
+        className={`cursor-pointer text-[13px] bg-transparent hover:bg-transparent focus:ring-0 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/30 ${
+          isActive
+            ? 'text-white font-medium'
+            : 'text-sidebar-foreground/70 hover:text-white'
+        }`}
+      >
+        <Link to={subItem.url as any}>
+          <span>{subItem.title}</span>
+        </Link>
+      </SidebarMenuSubButton>
+    </SidebarMenuSubItem>
+  )
+})
+
+// Menu item component - memoized
+const NavMenuItem = React.memo(function NavMenuItem({
   item,
   isSubmenuActive,
+  activeSubItemUrl,
   onNavigate,
 }: {
   item: {
@@ -29,9 +65,9 @@ function NavMenuItem({
     }[]
   }
   isSubmenuActive: boolean
+  activeSubItemUrl: string | null
   onNavigate: (url: string) => void
 }) {
-  const location = useLocation()
   const [isOpen, setIsOpen] = React.useState(item.isActive || isSubmenuActive)
 
   // Update isOpen when isSubmenuActive changes
@@ -41,12 +77,27 @@ function NavMenuItem({
     }
   }, [isSubmenuActive])
 
-  const handleMenuClick = () => {
+  const handleMenuClick = React.useCallback(() => {
     if (item.items?.length) {
       setIsOpen(true)
       onNavigate(item.items[0].url)
     }
-  }
+  }, [item.items, onNavigate])
+
+  // Stable class strings
+  const menuButtonClasses = `relative cursor-pointer pe-8 bg-transparent hover:bg-sidebar-hover hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/30 focus-visible:outline-offset-[-2px] focus:ring-0 [&_svg]:opacity-60 hover:[&_svg]:opacity-100 ${
+    isSubmenuActive
+      ? 'text-white [&_svg]:opacity-100'
+      : 'text-sidebar-foreground'
+  }`
+
+  const chevronButtonClasses = `cursor-pointer absolute end-2 top-1/2 -translate-y-1/2 p-1 rounded z-10 group-data-[collapsible=icon]:hidden ${
+    isSubmenuActive
+      ? 'text-white'
+      : 'text-sidebar-foreground hover:text-white'
+  }`
+
+  const singleItemClasses = `relative cursor-pointer bg-transparent hover:bg-sidebar-hover hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/30 focus-visible:outline-offset-[-2px] focus:ring-0 [&_svg]:opacity-60 hover:[&_svg]:opacity-100 text-sidebar-foreground data-[active=true]:bg-sidebar-active data-[active=true]:text-white data-[active=true]:[&_svg]:opacity-100`
 
   return (
     <Collapsible asChild open={isOpen} onOpenChange={setIsOpen}>
@@ -56,46 +107,28 @@ function NavMenuItem({
             <div className="relative group/parent">
               <SidebarMenuButton
                 tooltip={item.title}
-                className={`cursor-pointer [&]:!bg-transparent [&]:hover:!bg-transparent [&]:active:!bg-transparent [&]:focus:!bg-transparent [&]:focus-visible:!ring-0 pe-8 ${
-                  isSubmenuActive
-                    ? '[&]:!text-white [&]:hover:!text-white [&]:active:!text-white [&]:focus:!text-white'
-                    : '[&]:!text-sidebar-foreground [&]:hover:!text-sidebar-foreground [&]:active:!text-sidebar-foreground [&]:focus:!text-sidebar-foreground'
-                }`}
+                className={menuButtonClasses}
                 onClick={handleMenuClick}
               >
+                {isSubmenuActive && <ActiveIndicator />}
                 <item.icon />
                 <span>{item.title}</span>
               </SidebarMenuButton>
               <CollapsibleTrigger asChild>
-                <button
-                  className={`cursor-pointer absolute end-2 top-1/2 -translate-y-1/2 p-1 rounded z-10 group-data-[collapsible=icon]:hidden ${
-                    isSubmenuActive
-                      ? '!text-white hover:!text-white'
-                      : '[&]:!text-sidebar-foreground hover:!text-sidebar-foreground'
-                  }`}
-                >
+                <button className={chevronButtonClasses}>
                   <ChevronRight className="h-4 w-4 transition-transform duration-200 rtl:-scale-x-100 group-data-[state=open]/collapsible:rotate-90" />
                 </button>
               </CollapsibleTrigger>
             </div>
             <CollapsibleContent>
               <SidebarMenuSub>
-                {item.items?.map((subItem) => {
-                  const isSubItemActive = location.pathname === subItem.url
-                  return (
-                    <SidebarMenuSubItem key={subItem.title}>
-                      <SidebarMenuSubButton
-                        asChild
-                        isActive={isSubItemActive}
-                        className="cursor-pointer text-sidebar-foreground hover:bg-transparent hover:text-sidebar-foreground data-[active=true]:bg-transparent data-[active=true]:text-white focus:outline-none focus:ring-0 focus:bg-transparent focus:text-sidebar-foreground focus-visible:ring-0 focus-visible:outline-none active:bg-transparent active:text-sidebar-foreground"
-                      >
-                        <Link to={subItem.url as any}>
-                          <span>{subItem.title}</span>
-                        </Link>
-                      </SidebarMenuSubButton>
-                    </SidebarMenuSubItem>
-                  )
-                })}
+                {item.items.map((subItem) => (
+                  <SubMenuItem
+                    key={subItem.title}
+                    subItem={subItem}
+                    isActive={activeSubItemUrl === subItem.url}
+                  />
+                ))}
               </SidebarMenuSub>
             </CollapsibleContent>
           </>
@@ -104,9 +137,10 @@ function NavMenuItem({
             asChild
             isActive={item.isActive}
             tooltip={item.title}
-            className="cursor-pointer [&]:!text-sidebar-foreground [&]:!bg-transparent [&]:!font-normal [&]:hover:!bg-transparent [&]:hover:!text-sidebar-foreground [&]:active:!bg-transparent [&]:active:!text-sidebar-foreground [&]:focus:!bg-transparent [&]:focus:!text-sidebar-foreground [&]:focus:!ring-0 [&]:focus:!outline-none [&]:focus-visible:!ring-0 [&]:focus-visible:!outline-none [&]:!ring-0 [&]:!outline-none [&[data-active=true]]:!bg-transparent [&[data-active=true]]:!text-white [&[data-active=true]]:!font-normal"
+            className={singleItemClasses}
           >
-            <Link to={item.url as any} className="!outline-none !ring-0 focus:!outline-none focus:!ring-0">
+            <Link to={item.url as any} className="outline-none focus:outline-none">
+              {item.isActive && <ActiveIndicator />}
               <item.icon />
               <span>{item.title}</span>
             </Link>
@@ -115,7 +149,7 @@ function NavMenuItem({
       </SidebarMenuItem>
     </Collapsible>
   )
-}
+})
 
 export function NavMain({
   items,
@@ -134,18 +168,26 @@ export function NavMain({
   const location = useLocation()
   const navigate = useNavigate()
 
+  // Memoize the navigate callback
+  const handleNavigate = React.useCallback(
+    (url: string) => navigate({ to: url as any }),
+    [navigate]
+  )
+
   return (
     <SidebarGroup>
       <SidebarMenu>
         {items.map((item) => {
-          const isSubmenuActive = item.items?.some((subItem) => location.pathname === subItem.url) || false
+          const activeSubItemUrl = item.items?.find((subItem) => location.pathname === subItem.url)?.url || null
+          const isSubmenuActive = activeSubItemUrl !== null
 
           return (
             <NavMenuItem
               key={item.title}
               item={item}
               isSubmenuActive={isSubmenuActive}
-              onNavigate={(url) => navigate({ to: url as any })}
+              activeSubItemUrl={activeSubItemUrl}
+              onNavigate={handleNavigate}
             />
           )
         })}

@@ -16,6 +16,8 @@
   --color-sidebar-primary: var(--sidebar-primary);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar: var(--sidebar);
+  --color-sidebar-hover: var(--sidebar-hover);
+  --color-sidebar-active: var(--sidebar-active);
   --color-chart-5: var(--chart-5);
   --color-chart-4: var(--chart-4);
   --color-chart-3: var(--chart-3);
@@ -82,6 +84,8 @@
   --sidebar-accent-foreground: oklch(0.314 0.122 276.809);
   --sidebar-border: oklch(1 0 0 / 0.1);
   --sidebar-ring: oklch(0.711 0.035 256.788);
+  --sidebar-hover: oklch(0.38 0.12 276.809);
+  --sidebar-active: oklch(0.42 0.14 276.809);
 
   --font-sans: Roboto, sans-serif;
   --font-mono: Roboto Mono, monospace;
@@ -125,6 +129,8 @@
   --sidebar-accent-foreground: oklch(0.314 0.122 276.809);
   --sidebar-border: oklch(1 0 0 / 0.1);
   --sidebar-ring: oklch(0.446 0.037 257.281);
+  --sidebar-hover: oklch(0.38 0.12 276.809);
+  --sidebar-active: oklch(0.42 0.14 276.809);
 
   --header: oklch(0.32 0.02 250);
   --header-premium: oklch(0.2 0.1 282);
@@ -193,4 +199,22 @@
 #wp-statistics-root ul,
 #wp-statistics-root ol {
   @apply list-none pl-0 m-0;
+}
+
+/* Sidebar scrollbar styling */
+[data-slot="sidebar-content"]::-webkit-scrollbar {
+  width: 4px;
+}
+
+[data-slot="sidebar-content"]::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+[data-slot="sidebar-content"]::-webkit-scrollbar-thumb {
+  background: oklch(1 0 0 / 0.15);
+  border-radius: 4px;
+}
+
+[data-slot="sidebar-content"]::-webkit-scrollbar-thumb:hover {
+  background: oklch(1 0 0 / 0.25);
 }
