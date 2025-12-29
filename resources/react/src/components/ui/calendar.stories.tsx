@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
+import { expect, within } from 'storybook/test'
 
 import { Calendar } from './calendar'
 
@@ -17,6 +18,19 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {},
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Verify calendar grid is rendered
+    const calendarGrid = canvas.getByRole('grid')
+    await expect(calendarGrid).toBeInTheDocument()
+
+    // Verify navigation buttons exist
+    const prevButton = canvas.getByRole('button', { name: /previous/i })
+    const nextButton = canvas.getByRole('button', { name: /next/i })
+    await expect(prevButton).toBeInTheDocument()
+    await expect(nextButton).toBeInTheDocument()
+  },
 }
 
 export const SingleSelection: Story = {

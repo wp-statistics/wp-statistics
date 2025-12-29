@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
-import { fn } from 'storybook/test'
+import { expect, fn, userEvent, within } from 'storybook/test'
 
 import { withWordPressContext } from '../../../../../.storybook/decorators/with-wordpress-context'
 
@@ -107,6 +107,22 @@ export const Empty: Story = {
     filters: [],
     fields: mockFields,
     onFiltersChange: fn(),
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Find the "Add Filter" button
+    const addFilterButton = canvas.getByRole('button', { name: /add filter/i })
+    await expect(addFilterButton).toBeInTheDocument()
+
+    // Click to add a filter
+    await userEvent.click(addFilterButton)
+
+    // Verify a filter row was added (comboboxes should appear)
+    await expect(canvas.getByRole('combobox')).toBeInTheDocument()
+
+    // Verify Apply button exists
+    await expect(canvas.getByRole('button', { name: /apply/i })).toBeInTheDocument()
   },
 }
 

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { useState } from 'react'
-import { fn } from 'storybook/test'
+import { expect, fn, userEvent, within } from 'storybook/test'
 
 import { DataTableColumnToggle } from './data-table-column-toggle'
 
@@ -128,6 +128,22 @@ export const Default: Story = {
       onReset={args.onReset}
     />
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Find and click the column toggle button
+    const toggleButton = canvas.getByRole('button')
+    await expect(toggleButton).toBeInTheDocument()
+    await userEvent.click(toggleButton)
+
+    // Verify dropdown menu is open with column options
+    const body = within(document.body)
+    await expect(body.getByText('Visitor Info')).toBeInTheDocument()
+    await expect(body.getByText('Total Views')).toBeInTheDocument()
+
+    // Close by clicking outside or pressing Escape
+    await userEvent.keyboard('{Escape}')
+  },
 }
 
 export const WithHiddenColumns: Story = {
@@ -139,6 +155,17 @@ export const WithHiddenColumns: Story = {
       onReset={args.onReset}
     />
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Verify hidden columns are not in the visible list
+    await expect(canvas.queryByText('• exitPage')).not.toBeInTheDocument()
+    await expect(canvas.queryByText('• referrer')).not.toBeInTheDocument()
+
+    // Verify visible columns are shown
+    await expect(canvas.getByText('• visitorInfo')).toBeInTheDocument()
+    await expect(canvas.getByText('• totalViews')).toBeInTheDocument()
+  },
 }
 
 export const WithCustomOrder: Story = {

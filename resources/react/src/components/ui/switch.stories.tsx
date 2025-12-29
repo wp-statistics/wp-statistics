@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { fn } from 'storybook/test'
 import { useState } from 'react'
+import { expect, fn, userEvent, within } from 'storybook/test'
 
 import { Label } from './label'
 import { Switch } from './switch'
@@ -22,11 +22,30 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {},
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const switchElement = canvas.getByRole('switch')
+
+    await expect(switchElement).toBeInTheDocument()
+    await expect(switchElement).not.toBeChecked()
+
+    await userEvent.click(switchElement)
+    await expect(switchElement).toBeChecked()
+
+    await userEvent.click(switchElement)
+    await expect(switchElement).not.toBeChecked()
+  },
 }
 
 export const Checked: Story = {
   args: {
     defaultChecked: true,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const switchElement = canvas.getByRole('switch')
+
+    await expect(switchElement).toBeChecked()
   },
 }
 
@@ -34,12 +53,25 @@ export const Disabled: Story = {
   args: {
     disabled: true,
   },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const switchElement = canvas.getByRole('switch')
+
+    await expect(switchElement).toBeDisabled()
+  },
 }
 
 export const DisabledChecked: Story = {
   args: {
     disabled: true,
     defaultChecked: true,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const switchElement = canvas.getByRole('switch')
+
+    await expect(switchElement).toBeDisabled()
+    await expect(switchElement).toBeChecked()
   },
 }
 

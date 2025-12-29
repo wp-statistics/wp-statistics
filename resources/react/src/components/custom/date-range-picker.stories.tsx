@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { fn } from 'storybook/test'
+import { expect, fn, userEvent, within } from 'storybook/test'
 
 import { DateRangePicker } from './date-range-picker'
 
@@ -35,6 +35,23 @@ export const Default: Story = {
     initialDateFrom: new Date(),
     initialDateTo: new Date(),
   },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Find and click the trigger button to open the picker
+    const triggerButton = canvas.getByRole('button')
+    await expect(triggerButton).toBeInTheDocument()
+    await userEvent.click(triggerButton)
+
+    // Verify popover content is visible
+    const body = within(document.body)
+    await expect(body.getByText('Today')).toBeInTheDocument()
+    await expect(body.getByText('Yesterday')).toBeInTheDocument()
+    await expect(body.getByText('Last 7 Days')).toBeInTheDocument()
+
+    // Close by clicking cancel
+    await userEvent.click(body.getByRole('button', { name: /cancel/i }))
+  },
 }
 
 export const WithDateRange: Story = {
@@ -49,6 +66,26 @@ export const Last30Days: Story = {
     initialDateFrom: new Date(new Date().setDate(new Date().getDate() - 30)),
     initialDateTo: new Date(),
   },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement)
+
+    // Open picker
+    const triggerButton = canvas.getByRole('button')
+    await userEvent.click(triggerButton)
+
+    const body = within(document.body)
+
+    // Click "Last 7 Days" preset
+    const last7DaysButton = body.getByRole('button', { name: /last 7 days/i })
+    await userEvent.click(last7DaysButton)
+
+    // Click Apply to confirm
+    const applyButton = body.getByRole('button', { name: /apply/i })
+    await userEvent.click(applyButton)
+
+    // Verify onUpdate was called
+    await expect(args.onUpdate).toHaveBeenCalled()
+  },
 }
 
 export const WithCompare: Story = {
@@ -58,6 +95,28 @@ export const WithCompare: Story = {
     initialCompareFrom: '2023-06-01',
     initialCompareTo: '2023-06-30',
     showCompare: true,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Open picker
+    const triggerButton = canvas.getByRole('button')
+    await userEvent.click(triggerButton)
+
+    const body = within(document.body)
+
+    // Find the compare toggle/checkbox
+    const compareSwitch = body.getByRole('switch')
+    await expect(compareSwitch).toBeInTheDocument()
+
+    // Toggle compare off
+    await userEvent.click(compareSwitch)
+
+    // Toggle compare back on
+    await userEvent.click(compareSwitch)
+
+    // Cancel to close
+    await userEvent.click(body.getByRole('button', { name: /cancel/i }))
   },
 }
 

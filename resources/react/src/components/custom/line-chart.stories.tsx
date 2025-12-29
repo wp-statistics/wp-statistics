@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { expect, fn, userEvent, within } from 'storybook/test'
 
 import type { LineChartDataPoint, LineChartMetric } from './line-chart'
 import { LineChart } from './line-chart'
@@ -72,7 +73,22 @@ export const Default: Story = {
   args: {
     data: generateChartData(),
     metrics: sampleMetrics,
-    onTimeframeChange: (timeframe) => console.log('Timeframe changed to:', timeframe),
+    onTimeframeChange: fn(),
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Verify metric labels are displayed
+    await expect(canvas.getByText('Visitors')).toBeInTheDocument()
+    await expect(canvas.getByText('Views')).toBeInTheDocument()
+
+    // Verify metric values are displayed
+    await expect(canvas.getByText('668K')).toBeInTheDocument()
+    await expect(canvas.getByText('705K')).toBeInTheDocument()
+
+    // Verify chart container exists
+    const chartContainer = canvasElement.querySelector('.recharts-wrapper')
+    await expect(chartContainer).toBeInTheDocument()
   },
 }
 
@@ -81,7 +97,13 @@ export const WithTitle: Story = {
     data: generateChartData(),
     metrics: sampleMetrics,
     title: 'Traffic Trends',
-    onTimeframeChange: (timeframe) => console.log('Timeframe changed to:', timeframe),
+    onTimeframeChange: fn(),
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Verify title is displayed
+    await expect(canvas.getByText('Traffic Trends')).toBeInTheDocument()
   },
 }
 
@@ -91,7 +113,16 @@ export const WithoutPreviousPeriod: Story = {
     metrics: sampleMetrics,
     title: 'Traffic Trends',
     showPreviousPeriod: false,
-    onTimeframeChange: (timeframe) => console.log('Timeframe changed to:', timeframe),
+    onTimeframeChange: fn(),
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Verify Previous Period toggle is not checked or hidden
+    const previousPeriodToggle = canvas.queryByRole('switch')
+    if (previousPeriodToggle) {
+      await expect(previousPeriodToggle).not.toBeChecked()
+    }
   },
 }
 
@@ -100,7 +131,7 @@ export const WithoutLegend: Story = {
     data: generateChartData(),
     metrics: sampleMetrics,
     title: 'Traffic Trends',
-    onTimeframeChange: (timeframe) => console.log('Timeframe changed to:', timeframe),
+    onTimeframeChange: fn(),
   },
 }
 
@@ -110,7 +141,7 @@ export const WeeklyView: Story = {
     metrics: sampleMetrics,
     title: 'Traffic Trends',
     timeframe: 'Weekly',
-    onTimeframeChange: (timeframe) => console.log('Timeframe changed to:', timeframe),
+    onTimeframeChange: fn(),
   },
 }
 
@@ -120,7 +151,7 @@ export const MonthlyView: Story = {
     metrics: sampleMetrics,
     title: 'Traffic Trends',
     timeframe: 'Monthly',
-    onTimeframeChange: (timeframe) => console.log('Timeframe changed to:', timeframe),
+    onTimeframeChange: fn(),
   },
 }
 
@@ -140,7 +171,16 @@ export const MultipleMetrics: Story = {
       { key: 'bounceRate', label: 'Bounce Rate', value: '45%', previousValue: '48%' },
     ],
     title: 'Complete Analytics',
-    onTimeframeChange: (timeframe) => console.log('Timeframe changed to:', timeframe),
+    onTimeframeChange: fn(),
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Verify all metric labels are displayed
+    await expect(canvas.getByText('Visitors')).toBeInTheDocument()
+    await expect(canvas.getByText('Views')).toBeInTheDocument()
+    await expect(canvas.getByText('Page Views')).toBeInTheDocument()
+    await expect(canvas.getByText('Bounce Rate')).toBeInTheDocument()
   },
 }
 
@@ -152,6 +192,6 @@ export const CustomColors: Story = {
       { key: 'views', label: 'Views', color: '#10B981', value: '705K', previousValue: '690K' },
     ],
     title: 'Traffic Trends',
-    onTimeframeChange: (timeframe) => console.log('Timeframe changed to:', timeframe),
+    onTimeframeChange: fn(),
   },
 }

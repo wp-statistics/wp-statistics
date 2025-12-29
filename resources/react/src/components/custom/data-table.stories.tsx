@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import type { SortingState } from '@tanstack/react-table'
 import { useState } from 'react'
-import { expect, within } from 'storybook/test'
+import { expect, userEvent, within } from 'storybook/test'
 
 import { DataTable } from './data-table'
 import type { VisitorData } from './data-table-example-columns'
@@ -123,6 +123,26 @@ export const CustomRowLimit: Story = {
     data: exampleData,
     rowLimit: 5,
   },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Verify pagination is shown (since we have 10 items with 5 per page)
+    await expect(canvas.getByText('1–5')).toBeInTheDocument()
+    await expect(canvas.getByText(/of 10/)).toBeInTheDocument()
+
+    // Find and click next page button
+    const nextButton = canvas.getByRole('button', { name: /next/i })
+    await expect(nextButton).toBeInTheDocument()
+    await userEvent.click(nextButton)
+
+    // Verify we're on page 2
+    await expect(canvas.getByText('6–10')).toBeInTheDocument()
+
+    // Click previous to go back
+    const prevButton = canvas.getByRole('button', { name: /previous/i })
+    await userEvent.click(prevButton)
+    await expect(canvas.getByText('1–5')).toBeInTheDocument()
+  },
 }
 
 export const WithoutColumnManagement: Story = {
@@ -146,6 +166,20 @@ export const EmptyState: Story = {
     columns: exampleColumns,
     data: [],
   },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Verify empty state message is shown
+    await expect(canvas.getByText('No data available')).toBeInTheDocument()
+
+    // Table should still exist but be empty
+    const table = canvas.getByRole('table')
+    await expect(table).toBeInTheDocument()
+
+    // Pagination should not be visible for empty data
+    const paginationText = canvas.queryByText(/of 0/)
+    await expect(paginationText).not.toBeInTheDocument()
+  },
 }
 
 export const EmptyStateWithCustomMessage: Story = {
@@ -153,6 +187,12 @@ export const EmptyStateWithCustomMessage: Story = {
     columns: exampleColumns,
     data: [],
     emptyStateMessage: 'No visitors found matching your criteria',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Verify custom empty state message is shown
+    await expect(canvas.getByText('No visitors found matching your criteria')).toBeInTheDocument()
   },
 }
 
@@ -232,6 +272,17 @@ export const WithHiddenColumns: Story = {
     data: exampleData,
     showColumnManagement: true,
     hiddenColumns: ['entryPage', 'exitPage'],
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Entry Page and Exit Page columns should be hidden initially
+    await expect(canvas.queryByRole('columnheader', { name: /entry page/i })).not.toBeInTheDocument()
+    await expect(canvas.queryByRole('columnheader', { name: /exit page/i })).not.toBeInTheDocument()
+
+    // But other columns should be visible
+    await expect(canvas.getByText('Total Views')).toBeInTheDocument()
+    await expect(canvas.getByText('Referrer')).toBeInTheDocument()
   },
 }
 

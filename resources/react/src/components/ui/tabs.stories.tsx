@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { expect, userEvent, within } from 'storybook/test'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './tabs'
 
@@ -33,6 +34,24 @@ export const Default: Story = {
       </TabsContent>
     </Tabs>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Verify account tab is active by default
+    const accountTab = canvas.getByRole('tab', { name: /account/i })
+    await expect(accountTab).toHaveAttribute('data-state', 'active')
+
+    // Click password tab
+    const passwordTab = canvas.getByRole('tab', { name: /password/i })
+    await userEvent.click(passwordTab)
+
+    // Verify password tab is now active
+    await expect(passwordTab).toHaveAttribute('data-state', 'active')
+    await expect(accountTab).toHaveAttribute('data-state', 'inactive')
+
+    // Verify password content is visible
+    await expect(canvas.getByText(/change your password here/i)).toBeInTheDocument()
+  },
 }
 
 export const ThreeTabs: Story = {

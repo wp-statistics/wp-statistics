@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
-import { fn } from 'storybook/test'
+import { expect, fn, userEvent, within } from 'storybook/test'
 
 import { withWordPressContext } from '../../../../../.storybook/decorators/with-wordpress-context'
 
@@ -140,6 +140,17 @@ export const Default: Story = {
     },
     fields: mockFields,
   },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Verify comboboxes for field and operator are present
+    const comboboxes = canvas.getAllByRole('combobox')
+    await expect(comboboxes.length).toBeGreaterThanOrEqual(2)
+
+    // Verify remove button exists
+    const removeButton = canvas.getByRole('button', { name: /remove/i })
+    await expect(removeButton).toBeInTheDocument()
+  },
 }
 
 export const DropdownField: Story = {
@@ -166,6 +177,16 @@ export const DropdownField: Story = {
     },
     fields: mockFields,
   },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Verify Chrome is selected as the value
+    await expect(canvas.getByText('Chrome')).toBeInTheDocument()
+
+    // Verify field and operator dropdowns exist
+    const comboboxes = canvas.getAllByRole('combobox')
+    await expect(comboboxes.length).toBeGreaterThanOrEqual(2)
+  },
 }
 
 export const NumberField: Story = {
@@ -191,6 +212,14 @@ export const NumberField: Story = {
     },
     fields: mockFields,
   },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Verify number input exists with the correct value
+    const numberInput = canvas.getByRole('spinbutton')
+    await expect(numberInput).toBeInTheDocument()
+    await expect(numberInput).toHaveValue(100)
+  },
 }
 
 export const RangeOperator: Story = {
@@ -215,6 +244,15 @@ export const RangeOperator: Story = {
       value: { min: '50', max: '200' },
     },
     fields: mockFields,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Verify two number inputs exist for min and max values
+    const numberInputs = canvas.getAllByRole('spinbutton')
+    await expect(numberInputs.length).toBe(2)
+    await expect(numberInputs[0]).toHaveValue(50)
+    await expect(numberInputs[1]).toHaveValue(200)
   },
 }
 
@@ -290,6 +328,14 @@ export const TextField: Story = {
       value: 'google',
     },
     fields: mockFields,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // Verify text input exists with the correct value
+    const textInput = canvas.getByRole('textbox')
+    await expect(textInput).toBeInTheDocument()
+    await expect(textInput).toHaveValue('google')
   },
 }
 
