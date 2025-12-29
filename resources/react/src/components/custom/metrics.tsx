@@ -113,8 +113,8 @@ function MetricCard({
               isZero
                 ? 'text-neutral-400'
                 : isNegative
-                  ? 'text-red-500'
-                  : 'text-emerald-500'
+                  ? 'text-red-600'
+                  : 'text-emerald-600'
             )}
           >
             {!isZero && (

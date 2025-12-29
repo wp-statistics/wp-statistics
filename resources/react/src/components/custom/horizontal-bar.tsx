@@ -41,14 +41,10 @@ export function HorizontalBar({
 
         <div className="flex items-center gap-3">
           <span className={cn('text-xs tabular-nums', isFirst ? 'font-semibold text-neutral-900' : 'font-medium text-neutral-600')}>{value}</span>
-          <div className="flex items-center">
-            <span className={isNegative ? 'text-red-600' : 'text-emerald-600'}>
-              {isNegative ? <ChevronDown className="h-3.5 w-3.5" strokeWidth={2.5} /> : <ChevronUp className="h-3.5 w-3.5" strokeWidth={2.5} />}
-            </span>
-            <span className={cn('font-medium text-xs tabular-nums', isNegative ? 'text-red-600' : 'text-emerald-600')}>
-              {percentage}%
-            </span>
-          </div>
+          <span className={cn('inline-flex items-center gap-0.5 text-[11px] font-medium tabular-nums', isNegative ? 'text-red-600' : 'text-emerald-600')}>
+            {isNegative ? <ChevronDown className="h-3 w-3 -mr-0.5" strokeWidth={2.5} /> : <ChevronUp className="h-3 w-3 -mr-0.5" strokeWidth={2.5} />}
+            {percentage}%
+          </span>
         </div>
       </div>
     </div>
