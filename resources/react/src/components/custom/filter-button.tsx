@@ -222,15 +222,15 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className }: Fil
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className={cn('h-8', { 'border-indigo-200 bg-indigo-50 text-primary': !!filterCount }, className)}
+          className={cn('h-8 text-xs', { 'border-indigo-200 bg-indigo-50 text-primary': !!filterCount }, className)}
           size="sm"
         >
-          <Filter className="h-4 w-4" />
+          <Filter className="h-3.5 w-3.5" />
           {__('Filters', 'wp-statistics')}
           {filterCount > 0 && (
-            <span className="rounded-full bg-primary px-1.5 py-0.5 text-xs text-primary-foreground">{filterCount}</span>
+            <span className="rounded-full bg-primary px-1.5 py-0.5 text-[10px] text-primary-foreground">{filterCount}</span>
           )}
-          <ChevronRight className="h-4 w-4" />
+          <ChevronRight className="h-3.5 w-3.5" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">

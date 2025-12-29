@@ -206,7 +206,7 @@ export function LineChart({
               )}
               {onTimeframeChange && (
                 <Select value={timeframe} onValueChange={onTimeframeChange}>
-                  <SelectTrigger className="w-[100px] h-8 text-sm font-medium">
+                  <SelectTrigger className="w-[100px] h-8 text-xs font-medium">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>

@@ -441,9 +441,9 @@ export function GlobalMap({
           {enableMetricToggle && availableMetrics.length > 1 && (
             <div className="absolute right-4 top-4 z-10">
               <Tabs value={selectedMetric} onValueChange={handleMetricChange}>
-                <TabsList className="bg-white shadow-sm">
+                <TabsList className="h-8 bg-white shadow-sm">
                   {availableMetrics.map((m) => (
-                    <TabsTrigger key={m.value} value={m.value}>
+                    <TabsTrigger key={m.value} value={m.value} className="text-xs px-2.5 py-1">
                       {m.label}
                     </TabsTrigger>
                   ))}
@@ -455,8 +455,8 @@ export function GlobalMap({
           {/* Back Button with Country Flag */}
           {viewMode === 'cities' && selectedCountry && (
             <div className="absolute left-4 bottom-4 z-10">
-              <Button variant="outline" size="sm" className="bg-white shadow-sm gap-2" onClick={handleBackToWorld}>
-                <ArrowLeft className="h-4 w-4" />
+              <Button variant="outline" size="sm" className="bg-white shadow-sm gap-2 text-xs" onClick={handleBackToWorld}>
+                <ArrowLeft className="h-3.5 w-3.5" />
                 <img
                   src={
                     pluginUrl
@@ -499,7 +499,7 @@ export function GlobalMap({
                 <p className="text-xs text-neutral-500 mb-3">
                   No regions found for {selectedCountry?.name} in the selected date range.
                 </p>
-                <Button size="sm" variant="outline" onClick={handleBackToWorld}>
+                <Button size="sm" variant="outline" className="text-xs" onClick={handleBackToWorld}>
                   Back to World View
                 </Button>
               </div>
