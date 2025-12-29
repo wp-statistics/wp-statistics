@@ -8,9 +8,9 @@ const RootLayout = () => (
   <>
     <Header />
     <SidebarProvider>
-      <div className="flex flex-1 relative min-h-[calc(100vh-var(--header-height,0px))] overflow-hidden">
+      <div className="flex flex-1 relative h-[calc(100vh-var(--wp-admin-bar-height)-var(--header-height))] overflow-hidden">
         <AppSidebar />
-        <SidebarInset className="overflow-x-auto">
+        <SidebarInset className="overflow-auto">
           <Outlet />
         </SidebarInset>
       </div>

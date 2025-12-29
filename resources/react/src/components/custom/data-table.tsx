@@ -11,7 +11,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Loader2 } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react'
 import * as React from 'react'
 
 import { Card, CardFooter, CardHeader, CardTitle } from '../ui/card'
@@ -159,9 +159,6 @@ export function DataTable<TData, TValue>({
   const [internalPageIndex, setInternalPageIndex] = React.useState(0)
   const pageIndex = manualPagination && externalPage !== undefined ? externalPage - 1 : internalPageIndex
 
-  // Local state for page input (only applies on "Go" button click)
-  const [pageInputValue, setPageInputValue] = React.useState<string>('')
-
   // Handle column order changes from the table
   const handleColumnOrderChange = React.useCallback(
     (updaterOrValue: string[] | ((old: string[]) => string[])) => {
@@ -244,14 +241,19 @@ export function DataTable<TData, TValue>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} className="border-0 bg-white hover:bg-white">
                 {headerGroup.headers.map((header, index) => {
+                  const size = header.column.columnDef.size
                   return (
-                    <TableHead key={header.id} className={cn('h-12', index === 0 ? 'pl-6' : '')}>
+                    <TableHead
+                      key={header.id}
+                      className={cn('h-8', index === 0 ? 'pl-4' : '')}
+                      style={size ? { width: size, minWidth: size, maxWidth: size } : undefined}
+                    >
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   )
                 })}
                 {showColumnManagement && (
-                  <TableHead className="h-12 w-12 pr-6">
+                  <TableHead className="h-8 w-10 pr-4">
                     <DataTableColumnToggle
                       table={table}
                       initialColumnOrder={columnOrder}
@@ -272,29 +274,29 @@ export function DataTable<TData, TValue>({
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
                   className={cn(
-                    'border-0',
-                    rowIndex % 2 === 0 ? 'bg-white hover:bg-slate-100' : 'bg-slate-50 hover:bg-slate-100'
+                    'border-0 transition-colors',
+                    rowIndex % 2 === 0 ? 'bg-white hover:bg-slate-50/70' : 'bg-slate-50/50 hover:bg-slate-100/70'
                   )}
                 >
                   {row.getVisibleCells().map((cell, cellIndex) => (
                     <TableCell
                       key={cell.id}
                       className={cn(
-                        cellIndex === 0 ? 'pl-6' : '',
-                        cellIndex === row.getVisibleCells().length - 1 && !showColumnManagement ? 'pr-6' : ''
+                        cellIndex === 0 ? 'pl-4' : '',
+                        cellIndex === row.getVisibleCells().length - 1 && !showColumnManagement ? 'pr-4' : ''
                       )}
                     >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
-                  {showColumnManagement && <TableCell className="w-12 pr-6" />}
+                  {showColumnManagement && <TableCell className="w-10 pr-4" />}
                 </TableRow>
               ))
             ) : (
               <TableRow className="border-0">
                 <TableCell
                   colSpan={columns.length + (showColumnManagement ? 1 : 0)}
-                  className="h-24 text-center text-sm text-card-foreground pl-6"
+                  className="h-24 text-center text-sm text-card-foreground pl-4"
                 >
                   {isFetching ? null : emptyStateMessage}
                 </TableCell>
@@ -303,64 +305,25 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <CardFooter className="flex flex-col items-stretch">
+      <CardFooter className="flex flex-col items-stretch py-3">
         {showPagination && (
-          <div className="flex items-center justify-between flex-wrap gap-4">
-            <div className="text-sm text-card-foreground">
-              {(() => {
-                const pageIndex = table.getState().pagination.pageIndex
-                const pageSize = table.getState().pagination.pageSize
-                const dataLength = data.length
-
-                if (manualPagination) {
-                  // For server-side pagination, totalRows MUST be provided from API
-                  // It represents the total count across all pages
-                  const total = typeof totalRows === 'number' ? totalRows : 0
-
-                  if (total > 0 || dataLength > 0) {
-                    const start = pageIndex * pageSize + 1
-                    const end = pageIndex * pageSize + dataLength
-                    const displayTotal = total > 0 ? total : end
-                    return `${start}-${end} ${__('of', 'wp-statistics')} ${displayTotal.toLocaleString()} ${__('Items', 'wp-statistics')}`
-                  }
-                  return `0 ${__('Items', 'wp-statistics')}`
-                }
-
-                // Client-side pagination
-                const rowCount = table.getFilteredRowModel().rows.length
-                if (rowCount > 0) {
-                  const start = pageIndex * pageSize + 1
-                  const end = Math.min((pageIndex + 1) * pageSize, rowCount)
-                  return `${start}-${end} ${__('of', 'wp-statistics')} ${rowCount.toLocaleString()} ${__('Items', 'wp-statistics')}`
-                }
-                return `0 ${__('Items', 'wp-statistics')}`
-              })()}
-            </div>
-            <div className="flex items-center gap-2">
+          <div className="flex items-center justify-end">
+            <div className="flex items-center gap-0.5">
               <Button
-                variant="outline"
-                size="icon"
-                onClick={() => table.setPageIndex(0)}
-                disabled={!table.getCanPreviousPage()}
-                className="h-10 w-10 rounded-md"
-              >
-                <ChevronsLeft className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="outline"
+                variant="ghost"
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
-                className="h-10 px-4 rounded-md"
+                className="h-7 px-2 text-xs"
               >
-                <ChevronLeft className="h-4 w-4 mr-1" />
-                Previous
+                <ChevronLeft className="h-3.5 w-3.5" />
+                Prev
               </Button>
               {(() => {
                 const currentPage = table.getState().pagination.pageIndex + 1
                 const totalPages = table.getPageCount()
                 const pages: (number | string)[] = []
 
-                if (totalPages <= 7) {
+                if (totalPages <= 5) {
                   for (let i = 1; i <= totalPages; i++) {
                     pages.push(i)
                   }
@@ -384,70 +347,29 @@ export function DataTable<TData, TValue>({
                   typeof page === 'number' ? (
                     <Button
                       key={index}
-                      variant={currentPage === page ? 'default' : 'outline'}
+                      variant={currentPage === page ? 'default' : 'ghost'}
                       size="icon"
                       onClick={() => table.setPageIndex(page - 1)}
-                      className="h-10 w-10 rounded-md"
+                      className="h-7 w-7 text-xs"
                     >
                       {page}
                     </Button>
                   ) : (
-                    <span key={index} className="px-2 text-card-foreground">
+                    <span key={index} className="px-1 text-muted-foreground text-xs">
                       {page}
                     </span>
                   )
                 )
               })()}
               <Button
-                variant="outline"
+                variant="ghost"
                 onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
-                className="h-10 px-4 rounded-md"
+                className="h-7 px-2 text-xs"
               >
                 Next
-                <ChevronRight className="h-4 w-4 ml-1" />
+                <ChevronRight className="h-3.5 w-3.5" />
               </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-                disabled={!table.getCanNextPage()}
-                className="h-10 w-10 rounded-md"
-              >
-                <ChevronsRight className="h-4 w-4" />
-              </Button>
-              <div className="flex items-center gap-2 ml-2">
-                <span className="text-sm text-card-foreground">{__('Page:', 'wp-statistics')}</span>
-                <input
-                  type="number"
-                  min="1"
-                  max={table.getPageCount()}
-                  value={pageInputValue}
-                  placeholder={String(table.getState().pagination.pageIndex + 1)}
-                  onChange={(e) => setPageInputValue(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      const page = pageInputValue ? Number(pageInputValue) - 1 : 0
-                      const maxPage = table.getPageCount() - 1
-                      table.setPageIndex(Math.min(Math.max(0, page), maxPage))
-                      setPageInputValue('')
-                    }
-                  }}
-                  className="w-16 h-10 px-2 text-sm border border-input rounded-md text-center"
-                />
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    const page = pageInputValue ? Number(pageInputValue) - 1 : 0
-                    const maxPage = table.getPageCount() - 1
-                    table.setPageIndex(Math.min(Math.max(0, page), maxPage))
-                    setPageInputValue('')
-                  }}
-                  className="h-10 px-4 rounded-md"
-                >
-                  {__('Go', 'wp-statistics')}
-                </Button>
-              </div>
             </div>
           </div>
         )}

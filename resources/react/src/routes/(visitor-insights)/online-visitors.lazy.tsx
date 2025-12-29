@@ -2,14 +2,33 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import type { ColumnDef, SortingState, VisibilityState } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
-import { Info } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
-import { Badge } from '@/components/ui/badge'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { formatDuration } from '@/lib/utils'
+import {
+  DurationCell,
+  EntryPageCell,
+  LastVisitCell,
+  NumericCell,
+  PageCell,
+  ReferrerCell,
+  VisitorInfoCell,
+  type VisitorInfoConfig,
+} from '@/components/data-table-columns'
+import {
+  type ColumnConfig,
+  clearCachedColumns,
+  computeApiColumns,
+  getCachedApiColumns,
+  getCachedVisibility,
+  getCachedVisibleColumns,
+  getDefaultApiColumns,
+  getVisibleColumnsForSave,
+  setCachedColumns,
+} from '@/lib/column-utils'
+import { formatReferrerChannel } from '@/lib/filter-utils'
+import { parseEntryPage } from '@/lib/url-utils'
 import { WordPress } from '@/lib/wordpress'
 import type { OnlineVisitor as APIOnlineVisitor } from '@/services/visitor-insight/get-online-visitors'
 import { getOnlineVisitorsQueryOptions } from '@/services/visitor-insight/get-online-visitors'
@@ -23,161 +42,36 @@ import {
 const CONTEXT = 'online_visitors_data_table'
 const DEFAULT_HIDDEN_COLUMNS: string[] = []
 
-// Base columns always required for the query (grouping, identification)
-const BASE_COLUMNS = ['visitor_id', 'visitor_hash']
-
-// Column dependencies: UI column → API columns needed
-const COLUMN_DEPENDENCIES: Record<string, string[]> = {
-  visitorInfo: [
-    'ip_address',
-    'country_code',
-    'country_name',
-    'region_name',
-    'city_name',
-    'os_name',
-    'browser_name',
-    'browser_version',
-    'user_id',
-    'user_login',
-    'user_email',
-    'user_role',
-  ],
-  onlineFor: ['total_sessions'],
-  page: ['entry_page'],
-  totalViews: ['total_views'],
-  entryPage: ['entry_page'],
-  referrer: ['referrer_domain', 'referrer_channel'],
-  lastVisit: ['last_visit'],
-}
-
-// Compute API columns based on visible UI columns and current sort column
-// Note: In TanStack Table, columns NOT in visibleColumns are considered visible by default
-const computeApiColumns = (
-  visibleColumns: Record<string, boolean>,
-  allColumnIds: string[],
-  sortColumn?: string
-): string[] => {
-  const apiColumns = new Set<string>(BASE_COLUMNS)
-
-  // For each column, check if it's visible (not explicitly set to false)
-  allColumnIds.forEach((columnId) => {
-    const isVisible = visibleColumns[columnId] !== false // undefined or true = visible
-    if (isVisible && COLUMN_DEPENDENCIES[columnId]) {
-      COLUMN_DEPENDENCIES[columnId].forEach((apiCol) => apiColumns.add(apiCol))
-    }
-  })
-
-  // Always include the sort column's dependencies to ensure ORDER BY works
-  if (sortColumn && COLUMN_DEPENDENCIES[sortColumn]) {
-    COLUMN_DEPENDENCIES[sortColumn].forEach((apiCol) => apiColumns.add(apiCol))
-  }
-
-  return Array.from(apiColumns)
-}
-
-// Get visible columns for saving preferences
-// Respects columnOrder for ordering, but includes ALL visible columns
-const getVisibleColumnsForSave = (
-  visibility: Record<string, boolean>,
-  columnOrder: string[],
-  allColumnIds: string[]
-): string[] => {
-  // Get all visible column IDs (not explicitly set to false)
-  const visibleSet = new Set(allColumnIds.filter((col) => visibility[col] !== false))
-
-  if (columnOrder.length === 0) {
-    // No custom order, return all visible columns in default order
-    return allColumnIds.filter((col) => visibleSet.has(col))
-  }
-
-  // Build result: ordered columns first, then any visible columns not in order
-  const result: string[] = []
-  const addedSet = new Set<string>()
-
-  // First, add columns from columnOrder that are visible
-  for (const col of columnOrder) {
-    if (visibleSet.has(col) && !addedSet.has(col)) {
-      result.push(col)
-      addedSet.add(col)
-    }
-  }
-
-  // Then add any visible columns not yet in result (maintains their relative order from allColumnIds)
-  for (const col of allColumnIds) {
-    if (visibleSet.has(col) && !addedSet.has(col)) {
-      result.push(col)
-      addedSet.add(col)
-    }
-  }
-
-  return result
+// Column configuration for this page
+const COLUMN_CONFIG: ColumnConfig = {
+  baseColumns: ['visitor_id', 'visitor_hash'],
+  columnDependencies: {
+    visitorInfo: [
+      'ip_address',
+      'country_code',
+      'country_name',
+      'region_name',
+      'city_name',
+      'os_name',
+      'browser_name',
+      'browser_version',
+      'user_id',
+      'user_login',
+      'user_email',
+      'user_role',
+    ],
+    onlineFor: ['total_sessions'],
+    page: ['entry_page'],
+    totalViews: ['total_views'],
+    entryPage: ['entry_page'],
+    referrer: ['referrer_domain', 'referrer_channel'],
+    lastVisit: ['last_visit'],
+  },
+  context: CONTEXT,
 }
 
 // Default columns when no preferences are set (all columns visible)
-const DEFAULT_API_COLUMNS = [
-  ...BASE_COLUMNS,
-  ...Object.values(COLUMN_DEPENDENCIES).flat(),
-].filter((col, index, arr) => arr.indexOf(col) === index)
-
-// LocalStorage key for caching column preferences
-const CACHE_KEY = `wp_statistics_columns_${CONTEXT}`
-
-// Get cached visible columns from localStorage
-const getCachedVisibleColumns = (): string[] | null => {
-  try {
-    const cached = localStorage.getItem(CACHE_KEY)
-    if (!cached) return null
-    const visibleColumns = JSON.parse(cached) as string[]
-    if (!Array.isArray(visibleColumns) || visibleColumns.length === 0) return null
-    return visibleColumns
-  } catch {
-    return null
-  }
-}
-
-// Get cached API columns from localStorage
-const getCachedApiColumns = (allColumnIds: string[]): string[] | null => {
-  try {
-    const visibleColumns = getCachedVisibleColumns()
-    if (!visibleColumns) return null
-    // Convert visible UI columns to API columns
-    const apiColumns = new Set<string>(BASE_COLUMNS)
-    visibleColumns.forEach((columnId) => {
-      if (COLUMN_DEPENDENCIES[columnId]) {
-        COLUMN_DEPENDENCIES[columnId].forEach((apiCol) => apiColumns.add(apiCol))
-      }
-    })
-    return Array.from(apiColumns)
-  } catch {
-    return null
-  }
-}
-
-// Get cached visibility state from localStorage
-const getCachedVisibility = (allColumnIds: string[]): VisibilityState | null => {
-  try {
-    const visibleColumns = getCachedVisibleColumns()
-    if (!visibleColumns) return null
-    // Build visibility state: columns in cache are visible, others are hidden
-    const visibleSet = new Set(visibleColumns)
-    const visibility: VisibilityState = {}
-    allColumnIds.forEach((col) => {
-      visibility[col] = visibleSet.has(col)
-    })
-    return visibility
-  } catch {
-    return null
-  }
-}
-
-// Save visible columns to localStorage cache
-const setCachedColumns = (visibleColumns: string[]): void => {
-  try {
-    localStorage.setItem(CACHE_KEY, JSON.stringify(visibleColumns))
-  } catch {
-    // Ignore storage errors
-  }
-}
+const DEFAULT_API_COLUMNS = getDefaultApiColumns(COLUMN_CONFIG)
 
 // Get cached column order from localStorage (same as visible columns order)
 const getCachedColumnOrder = (): string[] => {
@@ -218,23 +112,14 @@ interface OnlineVisitor {
   lastVisit: Date
 }
 
-interface VisitorInfoColumnConfig {
-  pluginUrl: string
-  trackLoggedInEnabled: boolean
-  hashEnabled: boolean
-}
-
 // Transform API response to component interface
 const transformVisitorData = (apiVisitor: APIOnlineVisitor): OnlineVisitor => {
   const lastVisitDate = new Date(apiVisitor.last_visit)
   // Calculate online duration based on total_sessions (approximate)
   const onlineForSeconds = Math.max(0, apiVisitor.total_sessions * 60) // Rough estimate
 
-  // Extract query string from entry page if present
-  const entryPageUrl = apiVisitor.entry_page || ''
-  const hasQuery = entryPageUrl.includes('?')
-  const queryString = hasQuery ? entryPageUrl.split('?')[1] : undefined
-  const entryPagePath = hasQuery ? entryPageUrl.split('?')[0] : entryPageUrl
+  // Parse entry page data using shared utility
+  const entryPageData = parseEntryPage(apiVisitor.entry_page)
 
   // Extract page title from entry page path
   const getPageTitle = (path: string): string => {
@@ -262,287 +147,110 @@ const transformVisitorData = (apiVisitor: APIOnlineVisitor): OnlineVisitor => {
     ipAddress: apiVisitor.ip_address || undefined,
     hash: apiVisitor.visitor_hash || undefined,
     onlineFor: onlineForSeconds,
-    page: entryPagePath || '/',
-    pageTitle: getPageTitle(entryPagePath),
+    page: entryPageData.path,
+    pageTitle: getPageTitle(entryPageData.path),
     totalViews: apiVisitor.total_views || 0,
-    entryPage: entryPagePath || '/',
-    entryPageTitle: getPageTitle(entryPagePath),
-    entryPageHasQuery: hasQuery,
-    entryPageQueryString: queryString ? `?${queryString}` : undefined,
+    entryPage: entryPageData.path,
+    entryPageTitle: getPageTitle(entryPageData.path),
+    entryPageHasQuery: entryPageData.hasQueryString,
+    entryPageQueryString: entryPageData.queryString,
     referrerDomain: apiVisitor.referrer_domain || undefined,
     referrerCategory: formatReferrerChannel(apiVisitor.referrer_channel),
     lastVisit: lastVisitDate,
   }
 }
 
-// Format referrer channel for display
-const formatReferrerChannel = (channel: string | null | undefined): string => {
-  if (!channel) return 'DIRECT TRAFFIC'
-  const channelMap: Record<string, string> = {
-    direct: 'DIRECT TRAFFIC',
-    search: 'SEARCH',
-    social: 'SOCIAL',
-    referral: 'REFERRAL',
-    email: 'EMAIL',
-    paid: 'PAID',
-  }
-  return channelMap[channel.toLowerCase()] || channel.toUpperCase()
-}
-
-const createColumns = (config: VisitorInfoColumnConfig): ColumnDef<OnlineVisitor>[] => [
+const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] => [
   {
     accessorKey: 'visitorInfo',
     header: 'Visitor Info',
     cell: ({ row }) => {
       const visitor = row.original
-      const locationText = `${visitor.country}, ${visitor.region}, ${visitor.city}`
-
-      // Determine what to show for identifier based on settings
-      // Show user badge only if: trackLoggedInEnabled AND user_id exists
-      const showUserBadge = config.trackLoggedInEnabled && visitor.userId
-      // Show hash/IP only when user badge is not shown
-      // Format hash display: strip #hash# prefix and show first 6 chars
-      const formatHashDisplay = (value: string): string => {
-        const cleanHash = value.replace(/^#hash#/i, '')
-        return cleanHash.substring(0, 6)
-      }
-      // Determine identifier display based on settings and available data
-      const getIdentifierDisplay = (): string | undefined => {
-        if (config.hashEnabled) {
-          // hashEnabled = true → show first 6 chars of hash
-          if (visitor.hash) return formatHashDisplay(visitor.hash)
-          if (visitor.ipAddress?.startsWith('#hash#')) return formatHashDisplay(visitor.ipAddress)
-        }
-        // hashEnabled = false → show full IP address
-        return visitor.ipAddress
-      }
-      const identifierDisplay = getIdentifierDisplay()
-
       return (
-        <div className="flex items-center gap-2">
-          {/* Country Flag */}
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button className="flex items-center">
-                  <img
-                    src={`${config.pluginUrl}public/images/flags/${visitor.countryCode || '000'}.svg`}
-                    alt={visitor.country}
-                    className="w-5 h-5 object-contain"
-                  />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{locationText}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          {/* OS Icon */}
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button className="flex items-center">
-                  <img
-                    src={`${config.pluginUrl}public/images/operating-system/${visitor.os}.svg`}
-                    alt={visitor.osName}
-                    className="w-4 h-4 object-contain"
-                  />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{visitor.osName}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          {/* Browser Icon */}
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button className="flex items-center">
-                  <img
-                    src={`${config.pluginUrl}public/images/browser/${visitor.browser}.svg`}
-                    alt={visitor.browserName}
-                    className="w-4 h-4 object-contain"
-                  />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>
-                  {visitor.browserName} {visitor.browserVersion ? `v${visitor.browserVersion}` : ''}
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          {/* User Badge (only if trackLoggedInEnabled AND user_id exists) */}
-          {showUserBadge ? (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Badge variant="secondary" className="text-xs font-normal">
-                    {visitor.username} #{visitor.userId}
-                  </Badge>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>
-                    {visitor.email || ''} {visitor.userRole ? `(${visitor.userRole})` : ''}
-                  </p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          ) : (
-            /* IP or Hash (only when user badge is not shown) */
-            identifierDisplay && (
-              <span className="text-xs text-muted-foreground font-mono">{identifierDisplay}</span>
-            )
-          )}
-        </div>
+        <VisitorInfoCell
+          data={{
+            country: {
+              code: visitor.countryCode,
+              name: visitor.country,
+              region: visitor.region,
+              city: visitor.city,
+            },
+            os: { icon: visitor.os, name: visitor.osName },
+            browser: { icon: visitor.browser, name: visitor.browserName, version: visitor.browserVersion },
+            user: visitor.userId && visitor.username
+              ? {
+                  id: Number(visitor.userId),
+                  username: visitor.username,
+                  email: visitor.email,
+                  role: visitor.userRole,
+                }
+              : undefined,
+            identifier: visitor.hash || visitor.ipAddress,
+          }}
+          config={config}
+        />
       )
     },
   },
   {
     accessorKey: 'onlineFor',
-    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Online For" />,
-    cell: ({ row }) => {
-      const seconds = row.original.onlineFor
-      return <span>{formatDuration(seconds)}</span>
-    },
+    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Online" className="text-right" />,
+    size: 75,
+    cell: ({ row }) => <DurationCell seconds={row.original.onlineFor} />,
   },
   {
     accessorKey: 'page',
     header: 'Page',
-    cell: ({ row }) => {
-      const visitor = row.original
-      const truncatedTitle =
-        visitor.pageTitle.length > 35 ? `${visitor.pageTitle.substring(0, 35)}...` : visitor.pageTitle
-
-      return (
-        <div className="max-w-md">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="cursor-pointer truncate">{truncatedTitle}</span>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{visitor.page}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-      )
-    },
+    cell: ({ row }) => (
+      <PageCell
+        data={{ title: row.original.pageTitle, url: row.original.page }}
+        maxLength={35}
+      />
+    ),
   },
   {
     accessorKey: 'totalViews',
     header: ({ column }) => (
-      <DataTableColumnHeaderSortable column={column} title="Total Views" className="text-right" />
+      <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />
     ),
-    cell: ({ row }) => {
-      const views = row.original.totalViews
-      return (
-        <div className="text-right pr-4">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="cursor-pointer">{views.toLocaleString()}</span>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{views.toLocaleString()} Page Views in current session</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-      )
-    },
+    size: 70,
+    cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
   },
   {
     accessorKey: 'entryPage',
     header: 'Entry Page',
     cell: ({ row }) => {
       const visitor = row.original
-      const truncatedTitle =
-        visitor.entryPageTitle.length > 35 ? `${visitor.entryPageTitle.substring(0, 35)}...` : visitor.entryPageTitle
-
       return (
-        <div className="max-w-md inline-flex items-start">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div className="flex items-center gap-1 cursor-pointer">
-                  <span className="truncate">{truncatedTitle}</span>
-                  {visitor.entryPageHasQuery && <Info className="h-3 w-3 text-[#636363] shrink-0" />}
-                </div>
-              </TooltipTrigger>
-              <TooltipContent>
-                {visitor.entryPageHasQuery && visitor.entryPageQueryString ? (
-                  <p>{visitor.entryPageQueryString}</p>
-                ) : (
-                  <p>{visitor.entryPage}</p>
-                )}
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
+        <EntryPageCell
+          data={{
+            title: visitor.entryPageTitle,
+            url: visitor.entryPage,
+            hasQueryString: visitor.entryPageHasQuery,
+            queryString: visitor.entryPageQueryString,
+          }}
+          maxLength={35}
+        />
       )
     },
   },
   {
     accessorKey: 'referrer',
     header: 'Referrer',
-    cell: ({ row }) => {
-      const visitor = row.original
-      return (
-        <div className="inline-flex flex-col items-start gap-1">
-          {visitor.referrerDomain && (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <a
-                    href={`https://${visitor.referrerDomain}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:underline max-w-[200px] truncate block"
-                  >
-                    {visitor.referrerDomain.length > 25
-                      ? `${visitor.referrerDomain.substring(0, 22)}...${visitor.referrerDomain.split('.').pop()}`
-                      : visitor.referrerDomain}
-                  </a>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>https://{visitor.referrerDomain}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          )}
-          <Badge variant="outline" className="text-[8px] text-[#636363] uppercase mt-1">
-            {visitor.referrerCategory}
-          </Badge>
-        </div>
-      )
-    },
+    cell: ({ row }) => (
+      <ReferrerCell
+        data={{
+          domain: row.original.referrerDomain,
+          category: row.original.referrerCategory,
+        }}
+        maxLength={25}
+      />
+    ),
   },
   {
     accessorKey: 'lastVisit',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
-    cell: ({ row }) => {
-      const date = row.original.lastVisit
-      const formatted = date.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-      })
-      const time = date.toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true,
-      })
-      return (
-        <div className="whitespace-nowrap">
-          {formatted}, {time}
-        </div>
-      )
-    },
+    cell: ({ row }) => <LastVisitCell date={row.original.lastVisit} />,
   },
 ]
 
@@ -582,7 +290,7 @@ function RouteComponent() {
   // Track API columns for query optimization (state so changes trigger refetch)
   // Initialize from cache if available, otherwise use all columns
   const [apiColumns, setApiColumns] = useState<string[]>(() => {
-    return getCachedApiColumns(allColumnIds) || DEFAULT_API_COLUMNS
+    return getCachedApiColumns(allColumnIds, COLUMN_CONFIG) || DEFAULT_API_COLUMNS
   })
 
   // Track if preferences have been applied (to prevent re-computation on subsequent API responses)
@@ -691,11 +399,11 @@ function RouteComponent() {
       const visibleColumns = getVisibleColumnsForSave(visibility, columnOrder, allColumnIds)
       saveUserPreferences({ context: CONTEXT, columns: visibleColumns })
       // Cache visible columns in localStorage for next page load
-      setCachedColumns(visibleColumns)
+      setCachedColumns(CONTEXT, visibleColumns)
       // Update API columns for optimized queries (include sort column)
       // Use functional update to avoid unnecessary refetches when columns haven't changed
       const currentSortColumn = sorting.length > 0 ? sorting[0].id : 'lastVisit'
-      const newApiColumns = computeApiColumns(visibility, allColumnIds, currentSortColumn)
+      const newApiColumns = computeApiColumns(visibility, allColumnIds, COLUMN_CONFIG, currentSortColumn)
       setApiColumns((prev) => (arraysEqual(prev, newApiColumns) ? prev : newApiColumns))
     },
     [columnOrder, sorting, allColumnIds, arraysEqual]
@@ -709,7 +417,7 @@ function RouteComponent() {
       const visibleColumns = getVisibleColumnsForSave(currentVisibilityRef.current, order, allColumnIds)
       saveUserPreferences({ context: CONTEXT, columns: visibleColumns })
       // Cache visible columns in localStorage for next page load
-      setCachedColumns(visibleColumns)
+      setCachedColumns(CONTEXT, visibleColumns)
     },
     [allColumnIds]
   )
@@ -727,11 +435,7 @@ function RouteComponent() {
     setApiColumns((prev) => (arraysEqual(prev, DEFAULT_API_COLUMNS) ? prev : DEFAULT_API_COLUMNS))
     resetUserPreferences({ context: CONTEXT })
     // Clear localStorage cache
-    try {
-      localStorage.removeItem(CACHE_KEY)
-    } catch {
-      // Ignore storage errors
-    }
+    clearCachedColumns(CONTEXT)
   }, [arraysEqual])
 
   // Transform API data to component format

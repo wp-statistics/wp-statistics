@@ -11,7 +11,9 @@ import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Panel } from '@/components/ui/panel'
 import { Skeleton } from '@/components/ui/skeleton'
+import { filtersToUrlFilters, urlFiltersToFilters } from '@/lib/filter-utils'
 import { formatDateForAPI, formatDuration, formatDecimal } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getVisitorOverviewQueryOptions } from '@/services/visitor-insight/get-visitor-overview'
@@ -28,80 +30,6 @@ export const Route = createLazyFileRoute('/(visitor-insights)/visitors-overview'
     </div>
   ),
 })
-
-// URL filter format interface
-interface UrlFilter {
-  field: string
-  operator: string
-  value: string | string[]
-  displayValue?: string // Display label for the value (e.g., "Iran" instead of "5")
-}
-
-// Convert URL filter format to Filter type
-const urlFiltersToFilters = (
-  urlFilters: UrlFilter[] | undefined,
-  filterFields: FilterField[]
-): Filter[] => {
-  if (!urlFilters || !Array.isArray(urlFilters) || urlFilters.length === 0) return []
-
-  return urlFilters.map((urlFilter, index) => {
-    const field = filterFields.find((f) => f.name === urlFilter.field)
-    const label = field?.label || urlFilter.field
-
-    // Use displayValue from URL if available (preserves labels like "Iran" after refresh)
-    // Otherwise try to get display value from field options
-    let displayValue = urlFilter.displayValue
-    if (!displayValue) {
-      displayValue = Array.isArray(urlFilter.value) ? urlFilter.value.join(', ') : urlFilter.value
-      if (field?.options) {
-        const values = Array.isArray(urlFilter.value) ? urlFilter.value : [urlFilter.value]
-        const labels = values.map((v) => field.options?.find((o) => String(o.value) === v)?.label || v).join(', ')
-        displayValue = labels
-      }
-    }
-
-    // Create valueLabels from displayValue and rawValue for searchable filters
-    // This allows the filter panel to show labels instead of raw values
-    let valueLabels: Record<string, string> | undefined
-    if (displayValue && urlFilter.value) {
-      const values = Array.isArray(urlFilter.value) ? urlFilter.value : [urlFilter.value]
-      const displayValues = displayValue.split(', ')
-      valueLabels = {}
-      values.forEach((v, i) => {
-        valueLabels![String(v)] = displayValues[i] || String(v)
-      })
-    }
-
-    // Create filter ID in the expected format: field-field-filter-restored-index
-    const filterId = `${urlFilter.field}-${urlFilter.field}-filter-restored-${index}`
-
-    return {
-      id: filterId,
-      label,
-      operator: getOperatorDisplay(urlFilter.operator as FilterOperator),
-      rawOperator: urlFilter.operator,
-      value: displayValue,
-      rawValue: urlFilter.value,
-      valueLabels,
-    }
-  })
-}
-
-// Extract the field name from filter ID
-// Filter IDs are in format: "field_name-field_name-filter-..." or "field_name-index"
-const extractFilterField = (filterId: string): string => {
-  return filterId.split('-')[0]
-}
-
-// Convert Filter type to URL filter format
-const filtersToUrlFilters = (filters: Filter[]): UrlFilter[] => {
-  return filters.map((filter) => ({
-    field: extractFilterField(filter.id),
-    operator: filter.rawOperator || filter.operator,
-    value: filter.rawValue || filter.value,
-    displayValue: String(filter.value), // Preserve display label for page refresh
-  }))
-}
 
 function RouteComponent() {
   const navigate = useNavigate()
@@ -532,7 +460,9 @@ function RouteComponent() {
         ) : (
           <div className="grid gap-3 grid-cols-12">
             <div className="col-span-12">
-              <Metrics metrics={overviewMetrics} columns={4} />
+              <Panel>
+                <Metrics metrics={overviewMetrics} columns={4} />
+              </Panel>
             </div>
 
             <div className="col-span-12">

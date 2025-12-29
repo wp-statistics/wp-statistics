@@ -43,7 +43,7 @@ const TableHead = React.forwardRef<HTMLTableCellElement, React.ThHTMLAttributes<
     <th
       ref={ref}
       className={cn(
-        'h-10 px-2 text-left align-middle font-normal text-sm text-foreground [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-0.5',
+        'h-8 px-2 text-left align-middle font-semibold text-[11px] text-muted-foreground/70 uppercase tracking-wider [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-0.5',
         className
       )}
       {...props}
@@ -57,7 +57,7 @@ const TableCell = React.forwardRef<HTMLTableCellElement, React.TdHTMLAttributes<
     <td
       ref={ref}
       className={cn(
-        'p-2 text-sm font-normal text-card-foreground align-middle [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-0.5',
+        'px-2 py-1.5 text-[13px] text-card-foreground align-middle [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-0.5',
         className
       )}
       {...props}

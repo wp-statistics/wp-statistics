@@ -2,7 +2,6 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute, getRouteApi, useNavigate } from '@tanstack/react-router'
 import type { ColumnDef, SortingState, VisibilityState } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
-import { Info } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
@@ -10,9 +9,33 @@ import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-co
 import { DateRangePicker, type DateRange } from '@/components/custom/date-range-picker'
 import { type Filter, FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField, getOperatorDisplay } from '@/components/custom/filter-button'
+import {
+  EntryPageCell,
+  LastVisitCell,
+  NumericCell,
+  PageCell,
+  ReferrerCell,
+  VisitorInfoCell,
+  type VisitorInfoConfig,
+} from '@/components/data-table-columns'
+import {
+  type ColumnConfig,
+  clearCachedColumns,
+  computeApiColumns,
+  getCachedApiColumns,
+  getCachedVisibility,
+  getCachedVisibleColumns,
+  getDefaultApiColumns,
+  getVisibleColumnsForSave,
+  setCachedColumns,
+} from '@/lib/column-utils'
+import {
+  filtersToUrlFilters,
+  formatReferrerChannel,
+  urlFiltersToFiltersWithDefaults,
+} from '@/lib/filter-utils'
+import { parseEntryPage } from '@/lib/url-utils'
 import { LineChart } from '@/components/custom/line-chart'
-import { Badge } from '@/components/ui/badge'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { formatDateForAPI, formatDecimal } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import type { LoggedInUser as LoggedInUserRecord } from '@/services/visitor-insight/get-logged-in-users'
@@ -28,159 +51,35 @@ const PER_PAGE = 50
 const CONTEXT = 'logged_in_users_data_table'
 const DEFAULT_HIDDEN_COLUMNS: string[] = []
 
-// Base columns always required for the query (grouping, identification)
-const BASE_COLUMNS = ['visitor_id', 'visitor_hash']
-
-// Column dependencies: UI column → API columns needed for that column to render
-const COLUMN_DEPENDENCIES: Record<string, string[]> = {
-  visitorInfo: [
-    'ip_address',
-    'country_code',
-    'country_name',
-    'region_name',
-    'city_name',
-    'os_name',
-    'browser_name',
-    'browser_version',
-    'user_id',
-    'user_login',
-    'user_email',
-    'user_role',
-  ],
-  lastVisit: ['last_visit'],
-  page: ['entry_page', 'entry_page_title'],
-  referrer: ['referrer_domain', 'referrer_channel'],
-  entryPage: ['entry_page', 'entry_page_title'],
-  totalViews: ['total_views'],
-}
-
-// Compute API columns based on visible UI columns and current sort column
-// Note: In TanStack Table, columns NOT in visibleColumns are considered visible by default
-const computeApiColumns = (
-  visibleColumns: Record<string, boolean>,
-  allColumnIds: string[],
-  sortColumn?: string
-): string[] => {
-  const apiColumns = new Set<string>(BASE_COLUMNS)
-
-  // For each column, check if it's visible (not explicitly set to false)
-  allColumnIds.forEach((columnId) => {
-    const isVisible = visibleColumns[columnId] !== false // undefined or true = visible
-    if (isVisible && COLUMN_DEPENDENCIES[columnId]) {
-      COLUMN_DEPENDENCIES[columnId].forEach((apiCol) => apiColumns.add(apiCol))
-    }
-  })
-
-  // Always include the sort column's dependencies to ensure ORDER BY works
-  if (sortColumn && COLUMN_DEPENDENCIES[sortColumn]) {
-    COLUMN_DEPENDENCIES[sortColumn].forEach((apiCol) => apiColumns.add(apiCol))
-  }
-
-  return Array.from(apiColumns)
-}
-
-// Get visible columns for saving preferences
-// Respects columnOrder for ordering, but includes ALL visible columns
-const getVisibleColumnsForSave = (
-  visibility: Record<string, boolean>,
-  columnOrder: string[],
-  allColumnIds: string[]
-): string[] => {
-  // Get all visible column IDs (not explicitly set to false)
-  const visibleSet = new Set(allColumnIds.filter((col) => visibility[col] !== false))
-
-  if (columnOrder.length === 0) {
-    // No custom order, return all visible columns in default order
-    return allColumnIds.filter((col) => visibleSet.has(col))
-  }
-
-  // Build result: ordered columns first, then any visible columns not in order
-  const result: string[] = []
-  const addedSet = new Set<string>()
-
-  // First, add columns from columnOrder that are visible
-  for (const col of columnOrder) {
-    if (visibleSet.has(col) && !addedSet.has(col)) {
-      result.push(col)
-      addedSet.add(col)
-    }
-  }
-
-  // Then add any visible columns not yet in result (maintains their relative order from allColumnIds)
-  for (const col of allColumnIds) {
-    if (visibleSet.has(col) && !addedSet.has(col)) {
-      result.push(col)
-      addedSet.add(col)
-    }
-  }
-
-  return result
+// Column configuration for this page
+const COLUMN_CONFIG: ColumnConfig = {
+  baseColumns: ['visitor_id', 'visitor_hash'],
+  columnDependencies: {
+    visitorInfo: [
+      'ip_address',
+      'country_code',
+      'country_name',
+      'region_name',
+      'city_name',
+      'os_name',
+      'browser_name',
+      'browser_version',
+      'user_id',
+      'user_login',
+      'user_email',
+      'user_role',
+    ],
+    lastVisit: ['last_visit'],
+    page: ['entry_page', 'entry_page_title'],
+    referrer: ['referrer_domain', 'referrer_channel'],
+    entryPage: ['entry_page', 'entry_page_title'],
+    totalViews: ['total_views'],
+  },
+  context: CONTEXT,
 }
 
 // Default columns when no preferences are set (all columns visible)
-const DEFAULT_API_COLUMNS = [...BASE_COLUMNS, ...Object.values(COLUMN_DEPENDENCIES).flat()].filter(
-  (col, index, arr) => arr.indexOf(col) === index
-)
-
-// LocalStorage key for caching column preferences
-const CACHE_KEY = `wp_statistics_columns_${CONTEXT}`
-
-// Get cached visible columns from localStorage
-const getCachedVisibleColumns = (): string[] | null => {
-  try {
-    const cached = localStorage.getItem(CACHE_KEY)
-    if (!cached) return null
-    const visibleColumns = JSON.parse(cached) as string[]
-    if (!Array.isArray(visibleColumns) || visibleColumns.length === 0) return null
-    return visibleColumns
-  } catch {
-    return null
-  }
-}
-
-// Get cached API columns from localStorage
-const getCachedApiColumns = (allColumnIds: string[]): string[] | null => {
-  try {
-    const visibleColumns = getCachedVisibleColumns()
-    if (!visibleColumns) return null
-    // Convert visible UI columns to API columns
-    const apiColumns = new Set<string>(BASE_COLUMNS)
-    visibleColumns.forEach((columnId) => {
-      if (COLUMN_DEPENDENCIES[columnId]) {
-        COLUMN_DEPENDENCIES[columnId].forEach((apiCol) => apiColumns.add(apiCol))
-      }
-    })
-    return Array.from(apiColumns)
-  } catch {
-    return null
-  }
-}
-
-// Get cached visibility state from localStorage
-const getCachedVisibility = (allColumnIds: string[]): VisibilityState | null => {
-  try {
-    const visibleColumns = getCachedVisibleColumns()
-    if (!visibleColumns) return null
-    // Build visibility state: columns in cache are visible, others are hidden
-    const visibleSet = new Set(visibleColumns)
-    const visibility: VisibilityState = {}
-    allColumnIds.forEach((col) => {
-      visibility[col] = visibleSet.has(col)
-    })
-    return visibility
-  } catch {
-    return null
-  }
-}
-
-// Save visible columns to localStorage cache
-const setCachedColumns = (visibleColumns: string[]): void => {
-  try {
-    localStorage.setItem(CACHE_KEY, JSON.stringify(visibleColumns))
-  } catch {
-    // Ignore storage errors
-  }
-}
+const DEFAULT_API_COLUMNS = getDefaultApiColumns(COLUMN_CONFIG)
 
 // Get cached column order from localStorage (same as visible columns order)
 const getCachedColumnOrder = (): string[] => {
@@ -230,26 +129,10 @@ interface TrafficTrendItem {
   [key: string]: string | number
 }
 
-// Format referrer channel for display
-const formatReferrerChannel = (channel: string | null | undefined): string => {
-  if (!channel) return 'DIRECT TRAFFIC'
-  const channelMap: Record<string, string> = {
-    direct: 'DIRECT TRAFFIC',
-    search: 'SEARCH',
-    social: 'SOCIAL',
-    referral: 'REFERRAL',
-    email: 'EMAIL',
-    paid: 'PAID',
-  }
-  return channelMap[channel.toLowerCase()] || channel.toUpperCase()
-}
-
 // Transform API response to component interface
 const transformLoggedInUserData = (record: LoggedInUserRecord): LoggedInUser => {
-  // Parse entry page for query string
-  const entryPageUrl = record.entry_page || '/'
-  const hasQueryString = entryPageUrl.includes('?')
-  const queryString = hasQueryString ? entryPageUrl.split('?')[1] : undefined
+  // Parse entry page data using shared utility
+  const entryPageData = parseEntryPage(record.entry_page, record.entry_page_title)
 
   return {
     id: `user-${record.visitor_id}`,
@@ -269,233 +152,98 @@ const transformLoggedInUserData = (record: LoggedInUserRecord): LoggedInUser => 
     userRole: record.user_role || '',
     referrerDomain: record.referrer_domain || undefined,
     referrerCategory: formatReferrerChannel(record.referrer_channel),
-    entryPage: entryPageUrl.split('?')[0] || '/',
-    entryPageTitle: record.entry_page_title || record.entry_page || 'Unknown',
-    entryPageHasQuery: hasQueryString,
-    entryPageQueryString: hasQueryString ? `?${queryString}` : undefined,
+    entryPage: entryPageData.path,
+    entryPageTitle: entryPageData.title,
+    entryPageHasQuery: entryPageData.hasQueryString,
+    entryPageQueryString: entryPageData.queryString,
     page: record.entry_page || '/',
     pageTitle: record.entry_page_title || record.entry_page || 'Unknown',
     totalViews: record.total_views || 0,
   }
 }
 
-const createColumns = (pluginUrl: string): ColumnDef<LoggedInUser>[] => [
+const createColumns = (config: VisitorInfoConfig): ColumnDef<LoggedInUser>[] => [
   {
     accessorKey: 'visitorInfo',
     header: 'Visitor Info',
     cell: ({ row }) => {
       const user = row.original
-      const locationText = `${user.country}, ${user.region}, ${user.city}`
-
       return (
-        <div className="flex items-center gap-2">
-          {/* Country Flag */}
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button className="flex items-center">
-                  <img
-                    src={`${pluginUrl}public/images/flags/${user.countryCode || '000'}.svg`}
-                    alt={user.country}
-                    className="w-5 h-5 object-contain"
-                  />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{locationText}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          {/* OS Icon */}
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button className="flex items-center">
-                  <img
-                    src={`${pluginUrl}public/images/operating-system/${user.os}.svg`}
-                    alt={user.osName}
-                    className="w-4 h-4 object-contain"
-                  />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{user.osName}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          {/* Browser Icon */}
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button className="flex items-center">
-                  <img
-                    src={`${pluginUrl}public/images/browser/${user.browser}.svg`}
-                    alt={user.browserName}
-                    className="w-4 h-4 object-contain"
-                  />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>
-                  {user.browserName} {user.browserVersion ? `v${user.browserVersion}` : ''}
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          {/* User Badge */}
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Badge variant="secondary" className="text-xs font-normal">
-                  {user.username} #{user.userId}
-                </Badge>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>
-                  {user.email || ''} {user.userRole ? `(${user.userRole})` : ''}
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
+        <VisitorInfoCell
+          data={{
+            country: {
+              code: user.countryCode,
+              name: user.country,
+              region: user.region,
+              city: user.city,
+            },
+            os: { icon: user.os, name: user.osName },
+            browser: { icon: user.browser, name: user.browserName, version: user.browserVersion },
+            user: {
+              id: Number(user.userId),
+              username: user.username,
+              email: user.email,
+              role: user.userRole,
+            },
+          }}
+          config={config}
+        />
       )
     },
   },
   {
     accessorKey: 'lastVisit',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
-    cell: ({ row }) => {
-      const date = row.original.lastVisit
-      const formatted = date.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-      })
-      const time = date.toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true,
-      })
-      return (
-        <div className="whitespace-nowrap">
-          {formatted}, {time}
-        </div>
-      )
-    },
+    cell: ({ row }) => <LastVisitCell date={row.original.lastVisit} />,
   },
   {
     accessorKey: 'page',
     header: 'Page',
-    cell: ({ row }) => {
-      const user = row.original
-      const truncatedTitle = user.pageTitle.length > 35 ? `${user.pageTitle.substring(0, 35)}...` : user.pageTitle
-
-      return (
-        <div className="max-w-md inline-flex">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="cursor-pointer truncate">{truncatedTitle}</span>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{user.page}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-      )
-    },
+    cell: ({ row }) => (
+      <PageCell
+        data={{ title: row.original.pageTitle, url: row.original.page }}
+        maxLength={35}
+      />
+    ),
   },
   {
     accessorKey: 'referrer',
     header: 'Referrer',
-    cell: ({ row }) => {
-      const user = row.original
-      return (
-        <div className="inline-flex flex-col items-start gap-1">
-          {user.referrerDomain && (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <a
-                    href={`https://${user.referrerDomain}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:underline max-w-[200px] truncate block"
-                  >
-                    {user.referrerDomain.length > 25
-                      ? `${user.referrerDomain.substring(0, 22)}...${user.referrerDomain.split('.').pop()}`
-                      : user.referrerDomain}
-                  </a>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>https://{user.referrerDomain}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          )}
-          <Badge variant="outline" className="text-[8px] text-[#636363] uppercase mt-1">
-            {user.referrerCategory}
-          </Badge>
-        </div>
-      )
-    },
+    cell: ({ row }) => (
+      <ReferrerCell
+        data={{
+          domain: row.original.referrerDomain,
+          category: row.original.referrerCategory,
+        }}
+        maxLength={25}
+      />
+    ),
   },
   {
     accessorKey: 'entryPage',
     header: () => 'Entry Page',
     cell: ({ row }) => {
       const user = row.original
-      const truncatedTitle =
-        user.entryPageTitle.length > 35 ? `${user.entryPageTitle.substring(0, 35)}...` : user.entryPageTitle
-
       return (
-        <div className="max-w-md inline-flex items-start">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div className="flex items-center gap-1 cursor-pointer">
-                  <span className="truncate">{truncatedTitle}</span>
-                  {user.entryPageHasQuery && <Info className="h-3 w-3 text-[#636363] shrink-0" />}
-                </div>
-              </TooltipTrigger>
-              <TooltipContent>
-                {user.entryPageHasQuery && user.entryPageQueryString ? (
-                  <p>{user.entryPageQueryString}</p>
-                ) : (
-                  <p>{user.entryPage}</p>
-                )}
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
+        <EntryPageCell
+          data={{
+            title: user.entryPageTitle,
+            url: user.entryPage,
+            hasQueryString: user.entryPageHasQuery,
+            queryString: user.entryPageQueryString,
+          }}
+          maxLength={35}
+        />
       )
     },
   },
   {
     accessorKey: 'totalViews',
     header: ({ column }) => (
-      <DataTableColumnHeaderSortable column={column} title="Total Views" className="text-right" />
+      <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />
     ),
-    cell: ({ row }) => {
-      const views = row.original.totalViews
-      return (
-        <div className="text-right pr-4">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="cursor-pointer">{views.toLocaleString()}</span>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{views.toLocaleString()} Page Views from this user in selected period</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-      )
-    },
+    size: 70,
+    cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
   },
 ]
 
@@ -527,78 +275,23 @@ const getDefaultFilters = (filterFields: FilterField[]): Filter[] => {
   ]
 }
 
-// URL filter format includes displayValue for searchable fields that don't have pre-loaded options
-interface UrlFilter {
-  field: string
-  operator: string
-  value: string | string[]
-  displayValue?: string // Display label for the value (e.g., "Iran" instead of "5")
-}
+// Default filters for this page
+const DEFAULT_FILTERS: Filter[] = []
 
-// Convert URL filter format to Filter type
-const urlFiltersToFilters = (urlFilters: UrlFilter[] | undefined, filterFields: FilterField[]): Filter[] => {
-  if (!urlFilters || !Array.isArray(urlFilters) || urlFilters.length === 0) return getDefaultFilters(filterFields)
-
-  return urlFilters.map((urlFilter, index) => {
-    const field = filterFields.find((f) => f.name === urlFilter.field)
-    const label = field?.label || urlFilter.field
-
-    // Use displayValue from URL if available (for searchable fields)
-    // Otherwise try to look up from field options, or fall back to raw value
-    let displayValue = urlFilter.displayValue
-    if (!displayValue) {
-      displayValue = Array.isArray(urlFilter.value) ? urlFilter.value.join(', ') : String(urlFilter.value)
-      if (field?.options) {
-        const values = Array.isArray(urlFilter.value) ? urlFilter.value : [urlFilter.value]
-        const labels = values
-          .map((v) => field.options?.find((o) => String(o.value) === String(v))?.label || v)
-          .join(', ')
-        displayValue = labels
-      }
-    }
-
-    // Create valueLabels from displayValue and rawValue for searchable filters
-    // This allows the filter panel to show labels instead of raw values
-    let valueLabels: Record<string, string> | undefined
-    if (displayValue && urlFilter.value) {
-      const values = Array.isArray(urlFilter.value) ? urlFilter.value : [urlFilter.value]
-      const displayValues = displayValue.split(', ')
-      valueLabels = {}
-      values.forEach((v, i) => {
-        valueLabels![String(v)] = displayValues[i] || String(v)
-      })
-    }
-
-    // Create filter ID in the expected format: field-field-filter-restored-index
-    const filterId = `${urlFilter.field}-${urlFilter.field}-filter-restored-${index}`
-
-    return {
-      id: filterId,
-      label,
-      operator: getOperatorDisplay(urlFilter.operator as FilterOperator),
-      rawOperator: urlFilter.operator,
-      value: displayValue,
-      rawValue: urlFilter.value,
-      valueLabels,
-    }
-  })
-}
-
-// Extract the field name from filter ID
-// Filter IDs are in format: "field_name-field_name-filter-..." or "field_name-index"
-const extractFilterField = (filterId: string): string => {
-  return filterId.split('-')[0]
-}
-
-// Convert Filter type to URL filter format
-const filtersToUrlFilters = (filters: Filter[]): UrlFilter[] => {
-  return filters.map((filter) => ({
-    field: extractFilterField(filter.id),
-    operator: filter.rawOperator || filter.operator,
-    value: filter.rawValue || filter.value,
-    // Store display value for searchable fields that don't have pre-loaded options
-    displayValue: String(filter.value),
-  }))
+// Create default filters with proper operator display labels
+const getDefaultFilters = (filterFields: FilterField[]): Filter[] => {
+  const field = filterFields.find((f) => f.name === 'logged_in')
+  const valueLabel = field?.options?.find((o) => String(o.value) === '1')?.label || 'Logged-in'
+  return [
+    {
+      id: 'logged_in-logged_in-filter-default',
+      label: field?.label || 'Login Status',
+      operator: getOperatorDisplay('is'),
+      rawOperator: 'is',
+      value: valueLabel,
+      rawValue: '1',
+    },
+  ]
 }
 
 function RouteComponent() {
@@ -616,7 +309,15 @@ function RouteComponent() {
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
-  const columns = createColumns(pluginUrl)
+  const columns = useMemo(
+    () =>
+      createColumns({
+        pluginUrl,
+        trackLoggedInEnabled: true, // Always true for logged-in users page
+        hashEnabled: wp.isHashEnabled(),
+      }),
+    [pluginUrl, wp]
+  )
 
   // Get filter fields for 'visitors' group from localized data
   const filterFields = useMemo<FilterField[]>(() => {
@@ -633,7 +334,11 @@ function RouteComponent() {
   useEffect(() => {
     if (lastSyncedFiltersRef.current !== null) return // Already initialized
 
-    const filtersFromUrl = urlFiltersToFilters(urlFilters, filterFields)
+    // Wait for filterFields to be loaded OR urlFilters to be available
+    // This ensures we don't initialize with empty state before data is ready
+    if (!urlFilters?.length && filterFields.length === 0) return
+
+    const filtersFromUrl = urlFiltersToFiltersWithDefaults(urlFilters, filterFields, getDefaultFilters(filterFields))
     setAppliedFilters(filtersFromUrl)
     setPage(urlPage || 1)
     // Mark as initialized with what the URL actually had (not defaults)
@@ -693,7 +398,7 @@ function RouteComponent() {
   // Track API columns for query optimization (state so changes trigger refetch)
   // Initialize from cache if available, otherwise use all columns
   const [apiColumns, setApiColumns] = useState<string[]>(() => {
-    return getCachedApiColumns(allColumnIds) || DEFAULT_API_COLUMNS
+    return getCachedApiColumns(allColumnIds, COLUMN_CONFIG) || DEFAULT_API_COLUMNS
   })
 
   // Fetch all data in a single batch request (only when filters are initialized)
@@ -819,11 +524,11 @@ function RouteComponent() {
       const visibleColumns = getVisibleColumnsForSave(visibility, columnOrder, allColumnIds)
       saveUserPreferences({ context: CONTEXT, columns: visibleColumns })
       // Cache visible columns in localStorage for next page load
-      setCachedColumns(visibleColumns)
+      setCachedColumns(CONTEXT, visibleColumns)
       // Update API columns for optimized queries (include sort column)
       // Use functional update to avoid unnecessary refetches when columns haven't changed
       const currentSortColumn = sorting.length > 0 ? sorting[0].id : 'lastVisit'
-      const newApiColumns = computeApiColumns(visibility, allColumnIds, currentSortColumn)
+      const newApiColumns = computeApiColumns(visibility, allColumnIds, COLUMN_CONFIG, currentSortColumn)
       setApiColumns((prev) => (arraysEqual(prev, newApiColumns) ? prev : newApiColumns))
     },
     [columnOrder, sorting, allColumnIds, arraysEqual]
@@ -837,7 +542,7 @@ function RouteComponent() {
       const visibleColumns = getVisibleColumnsForSave(currentVisibilityRef.current, order, allColumnIds)
       saveUserPreferences({ context: CONTEXT, columns: visibleColumns })
       // Cache visible columns in localStorage for next page load
-      setCachedColumns(visibleColumns)
+      setCachedColumns(CONTEXT, visibleColumns)
     },
     [allColumnIds]
   )
@@ -855,11 +560,7 @@ function RouteComponent() {
     setApiColumns((prev) => (arraysEqual(prev, DEFAULT_API_COLUMNS) ? prev : DEFAULT_API_COLUMNS))
     resetUserPreferences({ context: CONTEXT })
     // Clear localStorage cache
-    try {
-      localStorage.removeItem(CACHE_KEY)
-    } catch {
-      // Ignore storage errors
-    }
+    clearCachedColumns(CONTEXT)
   }, [arraysEqual])
 
   // Transform users data

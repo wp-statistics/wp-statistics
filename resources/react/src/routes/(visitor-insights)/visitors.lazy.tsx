@@ -2,14 +2,40 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute, getRouteApi, useNavigate } from '@tanstack/react-router'
 import type { ColumnDef, SortingState, VisibilityState } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
-import { Info } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
 import { DateRangePicker, type DateRange } from '@/components/custom/date-range-picker'
 import { type Filter, FilterBar } from '@/components/custom/filter-bar'
-import { FilterButton, type FilterField, getOperatorDisplay } from '@/components/custom/filter-button'
+import { FilterButton, type FilterField } from '@/components/custom/filter-button'
+import {
+  DurationCell,
+  EntryPageCell,
+  LastVisitCell,
+  NumericCell,
+  PageCell,
+  ReferrerCell,
+  VisitorInfoCell,
+  type VisitorInfoConfig,
+} from '@/components/data-table-columns'
+import {
+  type ColumnConfig,
+  clearCachedColumns,
+  computeApiColumns,
+  getCachedApiColumns,
+  getCachedVisibility,
+  getCachedVisibleColumns,
+  getDefaultApiColumns,
+  getVisibleColumnsForSave,
+  setCachedColumns,
+} from '@/lib/column-utils'
+import {
+  filtersToUrlFilters,
+  formatReferrerChannel,
+  urlFiltersToFilters,
+} from '@/lib/filter-utils'
+import { parseEntryPage } from '@/lib/url-utils'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { formatDateForAPI, formatDuration, formatDecimal } from '@/lib/utils'
@@ -27,166 +53,41 @@ const PER_PAGE = 25
 const CONTEXT = 'visitors_data_table'
 const DEFAULT_HIDDEN_COLUMNS = ['viewsPerSession', 'bounceRate', 'visitorStatus']
 
-// Base columns always required for the query (grouping, identification)
-const BASE_COLUMNS = ['visitor_id', 'visitor_hash']
-
-// Column dependencies: UI column → API columns needed for that column to render
-const COLUMN_DEPENDENCIES: Record<string, string[]> = {
-  lastVisit: ['last_visit'],
-  visitorInfo: [
-    'ip_address',
-    'country_code',
-    'country_name',
-    'region_name',
-    'city_name',
-    'os_name',
-    'browser_name',
-    'browser_version',
-    'device_type_name',
-    'user_id',
-    'user_login',
-    'user_email',
-    'user_role',
-  ],
-  referrer: ['referrer_domain', 'referrer_channel'],
-  entryPage: ['entry_page', 'entry_page_title'],
-  exitPage: ['exit_page', 'exit_page_title'],
-  totalViews: ['total_views'],
-  totalSessions: ['total_sessions'],
-  sessionDuration: ['avg_session_duration'],
-  viewsPerSession: ['pages_per_session'],
-  bounceRate: ['bounce_rate'],
-  visitorStatus: ['visitor_status', 'first_visit'],
-}
-
-// Compute API columns based on visible UI columns and current sort column
-// Note: In TanStack Table, columns NOT in visibleColumns are considered visible by default
-const computeApiColumns = (
-  visibleColumns: Record<string, boolean>,
-  allColumnIds: string[],
-  sortColumn?: string
-): string[] => {
-  const apiColumns = new Set<string>(BASE_COLUMNS)
-
-  // For each column, check if it's visible (not explicitly set to false)
-  allColumnIds.forEach((columnId) => {
-    const isVisible = visibleColumns[columnId] !== false // undefined or true = visible
-    if (isVisible && COLUMN_DEPENDENCIES[columnId]) {
-      COLUMN_DEPENDENCIES[columnId].forEach((apiCol) => apiColumns.add(apiCol))
-    }
-  })
-
-  // Always include the sort column's dependencies to ensure ORDER BY works
-  if (sortColumn && COLUMN_DEPENDENCIES[sortColumn]) {
-    COLUMN_DEPENDENCIES[sortColumn].forEach((apiCol) => apiColumns.add(apiCol))
-  }
-
-  return Array.from(apiColumns)
-}
-
-// Get visible columns for saving preferences
-// Respects columnOrder for ordering, but includes ALL visible columns
-const getVisibleColumnsForSave = (
-  visibility: Record<string, boolean>,
-  columnOrder: string[],
-  allColumnIds: string[]
-): string[] => {
-  // Get all visible column IDs (not explicitly set to false)
-  const visibleSet = new Set(allColumnIds.filter((col) => visibility[col] !== false))
-
-  if (columnOrder.length === 0) {
-    // No custom order, return all visible columns in default order
-    return allColumnIds.filter((col) => visibleSet.has(col))
-  }
-
-  // Build result: ordered columns first, then any visible columns not in order
-  const result: string[] = []
-  const addedSet = new Set<string>()
-
-  // First, add columns from columnOrder that are visible
-  for (const col of columnOrder) {
-    if (visibleSet.has(col) && !addedSet.has(col)) {
-      result.push(col)
-      addedSet.add(col)
-    }
-  }
-
-  // Then add any visible columns not yet in result (maintains their relative order from allColumnIds)
-  for (const col of allColumnIds) {
-    if (visibleSet.has(col) && !addedSet.has(col)) {
-      result.push(col)
-      addedSet.add(col)
-    }
-  }
-
-  return result
+// Column configuration for this page
+const COLUMN_CONFIG: ColumnConfig = {
+  baseColumns: ['visitor_id', 'visitor_hash'],
+  columnDependencies: {
+    lastVisit: ['last_visit'],
+    visitorInfo: [
+      'ip_address',
+      'country_code',
+      'country_name',
+      'region_name',
+      'city_name',
+      'os_name',
+      'browser_name',
+      'browser_version',
+      'device_type_name',
+      'user_id',
+      'user_login',
+      'user_email',
+      'user_role',
+    ],
+    referrer: ['referrer_domain', 'referrer_channel'],
+    entryPage: ['entry_page', 'entry_page_title'],
+    exitPage: ['exit_page', 'exit_page_title'],
+    totalViews: ['total_views'],
+    totalSessions: ['total_sessions'],
+    sessionDuration: ['avg_session_duration'],
+    viewsPerSession: ['pages_per_session'],
+    bounceRate: ['bounce_rate'],
+    visitorStatus: ['visitor_status', 'first_visit'],
+  },
+  context: CONTEXT,
 }
 
 // Default columns when no preferences are set (all columns visible)
-const DEFAULT_API_COLUMNS = [
-  ...BASE_COLUMNS,
-  ...Object.values(COLUMN_DEPENDENCIES).flat(),
-].filter((col, index, arr) => arr.indexOf(col) === index)
-
-// LocalStorage key for caching column preferences
-const CACHE_KEY = `wp_statistics_columns_${CONTEXT}`
-
-// Get cached visible columns from localStorage
-const getCachedVisibleColumns = (): string[] | null => {
-  try {
-    const cached = localStorage.getItem(CACHE_KEY)
-    if (!cached) return null
-    const visibleColumns = JSON.parse(cached) as string[]
-    if (!Array.isArray(visibleColumns) || visibleColumns.length === 0) return null
-    return visibleColumns
-  } catch {
-    return null
-  }
-}
-
-// Get cached API columns from localStorage
-const getCachedApiColumns = (allColumnIds: string[]): string[] | null => {
-  try {
-    const visibleColumns = getCachedVisibleColumns()
-    if (!visibleColumns) return null
-    // Convert visible UI columns to API columns
-    const apiColumns = new Set<string>(BASE_COLUMNS)
-    visibleColumns.forEach((columnId) => {
-      if (COLUMN_DEPENDENCIES[columnId]) {
-        COLUMN_DEPENDENCIES[columnId].forEach((apiCol) => apiColumns.add(apiCol))
-      }
-    })
-    return Array.from(apiColumns)
-  } catch {
-    return null
-  }
-}
-
-// Get cached visibility state from localStorage
-const getCachedVisibility = (allColumnIds: string[]): VisibilityState | null => {
-  try {
-    const visibleColumns = getCachedVisibleColumns()
-    if (!visibleColumns) return null
-    // Build visibility state: columns in cache are visible, others are hidden
-    const visibleSet = new Set(visibleColumns)
-    const visibility: VisibilityState = {}
-    allColumnIds.forEach((col) => {
-      visibility[col] = visibleSet.has(col)
-    })
-    return visibility
-  } catch {
-    return null
-  }
-}
-
-// Save visible columns to localStorage cache
-const setCachedColumns = (visibleColumns: string[]): void => {
-  try {
-    localStorage.setItem(CACHE_KEY, JSON.stringify(visibleColumns))
-  } catch {
-    // Ignore storage errors
-  }
-}
+const DEFAULT_API_COLUMNS = getDefaultApiColumns(COLUMN_CONFIG)
 
 // Get cached column order from localStorage (same as visible columns order)
 const getCachedColumnOrder = (): string[] => {
@@ -236,25 +137,10 @@ interface Visitor {
   visitorStatus: 'new' | 'returning'
 }
 
-interface VisitorInfoColumnConfig {
-  pluginUrl: string
-  trackLoggedInEnabled: boolean
-  hashEnabled: boolean
-}
 
 // Transform API response to component interface
 const transformVisitorData = (record: VisitorRecord): Visitor => {
-  // Parse entry page for query string
-  const entryPageUrl = record.entry_page || '/'
-  const hasQueryString = entryPageUrl.includes('?')
-  const queryString = hasQueryString ? entryPageUrl.split('?')[1] : undefined
-
-  // Extract UTM campaign if present
-  let utmCampaign: string | undefined
-  if (queryString) {
-    const params = new URLSearchParams(queryString)
-    utmCampaign = params.get('utm_campaign') || undefined
-  }
+  const entryPageData = parseEntryPage(record.entry_page, record.entry_page_title)
 
   return {
     id: `visitor-${record.visitor_id}`,
@@ -277,11 +163,11 @@ const transformVisitorData = (record: VisitorRecord): Visitor => {
     hash: record.visitor_hash || undefined,
     referrerDomain: record.referrer_domain || undefined,
     referrerCategory: formatReferrerChannel(record.referrer_channel),
-    entryPage: entryPageUrl.split('?')[0] || '/',
-    entryPageTitle: record.entry_page_title || record.entry_page || 'Unknown',
-    entryPageHasQuery: hasQueryString,
-    entryPageQueryString: hasQueryString ? `?${queryString}` : undefined,
-    utmCampaign,
+    entryPage: entryPageData.path,
+    entryPageTitle: entryPageData.title,
+    entryPageHasQuery: entryPageData.hasQueryString,
+    entryPageQueryString: entryPageData.queryString,
+    utmCampaign: entryPageData.utmCampaign,
     exitPage: record.exit_page || '/',
     exitPageTitle: record.exit_page_title || record.exit_page || 'Unknown',
     totalViews: Number(record.total_views) || 0,
@@ -293,441 +179,116 @@ const transformVisitorData = (record: VisitorRecord): Visitor => {
   }
 }
 
-// Format referrer channel for display
-const formatReferrerChannel = (channel: string | null | undefined): string => {
-  if (!channel) return 'DIRECT TRAFFIC'
-  const channelMap: Record<string, string> = {
-    direct: 'DIRECT TRAFFIC',
-    search: 'SEARCH',
-    social: 'SOCIAL',
-    referral: 'REFERRAL',
-    email: 'EMAIL',
-    paid: 'PAID',
-  }
-  return channelMap[channel.toLowerCase()] || channel.toUpperCase()
-}
-
-// URL filter format includes displayValue for searchable fields that don't have pre-loaded options
-interface UrlFilter {
-  field: string
-  operator: string
-  value: string | string[]
-  displayValue?: string // Display label for the value (e.g., "Iran" instead of "5")
-}
-
-// Convert URL filter format to Filter type
-const urlFiltersToFilters = (
-  urlFilters: UrlFilter[] | undefined,
-  filterFields: FilterField[]
-): Filter[] => {
-  if (!urlFilters || !Array.isArray(urlFilters) || urlFilters.length === 0) return []
-
-  return urlFilters.map((urlFilter, index) => {
-    const field = filterFields.find((f) => f.name === urlFilter.field)
-    const label = field?.label || urlFilter.field
-
-    // Use displayValue from URL if available (for searchable fields)
-    // Otherwise try to look up from field options, or fall back to raw value
-    let displayValue = urlFilter.displayValue
-    if (!displayValue) {
-      displayValue = Array.isArray(urlFilter.value) ? urlFilter.value.join(', ') : String(urlFilter.value)
-      if (field?.options) {
-        const values = Array.isArray(urlFilter.value) ? urlFilter.value : [urlFilter.value]
-        const labels = values.map((v) => field.options?.find((o) => String(o.value) === String(v))?.label || v).join(', ')
-        displayValue = labels
-      }
-    }
-
-    // Create valueLabels from displayValue and rawValue for searchable filters
-    // This allows the filter panel to show labels instead of raw values
-    let valueLabels: Record<string, string> | undefined
-    if (displayValue && urlFilter.value) {
-      const values = Array.isArray(urlFilter.value) ? urlFilter.value : [urlFilter.value]
-      const displayValues = displayValue.split(', ')
-      valueLabels = {}
-      values.forEach((v, i) => {
-        valueLabels![String(v)] = displayValues[i] || String(v)
-      })
-    }
-
-    // Create filter ID in the expected format: field-field-filter-restored-index
-    const filterId = `${urlFilter.field}-${urlFilter.field}-filter-restored-${index}`
-
-    return {
-      id: filterId,
-      label,
-      operator: getOperatorDisplay(urlFilter.operator as FilterOperator),
-      rawOperator: urlFilter.operator,
-      value: displayValue,
-      rawValue: urlFilter.value,
-      valueLabels,
-    }
-  })
-}
-
-// Extract the field name from filter ID
-// Filter IDs are in format: "field_name-field_name-filter-..." or "field_name-index"
-const extractFilterField = (filterId: string): string => {
-  return filterId.split('-')[0]
-}
-
-// Convert Filter type to URL filter format
-const filtersToUrlFilters = (filters: Filter[]): UrlFilter[] => {
-  return filters.map((filter) => ({
-    field: extractFilterField(filter.id),
-    operator: filter.rawOperator || filter.operator,
-    value: filter.rawValue || filter.value,
-    // Store display value for searchable fields that don't have pre-loaded options
-    displayValue: String(filter.value),
-  }))
-}
-
-const createColumns = (config: VisitorInfoColumnConfig): ColumnDef<Visitor>[] => [
+const createColumns = (config: VisitorInfoConfig): ColumnDef<Visitor>[] => [
   {
     accessorKey: 'lastVisit',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
-    cell: ({ row }) => {
-      const date = row.original.lastVisit
-      const formatted = date.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-      })
-      const time = date.toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true,
-      })
-      return (
-        <div className="whitespace-nowrap">
-          {formatted}, {time}
-        </div>
-      )
-    },
+    cell: ({ row }) => <LastVisitCell date={row.original.lastVisit} />,
   },
   {
     accessorKey: 'visitorInfo',
     header: () => 'Visitor Info',
     cell: ({ row }) => {
       const visitor = row.original
-      const locationText = `${visitor.country}, ${visitor.region}, ${visitor.city}`
-
-      // Determine what to show for identifier based on settings
-      // Show user badge only if: trackLoggedInEnabled AND user_id exists
-      const showUserBadge = config.trackLoggedInEnabled && visitor.userId
-      // Show hash/IP only when user badge is not shown
-      // Format hash display: strip #hash# prefix and show first 6 chars
-      const formatHashDisplay = (value: string): string => {
-        const cleanHash = value.replace(/^#hash#/i, '')
-        return cleanHash.substring(0, 6)
-      }
-      // Determine identifier display based on settings and available data
-      const getIdentifierDisplay = (): string | undefined => {
-        if (config.hashEnabled) {
-          // hashEnabled = true → show first 6 chars of hash
-          if (visitor.hash) return formatHashDisplay(visitor.hash)
-          if (visitor.ipAddress?.startsWith('#hash#')) return formatHashDisplay(visitor.ipAddress)
-        }
-        // hashEnabled = false → show full IP address
-        return visitor.ipAddress
-      }
-      const identifierDisplay = getIdentifierDisplay()
-
       return (
-        <div className="flex items-center gap-2">
-          {/* Country Flag */}
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button className="flex items-center">
-                  <img
-                    src={`${config.pluginUrl}public/images/flags/${visitor.countryCode || '000'}.svg`}
-                    alt={visitor.country}
-                    className="w-5 h-5 object-contain"
-                  />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{locationText}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          {/* OS Icon */}
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button className="flex items-center">
-                  <img
-                    src={`${config.pluginUrl}public/images/operating-system/${visitor.os}.svg`}
-                    alt={visitor.osName}
-                    className="w-4 h-4 object-contain"
-                  />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{visitor.osName}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          {/* Browser Icon */}
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button className="flex items-center">
-                  <img
-                    src={`${config.pluginUrl}public/images/browser/${visitor.browser}.svg`}
-                    alt={visitor.browserName}
-                    className="w-4 h-4 object-contain"
-                  />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>
-                  {visitor.browserName} {visitor.browserVersion ? `v${visitor.browserVersion}` : ''}
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          {/* User Badge (only if trackLoggedInEnabled AND user_id exists) */}
-          {showUserBadge ? (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Badge variant="secondary" className="text-xs font-normal">
-                    {visitor.username} #{visitor.userId}
-                  </Badge>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>
-                    {visitor.email || ''} {visitor.userRole ? `(${visitor.userRole})` : ''}
-                  </p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          ) : (
-            /* IP or Hash (only when user badge is not shown) */
-            identifierDisplay && (
-              <span className="text-xs text-muted-foreground font-mono">{identifierDisplay}</span>
-            )
-          )}
-        </div>
+        <VisitorInfoCell
+          data={{
+            country: {
+              code: visitor.countryCode,
+              name: visitor.country,
+              region: visitor.region,
+              city: visitor.city,
+            },
+            os: { icon: visitor.os, name: visitor.osName },
+            browser: { icon: visitor.browser, name: visitor.browserName, version: visitor.browserVersion },
+            user: visitor.userId && visitor.username
+              ? {
+                  id: Number(visitor.userId),
+                  username: visitor.username,
+                  email: visitor.email,
+                  role: visitor.userRole,
+                }
+              : undefined,
+            identifier: visitor.hash || visitor.ipAddress,
+          }}
+          config={config}
+        />
       )
     },
   },
   {
     accessorKey: 'referrer',
     header: () => 'Referrer',
-    cell: ({ row }) => {
-      const visitor = row.original
-      return (
-        <div className="flex flex-col gap-1 items-start">
-          {visitor.referrerDomain && (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <a
-                    href={`https://${visitor.referrerDomain}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:underline max-w-[200px] truncate block"
-                  >
-                    {visitor.referrerDomain.length > 25
-                      ? `${visitor.referrerDomain.substring(0, 22)}...${visitor.referrerDomain.split('.').pop()}`
-                      : visitor.referrerDomain}
-                  </a>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>https://{visitor.referrerDomain}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          )}
-          <Badge variant="outline" className="text-[8px] text-[#636363] uppercase mt-1">
-            {visitor.referrerCategory}
-          </Badge>
-        </div>
-      )
-    },
+    cell: ({ row }) => (
+      <ReferrerCell
+        data={{
+          domain: row.original.referrerDomain,
+          category: row.original.referrerCategory,
+        }}
+      />
+    ),
   },
   {
     accessorKey: 'entryPage',
     header: () => 'Entry Page',
     cell: ({ row }) => {
       const visitor = row.original
-      const truncatedTitle =
-        visitor.entryPageTitle.length > 35 ? `${visitor.entryPageTitle.substring(0, 35)}...` : visitor.entryPageTitle
-
       return (
-        <div className="max-w-md inline-flex flex-col items-start">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div className="flex items-center gap-1 cursor-pointer">
-                  <span className="truncate">{truncatedTitle}</span>
-                  {visitor.entryPageHasQuery && <Info className="h-3 w-3 text-[#636363] shrink-0" />}
-                </div>
-              </TooltipTrigger>
-              <TooltipContent>
-                {visitor.entryPageHasQuery && visitor.entryPageQueryString ? (
-                  <p>{visitor.entryPageQueryString}</p>
-                ) : (
-                  <p>{visitor.entryPage}</p>
-                )}
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-          {visitor.utmCampaign && (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className="text-[9px] text-[#636363] mt-1 cursor-pointer">{visitor.utmCampaign}</div>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Campaign: {visitor.utmCampaign}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          )}
-        </div>
+        <EntryPageCell
+          data={{
+            title: visitor.entryPageTitle,
+            url: visitor.entryPage,
+            hasQueryString: visitor.entryPageHasQuery,
+            queryString: visitor.entryPageQueryString,
+            utmCampaign: visitor.utmCampaign,
+          }}
+        />
       )
     },
   },
   {
     accessorKey: 'exitPage',
     header: () => 'Exit Page',
-    cell: ({ row }) => {
-      const visitor = row.original
-      const truncatedTitle =
-        visitor.exitPageTitle.length > 35 ? `${visitor.exitPageTitle.substring(0, 35)}...` : visitor.exitPageTitle
-
-      return (
-        <div className="max-w-md inline-flex flex-col items-start">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="cursor-pointer truncate">{truncatedTitle}</span>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{visitor.exitPage}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-      )
-    },
+    cell: ({ row }) => (
+      <PageCell
+        data={{
+          title: row.original.exitPageTitle,
+          url: row.original.exitPage,
+        }}
+      />
+    ),
   },
   {
     accessorKey: 'totalViews',
-    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Total Views" />,
-    cell: ({ row }) => {
-      const views = row.original.totalViews
-      return (
-        <div className="text-right pr-4">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="cursor-pointer">{views.toLocaleString()}</span>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{views.toLocaleString()} Page Views from this visitor in selected period</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-      )
-    },
+    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />,
+    size: 70,
+    cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
   },
   {
     accessorKey: 'totalSessions',
-    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Total Sessions" />,
-    cell: ({ row }) => {
-      const sessions = row.original.totalSessions
-      return (
-        <div className="text-right pr-4">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="cursor-pointer">{sessions.toLocaleString()}</span>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>
-                  {sessions.toLocaleString()} {sessions === 1 ? 'session' : 'sessions'} in selected period
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-      )
-    },
+    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Sessions" className="text-right" />,
+    size: 80,
+    cell: ({ row }) => <NumericCell value={row.original.totalSessions} />,
   },
   {
     accessorKey: 'sessionDuration',
-    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Session Duration" />,
-    cell: ({ row }) => {
-      const seconds = row.original.sessionDuration
-      const formatted = formatDuration(seconds)
-
-      return (
-        <div className="text-right pr-4">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="cursor-pointer">{formatted}</span>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Average session duration: {formatted}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-      )
-    },
+    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Duration" className="text-right" />,
+    size: 85,
+    cell: ({ row }) => <DurationCell seconds={row.original.sessionDuration} />,
   },
   {
     accessorKey: 'viewsPerSession',
-    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Views Per Session" />,
+    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Per Session" className="text-right" />,
+    size: 90,
     enableHiding: true,
-    cell: ({ row }) => {
-      const value = row.original.viewsPerSession
-      return (
-        <div className="text-right pr-4">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="cursor-pointer">{formatDecimal(value)}</span>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{formatDecimal(value)} average page views per session</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-      )
-    },
+    cell: ({ row }) => <NumericCell value={row.original.viewsPerSession} decimals={1} />,
   },
   {
     accessorKey: 'bounceRate',
-    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Bounce Rate" />,
+    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Bounce" className="text-right" />,
+    size: 70,
     enableHiding: true,
-    cell: ({ row }) => {
-      const rate = row.original.bounceRate
-      return (
-        <div className="text-right pr-4">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="cursor-pointer">{rate}%</span>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{rate}% of sessions viewed only one page</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-      )
-    },
+    cell: ({ row }) => <NumericCell value={row.original.bounceRate} suffix="%" />,
   },
   {
     accessorKey: 'visitorStatus',
@@ -751,7 +312,7 @@ const createColumns = (config: VisitorInfoColumnConfig): ColumnDef<Visitor>[] =>
               </Badge>
             </TooltipTrigger>
             <TooltipContent>
-              <p>{isNew ? `First visit: ${firstVisitDate}` : `Returning visitor since ${firstVisitDate}`}</p>
+              {isNew ? `First visit ${firstVisitDate}` : `Since ${firstVisitDate}`}
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -859,7 +420,7 @@ function RouteComponent() {
   // Track API columns for query optimization (state so changes trigger refetch)
   // Initialize from cache if available, otherwise use all columns
   const [apiColumns, setApiColumns] = useState<string[]>(() => {
-    return getCachedApiColumns(allColumnIds) || DEFAULT_API_COLUMNS
+    return getCachedApiColumns(allColumnIds, COLUMN_CONFIG) || DEFAULT_API_COLUMNS
   })
 
   // Track if preferences have been applied (to prevent re-computation on subsequent API responses)
@@ -975,11 +536,11 @@ function RouteComponent() {
       const visibleColumns = getVisibleColumnsForSave(visibility, columnOrder, allColumnIds)
       saveUserPreferences({ context: CONTEXT, columns: visibleColumns })
       // Cache visible columns in localStorage for next page load
-      setCachedColumns(visibleColumns)
+      setCachedColumns(CONTEXT, visibleColumns)
       // Update API columns for optimized queries (include sort column)
       // Use functional update to avoid unnecessary refetches when columns haven't changed
       const currentSortColumn = sorting.length > 0 ? sorting[0].id : 'lastVisit'
-      const newApiColumns = computeApiColumns(visibility, allColumnIds, currentSortColumn)
+      const newApiColumns = computeApiColumns(visibility, allColumnIds, COLUMN_CONFIG, currentSortColumn)
       setApiColumns((prev) => (arraysEqual(prev, newApiColumns) ? prev : newApiColumns))
     },
     [columnOrder, sorting, allColumnIds, arraysEqual]
@@ -993,7 +554,7 @@ function RouteComponent() {
       const visibleColumns = getVisibleColumnsForSave(currentVisibilityRef.current, order, allColumnIds)
       saveUserPreferences({ context: CONTEXT, columns: visibleColumns })
       // Cache visible columns in localStorage for next page load
-      setCachedColumns(visibleColumns)
+      setCachedColumns(CONTEXT, visibleColumns)
     },
     [allColumnIds]
   )
@@ -1013,11 +574,7 @@ function RouteComponent() {
     // Reset preferences on backend
     resetUserPreferences({ context: CONTEXT })
     // Clear localStorage cache
-    try {
-      localStorage.removeItem(CACHE_KEY)
-    } catch {
-      // Ignore storage errors
-    }
+    clearCachedColumns(CONTEXT)
   }, [arraysEqual])
 
   // Transform API data to component interface

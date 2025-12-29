@@ -1,12 +1,17 @@
-import { Link, useRouter } from '@tanstack/react-router'
+import { useRouter } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
-import { Info } from 'lucide-react'
 import { useMemo } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
-import { Badge } from '@/components/ui/badge'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import {
+  EntryPageCell,
+  NumericCell,
+  PageCell,
+  ReferrerCell,
+  VisitorInfoCell,
+  type VisitorInfoConfig,
+} from '@/components/data-table-columns'
 import { WordPress } from '@/lib/wordpress'
 import type { TopVisitorsData } from '@/services/visitor-insight/get-visitor-overview'
 
@@ -36,12 +41,6 @@ type TopVisitorData = {
     title: string
     url: string
   }
-}
-
-interface VisitorInfoColumnConfig {
-  pluginUrl: string
-  trackLoggedInEnabled: boolean
-  hashEnabled: boolean
 }
 
 interface OverviewTopVisitorsProps {
@@ -108,183 +107,66 @@ export const OverviewTopVisitors = ({ data }: OverviewTopVisitorsProps) => {
     }))
   }, [data])
 
-  // Get settings for visitor info display
-  const trackLoggedInEnabled = wp.isTrackLoggedInEnabled()
-  const hashEnabled = wp.isHashEnabled()
+  // Config for visitor info display
+  const config: VisitorInfoConfig = useMemo(
+    () => ({
+      pluginUrl,
+      trackLoggedInEnabled: wp.isTrackLoggedInEnabled(),
+      hashEnabled: wp.isHashEnabled(),
+    }),
+    [pluginUrl, wp]
+  )
 
   const columns: ColumnDef<TopVisitorData>[] = [
     {
       accessorKey: 'visitorInfo',
-      header: 'Visitor Information',
+      header: 'Visitor Info',
       cell: ({ row }) => {
         const visitorInfo = row.getValue('visitorInfo') as TopVisitorData['visitorInfo']
-
-        // Determine what to show for identifier based on settings
-        const showUserBadge = trackLoggedInEnabled && visitorInfo.user
-
-        // Format hash display: strip #hash# prefix and show first 6 chars
-        const formatHashDisplay = (value: string): string => {
-          const cleanHash = value.replace(/^#hash#/i, '')
-          return cleanHash.substring(0, 6)
-        }
-
-        // Determine identifier display based on settings and available data
-        const getIdentifierDisplay = (): string | undefined => {
-          if (hashEnabled) {
-            // hashEnabled = true → show first 6 chars of hash
-            if (visitorInfo.hash) return formatHashDisplay(visitorInfo.hash)
-            if (visitorInfo.ipAddress?.startsWith('#hash#')) return formatHashDisplay(visitorInfo.ipAddress)
-          }
-          // hashEnabled = false → show full IP address
-          return visitorInfo.ipAddress
-        }
-        const identifierDisplay = getIdentifierDisplay()
-
         return (
-          <div className="flex items-center gap-2">
-            {/* Country Flag */}
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button className="cursor-pointer flex items-center">
-                    <img
-                      src={`${pluginUrl}public/images/flags/${visitorInfo.country.code || '000'}.svg`}
-                      alt={visitorInfo.country.name}
-                      className="w-5 h-5 object-contain"
-                    />
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>
-                    {visitorInfo.country.name}, {visitorInfo.country.region}, {visitorInfo.country.city}
-                  </p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-
-            {/* OS Icon */}
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button className="cursor-pointer flex items-center">
-                    <img
-                      src={`${pluginUrl}public/images/operating-system/${visitorInfo.os.icon}.svg`}
-                      alt={visitorInfo.os.name}
-                      className="w-4 h-4 object-contain"
-                    />
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{visitorInfo.os.name}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-
-            {/* Browser Icon */}
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button className="cursor-pointer flex items-center">
-                    <img
-                      src={`${pluginUrl}public/images/browser/${visitorInfo.browser.icon}.svg`}
-                      alt={visitorInfo.browser.name}
-                      className="w-4 h-4 object-contain"
-                    />
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>
-                    {visitorInfo.browser.name} {visitorInfo.browser.version ? `v${visitorInfo.browser.version}` : ''}
-                  </p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-
-            {/* User Badge (only if trackLoggedInEnabled AND user exists) */}
-            {showUserBadge ? (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Badge variant="secondary" className="text-xs font-normal">
-                      {visitorInfo.user!.username} #{visitorInfo.user!.id}
-                    </Badge>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>
-                      {visitorInfo.user!.email || ''} {visitorInfo.user!.role ? `(${visitorInfo.user!.role})` : ''}
-                    </p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            ) : (
-              /* IP or Hash (only when user badge is not shown) */
-              identifierDisplay && (
-                <span className="text-xs text-muted-foreground font-mono">{identifierDisplay}</span>
-              )
-            )}
-          </div>
+          <VisitorInfoCell
+            data={{
+              country: {
+                code: visitorInfo.country.code,
+                name: visitorInfo.country.name,
+                region: visitorInfo.country.region,
+                city: visitorInfo.country.city,
+              },
+              os: { icon: visitorInfo.os.icon, name: visitorInfo.os.name },
+              browser: { icon: visitorInfo.browser.icon, name: visitorInfo.browser.name, version: visitorInfo.browser.version },
+              user: visitorInfo.user
+                ? {
+                    id: visitorInfo.user.id,
+                    username: visitorInfo.user.username,
+                    email: visitorInfo.user.email,
+                    role: visitorInfo.user.role,
+                  }
+                : undefined,
+              identifier: visitorInfo.hash || visitorInfo.ipAddress,
+            }}
+            config={config}
+          />
         )
       },
     },
     {
       accessorKey: 'totalViews',
       header: 'Total Views',
-      cell: ({ row }) => {
-        const totalViews = row.getValue('totalViews') as number
-        const formattedViews = totalViews.toLocaleString()
-        return (
-          <div className="text-right">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <span className="cursor-pointer pr-4">{formattedViews}</span>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{formattedViews} Page Views from this visitor in selected period</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
-        )
-      },
+      cell: ({ row }) => <NumericCell value={row.getValue('totalViews') as number} />,
     },
     {
       accessorKey: 'referrer',
       header: 'Referrer',
       cell: ({ row }) => {
         const referrer = row.getValue('referrer') as TopVisitorData['referrer']
-        const truncateDomain = (domain: string) => {
-          if (domain.length <= 25) return domain
-          const parts = domain.split('.')
-          const suffix = parts.length > 1 ? `.${parts[parts.length - 1]}` : ''
-          const maxLength = 25 - suffix.length - 1
-          return `${domain.substring(0, maxLength)}…${suffix}`
-        }
         return (
-          <div>
-            {referrer.domain && (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Link
-                      to={referrer.fullUrl || `https://${referrer.domain}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:underline block"
-                    >
-                      {truncateDomain(referrer.domain)}
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>{referrer.fullUrl || `https://${referrer.domain}`}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            )}
-            <Badge variant="outline" className="text-[8px] text-[#636363] uppercase mt-1">
-              {referrer.category}
-            </Badge>
-          </div>
+          <ReferrerCell
+            data={{
+              domain: referrer.domain,
+              category: referrer.category,
+            }}
+            maxLength={25}
+          />
         )
       },
     },
@@ -293,39 +175,17 @@ export const OverviewTopVisitors = ({ data }: OverviewTopVisitorsProps) => {
       header: 'Entry Page',
       cell: ({ row }) => {
         const entryPage = row.getValue('entryPage') as TopVisitorData['entryPage']
-        const displayTitle = entryPage.title.length > 35 ? `${entryPage.title.substring(0, 35)}…` : entryPage.title
         return (
-          <div className="max-w-md">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className="flex items-center gap-1 cursor-pointer">
-                    <span className="truncate">{displayTitle}</span>
-                    {entryPage.hasQueryString && <Info className="h-3 w-3 text-[#636363] shrink-0" />}
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>
-                  {entryPage.hasQueryString && entryPage.queryString ? (
-                    <p>{entryPage.queryString}</p>
-                  ) : (
-                    <p>{entryPage.url}</p>
-                  )}
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-            {entryPage.utmCampaign && (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <div className="text-[9px] text-[#636363] mt-1 cursor-pointer">{entryPage.utmCampaign}</div>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Campaign: {entryPage.utmCampaign}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            )}
-          </div>
+          <EntryPageCell
+            data={{
+              title: entryPage.title,
+              url: entryPage.url,
+              hasQueryString: entryPage.hasQueryString,
+              queryString: entryPage.queryString,
+              utmCampaign: entryPage.utmCampaign,
+            }}
+            maxLength={35}
+          />
         )
       },
     },
@@ -334,21 +194,7 @@ export const OverviewTopVisitors = ({ data }: OverviewTopVisitorsProps) => {
       header: 'Exit Page',
       cell: ({ row }) => {
         const exitPage = row.getValue('exitPage') as TopVisitorData['exitPage']
-        const displayTitle = exitPage.title.length > 35 ? `${exitPage.title.substring(0, 35)}…` : exitPage.title
-        return (
-          <div className="max-w-md">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <span className="cursor-pointer truncate">{displayTitle}</span>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{exitPage.url}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
-        )
+        return <PageCell data={{ title: exitPage.title, url: exitPage.url }} maxLength={35} />
       },
     },
   ]

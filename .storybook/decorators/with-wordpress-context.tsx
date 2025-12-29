@@ -1,6 +1,21 @@
 import type { Decorator } from '@storybook/react'
 import { useEffect } from 'react'
 
+// Mock filter operators
+const mockOperators = {
+  is: { label: 'is', type: 'single' as const },
+  is_not: { label: 'is not', type: 'single' as const },
+  in: { label: 'is any of', type: 'multiple' as const },
+  not_in: { label: 'is none of', type: 'multiple' as const },
+  gt: { label: 'greater than', type: 'single' as const },
+  gte: { label: 'greater than or equal', type: 'single' as const },
+  lt: { label: 'less than', type: 'single' as const },
+  lte: { label: 'less than or equal', type: 'single' as const },
+  between: { label: 'is between', type: 'range' as const },
+  contains: { label: 'contains', type: 'single' as const },
+  not_contains: { label: 'does not contain', type: 'single' as const },
+}
+
 /**
  * Decorator that provides mock WordPress context for Storybook
  * This prevents the "wps_react not available" error
@@ -29,21 +44,8 @@ export const withWordPressContext: Decorator = (Story) => {
           },
         },
         filters: {
+          operators: mockOperators,
           fields: {},
-          operators: {
-            is: { label: '=', type: 'single' },
-            is_not: { label: '≠', type: 'single' },
-            gt: { label: '>', type: 'single' },
-            gte: { label: '≥', type: 'single' },
-            lt: { label: '<', type: 'single' },
-            lte: { label: '≤', type: 'single' },
-            in: { label: 'in', type: 'multiple' },
-            not_in: { label: 'not in', type: 'multiple' },
-            between: { label: 'between', type: 'range' },
-            contains: { label: 'contains', type: 'single' },
-            starts_with: { label: 'starts with', type: 'single' },
-            ends_with: { label: 'ends with', type: 'single' },
-          },
         },
         config: {},
       }
