@@ -8,7 +8,7 @@ import { DataTable } from '@/components/custom/data-table'
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
 import { DateRangePicker, type DateRange } from '@/components/custom/date-range-picker'
 import { type Filter, FilterBar } from '@/components/custom/filter-bar'
-import { FilterButton, type FilterField } from '@/components/custom/filter-button'
+import { FilterButton, type FilterField, getOperatorDisplay } from '@/components/custom/filter-button'
 import {
   EntryPageCell,
   LastVisitCell,
@@ -23,6 +23,8 @@ import {
   clearCachedColumns,
   computeApiColumns,
   getCachedApiColumns,
+  getCachedVisibility,
+  getCachedVisibleColumns,
   getDefaultApiColumns,
   getVisibleColumnsForSave,
   setCachedColumns,
@@ -34,14 +36,10 @@ import {
 } from '@/lib/filter-utils'
 import { parseEntryPage } from '@/lib/url-utils'
 import { LineChart } from '@/components/custom/line-chart'
-import { formatDateForAPI } from '@/lib/utils'
+import { formatDateForAPI, formatDecimal } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import type { LoggedInUser as LoggedInUserRecord } from '@/services/visitor-insight/get-logged-in-users'
-import { getLoggedInUsersQueryOptions } from '@/services/visitor-insight/get-logged-in-users'
-import {
-  getAnonymousVisitorsTrafficTrendsQueryOptions,
-  getLoggedInUsersTrafficTrendsQueryOptions,
-} from '@/services/visitor-insight/get-logged-in-users-traffic-trends'
+import { getLoggedInUsersBatchQueryOptions } from '@/services/visitor-insight/get-logged-in-users-batch'
 import {
   computeFullVisibility,
   parseColumnPreferences,
@@ -82,6 +80,11 @@ const COLUMN_CONFIG: ColumnConfig = {
 
 // Default columns when no preferences are set (all columns visible)
 const DEFAULT_API_COLUMNS = getDefaultApiColumns(COLUMN_CONFIG)
+
+// Get cached column order from localStorage (same as visible columns order)
+const getCachedColumnOrder = (): string[] => {
+  return getCachedVisibleColumns() || []
+}
 
 export const Route = createLazyFileRoute('/(visitor-insights)/logged-in-users')({
   component: RouteComponent,
@@ -256,17 +259,40 @@ const getGroupBy = (timeframe: 'daily' | 'weekly' | 'monthly'): 'date' | 'week' 
   }
 }
 
-// Default filter for logged-in users (Login Status = Logged-in)
-const DEFAULT_FILTERS: Filter[] = [
-  {
-    id: 'logged_in-logged_in-filter-default',
-    label: 'Login Status',
-    operator: 'is',
-    rawOperator: 'is',
-    value: 'Logged-in',
-    rawValue: '1',
-  },
-]
+// Create default filters with proper operator display labels
+const getDefaultFilters = (filterFields: FilterField[]): Filter[] => {
+  const field = filterFields.find((f) => f.name === 'logged_in')
+  const valueLabel = field?.options?.find((o) => String(o.value) === '1')?.label || 'Logged-in'
+  return [
+    {
+      id: 'logged_in-logged_in-filter-default',
+      label: field?.label || 'Login Status',
+      operator: getOperatorDisplay('is'),
+      rawOperator: 'is',
+      value: valueLabel,
+      rawValue: '1',
+    },
+  ]
+}
+
+// Default filters for this page
+const DEFAULT_FILTERS: Filter[] = []
+
+// Create default filters with proper operator display labels
+const getDefaultFilters = (filterFields: FilterField[]): Filter[] => {
+  const field = filterFields.find((f) => f.name === 'logged_in')
+  const valueLabel = field?.options?.find((o) => String(o.value) === '1')?.label || 'Logged-in'
+  return [
+    {
+      id: 'logged_in-logged_in-filter-default',
+      label: field?.label || 'Login Status',
+      operator: getOperatorDisplay('is'),
+      rawOperator: 'is',
+      value: valueLabel,
+      rawValue: '1',
+    },
+  ]
+}
 
 function RouteComponent() {
   const navigate = useNavigate()
@@ -298,8 +324,8 @@ function RouteComponent() {
     return wp.getFilterFieldsByGroup('visitors') as FilterField[]
   }, [wp])
 
-  // Initialize filters state with defaults
-  const [appliedFilters, setAppliedFilters] = useState<Filter[]>(DEFAULT_FILTERS)
+  // Initialize filters state - null until URL sync is complete
+  const [appliedFilters, setAppliedFilters] = useState<Filter[] | null>(null)
 
   // Initialize page state
   const [page, setPage] = useState(1)
@@ -312,7 +338,7 @@ function RouteComponent() {
     // This ensures we don't initialize with empty state before data is ready
     if (!urlFilters?.length && filterFields.length === 0) return
 
-    const filtersFromUrl = urlFiltersToFiltersWithDefaults(urlFilters, filterFields, DEFAULT_FILTERS)
+    const filtersFromUrl = urlFiltersToFiltersWithDefaults(urlFilters, filterFields, getDefaultFilters(filterFields))
     setAppliedFilters(filtersFromUrl)
     setPage(urlPage || 1)
     // Mark as initialized with what the URL actually had (not defaults)
@@ -320,18 +346,15 @@ function RouteComponent() {
     lastSyncedFiltersRef.current = JSON.stringify(urlFilters || [])
   }, [urlFilters, urlPage, filterFields])
 
-  const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange }) => {
-      setDateRange(values.range)
-      setCompareDateRange(values.rangeCompare)
-      setPage(1)
-    },
-    []
-  )
+  const handleDateRangeUpdate = useCallback((values: { range: DateRange; rangeCompare?: DateRange }) => {
+    setDateRange(values.range)
+    setCompareDateRange(values.rangeCompare)
+    setPage(1)
+  }, [])
 
   // Sync filters TO URL when they change (only after initialization and actual change)
   useEffect(() => {
-    if (lastSyncedFiltersRef.current === null) return // Not initialized yet
+    if (lastSyncedFiltersRef.current === null || appliedFilters === null) return // Not initialized yet
 
     const urlFilterData = filtersToUrlFilters(appliedFilters)
     const serialized = JSON.stringify(urlFilterData)
@@ -362,7 +385,6 @@ function RouteComponent() {
     }
     return date.toISOString().split('T')[0]
   }, [timeframe])
-  const chartDateTo = formatDateForAPI(dateRange.to || dateRange.from)
 
   // Determine sort parameters from sorting state
   const orderBy = sorting.length > 0 ? sorting[0].id : 'lastVisit'
@@ -379,33 +401,41 @@ function RouteComponent() {
     return getCachedApiColumns(allColumnIds, COLUMN_CONFIG) || DEFAULT_API_COLUMNS
   })
 
-  // Fetch logged-in users data
+  // Fetch all data in a single batch request (only when filters are initialized)
   const {
-    data: usersResponse,
-    isFetching: isUsersFetching,
-    isError: isUsersError,
-    error: usersError,
+    data: batchResponse,
+    isFetching: isBatchFetching,
+    isError: isBatchError,
+    error: batchError,
   } = useQuery({
-    ...getLoggedInUsersQueryOptions({
+    ...getLoggedInUsersBatchQueryOptions({
       page,
       per_page: PER_PAGE,
       order_by: orderBy,
       order: order as 'asc' | 'desc',
       date_from: formatDateForAPI(dateRange.from),
       date_to: formatDateForAPI(dateRange.to || dateRange.from),
-      ...(compareDateRange?.from && compareDateRange?.to && {
-        previous_date_from: formatDateForAPI(compareDateRange.from),
-        previous_date_to: formatDateForAPI(compareDateRange.to),
-      }),
-      filters: appliedFilters,
+      ...(compareDateRange?.from &&
+        compareDateRange?.to && {
+          previous_date_from: formatDateForAPI(compareDateRange.from),
+          previous_date_to: formatDateForAPI(compareDateRange.to),
+        }),
+      group_by: getGroupBy(timeframe),
+      filters: appliedFilters || [],
       context: CONTEXT,
       columns: apiColumns,
     }),
     placeholderData: keepPreviousData,
+    enabled: appliedFilters !== null,
   })
 
+  // Extract individual responses from batch
+  const usersResponse = batchResponse?.data?.items?.logged_in_users
+  const loggedInTrendsResponse = batchResponse?.data?.items?.logged_in_trends
+  const anonymousTrendsResponse = batchResponse?.data?.items?.anonymous_trends
+
   // Track column order state
-  const [columnOrder, setColumnOrder] = useState<string[]>([])
+  const [columnOrder, setColumnOrder] = useState<string[]>(() => getCachedColumnOrder())
 
   // Track if preferences have been applied (to prevent re-computation on subsequent API responses)
   const hasAppliedPrefs = useRef(false)
@@ -425,13 +455,17 @@ function RouteComponent() {
       return computedVisibilityRef.current
     }
 
-    // Wait for API response before computing visibility
-    // Return stable reference to avoid triggering effects
-    if (!usersResponse?.data) {
+    // Use cached visibility from localStorage while waiting for API response
+    // This prevents flash of all columns before preferences load
+    if (!usersResponse) {
+      const cachedVisibility = getCachedVisibility(allColumnIds)
+      if (cachedVisibility) {
+        return cachedVisibility
+      }
       return emptyVisibilityRef.current
     }
 
-    const prefs = usersResponse.data.meta?.preferences?.columns
+    const prefs = usersResponse.meta?.preferences?.columns
 
     // If no preferences in API response (new user or reset), use defaults
     if (!prefs || prefs.length === 0) {
@@ -456,7 +490,7 @@ function RouteComponent() {
 
     return visibility
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [usersResponse?.data, allColumnIds])
+  }, [usersResponse, allColumnIds])
 
   // Sync column order when preferences are computed (only once on initial load)
   useEffect(() => {
@@ -529,87 +563,47 @@ function RouteComponent() {
     clearCachedColumns(CONTEXT)
   }, [arraysEqual])
 
-  // Fetch logged-in users traffic trends (uses chart date range based on timeframe)
-  const { data: loggedInTrendsResponse, isFetching: isLoggedInTrendsFetching } = useQuery({
-    ...getLoggedInUsersTrafficTrendsQueryOptions({
-      date_from: chartDateFrom,
-      date_to: chartDateTo,
-      group_by: getGroupBy(timeframe),
-      filters: appliedFilters,
-    }),
-  })
-
-  // Fetch anonymous visitors traffic trends (uses chart date range based on timeframe)
-  const { data: anonymousTrendsResponse, isFetching: isAnonymousTrendsFetching } = useQuery({
-    ...getAnonymousVisitorsTrafficTrendsQueryOptions({
-      date_from: chartDateFrom,
-      date_to: chartDateTo,
-      group_by: getGroupBy(timeframe),
-      filters: appliedFilters,
-    }),
-  })
-
   // Transform users data
   const tableData = useMemo(() => {
-    if (!usersResponse?.data?.data?.rows) return []
-    return usersResponse.data.data.rows.map(transformLoggedInUserData)
+    if (!usersResponse?.data?.rows) return []
+    return usersResponse.data.rows.map(transformLoggedInUserData)
   }, [usersResponse])
 
   // Get pagination info
-  const totalRows = usersResponse?.data?.meta?.total_pages
-    ? usersResponse.data.meta.total_pages * PER_PAGE
-    : tableData.length
-  const totalPages = usersResponse?.data?.meta?.total_pages || Math.ceil(totalRows / PER_PAGE) || 1
+  const totalRows = usersResponse?.meta?.total_pages ? usersResponse.meta.total_pages * PER_PAGE : tableData.length
+  const totalPages = usersResponse?.meta?.total_pages || Math.ceil(totalRows / PER_PAGE) || 1
 
-  // Combine traffic trends data
+  // Combine traffic trends data from chart format responses
   const trafficTrendsData = useMemo<TrafficTrendItem[]>(() => {
-    const loggedInData = loggedInTrendsResponse?.data?.data?.rows || []
-    const anonymousData = anonymousTrendsResponse?.data?.data?.rows || []
+    // Chart format has labels[] and datasets[{key, label, data, comparison?}]
+    const loggedInLabels = loggedInTrendsResponse?.labels || []
+    const loggedInDatasets = loggedInTrendsResponse?.datasets || []
+    const anonymousLabels = anonymousTrendsResponse?.labels || []
+    const anonymousDatasets = anonymousTrendsResponse?.datasets || []
 
-    // Create a map of dates to combine data
-    const dateMap = new Map<string, TrafficTrendItem>()
+    // Get dataset by key
+    const getDataset = (datasets: typeof loggedInDatasets, key: string) =>
+      datasets.find((d) => d.key === key)?.data || []
 
-    // Get the date key based on timeframe
-    const getDateKey = (item: { date?: string; week?: string; month?: string }) => {
-      return item.date || item.week || item.month || ''
-    }
+    // Get logged-in visitors data
+    const loggedInVisitors = getDataset(loggedInDatasets, 'visitors')
+    const loggedInVisitorsPrevious = getDataset(loggedInDatasets, 'visitors_previous')
 
-    // Process logged-in users data
-    for (const item of loggedInData) {
-      const dateKey = getDateKey(item)
-      if (!dateKey) continue
+    // Get anonymous visitors data
+    const anonymousVisitors = getDataset(anonymousDatasets, 'visitors')
+    const anonymousVisitorsPrevious = getDataset(anonymousDatasets, 'visitors_previous')
 
-      const existing = dateMap.get(dateKey) || {
-        date: dateKey,
-        userVisitors: 0,
-        userVisitorsPrevious: 0,
-        anonymousVisitors: 0,
-        anonymousVisitorsPrevious: 0,
-      }
-      existing.userVisitors = Number(item.visitors) || 0
-      existing.userVisitorsPrevious = Number(item.previous?.visitors) || 0
-      dateMap.set(dateKey, existing)
-    }
+    // Use logged-in labels as primary (both should have same labels)
+    const labels = loggedInLabels.length > 0 ? loggedInLabels : anonymousLabels
 
-    // Process anonymous visitors data
-    for (const item of anonymousData) {
-      const dateKey = getDateKey(item)
-      if (!dateKey) continue
-
-      const existing = dateMap.get(dateKey) || {
-        date: dateKey,
-        userVisitors: 0,
-        userVisitorsPrevious: 0,
-        anonymousVisitors: 0,
-        anonymousVisitorsPrevious: 0,
-      }
-      existing.anonymousVisitors = Number(item.visitors) || 0
-      existing.anonymousVisitorsPrevious = Number(item.previous?.visitors) || 0
-      dateMap.set(dateKey, existing)
-    }
-
-    // Convert map to array and sort by date
-    return Array.from(dateMap.values()).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    // Build combined data array
+    return labels.map((date, index) => ({
+      date,
+      userVisitors: Number(loggedInVisitors[index]) || 0,
+      userVisitorsPrevious: Number(loggedInVisitorsPrevious[index]) || 0,
+      anonymousVisitors: Number(anonymousVisitors[index]) || 0,
+      anonymousVisitorsPrevious: Number(anonymousVisitorsPrevious[index]) || 0,
+    }))
   }, [loggedInTrendsResponse, anonymousTrendsResponse])
 
   // Calculate totals for metrics
@@ -627,10 +621,10 @@ function RouteComponent() {
       label: __('User Visitors', 'wp-statistics'),
       color: 'var(--chart-1)',
       enabled: true,
-      value: totalUserVisitors >= 1000 ? `${(totalUserVisitors / 1000).toFixed(1)}k` : totalUserVisitors.toString(),
+      value: totalUserVisitors >= 1000 ? `${formatDecimal(totalUserVisitors / 1000)}k` : totalUserVisitors.toString(),
       previousValue:
         totalUserVisitorsPrevious >= 1000
-          ? `${(totalUserVisitorsPrevious / 1000).toFixed(1)}k`
+          ? `${formatDecimal(totalUserVisitorsPrevious / 1000)}k`
           : totalUserVisitorsPrevious.toString(),
     },
     {
@@ -640,11 +634,11 @@ function RouteComponent() {
       enabled: true,
       value:
         totalAnonymousVisitors >= 1000
-          ? `${(totalAnonymousVisitors / 1000).toFixed(1)}k`
+          ? `${formatDecimal(totalAnonymousVisitors / 1000)}k`
           : totalAnonymousVisitors.toString(),
       previousValue:
         totalAnonymousVisitorsPrevious >= 1000
-          ? `${(totalAnonymousVisitorsPrevious / 1000).toFixed(1)}k`
+          ? `${formatDecimal(totalAnonymousVisitorsPrevious / 1000)}k`
           : totalAnonymousVisitorsPrevious.toString(),
     },
   ]
@@ -661,7 +655,7 @@ function RouteComponent() {
   }, [])
 
   const handleRemoveFilter = (filterId: string) => {
-    setAppliedFilters((prev) => prev.filter((f) => f.id !== filterId))
+    setAppliedFilters((prev) => (prev ? prev.filter((f) => f.id !== filterId) : []))
     setPage(1) // Reset to first page when filters change
   }
 
@@ -671,7 +665,7 @@ function RouteComponent() {
     setPage(1) // Reset to first page when filters change
   }, [])
 
-  const isChartLoading = isLoggedInTrendsFetching || isAnonymousTrendsFetching
+  const isChartLoading = isBatchFetching
 
   return (
     <div className="min-w-0">
@@ -679,7 +673,7 @@ function RouteComponent() {
       <div className="flex items-center justify-between p-4 bg-white border-b border-input">
         <h1 className="text-2xl font-medium text-neutral-700">{__('Logged-in Users', 'wp-statistics')}</h1>
         <div className="flex items-center gap-2">
-          {filterFields.length > 0 && (
+          {filterFields.length > 0 && appliedFilters !== null && (
             <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={handleApplyFilters} />
           )}
           <DateRangePicker
@@ -694,7 +688,9 @@ function RouteComponent() {
 
       <div className="p-4 grid gap-6">
         {/* Applied filters row (separate from button) */}
-        {appliedFilters.length > 0 && <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} />}
+        {appliedFilters && appliedFilters.length > 0 && (
+          <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} />
+        )}
 
         <LineChart
           title={__('Traffic Trends', 'wp-statistics')}
@@ -706,10 +702,10 @@ function RouteComponent() {
           isLoading={isChartLoading}
         />
 
-        {isUsersError ? (
+        {isBatchError ? (
           <div className="p-4 text-center">
             <p className="text-red-500">{__('Failed to load logged-in users', 'wp-statistics')}</p>
-            <p className="text-sm text-muted-foreground">{usersError?.message}</p>
+            <p className="text-sm text-muted-foreground">{batchError?.message}</p>
           </div>
         ) : (
           <DataTable
@@ -727,7 +723,7 @@ function RouteComponent() {
             rowLimit={PER_PAGE}
             showColumnManagement={true}
             showPagination={true}
-            isFetching={isUsersFetching}
+            isFetching={isBatchFetching}
             hiddenColumns={DEFAULT_HIDDEN_COLUMNS}
             initialColumnVisibility={initialColumnVisibility}
             columnOrder={columnOrder.length > 0 ? columnOrder : undefined}

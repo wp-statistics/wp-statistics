@@ -58,7 +58,7 @@ if (!window.WpStatisticsUserTracker) {
                 WpStatisticsBatchQueue.init({
                     ajaxUrl: WP_Statistics_Tracker_Object.ajaxUrl,
                     maxQueueSize: 10,
-                    flushInterval: 30000, // 30 seconds
+                    flushInterval: 60000, // 60 seconds (periodic flush interval)
                     // Pass engagement data getter (session is identified server-side)
                     getSessionData: function() {
                         return {
@@ -68,6 +68,9 @@ if (!window.WpStatisticsUserTracker) {
                         };
                     }
                 });
+
+                // Start periodic flush to prevent data loss during long sessions
+                WpStatisticsBatchQueue.startPeriodicFlush();
             }
 
             // Initialize engagement tracker (no callbacks needed - data is fetched on flush)

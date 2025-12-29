@@ -5,6 +5,7 @@ export interface UrlFilter {
   field: string
   operator: string
   value: string | string[]
+  displayValue?: string // Display label for the value (e.g., "Iran" instead of "5")
 }
 
 // Search params type
@@ -24,7 +25,15 @@ const validateSearch = (search: Record<string, unknown>): VisitorsOverviewSearch
       filtersArray = search.filters
     } else if (typeof search.filters === 'string') {
       try {
-        const parsed = JSON.parse(search.filters)
+        // Clean the string - remove any trailing query params that might be incorrectly appended
+        // This handles cases where WordPress's "?page=wp-statistics" gets mixed with hash router params
+        let filterString = search.filters
+        // Find the last ] that closes the JSON array, then remove anything after it
+        const lastBracketIndex = filterString.lastIndexOf(']')
+        if (lastBracketIndex !== -1 && lastBracketIndex < filterString.length - 1) {
+          filterString = filterString.substring(0, lastBracketIndex + 1)
+        }
+        const parsed = JSON.parse(filterString)
         if (Array.isArray(parsed)) {
           filtersArray = parsed
         }

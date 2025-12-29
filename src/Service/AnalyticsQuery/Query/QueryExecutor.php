@@ -524,13 +524,13 @@ class QueryExecutor implements QueryExecutorInterface
         $filters      = $query->getFilters();
         $dateFrom     = $query->getDateFrom();
         $dateTo       = $query->getDateTo();
-        $orderBy      = $this->validateOrderBy($query->getOrderBy(), $sources, $groupByNames);
         $order        = $query->getOrder();
         $page         = $query->getPage();
         $perPage      = $query->getPerPage();
         $offset       = ($page - 1) * $perPage;
         $attribution  = Option::getValue('attribution_model', 'first_touch');
         $requestedColumns = $query->getColumns() ?: [];
+        $orderBy      = $this->validateOrderBy($query->getOrderBy(), $sources, $groupByNames, $requestedColumns);
 
         // Determine primary table
         $primaryTable = $this->determinePrimaryTable($sources, $groupByNames, $filters);
@@ -682,12 +682,13 @@ class QueryExecutor implements QueryExecutorInterface
      * Ensures the order_by value is a valid source name or group_by column.
      * If invalid, falls back to the first source or null.
      *
-     * @param string|null $orderBy      Requested order_by value.
-     * @param array       $sources      Available source names (used as column aliases).
-     * @param array       $groupByNames Available group_by names.
+     * @param string|null $orderBy          Requested order_by value.
+     * @param array       $sources          Available source names (used as column aliases).
+     * @param array       $groupByNames     Available group_by names.
+     * @param array       $requestedColumns Requested columns to include in SELECT.
      * @return string|null Valid order_by value or null.
      */
-    private function validateOrderBy(?string $orderBy, array $sources, array $groupByNames): ?string
+    private function validateOrderBy(?string $orderBy, array $sources, array $groupByNames, array $requestedColumns = []): ?string
     {
         // If no order_by specified, default to first source
         if ($orderBy === null) {
@@ -699,12 +700,12 @@ class QueryExecutor implements QueryExecutorInterface
             return $orderBy;
         }
 
-        // Check if order_by is a valid group_by column
+        // Check if order_by is a valid group_by column that's actually in the SELECT
         foreach ($groupByNames as $groupByName) {
             $groupByItem = $this->groupByRegistry->get($groupByName);
             if ($groupByItem) {
-                // Get the group by column to check if it matches (pass empty array to get all)
-                $selectColumns = $groupByItem->getSelectColumns('first_touch', []);
+                // Use requestedColumns to get only the columns that will be in SELECT
+                $selectColumns = $groupByItem->getSelectColumns('first_touch', $requestedColumns);
                 foreach ($selectColumns as $selectColumn) {
                     // Extract alias from "expression AS alias" format
                     if (preg_match('/\s+AS\s+(\w+)$/i', $selectColumn, $matches)) {

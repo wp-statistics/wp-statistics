@@ -48,13 +48,23 @@ function SortableItem({ item, onToggle, disabled, isDraggable = true }: Sortable
     opacity: isDragging ? 0.5 : 1,
   }
 
+  const handleRowClick = (e: React.MouseEvent) => {
+    // Don't toggle if clicking on the drag handle or if disabled
+    if (disabled) return
+    const target = e.target as HTMLElement
+    if (target.closest('[data-drag-handle]')) return
+    onToggle(item.id, !item.isVisible)
+  }
+
   return (
     <div
       ref={setNodeRef}
       style={style}
-      className="flex items-center gap-2 px-2 py-2 hover:bg-accent rounded-sm cursor-default"
+      className={`flex items-center gap-2 px-2 py-2 hover:bg-accent rounded-sm ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+      onClick={handleRowClick}
     >
       <div
+        data-drag-handle
         {...(isDraggable ? attributes : {})}
         {...(isDraggable ? listeners : {})}
         className={isDraggable ? 'cursor-grab active:cursor-grabbing' : 'cursor-not-allowed opacity-30'}
@@ -62,18 +72,16 @@ function SortableItem({ item, onToggle, disabled, isDraggable = true }: Sortable
         <GripVertical className="h-4 w-4 text-muted-foreground" />
       </div>
       <Checkbox
-        id={item.id}
         checked={item.isVisible}
         disabled={disabled}
         onCheckedChange={(checked) => onToggle(item.id, checked as boolean)}
+        onClick={(e) => e.stopPropagation()}
       />
-      <label
-        htmlFor={item.id}
-        className={`flex-1 text-sm font-normal capitalize select-none ${disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
-        onClick={() => !disabled && onToggle(item.id, !item.isVisible)}
+      <span
+        className={`flex-1 text-sm font-normal capitalize select-none ${disabled ? 'opacity-50' : ''}`}
       >
         {item.label}
-      </label>
+      </span>
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import { queryOptions } from '@tanstack/react-query'
 
 import { clientRequest } from '@/lib/client-request'
+import { WordPress } from '@/lib/wordpress'
 
 // Response types for filter options API
 export interface FilterOptionItem {
@@ -42,7 +43,7 @@ export const getSearchableFilterOptionsQueryOptions = (params: FilterOptionsPara
         },
         {
           params: {
-            action: 'wp_statistics_get_filter_options',
+            action: WordPress.getInstance().getFilterAction(),
           },
         }
       ),

@@ -22,6 +22,7 @@ use WP_Statistics\Service\AnalyticsQuery\GroupBy\ContinentGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\LanguageGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\ResolutionGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\SearchTermGroupBy;
+use WP_Statistics\Service\AnalyticsQuery\GroupBy\EntryPageGroupBy;
 
 /**
  * Registry for analytics group by.
@@ -92,6 +93,7 @@ class GroupByRegistry implements RegistryInterface
             new LanguageGroupBy(),
             new ResolutionGroupBy(),
             new SearchTermGroupBy(),
+            new EntryPageGroupBy(),
         ];
 
         foreach ($defaults as $groupByItem) {

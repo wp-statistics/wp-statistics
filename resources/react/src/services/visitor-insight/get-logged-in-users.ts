@@ -2,6 +2,7 @@ import { queryOptions } from '@tanstack/react-query'
 
 import type { Filter } from '@/components/custom/filter-bar'
 import { clientRequest } from '@/lib/client-request'
+import { WordPress } from '@/lib/wordpress'
 
 export interface LoggedInUser {
   visitor_id: number
@@ -185,7 +186,7 @@ export const getLoggedInUsersQueryOptions = ({
         },
         {
           params: {
-            action: 'wp_statistics_analytics',
+            action: WordPress.getInstance().getAnalyticsAction(),
           },
         }
       ),

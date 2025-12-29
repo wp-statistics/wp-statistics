@@ -40,6 +40,18 @@ export class WordPress {
     return this.data.globals.hashIps
   }
 
+  public getAnalyticsAction(): string {
+    return this.data.globals.analyticsAction || 'wp_statistics_analytics'
+  }
+
+  public getFilterAction(): string {
+    return this.data.globals.filterAction || 'wp_statistics_get_filter_options'
+  }
+
+  public getUserPreferencesAction(): string {
+    return this.data.globals.userPreferencesAction || 'wp_statistics_user_preferences'
+  }
+
   public getHeaders(): HeadersInit {
     return {
       'Content-Type': 'application/json',

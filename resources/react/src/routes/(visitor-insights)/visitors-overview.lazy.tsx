@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { DateRangePicker, type DateRange } from '@/components/custom/date-range-picker'
 import { type Filter, FilterBar } from '@/components/custom/filter-bar'
-import { FilterButton, type FilterField } from '@/components/custom/filter-button'
+import { FilterButton, type FilterField, getOperatorDisplay } from '@/components/custom/filter-button'
 import { GlobalMap } from '@/components/custom/global-map'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
@@ -13,8 +13,8 @@ import { Metrics } from '@/components/custom/metrics'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Panel } from '@/components/ui/panel'
 import { Skeleton } from '@/components/ui/skeleton'
-import { extractFilterField, filtersToUrlFilters, urlFiltersToFilters } from '@/lib/filter-utils'
-import { formatDateForAPI } from '@/lib/utils'
+import { filtersToUrlFilters, urlFiltersToFilters } from '@/lib/filter-utils'
+import { formatDateForAPI, formatDuration, formatDecimal } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getVisitorOverviewQueryOptions } from '@/services/visitor-insight/get-visitor-overview'
 
@@ -43,16 +43,31 @@ function RouteComponent() {
     return wp.getFilterFieldsByGroup('visitors') as FilterField[]
   }, [])
 
-  // Initialize filters from URL or use empty array
-  const [appliedFilters, setAppliedFilters] = useState<Filter[]>(() => {
-    return urlFiltersToFilters(urlFilters, filterFields)
-  })
+  // Initialize filters state - null until URL sync is complete
+  const [appliedFilters, setAppliedFilters] = useState<Filter[] | null>(null)
+  const lastSyncedFiltersRef = useRef<string | null>(null)
 
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
 
-  // Sync filters to URL when they change
+  // Sync filters FROM URL on mount (only once)
   useEffect(() => {
+    if (lastSyncedFiltersRef.current !== null) return // Already initialized
+
+    const filtersFromUrl = urlFiltersToFilters(urlFilters, filterFields)
+    setAppliedFilters(filtersFromUrl)
+    lastSyncedFiltersRef.current = JSON.stringify(urlFilters || [])
+  }, [urlFilters, filterFields])
+
+  // Sync filters TO URL when they change (only after initialization)
+  useEffect(() => {
+    if (lastSyncedFiltersRef.current === null || appliedFilters === null) return
+
     const urlFilterData = filtersToUrlFilters(appliedFilters)
+    const serialized = JSON.stringify(urlFilterData)
+
+    if (serialized === lastSyncedFiltersRef.current) return
+
+    lastSyncedFiltersRef.current = serialized
     navigate({
       search: (prev) => ({
         ...prev,
@@ -63,7 +78,7 @@ function RouteComponent() {
   }, [appliedFilters, navigate])
 
   const handleRemoveFilter = (filterId: string) => {
-    setAppliedFilters((prev) => prev.filter((f) => f.id !== filterId))
+    setAppliedFilters((prev) => (prev ? prev.filter((f) => f.id !== filterId) : []))
   }
 
   // Date range state (default to today)
@@ -119,7 +134,7 @@ function RouteComponent() {
     []
   )
 
-  // Batch query for all overview data
+  // Batch query for all overview data (only when filters are initialized)
   const {
     data: batchResponse,
     isLoading,
@@ -131,10 +146,11 @@ function RouteComponent() {
       compareDateFrom: compareDateRange ? formatDateForAPI(compareDateRange.from) : undefined,
       compareDateTo: compareDateRange ? formatDateForAPI(compareDateRange.to || compareDateRange.from) : undefined,
       timeframe,
-      filters: appliedFilters,
+      filters: appliedFilters || [],
     }),
     retry: false,
     placeholderData: keepPreviousData, // Keep showing old data while fetching new data
+    enabled: appliedFilters !== null,
   })
 
   // Only show skeleton on initial load (no data yet), not on refetches
@@ -226,22 +242,25 @@ function RouteComponent() {
       color: 'var(--chart-1)',
       enabled: true,
       value:
-        chartTotals.visitors >= 1000 ? `${(chartTotals.visitors / 1000).toFixed(1)}k` : chartTotals.visitors.toFixed(1),
+        chartTotals.visitors >= 1000
+          ? `${formatDecimal(chartTotals.visitors / 1000)}k`
+          : formatDecimal(chartTotals.visitors),
       previousValue:
         chartTotals.visitorsPrevious >= 1000
-          ? `${(chartTotals.visitorsPrevious / 1000).toFixed(1)}k`
-          : chartTotals.visitorsPrevious.toFixed(1),
+          ? `${formatDecimal(chartTotals.visitorsPrevious / 1000)}k`
+          : formatDecimal(chartTotals.visitorsPrevious),
     },
     {
       key: 'views',
       label: 'Views',
       color: 'var(--chart-4)',
       enabled: true,
-      value: chartTotals.views >= 1000 ? `${(chartTotals.views / 1000).toFixed(1)}k` : chartTotals.views.toFixed(1),
+      value:
+        chartTotals.views >= 1000 ? `${formatDecimal(chartTotals.views / 1000)}k` : formatDecimal(chartTotals.views),
       previousValue:
         chartTotals.viewsPrevious >= 1000
-          ? `${(chartTotals.viewsPrevious / 1000).toFixed(1)}k`
-          : chartTotals.viewsPrevious.toFixed(1),
+          ? `${formatDecimal(chartTotals.viewsPrevious / 1000)}k`
+          : formatDecimal(chartTotals.viewsPrevious),
     },
   ]
 
@@ -262,17 +281,9 @@ function RouteComponent() {
 
   // Helper function to format numbers
   const formatNumber = (num: number) => {
-    if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`
-    if (num >= 1000) return `${(num / 1000).toFixed(1)}k`
+    if (num >= 1000000) return `${formatDecimal(num / 1000000)}M`
+    if (num >= 1000) return `${formatDecimal(num / 1000)}k`
     return num.toLocaleString()
-  }
-
-  // Helper function to format duration (seconds to HH:MM:SS)
-  const formatDuration = (seconds: number) => {
-    const hours = Math.floor(seconds / 3600)
-    const mins = Math.floor((seconds % 3600) / 60)
-    const secs = Math.floor(seconds % 60)
-    return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
   }
 
   // Calculate percentage change: ((Current - Previous) / Previous) × 100
@@ -287,7 +298,7 @@ function RouteComponent() {
     }
     const change = ((current - previous) / previous) * 100
     return {
-      percentage: Math.abs(change).toFixed(1),
+      percentage: formatDecimal(Math.abs(change)),
       isNegative: change < 0,
     }
   }
@@ -345,7 +356,7 @@ function RouteComponent() {
       },
       {
         label: __('Views/Session', 'wp-statistics'),
-        value: pagesPerSession.toFixed(1),
+        value: formatDecimal(pagesPerSession),
         ...calcPercentage(pagesPerSession, prevPagesPerSession),
         tooltipContent: __('Average pages viewed per session', 'wp-statistics'),
       },
@@ -367,7 +378,7 @@ function RouteComponent() {
       },
       {
         label: __('Logged-in Share', 'wp-statistics'),
-        value: `${loggedInShare.toFixed(1)}%`,
+        value: `${formatDecimal(loggedInShare)}%`,
         ...calcPercentage(loggedInShare, prevLoggedInShare),
         tooltipContent: __('Percentage of logged-in visitors', 'wp-statistics'),
       },
@@ -380,7 +391,7 @@ function RouteComponent() {
       <div className="flex items-center justify-between p-4 bg-white border-b border-input">
         <h1 className="text-2xl font-medium text-neutral-700">{__('Visitor Insights', 'wp-statistics')}</h1>
         <div className="flex items-center gap-2">
-          {filterFields.length > 0 && (
+          {filterFields.length > 0 && appliedFilters !== null && (
             <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={setAppliedFilters} />
           )}
           <DateRangePicker
@@ -395,7 +406,7 @@ function RouteComponent() {
 
       <div className="p-4">
         {/* Applied filters row (separate from button) */}
-        {appliedFilters.length > 0 && (
+        {appliedFilters && appliedFilters.length > 0 && (
           <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-4" />
         )}
 

@@ -77,10 +77,10 @@ class Test_SourceDetector extends WP_UnitTestCase
         // Inject the mock parser into the SourceDetector.
         $sourceDetector = new SourceDetector($referrerUrl, $pageUrl);
 
-        // Test if null is returned when data is missing.
+        // Test if appropriate values are returned when data is missing.
         $this->assertNull($sourceDetector->getName());
         $this->assertNull($sourceDetector->getIdentifier());
-        $this->assertNull($sourceDetector->getChannel());
+        $this->assertEquals('unassigned', $sourceDetector->getChannel());
     }
 
     /**
@@ -94,9 +94,9 @@ class Test_SourceDetector extends WP_UnitTestCase
         // Inject the mock parser into the SourceDetector.
         $sourceDetector = new SourceDetector($referrerUrl, $pageUrl);
 
-        // Test if null is returned when data is missing.
+        // Test if appropriate values are returned for self referrals.
         $this->assertNull($sourceDetector->getName());
         $this->assertNull($sourceDetector->getIdentifier());
-        $this->assertNull($sourceDetector->getChannel());
+        $this->assertEquals('unassigned', $sourceDetector->getChannel());
     }
 }

@@ -185,6 +185,30 @@ class FilterBuilder
                     'params'    => self::sanitize($operand, 'integer'),
                 ];
 
+            case 'before':
+                return [
+                    'condition' => "$column < %s",
+                    'params'    => self::sanitize($operand, 'date'),
+                ];
+
+            case 'after':
+                return [
+                    'condition' => "$column > %s",
+                    'params'    => self::sanitize($operand, 'date'),
+                ];
+
+            case 'between':
+                if (!is_array($operand) || count($operand) < 2) {
+                    throw new InvalidOperatorException('between requires an array with two values');
+                }
+                return [
+                    'condition' => "$column BETWEEN %s AND %s",
+                    'params'    => [
+                        self::sanitize($operand[0], 'date'),
+                        self::sanitize($operand[1], 'date'),
+                    ],
+                ];
+
             default:
                 throw new InvalidOperatorException($operator);
         }
@@ -206,6 +230,13 @@ class FilterBuilder
                 return (float) $value;
             case 'boolean':
                 return $value ? 1 : 0;
+            case 'date':
+                // Validate and sanitize date format (Y-m-d or Y-m-d H:i:s)
+                $value = sanitize_text_field($value);
+                if (preg_match('/^\d{4}-\d{2}-\d{2}(\s\d{2}:\d{2}:\d{2})?$/', $value)) {
+                    return $value;
+                }
+                return '';
             case 'string':
             default:
                 return sanitize_text_field($value);

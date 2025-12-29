@@ -24,6 +24,8 @@ import {
   clearCachedColumns,
   computeApiColumns,
   getCachedApiColumns,
+  getCachedVisibility,
+  getCachedVisibleColumns,
   getDefaultApiColumns,
   getVisibleColumnsForSave,
   setCachedColumns,
@@ -36,7 +38,7 @@ import {
 import { parseEntryPage } from '@/lib/url-utils'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { formatDateForAPI } from '@/lib/utils'
+import { formatDateForAPI, formatDuration, formatDecimal } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import type { VisitorRecord } from '@/services/visitor-insight/get-visitors'
 import { getVisitorsQueryOptions } from '@/services/visitor-insight/get-visitors'
@@ -86,6 +88,11 @@ const COLUMN_CONFIG: ColumnConfig = {
 
 // Default columns when no preferences are set (all columns visible)
 const DEFAULT_API_COLUMNS = getDefaultApiColumns(COLUMN_CONFIG)
+
+// Get cached column order from localStorage (same as visible columns order)
+const getCachedColumnOrder = (): string[] => {
+  return getCachedVisibleColumns() || []
+}
 
 export const Route = createLazyFileRoute('/(visitor-insights)/visitors')({
   component: RouteComponent,
@@ -338,8 +345,8 @@ function RouteComponent() {
     return wp.getFilterFieldsByGroup('visitors') as FilterField[]
   }, [wp])
 
-  // Initialize filters state
-  const [appliedFilters, setAppliedFilters] = useState<Filter[]>([])
+  // Initialize filters state - null until URL sync is complete
+  const [appliedFilters, setAppliedFilters] = useState<Filter[] | null>(null)
 
   // Initialize page state
   const [page, setPage] = useState(1)
@@ -351,10 +358,7 @@ function RouteComponent() {
     // Parse URL filters - urlFilters comes from validated search params
     const filtersFromUrl = urlFiltersToFilters(urlFilters, filterFields)
 
-    // Only set state if there are actual filters to apply
-    if (filtersFromUrl.length > 0) {
-      setAppliedFilters(filtersFromUrl)
-    }
+    setAppliedFilters(filtersFromUrl)
     if (urlPage && urlPage > 1) {
       setPage(urlPage)
     }
@@ -376,7 +380,7 @@ function RouteComponent() {
 
   // Sync filters TO URL when they change (only after initialization and actual change)
   useEffect(() => {
-    if (lastSyncedFiltersRef.current === null) return // Not initialized yet
+    if (lastSyncedFiltersRef.current === null || appliedFilters === null) return // Not initialized yet
 
     const urlFilterData = filtersToUrlFilters(appliedFilters)
     const serialized = JSON.stringify(urlFilterData)
@@ -411,7 +415,7 @@ function RouteComponent() {
   }, [columns])
 
   // Track column order state
-  const [columnOrder, setColumnOrder] = useState<string[]>([])
+  const [columnOrder, setColumnOrder] = useState<string[]>(() => getCachedColumnOrder())
 
   // Track API columns for query optimization (state so changes trigger refetch)
   // Initialize from cache if available, otherwise use all columns
@@ -433,7 +437,7 @@ function RouteComponent() {
   // Stable empty visibility state to avoid creating new objects on each render
   const emptyVisibilityRef = useRef<VisibilityState>({})
 
-  // Fetch data from API
+  // Fetch data from API (only when filters are initialized)
   const {
     data: response,
     isFetching,
@@ -449,11 +453,12 @@ function RouteComponent() {
       date_to: formatDateForAPI(dateRange.to || dateRange.from),
       previous_date_from: compareDateRange ? formatDateForAPI(compareDateRange.from) : undefined,
       previous_date_to: compareDateRange ? formatDateForAPI(compareDateRange.to || compareDateRange.from) : undefined,
-      filters: appliedFilters,
+      filters: appliedFilters || [],
       context: CONTEXT,
       columns: apiColumns,
     }),
     placeholderData: keepPreviousData,
+    enabled: appliedFilters !== null,
   })
 
   // Compute initial visibility only once when API returns preferences
@@ -463,9 +468,13 @@ function RouteComponent() {
       return computedVisibilityRef.current
     }
 
-    // Wait for API response before computing visibility
-    // Return stable reference to avoid triggering effects
+    // Use cached visibility from localStorage while waiting for API response
+    // This prevents flash of all columns before preferences load
     if (!response?.data) {
+      const cachedVisibility = getCachedVisibility(allColumnIds)
+      if (cachedVisibility) {
+        return cachedVisibility
+      }
       return emptyVisibilityRef.current
     }
 
@@ -590,7 +599,7 @@ function RouteComponent() {
   }, [])
 
   const handleRemoveFilter = (filterId: string) => {
-    setAppliedFilters((prev) => prev.filter((f) => f.id !== filterId))
+    setAppliedFilters((prev) => (prev ? prev.filter((f) => f.id !== filterId) : []))
     setPage(1) // Reset to first page when filters change
   }
 
@@ -606,7 +615,7 @@ function RouteComponent() {
       <div className="flex items-center justify-between p-4 bg-white border-b border-input">
         <h1 className="text-2xl font-medium text-neutral-700">{__('Visitors', 'wp-statistics')}</h1>
         <div className="flex items-center gap-2">
-          {filterFields.length > 0 && (
+          {filterFields.length > 0 && appliedFilters !== null && (
             <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={handleApplyFilters} />
           )}
           <DateRangePicker
@@ -621,7 +630,7 @@ function RouteComponent() {
 
       <div className="p-4">
         {/* Applied filters row (separate from button) */}
-        {appliedFilters.length > 0 && (
+        {appliedFilters && appliedFilters.length > 0 && (
           <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-4" />
         )}
 
