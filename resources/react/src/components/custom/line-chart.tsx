@@ -2,7 +2,8 @@ import type { ChartConfig } from '@components/ui/chart'
 import { ChartContainer, ChartTooltip } from '@components/ui/chart'
 import { Panel, PanelContent, PanelHeader, PanelTitle } from '@components/ui/panel'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
-import { formatCompactNumber } from '@/lib/utils'
+import { useBreakpoint } from '@/hooks/use-breakpoint'
+import { cn, formatCompactNumber } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
 import * as React from 'react'
 import { CartesianGrid, Line, LineChart as RechartsLineChart, XAxis, YAxis } from 'recharts'
@@ -42,6 +43,7 @@ export function LineChart({
   className,
   loading = false,
 }: LineChartProps) {
+  const { isMobile } = useBreakpoint()
   const [visibleMetrics, setVisibleMetrics] = React.useState<Record<string, boolean>>(() =>
     metrics.reduce(
       (acc, metric) => ({
@@ -130,103 +132,134 @@ export function LineChart({
 
   return (
     <Panel className={className}>
-      <PanelHeader className="flex-col items-start gap-4">
+      <PanelHeader className="flex-col items-start gap-3 md:gap-4">
         {title && <PanelTitle>{title}</PanelTitle>}
-        <div className="flex items-center justify-between gap-4 w-full">
-            <div className="flex items-center gap-6">
-              {metrics.map((metric, index) => {
-                const color = metric.color || defaultColors[index % defaultColors.length]
-                const isCurrentVisible = visibleMetrics[metric.key]
-                const isPreviousVisible = visibleMetrics[`${metric.key}Previous`]
-                return (
-                  <div key={metric.key} className="flex flex-col gap-1">
-                    <span className="text-xs font-medium text-neutral-500 leading-none">{metric.label}</span>
-                    <div className="flex items-baseline gap-2">
-                      {metric.value && (
-                        <button
-                          onClick={() => toggleMetric(metric.key)}
-                          className={`flex items-center gap-1.5 cursor-pointer transition-opacity ${!isCurrentVisible ? 'opacity-50' : ''}`}
+        <div
+          className={cn(
+            'flex w-full',
+            // Stack on mobile, row on tablet+
+            'flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-4'
+          )}
+        >
+          <div
+            className={cn(
+              'flex items-center',
+              // Wrap metrics on mobile, gap adjustment
+              'flex-wrap gap-3 md:gap-6'
+            )}
+          >
+            {metrics.map((metric, index) => {
+              const color = metric.color || defaultColors[index % defaultColors.length]
+              const isCurrentVisible = visibleMetrics[metric.key]
+              const isPreviousVisible = visibleMetrics[`${metric.key}Previous`]
+              return (
+                <div key={metric.key} className="flex flex-col gap-1">
+                  <span className="text-xs font-medium text-neutral-500 leading-none">{metric.label}</span>
+                  <div className="flex items-baseline gap-2">
+                    {metric.value && (
+                      <button
+                        onClick={() => toggleMetric(metric.key)}
+                        className={cn(
+                          'flex items-center gap-1.5 cursor-pointer transition-opacity',
+                          // Ensure 44px minimum touch target on mobile
+                          'min-h-[44px] md:min-h-0 py-2 md:py-0',
+                          !isCurrentVisible && 'opacity-50'
+                        )}
+                      >
+                        <svg width="12" height="3" className="shrink-0">
+                          <line x1="0" y1="1.5" x2="12" y2="1.5" style={{ stroke: color }} strokeWidth="3" />
+                        </svg>
+                        <span
+                          className={cn(
+                            'text-sm font-semibold text-neutral-900 leading-none tabular-nums',
+                            !isCurrentVisible && 'line-through'
+                          )}
                         >
-                          <svg width="12" height="3" className="shrink-0">
-                            <line x1="0" y1="1.5" x2="12" y2="1.5" style={{ stroke: color }} strokeWidth="3" />
-                          </svg>
-                          <span
-                            className={`text-sm font-semibold text-neutral-900 leading-none tabular-nums ${!isCurrentVisible ? 'line-through' : ''}`}
-                          >
-                            {metric.value}
-                          </span>
-                        </button>
-                      )}
-                      {metric.previousValue && (
-                        <button
-                          onClick={() => toggleMetric(`${metric.key}Previous`)}
-                          className={`flex items-center gap-1.5 cursor-pointer transition-opacity ${!isPreviousVisible ? 'opacity-50' : ''}`}
+                          {metric.value}
+                        </span>
+                      </button>
+                    )}
+                    {metric.previousValue && (
+                      <button
+                        onClick={() => toggleMetric(`${metric.key}Previous`)}
+                        className={cn(
+                          'flex items-center gap-1.5 cursor-pointer transition-opacity',
+                          'min-h-[44px] md:min-h-0 py-2 md:py-0',
+                          !isPreviousVisible && 'opacity-50'
+                        )}
+                      >
+                        <svg width="12" height="3" className="shrink-0 opacity-50">
+                          <line
+                            x1="0"
+                            y1="1.5"
+                            x2="12"
+                            y2="1.5"
+                            style={{ stroke: color }}
+                            strokeWidth="3"
+                            strokeDasharray="3 2"
+                          />
+                        </svg>
+                        <span
+                          className={cn(
+                            'text-xs text-neutral-500 leading-none tabular-nums',
+                            !isPreviousVisible && 'line-through'
+                          )}
                         >
-                          <svg width="12" height="3" className="shrink-0 opacity-50">
-                            <line
-                              x1="0"
-                              y1="1.5"
-                              x2="12"
-                              y2="1.5"
-                              style={{ stroke: color }}
-                              strokeWidth="3"
-                              strokeDasharray="3 2"
-                            />
-                          </svg>
-                          <span
-                            className={`text-xs text-neutral-500 leading-none tabular-nums ${!isPreviousVisible ? 'line-through' : ''}`}
-                          >
-                            {metric.previousValue}
-                          </span>
-                        </button>
-                      )}
-                    </div>
+                          {metric.previousValue}
+                        </span>
+                      </button>
+                    )}
                   </div>
-                )
-              })}
-            </div>
-            <div className="flex items-center gap-3">
-              {showPreviousPeriod && (
-                <button
-                  onClick={toggleAllPreviousPeriod}
-                  className={`flex items-center gap-1.5 text-xs text-neutral-500 transition-colors cursor-pointer ${!isAnyPreviousVisible ? 'opacity-50' : ''}`}
-                >
-                  <svg width="12" height="3" className="shrink-0 opacity-50">
-                    <line
-                      x1="0"
-                      y1="1.5"
-                      x2="12"
-                      y2="1.5"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      strokeDasharray="3 2"
-                    />
-                  </svg>
-                  <span className={!isAnyPreviousVisible ? 'line-through' : ''}>Previous period</span>
-                </button>
-              )}
-              {onTimeframeChange && (
-                <Select value={timeframe} onValueChange={onTimeframeChange}>
-                  <SelectTrigger className="w-[100px] h-8 text-xs font-medium">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="daily">Daily</SelectItem>
-                    <SelectItem value="weekly">Weekly</SelectItem>
-                    <SelectItem value="monthly">Monthly</SelectItem>
-                  </SelectContent>
-                </Select>
-              )}
-            </div>
+                </div>
+              )
+            })}
           </div>
+          <div className="flex items-center gap-2 md:gap-3">
+            {showPreviousPeriod && (
+              <button
+                onClick={toggleAllPreviousPeriod}
+                className={cn(
+                  'flex items-center gap-1.5 text-xs text-neutral-500 transition-colors cursor-pointer',
+                  'min-h-[44px] md:min-h-0 py-2 md:py-0',
+                  !isAnyPreviousVisible && 'opacity-50'
+                )}
+              >
+                <svg width="12" height="3" className="shrink-0 opacity-50">
+                  <line
+                    x1="0"
+                    y1="1.5"
+                    x2="12"
+                    y2="1.5"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    strokeDasharray="3 2"
+                  />
+                </svg>
+                <span className={!isAnyPreviousVisible ? 'line-through' : ''}>Previous period</span>
+              </button>
+            )}
+            {onTimeframeChange && (
+              <Select value={timeframe} onValueChange={onTimeframeChange}>
+                <SelectTrigger className="w-[90px] md:w-[100px] h-10 md:h-8 text-xs font-medium">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="daily">Daily</SelectItem>
+                  <SelectItem value="weekly">Weekly</SelectItem>
+                  <SelectItem value="monthly">Monthly</SelectItem>
+                </SelectContent>
+              </Select>
+            )}
+          </div>
+        </div>
       </PanelHeader>
       <PanelContent>
         {loading ? (
-          <div className="flex h-[250px] items-center justify-center">
+          <div className="flex h-[180px] md:h-[220px] lg:h-[250px] items-center justify-center">
             <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
           </div>
         ) : (
-          <ChartContainer config={chartConfig} className="h-[250px] w-full">
+          <ChartContainer config={chartConfig} className="h-[180px] md:h-[220px] lg:h-[250px] w-full">
           <RechartsLineChart data={data} margin={{ left: 24 }}>
             <CartesianGrid vertical={false} horizontal={true} stroke="#e5e7eb" strokeDasharray="0" />
             <XAxis

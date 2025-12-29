@@ -182,6 +182,11 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<TopVisitor>[] => [
     accessorKey: 'lastVisit',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
     cell: ({ row }) => <LastVisitCell date={row.original.lastVisit} />,
+    meta: {
+      priority: 'primary',
+      cardPosition: 'header',
+      mobileLabel: 'Last Visit',
+    },
   },
   {
     accessorKey: 'visitorInfo',
@@ -213,6 +218,11 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<TopVisitor>[] => [
         />
       )
     },
+    meta: {
+      priority: 'primary',
+      cardPosition: 'header',
+      mobileLabel: 'Visitor',
+    },
   },
   {
     accessorKey: 'referrer',
@@ -225,6 +235,10 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<TopVisitor>[] => [
         }}
       />
     ),
+    meta: {
+      priority: 'secondary',
+      mobileLabel: 'Referrer',
+    },
   },
   {
     accessorKey: 'entryPage',
@@ -243,6 +257,10 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<TopVisitor>[] => [
         />
       )
     },
+    meta: {
+      priority: 'secondary',
+      mobileLabel: 'Entry',
+    },
   },
   {
     accessorKey: 'exitPage',
@@ -255,24 +273,43 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<TopVisitor>[] => [
         }}
       />
     ),
+    meta: {
+      priority: 'secondary',
+      mobileLabel: 'Exit',
+    },
   },
   {
     accessorKey: 'totalViews',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />,
     size: 70,
     cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
+    meta: {
+      priority: 'primary',
+      cardPosition: 'body',
+      mobileLabel: 'Views',
+    },
   },
   {
     accessorKey: 'totalSessions',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Sessions" className="text-right" />,
     size: 80,
     cell: ({ row }) => <NumericCell value={row.original.totalSessions} />,
+    meta: {
+      priority: 'primary',
+      cardPosition: 'body',
+      mobileLabel: 'Sessions',
+    },
   },
   {
     accessorKey: 'sessionDuration',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Duration" className="text-right" />,
     size: 85,
     cell: ({ row }) => <DurationCell seconds={row.original.sessionDuration} />,
+    meta: {
+      priority: 'primary',
+      cardPosition: 'body',
+      mobileLabel: 'Duration',
+    },
   },
   {
     accessorKey: 'viewsPerSession',
@@ -280,6 +317,10 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<TopVisitor>[] => [
     size: 90,
     enableHiding: true,
     cell: ({ row }) => <NumericCell value={row.original.viewsPerSession} decimals={1} />,
+    meta: {
+      priority: 'secondary',
+      mobileLabel: 'Per Session',
+    },
   },
   {
     accessorKey: 'bounceRate',
@@ -287,6 +328,10 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<TopVisitor>[] => [
     size: 70,
     enableHiding: true,
     cell: ({ row }) => <NumericCell value={row.original.bounceRate} suffix="%" />,
+    meta: {
+      priority: 'secondary',
+      mobileLabel: 'Bounce',
+    },
   },
   {
     accessorKey: 'visitorStatus',
@@ -315,6 +360,10 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<TopVisitor>[] => [
           </Tooltip>
         </TooltipProvider>
       )
+    },
+    meta: {
+      priority: 'secondary',
+      mobileLabel: 'Status',
     },
   },
 ]

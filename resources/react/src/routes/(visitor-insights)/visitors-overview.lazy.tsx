@@ -537,7 +537,7 @@ function RouteComponent() {
               />
             </div>
 
-            <div className="col-span-4">
+            <div className="col-span-12 lg:col-span-4">
               <HorizontalBarList
                 title={__('Top Countries', 'wp-statistics')}
                 items={(() => {
@@ -572,7 +572,7 @@ function RouteComponent() {
               />
             </div>
 
-            <div className="col-span-4">
+            <div className="col-span-12 lg:col-span-4">
               <HorizontalBarList
                 title={__('Device Type', 'wp-statistics')}
                 items={(() => {
@@ -608,7 +608,7 @@ function RouteComponent() {
               />
             </div>
 
-            <div className="col-span-4">
+            <div className="col-span-12 lg:col-span-4">
               <HorizontalBarList
                 title={__('Operating Systems', 'wp-statistics')}
                 items={(() => {

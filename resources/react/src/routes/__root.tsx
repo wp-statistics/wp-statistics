@@ -5,17 +5,17 @@ import { Header } from '@/components/header'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 
 const RootLayout = () => (
-  <>
-    <Header />
-    <SidebarProvider>
-      <div className="flex flex-1 relative h-[calc(100vh-var(--wp-admin-bar-height)-var(--header-height))] overflow-hidden">
+  <SidebarProvider>
+    <div className="flex flex-col h-[calc(var(--app-height)-var(--wp-admin-bar-height))] w-full overflow-hidden">
+      <Header />
+      <div className="flex flex-1 relative overflow-hidden min-w-0">
         <AppSidebar />
-        <SidebarInset className="overflow-auto">
+        <SidebarInset className="overflow-auto w-full">
           <Outlet />
         </SidebarInset>
       </div>
-    </SidebarProvider>
-  </>
+    </div>
+  </SidebarProvider>
 )
 
 export const Route = createRootRouteWithContext<RouterContext>()({

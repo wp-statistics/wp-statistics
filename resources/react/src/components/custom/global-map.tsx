@@ -410,16 +410,15 @@ export function GlobalMap({
       <PanelContent className="flex-1 flex flex-col">
         <div
           ref={containerRef}
-          className="flex-1 relative bg-muted/10 rounded-lg overflow-hidden"
-          style={{ minHeight: '400px' }}
+          className="flex-1 relative bg-muted/10 rounded-lg overflow-hidden min-h-[280px] md:min-h-[350px] lg:min-h-[400px]"
         >
           {/* Zoom Controls */}
           {showZoomControls && (
-            <div className="absolute left-4 top-4 z-10 flex flex-col gap-2">
+            <div className="absolute left-2 md:left-4 top-2 md:top-4 z-10 flex flex-col gap-1.5 md:gap-2">
               <Button
                 variant="outline"
                 size="icon"
-                className="h-8 w-8 bg-white shadow-sm"
+                className="h-10 w-10 md:h-8 md:w-8 bg-white shadow-sm"
                 onClick={handleZoomIn}
                 disabled={position.zoom >= 50}
               >
@@ -428,7 +427,7 @@ export function GlobalMap({
               <Button
                 variant="outline"
                 size="icon"
-                className="h-8 w-8 bg-white shadow-sm"
+                className="h-10 w-10 md:h-8 md:w-8 bg-white shadow-sm"
                 onClick={handleZoomOut}
                 disabled={position.zoom <= 1}
               >
@@ -439,11 +438,11 @@ export function GlobalMap({
 
           {/* Metric Toggle */}
           {enableMetricToggle && availableMetrics.length > 1 && (
-            <div className="absolute right-4 top-4 z-10">
+            <div className="absolute right-2 md:right-4 top-2 md:top-4 z-10">
               <Tabs value={selectedMetric} onValueChange={handleMetricChange}>
-                <TabsList className="h-8 bg-white shadow-sm">
+                <TabsList className="h-10 md:h-8 bg-white shadow-sm">
                   {availableMetrics.map((m) => (
-                    <TabsTrigger key={m.value} value={m.value} className="text-xs px-2.5 py-1">
+                    <TabsTrigger key={m.value} value={m.value} className="text-xs px-3 md:px-2.5 py-2 md:py-1">
                       {m.label}
                     </TabsTrigger>
                   ))}
@@ -454,8 +453,8 @@ export function GlobalMap({
 
           {/* Back Button with Country Flag */}
           {viewMode === 'cities' && selectedCountry && (
-            <div className="absolute left-4 bottom-4 z-10">
-              <Button variant="outline" size="sm" className="bg-white shadow-sm gap-2 text-xs" onClick={handleBackToWorld}>
+            <div className="absolute left-2 md:left-4 bottom-2 md:bottom-4 z-10">
+              <Button variant="outline" size="sm" className="bg-white shadow-sm gap-2 text-xs h-10 md:h-8 px-3 md:px-2" onClick={handleBackToWorld}>
                 <ArrowLeft className="h-3.5 w-3.5" />
                 <img
                   src={
@@ -731,7 +730,7 @@ export function GlobalMap({
 
         {/* Legend */}
         {showLegend && (
-          <div className="mt-6 flex justify-start">
+          <div className="mt-4 md:mt-6 flex justify-start">
             {viewMode === 'cities' && selectedCountry ? (
               // Region legend - show data/no data colors
               <div className="flex items-center gap-6">
@@ -753,7 +752,7 @@ export function GlobalMap({
             ) : maxValue === 0 || data.countries.length === 0 ? (
               <div className="text-xs text-neutral-500">No data available for the selected period</div>
             ) : (
-              <div className="flex items-center gap-2 w-1/2">
+              <div className="flex items-center gap-2 w-full md:w-1/2">
                 <span className="text-xs text-neutral-500 tabular-nums">0</span>
                 <div className="flex-1 h-2 rounded-full overflow-hidden flex">
                   {COLOR_SCALE.map((color, i) => (

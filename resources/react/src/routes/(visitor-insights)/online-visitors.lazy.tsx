@@ -191,12 +191,22 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] =>
         />
       )
     },
+    meta: {
+      priority: 'primary',
+      cardPosition: 'header',
+      mobileLabel: 'Visitor',
+    },
   },
   {
     accessorKey: 'onlineFor',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Online" className="text-right" />,
     size: 75,
     cell: ({ row }) => <DurationCell seconds={row.original.onlineFor} />,
+    meta: {
+      priority: 'primary',
+      cardPosition: 'body',
+      mobileLabel: 'Online',
+    },
   },
   {
     accessorKey: 'page',
@@ -207,6 +217,11 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] =>
         maxLength={35}
       />
     ),
+    meta: {
+      priority: 'primary',
+      cardPosition: 'header',
+      mobileLabel: 'Page',
+    },
   },
   {
     accessorKey: 'totalViews',
@@ -215,6 +230,11 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] =>
     ),
     size: 70,
     cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
+    meta: {
+      priority: 'primary',
+      cardPosition: 'body',
+      mobileLabel: 'Views',
+    },
   },
   {
     accessorKey: 'entryPage',
@@ -233,6 +253,10 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] =>
         />
       )
     },
+    meta: {
+      priority: 'secondary',
+      mobileLabel: 'Entry',
+    },
   },
   {
     accessorKey: 'referrer',
@@ -246,11 +270,19 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] =>
         maxLength={25}
       />
     ),
+    meta: {
+      priority: 'secondary',
+      mobileLabel: 'Referrer',
+    },
   },
   {
     accessorKey: 'lastVisit',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
     cell: ({ row }) => <LastVisitCell date={row.original.lastVisit} />,
+    meta: {
+      priority: 'secondary',
+      mobileLabel: 'Last Visit',
+    },
   },
 ]
 

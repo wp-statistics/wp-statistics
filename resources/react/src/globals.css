@@ -51,6 +51,15 @@
   --wp-admin-bar-height: 32px;
   --header-height: 64px;
   --radius: 0.625rem;
+
+  /* Dynamic viewport height - fallback to 100vh */
+  --app-height: 100vh;
+
+  /* Safe area insets for notched devices */
+  --safe-area-inset-top: env(safe-area-inset-top, 0px);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-inset-left: env(safe-area-inset-left, 0px);
+  --safe-area-inset-right: env(safe-area-inset-right, 0px);
   --primary: oklch(51.058% 0.23015 276.976);
   --accent: oklch(0.968 0.007 247.896);
   --background: oklch(1 0 0);
@@ -141,6 +150,28 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+  }
+}
+
+/* Support for dynamic viewport height (iOS Safari, Android Chrome) */
+@supports (height: 100dvh) {
+  :root {
+    --app-height: 100dvh;
+  }
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 767px) {
+  :root {
+    --header-height: 56px;
+    --wp-admin-bar-height: 46px; /* WordPress mobile admin bar is taller */
+  }
+}
+
+/* Tablet breakpoint adjustments */
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    --header-height: 60px;
   }
 }
 

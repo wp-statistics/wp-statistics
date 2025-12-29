@@ -14,8 +14,14 @@ import { __ } from '@wordpress/i18n'
 import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react'
 import * as React from 'react'
 
+import { useIsMobile } from '@/hooks/use-mobile'
+
 import { Panel, PanelAction, PanelFooter, PanelHeader, PanelTitle } from '../ui/panel'
+import { DataTableCardList } from './data-table-card-list'
 import { DataTableColumnToggle } from './data-table-column-toggle'
+import { DataTableMobileHeader } from './data-table-mobile-header'
+import { DataTableMobilePagination } from './data-table-mobile-pagination'
+import './data-table-types' // Import to extend ColumnMeta
 
 interface FullReportLink {
   text: string
@@ -51,6 +57,8 @@ interface DataTableProps<TData, TValue> {
   onColumnVisibilityChange?: (visibility: VisibilityState) => void
   onColumnOrderChange?: (order: string[]) => void
   onColumnPreferencesReset?: () => void
+  // Mobile card view
+  mobileCardEnabled?: boolean
 }
 
 export function DataTable<TData, TValue>({
@@ -82,7 +90,24 @@ export function DataTable<TData, TValue>({
   onColumnVisibilityChange,
   onColumnOrderChange,
   onColumnPreferencesReset,
+  // Mobile card view
+  mobileCardEnabled = true,
 }: DataTableProps<TData, TValue>) {
+  const isMobile = useIsMobile()
+
+  // Extract sortable columns for mobile sort dropdown
+  const sortableColumns = React.useMemo(() => {
+    return columns
+      .filter((col) => col.enableSorting !== false)
+      .map((col) => ({
+        id: (col as { accessorKey?: string }).accessorKey || col.id || '',
+        label:
+          typeof col.header === 'string'
+            ? col.header
+            : col.meta?.mobileLabel || (col as { accessorKey?: string }).accessorKey || col.id || '',
+      }))
+      .filter((col) => col.id)
+  }, [columns])
   const [internalSorting, setInternalSorting] = React.useState<SortingState>(
     defaultSort ? [{ id: defaultSort, desc: true }] : []
   )
@@ -215,6 +240,31 @@ export function DataTable<TData, TValue>({
       : undefined,
   })
 
+  // Mobile card view
+  if (isMobile && mobileCardEnabled) {
+    return (
+      <Panel className="overflow-hidden min-w-0">
+        <DataTableMobileHeader
+          title={title}
+          sorting={sorting}
+          onSortingChange={externalOnSortingChange || setInternalSorting}
+          sortableColumns={sortableColumns}
+          isFetching={isFetching}
+        />
+        <DataTableCardList
+          table={table}
+          columns={columns as ColumnDef<TData, unknown>[]}
+          emptyStateMessage={emptyStateMessage}
+          isFetching={isFetching}
+        />
+        {showPagination && (
+          <DataTableMobilePagination table={table} totalRows={totalRows} />
+        )}
+      </Panel>
+    )
+  }
+
+  // Desktop/tablet table view
   return (
     <Panel className="overflow-hidden min-w-0">
       {title && (

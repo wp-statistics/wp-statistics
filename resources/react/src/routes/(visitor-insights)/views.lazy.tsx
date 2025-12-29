@@ -122,6 +122,11 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<ViewData>[] => [
     accessorKey: 'lastVisit',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
     cell: ({ row }) => <LastVisitCell date={new Date(row.getValue('lastVisit'))} />,
+    meta: {
+      priority: 'primary',
+      cardPosition: 'header',
+      mobileLabel: 'Last Visit',
+    },
   },
   {
     accessorKey: 'visitorInfo',
@@ -153,6 +158,11 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<ViewData>[] => [
         />
       )
     },
+    meta: {
+      priority: 'primary',
+      cardPosition: 'header',
+      mobileLabel: 'Visitor',
+    },
   },
   {
     accessorKey: 'page',
@@ -160,6 +170,11 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<ViewData>[] => [
     cell: ({ row }) => {
       const page = row.getValue('page') as ViewData['page']
       return <PageCell data={{ title: page.title, url: page.url }} maxLength={35} />
+    },
+    meta: {
+      priority: 'primary',
+      cardPosition: 'body',
+      mobileLabel: 'Page',
     },
   },
   {
@@ -176,6 +191,10 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<ViewData>[] => [
           maxLength={25}
         />
       )
+    },
+    meta: {
+      priority: 'secondary',
+      mobileLabel: 'Referrer',
     },
   },
   {
@@ -196,12 +215,21 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<ViewData>[] => [
         />
       )
     },
+    meta: {
+      priority: 'secondary',
+      mobileLabel: 'Entry',
+    },
   },
   {
     accessorKey: 'totalViews',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />,
     size: 70,
     cell: ({ row }) => <NumericCell value={row.getValue('totalViews') as number} />,
+    meta: {
+      priority: 'primary',
+      cardPosition: 'body',
+      mobileLabel: 'Views',
+    },
   },
 ]
 
