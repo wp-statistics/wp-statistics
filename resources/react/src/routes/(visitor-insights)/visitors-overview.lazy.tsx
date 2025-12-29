@@ -18,7 +18,6 @@ import { formatDateForAPI, formatDuration, formatDecimal } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getVisitorOverviewQueryOptions } from '@/services/visitor-insight/get-visitor-overview'
 
-import { OverviewTopEntryPages } from './-components/overview/overview-top-entry-pages'
 import { OverviewTopVisitors } from './-components/overview/overview-top-visitors'
 
 export const Route = createLazyFileRoute('/(visitor-insights)/visitors-overview')({
@@ -176,7 +175,6 @@ function RouteComponent() {
   const topCountriesData = batchResponse?.data?.items?.top_countries?.data?.rows || []
   const deviceTypeData = batchResponse?.data?.items?.device_type?.data?.rows || []
   const operatingSystemsData = batchResponse?.data?.items?.operating_systems?.data?.rows || []
-  const topEntryPagesData = batchResponse?.data?.items?.top_entry_pages?.data?.rows || []
   const topReferrersData = batchResponse?.data?.items?.top_referrers?.data?.rows || []
   const countriesMapData = batchResponse?.data?.items?.countries_map?.data?.rows || []
 
@@ -477,11 +475,7 @@ function RouteComponent() {
               />
             </div>
 
-            <div className="col-span-6">
-              <OverviewTopEntryPages data={topEntryPagesData} />
-            </div>
-
-            <div className="col-span-6">
+            <div className="col-span-12">
               <HorizontalBarList
                 title={__('Top Referrers', 'wp-statistics')}
                 items={topReferrersData.map((item) => {
@@ -616,13 +610,7 @@ function RouteComponent() {
               <OverviewTopVisitors data={batchResponse?.data?.items?.top_visitors?.data?.rows} />
             </div>
 
-            <Card className="col-span-6">
-              <CardHeader>
-                <CardTitle>Traffic by Hour</CardTitle>
-              </CardHeader>
-            </Card>
-
-            <div className="col-span-6">
+            <div className="col-span-12">
               <GlobalMap
                 data={globalMapData}
                 isLoading={isLoading}
