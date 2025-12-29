@@ -68,6 +68,10 @@ function MetricCard({
   const hasPercentage = percentage !== undefined && percentage !== null
   const percentageNum = typeof percentage === 'string' ? parseFloat(percentage) : percentage
   const isZero = percentageNum === 0
+  // Don't show decimals when percentage >= 100
+  const displayPercentage = percentageNum !== undefined && percentageNum >= 100
+    ? Math.round(percentageNum)
+    : percentage
 
   return (
     <div
@@ -122,7 +126,7 @@ function MetricCard({
                 ? <ChevronDown className="h-3 w-3 -mr-0.5" strokeWidth={2.5} />
                 : <ChevronUp className="h-3 w-3 -mr-0.5" strokeWidth={2.5} />
             )}
-            {percentage}%
+            {displayPercentage}%
           </span>
         )}
       </div>
