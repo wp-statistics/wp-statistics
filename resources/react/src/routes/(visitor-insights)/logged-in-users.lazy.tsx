@@ -83,7 +83,7 @@ const DEFAULT_API_COLUMNS = getDefaultApiColumns(COLUMN_CONFIG)
 
 // Get cached column order from localStorage (same as visible columns order)
 const getCachedColumnOrder = (): string[] => {
-  return getCachedVisibleColumns() || []
+  return getCachedVisibleColumns(CONTEXT) || []
 }
 
 export const Route = createLazyFileRoute('/(visitor-insights)/logged-in-users')({
@@ -275,25 +275,6 @@ const getDefaultFilters = (filterFields: FilterField[]): Filter[] => {
   ]
 }
 
-// Default filters for this page
-const DEFAULT_FILTERS: Filter[] = []
-
-// Create default filters with proper operator display labels
-const getDefaultFilters = (filterFields: FilterField[]): Filter[] => {
-  const field = filterFields.find((f) => f.name === 'logged_in')
-  const valueLabel = field?.options?.find((o) => String(o.value) === '1')?.label || 'Logged-in'
-  return [
-    {
-      id: 'logged_in-logged_in-filter-default',
-      label: field?.label || 'Login Status',
-      operator: getOperatorDisplay('is'),
-      rawOperator: 'is',
-      value: valueLabel,
-      rawValue: '1',
-    },
-  ]
-}
-
 function RouteComponent() {
   const navigate = useNavigate()
   const { filters: urlFilters, page: urlPage } = routeApi.useSearch()
@@ -458,7 +439,7 @@ function RouteComponent() {
     // Use cached visibility from localStorage while waiting for API response
     // This prevents flash of all columns before preferences load
     if (!usersResponse) {
-      const cachedVisibility = getCachedVisibility(allColumnIds)
+      const cachedVisibility = getCachedVisibility(CONTEXT, allColumnIds)
       if (cachedVisibility) {
         return cachedVisibility
       }

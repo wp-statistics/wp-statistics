@@ -143,3 +143,38 @@ export const clearCachedColumns = (context: string): void => {
     // Ignore storage errors
   }
 }
+
+/**
+ * Get cached visible columns from localStorage (raw column IDs)
+ */
+export const getCachedVisibleColumns = (context: string): string[] | null => {
+  try {
+    const cacheKey = getCacheKey(context)
+    const cached = localStorage.getItem(cacheKey)
+    if (!cached) return null
+    const visibleColumns = JSON.parse(cached) as string[]
+    if (!Array.isArray(visibleColumns) || visibleColumns.length === 0) return null
+    return visibleColumns
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Get cached visibility state for TanStack Table
+ * Returns a Record where visible columns are true and hidden columns are false
+ */
+export const getCachedVisibility = (
+  context: string,
+  allColumnIds: string[]
+): Record<string, boolean> | null => {
+  const cachedColumns = getCachedVisibleColumns(context)
+  if (!cachedColumns) return null
+
+  // Create visibility object: columns in cache are visible, others are hidden
+  const visibility: Record<string, boolean> = {}
+  allColumnIds.forEach((col) => {
+    visibility[col] = cachedColumns.includes(col)
+  })
+  return visibility
+}

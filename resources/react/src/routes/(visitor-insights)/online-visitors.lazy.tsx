@@ -75,7 +75,7 @@ const DEFAULT_API_COLUMNS = getDefaultApiColumns(COLUMN_CONFIG)
 
 // Get cached column order from localStorage (same as visible columns order)
 const getCachedColumnOrder = (): string[] => {
-  return getCachedVisibleColumns() || []
+  return getCachedVisibleColumns(CONTEXT) || []
 }
 
 export const Route = createLazyFileRoute('/(visitor-insights)/online-visitors')({
@@ -334,7 +334,7 @@ function RouteComponent() {
     // Wait for API response before computing visibility
     // Use cached visibility from localStorage while waiting
     if (!response?.data) {
-      const cachedVisibility = getCachedVisibility(allColumnIds)
+      const cachedVisibility = getCachedVisibility(CONTEXT, allColumnIds)
       if (cachedVisibility) {
         return cachedVisibility
       }
