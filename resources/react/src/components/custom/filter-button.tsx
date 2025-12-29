@@ -222,8 +222,8 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className }: Fil
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className={cn({ 'border-indigo-200 bg-indigo-50 text-primary': !!filterCount }, className)}
-          size="lg"
+          className={cn('h-8', { 'border-indigo-200 bg-indigo-50 text-primary': !!filterCount }, className)}
+          size="sm"
         >
           <Filter className="h-4 w-4" />
           {__('Filters', 'wp-statistics')}

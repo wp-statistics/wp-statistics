@@ -388,9 +388,9 @@ function RouteComponent() {
   return (
     <div className="min-w-0">
       {/* Header row with title, date picker, and filter button */}
-      <div className="flex items-center justify-between p-4 bg-white border-b border-input">
-        <h1 className="text-2xl font-medium text-neutral-700">{__('Visitor Insights', 'wp-statistics')}</h1>
-        <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-input">
+        <h1 className="text-xl font-semibold text-neutral-800">{__('Visitor Insights', 'wp-statistics')}</h1>
+        <div className="flex items-center gap-3">
           {filterFields.length > 0 && appliedFilters !== null && (
             <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={setAppliedFilters} />
           )}

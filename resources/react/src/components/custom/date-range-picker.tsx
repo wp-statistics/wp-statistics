@@ -290,7 +290,7 @@ export const DateRangePicker = ({
       }}
     >
       <PopoverTrigger asChild>
-        <Button variant="outline">
+        <Button variant="outline" className="h-8">
           <div className="flex flex-col items-start text-left">
             <span>
               {`${formatDate(range.from, locale)}${range.to != null ? ' - ' + formatDate(range.to, locale) : ''}`}
