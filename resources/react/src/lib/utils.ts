@@ -44,3 +44,14 @@ export function formatDecimal(value: number, decimals: number = 1): string {
   const fixed = value.toFixed(decimals)
   return fixed.endsWith('.0') ? fixed.slice(0, -2) : fixed
 }
+
+/**
+ * Format numbers in compact notation (k, M) for display
+ * Examples: 999 → "999", 1500 → "1.5k", 2340000 → "2.34M"
+ */
+export function formatCompactNumber(num: number): string {
+  if (!Number.isFinite(num)) return String(num)
+  if (num >= 1000000) return `${formatDecimal(num / 1000000)}M`
+  if (num >= 1000) return `${formatDecimal(num / 1000)}k`
+  return num.toLocaleString()
+}

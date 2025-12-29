@@ -1,7 +1,7 @@
 import { ChevronDown, ChevronUp } from 'lucide-react'
 
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
-import { cn } from '@/lib/utils'
+import { cn, formatCompactNumber } from '@/lib/utils'
 
 export interface HorizontalBarProps {
   icon?: React.ReactNode
@@ -33,6 +33,10 @@ export function HorizontalBar({
   const percentageNum = typeof percentage === 'string' ? parseFloat(percentage) : percentage
   const displayPercentage = percentageNum >= 100 ? Math.round(percentageNum) : percentage
 
+  // Format value with compact notation
+  const valueNum = typeof value === 'string' ? parseFloat(value) : value
+  const displayValue = Number.isFinite(valueNum) ? formatCompactNumber(valueNum) : value
+
   const content = (
     <div className={cn('relative p-2 bg-white rounded-sm overflow-hidden w-full')}>
       <div className="absolute inset-0 transition-all bg-[#F2F0FF]" style={{ width: `${barWidth}%` }} />
@@ -44,7 +48,7 @@ export function HorizontalBar({
         </div>
 
         <div className="flex items-center gap-3">
-          <span className={cn('text-xs tabular-nums', isFirst ? 'font-semibold text-neutral-900' : 'font-medium text-neutral-600')}>{value}</span>
+          <span className={cn('text-xs tabular-nums', isFirst ? 'font-semibold text-neutral-900' : 'font-medium text-neutral-600')}>{displayValue}</span>
           <span className={cn('inline-flex items-center gap-0.5 text-[11px] font-medium tabular-nums', isNegative ? 'text-red-600' : 'text-emerald-600')}>
             {isNegative ? <ChevronDown className="h-3 w-3 -mr-0.5" strokeWidth={2.5} /> : <ChevronUp className="h-3 w-3 -mr-0.5" strokeWidth={2.5} />}
             {displayPercentage}%

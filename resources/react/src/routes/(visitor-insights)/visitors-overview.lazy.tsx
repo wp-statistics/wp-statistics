@@ -13,7 +13,7 @@ import { Metrics } from '@/components/custom/metrics'
 import { Panel } from '@/components/ui/panel'
 import { Skeleton } from '@/components/ui/skeleton'
 import { filtersToUrlFilters, urlFiltersToFilters } from '@/lib/filter-utils'
-import { formatDateForAPI, formatDuration, formatDecimal } from '@/lib/utils'
+import { formatDateForAPI, formatDuration, formatDecimal, formatCompactNumber } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getVisitorOverviewQueryOptions } from '@/services/visitor-insight/get-visitor-overview'
 
@@ -280,13 +280,6 @@ function RouteComponent() {
     [countriesMapData]
   )
 
-  // Helper function to format numbers
-  const formatNumber = (num: number) => {
-    if (num >= 1000000) return `${formatDecimal(num / 1000000)}M`
-    if (num >= 1000) return `${formatDecimal(num / 1000)}k`
-    return num.toLocaleString()
-  }
-
   // Calculate percentage change: ((Current - Previous) / Previous) × 100
   const calcPercentage = (current: number, previous: number) => {
     // If both are 0, no change
@@ -339,13 +332,13 @@ function RouteComponent() {
       // Row 1: Numeric metrics with comparison
       {
         label: __('Visitors', 'wp-statistics'),
-        value: formatNumber(visitors),
+        value: formatCompactNumber(visitors),
         ...calcPercentage(visitors, prevVisitors),
         tooltipContent: __('Total number of unique visitors', 'wp-statistics'),
       },
       {
         label: __('Views', 'wp-statistics'),
-        value: formatNumber(views),
+        value: formatCompactNumber(views),
         ...calcPercentage(views, prevViews),
         tooltipContent: __('Total page views', 'wp-statistics'),
       },

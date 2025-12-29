@@ -2,6 +2,7 @@ import type { ChartConfig } from '@components/ui/chart'
 import { ChartContainer, ChartTooltip } from '@components/ui/chart'
 import { Panel, PanelContent, PanelHeader, PanelTitle } from '@components/ui/panel'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
+import { formatCompactNumber } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
 import * as React from 'react'
 import { CartesianGrid, Line, LineChart as RechartsLineChart, XAxis, YAxis } from 'recharts'
@@ -286,6 +287,7 @@ export function LineChart({
               tickCount={5}
               allowDecimals={false}
               tick={{ fill: '#9ca3af', fontSize: 12 }}
+              tickFormatter={(value) => formatCompactNumber(value)}
             />
             <ChartTooltip
               content={({ active, payload, label }) => {
