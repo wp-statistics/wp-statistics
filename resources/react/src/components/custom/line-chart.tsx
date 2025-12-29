@@ -233,8 +233,8 @@ export function LineChart({
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              minTickGap={timeframe === 'monthly' ? 0 : 32}
-              interval={timeframe === 'monthly' ? 0 : 'preserveStartEnd'}
+              minTickGap={32}
+              interval={data.length <= 8 ? 0 : Math.ceil(data.length / 8) - 1}
               tick={{ fill: '#9ca3af', fontSize: 12 }}
               tickFormatter={(value) => {
                 // Handle week format "YYYYWW" (e.g., "202539" = week 39 of 2025)
