@@ -21,7 +21,7 @@ export function NumericCell({ value, suffix, decimals }: NumericCellProps) {
 
   return (
     <div className="text-right">
-      <span className="tabular-nums font-medium">
+      <span className="tabular-nums font-medium text-neutral-700">
         {displayValue}
         {suffix}
       </span>

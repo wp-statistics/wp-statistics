@@ -2,7 +2,7 @@
  * PageCell - Displays page title with tooltip for full URL
  */
 
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
 import type { PageData } from '../types'
 
@@ -17,14 +17,12 @@ export function PageCell({ data, maxLength = 28 }: PageCellProps) {
 
   return (
     <div className="max-w-[200px]">
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <span className="cursor-pointer truncate text-[13px]">{truncatedTitle}</span>
-          </TooltipTrigger>
-          <TooltipContent>{url}</TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <span className="cursor-pointer truncate text-sm text-neutral-700">{truncatedTitle}</span>
+        </TooltipTrigger>
+        <TooltipContent>{url}</TooltipContent>
+      </Tooltip>
     </div>
   )
 }

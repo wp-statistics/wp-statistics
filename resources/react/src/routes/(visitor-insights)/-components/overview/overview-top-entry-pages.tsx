@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { Button } from '@/components/ui/button'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import type { TopEntryPageRow } from '@/services/visitor-insight/get-visitor-overview'
 
 type EntryPageData = {
@@ -88,53 +88,38 @@ export const OverviewTopEntryPages = ({ data }: OverviewTopEntryPagesProps) => {
         const isTruncated = pageTitle.length > 35
         const displayTitle = truncateText(pageTitle, 35)
 
-        // Build tooltip content based on what's available
-        const getTooltipContent = () => {
+        // Build tooltip text based on what's available
+        const getTooltipText = () => {
           if (hasQueryString && isTruncated) {
-            return (
-              <div className="space-y-1">
-                <p className="font-medium">{pageTitle}</p>
-                <p className="text-muted-foreground">{pagePath}</p>
-                <p className="text-muted-foreground">{queryString}</p>
-              </div>
-            )
+            return `${pageTitle}\n${pagePath}${queryString}`
           }
           if (hasQueryString) {
-            return <p>{queryString}</p>
+            return `${pagePath}${queryString}`
           }
           if (isTruncated) {
-            return (
-              <div className="space-y-1">
-                <p className="font-medium">{pageTitle}</p>
-                <p className="text-muted-foreground">{pagePath}</p>
-              </div>
-            )
+            return pageTitle
           }
-          return <p>{pagePath}</p>
+          return pagePath
         }
 
         return (
-          <div className="max-w-md text-start flex items-start">
-            <TooltipProvider>
+          <div className="max-w-md text-start flex items-start gap-2">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="flex items-center gap-1 cursor-pointer">
+                  <span className="truncate text-sm text-neutral-700">{displayTitle}</span>
+                  {hasQueryString && <Info className="h-3.5 w-3.5 text-neutral-400 shrink-0" />}
+                </div>
+              </TooltipTrigger>
+              <TooltipContent className="whitespace-pre-line">{getTooltipText()}</TooltipContent>
+            </Tooltip>
+            {utmCampaign && (
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <div className="flex items-center gap-1 cursor-pointer">
-                    <span className="truncate">{displayTitle}</span>
-                    {hasQueryString && <Info className="h-3 w-3 text-muted-foreground shrink-0" />}
-                  </div>
+                  <span className="text-xs text-neutral-500 truncate cursor-pointer">{utmCampaign}</span>
                 </TooltipTrigger>
-                <TooltipContent>{getTooltipContent()}</TooltipContent>
+                <TooltipContent>UTM: {utmCampaign}</TooltipContent>
               </Tooltip>
-            </TooltipProvider>
-            {utmCampaign && (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <p className="text-xs text-muted-foreground truncate cursor-pointer">{utmCampaign}</p>
-                  </TooltipTrigger>
-                  <TooltipContent>UTM: {utmCampaign}</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
             )}
           </div>
         )
@@ -145,7 +130,7 @@ export const OverviewTopEntryPages = ({ data }: OverviewTopEntryPagesProps) => {
       header: __('Unique Entrances', 'wp-statistics'),
       cell: ({ row }) => {
         const uniqueEntrances = row.getValue('uniqueEntrances') as number
-        return <div className="text-center">{uniqueEntrances.toLocaleString()}</div>
+        return <div className="text-center text-sm tabular-nums text-neutral-700">{uniqueEntrances.toLocaleString()}</div>
       },
     },
     {
@@ -156,21 +141,19 @@ export const OverviewTopEntryPages = ({ data }: OverviewTopEntryPagesProps) => {
 
         return (
           <div className="text-right">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-8 w-8 p-0"
-                    onClick={() => window.open(fullUrl, '_blank', 'noopener,noreferrer')}
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>{__('View page', 'wp-statistics')}</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0 text-neutral-500 hover:text-neutral-700"
+                  onClick={() => window.open(fullUrl, '_blank', 'noopener,noreferrer')}
+                >
+                  <ExternalLink className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{__('View page', 'wp-statistics')}</TooltipContent>
+            </Tooltip>
           </div>
         )
       },

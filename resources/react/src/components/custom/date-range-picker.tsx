@@ -260,7 +260,7 @@ export const DateRangePicker = ({
       }}
     >
       <span className={cn('pr-2 opacity-0', isSelected && 'opacity-70')}>
-        <Check className="h-[18px] w-[18px]" />
+        <Check className="h-4 w-4" />
       </span>
       {label}
     </Button>

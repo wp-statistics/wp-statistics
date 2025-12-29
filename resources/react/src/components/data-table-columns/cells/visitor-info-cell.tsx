@@ -3,7 +3,7 @@
  */
 
 import { Badge } from '@/components/ui/badge'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
 import type { VisitorInfoConfig, VisitorInfoData } from '../types'
 
@@ -55,73 +55,65 @@ export function VisitorInfoCell({ data, config }: VisitorInfoCellProps) {
   return (
     <div className="flex items-center gap-1.5">
       {/* Country Flag */}
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button className="flex items-center">
-              <img
-                src={`${pluginUrl}public/images/flags/${country.code || '000'}.svg`}
-                alt={country.name}
-                className="w-4 h-4 object-contain"
-              />
-            </button>
-          </TooltipTrigger>
-          <TooltipContent>{locationText}</TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button className="flex items-center">
+            <img
+              src={`${pluginUrl}public/images/flags/${country.code || '000'}.svg`}
+              alt={country.name}
+              className="w-4 h-4 object-contain"
+            />
+          </button>
+        </TooltipTrigger>
+        <TooltipContent>{locationText}</TooltipContent>
+      </Tooltip>
 
       {/* OS Icon */}
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button className="flex items-center">
-              <img
-                src={`${pluginUrl}public/images/operating-system/${os.icon}.svg`}
-                alt={os.name}
-                className="w-3.5 h-3.5 object-contain"
-              />
-            </button>
-          </TooltipTrigger>
-          <TooltipContent>{os.name}</TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button className="flex items-center">
+            <img
+              src={`${pluginUrl}public/images/operating-system/${os.icon}.svg`}
+              alt={os.name}
+              className="w-3.5 h-3.5 object-contain"
+            />
+          </button>
+        </TooltipTrigger>
+        <TooltipContent>{os.name}</TooltipContent>
+      </Tooltip>
 
       {/* Browser Icon */}
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button className="flex items-center">
-              <img
-                src={`${pluginUrl}public/images/browser/${browser.icon}.svg`}
-                alt={browser.name}
-                className="w-3.5 h-3.5 object-contain"
-              />
-            </button>
-          </TooltipTrigger>
-          <TooltipContent>
-            {browser.name} {browser.version}
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button className="flex items-center">
+            <img
+              src={`${pluginUrl}public/images/browser/${browser.icon}.svg`}
+              alt={browser.name}
+              className="w-3.5 h-3.5 object-contain"
+            />
+          </button>
+        </TooltipTrigger>
+        <TooltipContent>
+          {browser.name} {browser.version}
+        </TooltipContent>
+      </Tooltip>
 
       {/* User Badge or Identifier */}
       {showUserBadge ? (
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Badge variant="secondary" className="text-[10px] font-normal py-0 px-1.5 h-5">
-                {user!.username} #{user!.id}
-              </Badge>
-            </TooltipTrigger>
-            <TooltipContent>
-              {user!.email}
-              {user!.role && ` · ${user!.role}`}
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Badge variant="secondary" className="text-xs font-normal py-0 px-1.5 h-5">
+              {user!.username} #{user!.id}
+            </Badge>
+          </TooltipTrigger>
+          <TooltipContent>
+            {user!.email}
+            {user!.role && ` · ${user!.role}`}
+          </TooltipContent>
+        </Tooltip>
       ) : (
         identifierDisplay && (
-          <span className="text-[10px] text-muted-foreground font-mono">{identifierDisplay}</span>
+          <span className="text-xs text-neutral-500 font-mono">{identifierDisplay}</span>
         )
       )}
     </div>

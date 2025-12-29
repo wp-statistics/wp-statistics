@@ -14,7 +14,7 @@ import { __ } from '@wordpress/i18n'
 import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react'
 import * as React from 'react'
 
-import { Card, CardFooter, CardHeader, CardTitle } from '../ui/card'
+import { Panel, PanelAction, PanelFooter, PanelHeader, PanelTitle } from '../ui/panel'
 import { DataTableColumnToggle } from './data-table-column-toggle'
 
 interface FullReportLink {
@@ -216,14 +216,12 @@ export function DataTable<TData, TValue>({
   })
 
   return (
-    <Card className="overflow-hidden min-w-0">
+    <Panel className="overflow-hidden min-w-0">
       {title && (
-        <CardHeader className="pb-0">
-          <div className="flex items-center gap-2">
-            <CardTitle className="">{title}</CardTitle>
-            {isFetching && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
-          </div>
-        </CardHeader>
+        <PanelHeader className="pb-0">
+          <PanelTitle>{title}</PanelTitle>
+          {isFetching && <Loader2 className="h-4 w-4 animate-spin text-neutral-400" />}
+        </PanelHeader>
       )}
       <div
         className={cn(
@@ -233,7 +231,7 @@ export function DataTable<TData, TValue>({
       >
         {isFetching && (
           <div className="absolute inset-0 flex items-center justify-center z-10 bg-white/30">
-            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+            <Loader2 className="h-5 w-5 animate-spin text-neutral-400" />
           </div>
         )}
         <Table className="min-w-max">
@@ -275,7 +273,7 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && 'selected'}
                   className={cn(
                     'border-0 transition-colors',
-                    rowIndex % 2 === 0 ? 'bg-white hover:bg-slate-50/70' : 'bg-slate-50/50 hover:bg-slate-100/70'
+                    rowIndex % 2 === 0 ? 'bg-white hover:bg-neutral-50' : 'bg-neutral-50/50 hover:bg-neutral-100/70'
                   )}
                 >
                   {row.getVisibleCells().map((cell, cellIndex) => (
@@ -296,7 +294,7 @@ export function DataTable<TData, TValue>({
               <TableRow className="border-0">
                 <TableCell
                   colSpan={columns.length + (showColumnManagement ? 1 : 0)}
-                  className="h-24 text-center text-sm text-card-foreground pl-4"
+                  className="h-24 text-center text-sm text-neutral-500 pl-4"
                 >
                   {isFetching ? null : emptyStateMessage}
                 </TableCell>
@@ -305,85 +303,80 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <CardFooter className="flex flex-col items-stretch py-3">
-        {showPagination && (
-          <div className="flex items-center justify-end">
-            <div className="flex items-center gap-0.5">
-              <Button
-                variant="ghost"
-                onClick={() => table.previousPage()}
-                disabled={!table.getCanPreviousPage()}
-                className="h-7 px-2 text-xs"
-              >
-                <ChevronLeft className="h-3.5 w-3.5" />
-                Prev
-              </Button>
-              {(() => {
-                const currentPage = table.getState().pagination.pageIndex + 1
-                const totalPages = table.getPageCount()
-                const pages: (number | string)[] = []
+      {showPagination && (
+        <div className="flex items-center justify-end px-4 py-3">
+          <div className="flex items-center gap-0.5">
+            <Button
+              variant="ghost"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+              className="h-7 px-2 text-xs"
+            >
+              <ChevronLeft className="h-3.5 w-3.5" />
+              Prev
+            </Button>
+            {(() => {
+              const currentPage = table.getState().pagination.pageIndex + 1
+              const totalPages = table.getPageCount()
+              const pages: (number | string)[] = []
 
-                if (totalPages <= 5) {
-                  for (let i = 1; i <= totalPages; i++) {
-                    pages.push(i)
-                  }
-                } else {
-                  pages.push(1)
-                  if (currentPage > 3) {
-                    pages.push('...')
-                  }
-                  const start = Math.max(2, currentPage - 1)
-                  const end = Math.min(totalPages - 1, currentPage + 1)
-                  for (let i = start; i <= end; i++) {
-                    pages.push(i)
-                  }
-                  if (currentPage < totalPages - 2) {
-                    pages.push('...')
-                  }
-                  pages.push(totalPages)
+              if (totalPages <= 5) {
+                for (let i = 1; i <= totalPages; i++) {
+                  pages.push(i)
                 }
+              } else {
+                pages.push(1)
+                if (currentPage > 3) {
+                  pages.push('...')
+                }
+                const start = Math.max(2, currentPage - 1)
+                const end = Math.min(totalPages - 1, currentPage + 1)
+                for (let i = start; i <= end; i++) {
+                  pages.push(i)
+                }
+                if (currentPage < totalPages - 2) {
+                  pages.push('...')
+                }
+                pages.push(totalPages)
+              }
 
-                return pages.map((page, index) =>
-                  typeof page === 'number' ? (
-                    <Button
-                      key={index}
-                      variant={currentPage === page ? 'default' : 'ghost'}
-                      size="icon"
-                      onClick={() => table.setPageIndex(page - 1)}
-                      className="h-7 w-7 text-xs"
-                    >
-                      {page}
-                    </Button>
-                  ) : (
-                    <span key={index} className="px-1 text-muted-foreground text-xs">
-                      {page}
-                    </span>
-                  )
+              return pages.map((page, index) =>
+                typeof page === 'number' ? (
+                  <Button
+                    key={index}
+                    variant={currentPage === page ? 'default' : 'ghost'}
+                    size="icon"
+                    onClick={() => table.setPageIndex(page - 1)}
+                    className="h-7 w-7 text-xs"
+                  >
+                    {page}
+                  </Button>
+                ) : (
+                  <span key={index} className="px-1 text-neutral-400 text-xs">
+                    {page}
+                  </span>
                 )
-              })()}
-              <Button
-                variant="ghost"
-                onClick={() => table.nextPage()}
-                disabled={!table.getCanNextPage()}
-                className="h-7 px-2 text-xs"
-              >
-                Next
-                <ChevronRight className="h-3.5 w-3.5" />
-              </Button>
-            </div>
+              )
+            })()}
+            <Button
+              variant="ghost"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+              className="h-7 px-2 text-xs"
+            >
+              Next
+              <ChevronRight className="h-3.5 w-3.5" />
+            </Button>
           </div>
-        )}
-        {fullReportLink && (
-          <Button
-            variant="link"
-            onClick={fullReportLink.action}
-            className="text-sm text-card-foreground font-normal flex items-center gap-1 justify-self-end hover:no-underline ms-auto mt-4 has-[>svg]:px-0"
-          >
+        </div>
+      )}
+      {fullReportLink && (
+        <PanelFooter>
+          <PanelAction onClick={fullReportLink.action}>
             {fullReportLink.text || __('View Full Report', 'wp-statistics')}
-            <ChevronRight />
-          </Button>
-        )}
-      </CardFooter>
-    </Card>
+          </PanelAction>
+        </PanelFooter>
+      )}
+    </Panel>
   )
 }

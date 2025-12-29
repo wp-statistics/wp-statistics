@@ -4,7 +4,7 @@
  */
 
 import { Badge } from '@/components/ui/badge'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
 import type { ReferrerData } from '../types'
 
@@ -30,23 +30,21 @@ export function ReferrerCell({ data, maxLength = 22 }: ReferrerCellProps) {
   return (
     <div className="flex flex-col items-start">
       {domain && (
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <a
-                href={`https://${domain}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:underline max-w-[180px] truncate block text-[13px]"
-              >
-                {truncateDomain(domain, maxLength)}
-              </a>
-            </TooltipTrigger>
-            <TooltipContent>{domain}</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <a
+              href={`https://${domain}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline max-w-[180px] truncate block text-sm text-neutral-700"
+            >
+              {truncateDomain(domain, maxLength)}
+            </a>
+          </TooltipTrigger>
+          <TooltipContent>{domain}</TooltipContent>
+        </Tooltip>
       )}
-      <Badge variant="outline" className="text-[8px] text-[#636363] uppercase mt-1">
+      <Badge variant="outline" className="text-[10px] text-neutral-500 uppercase mt-1">
         {category}
       </Badge>
     </div>

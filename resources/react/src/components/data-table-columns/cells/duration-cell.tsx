@@ -24,7 +24,7 @@ function formatDuration(seconds: number): string {
 export function DurationCell({ seconds }: DurationCellProps) {
   return (
     <div className="text-right">
-      <span className="tabular-nums font-medium">{formatDuration(seconds)}</span>
+      <span className="tabular-nums font-medium text-neutral-700">{formatDuration(seconds)}</span>
     </div>
   )
 }

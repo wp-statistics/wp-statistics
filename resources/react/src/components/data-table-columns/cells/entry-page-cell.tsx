@@ -4,7 +4,7 @@
 
 import { Info } from 'lucide-react'
 
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
 import type { PageData } from '../types'
 
@@ -19,21 +19,19 @@ export function EntryPageCell({ data, maxLength = 28 }: EntryPageCellProps) {
 
   return (
     <div className="max-w-[200px]">
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <div className="flex items-center gap-1 cursor-pointer">
-              <span className="truncate text-[13px]">{truncatedTitle}</span>
-              {hasQueryString && <Info className="h-3 w-3 text-muted-foreground shrink-0" />}
-            </div>
-          </TooltipTrigger>
-          <TooltipContent>
-            {hasQueryString && queryString ? queryString : url}
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div className="flex items-center gap-1 cursor-pointer">
+            <span className="truncate text-sm text-neutral-700">{truncatedTitle}</span>
+            {hasQueryString && <Info className="h-3.5 w-3.5 text-neutral-400 shrink-0" />}
+          </div>
+        </TooltipTrigger>
+        <TooltipContent>
+          {hasQueryString && queryString ? queryString : url}
+        </TooltipContent>
+      </Tooltip>
       {utmCampaign && (
-        <span className="text-[10px] text-muted-foreground block mt-0.5">{utmCampaign}</span>
+        <span className="text-xs text-neutral-500 block mt-0.5">{utmCampaign}</span>
       )}
     </div>
   )

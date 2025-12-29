@@ -1,5 +1,5 @@
 import { Button } from '@components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/card'
+import { Panel, PanelContent, PanelHeader, PanelTitle } from '@components/ui/panel'
 import { Tabs, TabsList, TabsTrigger } from '@components/ui/tabs'
 import { getCountryCenter, getCountryZoomLevel } from '@lib/country-centers'
 import { cn, formatDecimal } from '@lib/utils'
@@ -195,9 +195,9 @@ export function GlobalMap({
   const makeTooltipContent = (countryData: CountryData | null, geoName: string) => {
     if (!countryData) {
       return (
-        <div className="text-sm">
-          <div className="font-semibold">{geoName}</div>
-          <div className="mt-1 text-xs text-muted-foreground">No data</div>
+        <div>
+          <div className="font-medium text-neutral-100">{geoName}</div>
+          <div className="mt-1 text-neutral-400">No data</div>
         </div>
       )
     }
@@ -206,8 +206,8 @@ export function GlobalMap({
     const metricValue = selectedMetric === 'views' ? (countryData.views || 0) : countryData.visitors
 
     return (
-      <div className="text-sm">
-        <div className="flex items-center gap-2 mb-2">
+      <div>
+        <div className="flex items-center gap-2 mb-1.5">
           {countryData.code && (
             <img
               src={
@@ -219,13 +219,13 @@ export function GlobalMap({
               className="w-4 h-3"
             />
           )}
-          <div className="font-semibold">{countryData.name}</div>
+          <span className="font-medium text-neutral-100">{countryData.name}</span>
         </div>
-        <div className="text-xs">
-          {metricLabel}: <span className="font-semibold">{metricValue.toLocaleString()}</span>
+        <div className="text-neutral-300">
+          {metricLabel}: <span className="font-medium tabular-nums">{metricValue.toLocaleString()}</span>
         </div>
         {enableCityDrilldown && viewMode === 'countries' && (
-          <div className="text-xs text-muted-foreground mt-2 pt-2 border-t border-border">Click to view regions</div>
+          <div className="text-neutral-400 mt-1.5 pt-1.5 border-t border-neutral-700">Click to view regions</div>
         )}
       </div>
     )
@@ -386,28 +386,28 @@ export function GlobalMap({
     const percentage = (value / totalRegionValue) * 100
 
     return (
-      <div className="text-sm">
-        <div className="text-xs text-muted-foreground">{provinceName} (Region)</div>
-        <div className="font-semibold mb-2">{region?.name || provinceName}</div>
-        <div className="border-t border-border pt-2 space-y-1">
-          <div className="text-xs flex justify-between gap-4">
-            <span className="text-muted-foreground uppercase">{selectedMetric}</span>
-            <span className="font-semibold">{(value || 0).toLocaleString()}</span>
+      <div>
+        <div className="text-neutral-400">{provinceName} (Region)</div>
+        <div className="font-medium text-neutral-100 mb-1.5">{region?.name || provinceName}</div>
+        <div className="border-t border-neutral-700 pt-1.5 space-y-0.5">
+          <div className="flex justify-between gap-4">
+            <span className="text-neutral-400 uppercase">{selectedMetric}</span>
+            <span className="font-medium text-neutral-100 tabular-nums">{(value || 0).toLocaleString()}</span>
           </div>
-          <div className="text-xs text-muted-foreground">{formatDecimal(percentage)}% of total</div>
+          <div className="text-neutral-400 tabular-nums">{formatDecimal(percentage)}% of total</div>
         </div>
       </div>
     )
   }
 
   return (
-    <Card className={cn('h-full flex flex-col', className)}>
+    <Panel className={cn('h-full flex flex-col', className)}>
       {title && (
-        <CardHeader>
-          <CardTitle>{title}</CardTitle>
-        </CardHeader>
+        <PanelHeader>
+          <PanelTitle>{title}</PanelTitle>
+        </PanelHeader>
       )}
-      <CardContent className="flex-1 flex flex-col">
+      <PanelContent className="flex-1 flex flex-col">
         <div
           ref={containerRef}
           className="flex-1 relative bg-muted/10 rounded-lg overflow-hidden"
@@ -495,8 +495,8 @@ export function GlobalMap({
           {viewMode === 'cities' && !regionsLoading && !regionsError && regionItems.length === 0 && (
             <div className="absolute inset-0 flex items-center justify-center z-20">
               <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm text-center">
-                <p className="text-sm font-medium mb-2">No region data available</p>
-                <p className="text-xs text-muted-foreground mb-3">
+                <p className="text-sm font-medium text-neutral-800 mb-2">No region data available</p>
+                <p className="text-xs text-neutral-500 mb-3">
                   No regions found for {selectedCountry?.name} in the selected date range.
                 </p>
                 <Button size="sm" variant="outline" onClick={handleBackToWorld}>
@@ -717,7 +717,7 @@ export function GlobalMap({
           {/* Tooltip */}
           {tooltip.visible && (
             <div
-              className="pointer-events-none absolute z-50 max-w-xs p-3 rounded-lg shadow-lg bg-popover text-popover-foreground border"
+              className="pointer-events-none absolute z-50 max-w-xs px-2.5 py-2 rounded shadow-lg bg-neutral-800 text-neutral-100 text-[11px] leading-tight"
               style={{
                 left: tooltip.x + 12,
                 top: tooltip.y + 12,
@@ -740,34 +740,34 @@ export function GlobalMap({
                     className="w-4 h-3 rounded-sm"
                     style={{ backgroundColor: '#f3f4f6', border: '1px solid #9ca3af' }}
                   ></div>
-                  <span className="text-xs text-muted-foreground">No data</span>
+                  <span className="text-xs text-neutral-500">No data</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div
                     className="w-4 h-3 rounded-sm"
                     style={{ backgroundColor: '#c7d2fe', border: '1px solid #9ca3af' }}
                   ></div>
-                  <span className="text-xs text-muted-foreground">Has {selectedMetric}</span>
+                  <span className="text-xs text-neutral-500">Has {selectedMetric}</span>
                 </div>
               </div>
             ) : maxValue === 0 || data.countries.length === 0 ? (
-              <div className="text-sm text-muted-foreground">No data available for the selected period</div>
+              <div className="text-xs text-neutral-500">No data available for the selected period</div>
             ) : (
               <div className="flex items-center gap-2 w-1/2">
-                <span className="text-sm text-muted-foreground">0</span>
+                <span className="text-xs text-neutral-500 tabular-nums">0</span>
                 <div className="flex-1 h-2 rounded-full overflow-hidden flex">
                   {COLOR_SCALE.map((color, i) => (
                     <div key={i} className="flex-1" style={{ backgroundColor: color }} />
                   ))}
                 </div>
-                <span className="text-sm text-muted-foreground">
+                <span className="text-xs text-neutral-500 tabular-nums">
                   {maxValue >= 1000 ? `${(maxValue / 1000).toFixed(0)}k` : maxValue.toLocaleString()}
                 </span>
               </div>
             )}
           </div>
         )}
-      </CardContent>
-    </Card>
+      </PanelContent>
+    </Panel>
   )
 }

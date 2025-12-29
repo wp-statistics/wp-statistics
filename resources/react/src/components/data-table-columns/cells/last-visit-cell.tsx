@@ -19,8 +19,8 @@ export function LastVisitCell({ date }: LastVisitCellProps) {
 
   return (
     <div className="flex flex-col">
-      <span className="whitespace-nowrap">{formattedDate}</span>
-      <span className="text-[11px] text-muted-foreground">{formattedTime}</span>
+      <span className="whitespace-nowrap text-neutral-700">{formattedDate}</span>
+      <span className="text-xs text-neutral-500">{formattedTime}</span>
     </div>
   )
 }

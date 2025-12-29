@@ -1,6 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/card'
 import type { ChartConfig } from '@components/ui/chart'
 import { ChartContainer, ChartTooltip } from '@components/ui/chart'
+import { Panel, PanelContent, PanelHeader, PanelTitle } from '@components/ui/panel'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
 import { Loader2 } from 'lucide-react'
 import * as React from 'react'
@@ -128,11 +128,10 @@ export function LineChart({
   )
 
   return (
-    <Card className={className}>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-        <div className="flex flex-col gap-4 w-full">
-          {title && <CardTitle>{title}</CardTitle>}
-          <div className="flex items-center justify-between gap-4 w-full">
+    <Panel className={className}>
+      <PanelHeader className="flex-col items-start gap-4">
+        {title && <PanelTitle>{title}</PanelTitle>}
+        <div className="flex items-center justify-between gap-4 w-full">
             <div className="flex items-center gap-6">
               {metrics.map((metric, index) => {
                 const color = metric.color || defaultColors[index % defaultColors.length]
@@ -140,7 +139,7 @@ export function LineChart({
                 const isPreviousVisible = visibleMetrics[`${metric.key}Previous`]
                 return (
                   <div key={metric.key} className="flex flex-col gap-1">
-                    <span className="text-xs italic text-muted-foreground leading-none">{metric.label}</span>
+                    <span className="text-xs font-medium text-neutral-500 leading-none">{metric.label}</span>
                     <div className="flex items-baseline gap-2">
                       {metric.value && (
                         <button
@@ -151,7 +150,7 @@ export function LineChart({
                             <line x1="0" y1="1.5" x2="12" y2="1.5" style={{ stroke: color }} strokeWidth="3" />
                           </svg>
                           <span
-                            className={`text-sm font-medium leading-none ${!isCurrentVisible ? 'line-through' : ''}`}
+                            className={`text-sm font-semibold text-neutral-900 leading-none tabular-nums ${!isCurrentVisible ? 'line-through' : ''}`}
                           >
                             {metric.value}
                           </span>
@@ -174,7 +173,7 @@ export function LineChart({
                             />
                           </svg>
                           <span
-                            className={`text-sm text-muted-foreground leading-none ${!isPreviousVisible ? 'line-through' : ''}`}
+                            className={`text-sm text-neutral-500 leading-none tabular-nums ${!isPreviousVisible ? 'line-through' : ''}`}
                           >
                             {metric.previousValue}
                           </span>
@@ -189,7 +188,7 @@ export function LineChart({
               {showPreviousPeriod && (
                 <button
                   onClick={toggleAllPreviousPeriod}
-                  className={`flex items-center gap-1.5 text-xs text-muted-foreground transition-colors cursor-pointer ${!isAnyPreviousVisible ? 'opacity-50' : ''}`}
+                  className={`flex items-center gap-1.5 text-xs text-neutral-500 transition-colors cursor-pointer ${!isAnyPreviousVisible ? 'opacity-50' : ''}`}
                 >
                   <svg width="12" height="3" className="shrink-0 opacity-50">
                     <line
@@ -219,9 +218,8 @@ export function LineChart({
               )}
             </div>
           </div>
-        </div>
-      </CardHeader>
-      <CardContent className="">
+      </PanelHeader>
+      <PanelContent>
         {loading ? (
           <div className="flex h-[250px] items-center justify-center">
             <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
@@ -413,7 +411,7 @@ export function LineChart({
 
                 return (
                   <div className="rounded-lg border bg-background p-3 shadow-md">
-                    <div className="mb-3 text-sm leading-normal italic font-normal">
+                    <div className="mb-3 text-sm leading-normal font-medium text-neutral-700">
                       {dayOfWeek ? `${formattedDate} (${dayOfWeek})` : formattedDate}
                     </div>
                     <div className="space-y-2">
@@ -433,7 +431,7 @@ export function LineChart({
 
                         return (
                           <div key={entry.dataKey} className="flex items-center justify-between gap-6">
-                            <div className="flex items-center gap-2 text-sm italic">
+                            <div className="flex items-center gap-2 text-sm">
                               <svg width="12" height="3" className={isPrevious ? 'shrink-0 opacity-50' : 'shrink-0'}>
                                 <line
                                   x1="0"
@@ -445,9 +443,9 @@ export function LineChart({
                                   strokeDasharray={isPrevious ? '3 2' : '0'}
                                 />
                               </svg>
-                              <span className="font-normal text-muted-foreground">{displayLabel}</span>
+                              <span className="text-neutral-500">{displayLabel}</span>
                             </div>
-                            <span className="font-semibold text-card-foreground">{entry.value}</span>
+                            <span className="font-semibold text-neutral-900 tabular-nums">{entry.value}</span>
                           </div>
                         )
                       })}
@@ -461,7 +459,7 @@ export function LineChart({
           </RechartsLineChart>
         </ChartContainer>
         )}
-      </CardContent>
-    </Card>
+      </PanelContent>
+    </Panel>
   )
 }

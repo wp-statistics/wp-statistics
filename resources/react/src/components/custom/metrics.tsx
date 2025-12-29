@@ -84,8 +84,8 @@ function MetricCard({
           {tooltipContent && (
             <Tooltip>
               <TooltipTrigger asChild>
-                <button className="text-neutral-500 hover:text-neutral-600 transition-colors" type="button">
-                  <Info size={14} />
+                <button className="text-neutral-400 hover:text-neutral-500 transition-colors" type="button">
+                  <Info className="h-3.5 w-3.5" />
                 </button>
               </TooltipTrigger>
               <TooltipContent showArrow={false} side="top">
@@ -97,21 +97,21 @@ function MetricCard({
         {icon && <div className="shrink-0">{icon}</div>}
       </div>
 
-      <div className="flex items-end gap-2">
-        <div className="text-2xl font-medium text-card-foreground leading-none">{value}</div>
+      <div className="flex items-baseline gap-2">
+        <span className="text-2xl font-semibold text-neutral-800 leading-none tabular-nums">{value}</span>
         {hasPercentage && (
           <Badge
             className={cn(
               'flex items-center py-0.5 px-1.5 rounded gap-0.5 shadow-none',
               isZero
-                ? 'bg-neutral-100 text-neutral-500 hover:bg-neutral-100'
+                ? 'bg-neutral-100 text-neutral-600 hover:bg-neutral-100'
                 : isNegative
-                  ? 'bg-red-50 text-red-800 hover:bg-red-50'
-                  : 'bg-emerald-50 text-emerald-800 hover:bg-emerald-50'
+                  ? 'bg-red-50 text-red-600 hover:bg-red-50'
+                  : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-50'
             )}
           >
-            {!isZero && (isNegative ? <ChevronDown size={14} strokeWidth={2.5} /> : <ChevronUp size={14} strokeWidth={2.5} />)}
-            <span className="font-medium text-xs">{percentage}%</span>
+            {!isZero && (isNegative ? <ChevronDown className="h-3.5 w-3.5" strokeWidth={2.5} /> : <ChevronUp className="h-3.5 w-3.5" strokeWidth={2.5} />)}
+            <span className="font-medium text-xs tabular-nums">{percentage}%</span>
           </Badge>
         )}
       </div>
