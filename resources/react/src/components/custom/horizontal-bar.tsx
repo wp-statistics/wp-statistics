@@ -8,6 +8,7 @@ export interface HorizontalBarProps {
   label: string
   value: string | number
   percentage: string | number
+  fillPercentage?: number // 0-100, proportion of total for bar fill
   isNegative?: boolean
   tooltipTitle?: string
   tooltipSubtitle?: string
@@ -19,17 +20,18 @@ export function HorizontalBar({
   label,
   value,
   percentage,
+  fillPercentage,
   isNegative = false,
   tooltipTitle,
   tooltipSubtitle,
   isFirst = false,
 }: HorizontalBarProps) {
-  const rawPercentage = typeof percentage === 'string' ? parseFloat(percentage) : percentage
-  const safePercentage = Number.isFinite(rawPercentage) ? Math.min(Math.max(rawPercentage, 0), 100) : 0
+  // Use fillPercentage for bar width (proportion of total), default to 0 if not provided
+  const barWidth = fillPercentage !== undefined ? Math.min(Math.max(fillPercentage, 0), 100) : 0
 
   const content = (
     <div className={cn('relative p-2 bg-white rounded-sm overflow-hidden w-full')}>
-      <div className="absolute inset-0 transition-all bg-[#F2F0FF]" style={{ width: `${safePercentage}%` }} />
+      <div className="absolute inset-0 transition-all bg-[#F2F0FF]" style={{ width: `${barWidth}%` }} />
 
       <div className="relative flex items-center justify-between gap-4">
         <div className="flex items-center gap-2 leading-0">

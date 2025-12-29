@@ -170,11 +170,15 @@ function RouteComponent() {
   const metricsLoggedIn = batchResponse?.data?.items?.metrics_logged_in
   // Traffic trends uses chart format - labels and datasets at top level
   const trafficTrendsResponse = batchResponse?.data?.items?.traffic_trends
-  // Table format queries - each has data.rows structure inside
+  // Table format queries - each has data.rows and data.totals structure
   const topCountriesData = batchResponse?.data?.items?.top_countries?.data?.rows || []
+  const topCountriesTotals = batchResponse?.data?.items?.top_countries?.data?.totals
   const deviceTypeData = batchResponse?.data?.items?.device_type?.data?.rows || []
+  const deviceTypeTotals = batchResponse?.data?.items?.device_type?.data?.totals
   const operatingSystemsData = batchResponse?.data?.items?.operating_systems?.data?.rows || []
+  const operatingSystemsTotals = batchResponse?.data?.items?.operating_systems?.data?.totals
   const topReferrersData = batchResponse?.data?.items?.top_referrers?.data?.rows || []
+  const topReferrersTotals = batchResponse?.data?.items?.top_referrers?.data?.totals
   const countriesMapData = batchResponse?.data?.items?.countries_map?.data?.rows || []
 
 
@@ -513,25 +517,26 @@ function RouteComponent() {
             <div className="col-span-12">
               <HorizontalBarList
                 title={__('Top Referrers', 'wp-statistics')}
-                items={topReferrersData.map((item) => {
-                  // API returns values as strings, convert to numbers
-                  const currentValue = Number(item.visitors) || 0
-                  const previousValue = Number(item.previous?.visitors) || 0
-                  const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
+                items={(() => {
+                  const totalVisitors = Number(topReferrersTotals?.visitors?.current ?? topReferrersTotals?.visitors) || 1
+                  return topReferrersData.map((item) => {
+                    const currentValue = Number(item.visitors) || 0
+                    const previousValue = Number(item.previous?.visitors) || 0
+                    const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
+                    const displayName =
+                      item.referrer_name || item.referrer_domain || item.referrer_channel || __('Direct', 'wp-statistics')
 
-                  // Display referrer name or domain, fallback to channel
-                  const displayName =
-                    item.referrer_name || item.referrer_domain || item.referrer_channel || __('Direct', 'wp-statistics')
-
-                  return {
-                    label: displayName,
-                    value: currentValue.toLocaleString(),
-                    percentage,
-                    isNegative,
-                    tooltipTitle: displayName,
-                    tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                  }
-                })}
+                    return {
+                      label: displayName,
+                      value: currentValue.toLocaleString(),
+                      percentage,
+                      fillPercentage: (currentValue / totalVisitors) * 100,
+                      isNegative,
+                      tooltipTitle: displayName,
+                      tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                    }
+                  })
+                })()}
                 link={{
                   title: __('View Referrers', 'wp-statistics'),
                   action: () => console.log('View all referrers'),
@@ -542,28 +547,31 @@ function RouteComponent() {
             <div className="col-span-4">
               <HorizontalBarList
                 title={__('Top Countries', 'wp-statistics')}
-                items={topCountriesData.map((item) => {
-                  // API returns values as strings, convert to numbers
-                  const currentValue = Number(item.visitors) || 0
-                  const previousValue = Number(item.previous?.visitors) || 0
-                  const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
+                items={(() => {
+                  const totalVisitors = Number(topCountriesTotals?.visitors?.current ?? topCountriesTotals?.visitors) || 1
+                  return topCountriesData.map((item) => {
+                    const currentValue = Number(item.visitors) || 0
+                    const previousValue = Number(item.previous?.visitors) || 0
+                    const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
 
-                  return {
-                    icon: (
-                      <img
-                        src={`${pluginUrl}public/images/flags/${item.country_code?.toLowerCase() || '000'}.svg`}
-                        alt={item.country_name || ''}
-                        className="w-4 h-3"
-                      />
-                    ),
-                    label: item.country_name || __('Unknown', 'wp-statistics'),
-                    value: currentValue.toLocaleString(),
-                    percentage,
-                    isNegative,
-                    tooltipTitle: item.country_name || '',
-                    tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                  }
-                })}
+                    return {
+                      icon: (
+                        <img
+                          src={`${pluginUrl}public/images/flags/${item.country_code?.toLowerCase() || '000'}.svg`}
+                          alt={item.country_name || ''}
+                          className="w-4 h-3"
+                        />
+                      ),
+                      label: item.country_name || __('Unknown', 'wp-statistics'),
+                      value: currentValue.toLocaleString(),
+                      percentage,
+                      fillPercentage: (currentValue / totalVisitors) * 100,
+                      isNegative,
+                      tooltipTitle: item.country_name || '',
+                      tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                    }
+                  })
+                })()}
                 link={{
                   title: __('View Countries', 'wp-statistics'),
                   action: () => console.log('View all countries'),
@@ -574,31 +582,32 @@ function RouteComponent() {
             <div className="col-span-4">
               <HorizontalBarList
                 title={__('Device Type', 'wp-statistics')}
-                items={deviceTypeData.map((item) => {
-                  // API returns values as strings, convert to numbers
-                  const currentValue = Number(item.visitors) || 0
-                  const previousValue = Number(item.previous?.visitors) || 0
-                  const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
+                items={(() => {
+                  const totalVisitors = Number(deviceTypeTotals?.visitors?.current ?? deviceTypeTotals?.visitors) || 1
+                  return deviceTypeData.map((item) => {
+                    const currentValue = Number(item.visitors) || 0
+                    const previousValue = Number(item.previous?.visitors) || 0
+                    const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
+                    const iconName = (item.device_type_name || 'desktop').toLowerCase()
 
-                  // Map device type to icon name
-                  const iconName = (item.device_type_name || 'desktop').toLowerCase()
-
-                  return {
-                    icon: (
-                      <img
-                        src={`${pluginUrl}public/images/device/${iconName}.svg`}
-                        alt={item.device_type_name || ''}
-                        className="w-4 h-3"
-                      />
-                    ),
-                    label: item.device_type_name || __('Unknown', 'wp-statistics'),
-                    value: currentValue.toLocaleString(),
-                    percentage,
-                    isNegative,
-                    tooltipTitle: item.device_type_name || '',
-                    tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                  }
-                })}
+                    return {
+                      icon: (
+                        <img
+                          src={`${pluginUrl}public/images/device/${iconName}.svg`}
+                          alt={item.device_type_name || ''}
+                          className="w-4 h-3"
+                        />
+                      ),
+                      label: item.device_type_name || __('Unknown', 'wp-statistics'),
+                      value: currentValue.toLocaleString(),
+                      percentage,
+                      fillPercentage: (currentValue / totalVisitors) * 100,
+                      isNegative,
+                      tooltipTitle: item.device_type_name || '',
+                      tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                    }
+                  })
+                })()}
                 link={{
                   title: __('View Device Types', 'wp-statistics'),
                   action: () => console.log('View all device types'),
@@ -609,31 +618,32 @@ function RouteComponent() {
             <div className="col-span-4">
               <HorizontalBarList
                 title={__('Operating Systems', 'wp-statistics')}
-                items={operatingSystemsData.map((item) => {
-                  // API returns values as strings, convert to numbers
-                  const currentValue = Number(item.visitors) || 0
-                  const previousValue = Number(item.previous?.visitors) || 0
-                  const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
+                items={(() => {
+                  const totalVisitors = Number(operatingSystemsTotals?.visitors?.current ?? operatingSystemsTotals?.visitors) || 1
+                  return operatingSystemsData.map((item) => {
+                    const currentValue = Number(item.visitors) || 0
+                    const previousValue = Number(item.previous?.visitors) || 0
+                    const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
+                    const iconName = (item.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_')
 
-                  // Map OS name to icon name (lowercase, replace spaces with underscores)
-                  const iconName = (item.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_')
-
-                  return {
-                    icon: (
-                      <img
-                        src={`${pluginUrl}public/images/operating-system/${iconName}.svg`}
-                        alt={item.os_name || ''}
-                        className="w-4 h-3"
-                      />
-                    ),
-                    label: item.os_name || __('Unknown', 'wp-statistics'),
-                    value: currentValue.toLocaleString(),
-                    percentage,
-                    isNegative,
-                    tooltipTitle: item.os_name || '',
-                    tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                  }
-                })}
+                    return {
+                      icon: (
+                        <img
+                          src={`${pluginUrl}public/images/operating-system/${iconName}.svg`}
+                          alt={item.os_name || ''}
+                          className="w-4 h-3"
+                        />
+                      ),
+                      label: item.os_name || __('Unknown', 'wp-statistics'),
+                      value: currentValue.toLocaleString(),
+                      percentage,
+                      fillPercentage: (currentValue / totalVisitors) * 100,
+                      isNegative,
+                      tooltipTitle: item.os_name || '',
+                      tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                    }
+                  })
+                })()}
                 link={{
                   title: __('View Operating Systems', 'wp-statistics'),
                   action: () => console.log('View all operating systems'),

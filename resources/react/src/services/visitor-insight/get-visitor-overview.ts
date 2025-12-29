@@ -363,7 +363,7 @@ export const getVisitorOverviewQueryOptions = ({
               order_by: 'visitors',
               order: 'DESC',
               format: 'table',
-              show_totals: false,
+              show_totals: true,
               compare: true,
             },
             // Device Type: Table format with comparison
@@ -376,7 +376,7 @@ export const getVisitorOverviewQueryOptions = ({
               order_by: 'visitors',
               order: 'DESC',
               format: 'table',
-              show_totals: false,
+              show_totals: true,
               compare: true,
             },
             // Operating Systems: Table format with comparison
@@ -389,7 +389,7 @@ export const getVisitorOverviewQueryOptions = ({
               order_by: 'visitors',
               order: 'DESC',
               format: 'table',
-              show_totals: false,
+              show_totals: true,
               compare: true,
             },
             // Top Visitors: Table format (no comparison needed)
@@ -451,7 +451,7 @@ export const getVisitorOverviewQueryOptions = ({
               order_by: 'visitors',
               order: 'DESC',
               format: 'table',
-              show_totals: false,
+              show_totals: true,
               compare: true,
             },
             // Countries Map: All countries with visitors and views for GlobalMap component
