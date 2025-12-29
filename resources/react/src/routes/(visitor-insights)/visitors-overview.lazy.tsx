@@ -521,7 +521,7 @@ function RouteComponent() {
 
                     return {
                       label: displayName,
-                      value: currentValue.toLocaleString(),
+                      value: currentValue,
                       percentage,
                       fillPercentage: (currentValue / totalVisitors) * 100,
                       isNegative,
@@ -556,7 +556,7 @@ function RouteComponent() {
                         />
                       ),
                       label: item.country_name || __('Unknown', 'wp-statistics'),
-                      value: currentValue.toLocaleString(),
+                      value: currentValue,
                       percentage,
                       fillPercentage: (currentValue / totalVisitors) * 100,
                       isNegative,
@@ -592,7 +592,7 @@ function RouteComponent() {
                         />
                       ),
                       label: item.device_type_name || __('Unknown', 'wp-statistics'),
-                      value: currentValue.toLocaleString(),
+                      value: currentValue,
                       percentage,
                       fillPercentage: (currentValue / totalVisitors) * 100,
                       isNegative,
@@ -628,7 +628,7 @@ function RouteComponent() {
                         />
                       ),
                       label: item.os_name || __('Unknown', 'wp-statistics'),
-                      value: currentValue.toLocaleString(),
+                      value: currentValue,
                       percentage,
                       fillPercentage: (currentValue / totalVisitors) * 100,
                       isNegative,
