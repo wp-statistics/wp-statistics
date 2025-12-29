@@ -222,10 +222,10 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     justify-content: space-between;
     flex-direction: row;
 
-    .wps-realtime-btn{
+    .wps-realtime-btn {
       margin-left: auto;
 
-      .rtl &{
+      .rtl & {
         margin-right: auto;
         margin-left: 0;
       }
@@ -2987,7 +2987,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     a {
       position: relative;
 
-      .wps-dot{
+      .wps-dot {
         position: relative;
         padding-right: 27px !important;
 
@@ -3040,7 +3040,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     }
 
     .rtl & {
-      a .wps-dot{
+      a .wps-dot {
         padding-right: 10px !important;
         padding-left: 27px !important;
 
@@ -4112,8 +4112,8 @@ span.wps_search-console_icon {
   background-size: 100%;
 }
 
-.wps-no-result{
-  height: auto!important;
+.wps-no-result {
+  height: auto !important;
 }
 
 .wps-wrap .wps-loading {
@@ -4196,18 +4196,21 @@ span.wps_search-console_icon {
 
 
   &.disabled {
-    background: #F9F9FA;
-    color: #646A7A;
+    background: #f9f9fa;
+    color: #707276;
+    font-size: 12px;
+    font-weight: 400;
 
     &:hover {
-      background-color: #F9F9FA;
+      background-color: #f9f9fa;
+      color: #707276;
     }
 
     &:after {
-      width: 15px;
-      min-width: 15px;
-      height: 15px;
-      background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNSAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTcuNSAxLjM4MjMyQzMuODQxMzkgMS4zODIzMiAwLjg4MjM1NSA0LjM0MTM2IDAuODgyMzU1IDcuOTk5OTdDMC44ODIzNTUgOS4zNzA3NyAxLjI4ODg3IDEwLjYyODEgMS45ODg0NSAxMS42Nzc1QzMuMDA5NDYgMTMuMTkwMSA0LjYyNjA1IDE0LjI1ODQgNi41MDczNSAxNC41MzI1QzYuODI4NzggMTQuNTg5MyA3LjE1OTY3IDE0LjYxNzYgNy41IDE0LjYxNzZDNy44NDAzNCAxNC42MTc2IDguMTcxMjIgMTQuNTg5MyA4LjQ5MjY1IDE0LjUzMjVDMTAuMzc0IDE0LjI1ODQgMTEuOTkwNSAxMy4xOTAxIDEzLjAxMTYgMTEuNjc3NUMxMy43MTExIDEwLjYyODEgMTQuMTE3NiA5LjM3MDc3IDE0LjExNzYgNy45OTk5N0MxNC4xMTc2IDQuMzQxMzYgMTEuMTU4NiAxLjM4MjMyIDcuNSAxLjM4MjMyWk0xMC4zOTI5IDcuNzkxOTlMOS42MDgyIDguNTc2NjVDOS40NzU4NCA4LjcwOSA5LjQwMDIxIDguOTY0MjYgOS40NDc0OCA5LjE1MzMzTDkuNjc0MzcgMTAuMTI3MUM5Ljg1Mzk5IDEwLjg5MjggOS40NDc0OCAxMS4xOTUzIDguNzY2ODEgMTAuNzg4OEw3LjgyMTQzIDEwLjIzMTFDNy42NTEyNiAxMC4xMjcxIDcuMzY3NjUgMTAuMTI3MSA3LjE5NzQ4IDEwLjIzMTFMNi4yNTIxIDEwLjc4ODhDNS41NzE0MyAxMS4xODU5IDUuMTY0OTIgMTAuODkyOCA1LjM0NDU0IDEwLjEyNzFMNS41NzE0MyA5LjE1MzMzQzUuNjA5MjUgOC45NzM3MSA1LjU0MzA3IDguNzA5IDUuNDEwNzIgOC41NzY2NUw0LjYwNzE0IDcuNzkxOTlDNC4xNDM5MSA3LjMyODc1IDQuMjk1MTcgNi44NjU1MiA0LjkzODAzIDYuNzYxNTNMNS45NDk1OCA2LjU5MTM2QzYuMTE5NzUgNi41NjMgNi4zMTgyOCA2LjQxMTc0IDYuMzkzOTEgNi4yNjA0OEw2Ljk1MTY4IDUuMTQ0OTNDNy4yNTQyIDQuNTM5ODkgNy43NDU4IDQuNTM5ODkgOC4wNDgzMiA1LjE0NDkzTDguNjA2MDkgNi4yNjA0OEM4LjY4MTczIDYuNDExNzQgOC44ODAyNSA2LjU2MyA5LjA1OTg4IDYuNTkxMzZMMTAuMDcxNCA2Ljc2MTUzQzEwLjcwNDggNi44NjU1MiAxMC44NTYxIDcuMzI4NzUgMTAuMzkyOSA3Ljc5MTk5WiIgZmlsbD0iIzY0NkE3QSIvPgo8L3N2Zz4K");
+      width: 12px;
+      min-width: 12px;
+      height: 12px;
+      background: url(data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE2IiBoZWlnaHQ9IjE1IiB2aWV3Qm94PSIwIDAgMTYgMTUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik03LjgzMzQ3IDAuODgyODEyQzQuMTc0ODUgMC44ODI4MTIgMS4yMTU4MiAzLjg0MTg1IDEuMjE1ODIgNy41MDA0NkMxLjIxNTgyIDguODcxMjYgMS42MjIzMyAxMC4xMjg2IDIuMzIxOTEgMTEuMTc4QzMuMzQyOTIgMTIuNjkwNiA0Ljk1OTUyIDEzLjc1ODkgNi44NDA4MiAxNC4wMzNDNy4xNjIyNSAxNC4wODk3IDcuNDkzMTMgMTQuMTE4MSA3LjgzMzQ3IDE0LjExODFDOC4xNzM4IDE0LjExODEgOC41MDQ2OSAxNC4wODk3IDguODI2MTEgMTQuMDMzQzEwLjcwNzQgMTMuNzU4OSAxMi4zMjQgMTIuNjkwNiAxMy4zNDUgMTEuMTc4QzE0LjA0NDYgMTAuMTI4NiAxNC40NTExIDguODcxMjYgMTQuNDUxMSA3LjUwMDQ2QzE0LjQ1MTEgMy44NDE4NSAxMS40OTIxIDAuODgyODEyIDcuODMzNDcgMC44ODI4MTJaTTEwLjcyNjMgNy4yOTI0OEw5Ljk0MTY2IDguMDc3MTRDOS44MDkzMSA4LjIwOTQ5IDkuNzMzNjggOC40NjQ3NSA5Ljc4MDk1IDguNjUzODJMMTAuMDA3OCA5LjYyNzU2QzEwLjE4NzUgMTAuMzkzMyA5Ljc4MDk1IDEwLjY5NTggOS4xMDAyNyAxMC4yODkzTDguMTU0OSA5LjczMTU1QzcuOTg0NzMgOS42Mjc1NiA3LjcwMTEyIDkuNjI3NTYgNy41MzA5NSA5LjczMTU1TDYuNTg1NTcgMTAuMjg5M0M1LjkwNDkgMTAuNjg2NCA1LjQ5ODM4IDEwLjM5MzMgNS42NzgwMSA5LjYyNzU2TDUuOTA0OSA4LjY1MzgyQzUuOTQyNzEgOC40NzQyIDUuODc2NTMgOC4yMDk0OSA1Ljc0NDE4IDguMDc3MTRMNC45NDA2MSA3LjI5MjQ4QzQuNDc3MzcgNi44MjkyNCA0LjYyODY0IDYuMzY2MDEgNS4yNzE0OSA2LjI2MjAxTDYuMjgzMDUgNi4wOTE4NUM2LjQ1MzIyIDYuMDYzNDkgNi42NTE3NCA1LjkxMjIyIDYuNzI3MzggNS43NjA5Nkw3LjI4NTE1IDQuNjQ1NDJDNy41ODc2NyA0LjA0MDM4IDguMDc5MjcgNC4wNDAzOCA4LjM4MTc5IDQuNjQ1NDJMOC45Mzk1NiA1Ljc2MDk2QzkuMDE1MTkgNS45MTIyMiA5LjIxMzcyIDYuMDYzNDkgOS4zOTMzNCA2LjA5MTg1TDEwLjQwNDkgNi4yNjIwMUMxMS4wMzgzIDYuMzY2MDEgMTEuMTg5NiA2LjgyOTI0IDEwLjcyNjMgNy4yOTI0OFoiIGZpbGw9IiNCRkMyQzkiLz4KPC9zdmc+Cg==) center center/contain no-repeat;
     }
   }
 
@@ -4268,11 +4271,10 @@ body:has(.export-overlay.active) #wpadminbar {
   min-width: 188px;
   display: none;
 
-  .rtl &{
+  .rtl & {
     right: unset;
     left: 0;
   }
-
 
 
   & > span {
@@ -4306,8 +4308,8 @@ body:has(.export-overlay.active) #wpadminbar {
       box-sizing: border-box;
       height: 32px;
 
-      span:not(.wps-export-loading){
-        display:flex;
+      span:not(.wps-export-loading) {
+        display: flex;
         gap: 4px;
         align-items: center;
       }
@@ -4344,19 +4346,19 @@ body:has(.export-overlay.active) #wpadminbar {
         }
       }
 
-      .wps-export-loading{
-        display:none;
+      .wps-export-loading {
+        display: none;
       }
 
       &.loading {
         color: #666FF5;
         pointer-events: none;
 
-        span:not(.wps-export-loading){
-          display:none
+        span:not(.wps-export-loading) {
+          display: none
         }
 
-        .wps-export-loading{
+        .wps-export-loading {
           display: flex;
           align-items: center;
           gap: 4px;
@@ -4367,7 +4369,7 @@ body:has(.export-overlay.active) #wpadminbar {
           height: 16px;
           margin: 0 4px 0 0;
 
-          .rtl &{
+          .rtl & {
             margin-right: 0;
             margin-left: 4px;
           }
@@ -4397,11 +4399,10 @@ body:has(.export-overlay.active) #wpadminbar {
 }
 
 
-
 .wps-head-filters.drop-down-open {
   z-index: 3;
 
-  .c-pages-date-range, .wps-dropdown , .wps-modal-filter , .wps-last-updated , .wps-realtime-btn{
+  .c-pages-date-range, .wps-dropdown, .wps-modal-filter, .wps-last-updated, .wps-realtime-btn {
     pointer-events: none;
     opacity: .5;
     filter: blur(2px);

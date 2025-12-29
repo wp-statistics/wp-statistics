@@ -301,6 +301,7 @@ return array(
     'WP_Statistics\\Service\\Analytics\\Referrals\\ReferralsParser' => $baseDir . '/src/Service/Analytics/Referrals/ReferralsParser.php',
     'WP_Statistics\\Service\\Analytics\\Referrals\\SourceChannels' => $baseDir . '/src/Service/Analytics/Referrals/SourceChannels.php',
     'WP_Statistics\\Service\\Analytics\\Referrals\\SourceDetector' => $baseDir . '/src/Service/Analytics/Referrals/SourceDetector.php',
+    'WP_Statistics\\Service\\Analytics\\UrlResolver' => $baseDir . '/src/Service/Analytics/UrlResolver.php',
     'WP_Statistics\\Service\\Analytics\\VisitorProfile' => $baseDir . '/src/Service/Analytics/VisitorProfile.php',
     'WP_Statistics\\Service\\Charts\\AbstractChartDataProvider' => $baseDir . '/src/Service/Charts/AbstractChartDataProvider.php',
     'WP_Statistics\\Service\\Charts\\ChartDataProviderFactory' => $baseDir . '/src/Service/Charts/ChartDataProviderFactory.php',

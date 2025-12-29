@@ -11,14 +11,14 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
     );
 
     public static $prefixLengthsPsr4 = array (
-        'W' =>
+        'W' => 
         array (
             'WP_Statistics\\' => 14,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'WP_Statistics\\' =>
+        'WP_Statistics\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
@@ -320,6 +320,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Analytics\\Referrals\\ReferralsParser' => __DIR__ . '/../..' . '/src/Service/Analytics/Referrals/ReferralsParser.php',
         'WP_Statistics\\Service\\Analytics\\Referrals\\SourceChannels' => __DIR__ . '/../..' . '/src/Service/Analytics/Referrals/SourceChannels.php',
         'WP_Statistics\\Service\\Analytics\\Referrals\\SourceDetector' => __DIR__ . '/../..' . '/src/Service/Analytics/Referrals/SourceDetector.php',
+        'WP_Statistics\\Service\\Analytics\\UrlResolver' => __DIR__ . '/../..' . '/src/Service/Analytics/UrlResolver.php',
         'WP_Statistics\\Service\\Analytics\\VisitorProfile' => __DIR__ . '/../..' . '/src/Service/Analytics/VisitorProfile.php',
         'WP_Statistics\\Service\\Charts\\AbstractChartDataProvider' => __DIR__ . '/../..' . '/src/Service/Charts/AbstractChartDataProvider.php',
         'WP_Statistics\\Service\\Charts\\ChartDataProviderFactory' => __DIR__ . '/../..' . '/src/Service/Charts/ChartDataProviderFactory.php',
