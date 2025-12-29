@@ -36,7 +36,7 @@ export function ReferrerCell({ data, maxLength = 22 }: ReferrerCellProps) {
               href={`https://${domain}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:underline max-w-[180px] truncate block text-sm text-neutral-700"
+              className="hover:underline max-w-[180px] truncate block text-xs text-neutral-700"
             >
               {truncateDomain(domain, maxLength)}
             </a>

@@ -22,7 +22,7 @@ export function EntryPageCell({ data, maxLength = 28 }: EntryPageCellProps) {
       <Tooltip>
         <TooltipTrigger asChild>
           <div className="flex items-center gap-1 cursor-pointer">
-            <span className="truncate text-sm text-neutral-700">{truncatedTitle}</span>
+            <span className="truncate text-xs text-neutral-700">{truncatedTitle}</span>
             {hasQueryString && <Info className="h-3.5 w-3.5 text-neutral-400 shrink-0" />}
           </div>
         </TooltipTrigger>

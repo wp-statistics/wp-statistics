@@ -19,7 +19,7 @@ export function LastVisitCell({ date }: LastVisitCellProps) {
 
   return (
     <div className="flex flex-col">
-      <span className="whitespace-nowrap text-neutral-700">{formattedDate}</span>
+      <span className="whitespace-nowrap text-xs text-neutral-700">{formattedDate}</span>
       <span className="text-xs text-neutral-500">{formattedTime}</span>
     </div>
   )

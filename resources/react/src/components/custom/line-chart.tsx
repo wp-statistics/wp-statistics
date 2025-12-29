@@ -173,7 +173,7 @@ export function LineChart({
                             />
                           </svg>
                           <span
-                            className={`text-sm text-neutral-500 leading-none tabular-nums ${!isPreviousVisible ? 'line-through' : ''}`}
+                            className={`text-xs text-neutral-500 leading-none tabular-nums ${!isPreviousVisible ? 'line-through' : ''}`}
                           >
                             {metric.previousValue}
                           </span>

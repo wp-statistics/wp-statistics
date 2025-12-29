@@ -38,7 +38,7 @@ export function HorizontalBar({
         </div>
 
         <div className="flex items-center gap-3">
-          <span className={cn('text-sm tabular-nums', isFirst ? 'font-semibold text-neutral-900' : 'font-medium text-neutral-600')}>{value}</span>
+          <span className={cn('text-xs tabular-nums', isFirst ? 'font-semibold text-neutral-900' : 'font-medium text-neutral-600')}>{value}</span>
           <div className="flex items-center">
             <span className={isNegative ? 'text-red-600' : 'text-emerald-600'}>
               {isNegative ? <ChevronDown className="h-3.5 w-3.5" strokeWidth={2.5} /> : <ChevronUp className="h-3.5 w-3.5" strokeWidth={2.5} />}

@@ -19,7 +19,7 @@ export function PageCell({ data, maxLength = 28 }: PageCellProps) {
     <div className="max-w-[200px]">
       <Tooltip>
         <TooltipTrigger asChild>
-          <span className="cursor-pointer truncate text-sm text-neutral-700">{truncatedTitle}</span>
+          <span className="cursor-pointer truncate text-xs text-neutral-700">{truncatedTitle}</span>
         </TooltipTrigger>
         <TooltipContent>{url}</TooltipContent>
       </Tooltip>
