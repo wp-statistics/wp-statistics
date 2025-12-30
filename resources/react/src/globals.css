@@ -252,3 +252,19 @@
 [data-slot="sidebar-content"]::-webkit-scrollbar-thumb:hover {
   background: oklch(1 0 0 / 0.25);
 }
+
+/* Live indicator pulse animation - red dot that pulses outward */
+@keyframes live-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+.animate-live-pulse {
+  animation: live-pulse 1.5s ease-out infinite;
+}

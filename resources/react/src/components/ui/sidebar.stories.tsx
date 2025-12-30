@@ -32,9 +32,17 @@ const meta = {
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <div className="min-h-[400px]">
-        <Story />
-      </div>
+      <>
+        {/* Override hidden lg:block to always show sidebar in Storybook */}
+        <style>{`
+          [data-slot="sidebar"].peer {
+            display: block !important;
+          }
+        `}</style>
+        <div className="min-h-[400px] w-full">
+          <Story />
+        </div>
+      </>
     ),
   ],
 } satisfies Meta<typeof Sidebar>
@@ -205,6 +213,112 @@ export const WithSubMenu: Story = {
       <SidebarInset>
         <main className="p-4">
           <p>Sidebar with collapsible sub-menu</p>
+        </main>
+      </SidebarInset>
+    </SidebarProvider>
+  ),
+}
+
+// Badge component for menu items (same as used in nav-main.tsx)
+const MenuBadge = ({ count, live = false, isActive = false }: { count: number; live?: boolean; isActive?: boolean }) => {
+  if (count <= 0) return null
+
+  // Format large numbers with commas
+  const formattedCount = count.toLocaleString()
+
+  if (live) {
+    return (
+      <span className="ms-auto ps-3 inline-flex items-center gap-1.5 overflow-visible">
+        <span className="relative flex h-2 w-2 overflow-visible shrink-0">
+          <span className="absolute inline-flex h-full w-full rounded-full bg-red-500 animate-live-pulse" />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-red-500" />
+        </span>
+        <span className={`text-[12px] font-medium ${isActive ? 'text-sidebar-accent-foreground' : 'text-white/70'}`}>
+          {formattedCount}
+        </span>
+      </span>
+    )
+  }
+
+  return (
+    <span className="ms-auto inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-[11px] font-medium rounded-full bg-[#3B82F6] text-white">
+      {count > 99999 ? '99k+' : formattedCount}
+    </span>
+  )
+}
+
+export const WithBadges: Story = {
+  render: () => (
+    <SidebarProvider>
+      <Sidebar>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupLabel>Visitor Insights</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <Collapsible defaultOpen className="group/collapsible">
+                  <SidebarMenuItem>
+                    <CollapsibleTrigger asChild>
+                      <SidebarMenuButton>
+                        <User2 />
+                        <span>Visitors</span>
+                        <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                      </SidebarMenuButton>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent>
+                      <SidebarMenuSub>
+                        <SidebarMenuSubItem>
+                          <SidebarMenuSubButton asChild>
+                            <a href="#" className="flex items-center justify-between">
+                              <span>All Visitors</span>
+                            </a>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                        <SidebarMenuSubItem>
+                          <SidebarMenuSubButton asChild className="overflow-visible">
+                            <a href="#" className="overflow-visible">
+                              <span>Online Visitors</span>
+                              <MenuBadge count={24793} live />
+                            </a>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                        <SidebarMenuSubItem>
+                          <SidebarMenuSubButton asChild>
+                            <a href="#" className="flex items-center justify-between">
+                              <span>Top Visitors</span>
+                            </a>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      </SidebarMenuSub>
+                    </CollapsibleContent>
+                  </SidebarMenuItem>
+                </Collapsible>
+                <SidebarMenuItem>
+                  <SidebarMenuButton className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Inbox />
+                      <span>Inbox</span>
+                    </div>
+                    <MenuBadge count={12} />
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Calendar />
+                      <span>Events</span>
+                    </div>
+                    <MenuBadge count={150} />
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+      </Sidebar>
+      <SidebarInset>
+        <main className="p-4">
+          <p>Sidebar with count badges on menu items. Badges show blue rounded pills with counts, displaying "99+" for large numbers.</p>
         </main>
       </SidebarInset>
     </SidebarProvider>

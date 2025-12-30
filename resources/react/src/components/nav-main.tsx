@@ -20,12 +20,40 @@ const ActiveIndicator = React.memo(function ActiveIndicator() {
   )
 })
 
+// Badge component for menu items
+const MenuBadge = React.memo(function MenuBadge({ count, live = false, isActive = false }: { count: number; live?: boolean; isActive?: boolean }) {
+  if (count <= 0) return null
+
+  // Format large numbers with commas
+  const formattedCount = count.toLocaleString()
+
+  if (live) {
+    return (
+      <span className="ms-auto ps-3 inline-flex items-center gap-1.5 overflow-visible">
+        <span className="relative flex h-2 w-2 overflow-visible shrink-0">
+          <span className="absolute inline-flex h-full w-full rounded-full bg-red-500 animate-live-pulse" />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-red-500" />
+        </span>
+        <span className={`text-[12px] font-medium ${isActive ? 'text-sidebar-accent-foreground' : 'text-white/70'}`}>
+          {formattedCount}
+        </span>
+      </span>
+    )
+  }
+
+  return (
+    <span className="ms-auto inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-[11px] font-medium rounded-full bg-[#3B82F6] text-white">
+      {count > 99999 ? '99k+' : formattedCount}
+    </span>
+  )
+})
+
 // Sub-menu item component - memoized to prevent re-renders
 const SubMenuItem = React.memo(function SubMenuItem({
   subItem,
   isActive,
 }: {
-  subItem: { title: string; url: string }
+  subItem: { title: string; url: string; badge?: number; badgeLive?: boolean }
   isActive: boolean
 }) {
   return (
@@ -33,14 +61,15 @@ const SubMenuItem = React.memo(function SubMenuItem({
       <SidebarMenuSubButton
         asChild
         isActive={isActive}
-        className={`cursor-pointer text-[13px] bg-transparent hover:bg-transparent focus:ring-0 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/30 ${
+        className={`cursor-pointer text-[13px] bg-transparent hover:bg-transparent focus:ring-0 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/30 overflow-visible ${
           isActive
             ? 'text-white font-medium'
             : 'text-sidebar-foreground/70 hover:text-white'
         }`}
       >
-        <Link to={subItem.url as any}>
+        <Link to={subItem.url as any} className="overflow-visible">
           <span>{subItem.title}</span>
+          {subItem.badge !== undefined && <MenuBadge count={subItem.badge} live={subItem.badgeLive} isActive={isActive} />}
         </Link>
       </SidebarMenuSubButton>
     </SidebarMenuSubItem>
@@ -52,23 +81,26 @@ const NavMenuItem = React.memo(function NavMenuItem({
   item,
   isSubmenuActive,
   activeSubItemUrl,
+  isSingleItemActive,
   onNavigate,
 }: {
   item: {
     title: string
     url: string
     icon: LucideIcon
-    isActive?: boolean
     items?: {
       title: string
       url: string
+      badge?: number
+      badgeLive?: boolean
     }[]
   }
   isSubmenuActive: boolean
   activeSubItemUrl: string | null
+  isSingleItemActive: boolean
   onNavigate: (url: string) => void
 }) {
-  const [isOpen, setIsOpen] = React.useState(item.isActive || isSubmenuActive)
+  const [isOpen, setIsOpen] = React.useState(isSubmenuActive)
 
   // Update isOpen when isSubmenuActive changes
   React.useEffect(() => {
@@ -135,12 +167,12 @@ const NavMenuItem = React.memo(function NavMenuItem({
         ) : (
           <SidebarMenuButton
             asChild
-            isActive={item.isActive}
+            isActive={isSingleItemActive}
             tooltip={item.title}
             className={singleItemClasses}
           >
             <Link to={item.url as any} className="outline-none focus:outline-none">
-              {item.isActive && <ActiveIndicator />}
+              {isSingleItemActive && <ActiveIndicator />}
               <item.icon />
               <span>{item.title}</span>
             </Link>
@@ -158,10 +190,11 @@ export function NavMain({
     title: string
     url: string
     icon: LucideIcon
-    isActive?: boolean
     items?: {
       title: string
       url: string
+      badge?: number
+      badgeLive?: boolean
     }[]
   }[]
 }) {
@@ -178,8 +211,11 @@ export function NavMain({
     <SidebarGroup>
       <SidebarMenu>
         {items.map((item) => {
+          // Calculate active states here to avoid prop drilling and re-renders
           const activeSubItemUrl = item.items?.find((subItem) => location.pathname === subItem.url)?.url || null
           const isSubmenuActive = activeSubItemUrl !== null
+          // For single items (no subitems), check if current path matches
+          const isSingleItemActive = !item.items?.length && location.pathname === item.url
 
           return (
             <NavMenuItem
@@ -187,6 +223,7 @@ export function NavMain({
               item={item}
               isSubmenuActive={isSubmenuActive}
               activeSubItemUrl={activeSubItemUrl}
+              isSingleItemActive={isSingleItemActive}
               onNavigate={handleNavigate}
             />
           )
