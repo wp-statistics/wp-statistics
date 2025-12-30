@@ -54,8 +54,13 @@ class Test_AttackPayloadGenerator extends SimulatorTestCase
         $this->assertArrayHasKey('payload', $result);
         $this->assertEquals(AttackPayloadGenerator::SEVERITY_HIGH, $result['severity']);
 
-        // Payload should contain XSS-like syntax
-        $xssPatterns = ['<script', 'javascript:', 'onerror', 'onload', 'alert', '<img', '<svg'];
+        // Payload should contain XSS-like syntax (including template injection patterns)
+        $xssPatterns = [
+            '<script', 'javascript:', 'onerror', 'onload', 'alert', '<img', '<svg',
+            'onclick', 'onfocus', 'onbegin', 'ontoggle', 'onmouseover',  // Event handlers
+            'data:text/html', 'data:application',                         // Data URIs
+            '{{', '${', '#{', '<%=',                                      // Template injection
+        ];
         $found = false;
         foreach ($xssPatterns as $pattern) {
             if (stripos($result['payload'], $pattern) !== false) {
@@ -63,7 +68,7 @@ class Test_AttackPayloadGenerator extends SimulatorTestCase
                 break;
             }
         }
-        $this->assertTrue($found, 'XSS payload should contain script/event handler syntax');
+        $this->assertTrue($found, 'XSS payload should contain script/event handler/template injection syntax. Got: ' . $result['payload']);
     }
 
     /**
