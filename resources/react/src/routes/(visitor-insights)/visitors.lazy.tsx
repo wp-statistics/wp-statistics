@@ -11,10 +11,9 @@ import { type Filter, FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import {
   DurationCell,
-  EntryPageCell,
+  JourneyCell,
   LastVisitCell,
   NumericCell,
-  PageCell,
   ReferrerCell,
   VisitorInfoCell,
   type VisitorInfoConfig,
@@ -75,8 +74,7 @@ const COLUMN_CONFIG: ColumnConfig = {
       'user_role',
     ],
     referrer: ['referrer_domain', 'referrer_channel'],
-    entryPage: ['entry_page', 'entry_page_title'],
-    exitPage: ['exit_page', 'exit_page_title'],
+    journey: ['entry_page', 'entry_page_title', 'exit_page', 'exit_page_title'],
     totalViews: ['total_views'],
     totalSessions: ['total_sessions'],
     sessionDuration: ['avg_session_duration'],
@@ -181,17 +179,7 @@ const transformVisitorData = (record: VisitorRecord): Visitor => {
 }
 
 const createColumns = (config: VisitorInfoConfig): ColumnDef<Visitor>[] => [
-  {
-    accessorKey: 'lastVisit',
-    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
-    size: COLUMN_SIZES.lastVisit,
-    cell: ({ row }) => <LastVisitCell date={row.original.lastVisit} />,
-    meta: {
-      priority: 'primary',
-      cardPosition: 'header',
-      mobileLabel: 'Last Visit',
-    },
-  },
+  // Primary columns (reordered for importance)
   {
     accessorKey: 'visitorInfo',
     header: () => 'Visitor Info',
@@ -230,60 +218,14 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<Visitor>[] => [
     },
   },
   {
-    accessorKey: 'referrer',
-    header: () => 'Referrer',
-    size: COLUMN_SIZES.referrer,
-    cell: ({ row }) => (
-      <ReferrerCell
-        data={{
-          domain: row.original.referrerDomain,
-          category: row.original.referrerCategory,
-        }}
-      />
-    ),
+    accessorKey: 'lastVisit',
+    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
+    size: COLUMN_SIZES.lastVisit,
+    cell: ({ row }) => <LastVisitCell date={row.original.lastVisit} />,
     meta: {
-      priority: 'secondary',
-      mobileLabel: 'Referrer',
-    },
-  },
-  {
-    accessorKey: 'entryPage',
-    header: () => 'Entry Page',
-    size: COLUMN_SIZES.entryPage,
-    cell: ({ row }) => {
-      const visitor = row.original
-      return (
-        <EntryPageCell
-          data={{
-            title: visitor.entryPageTitle,
-            url: visitor.entryPage,
-            hasQueryString: visitor.entryPageHasQuery,
-            queryString: visitor.entryPageQueryString,
-            utmCampaign: visitor.utmCampaign,
-          }}
-        />
-      )
-    },
-    meta: {
-      priority: 'secondary',
-      mobileLabel: 'Entry',
-    },
-  },
-  {
-    accessorKey: 'exitPage',
-    header: () => 'Exit Page',
-    size: COLUMN_SIZES.exitPage,
-    cell: ({ row }) => (
-      <PageCell
-        data={{
-          title: row.original.exitPageTitle,
-          url: row.original.exitPage,
-        }}
-      />
-    ),
-    meta: {
-      priority: 'secondary',
-      mobileLabel: 'Exit',
+      priority: 'primary',
+      cardPosition: 'header',
+      mobileLabel: 'Last Visit',
     },
   },
   {
@@ -319,6 +261,54 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<Visitor>[] => [
       mobileLabel: 'Duration',
     },
   },
+  // Secondary columns
+  {
+    accessorKey: 'referrer',
+    header: () => 'Referrer',
+    size: COLUMN_SIZES.referrer,
+    cell: ({ row }) => (
+      <ReferrerCell
+        data={{
+          domain: row.original.referrerDomain,
+          category: row.original.referrerCategory,
+        }}
+      />
+    ),
+    meta: {
+      priority: 'secondary',
+      mobileLabel: 'Referrer',
+    },
+  },
+  {
+    accessorKey: 'journey',
+    header: () => 'Journey',
+    size: COLUMN_SIZES.journey,
+    cell: ({ row }) => {
+      const visitor = row.original
+      const isBounce = visitor.entryPage === visitor.exitPage
+      return (
+        <JourneyCell
+          data={{
+            entryPage: {
+              title: visitor.entryPageTitle,
+              url: visitor.entryPage,
+              utmCampaign: visitor.utmCampaign,
+            },
+            exitPage: {
+              title: visitor.exitPageTitle,
+              url: visitor.exitPage,
+            },
+            isBounce,
+          }}
+        />
+      )
+    },
+    meta: {
+      priority: 'secondary',
+      mobileLabel: 'Journey',
+    },
+  },
+  // Hidden by default columns
   {
     accessorKey: 'viewsPerSession',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Per Session" className="text-right" />,

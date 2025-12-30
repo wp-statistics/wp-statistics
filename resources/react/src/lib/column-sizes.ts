@@ -21,6 +21,7 @@ export const COLUMN_SIZES = {
   entryPage: 140,
   exitPage: 140,
   referrer: 120,
+  journey: 160, // Combined entry → exit flow
 
   // Numeric columns (right-aligned)
   views: 70,
