@@ -33,10 +33,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   return (
     <Sidebar variant="sidebar" collapsible="icon" {...props}>
-      <SidebarContent>
+      <SidebarContent className="pb-14">
         <NavMain items={navItems} />
       </SidebarContent>
-      <SidebarFooter className="mt-auto shrink-0 border-t border-border bg-sidebar">
+      <SidebarFooter className="absolute bottom-0 left-0 right-0 shrink-0 border-t border-border bg-sidebar">
         <SidebarTrigger className="ms-auto" />
       </SidebarFooter>
     </Sidebar>

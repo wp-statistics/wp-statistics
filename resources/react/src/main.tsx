@@ -7,11 +7,10 @@ import { App } from './app'
 
 // Set CSS variable for WordPress admin menu height to ensure React app fills properly
 const setAdminMenuHeight = () => {
-  const adminMenuWrap = document.getElementById('adminmenuwrap')
-  if (adminMenuWrap) {
-    const height = adminMenuWrap.offsetHeight
-    document.documentElement.style.setProperty('--wp-admin-menu-height', `${height}px`)
-  }
+  const adminBar = document.getElementById('wpadminbar')
+  const adminBarHeight = adminBar ? adminBar.offsetHeight : 32 // Default 32px
+  const availableHeight = window.innerHeight - adminBarHeight
+  document.documentElement.style.setProperty('--wp-admin-menu-height', `${availableHeight}px`)
 }
 
 // Set initial height and observe changes

@@ -8,7 +8,7 @@ import { GlobalFiltersProvider } from '@/contexts/global-filters-context'
 const RootLayout = () => (
   <GlobalFiltersProvider>
     <SidebarProvider>
-      <div className="flex flex-col min-h-[var(--wp-admin-menu-height)] w-full overflow-hidden">
+      <div className="flex flex-col h-[var(--wp-admin-menu-height)] w-full overflow-hidden">
         <Header />
         <div className="flex flex-1 relative overflow-hidden min-w-0">
           <AppSidebar />
