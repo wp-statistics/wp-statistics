@@ -5,18 +5,24 @@
 
 import {
   BarChart3,
+  Circle,
   CircleDot,
   Compass,
+  Earth,
   ExternalLink,
   Eye,
+  File,
+  FileChartColumn,
   FileText,
   Globe2,
   Home,
   Laptop,
   LayoutDashboard,
   type LucideIcon,
+  type LucideProps,
   MonitorSmartphone,
   MousePointerClick,
+  RefreshCw,
   Search,
   Settings,
   Share2,
@@ -24,8 +30,6 @@ import {
   TrendingUp,
   User,
   Users,
-  type LucideProps,
-  Circle,
 } from 'lucide-react'
 
 /**
@@ -34,10 +38,14 @@ import {
  */
 export const iconRegistry: Record<string, LucideIcon> = {
   BarChart3,
+  Circle,
   CircleDot,
   Compass,
+  Earth,
   ExternalLink,
   Eye,
+  File,
+  FileChartColumn,
   FileText,
   Globe2,
   Home,
@@ -45,6 +53,7 @@ export const iconRegistry: Record<string, LucideIcon> = {
   LayoutDashboard,
   MonitorSmartphone,
   MousePointerClick,
+  RefreshCw,
   Search,
   Settings,
   Share2,
@@ -52,7 +61,6 @@ export const iconRegistry: Record<string, LucideIcon> = {
   TrendingUp,
   User,
   Users,
-  Circle,
 } as const
 
 /**
