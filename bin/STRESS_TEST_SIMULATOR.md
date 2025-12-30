@@ -24,6 +24,25 @@ php bin/stress-test-simulator.php --target=1000
 php bin/stress-test-simulator.php --quick
 ```
 
+## Two Simulators: Which to Use?
+
+| Command | Purpose | Best For |
+|---------|---------|----------|
+| `dummy-tracker-simulator.php` | Simple realistic traffic | Quick development testing, demo data |
+| `stress-test-simulator.php` | Advanced testing scenarios | Stress testing, security validation, edge cases |
+
+**Use `dummy-tracker-simulator.php` when you need:**
+- Quick, simple dummy data for development
+- Realistic visitor traffic patterns only
+- Easy date-range based generation
+
+**Use `stress-test-simulator.php` when you need:**
+- High-volume stress testing (100K+ records)
+- Invalid/edge case data testing
+- Security attack payload validation
+- Parallel request processing
+- Resumable checkpoints for large jobs
+
 ## CLI Usage
 
 ```bash
@@ -51,15 +70,67 @@ php bin/stress-test-simulator.php [options]
 | `--verbose` | Verbose output | false |
 | `--help` | Show help message | - |
 
-### Scenarios
+### Data Generation Types
 
-| Scenario | Description |
-|----------|-------------|
-| `normal` | Standard realistic traffic |
-| `stress` | High-volume testing (100K+ records, 20+ workers) |
-| `invalid` | Focus on invalid/edge case data (50% invalid) |
-| `security` | Security testing with attack payloads (20% attacks) |
-| `mixed` | Combination of all data types |
+Control what types of data the simulator generates using ratio options:
+
+#### `--invalid-ratio=N` (0.0 to 1.0)
+Percentage of requests containing invalid/edge case data:
+- Boundary values (negative numbers, MAX_INT, zero dimensions)
+- Malformed strings (empty, oversized, null bytes)
+- Missing required fields
+- Type mismatches (string where int expected)
+- Encoding issues (invalid UTF-8, control characters)
+
+```bash
+# 10% invalid data
+php bin/stress-test-simulator.php --target=1000 --invalid-ratio=0.1
+```
+
+#### `--attack-ratio=N` (0.0 to 1.0)
+Percentage of requests containing security attack payloads:
+- SQL injection (UNION SELECT, blind boolean, time-based)
+- XSS (script tags, event handlers, JS URIs)
+- Command injection (shell commands, filter bypass)
+- Path traversal (../../../wp-config.php)
+- SSRF (internal services, metadata endpoints)
+- Header injection (CRLF, host manipulation)
+
+```bash
+# 5% attack payloads
+php bin/stress-test-simulator.php --target=1000 --attack-ratio=0.05
+```
+
+#### `--logged-in-ratio=N` (0.0 to 1.0)
+Percentage of visitors simulated as logged-in WordPress users:
+- Logged-in users have `user_id` set (vs null for guests)
+- Different behavior patterns (more pages/session, lower bounce rate)
+- Uses existing WordPress users or creates test users
+
+```bash
+# 20% logged-in visitors
+php bin/stress-test-simulator.php --target=1000 --logged-in-ratio=0.2
+```
+
+### Scenarios (Presets)
+
+Preset configurations that set optimal ratios for specific testing goals:
+
+| Scenario | Invalid Ratio | Attack Ratio | Logged-in Ratio | Workers | Description |
+|----------|---------------|--------------|-----------------|---------|-------------|
+| `normal` | 0% | 0% | 12% | 10 | Standard realistic traffic |
+| `stress` | 0% | 0% | 12% | 20+ | High-volume testing (100K+ records) |
+| `invalid` | 50% | 0% | 12% | 10 | Focus on edge cases and malformed data |
+| `security` | 0% | 20% | 12% | 10 | Attack payload validation |
+| `mixed` | 10% | 5% | 15% | 15 | Combination of all data types |
+
+```bash
+# Use a preset scenario
+php bin/stress-test-simulator.php --target=5000 --scenario=security
+
+# Override specific ratios in a scenario
+php bin/stress-test-simulator.php --target=5000 --scenario=mixed --attack-ratio=0.1
+```
 
 ### Examples
 
