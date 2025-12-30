@@ -49,6 +49,13 @@ class PageFilter extends AbstractFilter
     ];
 
     /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: views
+     */
+    protected $groups = ['views'];
+
+    /**
      * {@inheritdoc}
      */
     public function getLabel(): string

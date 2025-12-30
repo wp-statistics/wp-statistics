@@ -49,6 +49,13 @@ class BrowserVersionFilter extends AbstractFilter
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in', 'contains', 'starts_with', 'ends_with'];
 
     /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors, views
+     */
+    protected $groups = ['visitors', 'views'];
+
+    /**
      * {@inheritdoc}
      */
     public function getLabel(): string

@@ -386,13 +386,18 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
 
   const renderValueInput = () => {
     if (!selectedField) {
+      // Field not available on this page - show display value (using valueLabels if available)
+      const rawValue = getSingleValue(filter.value)
+      const displayValue = filter.valueLabels?.[rawValue] || rawValue
       return (
         <Input
           type="text"
-          value={getSingleValue(filter.value)}
+          value={displayValue}
           onChange={(e) => handleSingleValueChange(e.target.value)}
           placeholder={__('Value', 'wp-statistics')}
           className="h-8 text-xs border-0 bg-white shadow-sm min-w-[100px] flex-1"
+          disabled
+          title={__('This filter field is not available on this page', 'wp-statistics')}
         />
       )
     }
@@ -463,35 +468,56 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
     }
   }
 
+  // Check if this filter's field is not available on the current page
+  const isUnavailableField = !selectedField && filter.fieldName
+
   return (
     <div className="flex items-center gap-1.5 p-2 rounded-lg bg-neutral-50/70 border border-neutral-100">
-      {/* Field Select */}
-      <Select value={filter.fieldName} onValueChange={handleFieldChange}>
-        <SelectTrigger className="h-8 w-[100px] text-xs font-medium border-0 bg-white shadow-sm shrink-0">
-          <SelectValue placeholder={__('Field', 'wp-statistics')} />
-        </SelectTrigger>
-        <SelectContent className="max-h-[200px] overflow-y-auto">
-          {availableFields.map((field) => (
-            <SelectItem key={field.name} value={field.name}>
-              {field.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      {/* Field Select - show as disabled text when field not available */}
+      {isUnavailableField ? (
+        <div
+          className="h-8 w-[100px] text-xs font-medium border-0 bg-white shadow-sm shrink-0 flex items-center px-3 rounded-md text-neutral-500"
+          title={__('This filter field is not available on this page', 'wp-statistics')}
+        >
+          {filter.fieldName}
+        </div>
+      ) : (
+        <Select value={filter.fieldName} onValueChange={handleFieldChange}>
+          <SelectTrigger className="h-8 w-[100px] text-xs font-medium border-0 bg-white shadow-sm shrink-0">
+            <SelectValue placeholder={__('Field', 'wp-statistics')} />
+          </SelectTrigger>
+          <SelectContent className="max-h-[200px] overflow-y-auto">
+            {availableFields.map((field) => (
+              <SelectItem key={field.name} value={field.name}>
+                {field.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
 
-      {/* Operator Select */}
-      <Select value={filter.operator} onValueChange={handleOperatorChange}>
-        <SelectTrigger className="h-8 w-[90px] text-xs border-0 bg-white shadow-sm text-neutral-600 shrink-0">
-          <SelectValue placeholder={__('Operator', 'wp-statistics')} />
-        </SelectTrigger>
-        <SelectContent className="max-h-[200px] overflow-y-auto">
-          {availableOperators.map((op) => (
-            <SelectItem key={op} value={op}>
-              {getOperatorLabel(op)}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      {/* Operator Select - show as disabled text when field not available */}
+      {isUnavailableField ? (
+        <div
+          className="h-8 w-[90px] text-xs border-0 bg-white shadow-sm text-neutral-500 shrink-0 flex items-center px-3 rounded-md"
+          title={__('This filter field is not available on this page', 'wp-statistics')}
+        >
+          {getOperatorLabel(filter.operator)}
+        </div>
+      ) : (
+        <Select value={filter.operator} onValueChange={handleOperatorChange}>
+          <SelectTrigger className="h-8 w-[90px] text-xs border-0 bg-white shadow-sm text-neutral-600 shrink-0">
+            <SelectValue placeholder={__('Operator', 'wp-statistics')} />
+          </SelectTrigger>
+          <SelectContent className="max-h-[200px] overflow-y-auto">
+            {availableOperators.map((op) => (
+              <SelectItem key={op} value={op}>
+                {getOperatorLabel(op)}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
 
       {/* Value Input - hide for operators that don't need a value (is_null, is_not_null) */}
       {filter.operator !== 'is_null' && filter.operator !== 'is_not_null' && (

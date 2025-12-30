@@ -59,7 +59,7 @@ class TotalViewsFilter extends AbstractFilter
      *
      * @var array Groups: visitors
      */
-    protected $groups = ['visitors'];
+    protected $groups = ['visitors', 'views'];
 
     /**
      * Required JOINs to access the column.

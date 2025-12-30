@@ -54,7 +54,7 @@ class ViewsPerSessionFilter extends AbstractFilter
      *
      * @var array Groups: visitors
      */
-    protected $groups = ['visitors'];
+    protected $groups = ['visitors', 'views'];
 
     /**
      * Required base table to enable this filter.

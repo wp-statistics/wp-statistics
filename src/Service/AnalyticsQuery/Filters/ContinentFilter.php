@@ -49,6 +49,13 @@ class ContinentFilter extends AbstractFilter
     protected $supportedOperators = ['is', 'is_not', 'in', 'not_in'];
 
     /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors, views
+     */
+    protected $groups = ['visitors', 'views'];
+
+    /**
      * {@inheritdoc}
      */
     public function getLabel(): string

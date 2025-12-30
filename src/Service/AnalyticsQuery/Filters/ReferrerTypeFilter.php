@@ -42,6 +42,13 @@ class ReferrerTypeFilter extends AbstractFilter
     ];
 
     /**
+     * Pages where this filter is available.
+     *
+     * @var array Groups: visitors, views
+     */
+    protected $groups = ['visitors', 'views'];
+
+    /**
      * {@inheritdoc}
      */
     public function getLabel(): string

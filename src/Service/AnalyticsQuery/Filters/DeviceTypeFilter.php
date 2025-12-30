@@ -60,7 +60,7 @@ class DeviceTypeFilter extends AbstractFilter
      *
      * @var array Groups: visitors
      */
-    protected $groups = ['visitors'];
+    protected $groups = ['visitors', 'views'];
 
     /**
      * {@inheritdoc}
