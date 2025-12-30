@@ -26,6 +26,13 @@ use WP_Statistics\Service\AnalyticsQuery\Query\Query;
 class ChartFormatter extends AbstractFormatter
 {
     /**
+     * Time-series group by types that need date filling.
+     *
+     * @var array
+     */
+    private static $timeSeriesGroupBy = ['date', 'week', 'month'];
+
+    /**
      * {@inheritdoc}
      */
     public function getName(): string
@@ -54,11 +61,16 @@ class ChartFormatter extends AbstractFormatter
             ];
         }
 
-        // Build labels from the first group by field
         $primaryGroupBy = $groupBy[0];
         $labelAlias     = $this->getGroupByAlias($primaryGroupBy);
-        $labels         = [];
 
+        // For time-series data, fill in missing dates
+        if (in_array($primaryGroupBy, self::$timeSeriesGroupBy, true)) {
+            $rows = $this->fillMissingDates($rows, $query, $primaryGroupBy, $labelAlias, $sources);
+        }
+
+        // Build labels from the first group by field
+        $labels = [];
         foreach ($rows as $row) {
             $labels[] = $row[$labelAlias] ?? '';
         }
@@ -112,5 +124,124 @@ class ChartFormatter extends AbstractFormatter
         }
 
         return $response;
+    }
+
+    /**
+     * Fill in missing dates for time-series data.
+     *
+     * Ensures all dates in the query range are present, with zero values for missing dates.
+     *
+     * @param array  $rows        Existing data rows.
+     * @param Query  $query       Query object with date range.
+     * @param string $groupByType Type of grouping (date, week, month).
+     * @param string $labelAlias  Alias for the label field.
+     * @param array  $sources     Source fields to fill with zeros.
+     * @return array Complete rows with all dates filled.
+     */
+    private function fillMissingDates(array $rows, Query $query, string $groupByType, string $labelAlias, array $sources): array
+    {
+        $dateFrom = $query->getDateFrom();
+        $dateTo   = $query->getDateTo();
+
+        if (empty($dateFrom) || empty($dateTo)) {
+            return $rows;
+        }
+
+        // Generate all expected labels for the date range
+        $allLabels = $this->generateDateLabels($dateFrom, $dateTo, $groupByType);
+
+        if (empty($allLabels)) {
+            return $rows;
+        }
+
+        // Index existing rows by their label
+        $rowIndex = [];
+        foreach ($rows as $row) {
+            $label = $row[$labelAlias] ?? '';
+            if ($label !== '') {
+                $rowIndex[$label] = $row;
+            }
+        }
+
+        // Build complete result with all dates
+        $filledRows = [];
+        foreach ($allLabels as $label) {
+            if (isset($rowIndex[$label])) {
+                $filledRows[] = $rowIndex[$label];
+            } else {
+                // Create empty row with zeros
+                $emptyRow = [$labelAlias => $label];
+                foreach ($sources as $source) {
+                    $emptyRow[$source] = 0;
+                }
+                // Add empty previous data if comparison was enabled
+                if (!empty($rows) && isset($rows[0]['previous'])) {
+                    $emptyRow['previous'] = [];
+                    foreach ($sources as $source) {
+                        $emptyRow['previous'][$source] = 0;
+                    }
+                }
+                $filledRows[] = $emptyRow;
+            }
+        }
+
+        return $filledRows;
+    }
+
+    /**
+     * Generate all date labels for a date range based on grouping type.
+     *
+     * @param string $dateFrom    Start date (YYYY-MM-DD or with time).
+     * @param string $dateTo      End date (YYYY-MM-DD or with time).
+     * @param string $groupByType Type of grouping (date, week, month).
+     * @return array Array of date labels.
+     */
+    private function generateDateLabels(string $dateFrom, string $dateTo, string $groupByType): array
+    {
+        // Extract just the date part
+        $startDate = substr($dateFrom, 0, 10);
+        $endDate   = substr($dateTo, 0, 10);
+
+        $start = new \DateTime($startDate);
+        $end   = new \DateTime($endDate);
+
+        $labels = [];
+
+        switch ($groupByType) {
+            case 'date':
+                // Daily: Generate each day
+                $interval = new \DateInterval('P1D');
+                $period   = new \DatePeriod($start, $interval, $end->modify('+1 day'));
+                foreach ($period as $date) {
+                    $labels[] = $date->format('Y-m-d');
+                }
+                break;
+
+            case 'week':
+                // Weekly: Generate week start dates (Monday)
+                // Adjust start to Monday of that week
+                $dayOfWeek = (int) $start->format('N'); // 1 = Monday, 7 = Sunday
+                if ($dayOfWeek !== 1) {
+                    $start->modify('monday this week');
+                }
+                $interval = new \DateInterval('P1W');
+                while ($start <= $end) {
+                    $labels[] = $start->format('Y-m-d');
+                    $start->add($interval);
+                }
+                break;
+
+            case 'month':
+                // Monthly: Generate first day of each month
+                $start->modify('first day of this month');
+                $interval = new \DateInterval('P1M');
+                while ($start <= $end) {
+                    $labels[] = $start->format('Y-m');
+                    $start->add($interval);
+                }
+                break;
+        }
+
+        return $labels;
     }
 }

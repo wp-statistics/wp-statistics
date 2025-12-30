@@ -103,15 +103,91 @@ class ComparisonHandler
     }
 
     /**
+     * Time-series group by types that should use index-based matching.
+     *
+     * @var array
+     */
+    private static $timeSeriesGroupBy = ['date', 'week', 'month', 'hour'];
+
+    /**
      * Merge comparison data into current results.
      *
-     * Matches rows by group by values and adds 'previous' data.
+     * For time-series data (date/week/month/hour), matches by position/index.
+     * For other data (country/browser/etc), matches by group by values.
      *
      * @param array $current  Current period results.
      * @param array $previous Previous period results.
      * @return array Results with comparison data added.
      */
     public function mergeResults(array $current, array $previous): array
+    {
+        // Check if this is time-series data (grouped by date/week/month/hour)
+        $isTimeSeries = $this->isTimeSeriesGroupBy();
+
+        if ($isTimeSeries) {
+            // For time-series: match by index/position
+            return $this->mergeByIndex($current, $previous);
+        }
+
+        // For non-time-series: match by group by values
+        return $this->mergeByKey($current, $previous);
+    }
+
+    /**
+     * Check if the current groupBy is time-series based.
+     *
+     * @return bool
+     */
+    private function isTimeSeriesGroupBy(): bool
+    {
+        if (empty($this->groupBy)) {
+            return false;
+        }
+
+        // Check if primary groupBy is a time-series type
+        $primaryGroupBy = $this->groupBy[0];
+        return in_array($primaryGroupBy, self::$timeSeriesGroupBy, true);
+    }
+
+    /**
+     * Merge results by index/position (for time-series data).
+     *
+     * @param array $current  Current period results.
+     * @param array $previous Previous period results.
+     * @return array Results with comparison data added.
+     */
+    private function mergeByIndex(array $current, array $previous): array
+    {
+        // Re-index arrays to ensure numeric keys for positional matching
+        $current  = array_values($current);
+        $previous = array_values($previous);
+        $previousCount = count($previous);
+
+        foreach ($current as $index => &$row) {
+            $prevRow = ($index < $previousCount) ? $previous[$index] : null;
+
+            $row['previous'] = [];
+
+            foreach ($this->sources as $source) {
+                if ($prevRow && isset($prevRow[$source])) {
+                    $row['previous'][$source] = (float) $prevRow[$source];
+                } else {
+                    $row['previous'][$source] = 0;
+                }
+            }
+        }
+
+        return $current;
+    }
+
+    /**
+     * Merge results by group by key (for non-time-series data).
+     *
+     * @param array $current  Current period results.
+     * @param array $previous Previous period results.
+     * @return array Results with comparison data added.
+     */
+    private function mergeByKey(array $current, array $previous): array
     {
         // Index previous results by group by key for fast lookup
         $previousIndex = [];

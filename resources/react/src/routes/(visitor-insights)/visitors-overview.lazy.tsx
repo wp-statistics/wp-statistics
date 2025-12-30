@@ -66,8 +66,33 @@ function RouteComponent() {
     }
   })
 
-  // Compare date range state (off by default)
-  const [compareDateRange, setCompareDateRange] = useState<DateRange | undefined>(undefined)
+  // Compare date range - auto-calculated based on current date range
+  // Previous period is the same duration, immediately before the current range
+  const compareDateRange = useMemo(() => {
+    if (!dateRange.from || !dateRange.to) return undefined
+
+    // Normalize to start of day to avoid time-of-day issues
+    const from = new Date(dateRange.from)
+    const to = new Date(dateRange.to)
+    const fromDate = new Date(from.getFullYear(), from.getMonth(), from.getDate())
+    const toDate = new Date(to.getFullYear(), to.getMonth(), to.getDate())
+
+    // Calculate inclusive duration (Dec 1 to Dec 30 = 30 days, not 29)
+    const durationDays = Math.round((toDate.getTime() - fromDate.getTime()) / (1000 * 60 * 60 * 24)) + 1
+
+    // Previous period ends the day before current period starts
+    const prevTo = new Date(fromDate)
+    prevTo.setDate(prevTo.getDate() - 1)
+
+    // Previous period starts (durationDays - 1) before prevTo to get same duration
+    const prevFrom = new Date(prevTo)
+    prevFrom.setDate(prevFrom.getDate() - durationDays + 1)
+
+    return {
+      from: prevFrom,
+      to: prevTo,
+    }
+  }, [dateRange])
 
   // Track if only timeframe changed (for loading behavior)
   const [isTimeframeOnlyChange, setIsTimeframeOnlyChange] = useState(false)
@@ -105,7 +130,7 @@ function RouteComponent() {
   const handleDateRangeUpdate = useCallback(
     (values: { range: DateRange; rangeCompare?: DateRange }) => {
       setDateRange(values.range)
-      setCompareDateRange(values.rangeCompare)
+      // compareDateRange is now auto-calculated from dateRange
     },
     []
   )

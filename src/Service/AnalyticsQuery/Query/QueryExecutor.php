@@ -227,6 +227,12 @@ class QueryExecutor implements QueryExecutorInterface
 
         $rows = $this->wpdb->get_results($preparedSql, ARRAY_A);
 
+        // Fallback to raw tables if summary table has no data for this period
+        // This handles cases where summary table hasn't been populated yet
+        if (empty($rows)) {
+            return $this->executeFromRawTables($query);
+        }
+
         // Add calculated metrics if needed
         $rows = $this->addCalculatedMetrics($rows, $query->getSources());
 

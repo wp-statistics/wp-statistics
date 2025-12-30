@@ -318,6 +318,7 @@ export const getVisitorOverviewQueryOptions = ({
               group_by: [dateGroupBy],
               format: 'chart',
               show_totals: false,
+              compare: true,
             },
             // Top Countries: Table format with comparison
             {
