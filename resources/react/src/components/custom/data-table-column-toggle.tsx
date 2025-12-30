@@ -76,7 +76,7 @@ function SortableItem({ item, onToggle, disabled }: SortableItemProps) {
         className="h-3.5 w-3.5"
       />
       <span
-        className={`flex-1 text-xs font-normal capitalize select-none ${disabled ? 'opacity-50' : ''}`}
+        className={`flex-1 text-xs font-normal select-none ${disabled ? 'opacity-50' : ''}`}
       >
         {item.label}
       </span>
@@ -106,7 +106,7 @@ function HiddenItem({ item, onToggle }: HiddenItemProps) {
         onClick={(e) => e.stopPropagation()}
         className="h-3.5 w-3.5"
       />
-      <span className="flex-1 text-xs font-normal capitalize select-none text-muted-foreground">
+      <span className="flex-1 text-xs font-normal select-none text-muted-foreground">
         {item.label}
       </span>
     </div>
@@ -135,6 +135,12 @@ export function DataTableColumnToggle<TData>({
   const [columnOrder, setColumnOrder] = React.useState<ColumnItem[]>([])
   const [isOpen, setIsOpen] = React.useState(false)
 
+  // Helper to get display label from column
+  const getColumnLabel = React.useCallback((column: { id: string; columnDef: { meta?: { mobileLabel?: string } } }): string => {
+    const meta = column.columnDef.meta as { mobileLabel?: string } | undefined
+    return meta?.mobileLabel || column.id
+  }, [])
+
   // Build column list when popover opens
   const handleOpenChange = React.useCallback(
     (open: boolean) => {
@@ -150,7 +156,7 @@ export function DataTableColumnToggle<TData>({
             if (column) {
               items.push({
                 id: column.id,
-                label: column.id,
+                label: getColumnLabel(column),
                 isVisible: column.getIsVisible(),
               })
             }
@@ -159,7 +165,7 @@ export function DataTableColumnToggle<TData>({
             if (!initialColumnOrder.includes(column.id)) {
               items.push({
                 id: column.id,
-                label: column.id,
+                label: getColumnLabel(column),
                 isVisible: column.getIsVisible(),
               })
             }
@@ -167,14 +173,14 @@ export function DataTableColumnToggle<TData>({
         } else {
           items = columns.map((column) => ({
             id: column.id,
-            label: column.id,
+            label: getColumnLabel(column),
             isVisible: column.getIsVisible(),
           }))
         }
         setColumnOrder(items)
       }
     },
-    [table, initialColumnOrder]
+    [table, initialColumnOrder, getColumnLabel]
   )
 
   const sensors = useSensors(
@@ -235,7 +241,7 @@ export function DataTableColumnToggle<TData>({
 
     const defaultOrder = columns.map((column) => ({
       id: column.id,
-      label: column.id,
+      label: getColumnLabel(column),
       isVisible: !defaultHiddenColumns.includes(column.id),
     }))
     setColumnOrder(defaultOrder)
