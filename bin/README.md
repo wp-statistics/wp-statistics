@@ -1,78 +1,91 @@
-# WP Statistics Dummy Data Generator
+# WP Statistics Tracker Simulator
 
-Development tool for generating realistic test data for WP Statistics v15.
+Development tool for generating realistic test data for WP Statistics v15 by simulating actual Tracker.js requests.
 
 ## Overview
 
-This standalone tool generates realistic analytics data to help test and develop the WP Statistics v15 React dashboard. It creates visitors, sessions, views, and all necessary dimension data with realistic distributions and patterns.
+This tool generates realistic analytics data by making HTTP requests to `admin-ajax.php`, exactly like the frontend Tracker.js does. This ensures the full tracking pipeline is exercised (validation, signature checking, device detection, geolocation, etc.).
 
 ## Features
 
-- ✅ **Realistic traffic patterns** - Weekday/weekend variations, seasonal trends, growth simulation
-- ✅ **Geographic diversity** - 20+ countries with city-level data
-- ✅ **Device variety** - Desktop (60%), Mobile (35%), Tablet (5%) distributions
-- ✅ **Browser diversity** - Chrome, Firefox, Safari, Edge, Opera with versions
-- ✅ **Traffic sources** - Direct, search, social, referral, email, paid channels
-- ✅ **Behavioral patterns** - Realistic bounce rates, session durations, pages per session
-- ✅ **Customizable** - JSON configs for easy modification of distributions
-
-## Installation
-
-No installation needed. This is a standalone development tool included in the repository.
+- **Full pipeline testing** - Data goes through the complete tracking flow
+- **Realistic visitor profiles** - Different browsers, devices, countries, IPs
+- **Geographic diversity** - 20+ countries with timezone/language mappings
+- **Device variety** - Desktop (60%), Mobile (35%), Tablet (5%) distributions
+- **Browser diversity** - Chrome, Firefox, Safari, Edge, Opera with real User-Agent strings
+- **Traffic sources** - Direct, search, social, referral, email, paid channels
+- **Customizable** - JSON configs for easy modification of distributions
 
 ## Requirements
 
-- WordPress installed and running
+- WordPress installed and running with web server accessible
 - WP Statistics plugin active
 - PHP CLI access
-- Some existing WordPress posts/pages (for resource association)
+- **`use_cache_plugin` option enabled** (Client-side tracking)
+- **`bypass_ad_blockers` option enabled** (AJAX tracking mode)
+- Some existing WordPress posts/pages
 
 ## Usage
 
 ### Quick Start
 
-Generate 30 days of data with default settings:
+Generate 7 days of data with default settings:
 ```bash
-./bin/dummy-v15.sh --days=30
+php bin/dummy-tracker-simulator.php --days=7 --visitors-per-day=50
 ```
 
 ### Common Commands
 
-#### Generate full year of data
+#### Dry run (test without HTTP requests)
 ```bash
-./bin/dummy-v15.sh --days=365
+php bin/dummy-tracker-simulator.php --days=7 --visitors-per-day=50 --dry-run
+```
+
+#### Verbose output
+```bash
+php bin/dummy-tracker-simulator.php --days=7 --visitors-per-day=50 --verbose
 ```
 
 #### Custom date range
 ```bash
-./bin/dummy-v15.sh --from=2024-01-01 --to=2024-12-31
+php bin/dummy-tracker-simulator.php --from=2024-12-01 --to=2024-12-31
 ```
 
-#### Clean existing data and regenerate
+#### Custom site URL (for non-standard setups)
 ```bash
-./bin/dummy-v15.sh --days=90 --clean
-```
-
-#### Custom traffic volume
-```bash
-./bin/dummy-v15.sh --days=90 --visitors-per-day=500
+php bin/dummy-tracker-simulator.php --url=https://mysite.local --days=7
 ```
 
 #### Low traffic for quick testing
 ```bash
-./bin/dummy-v15.sh --days=10 --visitors-per-day=50
+php bin/dummy-tracker-simulator.php --days=1 --visitors-per-day=10 --verbose
 ```
 
 ### Available Options
 
 | Option | Description | Default |
 |--------|-------------|---------|
-| `--days=<number>` | Number of days to generate | 365 |
+| `--days=<number>` | Number of days to generate | 7 |
 | `--from=<YYYY-MM-DD>` | Start date | (calculated from days) |
 | `--to=<YYYY-MM-DD>` | End date | Today |
-| `--visitors-per-day=<number>` | Average visitors per day | 200 |
-| `--clean` | Remove existing data before generating | false |
+| `--visitors-per-day=<number>` | Average visitors per day | 50 |
+| `--delay=<ms>` | Delay between requests in milliseconds | 50 |
+| `--url=<url>` | Custom site URL | (from WordPress) |
+| `--verbose` | Show detailed request output | false |
+| `--dry-run` | Generate data without sending requests | false |
 | `--help` | Show help message | - |
+
+## How It Works
+
+The simulator:
+1. Loads WordPress and WP Statistics
+2. Prepares resources (posts/pages) with `resource_uri_id` mappings
+3. For each simulated visitor:
+   - Generates a realistic visitor profile (browser, device, country, IP)
+   - Creates a User-Agent string matching the device/browser/OS
+   - Generates a valid signature using `wp_salt()`
+   - Base64 encodes resource URI and referrer (like Tracker.js)
+   - Sends HTTP POST to `admin-ajax.php` with `X-Forwarded-For` header for IP simulation
 
 ## Data Characteristics
 
@@ -87,15 +100,9 @@ Generate 30 days of data with default settings:
 - Saturday: 0.6x
 - Sunday: 0.5x
 
-**Seasonal Variations:**
-- Summer dip (July-August): 0.85x
-- Fall peak (September-November): 1.15-1.2x
-- Other months: 0.9-1.1x
-
-**Growth Simulation:**
-- Starts at 70% of baseline
-- Grows to 130% by end of period
-- Simulates organic site growth
+**Hour Distribution:**
+- Business hours (9-5): Higher weight
+- Off hours: Lower weight
 
 ### Geographic Distribution
 
@@ -107,7 +114,7 @@ Generate 30 days of data with default settings:
 - France, Australia, India: 5% each
 - 13 more countries: 1-4% each
 
-Cities are randomly selected from realistic city lists for each country.
+Each country has mapped timezones and languages for realistic browser locale data.
 
 ### Device & Browser Distribution
 
@@ -138,31 +145,6 @@ Cities are randomly selected from realistic city lists for each country.
 - Email: 3%
 - Paid: 2%
 
-**Search Engines:**
-- Google: 85%
-- Bing: 10%
-- Yahoo, DuckDuckGo: 5%
-
-**Social Networks:**
-- Facebook: 40%
-- Twitter: 25%
-- LinkedIn: 20%
-- Instagram, Reddit: 15%
-
-### User Behavior
-
-**Pages Per Session:**
-- 1 page (bounce): 40%
-- 2 pages: 25%
-- 3 pages: 15%
-- 4 pages: 10%
-- 5+ pages: 10%
-
-**Session Duration:**
-- Bounces: 0-30 seconds
-- Multi-page: 30 seconds to 10 minutes
-- Scales with page count
-
 ## Customization
 
 Edit JSON files in `bin/data/` to customize distributions:
@@ -184,99 +166,94 @@ Edit JSON files in `bin/data/` to customize distributions:
 - Search engine list with weights
 - Social network list with weights
 - Referral site list
-- Email sources
-- Paid ad sources
 
-## Performance
+### `user-agents.json`
+- User-Agent string templates per device/OS/browser
 
-### Estimated Generation Times
+### `timezones.json`
+- IANA timezone mappings per country
 
-| Days | Visitors/Day | Total Records | Time |
-|------|--------------|---------------|------|
-| 10 | 50 | ~2,000 | ~10 sec |
-| 30 | 100 | ~10,000 | ~30 sec |
-| 90 | 200 | ~60,000 | ~2 min |
-| 365 | 200 | ~250,000 | ~8 min |
-
-*Times are approximate and vary based on server performance.*
+### `languages.json`
+- Browser language codes per country
 
 ## Troubleshooting
 
-### "WP Statistics plugin not found"
-- Ensure WP Statistics is installed and activated
-- Check that the script can load WordPress (wp-load.php path)
+### "Cannot connect to site"
+- Ensure your web server is running (MAMP, Valet, Laravel Herd, etc.)
+- Use `--url=<your-url>` to specify the correct site URL
+- Try `--dry-run` to test without HTTP requests
 
-### Memory errors
-- Reduce `--visitors-per-day` value
-- Generate data in smaller batches
-- Increase PHP memory limit: `php -d memory_limit=512M bin/generate-dummy-data.php`
+### "HTTP 301 Moved Permanently"
+- Your site may redirect HTTP to HTTPS
+- Use `--url=https://yoursite.test` with the correct protocol
 
-### Slow performance
-- Check database server performance
-- Ensure adequate server resources
-- Consider reducing data volume for testing
+### "bypass_ad_blockers not enabled"
+- Enable "Bypass Ad Blockers" in WP Statistics settings, or
+- The script will still attempt to work but may fail
 
 ### No posts found
 - Create some WordPress posts/pages first
 - The generator needs existing content to associate views with
 
+### Slow performance
+- Increase `--delay` between requests
+- Reduce `--visitors-per-day`
+
 ## Technical Details
 
-### Database Tables Populated
+### Request Parameters Sent
 
-- `visitors` - Unique visitor records
-- `sessions` - Session records with device, location, referrer info
-- `views` - Page view records linked to sessions
-- `countries` - Geographic countries
-- `cities` - Cities within countries
-- `device_types` - Desktop, Mobile, Tablet
-- `device_browsers` - Browser types
-- `device_browser_versions` - Browser version strings
-- `device_oss` - Operating systems
-- `referrers` - Traffic source information
-- `resources` - WordPress post/page metadata
-- `resource_uris` - URL mappings for resources
+The simulator sends these parameters (matching Tracker.js format):
 
-### Implementation
+| Parameter | Description |
+|-----------|-------------|
+| `action` | `wp_statistics_hit_record` |
+| `resourceUriId` | ID from `resource_uris` table |
+| `resourceUri` | Base64 encoded page path |
+| `resource_type` | post, page, etc. |
+| `resource_id` | WordPress post ID |
+| `signature` | MD5 signature for validation |
+| `timezone` | IANA timezone (e.g., "America/New_York") |
+| `language` | Browser language code (e.g., "en-US") |
+| `languageFullName` | Full language name (e.g., "English") |
+| `screenWidth` | Screen width |
+| `screenHeight` | Screen height |
+| `referred` | Base64 encoded referrer URL |
 
-- **Language**: PHP
-- **Architecture**: Single standalone script
-- **Dependencies**: WordPress, WP Statistics plugin
-- **Database Access**: Via WP Statistics RecordFactory classes
-- **Distributions**: JSON configuration files
+### HTTP Headers
+
+- `Content-Type: application/x-www-form-urlencoded`
+- `User-Agent:` Realistic browser User-Agent string
+- `X-Forwarded-For:` Simulated IP address for visitor
+- `Referer:` Referrer URL
 
 ## Notes
 
-- ⚠️ **Development Only**: This tool is for development and testing. It is NOT included in plugin releases to wordpress.org.
-- 📊 **Dashboard Testing**: Generated data is designed specifically to test the WP Statistics v15 React dashboard.
-- 🔄 **Repeatable**: Use the same date range to regenerate consistent test scenarios.
-- 🧹 **Cleanup**: Use `--clean` flag to remove test data and start fresh.
+- **Development Only**: This tool is for development and testing only.
+- **Dashboard Testing**: Generated data tests the full WP Statistics v15 tracking pipeline.
+- **Realistic Simulation**: Unlike direct database insertion, this exercises actual validation and processing.
 
 ## Examples
 
-### Quick UI Test (10 days)
+### Quick Test (1 day, 10 visitors)
 ```bash
-./bin/dummy-v15.sh --days=10 --visitors-per-day=100
+php bin/dummy-tracker-simulator.php --days=1 --visitors-per-day=10 --verbose
 ```
 
-### Realistic Dashboard Test (90 days)
+### Week of Data (moderate volume)
 ```bash
-./bin/dummy-v15.sh --days=90 --visitors-per-day=200
+php bin/dummy-tracker-simulator.php --days=7 --visitors-per-day=50
 ```
 
-### Performance Test (full year, high volume)
+### Month of Data
 ```bash
-./bin/dummy-v15.sh --days=365 --visitors-per-day=500
+php bin/dummy-tracker-simulator.php --days=30 --visitors-per-day=100
 ```
 
-### Clean and Regenerate Test Data
+### Test Script Without Requests
 ```bash
-./bin/dummy-v15.sh --days=30 --clean --visitors-per-day=150
+php bin/dummy-tracker-simulator.php --days=7 --visitors-per-day=50 --dry-run --verbose
 ```
-
-## Support
-
-This is a development tool. For WP Statistics plugin support, visit [wp-statistics.com](https://wp-statistics.com).
 
 ---
 
