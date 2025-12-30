@@ -1508,6 +1508,11 @@ class Helper
 
         $memoryLimit = ini_get('memory_limit');
 
+        // -1 means unlimited memory, so no warning needed
+        if ($memoryLimit == -1) {
+            return false;
+        }
+
         if (memory_get_peak_usage(true) > self::convertBytes($memoryLimit)) {
             return true;
         }
