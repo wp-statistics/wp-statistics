@@ -480,12 +480,12 @@ function RouteComponent() {
   const handleSortingChange = useCallback((newSorting: SortingState) => {
     setSorting(newSorting)
     setPage(1) // Reset to first page when sorting changes
-  }, [])
+  }, [setPage])
 
   // Handle page change
   const handlePageChange = useCallback((newPage: number) => {
     setPage(newPage)
-  }, [])
+  }, [setPage])
 
   return (
     <div className="min-w-0">

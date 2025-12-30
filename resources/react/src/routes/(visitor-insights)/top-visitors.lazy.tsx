@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { createLazyFileRoute, getRouteApi, useNavigate } from '@tanstack/react-router'
+import { createLazyFileRoute, getRouteApi } from '@tanstack/react-router'
 import type { ColumnDef, SortingState, VisibilityState } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -9,6 +9,7 @@ import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-co
 import { type DateRange,DateRangePicker } from '@/components/custom/date-range-picker'
 import { type Filter, FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField, getOperatorDisplay } from '@/components/custom/filter-button'
+import { useUrlFilterSync } from '@/hooks/use-url-filter-sync'
 import {
   DurationCell,
   EntryPageCell,
@@ -33,11 +34,7 @@ import {
   getVisibleColumnsForSave,
   setCachedColumns,
 } from '@/lib/column-utils'
-import {
-  filtersToUrlFilters,
-  formatReferrerChannel,
-  urlFiltersToFiltersWithDefaults,
-} from '@/lib/filter-utils'
+import { formatReferrerChannel } from '@/lib/filter-utils'
 import { parseEntryPage } from '@/lib/url-utils'
 import { formatDateForAPI, formatDecimal,formatDuration } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
@@ -382,11 +379,9 @@ const DEFAULT_FILTERS: Filter[] = [
 ]
 
 function RouteComponent() {
-  const navigate = useNavigate()
   const { filters: urlFilters, page: urlPage } = routeApi.useSearch()
 
   const [sorting, setSorting] = useState<SortingState>([{ id: 'totalViews', desc: true }])
-  const lastSyncedFiltersRef = useRef<string | null>(null)
   // Default to last 30 days
   const [dateRange, setDateRange] = useState<DateRange>(() => {
     const today = new Date()
@@ -416,54 +411,26 @@ function RouteComponent() {
     return wp.getFilterFieldsByGroup('visitors') as FilterField[]
   }, [wp])
 
-  // Initialize filters state - null until URL sync is complete
-  const [appliedFilters, setAppliedFilters] = useState<Filter[] | null>(null)
-
-  // Initialize page state
-  const [page, setPage] = useState(1)
-
-  // Sync filters FROM URL on mount (only once)
-  useEffect(() => {
-    if (lastSyncedFiltersRef.current !== null) return // Already initialized
-
-    // Wait for filterFields to be loaded OR urlFilters to be available
-    // This ensures we don't initialize with empty state before data is ready
-    if (!urlFilters?.length && filterFields.length === 0) return
-
-    const filtersFromUrl = urlFiltersToFiltersWithDefaults(urlFilters, filterFields, DEFAULT_FILTERS)
-    setAppliedFilters(filtersFromUrl)
-    setPage(urlPage || 1)
-    // Mark as initialized with what the URL actually had (not defaults)
-    // This allows sync-to-URL effect to update URL with defaults if URL was empty
-    lastSyncedFiltersRef.current = JSON.stringify(urlFilters || [])
-  }, [urlFilters, urlPage, filterFields])
-
-  // Sync filters TO URL when they change (only after initialization and actual change)
-  useEffect(() => {
-    if (lastSyncedFiltersRef.current === null || appliedFilters === null) return // Not initialized yet
-
-    const urlFilterData = filtersToUrlFilters(appliedFilters)
-    const serialized = JSON.stringify(urlFilterData)
-
-    // Only sync if actually changed
-    if (serialized === lastSyncedFiltersRef.current && page === (urlPage || 1)) return
-
-    lastSyncedFiltersRef.current = serialized
-    navigate({
-      search: (prev) => ({
-        ...prev,
-        filters: urlFilterData.length > 0 ? urlFilterData : undefined,
-        page: page > 1 ? page : undefined,
-      }),
-      replace: true,
-    })
-  }, [appliedFilters, page, navigate, urlPage])
+  // Use URL filter sync hook for filter/page state management
+  const {
+    appliedFilters,
+    page,
+    setPage,
+    handleRemoveFilter,
+    handleApplyFilters,
+    isInitialized,
+  } = useUrlFilterSync({
+    urlFilters,
+    urlPage,
+    filterFields,
+    defaultFilters: DEFAULT_FILTERS,
+  })
 
   const handleDateRangeUpdate = useCallback((values: { range: DateRange; rangeCompare?: DateRange }) => {
     setDateRange(values.range)
     setCompareDateRange(values.rangeCompare)
     setPage(1)
-  }, [])
+  }, [setPage])
 
   // Determine sort parameters from sorting state
   const orderBy = sorting.length > 0 ? sorting[0].id : 'totalViews'
@@ -521,7 +488,7 @@ function RouteComponent() {
       columns: apiColumns,
     }),
     placeholderData: keepPreviousData,
-    enabled: appliedFilters !== null,
+    enabled: isInitialized,
   })
 
   // Compute initial visibility only once when API returns preferences
@@ -652,23 +619,12 @@ function RouteComponent() {
   const handleSortingChange = useCallback((newSorting: SortingState) => {
     setSorting(newSorting)
     setPage(1) // Reset to first page when sorting changes
-  }, [])
+  }, [setPage])
 
   // Handle page changes
   const handlePageChange = useCallback((newPage: number) => {
     setPage(newPage)
-  }, [])
-
-  const handleRemoveFilter = (filterId: string) => {
-    setAppliedFilters((prev) => (prev ? prev.filter((f) => f.id !== filterId) : []))
-    setPage(1) // Reset to first page when filters change
-  }
-
-  // Handle filter application with page reset
-  const handleApplyFilters = useCallback((filters: Filter[]) => {
-    setAppliedFilters(filters)
-    setPage(1) // Reset to first page when filters change
-  }, [])
+  }, [setPage])
 
   return (
     <div className="min-w-0">
@@ -676,8 +632,8 @@ function RouteComponent() {
       <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-input">
         <h1 className="text-xl font-semibold text-neutral-800">{__('Top Visitors', 'wp-statistics')}</h1>
         <div className="flex items-center gap-3">
-          {filterFields.length > 0 && appliedFilters !== null && (
-            <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={handleApplyFilters} />
+          {filterFields.length > 0 && isInitialized && (
+            <FilterButton fields={filterFields} appliedFilters={appliedFilters || []} onApplyFilters={handleApplyFilters} />
           )}
           <DateRangePicker
             initialDateFrom={dateRange.from}

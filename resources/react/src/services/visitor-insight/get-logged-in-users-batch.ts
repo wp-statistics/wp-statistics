@@ -1,40 +1,11 @@
 import { queryOptions } from '@tanstack/react-query'
 
 import type { Filter } from '@/components/custom/filter-bar'
+import { transformFiltersToApi } from '@/lib/api-filter-transform'
 import { clientRequest } from '@/lib/client-request'
 import { WordPress } from '@/lib/wordpress'
 
 import type { LoggedInUser } from './get-logged-in-users'
-
-// API filter format: { filter_key: { operator: value } }
-type ApiFilters = Record<string, Record<string, string | string[]>>
-
-// Extract the field name from filter ID
-const extractFilterKey = (filterId: string): string => {
-  return filterId.split('-')[0]
-}
-
-// Transform UI filters to API format
-const transformFiltersToApi = (filters: Filter[]): ApiFilters => {
-  const apiFilters: ApiFilters = {}
-
-  for (const filter of filters) {
-    const filterKey = extractFilterKey(filter.id)
-    const operator = filter.rawOperator || filter.operator
-    const rawValue = filter.rawValue ?? filter.value
-    const value: string | string[] = Array.isArray(rawValue)
-      ? rawValue
-      : typeof rawValue === 'number'
-        ? String(rawValue)
-        : rawValue
-
-    apiFilters[filterKey] = {
-      [operator]: value,
-    }
-  }
-
-  return apiFilters
-}
 
 // Map frontend column names to API column names
 const columnMapping: Record<string, string> = {

@@ -1,16 +1,9 @@
 import { useLocation } from '@tanstack/react-router'
-import type { LucideIcon } from 'lucide-react'
-import * as LucideIcons from 'lucide-react'
 
 import { NavMain } from '@/components/nav-main'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarTrigger } from '@/components/ui/sidebar'
+import { getIcon } from '@/lib/icon-registry'
 import { WordPress } from '@/lib/wordpress'
-
-// Map icon names from the config to actual Lucide icon components
-const getIconComponent = (iconName: string): LucideIcon => {
-  const icon = (LucideIcons as any)[iconName]
-  return icon || LucideIcons.Circle // Fallback to Circle if icon not found
-}
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const location = useLocation()
@@ -32,7 +25,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return {
       title: config.label,
       url: itemUrl,
-      icon: getIconComponent(config.icon),
+      icon: getIcon(config.icon),
       isActive,
       items,
     }

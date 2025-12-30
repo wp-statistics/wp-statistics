@@ -1,18 +1,18 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
+import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { type DateRange,DateRangePicker } from '@/components/custom/date-range-picker'
 import { type Filter, FilterBar } from '@/components/custom/filter-bar'
-import { FilterButton, type FilterField, getOperatorDisplay } from '@/components/custom/filter-button'
+import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { GlobalMap } from '@/components/custom/global-map'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
 import { Panel } from '@/components/ui/panel'
 import { Skeleton } from '@/components/ui/skeleton'
-import { filtersToUrlFilters, urlFiltersToFilters } from '@/lib/filter-utils'
+import { useUrlFilterSync } from '@/hooks/use-url-filter-sync'
 import { formatCompactNumber,formatDateForAPI, formatDecimal, formatDuration } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getVisitorOverviewQueryOptions } from '@/services/visitor-insight/get-visitor-overview'
@@ -30,7 +30,6 @@ export const Route = createLazyFileRoute('/(visitor-insights)/visitors-overview'
 })
 
 function RouteComponent() {
-  const navigate = useNavigate()
   const { filters: urlFilters } = Route.useSearch()
 
   const wp = WordPress.getInstance()
@@ -39,45 +38,22 @@ function RouteComponent() {
   // Get filter fields for 'visitors' group from localized data
   const filterFields = useMemo<FilterField[]>(() => {
     return wp.getFilterFieldsByGroup('visitors') as FilterField[]
-  }, [])
-
-  // Initialize filters state - null until URL sync is complete
-  const [appliedFilters, setAppliedFilters] = useState<Filter[] | null>(null)
-  const lastSyncedFiltersRef = useRef<string | null>(null)
+  }, [wp])
 
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
 
-  // Sync filters FROM URL on mount (only once)
-  useEffect(() => {
-    if (lastSyncedFiltersRef.current !== null) return // Already initialized
-
-    const filtersFromUrl = urlFiltersToFilters(urlFilters, filterFields)
-    setAppliedFilters(filtersFromUrl)
-    lastSyncedFiltersRef.current = JSON.stringify(urlFilters || [])
-  }, [urlFilters, filterFields])
-
-  // Sync filters TO URL when they change (only after initialization)
-  useEffect(() => {
-    if (lastSyncedFiltersRef.current === null || appliedFilters === null) return
-
-    const urlFilterData = filtersToUrlFilters(appliedFilters)
-    const serialized = JSON.stringify(urlFilterData)
-
-    if (serialized === lastSyncedFiltersRef.current) return
-
-    lastSyncedFiltersRef.current = serialized
-    navigate({
-      search: (prev) => ({
-        ...prev,
-        filters: urlFilterData.length > 0 ? urlFilterData : undefined,
-      }),
-      replace: true,
-    })
-  }, [appliedFilters, navigate])
-
-  const handleRemoveFilter = (filterId: string) => {
-    setAppliedFilters((prev) => (prev ? prev.filter((f) => f.id !== filterId) : []))
-  }
+  // Use URL filter sync hook for filter state management
+  const {
+    appliedFilters,
+    setAppliedFilters,
+    handleRemoveFilter,
+    handleApplyFilters,
+    isInitialized,
+  } = useUrlFilterSync({
+    urlFilters,
+    urlPage: undefined, // This page doesn't have pagination
+    filterFields,
+  })
 
   // Date range state (default to last 30 days)
   const [dateRange, setDateRange] = useState<DateRange>(() => {
@@ -150,7 +126,7 @@ function RouteComponent() {
     }),
     retry: false,
     placeholderData: keepPreviousData, // Keep showing old data while fetching new data
-    enabled: appliedFilters !== null,
+    enabled: isInitialized,
   })
 
   // Only show skeleton on initial load (no data yet), not on refetches
@@ -387,8 +363,8 @@ function RouteComponent() {
       <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-input">
         <h1 className="text-xl font-semibold text-neutral-800">{__('Visitor Insights', 'wp-statistics')}</h1>
         <div className="flex items-center gap-3">
-          {filterFields.length > 0 && appliedFilters !== null && (
-            <FilterButton fields={filterFields} appliedFilters={appliedFilters} onApplyFilters={setAppliedFilters} />
+          {filterFields.length > 0 && isInitialized && (
+            <FilterButton fields={filterFields} appliedFilters={appliedFilters || []} onApplyFilters={handleApplyFilters} />
           )}
           <DateRangePicker
             initialDateFrom={dateRange.from}
