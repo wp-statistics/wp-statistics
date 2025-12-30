@@ -1,0 +1,211 @@
+{
+  "description": "Invalid data patterns for testing system reliability and edge case handling",
+  "version": "1.0.0",
+
+  "boundary_values": {
+    "resourceUriId": [-1, 0, 2147483647, 9223372036854775807, -2147483648],
+    "resource_id": [-1, 0, 2147483647, 9223372036854775807, -2147483648],
+    "screenWidth": [-1, 0, 99999, -100, 1000000],
+    "screenHeight": [-1, 0, 99999, -100, 1000000]
+  },
+
+  "malformed_strings": {
+    "timezone": [
+      "",
+      " ",
+      "Invalid/Timezone",
+      "Not_A_Real_Timezone",
+      "../../../../etc/passwd",
+      "Europe\\London",
+      "UTC+99",
+      "America/New York",
+      "../../../wp-config.php"
+    ],
+    "language": [
+      "",
+      " ",
+      "xx-XX",
+      "en-US-invalid-extra",
+      "12345",
+      "a",
+      "en_US",
+      "../../etc/passwd",
+      "<script>"
+    ],
+    "resourceUri": [
+      "",
+      " ",
+      "//invalid",
+      "http://",
+      "javascript:alert(1)",
+      "data:text/html,<script>alert(1)</script>",
+      "file:///etc/passwd",
+      "\\\\server\\share",
+      "\0",
+      "/../../../wp-config.php"
+    ],
+    "referred": [
+      "not-a-url",
+      "javascript:alert(document.cookie)",
+      "data:text/html,<script>document.location='http://evil.com'</script>",
+      "file:///etc/passwd",
+      "//evil.com/path",
+      "http://[::1]",
+      "http://localhost:99999"
+    ]
+  },
+
+  "oversized_values": {
+    "timezone": {
+      "length": 10000,
+      "pattern": "A"
+    },
+    "language": {
+      "length": 5000,
+      "pattern": "x"
+    },
+    "languageFullName": {
+      "length": 10000,
+      "pattern": "English "
+    },
+    "referrer": {
+      "length": 100000,
+      "pattern": "http://example.com/"
+    },
+    "resourceUri": {
+      "length": 50000,
+      "pattern": "/path/"
+    }
+  },
+
+  "encoding_issues": {
+    "unicode_edge_cases": [
+      "\u0000",
+      "\uFFFD",
+      "\uD800",
+      "\uDFFF",
+      "\u202E",
+      "\uFEFF",
+      "\u200B",
+      "\u2028",
+      "\u2029"
+    ],
+    "control_characters": [
+      "\u0000",
+      "\u0001",
+      "\u0007",
+      "\u0008",
+      "\u000B",
+      "\u000C",
+      "\u001B",
+      "\u007F"
+    ],
+    "multibyte_edge_cases": [
+      "\u00AD",
+      "\u034F",
+      "\u061C",
+      "\u115F",
+      "\u1160",
+      "\u17B4",
+      "\u17B5",
+      "\u180E"
+    ],
+    "rtl_override": [
+      "\u202A",
+      "\u202B",
+      "\u202C",
+      "\u202D",
+      "\u202E",
+      "\u2066",
+      "\u2067",
+      "\u2068",
+      "\u2069"
+    ]
+  },
+
+  "missing_field_combinations": [
+    ["resourceUriId"],
+    ["resource_id"],
+    ["resourceUri"],
+    ["resource_type"],
+    ["signature"],
+    ["timezone", "language"],
+    ["screenWidth", "screenHeight"],
+    ["resourceUriId", "resource_id", "resource_type"],
+    ["timezone", "language", "languageFullName"],
+    ["action"]
+  ],
+
+  "type_mismatches": {
+    "resourceUriId": {
+      "strings": ["abc", "12.5", "null", "undefined", "NaN", "Infinity"],
+      "arrays": "[[1, 2, 3]]",
+      "objects": "{\"id\": 1}",
+      "booleans": ["true", "false"]
+    },
+    "resource_id": {
+      "strings": ["not_a_number", "12abc", "id:123", ""],
+      "floats": ["1.5", "99.99", "-0.1"],
+      "special": ["null", "undefined", "NaN"]
+    },
+    "screenWidth": {
+      "strings": ["wide", "100%", "auto", "1920px", "calc(100vw)"],
+      "invalid_numbers": ["1e10", "0x7F", "0b1010"]
+    },
+    "screenHeight": {
+      "strings": ["tall", "100vh", "fit-content", "1080px"],
+      "invalid_numbers": ["-1e10", "0xFFFF"]
+    }
+  },
+
+  "base64_corruption": {
+    "invalid_base64": [
+      "not-valid-base64!!!",
+      "YWJj====",
+      "YWJj==extra",
+      "!!!YWJj",
+      "YWJ\u0000j",
+      ""
+    ],
+    "partial_encoding": [
+      "YWJj",
+      "YQ",
+      "Y"
+    ]
+  },
+
+  "json_malformation": {
+    "truncated": [
+      "{\"key\":",
+      "{\"key\": \"val",
+      "[1, 2,",
+      "{"
+    ],
+    "wrong_types": [
+      "null",
+      "undefined",
+      "NaN",
+      "true",
+      "false",
+      "123",
+      "\"string\""
+    ],
+    "nested_arrays": [
+      "[[[[[[[[[[]]]]]]]]]]",
+      "[1,[2,[3,[4,[5]]]]]"
+    ]
+  },
+
+  "special_characters": {
+    "sql_special": ["'", "\"", ";", "--", "/*", "*/", "#", "\\"],
+    "html_special": ["<", ">", "&", "\"", "'"],
+    "url_special": ["%00", "%0A", "%0D", "%3C", "%3E", "%27", "%22"],
+    "path_special": ["../", "..\\", "/./", "/..", "//", "\\\\"]
+  },
+
+  "empty_and_null_variations": {
+    "empty_strings": ["", " ", "  ", "\t", "\n", "\r\n", "\t\n\r"],
+    "null_like": ["null", "NULL", "Null", "nil", "None", "undefined"],
+    "zero_variations": ["0", "0.0", "00", "0x0", "0b0", "-0"]
+  }
+}

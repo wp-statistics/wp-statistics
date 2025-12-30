@@ -1,0 +1,235 @@
+{
+  "description": "Enhanced realistic patterns for WP Statistics dummy data generator",
+  "version": "1.0.0",
+
+  "device_distribution": {
+    "Desktop": 55,
+    "Mobile": 40,
+    "Tablet": 5
+  },
+
+  "device_browser_correlation": {
+    "Desktop": {
+      "Chrome": 60,
+      "Safari": 15,
+      "Firefox": 12,
+      "Edge": 10,
+      "Opera": 3
+    },
+    "Mobile": {
+      "Chrome": 50,
+      "Safari": 45,
+      "Firefox": 3,
+      "Opera": 2
+    },
+    "Tablet": {
+      "Safari": 55,
+      "Chrome": 40,
+      "Firefox": 3,
+      "Edge": 2
+    }
+  },
+
+  "os_browser_correlation": {
+    "iOS": {
+      "Safari": 85,
+      "Chrome": 12,
+      "Firefox": 2,
+      "Opera": 1
+    },
+    "Android": {
+      "Chrome": 75,
+      "Samsung Browser": 10,
+      "Firefox": 8,
+      "Opera": 5,
+      "Edge": 2
+    },
+    "Windows": {
+      "Chrome": 60,
+      "Edge": 25,
+      "Firefox": 10,
+      "Opera": 5
+    },
+    "macOS": {
+      "Safari": 45,
+      "Chrome": 45,
+      "Firefox": 8,
+      "Opera": 2
+    }
+  },
+
+  "user_role_weights": {
+    "administrator": 5,
+    "editor": 10,
+    "author": 15,
+    "contributor": 10,
+    "subscriber": 50
+  },
+
+  "logged_in_behavior": {
+    "pages_per_session": {
+      "min": 5,
+      "max": 12
+    },
+    "bounce_probability": 0.25,
+    "return_probability": 0.60,
+    "session_duration": {
+      "min": 300,
+      "max": 1200
+    }
+  },
+
+  "guest_behavior": {
+    "pages_per_session": {
+      "min": 2,
+      "max": 4
+    },
+    "bounce_probability": 0.50,
+    "return_probability": 0.25,
+    "session_duration": {
+      "min": 30,
+      "max": 300
+    }
+  },
+
+  "hourly_distribution": {
+    "0": 2, "1": 1, "2": 1, "3": 1, "4": 1, "5": 2,
+    "6": 3, "7": 4, "8": 6,
+    "9": 8, "10": 9, "11": 9, "12": 8, "13": 8, "14": 9, "15": 9, "16": 8, "17": 7,
+    "18": 6, "19": 5, "20": 5, "21": 4, "22": 3, "23": 2
+  },
+
+  "weekday_multipliers": {
+    "1": 1.0,
+    "2": 1.1,
+    "3": 1.2,
+    "4": 1.1,
+    "5": 0.95,
+    "6": 0.6,
+    "7": 0.5
+  },
+
+  "seasonal_multipliers": {
+    "Q1": 0.9,
+    "Q2": 1.0,
+    "Q3": 0.85,
+    "Q4": 1.15
+  },
+
+  "returning_visitor_ratio": 0.35,
+
+  "utm_parameters": {
+    "enabled_ratio": 0.15,
+    "sources": ["google", "facebook", "newsletter", "partner", "bing", "linkedin"],
+    "mediums": ["cpc", "social", "email", "referral", "organic", "display"],
+    "campaigns": [
+      "spring_sale",
+      "summer_promo",
+      "black_friday",
+      "newsletter_weekly",
+      "retargeting",
+      "brand_awareness",
+      "product_launch",
+      "holiday_special"
+    ]
+  },
+
+  "search_query_patterns": {
+    "brand_search": 20,
+    "product_category": 40,
+    "long_tail_questions": 25,
+    "competitor_comparison": 15
+  },
+
+  "social_referrer_paths": {
+    "facebook.com": ["/posts/", "/groups/", "/sharer/", "/page/"],
+    "twitter.com": ["/status/", "/intent/", "/i/web/"],
+    "linkedin.com": ["/posts/", "/pulse/", "/feed/"],
+    "reddit.com": ["/r/", "/comments/"],
+    "instagram.com": ["/p/", "/reel/"]
+  },
+
+  "screen_resolutions": {
+    "Desktop": {
+      "1920x1080": 45,
+      "1366x768": 20,
+      "2560x1440": 15,
+      "3840x2160": 10,
+      "1536x864": 5,
+      "1440x900": 5
+    },
+    "Mobile": {
+      "393x852": 25,
+      "360x800": 30,
+      "412x915": 15,
+      "390x844": 15,
+      "428x926": 10,
+      "375x812": 5
+    },
+    "Tablet": {
+      "1024x768": 30,
+      "768x1024": 25,
+      "1280x800": 20,
+      "2048x1536": 15,
+      "800x1280": 10
+    }
+  },
+
+  "browser_version_recency": {
+    "latest": 60,
+    "one_behind": 25,
+    "two_behind": 10,
+    "older": 5
+  },
+
+  "session_page_view_distribution": {
+    "1": 45,
+    "2": 20,
+    "3": 15,
+    "4": 8,
+    "5": 5,
+    "6": 3,
+    "7": 2,
+    "8_plus": 2
+  },
+
+  "time_on_page_distribution": {
+    "bounce": {
+      "min": 0,
+      "max": 10
+    },
+    "quick_scan": {
+      "min": 10,
+      "max": 30
+    },
+    "normal_read": {
+      "min": 30,
+      "max": 120
+    },
+    "engaged": {
+      "min": 120,
+      "max": 300
+    },
+    "deep_engagement": {
+      "min": 300,
+      "max": 900
+    }
+  },
+
+  "entry_page_types": {
+    "home": 30,
+    "blog_post": 35,
+    "product_page": 15,
+    "landing_page": 10,
+    "category": 5,
+    "other": 5
+  },
+
+  "exit_page_types": {
+    "same_as_entry": 45,
+    "blog_post": 20,
+    "contact": 10,
+    "checkout": 5,
+    "other": 20
+  }
+}
