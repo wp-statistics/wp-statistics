@@ -2,6 +2,8 @@
  * VisitorInfoCell - Displays visitor information with country flag, OS, browser, and user/identifier
  */
 
+import { memo } from 'react'
+
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
@@ -40,7 +42,7 @@ function getIdentifierDisplay(
   return identifier
 }
 
-export function VisitorInfoCell({ data, config }: VisitorInfoCellProps) {
+export const VisitorInfoCell = memo(function VisitorInfoCell({ data, config }: VisitorInfoCellProps) {
   const { country, os, browser, user, identifier } = data
   const { pluginUrl, trackLoggedInEnabled, hashEnabled } = config
 
@@ -121,4 +123,4 @@ export function VisitorInfoCell({ data, config }: VisitorInfoCellProps) {
       )}
     </div>
   )
-}
+})

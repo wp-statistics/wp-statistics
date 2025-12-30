@@ -6,9 +6,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
-import { DateRangePicker, type DateRange } from '@/components/custom/date-range-picker'
+import { type DateRange,DateRangePicker } from '@/components/custom/date-range-picker'
 import { type Filter, FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField, getOperatorDisplay } from '@/components/custom/filter-button'
+import { LineChart } from '@/components/custom/line-chart'
 import {
   EntryPageCell,
   LastVisitCell,
@@ -18,9 +19,10 @@ import {
   VisitorInfoCell,
   type VisitorInfoConfig,
 } from '@/components/data-table-columns'
+import { COLUMN_SIZES } from '@/lib/column-sizes'
 import {
-  type ColumnConfig,
   clearCachedColumns,
+  type ColumnConfig,
   computeApiColumns,
   getCachedApiColumns,
   getCachedVisibility,
@@ -35,18 +37,16 @@ import {
   urlFiltersToFiltersWithDefaults,
 } from '@/lib/filter-utils'
 import { parseEntryPage } from '@/lib/url-utils'
-import { COLUMN_SIZES } from '@/lib/column-sizes'
-import { LineChart } from '@/components/custom/line-chart'
 import { formatDateForAPI, formatDecimal } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
-import type { LoggedInUser as LoggedInUserRecord } from '@/services/visitor-insight/get-logged-in-users'
-import { getLoggedInUsersBatchQueryOptions } from '@/services/visitor-insight/get-logged-in-users-batch'
 import {
   computeFullVisibility,
   parseColumnPreferences,
   resetUserPreferences,
   saveUserPreferences,
 } from '@/services/user-preferences'
+import type { LoggedInUser as LoggedInUserRecord } from '@/services/visitor-insight/get-logged-in-users'
+import { getLoggedInUsersBatchQueryOptions } from '@/services/visitor-insight/get-logged-in-users-batch'
 
 const PER_PAGE = 50
 const CONTEXT = 'logged_in_users_data_table'
@@ -477,7 +477,7 @@ function RouteComponent() {
     computedColumnOrderRef.current = newOrder
 
     return visibility
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [usersResponse, allColumnIds])
 
   // Sync column order when preferences are computed (only once on initial load)

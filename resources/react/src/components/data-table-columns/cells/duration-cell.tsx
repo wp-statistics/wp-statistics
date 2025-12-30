@@ -2,6 +2,8 @@
  * DurationCell - Displays duration in smart time format (mm:ss or h:mm:ss)
  */
 
+import { memo } from 'react'
+
 interface DurationCellProps {
   seconds: number
 }
@@ -21,10 +23,10 @@ function formatDuration(seconds: number): string {
   return `${minutes}:${String(secs).padStart(2, '0')}`
 }
 
-export function DurationCell({ seconds }: DurationCellProps) {
+export const DurationCell = memo(function DurationCell({ seconds }: DurationCellProps) {
   return (
     <div className="text-right">
       <span className="tabular-nums font-medium text-neutral-700">{formatDuration(seconds)}</span>
     </div>
   )
-}
+})

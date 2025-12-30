@@ -2,6 +2,8 @@
  * PageCell - Displays page title with tooltip for full URL
  */
 
+import { memo } from 'react'
+
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
 import type { PageData } from '../types'
@@ -11,7 +13,7 @@ interface PageCellProps {
   maxLength?: number
 }
 
-export function PageCell({ data, maxLength = 28 }: PageCellProps) {
+export const PageCell = memo(function PageCell({ data, maxLength = 28 }: PageCellProps) {
   const { title, url } = data
   const truncatedTitle = title.length > maxLength ? `${title.substring(0, maxLength - 3)}...` : title
 
@@ -25,4 +27,4 @@ export function PageCell({ data, maxLength = 28 }: PageCellProps) {
       </Tooltip>
     </div>
   )
-}
+})

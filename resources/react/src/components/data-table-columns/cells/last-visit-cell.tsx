@@ -2,11 +2,13 @@
  * LastVisitCell - Displays date and time in stacked format
  */
 
+import { memo } from 'react'
+
 interface LastVisitCellProps {
   date: Date
 }
 
-export function LastVisitCell({ date }: LastVisitCellProps) {
+export const LastVisitCell = memo(function LastVisitCell({ date }: LastVisitCellProps) {
   const formattedDate = date.toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
@@ -23,4 +25,4 @@ export function LastVisitCell({ date }: LastVisitCellProps) {
       <span className="whitespace-nowrap text-xs text-neutral-500">{formattedTime}</span>
     </div>
   )
-}
+})

@@ -2,7 +2,8 @@
  * JourneyCell - Displays entry → exit page flow in a compact stacked format
  */
 
-import { ArrowDown, CornerDownLeft, MapPin, Flag } from 'lucide-react'
+import { ArrowDown, CornerDownLeft, Flag, MapPin } from 'lucide-react'
+import { memo } from 'react'
 
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
@@ -15,7 +16,7 @@ interface JourneyCellProps {
   maxLength?: number
 }
 
-export function JourneyCell({ data, maxLength = 20 }: JourneyCellProps) {
+export const JourneyCell = memo(function JourneyCell({ data, maxLength = 20 }: JourneyCellProps) {
   const { entryPage, exitPage, isBounce } = data
 
   const truncate = (text: string) =>
@@ -82,4 +83,4 @@ export function JourneyCell({ data, maxLength = 20 }: JourneyCellProps) {
       )}
     </div>
   )
-}
+})

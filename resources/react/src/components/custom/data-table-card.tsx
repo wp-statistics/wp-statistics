@@ -1,11 +1,11 @@
+import './data-table-types' // Import to extend ColumnMeta
+
 import type { ColumnDef, Row } from '@tanstack/react-table'
 import { flexRender } from '@tanstack/react-table'
 import { ChevronDown } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-
-import './data-table-types' // Import to extend ColumnMeta
 
 interface DataTableCardProps<TData> {
   row: Row<TData>

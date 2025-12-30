@@ -7,8 +7,8 @@ import type { SortingState, VisibilityState } from '@tanstack/react-table'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import {
-  type ColumnConfig,
   clearCachedColumns,
+  type ColumnConfig,
   computeApiColumns,
   getCachedApiColumns,
   getDefaultApiColumns,
@@ -144,7 +144,7 @@ export function useDataTableState(options: UseDataTableStateOptions): UseDataTab
     computedColumnOrderRef.current = newOrder
 
     return visibility
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [hasData, columnPreferences, allColumnIds, defaultHiddenColumns])
 
   // Sync column order when preferences are computed (only once on initial load)

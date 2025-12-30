@@ -2,13 +2,15 @@
  * NumericCell - Displays right-aligned numeric value with tabular formatting
  */
 
+import { memo } from 'react'
+
 interface NumericCellProps {
   value: number
   suffix?: string
   decimals?: number
 }
 
-export function NumericCell({ value, suffix, decimals }: NumericCellProps) {
+export const NumericCell = memo(function NumericCell({ value, suffix, decimals }: NumericCellProps) {
   let displayValue: string
 
   if (decimals !== undefined) {
@@ -27,4 +29,4 @@ export function NumericCell({ value, suffix, decimals }: NumericCellProps) {
       </span>
     </div>
   )
-}
+})

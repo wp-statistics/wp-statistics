@@ -2,11 +2,12 @@ import type { ChartConfig } from '@components/ui/chart'
 import { ChartContainer, ChartTooltip } from '@components/ui/chart'
 import { Panel, PanelContent, PanelHeader, PanelTitle } from '@components/ui/panel'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
-import { useBreakpoint } from '@/hooks/use-breakpoint'
-import { cn, formatCompactNumber } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
 import * as React from 'react'
 import { CartesianGrid, Line, LineChart as RechartsLineChart, XAxis, YAxis } from 'recharts'
+
+import { useBreakpoint } from '@/hooks/use-breakpoint'
+import { cn, formatCompactNumber } from '@/lib/utils'
 
 export interface LineChartDataPoint {
   date: string

@@ -1,3 +1,5 @@
+import './data-table-types' // Import to extend ColumnMeta
+
 import { Button } from '@components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@components/ui/table'
 import { cn } from '@lib/utils'
@@ -21,7 +23,6 @@ import { DataTableCardList } from './data-table-card-list'
 import { DataTableColumnToggle } from './data-table-column-toggle'
 import { DataTableMobileHeader } from './data-table-mobile-header'
 import { DataTableMobilePagination } from './data-table-mobile-pagination'
-import './data-table-types' // Import to extend ColumnMeta
 
 interface FullReportLink {
   text: string
@@ -112,7 +113,7 @@ export function DataTable<TData, TValue>({
     defaultSort ? [{ id: defaultSort, desc: true }] : []
   )
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>(
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>(() =>
     hiddenColumns.reduce((acc, col) => ({ ...acc, [col]: false }), {})
   )
   const [rowSelection, setRowSelection] = React.useState({})
@@ -240,6 +241,53 @@ export function DataTable<TData, TValue>({
       : undefined,
   })
 
+  // Extract values for memoization dependencies
+  const currentPageIndex = table.getState().pagination.pageIndex
+  const totalPages = table.getPageCount()
+
+  // Memoize pagination page numbers
+  const paginationPages = React.useMemo(() => {
+    const currentPage = currentPageIndex + 1
+    const pages: (number | string)[] = []
+
+    if (totalPages <= 5) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i)
+      }
+    } else {
+      pages.push(1)
+      if (currentPage > 3) {
+        pages.push('...')
+      }
+      const start = Math.max(2, currentPage - 1)
+      const end = Math.min(totalPages - 1, currentPage + 1)
+      for (let i = start; i <= end; i++) {
+        pages.push(i)
+      }
+      if (currentPage < totalPages - 2) {
+        pages.push('...')
+      }
+      pages.push(totalPages)
+    }
+    return pages
+  }, [currentPageIndex, totalPages])
+
+  // Memoize pagination handlers
+  const handlePreviousPage = React.useCallback(() => {
+    table.previousPage()
+  }, [table])
+
+  const handleNextPage = React.useCallback(() => {
+    table.nextPage()
+  }, [table])
+
+  const handleSetPageIndex = React.useCallback(
+    (index: number) => {
+      table.setPageIndex(index)
+    },
+    [table]
+  )
+
   // Mobile card view
   if (isMobile && mobileCardEnabled) {
     return (
@@ -362,59 +410,34 @@ export function DataTable<TData, TValue>({
               <div className="flex items-center gap-0.5">
                 <Button
                   variant="ghost"
-                  onClick={() => table.previousPage()}
+                  onClick={handlePreviousPage}
                   disabled={!table.getCanPreviousPage()}
                   className="h-7 px-2 text-xs"
                 >
                   <ChevronLeft className="h-3.5 w-3.5" />
                   Prev
                 </Button>
-                {(() => {
-                  const currentPage = table.getState().pagination.pageIndex + 1
-                  const totalPages = table.getPageCount()
-                  const pages: (number | string)[] = []
-
-                  if (totalPages <= 5) {
-                    for (let i = 1; i <= totalPages; i++) {
-                      pages.push(i)
-                    }
-                  } else {
-                    pages.push(1)
-                    if (currentPage > 3) {
-                      pages.push('...')
-                    }
-                    const start = Math.max(2, currentPage - 1)
-                    const end = Math.min(totalPages - 1, currentPage + 1)
-                    for (let i = start; i <= end; i++) {
-                      pages.push(i)
-                    }
-                    if (currentPage < totalPages - 2) {
-                      pages.push('...')
-                    }
-                    pages.push(totalPages)
-                  }
-
-                  return pages.map((page, index) =>
-                    typeof page === 'number' ? (
-                      <Button
-                        key={index}
-                        variant={currentPage === page ? 'default' : 'ghost'}
-                        size="icon"
-                        onClick={() => table.setPageIndex(page - 1)}
-                        className="h-7 w-7 text-xs"
-                      >
-                        {page}
-                      </Button>
-                    ) : (
-                      <span key={index} className="px-1 text-neutral-400 text-xs">
-                        {page}
-                      </span>
-                    )
+                {paginationPages.map((page, index) => {
+                  const currentPage = currentPageIndex + 1
+                  return typeof page === 'number' ? (
+                    <Button
+                      key={index}
+                      variant={currentPage === page ? 'default' : 'ghost'}
+                      size="icon"
+                      onClick={() => handleSetPageIndex(page - 1)}
+                      className="h-7 w-7 text-xs"
+                    >
+                      {page}
+                    </Button>
+                  ) : (
+                    <span key={index} className="px-1 text-neutral-400 text-xs">
+                      {page}
+                    </span>
                   )
-                })()}
+                })}
                 <Button
                   variant="ghost"
-                  onClick={() => table.nextPage()}
+                  onClick={handleNextPage}
                   disabled={!table.getCanNextPage()}
                   className="h-7 px-2 text-xs"
                 >

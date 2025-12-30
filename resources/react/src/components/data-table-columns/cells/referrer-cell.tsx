@@ -3,6 +3,8 @@
  * Always shows category badge, with optional domain link above it
  */
 
+import { memo } from 'react'
+
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
 import type { ReferrerData } from '../types'
@@ -23,7 +25,7 @@ function truncateDomain(domain: string, maxLength: number = 22): string {
   return `${domain.substring(0, maxPrefixLength)}…${suffix}`
 }
 
-export function ReferrerCell({ data, maxLength = 22 }: ReferrerCellProps) {
+export const ReferrerCell = memo(function ReferrerCell({ data, maxLength = 22 }: ReferrerCellProps) {
   const { domain, category } = data
 
   return (
@@ -46,4 +48,4 @@ export function ReferrerCell({ data, maxLength = 22 }: ReferrerCellProps) {
       <span className="text-[10px] text-neutral-400 uppercase">{category}</span>
     </div>
   )
-}
+})

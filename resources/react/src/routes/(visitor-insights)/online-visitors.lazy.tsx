@@ -16,9 +16,10 @@ import {
   VisitorInfoCell,
   type VisitorInfoConfig,
 } from '@/components/data-table-columns'
+import { COLUMN_SIZES } from '@/lib/column-sizes'
 import {
-  type ColumnConfig,
   clearCachedColumns,
+  type ColumnConfig,
   computeApiColumns,
   getCachedApiColumns,
   getCachedVisibility,
@@ -29,16 +30,15 @@ import {
 } from '@/lib/column-utils'
 import { formatReferrerChannel } from '@/lib/filter-utils'
 import { parseEntryPage } from '@/lib/url-utils'
-import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { WordPress } from '@/lib/wordpress'
-import type { OnlineVisitor as APIOnlineVisitor } from '@/services/visitor-insight/get-online-visitors'
-import { getOnlineVisitorsQueryOptions } from '@/services/visitor-insight/get-online-visitors'
 import {
   computeFullVisibility,
   parseColumnPreferences,
   resetUserPreferences,
   saveUserPreferences,
 } from '@/services/user-preferences'
+import type { OnlineVisitor as APIOnlineVisitor } from '@/services/visitor-insight/get-online-visitors'
+import { getOnlineVisitorsQueryOptions } from '@/services/visitor-insight/get-online-visitors'
 
 const CONTEXT = 'online_visitors_data_table'
 const DEFAULT_HIDDEN_COLUMNS: string[] = []
@@ -400,7 +400,7 @@ function RouteComponent() {
     computedColumnOrderRef.current = newOrder
 
     return visibility
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [response?.data, allColumnIds])
 
   // Sync column order when preferences are computed (only once on initial load)

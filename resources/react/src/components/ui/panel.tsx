@@ -122,4 +122,4 @@ function PanelAction({ children, className, ...props }: React.ComponentProps<'bu
   )
 }
 
-export { Panel, PanelHeader, PanelTitle, PanelActions, PanelContent, PanelFooter, PanelAction }
+export { Panel, PanelAction,PanelActions, PanelContent, PanelFooter, PanelHeader, PanelTitle }

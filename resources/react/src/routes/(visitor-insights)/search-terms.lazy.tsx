@@ -1,5 +1,5 @@
 import { DataTable } from '@components/custom/data-table'
-import { DateRangePicker, type DateRange } from '@components/custom/date-range-picker'
+import { type DateRange,DateRangePicker } from '@components/custom/date-range-picker'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'

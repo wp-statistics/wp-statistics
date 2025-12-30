@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
-import { DateRangePicker, type DateRange } from '@/components/custom/date-range-picker'
+import { type DateRange,DateRangePicker } from '@/components/custom/date-range-picker'
 import { type Filter, FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import {
@@ -18,9 +18,10 @@ import {
   VisitorInfoCell,
   type VisitorInfoConfig,
 } from '@/components/data-table-columns'
+import { COLUMN_SIZES } from '@/lib/column-sizes'
 import {
-  type ColumnConfig,
   clearCachedColumns,
+  type ColumnConfig,
   computeApiColumns,
   getCachedApiColumns,
   getCachedVisibility,
@@ -31,17 +32,16 @@ import {
 } from '@/lib/column-utils'
 import { filtersToUrlFilters, urlFiltersToFilters } from '@/lib/filter-utils'
 import { parseEntryPage } from '@/lib/url-utils'
-import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { formatDateForAPI } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
-import type { ViewRecord } from '@/services/visitor-insight/get-views'
-import { getViewsQueryOptions } from '@/services/visitor-insight/get-views'
 import {
   computeFullVisibility,
   parseColumnPreferences,
   resetUserPreferences,
   saveUserPreferences,
 } from '@/services/user-preferences'
+import type { ViewRecord } from '@/services/visitor-insight/get-views'
+import { getViewsQueryOptions } from '@/services/visitor-insight/get-views'
 
 const PER_PAGE = 50
 const CONTEXT = 'views_data_table'
@@ -480,7 +480,7 @@ function RouteComponent() {
     computedColumnOrderRef.current = newOrder
 
     return visibility
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [response?.data, allColumnIds])
 
   // Sync column order when preferences are computed (only once on initial load)

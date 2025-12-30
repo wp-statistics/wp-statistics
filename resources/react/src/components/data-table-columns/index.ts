@@ -7,18 +7,18 @@
 
 // Types
 export type {
-  VisitorInfoData,
-  VisitorInfoConfig,
   PageData,
   ReferrerData,
+  VisitorInfoConfig,
+  VisitorInfoData,
 } from './types'
 
 // Cell Components
-export { VisitorInfoCell } from './cells/visitor-info-cell'
-export { LastVisitCell } from './cells/last-visit-cell'
-export { ReferrerCell } from './cells/referrer-cell'
-export { PageCell } from './cells/page-cell'
-export { EntryPageCell } from './cells/entry-page-cell'
-export { NumericCell } from './cells/numeric-cell'
 export { DurationCell } from './cells/duration-cell'
+export { EntryPageCell } from './cells/entry-page-cell'
 export { JourneyCell } from './cells/journey-cell'
+export { LastVisitCell } from './cells/last-visit-cell'
+export { NumericCell } from './cells/numeric-cell'
+export { PageCell } from './cells/page-cell'
+export { ReferrerCell } from './cells/referrer-cell'
+export { VisitorInfoCell } from './cells/visitor-info-cell'

@@ -3,6 +3,7 @@
  */
 
 import { Info } from 'lucide-react'
+import { memo } from 'react'
 
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
@@ -13,7 +14,7 @@ interface EntryPageCellProps {
   maxLength?: number
 }
 
-export function EntryPageCell({ data, maxLength = 28 }: EntryPageCellProps) {
+export const EntryPageCell = memo(function EntryPageCell({ data, maxLength = 28 }: EntryPageCellProps) {
   const { title, url, hasQueryString, queryString, utmCampaign } = data
   const truncatedTitle = title.length > maxLength ? `${title.substring(0, maxLength - 3)}...` : title
 
@@ -35,4 +36,4 @@ export function EntryPageCell({ data, maxLength = 28 }: EntryPageCellProps) {
       )}
     </div>
   )
-}
+})
