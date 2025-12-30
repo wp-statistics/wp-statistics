@@ -53,56 +53,59 @@ export function VisitorInfoCell({ data, config }: VisitorInfoCellProps) {
   const identifierDisplay = getIdentifierDisplay(identifier, hashEnabled)
 
   return (
-    <div className="flex items-center gap-1.5">
-      {/* Country Flag */}
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <button className="flex items-center">
-            <img
-              src={`${pluginUrl}public/images/flags/${country.code || '000'}.svg`}
-              alt={country.name}
-              className="w-4 h-4 object-contain"
-            />
-          </button>
-        </TooltipTrigger>
-        <TooltipContent>{locationText}</TooltipContent>
-      </Tooltip>
+    <div className="flex flex-col gap-0.5 group/visitor">
+      {/* Row 1: Icons - muted by default, reveal on hover */}
+      <div className="flex items-center gap-1">
+        {/* Country Flag */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button className="flex items-center opacity-70 grayscale-[30%] group-hover/visitor:opacity-100 group-hover/visitor:grayscale-0 transition-all duration-150">
+              <img
+                src={`${pluginUrl}public/images/flags/${country.code || '000'}.svg`}
+                alt={country.name}
+                className="w-3.5 h-3.5 object-contain"
+              />
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>{locationText}</TooltipContent>
+        </Tooltip>
 
-      {/* OS Icon */}
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <button className="flex items-center">
-            <img
-              src={`${pluginUrl}public/images/operating-system/${os.icon}.svg`}
-              alt={os.name}
-              className="w-3.5 h-3.5 object-contain"
-            />
-          </button>
-        </TooltipTrigger>
-        <TooltipContent>{os.name}</TooltipContent>
-      </Tooltip>
+        {/* OS Icon */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button className="flex items-center opacity-60 grayscale-[40%] group-hover/visitor:opacity-100 group-hover/visitor:grayscale-0 transition-all duration-150">
+              <img
+                src={`${pluginUrl}public/images/operating-system/${os.icon}.svg`}
+                alt={os.name}
+                className="w-3 h-3 object-contain"
+              />
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>{os.name}</TooltipContent>
+        </Tooltip>
 
-      {/* Browser Icon */}
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <button className="flex items-center">
-            <img
-              src={`${pluginUrl}public/images/browser/${browser.icon}.svg`}
-              alt={browser.name}
-              className="w-3.5 h-3.5 object-contain"
-            />
-          </button>
-        </TooltipTrigger>
-        <TooltipContent>
-          {browser.name} {browser.version}
-        </TooltipContent>
-      </Tooltip>
+        {/* Browser Icon */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button className="flex items-center opacity-60 grayscale-[40%] group-hover/visitor:opacity-100 group-hover/visitor:grayscale-0 transition-all duration-150">
+              <img
+                src={`${pluginUrl}public/images/browser/${browser.icon}.svg`}
+                alt={browser.name}
+                className="w-3 h-3 object-contain"
+              />
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>
+            {browser.name} {browser.version}
+          </TooltipContent>
+        </Tooltip>
+      </div>
 
-      {/* User Badge or Identifier */}
+      {/* Row 2: User Badge or Identifier */}
       {showUserBadge ? (
         <Tooltip>
           <TooltipTrigger asChild>
-            <Badge variant="secondary" className="text-xs font-normal py-0 px-1.5 h-5">
+            <Badge variant="secondary" className="text-[10px] font-normal py-0 px-1 h-4 w-fit">
               {user!.username} #{user!.id}
             </Badge>
           </TooltipTrigger>
@@ -113,7 +116,7 @@ export function VisitorInfoCell({ data, config }: VisitorInfoCellProps) {
         </Tooltip>
       ) : (
         identifierDisplay && (
-          <span className="text-xs text-neutral-500 font-mono">{identifierDisplay}</span>
+          <span className="text-[10px] text-neutral-400 font-mono tracking-wide">{identifierDisplay}</span>
         )
       )}
     </div>

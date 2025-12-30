@@ -36,6 +36,7 @@ import {
   urlFiltersToFilters,
 } from '@/lib/filter-utils'
 import { parseEntryPage } from '@/lib/url-utils'
+import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { formatDateForAPI, formatDuration, formatDecimal } from '@/lib/utils'
@@ -183,6 +184,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<Visitor>[] => [
   {
     accessorKey: 'lastVisit',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
+    size: COLUMN_SIZES.lastVisit,
     cell: ({ row }) => <LastVisitCell date={row.original.lastVisit} />,
     meta: {
       priority: 'primary',
@@ -193,6 +195,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<Visitor>[] => [
   {
     accessorKey: 'visitorInfo',
     header: () => 'Visitor Info',
+    size: COLUMN_SIZES.visitorInfo,
     cell: ({ row }) => {
       const visitor = row.original
       return (
@@ -229,6 +232,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<Visitor>[] => [
   {
     accessorKey: 'referrer',
     header: () => 'Referrer',
+    size: COLUMN_SIZES.referrer,
     cell: ({ row }) => (
       <ReferrerCell
         data={{
@@ -245,6 +249,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<Visitor>[] => [
   {
     accessorKey: 'entryPage',
     header: () => 'Entry Page',
+    size: COLUMN_SIZES.entryPage,
     cell: ({ row }) => {
       const visitor = row.original
       return (
@@ -267,6 +272,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<Visitor>[] => [
   {
     accessorKey: 'exitPage',
     header: () => 'Exit Page',
+    size: COLUMN_SIZES.exitPage,
     cell: ({ row }) => (
       <PageCell
         data={{
@@ -283,7 +289,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<Visitor>[] => [
   {
     accessorKey: 'totalViews',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />,
-    size: 70,
+    size: COLUMN_SIZES.views,
     cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
     meta: {
       priority: 'primary',
@@ -294,7 +300,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<Visitor>[] => [
   {
     accessorKey: 'totalSessions',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Sessions" className="text-right" />,
-    size: 80,
+    size: COLUMN_SIZES.sessions,
     cell: ({ row }) => <NumericCell value={row.original.totalSessions} />,
     meta: {
       priority: 'primary',
@@ -305,7 +311,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<Visitor>[] => [
   {
     accessorKey: 'sessionDuration',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Duration" className="text-right" />,
-    size: 85,
+    size: COLUMN_SIZES.duration,
     cell: ({ row }) => <DurationCell seconds={row.original.sessionDuration} />,
     meta: {
       priority: 'primary',
@@ -316,7 +322,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<Visitor>[] => [
   {
     accessorKey: 'viewsPerSession',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Per Session" className="text-right" />,
-    size: 90,
+    size: COLUMN_SIZES.viewsPerSession,
     enableHiding: true,
     cell: ({ row }) => <NumericCell value={row.original.viewsPerSession} decimals={1} />,
     meta: {
@@ -327,7 +333,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<Visitor>[] => [
   {
     accessorKey: 'bounceRate',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Bounce" className="text-right" />,
-    size: 70,
+    size: COLUMN_SIZES.bounceRate,
     enableHiding: true,
     cell: ({ row }) => <NumericCell value={row.original.bounceRate} suffix="%" />,
     meta: {
@@ -338,6 +344,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<Visitor>[] => [
   {
     accessorKey: 'visitorStatus',
     header: () => 'Status',
+    size: COLUMN_SIZES.status,
     enableHiding: true,
     cell: ({ row }) => {
       const visitor = row.original
@@ -415,11 +422,13 @@ function RouteComponent() {
     lastSyncedFiltersRef.current = JSON.stringify(filtersToUrlFilters(filtersFromUrl))
   }, [urlFilters, urlPage, filterFields])
 
-  // Date range state (default to today)
+  // Date range state (default to last 30 days)
   const [dateRange, setDateRange] = useState<DateRange>(() => {
     const today = new Date()
+    const thirtyDaysAgo = new Date()
+    thirtyDaysAgo.setDate(today.getDate() - 29)
     return {
-      from: today,
+      from: thirtyDaysAgo,
       to: today,
     }
   })

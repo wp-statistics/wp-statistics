@@ -35,6 +35,7 @@ import {
   urlFiltersToFiltersWithDefaults,
 } from '@/lib/filter-utils'
 import { parseEntryPage } from '@/lib/url-utils'
+import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { LineChart } from '@/components/custom/line-chart'
 import { formatDateForAPI, formatDecimal } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
@@ -242,7 +243,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<LoggedInUser>[] => 
     header: ({ column }) => (
       <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />
     ),
-    size: 70,
+    size: COLUMN_SIZES.views,
     cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
   },
 ]
@@ -282,9 +283,15 @@ function RouteComponent() {
   const [sorting, setSorting] = useState<SortingState>([{ id: 'lastVisit', desc: true }])
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
   const lastSyncedFiltersRef = useRef<string | null>(null)
-  const [dateRange, setDateRange] = useState<DateRange>({
-    from: new Date(),
-    to: new Date(),
+  // Default to last 30 days
+  const [dateRange, setDateRange] = useState<DateRange>(() => {
+    const today = new Date()
+    const thirtyDaysAgo = new Date()
+    thirtyDaysAgo.setDate(today.getDate() - 29)
+    return {
+      from: thirtyDaysAgo,
+      to: today,
+    }
   })
   const [compareDateRange, setCompareDateRange] = useState<DateRange | undefined>(undefined)
 

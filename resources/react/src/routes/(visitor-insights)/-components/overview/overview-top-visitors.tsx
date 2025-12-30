@@ -12,6 +12,7 @@ import {
   VisitorInfoCell,
   type VisitorInfoConfig,
 } from '@/components/data-table-columns'
+import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { WordPress } from '@/lib/wordpress'
 import type { TopVisitorsData } from '@/services/visitor-insight/get-visitor-overview'
 
@@ -121,6 +122,7 @@ export const OverviewTopVisitors = ({ data }: OverviewTopVisitorsProps) => {
     {
       accessorKey: 'visitorInfo',
       header: 'Visitor Info',
+      size: COLUMN_SIZES.visitorInfo,
       cell: ({ row }) => {
         const visitorInfo = row.getValue('visitorInfo') as TopVisitorData['visitorInfo']
         return (
@@ -152,11 +154,13 @@ export const OverviewTopVisitors = ({ data }: OverviewTopVisitorsProps) => {
     {
       accessorKey: 'totalViews',
       header: 'Total Views',
+      size: COLUMN_SIZES.totalViews,
       cell: ({ row }) => <NumericCell value={row.getValue('totalViews') as number} />,
     },
     {
       accessorKey: 'referrer',
       header: 'Referrer',
+      size: COLUMN_SIZES.referrer,
       cell: ({ row }) => {
         const referrer = row.getValue('referrer') as TopVisitorData['referrer']
         return (
@@ -173,6 +177,7 @@ export const OverviewTopVisitors = ({ data }: OverviewTopVisitorsProps) => {
     {
       accessorKey: 'entryPage',
       header: 'Entry Page',
+      size: COLUMN_SIZES.entryPage,
       cell: ({ row }) => {
         const entryPage = row.getValue('entryPage') as TopVisitorData['entryPage']
         return (
@@ -192,6 +197,7 @@ export const OverviewTopVisitors = ({ data }: OverviewTopVisitorsProps) => {
     {
       accessorKey: 'exitPage',
       header: 'Exit Page',
+      size: COLUMN_SIZES.exitPage,
       cell: ({ row }) => {
         const exitPage = row.getValue('exitPage') as TopVisitorData['exitPage']
         return <PageCell data={{ title: exitPage.title, url: exitPage.url }} maxLength={35} />

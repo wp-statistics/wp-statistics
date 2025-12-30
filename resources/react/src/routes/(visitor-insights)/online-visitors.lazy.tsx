@@ -29,6 +29,7 @@ import {
 } from '@/lib/column-utils'
 import { formatReferrerChannel } from '@/lib/filter-utils'
 import { parseEntryPage } from '@/lib/url-utils'
+import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { WordPress } from '@/lib/wordpress'
 import type { OnlineVisitor as APIOnlineVisitor } from '@/services/visitor-insight/get-online-visitors'
 import { getOnlineVisitorsQueryOptions } from '@/services/visitor-insight/get-online-visitors'
@@ -200,7 +201,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] =>
   {
     accessorKey: 'onlineFor',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Online" className="text-right" />,
-    size: 75,
+    size: COLUMN_SIZES.onlineFor,
     cell: ({ row }) => <DurationCell seconds={row.original.onlineFor} />,
     meta: {
       priority: 'primary',
@@ -228,7 +229,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] =>
     header: ({ column }) => (
       <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />
     ),
-    size: 70,
+    size: COLUMN_SIZES.views,
     cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
     meta: {
       priority: 'primary',

@@ -79,11 +79,13 @@ function RouteComponent() {
     setAppliedFilters((prev) => (prev ? prev.filter((f) => f.id !== filterId) : []))
   }
 
-  // Date range state (default to today)
+  // Date range state (default to last 30 days)
   const [dateRange, setDateRange] = useState<DateRange>(() => {
     const today = new Date()
+    const thirtyDaysAgo = new Date()
+    thirtyDaysAgo.setDate(today.getDate() - 29)
     return {
-      from: today,
+      from: thirtyDaysAgo,
       to: today,
     }
   })

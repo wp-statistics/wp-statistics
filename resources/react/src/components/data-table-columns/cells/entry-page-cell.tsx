@@ -18,7 +18,7 @@ export function EntryPageCell({ data, maxLength = 28 }: EntryPageCellProps) {
   const truncatedTitle = title.length > maxLength ? `${title.substring(0, maxLength - 3)}...` : title
 
   return (
-    <div className="max-w-[200px]">
+    <div className="max-w-[140px]">
       <Tooltip>
         <TooltipTrigger asChild>
           <div className="flex items-center gap-1 cursor-pointer">

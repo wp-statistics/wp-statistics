@@ -52,9 +52,15 @@ const PER_PAGE = 20
 
 function RouteComponent() {
   const [page, setPage] = useState(1)
-  const [dateRange, setDateRange] = useState<DateRange>({
-    from: new Date(),
-    to: new Date(),
+  // Default to last 30 days
+  const [dateRange, setDateRange] = useState<DateRange>(() => {
+    const today = new Date()
+    const thirtyDaysAgo = new Date()
+    thirtyDaysAgo.setDate(today.getDate() - 29)
+    return {
+      from: thirtyDaysAgo,
+      to: today,
+    }
   })
   const [compareDateRange, setCompareDateRange] = useState<DateRange | undefined>(undefined)
 

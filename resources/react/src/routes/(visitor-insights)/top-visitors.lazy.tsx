@@ -36,6 +36,7 @@ import {
   urlFiltersToFiltersWithDefaults,
 } from '@/lib/filter-utils'
 import { parseEntryPage } from '@/lib/url-utils'
+import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { formatDateForAPI, formatDuration, formatDecimal } from '@/lib/utils'
@@ -281,7 +282,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<TopVisitor>[] => [
   {
     accessorKey: 'totalViews',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />,
-    size: 70,
+    size: COLUMN_SIZES.views,
     cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
     meta: {
       priority: 'primary',
@@ -292,7 +293,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<TopVisitor>[] => [
   {
     accessorKey: 'totalSessions',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Sessions" className="text-right" />,
-    size: 80,
+    size: COLUMN_SIZES.sessions,
     cell: ({ row }) => <NumericCell value={row.original.totalSessions} />,
     meta: {
       priority: 'primary',
@@ -303,7 +304,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<TopVisitor>[] => [
   {
     accessorKey: 'sessionDuration',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Duration" className="text-right" />,
-    size: 85,
+    size: COLUMN_SIZES.duration,
     cell: ({ row }) => <DurationCell seconds={row.original.sessionDuration} />,
     meta: {
       priority: 'primary',
@@ -314,7 +315,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<TopVisitor>[] => [
   {
     accessorKey: 'viewsPerSession',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Per Session" className="text-right" />,
-    size: 90,
+    size: COLUMN_SIZES.viewsPerSession,
     enableHiding: true,
     cell: ({ row }) => <NumericCell value={row.original.viewsPerSession} decimals={1} />,
     meta: {
@@ -325,7 +326,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<TopVisitor>[] => [
   {
     accessorKey: 'bounceRate',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Bounce" className="text-right" />,
-    size: 70,
+    size: COLUMN_SIZES.bounceRate,
     enableHiding: true,
     cell: ({ row }) => <NumericCell value={row.original.bounceRate} suffix="%" />,
     meta: {
@@ -386,9 +387,15 @@ function RouteComponent() {
 
   const [sorting, setSorting] = useState<SortingState>([{ id: 'totalViews', desc: true }])
   const lastSyncedFiltersRef = useRef<string | null>(null)
-  const [dateRange, setDateRange] = useState<DateRange>({
-    from: new Date(),
-    to: new Date(),
+  // Default to last 30 days
+  const [dateRange, setDateRange] = useState<DateRange>(() => {
+    const today = new Date()
+    const thirtyDaysAgo = new Date()
+    thirtyDaysAgo.setDate(today.getDate() - 29)
+    return {
+      from: thirtyDaysAgo,
+      to: today,
+    }
   })
   const [compareDateRange, setCompareDateRange] = useState<DateRange | undefined>(undefined)
 

@@ -31,6 +31,7 @@ import {
 } from '@/lib/column-utils'
 import { filtersToUrlFilters, urlFiltersToFilters } from '@/lib/filter-utils'
 import { parseEntryPage } from '@/lib/url-utils'
+import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { formatDateForAPI } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import type { ViewRecord } from '@/services/visitor-insight/get-views'
@@ -121,6 +122,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<ViewData>[] => [
   {
     accessorKey: 'lastVisit',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
+    size: COLUMN_SIZES.lastVisit,
     cell: ({ row }) => <LastVisitCell date={new Date(row.getValue('lastVisit'))} />,
     meta: {
       priority: 'primary',
@@ -131,6 +133,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<ViewData>[] => [
   {
     accessorKey: 'visitorInfo',
     header: 'Visitor Info',
+    size: COLUMN_SIZES.visitorInfo,
     cell: ({ row }) => {
       const visitorInfo = row.getValue('visitorInfo') as ViewData['visitorInfo']
       return (
@@ -167,6 +170,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<ViewData>[] => [
   {
     accessorKey: 'page',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Page" />,
+    size: COLUMN_SIZES.page,
     cell: ({ row }) => {
       const page = row.getValue('page') as ViewData['page']
       return <PageCell data={{ title: page.title, url: page.url }} maxLength={35} />
@@ -180,6 +184,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<ViewData>[] => [
   {
     accessorKey: 'referrer',
     header: 'Referrer',
+    size: COLUMN_SIZES.referrer,
     cell: ({ row }) => {
       const referrer = row.getValue('referrer') as ViewData['referrer']
       return (
@@ -200,6 +205,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<ViewData>[] => [
   {
     accessorKey: 'entryPage',
     header: 'Entry Page',
+    size: COLUMN_SIZES.entryPage,
     cell: ({ row }) => {
       const entryPage = row.getValue('entryPage') as ViewData['entryPage']
       return (
@@ -223,7 +229,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<ViewData>[] => [
   {
     accessorKey: 'totalViews',
     header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />,
-    size: 70,
+    size: COLUMN_SIZES.views,
     cell: ({ row }) => <NumericCell value={row.getValue('totalViews') as number} />,
     meta: {
       priority: 'primary',
@@ -292,9 +298,15 @@ function RouteComponent() {
 
   const [sorting, setSorting] = useState<SortingState>([{ id: 'lastVisit', desc: true }])
   const lastSyncedFiltersRef = useRef<string | null>(null)
-  const [dateRange, setDateRange] = useState<DateRange>({
-    from: new Date(),
-    to: new Date(),
+  // Default to last 30 days
+  const [dateRange, setDateRange] = useState<DateRange>(() => {
+    const today = new Date()
+    const thirtyDaysAgo = new Date()
+    thirtyDaysAgo.setDate(today.getDate() - 29)
+    return {
+      from: thirtyDaysAgo,
+      to: today,
+    }
   })
   const [compareDateRange, setCompareDateRange] = useState<DateRange | undefined>(undefined)
 
