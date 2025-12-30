@@ -55,3 +55,17 @@ export function formatCompactNumber(num: number): string {
   if (num >= 1000) return `${formatDecimal(num / 1000)}k`
   return num.toLocaleString()
 }
+
+/**
+ * Decode URL-encoded UTF-8 text
+ * Useful for decoding search terms with non-ASCII characters (e.g., Persian, Arabic)
+ * Returns original text if decoding fails
+ */
+export function decodeText(text: string | undefined | null): string | undefined {
+  if (!text) return undefined
+  try {
+    return decodeURIComponent(text)
+  } catch {
+    return text
+  }
+}

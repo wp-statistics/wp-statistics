@@ -13,21 +13,11 @@ import { Metrics } from '@/components/custom/metrics'
 import { Panel } from '@/components/ui/panel'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
-import { formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
+import { decodeText, formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getVisitorOverviewQueryOptions } from '@/services/visitor-insight/get-visitor-overview'
 
 import { OverviewTopVisitors } from './-components/overview/overview-top-visitors'
-
-// Decode URL-encoded UTF-8 text (for search terms with non-ASCII characters)
-const decodeText = (text: string | undefined): string | undefined => {
-  if (!text) return text
-  try {
-    return decodeURIComponent(text)
-  } catch {
-    return text
-  }
-}
 
 export const Route = createLazyFileRoute('/(visitor-insights)/visitors-overview')({
   component: RouteComponent,

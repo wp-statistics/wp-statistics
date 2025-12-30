@@ -7,6 +7,7 @@ import { __ } from '@wordpress/i18n'
 import { useCallback } from 'react'
 
 import { useGlobalFilters } from '@/hooks/use-global-filters'
+import { decodeText } from '@/lib/utils'
 import type { SearchTerm as APISearchTerm } from '@/services/visitor-insight/get-search-terms'
 import { getSearchTermsQueryOptions } from '@/services/visitor-insight/get-search-terms'
 
@@ -19,20 +20,10 @@ type SearchTermData = {
   searches: number
 }
 
-// Decode URL-encoded UTF-8 search terms
-const decodeSearchTerm = (term: string): string => {
-  try {
-    return decodeURIComponent(term)
-  } catch {
-    // If decoding fails, return original term
-    return term
-  }
-}
-
 // Transform API response to component interface
 const transformSearchTermData = (apiSearchTerm: APISearchTerm): SearchTermData => {
   return {
-    searchTerm: decodeSearchTerm(apiSearchTerm.search_term || ''),
+    searchTerm: decodeText(apiSearchTerm.search_term) || '',
     searches: parseInt(apiSearchTerm.searches, 10) || 0,
   }
 }
