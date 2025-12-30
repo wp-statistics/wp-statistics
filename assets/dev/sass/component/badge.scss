@@ -3,6 +3,7 @@
   min-width: 8px;
   padding: 3px 7px;
   font-size: 12px;
+  font-weight: 500;
   line-height: 1;
   color: #fff;
   text-align: center;
@@ -10,4 +11,25 @@
   vertical-align: 1px;
   background-color: #DC3545;
   border-radius: 10px;
+
+  // Status modifiers
+  &--info {
+    background-color: #3088EC;
+  }
+
+  &--success {
+    background-color: #489E4E;
+  }
+
+  &--warning {
+    background-color: #F0AD4E;
+  }
+
+  &--orange {
+    background-color: #E68C3F;
+  }
+
+  &--danger {
+    background-color: #F95959;
+  }
 }

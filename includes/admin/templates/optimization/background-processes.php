@@ -20,30 +20,30 @@ $processes = $service->getAll();
                             <?php esc_html_e('View and manage all background tasks. These processes run safely in the background and you can continue using the plugin while they complete.', 'wp-statistics'); ?>
                         </p>
                         <p class="description" style="margin-top: 5px;">
-                            <em><?php esc_html_e('Note: If a process repeatedly fails, your server may be blocking loopback requests. Check Tools → Site Health for connectivity issues.', 'wp-statistics'); ?></em>
+                            <em><strong><?php esc_html_e('Note:', 'wp-statistics'); ?></strong> <?php esc_html_e('If a process repeatedly fails, your server may be blocking loopback requests. Check Tools → Site Health for connectivity issues.', 'wp-statistics'); ?></em>
                         </p>
                     </td>
                 </tr>
 
                 <?php if (empty($processes)) : ?>
                     <tr>
-                        <td colspan="2">
-                            <p style="color: #666; font-style: italic;">
+                        <td>
+                            <p class="wps-bg-processes__empty">
                                 <?php esc_html_e('No background processes. Background tasks will appear here when triggered.', 'wp-statistics'); ?>
                             </p>
                         </td>
                     </tr>
                 <?php else : ?>
                     <tr>
-                        <td colspan="2" style="padding: 0;">
-                            <table class="wp-list-table widefat fixed striped">
+                        <td class="wps-bg-processes__table-wrapper">
+                            <table class="wps-bg-processes__table">
                                 <thead>
                                     <tr>
-                                        <th scope="col"><?php esc_html_e('Process', 'wp-statistics'); ?></th>
-                                        <th scope="col"><?php esc_html_e('Status', 'wp-statistics'); ?></th>
-                                        <th scope="col"><?php esc_html_e('Progress', 'wp-statistics'); ?></th>
-                                        <th scope="col"><?php esc_html_e('Last Activity', 'wp-statistics'); ?></th>
-                                        <th scope="col"><?php esc_html_e('Actions', 'wp-statistics'); ?></th>
+                                        <th><?php esc_html_e('Process', 'wp-statistics'); ?></th>
+                                        <th><?php esc_html_e('Status', 'wp-statistics'); ?></th>
+                                        <th><?php esc_html_e('Progress', 'wp-statistics'); ?></th>
+                                        <th><?php esc_html_e('Last Activity', 'wp-statistics'); ?></th>
+                                        <th><?php esc_html_e('Actions', 'wp-statistics'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -89,9 +89,9 @@ $processes = $service->getAll();
                                             'cancel_background_process'
                                         );
                                         ?>
-                                        <tr data-id="wps_bg_process_<?php echo esc_attr($process['key']); ?>">
+                                        <tr>
                                             <td>
-                                                <strong><?php echo esc_html($process['title']); ?></strong>
+                                                <span class="wps-bg-processes__title"><?php echo esc_html($process['title']); ?></span>
                                             </td>
                                             <td>
                                                 <span class="wps-badge <?php echo esc_attr($statusClass); ?>">
@@ -112,15 +112,13 @@ $processes = $service->getAll();
                                             <td>
                                                 <?php echo esc_html($process['last_activity']); ?>
                                             </td>
-                                            <td>
+                                            <td class="wps-bg-processes__actions">
                                                 <?php if ($showRetry) : ?>
-                                                    <a href="<?php echo esc_url($retryUrl); ?>" class="button-primary">
+                                                    <a href="<?php echo esc_url($retryUrl); ?>" class="wps-button wps-button--primary">
                                                         <?php esc_html_e('Retry', 'wp-statistics'); ?>
                                                     </a>
                                                 <?php endif; ?>
-                                                <a href="<?php echo esc_url($cancelUrl); ?>"
-                                                   class="button wps-bg-process-cancel"
-                                                   data-process-key="<?php echo esc_attr($process['key']); ?>">
+                                                <a href="<?php echo esc_url($cancelUrl); ?>" class="wps-button wps-button--default">
                                                     <?php esc_html_e('Cancel', 'wp-statistics'); ?>
                                                 </a>
                                             </td>
