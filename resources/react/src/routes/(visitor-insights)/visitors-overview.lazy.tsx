@@ -19,6 +19,16 @@ import { getVisitorOverviewQueryOptions } from '@/services/visitor-insight/get-v
 
 import { OverviewTopVisitors } from './-components/overview/overview-top-visitors'
 
+// Decode URL-encoded UTF-8 text (for search terms with non-ASCII characters)
+const decodeText = (text: string | undefined): string | undefined => {
+  if (!text) return text
+  try {
+    return decodeURIComponent(text)
+  } catch {
+    return text
+  }
+}
+
 export const Route = createLazyFileRoute('/(visitor-insights)/visitors-overview')({
   component: RouteComponent,
   errorComponent: ({ error }) => (
@@ -280,7 +290,7 @@ function RouteComponent() {
     // Context metrics (second row)
     const topCountryName = metricsTopCountry?.items?.[0]?.country_name
     const topReferrerName = metricsTopReferrer?.items?.[0]?.referrer_name
-    const topSearchTerm = metricsTopSearch?.items?.[0]?.search_term
+    const topSearchTerm = decodeText(metricsTopSearch?.items?.[0]?.search_term)
 
     // Calculate logged-in share percentage
     const loggedInVisitors = Number(metricsLoggedIn?.totals?.visitors?.current) || 0

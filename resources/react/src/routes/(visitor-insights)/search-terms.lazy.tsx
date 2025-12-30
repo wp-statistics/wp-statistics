@@ -19,10 +19,20 @@ type SearchTermData = {
   searches: number
 }
 
+// Decode URL-encoded UTF-8 search terms
+const decodeSearchTerm = (term: string): string => {
+  try {
+    return decodeURIComponent(term)
+  } catch {
+    // If decoding fails, return original term
+    return term
+  }
+}
+
 // Transform API response to component interface
 const transformSearchTermData = (apiSearchTerm: APISearchTerm): SearchTermData => {
   return {
-    searchTerm: apiSearchTerm.search_term || '',
+    searchTerm: decodeSearchTerm(apiSearchTerm.search_term || ''),
     searches: parseInt(apiSearchTerm.searches, 10) || 0,
   }
 }
