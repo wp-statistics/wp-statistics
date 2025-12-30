@@ -60,6 +60,8 @@ interface DataTableProps<TData, TValue> {
   onColumnPreferencesReset?: () => void
   // Mobile card view
   mobileCardEnabled?: boolean
+  // Sticky header for scrollable tables
+  stickyHeader?: boolean
 }
 
 export function DataTable<TData, TValue>({
@@ -93,6 +95,8 @@ export function DataTable<TData, TValue>({
   onColumnPreferencesReset,
   // Mobile card view
   mobileCardEnabled = true,
+  // Sticky header
+  stickyHeader = false,
 }: DataTableProps<TData, TValue>) {
   const isMobile = useIsMobile()
 
@@ -314,7 +318,7 @@ export function DataTable<TData, TValue>({
 
   // Desktop/tablet table view
   return (
-    <Panel className="overflow-hidden min-w-0">
+    <Panel className="min-w-0 overflow-hidden">
       {title && (
         <PanelHeader className="pb-0">
           <PanelTitle>{title}</PanelTitle>
@@ -323,7 +327,8 @@ export function DataTable<TData, TValue>({
       )}
       <div
         className={cn(
-          'overflow-x-auto min-w-0 relative',
+          'min-w-0 relative',
+          stickyHeader ? 'overflow-auto max-h-[70vh]' : 'overflow-x-auto',
           isFetching && 'opacity-50 pointer-events-none transition-opacity'
         )}
       >
@@ -333,7 +338,7 @@ export function DataTable<TData, TValue>({
           </div>
         )}
         <Table className="min-w-max">
-          <TableHeader>
+          <TableHeader className={cn(stickyHeader && 'sticky top-0 z-10')}>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} className="border-0 bg-white hover:bg-white">
                 {headerGroup.headers.map((header, index) => {
@@ -341,7 +346,7 @@ export function DataTable<TData, TValue>({
                   return (
                     <TableHead
                       key={header.id}
-                      className={cn('h-8', index === 0 ? 'pl-4' : '', index === headerGroup.headers.length - 1 ? 'pr-4' : '')}
+                      className={cn('h-8 bg-white', index === 0 ? 'pl-4' : '', index === headerGroup.headers.length - 1 ? 'pr-4' : '')}
                       style={size ? { width: size, minWidth: size, maxWidth: size } : undefined}
                     >
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}

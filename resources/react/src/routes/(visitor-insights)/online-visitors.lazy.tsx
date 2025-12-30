@@ -522,6 +522,7 @@ function RouteComponent() {
             onColumnOrderChange={handleColumnOrderChange}
             onColumnPreferencesReset={handleColumnPreferencesReset}
             emptyStateMessage={__('No visitors are currently online', 'wp-statistics')}
+            stickyHeader={true}
           />
         )}
       </div>

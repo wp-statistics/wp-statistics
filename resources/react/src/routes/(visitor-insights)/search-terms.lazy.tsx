@@ -135,6 +135,7 @@ function RouteComponent() {
             showPagination={true}
             isFetching={isFetching}
             emptyStateMessage={__('No data available for the selected period', 'wp-statistics')}
+            stickyHeader={true}
           />
         )}
       </div>

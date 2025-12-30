@@ -480,6 +480,7 @@ function RouteComponent() {
             onColumnOrderChange={handleColumnOrderChange}
             onColumnPreferencesReset={handleColumnPreferencesReset}
             emptyStateMessage={__('No logged-in users found for the selected period', 'wp-statistics')}
+            stickyHeader={true}
           />
         )}
       </div>

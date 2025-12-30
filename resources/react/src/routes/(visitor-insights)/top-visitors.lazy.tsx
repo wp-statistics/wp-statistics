@@ -352,6 +352,7 @@ function RouteComponent() {
             onColumnOrderChange={handleColumnOrderChange}
             onColumnPreferencesReset={handleColumnPreferencesReset}
             emptyStateMessage={__('No visitors found for the selected period', 'wp-statistics')}
+            stickyHeader={true}
           />
         )}
       </div>
