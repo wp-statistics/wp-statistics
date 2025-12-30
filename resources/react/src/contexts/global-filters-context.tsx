@@ -7,6 +7,11 @@
  * - User preferences serve as fallback (stored in DB)
  * - Manual selection updates both URL and saves to DB
  * - URL param navigation does NOT update preferences
+ *
+ * Performance optimizations:
+ * - Uses refs for comparison values to avoid effect re-registration
+ * - Debounces rapid URL changes (browser back/forward)
+ * - Batches preference saves with debouncing
  */
 
 import { useNavigate, useSearch } from '@tanstack/react-router'
@@ -19,6 +24,28 @@ import { filtersToUrlFilters, urlFiltersToFilters, type UrlFilter } from '@/lib/
 import { formatDateForAPI } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { saveGlobalFiltersPreferences, resetGlobalFiltersPreferences } from '@/services/global-filters-preferences'
+
+// Debounce helper for performance optimization
+function debounce<T extends (...args: Parameters<T>) => void>(fn: T, delay: number): T & { cancel: () => void } {
+  let timeoutId: ReturnType<typeof setTimeout> | null = null
+
+  const debounced = ((...args: Parameters<T>) => {
+    if (timeoutId) clearTimeout(timeoutId)
+    timeoutId = setTimeout(() => {
+      fn(...args)
+      timeoutId = null
+    }, delay)
+  }) as T & { cancel: () => void }
+
+  debounced.cancel = () => {
+    if (timeoutId) {
+      clearTimeout(timeoutId)
+      timeoutId = null
+    }
+  }
+
+  return debounced
+}
 
 /**
  * Source of the current filter/date values
@@ -125,6 +152,35 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
   // Track whether we've initialized
   const hasInitialized = useRef(false)
   const lastSyncedRef = useRef<string | null>(null)
+
+  // Performance: Use refs for values needed in hashchange handler
+  // This prevents re-registering the event listener on every state change
+  const currentDatesRef = useRef({ from: '', to: '' })
+  const filterFieldsRef = useRef(filterFields)
+  const urlParamsFiltersRef = useRef(urlParams.filters)
+
+  // Keep refs in sync with current values
+  useEffect(() => {
+    filterFieldsRef.current = filterFields
+  }, [filterFields])
+
+  useEffect(() => {
+    urlParamsFiltersRef.current = urlParams.filters
+  }, [urlParams.filters])
+
+  // Debounced preference saving (300ms delay to batch rapid changes)
+  const debouncedSavePrefs = useRef(
+    debounce((prefs: Parameters<typeof saveGlobalFiltersPreferences>[0]) => {
+      saveGlobalFiltersPreferences(prefs)
+    }, 300)
+  ).current
+
+  // Cleanup debounced save on unmount
+  useEffect(() => {
+    return () => {
+      debouncedSavePrefs.cancel()
+    }
+  }, [debouncedSavePrefs])
 
   // State - initialize from preferences synchronously to avoid timing issues with DateRangePicker
   const [state, setState] = useState<GlobalFiltersState>(() => {
@@ -283,12 +339,23 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
     hasInitialized.current = true
   }, [urlParams, filterFields])
 
+  // Keep currentDatesRef in sync (for hashchange comparison)
+  useEffect(() => {
+    currentDatesRef.current = {
+      from: formatDateForAPI(state.dateFrom),
+      to: formatDateForAPI(state.dateTo),
+    }
+  }, [state.dateFrom, state.dateTo])
+
   // Watch for URL param changes during SPA navigation (after initialization)
-  // This handles the case where user navigates to a shared link while already on the page
+  // Performance optimizations:
+  // - Uses refs for comparison to avoid effect re-registration
+  // - Debounces rapid hash changes (browser back/forward)
+  // - Only registers once after initialization
   useEffect(() => {
     if (!state.isInitialized) return
 
-    const handleHashChange = () => {
+    const processHashChange = () => {
       const hashParams = parseHashParams()
 
       // Only process if URL has date params
@@ -299,11 +366,11 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
 
       if (!urlDateFrom || !urlDateTo) return
 
-      // Check if URL dates differ from current state
-      const currentFromStr = formatDateForAPI(state.dateFrom)
-      const currentToStr = formatDateForAPI(state.dateTo)
-
-      if (hashParams.date_from === currentFromStr && hashParams.date_to === currentToStr) {
+      // Use ref for comparison (avoids effect re-registration)
+      if (
+        hashParams.date_from === currentDatesRef.current.from &&
+        hashParams.date_to === currentDatesRef.current.to
+      ) {
         // Dates match, no update needed
         return
       }
@@ -311,7 +378,8 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
       // URL has different dates - update state
       const urlCompareFrom = parseDate(hashParams.previous_date_from)
       const urlCompareTo = parseDate(hashParams.previous_date_to)
-      const urlFilters = urlFiltersToFilters(urlParams.filters, filterFields)
+      // Use refs for filterFields and urlParams.filters
+      const urlFilters = urlFiltersToFilters(urlParamsFiltersRef.current, filterFieldsRef.current)
       const effectivePage = parseInt(hashParams.page, 10) || 1
 
       setState({
@@ -330,21 +398,25 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
         date_to: hashParams.date_to,
         previous_date_from: hashParams.previous_date_from,
         previous_date_to: hashParams.previous_date_to,
-        filters: urlParams.filters,
+        filters: urlParamsFiltersRef.current,
         page: effectivePage,
       })
     }
 
-    // Listen for hash changes (SPA navigation)
-    window.addEventListener('hashchange', handleHashChange)
+    // Debounce to handle rapid back/forward navigation
+    const debouncedHandler = debounce(processHashChange, 50)
 
-    // Also check immediately in case URL changed before this effect ran
-    handleHashChange()
+    // Listen for hash changes (SPA navigation)
+    window.addEventListener('hashchange', debouncedHandler)
+
+    // Check immediately in case URL changed before this effect ran
+    processHashChange()
 
     return () => {
-      window.removeEventListener('hashchange', handleHashChange)
+      window.removeEventListener('hashchange', debouncedHandler)
+      debouncedHandler.cancel()
     }
-  }, [state.isInitialized, state.dateFrom, state.dateTo, urlParams.filters, filterFields])
+  }, [state.isInitialized]) // Only depends on isInitialized - refs handle the rest
 
   // Sync state to URL when source is 'url' or 'manual'
   useEffect(() => {
@@ -396,9 +468,9 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
         source: 'manual' as FilterSource,
       }
 
-      // Save to preferences (manual action)
+      // Save to preferences (debounced to batch rapid changes)
       const urlFilters = filtersToUrlFilters(prev.filters)
-      saveGlobalFiltersPreferences({
+      debouncedSavePrefs({
         date_from: formatDateForAPI(newState.dateFrom),
         date_to: formatDateForAPI(newState.dateTo),
         previous_date_from: newState.compareDateFrom ? formatDateForAPI(newState.compareDateFrom) : undefined,
@@ -408,7 +480,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
 
       return newState
     })
-  }, [])
+  }, [debouncedSavePrefs])
 
   // Set filters (manual action)
   const setFilters = useCallback((filters: Filter[]) => {
@@ -420,9 +492,9 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
         source: 'manual' as FilterSource,
       }
 
-      // Save to preferences (manual action)
+      // Save to preferences (debounced to batch rapid changes)
       const urlFilters = filtersToUrlFilters(filters)
-      saveGlobalFiltersPreferences({
+      debouncedSavePrefs({
         date_from: formatDateForAPI(prev.dateFrom),
         date_to: formatDateForAPI(prev.dateTo),
         previous_date_from: prev.compareDateFrom ? formatDateForAPI(prev.compareDateFrom) : undefined,
@@ -432,7 +504,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
 
       return newState
     })
-  }, [])
+  }, [debouncedSavePrefs])
 
   // Apply filters (same as setFilters, for API consistency)
   const applyFilters = useCallback((filters: Filter[]) => {
@@ -450,9 +522,9 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
         source: 'manual' as FilterSource,
       }
 
-      // Save to preferences (manual action)
+      // Save to preferences (debounced to batch rapid changes)
       const urlFilters = filtersToUrlFilters(newFilters)
-      saveGlobalFiltersPreferences({
+      debouncedSavePrefs({
         date_from: formatDateForAPI(prev.dateFrom),
         date_to: formatDateForAPI(prev.dateTo),
         previous_date_from: prev.compareDateFrom ? formatDateForAPI(prev.compareDateFrom) : undefined,
@@ -462,7 +534,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
 
       return newState
     })
-  }, [])
+  }, [debouncedSavePrefs])
 
   // Set page (does not change source, does not save to preferences)
   const setPage = useCallback((page: number) => {
