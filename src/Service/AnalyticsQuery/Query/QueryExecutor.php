@@ -187,16 +187,20 @@ class QueryExecutor implements QueryExecutorInterface
         $today    = date('Y-m-d');
         $yesterday = date('Y-m-d', strtotime('-1 day'));
 
+        // Extract just the date part for comparison (dates may include time component)
+        $dateToDate   = substr($dateTo, 0, 10);
+        $dateFromDate = substr($dateFrom, 0, 10);
+
         // Note: System constraint - to_date max is today (cannot be future)
 
         // Scenario 1: Date range is entirely historical (to_date < today)
-        if ($dateTo < $today) {
+        if ($dateToDate < $today) {
             return $this->executeFromSummaryTableOnly($query);
         }
 
         // Scenario 2: to_date == today - use HYBRID approach
-        if ($dateTo === $today) {
-            return $this->executeHybridQuery($query, $dateFrom, $yesterday, $today);
+        if ($dateToDate === $today) {
+            return $this->executeHybridQuery($query, $dateFromDate, $yesterday, $today);
         }
 
         // Fallback (shouldn't happen due to system constraint, but safe)
@@ -214,7 +218,12 @@ class QueryExecutor implements QueryExecutorInterface
         $groupBy = $query->getGroupBy();
 
         // Determine which table to use
-        $tableName = empty($groupBy) ? 'summary_totals' : 'summary';
+        // - summary_totals: Site-wide aggregates (no groupBy, or time-series groupBy like date/week/month)
+        // - summary: Per-resource aggregates (when grouping by resource/page)
+        $timeSeriesGroupBy = ['date', 'week', 'month'];
+        $useTimeSeries = empty($groupBy) ||
+                         (count($groupBy) === 1 && in_array($groupBy[0], $timeSeriesGroupBy, true));
+        $tableName = $useTimeSeries ? 'summary_totals' : 'summary';
 
         // Build SQL for summary table
         $sql = $this->buildSummaryTableSql($query, $tableName);
@@ -266,7 +275,11 @@ class QueryExecutor implements QueryExecutorInterface
             // Create query with modified date range (historical only - up to yesterday)
             $historicalQuery = $query->withDateRange($dateFrom, $historicalTo);
 
-            $tableName = empty($groupBy) ? 'summary_totals' : 'summary';
+            // Use summary_totals for time-series queries, summary for per-resource queries
+            $timeSeriesGroupBy = ['date', 'week', 'month'];
+            $useTimeSeries = empty($groupBy) ||
+                             (count($groupBy) === 1 && in_array($groupBy[0], $timeSeriesGroupBy, true));
+            $tableName = $useTimeSeries ? 'summary_totals' : 'summary';
             $sql = $this->buildSummaryTableSql($historicalQuery, $tableName);
 
             $preparedSql = $sql['sql'];
@@ -275,6 +288,13 @@ class QueryExecutor implements QueryExecutorInterface
             }
 
             $historicalRows = $this->wpdb->get_results($preparedSql, ARRAY_A);
+
+            // Fallback to raw tables if summary table has no data for this period
+            if (empty($historicalRows)) {
+                $historicalResult = $this->executeFromRawTables($historicalQuery);
+                $historicalRows   = $historicalResult['rows'];
+            }
+
             $rows = array_merge($rows, $historicalRows);
         }
 
@@ -282,7 +302,16 @@ class QueryExecutor implements QueryExecutorInterface
         $todayQuery = $query->withDateRange($today, $today);
 
         $todayResult = $this->executeFromRawTables($todayQuery);
-        $rows = array_merge($rows, $todayResult['rows']);
+        $todayRows   = $todayResult['rows'];
+
+        // Normalize raw table rows to have 'date' column for week/month groupBy
+        // Raw tables return 'week_start' for weekly and 'month' for monthly,
+        // but summary tables and aggregateToTimeframe expect 'date' column
+        if (!empty($groupBy) && in_array($groupBy[0], ['week', 'month'], true)) {
+            $todayRows = $this->normalizeRawTableRows($todayRows, $groupBy[0]);
+        }
+
+        $rows = array_merge($rows, $todayRows);
 
         // Part 3: Post-process all results
         $rows = $this->addCalculatedMetrics($rows, $query->getSources());
@@ -311,17 +340,29 @@ class QueryExecutor implements QueryExecutorInterface
         $groupBy  = $query->getGroupBy();
         $dateFrom = $query->getDateFrom();
         $dateTo   = $query->getDateTo();
-        $orderBy  = $query->getOrderBy() ?: $sources[0] ?? 'visitors';
-        $order    = $query->getOrder();
         $page     = $query->getPage();
         $perPage  = $query->getPerPage();
         $offset   = ($page - 1) * $perPage;
 
+        // For time-series groupBy (date, week, month), always order by date ASC
+        // This ensures chart data is in chronological order
+        $timeSeriesGroupBy = ['date', 'week', 'month'];
+        if (!empty($groupBy) && in_array($groupBy[0], $timeSeriesGroupBy, true)) {
+            $orderBy = 'date';
+            $order   = 'ASC';
+        } else {
+            $orderBy = $query->getOrderBy() ?: $sources[0] ?? 'visitors';
+            $order   = $query->getOrder();
+        }
+
         $select = [];
         $params = [];
 
-        // Add group by column if needed
-        if (!empty($groupBy) && $groupBy[0] === 'date') {
+        // For time-series groupBy (date, week, month), always select date column
+        // Week/month will be aggregated from daily data by aggregateToTimeframe()
+        $timeSeriesGroupBy = ['date', 'week', 'month'];
+        $isTimeSeries = !empty($groupBy) && in_array($groupBy[0], $timeSeriesGroupBy, true);
+        if ($isTimeSeries) {
             $select[] = 'date';
         }
 
@@ -354,8 +395,8 @@ class QueryExecutor implements QueryExecutorInterface
             $params[] = $dateTo;
         }
 
-        // Add GROUP BY if needed
-        if (!empty($groupBy) && $groupBy[0] === 'date') {
+        // Add GROUP BY if needed (for time-series, always group by date)
+        if ($isTimeSeries) {
             $sql .= "\nGROUP BY date";
         }
 
@@ -427,13 +468,18 @@ class QueryExecutor implements QueryExecutorInterface
                 continue;
             }
 
-            // Determine the key for aggregation
+            $dateTime = new \DateTime($date);
+
+            // Determine the key and display date for aggregation
             if ($timeframe === 'week') {
-                // Get week number and year
-                $key = date('Y-W', strtotime($date));
+                // Get Monday of this week as the label (matches ChartFormatter::generateDateLabels)
+                $dateTime->modify('monday this week');
+                $key         = $dateTime->format('Y-W');
+                $displayDate = $dateTime->format('Y-m-d');
             } elseif ($timeframe === 'month') {
-                // Get year-month
-                $key = date('Y-m', strtotime($date));
+                // Use Y-m format (matches ChartFormatter::generateDateLabels)
+                $key         = $dateTime->format('Y-m');
+                $displayDate = $dateTime->format('Y-m');
             } else {
                 continue;
             }
@@ -441,7 +487,7 @@ class QueryExecutor implements QueryExecutorInterface
             // Initialize if not exists
             if (!isset($aggregated[$key])) {
                 $aggregated[$key] = [
-                    'date'                => $date, // Use first date in period
+                    'date'                => $displayDate, // Use consistent format for matching
                     'visitors'            => 0,
                     'views'               => 0,
                     'sessions'            => 0,
@@ -492,6 +538,45 @@ class QueryExecutor implements QueryExecutorInterface
         }
 
         return array_values($aggregated);
+    }
+
+    /**
+     * Normalize raw table rows to have a 'date' column for consistency with summary table data.
+     *
+     * Raw table queries with week/month groupBy return different column names:
+     * - Weekly: 'week' (YEARWEEK), 'week_start' (Y-m-d)
+     * - Monthly: 'month' (Y-m)
+     *
+     * This method adds a 'date' column so aggregateToTimeframe can process them.
+     *
+     * @param array  $rows      Raw table result rows.
+     * @param string $timeframe 'week' or 'month'.
+     * @return array Normalized rows with 'date' column.
+     */
+    private function normalizeRawTableRows(array $rows, string $timeframe): array
+    {
+        foreach ($rows as &$row) {
+            if ($timeframe === 'week') {
+                // Use week_start if available, otherwise calculate from week column
+                if (isset($row['week_start'])) {
+                    $row['date'] = $row['week_start'];
+                } elseif (isset($row['week'])) {
+                    // Convert YEARWEEK (e.g., 202553) back to a date
+                    $year = (int) substr($row['week'], 0, 4);
+                    $week = (int) substr($row['week'], 4);
+                    $dateTime = new \DateTime();
+                    $dateTime->setISODate($year, $week);
+                    $row['date'] = $dateTime->format('Y-m-d');
+                }
+            } elseif ($timeframe === 'month') {
+                // Monthly data from raw tables already uses 'month' column in Y-m format
+                if (isset($row['month'])) {
+                    $row['date'] = $row['month'];
+                }
+            }
+        }
+
+        return $rows;
     }
 
     /**

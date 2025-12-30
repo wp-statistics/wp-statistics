@@ -484,7 +484,17 @@ class AnalyticsQueryHandler
         }
 
         if (!isset($request['per_page'])) {
-            $request['per_page'] = 10;
+            // For chart format with time-series groupBy (date, week, month), use higher limit
+            // to ensure all dates are included without pagination
+            $timeSeriesGroupBy = ['date', 'week', 'month'];
+            $groupBy = $request['group_by'] ?? [];
+            $format = $request['format'] ?? 'table';
+            $isTimeSeriesChart = $format === 'chart' &&
+                                 !empty($groupBy) &&
+                                 count($groupBy) === 1 &&
+                                 in_array($groupBy[0], $timeSeriesGroupBy, true);
+
+            $request['per_page'] = $isTimeSeriesChart ? 1000 : 10;
         }
 
         // Ensure arrays

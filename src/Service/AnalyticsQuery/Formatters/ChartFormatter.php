@@ -62,11 +62,14 @@ class ChartFormatter extends AbstractFormatter
         }
 
         $primaryGroupBy = $groupBy[0];
-        $labelAlias     = $this->getGroupByAlias($primaryGroupBy);
 
-        // For time-series data, fill in missing dates
+        // For time-series groupBy, always use 'date' as the label alias
+        // because summary tables and aggregation use 'date' column
         if (in_array($primaryGroupBy, self::$timeSeriesGroupBy, true)) {
+            $labelAlias = 'date';
             $rows = $this->fillMissingDates($rows, $query, $primaryGroupBy, $labelAlias, $sources);
+        } else {
+            $labelAlias = $this->getGroupByAlias($primaryGroupBy);
         }
 
         // Build labels from the first group by field
