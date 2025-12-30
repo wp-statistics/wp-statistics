@@ -72,6 +72,8 @@ export function GlobalMap({
     y: number
     content: React.ReactNode
   }>({ visible: false, x: 0, y: 0, content: '' })
+  const [showScrollHint, setShowScrollHint] = useState(false)
+  const scrollHintTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   // Interactive features state
   const [viewMode, setViewMode] = useState<MapViewMode>('countries')
@@ -123,6 +125,28 @@ export function GlobalMap({
       }
     }
   }, [targetPosition])
+
+  // Handle wheel event to show hint when user scrolls without Cmd/Ctrl
+  const handleWheel = useCallback((e: React.WheelEvent) => {
+    if (!e.ctrlKey && !e.metaKey) {
+      setShowScrollHint(true)
+      if (scrollHintTimeoutRef.current) {
+        clearTimeout(scrollHintTimeoutRef.current)
+      }
+      scrollHintTimeoutRef.current = setTimeout(() => {
+        setShowScrollHint(false)
+      }, 2000)
+    }
+  }, [])
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (scrollHintTimeoutRef.current) {
+        clearTimeout(scrollHintTimeoutRef.current)
+      }
+    }
+  }, [])
 
   // Fetch regions data when a country is selected and animation is complete
   const shouldFetchRegions = !!selectedCountry && enableCityDrilldown && !isAnimating && !!dateFrom && !!dateTo
@@ -410,8 +434,30 @@ export function GlobalMap({
       <PanelContent className="flex-1 flex flex-col">
         <div
           ref={containerRef}
+          onWheel={handleWheel}
           className="flex-1 relative bg-muted/10 rounded-lg overflow-hidden min-h-[280px] md:min-h-[350px] lg:min-h-[400px]"
         >
+          {/* Hint Overlay */}
+          {showScrollHint && (
+            <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
+              <div className="bg-neutral-800/90 text-white px-4 py-3 rounded-lg text-sm font-medium shadow-lg text-center leading-relaxed">
+                {typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform) ? (
+                  <>
+                    Use <kbd className="px-1.5 py-0.5 bg-neutral-700 rounded text-xs">⌘</kbd> + scroll to zoom
+                    <br />
+                    <kbd className="px-1.5 py-0.5 bg-neutral-700 rounded text-xs">⌘</kbd> + drag to move
+                  </>
+                ) : (
+                  <>
+                    Use <kbd className="px-1.5 py-0.5 bg-neutral-700 rounded text-xs">Ctrl</kbd> + scroll to zoom
+                    <br />
+                    <kbd className="px-1.5 py-0.5 bg-neutral-700 rounded text-xs">Ctrl</kbd> + drag to move
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* Zoom Controls */}
           {showZoomControls && (
             <div className="absolute left-2 md:left-4 top-2 md:top-4 z-10 flex flex-col gap-1.5 md:gap-2">
@@ -527,7 +573,7 @@ export function GlobalMap({
                 [-Infinity, -Infinity],
                 [Infinity, Infinity],
               ]}
-              filterZoomEvent={(evt) => !evt.ctrlKey}
+              filterZoomEvent={(evt) => evt.ctrlKey || evt.metaKey}
             >
               <Geographies geography={MAP_URLS.countries}>
                 {({ geographies }) =>
