@@ -390,7 +390,7 @@ function RouteComponent() {
     {
       key: 'anonymousVisitors',
       label: __('Anonymous Visitors', 'wp-statistics'),
-      color: 'var(--chart-4)',
+      color: 'var(--chart-2)',
       enabled: true,
       value:
         totalAnonymousVisitors >= 1000
