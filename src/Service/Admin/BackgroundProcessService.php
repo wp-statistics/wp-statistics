@@ -270,19 +270,19 @@ class BackgroundProcessService
             return time();
         }
 
+        // Check dispatch error time first (loopback failure is most recent activity)
+        if (method_exists($instance, 'get_dispatch_error')) {
+            $error = $instance->get_dispatch_error();
+            if ($error && isset($error['time'])) {
+                return (int) $error['time'];
+            }
+        }
+
         // Check saved last activity time from the process
         if (method_exists($instance, 'getLastActivityTime')) {
             $lastActivity = $instance->getLastActivityTime();
             if ($lastActivity > 0) {
                 return $lastActivity;
-            }
-        }
-
-        // Check dispatch error time
-        if (method_exists($instance, 'get_dispatch_error')) {
-            $error = $instance->get_dispatch_error();
-            if ($error && isset($error['time'])) {
-                return (int) $error['time'];
             }
         }
 
