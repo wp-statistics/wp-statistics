@@ -261,14 +261,6 @@ class BackgroundProcessService
      */
     private function getLastActivityTimestamp($instance, string $key): int
     {
-        // Check dispatch error time
-        if (method_exists($instance, 'get_dispatch_error')) {
-            $error = $instance->get_dispatch_error();
-            if ($error && isset($error['time'])) {
-                return (int) $error['time'];
-            }
-        }
-
         // Check process lock transient (indicates active processing)
         $lockKey = 'wp_statistics_' . $key . '_process_lock';
         $lock    = get_site_transient($lockKey);
@@ -278,8 +270,22 @@ class BackgroundProcessService
             return time();
         }
 
-        // Fallback: check when the job was initiated
-        // This is approximate since we don't store exact timestamps
+        // Check saved last activity time from the process
+        if (method_exists($instance, 'getLastActivityTime')) {
+            $lastActivity = $instance->getLastActivityTime();
+            if ($lastActivity > 0) {
+                return $lastActivity;
+            }
+        }
+
+        // Check dispatch error time
+        if (method_exists($instance, 'get_dispatch_error')) {
+            $error = $instance->get_dispatch_error();
+            if ($error && isset($error['time'])) {
+                return (int) $error['time'];
+            }
+        }
+
         return 0;
     }
 }
