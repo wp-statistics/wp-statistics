@@ -8,6 +8,8 @@ export interface UrlFilter {
   field: string
   operator: string
   value: string | string[]
+  /** Maps raw values to display labels (for searchable filters) */
+  valueLabels?: Record<string, string>
 }
 
 /**
@@ -49,12 +51,33 @@ export const urlFiltersToFilters = (
     const field = filterFields.find((f) => f.name === urlFilter.field)
     const label = field?.label || urlFilter.field
 
-    // Get display value from field options if available
-    let displayValue = Array.isArray(urlFilter.value) ? urlFilter.value.join(', ') : urlFilter.value
-    if (field?.options) {
+    // Get display value - priority: stored valueLabels > field options > raw value
+    let displayValue = Array.isArray(urlFilter.value) ? urlFilter.value.join(', ') : String(urlFilter.value)
+    let resolvedValueLabels: Record<string, string> | undefined = urlFilter.valueLabels
+
+    // Try to resolve labels from stored valueLabels first (for searchable filters)
+    if (urlFilter.valueLabels && Object.keys(urlFilter.valueLabels).length > 0) {
       const values = Array.isArray(urlFilter.value) ? urlFilter.value : [urlFilter.value]
-      const labels = values.map((v) => field.options?.find((o) => String(o.value) === v)?.label || v).join(', ')
+      const labels = values.map((v) => urlFilter.valueLabels?.[v] || v).join(', ')
       displayValue = labels
+    }
+    // Fall back to field options (for dropdown filters)
+    else if (field?.options) {
+      const values = Array.isArray(urlFilter.value) ? urlFilter.value : [urlFilter.value]
+      resolvedValueLabels = {}
+      const labels = values.map((v) => {
+        const option = field.options?.find((o) => String(o.value) === v)
+        if (option) {
+          resolvedValueLabels![v] = option.label
+          return option.label
+        }
+        return v
+      }).join(', ')
+      displayValue = labels
+      // Only keep resolvedValueLabels if we found any
+      if (Object.keys(resolvedValueLabels).length === 0) {
+        resolvedValueLabels = undefined
+      }
     }
 
     // Create filter ID in the expected format: field-field-filter-restored-index
@@ -67,6 +90,7 @@ export const urlFiltersToFilters = (
       rawOperator: urlFilter.operator,
       value: displayValue,
       rawValue: urlFilter.value,
+      valueLabels: resolvedValueLabels,
     }
   })
 }
@@ -89,9 +113,16 @@ export const urlFiltersToFiltersWithDefaults = (
  * Used when syncing filters to URL search params
  */
 export const filtersToUrlFilters = (filters: Filter[]): UrlFilter[] => {
-  return filters.map((filter) => ({
-    field: extractFilterField(filter.id),
-    operator: filter.rawOperator || filter.operator,
-    value: filter.rawValue || filter.value,
-  }))
+  return filters.map((filter) => {
+    const urlFilter: UrlFilter = {
+      field: extractFilterField(filter.id),
+      operator: filter.rawOperator || filter.operator,
+      value: filter.rawValue || filter.value,
+    }
+    // Preserve valueLabels for searchable filters (so labels can be restored)
+    if (filter.valueLabels && Object.keys(filter.valueLabels).length > 0) {
+      urlFilter.valueLabels = filter.valueLabels
+    }
+    return urlFilter
+  })
 }
