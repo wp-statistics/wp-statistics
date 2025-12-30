@@ -1,39 +1,33 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute, getRouteApi } from '@tanstack/react-router'
-import type { ColumnDef, SortingState, VisibilityState } from '@tanstack/react-table'
+import type { SortingState, VisibilityState } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
-import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
 import { type DateRange,DateRangePicker } from '@/components/custom/date-range-picker'
 import { type Filter, FilterBar } from '@/components/custom/filter-bar'
-import { FilterButton, type FilterField, getOperatorDisplay } from '@/components/custom/filter-button'
+import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { LineChart } from '@/components/custom/line-chart'
 import {
-  EntryPageCell,
-  LastVisitCell,
-  NumericCell,
-  PageCell,
-  ReferrerCell,
-  VisitorInfoCell,
-  type VisitorInfoConfig,
-} from '@/components/data-table-columns'
+  createLoggedInUsersColumns,
+  getLoggedInUsersDefaultFilters,
+  LOGGED_IN_USERS_COLUMN_CONFIG,
+  LOGGED_IN_USERS_CONTEXT,
+  LOGGED_IN_USERS_DEFAULT_API_COLUMNS,
+  LOGGED_IN_USERS_DEFAULT_HIDDEN_COLUMNS,
+  transformLoggedInUserData,
+} from '@/components/data-table-columns/logged-in-users-columns'
 import { useUrlFilterSync } from '@/hooks/use-url-filter-sync'
-import { COLUMN_SIZES } from '@/lib/column-sizes'
 import {
   clearCachedColumns,
-  type ColumnConfig,
   computeApiColumns,
   getCachedApiColumns,
   getCachedVisibility,
   getCachedVisibleColumns,
-  getDefaultApiColumns,
   getVisibleColumnsForSave,
   setCachedColumns,
 } from '@/lib/column-utils'
-import { formatReferrerChannel } from '@/lib/filter-utils'
-import { parseEntryPage } from '@/lib/url-utils'
 import { formatDateForAPI, formatDecimal } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import {
@@ -42,46 +36,13 @@ import {
   resetUserPreferences,
   saveUserPreferences,
 } from '@/services/user-preferences'
-import type { LoggedInUser as LoggedInUserRecord } from '@/services/visitor-insight/get-logged-in-users'
 import { getLoggedInUsersBatchQueryOptions } from '@/services/visitor-insight/get-logged-in-users-batch'
 
 const PER_PAGE = 50
-const CONTEXT = 'logged_in_users_data_table'
-const DEFAULT_HIDDEN_COLUMNS: string[] = []
-
-// Column configuration for this page
-const COLUMN_CONFIG: ColumnConfig = {
-  baseColumns: ['visitor_id', 'visitor_hash'],
-  columnDependencies: {
-    visitorInfo: [
-      'ip_address',
-      'country_code',
-      'country_name',
-      'region_name',
-      'city_name',
-      'os_name',
-      'browser_name',
-      'browser_version',
-      'user_id',
-      'user_login',
-      'user_email',
-      'user_role',
-    ],
-    lastVisit: ['last_visit'],
-    page: ['entry_page', 'entry_page_title'],
-    referrer: ['referrer_domain', 'referrer_channel'],
-    entryPage: ['entry_page', 'entry_page_title'],
-    totalViews: ['total_views'],
-  },
-  context: CONTEXT,
-}
-
-// Default columns when no preferences are set (all columns visible)
-const DEFAULT_API_COLUMNS = getDefaultApiColumns(COLUMN_CONFIG)
 
 // Get cached column order from localStorage (same as visible columns order)
 const getCachedColumnOrder = (): string[] => {
-  return getCachedVisibleColumns(CONTEXT) || []
+  return getCachedVisibleColumns(LOGGED_IN_USERS_CONTEXT) || []
 }
 
 export const Route = createLazyFileRoute('/(visitor-insights)/logged-in-users')({
@@ -91,33 +52,6 @@ export const Route = createLazyFileRoute('/(visitor-insights)/logged-in-users')(
 // Get the route API for accessing validated search params
 const routeApi = getRouteApi('/(visitor-insights)/logged-in-users')
 
-interface LoggedInUser {
-  id: string
-  lastVisit: Date
-  country: string
-  countryCode: string
-  region: string
-  city: string
-  os: string // lowercase with underscores for icon path
-  osName: string // original name for tooltip
-  browser: string // lowercase for icon path
-  browserName: string // original name for tooltip
-  browserVersion: string
-  userId: string
-  username: string
-  email: string
-  userRole: string
-  referrerDomain?: string
-  referrerCategory: string
-  entryPage: string
-  entryPageTitle: string
-  entryPageHasQuery?: boolean
-  entryPageQueryString?: string
-  page: string
-  pageTitle: string
-  totalViews: number
-}
-
 interface TrafficTrendItem {
   date: string
   userVisitors: number
@@ -126,124 +60,6 @@ interface TrafficTrendItem {
   anonymousVisitorsPrevious: number
   [key: string]: string | number
 }
-
-// Transform API response to component interface
-const transformLoggedInUserData = (record: LoggedInUserRecord): LoggedInUser => {
-  // Parse entry page data using shared utility
-  const entryPageData = parseEntryPage(record.entry_page, record.entry_page_title)
-
-  return {
-    id: `user-${record.visitor_id}`,
-    lastVisit: new Date(record.last_visit),
-    country: record.country_name || 'Unknown',
-    countryCode: (record.country_code || '000').toLowerCase(),
-    region: record.region_name || '',
-    city: record.city_name || '',
-    os: (record.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_'),
-    osName: record.os_name || 'Unknown',
-    browser: (record.browser_name || 'unknown').toLowerCase(),
-    browserName: record.browser_name || 'Unknown',
-    browserVersion: record.browser_version || '',
-    userId: String(record.user_id),
-    username: record.user_login || 'user',
-    email: record.user_email || '',
-    userRole: record.user_role || '',
-    referrerDomain: record.referrer_domain || undefined,
-    referrerCategory: formatReferrerChannel(record.referrer_channel),
-    entryPage: entryPageData.path,
-    entryPageTitle: entryPageData.title,
-    entryPageHasQuery: entryPageData.hasQueryString,
-    entryPageQueryString: entryPageData.queryString,
-    page: record.entry_page || '/',
-    pageTitle: record.entry_page_title || record.entry_page || 'Unknown',
-    totalViews: record.total_views || 0,
-  }
-}
-
-const createColumns = (config: VisitorInfoConfig): ColumnDef<LoggedInUser>[] => [
-  {
-    accessorKey: 'visitorInfo',
-    header: 'Visitor Info',
-    cell: ({ row }) => {
-      const user = row.original
-      return (
-        <VisitorInfoCell
-          data={{
-            country: {
-              code: user.countryCode,
-              name: user.country,
-              region: user.region,
-              city: user.city,
-            },
-            os: { icon: user.os, name: user.osName },
-            browser: { icon: user.browser, name: user.browserName, version: user.browserVersion },
-            user: {
-              id: Number(user.userId),
-              username: user.username,
-              email: user.email,
-              role: user.userRole,
-            },
-          }}
-          config={config}
-        />
-      )
-    },
-  },
-  {
-    accessorKey: 'lastVisit',
-    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
-    cell: ({ row }) => <LastVisitCell date={row.original.lastVisit} />,
-  },
-  {
-    accessorKey: 'page',
-    header: 'Page',
-    cell: ({ row }) => (
-      <PageCell
-        data={{ title: row.original.pageTitle, url: row.original.page }}
-        maxLength={35}
-      />
-    ),
-  },
-  {
-    accessorKey: 'referrer',
-    header: 'Referrer',
-    cell: ({ row }) => (
-      <ReferrerCell
-        data={{
-          domain: row.original.referrerDomain,
-          category: row.original.referrerCategory,
-        }}
-        maxLength={25}
-      />
-    ),
-  },
-  {
-    accessorKey: 'entryPage',
-    header: () => 'Entry Page',
-    cell: ({ row }) => {
-      const user = row.original
-      return (
-        <EntryPageCell
-          data={{
-            title: user.entryPageTitle,
-            url: user.entryPage,
-            hasQueryString: user.entryPageHasQuery,
-            queryString: user.entryPageQueryString,
-          }}
-          maxLength={35}
-        />
-      )
-    },
-  },
-  {
-    accessorKey: 'totalViews',
-    header: ({ column }) => (
-      <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />
-    ),
-    size: COLUMN_SIZES.views,
-    cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
-  },
-]
 
 // Determine group_by based on timeframe
 const getGroupBy = (timeframe: 'daily' | 'weekly' | 'monthly'): 'date' | 'week' | 'month' => {
@@ -255,22 +71,6 @@ const getGroupBy = (timeframe: 'daily' | 'weekly' | 'monthly'): 'date' | 'week' 
     default:
       return 'date'
   }
-}
-
-// Create default filters with proper operator display labels
-const getDefaultFilters = (filterFields: FilterField[]): Filter[] => {
-  const field = filterFields.find((f) => f.name === 'logged_in')
-  const valueLabel = field?.options?.find((o) => String(o.value) === '1')?.label || 'Logged-in'
-  return [
-    {
-      id: 'logged_in-logged_in-filter-default',
-      label: field?.label || 'Login Status',
-      operator: getOperatorDisplay('is'),
-      rawOperator: 'is',
-      value: valueLabel,
-      rawValue: '1',
-    },
-  ]
 }
 
 function RouteComponent() {
@@ -294,7 +94,7 @@ function RouteComponent() {
   const pluginUrl = wp.getPluginUrl()
   const columns = useMemo(
     () =>
-      createColumns({
+      createLoggedInUsersColumns({
         pluginUrl,
         trackLoggedInEnabled: true, // Always true for logged-in users page
         hashEnabled: wp.isHashEnabled(),
@@ -309,7 +109,7 @@ function RouteComponent() {
 
   // Compute default filters based on filter fields
   const defaultFilters = useMemo<Filter[]>(() => {
-    return getDefaultFilters(filterFields)
+    return getLoggedInUsersDefaultFilters(filterFields)
   }, [filterFields])
 
   // Use URL filter sync hook for filter/page state management
@@ -358,7 +158,7 @@ function RouteComponent() {
   // Track API columns for query optimization (state so changes trigger refetch)
   // Initialize from cache if available, otherwise use all columns
   const [apiColumns, setApiColumns] = useState<string[]>(() => {
-    return getCachedApiColumns(allColumnIds, COLUMN_CONFIG) || DEFAULT_API_COLUMNS
+    return getCachedApiColumns(allColumnIds, LOGGED_IN_USERS_COLUMN_CONFIG) || LOGGED_IN_USERS_DEFAULT_API_COLUMNS
   })
 
   // Fetch all data in a single batch request (only when filters are initialized)
@@ -382,7 +182,7 @@ function RouteComponent() {
         }),
       group_by: getGroupBy(timeframe),
       filters: appliedFilters || [],
-      context: CONTEXT,
+      context: LOGGED_IN_USERS_CONTEXT,
       columns: apiColumns,
     }),
     placeholderData: keepPreviousData,
@@ -418,7 +218,7 @@ function RouteComponent() {
     // Use cached visibility from localStorage while waiting for API response
     // This prevents flash of all columns before preferences load
     if (!usersResponse) {
-      const cachedVisibility = getCachedVisibility(CONTEXT, allColumnIds)
+      const cachedVisibility = getCachedVisibility(LOGGED_IN_USERS_CONTEXT, allColumnIds)
       if (cachedVisibility) {
         return cachedVisibility
       }
@@ -429,7 +229,7 @@ function RouteComponent() {
 
     // If no preferences in API response (new user or reset), use defaults
     if (!prefs || prefs.length === 0) {
-      const defaultVisibility = DEFAULT_HIDDEN_COLUMNS.reduce(
+      const defaultVisibility = LOGGED_IN_USERS_DEFAULT_HIDDEN_COLUMNS.reduce(
         (acc, col) => ({ ...acc, [col]: false }),
         {} as VisibilityState
       )
@@ -482,13 +282,13 @@ function RouteComponent() {
       currentVisibilityRef.current = visibility
       // Use local function that properly handles all visible columns
       const visibleColumns = getVisibleColumnsForSave(visibility, columnOrder, allColumnIds)
-      saveUserPreferences({ context: CONTEXT, columns: visibleColumns })
+      saveUserPreferences({ context: LOGGED_IN_USERS_CONTEXT, columns: visibleColumns })
       // Cache visible columns in localStorage for next page load
-      setCachedColumns(CONTEXT, visibleColumns)
+      setCachedColumns(LOGGED_IN_USERS_CONTEXT, visibleColumns)
       // Update API columns for optimized queries (include sort column)
       // Use functional update to avoid unnecessary refetches when columns haven't changed
       const currentSortColumn = sorting.length > 0 ? sorting[0].id : 'lastVisit'
-      const newApiColumns = computeApiColumns(visibility, allColumnIds, COLUMN_CONFIG, currentSortColumn)
+      const newApiColumns = computeApiColumns(visibility, allColumnIds, LOGGED_IN_USERS_COLUMN_CONFIG, currentSortColumn)
       setApiColumns((prev) => (arraysEqual(prev, newApiColumns) ? prev : newApiColumns))
     },
     [columnOrder, sorting, allColumnIds, arraysEqual]
@@ -500,9 +300,9 @@ function RouteComponent() {
       setColumnOrder(order)
       // Use local function that properly handles all visible columns
       const visibleColumns = getVisibleColumnsForSave(currentVisibilityRef.current, order, allColumnIds)
-      saveUserPreferences({ context: CONTEXT, columns: visibleColumns })
+      saveUserPreferences({ context: LOGGED_IN_USERS_CONTEXT, columns: visibleColumns })
       // Cache visible columns in localStorage for next page load
-      setCachedColumns(CONTEXT, visibleColumns)
+      setCachedColumns(LOGGED_IN_USERS_CONTEXT, visibleColumns)
     },
     [allColumnIds]
   )
@@ -510,17 +310,17 @@ function RouteComponent() {
   // Handle reset to default
   const handleColumnPreferencesReset = useCallback(() => {
     setColumnOrder([])
-    const defaultVisibility = DEFAULT_HIDDEN_COLUMNS.reduce(
+    const defaultVisibility = LOGGED_IN_USERS_DEFAULT_HIDDEN_COLUMNS.reduce(
       (acc, col) => ({ ...acc, [col]: false }),
       {} as VisibilityState
     )
     computedVisibilityRef.current = defaultVisibility
     currentVisibilityRef.current = defaultVisibility
     // Reset API columns to default (use functional update to avoid unnecessary refetch)
-    setApiColumns((prev) => (arraysEqual(prev, DEFAULT_API_COLUMNS) ? prev : DEFAULT_API_COLUMNS))
-    resetUserPreferences({ context: CONTEXT })
+    setApiColumns((prev) => (arraysEqual(prev, LOGGED_IN_USERS_DEFAULT_API_COLUMNS) ? prev : LOGGED_IN_USERS_DEFAULT_API_COLUMNS))
+    resetUserPreferences({ context: LOGGED_IN_USERS_CONTEXT })
     // Clear localStorage cache
-    clearCachedColumns(CONTEXT)
+    clearCachedColumns(LOGGED_IN_USERS_CONTEXT)
   }, [arraysEqual])
 
   // Transform users data
@@ -673,7 +473,7 @@ function RouteComponent() {
             showColumnManagement={true}
             showPagination={true}
             isFetching={isBatchFetching}
-            hiddenColumns={DEFAULT_HIDDEN_COLUMNS}
+            hiddenColumns={LOGGED_IN_USERS_DEFAULT_HIDDEN_COLUMNS}
             initialColumnVisibility={initialColumnVisibility}
             columnOrder={columnOrder.length > 0 ? columnOrder : undefined}
             onColumnVisibilityChange={handleColumnVisibilityChange}

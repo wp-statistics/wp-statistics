@@ -1,37 +1,31 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute, getRouteApi } from '@tanstack/react-router'
-import type { ColumnDef, SortingState, VisibilityState } from '@tanstack/react-table'
+import type { SortingState, VisibilityState } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
-import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
 import { type DateRange,DateRangePicker } from '@/components/custom/date-range-picker'
 import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
+import {
+  createViewsColumns,
+  transformViewData,
+  VIEWS_COLUMN_CONFIG,
+  VIEWS_CONTEXT,
+  VIEWS_DEFAULT_API_COLUMNS,
+  VIEWS_DEFAULT_HIDDEN_COLUMNS,
+} from '@/components/data-table-columns/views-columns'
 import { useUrlFilterSync } from '@/hooks/use-url-filter-sync'
 import {
-  EntryPageCell,
-  LastVisitCell,
-  NumericCell,
-  PageCell,
-  ReferrerCell,
-  VisitorInfoCell,
-  type VisitorInfoConfig,
-} from '@/components/data-table-columns'
-import { COLUMN_SIZES } from '@/lib/column-sizes'
-import {
   clearCachedColumns,
-  type ColumnConfig,
   computeApiColumns,
   getCachedApiColumns,
   getCachedVisibility,
   getCachedVisibleColumns,
-  getDefaultApiColumns,
   getVisibleColumnsForSave,
   setCachedColumns,
 } from '@/lib/column-utils'
-import { parseEntryPage } from '@/lib/url-utils'
 import { formatDateForAPI } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import {
@@ -40,46 +34,13 @@ import {
   resetUserPreferences,
   saveUserPreferences,
 } from '@/services/user-preferences'
-import type { ViewRecord } from '@/services/visitor-insight/get-views'
 import { getViewsQueryOptions } from '@/services/visitor-insight/get-views'
 
 const PER_PAGE = 50
-const CONTEXT = 'views_data_table'
-const DEFAULT_HIDDEN_COLUMNS: string[] = []
-
-// Column configuration for this page
-const COLUMN_CONFIG: ColumnConfig = {
-  baseColumns: ['visitor_id', 'visitor_hash'],
-  columnDependencies: {
-    lastVisit: ['last_visit'],
-    visitorInfo: [
-      'ip_address',
-      'country_code',
-      'country_name',
-      'region_name',
-      'city_name',
-      'os_name',
-      'browser_name',
-      'browser_version',
-      'user_id',
-      'user_login',
-      'user_email',
-      'user_role',
-    ],
-    page: ['entry_page', 'entry_page_title'],
-    referrer: ['referrer_domain', 'referrer_channel'],
-    entryPage: ['entry_page', 'entry_page_title'],
-    totalViews: ['total_views'],
-  },
-  context: CONTEXT,
-}
-
-// Default columns when no preferences are set (all columns visible)
-const DEFAULT_API_COLUMNS = getDefaultApiColumns(COLUMN_CONFIG)
 
 // Get cached column order from localStorage (same as visible columns order)
 const getCachedColumnOrder = (): string[] => {
-  return getCachedVisibleColumns(CONTEXT) || []
+  return getCachedVisibleColumns(VIEWS_CONTEXT) || []
 }
 
 export const Route = createLazyFileRoute('/(visitor-insights)/views')({
@@ -88,209 +49,6 @@ export const Route = createLazyFileRoute('/(visitor-insights)/views')({
 
 // Get the route API for accessing validated search params
 const routeApi = getRouteApi('/(visitor-insights)/views')
-
-type ViewData = {
-  lastVisit: string
-  visitorInfo: {
-    country: { code: string; name: string; region: string; city: string }
-    os: { icon: string; name: string }
-    browser: { icon: string; name: string; version: string }
-    user?: { username: string; id: number; email: string; role: string }
-    ipAddress?: string
-    hash?: string
-  }
-  page: {
-    title: string
-    url: string
-  }
-  referrer: {
-    domain?: string
-    fullUrl?: string
-    category: string
-  }
-  entryPage: {
-    title: string
-    url: string
-    hasQueryString: boolean
-    queryString?: string
-    utmCampaign?: string
-  }
-  totalViews: number
-}
-
-const createColumns = (config: VisitorInfoConfig): ColumnDef<ViewData>[] => [
-  {
-    accessorKey: 'lastVisit',
-    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
-    size: COLUMN_SIZES.lastVisit,
-    cell: ({ row }) => <LastVisitCell date={new Date(row.getValue('lastVisit'))} />,
-    meta: {
-      priority: 'primary',
-      cardPosition: 'header',
-      mobileLabel: 'Last Visit',
-    },
-  },
-  {
-    accessorKey: 'visitorInfo',
-    header: 'Visitor Info',
-    size: COLUMN_SIZES.visitorInfo,
-    cell: ({ row }) => {
-      const visitorInfo = row.getValue('visitorInfo') as ViewData['visitorInfo']
-      return (
-        <VisitorInfoCell
-          data={{
-            country: {
-              code: visitorInfo.country.code,
-              name: visitorInfo.country.name,
-              region: visitorInfo.country.region,
-              city: visitorInfo.country.city,
-            },
-            os: { icon: visitorInfo.os.icon, name: visitorInfo.os.name },
-            browser: { icon: visitorInfo.browser.icon, name: visitorInfo.browser.name, version: visitorInfo.browser.version },
-            user: visitorInfo.user
-              ? {
-                  id: visitorInfo.user.id,
-                  username: visitorInfo.user.username,
-                  email: visitorInfo.user.email,
-                  role: visitorInfo.user.role,
-                }
-              : undefined,
-            identifier: visitorInfo.hash || visitorInfo.ipAddress,
-          }}
-          config={config}
-        />
-      )
-    },
-    meta: {
-      priority: 'primary',
-      cardPosition: 'header',
-      mobileLabel: 'Visitor',
-    },
-  },
-  {
-    accessorKey: 'page',
-    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Page" />,
-    size: COLUMN_SIZES.page,
-    cell: ({ row }) => {
-      const page = row.getValue('page') as ViewData['page']
-      return <PageCell data={{ title: page.title, url: page.url }} maxLength={35} />
-    },
-    meta: {
-      priority: 'primary',
-      cardPosition: 'body',
-      mobileLabel: 'Page',
-    },
-  },
-  {
-    accessorKey: 'referrer',
-    header: 'Referrer',
-    size: COLUMN_SIZES.referrer,
-    cell: ({ row }) => {
-      const referrer = row.getValue('referrer') as ViewData['referrer']
-      return (
-        <ReferrerCell
-          data={{
-            domain: referrer.domain,
-            category: referrer.category,
-          }}
-          maxLength={25}
-        />
-      )
-    },
-    meta: {
-      priority: 'secondary',
-      mobileLabel: 'Referrer',
-    },
-  },
-  {
-    accessorKey: 'entryPage',
-    header: 'Entry Page',
-    size: COLUMN_SIZES.entryPage,
-    cell: ({ row }) => {
-      const entryPage = row.getValue('entryPage') as ViewData['entryPage']
-      return (
-        <EntryPageCell
-          data={{
-            title: entryPage.title,
-            url: entryPage.url,
-            hasQueryString: entryPage.hasQueryString,
-            queryString: entryPage.queryString,
-            utmCampaign: entryPage.utmCampaign,
-          }}
-          maxLength={35}
-        />
-      )
-    },
-    meta: {
-      priority: 'secondary',
-      mobileLabel: 'Entry',
-    },
-  },
-  {
-    accessorKey: 'totalViews',
-    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />,
-    size: COLUMN_SIZES.views,
-    cell: ({ row }) => <NumericCell value={row.getValue('totalViews') as number} />,
-    meta: {
-      priority: 'primary',
-      cardPosition: 'body',
-      mobileLabel: 'Views',
-    },
-  },
-]
-
-// Transform API data to component interface
-const transformViewData = (record: ViewRecord): ViewData => {
-  const entryPageData = parseEntryPage(record.entry_page, record.entry_page_title)
-
-  return {
-    lastVisit: record.last_visit,
-    visitorInfo: {
-      country: {
-        code: record.country_code?.toLowerCase() || '000',
-        name: record.country_name || 'Unknown',
-        region: record.region_name || '',
-        city: record.city_name || '',
-      },
-      os: {
-        icon: record.os_name?.toLowerCase().replace(/\s+/g, '_') || 'unknown',
-        name: record.os_name || 'Unknown',
-      },
-      browser: {
-        icon: record.browser_name?.toLowerCase().replace(/\s+/g, '_') || 'unknown',
-        name: record.browser_name || 'Unknown',
-        version: record.browser_version || '',
-      },
-      user: record.user_id && record.user_login
-        ? {
-            username: record.user_login,
-            id: record.user_id,
-            email: record.user_email || '',
-            role: record.user_role || '',
-          }
-        : undefined,
-      ipAddress: record.ip_address || undefined,
-      hash: record.visitor_hash || undefined,
-    },
-    page: {
-      title: record.entry_page_title || record.entry_page || 'Unknown',
-      url: record.entry_page || '/',
-    },
-    referrer: {
-      domain: record.referrer_domain || undefined,
-      fullUrl: record.referrer_domain ? `https://${record.referrer_domain}` : undefined,
-      category: record.referrer_channel?.toUpperCase() || 'DIRECT TRAFFIC',
-    },
-    entryPage: {
-      title: entryPageData.title,
-      url: record.entry_page || '/',
-      hasQueryString: entryPageData.hasQueryString,
-      queryString: entryPageData.queryString,
-      utmCampaign: entryPageData.utmCampaign,
-    },
-    totalViews: record.total_views || 0,
-  }
-}
 
 function RouteComponent() {
   const { filters: urlFilters, page: urlPage } = routeApi.useSearch()
@@ -312,7 +70,7 @@ function RouteComponent() {
   const pluginUrl = wp.getPluginUrl()
   const columns = useMemo(
     () =>
-      createColumns({
+      createViewsColumns({
         pluginUrl,
         trackLoggedInEnabled: wp.isTrackLoggedInEnabled(),
         hashEnabled: wp.isHashEnabled(),
@@ -363,7 +121,7 @@ function RouteComponent() {
   // Track API columns for query optimization (state so changes trigger refetch)
   // Initialize from cache if available, otherwise use all columns
   const [apiColumns, setApiColumns] = useState<string[]>(() => {
-    return getCachedApiColumns(allColumnIds, COLUMN_CONFIG) || DEFAULT_API_COLUMNS
+    return getCachedApiColumns(allColumnIds, VIEWS_COLUMN_CONFIG) || VIEWS_DEFAULT_API_COLUMNS
   })
 
   // Track if preferences have been applied (to prevent re-computation on subsequent API responses)
@@ -398,7 +156,7 @@ function RouteComponent() {
         previous_date_to: formatDateForAPI(compareDateRange.to),
       }),
       filters: appliedFilters || [],
-      context: CONTEXT,
+      context: VIEWS_CONTEXT,
       columns: apiColumns,
     }),
     placeholderData: keepPreviousData,
@@ -415,7 +173,7 @@ function RouteComponent() {
     // Use cached visibility from localStorage while waiting for API response
     // This prevents flash of all columns before preferences load
     if (!response?.data) {
-      const cachedVisibility = getCachedVisibility(CONTEXT, allColumnIds)
+      const cachedVisibility = getCachedVisibility(VIEWS_CONTEXT, allColumnIds)
       if (cachedVisibility) {
         return cachedVisibility
       }
@@ -426,7 +184,7 @@ function RouteComponent() {
 
     // If no preferences in API response (new user or reset), use defaults
     if (!prefs || prefs.length === 0) {
-      const defaultVisibility = DEFAULT_HIDDEN_COLUMNS.reduce(
+      const defaultVisibility = VIEWS_DEFAULT_HIDDEN_COLUMNS.reduce(
         (acc, col) => ({ ...acc, [col]: false }),
         {} as VisibilityState
       )
@@ -478,13 +236,13 @@ function RouteComponent() {
       currentVisibilityRef.current = visibility
       // Use local function that properly handles all visible columns
       const visibleColumns = getVisibleColumnsForSave(visibility, columnOrder, allColumnIds)
-      saveUserPreferences({ context: CONTEXT, columns: visibleColumns })
+      saveUserPreferences({ context: VIEWS_CONTEXT, columns: visibleColumns })
       // Cache visible columns in localStorage for next page load
-      setCachedColumns(CONTEXT, visibleColumns)
+      setCachedColumns(VIEWS_CONTEXT, visibleColumns)
       // Update API columns for optimized queries (include sort column)
       // Use functional update to avoid unnecessary refetches when columns haven't changed
       const currentSortColumn = sorting.length > 0 ? sorting[0].id : 'lastVisit'
-      const newApiColumns = computeApiColumns(visibility, allColumnIds, COLUMN_CONFIG, currentSortColumn)
+      const newApiColumns = computeApiColumns(visibility, allColumnIds, VIEWS_COLUMN_CONFIG, currentSortColumn)
       setApiColumns((prev) => (arraysEqual(prev, newApiColumns) ? prev : newApiColumns))
     },
     [columnOrder, sorting, allColumnIds, arraysEqual]
@@ -496,9 +254,9 @@ function RouteComponent() {
       setColumnOrder(order)
       // Use local function that properly handles all visible columns
       const visibleColumns = getVisibleColumnsForSave(currentVisibilityRef.current, order, allColumnIds)
-      saveUserPreferences({ context: CONTEXT, columns: visibleColumns })
+      saveUserPreferences({ context: VIEWS_CONTEXT, columns: visibleColumns })
       // Cache visible columns in localStorage for next page load
-      setCachedColumns(CONTEXT, visibleColumns)
+      setCachedColumns(VIEWS_CONTEXT, visibleColumns)
     },
     [allColumnIds]
   )
@@ -506,17 +264,17 @@ function RouteComponent() {
   // Handle reset to default
   const handleColumnPreferencesReset = useCallback(() => {
     setColumnOrder([])
-    const defaultVisibility = DEFAULT_HIDDEN_COLUMNS.reduce(
+    const defaultVisibility = VIEWS_DEFAULT_HIDDEN_COLUMNS.reduce(
       (acc, col) => ({ ...acc, [col]: false }),
       {} as VisibilityState
     )
     computedVisibilityRef.current = defaultVisibility
     currentVisibilityRef.current = defaultVisibility
     // Reset to default API columns (use functional update to avoid unnecessary refetch)
-    setApiColumns((prev) => (arraysEqual(prev, DEFAULT_API_COLUMNS) ? prev : DEFAULT_API_COLUMNS))
-    resetUserPreferences({ context: CONTEXT })
+    setApiColumns((prev) => (arraysEqual(prev, VIEWS_DEFAULT_API_COLUMNS) ? prev : VIEWS_DEFAULT_API_COLUMNS))
+    resetUserPreferences({ context: VIEWS_CONTEXT })
     // Clear localStorage cache
-    clearCachedColumns(CONTEXT)
+    clearCachedColumns(VIEWS_CONTEXT)
   }, [arraysEqual])
 
   // Transform API data to component interface
@@ -585,7 +343,7 @@ function RouteComponent() {
             showColumnManagement={true}
             showPagination={true}
             isFetching={isFetching}
-            hiddenColumns={DEFAULT_HIDDEN_COLUMNS}
+            hiddenColumns={VIEWS_DEFAULT_HIDDEN_COLUMNS}
             initialColumnVisibility={initialColumnVisibility}
             columnOrder={columnOrder.length > 0 ? columnOrder : undefined}
             onColumnVisibilityChange={handleColumnVisibilityChange}
