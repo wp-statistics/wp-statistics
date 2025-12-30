@@ -107,6 +107,38 @@ export const DateRangePicker = ({
 
   const [isSmallScreen, setIsSmallScreen] = useState(typeof window !== 'undefined' ? window.innerWidth < 960 : false)
 
+  // Sync internal state when initial props change (e.g., when context loads preferences)
+  useEffect(() => {
+    const newFrom = getDateAdjustedForTimezone(initialDateFrom)
+    const newTo = initialDateTo ? getDateAdjustedForTimezone(initialDateTo) : newFrom
+
+    // Only update if values actually changed
+    if (newFrom.getTime() !== range.from.getTime() || newTo.getTime() !== (range.to?.getTime() ?? 0)) {
+      setRange({ from: newFrom, to: newTo })
+    }
+  }, [initialDateFrom, initialDateTo])
+
+  // Sync compare range when props change
+  useEffect(() => {
+    if (initialCompareFrom) {
+      const newCompareFrom = new Date(new Date(initialCompareFrom).setHours(0, 0, 0, 0))
+      const newCompareTo = initialCompareTo
+        ? new Date(new Date(initialCompareTo).setHours(0, 0, 0, 0))
+        : newCompareFrom
+
+      if (
+        !rangeCompare ||
+        newCompareFrom.getTime() !== rangeCompare.from.getTime() ||
+        newCompareTo.getTime() !== (rangeCompare.to?.getTime() ?? 0)
+      ) {
+        setRangeCompare({ from: newCompareFrom, to: newCompareTo })
+      }
+    } else if (rangeCompare && !initialCompareFrom) {
+      // Props cleared compare, so clear internal state
+      setRangeCompare(undefined)
+    }
+  }, [initialCompareFrom, initialCompareTo])
+
   useEffect(() => {
     const handleResize = (): void => {
       setIsSmallScreen(window.innerWidth < 960)
@@ -296,8 +328,9 @@ export const DateRangePicker = ({
         <Button variant="outline" className="h-8 text-xs font-medium border-neutral-200 hover:bg-neutral-50">
           <CalendarIcon className="h-3.5 w-3.5 mr-2 text-neutral-500" />
           <span className="text-neutral-700">
-            {formatDate(range.from, locale)}
-            {range.to && ` – ${formatDate(range.to, locale)}`}
+            {selectedPreset
+              ? PRESETS.find((p) => p.name === selectedPreset)?.label
+              : `${formatDate(range.from, locale)}${range.to ? ` – ${formatDate(range.to, locale)}` : ''}`}
           </span>
           {rangeCompare && (
             <span className="ml-2 px-1.5 py-0.5 rounded bg-primary/10 text-primary text-[10px] font-medium">vs</span>

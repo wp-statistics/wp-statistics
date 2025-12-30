@@ -105,6 +105,28 @@ declare global {
     operators: FilterOperators
   }
 
+  // URL filter format for persistence
+  interface PersistedUrlFilter {
+    field: string
+    operator: string
+    value: string | string[]
+  }
+
+  // Global filters preferences stored in user meta
+  interface GlobalFiltersPreferences {
+    date_from?: string
+    date_to?: string
+    previous_date_from?: string
+    previous_date_to?: string
+    filters?: PersistedUrlFilter[]
+    updated_at?: string
+  }
+
+  // User preferences container
+  interface UserPreferences {
+    globalFilters?: GlobalFiltersPreferences | null
+  }
+
   interface wpsReact {
     layout: {
       sidebar: Record<
@@ -133,6 +155,7 @@ declare global {
       userPreferencesAction: string
       trackLoggedInUsers: boolean
       hashIps: boolean
+      userPreferences?: UserPreferences
     }
     header: Record<
       string,

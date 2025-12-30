@@ -1,12 +1,12 @@
 import { DataTable } from '@components/custom/data-table'
-import { type DateRange,DateRangePicker } from '@components/custom/date-range-picker'
+import { type DateRange, DateRangePicker } from '@components/custom/date-range-picker'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 
-import { formatDateForAPI } from '@/lib/utils'
+import { useGlobalFilters } from '@/hooks/use-global-filters'
 import type { SearchTerm as APISearchTerm } from '@/services/visitor-insight/get-search-terms'
 import { getSearchTermsQueryOptions } from '@/services/visitor-insight/get-search-terms'
 
@@ -51,26 +51,25 @@ const columns: ColumnDef<SearchTermData>[] = [
 const PER_PAGE = 20
 
 function RouteComponent() {
-  const [page, setPage] = useState(1)
-  // Default to last 30 days
-  const [dateRange, setDateRange] = useState<DateRange>(() => {
-    const today = new Date()
-    const thirtyDaysAgo = new Date()
-    thirtyDaysAgo.setDate(today.getDate() - 29)
-    return {
-      from: thirtyDaysAgo,
-      to: today,
-    }
-  })
-  const [compareDateRange, setCompareDateRange] = useState<DateRange | undefined>(undefined)
+  // Use global filters context for date range (hybrid URL + preferences)
+  const {
+    dateFrom,
+    dateTo,
+    compareDateFrom,
+    compareDateTo,
+    page,
+    setPage,
+    setDateRange,
+    isInitialized,
+    apiDateParams,
+  } = useGlobalFilters()
 
+  // Handle date range updates from DateRangePicker
   const handleDateRangeUpdate = useCallback(
     (values: { range: DateRange; rangeCompare?: DateRange }) => {
-      setDateRange(values.range)
-      setCompareDateRange(values.rangeCompare)
-      setPage(1)
+      setDateRange(values.range, values.rangeCompare)
     },
-    []
+    [setDateRange]
   )
 
   const {
@@ -82,14 +81,13 @@ function RouteComponent() {
     ...getSearchTermsQueryOptions({
       page,
       per_page: PER_PAGE,
-      date_from: formatDateForAPI(dateRange.from),
-      date_to: formatDateForAPI(dateRange.to || dateRange.from),
-      ...(compareDateRange?.from && compareDateRange?.to && {
-        previous_date_from: formatDateForAPI(compareDateRange.from),
-        previous_date_to: formatDateForAPI(compareDateRange.to),
-      }),
+      date_from: apiDateParams.date_from,
+      date_to: apiDateParams.date_to,
+      previous_date_from: apiDateParams.previous_date_from,
+      previous_date_to: apiDateParams.previous_date_to,
     }),
     placeholderData: keepPreviousData,
+    enabled: isInitialized,
   })
 
   // Transform API data to component format
@@ -100,15 +98,17 @@ function RouteComponent() {
   // Handle page change
   const handlePageChange = useCallback((newPage: number) => {
     setPage(newPage)
-  }, [])
+  }, [setPage])
 
   return (
     <div className="min-w-0">
       <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-input">
         <h1 className="text-xl font-semibold text-neutral-800">{__('Search Terms', 'wp-statistics')}</h1>
         <DateRangePicker
-          initialDateFrom={dateRange.from}
-          initialDateTo={dateRange.to}
+          initialDateFrom={dateFrom}
+          initialDateTo={dateTo}
+          initialCompareFrom={compareDateFrom}
+          initialCompareTo={compareDateTo}
           onUpdate={handleDateRangeUpdate}
           showCompare={true}
           align="end"

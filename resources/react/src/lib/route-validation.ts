@@ -19,6 +19,11 @@ export interface UrlFilter {
 export interface BaseSearchParams {
   filters?: UrlFilter[]
   page?: number
+  // Global date params for hybrid URL + preferences approach
+  date_from?: string
+  date_to?: string
+  previous_date_from?: string
+  previous_date_to?: string
 }
 
 /**
@@ -104,6 +109,16 @@ const parsePage = (searchPage: unknown): number | undefined => {
 }
 
 /**
+ * Parses date string from search params (YYYY-MM-DD format)
+ */
+const parseDate = (searchDate: unknown): string | undefined => {
+  if (typeof searchDate !== 'string') return undefined
+  // Validate YYYY-MM-DD format
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(searchDate)) return undefined
+  return searchDate
+}
+
+/**
  * Creates a search params validator function for TanStack Router.
  *
  * @example
@@ -135,6 +150,23 @@ export function createSearchValidator<T extends BaseSearchParams = BaseSearchPar
       const page = parsePage(search.page)
       if (page) {
         result.page = page
+      }
+    }
+
+    // Parse date params for global filters
+    const dateFrom = parseDate(search.date_from)
+    const dateTo = parseDate(search.date_to)
+    // Only include dates if both are present
+    if (dateFrom && dateTo) {
+      result.date_from = dateFrom
+      result.date_to = dateTo
+
+      // Compare dates only matter if main dates are present
+      const previousDateFrom = parseDate(search.previous_date_from)
+      const previousDateTo = parseDate(search.previous_date_to)
+      if (previousDateFrom && previousDateTo) {
+        result.previous_date_from = previousDateFrom
+        result.previous_date_to = previousDateTo
       }
     }
 

@@ -1,11 +1,11 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { createLazyFileRoute, getRouteApi } from '@tanstack/react-router'
+import { createLazyFileRoute } from '@tanstack/react-router'
 import type { SortingState, VisibilityState } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
-import { type DateRange,DateRangePicker } from '@/components/custom/date-range-picker'
+import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import {
@@ -16,7 +16,7 @@ import {
   VISITORS_DEFAULT_API_COLUMNS,
   VISITORS_DEFAULT_HIDDEN_COLUMNS,
 } from '@/components/data-table-columns/visitors-columns'
-import { useUrlFilterSync } from '@/hooks/use-url-filter-sync'
+import { useGlobalFilters } from '@/hooks/use-global-filters'
 import {
   clearCachedColumns,
   computeApiColumns,
@@ -26,7 +26,6 @@ import {
   getVisibleColumnsForSave,
   setCachedColumns,
 } from '@/lib/column-utils'
-import { formatDateForAPI } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import {
   computeFullVisibility,
@@ -47,11 +46,22 @@ export const Route = createLazyFileRoute('/(visitor-insights)/visitors')({
   component: RouteComponent,
 })
 
-// Get the route API for accessing validated search params
-const routeApi = getRouteApi('/(visitor-insights)/visitors')
-
 function RouteComponent() {
-  const { filters: urlFilters, page: urlPage } = routeApi.useSearch()
+  // Use global filters context for date range and filters (hybrid URL + preferences)
+  const {
+    dateFrom,
+    dateTo,
+    compareDateFrom,
+    compareDateTo,
+    filters: appliedFilters,
+    page,
+    setPage,
+    setDateRange,
+    applyFilters: handleApplyFilters,
+    removeFilter: handleRemoveFilter,
+    isInitialized,
+    apiDateParams,
+  } = useGlobalFilters()
 
   const [sorting, setSorting] = useState<SortingState>([{ id: 'lastVisit', desc: true }])
 
@@ -72,39 +82,10 @@ function RouteComponent() {
     return wp.getFilterFieldsByGroup('visitors') as FilterField[]
   }, [wp])
 
-  // Use URL filter sync hook for filter/page state management
-  const {
-    appliedFilters,
-    page,
-    setPage,
-    handleRemoveFilter,
-    handleApplyFilters,
-    isInitialized,
-  } = useUrlFilterSync({
-    urlFilters,
-    urlPage,
-    filterFields,
-  })
-
-  // Date range state (default to last 30 days)
-  const [dateRange, setDateRange] = useState<DateRange>(() => {
-    const today = new Date()
-    const thirtyDaysAgo = new Date()
-    thirtyDaysAgo.setDate(today.getDate() - 29)
-    return {
-      from: thirtyDaysAgo,
-      to: today,
-    }
-  })
-
-  // Compare date range state (off by default)
-  const [compareDateRange, setCompareDateRange] = useState<DateRange | undefined>(undefined)
-
+  // Handle date range updates from DateRangePicker
   const handleDateRangeUpdate = useCallback((values: { range: DateRange; rangeCompare?: DateRange }) => {
-    setDateRange(values.range)
-    setCompareDateRange(values.rangeCompare)
-    setPage(1) // Reset to first page when date range changes
-  }, [setPage])
+    setDateRange(values.range, values.rangeCompare)
+  }, [setDateRange])
 
   // Determine sort parameters from sorting state
   const orderBy = sorting.length > 0 ? sorting[0].id : 'lastVisit'
@@ -150,10 +131,10 @@ function RouteComponent() {
       per_page: PER_PAGE,
       order_by: orderBy,
       order: order as 'asc' | 'desc',
-      date_from: formatDateForAPI(dateRange.from),
-      date_to: formatDateForAPI(dateRange.to || dateRange.from),
-      previous_date_from: compareDateRange ? formatDateForAPI(compareDateRange.from) : undefined,
-      previous_date_to: compareDateRange ? formatDateForAPI(compareDateRange.to || compareDateRange.from) : undefined,
+      date_from: apiDateParams.date_from,
+      date_to: apiDateParams.date_to,
+      previous_date_from: apiDateParams.previous_date_from,
+      previous_date_to: apiDateParams.previous_date_to,
       filters: appliedFilters || [],
       context: VISITORS_CONTEXT,
       columns: apiColumns,
@@ -264,7 +245,7 @@ function RouteComponent() {
   const handleColumnPreferencesReset = useCallback(() => {
     setColumnOrder([])
     // Reset visibility to defaults
-    const defaultVisibility = DEFAULT_HIDDEN_COLUMNS.reduce(
+    const defaultVisibility = VISITORS_DEFAULT_HIDDEN_COLUMNS.reduce(
       (acc, col) => ({ ...acc, [col]: false }),
       {} as VisibilityState
     )
@@ -309,8 +290,10 @@ function RouteComponent() {
             <FilterButton fields={filterFields} appliedFilters={appliedFilters || []} onApplyFilters={handleApplyFilters} />
           )}
           <DateRangePicker
-            initialDateFrom={dateRange.from}
-            initialDateTo={dateRange.to}
+            initialDateFrom={dateFrom}
+            initialDateTo={dateTo}
+            initialCompareFrom={compareDateFrom}
+            initialCompareTo={compareDateTo}
             showCompare={true}
             onUpdate={handleDateRangeUpdate}
             align="end"

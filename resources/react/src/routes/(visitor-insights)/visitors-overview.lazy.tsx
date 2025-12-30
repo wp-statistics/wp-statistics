@@ -3,8 +3,8 @@ import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
-import { type DateRange,DateRangePicker } from '@/components/custom/date-range-picker'
-import { type Filter, FilterBar } from '@/components/custom/filter-bar'
+import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
+import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { GlobalMap } from '@/components/custom/global-map'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
@@ -12,8 +12,8 @@ import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
 import { Panel } from '@/components/ui/panel'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useUrlFilterSync } from '@/hooks/use-url-filter-sync'
-import { formatCompactNumber,formatDateForAPI, formatDecimal, formatDuration } from '@/lib/utils'
+import { useGlobalFilters } from '@/hooks/use-global-filters'
+import { formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getVisitorOverviewQueryOptions } from '@/services/visitor-insight/get-visitor-overview'
 
@@ -30,7 +30,19 @@ export const Route = createLazyFileRoute('/(visitor-insights)/visitors-overview'
 })
 
 function RouteComponent() {
-  const { filters: urlFilters } = Route.useSearch()
+  // Use global filters context for date range and filters (hybrid URL + preferences)
+  const {
+    dateFrom,
+    dateTo,
+    compareDateFrom,
+    compareDateTo,
+    filters: appliedFilters,
+    setDateRange,
+    applyFilters: handleApplyFilters,
+    removeFilter: handleRemoveFilter,
+    isInitialized,
+    apiDateParams,
+  } = useGlobalFilters()
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
@@ -42,84 +54,29 @@ function RouteComponent() {
 
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
 
-  // Use URL filter sync hook for filter state management
-  const {
-    appliedFilters,
-    setAppliedFilters,
-    handleRemoveFilter,
-    handleApplyFilters,
-    isInitialized,
-  } = useUrlFilterSync({
-    urlFilters,
-    urlPage: undefined, // This page doesn't have pagination
-    filterFields,
-  })
-
-  // Date range state (default to last 30 days)
-  const [dateRange, setDateRange] = useState<DateRange>(() => {
-    const today = new Date()
-    const thirtyDaysAgo = new Date()
-    thirtyDaysAgo.setDate(today.getDate() - 29)
-    return {
-      from: thirtyDaysAgo,
-      to: today,
-    }
-  })
-
-  // Compare date range - auto-calculated based on current date range
-  // Previous period is the same duration, immediately before the current range
-  const compareDateRange = useMemo(() => {
-    if (!dateRange.from || !dateRange.to) return undefined
-
-    // Normalize to start of day to avoid time-of-day issues
-    const from = new Date(dateRange.from)
-    const to = new Date(dateRange.to)
-    const fromDate = new Date(from.getFullYear(), from.getMonth(), from.getDate())
-    const toDate = new Date(to.getFullYear(), to.getMonth(), to.getDate())
-
-    // Calculate inclusive duration (Dec 1 to Dec 30 = 30 days, not 29)
-    const durationDays = Math.round((toDate.getTime() - fromDate.getTime()) / (1000 * 60 * 60 * 24)) + 1
-
-    // Previous period ends the day before current period starts
-    const prevTo = new Date(fromDate)
-    prevTo.setDate(prevTo.getDate() - 1)
-
-    // Previous period starts (durationDays - 1) before prevTo to get same duration
-    const prevFrom = new Date(prevTo)
-    prevFrom.setDate(prevFrom.getDate() - durationDays + 1)
-
-    return {
-      from: prevFrom,
-      to: prevTo,
-    }
-  }, [dateRange])
-
   // Track if only timeframe changed (for loading behavior)
   const [isTimeframeOnlyChange, setIsTimeframeOnlyChange] = useState(false)
   const prevFiltersRef = useRef<string>(JSON.stringify(appliedFilters))
-  const prevDateRangeRef = useRef<string>(JSON.stringify(dateRange))
-  const prevCompareDateRangeRef = useRef<string>(JSON.stringify(compareDateRange))
+  const prevDateFromRef = useRef<Date | undefined>(dateFrom)
+  const prevDateToRef = useRef<Date | undefined>(dateTo)
 
   // Detect what changed when data is being fetched
   useEffect(() => {
     const currentFilters = JSON.stringify(appliedFilters)
-    const currentDateRange = JSON.stringify(dateRange)
-    const currentCompareDateRange = JSON.stringify(compareDateRange)
 
     const filtersChanged = currentFilters !== prevFiltersRef.current
-    const dateRangeChanged = currentDateRange !== prevDateRangeRef.current
-    const compareDateRangeChanged = currentCompareDateRange !== prevCompareDateRangeRef.current
+    const dateRangeChanged = dateFrom !== prevDateFromRef.current || dateTo !== prevDateToRef.current
 
     // If filters or dates changed, it's NOT a timeframe-only change
-    if (filtersChanged || dateRangeChanged || compareDateRangeChanged) {
+    if (filtersChanged || dateRangeChanged) {
       setIsTimeframeOnlyChange(false)
     }
 
     // Update refs
     prevFiltersRef.current = currentFilters
-    prevDateRangeRef.current = currentDateRange
-    prevCompareDateRangeRef.current = currentCompareDateRange
-  }, [appliedFilters, dateRange, compareDateRange])
+    prevDateFromRef.current = dateFrom
+    prevDateToRef.current = dateTo
+  }, [appliedFilters, dateFrom, dateTo])
 
   // Custom timeframe setter that tracks the change type
   const handleTimeframeChange = useCallback((newTimeframe: 'daily' | 'weekly' | 'monthly') => {
@@ -127,12 +84,12 @@ function RouteComponent() {
     setTimeframe(newTimeframe)
   }, [])
 
+  // Handle date range updates from DateRangePicker
   const handleDateRangeUpdate = useCallback(
     (values: { range: DateRange; rangeCompare?: DateRange }) => {
-      setDateRange(values.range)
-      // compareDateRange is now auto-calculated from dateRange
+      setDateRange(values.range, values.rangeCompare)
     },
-    []
+    [setDateRange]
   )
 
   // Batch query for all overview data (only when filters are initialized)
@@ -142,10 +99,10 @@ function RouteComponent() {
     isFetching,
   } = useQuery({
     ...getVisitorOverviewQueryOptions({
-      dateFrom: formatDateForAPI(dateRange.from),
-      dateTo: formatDateForAPI(dateRange.to || dateRange.from),
-      compareDateFrom: compareDateRange ? formatDateForAPI(compareDateRange.from) : undefined,
-      compareDateTo: compareDateRange ? formatDateForAPI(compareDateRange.to || compareDateRange.from) : undefined,
+      dateFrom: apiDateParams.date_from,
+      dateTo: apiDateParams.date_to,
+      compareDateFrom: apiDateParams.previous_date_from,
+      compareDateTo: apiDateParams.previous_date_to,
       timeframe,
       filters: appliedFilters || [],
     }),
@@ -392,8 +349,10 @@ function RouteComponent() {
             <FilterButton fields={filterFields} appliedFilters={appliedFilters || []} onApplyFilters={handleApplyFilters} />
           )}
           <DateRangePicker
-            initialDateFrom={dateRange.from}
-            initialDateTo={dateRange.to}
+            initialDateFrom={dateFrom}
+            initialDateTo={dateTo}
+            initialCompareFrom={compareDateFrom}
+            initialCompareTo={compareDateTo}
             showCompare={true}
             onUpdate={handleDateRangeUpdate}
             align="end"
@@ -655,8 +614,8 @@ function RouteComponent() {
               <GlobalMap
                 data={globalMapData}
                 isLoading={isLoading}
-                dateFrom={formatDateForAPI(dateRange.from)}
-                dateTo={formatDateForAPI(dateRange.to || dateRange.from)}
+                dateFrom={apiDateParams.date_from}
+                dateTo={apiDateParams.date_to}
                 metric="Visitors"
                 showZoomControls={true}
                 showLegend={true}

@@ -55,6 +55,9 @@
   /* Dynamic viewport height - fallback to 100vh */
   --app-height: 100vh;
 
+  /* WordPress admin menu height - set dynamically by main.tsx, fallback to viewport-based */
+  --wp-admin-menu-height: calc(100vh - var(--wp-admin-bar-height));
+
   /* Safe area insets for notched devices */
   --safe-area-inset-top: env(safe-area-inset-top, 0px);
   --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);

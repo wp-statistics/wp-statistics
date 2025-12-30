@@ -79,4 +79,12 @@ export class WordPress {
     const fields = this.data.filters.fields
     return Object.values(fields).filter((field) => field.groups.includes(group))
   }
+
+  public getUserPreferences(): UserPreferences | undefined {
+    return this.data.globals.userPreferences
+  }
+
+  public getGlobalFiltersPreferences(): GlobalFiltersPreferences | null | undefined {
+    return this.data.globals.userPreferences?.globalFilters
+  }
 }

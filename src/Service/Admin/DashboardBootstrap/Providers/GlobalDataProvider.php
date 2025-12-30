@@ -8,6 +8,7 @@ use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Endpoints\An
 use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Endpoints\FilterOptions;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Endpoints\UserPreferences;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+use WP_Statistics\Service\Admin\UserPreferences\UserPreferencesManager;
 
 /**
  * Provider for global application data.
@@ -37,6 +38,9 @@ class GlobalDataProvider implements LocalizeDataProviderInterface
             'filterAction'          => FilterOptions::getActionName(),
             'hashIps'               => (bool) Option::getValue('hash_ips', true),
             'trackLoggedInUsers'    => (bool) Option::getValue('visitors_log', false),
+            'userPreferences'       => [
+                'globalFilters' => $this->getGlobalFiltersPreferences(),
+            ],
         ];
 
         /**
@@ -58,6 +62,17 @@ class GlobalDataProvider implements LocalizeDataProviderInterface
     public function getKey()
     {
         return 'globals';
+    }
+
+    /**
+     * Get global filters preferences for the current user.
+     *
+     * @return array|null Global filters preferences or null if not set
+     */
+    private function getGlobalFiltersPreferences()
+    {
+        $manager = new UserPreferencesManager();
+        return $manager->get('global_filters');
     }
 }
 

@@ -1,24 +1,23 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { createLazyFileRoute, getRouteApi } from '@tanstack/react-router'
+import { createLazyFileRoute } from '@tanstack/react-router'
 import type { SortingState, VisibilityState } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
-import { type DateRange,DateRangePicker } from '@/components/custom/date-range-picker'
-import { type Filter, FilterBar } from '@/components/custom/filter-bar'
+import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
+import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { LineChart } from '@/components/custom/line-chart'
 import {
   createLoggedInUsersColumns,
-  getLoggedInUsersDefaultFilters,
   LOGGED_IN_USERS_COLUMN_CONFIG,
   LOGGED_IN_USERS_CONTEXT,
   LOGGED_IN_USERS_DEFAULT_API_COLUMNS,
   LOGGED_IN_USERS_DEFAULT_HIDDEN_COLUMNS,
   transformLoggedInUserData,
 } from '@/components/data-table-columns/logged-in-users-columns'
-import { useUrlFilterSync } from '@/hooks/use-url-filter-sync'
+import { useGlobalFilters } from '@/hooks/use-global-filters'
 import {
   clearCachedColumns,
   computeApiColumns,
@@ -28,7 +27,7 @@ import {
   getVisibleColumnsForSave,
   setCachedColumns,
 } from '@/lib/column-utils'
-import { formatDateForAPI, formatDecimal } from '@/lib/utils'
+import { formatDecimal } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import {
   computeFullVisibility,
@@ -48,9 +47,6 @@ const getCachedColumnOrder = (): string[] => {
 export const Route = createLazyFileRoute('/(visitor-insights)/logged-in-users')({
   component: RouteComponent,
 })
-
-// Get the route API for accessing validated search params
-const routeApi = getRouteApi('/(visitor-insights)/logged-in-users')
 
 interface TrafficTrendItem {
   date: string
@@ -74,21 +70,24 @@ const getGroupBy = (timeframe: 'daily' | 'weekly' | 'monthly'): 'date' | 'week' 
 }
 
 function RouteComponent() {
-  const { filters: urlFilters, page: urlPage } = routeApi.useSearch()
+  // Use global filters context for date range and filters (hybrid URL + preferences)
+  const {
+    dateFrom,
+    dateTo,
+    compareDateFrom,
+    compareDateTo,
+    filters: appliedFilters,
+    page,
+    setPage,
+    setDateRange,
+    applyFilters: handleApplyFilters,
+    removeFilter: handleRemoveFilter,
+    isInitialized,
+    apiDateParams,
+  } = useGlobalFilters()
 
   const [sorting, setSorting] = useState<SortingState>([{ id: 'lastVisit', desc: true }])
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
-  // Default to last 30 days
-  const [dateRange, setDateRange] = useState<DateRange>(() => {
-    const today = new Date()
-    const thirtyDaysAgo = new Date()
-    thirtyDaysAgo.setDate(today.getDate() - 29)
-    return {
-      from: thirtyDaysAgo,
-      to: today,
-    }
-  })
-  const [compareDateRange, setCompareDateRange] = useState<DateRange | undefined>(undefined)
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
@@ -107,44 +106,10 @@ function RouteComponent() {
     return wp.getFilterFieldsByGroup('visitors') as FilterField[]
   }, [wp])
 
-  // Compute default filters based on filter fields
-  const defaultFilters = useMemo<Filter[]>(() => {
-    return getLoggedInUsersDefaultFilters(filterFields)
-  }, [filterFields])
-
-  // Use URL filter sync hook for filter/page state management
-  const {
-    appliedFilters,
-    page,
-    setPage,
-    handleRemoveFilter,
-    handleApplyFilters,
-    isInitialized,
-  } = useUrlFilterSync({
-    urlFilters,
-    urlPage,
-    filterFields,
-    defaultFilters,
-  })
-
+  // Handle date range updates from DateRangePicker
   const handleDateRangeUpdate = useCallback((values: { range: DateRange; rangeCompare?: DateRange }) => {
-    setDateRange(values.range)
-    setCompareDateRange(values.rangeCompare)
-    setPage(1)
-  }, [setPage])
-
-  // Get date range for chart (varies by timeframe)
-  const chartDateFrom = useMemo(() => {
-    const date = new Date()
-    if (timeframe === 'monthly') {
-      date.setFullYear(date.getFullYear() - 1)
-    } else if (timeframe === 'weekly') {
-      date.setDate(date.getDate() - 8 * 7) // 8 weeks
-    } else {
-      date.setDate(date.getDate() - 30) // 30 days
-    }
-    return date.toISOString().split('T')[0]
-  }, [timeframe])
+    setDateRange(values.range, values.rangeCompare)
+  }, [setDateRange])
 
   // Determine sort parameters from sorting state
   const orderBy = sorting.length > 0 ? sorting[0].id : 'lastVisit'
@@ -173,13 +138,10 @@ function RouteComponent() {
       per_page: PER_PAGE,
       order_by: orderBy,
       order: order as 'asc' | 'desc',
-      date_from: formatDateForAPI(dateRange.from),
-      date_to: formatDateForAPI(dateRange.to || dateRange.from),
-      ...(compareDateRange?.from &&
-        compareDateRange?.to && {
-          previous_date_from: formatDateForAPI(compareDateRange.from),
-          previous_date_to: formatDateForAPI(compareDateRange.to),
-        }),
+      date_from: apiDateParams.date_from,
+      date_to: apiDateParams.date_to,
+      previous_date_from: apiDateParams.previous_date_from,
+      previous_date_to: apiDateParams.previous_date_to,
       group_by: getGroupBy(timeframe),
       filters: appliedFilters || [],
       context: LOGGED_IN_USERS_CONTEXT,
@@ -426,8 +388,10 @@ function RouteComponent() {
             <FilterButton fields={filterFields} appliedFilters={appliedFilters || []} onApplyFilters={handleApplyFilters} />
           )}
           <DateRangePicker
-            initialDateFrom={dateRange.from}
-            initialDateTo={dateRange.to}
+            initialDateFrom={dateFrom}
+            initialDateTo={dateTo}
+            initialCompareFrom={compareDateFrom}
+            initialCompareTo={compareDateTo}
             onUpdate={handleDateRangeUpdate}
             showCompare={true}
             align="end"
