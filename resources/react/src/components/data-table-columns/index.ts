@@ -21,4 +21,8 @@ export { LastVisitCell } from './cells/last-visit-cell'
 export { NumericCell } from './cells/numeric-cell'
 export { PageCell } from './cells/page-cell'
 export { ReferrerCell } from './cells/referrer-cell'
+export { StatusCell } from './cells/status-cell'
 export { VisitorInfoCell } from './cells/visitor-info-cell'
+
+// Helpers
+export { createVisitorInfoData, type BaseVisitorFields } from './helpers'

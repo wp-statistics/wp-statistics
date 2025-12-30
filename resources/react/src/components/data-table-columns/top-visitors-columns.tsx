@@ -8,17 +8,17 @@ import type { ColumnDef } from '@tanstack/react-table'
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
 import { type Filter, getOperatorDisplay } from '@/components/custom/filter-button'
 import {
+  createVisitorInfoData,
   DurationCell,
   EntryPageCell,
   LastVisitCell,
   NumericCell,
   PageCell,
   ReferrerCell,
+  StatusCell,
   VisitorInfoCell,
   type VisitorInfoConfig,
 } from '@/components/data-table-columns'
-import { Badge } from '@/components/ui/badge'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { type ColumnConfig, getDefaultApiColumns } from '@/lib/column-utils'
 import { formatReferrerChannel } from '@/lib/filter-utils'
@@ -188,33 +188,9 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
     {
       accessorKey: 'visitorInfo',
       header: 'Visitor Info',
-      cell: ({ row }) => {
-        const visitor = row.original
-        return (
-          <VisitorInfoCell
-            data={{
-              country: {
-                code: visitor.countryCode,
-                name: visitor.country,
-                region: visitor.region,
-                city: visitor.city,
-              },
-              os: { icon: visitor.os, name: visitor.osName },
-              browser: { icon: visitor.browser, name: visitor.browserName, version: visitor.browserVersion },
-              user: visitor.userId && visitor.username
-                ? {
-                    id: Number(visitor.userId),
-                    username: visitor.username,
-                    email: visitor.email,
-                    role: visitor.userRole,
-                  }
-                : undefined,
-              identifier: visitor.hash || visitor.ipAddress,
-            }}
-            config={config}
-          />
-        )
-      },
+      cell: ({ row }) => (
+        <VisitorInfoCell data={createVisitorInfoData(row.original)} config={config} />
+      ),
       meta: {
         priority: 'primary',
         cardPosition: 'header',
@@ -334,30 +310,9 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
       accessorKey: 'visitorStatus',
       header: 'Status',
       enableHiding: true,
-      cell: ({ row }) => {
-        const visitor = row.original
-        const isNew = visitor.visitorStatus === 'new'
-        const firstVisitDate = visitor.firstVisit.toLocaleDateString('en-US', {
-          month: 'short',
-          day: 'numeric',
-          year: 'numeric',
-        })
-
-        return (
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Badge variant={isNew ? 'default' : 'secondary'} className="text-xs font-normal capitalize">
-                  {visitor.visitorStatus}
-                </Badge>
-              </TooltipTrigger>
-              <TooltipContent>
-                {isNew ? `First visit ${firstVisitDate}` : `Since ${firstVisitDate}`}
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        )
-      },
+      cell: ({ row }) => (
+        <StatusCell status={row.original.visitorStatus} firstVisit={row.original.firstVisit} />
+      ),
       meta: {
         priority: 'secondary',
         mobileLabel: 'Status',

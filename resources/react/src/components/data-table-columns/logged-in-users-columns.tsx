@@ -8,6 +8,7 @@ import type { ColumnDef } from '@tanstack/react-table'
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
 import { type Filter, getOperatorDisplay, type FilterField } from '@/components/custom/filter-button'
 import {
+  createVisitorInfoData,
   EntryPageCell,
   LastVisitCell,
   NumericCell,
@@ -157,30 +158,9 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
     {
       accessorKey: 'visitorInfo',
       header: 'Visitor Info',
-      cell: ({ row }) => {
-        const user = row.original
-        return (
-          <VisitorInfoCell
-            data={{
-              country: {
-                code: user.countryCode,
-                name: user.country,
-                region: user.region,
-                city: user.city,
-              },
-              os: { icon: user.os, name: user.osName },
-              browser: { icon: user.browser, name: user.browserName, version: user.browserVersion },
-              user: {
-                id: Number(user.userId),
-                username: user.username,
-                email: user.email,
-                role: user.userRole,
-              },
-            }}
-            config={config}
-          />
-        )
-      },
+      cell: ({ row }) => (
+        <VisitorInfoCell data={createVisitorInfoData(row.original)} config={config} />
+      ),
     },
     {
       accessorKey: 'lastVisit',
