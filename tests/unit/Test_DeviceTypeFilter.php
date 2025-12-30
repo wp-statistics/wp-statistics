@@ -75,7 +75,9 @@ class Test_DeviceTypeFilter extends WP_UnitTestCase
         $this->assertIsArray($operators);
         $this->assertContains('is', $operators);
         $this->assertContains('is_not', $operators);
-        $this->assertCount(2, $operators);
+        $this->assertContains('in', $operators);
+        $this->assertContains('not_in', $operators);
+        $this->assertCount(4, $operators);
     }
 
     /**

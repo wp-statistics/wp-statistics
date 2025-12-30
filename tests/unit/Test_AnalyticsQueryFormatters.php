@@ -142,22 +142,24 @@ class Test_AnalyticsQueryFormatters extends WP_UnitTestCase
         $rows = [
             ['date' => '2024-11-01', 'visitors' => 100, 'previous' => ['visitors' => 85]],
             ['date' => '2024-11-02', 'visitors' => 120, 'previous' => ['visitors' => 95]],
+            ['date' => '2024-11-03', 'visitors' => 130, 'previous' => ['visitors' => 100]],
         ];
 
-        $result = $formatter->format($query, ['rows' => $rows, 'totals' => null, 'total' => 2]);
+        $result = $formatter->format($query, ['rows' => $rows, 'totals' => null, 'total' => 3]);
 
         $this->assertTrue($result['success']);
-        $this->assertSame(['2024-11-01', '2024-11-02'], $result['labels']);
+        // Date range is Nov 1-3, so expect 3 labels (fillMissingDates generates all dates in range)
+        $this->assertSame(['2024-11-01', '2024-11-02', '2024-11-03'], $result['labels']);
         $this->assertCount(2, $result['datasets']);
 
         $currentDataset   = $result['datasets'][0];
         $previousDataset  = $result['datasets'][1];
 
         $this->assertSame('Visitors', $currentDataset['label']);
-        $this->assertSame([100.0, 120.0], $currentDataset['data']);
+        $this->assertSame([100.0, 120.0, 130.0], $currentDataset['data']);
 
         $this->assertSame('Visitors (Previous)', $previousDataset['label']);
-        $this->assertSame([85.0, 95.0], $previousDataset['data']);
+        $this->assertSame([85.0, 95.0, 100.0], $previousDataset['data']);
         $this->assertTrue($previousDataset['comparison']);
     }
 

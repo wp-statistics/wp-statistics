@@ -225,14 +225,21 @@ class Test_AttackPayloadGenerator extends SimulatorTestCase
     public function test_request_data_includes_payload(): void
     {
         $generator = $this->createAttackGenerator();
+        $headerFields = ['User-Agent', 'Referer', 'X-Forwarded-For'];
 
         for ($i = 0; $i < 10; $i++) {
             $result = $generator->generate();
             $requestData = $result['request_data'];
             $targetField = $result['field'];
 
-            // The payload should be in the request data (possibly base64 encoded)
-            $this->assertArrayHasKey($targetField, $requestData, "Target field '{$targetField}' should exist in request data");
+            // Header fields are stored in _attack_headers, not directly in request_data
+            if (in_array($targetField, $headerFields, true)) {
+                $this->assertArrayHasKey('_attack_headers', $requestData, "Header attacks should have _attack_headers key");
+                $this->assertArrayHasKey($targetField, $requestData['_attack_headers'], "Target header '{$targetField}' should exist in _attack_headers");
+            } else {
+                // The payload should be in the request data (possibly base64 encoded)
+                $this->assertArrayHasKey($targetField, $requestData, "Target field '{$targetField}' should exist in request data");
+            }
         }
     }
 
