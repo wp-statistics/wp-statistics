@@ -232,7 +232,7 @@ function RouteComponent() {
     {
       key: 'views',
       label: 'Views',
-      color: 'var(--chart-4)',
+      color: 'var(--chart-2)',
       enabled: true,
       value:
         chartTotals.views >= 1000 ? `${formatDecimal(chartTotals.views / 1000)}k` : formatDecimal(chartTotals.views),

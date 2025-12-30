@@ -79,11 +79,11 @@
   --secondary-foreground: oklch(0.208 0.04 265.755);
   --muted-foreground: oklch(0.554 0.041 257.417);
 
-  --chart-1: oklch(51.058% 0.23015 276.976);
-  --chart-2: oklch(59.598% 0.12741 163.254);
-  --chart-3: oklch(66.583% 0.15738 58.309);
-  --chart-4: oklch(57.707% 0.21516 27.312);
-  --chart-5: oklch(54.616% 0.21529 262.896);
+  --chart-1: #4F46E5; /* Primary - Indigo */
+  --chart-2: #059669; /* Secondary - Green */
+  --chart-3: #D97706; /* Tertiary - Amber */
+  --chart-4: #DC2626; /* Quaternary - Red */
+  --chart-5: #2563EB; /* Quinary - Blue */
 
   --sidebar: oklch(0.314 0.122 276.809);
   --sidebar-foreground: oklch(1 0 0 / 0.8);
@@ -124,11 +124,11 @@
   --secondary-foreground: oklch(0.984 0.003 247.858);
   --muted-foreground: oklch(0.711 0.035 256.788);
 
-  --chart-1: oklch(58.541% 0.20415 277.126);
-  --chart-2: oklch(69.588% 0.14907 162.508);
-  --chart-3: oklch(76.858% 0.1646 70.075);
-  --chart-4: oklch(63.681% 0.20784 25.315);
-  --chart-5: oklch(62.31% 0.1881 259.83);
+  --chart-1: #6366F1; /* Primary - Indigo (lighter for dark mode) */
+  --chart-2: #10B981; /* Secondary - Green (lighter for dark mode) */
+  --chart-3: #F59E0B; /* Tertiary - Amber (lighter for dark mode) */
+  --chart-4: #EF4444; /* Quaternary - Red (lighter for dark mode) */
+  --chart-5: #3B82F6; /* Quinary - Blue (lighter for dark mode) */
 
   --sidebar: oklch(0.314 0.122 276.809);
   --sidebar-foreground: oklch(1 0 0 / 0.8);
