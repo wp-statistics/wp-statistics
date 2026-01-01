@@ -2699,3 +2699,105 @@
     background-color: white;
   }
 }
+
+// Background Processes Table Styles
+.wps-wrap .wps-optimizationBox .form-table {
+  .wps-bg-processes__empty {
+    color: #56585A;
+    font-style: italic;
+    font-size: 13px;
+    margin: 0;
+    padding: 8px 0;
+  }
+
+  .wps-bg-processes__table-wrapper {
+    padding: 0 !important;
+  }
+
+  table.wps-bg-processes__table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #EEEFF1;
+    border-radius: 8px;
+    overflow: hidden;
+
+    thead tr {
+      background-color: #FAFAFB;
+
+      th {
+        padding: 12px 16px !important;
+        font-weight: 500;
+        font-size: 13px;
+        color: #56585A;
+        text-align: left;
+        border-bottom: 1px solid #EEEFF1;
+
+        .rtl & {
+          text-align: right;
+        }
+
+        &:last-child {
+          text-align: right;
+
+          .rtl & {
+            text-align: left;
+          }
+        }
+      }
+    }
+
+    tbody tr {
+      &:nth-child(even) {
+        background-color: #FAFAFB;
+      }
+
+      &:hover {
+        background-color: #F5F5F7;
+      }
+
+      td {
+        padding: 14px 16px !important;
+        font-size: 13px;
+        color: #0C0C0D;
+        border-bottom: 1px solid #EEEFF1;
+        vertical-align: middle;
+      }
+
+      &:last-child td {
+        border-bottom: none;
+      }
+    }
+  }
+
+  .wps-bg-processes__title {
+    font-weight: 500;
+    color: #0C0C0D;
+  }
+
+  .wps-bg-processes__actions {
+    text-align: right !important;
+    white-space: nowrap;
+
+    .rtl & {
+      text-align: left !important;
+    }
+
+    .wps-button {
+      padding: 8px 16px;
+      margin-left: 8px;
+
+      .rtl & {
+        margin-left: 0;
+        margin-right: 8px;
+      }
+
+      &:first-child {
+        margin-left: 0;
+
+        .rtl & {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}

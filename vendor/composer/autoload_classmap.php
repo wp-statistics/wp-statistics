@@ -156,6 +156,7 @@ return array(
     'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\Views\\AuthorsView' => $baseDir . '/src/Service/Admin/AuthorAnalytics/Views/AuthorsView.php',
     'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\Views\\PerformanceView' => $baseDir . '/src/Service/Admin/AuthorAnalytics/Views/PerformanceView.php',
     'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\Views\\SingleAuthorView' => $baseDir . '/src/Service/Admin/AuthorAnalytics/Views/SingleAuthorView.php',
+    'WP_Statistics\\Service\\Admin\\BackgroundProcessService' => $baseDir . '/src/Service/Admin/BackgroundProcessService.php',
     'WP_Statistics\\Service\\Admin\\CategoryAnalytics\\CategoryAnalyticsDataProvider' => $baseDir . '/src/Service/Admin/CategoryAnalytics/CategoryAnalyticsDataProvider.php',
     'WP_Statistics\\Service\\Admin\\CategoryAnalytics\\CategoryAnalyticsManager' => $baseDir . '/src/Service/Admin/CategoryAnalytics/CategoryAnalyticsManager.php',
     'WP_Statistics\\Service\\Admin\\CategoryAnalytics\\CategoryAnalyticsPage' => $baseDir . '/src/Service/Admin/CategoryAnalytics/CategoryAnalyticsPage.php',

@@ -474,6 +474,7 @@ class Admin_Assets
             'operation_completed'          => __('Operation completed.', 'wp-statistics'),
             'to_range'                     => __('to', 'wp-statistics'),
             'are_you_sure'                 => __('Are you sure?', 'wp-statistics'),
+            'confirm_background_process'   => __('Are you sure you want to cancel this background process?', 'wp-statistics'),
         );
 
         $list['active_post_type'] = Helper::getPostTypeName(Request::get('pt', 'post'));

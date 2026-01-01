@@ -259,6 +259,72 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
     }
 
     /**
+     * Save the start time when the process begins.
+     *
+     * @return void
+     */
+    public function saveStartTime()
+    {
+        Option::saveOptionGroup($this->action . '_start_time', time(), 'jobs');
+    }
+
+    /**
+     * Get the start time of the process.
+     *
+     * @return int Unix timestamp, or 0 if not set.
+     */
+    public function getStartTime()
+    {
+        return (int) Option::getOptionGroup('jobs', $this->action . '_start_time', 0);
+    }
+
+    /**
+     * Save the end time when the process completes.
+     *
+     * @return void
+     */
+    public function saveEndTime()
+    {
+        Option::saveOptionGroup($this->action . '_end_time', time(), 'jobs');
+    }
+
+    /**
+     * Get the end time of the process.
+     *
+     * @return int Unix timestamp, or 0 if not set.
+     */
+    public function getEndTime()
+    {
+        return (int) Option::getOptionGroup('jobs', $this->action . '_end_time', 0);
+    }
+
+    /**
+     * Get the last activity timestamp (end time if completed, start time otherwise).
+     *
+     * @return int Unix timestamp, or 0 if not set.
+     */
+    public function getLastActivityTime()
+    {
+        $endTime = $this->getEndTime();
+        if ($endTime > 0) {
+            return $endTime;
+        }
+
+        return $this->getStartTime();
+    }
+
+    /**
+     * Clear the start and end times.
+     *
+     * @return void
+     */
+    protected function clearProcessTimes()
+    {
+        Option::deleteOptionGroup($this->action . '_start_time', 'jobs');
+        Option::deleteOptionGroup($this->action . '_end_time', 'jobs');
+    }
+
+    /**
      * Clear the total and processed counts.
      *
      * @return void
@@ -342,4 +408,55 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
      * @return bool
      */
     public abstract function process();
+
+    /**
+     * Dispatch the background process.
+     *
+     * Overrides parent to save start time on first dispatch only.
+     *
+     * @return array|\WP_Error|false
+     */
+    public function dispatch()
+    {
+        // Save start time only on first dispatch (when no start time exists)
+        if ($this->getStartTime() === 0) {
+            $this->saveStartTime();
+        }
+
+        return parent::dispatch();
+    }
+
+    /**
+     * Complete the background process.
+     *
+     * Overrides parent to save end time and perform cleanup.
+     */
+    protected function complete()
+    {
+        // Save end time when completing
+        $this->saveEndTime();
+
+        parent::complete();
+
+        // Clean up job state after successful completion
+        $this->cleanupAfterCompletion();
+    }
+
+    /**
+     * Clean up all job-related state after successful completion.
+     *
+     * This ensures the process is removed from the background processes list.
+     *
+     * @return void
+     */
+    protected function cleanupAfterCompletion()
+    {
+        $this->setInitiated(false);
+        $this->clearTotalAndProcessed();
+        $this->clearProcessTimes();
+
+        if (method_exists($this, 'clear_dispatch_error')) {
+            $this->clear_dispatch_error();
+        }
+    }
 }

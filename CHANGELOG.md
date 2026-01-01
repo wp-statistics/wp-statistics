@@ -9,6 +9,7 @@
 - **Dev:** Added `wp_statistics_resolve_page_from_uri` filter to allow custom page resolution from URL for SPA tracking.
 - **New:** Added "Total" row to the Traffic Summary widget showing all-time Visitors and Views (includes legacy historical data).
 - **Fix:** Prevent infinite or extremely large percentage values when no previous analytics data exists.
+- **Enhancement:** Added Background Processes tab in Optimization for monitoring stuck processes, with loopback detection and retry functionality.
 
 = 14.16 - 2025-12-01 =
 - **New:** Added an **Export** button to all report pages (requires the Advanced Reporting add-on).

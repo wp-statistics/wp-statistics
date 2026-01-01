@@ -59,11 +59,13 @@ const WPStatisticsAjaxBackgroundProcessTracker = {
             },
             success: function (response) {
                 if (response.data.completed) {
-                        WPStatisticsAjaxBackgroundProcessTracker.markAsCompleted();
-                    } else {
-                        WPStatisticsAjaxBackgroundProcessTracker.updatePercent(response.data.percentage);
-                        WPStatisticsAjaxBackgroundProcessTracker.updateProcessed(response.data.processed);
-                    }
+                    WPStatisticsAjaxBackgroundProcessTracker.markAsCompleted();
+                } else if (response.data.has_error) {
+                    WPStatisticsAjaxBackgroundProcessTracker.markAsError(response.data.error_message);
+                } else {
+                    WPStatisticsAjaxBackgroundProcessTracker.updatePercent(response.data.percentage);
+                    WPStatisticsAjaxBackgroundProcessTracker.updateProcessed(response.data.processed);
+                }
             },
             error: function (xhr, status, error) {
                 console.error('AJAX request error:', status, error);
@@ -83,6 +85,18 @@ const WPStatisticsAjaxBackgroundProcessTracker = {
 
             this.migrationNotice.html(`
                 <p><strong>${message}</strong></p>
+            `);
+        }
+
+        this.isActive = false;
+    },
+
+    markAsError: function (errorMessage) {
+        if (this.migrationNotice.length) {
+            this.migrationNotice.closest('.notice').removeClass('notice-info').addClass('notice-error');
+
+            this.migrationNotice.html(`
+                <p><strong>${errorMessage}</strong></p>
             `);
         }
 

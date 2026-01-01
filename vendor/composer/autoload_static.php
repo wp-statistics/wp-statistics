@@ -175,6 +175,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\Views\\AuthorsView' => __DIR__ . '/../..' . '/src/Service/Admin/AuthorAnalytics/Views/AuthorsView.php',
         'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\Views\\PerformanceView' => __DIR__ . '/../..' . '/src/Service/Admin/AuthorAnalytics/Views/PerformanceView.php',
         'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\Views\\SingleAuthorView' => __DIR__ . '/../..' . '/src/Service/Admin/AuthorAnalytics/Views/SingleAuthorView.php',
+        'WP_Statistics\\Service\\Admin\\BackgroundProcessService' => __DIR__ . '/../..' . '/src/Service/Admin/BackgroundProcessService.php',
         'WP_Statistics\\Service\\Admin\\CategoryAnalytics\\CategoryAnalyticsDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/CategoryAnalytics/CategoryAnalyticsDataProvider.php',
         'WP_Statistics\\Service\\Admin\\CategoryAnalytics\\CategoryAnalyticsManager' => __DIR__ . '/../..' . '/src/Service/Admin/CategoryAnalytics/CategoryAnalyticsManager.php',
         'WP_Statistics\\Service\\Admin\\CategoryAnalytics\\CategoryAnalyticsPage' => __DIR__ . '/../..' . '/src/Service/Admin/CategoryAnalytics/CategoryAnalyticsPage.php',

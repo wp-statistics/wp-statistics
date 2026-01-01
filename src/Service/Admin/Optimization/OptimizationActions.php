@@ -9,6 +9,7 @@ use WP_STATISTICS\IP;
 use WP_Statistics\Models\EventsModel;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Purge;
+use WP_Statistics\Service\Admin\BackgroundProcessService;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
 use WP_Statistics\Service\Database\Migrations\BackgroundProcess\BackgroundProcessFactory;
@@ -38,6 +39,7 @@ class OptimizationActions
         Ajax::register('hash_ips', [$this, 'hashIps'], false);
         Ajax::register('recheck_schema', [$this, 'recheckSchema'], false);
         Ajax::register('repair_schema', [$this, 'repairSchema'], false);
+        Ajax::register('background_process', [$this, 'handleBackgroundProcess'], false);
     }
 
     /**
@@ -426,6 +428,64 @@ class OptimizationActions
             Ajax::success();
         } catch (Exception $e) {
             Notice::addFlashNotice($e->getMessage(), "error");
+            Ajax::error($e->getMessage(), null, $e->getCode());
+        }
+    }
+
+    /**
+     * Handles AJAX requests for background process management.
+     *
+     * Supports sub_actions: list, cancel, retry
+     */
+    public function handleBackgroundProcess()
+    {
+        try {
+            $this->verifyAjaxRequest();
+            $this->checkAdminReferrer('wp_rest', 'wps_nonce');
+            $this->checkCapability('manage');
+
+            $subAction  = Request::get('sub_action', 'list');
+            $processKey = Request::get('process_key', '');
+            $service    = new BackgroundProcessService();
+
+            switch ($subAction) {
+                case 'list':
+                    $processes = $service->getAll();
+                    Ajax::success($processes);
+                    break;
+
+                case 'cancel':
+                    if (empty($processKey)) {
+                        throw new Exception(esc_html__('Process key is required.', 'wp-statistics'), 400);
+                    }
+
+                    $result = $service->cancel($processKey);
+
+                    if (!$result) {
+                        throw new Exception(esc_html__('Failed to cancel background process.', 'wp-statistics'), 500);
+                    }
+
+                    Ajax::success(esc_html__('Background process cancelled successfully.', 'wp-statistics'));
+                    break;
+
+                case 'retry':
+                    if (empty($processKey)) {
+                        throw new Exception(esc_html__('Process key is required.', 'wp-statistics'), 400);
+                    }
+
+                    $result = $service->retry($processKey);
+
+                    if (!$result) {
+                        throw new Exception(esc_html__('Failed to retry background process. Server may be blocking loopback requests.', 'wp-statistics'), 500);
+                    }
+
+                    Ajax::success(esc_html__('Background process retried successfully.', 'wp-statistics'));
+                    break;
+
+                default:
+                    throw new Exception(esc_html__('Invalid sub_action.', 'wp-statistics'), 400);
+            }
+        } catch (Exception $e) {
             Ajax::error($e->getMessage(), null, $e->getCode());
         }
     }
